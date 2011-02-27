@@ -1,0 +1,21 @@
+﻿@model IList<PageSummary>
+
+
+@Html.ActionLink("< back","History",new { id = Model[0].Id })
+<h1>@Model[0].Title</h1>
+
+
+<div id="pagecontent">
+<div class="left" style="width:200px;border:1px solid black">
+<h2>Version: @Model[0].VersionNumber</h2>
+@Html.MarkdownToHtml(Model[0].Content)
+</div>
+
+@if (Model[1] != null)
+{
+<div class="right" style="width:200px;border:1px solid black">
+<h2>Version: @Model[1].VersionNumber</h2>
+@Html.MarkdownToHtml(Model[1].Content)
+</div>
+}
+</div>

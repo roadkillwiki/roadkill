@@ -1,0 +1,11 @@
+﻿@model List<PageSummary>
+
+<table>
+	@foreach (PageSummary summary in Model)
+	{
+		<tr>
+			<td>@Html.ActionLink(summary.Title, "Index", new { id = summary.Id })</td>
+			<td>@Html.ActionLink("Edit","Edit",new { id = summary.Id} )</td>
+		</tr>
+	}
+</table>

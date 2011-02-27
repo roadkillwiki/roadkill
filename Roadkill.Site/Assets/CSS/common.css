@@ -1,0 +1,52 @@
+﻿body	{ font-family: Myriad Web Pro,helvetica;margin:0;color:#000000;}
+h1,h2,h3,h4,h4 { font-family: Myriad Pro,helvetica; }
+a			{ color:#333333; }
+a:hover		{ color:#babfb5; }
+
+.left		{ float:left; }
+.right		{ float:right; }
+
+#header
+{
+	background-color: #38381D;
+	width: 100%;
+	height: 32px;
+	color: White;
+	font-family: Myriad Web Pro,helvetica;
+	font-size: 0.8em;
+}
+	#header div { margin:0 10px;color:White;height:32px;line-height:33px;margin-right:20px;}
+	#header	a { color:White;text-decoration:none; }
+	#header	a:hover { text-decoration:underline; }
+	#header input { font-family:Arial,helvetica;font-size:0.9em;}
+
+.biggest	{ font-size:1.5em; }
+.bigger		{ font-size:1.2em; }
+.big		{ font-size:1.1em; }
+.normal		{ font-size:1em; }
+.small		{ font-size:0.9em; }
+.smaller	{ font-size:0.8em; }
+.smallest	{ font-size:0.7em; }
+.bold		{ font-weight:bold; }
+.italic		{ font-style:italic; }
+.dimmed		{ opacity: 0.5; }
+
+#container		{ margin:20px; }
+#leftcontent	{ width:65%;margin-right:20px;}
+#pagecontent img { border:0px;}
+#wmd-preview img { max-width:400px;max-height:400px;border:0px;}
+
+#historytable thead tr td { font-weight:bold; }
+#historytable td { width:150px; }
+
+.searchresults { color:Green;font-size:1.1em; }
+.searchbox { width:400px; }
+
+#tagcloud { margin: 0;padding: 2px; line-height: 3em; text-align: center; }
+	#tagcloud li { display: inline; }
+	#tagcloud a { padding: 0px; }
+	.tagcloud1 { font-size:1em;}
+	.tagcloud2 { font-size:1.2em;}
+	.tagcloud3 { font-size:1.3em;}
+	.tagcloud4 { font-size:1.5em;}
+	.tagcloud5 { font-size:2em;}

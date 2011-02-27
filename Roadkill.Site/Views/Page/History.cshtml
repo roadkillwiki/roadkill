@@ -1,0 +1,29 @@
+﻿@model IList<HistorySummary>
+
+<h1>History</h1>
+
+<table id="historytable">
+	<thead>
+		<tr>
+			<td>Version</td>
+			<td>Edited on</td>
+			<td>Edited by</td>
+			<td></td>
+		</tr>
+	</thead>
+	<tbody>
+
+		@for (int i=0;i < Model.Count;i++)
+		{
+		<tr>
+			<td>@Html.ActionLink(Model[i].VersionNumber.ToString(), "Version", new { id = Model[i].Id })</td>
+			<td>@Model[i].EditedOn</td>
+			<td>@Html.ActionLink(Model[i].EditedBy,"ByUser","Page",new { id = Model[i].EditedBy },null)</td>
+			@if (i > 0)
+			{
+				<td>@Html.ActionLink("Revert", "Revert", new { versionId = Model[i].Id, pageId = Model[i].PageId })</td>
+			}
+		</tr>
+		}
+	</tbody>
+</table>

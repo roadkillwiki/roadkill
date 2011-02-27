@@ -1,0 +1,9 @@
+﻿@Html.ValidationSummary("Error")
+
+@using (Html.BeginForm())
+{
+	@Html.Hidden("fromUrl",Request.QueryString["ReturnUrl"])
+	@Html.TextBox("username") <br />
+	@Html.Password("password")<br />
+	<input type="submit" />
+}

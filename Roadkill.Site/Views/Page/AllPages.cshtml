@@ -1,0 +1,20 @@
+﻿@model IEnumerable<PageSummary>
+
+@if (ViewData.ToBool("LoggedIn"))
+{
+@Html.ActionLink("New page", "New") <br /><br />
+}
+
+<table>
+	@foreach (PageSummary summary in Model)
+	{
+	<tr>
+		<td>@Html.ActionLink(summary.Title,"Index",new { id = summary.Title.Replace(" ","-")} )</td>
+		@if (ViewData.ToBool("LoggedIn"))
+		{
+		<td>@Html.ActionLink("Edit","Edit",new { id = summary.Id} )</td>
+		<td>@Html.ActionLink("Delete","Delete",new { id = summary.Id} )</td>
+		}
+	</tr>
+	}
+</table>

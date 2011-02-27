@@ -1,0 +1,103 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Spruce.Site.SiteMaster" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Project <%=ViewData["CurrentProjectName"]%></title>
+	<link rel="shortcut icon" href="/Tfs/Spruce/Assets/Images/favicon.png">
+
+	<script type="text/javascript" language="javascript" src="/Tfs/Spruce/Assets/Scripts/jquery-1.4.1.min.js"></script>
+	<script type="text/javascript" language="javascript" src="/Tfs/Spruce/Assets/Scripts/jquery.extensions.min.js"></script>
+	<script type="text/javascript" language="javascript" src="/Tfs/Spruce/Assets/Scripts/jquery.form-extensions.min.js"></script>
+	<script type="text/javascript" language="javascript" src="/Tfs/Spruce/Assets/Scripts/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" language="javascript" src="/Tfs/Spruce/Assets/Scripts/jquery.tipTip.minified.js"></script>
+	<script type="text/javascript" src="/Tfs/Spruce/Assets/Scripts/spruce.js"></script>
+
+	<link href="/Tfs/Spruce/Assets/CSS/site.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="head" runat="server" />
+</head>
+<body>
+	<div id="header">
+		<div class="left">Logged in as <%=ViewData["CurrentUser"] %></div>
+		<div class="right">
+			<%=Html.ActionLink("Dashboard","Index","Home")%>
+			&nbsp;|&nbsp;<%=Html.ActionLink("New bug","New","Bugs")%>
+			&nbsp;|&nbsp;<%=Html.ActionLink("New task","New","Tasks")%>
+			&nbsp;|&nbsp;<%=Html.ActionLink("Bugs", "Index", "Bugs")%>
+			&nbsp;|&nbsp;<%=Html.ActionLink("Tasks", "Index", "Tasks")%>
+			&nbsp;|&nbsp;Search: <input type="text" name="search" placeholder="Enter text to search" />
+		</div>
+	</div>
+
+	<div id="export-buttons" class="right">
+		<a href="#csv"><img src="/Tfs/Spruce/Assets/Images/csv_icon_disabled.png" border="0" /></a>
+		<a href="#excel"><img src="/Tfs/Spruce/Assets/Images/excel_icon_disabled.png" border="0" /></a>
+		<a href="#rss"><img src="/Tfs/Spruce/Assets/Images/rss_icon_disabled.png" border="0" /></a>
+	</div>
+
+	<div id="container">
+		<div id="leftcontent" class="left">
+			<div id="project-name">Project <%=ViewData["CurrentProjectName"]%></div>
+			<div id="iteration-name"><%=ViewData["CurrentIterationName"]%></div>
+			<asp:ContentPlaceHolder ID="MainContent" runat="server" />
+		</div>
+
+		<div id="rightcontent" class="right">
+			<div id="accordian">
+
+				<!-- Projects -->
+				<div class="darkbg">
+					<div class="left toggleitem"><a href="javascript:;"><img src="/Tfs/Spruce/Assets/Images/toggle_minus.png" border="0" /></a></div>
+					<div class="left headertitle">Projects</div>
+					<br style="clear:both"/>
+				</div>
+				<div id="accordian-projects" class="padding">
+				<%foreach (string projectName in (List<string>)ViewData["Projects"]){ %>
+					<%if (projectName != (string) ViewData["CurrentProjectName"]){ %>
+						<%=Html.ActionLink(projectName, "SetProject","Home", new { id = projectName.ToBase64() },null)%><br />
+					<%}else{ %>
+						<b><%=projectName%></b><br />
+					<%} %>
+					
+				<%} %>
+				</div>
+
+				<!-- Iterations -->
+				<div class="darkbg">
+					<div class="left toggleitem"><a href="javascript:;"><img src="/Tfs/Spruce/Assets/Images/toggle_minus.png" border="0" /></a></div>
+					<div class="left headertitle">Iterations</div>
+					<br style="clear:both"/>
+				</div>
+				<div id="accordian-iterations" class="padding"><% %>
+				<%foreach (IterationSummary summary in (List<IterationSummary>)ViewData["Iterations"])
+				{ %>
+					<%if (summary.Path != (string) ViewData["CurrentIterationPath"]){ %>
+						<%=Html.ActionLink(summary.Name, "SetIteration", "Home", new { id = summary.Path.ToBase64() }, null)%><br />
+					<%}else{ %>
+						<b><%=summary.Name%></b><br />
+					<%} %>
+				<%} %>
+				</div>
+
+				<!-- Areas -->
+				<div class="darkbg">
+					<div class="left toggleitem"><a href="javascript:;"><img src="/Tfs/Spruce/Assets/Images/toggle_minus.png" border="0" /></a></div>
+					<div class="left headertitle">Areas</div>
+					<br style="clear:both"/>
+				</div>
+				<div id="accordian-areas" class="padding"><% %>
+				<%foreach (AreaSummary area in (List<AreaSummary>)ViewData["Areas"])
+				{ %>
+					<%if (area.Path != (string) ViewData["CurrentAreaPath"]){ %>
+						<%=Html.ActionLink(area.Name, "SetArea", "Home", new { id = area.Path.ToBase64() })%><br />
+					<%}else{ %>
+						<b><%=area.Name%></b><br />
+					<%} %>
+				<%} %>
+				</div>
+
+				<asp:ContentPlaceHolder ID="RightContent" runat="server" />
+			</div>
+		</div>
+	</div>
+</body>
+</html>

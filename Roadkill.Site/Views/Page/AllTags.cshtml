@@ -1,0 +1,12 @@
+﻿@model IEnumerable<TagSummary>
+
+<h1>All Tags</h1>
+
+<ul id="tagcloud">
+@foreach (TagSummary tag in Model)
+{
+	<li class="@Html.ClassNameForTagSummary(tag)">
+	@Html.ActionLink(tag.Name,"Tag",new { id = tag })
+	</li>
+}
+</ul>

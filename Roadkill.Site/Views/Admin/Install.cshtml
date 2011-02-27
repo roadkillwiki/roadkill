@@ -1,0 +1,7 @@
+﻿@using (Html.BeginForm())
+{
+	<span>Connection string:</span> @Html.TextBox("connectionString","database=Roadkill;server=.\\SQLEXPRESS;integrated security=SSPI;")<br />
+	<span>Admin password:</span> @Html.Password("adminPassword")
+
+	<input type="submit" />
+}

@@ -1,0 +1,58 @@
+﻿@using Roadkill.Core
+<!DOCTYPE html>
+<html>
+<head>
+	<title>@ViewData["PageTitle"]</title>
+	<link rel="shortcut icon" href="@Url.Content("~/Assets/Images/favicon.png")" />
+
+	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery-1.4.1.min.js")"></script>
+	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery.extensions.min.js")"></script>
+	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery.form-extensions.min.js")"></script>
+	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery.ae.image.resize.min.js")"></script>
+	<script type="text/javascript" src="@Url.Content("~/Assets/Scripts/roadkill.js")"></script>
+
+	<link href="@Url.Content("~/Assets/CSS/site.css")" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+@if (RoadkillSettings.ShowHeader)
+{
+	using (Html.BeginForm("Index", "Search", FormMethod.Post))
+	{
+	<div id="header">
+		<div class="left">
+		@if (ViewData.ToBool("LoggedIn"))
+		{
+			<text>Logged in as </text> @ViewData["CurrentUser"]
+		}
+		else
+		{
+			<text>Not logged in</text>
+		}
+		</div>
+		<div class="right">
+			@if (ViewData.ToBool("LoggedIn"))
+			{
+				@Html.ActionLink("Logout", "Logout","Home")
+			}
+			else
+			{
+				@Html.ActionLink("Login", "Login","Home")
+			}
+
+			&nbsp;|&nbsp;@Html.ActionLink("Main Page", "Index", "Home")
+			&nbsp;|&nbsp;@Html.ActionLink("Tags", "AllTags","Page")
+			&nbsp;|&nbsp;@Html.ActionLink("All pages", "AllPages","Page")
+			&nbsp;|&nbsp;Search: <input type="text" name="id" placeholder="Enter text to search" />
+		</div>
+	</div>
+	}
+}
+
+	<div id="container">
+		<div id="leftcontent" class="left">
+			@RenderBody()
+		</div>
+	</div>
+</body>
+</html>

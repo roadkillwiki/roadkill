@@ -1,0 +1,27 @@
+﻿@model PageSummary
+
+<script type="text/javascript">
+var roadkillManagerUrl = "@(Url.Content("~/Page/AllFiles/" +Model.Id))";
+</script>
+<link href="@Url.Content("~/Assets/Scripts/Wmd/wmd.css")" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Assets/Scripts/Wmd/wmd.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Assets/Scripts/Wmd/showdown.js")" type="text/javascript"></script>
+
+@Html.ValidationSummary("Saving the page was unsuccessful. Please correct the errors and try again.")
+
+@using (Html.BeginForm())
+{
+@(Html.HiddenFor<PageSummary, Guid>(p => p.Id))
+<span>Title:</span> @(Html.TextBoxFor<PageSummary, string>(p => p.Title))<br />
+<span>Tags:</span> @(Html.TextBoxFor<PageSummary, string>(p => p.Tags))<br />
+
+if (!Model.IsNew)
+{
+<span>Current version:</span> @Model.VersionNumber <br />
+}
+
+<div id="wmd-button-bar"></div>
+@(Html.TextAreaFor<PageSummary, string>(p => p.Content, new { cols = "80", rows = "80", @class = "wmd-textarea wmd-panel" }))
+<input type="submit" />
+<div id="wmd-preview" class="wmd-panel"></div>
+}

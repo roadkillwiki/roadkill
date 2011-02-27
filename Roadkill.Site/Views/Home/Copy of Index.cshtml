@@ -1,0 +1,13 @@
+﻿@model PageSummary
+
+@if (ViewData.ToBool("LoggedIn"))
+{
+@Html.ActionLink("Edit", "Edit", "Page", new { id = Model.Id }, null) <text>&nbsp;|&nbsp;</text>
+@Html.ActionLink("History","History","Page",new { id = Model.Id},null)
+}
+
+<h1>@Model.Title</h1>
+
+<div id="pagecontent">
+@Html.MarkdownToHtml(Model.Content)
+</div>
