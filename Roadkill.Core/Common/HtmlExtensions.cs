@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 
 namespace Roadkill.Core
 {
@@ -14,16 +15,30 @@ namespace Roadkill.Core
 			return MvcHtmlString.Create(markdown.Transform(text));
 		}
 
-		public static bool ToBool(this ViewDataDictionary dictionary,string key)
+		public static MvcHtmlString LoginStatus(this HtmlHelper helper)
 		{
-			if (!dictionary.ContainsKey(key))
-				return false;
-
-			bool result;
-			if (bool.TryParse(dictionary[key].ToString(), out result))
-				return result;
+			if (RoadkillContext.Current.IsLoggedIn)
+				return MvcHtmlString.Create("Logged in as "+RoadkillContext.Current.CurrentUser);
 			else
-				return false;
+				return MvcHtmlString.Create("Not logged in");
+		}
+
+		public static MvcHtmlString PageTitle(this HtmlHelper helper)
+		{
+			return MvcHtmlString.Create(helper.ViewData["PageTitle"].ToString());
+		}
+
+		public static MvcHtmlString CssForTheme(this UrlHelper helper)
+		{
+			return MvcHtmlString.Create(helper.Content(RoadkillSettings.ThemePath + "/Theme.css"));
+		}
+
+		public static MvcHtmlString LoginLink(this HtmlHelper helper)
+		{
+			if (RoadkillContext.Current.IsLoggedIn)
+				return helper.ActionLink("Logout", "Logout", "Home");
+			else
+				return helper.ActionLink("Login", "Login", "Home");
 		}
 
 		public static string ClassNameForTagSummary(this HtmlHelper helper, TagSummary tag)

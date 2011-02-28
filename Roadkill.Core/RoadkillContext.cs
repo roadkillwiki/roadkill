@@ -16,6 +16,14 @@ namespace Roadkill.Core
 		public static bool IsWeb { get; set; }
 		public string CurrentUser { get; set; }
 
+		public bool IsLoggedIn
+		{
+			get
+			{
+				return !string.IsNullOrWhiteSpace(CurrentUser);
+			}
+		}
+
 		public static RoadkillContext Current
 		{
 			get

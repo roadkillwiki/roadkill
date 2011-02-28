@@ -58,9 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\MembershipProviders\ActiveDirectoryRoleProvider.cs" />
-    <Compile Include="Domain\MembershipProviders\RoadkillAuthorizeAttribute.cs" />
-    <Compile Include="Domain\MembershipProviders\RoadkillMembershipProvider.cs" />
+    <Compile Include="Domain\Providers\ActiveDirectoryRoleProvider.cs" />
+    <Compile Include="Domain\Providers\RoadkillAuthorizeAttribute.cs" />
+    <Compile Include="Domain\Providers\RoadkillMembershipProvider.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Domain\Summaries\HistorySummary.cs" />
     <Compile Include="Domain\Summaries\TagSummary.cs" />

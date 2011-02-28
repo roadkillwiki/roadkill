@@ -16,7 +16,6 @@ namespace Roadkill.Core.Controllers
 		{
 			RoadkillContext.Current.CurrentUser = GetCurrentUser();
 			ViewData["CurrentUser"] = RoadkillContext.Current.CurrentUser;
-			ViewData["LoggedIn"] = !string.IsNullOrWhiteSpace(RoadkillContext.Current.CurrentUser);
 		}
 
 		protected override void OnActionExecuted(ActionExecutedContext filterContext)

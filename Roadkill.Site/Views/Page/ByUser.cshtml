@@ -7,7 +7,7 @@
 	{
 	<tr>
 		<td>@Html.ActionLink(summary.Title,"Index",new { id = summary.Title.Replace(" ","-")} )</td>
-		@if (ViewData.ToBool("LoggedIn"))
+		@if (RoadkillContext.Current.IsLoggedIn)
 		{
 		<td>@Html.ActionLink("Edit","Edit",new { id = summary.Id} )</td>
 		<td>@Html.ActionLink("Delete","Delete",new { id = summary.Id} )</td>

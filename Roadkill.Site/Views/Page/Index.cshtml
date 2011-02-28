@@ -1,12 +1,12 @@
 ﻿@model PageSummary
 
-@if (ViewData.ToBool("LoggedIn"))
+@if (RoadkillContext.Current.IsLoggedIn)
 {
-@Html.ActionLink("Edit","Edit",new { id = Model.Id} ) <text>&nbsp;|&nbsp;</text>
-@Html.ActionLink("History","History",new { id = Model.Id} )
+@Html.ActionLink("Edit","Edit",new { id = Model.Id}, new { @class = "editpage" } ) <text>&nbsp;|&nbsp;</text>
+@Html.ActionLink("History","History",new { id = Model.Id}, new { @class = "pagehistory" } )
 }
 
-<h1>@Model.Title</h1>
+<h1 class="pagetitle">@Model.Title</h1>
 
 <div id="pagecontent">
 @Html.MarkdownToHtml(Model.Content)

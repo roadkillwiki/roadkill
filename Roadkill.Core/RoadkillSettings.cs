@@ -20,6 +20,22 @@ namespace Roadkill.Core
 			}
 		}
 
+		public static string Theme
+		{
+			get
+			{
+				return ConfigurationManager.AppSettings["Roadkill-Theme"];
+			}
+		}
+
+		public static string ThemePath
+		{
+			get
+			{
+				return string.Format("~/Themes/{0}",Theme);
+			}
+		}
+
 		public static bool Installed
 		{
 			get
@@ -52,17 +68,6 @@ namespace Roadkill.Core
 			get
 			{
 				return ConfigurationManager.AppSettings["Roadkill-AttachmentsFolder"];
-			}
-		}
-
-		public static bool ShowHeader
-		{
-			get
-			{
-				if (!_showHeader.HasValue)
-					_showHeader = bool.Parse(ConfigurationManager.AppSettings["Roadkill-ShowHeader"]);
-
-				return _showHeader.Value;
 			}
 		}
 
