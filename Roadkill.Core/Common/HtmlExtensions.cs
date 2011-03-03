@@ -4,15 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using Roadkill.Core.Converters;
 
 namespace Roadkill.Core
 {
 	public static class HtmlExtensions
 	{
+		public static string MarkdownToHtml(this string text)
+		{
+			// This can eventually come from a factory class that creates
+			// the converter based on a web.config setting
+			MarkdownConverter converter = new MarkdownConverter();
+			return converter.ToHtml(text);
+		}
+
 		public static MvcHtmlString MarkdownToHtml(this HtmlHelper helper,string text)
 		{
-			Markdown markdown = new Markdown();
-			return MvcHtmlString.Create(markdown.Transform(text));
+			// As with above
+			MarkdownConverter converter = new MarkdownConverter();
+			return MvcHtmlString.Create(converter.ToHtml(text));
 		}
 
 		public static MvcHtmlString LoginStatus(this HtmlHelper helper)

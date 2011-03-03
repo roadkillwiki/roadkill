@@ -64,9 +64,14 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Domain\Summaries\HistorySummary.cs" />
     <Compile Include="Domain\Summaries\TagSummary.cs" />
+    <Compile Include="Converters\Creole\CreoleParser.cs" />
+    <Compile Include="Converters\Creole\CreoleConverter.cs" />
+    <Compile Include="Common\HtmlDiff.cs" />
+    <Compile Include="Converters\Markdown\MarkdownConverter.cs" />
+    <Compile Include="Converters\Markdown\MarkdownParser.cs" />
+    <Compile Include="Converters\MarkupConverterBase.cs" />
     <Compile Include="RoadkillSettings.cs" />
     <Compile Include="RoadkillContext.cs" />
-    <Compile Include="Common\Markdown.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\HtmlExtensions.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
@@ -88,6 +93,7 @@
     <Compile Include="RoadkillApplication.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Converters\Mediawiki\" />
     <Folder Include="Search\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

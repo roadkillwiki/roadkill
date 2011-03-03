@@ -15,6 +15,9 @@ namespace Roadkill.Core
 		public DateTime CreatedOn { get; set; }
 		public string ModifiedBy { get; set; }
 		public DateTime ModifiedOn { get; set; }
+		/// <summary>
+		/// These are stored in ";" separated format.
+		/// </summary>
 		public string Tags { get; set; }
 		
 		public string Content { get; set; }

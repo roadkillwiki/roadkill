@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Text;
 using System.Web.Security;
 using System.IO;
+using Roadkill.Core.Diff;
 
 namespace Roadkill.Core.Controllers
 {
@@ -21,7 +22,7 @@ namespace Roadkill.Core.Controllers
 				PageManager manager = new PageManager();
 				if (Guid.TryParse(id, out guid))
 				{
-					summary = manager.GetPage(guid);
+					summary = manager.Get(guid);
 				}
 				else
 				{
@@ -49,10 +50,25 @@ namespace Roadkill.Core.Controllers
 		public ActionResult Version(Guid id)
 		{
 			HistoryManager manager = new HistoryManager();
-			IList<PageSummary> list = manager.CompareVersions(id).ToList();
+			IList<PageSummary> bothVersions = manager.CompareVersions(id).ToList();
+			string diffHtml = "";
 
-			SetPageTitle("Version number" + list[0].VersionNumber);
-			return View(list);
+			if (bothVersions[1] != null)
+			{
+				string oldVersion = bothVersions[1].Content.MarkdownToHtml();
+				string newVersion = bothVersions[0].Content.MarkdownToHtml();
+				HtmlDiff diff = new HtmlDiff(oldVersion, newVersion);
+				diffHtml = diff.Build();
+			}
+			else
+			{
+				diffHtml = bothVersions[0].Content.MarkdownToHtml();
+			}
+
+			PageSummary summary = bothVersions[0];
+			summary.Content = diffHtml;
+			SetPageTitle("Version number" + bothVersions[0].VersionNumber);
+			return View(summary);
 		}
 
 		public ActionResult Revert(Guid versionId,Guid pageId)
@@ -88,6 +104,21 @@ namespace Roadkill.Core.Controllers
 			return View(manager.AllTags());
 		}
 
+		public ActionResult AllTagsAsJson()
+		{
+			SetPageTitle("All tags");
+
+			PageManager manager = new PageManager();
+			IEnumerable<TagSummary> tags = manager.AllTags();
+			List<string> tagsArray = new List<string>();
+			foreach (TagSummary summary in tags)
+			{
+				tagsArray.Add(summary.Name);
+			}
+
+			return Json(tagsArray, JsonRequestBehavior.AllowGet);
+		}
+
 		public ActionResult Tag(string id)
 		{
 			SetPageTitle("All [" +id+ "] pages");
@@ -108,6 +139,8 @@ namespace Roadkill.Core.Controllers
 		[ValidateInput(false)]
 		public ActionResult New(PageSummary summary)
 		{
+			SetPageTitle("New page");
+
 			if (!ModelState.IsValid)
 				return View("Edit", summary);
 
@@ -121,7 +154,7 @@ namespace Roadkill.Core.Controllers
 		public ActionResult Edit(Guid id)
 		{
 			PageManager manager = new PageManager();
-			PageSummary summary = manager.GetPage(id);
+			PageSummary summary = manager.Get(id);
 
 			if (summary != null)
 			{

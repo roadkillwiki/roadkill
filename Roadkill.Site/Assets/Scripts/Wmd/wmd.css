@@ -10,7 +10,6 @@ body
 
 .wmd-textarea
 {
-	margin-left :110px;
 	border: 1px solid DarkGray;
 	height: 300px;
 }
@@ -33,7 +32,6 @@ body
 #wmd-button-row 
 {
 	position: relative; 
-	margin-left: 110px;
 	margin-right: 5px;
 	margin-bottom: 5px;
 	margin-top: 10px;
@@ -96,7 +94,7 @@ body
 #wmd-button-bar #wmd-spacer3        {left: 300px;}
 #wmd-button-bar #wmd-undo-button    {left: 325px; background-position: -200px 0;}
 #wmd-button-bar #wmd-redo-button    {left: 350px; background-position: -220px 0;}
-#wmd-button-bar #wmd-help-button    {right: 0px; background-position: -240px 0;}
+#wmd-button-bar #wmd-help-button    {left: 400px; right: 0px; background-position: -240px 0;}
 
 
 .wmd-prompt-background

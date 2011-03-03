@@ -35,7 +35,7 @@ _ReSharper*/
 *.[Pp]ublish.xml
 *.testsettings
 *.vsmdi
-ROADKILLASPNET.MDF
-ASPNET.MDF
-ASPNET.ldf
-roadkillaspnet_log.ldf
+*ROADKILLASPNET.MDF
+*ASPNET.MDF
+*ASPNET.ldf
+*roadkillaspnet_log.ldf

@@ -46,7 +46,7 @@ namespace Roadkill.Core
 				CreatedOn = CreatedOn,
 				ModifiedBy = ModifiedBy,
 				ModifiedOn = ModifiedOn,
-				Tags = Tags.Replace(";", " ").Trim(),
+				Tags = Tags,
 				Content = content.Text,
 				VersionNumber = content.VersionNumber
 			};

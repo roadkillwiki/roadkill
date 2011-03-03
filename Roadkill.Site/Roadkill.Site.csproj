@@ -72,6 +72,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\roadkill.MDF" />
+    <Content Include="Assets\CSS\htmldiff.css" />
+    <Content Include="Assets\CSS\jquery.tagit.css" />
+    <Content Include="Assets\Logo\roadkill-large.png" />
+    <Content Include="Assets\Logo\roadkill.png" />
+    <Content Include="Assets\Scripts\jquery-ui-1.8.autocomplete.min.js" />
+    <Content Include="Assets\Scripts\jquery-ui-1.8.core-and-interactions.min.js" />
+    <Content Include="Assets\CSS\jquery.ui.autocomplete.custom.css" />
+    <Content Include="Assets\CSS\roadkill.css" />
+    <Content Include="Assets\Scripts\tag-it.js" />
+    <Content Include="Assets\CSS\ui-anim_basic_16x16.gif" />
     <Content Include="Themes\BlackBar\Theme.css" />
     <Content Include="Views\Page\History.cshtml" />
     <Content Include="Views\Page\Version.cshtml" />
@@ -79,6 +89,9 @@
     <Content Include="Themes\BlackBar\Theme.cshtml" />
     <Content Include="Themes\Plain\Theme.cshtml" />
     <Content Include="Themes\Web.config" />
+    <None Include="Assets\Logo\edosz.ttf" />
+    <None Include="Assets\Logo\roadkill-large.psd" />
+    <None Include="Assets\Logo\roadkill-small.psd" />
     <None Include="Webtemplate.config">
       <SubType>Designer</SubType>
     </None>

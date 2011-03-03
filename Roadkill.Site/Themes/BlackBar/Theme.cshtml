@@ -3,14 +3,21 @@
 <html>
 <head>
 	<title>@Html.PageTitle()</title>
-	<link rel="shortcut icon" href="@Url.Content("~/Assets/Images/favicon.png")" />
-	<link href="@Url.CssForTheme()" rel="stylesheet" type="text/css" />
 
+	<!-- ## REQUIRED ## -->
+	<link rel="shortcut icon" href="@Url.Content("~/Assets/Images/favicon.png")" />
+	<link href="@Url.Content("~/Assets/Css/roadkill.css")" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery-1.4.1.min.js")"></script>
 	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery.extensions.min.js")"></script>
 	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery.form-extensions.min.js")"></script>
 	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery.ae.image.resize.min.js")"></script>
+	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery-ui-1.8.core-and-interactions.min.js")"></script>
+	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery-ui-1.8.autocomplete.min.js")"></script>
+	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/tag-it.js")"></script>
 	<script type="text/javascript" src="@Url.Content("~/Assets/Scripts/roadkill.js")"></script>
+	<!-- ## END REQUIRED ## -->
+
+	<link href="@Url.CssForTheme()" rel="stylesheet" type="text/css" />
 </head>
 
 <body>

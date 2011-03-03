@@ -39,7 +39,7 @@ namespace Roadkill.Core
 				return page.ToSummary();
 		}
 
-		public PageSummary GetPage(Guid id)
+		public PageSummary Get(Guid id)
 		{
 			Page page = Page.Repository.Read(id);
 			if (page == null)
