@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Configuration;
 
 namespace Roadkill.Core
 {
@@ -31,6 +32,7 @@ namespace Roadkill.Core
 		{
 			AreaRegistration.RegisterAllAreas();
 			RegisterRoutes(RouteTable.Routes);
+
 			Page.Configure(RoadkillSettings.ConnectionString);
 		}
 	}

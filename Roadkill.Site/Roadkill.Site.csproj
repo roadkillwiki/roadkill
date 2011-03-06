@@ -74,6 +74,7 @@
     <Content Include="App_Data\roadkill.MDF" />
     <Content Include="Assets\CSS\htmldiff.css" />
     <Content Include="Assets\CSS\jquery.tagit.css" />
+    <Content Include="Assets\Images\info_icon.png" />
     <Content Include="Assets\Images\wysiwyg\help.png" />
     <Content Include="Assets\Images\wysiwyg\readme.txt" />
     <Content Include="Assets\Images\wysiwyg\picture.png" />
@@ -91,6 +92,8 @@
     <Content Include="Assets\Images\wysiwyg\link.png" />
     <Content Include="Assets\Logo\roadkill-large.png" />
     <Content Include="Assets\Logo\roadkill.png" />
+    <Content Include="Assets\CSS\close-x.png" />
+    <Content Include="Assets\Scripts\jquery.simplemodal.1.4.1.min.js" />
     <Content Include="Assets\Scripts\wysiwyg.js" />
     <Content Include="Assets\Scripts\jquery-ui-1.8.autocomplete.min.js" />
     <Content Include="Assets\Scripts\jquery-ui-1.8.core-and-interactions.min.js" />
@@ -101,6 +104,9 @@
     <Content Include="Assets\Scripts\tag-it.js" />
     <Content Include="Assets\Images\wysiwyg\loading.gif" />
     <Content Include="Themes\BlackBar\Theme.css" />
+    <Content Include="Themes\Roadkillwiki.info\roadkill-large.png" />
+    <Content Include="Themes\Roadkillwiki.info\roadkill.png" />
+    <Content Include="Themes\Roadkillwiki.info\Theme.css" />
     <Content Include="Views\Page\History.cshtml" />
     <Content Include="Views\Page\Version.cshtml" />
     <Content Include="Views\Page\ByUser.cshtml" />
@@ -111,6 +117,9 @@
     <None Include="Assets\Logo\roadkill-large.psd" />
     <None Include="Assets\Logo\roadkill-small.psd" />
     <Content Include="Views\Shared\_Blank.cshtml" />
+    <Content Include="Views\Shared\PageToolbar.cshtml" />
+    <Content Include="Views\Shared\HeadContent.cshtml" />
+    <Content Include="Themes\Roadkillwiki.info\Theme.cshtml" />
     <None Include="Webtemplate.config">
       <SubType>Designer</SubType>
     </None>
@@ -124,10 +133,10 @@
     <Content Include="Global.asax" />
     <Content Include="Views\Page\Edit.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\Install.cshtml" />
-    <Content Include="Views\Admin\InstallComplete.cshtml" />
-    <None Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Settings\Index.cshtml" />
+    <Content Include="Views\Home\Install.cshtml" />
+    <Content Include="Views\Home\InstallComplete.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Assets\Scripts\jquery-1.4.1.min.js" />
     <Content Include="Views\Page\Index.cshtml" />
     <Content Include="Views\Page\AllPages.cshtml" />
@@ -160,6 +169,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Assets\Help\" />
     <Folder Include="Themes\Mediawiki\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

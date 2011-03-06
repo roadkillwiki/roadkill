@@ -58,13 +58,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\RoadkillSection.cs" />
     <Compile Include="Converters\ConverterFactory.cs" />
     <Compile Include="Converters\Mediawiki\MediaWikiConverter.cs" />
     <Compile Include="Converters\Mediawiki\MediaWikiParser.cs" />
+    <Compile Include="Domain\Exceptions\ConfigurationException.cs" />
     <Compile Include="Providers\ActiveDirectoryRoleProvider.cs" />
     <Compile Include="Providers\RoadkillAuthorizeAttribute.cs" />
     <Compile Include="Providers\RoadkillMembershipProvider.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Domain\Summaries\HistorySummary.cs" />
     <Compile Include="Domain\Summaries\TagSummary.cs" />
     <Compile Include="Converters\Creole\CreoleParser.cs" />

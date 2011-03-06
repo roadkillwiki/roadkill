@@ -18,8 +18,12 @@ a:hover		{ color:#babfb5; }
 #header input { font-family:Arial,helvetica;font-size:0.9em;}
 
 #container		{ margin:20px; }
-#leftcontent	{ width:65%;margin-right:20px;}
 #pagecontent img { border:0px;}
+
+#login		 { padding:10px;width:550px;}
+#login label { float:left;width:150px;padding:5px 5px 0 0;font-weight:bold;}
+.username input { width:390px;}
+.password input { width:390px;}
 
 .searchresults { color:Green;font-size:1.1em; }
 .searchbox { width:400px; }

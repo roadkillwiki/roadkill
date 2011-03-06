@@ -1,9 +1,8 @@
-﻿@using Roadkill.Core
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
-	<title>@Html.PageTitle()</title>
-	@Url.HeadContent()
+	<title>@ViewBag.Title</title>
+	@Html.Partial("HeadContent")
 </head>
 
 <body>
@@ -14,22 +13,21 @@
 			@Html.LoginStatus()
 		</div>
 		<div class="right">
-			@Html.LoginLink()
-			@Html.NewPageLink()
+			@Html.SettingsLink("&nbsp;|&nbsp;")
+			@Html.LoginLink("&nbsp;|&nbsp;")
+			@Html.NewPageLink("&nbsp;|&nbsp;")
 
-			@Html.ActionLink("Main Page", "Index", "Home")
+			@Html.MainPageLink("Main Page")
 			&nbsp;|&nbsp;@Html.ActionLink("Tags", "AllTags", "Page")
 			&nbsp;|&nbsp;@Html.ActionLink("All pages", "AllPages", "Page")
 			&nbsp;|&nbsp;Search: <input type="text" name="id" placeholder="Enter text to search" />
 		</div>
 	</div>
 }
-	@RenderSection("Toolbar",false)
+	@RenderSection("PageToolbar", false)
 
 	<div id="container">
-		<div id="leftcontent" class="left">
-			@RenderBody()		
-		</div>
+		@RenderBody()
 	</div>
 </body>
 </html>

@@ -23,7 +23,7 @@ namespace Roadkill.Core
 		{
 			Table("roadkill_pagecontent");
 			Id(x => x.Id);
-			Map(x => x.Text).CustomSqlType("text").LazyLoad();
+			Map(x => x.Text).CustomType("StringClob").CustomSqlType("text").LazyLoad();
 			Map(x => x.EditedBy);
 			Map(x => x.EditedOn);
 			Map(x => x.VersionNumber);

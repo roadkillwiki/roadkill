@@ -36,18 +36,16 @@ namespace Roadkill.Core.Controllers
 			if (summary == null)
 				return new HttpNotFoundResult(string.Format("The page with title or id '{0}' could not be found",id));
 
-			SetPageTitle(summary.Title);
-
 			return View(summary);
 		}
 
 		public ActionResult History(Guid id)
 		{
-			SetPageTitle("Version history");
 			HistoryManager manager = new HistoryManager();
 			return View(manager.GetHistory(id).ToList());
 		}
 
+		[ValidateInput(false)]
 		public ActionResult GetPreview(string id)
 		{
 			string html = "";
@@ -81,7 +79,6 @@ namespace Roadkill.Core.Controllers
 
 			PageSummary summary = bothVersions[0];
 			summary.Content = diffHtml;
-			SetPageTitle("Version number" + bothVersions[0].VersionNumber);
 			return View(summary);
 		}
 
@@ -95,15 +92,12 @@ namespace Roadkill.Core.Controllers
 
 		public ActionResult AllPages()
 		{
-			SetPageTitle("All pages");
-
 			PageManager manager = new PageManager();
 			return View(manager.AllPages());
 		}
 
 		public ActionResult ByUser(string id)
 		{
-			SetPageTitle("Pages created by "+id);
 			ViewData["Username"] = id;
 
 			PageManager manager = new PageManager();
@@ -112,16 +106,12 @@ namespace Roadkill.Core.Controllers
 
 		public ActionResult AllTags()
 		{
-			SetPageTitle("All tags");
-
 			PageManager manager = new PageManager();
 			return View(manager.AllTags());
 		}
 
 		public ActionResult AllTagsAsJson()
 		{
-			SetPageTitle("All tags");
-
 			PageManager manager = new PageManager();
 			IEnumerable<TagSummary> tags = manager.AllTags();
 			List<string> tagsArray = new List<string>();
@@ -135,7 +125,6 @@ namespace Roadkill.Core.Controllers
 
 		public ActionResult Tag(string id)
 		{
-			SetPageTitle("All [" +id+ "] pages");
 			ViewData["Tagname"] = id;
 
 			PageManager manager = new PageManager();
@@ -145,7 +134,6 @@ namespace Roadkill.Core.Controllers
 		[Authorize]
 		public ActionResult New()
 		{
-			SetPageTitle("New page");
 			return View("Edit", new PageSummary());
 		}
 
@@ -154,8 +142,6 @@ namespace Roadkill.Core.Controllers
 		[ValidateInput(false)]
 		public ActionResult New(PageSummary summary)
 		{
-			SetPageTitle("New page");
-
 			if (!ModelState.IsValid)
 				return View("Edit", summary);
 
@@ -173,7 +159,6 @@ namespace Roadkill.Core.Controllers
 
 			if (summary != null)
 			{
-				SetPageTitle("Editing '" + summary.Title + "'");
 				return View("Edit", summary);
 			}
 			else
@@ -187,8 +172,6 @@ namespace Roadkill.Core.Controllers
 		[ValidateInput(false)]
 		public ActionResult Edit(PageSummary summary)
 		{
-			SetPageTitle("Editing '" + summary.Title + "'");
-
 			if (!ModelState.IsValid)
 				return View("Edit", summary);
 
@@ -210,7 +193,6 @@ namespace Roadkill.Core.Controllers
 		[Authorize]
 		public ActionResult AllFiles(Guid id)
 		{
-			SetPageTitle("File explorer");
 			ViewData["id"] = id;
 			ViewData["AttachmentPath"] = VirtualPathUtility.ToAbsolute("~/" + RoadkillSettings.AttachmentsFolder + "/" + id);
 

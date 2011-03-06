@@ -108,6 +108,25 @@ namespace Roadkill.Core.Converters.Creole
 	}
 	#endregion
 
+	/// <summary>
+	/// Holds information when an image is processed
+	/// </summary>
+	public class ImageProcessedEventArgs : EventArgs
+	{
+		/// <summary>
+		/// The original src
+		/// </summary>
+		public string OriginalSrc { get; set; }
+		/// <summary>
+		/// The src used inside the HTML
+		/// </summary>
+		public string Src { get; set; }
+		/// <summary>
+		/// The alt tag for the image
+		/// </summary>
+		public string Alt { get; set; }
+	}
+
 
 	/// <summary>
 	/// 
@@ -136,6 +155,7 @@ namespace Roadkill.Core.Converters.Creole
 
 		public CreoleParser()
 		{
+			AddIdToParagraphTags = false;
 			HTMLAttributes = new Dictionary<string, string>();
 			InterWiki = new Dictionary<string, string>();
 			TabStop = 7; // default to 7 char tabstop
@@ -145,6 +165,13 @@ namespace Roadkill.Core.Converters.Creole
 		/// Event Handler fired when a link is processed
 		/// </summary>
 		public event LinkEventHandler OnLink;
+
+		public event EventHandler<ImageProcessedEventArgs> ImageProcessed;
+
+		/// <summary>
+		/// Whether to append id="CreoleLine1" etc. to p tags. False by default.
+		/// </summary>
+		public bool AddIdToParagraphTags { get; set; }
 
 		/// <summary>
 		/// This collection allows you to substitute markup with your own custom markup
@@ -205,7 +232,10 @@ namespace Roadkill.Core.Converters.Creole
 			List<string> lines = _breakMarkupIntoLines(markup, out originalLineNumbers);
 			StringBuilder htmlMarkup = new StringBuilder();
 
-			htmlMarkup.Append(_getStartTag("<p>").Replace("<p", "<p id='CreoleLine0'")); // start with paragraph
+			if (AddIdToParagraphTags)
+				htmlMarkup.Append(_getStartTag("<p>").Replace("<p", "<p id='CreoleLine0'")); // start with paragraph
+			else
+				htmlMarkup.Append(_getStartTag("<p>"));
 
 			int iBullet = 0;    // bullet indentation level
 			int iNumber = 0;    // ordered list indentation level
@@ -240,8 +270,15 @@ namespace Roadkill.Core.Converters.Creole
 						_closeLists(ref htmlMarkup, ref iBullet, ref iNumber, lineTrimmed);
 
 						// end of paragraph (NOTE: we id paragraphs for conveinence sake
-						htmlMarkup.Append(String.Format("</p>\n{0}",
-										  _getStartTag("<p>").Replace("<p", String.Format("<p id='CreoleLine{0}'", originalLineNumbers[idParagraph]))));
+						if (AddIdToParagraphTags)
+						{
+							htmlMarkup.Append(String.Format("</p>\n{0}",
+											  _getStartTag("<p>").Replace("<p", String.Format("<p id='CreoleLine{0}'", originalLineNumbers[idParagraph]))));
+						}
+						else
+						{
+							htmlMarkup.Append(String.Format("</p>\n{0}",_getStartTag("<p>")));
+						}
 					}
 					// --- process bullets
 					else if (lineTrimmed[0] == '*')
@@ -922,8 +959,16 @@ namespace Roadkill.Core.Converters.Creole
 						text = _processCreoleFragment(innards.Substring(iSplit + 1));
 					}
 
+					ImageProcessedEventArgs eargs = new ImageProcessedEventArgs();
+					eargs.Alt = text;
+					eargs.OriginalSrc = href;
+					eargs.Src = href;
+
+					if (ImageProcessed != null)
+						ImageProcessed(this, eargs);
+
 					markup = markup.Substring(0, iPos - 2)
-							+ String.Format("<img src='{0}' alt='{1}'/>", href, text)
+							+ String.Format("<img src='{0}' alt='{1}'/>", eargs.Src, eargs.Alt)
 							+ markup.Substring(iEnd + 2);
 				}
 				else

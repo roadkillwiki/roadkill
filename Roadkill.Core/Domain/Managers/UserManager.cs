@@ -42,15 +42,23 @@ namespace Roadkill.Core
 			return status;
 		}
 
+		/// <summary>
+		/// Adds the a username "admin" with the provided password, and adds them to the admin role 
+		/// name provided by RoadkillSettings.AdminGroup.
+		/// </summary>
+		/// <param name="password"></param>
+		/// <param name="email"></param>
+		/// <returns></returns>
 		public MembershipCreateStatus AddAdminUser(string password, string email)
 		{
 			MembershipCreateStatus status = MembershipCreateStatus.Success;
 			MembershipUser user = Membership.CreateUser("admin", password, email, "question", "answer", true, out status);
 
-			if (!Roles.RoleExists("Admins"))
-				Roles.CreateRole("Admins");
+			if (!Roles.RoleExists(RoadkillSettings.AdminGroup))
+				Roles.CreateRole(RoadkillSettings.AdminGroup);
 
-			Roles.AddUserToRole("admin", "Admins");
+			if (!Roles.IsUserInRole("admin",RoadkillSettings.AdminGroup))
+				Roles.AddUserToRole("admin", RoadkillSettings.AdminGroup);
 
 			return status;
 		}

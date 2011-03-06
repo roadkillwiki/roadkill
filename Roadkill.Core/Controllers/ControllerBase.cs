@@ -10,23 +10,9 @@ namespace Roadkill.Core.Controllers
 {
 	public class ControllerBase : Controller
 	{
-		private string _pageTitle;
-
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
 			RoadkillContext.Current.CurrentUser = GetCurrentUser();
-			ViewData["CurrentUser"] = RoadkillContext.Current.CurrentUser;
-		}
-
-		protected override void OnActionExecuted(ActionExecutedContext filterContext)
-		{
-			ViewData["PageTitle"] = _pageTitle;
-			base.OnActionExecuted(filterContext);
-		}
-
-		protected void SetPageTitle(string title)
-		{
-			_pageTitle = title;
 		}
 
 		protected string GetCurrentUser()

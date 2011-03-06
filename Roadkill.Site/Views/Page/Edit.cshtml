@@ -1,8 +1,8 @@
 ﻿@model PageSummary
-
+@{ 
+	ViewBag.Title = "Add/edit page";
+}
 <script type="text/javascript">
-var _fileManagerUrl = "@(Url.Content("~/Page/AllFiles/" +Model.Id))";
-var _tagAjaxUrl = "@(Url.Content("~/Page/AllFiles/" +Model.Id))";
 $.require("wysiwyg.js");
 </script>
 

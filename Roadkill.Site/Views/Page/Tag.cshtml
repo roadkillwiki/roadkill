@@ -1,5 +1,7 @@
 ﻿@model List<PageSummary>
-
+@{ 
+	ViewBag.Title = "All pages for " + ViewData["Tagname"];
+}
 <h1>All pages for '@ViewData["Tagname"]'</h1>
 
 <table id="pagestable">

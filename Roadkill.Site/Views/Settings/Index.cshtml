@@ -1,0 +1,253 @@
+﻿@{ 
+	ViewBag.Title = "Site settings";
+}
+
+<h1>Editing pages</h1>
+
+<h1>Users</h1>
+<p>If you using the standard</p>
+
+<h1>Connections</h1>
+<p>Roadkill stores all of its data inside a SQL Server database (it also supports mySQL, Oracle and SQLite). The connection 
+string for this database is set using the "Roadkill" connection string in the web.config. If you do not have access to a 
+SQL Server instance, you can use the ASP.NET user instance connection string format. To do this, first of all ensure that
+the App_Data folder has the "roadkill.mdf" file in it, which comes as part of the download.
+</p>
+
+<p>
+You should then set the connection string to the following:
+</p>
+
+<pre>
+&lt;add name="Roadkill" connectionString="Server=.\SQLExpress;AttachDbFilename=|DataDirectory|\roadkill.mdf;Integrated Security=True;User Instance=True" /&gt;
+</pre>
+
+<p>
+The alternative is to use a SQL Express or SQL Server Professional database and setup the connection string to something similar to:
+</p>
+
+<pre>
+&lt;add name="Roadkill" connectionString="database=Roadkill;server=.\SQLEXPRESS;integrated security=SSPI;" /&gt;
+</pre>
+
+<p>
+You will need firstly create the database you specify for this.
+</p>
+
+<h1>User roles</h1>
+<p>Roadkill has just two types of user roles: standard users and admins. The only difference between the two is that
+users who belong to the admin role can access the site settings page, and delete pages.</p>
+
+<p>
+You set the name of this role using the "Roadkill-AdminGroup" setting in the web.config file.
+</p>
+
+<h1>User providers</h1>
+Roadkill comes with two ways to its users and roles: 
+
+<h3>ASP.NET provider</h3>
+<p>This stores all of your usernames, passwords and roles in a database. This database is either in the App_Data folder 
+or in a SQL Server database, depending on your "AspNetSqlMembershipProvider.connectionStringName" property.</p>
+
+<p>The first installation of Roadkill will create the admin role and assign your first user with this role. The name of
+this is set in the installer and stored in "Roadkill-AdminGroup" setting in the web.config. If you decide to change
+the name of the role later, you will need to manually add all users that you want as admins to this new role.</p>
+
+<h3>Active Directory provider</h3>
+<p>All of your usernames,passwords and roles come from a Microsoft Active Directory server. Users will be automatically
+authenticated against this directory by IIS. Their username is then provided to roadkill. Users that are inside the
+"Roadkill-AdminGroup" will automatically be given admin rights on the site.</p>
+
+<p>
+If you didn't enable Active Directory in the installer, there are three settings you need to manually change in the web.config. 
+Firstly make sure you have an connection string called ActiveDirectory declared in the connection strings section, and change
+the LDAP settings to your active directory's DNS entry:
+</p>
+
+<pre>
+&lt;add name="ActiveDirectory" connectionString="LDAP://DC=Domain,DC=com"/&gt;
+</pre>
+
+<p>
+Secondly, change the membership section of the web.config file. This reads from your Active Directory using the account that the 
+web application process is running under. This usually has enough permissions to read from Active Directory.
+</p>
+
+<pre>
+&lt;membership&gt;
+	&lt;!-- See http://msdn.microsoft.com/en-us/library/system.web.security.activedirectorymembershipprovider.aspx --&gt;
+	&lt;providers&gt;
+		&lt;add name="AspNetActiveDirectoryMembershipProvider" 
+					type="System.Web.Security.ActiveDirectoryMembershipProvider"
+					connectionStringName="ActiveDirectory"
+					/&gt;
+	&lt;/providers&gt;
+&lt;/membership&gt;
+</pre>
+
+<p>
+Lastly, replace the roleManager section of the web.config file as shown below. Configure this to add or remove any users as necessary. 
+Bare in mind however, that the users being ignored here will still get permission to add new pages and edit existing pages - which is the 
+anonymous nature of wikis. This may change in future to include a new "editor" role so this is restricted.
+</p>
+
+<pre>
+&lt;roleManager enabled="true" defaultProvider="ActiveDirectoryRoleProvider"&gt;
+	&lt;providers&gt;
+		&lt;clear/&gt;
+		&lt;add applicationName="roadkill"
+			name="ActiveDirectoryRoleProvider"
+			type="Roadkill.Core.ActiveDirectoryRoleProvider,RoadKill.Core"
+			activeDirectoryConnectionString="ActiveDirectory"
+			groupMode="Additive"
+			groupsToUse="Developers"
+			groupsToIgnore="Senior Management"
+			usersToIgnore="jsmith, pjones"/&gt;
+	&lt;/providers&gt;
+&lt;/roleManager&gt;
+</pre>
+
+<p>If you are part of another forest, you should specify your local DNS name rather than the main forest name. All requests should 
+automatically forward this way.</p>
+
+<h1>Exporting/backing up the site</h1>
+<p>The site settings page allows you to export your site data in an easy to use XML format. Clicking the export button in the Export
+section to do this. An import facility will be part of Roadkill in the coming months.</p>
+
+<h1>Markup types</h1>
+<p>Roadkill enables you to edit your Wiki in three different flavours of markup language:</p>
+
+<ul>
+	<li><a href="http://www.wikicreole.org">Creole Wiki</a></li>
+	<li><a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a></li>
+	<li><a href="http://www.mediawiki.org/wiki/Help:Formatting">Media Wiki format</a></li>
+</ul>
+
+<p>It is recommended that you keep with Creole Wiki format as this is best supported by the platform. The WYSIWYG editor is fairly experimental 
+for the other two formats, and only a subset of the Media Wiki features are supported.</p>
+
+<p>The markup format can be set in the "Roadkill-MarkupType" setting in the web.config.</p>
+
+<h1>Themes</h1>
+<p>
+Roadkill supports a fairly comprehensive theming framework that allows you to completely reskin your wiki if needed. The Roadkill installation 
+comes with two themes: 
+</p>
+
+<h3>Blackbar</h3>
+<p>This is the default theme with a black navigation bar across the top of the page. This theme and some roadkill UI elements in general has
+been designed for a page with a while background. The theme has a very small ego and has no Roadkill logo on the screen.</p>
+
+<h3>Media wiki</h3>
+<p>This theme emulates the website style you see with media wiki installations. It contains a navigation bar on the left side of 
+the screen and the logo in the top left.</p>
+
+<h2>Creating a theme in 5 steps</h2>
+
+<h3>1. Create the theme folder</h3>
+<p>
+The first step for theme creation is to create a new folder under the "Themes" folder. Name this folder with the name of your theme, without spaces.
+</p>
+
+<h3>2. Copy an existing theme across</h3>
+<p>
+It's easiest to get started by simply copying the "Theme.cshtml" and "Theme.css" files from the "Blackbar" theme folder to your new theme folder. 
+This way you a skeleton to work with, and can just strip out the parts you don't want.
+</p>
+
+<h3>2. Edit the theme.css</h3>
+<p>
+Roadkill has a set of global CSS classes and IDs that you can use in your theme, which are listed below. Theme specific styles are declared inside the 
+theme's "Theme.css" file. This includes font styles, heading styles, anchor styles and tag cloud styles.</p>
+
+<h3>Theme style reference</h3>
+<p>When creating a theme, you get the following CSS classes available to you so the site adheres to the DRY principle:</p>
+
+<table>
+	<tr>
+		<td>.biggest</td>
+		<td class="biggest">An font size for pensioners.</td>
+	</tr>
+	<tr>
+		<td>.bigger</td>
+		<td class="bigger">Even bigger font size (1.2em)</td>
+	</tr>
+	<tr>
+		<td>.big</td>
+		<td class="big">Slightly (1.1 em) larger font</td>
+	</tr>
+	<tr>
+		<td>.normal</td>
+		<td class="normal">The default browser font size</td>
+	</tr>
+	<tr>
+		<td>.small</td>
+		<td class="small">Slightly smaller than the default font size</td>
+	</tr>
+	<tr>
+		<td>.smaller</td>
+		<td class="smaller">Even smaller font size</td>
+	</tr>
+	<tr>
+		<td>.smallest</td>
+		<td class="smallest">A wee little font</td>
+	</tr>
+	<tr>
+		<td>.bold</td>
+		<td class="bold">Bolded font weight</td>
+	</tr>
+	<tr>
+		<td>.italic</td>
+		<td class="italic">Italicised font</td>
+	</tr>
+	<tr>
+		<td>.dimmed</td>
+		<td>Sets the opacity of the element to 50% <span class="dimmed">(example)</span></td>
+	</tr>
+	<tr>
+		<td>.left</td>
+		<td>Floats the block level element to the left.</td>
+	</tr>
+	<tr>
+		<td>.right</td>
+		<td>Floats the block level element to the right.</td>
+	</tr>
+	<tr>
+		<td>.rounded</td>
+		<td>Gives the element rounded edges, in Chrome/Safari and Firefox.<span class="rounded blueborder">example</span></td>
+	</tr>
+	<tr>
+		<td>.rounded5</td>
+		<td>Gives the element 5px rounded edges, in Chrome/Safari and Firefox.<span class="rounded5 blueborder">example</span></td>
+	</tr>
+	<tr>
+		<td>.rounded10</td>
+		<td>Gives the element 10px rounded edges, in Chrome/Safari and Firefox.<span class="rounded10 blueborder">example</span></td>
+	</tr>
+	<tr>
+		<td>.blueborder</td>
+		<td>Gives the element a <span class="blueborder">blue border</span></td>
+	</tr>
+	<tr>
+		<td>.lightborder</td>
+		<td>Gives the element a <span class="lightborder">light grey border</span> like the borders found on the edit and history buttons.</td>
+	</tr>
+	<tr>
+		<td>.clear</td>
+		<td>Clears both left and right floating elements (clear:both)</td>
+	</tr>
+</table>
+
+
+<p>There are also a number of IDs declared globally, so when creating a theme you may need to check the roadkill.css file to ensure there are 
+no name clashes. If in doubt, it is best to use "#yourtheme-idname". Roadkill defines the following styles globally, rather than on a per-theme basis:</p>
+
+<ul>
+	<li>All tables, for example the table on the page history page</li>
+	<li>The edit, history and page information buttons</li>
+	<li>Modal dialogs</li>
+	<li>The edit page textboxes and buttons</li>
+	<li>The login page textboxes and buttons</li>
+</ul>
+
+<p>You can of course change these if you wish by editing the "/Assets/CSS/roadkill.css file", however when you come to upgrade you may get issues from this.</p>

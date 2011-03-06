@@ -10,6 +10,27 @@ namespace Roadkill.Core
 {
 	public static class HtmlExtensions
 	{
+		public static MvcHtmlString TagBlocks(this HtmlHelper helper, string content)
+		{
+			string result = "";
+
+			if (!string.IsNullOrWhiteSpace(content))
+			{
+				string[] parts = content.Split(';');
+
+				StringBuilder builder = new StringBuilder();
+				foreach (string item in parts)
+				{
+					if (!string.IsNullOrWhiteSpace(item))
+						builder.AppendFormat("<span class=\"tagblock\">{0}</span>", item);
+				}
+
+				result = builder.ToString();
+			}
+
+			return MvcHtmlString.Create(result);
+		}
+
 		public static MvcHtmlString MarkdownToHtml(this HtmlHelper helper, string content)
 		{
 			return MvcHtmlString.Create(content.WikiMarkupToHtml());
@@ -31,7 +52,20 @@ namespace Roadkill.Core
 				return MvcHtmlString.Create(helper.ViewData["PageTitle"].ToString());
 		}
 
-		public static MvcHtmlString LoginLink(this HtmlHelper helper)
+		public static MvcHtmlString SettingsLink(this HtmlHelper helper,string suffix)
+		{
+			if (RoadkillContext.Current.IsAdmin)
+			{
+				string link = helper.ActionLink("Site settings", "Settings", "Home").ToString();
+				return MvcHtmlString.Create(link + suffix);
+			}
+			else
+			{
+				return MvcHtmlString.Create("");
+			}
+		}
+
+		public static MvcHtmlString LoginLink(this HtmlHelper helper, string suffix)
 		{
 			string link = "";
 
@@ -40,48 +74,20 @@ namespace Roadkill.Core
 			else
 				link = helper.ActionLink("Login", "Login", "Home").ToString();
 
-			return MvcHtmlString.Create(link +  "&nbsp;|&nbsp;");
+			return MvcHtmlString.Create(link +  suffix);
 		}
 
-		public static MvcHtmlString NewPageLink(this HtmlHelper helper)
+		public static MvcHtmlString NewPageLink(this HtmlHelper helper, string suffix)
 		{
 			if (RoadkillContext.Current.IsLoggedIn)
-				return MvcHtmlString.Create(helper.ActionLink("New page", "New", "Page").ToString() + "&nbsp;|&nbsp;");
+				return MvcHtmlString.Create(helper.ActionLink("New page", "New", "Page").ToString() + suffix);
 			else
 				return MvcHtmlString.Empty;
 		}
 
-		/// <summary>
-		/// Simplifies (at the expense of being ugly to maintain) the required css/javascript file includes for themes.
-		/// </summary>
-		/// <param name="helper"></param>
-		/// <returns></returns>
-		public static MvcHtmlString HeadContent(this UrlHelper helper)
+		public static MvcHtmlString MainPageLink(this HtmlHelper helper, string linkText)
 		{
-			StringBuilder builder = new StringBuilder();
-			builder.AppendLine("<!-- ## REQUIRED ## -->");
-
-			builder.AppendLine("<script type=\"text/javascript\" language=\"javascript\" src=\"" + 
-				helper.Action("JavascriptSettingsForEditing", "Home") + "\"></script>");
-
-			builder.AppendLine("<link rel=\"shortcut icon\" href=\"" +helper.Content("~/Assets/Images/favicon.png")+ "\" />");
-			builder.AppendLine(CssLink(helper,"~/Assets/Css/roadkill.css"));
-			builder.AppendLine(ScriptLink(helper,"~/Assets/Scripts/jquery-1.4.1.min.js"));
-			builder.AppendLine(ScriptLink(helper,"~/Assets/Scripts/roadkill.js"));
-			builder.AppendLine(CssLink(helper,RoadkillSettings.ThemePath + "/Theme.css"));
-			builder.AppendLine("<!-- ## END REQUIRED ## -->");
-
-			return MvcHtmlString.Create(builder.ToString());
-		}
-
-		public static string CssLink(this UrlHelper helper,string relativePath)
-		{
-			return "<link href=\"" +helper.Content(relativePath) +"\" rel=\"stylesheet\" type=\"text/css\" />";
-		}
-
-		public static string ScriptLink(this UrlHelper helper,string relativePath)
-		{
-			return "<script type=\"text/javascript\" language=\"javascript\" src=\"" +helper.Content(relativePath) +"\"></script>";
+			return helper.ActionLink(linkText, "Index", "Home");
 		}
 
 		public static string ClassNameForTagSummary(this HtmlHelper helper, TagSummary tag)
@@ -110,6 +116,31 @@ namespace Roadkill.Core
 			}
 
 			return className;
+		}
+
+		public static MvcHtmlString PageLink(this HtmlHelper helper, string linkText, string pageName)
+		{
+			return helper.PageLink(linkText,pageName,null);
+		}
+
+		public static MvcHtmlString PageLink(this HtmlHelper helper, string linkText, string pageName, object htmlAttributes)
+		{
+			return helper.ActionLink(linkText, "Index", "Page", new { id = pageName }, htmlAttributes);
+		}
+
+		public static string CssLink(this UrlHelper helper, string relativePath)
+		{
+			return "<link href=\"" + helper.Content(relativePath) + "\" rel=\"stylesheet\" type=\"text/css\" />";
+		}
+
+		public static string ScriptLink(this UrlHelper helper, string relativePath)
+		{
+			return "<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content(relativePath) + "\"></script>";
+		}
+
+		public static string ThemeContent(this UrlHelper helper, string relativePath)
+		{
+			return helper.Content(RoadkillSettings.ThemePath + "/" + relativePath);
 		}
 	}
 }

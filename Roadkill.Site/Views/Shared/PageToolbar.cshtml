@@ -1,0 +1,45 @@
+﻿@model PageSummary
+ 
+@if (RoadkillContext.Current.IsLoggedIn)
+{
+<div id="toolbar">
+	@if (Model.Id != Guid.Empty)
+	{
+	<div id="editbutton" class="linkbutton">
+		@Html.ActionLink("Edit", "Edit", "Page", new { id = Model.Id },null)
+	</div>
+	<div id="pagehistory-button" class="linkbutton"> 
+		@Html.ActionLink("History", "History", "Page", new { id = Model.Id }, null)
+	</div>
+	<div id="pageinfo-button" class="jqmAlert"> 
+		<a href="javascript:;"><img src="@Url.Content("~/Assets/Images/info_icon.png")" border="0" alt="Page information" /></a>
+	</div>
+	<br style="clear:both" />
+
+	<div id="pageinformation">
+		<h3>@Model.Title</h3>
+
+		<div class="tags">
+			@Html.TagBlocks(Model.Tags)
+		</div>
+		<br class="clear" />
+
+		<div class="left">
+			<b>Created on:</b><br />
+			@Model.CreatedOn<br /><br />
+
+			<b>Created by:</b><br />
+			@Model.CreatedBy
+		</div>
+
+		<div class="right">
+			<b>Last modified on:</b><br />
+			@Model.ModifiedOn<br /><br />
+
+			<b>Last modified by:</b><br />
+			@Model.ModifiedBy
+		</div>
+	</div> 
+	}
+</div>
+}

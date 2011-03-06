@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<PageSummary>
-
+@{ 
+	ViewBag.Title = "All pages created by" + ViewData["Username"];
+}
 <h1>All pages created by @ViewData["Username"]</h1>
 
 <table id="userpagetable">

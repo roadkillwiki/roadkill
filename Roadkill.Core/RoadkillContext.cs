@@ -5,6 +5,7 @@ using System.Web;
 using System.Xml;
 using System.Web.Mvc;
 using NHibernate;
+using System.Web.Security;
 
 namespace Roadkill.Core
 {
@@ -21,6 +22,14 @@ namespace Roadkill.Core
 			get
 			{
 				return !string.IsNullOrWhiteSpace(CurrentUser);
+			}
+		}
+
+		public bool IsAdmin
+		{
+			get
+			{
+				return Roles.IsUserInRole(RoadkillSettings.AdminGroup);
 			}
 		}
 

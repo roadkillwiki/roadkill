@@ -144,7 +144,7 @@ $(document).ready(function () {
 
 function loadTags()
 {
-	$.get(_tagAjaxUrl, function (data)
+	$.get(ROADKILL_TAGAJAXURL, function (data)
 	{
 		_tags = eval(data);
 		initTagIt();
@@ -203,7 +203,7 @@ function showPreview()
 
 	$.ajax({
 		type: "POST",
-		url: "/Roadkill.Site/Page/GetPreview",
+		url: ROADKILL_PREVIEWURL,
 		data: {"id": text },
 		success: function (htmlResult) {
 			$("#preview").html(htmlResult);

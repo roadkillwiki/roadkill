@@ -9,65 +9,45 @@ namespace Roadkill.Core
 {
 	public class RoadkillSettings
 	{
-		private static bool? _showHeader;
-		private static bool? _installed;
-
-		public static string ConnectionString
-		{
-			get
-			{
-				return ConfigurationManager.ConnectionStrings["Roadkill"].ConnectionString;
-			}
-		}
-
-		public static string Theme
-		{
-			get
-			{
-				return ConfigurationManager.AppSettings["Roadkill-Theme"];
-			}
-		}
-
-		public static string ThemePath
-		{
-			get
-			{
-				return string.Format("~/Themes/{0}",Theme);
-			}
-		}
-
-		public static bool Installed
-		{
-			get
-			{
-				if (!_installed.HasValue)
-					_installed = bool.Parse(ConfigurationManager.AppSettings["Roadkill-Installed"]);
-
-				return _installed.Value;
-			}
-		}
-
 		public static string AdminGroup
 		{
-			get
-			{
-				return ConfigurationManager.AppSettings["Roadkill-AdminGroup"];
-			}
+			get { return RoadkillSection.Current.AdminGroup; }
 		}
 
 		public static string AttachmentsFolder
 		{
-			get
-			{
-				return ConfigurationManager.AppSettings["Roadkill-AttachmentsFolder"];
-			}
+			get { return RoadkillSection.Current.AttachmentsFolder; }
 		}
+
+		public static string ConnectionString
+		{
+			get { return RoadkillSection.Current.ConnectionString; }
+		}
+
+		public static bool Installed
+		{
+			get { return RoadkillSection.Current.Installed; }
+		}	
 
 		public static string MarkupType
 		{
+			get { return RoadkillSection.Current.MarkupType; }
+		}
+
+		public static string Theme
+		{
+			get { return RoadkillSection.Current.Theme; }
+		}
+
+		/// <summary>
+		/// An asp.net relativate path e.g. ~/Themes/ to the current theme directory. Does not include
+		/// a trailing slash.
+		/// </summary>
+		public static string ThemePath
+		{
 			get
 			{
-				return ConfigurationManager.AppSettings["Roadkill-MarkupType"];
+				return string.Format("~/Themes/{0}", Theme);
 			}
 		}
 
@@ -75,9 +55,10 @@ namespace Roadkill.Core
 		{
 			Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 
-			config.AppSettings.Settings["Roadkill-AdminPassword"].Value = HashPassword(adminPassword);
-			config.ConnectionStrings.ConnectionStrings["Roadkill"].ConnectionString = connectionString;
-			config.AppSettings.Settings["Roadkill-Installed"].Value = "true";
+			RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
+			section.ConnectionString = connectionString;
+			section.Installed = true;
+
 			config.Save();
 		}
 

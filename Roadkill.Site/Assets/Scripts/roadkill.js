@@ -1,4 +1,4 @@
-$(document).ready(function () 
+$(document).ready(function ()
 {
 	$.require("jquery.extensions.min.js");
 	$.require("jquery.form-extensions.min.js");
@@ -7,14 +7,24 @@ $(document).ready(function ()
 	$.require("jquery-ui-1.8.autocomplete.min.js");
 	$.require("tag-it.js");
 	$.require("jquery.timeago.js");
+	$.require("jquery.simplemodal.1.4.1.min.js")
 
 	$("#pagecontent img").aeImageResize({ height: 400, width: 400 });
 	$("#historytable .editedon").timeago();
+	$("#pageinfo-button>a").click(function ()
+	{
+		showPageInformation();
+	});
 });
 
 function setFile(path, filename) {
 	$("#wmddialoginput", window.opener.document).val(path + "/" + filename);
 	window.close();
+}
+
+function showPageInformation()
+{
+	$("#pageinformation").modal();
 }
 
 
@@ -47,7 +57,7 @@ function setFile(path, filename) {
 		if (!$.require.loadedLib) $.require.loadedLib = {};
 
 		if (!$.scriptPath) {
-			$.scriptPath = ROADKILL_coreScriptPath;
+			$.scriptPath = ROADKILL_CORESCRIPTPATH;
 		}
 		if (typeof jsFiles === "string") {
 			jsFiles = new Array(jsFiles);

@@ -1,19 +1,10 @@
 ﻿@model PageSummary
-
-@section Toolbar
-{
-@if (RoadkillContext.Current.IsLoggedIn)
-{
-<div id="toolbar">
-	<div id="editbutton" class="linkbutton">
-		@Html.ActionLink("Edit", "Edit", new { id = Model.Id })
-	</div>
-	<div id="pagehistory-button" class="linkbutton"> 
-	@Html.ActionLink("History","History",new { id = Model.Id})
-	</div>
-	<br style="clear:both" />
-</div>
+@{ 
+	ViewBag.Title = Model.Title;
 }
+@section PageToolbar
+{  
+@Html.Partial("PageToolbar",Model)
 }
 
 <h1 class="pagetitle">@Model.Title</h1>
