@@ -1,0 +1,20 @@
+﻿@using Roadkill.Core
+<!DOCTYPE html>
+<html>
+<head>
+	<title>@ViewData["PageTitle"]</title>
+	<link rel="shortcut icon" href="@Url.Content("~/Assets/Images/favicon.png")" />
+
+	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery-1.4.1.min.js")"></script>
+	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery.extensions.min.js")"></script>
+	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery.form-extensions.min.js")"></script>
+	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery.ae.image.resize.min.js")"></script>
+	<script type="text/javascript" src="@Url.Content("~/Assets/Scripts/roadkill.js")"></script>
+
+	<link href="@Url.Content("~/Assets/CSS/site.css")" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+@RenderBody()
+</body>
+</html>

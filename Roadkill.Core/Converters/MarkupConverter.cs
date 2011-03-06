@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Roadkill.Core.Converters
 {
-	public abstract class MarkupConverterBase
+	public abstract class MarkupConverter
 	{
 		/// <summary>
 		/// Turns the provided markup format into HTML.
