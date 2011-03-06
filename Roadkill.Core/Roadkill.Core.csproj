@@ -58,9 +58,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Providers\ActiveDirectoryRoleProvider.cs" />
-    <Compile Include="Domain\Providers\RoadkillAuthorizeAttribute.cs" />
-    <Compile Include="Domain\Providers\RoadkillMembershipProvider.cs" />
+    <Compile Include="Converters\ConverterFactory.cs" />
+    <Compile Include="Converters\Mediawiki\MediaWikiConverter.cs" />
+    <Compile Include="Converters\Mediawiki\MediaWikiParser.cs" />
+    <Compile Include="Providers\ActiveDirectoryRoleProvider.cs" />
+    <Compile Include="Providers\RoadkillAuthorizeAttribute.cs" />
+    <Compile Include="Providers\RoadkillMembershipProvider.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Domain\Summaries\HistorySummary.cs" />
     <Compile Include="Domain\Summaries\TagSummary.cs" />
@@ -69,7 +72,7 @@
     <Compile Include="Common\HtmlDiff.cs" />
     <Compile Include="Converters\Markdown\MarkdownConverter.cs" />
     <Compile Include="Converters\Markdown\MarkdownParser.cs" />
-    <Compile Include="Converters\MarkupConverterBase.cs" />
+    <Compile Include="Converters\MarkupConverter.cs" />
     <Compile Include="RoadkillSettings.cs" />
     <Compile Include="RoadkillContext.cs" />
     <Compile Include="Common\Extensions.cs" />
@@ -93,7 +96,6 @@
     <Compile Include="RoadkillApplication.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Converters\Mediawiki\" />
     <Folder Include="Search\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

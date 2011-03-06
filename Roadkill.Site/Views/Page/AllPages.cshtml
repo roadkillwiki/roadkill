@@ -1,19 +1,16 @@
 ﻿@model IEnumerable<PageSummary>
 
-@if (RoadkillContext.Current.IsLoggedIn)
-{
-@Html.ActionLink("New page", "New") <br /><br />
-}
+<h1>All Pages</h1>
 
-<table>
+<table id="pagestable">
 	@foreach (PageSummary summary in Model)
 	{
 	<tr>
-		<td>@Html.ActionLink(summary.Title,"Index",new { id = summary.Title.Replace(" ","-")} )</td>
+		<td class="title">@Html.ActionLink(summary.Title,"Index",new { id = summary.Title.Replace(" ","-")} )</td>
 		@if (RoadkillContext.Current.IsLoggedIn)
 		{
-		<td>@Html.ActionLink("Edit","Edit",new { id = summary.Id} )</td>
-		<td>@Html.ActionLink("Delete","Delete",new { id = summary.Id} )</td>
+		<td class="edit">@Html.ActionLink("Edit","Edit",new { id = summary.Id} )</td>
+		<td class="delete">@Html.ActionLink("Delete","Delete",new { id = summary.Id} )</td>
 		}
 	</tr>
 	}

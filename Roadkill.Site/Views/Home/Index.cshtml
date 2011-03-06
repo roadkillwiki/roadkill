@@ -1,9 +1,22 @@
 ﻿@model PageSummary
 
+@section Toolbar
+{
 @if (RoadkillContext.Current.IsLoggedIn)
 {
-@Html.ActionLink("Edit", "Edit", "Page", new { id = Model.Id }, new { @class = "editpage" }) <text>&nbsp;|&nbsp;</text>
-@Html.ActionLink("History","History","Page",new { id = Model.Id}, new { @class = "pagehistory" })
+<div id="toolbar">
+	@if (Model.Id != Guid.Empty)
+	{
+	<div id="editbutton" class="linkbutton">
+		@Html.ActionLink("Edit", "Edit", "Page", new { id = Model.Id },null)
+	</div>
+	<div id="pagehistory-button" class="linkbutton"> 
+		@Html.ActionLink("History", "History", "Page", new { id = Model.Id }, null)
+	</div>
+	}
+	<br style="clear:both" />
+</div>
+}
 }
 
 <h1 class="pagetitle">@Model.Title</h1>

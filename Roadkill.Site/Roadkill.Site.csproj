@@ -74,14 +74,32 @@
     <Content Include="App_Data\roadkill.MDF" />
     <Content Include="Assets\CSS\htmldiff.css" />
     <Content Include="Assets\CSS\jquery.tagit.css" />
+    <Content Include="Assets\Images\wysiwyg\help.png" />
+    <Content Include="Assets\Images\wysiwyg\readme.txt" />
+    <Content Include="Assets\Images\wysiwyg\picture.png" />
+    <Content Include="Assets\Images\wysiwyg\bold.png" />
+    <Content Include="Assets\Images\wysiwyg\h1.png" />
+    <Content Include="Assets\Images\wysiwyg\h2.png" />
+    <Content Include="Assets\Images\wysiwyg\h3.png" />
+    <Content Include="Assets\Images\wysiwyg\h4.png" />
+    <Content Include="Assets\Images\wysiwyg\h5.png" />
+    <Content Include="Assets\Images\wysiwyg\h6.png" />
+    <Content Include="Assets\Images\wysiwyg\italic.png" />
+    <Content Include="Assets\Images\wysiwyg\bullets.png" />
+    <Content Include="Assets\Images\wysiwyg\numbers.png" />
+    <Content Include="Assets\Images\wysiwyg\underline.png" />
+    <Content Include="Assets\Images\wysiwyg\link.png" />
     <Content Include="Assets\Logo\roadkill-large.png" />
     <Content Include="Assets\Logo\roadkill.png" />
+    <Content Include="Assets\Scripts\wysiwyg.js" />
     <Content Include="Assets\Scripts\jquery-ui-1.8.autocomplete.min.js" />
     <Content Include="Assets\Scripts\jquery-ui-1.8.core-and-interactions.min.js" />
     <Content Include="Assets\CSS\jquery.ui.autocomplete.custom.css" />
     <Content Include="Assets\CSS\roadkill.css" />
+    <Content Include="Assets\Scripts\jquery.require.js" />
+    <Content Include="Assets\Scripts\jquery.timeago.js" />
     <Content Include="Assets\Scripts\tag-it.js" />
-    <Content Include="Assets\CSS\ui-anim_basic_16x16.gif" />
+    <Content Include="Assets\Images\wysiwyg\loading.gif" />
     <Content Include="Themes\BlackBar\Theme.css" />
     <Content Include="Views\Page\History.cshtml" />
     <Content Include="Views\Page\Version.cshtml" />
@@ -92,6 +110,7 @@
     <None Include="Assets\Logo\edosz.ttf" />
     <None Include="Assets\Logo\roadkill-large.psd" />
     <None Include="Assets\Logo\roadkill-small.psd" />
+    <Content Include="Views\Shared\_Blank.cshtml" />
     <None Include="Webtemplate.config">
       <SubType>Designer</SubType>
     </None>
@@ -102,38 +121,14 @@
     <Content Include="Assets\Scripts\jquery.extensions.min.js" />
     <Content Include="Assets\Scripts\jquery.form-extensions.min.js" />
     <Content Include="Assets\Scripts\roadkill.js" />
-    <Content Include="Assets\Scripts\Wmd\images\bg-fill.png" />
-    <Content Include="Assets\Scripts\Wmd\images\bg.png" />
-    <Content Include="Assets\Scripts\Wmd\images\blockquote.png" />
-    <Content Include="Assets\Scripts\Wmd\images\bold.png" />
-    <Content Include="Assets\Scripts\Wmd\images\code.png" />
-    <Content Include="Assets\Scripts\Wmd\images\h1.png" />
-    <Content Include="Assets\Scripts\Wmd\images\hr.png" />
-    <Content Include="Assets\Scripts\Wmd\images\img.png" />
-    <Content Include="Assets\Scripts\Wmd\images\italic.png" />
-    <Content Include="Assets\Scripts\Wmd\images\link.png" />
-    <Content Include="Assets\Scripts\Wmd\images\ol.png" />
-    <Content Include="Assets\Scripts\Wmd\images\redo.png" />
-    <Content Include="Assets\Scripts\Wmd\images\separator.png" />
-    <Content Include="Assets\Scripts\Wmd\images\ul.png" />
-    <Content Include="Assets\Scripts\Wmd\images\undo.png" />
-    <Content Include="Assets\Scripts\Wmd\images\wmd-buttons.png" />
-    <Content Include="Assets\Scripts\Wmd\images\wmd-on.png" />
-    <Content Include="Assets\Scripts\Wmd\images\wmd.png" />
-    <Content Include="Assets\Scripts\Wmd\showdown.js" />
-    <Content Include="Assets\Scripts\Wmd\wmd.css" />
-    <Content Include="Assets\Scripts\Wmd\wmd.js" />
     <Content Include="Global.asax" />
     <Content Include="Views\Page\Edit.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
-    <None Include="Assets\Scripts\Wmd\images\wmd-buttons.psd" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Install.cshtml" />
     <Content Include="Views\Admin\InstallComplete.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
-    <Content Include="Assets\Scripts\jquery-1.4.1.js" />
     <Content Include="Assets\Scripts\jquery-1.4.1.min.js" />
-    <Content Include="Assets\Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Views\Page\Index.cshtml" />
     <Content Include="Views\Page\AllPages.cshtml" />
     <Content Include="Views\Page\AllTags.cshtml" />
@@ -165,7 +160,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\Images\" />
     <Folder Include="Themes\Mediawiki\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

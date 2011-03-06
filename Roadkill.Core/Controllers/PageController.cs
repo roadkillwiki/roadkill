@@ -7,6 +7,7 @@ using System.Text;
 using System.Web.Security;
 using System.IO;
 using Roadkill.Core.Diff;
+using Roadkill.Core.Converters;
 
 namespace Roadkill.Core.Controllers
 {
@@ -47,6 +48,19 @@ namespace Roadkill.Core.Controllers
 			return View(manager.GetHistory(id).ToList());
 		}
 
+		public ActionResult GetPreview(string id)
+		{
+			string html = "";
+
+			if (!string.IsNullOrEmpty(id))
+			{
+				CreoleConverter converter = new CreoleConverter();
+				html = converter.ToHtml(id);
+			}
+			
+			return JavaScript(html);
+		}
+
 		public ActionResult Version(Guid id)
 		{
 			HistoryManager manager = new HistoryManager();
@@ -55,14 +69,14 @@ namespace Roadkill.Core.Controllers
 
 			if (bothVersions[1] != null)
 			{
-				string oldVersion = bothVersions[1].Content.MarkdownToHtml();
-				string newVersion = bothVersions[0].Content.MarkdownToHtml();
+				string oldVersion = bothVersions[1].Content.WikiMarkupToHtml();
+				string newVersion = bothVersions[0].Content.WikiMarkupToHtml();
 				HtmlDiff diff = new HtmlDiff(oldVersion, newVersion);
 				diffHtml = diff.Build();
 			}
 			else
 			{
-				diffHtml = bothVersions[0].Content.MarkdownToHtml();
+				diffHtml = bothVersions[0].Content.WikiMarkupToHtml();
 			}
 
 			PageSummary summary = bothVersions[0];
@@ -122,6 +136,7 @@ namespace Roadkill.Core.Controllers
 		public ActionResult Tag(string id)
 		{
 			SetPageTitle("All [" +id+ "] pages");
+			ViewData["Tagname"] = id;
 
 			PageManager manager = new PageManager();
 			return View(manager.FindByTag(id));
@@ -172,6 +187,8 @@ namespace Roadkill.Core.Controllers
 		[ValidateInput(false)]
 		public ActionResult Edit(PageSummary summary)
 		{
+			SetPageTitle("Editing '" + summary.Title + "'");
+
 			if (!ModelState.IsValid)
 				return View("Edit", summary);
 

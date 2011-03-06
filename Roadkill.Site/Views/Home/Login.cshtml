@@ -1,9 +1,27 @@
-﻿@Html.ValidationSummary("Error")
+﻿<h1>Login</h1>
 
+@Html.ValidationSummary("Error")
+
+<div id="login" class="rounded10 lightborder">
 @using (Html.BeginForm())
 {
 	@Html.Hidden("fromUrl",Request.QueryString["ReturnUrl"])
-	@Html.TextBox("username") <br />
-	@Html.Password("password")<br />
-	<input type="submit" />
+
+	<div class="username">
+		<label for="username">Username</label>
+		@Html.TextBox("username")
+	</div>
+	<br />	
+
+	<div class="password">
+		<label for="password">Password</label>
+		@Html.Password("password")
+	</div>
+	<br />
+	
+	<div class="buttonContainer">
+		<input type="submit" class="button saveButton" value="Login" />
+	</div>
+	<br class="clear" />
 }
+</div>

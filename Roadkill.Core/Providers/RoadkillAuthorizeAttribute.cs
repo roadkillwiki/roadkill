@@ -8,6 +8,10 @@ using System.Web.Mvc;
 
 namespace Roadkill.Core
 {
+	/// <summary>
+	/// Extends the Authorize attribute to check if the user is in the RoadkillSettings.AdminGroup.
+	/// To enable this, set the 'Role' property to 'Admins'
+	/// </summary>
 	public class RoadkillAuthorizeAttribute : AuthorizeAttribute
 	{
 		protected override bool AuthorizeCore(HttpContextBase httpContext)

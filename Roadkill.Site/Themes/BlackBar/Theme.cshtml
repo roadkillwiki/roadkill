@@ -3,21 +3,7 @@
 <html>
 <head>
 	<title>@Html.PageTitle()</title>
-
-	<!-- ## REQUIRED ## -->
-	<link rel="shortcut icon" href="@Url.Content("~/Assets/Images/favicon.png")" />
-	<link href="@Url.Content("~/Assets/Css/roadkill.css")" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery-1.4.1.min.js")"></script>
-	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery.extensions.min.js")"></script>
-	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery.form-extensions.min.js")"></script>
-	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery.ae.image.resize.min.js")"></script>
-	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery-ui-1.8.core-and-interactions.min.js")"></script>
-	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/jquery-ui-1.8.autocomplete.min.js")"></script>
-	<script type="text/javascript" language="javascript" src="@Url.Content("~/Assets/Scripts/tag-it.js")"></script>
-	<script type="text/javascript" src="@Url.Content("~/Assets/Scripts/roadkill.js")"></script>
-	<!-- ## END REQUIRED ## -->
-
-	<link href="@Url.CssForTheme()" rel="stylesheet" type="text/css" />
+	@Url.HeadContent()
 </head>
 
 <body>
@@ -29,14 +15,16 @@
 		</div>
 		<div class="right">
 			@Html.LoginLink()
+			@Html.NewPageLink()
 
-			&nbsp;|&nbsp;@Html.ActionLink("Main Page", "Index", "Home")
+			@Html.ActionLink("Main Page", "Index", "Home")
 			&nbsp;|&nbsp;@Html.ActionLink("Tags", "AllTags", "Page")
 			&nbsp;|&nbsp;@Html.ActionLink("All pages", "AllPages", "Page")
 			&nbsp;|&nbsp;Search: <input type="text" name="id" placeholder="Enter text to search" />
 		</div>
 	</div>
 }
+	@RenderSection("Toolbar",false)
 
 	<div id="container">
 		<div id="leftcontent" class="left">

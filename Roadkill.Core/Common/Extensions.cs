@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Roadkill.Core.Converters;
 
 namespace Roadkill.Core
 {
 	public static class Extensions
 	{
+		public static string WikiMarkupToHtml(this string markup)
+		{
+			return ConverterFactory.Converter.ToHtml(markup);
+		}
+
 		public static string CleanTags(this string tags)
 		{
 			if (!string.IsNullOrWhiteSpace(tags))

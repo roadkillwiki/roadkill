@@ -1,5 +1,5 @@
 ﻿/* === Tag it jQuery plugin === */
-/* Branch from, this CSS has been altered for Roadkill: http://github.com/aehlke/tag-it/ */
+/* This is taken from a branch, the CSS has been altered for Roadkill: http://github.com/aehlke/tag-it/ */
 
 /* remember to define focus styles! */
 :focus {
@@ -19,12 +19,8 @@
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-#tagit img, fieldset {
-	display:block;
-	border:none;
-}
 
-#tagit ol, ul, li {
+.ui-autocomplete {
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -32,5 +28,5 @@
 	outline: 0;
 	font-size: 100%;
 	vertical-align: baseline;
-	background: transparent;
+	background: #d3d2d2;
 }

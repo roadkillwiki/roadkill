@@ -26,6 +26,26 @@ namespace Roadkill.Core.Controllers
 			return View(summary);
 		}
 
+		public ActionResult JavascriptSettingsForEditing()
+		{		
+			SetPageTitle("");
+			UrlHelper helper = new UrlHelper(HttpContext.Request.RequestContext);
+
+			StringBuilder builder = new StringBuilder();
+			builder.AppendLine(string.Format("var ROADKILL_coreScriptPath = '{0}';", helper.Content("~/Assets/Scripts/")));
+
+			if (RoadkillContext.Current.IsLoggedIn)
+			{
+				builder.AppendLine(string.Format("var ROADKILL_fileManagerUrl = '{0}';", helper.Content("~/Page/AllFiles/")));
+				builder.AppendLine(string.Format("var ROADKILL_tagAjaxUrl = '{0}';", helper.Content("~/Page/AllTags/")));
+				builder.AppendLine(string.Format("var ROADKILL_markupType = '{0}';", RoadkillSettings.MarkupType));
+				builder.AppendLine(string.Format("var ROADKILL_themePath =  '{0}';", Url.Content(RoadkillSettings.ThemePath)));
+				builder.AppendLine(string.Format("var ROADKILL_attachmentsPath = '{0}';", Url.Content("~/" + RoadkillSettings.AttachmentsFolder)));
+			}
+
+			return Content(builder.ToString(), "text/javascript");
+		}
+
 		public ActionResult CreateUser()
 		{
 			SetPageTitle("Create new user");

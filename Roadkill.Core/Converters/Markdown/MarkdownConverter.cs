@@ -6,7 +6,7 @@ using Roadkill.Core.Converters.Markdown;
 
 namespace Roadkill.Core.Converters
 {
-	public class MarkdownConverter : MarkupConverterBase
+	public class MarkdownConverter : MarkupConverter
 	{
 		public override string ToHtml(string text)
 		{

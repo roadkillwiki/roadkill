@@ -5,10 +5,10 @@
 <table id="historytable">
 	<thead>
 		<tr>
-			<td>Version</td>
-			<td>Edited on</td>
-			<td>Edited by</td>
-			<td></td>
+			<td class="version">Version</td>
+			<td class="editedon">Edited on</td>
+			<td class="version">Edited by</td>
+			<td class="revert"></td>
 		</tr>
 	</thead>
 	<tbody>
@@ -16,12 +16,12 @@
 		@for (int i=0;i < Model.Count;i++)
 		{
 		<tr>
-			<td>@Html.ActionLink(Model[i].VersionNumber.ToString(), "Version", new { id = Model[i].Id })</td>
-			<td>@Model[i].EditedOn</td>
-			<td>@Html.ActionLink(Model[i].EditedBy,"ByUser","Page",new { id = Model[i].EditedBy },null)</td>
-			@if (i > 0)
+			<td class="version">@Html.ActionLink(Model[i].VersionNumber.ToString(), "Version", new { id = Model[i].Id })</td>
+			<td class="editedon" title="@Model[i].EditedOn.ToString("U")">@Model[i].EditedOn</td>
+			<td class="editedby">@Html.ActionLink(Model[i].EditedBy,"ByUser","Page",new { id = Model[i].EditedBy },null)</td>
+			@if (i > 0 && RoadkillContext.Current.IsLoggedIn)
 			{
-				<td>@Html.ActionLink("Revert", "Revert", new { versionId = Model[i].Id, pageId = Model[i].PageId })</td>
+			<td class="revert">@Html.ActionLink("Revert", "Revert", new { versionId = Model[i].Id, pageId = Model[i].PageId })</td>
 			}
 		</tr>
 		}

@@ -47,14 +47,6 @@ namespace Roadkill.Core
 			}
 		}
 
-		public static string AdminPassword
-		{
-			get
-			{
-				return ConfigurationManager.AppSettings["Roadkill-AdminPassword"];
-			}
-		}
-
 		public static string AdminGroup
 		{
 			get
@@ -68,6 +60,14 @@ namespace Roadkill.Core
 			get
 			{
 				return ConfigurationManager.AppSettings["Roadkill-AttachmentsFolder"];
+			}
+		}
+
+		public static string MarkupType
+		{
+			get
+			{
+				return ConfigurationManager.AppSettings["Roadkill-MarkupType"];
 			}
 		}
 

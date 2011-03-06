@@ -403,7 +403,7 @@ namespace Roadkill.Core.Converters.Creole
 			originalLineNumbers.Add(lines.Count - 1);
 			return lines;
 		}
-		private string _getStartTag(string tag)
+		protected string _getStartTag(string tag)
 		{
 			if (HTMLAttributes.ContainsKey(tag))
 				return HTMLAttributes[tag];
@@ -615,7 +615,7 @@ namespace Roadkill.Core.Converters.Creole
 		/// </summary>
 		/// <param name="markup">fragment</param>
 		/// <returns></returns>
-		private string _processCreoleFragment(string fragment)
+		protected string _processCreoleFragment(string fragment)
 		{
 			fragment = _processBoldCreole(fragment);
 			fragment = _processItalicCreole(fragment);
@@ -648,7 +648,7 @@ namespace Roadkill.Core.Converters.Creole
 		/// <param name="match">token</param>
 		/// <param name="iPos">starting position</param>
 		/// <returns>index of token</returns>
-		private int _indexOfWithSkip(string markup, string match, int iPos)
+		protected int _indexOfWithSkip(string markup, string match, int iPos)
 		{
 			bool fSkipLink = (match != "[[") && (match != "]]");
 			bool fSkipEscape = (match != "{{{") && (match != "}}}");
@@ -718,7 +718,7 @@ namespace Roadkill.Core.Converters.Creole
 		/// <param name="tag">tag to replace it with Ex: "h1"</param>
 		/// <param name="markup">creole markup</param>
 		/// <returns>markup with bracketing tokens replaces with HTML</returns>
-		private string _processBracketingCreole(string match, string startTag, string endTag, string markup)
+		protected string _processBracketingCreole(string match, string startTag, string endTag, string markup)
 		{
 			// look for a start 
 			int iPos = _indexOfWithSkip(markup, match, 0);
@@ -780,32 +780,32 @@ namespace Roadkill.Core.Converters.Creole
 			return markup;
 		}
 
-		private string _processBoldCreole(string markup)
+		protected virtual string _processBoldCreole(string markup)
 		{
 			return _processBracketingCreole("**", _getStartTag("<strong>"), "</strong>", markup);
 		}
 
-		private string _processItalicCreole(string markup)
+		protected virtual string _processItalicCreole(string markup)
 		{
 			return _processBracketingCreole("//", _getStartTag("<em>"), "</em>", markup);
 		}
 
-		private string _processUnderlineCreole(string markup)
+		protected virtual string _processUnderlineCreole(string markup)
 		{
 			return _processBracketingCreole("__", _getStartTag("<u>"), "</u>", markup);
 		}
 
-		private string _processSuperscriptCreole(string markup)
+		protected virtual string _processSuperscriptCreole(string markup)
 		{
 			return _processBracketingCreole("^^", _getStartTag("<sup>"), "</sup>", markup);
 		}
 
-		private string _processSubscriptCreole(string markup)
+		protected virtual string _processSubscriptCreole(string markup)
 		{
 			return _processBracketingCreole(",,", _getStartTag("<sub>"), "</sub>", markup);
 		}
 
-		private string _processStrikethroughCreole(string markup)
+		protected virtual string _processStrikethroughCreole(string markup)
 		{
 			return _processBracketingCreole("--", _getStartTag("<del>"), "</del>", markup);
 		}
@@ -815,7 +815,7 @@ namespace Roadkill.Core.Converters.Creole
 		/// </summary>
 		/// <param name="markup">markup</param>
 		/// <returns>markup with [[foo]] translated into <a href></a></returns>
-		private string _processLinkCreole(string markup)
+		protected virtual string _processLinkCreole(string markup)
 		{
 			int iPos = _indexOfWithSkip(markup, "[[", 0);
 			while (iPos >= 0)
