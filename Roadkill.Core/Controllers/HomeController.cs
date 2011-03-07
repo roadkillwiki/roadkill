@@ -69,14 +69,14 @@ namespace Roadkill.Core.Controllers
 		{
 			UserManager manager = new UserManager();
 
-			//MembershipCreateStatus status = manager.AddAdminUser(adminPassword, "admin@localhost");
-			//if (status == MembershipCreateStatus.DuplicateUserName)
-			//{
-			//    // Do nothing, for now. The passwords may be out of sync which 
-			//    // requires the view being changed to accomodate this.
-			//}
+			MembershipCreateStatus status = manager.AddAdminUser(adminPassword, "admin@localhost");
+			if (status == MembershipCreateStatus.DuplicateUserName)
+			{
+				// Do nothing, for now. The passwords may be out of sync which 
+				// requires the view being changed to accomodate this.
+			}
 
-			//Page.Configure(RoadkillSettings.ConnectionString, true);
+			Page.Configure(RoadkillSettings.ConnectionString, true);
 			RoadkillSettings.Install(connectionString, adminPassword);
 
 			return View("InstallComplete");

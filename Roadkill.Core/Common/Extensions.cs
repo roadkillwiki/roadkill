@@ -10,7 +10,8 @@ namespace Roadkill.Core
 	{
 		public static string WikiMarkupToHtml(this string markup)
 		{
-			return ConverterFactory.Converter.ToHtml(markup);
+			MarkupConverter converter = new MarkupConverter();
+			return converter.ToHtml(markup);
 		}
 
 		public static string AsValidPath(this string title)

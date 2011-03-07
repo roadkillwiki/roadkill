@@ -52,8 +52,7 @@ namespace Roadkill.Core.Controllers
 
 			if (!string.IsNullOrEmpty(id))
 			{
-				CreoleConverter converter = new CreoleConverter();
-				html = converter.ToHtml(id);
+				html = id.WikiMarkupToHtml();
 			}
 			
 			return JavaScript(html);

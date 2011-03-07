@@ -68,6 +68,10 @@
 
 .validation-summary-errors { border: 1px solid #000;color:#000;background-color:#FFFFCA;padding:5px;margin-bottom:10px; }
 
+#ref-iframe	 { width:520px;height:300px;}
+#reftable	 { width: 100%;font: normal 11px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;background: #E6EAE9; }
+#reftable th { text-align:left;font-size:13px;padding:5px;}
+#reftable td { border-right: 1px solid #C1DAD7;border-bottom: 1px solid #C1DAD7;background: #fff;padding: 6px 6px 6px 12px;color: #4f6b72;vertical-align:top;}
 
 #pagestable { border:1px solid #d3d2d2;background-color:#f1f0f0;}
 #pagestable tr { padding:5px;}

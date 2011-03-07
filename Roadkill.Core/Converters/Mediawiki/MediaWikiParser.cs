@@ -25,7 +25,7 @@ namespace Roadkill.Core.Converters.MediaWiki
 			return _processBracketingCreole("''", _getStartTag("<em>"), "</em>", markup);
 		}
 
-		protected override string _processLinkCreole(string markup)
+		protected override string _processImageCreole(string markup)
 		{
 			int iPos = _indexOfWithSkip(markup, "[[", 0);
 			while (iPos >= 0)

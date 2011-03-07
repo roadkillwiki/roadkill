@@ -57,7 +57,7 @@ namespace Roadkill.Core
 				list.Add(page.ToSummary());
 			}
 
-			return list;
+			return list.OrderBy(p => p.Title).ToList();
 		}
 
 		public IEnumerable<PageSummary> AllPagesCreatedBy(string userName)
@@ -69,21 +69,7 @@ namespace Roadkill.Core
 				list.Add(page.ToSummary());
 			}
 
-			return list;
-		}
-
-		public string ExportToXml()
-		{
-			IEnumerable<PageSummary> list = AllPages();
-
-			XmlSerializer serializer = new XmlSerializer(typeof(List<PageSummary>));
-
-			StringBuilder builder = new StringBuilder();
-			using (StringWriter writer = new StringWriter(builder))
-			{
-				serializer.Serialize(writer, list);
-				return builder.ToString();
-			}
+			return list.OrderBy(p => p.Title).ToList();
 		}
 
 		public PageSummary AddPage(PageSummary summary)
@@ -145,7 +131,7 @@ namespace Roadkill.Core
 				list.Add(page.ToSummary());
 			}
 
-			return list;
+			return list.OrderBy(p => p.Title).ToList();
 		}
 
 		public IEnumerable<TagSummary> AllTags()
@@ -194,6 +180,20 @@ namespace Roadkill.Core
 			}
 
 			Page.Repository.Delete(page);
+		}
+
+		public string ExportToXml()
+		{
+			IEnumerable<PageSummary> list = AllPages();
+
+			XmlSerializer serializer = new XmlSerializer(typeof(List<PageSummary>));
+
+			StringBuilder builder = new StringBuilder();
+			using (StringWriter writer = new StringWriter(builder))
+			{
+				serializer.Serialize(writer, list);
+				return builder.ToString();
+			}
 		}
 	}
 }

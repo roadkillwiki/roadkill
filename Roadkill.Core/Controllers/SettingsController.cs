@@ -37,6 +37,7 @@ namespace Roadkill.Core.Controllers
 
 			if (RoadkillContext.Current.IsLoggedIn)
 			{
+				builder.AppendLine(string.Format("var ROADKILL_WIKIMARKUPHELP = '{0}';", helper.Action(RoadkillSettings.MarkupType + "Reference","Help")));
 				builder.AppendLine(string.Format("var ROADKILL_FILEMANAGERURL = '{0}';", helper.Content("~/Page/AllFiles/")));
 				builder.AppendLine(string.Format("var ROADKILL_TAGAJAXURL = '{0}';", helper.Content("~/Page/AllTags/")));
 				builder.AppendLine(string.Format("var ROADKILL_PREVIEWURL = '{0}';", helper.Action("GetPreview", "Page")));
@@ -64,6 +65,13 @@ namespace Roadkill.Core.Controllers
 			result.FileDownloadName = "roadkill-export.xml";
 
 			return result;
+		}
+
+		public ActionResult ImportFromScrewTurn()
+		{
+			ScrewTurnImporter importer = new ScrewTurnImporter();
+			importer.ImportFromSql("database=sduwiki;server=.\\SQLEXPRESS;integrated security=SSPI");
+			return Content("Done");
 		}
 
 		[RoadkillAuthorize(Roles = "Admins")]

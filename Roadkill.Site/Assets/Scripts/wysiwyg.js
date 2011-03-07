@@ -1,4 +1,190 @@
-﻿/*
+﻿var _tags;
+
+$(document).ready(function ()
+{
+	setTimeout("loadTags();", 2000);
+	initTagIt();
+	bindToolbar();
+
+	$("#Content").keyup(function ()
+	{
+		$("#previewContainer").hide();
+	});
+	$(".previewButton").click(function ()
+	{
+		showPreview();
+	});
+	$(".cancelButton").click(function ()
+	{
+		history.go(-1);
+	});
+});
+
+function loadTags()
+{
+	$.get(ROADKILL_TAGAJAXURL, function (data)
+	{
+		_tags = eval(data);
+		initTagIt();
+	});
+}
+
+function initTagIt()
+{
+	$("#mytags").tagit({
+		availableTags: _tags,
+		singleField: true,
+		singleFieldNode: $("#Tags"),
+		singleFieldDelimiter: ";"
+	});
+}
+
+function bindToolbar()
+{
+	// TODO: take these stylings from a settings file:
+	// Make a JS file that is a url that writes them
+
+	$(".wysiwyg-bold").click(function ()
+	{
+		addStyling("**");
+	});
+	$(".wysiwyg-italic").click(function ()
+	{
+		addStyling("//");
+	});
+	$(".wysiwyg-underline").click(function ()
+	{
+		addStyling("__");
+	});
+	$(".wysiwyg-h1").click(function ()
+	{
+		addHeading("=");
+	});
+	$(".wysiwyg-h2").click(function ()
+	{
+		addHeading("==");
+	});
+	$(".wysiwyg-h3").click(function ()
+	{
+		addHeading("===");
+	});
+	$(".wysiwyg-h4").click(function ()
+	{
+		addHeading("====");
+	});
+	$(".wysiwyg-h5").click(function ()
+	{
+		addHeading("=====");
+	});
+	$(".wysiwyg-bullets").click(function ()
+	{
+		addListItem("*");
+	});
+	$(".wysiwyg-numbers").click(function ()
+	{
+		addListItem("#");
+	});
+	$(".wysiwyg-picture").click(function ()
+	{
+		addListItem("#");
+	});
+	$(".wysiwyg-link").click(function ()
+	{
+		addListItem("#");
+	});
+	$(".wysiwyg-help").click(function ()
+	{
+		$.modal("<iframe src='" + ROADKILL_WIKIMARKUPHELP+"' id='ref-iframe'></iframe>");
+	});
+}
+
+function showPreview()
+{
+	$("#previewLoading").show();
+	var text = $("#Content").val();
+
+	$.ajax({
+		type: "POST",
+		url: ROADKILL_PREVIEWURL,
+		data: { "id": text },
+		success: function (htmlResult)
+		{
+			$("#preview").html(htmlResult);
+			$("#previewContainer").show();
+			$("#previewLoading").hide();
+		}
+	});
+}
+
+function addStyling(styleCode)
+{
+	var range = $("#Content").getSelection();
+
+	if (range !== null)
+	{
+		var text = $("#Content").val();
+		if (text.substr(range.start - 2, 2) !== styleCode && range.text.substr(0, 2) !== styleCode)
+		{
+			$("#Content").replaceSelection(styleCode + range.text + styleCode);
+			$("#Content").setSelection(range.end + 2, range.end + 2);
+		}
+		else
+		{
+			$("#Content").setSelection(range.end, range.end);
+		}
+
+	}
+}
+
+function addHeading(styleCode)
+{
+	var range = $("#Content").getSelection();
+
+	if (range !== null)
+	{
+		var text = range.text;
+		if (range.text === "")
+			text = "Your heading";
+
+		$("#Content").replaceSelection("\n" + styleCode + text + styleCode + "\n");
+		$("#Content").setSelection(range.end, range.end);
+	}
+}
+
+function addListItem(styleCode)
+{
+	var range = $("#Content").getSelection();
+
+	if (range !== null)
+	{
+		var val = $("#Content").val();
+		var start = range.start;
+		if (start > 0)
+			start -= 1;
+
+		var lastChar = val.substr(start, 1);
+		var nextChar = val.substr(range.start, 1);
+
+		if (nextChar === styleCode)
+		{
+			$("#Content").setSelection(range.end + 2, range.end + 2);
+			return;
+		}
+
+		if (lastChar == "\n" || lastChar == "")
+		{
+			$("#Content").replaceSelection(range.text + styleCode + " ");
+			$("#Content").setSelection(range.end + 2, range.end + 2);
+		}
+		else
+		{
+			$("#Content").replaceSelection(range.text + "\n" + styleCode + " ");
+			$("#Content").setSelection(range.end + 3, range.end + 3);
+		}
+	}
+}
+
+/*
 * jQuery plugin: fieldSelection - v0.1.0 - last change: 2006-12-16
 * (c) 2006 Alex Brem <alex@0xab.cd> - http://blog.0xab.cd
 */
@@ -123,160 +309,3 @@
 	jQuery.each(fieldSelection, function (i) { jQuery.fn[i] = this; });
 
 })();
-
-var _tags;
-
-$(document).ready(function () {
-	setTimeout("loadTags();", 2000);
-	initTagIt();
-	bindToolbar();
-
-	$("#Content").keyup(function () {
-		$("#previewContainer").hide();
-	});
-	$(".previewButton").click(function () {
-		showPreview();
-	});
-	$(".cancelButton").click(function () {
-		history.go(-1);
-	});
-});
-
-function loadTags()
-{
-	$.get(ROADKILL_TAGAJAXURL, function (data)
-	{
-		_tags = eval(data);
-		initTagIt();
-	});
-}
-
-function initTagIt() {
-	$("#mytags").tagit({
-		availableTags: _tags,
-		singleField: true,
-		singleFieldNode: $("#Tags"),
-		singleFieldDelimiter: ";"
-	});
-}
-
-function bindToolbar() {
-	// TODO: take these stylings from a settings file:
-	// Make a JS file that is a url that writes them
-
-	$(".wysiwyg-bold").click(function () {
-		addStyling("**");
-	});
-	$(".wysiwyg-italic").click(function () {
-		addStyling("//");
-	});
-	$(".wysiwyg-underline").click(function () {
-		addStyling("__");
-	});
-	$(".wysiwyg-h1").click(function () {
-		addHeading("=");
-	});
-	$(".wysiwyg-h2").click(function () {
-		addHeading("==");
-	});
-	$(".wysiwyg-h3").click(function () {
-		addHeading("===");
-	});
-	$(".wysiwyg-h4").click(function () {
-		addHeading("====");
-	});
-	$(".wysiwyg-h5").click(function () {
-		addHeading("=====");
-	});
-	$(".wysiwyg-bullets").click(function () {
-		addListItem("#");
-	});
-	$(".wysiwyg-numbers").click(function () {
-		addListItem("*");
-	});
-}
-
-function showPreview()
-{
-	$("#previewLoading").show();
-	var text = $("#Content").val();
-
-	$.ajax({
-		type: "POST",
-		url: ROADKILL_PREVIEWURL,
-		data: {"id": text },
-		success: function (htmlResult) {
-			$("#preview").html(htmlResult);
-			$("#previewContainer").show();			
-			$("#previewLoading").hide();
-		}
-	});
-}
-
-function addStyling(styleCode) 
-{
-	var range  = $("#Content").getSelection();
-
-	if (range !== null)
-	{
-		var text = $("#Content").val();
-		if (text.substr(range.start - 2, 2) !== styleCode && range.text.substr(0, 2) !== styleCode)
-		{
-			$("#Content").replaceSelection(styleCode + range.text + styleCode);
-			$("#Content").setSelection(range.end + 2, range.end + 2);
-		}
-		else
-		{
-			$("#Content").setSelection(range.end,range.end);
-		}
-		
-	}
-}
-
-function addHeading(styleCode) {
-	var range = $("#Content").getSelection();
-
-	if (range !== null) 
-	{
-		var text = range.text;
-		if (range.text === "")
-			text = "Your heading";
-
-		$("#Content").replaceSelection("\n" + styleCode + text + styleCode + "\n");
-		$("#Content").setSelection(range.end, range.end);
-	}
-}
-
-function addListItem(styleCode) 
-{
-	var range = $("#Content").getSelection();
-
-	if (range !== null) 
-	{
-		var val = $("#Content").val();
-		var start = range.start;
-		if (start > 0)
-			start -= 1;
-
-		var lastChar = val.substr(start, 1);
-		var nextChar = val.substr(range.start, 1);
-
-		if (nextChar === styleCode)
-		{
-			$("#Content").setSelection(range.end + 2, range.end + 2);
-			return;
-		}
-
-		if (lastChar == "\n" || lastChar == "")
-		{
-			$("#Content").replaceSelection(range.text + styleCode +" ");
-			$("#Content").setSelection(range.end + 2, range.end + 2);
-		}
-		else
-		{
-			$("#Content").replaceSelection(range.text + "\n" +styleCode+ " ");
-			$("#Content").setSelection(range.end + 3, range.end + 3);
-		}
-	}
-}
-

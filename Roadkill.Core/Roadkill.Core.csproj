@@ -59,10 +59,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\RoadkillSection.cs" />
-    <Compile Include="Converters\ConverterFactory.cs" />
-    <Compile Include="Converters\Mediawiki\MediaWikiConverter.cs" />
+    <Compile Include="Controllers\HelpController.cs" />
+    <Compile Include="Converters\ImageEventArgs.cs" />
+    <Compile Include="Converters\IParser.cs" />
+    <Compile Include="Converters\LinkEventArgs.cs" />
     <Compile Include="Converters\Mediawiki\MediaWikiParser.cs" />
     <Compile Include="Domain\Exceptions\ConfigurationException.cs" />
+    <Compile Include="Domain\Import\ScrewTurnImporter.cs" />
+    <Compile Include="Domain\Import\IWikiImporter.cs" />
+    <Compile Include="Domain\Search\SearchManager.cs" />
     <Compile Include="Providers\ActiveDirectoryRoleProvider.cs" />
     <Compile Include="Providers\RoadkillAuthorizeAttribute.cs" />
     <Compile Include="Providers\RoadkillMembershipProvider.cs" />
@@ -70,10 +75,8 @@
     <Compile Include="Domain\Summaries\HistorySummary.cs" />
     <Compile Include="Domain\Summaries\TagSummary.cs" />
     <Compile Include="Converters\Creole\CreoleParser.cs" />
-    <Compile Include="Converters\Creole\CreoleConverter.cs" />
     <Compile Include="Common\HtmlDiff.cs" />
-    <Compile Include="Converters\Markdown\MarkdownConverter.cs" />
-    <Compile Include="Converters\Markdown\MarkdownParser.cs" />
+    <Compile Include="Converters\Markdown\Markdown.cs" />
     <Compile Include="Converters\MarkupConverter.cs" />
     <Compile Include="RoadkillSettings.cs" />
     <Compile Include="RoadkillContext.cs" />
@@ -97,9 +100,7 @@
     <Compile Include="Domain\Exceptions\SaveException.cs" />
     <Compile Include="RoadkillApplication.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Search\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

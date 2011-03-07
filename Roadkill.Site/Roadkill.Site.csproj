@@ -74,6 +74,9 @@
     <Content Include="App_Data\roadkill.MDF" />
     <Content Include="Assets\CSS\htmldiff.css" />
     <Content Include="Assets\CSS\jquery.tagit.css" />
+    <Content Include="Views\Help\MediaWikiReference.cshtml" />
+    <Content Include="Views\Help\MarkdownReference.cshtml" />
+    <Content Include="Views\Help\CreoleReference.cshtml" />
     <Content Include="Assets\Images\info_icon.png" />
     <Content Include="Assets\Images\wysiwyg\help.png" />
     <Content Include="Assets\Images\wysiwyg\readme.txt" />
@@ -90,8 +93,6 @@
     <Content Include="Assets\Images\wysiwyg\numbers.png" />
     <Content Include="Assets\Images\wysiwyg\underline.png" />
     <Content Include="Assets\Images\wysiwyg\link.png" />
-    <Content Include="Assets\Logo\roadkill-large.png" />
-    <Content Include="Assets\Logo\roadkill.png" />
     <Content Include="Assets\CSS\close-x.png" />
     <Content Include="Assets\Scripts\jquery.simplemodal.1.4.1.min.js" />
     <Content Include="Assets\Scripts\wysiwyg.js" />
@@ -113,9 +114,6 @@
     <Content Include="Themes\BlackBar\Theme.cshtml" />
     <Content Include="Themes\Plain\Theme.cshtml" />
     <Content Include="Themes\Web.config" />
-    <None Include="Assets\Logo\edosz.ttf" />
-    <None Include="Assets\Logo\roadkill-large.psd" />
-    <None Include="Assets\Logo\roadkill-small.psd" />
     <Content Include="Views\Shared\_Blank.cshtml" />
     <Content Include="Views\Shared\PageToolbar.cshtml" />
     <Content Include="Views\Shared\HeadContent.cshtml" />
@@ -169,7 +167,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\Help\" />
     <Folder Include="Themes\Mediawiki\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

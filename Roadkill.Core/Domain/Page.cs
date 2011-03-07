@@ -20,7 +20,7 @@ namespace Roadkill.Core
 
 		public virtual PageContent CurrentContent()
 		{
-				IQuery query = PageContent.Repository.Manager().SessionFactory.OpenSession()
+			IQuery query = PageContent.Repository.Manager().SessionFactory.OpenSession()
 					.CreateQuery("FROM PageContent fetch all properties WHERE Page.Id=:Id AND VersionNumber=(SELECT max(VersionNumber) FROM PageContent WHERE Page.Id=:Id)");
 
 			query.SetGuid("Id", Id);

@@ -49,85 +49,6 @@ using System.Text;
 
 namespace Roadkill.Core.Converters.Creole
 {
-	public delegate void LinkEventHandler(object sender, LinkEventArgs e);
-
-	#region LinkEventArgs
-	/// <summary>
-	/// Event fired when a link is processed, giving the caller the ability to translate
-	/// </summary>
-	public class LinkEventArgs : EventArgs
-	{
-		private string _link;
-		private string _href;
-		private string _text;
-		private TargetEnum _target;
-
-		public enum TargetEnum { Internal, External, Unknown };
-
-		public LinkEventArgs(string link, string href, string text, TargetEnum target)
-		{
-			_link = link;
-			_href = href;
-			_text = text;
-			_target = target;
-		}
-
-		/// <summary>
-		/// Original Link
-		/// </summary>
-		public string Link
-		{
-			get { return _link; }
-			set { _link = value; }
-		}
-
-		/// <summary>
-		/// Mapped Link (in case of interwiki) 
-		/// This is where the link will actually target
-		/// </summary>
-		public string Href
-		{
-			get { return _href; }
-			set { _href = value; }
-		}
-
-		public string Text
-		{
-			get { return _text; }
-			set { _text = value; }
-		}
-
-		/// <summary>
-		/// internal or external window
-		/// </summary>
-		public TargetEnum Target
-		{
-			get { return _target; }
-			set { _target = value; }
-		}
-	}
-	#endregion
-
-	/// <summary>
-	/// Holds information when an image is processed
-	/// </summary>
-	public class ImageProcessedEventArgs : EventArgs
-	{
-		/// <summary>
-		/// The original src
-		/// </summary>
-		public string OriginalSrc { get; set; }
-		/// <summary>
-		/// The src used inside the HTML
-		/// </summary>
-		public string Src { get; set; }
-		/// <summary>
-		/// The alt tag for the image
-		/// </summary>
-		public string Alt { get; set; }
-	}
-
-
 	/// <summary>
 	/// 
 	///  The Creole Parser is a .NET class which will translate Wiki Creole 1.0 (see http://wikicreole.org into HTML 
@@ -148,7 +69,7 @@ namespace Roadkill.Core.Converters.Creole
 	/// 
 	/// You if you define an event handler for OnLink you can modify the link that is generated
 	/// </summary>
-	public class CreoleParser
+	public class CreoleParser : IParser
 	{
 		private string _tabStop;
 		private int _nTabSpaces;
@@ -159,19 +80,34 @@ namespace Roadkill.Core.Converters.Creole
 			HTMLAttributes = new Dictionary<string, string>();
 			InterWiki = new Dictionary<string, string>();
 			TabStop = 7; // default to 7 char tabstop
+			NoWikiEscapeStart = "{{{";
+			NoWikiEscapeEnd = "}}}";
 		}
 
 		/// <summary>
-		/// Event Handler fired when a link is processed
+		/// Occurs when an image tag is parsed.
 		/// </summary>
-		public event LinkEventHandler OnLink;
+		public event EventHandler<ImageEventArgs> ImageParsed;
 
-		public event EventHandler<ImageProcessedEventArgs> ImageProcessed;
+		/// <summary>
+		/// Occurs when a hyperlink is parsed.
+		/// </summary>
+		public event EventHandler<LinkEventArgs> LinkParsed;
 
 		/// <summary>
 		/// Whether to append id="CreoleLine1" etc. to p tags. False by default.
 		/// </summary>
 		public bool AddIdToParagraphTags { get; set; }
+
+		/// <summary>
+		/// The characters that start a no wiki escape sequence. {{{ by default.
+		/// </summary>
+		public string NoWikiEscapeStart { get; set; }
+
+		/// <summary>
+		/// The characters that end the no wiki escape sequence. }}} by default.
+		/// </summary>
+		public string NoWikiEscapeEnd { get; set; }
 
 		/// <summary>
 		/// This collection allows you to substitute markup with your own custom markup
@@ -217,9 +153,9 @@ namespace Roadkill.Core.Converters.Creole
 		/// </summary>
 		/// <param name="creole">creole markup</param>
 		/// <returns>HTML</returns>
-		public string ToHTML(string markup)
+		public string Transform(string transform)
 		{
-			return _processAllMarkup(markup);
+			return _processAllMarkup(transform);
 		}
 
 		#region internal Process Creole methods
@@ -335,10 +271,10 @@ namespace Roadkill.Core.Converters.Creole
 						htmlMarkup.Append(_processTableRow(lineTrimmed));
 					}
 					// --- process {{{ }}} <pre>
-					else if (lineTrimmed.StartsWith("{{{") && (lineTrimmed.Length == 3))
+					else if (lineTrimmed.StartsWith(NoWikiEscapeStart) && (lineTrimmed.Length == NoWikiEscapeStart.Length))
 					{
 						// we are already processing table so this must be a new row
-						htmlMarkup.Append(_getStartTag("<PRE>"));
+						htmlMarkup.Append(_getStartTag("<pre>"));
 						InEscape = true;
 					}
 					else
@@ -353,7 +289,7 @@ namespace Roadkill.Core.Converters.Creole
 				else
 				{
 					// we are looking for a line which starts with }}} to close off the preformated
-					if (lineTrimmed.StartsWith("}}}"))
+					if (lineTrimmed.StartsWith(NoWikiEscapeEnd))
 					{
 						htmlMarkup.Append("</pre>\n");
 						InEscape = false;
@@ -375,7 +311,7 @@ namespace Roadkill.Core.Converters.Creole
 		}
 
 
-		private static List<string> _breakMarkupIntoLines(string markup, out List<int> originalLineNumbers)
+		private List<string> _breakMarkupIntoLines(string markup, out List<int> originalLineNumbers)
 		{
 			originalLineNumbers = new List<int>();
 			List<string> lines = new List<string>();
@@ -394,7 +330,7 @@ namespace Roadkill.Core.Converters.Creole
 				{
 					if (!InEscape)
 					{
-						if (line.StartsWith("{{{"))
+						if (line.StartsWith(NoWikiEscapeStart))
 						{
 							InEscape = true;
 						}
@@ -414,7 +350,7 @@ namespace Roadkill.Core.Converters.Creole
 									trimmedLine[0] == '\r' ||
 									trimmedLine[0] == '#' ||
 									trimmedLine[0] == '*' ||
-									trimmedLine.StartsWith("{{{") ||
+									trimmedLine.StartsWith(NoWikiEscapeStart) ||
 									trimmedLine[0] == '=' ||
 									trimmedLine.StartsWith("----") ||
 									trimmedLine[0] == '|')
@@ -429,7 +365,7 @@ namespace Roadkill.Core.Converters.Creole
 					}
 					else
 					{
-						if (line.StartsWith("}}}"))
+						if (line.StartsWith(NoWikiEscapeEnd))
 							InEscape = false;
 					}
 				}
@@ -596,14 +532,14 @@ namespace Roadkill.Core.Converters.Creole
 				if (iEnd > iPos)
 				{
 					href = markup.Substring(iPos, iEnd - iPos);
-					string anchor = String.Format("<a target=_blank href='{0}'>{0}</a>", href);
+					string anchor = String.Format("<a target=\"_blank\" href=\"{0}\">{0}</a>", href);
 					markup = markup.Substring(0, iPos) + anchor + markup.Substring(iEnd);
 					iPos = iPos + anchor.Length;
 				}
 				else
 				{
 					href = markup.Substring(iPos);
-					markup = markup.Substring(0, iPos) + String.Format("<a target=_blank href='{0}'>{0}</a>", href);
+					markup = markup.Substring(0, iPos) + String.Format("<a target=\"_blank\" href=\"{0}\">{0}</a>", href);
 					break;
 				}
 				iPos = _indexOfWithSkip(markup, schema, iPos);
@@ -688,21 +624,21 @@ namespace Roadkill.Core.Converters.Creole
 		protected int _indexOfWithSkip(string markup, string match, int iPos)
 		{
 			bool fSkipLink = (match != "[[") && (match != "]]");
-			bool fSkipEscape = (match != "{{{") && (match != "}}}");
+			bool fSkipEscape = (match != NoWikiEscapeStart) && (match != NoWikiEscapeEnd);
 			bool fSkipImage = (match != "{{") && (match != "}}");
 
 			int tokenLength = match.Length;
 			if (tokenLength < 3)
-				tokenLength = 3; // so we can match on {{{
+				tokenLength = NoWikiEscapeStart.Length; // so we can match on {{{
 			for (int i = 0; i <= markup.Length - match.Length; i++)
 			{
 				if ((markup.Length - i) < tokenLength)
 					tokenLength = markup.Length - i;
 				string token = markup.Substring(i, tokenLength);
-				if (fSkipEscape && token.StartsWith("{{{"))
+				if (fSkipEscape && token.StartsWith(NoWikiEscapeStart))
 				{
 					// skip escape
-					int iEnd = markup.IndexOf("}}}", i);
+					int iEnd = markup.IndexOf(NoWikiEscapeEnd, i);
 					if (iEnd > 0)
 					{
 						i = iEnd + 2; // plus for loop ++
@@ -888,16 +824,15 @@ namespace Roadkill.Core.Converters.Creole
 						}
 					}
 					// default to external
-					LinkEventArgs linkEventArgs = new LinkEventArgs(link, href, text, LinkEventArgs.TargetEnum.External);
-					if (OnLink != null)
-						OnLink(this, linkEventArgs);
+					LinkEventArgs linkEventArgs = new LinkEventArgs(link, href, text, "");
+					if (LinkParsed != null)
+						LinkParsed(this, linkEventArgs);
 
 					markup = markup.Substring(0, iPos - 2)
-						+ String.Format("<a href='{0}' {2} {3}>{1}</a>",
+						+ String.Format("<a href=\"{0}\"{2}>{1}</a>",
 											linkEventArgs.Href,
 											linkEventArgs.Text,
-											(linkEventArgs.Target == LinkEventArgs.TargetEnum.External) ? "target=_blank " : "",
-											(linkEventArgs.Target == LinkEventArgs.TargetEnum.Unknown) ? "style='border-bottom:1px dashed #000000; text-decoration:none'" : "")
+											(string.IsNullOrWhiteSpace(linkEventArgs.Target)) ? "" : " target=\"" + linkEventArgs.Target+ "\"")
 							+ markup.Substring(iEnd + 2);
 				}
 				else
@@ -940,7 +875,7 @@ namespace Roadkill.Core.Converters.Creole
 		/// </summary>
 		/// <param name="markup"></param>
 		/// <returns></returns>
-		private string _processImageCreole(string markup)
+		protected virtual string _processImageCreole(string markup)
 		{
 			int iPos = _indexOfWithSkip(markup, "{{", 0);
 			while (iPos >= 0)
@@ -959,16 +894,14 @@ namespace Roadkill.Core.Converters.Creole
 						text = _processCreoleFragment(innards.Substring(iSplit + 1));
 					}
 
-					ImageProcessedEventArgs eargs = new ImageProcessedEventArgs();
-					eargs.Alt = text;
-					eargs.OriginalSrc = href;
-					eargs.Src = href;
+					ImageEventArgs args = new ImageEventArgs(href,href,text,"");
+					OnImageParsed(args);
 
-					if (ImageProcessed != null)
-						ImageProcessed(this, eargs);
+					if (ImageParsed != null)
+						ImageParsed(this, args);
 
 					markup = markup.Substring(0, iPos - 2)
-							+ String.Format("<img src='{0}' alt='{1}'/>", eargs.Src, eargs.Alt)
+							+ String.Format("<img src=\"{0}\" alt=\"{1}\"/>", args.Src, args.Alt)
 							+ markup.Substring(iEnd + 2);
 				}
 				else
@@ -985,18 +918,18 @@ namespace Roadkill.Core.Converters.Creole
 		/// <returns></returns>
 		private string _stripEscapeCreole(string markup)
 		{
-			int iPos = markup.IndexOf("{{{");
+			int iPos = markup.IndexOf(NoWikiEscapeStart);
 			while (iPos >= 0)
 			{
-				int iEnd = markup.IndexOf("}}}", iPos);
+				int iEnd = markup.IndexOf(NoWikiEscapeEnd, iPos);
 				if (iEnd > iPos)
 				{
 					markup = markup.Substring(0, iPos) + _getStartTag("<tt>") +
-						markup.Substring(iPos + 3, iEnd - (iPos + 3)) +
+						markup.Substring(iPos + NoWikiEscapeStart.Length, iEnd - (iPos + NoWikiEscapeStart.Length)) +
 						String.Format("</tt>") +
 						markup.Substring(iEnd + 3);
 
-					iPos = markup.IndexOf("{{{", iPos);
+					iPos = markup.IndexOf(NoWikiEscapeStart, iPos);
 				}
 				else
 					break;
@@ -1005,5 +938,24 @@ namespace Roadkill.Core.Converters.Creole
 		}
 		#endregion
 
+		/// <summary>
+		/// Raises the <see cref="ImageParsed"/> event.
+		/// </summary>
+		/// <param name="e">The event data. </param>
+		protected void OnImageParsed(ImageEventArgs e)
+		{
+			if (ImageParsed != null)
+				ImageParsed(this, e);
+		}
+
+		/// <summary>
+		/// Raises the <see cref="LinkParsed"/> event.
+		/// </summary>
+		/// <param name="e">The event data. </param>
+		protected void OnLinkParsed(LinkEventArgs e)
+		{
+			if (LinkParsed != null)
+				LinkParsed(this, e);
+		}
 	}
 }

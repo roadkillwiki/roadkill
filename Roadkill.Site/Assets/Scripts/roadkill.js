@@ -11,10 +11,14 @@ $(document).ready(function ()
 
 	$("#pagecontent img").aeImageResize({ height: 400, width: 400 });
 	$("#historytable .editedon").timeago();
+
+	// Info icon on each page
 	$("#pageinfo-button>a").click(function ()
 	{
 		showPageInformation();
 	});
+
+	formatPreTags();
 });
 
 function setFile(path, filename) {
@@ -25,6 +29,20 @@ function setFile(path, filename) {
 function showPageInformation()
 {
 	$("#pageinformation").modal();
+}
+
+/* 
+ *Formats pre tags so that < > and show as encoded.
+ */
+function formatPreTags()
+{
+	$("pre").each(function (index)
+	{
+		var current = $(this);
+		var html = current.html();
+		html = html.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+		current.html(html);
+	});
 }
 
 
