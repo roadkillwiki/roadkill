@@ -155,6 +155,7 @@ namespace BottleBank
 
 			ICriteria criteria = session.CreateCriteria(typeof(T));
 			criteria.Add(Expression.Eq(IdName, id));
+			criteria.SetCacheable(true);
 
 			if (DisposeSessions)
 			{
@@ -178,6 +179,7 @@ namespace BottleBank
 			ISession session = SessionFactory.OpenSession();
 			ICriteria criteria = session.CreateCriteria(typeof(T));
 			criteria.Add(Expression.Eq(IdName, id));
+			criteria.SetCacheable(true);
 
 			if (DisposeSessions)
 			{
@@ -202,6 +204,7 @@ namespace BottleBank
 			ISession session = SessionFactory.OpenSession();
 			ICriteria criteria = session.CreateCriteria(typeof(T));
 			criteria.Add(Expression.Eq(IdName, id));
+			criteria.SetCacheable(true);
 
 			if (DisposeSessions)
 			{
@@ -224,6 +227,7 @@ namespace BottleBank
 			ISession session = SessionFactory.OpenSession();
 			ICriteria criteria = session.CreateCriteria(typeof(T));
 			criteria.SetMaxResults(1);
+			criteria.SetCacheable(true);
 
 			if (DisposeSessions)
 			{
@@ -250,6 +254,7 @@ namespace BottleBank
 
 			ISession session = SessionFactory.OpenSession();
 			ICriteria criteria = session.CreateCriteria(typeof(T));
+			criteria.SetCacheable(true);
 
 			for (int i = 0; i < filters.Length; i += 2)
 			{
@@ -292,6 +297,7 @@ namespace BottleBank
 			ICriteria criteria = session.CreateCriteria(typeof(T));
 			criteria.SetFirstResult(page * pageSize);
 			criteria.SetMaxResults(pageSize + 1);
+			criteria.SetCacheable(true);
 
 			if (DisposeSessions)
 			{
@@ -319,6 +325,7 @@ namespace BottleBank
 			criteria.SetFirstResult(page * pageSize);
 			criteria.SetMaxResults(pageSize + 1);
 			criteria.AddOrder(Order.Asc(orderBy));
+			criteria.SetCacheable(true);
 
 			if (DisposeSessions)
 			{
@@ -341,6 +348,7 @@ namespace BottleBank
 		{
 			ISession session = SessionFactory.OpenSession();
 			IQuery query = session.CreateQuery(hql);
+			query.SetCacheable(true);
 
 			if (DisposeSessions)
 			{
@@ -368,6 +376,8 @@ namespace BottleBank
 
 			ISession session = SessionFactory.OpenSession();
 			IQuery query = session.CreateQuery(hql);
+			query.SetCacheable(true);
+
 			for (int i = 0; i < parameters.Length; i += 2)
 			{
 				string name = parameters[i].ToString();
@@ -409,6 +419,7 @@ namespace BottleBank
 		{
 			ISession session = SessionFactory.OpenSession();
 			ICriteria sessionCriteria = session.CreateCriteria(typeof(T));
+			sessionCriteria.SetCacheable(true);
 
 			for (int i = 0; i < criteria.Length; i++)
 			{
@@ -435,6 +446,7 @@ namespace BottleBank
 		{
 			ISession session = SessionFactory.OpenSession();
 			ICriteria criteria = session.CreateCriteria(typeof(T));
+			criteria.SetCacheable(true);
 
 			if (DisposeSessions)
 			{
@@ -459,6 +471,7 @@ namespace BottleBank
 			ISession session = SessionFactory.OpenSession();
 			ICriteria criteria = session.CreateCriteria(typeof(T));
 			criteria.AddOrder(Order.Asc(orderBy));
+			criteria.SetCacheable(true);
 
 			if (DisposeSessions)
 			{
@@ -482,6 +495,7 @@ namespace BottleBank
 			ISession session = SessionFactory.OpenSession();
 			ICriteria criteria = session.CreateCriteria(typeof(T));
 			criteria.AddOrder(Order.Desc(orderBy));
+			criteria.SetCacheable(true);
 
 			if (DisposeSessions)
 			{
@@ -520,6 +534,7 @@ namespace BottleBank
 
 			ISession session = SessionFactory.OpenSession();
 			ICriteria criteria = session.CreateCriteria(typeof(T));
+			criteria.SetCacheable(true);
 
 			for (int i = 0; i < orderBy.Length; i++)
 			{
@@ -568,6 +583,7 @@ namespace BottleBank
 
 			ISession session = SessionFactory.OpenSession();
 			ICriteria criteria = session.CreateCriteria(typeof(T));
+			criteria.SetCacheable(true);
 
 			for (int i = 0; i < filters.Length; i += 2)
 			{
@@ -619,6 +635,7 @@ namespace BottleBank
 			ISession session = SessionFactory.OpenSession();
 			List<SimpleExpression> expressionList = new List<SimpleExpression>();
 			ICriteria criteria = session.CreateCriteria(typeof(T));
+			criteria.SetCacheable(true);
 
 			for (int i = 0; i < filters.Length; i += 2)
 			{
@@ -665,6 +682,7 @@ namespace BottleBank
 			ISession session = SessionFactory.OpenSession();
 			string hql = string.Format("SELECT Count(*) FROM {0}", className);
 			IQuery query = session.CreateQuery(hql);
+			query.SetCacheable(true);
 
 			// Count in HQL returns a long.
 

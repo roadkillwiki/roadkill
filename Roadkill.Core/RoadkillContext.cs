@@ -29,7 +29,7 @@ namespace Roadkill.Core
 		{
 			get
 			{
-				return Roles.IsUserInRole(RoadkillSettings.AdminGroup);
+				return Roles.IsUserInRole(RoadkillSettings.AdminRoleName);
 			}
 		}
 

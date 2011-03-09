@@ -23,14 +23,23 @@ namespace Roadkill.Core
 		{
 			Table("roadkill_pagecontent");
 			Id(x => x.Id);
-			Map(x => x.Text).CustomType("StringClob").CustomSqlType("text").LazyLoad();
 			Map(x => x.EditedBy);
 			Map(x => x.EditedOn);
 			Map(x => x.VersionNumber);
+
+			PropertyPart part = Map(x => x.Text).CustomType("StringClob").CustomSqlType("text");
+			
+			// Setting LazyLoad when the L2Cache is enabled makes it grab the data
+			// from the database for each request regardless.
+			if (!RoadkillSettings.CachedEnabled || !RoadkillSettings.CacheText)
+				part.LazyLoad();
+
 			References<Page>(x => x.Page)
 				.Column("pageid")
 				.Cascade
 				.None();
+
+			Cache.ReadWrite().IncludeAll();
 		}
 	}
 

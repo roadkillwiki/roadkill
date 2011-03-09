@@ -54,11 +54,11 @@ namespace Roadkill.Core
 			MembershipCreateStatus status = MembershipCreateStatus.Success;
 			MembershipUser user = Membership.CreateUser("admin", password, email, "question", "answer", true, out status);
 
-			if (!Roles.RoleExists(RoadkillSettings.AdminGroup))
-				Roles.CreateRole(RoadkillSettings.AdminGroup);
+			if (!Roles.RoleExists(RoadkillSettings.AdminRoleName))
+				Roles.CreateRole(RoadkillSettings.AdminRoleName);
 
-			if (!Roles.IsUserInRole("admin",RoadkillSettings.AdminGroup))
-				Roles.AddUserToRole("admin", RoadkillSettings.AdminGroup);
+			if (!Roles.IsUserInRole("admin",RoadkillSettings.AdminRoleName))
+				Roles.AddUserToRole("admin", RoadkillSettings.AdminRoleName);
 
 			return status;
 		}

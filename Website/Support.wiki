@@ -1,4 +1,0 @@
-Tags:support 
-For general support with Roadkill, please use [[http://stackoverflow.com/questions/tagged/roadkill|Stackoverflow.com]] tagging your question with "roadkill". 
-
-If you have a bug or enhancement request, you can enter these using the bug tracking page on the [[hg.shrinkrays.net/roadkill|Bitbucket page]].

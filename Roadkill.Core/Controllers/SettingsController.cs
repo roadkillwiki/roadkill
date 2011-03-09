@@ -24,7 +24,7 @@ namespace Roadkill.Core.Controllers
 
 		public ActionResult CreateSchema()
 		{
-			Page.Configure(RoadkillSettings.ConnectionString, true);
+			Page.Configure(RoadkillSettings.ConnectionString, true,RoadkillSettings.CachedEnabled);
 			return RedirectToAction("Index", "Home");
 		}
 

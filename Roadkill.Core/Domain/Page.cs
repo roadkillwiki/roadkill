@@ -23,6 +23,7 @@ namespace Roadkill.Core
 			IQuery query = PageContent.Repository.Manager().SessionFactory.OpenSession()
 					.CreateQuery("FROM PageContent fetch all properties WHERE Page.Id=:Id AND VersionNumber=(SELECT max(VersionNumber) FROM PageContent WHERE Page.Id=:Id)");
 
+			query.SetCacheable(true);
 			query.SetGuid("Id", Id);
 			query.SetMaxResults(1);
 			PageContent content = query.UniqueResult<PageContent>();
@@ -65,6 +66,7 @@ namespace Roadkill.Core
 			Map(x => x.CreatedOn);
 			Map(x => x.ModifiedBy);
 			Map(x => x.ModifiedOn);
+			Cache.ReadWrite().IncludeAll();
 		}
 	}
 

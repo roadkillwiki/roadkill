@@ -7,6 +7,7 @@ using FluentNHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 using FluentNHibernate.Cfg.Db;
 using System.Reflection;
+using NHibernate.Cache;
 
 namespace BottleBank
 {
@@ -38,7 +39,7 @@ namespace BottleBank
 		/// <param name="types">The FluentNHibernate <see cref="ClassMap`T"/> based types to map.</param>
 		internal void Configure<T>(string connection)
 		{
-			Configure<T>(connection, false);
+			Configure<T>(connection, false,false);
 		}
 
 		/// <summary>
@@ -47,10 +48,15 @@ namespace BottleBank
 		/// <param name="connection">The connection string.</param>
 		/// <param name="createSchema">Whether to wipe the existing database schema and recreate it based on the NHibernate's automatic type to SQL mappings.</param>
 		/// <param name="types">The FluentNHibernate <see cref="ClassMap`T"/> based types to map.</param>
-		internal void Configure<T>(string connection, bool createSchema)
-		{
+		internal void Configure<T>(string connection, bool createSchema,bool enableL2Cache)
+		{		
+			MsSqlConfiguration msSql = MsSqlConfiguration.MsSql2008.ConnectionString(connection);
+
+			if (enableL2Cache)
+				msSql = msSql.Cache(c => c.ProviderClass<HashtableCacheProvider>().UseQueryCache());
+
 			Configuration = Fluently.Configure();
-			Configuration.Database(MsSqlConfiguration.MsSql2008.ConnectionString(connection));
+			Configuration.Database(msSql);
 
 			Configuration.Mappings(m => m.FluentMappings.AddFromAssemblyOf<T>());
 

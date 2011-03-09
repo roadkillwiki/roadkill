@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Text;
 using System.Web.Security;
+using System.Web.Management;
+using System.Data.SqlClient;
 
 namespace Roadkill.Core.Controllers
 {
@@ -12,6 +14,7 @@ namespace Roadkill.Core.Controllers
     {
 		public ActionResult Index()
 		{
+			bool b = Membership.EnablePasswordReset;
 			PageManager manager = new PageManager();
 			PageSummary summary = manager.FindByTag("homepage").FirstOrDefault();
 			if (summary == null)
@@ -58,8 +61,8 @@ namespace Roadkill.Core.Controllers
 
 		public ActionResult Install()
 		{
-			if (RoadkillSettings.Installed)
-				return RedirectToAction("Index", "Home");
+			//if (RoadkillSettings.Installed)
+			//	return RedirectToAction("Index", "Home");
 
 			return View();
 		}
@@ -67,8 +70,33 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult Install(string connectionString, string adminPassword)
 		{
-			UserManager manager = new UserManager();
+			string databaseName = "";
 
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(RoadkillSettings.ConnectionString))
+				{
+					connection.Open();
+					databaseName = connection.Database;
+				}
+			}
+			catch (SqlException)
+			{
+				// TODO: InstallerException
+				throw new InstallerException("No database name was specified in the connection string");
+			}
+
+			if (string.IsNullOrEmpty(databaseName))
+				throw new InstallerException("No database name was specified in the connection string");
+
+			// Create the provider database and schema
+			SqlServices.Install(databaseName, SqlFeatures.Membership | SqlFeatures.RoleManager, RoadkillSettings.ConnectionString);
+
+			// Create the roadkill schema
+			Page.Configure(RoadkillSettings.ConnectionString, true,RoadkillSettings.CachedEnabled);
+
+			// Add the admin user, admin role and editor roles.
+			UserManager manager = new UserManager();
 			MembershipCreateStatus status = manager.AddAdminUser(adminPassword, "admin@localhost");
 			if (status == MembershipCreateStatus.DuplicateUserName)
 			{
@@ -76,8 +104,8 @@ namespace Roadkill.Core.Controllers
 				// requires the view being changed to accomodate this.
 			}
 
-			Page.Configure(RoadkillSettings.ConnectionString, true);
-			RoadkillSettings.Install(connectionString, adminPassword);
+			// Update the web.config to indicate install is complete
+			//RoadkillSettings.SaveWebConfig(connectionString);
 
 			return View("InstallComplete");
 		}

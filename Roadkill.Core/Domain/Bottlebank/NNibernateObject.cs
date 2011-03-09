@@ -31,9 +31,9 @@ namespace BottleBank
 			NHibernateManager.Current.Configure<T>(connection);
 		}
 
-		public static void Configure(string connection, bool createSchema)
+		public static void Configure(string connection, bool createSchema, bool enableL2Cache)
 		{
-			NHibernateManager.Current.Configure<T>(connection,createSchema);
+			NHibernateManager.Current.Configure<T>(connection, createSchema, enableL2Cache);
 		}
 	}
 }

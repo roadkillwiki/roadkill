@@ -9,9 +9,14 @@ namespace Roadkill.Core
 {
 	public class RoadkillSettings
 	{
-		public static string AdminGroup
+		public static string EditorRoleName
 		{
-			get { return RoadkillSection.Current.AdminGroup; }
+			get { return RoadkillSection.Current.EditorRoleName; }
+		}
+
+		public static string AdminRoleName
+		{
+			get { return RoadkillSection.Current.AdminRoleName; }
 		}
 
 		public static string AttachmentsFolder
@@ -21,7 +26,7 @@ namespace Roadkill.Core
 
 		public static string ConnectionString
 		{
-			get { return RoadkillSection.Current.ConnectionString; }
+			get { return ConfigurationManager.ConnectionStrings[RoadkillSection.Current.ConnectionStringName].ConnectionString; }
 		}
 
 		public static bool Installed
@@ -39,6 +44,16 @@ namespace Roadkill.Core
 			get { return RoadkillSection.Current.Theme; }
 		}
 
+		public static bool CachedEnabled
+		{
+			get { return RoadkillSection.Current.CacheEnabled; }
+		}
+
+		public static bool CacheText
+		{
+			get { return RoadkillSection.Current.CacheText; }
+		}
+
 		/// <summary>
 		/// An asp.net relativate path e.g. ~/Themes/ to the current theme directory. Does not include
 		/// a trailing slash.
@@ -51,13 +66,14 @@ namespace Roadkill.Core
 			}
 		}
 
-		public static void Install(string connectionString, string adminPassword)
+		public static void SaveWebConfig(string connectionString)
 		{
 			Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 
 			RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
-			section.ConnectionString = connectionString;
 			section.Installed = true;
+
+			// TODO add the connection strings
 
 			config.Save();
 		}

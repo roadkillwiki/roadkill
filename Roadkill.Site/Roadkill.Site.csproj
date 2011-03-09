@@ -72,6 +72,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\roadkill.MDF" />
+    <Content Include="App_Data\roadkill_log.ldf">
+      <DependentUpon>roadkill.MDF</DependentUpon>
+    </Content>
     <Content Include="Assets\CSS\htmldiff.css" />
     <Content Include="Assets\CSS\jquery.tagit.css" />
     <Content Include="Views\Help\MediaWikiReference.cshtml" />

@@ -31,6 +31,8 @@ namespace Roadkill.Core
 			title = title.ToLower();
 			query.SetString("title",title);
 			query.SetMaxResults(1);
+			query.SetCacheable(true);
+			
 			Page page = query.UniqueResult<Page>();
 
 			if (page == null)
@@ -123,6 +125,7 @@ namespace Roadkill.Core
 				.CreateQuery("FROM Page WHERE Tags LIKE :tag");
 
 			query.SetString("tag", "%" +tag+ ";%");
+			query.SetCacheable(true);
 			IList<Page> pages = query.List<Page>();
 			List<PageSummary> list = new List<PageSummary>();
 
@@ -139,6 +142,7 @@ namespace Roadkill.Core
 			IQuery query = PageContent.Repository.Manager().SessionFactory.OpenSession()
 				.CreateQuery("SELECT Tags FROM Page");
 
+			query.SetCacheable(true);
 			IList<string> list = query.List<string>();
 			List<TagSummary> tags = new List<TagSummary>();
 			foreach (string line in list)
