@@ -74,14 +74,54 @@ namespace Roadkill.Core.Converters.Creole
 		private string _tabStop;
 		private int _nTabSpaces;
 
-		public CreoleParser()
+		public virtual string BoldToken
 		{
-			AddIdToParagraphTags = false;
-			HTMLAttributes = new Dictionary<string, string>();
-			InterWiki = new Dictionary<string, string>();
-			TabStop = 7; // default to 7 char tabstop
-			NoWikiEscapeStart = "{{{";
-			NoWikiEscapeEnd = "}}}";
+			get { return "**"; }
+		}
+
+		public virtual string ItalicToken
+		{
+			get { return "//"; }
+		}
+
+		public virtual string UnderlineToken
+		{
+			get { return "__"; }
+		}
+
+		public virtual string LinkStartToken
+		{
+			get { return "[[%URL%|"; }
+		}
+
+		public virtual string LinkEndToken
+		{
+			get { return "%LINKTEXT%]]"; }
+		}
+
+		public virtual string ImageStartToken
+		{
+			get { return "{{%FILENAME%|"; }
+		}
+
+		public virtual string ImageEndToken
+		{
+			get { return "%ALT%}}"; }
+		}
+
+		public virtual string BulletListToken
+		{
+			get { return "*"; }
+		}
+
+		public virtual string NumberedListToken
+		{
+			get { return "#"; }
+		}
+
+		public virtual string HeadingToken
+		{
+			get { return "="; }
 		}
 
 		/// <summary>
@@ -145,6 +185,16 @@ namespace Roadkill.Core.Converters.Creole
 			{
 				return _nTabSpaces;
 			}
+		}
+
+		public CreoleParser()
+		{
+			AddIdToParagraphTags = false;
+			HTMLAttributes = new Dictionary<string, string>();
+			InterWiki = new Dictionary<string, string>();
+			TabStop = 7; // default to 7 char tabstop
+			NoWikiEscapeStart = "{{{";
+			NoWikiEscapeEnd = "}}}";
 		}
 
 

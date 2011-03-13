@@ -3,13 +3,13 @@
 @if (RoadkillContext.Current.IsLoggedIn)
 {
 <div id="toolbar">
-	@if (Model.Id != Guid.Empty)
+	@if (Model.Id != 0)
 	{
 	<div id="editbutton" class="linkbutton">
-		@Html.ActionLink("Edit", "Edit", "Page", new { id = Model.Id },null)
+		@Html.ActionLink("Edit", "Edit", "Pages", new { id = Model.Id },null)
 	</div>
 	<div id="pagehistory-button" class="linkbutton"> 
-		@Html.ActionLink("History", "History", "Page", new { id = Model.Id }, null)
+		@Html.ActionLink("History", "History", "Pages", new { id = Model.Id }, null)
 	</div>
 	<div id="pageinfo-button" class="jqmAlert"> 
 		<a href="javascript:;"><img src="@Url.Content("~/Assets/Images/info_icon.png")" border="0" alt="Page information" /></a>

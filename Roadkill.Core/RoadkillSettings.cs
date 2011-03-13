@@ -4,11 +4,21 @@ using System.Linq;
 using System.Web;
 using System.Configuration;
 using System.Web.Security;
+using System.Web.Configuration;
 
 namespace Roadkill.Core
 {
 	public class RoadkillSettings
 	{
+		public static bool IsWindowsAuthentication
+		{
+			get
+			{
+				AuthenticationSection section = ConfigurationManager.GetSection("system.web/authentication") as AuthenticationSection;
+				return section.Mode == AuthenticationMode.Windows;
+			}
+		}
+
 		public static string EditorRoleName
 		{
 			get { return RoadkillSection.Current.EditorRoleName; }

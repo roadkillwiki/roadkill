@@ -1,100 +1,61 @@
-﻿var _tags;
+﻿/// <reference path="jquery-1.4.1-vsdoc.js" />
 
-$(document).ready(function ()
-{
-	setTimeout("loadTags();", 2000);
-	initTagIt();
-	bindToolbar();
-
-	$("#Content").keyup(function ()
-	{
-		$("#previewContainer").hide();
-	});
-	$(".previewButton").click(function ()
-	{
-		showPreview();
-	});
-	$(".cancelButton").click(function ()
-	{
-		history.go(-1);
-	});
-});
-
-function loadTags()
-{
-	$.get(ROADKILL_TAGAJAXURL, function (data)
-	{
-		_tags = eval(data);
-		initTagIt();
-	});
-}
-
-function initTagIt()
-{
-	$("#mytags").tagit({
-		availableTags: _tags,
-		singleField: true,
-		singleFieldNode: $("#Tags"),
-		singleFieldDelimiter: ";"
-	});
-}
-
-function bindToolbar()
+function initWYSIWYG()
 {
 	// TODO: take these stylings from a settings file:
 	// Make a JS file that is a url that writes them
 
 	$(".wysiwyg-bold").click(function ()
 	{
-		addStyling("**");
+		addStyling(ROADKILL_EDIT_BOLD_TOKEN);
 	});
 	$(".wysiwyg-italic").click(function ()
 	{
-		addStyling("//");
+		addStyling(ROADKILL_EDIT_ITALIC_TOKEN);
 	});
 	$(".wysiwyg-underline").click(function ()
 	{
-		addStyling("__");
+		addStyling(ROADKILL_EDIT_UNDERLINE_TOKEN);
 	});
 	$(".wysiwyg-h1").click(function ()
 	{
-		addHeading("=");
+		addHeading(ROADKILL_EDIT_HEADING_TOKEN);
 	});
 	$(".wysiwyg-h2").click(function ()
 	{
-		addHeading("==");
+		addHeading(repeat(ROADKILL_EDIT_HEADING_TOKEN,2));
 	});
 	$(".wysiwyg-h3").click(function ()
 	{
-		addHeading("===");
+		addHeading(repeat(ROADKILL_EDIT_HEADING_TOKEN,3));
 	});
 	$(".wysiwyg-h4").click(function ()
 	{
-		addHeading("====");
+		addHeading(repeat(ROADKILL_EDIT_HEADING_TOKEN,4));
 	});
 	$(".wysiwyg-h5").click(function ()
 	{
-		addHeading("=====");
+		addHeading(repeat(ROADKILL_EDIT_HEADING_TOKEN,5));
 	});
 	$(".wysiwyg-bullets").click(function ()
 	{
-		addListItem("*");
+		addListItem(ROADKILL_EDIT_BULLETLIST_TOKEN);
 	});
 	$(".wysiwyg-numbers").click(function ()
 	{
-		addListItem("#");
+		addListItem(ROADKILL_EDIT_NUMBERLIST_TOKEN);
 	});
 	$(".wysiwyg-picture").click(function ()
 	{
-		addListItem("#");
+		$.modal("<iframe src='" + ROADKILL_FILEMANAGERURL + "' id='filechooser-iframe' width='700' height='400'></iframe>");
 	});
 	$(".wysiwyg-link").click(function ()
 	{
-		addListItem("#");
+		addLink();
 	});
 	$(".wysiwyg-help").click(function ()
 	{
-		$.modal("<iframe src='" + ROADKILL_WIKIMARKUPHELP+"' id='ref-iframe'></iframe>");
+		$.modal("<iframe src='" + ROADKILL_WIKIMARKUPHELP+"' id='help-iframe'></iframe>");
 	});
 }
 
@@ -151,6 +112,53 @@ function addHeading(styleCode)
 	}
 }
 
+function addImage(image)
+{
+	var range = $("#Content").getSelection();
+
+	if(range !== null)
+	{
+		var text = range.text;
+		if(range.text === "")
+			text = "Image alt";
+
+		var prefix = ROADKILL_EDIT_IMAGE_STARTTOKEN.toString();
+		prefix = prefix.replace("%ALT%", text);
+		prefix = prefix.replace("%FILENAME%", image);	
+
+		var suffix = ROADKILL_EDIT_IMAGE_ENDTOKEN.toString();
+		suffix = suffix.replace("%ALT%", text);
+		suffix = suffix.replace("%FILENAME%", image);
+
+		$("#Content").replaceSelection(prefix + suffix);
+		$("#Content").setSelection(range.start + prefix.length, range.start + prefix.length);
+		$.modal.close();
+	}
+}
+
+function addLink()
+{
+	var range = $("#Content").getSelection();
+
+	if(range !== null)
+	{
+		var text = range.text;
+		if(range.text === "")
+			text = "Link text";
+
+		var prefix = ROADKILL_EDIT_LINK_STARTTOKEN.toString();
+		prefix = prefix.replace("%URL%", "enter url or page name");
+		prefix = prefix.replace("%LINKTEXT%", text);
+
+		var suffix = ROADKILL_EDIT_LINK_ENDTOKEN.toString();
+		suffix = suffix.replace("%URL%", "enter url or page name");
+		suffix = suffix.replace("%LINKTEXT%", text);
+
+		$("#Content").replaceSelection(prefix + suffix);
+		$("#Content").setSelection(range.start + prefix.length, range.start + prefix.length);
+	}
+}
+
 function addListItem(styleCode)
 {
 	var range = $("#Content").getSelection();
@@ -182,6 +190,11 @@ function addListItem(styleCode)
 			$("#Content").setSelection(range.end + 3, range.end + 3);
 		}
 	}
+}
+
+function repeat(text,count)
+{
+	return new Array(count + 1).join(text);
 }
 
 /*

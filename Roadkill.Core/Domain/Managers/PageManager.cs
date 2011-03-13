@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NHibernate;
+using NHibernate.Linq;
 using System.Xml.Serialization;
 using System.IO;
 
@@ -10,30 +11,25 @@ namespace Roadkill.Core
 {
 	public class PageManager
 	{
-		private static UserManager _userManager;
-
-		public static UserManager Current
+		private IQueryable<Page> Pages
 		{
 			get
 			{
-				if (_userManager == null)
-					_userManager = new UserManager();
-
-				return _userManager;
+				return Page.Repository.Manager().Queryable<Page>();
 			}
 		}
 
-		public PageSummary GetPage(string title)
+		private IQueryable<PageContent> PageContents
 		{
-			IQuery query = PageContent.Repository.Manager().SessionFactory.OpenSession()
-				.CreateQuery("FROM Page WHERE lower(Title) = :title");
+			get
+			{
+				return Page.Repository.Manager().Queryable<PageContent>();
+			}
+		}
 
-			title = title.ToLower();
-			query.SetString("title",title);
-			query.SetMaxResults(1);
-			query.SetCacheable(true);
-			
-			Page page = query.UniqueResult<Page>();
+		public PageSummary Get(int id)
+		{
+			Page page = Pages.FirstOrDefault(p => p.Id == id);
 
 			if (page == null)
 				return null;
@@ -41,9 +37,13 @@ namespace Roadkill.Core
 				return page.ToSummary();
 		}
 
-		public PageSummary Get(Guid id)
+		public PageSummary FindByTitle(string title)
 		{
-			Page page = Page.Repository.Read(id);
+			if (string.IsNullOrEmpty(title))
+				return null;
+
+			Page page = Pages.FirstOrDefault(p => p.Title.ToLower() == title.ToLower());
+
 			if (page == null)
 				return null;
 			else
@@ -52,26 +52,20 @@ namespace Roadkill.Core
 
 		public IEnumerable<PageSummary> AllPages()
 		{
-			IList<Page> pages = Page.Repository.List();
-			List<PageSummary> list = new List<PageSummary>();
-			foreach (Page page in pages)
-			{
-				list.Add(page.ToSummary());
-			}
+			IEnumerable<Page> pages = Pages.OrderBy(p => p.Title);
+			IEnumerable<PageSummary> summaries = from page in pages 
+												 select page.ToSummary();
 
-			return list.OrderBy(p => p.Title).ToList();
+			return summaries;
 		}
 
 		public IEnumerable<PageSummary> AllPagesCreatedBy(string userName)
 		{
-			IList<Page> pages = Page.Repository.List("CreatedBy", userName);
-			List<PageSummary> list = new List<PageSummary>();
-			foreach (Page page in pages)
-			{
-				list.Add(page.ToSummary());
-			}
+			IEnumerable<Page> pages = Pages.Where(p => p.CreatedBy == userName);
+			IEnumerable<PageSummary> summaries = from page in pages
+												 select page.ToSummary();
 
-			return list.OrderBy(p => p.Title).ToList();
+			return summaries;
 		}
 
 		public PageSummary AddPage(PageSummary summary)
@@ -103,7 +97,7 @@ namespace Roadkill.Core
 			string currentUser = RoadkillContext.Current.CurrentUser;
 			HistoryManager manager = new HistoryManager();
 
-			Page page = Page.Repository.Read(summary.Id);
+			Page page = Pages.FirstOrDefault(p => p.Id == summary.Id);
 			page.Title = summary.Title;
 			page.Tags = summary.Tags.CleanTags();
 			page.ModifiedOn = DateTime.Now;
@@ -121,33 +115,20 @@ namespace Roadkill.Core
 
 		public IEnumerable<PageSummary> FindByTag(string tag)
 		{
-			IQuery query = PageContent.Repository.Manager().SessionFactory.OpenSession()
-				.CreateQuery("FROM Page WHERE Tags LIKE :tag");
+			IEnumerable<Page> pages = Pages.Where(p => p.Tags.Contains(tag)).OrderBy(p => p.Title);
+			IEnumerable<PageSummary> summaries = from page in pages
+												 select page.ToSummary();
 
-			query.SetString("tag", "%" +tag+ ";%");
-			query.SetCacheable(true);
-			IList<Page> pages = query.List<Page>();
-			List<PageSummary> list = new List<PageSummary>();
-
-			foreach (Page page in pages)
-			{
-				list.Add(page.ToSummary());
-			}
-
-			return list.OrderBy(p => p.Title).ToList();
+			return summaries;
 		}
 
 		public IEnumerable<TagSummary> AllTags()
 		{
-			IQuery query = PageContent.Repository.Manager().SessionFactory.OpenSession()
-				.CreateQuery("SELECT Tags FROM Page");
-
-			query.SetCacheable(true);
-			IList<string> list = query.List<string>();
+			var tagList = from p in Pages select new { Tag = p.Tags };
 			List<TagSummary> tags = new List<TagSummary>();
-			foreach (string line in list)
+			foreach (var item in tagList)
 			{
-				string[] parts = line.Split(';');
+				string[] parts = item.Tag.Split(';');
 				foreach (string part in parts)
 				{
 					if (!string.IsNullOrEmpty(part))
@@ -171,11 +152,11 @@ namespace Roadkill.Core
 			return tags;
 		}
 
-		public void DeletePage(Guid pageId)
+		public void DeletePage(int pageId)
 		{
 			// This isn't the "right" way to do it, but to avoid the pagecontent coming back
 			// each time a page is requested, it has no inverse relationship.
-			Page page = Page.Repository.Read(pageId);
+			Page page = Pages.First(p => p.Id == pageId);
 
 			IList<PageContent> children = PageContent.Repository.List("Page.Id", pageId);
 			foreach (PageContent pageContent in children)

@@ -6,24 +6,12 @@ using System.Web.Security;
 using System.Web.Configuration;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Configuration.Provider;
 
 namespace Roadkill.Core
 {
 	public class UserManager
 	{
-		private static UserManager _userManager;
-
-		public static UserManager Current
-		{
-			get
-			{
-				if (_userManager == null)
-					_userManager = new UserManager();
-
-				return _userManager;
-			}
-		}
-
 		public bool Authenticate(string username,string password)
 		{
 			return Membership.ValidateUser(username,password);
@@ -34,35 +22,74 @@ namespace Roadkill.Core
 			FormsAuthentication.SignOut();
 		}
 
-		public MembershipCreateStatus AddUser(string username, string password, string email)
+		public string AddUser(string username, string password)
 		{
+			string email = Guid.NewGuid().ToString() + "@localhost";
 			MembershipCreateStatus status = MembershipCreateStatus.Success;
-			Membership.CreateUser(username, password, email, "question", "answer", true, out status);
-				
-			return status;
+			MembershipUser user = Membership.CreateUser(username, password, email, "question", "answer", true, out status);
+			
+			if (user == null)
+			{
+				return GetErrorMessage(status);
+			}
+			else
+			{
+				try
+				{
+					Roles.AddUserToRole(username, RoadkillSettings.EditorRoleName);
+				}
+				catch (ProviderException e)
+				{
+					return e.Message;
+				}
+			}
+
+			return "";
 		}
 
-		/// <summary>
-		/// Adds the a username "admin" with the provided password, and adds them to the admin role 
-		/// name provided by RoadkillSettings.AdminGroup.
-		/// </summary>
-		/// <param name="password"></param>
-		/// <param name="email"></param>
-		/// <returns></returns>
-		public MembershipCreateStatus AddAdminUser(string password, string email)
+		public string AddAdminUser(string username, string password)
 		{
+			string email = Guid.NewGuid().ToString() +"@localhost";
 			MembershipCreateStatus status = MembershipCreateStatus.Success;
-			MembershipUser user = Membership.CreateUser("admin", password, email, "question", "answer", true, out status);
+			MembershipUser user = Membership.CreateUser(username, password, email, "question", "answer", true, out status);
 
+			if (user == null)
+			{
+				return GetErrorMessage(status);
+			}
+			else
+			{
+				try
+				{
+					Roles.AddUserToRole(username, RoadkillSettings.AdminRoleName);
+				}
+				catch (ProviderException e)
+				{
+					return e.Message;
+				}
+			}
+
+			return "";
+		}
+
+		public IEnumerable<string> AllAdmins()
+		{
+			return Roles.GetUsersInRole(RoadkillSettings.AdminRoleName);
+		}
+
+		public IEnumerable<string> AllEditors()
+		{
+			return Roles.GetUsersInRole(RoadkillSettings.EditorRoleName);
+		}
+
+		public void AddRoles()
+		{
 			if (!Roles.RoleExists(RoadkillSettings.AdminRoleName))
 				Roles.CreateRole(RoadkillSettings.AdminRoleName);
 
-			if (!Roles.IsUserInRole("admin",RoadkillSettings.AdminRoleName))
-				Roles.AddUserToRole("admin", RoadkillSettings.AdminRoleName);
-
-			return status;
+			if (!Roles.RoleExists(RoadkillSettings.EditorRoleName))
+				Roles.CreateRole(RoadkillSettings.EditorRoleName);
 		}
-
 		
 		public bool DeleteUser(string username)
 		{
@@ -97,6 +124,42 @@ namespace Roadkill.Core
 			user.ChangePassword(newPassword, tempPassword);
 			user.Email = email;
 			Membership.UpdateUser(user);
+		}
+
+		private string GetErrorMessage(MembershipCreateStatus status)
+		{
+			switch (status)
+			{
+				case MembershipCreateStatus.DuplicateUserName:
+					return "Username already exists. Please enter a different user name.";
+
+				case MembershipCreateStatus.DuplicateEmail:
+					return "A username for that e-mail address already exists. Please enter a different e-mail address.";
+
+				case MembershipCreateStatus.InvalidPassword:
+					return "The password provided is invalid. Please enter a valid password value.";
+
+				case MembershipCreateStatus.InvalidEmail:
+					return "The e-mail address provided is invalid. Please check the value and try again.";
+
+				case MembershipCreateStatus.InvalidAnswer:
+					return "The password retrieval answer provided is invalid. Please check the value and try again.";
+
+				case MembershipCreateStatus.InvalidQuestion:
+					return "The password retrieval question provided is invalid. Please check the value and try again.";
+
+				case MembershipCreateStatus.InvalidUserName:
+					return "The user name provided is invalid. Please check the value and try again.";
+
+				case MembershipCreateStatus.ProviderError:
+					return "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+
+				case MembershipCreateStatus.UserRejected:
+					return "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+
+				default:
+					return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+			}
 		}
 	}
 }

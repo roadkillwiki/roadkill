@@ -6,6 +6,7 @@ using NHibernate;
 using NHibernate.Cfg;
 using System.Reflection;
 using NHibernate.Criterion;
+using NHibernate.Linq;
 
 namespace BottleBank
 {
@@ -17,6 +18,8 @@ namespace BottleBank
 	/// All queries are performed using the Unit of Work approach to ISessions. Once the query is
 	/// executed, the session is closed and disposed.</remarks>
 	/// <typeparam name="T">An object that has been mapped using a Nhibernate mapping file.</typeparam>
+	/// 
+	/// Large parts of this class are now redundant with the LINQ additions in NH3.
 	public class NHibernateQueryManager
 	{
 		#region Fields
@@ -750,6 +753,21 @@ namespace BottleBank
 
 			if (DisposeSessions)
 				session.Dispose();
+		}
+		#endregion
+
+		#region NHibernate 3
+		/// <summary>
+		/// Returns an <see cref="IQueryable&lt;T&gt;"/> for LINQ capabilities (NH 3 only).
+		/// </summary>
+		/// <typeparam name="T">The type for the query</typeparam>
+		/// <returns></returns>
+		public IQueryable<T> Queryable<T>()
+		{
+			IQueryable<T> queryable = SessionFactory.OpenSession().Query<T>();
+			queryable = queryable.Cacheable<T>();
+
+			return queryable;
 		}
 		#endregion
 	}

@@ -10,7 +10,14 @@ namespace Roadkill.Core
 {
 	public class Page : NHibernateObject<Page, PageRepository>
 	{
-		public virtual Guid Id { get; set; }
+		/// <summary>
+		/// Reasons for using an int:
+		/// + Clustered PKs
+		/// + Nice URLs.
+		/// - Losing the certainty of uniqueness like a guid
+		/// - Oracle is not supported.
+		/// </summary>
+		public virtual int Id { get; set; }
 		public virtual string Title { get; set; }
 		public virtual string CreatedBy { get; set; }
 		public virtual DateTime CreatedOn { get; set; }
@@ -24,7 +31,7 @@ namespace Roadkill.Core
 					.CreateQuery("FROM PageContent fetch all properties WHERE Page.Id=:Id AND VersionNumber=(SELECT max(VersionNumber) FROM PageContent WHERE Page.Id=:Id)");
 
 			query.SetCacheable(true);
-			query.SetGuid("Id", Id);
+			query.SetInt32("Id", Id);
 			query.SetMaxResults(1);
 			PageContent content = query.UniqueResult<PageContent>();
 
@@ -59,7 +66,7 @@ namespace Roadkill.Core
 		public PageMap()
 		{
 			Table("roadkill_pages");
-			Id(x => x.Id);
+			Id(x => x.Id).GeneratedBy.Identity();
 			Map(x => x.Title);
 			Map(x => x.Tags);
 			Map(x => x.CreatedBy);

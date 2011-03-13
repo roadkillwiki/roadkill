@@ -135,6 +135,56 @@ namespace Roadkill.Core.Converters.Markdown
 	{
 		private const string _version = "1.13";
 
+		public string BoldToken
+		{
+			get { return "**"; }
+		}
+
+		public string ItalicToken
+		{
+			get { return "*"; }
+		}
+
+		public string UnderlineToken
+		{
+			get { return ""; }
+		}
+
+		public string LinkStartToken
+		{
+			get { return "[%LINKTEXT%"; }
+		}
+
+		public string LinkEndToken
+		{
+			get { return "](%URL%)"; }
+		}
+
+		public string ImageStartToken
+		{
+			get { return "![%ALT%"; }
+		}
+
+		public string ImageEndToken
+		{
+			get { return "](%FILENAME%)"; }
+		}
+
+		public string BulletListToken
+		{
+			get { return "*"; }
+		}
+
+		public string NumberedListToken
+		{
+			get { return "1."; }
+		}
+
+		public string HeadingToken
+		{
+			get { return "#"; }
+		}
+
 		#region Constructors and Options
 
 		/// <summary>

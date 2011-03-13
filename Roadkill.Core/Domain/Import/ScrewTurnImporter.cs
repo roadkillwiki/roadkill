@@ -21,9 +21,9 @@ namespace Roadkill.Core
 				using (SqlCommand command = connection.CreateCommand())
 				{
 					connection.Open();
-					command.CommandText = "SELECT p.*,pc.Username,pc.Revision,pc.DateTime FROM Page_v2 p " +
-											"INNER JOIN PageContent_v2 pc ON pc.Page = p.Name " +
-											"WHERE pc.Revision = (SELECT MAX(Revision) FROM PageContent_v2 WHERE Page=p.Name)";
+					command.CommandText = "SELECT p.*,pc.Username,pc.Revision,pc.DateTime FROM Page p " +
+											"INNER JOIN PageContent pc ON pc.Page = p.Name " +
+											"WHERE pc.Revision = (SELECT MAX(Revision) FROM PageContent WHERE Page=p.Name)";
 
 					using (SqlDataReader reader = command.ExecuteReader())
 					{
@@ -116,7 +116,7 @@ namespace Roadkill.Core
 		private string CleanContent(string text)
 		{
 			// Screwturn uses "[" for links instead of "[[", so do a crude replace.
-			// Needs more coverage for @@ blocks and variables, toc.
+			// Needs more coverage for @@ blocks, variables, toc.
 			text = text.Replace("[", "[[").Replace("]", "]]").Replace("{BR}", "\n").Replace("{UP}","");
 
 			// Handle nowiki blocks being a little strange

@@ -9,10 +9,10 @@ using System.Web.Mvc;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// Extends the Authorize attribute to check if the user is in the RoadkillSettings.AdminGroup.
+	/// Extends the Authorize attribute to check if the user is in the RoadkillSettings.AdminRoleName.
 	/// To enable this, set the 'Role' property to 'Admins'
 	/// </summary>
-	public class RoadkillAuthorizeAttribute : AuthorizeAttribute
+	public class AdminRequiredAttribute : AuthorizeAttribute
 	{
 		protected override bool AuthorizeCore(HttpContextBase httpContext)
 		{
@@ -23,18 +23,14 @@ namespace Roadkill.Core
 			{
 				return false;
 			}
-			
-			if (base.Roles == "Admins")
-			{
-				if (System.Web.Security.Roles.IsUserInRole(identity.Name, RoadkillSettings.AdminRoleName))
-					return true;
-				else
-					return false;
-			}
-			else
-			{
+
+			if (string.IsNullOrEmpty(RoadkillSettings.AdminRoleName))
 				return true;
-			}
+			
+			if (System.Web.Security.Roles.IsUserInRole(identity.Name, RoadkillSettings.AdminRoleName))
+				return true;
+			else
+				return false;
 		}
 	}
 }

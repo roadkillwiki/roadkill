@@ -18,9 +18,16 @@
 .rounded5	{ -moz-border-radius: 5px; border-radius: 5px; }
 .rounded10	{ -moz-border-radius: 10px; border-radius: 10px; }
 .blueborder { border:1px solid #032451;}
-.lightborder { border:1px solid #e3e2e2; }
+.lightborder  { border:1px solid #e3e2e2; }
+.borderbottom { border-bottom:1px solid #032451;}
 .clear		{ clear:both;}
 .center		{ display: block;margin-left: auto; margin-right: auto;}
+.hidden		{ display:none;}
+.midpadded	{ padding:5px;}
+.padded		{ padding:10px;}
+.button				{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;font-size:0.96em;width:100px;}
+.smallerbutton		{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;font-size:0.9em;width:75px;}
+.smallestbutton		{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;font-size:0.8em;}
 
 #simplemodal-overlay	{ background-color:#000;}
 #simplemodal-container	{ background-color:#333; border:2px solid #d3d2d2; padding:12px;}
@@ -57,6 +64,7 @@
 #previewLoading	{ display:none;}
 #previewContainer { display:none;}
 #preview { padding:10px;border:1px solid #d3d2d2;}
+.jqConfirm { font-weight:bold !important;}
 
 #edit				{ width:700px;}
 #edit label			{ float:left;width:50px;padding:5px 5px 0 0;font-weight:bold;}
@@ -64,14 +72,36 @@
 #edit .tagit		{ border:1px solid #032451;height:30px;width:550px;font-family:Arial;}
 .edittextarea		{ width:100%;height:300px;border:1px solid #032451;}
 .buttonContainer	{ float:right;padding-top:10px;}
-.button				{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;font-size:1.2em;width:100px;}
 
-.validation-summary-errors { border: 1px solid #000;color:#000;background-color:#FFFFCA;padding:5px;margin-bottom:10px; }
+.validation-summary-errors { border: 1px solid #000;color:#000;background-color:#FFFFCA;padding:5px;font-size:0.8em;margin-bottom:10px; }
+.validation-summary-errors span {font-weight:bold;}
 
-#ref-iframe	 { width:520px;height:300px;}
-#reftable	 { width: 100%;font: normal 11px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;background: #E6EAE9; }
-#reftable th { text-align:left;font-size:13px;padding:5px;}
-#reftable td { border-right: 1px solid #C1DAD7;border-bottom: 1px solid #C1DAD7;background: #fff;padding: 6px 6px 6px 12px;color: #4f6b72;vertical-align:top;}
+#settings { width:700px;padding: 10px;}
+#settings label { float:left;min-width:330px;line-height:25px;font-size:0.8em;font-weight:bold;}
+#settings .row { height:35px;}
+#settings .checkbox { margin-top:3px;}
+#settings .checkbox input { margin:0;}
+#settings .textbox input { float:left; border:1px solid #032451;height:20px;width:300px;font-size:0.7em;}
+#settings .smalltextbox input { float:left; border:1px solid #032451;height:20px;width:150px;}
+.settingstable { border:1px solid #d3d2d2;background-color:#f1f0f0;}
+.settingstable tr { padding:5px;}
+.settingstable .title { width:650px;}
+.settingstable .edit { width:50px;}
+.settingstable .delete { width:50px;}
+#userdialogContainer	   { display:none;}
+#userdialogContainer		{ color:White;width:360px;}
+#userdialogContainer h2		{ border-bottom:1px solid white !important;}
+#userdialogContainer label	{ float:left;min-width:200px;line-height:25px;font-size:0.8em;font-weight:bold;}
+
+#files-container	{ background-color:#FFF;min-height:400px;}
+.selectedfolder		{ background-color:#e3e2e2; }
+#filetree-container	{ width:500px;}
+#file-preview		{ position:fixed;margin-left:5px;width:90px;bottom:0;right:0;}
+
+#help-iframe	{ width:520px;height:300px;}
+#helptable		{ width: 100%;font: normal 11px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;background: #E6EAE9; }
+#helptable th { text-align:left;font-size:13px;padding:5px;}
+#helptable td { border-right: 1px solid #C1DAD7;border-bottom: 1px solid #C1DAD7;background: #fff;padding: 6px 6px 6px 12px;color: #4f6b72;vertical-align:top;}
 
 #pagestable { border:1px solid #d3d2d2;background-color:#f1f0f0;}
 #pagestable tr { padding:5px;}

@@ -24,6 +24,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PublishDatabaseSettings>
+      <Objects>
+      </Objects>
+    </PublishDatabaseSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -72,11 +76,39 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\roadkill.MDF" />
-    <Content Include="App_Data\roadkill_log.ldf">
-      <DependentUpon>roadkill.MDF</DependentUpon>
-    </Content>
     <Content Include="Assets\CSS\htmldiff.css" />
     <Content Include="Assets\CSS\jquery.tagit.css" />
+    <Content Include="Assets\CSS\images\application.png" />
+    <Content Include="Assets\CSS\images\code.png" />
+    <Content Include="Assets\CSS\images\css.png" />
+    <Content Include="Assets\CSS\images\db.png" />
+    <Content Include="Assets\CSS\images\directory.png" />
+    <Content Include="Assets\CSS\images\doc.png" />
+    <Content Include="Assets\CSS\images\file.png" />
+    <Content Include="Assets\CSS\images\film.png" />
+    <Content Include="Assets\CSS\images\flash.png" />
+    <Content Include="Assets\CSS\images\folder_open.png" />
+    <Content Include="Assets\CSS\images\html.png" />
+    <Content Include="Assets\CSS\images\java.png" />
+    <Content Include="Assets\CSS\images\linux.png" />
+    <Content Include="Assets\CSS\images\music.png" />
+    <Content Include="Assets\CSS\images\pdf.png" />
+    <Content Include="Assets\CSS\images\php.png" />
+    <Content Include="Assets\CSS\images\picture.png" />
+    <Content Include="Assets\CSS\images\ppt.png" />
+    <Content Include="Assets\CSS\images\psd.png" />
+    <Content Include="Assets\CSS\images\ruby.png" />
+    <Content Include="Assets\CSS\images\script.png" />
+    <Content Include="Assets\CSS\images\spinner.gif" />
+    <Content Include="Assets\CSS\images\txt.png" />
+    <Content Include="Assets\CSS\images\xls.png" />
+    <Content Include="Assets\CSS\images\zip.png" />
+    <Content Include="Assets\Scripts\roadkill.settings.js" />
+    <Content Include="Assets\Scripts\roadkill.files.js" />
+    <Content Include="Assets\Scripts\jquery-1.4.1-vsdoc.js" />
+    <Content Include="Assets\CSS\jqueryFileTree.css" />
+    <Content Include="Assets\Scripts\jqueryFileTree.js" />
+    <Content Include="Assets\Scripts\roadkill.edit.js" />
     <Content Include="Views\Help\MediaWikiReference.cshtml" />
     <Content Include="Views\Help\MarkdownReference.cshtml" />
     <Content Include="Views\Help\CreoleReference.cshtml" />
@@ -98,7 +130,7 @@
     <Content Include="Assets\Images\wysiwyg\link.png" />
     <Content Include="Assets\CSS\close-x.png" />
     <Content Include="Assets\Scripts\jquery.simplemodal.1.4.1.min.js" />
-    <Content Include="Assets\Scripts\wysiwyg.js" />
+    <Content Include="Assets\Scripts\roadkill.wysiwyg.js" />
     <Content Include="Assets\Scripts\jquery-ui-1.8.autocomplete.min.js" />
     <Content Include="Assets\Scripts\jquery-ui-1.8.core-and-interactions.min.js" />
     <Content Include="Assets\CSS\jquery.ui.autocomplete.custom.css" />
@@ -111,9 +143,9 @@
     <Content Include="Themes\Roadkillwiki.info\roadkill-large.png" />
     <Content Include="Themes\Roadkillwiki.info\roadkill.png" />
     <Content Include="Themes\Roadkillwiki.info\Theme.css" />
-    <Content Include="Views\Page\History.cshtml" />
-    <Content Include="Views\Page\Version.cshtml" />
-    <Content Include="Views\Page\ByUser.cshtml" />
+    <Content Include="Views\Pages\History.cshtml" />
+    <Content Include="Views\Pages\Version.cshtml" />
+    <Content Include="Views\Pages\ByUser.cshtml" />
     <Content Include="Themes\BlackBar\Theme.cshtml" />
     <Content Include="Themes\Plain\Theme.cshtml" />
     <Content Include="Themes\Web.config" />
@@ -121,6 +153,12 @@
     <Content Include="Views\Shared\PageToolbar.cshtml" />
     <Content Include="Views\Shared\HeadContent.cshtml" />
     <Content Include="Themes\Roadkillwiki.info\Theme.cshtml" />
+    <Content Include="Views\Settings\SettingsMenu.cshtml" />
+    <Content Include="Views\Settings\Users.cshtml" />
+    <Content Include="Views\Settings\UsersForWindows.cshtml" />
+    <Content Include="Views\Files\Folder.cshtml" />
+    <Content Include="Views\Home\BlankLogin.cshtml" />
+    <Content Include="Views\Settings\Tools.cshtml" />
     <None Include="Webtemplate.config">
       <SubType>Designer</SubType>
     </None>
@@ -132,18 +170,18 @@
     <Content Include="Assets\Scripts\jquery.form-extensions.min.js" />
     <Content Include="Assets\Scripts\roadkill.js" />
     <Content Include="Global.asax" />
-    <Content Include="Views\Page\Edit.cshtml" />
+    <Content Include="Views\Pages\Edit.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Settings\Index.cshtml" />
     <Content Include="Views\Home\Install.cshtml" />
     <Content Include="Views\Home\InstallComplete.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Assets\Scripts\jquery-1.4.1.min.js" />
-    <Content Include="Views\Page\Index.cshtml" />
-    <Content Include="Views\Page\AllPages.cshtml" />
-    <Content Include="Views\Page\AllTags.cshtml" />
-    <Content Include="Views\Page\Tag.cshtml" />
-    <Content Include="Views\Page\AllFiles.cshtml" />
+    <Content Include="Views\Wiki\Index.cshtml" />
+    <Content Include="Views\Pages\AllPages.cshtml" />
+    <Content Include="Views\Pages\AllTags.cshtml" />
+    <Content Include="Views\Pages\Tag.cshtml" />
+    <Content Include="Views\Files\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config" />

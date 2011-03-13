@@ -8,7 +8,7 @@ namespace Roadkill.Core
 {
 	public class PageSummary
 	{
-		public Guid Id { get; set; }
+		public int Id { get; set; }
 		[Required]
 		public string Title { get; set; }
 		public string CreatedBy { get; set; }
@@ -26,7 +26,7 @@ namespace Roadkill.Core
 		{
 			get
 			{
-				return Id == Guid.Empty;
+				return Id == 0;
 			}
 		}
 	}

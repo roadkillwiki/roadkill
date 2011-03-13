@@ -10,14 +10,22 @@ namespace Roadkill.Core
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-			// Sets Index() as the default action when no action is provided
-			//routes.MapRoute(
-			//    "ControllerDefault",
-			//    "{controller}/{id}",
-			//    new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-			//);
+			// For the jQuery ajax file manager
+			routes.MapLowercaseRoute(
+				"FileFolder",
+				"Files/Folder/{dir}",
+				new { controller = "Files", action = "Folder", dir = UrlParameter.Optional }
+			);
 
-			routes.MapRoute(
+			// The default way of getting to a page: "/wiki/123/page-title"
+			routes.MapLowercaseRoute(
+				"Wiki",
+				"Wiki/{id}/{title}",
+				new { controller = "Wiki", action = "Index", title = UrlParameter.Optional }
+			);
+
+			// Default
+			routes.MapLowercaseRoute(
 				"Default", // Route name
 				"{controller}/{action}/{id}", // URL with parameters
 				new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
@@ -29,7 +37,7 @@ namespace Roadkill.Core
 			AreaRegistration.RegisterAllAreas();
 			RegisterRoutes(RouteTable.Routes);
 
-			Page.Configure(RoadkillSettings.ConnectionString);
+			Page.Configure(RoadkillSettings.ConnectionString,false,RoadkillSettings.CachedEnabled);
 		}
 	}
 }

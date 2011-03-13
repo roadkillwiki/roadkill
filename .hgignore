@@ -4,6 +4,7 @@
 syntax: glob
 
 # Ignore Visual Studio 2008 files
+Attachments*/
 *.DS_Store
 *.obj
 *.exe
@@ -41,5 +42,4 @@ _ReSharper*/
 
 *roadkillaspnet_log.ldf
 
-syntax: glob
-[Aa]ttachments.*
+

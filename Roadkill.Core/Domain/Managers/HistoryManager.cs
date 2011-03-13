@@ -8,22 +8,34 @@ namespace Roadkill.Core
 {
 	public class HistoryManager
 	{
-		public IEnumerable<HistorySummary> GetHistory(Guid pageId)
+		private IQueryable<Page> Pages
 		{
-			List<HistorySummary> historyList = new List<HistorySummary>();
-
-			IList<PageContent> contentList = PageContent.Repository.List("Page.Id", pageId);
-			foreach (PageContent item in contentList)
+			get
 			{
-				historyList.Add(new HistorySummary()
-				{
-					Id = item.Id,
-					PageId = pageId,
-					EditedBy = item.EditedBy,
-					EditedOn = item.EditedOn,
-					VersionNumber = item.VersionNumber
-				});
+				return Page.Repository.Manager().Queryable<Page>();
 			}
+		}
+
+		private IQueryable<PageContent> PageContents
+		{
+			get
+			{
+				return Page.Repository.Manager().Queryable<PageContent>();
+			}
+		}
+
+		public IEnumerable<HistorySummary> GetHistory(int pageId)
+		{
+			IEnumerable<PageContent> contentList = PageContents.Where(p => p.Page.Id == pageId);
+			IEnumerable<HistorySummary> historyList = from p in contentList select
+													  new HistorySummary()
+													  {
+															Id = p.Id,
+															PageId = pageId,
+															EditedBy = p.EditedBy,
+															EditedOn = p.EditedOn,
+															VersionNumber = p.VersionNumber
+														};
 
 			return historyList.OrderByDescending(h => h.VersionNumber);
 		}
@@ -48,7 +60,7 @@ namespace Roadkill.Core
 			}
 			else
 			{
-				PageContent previousContent = PageContent.Repository.List("Page.Id", mainContent.Page.Id, "VersionNumber", mainContent.VersionNumber - 1).FirstOrDefault();
+				PageContent previousContent = PageContents.FirstOrDefault(p => p.Page.Id == mainContent.Page.Id && p.VersionNumber == mainContent.VersionNumber - 1);
 
 				if (previousContent == null)
 				{
@@ -63,9 +75,9 @@ namespace Roadkill.Core
 			return versions;
 		}
 
-		public void RevertTo(Guid pageId, int versionNumber)
+		public void RevertTo(int pageId, int versionNumber)
 		{
-			PageContent pageContent = PageContent.Repository.List("Page.Id",pageId,"VersionNumber",versionNumber).FirstOrDefault();
+			PageContent pageContent = PageContents.FirstOrDefault(p => p.Page.Id == pageId && p.VersionNumber == versionNumber);
 			if (pageContent != null)
 			{
 				RevertTo(pageContent.Id);
@@ -76,8 +88,8 @@ namespace Roadkill.Core
 		{
 			string currentUser = RoadkillContext.Current.CurrentUser;
 
-			PageContent versionContent = PageContent.Repository.Read(versionId);
-			Page page = Page.Repository.Read(versionContent.Page.Id);
+			PageContent versionContent = PageContents.FirstOrDefault(p => p.Id == versionId);
+			Page page = Pages.FirstOrDefault(p => p.Id == versionContent.Page.Id);
 
 			PageContent pageContent = new PageContent();
 			pageContent.VersionNumber = MaxVersion(page.Id) + 1;
@@ -88,15 +100,9 @@ namespace Roadkill.Core
 			PageContent.Repository.SaveOrUpdate(pageContent);
 		}
 
-		public int MaxVersion(Guid pageId)
+		public int MaxVersion(int pageId)
 		{
-			IQuery query = PageContent.Repository.Manager().SessionFactory.OpenSession()
-				.CreateQuery("SELECT max(VersionNumber) FROM PageContent WHERE Page.Id=:Id");
-
-			query.SetGuid("Id", pageId);
-			query.SetMaxResults(1);
-
-			return query.UniqueResult<int>();
+			return PageContents.Where(p => p.Page.Id == pageId).Max(p => p.VersionNumber);
 		}
 	}
 }

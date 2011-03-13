@@ -1,0 +1,86 @@
+﻿@model IList<IEnumerable<string>>
+@{ 
+	ViewBag.Title = "Site users";
+}
+<h1>Site settings</h1>
+
+@Html.Partial("SettingsMenu")
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$.require("roadkill.settings.js");
+});
+</script>
+
+@if (ViewData["IsValid"] != null){
+<script type="text/javascript">
+$(document).ready(function ()
+{
+	$("#userdialogContainer").modal();
+});
+</script>
+}
+
+<div id="settings" class="blueborder rounded5">
+	<h2>Admins</h2>
+	<p>
+		<a id="addadmin" href="javascript:;">New admin user</a>
+	</p>
+	<table class="settingstable">
+		@foreach (string username in Model[0])
+		{
+		<tr>
+			<td class="title" title="@username">@username</td>
+			<td class="edit"><a href="javascript:;" title="@username">Edit</a></td>
+			<td class="delete">@Html.ActionLink("Delete", "Delete", new { id = username }, new { @class = "confirm" })</td>
+		</tr>
+		}
+	</table>
+	<br class="clear" />
+
+	<h2>Editors</h2>
+	<p>
+		<a id="addeditor" href="javascript:;">New editor user</a>
+	</p>
+	<table class="settingstable">
+	@foreach (string username in Model[1])
+	{
+		<tr>
+			<td class="title" title="@username">@username</td>
+			<td class="edit"><a href="javascript:;" title="@username">Edit</a></td>
+			<td class="delete">@Html.ActionLink("Delete", "Delete", new { id = username }, new { @class = "confirm" })</td>
+		</tr>
+	}
+	</table>
+	<br class="clear" />
+
+	<div id="userdialogContainer">
+		<h2 style="margin-top:0">Edit user</h2>
+		@Html.ValidationSummary("Error:")
+		@using (Html.BeginForm())
+		{
+			@Html.Hidden("mode")
+			@Html.Hidden("username")
+			@Html.Hidden("userType")
+			<div class="row">
+				<label for="newUsername">Username:</label>
+				<div class="left textbox">@Html.TextBox("newUsername")</div>
+			</div>
+			<br class="clear" />
+	 
+			 <div class="row">
+				<label for="password1">New password:</label>
+				<div class="left textbox">@Html.Password("password")</div>
+				<br class="clear" />
+			</div>
+	 
+			 <div class="row">
+				<label for="password2">New password (confirm):</label>
+				<div class="left textbox">@Html.Password("passwordConfirm")</div>
+				<br class="clear" />
+			</div>
+		
+			<input type="submit" value="Save" class="smallerbutton right" />
+		}
+	</div>
+</div>

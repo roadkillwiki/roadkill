@@ -15,6 +15,51 @@ namespace Roadkill.Core.Converters.MediaWiki
 {
 	public class MediaWikiParser : Creole.CreoleParser
 	{
+		public override string BoldToken
+		{
+			get { return "'''"; }
+		}
+
+		public override string ItalicToken
+		{
+			get { return "''"; }
+		}
+
+		public override string UnderlineToken
+		{
+			get { return ""; }
+		}
+
+		public override string LinkStartToken
+		{
+			get { return "[[%URL%"; }
+		}
+
+		public override string LinkEndToken
+		{
+			get { return "|%LINKTEXT%]]"; }
+		}
+
+		public override string ImageStartToken
+		{
+			get { return "[[File:%FILENAME%"; }
+		}
+
+		public override string ImageEndToken
+		{
+			get { return "|%ALT%]]"; }
+		}
+
+		public override string BulletListToken
+		{
+			get { return "*"; }
+		}
+
+		public override string NumberedListToken
+		{
+			get { return "#"; }
+		}
+
 		protected override string _processBoldCreole(string markup)
 		{
 			return _processBracketingCreole("'''", _getStartTag("<strong>"), "</strong>", markup);

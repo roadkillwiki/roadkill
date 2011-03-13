@@ -56,7 +56,7 @@ namespace Roadkill.Core
 		{
 			if (RoadkillContext.Current.IsAdmin)
 			{
-				string link = helper.ActionLink("Site settings", "Settings", "Home").ToString();
+				string link = helper.ActionLink("Site settings","Index","Settings").ToString();
 				return MvcHtmlString.Create(link + suffix);
 			}
 			else
@@ -80,7 +80,7 @@ namespace Roadkill.Core
 		public static MvcHtmlString NewPageLink(this HtmlHelper helper, string suffix)
 		{
 			if (RoadkillContext.Current.IsLoggedIn)
-				return MvcHtmlString.Create(helper.ActionLink("New page", "New", "Page").ToString() + suffix);
+				return MvcHtmlString.Create(helper.ActionLink("New page", "New", "Pages").ToString() + suffix);
 			else
 				return MvcHtmlString.Empty;
 		}
@@ -125,7 +125,7 @@ namespace Roadkill.Core
 
 		public static MvcHtmlString PageLink(this HtmlHelper helper, string linkText, string pageName, object htmlAttributes)
 		{
-			return helper.ActionLink(linkText, "Index", "Page", new { id = pageName }, htmlAttributes);
+			return helper.ActionLink(linkText, "Index", "Pages", new { id = pageName }, htmlAttributes);
 		}
 
 		public static string CssLink(this UrlHelper helper, string relativePath)

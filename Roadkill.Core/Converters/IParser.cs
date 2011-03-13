@@ -21,5 +21,16 @@ namespace Roadkill.Core.Converters
 		/// Occurs when a hyperlink is parsed.
 		/// </summary>
 		event EventHandler<LinkEventArgs> LinkParsed;
+
+		string BoldToken { get; }
+		string UnderlineToken { get; }
+		string ItalicToken { get; }
+		string LinkStartToken { get; }
+		string LinkEndToken { get; }
+		string ImageStartToken { get; }
+		string ImageEndToken { get; }
+		string BulletListToken { get; }
+		string NumberedListToken { get; }
+		string HeadingToken { get; }
 	}
 }

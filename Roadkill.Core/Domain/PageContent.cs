@@ -37,7 +37,7 @@ namespace Roadkill.Core
 			References<Page>(x => x.Page)
 				.Column("pageid")
 				.Cascade
-				.None();
+				.None().Index("pageId");
 
 			Cache.ReadWrite().IncludeAll();
 		}

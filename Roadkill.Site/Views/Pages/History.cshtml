@@ -20,7 +20,7 @@
 		<tr>
 			<td class="version">@Html.ActionLink(Model[i].VersionNumber.ToString(), "Version", new { id = Model[i].Id })</td>
 			<td class="editedon" title="@Model[i].EditedOn.ToString("U")">@Model[i].EditedOn</td>
-			<td class="editedby">@Html.ActionLink(Model[i].EditedBy,"ByUser","Page",new { id = Model[i].EditedBy },null)</td>
+			<td class="editedby">@Html.ActionLink(Model[i].EditedBy,"ByUser","Pages",new { id = Model[i].EditedBy },null)</td>
 			@if (i > 0 && RoadkillContext.Current.IsLoggedIn)
 			{
 			<td class="revert">@Html.ActionLink("Revert", "Revert", new { versionId = Model[i].Id, pageId = Model[i].PageId })</td>

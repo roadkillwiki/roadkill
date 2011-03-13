@@ -1,0 +1,56 @@
+﻿@model IList<IList<string>>
+@{
+	Layout = "~/Views/Shared/_Blank.cshtml";
+	ViewBag.Title = "File explorer";
+}
+
+<link href="@Url.Content("~/Assets/Css/jqueryFileTree.css")" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="@Url.Content("~/Assets/Scripts/jqueryFileTree.js")"></script>
+<script type="text/javascript">
+$(document).ready(function ()
+{
+	$.require("roadkill.files.js");
+});
+</script>
+<div id="files-container" class="padded">
+	<a href="javascript:;" id="uploadfile">Upload a file</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+	<a href="javascript:;" id="newdirectory">New directory</a>
+	<br /><br />
+
+	<div id="generic-container" class="hidden lightborder rounded5 midpadded"></div>
+
+	<div id="uploadfile-container" class="hidden">
+	<div class="selectedfolder"></div>
+	@using (Html.BeginForm("UploadFile", "Files", FormMethod.Post, new { enctype = "multipart/form-data" }))
+	{
+		@Html.Hidden("currentUploadFolderPath")
+		<input type="file" id="uploadFile" name="uploadFile"/>
+		<input type="submit" value="Upload" class="button"/>
+	}
+	</div>
+
+	<div id="newfolder-container" class="hidden">
+	<div class="selectedfolder"></div>
+	@using (Html.BeginForm("NewFolder", "Files"))
+	{
+		@Html.Hidden("currentFolderPath")
+		<span>Folder name:</span>
+		@Html.TextBox("newFolderName")
+		<input type="submit" value="Create" class="button"/>
+	}
+	</div>
+
+	<h2>Choose a file</h2>
+	<div>
+		<div id="filetree-container" class="left blueborder padded"></div>
+		<div class="left">
+			<div id="file-preview" class="hidden lightborder padded">
+				<span id="previewname" class="smallest"></span><br />
+				<img id="preview" src="" alt="preview" />
+				<input id="choosebutton" type="button" value="choose" class="smallestbutton" />
+			</div>
+			<br class="clear" />
+		</div>
+	</div>
+	<br class="clear" />
+</div>

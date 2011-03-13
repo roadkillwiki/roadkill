@@ -26,7 +26,7 @@ namespace Roadkill.Core.Converters
 			return parser.Transform(text);
 		}
 
-		private IParser GetParser()
+		public IParser GetParser()
 		{
 			if (_parser == null)
 			{
@@ -67,10 +67,21 @@ namespace Roadkill.Core.Converters
 		{
 			UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
 
-			// This needs to be a lot more complete
+			// Process internal links
 			if (!e.OriginalHref.StartsWith("http://") && !e.OriginalHref.StartsWith("www.") && !e.OriginalHref.StartsWith("mailto:"))
 			{
-				e.Href = helper.Action("Index", "Page", new { id = e.OriginalHref });
+				string href = e.OriginalHref;
+
+				// Markdown doesn't support spaces in the URLs so "-" are used instead. Turn these back,
+				// hopefully not creating any other issues in the process
+				href = href.Replace("-", " ");
+
+				PageManager manager = new PageManager();
+				PageSummary summary = manager.FindByTitle(href);
+				if (summary != null)
+					href = helper.Action("Index", "Wiki", new { id = summary.Id,title=summary.Title.ForUrl() });
+
+				e.Href = href;
 				e.Target = "";
 			}
 		}

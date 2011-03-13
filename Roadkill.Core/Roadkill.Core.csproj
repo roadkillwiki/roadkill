@@ -34,6 +34,9 @@
     <Reference Include="FluentNHibernate">
       <HintPath>..\lib\FluentNHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\lib\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate">
       <HintPath>..\lib\NHibernate.dll</HintPath>
     </Reference>
@@ -58,18 +61,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\LowercaseRoute.cs" />
+    <Compile Include="Config\AdminRequiredAttribute.cs" />
+    <Compile Include="Config\EditorRequiredAttribute.cs" />
     <Compile Include="Config\RoadkillSection.cs" />
+    <Compile Include="Controllers\FilesController.cs" />
+    <Compile Include="Controllers\WikiController.cs" />
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Converters\ImageEventArgs.cs" />
     <Compile Include="Converters\IParser.cs" />
     <Compile Include="Converters\LinkEventArgs.cs" />
     <Compile Include="Converters\Mediawiki\MediaWikiParser.cs" />
+    <Compile Include="Domain\Summaries\DirectorySummary.cs" />
+    <Compile Include="Domain\Summaries\SettingsSummary.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Domain\Import\ScrewTurnImporter.cs" />
     <Compile Include="Domain\Import\IWikiImporter.cs" />
     <Compile Include="Domain\Search\SearchManager.cs" />
     <Compile Include="Config\Providers\ActiveDirectoryRoleProvider.cs" />
-    <Compile Include="Config\Providers\RoadkillAuthorizeAttribute.cs" />
     <Compile Include="Config\Providers\RoadkillMembershipProvider.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Domain\Summaries\HistorySummary.cs" />
@@ -85,7 +94,7 @@
     <Compile Include="Common\HtmlExtensions.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\PageController.cs" />
+    <Compile Include="Controllers\PagesController.cs" />
     <Compile Include="Domain\PageContent.cs" />
     <Compile Include="Domain\Managers\HistoryManager.cs" />
     <Compile Include="Domain\Managers\PageManager.cs" />
