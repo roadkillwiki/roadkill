@@ -14,7 +14,7 @@ using System.Diagnostics;
 
 namespace Roadkill.Core.Controllers
 {
-	[AdminRequired]
+	//[AdminRequired]
 	public class SettingsController : ControllerBase
     {
 		/// <summary>
@@ -153,7 +153,7 @@ namespace Roadkill.Core.Controllers
 
 		public ActionResult WipePages()
 		{
-			Page.Configure(RoadkillSettings.ConnectionString, true,RoadkillSettings.CachedEnabled);
+			RoadkillSettings.InstallDb();
 			return RedirectToAction("Index", "Home");
 		}
 

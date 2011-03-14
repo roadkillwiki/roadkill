@@ -53,25 +53,11 @@ namespace Roadkill.Core
 			set { this["attachmentsFolder"] = value; }
 		}
 
-		[ConfigurationProperty("markupType", IsRequired = true)]
-		public string MarkupType
-		{
-			get { return (string)this["markupType"]; }
-			set { this["markupType"] = value; }
-		}
-
 		[ConfigurationProperty("installed", IsRequired = true)]
 		public bool Installed
 		{
 			get { return (bool)this["installed"]; }
 			set { this["installed"] = value; }
-		}
-
-		[ConfigurationProperty("theme", IsRequired = true)]
-		public string Theme
-		{
-			get { return (string)this["theme"]; }
-			set { this["theme"] = value; }
 		}
 
 		[ConfigurationProperty("cacheEnabled", IsRequired = true)]

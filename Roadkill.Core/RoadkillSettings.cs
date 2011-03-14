@@ -8,6 +8,9 @@ using System.Web.Configuration;
 
 namespace Roadkill.Core
 {
+	/// <summary>
+	/// Both application and web.config settings for the Roadkill instance.
+	/// </summary>
 	public class RoadkillSettings
 	{
 		public static bool IsWindowsAuthentication
@@ -17,6 +20,11 @@ namespace Roadkill.Core
 				AuthenticationSection section = ConfigurationManager.GetSection("system.web/authentication") as AuthenticationSection;
 				return section.Mode == AuthenticationMode.Windows;
 			}
+		}
+
+		public static string ConnectionString
+		{
+			get { return ConfigurationManager.ConnectionStrings[RoadkillSection.Current.ConnectionStringName].ConnectionString; }
 		}
 
 		public static string EditorRoleName
@@ -34,24 +42,32 @@ namespace Roadkill.Core
 			get { return RoadkillSection.Current.AttachmentsFolder; }
 		}
 
-		public static string ConnectionString
-		{
-			get { return ConfigurationManager.ConnectionStrings[RoadkillSection.Current.ConnectionStringName].ConnectionString; }
-		}
-
 		public static bool Installed
 		{
 			get { return RoadkillSection.Current.Installed; }
-		}	
+		}
+
+		public static IList<string> AllowedFileTypes
+		{
+			get 
+			{ 
+				return new List<string>(SiteConfiguration.Current.AllowedFileTypes.Split(',')); 
+			}
+		}
+
+		public static string Title
+		{
+			get { return SiteConfiguration.Current.Title; }
+		}
 
 		public static string MarkupType
 		{
-			get { return RoadkillSection.Current.MarkupType; }
+			get { return SiteConfiguration.Current.MarkupType; }
 		}
 
 		public static string Theme
 		{
-			get { return RoadkillSection.Current.Theme; }
+			get { return SiteConfiguration.Current.Theme; }
 		}
 
 		public static bool CachedEnabled
@@ -74,6 +90,21 @@ namespace Roadkill.Core
 			{
 				return string.Format("~/Themes/{0}", Theme);
 			}
+		}
+
+		public static void InstallDb()
+		{
+			Page.Configure(RoadkillSettings.ConnectionString, true, RoadkillSettings.CachedEnabled);
+
+			// Create the default site config properties
+			SiteConfiguration config = new SiteConfiguration()
+			{
+				Theme = "Blackbar",
+				MarkupType = "Creole",
+				AllowedFileTypes = "jpg,png,gif,zip,xml",
+				AllowUserSignup = true
+			};
+			SiteConfiguration.Repository.SaveOrUpdate(config);
 		}
 
 		public static void SaveWebConfig(string connectionString)

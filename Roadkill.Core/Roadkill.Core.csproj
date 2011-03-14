@@ -72,6 +72,7 @@
     <Compile Include="Converters\IParser.cs" />
     <Compile Include="Converters\LinkEventArgs.cs" />
     <Compile Include="Converters\Mediawiki\MediaWikiParser.cs" />
+    <Compile Include="Domain\SiteConfiguration.cs" />
     <Compile Include="Domain\Summaries\DirectorySummary.cs" />
     <Compile Include="Domain\Summaries\SettingsSummary.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />

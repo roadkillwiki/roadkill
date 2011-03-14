@@ -6,6 +6,7 @@ using System.Xml;
 using System.Web.Mvc;
 using NHibernate;
 using System.Web.Security;
+using System.Text;
 
 namespace Roadkill.Core
 {

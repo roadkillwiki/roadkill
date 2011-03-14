@@ -136,7 +136,7 @@ namespace Roadkill.Core.Controllers
 			SqlServices.Install(databaseName, SqlFeatures.Membership | SqlFeatures.RoleManager, RoadkillSettings.ConnectionString);
 
 			// Create the roadkill schema
-			Page.Configure(RoadkillSettings.ConnectionString, true, RoadkillSettings.CachedEnabled);
+			RoadkillSettings.InstallDb();
 
 			// Add the admin user, admin role and editor roles.
 			UserManager manager = new UserManager();
@@ -144,7 +144,7 @@ namespace Roadkill.Core.Controllers
 			string result = manager.AddAdminUser("admin",adminPassword);
 			if (!string.IsNullOrEmpty(result))
 			{
-				throw new InstallerException(result);
+				//throw new InstallerException(result);
 				// Do nothing, for now. The passwords may be out of sync which 
 				// requires the view being changed to accomodate this.
 			}
