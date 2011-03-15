@@ -22,7 +22,14 @@ namespace Roadkill.Core.Controllers
 				summary = new PageSummary();
 				summary.Title = "You have no mainpage set";
 				summary.Content = "To set a main page, create a page and assign the tag 'homepage' to it.";
+				summary.CreatedBy = "";
+				summary.CreatedOn = DateTime.Now;
+				summary.Tags = "homepage";
+				summary.ModifiedOn = DateTime.Now;
+				summary.ModifiedBy = "";
 			}
+
+			RoadkillContext.Current.Page = summary;
 
 			return View(summary);
 		}

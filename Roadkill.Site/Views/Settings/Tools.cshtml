@@ -32,6 +32,6 @@ the mediawiki syntax, some content will not render perfectly. This includes some
 @using (Html.BeginForm("ImportFromScrewTurn","Settings"))
 {
 <b>Screwturn connection string:</b>
-@(Html.TextBox("screwturnConnectionString"))<br />
+@(Html.TextBox("screwturnConnectionString", null, new { style = "width:30em" }))<br />
 <input type="submit" class="button" value="import" />
 }

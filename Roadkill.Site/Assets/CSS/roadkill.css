@@ -25,7 +25,7 @@
 .hidden		{ display:none;}
 .midpadded	{ padding:5px;}
 .padded		{ padding:10px;}
-.button				{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;font-size:0.96em;width:100px;}
+.button				{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;font-size:0.96em;width:100px;padding:2px;}
 .smallerbutton		{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;font-size:0.9em;width:75px;}
 .smallestbutton		{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;font-size:0.8em;}
 
@@ -46,10 +46,11 @@
 .linkbutton	{ border:1px solid #d3d2d2;padding:3px;font-size:0.8em;}
 .linkbutton	a { color:black;text-decoration:none;}
 
-#login		 { padding:10px;}
-#login label { float:left;padding:5px 5px 0 0;font-weight:bold;}
-.username input { border:1px solid #032451;font-size:1em;}
-.password input { border:1px solid #032451;font-size:1em;}
+#login			{ background-color:#EFEFEF;width:25em;padding:1em; }
+.loginlabel		{ float: left;margin:0 5px 0 0;padding:5px 0 0 0;font-weight:bold;}
+.logintextbox	{ float:right;width:15em;display: block; padding: 0.25em; margin: 0 0 10px 0;color: #3A3A3A; }
+#loginbutton	{ float:right;}
+
 
 #toolbar		{ margin: 5px 0px 0px 5px;padding:2px;}
 #editbutton		{ float:left;}

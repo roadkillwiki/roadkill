@@ -68,6 +68,9 @@ namespace Roadkill.Core.Controllers
 		{
 			DirectorySummary summary = DirectorySummary.FromBase64UrlPath(currentUploadFolderPath);
 
+			if (!Directory.Exists(Server.MapPath(RoadkillSettings.AttachmentsFolder)))
+				Directory.CreateDirectory(Server.MapPath(RoadkillSettings.AttachmentsFolder));
+
 			string filePath = string.Format(@"{0}\{1}", summary.DiskPath, Request.Files["uploadFile"].FileName);
 			HttpPostedFileBase postedFile = Request.Files["uploadFile"] as HttpPostedFileBase;
 			postedFile.SaveAs(filePath);

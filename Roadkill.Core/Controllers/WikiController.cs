@@ -18,6 +18,8 @@ namespace Roadkill.Core.Controllers
 			if (summary == null)
 				return new HttpNotFoundResult(string.Format("The page with title or id '{0}' could not be found", id));
 
+			RoadkillContext.Current.Page = summary;
+
 			return View(summary);
 		}
     }

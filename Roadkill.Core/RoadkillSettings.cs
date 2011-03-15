@@ -99,7 +99,7 @@ namespace Roadkill.Core
 			// Create the default site config properties
 			SiteConfiguration config = new SiteConfiguration()
 			{
-				Theme = "Blackbar",
+				Theme = "Mediawiki",
 				MarkupType = "Creole",
 				AllowedFileTypes = "jpg,png,gif,zip,xml",
 				AllowUserSignup = true

@@ -26,11 +26,24 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Indicates whether the current user is a member of the admin role.
+		/// </summary>
 		public bool IsAdmin
 		{
 			get
 			{
 				return Roles.IsUserInRole(RoadkillSettings.AdminRoleName);
+			}
+		}
+
+		public PageSummary Page { get; set; }
+
+		public bool IsContentPage
+		{
+			get
+			{
+				return Page != null;
 			}
 		}
 
@@ -40,12 +53,11 @@ namespace Roadkill.Core
 			{
 				if (IsWeb)
 				{
-					// Use a session instead of HttpContext.Items as Items doesn't survive redirects
-					RoadkillContext context = HttpContext.Current.Session[CONTEXT_KEY] as RoadkillContext;
+					RoadkillContext context = HttpContext.Current.Items[CONTEXT_KEY] as RoadkillContext;
 					if (context == null)
 					{
 						context = new RoadkillContext();
-						HttpContext.Current.Session[CONTEXT_KEY] = context;
+						HttpContext.Current.Items[CONTEXT_KEY] = context;
 					}
 
 					return context;

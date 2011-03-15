@@ -1,0 +1,66 @@
+<html>
+	<head>
+		<title>@ViewBag.Title</title>
+		@Html.Partial("HeadContent")
+	</head>
+<body>
+@using (Html.BeginForm("Index", "Search", FormMethod.Post))
+{
+	<div id="headfade">
+		<span id="loggedinas" class="left">@Html.LoginStatus()&nbsp;&nbsp;@Html.LoginLink("")</span>
+		<br class="clear" />
+		<div id="search">
+			<input type="text" name="id" placeholder="Enter text to search" />
+			<button id="searchbutton">
+				<img src="@Url.ThemeContent("search.png")" alt="Search" />
+			</button>
+		</div>	
+	</div>
+}
+	<div id="headborder"></div>
+	
+	<div id="logo">
+		<a href="@(Url.Action("Index", "Home"))"><img src="@Url.ThemeContent("logo.png")" alt="logo" border="0" /></a>
+	</div>
+	<div id="panel">
+		
+		<div id="leftmenu">
+			<ul>
+				<li>@Html.MainPageLink("Main Page")</li>
+				<li>@Html.ActionLink("Categories", "AllTags", "Pages")</li>
+				<li>@Html.ActionLink("All pages", "AllPages", "Pages")</li>
+			</ul>
+
+			@if (RoadkillContext.Current.IsAdmin)
+			{
+			<ul>
+				<li>@Html.NewPageLink("")</li>
+				<li>@Html.ActionLink("Settings", "Index", "Settings")</li>
+			</ul>
+			}
+		</div>
+	</div>
+
+	<div id="container">
+		@RenderSection("PageToolbar", false)
+		@if (RoadkillContext.Current.IsContentPage)
+		{
+				<div id="viewhistory">@Html.ActionLink("View History", "History", "Pages", new { id = RoadkillContext.Current.Page.Id },null)</div>
+		}
+		<div id="content">
+			@RenderBody()
+		</div>
+	</div>
+
+	<div id="footer">
+		@if (RoadkillContext.Current.IsContentPage)
+  {
+		<p>This page was last modified on @RoadkillContext.Current.Page.ModifiedOn.ToString("dd MMM yyyy") 
+		at @RoadkillContext.Current.Page.ModifiedOn.ToShortTimeString().</p>
+		}
+		<p>
+			Powered by Roadkill Wiki. This theme contains images and portions of its design from <a href="http://www.mediawiki.org" target="_blank">Mediawiki.org</a>.
+		</p>
+	</div>
+</body>
+</html>

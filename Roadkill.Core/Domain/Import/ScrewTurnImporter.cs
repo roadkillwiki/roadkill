@@ -21,7 +21,7 @@ namespace Roadkill.Core
 				using (SqlCommand command = connection.CreateCommand())
 				{
 					connection.Open();
-					command.CommandText = "SELECT p.*,pc.Username,pc.Revision,pc.DateTime FROM Page p " +
+					command.CommandText = "SELECT p.*,pc.[User] as [User],pc.Revision,pc.LastModified FROM Page p " +
 											"INNER JOIN PageContent pc ON pc.Page = p.Name " +
 											"WHERE pc.Revision = (SELECT MAX(Revision) FROM PageContent WHERE Page=p.Name)";
 
@@ -31,10 +31,10 @@ namespace Roadkill.Core
 						{
 							Page page = new Page();
 							page.Title = reader["Name"].ToString();
-							page.CreatedBy = reader["Username"].ToString();
+							page.CreatedBy = reader["User"].ToString();
 							page.CreatedOn = (DateTime)reader["CreationDateTime"];
-							page.ModifiedBy = reader["Username"].ToString();
-							page.ModifiedOn = (DateTime)reader["DateTime"];
+							page.ModifiedBy = reader["User"].ToString();
+							page.ModifiedOn = (DateTime)reader["LastModified"];
 
 							string categories = GetCategories(page.Title);
 							if (!string.IsNullOrWhiteSpace(categories))
@@ -94,6 +94,7 @@ namespace Roadkill.Core
 					command.Parameters.Add(parameter);
 
 					List<PageContent> categories = new List<PageContent>();
+					bool hasContent = false;
 					using (SqlDataReader reader = command.ExecuteReader())
 					{
 						while (reader.Read())
@@ -107,7 +108,21 @@ namespace Roadkill.Core
 							content.Page = parentPage;
 
 							PageContent.Repository.SaveOrUpdate(content);
+							hasContent = true;
 						}
+					}
+
+					// For broken content, make sure the page has something
+					if (!hasContent)
+					{
+						PageContent content = new PageContent();
+						content.EditedBy = "unknown";
+						content.EditedOn = DateTime.Now;
+						content.Text = "";
+						content.VersionNumber = 1;
+						content.Page = parentPage;
+
+						PageContent.Repository.SaveOrUpdate(content);
 					}
 				}
 			}
