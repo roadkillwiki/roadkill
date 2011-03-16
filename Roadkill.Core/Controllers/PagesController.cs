@@ -54,7 +54,6 @@ namespace Roadkill.Core.Controllers
 			return Json(tagsArray, JsonRequestBehavior.AllowGet);
 		}
 
-		[EditorRequired]
 		public ActionResult History(int id)
 		{
 			HistoryManager manager = new HistoryManager();

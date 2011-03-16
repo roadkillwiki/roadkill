@@ -8,6 +8,7 @@ using System.Web.Security;
 using System.Web.Management;
 using System.Data.SqlClient;
 using Roadkill.Core.Converters;
+using Roadkill.Core.Search;
 
 namespace Roadkill.Core.Controllers
 {
@@ -110,62 +111,13 @@ namespace Roadkill.Core.Controllers
 			return RedirectToAction("Index");
 		}
 
-		public ActionResult Install()
-		{
-			//if (RoadkillSettings.Installed)
-			//	return RedirectToAction("Index", "Home");
-
-			return View();
-		}
-
 		[HttpPost]
-		public ActionResult Install(string connectionString, string adminPassword)
+		public ActionResult Search(string searchText)
 		{
-			string databaseName = "";
+			ViewData["search"] = searchText;
 
-			try
-			{
-				using (SqlConnection connection = new SqlConnection(RoadkillSettings.ConnectionString))
-				{
-					connection.Open();
-					databaseName = connection.Database;
-				}
-			}
-			catch (SqlException)
-			{
-				throw new InstallerException("No database name was specified in the connection string");
-			}
-
-			if (string.IsNullOrEmpty(databaseName))
-				throw new InstallerException("No database name was specified in the connection string");
-
-			// Create the provider database and schema
-			SqlServices.Install(databaseName, SqlFeatures.Membership | SqlFeatures.RoleManager, RoadkillSettings.ConnectionString);
-
-			// Create the roadkill schema
-			RoadkillSettings.InstallDb();
-
-			// Add the admin user, admin role and editor roles.
-			UserManager manager = new UserManager();
-			manager.AddRoles();
-			string result = manager.AddAdminUser("admin",adminPassword);
-			if (!string.IsNullOrEmpty(result))
-			{
-				//throw new InstallerException(result);
-				// Do nothing, for now. The passwords may be out of sync which 
-				// requires the view being changed to accomodate this.
-			}
-
-			// Update the web.config to indicate install is complete
-			//RoadkillSettings.SaveWebConfig(connectionString);
-
-			return View("InstallComplete");
+			List<SearchResult> results = SearchManager.SearchIndex(searchText);
+			return View(results);
 		}
     }
-//drop table aspnet_SchemaVersions;
-//drop table aspnet_Membership;
-//drop table aspnet_UsersInRoles;
-//drop table aspnet_Roles;
-//drop table aspnet_Users;
-//drop table aspnet_Applications;
 }

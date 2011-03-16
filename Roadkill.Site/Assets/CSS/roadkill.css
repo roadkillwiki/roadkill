@@ -51,6 +51,11 @@
 .logintextbox	{ float:right;width:15em;display: block; padding: 0.25em; margin: 0 0 10px 0;color: #3A3A3A; }
 #loginbutton	{ float:right;}
 
+.searchresult			{}
+.searchresult-title		{ color:Black; }
+.searchresult-summary	{ font-size: 95%;}
+.searchresult-date		{ color: green;font-size: 97%;}
+.searchbox				{ width:20em; }
 
 #toolbar		{ margin: 5px 0px 0px 5px;padding:2px;}
 #editbutton		{ float:left;}

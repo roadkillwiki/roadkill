@@ -60,7 +60,6 @@ namespace Roadkill.Core
 			Map(x => x.MarkupType);
 			Map(x => x.AllowedFileTypes);
 			Map(x => x.AllowUserSignup);
-			Cache.ReadWrite().IncludeAll();
 		}
 	}
 

@@ -11,6 +11,7 @@ using System.Configuration;
 using Ionic.Zip;
 using Ionic.Zlib;
 using System.Diagnostics;
+using Roadkill.Core.Search;
 
 namespace Roadkill.Core.Controllers
 {
@@ -151,10 +152,18 @@ namespace Roadkill.Core.Controllers
 			return View();
 		}
 
+		public ActionResult UpdateSearchIndex()
+		{
+			TempData["Message"] = "Update complete";
+			SearchManager.CreateIndex();
+			return RedirectToAction("Tools");
+		}
+
 		public ActionResult WipePages()
 		{
+			TempData["Message"] = "Database cleared";
 			RoadkillSettings.InstallDb();
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("Tools");
 		}
 
 		public ActionResult ExportAsXml()
@@ -188,7 +197,7 @@ namespace Roadkill.Core.Controllers
 		{
 			ScrewTurnImporter importer = new ScrewTurnImporter();
 			importer.ImportFromSql(screwturnConnectionString);
-			TempData["DoneMessage"] = "Import successful";
+			TempData["Message"] = "Import successful";
 
 			return RedirectToAction("Tools");
 		}

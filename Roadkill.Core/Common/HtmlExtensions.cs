@@ -142,5 +142,13 @@ namespace Roadkill.Core
 		{
 			return helper.Content(RoadkillSettings.ThemePath + "/" + relativePath);
 		}
+
+		public static string FormatFileSize(this HtmlHelper helper,int size)
+		{
+			if (size > 1024)
+				return size / 1024 + "KB";
+			else
+				return size + " bytes";
+		}
 	}
 }

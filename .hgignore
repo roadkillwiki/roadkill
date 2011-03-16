@@ -5,6 +5,7 @@ syntax: glob
 
 # Ignore Visual Studio 2008 files
 Attachments*/
+search*/
 *.DS_Store
 *.obj
 *.exe

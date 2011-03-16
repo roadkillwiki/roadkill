@@ -103,6 +103,7 @@
     <Content Include="Assets\CSS\images\txt.png" />
     <Content Include="Assets\CSS\images\xls.png" />
     <Content Include="Assets\CSS\images\zip.png" />
+    <Content Include="Assets\Images\favicon.png" />
     <Content Include="Assets\Scripts\roadkill.settings.js" />
     <Content Include="Assets\Scripts\roadkill.files.js" />
     <Content Include="Assets\Scripts\jquery-1.4.1-vsdoc.js" />
@@ -166,6 +167,7 @@
     <Content Include="Views\Files\Folder.cshtml" />
     <Content Include="Views\Home\BlankLogin.cshtml" />
     <Content Include="Views\Settings\Tools.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
     <None Include="Webtemplate.config">
       <SubType>Designer</SubType>
     </None>
@@ -180,8 +182,8 @@
     <Content Include="Views\Pages\Edit.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Settings\Index.cshtml" />
-    <Content Include="Views\Home\Install.cshtml" />
-    <Content Include="Views\Home\InstallComplete.cshtml" />
+    <Content Include="Views\Install\Index.cshtml" />
+    <Content Include="Views\Install\InstallComplete.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Assets\Scripts\jquery-1.4.1.min.js" />
     <Content Include="Views\Wiki\Index.cshtml" />

@@ -5,9 +5,16 @@
 
 @Html.Partial("SettingsMenu")
 
+<span class="bold" style="color:green">@TempData["Message"]</span>
+
 <p>
 <b>@Html.ActionLink("Clear the database", "WipePages")</b><br />
 Clears all pages and text from the database. This does not remove any users.
+</p>
+
+<p>
+<b>@Html.ActionLink("Rebuild search index", "UpdateSearchIndex")</b><br />
+Forces a re-build of the page search index, useful if the search begins to get out of sync for any reason.
 </p>
 
 <p>
@@ -28,7 +35,7 @@ Imports all content from a Screwturn 2 database. You will need to set the markup
 in the settings/web.config file for the format to be compatible. As screwturn uses as variation on 
 the mediawiki syntax, some content will not render perfectly. This includes some images and links.
 </p>
-<span class="bold" style="color:green">@TempData["DoneMessage"]</span>
+
 @using (Html.BeginForm("ImportFromScrewTurn","Settings"))
 {
 <b>Screwturn connection string:</b>
