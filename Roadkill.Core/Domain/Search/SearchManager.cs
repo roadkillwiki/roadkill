@@ -20,7 +20,7 @@ namespace Roadkill.Core.Search
 	/// </summary>
 	public class SearchManager
 	{
-		private static string _indexPath = AppDomain.CurrentDomain.BaseDirectory + @"\search";
+		private static string _indexPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\search";
 		private static Regex _removeTagsRegex = new Regex("<(.|\n)*?>");
 
 		/// <summary>
