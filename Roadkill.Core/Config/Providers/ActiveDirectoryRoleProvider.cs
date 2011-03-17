@@ -29,6 +29,8 @@ namespace Roadkill.Core
 		private static Dictionary<string, List<string>> _rolesForUserCache = new Dictionary<string, List<string>>();
 
 		private string _connectionString;
+		private string _username;
+		private string _password;
 
 		/// <summary>
 		/// Support cross-domain querying, for example if you are in another forest (i.e. office) this is important.
@@ -55,6 +57,10 @@ namespace Roadkill.Core
 			// Initialize the abstract base class.
 			base.Initialize(name, config);
 
+			// Optional username and password fields
+			_username = config["username"];
+			_password = config["password"];
+
 			// Check the activeDirectoryConnectionstring attribute is valid
 			string connectionStringName = config["connectionStringName"];
 			if (string.IsNullOrEmpty(connectionStringName))
@@ -68,11 +74,12 @@ namespace Roadkill.Core
 			if (string.IsNullOrEmpty(_connectionString))
 				throw new ProviderException(string.Format("The connection string named '{0}' is empty.", connectionStringName));
 
-			// "LDAP://dc=" is 11 characters
-			if (!_connectionString.ToLower().StartsWith("ldap://") || _connectionString.Length < 11)
+			// Remove the "LDAP://" part for the daomin name, as the PrincipleContext doesn't like it.
+			int length = "ldap://".Length;
+			if (!_connectionString.ToLower().StartsWith("ldap://") || _connectionString.Length < length)
 				throw new ProviderException(string.Format("The LDAP connection string: '{0}' does not appear to be a valid LDAP. A correct connection string example is LDAP://dc=megacorp,dc=com.", _connectionString));
 
-			_domainName = _connectionString.Substring(11);
+			_domainName = _connectionString.Substring(length);
 		}
 
 
@@ -88,16 +95,22 @@ namespace Roadkill.Core
 				List<string> results = new List<string>();
 				using (PrincipalContext context = new PrincipalContext(ContextType.Domain, _domainName))
 				{
+					// TODO: throw
+					if (!string.IsNullOrEmpty(_username) && !string.IsNullOrEmpty(_password))
+						context.ValidateCredentials(_username, _password);
+
 					try
 					{
 						using (UserPrincipal user = UserPrincipal.FindByIdentity(context, IdentityType.SamAccountName, username))
 						{
 							using (PrincipalSearchResult<Principal> groups = user.GetGroups())
 							{
-								foreach (GroupPrincipal group in groups)
+								foreach (Principal principle in groups)
 								{
-									results.Add(group.SamAccountName);
-									group.Dispose();
+									if (principle is UserPrincipal)
+										results.Add(principle.SamAccountName);
+
+									principle.Dispose();
 								}
 							}
 						}
@@ -124,21 +137,26 @@ namespace Roadkill.Core
 			if (!RoleExists(rolename))
 				throw new ProviderException(string.Format("The role '{0}' was not found.", rolename));
 
-			if (_usersInRoleCache.ContainsKey(rolename))
+			if (!_usersInRoleCache.ContainsKey(rolename))
 			{
 				List<string> results = new List<string>();
 				using (PrincipalContext context = new PrincipalContext(ContextType.Domain,_domainName))
 				{
+					if (!string.IsNullOrEmpty(_username) && !string.IsNullOrEmpty(_password))
+						context.ValidateCredentials(_username, _password);
+
 					try
 					{
 						using (GroupPrincipal group = GroupPrincipal.FindByIdentity(context, IdentityType.SamAccountName, rolename))
 						{
 							using (PrincipalSearchResult<Principal> users = group.GetMembers())
 							{
-								foreach (UserPrincipal user in users)
+								foreach (Principal principle in users)
 								{
-									results.Add(user.SamAccountName);
-									user.Dispose();
+									if (principle is UserPrincipal)
+										results.Add(principle.SamAccountName);
+
+									principle.Dispose();
 								}
 							}
 						}
@@ -176,7 +194,15 @@ namespace Roadkill.Core
 		{
 			string filter = "(&(objectCategory=group)(samAccountName=" + rolename + "))";
 
-			DirectorySearcher searcher = new DirectorySearcher(_connectionString);
+			DirectoryEntry entry = new DirectoryEntry(_connectionString);
+
+			if (!string.IsNullOrEmpty(_username) && !string.IsNullOrEmpty(_password))
+			{
+				entry.Username = _username;
+				entry.Password = _password;
+			}
+
+			DirectorySearcher searcher = new DirectorySearcher(entry);
 			searcher.Filter = filter;
 			searcher.SearchScope = SearchScope.Subtree;
 

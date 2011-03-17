@@ -4,13 +4,13 @@
 		@Html.Partial("HeadContent")
 	</head>
 <body>
-@using (Html.BeginForm("Search", "Home", FormMethod.Post))
+@using (Html.BeginForm("Search", "Home", FormMethod.Get))
 {
 	<div id="headfade">
 		<span id="loggedinas" class="left">@Html.LoginStatus()&nbsp;&nbsp;@Html.LoginLink("")</span>
 		<br class="clear" />
 		<div id="search">
-			<input type="text" name="searchText" placeholder="Enter text to search" />
+			<input type="text" name="q" placeholder="Enter text to search" />
 			<button id="searchbutton">
 				<img src="@Url.ThemeContent("search.png")" alt="Search" />
 			</button>

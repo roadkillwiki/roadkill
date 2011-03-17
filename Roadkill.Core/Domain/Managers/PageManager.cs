@@ -6,6 +6,7 @@ using NHibernate;
 using NHibernate.Linq;
 using System.Xml.Serialization;
 using System.IO;
+using Roadkill.Core.Search;
 
 namespace Roadkill.Core
 {
@@ -89,6 +90,9 @@ namespace Roadkill.Core
 			pageContent.Page = page;
 			PageContent.Repository.SaveOrUpdate(pageContent);
 
+			// Update the lucene index
+			SearchManager.Add(page);
+
 			return page.ToSummary();
 		}
 
@@ -111,6 +115,9 @@ namespace Roadkill.Core
 			pageContent.EditedOn = DateTime.Now;
 			pageContent.Page = page;
 			PageContent.Repository.SaveOrUpdate(pageContent);
+
+			// Update the lucene index
+			SearchManager.Update(page);
 		}
 
 		public IEnumerable<PageSummary> FindByTag(string tag)
@@ -165,6 +172,9 @@ namespace Roadkill.Core
 			}
 
 			Page.Repository.Delete(page);
+
+			// Update the lucene index
+			SearchManager.Delete(page);
 		}
 
 		public string ExportToXml()

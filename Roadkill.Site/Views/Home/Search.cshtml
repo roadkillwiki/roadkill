@@ -13,9 +13,9 @@ else
 	<h1>Search results for '@ViewData["search"]'</h1>
 }
 
-@using (Html.BeginForm("Search", "Home", FormMethod.Post))
+@using (Html.BeginForm("Search", "Home", FormMethod.Get))
 {
-	<input type="text" name="searchText" placeholder="Enter text to search" class="searchbox" />
+	@Html.TextBox("q",null,new { placeholder="Enter text to search",@class="searchbox"})
 	<input type="submit" value="Search" />
 }
 

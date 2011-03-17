@@ -21,6 +21,7 @@ namespace Roadkill.Core.Search
 	public class SearchManager
 	{
 		private static string _indexPath = AppDomain.CurrentDomain.BaseDirectory + @"\search";
+		private static Regex _removeTagsRegex = new Regex("<(.|\n)*?>");
 
 		/// <summary>
 		/// A very basic SQL-based search, which doesn't search the text content.
@@ -110,42 +111,67 @@ namespace Roadkill.Core.Search
 			return list;
 		}
 
-		public static void CreateIndex()
+		public static Document ToDocument(PageSummary summary)
 		{
-			bool create = !File.Exists(Path.Combine(_indexPath,"segments"));
-
-			// IndexModifier to update
-			StandardAnalyzer analyzer = new StandardAnalyzer();
-			IndexWriter writer = new IndexWriter(_indexPath, analyzer, create);
-			Regex regex = new Regex("<(.|\n)*?>");
-
 			// Get a summary by parsing the contents
 			MarkupConverter converter = new MarkupConverter();
 			IParser markupParser = converter.GetParser();
 
+			// Turn the contents into HTML, then strip the tags for the mini summary. This needs some works
+			string contentSummary = summary.Content;
+			contentSummary = markupParser.Transform(contentSummary);
+			contentSummary = _removeTagsRegex.Replace(contentSummary, "");
+
+			if (contentSummary.Length > 150)
+				contentSummary = contentSummary.Substring(0, 149);
+
+			Document document = new Document();
+			document.Add(new Field("id", summary.Id.ToString(), Field.Store.YES, Field.Index.NO));
+			document.Add(new Field("content", summary.Content, Field.Store.YES, Field.Index.TOKENIZED));
+			document.Add(new Field("contentsummary", contentSummary, Field.Store.YES, Field.Index.NO));
+			document.Add(new Field("title", summary.Title, Field.Store.YES, Field.Index.TOKENIZED));
+			document.Add(new Field("tags", summary.Tags.SpaceDelimitTags(), Field.Store.YES, Field.Index.TOKENIZED));
+			document.Add(new Field("createdby", summary.CreatedBy, Field.Store.YES, Field.Index.UN_TOKENIZED));
+			document.Add(new Field("createdon", summary.CreatedOn.ToString("u"), Field.Store.YES, Field.Index.UN_TOKENIZED));
+			document.Add(new Field("contentlength", summary.Content.Length.ToString(), Field.Store.YES, Field.Index.NO));
+
+			return document;
+		}
+
+		public static void Add(Page page)
+		{
+			StandardAnalyzer analyzer = new StandardAnalyzer();
+			IndexWriter writer = new IndexWriter(_indexPath, analyzer,false);
+
+			PageSummary summary = page.ToSummary();
+			writer.AddDocument(ToDocument(summary));
+
+			writer.Optimize();
+			writer.Close();
+		}
+
+		public static void Update(Page page)
+		{
+			Delete(page);
+			Add(page);
+		}
+
+		public static void Delete(Page page)
+		{
+			StandardAnalyzer analyzer = new StandardAnalyzer();
+			IndexReader reader = IndexReader.Open(_indexPath);
+			reader.DeleteDocuments(new Term("id", page.Id.ToString()));
+		}
+
+		public static void CreateIndex()
+		{
+			StandardAnalyzer analyzer = new StandardAnalyzer();
+			IndexWriter writer = new IndexWriter(_indexPath, analyzer, true);
+
 			foreach (Page page in Page.Repository.List())
 			{
 				PageSummary summary = page.ToSummary();
-
-				// Turn the contents into HTML, then strip the tags for the mini summary. This needs some works
-				string contentSummary = summary.Content;
-				contentSummary = markupParser.Transform(contentSummary);
-				contentSummary = regex.Replace(contentSummary, "");
-
-				if (contentSummary.Length > 150)
-					contentSummary = contentSummary.Substring(0, 149);
-
-				Document document = new Document();
-				document.Add(new Field("content", summary.Content,Field.Store.YES,Field.Index.TOKENIZED));
-				document.Add(new Field("contentsummary", contentSummary, Field.Store.YES, Field.Index.NO));
-				document.Add(new Field("id",summary.Id.ToString(),Field.Store.YES,Field.Index.NO));
-				document.Add(new Field("title", summary.Title,Field.Store.YES,Field.Index.TOKENIZED));
-				document.Add(new Field("tags", summary.Tags.SpaceDelimitTags(),Field.Store.YES,Field.Index.TOKENIZED));
-				document.Add(new Field("createdby", summary.CreatedBy,Field.Store.YES,Field.Index.UN_TOKENIZED));
-				document.Add(new Field("createdon", summary.CreatedOn.ToString("u"), Field.Store.YES, Field.Index.UN_TOKENIZED));
-				document.Add(new Field("contentlength", summary.Content.Length.ToString(), Field.Store.YES, Field.Index.NO));
-
-				writer.AddDocument(document);
+				writer.AddDocument(ToDocument(summary));
 			}
 
 			writer.Optimize();

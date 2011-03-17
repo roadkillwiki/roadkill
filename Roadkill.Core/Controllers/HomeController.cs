@@ -111,12 +111,11 @@ namespace Roadkill.Core.Controllers
 			return RedirectToAction("Index");
 		}
 
-		[HttpPost]
-		public ActionResult Search(string searchText)
+		public ActionResult Search(string q)
 		{
-			ViewData["search"] = searchText;
+			ViewData["search"] = q;
 
-			List<SearchResult> results = SearchManager.SearchIndex(searchText);
+			List<SearchResult> results = SearchManager.SearchIndex(q);
 			return View(results);
 		}
     }
