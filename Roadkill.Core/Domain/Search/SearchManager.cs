@@ -165,6 +165,9 @@ namespace Roadkill.Core.Search
 
 		public static void CreateIndex()
 		{
+			if (!Directory.Exists(_indexPath))
+				Directory.CreateDirectory(_indexPath);
+
 			StandardAnalyzer analyzer = new StandardAnalyzer();
 			IndexWriter writer = new IndexWriter(_indexPath, analyzer, true);
 
