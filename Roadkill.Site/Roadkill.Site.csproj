@@ -111,7 +111,7 @@
     <Content Include="Assets\Scripts\jqueryFileTree.js" />
     <Content Include="Assets\Scripts\roadkill.edit.js" />
     <Content Include="Themes\Mediawiki\border.png" />
-    <None Include="Themes\Mediawiki\Theme.cshtml" />
+    <Content Include="Themes\Mediawiki\Theme.cshtml" />
     <Content Include="Themes\Mediawiki\logo.png" />
     <Content Include="Themes\Mediawiki\page-fade.png" />
     <Content Include="Themes\Mediawiki\pagebg.png" />
