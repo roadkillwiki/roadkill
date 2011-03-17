@@ -31,22 +31,24 @@
 				<li>@Html.ActionLink("All pages", "AllPages", "Pages")</li>
 			</ul>
 
-			@if (RoadkillContext.Current.IsAdmin)
-			{
+			
 			<ul>
 				<li>@Html.NewPageLink("")</li>
+				@if (RoadkillContext.Current.IsAdmin)
+				{
 				<li>@Html.ActionLink("Settings", "Index", "Settings")</li>
+				}
 			</ul>
-			}
+			
 		</div>
 	</div>
 
 	<div id="container">
 		@RenderSection("PageToolbar", false)
 		@if (RoadkillContext.Current.IsContentPage)
-		{
-				<div id="viewhistory">@Html.ActionLink("View History", "History", "Pages", new { id = RoadkillContext.Current.Page.Id },null)</div>
-		}
+  {
+				<div id="viewhistory">@Html.ActionLink("View History", "History", "Pages", new { id = RoadkillContext.Current.Page.Id }, null)</div>
+  }
 		<div id="content">
 			@RenderBody()
 		</div>
@@ -57,7 +59,7 @@
   {
 		<p>This page was last modified on @RoadkillContext.Current.Page.ModifiedOn.ToString("dd MMM yyyy") 
 		at @RoadkillContext.Current.Page.ModifiedOn.ToShortTimeString().</p>
-		}
+  }
 		<p>
 			Powered by Roadkill Wiki. This theme contains images and portions of its design from <a href="http://www.mediawiki.org" target="_blank">Mediawiki.org</a>.
 		</p>
