@@ -69,7 +69,7 @@ namespace Roadkill.Core.Controllers
 			}
 
 			// Update the web.config to indicate install is complete
-			//RoadkillSettings.SaveWebConfig(connectionString);
+			RoadkillSettings.SaveWebConfig(connectionString);
 
 			return View("InstallComplete");
 		}
