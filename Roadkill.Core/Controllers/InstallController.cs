@@ -9,6 +9,7 @@ using System.Web.Management;
 using System.Data.SqlClient;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Search;
+using System.IO;
 
 namespace Roadkill.Core.Controllers
 {
@@ -19,59 +20,130 @@ namespace Roadkill.Core.Controllers
 			//if (RoadkillSettings.Installed)
 			//	return RedirectToAction("Index", "Home");
 
-			return View();
+			return View("Step1");
+		}
+
+		public ActionResult Step2()
+		{
+			return View(new SettingsSummary());
+		}	
+
+		[HttpPost]
+		public ActionResult Step3(SettingsSummary summary)
+		{
+			return View(summary);
 		}
 
 		[HttpPost]
-		public ActionResult Index(string connectionString, string adminPassword)
+		public ActionResult Step3b(SettingsSummary summary)
 		{
-			string databaseName = "";
+			summary.LdapConnectionString = "LDAP://";
+			summary.EditorRoleName = "Editor";
+			summary.AdminRoleName = "Admin";
 
+			if (summary.UseWindowsAuth)
+				return View("Step3WindowsAuth", summary);
+			else
+				return View("Step3Database",summary);
+		}
+
+		[HttpPost]
+		public ActionResult Step4(SettingsSummary summary)
+		{
+			summary.AllowedExtensions = "jpg,png,gif,zip,xml,pdf";
+			summary.AttachmentsFolder = "~/Attachments";
+			summary.MarkupType = "Creole";
+			summary.Theme = "Mediawiki";
+			summary.CacheEnabled = true;
+			summary.CacheText = true;
+
+			return View(summary);
+		}
+
+		[HttpPost]
+		[ValidateInput(false)]
+		public ActionResult Step5(SettingsSummary summary)
+		{
 			try
 			{
-				using (SqlConnection connection = new SqlConnection(RoadkillSettings.ConnectionString))
+				// Any missing values are handled by data annotations. Those that are missed
+				// can be seen as fiddling errors which are down to the user.
+
+				if (ModelState.IsValid)
 				{
-					connection.Open();
-					databaseName = connection.Database;
+					// Update the web.config first, so all connections can be referenced.
+					InstallManager.WriteWebConfig(summary);
+
+					// ASP.NET SQL user providers
+					if (!summary.UseWindowsAuth)
+					{
+						InstallManager.InstallAspNetUsersDatabase(summary);
+					}
+
+					// Create the roadkill schema
+					InstallManager.InstallDb(summary);		
 				}
 			}
-			catch (SqlException)
+			catch (Exception e)
 			{
-				throw new InstallerException("No database name was specified in the connection string");
+				try
+				{
+					InstallManager.ResetInstalledState();
+				}
+				catch (Exception ex)
+				{
+					ModelState.AddModelError("An error ocurred installing", ex.Message + e.StackTrace);
+				}
+
+				ModelState.AddModelError("An error ocurred installing", e.Message + e.StackTrace);
 			}
 
-			if (string.IsNullOrEmpty(databaseName))
-				throw new InstallerException("No database name was specified in the connection string");
+			return View(summary);
+		}
 
-			// Create the provider database and schema
-			SqlServices.Install(databaseName, SqlFeatures.Membership | SqlFeatures.RoleManager, RoadkillSettings.ConnectionString);
+		//
+		// JSON actions
+		//
 
-			// Create the roadkill schema
-			RoadkillSettings.InstallDb();
+		public ActionResult TestLdap(string connectionString, string username, string password, string groupName)
+		{
+			string errors = InstallManager.TestLdapConnection(connectionString, username, password, groupName);
+			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
+		}
 
-			//drop table aspnet_SchemaVersions;
-			//drop table aspnet_Membership;
-			//drop table aspnet_UsersInRoles;
-			//drop table aspnet_Roles;
-			//drop table aspnet_Users;
-			//drop table aspnet_Applications;
-			//SearchManager.BuildIndex();
+		public ActionResult TestWebConfig()
+		{
+			string errors = InstallManager.TestSaveWebConfig();
+			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
+		}
 
-			// Add the admin user, admin role and editor roles.
-			UserManager manager = new UserManager();
-			manager.AddRoles();
-			string result = manager.AddAdminUser("admin",adminPassword);
-			if (!string.IsNullOrEmpty(result))
-			{
-				//throw new InstallerException(result);
-				// Do nothing, for now. The passwords may be out of sync which 
-				// requires the view being changed to accomodate this.
-			}
+		public ActionResult TestAttachments(string folder)
+		{
+			string errors = InstallManager.TestAttachments(folder);
+			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
+		}
 
-			// Update the web.config to indicate install is complete
-			RoadkillSettings.SaveWebConfig(connectionString);
-
-			return View("InstallComplete");
+		public ActionResult TestDatabaseConnection(string connectionString)
+		{
+			string errors = InstallManager.TestConnection(connectionString);
+			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
     }
+
+	public class TestResult
+	{
+		public bool Success 
+		{
+			get
+			{
+				return string.IsNullOrEmpty(ErrorMessage);
+			}
+		}
+		public string ErrorMessage { get; set; }
+
+		public TestResult(string errorMessage)
+		{
+			ErrorMessage = errorMessage;
+		}
+	}
 }

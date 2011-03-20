@@ -1,0 +1,33 @@
+﻿@model SettingsSummary
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		setPage(3);
+		$("form").validationEngine();
+	});
+</script>
+
+<p>Do you want to users to be authenticated against an Active Directory using Windows authentication?</p>
+
+@using (Html.BeginForm("Step3b","Install"))
+{
+	@(Html.HiddenFor<SettingsSummary,string>(h => h.ConnectionString))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteName))
+	<fieldset>
+		<legend>Windows authentication</legend>
+		<br />
+		@(Html.CheckBoxFor<SettingsSummary>(s => s.UseWindowsAuth)) Use windows authentication
+		<br /><br />
+	</fieldset>
+
+	<div>
+		<div class="previous"><a href="javascript:history.go(-1)">&lt; Back</a></div>
+	
+		<div class="continue">
+			<input type="submit" value="Next" class="button" />
+		</div>
+	</div>
+}

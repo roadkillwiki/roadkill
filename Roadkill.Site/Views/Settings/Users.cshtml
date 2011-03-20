@@ -12,7 +12,8 @@ $(document).ready(function(){
 });
 </script>
 
-@if (ViewData["IsValid"] != null){
+@if (!ViewData.ModelState.IsValid)
+{
 <script type="text/javascript">
 $(document).ready(function ()
 {

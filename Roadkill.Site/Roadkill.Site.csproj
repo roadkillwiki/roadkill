@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\roadkill.MDF" />
+    <Content Include="Assets\CSS\reset.css" />
     <Content Include="Assets\CSS\htmldiff.css" />
     <Content Include="Assets\CSS\jquery.tagit.css" />
     <Content Include="Assets\CSS\images\application.png" />
@@ -103,13 +104,21 @@
     <Content Include="Assets\CSS\images\txt.png" />
     <Content Include="Assets\CSS\images\xls.png" />
     <Content Include="Assets\CSS\images\zip.png" />
+    <Content Include="Assets\CSS\validationEngine.jquery.css" />
+    <Content Include="Assets\Images\gradientbutton-green.png" />
+    <Content Include="Assets\Images\gradientbutton.png" />
     <Content Include="Assets\Images\favicon.png" />
+    <Content Include="Assets\Images\installer-ex-chicken.png" />
+    <Content Include="Assets\Images\installerbg.png" />
+    <Content Include="Assets\Scripts\jquery.validationEngine-en.js" />
+    <Content Include="Assets\Scripts\jquery.validationEngine.js" />
     <Content Include="Assets\Scripts\roadkill.settings.js" />
     <Content Include="Assets\Scripts\roadkill.files.js" />
     <Content Include="Assets\Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Assets\CSS\jqueryFileTree.css" />
     <Content Include="Assets\Scripts\jqueryFileTree.js" />
     <Content Include="Assets\Scripts\roadkill.edit.js" />
+    <None Include="blankweb.config" />
     <Content Include="Themes\Mediawiki\border.png" />
     <Content Include="Themes\Mediawiki\Theme.cshtml" />
     <Content Include="Themes\Mediawiki\logo.png" />
@@ -168,6 +177,13 @@
     <Content Include="Views\Home\BlankLogin.cshtml" />
     <Content Include="Views\Settings\Tools.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\Install\Layout.cshtml" />
+    <Content Include="Views\Install\Step2.cshtml" />
+    <Content Include="Views\Install\Step3.cshtml" />
+    <Content Include="Views\Install\Step3WindowsAuth.cshtml" />
+    <Content Include="Views\Install\Step3Database.cshtml" />
+    <Content Include="Views\Install\Step4.cshtml" />
+    <Content Include="Views\Install\Step5.cshtml" />
     <None Include="Webtemplate.config">
       <SubType>Designer</SubType>
     </None>
@@ -182,8 +198,7 @@
     <Content Include="Views\Pages\Edit.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Settings\Index.cshtml" />
-    <Content Include="Views\Install\Index.cshtml" />
-    <Content Include="Views\Install\InstallComplete.cshtml" />
+    <Content Include="Views\Install\Step1.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Assets\Scripts\jquery-1.4.1.min.js" />
     <Content Include="Views\Wiki\Index.cshtml" />

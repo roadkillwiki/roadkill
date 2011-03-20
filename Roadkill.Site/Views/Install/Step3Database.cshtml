@@ -1,0 +1,118 @@
+﻿@model SettingsSummary
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		setPage(3);
+		$("form").validationEngine();
+
+		$("#testdbconnection").click(function()
+		{	
+			hideAlerts();
+
+			$.get("@(Url.Action("TestDatabaseConnection"))",
+					{ "connectionString" : $("#RolesConnectionString").val() },
+					function(data)
+					{
+						if (data.Success)
+						{
+							showSuccess("#connectionsuccess");
+						}
+						else
+						{
+							showFailure("#connectionfailure",data.ErrorMessage);
+						}
+					});
+		});
+	});
+</script>
+
+<p>Roadkill uses the ASP.NET provider model for its security. This means all usernames and roles are stored inside the database,
+and passwords are one-way encrypted using SHA128 and a salt.</p>
+<p>
+It is best for performance to set the user connection string to the same value as the database connection string you set in the last page.
+</p>
+
+@using (Html.BeginForm("Step4","Install"))
+{
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.ConnectionString))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteName))
+	@(Html.HiddenFor<SettingsSummary, bool>(h => h.UseWindowsAuth))
+	
+	<fieldset>
+		<legend>User database connection string</legend>
+		<label>
+			This should usually be the same as the database connection string. There is a full set of examples in the documentation,
+			and in the web.config file.
+			<br /><br />
+
+			The database connection string you are using for the content is: <br /><br /><span class="example">@Model.ConnectionString</span>
+		</label>
+
+		<div class="small">
+			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.RolesConnectionString, new { @class = "validate[required]" }))</div>
+			<input id="testdbconnection" class="button" type="button" value="Test" />
+			<div id="connectionsuccess" class="success alert hidden">
+				<h2>Success!</h2>
+				<p>The database connection is was successful.</p>
+			</div>
+
+			<div id="connectionfailure" class="failure alert hidden">
+				<h2>Failure!</h2>
+				<p>Unable to connect: <span class="errormessage"></span></p>
+			</div>
+		</div>	
+	</fieldset>
+	
+	<fieldset>
+		<legend>Editor role name</legend>
+		<label>This is the name of the editor role - people who can edit and create pages.</label>
+
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.EditorRoleName, new { @class = "validate[required]" }))</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>Admin role name</legend>
+		<label>This is the name of the admin role. Admins have the same rights as editors, but also
+		have access to configuration settings and tools for the site.</label>
+
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminRoleName, new { @class = "validate[required]" }))</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>Create new users</legend>
+		<label>
+		Check this option if you want to allow people to signup as a new users. Roadkill does not currently support email confirmations for 
+		new signups, so be aware this can allow spam users onto the site (if the wiki is available on the internet).<br /><br />
+		
+		If left unchecked, only admins will be able to create new users.
+		</label>
+		<br />
+
+		<div>
+			<div class="left">
+				@(Html.CheckBoxFor<SettingsSummary>(s => s.AllowUserSignup))
+				Allow new user signups.
+			</div>
+		</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>Admin password</legend>
+		<label>This is the password for the first user in the system, who is an admin. You can add more admins in the settings page,
+		so this user does not 'own' the site.</label>
+
+		<div class="textbox">@(Html.PasswordFor<SettingsSummary, string>(s => s.AdminPassword, new { @class = "validate[required,minSize[6]]" }))</div>
+		<div class="textbox">@(Html.Password("password2", null, new { @class = "validate[equals[AdminPassword]]" }))</div>
+	</fieldset>
+
+	<div>
+		<div class="previous"><a href="javascript:history.go(-1)">&lt; Back</a></div>
+	
+		<div class="continue">
+			<input type="submit" class="button" value="Next" />
+		</div>
+	</div>
+}

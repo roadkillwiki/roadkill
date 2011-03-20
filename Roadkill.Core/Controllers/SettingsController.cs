@@ -115,7 +115,6 @@ namespace Roadkill.Core.Controllers
 
 					if (!string.IsNullOrEmpty(errors))
 					{
-						ViewData["IsValid"] = "false";
 						ModelState.AddModelError("General", errors);
 					}
 				}
@@ -131,10 +130,6 @@ namespace Roadkill.Core.Controllers
 					if (!string.IsNullOrEmpty(password))
 						manager.UpdateUser(username, password, username);
 				}
-			}
-			else
-			{
-				ViewData["IsValid"] = "false";
 			}
 
 			//
@@ -162,7 +157,7 @@ namespace Roadkill.Core.Controllers
 		public ActionResult WipePages()
 		{
 			TempData["Message"] = "Database cleared";
-			RoadkillSettings.InstallDb();
+			InstallManager.InstallDb(null);
 			return RedirectToAction("Tools");
 		}
 

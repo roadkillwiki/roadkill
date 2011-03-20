@@ -58,8 +58,8 @@ namespace Roadkill.Core
 			base.Initialize(name, config);
 
 			// Optional username and password fields
-			_username = config["username"];
-			_password = config["password"];
+			_username = config["connectionUsername"];
+			_password = config["connectionPassword"];
 
 			// Check the activeDirectoryConnectionstring attribute is valid
 			string connectionStringName = config["connectionStringName"];
@@ -81,7 +81,6 @@ namespace Roadkill.Core
 
 			_domainName = _connectionString.Substring(length);
 		}
-
 
 		/// <summary>
 		/// Retrieve listing of all roles to which a specified user belongs.

@@ -128,14 +128,20 @@ namespace Roadkill.Core
 			return helper.ActionLink(linkText, "Index", "Pages", new { id = pageName }, htmlAttributes);
 		}
 
-		public static string CssLink(this UrlHelper helper, string relativePath)
+		public static MvcHtmlString CssLink(this UrlHelper helper, string relativePath)
 		{
-			return "<link href=\"" + helper.Content(relativePath) + "\" rel=\"stylesheet\" type=\"text/css\" />";
+			if (!relativePath.StartsWith("~"))
+				relativePath = "~/Assets/CSS/" + relativePath;
+
+			return MvcHtmlString.Create("<link href=\"" + helper.Content(relativePath) + "\" rel=\"stylesheet\" type=\"text/css\" />");
 		}
 
-		public static string ScriptLink(this UrlHelper helper, string relativePath)
+		public static MvcHtmlString ScriptLink(this UrlHelper helper, string relativePath)
 		{
-			return "<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content(relativePath) + "\"></script>";
+			if (!relativePath.StartsWith("~"))
+				relativePath = "~/Assets/Scripts/" + relativePath;
+
+			return MvcHtmlString.Create("<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content(relativePath) + "\"></script>");
 		}
 
 		public static string ThemeContent(this UrlHelper helper, string relativePath)

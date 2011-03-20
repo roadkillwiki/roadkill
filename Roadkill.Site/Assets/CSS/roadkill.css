@@ -1,6 +1,7 @@
-﻿@import url("jquery.ui.autocomplete.custom.css");
-@import url("jquery.tagit.css");
-@import url("htmldiff.css");
+﻿@import url("reset.css");							/* used to reset browser incompatibilities */
+@import url("jquery.ui.autocomplete.custom.css");	/* used for tagit */
+@import url("jquery.tagit.css");					/* used for tagit */
+@import url("htmldiff.css");						/* used for version history*/
 
 .biggest	{ font-size:1.5em; }
 .bigger		{ font-size:1.2em; }

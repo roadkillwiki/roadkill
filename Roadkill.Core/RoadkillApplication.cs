@@ -38,7 +38,8 @@ namespace Roadkill.Core
 			AreaRegistration.RegisterAllAreas();
 			RegisterRoutes(RouteTable.Routes);
 
-			Page.Configure(RoadkillSettings.ConnectionString,false,RoadkillSettings.CachedEnabled);
+			if (RoadkillSettings.Installed)
+				Page.Configure(RoadkillSettings.ConnectionString,false,RoadkillSettings.CachedEnabled);
 		}
 	}
 }

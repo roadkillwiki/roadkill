@@ -1,0 +1,85 @@
+﻿@model SettingsSummary
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+<script type="text/javascript">
+$(document).ready(function()
+{
+	setPage(2);
+	$("form").validationEngine();
+
+	$("#testdbconnection").click(function()
+	{	
+		hideAlerts();
+		$.get("@(Url.Action("TestDatabaseConnection"))",
+				{ "connectionString" : $("#ConnectionString").val() },
+				function(data)
+				{
+					if (data.Success)
+					{
+						showSuccess("#connectionsuccess");
+					}
+					else
+					{
+						showFailure("#connectionfailure",data.ErrorMessage);
+					}
+				});
+	});
+});
+</script>
+
+<p>Below are some required settings for Roadkill to work correctly. You can change these later via the settings page as an admin.</p>
+
+@using (Html.BeginForm("Step3","Install"))
+{
+	<fieldset>
+		<legend><span>Site name</span></legend>
+		<label class="textbox">
+			The name of the wiki, which appears on certain themes.
+		</label>
+
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.SiteName, new { @class = "validate[required]" }))</div>
+	</fieldset>
+	<br />
+	
+	<fieldset>
+		<legend><span>Database connection string</span></legend>
+		<label>
+			You will need to create the database first if you are using a named instance. Below are a few examples. Use
+			the second option is you are using shared hosting without any SQL Server hosting.
+		</label>
+
+		<div class="small">
+			<ol>
+				<li>
+					<i>SQLExpress:</i><br />
+					<span class="example">database=roadkill;server=.\SQLEXPRESS;integrated security=SSPI</span></li>
+				<li>
+					<i>App_Data file-based:</i><br />
+					<span class="example">Server=.\SQLExpress;AttachDbFilename=|DataDirectory|\roadkill.mdf;Integrated Security=True;User Instance=True</span>
+				</li>
+			</ol>
+
+			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.ConnectionString, new { @class = "validate[required]" }))</div>
+			<input id="testdbconnection" class="button" type="button" value="Test" />
+			<div id="connectionsuccess" class="success alert hidden">
+				<h2>Success!</h2>
+				<p>The database connection is was successful.</p>
+			</div>
+
+			<div id="connectionfailure" class="failure alert hidden">
+				<h2>Failure!</h2>
+				<p>Unable to connect: <span class="errormessage"></span></p>
+			</div>
+		</div>
+		
+	</fieldset>
+
+	<div>
+		<div class="previous">@Html.ActionLink("< Back", "Index")</div>
+	
+		<div class="continue">
+			<input type="submit" value="Next" class="button next" />
+		</div>
+	</div>
+}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Roadkill.Core.Converters;
+using System.Web.Security;
 
 namespace Roadkill.Core
 {
@@ -94,6 +95,11 @@ namespace Roadkill.Core
 			}
 
 			return result;
+		}
+
+		public static string HashForPassword(this string password)
+		{
+			return FormsAuthentication.HashPasswordForStoringInConfigFile(password, "SHA1");
 		}
 	}
 }

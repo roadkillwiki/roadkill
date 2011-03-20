@@ -1,0 +1,47 @@
+﻿@model SettingsSummary
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		setPage(5);
+	});
+</script>
+
+@if (!ViewData.ModelState.IsValid)
+{
+	<div style="margin-top:10px">
+		<h1>An error occurred during the install</h1>
+		<br />
+		Please go back through the installation steps and check your settings. The error message was:
+		<br /><br />
+		<pre class="alert failure" style="width:100%;overflow:scroll;">
+			@Html.ValidationSummary()
+		</pre>
+	</div>
+}
+else
+{
+	<div style="margin-top:10px">
+		<h1>Installation successful</h1>
+
+		<div>
+		<p>If you are using IIS7+ you will need to configure the web.config file for your security setup (atleast for Windows authentication). For example:</p>
+
+		<pre>
+&lt;system.webServer&gt;
+	...
+	&lt;security&gt;
+		&lt;authentication&gt;
+			&lt;anonymousAuthentication enabled="false"/&gt;
+			&lt;windowsAuthentication enabled="true" /&gt;
+		&lt;/authentication&gt;
+	&lt;/security&gt;
+&lt;/system.webServer&gt;
+		</pre>
+		</div>
+
+		@Html.ActionLink("Continue to the site","Index","Home")
+	</div>
+}

@@ -91,37 +91,5 @@ namespace Roadkill.Core
 				return string.Format("~/Themes/{0}", Theme);
 			}
 		}
-
-		public static void InstallDb()
-		{
-			Page.Configure(RoadkillSettings.ConnectionString, true, RoadkillSettings.CachedEnabled);
-
-			// Create the default site config properties
-			SiteConfiguration config = new SiteConfiguration()
-			{
-				Theme = "Mediawiki",
-				MarkupType = "Creole",
-				AllowedFileTypes = "jpg,png,gif,zip,xml",
-				AllowUserSignup = true
-			};
-			SiteConfiguration.Repository.SaveOrUpdate(config);
-		}
-
-		public static void SaveWebConfig(string connectionString)
-		{
-			Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
-
-			RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
-			section.Installed = true;
-
-			// TODO add the connection strings
-
-			config.Save();
-		}
-
-		public static string HashPassword(string password)
-		{
-			return FormsAuthentication.HashPasswordForStoringInConfigFile(password, "SHA1");
-		}
 	}
 }
