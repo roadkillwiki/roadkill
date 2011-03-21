@@ -22,7 +22,7 @@ else
 @foreach (SearchResult result in Model)
 {
 	<div class="searchresult">
-		<div class="searchresult-title">@Html.ActionLink(result.Title, "Index", "Wiki", new { id = result.Id, title = result.Title.ForUrl() }, null)</div>
+		<div class="searchresult-title">@Html.ActionLink(result.Title, "Index", "Wiki", new { id = result.Id, title = result.Title.EncodeTitle() }, null)</div>
 		<div class="searchresult-summary">@MvcHtmlString.Create(result.ContentSummary)...</div>
 		<div class="searchresult-date">@Html.FormatFileSize(result.ContentLength) - @result.CreatedOn.ToString("dd MMM yyyy HH:ss")</div>
 	</div>

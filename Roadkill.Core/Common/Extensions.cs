@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using Roadkill.Core.Converters;
 using System.Web.Security;
+using System.IO;
+using System.Web.Mvc;
+using System.Web;
 
 namespace Roadkill.Core
 {
@@ -15,21 +18,19 @@ namespace Roadkill.Core
 			return converter.ToHtml(markup);
 		}
 
-		public static string ForUrl(this string title)
-		{
-			if (string.IsNullOrEmpty(title))
-				return "";
-
-			return title.ToLower().Replace(" ", "-");
-		}
-
 		public static string AsValidFilename(this string title)
 		{
 			if (string.IsNullOrEmpty(title))
 				return "";
 
-			// This needs to be a lot more complete
-			return title.Replace(" ", "-");
+			// Simply replace invalid path characters with a '-'
+			char[] invalidChars = Path.GetInvalidFileNameChars();
+			foreach (char item in invalidChars)
+			{
+				title = title.Replace(item, '-');
+			}
+
+			return title;
 		}
 
 		public static string ToBase64(this string text)

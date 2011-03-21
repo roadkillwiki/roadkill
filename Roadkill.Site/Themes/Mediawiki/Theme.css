@@ -25,7 +25,7 @@ a:hover, a:focus { text-decoration: underline;}
 
 #search input
 {
-	float:left;
+	float:left;z-index:10;
 }
 #searchbutton
 {
@@ -35,16 +35,6 @@ a:hover, a:focus { text-decoration: underline;}
 	margin-left: -2em;
 	margin-top:0.25em;
 	float:left;
-}
-
-#headborder
-{
-	height:5em;
-	background-image: url('border.png');
-	background-position: left bottom;
-	background-repeat: repeat-x;
-	margin-left: 12em;
-    margin-top: -5em;
 }
 
 #logo 
@@ -83,13 +73,13 @@ a:hover, a:focus { text-decoration: underline;}
 {
 	padding: 1em;
 	margin-left: 12em;
-	background-image: url('border.png');
-	background-position: left top;
-	background-repeat: repeat-y;
 	background-color: white;
 	color: black;
 	direction: ltr;
 	min-height:30em;
+	border-top: 1px solid #a7d7f9;
+	border-bottom: 1px solid #a7d7f9;
+	border-left: 1px solid #a7d7f9;
 }
 
 #content
@@ -99,9 +89,6 @@ a:hover, a:focus { text-decoration: underline;}
 
 #footer
 {
-	background-image: url('border.png');
-    background-position: left top;
-    background-repeat: repeat-x;
     direction: ltr;
     margin-left: 12em;
     margin-top: 0;
@@ -113,19 +100,3 @@ a:hover, a:focus { text-decoration: underline;}
 	color: #333;
 	font-size: 0.7em;
 }
-
-#tagcloud 
-{ 
-	margin: 0;
-	padding: 2px; 
-	line-height: 3em; 
-	border:1px solid #e3e2e2;
-	padding:10px; 
-}
-#tagcloud li { display: inline; }
-#tagcloud a { padding: 0px; }
-.tagcloud1 { font-size:1em;}
-.tagcloud2 { font-size:1.2em;}
-.tagcloud3 { font-size:1.3em;}
-.tagcloud4 { font-size:1.5em;}
-.tagcloud5 { font-size:2em;}

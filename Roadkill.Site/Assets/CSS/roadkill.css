@@ -1,7 +1,10 @@
-﻿@import url("reset.css");							/* used to reset browser incompatibilities */
+﻿/*@import url("reset.css");*/							/* used to reset browser incompatibilities */
 @import url("jquery.ui.autocomplete.custom.css");	/* used for tagit */
 @import url("jquery.tagit.css");					/* used for tagit */
 @import url("htmldiff.css");						/* used for version history*/
+
+li, ul { padding:0;margin:0;}
+#content ul { margin-left:2em;}
 
 .biggest	{ font-size:1.5em; }
 .bigger		{ font-size:1.2em; }
@@ -129,3 +132,21 @@
 #allpagestable .title { min-width:350px;}
 #allpagestable .edit { width:50px;}
 #allpagestable .delete { width:50px;}
+
+#tagcloud 
+{ 
+	margin: 0;
+	padding: 2px; 
+	line-height: 3em; 
+	border:1px solid #e3e2e2;
+	padding:10px; 
+}
+#tagcloud li { display: inline; }
+#tagcloud a { padding: 0px; }
+.tagblock a { text-decoration:none;color:#FFFFFF; }
+.tagblock a:hover { text-decoration:none;color:#AAA; }
+.tagcloud1 { font-size:1em;}
+.tagcloud2 { font-size:1.2em;}
+.tagcloud3 { font-size:1.3em;}
+.tagcloud4 { font-size:1.5em;}
+.tagcloud5 { font-size:2em;}

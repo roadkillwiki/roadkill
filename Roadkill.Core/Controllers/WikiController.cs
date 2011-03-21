@@ -10,6 +10,12 @@ namespace Roadkill.Core.Controllers
 {
 	public class WikiController : ControllerBase
     {
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id">The page id</param>
+		/// <param name="title">The parameter is passed in, but never queried</param>
+		/// <returns></returns>
 		public ActionResult Index(int id, string title)
 		{
 			PageManager manager = new PageManager();

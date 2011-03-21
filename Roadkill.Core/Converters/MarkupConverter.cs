@@ -79,7 +79,7 @@ namespace Roadkill.Core.Converters
 				PageManager manager = new PageManager();
 				PageSummary summary = manager.FindByTitle(href);
 				if (summary != null)
-					href = helper.Action("Index", "Wiki", new { id = summary.Id,title=summary.Title.ForUrl() });
+					href = helper.Action("Index", "Wiki", new { id = summary.Id,title=summary.Title.EncodeTitle() });
 
 				e.Href = href;
 				e.Target = "";

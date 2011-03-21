@@ -9,21 +9,5 @@ pre			{ overflow:scroll;}
 #inner		{ text-align:left;padding:10px;margin:15px;}
 #footer		{ text-align:center;margin-top:50px;border-top:1px solid #000; }
 
-#tagcloud 
-{ 
-	margin: 0;
-	padding: 2px; 
-	line-height: 3em; 
-	border:1px solid #e3e2e2;
-	padding:10px; 
-}
-#tagcloud li { display: inline; }
-#tagcloud a { padding: 0px; }
-.tagcloud1 { font-size:1em;}
-.tagcloud2 { font-size:1.2em;}
-.tagcloud3 { font-size:1.3em;}
-.tagcloud4 { font-size:1.5em;}
-.tagcloud5 { font-size:2em;}
-	
 .pagetitle	{}
 #pagecontent {}

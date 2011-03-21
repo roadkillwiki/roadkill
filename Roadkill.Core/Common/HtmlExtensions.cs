@@ -5,6 +5,8 @@ using System.Text;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using Roadkill.Core.Converters;
+using System.Web;
+using System.Text.RegularExpressions;
 
 namespace Roadkill.Core
 {
@@ -22,7 +24,10 @@ namespace Roadkill.Core
 				foreach (string item in parts)
 				{
 					if (!string.IsNullOrWhiteSpace(item))
-						builder.AppendFormat("<span class=\"tagblock\">{0}</span>", item);
+					{
+						string url = helper.ActionLink(item, "Tag", "Pages", new { id = item },null).ToString();
+						builder.AppendFormat("<span class=\"tagblock\">{0}</span>", url);
+					}
 				}
 
 				result = builder.ToString();
@@ -31,7 +36,40 @@ namespace Roadkill.Core
 			return MvcHtmlString.Create(result);
 		}
 
-		public static MvcHtmlString MarkdownToHtml(this HtmlHelper helper, string content)
+		public static string EncodeTitle(this string title)
+		{
+			return EncodeTitleInternal(title);
+		}
+
+		public static MvcHtmlString EncodeTitle(this UrlHelper helper, string title)
+		{
+			title = EncodeTitleInternal(title);
+			return MvcHtmlString.Create(title);
+		}
+
+		private static string EncodeTitleInternal(string title)
+		{
+			if (string.IsNullOrEmpty(title))
+				return title;
+
+			// Search engine friendly slug routine with help from http://www.intrepidstudios.com/blog/2009/2/10/function-to-generate-a-url-friendly-string.aspx
+			
+			// remove invalid characters
+			title = Regex.Replace(title, @"[^\w\d\s-]", "");  // this is unicode safe, but may need to revert back to 'a-zA-Z0-9', need to check spec
+			
+			// convert multiple spaces/hyphens into one space       
+			title = Regex.Replace(title, @"[\s-]+", " ").Trim(); 
+			
+			// If it's over 30 chars, take the first 30.
+			title = title.Substring(0, title.Length <= 75 ? title.Length : 75).Trim(); 
+			
+			// hyphenate spaces
+			title = Regex.Replace(title, @"\s", "-");
+
+			return title;
+		}
+
+		public static MvcHtmlString WikiMarkupToHtml(this HtmlHelper helper, string content)
 		{
 			return MvcHtmlString.Create(content.WikiMarkupToHtml());
 		}
@@ -42,14 +80,6 @@ namespace Roadkill.Core
 				return MvcHtmlString.Create("Logged in as "+RoadkillContext.Current.CurrentUser);
 			else
 				return MvcHtmlString.Create("Not logged in");
-		}
-
-		public static MvcHtmlString PageTitle(this HtmlHelper helper)
-		{
-			if (helper.ViewData == null)
-				return MvcHtmlString.Create("");
-			else
-				return MvcHtmlString.Create(helper.ViewData["PageTitle"].ToString());
 		}
 
 		public static MvcHtmlString SettingsLink(this HtmlHelper helper,string suffix)

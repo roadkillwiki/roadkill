@@ -184,7 +184,8 @@
     <Content Include="Views\Install\Step3Database.cshtml" />
     <Content Include="Views\Install\Step4.cshtml" />
     <Content Include="Views\Install\Step5.cshtml" />
-    <None Include="Webtemplate.config">
+    <Content Include="appharbor.config" />
+    <None Include="annotatedweb.config">
       <SubType>Designer</SubType>
     </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
