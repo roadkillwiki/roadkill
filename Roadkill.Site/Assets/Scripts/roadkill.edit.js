@@ -51,3 +51,21 @@ function bindEditButtons()
 		showPreview();
 	});
 }
+
+function showPreview()
+{
+	$("#previewLoading").show();
+	var text = $("#Content").val();
+
+	$.ajax({
+		type: "POST",
+		url: ROADKILL_PREVIEWURL,
+		data: { "id": text },
+		success: function (htmlResult)
+		{
+			$("#preview").html(htmlResult);
+			$("#previewContainer").modal();
+			$("#previewLoading").hide();
+		}
+	});
+}

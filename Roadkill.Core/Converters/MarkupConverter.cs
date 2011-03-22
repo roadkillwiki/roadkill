@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web;
 using Roadkill.Core.Converters.Markdown;
 using Roadkill.Core.Converters.MediaWiki;
+using System.Text.RegularExpressions;
 
 namespace Roadkill.Core.Converters
 {
@@ -14,6 +15,8 @@ namespace Roadkill.Core.Converters
 	{
 		[ThreadStatic]
 		private static IParser _parser;
+
+		private static Regex _imgFileRegex = new Regex("^File:", RegexOptions.IgnoreCase);
 
 		/// <summary>
 		/// Turns the provided markup format into HTML.
@@ -59,7 +62,10 @@ namespace Roadkill.Core.Converters
 
 			if (!e.OriginalSrc.StartsWith("http://") && !e.OriginalSrc.StartsWith("www."))
 			{
-				e.Src = helper.Content(RoadkillSettings.AttachmentsFolder + "/" + e.OriginalSrc);
+				string src = e.OriginalSrc;
+				src = _imgFileRegex.Replace(src, "");
+
+				e.Src = helper.Content(RoadkillSettings.AttachmentsFolder + "/" + src);
 			}
 		}
 

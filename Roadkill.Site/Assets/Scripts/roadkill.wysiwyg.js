@@ -59,24 +59,6 @@ function initWYSIWYG()
 	});
 }
 
-function showPreview()
-{
-	$("#previewLoading").show();
-	var text = $("#Content").val();
-
-	$.ajax({
-		type: "POST",
-		url: ROADKILL_PREVIEWURL,
-		data: { "id": text },
-		success: function (htmlResult)
-		{
-			$("#preview").html(htmlResult);
-			$("#previewContainer").show();
-			$("#previewLoading").hide();
-		}
-	});
-}
-
 function addStyling(styleCode)
 {
 	var range = $("#Content").getSelection();

@@ -24,7 +24,7 @@ namespace Roadkill.Core.Search
 		private static Regex _removeTagsRegex = new Regex("<(.|\n)*?>");
 
 		/// <summary>
-		/// A very basic SQL-based search, which doesn't search the text content.
+		/// SQL-based search, which doesn't search the text content.
 		/// </summary>
 		/// <remarks>This may be required for medium-trust installations</remarks>
 		/// <param name="text"></param>
@@ -111,7 +111,53 @@ namespace Roadkill.Core.Search
 			return list;
 		}
 
-		public static Document ToDocument(PageSummary summary)
+		public static void Add(Page page)
+		{
+			if (!Directory.Exists(_indexPath))
+				Directory.CreateDirectory(_indexPath);
+
+			StandardAnalyzer analyzer = new StandardAnalyzer();
+			IndexWriter writer = new IndexWriter(_indexPath, analyzer,false);
+
+			PageSummary summary = page.ToSummary();
+			writer.AddDocument(ToDocument(summary));
+
+			writer.Optimize();
+			writer.Close();
+		}
+
+		public static void Delete(Page page)
+		{
+			StandardAnalyzer analyzer = new StandardAnalyzer();
+			IndexReader reader = IndexReader.Open(_indexPath);
+			reader.DeleteDocuments(new Term("id", page.Id.ToString()));
+		}
+
+		public static void Update(Page page)
+		{
+			Delete(page);
+			Add(page);
+		}
+
+		public static void CreateIndex()
+		{
+			if (!Directory.Exists(_indexPath))
+				Directory.CreateDirectory(_indexPath);
+
+			StandardAnalyzer analyzer = new StandardAnalyzer();
+			IndexWriter writer = new IndexWriter(_indexPath, analyzer, true);
+
+			foreach (Page page in Page.Repository.List())
+			{
+				PageSummary summary = page.ToSummary();
+				writer.AddDocument(ToDocument(summary));
+			}
+
+			writer.Optimize();
+			writer.Close();
+		}
+
+		private static Document ToDocument(PageSummary summary)
 		{
 			// Get a summary by parsing the contents
 			MarkupConverter converter = new MarkupConverter();
@@ -136,49 +182,6 @@ namespace Roadkill.Core.Search
 			document.Add(new Field("contentlength", summary.Content.Length.ToString(), Field.Store.YES, Field.Index.NO));
 
 			return document;
-		}
-
-		public static void Add(Page page)
-		{
-			StandardAnalyzer analyzer = new StandardAnalyzer();
-			IndexWriter writer = new IndexWriter(_indexPath, analyzer,false);
-
-			PageSummary summary = page.ToSummary();
-			writer.AddDocument(ToDocument(summary));
-
-			writer.Optimize();
-			writer.Close();
-		}
-
-		public static void Update(Page page)
-		{
-			Delete(page);
-			Add(page);
-		}
-
-		public static void Delete(Page page)
-		{
-			StandardAnalyzer analyzer = new StandardAnalyzer();
-			IndexReader reader = IndexReader.Open(_indexPath);
-			reader.DeleteDocuments(new Term("id", page.Id.ToString()));
-		}
-
-		public static void CreateIndex()
-		{
-			if (!Directory.Exists(_indexPath))
-				Directory.CreateDirectory(_indexPath);
-
-			StandardAnalyzer analyzer = new StandardAnalyzer();
-			IndexWriter writer = new IndexWriter(_indexPath, analyzer, true);
-
-			foreach (Page page in Page.Repository.List())
-			{
-				PageSummary summary = page.ToSummary();
-				writer.AddDocument(ToDocument(summary));
-			}
-
-			writer.Optimize();
-			writer.Close();
 		}
 	}
 }

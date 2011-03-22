@@ -10,7 +10,7 @@ $(document).ready(function ()
 	$.require("jquery.timeago.js");
 	$.require("jquery.simplemodal.1.4.1.min.js")
 
-	$("#pagecontent img").aeImageResize({ height: 400, width: 400 });
+	//$("#pagecontent img").aeImageResize({ height: 400, width: 400 });
 	$("#historytable .editedon").timeago();
 
 	// Info icon on each page

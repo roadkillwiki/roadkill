@@ -20,6 +20,12 @@
 	border-spacing: 0;
 }
 
+/* minor adjustments for Roadkill */
+#tagit input { border:0;padding:0;margin:0; }
+ul.tagit	 { height:28px !important;}
+.tagit-new	 { margin-top:4px !important; }
+.tagit-choice { margin-top:3px !important;}
+
 .ui-autocomplete {
 	list-style: none;
 	margin: 0;

@@ -60,6 +60,12 @@ namespace Roadkill.Core.Converters.MediaWiki
 			get { return "#"; }
 		}
 
+		public MediaWikiParser()
+		{
+			NoWikiEscapeStart = "<nowiki>";
+			NoWikiEscapeEnd = "</nowiki>";
+		}
+
 		protected override string _processBoldCreole(string markup)
 		{
 			return _processBracketingCreole("'''", _getStartTag("<strong>"), "</strong>", markup);
@@ -70,22 +76,30 @@ namespace Roadkill.Core.Converters.MediaWiki
 			return _processBracketingCreole("''", _getStartTag("<em>"), "</em>", markup);
 		}
 
+		static int _imgTagLen = "[[File:".Length;
+
+		/// <summary>
+		/// This is very good proof why the parsing for creole and mediwiki needs a grammar based parsed
+		/// like grammatica. For now it sort of works.
+		/// </summary>
+		/// <param name="markup"></param>
+		/// <returns></returns>
 		protected override string _processImageCreole(string markup)
 		{
-			int iPos = _indexOfWithSkip(markup, "[[", 0);
+			int iPos = markup.IndexOf("[[File:");
 			while (iPos >= 0)
 			{
-				int iEnd = _indexOfWithSkip(markup, "]]", iPos);
+				int iEnd = markup.IndexOf("]]", iPos);
 				if (iEnd > iPos)
 				{
-					iPos += 2;
+					iPos += _imgTagLen;
 					string innards = markup.Substring(iPos, iEnd - iPos);
 					string href = innards;
 					string text = href;
 					int iSplit = innards.IndexOf('|');
 
 					int pipeCount = innards.Split('|').Length;
-					if (pipeCount >= 3)
+					if (pipeCount >= 2)
 					{
 						if (iSplit > 0)
 						{
@@ -93,14 +107,21 @@ namespace Roadkill.Core.Converters.MediaWiki
 							text = _processCreoleFragment(innards.Substring(iSplit + 1));
 						}
 
-						markup = markup.Substring(0, iPos - 2)
-								+ String.Format("<img src='{0}' alt='{1}'/>", href, text)
-								+ markup.Substring(iEnd + 2);
+						ImageEventArgs args = new ImageEventArgs(href,href,text,"");
+						OnImageParsed(args);
+
+						int start = iPos - _imgTagLen;
+						int length = (iEnd + 2) - start;
+						if (start <= markup.Length && length > start && length <= markup.Length)
+						{
+							string found = markup.Substring(start,length);
+							markup = markup.Replace(found, string.Format("<img src=\"{0}\" alt=\"{1}\" />", args.Src, args.Alt));
+						}
 					}
 				}
 				else
 					break;
-				iPos = _indexOfWithSkip(markup, "[[", iPos);
+				iPos = markup.IndexOf("[[File:");
 			}
 			return markup;
 		}

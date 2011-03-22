@@ -142,12 +142,12 @@ namespace Roadkill.Core.Converters.Creole
 		/// <summary>
 		/// The characters that start a no wiki escape sequence. {{{ by default.
 		/// </summary>
-		public string NoWikiEscapeStart { get; set; }
+		public virtual string NoWikiEscapeStart { get; set; }
 
 		/// <summary>
 		/// The characters that end the no wiki escape sequence. }}} by default.
 		/// </summary>
-		public string NoWikiEscapeEnd { get; set; }
+		public virtual string NoWikiEscapeEnd { get; set; }
 
 		/// <summary>
 		/// This collection allows you to substitute markup with your own custom markup
@@ -671,7 +671,7 @@ namespace Roadkill.Core.Converters.Creole
 		/// <param name="match">token</param>
 		/// <param name="iPos">starting position</param>
 		/// <returns>index of token</returns>
-		protected int _indexOfWithSkip(string markup, string match, int iPos)
+		protected virtual int _indexOfWithSkip(string markup, string match, int iPos)
 		{
 			bool fSkipLink = (match != "[[") && (match != "]]");
 			bool fSkipEscape = (match != NoWikiEscapeStart) && (match != NoWikiEscapeEnd);
@@ -875,8 +875,7 @@ namespace Roadkill.Core.Converters.Creole
 					}
 					// default to external
 					LinkEventArgs linkEventArgs = new LinkEventArgs(link, href, text, "");
-					if (LinkParsed != null)
-						LinkParsed(this, linkEventArgs);
+					OnLinkParsed(linkEventArgs);
 
 					markup = markup.Substring(0, iPos - 2)
 						+ String.Format("<a href=\"{0}\"{2}>{1}</a>",
@@ -947,11 +946,8 @@ namespace Roadkill.Core.Converters.Creole
 					ImageEventArgs args = new ImageEventArgs(href,href,text,"");
 					OnImageParsed(args);
 
-					if (ImageParsed != null)
-						ImageParsed(this, args);
-
 					markup = markup.Substring(0, iPos - 2)
-							+ String.Format("<img src=\"{0}\" alt=\"{1}\"/>", args.Src, args.Alt)
+							+ String.Format("<img src=\"{0}\" alt=\"{1}\" />", args.Src, args.Alt)
 							+ markup.Substring(iEnd + 2);
 				}
 				else

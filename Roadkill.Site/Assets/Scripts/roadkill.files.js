@@ -7,12 +7,12 @@ $(document).ready(function ()
 
 function initFileManager()
 {
-	$("#file-preview img").aeImageResize({ height: 40, width: 40 });
-	$("#file-preview img").hide();
+	$("#previewimage").aeImageResize({ height: 40, width: 40 });
+	$("#previewimage").hide();
 
 	$("#choosebutton").click(function()
 	{
-		window.top.addImage($("#file-preview img").attr("src").replace(ROADKILL_ATTACHMENTSPATH,""));
+		window.top.addImage($("#previewimage").attr("src").replace(ROADKILL_ATTACHMENTSPATH, ""));
 		self.close();
 	});
 
@@ -20,19 +20,20 @@ function initFileManager()
 	{
 		root: "",
 		script: ROADKILL_FILETREE_URL,
-		onFolderClick : function(path,name){
-			$(".selectedfolder").html("Adding to folder: "+name);
+		onFolderClick: function (path, name)
+		{
+			$(".selectedfolder").html("Adding to folder: " + name);
 			$("#currentUploadFolderPath").val(path);
 			$("#currentFolderPath").val(path);
 		}
-	}, 
-	function (filePath,name)
+	},
+	function (filePath, name)
 	{
 		$.get(ROADKILL_FILETREE_PATHNAME_URL + filePath, function (urlPath)
 		{
-			$("#file-preview img").attr("src",ROADKILL_ATTACHMENTSPATH + urlPath);
-			$("#file-preview img").resize();
-			$("#file-preview img").show();
+			$("#previewimage").attr("src", ROADKILL_ATTACHMENTSPATH + urlPath);
+			$("#previewimage").resize();
+			$("#previewimage").show();
 			$("#previewname").html(name);
 			$("#file-preview").show();
 		});

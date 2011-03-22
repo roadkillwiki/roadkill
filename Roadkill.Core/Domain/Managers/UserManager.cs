@@ -7,6 +7,7 @@ using System.Web.Configuration;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Configuration.Provider;
+using Roadkill.Core.Domain.Managers;
 
 namespace Roadkill.Core
 {
@@ -94,6 +95,9 @@ namespace Roadkill.Core
 		
 		public bool DeleteUser(string username)
 		{
+			if (Membership.GetAllUsers().Count == 1)
+				throw new UserException("Cannot delete {0} as they are the only user in the system.");
+
 			return Membership.DeleteUser(username);
 		}
 

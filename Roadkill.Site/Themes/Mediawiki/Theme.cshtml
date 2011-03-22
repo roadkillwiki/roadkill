@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>@ViewBag.Title</title>
@@ -35,9 +36,9 @@
 			<ul>
 				<li>@Html.NewPageLink("")</li>
 				@if (RoadkillContext.Current.IsAdmin)
-	{
+				{
 				<li>@Html.ActionLink("Settings", "Index", "Settings")</li>
-	}
+				}
 			</ul>
 			
 		</div>
