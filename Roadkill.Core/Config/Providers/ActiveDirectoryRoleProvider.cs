@@ -61,6 +61,12 @@ namespace Roadkill.Core
 			_username = config["connectionUsername"];
 			_password = config["connectionPassword"];
 
+			if (string.IsNullOrEmpty(_username))
+			{
+				_username = null;
+				_password = null;
+			}
+
 			// Check the activeDirectoryConnectionstring attribute is valid
 			string connectionStringName = config["connectionStringName"];
 			if (string.IsNullOrEmpty(connectionStringName))
@@ -92,7 +98,7 @@ namespace Roadkill.Core
 			if (!_rolesForUserCache.ContainsKey(username))
 			{
 				List<string> results = new List<string>();
-				using (PrincipalContext context = new PrincipalContext(ContextType.Domain, _domainName))
+				using (PrincipalContext context = new PrincipalContext(ContextType.Domain, _domainName, _username, _password))
 				{
 					// TODO: throw
 					if (!string.IsNullOrEmpty(_username) && !string.IsNullOrEmpty(_password))
@@ -106,7 +112,7 @@ namespace Roadkill.Core
 							{
 								foreach (Principal principle in groups)
 								{
-									if (principle is UserPrincipal)
+									if (principle is GroupPrincipal)
 										results.Add(principle.SamAccountName);
 
 									principle.Dispose();
@@ -139,10 +145,8 @@ namespace Roadkill.Core
 			if (!_usersInRoleCache.ContainsKey(rolename))
 			{
 				List<string> results = new List<string>();
-				using (PrincipalContext context = new PrincipalContext(ContextType.Domain,_domainName))
+				using (PrincipalContext context = new PrincipalContext(ContextType.Domain,_domainName,_username,_password))
 				{
-					if (!string.IsNullOrEmpty(_username) && !string.IsNullOrEmpty(_password))
-						context.ValidateCredentials(_username, _password);
 
 					try
 					{

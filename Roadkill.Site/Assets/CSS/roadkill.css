@@ -31,6 +31,7 @@
 .smallest	{ font-size:0.7em; }
 .smallerbutton	{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;font-size:0.9em;width:75px; }
 .smallestbutton	{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;font-size:0.8em; }
+table,tr,td		{ border: 1px solid black;padding:2px; }
 
 /* Modal dialog styles for jquery.simplemodal */
 #simplemodal-overlay	{ background-color:#000; }

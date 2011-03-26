@@ -40,6 +40,7 @@ namespace Roadkill.Core
 				MembershipSection membershipSection = config.GetSection("system.web/membership") as MembershipSection;
 				membershipSection.Providers.Clear();
 				membershipSection.Providers.EmitClear = true;
+				membershipSection.DefaultProvider = "AspNetActiveDirectoryMembershipProvider";
 
 				ProviderSettings memberSettings = new ProviderSettings("AspNetActiveDirectoryMembershipProvider", "System.Web.Security.ActiveDirectoryMembershipProvider");
 				memberSettings.Parameters.Add("connectionStringName", "RoadkillLDAP");
@@ -49,8 +50,10 @@ namespace Roadkill.Core
 
 				// Use the Roadkill ActiveDirectoryRoleProvider
 				RoleManagerSection roleSection = config.GetSection("system.web/roleManager") as RoleManagerSection;
+				roleSection.Enabled = true;
 				roleSection.Providers.Clear();
 				roleSection.Providers.EmitClear = true;
+				roleSection.DefaultProvider = "ActiveDirectoryRoleProvider";
 
 				ProviderSettings roleSettings = new ProviderSettings("ActiveDirectoryRoleProvider", "Roadkill.Core.ActiveDirectoryRoleProvider,RoadKill.Core");
 				roleSettings.Parameters.Add("connectionStringName", "RoadkillLDAP");
@@ -76,8 +79,6 @@ namespace Roadkill.Core
 				// Turn off anonymous auth
 				AnonymousIdentificationSection anonSection = config.GetSection("system.web/anonymousIdentification") as AnonymousIdentificationSection;
 				anonSection.Enabled = false;
-
-				// IIS 7 requires additional settings for the above.
 			}
 			else
 			{
@@ -101,6 +102,7 @@ namespace Roadkill.Core
 				MembershipSection membershipSection = config.GetSection("system.web/membership") as MembershipSection;
 				membershipSection.Providers.Clear();
 				membershipSection.Providers.EmitClear = true;
+				membershipSection.DefaultProvider = "";
 
 				ProviderSettings memberSettings = new ProviderSettings("Roadkill", "Roadkill.Core.RoadkillMembershipProvider, Roadkill.Core");
 				memberSettings.Parameters.Add("connectionStringName", usersConnectionName);
@@ -112,8 +114,10 @@ namespace Roadkill.Core
 
 				// Use the SqlRoleProvider
 				RoleManagerSection roleSection = config.GetSection("system.web/roleManager") as RoleManagerSection;
+				roleSection.Enabled = true;
 				roleSection.Providers.Clear();
 				roleSection.Providers.EmitClear = true;
+				roleSection.DefaultProvider = "Roadkill";
 
 				ProviderSettings roleSettings = new ProviderSettings("Roadkill", "System.Web.Security.SqlRoleProvider");
 				roleSettings.Parameters.Add("connectionStringName", usersConnectionName);
@@ -141,6 +145,7 @@ namespace Roadkill.Core
 			// The roadkill section
 			RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
 			section.AdminRoleName = summary.AdminRoleName;
+			section.EditorRoleName = summary.EditorRoleName;
 			section.CacheEnabled = summary.CacheEnabled;
 			section.CacheText = summary.CacheText;
 			section.AttachmentsFolder = summary.AttachmentsFolder;

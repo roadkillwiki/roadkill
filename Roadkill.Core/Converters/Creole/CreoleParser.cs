@@ -203,7 +203,7 @@ namespace Roadkill.Core.Converters.Creole
 		/// </summary>
 		/// <param name="creole">creole markup</param>
 		/// <returns>HTML</returns>
-		public string Transform(string transform)
+		public virtual string Transform(string transform)
 		{
 			return _processAllMarkup(transform);
 		}

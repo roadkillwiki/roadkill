@@ -5,17 +5,22 @@ using System.Text;
 using System.Data.SqlClient;
 using Roadkill.Core.Domain.Managers;
 using System.Text.RegularExpressions;
+using System.IO;
+using System.Web;
 
 namespace Roadkill.Core
 {
 	public class ScrewTurnImporter : IWikiImporter
 	{
 		private string _connectionString;
+		private string _attachmentsFolder;
 		public bool ConvertToCreole { get; set; }
 
 		public void ImportFromSql(string connectionString)
 		{
 			_connectionString = connectionString;
+			_attachmentsFolder = HttpContext.Current.Server.MapPath(RoadkillSettings.AttachmentsFolder);
+
 			using (SqlConnection connection = new SqlConnection(_connectionString))
 			{
 				using (SqlCommand command = connection.CreateCommand())
@@ -46,6 +51,48 @@ namespace Roadkill.Core
 						}
 					}
 				}
+			}
+
+			ImportFiles();
+		}
+
+		private void ImportFiles()
+		{
+			using (SqlConnection connection = new SqlConnection(_connectionString))
+			{
+				using (SqlCommand command = connection.CreateCommand())
+				{
+					connection.Open();
+					command.CommandText = "SELECT directory,name,data FROM [File]";
+
+					using (SqlDataReader reader = command.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							SaveFile(reader.GetString(0) + reader.GetString(1),(byte[]) reader[2]);
+						}
+					}			
+				}
+			}
+		}
+
+		private void SaveFile(string filename, byte[] data)
+		{
+			try
+			{
+				string filePath = string.Format("{0}{1}",_attachmentsFolder, filename);
+				FileInfo info = new FileInfo(filePath);
+				if (!info.Exists)
+				{
+					if (!info.Directory.Exists)
+						info.Directory.Create();
+
+					File.WriteAllBytes(filePath, data);
+				}
+			}
+			catch (IOException e)
+			{
+				// TODO: log
 			}
 		}
 

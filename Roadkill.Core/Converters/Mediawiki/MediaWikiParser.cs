@@ -2,7 +2,7 @@
  * 
  * This is an altered version of Tom Laird-McConnell's CreoleParser, changing the bold tag
  * and some (not very robust) alterations for media-wiki markup links. As creole is the default
- * wiki format, hopefully this parser won't be used that often as this the media-wiki wiki markup
+ * wiki format, hopefully this parser won't be used that often as the media-wiki wiki markup
  * syntax is full of silly edge cases.
  * 
 */
@@ -10,11 +10,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Roadkill.Core.Converters.MediaWiki
 {
 	public class MediaWikiParser : Creole.CreoleParser
 	{
+		private static Regex _imageRegex = new Regex(@"\[\[File:(.*?)\]\]", RegexOptions.IgnoreCase);
+
 		public override string BoldToken
 		{
 			get { return "'''"; }
@@ -62,8 +65,6 @@ namespace Roadkill.Core.Converters.MediaWiki
 
 		public MediaWikiParser()
 		{
-			NoWikiEscapeStart = "<nowiki>";
-			NoWikiEscapeEnd = "</nowiki>";
 		}
 
 		protected override string _processBoldCreole(string markup)
@@ -76,54 +77,38 @@ namespace Roadkill.Core.Converters.MediaWiki
 			return _processBracketingCreole("''", _getStartTag("<em>"), "</em>", markup);
 		}
 
-		static int _imgTagLen = "[[File:".Length;
+		public override string Transform(string transform)
+		{
+			transform = ConvertToCreole(transform);
+			return base.Transform(transform);
+		}
 
 		/// <summary>
-		/// This is very good proof why the parsing for creole and mediwiki needs a grammar based parsed
-		/// like grammatica. For now it sort of works.
+		/// Mediawiki image syntax:[[File:filename.extension|options|caption]]
 		/// </summary>
-		/// <param name="markup"></param>
-		/// <returns></returns>
-		protected override string _processImageCreole(string markup)
+		/// <remarks>
+		/// Unsupported features with mediawiki right now:
+		/// - Definition lists
+		/// - Formatting using a space at the start of the line
+		/// - Tables
+		/// - Image captions, and 'option' e.g. width
+		/// </remarks>
+		private string ConvertToCreole(string text)
 		{
-			int iPos = markup.IndexOf("[[File:");
-			while (iPos >= 0)
+			// For now, converting the nowiki tags to the Creole syntax is easier
+			// than trying to alter the CreoleParser's isoteric parsing of {{{ }}}
+			text = text.Replace("<nowiki>", "{{{");
+			text = text.Replace("</nowiki>", "}}}");
+
+			//
+			// Images
+			//
+			text = _imageRegex.Replace(text, delegate(Match match)
 			{
-				int iEnd = markup.IndexOf("]]", iPos);
-				if (iEnd > iPos)
-				{
-					iPos += _imgTagLen;
-					string innards = markup.Substring(iPos, iEnd - iPos);
-					string href = innards;
-					string text = href;
-					int iSplit = innards.IndexOf('|');
+				return "{{" + match.Groups[1].Value + "}}";
+			});
 
-					int pipeCount = innards.Split('|').Length;
-					if (pipeCount >= 2)
-					{
-						if (iSplit > 0)
-						{
-							href = innards.Substring(0, iSplit);
-							text = _processCreoleFragment(innards.Substring(iSplit + 1));
-						}
-
-						ImageEventArgs args = new ImageEventArgs(href,href,text,"");
-						OnImageParsed(args);
-
-						int start = iPos - _imgTagLen;
-						int length = (iEnd + 2) - start;
-						if (start <= markup.Length && length > start && length <= markup.Length)
-						{
-							string found = markup.Substring(start,length);
-							markup = markup.Replace(found, string.Format("<img src=\"{0}\" alt=\"{1}\" />", args.Src, args.Alt));
-						}
-					}
-				}
-				else
-					break;
-				iPos = markup.IndexOf("[[File:");
-			}
-			return markup;
+			return text;
 		}
 	}
 }

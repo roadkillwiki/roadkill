@@ -26,8 +26,12 @@ else
 	<div style="margin-top:10px">
 		<h1>Installation successful</h1>
 
+		<h2>(Please read if you're using Windows Authentication)</h2>
 		<div>
-		<p>If you are using IIS7+ you will need to configure the web.config file for your security setup (atleast for Windows authentication). For example:</p>
+		<p>If you are using IIS7+ you may need to configure the web.config file for your security setup, below are the elements that are required.
+			If you receive 500 errors after making these changes, then the section is locked at a parent level, and you will need to make the
+			changes via the IIS manager.
+		</p>
 
 		<pre>
 &lt;system.webServer&gt;
@@ -36,6 +40,7 @@ else
 		&lt;authentication&gt;
 			&lt;anonymousAuthentication enabled="false"/&gt;
 			&lt;windowsAuthentication enabled="true" /&gt;
+			&lt;basicAuthentication enabled="true" /&gt;
 		&lt;/authentication&gt;
 	&lt;/security&gt;
 &lt;/system.webServer&gt;

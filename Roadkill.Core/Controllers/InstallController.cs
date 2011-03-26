@@ -81,7 +81,10 @@ namespace Roadkill.Core.Controllers
 					}
 
 					// Create the roadkill schema
-					InstallManager.InstallDb(summary);		
+					InstallManager.InstallDb(summary);	
+	
+					// Create a blank search index
+					SearchManager.CreateIndex();
 				}
 			}
 			catch (Exception e)
