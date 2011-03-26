@@ -8,7 +8,7 @@
 	@foreach (PageSummary summary in Model)
 	{
 	<tr>
-		<td class="title">@Html.ActionLink(summary.Title,"Index",new { id = summary.Title.Replace(" ","-")} )</td>
+		<td class="title">@Html.ActionLink(summary.Title,"Index","Wiki",new { id = summary.Id,title=Url.EncodeTitle(summary.Title)},null)</td>
 		@if (RoadkillContext.Current.IsLoggedIn)
 		{
 		<td class="edit">@Html.ActionLink("Edit","Edit",new { id = summary.Id} )</td>

@@ -24,7 +24,10 @@ else
 	<div class="searchresult">
 		<div class="searchresult-title">@Html.ActionLink(result.Title, "Index", "Wiki", new { id = result.Id, title = result.Title.EncodeTitle() }, null)</div>
 		<div class="searchresult-summary">@MvcHtmlString.Create(result.ContentSummary)...</div>
-		<div class="searchresult-date">@Html.FormatFileSize(result.ContentLength) - @result.CreatedOn.ToString("dd MMM yyyy HH:ss")</div>
+		<div>
+			<div class="searchresult-date left">@Html.FormatFileSize(result.ContentLength) - @result.CreatedOn.ToString("dd MMM yyyy HH:ss")</div>
+			<div class="searchresult-tags left">@Html.TagBlocks(result.Tags.SemiColonDelimitTags())</div>
+		</div>
 	</div>
-	<br class="clear" />
+	<br class="clear" /><br />
 }

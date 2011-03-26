@@ -24,9 +24,10 @@ function initTagIt()
 {
 	setTimeout("loadTags();", 2000);
 	$("#mytags").tagit({
-		availableTags: _tags,
-		singleField: true,
-		singleFieldNode: $("#Tags"),
+		tabIndex : 2,
+		availableTags	: _tags,
+		singleField		: true,
+		singleFieldNode	: $("#Tags"),
 		singleFieldDelimiter: ";"
 	});
 }

@@ -98,6 +98,28 @@ namespace Roadkill.Core
 			return result;
 		}
 
+		/// <summary>
+		/// Takes a string of tags: "tagone tagtwo tag3 " and returns "tagone;tagtwo;tag3"
+		/// </summary>
+		/// <param name="helper"></param>
+		/// <param name="tags"></param>
+		/// <returns></returns>
+		public static string SemiColonDelimitTags(this string tags)
+		{
+			if (string.IsNullOrEmpty(tags))
+				return "";
+
+			string result = "";
+
+			if (!string.IsNullOrWhiteSpace(tags))
+			{
+				string[] parts = tags.Split(' ');
+				result = string.Join(";", parts);
+			}
+
+			return result;
+		}
+
 		public static string HashForPassword(this string password)
 		{
 			return FormsAuthentication.HashPasswordForStoringInConfigFile(password, "SHA1");

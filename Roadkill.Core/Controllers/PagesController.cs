@@ -19,8 +19,13 @@ namespace Roadkill.Core.Controllers
 			return View(manager.AllPages());
 		}
 
-		public ActionResult ByUser(string id)
+		public ActionResult ByUser(string id,bool? encoded)
 		{
+			if (encoded == true)
+			{
+				id = id.FromBase64();
+			}
+
 			ViewData["Username"] = id;
 
 			PageManager manager = new PageManager();

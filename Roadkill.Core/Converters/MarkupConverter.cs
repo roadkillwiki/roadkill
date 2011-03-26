@@ -78,10 +78,6 @@ namespace Roadkill.Core.Converters
 			{
 				string href = e.OriginalHref;
 
-				// Markdown doesn't support spaces in the URLs so "-" are used instead. Turn these back,
-				// hopefully not creating any other issues in the process
-				href = href.Replace("-", " ");
-
 				PageManager manager = new PageManager();
 				PageSummary summary = manager.FindByTitle(href);
 				if (summary != null)

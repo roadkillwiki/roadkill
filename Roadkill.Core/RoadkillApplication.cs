@@ -25,6 +25,13 @@ namespace Roadkill.Core
 				new { controller = "Wiki", action = "Index", title = UrlParameter.Optional }
 			);
 
+			// Don't lowercase pages that use Base64
+			routes.MapRoute(
+				"Pages",
+				"pages/byuser/{id}/{encoded}",
+				new { controller = "Pages", action = "ByUser", title = UrlParameter.Optional }
+			);
+
 			// Default
 			routes.MapLowercaseRoute(
 				"Default", // Route name

@@ -10,6 +10,7 @@
 .blueborder { border:1px solid #032451; }
 .borderbottom { border-bottom:1px solid #032451; }
 .button		{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;cursor:pointer;min-width:100px;font-size: 14px;font-weight: normal;padding:8px 20px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px; }
+.button:focus { border:2px solid #99b3d4;}
 .clear		{ clear:both; }
 .center		{ display:block;margin-left:auto; margin-right:auto; }
 .dimmed		{ opacity:0.5; }
@@ -31,7 +32,6 @@
 .smallest	{ font-size:0.7em; }
 .smallerbutton	{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;font-size:0.9em;width:75px; }
 .smallestbutton	{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;font-size:0.8em; }
-table,tr,td		{ border: 1px solid black;padding:2px; }
 
 /* Modal dialog styles for jquery.simplemodal */
 #simplemodal-overlay	{ background-color:#000; }
@@ -60,6 +60,9 @@ table,tr,td		{ border: 1px solid black;padding:2px; }
 .searchresult-title		{ color:Black; }
 .searchresult-summary	{ font-size:95%; }
 .searchresult-date		{ color:green;font-size:97%; }
+.searchresult-tags span	{ margin-left:5px; }
+.searchresult-tags span a	{ color:#4e6fa3 !important;text-decoration:none; }
+.searchresult-tags span a:hover	{ color:#000 !important;text-decoration:underline; }
 .searchbox				{ width:20em; }
 
 /* All tags(categories) page */
@@ -75,13 +78,16 @@ table,tr,td		{ border: 1px solid black;padding:2px; }
 .tagcloud5		{ font-size:2em; }
 
 /* Tables */
-#userpagetable			{ border:1px solid #d3d2d2;background-color:#f1f0f0; }
+#pagecontent table,#pagecontent tr,#pagecontent td { border: 1px solid black;padding:2px; }
+#userpagetable			 { border:1px solid #d3d2d2;background-color:#f1f0f0; }
+
+/* All pages */
 #allpagestable tr		{ padding:5px; }
 #allpagestable .title	{ min-width:350px; }
 #allpagestable .edit	{ width:50px; }
 #allpagestable .delete	{ width:50px; }
 
-/* All pages */
+/* Used in tags and all pages */
 #pagestable			{ border:1px solid #d3d2d2;background-color:#f1f0f0; }
 #pagestable tr		{ padding:5px; }
 #pagestable .title	{ min-width:350px; }

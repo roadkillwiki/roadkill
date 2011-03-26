@@ -75,7 +75,6 @@
     <Compile Include="Converters\ImageEventArgs.cs" />
     <Compile Include="Converters\IParser.cs" />
     <Compile Include="Converters\LinkEventArgs.cs" />
-    <Compile Include="Converters\Mediawiki\MediaWikiToCreole.cs" />
     <Compile Include="Converters\Mediawiki\MediaWikiParser.cs" />
     <Compile Include="Domain\Managers\InstallManager.cs" />
     <Compile Include="Exceptions\UserException.cs" />

@@ -16,7 +16,7 @@ $.require("roadkill.edit.js");
 	 
 		<div class="title">
 			<label for="Title">Title</label>
-			@(Html.TextBoxFor<PageSummary, string>(p => p.Title))<br />
+			@(Html.TextBoxFor<PageSummary, string>(p => p.Title, new { tabindex = 1 }))<br />
 		</div>
 		<br />
 		
@@ -38,16 +38,18 @@ $.require("roadkill.edit.js");
 			<a href="javascript:;" class="wysiwyg-h5"><img src="@(Url.Content("~/Assets/images/wysiwyg/h5.png"))" border="0" alt="heading 5" /></a>
 			<a href="javascript:;" class="wysiwyg-bullets"><img src="@(Url.Content("~/Assets/images/wysiwyg/bullets.png"))" alt="bulleted list" border="0" /></a>
 			<a href="javascript:;" class="wysiwyg-numbers"><img src="@(Url.Content("~/Assets/images/wysiwyg/numbers.png"))" alt="numbered list" border="0" /></a>
-			<a href="javascript:;" class="wysiwyg-picture"><img src="@(Url.Content("~/Assets/images/wysiwyg/picture.png"))" border="0" /></a>
+			<a href="javascript:;" class="wysiwyg-picture"><img src="@(Url.Content("~/Assets/images/wysiwyg/picture.png"))" alt="Add alt picture" border="0" /></a>
 			<a href="javascript:;" class="wysiwyg-link"><img src="@(Url.Content("~/Assets/images/wysiwyg/link.png"))" alt="link" border="0" /></a>
 			<a href="javascript:;" class="wysiwyg-help"><img src="@(Url.Content("~/Assets/images/wysiwyg/help.png"))" alt="help" border="0" /></a>
 		</div>
-		@(Html.TextAreaFor<PageSummary, string>(p => p.Content, new { @class = "edittextarea" }))
+		@(Html.TextAreaFor<PageSummary, string>(p => p.Content, new { @class = "edittextarea", tabindex=3 }))
 		<br />
 
+		@Html.ActionLink("Cancel", "Index", "Wiki", new { id = Model.Id, title = Url.EncodeTitle(Model.Title) }, null)
+			 
 		<div class="buttonContainer">
-			<input type="submit" class="button saveButton" value="Save" />
-			<input type="button" class="button previewButton" value="Preview" />
+			<input type="submit" class="button saveButton" value="Save" tabindex="4" />
+			<input type="button" class="button previewButton" value="Preview" tabindex="5" />
 		</div>
 		<br class="clear" /><br />
 	
