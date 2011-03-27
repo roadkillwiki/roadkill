@@ -10,11 +10,13 @@ $(document).ready(function()
 
 	$("#testdbconnection").click(function()
 	{	
+		$("#db-loading").show();
 		hideAlerts();
 		$.get("@(Url.Action("TestDatabaseConnection"))",
 				{ "connectionString" : $("#ConnectionString").val() },
 				function(data)
 				{
+					$("#db-loading").hide();
 					if (data.Success)
 					{
 						showSuccess("#connectionsuccess");
@@ -62,6 +64,7 @@ $(document).ready(function()
 
 			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.ConnectionString, new { @class = "validate[required]" }))</div>
 			<input id="testdbconnection" class="button" type="button" value="Test" />
+			<div id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
 			<div id="connectionsuccess" class="success alert hidden">
 				<h2>Success!</h2>
 				<p>The database connection is was successful.</p>

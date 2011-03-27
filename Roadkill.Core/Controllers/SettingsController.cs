@@ -163,11 +163,12 @@ namespace Roadkill.Core.Controllers
 
 		public ActionResult ExportAsXml()
 		{
-			PageManager manager = new PageManager();
-			string xml = manager.ExportToXml();
-
 			try
 			{
+
+				PageManager manager = new PageManager();
+				string xml = manager.ExportToXml();
+
 				// Let the FileStreamResult dispose
 				MemoryStream stream = new MemoryStream();
 				StreamWriter writer = new StreamWriter(stream);

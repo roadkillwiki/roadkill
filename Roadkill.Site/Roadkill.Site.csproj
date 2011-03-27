@@ -110,6 +110,7 @@
     <Content Include="Assets\Images\favicon.png" />
     <Content Include="Assets\Images\installer-ex-chicken.png" />
     <Content Include="Assets\Images\installerbg.png" />
+    <Content Include="Assets\Images\loadinglarge.gif" />
     <Content Include="Assets\Scripts\jquery.validationEngine-en.js" />
     <Content Include="Assets\Scripts\jquery.validationEngine.js" />
     <Content Include="Assets\Scripts\roadkill.settings.js" />
@@ -155,7 +156,7 @@
     <Content Include="Assets\Scripts\jquery.require.js" />
     <Content Include="Assets\Scripts\jquery.timeago.js" />
     <Content Include="Assets\Scripts\tag-it.js" />
-    <Content Include="Assets\Images\wysiwyg\loading.gif" />
+    <Content Include="Assets\Images\loading.gif" />
     <Content Include="Themes\BlackBar\Theme.css" />
     <Content Include="Themes\Roadkillwiki.info\roadkill-large.png" />
     <Content Include="Themes\Roadkillwiki.info\roadkill.png" />

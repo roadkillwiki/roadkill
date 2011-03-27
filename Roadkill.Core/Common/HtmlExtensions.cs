@@ -100,9 +100,14 @@ namespace Roadkill.Core
 			string link = "";
 
 			if (RoadkillContext.Current.IsLoggedIn)
-				link = helper.ActionLink("Logout", "Logout", "Home").ToString();
+			{
+				if (!RoadkillSettings.IsWindowsAuthentication)
+					link = helper.ActionLink("Logout", "Logout", "Home").ToString();
+			}
 			else
+			{
 				link = helper.ActionLink("Login", "Login", "Home").ToString();
+			}
 
 			return MvcHtmlString.Create(link +  suffix);
 		}

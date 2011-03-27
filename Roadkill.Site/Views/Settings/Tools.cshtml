@@ -5,40 +5,56 @@
 
 @Html.Partial("SettingsMenu")
 
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		$("#settingscontainer a.refreshlink").click(function ()
+		{
+			$("#wait").modal({ close: false });
+		});
+	});
+</script>
+
 <span class="bold" style="color:green">@TempData["Message"]</span>
 
-<p>
-<b>@Html.ActionLink("Clear the database", "WipePages")</b><br />
-Clears all pages and text from the database. This does not remove any users.
-</p>
+<div id="settingscontainer">
+	<p>
+	<b>@Html.ActionLink("Clear the database", "WipePages", null, new { @class = "refreshlink" })</b><br />
+	Clears all pages and text from the database. This does not remove any users.
+	</p>
 
-<p>
-<b>@Html.ActionLink("Rebuild search index", "UpdateSearchIndex")</b><br />
-Forces a re-build of the page search index, useful if the search begins to get out of sync for any reason.
-</p>
+	<p>
+	<b>@Html.ActionLink("Rebuild search index", "UpdateSearchIndex", null, new { @class = "refreshlink" })</b><br />
+	Forces a re-build of the page search index, useful if the search begins to get out of sync for any reason.
+	</p>
 
-<p>
-<b>@Html.ActionLink("Export to XML", "ExportAsXml")</b><br />
-Exports all pages, including text content and all history as a single XML file.
-</p>
+	<p>
+	<b>@Html.ActionLink("Export to XML", "ExportAsXml")</b><br />
+	Exports all pages, including text content and all history as a single XML file.
+	</p>
 
-<p>
-<b>@Html.ActionLink("Export all content as a zip", "ExportContent")</b><br />
-Exports all pages, including text content as a series of ".wiki" files. Only
-the current content and tags are included, no history is provided.
-</p>
+	<p>
+	<b>@Html.ActionLink("Export all content as a zip", "ExportContent")</b><br />
+	Exports all pages, including text content as a series of ".wiki" files. Only
+	the current content and tags are included, no history is provided.
+	</p>
 
-<span class="bold borderbottom">Import from screwturn</span><br />
-<p>
+	<span class="bold borderbottom">Import from screwturn</span><br />
+	<p>
 
-Imports all content from a Screwturn 2 database. You will need to set the markuptype to MediaWiki 
-in the settings/web.config file for the format to be compatible. As screwturn uses as variation on 
-the mediawiki syntax, some content will not render perfectly. This includes some images and links.
-</p>
+	Imports all content from a Screwturn 2 database. You will need to set the markuptype to MediaWiki 
+	in the settings/web.config file for the format to be compatible. As screwturn uses as variation on 
+	the mediawiki syntax, some content will not render perfectly. This includes some images and links.
+	</p>
 
-@using (Html.BeginForm("ImportFromScrewTurn","Settings"))
-{
-<b>Screwturn connection string:</b>
-@(Html.TextBox("screwturnConnectionString", null, new { style = "width:30em" }))<br />
-<input type="submit" class="button" value="import" />
-}
+	@using (Html.BeginForm("ImportFromScrewTurn","Settings"))
+	{
+	<b>Screwturn connection string:</b>
+	@(Html.TextBox("screwturnConnectionString", null, new { style = "width:30em" }))<br />
+	<input type="submit" class="button" value="Import" />
+	}
+</div>
+
+<div id="wait" class="hidden" style="background-color:#333;width:100px;text-align:center;">
+	<img src="@(Url.Content("~/Assets/images/loadinglarge.gif"))" border="0" />
+</div>

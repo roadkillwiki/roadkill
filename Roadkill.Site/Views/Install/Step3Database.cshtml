@@ -11,11 +11,13 @@
 		$("#testdbconnection").click(function()
 		{	
 			hideAlerts();
+			$("#db-loading").show();
 
 			$.get("@(Url.Action("TestDatabaseConnection"))",
 					{ "connectionString" : $("#RolesConnectionString").val() },
 					function(data)
 					{
+						$("#db-loading").hide();
 						if (data.Success)
 						{
 							showSuccess("#connectionsuccess");
@@ -54,6 +56,7 @@ It is best for performance to set the user connection string to the same value a
 		<div class="small">
 			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.RolesConnectionString, new { @class = "validate[required]" }))</div>
 			<input id="testdbconnection" class="button" type="button" value="Test" />
+			<div id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
 			<div id="connectionsuccess" class="success alert hidden">
 				<h2>Success!</h2>
 				<p>The database connection is was successful.</p>

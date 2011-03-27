@@ -26,6 +26,7 @@ namespace Roadkill.Core.Controllers
 
 			RoadkillContext.Current.Page = summary;
 
+			Response.AddHeader("Last-Modified", summary.ModifiedOn.ToString("r")); // rfc 1123, should match rfc 2822
 			return View(summary);
 		}
     }

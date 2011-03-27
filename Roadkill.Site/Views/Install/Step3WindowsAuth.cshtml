@@ -10,22 +10,22 @@
 
 		$("#testldap").click(function()
 		{	
-			testActiveDirectory("#ldapconnectionsuccess","#ldapconnectionfailure","");
+			testActiveDirectory("#ldapconnectionsuccess","#ldapconnectionfailure","#ldap-loading","");
 		});
 
 		$("#testeditor").click(function(){	
-			testActiveDirectory("#editor-connectionsuccess","#editor-connectionfailure",$("#EditorRoleName").val());
+			testActiveDirectory("#editor-connectionsuccess","#editor-connectionfailure","#editor-loading",$("#EditorRoleName").val());
 		});
 
 		$("#testadmin").click(function(){	
-			testActiveDirectory("#admin-connectionsuccess","#admin-connectionfailure",$("#AdminRoleName").val());
+			testActiveDirectory("#admin-connectionsuccess","#admin-connectionfailure","#admin-loading",$("#AdminRoleName").val());
 		});
 	});
 
-	function testActiveDirectory(successId,failureId,groupName)
+	function testActiveDirectory(successId,failureId,loadingId,groupName)
 	{
+		$(loadingId).show();
 		hideAlerts();
-
 		$.get("@(Url.Action("TestLdap"))",
 				{ 
 					"connectionstring" : $("#LdapConnectionString").val(),
@@ -35,6 +35,7 @@
 				},
 				function(data)
 				{
+					$(loadingId).hide();
 					if (data.Success)
 					{
 						showSuccess(successId);
@@ -78,6 +79,7 @@
 			</div>
 
 			<input id="testldap" class="button" type="button" value="Test" />
+			<div id="ldap-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
 			<div id="ldapconnectionsuccess" class="success alert hidden">
 				<h2>Success!</h2>
 				<p>The connection and authentication with the Active Directory server was successful.</p>
@@ -92,11 +94,14 @@
 
 	<fieldset>
 		<legend>Editor group name</legend>
-		<label>This is the security group that users should belong to in order to be editors (people who can edit and create pages)</label>
+		<label>This is the security group that users should belong to in order to be editors (people who can edit and create pages).
+		The test button uses the connection settings entered above.
+		</label>
 
 		<div class="small">
 			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.EditorRoleName, new { @class = "validate[required]" }))</div>
 			<input id="testeditor" class="button" type="button" value="Test" />
+			<div id="editor-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
 			<div id="editor-connectionsuccess" class="success alert hidden">
 				<h2>Success!</h2>
 				<p>The group was queried sucessfully.</p>
@@ -112,11 +117,12 @@
 	<fieldset>
 		<legend>Admin group name</legend>
 		<label>This is the security group that users should belong to in order to be admins. Admins have the same rights as editors, but also
-		have access to configuration settings and tools for the site.</label>
+		have access to configuration settings and tools for the site.The test button uses the connection settings entered above.</label>
 
 		<div class="small">
 			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminRoleName, new { @class = "validate[required]" }))</div>
 			<input id="testadmin" class="button" type="button" value="Test" />
+			<div id="admin-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
 			<div id="admin-connectionsuccess" class="success alert hidden">
 				<h2>Success!</h2>
 				<p>The group was queried sucessfully.</p>

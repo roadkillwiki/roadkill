@@ -179,7 +179,7 @@ namespace Roadkill.Core
 
 		public string ExportToXml()
 		{
-			IEnumerable<PageSummary> list = AllPages();
+			List<PageSummary> list = AllPages().ToList();
 
 			XmlSerializer serializer = new XmlSerializer(typeof(List<PageSummary>));
 

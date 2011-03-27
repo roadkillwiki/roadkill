@@ -1,12 +1,15 @@
 ﻿/// <reference path="jquery-1.4.1-vsdoc.js" />
 var _tags;
+var _loadTagsTimer;
 
 $(document).ready(function ()
 {
 	$.require("tag-it.js");
 	$.require("roadkill.wysiwyg.js");
 
-	initTagIt();
+	initTagIt(false);
+	_loadTagsTimer = setTimeout("loadTags();", 2000);
+
 	bindEditButtons();
 	initWYSIWYG();
 
@@ -20,9 +23,8 @@ $(document).ready(function ()
 	});
 });
 
-function initTagIt()
+function initTagIt(loadedTags)
 {
-	setTimeout("loadTags();", 2000);
 	$("#mytags").tagit({
 		tabIndex : 2,
 		availableTags	: _tags,
@@ -37,7 +39,8 @@ function loadTags()
 	$.get(ROADKILL_TAGAJAXURL, function (data)
 	{
 		_tags = eval(data);
-		initTagIt();
+		initTagIt(true);
+		clearTimeout(_loadTagsTimer);
 	});
 }
 

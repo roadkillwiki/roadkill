@@ -63,10 +63,14 @@ namespace Roadkill.Core.Search
 		/// <remarks>Syntax: http://lucene.apache.org/java/2_3_2/queryparsersyntax.html#Wildcard </remarks>
 		public static List<SearchResult> SearchIndex(string searchText)
 		{
+			// This check is for the benefit of the CI builds
+			if (!Directory.Exists(_indexPath))
+				CreateIndex();
+
 			List<SearchResult> list = new List<SearchResult>();
 
 			StandardAnalyzer analyzer = new StandardAnalyzer();
-			QueryParser parser = new QueryParser("content", analyzer);
+			MultiFieldQueryParser parser = new MultiFieldQueryParser(new string[]{"content","title"}, analyzer);
 
 			Query query = null;
 			try
@@ -113,14 +117,13 @@ namespace Roadkill.Core.Search
 
 		public static void Add(Page page)
 		{
-			if (!Directory.Exists(_indexPath))
-				Directory.CreateDirectory(_indexPath);
+			EnsureDirectoryExists();
 
 			StandardAnalyzer analyzer = new StandardAnalyzer();
 			IndexWriter writer = new IndexWriter(_indexPath, analyzer,false);
 
 			PageSummary summary = page.ToSummary();
-			writer.AddDocument(ToDocument(summary));
+			writer.AddDocument(SummaryToDocument(summary));
 
 			writer.Optimize();
 			writer.Close();
@@ -131,18 +134,19 @@ namespace Roadkill.Core.Search
 			StandardAnalyzer analyzer = new StandardAnalyzer();
 			IndexReader reader = IndexReader.Open(_indexPath);
 			reader.DeleteDocuments(new Term("id", page.Id.ToString()));
+			reader.Close();
 		}
 
 		public static void Update(Page page)
 		{
+			EnsureDirectoryExists();
 			Delete(page);
 			Add(page);
 		}
 
 		public static void CreateIndex()
 		{
-			if (!Directory.Exists(_indexPath))
-				Directory.CreateDirectory(_indexPath);
+			EnsureDirectoryExists();
 
 			StandardAnalyzer analyzer = new StandardAnalyzer();
 			IndexWriter writer = new IndexWriter(_indexPath, analyzer, true);
@@ -150,14 +154,20 @@ namespace Roadkill.Core.Search
 			foreach (Page page in Page.Repository.List())
 			{
 				PageSummary summary = page.ToSummary();
-				writer.AddDocument(ToDocument(summary));
+				writer.AddDocument(SummaryToDocument(summary));
 			}
 
 			writer.Optimize();
 			writer.Close();
 		}
 
-		private static Document ToDocument(PageSummary summary)
+		private static void EnsureDirectoryExists()
+		{
+			if (!Directory.Exists(_indexPath))
+				Directory.CreateDirectory(_indexPath);
+		}
+
+		private static Document SummaryToDocument(PageSummary summary)
 		{
 			// Get a summary by parsing the contents
 			MarkupConverter converter = new MarkupConverter();
@@ -172,7 +182,7 @@ namespace Roadkill.Core.Search
 				contentSummary = contentSummary.Substring(0, 149);
 
 			Document document = new Document();
-			document.Add(new Field("id", summary.Id.ToString(), Field.Store.YES, Field.Index.NO));
+			document.Add(new Field("id", summary.Id.ToString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
 			document.Add(new Field("content", summary.Content, Field.Store.YES, Field.Index.TOKENIZED));
 			document.Add(new Field("contentsummary", contentSummary, Field.Store.YES, Field.Index.NO));
 			document.Add(new Field("title", summary.Title, Field.Store.YES, Field.Index.TOKENIZED));

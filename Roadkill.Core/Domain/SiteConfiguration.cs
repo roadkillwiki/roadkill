@@ -33,7 +33,8 @@ namespace Roadkill.Core
 		public virtual string AllowedFileTypes { get; set; }
 		
 		/// <summary>
-		/// Whether users can register themselves, or if the administrators should do it.
+		/// Whether users can register themselves, or if the administrators should do it. This is
+		/// currently not implemented in the wiki.
 		/// </summary>
 		public virtual bool AllowUserSignup { get; set; }
 

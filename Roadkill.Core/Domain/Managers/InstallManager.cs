@@ -33,9 +33,12 @@ namespace Roadkill.Core
 		{
 			Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 
-			// LDAP settings if needed
 			if (summary.UseWindowsAuth)
 			{
+				//
+				// LDAP 
+				//
+
 				// Use the ActiveDirectoryMembershipProvider
 				MembershipSection membershipSection = config.GetSection("system.web/membership") as MembershipSection;
 				membershipSection.Providers.Clear();
@@ -82,6 +85,10 @@ namespace Roadkill.Core
 			}
 			else
 			{
+				//
+				// SQL Provider
+				//
+
 				string usersConnectionName = "Roadkill";
 
 				if (summary.RolesConnectionString != summary.ConnectionString)
@@ -102,7 +109,7 @@ namespace Roadkill.Core
 				MembershipSection membershipSection = config.GetSection("system.web/membership") as MembershipSection;
 				membershipSection.Providers.Clear();
 				membershipSection.Providers.EmitClear = true;
-				membershipSection.DefaultProvider = "";
+				membershipSection.DefaultProvider = "Roadkill";
 
 				ProviderSettings memberSettings = new ProviderSettings("Roadkill", "Roadkill.Core.RoadkillMembershipProvider, Roadkill.Core");
 				memberSettings.Parameters.Add("connectionStringName", usersConnectionName);
@@ -157,6 +164,8 @@ namespace Roadkill.Core
 
 		public static void InstallAspNetUsersDatabase(SettingsSummary summary)
 		{
+			ClearUserTables(summary);
+
 			// Create the provider database and schema
 			SqlServices.Install(GetDatabaseName(summary.RolesConnectionString), SqlFeatures.Membership | SqlFeatures.RoleManager, summary.RolesConnectionString);
 
@@ -174,12 +183,29 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				//drop table aspnet_SchemaVersions;
-				//drop table aspnet_Membership;
-				//drop table aspnet_UsersInRoles;
-				//drop table aspnet_Roles;
-				//drop table aspnet_Users;
-				//drop table aspnet_Applications;
+				using (SqlConnection connection = new SqlConnection(summary.RolesConnectionString))
+				{
+					connection.Open();
+					SqlCommand command = connection.CreateCommand();
+
+					command.CommandText = "drop table aspnet_SchemaVersions;";
+					command.ExecuteNonQuery();
+
+					command.CommandText = "drop table aspnet_Membership;";
+					command.ExecuteNonQuery();
+
+					command.CommandText = "drop table aspnet_UsersInRoles;";
+					command.ExecuteNonQuery();
+
+					command.CommandText = "drop table aspnet_Roles;";
+					command.ExecuteNonQuery();
+
+					command.CommandText = "drop table aspnet_Users;";
+					command.ExecuteNonQuery();
+
+					command.CommandText = "drop table aspnet_Users;";
+					command.ExecuteNonQuery();
+				}
 			}
 			catch (Exception e)
 			{
@@ -284,8 +310,8 @@ namespace Roadkill.Core
 			try
 			{
 				int length = "ldap://".Length;
-				if (!connectionString.ToLower().StartsWith("ldap://") || connectionString.Length < length)
-					throw new Exception(string.Format("The LDAP connection string: '{0}' does not appear to be a valid.", connectionString));
+				if (!connectionString.StartsWith("LDAP://") || connectionString.Length < length)
+					throw new Exception(string.Format("The LDAP connection string: '{0}' does not appear to be a valid (make sure it's uppercase LDAP).", connectionString));
 
 				DirectoryEntry entry = new DirectoryEntry(connectionString);
 
@@ -293,6 +319,12 @@ namespace Roadkill.Core
 				{
 					entry.Username = username;
 					entry.Password = password;
+				}
+				else
+				{
+					// Use built-in ones for querying
+					username = "administrator"; // may need to use Guest here.
+					groupName = "Users";
 				}
 
 				string accountName = username;
