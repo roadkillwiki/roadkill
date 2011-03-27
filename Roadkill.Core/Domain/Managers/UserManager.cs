@@ -79,6 +79,11 @@ namespace Roadkill.Core
 			return Roles.GetUsersInRole(RoadkillSettings.AdminRoleName);
 		}
 
+		public bool UserExists(string username)
+		{
+			return Membership.FindUsersByName(username).Count > 0;
+		}
+
 		public IEnumerable<string> AllEditors()
 		{
 			return Roles.GetUsersInRole(RoadkillSettings.EditorRoleName);

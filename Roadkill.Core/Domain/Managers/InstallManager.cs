@@ -185,6 +185,9 @@ namespace Roadkill.Core
 
 			// Add the admin user, admin role and editor roles.
 			UserManager manager = new UserManager();
+			if (manager.UserExists("Admin"))
+				ClearUserTables(summary.RolesConnectionString);
+
 			manager.AddRoles();
 			string result = manager.AddAdminUser("admin", summary.AdminPassword);
 			if (!string.IsNullOrEmpty(result))
