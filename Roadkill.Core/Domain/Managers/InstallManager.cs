@@ -14,22 +14,36 @@ namespace Roadkill.Core
 {
 	public class InstallManager
 	{
-		public static void InstallDb(SettingsSummary summary)
+		/// <summary>
+		/// Saves all settings that are stored in the database, to the configuration table.
+		/// </summary>
+		/// <param name="summary"></param>
+		/// <param name="createSchema"></param>
+		public static void SaveDbSettings(SettingsSummary summary,bool createSchema)
 		{
-			Page.Configure(summary.ConnectionString, true, summary.CacheEnabled);
+			SiteConfiguration config;
 
-			// Create the default site config properties
-			SiteConfiguration config = new SiteConfiguration()
+			if (createSchema)
 			{
-				Theme = summary.Theme,
-				MarkupType = summary.MarkupType,
-				AllowedFileTypes = summary.AllowedExtensions,
-				AllowUserSignup = summary.AllowUserSignup
-			};
+				Page.Configure(summary.ConnectionString, true, summary.CacheEnabled);
+				config = new SiteConfiguration();
+			}
+			else
+			{
+				config = SiteConfiguration.Current;
+			}
+
+			config.Title = summary.SiteName;
+			config.Theme = summary.Theme;
+			config.MarkupType = summary.MarkupType;
+			config.AllowedFileTypes = summary.AllowedExtensions;
+			config.AllowUserSignup = summary.AllowUserSignup;
+			config.Version = RoadkillSettings.Version;
+
 			SiteConfiguration.Repository.SaveOrUpdate(config);
 		}
 
-		public static void WriteWebConfig(SettingsSummary summary)
+		public static void SaveWebConfigSettings(SettingsSummary summary)
 		{
 			Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 
@@ -164,7 +178,7 @@ namespace Roadkill.Core
 
 		public static void InstallAspNetUsersDatabase(SettingsSummary summary)
 		{
-			ClearUserTables(summary);
+			ClearUserTables(summary.RolesConnectionString);
 
 			// Create the provider database and schema
 			SqlServices.Install(GetDatabaseName(summary.RolesConnectionString), SqlFeatures.Membership | SqlFeatures.RoleManager, summary.RolesConnectionString);
@@ -179,11 +193,35 @@ namespace Roadkill.Core
 			}
 		}
 
-		public static string ClearUserTables(SettingsSummary summary)
+		public static string ClearPageTables(string connectionString)
 		{
 			try
 			{
-				using (SqlConnection connection = new SqlConnection(summary.RolesConnectionString))
+				using (SqlConnection connection = new SqlConnection(connectionString))
+				{
+					connection.Open();
+					SqlCommand command = connection.CreateCommand();
+
+					command.CommandText = "delete from roadkill_pagecontent";
+					command.ExecuteNonQuery();
+
+					command.CommandText = "delete from roadkill_pages";
+					command.ExecuteNonQuery();
+				}
+			}
+			catch (Exception e)
+			{
+				return e.Message;
+			}
+
+			return "";
+		}
+
+		public static string ClearUserTables(string connectionString)
+		{
+			try
+			{
+				using (SqlConnection connection = new SqlConnection(connectionString))
 				{
 					connection.Open();
 					SqlCommand command = connection.CreateCommand();

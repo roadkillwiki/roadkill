@@ -82,49 +82,6 @@ namespace Roadkill.Core
 				return MvcHtmlString.Create("Not logged in");
 		}
 
-		public static MvcHtmlString SettingsLink(this HtmlHelper helper,string suffix)
-		{
-			if (RoadkillContext.Current.IsAdmin)
-			{
-				string link = helper.ActionLink("Site settings","Index","Settings").ToString();
-				return MvcHtmlString.Create(link + suffix);
-			}
-			else
-			{
-				return MvcHtmlString.Create("");
-			}
-		}
-
-		public static MvcHtmlString LoginLink(this HtmlHelper helper, string suffix)
-		{
-			string link = "";
-
-			if (RoadkillContext.Current.IsLoggedIn)
-			{
-				if (!RoadkillSettings.IsWindowsAuthentication)
-					link = helper.ActionLink("Logout", "Logout", "Home").ToString();
-			}
-			else
-			{
-				link = helper.ActionLink("Login", "Login", "Home").ToString();
-			}
-
-			return MvcHtmlString.Create(link +  suffix);
-		}
-
-		public static MvcHtmlString NewPageLink(this HtmlHelper helper, string suffix)
-		{
-			if (RoadkillContext.Current.IsLoggedIn)
-				return MvcHtmlString.Create(helper.ActionLink("New page", "New", "Pages").ToString() + suffix);
-			else
-				return MvcHtmlString.Empty;
-		}
-
-		public static MvcHtmlString MainPageLink(this HtmlHelper helper, string linkText)
-		{
-			return helper.ActionLink(linkText, "Index", "Home");
-		}
-
 		public static string ClassNameForTagSummary(this HtmlHelper helper, TagSummary tag)
 		{
 			string className = "";
@@ -151,32 +108,6 @@ namespace Roadkill.Core
 			}
 
 			return className;
-		}
-
-		public static MvcHtmlString PageLink(this HtmlHelper helper, string linkText, string pageName)
-		{
-			return helper.PageLink(linkText,pageName,null);
-		}
-
-		public static MvcHtmlString PageLink(this HtmlHelper helper, string linkText, string pageName, object htmlAttributes)
-		{
-			return helper.ActionLink(linkText, "Index", "Pages", new { id = pageName }, htmlAttributes);
-		}
-
-		public static MvcHtmlString CssLink(this UrlHelper helper, string relativePath)
-		{
-			if (!relativePath.StartsWith("~"))
-				relativePath = "~/Assets/CSS/" + relativePath;
-
-			return MvcHtmlString.Create("<link href=\"" + helper.Content(relativePath) + "\" rel=\"stylesheet\" type=\"text/css\" />");
-		}
-
-		public static MvcHtmlString ScriptLink(this UrlHelper helper, string relativePath)
-		{
-			if (!relativePath.StartsWith("~"))
-				relativePath = "~/Assets/Scripts/" + relativePath;
-
-			return MvcHtmlString.Create("<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content(relativePath) + "\"></script>");
 		}
 
 		public static string ThemeContent(this UrlHelper helper, string relativePath)

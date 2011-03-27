@@ -42,5 +42,37 @@ namespace Roadkill.Core
 		public bool CacheEnabled { get; set; }
 		public bool CacheText { get; set; }
 		public bool AllowUserSignup { get; set; }
+
+		public string Version
+		{
+			get
+			{
+				return RoadkillSettings.Version;
+			}
+		}
+
+		public static SettingsSummary GetCurrentSettings()
+		{
+			SettingsSummary summary = new SettingsSummary();
+			
+			summary.AdminRoleName = RoadkillSettings.AdminRoleName;
+			summary.AllowedExtensions = string.Join(",",RoadkillSettings.AllowedFileTypes);
+			summary.AllowUserSignup = SiteConfiguration.Current.AllowUserSignup;
+			summary.AttachmentsFolder = RoadkillSettings.AttachmentsFolder;
+			summary.CacheEnabled = RoadkillSettings.CachedEnabled;
+			summary.CacheText = RoadkillSettings.CacheText;
+			summary.ConnectionString = RoadkillSettings.ConnectionString;
+			summary.EditorRoleName = RoadkillSettings.EditorRoleName;
+			summary.LdapConnectionString = RoadkillSettings.LdapConnectionString;
+			summary.LdapUsername = RoadkillSettings.LdapUsername;
+			summary.LdapPassword = RoadkillSettings.LdapPassword;
+			summary.MarkupType = RoadkillSettings.MarkupType;
+			summary.RolesConnectionString = RoadkillSettings.RolesConnectionString;
+			summary.SiteName = SiteConfiguration.Current.Title;
+			summary.Theme = RoadkillSettings.Theme;
+			summary.UseWindowsAuth = RoadkillSettings.IsWindowsAuthentication;
+
+			return summary;
+		}
 	}
 }

@@ -1,7 +1,7 @@
 /// <reference path="jquery-1.4.1-vsdoc.js" />
 $(document).ready(function ()
 {
-	bindConfirmButtons();
+	bindConfirmDelete(); //in roadkill.js
 	bindUserButtons();
 });
 
@@ -44,40 +44,5 @@ function bindUserButtons()
 
 		$(".validation-summary-errors").hide();
 		$("#userdialogContainer").modal();
-	});
-}
-
-function bindConfirmButtons()
-{
-	$(".confirm").click(function ()
-	{
-		var button;
-		var value;
-		var text;
-		button = $(this);
-
-		if(!button.hasClass("jqConfirm"))
-		{
-			value = button.val();
-			text = button.text();
-
-			button.val("Confirm");
-			button.text("Confirm");
-			button.addClass("jqConfirm");
-
-			var handler = function ()
-			{
-				button.removeClass("jqConfirm");
-				button.val(value);
-				button.text(text);
-				button.unbind("click.jqConfirmHandler");
-				return true;
-			};
-			button.bind("click.jqConfirmHandler", handler);
-
-			setTimeout(function () { handler.call(); }, 3000);
-
-			return false;
-		}
 	});
 }

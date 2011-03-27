@@ -11,14 +11,12 @@ namespace Roadkill.Core.Diff
 	/// </summary>
 	public class HtmlDiff
 	{
-
 		private StringBuilder content;
 		private string oldText, newText;
 		private string[] oldWords, newWords;
 		Dictionary<string, List<int>> wordIndices;
 		private string[] specialCaseOpeningTags = new string[] { "<strong[\\>\\s]+", "<b[\\>\\s]+", "<i[\\>\\s]+", "<big[\\>\\s]+", "<small[\\>\\s]+", "<u[\\>\\s]+", "<sub[\\>\\s]+", "<sup[\\>\\s]+", "<strike[\\>\\s]+", "<s[\\>\\s]+" };
 		private string[] specialCaseClosingTags = new string[] { "</strong>", "</b>", "</i>", "</big>", "</small>", "</u>", "</sub>", "</sup>", "</strike>", "</s>" };
-
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Diff"/> class.

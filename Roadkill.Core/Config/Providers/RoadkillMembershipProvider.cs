@@ -16,7 +16,7 @@ namespace Roadkill.Core
 			get
 			{
 				if (string.IsNullOrWhiteSpace(_connectionString))
-					_connectionString = GetConnectionStringFromConfig();
+					_connectionString = RoadkillSettings.LdapConnectionString;
 
 				return _connectionString;
 			}
@@ -31,13 +31,13 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// A new password is auto-generated for password requests so this is not required.
+		/// This is required to be true for the password changing mechanism.
 		/// </summary>
 		public override bool EnablePasswordReset
 		{
 			get
 			{
-				return false;
+				return true;
 			}
 		}
 
@@ -120,16 +120,6 @@ namespace Roadkill.Core
 					return command.ExecuteNonQuery() > 0;
 				}
 			}
-		}
-
-		private string GetConnectionStringFromConfig()
-		{
-			Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
-			MembershipSection section = config.SectionGroups["system.web"].Sections["membership"] as MembershipSection;
-			string defaultProvider = section.DefaultProvider;
-			string connstringName = section.Providers[defaultProvider].ElementInformation.Properties["connectionStringName"].Value.ToString();
-
-			return config.ConnectionStrings.ConnectionStrings[connstringName].ConnectionString;
 		}
 	}
 }

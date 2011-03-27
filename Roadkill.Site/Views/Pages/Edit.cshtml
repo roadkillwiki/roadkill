@@ -2,8 +2,16 @@
 @{ 
 	ViewBag.Title = "Add/edit page";
 }
+@Url.CssLink("validationEngine.jquery.css")
+@Url.ScriptLink("jquery.validationEngine-en.js")
+@Url.ScriptLink("jquery.validationEngine.js")
+@Url.ScriptLink("jquery.tooltip.min.js")
 <script type="text/javascript">
-$.require("roadkill.edit.js");
+	$(document).ready(function ()
+	{
+		$.require("roadkill.edit.js");
+		$("form").validationEngine();
+	});
 </script>
 
 <div id="edit">
@@ -16,7 +24,7 @@ $.require("roadkill.edit.js");
 	 
 		<div class="title">
 			<label for="Title">Title</label>
-			@(Html.TextBoxFor<PageSummary, string>(p => p.Title, new { tabindex = 1 }))<br />
+			@(Html.TextBoxFor<PageSummary, string>(p => p.Title, new { @class = "validate[required]", tabindex = 1 }))<br />
 		</div>
 		<br />
 		
@@ -45,7 +53,14 @@ $.require("roadkill.edit.js");
 		@(Html.TextAreaFor<PageSummary, string>(p => p.Content, new { @class = "edittextarea", tabindex=3 }))
 		<br />
 
-		@Html.ActionLink("Cancel", "Index", "Wiki", new { id = Model.Id, title = Url.EncodeTitle(Model.Title) }, null)
+		if (Model.Id > 0)
+		{
+			@Html.ActionLink("Cancel", "Index", "Wiki", new { id = Model.Id, title = Url.EncodeTitle(Model.Title) }, null)
+		}
+		else
+		{
+			@Html.ActionLink("Cancel", "Index", "Wiki")
+		}
 			 
 		<div class="buttonContainer">
 			<input type="submit" class="button saveButton" value="Save" tabindex="4" />

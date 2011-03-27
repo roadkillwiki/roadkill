@@ -15,16 +15,24 @@ using Roadkill.Core.Search;
 
 namespace Roadkill.Core.Controllers
 {
-	//[AdminRequired]
+	[AdminRequired]
 	public class SettingsController : ControllerBase
     {
-		/// <summary>
-		/// TODO
-		/// </summary>
-		/// <returns></returns>
 		public ActionResult Index()
 		{
-			return View();
+			SettingsSummary summary = SettingsSummary.GetCurrentSettings();
+			return View(summary);
+		}
+
+		[HttpPost]
+		public ActionResult Index(SettingsSummary summary)
+		{
+			if (ModelState.IsValid)
+			{
+				InstallManager.SaveWebConfigSettings(summary);
+				InstallManager.SaveDbSettings(summary, false);
+			}
+			return View(summary);
 		}
 
 		public ActionResult AddAdmin(string username)
@@ -35,28 +43,10 @@ namespace Roadkill.Core.Controllers
 			return RedirectToAction("Users");
 		}
 
-		/// <summary>
-		/// TEST ONLY. Remove when live + add as tests
-		/// </summary>
-		/// <returns></returns>
-		public ActionResult AddAdmins()
+		public ActionResult DeleteUser(string id)
 		{
 			UserManager manager = new UserManager();
-			manager.AddAdminUser("chris", "password");
-			manager.AddAdminUser("chris2", "password");
-			manager.AddAdminUser("chris3", "password");
-			manager.AddAdminUser("chris4", "password");
-
-			return RedirectToAction("Users");
-		}
-
-		public ActionResult AddEditors()
-		{
-			UserManager manager = new UserManager();
-			manager.AddUser("editor1", "password");
-			manager.AddUser("editor2", "password");
-			manager.AddUser("editor3", "password");
-			manager.AddUser("editor4", "password");
+			manager.DeleteUser(id);
 
 			return RedirectToAction("Users");
 		}
@@ -74,30 +64,26 @@ namespace Roadkill.Core.Controllers
 				return View(list);
 		}
 
-		public ActionResult Delete(string id)
-		{
-			UserManager manager = new UserManager();
-			manager.DeleteUser(id);
-
-
-			return RedirectToAction("Users");
-		}
-
 		[HttpPost]
-		public ActionResult Users(string mode, string userType, string username, string newUsername, string password, string passwordConfirm)
+		public ActionResult Users(string mode, string userType, string username, string newUsername, string passwordMain, string passwordConfirm)
 		{
 			if (string.IsNullOrEmpty(newUsername))
 				ModelState.AddModelError("Username", "The username is blank");
 
-			if (!string.IsNullOrEmpty(password))
+			// Refactor this into a model
+			if (!string.IsNullOrEmpty(passwordMain))
 			{
 				if (string.IsNullOrEmpty(passwordConfirm))
 				{
 					ModelState.AddModelError("Password", "Confirm your password");
 				}
-				else if (password != passwordConfirm)
+				else if (passwordMain != passwordConfirm)
 				{
 					ModelState.AddModelError("Password", "The passwords don't match.");
+				}
+				else if (passwordMain.Length < Membership.MinRequiredPasswordLength)
+				{
+					ModelState.AddModelError("Password", string.Format("The password is less than {0} characters",Membership.MinRequiredPasswordLength));
 				}
 			}
 
@@ -109,9 +95,9 @@ namespace Roadkill.Core.Controllers
 				{
 					string errors = "";
 					if (userType == "admin")
-						errors = manager.AddAdminUser(newUsername, password);
+						errors = manager.AddAdminUser(newUsername, passwordMain);
 					else
-						errors = manager.AddUser(newUsername, password);
+						errors = manager.AddUser(newUsername, passwordMain);
 
 					if (!string.IsNullOrEmpty(errors))
 					{
@@ -127,8 +113,8 @@ namespace Roadkill.Core.Controllers
 						username = newUsername;
 					}
 
-					if (!string.IsNullOrEmpty(password))
-						manager.UpdateUser(username, password, username);
+					if (!string.IsNullOrEmpty(passwordMain))
+						manager.ChangePassword(username, passwordMain, username);
 				}
 			}
 
@@ -157,7 +143,7 @@ namespace Roadkill.Core.Controllers
 		public ActionResult WipePages()
 		{
 			TempData["Message"] = "Database cleared";
-			InstallManager.InstallDb(null);
+			InstallManager.ClearPageTables(RoadkillSettings.ConnectionString);
 			return RedirectToAction("Tools");
 		}
 
@@ -188,6 +174,69 @@ namespace Roadkill.Core.Controllers
 			}
 		}
 
+		public ActionResult ExportContent()
+		{
+			PageManager manager = new PageManager();
+			IEnumerable<PageSummary> pages = manager.AllPages();
+
+			try
+			{
+				string exportFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"\App_Data", "export");
+				Directory.CreateDirectory(exportFolder);
+
+				string zipFilename = string.Format("export-{0}.zip", DateTime.Now.ToString("yyyy-MM-dd-HHmm"));
+				string zipFullPath = Path.Combine(exportFolder, zipFilename);
+				using (ZipFile zip = new ZipFile(zipFullPath))
+				{
+
+					foreach (PageSummary summary in pages)
+					{
+						string filePath = Path.Combine(exportFolder, summary.Title.AsValidFilename() + ".wiki");
+						string content = "Tags:" + summary.Tags.SpaceDelimitTags() + "\r\n" + summary.Content;
+
+						System.IO.File.WriteAllText(filePath, content);
+						zip.AddFile(filePath, "");
+					}
+
+					zip.Save();
+				}
+
+				return File(zipFullPath, "application/zip", zipFullPath);
+			}
+			catch (IOException e)
+			{
+				Trace.Write(string.Format("Unable to export files: {0}", e));
+				return HttpNotFound("There was a problem with the export. Enable tracing to see the error source");
+			}
+		}
+
+		public ActionResult ExportAttachments()
+		{
+			PageManager manager = new PageManager();
+			IEnumerable<PageSummary> pages = manager.AllPages();
+
+			try
+			{
+				string exportFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory +@"\App_Data", "export");
+				Directory.CreateDirectory(exportFolder);
+
+				string zipFilename = string.Format("attachments-export-{0}.zip", DateTime.Now.ToString("yyy-MM-dd-HHss"));
+				string zipFullPath = Path.Combine(exportFolder, zipFilename);
+				using (ZipFile zip = new ZipFile(zipFullPath))
+				{
+					zip.AddDirectory(Server.MapPath(RoadkillSettings.AttachmentsFolder), "Attachments");
+					zip.Save();
+				}
+
+				return File(zipFullPath, "application/zip", zipFullPath);
+			}
+			catch (IOException e)
+			{
+				Trace.Write(string.Format("Unable to export files: {0}", e));
+				return HttpNotFound("There was a problem with the attachments export. Enable tracing to see the error source");
+			}
+		}
+
 		[HttpPost]
 		public ActionResult ImportFromScrewTurn(string screwturnConnectionString)
 		{
@@ -198,53 +247,6 @@ namespace Roadkill.Core.Controllers
 			return RedirectToAction("Tools");
 		}
 
-		public ActionResult ExportContent()
-		{
-			PageManager manager = new PageManager();
-			IEnumerable<PageSummary> pages = manager.AllPages();
-
-			try
-			{
-				string exportFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"__export" + DateTime.UtcNow.Ticks);
-				Directory.CreateDirectory(exportFolder);
-
-				string zipFilename = string.Format("export-{0}.zip", DateTime.Now.ToString("dd-MM-yyyy"));
-				string zipFullPath = Path.Combine(exportFolder,zipFilename);
-				using (ZipFile zip = new ZipFile(zipFullPath))
-				{
-					
-					foreach (PageSummary summary in pages)
-					{
-						string filePath = Path.Combine(exportFolder,summary.Title.AsValidFilename() + ".wiki");
-						string content = "Tags:" + summary.Tags.SpaceDelimitTags() + "\r\n" + summary.Content;
-
-						System.IO.File.WriteAllText(filePath, content);
-						zip.AddFile(filePath,"");
-					}
-
-					zip.Save();
-				}
-
-				//
-				// Cleanup - delete all files in the temp export folder, remove the folder
-				//
-				try
-				{
-					//Directory.Delete(exportFolder, true);
-				}
-				catch(IOException e)
-				{
-					// Log
-					Trace.Write(string.Format("Unable to delete temporary export folder {0}: {1}", exportFolder, e.Message));
-				}
-
-				return File(zipFullPath, "application/zip", zipFullPath);			
-			}
-			catch (IOException e)
-			{
-				Trace.Write(string.Format("Unable to export files: {0}", e));
-				return HttpNotFound("There was a problem with the export. Enable tracing to see the error source");
-			}
-		}
+		
     }
 }

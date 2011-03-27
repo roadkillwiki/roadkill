@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\HtmlLinkExtensions.cs" />
     <Compile Include="Common\LowercaseRoute.cs" />
     <Compile Include="Config\AdminRequiredAttribute.cs" />
     <Compile Include="Config\EditorRequiredAttribute.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Converters\LinkEventArgs.cs" />
     <Compile Include="Converters\Mediawiki\MediaWikiParser.cs" />
     <Compile Include="Domain\Managers\InstallManager.cs" />
+    <Compile Include="Exceptions\ExceptionBase.cs" />
     <Compile Include="Exceptions\UserException.cs" />
     <Compile Include="Domain\SiteConfiguration.cs" />
     <Compile Include="Domain\Search\SearchResult.cs" />

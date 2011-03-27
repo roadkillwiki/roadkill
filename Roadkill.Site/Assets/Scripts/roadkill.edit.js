@@ -7,7 +7,7 @@ $(document).ready(function ()
 	$.require("tag-it.js");
 	$.require("roadkill.wysiwyg.js");
 
-	initTagIt(false);
+	initTagIt();
 	_loadTagsTimer = setTimeout("loadTags();", 2000);
 
 	bindEditButtons();
@@ -23,7 +23,7 @@ $(document).ready(function ()
 	});
 });
 
-function initTagIt(loadedTags)
+function initTagIt()
 {
 	$("#mytags").tagit({
 		tabIndex : 2,
@@ -39,7 +39,7 @@ function loadTags()
 	$.get(ROADKILL_TAGAJAXURL, function (data)
 	{
 		_tags = eval(data);
-		initTagIt(true);
+		initTagIt();
 		clearTimeout(_loadTagsTimer);
 	});
 }

@@ -5,10 +5,8 @@ using System.Text;
 
 namespace Roadkill.Core
 {
-	public class UserException : Exception
+	public class UserException : ExceptionBase
 	{
-		public UserException() { }
-		public UserException(string message) : base(message) { }
-		public UserException(string message, Exception inner) : base(message, inner) { }
+		public UserException(string message, params string[] args) : base(message,args) { }
 	}
 }

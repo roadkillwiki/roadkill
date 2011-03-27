@@ -17,26 +17,35 @@ namespace Roadkill.Core.Controllers
     {
 		public ActionResult Index()
 		{
-			//if (RoadkillSettings.Installed)
-			//	return RedirectToAction("Index", "Home");
+			if (RoadkillSettings.Installed)
+				return RedirectToAction("Index", "Home");
 
 			return View("Step1");
 		}
 
 		public ActionResult Step2()
 		{
+			if (RoadkillSettings.Installed)
+				return RedirectToAction("Index", "Home");
+
 			return View(new SettingsSummary());
 		}	
 
 		[HttpPost]
 		public ActionResult Step3(SettingsSummary summary)
 		{
+			if (RoadkillSettings.Installed)
+				return RedirectToAction("Index", "Home");
+
 			return View(summary);
 		}
 
 		[HttpPost]
 		public ActionResult Step3b(SettingsSummary summary)
 		{
+			if (RoadkillSettings.Installed)
+				return RedirectToAction("Index", "Home");
+
 			summary.LdapConnectionString = "LDAP://";
 			summary.EditorRoleName = "Editor";
 			summary.AdminRoleName = "Admin";
@@ -50,6 +59,9 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult Step4(SettingsSummary summary)
 		{
+			if (RoadkillSettings.Installed)
+				return RedirectToAction("Index", "Home");
+
 			summary.AllowedExtensions = "jpg,png,gif,zip,xml,pdf";
 			summary.AttachmentsFolder = "~/Attachments";
 			summary.MarkupType = "Creole";
@@ -64,6 +76,9 @@ namespace Roadkill.Core.Controllers
 		[ValidateInput(false)]
 		public ActionResult Step5(SettingsSummary summary)
 		{
+			if (RoadkillSettings.Installed)
+				return RedirectToAction("Index", "Home");
+
 			try
 			{
 				// Any missing values are handled by data annotations. Those that are missed
@@ -72,7 +87,7 @@ namespace Roadkill.Core.Controllers
 				if (ModelState.IsValid)
 				{
 					// Update the web.config first, so all connections can be referenced.
-					InstallManager.WriteWebConfig(summary);
+					InstallManager.SaveWebConfigSettings(summary);
 
 					// ASP.NET SQL user providers
 					if (!summary.UseWindowsAuth)
@@ -80,8 +95,8 @@ namespace Roadkill.Core.Controllers
 						InstallManager.InstallAspNetUsersDatabase(summary);
 					}
 
-					// Create the roadkill schema
-					InstallManager.InstallDb(summary);	
+					// Create the roadkill schema and save the configuration settings
+					InstallManager.SaveDbSettings(summary,true);	
 	
 					// Create a blank search index
 					SearchManager.CreateIndex();
@@ -110,39 +125,52 @@ namespace Roadkill.Core.Controllers
 
 		public ActionResult TestLdap(string connectionString, string username, string password, string groupName)
 		{
+			if (RoadkillSettings.Installed)
+				return Content("");
+
 			string errors = InstallManager.TestLdapConnection(connectionString, username, password, groupName);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 
 		public ActionResult TestWebConfig()
 		{
+			if (RoadkillSettings.Installed)
+				return Content("");
+
 			string errors = InstallManager.TestSaveWebConfig();
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 
 		public ActionResult TestAttachments(string folder)
 		{
+			if (RoadkillSettings.Installed)
+				return Content("");
+
 			string errors = InstallManager.TestAttachments(folder);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 
 		public ActionResult TestDatabaseConnection(string connectionString)
 		{
+			if (RoadkillSettings.Installed)
+				return Content("");
+
 			string errors = InstallManager.TestConnection(connectionString);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
     }
 
+	/// <summary>
+	/// Basic error information for the JSON-based install tests.
+	/// </summary>
 	public class TestResult
 	{
+		public string ErrorMessage { get; set; }
+
 		public bool Success 
 		{
-			get
-			{
-				return string.IsNullOrEmpty(ErrorMessage);
-			}
+			get { return string.IsNullOrEmpty(ErrorMessage); }
 		}
-		public string ErrorMessage { get; set; }
 
 		public TestResult(string errorMessage)
 		{

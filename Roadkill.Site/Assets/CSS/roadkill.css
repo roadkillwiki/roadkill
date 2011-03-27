@@ -3,34 +3,34 @@
 @import url("htmldiff.css");						/* used for version history diffs*/
 
 /* General classes */
-.biggest	{ font-size:1.5em; }
-.bigger		{ font-size:1.2em; }
-.big		{ font-size:1.1em; }
-.bold		{ font-weight:bold; }
-.blueborder { border:1px solid #032451; }
-.borderbottom { border-bottom:1px solid #032451; }
-.button		{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;cursor:pointer;min-width:100px;font-size: 14px;font-weight: normal;padding:8px 20px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px; }
-.button:focus { border:2px solid #99b3d4;}
-.clear		{ clear:both; }
-.center		{ display:block;margin-left:auto; margin-right:auto; }
-.dimmed		{ opacity:0.5; }
-.hidden		{ display:none; }
-.italic		{ font-style:italic; }
-.left		{ float:left; }
-.lightborder  { border:1px solid #e3e2e2; }
-.linkbutton	  { border:1px solid #d3d2d2;padding:3px;font-size:0.8em; }
-.linkbutton	a { color:black;text-decoration:none; }
-.midpadded	{ padding:5px; }
-.normal		{ font-size:1em; }
-.padded		{ padding:10px; }
-.right		{ float:right; }
-.rounded	{ -moz-border-radius:2px;border-radius:2px; }
-.rounded5	{ -moz-border-radius:5px;border-radius:5px; }
-.rounded10	{ -moz-border-radius:10px;border-radius:10px; }
-.small		{ font-size:0.9em; }
-.smaller	{ font-size:0.8em; }
-.smallest	{ font-size:0.7em; }
-.smallerbutton	{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;font-size:0.9em;width:75px; }
+.biggest		{ font-size:1.5em; }
+.bigger			{ font-size:1.2em; }
+.big			{ font-size:1.1em; }
+.bold			{ font-weight:bold; }
+.blueborder		{ border:1px solid #032451; }
+.borderbottom	{ border-bottom:1px solid #032451; }
+.button			{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;cursor:pointer;min-width:100px;font-size: 14px;font-weight: normal;padding:8px 20px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px; }
+.button:focus	{ border:2px solid #99b3d4;}
+.clear			{ clear:both; }
+.center			{ display:block;margin-left:auto; margin-right:auto; }
+.dimmed			{ opacity:0.5; }
+.hidden			{ display:none; }
+.italic			{ font-style:italic; }
+.left			{ float:left; }
+.lightborder	{ border:1px solid #e3e2e2; }
+.linkbutton		{ border:1px solid #d3d2d2;padding:3px;font-size:0.8em; }
+.linkbutton	a	{ color:black;text-decoration:none; }
+.midpadded		{ padding:5px; }
+.normal			{ font-size:1em; }
+.padded			{ padding:10px; }
+.right			{ float:right; }
+.rounded		{ -moz-border-radius:2px;border-radius:2px; }
+.rounded5		{ -moz-border-radius:5px;border-radius:5px; }
+.rounded10		{ -moz-border-radius:10px;border-radius:10px; }
+.small			{ font-size:0.9em; }
+.smaller		{ font-size:0.8em; }
+.smallest		{ font-size:0.7em; }
+.smallerbutton	{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;cursor:pointer;font-size:0.9em;width:75px;padding:3px 10px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px; }
 .smallestbutton	{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;font-size:0.8em; }
 
 /* Modal dialog styles for jquery.simplemodal */
@@ -39,9 +39,9 @@
 #simplemodal-container a.modalCloseImg { background:url('close-x.png') no-repeat;width:25px;height:29px;display:inline;z-index:3200;position:absolute;top:-15px;right:-18px;cursor:pointer;}
 
 /* Toolbar for logged in users */
-#toolbar		{ margin:5px 0px 0px 5px;padding:2px; }
-#editbutton		{ float:left; }
-#newpage		{ float:left; }
+#toolbar			{ margin:5px 0px 0px 5px;padding:2px; }
+#editbutton			{ float:left; }
+#newpage			{ float:left; }
 #pagehistory-button	{ float:left;margin-left:5px; }
 #pageinfo-button	{ float:left;margin:4px 0px 0px 5px; }
 #pageinformation	{ display:none;color:#FFF;min-width:400px; }
@@ -68,7 +68,7 @@
 /* All tags(categories) page */
 #tagcloud		{ margin:0;padding:2px;line-height:3em;border:1px solid #e3e2e2;padding:10px; }
 #tagcloud li	{ display:inline; }
-#tagcloud a		{ padding:0px; }
+#tagcloud a		{ padding:0px;padding:10px; }
 .tagblock a		{ text-decoration:none;color:#FFFFFF; }
 .tagblock a:hover { text-decoration:none;color:#AAA; }
 .tagcloud1		{ font-size:1em; }
@@ -135,18 +135,25 @@
 
 /* Settings page [admins] */
 #settings			{ width:700px;padding:10px; }
-#settings label		{ float:left;min-width:330px;line-height:25px;font-size:0.8em;font-weight:bold; }
+#settings label		{ float:left;min-width:300px;line-height:25px;font-size:1em;font-weight:bold; }
 #settings .row		{ height:35px; }
 #settings .checkbox { margin-top:3px; }
+#settings .help		{ margin-left:5px;}
 #settings .checkbox input		{ margin:0; }
-#settings .textbox input		{ float:left; border:1px solid #032451;height:20px;width:300px;font-size:0.7em; }
+#settings .textbox input		{ float:left; border:1px solid #032451;height:20px;width:350px;font-size:1em; }
 #settings .smalltextbox input	{ float:left; border:1px solid #032451;height:20px;width:150px; }
+
 .settingstable			{ border:1px solid #d3d2d2;background-color:#f1f0f0; }
 .settingstable tr		{ padding:5px; }
 .settingstable .title	{ width:650px; }
 .settingstable .edit	{ width:50px; }
 .settingstable .delete	{ width:50px; }
+
+#tooltip	{ position: absolute; z-index: 3000; border: 1px solid #111; background-color: #000;color:#DDD; padding: 8px;border-radius:8px; opacity: 0.85; }
+#tooltip h3, #tooltip div { margin: 0; }
+
 #userdialogContainer	{ display:none; }
 #userdialogContainer	{ color:White;width:360px; }
 #userdialogContainer h2	{ border-bottom:1px solid white !important; }
-#userdialogContainer label	{ float:left;min-width:200px;line-height:25px;font-size:0.8em;font-weight:bold; }
+#userdialogContainer label	{ float:left;min-width:150px;line-height:25px;font-size:0.8em;font-weight:bold; }
+#userdialogContainer .textbox input	{ width:200px; }

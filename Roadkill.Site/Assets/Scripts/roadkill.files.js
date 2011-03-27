@@ -26,8 +26,7 @@ function initFileManager()
 			$("#currentUploadFolderPath").val(path);
 			$("#currentFolderPath").val(path);
 		}
-	},
-	function (filePath, name)
+	},function (filePath, name)
 	{
 		$.get(ROADKILL_FILETREE_PATHNAME_URL + filePath, function (urlPath)
 		{
@@ -49,6 +48,7 @@ function bindFileButtons()
 		$("#generic-container").html(copy.html());
 		$("#generic-container").show();
 	});
+
 	$("#newdirectory").click(function ()
 	{
 		var copy = $("#newfolder-container").clone();

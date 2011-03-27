@@ -96,7 +96,7 @@ namespace Roadkill.Core
 		public bool DeleteUser(string username)
 		{
 			if (Membership.GetAllUsers().Count == 1)
-				throw new UserException("Cannot delete {0} as they are the only user in the system.");
+				throw new UserException("Cannot delete user '{0}' as they are the only user in the system.",username);
 
 			return Membership.DeleteUser(username);
 		}
@@ -119,13 +119,21 @@ namespace Roadkill.Core
 			Membership.UpdateUser(user);
 		}
 
-		public void UpdateUser(string username, string newPassword, string email)
+		/// <summary>
+		/// Changes the user's password where you do not know the original password.
+		/// </summary>
+		/// <param name="username"></param>
+		/// <param name="newPassword"></param>
+		/// <param name="email"></param>
+		public void ChangePassword(string username, string newPassword, string email)
 		{
 			MembershipUser user = Membership.GetUser(username);
 
 			string tempPassword = user.ResetPassword();
 			Membership.UpdateUser(user);
 
+			// This can potentially fail if the web.config has its Membership password settings changed
+			// as the front-end doesn't validate against this yet.
 			user.ChangePassword(newPassword, tempPassword);
 			user.Email = email;
 			Membership.UpdateUser(user);

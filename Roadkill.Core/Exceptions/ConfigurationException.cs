@@ -5,10 +5,8 @@ using System.Web;
 
 namespace Roadkill.Core
 {
-	public class ConfigurationException : Exception
+	public class ConfigurationException : ExceptionBase
 	{
-		public ConfigurationException() { }
-		public ConfigurationException(string message) : base(message) { }
-		public ConfigurationException(string message, Exception inner) : base(message, inner) { }
+		public ConfigurationException(string message, params string[] args) : base(message, args) { }
 	}
 }

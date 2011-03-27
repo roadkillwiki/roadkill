@@ -4,8 +4,8 @@
 	ViewBag.Title = "File explorer";
 }
 
-<link href="@Url.Content("~/Assets/Css/jqueryFileTree.css")" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="@Url.Content("~/Assets/Scripts/jqueryFileTree.js")"></script>
+@Url.CssLink("jqueryFileTree.css")
+@Url.ScriptLink("jqueryFileTree.js")
 <script type="text/javascript">
 $(document).ready(function ()
 {
@@ -25,7 +25,7 @@ $(document).ready(function ()
 	{
 		@Html.Hidden("currentUploadFolderPath")
 		<input type="file" id="uploadFile" name="uploadFile"/>
-		<input type="submit" value="Upload" class="button"/>
+		<input type="submit" value="Upload" class="smallerbutton"/>
 	}
 	</div>
 
@@ -36,18 +36,23 @@ $(document).ready(function ()
 		@Html.Hidden("currentFolderPath")
 		<span>Folder name:</span>
 		@Html.TextBox("newFolderName")
-		<input type="submit" value="Create" class="button"/>
+		<input type="submit" value="Create" class="smallerbutton"/>
 	}
 	</div>
 
 	<h2>Choose a file</h2>
+	@if (@TempData["Error"] != null)
+	{
+	<span class="validation-summary-errors">@TempData["Error"]</span>
+	<br /><br />
+	}
 	<div>
 		<div id="filetree-container" class="left blueborder padded"></div>
 		<div class="left">
 			<div id="file-preview" class="hidden lightborder padded">
 				<span id="previewname" class="smallest"></span><br />
 				<img id="previewimage" src="" alt="preview" />
-				<input id="choosebutton" type="button" value="choose" class="smallestbutton" />
+				<input id="choosebutton" type="button" value="select" class="smallestbutton" />
 			</div>
 			<br class="clear" />
 		</div>

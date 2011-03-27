@@ -2,9 +2,6 @@
 
 function initWYSIWYG()
 {
-	// TODO: take these stylings from a settings file:
-	// Make a JS file that is a url that writes them
-
 	$(".wysiwyg-bold").click(function ()
 	{
 		addStyling(ROADKILL_EDIT_BOLD_TOKEN);

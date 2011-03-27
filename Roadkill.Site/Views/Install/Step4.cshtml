@@ -33,8 +33,8 @@
 
 @using (Html.BeginForm("Step5","Install"))
 {
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.ConnectionString))
 	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteName))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.ConnectionString))
 	@(Html.HiddenFor<SettingsSummary, bool>(h => h.UseWindowsAuth))
 	@(Html.HiddenFor<SettingsSummary, string>(h => h.RolesConnectionString))
 	@(Html.HiddenFor<SettingsSummary, string>(h => h.AdminPassword))
@@ -80,7 +80,7 @@
 	
 	<fieldset>
 		<legend>Theme</legend>
-		<label>This the theme that the site uses. This should match a folder name in the Themes directory.</label>
+		<label>This is the theme that the site uses. This should match a folder name in the Themes directory.</label>
 
 		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.Theme, new { @class = "validate[required]" }))</div>
 	</fieldset>

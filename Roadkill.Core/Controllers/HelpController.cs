@@ -10,16 +10,19 @@ namespace Roadkill.Core.Controllers
 {
 	public class HelpController : ControllerBase
     {
+		[EditorRequired]
 		public ActionResult CreoleReference()
 		{
 			return View();
 		}
 
+		[EditorRequired]
 		public ActionResult MediaWikiReference()
 		{
 			return View();
 		}
 
+		[EditorRequired]
 		public ActionResult MarkdownReference()
 		{
 			return View();

@@ -10,6 +10,13 @@ namespace Roadkill.Core
 {
 	public class SiteConfiguration : NHibernateObject<SiteConfiguration, SiteConfigurationRepository>
 	{
+		private static Guid _configurationId = new Guid("b960e8e5-529f-4f7c-aee4-28eb23e13dbd");
+
+		/// <summary>
+		/// Used to keep NHibernate happy
+		/// </summary>
+		public virtual Guid Id { get; set; }
+
 		/// <summary>
 		/// The title of the site.
 		/// </summary>
@@ -39,14 +46,24 @@ namespace Roadkill.Core
 		public virtual bool AllowUserSignup { get; set; }
 
 		/// <summary>
+		/// The current version of Roadkill. This is used for upgrades.
+		/// </summary>
+		public virtual string Version { get; set; }
+
+		/// <summary>
 		/// The configuration class should be a singleton, this retrieves it.
 		/// </summary>
 		public static SiteConfiguration Current
 		{
 			get
 			{
-				return SiteConfiguration.Repository.Manager().Queryable<SiteConfiguration>().FirstOrDefault();
+				return SiteConfiguration.Repository.Manager().Queryable<SiteConfiguration>().FirstOrDefault(s => s.Id == _configurationId);
 			}
+		}
+
+		public SiteConfiguration()
+		{
+			Id = _configurationId;
 		}
 	}
 
@@ -55,12 +72,13 @@ namespace Roadkill.Core
 		public SiteConfigurationMap()
 		{
 			Table("roadkill_siteconfiguration");
-			Id();
+			Id(x => x.Id).GeneratedBy.Assigned();
 			Map(x => x.Title);
 			Map(x => x.Theme);
 			Map(x => x.MarkupType);
 			Map(x => x.AllowedFileTypes);
 			Map(x => x.AllowUserSignup);
+			Map(x => x.Version);
 		}
 	}
 

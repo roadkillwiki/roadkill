@@ -5,10 +5,8 @@ using System.Web;
 
 namespace Roadkill.Core
 {
-	public class InstallerException : Exception
+	public class InstallerException : ExceptionBase
 	{
-		public InstallerException() { }
-		public InstallerException(string message) : base(message) { }
-		public InstallerException(string message, Exception inner) : base(message, inner) { }
+		public InstallerException(string message, params string[] args) : base(message, args) { }
 	}
 }

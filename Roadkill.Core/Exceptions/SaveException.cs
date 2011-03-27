@@ -5,10 +5,8 @@ using System.Web;
 
 namespace Roadkill.Core
 {
-	public class SaveException : Exception
+	public class SaveException : ExceptionBase
 	{
-		public SaveException() { }
-		public SaveException(string message) : base(message) { }
-		public SaveException(string message, Exception inner) : base(message, inner) { }
+		public SaveException(string message, params string[] args) : base(message, args) { }
 	}
 }

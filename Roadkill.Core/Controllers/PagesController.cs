@@ -21,6 +21,8 @@ namespace Roadkill.Core.Controllers
 
 		public ActionResult ByUser(string id,bool? encoded)
 		{
+			// Usernames are base64 encoded by roadkill (to cater for usernames like domain\john).
+			// However the URL also supports humanly-readable format, e.g. /ByUser/chris
 			if (encoded == true)
 			{
 				id = id.FromBase64();
@@ -46,6 +48,7 @@ namespace Roadkill.Core.Controllers
 			return View(manager.AllTags());
 		}
 
+		[EditorRequired]
 		public ActionResult AllTagsAsJson()
 		{
 			PageManager manager = new PageManager();
@@ -79,7 +82,6 @@ namespace Roadkill.Core.Controllers
 			return JavaScript(html);
 		}
 
-		[EditorRequired]
 		public ActionResult Version(Guid id)
 		{
 			HistoryManager manager = new HistoryManager();
@@ -148,7 +150,7 @@ namespace Roadkill.Core.Controllers
 			}
 		}
 
-		[Authorize]
+		[EditorRequired]
 		[HttpPost]
 		[ValidateInput(false)]
 		public ActionResult Edit(PageSummary summary)

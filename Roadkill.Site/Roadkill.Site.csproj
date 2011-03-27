@@ -76,7 +76,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\roadkill.MDF" />
-    <Content Include="Assets\CSS\reset.css" />
     <Content Include="Assets\CSS\htmldiff.css" />
     <Content Include="Assets\CSS\jquery.tagit.css" />
     <Content Include="Assets\CSS\images\application.png" />
@@ -108,9 +107,11 @@
     <Content Include="Assets\Images\gradientbutton-green.png" />
     <Content Include="Assets\Images\gradientbutton.png" />
     <Content Include="Assets\Images\favicon.png" />
+    <Content Include="Assets\Images\help.png" />
     <Content Include="Assets\Images\installer-ex-chicken.png" />
     <Content Include="Assets\Images\installerbg.png" />
     <Content Include="Assets\Images\loadinglarge.gif" />
+    <Content Include="Assets\Scripts\jquery.tooltip.min.js" />
     <Content Include="Assets\Scripts\jquery.validationEngine-en.js" />
     <Content Include="Assets\Scripts\jquery.validationEngine.js" />
     <Content Include="Assets\Scripts\roadkill.settings.js" />
@@ -185,8 +186,7 @@
     <Content Include="Views\Install\Step3Database.cshtml" />
     <Content Include="Views\Install\Step4.cshtml" />
     <Content Include="Views\Install\Step5.cshtml" />
-    <Content Include="appharbor.config" />
-    <None Include="annotatedweb.config">
+    <None Include="exampleweb.config">
       <SubType>Designer</SubType>
     </None>
     <Compile Include="Properties\AssemblyInfo.cs" />

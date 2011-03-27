@@ -10,14 +10,29 @@ using System.Text;
 
 namespace Roadkill.Core
 {
+	/// <summary>
+	/// Encapsulates all Roadkill-specific information about the current user and page.
+	/// </summary>
 	public class RoadkillContext
 	{
 		private static readonly string CONTEXT_KEY = "ROADKILL_CONTEXT";
 		private static RoadkillContext _contextForNoneWeb;
 
+		/// <summary>
+		/// Whether the <see cref="RoadkillContext"/> is running inside a web environment. This
+		/// setting is for unit testing, to ensure the <see cref="Current"/> property does not
+		/// use the HttpContext.Current.Items as a store.
+		/// </summary>
 		public static bool IsWeb { get; set; }
+
+		/// <summary>
+		/// The current logged in user name (including domain suffix for Windows authentication).
+		/// </summary>
 		public string CurrentUser { get; set; }
 
+		/// <summary>
+		/// Whether the user is currently logged in or not.
+		/// </summary>
 		public bool IsLoggedIn
 		{
 			get
@@ -37,8 +52,14 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// The underlying <see cref="PageSummary"/> object for the current page.
+		/// </summary>
 		public PageSummary Page { get; set; }
 
+		/// <summary>
+		/// Returns true if the current page is not the initial dummy 'mainpage'.
+		/// </summary>
 		public bool IsContentPage
 		{
 			get
@@ -47,6 +68,9 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// The current <see cref="RoadkillContext"/>.
+		/// </summary>
 		public static RoadkillContext Current
 		{
 			get
@@ -72,13 +96,12 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Static constructor for the <see cref="RoadkillContext"/> class.
+		/// </summary>
 		static RoadkillContext()
 		{
 			IsWeb = true;
-		}
-
-		public RoadkillContext()
-		{		
 		}
 	}
 }

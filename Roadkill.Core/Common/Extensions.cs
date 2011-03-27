@@ -10,14 +10,27 @@ using System.Web;
 
 namespace Roadkill.Core
 {
+	/// <summary>
+	/// Common extension methods.
+	/// </summary>
 	public static class Extensions
 	{
+		/// <summary>
+		/// Converts the given wiki markup into HTML using the system's current MarkupType setting.
+		/// </summary>
+		/// <param name="markup"></param>
+		/// <returns></returns>
 		public static string WikiMarkupToHtml(this string markup)
 		{
 			MarkupConverter converter = new MarkupConverter();
 			return converter.ToHtml(markup);
 		}
 
+		/// <summary>
+		/// Removes all invalid characters from a title so it can be used as a filename to save to disk.
+		/// </summary>
+		/// <param name="title"></param>
+		/// <returns></returns>
 		public static string AsValidFilename(this string title)
 		{
 			if (string.IsNullOrEmpty(title))
@@ -33,6 +46,11 @@ namespace Roadkill.Core
 			return title;
 		}
 
+		/// <summary>
+		/// Converts the text provided to Base64 format.
+		/// </summary>
+		/// <param name="text">Plain text</param>
+		/// <returns>The string, Base64 encoded</returns>
 		public static string ToBase64(this string text)
 		{
 			if (string.IsNullOrEmpty(text))
@@ -41,6 +59,11 @@ namespace Roadkill.Core
 			return Convert.ToBase64String(Encoding.Default.GetBytes(text));
 		}
 
+		/// <summary>
+		/// Attempts to convert the text provided from Base64 format to plain text.
+		/// </summary>
+		/// <param name="text">Base64 text text</param>
+		/// <returns>The plain text</returns>
 		public static string FromBase64(this string base64Text)
 		{
 			if (string.IsNullOrEmpty(base64Text))
@@ -118,11 +141,6 @@ namespace Roadkill.Core
 			}
 
 			return result;
-		}
-
-		public static string HashForPassword(this string password)
-		{
-			return FormsAuthentication.HashPasswordForStoringInConfigFile(password, "SHA1");
 		}
 	}
 }

@@ -4,6 +4,13 @@
 <head>
 	<title>@ViewBag.Title</title>
 	@Html.Partial("HeadContent")
+	<script type="text/javascript">
+		$(document).ready(function ()
+		{
+			// Resize all images to a maximum of 400x400
+			$("#pagecontent img").aeImageResize({ height: 400, width: 400 });
+		});
+	</script>
 </head>
 
 <body>
@@ -12,7 +19,7 @@
 		<div id="header">
 			<img src="@Url.ThemeContent("roadkill.png")" alt="logo" /><br/>
 		
-			@Html.MainPageLink("Home")&nbsp;|&nbsp;
+			@Html.MainPageLink("Home", "", "")&nbsp;|&nbsp;
 			@Html.PageLink("Screenshots","screenshots")&nbsp;|&nbsp;
 			@Html.PageLink("Credits","credits")&nbsp;|&nbsp;
 			@Html.PageLink("Support","support")&nbsp;|&nbsp;
@@ -25,7 +32,7 @@
 		<br class="clear"/>
 		<div id="footer">
 			Powered by Roadkill Wiki. <br/>
-			@Html.NewPageLink("&nbsp;|&nbsp;") @Html.LoginStatus() - @Html.LoginLink("") 
+			@Html.NewPageLink("","&nbsp;|&nbsp;") @Html.LoginStatus() - @Html.LoginLink("","") 
 		</div>
 	</div>
 </div>

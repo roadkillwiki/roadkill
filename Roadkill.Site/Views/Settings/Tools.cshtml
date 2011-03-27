@@ -1,7 +1,7 @@
 ﻿@{ 
 	ViewBag.Title = "Site tools";
 }
-<h1>Site settings</h1>
+<h1>Tools</h1>
 
 @Html.Partial("SettingsMenu")
 
@@ -30,14 +30,20 @@
 
 	<p>
 	<b>@Html.ActionLink("Export to XML", "ExportAsXml")</b><br />
-	Exports all pages, including text content and all history as a single XML file.
+	Exports all page text content and all history as a single XML file.
 	</p>
 
 	<p>
 	<b>@Html.ActionLink("Export all content as a zip", "ExportContent")</b><br />
 	Exports all pages, including text content as a series of ".wiki" files. Only
-	the current content and tags are included, no history is provided.
+	the current content and tags are included, no history is provided. This zip file does not include the attachments folder.
 	</p>
+
+	<p>
+	<b>@Html.ActionLink("Export attachments as a zip", "ExportAttachments")</b><br />
+	Exports all the contents of attachments folder and subfolders as a zip file.
+	</p>
+	<br /><br />
 
 	<span class="bold borderbottom">Import from screwturn</span><br />
 	<p>
