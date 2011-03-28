@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BottleBank;
 using FluentNHibernate.Mapping;
 
 namespace Roadkill.Core
 {
-	public class PageContent : NHibernateObject<PageContent, PageContentRepository>
+	public class PageContent
 	{
 		public virtual Guid Id { get; set; }
 		public virtual Page Page { get; set; }
@@ -41,9 +40,5 @@ namespace Roadkill.Core
 
 			Cache.ReadWrite().IncludeAll();
 		}
-	}
-
-	public class PageContentRepository : Repository<PageContent, PageContentRepository>
-	{
 	}
 }

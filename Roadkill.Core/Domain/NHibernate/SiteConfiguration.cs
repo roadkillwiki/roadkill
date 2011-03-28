@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BottleBank;
 using FluentNHibernate.Mapping;
 using NHibernate;
 
 namespace Roadkill.Core
 {
-	public class SiteConfiguration : NHibernateObject<SiteConfiguration, SiteConfigurationRepository>
+	public class SiteConfiguration
 	{
 		private static Guid _configurationId = new Guid("b960e8e5-529f-4f7c-aee4-28eb23e13dbd");
 
@@ -57,7 +56,7 @@ namespace Roadkill.Core
 		{
 			get
 			{
-				return SiteConfiguration.Repository.Manager().Queryable<SiteConfiguration>().FirstOrDefault(s => s.Id == _configurationId);
+				return NHibernateRepository.Current.Queryable<SiteConfiguration>().FirstOrDefault(s => s.Id == _configurationId);
 			}
 		}
 
@@ -80,9 +79,5 @@ namespace Roadkill.Core
 			Map(x => x.AllowUserSignup);
 			Map(x => x.Version);
 		}
-	}
-
-	public class SiteConfigurationRepository : Repository<SiteConfiguration, SiteConfigurationRepository>
-	{
 	}
 }

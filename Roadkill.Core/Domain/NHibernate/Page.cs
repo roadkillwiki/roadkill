@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BottleBank;
 using FluentNHibernate.Mapping;
 using NHibernate;
 
 namespace Roadkill.Core
 {
-	public class Page : NHibernateObject<Page, PageRepository>
+	public class Page
 	{
 		/// <summary>
 		/// Reasons for using an int:
@@ -27,7 +26,7 @@ namespace Roadkill.Core
 
 		public virtual PageContent CurrentContent()
 		{
-			IQuery query = PageContent.Repository.Manager().SessionFactory.OpenSession()
+			IQuery query = NHibernateRepository.Current.SessionFactory.OpenSession()
 					.CreateQuery("FROM PageContent fetch all properties WHERE Page.Id=:Id AND VersionNumber=(SELECT max(VersionNumber) FROM PageContent WHERE Page.Id=:Id)");
 
 			query.SetCacheable(true);
@@ -75,9 +74,5 @@ namespace Roadkill.Core
 			Map(x => x.ModifiedOn);
 			Cache.ReadWrite().IncludeAll();
 		}
-	}
-
-	public class PageRepository : Repository<Page, PageRepository>
-	{
 	}
 }

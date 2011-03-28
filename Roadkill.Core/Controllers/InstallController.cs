@@ -99,7 +99,7 @@ namespace Roadkill.Core.Controllers
 					InstallManager.SaveDbSettings(summary,true);	
 	
 					// Create a blank search index
-					SearchManager.CreateIndex();
+					SearchManager.Current.CreateIndex();
 				}
 			}
 			catch (Exception e)

@@ -136,7 +136,7 @@ namespace Roadkill.Core.Controllers
 		public ActionResult UpdateSearchIndex()
 		{
 			TempData["Message"] = "Update complete";
-			SearchManager.CreateIndex();
+			SearchManager.Current.CreateIndex();
 			return RedirectToAction("Tools");
 		}
 

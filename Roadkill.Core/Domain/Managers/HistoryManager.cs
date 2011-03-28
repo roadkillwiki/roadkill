@@ -6,24 +6,8 @@ using NHibernate;
 
 namespace Roadkill.Core
 {
-	public class HistoryManager
+	public class HistoryManager : ManagerBase
 	{
-		private IQueryable<Page> Pages
-		{
-			get
-			{
-				return Page.Repository.Manager().Queryable<Page>();
-			}
-		}
-
-		private IQueryable<PageContent> PageContents
-		{
-			get
-			{
-				return Page.Repository.Manager().Queryable<PageContent>();
-			}
-		}
-
 		public IEnumerable<HistorySummary> GetHistory(int pageId)
 		{
 			IEnumerable<PageContent> contentList = PageContents.Where(p => p.Page.Id == pageId);
@@ -51,7 +35,7 @@ namespace Roadkill.Core
 		{
 			List<PageSummary> versions = new List<PageSummary>();
 
-			PageContent mainContent = PageContent.Repository.Read(mainVersionId);
+			PageContent mainContent = PageContents.FirstOrDefault(p => p.Id == mainVersionId);
 			versions.Add(mainContent.Page.ToSummary(mainContent));
 
 			if (mainContent.VersionNumber == 1)
@@ -97,7 +81,7 @@ namespace Roadkill.Core
 			pageContent.EditedBy = currentUser;
 			pageContent.EditedOn = DateTime.Now;
 			pageContent.Page = page;
-			PageContent.Repository.SaveOrUpdate(pageContent);
+			NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContent);
 		}
 
 		public int MaxVersion(int pageId)

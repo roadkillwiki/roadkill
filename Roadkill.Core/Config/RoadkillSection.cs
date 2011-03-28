@@ -14,6 +14,10 @@ namespace Roadkill.Core
 	public class RoadkillSection : ConfigurationSection
 	{
 		private static RoadkillSection _section;
+
+		/// <summary>
+		/// The current instance of the section. This is not a singleton but there is no requirement for this to be threadsafe.
+		/// </summary>
 		public static RoadkillSection Current
 		{
 			get
@@ -25,6 +29,9 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the name of the connection string in the connectionstrings section.
+		/// </summary>
 		[ConfigurationProperty("connectionStringName", IsRequired = true)]
 		public string ConnectionStringName
 		{
@@ -32,6 +39,9 @@ namespace Roadkill.Core
 			set { this["connectionStringName"] = value; }
 		}
 
+		/// <summary>
+		/// Gets or sets the name of the editor role.
+		/// </summary>
 		[ConfigurationProperty("editorRoleName", IsRequired = true)]
 		public string EditorRoleName
 		{
@@ -39,6 +49,9 @@ namespace Roadkill.Core
 			set { this["editorRoleName"] = value; }
 		}
 
+		/// <summary>
+		/// Gets or sets the name of the admin role.
+		/// </summary>
 		[ConfigurationProperty("adminRoleName", IsRequired = true)]
 		public string AdminRoleName
 		{
@@ -46,6 +59,9 @@ namespace Roadkill.Core
 			set { this["adminRoleName"] = value; }
 		}
 
+		/// <summary>
+		/// Gets or sets the attachments folder, which should begin with "~/".
+		/// </summary>
 		[ConfigurationProperty("attachmentsFolder", IsRequired = true)]
 		public string AttachmentsFolder
 		{
@@ -53,6 +69,9 @@ namespace Roadkill.Core
 			set { this["attachmentsFolder"] = value; }
 		}
 
+		/// <summary>
+		/// Gets or sets whether this roadkill instance has been installed.
+		/// </summary>
 		[ConfigurationProperty("installed", IsRequired = true)]
 		public bool Installed
 		{
@@ -60,6 +79,9 @@ namespace Roadkill.Core
 			set { this["installed"] = value; }
 		}
 
+		/// <summary>
+		/// Indicates whether NHibernate 2nd level caching is enabled.
+		/// </summary>
 		[ConfigurationProperty("cacheEnabled", IsRequired = true)]
 		public bool CacheEnabled
 		{
@@ -67,6 +89,9 @@ namespace Roadkill.Core
 			set { this["cacheEnabled"] = value; }
 		}
 
+		/// <summary>
+		/// Indicates whether page content should be cached, IF <see cref="CacheEnabled"/> is true.
+		/// </summary>
 		[ConfigurationProperty("cacheText", IsRequired = true)]
 		public bool CacheText
 		{
@@ -74,6 +99,11 @@ namespace Roadkill.Core
 			set { this["cacheText"] = value; }
 		}
 
+		/// <summary>
+		/// Gets a value indicating whether the <see cref="T:System.Configuration.ConfigurationElement"/> object is read-only,
+		/// and can therefore be saved back to disk.
+		/// </summary>
+		/// <returns>This returns true.</returns>
 		public override bool IsReadOnly()
 		{
 			return false;

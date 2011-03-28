@@ -7,8 +7,9 @@ using System.Text.RegularExpressions;
 namespace Roadkill.Core.Diff
 {
 	/// <summary>
-	/// Html diff tool, from http://htmldiff.codeplex.com/.
+	/// Performs a diff on two HTML sources.
 	/// </summary>
+	/// <remarks>Source: http://htmldiff.codeplex.com </remarks>
 	public class HtmlDiff
 	{
 		private StringBuilder content;

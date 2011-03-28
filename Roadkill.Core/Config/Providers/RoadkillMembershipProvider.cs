@@ -7,10 +7,17 @@ using System.Web.Configuration;
 
 namespace Roadkill.Core
 {
+	/// <summary>
+	/// Provides a <see cref="MembershipProvider"/> implementation based on <see cref="SqlMembershipProvider"/>,
+	/// customed for the roadkill usage of the provider.
+	/// </summary>
 	public class RoadkillMembershipProvider : SqlMembershipProvider
 	{
 		private string _connectionString;
 
+		/// <summary>
+		/// The current SQL connection string for the provider.
+		/// </summary>
 		protected string ConnectionString
 		{
 			get
@@ -22,6 +29,10 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Gets a brief, friendly description suitable for display in administrative tools or other user interfaces (UIs).
+		/// </summary>
+		/// <returns>A brief, friendly description suitable for display in administrative tools or other UIs.</returns>
 		public override string Description
 		{
 			get
@@ -31,7 +42,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// This is required to be true for the password changing mechanism.
+		/// Returns true. This is required to be true for the password changing mechanism.
 		/// </summary>
 		public override bool EnablePasswordReset
 		{
@@ -42,7 +53,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// A new password is auto-generated for password requests so this is not required.
+		/// Returns false, as a new password is auto-generated for password in Roadkill.
 		/// </summary>
 		public override bool EnablePasswordRetrieval
 		{
@@ -52,6 +63,14 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the name of the application to store and retrieve membership information for.
+		/// </summary>
+		/// <returns>The name of the application to store and retrieve membership information for. The default is the <see cref="P:System.Web.HttpRequest.ApplicationPath"/> property value for the current <see cref="P:System.Web.HttpContext.Request"/>.</returns>
+		///   
+		/// <exception cref="T:System.ArgumentException">An attempt was made to set the <see cref="P:System.Web.Security.SqlMembershipProvider.ApplicationName"/> property to an empty string or null.</exception>
+		///   
+		/// <exception cref="T:System.Configuration.Provider.ProviderException">An attempt was made to set the <see cref="P:System.Web.Security.SqlMembershipProvider.ApplicationName"/> property to a string that is longer than 256 characters.</exception>
 		public override string ApplicationName
 		{
 			get
@@ -65,7 +84,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// A new password is auto-generated for password requests so this is not required.
+		/// Returns false, as a new password is auto-generated for password requests in roadkill.
 		/// </summary>
 		public override bool RequiresQuestionAndAnswer
 		{
@@ -76,7 +95,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Returns MembershipPasswordFormat.Hashed, as passwords are always SHA1 encrypted in Roadkill.
+		/// Returns <see cref="MembershipPasswordFormat.Hashed"/>, as passwords are always SHA1 encrypted in Roadkill.
 		/// </summary>
 		public override MembershipPasswordFormat PasswordFormat
 		{
@@ -86,6 +105,12 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Changes the username, an additional feature not provided by the standard MembershipProvider.
+		/// </summary>
+		/// <param name="oldUsername">The old username.</param>
+		/// <param name="newUsername">The new username.</param>
+		/// <returns></returns>
 		public bool ChangeUsername(string oldUsername, string newUsername)
 		{
 			if (string.IsNullOrWhiteSpace(oldUsername))

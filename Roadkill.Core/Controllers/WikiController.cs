@@ -29,7 +29,17 @@ namespace Roadkill.Core.Controllers
 
 			RoadkillContext.Current.Page = summary;
 
-			Response.AddHeader("Last-Modified", summary.ModifiedOn.ToString("r")); // This is RFC 1123, the header needs RFC 2822 but this works
+			// This is using RFC 1123, the header needs RFC 2822 but this gives the same date output
+			if (!RoadkillContext.Current.IsLoggedIn)
+			{
+				Response.AddHeader("Last-Modified", summary.ModifiedOn.ToString("r")); 
+			}
+			else
+			{
+				// Don't cache for logged in users
+				Response.AddHeader("Last-Modified", DateTime.Now.ToString("r"));
+			}
+
 			return View(summary);
 		}
     }

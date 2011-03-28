@@ -10,24 +10,8 @@ using Roadkill.Core.Search;
 
 namespace Roadkill.Core
 {
-	public class PageManager
+	public class PageManager : ManagerBase
 	{
-		private IQueryable<Page> Pages
-		{
-			get
-			{
-				return Page.Repository.Manager().Queryable<Page>();
-			}
-		}
-
-		private IQueryable<PageContent> PageContents
-		{
-			get
-			{
-				return Page.Repository.Manager().Queryable<PageContent>();
-			}
-		}
-
 		public PageSummary Get(int id)
 		{
 			Page page = Pages.FirstOrDefault(p => p.Id == id);
@@ -80,7 +64,7 @@ namespace Roadkill.Core
 			page.CreatedOn = DateTime.Now;
 			page.ModifiedOn = DateTime.Now;
 			page.ModifiedBy = currentUser;
-			Page.Repository.SaveOrUpdate(page);
+			NHibernateRepository.Current.SaveOrUpdate<Page>(page);
 
 			PageContent pageContent = new PageContent();
 			pageContent.VersionNumber = 1;
@@ -88,10 +72,10 @@ namespace Roadkill.Core
 			pageContent.EditedBy = currentUser;
 			pageContent.EditedOn = DateTime.Now;
 			pageContent.Page = page;
-			PageContent.Repository.SaveOrUpdate(pageContent);
+			NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContent);
 
 			// Update the lucene index
-			SearchManager.Add(page);
+			SearchManager.Current.Add(page);
 
 			return page.ToSummary();
 		}
@@ -105,8 +89,8 @@ namespace Roadkill.Core
 			page.Title = summary.Title;
 			page.Tags = summary.Tags.CleanTags();
 			page.ModifiedOn = DateTime.Now;
-			page.ModifiedBy = currentUser;	
-			Page.Repository.SaveOrUpdate(page);
+			page.ModifiedBy = currentUser;
+			NHibernateRepository.Current.SaveOrUpdate<Page>(page);
 
 			PageContent pageContent = new PageContent();
 			pageContent.VersionNumber = manager.MaxVersion(summary.Id) + 1;
@@ -114,10 +98,10 @@ namespace Roadkill.Core
 			pageContent.EditedBy = currentUser;
 			pageContent.EditedOn = DateTime.Now;
 			pageContent.Page = page;
-			PageContent.Repository.SaveOrUpdate(pageContent);
+			NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContent);
 
 			// Update the lucene index
-			SearchManager.Update(page);
+			SearchManager.Current.Update(page);
 		}
 
 		public IEnumerable<PageSummary> FindByTag(string tag)
@@ -165,16 +149,16 @@ namespace Roadkill.Core
 			// each time a page is requested, it has no inverse relationship.
 			Page page = Pages.First(p => p.Id == pageId);
 
-			IList<PageContent> children = PageContent.Repository.List("Page.Id", pageId);
+			IEnumerable<PageContent> children = PageContents.Where(p => p.Page.Id == pageId);
 			foreach (PageContent pageContent in children)
 			{
-				PageContent.Repository.Delete(pageContent);
+				NHibernateRepository.Current.Delete<PageContent>(pageContent);
 			}
 
-			Page.Repository.Delete(page);
+			NHibernateRepository.Current.Delete<Page>(page);
 
 			// Update the lucene index
-			SearchManager.Delete(page);
+			SearchManager.Current.Delete(page);
 		}
 
 		public string ExportToXml()

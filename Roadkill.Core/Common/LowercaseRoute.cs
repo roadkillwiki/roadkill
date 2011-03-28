@@ -8,7 +8,7 @@ using System.Web.Mvc;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// Providers lowercase route mapping.
+	/// Provides lowercase route mapping.
 	/// </summary>
 	/// <remarks>From an original by Nick Berardi</remarks>
 	public class LowercaseRoute : System.Web.Routing.Route
@@ -33,6 +33,9 @@ namespace Roadkill.Core
 		}
 	}
 
+	/// <summary>
+	/// A set of extension methods for lowercase routing.
+	/// </summary>
 	/// <remarks>From an original by Tim Jones.</remarks>
 	public static class RouteCollectionExtensions
 	{

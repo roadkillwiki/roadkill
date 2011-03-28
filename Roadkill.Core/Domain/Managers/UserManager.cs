@@ -25,7 +25,7 @@ namespace Roadkill.Core
 
 		public string AddUser(string username, string password)
 		{
-			string email = Guid.NewGuid().ToString() + "@localhost";
+			string email = Guid.NewGuid().ToString() + "@roadkill";
 			MembershipCreateStatus status = MembershipCreateStatus.Success;
 			MembershipUser user = Membership.CreateUser(username, password, email, "question", "answer", true, out status);
 			

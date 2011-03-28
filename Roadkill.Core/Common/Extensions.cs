@@ -11,7 +11,7 @@ using System.Web;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// Common extension methods.
+	/// A set of common extension methods.
 	/// </summary>
 	public static class Extensions
 	{
@@ -72,6 +72,11 @@ namespace Roadkill.Core
 				return Encoding.Default.GetString(Convert.FromBase64String(base64Text));
 		}
 
+		/// <summary>
+		/// Removes any blank tags (";") from the string, and replaces spaces with "-"
+		/// </summary>
+		/// <param name="tags"></param>
+		/// <returns></returns>
 		public static string CleanTags(this string tags)
 		{
 			if (!string.IsNullOrEmpty(tags))

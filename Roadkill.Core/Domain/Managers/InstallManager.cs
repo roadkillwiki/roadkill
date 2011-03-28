@@ -25,7 +25,7 @@ namespace Roadkill.Core
 
 			if (createSchema)
 			{
-				Page.Configure(summary.ConnectionString, true, summary.CacheEnabled);
+				NHibernateRepository.Current.Configure(summary.ConnectionString, true, summary.CacheEnabled);
 				config = new SiteConfiguration();
 			}
 			else
@@ -40,7 +40,7 @@ namespace Roadkill.Core
 			config.AllowUserSignup = summary.AllowUserSignup;
 			config.Version = RoadkillSettings.Version;
 
-			SiteConfiguration.Repository.SaveOrUpdate(config);
+			NHibernateRepository.Current.SaveOrUpdate<SiteConfiguration>(config);
 		}
 
 		public static void SaveWebConfigSettings(SettingsSummary summary)

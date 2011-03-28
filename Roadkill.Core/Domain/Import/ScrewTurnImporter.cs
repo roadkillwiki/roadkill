@@ -46,7 +46,7 @@ namespace Roadkill.Core
 								categories += ";";
 							page.Tags = categories;
 
-							Page.Repository.SaveOrUpdate(page);
+							NHibernateRepository.Current.SaveOrUpdate<Page>(page);
 							AddContent(page);
 						}
 					}
@@ -154,7 +154,7 @@ namespace Roadkill.Core
 							content.VersionNumber = ((int)reader["Revision"]) + 1;
 							content.Page = parentPage;
 
-							PageContent.Repository.SaveOrUpdate(content);
+							NHibernateRepository.Current.SaveOrUpdate<PageContent>(content);
 							hasContent = true;
 						}
 					}
@@ -169,7 +169,7 @@ namespace Roadkill.Core
 						content.VersionNumber = 1;
 						content.Page = parentPage;
 
-						PageContent.Repository.SaveOrUpdate(content);
+						NHibernateRepository.Current.SaveOrUpdate<PageContent>(content);
 					}
 				}
 			}

@@ -115,7 +115,7 @@ namespace Roadkill.Core.Controllers
 		{
 			ViewData["search"] = q;
 
-			List<SearchResult> results = SearchManager.SearchIndex(q);
+			List<SearchResult> results = SearchManager.Current.SearchIndex(q);
 			return View(results);
 		}
     }

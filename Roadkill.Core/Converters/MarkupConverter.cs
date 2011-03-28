@@ -73,16 +73,28 @@ namespace Roadkill.Core.Converters
 		{
 			UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
 
-			// Process internal links
 			if (!e.OriginalHref.StartsWith("http://") && !e.OriginalHref.StartsWith("www.") && !e.OriginalHref.StartsWith("mailto:"))
 			{
 				string href = e.OriginalHref;
 
-				PageManager manager = new PageManager();
-				PageSummary summary = manager.FindByTitle(href);
-				if (summary != null)
-					href = helper.Action("Index", "Wiki", new { id = summary.Id,title=summary.Title.EncodeTitle() });
+				if (href.ToLower().StartsWith("attachment:"))
+				{
+					// Parse "attachments:" to add the attachments path to the front of the href
+					href = href.Remove(0,11);
+					if (!href.StartsWith("/"))
+						href = "/" + href;
 
+					href = helper.Content(RoadkillSettings.AttachmentsFolder) + href;
+				}
+				else
+				{
+					// Parse internal links
+					PageManager manager = new PageManager();
+					PageSummary summary = manager.FindByTitle(href);
+					if (summary != null)
+						href = helper.Action("Index", "Wiki", new { id = summary.Id, title = summary.Title.EncodeTitle() });
+
+				}
 				e.Href = href;
 				e.Target = "";
 			}

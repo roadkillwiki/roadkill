@@ -15,13 +15,28 @@ using System.Text.RegularExpressions;
 namespace Roadkill.Core.Search
 {
 	/// <summary>
-	/// Very basic search processing, which uses the page title, created by to search with.
-	/// Also optionally searches the content too.
+	/// Lucene.net based search facade.
 	/// </summary>
-	public class SearchManager
+	public class SearchManager : ManagerBase
 	{
 		private static string _indexPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\search";
 		private static Regex _removeTagsRegex = new Regex("<(.|\n)*?>");
+
+		public static SearchManager Current
+		{
+			get
+			{
+				return Nested.Current;
+			}
+		}
+
+		class Nested
+		{
+			static Nested()
+			{
+			}
+			internal static readonly SearchManager Current = new SearchManager();
+		}
 
 		/// <summary>
 		/// SQL-based search, which doesn't search the text content.
@@ -29,29 +44,35 @@ namespace Roadkill.Core.Search
 		/// <remarks>This may be required for medium-trust installations</remarks>
 		/// <param name="text"></param>
 		/// <returns></returns>
-		public static IEnumerable<PageSummary> BasicSearch(string text)
+		public IEnumerable<PageSummary> BasicSearch(string text)
 		{
-			IQuery query = Page.Repository.Manager().SessionFactory.OpenSession()
-				.CreateQuery("FROM Page WHERE Title LIKE :search OR CreatedBy=:search OR tags LIKE :search ");
+			IEnumerable<PageSummary> list = new List<PageSummary>();
 
-			query.SetString("search", "%" + text);
-			IList<Page> pages = query.List<Page>();
-			IEnumerable<PageSummary> list = from p in pages select p.ToSummary();
+			using (ISession session = NHibernateRepository.Current.SessionFactory.OpenSession())
+			{
 
-			// SQL content search, for reference
-			if (false)
-			{	
-				string sql = "select pg.*,p.* from roadkill_pagecontent p "+
-					"inner join (select pageid,MAX(versionnumber) as maxversion from roadkill_pagecontent group by pageid) m "+
-					"	on p.pageid = m.pageid and p.VersionNumber = m.maxversion "+
-					"inner join roadkill_pages pg "+
-					"	on pg.Id = p.pageid	"+
-					"WHERE p.Text LIKE :search "+
-					"ORDER BY p.pageid desc";
+				IQuery query = NHibernateRepository.Current.SessionFactory.OpenSession()
+					.CreateQuery("FROM Page WHERE Title LIKE :search OR CreatedBy=:search OR tags LIKE :search ");
 
-				ISQLQuery sqlQuery = PageContent.Repository.Manager().SessionFactory.OpenSession().CreateSQLQuery(sql);
-				sqlQuery.SetParameter<string>("search", "%" + text + "%");
-				var results = sqlQuery.List();
+				query.SetString("search", "%" + text);
+				IList<Page> pages = query.List<Page>();
+				list = from p in pages select p.ToSummary();
+
+				// SQL content search, kept for reference
+				if (false)
+				{
+					string sql = "select pg.*,p.* from roadkill_pagecontent p " +
+						"inner join (select pageid,MAX(versionnumber) as maxversion from roadkill_pagecontent group by pageid) m " +
+						"	on p.pageid = m.pageid and p.VersionNumber = m.maxversion " +
+						"inner join roadkill_pages pg " +
+						"	on pg.Id = p.pageid	" +
+						"WHERE p.Text LIKE :search " +
+						"ORDER BY p.pageid desc";
+
+					ISQLQuery sqlQuery = session.CreateSQLQuery(sql);
+					sqlQuery.SetParameter<string>("search", "%" + text + "%");
+					var results = sqlQuery.List();
+				}
 			}
 
 			return list;
@@ -61,7 +82,7 @@ namespace Roadkill.Core.Search
 		///
 		/// </summary>
 		/// <remarks>Syntax: http://lucene.apache.org/java/2_3_2/queryparsersyntax.html#Wildcard </remarks>
-		public static List<SearchResult> SearchIndex(string searchText)
+		public List<SearchResult> SearchIndex(string searchText)
 		{
 			// This check is for the benefit of the CI builds
 			if (!Directory.Exists(_indexPath))
@@ -115,7 +136,7 @@ namespace Roadkill.Core.Search
 			return list;
 		}
 
-		public static void Add(Page page)
+		public void Add(Page page)
 		{
 			EnsureDirectoryExists();
 
@@ -129,7 +150,7 @@ namespace Roadkill.Core.Search
 			writer.Close();
 		}
 
-		public static void Delete(Page page)
+		public void Delete(Page page)
 		{
 			StandardAnalyzer analyzer = new StandardAnalyzer();
 			IndexReader reader = IndexReader.Open(_indexPath);
@@ -137,21 +158,22 @@ namespace Roadkill.Core.Search
 			reader.Close();
 		}
 
-		public static void Update(Page page)
+		public void Update(Page page)
 		{
 			EnsureDirectoryExists();
 			Delete(page);
 			Add(page);
 		}
 
-		public static void CreateIndex()
+		public void CreateIndex()
 		{
 			EnsureDirectoryExists();
 
 			StandardAnalyzer analyzer = new StandardAnalyzer();
 			IndexWriter writer = new IndexWriter(_indexPath, analyzer, true);
+			
 
-			foreach (Page page in Page.Repository.List())
+			foreach (Page page in Pages.ToList())
 			{
 				PageSummary summary = page.ToSummary();
 				writer.AddDocument(SummaryToDocument(summary));
@@ -161,13 +183,13 @@ namespace Roadkill.Core.Search
 			writer.Close();
 		}
 
-		private static void EnsureDirectoryExists()
+		private void EnsureDirectoryExists()
 		{
 			if (!Directory.Exists(_indexPath))
 				Directory.CreateDirectory(_indexPath);
 		}
 
-		private static Document SummaryToDocument(PageSummary summary)
+		private Document SummaryToDocument(PageSummary summary)
 		{
 			// Get a summary by parsing the contents
 			MarkupConverter converter = new MarkupConverter();

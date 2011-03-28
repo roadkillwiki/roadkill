@@ -17,14 +17,12 @@ using System.Linq;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// A RoleProvider for ActiveDirectory.
+	/// A <see cref="RoleProvider"/> implementation for Active Directory based roles.
 	/// </summary>
-	/// <remarks>
-	/// Based off an original by "Daniel_PS": http://www.codeproject.com/KB/aspnet/active_directory_roles.aspx
-	/// </remarks>
+	/// <remarks>Inspiration and portions of this class from http://www.codeproject.com/KB/aspnet/active_directory_roles.aspx </remarks>
 	public sealed class ActiveDirectoryRoleProvider : RoleProvider
 	{
-		// Very simplistic caching. This can be improved in later versions.
+		// Very simplistic caching.
 		private static Dictionary<string, List<string>> _usersInRoleCache = new Dictionary<string, List<string>>();
 		private static Dictionary<string, List<string>> _rolesForUserCache = new Dictionary<string, List<string>>();
 
