@@ -8,14 +8,19 @@ using System.Web.Security;
 
 namespace Roadkill.Core.Controllers
 {
+	/// <summary>
+	/// Provides functionality for the /wiki/{id}/{title} route, which all pages are displayed via.
+	/// </summary>
 	public class WikiController : ControllerBase
     {
 		/// <summary>
-		/// 
+		/// Displays the wiki page using the provided id.
 		/// </summary>
 		/// <param name="id">The page id</param>
-		/// <param name="title">The parameter is passed in, but never queried</param>
-		/// <returns></returns>
+		/// <param name="title">This parameter is passed in, but never used in queries.</param>
+		/// <returns>A <see cref="PageSummary"/> to the Index view.</returns>
+		/// <remarks>This action adds a "Last-Modified" header using the page's last modified date, if no user is currently logged in.</remarks>
+		/// <exception cref="HttpNotFoundResult">Thrown if the page with the id cannot be found.</exception>
 		public ActionResult Index(int? id, string title)
 		{
 			if (id == null || id < 1)

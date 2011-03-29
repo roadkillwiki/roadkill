@@ -8,6 +8,9 @@ using System.Web.Security;
 
 namespace Roadkill.Core.Controllers
 {
+	/// <summary>
+	/// Provides help for the 3 supported markup syntax.
+	/// </summary>
 	public class HelpController : ControllerBase
     {
 		[EditorRequired]

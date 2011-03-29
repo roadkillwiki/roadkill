@@ -12,8 +12,15 @@ using Roadkill.Core.Search;
 
 namespace Roadkill.Core.Controllers
 {
+	/// <summary>
+	/// Provides functionality that is common through the site.
+	/// </summary>
 	public class HomeController : ControllerBase
     {
+		/// <summary>
+		/// Display the homepage/mainpage. If no page has been tagged with the 'homepage' tag,
+		/// then a dummy PageSummary is put in its place.
+		/// </summary>
 		public ActionResult Index()
 		{
 			PageManager manager = new PageManager();
@@ -31,10 +38,14 @@ namespace Roadkill.Core.Controllers
 			}
 
 			RoadkillContext.Current.Page = summary;
-
 			return View(summary);
 		}
 
+		/// <summary>
+		/// Displays the login page.
+		/// </summary>
+		/// <remarks>If the session times out in the file manager, then an alternative
+		/// login view with no theme is displayed.</remarks>
 		public ActionResult Login()
 		{
 			if (Request.QueryString["ReturnUrl"] != null && Request.QueryString["ReturnUrl"].Contains("Files"))
@@ -43,24 +54,71 @@ namespace Roadkill.Core.Controllers
 			return View();
 		}
 
+		/// <summary>
+		/// Handles the login page POST, validates the login and if successful redirects to the url provided.
+		/// If the login is unsucessful, the default Login view is re-displayed.
+		/// </summary>
+		[HttpPost]
+		public ActionResult Login(string username, string password, string fromUrl)
+		{
+			UserManager manager = new UserManager();
+			if (manager.Authenticate(username, password))
+			{
+				FormsAuthentication.SetAuthCookie(username, true);
+
+				if (!string.IsNullOrWhiteSpace(fromUrl))
+					return Redirect(fromUrl);
+				else
+					return RedirectToAction("Index");
+			}
+			else
+			{
+				ModelState.AddModelError("Username/Password", "The username/password are incorrect");
+				return View();
+			}
+		}
+
+		/// <summary>
+		/// Logouts the current logged in user, and redirects to the homepage.
+		/// </summary>
+		public ActionResult Logout()
+		{
+			UserManager manager = new UserManager();
+			manager.Logout();
+			return RedirectToAction("Index");
+		}
+
+		/// <summary>
+		/// Searches the lucene index using the search string provided.
+		/// </summary>
+		public ActionResult Search(string q)
+		{
+			ViewData["search"] = q;
+
+			List<SearchResult> results = SearchManager.Current.SearchIndex(q);
+			return View(results);
+		}
+
+		/// <summary>
+		/// Returns a string containing Javascript 'constants' for the site. If the user is logged in, 
+		/// additional variables are returned that are used by the edit page.
 		public ActionResult GlobalJsVars()
 		{
 			UrlHelper helper = new UrlHelper(HttpContext.Request.RequestContext);
 
 			StringBuilder builder = new StringBuilder();
 			builder.AppendLine(string.Format("var ROADKILL_CORESCRIPTPATH = '{0}';", helper.Content("~/Assets/Scripts/")));
+			builder.AppendLine(string.Format("var ROADKILL_THEMEPATH =  '{0}/';", Url.Content(RoadkillSettings.ThemePath)));
 
 			if (RoadkillContext.Current.IsLoggedIn)
 			{
-				builder.AppendLine(string.Format("var ROADKILL_WIKIMARKUPHELP = '{0}';", helper.Action(RoadkillSettings.MarkupType + "Reference", "Help")));
-				builder.AppendLine(string.Format("var ROADKILL_THEMEPATH =  '{0}/';", Url.Content(RoadkillSettings.ThemePath)));
-
-				// Edit page variables
+				// Edit page constants
 				builder.AppendLine(string.Format("var ROADKILL_TAGAJAXURL = '{0}/';", helper.Action("AllTagsAsJson", "Pages")));
 				builder.AppendLine(string.Format("var ROADKILL_PREVIEWURL = '{0}/';", helper.Action("GetPreview", "Pages")));
 				builder.AppendLine(string.Format("var ROADKILL_MARKUPTYPE = '{0}';", RoadkillSettings.MarkupType));
+				builder.AppendLine(string.Format("var ROADKILL_WIKIMARKUPHELP = '{0}';", helper.Action(RoadkillSettings.MarkupType + "Reference", "Help")));
 
-				// File manager variables
+				// File manager constants
 				builder.AppendLine(string.Format("var ROADKILL_FILEMANAGERURL = '{0}';", helper.Action("Index", "Files")));
 				builder.AppendLine(string.Format("var ROADKILL_FILETREE_URL =  '{0}/';", Url.Action("Folder","Files")));
 				builder.AppendLine(string.Format("var ROADKILL_FILETREE_PATHNAME_URL =  '{0}/';", Url.Action("GetPath", "Files")));
@@ -82,41 +140,6 @@ namespace Roadkill.Core.Controllers
 			}
 
 			return Content(builder.ToString(), "text/javascript");
-		}
-
-		[HttpPost]
-		public ActionResult Login(string username, string password, string fromUrl)
-		{
-			UserManager manager = new UserManager();
-			if (manager.Authenticate(username, password))
-			{
-				FormsAuthentication.SetAuthCookie(username, true);
-
-				if (!string.IsNullOrWhiteSpace(fromUrl))
-					return Redirect(fromUrl);
-				else
-					return RedirectToAction("Index");
-			}
-			else
-			{
-				ModelState.AddModelError("Username/Password", "The username/password are incorrect");
-				return View();
-			}
-		}
-
-		public ActionResult Logout()
-		{
-			UserManager manager = new UserManager();
-			manager.Logout();
-			return RedirectToAction("Index");
-		}
-
-		public ActionResult Search(string q)
-		{
-			ViewData["search"] = q;
-
-			List<SearchResult> results = SearchManager.Current.SearchIndex(q);
-			return View(results);
 		}
     }
 }
