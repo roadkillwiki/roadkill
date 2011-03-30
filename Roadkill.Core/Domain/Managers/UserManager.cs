@@ -23,7 +23,7 @@ namespace Roadkill.Core
 			FormsAuthentication.SignOut();
 		}
 
-		public string AddUser(string username, string password)
+		public string AddEditor(string username, string password)
 		{
 			string email = Guid.NewGuid().ToString() + "@roadkill";
 			MembershipCreateStatus status = MembershipCreateStatus.Success;
@@ -48,7 +48,7 @@ namespace Roadkill.Core
 			return "";
 		}
 
-		public string AddAdminUser(string username, string password)
+		public string AddAdmin(string username, string password)
 		{
 			// For now, the email is a guid
 			string email = Guid.NewGuid().ToString() +"@localhost";
@@ -74,7 +74,7 @@ namespace Roadkill.Core
 			return "";
 		}
 
-		public IEnumerable<string> AllAdmins()
+		public IEnumerable<string> ListAdmins()
 		{
 			return Roles.GetUsersInRole(RoadkillSettings.AdminRoleName);
 		}
@@ -84,7 +84,7 @@ namespace Roadkill.Core
 			return Membership.FindUsersByName(username).Count > 0;
 		}
 
-		public IEnumerable<string> AllEditors()
+		public IEnumerable<string> ListEditors()
 		{
 			return Roles.GetUsersInRole(RoadkillSettings.EditorRoleName);
 		}
@@ -133,13 +133,16 @@ namespace Roadkill.Core
 		public void ChangePassword(string username, string newPassword, string email)
 		{
 			MembershipUser user = Membership.GetUser(username);
+			user.UnlockUser(); // password changes fail if the user is locked out.
 
 			string tempPassword = user.ResetPassword();
 			Membership.UpdateUser(user);
 
 			// This can potentially fail if the web.config has its Membership password settings changed
 			// as the front-end doesn't validate against this yet.
-			user.ChangePassword(newPassword, tempPassword);
+			if (!user.ChangePassword(tempPassword,newPassword))
+				throw new UserException(string.Format("Changing passwords for {0} failed",username));
+
 			user.Email = email;
 			Membership.UpdateUser(user);
 		}

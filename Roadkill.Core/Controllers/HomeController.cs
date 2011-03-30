@@ -137,6 +137,14 @@ namespace Roadkill.Core.Controllers
 				builder.AppendLine(string.Format("var ROADKILL_EDIT_NUMBERLIST_TOKEN = \"{0}\";", parser.NumberedListToken));
 				builder.AppendLine(string.Format("var ROADKILL_EDIT_BULLETLIST_TOKEN = \"{0}\";", parser.BulletListToken));
 				builder.AppendLine(string.Format("var ROADKILL_EDIT_HEADING_TOKEN = \"{0}\";", parser.HeadingToken));
+
+				if (RoadkillContext.Current.IsAdmin)
+				{
+					// User management constants for the settings->user page
+					builder.AppendLine(string.Format("var ROADKILL_ADDADMIN_FORMACTION = \"{0}\";", helper.Action("AddAdmin","Settings")));
+					builder.AppendLine(string.Format("var ROADKILL_ADDEDITOR_FORMACTION = \"{0}\";", helper.Action("AddEditor","Settings")));
+					builder.AppendLine(string.Format("var ROADKILL_EDITUSER_FORMACTION = \"{0}\";", helper.Action("EditUser","Settings")));
+				}
 			}
 
 			return Content(builder.ToString(), "text/javascript");

@@ -189,7 +189,7 @@ namespace Roadkill.Core
 				ClearUserTables(summary.RolesConnectionString);
 
 			manager.AddRoles();
-			string result = manager.AddAdminUser("admin", summary.AdminPassword);
+			string result = manager.AddAdmin("admin", summary.AdminPassword);
 			if (!string.IsNullOrEmpty(result))
 			{
 				throw new InstallerException(result);

@@ -16,18 +16,27 @@ using Roadkill.Core.Search;
 namespace Roadkill.Core.Controllers
 {
 	/// <summary>
-	/// Provides functionality for various settings and tools.
+	/// Provides functionality for the settings page including tools and user management.
 	/// </summary>
 	/// <remarks>All actions in this controller require admin rights.</remarks>
 	[AdminRequired]
 	public class SettingsController : ControllerBase
     {
+		/// <summary>
+		/// The default settings page that displays the current Roadkill settings.
+		/// </summary>
+		/// <returns>A <see cref="SettingsSummary"/> as the model.</returns>
 		public ActionResult Index()
 		{
 			SettingsSummary summary = SettingsSummary.GetCurrentSettings();
 			return View(summary);
 		}
 
+		/// <summary>
+		/// Saves the <see cref="SettingsSummary"/> that is POST'd to the action.
+		/// </summary>
+		/// <param name="summary">The settings to save to the web.config/database.</param>
+		/// <returns>A <see cref="SettingsSummary"/> as the model.</returns>
 		[HttpPost]
 		public ActionResult Index(SettingsSummary summary)
 		{
@@ -39,14 +48,119 @@ namespace Roadkill.Core.Controllers
 			return View(summary);
 		}
 
-		public ActionResult AddAdmin(string username)
+		/// <summary>
+		/// Displays the Users view.
+		/// </summary>
+		/// <returns>An <see cref="Ilist`IEnumerable`string"/> as the model. The first item contains a list of admin users,
+		/// the second item contains a list of editor users. If Windows authentication is being used, the action uses the 
+		/// UsersForWindows view.</returns>
+		[ImportModelState]
+		public ActionResult Users()
 		{
 			UserManager manager = new UserManager();
-			manager.AddAdminUser(username, "password");
+			IList<IEnumerable<string>> list = new List<IEnumerable<string>>();
+			list.Add(manager.ListAdmins());
+			list.Add(manager.ListEditors());
+
+			if (RoadkillSettings.IsWindowsAuthentication)
+				return View("UsersForWindows", list);
+			else
+				return View(list);
+		}
+
+		/// <summary>
+		/// Adds an admin user to the system, validating the <see cref="UserSummary"/> first.
+		/// </summary>
+		/// <param name="summary">The user details to add.</param>
+		/// <returns>Redirects to the Users action. Additionally, if an error occured, TempData["action"] contains the string "addadmin".</returns>
+		[HttpPost]
+		[ExportModelState]
+		public ActionResult AddAdmin(UserSummary summary)
+		{
+			if (ModelState.IsValid)
+			{
+				UserManager manager = new UserManager();
+				string errors = manager.AddAdmin(summary.NewUsername, summary.Password);
+
+				if (!string.IsNullOrEmpty(errors))
+				{
+					ModelState.AddModelError("General", errors);
+				}
+			}
+			else
+			{
+				// Instructs the view to reshow the modal dialog
+				TempData["action"] = "addadmin";
+			}
 
 			return RedirectToAction("Users");
 		}
 
+		/// <summary>
+		/// Adds an editor user to the system, validating the <see cref="UserSummary"/> first.
+		/// </summary>
+		/// <param name="summary">The user details to add.</param>
+		/// <returns>Redirects to the Users action. Additionally, if an error occured, TempData["action"] contains the string "addeditor".</returns>
+		[HttpPost]
+		[ExportModelState]
+		public ActionResult AddEditor(UserSummary summary)
+		{
+			if (ModelState.IsValid)
+			{
+				UserManager manager = new UserManager();
+				string errors = manager.AddEditor(summary.NewUsername, summary.Password);
+
+				if (!string.IsNullOrEmpty(errors))
+				{
+					ModelState.AddModelError("General", errors);
+				}
+			}
+			else
+			{
+				// Instructs the view to reshow the modal dialog
+				TempData["action"] = "addeditor";
+			}
+
+			return RedirectToAction("Users");
+		}
+		
+		/// <summary>
+		/// Edits an existing user. If the <see cref="UserSummary.Password"/> property is not blank, the password
+		/// for the user is reset and then changed.
+		/// </summary>
+		/// <param name="summary">The user details to edit.</param>
+		/// <returns>Redirects to the Users action. Additionally, if an error occured, TempData["edituser"] contains the string "addeditor".</returns>
+		[HttpPost]
+		[ExportModelState]
+		public ActionResult EditUser(UserSummary summary)
+		{
+			if (ModelState.IsValid)
+			{
+				UserManager manager = new UserManager();
+
+				if (summary.UsernameHasChanged)
+				{
+					manager.ChangeUsername(summary.ExistingUsername, summary.NewUsername);
+					summary.ExistingUsername = summary.NewUsername;
+				}
+
+				if (!string.IsNullOrEmpty(summary.Password))
+					manager.ChangePassword(summary.ExistingUsername, summary.Password, summary.ExistingUsername);
+			}
+			else
+			{
+				// Instructs the view to reshow the modal dialog
+				TempData["action"] = "edituser";
+			}
+
+			return RedirectToAction("Users");
+		}
+
+		/// <summary>
+		/// Removes a user from the system.
+		/// </summary>
+		/// <param name="id">The id of the user to remove.</param>
+		/// <returns>Redirects to the Users action.</returns>
 		public ActionResult DeleteUser(string id)
 		{
 			UserManager manager = new UserManager();
@@ -55,6 +169,19 @@ namespace Roadkill.Core.Controllers
 			return RedirectToAction("Users");
 		}
 
+		/// <summary>
+		/// Displays the tools page.
+		/// </summary>
+		public ActionResult Tools()
+		{
+			return View();
+		}
+
+		/// <summary>
+		/// Exports the pages of site including their history as a single XML file.
+		/// </summary>
+		/// <returns>A <see cref="FileStreamResult"/> called 'roadkill-export.xml' containing the XML data.
+		/// If an error occurs, a <see cref="HttpNotFound"/> result is returned and the error message written to the trace.</returns>
 		public ActionResult ExportAsXml()
 		{
 			try
@@ -63,7 +190,7 @@ namespace Roadkill.Core.Controllers
 				PageManager manager = new PageManager();
 				string xml = manager.ExportToXml();
 
-				// Let the FileStreamResult dispose
+				// Let the FileStreamResult dispose the stream
 				MemoryStream stream = new MemoryStream();
 				StreamWriter writer = new StreamWriter(stream);
 				writer.Write(xml);
@@ -82,7 +209,13 @@ namespace Roadkill.Core.Controllers
 			}
 		}
 
-		public ActionResult ExportContent()
+		/// <summary>
+		/// Exports the pages of the site as .wiki files, in ZIP format.
+		/// </summary>
+		/// <returns>A <see cref="FileStreamResult"/> called 'export-{date}.zip'. This file is saved in the App_Data folder first.
+		/// If an error occurs, a <see cref="HttpNotFound"/> result is returned and the error message written to the trace.</returns>
+		/// </returns>
+		public ActionResult ExportAsWikiFiles()
 		{
 			PageManager manager = new PageManager();
 			IEnumerable<PageSummary> pages = manager.AllPages();
@@ -118,6 +251,12 @@ namespace Roadkill.Core.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Exports the Attachments folder contents (including subdirectories) in ZIP format.
+		/// </summary>
+		/// <returns>A <see cref="FileStreamResult"/> called 'attachments-export-{date}.zip'. This file is saved in the App_Data folder first.
+		/// If an error occurs, a <see cref="HttpNotFound"/> result is returned and the error message written to the trace.</returns>
+		/// </returns>
 		public ActionResult ExportAttachments()
 		{
 			PageManager manager = new PageManager();
@@ -145,6 +284,11 @@ namespace Roadkill.Core.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Attempts to import page data and files from a Screwturn wiki database.
+		/// </summary>
+		/// <param name="screwturnConnectionString">The connection string to the Screwturn database.</param>
+		/// <returns>Redirects to the Tools action.</returns>
 		[HttpPost]
 		public ActionResult ImportFromScrewTurn(string screwturnConnectionString)
 		{
@@ -155,11 +299,10 @@ namespace Roadkill.Core.Controllers
 			return RedirectToAction("Tools");
 		}
 
-		public ActionResult Tools()
-		{
-			return View();
-		}
-
+		/// <summary>
+		/// Deletes and re-creates the search index.
+		/// </summary>
+		/// <returns>Redirects to the Tools action.</returns>
 		public ActionResult UpdateSearchIndex()
 		{
 			TempData["Message"] = "Update complete";
@@ -167,84 +310,11 @@ namespace Roadkill.Core.Controllers
 			return RedirectToAction("Tools");
 		}
 
-		public ActionResult Users()
-		{
-			UserManager manager = new UserManager();
-			IList<IEnumerable<string>> list = new List<IEnumerable<string>>();
-			list.Add(manager.AllAdmins());
-			list.Add(manager.AllEditors());
-
-			if (RoadkillSettings.IsWindowsAuthentication)
-				return View("UsersForWindows", list);
-			else
-				return View(list);
-		}
-
-		[HttpPost]
-		public ActionResult Users(string mode, string userType, string username, string newUsername, string passwordMain, string passwordConfirm)
-		{
-			if (string.IsNullOrEmpty(newUsername))
-				ModelState.AddModelError("Username", "The username is blank");
-
-			// Refactor this into a model
-			if (!string.IsNullOrEmpty(passwordMain))
-			{
-				if (string.IsNullOrEmpty(passwordConfirm))
-				{
-					ModelState.AddModelError("Password", "Confirm your password");
-				}
-				else if (passwordMain != passwordConfirm)
-				{
-					ModelState.AddModelError("Password", "The passwords don't match.");
-				}
-				else if (passwordMain.Length < Membership.MinRequiredPasswordLength)
-				{
-					ModelState.AddModelError("Password", string.Format("The password is less than {0} characters", Membership.MinRequiredPasswordLength));
-				}
-			}
-
-			UserManager manager = new UserManager();
-
-			if (ModelState.IsValid)
-			{
-				if (mode == "new")
-				{
-					string errors = "";
-					if (userType == "admin")
-						errors = manager.AddAdminUser(newUsername, passwordMain);
-					else
-						errors = manager.AddUser(newUsername, passwordMain);
-
-					if (!string.IsNullOrEmpty(errors))
-					{
-						ModelState.AddModelError("General", errors);
-					}
-				}
-				else
-				{
-
-					if (username != newUsername)
-					{
-						manager.ChangeUsername(username, newUsername);
-						username = newUsername;
-					}
-
-					if (!string.IsNullOrEmpty(passwordMain))
-						manager.ChangePassword(username, passwordMain, username);
-				}
-			}
-
-			//
-			// Don't RedirectToAction as we lose the model state.
-			//
-			IList<IEnumerable<string>> list = new List<IEnumerable<string>>();
-			list.Add(manager.AllAdmins());
-			list.Add(manager.AllEditors());
-
-			return View(list);
-		}
-
-		public ActionResult WipePages()
+		/// <summary>
+		/// Clears all wiki pages from the database.
+		/// </summary>
+		/// <returns>Redirects to the Tools action.</returns>
+		public ActionResult ClearPages()
 		{
 			TempData["Message"] = "Database cleared";
 			InstallManager.ClearPageTables(RoadkillSettings.ConnectionString);

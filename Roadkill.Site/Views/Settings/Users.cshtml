@@ -12,15 +12,15 @@
 <h1>Users</h1>
 @Html.Partial("SettingsMenu")
 
-@if (!ViewData.ModelState.IsValid)
+@if (TempData["action"] != null)
 {
-<script type="text/javascript">
-$(document).ready(function ()
-{
-	// Show the user dialog if there were errors
-	$("#userdialogContainer").modal();
-});
-</script>
+	<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		// Show the user dialog if there were errors
+		showUserModal("@(TempData["action"])");
+	});
+	</script>
 }
 
 <div id="settings" class="blueborder rounded5">
@@ -59,27 +59,26 @@ $(document).ready(function ()
 	<div id="userdialogContainer">
 		<h2 style="margin-top:0">Edit user</h2>
 		@Html.ValidationSummary("Error:")
-		@using (Html.BeginForm())
+		@using (Html.BeginForm("AddAdmin", "Settings", FormMethod.Post, new { id = "userform" }))
 		{
-			@Html.Hidden("mode")
-			@Html.Hidden("username")
-			@Html.Hidden("userType")
+			@Html.Hidden("IsNew")
+			@Html.Hidden("ExistingUsername")
 			<p class="smallest">For existing users, leave the password fields blank to change just the username.</p>
 			<div class="row">
-				<label for="newUsername">Username:</label>
-				<div class="left textbox">@Html.TextBox("newUsername", null, new { @autocomplete = "off" })</div>
+				<label for="NewUsername">Username:</label>
+				<div class="left textbox">@Html.TextBox("NewUsername", null, new { @autocomplete = "off" })</div>
 			</div>
 			<br class="clear" />
 	 
 			 <div class="row">
-				<label for="password1">Password:</label>
-				<div class="left textbox">@Html.Password("passwordMain", null, new { @autocomplete = "off" })</div>
+				<label for="Password">Password:</label>
+				<div class="left textbox">@Html.Password("Password", null, new { @autocomplete = "off" })</div>
 				<br class="clear" />
 			</div>
 	 
 			 <div class="row">
-				<label for="password2">Password (confirm):</label>
-				<div class="left textbox">@Html.Password("passwordConfirm", null, new { @autocomplete = "off" })</div>
+				<label for="PasswordConfirmation">Password (confirm):</label>
+				<div class="left textbox">@Html.Password("PasswordConfirmation", null, new { @autocomplete = "off" })</div>
 				<br class="clear" />
 			</div>
 		

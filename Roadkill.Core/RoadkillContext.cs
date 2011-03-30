@@ -48,7 +48,24 @@ namespace Roadkill.Core
 		{
 			get
 			{
-				return Roles.IsUserInRole(RoadkillSettings.AdminRoleName);
+				if (IsLoggedIn)
+					return Roles.IsUserInRole(RoadkillSettings.AdminRoleName);
+				else
+					return false;
+			}
+		}
+
+		/// <summary>
+		/// Indicates whether the current user is a member of the editor role.
+		/// </summary>
+		public bool IsEditor
+		{
+			get
+			{
+				if (IsLoggedIn)
+					return Roles.IsUserInRole(RoadkillSettings.EditorRoleName);
+				else
+					return false;
 			}
 		}
 

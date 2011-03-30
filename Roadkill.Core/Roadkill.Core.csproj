@@ -64,10 +64,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\ImportModelStateAttribute.cs" />
+    <Compile Include="Attributes\ExportModelStateAttribute.cs" />
     <Compile Include="Common\HtmlLinkExtensions.cs" />
     <Compile Include="Common\LowercaseRoute.cs" />
-    <Compile Include="Config\AdminRequiredAttribute.cs" />
-    <Compile Include="Config\EditorRequiredAttribute.cs" />
+    <Compile Include="Attributes\AdminRequiredAttribute.cs" />
+    <Compile Include="Attributes\EditorRequiredAttribute.cs" />
     <Compile Include="Config\RoadkillSection.cs" />
     <Compile Include="Controllers\InstallController.cs" />
     <Compile Include="Controllers\FilesController.cs" />
@@ -80,6 +82,7 @@
     <Compile Include="Domain\NHibernate\NHibernateRepository.cs" />
     <Compile Include="Domain\Managers\InstallManager.cs" />
     <Compile Include="Domain\Managers\ManagerBase.cs" />
+    <Compile Include="Domain\Summaries\UserSummary.cs" />
     <Compile Include="Exceptions\ExceptionBase.cs" />
     <Compile Include="Exceptions\UserException.cs" />
     <Compile Include="Domain\NHibernate\SiteConfiguration.cs" />

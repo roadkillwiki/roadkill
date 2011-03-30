@@ -19,7 +19,7 @@
 
 <div id="settingscontainer">
 	<p>
-	<b>@Html.ActionLink("Clear the database", "WipePages", null, new { @class = "refreshlink" })</b><br />
+	<b>@Html.ActionLink("Clear the database", "ClearPages", null, new { @class = "refreshlink" })</b><br />
 	Clears all pages and text from the database. This does not remove any users.
 	</p>
 
@@ -34,7 +34,7 @@
 	</p>
 
 	<p>
-	<b>@Html.ActionLink("Export all content as a zip", "ExportContent")</b><br />
+	<b>@Html.ActionLink("Export all content as a zip", "ExportAsWikiFiles")</b><br />
 	Exports all pages, including text content as a series of ".wiki" files. Only
 	the current content and tags are included, no history is provided. This zip file does not include the attachments folder.
 	</p>

@@ -10,11 +10,11 @@ function bindUserButtons()
 	$("#addadmin").click(function ()
 	{
 		var anchor = $(this);
+		$("form#userform").attr("action", ROADKILL_ADDADMIN_FORMACTION);
 
-		$("#mode").val("new");
-		$("#userType").val("admin");
 		$("#userdialogContainer h2").html("Add admin");
-		$("#newUsername").val("");
+		$("#NewUsername").val("");
+		$("#IsNew").val("True");
 
 		$(".validation-summary-errors").hide();
 		$("#userdialogContainer").modal();
@@ -23,11 +23,11 @@ function bindUserButtons()
 	$("#addeditor").click(function ()
 	{
 		var anchor = $(this);
+		$("form#userform").attr("action", ROADKILL_ADDEDITOR_FORMACTION);
 
-		$("#mode").val("new");
-		$("#userType").val("editor");
 		$("#userdialogContainer h2").html("Add editor");
-		$("#newUsername").val("");
+		$("#NewUsername").val("");
+		$("#IsNew").val("True");
 
 		$(".validation-summary-errors").hide();
 		$("#userdialogContainer").modal();
@@ -36,13 +36,35 @@ function bindUserButtons()
 	$(".settingstable .edit a").click(function ()
 	{
 		var anchor = $(this);
+		$("form#userform").attr("action", ROADKILL_EDITUSER_FORMACTION);
 
-		$("#mode").val("edit");
-		$("#username").val(anchor.attr("title"));
-		$("#newUsername").val(anchor.attr("title"));
+		$("#ExistingUsername").val(anchor.attr("title"));
+		$("#NewUsername").val(anchor.attr("title"));
+		$("#IsNew").val("False");
+
 		$("#userdialogContainer h2").html("Edit User");
-
 		$(".validation-summary-errors").hide();
 		$("#userdialogContainer").modal();
 	});
+}
+
+function showUserModal(action)
+{
+	if(action == "addadmin")
+	{
+		$("form#userform").attr("action", ROADKILL_ADDADMIN_FORMACTION);
+		$("#userdialogContainer h2").html("Add admin");
+	}
+	else if(action == "addeditor")
+	{
+		$("form#userform").attr("action", ROADKILL_ADDEDITOR_FORMACTION);
+		$("#userdialogContainer h2").html("Add editor");
+	}
+	else if(action == "edituser")
+	{
+		$("form#userform").attr("action", ROADKILL_EDITUSER_FORMACTION);
+		$("#userdialogContainer h2").html("Edit User");
+	}
+
+	$("#userdialogContainer").modal();
 }
