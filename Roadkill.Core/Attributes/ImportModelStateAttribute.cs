@@ -6,10 +6,9 @@ using System.Web.Mvc;
 
 namespace Roadkill.Core
 {
-	// Based on: http://weblogs.asp.net/rashid/archive/2009/04/01/asp-net-mvc-best-practices-part-1.aspx#prg
-
 	/// <summary>
-	/// Imports the ModelState from an action that is using ExportModelState.
+	/// Represents an attribute that is used to import a ModelState from an action that has performed a RedirectToAction().
+	/// That action should be descorated with the <see cref="ExportModelStateAttribute"/>.
 	/// </summary>
 	public class ImportModelStateAttribute : ActionFilterAttribute
 	{
@@ -17,6 +16,7 @@ namespace Roadkill.Core
 
 		public override void OnActionExecuted(ActionExecutedContext filterContext)
 		{
+			// Based on: http://weblogs.asp.net/rashid/archive/2009/04/01/asp-net-mvc-best-practices-part-1.aspx#prg
 			ModelStateDictionary modelState = filterContext.Controller.TempData[_key] as ModelStateDictionary;
 
 			if (modelState != null)

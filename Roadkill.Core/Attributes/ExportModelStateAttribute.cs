@@ -6,10 +6,8 @@ using System.Web.Mvc;
 
 namespace Roadkill.Core
 {
-	// Based on: http://weblogs.asp.net/rashid/archive/2009/04/01/asp-net-mvc-best-practices-part-1.aspx#prg
-
 	/// <summary>
-	/// Transfers the ModelState for use with RedirectToAction().
+	/// Represents an attribute that is used to maintain the ModelState when performing a RedirectToAction().
 	/// </summary>
 	public class ExportModelStateAttribute : ActionFilterAttribute
 	{
@@ -17,6 +15,7 @@ namespace Roadkill.Core
 
 		public override void OnActionExecuted(ActionExecutedContext filterContext)
 		{
+			// Based on: http://weblogs.asp.net/rashid/archive/2009/04/01/asp-net-mvc-best-practices-part-1.aspx#prg
 			// Only export when ModelState is not valid
 			if (!filterContext.Controller.ViewData.ModelState.IsValid)
 			{

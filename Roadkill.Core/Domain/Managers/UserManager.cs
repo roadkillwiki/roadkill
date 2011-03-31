@@ -13,22 +13,12 @@ namespace Roadkill.Core
 {
 	public class UserManager
 	{
-		public bool Authenticate(string username,string password)
-		{
-			return Membership.ValidateUser(username,password);
-		}
-
-		public void Logout()
-		{
-			FormsAuthentication.SignOut();
-		}
-
 		public string AddEditor(string username, string password)
 		{
 			string email = Guid.NewGuid().ToString() + "@roadkill";
 			MembershipCreateStatus status = MembershipCreateStatus.Success;
 			MembershipUser user = Membership.CreateUser(username, password, email, "question", "answer", true, out status);
-			
+
 			if (user == null)
 			{
 				return GetErrorMessage(status);
@@ -51,7 +41,7 @@ namespace Roadkill.Core
 		public string AddAdmin(string username, string password)
 		{
 			// For now, the email is a guid
-			string email = Guid.NewGuid().ToString() +"@localhost";
+			string email = Guid.NewGuid().ToString() + "@localhost";
 			MembershipCreateStatus status = MembershipCreateStatus.Success;
 			MembershipUser user = Membership.CreateUser(username, password, email, "question", "answer", true, out status);
 
@@ -74,21 +64,6 @@ namespace Roadkill.Core
 			return "";
 		}
 
-		public IEnumerable<string> ListAdmins()
-		{
-			return Roles.GetUsersInRole(RoadkillSettings.AdminRoleName);
-		}
-
-		public bool UserExists(string username)
-		{
-			return Membership.FindUsersByName(username).Count > 0;
-		}
-
-		public IEnumerable<string> ListEditors()
-		{
-			return Roles.GetUsersInRole(RoadkillSettings.EditorRoleName);
-		}
-
 		public void AddRoles()
 		{
 			if (!Roles.RoleExists(RoadkillSettings.AdminRoleName))
@@ -97,31 +72,10 @@ namespace Roadkill.Core
 			if (!Roles.RoleExists(RoadkillSettings.EditorRoleName))
 				Roles.CreateRole(RoadkillSettings.EditorRoleName);
 		}
-		
-		public bool DeleteUser(string username)
+
+		public bool Authenticate(string username,string password)
 		{
-			if (Membership.GetAllUsers().Count == 1)
-				throw new UserException("Cannot delete user '{0}' as they are the only user in the system.",username);
-
-			return Membership.DeleteUser(username);
-		}
-
-		public void ChangeUsername(string oldUsername, string newUsername)
-		{
-			((RoadkillMembershipProvider)Membership.Provider).ChangeUsername(oldUsername, newUsername);
-		}
-
-		public void UpdateUser(string username, string oldPassword,string newPassword, string email)
-		{
-			MembershipUser user = Membership.GetUser(username);
-
-			if (!string.IsNullOrWhiteSpace(oldPassword) && !string.IsNullOrWhiteSpace(newPassword))
-			{
-				user.ChangePassword(oldPassword, newPassword);
-			}
-
-			user.Email = email;
-			Membership.UpdateUser(user);
+			return Membership.ValidateUser(username,password);
 		}
 
 		/// <summary>
@@ -140,8 +94,54 @@ namespace Roadkill.Core
 
 			// This can potentially fail if the web.config has its Membership password settings changed
 			// as the front-end doesn't validate against this yet.
-			if (!user.ChangePassword(tempPassword,newPassword))
-				throw new UserException(string.Format("Changing passwords for {0} failed",username));
+			if (!user.ChangePassword(tempPassword, newPassword))
+				throw new UserException(string.Format("Changing passwords for {0} failed", username));
+
+			user.Email = email;
+			Membership.UpdateUser(user);
+		}
+
+		public void ChangeUsername(string oldUsername, string newUsername)
+		{
+			((RoadkillMembershipProvider)Membership.Provider).ChangeUsername(oldUsername, newUsername);
+		}
+
+		public bool DeleteUser(string username)
+		{
+			if (Membership.GetAllUsers().Count == 1)
+				throw new UserException("Cannot delete user '{0}' as they are the only user in the system.", username);
+
+			return Membership.DeleteUser(username);
+		}
+
+		public IEnumerable<string> ListAdmins()
+		{
+			return Roles.GetUsersInRole(RoadkillSettings.AdminRoleName);
+		}
+
+		public bool UserExists(string username)
+		{
+			return Membership.FindUsersByName(username).Count > 0;
+		}
+
+		public IEnumerable<string> ListEditors()
+		{
+			return Roles.GetUsersInRole(RoadkillSettings.EditorRoleName);
+		}
+
+		public void Logout()
+		{
+			FormsAuthentication.SignOut();
+		}		
+
+		public void UpdateUser(string username, string oldPassword,string newPassword, string email)
+		{
+			MembershipUser user = Membership.GetUser(username);
+
+			if (!string.IsNullOrWhiteSpace(oldPassword) && !string.IsNullOrWhiteSpace(newPassword))
+			{
+				user.ChangePassword(oldPassword, newPassword);
+			}
 
 			user.Email = email;
 			Membership.UpdateUser(user);

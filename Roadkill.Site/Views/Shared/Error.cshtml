@@ -1,6 +1,11 @@
-﻿@{
-    Layout = null;
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+	if (RoadkillSettings.Installed)
+	{
+		Layout = RoadkillSettings.ThemePath + "/Theme.cshtml";
+	}
 }
+
 
 <!DOCTYPE html>
 <html>
@@ -11,5 +16,11 @@
     <h2>
         Sorry, an error occurred while processing your request.
     </h2>
+
+	@if (RoadkillContext.Current.IsAdmin)
+	{
+	<p>@Model.Exception.Message</p>
+	<pre>@Model.Exception.StackTrace</pre>
+	 }
 </body>
 </html>

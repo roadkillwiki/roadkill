@@ -74,16 +74,25 @@ namespace Roadkill.Core.Converters.Creole
 		private string _tabStop;
 		private int _nTabSpaces;
 
+		/// <summary>
+		/// The start and end tokens to indicate bold text.
+		/// </summary>
 		public virtual string BoldToken
 		{
 			get { return "**"; }
 		}
 
+		/// <summary>
+		/// The start end end tokens to indicate italic text.
+		/// </summary>
 		public virtual string ItalicToken
 		{
 			get { return "//"; }
 		}
 
+		/// <summary>
+		/// The start end end tokens to underline italic text.
+		/// </summary>
 		public virtual string UnderlineToken
 		{
 			get { return "__"; }
@@ -94,31 +103,49 @@ namespace Roadkill.Core.Converters.Creole
 			get { return "[[%URL%|"; }
 		}
 
+		/// <summary>
+		/// The ending token for a link.
+		/// </summary>
 		public virtual string LinkEndToken
 		{
 			get { return "%LINKTEXT%]]"; }
 		}
 
+		/// <summary>
+		/// The start token for an image.
+		/// </summary>
 		public virtual string ImageStartToken
 		{
 			get { return "{{%FILENAME%|"; }
 		}
 
+		/// <summary>
+		/// The end token for an image.
+		/// </summary>
 		public virtual string ImageEndToken
 		{
 			get { return "%ALT%}}"; }
 		}
 
+		/// <summary>
+		/// The start token for a bulleted list item.
+		/// </summary>
 		public virtual string BulletListToken
 		{
 			get { return "*"; }
 		}
 
+		/// <summary>
+		/// The start token for a n umbered list item.
+		/// </summary>
 		public virtual string NumberedListToken
 		{
 			get { return "#"; }
 		}
 
+		/// <summary>
+		/// The start and end tokens for headings. H5 headings are assumed to repeat this token 5 times.
+		/// </summary>
 		public virtual string HeadingToken
 		{
 			get { return "="; }
@@ -128,6 +155,7 @@ namespace Roadkill.Core.Converters.Creole
 		/// Occurs when an image tag is parsed.
 		/// </summary>
 		public event EventHandler<ImageEventArgs> ImageParsed;
+
 
 		/// <summary>
 		/// Occurs when a hyperlink is parsed.

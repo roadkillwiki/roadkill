@@ -193,7 +193,7 @@ namespace Roadkill.Core.Search
 		{
 			// Get a summary by parsing the contents
 			MarkupConverter converter = new MarkupConverter();
-			IParser markupParser = converter.GetParser();
+			IParser markupParser = converter.Parser;
 
 			// Turn the contents into HTML, then strip the tags for the mini summary. This needs some works
 			string contentSummary = summary.Content;

@@ -42,8 +42,8 @@ namespace Roadkill.Core.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				InstallManager.SaveWebConfigSettings(summary);
-				InstallManager.SaveDbSettings(summary, false);
+				SettingsManager.SaveWebConfigSettings(summary);
+				SettingsManager.SaveDbSettings(summary, false);
 			}
 			return View(summary);
 		}
@@ -317,7 +317,7 @@ namespace Roadkill.Core.Controllers
 		public ActionResult ClearPages()
 		{
 			TempData["Message"] = "Database cleared";
-			InstallManager.ClearPageTables(RoadkillSettings.ConnectionString);
+			SettingsManager.ClearPageTables(RoadkillSettings.ConnectionString);
 			return RedirectToAction("Tools");
 		}
     }

@@ -14,6 +14,7 @@ namespace Roadkill.Core.Controllers
 	/// <summary>
 	/// Provides all page related functionality, including editing and viewing pages.
 	/// </summary>
+	[HandleError]
 	public class PagesController : ControllerBase
     {
 		/// <summary>

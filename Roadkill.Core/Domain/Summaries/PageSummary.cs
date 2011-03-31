@@ -22,6 +22,9 @@ namespace Roadkill.Core
 		
 		public string Content { get; set; }
 		public int VersionNumber { get; set; }
+		/// <summary>
+		/// Returns true if no Id exists for the page.
+		/// </summary>
 		public bool IsNew
 		{
 			get

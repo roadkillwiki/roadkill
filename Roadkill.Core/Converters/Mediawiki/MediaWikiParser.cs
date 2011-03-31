@@ -1,82 +1,109 @@
-﻿/*
- * 
- * This is an altered version of Tom Laird-McConnell's CreoleParser, changing the bold tag
- * and some (not very robust) alterations for media-wiki markup links. As creole is the default
- * wiki format, hopefully this parser won't be used that often as the media-wiki wiki markup
- * syntax is full of silly edge cases.
- * 
-*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using Roadkill.Core.Converters.Creole;
 
 namespace Roadkill.Core.Converters.MediaWiki
 {
-	public class MediaWikiParser : Creole.CreoleParser
+	/// <summary>
+	/// Implements a parser for Media Wiki syntax markup. The base <see cref="CreoleParser"/>'s behaviour is changed for certain tokens.
+	/// </summary>
+	public class MediaWikiParser : CreoleParser
 	{
 		private static Regex _imageRegex = new Regex(@"\[\[File:(.*?)\]\]", RegexOptions.IgnoreCase);
 
+		/// <summary>
+		/// The start and end tokens to indicate bold text.
+		/// </summary>
 		public override string BoldToken
 		{
 			get { return "'''"; }
 		}
 
+		/// <summary>
+		/// The start end end tokens to indicate italic text.
+		/// </summary>
 		public override string ItalicToken
 		{
 			get { return "''"; }
 		}
 
+		/// <summary>
+		/// The start end end tokens to underline italic text.
+		/// </summary>
 		public override string UnderlineToken
 		{
 			get { return ""; }
 		}
 
+		/// <summary>
+		/// Gets the link start token.
+		/// </summary>
 		public override string LinkStartToken
 		{
 			get { return "[[%URL%"; }
 		}
 
+		/// <summary>
+		/// The ending token for a link.
+		/// </summary>
 		public override string LinkEndToken
 		{
 			get { return "|%LINKTEXT%]]"; }
 		}
 
+		/// <summary>
+		/// The start token for an image.
+		/// </summary>
 		public override string ImageStartToken
 		{
 			get { return "[[File:%FILENAME%"; }
 		}
 
+		/// <summary>
+		/// The end token for an image.
+		/// </summary>
 		public override string ImageEndToken
 		{
 			get { return "|%ALT%]]"; }
 		}
 
+		/// <summary>
+		/// The start token for a bulleted list item.
+		/// </summary>
 		public override string BulletListToken
 		{
 			get { return "*"; }
 		}
 
+		/// <summary>
+		/// The start token for a n umbered list item.
+		/// </summary>
 		public override string NumberedListToken
 		{
 			get { return "#"; }
 		}
 
-		public MediaWikiParser()
-		{
-		}
-
+		/// <summary>
+		/// Processes all bold (''') tokens
+		/// </summary>
 		protected override string _processBoldCreole(string markup)
 		{
 			return _processBracketingCreole("'''", _getStartTag("<strong>"), "</strong>", markup);
 		}
 
+		/// <summary>
+		/// Processes all italic ('') tokens
+		/// </summary>
 		protected override string _processItalicCreole(string markup)
 		{
 			return _processBracketingCreole("''", _getStartTag("<em>"), "</em>", markup);
 		}
 
+		/// <summary>
+		/// Convert Media Wiki markup to HTML.
+		/// </summary>
 		public override string Transform(string transform)
 		{
 			transform = ConvertToCreole(transform);
@@ -84,7 +111,7 @@ namespace Roadkill.Core.Converters.MediaWiki
 		}
 
 		/// <summary>
-		/// Mediawiki image syntax:[[File:filename.extension|options|caption]]
+		/// Does a crude conversion from media wiki format to creole. The output is then parsed as Creole.
 		/// </summary>
 		/// <remarks>
 		/// Unsupported features with mediawiki right now:
@@ -102,6 +129,7 @@ namespace Roadkill.Core.Converters.MediaWiki
 
 			//
 			// Images
+			// Mediawiki image syntax:[[File:filename.extension|options|caption]]
 			//
 			text = _imageRegex.Replace(text, delegate(Match match)
 			{

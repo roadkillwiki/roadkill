@@ -10,12 +10,23 @@ using System.Web;
 
 namespace Roadkill.Core
 {
+	/// <summary>
+	/// Retrieves page data from a ScrewTurn wiki database, and attempts to import the data into Roadkill.
+	/// </summary>
 	public class ScrewTurnImporter : IWikiImporter
 	{
 		private string _connectionString;
 		private string _attachmentsFolder;
+
+		/// <summary>
+		/// Indicates whether the class should convert the page sources to Creole wiki format. This is not implemented.
+		/// </summary>
 		public bool ConvertToCreole { get; set; }
 
+		/// <summary>
+		/// Imports page data from a Screwturn database using the provided connection string.
+		/// </summary>
+		/// <param name="connectionString">The database connection string.</param>
 		public void ImportFromSql(string connectionString)
 		{
 			_connectionString = connectionString;
@@ -56,6 +67,9 @@ namespace Roadkill.Core
 			ImportFiles();
 		}
 
+		/// <summary>
+		/// Saves all files from the File table to the attachments folder.
+		/// </summary>
 		private void ImportFiles()
 		{
 			using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -76,6 +90,9 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Saves a single file to the attachment folder/subfolder.
+		/// </summary>
 		private void SaveFile(string filename, byte[] data)
 		{
 			try
@@ -96,6 +113,9 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Returns all categories in the Screwturn database as a ";" delimited string.
+		/// </summary>
 		private string GetCategories(string page)
 		{
 			using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -103,7 +123,7 @@ namespace Roadkill.Core
 				using (SqlCommand command = connection.CreateCommand())
 				{
 					connection.Open();
-					command.CommandText = "SELECT Category from CategoryBinding_v2 WHERE Page=@Page";
+					command.CommandText = "SELECT Category from CategoryBinding WHERE Page=@Page";
 
 					SqlParameter parameter = new SqlParameter();
 					parameter.ParameterName = "@Page";
@@ -125,19 +145,23 @@ namespace Roadkill.Core
 			}
 		}
 
-		private void AddContent(Page parentPage)
+		/// <summary>
+		/// Extracts and saves all textual content for a page.
+		/// </summary>
+		/// <param name="page">The page the content belongs to.</param>
+		private void AddContent(Page page)
 		{
 			using (SqlConnection connection = new SqlConnection(_connectionString))
 			{
 				using (SqlCommand command = connection.CreateCommand())
 				{
 					connection.Open();
-					command.CommandText = "SELECT * FROM PageContent_v2 WHERE Page = @Page";
+					command.CommandText = "SELECT * FROM PageContent WHERE Page = @Page";
 					
 					SqlParameter parameter = new SqlParameter();
 					parameter.ParameterName = "@Page";
 					parameter.SqlDbType = System.Data.SqlDbType.VarChar;
-					parameter.Value = parentPage.Title;
+					parameter.Value = page.Title;
 					command.Parameters.Add(parameter);
 
 					List<PageContent> categories = new List<PageContent>();
@@ -152,7 +176,7 @@ namespace Roadkill.Core
 							content.Text = reader["Content"].ToString();
 							content.Text = CleanContent(content.Text);
 							content.VersionNumber = ((int)reader["Revision"]) + 1;
-							content.Page = parentPage;
+							content.Page = page;
 
 							NHibernateRepository.Current.SaveOrUpdate<PageContent>(content);
 							hasContent = true;
@@ -167,7 +191,7 @@ namespace Roadkill.Core
 						content.EditedOn = DateTime.Now;
 						content.Text = "";
 						content.VersionNumber = 1;
-						content.Page = parentPage;
+						content.Page = page;
 
 						NHibernateRepository.Current.SaveOrUpdate<PageContent>(content);
 					}
@@ -175,6 +199,9 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Attempts to clean the Screwturn wiki syntax so it loosely matches media wiki format.
+		/// </summary>
 		private string CleanContent(string text)
 		{
 			// Screwturn uses "[" for links instead of "[[", so do a crude replace.

@@ -9,13 +9,13 @@ namespace Roadkill.Core
 {
 	public class Page
 	{
-		/// <summary>
+		/// <remarks>
 		/// Reasons for using an int:
 		/// + Clustered PKs
 		/// + Nice URLs.
 		/// - Losing the certainty of uniqueness like a guid
 		/// - Oracle is not supported.
-		/// </summary>
+		/// </remarks>
 		public virtual int Id { get; set; }
 		public virtual string Title { get; set; }
 		public virtual string CreatedBy { get; set; }

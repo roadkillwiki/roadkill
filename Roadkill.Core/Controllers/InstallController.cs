@@ -116,7 +116,7 @@ namespace Roadkill.Core.Controllers
 				if (ModelState.IsValid)
 				{
 					// Update the web.config first, so all connections can be referenced.
-					InstallManager.SaveWebConfigSettings(summary);
+					SettingsManager.SaveWebConfigSettings(summary);
 
 					// ASP.NET SQL user providers
 					if (!summary.UseWindowsAuth)
@@ -125,7 +125,7 @@ namespace Roadkill.Core.Controllers
 					}
 
 					// Create the roadkill schema and save the configuration settings
-					InstallManager.SaveDbSettings(summary,true);	
+					SettingsManager.SaveDbSettings(summary, true);	
 	
 					// Create a blank search index
 					SearchManager.Current.CreateIndex();

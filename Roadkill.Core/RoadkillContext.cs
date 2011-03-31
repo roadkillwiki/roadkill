@@ -19,27 +19,9 @@ namespace Roadkill.Core
 		private static RoadkillContext _contextForNoneWeb;
 
 		/// <summary>
-		/// Whether the <see cref="RoadkillContext"/> is running inside a web environment. This
-		/// setting is for unit testing, to ensure the <see cref="Current"/> property does not
-		/// use the HttpContext.Current.Items as a store.
-		/// </summary>
-		public static bool IsWeb { get; set; }
-
-		/// <summary>
 		/// The current logged in user name (including domain suffix for Windows authentication).
 		/// </summary>
 		public string CurrentUser { get; set; }
-
-		/// <summary>
-		/// Whether the user is currently logged in or not.
-		/// </summary>
-		public bool IsLoggedIn
-		{
-			get
-			{
-				return !string.IsNullOrWhiteSpace(CurrentUser);
-			}
-		}
 
 		/// <summary>
 		/// Indicates whether the current user is a member of the admin role.
@@ -70,11 +52,6 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The underlying <see cref="PageSummary"/> object for the current page.
-		/// </summary>
-		public PageSummary Page { get; set; }
-
-		/// <summary>
 		/// Returns true if the current page is not the initial dummy 'mainpage'.
 		/// </summary>
 		public bool IsContentPage
@@ -86,7 +63,30 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The current <see cref="RoadkillContext"/>.
+		/// Whether the user is currently logged in or not.
+		/// </summary>
+		public bool IsLoggedIn
+		{
+			get
+			{
+				return !string.IsNullOrWhiteSpace(CurrentUser);
+			}
+		}
+
+		/// <summary>
+		/// Whether the <see cref="RoadkillContext"/> is running inside a web environment. This
+		/// setting is for unit testing, to ensure the <see cref="Current"/> property does not
+		/// use the HttpContext.Current.Items as a store.
+		/// </summary>
+		public static bool IsWeb { get; set; }	
+
+		/// <summary>
+		/// The underlying <see cref="PageSummary"/> object for the current page.
+		/// </summary>
+		public PageSummary Page { get; set; }	
+
+		/// <summary>
+		/// The current <see cref="RoadkillContext"/>. One context exists per request and is stored in the HttpContext.Current.Items.
 		/// </summary>
 		public static RoadkillContext Current
 		{

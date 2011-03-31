@@ -5,6 +5,9 @@ using Roadkill.Core.Search;
 
 namespace Roadkill.Core
 {
+	/// <summary>
+	/// The entry point application (Global.asax) for Roadkill.
+	/// </summary>
 	public class RoadkillApplication : HttpApplication
 	{
 		public static void RegisterRoutes(RouteCollection routes)

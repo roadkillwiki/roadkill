@@ -11,22 +11,22 @@ namespace Roadkill.Core.Converters
 	public class ImageEventArgs : EventArgs
 	{
 		/// <summary>
-		/// The original src
+		/// The original image source url.
 		/// </summary>
 		public string OriginalSrc { get; set; }
 
 		/// <summary>
-		/// The src used inside the HTML
+		/// The source url used inside the HTML.
 		/// </summary>
 		public string Src { get; set; }
 
 		/// <summary>
-		/// The alt tag for the image
+		/// The alt tag for the image.
 		/// </summary>
 		public string Alt { get; set; }
 
 		/// <summary>
-		/// The title tag for the image
+		/// The title tag for the image.
 		/// </summary>
 		public string Title { get; set; }
 

@@ -11,51 +11,62 @@ using System.Text.RegularExpressions;
 
 namespace Roadkill.Core.Converters
 {
+	/// <summary>
+	/// A factory class for converting the system's markup syntax to HTML.
+	/// </summary>
 	public class MarkupConverter
 	{
 		[ThreadStatic]
 		private static IParser _parser;
-
 		private static Regex _imgFileRegex = new Regex("^File:", RegexOptions.IgnoreCase);
 
 		/// <summary>
-		/// Turns the provided markup format into HTML.
+		/// Gets the current <see cref="IParser"/> for the <see cref="RoadkillSettings.MarkupType"/>
 		/// </summary>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		public string ToHtml(string text)
+		/// <returns>An <see cref="IParser"/> for Creole,Markdown or Media wiki formats.</returns>
+		public IParser Parser
 		{
-			IParser parser = GetParser();
-			return parser.Transform(text);
-		}
-
-		public IParser GetParser()
-		{
-			if (_parser == null)
+			get
 			{
-				switch (RoadkillSettings.MarkupType.ToLower())
+				if (_parser == null)
 				{
-					case "markdown":
-						_parser = new MarkdownParser();
-						break;
+					switch (RoadkillSettings.MarkupType.ToLower())
+					{
+						case "markdown":
+							_parser = new MarkdownParser();
+							break;
 
-					case "mediawiki":
-						_parser = new MediaWikiParser();
-						break;
+						case "mediawiki":
+							_parser = new MediaWikiParser();
+							break;
 
-					case "creole":
-					default:
-						_parser = new CreoleParser();
-						break;
+						case "creole":
+						default:
+							_parser = new CreoleParser();
+							break;
+					}
+
+					_parser.LinkParsed += LinkParsed;
+					_parser.ImageParsed += ImageParsed;
 				}
 
-				_parser.LinkParsed += LinkParsed;
-				_parser.ImageParsed += ImageParsed;
+				return _parser;
 			}
-
-			return _parser;
 		}
 
+		/// <summary>
+		/// Turns the wiki markup provided into HTML.
+		/// </summary>
+		/// <param name="text">A wiki markup string, e.g. creole markup.</param>
+		/// <returns>The wiki markup converted to HTML.</returns>
+		public string ToHtml(string text)
+		{
+			return Parser.Transform(text);
+		}
+
+		/// <summary>
+		/// Adds the attachments folder as a prefix to all image URLs before the HTML <img> tag is written.
+		/// </summary>
 		private void ImageParsed(object sender, ImageEventArgs e)
 		{
 			UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
@@ -69,6 +80,9 @@ namespace Roadkill.Core.Converters
 			}
 		}
 
+		/// <summary>
+		/// Handles internal links, and the 'attachment:' prefix for attachment links.
+		/// </summary>
 		private void LinkParsed(object sender, LinkEventArgs e)
 		{
 			UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);

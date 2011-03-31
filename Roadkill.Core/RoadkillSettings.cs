@@ -10,7 +10,7 @@ using System.Reflection;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// Holds information for both application and web.config settings for the Roadkill instance.
+	/// Holds setting information for both application and web.config settings for the Roadkill instance.
 	/// </summary>
 	public class RoadkillSettings
 	{
@@ -19,6 +19,77 @@ namespace Roadkill.Core
 		private static string _ldapUsername;
 		private static string _ldapPassword;
 
+		/// <summary>
+		/// The name of the role or Active Directory security group that users should belong to in order to create,edit,delete pages,
+		/// manage users, manage site settings and use the admin tools.
+		/// </summary>
+		public static string AdminRoleName
+		{
+			get { return RoadkillSection.Current.AdminRoleName; }
+		}
+
+		/// <summary>
+		/// Retrieves a list of the file extensions that are permitted for upload.
+		/// </summary>
+		public static IList<string> AllowedFileTypes
+		{
+			get
+			{
+				return new List<string>(SiteConfiguration.Current.AllowedFileTypes.Split(','));
+			}
+		}
+
+		/// <summary>
+		/// The folder where all uploads (typically image files) are saved to. This should start with "~/" to indicate the site root.
+		/// </summary>
+		public static string AttachmentsFolder
+		{
+			get { return RoadkillSection.Current.AttachmentsFolder; }
+		}
+
+		/// <summary>
+		///  Indicates whether caching (currently NHibernate level 2 caching) is enabled.
+		/// </summary>
+		public static bool CachedEnabled
+		{
+			get { return RoadkillSection.Current.CacheEnabled; }
+		}
+
+		/// <summary>
+		/// Indicates whether textual content for pages is cached.
+		/// </summary>
+		public static bool CacheText
+		{
+			get { return RoadkillSection.Current.CacheText; }
+		}
+
+		/// <summary>
+		/// The connection string to the Roadkill page database.
+		/// </summary>
+		public static string ConnectionString
+		{
+			get { return ConfigurationManager.ConnectionStrings[RoadkillSection.Current.ConnectionStringName].ConnectionString; }
+		}
+
+		/// <summary>
+		/// The name of the role or Active Directory security group that users should belong to in order to create and edit pages.
+		/// </summary>
+		public static string EditorRoleName
+		{
+			get { return RoadkillSection.Current.EditorRoleName; }
+		}
+
+		/// <summary>
+		/// Indicates whether the installation has been completed previously.
+		/// </summary>
+		public static bool Installed
+		{
+			get { return RoadkillSection.Current.Installed; }
+		}
+
+		/// <summary>
+		/// Gets a value indicating whether this windows authentication is being used.
+		/// </summary>
 		public static bool IsWindowsAuthentication
 		{
 			get
@@ -28,75 +99,10 @@ namespace Roadkill.Core
 			}
 		}
 
-		public static string ConnectionString
-		{
-			get { return ConfigurationManager.ConnectionStrings[RoadkillSection.Current.ConnectionStringName].ConnectionString; }
-		}
-
-		public static string RolesConnectionString
-		{
-			get
-			{
-				if (string.IsNullOrEmpty(_rolesConnectionString))
-					_rolesConnectionString = GetRoleManagerConnectionString();
-
-				return _rolesConnectionString;
-			}
-		}
-
-		public static string EditorRoleName
-		{
-			get { return RoadkillSection.Current.EditorRoleName; }
-		}
-
-		public static string AdminRoleName
-		{
-			get { return RoadkillSection.Current.AdminRoleName; }
-		}
-
-		public static string AttachmentsFolder
-		{
-			get { return RoadkillSection.Current.AttachmentsFolder; }
-		}
-
-		public static bool Installed
-		{
-			get { return RoadkillSection.Current.Installed; }
-		}
-
-		public static IList<string> AllowedFileTypes
-		{
-			get 
-			{ 
-				return new List<string>(SiteConfiguration.Current.AllowedFileTypes.Split(',')); 
-			}
-		}
-
-		public static string Title
-		{
-			get { return SiteConfiguration.Current.Title; }
-		}
-
-		public static string MarkupType
-		{
-			get { return SiteConfiguration.Current.MarkupType; }
-		}
-
-		public static string Theme
-		{
-			get { return SiteConfiguration.Current.Theme; }
-		}
-
-		public static bool CachedEnabled
-		{
-			get { return RoadkillSection.Current.CacheEnabled; }
-		}
-
-		public static bool CacheText
-		{
-			get { return RoadkillSection.Current.CacheText; }
-		}
-
+		/// <summary>
+		/// The connection string for Active Directory server if <see cref="IsWindowsAuthentication"/> is true.
+		/// This should start with LDAP:// in uppercase.
+		/// </summary>
 		public static string LdapConnectionString
 		{
 			get
@@ -108,6 +114,9 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// The username to authenticate against the Active Directory with, if <see cref="IsWindowsAuthentication"/> is true.
+		/// </summary>
 		public static string LdapUsername
 		{
 			get
@@ -119,6 +128,9 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// The password to authenticate against the Active Directory with, if <see cref="IsWindowsAuthentication"/> is true.
+		/// </summary>
 		public static string LdapPassword
 		{
 			get
@@ -128,6 +140,44 @@ namespace Roadkill.Core
 
 				return _ldapPassword;
 			}
+		}
+
+		/// <summary>
+		/// The type of wiki markup the Roadkill installation is using. This can be three values: Creole, Markdown, MediaWiki.
+		/// </summary>
+		public static string MarkupType
+		{
+			get { return SiteConfiguration.Current.MarkupType; }
+		}
+
+		/// <summary>
+		/// The connection string to the user/role database.
+		/// </summary>
+		public static string RolesConnectionString
+		{
+			get
+			{
+				if (string.IsNullOrEmpty(_rolesConnectionString))
+					_rolesConnectionString = GetRoleManagerConnectionString();
+
+				return _rolesConnectionString;
+			}
+		}
+
+		/// <summary>
+		/// The name of the theme for the wiki. This should be a folder in the ~/Themes/ directory inside the site root.
+		/// </summary>
+		public static string Theme
+		{
+			get { return SiteConfiguration.Current.Theme; }
+		}
+
+		/// <summary>
+		/// The title of the wiki site, for use with themes.
+		/// </summary>
+		public static string Title
+		{
+			get { return SiteConfiguration.Current.Title; }
 		}
 
 		/// <summary>
@@ -141,6 +191,9 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// The current Roadkill version.
+		/// </summary>
 		public static string Version
 		{
 			get
@@ -149,6 +202,9 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Retrieves an LDAP setting from the system.web/rolemanager/provider element.
+		/// </summary>
 		private static string GetLdapConfigSetting(string name)
 		{
 			Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
@@ -161,6 +217,9 @@ namespace Roadkill.Core
 				return "";
 		}
 
+		/// <summary>
+		/// Retrieves the roles connection string setting from the system.web/rolemanager/provider element.
+		/// </summary>
 		private static string GetRoleManagerConnectionString()
 		{
 			Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");

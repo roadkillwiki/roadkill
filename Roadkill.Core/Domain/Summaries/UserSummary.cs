@@ -9,19 +9,42 @@ using System.Text.RegularExpressions;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// Provides a data summary class for passing between actions. (better summary)
+	/// Provides a data summary class for creating and saving user details.
 	/// </summary>
 	[CustomValidation(typeof(UserSummary), "VerifyNewUsername")]
 	[CustomValidation(typeof(UserSummary), "VerifyPassword")]
 	[CustomValidation(typeof(UserSummary), "VerifyPasswordsMatch")]
 	public class UserSummary
 	{
+		/// <summary>
+		/// The previous username.
+		/// </summary>
 		public string ExistingUsername { get; set; }
+
+		/// <summary>
+		/// The username to change to. For no change this should be the same as <see cref="ExistingUsername"/>
+		/// </summary>
 		[Required]
 		public string NewUsername { get; set; }
+
+		/// <summary>
+		/// The password to change to. Leave blank to keep the existing password.
+		/// </summary>
 		public string Password { get; set; }
+
+		/// <summary>
+		/// The password confirmation, which should be the same value as <see cref="Password"/>
+		/// </summary>
 		public string PasswordConfirmation { get; set; }
+
+		/// <summary>
+		/// Whether this is a new user or an existing user.
+		/// </summary>
 		public bool IsNew { get; set; }
+
+		/// <summary>
+		/// Indicates whether a username change is required.
+		/// </summary>
 		public bool UsernameHasChanged
 		{
 			get

@@ -12,47 +12,6 @@ namespace Roadkill.Core
 {
 	public class PageManager : ManagerBase
 	{
-		public PageSummary Get(int id)
-		{
-			Page page = Pages.FirstOrDefault(p => p.Id == id);
-
-			if (page == null)
-				return null;
-			else
-				return page.ToSummary();
-		}
-
-		public PageSummary FindByTitle(string title)
-		{
-			if (string.IsNullOrEmpty(title))
-				return null;
-
-			Page page = Pages.FirstOrDefault(p => p.Title.ToLower() == title.ToLower());
-
-			if (page == null)
-				return null;
-			else
-				return page.ToSummary();
-		}
-
-		public IEnumerable<PageSummary> AllPages()
-		{
-			IEnumerable<Page> pages = Pages.OrderBy(p => p.Title);
-			IEnumerable<PageSummary> summaries = from page in pages 
-												 select page.ToSummary();
-
-			return summaries;
-		}
-
-		public IEnumerable<PageSummary> AllPagesCreatedBy(string userName)
-		{
-			IEnumerable<Page> pages = Pages.Where(p => p.CreatedBy == userName);
-			IEnumerable<PageSummary> summaries = from page in pages
-												 select page.ToSummary();
-
-			return summaries;
-		}
-
 		public PageSummary AddPage(PageSummary summary)
 		{
 			string currentUser = RoadkillContext.Current.CurrentUser;
@@ -80,33 +39,18 @@ namespace Roadkill.Core
 			return page.ToSummary();
 		}
 
-		public void UpdatePage(PageSummary summary)
+		public IEnumerable<PageSummary> AllPages()
 		{
-			string currentUser = RoadkillContext.Current.CurrentUser;
-			HistoryManager manager = new HistoryManager();
+			IEnumerable<Page> pages = Pages.OrderBy(p => p.Title);
+			IEnumerable<PageSummary> summaries = from page in pages
+												 select page.ToSummary();
 
-			Page page = Pages.FirstOrDefault(p => p.Id == summary.Id);
-			page.Title = summary.Title;
-			page.Tags = summary.Tags.CleanTags();
-			page.ModifiedOn = DateTime.Now;
-			page.ModifiedBy = currentUser;
-			NHibernateRepository.Current.SaveOrUpdate<Page>(page);
-
-			PageContent pageContent = new PageContent();
-			pageContent.VersionNumber = manager.MaxVersion(summary.Id) + 1;
-			pageContent.Text = summary.Content;
-			pageContent.EditedBy = currentUser;
-			pageContent.EditedOn = DateTime.Now;
-			pageContent.Page = page;
-			NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContent);
-
-			// Update the lucene index
-			SearchManager.Current.Update(page);
+			return summaries;
 		}
 
-		public IEnumerable<PageSummary> FindByTag(string tag)
+		public IEnumerable<PageSummary> AllPagesCreatedBy(string userName)
 		{
-			IEnumerable<Page> pages = Pages.Where(p => p.Tags.Contains(tag)).OrderBy(p => p.Title);
+			IEnumerable<Page> pages = Pages.Where(p => p.CreatedBy == userName);
 			IEnumerable<PageSummary> summaries = from page in pages
 												 select page.ToSummary();
 
@@ -134,7 +78,7 @@ namespace Roadkill.Core
 						}
 						else
 						{
-							tags[index].Count++;	
+							tags[index].Count++;
 						}
 					}
 				}
@@ -173,6 +117,62 @@ namespace Roadkill.Core
 				serializer.Serialize(writer, list);
 				return builder.ToString();
 			}
+		}
+
+		public IEnumerable<PageSummary> FindByTag(string tag)
+		{
+			IEnumerable<Page> pages = Pages.Where(p => p.Tags.Contains(tag)).OrderBy(p => p.Title);
+			IEnumerable<PageSummary> summaries = from page in pages
+												 select page.ToSummary();
+
+			return summaries;
+		}
+
+		public PageSummary FindByTitle(string title)
+		{
+			if (string.IsNullOrEmpty(title))
+				return null;
+
+			Page page = Pages.FirstOrDefault(p => p.Title.ToLower() == title.ToLower());
+
+			if (page == null)
+				return null;
+			else
+				return page.ToSummary();
+		}
+
+		public PageSummary Get(int id)
+		{
+			Page page = Pages.FirstOrDefault(p => p.Id == id);
+
+			if (page == null)
+				return null;
+			else
+				return page.ToSummary();
+		}
+
+		public void UpdatePage(PageSummary summary)
+		{
+			string currentUser = RoadkillContext.Current.CurrentUser;
+			HistoryManager manager = new HistoryManager();
+
+			Page page = Pages.FirstOrDefault(p => p.Id == summary.Id);
+			page.Title = summary.Title;
+			page.Tags = summary.Tags.CleanTags();
+			page.ModifiedOn = DateTime.Now;
+			page.ModifiedBy = currentUser;
+			NHibernateRepository.Current.SaveOrUpdate<Page>(page);
+
+			PageContent pageContent = new PageContent();
+			pageContent.VersionNumber = manager.MaxVersion(summary.Id) + 1;
+			pageContent.Text = summary.Content;
+			pageContent.EditedBy = currentUser;
+			pageContent.EditedOn = DateTime.Now;
+			pageContent.Page = page;
+			NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContent);
+
+			// Update the lucene index
+			SearchManager.Current.Update(page);
 		}
 	}
 }
