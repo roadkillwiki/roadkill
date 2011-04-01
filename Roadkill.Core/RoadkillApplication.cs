@@ -49,7 +49,9 @@ namespace Roadkill.Core
 			RegisterRoutes(RouteTable.Routes);
 
 			if (RoadkillSettings.Installed)
-				NHibernateRepository.Current.Configure(RoadkillSettings.ConnectionString,false,RoadkillSettings.CachedEnabled);
+			{
+				NHibernateRepository.Current.Configure(RoadkillSettings.DatabaseType,RoadkillSettings.ConnectionString, false, RoadkillSettings.CachedEnabled);
+			}
 		}
 	}
 }

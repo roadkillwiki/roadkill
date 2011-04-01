@@ -30,26 +30,6 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Gets or sets the name of the connection string in the connectionstrings section.
-		/// </summary>
-		[ConfigurationProperty("connectionStringName", IsRequired = true)]
-		public string ConnectionStringName
-		{
-			get { return (string) this["connectionStringName"]; }
-			set { this["connectionStringName"] = value; }
-		}
-
-		/// <summary>
-		/// Gets or sets the name of the editor role.
-		/// </summary>
-		[ConfigurationProperty("editorRoleName", IsRequired = true)]
-		public string EditorRoleName
-		{
-			get { return (string)this["editorRoleName"]; }
-			set { this["editorRoleName"] = value; }
-		}
-
-		/// <summary>
 		/// Gets or sets the name of the admin role.
 		/// </summary>
 		[ConfigurationProperty("adminRoleName", IsRequired = true)]
@@ -67,16 +47,6 @@ namespace Roadkill.Core
 		{
 			get { return (string)this["attachmentsFolder"]; }
 			set { this["attachmentsFolder"] = value; }
-		}
-
-		/// <summary>
-		/// Gets or sets whether this roadkill instance has been installed.
-		/// </summary>
-		[ConfigurationProperty("installed", IsRequired = true)]
-		public bool Installed
-		{
-			get { return (bool)this["installed"]; }
-			set { this["installed"] = value; }
 		}
 
 		/// <summary>
@@ -98,6 +68,49 @@ namespace Roadkill.Core
 			get { return (bool)this["cacheText"]; }
 			set { this["cacheText"] = value; }
 		}
+
+		/// <summary>
+		/// Gets or sets the name of the connection string in the connectionstrings section.
+		/// </summary>
+		[ConfigurationProperty("connectionStringName", IsRequired = true)]
+		public string ConnectionStringName
+		{
+			get { return (string) this["connectionStringName"]; }
+			set { this["connectionStringName"] = value; }
+		}
+
+		/// <summary>
+		/// The database type for Roadkill. This can be: "sqlserver","sqlite","mysql"
+		/// </summary>
+		[ConfigurationProperty("databaseType", IsRequired = false)]
+		public string DatabaseType
+		{
+			get { return (string)this["databaseType"]; }
+			set { this["databaseType"] = value; }
+		}
+
+
+		/// <summary>
+		/// Gets or sets the name of the editor role.
+		/// </summary>
+		[ConfigurationProperty("editorRoleName", IsRequired = true)]
+		public string EditorRoleName
+		{
+			get { return (string)this["editorRoleName"]; }
+			set { this["editorRoleName"] = value; }
+		}
+
+
+		/// <summary>
+		/// Gets or sets whether this roadkill instance has been installed.
+		/// </summary>
+		[ConfigurationProperty("installed", IsRequired = true)]
+		public bool Installed
+		{
+			get { return (bool)this["installed"]; }
+			set { this["installed"] = value; }
+		}
+
 
 		/// <summary>
 		/// Gets a value indicating whether the <see cref="T:System.Configuration.ConfigurationElement"/> object is read-only,

@@ -9,14 +9,47 @@ using NHibernate.Tool.hbm2ddl;
 using FluentNHibernate.Cfg;
 using NHibernate;
 using NHibernate.Linq;
+using System.Data;
 
 namespace Roadkill.Core
 {
+	/// <summary>
+	/// Represents the database server type that is being used for Roadkill.
+	/// </summary>
+	public enum DatabaseType
+	{
+		/// <summary>
+		/// SQL Server 2005.
+		/// </summary>
+		SqlServer,
+		/// <summary>
+		/// SQLite database.
+		/// </summary>
+		SqlLite,
+		/// <summary>
+		/// MySQL database.
+		/// </summary>
+		MySQL
+	}
+
+	/// <summary>
+	/// A repository class for all NHibernate actions.
+	/// </summary>
 	public class NHibernateRepository
 	{
+		/// <summary>
+		/// The current NHibernate <see cref="ISessionFactory"/>. This is created once, the first the NHibernateRepository is used.
+		/// </summary>
 		public ISessionFactory SessionFactory { get; private set; }
+
+		/// <summary>
+		/// The current Fluent NHibernate <see cref="FluentConfiguration"/> object that represents the current NHibernate configuration.
+		/// </summary>
 		public FluentConfiguration Configuration { get; private set; }
 
+		/// <summary>
+		/// Gets the current <see cref="NHibernateRepository"/> for the application.
+		/// </summary>
 		public static NHibernateRepository Current
 		{
 			get
@@ -25,6 +58,9 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Singleton for Current
+		/// </summary>
 		class Nested
 		{
 			static Nested()
@@ -33,15 +69,51 @@ namespace Roadkill.Core
 			internal static readonly NHibernateRepository Current = new NHibernateRepository();
 		}
 
-		public void Configure(string connection, bool createSchema, bool enableL2Cache)
+		/// <summary>
+		/// Initializes and configures NHibernate using the connection string with Fluent NHibernate.
+		/// </summary>
+		/// <param name="driver">The database used.</param>
+		/// <param name="connection">The connection string to configure with.</param>
+		/// <param name="createSchema">if set to <c>true</c> the database schema is created automatically.</param>
+		/// <param name="enableL2Cache">if set to <c>true</c> NHibernate L2 caching is enabled for all domain objects.</param>
+		public void Configure(DatabaseType databaseType,string connection, bool createSchema, bool enableL2Cache)
 		{
-			MsSqlConfiguration msSql = MsSqlConfiguration.MsSql2008.ConnectionString(connection);
-
-			if (enableL2Cache)
-				msSql = msSql.Cache(c => c.ProviderClass<HashtableCacheProvider>().UseQueryCache());
-
 			Configuration = Fluently.Configure();
-			Configuration.Database(msSql);
+
+			switch (databaseType)
+			{
+				case DatabaseType.SqlLite:
+					{
+						SQLiteConfiguration sqlLite = SQLiteConfiguration.Standard.ConnectionString(connection);
+						if (enableL2Cache)
+							sqlLite = sqlLite.Cache(c => c.ProviderClass<HashtableCacheProvider>().UseQueryCache());
+
+						Configuration.Database(sqlLite);
+					}
+					break;
+
+				case DatabaseType.MySQL:
+					{
+						MySQLConfiguration mySql = MySQLConfiguration.Standard.ConnectionString(connection);
+						if (enableL2Cache)
+							mySql = mySql.Cache(c => c.ProviderClass<HashtableCacheProvider>().UseQueryCache());
+
+						Configuration.Database(mySql);
+					}
+					break;
+			
+				case DatabaseType.SqlServer:
+				default:
+					{
+						MsSqlConfiguration msSql = MsSqlConfiguration.MsSql2005.ConnectionString(connection);
+						if (enableL2Cache)
+							msSql = msSql.Cache(c => c.ProviderClass<HashtableCacheProvider>().UseQueryCache());
+
+						Configuration.Database(msSql);
+					}
+					break;
+			}
+
 
 			Configuration.Mappings(m => m.FluentMappings.AddFromAssemblyOf<Page>());
 
@@ -59,6 +131,12 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Provides a LINQ-to-NHibernate <see cref="IQueryable`T"/> object to query with.
+		/// Session disposal is the responsibility of the caller.
+		/// </summary>
+		/// <typeparam name="T">The domain type to query against.</typeparam>
+		/// <returns><see cref="IQueryable`T"/> for LINQ-to-NHibernate LINQ queries.</returns>
 		public IQueryable<T> Queryable<T>()
 		{
 			IQueryable<T> queryable = SessionFactory.OpenSession().Query<T>();
@@ -107,6 +185,20 @@ namespace Roadkill.Core
 			{
 				session.SaveOrUpdate(obj);
 				session.Transaction.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Runs a query that does not select any rows.
+		/// </summary>
+		/// <param name="sql">The sql query to run</param>
+		/// <returns>The number of rows affected.</returns>
+		public int ExecuteNonQuery(string sql)
+		{
+			using (ISession session = SessionFactory.OpenSession())
+			{
+				ISQLQuery query = session.CreateSQLQuery(sql);
+				return query.ExecuteUpdate();
 			}
 		}
 	}

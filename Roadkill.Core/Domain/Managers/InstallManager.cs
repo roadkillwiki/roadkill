@@ -31,15 +31,16 @@ namespace Roadkill.Core
 			SqlServices.Install(GetDatabaseName(summary.RolesConnectionString), SqlFeatures.Membership | SqlFeatures.RoleManager, summary.RolesConnectionString);
 
 			// Add the admin user, admin role and editor roles.
-			UserManager manager = new UserManager();
-			if (manager.UserExists("Admin"))
+			if (UserManager.Current.UserExists("Admin"))
 				SettingsManager.ClearUserTables(summary.RolesConnectionString);
 
-			manager.AddRoles();
-			string result = manager.AddAdmin("admin", summary.AdminPassword);
-			if (!string.IsNullOrEmpty(result))
+			try
 			{
-				throw new InstallerException(result);
+				UserManager.Current.AddAdmin("admin", summary.AdminPassword);
+			}
+			catch (UserException e)
+			{
+				throw new InstallerException(e.ToString());
 			}
 		}
 

@@ -31,5 +31,16 @@ namespace Roadkill.Core
 				return NHibernateRepository.Current.Queryable<PageContent>();
 			}
 		}
+
+		/// <summary>
+		/// Gets a LINQ-to-NHibernate <see cref="Queryable`User`"/> object to perform queries with.
+		/// </summary>
+		protected IQueryable<User> Users
+		{
+			get
+			{
+				return NHibernateRepository.Current.Queryable<User>();
+			}
+		}
 	}
 }

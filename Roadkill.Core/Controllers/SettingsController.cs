@@ -57,10 +57,9 @@ namespace Roadkill.Core.Controllers
 		[ImportModelState]
 		public ActionResult Users()
 		{
-			UserManager manager = new UserManager();
 			IList<IEnumerable<string>> list = new List<IEnumerable<string>>();
-			list.Add(manager.ListAdmins());
-			list.Add(manager.ListEditors());
+			list.Add(UserManager.Current.ListAdmins());
+			list.Add(UserManager.Current.ListEditors());
 
 			if (RoadkillSettings.IsWindowsAuthentication)
 				return View("UsersForWindows", list);
@@ -79,13 +78,10 @@ namespace Roadkill.Core.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				UserManager manager = new UserManager();
-				string errors = manager.AddAdmin(summary.NewUsername, summary.Password);
+				UserManager.Current.AddUser(summary.NewUsername, summary.Password,true,false);
 
-				if (!string.IsNullOrEmpty(errors))
-				{
-					ModelState.AddModelError("General", errors);
-				}
+				// TODO
+				// ModelState.AddModelError("General", errors);
 			}
 			else
 			{
@@ -107,12 +103,13 @@ namespace Roadkill.Core.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				UserManager manager = new UserManager();
-				string errors = manager.AddEditor(summary.NewUsername, summary.Password);
-
-				if (!string.IsNullOrEmpty(errors))
+				try
 				{
-					ModelState.AddModelError("General", errors);
+					UserManager.Current.AddEditor(summary.NewUsername, summary.Password);
+				}
+				catch (UserException e)
+				{
+					ModelState.AddModelError("General", e.Message);
 				}
 			}
 			else
@@ -136,16 +133,14 @@ namespace Roadkill.Core.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				UserManager manager = new UserManager();
-
 				if (summary.UsernameHasChanged)
 				{
-					manager.ChangeUsername(summary.ExistingUsername, summary.NewUsername);
+					UserManager.Current.ChangeEmail(summary.ExistingUsername, summary.NewUsername);
 					summary.ExistingUsername = summary.NewUsername;
 				}
 
 				if (!string.IsNullOrEmpty(summary.Password))
-					manager.ChangePassword(summary.ExistingUsername, summary.Password, summary.ExistingUsername);
+					UserManager.Current.ChangePassword(summary.ExistingUsername, summary.Password, summary.ExistingUsername);
 			}
 			else
 			{
@@ -163,8 +158,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Redirects to the Users action.</returns>
 		public ActionResult DeleteUser(string id)
 		{
-			UserManager manager = new UserManager();
-			manager.DeleteUser(id);
+			UserManager.Current.DeleteUser(id);
 
 			return RedirectToAction("Users");
 		}

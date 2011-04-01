@@ -33,8 +33,8 @@ namespace Roadkill.Core
 
 			if (string.IsNullOrEmpty(RoadkillSettings.AdminRoleName))
 				return true;
-			
-			if (System.Web.Security.Roles.IsUserInRole(identity.Name, RoadkillSettings.AdminRoleName))
+
+			if (UserManager.Current.IsUserAdmin(identity.Name))
 				return true;
 			else
 				return false;

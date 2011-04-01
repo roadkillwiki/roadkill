@@ -18,17 +18,8 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				using (SqlConnection connection = new SqlConnection(connectionString))
-				{
-					connection.Open();
-					SqlCommand command = connection.CreateCommand();
-
-					command.CommandText = "delete from roadkill_pagecontent";
-					command.ExecuteNonQuery();
-
-					command.CommandText = "delete from roadkill_pages";
-					command.ExecuteNonQuery();
-				}
+				NHibernateRepository.Current.DeleteAll<PageContent>();
+				NHibernateRepository.Current.DeleteAll<Page>();
 			}
 			catch (Exception e)
 			{
@@ -85,7 +76,7 @@ namespace Roadkill.Core
 
 			if (createSchema)
 			{
-				NHibernateRepository.Current.Configure(summary.ConnectionString, true, summary.CacheEnabled);
+				NHibernateRepository.Current.Configure(RoadkillSettings.DatabaseType, summary.ConnectionString, true, summary.CacheEnabled);
 				config = new SiteConfiguration();
 			}
 			else

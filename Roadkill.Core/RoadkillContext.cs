@@ -31,7 +31,7 @@ namespace Roadkill.Core
 			get
 			{
 				if (IsLoggedIn)
-					return Roles.IsUserInRole(RoadkillSettings.AdminRoleName);
+					return UserManager.Current.IsUserEditor(CurrentUser);
 				else
 					return false;
 			}
@@ -45,7 +45,7 @@ namespace Roadkill.Core
 			get
 			{
 				if (IsLoggedIn)
-					return Roles.IsUserInRole(RoadkillSettings.EditorRoleName);
+					return UserManager.Current.IsUserEditor(CurrentUser);
 				else
 					return false;
 			}

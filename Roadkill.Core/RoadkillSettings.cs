@@ -18,6 +18,7 @@ namespace Roadkill.Core
 		private static string _ldapConnectionString;
 		private static string _ldapUsername;
 		private static string _ldapPassword;
+		private static DatabaseType? _databaseType;
 
 		/// <summary>
 		/// The name of the role or Active Directory security group that users should belong to in order to create,edit,delete pages,
@@ -69,6 +70,24 @@ namespace Roadkill.Core
 		public static string ConnectionString
 		{
 			get { return ConfigurationManager.ConnectionStrings[RoadkillSection.Current.ConnectionStringName].ConnectionString; }
+		}
+
+		/// <summary>
+		/// The name of the role or Active Directory security group that users should belong to in order to create and edit pages.
+		/// </summary>
+		public static DatabaseType DatabaseType
+		{
+			get 
+			{
+				if (_databaseType == null)
+				{
+					DatabaseType dbType = DatabaseType.SqlServer;
+					Enum.TryParse<DatabaseType>(RoadkillSection.Current.DatabaseType, true, out dbType);
+					_databaseType = dbType;
+				}
+
+				return _databaseType.Value;
+			}
 		}
 
 		/// <summary>
