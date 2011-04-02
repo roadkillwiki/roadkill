@@ -9,166 +9,156 @@ using System.Web.Management;
 using System.Data.SqlClient;
 using System.IO;
 using System.Web;
+using NHibernate;
 
 namespace Roadkill.Core
 {
+	/// <summary>
+	/// Provides common tasks for changing the Roadkill application settings.
+	/// </summary>
 	public class SettingsManager
 	{
-		public static string ClearPageTables(string connectionString)
+		/// <summary>
+		/// Clears all pages and page content from the database.
+		/// </summary>
+		/// <exception cref="DatabaseException">An NHibernate (database) error occured while clearing the page data.</exception>
+		public static void ClearPageTables()
 		{
 			try
 			{
 				NHibernateRepository.Current.DeleteAll<PageContent>();
 				NHibernateRepository.Current.DeleteAll<Page>();
 			}
-			catch (Exception e)
+			catch (HibernateException)
 			{
-				return e.Message;
+				throw new DatabaseException("An exception occured while clearing all page tables.");
 			}
-
-			return "";
 		}
 
-		public static string ClearUserTables(string connectionString)
+		/// <summary>
+		/// Clears all users from the system.
+		/// </summary>
+		/// <exception cref="DatabaseException">An NHibernate (database) error occured while clearing the user table.</exception>
+		public static void ClearUserTable()
 		{
 			try
 			{
-				using (SqlConnection connection = new SqlConnection(connectionString))
-				{
-					connection.Open();
-					SqlCommand command = connection.CreateCommand();
-
-					command.CommandText = "drop table aspnet_SchemaVersions;";
-					command.ExecuteNonQuery();
-
-					command.CommandText = "drop table aspnet_Membership;";
-					command.ExecuteNonQuery();
-
-					command.CommandText = "drop table aspnet_UsersInRoles;";
-					command.ExecuteNonQuery();
-
-					command.CommandText = "drop table aspnet_Roles;";
-					command.ExecuteNonQuery();
-
-					command.CommandText = "drop table aspnet_Users;";
-					command.ExecuteNonQuery();
-
-					command.CommandText = "drop table aspnet_Users;";
-					command.ExecuteNonQuery();
-				}
+				NHibernateRepository.Current.DeleteAll<User>();
 			}
-			catch (Exception e)
+			catch (HibernateException)
 			{
-				return e.Message;
+				throw new DatabaseException("An exception occured while clearing the user tables.");
 			}
-			
-			return "";
+		}
+
+		/// <summary>
+		/// Creates the database schema tables.
+		/// </summary>
+		/// <param name="summary">The settings data.</param>
+		/// <exception cref="DatabaseException">An NHibernate (database) error occured while creating the database tables.</exception>
+		public static void CreateTables(SettingsSummary summary)
+		{
+			try
+			{
+				NHibernateRepository.Current.Configure(RoadkillSettings.DatabaseType, summary.ConnectionString, true, summary.CacheEnabled);
+			}
+			catch (HibernateException)
+			{
+				throw new DatabaseException("An exception occured while creating the site schema tables.");
+			}
 		}
 
 		/// <summary>
 		/// Saves all settings that are stored in the database, to the configuration table.
 		/// </summary>
-		/// <param name="summary"></param>
-		/// <param name="createSchema"></param>
-		public static void SaveDbSettings(SettingsSummary summary, bool createSchema)
+		/// <param name="summary">Summary data containing the settings.</param>
+		/// <param name="isInstalling">If true, a new <see cref="SiteConfiguration"/> is created, otherwise the current one is updated.</param>
+		/// <exception cref="DatabaseException">An NHibernate (database) error occured while saving the configuration.</exception>
+		public static void SaveSiteConfiguration(SettingsSummary summary,bool isInstalling)
 		{
-			SiteConfiguration config;
-
-			if (createSchema)
+			try
 			{
-				NHibernateRepository.Current.Configure(RoadkillSettings.DatabaseType, summary.ConnectionString, true, summary.CacheEnabled);
-				config = new SiteConfiguration();
+				SiteConfiguration config;
+
+				if (isInstalling)
+				{
+					config = new SiteConfiguration();
+				}
+				else
+				{
+					config = SiteConfiguration.Current;
+				}
+
+				config.Title = summary.SiteName;
+				config.Theme = summary.Theme;
+				config.MarkupType = summary.MarkupType;
+				config.AllowedFileTypes = summary.AllowedExtensions;
+				config.AllowUserSignup = summary.AllowUserSignup;
+				config.Version = RoadkillSettings.Version;
+
+				NHibernateRepository.Current.SaveOrUpdate<SiteConfiguration>(config);
 			}
-			else
+			catch (HibernateException)
 			{
-				config = SiteConfiguration.Current;
+				throw new DatabaseException("An exception occured while saving the site configuration.");
 			}
-
-			config.Title = summary.SiteName;
-			config.Theme = summary.Theme;
-			config.MarkupType = summary.MarkupType;
-			config.AllowedFileTypes = summary.AllowedExtensions;
-			config.AllowUserSignup = summary.AllowUserSignup;
-			config.Version = RoadkillSettings.Version;
-
-			NHibernateRepository.Current.SaveOrUpdate<SiteConfiguration>(config);
 		}
 
+		/// <summary>
+		/// Saves the relevant parts of <see cref="SettingsSummary"/> to the web.config.
+		/// </summary>
+		/// <param name="summary">Summary data containing the settings.</param>
+		/// <exception cref="InstallerException">An error occured writing to or saving the web.config file</exception>
 		public static void SaveWebConfigSettings(SettingsSummary summary)
 		{
-			Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
-
-			if (summary.UseWindowsAuth)
+			try
 			{
-				WriteConfigForLdap(config, summary);
+				Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+
+				if (summary.UseWindowsAuth)
+				{
+					WriteConfigForWindowsAuth(config);
+				}
+				else
+				{
+					WriteConfigForFormsAuth(config, summary);
+				}
+
+				// Create a "Roadkill" connection string, or use the existing one if it exists.
+				ConnectionStringSettings roadkillConnection = new ConnectionStringSettings("Roadkill", summary.ConnectionString);
+
+				if (config.ConnectionStrings.ConnectionStrings["Roadkill"] == null)
+					config.ConnectionStrings.ConnectionStrings.Add(roadkillConnection);
+				else
+					config.ConnectionStrings.ConnectionStrings["Roadkill"].ConnectionString = summary.ConnectionString;
+
+				// The roadkill section
+				RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
+				section.AdminRoleName = summary.AdminRoleName;
+				section.EditorRoleName = summary.EditorRoleName;
+				section.CacheEnabled = summary.CacheEnabled;
+				section.CacheText = summary.CacheText;
+				section.AttachmentsFolder = summary.AttachmentsFolder;
+				section.ConnectionStringName = "Roadkill";
+				section.UseWindowsAuthentication = summary.UseWindowsAuth;
+				section.LdapConnectionString = summary.LdapConnectionString;
+				section.LdapUsername = summary.LdapUsername;
+				section.LdapPassword = summary.LdapPassword;
+				section.Installed = true;
+
+				config.Save(ConfigurationSaveMode.Minimal);
 			}
-			else
+			catch (ConfigurationErrorsException)
 			{
-				WriteConfigForDbUsers(config, summary);
+				throw new InstallerException("An exception occured while updating the settings to the web.config");
 			}
-
-			// Roadkill database connection
-			ConnectionStringSettings roadkillConnection = new ConnectionStringSettings("Roadkill", summary.ConnectionString);
-
-			if (config.ConnectionStrings.ConnectionStrings["Roadkill"] == null)
-				config.ConnectionStrings.ConnectionStrings.Add(roadkillConnection);
-			else
-				config.ConnectionStrings.ConnectionStrings["Roadkill"].ConnectionString = summary.ConnectionString;
-
-			// The roadkill section
-			RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
-			section.AdminRoleName = summary.AdminRoleName;
-			section.EditorRoleName = summary.EditorRoleName;
-			section.CacheEnabled = summary.CacheEnabled;
-			section.CacheText = summary.CacheText;
-			section.AttachmentsFolder = summary.AttachmentsFolder;
-			section.ConnectionStringName = "Roadkill";
-			section.Installed = true;
-
-			config.Save(ConfigurationSaveMode.Minimal);
 		}
 
-		private static void WriteConfigForLdap(Configuration config,SettingsSummary summary)
+		/// <summary>
+		/// Adds web.config settings for windows authentication.
+		/// </summary>
+		private static void WriteConfigForWindowsAuth(Configuration config)
 		{
-			//
-			// LDAP 
-			//
-
-			// Use the ActiveDirectoryMembershipProvider
-			MembershipSection membershipSection = config.GetSection("system.web/membership") as MembershipSection;
-			membershipSection.Providers.Clear();
-			membershipSection.Providers.EmitClear = true;
-			membershipSection.DefaultProvider = "AspNetActiveDirectoryMembershipProvider";
-
-			ProviderSettings memberSettings = new ProviderSettings("AspNetActiveDirectoryMembershipProvider", "System.Web.Security.ActiveDirectoryMembershipProvider");
-			memberSettings.Parameters.Add("connectionStringName", "RoadkillLDAP");
-			memberSettings.Parameters.Add("connectionUsername", summary.LdapUsername);
-			memberSettings.Parameters.Add("connectionPassword", summary.LdapPassword);
-			membershipSection.Providers.Add(memberSettings);
-
-			// Use the Roadkill ActiveDirectoryRoleProvider
-			RoleManagerSection roleSection = config.GetSection("system.web/roleManager") as RoleManagerSection;
-			roleSection.Enabled = true;
-			roleSection.Providers.Clear();
-			roleSection.Providers.EmitClear = true;
-			roleSection.DefaultProvider = "ActiveDirectoryRoleProvider";
-
-			ProviderSettings roleSettings = new ProviderSettings("ActiveDirectoryRoleProvider", "Roadkill.Core.ActiveDirectoryRoleProvider,RoadKill.Core");
-			roleSettings.Parameters.Add("connectionStringName", "RoadkillLDAP");
-			roleSettings.Parameters.Add("connectionUsername", summary.LdapUsername);
-			roleSettings.Parameters.Add("connectionPassword", summary.LdapPassword);
-			roleSection.Providers.Add(roleSettings);
-
-			if (config.ConnectionStrings.ConnectionStrings["RoadkillLDAP"] == null)
-			{
-				ConnectionStringSettings connection = new ConnectionStringSettings("RoadkillLDAP", summary.LdapConnectionString);
-				config.ConnectionStrings.ConnectionStrings.Add(connection);
-			}
-			else
-			{
-				config.ConnectionStrings.ConnectionStrings["RoadkillLDAP"].ConnectionString = summary.LdapConnectionString;
-			}
-
 			// Turn on Windows authentication
 			AuthenticationSection authSection = config.GetSection("system.web/authentication") as AuthenticationSection;
 			authSection.Forms.LoginUrl = "";
@@ -179,60 +169,17 @@ namespace Roadkill.Core
 			anonSection.Enabled = false;
 		}
 
-		private static void WriteConfigForDbUsers(Configuration config, SettingsSummary summary)
+		/// <summary>
+		/// Adds web.config settings for forms authentication.
+		/// </summary>
+		private static void WriteConfigForFormsAuth(Configuration config, SettingsSummary summary)
 		{
-			//
-			// SQL Provider
-			//
-
-			string usersConnectionName = "Roadkill";
-
-			if (summary.RolesConnectionString != summary.ConnectionString)
-			{
-				if (config.ConnectionStrings.ConnectionStrings["RoadkillUsers"] == null)
-				{
-					ConnectionStringSettings connectionUsers = new ConnectionStringSettings("RoadkillUsers", summary.RolesConnectionString);
-					config.ConnectionStrings.ConnectionStrings.Add(connectionUsers);
-					usersConnectionName = "RoadkillUsers";
-				}
-				else
-				{
-					config.ConnectionStrings.ConnectionStrings["RoadkillUsers"].ConnectionString = summary.RolesConnectionString;
-				}
-			}
-
-			// Use the RoadkillMembershipProvider
-			MembershipSection membershipSection = config.GetSection("system.web/membership") as MembershipSection;
-			membershipSection.Providers.Clear();
-			membershipSection.Providers.EmitClear = true;
-			membershipSection.DefaultProvider = "Roadkill";
-
-			ProviderSettings memberSettings = new ProviderSettings("Roadkill", "Roadkill.Core.RoadkillMembershipProvider, Roadkill.Core");
-			memberSettings.Parameters.Add("connectionStringName", usersConnectionName);
-			memberSettings.Parameters.Add("applicationName", "Roadkill");
-			memberSettings.Parameters.Add("minRequiredPasswordLength", "6");
-			memberSettings.Parameters.Add("minRequiredNonalphanumericCharacters", "0");
-			memberSettings.Parameters.Add("passwordStrengthRegularExpression", "");
-			membershipSection.Providers.Add(memberSettings);
-
-			// Use the SqlRoleProvider
-			RoleManagerSection roleSection = config.GetSection("system.web/roleManager") as RoleManagerSection;
-			roleSection.Enabled = true;
-			roleSection.Providers.Clear();
-			roleSection.Providers.EmitClear = true;
-			roleSection.DefaultProvider = "Roadkill";
-
-			ProviderSettings roleSettings = new ProviderSettings("Roadkill", "System.Web.Security.SqlRoleProvider");
-			roleSettings.Parameters.Add("connectionStringName", usersConnectionName);
-			roleSettings.Parameters.Add("applicationName", "Roadkill");
-			roleSection.Providers.Add(roleSettings);
-
 			// Turn on forms authentication
 			AuthenticationSection authSection = config.GetSection("system.web/authentication") as AuthenticationSection;
 			authSection.Mode = AuthenticationMode.Forms;
 			authSection.Forms.LoginUrl = "~/Home/Login";
 
-			// Turn onanonymous auth
+			// Turn on anonymous auth
 			AnonymousIdentificationSection anonSection = config.GetSection("system.web/anonymousIdentification") as AnonymousIdentificationSection;
 			anonSection.Enabled = true;
 		}

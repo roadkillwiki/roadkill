@@ -71,7 +71,9 @@
     <Compile Include="Attributes\AdminRequiredAttribute.cs" />
     <Compile Include="Attributes\EditorRequiredAttribute.cs" />
     <Compile Include="Common\Salt.cs" />
-    <Compile Include="Config\RoadkillSection.cs" />
+    <Compile Include="Exceptions\SearchException.cs" />
+    <Compile Include="Exceptions\DatabaseException.cs" />
+    <Compile Include="RoadkillSection.cs" />
     <Compile Include="Controllers\InstallController.cs" />
     <Compile Include="Controllers\FilesController.cs" />
     <Compile Include="Controllers\WikiController.cs" />
@@ -80,8 +82,9 @@
     <Compile Include="Converters\IParser.cs" />
     <Compile Include="Converters\LinkEventArgs.cs" />
     <Compile Include="Converters\Mediawiki\MediaWikiParser.cs" />
-    <Compile Include="Domain\Security\ActiveDirectoryUserManager.cs" />
-    <Compile Include="Domain\Security\IUserManager.cs" />
+    <Compile Include="Domain\Managers\Security\ActiveDirectoryUserManager.cs" />
+    <Compile Include="Domain\Managers\Security\UserManager.cs" />
+    <Compile Include="Domain\Managers\Security\UserManagerBase.cs" />
     <Compile Include="Domain\Managers\SettingsManager.cs" />
     <Compile Include="Domain\NHibernate\User.cs" />
     <Compile Include="Domain\NHibernate\NHibernateRepository.cs" />
@@ -95,11 +98,9 @@
     <Compile Include="Domain\Managers\Search\SearchResult.cs" />
     <Compile Include="Domain\Summaries\DirectorySummary.cs" />
     <Compile Include="Domain\Summaries\SettingsSummary.cs" />
-    <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Domain\Import\ScrewTurnImporter.cs" />
     <Compile Include="Domain\Import\IWikiImporter.cs" />
     <Compile Include="Domain\Managers\Search\SearchManager.cs" />
-    <Compile Include="Config\ActiveDirectoryRoleProvider.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Domain\Summaries\HistorySummary.cs" />
     <Compile Include="Domain\Summaries\TagSummary.cs" />
@@ -118,11 +119,10 @@
     <Compile Include="Domain\NHibernate\PageContent.cs" />
     <Compile Include="Domain\Managers\HistoryManager.cs" />
     <Compile Include="Domain\Managers\PageManager.cs" />
-    <Compile Include="Domain\Security\UserManager.cs" />
+    <Compile Include="Domain\Managers\Security\SecurityManager.cs" />
     <Compile Include="Domain\NHibernate\Page.cs" />
     <Compile Include="Domain\Summaries\PageSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Exceptions\SaveException.cs" />
     <Compile Include="RoadkillApplication.cs" />
   </ItemGroup>
   <ItemGroup />

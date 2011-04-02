@@ -7,6 +7,9 @@ using NHibernate;
 
 namespace Roadkill.Core
 {
+	/// <summary>
+	/// A page object for use with the NHibernate data store. This object is intended for internal use only.
+	/// </summary>
 	public class Page
 	{
 		/// <remarks>
@@ -60,6 +63,9 @@ namespace Roadkill.Core
 		}
 	}
 
+	/// <summary>
+	/// Configures the Fluent NHibernate mapping for a <see cref="Page"/>
+	/// </summary>
 	public class PageMap : ClassMap<Page>
 	{
 		public PageMap()

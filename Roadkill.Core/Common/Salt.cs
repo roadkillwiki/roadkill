@@ -5,11 +5,21 @@ using System.Text;
 
 namespace Roadkill.Core
 {
+	/// <summary>
+	/// Generates a random 16 character string for a hashed password salt.
+	/// </summary>
 	public class Salt
 	{
 		private static Random _random = new Random();
-		public string Value { get; set; }
 
+		/// <summary>
+		/// The salt value.
+		/// </summary>
+		public string Value { get; private set; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Salt"/> class, generating a new salt value.
+		/// </summary>
 		public Salt()
 		{
 			StringBuilder builder = new StringBuilder(16);

@@ -118,14 +118,15 @@ namespace Roadkill.Core.Controllers
 					// Update the web.config first, so all connections can be referenced.
 					SettingsManager.SaveWebConfigSettings(summary);
 
-					// ASP.NET SQL user providers
+					// Create the roadkill schema and save the configuration settings
+					SettingsManager.CreateTables(summary);
+					SettingsManager.SaveSiteConfiguration(summary, true);	
+
+					// Add a user if we're not using AD.
 					if (!summary.UseWindowsAuth)
 					{
-						InstallManager.InstallAspNetUsersDatabase(summary);
-					}
-
-					// Create the roadkill schema and save the configuration settings
-					SettingsManager.SaveDbSettings(summary, true);	
+						InstallManager.AddAdminUser(summary);
+					}					
 	
 					// Create a blank search index
 					SearchManager.Current.CreateIndex();
@@ -139,10 +140,10 @@ namespace Roadkill.Core.Controllers
 				}
 				catch (Exception ex)
 				{
-					ModelState.AddModelError("An error ocurred installing", ex.Message + e.StackTrace);
+					ModelState.AddModelError("An error ocurred installing", ex.Message + e);
 				}
 
-				ModelState.AddModelError("An error ocurred installing", e.Message + e.StackTrace);
+				ModelState.AddModelError("An error ocurred installing", e.Message + e);
 			}
 
 			return View(summary);

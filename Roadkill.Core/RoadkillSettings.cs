@@ -109,17 +109,16 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Gets a value indicating whether this windows authentication is being used.
 		/// </summary>
-		public static bool IsWindowsAuthentication
+		public static bool UseWindowsAuthentication
 		{
 			get
 			{
-				AuthenticationSection section = ConfigurationManager.GetSection("system.web/authentication") as AuthenticationSection;
-				return section.Mode == AuthenticationMode.Windows;
+				return RoadkillSection.Current.UseWindowsAuthentication;
 			}
 		}
 
 		/// <summary>
-		/// The connection string for Active Directory server if <see cref="IsWindowsAuthentication"/> is true.
+		/// The connection string for Active Directory server if <see cref="UseWindowsAuthentication"/> is true.
 		/// This should start with LDAP:// in uppercase.
 		/// </summary>
 		public static string LdapConnectionString
@@ -134,7 +133,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The username to authenticate against the Active Directory with, if <see cref="IsWindowsAuthentication"/> is true.
+		/// The username to authenticate against the Active Directory with, if <see cref="UseWindowsAuthentication"/> is true.
 		/// </summary>
 		public static string LdapUsername
 		{
@@ -148,7 +147,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The password to authenticate against the Active Directory with, if <see cref="IsWindowsAuthentication"/> is true.
+		/// The password to authenticate against the Active Directory with, if <see cref="UseWindowsAuthentication"/> is true.
 		/// </summary>
 		public static string LdapPassword
 		{
@@ -170,17 +169,11 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The connection string to the user/role database.
+		/// The number of characters each password should be.
 		/// </summary>
-		public static string RolesConnectionString
+		public static int MinimumPasswordLength
 		{
-			get
-			{
-				if (string.IsNullOrEmpty(_rolesConnectionString))
-					_rolesConnectionString = GetRoleManagerConnectionString();
-
-				return _rolesConnectionString;
-			}
+			get { return 6; }
 		}
 
 		/// <summary>

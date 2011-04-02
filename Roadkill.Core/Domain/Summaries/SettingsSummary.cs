@@ -18,7 +18,6 @@ namespace Roadkill.Core
 		public string ConnectionString { get; set; }
 
 		public string AdminPassword { get; set; }
-		public string RolesConnectionString { get; set; }
 
 		public bool UseWindowsAuth { get; set; }
 		public string LdapConnectionString { get; set; }
@@ -67,10 +66,9 @@ namespace Roadkill.Core
 			summary.LdapUsername = RoadkillSettings.LdapUsername;
 			summary.LdapPassword = RoadkillSettings.LdapPassword;
 			summary.MarkupType = RoadkillSettings.MarkupType;
-			summary.RolesConnectionString = RoadkillSettings.RolesConnectionString;
 			summary.SiteName = SiteConfiguration.Current.Title;
 			summary.Theme = RoadkillSettings.Theme;
-			summary.UseWindowsAuth = RoadkillSettings.IsWindowsAuthentication;
+			summary.UseWindowsAuth = RoadkillSettings.UseWindowsAuthentication;
 
 			return summary;
 		}

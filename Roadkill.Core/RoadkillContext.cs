@@ -20,6 +20,7 @@ namespace Roadkill.Core
 
 		/// <summary>
 		/// The current logged in user name (including domain suffix for Windows authentication).
+		/// This is set once a controller action has finished execution.
 		/// </summary>
 		public string CurrentUser { get; set; }
 
@@ -31,7 +32,7 @@ namespace Roadkill.Core
 			get
 			{
 				if (IsLoggedIn)
-					return UserManager.Current.IsUserEditor(CurrentUser);
+					return SecurityManager.Current.IsAdmin(CurrentUser);
 				else
 					return false;
 			}
@@ -45,7 +46,7 @@ namespace Roadkill.Core
 			get
 			{
 				if (IsLoggedIn)
-					return UserManager.Current.IsUserEditor(CurrentUser);
+					return SecurityManager.Current.IsEditor(CurrentUser);
 				else
 					return false;
 			}

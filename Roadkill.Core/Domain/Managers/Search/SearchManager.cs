@@ -15,13 +15,16 @@ using System.Text.RegularExpressions;
 namespace Roadkill.Core.Search
 {
 	/// <summary>
-	/// Lucene.net based search facade.
+	/// Provides searching tasks using a Lucene.net search index.
 	/// </summary>
 	public class SearchManager : ManagerBase
 	{
 		private static string _indexPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\search";
 		private static Regex _removeTagsRegex = new Regex("<(.|\n)*?>");
 
+		/// <summary>
+		/// Gets the current <see cref="SearchManager"/> for the application.
+		/// </summary>
 		public static SearchManager Current
 		{
 			get
@@ -30,58 +33,24 @@ namespace Roadkill.Core.Search
 			}
 		}
 
+		/// <summary>
+		/// Singleton implementation.
+		/// </summary>
 		class Nested
 		{
+			internal static readonly SearchManager Current = new SearchManager();
+
 			static Nested()
 			{
-			}
-			internal static readonly SearchManager Current = new SearchManager();
+			}	
 		}
 
 		/// <summary>
-		/// SQL-based search, which doesn't search the text content.
+		/// Searches the lucene index with the search text.
 		/// </summary>
-		/// <remarks>This may be required for medium-trust installations</remarks>
-		/// <param name="text"></param>
-		/// <returns></returns>
-		public IEnumerable<PageSummary> BasicSearch(string text)
-		{
-			IEnumerable<PageSummary> list = new List<PageSummary>();
-
-			using (ISession session = NHibernateRepository.Current.SessionFactory.OpenSession())
-			{
-
-				IQuery query = NHibernateRepository.Current.SessionFactory.OpenSession()
-					.CreateQuery("FROM Page WHERE Title LIKE :search OR CreatedBy=:search OR tags LIKE :search ");
-
-				query.SetString("search", "%" + text);
-				IList<Page> pages = query.List<Page>();
-				list = from p in pages select p.ToSummary();
-
-				// SQL content search, kept for reference
-				if (false)
-				{
-					string sql = "select pg.*,p.* from roadkill_pagecontent p " +
-						"inner join (select pageid,MAX(versionnumber) as maxversion from roadkill_pagecontent group by pageid) m " +
-						"	on p.pageid = m.pageid and p.VersionNumber = m.maxversion " +
-						"inner join roadkill_pages pg " +
-						"	on pg.Id = p.pageid	" +
-						"WHERE p.Text LIKE :search " +
-						"ORDER BY p.pageid desc";
-
-					ISQLQuery sqlQuery = session.CreateSQLQuery(sql);
-					sqlQuery.SetParameter<string>("search", "%" + text + "%");
-					var results = sqlQuery.List();
-				}
-			}
-
-			return list;
-		}
-
-		/// <summary>
-		///
-		/// </summary>
-		/// <remarks>Syntax: http://lucene.apache.org/java/2_3_2/queryparsersyntax.html#Wildcard </remarks>
+		/// <param name="searchText">The text to search with.</param>
+		/// <remarks>Syntax reference: http://lucene.apache.org/java/2_3_2/queryparsersyntax.html#Wildcard</remarks>
+		/// <exception cref="SearchException">An error occured searching the lucene.net index.</exception>
 		public List<SearchResult> SearchIndex(string searchText)
 		{
 			// This check is for the benefit of the CI builds
@@ -100,64 +69,101 @@ namespace Roadkill.Core.Search
 			}
 			catch (Lucene.Net.QueryParsers.ParseException)
 			{
+				// Catch syntax errors in the search and remove them.
 				searchText = QueryParser.Escape(searchText);
 				query = parser.Parse(searchText);
 			}
 
 			if (query != null)
 			{
-				IndexSearcher searcher = new IndexSearcher(_indexPath);
-				Hits hits = searcher.Search(query);
-
-				for (int i = 0; i < hits.Length(); i++)
+				try
 				{
-					Document document = hits.Doc(i);
+					IndexSearcher searcher = new IndexSearcher(_indexPath);
+					Hits hits = searcher.Search(query);
 
-					DateTime createdOn = DateTime.Now;
-					if (!DateTime.TryParse(document.GetField("createdon").StringValue(),out createdOn))
-						createdOn = DateTime.Now;
-
-					SearchResult result = new SearchResult()
+					for (int i = 0; i < hits.Length(); i++)
 					{
-						Id = int.Parse(document.GetField("id").StringValue()),
-						Title = document.GetField("title").StringValue(),
-						ContentSummary = document.GetField("contentsummary").StringValue(),
-						Tags = document.GetField("tags").StringValue(),
-						CreatedBy = document.GetField("createdby").StringValue(),
-						CreatedOn = createdOn,
-						ContentLength = int.Parse(document.GetField("contentlength").StringValue()),
-						Score = hits.Score(i)
-					};
+						Document document = hits.Doc(i);
 
-					list.Add(result);
+						DateTime createdOn = DateTime.Now;
+						if (!DateTime.TryParse(document.GetField("createdon").StringValue(), out createdOn))
+							createdOn = DateTime.Now;
+
+						SearchResult result = new SearchResult()
+						{
+							Id = int.Parse(document.GetField("id").StringValue()),
+							Title = document.GetField("title").StringValue(),
+							ContentSummary = document.GetField("contentsummary").StringValue(),
+							Tags = document.GetField("tags").StringValue(),
+							CreatedBy = document.GetField("createdby").StringValue(),
+							CreatedOn = createdOn,
+							ContentLength = int.Parse(document.GetField("contentlength").StringValue()),
+							Score = hits.Score(i)
+						};
+
+						list.Add(result);
+					}
+				}
+				catch (Exception)
+				{
+					throw new SearchException("An error occured while searching the index");
 				}
 			}
 
 			return list;
 		}
 
+		/// <summary>
+		/// Adds the specified page to the search index.
+		/// </summary>
+		/// <param name="page">The page to add.</param>
+		/// <exception cref="SearchException">An error occured with the lucene.net IndexWriter while adding the page to the index.</exception>
 		public void Add(Page page)
 		{
-			EnsureDirectoryExists();
+			try
+			{
+				EnsureDirectoryExists();
 
-			StandardAnalyzer analyzer = new StandardAnalyzer();
-			IndexWriter writer = new IndexWriter(_indexPath, analyzer,false);
+				StandardAnalyzer analyzer = new StandardAnalyzer();
+				IndexWriter writer = new IndexWriter(_indexPath, analyzer, false);
 
-			PageSummary summary = page.ToSummary();
-			writer.AddDocument(SummaryToDocument(summary));
+				PageSummary summary = page.ToSummary();
+				writer.AddDocument(SummaryToDocument(summary));
 
-			writer.Optimize();
-			writer.Close();
+				writer.Optimize();
+				writer.Close();
+			}
+			catch (Exception)
+			{
+				throw new SearchException("An error occured while adding page '{0}' to the search index",page.Title);
+			}
 		}
 
+		/// <summary>
+		/// Deletes the specified page from the search indexs.
+		/// </summary>
+		/// <param name="page">The page to remove.</param>
+		/// <exception cref="SearchException">An error occured with the lucene.net IndexReader while deleting the page from the index.</exception>
 		public void Delete(Page page)
 		{
-			StandardAnalyzer analyzer = new StandardAnalyzer();
-			IndexReader reader = IndexReader.Open(_indexPath);
-			reader.DeleteDocuments(new Term("id", page.Id.ToString()));
-			reader.Close();
+			try
+			{
+				StandardAnalyzer analyzer = new StandardAnalyzer();
+				IndexReader reader = IndexReader.Open(_indexPath);
+				reader.DeleteDocuments(new Term("id", page.Id.ToString()));
+				reader.Close();
+			}
+			catch (Exception)
+			{
+				throw new SearchException("An error occured while deleting page '{0}' from the search index", page.Title);
+			}
 		}
 
+		/// <summary>
+		/// Updates the <see cref="Page"/> in the search index, by removing it and re-adding it.
+		/// </summary>
+		/// <param name="page">The page to update</param>
+		/// <exception cref="SearchException">An error occured with lucene.net while deleting the page or inserting it back into the index.</exception>
 		public void Update(Page page)
 		{
 			EnsureDirectoryExists();
@@ -165,30 +171,50 @@ namespace Roadkill.Core.Search
 			Add(page);
 		}
 
+		/// <summary>
+		/// Creates the initial search index based on all pages in the system.
+		/// </summary>
+		/// <exception cref="SearchException">An error occured with the lucene.net IndexWriter while adding the page to the index.</exception>
 		public void CreateIndex()
 		{
 			EnsureDirectoryExists();
 
-			StandardAnalyzer analyzer = new StandardAnalyzer();
-			IndexWriter writer = new IndexWriter(_indexPath, analyzer, true);
-			
-
-			foreach (Page page in Pages.ToList())
+			try
 			{
-				PageSummary summary = page.ToSummary();
-				writer.AddDocument(SummaryToDocument(summary));
-			}
+				StandardAnalyzer analyzer = new StandardAnalyzer();
+				IndexWriter writer = new IndexWriter(_indexPath, analyzer, true);
 
-			writer.Optimize();
-			writer.Close();
+				foreach (Page page in Pages.ToList())
+				{
+					PageSummary summary = page.ToSummary();
+					writer.AddDocument(SummaryToDocument(summary));
+				}
+
+				writer.Optimize();
+				writer.Close();
+			}
+			catch (Exception)
+			{
+				throw new SearchException("An error occured while creating the search index");
+			}
 		}
 
 		private void EnsureDirectoryExists()
 		{
-			if (!Directory.Exists(_indexPath))
-				Directory.CreateDirectory(_indexPath);
+			try
+			{
+				if (!Directory.Exists(_indexPath))
+					Directory.CreateDirectory(_indexPath);
+			}
+			catch (IOException)
+			{
+				throw new SearchException("An error occured while creating the search directory '{0}'", _indexPath);
+			}
 		}
 
+		/// <summary>
+		/// Converts the page summary to a lucene Document with the relevant searchable fields.
+		/// </summary>
 		private Document SummaryToDocument(PageSummary summary)
 		{
 			// Get a summary by parsing the contents

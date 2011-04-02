@@ -63,10 +63,11 @@ namespace Roadkill.Core
 		/// </summary>
 		class Nested
 		{
+			internal static readonly NHibernateRepository Current = new NHibernateRepository();
+
 			static Nested()
 			{
-			}
-			internal static readonly NHibernateRepository Current = new NHibernateRepository();
+			}	
 		}
 
 		/// <summary>

@@ -174,7 +174,7 @@
     <Content Include="Themes\Roadkillwiki.info\Theme.cshtml" />
     <Content Include="Views\Settings\SettingsMenu.cshtml" />
     <Content Include="Views\Settings\Users.cshtml" />
-    <Content Include="Views\Settings\UsersForWindows.cshtml" />
+    <Content Include="Views\Settings\UsersReadOnly.cshtml" />
     <Content Include="Views\Files\Folder.cshtml" />
     <Content Include="Views\Home\BlankLogin.cshtml" />
     <Content Include="Views\Settings\Tools.cshtml" />

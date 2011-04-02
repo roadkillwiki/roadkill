@@ -6,15 +6,15 @@ using System.Text;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// The exception that is thrown when a task for user does not complete correctly. 
+	/// The exception that is thrown when a task for user/role does not complete correctly. 
 	/// </summary>
-	public class UserException : ExceptionBase
+	public class SecurityException : ExceptionBase
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="UserException"/> class.
+		/// Initializes a new instance of the <see cref="SecurityException"/> class.
 		/// </summary>
 		/// <param name="message">The message as an <see cref="IFormattable"/> string.</param>
 		/// <param name="args">Arguments for the message format.</param>
-		public UserException(string message, params string[] args) : base(message,args) { }
+		public SecurityException(string message, params object[] args) : base(message, args) { }
 	}
 }

@@ -6,6 +6,9 @@ using FluentNHibernate.Mapping;
 
 namespace Roadkill.Core
 {
+	/// <summary>
+	/// Contains versioned text data for a page for use with the NHibernate data store. This object is intended for internal use only.
+	/// </summary>
 	public class PageContent
 	{
 		public virtual Guid Id { get; set; }
@@ -16,6 +19,9 @@ namespace Roadkill.Core
 		public virtual int VersionNumber { get; set; }
 	}
 
+	/// <summary>
+	/// Configures the Fluent NHibernate mapping for a <see cref="PageContent"/>
+	/// </summary>
 	public class PageContentMap : ClassMap<PageContent>
 	{
 		public PageContentMap()

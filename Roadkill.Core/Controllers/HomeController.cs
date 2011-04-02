@@ -61,7 +61,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult Login(string username, string password, string fromUrl)
 		{
-			if (UserManager.Current.Authenticate(username, password))
+			if (SecurityManager.Current.Authenticate(username, password))
 			{
 				FormsAuthentication.SetAuthCookie(username, true);
 
@@ -82,7 +82,7 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult Logout()
 		{
-			UserManager.Current.Logout();
+			SecurityManager.Current.Logout();
 			return RedirectToAction("Index");
 		}
 

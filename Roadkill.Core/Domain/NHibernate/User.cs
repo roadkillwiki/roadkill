@@ -8,14 +8,25 @@ using System.Web.Security;
 
 namespace Roadkill.Core
 {
+	/// <summary>
+	/// A user object for use with the NHibernate data store. This object is intended for internal use only.
+	/// </summary>
 	public class User
 	{
-		public Guid Id { get; set; }
-		public string Email { get; set; }
-		public string Password { get; set; }
-		public string Salt { get; set; }
-		public bool IsEditor { get; set; }
-		public bool IsAdmin { get; set; }
+		public virtual Guid Id { get; set; }
+		public virtual string Email { get; set; }
+		public virtual string Password { get; protected set; }
+		public virtual string Salt { get; set; }
+		public virtual bool IsEditor { get; set; }
+		public virtual bool IsAdmin { get; set; }
+		public virtual bool IsActivated { get; set; }
+		public virtual string ActivationKey { get; set; }
+
+		public virtual void SetPassword(string password)
+		{
+			Salt = new Salt();
+			Password = HashPassword(password,Salt);
+		}
 
 		public static string HashPassword(string password,string salt)
 		{
@@ -23,6 +34,9 @@ namespace Roadkill.Core
 		}
 	}
 
+	/// <summary>
+	/// Configures the Fluent NHibernate mapping for a <see cref="User	"/>
+	/// </summary>
 	public class UserMap : ClassMap<User>
 	{
 		public UserMap()
@@ -34,6 +48,8 @@ namespace Roadkill.Core
 			Map(x => x.Salt);
 			Map(x => x.IsEditor);
 			Map(x => x.IsAdmin);
+			Map(x => x.IsActivated);
+			Map(x => x.ActivationKey);
 			Cache.ReadWrite().IncludeAll();
 		}
 	}

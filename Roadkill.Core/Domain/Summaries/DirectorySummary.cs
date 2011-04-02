@@ -8,13 +8,23 @@ using System.IO;
 
 namespace Roadkill.Core
 {
+	/// <summary>
+	/// Provides directory information for a folder in the attachments folder.
+	/// </summary>
 	public class DirectorySummary
 	{
+		/// <summary>
+		/// All files in the directory
+		/// </summary>
 		public List<FileSummary> Files { get; set; }
+
+		/// <summary>
+		/// All child folders in the directory.
+		/// </summary>
 		public List<DirectorySummary> ChildFolders { get; set; }
 
 		/// <summary>
-		/// 
+		/// The name of the folder.
 		/// </summary>
 		public string Name { get; set; }
 
@@ -39,6 +49,10 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DirectorySummary"/> class.
+		/// </summary>
+		/// <param name="diskPath">A full disk path, including the attachments folder.</param>
 		public DirectorySummary(string diskPath)
 		{
 			Name = Path.GetFileName(diskPath);
@@ -64,6 +78,9 @@ namespace Roadkill.Core
 		}
 	}
 
+	/// <summary>
+	/// A single file in a folder in the attachments folder.
+	/// </summary>
 	public class FileSummary
 	{
 		public string Name { get; set; }
@@ -83,7 +100,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// 
+		/// Initializes a new instance of the <see cref="FileSummary"/> class.
 		/// </summary>
 		/// <param name="diskPath">A full disk path, including the attachments folder.</param>
 		public FileSummary(string diskPath)

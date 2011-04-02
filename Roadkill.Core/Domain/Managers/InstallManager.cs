@@ -12,48 +12,54 @@ using System.Web;
 
 namespace Roadkill.Core
 {
-	public class InstallManager
+	/// <summary>
+	/// Provides a set of tasks for the Roadkill installer.
+	/// </summary>
+	internal class InstallManager
 	{
-		public static string GetDatabaseName(string connectionString)
+		/// <summary>
+		/// Adds the admin user.
+		/// </summary>
+		/// <param name="summary">The settings to get the data from.</param>
+		/// <exception cref="InstallerException">An NHibernate (database) error occured while adding the admin user.</exception>
+		public static void AddAdminUser(SettingsSummary summary)
 		{
-			// Turn this into Sqlite and mySQL friendly
-			using (SqlConnection connection = new SqlConnection(connectionString))
-			{
-				return connection.Database;
-			}
-		}
-
-		public static void InstallAspNetUsersDatabase(SettingsSummary summary)
-		{
-			SettingsManager.ClearUserTables(summary.RolesConnectionString);
-
-			// Create the provider database and schema
-			SqlServices.Install(GetDatabaseName(summary.RolesConnectionString), SqlFeatures.Membership | SqlFeatures.RoleManager, summary.RolesConnectionString);
-
-			// Add the admin user, admin role and editor roles.
-			if (UserManager.Current.UserExists("Admin"))
-				SettingsManager.ClearUserTables(summary.RolesConnectionString);
-
 			try
 			{
-				UserManager.Current.AddAdmin("admin", summary.AdminPassword);
+				SecurityManager.Current.AddUser("admin",summary.AdminPassword,true,false);
 			}
-			catch (UserException e)
+			catch (SecurityException)
 			{
-				throw new InstallerException(e.ToString());
+				throw new InstallerException("Failed to add the admin user");
 			}
 		}
 
+		/// <summary>
+		/// Resets the roadkill "installed" property in the web.config for when the installation fails.
+		/// </summary>
+		/// <exception cref="InstallerException">An web.config related error occured while reseting the install state.</exception>
 		public static void ResetInstalledState()
 		{
-			Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+			try
+			{
+				Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 
-			RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
-			section.Installed = false;
+				RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
+				section.Installed = false;
 
-			config.Save();
+				config.Save();
+			}
+			catch (ConfigurationErrorsException)
+			{
+				throw new InstallerException("An exception occured while resetting web.config install state to false.");
+			}
 		}
 
+		/// <summary>
+		/// Tests if the attachments folder provided can be written to, by writing a file to the folder.
+		/// </summary>
+		/// <param name="folder">The folder path which should include "~/" at the start.</param>
+		/// <returns>Any error messages or an empty string if no errors occured.</returns>
 		public static string TestAttachments(string folder)
 		{
 			string errors = "";
@@ -90,16 +96,17 @@ namespace Roadkill.Core
 			return errors;
 		}
 
+		/// <summary>
+		/// Tests the database connection.
+		/// </summary>
+		/// <param name="connectionString">The connection string.</param>
+		/// <returns>Any error messages or an empty string if no errors occured.</returns>
 		public static string TestConnection(string connectionString)
 		{
 			try
 			{
-				// Turn this into Sqlite and mySQL friendly
-				using (SqlConnection connection = new SqlConnection(connectionString))
-				{
-					connection.Open();
-				}
-
+				// TODO: Needs a database type
+				NHibernateRepository.Current.Configure(DatabaseType.SqlServer, connectionString, true, false);
 				return "";
 			}
 			catch (Exception e)
@@ -108,6 +115,10 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Tests the web.config can be saved to by changing the "installed" to false.
+		/// </summary>
+		/// <returns>Any error messages or an empty string if no errors occured.</returns>
 		public static string TestSaveWebConfig()
 		{
 			try
@@ -122,6 +133,14 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Tests a LDAP (Active Directory) connection.
+		/// </summary>
+		/// <param name="connectionString">The LDAP connection string (requires LDAP:// at the start).</param>
+		/// <param name="username">The ldap username.</param>
+		/// <param name="password">The ldap password.</param>
+		/// <param name="groupName">The Active Directory group name to test against. Defaults to "Users" if empty</param>
+		/// <returns>Any error messages or an empty string if no errors occured.</returns>
 		public static string TestLdapConnection(string connectionString, string username, string password, string groupName)
 		{
 			if (string.IsNullOrEmpty(connectionString))

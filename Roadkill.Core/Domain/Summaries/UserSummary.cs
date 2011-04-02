@@ -64,7 +64,7 @@ namespace Roadkill.Core
 			// Only check if the username has changed
 			if (user.IsNew || user.ExistingUsername != user.NewUsername)
 			{
-				if (Membership.FindUsersByName(user.NewUsername).Count > 0)
+				if (SecurityManager.Current.UserExists(user.NewUsername))
 				{
 					return new ValidationResult(string.Format("{0} already exists as a user", user.NewUsername));
 				}
@@ -108,18 +108,9 @@ namespace Roadkill.Core
 			}
 			else
 			{
-				if (string.IsNullOrEmpty(user.Password) || user.Password.Length < Membership.MinRequiredPasswordLength)
+				if (string.IsNullOrEmpty(user.Password) || user.Password.Length < RoadkillSettings.MinimumPasswordLength)
 				{
-					return new ValidationResult(string.Format("The password is less than {0} characters", Membership.MinRequiredPasswordLength));
-				}
-				else if (!string.IsNullOrEmpty(Membership.PasswordStrengthRegularExpression))
-				{
-					Regex regex = new Regex(Membership.PasswordStrengthRegularExpression);
-
-					if (!regex.IsMatch(user.Password))
-					{
-						return new ValidationResult("The password does not meet the minimum password strength.");
-					}		
+					return new ValidationResult(string.Format("The password is less than {0} characters", RoadkillSettings.MinimumPasswordLength));
 				}
 			}
 

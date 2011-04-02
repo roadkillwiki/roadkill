@@ -7,6 +7,6 @@ namespace Roadkill.Core
 {
 	public class InstallerException : ExceptionBase
 	{
-		public InstallerException(string message, params string[] args) : base(message, args) { }
+		public InstallerException(string message, params object[] args) : base(message, args) { }
 	}
 }

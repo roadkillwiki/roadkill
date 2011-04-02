@@ -43,7 +43,7 @@ namespace Roadkill.Core.Controllers
 			if (ModelState.IsValid)
 			{
 				SettingsManager.SaveWebConfigSettings(summary);
-				SettingsManager.SaveDbSettings(summary, false);
+				SettingsManager.SaveSiteConfiguration(summary, false);
 			}
 			return View(summary);
 		}
@@ -58,11 +58,11 @@ namespace Roadkill.Core.Controllers
 		public ActionResult Users()
 		{
 			IList<IEnumerable<string>> list = new List<IEnumerable<string>>();
-			list.Add(UserManager.Current.ListAdmins());
-			list.Add(UserManager.Current.ListEditors());
+			list.Add(SecurityManager.Current.ListAdmins());
+			list.Add(SecurityManager.Current.ListEditors());
 
-			if (RoadkillSettings.IsWindowsAuthentication)
-				return View("UsersForWindows", list);
+			if (SecurityManager.Current.IsReadonly)
+				return View("UsersReadOnly", list);
 			else
 				return View(list);
 		}
@@ -78,7 +78,7 @@ namespace Roadkill.Core.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				UserManager.Current.AddUser(summary.NewUsername, summary.Password,true,false);
+				SecurityManager.Current.AddUser(summary.NewUsername, summary.Password, true, false);
 
 				// TODO
 				// ModelState.AddModelError("General", errors);
@@ -105,9 +105,9 @@ namespace Roadkill.Core.Controllers
 			{
 				try
 				{
-					UserManager.Current.AddEditor(summary.NewUsername, summary.Password);
+					SecurityManager.Current.AddUser(summary.NewUsername, summary.Password, false, true);
 				}
-				catch (UserException e)
+				catch (SecurityException e)
 				{
 					ModelState.AddModelError("General", e.Message);
 				}
@@ -135,12 +135,12 @@ namespace Roadkill.Core.Controllers
 			{
 				if (summary.UsernameHasChanged)
 				{
-					UserManager.Current.ChangeEmail(summary.ExistingUsername, summary.NewUsername);
+					SecurityManager.Current.ChangeEmail(summary.ExistingUsername, summary.NewUsername);
 					summary.ExistingUsername = summary.NewUsername;
 				}
 
 				if (!string.IsNullOrEmpty(summary.Password))
-					UserManager.Current.ChangePassword(summary.ExistingUsername, summary.Password, summary.ExistingUsername);
+					SecurityManager.Current.ChangePassword(summary.ExistingUsername, summary.Password, summary.ExistingUsername);
 			}
 			else
 			{
@@ -158,8 +158,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Redirects to the Users action.</returns>
 		public ActionResult DeleteUser(string id)
 		{
-			UserManager.Current.DeleteUser(id);
-
+			SecurityManager.Current.DeleteUser(id);
 			return RedirectToAction("Users");
 		}
 
@@ -311,7 +310,7 @@ namespace Roadkill.Core.Controllers
 		public ActionResult ClearPages()
 		{
 			TempData["Message"] = "Database cleared";
-			SettingsManager.ClearPageTables(RoadkillSettings.ConnectionString);
+			SettingsManager.ClearPageTables();
 			return RedirectToAction("Tools");
 		}
     }

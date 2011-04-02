@@ -7,6 +7,9 @@ using NHibernate;
 
 namespace Roadkill.Core
 {
+	/// <summary>
+	/// All application configuration data stored with NHibernate, that does not require an application restart when changed. This object is intended for internal use only.
+	/// </summary>
 	public class SiteConfiguration
 	{
 		private static Guid _configurationId = new Guid("b960e8e5-529f-4f7c-aee4-28eb23e13dbd");

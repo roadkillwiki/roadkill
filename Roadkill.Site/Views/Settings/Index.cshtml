@@ -89,16 +89,6 @@
 	<!-- SQL users -->
 	 <div id="aspnetuser-settings" class="hidden">
 		<div class="row">
-			<label for="RolesConnectionString">Users/roles connection string:</label>
-			<div class="left textbox">
-				@(Html.TextBoxFor<SettingsSummary, string>(s => s.RolesConnectionString, new { @class = "validate[required]" }))
-			</div>
-			<div class="help right">
-				<a href="javascript:;" rel="The database connection for users/roles.This should usually be the same as the database connection string"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-			</div>
-			<br class="clear" />
-		</div>
-		<div class="row">
 			<label for="AllowUserSignup">Allow user signups:</label>
 			<div class="left checkbox">
 				@(Html.CheckBoxFor<SettingsSummary>(s => s.AllowUserSignup))

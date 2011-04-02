@@ -36,7 +36,7 @@ namespace Roadkill.Core
 		/// <returns>If windows authentication is being used, an empty string is returned.</returns>
 		public static MvcHtmlString LoginLink(this HtmlHelper helper, string prefix, string suffix)
 		{
-			if (RoadkillSettings.IsWindowsAuthentication)
+			if (RoadkillSettings.UseWindowsAuthentication)
 				return MvcHtmlString.Empty;
 
 			string link = "";
