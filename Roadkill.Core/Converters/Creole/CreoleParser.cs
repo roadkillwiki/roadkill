@@ -233,6 +233,9 @@ namespace Roadkill.Core.Converters.Creole
 		/// <returns>HTML</returns>
 		public virtual string Transform(string transform)
 		{
+			if (string.IsNullOrEmpty(transform))
+				return "";
+
 			return _processAllMarkup(transform);
 		}
 

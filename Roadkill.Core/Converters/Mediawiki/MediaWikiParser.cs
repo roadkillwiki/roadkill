@@ -106,6 +106,9 @@ namespace Roadkill.Core.Converters.MediaWiki
 		/// </summary>
 		public override string Transform(string transform)
 		{
+			if (string.IsNullOrEmpty(transform))
+				return "";
+
 			transform = ConvertToCreole(transform);
 			return base.Transform(transform);
 		}
