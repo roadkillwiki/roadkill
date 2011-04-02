@@ -64,12 +64,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\ImportModelStateAttribute.cs" />
-    <Compile Include="Attributes\ExportModelStateAttribute.cs" />
+    <Compile Include="Controllers\Attributes\ImportModelStateAttribute.cs" />
+    <Compile Include="Controllers\Attributes\ExportModelStateAttribute.cs" />
     <Compile Include="Common\HtmlLinkExtensions.cs" />
     <Compile Include="Common\LowercaseRoute.cs" />
-    <Compile Include="Attributes\AdminRequiredAttribute.cs" />
-    <Compile Include="Attributes\EditorRequiredAttribute.cs" />
+    <Compile Include="Controllers\Attributes\AdminRequiredAttribute.cs" />
+    <Compile Include="Controllers\Attributes\EditorRequiredAttribute.cs" />
     <Compile Include="Common\Salt.cs" />
     <Compile Include="Exceptions\SearchException.cs" />
     <Compile Include="Exceptions\DatabaseException.cs" />
