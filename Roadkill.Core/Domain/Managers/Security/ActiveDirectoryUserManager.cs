@@ -50,7 +50,7 @@ namespace Roadkill.Core
 			// Remove the "LDAP://" part for the domain name, as the PrincipleContext doesn't like it.
 			int length = "ldap://".Length;
 			if (!_connectionString.ToLower().StartsWith("ldap://") || _connectionString.Length < length)
-				throw new SecurityException(string.Format("The LDAP connection string: '{0}' does not appear to be a valid LDAP. A correct connection string example is LDAP://dc=megacorp,dc=com.", _connectionString));
+				throw new SecurityException(null,"The LDAP connection string: '{0}' does not appear to be a valid LDAP. A correct connection string example is LDAP://dc=megacorp,dc=com.", _connectionString);
 
 			_domainName = _connectionString.Substring(length);
 		}
@@ -70,9 +70,9 @@ namespace Roadkill.Core
 				List<string> users = GetUsersInGroup(_adminRolename);
 				return users.Contains(email);
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-				throw new SecurityException("An error occured querying IsAdmin with Active Directory");
+				throw new SecurityException(ex, "An error occured querying IsAdmin with Active Directory");
 			}
 		}
 
@@ -91,9 +91,9 @@ namespace Roadkill.Core
 				List<string> users = GetUsersInGroup(_editorRolename);
 				return users.Contains(email);
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-				throw new SecurityException("An error occured querying IsEditor with Active Directory");
+				throw new SecurityException(ex, "An error occured querying IsEditor with Active Directory");
 			}
 		}
 
@@ -124,9 +124,9 @@ namespace Roadkill.Core
 							}
 						}
 					}
-					catch (Exception)
+					catch (Exception ex)
 					{
-						throw new SecurityException("Unable to query Active Directory.");
+						throw new SecurityException(ex, "Unable to query Active Directory.");
 					}
 				}
 

@@ -13,7 +13,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Gets a LINQ-to-NHibernate <see cref="Queryable`Page`"/> object to perform queries with.
 		/// </summary>
-		protected IQueryable<Page> Pages
+		internal IQueryable<Page> Pages
 		{
 			get
 			{
@@ -24,7 +24,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Gets a LINQ-to-NHibernate <see cref="Queryable`PageContent`"/> object to perform queries with.
 		/// </summary>
-		protected IQueryable<PageContent> PageContents
+		internal IQueryable<PageContent> PageContents
 		{
 			get
 			{
@@ -35,7 +35,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Gets a LINQ-to-NHibernate <see cref="Queryable`User`"/> object to perform queries with.
 		/// </summary>
-		protected IQueryable<User> Users
+		internal IQueryable<User> Users
 		{
 			get
 			{

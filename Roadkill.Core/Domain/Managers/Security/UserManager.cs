@@ -15,7 +15,7 @@ namespace Roadkill.Core
 	/// <summary>
 	/// Provides user management using the Roadkill database (via NHibernate).
 	/// </summary>
-	public class UserManager: UserManagerBase
+	public class UserManager : UserManagerBase
 	{
 		/// <summary>
 		/// Indicates whether this UserManager can perform deletes, updates or inserts for users.
@@ -71,9 +71,9 @@ namespace Roadkill.Core
 					return false;
 				}
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new SecurityException("An error occured while adding the new user {0}", email);
+				throw new SecurityException(ex, "An error occured while adding the new user {0}", email);
 			}
 		}
 
@@ -99,9 +99,9 @@ namespace Roadkill.Core
 
 				return false;
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new SecurityException("An error occurred authentication user {0}", email);
+				throw new SecurityException(ex, "An error occurred authentication user {0}", email);
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace Roadkill.Core
 			try
 			{
 				if (string.IsNullOrEmpty(newPassword))
-					throw new SecurityException("Cannot change the password as it's empty.");
+					throw new SecurityException(null, "Cannot change the password as it's empty.");
 
 				User user = Users.FirstOrDefault(u => u.Email == email);
 				if (user != null)
@@ -126,9 +126,9 @@ namespace Roadkill.Core
 					NHibernateRepository.Current.SaveOrUpdate<User>(user);
 				}
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new SecurityException("An error occured changing the password for {0}", email);
+				throw new SecurityException(ex, "An error occured changing the password for {0}", email);
 			}
 		}
 
@@ -150,7 +150,7 @@ namespace Roadkill.Core
 				{
 					user.Email = newEmail;
 					NHibernateRepository.Current.SaveOrUpdate<User>(user);
-					
+
 					return true;
 				}
 				else
@@ -158,9 +158,9 @@ namespace Roadkill.Core
 					return false;
 				}
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new SecurityException("An error occured changing the email from {0} to {1}", oldEmail,newEmail);
+				throw new SecurityException(ex, "An error occured changing the email from {0} to {1}", oldEmail, newEmail);
 			}
 		}
 
@@ -183,7 +183,7 @@ namespace Roadkill.Core
 				{
 					if (string.IsNullOrWhiteSpace(newPassword))
 					{
-						throw new SecurityException("Changing password failed. The new password is blank.");
+						throw new SecurityException(null, "Changing password failed. The new password is blank.");
 					}
 
 					user.Salt = new Salt();
@@ -197,9 +197,9 @@ namespace Roadkill.Core
 					return false;
 				}
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new SecurityException("An error occured changing the password for {0}", email);
+				throw new SecurityException(ex, "An error occured changing the password for {0}", email);
 			}
 		}
 
@@ -226,9 +226,9 @@ namespace Roadkill.Core
 					return false;
 				}
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new SecurityException("An error occured deleting the user with the email {0}", email);
+				throw new SecurityException(ex, "An error occured deleting the user with the email {0}", email);
 			}
 		}
 
@@ -246,9 +246,9 @@ namespace Roadkill.Core
 			{
 				return Users.FirstOrDefault(u => u.Email == email && u.IsAdmin) != null;
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new SecurityException("An error occured checking if {0} is an admin", email);
+				throw new SecurityException(ex, "An error occured checking if {0} is an admin", email);
 			}
 		}
 
@@ -266,9 +266,9 @@ namespace Roadkill.Core
 			{
 				return Users.FirstOrDefault(u => u.Email == email && u.IsEditor) != null;
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new SecurityException("An error occured checking if {0} is an editor", email);
+				throw new SecurityException(ex, "An error occured checking if {0} is an editor", email);
 			}
 		}
 
@@ -285,9 +285,9 @@ namespace Roadkill.Core
 			{
 				return from user in Users.Where(u => u.IsAdmin) select user.Email;
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new SecurityException("An error occured listing all the admins");
+				throw new SecurityException(ex, "An error occured listing all the admins");
 			}
 		}
 
@@ -304,9 +304,9 @@ namespace Roadkill.Core
 			{
 				return from user in Users.Where(u => u.IsEditor) select user.Email;
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new SecurityException("An error occured listing all the editor");
+				throw new SecurityException(ex, "An error occured listing all the editor");
 			}
 		}
 
@@ -360,9 +360,9 @@ namespace Roadkill.Core
 					NHibernateRepository.Current.SaveOrUpdate<User>(user);
 				}
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new SecurityException("An error occured adding the editor {0}", email);
+				throw new SecurityException(ex, "An error occured adding the editor {0}", email);
 			}
 		}
 
@@ -382,9 +382,9 @@ namespace Roadkill.Core
 					NHibernateRepository.Current.SaveOrUpdate<User>(user);
 				}
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new SecurityException("An error occured adding the admin {0}", email);
+				throw new SecurityException(ex, "An error occured adding the admin {0}", email);
 			}
 		}
 
@@ -403,9 +403,9 @@ namespace Roadkill.Core
 				User user = Users.FirstOrDefault(u => u.Email == email);
 				return (user != null);
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new SecurityException("An error occured checking if user {0} exists", email);
+				throw new SecurityException(ex, "An error occured checking if user {0} exists", email);
 			}
 		}
 	}

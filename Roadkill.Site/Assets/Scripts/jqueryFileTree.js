@@ -28,7 +28,11 @@
 // TERMS OF USE
 // 
 // This plugin is dual-licensed under the GNU General Public License and the MIT License and
-// is copyright 2008 A Beautiful Site, LLC. 
+// is copyright 2008 A Beautiful Site, LLC.
+//
+
+//
+// This has been altered to add additional functionality for Roadkill.
 //
 if (jQuery) (function ($)
 {

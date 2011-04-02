@@ -1,5 +1,13 @@
 ﻿/// <reference path="jquery-1.4.1-vsdoc.js" />
 
+/**
+Event bindings and handlers for the edit text area toolbar.
+*/
+
+
+/**
+ Binds the toolbar button clicks.
+*/
 function initWYSIWYG()
 {
 	$(".wysiwyg-bold").click(function ()
@@ -56,6 +64,9 @@ function initWYSIWYG()
 	});
 }
 
+/**
+Adds bold,italic and underline at the current selection point, e.g. **|**
+*/
 function addStyling(styleCode)
 {
 	var range = $("#Content").getSelection();
@@ -76,6 +87,9 @@ function addStyling(styleCode)
 	}
 }
 
+/**
+Adds a heading before and after the current selection point, e.g. ===|====
+*/
 function addHeading(styleCode)
 {
 	var range = $("#Content").getSelection();
@@ -91,6 +105,9 @@ function addHeading(styleCode)
 	}
 }
 
+/**
+Adds an image tag to the current caret location.
+*/
 function addImage(image)
 {
 	var range = $("#Content").getSelection();
@@ -115,6 +132,9 @@ function addImage(image)
 	}
 }
 
+/**
+Adds a hyperlink tag to the current caret location.
+*/
 function addLink()
 {
 	var range = $("#Content").getSelection();
@@ -138,6 +158,9 @@ function addLink()
 	}
 }
 
+/**
+Adds a bullet or numbered list item onto the next line after the current caret location.
+*/
 function addListItem(styleCode)
 {
 	var range = $("#Content").getSelection();

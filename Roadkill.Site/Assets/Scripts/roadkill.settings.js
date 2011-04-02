@@ -1,18 +1,26 @@
 /// <reference path="jquery-1.4.1-vsdoc.js" />
+
+
+/**
+Event bindings and handlers for the admin settings page.
+*/
 $(document).ready(function ()
 {
 	bindConfirmDelete(); //in roadkill.js
 	bindUserButtons();
 });
 
+/**
+Event bindings and handlers for the the links on the settings->user page.
+*/
 function bindUserButtons()
 {
+	// Add admin link
 	$("#addadmin").click(function ()
 	{
-		var anchor = $(this);
-		$("form#userform").attr("action", ROADKILL_ADDADMIN_FORMACTION);
-
 		$("#userdialogContainer h2").html("Add admin");
+		$("form#userform").attr("action", ROADKILL_ADDADMIN_FORMACTION);
+		
 		$("#NewUsername").val("");
 		$("#IsNew").val("True");
 
@@ -20,12 +28,12 @@ function bindUserButtons()
 		$("#userdialogContainer").modal();
 	});
 
+	// Add editor link
 	$("#addeditor").click(function ()
 	{
-		var anchor = $(this);
-		$("form#userform").attr("action", ROADKILL_ADDEDITOR_FORMACTION);
-
 		$("#userdialogContainer h2").html("Add editor");
+		$("form#userform").attr("action", ROADKILL_ADDEDITOR_FORMACTION);
+		
 		$("#NewUsername").val("");
 		$("#IsNew").val("True");
 
@@ -33,21 +41,25 @@ function bindUserButtons()
 		$("#userdialogContainer").modal();
 	});
 
+	// Edit link for each user
 	$(".settingstable .edit a").click(function ()
 	{
-		var anchor = $(this);
+		$("#userdialogContainer h2").html("Edit User");
 		$("form#userform").attr("action", ROADKILL_EDITUSER_FORMACTION);
 
+		var anchor = $(this);
 		$("#ExistingUsername").val(anchor.attr("title"));
 		$("#NewUsername").val(anchor.attr("title"));
 		$("#IsNew").val("False");
-
-		$("#userdialogContainer h2").html("Edit User");
+		
 		$(".validation-summary-errors").hide();
 		$("#userdialogContainer").modal();
 	});
 }
 
+/**
+Changes the user dialog based on the action (add admin,add editor, edit user).
+*/
 function showUserModal(action)
 {
 	if(action == "addadmin")

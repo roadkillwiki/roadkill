@@ -29,9 +29,9 @@ namespace Roadkill.Core
 				NHibernateRepository.Current.DeleteAll<PageContent>();
 				NHibernateRepository.Current.DeleteAll<Page>();
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new DatabaseException("An exception occured while clearing all page tables.");
+				throw new DatabaseException(ex, "An exception occured while clearing all page tables.");
 			}
 		}
 
@@ -45,9 +45,9 @@ namespace Roadkill.Core
 			{
 				NHibernateRepository.Current.DeleteAll<User>();
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new DatabaseException("An exception occured while clearing the user tables.");
+				throw new DatabaseException(ex, "An exception occured while clearing the user tables.");
 			}
 		}
 
@@ -62,9 +62,9 @@ namespace Roadkill.Core
 			{
 				NHibernateRepository.Current.Configure(RoadkillSettings.DatabaseType, summary.ConnectionString, true, summary.CacheEnabled);
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new DatabaseException("An exception occured while creating the site schema tables.");
+				throw new DatabaseException(ex, "An exception occured while creating the site schema tables.");
 			}
 		}
 
@@ -74,7 +74,7 @@ namespace Roadkill.Core
 		/// <param name="summary">Summary data containing the settings.</param>
 		/// <param name="isInstalling">If true, a new <see cref="SiteConfiguration"/> is created, otherwise the current one is updated.</param>
 		/// <exception cref="DatabaseException">An NHibernate (database) error occured while saving the configuration.</exception>
-		public static void SaveSiteConfiguration(SettingsSummary summary,bool isInstalling)
+		public static void SaveSiteConfiguration(SettingsSummary summary, bool isInstalling)
 		{
 			try
 			{
@@ -98,9 +98,9 @@ namespace Roadkill.Core
 
 				NHibernateRepository.Current.SaveOrUpdate<SiteConfiguration>(config);
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new DatabaseException("An exception occured while saving the site configuration.");
+				throw new DatabaseException(ex, "An exception occured while saving the site configuration.");
 			}
 		}
 
@@ -148,9 +148,9 @@ namespace Roadkill.Core
 
 				config.Save(ConfigurationSaveMode.Minimal);
 			}
-			catch (ConfigurationErrorsException)
+			catch (ConfigurationErrorsException ex)
 			{
-				throw new InstallerException("An exception occured while updating the settings to the web.config");
+				throw new InstallerException(ex, "An exception occured while updating the settings to the web.config");
 			}
 		}
 

@@ -46,13 +46,13 @@ namespace Roadkill.Core
 				NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContent);
 
 				// Update the lucene index
-				SearchManager.Current.Add(page);
+				SearchManager.Current.Add(page.ToSummary());
 
 				return page.ToSummary();
 			}
-			catch (HibernateException)
+			catch (HibernateException e)
 			{
-				throw new DatabaseException("An error occurred while adding page '{0}' to the database", summary.Title);
+				throw new DatabaseException(e, "An error occurred while adding page '{0}' to the database", summary.Title);
 			}
 		}
 
@@ -71,9 +71,9 @@ namespace Roadkill.Core
 
 				return summaries;
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new DatabaseException("An error occurred while retrieving all pages from the database");
+				throw new DatabaseException(ex, "An error occurred while retrieving all pages from the database");
 			}
 		}
 
@@ -93,9 +93,9 @@ namespace Roadkill.Core
 
 				return summaries;
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new DatabaseException("An error occurred while retrieving all pages created by {0} from the database",userName);
+				throw new DatabaseException(ex, "An error occurred while retrieving all pages created by {0} from the database", userName);
 			}
 		}
 
@@ -135,9 +135,9 @@ namespace Roadkill.Core
 
 				return tags;
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new DatabaseException("An error occurred while retrieving all tags from the database");
+				throw new DatabaseException(ex, "An error occurred while retrieving all tags from the database");
 			}
 		}
 
@@ -163,11 +163,11 @@ namespace Roadkill.Core
 				NHibernateRepository.Current.Delete<Page>(page);
 
 				// Update the lucene index
-				SearchManager.Current.Delete(page);
+				SearchManager.Current.Delete(page.ToSummary());
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new DatabaseException("An error occurred while deleting the page id {0} from the database", pageId);
+				throw new DatabaseException(ex, "An error occurred while deleting the page id {0} from the database", pageId);
 			}
 		}
 
@@ -192,9 +192,9 @@ namespace Roadkill.Core
 					return builder.ToString();
 				}
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new DatabaseException("A database error occurred while exporting the pages to XML");
+				throw new DatabaseException(ex, "A database error occurred while exporting the pages to XML");
 			}
 		}
 
@@ -214,9 +214,9 @@ namespace Roadkill.Core
 
 				return summaries;
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new DatabaseException("An error occurred finding the tag '{0}' in the database", tag);
+				throw new DatabaseException(ex, "An error occurred finding the tag '{0}' in the database", tag);
 			}
 		}
 
@@ -240,9 +240,9 @@ namespace Roadkill.Core
 				else
 					return page.ToSummary();
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new DatabaseException("An error occurred finding the page with title '{0}' in the database", title);
+				throw new DatabaseException(ex, "An error occurred finding the page with title '{0}' in the database", title);
 			}
 		}
 
@@ -263,9 +263,9 @@ namespace Roadkill.Core
 				else
 					return page.ToSummary();
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new DatabaseException("An error occurred getting the page with id '{0}' from the database", id);
+				throw new DatabaseException(ex, "An error occurred getting the page with id '{0}' from the database", id);
 			}
 		}
 
@@ -298,11 +298,11 @@ namespace Roadkill.Core
 				NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContent);
 
 				// Update the lucene index
-				SearchManager.Current.Update(page);
+				SearchManager.Current.Update(page.ToSummary());
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new DatabaseException("An error occurred updating the page with title '{0}' in the database", summary.Title);
+				throw new DatabaseException(ex, "An error occurred updating the page with title '{0}' in the database", summary.Title);
 			}
 		}
 	}

@@ -120,7 +120,8 @@
     <Content Include="Assets\CSS\jqueryFileTree.css" />
     <Content Include="Assets\Scripts\jqueryFileTree.js" />
     <Content Include="Assets\Scripts\roadkill.edit.js" />
-    <None Include="blankweb.config" />
+    <Content Include="blankweb.config" />
+    <Content Include="install.txt" />
     <Content Include="Themes\Mediawiki\border.png" />
     <Content Include="Themes\Mediawiki\Theme.cshtml" />
     <Content Include="Themes\Mediawiki\logo.png" />
@@ -159,9 +160,9 @@
     <Content Include="Assets\Scripts\tag-it.js" />
     <Content Include="Assets\Images\loading.gif" />
     <Content Include="Themes\BlackBar\Theme.css" />
-    <Content Include="Themes\Roadkillwiki.info\roadkill-large.png" />
-    <Content Include="Themes\Roadkillwiki.info\roadkill.png" />
-    <Content Include="Themes\Roadkillwiki.info\Theme.css" />
+    <Content Include="Themes\Roadkillwiki.org\roadkill-large.png" />
+    <Content Include="Themes\Roadkillwiki.org\roadkill.png" />
+    <Content Include="Themes\Roadkillwiki.org\Theme.css" />
     <Content Include="Views\Pages\History.cshtml" />
     <Content Include="Views\Pages\Version.cshtml" />
     <Content Include="Views\Pages\ByUser.cshtml" />
@@ -171,7 +172,7 @@
     <Content Include="Views\Shared\_Blank.cshtml" />
     <Content Include="Views\Shared\PageToolbar.cshtml" />
     <Content Include="Views\Shared\HeadContent.cshtml" />
-    <Content Include="Themes\Roadkillwiki.info\Theme.cshtml" />
+    <Content Include="Themes\Roadkillwiki.org\Theme.cshtml" />
     <Content Include="Views\Settings\SettingsMenu.cshtml" />
     <Content Include="Views\Settings\Users.cshtml" />
     <Content Include="Views\Settings\UsersReadOnly.cshtml" />

@@ -32,16 +32,16 @@ namespace Roadkill.Core
 																  EditedOn = p.EditedOn,
 																  VersionNumber = p.VersionNumber
 															  };
-				
+
 				return historyList.OrderByDescending(h => h.VersionNumber);
 			}
-			catch (ArgumentNullException)
+			catch (ArgumentNullException ex)
 			{
-				throw new HistoryException("An ArgumentNullException occurred getting the history for page id {0}", pageId);
+				throw new HistoryException(ex, "An ArgumentNullException occurred getting the history for page id {0}", pageId);
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new HistoryException("A HibernateException occurred getting the history for page id {0}", pageId);
+				throw new HistoryException(ex, "A HibernateException occurred getting the history for page id {0}", pageId);
 			}
 		}
 
@@ -81,13 +81,13 @@ namespace Roadkill.Core
 
 				return versions;
 			}
-			catch (ArgumentNullException)
+			catch (ArgumentNullException ex)
 			{
-				throw new HistoryException("An ArgumentNullException occurred comparing the version history for version id {0}", mainVersionId);
+				throw new HistoryException(ex, "An ArgumentNullException occurred comparing the version history for version id {0}", mainVersionId);
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new HistoryException("A HibernateException occurred comparing the version history for version id {0}", mainVersionId);
+				throw new HistoryException(ex, "A HibernateException occurred comparing the version history for version id {0}", mainVersionId);
 			}
 		}
 
@@ -108,13 +108,13 @@ namespace Roadkill.Core
 					RevertTo(pageContent.Id);
 				}
 			}
-			catch (ArgumentNullException)
+			catch (ArgumentNullException ex)
 			{
-				throw new HistoryException("An ArgumentNullException occurred when reverting to version number {0} for page id {1}",versionNumber, pageId);
+				throw new HistoryException(ex, "An ArgumentNullException occurred when reverting to version number {0} for page id {1}", versionNumber, pageId);
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new HistoryException("A HibernateException occurred when reverting to version number {0} for page id {1}", versionNumber, pageId);
+				throw new HistoryException(ex, "A HibernateException occurred when reverting to version number {0} for page id {1}", versionNumber, pageId);
 			}
 		}
 
@@ -140,13 +140,13 @@ namespace Roadkill.Core
 				pageContent.Page = page;
 				NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContent);
 			}
-			catch (ArgumentNullException)
+			catch (ArgumentNullException ex)
 			{
-				throw new HistoryException("An ArgumentNullException occurred when reverting to version ID {0}", versionId);
+				throw new HistoryException(ex, "An ArgumentNullException occurred when reverting to version ID {0}", versionId);
 			}
-			catch (HibernateException)
+			catch (HibernateException ex)
 			{
-				throw new HistoryException("A HibernateException occurred when reverting to version ID {0}", versionId);
+				throw new HistoryException(ex, "A HibernateException occurred when reverting to version ID {0}", versionId);
 			}
 		}
 

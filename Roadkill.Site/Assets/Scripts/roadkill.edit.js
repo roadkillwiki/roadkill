@@ -2,27 +2,31 @@
 var _tags;
 var _loadTagsTimer;
 
+/**
+Event bindings and handlers for the edit page/
+*/
 $(document).ready(function ()
 {
 	$.require("tag-it.js");
 	$.require("roadkill.wysiwyg.js");
 
+	// Tag box
 	initTagIt();
 	_loadTagsTimer = setTimeout("loadTags();", 2000);
 
-	bindEditButtons();
-	initWYSIWYG();
+	// Toolbar
+	initWYSIWYG(); // inside wysiwyg.js
 
-	$("#Content").keyup(function ()
-	{
-		$("#previewContainer").hide();
-	});
+	// Preview modal preview
 	$(".previewButton").click(function ()
 	{
 		showPreview();
 	});
 });
 
+/**
+Sets up the tag box with tagit
+*/
 function initTagIt()
 {
 	$("#mytags").tagit({
@@ -34,6 +38,9 @@ function initTagIt()
 	});
 }
 
+/**
+Loads all tags with a JSON AJAX request.
+*/
 function loadTags()
 {
 	$.get(ROADKILL_TAGAJAXURL, function (data)
@@ -44,18 +51,9 @@ function loadTags()
 	});
 }
 
-function bindEditButtons()
-{
-	$("#Content").keyup(function ()
-	{
-		$("#previewContainer").hide();
-	});
-	$(".previewButton").click(function ()
-	{
-		showPreview();
-	});
-}
-
+/**
+Grabs a preview from the server for the wiki markup, and displays it in the preview modal (as an iframe) 
+*/
 function showPreview()
 {
 	$("#previewLoading").show();

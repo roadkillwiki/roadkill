@@ -42,7 +42,7 @@ namespace Roadkill.Core.Search
 
 			static Nested()
 			{
-			}	
+			}
 		}
 
 		/// <summary>
@@ -60,7 +60,7 @@ namespace Roadkill.Core.Search
 			List<SearchResult> list = new List<SearchResult>();
 
 			StandardAnalyzer analyzer = new StandardAnalyzer();
-			MultiFieldQueryParser parser = new MultiFieldQueryParser(new string[]{"content","title"}, analyzer);
+			MultiFieldQueryParser parser = new MultiFieldQueryParser(new string[] { "content", "title" }, analyzer);
 
 			Query query = null;
 			try
@@ -104,9 +104,9 @@ namespace Roadkill.Core.Search
 						list.Add(result);
 					}
 				}
-				catch (Exception)
+				catch (Exception ex)
 				{
-					throw new SearchException("An error occured while searching the index");
+					throw new SearchException(ex, "An error occured while searching the index");
 				}
 			}
 
@@ -118,7 +118,7 @@ namespace Roadkill.Core.Search
 		/// </summary>
 		/// <param name="page">The page to add.</param>
 		/// <exception cref="SearchException">An error occured with the lucene.net IndexWriter while adding the page to the index.</exception>
-		public void Add(Page page)
+		public void Add(PageSummary summary)
 		{
 			try
 			{
@@ -127,48 +127,47 @@ namespace Roadkill.Core.Search
 				StandardAnalyzer analyzer = new StandardAnalyzer();
 				IndexWriter writer = new IndexWriter(_indexPath, analyzer, false);
 
-				PageSummary summary = page.ToSummary();
 				writer.AddDocument(SummaryToDocument(summary));
 
 				writer.Optimize();
 				writer.Close();
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-				throw new SearchException("An error occured while adding page '{0}' to the search index",page.Title);
+				throw new SearchException(ex, "An error occured while adding page '{0}' to the search index", summary.Title);
 			}
 		}
 
 		/// <summary>
 		/// Deletes the specified page from the search indexs.
 		/// </summary>
-		/// <param name="page">The page to remove.</param>
+		/// <param name="summary">The page to remove.</param>
 		/// <exception cref="SearchException">An error occured with the lucene.net IndexReader while deleting the page from the index.</exception>
-		public void Delete(Page page)
+		public void Delete(PageSummary summary)
 		{
 			try
 			{
 				StandardAnalyzer analyzer = new StandardAnalyzer();
 				IndexReader reader = IndexReader.Open(_indexPath);
-				reader.DeleteDocuments(new Term("id", page.Id.ToString()));
+				reader.DeleteDocuments(new Term("id", summary.Id.ToString()));
 				reader.Close();
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-				throw new SearchException("An error occured while deleting page '{0}' from the search index", page.Title);
+				throw new SearchException(ex, "An error occured while deleting page '{0}' from the search index", summary.Title);
 			}
 		}
 
 		/// <summary>
 		/// Updates the <see cref="Page"/> in the search index, by removing it and re-adding it.
 		/// </summary>
-		/// <param name="page">The page to update</param>
+		/// <param name="summary">The page to update</param>
 		/// <exception cref="SearchException">An error occured with lucene.net while deleting the page or inserting it back into the index.</exception>
-		public void Update(Page page)
+		public void Update(PageSummary summary)
 		{
 			EnsureDirectoryExists();
-			Delete(page);
-			Add(page);
+			Delete(summary);
+			Add(summary);
 		}
 
 		/// <summary>
@@ -193,9 +192,9 @@ namespace Roadkill.Core.Search
 				writer.Optimize();
 				writer.Close();
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-				throw new SearchException("An error occured while creating the search index");
+				throw new SearchException(ex, "An error occured while creating the search index");
 			}
 		}
 
@@ -206,9 +205,9 @@ namespace Roadkill.Core.Search
 				if (!Directory.Exists(_indexPath))
 					Directory.CreateDirectory(_indexPath);
 			}
-			catch (IOException)
+			catch (IOException ex)
 			{
-				throw new SearchException("An error occured while creating the search directory '{0}'", _indexPath);
+				throw new SearchException(ex, "An error occured while creating the search directory '{0}'", _indexPath);
 			}
 		}
 

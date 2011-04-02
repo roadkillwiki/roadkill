@@ -13,8 +13,16 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SearchException"/> class.
 		/// </summary>
+		/// <param name="message">The exception message.</param>
+		/// <param name="inner">The inner exception.</param>
+		public SearchException(string message, Exception inner) : base(message, inner) { }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SearchException"/> class.
+		/// </summary>
+		/// <param name="inner">The inner exception.</param>
 		/// <param name="message">The message as an <see cref="IFormattable"/> string.</param>
 		/// <param name="args">Arguments for the message format.</param>
-		public SearchException(string message, params object[] args) : base(message, args) { }
+		public SearchException(Exception inner, string message, params object[] args) : base(string.Format(message, args), inner) { }
 	}
 }

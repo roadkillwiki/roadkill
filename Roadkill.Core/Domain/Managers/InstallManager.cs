@@ -26,11 +26,11 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				SecurityManager.Current.AddUser("admin",summary.AdminPassword,true,false);
+				SecurityManager.Current.AddUser("admin", summary.AdminPassword, true, false);
 			}
-			catch (SecurityException)
+			catch (SecurityException ex)
 			{
-				throw new InstallerException("Failed to add the admin user");
+				throw new InstallerException(ex, "Failed to add the admin user");
 			}
 		}
 
@@ -49,9 +49,9 @@ namespace Roadkill.Core
 
 				config.Save();
 			}
-			catch (ConfigurationErrorsException)
+			catch (ConfigurationErrorsException ex)
 			{
-				throw new InstallerException("An exception occured while resetting web.config install state to false.");
+				throw new InstallerException(ex, "An exception occured while resetting web.config install state to false.");
 			}
 		}
 
@@ -129,7 +129,7 @@ namespace Roadkill.Core
 			}
 			catch (Exception e)
 			{
-				return e.Message;
+				return e.ToString();
 			}
 		}
 

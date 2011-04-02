@@ -93,14 +93,14 @@
     <Compile Include="Domain\Summaries\UserSummary.cs" />
     <Compile Include="Exceptions\HistoryException.cs" />
     <Compile Include="Exceptions\ExceptionBase.cs" />
-    <Compile Include="Exceptions\UserException.cs" />
+    <Compile Include="Exceptions\SecurityException.cs" />
     <Compile Include="Domain\NHibernate\SiteConfiguration.cs" />
-    <Compile Include="Domain\Managers\Search\SearchResult.cs" />
+    <Compile Include="Domain\Summaries\SearchResult.cs" />
     <Compile Include="Domain\Summaries\DirectorySummary.cs" />
     <Compile Include="Domain\Summaries\SettingsSummary.cs" />
     <Compile Include="Domain\Import\ScrewTurnImporter.cs" />
     <Compile Include="Domain\Import\IWikiImporter.cs" />
-    <Compile Include="Domain\Managers\Search\SearchManager.cs" />
+    <Compile Include="Domain\Managers\SearchManager.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Domain\Summaries\HistorySummary.cs" />
     <Compile Include="Domain\Summaries\TagSummary.cs" />

@@ -6,6 +6,7 @@
 	@Url.ScriptLink("jquery-1.4.1.min.js")
 	@Url.ScriptLink("jquery.validationEngine-en.js")
 	@Url.ScriptLink("jquery.validationEngine.js")
+	@Url.ScriptLink("jquery.simplemodal.1.4.1.min.js")
 	@Url.CssLink("reset.css")
 	@Url.CssLink("validationEngine.jquery.css")
 	<style type="text/css">
@@ -60,6 +61,10 @@
 		.next		{ font-weight:bold;border: 1px solid #3a3a3a;color:#3a3a3a;}
 		.left		{ float:left;}
 		.italic		{ font-style:italic;}
+		/* Modal dialog styles for jquery.simplemodal */
+		#simplemodal-overlay	{ background-color:#000; }
+		#simplemodal-container	{ background-color:#333; border:2px solid #d3d2d2; padding:12px; }
+		#simplemodal-container a.modalCloseImg { background:url('close-x.png') no-repeat;width:25px;height:29px;display:inline;z-index:3200;position:absolute;top:-15px;right:-18px;cursor:pointer;}
 	</style>
 
 	<script type="text/javascript">

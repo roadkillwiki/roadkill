@@ -13,9 +13,9 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Initializes a new instance of the <see cref="HistoryException"/> class.
 		/// </summary>
-		/// <param name="message">The message as an <see cref="IFormattable"/> string.</param>
-		/// <param name="args">Arguments for the message format.</param>
-		public HistoryException(string message, params object[] args) : base(message, args) { }
+		/// <param name="message">The exception message.</param>
+		/// <param name="inner">The inner exception.</param>
+		public HistoryException(string message, Exception inner) : base(message, inner) { }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="HistoryException"/> class.

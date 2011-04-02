@@ -1,12 +1,11 @@
 Tags:credits 
-Roadkill would not be possible without the wealth of open source plugins, parsers and generally useful code that it uses. These include:
+Roadkill was built using the wealth of open source plugins, parsers and generally useful code that exists out there. These include:
 
 * [[http://www.jquery.com|jQuery]]
 * [[http://htmldiff.codeplex.com|HTML diff]]
 * [[http://creoleparser.codeplex.com|Creole Wiki Parser ]]
 * [[http://www.fatcow.com/free-icons|Fatcow icon library]]
 * [[http://www.nhforge.net|NHibernate]]
-* [[http://www.codeproject.com/KB/aspnet/active_directory_roles.aspx|ActiveDirectory role provider]]
 * [[http://timeago.yarp.com/|jQuery timeago plugin]]
 * [[http://github.com/aehlke/tag-it/|tagIt for jQuery]]
 * [[http://www.ericmmartin.com/projects/simplemodal/|jQuery Simple Modal]]

@@ -1,21 +1,31 @@
 ﻿/// <reference path="jquery-1.4.1-vsdoc.js" />
+
+/**
+ Event bindings and handlers for the file manager.
+*/
 $(document).ready(function ()
 {
 	initFileManager();
 	bindFileButtons();
 });
 
+/**
+Binds all buttons with event handlers.
+*/
 function initFileManager()
 {
+	// Limit the bottom right image preview to 40x40px
 	$("#previewimage").aeImageResize({ height: 40, width: 40 });
 	$("#previewimage").hide();
 
+	// Choose button calls the 'addImage' function from wyswyg.js
 	$("#choosebutton").click(function()
 	{
 		window.top.addImage($("#previewimage").attr("src").replace(ROADKILL_ATTACHMENTSPATH, ""));
 		self.close();
 	});
 
+	// Setup the jquery filetree
 	$("#filetree-container").fileTree(
 	{
 		root: "",
@@ -28,6 +38,7 @@ function initFileManager()
 		}
 	},function (filePath, name)
 	{
+		// When a file is selected, setup the bottom right preview
 		$.get(ROADKILL_FILETREE_PATHNAME_URL + filePath, function (urlPath)
 		{
 			$("#previewimage").attr("src", ROADKILL_ATTACHMENTSPATH + urlPath);
@@ -39,6 +50,9 @@ function initFileManager()
 	});
 }
 
+/**
+Show/hide the upload and new directory hidden divs.
+*/
 function bindFileButtons()
 {
 	$("#uploadfile").click(function ()

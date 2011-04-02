@@ -1,10 +1,9 @@
-Tags:themes 
 When creating a theme, you get the following CSS classes available to you so the site adheres to the DRY principle:
 
 <table>
 	<tr>
 		<td>.biggest</td>
-		<td class="biggest">An font size for pensioners.</td>
+		<td class="biggest">An font size for long sighted.</td>
 	</tr>
 	<tr>
 		<td>.bigger</td>

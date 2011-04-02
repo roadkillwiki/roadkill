@@ -10,8 +10,17 @@ using System.Text.RegularExpressions;
 
 namespace Roadkill.Core
 {
+	/// <summary>
+	/// Roadkill specific extensions methods for the <see cref="HtmlHelper"/> class.
+	/// </summary>
 	public static class HtmlExtensions
 	{
+		/// <summary>
+		/// Turns a tag string into a HTML tag cloud, which produces different spans based on the
+		/// number of pages with each tag in the system.
+		/// </summary>
+		/// <param name="content">The tags in ";" delimited format.</param>
+		/// <returns>A HTML tag cloud.</returns>
 		public static MvcHtmlString TagBlocks(this HtmlHelper helper, string content)
 		{
 			string result = "";
@@ -36,11 +45,21 @@ namespace Roadkill.Core
 			return MvcHtmlString.Create(result);
 		}
 
+		/// <summary>
+		/// Removes all bad characters (one which cannot be used in a URL for a page) from a page title.
+		/// </summary>
+		/// <param name="title">The page title.</param>
+		/// <returns>The cleaned title</returns>
 		public static string EncodeTitle(this string title)
 		{
 			return EncodeTitleInternal(title);
 		}
 
+		/// <summary>
+		/// Removes all bad characters (one which cannot be used in a URL for a page) from a page title.
+		/// </summary>
+		/// <param name="title">The page title.</param>
+		/// <returns>The cleaned title</returns>
 		public static MvcHtmlString EncodeTitle(this UrlHelper helper, string title)
 		{
 			title = EncodeTitleInternal(title);
@@ -69,11 +88,20 @@ namespace Roadkill.Core
 			return title;
 		}
 
+		/// <summary>
+		/// Turns the provided wiki markdown into HTML, using the current markdown syntax parser.
+		/// </summary>
+		/// <param name="content">The wiki markdown.</param>
+		/// <returns>The converted HTML.</returns>
 		public static MvcHtmlString WikiMarkupToHtml(this HtmlHelper helper, string content)
 		{
 			return MvcHtmlString.Create(content.WikiMarkupToHtml());
 		}
 
+		/// <summary>
+		/// Gets a string to indicate whether the current user is logged in.
+		/// </summary>
+		/// <returns>"Logged in as {user}" if the user is logged in; "Not logged in" if the user is not logged in.</returns>
 		public static MvcHtmlString LoginStatus(this HtmlHelper helper)
 		{
 			if (RoadkillContext.Current.IsLoggedIn)
@@ -82,6 +110,21 @@ namespace Roadkill.Core
 				return MvcHtmlString.Create("Not logged in");
 		}
 
+		/// <summary>
+		/// Gets a CSS class name for the tag based on the <see cref="TagSummary.Count"/> - the number of
+		/// pages with that tag in the system.
+		/// </summary>
+		/// <param name="helper">The helper.</param>
+		/// <param name="tag">A <see cref="TagSummary"/>.</param>
+		/// <returns>
+		/// <list type="bullet">
+		/// <item>1 tag: "tagcloud1"</item>
+		/// <item>1-3 tags: "tagcloud2"</item>
+		/// <item>3-5 tags: "tagcloud3"</item>
+		/// <item>5-10 tags: "tagcloud4"</item>
+		/// <item>10+ tags: "tagcloud5"</item>
+		/// </list>
+		/// </returns>
 		public static string ClassNameForTagSummary(this HtmlHelper helper, TagSummary tag)
 		{
 			string className = "";
@@ -110,11 +153,23 @@ namespace Roadkill.Core
 			return className;
 		}
 
+		/// <summary>
+		/// Gets a complete URL path to an item in the current theme directory.
+		/// </summary>
+		/// <param name="helper">The helper.</param>
+		/// <param name="relativePath">The filename or path inside the current theme directory.</param>
+		/// <returns>A url path to the item, e.g. '/MySite/Themes/Mediawiki/logo.png'</returns>
 		public static string ThemeContent(this UrlHelper helper, string relativePath)
 		{
 			return helper.Content(RoadkillSettings.ThemePath + "/" + relativePath);
 		}
 
+		/// <summary>
+		/// Formats a number in bytes using KB or bytes if it is less than 1024 bytes.
+		/// </summary>
+		/// <param name="helper">The helper.</param>
+		/// <param name="size">The size in bytes.</param>
+		/// <returns>If the size parameter is 900: 900 bytes. If size is 4000: 4KB.</returns>
 		public static string FormatFileSize(this HtmlHelper helper,int size)
 		{
 			if (size > 1024)
