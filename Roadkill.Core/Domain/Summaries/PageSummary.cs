@@ -11,16 +11,27 @@ namespace Roadkill.Core
 	/// </summary>
 	public class PageSummary
 	{
+		private string _content;
+
 		/// <summary>
 		/// The page's unique id.
 		/// </summary>
 		public int Id { get; set; }
 		
 		/// <summary>
-		/// The page title.
+		/// The text content for the page.
 		/// </summary>
-		[Required]
-		public string Title { get; set; }
+		public string Content
+		{
+			get { return _content; }
+			set
+			{
+				// Ensure the content isn't null for lucene's benefit
+				_content = value;
+				if (_content == null)
+					_content = "";
+			}
+		}
 
 		/// <summary>
 		/// The user who created the page.
@@ -31,6 +42,17 @@ namespace Roadkill.Core
 		/// The date the page was created.
 		/// </summary>
 		public DateTime CreatedOn { get; set; }
+
+		/// <summary>
+		/// Returns true if no Id exists for the page.
+		/// </summary>
+		public bool IsNew
+		{
+			get
+			{
+				return Id == 0;
+			}
+		}
 
 		/// <summary>
 		/// The user who last modified the page.
@@ -45,26 +67,16 @@ namespace Roadkill.Core
 		/// These are stored in ";" separated format.
 		/// </summary>
 		public string Tags { get; set; }
-		
+
 		/// <summary>
-		/// The text content for the page.
+		/// The page title.
 		/// </summary>
-		public string Content { get; set; }
+		[Required]
+		public string Title { get; set; }
 		
 		/// <summary>
 		/// The current version number for the page.
 		/// </summary>
 		public int VersionNumber { get; set; }
-		
-		/// <summary>
-		/// Returns true if no Id exists for the page.
-		/// </summary>
-		public bool IsNew
-		{
-			get
-			{
-				return Id == 0;
-			}
-		}
 	}
 }
