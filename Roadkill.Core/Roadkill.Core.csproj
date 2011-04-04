@@ -29,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Roadkill.Core.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentNHibernate">
@@ -81,7 +82,7 @@
     <Compile Include="Converters\ImageEventArgs.cs" />
     <Compile Include="Converters\IParser.cs" />
     <Compile Include="Converters\LinkEventArgs.cs" />
-    <Compile Include="Converters\Mediawiki\MediaWikiParser.cs" />
+    <Compile Include="Converters\Parsers\MediaWikiParser.cs" />
     <Compile Include="Domain\Managers\Security\ActiveDirectoryUserManager.cs" />
     <Compile Include="Domain\Managers\Security\UserManager.cs" />
     <Compile Include="Domain\Managers\Security\UserManagerBase.cs" />
@@ -104,9 +105,9 @@
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Domain\Summaries\HistorySummary.cs" />
     <Compile Include="Domain\Summaries\TagSummary.cs" />
-    <Compile Include="Converters\Creole\CreoleParser.cs" />
+    <Compile Include="Converters\Parsers\CreoleParser.cs" />
     <Compile Include="Common\HtmlDiff.cs" />
-    <Compile Include="Converters\Markdown\Markdown.cs" />
+    <Compile Include="Converters\Parsers\Markdown.cs" />
     <Compile Include="Converters\MarkupConverter.cs" />
     <Compile Include="Exceptions\InstallerException.cs" />
     <Compile Include="RoadkillSettings.cs" />

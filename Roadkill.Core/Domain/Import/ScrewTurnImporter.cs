@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
-using Roadkill.Core.Domain.Managers;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Web;
@@ -171,11 +170,11 @@ namespace Roadkill.Core
 						while (reader.Read())
 						{
 							PageContent content = new PageContent();
-							content.EditedBy = reader["Username"].ToString();
-							content.EditedOn = (DateTime)reader["DateTime"];
+							content.EditedBy = reader["User"].ToString();
+							content.EditedOn = (DateTime)reader["LastModified"];
 							content.Text = reader["Content"].ToString();
 							content.Text = CleanContent(content.Text);
-							content.VersionNumber = ((int)reader["Revision"]) + 1;
+							content.VersionNumber = (int.Parse(reader["Revision"].ToString())) + 1;
 							content.Page = page;
 
 							NHibernateRepository.Current.SaveOrUpdate<PageContent>(content);

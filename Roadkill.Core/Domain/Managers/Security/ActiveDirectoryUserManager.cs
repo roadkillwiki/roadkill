@@ -68,7 +68,7 @@ namespace Roadkill.Core
 			try
 			{
 				List<string> users = GetUsersInGroup(_adminRolename);
-				return users.Contains(email);
+				return users.Contains(CleanUsername(email));
 			}
 			catch (Exception ex)
 			{
@@ -89,12 +89,27 @@ namespace Roadkill.Core
 			try
 			{
 				List<string> users = GetUsersInGroup(_editorRolename);
-				return users.Contains(email);
+				return users.Contains(CleanUsername(email));
 			}
 			catch (Exception ex)
 			{
 				throw new SecurityException(ex, "An error occured querying IsEditor with Active Directory");
 			}
+		}
+
+		/// <summary>
+		/// Lowercases the username and takes the "john" part from "DOMAIN\john".
+		/// </summary>
+		private string CleanUsername(string username)
+		{
+			int start = username.IndexOf(@"\");
+			if (start > 0)
+			{
+				username = username.Substring(start+1);
+			}
+
+			username = username.ToLower();
+			return username;
 		}
 
 		/// <summary>
@@ -105,8 +120,22 @@ namespace Roadkill.Core
 			if (!_usersInGroupCache.ContainsKey(groupName))
 			{
 				List<string> results = new List<string>();
-				using (PrincipalContext context = new PrincipalContext(ContextType.Domain, _domainName, _username, _password))
+
+				// Ensure they're null if they're empty
+				if (_username == "")
 				{
+					_username = null;
+					_password = null;
+				}
+
+				using (PrincipalContext context = new PrincipalContext(ContextType.Domain, _domainName,_username,_password))
+				{
+					if (!string.IsNullOrEmpty(_username))
+					{
+						bool valid = context.ValidateCredentials(_username, _password);
+						if (!valid)
+							throw new SecurityException(null,"Unable to authenticate with '{0}' using '{1}'", _domainName, _username);
+					}
 
 					try
 					{
@@ -117,7 +146,7 @@ namespace Roadkill.Core
 								foreach (Principal principle in users)
 								{
 									if (principle is UserPrincipal)
-										results.Add(principle.SamAccountName);
+										results.Add(principle.SamAccountName.ToLower());
 
 									principle.Dispose();
 								}

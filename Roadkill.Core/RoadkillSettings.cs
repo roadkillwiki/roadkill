@@ -125,10 +125,7 @@ namespace Roadkill.Core
 		{
 			get
 			{
-				if (string.IsNullOrEmpty(_ldapConnectionString))
-					_ldapConnectionString = GetRoleManagerConnectionString();
-
-				return _ldapConnectionString;
+				return RoadkillSection.Current.LdapConnectionString;
 			}
 		}
 
@@ -139,10 +136,7 @@ namespace Roadkill.Core
 		{
 			get
 			{
-				if (string.IsNullOrEmpty(_ldapUsername))
-					_ldapUsername = GetLdapConfigSetting("connectionUsername");
-
-				return _ldapUsername;
+				return RoadkillSection.Current.LdapUsername;
 			}
 		}
 
@@ -153,10 +147,7 @@ namespace Roadkill.Core
 		{
 			get
 			{
-				if (string.IsNullOrEmpty(_ldapPassword))
-					_ldapPassword = GetLdapConfigSetting("connectionPassword");
-
-				return _ldapPassword;
+				return RoadkillSection.Current.LdapPassword;
 			}
 		}
 
@@ -212,38 +203,6 @@ namespace Roadkill.Core
 			{
 				return typeof(RoadkillSettings).Assembly.GetName().Version.ToString();
 			}
-		}
-
-		/// <summary>
-		/// Retrieves an LDAP setting from the system.web/rolemanager/provider element.
-		/// </summary>
-		private static string GetLdapConfigSetting(string name)
-		{
-			Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
-			RoleManagerSection section = config.SectionGroups["system.web"].Sections["roleManager"] as RoleManagerSection;
-			string defaultProvider = section.DefaultProvider;
-
-			if (section.Providers.Count > 0 && section.Providers[defaultProvider].ElementInformation.Properties[name] != null)
-				return section.Providers[defaultProvider].ElementInformation.Properties[name].Value.ToString();
-			else
-				return "";
-		}
-
-		/// <summary>
-		/// Retrieves the roles connection string setting from the system.web/rolemanager/provider element.
-		/// </summary>
-		private static string GetRoleManagerConnectionString()
-		{
-			Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
-			RoleManagerSection section = config.SectionGroups["system.web"].Sections["roleManager"] as RoleManagerSection;
-			string defaultProvider = section.DefaultProvider;
-			string connStringName = section.Providers[defaultProvider].ElementInformation.Properties["connectionStringName"].Value.ToString();
-
-			string connectionString = "LDAP://";
-			if (section.Providers.Count > 0 && section.Providers[defaultProvider].ElementInformation.Properties["connectionStringName"] != null)
-				connectionString = config.ConnectionStrings.ConnectionStrings[connStringName].ConnectionString;
-
-			return connectionString;
 		}
 	}
 }

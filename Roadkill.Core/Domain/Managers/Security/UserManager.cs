@@ -7,7 +7,6 @@ using System.Web.Configuration;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Configuration.Provider;
-using Roadkill.Core.Domain.Managers;
 using NHibernate;
 
 namespace Roadkill.Core

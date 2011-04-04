@@ -47,7 +47,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Roadkill.Core.Converters.Creole
+namespace Roadkill.Core.Converters
 {
 	/// <summary>
 	/// 

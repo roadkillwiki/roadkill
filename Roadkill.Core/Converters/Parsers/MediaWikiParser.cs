@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using Roadkill.Core.Converters.Creole;
 
-namespace Roadkill.Core.Converters.MediaWiki
+namespace Roadkill.Core.Converters
 {
 	/// <summary>
 	/// Implements a parser for Media Wiki syntax markup. The base <see cref="CreoleParser"/>'s behaviour is changed for certain tokens.

@@ -90,7 +90,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 // As there's a Markdown namespace, the Markdown class is now MarkdownParser
-namespace Roadkill.Core.Converters.Markdown
+namespace Roadkill.Core.Converters
 {
 
     public class MarkdownOptions
