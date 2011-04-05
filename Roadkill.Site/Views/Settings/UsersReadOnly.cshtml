@@ -17,7 +17,7 @@
 		the "AdminRolename" and "EditorRolename" settings in the web.config.
 	</p>
 	
-	<h2>Admins</h2>
+	<h2>Admins (@RoadkillSettings.AdminRoleName)</h2>
 	<table class="settingstable">
 		@foreach (string username in Model[0])
 		{
@@ -28,7 +28,7 @@
 	</table>
 	<br class="clear" />
 
-	<h2>Editors</h2>
+	<h2>Editors (@RoadkillSettings.EditorRoleName)</h2>
 	<table class="settingstable">
 	@foreach (string username in Model[1])
 	{

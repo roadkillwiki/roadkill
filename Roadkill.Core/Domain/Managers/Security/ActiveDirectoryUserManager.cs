@@ -98,6 +98,28 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// Lists all admins in the system.
+		/// </summary>
+		/// <returns>
+		/// A list of email/usernames who belong to the admin group/security group.
+		/// </returns>
+		public override IEnumerable<string> ListAdmins()
+		{
+			return GetUsersInGroup(_adminRolename);
+		}
+
+		/// <summary>
+		/// Lists all editors in the system.
+		/// </summary>
+		/// <returns>
+		/// A list of email/usernames wwho belong to the editor group/security group.
+		/// </returns>
+		public override IEnumerable<string> ListEditors()
+		{
+			return GetUsersInGroup(_editorRolename);
+		}
+
+		/// <summary>
 		/// Lowercases the username and takes the "john" part from "DOMAIN\john".
 		/// </summary>
 		private string CleanUsername(string username)
@@ -204,18 +226,6 @@ namespace Roadkill.Core
 
 		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
 		public override bool DeleteUser(string email)
-		{
-			throw new NotImplementedException();
-		}
-
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
-		public override IEnumerable<string> ListAdmins()
-		{
-			throw new NotImplementedException();
-		}
-
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
-		public override IEnumerable<string> ListEditors()
 		{
 			throw new NotImplementedException();
 		}

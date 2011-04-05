@@ -19,3 +19,4 @@ a:hover, a:focus	{ text-decoration:underline; }
 #container		{ padding:1em;margin-left:12em;background-color:#FFF;color:#000;min-height:30em;border:1px solid #a7d7f9;border-right:0px solid #a7d7f9; }
 #footer			{ margin-left:12em;margin-top:0;padding:0.75em;}
 #footer p		{ color:#333;font-size:0.7em; }
+pre				{ font-size:9pt !important;background-color:#EEE;padding:5px;border:1px solid #AAA; }
