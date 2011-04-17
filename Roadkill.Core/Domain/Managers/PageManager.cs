@@ -26,7 +26,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				string currentUser = RoadkillContext.Current.CurrentUser;
+				string currentUser = RoadkillContext.Current.CurrentUsername;
 
 				Page page = new Page();
 				page.Title = summary.Title;
@@ -279,7 +279,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				string currentUser = RoadkillContext.Current.CurrentUser;
+				string currentUser = RoadkillContext.Current.CurrentUsername;
 				HistoryManager manager = new HistoryManager();
 
 				Page page = Pages.FirstOrDefault(p => p.Id == summary.Id);

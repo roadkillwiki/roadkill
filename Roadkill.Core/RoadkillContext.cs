@@ -25,6 +25,21 @@ namespace Roadkill.Core
 		public string CurrentUser { get; set; }
 
 		/// <summary>
+		/// The username of the current user. This differs from <see cref="CurrenUser"/> which retrieves the email,
+		/// unless using windows auth where both fields are the same.
+		/// </summary>
+		public string CurrentUsername
+		{
+			get
+			{
+				if (IsLoggedIn)
+					return UserManager.Current.GetUser(CurrentUser).Username;
+				else
+					return "";
+			}
+		}
+
+		/// <summary>
 		/// Indicates whether the current user is a member of the admin role.
 		/// </summary>
 		public bool IsAdmin
@@ -32,7 +47,7 @@ namespace Roadkill.Core
 			get
 			{
 				if (IsLoggedIn)
-					return SecurityManager.Current.IsAdmin(CurrentUser);
+					return UserManager.Current.IsAdmin(CurrentUser);
 				else
 					return false;
 			}
@@ -46,7 +61,7 @@ namespace Roadkill.Core
 			get
 			{
 				if (IsLoggedIn)
-					return SecurityManager.Current.IsEditor(CurrentUser);
+					return UserManager.Current.IsEditor(CurrentUser);
 				else
 					return false;
 			}

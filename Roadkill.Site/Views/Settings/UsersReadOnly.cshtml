@@ -1,4 +1,4 @@
-﻿@model IList<IEnumerable<string>>
+﻿@model IList<IEnumerable<UserSummary>>
 @{ 
 	ViewBag.Title = "Site users";
 }
@@ -19,10 +19,10 @@
 	
 	<h2>Admins (@RoadkillSettings.AdminRoleName)</h2>
 	<table class="settingstable">
-		@foreach (string username in Model[0])
+		@foreach (UserSummary user in Model[0])
 		{
 		<tr>
-			<td class="title" title="@username">@username</td>
+			<td class="title">@user.ExistingEmail</td>
 		</tr>
 		}
 	</table>
@@ -30,10 +30,10 @@
 
 	<h2>Editors (@RoadkillSettings.EditorRoleName)</h2>
 	<table class="settingstable">
-	@foreach (string username in Model[1])
+	@foreach (UserSummary user in Model[1])
 	{
 		<tr>
-			<td class="title" title="@username">@username</td>
+			<td class="title">@user.ExistingEmail</td>
 		</tr>
 	}
 	</table>

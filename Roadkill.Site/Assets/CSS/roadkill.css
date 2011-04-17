@@ -49,11 +49,12 @@
 #pageinformation .tags     { padding:4px;margin-top:10px; }
 #pageinformation .tagblock { border:1px solid #656464;background-color:#212121;color:#b8b7b7;margin-right:3px;padding:3px; }
 
-/* Login page */
+/* Login,profile page */
+#profile		{ background-color:#EFEFEF;width:30em;padding:1em; }
 #login			{ background-color:#EFEFEF;width:25em;padding:1em; }
-.loginlabel		{ float:left;margin:0 5px 0 0;padding:5px 0 0 0;font-weight:bold; }
-.logintextbox	{ float:right;width:15em;display:block; padding:0.25em; margin:0 0 10px 0;color:#3A3A3A; }
-#loginbutton	{ float:right; }
+.userlabel		{ float:left;margin:0 5px 0 0;padding:5px 0 0 0;font-weight:bold; }
+.usertextbox	{ float:right;width:15em;display:block; padding:0.25em; margin:0 0 10px 0;color:#3A3A3A; }
+#userbutton		{ float:right; }
 
 /* Search result page */
 .searchresult			{}

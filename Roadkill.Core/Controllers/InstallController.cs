@@ -125,7 +125,7 @@ namespace Roadkill.Core.Controllers
 					// Add a user if we're not using AD.
 					if (!summary.UseWindowsAuth)
 					{
-						InstallManager.AddAdminUser(summary);
+						Install.AddAdminUser(summary);
 					}					
 	
 					// Create a blank search index
@@ -136,7 +136,7 @@ namespace Roadkill.Core.Controllers
 			{
 				try
 				{
-					InstallManager.ResetInstalledState();
+					Install.ResetInstalledState();
 				}
 				catch (Exception ex)
 				{
@@ -163,7 +163,7 @@ namespace Roadkill.Core.Controllers
 			if (RoadkillSettings.Installed)
 				return Content("");
 
-			string errors = InstallManager.TestLdapConnection(connectionString, username, password, groupName);
+			string errors = Install.TestLdapConnection(connectionString, username, password, groupName);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 
@@ -176,7 +176,7 @@ namespace Roadkill.Core.Controllers
 			if (RoadkillSettings.Installed)
 				return Content("");
 
-			string errors = InstallManager.TestSaveWebConfig();
+			string errors = Install.TestSaveWebConfig();
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 
@@ -190,7 +190,7 @@ namespace Roadkill.Core.Controllers
 			if (RoadkillSettings.Installed)
 				return Content("");
 
-			string errors = InstallManager.TestAttachments(folder);
+			string errors = Install.TestAttachments(folder);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 
@@ -204,7 +204,7 @@ namespace Roadkill.Core.Controllers
 			if (RoadkillSettings.Installed)
 				return Content("");
 
-			string errors = InstallManager.TestConnection(connectionString);
+			string errors = Install.TestConnection(connectionString);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
     }

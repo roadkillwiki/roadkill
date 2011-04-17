@@ -11,13 +11,32 @@ namespace Roadkill.Core
 	/// <summary>
 	/// Provides a data summary class for creating and saving user details.
 	/// </summary>
+	[CustomValidation(typeof(UserSummary), "VerifyId")]
 	[CustomValidation(typeof(UserSummary), "VerifyNewUsername")]
+	[CustomValidation(typeof(UserSummary), "VerifyNewEmail")]
 	[CustomValidation(typeof(UserSummary), "VerifyPassword")]
 	[CustomValidation(typeof(UserSummary), "VerifyPasswordsMatch")]
 	public class UserSummary
 	{
 		/// <summary>
-		/// The previous username.
+		/// The user's id
+		/// </summary>
+		public Guid? Id { get; set; }
+
+		public string ActivationKey { get; set; }
+
+		/// <summary>
+		/// The firstname of the user.
+		/// </summary>
+		public string Firstname { get; set; }
+		
+		/// <summary>
+		/// The last name of the user.
+		/// </summary>
+		public string Lastname { get; set; }
+
+		/// <summary>
+		/// The current (or if being changed, previous) username.
 		/// </summary>
 		public string ExistingUsername { get; set; }
 
@@ -26,6 +45,17 @@ namespace Roadkill.Core
 		/// </summary>
 		[Required]
 		public string NewUsername { get; set; }
+
+		/// <summary>
+		/// The current (or if being changed, previous) email.
+		/// </summary>
+		public string ExistingEmail{ get; set; }
+
+		/// <summary>
+		/// The email to change to. For no change this should be the same as <see cref="ExistingEmail"/>
+		/// </summary>
+		[Required]
+		public string NewEmail { get; set; }
 
 		/// <summary>
 		/// The password to change to. Leave blank to keep the existing password.
@@ -54,6 +84,39 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// Initializes a new instance of the <see cref="UserSummary"/> class.
+		/// </summary>
+		public UserSummary()
+		{
+			IsNew = true;
+		}
+
+		/// <summary>
+		/// Checks if the <see cref="Id"/> is empty.
+		/// </summary>
+		/// <param name="user"></param>
+		/// <returns><see cref="ValidationResult.Success"/> if the ID isn't empty or if the user is new, 
+		/// otherwise an error message.</returns>
+		public static ValidationResult VerifyId(UserSummary user, ValidationContext context)
+		{
+			if (user.Id == Guid.Empty)
+			{
+				if (user.IsNew)
+				{
+					return ValidationResult.Success;
+				}
+				else
+				{
+					return new ValidationResult("The User ID is empty");
+				}
+			}
+			else
+			{
+				return ValidationResult.Success;
+			}
+		}
+
+		/// <summary>
 		/// Checks if the <see cref="NewUsername"/> provided is already a user in the system.
 		/// </summary>
 		/// <param name="user"></param>
@@ -64,9 +127,29 @@ namespace Roadkill.Core
 			// Only check if the username has changed
 			if (user.IsNew || user.ExistingUsername != user.NewUsername)
 			{
-				if (SecurityManager.Current.UserExists(user.NewUsername))
+				if (UserManager.Current.UserNameExists(user.NewUsername))
 				{
-					return new ValidationResult(string.Format("{0} already exists as a user", user.NewUsername));
+					return new ValidationResult(string.Format("{0} username already exists", user.NewUsername));
+				}
+			}
+
+			return ValidationResult.Success;
+		}
+
+		/// <summary>
+		/// Checks if the <see cref="NewEmail"/> provided is already a user in the system.
+		/// </summary>
+		/// <param name="user"></param>
+		/// <returns><see cref="ValidationResult.Success"/> if the email hasn't changed, 
+		/// or if it has and the new email doesn't  already exist.</returns>
+		public static ValidationResult VerifyNewEmail(UserSummary user, ValidationContext context)
+		{
+			// Only check if the username has changed
+			if (user.IsNew || user.ExistingEmail != user.NewEmail)
+			{
+				if (UserManager.Current.UserExists(user.NewEmail))
+				{
+					return new ValidationResult(string.Format("{0} email already exists", user.NewEmail));
 				}
 			}
 

@@ -34,7 +34,7 @@ namespace Roadkill.Core
 			if (string.IsNullOrEmpty(RoadkillSettings.AdminRoleName))
 				return true;
 
-			if (SecurityManager.Current.IsAdmin(identity.Name))
+			if (UserManager.Current.IsAdmin(identity.Name))
 				return true;
 			else
 				return false;

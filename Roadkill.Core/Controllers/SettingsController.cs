@@ -51,17 +51,17 @@ namespace Roadkill.Core.Controllers
 		/// <summary>
 		/// Displays the Users view.
 		/// </summary>
-		/// <returns>An <see cref="Ilist`IEnumerable`string"/> as the model. The first item contains a list of admin users,
+		/// <returns>An <see cref="IList&lt;IEnumerable&lt;UserSummary&gt;&gt;"/> as the model. The first item contains a list of admin users,
 		/// the second item contains a list of editor users. If Windows authentication is being used, the action uses the 
 		/// UsersForWindows view.</returns>
 		[ImportModelState]
 		public ActionResult Users()
 		{
-			IList<IEnumerable<string>> list = new List<IEnumerable<string>>();
-			list.Add(SecurityManager.Current.ListAdmins());
-			list.Add(SecurityManager.Current.ListEditors());
+			IList<IEnumerable<UserSummary>> list = new List<IEnumerable<UserSummary>>();
+			list.Add(UserManager.Current.ListAdmins());
+			list.Add(UserManager.Current.ListEditors());
 
-			if (SecurityManager.Current.IsReadonly)
+			if (UserManager.Current.IsReadonly)
 				return View("UsersReadOnly", list);
 			else
 				return View(list);
@@ -78,7 +78,7 @@ namespace Roadkill.Core.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				SecurityManager.Current.AddUser(summary.NewUsername, summary.Password, true, false);
+				UserManager.Current.AddUser(summary.NewEmail,summary.NewUsername, summary.Password, true, false);
 
 				// TODO
 				// ModelState.AddModelError("General", errors);
@@ -105,7 +105,7 @@ namespace Roadkill.Core.Controllers
 			{
 				try
 				{
-					SecurityManager.Current.AddUser(summary.NewUsername, summary.Password, false, true);
+					UserManager.Current.AddUser(summary.NewEmail,summary.NewUsername, summary.Password, false, true);
 				}
 				catch (SecurityException e)
 				{
@@ -135,12 +135,14 @@ namespace Roadkill.Core.Controllers
 			{
 				if (summary.UsernameHasChanged)
 				{
-					SecurityManager.Current.ChangeEmail(summary.ExistingUsername, summary.NewUsername);
-					summary.ExistingUsername = summary.NewUsername;
+					if (!UserManager.Current.UpdateUser(summary))
+						ModelState.AddModelError("General", "Updating the user failed.");
+
+					summary.ExistingEmail = summary.NewEmail;
 				}
 
 				if (!string.IsNullOrEmpty(summary.Password))
-					SecurityManager.Current.ChangePassword(summary.ExistingUsername, summary.Password, summary.ExistingUsername);
+					UserManager.Current.ChangePassword(summary.ExistingEmail, summary.Password);
 			}
 			else
 			{
@@ -158,7 +160,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Redirects to the Users action.</returns>
 		public ActionResult DeleteUser(string id)
 		{
-			SecurityManager.Current.DeleteUser(id);
+			UserManager.Current.DeleteUser(id);
 			return RedirectToAction("Users");
 		}
 

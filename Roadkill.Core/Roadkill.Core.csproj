@@ -72,6 +72,11 @@
     <Compile Include="Controllers\Attributes\AdminRequiredAttribute.cs" />
     <Compile Include="Controllers\Attributes\EditorRequiredAttribute.cs" />
     <Compile Include="Common\Salt.cs" />
+    <Compile Include="Domain\Email\ResetPasswordEmail.cs" />
+    <Compile Include="Domain\Email\SignupEmail.cs" />
+    <Compile Include="Domain\Email\Email.cs" />
+    <Compile Include="Domain\Managers\Upgrade.cs" />
+    <Compile Include="Exceptions\EmailException.cs" />
     <Compile Include="Exceptions\SearchException.cs" />
     <Compile Include="Exceptions\DatabaseException.cs" />
     <Compile Include="RoadkillSection.cs" />
@@ -84,12 +89,12 @@
     <Compile Include="Converters\LinkEventArgs.cs" />
     <Compile Include="Converters\Parsers\MediaWikiParser.cs" />
     <Compile Include="Domain\Managers\Security\ActiveDirectoryUserManager.cs" />
+    <Compile Include="Domain\Managers\Security\SqlUserManager.cs" />
     <Compile Include="Domain\Managers\Security\UserManager.cs" />
-    <Compile Include="Domain\Managers\Security\UserManagerBase.cs" />
     <Compile Include="Domain\Managers\SettingsManager.cs" />
     <Compile Include="Domain\NHibernate\User.cs" />
     <Compile Include="Domain\NHibernate\NHibernateRepository.cs" />
-    <Compile Include="Domain\Managers\InstallManager.cs" />
+    <Compile Include="Domain\Managers\Install.cs" />
     <Compile Include="Domain\Managers\ManagerBase.cs" />
     <Compile Include="Domain\Summaries\UserSummary.cs" />
     <Compile Include="Exceptions\HistoryException.cs" />
@@ -120,7 +125,6 @@
     <Compile Include="Domain\NHibernate\PageContent.cs" />
     <Compile Include="Domain\Managers\HistoryManager.cs" />
     <Compile Include="Domain\Managers\PageManager.cs" />
-    <Compile Include="Domain\Managers\Security\SecurityManager.cs" />
     <Compile Include="Domain\NHibernate\Page.cs" />
     <Compile Include="Domain\Summaries\PageSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

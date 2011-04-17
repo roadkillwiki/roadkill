@@ -17,6 +17,7 @@ namespace Roadkill.Core
 		[Required(ErrorMessage="The connection string is empty")]
 		public string ConnectionString { get; set; }
 
+		public string AdminEmail { get; set; }
 		public string AdminPassword { get; set; }
 
 		public bool UseWindowsAuth { get; set; }

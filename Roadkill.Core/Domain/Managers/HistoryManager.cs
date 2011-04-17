@@ -127,7 +127,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				string currentUser = RoadkillContext.Current.CurrentUser;
+				string currentUser = RoadkillContext.Current.CurrentUsername;
 
 				PageContent versionContent = PageContents.FirstOrDefault(p => p.Id == versionId);
 				Page page = Pages.FirstOrDefault(p => p.Id == versionContent.Page.Id);

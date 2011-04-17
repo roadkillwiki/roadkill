@@ -110,7 +110,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// 
+		/// For example: LDAP://mydc01.company.internal
 		/// </summary>
 		[ConfigurationProperty("ldapConnectionString", IsRequired = false)]
 		public string LdapConnectionString
@@ -120,7 +120,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// 
+		/// The username to authenticate against the AD with
 		/// </summary>
 		[ConfigurationProperty("ldapUsername", IsRequired = false)]
 		public string LdapUsername
@@ -130,7 +130,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// 
+		/// The password to authenticate against the AD with
 		/// </summary>
 		[ConfigurationProperty("ldapPassword", IsRequired = false)]
 		public string LdapPassword
@@ -140,7 +140,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// 
+		/// Whether to enabled Windows and Active Directory authentication.
 		/// </summary>
 		[ConfigurationProperty("useWindowsAuthentication", IsRequired = true)]
 		public bool UseWindowsAuthentication

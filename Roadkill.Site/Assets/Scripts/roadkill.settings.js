@@ -20,8 +20,12 @@ function bindUserButtons()
 	{
 		$("#userdialogContainer h2").html("Add admin");
 		$("form#userform").attr("action", ROADKILL_ADDADMIN_FORMACTION);
-		
+
+		$("#Id").val("{10000000-0000-0000-0000-000000000000}"); // data annotations workaround
+		$("#ExistingUsername").val("");
+		$("#ExistingEmail").val("");
 		$("#NewUsername").val("");
+		$("#NewEmail").val("");
 		$("#IsNew").val("True");
 
 		$(".validation-summary-errors").hide();
@@ -33,8 +37,12 @@ function bindUserButtons()
 	{
 		$("#userdialogContainer h2").html("Add editor");
 		$("form#userform").attr("action", ROADKILL_ADDEDITOR_FORMACTION);
-		
+
+		$("#Id").val("{10000000-0000-0000-0000-000000000000}"); // data annotations workaround
+		$("#ExistingUsername").val("");
+		$("#ExistingEmail").val("");
 		$("#NewUsername").val("");
+		$("#NewEmail").val("");
 		$("#IsNew").val("True");
 
 		$(".validation-summary-errors").hide();
@@ -48,10 +56,15 @@ function bindUserButtons()
 		$("form#userform").attr("action", ROADKILL_EDITUSER_FORMACTION);
 
 		var anchor = $(this);
-		$("#ExistingUsername").val(anchor.attr("title"));
-		$("#NewUsername").val(anchor.attr("title"));
+		eval(anchor.attr("rel"));
+
+		$("#Id").val(user.id);
+		$("#ExistingUsername").val(user.username);
+		$("#ExistingEmail").val(user.email);
+		$("#NewUsername").val(user.username);
+		$("#NewEmail").val(user.email);
 		$("#IsNew").val("False");
-		
+
 		$(".validation-summary-errors").hide();
 		$("#userdialogContainer").modal();
 	});

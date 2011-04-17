@@ -99,18 +99,6 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Gets a string to indicate whether the current user is logged in.
-		/// </summary>
-		/// <returns>"Logged in as {user}" if the user is logged in; "Not logged in" if the user is not logged in.</returns>
-		public static MvcHtmlString LoginStatus(this HtmlHelper helper)
-		{
-			if (RoadkillContext.Current.IsLoggedIn)
-				return MvcHtmlString.Create("Logged in as "+RoadkillContext.Current.CurrentUser);
-			else
-				return MvcHtmlString.Create("Not logged in");
-		}
-
-		/// <summary>
 		/// Gets a CSS class name for the tag based on the <see cref="TagSummary.Count"/> - the number of
 		/// pages with that tag in the system.
 		/// </summary>

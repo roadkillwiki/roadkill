@@ -13,6 +13,23 @@ namespace Roadkill.Core
 	public static class HtmlLinkExtensions
 	{
 		/// <summary>
+		/// Gets a string to indicate whether the current user is logged in.
+		/// </summary>
+		/// <returns>"Logged in as {user}" if the user is logged in; "Not logged in" if the user is not logged in.</returns>
+		public static MvcHtmlString LoginStatus(this HtmlHelper helper)
+		{
+			if (RoadkillContext.Current.IsLoggedIn)
+			{
+				string text = string.Format("Logged in as {0}",RoadkillContext.Current.CurrentUsername);
+				return helper.ActionLink(text, "Profile", "Home");
+			}
+			else
+			{
+				return MvcHtmlString.Create("Not logged in");
+			}
+		}
+
+		/// <summary>
 		/// Provides a link to the settings page, with optional prefix and suffix tags or seperators.
 		/// </summary>
 		/// <returns>If the user is not logged in and not an admin, an empty string is returned.</returns>

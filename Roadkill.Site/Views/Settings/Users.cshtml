@@ -1,4 +1,4 @@
-﻿@model IList<IEnumerable<string>>
+﻿@model IList<IEnumerable<UserSummary>>
 @{ 
 	ViewBag.Title = "Site users";
 }
@@ -29,14 +29,20 @@
 		<a id="addadmin" href="javascript:;">New admin user</a>
 	</p>
 	<table class="settingstable">
-		@foreach (string username in Model[0])
-		{
 		<tr>
-			<td class="title" title="@username">@username</td>
-			<td class="edit"><a href="javascript:;" title="@username">Edit</a></td>
-			<td class="delete">@Html.ActionLink("Delete", "Delete", new { id = username }, new { @class = "confirm" })</td>
+			<td class="title bold">Username</td>
+			<td class="title bold">Email</td>
+			<td colspan="2"></td>
 		</tr>
-		}
+	@foreach (UserSummary user in Model[0])
+	{
+		<tr>
+			<td class="title">@user.ExistingUsername</td>
+			<td class="title">@user.ExistingEmail</td>
+			<td class="edit"><a href="javascript:;" rel="var user = {id : '@user.Id', email :'@user.ExistingEmail',username:'@user.ExistingUsername'}">Edit</a></td>
+			<td class="delete">@Html.ActionLink("Delete", "Delete", new { id = user.ExistingEmail }, new { @class = "confirm" })</td>
+		</tr>
+	}
 	</table>
 	<br class="clear" />
 
@@ -45,12 +51,13 @@
 		<a id="addeditor" href="javascript:;">New editor user</a>
 	</p>
 	<table class="settingstable">
-	@foreach (string username in Model[1])
+	@foreach (UserSummary user in Model[1])
 	{
 		<tr>
-			<td class="title" title="@username">@username</td>
-			<td class="edit"><a href="javascript:;" title="@username">Edit</a></td>
-			<td class="delete">@Html.ActionLink("Delete", "DeleteUser", new { id = username }, new { @class = "confirm" })</td>
+			<td class="title">@user.ExistingUsername</td>
+			<td class="title">@user.ExistingEmail</td>
+			<td class="edit"><a href="javascript:;" rel="var user = {id : '@user.Id', email :'@user.ExistingEmail',username:'@user.ExistingUsername'}">Edit</a></td>
+			<td class="delete">@Html.ActionLink("Delete", "DeleteUser", new { id = user.ExistingEmail }, new { @class = "confirm" })</td>
 		</tr>
 	}
 	</table>
@@ -59,14 +66,22 @@
 	<div id="userdialogContainer">
 		<h2 style="margin-top:0">Edit user</h2>
 		@Html.ValidationSummary("Error:")
+		<!-- The postback URL is changed dynamically in bindUserButtons in roadkill.settings.js -->
 		@using (Html.BeginForm("AddAdmin", "Settings", FormMethod.Post, new { id = "userform" }))
 		{
+			@Html.Hidden("Id")
 			@Html.Hidden("IsNew")
+			@Html.Hidden("ExistingEmail")
 			@Html.Hidden("ExistingUsername")
 			<p class="smallest">For existing users, leave the password fields blank to change just the username.</p>
 			<div class="row">
 				<label for="NewUsername">Username:</label>
 				<div class="left textbox">@Html.TextBox("NewUsername", null, new { @autocomplete = "off" })</div>
+			</div>
+			<br class="clear" />
+			<div class="row">
+				<label for="NewEmail">Email:</label>
+				<div class="left textbox">@Html.TextBox("NewEmail", null, new { @autocomplete = "off" })</div>
 			</div>
 			<br class="clear" />
 	 

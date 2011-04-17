@@ -9,7 +9,7 @@ namespace Roadkill.Core
 	/// <summary>
 	/// Provides user management with Active Directory.
 	/// </summary>
-	public class ActiveDirectoryUserManager : UserManagerBase
+	public class ActiveDirectoryUserManager : UserManager
 	{
 		// Very simplistic caching.
 		private static Dictionary<string, List<string>> _usersInGroupCache = new Dictionary<string, List<string>>();
@@ -53,6 +53,26 @@ namespace Roadkill.Core
 				throw new SecurityException(null,"The LDAP connection string: '{0}' does not appear to be a valid LDAP. A correct connection string example is LDAP://dc=megacorp,dc=com.", _connectionString);
 
 			_domainName = _connectionString.Substring(length);
+		}
+
+
+		/// <summary>
+		/// Retrieves a full <see cref="User"/> object for the email address provided, or null if the user doesn't exist.
+		/// </summary>
+		/// <param name="email">The username of the user to get</param>
+		/// <returns>
+		/// A <see cref="User"/> object
+		/// </returns>
+		public override User GetUser(string email)
+		{
+			return new User()
+			{
+				Email = email,
+				Username = email,
+				IsActivated = true,
+				IsEditor = IsEditor(email),
+				IsAdmin = IsAdmin(email),
+			};
 		}
 
 		/// <summary>
@@ -103,9 +123,16 @@ namespace Roadkill.Core
 		/// <returns>
 		/// A list of email/usernames who belong to the admin group/security group.
 		/// </returns>
-		public override IEnumerable<string> ListAdmins()
+		public override IEnumerable<UserSummary> ListAdmins()
 		{
-			return GetUsersInGroup(_adminRolename);
+			List<string> usernames = GetUsersInGroup(_adminRolename);
+			List<UserSummary> list = new List<UserSummary>();
+			foreach (string editor in usernames)
+			{
+				list.Add(new UserSummary() { ExistingUsername = editor, ExistingEmail = editor });
+			}
+
+			return list;
 		}
 
 		/// <summary>
@@ -114,9 +141,16 @@ namespace Roadkill.Core
 		/// <returns>
 		/// A list of email/usernames wwho belong to the editor group/security group.
 		/// </returns>
-		public override IEnumerable<string> ListEditors()
+		public override IEnumerable<UserSummary> ListEditors()
 		{
-			return GetUsersInGroup(_editorRolename);
+			List<string> usernames = GetUsersInGroup(_editorRolename);
+			List<UserSummary> list = new List<UserSummary>();
+			foreach (string editor in usernames)
+			{
+				list.Add(new UserSummary() { ExistingUsername = editor, ExistingEmail = editor });
+			}
+
+			return list;
 		}
 
 		/// <summary>
@@ -195,19 +229,13 @@ namespace Roadkill.Core
 		}
 
 		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
-		public override bool AddUser(string email, string password, bool isAdmin, bool isEditor)
+		public override bool AddUser(string email, string username, string password, bool isAdmin, bool isEditor)
 		{
 			throw new NotImplementedException();
 		}
 
 		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
 		public override bool Authenticate(string email, string password)
-		{
-			throw new NotImplementedException();
-		}
-
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
-		public override bool ChangeEmail(string oldEmail, string newEmail)
 		{
 			throw new NotImplementedException();
 		}
@@ -220,6 +248,12 @@ namespace Roadkill.Core
 
 		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
 		public override bool ChangePassword(string email, string oldPassword, string newPassword)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		public override bool UpdateUser(UserSummary summary)
 		{
 			throw new NotImplementedException();
 		}
@@ -255,13 +289,19 @@ namespace Roadkill.Core
 		}
 
 		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
-		public override string Signup(string email, string password, Action completed)
+		public override string Signup(UserSummary summary, Action completed)
 		{
 			throw new NotImplementedException();
 		}
 
 		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
 		public override bool UserExists(string email)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		public override bool UserNameExists(string username)
 		{
 			throw new NotImplementedException();
 		}

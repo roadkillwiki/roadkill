@@ -12,6 +12,7 @@ namespace Roadkill.Core
 	/// <summary>
 	/// Holds setting information for both application and web.config settings for the Roadkill instance.
 	/// </summary>
+	/// <remarks>This class acts as a helper for RoadkillSection and SiteConfiguration as a single point for all settings.</remarks>
 	public class RoadkillSettings
 	{
 		private static string _rolesConnectionString;
@@ -19,6 +20,18 @@ namespace Roadkill.Core
 		private static string _ldapUsername;
 		private static string _ldapPassword;
 		private static DatabaseType? _databaseType;
+
+		/// <summary>
+		/// Whether users can register themselves, or if the administrators should do it. 
+		/// If windows authentication is enabled, this setting is ignored.
+		/// </summary>
+		public static bool AllowUserSignup
+		{
+			get
+			{
+				return SiteConfiguration.Current.AllowUserSignup;
+			}
+		}
 
 		/// <summary>
 		/// The name of the role or Active Directory security group that users should belong to in order to create,edit,delete pages,
@@ -107,17 +120,6 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Gets a value indicating whether this windows authentication is being used.
-		/// </summary>
-		public static bool UseWindowsAuthentication
-		{
-			get
-			{
-				return RoadkillSection.Current.UseWindowsAuthentication;
-			}
-		}
-
-		/// <summary>
 		/// The connection string for Active Directory server if <see cref="UseWindowsAuthentication"/> is true.
 		/// This should start with LDAP:// in uppercase.
 		/// </summary>
@@ -166,6 +168,32 @@ namespace Roadkill.Core
 		{
 			get { return 6; }
 		}
+	
+		/// <summary>
+		/// The name of the site, used by emails and themes.
+		/// </summary>
+		public static string SiteName
+		{
+			get
+			{
+				return SiteConfiguration.Current.Title;
+			}
+		}
+
+		/// <summary>
+		/// The current site url, derived from the HttpRequest.
+		/// </summary>
+		public static string SiteUrl
+		{
+			get
+			{
+				if (HttpContext.Current == null)
+					return "http://localhost";
+
+				Uri url = HttpContext.Current.Request.Url;
+				return url.Host;
+			}
+		}
 
 		/// <summary>
 		/// The name of the theme for the wiki. This should be a folder in the ~/Themes/ directory inside the site root.
@@ -191,6 +219,17 @@ namespace Roadkill.Core
 			get
 			{
 				return string.Format("~/Themes/{0}", Theme);
+			}
+		}
+
+		/// <summary>
+		/// Gets a value indicating whether this windows authentication is being used.
+		/// </summary>
+		public static bool UseWindowsAuthentication
+		{
+			get
+			{
+				return RoadkillSection.Current.UseWindowsAuthentication;
 			}
 		}
 

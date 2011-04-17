@@ -9,14 +9,14 @@
 {
 	@Html.Hidden("fromUrl",Request.QueryString["ReturnUrl"])
 	<fieldset id="login" class="rounded10 lightborder">
-		<label for="username" class="loginlabel">Username:</label>
-		@Html.TextBox("username", null, new { @class = "logintextbox" })
-	<br class="clear" />	
+		<label for="email" class="userlabel">Email:</label>
+		@Html.TextBox("username", null, new { @class = "usertextbox" })
+		<br class="clear" />	
 
-	<label for="password" class="loginlabel">Password:</label>
-	<div>@Html.Password("password", null, new { @class = "logintextbox" })</div>
-	<br class="clear" />
+		<label for="password" class="userlabel">Password:</label>
+		<div>@Html.Password("password", null, new { @class = "usertextbox" })</div>
+		<br class="clear" />
 	
-	<input type="submit" id="loginbutton" class="button" value="Login" />
+		<input type="submit" id="userbutton" class="button" value="Login" />
 	</fieldset>
 }

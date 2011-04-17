@@ -61,7 +61,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult Login(string username, string password, string fromUrl)
 		{
-			if (SecurityManager.Current.Authenticate(username, password))
+			if (UserManager.Current.Authenticate(username, password))
 			{
 				FormsAuthentication.SetAuthCookie(username, true);
 
@@ -82,8 +82,56 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult Logout()
 		{
-			SecurityManager.Current.Logout();
+			UserManager.Current.Logout();
 			return RedirectToAction("Index");
+		}
+
+		/// <summary>
+		/// Provides a page for editing the logged in user's profile details.
+		/// </summary>
+		public ActionResult Profile()
+		{
+			if (RoadkillContext.Current.IsLoggedIn)
+			{
+				UserSummary summary = UserManager.Current.GetUser(RoadkillContext.Current.CurrentUser).ToSummary();
+				return View(summary);
+			}
+			else
+			{
+				return RedirectToAction("Login");
+			}
+		}
+
+		/// <summary>
+		/// Updates the POST'd user profile details.
+		/// </summary>
+		[HttpPost]
+		public ActionResult Profile(UserSummary summary)
+		{
+			if (!RoadkillContext.Current.IsLoggedIn)
+				return RedirectToAction("Login");
+
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					if (!UserManager.Current.UpdateUser(summary))
+					{
+						ModelState.AddModelError("General", "An error occured updating your profile");
+
+						summary.ExistingEmail = summary.NewEmail;
+					}
+
+					if (!string.IsNullOrEmpty(summary.Password))
+						UserManager.Current.ChangePassword(summary.ExistingEmail, summary.Password);
+				}
+				catch (SecurityException e)
+				{
+					ModelState.AddModelError("General", e.Message);
+				}
+			}
+
+			return View();
 		}
 
 		/// <summary>
@@ -95,6 +143,57 @@ namespace Roadkill.Core.Controllers
 
 			List<SearchResult> results = SearchManager.Current.SearchIndex(q);
 			return View(results);
+		}
+
+		/// <summary>
+		/// Provides a page for creating a new user account. This redirects to the home page if
+		/// windows authentication is enabled, or AllowUserSignup is disabled.
+		/// </summary>
+		public ActionResult Signup()
+		{
+			if (RoadkillContext.Current.IsLoggedIn || !RoadkillSettings.AllowUserSignup || RoadkillSettings.UseWindowsAuthentication)
+			{
+				return RedirectToAction("Index");
+			}
+			else
+			{
+				return View();
+			}
+		}
+
+		/// <summary>
+		/// Attempts to create the new user, sending a validation key
+		/// </summary>
+		[HttpPost]
+		public ActionResult Signup(UserSummary summary)
+		{
+			if (RoadkillContext.Current.IsLoggedIn || !RoadkillSettings.AllowUserSignup || RoadkillSettings.UseWindowsAuthentication)
+				return RedirectToAction("Index");
+
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					string key = UserManager.Current.Signup(summary,null);
+					if (string.IsNullOrEmpty(key))
+					{
+						ModelState.AddModelError("General", "An error occured with the signup.");
+					}
+					else
+					{
+						// Send the confirm email
+						Email.Send(summary.NewEmail, summary, new SignupEmail(summary));
+
+						return View("SignupComplete", summary);
+					}
+				}
+				catch (SecurityException e)
+				{
+					ModelState.AddModelError("General", e.Message);
+				}
+			}
+
+			return View();			
 		}
 
 		/// <summary>

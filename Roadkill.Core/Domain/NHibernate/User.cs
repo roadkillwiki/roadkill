@@ -14,8 +14,27 @@ namespace Roadkill.Core
 	public class User
 	{
 		public virtual Guid Id { get; set; }
+
+		/// <summary>
+		/// This field is for page modifiedby/created by, and is a 'friendly' name. For windows auth the email field is used instead.
+		/// </summary>
+		public virtual string Username { get; set; }
+
+		/// <summary>
+		/// This is used as the username or identifier for the user. If using windows auth, this will
+		/// be the user name from active directory.
+		/// </summary>
 		public virtual string Email { get; set; }
+
+		public virtual string Firstname { get; set; }
+		public virtual string Lastname { get; set; }
+		/// <summary>
+		/// Do not use this property - use <see cref="SetPassword"/> instead
+		/// </summary>
 		public virtual string Password { get; protected set; }
+		/// <summary>
+		/// Do not use this property - use <see cref="SetPassword"/> instead
+		/// </summary>
 		public virtual string Salt { get; set; }
 		public virtual bool IsEditor { get; set; }
 		public virtual bool IsAdmin { get; set; }
@@ -32,6 +51,21 @@ namespace Roadkill.Core
 		{
 			return FormsAuthentication.HashPasswordForStoringInConfigFile(password + salt, "SHA1");
 		}
+
+		public virtual UserSummary ToSummary()
+		{
+			return new UserSummary()
+			{
+				ActivationKey = ActivationKey,
+				Id = Id,
+				ExistingEmail = Email,
+				ExistingUsername = Username,
+				NewEmail = Email,
+				NewUsername = Username,
+				Firstname = Firstname,
+				Lastname = Lastname
+			};
+		}
 	}
 
 	/// <summary>
@@ -43,14 +77,16 @@ namespace Roadkill.Core
 		{
 			Table("roadkill_users");
 			Id(x => x.Id);
-			Map(x => x.Email);
+			Map(x => x.Email).Index("email");
+			Map(x => x.Username);
+			Map(x => x.Firstname);
+			Map(x => x.Lastname);
 			Map(x => x.Password);
 			Map(x => x.Salt);
 			Map(x => x.IsEditor);
 			Map(x => x.IsAdmin);
 			Map(x => x.IsActivated);
 			Map(x => x.ActivationKey);
-			Cache.ReadWrite().IncludeAll();
 		}
 	}
 }
