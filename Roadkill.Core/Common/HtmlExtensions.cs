@@ -7,6 +7,9 @@ using System.Web.Mvc.Html;
 using Roadkill.Core.Converters;
 using System.Web;
 using System.Text.RegularExpressions;
+using Recaptcha;
+using System.Web.UI;
+using System.IO;
 
 namespace Roadkill.Core
 {
@@ -164,6 +167,70 @@ namespace Roadkill.Core
 				return size / 1024 + "KB";
 			else
 				return size + " bytes";
+		}
+
+		/// <summary>
+		/// Renders the Recaptcha control as HTML, if recaptcha is enabled.
+		/// </summary>
+		public static MvcHtmlString RenderCaptcha(this HtmlHelper helper)
+		{
+            if (RoadkillSettings.IsRecaptchaEnabled)
+			{
+				RecaptchaControl control = new RecaptchaControl();
+				control.ID = "recaptcha";
+				control.Theme = "clean";
+				control.PublicKey = RoadkillSettings.RecaptchaPublicKey;
+				control.PrivateKey = RoadkillSettings.RecaptchaPrivateKey;
+
+				using (StringWriter stringWriter = new StringWriter())
+				{
+					using (HtmlTextWriter htmlWriter = new HtmlTextWriter(stringWriter))
+					{
+						stringWriter.WriteLine("<br/><label class=\"userlabel\">As an anti-spam measure, please enter the two words below</label><br/>");
+						control.RenderControl(htmlWriter);
+						stringWriter.WriteLine("<br/>");
+						
+						return MvcHtmlString.Create(htmlWriter.InnerWriter.ToString());
+					}
+				}
+			}
+			else
+			{
+				return MvcHtmlString.Empty;
+			}
+		}
+
+		/// <summary>
+		/// Displays a drop list for the DatabaseType enum, using the currently selected value from RoadkillSettings.DatabaseType
+		/// </summary>
+		public static MvcHtmlString DropDownBoxForDatabaseType(this HtmlHelper helper)
+		{
+			List<SelectListItem> selectList = new List<SelectListItem>();
+
+			// These are hardcoded as there will never be (except perhaps Oracle) more than the list of datatypes below
+
+			SelectListItem listItem = new SelectListItem() { Text = "DB2", Value = DatabaseType.DB2.ToString() };
+			selectList.Add(listItem);
+
+			listItem = new SelectListItem() { Text = "Firebird", Value = DatabaseType.Firebird.ToString() };
+			selectList.Add(listItem);
+
+			listItem = new SelectListItem() { Text = "MySQL", Value = DatabaseType.MySQL.ToString() };
+			selectList.Add(listItem);
+
+			listItem = new SelectListItem() { Text = "Postgres", Value = DatabaseType.Postgres.ToString() };
+			selectList.Add(listItem);
+
+			listItem = new SelectListItem() { Text = "Sqlite", Value = DatabaseType.Sqlite.ToString()};
+			selectList.Add(listItem);
+
+			listItem = new SelectListItem() { Text = "SqlServer 2005", Value = DatabaseType.SqlServer2005.ToString(), Selected=true };
+			selectList.Add(listItem);
+
+			listItem = new SelectListItem() { Text = "SqlServer 2008", Value = DatabaseType.SqlServer2008.ToString() };
+			selectList.Add(listItem);
+
+			return helper.DropDownList("DatabaseType", selectList);
 		}
 	}
 }

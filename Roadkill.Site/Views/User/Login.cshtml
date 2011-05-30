@@ -16,6 +16,8 @@
 		<label for="password" class="userlabel">Password:</label>
 		<div>@Html.Password("password", null, new { @class = "usertextbox" })</div>
 		<br class="clear" />
+
+		@Html.ActionLink("Forgotten your password?", "ResetPassword", null, new { @class = "smaller" })
 	
 		<input type="submit" id="userbutton" class="button" value="Login" />
 	</fieldset>

@@ -19,7 +19,7 @@ namespace Roadkill.Core
 		private static string _ldapConnectionString;
 		private static string _ldapUsername;
 		private static string _ldapPassword;
-		private static DatabaseType? _databaseType;
+		private static DatabaseType? _databaseType = null;
 
 		/// <summary>
 		/// Whether users can register themselves, or if the administrators should do it. 
@@ -86,7 +86,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The name of the role or Active Directory security group that users should belong to in order to create and edit pages.
+		/// The database type used as the backing store.
 		/// </summary>
 		public static DatabaseType DatabaseType
 		{
@@ -94,9 +94,15 @@ namespace Roadkill.Core
 			{
 				if (_databaseType == null)
 				{
-					DatabaseType dbType = DatabaseType.SqlServer;
-					Enum.TryParse<DatabaseType>(RoadkillSection.Current.DatabaseType, true, out dbType);
-					_databaseType = dbType;
+					if (string.IsNullOrEmpty(RoadkillSection.Current.DatabaseType))
+						return DatabaseType.SqlServer2005;
+
+					DatabaseType dbType;
+
+					if (Enum.TryParse<DatabaseType>(RoadkillSection.Current.DatabaseType, true, out dbType))
+						_databaseType = dbType;
+					else
+						_databaseType = DatabaseType.SqlServer2005;
 				}
 
 				return _databaseType.Value;
@@ -117,6 +123,14 @@ namespace Roadkill.Core
 		public static bool Installed
 		{
 			get { return RoadkillSection.Current.Installed; }
+		}
+
+		/// <summary>
+		/// Whether the anti-spam Recaptcha service is enabled for signups and password resets.
+		/// </summary>
+		public static bool IsRecaptchaEnabled
+		{
+			get { return SiteConfiguration.Current.EnableRecaptcha; }
 		}
 
 		/// <summary>
@@ -168,6 +182,29 @@ namespace Roadkill.Core
 		{
 			get { return 6; }
 		}
+
+		/// <summary>
+		/// The Recaptcha private key.
+		/// </summary>
+		public static string RecaptchaPrivateKey
+		{
+			get
+			{
+				return SiteConfiguration.Current.RecaptchaPrivateKey;
+			}
+		}
+
+		/// <summary>
+		/// The Recaptcha public key.
+		/// </summary>
+		public static string RecaptchaPublicKey
+		{
+			get
+			{
+				return SiteConfiguration.Current.RecaptchaPublicKey;
+			}
+		}
+
 	
 		/// <summary>
 		/// The name of the site, used by emails and themes.
@@ -181,17 +218,13 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The current site url, derived from the HttpRequest.
+		/// The name of the site, used by emails.
 		/// </summary>
 		public static string SiteUrl
 		{
 			get
 			{
-				if (HttpContext.Current == null)
-					return "http://localhost";
-
-				Uri url = HttpContext.Current.Request.Url;
-				return url.Host;
+				return SiteConfiguration.Current.SiteUrl;
 			}
 		}
 

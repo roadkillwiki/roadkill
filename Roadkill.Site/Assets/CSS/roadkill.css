@@ -9,11 +9,13 @@
 .bold			{ font-weight:bold; }
 .blueborder		{ border:1px solid #032451; }
 .borderbottom	{ border-bottom:1px solid #032451; }
+.boringbutton	{ height:23px; min-width:75px; }
 .button			{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;cursor:pointer;min-width:100px;font-size: 14px;font-weight: normal;padding:8px 20px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px; }
 .button:focus	{ border:2px solid #99b3d4;}
 .clear			{ clear:both; }
 .center			{ display:block;margin-left:auto; margin-right:auto; }
 .dimmed			{ opacity:0.5; }
+.green			{ color:Green; }
 .hidden			{ display:none; }
 .italic			{ font-style:italic; }
 .left			{ float:left; }
@@ -35,7 +37,7 @@
 
 /* Modal dialog styles for jquery.simplemodal */
 #simplemodal-overlay	{ background-color:#000; }
-#simplemodal-container	{ background-color:#333; border:2px solid #d3d2d2; padding:12px; }
+#simplemodal-container	{ background-color:#333;border:2px solid #d3d2d2; padding:12px; }
 #simplemodal-container a.modalCloseImg { background:url('close-x.png') no-repeat;width:25px;height:29px;display:inline;z-index:3200;position:absolute;top:-15px;right:-18px;cursor:pointer;}
 
 /* Toolbar for logged in users */
@@ -49,9 +51,10 @@
 #pageinformation .tags     { padding:4px;margin-top:10px; }
 #pageinformation .tagblock { border:1px solid #656464;background-color:#212121;color:#b8b7b7;margin-right:3px;padding:3px; }
 
-/* Login,profile page */
-#profile		{ background-color:#EFEFEF;width:30em;padding:1em; }
+/* Login,profile,reset password pages */
+#profile		{ background-color:#EFEFEF;width:35em;padding:1em; }
 #login			{ background-color:#EFEFEF;width:25em;padding:1em; }
+#resetpassword	{ background-color:#EFEFEF;width:30em;padding:1em; }
 .userlabel		{ float:left;margin:0 5px 0 0;padding:5px 0 0 0;font-weight:bold; }
 .usertextbox	{ float:right;width:15em;display:block; padding:0.25em; margin:0 0 10px 0;color:#3A3A3A; }
 #userbutton		{ float:right; }
@@ -67,7 +70,7 @@
 .searchbox				{ width:20em; }
 
 /* All tags(categories) page */
-#tagcloud		{ margin:0;padding:2px;line-height:3em;border:1px solid #e3e2e2;padding:10px; }
+#tagcloud		{ margin:0px;padding:2px;line-height:3em;border:1px solid #e3e2e2;padding:10px; }
 #tagcloud li	{ display:inline; }
 #tagcloud a		{ padding:0px;padding:10px; }
 .tagblock a		{ text-decoration:none;color:#FFFFFF; }
@@ -131,7 +134,7 @@
 #files-container	{ background-color:#FFF;min-height:400px; }
 .selectedfolder		{ background-color:#e3e2e2; }
 #filetree-container	{ width:500px; }
-#file-preview		{ position:fixed;margin-left:5px;width:90px;bottom:0;right:0; }
+#file-preview		{ position:fixed;margin-left:5px;width:90px;bottom:0px;right:0px; }
 #file-preview img	{ max-height:50px;max-width:50px; }
 
 /* Settings page [admins] */
@@ -140,7 +143,7 @@
 #settings .row		{ height:35px; }
 #settings .checkbox { margin-top:3px; }
 #settings .help		{ margin-left:5px;}
-#settings .checkbox input		{ margin:0; }
+#settings .checkbox input		{ margin:0px; }
 #settings .textbox input		{ float:left; border:1px solid #032451;height:20px;width:350px;font-size:1em; }
 #settings .smalltextbox input	{ float:left; border:1px solid #032451;height:20px;width:150px; }
 

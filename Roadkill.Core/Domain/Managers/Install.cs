@@ -101,12 +101,15 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <param name="connectionString">The connection string.</param>
 		/// <returns>Any error messages or an empty string if no errors occured.</returns>
-		public static string TestConnection(string connectionString)
+		public static string TestConnection(string connectionString, string databaseType)
 		{
 			try
 			{
-				// TODO: Needs a database type
-				NHibernateRepository.Current.Configure(DatabaseType.SqlServer, connectionString, true, false);
+				DatabaseType dbType;
+				if (!Enum.TryParse<DatabaseType>(databaseType, out dbType))
+					dbType = DatabaseType.SqlServer2005;
+
+				NHibernateRepository.Current.Configure(dbType, connectionString, true, false);
 				return "";
 			}
 			catch (Exception e)

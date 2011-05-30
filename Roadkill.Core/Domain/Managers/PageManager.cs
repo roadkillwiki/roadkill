@@ -46,7 +46,14 @@ namespace Roadkill.Core
 				NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContent);
 
 				// Update the lucene index
-				SearchManager.Current.Add(page.ToSummary());
+				try
+				{
+					SearchManager.Current.Add(page.ToSummary());
+				}
+				catch (SearchException)
+				{
+					// TODO: log
+				}
 
 				return page.ToSummary();
 			}
@@ -163,7 +170,14 @@ namespace Roadkill.Core
 				NHibernateRepository.Current.Delete<Page>(page);
 
 				// Update the lucene index
-				SearchManager.Current.Delete(page.ToSummary());
+				try
+				{
+					SearchManager.Current.Delete(page.ToSummary());
+				}
+				catch (SearchException)
+				{
+					// TODO: log.
+				}
 			}
 			catch (HibernateException ex)
 			{

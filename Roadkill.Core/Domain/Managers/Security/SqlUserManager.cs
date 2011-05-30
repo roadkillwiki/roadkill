@@ -34,7 +34,25 @@ namespace Roadkill.Core
 		/// <returns>True if the activation was successful</returns>
 		public override bool ActivateUser(string activationKey)
 		{
-			throw new NotImplementedException("This feature has not been implemented yet");
+			try
+			{
+				User user = Users.FirstOrDefault(u => u.ActivationKey == activationKey && u.IsActivated == false);
+				if (user != null)
+				{
+					user.IsActivated = true;
+					NHibernateRepository.Current.SaveOrUpdate<User>(user);
+
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			catch (HibernateException ex)
+			{
+				throw new SecurityException(ex, "An error occured while activating the user with key {0}", activationKey);
+			}
 		}
 
 		/// <summary>
@@ -90,7 +108,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				User user = Users.FirstOrDefault(u => u.Email == email);
+				User user = Users.FirstOrDefault(u => u.Email == email && u.IsActivated);
 				if (user != null)
 				{
 					if (user.Password == User.HashPassword(password, user.Salt))
@@ -201,6 +219,16 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// Retrieves a full <see cref="User"/> object using the unique ID provided..
+		/// </summary>
+		/// <param name="email">The ID of the user.</param>
+		/// <returns>A <see cref="User"/> object</returns>
+		public override User GetUserById(Guid id)
+		{
+			return Users.FirstOrDefault(u => u.Id == id);
+		}
+
+		/// <summary>
 		/// Retrieves a full <see cref="User"/> object for the email address provided, or null if the user doesn't exist.
 		/// </summary>
 		/// <param name="email">The email address of the user to get</param>
@@ -208,6 +236,16 @@ namespace Roadkill.Core
 		public override User GetUser(string email)
 		{
 			return Users.FirstOrDefault(u => u.Email == email);
+		}
+
+		/// <summary>
+		/// Retrieves a full <see cref="User"/> object for a password reset request.
+		/// </summary>
+		/// <param name="resetKey"></param>
+		/// <returns>A <see cref="User"/> object</returns>
+		public override User GetUserByResetKey(string resetKey)
+		{
+			return Users.FirstOrDefault(u => u.PasswordResetKey == resetKey);
 		}
 
 		/// <summary>
@@ -307,7 +345,29 @@ namespace Roadkill.Core
 		/// </returns>
 		public override string ResetPassword(string email)
 		{
-			throw new NotImplementedException("This feature has not been implemented yet");
+			if (string.IsNullOrEmpty(email))
+				throw new SecurityException("The email provided to ResetPassword is null or empty.", null);
+
+			try
+			{
+				User user = UserManager.Current.GetUser(email);
+
+				if (user != null)
+				{
+					user.PasswordResetKey = Guid.NewGuid().ToString();
+					NHibernateRepository.Current.SaveOrUpdate<User>(user);
+
+					return user.PasswordResetKey;
+				}
+				else
+				{
+					return "";
+				}
+			}
+			catch (HibernateException ex)
+			{
+				throw new SecurityException(ex, "An error occured with resetting the password of {0}", email);
+			}
 		}
 
 		/// <summary>
@@ -321,13 +381,14 @@ namespace Roadkill.Core
 		public override string Signup(UserSummary summary, Action completed)
 		{
 			if (summary == null)
-				throw new SecurityException("The summary is null.", null);
+				throw new SecurityException("The summary provided to Signup is null.", null);
 
 			try
 			{
 				// Create the new user
 				summary.ActivationKey = Guid.NewGuid().ToString();
 				User user = new User();
+				user.Username = summary.NewUsername;
 				user.ActivationKey = summary.ActivationKey;
 				user.Email = summary.NewEmail;
 				user.Firstname = summary.Firstname;

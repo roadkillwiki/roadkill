@@ -1,3 +1,5 @@
-﻿Hello {FIRSTNAME}
+﻿Dear {FIRSTNAME} {LASTNAME},
 
-Clearly this hasn't been finished yet
+Thank you for registering with {SITENAME}. Your username is {USERNAME}.  To complete the signup process, please enter the link below into your browser to activate your account.
+
+{SITEURL}/user/activate/{ACTIVATIONKEY}

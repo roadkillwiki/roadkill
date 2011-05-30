@@ -15,7 +15,9 @@ and will require and admin to reset them (there is no reset password functionali
 @using (Html.BeginForm("Step4","Install"))
 {
 	@(Html.HiddenFor<SettingsSummary, string>(h => h.ConnectionString))
+	@(Html.HiddenFor<SettingsSummary, DatabaseType>(h => h.DatabaseType))
 	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteName))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteUrl))
 	@(Html.HiddenFor<SettingsSummary, bool>(h => h.UseWindowsAuth))
 	
 	<fieldset>
@@ -36,10 +38,7 @@ and will require and admin to reset them (there is no reset password functionali
 	<fieldset>
 		<legend>Allow user signups</legend>
 		<label>
-		Check this option if you want to allow people to signup as a new users. Roadkill does not currently support email confirmations for 
-		new signups, so be aware this can allow spam users onto the site (if the wiki is available on the internet).<br /><br />
-		
-		If left unchecked, only admins will be able to create new users.
+		Check this option if you want to allow people to signup as a new users. If left unchecked, only admins will be able to create new users.
 		</label>
 		<br />
 
@@ -52,9 +51,36 @@ and will require and admin to reset them (there is no reset password functionali
 	</fieldset>
 	
 	<fieldset>
+		<legend>Enable Recaptcha</legend>
+		<label>If you are allowing user signups, it's recommended that you also enable Recaptcha support. This is a free anti-spam bot service
+		provided by Google, you will need to signup and copy your public and private key into the fields below. 
+		<a href="https://www.google.com/recaptcha/admin/create" target="_blank">Signup here</a> - you will need to create a google account first..</label>
+
+		<div>
+			<div class="left">
+				@(Html.CheckBoxFor<SettingsSummary>(s => s.EnableRecaptcha))
+				Enable Recaptcha anti-spam service.
+			</div>
+		</div>
+		<br class="clear" />
+
+		<label>Public key</label>
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.RecaptchaPublicKey))</div>
+		
+		<label>Private key</label>
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.RecaptchaPrivateKey))</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>Site email</legend>
+		<label>This is the email used when sending signup and reset password emails</label>
+
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.SiteEmail))</div>
+	</fieldset>
+	
+	<fieldset>
 		<legend>Admin password</legend>
-		<label>This is the password for the first user in the system, who is an admin. You can add more admins in the settings page,
-		so this user does not 'own' the site.</label>
+		<label>This is the password for the admin user.</label>
 
 		<div class="textbox">@(Html.PasswordFor<SettingsSummary, string>(s => s.AdminPassword, new { @class = "validate[required,minSize[6]]" }))</div>
 		<div class="textbox">@(Html.Password("password2", null, new { @class = "validate[equals[AdminPassword]]" }))</div>

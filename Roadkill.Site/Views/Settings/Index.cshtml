@@ -62,9 +62,31 @@
 		<br class="clear" />
 	</div>
 
+	<div class="row">
+		<label for="SiteUrl">Site url:</label>
+		<div class="left textbox">
+			@(Html.TextBoxFor<SettingsSummary, string>(s => s.SiteUrl, new { @class = "validate[required]" }))
+		</div>
+		<div class="help right">
+			<a href="javascript:;" rel="The url of the site, which is used in signup and reset password emails.  Do not include the trailing slash."><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+		</div>
+		<br class="clear" />
+	</div>
+
 	<h2>Connection strings</h2>
 	<div class="row">
-		<label for="connectionString">Database connection string:</label>
+		<label for="DatabaseType">Database type:</label>
+		<div class="left checkbox">
+			@Html.DropDownBoxForDatabaseType()
+		</div>
+		<div class="help right">
+			<a href="javascript:;" rel="Changes your database type - you will need to recreate the schema in the tools for this to work correctly."><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+		</div>
+		<br class="clear" />
+	</div>
+
+	<div class="row">
+		<label for="ConnectionString">Database connection string:</label>
 		<div class="left textbox" >
 			@(Html.TextBoxFor<SettingsSummary, string>(s => s.ConnectionString, new { @class = "validate[required]" }))
 		</div>
@@ -95,6 +117,39 @@
 			</div>
 			<div class="help right">
 				<a href="javascript:;" rel="Check this option if you want to allow people to signup as a new users"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+			</div>
+			<br class="clear" />
+		</div>
+
+		<div class="row">
+			<label for="EnableRecaptcha">Enabled recaptcha:</label>
+			<div class="left checkbox">
+				@(Html.CheckBoxFor<SettingsSummary>(s => s.EnableRecaptcha))
+			</div>
+			<div class="help right">
+				<a href="javascript:;" rel="Enable Recaptcha support - a free anti-spam bot service. You will need to signup and copy your public and private key into the fields below"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+			</div>
+			<br class="clear" />
+		</div>
+
+		<div class="row">
+			<label for="RecaptchaPrivateKey">Recaptcha private key:</label>
+			<div class="left checkbox">
+				@(Html.TextBoxFor<SettingsSummary, string>(s => s.RecaptchaPrivateKey))
+			</div>
+			<div class="help right">
+				<a href="javascript:;" rel="The private key for Recaptcha, which is provided when you signup"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+			</div>
+			<br class="clear" />
+		</div>
+
+		<div class="row">
+			<label for="RecaptchaPrivateKey">Recaptcha public key:</label>
+			<div class="left checkbox">
+				@(Html.TextBoxFor<SettingsSummary, string>(s => s.RecaptchaPublicKey))
+			</div>
+			<div class="help right">
+				<a href="javascript:;" rel="The public key for Recaptcha, which is provided when you signup"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 			</div>
 			<br class="clear" />
 		</div>

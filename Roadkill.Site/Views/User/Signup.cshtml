@@ -3,7 +3,7 @@
 	ViewBag.Title = "Signup";
 }
 
-<h1>Signup</h1>
+<h1>Register / Signup</h1>
 <p>Please enter you details below.</p>
 @using (Html.BeginForm())
 {
@@ -36,7 +36,9 @@
 		<label for="PasswordConfirmation" class="userlabel">Password confirm:</label>
 		@(Html.PasswordFor<UserSummary, string>(t => t.PasswordConfirmation, new { @class = "usertextbox" }))	
 		<br class="clear" />
+
+		@Html.RenderCaptcha()
 	
-		<input type="submit" id="userbutton" class="button" value="Create" />
+		<input type="submit" id="userbutton" class="button" value="Register new user" />
 	</fieldset>
 }

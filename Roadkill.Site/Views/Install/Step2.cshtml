@@ -13,7 +13,10 @@ $(document).ready(function()
 		$("#db-loading").show();
 		hideAlerts();
 		$.get("@(Url.Action("TestDatabaseConnection"))",
-				{ "connectionString" : $("#ConnectionString").val() },
+				{ 
+					"connectionString" : $("#ConnectionString").val(),
+					"databaseType" : $("#DatabaseType").val()
+				 },
 				function(data)
 				{
 					$("#db-loading").hide();
@@ -37,10 +40,20 @@ $(document).ready(function()
 	<fieldset>
 		<legend><span>Site name</span></legend>
 		<label class="textbox">
-			The name of the wiki, which appears on certain themes.
+			The name of the wiki, which appears on certain themes and in signup emails (if enabled).
 		</label>
 
 		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.SiteName, new { @class = "validate[required]" }))</div>
+	</fieldset>
+	<br />
+	
+	<fieldset>
+		<legend><span>Site url</span></legend>
+		<label class="textbox">
+			The full url of the wiki, which appears in signup and reset passwords emails (if enabled). Do not include the trailing slash.
+		</label>
+
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.SiteUrl, new { @class = "validate[required]" }))</div>
 	</fieldset>
 	<br />
 	
@@ -61,11 +74,20 @@ $(document).ready(function()
 					<i>App_Data file-based:</i><br />
 					<span class="example">Server=.\SQLExpress;AttachDbFilename=|DataDirectory|\roadkill.mdf;Integrated Security=True;User Instance=True</span>
 				</li>
+				<li>
+					<i>SQLite (stored in the App_Data folder):</i><br />
+					<span class="example">Data Source=|DataDirectory|\roadkill.db;Version=3;</span>
+				</li>
+				
 			</ol>
+			
+			<h3>Database type:</h3>
+			@Html.DropDownBoxForDatabaseType()
 
 			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.ConnectionString, new { @class = "validate[required]" }))</div>
 			<input id="testdbconnection" class="button" type="button" value="Test" />
-			<div id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
+
+			<div id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" alt="loading" /></div>
 			<div id="connectionsuccess" class="success alert hidden">
 				<h2>Success!</h2>
 				<p>The database connection is was successful.</p>

@@ -1,4 +1,4 @@
-body				{ font-family:sans-serif;background:url('pagebg.png');font-size:0.8em;margin:0;padding:0; }
+body				{ font-family:sans-serif;background:url('pagebg.png');font-size:0.8em;margin:0px;padding:0px; }
 h1					{ font-size:1.6em; }
 h1,h2,h3,h4,h5		{ border-bottom:1px solid #AAA; }
 a					{ text-decoration:none;color:#0645AD; }
@@ -6,17 +6,17 @@ a:hover, a:focus	{ text-decoration:underline; }
 
 #headfade		{ background-color:#FFF;width:100%;height:6em;background-image:url('page-fade.png');background-position:bottom left;background-repeat:repeat-x; }
 #search input	{ float:left;z-index:10; }
-#search button	{ padding:0;margin:0; }
-#searchbutton	{ background-color:transparent;cursor:pointer;border:0;margin-left:-18px !important; }
+#search button	{ padding:0px;margin:0px; }
+#searchbutton	{ background-color:transparent;cursor:pointer;border:0px;margin-left:-18px !important; }
 
-#leftmenu ul,#leftmenu li	{ padding:0;margin:0; }
-#loggedinas, #search		{ float:right;padding:5px; top:0;line-height:2em; }
-#logo			{ position:absolute;top:0;left:7; padding:0; }
+#leftmenu ul,#leftmenu li	{ padding:0px;margin:0px; }
+#loggedinas, #search		{ float:right;padding:5px; top:0px;line-height:2em; }
+#logo			{ position:absolute;top:0px;left:7px;padding:0px; }
 #viewhistory	{ float:right; }
-#panel			{ position:absolute;top:130px;width:10em;left:0; }
+#panel			{ position:absolute;top:130px;width:10em;left:0px; }
 #panel ul		{ padding-left:1.5em; }
-#panel ul li	{ list-style:none;list-style-image:none;list-style-type:none;padding:0;margin:0; }
+#panel ul li	{ list-style:none;list-style-image:none;list-style-type:none;padding:0px;margin:0px; }
 #container		{ padding:1em;margin-left:12em;background-color:#FFF;color:#000;min-height:30em;border:1px solid #a7d7f9;border-right:0px solid #a7d7f9; }
-#footer			{ margin-left:12em;margin-top:0;padding:0.75em;}
+#footer			{ margin-left:12em;margin-top:0px;padding:0.75em;}
 #footer p		{ color:#333;font-size:0.7em; }
 pre				{ font-size:9pt !important;background-color:#EEE;padding:5px;border:1px solid #AAA; }

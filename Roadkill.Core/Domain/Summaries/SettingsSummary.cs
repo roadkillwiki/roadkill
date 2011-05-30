@@ -8,40 +8,55 @@ using System.IO;
 
 namespace Roadkill.Core
 {
+	/// <summary>
+	/// Represents settings for the site, some of which are stored in the web.config.
+	/// </summary>
 	[Serializable]
 	public class SettingsSummary
 	{
-		[Required(ErrorMessage="The sitename is empty")]
-		public string SiteName { get; set; }
-		
-		[Required(ErrorMessage="The connection string is empty")]
-		public string ConnectionString { get; set; }
-
 		public string AdminEmail { get; set; }
 		public string AdminPassword { get; set; }
+		public string AdminRoleName { get; set; }
+		public string AllowedExtensions { get; set; }
+		public bool AllowUserSignup { get; set; }
 
-		public bool UseWindowsAuth { get; set; }
+		[Required(ErrorMessage = "The attachments folder is empty")]
+		public string AttachmentsFolder { get; set; }
+
+		public bool CacheEnabled { get; set; }
+		public bool CacheText { get; set; }
+
+		[Required(ErrorMessage = "The connection string is empty")]
+		public string ConnectionString { get; set; }
+
+		/// <summary>
+		/// Used in the intial configuration/installation alongside Fluent CFG.
+		/// </summary>
+		public DatabaseType DatabaseType { get; set; }
+
+		public string EditorRoleName { get; set; }
+		public bool EnableRecaptcha { get; set; }
+		
 		public string LdapConnectionString { get; set; }
 		public string LdapUsername { get; set; }
 		public string LdapPassword { get; set; }
-		
-		public string EditorRoleName { get; set; }
-		public string AdminRoleName { get; set; }
 
-		public string AllowedExtensions { get; set; }
-		
-		[Required(ErrorMessage = "The attachments folder is empty")]
-		public string AttachmentsFolder { get; set; }
-		
 		[Required(ErrorMessage = "The markup type is empty")]
 		public string MarkupType { get; set; }
 		
-		[Required(ErrorMessage = "The theme is empty")]
-		
+		[Required(ErrorMessage = "The theme is empty")]	
 		public string Theme { get; set; }
-		public bool CacheEnabled { get; set; }
-		public bool CacheText { get; set; }
-		public bool AllowUserSignup { get; set; }
+
+		public string RecaptchaPrivateKey { get; set; }
+		public string RecaptchaPublicKey { get; set; }
+
+		[Required(ErrorMessage = "The sitename is empty")]
+		public string SiteName { get; set; }
+
+		[Required(ErrorMessage = "The site url is empty")]
+		public string SiteUrl { get; set; }
+	
+		public bool UseWindowsAuth { get; set; }
 
 		public string Version
 		{
@@ -49,6 +64,12 @@ namespace Roadkill.Core
 			{
 				return RoadkillSettings.Version;
 			}
+		}
+
+		public SettingsSummary()
+		{
+			DatabaseType = DatabaseType.SqlServer2005;
+			SiteUrl = "http://localhost";
 		}
 
 		public static SettingsSummary GetCurrentSettings()
@@ -63,11 +84,15 @@ namespace Roadkill.Core
 			summary.CacheText = RoadkillSettings.CacheText;
 			summary.ConnectionString = RoadkillSettings.ConnectionString;
 			summary.EditorRoleName = RoadkillSettings.EditorRoleName;
+			summary.EnableRecaptcha = SiteConfiguration.Current.EnableRecaptcha;
 			summary.LdapConnectionString = RoadkillSettings.LdapConnectionString;
 			summary.LdapUsername = RoadkillSettings.LdapUsername;
 			summary.LdapPassword = RoadkillSettings.LdapPassword;
 			summary.MarkupType = RoadkillSettings.MarkupType;
+			summary.RecaptchaPrivateKey = SiteConfiguration.Current.RecaptchaPrivateKey;
+			summary.RecaptchaPublicKey = SiteConfiguration.Current.RecaptchaPublicKey;
 			summary.SiteName = SiteConfiguration.Current.Title;
+			summary.SiteUrl = SiteConfiguration.Current.SiteUrl;
 			summary.Theme = RoadkillSettings.Theme;
 			summary.UseWindowsAuth = RoadkillSettings.UseWindowsAuthentication;
 

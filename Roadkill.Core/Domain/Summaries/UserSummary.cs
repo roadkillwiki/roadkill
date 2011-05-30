@@ -37,13 +37,15 @@ namespace Roadkill.Core
 
 		/// <summary>
 		/// The current (or if being changed, previous) username.
+		/// For new signups this field is null - use <see cref="NewUsername"/>
 		/// </summary>
 		public string ExistingUsername { get; set; }
 
 		/// <summary>
-		/// The username to change to. For no change this should be the same as <see cref="ExistingUsername"/>
+		/// The username to change to. For no change this should be the same as <see cref="ExistingUsername"/>.
+		/// For new signups this field contains the username.
 		/// </summary>
-		[Required]
+		[Required(ErrorMessage="The username field is required")]
 		public string NewUsername { get; set; }
 
 		/// <summary>
@@ -54,7 +56,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// The email to change to. For no change this should be the same as <see cref="ExistingEmail"/>
 		/// </summary>
-		[Required]
+		[Required(ErrorMessage = "The email field is required")]
 		public string NewEmail { get; set; }
 
 		/// <summary>
@@ -66,6 +68,11 @@ namespace Roadkill.Core
 		/// The password confirmation, which should be the same value as <see cref="Password"/>
 		/// </summary>
 		public string PasswordConfirmation { get; set; }
+
+		/// <summary>
+		/// The Guid used for password reset emails.
+		/// </summary>
+		public string PasswordResetKey { get; set; }
 
 		/// <summary>
 		/// Whether this is a new user or an existing user.
@@ -124,12 +131,15 @@ namespace Roadkill.Core
 		/// or if it has and the new username doesn't  already exist.</returns>
 		public static ValidationResult VerifyNewUsername(UserSummary user, ValidationContext context)
 		{
-			// Only check if the username has changed
 			if (user.IsNew || user.ExistingUsername != user.NewUsername)
 			{
 				if (UserManager.Current.UserNameExists(user.NewUsername))
 				{
 					return new ValidationResult(string.Format("{0} username already exists", user.NewUsername));
+				}
+				else if (!string.IsNullOrEmpty(user.NewUsername) && user.NewUsername.Trim().Length == 0)
+				{
+					return new ValidationResult(string.Format("The username is empty", user.NewUsername));
 				}
 			}
 

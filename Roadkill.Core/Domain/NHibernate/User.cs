@@ -40,6 +40,7 @@ namespace Roadkill.Core
 		public virtual bool IsAdmin { get; set; }
 		public virtual bool IsActivated { get; set; }
 		public virtual string ActivationKey { get; set; }
+		public virtual string PasswordResetKey { get; set; }
 
 		public virtual void SetPassword(string password)
 		{
@@ -63,7 +64,8 @@ namespace Roadkill.Core
 				NewEmail = Email,
 				NewUsername = Username,
 				Firstname = Firstname,
-				Lastname = Lastname
+				Lastname = Lastname,
+				PasswordResetKey = PasswordResetKey
 			};
 		}
 	}
@@ -76,17 +78,18 @@ namespace Roadkill.Core
 		public UserMap()
 		{
 			Table("roadkill_users");
-			Id(x => x.Id);
+			Map(x => x.ActivationKey);
 			Map(x => x.Email).Index("email");
-			Map(x => x.Username);
 			Map(x => x.Firstname);
-			Map(x => x.Lastname);
-			Map(x => x.Password);
-			Map(x => x.Salt);
+			Id(x => x.Id);
 			Map(x => x.IsEditor);
 			Map(x => x.IsAdmin);
 			Map(x => x.IsActivated);
-			Map(x => x.ActivationKey);
+			Map(x => x.Lastname);
+			Map(x => x.Password);
+			Map(x => x.PasswordResetKey);
+			Map(x => x.Salt);
+			Map(x => x.Username);
 		}
 	}
 }

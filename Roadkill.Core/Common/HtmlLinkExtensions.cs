@@ -21,7 +21,7 @@ namespace Roadkill.Core
 			if (RoadkillContext.Current.IsLoggedIn)
 			{
 				string text = string.Format("Logged in as {0}",RoadkillContext.Current.CurrentUsername);
-				return helper.ActionLink(text, "Profile", "Home");
+				return helper.ActionLink(text, "Profile", "User");
 			}
 			else
 			{
@@ -60,11 +60,14 @@ namespace Roadkill.Core
 
 			if (RoadkillContext.Current.IsLoggedIn)
 			{
-				link = helper.ActionLink("Logout", "Logout", "Home").ToString();
+				link = helper.ActionLink("Logout", "Logout", "User").ToString();
 			}
 			else
 			{
-				link = helper.ActionLink("Login", "Login", "Home").ToString();
+				link = helper.ActionLink("Login", "Login", "User").ToString();
+
+				if (RoadkillSettings.AllowUserSignup)
+					link += "&nbsp;/&nbsp;" + helper.ActionLink("Register", "Signup", "User").ToString();
 			}
 
 			return MvcHtmlString.Create(prefix + link + suffix);

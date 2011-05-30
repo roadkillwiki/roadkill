@@ -44,6 +44,9 @@
     <Reference Include="NHibernate">
       <HintPath>..\lib\NHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="Recaptcha">
+      <HintPath>..\lib\Recaptcha.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
@@ -65,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\Attributes\RecaptchaRequiredAttribute.cs" />
     <Compile Include="Controllers\Attributes\ImportModelStateAttribute.cs" />
     <Compile Include="Controllers\Attributes\ExportModelStateAttribute.cs" />
     <Compile Include="Common\HtmlLinkExtensions.cs" />
@@ -72,10 +76,12 @@
     <Compile Include="Controllers\Attributes\AdminRequiredAttribute.cs" />
     <Compile Include="Controllers\Attributes\EditorRequiredAttribute.cs" />
     <Compile Include="Common\Salt.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Domain\Email\ResetPasswordEmail.cs" />
     <Compile Include="Domain\Email\SignupEmail.cs" />
     <Compile Include="Domain\Email\Email.cs" />
     <Compile Include="Domain\Managers\Upgrade.cs" />
+    <Compile Include="Domain\NHibernate\DatabaseType.cs" />
     <Compile Include="Exceptions\EmailException.cs" />
     <Compile Include="Exceptions\SearchException.cs" />
     <Compile Include="Exceptions\DatabaseException.cs" />

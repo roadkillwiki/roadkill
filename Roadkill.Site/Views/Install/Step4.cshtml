@@ -36,18 +36,24 @@
 
 <p>Almost done...Finally some extra tweakable settings. </p>
 
-@using (Html.BeginForm("Step5","Install"))
+@using (Html.BeginForm("Step5", "Install"))
 {
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteName))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.ConnectionString))
-	@(Html.HiddenFor<SettingsSummary, bool>(h => h.UseWindowsAuth))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.AdminEmail))
 	@(Html.HiddenFor<SettingsSummary, string>(h => h.AdminPassword))
 	@(Html.HiddenFor<SettingsSummary, string>(h => h.AdminRoleName))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.EditorRoleName))
 	@(Html.HiddenFor<SettingsSummary, bool>(h => h.AllowUserSignup))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.ConnectionString))
+	@(Html.HiddenFor<SettingsSummary, DatabaseType>(h => h.DatabaseType))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.EditorRoleName))
+	@(Html.HiddenFor<SettingsSummary, bool>(h => h.EnableRecaptcha))	
 	@(Html.HiddenFor<SettingsSummary, string>(h => h.LdapConnectionString))
 	@(Html.HiddenFor<SettingsSummary, string>(h => h.LdapUsername))
 	@(Html.HiddenFor<SettingsSummary, string>(h => h.LdapPassword))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.RecaptchaPrivateKey))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.RecaptchaPublicKey))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteName))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteUrl))
+	@(Html.HiddenFor<SettingsSummary, bool>(h => h.UseWindowsAuth))
 	
 	<fieldset>
 		<legend>Attachments folder</legend>

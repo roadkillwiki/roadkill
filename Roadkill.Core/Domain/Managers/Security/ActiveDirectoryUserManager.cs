@@ -265,6 +265,18 @@ namespace Roadkill.Core
 		}
 
 		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		public override User GetUserById(Guid id)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		public override User GetUserByResetKey(string resetKey)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
 		public override void Logout()
 		{
 			throw new NotImplementedException();

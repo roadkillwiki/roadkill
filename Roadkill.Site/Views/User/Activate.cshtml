@@ -1,0 +1,11 @@
+﻿@{ 
+	ViewBag.Title = "Activation successful";
+}
+
+@Html.ValidationSummary("Error")
+
+@if (ViewData.ModelState.IsValid)
+{
+	<h1>Activation successful</h1>
+	<p>Your account has been sucessfully activated. @Html.ActionLink("Click here to login", "Login")</p>
+}

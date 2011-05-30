@@ -16,6 +16,8 @@
 {
 	@(Html.HiddenFor<SettingsSummary,string>(h => h.ConnectionString))
 	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteName))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteUrl))
+	@(Html.HiddenFor<SettingsSummary, DatabaseType>(h => h.DatabaseType))
 	<fieldset>
 		<legend>Windows authentication</legend>
 		<br />

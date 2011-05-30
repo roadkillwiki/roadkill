@@ -199,12 +199,12 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		/// <param name="folder"></param>
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
-		public ActionResult TestDatabaseConnection(string connectionString)
+		public ActionResult TestDatabaseConnection(string connectionString,string databaseType)
 		{
 			if (RoadkillSettings.Installed)
 				return Content("");
 
-			string errors = Install.TestConnection(connectionString);
+			string errors = Install.TestConnection(connectionString, databaseType);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
     }

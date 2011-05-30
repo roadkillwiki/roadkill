@@ -14,25 +14,6 @@ using System.Data;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// Represents the database server type that is being used for Roadkill.
-	/// </summary>
-	public enum DatabaseType
-	{
-		/// <summary>
-		/// SQL Server 2005.
-		/// </summary>
-		SqlServer,
-		/// <summary>
-		/// SQLite database.
-		/// </summary>
-		SqlLite,
-		/// <summary>
-		/// MySQL database.
-		/// </summary>
-		MySQL
-	}
-
-	/// <summary>
 	/// A repository class for all NHibernate actions.
 	/// </summary>
 	public class NHibernateRepository
@@ -81,18 +62,31 @@ namespace Roadkill.Core
 		{
 			Configuration = Fluently.Configure();
 
+			// This is the long way of doing the configuration, the alternative would be to us 
+			// something like PersistenceConfiguration<T, TBuilder> but that ends up doing what these classes are doing already.
 			switch (databaseType)
 			{
-				case DatabaseType.SqlLite:
+				case DatabaseType.DB2:
 					{
-						SQLiteConfiguration sqlLite = SQLiteConfiguration.Standard.ConnectionString(connection);
+						DB2Configuration db2 = DB2Configuration.Standard.ConnectionString(connection);
 						if (enableL2Cache)
-							sqlLite = sqlLite.Cache(c => c.ProviderClass<HashtableCacheProvider>().UseQueryCache());
+							db2 = db2.Cache(c => c.ProviderClass<HashtableCacheProvider>().UseQueryCache());
 
-						Configuration.Database(sqlLite);
+						Configuration.Database(db2);
 					}
 					break;
 
+				case DatabaseType.Firebird:
+					{
+						FirebirdConfiguration fireBird = new FirebirdConfiguration();
+						fireBird.ConnectionString(connection);
+						if (enableL2Cache)
+							fireBird = fireBird.Cache(c => c.ProviderClass<HashtableCacheProvider>().UseQueryCache());
+
+						Configuration.Database(fireBird);
+					}
+					break;
+				
 				case DatabaseType.MySQL:
 					{
 						MySQLConfiguration mySql = MySQLConfiguration.Standard.ConnectionString(connection);
@@ -102,8 +96,39 @@ namespace Roadkill.Core
 						Configuration.Database(mySql);
 					}
 					break;
+
+				case DatabaseType.Postgres:
+					{
+						PostgreSQLConfiguration postgres = PostgreSQLConfiguration.Standard.ConnectionString(connection);
+						if (enableL2Cache)
+							postgres = postgres.Cache(c => c.ProviderClass<HashtableCacheProvider>().UseQueryCache());
+
+						Configuration.Database(postgres);
+					}
+					break;
+
+				case DatabaseType.Sqlite:
+					{
+						FluentNHibernate.Cfg.Db.
+						SQLiteConfiguration sqlLite = SQLiteConfiguration.Standard.ConnectionString(connection);
+						if (enableL2Cache)
+							sqlLite = sqlLite.Cache(c => c.ProviderClass<HashtableCacheProvider>().UseQueryCache());
+
+						Configuration.Database(sqlLite);
+					}
+					break;
+
+				case DatabaseType.SqlServer2008:
+					{
+						MsSqlConfiguration msSql = MsSqlConfiguration.MsSql2008.ConnectionString(connection);
+						if (enableL2Cache)
+							msSql = msSql.Cache(c => c.ProviderClass<HashtableCacheProvider>().UseQueryCache());
+
+						Configuration.Database(msSql);
+					}
+					break;
 			
-				case DatabaseType.SqlServer:
+				case DatabaseType.SqlServer2005:
 				default:
 					{
 						MsSqlConfiguration msSql = MsSqlConfiguration.MsSql2005.ConnectionString(connection);

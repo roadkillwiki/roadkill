@@ -89,11 +89,16 @@ namespace Roadkill.Core
 					config = SiteConfiguration.Current;
 				}
 
-				config.Title = summary.SiteName;
-				config.Theme = summary.Theme;
-				config.MarkupType = summary.MarkupType;
 				config.AllowedFileTypes = summary.AllowedExtensions;
 				config.AllowUserSignup = summary.AllowUserSignup;
+				config.EnableRecaptcha = summary.EnableRecaptcha;
+				config.MarkupType = summary.MarkupType;
+				config.RecaptchaPrivateKey = summary.RecaptchaPrivateKey;
+				config.RecaptchaPublicKey = summary.RecaptchaPublicKey;
+				config.SiteUrl = summary.SiteUrl;
+				config.Title = summary.SiteName;
+				config.Theme = summary.Theme;
+				
 				config.Version = RoadkillSettings.Version;
 
 				NHibernateRepository.Current.SaveOrUpdate<SiteConfiguration>(config);
@@ -135,15 +140,17 @@ namespace Roadkill.Core
 				// The roadkill section
 				RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
 				section.AdminRoleName = summary.AdminRoleName;
-				section.EditorRoleName = summary.EditorRoleName;
+				section.AttachmentsFolder = summary.AttachmentsFolder;
 				section.CacheEnabled = summary.CacheEnabled;
 				section.CacheText = summary.CacheText;
-				section.AttachmentsFolder = summary.AttachmentsFolder;
 				section.ConnectionStringName = "Roadkill";
-				section.UseWindowsAuthentication = summary.UseWindowsAuth;
+				section.DatabaseType = summary.DatabaseType.ToString();
+				section.EditorRoleName = summary.EditorRoleName;
 				section.LdapConnectionString = summary.LdapConnectionString;
 				section.LdapUsername = summary.LdapUsername;
 				section.LdapPassword = summary.LdapPassword;
+				section.UseWindowsAuthentication = summary.UseWindowsAuth;
+
 				section.Installed = true;
 
 				config.Save(ConfigurationSaveMode.Minimal);

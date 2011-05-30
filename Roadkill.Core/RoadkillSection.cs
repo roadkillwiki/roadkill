@@ -80,7 +80,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The database type for Roadkill. This can be: "sqlserver","sqlite","mysql"
+		/// The database type for Roadkill. This defaults to SQLServer2005 if empty - see DatabaseType enum for all options.
 		/// </summary>
 		[ConfigurationProperty("databaseType", IsRequired = false)]
 		public string DatabaseType
@@ -98,6 +98,7 @@ namespace Roadkill.Core
 			get { return (string)this["editorRoleName"]; }
 			set { this["editorRoleName"] = value; }
 		}
+
 
 		/// <summary>
 		/// Gets or sets whether this roadkill instance has been installed.

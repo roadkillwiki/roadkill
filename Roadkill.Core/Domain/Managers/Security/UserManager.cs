@@ -61,11 +61,25 @@ namespace Roadkill.Core
 		public abstract bool DeleteUser(string email);
 
 		/// <summary>
+		/// Retrieves a full <see cref="User"/> object using the unique ID provided..
+		/// </summary>
+		/// <param name="email">The ID of the user.</param>
+		/// <returns>A <see cref="User"/> object</returns>
+		public abstract User GetUserById(Guid id);
+
+		/// <summary>
 		/// Retrieves a full <see cref="User"/> object for the email address provided, or null if the user doesn't exist.
 		/// </summary>
 		/// <param name="email">The email address of the user to get</param>
 		/// <returns>A <see cref="User"/> object</returns>
 		public abstract User GetUser(string email);
+
+		/// <summary>
+		/// Retrieves a full <see cref="User"/> object for a password reset request.
+		/// </summary>
+		/// <param name="email">The password reset key</param>
+		/// <returns>A <see cref="User"/> object</returns>
+		public abstract User GetUserByResetKey(string resetKey);
 
 		/// <summary>
 		/// Determines whether the specified user with the given email/username is an admin.
