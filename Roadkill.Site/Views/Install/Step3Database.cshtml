@@ -72,6 +72,13 @@ and will require and admin to reset them (there is no reset password functionali
 	</fieldset>
 	
 	<fieldset>
+		<legend>Admin email</legend>
+		<label>This is the email address for the admin user. You can add more admins in the settings page, so this user does not 'own' the site</label>
+
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminEmail, new { @class = "validate[required]" }))</div>
+	</fieldset>
+	
+	<fieldset>
 		<legend>Admin password</legend>
 		<label>This is the password for the admin user.</label>
 

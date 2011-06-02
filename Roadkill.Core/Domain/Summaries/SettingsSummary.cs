@@ -83,6 +83,7 @@ namespace Roadkill.Core
 			summary.CacheEnabled = RoadkillSettings.CachedEnabled;
 			summary.CacheText = RoadkillSettings.CacheText;
 			summary.ConnectionString = RoadkillSettings.ConnectionString;
+			summary.DatabaseType = RoadkillSettings.DatabaseType;
 			summary.EditorRoleName = RoadkillSettings.EditorRoleName;
 			summary.EnableRecaptcha = SiteConfiguration.Current.EnableRecaptcha;
 			summary.LdapConnectionString = RoadkillSettings.LdapConnectionString;
