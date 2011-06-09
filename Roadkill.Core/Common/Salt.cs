@@ -8,6 +8,11 @@ namespace Roadkill.Core
 	/// <summary>
 	/// Generates a random 16 character string for a hashed password salt.
 	/// </summary>
+	/// <remarks>
+	/// password login:
+	/// C1CD20DA5452C0D370794759CD151058AC189F2C
+	/// 1234567890
+	/// </remarks>
 	public class Salt
 	{
 		private static Random _random = new Random();

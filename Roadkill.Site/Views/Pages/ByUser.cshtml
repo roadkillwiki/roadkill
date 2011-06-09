@@ -4,11 +4,13 @@
 }
 <h1>All pages created by @ViewData["Username"]</h1>
 
+@if (Model.Count() > 0)
+{
 <table id="userpagetable">
 	@foreach (PageSummary summary in Model)
 	{
 	<tr>
-		<td class="title">@Html.ActionLink(summary.Title,"Index","Wiki",new { id = summary.Id,title=Url.EncodeTitle(summary.Title)},null)</td>
+		<td class="title" style="width:90%">@Html.ActionLink(summary.Title,"Index","Wiki",new { id = summary.Id,title=Url.EncodeTitle(summary.Title)},null)</td>
 		@if (RoadkillContext.Current.IsLoggedIn)
 		{
 		<td class="edit">@Html.ActionLink("Edit","Edit",new { id = summary.Id} )</td>
@@ -17,3 +19,8 @@
 	</tr>
 	}
 </table>
+}
+else
+{
+	<p>'@ViewData["Username"]' hasn't created any pages yet.</p>
+}

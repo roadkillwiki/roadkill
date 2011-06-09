@@ -11,7 +11,7 @@
 	@(Html.HiddenFor<UserSummary, string>(h => h.ExistingUsername))
 	
 	<fieldset id="profile" class="rounded10 lightborder">
-		@Html.ValidationSummary("Error")
+		@Html.ValidationSummary("An error occurred")
 
 		<label for="NewEmail" class="userlabel">First name:</label>
 		@(Html.TextBoxFor<UserSummary, string>(t => t.Firstname, new { @class = "usertextbox" }))
@@ -39,6 +39,6 @@
 
 		@Html.RenderCaptcha()
 	
-		<input type="submit" id="userbutton" class="button" value="Register new user" />
+		<input type="submit" id="userbutton" class="button" value="Register new user" style="width:150px"  /><!-- explicit width for IE7 (ie7js doesn't fix it) -->
 	</fieldset>
 }

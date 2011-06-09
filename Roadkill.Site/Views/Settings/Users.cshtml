@@ -40,7 +40,10 @@
 			<td class="title">@user.ExistingUsername</td>
 			<td class="title">@user.ExistingEmail</td>
 			<td class="edit"><a href="javascript:;" rel="var user = {id : '@user.Id', email :'@user.ExistingEmail',username:'@user.ExistingUsername'}">Edit</a></td>
+		@if (Model[0].Count() > 0 && user.ExistingEmail != RoadkillContext.Current.CurrentUser)
+		{
 			<td class="delete">@Html.ActionLink("Delete", "Delete", new { id = user.ExistingEmail }, new { @class = "confirm" })</td>
+		}
 		</tr>
 	}
 	</table>
@@ -65,7 +68,7 @@
 
 	<div id="userdialogContainer">
 		<h2 style="margin-top:0">Edit user</h2>
-		@Html.ValidationSummary("Error:")
+		@Html.ValidationSummary("Unable to save the user details:")
 		<!-- The postback URL is changed dynamically in bindUserButtons in roadkill.settings.js -->
 		@using (Html.BeginForm("AddAdmin", "Settings", FormMethod.Post, new { id = "userform" }))
 		{

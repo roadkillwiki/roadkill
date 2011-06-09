@@ -123,6 +123,7 @@
     <Content Include="Assets\Images\installer-ex-chicken.png" />
     <Content Include="Assets\Images\installerbg.png" />
     <Content Include="Assets\Images\loadinglarge.gif" />
+    <Content Include="Assets\Scripts\IE9.js" />
     <Content Include="Assets\Scripts\jquery.tooltip.min.js" />
     <Content Include="Assets\Scripts\jquery.validationEngine-en.js" />
     <Content Include="Assets\Scripts\jquery.validationEngine.js" />

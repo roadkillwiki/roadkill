@@ -14,19 +14,26 @@
 
 <h1>All Pages</h1>
 
+@if (Model.Count() > 0)
+{
 <table id="pagestable">
 @foreach (PageSummary summary in Model)
 {
 	<tr>
-		<td class="title">@Html.ActionLink(summary.Title, "Index", "Wiki", new { id = summary.Id, title = summary.Title.EncodeTitle() }, null)</td>
-	@if (RoadkillContext.Current.IsLoggedIn)
-	{
+		<td class="title" style="width:90%">@Html.ActionLink(summary.Title, "Index", "Wiki", new { id = summary.Id, title = summary.Title.EncodeTitle() }, null)</td>
+		@if (RoadkillContext.Current.IsLoggedIn)
+		{
 		<td class="edit">@Html.ActionLink("Edit", "Edit", new { id = summary.Id })</td>	  
-	  if (RoadkillContext.Current.IsAdmin)
-	  {
-		<td class="delete">@Html.ActionLink("Delete", "Delete", new { id = summary.Id}, new {@class = "confirm" })</td>
-	  }
-	}
+		if (RoadkillContext.Current.IsAdmin)
+		{
+		<td class="delete">@Html.ActionLink("Delete", "Delete", new { id = summary.Id }, new { @class = "confirm" })</td>
+		}
+ }
 	</tr>
 }
 </table>
+}
+else
+{
+	<p>No pages found.</p>
+}

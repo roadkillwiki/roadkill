@@ -1,10 +1,12 @@
 === Upgrading Roadkill from 1.0.1 to version 1.1 ===
 
-Roadkill now supports user signups, which means a number of new settings have been added to cater for this.  Before upgrading, ensure your users all have email addresses set, as this field is now used for logins (unless you're using Active Directory). The database schema has not changed radically, however you will need to run the SQL script below.
+BACKUP YOUR DATABASE BEFORE UPGRADING!!
+
+Roadkill 1.1 now supports user signups, which means a number of new settings have been added to cater for this.  
+Before upgrading, ensure your users all have email addresses set, as this field is now used for logins (unless you're using Active Directory). 
+The database schema has not changed radically, however you will need to run the SQL script below.
 
 As this change effects users this upgrade is manual.
-
-
 
 -- BEGIN SQL SCRIPT
 
@@ -19,6 +21,5 @@ UPDATE roadkill_siteconfiguration SET
 	EnableRecaptcha='0',
 	SiteUrl='e.g. http://www.foobar.com (no trailing slash)',
 	Version='1.1.0.0'
-
 
 -- END SQL SCRIPT

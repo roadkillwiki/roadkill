@@ -26,7 +26,7 @@ namespace Roadkill.Core.Controllers
 
 			if (!UserManager.Current.ActivateUser(id))
 			{
-				ModelState.AddModelError("General", "There was a problem activating your account.");
+				ModelState.AddModelError("General", "There was a problem activating your account. It may have already been activated.");
 			}
 
 			return View();

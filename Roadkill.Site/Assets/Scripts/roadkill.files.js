@@ -22,7 +22,7 @@ function initFileManager()
 	$("#choosebutton").click(function()
 	{
 		window.top.addImage($("#previewimage").attr("src").replace(ROADKILL_ATTACHMENTSPATH, ""));
-		self.close();
+		$("#filechooser-iframe").close();
 	});
 
 	// Setup the jquery filetree

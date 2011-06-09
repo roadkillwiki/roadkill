@@ -46,10 +46,10 @@
 #newpage			{ float:left; }
 #pagehistory-button	{ float:left;margin-left:5px; }
 #pageinfo-button	{ float:left;margin:4px 0px 0px 5px; }
-#pageinformation	{ display:none;color:#FFF;min-width:400px; }
+#pageinformation	{ display:none;color:#FFF;min-width:400px;width:400px; } /* width is explicit for an IE7 bug */
 #pageinformation h3 { border-bottom:1px solid #EEE;margin:0px; }
-#pageinformation .tags     { padding:4px;margin-top:10px; }
-#pageinformation .tagblock { border:1px solid #656464;background-color:#212121;color:#b8b7b7;margin-right:3px;padding:3px; }
+#pageinformation .tags		{ padding:4px;margin-top:10px; }
+#pageinformation .tagblock	{ border:1px solid #656464;background-color:#212121;color:#b8b7b7;margin-right:3px;padding:3px; }
 
 /* Login,profile,reset password pages */
 #profile		{ background-color:#EFEFEF;width:35em;padding:1em; }
@@ -121,7 +121,7 @@
 .edittextarea		{ width:100%;height:300px;border:1px solid #032451; }
 .buttonContainer	{ float:right;padding-top:10px;text-align:right; }
 
-.validation-summary-errors { border:1px solid #000;color:#000;background-color:#FFFFCA;padding:5px;font-size:0.8em;margin-bottom:10px; }
+.validation-summary-errors { border:1px solid #ffdd00;color:#000;background-color:#fbfcdd;padding:10px;font-size:1em;margin-bottom:10px;max-width:500px;border-radius:5px; }
 .validation-summary-errors span {font-weight:bold; }
 
 /* Help iFrame for edit page [editors] */
@@ -144,8 +144,9 @@
 #settings .checkbox { margin-top:3px; }
 #settings .help		{ margin-left:5px;}
 #settings .checkbox input		{ margin:0px; }
-#settings .textbox input		{ float:left; border:1px solid #032451;height:20px;width:350px;font-size:1em; }
-#settings .smalltextbox input	{ float:left; border:1px solid #032451;height:20px;width:150px; }
+#settings .textbox input		{ float:left; border:1px solid #AAA;height:20px;width:350px;font-size:1em;border-radius:5px;padding:5px; }
+#settings .smalltextbox input	{ float:left; border:1px solid #AAA;height:20px;width:150px;border-radius:5px;padding:5px; }
+#settings .selectbox select		{ border:1px solid #AAA;height:20px;border-radius:5px;padding:5px;height:30px; }
 
 .settingstable			{ border:1px solid #d3d2d2;background-color:#f1f0f0; }
 .settingstable tr		{ padding:5px; }

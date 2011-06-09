@@ -978,7 +978,7 @@ namespace Roadkill.Core.Converters
 					OnImageParsed(args);
 
 					markup = markup.Substring(0, iPos - 2)
-							+ String.Format("<img src=\"{0}\" alt=\"{1}\" />", args.Src, args.Alt)
+							+ String.Format("<img src=\"{0}\" alt=\"{1}\" border=\"0\" />", args.Src, args.Alt)
 							+ markup.Substring(iEnd + 2);
 				}
 				else

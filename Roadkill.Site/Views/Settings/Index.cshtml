@@ -46,7 +46,7 @@
 
 @Html.Partial("SettingsMenu")
 
-@Html.ValidationSummary("Error:")
+@Html.ValidationSummary("Unable to save the settings:")
 
 @using (Html.BeginForm())
 {
@@ -76,7 +76,7 @@
 	<h2>Connection strings</h2>
 	<div class="row">
 		<label for="DatabaseType">Database type:</label>
-		<div class="left checkbox">
+		<div class="left selectbox">
 			@Html.DropDownBoxForDatabaseType()
 		</div>
 		<div class="help right">
@@ -138,7 +138,7 @@
 				@(Html.TextBoxFor<SettingsSummary, string>(s => s.RecaptchaPrivateKey))
 			</div>
 			<div class="help right">
-				<a href="javascript:;" rel="The private key for Recaptcha, which is provided when you signup"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+				<a href="javascript:;" rel="The private key for Recaptcha, which is provided when you signup with recaptcha."><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 			</div>
 			<br class="clear" />
 		</div>
@@ -149,7 +149,7 @@
 				@(Html.TextBoxFor<SettingsSummary, string>(s => s.RecaptchaPublicKey))
 			</div>
 			<div class="help right">
-				<a href="javascript:;" rel="The public key for Recaptcha, which is provided when you signup"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+				<a href="javascript:;" rel="The public key for Recaptcha, which is provided when you signup with recaptcha."><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 			</div>
 			<br class="clear" />
 		</div>

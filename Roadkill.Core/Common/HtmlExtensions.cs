@@ -174,7 +174,7 @@ namespace Roadkill.Core
 		/// </summary>
 		public static MvcHtmlString RenderCaptcha(this HtmlHelper helper)
 		{
-            if (RoadkillSettings.IsRecaptchaEnabled)
+			if (RoadkillSettings.IsRecaptchaEnabled)
 			{
 				RecaptchaControl control = new RecaptchaControl();
 				control.ID = "recaptcha";
@@ -186,7 +186,7 @@ namespace Roadkill.Core
 				{
 					using (HtmlTextWriter htmlWriter = new HtmlTextWriter(stringWriter))
 					{
-						stringWriter.WriteLine("<br/><label class=\"userlabel\">As an anti-spam measure, please enter the two words below</label><br/>");
+						stringWriter.WriteLine("<br/><label class=\"userlabel\">As an anti-spam measure, please enter the two words below</label><br style=\"clear:both\"><br/>");
 						control.RenderControl(htmlWriter);
 						stringWriter.WriteLine("<br/>");
 						

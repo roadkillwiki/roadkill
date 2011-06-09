@@ -1103,7 +1103,7 @@ namespace Roadkill.Core.Converters
 				ImageEventArgs args = new ImageEventArgs(url, url, altText, "");
 				OnImageParsed(args);
 
-				result = string.Format("<img src=\"{0}\" alt=\"{1}\"", args.Src, args.Alt);
+				result = string.Format("<img src=\"{0}\" border=\"0\" alt=\"{1}\"", args.Src, args.Alt);
 
 				if (_titles.ContainsKey(linkID))
 				{
@@ -1142,7 +1142,7 @@ namespace Roadkill.Core.Converters
 			ImageEventArgs args = new ImageEventArgs(url, url, alt, "");
 			OnImageParsed(args);
 
-			result = string.Format("<img src=\"{0}\" alt=\"{1}\"", args.Src, args.Alt);
+			result = string.Format("<img src=\"{0}\" border=\"0\" alt=\"{1}\"", args.Src, args.Alt);
 
 			if (!String.IsNullOrEmpty(title))
 			{
