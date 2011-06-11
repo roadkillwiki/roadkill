@@ -37,7 +37,7 @@ namespace Roadkill.Core
 
 		/// <summary>
 		/// The current (or if being changed, previous) username.
-		/// For new signups this field is null - use <see cref="NewUsername"/>
+		/// Use <see cref="NewUsername"/> for Signups.
 		/// </summary>
 		public string ExistingUsername { get; set; }
 
@@ -50,6 +50,7 @@ namespace Roadkill.Core
 
 		/// <summary>
 		/// The current (or if being changed, previous) email.
+		/// Use <see cref="NewEmail"/> for Signups.
 		/// </summary>
 		public string ExistingEmail{ get; set; }
 

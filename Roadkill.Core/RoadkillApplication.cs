@@ -47,11 +47,20 @@ namespace Roadkill.Core
 		{
 			AreaRegistration.RegisterAllAreas();
 			RegisterRoutes(RouteTable.Routes);
+			SetupNHibernate();
+		}
 
+		/// <summary>
+		/// Initializes the NHibernate sessionfactory, creating the schema if necessary.
+		/// </summary>
+		/// <remarks>This method is virtual for mocking</remarks>
+		public virtual void SetupNHibernate()
+		{
 			if (RoadkillSettings.Installed)
 			{
-				NHibernateRepository.Current.Configure(RoadkillSettings.DatabaseType,RoadkillSettings.ConnectionString, false, RoadkillSettings.CachedEnabled);
+				NHibernateRepository.Current.Configure(RoadkillSettings.DatabaseType, RoadkillSettings.ConnectionString, false, RoadkillSettings.CachedEnabled);
 			}
 		}
+
 	}
 }

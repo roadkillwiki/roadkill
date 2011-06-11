@@ -70,7 +70,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				User user = Users.FirstOrDefault(u => u.Email == email);
+				User user = Users.FirstOrDefault(u => u.Email == email || u.Username == username);
 				if (user == null)
 				{
 					user = new User();
@@ -133,7 +133,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				if (string.IsNullOrEmpty(newPassword))
+				if (string.IsNullOrWhiteSpace(newPassword))
 					throw new SecurityException(null, "Cannot change the password as it's empty.");
 
 				User user = Users.FirstOrDefault(u => u.Email == email);
@@ -164,7 +164,10 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				User user = Users.FirstOrDefault(u => u.Email == email && u.Password == oldPassword);
+				if (!Authenticate(email, oldPassword))
+					return false;
+
+				User user = Users.FirstOrDefault(u => u.Email == email);
 				if (user != null)
 				{
 					if (string.IsNullOrWhiteSpace(newPassword))
@@ -422,7 +425,7 @@ namespace Roadkill.Core
 				User user = Users.FirstOrDefault(u => u.Email == email);
 				if (user != null)
 				{
-					user.IsEditor = true;
+					user.IsEditor = !user.IsEditor;
 					NHibernateRepository.Current.SaveOrUpdate<User>(user);
 				}
 			}
@@ -444,7 +447,7 @@ namespace Roadkill.Core
 				User user = Users.FirstOrDefault(u => u.Email == email);
 				if (user != null)
 				{
-					user.IsAdmin = true;
+					user.IsAdmin = !user.IsAdmin;
 					NHibernateRepository.Current.SaveOrUpdate<User>(user);
 				}
 			}
@@ -457,8 +460,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Changes the username of a user to a new username.
 		/// </summary>
-		/// <param name="oldUsername">The old username</param>
-		/// <param name="newUsername">The new username.</param>
+		/// <param name="summary">The user details to change. The password property is ignored for this object - use ChangePassword instead.</param>
 		/// <returns>
 		/// true if the change was successful;false if the new username already exists in the system.
 		/// </returns>
@@ -467,9 +469,14 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				User user = Users.FirstOrDefault(u => u.Id == summary.Id);
+				// This check is run in the UserSummary object by MVC - but doubled up in here.
+				User user = Users.FirstOrDefault(u => u.Username == summary.NewUsername || u.Email == summary.NewEmail);
+				if (user != null)
+					throw new SecurityException(null, "The username or email provided already exists.");
+
+				user = Users.FirstOrDefault(u => u.Id == summary.Id);
 				if (user == null)
-					throw new SecurityException(null, "The user does not exist for UpdateUser");
+					throw new SecurityException(null, "The user does not exist.");
 
 				// Update the profile details
 				user.Firstname = summary.Firstname;
