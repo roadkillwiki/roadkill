@@ -62,18 +62,43 @@ namespace Roadkill.Tests
 		}
 
 		/// <summary>
-		/// Logs in
+		/// Logs out
+		/// </summary>
+		protected void Logout()
+		{
+			EnsureSessionExists();
+
+			GoToUrl("/user/logout/");
+		}
+
+		/// <summary>
+		/// Logs in as the admin user.
 		/// </summary>
 		/// <param name="ie"></param>
-		protected void Login()
+		protected void LoginAsAdmin()
 		{
 			EnsureSessionExists();
 
 			GoToUrl("/user/login/");
-			SetTextfieldValue("username", Settings.AdminUserEmail, "Unable to find the email textbox when logging in");
+			SetTextfieldValue("email", Settings.AdminUserEmail, "Unable to find the email textbox when logging in");
 			SetTextfieldValue("password", Settings.AdminUserPassword, "Unable to find the password textbox when logging in");
 
 			ClickButton("userbutton","Unable to click the login button");
+		}
+
+		/// <summary>
+		/// Logs in as the editor user.
+		/// </summary>
+		/// <param name="ie"></param>
+		protected void LoginAsEditor()
+		{
+			EnsureSessionExists();
+
+			GoToUrl("/user/login/");
+			SetTextfieldValue("email", Settings.EditorUserEmail, "Unable to find the email textbox when logging in");
+			SetTextfieldValue("password", Settings.EditorUserPassword, "Unable to find the password textbox when logging in");
+
+			ClickButton("userbutton", "Unable to click the login button");
 		}
 
 		/// <summary>
@@ -108,11 +133,10 @@ namespace Roadkill.Tests
 			EnsureSessionExists();
 
 			TextField textField = _testSession.IEInstance.TextField(new Regex(".*" + idEndsWith));
-			if (textField == null)
+			if (textField == null || !textField.Exists)
 				Assert.Fail(failMessage);
 
 			textField.Value = value;
-			textField.KeyUp(); // for the javascript validation for the save button
 		}
 
 		protected void PageShouldContainText(params string[] args)
@@ -123,6 +147,17 @@ namespace Roadkill.Tests
 			{
 				Assert.IsTrue(_testSession.IEInstance.ContainsText(args[i]),
 					string.Format("The page does not contain the text '{0}'", args[i]));
+			}
+		}
+
+		protected void PageShouldNotContainText(params string[] args)
+		{
+			EnsureSessionExists();
+
+			for (int i = 0; i < args.Length; i++)
+			{
+				Assert.IsFalse(_testSession.IEInstance.ContainsText(args[i]),
+					string.Format("The page does containS the text '{0}'", args[i]));
 			}
 		}
 

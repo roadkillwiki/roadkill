@@ -469,10 +469,22 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				// This check is run in the UserSummary object by MVC - but doubled up in here.
-				User user = Users.FirstOrDefault(u => u.Username == summary.NewUsername || u.Email == summary.NewEmail);
-				if (user != null)
-					throw new SecurityException(null, "The username or email provided already exists.");
+				User user;
+
+				// These checks is run in the UserSummary object by MVC - but doubled up in here for _when_ the API is used without MVC.
+				if (summary.ExistingEmail != summary.NewEmail)
+				{
+					user = Users.FirstOrDefault(u => u.Email == summary.NewEmail);
+					if (user != null)
+						throw new SecurityException(null, "The email provided already exists.");
+				}
+
+				if (summary.ExistingUsername != summary.NewUsername)
+				{
+					user = Users.FirstOrDefault(u => u.Username == summary.NewUsername);
+					if (user != null)
+						throw new SecurityException(null, "The username provided already exists.");
+				}
 
 				user = Users.FirstOrDefault(u => u.Id == summary.Id);
 				if (user == null)

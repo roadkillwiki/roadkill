@@ -38,5 +38,9 @@ namespace Roadkill.Core
 		/// SQL Server 2008.
 		/// </summary>
 		SqlServer2008,
+		/// <summary>
+		/// SQL Server Compact Edition
+		/// </summary>
+		SqlServerCe
 	}
 }

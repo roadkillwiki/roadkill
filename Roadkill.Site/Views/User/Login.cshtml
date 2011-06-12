@@ -10,7 +10,7 @@
 	@Html.Hidden("fromUrl",Request.QueryString["ReturnUrl"])
 	<fieldset id="login" class="rounded10 lightborder">
 		<label for="email" class="userlabel">Email:</label>
-		@Html.TextBox("username", null, new { @class = "usertextbox" })
+		@Html.TextBox("email", null, new { @class = "usertextbox" })
 		<br class="clear" />	
 
 		<label for="password" class="userlabel">Password:</label>

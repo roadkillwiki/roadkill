@@ -104,11 +104,11 @@ namespace Roadkill.Core.Controllers
 		/// If the login is unsucessful, the default Login view is re-displayed.
 		/// </summary>
 		[HttpPost]
-		public ActionResult Login(string username, string password, string fromUrl)
+		public ActionResult Login(string email, string password, string fromUrl)
 		{
-			if (UserManager.Current.Authenticate(username, password))
+			if (UserManager.Current.Authenticate(email, password))
 			{
-				FormsAuthentication.SetAuthCookie(username, true);
+				FormsAuthentication.SetAuthCookie(email, true);
 
 				if (!string.IsNullOrWhiteSpace(fromUrl))
 					return Redirect(fromUrl);
@@ -117,7 +117,7 @@ namespace Roadkill.Core.Controllers
 			}
 			else
 			{
-				ModelState.AddModelError("Username/Password", "The username/password are incorrect");
+				ModelState.AddModelError("Username/Password", "The username/password is incorrect");
 				return View();
 			}
 		}
@@ -156,6 +156,11 @@ namespace Roadkill.Core.Controllers
 			if (!RoadkillContext.Current.IsLoggedIn)
 				return RedirectToAction("Login");
 
+			// If the ID (and probably IsNew) have been tampered with in an attempt to create new users, just redirect.
+			// We can't set summary.IsNew=false here as it's already been validated.
+			if (summary.Id == null || summary.Id == Guid.Empty)
+				return RedirectToAction("Login");
+
 			if (ModelState.IsValid)
 			{
 				try
@@ -176,7 +181,7 @@ namespace Roadkill.Core.Controllers
 				}
 			}
 
-			return View();
+			return View(summary);
 		}
 
 		/// <summary>
@@ -208,8 +213,8 @@ namespace Roadkill.Core.Controllers
 			}
 			else
 			{	
-				UserSummary summary = UserManager.Current.GetUser(email).ToSummary();
-				if (summary == null)
+				User user = UserManager.Current.GetUser(email);
+				if (user == null)
 				{
 					ModelState.AddModelError("General", "The email address could not be found");
 				}
@@ -219,8 +224,8 @@ namespace Roadkill.Core.Controllers
 					if (!string.IsNullOrEmpty(key))
 					{
 						// Everything worked, send the email
-						summary.PasswordResetKey = key;
-						Email.Send(new ResetPasswordEmail(summary));
+						user.PasswordResetKey = key;
+						Email.Send(new ResetPasswordEmail(user.ToSummary()));
 						return View("ResetPasswordSent",(object) email);
 					}
 					else

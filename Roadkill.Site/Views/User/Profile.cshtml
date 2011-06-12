@@ -7,6 +7,7 @@
 @using (Html.BeginForm())
 {
 	@(Html.HiddenFor<UserSummary, Guid?>(h => h.Id))
+	@(Html.HiddenFor<UserSummary, bool>(h => h.IsNew))
 	@(Html.HiddenFor<UserSummary, string>(h => h.ExistingEmail))
 	@(Html.HiddenFor<UserSummary, string>(h => h.ExistingUsername))
 	

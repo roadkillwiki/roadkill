@@ -132,7 +132,7 @@ namespace Roadkill.Core
 		/// or if it has and the new username doesn't  already exist.</returns>
 		public static ValidationResult VerifyNewUsername(UserSummary user, ValidationContext context)
 		{
-			if (user.IsNew || user.ExistingUsername != user.NewUsername)
+			if ((user.IsNew && user.Id == null) || user.ExistingUsername != user.NewUsername)
 			{
 				if (UserManager.Current.UserNameExists(user.NewUsername))
 				{
@@ -156,7 +156,7 @@ namespace Roadkill.Core
 		public static ValidationResult VerifyNewEmail(UserSummary user, ValidationContext context)
 		{
 			// Only check if the username has changed
-			if (user.IsNew || user.ExistingEmail != user.NewEmail)
+			if ((user.IsNew && user.Id == null) || user.ExistingEmail != user.NewEmail)
 			{
 				if (UserManager.Current.UserExists(user.NewEmail))
 				{
@@ -173,7 +173,7 @@ namespace Roadkill.Core
 		public static ValidationResult VerifyPasswordsMatch(UserSummary user, ValidationContext context)
 		{
 			// A blank password indicates no change is occuring.
-			if (!user.IsNew && string.IsNullOrEmpty(user.Password))
+			if (!(user.IsNew && user.Id == null) && string.IsNullOrEmpty(user.Password))
 			{
 				return ValidationResult.Success;
 			}
@@ -196,7 +196,7 @@ namespace Roadkill.Core
 		public static ValidationResult VerifyPassword(UserSummary user, ValidationContext context)
 		{
 			// A blank password indicates no change is occuring.
-			if (!user.IsNew && string.IsNullOrEmpty(user.Password))
+			if (!(user.IsNew && user.Id == null) && string.IsNullOrEmpty(user.Password))
 			{
 				return ValidationResult.Success;
 			}

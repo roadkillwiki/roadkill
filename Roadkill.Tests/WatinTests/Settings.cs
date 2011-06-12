@@ -18,7 +18,7 @@ namespace Roadkill.Tests
 		static Settings()
 		{
 			ConnectionString = @"server=.\SQLEXPRESS;database=roadkill1.1;integrated security=SSPI";
-			BaseUrl = "http://localhost/roadkill.site/";
+			BaseUrl = "http://localhost/roadkill.site";
 
 			AdminUserEmail = "admin@localhost";
 			AdminUserPassword = "password";

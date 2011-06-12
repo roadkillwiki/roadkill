@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using WatiN.Core;
+using System.Threading;
 
 namespace Roadkill.Tests
 {
@@ -30,18 +31,23 @@ namespace Roadkill.Tests
 			{
 				connection.Open();
 
-				// INCOMPLETE
 				using (SqlCommand command = new SqlCommand())
 				{
+					command.Connection = connection;
+					command.CommandText = "SELECT COUNT(*) FROM roadkill_users WHERE email='admin@localhost'";
+					int count = 0;// command.ExecuteNonQuery();
+					if (count < 1)
+					{
 
-					string sql = @"INSERT INTO roadkill_users (Id,Email,IsEditor,IsAdmin,IsActivated,Username,Password,Salt) VALUES 
+						string sql = @"INSERT INTO roadkill_users (Id,Email,IsEditor,IsAdmin,IsActivated,Username,Password,Salt) VALUES 
 							('DD4EB524-5753-4458-A7FB-9EF7017C1442','editor@localhost',1,0,1,'editor','C1CD20DA5452C0D370794759CD151058AC189F2C','1234567890');
 
 							INSERT INTO roadkill_users (Id,Email,IsEditor,IsAdmin,IsActivated,Username,Password,Salt) VALUES 
 							('257083B6-B3C4-491F-A27D-9EFD01499F41','admin@localhost',1,1,1,'admin','C1CD20DA5452C0D370794759CD151058AC189F2C','1234567890');";
-					command.Connection = connection;
-					command.CommandText = sql;
-					command.ExecuteNonQuery();
+
+						command.CommandText = sql;
+						command.ExecuteNonQuery();
+					}
 				}
 			}
 		}

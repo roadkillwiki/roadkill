@@ -16,8 +16,8 @@ namespace Roadkill.Core
 		private string _connectionString;
 		private string _username;
 		private string _password;
-		private string _editorRolename;
-		private string _adminRolename;
+		private List<string> _editorGroupNames;
+		private List<string> _adminGroupNames;
 		private string _domainName;
 
 		/// <summary>
@@ -41,18 +41,50 @@ namespace Roadkill.Core
 		/// <param name="adminGroupName">The name of the group for admins.</param>
 		public ActiveDirectoryUserManager(string ldapConnectionString, string username, string password, string editorGroupName, string adminGroupName)
 		{
+			// Some guards
+			if (string.IsNullOrEmpty(ldapConnectionString))
+				throw new SecurityException("The LDAP connection string is empty",null);
+
+			if (string.IsNullOrEmpty(editorGroupName))
+				throw new SecurityException("The LDAP editor group name is empty", null);
+
+			if (string.IsNullOrEmpty(adminGroupName))
+				throw new SecurityException("The LDAP admin group name is empty", null);
+
 			_connectionString = ldapConnectionString;
 			_username = username;
 			_password = password;
-			_editorRolename = editorGroupName;
-			_adminRolename = adminGroupName;
 
 			// Remove the "LDAP://" part for the domain name, as the PrincipleContext doesn't like it.
 			int length = "ldap://".Length;
 			if (!_connectionString.ToLower().StartsWith("ldap://") || _connectionString.Length < length)
-				throw new SecurityException(null,"The LDAP connection string: '{0}' does not appear to be a valid LDAP. A correct connection string example is LDAP://dc=megacorp,dc=com.", _connectionString);
+				throw new SecurityException(null, "The LDAP connection string: '{0}' does not appear to be a valid LDAP. A correct connection string example is LDAP://dc=megacorp,dc=com.", _connectionString);
 
 			_domainName = _connectionString.Substring(length);
+
+			//
+			// Cater for multiple groups for editors and admins
+			//
+			string[] groups;
+			if (editorGroupName.IndexOf(",") != -1)
+			{
+				groups = editorGroupName.Split(',');
+				_editorGroupNames = new List<string>(groups);
+			}
+			else
+			{
+				_editorGroupNames = new List<string>() { editorGroupName };
+			}
+
+			if (adminGroupName.IndexOf(",") != -1)
+			{
+				groups = adminGroupName.Split(',');
+				_adminGroupNames = new List<string>(groups);
+			}
+			else
+			{
+				_adminGroupNames = new List<string>() { adminGroupName };
+			}
 		}
 
 
@@ -87,7 +119,12 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				List<string> users = GetUsersInGroup(_adminRolename);
+				List<string> users = new List<string>();
+				foreach (string group in _adminGroupNames)
+				{
+					GetUsersInGroup(group);
+				}
+				
 				return users.Contains(CleanUsername(email));
 			}
 			catch (Exception ex)
@@ -108,7 +145,12 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				List<string> users = GetUsersInGroup(_editorRolename);
+				List<string> users = new List<string>();
+				foreach (string group in _editorGroupNames)
+				{
+					GetUsersInGroup(group);
+				}
+
 				return users.Contains(CleanUsername(email));
 			}
 			catch (Exception ex)
@@ -125,7 +167,12 @@ namespace Roadkill.Core
 		/// </returns>
 		public override IEnumerable<UserSummary> ListAdmins()
 		{
-			List<string> usernames = GetUsersInGroup(_adminRolename);
+			List<string> usernames = new List<string>();
+			foreach (string group in _adminGroupNames)
+			{
+				GetUsersInGroup(group);
+			}
+
 			List<UserSummary> list = new List<UserSummary>();
 			foreach (string editor in usernames)
 			{
@@ -143,7 +190,12 @@ namespace Roadkill.Core
 		/// </returns>
 		public override IEnumerable<UserSummary> ListEditors()
 		{
-			List<string> usernames = GetUsersInGroup(_editorRolename);
+			List<string> usernames = new List<string>();
+			foreach (string group in _editorGroupNames)
+			{
+				GetUsersInGroup(group);
+			}
+
 			List<UserSummary> list = new List<UserSummary>();
 			foreach (string editor in usernames)
 			{

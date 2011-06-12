@@ -58,6 +58,9 @@ namespace Roadkill.Core
 		/// <param name="connection">The connection string to configure with.</param>
 		/// <param name="createSchema">if set to <c>true</c> the database schema is created automatically.</param>
 		/// <param name="enableL2Cache">if set to <c>true</c> NHibernate L2 caching is enabled for all domain objects.</param>
+		/// <remarks>
+		/// Microsoft SQL Server CE: http://www.microsoft.com/downloads/en/details.aspx?FamilyID=033cfb76-5382-44fb-bc7e-b3c8174832e2
+		/// </remarks>
 		public void Configure(DatabaseType databaseType,string connection, bool createSchema, bool enableL2Cache)
 		{
 			Configuration = Fluently.Configure();
@@ -121,6 +124,16 @@ namespace Roadkill.Core
 				case DatabaseType.SqlServer2008:
 					{
 						MsSqlConfiguration msSql = MsSqlConfiguration.MsSql2008.ConnectionString(connection);
+						if (enableL2Cache)
+							msSql = msSql.Cache(c => c.ProviderClass<HashtableCacheProvider>().UseQueryCache());
+
+						Configuration.Database(msSql);
+					}
+					break;
+
+				case DatabaseType.SqlServerCe:
+					{
+						MsSqlCeConfiguration msSql = MsSqlCeConfiguration.Standard.ConnectionString(connection);
 						if (enableL2Cache)
 							msSql = msSql.Cache(c => c.ProviderClass<HashtableCacheProvider>().UseQueryCache());
 

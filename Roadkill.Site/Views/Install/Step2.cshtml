@@ -68,15 +68,22 @@ $(document).ready(function()
 		<div class="small">
 			<ol>
 				<li>
-					<i>SQLExpress:</i><br />
+					<b>SQL Server Express:</b><br />
 					<span class="example">database=roadkill;server=.\SQLEXPRESS;integrated security=SSPI</span></li>
 				<li>
-					<i>App_Data file-based:</i><br />
+					<b>SQL Server App_Data file-based:</b><br />
 					<span class="example">Server=.\SQLExpress;AttachDbFilename=|DataDirectory|\roadkill.mdf;Integrated Security=True;User Instance=True</span>
 				</li>
 				<li>
-					<i>SQLite (stored in the App_Data folder):</i><br />
+					<b>SQLite (stored in the App_Data folder):</b><br />
 					<span class="example">Data Source=|DataDirectory|\roadkill.db;Version=3;</span>
+					Make sure SQLite.Interop.dll is inside your bin folder.<br />
+				</li>
+				<li style="margin-top:10px">
+					<b>SQL Server Compact:</b><br />
+					<span class="example">Data Source=|DataDirectory|\MyData.sdf;</span>
+					<a href="http://www.microsoft.com/downloads/en/details.aspx?FamilyID=033cfb76-5382-44fb-bc7e-b3c8174832e2" target="_blank">Download the binaries for x64 and x86 from here</a>.
+					Copy the SQLCe.dll into the bin folder.
 				</li>
 				
 			</ol>

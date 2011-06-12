@@ -65,7 +65,8 @@ namespace Roadkill.Core
 				NewUsername = Username,
 				Firstname = Firstname,
 				Lastname = Lastname,
-				PasswordResetKey = PasswordResetKey
+				PasswordResetKey = PasswordResetKey,
+				IsNew = (Id == Guid.Empty)
 			};
 		}
 	}

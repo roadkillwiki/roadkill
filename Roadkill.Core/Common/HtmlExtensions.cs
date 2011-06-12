@@ -230,6 +230,9 @@ namespace Roadkill.Core
 			listItem = new SelectListItem() { Text = "SqlServer 2008", Value = DatabaseType.SqlServer2008.ToString() };
 			selectList.Add(listItem);
 
+			listItem = new SelectListItem() { Text = "Sql Server CE", Value = DatabaseType.SqlServerCe.ToString() };
+			selectList.Add(listItem);		
+
 			return helper.DropDownList("DatabaseType", selectList);
 		}
 	}
