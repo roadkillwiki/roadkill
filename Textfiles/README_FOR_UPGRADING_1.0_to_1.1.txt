@@ -6,7 +6,15 @@ Roadkill 1.1 now supports user signups, which means a number of new settings hav
 Before upgrading, ensure your users all have email addresses set, as this field is now used for logins (unless you're using Active Directory). 
 The database schema has not changed radically, however you will need to run the SQL script below.
 
-As this change affects users, this upgrade is manual.
+As this change affects users, this upgrade is manual. You will also need to change your web.config so that:
+
+<forms loginUrl="~/Home/Login" /> 
+
+is now
+
+<forms loginUrl="~/User/Login" />
+
+
 
 -- BEGIN SQL SCRIPT
 
