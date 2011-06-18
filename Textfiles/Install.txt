@@ -1,6 +1,6 @@
 ﻿Roadkill .NET Wiki engine
-www.roadkill.org
-Version 1.0
+www.roadkillwiki.org
+Version 1.1
 
 Pre-requisites:
 ------------------------
