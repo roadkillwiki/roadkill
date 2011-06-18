@@ -122,7 +122,7 @@ namespace Roadkill.Core
 				List<string> users = new List<string>();
 				foreach (string group in _adminGroupNames)
 				{
-					GetUsersInGroup(group);
+					users.AddRange(GetUsersInGroup(group));
 				}
 				
 				return users.Contains(CleanUsername(email));
@@ -148,7 +148,7 @@ namespace Roadkill.Core
 				List<string> users = new List<string>();
 				foreach (string group in _editorGroupNames)
 				{
-					GetUsersInGroup(group);
+					users.AddRange(GetUsersInGroup(group));
 				}
 
 				return users.Contains(CleanUsername(email));
@@ -170,7 +170,7 @@ namespace Roadkill.Core
 			List<string> usernames = new List<string>();
 			foreach (string group in _adminGroupNames)
 			{
-				GetUsersInGroup(group);
+				usernames.AddRange(GetUsersInGroup(group));
 			}
 
 			List<UserSummary> list = new List<UserSummary>();
@@ -193,7 +193,7 @@ namespace Roadkill.Core
 			List<string> usernames = new List<string>();
 			foreach (string group in _editorGroupNames)
 			{
-				GetUsersInGroup(group);
+				usernames.AddRange(GetUsersInGroup(group));
 			}
 
 			List<UserSummary> list = new List<UserSummary>();
