@@ -10,10 +10,9 @@ As this change affects users, this upgrade is manual. You will also need to chan
 
 <forms loginUrl="~/Home/Login" /> 
 
-is now
+is now:
 
 <forms loginUrl="~/User/Login" />
-
 
 
 -- BEGIN SQL SCRIPT
