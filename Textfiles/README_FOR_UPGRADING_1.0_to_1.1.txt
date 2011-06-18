@@ -19,6 +19,12 @@ GO
 ALTER TABLE [dbo].[roadkill_siteconfiguration] ADD [SiteUrl] [nvarchar](255) NULL
 GO
 
+ALTER TABLE [dbo].[roadkill_users] ADD [Firstname] [nvarchar](255) NULL
+GO
+ALTER TABLE [dbo].[roadkill_users] ADD [Lastname] [nvarchar](255) NULL
+GO
+ALTER TABLE [dbo].[roadkill_users] ADD [Username] [nvarchar](255) NULL
+GO
 ALTER TABLE [dbo].[roadkill_users] ADD [PasswordResetKey] [nvarchar](255) NULL
 GO
 
