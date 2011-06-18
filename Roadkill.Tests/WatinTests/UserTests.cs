@@ -14,7 +14,7 @@ namespace Roadkill.Tests.WatinTests
 	// - Activate an account and login
 	// - Reset password and login
 	/// </remarks>
-	[TestClass]
+	//[TestClass] // Commented out for Appharbor
 	public class UserTests : WatinTestBase
 	{
 

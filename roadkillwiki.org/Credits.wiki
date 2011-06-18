@@ -6,6 +6,7 @@ Roadkill was built using the wealth of open source plugins, parsers and generall
 * [[http://creoleparser.codeplex.com|Creole Wiki Parser ]]
 * [[http://www.fatcow.com/free-icons|Fatcow icon library]]
 * [[http://www.nhforge.net|NHibernate]]
+* [[http://dotnetzip.codeplex.com/|DotNetZip Library]]
 * [[http://timeago.yarp.com/|jQuery timeago plugin]]
 * [[http://github.com/aehlke/tag-it/|tagIt for jQuery]]
 * [[http://www.ericmmartin.com/projects/simplemodal/|jQuery Simple Modal]]

@@ -11,7 +11,7 @@ namespace Roadkill.Tests
 	/// <summary>
 	/// Summary description for UnitTest1
 	/// </summary>
-	[TestClass]
+	//[TestClass]  // Commented out for Appharbor
 	public class SqlUserManagerTests : TestBase
 	{
 		[TestMethod]
