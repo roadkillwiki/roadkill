@@ -10,12 +10,12 @@ As this change affects users, this upgrade is manual.
 
 -- BEGIN SQL SCRIPT
 
-ALTER TABLE [dbo].[roadkill_siteconfiguration] ADD [EnableRecaptcha] [bit] NULL
-ALTER TABLE [dbo].[roadkill_siteconfiguration] ADD [RecaptchaPrivateKey] [nvarchar](255) NULL
-ALTER TABLE [dbo].[roadkill_siteconfiguration] ADD [RecaptchaPublicKey] [nvarchar](255) NULL
-ALTER TABLE [dbo].[roadkill_siteconfiguration] ADD [SiteUrl] [nvarchar](255) NULL
+ALTER TABLE [dbo].[roadkill_siteconfiguration] ADD [EnableRecaptcha] [bit] NULL;
+ALTER TABLE [dbo].[roadkill_siteconfiguration] ADD [RecaptchaPrivateKey] [nvarchar](255) NULL;
+ALTER TABLE [dbo].[roadkill_siteconfiguration] ADD [RecaptchaPublicKey] [nvarchar](255) NULL;
+ALTER TABLE [dbo].[roadkill_siteconfiguration] ADD [SiteUrl] [nvarchar](255) NULL;
 
-ALTER TABLE [dbo].[roadkill_users] ADD [PasswordResetKey] [nvarchar](255) NULL
+ALTER TABLE [dbo].[roadkill_users] ADD [PasswordResetKey] [nvarchar](255) NULL;
 
 UPDATE roadkill_siteconfiguration SET 
 	EnableRecaptcha='0',
