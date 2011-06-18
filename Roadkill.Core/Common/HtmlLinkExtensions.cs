@@ -79,7 +79,7 @@ namespace Roadkill.Core
 		/// <returns>If the user is not logged in and not an admin, an empty string is returned.</returns>
 		public static MvcHtmlString NewPageLink(this HtmlHelper helper, string prefix, string suffix)
 		{
-			if (RoadkillContext.Current.IsLoggedIn)
+			if (RoadkillContext.Current.IsLoggedIn && (RoadkillContext.Current.IsAdmin || RoadkillContext.Current.IsEditor))
 			{
 				string link = helper.ActionLink("New page", "New", "Pages").ToString();
 				return MvcHtmlString.Create(prefix + link + suffix);

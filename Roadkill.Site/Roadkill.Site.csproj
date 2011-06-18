@@ -173,7 +173,6 @@
     <Content Include="Assets\CSS\jqueryFileTree.css" />
     <Content Include="Assets\Scripts\jqueryFileTree.js" />
     <Content Include="Assets\Scripts\roadkill.edit.js" />
-    <Content Include="install.txt" />
     <Content Include="Themes\Mediawiki\border.png" />
     <Content Include="Themes\Mediawiki\Theme.cshtml" />
     <Content Include="Themes\Mediawiki\logo.png" />
@@ -181,7 +180,6 @@
     <Content Include="Themes\Mediawiki\pagebg.png" />
     <Content Include="Themes\Mediawiki\search.png" />
     <Content Include="Themes\Mediawiki\Theme.css" />
-    <Content Include="README_FOR_UPGRADING_1.0_to_1.1.txt" />
     <Content Include="Views\Help\MediaWikiReference.cshtml" />
     <Content Include="Views\Help\MarkdownReference.cshtml" />
     <Content Include="Views\Help\CreoleReference.cshtml" />

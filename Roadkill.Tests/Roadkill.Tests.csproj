@@ -123,6 +123,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Content Include="Webconfigs\web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Webconfigs\windowsauth-web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="WatinTests\README.TXT" />
