@@ -42,8 +42,19 @@ namespace Roadkill.Core.Controllers
 		}
 
 		/// <summary>
+		/// Searches the lucene index using the search string provided.
+		/// </summary>
+		public ActionResult Search(string q)
+		{
+			ViewData["search"] = q;
+
+			List<SearchResult> results = SearchManager.Current.SearchIndex(q);
+			return View(results);
+		}
+
+		/// <summary>
 		/// Returns a string containing Javascript 'constants' for the site. If the user is logged in, 
-		/// additional variables are returned that are used by the edit page.
+		/// additional variables are returned that are used by the edit page.</summary>
 		public ActionResult GlobalJsVars()
 		{
 			UrlHelper helper = new UrlHelper(HttpContext.Request.RequestContext);

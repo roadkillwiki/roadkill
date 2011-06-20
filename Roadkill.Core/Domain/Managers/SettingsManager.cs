@@ -184,7 +184,7 @@ namespace Roadkill.Core
 			// Turn on forms authentication
 			AuthenticationSection authSection = config.GetSection("system.web/authentication") as AuthenticationSection;
 			authSection.Mode = AuthenticationMode.Forms;
-			authSection.Forms.LoginUrl = "~/Home/Login";
+			authSection.Forms.LoginUrl = "~/User/Login";
 
 			// Turn on anonymous auth
 			AnonymousIdentificationSection anonSection = config.GetSection("system.web/anonymousIdentification") as AnonymousIdentificationSection;

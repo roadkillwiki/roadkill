@@ -258,17 +258,6 @@ namespace Roadkill.Core.Controllers
 		}
 
 		/// <summary>
-		/// Searches the lucene index using the search string provided.
-		/// </summary>
-		public ActionResult Search(string q)
-		{
-			ViewData["search"] = q;
-
-			List<SearchResult> results = SearchManager.Current.SearchIndex(q);
-			return View(results);
-		}
-
-		/// <summary>
 		/// Provides a page for creating a new user account. This redirects to the home page if
 		/// windows authentication is enabled, or AllowUserSignup is disabled.
 		/// </summary>
