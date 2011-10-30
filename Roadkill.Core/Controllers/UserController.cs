@@ -101,7 +101,7 @@ namespace Roadkill.Core.Controllers
 
 		/// <summary>
 		/// Handles the login page POST, validates the login and if successful redirects to the url provided.
-		/// If the login is unsucessful, the default Login view is re-displayed.
+		/// If the login is unsuccessful, the default Login view is re-displayed.
 		/// </summary>
 		[HttpPost]
 		public ActionResult Login(string email, string password, string fromUrl)

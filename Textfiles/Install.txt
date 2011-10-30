@@ -1,6 +1,6 @@
 ﻿Roadkill .NET Wiki engine
 www.roadkillwiki.org
-Version 1.1
+Version 1.11
 
 Pre-requisites:
 ------------------------
@@ -8,12 +8,12 @@ Pre-requisites:
 * MVC 3 Razor (via the ASP.NET Web Installer: http://go.microsoft.com/fwlink/?LinkId=210269)
 * IIS7+ is preferred, the app has not been tested with IIS6
 
-
 Installation
 ------------------------
 
 1) Create your website or virtual directory in IIS
-2) Copy the contents of this folder to the directory
-3) Point your browser to the URL - the installer will do the rest for you.
+2) Create a database and assign it a login (dbo is best)
+3) Copy the contents of this folder to the IIS directory you previously made.
+4) Point your browser to the URL - the installer will do the rest for you.
 
 Please report any bugs, issues or suggestions at http://www.bitbucket.org/mrshrinkray/roadkill/issues

@@ -63,7 +63,7 @@ namespace Roadkill.Tests.WatinTests
 				SetTextfieldValue("email", email);
 				SetTextfieldValue("password", "password");
 				ClickButton("userbutton", "Failed to click the login button");
-				PageShouldContainText("Login was unsucessful");
+				PageShouldContainText("Login was unsuccessful");
 			}
 		}
 
