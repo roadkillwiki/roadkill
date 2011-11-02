@@ -161,6 +161,17 @@ namespace Roadkill.Core
 				// each time a page is requested, it has no inverse relationship.
 				Page page = Pages.First(p => p.Id == pageId);
 
+				// Update the lucene index before we actually delete the page.
+				// We cannot call the ToSummary() method on an object that no longer exists.
+				try
+				{
+				    SearchManager.Current.Delete(page.ToSummary());
+				}
+				catch (SearchException)
+				{
+				    // TODO: log.
+				}
+
 				IEnumerable<PageContent> children = PageContents.Where(p => p.Page.Id == pageId);
 				foreach (PageContent pageContent in children)
 				{
@@ -168,16 +179,6 @@ namespace Roadkill.Core
 				}
 
 				NHibernateRepository.Current.Delete<Page>(page);
-
-				// Update the lucene index
-				try
-				{
-					SearchManager.Current.Delete(page.ToSummary());
-				}
-				catch (SearchException)
-				{
-					// TODO: log.
-				}
 			}
 			catch (HibernateException ex)
 			{
