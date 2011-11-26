@@ -4,7 +4,7 @@
 		<Name>Warningbox</Name>
 		<Description><![CDATA[
 		Surrounds the content in a light yellow, bordered warning box. Example:<br/>
-		(yellow:ENTER YOUR CONTENT HERE)
+		(warningbox:ENTER YOUR CONTENT HERE)
 		]]>
 		</Description>
 		<SearchRegex>\(warningbox:(?'warningbox'.*?)\)</SearchRegex>
@@ -14,7 +14,7 @@
 		<Name>Alertbox</Name>
 		<Description><![CDATA[
 		Surrounds the content in a red yellow, bordered alert box. Example:<br/>
-		(yellow:ENTER YOUR CONTENT HERE)
+		(alertbox:ENTER YOUR CONTENT HERE)
 		]]>
 		</Description>
 		<SearchRegex>\(alertbox:(?'alertbox'.*?)\)</SearchRegex>
