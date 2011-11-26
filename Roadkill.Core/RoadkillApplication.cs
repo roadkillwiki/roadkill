@@ -61,6 +61,5 @@ namespace Roadkill.Core
 				NHibernateRepository.Current.Configure(RoadkillSettings.DatabaseType, RoadkillSettings.ConnectionString, false, RoadkillSettings.CachedEnabled);
 			}
 		}
-
 	}
 }

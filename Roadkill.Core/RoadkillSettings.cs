@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Web.Security;
 using System.Web.Configuration;
 using System.Reflection;
+using System.IO;
 
 namespace Roadkill.Core
 {
@@ -15,10 +16,6 @@ namespace Roadkill.Core
 	/// <remarks>This class acts as a helper for RoadkillSection and SiteConfiguration as a single point for all settings.</remarks>
 	public class RoadkillSettings
 	{
-		private static string _rolesConnectionString;
-		private static string _ldapConnectionString;
-		private static string _ldapUsername;
-		private static string _ldapPassword;
 		private static DatabaseType? _databaseType = null;
 
 		/// <summary>
@@ -274,6 +271,28 @@ namespace Roadkill.Core
 			get
 			{
 				return typeof(RoadkillSettings).Assembly.GetName().Version.ToString();
+			}
+		}
+
+		/// <summary>
+		/// The path to the App data folder.
+		/// </summary>
+		public static string AppDataPath
+		{
+			get
+			{
+				return AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\";
+			}
+		}
+
+		/// <summary>
+		/// The file path for the custom tokens file.
+		/// </summary>
+		public static string CustomTokensPath
+		{
+			get
+			{
+				return Path.Combine(AppDataPath, "tokens.xml");
 			}
 		}
 	}

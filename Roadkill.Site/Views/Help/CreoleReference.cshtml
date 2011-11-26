@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<TextToken>
+@{
 	Layout = "~/Views/Shared/_Blank.cshtml";
 }
 
@@ -21,6 +22,10 @@
 	<tr>
 		<td class="bold">Superscript</td>
 		<td>^^superscript^^</td>
+	</tr>
+	<tr>
+		<td class="bold">Force a line break</td>
+		<td>\\</td>
 	</tr>
 	<tr>
 		<td class="bold">Subscript</td>
@@ -98,6 +103,13 @@
 			</ol>
 		</td>
 	</tr>
+	@foreach (TextToken token in Model)
+	{
+	<tr>
+		<td class="bold" title="@token.SearchRegex">@MvcHtmlString.Create(token.Name)</td>
+		<td>@MvcHtmlString.Create(token.Description)</td>
+	</tr>
+	 }
 	<tfoot>
 		<tr>
 		<th colspan="2">

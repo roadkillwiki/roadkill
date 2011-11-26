@@ -58,7 +58,10 @@ namespace Roadkill.Core.Converters
 		/// <returns>The wiki markup converted to HTML.</returns>
 		public string ToHtml(string text)
 		{
-			return Parser.Transform(text);
+			string html = CustomTokenParser.ReplaceTokens(text);
+			html = Parser.Transform(html);
+			
+			return html;
 		}
 
 		/// <summary>

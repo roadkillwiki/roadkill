@@ -171,6 +171,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\roadkill.MDF" />
+    <Content Include="App_Data\tokens.xml" />
     <Content Include="Assets\CSS\htmldiff.css" />
     <Content Include="Assets\CSS\jquery.tagit.css" />
     <Content Include="Assets\CSS\images\application.png" />

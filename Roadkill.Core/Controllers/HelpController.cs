@@ -16,19 +16,19 @@ namespace Roadkill.Core.Controllers
 		[EditorRequired]
 		public ActionResult CreoleReference()
 		{
-			return View();
+			return View(CustomTokenParser.Tokens);
 		}
 
 		[EditorRequired]
 		public ActionResult MediaWikiReference()
 		{
-			return View();
+			return View(CustomTokenParser.Tokens);
 		}
 
 		[EditorRequired]
 		public ActionResult MarkdownReference()
 		{
-			return View();
+			return View(CustomTokenParser.Tokens);
 		}
     }
 }

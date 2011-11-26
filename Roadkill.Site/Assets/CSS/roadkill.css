@@ -154,7 +154,7 @@
 .settingstable .edit	{ width:50px; }
 .settingstable .delete	{ width:50px; }
 
-#tooltip	{ position: absolute; z-index: 3000; border: 1px solid #111; background-color: #000;color:#DDD; padding: 8px;border-radius:8px; opacity: 0.85; }
+#tooltip	{ position: absolute; z-index: 3000; border: 1px solid #111;background-color: #000;color:#DDD; padding: 8px;border-radius:8px; opacity: 0.85; }
 #tooltip h3, #tooltip div { margin: 0; }
 
 #userdialogContainer	{ display:none; }
@@ -162,3 +162,7 @@
 #userdialogContainer h2	{ border-bottom:1px solid white !important; }
 #userdialogContainer label	{ float:left;min-width:150px;line-height:25px;font-size:0.8em;font-weight:bold; }
 #userdialogContainer .textbox input	{ width:200px; }
+
+/* CSS styles for replaceable tokens */
+.token-warningbox	{ border:1px solid #FCEFA1;padding:5px;background-color:#FBF9EE;border-radius:4px;width:500px; }
+.token-alertbox		{ border:1px solid #CD0A0A;padding:5px;background-color:#FEF1EC;border-radius:4px;width:500px; }

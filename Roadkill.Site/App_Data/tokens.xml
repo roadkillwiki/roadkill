@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ArrayOfTextToken xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<TextToken>
+		<Name>Warningbox</Name>
+		<Description><![CDATA[
+		Surrounds the content in a light yellow, bordered warning box. Example:<br/>
+		(yellow:ENTER YOUR CONTENT HERE)
+		]]>
+		</Description>
+		<SearchRegex>\(warningbox:(?'warningbox'.*?)\)</SearchRegex>
+		<HtmlReplacement><![CDATA[<div class="token-warningbox">${warningbox}</div><br style="clear:both"/>]]></HtmlReplacement>
+	</TextToken>
+	<TextToken>
+		<Name>Alertbox</Name>
+		<Description><![CDATA[
+		Surrounds the content in a red yellow, bordered alert box. Example:<br/>
+		(yellow:ENTER YOUR CONTENT HERE)
+		]]>
+		</Description>
+		<SearchRegex>\(alertbox:(?'alertbox'.*?)\)</SearchRegex>
+		<HtmlReplacement><![CDATA[<div class="token-alertbox">${alertbox}</div><br style="clear:both"/>]]>
+		</HtmlReplacement>
+	</TextToken>
+</ArrayOfTextToken>
