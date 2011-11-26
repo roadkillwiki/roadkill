@@ -199,7 +199,7 @@ namespace Roadkill.Core.Controllers
 			}
 			catch (IOException e)
 			{
-				Trace.Write(string.Format("Unable to export as XML: {0}", e));
+				Log.Warn(e, "Unable to export as XML");
 				return HttpNotFound("There was a problem with exporting as XML. Enable tracing to see the error source");
 			}
 		}
@@ -224,14 +224,22 @@ namespace Roadkill.Core.Controllers
 				string zipFullPath = Path.Combine(exportFolder, zipFilename);
 				using (ZipFile zip = new ZipFile(zipFullPath))
 				{
+					int index = 0;
+					List<string> filenames = new List<string>();
 
 					foreach (PageSummary summary in pages)
 					{
 						string filePath = Path.Combine(exportFolder, summary.Title.AsValidFilename() + ".wiki");
+						if (filenames.Contains(filePath))
+							filePath = Path.Combine(exportFolder, summary.Title.AsValidFilename() + (++index) + ".wiki");
+						else
+							index = 0;
+
 						string content = "Tags:" + summary.Tags.SpaceDelimitTags() + "\r\n" + summary.Content;
 
 						System.IO.File.WriteAllText(filePath, content);
 						zip.AddFile(filePath, "");
+						filenames.Add(filePath);
 					}
 
 					zip.Save();
@@ -241,7 +249,7 @@ namespace Roadkill.Core.Controllers
 			}
 			catch (IOException e)
 			{
-				Trace.Write(string.Format("Unable to export files: {0}", e));
+				Log.Warn(e,"Unable to export wiki content");
 				return HttpNotFound("There was a problem with the export. Enable tracing to see the error source");
 			}
 		}
@@ -274,7 +282,7 @@ namespace Roadkill.Core.Controllers
 			}
 			catch (IOException e)
 			{
-				Trace.Write(string.Format("Unable to export files: {0}", e));
+				Log.Warn(e, "Unable to export attachments");
 				return HttpNotFound("There was a problem with the attachments export. Enable tracing to see the error source");
 			}
 		}
