@@ -47,7 +47,6 @@
 
 	<span class="bold borderbottom">Import from screwturn</span><br />
 	<p>
-
 	Imports all content from a Screwturn 2 database. You will need to set the markuptype to MediaWiki 
 	in the settings/web.config file for the format to be compatible. As screwturn uses as variation on 
 	the mediawiki syntax, some content will not render perfectly. This includes some images and links.
@@ -58,6 +57,24 @@
 	<b>Screwturn connection string:</b>
 	@(Html.TextBox("screwturnConnectionString", null, new { style = "width:30em" }))<br />
 	<input type="submit" class="button" value="Import" />
+	}
+	<br /><br />
+
+	<span class="bold borderbottom">Rename a tag</span><br />
+	<p>
+	This will rename a tag, and update all pages that reference the tag to use the new tagname. The tagname is case sensitive.
+	</p>
+
+	@using (Html.BeginForm("RenameTag","Settings"))
+	{
+	<div class="left bold" style="width:150px;">Existing tag:</div>
+	<div class="left">@(Html.TextBox("oldTagName", null, new { style = "width:100px" }))</div>
+	<br class="clear" />
+	 
+	<div class="left bold" style="width:150px;">New tag name:</div>
+	<div class="left">@(Html.TextBox("newTagName", null, new { style = "width:100px" }))</div>
+	<br class="clear" />
+	<input type="submit" class="button" value="Rename" />
 	}
 </div>
 

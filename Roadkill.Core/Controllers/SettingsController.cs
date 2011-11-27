@@ -200,7 +200,9 @@ namespace Roadkill.Core.Controllers
 			catch (IOException e)
 			{
 				Log.Warn(e, "Unable to export as XML");
-				return HttpNotFound("There was a problem with exporting as XML. Enable tracing to see the error source");
+				TempData["Message"] = "Exporting to XML failed: " + e.Message;
+
+				return RedirectToAction("Tools");
 			}
 		}
 
@@ -227,30 +229,36 @@ namespace Roadkill.Core.Controllers
 					int index = 0;
 					List<string> filenames = new List<string>();
 
-					foreach (PageSummary summary in pages)
+					foreach (PageSummary summary in pages.OrderBy(p => p.Title))
 					{
-						string filePath = Path.Combine(exportFolder, summary.Title.AsValidFilename() + ".wiki");
+						// Ensure the filename is unique as its title based.
+						string filePath = summary.Title.AsValidFilename();
 						if (filenames.Contains(filePath))
-							filePath = Path.Combine(exportFolder, summary.Title.AsValidFilename() + (++index) + ".wiki");
+							filePath += (++index) + "";
 						else
 							index = 0;
 
+						filenames.Add(filePath);
+
+						filePath = Path.Combine(exportFolder, filePath);
+						filePath += ".wiki";
 						string content = "Tags:" + summary.Tags.SpaceDelimitTags() + "\r\n" + summary.Content;
 
 						System.IO.File.WriteAllText(filePath, content);
-						zip.AddFile(filePath, "");
-						filenames.Add(filePath);
+						zip.AddFile(filePath, "");	
 					}
 
 					zip.Save();
 				}
 
-				return File(zipFullPath, "application/zip", zipFullPath);
+				return File(zipFullPath, "application/zip", zipFilename);
 			}
 			catch (IOException e)
 			{
 				Log.Warn(e,"Unable to export wiki content");
-				return HttpNotFound("There was a problem with the export. Enable tracing to see the error source");
+				TempData["Message"] = "Wiki content export failed: " + e.Message;
+
+				return RedirectToAction("Tools");
 			}
 		}
 
@@ -278,12 +286,14 @@ namespace Roadkill.Core.Controllers
 					zip.Save();
 				}
 
-				return File(zipFullPath, "application/zip", zipFullPath);
+				return File(zipFullPath, "application/zip", zipFilename);
 			}
 			catch (IOException e)
 			{
 				Log.Warn(e, "Unable to export attachments");
-				return HttpNotFound("There was a problem with the attachments export. Enable tracing to see the error source");
+				TempData["Message"] = "Exporting attachments failed: "+e.Message;
+
+				return RedirectToAction("Tools");
 			}
 		}
 
@@ -321,6 +331,20 @@ namespace Roadkill.Core.Controllers
 		{
 			TempData["Message"] = "Database cleared";
 			SettingsManager.ClearPageTables();
+			return RedirectToAction("Tools");
+		}
+
+		/// <summary>
+		/// Renames a tag in the system, and updates all pages that use it.
+		/// </summary>
+		/// <returns>Redirects to the Tools action.</returns>
+		public ActionResult RenameTag(string oldTagName, string newTagName)
+		{
+			TempData["Message"] = "Tag rename successful";
+
+			PageManager manager = new PageManager();
+			manager.RenameTag(oldTagName, newTagName);
+
 			return RedirectToAction("Tools");
 		}
     }

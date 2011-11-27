@@ -165,11 +165,11 @@ namespace Roadkill.Core
 				// We cannot call the ToSummary() method on an object that no longer exists.
 				try
 				{
-				    SearchManager.Current.Delete(page.ToSummary());
+					SearchManager.Current.Delete(page.ToSummary());
 				}
 				catch (SearchException)
 				{
-				    // TODO: log.
+					// TODO: log.
 				}
 
 				IEnumerable<PageContent> children = PageContents.Where(p => p.Page.Id == pageId);
@@ -318,6 +318,31 @@ namespace Roadkill.Core
 			catch (HibernateException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred updating the page with title '{0}' in the database", summary.Title);
+			}
+		}
+
+		/// <summary>
+		/// Renames a tag by changing all pages that reference the tag to use the new tag name.
+		/// </summary>
+		/// <exception cref="DatabaseException">An NHibernate (database) error occured while saving one of the pages.</exception>
+		/// <exception cref="SearchException">An error occured updating the search index.</exception>
+		public void RenameTag(string oldTagName, string newTagName)
+		{
+			try
+			{
+				IEnumerable<PageSummary> pageSummaries = FindByTag(oldTagName);
+
+				foreach (PageSummary summary in pageSummaries)
+				{
+					SearchManager.Current.Delete(summary);
+
+					summary.Tags = summary.Tags.Replace(oldTagName + ";", newTagName + ";");
+					UpdatePage(summary);
+				}
+			}
+			catch (HibernateException ex)
+			{
+				throw new DatabaseException(ex, "An error occurred while changing the tagname {0} to {1}", oldTagName, newTagName);
 			}
 		}
 	}
