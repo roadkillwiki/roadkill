@@ -188,7 +188,7 @@
     <Compile Include="Text\CustomToken.cs" />
     <Compile Include="Text\CustomTokenParser.cs" />
     <Compile Include="Text\ImageEventArgs.cs" />
-    <Compile Include="Text\IParser.cs" />
+    <Compile Include="Text\IMarkupParser.cs" />
     <Compile Include="Text\LinkEventArgs.cs" />
     <Compile Include="Text\Parsers\MediaWikiParser.cs" />
     <Compile Include="Domain\Managers\Security\ActiveDirectoryUserManager.cs" />
