@@ -125,6 +125,9 @@
     <Reference Include="FluentNHibernate">
       <HintPath>..\lib\FluentNHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\lib\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\lib\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -159,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Log.cs" />
+    <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Controllers\Attributes\RecaptchaRequiredAttribute.cs" />
     <Compile Include="Controllers\Attributes\ImportModelStateAttribute.cs" />
     <Compile Include="Controllers\Attributes\ExportModelStateAttribute.cs" />
@@ -230,7 +234,9 @@
     <Compile Include="RoadkillApplication.cs" />
     <Compile Include="Text\TocParser.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Text\HTMLPage1.htm" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

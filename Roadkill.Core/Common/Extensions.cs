@@ -147,5 +147,19 @@ namespace Roadkill.Core
 
 			return result;
 		}
+
+		/// <summary>
+		/// Repeats a string N number of times, returning the new string.
+		/// </summary>
+		public static string Repeat(this string text, int count)
+		{
+			string result = "";
+			for (int i = 0; i < count; i++)
+			{
+				result += text;
+			}
+
+			return result;
+		}
 	}
 }

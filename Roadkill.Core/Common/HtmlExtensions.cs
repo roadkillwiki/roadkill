@@ -49,7 +49,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Removes all bad characters (one which cannot be used in a URL for a page) from a page title.
+		/// Removes all bad characters (ones which cannot be used in a URL for a page) from a page title.
 		/// </summary>
 		/// <param name="title">The page title.</param>
 		/// <returns>The cleaned title</returns>

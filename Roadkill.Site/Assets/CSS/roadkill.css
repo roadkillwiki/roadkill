@@ -166,3 +166,8 @@
 /* CSS styles for replaceable tokens */
 .token-warningbox	{ border:1px solid #FCEFA1;padding:5px;background-color:#FBF9EE;border-radius:4px;width:500px; }
 .token-alertbox		{ border:1px solid #CD0A0A;padding:5px;background-color:#FEF1EC;border-radius:4px;width:500px; }
+
+/* Table of contents {TOC} */
+.toc			{ border:1px solid #AAA; background-color:#F9F9F9; padding:5px;display:table; }
+.toc-contents	{ font-weight:bold;text-align:center; }
+.toc ul			{ list-style-type:none;padding:2px 0px 2px 10px; }

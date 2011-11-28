@@ -60,6 +60,12 @@ namespace Roadkill.Core.Converters
 		{
 			string html = CustomTokenParser.ReplaceTokens(text);
 			html = Parser.Transform(html);
+
+			if (html.IndexOf("{TOC}") > -1)
+			{
+				TocParser parser = new TocParser();
+				html = parser.InsertToc(html);
+			}
 			
 			return html;
 		}
