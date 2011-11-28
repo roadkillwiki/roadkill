@@ -14,6 +14,10 @@ namespace Roadkill.Core
 	{
 		private Header _previousHeader;
 
+		/// <summary>
+		/// Replaces all {TOC} tokens with the HTML for the table of contents. This method also inserts
+		/// anchored name tags before each H1,H2,H3 etc. tag that the contents references.
+		/// </summary>
 		public string InsertToc(string html)
 		{
 			HtmlDocument document = new HtmlDocument();
@@ -21,30 +25,40 @@ namespace Roadkill.Core
 			HtmlNodeCollection elements = document.DocumentNode.ChildNodes;
 
 			// The headers are stored in a flat list to start with
-			List<Header> h1Headers = new List<Header>();
-			AddHtmlHeaders(document.DocumentNode, h1Headers);
+			List<Header> rootHeaders = new List<Header>();
+			ParseHtmlAddAnchors(document.DocumentNode, rootHeaders, "h1");
+
+			// Try parsing all H2 headers (as H1 is technically the page title).
+			if (rootHeaders.Count == 0)
+				ParseHtmlAddAnchors(document.DocumentNode, rootHeaders, "h2");
 
 			// Add a fake root for the tree
 			Header rootHeader = new Header("","h0");
-			rootHeader.Children.AddRange(h1Headers);
-			foreach (Header header in h1Headers)
+			rootHeader.Children.AddRange(rootHeaders);
+			foreach (Header header in rootHeaders)
 			{
 				header.Parent = rootHeader;
 			}
 
 			StringBuilder builder = new StringBuilder();
 			builder.AppendLine("<div class=\"toc\">");
-			builder.AppendLine("<div class=\"toc-contents\">Contents</div>");
+			builder.AppendLine("<div class=\"toc-title\">Contents [<a class=\"toc-showhide\" href=\"#\">hide</a>]</div>");
+			builder.AppendLine("<div class=\"toc-list\">");
 			builder.AppendLine("<ul>");
-			GenerateTocNumbers(rootHeader, builder);
+			GenerateTocList(rootHeader, builder);
 			builder.AppendLine("</ul>");
+			builder.AppendLine("</div>");
 			builder.AppendLine("</div>");
 
 			return document.DocumentNode.InnerHtml.Replace("{TOC}",builder.ToString());
 		}
 
-		private void GenerateTocNumbers(Header parentHeader, StringBuilder htmlBuilder)
+		/// <summary>
+		/// Generates the ToC contents HTML for the using the StringBuilder.
+		/// </summary>
+		private void GenerateTocList(Header parentHeader, StringBuilder htmlBuilder)
 		{
+			// Performs a level order traversal of the H1 (or H2) trees
 			foreach (Header header in parentHeader.Children)
 			{
 				htmlBuilder.AppendLine("<li>");
@@ -53,7 +67,7 @@ namespace Roadkill.Core
 				if (header.Children.Count > 0)
 				{
 					htmlBuilder.AppendLine("<ul>");
-					GenerateTocNumbers(header, htmlBuilder);
+					GenerateTocList(header, htmlBuilder);
 					htmlBuilder.AppendLine("</ul>");
 				}
 
@@ -61,7 +75,11 @@ namespace Roadkill.Core
 			}
 		}	
 
-		private void AddHtmlHeaders(HtmlNode parentNode, List<Header> h1Headers)
+		/// <summary>
+		/// Parses the HTML for H1,H2, H3 etc. elements, and adds them as Header trees, where
+		/// rootHeaders contains the H1 root nodes.
+		/// </summary>
+		private void ParseHtmlAddAnchors(HtmlNode parentNode, List<Header> rootHeaders, string rootTag)
 		{
 			foreach (HtmlNode node in parentNode.ChildNodes)
 			{
@@ -93,18 +111,21 @@ namespace Roadkill.Core
 					HtmlNode anchor = HtmlNode.CreateNode(string.Format(@"<a name=""{0}""></a>",header.Id));
 					node.PrependChild(anchor);
 
-					if (node.Name == "h1")
-						h1Headers.Add(header);
+					if (node.Name == rootTag)
+						rootHeaders.Add(header);
 
 					_previousHeader = header;
 				}
 				else if (node.HasChildNodes)
 				{
-					AddHtmlHeaders(node, h1Headers);
+					ParseHtmlAddAnchors(node, rootHeaders, rootTag);
 				}
 			}
 		}
 
+		/// <summary>
+		/// Represents a header and its child headers, a tree with many branches.
+		/// </summary>
 		private class Header
 		{
 			public string Id { get; set; }

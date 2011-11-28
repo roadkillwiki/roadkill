@@ -14,14 +14,14 @@ namespace Roadkill.Core.Converters
 	public class MarkupConverter
 	{
 		[ThreadStatic]
-		private static IParser _parser;
+		private static IMarkupParser _parser;
 		private static Regex _imgFileRegex = new Regex("^File:", RegexOptions.IgnoreCase);
 
 		/// <summary>
-		/// Gets the current <see cref="IParser"/> for the <see cref="RoadkillSettings.MarkupType"/>
+		/// Gets the current <see cref="IMarkupParser"/> for the <see cref="RoadkillSettings.MarkupType"/>
 		/// </summary>
-		/// <returns>An <see cref="IParser"/> for Creole,Markdown or Media wiki formats.</returns>
-		public IParser Parser
+		/// <returns>An <see cref="IMarkupParser"/> for Creole,Markdown or Media wiki formats.</returns>
+		public IMarkupParser Parser
 		{
 			get
 			{

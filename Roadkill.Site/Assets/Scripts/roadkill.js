@@ -1,17 +1,15 @@
 /// <reference path="jquery-1.4.1-vsdoc.js" />
 
-
 /**
 Event bindings and handlers for all pages.
 */
-$(document).ready(function ()
-{
+$(document).ready(function () {
 	// All requires JS files accross the site (logged in or not)
 	$.require("jquery.extensions.min.js");
 	$.require("jquery.form-extensions.min.js");
 	$.require("jquery.ae.image.resize.min.js");
 	$.require("jquery-ui-1.8.core-and-interactions.min.js");
-	$.require("jquery-ui-1.8.autocomplete.min.js");	
+	$.require("jquery-ui-1.8.autocomplete.min.js");
 	$.require("jquery.timeago.js");
 	$.require("jquery.simplemodal.1.4.1.min.js")
 
@@ -19,9 +17,23 @@ $(document).ready(function ()
 	$("#historytable .editedon").timeago();
 
 	// Bind the info icon on each page
-	$("#pageinfo-button>a").click(function ()
-	{
+	$("#pageinfo-button>a").click(function () {
 		$("#pageinformation").modal();
+	});
+
+	// The show/hide for table of contents
+	$("a.toc-showhide").click(function ()
+	{
+		if ($(this).text() == "hide")
+		{
+			$(this).text("show");
+		}
+		else
+		{
+			$(this).text("hide");
+		}
+
+		$(this).parent().next().toggle();
 	});
 
 	formatPreTags();

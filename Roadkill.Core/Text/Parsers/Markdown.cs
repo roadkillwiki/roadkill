@@ -131,7 +131,7 @@ namespace Roadkill.Core.Converters
 	/// Markdown allows you to write using an easy-to-read, easy-to-write plain text format, 
 	/// then convert it to structurally valid XHTML (or HTML).
 	/// </summary>
-	public class MarkdownParser : IParser
+	public class MarkdownParser : IMarkupParser
 	{
 		private const string _version = "1.13";
 

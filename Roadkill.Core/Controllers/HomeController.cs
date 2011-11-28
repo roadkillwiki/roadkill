@@ -79,7 +79,7 @@ namespace Roadkill.Core.Controllers
 
 				// Tokens for the edit toolbar
 				MarkupConverter converter = new MarkupConverter();
-				IParser parser = converter.Parser;
+				IMarkupParser parser = converter.Parser;
 				builder.AppendLine(string.Format("var ROADKILL_EDIT_BOLD_TOKEN = \"{0}\";", parser.BoldToken));
 				builder.AppendLine(string.Format("var ROADKILL_EDIT_ITALIC_TOKEN = \"{0}\";", parser.ItalicToken));
 				builder.AppendLine(string.Format("var ROADKILL_EDIT_UNDERLINE_TOKEN = \"{0}\";", parser.UnderlineToken));

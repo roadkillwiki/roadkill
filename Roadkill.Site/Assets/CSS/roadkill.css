@@ -168,6 +168,8 @@
 .token-alertbox		{ border:1px solid #CD0A0A;padding:5px;background-color:#FEF1EC;border-radius:4px;width:500px; }
 
 /* Table of contents {TOC} */
-.toc			{ border:1px solid #AAA; background-color:#F9F9F9; padding:5px;display:table; }
-.toc-contents	{ font-weight:bold;text-align:center; }
-.toc ul			{ list-style-type:none;padding:2px 0px 2px 10px; }
+.toc			{ border:1px solid #AAA; background-color:#F9F9F9; padding:5px 0px;display:table;margin-bottom:15px; }
+.toc-title		{ font-weight:bold;text-align:center;min-width:100px; }
+.toc-showhide	{ font-weight:normal;font-size:0.8em; }
+.toc ul			{ list-style-type:none;padding:2px 5px;margin: 0px 0px 0px 2em;line-height:1.5em; }
+.toc-list>ul	{ margin:0px; }

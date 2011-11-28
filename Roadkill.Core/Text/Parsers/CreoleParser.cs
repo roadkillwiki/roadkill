@@ -69,7 +69,7 @@ namespace Roadkill.Core.Converters
 	/// 
 	/// You if you define an event handler for OnLink you can modify the link that is generated
 	/// </summary>
-	public class CreoleParser : IParser
+	public class CreoleParser : IMarkupParser
 	{
 		private string _tabStop;
 		private int _nTabSpaces;
