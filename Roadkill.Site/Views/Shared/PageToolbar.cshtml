@@ -6,7 +6,14 @@
 	@if (Model.Id != 0)
 	{
 	<div id="editbutton" class="linkbutton">
-		@Html.ActionLink("Edit", "Edit", "Pages", new { id = Model.Id },null)
+	@if (Model.IsLocked && !RoadkillContext.Current.IsAdmin)
+	{
+		<span title="This page can only be edited by administrators.">Edit</span>
+	}
+	else
+	{
+		@Html.ActionLink("Edit", "Edit", "Pages", new { id = Model.Id }, null)
+	}		
 	</div>
 	<div id="pagehistory-button" class="linkbutton"> 
 		@Html.ActionLink("History", "History", "Pages", new { id = Model.Id }, null)

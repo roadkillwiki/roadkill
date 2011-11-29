@@ -32,7 +32,14 @@
 			<label for="tags">Tags</label>
 			<ul id="mytags"></ul>
 		</div>
-		
+	 
+		if (RoadkillContext.Current.IsAdmin)
+		{
+		<div class="lockpage">
+			@(Html.CheckBoxFor<PageSummary>(p => p.IsLocked))
+			<span>This page can only be edited by administrators.</span>
+		</div>
+		}
 		<br />
 	 
 		<div id="wysiwyg-toolbar">
@@ -68,7 +75,7 @@
 		</div>
 		<br class="clear" /><br />
 	
-		<div id="previewLoading"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
+		<div id="previewLoading"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" alt="loading" /></div>
 		<div id="previewContainer">
 			<div id="title">Preview</div>
 			<div id="preview"></div>

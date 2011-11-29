@@ -117,6 +117,7 @@
 #edit				{ width:700px; }
 #edit label			{ float:left;width:50px;padding:5px 5px 0 0;font-weight:bold; }
 #edit .title input	{ border:1px solid #032451;height:30px;width:555px;padding-left:5px; }
+#edit .lockpage		{ margin-left:50px; }
 #edit .tagit		{ border:1px solid #032451;height:30px;width:550px;font-family:Arial; }
 .edittextarea		{ width:100%;height:300px;border:1px solid #032451; }
 .buttonContainer	{ float:right;padding-top:10px;text-align:right; }
@@ -172,4 +173,4 @@
 .toc-title		{ font-weight:bold;text-align:center;min-width:100px; }
 .toc-showhide	{ font-weight:normal;font-size:0.8em; }
 .toc ul			{ list-style-type:none;padding:2px 5px;margin: 0px 0px 0px 2em;line-height:1.5em; }
-.toc-list>ul	{ margin:0px; }
+.toc-list>ul		{ margin:0px; }

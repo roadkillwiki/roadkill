@@ -107,6 +107,9 @@ namespace Roadkill.Core.Controllers
 
 			if (summary != null)
 			{
+				if (summary.IsLocked && !RoadkillContext.Current.IsAdmin)
+					return new HttpStatusCodeResult(403, string.Format("The page '{0}' can only be edited by administrators.",summary.Title));
+
 				return View("Edit", summary);
 			}
 			else

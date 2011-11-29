@@ -302,6 +302,11 @@ namespace Roadkill.Core
 				page.Tags = summary.Tags.CleanTags();
 				page.ModifiedOn = DateTime.Now;
 				page.ModifiedBy = currentUser;
+
+				// A second check to ensure a fake IsLocked POST doesn't work.
+				if (RoadkillContext.Current.IsAdmin)
+					page.IsLocked = summary.IsLocked;
+
 				NHibernateRepository.Current.SaveOrUpdate<Page>(page);
 
 				PageContent pageContent = new PageContent();

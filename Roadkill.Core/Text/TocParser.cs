@@ -24,11 +24,11 @@ namespace Roadkill.Core
 			document.LoadHtml(html);
 			HtmlNodeCollection elements = document.DocumentNode.ChildNodes;
 
-			// The headers are stored in a flat list to start with
+			// Parse the HTML document for all Hx elements
 			List<Header> rootHeaders = new List<Header>();
 			ParseHtmlAddAnchors(document.DocumentNode, rootHeaders, "h1");
 
-			// Try parsing all H2 headers (as H1 is technically the page title).
+			// If no H1 headers are found (as H1 is technically the page title) try parsing all H2 headers
 			if (rootHeaders.Count == 0)
 				ParseHtmlAddAnchors(document.DocumentNode, rootHeaders, "h2");
 

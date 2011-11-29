@@ -13,8 +13,8 @@ namespace Roadkill.Core
 	public class Page
 	{
 		/// <remarks>
-		/// Reasons for using an int:
-		/// + Clustered PKs
+		/// Reasons for using an int for the primary key:
+		/// + Clustered PKs without using guid.comb
 		/// + Nice URLs.
 		/// - Losing the certainty of uniqueness like a guid
 		/// - Oracle is not supported.
@@ -26,6 +26,7 @@ namespace Roadkill.Core
 		public virtual string ModifiedBy { get; set; }
 		public virtual DateTime ModifiedOn { get; set; }
 		public virtual string Tags { get; set; }
+		public virtual bool IsLocked { get; set; }
 
 		public virtual PageContent CurrentContent()
 		{
@@ -54,11 +55,12 @@ namespace Roadkill.Core
 				Title = Title,
 				CreatedBy = CreatedBy,
 				CreatedOn = CreatedOn,
+				IsLocked = IsLocked,
 				ModifiedBy = ModifiedBy,
 				ModifiedOn = ModifiedOn,
 				Tags = Tags,
 				Content = content.Text,
-				VersionNumber = content.VersionNumber
+				VersionNumber = content.VersionNumber,
 			};
 		}
 	}
@@ -76,6 +78,7 @@ namespace Roadkill.Core
 			Map(x => x.Tags);
 			Map(x => x.CreatedBy);
 			Map(x => x.CreatedOn);
+			Map(x => x.IsLocked);
 			Map(x => x.ModifiedBy);
 			Map(x => x.ModifiedOn);
 			Cache.ReadWrite().IncludeAll();

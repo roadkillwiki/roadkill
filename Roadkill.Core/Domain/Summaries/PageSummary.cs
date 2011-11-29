@@ -78,5 +78,10 @@ namespace Roadkill.Core
 		/// The current version number for the page.
 		/// </summary>
 		public int VersionNumber { get; set; }
+
+		/// <summary>
+		/// Whether the page has been locked so that only admins can edit it.
+		/// </summary>
+		public bool IsLocked { get; set; }
 	}
 }
