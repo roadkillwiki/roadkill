@@ -3,10 +3,14 @@
 <ul class="jqueryFileTree" style="display: none;">
 @foreach (DirectorySummary folder in Model.ChildFolders)
 {
-	<li class="directory collapsed"><a href="#" rel="@folder.SafePath">@folder.Name</a></li>
+	<li class="directory collapsed">
+		<a href="javascript:;" rel="@folder.SafePath">@folder.Name</a>
+	</li>
 }
 @foreach (FileSummary file in Model.Files)
 {
-	<li class="file ext_@(file.Extension)"><a href="#" rel="@file.SafePath">@file.Name</a></li>
+	<li class="file ext_@(file.Extension)">
+		<a href="javascript:;" rel="@file.SafePath">@file.Name</a>
+	</li>
 }
 </ul>
