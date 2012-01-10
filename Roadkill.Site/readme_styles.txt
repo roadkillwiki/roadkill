@@ -1,0 +1,1 @@
+﻿This is help file for new template system.
