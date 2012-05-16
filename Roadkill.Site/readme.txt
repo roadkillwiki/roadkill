@@ -7,7 +7,7 @@
 5) Copy the following files from the  /TextFiles folder to the publish folder
 	- /TextFiles/install.txt
 	- /TextFiles/license.txt
-	- /TextFiles/README_FOR_UPGRADING_1.0_to_1.1.txt
+	- /TextFiles/README_FOR_UPGRADING_1.0_to_1.x.txt
 6) Delete the bin/App_Data folder from the publish folder
 7) Copy the following files from the /lib folder  to the publish /bin folder
 	- SQLite.Interop.dll
