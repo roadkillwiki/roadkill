@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using WatiN.Core;
 
+// To be refactored to Selenium
 namespace Roadkill.Tests
 {
 	/// <summary>

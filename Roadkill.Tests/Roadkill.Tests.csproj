@@ -116,32 +116,14 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core, Version=2.5.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\lib\Castle.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="NHibernate.ByteCode.Castle, Version=3.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\lib\NHibernate.ByteCode.Castle.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\lib\System.Data.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.Linq">
-      <HintPath>..\lib\System.Data.SQLite.Linq.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
-    <Reference Include="WatiN.Core">
-      <HintPath>..\lib\watin\WatiN.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="WatiN.Core.UnitTests">
-      <HintPath>..\lib\watin\WatiN.Core.UnitTests.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -151,11 +133,11 @@
   <ItemGroup>
     <Compile Include="CoreTests\TestBase.cs" />
     <Compile Include="WatinTests\Settings.cs" />
-    <Compile Include="WatinTests\TestSession.cs" />
+    <None Include="WatinTests\TestSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CoreTests\SqlUserManagerTests.cs" />
-    <Compile Include="WatinTests\UserTests.cs" />
-    <Compile Include="WatinTests\WatinTestBase.cs" />
+    <None Include="WatinTests\UserTests.cs" />
+    <None Include="WatinTests\WatinTestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Roadkill.Core\Roadkill.Core.csproj">
@@ -171,9 +153,6 @@
     <Content Include="Webconfigs\windowsauth-web.config">
       <SubType>Designer</SubType>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="WatinTests\README.TXT" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

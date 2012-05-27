@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+// To be refactored to Selenium
 namespace Roadkill.Tests.WatinTests
 {
 	/// <summary>
