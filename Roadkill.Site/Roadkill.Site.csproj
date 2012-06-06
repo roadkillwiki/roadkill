@@ -156,19 +156,12 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App_Data\EmailTemplates\ResetPassword.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="App_Data\EmailTemplates\ResetPassword.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="App_Data\EmailTemplates\Signup.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="App_Data\EmailTemplates\Signup.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Content Include="App_Data\EmailTemplates\ResetPassword.txt" />
+    <Content Include="App_Data\EmailTemplates\ResetPassword.html" />
+    <Content Include="App_Data\EmailTemplates\Signup.html" />
+    <Content Include="App_Data\EmailTemplates\Signup.txt" />
     <Content Include="App_Data\roadkill.MDF" />
+    <Content Include="App_Data\Search\empty.txt" />
     <Content Include="App_Data\tokens.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -337,9 +330,7 @@
   <ItemGroup>
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\Search\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Views\User\SignupComplete.cshtml" />
   </ItemGroup>
