@@ -76,14 +76,13 @@ $(document).ready(function()
 				</li>
 				<li>
 					<b>SQLite (stored in the App_Data folder):</b><br />
-					<span class="example">Data Source=|DataDirectory|\roadkill.db;Version=3;</span>
-					Make sure SQLite.Interop.dll is inside your bin folder.<br />
+					<span class="example">Data Source=|DataDirectory|\roadkill.sqlite;</span>
+					The SQLite drivers that come with Roadkill are for the 64 bit .NET framework. The 32 bit drivers are available as a seperate download.
 				</li>
 				<li style="margin-top:10px">
 					<b>SQL Server Compact:</b><br />
-					<span class="example">Data Source=|DataDirectory|\MyData.sdf;</span>
+					<span class="example">Data Source=|DataDirectory|\roadkill.sdf;</span>
 					<a href="http://www.microsoft.com/downloads/en/details.aspx?FamilyID=033cfb76-5382-44fb-bc7e-b3c8174832e2" target="_blank">Download the binaries for x64 and x86 from here</a>.
-					Copy the SQLCe.dll into the bin folder.
 				</li>
 				
 			</ol>

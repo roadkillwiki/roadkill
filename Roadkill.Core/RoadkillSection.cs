@@ -60,7 +60,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Indicates whether page content should be cached, IF <see cref="CacheEnabled"/> is true.
+		/// Indicates whether page content should be cached, if <see cref="CacheEnabled"/> is true.
 		/// </summary>
 		[ConfigurationProperty("cacheText", IsRequired = true)]
 		public bool CacheText

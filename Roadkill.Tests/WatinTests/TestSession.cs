@@ -9,6 +9,7 @@ using System.IO;
 using WatiN.Core;
 using System.Threading;
 
+// To be refactored to Selenium
 namespace Roadkill.Tests
 {
 	/// <summary>
