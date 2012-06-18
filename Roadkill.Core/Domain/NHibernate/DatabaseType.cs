@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NHibernate.Dialect;
 
 namespace Roadkill.Core
 {
@@ -39,7 +40,7 @@ namespace Roadkill.Core
 		/// </summary>
 		SqlServer2008,
 		/// <summary>
-		/// SQL Server Compact Edition
+		/// SQL Server Compact Edition 4.0
 		/// </summary>
 		SqlServerCe
 	}

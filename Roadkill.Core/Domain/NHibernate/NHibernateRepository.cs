@@ -150,8 +150,9 @@ namespace Roadkill.Core
 
 				case DatabaseType.SqlServerCe:
 					{
-						MsSqlCeConfiguration msSql = MsSqlCeConfiguration.Standard.ConnectionString(connection);
-						Configuration.Database(msSql);
+						MsSqlCeConfiguration msSqlCe = MsSqlCeConfiguration.Standard.ConnectionString(connection);
+						msSqlCe.Dialect("NHibernate.Dialect.MsSqlCe40Dialect, NHibernate"); // fluent uses SQL CE 3 which is wrong
+						Configuration.Database(msSqlCe);
 					}
 					break;
 

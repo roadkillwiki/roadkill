@@ -12,4 +12,5 @@
 	- SQLite.Interop.dll
 	- System.Data.SQLite.dll
 	- System.Data.SQLite.Linq.dll
+	- System.Data.SqlServerCe.dll 
 7) Zip up using the name 'Roadkill_v{number}.zip' e.g. Roadkill_v1.11.zip, add to the downloads on bitbucket/codeplex.

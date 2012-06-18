@@ -32,7 +32,7 @@ namespace Roadkill.Core
 			Map(x => x.EditedOn);
 			Map(x => x.VersionNumber);
 
-			PropertyPart part = Map(x => x.Text).CustomType("StringClob").CustomSqlType("text");
+			PropertyPart part = Map(x => x.Text).Column("[text]").CustomType("StringClob").CustomSqlType("ntext");
 			
 			// Setting LazyLoad when the L2Cache is enabled makes it grab the data
 			// from the database for each request regardless.
