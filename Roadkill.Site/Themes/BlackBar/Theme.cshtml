@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>@ViewBag.Title</title>
+	@Html.Partial("HeadContent")
+	<script type="text/javascript">
+		$(document).ready(function ()
+		{
+			// Resize all images to a maximum of 400x400
+			$("#pagecontent img").aeImageResize({ height: 400, width: 400 });
+		});
+	</script>
+</head>
+
+<body>
+@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+{
+	<div id="header">
+		<div id="loggedinas" class="left">
+			@Html.LoginStatus()
+		</div>
+		<div class="right">
+			@Html.SettingsLink("","&nbsp;|&nbsp;")
+			@Html.LoginLink("","&nbsp;|&nbsp;")
+			@Html.NewPageLink("","&nbsp;|&nbsp;")
+
+			@Html.MainPageLink("Main Page","","")
+			&nbsp;|&nbsp;@Html.ActionLink("Tags", "AllTags", "Pages")
+			&nbsp;|&nbsp;@Html.ActionLink("All pages", "AllPages", "Pages")
+			&nbsp;|&nbsp;Search: <input type="text" name="q" placeholder="Enter text to search" />
+		</div>
+	</div>
+}
+	@RenderSection("PageToolbar", false)
+
+	<div id="container">
+		@RenderBody()
+	</div>
+</body>
+</html>

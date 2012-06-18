@@ -1,0 +1,96 @@
+﻿@model SettingsSummary
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		setPage(3);
+		$("form").validationEngine();
+	});
+</script>
+
+<p>All passwords are one-way encrypted using SHA128 and a salt. This means passwords are not recoverable
+and will require and admin to reset them (there is no reset password functionality yet). The minimum password length is 6 characters.</p>
+@using (Html.BeginForm("Step4","Install"))
+{
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.ConnectionString))
+	@(Html.HiddenFor<SettingsSummary, DatabaseType>(h => h.DatabaseType))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteName))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteUrl))
+	@(Html.HiddenFor<SettingsSummary, bool>(h => h.UseWindowsAuth))
+	
+	<fieldset>
+		<legend>Editor role name</legend>
+		<label>This is the name of the editor role - people who can edit and create pages.</label>
+
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.EditorRoleName, new { @class = "validate[required]" }))</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>Admin role name</legend>
+		<label>This is the name of the admin role. Admins have the same rights as editors, but also
+		have access to configuration settings and tools for the site.</label>
+
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminRoleName, new { @class = "validate[required]" }))</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>Allow user signups</legend>
+		<label>
+		Check this option if you want to allow people to signup as a new users. If left unchecked, only admins will be able to create new users.
+		</label>
+		<br />
+
+		<div>
+			<div class="left">
+				@(Html.CheckBoxFor<SettingsSummary>(s => s.AllowUserSignup))
+				Allow new user signups.
+			</div>
+		</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>Enable Recaptcha</legend>
+		<label>If you are allowing user signups, it's recommended that you also enable Recaptcha support. This is a free anti-spam bot service
+		provided by Google, you will need to signup and copy your public and private key into the fields below. 
+		<a href="https://www.google.com/recaptcha/admin/create" target="_blank">Signup here</a> - you will need to create a google account first..</label>
+
+		<div>
+			<div class="left">
+				@(Html.CheckBoxFor<SettingsSummary>(s => s.EnableRecaptcha))
+				Enable Recaptcha anti-spam service.
+			</div>
+		</div>
+		<br class="clear" />
+
+		<label>Public key</label>
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.RecaptchaPublicKey))</div>
+		
+		<label>Private key</label>
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.RecaptchaPrivateKey))</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>Admin email</legend>
+		<label>This is the email address for the admin user. You can add more admins in the settings page, so this user does not 'own' the site</label>
+
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminEmail, new { @class = "validate[required]" }))</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>Admin password</legend>
+		<label>This is the password for the admin user.</label>
+
+		<div class="textbox">@(Html.PasswordFor<SettingsSummary, string>(s => s.AdminPassword, new { @class = "validate[required,minSize[6]]" }))</div>
+		<div class="textbox">@(Html.Password("password2", null, new { @class = "validate[equals[AdminPassword]]" }))</div>
+	</fieldset>
+
+	<div>
+		<div class="previous"><a href="javascript:history.go(-1)">&lt; Back</a></div>
+	
+		<div class="continue">
+			<input type="submit" class="button" value="Next" />
+		</div>
+	</div>
+}

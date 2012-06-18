@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>@ViewBag.Title</title>
+		@Html.Partial("HeadContent")
+		<script type="text/javascript">
+			$(document).ready(function ()
+			{
+				// Resize all images to a maximum of 400x400
+				$("#pagecontent img").aeImageResize({ height: 400, width: 400 });
+			});
+		</script>
+	</head>
+<body>
+
+@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+{
+	<div id="headfade">
+		<span id="loggedinas" class="left">@Html.LoginStatus()@Html.LoginLink("&nbsp;-&nbsp;","")</span>
+		<br class="clear" />
+		<div id="search">
+			<input type="text" name="q" placeholder="Enter text to search" />
+			<button id="searchbutton">
+				<img src="@Url.ThemeContent("search.png")" alt="Search" />
+			</button>
+		</div>	
+	</div>
+}
+
+	<div id="logo">
+		<a href="@(Url.Action("Index", "Home"))"><img src="@Url.ThemeContent("logo.png")" alt="logo" border="0" /></a>
+	</div>
+	<div id="panel">
+		
+		<div id="leftmenu">
+			<ul>
+				<li>@Html.MainPageLink("Main Page","","")</li>
+				<li>@Html.ActionLink("Categories", "AllTags", "Pages")</li>
+				<li>@Html.ActionLink("All pages", "AllPages", "Pages")</li>
+			</ul>
+
+			
+			@if (RoadkillContext.Current.IsLoggedIn)
+			{
+			<ul>
+				<li>@Html.NewPageLink("", "")</li>
+				@Html.SettingsLink("<li>", "</li>")
+			</ul>
+			}
+		</div>
+	</div>
+
+	<div id="container">
+		@RenderSection("PageToolbar", false)
+		@if (RoadkillContext.Current.IsContentPage)
+		{
+			<div id="viewhistory">@Html.ActionLink("View History", "History", "Pages", new { id = RoadkillContext.Current.Page.Id }, null)</div>
+		}
+		<div id="content">
+			@RenderBody()
+		</div>
+	</div>
+
+	<div id="footer">
+		@if (RoadkillContext.Current.IsContentPage)
+		{
+		<p>This page was last modified on @RoadkillContext.Current.Page.ModifiedOn.ToString("dd MMM yyyy") 
+		at @RoadkillContext.Current.Page.ModifiedOn.ToShortTimeString().</p>
+		}
+		<p>
+			Powered by Roadkill Wiki (@RoadkillSettings.Version). This theme contains portions of its design from <a href="http://www.mediawiki.org" target="_blank">Mediawiki.org</a>.
+		</p>
+	</div>
+</body>
+</html>

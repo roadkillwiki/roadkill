@@ -1,0 +1,24 @@
+﻿@{ 
+	ViewBag.Title = "Login";
+}
+
+<h1>Login</h1>
+@Html.ValidationSummary("Login was unsuccessful")
+
+@using (Html.BeginForm())
+{
+	@Html.Hidden("fromUrl",Request.QueryString["ReturnUrl"])
+	<fieldset id="login" class="rounded10 lightborder">
+		<label for="email" class="userlabel">Email:</label>
+		@Html.TextBox("email", null, new { @class = "usertextbox" })
+		<br class="clear" />	
+
+		<label for="password" class="userlabel">Password:</label>
+		<div>@Html.Password("password", null, new { @class = "usertextbox" })</div>
+		<br class="clear" />
+
+		@Html.ActionLink("Forgotten your password?", "ResetPassword", null, new { @class = "smaller" })
+	
+		<input type="submit" id="userbutton" class="button" value="Login" />
+	</fieldset>
+}

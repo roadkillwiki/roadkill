@@ -1,0 +1,44 @@
+﻿@model UserSummary
+@{ 
+	ViewBag.Title = "Signup";
+}
+
+<h1>Register / Signup</h1>
+<p>Please enter you details below.</p>
+@using (Html.BeginForm())
+{
+	@(Html.HiddenFor<UserSummary, string>(h => h.ExistingEmail))
+	@(Html.HiddenFor<UserSummary, string>(h => h.ExistingUsername))
+	
+	<fieldset id="profile" class="rounded10 lightborder">
+		@Html.ValidationSummary("An error occurred")
+
+		<label for="NewEmail" class="userlabel">First name:</label>
+		@(Html.TextBoxFor<UserSummary, string>(t => t.Firstname, new { @class = "usertextbox" }))
+		<br class="clear" />
+
+		<label for="NewEmail" class="userlabel">Last name:</label>
+		@(Html.TextBoxFor<UserSummary, string>(t => t.Lastname, new { @class = "usertextbox" }))
+		<br class="clear" />
+
+		<label for="NewEmail" class="userlabel">Email:</label>
+		@(Html.TextBoxFor<UserSummary, string>(t => t.NewEmail, new { @class = "usertextbox" }))
+		<br class="clear" />
+
+		<label for="NewUsername" class="userlabel">Username:</label>
+		@(Html.TextBoxFor<UserSummary, string>(t => t.NewUsername, new { @class = "usertextbox" }))
+		<br class="clear" />
+
+		<label for="Password" class="userlabel">Password:</label>
+		@(Html.PasswordFor<UserSummary, string>(t => t.Password, new { @class = "usertextbox" }))
+		<br class="clear" />
+
+		<label for="PasswordConfirmation" class="userlabel">Password confirm:</label>
+		@(Html.PasswordFor<UserSummary, string>(t => t.PasswordConfirmation, new { @class = "usertextbox" }))	
+		<br class="clear" />
+
+		@Html.RenderCaptcha()
+	
+		<input type="submit" id="userbutton" class="button" value="Register new user" style="width:150px"  /><!-- explicit width for IE7 (ie7js doesn't fix it) -->
+	</fieldset>
+}

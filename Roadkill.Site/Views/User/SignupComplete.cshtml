@@ -1,0 +1,19 @@
+﻿@model UserSummary
+@{ 
+	ViewBag.Title = "Signup complete.";
+}
+
+<h1>Signup complete</h1>
+<p>Thank you, an email has been sent to @Model.NewEmail with details on how to complete the signup.</p>
+<br />
+
+<div class="bigger bold">Not received your email?</div>
+@if (TempData["resend"] != null)
+{
+<p class="green">The confirmation email was resent.</p>
+}
+@using (Html.BeginForm("ResendConfirmation","User"))
+{
+	@Html.Hidden("email",Model.NewEmail)
+	<input type="submit" class="boringbutton" value="Resend email confirmation" />
+}

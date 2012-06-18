@@ -1,0 +1,21 @@
+﻿body			{ font-family:"Myriad Web Pro",helvetica;margin:0px;color:#000000; }
+h1,h2,h3,h4,h4	{ font-family:"Myriad Pro",helvetica;border-bottom:1px solid #AAA;width:60%; }
+a				{ color:#333333; }
+a:hover			{ color:#babfb5; }
+
+#header			{ background-color:#38381D;width:100%;height:32px;color:#FFF;font-family:"Myriad Web Pro",helvetica;font-size:0.8em; }
+#header div		{ margin:0 10px;color:White;height:32px;line-height:33px;margin-right:20px; }
+#header	a		{ color:White;text-decoration:none; }
+#header	a:hover { text-decoration:underline; }
+#header input	{ font-family:Arial,helvetica;font-size:0.9em; }
+
+#container			{ margin:20px; }
+#pagecontent img	{ border:0px; }
+
+#login				{ padding:10px;width:550px; }
+#login label		{ float:left;width:150px;padding:5px 5px 0 0;font-weight:bold; }
+.username input		{ width:390px; }
+.password input		{ width:390px; }
+
+.searchresults		{ color:Green;font-size:1.1em; }
+.searchbox			{ width:400px; }

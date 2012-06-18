@@ -1,0 +1,117 @@
+﻿@using Roadkill.Core
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Roadkill Install</title>
+	@Url.ScriptLink("jquery-1.4.1.min.js")
+	@Url.ScriptLink("jquery.validationEngine-en.js")
+	@Url.ScriptLink("jquery.validationEngine.js")
+	@Url.ScriptLink("jquery.simplemodal.1.4.1.min.js")
+	@Url.CssLink("reset.css")
+	@Url.CssLink("validationEngine.jquery.css")
+	<style type="text/css">
+	#installer	{ 
+		font-family: 'Helvetica Neue',Arial,sans-serif;
+		letter-spacing: .01em;
+		font-size:14px;
+		background:#bdbdbd url('@(Url.Content("~/Assets/Images/installerbg.png"))') no-repeat;
+		width:1024px;
+		min-height:700px;
+		margin:auto;
+		border:1.9px solid #000;
+		border-radius:10px;
+	}
+
+	.next { background: url('@Url.Content("~/Assets/Images/gradientbutton.png")')}
+	.button {background: url('@Url.Content("~/Assets/Images/gradientbutton.png")');}
+	</style>
+	<link rel="shortcut icon" href="@Url.Content("~/Assets/Images/favicon.png")" />
+	<style type="text/css">
+		body		{ text-align:center;margin:10px auto;}
+		h1			{ font-size:24px; }
+		h3			{ display:inline;text-shadow: 0 1px rgba(255, 255, 255, 0.9);}
+		a			{ color:Black;}
+		a:visited	{ color:Black;}
+		#container	{ margin:200px 50px 20px 50px;width:900px;text-align:left; }
+		#trail		{ color:#616161;list-style-type:none;display:block;clear:both;margin:auto;font-size:16px;text-shadow: 0 1px rgba(255, 255, 255, 0.9); }
+		#trail li	{ float:left;text-align:right;display:block;margin-right:50px; }
+		.selected	{ font-weight:bold;color:#b30f10; }
+		.page		{ border-top:1px solid black;margin-top:5px;}
+		.page p		{ padding:10px 0; }
+		ol			{ margin:20px;display: block;list-style-type: decimal; }
+		.alert		{ border:1px solid #000;padding:5px;width:600px;top:0px;font-size:12px; }
+		.alert h2	{ display:inline;font-size:14px;font-weight:bold; }
+		.alert p	{ margin:0px;padding:0px;}
+		.success	{ border:1px solid #22a82b;background-color:#c6f3c6;padding:5px;color:#000; }
+		.failure	{ border:1px solid #a82a22;background-color:#f3c6c6;padding:5px;color:#000; }
+		.previous	{ float:left;padding:10px;font-weight:bold;}
+		.continue	{ float:right;text-align:right;padding:10px;font-weight:bold;}
+		.continue input	{ font-size:1.2em;width:120px;}
+		fieldset	{ background-color:#eaebeb;border:1px solid black;padding:0 10px 10px 10px;margin:20px 0;border-radius: 5px;}
+		legend		{ font-weight:bold;color:#b30f10;font-size:18px;}
+		fieldset div,label { font-size:1em;display:block;margin-top:5px; }
+		.hidden		{ display:none; }
+		.rounded	{ -webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px; }
+		.button		{ cursor:pointer;border: 1px solid #B8B8B8;text-shadow: 1px 1px rgba(255, 255, 255, 0.5);-moz-box-shadow: rgba(0, 0, 0, 0.0898438) 0 1px 3px;-webkit-box-shadow: rgba(0, 0, 0, 0.0898438) 0 1px 3px;min-width:100px;font-size: 14px;font-weight: normal;padding: 9px 20px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px; }
+		.errormessage	{ font-family: "Courier new",sans-serif;display:block; }
+		.small			{ font-size: 0.7em; }
+		.textbox input	{ min-width:350px;border:1px solid #0a6f94;padding:5px;margin:5px 0; }
+		.example	{ width:500px;border:1px solid #6b6944;background-color:#bfe1eb;padding:5px;color:#000;font-size:10px;font-family:Monospace;margin-bottom:10px;display:block;}
+		.clear		{ clear:both;}
+		.next		{ font-weight:bold;border: 1px solid #3a3a3a;color:#3a3a3a;}
+		.left		{ float:left;}
+		.italic		{ font-style:italic;}
+		/* Modal dialog styles for jquery.simplemodal */
+		#simplemodal-overlay	{ background-color:#000; }
+		#simplemodal-container	{ background-color:#333; border:2px solid #d3d2d2; padding:12px; }
+		#simplemodal-container a.modalCloseImg { background:url('close-x.png') no-repeat;width:25px;height:29px;display:inline;z-index:3200;position:absolute;top:-15px;right:-18px;cursor:pointer;}
+	</style>
+
+	<script type="text/javascript">
+		function setPage(index)
+		{
+			$("#trail li:nth-child(" +index+")").addClass("selected");
+		}
+
+		function hideAlerts()
+		{
+			$(".success").hide();
+			$(".failure").hide();
+		}
+
+		function showSuccess(id)
+		{
+			$(id).show();
+		}
+
+		function showFailure(id, message)
+		{
+			$(id + " .errormessage").html(message);
+			$(id).show();
+		}
+	</script>
+</head>
+
+<body>
+<div id="installer">
+	<div id="container">
+		<ul id="trail">
+			<li>1. Welcome</li>
+			<li>2. Database</li>
+			<li>3. Security</li>
+			<li>4. Extras</li>
+			<li>5. Finished</li>
+		</ul>
+		<br style="clear:both;" />
+		
+		<div class="page" id="page1">
+			@RenderBody()
+		</div>
+	</div>
+	<br class="clear" />
+</div>
+<div style="margin: -25px auto">
+	<img src="@Url.Content("~/Assets/Images/installer-ex-chicken.png")" border="0" alt="an ex-chicken" />	
+</div>
+</body>
+</html>

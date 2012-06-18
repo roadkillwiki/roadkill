@@ -1,0 +1,147 @@
+﻿@model SettingsSummary
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		setPage(3);
+		$("form").validationEngine();
+
+		$("#testldap").click(function()
+		{	
+			testActiveDirectory("#ldapconnectionsuccess","#ldapconnectionfailure","#ldap-loading","");
+		});
+
+		$("#testeditor").click(function(){	
+			testActiveDirectory("#editor-connectionsuccess","#editor-connectionfailure","#editor-loading",$("#EditorRoleName").val());
+		});
+
+		$("#testadmin").click(function(){	
+			testActiveDirectory("#admin-connectionsuccess","#admin-connectionfailure","#admin-loading",$("#AdminRoleName").val());
+		});
+	});
+
+	function testActiveDirectory(successId,failureId,loadingId,groupName)
+	{
+		$(loadingId).show();
+		hideAlerts();
+		$.get("@(Url.Action("TestLdap"))",
+				{ 
+					"connectionstring" : $("#LdapConnectionString").val(),
+					"username" : $("#LdapUsername").val(),
+					"password" : $("#LdapPassword").val(),
+					"groupName" : groupName					
+				},
+				function(data)
+				{
+					$(loadingId).hide();
+					if (data.Success)
+					{
+						showSuccess(successId);
+					}
+					else
+					{
+						showFailure(failureId,data.ErrorMessage);
+					}
+				});
+	}
+</script>
+
+@using (Html.BeginForm("Step4","Install"))
+{
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.ConnectionString))
+	@(Html.HiddenFor<SettingsSummary, DatabaseType>(h => h.DatabaseType))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteName))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteUrl))
+	@(Html.HiddenFor<SettingsSummary, bool>(h => h.UseWindowsAuth))
+	
+	<fieldset>
+		<legend>Active Directory LDAP connection string</legend>
+		<label>
+			This should be in the format LDAP://mydc01.company.internal (it should be uppercase LDAP) where mydc01 is your domain controller and 'company'
+			and 'internal' are the dns suffixes for your network. This can also be an IP address. You can usually get this information by running "ipconfig".
+			<br /><br />
+			The connection string supports OU specifiers however doing it this way can cause issues. If you are unsure about this setting, 
+			it's recommended you download <a href="http://technet.microsoft.com/en-us/sysinternals/bb963907">AD Explorer</a> first.
+			<br /><br />
+			Enter a username and password if the user that the app pool is running under does not have read access to Active Directory. This is 
+			useful if your domain is a separate forest from the main domain (i.e. another branch office).
+		</label>
+
+		<div class="small">
+			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.LdapConnectionString, new { @class = "validate[required]" }))</div>
+			<div class="textbox">
+				Username:<br />
+				@(Html.TextBoxFor<SettingsSummary, string>(s => s.LdapUsername, new { autocomplete = "off" }))
+			</div>
+			<div class="textbox">
+				Password:<br />
+				@(Html.PasswordFor<SettingsSummary, string>(s => s.LdapPassword, new { autocomplete = "off" }))
+			</div>
+
+			<input id="testldap" class="button" type="button" value="Test" />
+			<div id="ldap-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
+			<div id="ldapconnectionsuccess" class="success alert hidden">
+				<h2>Success!</h2>
+				<p>The connection and authentication with the Active Directory server was successful.</p>
+			</div>
+
+			<div id="ldapconnectionfailure" class="failure alert hidden">
+				<h2>Failure!</h2>
+				<p>Unable to connect to the Active Directory server: <span class="errormessage"></span></p>
+			</div>
+		</div>
+	</fieldset>
+
+	<fieldset>
+		<legend>Editor group name</legend>
+		<label>This is the security group that users should belong to in order to be editors (people who can edit and create pages).
+		The test button uses the connection settings entered above.
+		</label>
+
+		<div class="small">
+			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.EditorRoleName, new { @class = "validate[required]" }))</div>
+			<input id="testeditor" class="button" type="button" value="Test" />
+			<div id="editor-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
+			<div id="editor-connectionsuccess" class="success alert hidden">
+				<h2>Success!</h2>
+				<p>The group was queried sucessfully.</p>
+			</div>
+
+			<div id="editor-connectionfailure" class="failure alert hidden">
+				<h2>Failure!</h2>
+				<p><span class="errormessage"></span></p>
+			</div>
+		</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>Admin group name</legend>
+		<label>This is the security group that users should belong to in order to be admins. Admins have the same rights as editors, but also
+		have access to configuration settings and tools for the site.The test button uses the connection settings entered above.</label>
+
+		<div class="small">
+			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminRoleName, new { @class = "validate[required]" }))</div>
+			<input id="testadmin" class="button" type="button" value="Test" />
+			<div id="admin-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
+			<div id="admin-connectionsuccess" class="success alert hidden">
+				<h2>Success!</h2>
+				<p>The group was queried sucessfully.</p>
+			</div>
+
+			<div id="admin-connectionfailure" class="failure alert hidden">
+				<h2>Failure!</h2>
+				<p>Unable to query: <span class="errormessage"></span></p>
+			</div>
+		</div>
+	</fieldset>
+
+	<div>
+		<div class="previous"><a href="javascript:history.go(-1)">&lt; Back</a></div>
+	
+		<div class="continue">
+			<input type="submit" class="button" value="Next" />
+		</div>
+	</div>
+}

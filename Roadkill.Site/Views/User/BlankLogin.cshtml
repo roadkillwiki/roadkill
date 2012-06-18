@@ -1,0 +1,33 @@
+﻿@{ 
+	ViewBag.Title = "Login";
+	Layout = "~/Views/Shared/_Blank.cshtml";
+}
+<div class="padded" style="background-color:White;min-height:380px;">
+	<h1 style="margin-top:0px;">Login</h1>
+	@Html.ValidationSummary("Login was unsuccessful")
+
+
+	<div id="login" class="rounded10 lightborder">
+	@using (Html.BeginForm())
+	{
+		@Html.Hidden("fromUrl",Request.QueryString["ReturnUrl"])
+
+		<div class="username">
+			<label for="username">Username</label>
+			@Html.TextBox("username")
+		</div>
+		<br />	
+
+		<div class="password">
+			<label for="password">Password</label>
+			@Html.Password("password")
+		</div>
+		<br />
+	
+		<div class="buttonContainer">
+			<input type="submit" class="button saveButton" value="Login" />
+		</div>
+		<br class="clear" />
+	}
+	</div>
+</div>
