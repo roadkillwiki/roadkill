@@ -170,13 +170,12 @@ namespace Roadkill.Core.Search
 			try
 			{
 				Delete(summary);
+				Add(summary);
 			}
 			catch (SearchException ex)
 			{
-				Log.Warn(ex, "Lucene update failed when deleting the page from the search index, it may not exist or a there might be a file locking issue.");
+				Log.Warn(ex, "Lucene update failed when deleting/adding the page from the search index, it may not exist or a there might be a file locking issue.");
 			}
-
-			Add(summary);
 		}
 
 		/// <summary>
