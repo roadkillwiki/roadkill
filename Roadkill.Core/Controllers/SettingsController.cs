@@ -21,7 +21,7 @@ namespace Roadkill.Core.Controllers
 	/// <remarks>All actions in this controller require admin rights.</remarks>
 	[AdminRequired]
 	public class SettingsController : ControllerBase
-    {
+	{
 		/// <summary>
 		/// The default settings page that displays the current Roadkill settings.
 		/// </summary>
@@ -78,7 +78,7 @@ namespace Roadkill.Core.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				UserManager.Current.AddUser(summary.NewEmail,summary.NewUsername, summary.Password, true, false);
+				UserManager.Current.AddUser(summary.NewEmail, summary.NewUsername, summary.Password, true, false);
 
 				// TODO
 				// ModelState.AddModelError("General", errors);
@@ -105,7 +105,7 @@ namespace Roadkill.Core.Controllers
 			{
 				try
 				{
-					UserManager.Current.AddUser(summary.NewEmail,summary.NewUsername, summary.Password, false, true);
+					UserManager.Current.AddUser(summary.NewEmail, summary.NewUsername, summary.Password, false, true);
 				}
 				catch (SecurityException e)
 				{
@@ -120,7 +120,7 @@ namespace Roadkill.Core.Controllers
 
 			return RedirectToAction("Users");
 		}
-		
+
 		/// <summary>
 		/// Edits an existing user. If the <see cref="UserSummary.Password"/> property is not blank, the password
 		/// for the user is reset and then changed.
@@ -245,7 +245,7 @@ namespace Roadkill.Core.Controllers
 						string content = "Tags:" + summary.Tags.SpaceDelimitTags() + "\r\n" + summary.Content;
 
 						System.IO.File.WriteAllText(filePath, content);
-						zip.AddFile(filePath, "");	
+						zip.AddFile(filePath, "");
 					}
 
 					zip.Save();
@@ -255,7 +255,7 @@ namespace Roadkill.Core.Controllers
 			}
 			catch (IOException e)
 			{
-				Log.Warn(e,"Unable to export wiki content");
+				Log.Warn(e, "Unable to export wiki content");
 				TempData["Message"] = "Wiki content export failed: " + e.Message;
 
 				return RedirectToAction("Tools");
@@ -275,7 +275,7 @@ namespace Roadkill.Core.Controllers
 
 			try
 			{
-				string exportFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory +@"\App_Data", "export");
+				string exportFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"\App_Data", "export");
 				Directory.CreateDirectory(exportFolder);
 
 				string zipFilename = string.Format("attachments-export-{0}.zip", DateTime.Now.ToString("yyy-MM-dd-HHss"));
@@ -291,7 +291,7 @@ namespace Roadkill.Core.Controllers
 			catch (IOException e)
 			{
 				Log.Warn(e, "Unable to export attachments");
-				TempData["Message"] = "Exporting attachments failed: "+e.Message;
+				TempData["Message"] = "Exporting attachments failed: " + e.Message;
 
 				return RedirectToAction("Tools");
 			}
@@ -347,5 +347,5 @@ namespace Roadkill.Core.Controllers
 
 			return RedirectToAction("Tools");
 		}
-    }
+	}
 }

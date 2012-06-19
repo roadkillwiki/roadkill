@@ -48,6 +48,7 @@ namespace Roadkill.Core
 			AreaRegistration.RegisterAllAreas();
 			RegisterRoutes(RouteTable.Routes);
 			SetupNHibernate();
+			RecreateSearchIndex();
 		}
 
 		/// <summary>
@@ -60,6 +61,14 @@ namespace Roadkill.Core
 			{
 				NHibernateRepository.Current.Configure(RoadkillSettings.DatabaseType, RoadkillSettings.ConnectionString, false, RoadkillSettings.CachedEnabled);
 			}
+		}
+
+		/// <summary>
+		/// Attempts to recreated the lucene search index, which becomes out of sync when the app shuts down.
+		/// </summary>
+		public virtual void RecreateSearchIndex()
+		{
+			SearchManager.Current.CreateIndex();
 		}
 	}
 }
