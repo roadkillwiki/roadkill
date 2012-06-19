@@ -50,7 +50,7 @@ namespace Roadkill.Core.Search
 		/// </summary>
 		/// <param name="searchText">The text to search with.</param>
 		/// <remarks>Syntax reference: http://lucene.apache.org/java/2_3_2/queryparsersyntax.html#Wildcard</remarks>
-		/// <exception cref="SearchException">An error occured searching the lucene.net index.</exception>
+		/// <exception cref="SearchException">An error occurred searching the lucene.net index.</exception>
 		public List<SearchResult> SearchIndex(string searchText)
 		{
 			// This check is for the benefit of the CI builds
@@ -106,7 +106,7 @@ namespace Roadkill.Core.Search
 				}
 				catch (Exception ex)
 				{
-					throw new SearchException(ex, "An error occured while searching the index");
+					throw new SearchException(ex, "An error occurred while searching the index");
 				}
 			}
 
@@ -117,7 +117,7 @@ namespace Roadkill.Core.Search
 		/// Adds the specified page to the search index.
 		/// </summary>
 		/// <param name="page">The page to add.</param>
-		/// <exception cref="SearchException">An error occured with the lucene.net IndexWriter while adding the page to the index.</exception>
+		/// <exception cref="SearchException">An error occurred with the lucene.net IndexWriter while adding the page to the index.</exception>
 		public void Add(PageSummary summary)
 		{
 			try
@@ -134,7 +134,7 @@ namespace Roadkill.Core.Search
 			}
 			catch (Exception ex)
 			{
-				throw new SearchException(ex, "An error occured while adding page '{0}' to the search index", summary.Title);
+				throw new SearchException(ex, "An error occurred while adding page '{0}' to the search index", summary.Title);
 			}
 		}
 
@@ -142,7 +142,7 @@ namespace Roadkill.Core.Search
 		/// Deletes the specified page from the search indexs.
 		/// </summary>
 		/// <param name="summary">The page to remove.</param>
-		/// <exception cref="SearchException">An error occured with the lucene.net IndexReader while deleting the page from the index.</exception>
+		/// <exception cref="SearchException">An error occurred with the lucene.net IndexReader while deleting the page from the index.</exception>
 		public void Delete(PageSummary summary)
 		{
 			try
@@ -154,7 +154,7 @@ namespace Roadkill.Core.Search
 			}
 			catch (Exception ex)
 			{
-				throw new SearchException(ex, "An error occured while deleting page '{0}' from the search index", summary.Title);
+				throw new SearchException(ex, "An error occurred while deleting page '{0}' from the search index", summary.Title);
 			}
 		}
 
@@ -162,18 +162,27 @@ namespace Roadkill.Core.Search
 		/// Updates the <see cref="Page"/> in the search index, by removing it and re-adding it.
 		/// </summary>
 		/// <param name="summary">The page to update</param>
-		/// <exception cref="SearchException">An error occured with lucene.net while deleting the page or inserting it back into the index.</exception>
+		/// <exception cref="SearchException">An error occurred with lucene.net while deleting the page or inserting it back into the index.</exception>
 		public void Update(PageSummary summary)
 		{
 			EnsureDirectoryExists();
-			Delete(summary);
+
+			try
+			{
+				Delete(summary);
+			}
+			catch (SearchException ex)
+			{
+				Log.Warn(ex, "Lucene update failed when deleting the page from the search index, it may not exist or a there might be a file locking issue.");
+			}
+
 			Add(summary);
 		}
 
 		/// <summary>
 		/// Creates the initial search index based on all pages in the system.
 		/// </summary>
-		/// <exception cref="SearchException">An error occured with the lucene.net IndexWriter while adding the page to the index.</exception>
+		/// <exception cref="SearchException">An error occurred with the lucene.net IndexWriter while adding the page to the index.</exception>
 		public void CreateIndex()
 		{
 			EnsureDirectoryExists();
@@ -194,7 +203,7 @@ namespace Roadkill.Core.Search
 			}
 			catch (Exception ex)
 			{
-				throw new SearchException(ex, "An error occured while creating the search index");
+				throw new SearchException(ex, "An error occurred while creating the search index");
 			}
 		}
 
@@ -207,7 +216,7 @@ namespace Roadkill.Core.Search
 			}
 			catch (IOException ex)
 			{
-				throw new SearchException(ex, "An error occured while creating the search directory '{0}'", _indexPath);
+				throw new SearchException(ex, "An error occurred while creating the search directory '{0}'", _indexPath);
 			}
 		}
 
@@ -229,13 +238,13 @@ namespace Roadkill.Core.Search
 				contentSummary = contentSummary.Substring(0, 149);
 
 			Document document = new Document();
-			document.Add(new Field("id", summary.Id.ToString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
-			document.Add(new Field("content", summary.Content, Field.Store.YES, Field.Index.TOKENIZED));
+			document.Add(new Field("id", summary.Id.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+			document.Add(new Field("content", summary.Content, Field.Store.YES, Field.Index.ANALYZED));
 			document.Add(new Field("contentsummary", contentSummary, Field.Store.YES, Field.Index.NO));
-			document.Add(new Field("title", summary.Title, Field.Store.YES, Field.Index.TOKENIZED));
-			document.Add(new Field("tags", summary.Tags.SpaceDelimitTags(), Field.Store.YES, Field.Index.TOKENIZED));
-			document.Add(new Field("createdby", summary.CreatedBy, Field.Store.YES, Field.Index.UN_TOKENIZED));
-			document.Add(new Field("createdon", summary.CreatedOn.ToString("u"), Field.Store.YES, Field.Index.UN_TOKENIZED));
+			document.Add(new Field("title", summary.Title, Field.Store.YES, Field.Index.ANALYZED));
+			document.Add(new Field("tags", summary.Tags.SpaceDelimitTags(), Field.Store.YES, Field.Index.ANALYZED));
+			document.Add(new Field("createdby", summary.CreatedBy, Field.Store.YES, Field.Index.NOT_ANALYZED));
+			document.Add(new Field("createdon", summary.CreatedOn.ToString("u"), Field.Store.YES, Field.Index.NOT_ANALYZED));
 			document.Add(new Field("contentlength", summary.Content.Length.ToString(), Field.Store.YES, Field.Index.NO));
 
 			return document;

@@ -167,7 +167,7 @@ namespace Roadkill.Tests.WatinTests
 				SetTextfieldValue("PasswordConfirmation", "password");
 
 				ClickButton("userbutton", "Failed to click the save profile button");
-				PageShouldNotContainText("An error occured");
+				PageShouldNotContainText("An error occurred");
 			}
 		}
 	}

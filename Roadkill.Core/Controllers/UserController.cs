@@ -167,7 +167,7 @@ namespace Roadkill.Core.Controllers
 				{
 					if (!UserManager.Current.UpdateUser(summary))
 					{
-						ModelState.AddModelError("General", "An error occured updating your profile");
+						ModelState.AddModelError("General", "An error occurred updating your profile");
 
 						summary.ExistingEmail = summary.NewEmail;
 					}
@@ -300,7 +300,7 @@ namespace Roadkill.Core.Controllers
 							string key = UserManager.Current.Signup(summary, null);
 							if (string.IsNullOrEmpty(key))
 							{
-								ModelState.AddModelError("General", "An error occured with the signup.");
+								ModelState.AddModelError("General", "An error occurred with the signup.");
 							}
 							else
 							{

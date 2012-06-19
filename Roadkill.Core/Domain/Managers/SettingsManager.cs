@@ -21,7 +21,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Clears all pages and page content from the database.
 		/// </summary>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occured while clearing the page data.</exception>
+		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while clearing the page data.</exception>
 		public static void ClearPageTables()
 		{
 			try
@@ -31,14 +31,14 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new DatabaseException(ex, "An exception occured while clearing all page tables.");
+				throw new DatabaseException(ex, "An exception occurred while clearing all page tables.");
 			}
 		}
 
 		/// <summary>
 		/// Clears all users from the system.
 		/// </summary>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occured while clearing the user table.</exception>
+		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while clearing the user table.</exception>
 		public static void ClearUserTable()
 		{
 			try
@@ -47,7 +47,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new DatabaseException(ex, "An exception occured while clearing the user tables.");
+				throw new DatabaseException(ex, "An exception occurred while clearing the user tables.");
 			}
 		}
 
@@ -55,7 +55,7 @@ namespace Roadkill.Core
 		/// Creates the database schema tables.
 		/// </summary>
 		/// <param name="summary">The settings data.</param>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occured while creating the database tables.</exception>
+		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while creating the database tables.</exception>
 		public static void CreateTables(SettingsSummary summary)
 		{
 			try
@@ -64,7 +64,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new DatabaseException(ex, "An exception occured while creating the site schema tables.");
+				throw new DatabaseException(ex, "An exception occurred while creating the site schema tables.");
 			}
 		}
 
@@ -73,7 +73,7 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <param name="summary">Summary data containing the settings.</param>
 		/// <param name="isInstalling">If true, a new <see cref="SiteConfiguration"/> is created, otherwise the current one is updated.</param>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occured while saving the configuration.</exception>
+		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while saving the configuration.</exception>
 		public static void SaveSiteConfiguration(SettingsSummary summary, bool isInstalling)
 		{
 			try
@@ -105,7 +105,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new DatabaseException(ex, "An exception occured while saving the site configuration.");
+				throw new DatabaseException(ex, "An exception occurred while saving the site configuration.");
 			}
 		}
 
@@ -113,7 +113,7 @@ namespace Roadkill.Core
 		/// Saves the relevant parts of <see cref="SettingsSummary"/> to the web.config.
 		/// </summary>
 		/// <param name="summary">Summary data containing the settings.</param>
-		/// <exception cref="InstallerException">An error occured writing to or saving the web.config file</exception>
+		/// <exception cref="InstallerException">An error occurred writing to or saving the web.config file</exception>
 		public static void SaveWebConfigSettings(SettingsSummary summary)
 		{
 			try
@@ -157,7 +157,7 @@ namespace Roadkill.Core
 			}
 			catch (ConfigurationErrorsException ex)
 			{
-				throw new InstallerException(ex, "An exception occured while updating the settings to the web.config");
+				throw new InstallerException(ex, "An exception occurred while updating the settings to the web.config");
 			}
 		}
 

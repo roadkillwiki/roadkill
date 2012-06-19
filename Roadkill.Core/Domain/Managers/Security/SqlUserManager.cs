@@ -51,7 +51,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new SecurityException(ex, "An error occured while activating the user with key {0}", activationKey);
+				throw new SecurityException(ex, "An error occurred while activating the user with key {0}", activationKey);
 			}
 		}
 
@@ -65,7 +65,7 @@ namespace Roadkill.Core
 		/// <returns>
 		/// true if the user was added; false if the user already exists.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occured while adding the new user.</exception>
+		/// <exception cref="SecurityException">An NHibernate (database) error occurred while adding the new user.</exception>
 		public override bool AddUser(string email, string username, string password, bool isAdmin, bool isEditor)
 		{
 			try
@@ -91,7 +91,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new SecurityException(ex, "An error occured while adding the new user {0}", email);
+				throw new SecurityException(ex, "An error occurred while adding the new user {0}", email);
 			}
 		}
 
@@ -103,7 +103,7 @@ namespace Roadkill.Core
 		/// <returns>
 		/// true if the authentication was sucessful;false otherwise.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occured while authenticating the user.</exception>
+		/// <exception cref="SecurityException">An NHibernate (database) error occurred while authenticating the user.</exception>
 		public override bool Authenticate(string email, string password)
 		{
 			try
@@ -128,7 +128,7 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <param name="email">The email address of the user.</param>
 		/// <param name="newPassword">The new password.</param>
-		/// <exception cref="SecurityException">An NHibernate (database) error occured while changing the password OR the password is empty.</exception>
+		/// <exception cref="SecurityException">An NHibernate (database) error occurred while changing the password OR the password is empty.</exception>
 		public override void ChangePassword(string email, string newPassword)
 		{
 			try
@@ -146,7 +146,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new SecurityException(ex, "An error occured changing the password for {0}", email);
+				throw new SecurityException(ex, "An error occurred changing the password for {0}", email);
 			}
 		}
 
@@ -159,7 +159,7 @@ namespace Roadkill.Core
 		/// <returns>
 		/// true if the password change was successful;false if the previous password was incorrect.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occured while changing the password OR the new password is empty.</exception>
+		/// <exception cref="SecurityException">An NHibernate (database) error occurred while changing the password OR the new password is empty.</exception>
 		public override bool ChangePassword(string email, string oldPassword, string newPassword)
 		{
 			try
@@ -188,7 +188,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new SecurityException(ex, "An error occured changing the password for {0}", email);
+				throw new SecurityException(ex, "An error occurred changing the password for {0}", email);
 			}
 		}
 
@@ -199,7 +199,7 @@ namespace Roadkill.Core
 		/// <returns>
 		/// true if the deletion was successful;false if the user could not be found.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occured while deleting the user.</exception>
+		/// <exception cref="SecurityException">An NHibernate (database) error occurred while deleting the user.</exception>
 		public override bool DeleteUser(string email)
 		{
 			try
@@ -217,7 +217,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new SecurityException(ex, "An error occured deleting the user with the email {0}", email);
+				throw new SecurityException(ex, "An error occurred deleting the user with the email {0}", email);
 			}
 		}
 
@@ -258,7 +258,7 @@ namespace Roadkill.Core
 		/// <returns>
 		/// true if the user is an admin; false otherwise.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occured while email/username.</exception>
+		/// <exception cref="SecurityException">An NHibernate (database) error occurred while email/username.</exception>
 		public override bool IsAdmin(string email)
 		{
 			try
@@ -267,7 +267,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new SecurityException(ex, "An error occured checking if {0} is an admin", email);
+				throw new SecurityException(ex, "An error occurred checking if {0} is an admin", email);
 			}
 		}
 
@@ -278,7 +278,7 @@ namespace Roadkill.Core
 		/// <returns>
 		/// true if the user is an editor; false otherwise.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occured while checking email/username.</exception>
+		/// <exception cref="SecurityException">An NHibernate (database) error occurred while checking email/username.</exception>
 		public override bool IsEditor(string email)
 		{
 			try
@@ -287,7 +287,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new SecurityException(ex, "An error occured checking if {0} is an editor", email);
+				throw new SecurityException(ex, "An error occurred checking if {0} is an editor", email);
 			}
 		}
 
@@ -297,7 +297,7 @@ namespace Roadkill.Core
 		/// <returns>
 		/// A list of email/usernames who are admins.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occured while getting the admins.</exception>
+		/// <exception cref="SecurityException">An NHibernate (database) error occurred while getting the admins.</exception>
 		public override IEnumerable<UserSummary> ListAdmins()
 		{
 			try
@@ -307,7 +307,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new SecurityException(ex, "An error occured listing all the admins");
+				throw new SecurityException(ex, "An error occurred listing all the admins");
 			}
 		}
 
@@ -317,7 +317,7 @@ namespace Roadkill.Core
 		/// <returns>
 		/// A list of email/usernames who are editors.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occured while getting the editors.</exception>
+		/// <exception cref="SecurityException">An NHibernate (database) error occurred while getting the editors.</exception>
 		public override IEnumerable<UserSummary> ListEditors()
 		{
 			try
@@ -327,7 +327,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new SecurityException(ex, "An error occured listing all the editor");
+				throw new SecurityException(ex, "An error occurred listing all the editor");
 			}
 		}
 
@@ -369,7 +369,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new SecurityException(ex, "An error occured with resetting the password of {0}", email);
+				throw new SecurityException(ex, "An error occurred with resetting the password of {0}", email);
 			}
 		}
 
@@ -409,7 +409,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new SecurityException(ex, "An error occured with the signup of {0}", summary.NewEmail);
+				throw new SecurityException(ex, "An error occurred with the signup of {0}", summary.NewEmail);
 			}
 		}
 
@@ -417,7 +417,7 @@ namespace Roadkill.Core
 		/// Adds or remove the user with the email address as an editor.
 		/// </summary>
 		/// <param name="email">The email address or username of the user.</param>
-		/// <exception cref="SecurityException">An NHibernate (database) error occured while setting the user to an editor.</exception>
+		/// <exception cref="SecurityException">An NHibernate (database) error occurred while setting the user to an editor.</exception>
 		public override void ToggleEditor(string email)
 		{
 			try
@@ -431,7 +431,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new SecurityException(ex, "An error occured adding the editor {0}", email);
+				throw new SecurityException(ex, "An error occurred adding the editor {0}", email);
 			}
 		}
 
@@ -439,7 +439,7 @@ namespace Roadkill.Core
 		/// Adds or remove the user with the email address as an admin.
 		/// </summary>
 		/// <param name="email">The email address or username of the user.</param>
-		/// <exception cref="SecurityException">An NHibernate (database) error occured while setting the user to an admin.</exception>
+		/// <exception cref="SecurityException">An NHibernate (database) error occurred while setting the user to an admin.</exception>
 		public override void ToggleAdmin(string email)
 		{
 			try
@@ -453,7 +453,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new SecurityException(ex, "An error occured adding the admin {0}", email);
+				throw new SecurityException(ex, "An error occurred adding the admin {0}", email);
 			}
 		}
 
@@ -464,7 +464,7 @@ namespace Roadkill.Core
 		/// <returns>
 		/// true if the change was successful;false if the new username already exists in the system.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occured while changing the email/username.</exception>
+		/// <exception cref="SecurityException">An NHibernate (database) error occurred while changing the email/username.</exception>
 		public override bool UpdateUser(UserSummary summary)
 		{
 			try
@@ -556,7 +556,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new SecurityException(ex, "An error occured updating the user {0} ", summary.ExistingEmail);
+				throw new SecurityException(ex, "An error occurred updating the user {0} ", summary.ExistingEmail);
 			}
 		}
 
@@ -567,7 +567,7 @@ namespace Roadkill.Core
 		/// <returns>
 		/// true if the user exists;false otherwise.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occured while checking the email/user.</exception>
+		/// <exception cref="SecurityException">An NHibernate (database) error occurred while checking the email/user.</exception>
 		public override bool UserExists(string email)
 		{
 			try
@@ -577,7 +577,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new SecurityException(ex, "An error occured checking if user email {0} exists", email);
+				throw new SecurityException(ex, "An error occurred checking if user email {0} exists", email);
 			}
 		}
 
@@ -598,7 +598,7 @@ namespace Roadkill.Core
 			}
 			catch (HibernateException ex)
 			{
-				throw new SecurityException(ex, "An error occured checking if username {0} exists", username);
+				throw new SecurityException(ex, "An error occurred checking if username {0} exists", username);
 			}
 		}
 	}

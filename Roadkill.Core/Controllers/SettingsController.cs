@@ -71,7 +71,7 @@ namespace Roadkill.Core.Controllers
 		/// Adds an admin user to the system, validating the <see cref="UserSummary"/> first.
 		/// </summary>
 		/// <param name="summary">The user details to add.</param>
-		/// <returns>Redirects to the Users action. Additionally, if an error occured, TempData["action"] contains the string "addadmin".</returns>
+		/// <returns>Redirects to the Users action. Additionally, if an error occurred, TempData["action"] contains the string "addadmin".</returns>
 		[HttpPost]
 		[ExportModelState]
 		public ActionResult AddAdmin(UserSummary summary)
@@ -96,7 +96,7 @@ namespace Roadkill.Core.Controllers
 		/// Adds an editor user to the system, validating the <see cref="UserSummary"/> first.
 		/// </summary>
 		/// <param name="summary">The user details to add.</param>
-		/// <returns>Redirects to the Users action. Additionally, if an error occured, TempData["action"] contains the string "addeditor".</returns>
+		/// <returns>Redirects to the Users action. Additionally, if an error occurred, TempData["action"] contains the string "addeditor".</returns>
 		[HttpPost]
 		[ExportModelState]
 		public ActionResult AddEditor(UserSummary summary)
@@ -126,7 +126,7 @@ namespace Roadkill.Core.Controllers
 		/// for the user is reset and then changed.
 		/// </summary>
 		/// <param name="summary">The user details to edit.</param>
-		/// <returns>Redirects to the Users action. Additionally, if an error occured, TempData["edituser"] contains the string "addeditor".</returns>
+		/// <returns>Redirects to the Users action. Additionally, if an error occurred, TempData["edituser"] contains the string "addeditor".</returns>
 		[HttpPost]
 		[ExportModelState]
 		public ActionResult EditUser(UserSummary summary)
