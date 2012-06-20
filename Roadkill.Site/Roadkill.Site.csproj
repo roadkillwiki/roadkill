@@ -161,7 +161,6 @@
     <Content Include="App_Data\EmailTemplates\Signup.html" />
     <Content Include="App_Data\EmailTemplates\Signup.txt" />
     <Content Include="App_Data\roadkill.MDF" />
-    <Content Include="App_Data\Search\empty.txt" />
     <Content Include="App_Data\tokens.xml">
       <SubType>Designer</SubType>
     </Content>

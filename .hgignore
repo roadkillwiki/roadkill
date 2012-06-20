@@ -6,6 +6,7 @@ syntax: glob
 # Ignores
 Attachments*/
 Search*/
+search*/
 export*/
 
 *.DS_Store
