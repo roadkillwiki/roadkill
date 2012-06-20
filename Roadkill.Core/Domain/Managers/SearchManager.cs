@@ -11,6 +11,9 @@ using Lucene.Net.Search;
 using Lucene.Net.QueryParsers;
 using Roadkill.Core.Converters;
 using System.Text.RegularExpressions;
+using Directory = System.IO.Directory;
+using LuceneVersion = Lucene.Net.Util.Version;
+using Lucene.Net.Store;
 
 namespace Roadkill.Core.Search
 {
@@ -21,6 +24,7 @@ namespace Roadkill.Core.Search
 	{
 		private static string _indexPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\search";
 		private static Regex _removeTagsRegex = new Regex("<(.|\n)*?>");
+		private static readonly LuceneVersion LUCENEVERSION = LuceneVersion.LUCENE_29;
 
 		/// <summary>
 		/// Gets the current <see cref="SearchManager"/> for the application.
@@ -59,8 +63,11 @@ namespace Roadkill.Core.Search
 
 			List<SearchResult> list = new List<SearchResult>();
 
-			StandardAnalyzer analyzer = new StandardAnalyzer();
-			MultiFieldQueryParser parser = new MultiFieldQueryParser(new string[] { "content", "title" }, analyzer);
+			if (string.IsNullOrWhiteSpace(searchText))
+				return list;
+
+			StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
+			MultiFieldQueryParser parser = new MultiFieldQueryParser(LuceneVersion.LUCENE_29, new string[] { "content", "title" }, analyzer);
 
 			Query query = null;
 			try
@@ -78,35 +85,37 @@ namespace Roadkill.Core.Search
 			{
 				try
 				{
-					IndexSearcher searcher = new IndexSearcher(_indexPath);
-					Hits hits = searcher.Search(query);
-
-					for (int i = 0; i < hits.Length(); i++)
+					using (IndexSearcher searcher = new IndexSearcher(FSDirectory.Open(new DirectoryInfo(_indexPath)), true))
 					{
-						Document document = hits.Doc(i);
+						TopDocs topDocs = searcher.Search(query, 1000);
 
-						DateTime createdOn = DateTime.Now;
-						if (!DateTime.TryParse(document.GetField("createdon").StringValue(), out createdOn))
-							createdOn = DateTime.Now;
-
-						SearchResult result = new SearchResult()
+						foreach (ScoreDoc scoreDoc in topDocs.ScoreDocs)
 						{
-							Id = int.Parse(document.GetField("id").StringValue()),
-							Title = document.GetField("title").StringValue(),
-							ContentSummary = document.GetField("contentsummary").StringValue(),
-							Tags = document.GetField("tags").StringValue(),
-							CreatedBy = document.GetField("createdby").StringValue(),
-							CreatedOn = createdOn,
-							ContentLength = int.Parse(document.GetField("contentlength").StringValue()),
-							Score = hits.Score(i)
-						};
+							Document document = searcher.Doc(scoreDoc.doc);
 
-						list.Add(result);
+							DateTime createdOn = DateTime.Now;
+							if (!DateTime.TryParse(document.GetField("createdon").StringValue(), out createdOn))
+								createdOn = DateTime.Now;
+
+							SearchResult result = new SearchResult()
+							{
+								Id = int.Parse(document.GetField("id").StringValue()),
+								Title = document.GetField("title").StringValue(),
+								ContentSummary = document.GetField("contentsummary").StringValue(),
+								Tags = document.GetField("tags").StringValue(),
+								CreatedBy = document.GetField("createdby").StringValue(),
+								CreatedOn = createdOn,
+								ContentLength = int.Parse(document.GetField("contentlength").StringValue()),
+								Score = scoreDoc.score
+							};
+
+							list.Add(result);
+						}
 					}
 				}
 				catch (Exception ex)
 				{
-					throw new SearchException(ex, "An error occured while searching the index");
+					throw new SearchException(ex, "An error occured while searching the index, try rebuilding the search index via the admin tools to fix this.");
 				}
 			}
 
@@ -124,17 +133,17 @@ namespace Roadkill.Core.Search
 			{
 				EnsureDirectoryExists();
 
-				StandardAnalyzer analyzer = new StandardAnalyzer();
-				IndexWriter writer = new IndexWriter(_indexPath, analyzer, false);
-
-				writer.AddDocument(SummaryToDocument(summary));
-
-				writer.Optimize();
-				writer.Close();
+				StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
+				using (IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(_indexPath)), analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
+				{
+					writer.AddDocument(SummaryToDocument(summary));
+					writer.Optimize();
+				}
 			}
 			catch (Exception ex)
 			{
-				throw new SearchException(ex, "An error occured while adding page '{0}' to the search index", summary.Title);
+				if (!RoadkillSettings.IgnoreSearchIndexErrors)
+					throw new SearchException(ex, "An error occured while adding page '{0}' to the search index", summary.Title);
 			}
 		}
 
@@ -147,14 +156,16 @@ namespace Roadkill.Core.Search
 		{
 			try
 			{
-				StandardAnalyzer analyzer = new StandardAnalyzer();
-				IndexReader reader = IndexReader.Open(_indexPath);
-				reader.DeleteDocuments(new Term("id", summary.Id.ToString()));
-				reader.Close();
+				StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
+				using (IndexReader reader = IndexReader.Open(FSDirectory.Open(new DirectoryInfo(_indexPath)), false))
+				{
+					reader.DeleteDocuments(new Term("id", summary.Id.ToString()));
+				}
 			}
 			catch (Exception ex)
 			{
-				throw new SearchException(ex, "An error occured while deleting page '{0}' from the search index", summary.Title);
+				if (!RoadkillSettings.IgnoreSearchIndexErrors)
+					throw new SearchException(ex, "An error occured while deleting page '{0}' from the search index", summary.Title);
 			}
 		}
 
@@ -180,17 +191,17 @@ namespace Roadkill.Core.Search
 
 			try
 			{
-				StandardAnalyzer analyzer = new StandardAnalyzer();
-				IndexWriter writer = new IndexWriter(_indexPath, analyzer, true);
-
-				foreach (Page page in Pages.ToList())
+				StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
+				using (IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(_indexPath)), analyzer, true,IndexWriter.MaxFieldLength.UNLIMITED))
 				{
-					PageSummary summary = page.ToSummary();
-					writer.AddDocument(SummaryToDocument(summary));
-				}
+					foreach (Page page in Pages.ToList())
+					{
+						PageSummary summary = page.ToSummary();
+						writer.AddDocument(SummaryToDocument(summary));
+					}
 
-				writer.Optimize();
-				writer.Close();
+					writer.Optimize();
+				}
 			}
 			catch (Exception ex)
 			{
@@ -229,13 +240,13 @@ namespace Roadkill.Core.Search
 				contentSummary = contentSummary.Substring(0, 149);
 
 			Document document = new Document();
-			document.Add(new Field("id", summary.Id.ToString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
-			document.Add(new Field("content", summary.Content, Field.Store.YES, Field.Index.TOKENIZED));
+			document.Add(new Field("id", summary.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
+			document.Add(new Field("content", summary.Content, Field.Store.YES, Field.Index.ANALYZED));
 			document.Add(new Field("contentsummary", contentSummary, Field.Store.YES, Field.Index.NO));
-			document.Add(new Field("title", summary.Title, Field.Store.YES, Field.Index.TOKENIZED));
-			document.Add(new Field("tags", summary.Tags.SpaceDelimitTags(), Field.Store.YES, Field.Index.TOKENIZED));
-			document.Add(new Field("createdby", summary.CreatedBy, Field.Store.YES, Field.Index.UN_TOKENIZED));
-			document.Add(new Field("createdon", summary.CreatedOn.ToString("u"), Field.Store.YES, Field.Index.UN_TOKENIZED));
+			document.Add(new Field("title", summary.Title, Field.Store.YES, Field.Index.ANALYZED));
+			document.Add(new Field("tags", summary.Tags.SpaceDelimitTags(), Field.Store.YES, Field.Index.ANALYZED));
+			document.Add(new Field("createdby", summary.CreatedBy, Field.Store.YES, Field.Index.NOT_ANALYZED));
+			document.Add(new Field("createdon", summary.CreatedOn.ToString("u"), Field.Store.YES, Field.Index.NOT_ANALYZED));
 			document.Add(new Field("contentlength", summary.Content.Length.ToString(), Field.Store.YES, Field.Index.NO));
 
 			return document;

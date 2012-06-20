@@ -151,6 +151,27 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// The type used for the managing users, in the format "MyNamespace.Type, MyAssembly".
+		/// This class should inherit from the <see cref="UserManager"/> class or a one of its derived types.
+		/// </summary>
+		[ConfigurationProperty("userManagerType", IsRequired = false)]
+		public string UserManagerType
+		{
+			get { return (string)this["userManagerType"]; }
+			set { this["userManagerType"] = value; }
+		}
+
+		/// <summary>
+		/// Whether errors in updating the lucene index throw exceptions or are just ignored.
+		/// </summary>
+		[ConfigurationProperty("ignoreSearchIndexErrors", IsRequired = false)]
+		public bool IgnoreSearchIndexErrors
+		{
+			get { return (bool)this["ignoreSearchIndexErrors"]; }
+			set { this["ignoreSearchIndexErrors"] = value; }
+		}
+
+		/// <summary>
 		/// Gets a value indicating whether the <see cref="T:System.Configuration.ConfigurationElement"/> object is read-only,
 		/// and can therefore be saved back to disk.
 		/// </summary>
