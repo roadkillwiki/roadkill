@@ -106,7 +106,7 @@ namespace Roadkill.Core
 					File.WriteAllBytes(filePath, data);
 				}
 			}
-			catch (IOException e)
+			catch (IOException)
 			{
 				// TODO: log
 			}

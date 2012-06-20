@@ -295,5 +295,29 @@ namespace Roadkill.Core
 				return Path.Combine(AppDataPath, "tokens.xml");
 			}
 		}
+
+		/// <summary>
+		/// The type for the <see cref="UserManager"/>. If the setting for this is blank
+		/// in the web.config, then the <see cref="UseWindowsAuthentication"/> is checked and if false
+		/// a <see cref="SqlUserManager"/> is created.
+		/// </summary>
+		public static string UserManagerType
+		{
+			get
+			{
+				return RoadkillSection.Current.UserManagerType;
+			}
+		}
+
+		/// <summary>
+		/// Whether errors in updating the lucene index throw exceptions or are just ignored.
+		/// </summary>
+		public static bool IgnoreSearchIndexErrors
+		{
+			get
+			{
+				return RoadkillSection.Current.IgnoreSearchIndexErrors;
+			}
+		}
 	}
 }

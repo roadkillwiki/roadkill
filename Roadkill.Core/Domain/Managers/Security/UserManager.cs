@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 namespace Roadkill.Core
 {
 	/// <summary>
@@ -181,18 +182,41 @@ namespace Roadkill.Core
 
 			static Nested()
 			{
-				if (RoadkillSettings.UseWindowsAuthentication)
+				if (!string.IsNullOrEmpty(RoadkillSettings.UserManagerType))
 				{
-					Nested.Current = new ActiveDirectoryUserManager(RoadkillSettings.LdapConnectionString,
-																RoadkillSettings.LdapUsername,
-																RoadkillSettings.LdapPassword,
-																RoadkillSettings.EditorRoleName,
-																RoadkillSettings.AdminRoleName);
+					Nested.Current = LoadFromType();
 				}
 				else
 				{
-					Nested.Current = new SqlUserManager();
+					if (RoadkillSettings.UseWindowsAuthentication)
+					{
+						Nested.Current = new ActiveDirectoryUserManager(RoadkillSettings.LdapConnectionString,
+																	RoadkillSettings.LdapUsername,
+																	RoadkillSettings.LdapPassword,
+																	RoadkillSettings.EditorRoleName,
+																	RoadkillSettings.AdminRoleName);
+					}
+					else
+					{
+						Nested.Current = new SqlUserManager();
+					}
 				}
+			}
+		}
+
+		public static UserManager LoadFromType()
+		{
+			// Attempt to load the type
+			Type userManagerType = typeof(UserManager);
+			Type reflectedType = Type.GetType(RoadkillSettings.UserManagerType);
+			
+			if (reflectedType.IsSubclassOf(userManagerType))
+			{
+				return (UserManager)reflectedType.Assembly.CreateInstance(reflectedType.FullName);
+			}
+			else
+			{
+				throw new SecurityException(null, "The type {0} specified in the userManagerType web.config setting is not an instance of a UserManager class", RoadkillSettings.UserManagerType);
 			}
 		}
 	}

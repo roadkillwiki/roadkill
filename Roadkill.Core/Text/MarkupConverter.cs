@@ -5,6 +5,7 @@ using System.Text;
 using System.Web.Mvc;
 using System.Web;
 using System.Text.RegularExpressions;
+using HtmlAgilityPack;
 
 namespace Roadkill.Core.Converters
 {
@@ -60,6 +61,7 @@ namespace Roadkill.Core.Converters
 		{
 			string html = CustomTokenParser.ReplaceTokens(text);
 			html = Parser.Transform(html);
+			html = RemoveHarmfulTags(html);
 
 			if (html.IndexOf("{TOC}") > -1)
 			{
@@ -118,6 +120,64 @@ namespace Roadkill.Core.Converters
 				e.Href = href;
 				e.Target = "";
 			}
+		}
+
+
+		/// <summary>
+		/// Strips script, link, style etc tags and javascript attributes. Based on http://htmlagilitypack.codeplex.com/discussions/24346
+		/// </summary>
+		private string RemoveHarmfulTags(string html)
+		{
+			HtmlDocument document = new HtmlDocument();
+			document.LoadHtml(html);
+			
+			HtmlNodeCollection collection = document.DocumentNode.SelectNodes("//script|//link|//iframe|//frameset|//frame|//applet");
+			if (collection != null)
+			{
+				foreach (HtmlNode node in collection)
+				{
+					node.ParentNode.RemoveChild(node, false);
+				}
+			}
+
+			// Remove hrefs to java/j/vbscript URLs
+			collection = document.DocumentNode.SelectNodes("//a[starts-with(translate(@href, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'javascript')]|//a[starts-with(translate(@href, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'jscript')]|//a[starts-with(translate(@href, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'vbscript')]");
+			if (collection != null)
+			{
+
+				foreach (HtmlNode node in collection)
+				{
+					node.SetAttributeValue("href", "#");
+				}
+			}
+
+			// Remove img with refs to java/j/vbscript URLs
+			collection = document.DocumentNode.SelectNodes("//img[starts-with(translate(@src, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'javascript')]|//img[starts-with(translate(@src, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'jscript')]|//img[starts-with(translate(@src, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'vbscript')]");
+			if (collection != null)
+			{
+				foreach (HtmlNode node in collection)
+				{
+					node.SetAttributeValue("src", "#");
+				}
+			}
+
+			collection = document.DocumentNode.SelectNodes("//*[@onclick or @onmouseover or @onfocus or @onblur or @onmouseout or @ondoubleclick or @onload or @onunload]");
+			if (collection != null)
+			{
+				foreach (HtmlNode node in collection)
+				{
+					node.Attributes.Remove("onFocus");
+					node.Attributes.Remove("onBlur");
+					node.Attributes.Remove("onClick");
+					node.Attributes.Remove("onMouseOver");
+					node.Attributes.Remove("onMouseOut");
+					node.Attributes.Remove("onDoubleClick");
+					node.Attributes.Remove("onLoad");
+					node.Attributes.Remove("onUnload");
+				}
+			}
+
+			return document.DocumentNode.InnerHtml;
 		}
 	}
 }
