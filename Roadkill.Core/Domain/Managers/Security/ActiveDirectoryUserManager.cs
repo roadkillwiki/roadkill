@@ -114,7 +114,7 @@ namespace Roadkill.Core
 		/// <returns>
 		/// true if the user is an admin; false otherwise.
 		/// </returns>
-		/// <exception cref="SecurityException">An Active Directory releated error occured while checking the username.email.</exception>
+		/// <exception cref="SecurityException">An Active Directory releated error occurred while checking the username.email.</exception>
 		public override bool IsAdmin(string email)
 		{
 			try
@@ -129,7 +129,7 @@ namespace Roadkill.Core
 			}
 			catch (Exception ex)
 			{
-				throw new SecurityException(ex, "An error occured querying IsAdmin with Active Directory");
+				throw new SecurityException(ex, "An error occurred querying IsAdmin with Active Directory");
 			}
 		}
 
@@ -140,7 +140,7 @@ namespace Roadkill.Core
 		/// <returns>
 		/// true if the user is an editor; false otherwise.
 		/// </returns>
-		/// <exception cref="SecurityException">An Active Directory releated error occured while checking the username.email.</exception>
+		/// <exception cref="SecurityException">An Active Directory releated error occurred while checking the username.email.</exception>
 		public override bool IsEditor(string email)
 		{
 			try
@@ -155,7 +155,7 @@ namespace Roadkill.Core
 			}
 			catch (Exception ex)
 			{
-				throw new SecurityException(ex, "An error occured querying IsEditor with Active Directory");
+				throw new SecurityException(ex, "An error occurred querying IsEditor with Active Directory");
 			}
 		}
 

@@ -45,7 +45,7 @@ namespace Roadkill.Core.Controllers
 			}
 			catch (IOException e)
 			{
-				TempData["Error"] = string.Format("An error occured deleting the file: {0}", e.Message);
+				TempData["Error"] = string.Format("An error occurred deleting the file: {0}", e.Message);
 			}
 
 			return RedirectToAction("Index");
@@ -128,7 +128,7 @@ namespace Roadkill.Core.Controllers
 			}
 			catch (IOException e)
 			{
-				TempData["Error"] = string.Format("An error occured creating the directory: {0}", e.Message);
+				TempData["Error"] = string.Format("An error occurred creating the directory: {0}", e.Message);
 			}
 
 			return RedirectToAction("Index");
@@ -165,7 +165,7 @@ namespace Roadkill.Core.Controllers
 				}
 				catch (Exception e)
 				{
-					TempData["Error"] = string.Format("An error occured uploading the file: {0}", e.Message);
+					TempData["Error"] = string.Format("An error occurred uploading the file: {0}", e.Message);
 				}
 			}
 			else

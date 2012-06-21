@@ -21,7 +21,7 @@ namespace Roadkill.Core
 		/// Adds the admin user.
 		/// </summary>
 		/// <param name="summary">The settings to get the data from.</param>
-		/// <exception cref="InstallerException">An NHibernate (database) error occured while adding the admin user.</exception>
+		/// <exception cref="InstallerException">An NHibernate (database) error occurred while adding the admin user.</exception>
 		public static void AddAdminUser(SettingsSummary summary)
 		{
 			try
@@ -37,7 +37,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Resets the roadkill "installed" property in the web.config for when the installation fails.
 		/// </summary>
-		/// <exception cref="InstallerException">An web.config related error occured while reseting the install state.</exception>
+		/// <exception cref="InstallerException">An web.config related error occurred while reseting the install state.</exception>
 		public static void ResetInstalledState()
 		{
 			try
@@ -51,7 +51,7 @@ namespace Roadkill.Core
 			}
 			catch (ConfigurationErrorsException ex)
 			{
-				throw new InstallerException(ex, "An exception occured while resetting web.config install state to false.");
+				throw new InstallerException(ex, "An exception occurred while resetting web.config install state to false.");
 			}
 		}
 
@@ -59,7 +59,7 @@ namespace Roadkill.Core
 		/// Tests if the attachments folder provided can be written to, by writing a file to the folder.
 		/// </summary>
 		/// <param name="folder">The folder path which should include "~/" at the start.</param>
-		/// <returns>Any error messages or an empty string if no errors occured.</returns>
+		/// <returns>Any error messages or an empty string if no errors occurred.</returns>
 		public static string TestAttachments(string folder)
 		{
 			string errors = "";
@@ -100,7 +100,7 @@ namespace Roadkill.Core
 		/// Tests the database connection.
 		/// </summary>
 		/// <param name="connectionString">The connection string.</param>
-		/// <returns>Any error messages or an empty string if no errors occured.</returns>
+		/// <returns>Any error messages or an empty string if no errors occurred.</returns>
 		public static string TestConnection(string connectionString, string databaseType)
 		{
 			try
@@ -121,7 +121,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Tests the web.config can be saved to by changing the "installed" to false.
 		/// </summary>
-		/// <returns>Any error messages or an empty string if no errors occured.</returns>
+		/// <returns>Any error messages or an empty string if no errors occurred.</returns>
 		public static string TestSaveWebConfig()
 		{
 			try
@@ -143,7 +143,7 @@ namespace Roadkill.Core
 		/// <param name="username">The ldap username.</param>
 		/// <param name="password">The ldap password.</param>
 		/// <param name="groupName">The Active Directory group name to test against. Defaults to "Users" if empty</param>
-		/// <returns>Any error messages or an empty string if no errors occured.</returns>
+		/// <returns>Any error messages or an empty string if no errors occurred.</returns>
 		public static string TestLdapConnection(string connectionString, string username, string password, string groupName)
 		{
 			if (string.IsNullOrEmpty(connectionString))
