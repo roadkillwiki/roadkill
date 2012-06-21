@@ -12,7 +12,7 @@
 	@(Html.HiddenFor<UserSummary, string>(h => h.ExistingUsername))
 	
 	<fieldset id="profile" class="rounded10 lightborder">
-		@Html.ValidationSummary("An error occured:")
+		@Html.ValidationSummary("An error occurred:")
 
 		<label for="NewEmail" class="userlabel">First name:</label>
 		@(Html.TextBoxFor<UserSummary, string>(t => t.Firstname, new { @class = "usertextbox" }))

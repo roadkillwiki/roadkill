@@ -16,7 +16,7 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <param name="pageId">The id of the page to get the history for.</param>
 		/// <returns>An <see cref="IEnumerable`HistorySummary"/> ordered by the most recent version number.</returns>
-		/// <exception cref="HistoryException">An NHibernate (database) error occured while retrieving the list.</exception>
+		/// <exception cref="HistoryException">An NHibernate (database) error occurred while retrieving the list.</exception>
 		public IEnumerable<HistorySummary> GetHistory(int pageId)
 		{
 			try
@@ -51,7 +51,7 @@ namespace Roadkill.Core
 		/// <param name="mainVersionId">The id of the version to compare</param>
 		/// <returns>Returns a IEnumerable of two versions, where the 2nd item is the previous version.
 		/// If the current version is 1, or a previous version cannot be found, then the 2nd item will be null.</returns>
-		/// <exception cref="HistoryException">An NHibernate (database) error occured while comparing the two versions.</exception>
+		/// <exception cref="HistoryException">An NHibernate (database) error occurred while comparing the two versions.</exception>
 		public IEnumerable<PageSummary> CompareVersions(Guid mainVersionId)
 		{
 			try
@@ -96,7 +96,7 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <param name="pageId">The id of the page</param>
 		/// <param name="versionNumber">The version number to revert to.</param>
-		/// <exception cref="HistoryException">An NHibernate (database) error occured while reverting to the version.</exception>
+		/// <exception cref="HistoryException">An NHibernate (database) error occurred while reverting to the version.</exception>
 		public void RevertTo(int pageId, int versionNumber)
 		{
 			try
@@ -122,7 +122,7 @@ namespace Roadkill.Core
 		/// Reverts to a particular version, creating a new version in the process.
 		/// </summary>
 		/// <param name="versionNumber">The version ID to revert to.</param>
-		/// <exception cref="HistoryException">An NHibernate (database) error occured while reverting to the version.</exception>
+		/// <exception cref="HistoryException">An NHibernate (database) error occurred while reverting to the version.</exception>
 		public void RevertTo(Guid versionId)
 		{
 			try
