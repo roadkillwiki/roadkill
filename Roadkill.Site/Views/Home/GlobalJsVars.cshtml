@@ -1,0 +1,39 @@
+﻿@using Roadkill.Core.Converters;
+var ROADKILL_CORESCRIPTPATH = "@Url.Content("~/Assets/Scripts/")";
+var ROADKILL_THEMEPATH =  "@Url.Content(RoadkillSettings.ThemePath)/";
+
+// Edit page constants
+var ROADKILL_TAGAJAXURL = "@Url.Action("AllTagsAsJson", "Pages")/";
+var ROADKILL_PREVIEWURL = "@Url.Action("GetPreview", "Pages")/";
+var ROADKILL_MARKUPTYPE = "@RoadkillSettings.MarkupType";
+var ROADKILL_WIKIMARKUPHELP = "@Url.Action(RoadkillSettings.MarkupType + "Reference", "Help")";
+
+// File manager constants
+var ROADKILL_FILEMANAGERURL = "@Url.Action("Index", "Files")";
+var ROADKILL_FILETREE_URL =  "@Url.Action("Folder", "Files")/";
+var ROADKILL_FILETREE_PATHNAME_URL =  "@Url.Action("GetPath", "Files")/";
+var ROADKILL_ATTACHMENTSPATH = "@Url.Content(RoadkillSettings.AttachmentsFolder)";
+
+// Tokens for the edit toolbar
+@{
+MarkupConverter converter = new MarkupConverter();
+IMarkupParser parser = converter.Parser;
+}
+var ROADKILL_EDIT_BOLD_TOKEN = "@parser.BoldToken";
+var ROADKILL_EDIT_ITALIC_TOKEN = "@parser.ItalicToken";
+var ROADKILL_EDIT_UNDERLINE_TOKEN = "@parser.UnderlineToken";
+var ROADKILL_EDIT_LINK_STARTTOKEN = "@parser.LinkStartToken";
+var ROADKILL_EDIT_LINK_ENDTOKEN = "@parser.LinkEndToken";
+var ROADKILL_EDIT_IMAGE_STARTTOKEN = "@parser.ImageStartToken";
+var ROADKILL_EDIT_IMAGE_ENDTOKEN = "@parser.ImageEndToken";
+var ROADKILL_EDIT_NUMBERLIST_TOKEN = "@parser.NumberedListToken";
+var ROADKILL_EDIT_BULLETLIST_TOKEN = "@parser.BulletListToken";
+var ROADKILL_EDIT_HEADING_TOKEN = "@parser.HeadingToken";
+
+@if (RoadkillContext.Current.IsAdmin)
+{
+// User management constants for the settings->user page
+@:var ROADKILL_ADDADMIN_FORMACTION = "@Url.Action("AddAdmin", "Settings")";
+@:var ROADKILL_ADDEDITOR_FORMACTION = "@Url.Action("AddEditor", "Settings")";
+@:var ROADKILL_EDITUSER_FORMACTION = "@Url.Action("EditUser", "Settings")";
+}
