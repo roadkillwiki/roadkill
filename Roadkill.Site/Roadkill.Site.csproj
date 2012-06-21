@@ -284,6 +284,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Views\User\Profile.cshtml" />
     <Content Include="Views\User\Signup.cshtml" />
+    <Content Include="Views\Home\GlobalJsVars.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Scripts\jquery.ae.image.resize.min.js" />
