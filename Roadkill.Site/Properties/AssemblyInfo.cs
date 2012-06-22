@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("C.Small")]
 [assembly: AssemblyProduct("Roadkill.Site")]
-[assembly: AssemblyCopyright("Copyright © C.Small 2011")]
+[assembly: AssemblyCopyright("Copyright © C.Small 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
