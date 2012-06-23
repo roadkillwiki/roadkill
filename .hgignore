@@ -45,5 +45,6 @@ _ReSharper*/
 *ASPNET.ldf
 
 *roadkillaspnet_log.ldf
+.git*/
 
 
