@@ -10,6 +10,14 @@ namespace Roadkill.Core.Converters
 	/// </summary>
 	public class ImageEventArgs : EventArgs
 	{
+        public enum HorizontalAlignment
+        {
+            Left,
+            Center,
+            Right,
+            None
+        }
+
 		/// <summary>
 		/// The original image source url.
 		/// </summary>
@@ -30,15 +38,21 @@ namespace Roadkill.Core.Converters
 		/// </summary>
 		public string Title { get; set; }
 
+        /// <summary>
+        /// The type of horizontal align. Defaults to "Inline".
+        /// </summary>
+        public HorizontalAlignment HorizontalAlign { get; set; }
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ImageEventArgs"/> class.
 		/// </summary>
-		public ImageEventArgs(string originalSrc, string src, string alt, string title)
+		public ImageEventArgs(string originalSrc, string src, string alt, string title, HorizontalAlignment horizontalAlign = HorizontalAlignment.None)
 		{
 			OriginalSrc = originalSrc;
 			Src = src;
 			Alt = alt;
 			Title = title;
+            HorizontalAlign = horizontalAlign;
 		}
 	}
 }

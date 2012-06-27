@@ -19,3 +19,17 @@ a:hover			{ color:#babfb5; }
 
 .searchresults		{ color:Green;font-size:1.1em; }
 .searchbox			{ width:400px; }
+
+div.image_frame { border: 1px solid gray; display: inline-block; padding: 4px; }
+div.image_frame .caption { border: 1px solid #E0E0E0; padding: 4px; }
+
+div.floatleft, table.floatleft { border: 0 none; margin: 0 0.5em 0.5em 0; }
+div.floatright, table.floatright, div.floatleft, table.floatleft { position: relative; }
+div.floatleft, table.floatleft { clear: left; float: left; }
+
+div.floatright, table.floatright { border: 0 none;margin: 0 0 0.5em 0.5em; }
+div.floatright, table.floatright, div.floatleft, table.floatleft { position: relative; }
+div.floatright, table.floatright { clear: right; float: right; }
+
+.center * { margin-left: auto; margin-right: auto; }
+.center { text-align: center; width: 100%; }

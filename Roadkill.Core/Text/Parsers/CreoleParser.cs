@@ -46,6 +46,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Roadkill.Core.Converters
 {
@@ -967,19 +969,48 @@ namespace Roadkill.Core.Converters
 					string innards = markup.Substring(iPos, iEnd - iPos);
 					string href = innards;
 					string text = href;
-					int iSplit = innards.IndexOf('|');
-					if (iSplit > 0)
-					{
-						href = innards.Substring(0, iSplit);
-						text = _processCreoleFragment(innards.Substring(iSplit + 1));
-					}
+                    ImageEventArgs.HorizontalAlignment align = ImageEventArgs.HorizontalAlignment.None;
+                    string[] splits = innards.Split('|');
 
-					ImageEventArgs args = new ImageEventArgs(href,href,text,"");
+                    if (innards.Count(x => x == '|') > 1)
+                    {
+                        if (Enum.TryParse(splits[1], true, out align) == false)
+                            align = ImageEventArgs.HorizontalAlignment.None;
+                    }
+
+                    if (splits.Count() > 0)
+                    {
+                        href = splits.First();
+                        text = _processCreoleFragment(splits.Last());
+                    }
+
+                    ImageEventArgs args = new ImageEventArgs(href, href, text, text, align);
 					OnImageParsed(args);
 
-					markup = markup.Substring(0, iPos - 2)
-							+ String.Format("<img src=\"{0}\" alt=\"{1}\" border=\"0\" />", args.Src, args.Alt)
-							+ markup.Substring(iEnd + 2);
+                    string imageHtml = String.Format("<img src=\"{0}\" alt=\"{1}\" title=\"{2}\" border=\"0\" />", args.Src, args.Alt, args.Title);
+                    string divHtml = "<div class=\"{0}\">{1}</div>";
+                    string imageFrameContent = imageHtml;
+
+                    if (!args.Src.EndsWith(args.Alt))
+                        imageFrameContent += String.Format(divHtml, "caption", args.Alt);
+
+                    string imageFrame = String.Format(divHtml, "image_frame", imageFrameContent);
+
+                    switch (align)
+                    {
+                        case ImageEventArgs.HorizontalAlignment.Left:
+                            markup = String.Format(divHtml, "floatleft", imageFrame);
+                            break;
+                        case ImageEventArgs.HorizontalAlignment.Right:
+                            markup = String.Format(divHtml, "floatright", imageFrame);
+                            break;
+                        case ImageEventArgs.HorizontalAlignment.Center:
+                            markup = String.Format(divHtml, "center", String.Format(divHtml, "floatnone", imageFrame));
+                            break;
+                        default:
+                            markup = String.Format(divHtml, "floatnone", imageFrame);
+                            break;
+                    }
 				}
 				else
 					break;
