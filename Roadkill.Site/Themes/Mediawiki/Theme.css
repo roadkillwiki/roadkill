@@ -20,3 +20,17 @@ a:hover, a:focus	{ text-decoration:underline; }
 #footer			{ margin-left:12em;margin-top:0px;padding:0.75em;}
 #footer p		{ color:#333;font-size:0.7em; }
 pre				{ font-size:9pt !important;background-color:#EEE;padding:5px;border:1px solid #AAA; }
+
+div.image_frame { border: 1px solid gray; display: inline-block; padding: 4px; }
+div.image_frame .caption { border: 1px solid #E0E0E0; padding: 4px; }
+
+div.floatleft, table.floatleft { border: 0 none; margin: 0 0.5em 0.5em 0; }
+div.floatright, table.floatright, div.floatleft, table.floatleft { position: relative; }
+div.floatleft, table.floatleft { clear: left; float: left; }
+
+div.floatright, table.floatright { border: 0 none;margin: 0 0 0.5em 0.5em; }
+div.floatright, table.floatright, div.floatleft, table.floatleft { position: relative; }
+div.floatright, table.floatright { clear: right; float: right; }
+
+.center * { margin-left: auto; margin-right: auto; }
+.center { text-align: center; width: 100%; }

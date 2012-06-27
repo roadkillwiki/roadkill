@@ -19,16 +19,16 @@ var ROADKILL_ATTACHMENTSPATH = "@Url.Content(RoadkillSettings.AttachmentsFolder)
 MarkupConverter converter = new MarkupConverter();
 IMarkupParser parser = converter.Parser;
 }
-var ROADKILL_EDIT_BOLD_TOKEN = "@parser.BoldToken";
-var ROADKILL_EDIT_ITALIC_TOKEN = "@parser.ItalicToken";
-var ROADKILL_EDIT_UNDERLINE_TOKEN = "@parser.UnderlineToken";
-var ROADKILL_EDIT_LINK_STARTTOKEN = "@parser.LinkStartToken";
-var ROADKILL_EDIT_LINK_ENDTOKEN = "@parser.LinkEndToken";
-var ROADKILL_EDIT_IMAGE_STARTTOKEN = "@parser.ImageStartToken";
-var ROADKILL_EDIT_IMAGE_ENDTOKEN = "@parser.ImageEndToken";
-var ROADKILL_EDIT_NUMBERLIST_TOKEN = "@parser.NumberedListToken";
-var ROADKILL_EDIT_BULLETLIST_TOKEN = "@parser.BulletListToken";
-var ROADKILL_EDIT_HEADING_TOKEN = "@parser.HeadingToken";
+var ROADKILL_EDIT_BOLD_TOKEN        = "@Html.Raw(parser.BoldToken)";
+var ROADKILL_EDIT_ITALIC_TOKEN      = "@Html.Raw(parser.ItalicToken)";
+var ROADKILL_EDIT_UNDERLINE_TOKEN   = "@Html.Raw(parser.UnderlineToken)";
+var ROADKILL_EDIT_LINK_STARTTOKEN   = "@Html.Raw(parser.LinkStartToken)";
+var ROADKILL_EDIT_LINK_ENDTOKEN     = "@Html.Raw(parser.LinkEndToken)";
+var ROADKILL_EDIT_IMAGE_STARTTOKEN  = "@Html.Raw(parser.ImageStartToken)";
+var ROADKILL_EDIT_IMAGE_ENDTOKEN    = "@Html.Raw(parser.ImageEndToken)";
+var ROADKILL_EDIT_NUMBERLIST_TOKEN  = "@Html.Raw(parser.NumberedListToken)";
+var ROADKILL_EDIT_BULLETLIST_TOKEN  = "@Html.Raw(parser.BulletListToken)";
+var ROADKILL_EDIT_HEADING_TOKEN     = "@Html.Raw(parser.HeadingToken)";
 
 @if (RoadkillContext.Current.IsAdmin)
 {
