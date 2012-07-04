@@ -969,48 +969,48 @@ namespace Roadkill.Core.Converters
 					string innards = markup.Substring(iPos, iEnd - iPos);
 					string href = innards;
 					string text = href;
-                    ImageEventArgs.HorizontalAlignment align = ImageEventArgs.HorizontalAlignment.None;
-                    string[] splits = innards.Split('|');
+					ImageEventArgs.HorizontalAlignment align = ImageEventArgs.HorizontalAlignment.None;
+					string[] splits = innards.Split('|');
 
-                    if (innards.Count(x => x == '|') > 1)
-                    {
-                        if (Enum.TryParse(splits[1], true, out align) == false)
-                            align = ImageEventArgs.HorizontalAlignment.None;
-                    }
+					if (innards.Count(x => x == '|') > 1)
+					{
+						if (Enum.TryParse(splits[1], true, out align) == false)
+							align = ImageEventArgs.HorizontalAlignment.None;
+					}
 
-                    if (splits.Count() > 0)
-                    {
-                        href = splits.First();
-                        text = _processCreoleFragment(splits.Last());
-                    }
+					if (splits.Count() > 0)
+					{
+						href = splits.First();
+						text = _processCreoleFragment(splits.Last());
+					}
 
-                    ImageEventArgs args = new ImageEventArgs(href, href, text, text, align);
+					ImageEventArgs args = new ImageEventArgs(href, href, text, text, align);
 					OnImageParsed(args);
 
-                    string imageHtml = String.Format("<img src=\"{0}\" alt=\"{1}\" title=\"{2}\" border=\"0\" />", args.Src, args.Alt, args.Title);
-                    string divHtml = "<div class=\"{0}\">{1}</div>";
-                    string imageFrameContent = imageHtml;
+					string imageHtml = String.Format("<img src=\"{0}\" alt=\"{1}\" title=\"{2}\" border=\"0\" />", args.Src, args.Alt, args.Title);
+					string divHtml = "<div class=\"{0}\">{1}</div>";
+					string imageFrameContent = imageHtml;
 
-                    if (!args.Src.EndsWith(args.Alt))
-                        imageFrameContent += String.Format(divHtml, "caption", args.Alt);
+					if (!args.Src.EndsWith(args.Alt))
+						imageFrameContent += String.Format(divHtml, "caption", args.Alt);
 
-                    string imageFrame = String.Format(divHtml, "image_frame", imageFrameContent);
+					string imageFrame = String.Format(divHtml, "image_frame", imageFrameContent);
 
-                    switch (align)
-                    {
-                        case ImageEventArgs.HorizontalAlignment.Left:
-                            markup = String.Format(divHtml, "floatleft", imageFrame);
-                            break;
-                        case ImageEventArgs.HorizontalAlignment.Right:
-                            markup = String.Format(divHtml, "floatright", imageFrame);
-                            break;
-                        case ImageEventArgs.HorizontalAlignment.Center:
-                            markup = String.Format(divHtml, "center", String.Format(divHtml, "floatnone", imageFrame));
-                            break;
-                        default:
-                            markup = String.Format(divHtml, "floatnone", imageFrame);
-                            break;
-                    }
+					switch (align)
+					{
+						case ImageEventArgs.HorizontalAlignment.Left:
+							markup = String.Format(divHtml, "floatleft", imageFrame);
+							break;
+						case ImageEventArgs.HorizontalAlignment.Right:
+							markup = String.Format(divHtml, "floatright", imageFrame);
+							break;
+						case ImageEventArgs.HorizontalAlignment.Center:
+							markup = String.Format(divHtml, "center", String.Format(divHtml, "floatnone", imageFrame));
+							break;
+						default:
+							markup = String.Format(divHtml, "floatnone", imageFrame);
+							break;
+					}
 				}
 				else
 					break;
