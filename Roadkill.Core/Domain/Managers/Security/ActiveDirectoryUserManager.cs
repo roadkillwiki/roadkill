@@ -43,7 +43,7 @@ namespace Roadkill.Core
 		{
 			// Some guards
 			if (string.IsNullOrEmpty(ldapConnectionString))
-				throw new SecurityException("The LDAP connection string is empty",null);
+				throw new SecurityException("The LDAP connection string is empty", null);
 
 			if (string.IsNullOrEmpty(editorGroupName))
 				throw new SecurityException("The LDAP editor group name is empty", null);
@@ -124,7 +124,7 @@ namespace Roadkill.Core
 				{
 					users.AddRange(GetUsersInGroup(group));
 				}
-				
+
 				return users.Contains(CleanUsername(email));
 			}
 			catch (Exception ex)
@@ -213,7 +213,7 @@ namespace Roadkill.Core
 			int start = username.IndexOf(@"\");
 			if (start > 0)
 			{
-				username = username.Substring(start+1);
+				username = username.Substring(start + 1);
 			}
 
 			username = username.ToLower();
@@ -236,19 +236,23 @@ namespace Roadkill.Core
 					_password = null;
 				}
 
-				using (PrincipalContext context = new PrincipalContext(ContextType.Domain, _domainName,_username,_password))
+				using (PrincipalContext context = new PrincipalContext(ContextType.Domain, _domainName, _username, _password))
 				{
 					if (!string.IsNullOrEmpty(_username))
 					{
 						bool valid = context.ValidateCredentials(_username, _password);
 						if (!valid)
-							throw new SecurityException(null,"Unable to authenticate with '{0}' using '{1}'", _domainName, _username);
+							throw new SecurityException(null, "Unable to authenticate with '{0}' using '{1}'", _domainName, _username);
 					}
 
 					try
 					{
 						using (GroupPrincipal group = GroupPrincipal.FindByIdentity(context, IdentityType.SamAccountName, groupName))
 						{
+							// FindByIdentity returns null if no matches were found
+							if (group == null)
+								throw new InvalidOperationException(string.Format("The group {0} could not be found", groupName));
+
 							using (PrincipalSearchResult<Principal> users = group.GetMembers())
 							{
 								foreach (Principal principle in users)
