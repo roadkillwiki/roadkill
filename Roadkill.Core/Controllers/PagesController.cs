@@ -16,7 +16,7 @@ namespace Roadkill.Core.Controllers
 	/// </summary>
 	[HandleError]
 	public class PagesController : ControllerBase
-    {
+	{
 		/// <summary>
 		/// Displays all pages in Roadkill.
 		/// </summary>
@@ -135,7 +135,7 @@ namespace Roadkill.Core.Controllers
 			PageManager manager = new PageManager();
 			manager.UpdatePage(summary);
 
-			return RedirectToAction("Index", "Wiki", new { id = summary.Id });
+			return RedirectToAction("Index", "Wiki", new { id = summary.Id , nocache = DateTime.Now.Ticks });
 		}
 
 		/// <summary>
@@ -199,7 +199,7 @@ namespace Roadkill.Core.Controllers
 			PageManager manager = new PageManager();
 			summary = manager.AddPage(summary);
 
-			return RedirectToAction("Index", "Wiki", new { id = summary.Id });
+			return RedirectToAction("Index", "Wiki", new { id = summary.Id, nocache = DateTime.Now.Ticks });
 		}
 
 		/// <summary>
@@ -259,5 +259,5 @@ namespace Roadkill.Core.Controllers
 			summary.Content = diffHtml;
 			return View(summary);
 		}
-    }
+	}
 }
