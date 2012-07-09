@@ -8,6 +8,7 @@ using System.Web.Security;
 using System.Web.Management;
 using System.Data.SqlClient;
 using System.IO;
+using System.Web.UI;
 
 namespace Roadkill.Core.Controllers
 {
@@ -15,7 +16,7 @@ namespace Roadkill.Core.Controllers
 	/// Provides file manager functionality for wiki page editing.
 	/// </summary>
 	public class FilesController : ControllerBase
-    {
+	{
 		/// <summary>
 		/// Displays the default file manager.
 		/// </summary>
@@ -176,5 +177,5 @@ namespace Roadkill.Core.Controllers
 
 			return RedirectToAction("Index");
 		}		
-    }
+	}
 }

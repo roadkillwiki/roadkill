@@ -12,7 +12,7 @@ namespace Roadkill.Core.Controllers
 	/// Provides functionality for the /wiki/{id}/{title} route, which all pages are displayed via.
 	/// </summary>
 	public class WikiController : ControllerBase
-    {
+	{
 		/// <summary>
 		/// Displays the wiki page using the provided id.
 		/// </summary>
@@ -47,5 +47,5 @@ namespace Roadkill.Core.Controllers
 
 			return View(summary);
 		}
-    }
+	}
 }

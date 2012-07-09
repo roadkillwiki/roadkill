@@ -12,7 +12,7 @@ namespace Roadkill.Core.Controllers
 	/// Provides help for the 3 supported markup syntax.
 	/// </summary>
 	public class HelpController : ControllerBase
-    {
+	{
 		[EditorRequired]
 		public ActionResult CreoleReference()
 		{
@@ -30,5 +30,5 @@ namespace Roadkill.Core.Controllers
 		{
 			return View(CustomTokenParser.Tokens);
 		}
-    }
+	}
 }

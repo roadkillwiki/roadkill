@@ -14,7 +14,7 @@ namespace Roadkill.Core.Controllers
 	/// All actions related to user based tasks.
 	/// </summary>
 	public class UserController : ControllerBase
-    {
+	{
 		/// <summary>
 		/// Activates a newly registered account.
 		/// </summary>
@@ -113,7 +113,7 @@ namespace Roadkill.Core.Controllers
 				if (!string.IsNullOrWhiteSpace(fromUrl))
 					return Redirect(fromUrl);
 				else
-					return RedirectToAction("Index","Home");
+					return RedirectToAction("Index","Home", new { nocache = DateTime.Now.Ticks });
 			}
 			else
 			{
@@ -128,7 +128,7 @@ namespace Roadkill.Core.Controllers
 		public ActionResult Logout()
 		{
 			UserManager.Current.Logout();
-			return RedirectToAction("Index","Home");
+			return RedirectToAction("Index", "Home", new { nocache = DateTime.Now.Ticks });
 		}
 
 		/// <summary>
@@ -323,5 +323,5 @@ namespace Roadkill.Core.Controllers
 
 			return View();
 		}
-    }
+	}
 }

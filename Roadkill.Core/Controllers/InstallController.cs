@@ -19,7 +19,7 @@ namespace Roadkill.Core.Controllers
 	/// <remarks>If the web.config "installed" setting is "true", then all the actions in
 	/// this controller redirect to the homepage</remarks>
 	public class InstallController : ControllerBase
-    {
+	{
 		/// <summary>
 		/// Displays the start page for the installer (step1).
 		/// </summary>
@@ -207,7 +207,7 @@ namespace Roadkill.Core.Controllers
 			string errors = Install.TestConnection(connectionString, databaseType);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
-    }
+	}
 
 	/// <summary>
 	/// Basic error information for the JSON actions
