@@ -1,0 +1,91 @@
+; Roadkill Install page localization labels.
+
+; Note: any line starting with ; is a comment!
+;Shared buttons and labels
+Install.Shared.Stage1=Welcome
+Install.Shared.Stage2=Database
+Install.Shared.Stage3=Security
+Install.Shared.Stage4=Extras
+Install.Shared.Stage5=Finished
+
+Install.Shared.TestButton=Test
+Install.Shared.BackButton=Back
+Install.Shared.NextButton=Next
+
+Install.Page1.Label1=Thank for you downloading Roadkill .NET Wiki engine. The installer writes the settings you enter here to the web.config file (and also the database). 
+Install.Page1.Label2=In order to proceed, first we need to test if you have write access to the web.config file. 
+
+;Page 2
+Install.Page2.Label1=Below are some required settings for Roadkill to work correctly. You can change these later via the settings page as an admin.
+Install.Page2.Group1Title=Site name
+Install.Page2.Group1Label=The name of the wiki, which appears on certain themes and in signup emails (if enabled). 
+
+Install.Page2.Group2Title=Site url
+Install.Page2.Group2Label=The full url of the wiki, which appears in signup and reset passwords emails (if enabled). Do not include the trailing slash. 
+
+Install.Page2.Group3Title=Database connection string
+Install.Page2.Group3Label=You will need to create the database first if you are using a named instance. Below are a few examples, use the second option is you are using shared hosting without any SQL Server hosting.
+Install.Page2.Group3Label2=Example connection strings
+Install.Page2.Group3Label3=Database type
+
+;Page 3 security
+Install.Page3.Label1=Do you want to users to be authenticated against an Active Directory using Windows authentication?
+Install.Page3.Group1Title=Windows authentication
+Install.Page3.Group1Label=Use windows authentication
+
+;Active Directory security
+Install.Page3.ADGroup1Title=Active Directory LDAP connection string
+Install.Page3.ADGroup1Label1=This should be in the format LDAP://mydc01.company.internal (it should be uppercase LDAP) where mydc01 is your domain controller and 'company' and 'internal' are the dns suffixes for your network. This can also be an IP address. You can usually get this information by running "ipconfig".
+Install.Page3.ADGroup1Label2=The connection string supports OU specifiers however doing it this way can cause issues. If you are unsure about this setting, it's recommended you download AD Explorer first.
+Install.Page3.ADGroup1Label3=Enter a username and password if the user that the app pool is running under does not have read access to Active Directory. This is useful if your domain is a separate forest from the main domain (i.e. another branch office).
+
+Install.Page3.ADGroup2Title=Editor group name
+Install.Page3.ADGroup2Label=This is the security group that users should belong to in order to be editors (people who can edit and create pages). The test button uses the connection settings entered above. 
+Install.Page3.ADGroup3Title=Admin group name
+Install.Page3.ADGroup3Label=This is the security group that users should belong to in order to be admins. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.The test button uses the connection settings entered above.
+
+;Database security
+Install.Page3.DBGroup1Title=Editor role name
+Install.Page3.DBGroup1Label1=This is the name of the editor role - people who can edit and create pages.
+Install.Page3.DBGroup2Title=Admin role name
+Install.Page3.DBGroup2Label1=This is the name of the admin role. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.
+Install.Page3.DBGroup3Title=Allow user signups
+Install.Page3.DBGroup3Label1=Check this option if you want to allow people to signup as a new users. If left unchecked, only admins will be able to create new users. 
+Install.Page3.DBGroup3Label2=Allow new user signups. 
+Install.Page3.DBGroup4Title=Enable Recaptcha
+Install.Page3.DBGroup4Label1=If you are allowing user signups, it's recommended that you also enable Recaptcha support. This is a free anti-spam bot service provided by Google, you will need to signup and copy your public and private key into the fields below. Signup here - you will need to create a google account first.
+Install.Page3.DBGroup4Label2=Enable Recaptcha anti-spam service. 
+Install.Page3.DBGroup4Label3=Public key
+Install.Page3.DBGroup4Label4=Private key
+Install.Page3.DBGroup5Title=Admin email
+Install.Page3.DBGroup5Label1=This is the email address for the admin user. You can add more admins in the settings page, so this user does not 'own' the site
+Install.Page3.DBGroup6Title=Admin password
+Install.Page3.DBGroup6Label1=This is the password for the admin user.
+
+;Page 4
+Install.Page4.Label1=Almost done...Finally some extra tweakable settings. 
+Install.Page4.Group1Title=Attachments folder
+Install.Page4.Group1Label1=This is the directory where all files are uploaded to. This directory will need write permission by the user that the app pool runs under. Most of the time you shouldn't have to worry about changing the permissions for the folder, as they will be inherited from the parent folder. 
+Install.Page4.Group1Label2=Make sure the folder path begins with "~/" for the website root. You should check the folder can be accessed by the browser as well as the being writeable to, as folders such as App_Data and bin can be written to but will not show any images stored there. 
+Install.Page4.Group2Title=Allowed extensions
+Install.Page4.Group2Label1=These are the file extensions that can be uploaded.
+
+Install.Page4.Group2Title=Markup type
+Install.Page4.Group2Label1=This is the markup format that is used. Roadkill currently supports the following values: Creole, Markdown, Mediawiki.
+Install.Page4.Group2Label2=Creole is the recommended format. 
+
+Install.Page4.Group3Title=Markup type
+Install.Page4.Group3Label1=This is the markup format that is used. Roadkill currently supports the following values: Creole, Markdown, Mediawiki.
+
+Install.Page4.Group4Title=Cache
+Install.Page4.Group4Label1=Roadkill uses NHibernate caching along with ASP.NET's output caching. It's recommended that you enable caching to increase the responsiveness of the site. Database caching is not currently supported for for web gardens or web farms. 
+Install.Page4.Group4Label2=This setting only affects database caching, you will need to manually disable output caching in the web.config.
+Install.Page4.Group4Label3=Enable cache 
+Install.Page4.Group4Label4=Cache text content
+Install.Page4.Group4Label5=Unchecking "Cache text content" will mean each page's textual content is loaded from the database.
+
+;Page 5
+Install.Page5.Success.Title=Installation successful
+Install.Page5.Success.Label1=Continue to the site
+Install.Page5.Error.Title=An error occurred during the install
+Install.Page5.Error.Label1=Please go back through the installation steps and check your settings. The error message was
