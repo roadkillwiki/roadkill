@@ -1,0 +1,79 @@
+;
+Global.Buttons.Cancel=Cancel
+Global.Buttons.Save=Save
+Global.Buttons.Preview=Preview
+Global.Buttons.Import=Import
+Global.Buttons.Rename=Rename
+
+Global.NoMainPage.Title=You have no mainpage set
+Global.NoMainPage.Label=To set a main page, create a page and assign the tag 'homepage' to it. 
+
+Global.Navigation.Login=Login
+Global.Navigation.Logout=Logout
+Global.Navigation.LoggedInAs=Logged in as 
+Global.Navigation.MainPage=Main Page
+Global.Navigation.Categories=Categories
+Global.Navigation.All pages=All pages
+Global.Navigation.NewPage=New page
+Global.Navigation.SiteSettings=Site settings
+Global.Navigation.Edit=Edit
+Global.Navigation.History=History
+Global.Navigation.ViewHistory=View History
+
+Global.Page.AddEditPage=Add/edit page
+Global.Page.AllTags=All Tags
+Global.Page.AllPages=All Pages
+
+Global.CreatePage.Title=Title
+Global.CreatePage.Tags=Tags
+Global.CreatePage.AdminOnly=This page can only be edited by administrators.
+
+Global.ForgottenPassword=Forgotten your password?
+
+;Site settings config
+Global.SiteSettings.Configuration=Configuration
+Global.SiteSettings.Users=Users
+Global.SiteSettings.Tools=Tools
+
+Global.SiteSettings.Configuration.SiteName=
+Global.SiteSettings.Configuration.SiteUrl=
+Global.SiteSettings.Configuration.DatabaseType=
+Global.SiteSettings.Configuration.DatabaseConnectionString=
+Global.SiteSettings.Configuration.UseWindowsAuth=
+Global.SiteSettings.Configuration.AllowUserSignups=
+Global.SiteSettings.Configuration.EnableRecaptcha=
+Global.SiteSettings.Configuration.RecaptchaPrivateKey=
+Global.SiteSettings.Configuration.RecaptchaPublicKey=
+Global.SiteSettings.Configuration.EditorRole=
+Global.SiteSettings.Configuration.AdminRole=
+Global.SiteSettings.Configuration.MarkupType=
+Global.SiteSettings.Configuration.Theme=
+Global.SiteSettings.Configuration.Attachments=
+Global.SiteSettings.Configuration.Extensions=
+Global.SiteSettings.Configuration.Caching=
+Global.SiteSettings.Configuration.CachePageText=
+
+;Site Settings users
+Global.SiteSettings.Admins=Admins
+Global.SiteSettings.NewAdmin=New admin user
+Global.SiteSettings.Editors=Editors
+Global.SiteSettings.NewEditor=New editor user
+
+;Site Settings tools
+Global.SiteSettings.Tools.ClearDatabase=Clear the database
+Global.SiteSettings.Tools.ClearDatabase.Label=Clears all pages and text from the database. This does not remove any users. 
+Global.SiteSettings.Tools.RebuildSearch=Rebuild search index
+Global.SiteSettings.Tools.RebuildSearch.Label=Forces a re-build of the page search index, useful if the search begins to get out of sync for any reason. 
+Global.SiteSettings.Tools.ExportXml=Export to XML
+Global.SiteSettings.Tools.ExportXml.Label=Exports all page text content and all history as a single XML file. 
+Global.SiteSettings.Tools.ExportContent=Export all content as a zip
+Global.SiteSettings.Tools.ExportContent.Label=Exports all pages, including text content as a series of ".wiki" files. Only the current content and tags are included, no history is provided. This zip file does not include the attachments folder. 
+Global.SiteSettings.Tools.ExportAttachments=Export attachments as a zip
+Global.SiteSettings.Tools.ExportAttachments.Label=Exports all the contents of attachments folder and subfolders as a zip file. 
+Global.SiteSettings.Tools.ScrewTurnImport=Import from screwturn
+Global.SiteSettings.Tools.ScrewTurnImport.Label=Imports all content from a Screwturn 2 database. You will need to set the markuptype to MediaWiki in the settings/web.config file for the format to be compatible. As screwturn uses as variation on the mediawiki syntax, some content will not render perfectly. This includes some images and links.
+Global.SiteSettings.Tools.ScrewTurnImport.Connection=Screwturn connection string:
+Global.SiteSettings.Tools.RenameTag=Rename a tag
+Global.SiteSettings.Tools.RenameTag.Label=This will rename a tag, and update all pages that reference the tag to use the new tagname. The tagname is case sensitive.
+Global.SiteSettings.Tools.RenameTag.Existing=Existing tag
+Global.SiteSettings.Tools.RenameTag.New=New tag name
