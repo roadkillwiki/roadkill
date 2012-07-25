@@ -29,25 +29,25 @@ $(document).ready(function()
 });
 </script>
 
-<p>Thank for you downloading Roadkill .NET Wiki engine. The installer writes the settings you enter here to the web.config file
-(and also the database).
+<p>
+@InstallStrings.Page1_Label1
 </p>
 	
 <p>
-In order to proceed, first we need to test if you have write access to the web.config file.
+@InstallStrings.Page1_Label2
 </p>
 
-<input id="testwebconfig" class="button" type="button" value="Test" />
+<input id="testwebconfig" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
 <br /><br />
 	
 <div id="webconfig-success" class="success alert hidden">
-	<h2>Success!</h2>
-	<p>The web.config can be written to.</p>
+	<h2>@InstallStrings.Shared_Success</h2>
+	<p>@InstallStrings.Page1_WebConfig_Success_Message</p>
 </div>
 
 <div id="webconfig-failure" class="failure alert hidden">
-	<h2>Failure!</h2>
-	<p>Unable to write to the web.config file: <span class="errormessage"></span></p>
+	<h2>@InstallStrings.Shared_Failure</h2>
+	<p>@InstallStrings.Page1_WebConfig_Failure_Message: <span class="errormessage"></span></p>
 </div>
 
 <div class="continue hidden">@Html.ActionLink("Continue >","Step2")</div>
