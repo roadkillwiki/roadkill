@@ -1,0 +1,144 @@
+﻿; Note: any line starting with ; is a comment!
+; This file contains Roadkill site-wide localization strings.
+;
+; Notes for translators:
+; - Please make a copy of this file before editing. A list of cultures/languages can be found here:
+; - http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo(v=vs.71).aspx
+; 
+; Notes for developers:
+; - This file should be turned into a resx file by running resgen /compile Site.txt, Site.resx in a VS command prompt.
+; - The name of this file should be in the format "Site.(culture-name).txt", e.g. "Site.en-GB.txt"
+; - The output resx file should then be copied + pasted into the site's Resx folder inside VS2010, 
+; - The build properties for the file changed to "Embedded resource" and the custom tool changed to "PublicResXFileCodeGenerator"
+; - Delete the .resx file from the "Text" folder once you've copied it over.
+
+Navigation_Login=Login
+Navigation_Logout=Logout
+Navigation_LoggedInAs=Logged in as 
+Navigation_MainPage=Main Page
+Navigation_Categories=Categories
+Navigation_AllPages=All pages
+Navigation_NewPage=New page
+Navigation_SiteSettings=Site settings
+Navigation_Edit=Edit
+Navigation_Delete=Delete
+Navigation_History=History
+Navigation_ViewHistory=View History
+
+Login_Email=Email
+Login_Password=Password
+Login_ForgottenPassword=Forgotten your password?
+
+NoMainPage_Title=You have no mainpage set
+NoMainPage_Label=To set a main page, create a page and assign the tag 'homepage' to it. 
+
+Search_PlaceHolder=Enter text to search
+Search_Results=Search results for '{0}'
+Search_NoResults=Your search '{0}' did not match any pages
+
+Page_AllTags=All Tags
+Page_AllPages=All Pages
+Page_AddEditPage=Add/edit page
+
+CreatePage_Title=Title
+CreatePage_Tags=Tags
+CreatePage_AdminOnly=This page can only be edited by administrators.
+CreatePage_RequiredField=This field is required.
+CreatePage_ChooseFile=Choose a file
+CreatePage_UploadFile=Upload a file
+CreatePage_NewDirectory=New directory
+CreatePage_Link_PlaceHolder=enter url or page name|Link text
+
+Button_Login=Login
+Button_Cancel=Cancel
+Button_Save=Save
+Button_Preview=Preview
+Button_Import=Import
+Button_Rename=Rename
+Button_Upload=Upload
+Button_Search=Search
+
+; Site settings config
+SiteSettings_Configuration=Configuration
+SiteSettings_Users=Users
+SiteSettings_Tools=Tools
+
+SiteSettings_Configuration_SiteName=Site name
+SiteSettings_Configuration_SiteUrl=Site url
+SiteSettings_Configuration_ConnectionStrings=Connection strings
+SiteSettings_Configuration_DatabaseType=Database type
+SiteSettings_Configuration_DatabaseConnectionString=Database connection string
+SiteSettings_Configuration_UseWindowsAuth=Use Windows Authentication
+SiteSettings_Configuration_AllowUserSignups=Allow user signups
+SiteSettings_Configuration_EnableRecaptcha=Enable recaptcha
+SiteSettings_Configuration_RecaptchaPrivateKey=Recaptcha private key
+SiteSettings_Configuration_RecaptchaPublicKey=Recaptcha public key
+SiteSettings_Configuration_AD_Connection=Authentication/LDAP connection string:
+SiteSettings_Configuration_AD_Username=LDAP username:
+SiteSettings_Configuration_AD_Password=LDAP password:
+SiteSettings_Configuration_EditorRole=Editor role/security group name
+SiteSettings_Configuration_AdminRole=Admin role/security group name
+SiteSettings_Configuration_MarkupType=Markup type
+SiteSettings_Configuration_Theme=Theme
+SiteSettings_Configuration_Attachments=Attachments folder
+SiteSettings_Configuration_Extensions=Allowed extensions
+SiteSettings_Configuration_Caching=Caching
+SiteSettings_Configuration_CachePageText=Cache page text
+
+; TODO: help labels for configuration
+SiteSettings_Configuration_SiteName_Help=The name of the site, which is used in certain themes.
+SiteSettings_Configuration_SiteUrl_Help=The url of the site, which is used in signup and reset password emails.  Do not include the trailing slash.
+SiteSettings_Configuration_ConnectionStrings_Help=Changes your database type - you will need to recreate the schema in the tools for this to work correctly.
+SiteSettings_Configuration_DatabaseType_Help=Changes your database type - you will need to recreate the schema in the tools for this to work correctly.
+SiteSettings_Configuration_DatabaseConnectionString_Help=The database connection string.
+SiteSettings_Configuration_UseWindowsAuth_Help=<b>WARNING</b> changing this may lock you out of the site. Make a backup of your web.config first before saving.<br/><br/> Sets whether to use Windows Authentication and Active Directory for authentication.
+SiteSettings_Configuration_AllowUserSignups_Help=Check this option if you want to allow people to signup as a new users.
+SiteSettings_Configuration_EnableRecaptcha_Help=Enable Recaptcha support - a free anti-spam bot service. You will need to signup and copy your public and private key into the fields below.
+SiteSettings_Configuration_RecaptchaPrivateKey_Help=The private key for Recaptcha, which is provided when you signup with recaptcha.
+SiteSettings_Configuration_RecaptchaPublicKey_Help=The public key for Recaptcha, which is provided when you signup with recaptcha.
+SiteSettings_Configuration_AD_Connection_Help=The LDAP connection string for the Active Directory connection.This should be in the format LDAP://mydc01.company.internal (it should be uppercase LDAP).
+SiteSettings_Configuration_AD_Username_Help=The username to authenticate against the Active Directory with. Leave blank if the app pool is running under a user with this permission.
+SiteSettings_Configuration_AD_Password_Help=The password to use for authentication.
+SiteSettings_Configuration_EditorRole_Help=This is the name of the editor role - people who can edit and create pages.
+SiteSettings_Configuration_AdminRole_Help=<b>WARNING</b> changing this may lock you out of the site. Make a backup of your web.config first before saving. <br/><br/>This is the name of the admin role. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.
+SiteSettings_Configuration_MarkupType_Help=This is the markup format that is used. Roadkill currently supports the following values: Creole, Markdown, Mediawiki.
+SiteSettings_Configuration_Theme_Help=This is the theme that the site uses. This should match a folder name in the Themes directory.
+SiteSettings_Configuration_Attachments_Help=This is the directory where all files are uploaded to. This setting should start with ~/ to indicate the site root folder.
+SiteSettings_Configuration_Extensions_Help=These are the file extensions that can be uploaded, comma separated.
+SiteSettings_Configuration_Caching_Help=Enable NHibernate caching. Roadkill uses NHibernate caching along with ASP.NET's output caching. It's recommended that you enable caching to increase the responsiveness of the site. Database caching is not currently supported for for web gardens or web farms.
+SiteSettings_Configuration_CachePageText_Help=Cache text content. Unchecking this will mean each page's textual content is loaded from the database each time.
+
+; Site Settings users
+SiteSettings_Admins=Admins
+SiteSettings_NewAdmin=New admin user
+SiteSettings_Editors=Editors
+SiteSettings_NewEditor=New editor user
+SiteSettings_Username_Title=Username
+SiteSettings_Email_Title=Email
+SiteSettings_Password_Title=Password
+SiteSettings_PasswordConfirm_Title=Password (confirm)
+SiteSettings_AddAdminDialog_Title=Add admin
+SiteSettings_AddEditorDialog_Title=Add editor
+SiteSettings_AddUserDialog_Help=For existing users, leave the password fields blank to change just the username.
+SiteSettings_AddUserDialog_Error=Unable to save the user details
+; Used for missing fields, e.g. "The username field is required"
+SiteSettings_AddUserDialog_RequiredField=is required
+
+; Site Settings tools
+SiteSettings_Tools_ClearDatabase=Clear the database
+SiteSettings_Tools_ClearDatabase_Label=Clears all pages and text from the database. This does not remove any users. 
+SiteSettings_Tools_RebuildSearch=Rebuild search index
+SiteSettings_Tools_RebuildSearch_Label=Forces a re-build of the page search index, useful if the search begins to get out of sync for any reason. 
+SiteSettings_Tools_ExportXml=Export to XML
+SiteSettings_Tools_ExportXml_Label=Exports all page text content and all history as a single XML file. 
+SiteSettings_Tools_ExportContent=Export all content as a zip
+SiteSettings_Tools_ExportContent_Label=Exports all pages, including text content as a series of ".wiki" files. Only the current content and tags are included, no history is provided. This zip file does not include the attachments folder. 
+SiteSettings_Tools_ExportAttachments=Export attachments as a zip
+SiteSettings_Tools_ExportAttachments_Label=Exports all the contents of attachments folder and subfolders as a zip file. 
+SiteSettings_Tools_ScrewTurnImport=Import from screwturn
+SiteSettings_Tools_ScrewTurnImport_Label=Imports all content from a Screwturn 2 database. You will need to set the markuptype to MediaWiki in the settings/web.config file for the format to be compatible. As screwturn uses as variation on the mediawiki syntax, some content will not render perfectly. This includes some images and links.
+SiteSettings_Tools_ScrewTurnImport_Connection=Screwturn connection string:
+SiteSettings_Tools_RenameTag=Rename a tag
+SiteSettings_Tools_RenameTag_Label=This will rename a tag, and update all pages that reference the tag to use the new tagname. The tagname is case sensitive.
+SiteSettings_Tools_RenameTag_Existing=Existing tag
+SiteSettings_Tools_RenameTag_New=New tag name

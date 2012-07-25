@@ -350,5 +350,38 @@ namespace Roadkill.Core
 				throw new DatabaseException(ex, "An error occurred while changing the tagname {0} to {1}", oldTagName, newTagName);
 			}
 		}
+
+		/// <summary>
+		/// Renames all pages' CreatedBy, EditedBy properties when a username is changed.
+		/// </summary>
+		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while saving one of the pages.</exception>
+		/// <exception cref="SearchException">An error occurred updating the search index.</exception>
+		public void UpdateForUsernameChange(string oldUsername, string newUsername)
+		{
+			try
+			{
+				IEnumerable<Page> createdPages = Pages.Where(p => p.CreatedBy == oldUsername);
+				foreach (Page page in createdPages)
+				{
+					page.CreatedBy = newUsername;
+					NHibernateRepository.Current.SaveOrUpdate<Page>(page);
+
+					SearchManager.Current.Delete(page.ToSummary());
+				}
+
+				IEnumerable<Page> editedPages = Pages.Where(p => p.ModifiedBy == oldUsername);
+				foreach (Page page in editedPages)
+				{
+					page.ModifiedBy = newUsername;
+					NHibernateRepository.Current.SaveOrUpdate<Page>(page);
+
+					SearchManager.Current.Delete(page.ToSummary());
+				}
+			}
+			catch (HibernateException ex)
+			{
+				throw new DatabaseException(ex, "An error occurred while updating the pages for a username change from {0} to {1}", oldUsername, newUsername);
+			}
+		}
 	}
 }

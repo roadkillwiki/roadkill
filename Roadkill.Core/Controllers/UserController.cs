@@ -165,10 +165,14 @@ namespace Roadkill.Core.Controllers
 			{
 				try
 				{
-					if (!UserManager.Current.UpdateUser(summary))
+					if (UserManager.Current.UpdateUser(summary))
+					{
+						PageManager pageManager = new PageManager();
+						pageManager.UpdateForUsernameChange(summary.ExistingUsername, summary.NewUsername);
+					}
+					else
 					{
 						ModelState.AddModelError("General", "An error occurred updating your profile");
-
 						summary.ExistingEmail = summary.NewEmail;
 					}
 
