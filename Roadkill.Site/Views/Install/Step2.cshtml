@@ -33,14 +33,16 @@ $(document).ready(function()
 });
 </script>
 
-<p>Below are some required settings for Roadkill to work correctly. You can change these later via the settings page as an admin.</p>
+<p>
+@InstallStrings.Page2_Label1
+</p>
 
 @using (Html.BeginForm("Step3","Install"))
 {
 	<fieldset>
-		<legend><span>Site name</span></legend>
+		<legend><span>@InstallStrings.Page2_Group1_Title</span></legend>
 		<label class="textbox">
-			The name of the wiki, which appears on certain themes and in signup emails (if enabled).
+			@InstallStrings.Page2_Group1_Label
 		</label>
 
 		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.SiteName, new { @class = "validate[required]" }))</div>
@@ -48,9 +50,9 @@ $(document).ready(function()
 	<br />
 	
 	<fieldset>
-		<legend><span>Site url</span></legend>
+		<legend><span>@InstallStrings.Page2_Group2_Title</span></legend>
 		<label class="textbox">
-			The full url of the wiki, which appears in signup and reset passwords emails (if enabled). Do not include the trailing slash.
+			@InstallStrings.Page2_Group2_Label
 		</label>
 
 		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.SiteUrl, new { @class = "validate[required]" }))</div>
@@ -58,13 +60,12 @@ $(document).ready(function()
 	<br />
 	
 	<fieldset>
-		<legend><span>Database connection string</span></legend>
+		<legend><span>@InstallStrings.Page2_Group3_Title</span></legend>
 		<label>
-			You will need to create the database first if you are using a named instance. Below are a few examples, use
-			the second option is you are using shared hosting without any SQL Server hosting.
+			@InstallStrings.Page2_Group3_Label
 		</label>
 		<br />
-		<h2>Example connection strings</h2>
+		<h2>@InstallStrings.Page2_Group3_Label2</h2>
 		<div class="small">
 			<ol>
 				<li>
@@ -87,31 +88,31 @@ $(document).ready(function()
 				
 			</ol>
 			
-			<h3>Database type:</h3>
+			<h3>@InstallStrings.Page2_Group3_Label3</h3>
 			@Html.DropDownBoxForDatabaseType()
 
 			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.ConnectionString, new { @class = "validate[required]" }))</div>
-			<input id="testdbconnection" class="button" type="button" value="Test" />
+			<input id="testdbconnection" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
 
 			<div id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" alt="loading" /></div>
 			<div id="connectionsuccess" class="success alert hidden">
-				<h2>Success!</h2>
-				<p>The database connection is was successful.</p>
+				<h2>@InstallStrings.Shared_Success</h2>
+				<p>@InstallStrings.Page2_Success</p>
 			</div>
 
 			<div id="connectionfailure" class="failure alert hidden">
-				<h2>Failure!</h2>
-				<p>Unable to connect: <span class="errormessage"></span></p>
+				<h2>@InstallStrings.Shared_Failure</h2>
+				<p>@InstallStrings.Page2_Error&nbsp;<span class="errormessage"></span></p>
 			</div>
 		</div>
 		
 	</fieldset>
 
 	<div>
-		<div class="previous">@Html.ActionLink("< Back", "Index")</div>
+		<div class="previous">@Html.ActionLink("< " + InstallStrings.Shared_Back, "Index")</div>
 	
 		<div class="continue">
-			<input type="submit" value="Next" class="button next" />
+			<input type="submit" value="@InstallStrings.Shared_NextButton" class="button next" />
 		</div>
 	</div>
 }

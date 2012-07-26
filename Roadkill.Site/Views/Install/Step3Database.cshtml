@@ -10,8 +10,10 @@
 	});
 </script>
 
-<p>All passwords are one-way encrypted using SHA128 and a salt. This means passwords are not recoverable
-and will require and admin to reset them (there is no reset password functionality yet). The minimum password length is 6 characters.</p>
+<p>
+@InstallStrings.Page3_DB_Label
+</p>
+
 @using (Html.BeginForm("Step4","Install"))
 {
 	@(Html.HiddenFor<SettingsSummary, string>(h => h.ConnectionString))
@@ -21,76 +23,71 @@ and will require and admin to reset them (there is no reset password functionali
 	@(Html.HiddenFor<SettingsSummary, bool>(h => h.UseWindowsAuth))
 	
 	<fieldset>
-		<legend>Editor role name</legend>
-		<label>This is the name of the editor role - people who can edit and create pages.</label>
+		<legend>@InstallStrings.Page3_DB_Group1_Title</legend>
+		<label>@InstallStrings.Page3_DB_Group1_Label1</label>
 
 		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.EditorRoleName, new { @class = "validate[required]" }))</div>
 	</fieldset>
 	
 	<fieldset>
-		<legend>Admin role name</legend>
-		<label>This is the name of the admin role. Admins have the same rights as editors, but also
-		have access to configuration settings and tools for the site.</label>
+		<legend>@InstallStrings.Page3_DB_Group2_Title</legend>
+		<label>@InstallStrings.Page3_DB_Group2_Label1</label>
 
 		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminRoleName, new { @class = "validate[required]" }))</div>
 	</fieldset>
 	
 	<fieldset>
-		<legend>Allow user signups</legend>
-		<label>
-		Check this option if you want to allow people to signup as a new users. If left unchecked, only admins will be able to create new users.
-		</label>
+		<legend>@InstallStrings.Page3_DB_Group3_Title</legend>
+		<label>@InstallStrings.Page3_DB_Group3_Label1</label>
 		<br />
 
 		<div>
 			<div class="left">
 				@(Html.CheckBoxFor<SettingsSummary>(s => s.AllowUserSignup))
-				Allow new user signups.
+				@InstallStrings.Page3_DB_Group3_Label2
 			</div>
 		</div>
 	</fieldset>
 	
 	<fieldset>
-		<legend>Enable Recaptcha</legend>
-		<label>If you are allowing user signups, it's recommended that you also enable Recaptcha support. This is a free anti-spam bot service
-		provided by Google, you will need to signup and copy your public and private key into the fields below. 
-		<a href="https://www.google.com/recaptcha/admin/create" target="_blank">Signup here</a> - you will need to create a google account first..</label>
+		<legend>@InstallStrings.Page3_DB_Group4_Title</legend>
+		<label>@Html.Raw(InstallStrings.Page3_DB_Group4_Label1)</label>
 
 		<div>
 			<div class="left">
 				@(Html.CheckBoxFor<SettingsSummary>(s => s.EnableRecaptcha))
-				Enable Recaptcha anti-spam service.
+				@InstallStrings.Page3_DB_Group4_Label2
 			</div>
 		</div>
 		<br class="clear" />
 
-		<label>Public key</label>
+		<label>@InstallStrings.Page3_DB_Group4_Label3</label>
 		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.RecaptchaPublicKey))</div>
 		
-		<label>Private key</label>
+		<label>@InstallStrings.Page3_DB_Group4_Label4</label>
 		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.RecaptchaPrivateKey))</div>
 	</fieldset>
 	
 	<fieldset>
-		<legend>Admin email</legend>
-		<label>This is the email address for the admin user. You can add more admins in the settings page, so this user does not 'own' the site</label>
+		<legend>@InstallStrings.Page3_DB_Group5_Title</legend>
+		<label>@InstallStrings.Page3_DB_Group5_Label1</label>
 
-		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminEmail, new { @class = "validate[required]" }))</div>
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminEmail, new { autocomplete = "off", @class = "validate[required]" }))</div>
 	</fieldset>
 	
 	<fieldset>
-		<legend>Admin password</legend>
-		<label>This is the password for the admin user.</label>
+		<legend>@InstallStrings.Page3_DB_Group6_Title</legend>
+		<label>@InstallStrings.Page3_DB_Group6_Label1</label>
 
-		<div class="textbox">@(Html.PasswordFor<SettingsSummary, string>(s => s.AdminPassword, new { @class = "validate[required,minSize[6]]" }))</div>
-		<div class="textbox">@(Html.Password("password2", null, new { @class = "validate[equals[AdminPassword]]" }))</div>
+		<div class="textbox">@(Html.PasswordFor<SettingsSummary, string>(s => s.AdminPassword, new { autocomplete = "off", @class = "validate[required,minSize[6]]" }))</div>
+		<div class="textbox">@(Html.Password("password2", null, new { autocomplete = "off", @class = "validate[equals[AdminPassword]]" }))</div>
 	</fieldset>
 
 	<div>
-		<div class="previous"><a href="javascript:history.go(-1)">&lt; Back</a></div>
+		<div class="previous"><a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a></div>
 	
 		<div class="continue">
-			<input type="submit" class="button" value="Next" />
+			<input type="submit" class="button" value="@InstallStrings.Shared_NextButton" />
 		</div>
 	</div>
 }

@@ -10,7 +10,9 @@
 	});
 </script>
 
-<p>Do you want to users to be authenticated against an Active Directory using Windows authentication?</p>
+<p>
+@InstallStrings.Page3_Label1
+</p>
 
 @using (Html.BeginForm("Step3b","Install"))
 {
@@ -19,17 +21,17 @@
 	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteUrl))
 	@(Html.HiddenFor<SettingsSummary, DatabaseType>(h => h.DatabaseType))
 	<fieldset>
-		<legend>Windows authentication</legend>
+		<legend>@InstallStrings.Page3_Group1_Title</legend>
 		<br />
-		@(Html.CheckBoxFor<SettingsSummary>(s => s.UseWindowsAuth)) Use windows authentication
+		@(Html.CheckBoxFor<SettingsSummary>(s => s.UseWindowsAuth)) @InstallStrings.Page3_Group1_Label
 		<br /><br />
 	</fieldset>
 
 	<div>
-		<div class="previous"><a href="javascript:history.go(-1)">&lt; Back</a></div>
+		<div class="previous"><a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a></div>
 	
 		<div class="continue">
-			<input type="submit" value="Next" class="button" />
+			<input type="submit" value="@InstallStrings.Shared_NextButton" class="button" />
 		</div>
 	</div>
 }

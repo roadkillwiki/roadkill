@@ -525,6 +525,7 @@ namespace Roadkill.Core
 						IList<PageContent> pageContents = PageContents.Where(p => p.EditedBy == summary.ExistingUsername).ToList();
 						for (int i = 0; i < pageContents.Count; i++)
 						{
+							NHibernateUtil.Initialize(pageContents[i].Page); // force the proxy to hydrate
 							pageContents[i].EditedBy = summary.NewUsername;
 							NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContents[i]);
 						}

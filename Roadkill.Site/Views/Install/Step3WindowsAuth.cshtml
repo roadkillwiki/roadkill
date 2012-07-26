@@ -57,91 +57,85 @@
 	@(Html.HiddenFor<SettingsSummary, bool>(h => h.UseWindowsAuth))
 	
 	<fieldset>
-		<legend>Active Directory LDAP connection string</legend>
+		<legend>@InstallStrings.Page3_AD_Group1_Title</legend>
 		<label>
-			This should be in the format LDAP://mydc01.company.internal (it should be uppercase LDAP) where mydc01 is your domain controller and 'company'
-			and 'internal' are the dns suffixes for your network. This can also be an IP address. You can usually get this information by running "ipconfig".
+			@InstallStrings.Page3_AD_Group1_Label1
 			<br /><br />
-			The connection string supports OU specifiers however doing it this way can cause issues. If you are unsure about this setting, 
-			it's recommended you download <a href="http://technet.microsoft.com/en-us/sysinternals/bb963907">AD Explorer</a> first.
+			@Html.Raw(InstallStrings.Page3_AD_Group1_Label2)
 			<br /><br />
-			Enter a username and password if the user that the app pool is running under does not have read access to Active Directory. This is 
-			useful if your domain is a separate forest from the main domain (i.e. another branch office).
+			@InstallStrings.Page3_AD_Group1_Label3
 		</label>
 
 		<div class="small">
 			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.LdapConnectionString, new { @class = "validate[required]" }))</div>
 			<div class="textbox">
-				Username:<br />
+				@InstallStrings.Page3_AD_Group2_Label1<br />
 				@(Html.TextBoxFor<SettingsSummary, string>(s => s.LdapUsername, new { autocomplete = "off" }))
 			</div>
 			<div class="textbox">
-				Password:<br />
+				@InstallStrings.Page3_AD_Group2_Label2<br />
 				@(Html.PasswordFor<SettingsSummary, string>(s => s.LdapPassword, new { autocomplete = "off" }))
 			</div>
 
-			<input id="testldap" class="button" type="button" value="Test" />
+			<input id="testldap" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
 			<div id="ldap-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
 			<div id="ldapconnectionsuccess" class="success alert hidden">
-				<h2>Success!</h2>
-				<p>The connection and authentication with the Active Directory server was successful.</p>
+				<h2>@InstallStrings.Shared_Success</h2>
+				<p>@InstallStrings.Page3_AD_Connection_Success</p>
 			</div>
 
 			<div id="ldapconnectionfailure" class="failure alert hidden">
-				<h2>Failure!</h2>
-				<p>Unable to connect to the Active Directory server: <span class="errormessage"></span></p>
+				<h2>@InstallStrings.Shared_Failure</h2>
+				<p>@InstallStrings.Page3_AD_Connection_Error&nbsp;<span class="errormessage"></span></p>
 			</div>
 		</div>
 	</fieldset>
 
 	<fieldset>
-		<legend>Editor group name</legend>
-		<label>This is the security group that users should belong to in order to be editors (people who can edit and create pages).
-		The test button uses the connection settings entered above.
-		</label>
+		<legend>@InstallStrings.Page3_AD_Group3_Title</legend>
+		<label>@InstallStrings.Page3_AD_Group3_Label</label>
 
 		<div class="small">
 			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.EditorRoleName, new { @class = "validate[required]" }))</div>
-			<input id="testeditor" class="button" type="button" value="Test" />
+			<input id="testeditor" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
 			<div id="editor-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
 			<div id="editor-connectionsuccess" class="success alert hidden">
-				<h2>Success!</h2>
-				<p>The group was queried sucessfully.</p>
+				<h2>@InstallStrings.Shared_Success</h2>
+				<p>@InstallStrings.Page3_AD_Success</p>
 			</div>
 
 			<div id="editor-connectionfailure" class="failure alert hidden">
-				<h2>Failure!</h2>
-				<p><span class="errormessage"></span></p>
+				<h2>@InstallStrings.Shared_Failure</h2>
+				<p>@InstallStrings.Page3_AD_Error&nbsp;<span class="errormessage"></span></p>
 			</div>
 		</div>
 	</fieldset>
 	
 	<fieldset>
-		<legend>Admin group name</legend>
-		<label>This is the security group that users should belong to in order to be admins. Admins have the same rights as editors, but also
-		have access to configuration settings and tools for the site.The test button uses the connection settings entered above.</label>
+		<legend>@InstallStrings.Page3_AD_Group4_Title</legend>
+		<label>@InstallStrings.Page3_AD_Group4_Label</label>
 
 		<div class="small">
 			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminRoleName, new { @class = "validate[required]" }))</div>
-			<input id="testadmin" class="button" type="button" value="Test" />
+			<input id="testadmin" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
 			<div id="admin-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
 			<div id="admin-connectionsuccess" class="success alert hidden">
-				<h2>Success!</h2>
-				<p>The group was queried sucessfully.</p>
+				<h2>@InstallStrings.Shared_Success</h2>
+				<p>@InstallStrings.Page3_AD_Success</p>
 			</div>
 
 			<div id="admin-connectionfailure" class="failure alert hidden">
-				<h2>Failure!</h2>
-				<p>Unable to query: <span class="errormessage"></span></p>
+				<h2>@InstallStrings.Shared_Failure</h2>
+				<p>@InstallStrings.Page3_AD_Error&nbsp;<span class="errormessage"></span></p>
 			</div>
 		</div>
 	</fieldset>
 
 	<div>
-		<div class="previous"><a href="javascript:history.go(-1)">&lt; Back</a></div>
+		<div class="previous"><a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a></div>
 	
 		<div class="continue">
-			<input type="submit" class="button" value="Next" />
+			<input type="submit" class="button" value="@InstallStrings.Shared_NextButton" />
 		</div>
 	</div>
 }
