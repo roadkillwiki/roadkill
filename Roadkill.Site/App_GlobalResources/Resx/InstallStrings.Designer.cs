@@ -196,6 +196,24 @@ namespace Roadkill.Site.App_GlobalResources.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to connect to the Active Directory server:.
+        /// </summary>
+        public static string Page3_AD_Connection_Error {
+            get {
+                return ResourceManager.GetString("Page3_AD_Connection_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The connection and authentication with the Active Directory server was successful..
+        /// </summary>
+        public static string Page3_AD_Connection_Success {
+            get {
+                return ResourceManager.GetString("Page3_AD_Connection_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to query:.
         /// </summary>
         public static string Page3_AD_Error {
@@ -214,7 +232,7 @@ namespace Roadkill.Site.App_GlobalResources.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The connection string supports OU specifiers however doing it this way can cause issues. If you are unsure about this setting, it&apos;s recommended you download AD Explorer first..
+        ///   Looks up a localized string similar to The connection string supports OU specifiers however doing it this way can cause issues. If you are unsure about this setting, it&apos;s recommended you download &lt;a href=&quot;http://technet.microsoft.com/en-us/sysinternals/bb963907&quot;&gt;AD Explorer&lt;/a&gt; first..
         /// </summary>
         public static string Page3_AD_Group1_Label2 {
             get {
@@ -241,25 +259,25 @@ namespace Roadkill.Site.App_GlobalResources.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Username:.
+        /// </summary>
+        public static string Page3_AD_Group2_Label1 {
+            get {
+                return ResourceManager.GetString("Page3_AD_Group2_Label1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password:.
+        /// </summary>
+        public static string Page3_AD_Group2_Label2 {
+            get {
+                return ResourceManager.GetString("Page3_AD_Group2_Label2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This is the security group that users should belong to in order to be editors (people who can edit and create pages). The test button uses the connection settings entered above. .
-        /// </summary>
-        public static string Page3_AD_Group2_Label {
-            get {
-                return ResourceManager.GetString("Page3_AD_Group2_Label", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Editor group name.
-        /// </summary>
-        public static string Page3_AD_Group2_Title {
-            get {
-                return ResourceManager.GetString("Page3_AD_Group2_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This is the security group that users should belong to in order to be admins. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.The test button uses the connection settings entered above..
         /// </summary>
         public static string Page3_AD_Group3_Label {
             get {
@@ -268,11 +286,29 @@ namespace Roadkill.Site.App_GlobalResources.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Admin group name.
+        ///   Looks up a localized string similar to Editor group name.
         /// </summary>
         public static string Page3_AD_Group3_Title {
             get {
                 return ResourceManager.GetString("Page3_AD_Group3_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is the security group that users should belong to in order to be admins. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.The test button uses the connection settings entered above..
+        /// </summary>
+        public static string Page3_AD_Group4_Label {
+            get {
+                return ResourceManager.GetString("Page3_AD_Group4_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Admin group name.
+        /// </summary>
+        public static string Page3_AD_Group4_Title {
+            get {
+                return ResourceManager.GetString("Page3_AD_Group4_Title", resourceCulture);
             }
         }
         
@@ -349,7 +385,7 @@ namespace Roadkill.Site.App_GlobalResources.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If you are allowing user signups, it&apos;s recommended that you also enable Recaptcha support. This is a free anti-spam bot service provided by Google, you will need to signup and copy your public and private key into the fields below. Signup here - you will need to create a google account first..
+        ///   Looks up a localized string similar to If you are allowing user signups, it&apos;s recommended that you also enable Recaptcha support. This is a free anti-spam bot service provided by Google, you will need to signup and copy your public and private key into the fields below. &lt;a href=&quot;https://www.google.com/recaptcha/admin/create&quot; target=&quot;_blank&quot;&gt;Signup here&lt;/a&gt; - you will need to create a google account first..
         /// </summary>
         public static string Page3_DB_Group4_Label1 {
             get {
@@ -426,6 +462,15 @@ namespace Roadkill.Site.App_GlobalResources.Resx {
         public static string Page3_DB_Group6_Title {
             get {
                 return ResourceManager.GetString("Page3_DB_Group6_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All passwords are one-way encrypted using SHA128 and a salt. This means passwords are not recoverable and will require and admin to reset them (there is no reset password functionality yet). The minimum password length is 6 characters..
+        /// </summary>
+        public static string Page3_DB_Label {
+            get {
+                return ResourceManager.GetString("Page3_DB_Label", resourceCulture);
             }
         }
         
@@ -520,7 +565,7 @@ namespace Roadkill.Site.App_GlobalResources.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This is the markup format that is used. Roadkill currently supports the following values: Creole, Markdown, Mediawiki..
+        ///   Looks up a localized string similar to This is the theme that the site uses. This should match a folder name in the Themes directory..
         /// </summary>
         public static string Page4_Group3_Label1 {
             get {
@@ -529,16 +574,7 @@ namespace Roadkill.Site.App_GlobalResources.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Creole is the recommended format. .
-        /// </summary>
-        public static string Page4_Group3_Label2 {
-            get {
-                return ResourceManager.GetString("Page4_Group3_Label2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Markup type.
+        ///   Looks up a localized string similar to Theme.
         /// </summary>
         public static string Page4_Group3_Title {
             get {
@@ -552,6 +588,15 @@ namespace Roadkill.Site.App_GlobalResources.Resx {
         public static string Page4_Group4_Label1 {
             get {
                 return ResourceManager.GetString("Page4_Group4_Label1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creole is the recommended format. .
+        /// </summary>
+        public static string Page4_Group4_Label2 {
+            get {
+                return ResourceManager.GetString("Page4_Group4_Label2", resourceCulture);
             }
         }
         
@@ -628,7 +673,7 @@ namespace Roadkill.Site.App_GlobalResources.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please go back through the installation steps and check your settings. The error message was.
+        ///   Looks up a localized string similar to Please go back through the installation steps and check your settings. The error message was:.
         /// </summary>
         public static string Page5_Error_Label1 {
             get {
@@ -642,6 +687,24 @@ namespace Roadkill.Site.App_GlobalResources.Resx {
         public static string Page5_Error_Title {
             get {
                 return ResourceManager.GetString("Page5_Error_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you are using IIS7+ you may need to configure the web.config file for your security setup, below are the elements that are required.If you receive 500 errors after making these changes, then the section is locked at a parent level, and you will need to make thechanges via the IIS manager..
+        /// </summary>
+        public static string Page5_Success_AD_Label {
+            get {
+                return ResourceManager.GetString("Page5_Success_AD_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows Authentication - please read.
+        /// </summary>
+        public static string Page5_Success_AD_Title {
+            get {
+                return ResourceManager.GetString("Page5_Success_AD_Title", resourceCulture);
             }
         }
         
@@ -666,9 +729,27 @@ namespace Roadkill.Site.App_GlobalResources.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Back.
         /// </summary>
+        public static string Shared_Back {
+            get {
+                return ResourceManager.GetString("Shared_Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
         public static string Shared_BackButton {
             get {
                 return ResourceManager.GetString("Shared_BackButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Continue.
+        /// </summary>
+        public static string Shared_Continue {
+            get {
+                return ResourceManager.GetString("Shared_Continue", resourceCulture);
             }
         }
         

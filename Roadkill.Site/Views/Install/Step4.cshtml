@@ -34,7 +34,9 @@
 	});
 </script>
 
-<p>Almost done...Finally some extra tweakable settings. </p>
+<p>
+@InstallStrings.Page4_Label1
+</p>
 
 @using (Html.BeginForm("Step5", "Install"))
 {
@@ -56,69 +58,65 @@
 	@(Html.HiddenFor<SettingsSummary, bool>(h => h.UseWindowsAuth))
 	
 	<fieldset>
-		<legend>Attachments folder</legend>
+		<legend>@InstallStrings.Page4_Group1_Title</legend>
 		<label>
-			This is the directory where all files are uploaded to. This directory will need write permission by the user that 
-			the app pool runs under. Most of the time you shouldn't have to worry about changing the permissions for the folder, 
-			as they will be inherited from the parent folder.
+			@InstallStrings.Page4_Group1_Label1
 			<br /><br />
-			Make sure the folder path begins with "~/" for the website root. You should check the folder can be accessed by the browser as 
-			well as the being writeable to, as folders such as App_Data and bin can be written to but will not show any images stored there.
+			@InstallStrings.Page4_Group1_Label2
 		</label>
 
 		<div class="small">
 			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AttachmentsFolder, new { @class = "validate[required]" }))</div>
-			<input id="testattachments" class="button" type="button" value="Test" />
+			<input id="testattachments" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
 			<div id="attachmentssuccess" class="success alert hidden">
-				<h2>Success!</h2>
-				<p>The folder exists and can be written to.</p>
+				<h2>@InstallStrings.Shared_Success</h2>
+				<p>@InstallStrings.Page4_Group1_Success</p>
 			</div>
 
 			<div id="attachmentsfailure" class="failure alert hidden">
-				<h2>Failure!</h2>
-				<p>Unable to write to the folder: <span class="errormessage"></span></p>
+				<h2>@InstallStrings.Shared_Failure</h2>
+				<p>@InstallStrings.Page4_Group1_Error&nbsp;<span class="errormessage"></span></p>
 			</div>
 		</div>	
 	</fieldset>
 	
 	<fieldset>
-		<legend>Allowed extensions</legend>
-		<label>These are the file extensions that can be uploaded.</label>
+		<legend>@InstallStrings.Page4_Group2_Title</legend>
+		<label>@InstallStrings.Page4_Group2_Label1</label>
 
 		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AllowedExtensions, new { @class = "validate[required]" }))</div>
 	</fieldset>
 	
 	<fieldset>
-		<legend>Theme</legend>
-		<label>This is the theme that the site uses. This should match a folder name in the Themes directory.</label>
+		<legend>@InstallStrings.Page4_Group3_Title</legend>
+		<label>@InstallStrings.Page4_Group3_Label1</label>
 
 		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.Theme, new { @class = "validate[required]" }))</div>
 	</fieldset>
 	
 	<fieldset>
-		<legend>Markup type</legend>
+		<legend>@InstallStrings.Page4_Group4_Title</legend>
 		<label>
-		This is the markup format that is used. Roadkill currently supports the following values: Creole, Markdown, Mediawiki.<br /><br />
-		Creole is the recommended format.		
+		@InstallStrings.Page4_Group4_Label1<br /><br />
+		@InstallStrings.Page4_Group4_Label2	
 		</label>
 
 		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.MarkupType, new { @class = "validate[required]" }))</div>
 	</fieldset>
 	
 	<fieldset>
-		<legend>Cache</legend>
+		<legend>@InstallStrings.Page4_Group5_Title</legend>
 		<label>
-		Roadkill uses NHibernate caching along with ASP.NET's output caching. It's recommended that you enable caching to increase 
-		the responsiveness of the site. Database caching is not currently supported for for web gardens or web farms.
+		@InstallStrings.Page4_Group5_Label1
 		<br /><br />
-		This setting only affects database caching, you will need to manually disable output caching in the web.config.
+		@InstallStrings.Page4_Group5_Label2
 		</label>
 		<br />
 
 		<div>
 			<div class="left">
 				@(Html.CheckBoxFor<SettingsSummary>(s => s.CacheEnabled))
-				Enable cache
+				@InstallStrings.Page4_Group5_Label3
 			</div>
 		</div>
 		<br class="clear" />
@@ -126,18 +124,18 @@
 		<div>
 			<div class="left">
 				@(Html.CheckBoxFor<SettingsSummary>(s => s.CacheText))		
-				Cache text content
+				@InstallStrings.Page4_Group5_Label4
 			</div>
 			<br /> <br /> 
-			<span class="italic">Unchecking "Cache text content" will mean each page's textual content is loaded from the database.</span>
+			<span class="italic">@InstallStrings.Page4_Group5_Label5</span>
 		</div>
 	</fieldset>
 
 	<div>
-		<div class="previous"><a href="javascript:history.go(-1)">&lt; Back</a></div>
+		<div class="previous"><a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a></div>
 	
 		<div class="continue">
-			<input type="submit" class="button" value="Next" />
+			<input type="submit" class="button" value="@InstallStrings.Shared_NextButton" />
 		</div>
 	</div>
 }

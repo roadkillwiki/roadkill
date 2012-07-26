@@ -12,9 +12,9 @@
 @if (!ViewData.ModelState.IsValid)
 {
 	<div style="margin-top:10px">
-		<h1>An error occurred during the install</h1>
+		<h1>@InstallStrings.Page5_Error_Title</h1>
 		<br />
-		Please go back through the installation steps and check your settings. The error message was:
+		@InstallStrings.Page5_Error_Label1
 		<br /><br />
 		<pre class="alert failure" style="width:100%;overflow:scroll;">
 			@Html.ValidationSummary()
@@ -24,15 +24,14 @@
 else
 {
 	<div style="margin-top:10px">
-		<h1>Installation successful</h1>
-
+		<h1>@InstallStrings.Page5_Success_Title</h1>
+		
 		@if (Model.UseWindowsAuth)
 		{
-		<h2>Windows Authentication - please read</h2>
+		<h2>@InstallStrings.Page5_Success_AD_Title</h2>
 		<div>
-		<p>If you are using IIS7+ you may need to configure the web.config file for your security setup, below are the elements that are required.
-			If you receive 500 errors after making these changes, then the section is locked at a parent level, and you will need to make the
-			changes via the IIS manager.
+		<p>
+			@InstallStrings.Page5_Success_AD_Label
 		</p>
 
 		<pre>
@@ -49,6 +48,6 @@ else
 		</pre>
 		</div>
 		 }
-		@Html.ActionLink("Continue to the site","Index","Home")
+		@Html.ActionLink(InstallStrings.Page5_Success_Label1, "Index", "Home")
 	</div>
 }

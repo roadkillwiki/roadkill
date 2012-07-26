@@ -56,18 +56,26 @@ Page3_Group1_Label=Use windows authentication
 
 ; Active Directory security
 Page3_AD_Group1_Title=Active Directory LDAP connection string
+Page3_AD_Connection_Success=The connection and authentication with the Active Directory server was successful.
+Page3_AD_Connection_Error=Unable to connect to the Active Directory server:
 Page3_AD_Success=The group was queried sucessfully.
 Page3_AD_Error=Unable to query:
+
 Page3_AD_Group1_Label1=This should be in the format LDAP://mydc01.company.internal (it should be uppercase LDAP) where mydc01 is your domain controller and 'company' and 'internal' are the dns suffixes for your network. This can also be an IP address. You can usually get this information by running "ipconfig".
-Page3_AD_Group1_Label2=The connection string supports OU specifiers however doing it this way can cause issues. If you are unsure about this setting, it's recommended you download AD Explorer first.
+Page3_AD_Group1_Label2=The connection string supports OU specifiers however doing it this way can cause issues. If you are unsure about this setting, it's recommended you download <a href="http://technet.microsoft.com/en-us/sysinternals/bb963907">AD Explorer</a> first.
 Page3_AD_Group1_Label3=Enter a username and password if the user that the app pool is running under does not have read access to Active Directory. This is useful if your domain is a separate forest from the main domain (i.e. another branch office).
 
-Page3_AD_Group2_Title=Editor group name
-Page3_AD_Group2_Label=This is the security group that users should belong to in order to be editors (people who can edit and create pages). The test button uses the connection settings entered above. 
-Page3_AD_Group3_Title=Admin group name
-Page3_AD_Group3_Label=This is the security group that users should belong to in order to be admins. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.The test button uses the connection settings entered above.
+Page3_AD_Group2_Label1=Username:
+Page3_AD_Group2_Label2=Password:
+
+Page3_AD_Group3_Title=Editor group name
+Page3_AD_Group3_Label=This is the security group that users should belong to in order to be editors (people who can edit and create pages). The test button uses the connection settings entered above. 
+
+Page3_AD_Group4_Title=Admin group name
+Page3_AD_Group4_Label=This is the security group that users should belong to in order to be admins. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.The test button uses the connection settings entered above.
 
 ; Database security
+Page3_DB_Label=All passwords are one-way encrypted using SHA128 and a salt. This means passwords are not recoverable and will require and admin to reset them (there is no reset password functionality yet). The minimum password length is 6 characters.
 Page3_DB_Group1_Title=Editor role name
 Page3_DB_Group1_Label1=This is the name of the editor role - people who can edit and create pages.
 Page3_DB_Group2_Title=Admin role name
@@ -76,7 +84,7 @@ Page3_DB_Group3_Title=Allow user signups
 Page3_DB_Group3_Label1=Check this option if you want to allow people to signup as a new users. If left unchecked, only admins will be able to create new users. 
 Page3_DB_Group3_Label2=Allow new user signups. 
 Page3_DB_Group4_Title=Enable Recaptcha
-Page3_DB_Group4_Label1=If you are allowing user signups, it's recommended that you also enable Recaptcha support. This is a free anti-spam bot service provided by Google, you will need to signup and copy your public and private key into the fields below. Signup here - you will need to create a google account first.
+Page3_DB_Group4_Label1=If you are allowing user signups, it's recommended that you also enable Recaptcha support. This is a free anti-spam bot service provided by Google, you will need to signup and copy your public and private key into the fields below. <a href="https://www.google.com/recaptcha/admin/create" target="_blank">Signup here</a> - you will need to create a google account first.
 Page3_DB_Group4_Label2=Enable Recaptcha anti-spam service. 
 Page3_DB_Group4_Label3=Public key
 Page3_DB_Group4_Label4=Private key
@@ -96,12 +104,12 @@ Page4_Group1_Label2=Make sure the folder path begins with "~/" for the website r
 Page4_Group2_Title=Allowed extensions
 Page4_Group2_Label1=These are the file extensions that can be uploaded.
 
-Page4_Group3_Title=Markup type
-Page4_Group3_Label1=This is the markup format that is used. Roadkill currently supports the following values: Creole, Markdown, Mediawiki.
-Page4_Group3_Label2=Creole is the recommended format. 
+Page4_Group3_Title=Theme
+Page4_Group3_Label1=This is the theme that the site uses. This should match a folder name in the Themes directory.
 
 Page4_Group4_Title=Markup type
 Page4_Group4_Label1=This is the markup format that is used. Roadkill currently supports the following values: Creole, Markdown, Mediawiki.
+Page4_Group4_Label2=Creole is the recommended format. 
 
 Page4_Group5_Title=Cache
 Page4_Group5_Label1=Roadkill uses NHibernate caching along with ASP.NET's output caching. It's recommended that you enable caching to increase the responsiveness of the site. Database caching is not currently supported for for web gardens or web farms. 
@@ -112,6 +120,8 @@ Page4_Group5_Label5=Unchecking "Cache text content" will mean each page's textua
 
 ; Page 5
 Page5_Success_Title=Installation successful
+Page5_Success_AD_Title=Windows Authentication - please read
+Page5_Success_AD_Label=If you are using IIS7+ you may need to configure the web.config file for your security setup, below are the elements that are required.If you receive 500 errors after making these changes, then the section is locked at a parent level, and you will need to make thechanges via the IIS manager.
 Page5_Success_Label1=Continue to the site
 Page5_Error_Title=An error occurred during the install
-Page5_Error_Label1=Please go back through the installation steps and check your settings. The error message was
+Page5_Error_Label1=Please go back through the installation steps and check your settings. The error message was:
