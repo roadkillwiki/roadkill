@@ -172,10 +172,11 @@ namespace Roadkill.Core
 					// TODO: log.
 				}
 
-				IEnumerable<PageContent> children = PageContents.Where(p => p.Page.Id == pageId);
-				foreach (PageContent pageContent in children)
+				IList<PageContent> children = PageContents.Where(p => p.Page.Id == pageId).ToList();
+				for (int i = 0; i < children.Count; i++)
 				{
-					NHibernateRepository.Current.Delete<PageContent>(pageContent);
+					NHibernateUtil.Initialize(children[i].Page); // force the proxy to hydrate
+					NHibernateRepository.Current.Delete<PageContent>(children[i]);
 				}
 
 				NHibernateRepository.Current.Delete<Page>(page);
