@@ -30,7 +30,8 @@ namespace Roadkill.Core
 																  PageId = pageId,
 																  EditedBy = p.EditedBy,
 																  EditedOn = p.EditedOn,
-																  VersionNumber = p.VersionNumber
+																  VersionNumber = p.VersionNumber,
+																  IsPageAdminOnly = p.Page.IsLocked
 															  };
 
 				return historyList.OrderByDescending(h => h.VersionNumber);

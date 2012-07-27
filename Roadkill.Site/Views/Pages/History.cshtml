@@ -21,7 +21,7 @@
 			<td class="version">@Html.ActionLink(Model[i].VersionNumber.ToString(), "Version", new { id = Model[i].Id })</td>
 			<td class="editedon" title="@Model[i].EditedOn.ToString("U")">@Model[i].EditedOn</td>
 			<td class="editedby">@Html.ActionLink(Model[i].EditedBy, "ByUser", "Pages", new { id = Model[i].EditedBy.ToBase64(), encoded = true }, null)</td>
-			@if (i > 0 && RoadkillContext.Current.IsLoggedIn)
+			@if (i > 0 && RoadkillContext.Current.IsLoggedIn && !Model[i].IsPageAdminOnly)
 			{
 			<td class="revert">@Html.ActionLink(SiteStrings.History_RevertLink, "Revert", new { versionId = Model[i].Id, pageId = Model[i].PageId })</td>
 			}
