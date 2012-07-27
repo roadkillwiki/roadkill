@@ -212,6 +212,12 @@ namespace Roadkill.Core.Controllers
 		[EditorRequired]
 		public ActionResult Revert(Guid versionId, int pageId)
 		{
+			// Check if the page is locked to admin edits only before reverting.
+			PageManager pageManager = new PageManager();
+			PageSummary page = pageManager.Get(pageId);
+			if (page == null || (page.IsLocked && !RoadkillContext.Current.IsAdmin))
+				return RedirectToAction("Index", "Home");
+
 			HistoryManager manager = new HistoryManager();
 			manager.RevertTo(versionId);
 

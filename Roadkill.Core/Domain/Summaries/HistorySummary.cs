@@ -34,5 +34,10 @@ namespace Roadkill.Core
 		/// When this version was created.
 		/// </summary>
 		public DateTime EditedOn { get; set; }
+
+		/// <summary>
+		/// Whether the page can only be edited by administrators. This disables the "revert" behaviour.
+		/// </summary>
+		public bool IsPageAdminOnly { get; set; }
 	}
 }
