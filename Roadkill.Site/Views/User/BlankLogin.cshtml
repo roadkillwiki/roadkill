@@ -1,10 +1,10 @@
 ﻿@{ 
-	ViewBag.Title = "Login";
+	ViewBag.Title = SiteStrings.Login_Title;
 	Layout = "~/Views/Shared/_Blank.cshtml";
 }
 <div class="padded" style="background-color:White;min-height:380px;">
-	<h1 style="margin-top:0px;">Login</h1>
-	@Html.ValidationSummary("Login was unsuccessful")
+	<h1 style="margin-top:0px;">@SiteStrings.Login_Title</h1>
+	@Html.ValidationSummary(SiteStrings.Login_Unsuccessful_Title)
 
 
 	<div id="login" class="rounded10 lightborder">
@@ -13,19 +13,19 @@
 		@Html.Hidden("fromUrl",Request.QueryString["ReturnUrl"])
 
 		<div class="username">
-			<label for="username">Username</label>
+			<label for="username">@SiteStrings.Shared_Username</label>
 			@Html.TextBox("username")
 		</div>
 		<br />	
 
 		<div class="password">
-			<label for="password">Password</label>
+			<label for="password">@SiteStrings.Shared_Password_Label</label>
 			@Html.Password("password")
 		</div>
 		<br />
 	
 		<div class="buttonContainer">
-			<input type="submit" class="button saveButton" value="Login" />
+			<input type="submit" class="button saveButton" value="@SiteStrings.Button_Login" />
 		</div>
 		<br class="clear" />
 	}

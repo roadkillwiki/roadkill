@@ -8,15 +8,15 @@
 	<div id="editbutton" class="linkbutton">
 	@if (Model.IsLocked && !RoadkillContext.Current.IsAdmin)
 	{
-		<span title="This page can only be edited by administrators.">Edit</span>
+		<span title="This page can only be edited by administrators.">@SiteStrings.Shared_EditLink</span>
 	}
 	else
 	{
-		@Html.ActionLink("Edit", "Edit", "Pages", new { id = Model.Id }, null)
+		@Html.ActionLink(SiteStrings.Shared_EditLink, "Edit", "Pages", new { id = Model.Id }, null)
 	}		
 	</div>
 	<div id="pagehistory-button" class="linkbutton"> 
-		@Html.ActionLink("History", "History", "Pages", new { id = Model.Id }, null)
+		@Html.ActionLink(SiteStrings.Navigation_History, "History", "Pages", new { id = Model.Id }, null)
 	</div>
 	<div id="pageinfo-button" class="jqmAlert"> 
 		<a href="javascript:;"><img src="@Url.Content("~/Assets/Images/info_icon.png")" border="0" alt="Page information" /></a>
@@ -32,18 +32,18 @@
 		<br class="clear" />
 
 		<div class="left">
-			<b>Created on:</b><br />
+			<b>@SiteStrings.Page_Info_CreatedOn</b><br />
 			@Model.CreatedOn<br /><br />
 
-			<b>Created by:</b><br />
+			<b>@SiteStrings.Page_Info_CreatedBy</b><br />
 			@Model.CreatedBy
 		</div>
 
 		<div class="right">
-			<b>Last modified on:</b><br />
+			<b>@SiteStrings.Page_Info_ModifiedOn</b><br />
 			@Model.ModifiedOn<br /><br />
 
-			<b>Last modified by:</b><br />
+			<b>@SiteStrings.Page_Info_ModifiedBy</b><br />
 			@Model.ModifiedBy
 		</div>
 	</div> 

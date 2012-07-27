@@ -33,7 +33,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;APPHARBOR</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -47,7 +47,7 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <OutputPath>bin\x64\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
@@ -68,7 +68,7 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\x86\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
@@ -121,16 +121,17 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentNHibernate, Version=1.3.0.727, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentNHibernate.1.3.0.727\lib\FluentNHibernate.dll</HintPath>
+    <Reference Include="FluentNHibernate, Version=1.3.0.733, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FluentNHibernate.1.3.0.733\lib\FluentNHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+      <HintPath>..\packages\Iesi.Collections.3.3.1.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="NHibernate, Version=3.3.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NHibernate.3.3.0.4000\lib\Net35\NHibernate.dll</HintPath>
+      <HintPath>..\packages\NHibernate.3.3.1.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -156,6 +157,10 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\EmailTemplates\fi-FI\ResetPassword.html" />
+    <Content Include="App_Data\EmailTemplates\fi-FI\ResetPassword.txt" />
+    <Content Include="App_Data\EmailTemplates\fi-FI\Signup.html" />
+    <Content Include="App_Data\EmailTemplates\fi-FI\Signup.txt" />
     <Content Include="App_Data\EmailTemplates\ResetPassword.txt" />
     <Content Include="App_Data\EmailTemplates\ResetPassword.html" />
     <Content Include="App_Data\EmailTemplates\Signup.html" />
@@ -164,8 +169,6 @@
     <Content Include="App_Data\tokens.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_GlobalResources\Text\SiteStrings.txt" />
-    <Content Include="App_GlobalResources\Text\InstallStrings.txt" />
     <Content Include="Assets\CSS\htmldiff.css" />
     <Content Include="Assets\CSS\jquery.tagit.css" />
     <Content Include="Assets\CSS\images\application.png" />
@@ -202,8 +205,32 @@
     <Content Include="Assets\Images\installerbg.png" />
     <Content Include="Assets\Images\loadinglarge.gif" />
     <Content Include="Assets\Scripts\jquery.tooltip.min.js" />
-    <Content Include="Assets\Scripts\jquery.validationEngine-en.js" />
+    <Content Include="Assets\Scripts\jquery.validate.js" />
     <Content Include="Assets\Scripts\jquery.validationEngine.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-cz.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-da.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-de.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-en.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-es.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-et.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-fa.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-fi.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-fr.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-hr.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-hu.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-it.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-ja.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-nl.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-pl.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-pt.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-pt_BR.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-ro.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-ru.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-se.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-tr.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-vi.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-zh_CN.js" />
+    <Content Include="Assets\Scripts\languages\jquery.validationEngine-zh_TW.js" />
     <Content Include="Assets\Scripts\roadkill.settings.js" />
     <Content Include="Assets\Scripts\roadkill.files.js" />
     <Content Include="Assets\Scripts\jquery-1.4.1-vsdoc.js" />
@@ -282,30 +309,13 @@
     <Content Include="Views\Install\Step3Database.cshtml" />
     <Content Include="Views\Install\Step4.cshtml" />
     <Content Include="Views\Install\Step5.cshtml" />
-    <Compile Include="App_GlobalResources\Resx\InstallStrings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>InstallStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Resx\InstallStrings.fi-FI.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>InstallStrings.fi-FI.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Resx\SiteStrings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SiteStrings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="App_GlobalResources\Resx\SiteStrings.fi-FI.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SiteStrings.fi-FI.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Views\User\Profile.cshtml" />
     <Content Include="Views\User\Signup.cshtml" />
     <Content Include="Views\Home\GlobalJsVars.cshtml" />
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Scripts\jquery.ae.image.resize.min.js" />
@@ -330,9 +340,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
@@ -378,24 +385,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <EmbeddedResource Include="App_GlobalResources\Resx\InstallStrings.fi-FI.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>InstallStrings.fi-FI.designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="App_GlobalResources\Resx\InstallStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>InstallStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="App_GlobalResources\Resx\SiteStrings.fi-FI.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SiteStrings.fi-FI.designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="App_GlobalResources\Resx\SiteStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SiteStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

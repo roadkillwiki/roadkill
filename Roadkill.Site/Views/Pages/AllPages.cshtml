@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<PageSummary>
 @{ 
-	ViewBag.Title = "All pages";
+	ViewBag.Title = SiteStrings.AllPages_Title;
 }
 @if (RoadkillContext.Current.IsAdmin)
 {
@@ -12,7 +12,7 @@
 </script>
 }
 
-<h1>All Pages</h1>
+<h1>@SiteStrings.AllPages_Title</h1>
 
 @if (Model.Count() > 0)
 {
@@ -23,10 +23,10 @@
 		<td class="title" style="width:90%">@Html.ActionLink(summary.Title, "Index", "Wiki", new { id = summary.Id, title = summary.Title.EncodeTitle() }, null)</td>
 		@if (RoadkillContext.Current.IsLoggedIn)
 		{
-		<td class="edit">@Html.ActionLink("Edit", "Edit", new { id = summary.Id })</td>	  
+		<td class="edit">@Html.ActionLink(SiteStrings.Shared_EditLink, "Edit", new { id = summary.Id })</td>	  
 		if (RoadkillContext.Current.IsAdmin)
 		{
-		<td class="delete">@Html.ActionLink("Delete", "Delete", new { id = summary.Id }, new { @class = "confirm" })</td>
+		<td class="delete">@Html.ActionLink(SiteStrings.Shared_DeleteLink, "Delete", new { id = summary.Id }, new { @class = "confirm" })</td>
 		}
  }
 	</tr>
@@ -35,5 +35,5 @@
 }
 else
 {
-	<p>No pages found.</p>
+	<p>@SiteStrings.AllPages_NoPages</p>
 }

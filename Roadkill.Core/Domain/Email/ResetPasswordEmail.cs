@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Web;
+using System.Globalization;
 
 namespace Roadkill.Core
 {
@@ -17,8 +18,26 @@ namespace Roadkill.Core
 
 		static ResetPasswordEmail()
 		{
-			_htmlContent = File.ReadAllText(HttpContext.Current.Server.MapPath("~/App_Data/EmailTemplates/ResetPassword.html"));
-			_plainTextContent = File.ReadAllText(HttpContext.Current.Server.MapPath("~/App_Data/EmailTemplates/ResetPassword.txt"));
+			string templatePath = HttpContext.Current.Server.MapPath("~/App_Data/EmailTemplates/");
+			string culturePath = Path.Combine(templatePath, CultureInfo.CurrentUICulture.Name);
+
+			string htmlFile = Path.Combine(templatePath, "ResetPassword.html");
+			string plainTextFile = Path.Combine(templatePath, "ResetPassword.txt");
+
+			// If there's templates for the current culture, then use those instead
+			if (Directory.Exists(culturePath))
+			{
+				string cultureHtmlFile = Path.Combine(culturePath, "ResetPassword.html");
+				if (File.Exists(cultureHtmlFile))
+					htmlFile = cultureHtmlFile;
+
+				string culturePlainTextFile = Path.Combine(culturePath, "ResetPassword.txt");
+				if (File.Exists(culturePlainTextFile))
+					plainTextFile = culturePlainTextFile;
+			}
+
+			_htmlContent = File.ReadAllText(htmlFile);
+			_plainTextContent = File.ReadAllText(plainTextFile);
 		}
 
 		public ResetPasswordEmail(UserSummary summary)

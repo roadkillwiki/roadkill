@@ -1,7 +1,7 @@
 ﻿@{ 
-	ViewBag.Title = "Site tools";
+	ViewBag.Title = SiteStrings.SiteSettings_Tools_Title;
 }
-<h1>Tools</h1>
+<h1>@SiteStrings.SiteSettings_Tools_Title</h1>
 
 @Html.Partial("SettingsMenu")
 
@@ -19,62 +19,59 @@
 
 <div id="settingscontainer">
 	<p>
-	<b>@Html.ActionLink("Clear the database", "ClearPages", null, new { @class = "refreshlink" })</b><br />
-	Clears all pages and text from the database. This does not remove any users.
+	<b>@Html.ActionLink(SiteStrings.SiteSettings_Tools_ClearDatabase, "ClearPages", null, new { @class = "refreshlink" })</b><br />
+	@SiteStrings.SiteSettings_Tools_ClearDatabase_Label
 	</p>
 
 	<p>
-	<b>@Html.ActionLink("Rebuild search index", "UpdateSearchIndex", null, new { @class = "refreshlink" })</b><br />
-	Forces a re-build of the page search index, useful if the search begins to get out of sync for any reason.
+	<b>@Html.ActionLink(SiteStrings.SiteSettings_Tools_RebuildSearch, "UpdateSearchIndex", null, new { @class = "refreshlink" })</b><br />
+	@SiteStrings.SiteSettings_Tools_RebuildSearch_Label
 	</p>
 
 	<p>
-	<b>@Html.ActionLink("Export to XML", "ExportAsXml")</b><br />
-	Exports all page text content and all history as a single XML file.
+	<b>@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportXml, "ExportAsXml")</b><br />
+	@SiteStrings.SiteSettings_Tools_ExportXml_Label
 	</p>
 
 	<p>
-	<b>@Html.ActionLink("Export all content as a zip", "ExportAsWikiFiles")</b><br />
-	Exports all pages, including text content as a series of ".wiki" files. Only
-	the current content and tags are included, no history is provided. This zip file does not include the attachments folder.
+	<b>@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportContent, "ExportAsWikiFiles")</b><br />
+	@SiteStrings.SiteSettings_Tools_ExportContent_Label
 	</p>
 
 	<p>
-	<b>@Html.ActionLink("Export attachments as a zip", "ExportAttachments")</b><br />
-	Exports all the contents of attachments folder and subfolders as a zip file.
+	<b>@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportAttachments, "ExportAttachments")</b><br />
+	@SiteStrings.SiteSettings_Tools_ExportAttachments_Label
 	</p>
 	<br /><br />
 
-	<span class="bold borderbottom">Import from screwturn</span><br />
+	<span class="bold borderbottom">@SiteStrings.SiteSettings_Tools_ScrewTurnImport</span><br />
 	<p>
-	Imports all content from a Screwturn 2 database. You will need to set the markuptype to MediaWiki 
-	in the settings/web.config file for the format to be compatible. As screwturn uses as variation on 
-	the mediawiki syntax, some content will not render perfectly. This includes some images and links.
+	@SiteStrings.SiteSettings_Tools_ScrewTurnImport_Label
 	</p>
 
-	@using (Html.BeginForm("ImportFromScrewTurn","Settings"))
+	@using (Html.BeginForm("ImportFromScrewTurn", "Settings"))
 	{
-	<b>Screwturn connection string:</b>
+	<b>@SiteStrings.SiteSettings_Tools_ScrewTurnImport_Connection</b>
 	@(Html.TextBox("screwturnConnectionString", null, new { style = "width:30em" }))<br />
-	<input type="submit" class="button" value="Import" />
+	<input type="submit" class="button" value="@SiteStrings.Button_Import" />
 	}
 	<br /><br />
 
-	<span class="bold borderbottom">Rename a tag</span><br />
+	<span class="bold borderbottom">@SiteStrings.SiteSettings_Tools_RenameTag</span><br />
 	<p>
-	This will rename a tag, and update all pages that reference the tag to use the new tagname. The tagname is case sensitive.
+	@SiteStrings.SiteSettings_Tools_RenameTag_Label
 	</p>
 
-	@using (Html.BeginForm("RenameTag","Settings"))
+	@using (Html.BeginForm("RenameTag", "Settings"))
 	{
-	<div class="left bold" style="width:150px;">Existing tag:</div>
+	<div class="left bold" style="width:150px;">@SiteStrings.SiteSettings_Tools_RenameTag_Existing</div>
 	<div class="left">@(Html.TextBox("oldTagName", null, new { style = "width:100px" }))</div>
 	<br class="clear" />
 	 
-	<div class="left bold" style="width:150px;">New tag name:</div>
+	<div class="left bold" style="width:150px;">@SiteStrings.SiteSettings_Tools_RenameTag_New</div>
 	<div class="left">@(Html.TextBox("newTagName", null, new { style = "width:100px" }))</div>
 	<br class="clear" />
-	<input type="submit" class="button" value="Rename" />
+	<input type="submit" class="button" value="@SiteStrings.Button_Rename" />
 	}
 </div>
 

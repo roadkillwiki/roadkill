@@ -56,8 +56,8 @@ function bindConfirmDelete()
 			value = button.val();
 			text = button.text();
 
-			button.val("Confirm");
-			button.text("Confirm");
+			button.val(ROADKILL_LINK_CONFIRM);
+			button.text(ROADKILL_LINK_CONFIRM);
 			button.addClass("jqConfirm");
 
 			var handler = function ()

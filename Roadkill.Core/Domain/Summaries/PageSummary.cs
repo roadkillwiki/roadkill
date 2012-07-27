@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using Roadkill.Core.Localization.Resx;
 
 namespace Roadkill.Core
 {
@@ -71,7 +72,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// The page title.
 		/// </summary>
-		[Required]
+		[Required(ErrorMessageResourceType=typeof(SiteStrings), ErrorMessageResourceName="Page_Validation_Title")]
 		public string Title { get; set; }
 		
 		/// <summary>

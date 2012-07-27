@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using Roadkill.Core.Localization.Resx;
+using System.Globalization;
 
 namespace Roadkill.Core
 {
@@ -20,12 +22,12 @@ namespace Roadkill.Core
 		{
 			if (RoadkillContext.Current.IsLoggedIn)
 			{
-				string text = string.Format("Logged in as {0}",RoadkillContext.Current.CurrentUsername);
+				string text = string.Format("{0} {1}", SiteStrings.Shared_LoggedInAs, RoadkillContext.Current.CurrentUsername);
 				return helper.ActionLink(text, "Profile", "User");
 			}
 			else
 			{
-				return MvcHtmlString.Create("Not logged in");
+				return MvcHtmlString.Create(SiteStrings.Shared_NotLoggedIn);
 			}
 		}
 
@@ -37,7 +39,7 @@ namespace Roadkill.Core
 		{
 			if (RoadkillContext.Current.IsAdmin)
 			{
-				string link = helper.ActionLink("Site settings", "Index", "Settings").ToString();
+				string link = helper.ActionLink(SiteStrings.Navigation_SiteSettings, "Index", "Settings").ToString();
 				return MvcHtmlString.Create(prefix + link + suffix);
 			}
 			else
@@ -60,14 +62,14 @@ namespace Roadkill.Core
 
 			if (RoadkillContext.Current.IsLoggedIn)
 			{
-				link = helper.ActionLink("Logout", "Logout", "User").ToString();
+				link = helper.ActionLink(SiteStrings.Navigation_Logout, "Logout", "User").ToString();
 			}
 			else
 			{
-				link = helper.ActionLink("Login", "Login", "User").ToString();
+				link = helper.ActionLink(SiteStrings.Navigation_Login, "Login", "User").ToString();
 
 				if (RoadkillSettings.AllowUserSignup)
-					link += "&nbsp;/&nbsp;" + helper.ActionLink("Register", "Signup", "User").ToString();
+					link += "&nbsp;/&nbsp;" + helper.ActionLink(SiteStrings.Navigation_Register, "Signup", "User").ToString();
 			}
 
 			return MvcHtmlString.Create(prefix + link + suffix);
@@ -81,7 +83,7 @@ namespace Roadkill.Core
 		{
 			if (RoadkillContext.Current.IsLoggedIn && (RoadkillContext.Current.IsAdmin || RoadkillContext.Current.IsEditor))
 			{
-				string link = helper.ActionLink("New page", "New", "Pages").ToString();
+				string link = helper.ActionLink(SiteStrings.Navigation_NewPage, "New", "Pages").ToString();
 				return MvcHtmlString.Create(prefix + link + suffix);
 			}
 			else
@@ -160,6 +162,16 @@ namespace Roadkill.Core
 				relativePath = "~/Assets/Scripts/" + relativePath;
 
 			return MvcHtmlString.Create("<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content(relativePath) + "\"></script>");
+		}
+
+		/// <summary>
+		/// Gets the localization strings for the jQuery validationEngine.
+		/// </summary>
+		public static MvcHtmlString ScriptLinkForValidationLocalization(this UrlHelper helper)
+		{
+			string path = "~/Assets/Scripts/languages/jquery.validationEngine-" + CultureInfo.CurrentUICulture.TwoLetterISOLanguageName + ".js";
+
+			return MvcHtmlString.Create("<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content(path) + "\"></script>");
 		}
 	}
 }

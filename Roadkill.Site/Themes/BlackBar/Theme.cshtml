@@ -24,10 +24,10 @@
 			@Html.LoginLink("","&nbsp;|&nbsp;")
 			@Html.NewPageLink("","&nbsp;|&nbsp;")
 
-			@Html.MainPageLink("Main Page","","")
-			&nbsp;|&nbsp;@Html.ActionLink("Tags", "AllTags", "Pages")
-			&nbsp;|&nbsp;@Html.ActionLink("All pages", "AllPages", "Pages")
-			&nbsp;|&nbsp;Search: <input type="text" name="q" placeholder="Enter text to search" />
+			@Html.MainPageLink(SiteStrings.Navigation_MainPage, "", "")
+			&nbsp;|&nbsp;@Html.ActionLink(SiteStrings.Navigation_Categories, "AllTags", "Pages")
+			&nbsp;|&nbsp;@Html.ActionLink(SiteStrings.Navigation_AllPages, "AllPages", "Pages")
+			&nbsp;|&nbsp;Search: <input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" />
 		</div>
 	</div>
 }

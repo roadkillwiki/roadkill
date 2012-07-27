@@ -9,6 +9,7 @@ using System.Web.Management;
 using System.Data.SqlClient;
 using System.IO;
 using System.Web.UI;
+using Roadkill.Core.Localization.Resx;
 
 namespace Roadkill.Core.Controllers
 {
@@ -46,7 +47,7 @@ namespace Roadkill.Core.Controllers
 			}
 			catch (IOException e)
 			{
-				TempData["Error"] = string.Format("An error occurred deleting the file: {0}", e.Message);
+				TempData["Error"] = string.Format(SiteStrings.FileExplorer_Error_DeleteFile, e.Message);
 			}
 
 			return RedirectToAction("Index");
@@ -129,7 +130,7 @@ namespace Roadkill.Core.Controllers
 			}
 			catch (IOException e)
 			{
-				TempData["Error"] = string.Format("An error occurred creating the directory: {0}", e.Message);
+				TempData["Error"] = string.Format(SiteStrings.FileExplorer_Error_NewDirectory, e.Message);
 			}
 
 			return RedirectToAction("Index");
@@ -166,12 +167,12 @@ namespace Roadkill.Core.Controllers
 				}
 				catch (Exception e)
 				{
-					TempData["Error"] = string.Format("An error occurred uploading the file: {0}", e.Message);
+					TempData["Error"] = string.Format(SiteStrings.FileExplorer_Error_FileUpload, e.Message);
 				}
 			}
 			else
 			{
-				TempData["Error"] = string.Format("Files with the extension '{0}' are not allowed to be uploaded", extension);
+				TempData["Error"] = string.Format(SiteStrings.FileExplorer_Error_BadExtension, extension);
 			}
 			
 

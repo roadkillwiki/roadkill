@@ -1,9 +1,9 @@
 ﻿@model PageSummary
 @{ 
-	ViewBag.Title = "Version " +Model.VersionNumber;
+	ViewBag.Title = string.Format(SiteStrings.Version_Title, Model.VersionNumber);
 }
 
-@Html.ActionLink("< back","History",new { id = Model.Id })
+@Html.ActionLink("< " +SiteStrings.Version_BackLink,"History",new { id = Model.Id })
 <h1>@Model.Title</h1>
 
 

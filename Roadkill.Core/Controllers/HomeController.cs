@@ -9,6 +9,7 @@ using System.Web.Management;
 using System.Data.SqlClient;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Search;
+using Roadkill.Core.Localization.Resx;
 
 namespace Roadkill.Core.Controllers
 {
@@ -36,8 +37,8 @@ namespace Roadkill.Core.Controllers
 			if (summary == null)
 			{
 				summary = new PageSummary();
-				summary.Title = "You have no mainpage set";
-				summary.Content = "To set a main page, create a page and assign the tag 'homepage' to it.";
+				summary.Title = SiteStrings.NoMainPage_Title;
+				summary.Content = SiteStrings.NoMainPage_Label;
 				summary.CreatedBy = "";
 				summary.CreatedOn = DateTime.Now;
 				summary.Tags = "homepage";

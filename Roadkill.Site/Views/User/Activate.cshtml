@@ -1,11 +1,13 @@
 ﻿@{ 
-	ViewBag.Title = "Activation successful";
+	ViewBag.Title = SiteStrings.Activate_Title;
 }
 
-@Html.ValidationSummary("Activation was unsuccessful")
+@Html.ValidationSummary(SiteStrings.Activate_Error_Title)
 
 @if (ViewData.ModelState.IsValid)
 {
-	<h1>Activation successful</h1>
-	<p>Your account has been sucessfully activated. @Html.ActionLink("Click here to login", "Login")</p>
+	<h1>@SiteStrings.Activate_Success_Title</h1>
+	<p>
+		@SiteStrings.Activate_Label @Html.ActionLink(SiteStrings.Activate_Link, "Login")
+	</p>
 }

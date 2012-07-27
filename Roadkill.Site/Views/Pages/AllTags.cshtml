@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<TagSummary>
 @{ 
-	ViewBag.Title = "All page tags";
+	ViewBag.Title = SiteStrings.AllTags_Title;
 }
-<h1>All Tags</h1>
+<h1>@SiteStrings.AllTags_Title</h1>
 
 @if (Model.Count() > 0)
 {
@@ -17,5 +17,5 @@
 }
 else
 {
-	<p>No tags found.</p>
+	<p>@SiteStrings.AllTags_NoResults</p>
 }

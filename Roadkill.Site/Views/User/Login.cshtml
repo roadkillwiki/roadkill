@@ -1,24 +1,24 @@
 ﻿@{ 
-	ViewBag.Title = "Login";
+	ViewBag.Title = SiteStrings.Login_Title;
 }
 
-<h1>Login</h1>
-@Html.ValidationSummary("Login was unsuccessful")
+<h1>@SiteStrings.Login_Title</h1>
+@Html.ValidationSummary(SiteStrings.Login_Unsuccessful_Title)
 
 @using (Html.BeginForm())
 {
 	@Html.Hidden("fromUrl",Request.QueryString["ReturnUrl"])
 	<fieldset id="login" class="rounded10 lightborder">
-		<label for="email" class="userlabel">Email:</label>
+		<label for="email" class="userlabel">@SiteStrings.Shared_Email_Label</label>
 		@Html.TextBox("email", null, new { @class = "usertextbox" })
 		<br class="clear" />	
 
-		<label for="password" class="userlabel">Password:</label>
+		<label for="password" class="userlabel">@SiteStrings.Shared_Password_Label</label>
 		<div>@Html.Password("password", null, new { @class = "usertextbox" })</div>
 		<br class="clear" />
 
-		@Html.ActionLink("Forgotten your password?", "ResetPassword", null, new { @class = "smaller" })
+		@Html.ActionLink(@SiteStrings.Login_ForgottenPassword, "ResetPassword", null, new { @class = "smaller" })
 	
-		<input type="submit" id="userbutton" class="button" value="Login" />
+		<input type="submit" id="userbutton" class="button" value="@SiteStrings.Button_Login" />
 	</fieldset>
 }

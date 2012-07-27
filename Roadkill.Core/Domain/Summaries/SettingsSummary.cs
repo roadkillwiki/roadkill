@@ -5,6 +5,7 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using Roadkill.Core.Localization.Resx;
 
 namespace Roadkill.Core
 {
@@ -20,13 +21,13 @@ namespace Roadkill.Core
 		public string AllowedExtensions { get; set; }
 		public bool AllowUserSignup { get; set; }
 
-		[Required(ErrorMessage = "The attachments folder is empty")]
+		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_AttachmentsEmpty")]
 		public string AttachmentsFolder { get; set; }
 
 		public bool CacheEnabled { get; set; }
 		public bool CacheText { get; set; }
 
-		[Required(ErrorMessage = "The connection string is empty")]
+		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_ConnectionEmpty")]
 		public string ConnectionString { get; set; }
 
 		/// <summary>
@@ -41,19 +42,19 @@ namespace Roadkill.Core
 		public string LdapUsername { get; set; }
 		public string LdapPassword { get; set; }
 
-		[Required(ErrorMessage = "The markup type is empty")]
+		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_MarkupTypeEmpty")]
 		public string MarkupType { get; set; }
 		
-		[Required(ErrorMessage = "The theme is empty")]	
+		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_ThemeEmpty")]
 		public string Theme { get; set; }
 
 		public string RecaptchaPrivateKey { get; set; }
 		public string RecaptchaPublicKey { get; set; }
 
-		[Required(ErrorMessage = "The sitename is empty")]
+		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_SiteNameEmpty")]
 		public string SiteName { get; set; }
 
-		[Required(ErrorMessage = "The site url is empty")]
+		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_SiteUrlEmpty")]
 		public string SiteUrl { get; set; }
 	
 		public bool UseWindowsAuth { get; set; }
