@@ -367,7 +367,7 @@ namespace Roadkill.Core
 				if (string.IsNullOrEmpty(ip))
 					ip = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
 
-				result += string.Format("{0} ({1})", username, ip);
+				result = string.Format("{0} ({1})", username, ip);
 			}
 #endif
 
