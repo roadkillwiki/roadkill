@@ -1,9 +1,9 @@
 ﻿@model PageSummary
 @{ 
-	ViewBag.Title = "Add/edit page";
+	ViewBag.Title = SiteStrings.EditPage_Title;
 }
 @Url.CssLink("validationEngine.jquery.css")
-@Url.ScriptLink("jquery.validationEngine-en.js")
+@Url.ScriptLinkForValidationLocalization()
 @Url.ScriptLink("jquery.validationEngine.js")
 @Url.ScriptLink("jquery.tooltip.min.js")
 <script type="text/javascript">
@@ -15,7 +15,7 @@
 </script>
 
 <div id="edit">
-	@Html.ValidationSummary("Unable to save the page:")
+	@Html.ValidationSummary(SiteStrings.EditPage_Error)
 
 	@using (Html.BeginForm())
 	{
@@ -23,13 +23,13 @@
 		@(Html.HiddenFor<PageSummary, string>(p => p.Tags))
 	 
 		<div class="title">
-			<label for="Title">Title</label>
+			<label for="Title">@SiteStrings.EditPage_Title_Label</label>
 			@(Html.TextBoxFor<PageSummary, string>(p => p.Title, new { @class = "validate[required]", tabindex = 1 }))<br />
 		</div>
 		<br />
 		
 		<div id="tagit">
-			<label for="tags">Tags</label>
+			<label for="tags">@SiteStrings.EditPage_Tags_Label</label>
 			<ul id="mytags"></ul>
 		</div>
 	 
@@ -37,7 +37,7 @@
 		{
 		<div class="lockpage">
 			@(Html.CheckBoxFor<PageSummary>(p => p.IsLocked))
-			<span>This page can only be edited by administrators.</span>
+			<span>@SiteStrings.EditPage_AdminOnly</span>
 		</div>
 		}
 		<br />
@@ -62,22 +62,22 @@
 
 		if (Model.Id > 0)
 		{
-			@Html.ActionLink("Cancel", "Index", "Wiki", new { id = Model.Id, title = Url.EncodeTitle(Model.Title) }, null)
+			@Html.ActionLink(SiteStrings.Button_Cancel, "Index", "Wiki", new { id = Model.Id, title = Url.EncodeTitle(Model.Title) }, null)
 		}
 		else
 		{
-			@Html.ActionLink("Cancel", "Index", "Wiki")
+			@Html.ActionLink(SiteStrings.Button_Cancel, "Index", "Wiki")
 		}
 			 
 		<div class="buttonContainer">
-			<input type="submit" class="button saveButton" value="Save" tabindex="4" />
-			<input type="button" class="button previewButton" value="Preview" tabindex="5" />
+			<input type="submit" class="button saveButton" value="@SiteStrings.Button_Save" tabindex="4" />
+			<input type="button" class="button previewButton" value="@SiteStrings.Button_Preview" tabindex="5" />
 		</div>
 		<br class="clear" /><br />
 	
 		<div id="previewLoading"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" alt="loading" /></div>
 		<div id="previewContainer">
-			<div id="title">Preview</div>
+			<div id="title">@SiteStrings.EditPage_Preview</div>
 			<div id="preview"></div>
 		</div>
 	}

@@ -12,6 +12,7 @@ using Ionic.Zip;
 using Ionic.Zlib;
 using System.Diagnostics;
 using Roadkill.Core.Search;
+using Roadkill.Core.Localization.Resx;
 
 namespace Roadkill.Core.Controllers
 {
@@ -135,14 +136,9 @@ namespace Roadkill.Core.Controllers
 			{
 				if (summary.UsernameHasChanged)
 				{
-					if (UserManager.Current.UpdateUser(summary))
+					if (!UserManager.Current.UpdateUser(summary))
 					{
-						PageManager pageManager = new PageManager();
-						pageManager.UpdateForUsernameChange(summary.ExistingUsername, summary.NewUsername);
-					}
-					else
-					{
-						ModelState.AddModelError("General", "Updating the user failed.");
+						ModelState.AddModelError("General", SiteStrings.SiteSettings_Users_EditUser_Error);
 					}
 
 					summary.ExistingEmail = summary.NewEmail;
@@ -207,7 +203,7 @@ namespace Roadkill.Core.Controllers
 			catch (IOException e)
 			{
 				Log.Warn(e, "Unable to export as XML");
-				TempData["Message"] = "Exporting to XML failed: " + e.Message;
+				TempData["Message"] = string.Format(SiteStrings.SiteSettings_Tools_ExportXml_Error, e.Message);
 
 				return RedirectToAction("Tools");
 			}
@@ -263,7 +259,7 @@ namespace Roadkill.Core.Controllers
 			catch (IOException e)
 			{
 				Log.Warn(e, "Unable to export wiki content");
-				TempData["Message"] = "Wiki content export failed: " + e.Message;
+				TempData["Message"] = string.Format(SiteStrings.SiteSettings_Tools_ExportContent_Error, e.Message);
 
 				return RedirectToAction("Tools");
 			}
@@ -298,7 +294,7 @@ namespace Roadkill.Core.Controllers
 			catch (IOException e)
 			{
 				Log.Warn(e, "Unable to export attachments");
-				TempData["Message"] = "Exporting attachments failed: " + e.Message;
+				TempData["Message"] = string.Format(SiteStrings.SiteSettings_Tools_ExportAttachments_Error, e.Message);
 
 				return RedirectToAction("Tools");
 			}
@@ -314,7 +310,7 @@ namespace Roadkill.Core.Controllers
 		{
 			ScrewTurnImporter importer = new ScrewTurnImporter();
 			importer.ImportFromSql(screwturnConnectionString);
-			TempData["Message"] = "Import successful";
+			TempData["Message"] = SiteStrings.SiteSettings_Tools_ScrewTurnImport_Message;
 
 			return RedirectToAction("Tools");
 		}
@@ -325,7 +321,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Redirects to the Tools action.</returns>
 		public ActionResult UpdateSearchIndex()
 		{
-			TempData["Message"] = "Update complete";
+			TempData["Message"] = SiteStrings.SiteSettings_Tools_RebuildSearch_Message;
 			SearchManager.Current.CreateIndex();
 			return RedirectToAction("Tools");
 		}
@@ -336,7 +332,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Redirects to the Tools action.</returns>
 		public ActionResult ClearPages()
 		{
-			TempData["Message"] = "Database cleared";
+			TempData["Message"] = SiteStrings.SiteSettings_Tools_ClearDatabase_Message;
 			SettingsManager.ClearPageTables();
 			return RedirectToAction("Tools");
 		}
@@ -347,7 +343,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Redirects to the Tools action.</returns>
 		public ActionResult RenameTag(string oldTagName, string newTagName)
 		{
-			TempData["Message"] = "Tag rename successful";
+			TempData["Message"] = SiteStrings.SiteSettings_Tools_RenameTag_Message;
 
 			PageManager manager = new PageManager();
 			manager.RenameTag(oldTagName, newTagName);

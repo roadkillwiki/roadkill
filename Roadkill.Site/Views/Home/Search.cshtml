@@ -1,22 +1,28 @@
 ﻿@using Roadkill.Core.Search
-@model IList<SearchResult>
+@model IEnumerable<SearchResult>
 @{ 
-	ViewBag.Title = "Search results";
+	string title = string.Format(SiteStrings.Search_Results, ViewData["search"]);
+	if (Model.Count() == 0)
+	{
+		title = string.Format(SiteStrings.Search_NoResults, ViewData["search"]);
+	}
+	
+	ViewBag.Title = title;
 }
 
-@if (Model.Count == 0)
+@if (Model.Count() == 0)
 {
-	<h1>Your search - @ViewData["search"] - did not match any pages.</h1>
+	<h1>@title</h1>
 }
 else
 {
-	<h1>Search results for '@ViewData["search"]'</h1>
+	<h1>@title</h1>
 }
 
 @using (Html.BeginForm("Search", "Home", FormMethod.Get))
 {
-	@Html.TextBox("q",null,new { placeholder="Enter text to search",@class="searchbox"})
-	<input type="submit" value="Search" />
+	@Html.TextBox("q",null,new { placeholder=SiteStrings.Search_PlaceHolder, @class="searchbox"})
+	<input type="submit" value="@SiteStrings.Button_Search" />
 }
 
 @foreach (SearchResult result in Model)

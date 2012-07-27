@@ -1,9 +1,9 @@
 ﻿@model UserSummary
 @{ 
-	ViewBag.Title = "Profile";
+	ViewBag.Title = SiteStrings.Profile_Title;
 }
 
-<h1>Profile</h1>
+<h1>@SiteStrings.Profile_Title</h1>
 @using (Html.BeginForm())
 {
 	@(Html.HiddenFor<UserSummary, Guid?>(h => h.Id))
@@ -12,32 +12,32 @@
 	@(Html.HiddenFor<UserSummary, string>(h => h.ExistingUsername))
 	
 	<fieldset id="profile" class="rounded10 lightborder">
-		@Html.ValidationSummary("An error occurred:")
+		@Html.ValidationSummary(SiteStrings.Shared_Error)
 
-		<label for="NewEmail" class="userlabel">First name:</label>
+		<label for="NewEmail" class="userlabel">@SiteStrings.Shared_Firstname</label>
 		@(Html.TextBoxFor<UserSummary, string>(t => t.Firstname, new { @class = "usertextbox" }))
 		<br class="clear" />
 
-		<label for="NewEmail" class="userlabel">Last name:</label>
+		<label for="NewEmail" class="userlabel">@SiteStrings.Shared_Lastname</label>
 		@(Html.TextBoxFor<UserSummary, string>(t => t.Lastname, new { @class = "usertextbox" }))
 		<br class="clear" />
 
-		<label for="NewEmail" class="userlabel">Email:</label>
+		<label for="NewEmail" class="userlabel">@SiteStrings.Shared_Email_Label</label>
 		@(Html.TextBoxFor<UserSummary, string>(t => t.NewEmail, new { @class = "usertextbox" }))
 		<br class="clear" />
 
-		<label for="NewUsername" class="userlabel">Username:</label>
+		<label for="NewUsername" class="userlabel">@SiteStrings.Shared_Username</label>
 		@(Html.TextBoxFor<UserSummary, string>(t => t.NewUsername, new { @class = "usertextbox" }))
 		<br class="clear" />
 
-		<label for="Password" class="userlabel">Password:</label>
+		<label for="Password" class="userlabel">@SiteStrings.Shared_Password_Label</label>
 		@(Html.PasswordFor<UserSummary, string>(t => t.Password, new { @class = "usertextbox" }))
 		<br class="clear" />
 
-		<label for="PasswordConfirmation" class="userlabel">Password confirm:</label>
+		<label for="PasswordConfirmation" class="userlabel">@SiteStrings.Shared_PasswordConfirm_Label</label>
 		@(Html.PasswordFor<UserSummary, string>(t => t.PasswordConfirmation, new { @class = "usertextbox" }))	
 		<br class="clear" />
 	
-		<input type="submit" id="userbutton" class="button" value="Save" />
+		<input type="submit" id="userbutton" class="button" value="@SiteStrings.Button_Save" />
 	</fieldset>
 }

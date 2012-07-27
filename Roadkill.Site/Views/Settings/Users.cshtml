@@ -1,6 +1,6 @@
 ﻿@model IList<IEnumerable<UserSummary>>
 @{ 
-	ViewBag.Title = "Site users";
+	ViewBag.Title = SiteStrings.SiteSettings_Users_Title;
 }
 <script type="text/javascript">
 	$(document).ready(function ()
@@ -9,7 +9,7 @@
 	});
 </script>
 
-<h1>Users</h1>
+<h1>@SiteStrings.SiteSettings_Users_Title</h1>
 @Html.Partial("SettingsMenu")
 
 @if (TempData["action"] != null)
@@ -24,14 +24,14 @@
 }
 
 <div id="settings" class="blueborder rounded5">
-	<h2>Admins</h2>
+	<h2>@SiteStrings.SiteSettings_Users_Admins</h2>
 	<p>
-		<a id="addadmin" href="javascript:;">New admin user</a>
+		<a id="addadmin" href="javascript:;">@SiteStrings.SiteSettings_Users_NewAdmin</a>
 	</p>
 	<table class="settingstable">
 		<tr>
-			<td class="title bold">Username</td>
-			<td class="title bold">Email</td>
+			<td class="title bold">@SiteStrings.SiteSettings_Users_ColumnHeader_Username</td>
+			<td class="title bold">@SiteStrings.SiteSettings_Users_ColumnHeader_Email</td>
 			<td colspan="2"></td>
 		</tr>
 	@foreach (UserSummary user in Model[0])
@@ -39,36 +39,41 @@
 		<tr>
 			<td class="title">@user.ExistingUsername</td>
 			<td class="title">@user.ExistingEmail</td>
-			<td class="edit"><a href="javascript:;" rel="var user = {id : '@user.Id', email :'@user.ExistingEmail',username:'@user.ExistingUsername'}">Edit</a></td>
+			<td class="edit"><a href="javascript:;" rel="var user = {id : '@user.Id', email :'@user.ExistingEmail',username:'@user.ExistingUsername'}">@SiteStrings.Navigation_Edit</a></td>
 		@if (Model[0].Count() > 0 && user.ExistingEmail != RoadkillContext.Current.CurrentUser)
 		{
-			<td class="delete">@Html.ActionLink("Delete", "Delete", new { id = user.ExistingEmail }, new { @class = "confirm" })</td>
+			<td class="delete">@Html.ActionLink(SiteStrings.Navigation_Delete, "Delete", new { id = user.ExistingEmail }, new { @class = "confirm" })</td>
 		}
 		</tr>
 	}
 	</table>
 	<br class="clear" />
 
-	<h2>Editors</h2>
+	<h2>@SiteStrings.SiteSettings_Users_Editors</h2>
 	<p>
-		<a id="addeditor" href="javascript:;">New editor user</a>
+		<a id="addeditor" href="javascript:;">@SiteStrings.SiteSettings_Users_NewEditor</a>
 	</p>
 	<table class="settingstable">
+		<tr>
+			<td class="title bold">@SiteStrings.SiteSettings_Users_ColumnHeader_Username</td>
+			<td class="title bold">@SiteStrings.SiteSettings_Users_ColumnHeader_Email</td>
+			<td colspan="2"></td>
+		</tr>
 	@foreach (UserSummary user in Model[1])
 	{
 		<tr>
 			<td class="title">@user.ExistingUsername</td>
 			<td class="title">@user.ExistingEmail</td>
-			<td class="edit"><a href="javascript:;" rel="var user = {id : '@user.Id', email :'@user.ExistingEmail',username:'@user.ExistingUsername'}">Edit</a></td>
-			<td class="delete">@Html.ActionLink("Delete", "DeleteUser", new { id = user.ExistingEmail }, new { @class = "confirm" })</td>
+			<td class="edit"><a href="javascript:;" rel="var user = {id : '@user.Id', email :'@user.ExistingEmail',username:'@user.ExistingUsername'}">@SiteStrings.Navigation_Edit</a></td>
+			<td class="delete">@Html.ActionLink(SiteStrings.Navigation_Delete, "DeleteUser", new { id = user.ExistingEmail }, new { @class = "confirm" })</td>
 		</tr>
 	}
 	</table>
 	<br class="clear" />
 
 	<div id="userdialogContainer">
-		<h2 style="margin-top:0">Edit user</h2>
-		@Html.ValidationSummary("Unable to save the user details:")
+		<h2 style="margin-top:0">@SiteStrings.SiteSettings_Users_EditUserDialog_Title</h2>
+		@Html.ValidationSummary(SiteStrings.SiteSettings_Users_AddUserDialog_Error)
 		<!-- The postback URL is changed dynamically in bindUserButtons in roadkill.settings.js -->
 		@using (Html.BeginForm("AddAdmin", "Settings", FormMethod.Post, new { id = "userform" }))
 		{
@@ -76,31 +81,31 @@
 			@Html.Hidden("IsNew")
 			@Html.Hidden("ExistingEmail")
 			@Html.Hidden("ExistingUsername")
-			<p class="smallest">For existing users, leave the password fields blank to change just the username.</p>
+			<p class="smallest">@SiteStrings.SiteSettings_Users_AddUserDialog_Help</p>
 			<div class="row">
-				<label for="NewUsername">Username:</label>
+				<label for="NewUsername">@SiteStrings.Shared_Username</label>
 				<div class="left textbox">@Html.TextBox("NewUsername", null, new { @autocomplete = "off" })</div>
 			</div>
 			<br class="clear" />
 			<div class="row">
-				<label for="NewEmail">Email:</label>
+				<label for="NewEmail">@SiteStrings.Shared_Email_Label</label>
 				<div class="left textbox">@Html.TextBox("NewEmail", null, new { @autocomplete = "off" })</div>
 			</div>
 			<br class="clear" />
 	 
 			 <div class="row">
-				<label for="Password">Password:</label>
+				<label for="Password">@SiteStrings.Shared_Password_Label</label>
 				<div class="left textbox">@Html.Password("Password", null, new { @autocomplete = "off" })</div>
 				<br class="clear" />
 			</div>
 	 
 			 <div class="row">
-				<label for="PasswordConfirmation">Password (confirm):</label>
+				<label for="PasswordConfirmation">@SiteStrings.Shared_PasswordConfirm_Label</label>
 				<div class="left textbox">@Html.Password("PasswordConfirmation", null, new { @autocomplete = "off" })</div>
 				<br class="clear" />
 			</div>
 		
-			<input type="submit" value="Save" class="smallerbutton right" />
+			<input type="submit" value="@SiteStrings.Button_Save" class="smallerbutton right" />
 		}
 	</div>
 </div>

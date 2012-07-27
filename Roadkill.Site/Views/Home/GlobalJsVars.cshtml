@@ -29,6 +29,8 @@ var ROADKILL_EDIT_IMAGE_ENDTOKEN    = "@Html.Raw(parser.ImageEndToken)";
 var ROADKILL_EDIT_NUMBERLIST_TOKEN  = "@Html.Raw(parser.NumberedListToken)";
 var ROADKILL_EDIT_BULLETLIST_TOKEN  = "@Html.Raw(parser.BulletListToken)";
 var ROADKILL_EDIT_HEADING_TOKEN     = "@Html.Raw(parser.HeadingToken)";
+var ROADKILL_EDIT_LINK_URLPLACEHOLDER  = "@Html.Raw(SiteStrings.EditPage_LinkUrl_PlaceHolder)";
+var ROADKILL_EDIT_LINK_TEXTPLACEHOLDER  = "@Html.Raw(SiteStrings.EditPage_LinkText_PlaceHolder)";
 
 @if (RoadkillContext.Current.IsAdmin)
 {
@@ -36,4 +38,9 @@ var ROADKILL_EDIT_HEADING_TOKEN     = "@Html.Raw(parser.HeadingToken)";
 @:var ROADKILL_ADDADMIN_FORMACTION = "@Url.Action("AddAdmin", "Settings")";
 @:var ROADKILL_ADDEDITOR_FORMACTION = "@Url.Action("AddEditor", "Settings")";
 @:var ROADKILL_EDITUSER_FORMACTION = "@Url.Action("EditUser", "Settings")";
+
+@:var ROADKILL_LINK_CONFIRM = "@SiteStrings.Shared_ConfirmLink";
+@:var ROADKILL_ADDADMIN_TITLE = "@SiteStrings.SiteSettings_Users_AddAdminDialog_Title";
+@:var ROADKILL_ADDEDITOR_TITLE = "@SiteStrings.SiteSettings_Users_AddEditorDialog_Title";
+@:var ROADKILL_EDITUSER_TITLE = "@SiteStrings.SiteSettings_Users_EditUserDialog_Title";
 }

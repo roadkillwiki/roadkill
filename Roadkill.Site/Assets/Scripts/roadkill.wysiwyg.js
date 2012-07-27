@@ -143,14 +143,14 @@ function addLink()
 	{
 		var text = range.text;
 		if(range.text === "")
-			text = "Link text";
+			text = ROADKILL_EDIT_LINK_TEXTPLACEHOLDER;
 
 		var prefix = ROADKILL_EDIT_LINK_STARTTOKEN.toString();
-		prefix = prefix.replace("%URL%", "enter url or page name");
+		prefix = prefix.replace("%URL%", ROADKILL_EDIT_LINK_URLPLACEHOLDER);
 		prefix = prefix.replace("%LINKTEXT%", text);
 
 		var suffix = ROADKILL_EDIT_LINK_ENDTOKEN.toString();
-		suffix = suffix.replace("%URL%", "enter url or page name");
+		suffix = suffix.replace("%URL%", ROADKILL_EDIT_LINK_URLPLACEHOLDER);
 		suffix = suffix.replace("%LINKTEXT%", text);
 
 		$("#Content").replaceSelection(prefix + suffix);
@@ -211,66 +211,66 @@ function repeat(text,count)
 
 			return (
 			/* mozilla / dom 3.0 */
-                ('selectionStart' in e && function () {
-                	var l = e.selectionEnd - e.selectionStart;
-                	return {
-                		start: e.selectionStart,
-                		end: e.selectionEnd,
-                		length: l,
-                		text: e.value.substr(e.selectionStart, l)
-                	};
-                })
+				('selectionStart' in e && function () {
+					var l = e.selectionEnd - e.selectionStart;
+					return {
+						start: e.selectionStart,
+						end: e.selectionEnd,
+						length: l,
+						text: e.value.substr(e.selectionStart, l)
+					};
+				})
 
 			/* exploder */
-                || (document.selection && function () {
-                	e.focus();
+				|| (document.selection && function () {
+					e.focus();
 
-                	var r = document.selection.createRange();
-                	if (r == null) {
-                		return {
-                			start: 0,
-                			end: e.value.length,
-                			length: 0
-                		};
-                	}
+					var r = document.selection.createRange();
+					if (r == null) {
+						return {
+							start: 0,
+							end: e.value.length,
+							length: 0
+						};
+					}
 
-                	var re = e.createTextRange();
-                	var rc = re.duplicate();
-                	re.moveToBookmark(r.getBookmark());
-                	rc.setEndPoint('EndToStart', re);
+					var re = e.createTextRange();
+					var rc = re.duplicate();
+					re.moveToBookmark(r.getBookmark());
+					rc.setEndPoint('EndToStart', re);
 
-                	// IE bug - it counts newline as 2 symbols when getting selection coordinates,
-                	//  but counts it as one symbol when setting selection
-                	var rcLen = rc.text.length,
-                        i,
-                        rcLenOut = rcLen;
-                	for (i = 0; i < rcLen; i++) {
-                		if (rc.text.charCodeAt(i) == 13) rcLenOut--;
-                	}
-                	var rLen = r.text.length,
-                        rLenOut = rLen;
-                	for (i = 0; i < rLen; i++) {
-                		if (r.text.charCodeAt(i) == 13) rLenOut--;
-                	}
+					// IE bug - it counts newline as 2 symbols when getting selection coordinates,
+					//  but counts it as one symbol when setting selection
+					var rcLen = rc.text.length,
+						i,
+						rcLenOut = rcLen;
+					for (i = 0; i < rcLen; i++) {
+						if (rc.text.charCodeAt(i) == 13) rcLenOut--;
+					}
+					var rLen = r.text.length,
+						rLenOut = rLen;
+					for (i = 0; i < rLen; i++) {
+						if (r.text.charCodeAt(i) == 13) rLenOut--;
+					}
 
-                	return {
-                		start: rcLenOut,
-                		end: rcLenOut + rLenOut,
-                		length: rLenOut,
-                		text: r.text
-                	};
-                })
+					return {
+						start: rcLenOut,
+						end: rcLenOut + rLenOut,
+						length: rLenOut,
+						text: r.text
+					};
+				})
 
 			/* browser not supported */
-                || function () {
-                	return {
-                		start: 0,
-                		end: e.value.length,
-                		length: 0
-                	};
-                }
+				|| function () {
+					return {
+						start: 0,
+						end: e.value.length,
+						length: 0
+					};
+				}
 
-            )();
+			)();
 
 		},
 
@@ -300,24 +300,24 @@ function repeat(text,count)
 
 			return (
 			/* mozilla / dom 3.0 */
-                ('selectionStart' in e && function () {
-                	e.value = e.value.substr(0, e.selectionStart) + text + e.value.substr(e.selectionEnd, e.value.length);
-                	return this;
-                })
+				('selectionStart' in e && function () {
+					e.value = e.value.substr(0, e.selectionStart) + text + e.value.substr(e.selectionEnd, e.value.length);
+					return this;
+				})
 
 			/* exploder */
-                || (document.selection && function () {
-                	e.focus();
-                	document.selection.createRange().text = text;
-                	return this;
-                })
+				|| (document.selection && function () {
+					e.focus();
+					document.selection.createRange().text = text;
+					return this;
+				})
 
 			/* browser not supported */
-                || function () {
-                	e.value += text;
-                	return this;
-                }
-            )();
+				|| function () {
+					e.value += text;
+					return this;
+				}
+			)();
 		}
 	};
 

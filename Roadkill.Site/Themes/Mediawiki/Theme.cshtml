@@ -19,7 +19,7 @@
 		<span id="loggedinas" class="left">@Html.LoginStatus()@Html.LoginLink("&nbsp;-&nbsp;","")</span>
 		<br class="clear" />
 		<div id="search">
-			<input type="text" name="q" placeholder="Enter text to search" />
+			<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" />
 			<button id="searchbutton">
 				<img src="@Url.ThemeContent("search.png")" alt="Search" />
 			</button>
@@ -34,9 +34,9 @@
 		
 		<div id="leftmenu">
 			<ul>
-				<li>@Html.MainPageLink("Main Page","","")</li>
-				<li>@Html.ActionLink("Categories", "AllTags", "Pages")</li>
-				<li>@Html.ActionLink("All pages", "AllPages", "Pages")</li>
+				<li>@Html.MainPageLink(SiteStrings.Navigation_MainPage,"","")</li>
+				<li>@Html.ActionLink(SiteStrings.Navigation_Categories, "AllTags", "Pages")</li>
+				<li>@Html.ActionLink(SiteStrings.Navigation_AllPages, "AllPages", "Pages")</li>
 			</ul>
 
 			
@@ -54,7 +54,7 @@
 		@RenderSection("PageToolbar", false)
 		@if (RoadkillContext.Current.IsContentPage)
 		{
-			<div id="viewhistory">@Html.ActionLink("View History", "History", "Pages", new { id = RoadkillContext.Current.Page.Id }, null)</div>
+			<div id="viewhistory">@Html.ActionLink(SiteStrings.Navigation_ViewHistory, "History", "Pages", new { id = RoadkillContext.Current.Page.Id }, null)</div>
 		}
 		<div id="content">
 			@RenderBody()
@@ -64,11 +64,11 @@
 	<div id="footer">
 		@if (RoadkillContext.Current.IsContentPage)
 		{
-		<p>This page was last modified on @RoadkillContext.Current.Page.ModifiedOn.ToString("dd MMM yyyy") 
+		<p>@SiteStrings.Shared_LastModified @RoadkillContext.Current.Page.ModifiedOn.ToString("dd MMM yyyy") 
 		at @RoadkillContext.Current.Page.ModifiedOn.ToShortTimeString().</p>
 		}
 		<p>
-			Powered by Roadkill Wiki (@RoadkillSettings.Version). This theme contains portions of its design from <a href="http://www.mediawiki.org" target="_blank">Mediawiki.org</a>.
+			@SiteStrings.Shared_PoweredBy (@RoadkillSettings.Version). This theme contains portions of its design from <a href="http://www.mediawiki.org" target="_blank">Mediawiki.org</a>.
 		</p>
 	</div>
 </body>

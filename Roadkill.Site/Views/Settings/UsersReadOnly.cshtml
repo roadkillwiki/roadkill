@@ -1,23 +1,22 @@
 ﻿@model IList<IEnumerable<UserSummary>>
 @{ 
-	ViewBag.Title = "Site users";
+	ViewBag.Title = SiteStrings.SiteSettings_Users_Title;
 }
-<h1>Site settings</h1>
+<h1>@SiteStrings.SiteSettings_Users_Title</h1>
 
 @Html.Partial("SettingsMenu")
 
 <div id="settings" class="blueborder rounded5">
 	<p>
-		<b>Windows/Active Directory authentication is enabled</b><br />
-		User names and passwords are not editable with Windows authentication - you should do this through Active Directory.
+		<b>@SiteStrings.SiteSettings_Users_AD_Title</b><br />
+		@SiteStrings.SiteSettings_Users_AD_Label1
 	</p>
 	
 	<p>
-		To add a user as an admin or editor, make sure they are part of the Windows security group that you have specified for
-		the "AdminRolename" and "EditorRolename" settings in the web.config.
+		@SiteStrings.SiteSettings_Users_AD_Label2
 	</p>
 	
-	<h2>Admins (@RoadkillSettings.AdminRoleName)</h2>
+	<h2>@SiteStrings.SiteSettings_Users_Admins (@RoadkillSettings.AdminRoleName)</h2>
 	<table class="settingstable">
 		@foreach (UserSummary user in Model[0])
 		{
@@ -28,7 +27,7 @@
 	</table>
 	<br class="clear" />
 
-	<h2>Editors (@RoadkillSettings.EditorRoleName)</h2>
+	<h2>@SiteStrings.SiteSettings_Users_Editors (@RoadkillSettings.EditorRoleName)</h2>
 	<table class="settingstable">
 	@foreach (UserSummary user in Model[1])
 	{

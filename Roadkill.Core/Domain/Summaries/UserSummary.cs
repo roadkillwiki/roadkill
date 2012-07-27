@@ -5,6 +5,7 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Security;
 using System.Text.RegularExpressions;
+using Roadkill.Core.Localization.Resx;
 
 namespace Roadkill.Core
 {
@@ -45,7 +46,7 @@ namespace Roadkill.Core
 		/// The username to change to. For no change this should be the same as <see cref="ExistingUsername"/>.
 		/// For new signups this field contains the username.
 		/// </summary>
-		[Required(ErrorMessage="The username field is required")]
+		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "User_Validation_Username")]
 		public string NewUsername { get; set; }
 
 		/// <summary>
@@ -57,7 +58,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// The email to change to. For no change this should be the same as <see cref="ExistingEmail"/>
 		/// </summary>
-		[Required(ErrorMessage = "The email field is required")]
+		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "User_Validation_Email")]
 		public string NewEmail { get; set; }
 
 		/// <summary>
@@ -136,11 +137,11 @@ namespace Roadkill.Core
 			{
 				if (UserManager.Current.UserNameExists(user.NewUsername))
 				{
-					return new ValidationResult(string.Format("{0} username already exists", user.NewUsername));
+					return new ValidationResult(string.Format(SiteStrings.User_Validation_UsernameExists, user.NewUsername));
 				}
 				else if (!string.IsNullOrEmpty(user.NewUsername) && user.NewUsername.Trim().Length == 0)
 				{
-					return new ValidationResult(string.Format("The username is empty", user.NewUsername));
+					return new ValidationResult(string.Format(SiteStrings.User_Validation_UsernameEmpty, user.NewUsername));
 				}
 			}
 
@@ -160,7 +161,7 @@ namespace Roadkill.Core
 			{
 				if (UserManager.Current.UserExists(user.NewEmail))
 				{
-					return new ValidationResult(string.Format("{0} email already exists", user.NewEmail));
+					return new ValidationResult(string.Format(SiteStrings.User_Validation_EmailExists, user.NewEmail));
 				}
 			}
 
@@ -184,7 +185,7 @@ namespace Roadkill.Core
 			}
 			else
 			{
-				return new ValidationResult("The passwords don't match.");
+				return new ValidationResult(SiteStrings.User_Validation_PasswordsDontMatch);
 			}
 		}
 
@@ -204,7 +205,7 @@ namespace Roadkill.Core
 			{
 				if (string.IsNullOrEmpty(user.Password) || user.Password.Length < RoadkillSettings.MinimumPasswordLength)
 				{
-					return new ValidationResult(string.Format("The password is less than {0} characters", RoadkillSettings.MinimumPasswordLength));
+					return new ValidationResult(string.Format(SiteStrings.User_Validation_PasswordTooShort, RoadkillSettings.MinimumPasswordLength));
 				}
 			}
 

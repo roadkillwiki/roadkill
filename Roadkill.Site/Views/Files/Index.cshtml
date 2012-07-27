@@ -1,7 +1,7 @@
 ﻿@model IList<IList<string>>
 @{
 	Layout = "~/Views/Shared/_Blank.cshtml";
-	ViewBag.Title = "File explorer";
+	ViewBag.Title = SiteStrings.FileExplorer_Title;
 }
 
 @Url.CssLink("jqueryFileTree.css")
@@ -13,8 +13,8 @@ $(document).ready(function ()
 });
 </script>
 <div id="files-container" class="padded">
-	<a href="javascript:;" id="uploadfile">Upload a file</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-	<a href="javascript:;" id="newdirectory">New directory</a>
+	<a href="javascript:;" id="uploadfile">@SiteStrings.FileExplorer_Upload</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+	<a href="javascript:;" id="newdirectory">@SiteStrings.FileExplorer_NewDirectory</a>
 	<br /><br />
 
 	<div id="generic-container" class="hidden lightborder rounded5 midpadded"></div>
@@ -25,7 +25,7 @@ $(document).ready(function ()
 	{
 		@Html.Hidden("currentUploadFolderPath")
 		<input type="file" id="uploadFile" name="uploadFile"/>
-		<input type="submit" value="Upload" class="smallerbutton"/>
+		<input type="submit" value="@SiteStrings.FileExplorer_Button_Upload" class="smallerbutton"/>
 	}
 	</div>
 
@@ -34,13 +34,13 @@ $(document).ready(function ()
 	@using (Html.BeginForm("NewFolder", "Files"))
 	{
 		@Html.Hidden("currentFolderPath")
-		<span>Folder name:</span>
+		<span>@SiteStrings.FileExplorer_FolderName</span>
 		@Html.TextBox("newFolderName")
-		<input type="submit" value="Create" class="smallerbutton"/>
+		<input type="submit" value="@SiteStrings.FileExplorer_Button_Create" class="smallerbutton"/>
 	}
 	</div>
 
-	<h2>Choose a file</h2>
+	<h2>@SiteStrings.FileExplorer_ChooseFile</h2>
 	@if (@TempData["Error"] != null)
 	{
 	<span class="validation-summary-errors">@TempData["Error"]</span>
@@ -52,7 +52,7 @@ $(document).ready(function ()
 			<div id="file-preview" class="hidden lightborder padded">
 				<span id="previewname" class="smallest"></span><br />
 				<img id="previewimage" src="" alt="preview" />
-				<input id="choosebutton" type="button" value="select" class="smallestbutton" />
+				<input id="choosebutton" type="button" value="@SiteStrings.FileExplorer_Button_Select" class="smallestbutton" />
 			</div>
 			<br class="clear" />
 		</div>

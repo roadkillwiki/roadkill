@@ -7,6 +7,7 @@ using System.Text;
 using System.Web.Security;
 using Roadkill.Core.Search;
 using System.ComponentModel.DataAnnotations;
+using Roadkill.Core.Localization.Resx;
 
 namespace Roadkill.Core.Controllers
 {
@@ -26,7 +27,7 @@ namespace Roadkill.Core.Controllers
 
 			if (!UserManager.Current.ActivateUser(id))
 			{
-				ModelState.AddModelError("General", "There was a problem activating your account. It may have already been activated.");
+				ModelState.AddModelError("General", SiteStrings.Activate_Error);
 			}
 
 			return View();
@@ -67,7 +68,7 @@ namespace Roadkill.Core.Controllers
 				UserSummary.VerifyPasswordsMatch(summary,null) != ValidationResult.Success)
 			{
 				ModelState.Clear();
-				ModelState.AddModelError("Passwords", "The passwords do not match, or are too short");
+				ModelState.AddModelError("Passwords", SiteStrings.ResetPassword_Error);
 				return View(summary);
 			}
 			else
@@ -117,7 +118,7 @@ namespace Roadkill.Core.Controllers
 			}
 			else
 			{
-				ModelState.AddModelError("Username/Password", "The username/password is incorrect");
+				ModelState.AddModelError("Username/Password", SiteStrings.Login_Error);
 				return View();
 			}
 		}
@@ -161,18 +162,17 @@ namespace Roadkill.Core.Controllers
 			if (summary.Id == null || summary.Id == Guid.Empty)
 				return RedirectToAction("Login");
 
+#if APPHARBOR
+			ModelState.AddModelError("General", "The demo site login cannot be changed.");
+#endif
+
 			if (ModelState.IsValid)
 			{
 				try
 				{
-					if (UserManager.Current.UpdateUser(summary))
+					if (!UserManager.Current.UpdateUser(summary))
 					{
-						PageManager pageManager = new PageManager();
-						pageManager.UpdateForUsernameChange(summary.ExistingUsername, summary.NewUsername);
-					}
-					else
-					{
-						ModelState.AddModelError("General", "An error occurred updating your profile");
+						ModelState.AddModelError("General", SiteStrings.Profile_Error);
 						summary.ExistingEmail = summary.NewEmail;
 					}
 
@@ -210,17 +210,22 @@ namespace Roadkill.Core.Controllers
 			if (RoadkillSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
+#if APPHARBOR
+			ModelState.AddModelError("General", "The demo site login cannot be changed.");
+			return View();
+#endif
+
 			if (string.IsNullOrEmpty(email))
 			{
 				// No email
-				ModelState.AddModelError("General", "Please enter an email address");
+				ModelState.AddModelError("General", SiteStrings.ResetPassword_Error_MissingEmail);
 			}
 			else
 			{	
 				User user = UserManager.Current.GetUser(email);
 				if (user == null)
 				{
-					ModelState.AddModelError("General", "The email address could not be found");
+					ModelState.AddModelError("General", SiteStrings.ResetPassword_Error_EmailNotFound);
 				}
 				else
 				{
@@ -234,7 +239,7 @@ namespace Roadkill.Core.Controllers
 					}
 					else
 					{
-						ModelState.AddModelError("General", "The password reset failed from a server error.");
+						ModelState.AddModelError("General", SiteStrings.ResetPassword_Error_ServerError);
 					}
 				}
 			}
@@ -292,7 +297,7 @@ namespace Roadkill.Core.Controllers
 				if (isCaptchaValid.HasValue && isCaptchaValid == false)
 				{
 					// Invalid recaptcha
-					ModelState.AddModelError("General", "The two words for the anti-spam box were incorrect");
+					ModelState.AddModelError("General", SiteStrings.Signup_Error_Recaptcha);
 				}
 				else
 				{
@@ -304,7 +309,7 @@ namespace Roadkill.Core.Controllers
 							string key = UserManager.Current.Signup(summary, null);
 							if (string.IsNullOrEmpty(key))
 							{
-								ModelState.AddModelError("General", "An error occurred with the signup.");
+								ModelState.AddModelError("General", SiteStrings.Signup_Error_General);
 							}
 							else
 							{

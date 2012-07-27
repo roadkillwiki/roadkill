@@ -1,10 +1,10 @@
 ﻿@model SettingsSummary
 
 @{ 
-	ViewBag.Title = "Site settings";
+	ViewBag.Title = SiteStrings.SiteSettings_Configuration_Title;
 }
 @Url.CssLink("validationEngine.jquery.css")
-@Url.ScriptLink("jquery.validationEngine-en.js")
+@Url.ScriptLinkForValidationLocalization()
 @Url.ScriptLink("jquery.validationEngine.js")
 @Url.ScriptLink("jquery.tooltip.min.js")
 
@@ -42,7 +42,7 @@
 	}
 </script>
 
-<h1>Site settings</h1>
+<h1>@SiteStrings.SiteSettings_Configuration_Title</h1>
 
 @Html.Partial("SettingsMenu")
 
@@ -52,58 +52,58 @@
 {
 <div id="settings" class="blueborder rounded5">
 	<div class="row">
-		<label for="SiteName">Site name:</label>
+		<label for="SiteName">@SiteStrings.SiteSettings_Configuration_SiteName</label>
 		<div class="left textbox">
 			@(Html.TextBoxFor<SettingsSummary, string>(s => s.SiteName, new { @class = "validate[required]" }))
 		</div>
 		<div class="help right">
-			<a href="javascript:;" rel="The name of the site, which is used in certain themes."><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_SiteName_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 		</div>
 		<br class="clear" />
 	</div>
 
 	<div class="row">
-		<label for="SiteUrl">Site url:</label>
+		<label for="SiteUrl">@SiteStrings.SiteSettings_Configuration_SiteUrl</label>
 		<div class="left textbox">
 			@(Html.TextBoxFor<SettingsSummary, string>(s => s.SiteUrl, new { @class = "validate[required]" }))
 		</div>
 		<div class="help right">
-			<a href="javascript:;" rel="The url of the site, which is used in signup and reset password emails.  Do not include the trailing slash."><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_SiteUrl_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 		</div>
 		<br class="clear" />
 	</div>
 
-	<h2>Connection strings</h2>
+	<h2>@SiteStrings.SiteSettings_Configuration_ConnectionStrings</h2>
 	<div class="row">
-		<label for="DatabaseType">Database type:</label>
+		<label for="DatabaseType">@SiteStrings.SiteSettings_Configuration_DatabaseType</label>
 		<div class="left selectbox">
 			@Html.DropDownBoxForDatabaseType()
 		</div>
 		<div class="help right">
-			<a href="javascript:;" rel="Changes your database type - you will need to recreate the schema in the tools for this to work correctly."><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_DatabaseType_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 		</div>
 		<br class="clear" />
 	</div>
 
 	<div class="row">
-		<label for="ConnectionString">Database connection string:</label>
+		<label for="ConnectionString">@SiteStrings.SiteSettings_Configuration_DatabaseConnectionString</label>
 		<div class="left textbox" >
 			@(Html.TextBoxFor<SettingsSummary, string>(s => s.ConnectionString, new { @class = "validate[required]" }))
 		</div>
 		<div class="help right">
-			<a href="javascript:;" rel="The database connection string"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_DatabaseConnectionString_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 		</div>
 		<br class="clear" />
 	</div>
 
 	<h2>Security</h2>
 	<div class="row">
-		<label for="UseWindowsAuth">Use Windows authentication:</label>
+		<label for="UseWindowsAuth">@SiteStrings.SiteSettings_Configuration_UseWindowsAuth</label>
 		<div class="left checkbox">
 			@(Html.CheckBoxFor<SettingsSummary>(s => s.UseWindowsAuth))
 		</div>
 		<div class="help right">
-			<a href="javascript:;" rel="<b>WARNING</b> changing this may lock you out of the site. Make a backup of your web.config first before saving.<br/><br/> Sets whether to use Windows Authentication and Active Directory for authentication."><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_UseWindowsAuth_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 		</div>
 		<br class="clear" />
 	</div>
@@ -111,45 +111,45 @@
 	<!-- SQL users -->
 	 <div id="aspnetuser-settings" class="hidden">
 		<div class="row">
-			<label for="AllowUserSignup">Allow user signups:</label>
+			<label for="AllowUserSignup">@SiteStrings.SiteSettings_Configuration_AllowUserSignups</label>
 			<div class="left checkbox">
 				@(Html.CheckBoxFor<SettingsSummary>(s => s.AllowUserSignup))
 			</div>
 			<div class="help right">
-				<a href="javascript:;" rel="Check this option if you want to allow people to signup as a new users"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_AllowUserSignups_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 			</div>
 			<br class="clear" />
 		</div>
 
 		<div class="row">
-			<label for="EnableRecaptcha">Enabled recaptcha:</label>
+			<label for="EnableRecaptcha">@SiteStrings.SiteSettings_Configuration_EnableRecaptcha</label>
 			<div class="left checkbox">
 				@(Html.CheckBoxFor<SettingsSummary>(s => s.EnableRecaptcha))
 			</div>
 			<div class="help right">
-				<a href="javascript:;" rel="Enable Recaptcha support - a free anti-spam bot service. You will need to signup and copy your public and private key into the fields below"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_EnableRecaptcha_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 			</div>
 			<br class="clear" />
 		</div>
 
 		<div class="row">
-			<label for="RecaptchaPrivateKey">Recaptcha private key:</label>
+			<label for="RecaptchaPrivateKey">@SiteStrings.SiteSettings_Configuration_RecaptchaPrivateKey</label>
 			<div class="left textbox">
 				@(Html.TextBoxFor<SettingsSummary, string>(s => s.RecaptchaPrivateKey))
 			</div>
 			<div class="help right">
-				<a href="javascript:;" rel="The private key for Recaptcha, which is provided when you signup with recaptcha."><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_RecaptchaPrivateKey_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 			</div>
 			<br class="clear" />
 		</div>
 
 		<div class="row">
-			<label for="RecaptchaPrivateKey">Recaptcha public key:</label>
+			<label for="RecaptchaPrivateKey">@SiteStrings.SiteSettings_Configuration_RecaptchaPublicKey</label>
 			<div class="left textbox">
 				@(Html.TextBoxFor<SettingsSummary, string>(s => s.RecaptchaPublicKey))
 			</div>
 			<div class="help right">
-				<a href="javascript:;" rel="The public key for Recaptcha, which is provided when you signup with recaptcha."><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_RecaptchaPublicKey_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 			</div>
 			<br class="clear" />
 		</div>
@@ -158,125 +158,125 @@
 	<!-- LDAP users -->
 	<div id="ldapsettings" class="hidden">
 		<div class="row">
-			<label for="LdapConnectionString">Authentication/LDAP connection string:</label>
+			<label for="LdapConnectionString">@SiteStrings.SiteSettings_Configuration_AD_Connection</label>
 			<div class="left textbox">
 				@(Html.TextBoxFor<SettingsSummary, string>(s => s.LdapConnectionString, new { @class = "validate[required]" }))
 			</div>
 			<div class="help right">
-				<a href="javascript:;" rel="The LDAP connection string for the Active Directory connection.This should be in the format LDAP://mydc01.company.internal (it should be uppercase LDAP)"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_AD_Connection_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 			</div>
 			<br class="clear" />
 		</div>
 		<div class="row">
-			<label for="LdapUsername">LDAP username:</label>
+			<label for="LdapUsername">@SiteStrings.SiteSettings_Configuration_AD_Username</label>
 			<div class="left textbox">
 				@(Html.TextBoxFor<SettingsSummary, string>(s => s.LdapUsername))
 			</div>
 			<div class="help right">
-				<a href="javascript:;" rel="The username to authenticate against the Active Directory with. Leave blank if the app pool is running under a user with this permission"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_AD_Username_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 			</div>
 			<br class="clear" />
 		</div>
 		<div class="row">
-			<label for="LdapPassword">LDAP password:</label>
+			<label for="LdapPassword">@SiteStrings.SiteSettings_Configuration_AD_Password</label>
 			<div class="left textbox">
 				@(Html.TextBoxFor<SettingsSummary, string>(s => s.LdapPassword))
 			</div>
 			<div class="help right">
-				<a href="javascript:;" rel="The password to use for authentication"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_AD_Password_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 			</div>
 			<br class="clear" />
 		</div>
 	</div>
 
 	<div class="row">
-		<label for="EditorRoleName">Editor role/security group name:</label>
+		<label for="EditorRoleName">@SiteStrings.SiteSettings_Configuration_EditorRole</label>
 		<div class="left smalltextbox">
 			@(Html.TextBoxFor<SettingsSummary, string>(s => s.EditorRoleName, new { @class = "validate[required]" }))
 		</div>
 		<div class="help right">
-			<a href="javascript:;" rel="This is the name of the editor role - people who can edit and create pages"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_EditorRole_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 		</div>
 		<br class="clear" />
 	</div>
 	<div class="row">
-		<label for="AdminRoleName">Admin role/security group name:</label>
+		<label for="AdminRoleName">@SiteStrings.SiteSettings_Configuration_AdminRole</label>
 		<div class="left smalltextbox">
 			@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminRoleName))
 		</div>
 		<div class="help right">
-			<a href="javascript:;" rel="<b>WARNING</b> changing this may lock you out of the site. Make a backup of your web.config first before saving. <br/><br/>This is the name of the admin role. Admins have the same rights as editors, but also have access to configuration settings and tools for the site"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_AdminRole_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 		</div>
 		<br class="clear" />
 	</div>
 	
 	<h2>General</h2>
 	<div class="row">
-		<label for="MarkupType">Markup type:</label>
+		<label for="MarkupType">@SiteStrings.SiteSettings_Configuration_MarkupType</label>
 		<div class="left smalltextbox">
 			@(Html.TextBoxFor<SettingsSummary, string>(s => s.MarkupType, new { @class = "validate[required]" }))
 		</div>
 		<div class="help right">
-			<a href="javascript:;" rel="This is the markup format that is used. Roadkill currently supports the following values: Creole, Markdown, Mediawiki"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_MarkupType_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 		</div>
 		<br class="clear" />
 	</div>
 	<div class="row">
-		<label for="Theme">Theme:</label>
+		<label for="Theme">@SiteStrings.SiteSettings_Configuration_Theme</label>
 		<div class="left smalltextbox">
 			@(Html.TextBoxFor<SettingsSummary, string>(s => s.Theme, new { @class = "validate[required]" }))
 		</div>
 		<div class="help right">
-			<a href="javascript:;" rel="This is the theme that the site uses. This should match a folder name in the Themes directory"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_Theme_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 		</div>
 		<br class="clear" />
 	</div>
 	<div class="row">
-		<label for="AttachmentsFolder">Attachments folder:</label>
+		<label for="AttachmentsFolder">@SiteStrings.SiteSettings_Configuration_Attachments</label>
 		<div class="left smalltextbox">
 			@(Html.TextBoxFor<SettingsSummary, string>(s => s.AttachmentsFolder, new { @class = "validate[required]" }))
 		</div>
 		<div class="help right">
-			<a href="javascript:;" rel="This is the directory where all files are uploaded to. This setting should start with ~/ to indicate the site root folder."><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_Attachments_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 		</div>
 		<br class="clear" />
 	</div>
 	<div class="row">
-		<label for="Theme">Allowed extensions:</label>
+		<label for="AllowedExtensions">@SiteStrings.SiteSettings_Configuration_Extensions</label>
 		<div class="left smalltextbox">
 			@(Html.TextBoxFor<SettingsSummary, string>(s => s.AllowedExtensions, new { @class = "validate[required]" }))
 		</div>
 		<div class="help right">
-			<a href="javascript:;" rel="These are the file extensions that can be uploaded, comma separated."><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_Extensions_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 		</div>
 		<br class="clear" />
 	</div>
 	<div class="row">
-		<label for="CacheEnabled">Caching:</label>
+		<label for="CacheEnabled">@SiteStrings.SiteSettings_Configuration_Caching</label>
 		<div class="left checkbox">
 			@(Html.CheckBoxFor<SettingsSummary>(s => s.CacheEnabled))
 		</div>
 		<div class="help right">
-			<a href="javascript:;" rel="Enable NHibernate caching. Roadkill uses NHibernate caching along with ASP.NET's output caching. It's recommended that you enable caching to increase the responsiveness of the site. Database caching is not currently supported for for web gardens or web farms"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_Caching_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 		</div>
 		<br class="clear" />
 	</div>
 	<div class="row">
-		<label for="CacheText">Cache page text:</label>
+		<label for="CacheText">@SiteStrings.SiteSettings_Configuration_CachePageText</label>
 		<div class="left checkbox">
 			@(Html.CheckBoxFor<SettingsSummary>(s => s.CacheText))
 		</div>
 		<div class="help right">
-			<a href="javascript:;" rel="Cache text content. Unchecking this will mean each page's textual content is loaded from the database each time"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
+			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_CachePageText_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 		</div>
 		<br class="clear" />
 	</div>
 	
-	<input type="submit" class="right button" value="Save" />
+	<input type="submit" class="right button" value="@SiteStrings.Button_Save" />
 	<br class="clear" />
 </div>
 
 <p>
-Roadkill version: @Model.Version
+Roadkill @string.Format(SiteStrings.Version_Title, Model.Version)
 </p>
 }

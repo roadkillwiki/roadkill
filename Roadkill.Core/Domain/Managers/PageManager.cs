@@ -7,6 +7,7 @@ using NHibernate.Linq;
 using System.Xml.Serialization;
 using System.IO;
 using Roadkill.Core.Search;
+using System.Web;
 
 namespace Roadkill.Core
 {
@@ -31,16 +32,16 @@ namespace Roadkill.Core
 				Page page = new Page();
 				page.Title = summary.Title;
 				page.Tags = summary.Tags.CleanTags();
-				page.CreatedBy = currentUser;
+				page.CreatedBy = AppendIpForAppHarbor(currentUser);
 				page.CreatedOn = DateTime.Now;
 				page.ModifiedOn = DateTime.Now;
-				page.ModifiedBy = currentUser;
+				page.ModifiedBy = AppendIpForAppHarbor(currentUser);
 				NHibernateRepository.Current.SaveOrUpdate<Page>(page);
 
 				PageContent pageContent = new PageContent();
 				pageContent.VersionNumber = 1;
 				pageContent.Text = summary.Content;
-				pageContent.EditedBy = currentUser;
+				pageContent.EditedBy = AppendIpForAppHarbor(currentUser);
 				pageContent.EditedOn = DateTime.Now;
 				pageContent.Page = page;
 				NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContent);
@@ -302,7 +303,7 @@ namespace Roadkill.Core
 				page.Title = summary.Title;
 				page.Tags = summary.Tags.CleanTags();
 				page.ModifiedOn = DateTime.Now;
-				page.ModifiedBy = currentUser;
+				page.ModifiedBy = AppendIpForAppHarbor(currentUser);
 
 				// A second check to ensure a fake IsLocked POST doesn't work.
 				if (RoadkillContext.Current.IsAdmin)
@@ -313,7 +314,7 @@ namespace Roadkill.Core
 				PageContent pageContent = new PageContent();
 				pageContent.VersionNumber = manager.MaxVersion(summary.Id) + 1;
 				pageContent.Text = summary.Content;
-				pageContent.EditedBy = currentUser;
+				pageContent.EditedBy = AppendIpForAppHarbor(currentUser);
 				pageContent.EditedOn = DateTime.Now;
 				pageContent.Page = page;
 				NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContent);
@@ -353,36 +354,24 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Renames all pages' CreatedBy, EditedBy properties when a username is changed.
+		/// Adds an IP address after the username for any Appharbor vandalism.
 		/// </summary>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while saving one of the pages.</exception>
-		/// <exception cref="SearchException">An error occurred updating the search index.</exception>
-		public void UpdateForUsernameChange(string oldUsername, string newUsername)
+		private string AppendIpForAppHarbor(string username)
 		{
-			try
+			string result = username;
+
+#if APPHARBOR
+			if (!RoadkillContext.Current.IsAdmin)
 			{
-				IEnumerable<Page> createdPages = Pages.Where(p => p.CreatedBy == oldUsername);
-				foreach (Page page in createdPages)
-				{
-					page.CreatedBy = newUsername;
-					NHibernateRepository.Current.SaveOrUpdate<Page>(page);
+				string ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+				if (string.IsNullOrEmpty(ip))
+					ip = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
 
-					SearchManager.Current.Delete(page.ToSummary());
-				}
-
-				IEnumerable<Page> editedPages = Pages.Where(p => p.ModifiedBy == oldUsername);
-				foreach (Page page in editedPages)
-				{
-					page.ModifiedBy = newUsername;
-					NHibernateRepository.Current.SaveOrUpdate<Page>(page);
-
-					SearchManager.Current.Delete(page.ToSummary());
-				}
+				result += string.Format("{0} ({1})", username, ip);
 			}
-			catch (HibernateException ex)
-			{
-				throw new DatabaseException(ex, "An error occurred while updating the pages for a username change from {0} to {1}", oldUsername, newUsername);
-			}
+#endif
+
+			return result;
 		}
 	}
 }
