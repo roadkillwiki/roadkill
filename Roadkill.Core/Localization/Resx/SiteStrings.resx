@@ -480,6 +480,9 @@
   <data name="EditPage_LinkText_PlaceHolder" xml:space="preserve">
     <value>Link text</value>
   </data>
+  <data name="EditPage_Image_Title" xml:space="preserve">
+    <value>Image title</value>
+  </data>
   <data name="EditPage_Error" xml:space="preserve">
     <value>Unable to save the page:</value>
   </data>
