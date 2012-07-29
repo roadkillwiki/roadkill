@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Web;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Roadkill.Core.Controllers
 {
@@ -35,6 +36,18 @@ namespace Roadkill.Core.Controllers
 
 				return;
 			}
+
+#if APPHARBOR
+			// To be removed in 1.5
+			if (Request.QueryString["locale"] == "on")
+			{
+				Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("fi-FI");
+			}
+			else if (Request.QueryString["locale"] == "off")
+			{
+				Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
+			}
+#endif
 
 			RoadkillContext.Current.CurrentUser = GetCurrentUser();
 		}
