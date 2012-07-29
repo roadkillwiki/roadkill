@@ -116,7 +116,7 @@ function addImage(image)
 	{
 		var text = range.text;
 		if(range.text === "")
-			text = "Image alt";
+			text = ROADKILL_EDIT_IMAGE_TITLE;
 
 		var prefix = ROADKILL_EDIT_IMAGE_STARTTOKEN.toString();
 		prefix = prefix.replace("%ALT%", text);

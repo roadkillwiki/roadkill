@@ -241,6 +241,15 @@ namespace Roadkill.Core.Localization.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image title.
+        /// </summary>
+        public static string EditPage_Image_Title {
+            get {
+                return ResourceManager.GetString("EditPage_Image_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Link text.
         /// </summary>
         public static string EditPage_LinkText_PlaceHolder {

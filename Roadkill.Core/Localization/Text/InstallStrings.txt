@@ -6,7 +6,7 @@
 ; - http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo(v=vs.71).aspx
 ; 
 ; Notes for developers:
-; - This file should be turned into a resx file by running resgen /compile InstallStrings.txt, InstallStrings.resx in a VS command prompt.
+; - This file should be turned into a resx file by running resgen /compile InstallStrings.txt,InstallStrings.resx in a VS command prompt.
 ; - The name of this file should be in the format "InstallStrings.(culture-name).txt", e.g. "InstallStrings.en-GB.txt"
 ; - The output resx file should then be copied + pasted into the core's Localization/Resx folder inside VS2010, 
 ; - The build properties for the file should be "Embedded resource" and the custom tool "PublicResXFileCodeGenerator"
