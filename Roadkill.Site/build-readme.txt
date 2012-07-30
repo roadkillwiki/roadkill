@@ -13,4 +13,4 @@
 9) Copy /lib/Empty-databases/roadkill.sqlite to the publish /App_Data folder
 10) Copy /lib/Empty-databases/roadkill.sdf to the publish /App_Data folder
 11) Copy /lib/Empty-databases/roadkill.mdf to the publish /App_Data folder
-12) Zip up using the name 'Roadkill_v{number}_{architecture}.zip' e.g. Roadkill_v1.3_x86.zip, add to the downloads on bitbucket/codeplex.
+12) Zip up using the name 'Roadkill_v{number}.zip' e.g. Roadkill_v1.3.zip, add to the downloads on bitbucket/codeplex.
