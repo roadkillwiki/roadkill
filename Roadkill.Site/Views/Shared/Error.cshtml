@@ -20,7 +20,7 @@
 	@if (RoadkillContext.Current.IsAdmin)
 	{
 	<p>@Model.Exception.Message</p>
-	<pre>@Model.Exception.StackTrace</pre>
+	<pre>@Model.Exception.ToString()</pre>
 	 }
 </body>
 </html>
