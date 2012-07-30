@@ -166,6 +166,8 @@
     <Content Include="App_Data\EmailTemplates\Signup.html" />
     <Content Include="App_Data\EmailTemplates\Signup.txt" />
     <Content Include="App_Data\roadkill.MDF" />
+    <Content Include="App_Data\System.Data.SQLite.dll" />
+    <Content Include="App_Data\System.Data.SQLite.Linq.dll" />
     <Content Include="App_Data\tokens.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -237,6 +239,10 @@
     <Content Include="Assets\CSS\jqueryFileTree.css" />
     <Content Include="Assets\Scripts\jqueryFileTree.js" />
     <Content Include="Assets\Scripts\roadkill.edit.js" />
+    <Content Include="App_Data\SQLiteBinaries\x64\System.Data.SQLite.dll" />
+    <Content Include="App_Data\SQLiteBinaries\x64\System.Data.SQLite.Linq.dll" />
+    <Content Include="App_Data\SQLiteBinaries\x86\System.Data.SQLite.dll" />
+    <Content Include="App_Data\SQLiteBinaries\x86\System.Data.SQLite.Linq.dll" />
     <Content Include="packages.config" />
     <None Include="build-readme.txt" />
     <Content Include="Themes\BlackBar\Theme.print.css" />

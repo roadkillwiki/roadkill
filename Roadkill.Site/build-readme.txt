@@ -1,16 +1,16 @@
-﻿In order to build:
+﻿Steps to create a new download version (this could be turned into a NANT/MSBuild script at some point):
 
 1) Update the version in AssemblyInfo.cs in Core and Site
 2) Compile using the 'Download' configuration
 3) Publish the site to a folder
-4) Copy the following files from the  /TextFiles folder to the publish folder
+4) Copy the following files from the /TextFiles folder to the publish folder
 	- /TextFiles/install.txt
 	- /TextFiles/license.txt
-	- /TextFiles/README_FOR_UPGRADING_1.0_to_1.x.txt
-5) Delete the bin/App_Data folder from the publish folder
-6) Copy the following files from the /lib folder  to the publish /bin folder
-	- SQLite.Interop.dll
-	- System.Data.SQLite.dll
-	- System.Data.SQLite.Linq.dll
-	- System.Data.SqlServerCe.dll 
-7) Zip up using the name 'Roadkill_v{number}.zip' e.g. Roadkill_v1.11.zip, add to the downloads on bitbucket/codeplex.
+5) Delete the /packages.config file from the publish folder
+6) Remove the fi-FI folder from the /bin folder (as it's a fake localization satellite assembly)
+7) Remove the fi-FI folder from the /App_Data/EmailTemplates (as it's fake localization templates)
+8) Copy lib/System.Data.SqlServerCe.dll to the publish /bin folder
+9) Copy /lib/Empty-databases/roadkill.sqlite to the publish /App_Data folder
+10) Copy /lib/Empty-databases/roadkill.sdf to the publish /App_Data folder
+11) Copy /lib/Empty-databases/roadkill.mdf to the publish /App_Data folder
+12) Zip up using the name 'Roadkill_v{number}_{architecture}.zip' e.g. Roadkill_v1.3_x86.zip, add to the downloads on bitbucket/codeplex.
