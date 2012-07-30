@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Search;
 using System.IO;
+using IOFile = System.IO.File;
 
 namespace Roadkill.Core.Controllers
 {
@@ -27,6 +28,8 @@ namespace Roadkill.Core.Controllers
 		{
 			if (RoadkillSettings.Installed)
 				return RedirectToAction("Index", "Home");
+
+			CopySqliteBinaries();
 
 			return View("Step1");
 		}
@@ -206,6 +209,29 @@ namespace Roadkill.Core.Controllers
 
 			string errors = Install.TestConnection(connectionString, databaseType);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
+		}
+
+		/// <summary>
+		/// Attempts to copy the correct SQL binaries to the bin folder for the architecture the app pool is running under.
+		/// </summary>
+		private void CopySqliteBinaries()
+		{
+			//
+			// Copy the SQLite files over
+			//
+			string sqliteFileSource = Server.MapPath("~/App_Data/SQLiteBinaries/x86/System.Data.SQLite.dll");
+			string sqliteFileDest = Server.MapPath("~/bin/System.Data.SQLite.dll");
+			string sqliteLinqFileSource = Server.MapPath("~/App_Data/SQLiteBinaries/x86/System.Data.SQLite.Linq.dll");
+			string sqliteFileLinqDest = Server.MapPath("~/bin/System.Data.SQLite.Linq.dll");
+
+			if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
+			{
+				sqliteFileSource = Server.MapPath("~/App_Data/SQLiteBinaries/x64/System.Data.SQLite.dll");
+				sqliteLinqFileSource = Server.MapPath("~/App_Data/SQLiteBinaries/x64/System.Data.SQLite.Linq.dll");
+			}
+
+			System.IO.File.Copy(sqliteFileSource, sqliteFileDest);
+			System.IO.File.Copy(sqliteLinqFileSource, sqliteFileLinqDest);
 		}
 	}
 
