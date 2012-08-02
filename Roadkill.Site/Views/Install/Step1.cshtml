@@ -1,0 +1,53 @@
+﻿@model SettingsSummary
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+
+<script type="text/javascript">
+$(document).ready(function()
+{
+	setPage(1);
+
+	$("#testwebconfig").click(function ()
+	{
+		hideAlerts();
+
+		$.get("@(Url.Action("TestWebConfig"))",function(data)
+		{
+			if (data.Success)
+			{
+				showSuccess("#webconfig-success");
+				$(".continue").show();
+			}
+			else
+			{
+				
+				showFailure("#webconfig-failure",data.ErrorMessage);
+			}
+		});
+	});
+});
+</script>
+
+<p>
+@InstallStrings.Page1_Label1
+</p>
+	
+<p>
+@InstallStrings.Page1_Label2
+</p>
+
+<input id="testwebconfig" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
+<br /><br />
+	
+<div id="webconfig-success" class="success alert hidden">
+	<h2>@InstallStrings.Shared_Success</h2>
+	<p>@InstallStrings.Page1_WebConfig_Success_Message</p>
+</div>
+
+<div id="webconfig-failure" class="failure alert hidden">
+	<h2>@InstallStrings.Shared_Failure</h2>
+	<p>@InstallStrings.Page1_WebConfig_Failure_Message: <span class="errormessage"></span></p>
+</div>
+
+<div class="continue hidden">@Html.ActionLink(InstallStrings.Shared_Continue +" >","Step2")</div>

@@ -1,0 +1,84 @@
+﻿@model PageSummary
+@{ 
+	ViewBag.Title = SiteStrings.EditPage_Title;
+}
+@Url.CssLink("validationEngine.jquery.css")
+@Url.ScriptLinkForValidationLocalization()
+@Url.ScriptLink("jquery.validationEngine.js")
+@Url.ScriptLink("jquery.tooltip.min.js")
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		$.require("roadkill.edit.js");
+		$("form").validationEngine();
+	});
+</script>
+
+<div id="edit">
+	@Html.ValidationSummary(SiteStrings.EditPage_Error)
+
+	@using (Html.BeginForm())
+	{
+		@(Html.HiddenFor<PageSummary, int>(p => p.Id))
+		@(Html.HiddenFor<PageSummary, string>(p => p.Tags))
+	 
+		<div class="title">
+			<label for="Title">@SiteStrings.EditPage_Title_Label</label>
+			@(Html.TextBoxFor<PageSummary, string>(p => p.Title, new { @class = "validate[required]", tabindex = 1 }))<br />
+		</div>
+		<br />
+		
+		<div id="tagit">
+			<label for="tags">@SiteStrings.EditPage_Tags_Label</label>
+			<ul id="mytags"></ul>
+		</div>
+	 
+		if (RoadkillContext.Current.IsAdmin)
+		{
+		<div class="lockpage">
+			@(Html.CheckBoxFor<PageSummary>(p => p.IsLocked))
+			<span>@SiteStrings.EditPage_AdminOnly</span>
+		</div>
+		}
+		<br />
+	 
+		<div id="wysiwyg-toolbar">
+			<a href="javascript:;" class="wysiwyg-bold"><img src="@(Url.Content("~/Assets/images/wysiwyg/bold.png"))" border="0" alt="bold" /></a>
+			<a href="javascript:;" class="wysiwyg-italic"><img src="@(Url.Content("~/Assets/images/wysiwyg/italic.png"))" border="0" alt="italic" /></a>
+			<a href="javascript:;" class="wysiwyg-underline"><img src="@(Url.Content("~/Assets/images/wysiwyg/underline.png"))" border="0" alt="underline" /></a>
+			<a href="javascript:;" class="wysiwyg-h1"><img src="@(Url.Content("~/Assets/images/wysiwyg/h1.png"))" border="0" alt="heading 1" /></a>
+			<a href="javascript:;" class="wysiwyg-h2"><img src="@(Url.Content("~/Assets/images/wysiwyg/h2.png"))" border="0" alt="heading 2" /></a>
+			<a href="javascript:;" class="wysiwyg-h3"><img src="@(Url.Content("~/Assets/images/wysiwyg/h3.png"))" border="0" alt="heading 3" /></a>
+			<a href="javascript:;" class="wysiwyg-h4"><img src="@(Url.Content("~/Assets/images/wysiwyg/h4.png"))" border="0" alt="heading 4" /></a>
+			<a href="javascript:;" class="wysiwyg-h5"><img src="@(Url.Content("~/Assets/images/wysiwyg/h5.png"))" border="0" alt="heading 5" /></a>
+			<a href="javascript:;" class="wysiwyg-bullets"><img src="@(Url.Content("~/Assets/images/wysiwyg/bullets.png"))" alt="bulleted list" border="0" /></a>
+			<a href="javascript:;" class="wysiwyg-numbers"><img src="@(Url.Content("~/Assets/images/wysiwyg/numbers.png"))" alt="numbered list" border="0" /></a>
+			<a href="javascript:;" class="wysiwyg-picture"><img src="@(Url.Content("~/Assets/images/wysiwyg/picture.png"))" alt="Add alt picture" border="0" /></a>
+			<a href="javascript:;" class="wysiwyg-link"><img src="@(Url.Content("~/Assets/images/wysiwyg/link.png"))" alt="link" border="0" /></a>
+			<a href="javascript:;" class="wysiwyg-help"><img src="@(Url.Content("~/Assets/images/wysiwyg/help.png"))" alt="help" border="0" /></a>
+		</div>
+		@(Html.TextAreaFor<PageSummary, string>(p => p.Content, new { @class = "edittextarea", tabindex=3 }))
+		<br />
+
+		if (Model.Id > 0)
+		{
+			@Html.ActionLink(SiteStrings.Button_Cancel, "Index", "Wiki", new { id = Model.Id, title = Url.EncodeTitle(Model.Title) }, null)
+		}
+		else
+		{
+			@Html.ActionLink(SiteStrings.Button_Cancel, "Index", "Wiki")
+		}
+			 
+		<div class="buttonContainer">
+			<input type="submit" class="button saveButton" value="@SiteStrings.Button_Save" tabindex="4" />
+			<input type="button" class="button previewButton" value="@SiteStrings.Button_Preview" tabindex="5" />
+		</div>
+		<br class="clear" /><br />
+	
+		<div id="previewLoading"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" alt="loading" /></div>
+		<div id="previewContainer">
+			<div id="title">@SiteStrings.EditPage_Preview</div>
+			<div id="preview"></div>
+		</div>
+	}
+</div>

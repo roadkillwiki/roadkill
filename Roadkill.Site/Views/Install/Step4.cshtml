@@ -1,0 +1,145 @@
+﻿@model SettingsSummary
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		setPage(4);
+		$("form").validationEngine();
+
+		$("#testattachments").click(function()
+		{	
+			hideAlerts();
+
+			$.get("@(Url.Action("TestAttachments"))",
+					{ "folder" : $("#AttachmentsFolder").val() },
+					function(data)
+					{
+						if (data.Success)
+						{
+							showSuccess("#attachmentssuccess");
+						}
+						else
+						{
+							showFailure("#attachmentsfailure",data.ErrorMessage);
+						}
+					});
+		});
+
+		$("form").submit(function ()
+		{
+			$("#wait").modal({ close: false });
+		});
+	});
+</script>
+
+<p>
+@InstallStrings.Page4_Label1
+</p>
+
+@using (Html.BeginForm("Step5", "Install"))
+{
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.AdminEmail))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.AdminPassword))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.AdminRoleName))
+	@(Html.HiddenFor<SettingsSummary, bool>(h => h.AllowUserSignup))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.ConnectionString))
+	@(Html.HiddenFor<SettingsSummary, DatabaseType>(h => h.DatabaseType))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.EditorRoleName))
+	@(Html.HiddenFor<SettingsSummary, bool>(h => h.EnableRecaptcha))	
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.LdapConnectionString))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.LdapUsername))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.LdapPassword))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.RecaptchaPrivateKey))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.RecaptchaPublicKey))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteName))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteUrl))
+	@(Html.HiddenFor<SettingsSummary, bool>(h => h.UseWindowsAuth))
+	
+	<fieldset>
+		<legend>@InstallStrings.Page4_Group1_Title</legend>
+		<label>
+			@InstallStrings.Page4_Group1_Label1
+			<br /><br />
+			@InstallStrings.Page4_Group1_Label2
+		</label>
+
+		<div class="small">
+			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AttachmentsFolder, new { @class = "validate[required]" }))</div>
+			<input id="testattachments" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
+			<div id="attachmentssuccess" class="success alert hidden">
+				<h2>@InstallStrings.Shared_Success</h2>
+				<p>@InstallStrings.Page4_Group1_Success</p>
+			</div>
+
+			<div id="attachmentsfailure" class="failure alert hidden">
+				<h2>@InstallStrings.Shared_Failure</h2>
+				<p>@InstallStrings.Page4_Group1_Error&nbsp;<span class="errormessage"></span></p>
+			</div>
+		</div>	
+	</fieldset>
+	
+	<fieldset>
+		<legend>@InstallStrings.Page4_Group2_Title</legend>
+		<label>@InstallStrings.Page4_Group2_Label1</label>
+
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AllowedExtensions, new { @class = "validate[required]" }))</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>@InstallStrings.Page4_Group3_Title</legend>
+		<label>@InstallStrings.Page4_Group3_Label1</label>
+
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.Theme, new { @class = "validate[required]" }))</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>@InstallStrings.Page4_Group4_Title</legend>
+		<label>
+		@InstallStrings.Page4_Group4_Label1<br /><br />
+		@InstallStrings.Page4_Group4_Label2	
+		</label>
+
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.MarkupType, new { @class = "validate[required]" }))</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>@InstallStrings.Page4_Group5_Title</legend>
+		<label>
+		@InstallStrings.Page4_Group5_Label1
+		<br /><br />
+		@InstallStrings.Page4_Group5_Label2
+		</label>
+		<br />
+
+		<div>
+			<div class="left">
+				@(Html.CheckBoxFor<SettingsSummary>(s => s.CacheEnabled))
+				@InstallStrings.Page4_Group5_Label3
+			</div>
+		</div>
+		<br class="clear" />
+
+		<div>
+			<div class="left">
+				@(Html.CheckBoxFor<SettingsSummary>(s => s.CacheText))		
+				@InstallStrings.Page4_Group5_Label4
+			</div>
+			<br /> <br /> 
+			<span class="italic">@InstallStrings.Page4_Group5_Label5</span>
+		</div>
+	</fieldset>
+
+	<div>
+		<div class="previous"><a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a></div>
+	
+		<div class="continue">
+			<input type="submit" class="button" value="@InstallStrings.Shared_NextButton" />
+		</div>
+	</div>
+}
+
+<div id="wait" class="hidden" style="background-color:#333;width:100px;text-align:center;">
+	<img src="@(Url.Content("~/Assets/images/loadinglarge.gif"))" border="0" alt="loading" />
+</div>
