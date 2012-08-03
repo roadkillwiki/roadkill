@@ -116,14 +116,32 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Plasma.Core">
+      <HintPath>..\packages\Plasma.WebDriver.1.1.0.5\lib\net35\Plasma.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Plasma.WebDriver">
+      <HintPath>..\packages\Plasma.WebDriver.1.1.0.5\lib\net35\Plasma.WebDriver.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebDriver">
+      <HintPath>..\packages\Selenium.WebDriver.2.4.1\lib\WebDriver.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -132,12 +150,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoreTests\TestBase.cs" />
-    <Compile Include="WatinTests\Settings.cs" />
-    <None Include="WatinTests\TestSession.cs" />
+    <Content Include="lib\roadkill.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\roadkill.sqlite">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CoreTests\SqlUserManagerTests.cs" />
-    <None Include="WatinTests\UserTests.cs" />
-    <None Include="WatinTests\WatinTestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Roadkill.Core\Roadkill.Core.csproj">
@@ -147,11 +168,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <Content Include="Webconfigs\web.config">
-      <SubType>Designer</SubType>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Plasma\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\SQLiteBinaries\x64\System.Data.SQLite.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Webconfigs\windowsauth-web.config">
-      <SubType>Designer</SubType>
+    <Content Include="lib\SQLiteBinaries\x64\System.Data.SQLite.Linq.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\SQLiteBinaries\x86\System.Data.SQLite.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\SQLiteBinaries\x86\System.Data.SQLite.Linq.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
