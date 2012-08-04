@@ -11,29 +11,33 @@ namespace Roadkill.Tests.Core
 	[TestFixture]
 	public class TestBase
 	{
-
 		/// <summary>
 		/// Attempts to copy the correct SQL binaries to the bin folder for the architecture the app pool is running under.
 		/// </summary>
 		static TestBase()
 		{
-			//
-			// Copy the SQLite files over
-			//
-			string rootFolder = AppDomain.CurrentDomain.BaseDirectory;
-			string sqliteFileSource = Path.Combine(rootFolder, "lib", "SQLiteBinaries", "x86", "System.Data.SQLite.dll");
-			string sqliteFileDest = Path.Combine(rootFolder, "System.Data.SQLite.dll");
-			string sqliteLinqFileSource = Path.Combine(rootFolder, "lib", "SQLiteBinaries", "x86", "System.Data.SQLite.Linq.dll");
-			string sqliteFileLinqDest = Path.Combine(rootFolder, "System.Data.SQLite.Linq.dll");
-
-			if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
+			try
 			{
-				sqliteFileSource = Path.Combine(rootFolder, "lib", "SQLiteBinaries", "x64", "System.Data.SQLite.dll");
-				sqliteLinqFileSource = Path.Combine(rootFolder, "lib", "SQLiteBinaries", "x64", "System.Data.SQLite.Linq.dll");
-			}
+				//
+				// Copy the SQLite files over
+				//
+				string rootFolder = AppDomain.CurrentDomain.BaseDirectory;
+				string sqliteFileSource = Path.Combine(rootFolder, "lib", "SQLiteBinaries", "x86", "System.Data.SQLite.dll");
+				string sqliteFileDest = Path.Combine(rootFolder, "System.Data.SQLite.dll");
+				string sqliteLinqFileSource = Path.Combine(rootFolder, "lib", "SQLiteBinaries", "x86", "System.Data.SQLite.Linq.dll");
+				string sqliteFileLinqDest = Path.Combine(rootFolder, "System.Data.SQLite.Linq.dll");
 
-			System.IO.File.Copy(sqliteFileSource, sqliteFileDest, true);
-			System.IO.File.Copy(sqliteLinqFileSource, sqliteFileLinqDest, true);
+				if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
+				{
+					sqliteFileSource = Path.Combine(rootFolder, "lib", "SQLiteBinaries", "x64", "System.Data.SQLite.dll");
+					sqliteLinqFileSource = Path.Combine(rootFolder, "lib", "SQLiteBinaries", "x64", "System.Data.SQLite.Linq.dll");
+				}
+
+				System.IO.File.Copy(sqliteFileSource, sqliteFileDest, true);
+				System.IO.File.Copy(sqliteLinqFileSource, sqliteFileLinqDest, true);
+			}
+			catch
+			{}
 		}
 
 		/// <summary>
@@ -52,7 +56,5 @@ namespace Roadkill.Tests.Core
 			RoadkillApplication app = new RoadkillApplication();
 			app.SetupNHibernate();
 		}
-
-		
 	}
 }
