@@ -23,7 +23,9 @@ namespace Roadkill.Tests.Plasma
 		[TestFixtureSetUp]
 		public void Init()
 		{
+#if PLASMA
 			CopySqliteToSite();
+#endif
 			
 			// Set the Plasma root directory to the site's directory
 			string rootFolder = AppDomain.CurrentDomain.BaseDirectory;
@@ -33,7 +35,7 @@ namespace Roadkill.Tests.Plasma
 			AppInstance = new AspNetApplication("/", siteDirectory.FullName); 
 		}
 
-		private static void CopySqliteToSite()
+		private void CopySqliteToSite()
 		{
 			try
 			{
