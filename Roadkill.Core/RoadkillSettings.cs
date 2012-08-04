@@ -16,7 +16,8 @@ namespace Roadkill.Core
 	/// <remarks>This class acts as a helper for RoadkillSection and SiteConfiguration as a single point for all settings.</remarks>
 	public class RoadkillSettings
 	{
-		private static DatabaseType? _databaseType = null;
+		internal static DatabaseType? _databaseType = null;
+		internal static string _connectionString;
 
 		/// <summary>
 		/// Whether users can register themselves, or if the administrators should do it. 
@@ -79,7 +80,17 @@ namespace Roadkill.Core
 		/// </summary>
 		public static string ConnectionString
 		{
-			get { return ConfigurationManager.ConnectionStrings[RoadkillSection.Current.ConnectionStringName].ConnectionString; }
+			get 
+			{ 
+				if (string.IsNullOrEmpty(_connectionString))
+					_connectionString = ConfigurationManager.ConnectionStrings[RoadkillSection.Current.ConnectionStringName].ConnectionString;
+
+				return _connectionString; 
+			}
+			set
+			{
+				_connectionString = value;
+			}
 		}
 
 		/// <summary>

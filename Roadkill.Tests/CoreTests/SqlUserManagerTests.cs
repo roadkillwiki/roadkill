@@ -6,12 +6,11 @@ using Roadkill.Core;
 using Roadkill.Tests.Core;
 using NUnit.Framework;
 
-namespace Roadkill.Tests
+namespace Roadkill.Tests.Core
 {
 	/// <summary>
-	/// Summary description for UnitTest1
+	/// Tests the SQL User manager class (the default auth mechanism in Roadkill)
 	/// </summary>
-	//[TestClass]  // Commented out for Appharbor
 	[TestFixture]
 	public class SqlUserManagerTests : TestBase
 	{
