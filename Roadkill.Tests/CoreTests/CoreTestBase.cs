@@ -9,12 +9,12 @@ using System.IO;
 namespace Roadkill.Tests.Core
 {
 	[TestFixture]
-	public class TestBase
+	public class CoreTestBase
 	{
 		/// <summary>
 		/// Attempts to copy the correct SQL binaries to the bin folder for the architecture the app pool is running under.
 		/// </summary>
-		static TestBase()
+		static CoreTestBase()
 		{
 			try
 			{
