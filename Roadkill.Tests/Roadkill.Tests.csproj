@@ -168,9 +168,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoreTests\TestBase.cs" />
-    <Content Include="lib\roadkill.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="lib\roadkill.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
