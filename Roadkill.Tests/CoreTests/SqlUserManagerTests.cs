@@ -12,7 +12,7 @@ namespace Roadkill.Tests.Core
 	/// Tests the SQL User manager class (the default auth mechanism in Roadkill)
 	/// </summary>
 	[TestFixture]
-	public class SqlUserManagerTests : TestBase
+	public class SqlUserManagerTests : CoreTestBase
 	{
 		[Test]
 		public void AddAdmin_And_GetUserByEmail()

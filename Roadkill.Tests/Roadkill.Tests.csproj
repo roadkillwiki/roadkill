@@ -167,7 +167,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoreTests\TestBase.cs" />
+    <Compile Include="CoreTests\CoreTestBase.cs" />
     <Content Include="lib\roadkill.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -176,6 +176,7 @@
     </Content>
     <None Include="packages.config" />
     <Compile Include="Plasma\PageTests.cs" />
+    <Compile Include="Plasma\PlasmaTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CoreTests\SqlUserManagerTests.cs" />
   </ItemGroup>
