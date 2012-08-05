@@ -105,6 +105,8 @@ namespace Roadkill.Core
 			Map(x => x.Title);
 			Map(x => x.Theme);
 			Map(x => x.Version);
+
+			Cache.ReadWrite().IncludeAll();
 		}
 	}
 }

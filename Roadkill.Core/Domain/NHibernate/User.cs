@@ -91,6 +91,7 @@ namespace Roadkill.Core
 			Map(x => x.PasswordResetKey);
 			Map(x => x.Salt);
 			Map(x => x.Username);
+			Cache.ReadWrite().IncludeAll();
 		}
 	}
 }
