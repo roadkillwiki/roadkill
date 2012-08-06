@@ -34,6 +34,7 @@ namespace Roadkill.Core
 		/// Used in the intial configuration/installation alongside Fluent CFG.
 		/// </summary>
 		public DatabaseType DatabaseType { get; set; }
+		public string[] DatabaseTypesAvailable = {"DB2", "Firebird", "MySQL", "Postgres", "Sqlite", "SqlServer2005", "SqlServer2008", "SqlServerCE"};
 
 		public string EditorRoleName { get; set; }
 		public bool EnableRecaptcha { get; set; }
@@ -44,9 +45,11 @@ namespace Roadkill.Core
 
 		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_MarkupTypeEmpty")]
 		public string MarkupType { get; set; }
+		public string[] MarkupTypesAvailable = {"Creole","Markdown","MediaWiki"};
 		
 		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_ThemeEmpty")]
 		public string Theme { get; set; }
+		public string[] ThemesAvailable = {"BlackBar","MediaWiki","Plain","Roadkillwiki.org"};
 
 		public string RecaptchaPrivateKey { get; set; }
 		public string RecaptchaPublicKey { get; set; }

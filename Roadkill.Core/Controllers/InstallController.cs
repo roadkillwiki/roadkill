@@ -190,9 +190,6 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestAttachments(string folder)
 		{
-			if (RoadkillSettings.Installed)
-				return Content("");
-
 			string errors = Install.TestAttachments(folder);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
@@ -204,9 +201,6 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestDatabaseConnection(string connectionString,string databaseType)
 		{
-			if (RoadkillSettings.Installed)
-				return Content("");
-
 			string errors = Install.TestConnection(connectionString, databaseType);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
