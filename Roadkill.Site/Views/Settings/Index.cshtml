@@ -14,17 +14,53 @@
 		toggleUserSettings();
 		$("form").validationEngine();
 		$("#UseWindowsAuth").click(function ()
-		{
-			toggleUserSettings();
-		});
-		$(".row a").tooltip(
-		{
-			bodyHandler: function ()
 			{
-				return $(this).attr("rel");
-			},
-			showURL: false
+				toggleUserSettings();
+			});
+		$(".row a").tooltip(
+			{
+				bodyHandler: function ()
+				{
+					return $(this).attr("rel");
+				},
+				showURL: false
+			});
+
+		$("#testdbconnection").click(function()
+		{
+            $("#db-loading").show();
+			$.get("@(Url.Action("TestDatabaseConnection","Install"))",
+					{ 
+						"connectionString" : $("#ConnectionString").val(),
+						"databaseType" : $("#DatabaseType").val()
+					 },
+					function(data)
+					{
+                        $("#db-loading").hide();
+						if (data.Success)
+						{
+							alert("OK");
+						}
+						else
+						{
+							alert(data.ErrorMessage);
+						}
+					});
 		});
+		$("#testattachments").click(function() {
+			$.get("@(Url.Action("TestAttachments","Install"))",
+				{ "folder" : $("#AttachmentsFolder").val() },
+					function(data) {
+						if (data.Success)
+						{
+							alert("OK");
+						}
+						else
+						{
+							alert(data.ErrorMessage);
+						}
+					});
+		 });
 	});
 
 	function toggleUserSettings()
@@ -54,7 +90,7 @@
 	<div class="row">
 		<label for="SiteName">@SiteStrings.SiteSettings_Configuration_SiteName</label>
 		<div class="left textbox">
-			@(Html.TextBoxFor<SettingsSummary, string>(s => s.SiteName, new { @class = "validate[required]" }))
+			@(Html.TextBoxFor(s => s.SiteName, new { @class = "validate[required]" }))
 		</div>
 		<div class="help right">
 			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_SiteName_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
@@ -65,7 +101,7 @@
 	<div class="row">
 		<label for="SiteUrl">@SiteStrings.SiteSettings_Configuration_SiteUrl</label>
 		<div class="left textbox">
-			@(Html.TextBoxFor<SettingsSummary, string>(s => s.SiteUrl, new { @class = "validate[required]" }))
+			@(Html.TextBoxFor(s => s.SiteUrl, new { @class = "validate[required]" }))
 		</div>
 		<div class="help right">
 			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_SiteUrl_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
@@ -75,9 +111,11 @@
 
 	<h2>@SiteStrings.SiteSettings_Configuration_ConnectionStrings</h2>
 	<div class="row">
-		<label for="DatabaseType">@SiteStrings.SiteSettings_Configuration_DatabaseType</label>
+		<label for="DatabaseType">@SiteStrings.SiteSettings_Configuration_DatabaseType@Model.DatabaseType</label>
 		<div class="left selectbox">
-			@Html.DropDownBoxForDatabaseType()
+			@Html.DropDownListFor(x => x.DatabaseType, new SelectList(Model.DatabaseTypesAvailable, Model.DatabaseType))
+			&nbsp;&nbsp;<input id="testdbconnection" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
+            <span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" alt="loading" /></span>
 		</div>
 		<div class="help right">
 			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_DatabaseType_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
@@ -88,7 +126,8 @@
 	<div class="row">
 		<label for="ConnectionString">@SiteStrings.SiteSettings_Configuration_DatabaseConnectionString</label>
 		<div class="left textbox" >
-			@(Html.TextBoxFor<SettingsSummary, string>(s => s.ConnectionString, new { @class = "validate[required]" }))
+			@(Html.TextBoxFor(s => s.ConnectionString, new { @class = "validate[required]" }))
+			
 		</div>
 		<div class="help right">
 			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_DatabaseConnectionString_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
@@ -100,7 +139,7 @@
 	<div class="row">
 		<label for="UseWindowsAuth">@SiteStrings.SiteSettings_Configuration_UseWindowsAuth</label>
 		<div class="left checkbox">
-			@(Html.CheckBoxFor<SettingsSummary>(s => s.UseWindowsAuth))
+			@(Html.CheckBoxFor(s => s.UseWindowsAuth))
 		</div>
 		<div class="help right">
 			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_UseWindowsAuth_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
@@ -113,7 +152,7 @@
 		<div class="row">
 			<label for="AllowUserSignup">@SiteStrings.SiteSettings_Configuration_AllowUserSignups</label>
 			<div class="left checkbox">
-				@(Html.CheckBoxFor<SettingsSummary>(s => s.AllowUserSignup))
+				@(Html.CheckBoxFor(s => s.AllowUserSignup))
 			</div>
 			<div class="help right">
 				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_AllowUserSignups_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
@@ -124,7 +163,7 @@
 		<div class="row">
 			<label for="EnableRecaptcha">@SiteStrings.SiteSettings_Configuration_EnableRecaptcha</label>
 			<div class="left checkbox">
-				@(Html.CheckBoxFor<SettingsSummary>(s => s.EnableRecaptcha))
+				@Html.CheckBoxFor(s => s.EnableRecaptcha)
 			</div>
 			<div class="help right">
 				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_EnableRecaptcha_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
@@ -135,7 +174,7 @@
 		<div class="row">
 			<label for="RecaptchaPrivateKey">@SiteStrings.SiteSettings_Configuration_RecaptchaPrivateKey</label>
 			<div class="left textbox">
-				@(Html.TextBoxFor<SettingsSummary, string>(s => s.RecaptchaPrivateKey))
+				@Html.TextBoxFor(s => s.RecaptchaPrivateKey)
 			</div>
 			<div class="help right">
 				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_RecaptchaPrivateKey_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
@@ -146,7 +185,7 @@
 		<div class="row">
 			<label for="RecaptchaPrivateKey">@SiteStrings.SiteSettings_Configuration_RecaptchaPublicKey</label>
 			<div class="left textbox">
-				@(Html.TextBoxFor<SettingsSummary, string>(s => s.RecaptchaPublicKey))
+				@Html.TextBoxFor(s => s.RecaptchaPublicKey)
 			</div>
 			<div class="help right">
 				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_RecaptchaPublicKey_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
@@ -160,7 +199,7 @@
 		<div class="row">
 			<label for="LdapConnectionString">@SiteStrings.SiteSettings_Configuration_AD_Connection</label>
 			<div class="left textbox">
-				@(Html.TextBoxFor<SettingsSummary, string>(s => s.LdapConnectionString, new { @class = "validate[required]" }))
+				@Html.TextBoxFor(s => s.LdapConnectionString, new { @class = "validate[required]" })
 			</div>
 			<div class="help right">
 				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_AD_Connection_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
@@ -170,7 +209,7 @@
 		<div class="row">
 			<label for="LdapUsername">@SiteStrings.SiteSettings_Configuration_AD_Username</label>
 			<div class="left textbox">
-				@(Html.TextBoxFor<SettingsSummary, string>(s => s.LdapUsername))
+				@Html.TextBoxFor(s => s.LdapUsername)
 			</div>
 			<div class="help right">
 				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_AD_Username_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
@@ -180,7 +219,7 @@
 		<div class="row">
 			<label for="LdapPassword">@SiteStrings.SiteSettings_Configuration_AD_Password</label>
 			<div class="left textbox">
-				@(Html.TextBoxFor<SettingsSummary, string>(s => s.LdapPassword))
+				@Html.TextBoxFor(s => s.LdapPassword)
 			</div>
 			<div class="help right">
 				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_AD_Password_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
@@ -192,7 +231,7 @@
 	<div class="row">
 		<label for="EditorRoleName">@SiteStrings.SiteSettings_Configuration_EditorRole</label>
 		<div class="left smalltextbox">
-			@(Html.TextBoxFor<SettingsSummary, string>(s => s.EditorRoleName, new { @class = "validate[required]" }))
+			@Html.TextBoxFor(s => s.EditorRoleName, new { @class = "validate[required]" })
 		</div>
 		<div class="help right">
 			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_EditorRole_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
@@ -202,7 +241,7 @@
 	<div class="row">
 		<label for="AdminRoleName">@SiteStrings.SiteSettings_Configuration_AdminRole</label>
 		<div class="left smalltextbox">
-			@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminRoleName))
+			@Html.TextBoxFor(s => s.AdminRoleName)
 		</div>
 		<div class="help right">
 			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_AdminRole_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
@@ -213,8 +252,8 @@
 	<h2>General</h2>
 	<div class="row">
 		<label for="MarkupType">@SiteStrings.SiteSettings_Configuration_MarkupType</label>
-		<div class="left smalltextbox">
-			@(Html.TextBoxFor<SettingsSummary, string>(s => s.MarkupType, new { @class = "validate[required]" }))
+		<div class="left selectbox">
+			@Html.DropDownListFor(x => x.MarkupType, new SelectList(Model.MarkupTypesAvailable, Model.MarkupType))
 		</div>
 		<div class="help right">
 			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_MarkupType_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
@@ -223,8 +262,8 @@
 	</div>
 	<div class="row">
 		<label for="Theme">@SiteStrings.SiteSettings_Configuration_Theme</label>
-		<div class="left smalltextbox">
-			@(Html.TextBoxFor<SettingsSummary, string>(s => s.Theme, new { @class = "validate[required]" }))
+		<div class="left selectbox">
+			@Html.DropDownListFor(x => x.Theme, new SelectList(Model.ThemesAvailable, Model.Theme))
 		</div>
 		<div class="help right">
 			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_Theme_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
@@ -234,8 +273,9 @@
 	<div class="row">
 		<label for="AttachmentsFolder">@SiteStrings.SiteSettings_Configuration_Attachments</label>
 		<div class="left smalltextbox">
-			@(Html.TextBoxFor<SettingsSummary, string>(s => s.AttachmentsFolder, new { @class = "validate[required]" }))
+			@Html.TextBoxFor(s => s.AttachmentsFolder, new { @class = "validate[required]" })
 		</div>
+			&nbsp;&nbsp;<input id="testattachments" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
 		<div class="help right">
 			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_Attachments_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
 		</div>
@@ -244,7 +284,7 @@
 	<div class="row">
 		<label for="AllowedExtensions">@SiteStrings.SiteSettings_Configuration_Extensions</label>
 		<div class="left smalltextbox">
-			@(Html.TextBoxFor<SettingsSummary, string>(s => s.AllowedExtensions, new { @class = "validate[required]" }))
+			@Html.TextBoxFor(s => s.AllowedExtensions, new { @class = "validate[required]" })
 		</div>
 		<div class="help right">
 			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_Extensions_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
@@ -254,7 +294,7 @@
 	<div class="row">
 		<label for="CacheEnabled">@SiteStrings.SiteSettings_Configuration_Caching</label>
 		<div class="left checkbox">
-			@(Html.CheckBoxFor<SettingsSummary>(s => s.CacheEnabled))
+			@Html.CheckBoxFor(s => s.CacheEnabled)
 		</div>
 		<div class="help right">
 			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_Caching_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
@@ -264,7 +304,7 @@
 	<div class="row">
 		<label for="CacheText">@SiteStrings.SiteSettings_Configuration_CachePageText</label>
 		<div class="left checkbox">
-			@(Html.CheckBoxFor<SettingsSummary>(s => s.CacheText))
+			@Html.CheckBoxFor(s => s.CacheText)
 		</div>
 		<div class="help right">
 			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_CachePageText_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>

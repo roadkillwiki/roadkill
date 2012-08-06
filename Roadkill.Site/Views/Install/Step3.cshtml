@@ -16,14 +16,14 @@
 
 @using (Html.BeginForm("Step3b","Install"))
 {
-	@(Html.HiddenFor<SettingsSummary,string>(h => h.ConnectionString))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteName))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteUrl))
-	@(Html.HiddenFor<SettingsSummary, DatabaseType>(h => h.DatabaseType))
+	@Html.HiddenFor(h => h.ConnectionString)
+	@Html.HiddenFor(h => h.SiteName)
+	@Html.HiddenFor(h => h.SiteUrl)
+	@Html.HiddenFor(h => h.DatabaseType)
 	<fieldset>
 		<legend>@InstallStrings.Page3_Group1_Title</legend>
 		<br />
-		@(Html.CheckBoxFor<SettingsSummary>(s => s.UseWindowsAuth)) @InstallStrings.Page3_Group1_Label
+		@(Html.CheckBoxFor(s => s.UseWindowsAuth)) @InstallStrings.Page3_Group1_Label
 		<br /><br />
 	</fieldset>
 

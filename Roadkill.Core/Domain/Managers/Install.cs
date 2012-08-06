@@ -109,7 +109,11 @@ namespace Roadkill.Core
 				if (!Enum.TryParse<DatabaseType>(databaseType, out dbType))
 					dbType = DatabaseType.SqlServer2005;
 
-				NHibernateRepository.Current.Configure(dbType, connectionString, true, false);
+				Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+				RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
+
+				// Only create Schema if not already installed otherwise just a straight TestConnection
+				NHibernateRepository.Current.Configure(dbType, connectionString, !section.Installed, false);
 				return "";
 			}
 			catch (Exception e)

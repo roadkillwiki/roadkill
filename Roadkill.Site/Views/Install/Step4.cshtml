@@ -33,29 +33,31 @@
 		});
 	});
 </script>
-
+<style>
+.xbutton		{ cursor:pointer;border: 1px solid #B8B8B8;text-shadow: 1px 1px rgba(255, 255, 255, 0.5);-moz-box-shadow: rgba(0, 0, 0, 0.0898438) 0 1px 3px;-webkit-box-shadow: rgba(0, 0, 0, 0.0898438) 0 1px 3px;min-width:100px;font-size: 14px;font-weight: normal;padding: 9px 20px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px; }
+</style>
 <p>
 @InstallStrings.Page4_Label1
 </p>
 
 @using (Html.BeginForm("Step5", "Install"))
 {
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.AdminEmail))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.AdminPassword))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.AdminRoleName))
-	@(Html.HiddenFor<SettingsSummary, bool>(h => h.AllowUserSignup))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.ConnectionString))
-	@(Html.HiddenFor<SettingsSummary, DatabaseType>(h => h.DatabaseType))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.EditorRoleName))
-	@(Html.HiddenFor<SettingsSummary, bool>(h => h.EnableRecaptcha))	
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.LdapConnectionString))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.LdapUsername))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.LdapPassword))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.RecaptchaPrivateKey))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.RecaptchaPublicKey))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteName))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteUrl))
-	@(Html.HiddenFor<SettingsSummary, bool>(h => h.UseWindowsAuth))
+	@Html.HiddenFor(h => h.AdminEmail)
+	@Html.HiddenFor(h => h.AdminPassword)
+	@Html.HiddenFor(h => h.AdminRoleName)
+	@Html.HiddenFor(h => h.AllowUserSignup)
+	@Html.HiddenFor(h => h.ConnectionString)
+	@Html.HiddenFor(h => h.DatabaseType)
+	@Html.HiddenFor(h => h.EditorRoleName)
+	@Html.HiddenFor(h => h.EnableRecaptcha)
+	@Html.HiddenFor(h => h.LdapConnectionString)
+	@Html.HiddenFor(h => h.LdapUsername)
+	@Html.HiddenFor(h => h.LdapPassword)
+	@Html.HiddenFor(h => h.RecaptchaPrivateKey)
+	@Html.HiddenFor(h => h.RecaptchaPublicKey)
+	@Html.HiddenFor(h => h.SiteName)
+	@Html.HiddenFor(h => h.SiteUrl)
+	@Html.HiddenFor(h => h.UseWindowsAuth)
 	
 	<fieldset>
 		<legend>@InstallStrings.Page4_Group1_Title</legend>
@@ -66,7 +68,7 @@
 		</label>
 
 		<div class="small">
-			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AttachmentsFolder, new { @class = "validate[required]" }))</div>
+			<div class="textbox">@Html.TextBoxFor(s => s.AttachmentsFolder, new { @class = "validate[required]" })</div>
 			<input id="testattachments" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
 			<div id="attachmentssuccess" class="success alert hidden">
 				<h2>@InstallStrings.Shared_Success</h2>
@@ -84,14 +86,16 @@
 		<legend>@InstallStrings.Page4_Group2_Title</legend>
 		<label>@InstallStrings.Page4_Group2_Label1</label>
 
-		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AllowedExtensions, new { @class = "validate[required]" }))</div>
+		<div class="textbox">@Html.TextBoxFor(s => s.AllowedExtensions, new { @class = "validate[required]" })</div>
 	</fieldset>
 	
 	<fieldset>
 		<legend>@InstallStrings.Page4_Group3_Title</legend>
 		<label>@InstallStrings.Page4_Group3_Label1</label>
 
-		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.Theme, new { @class = "validate[required]" }))</div>
+		<div class="textbox">
+			@Html.DropDownListFor(x => x.Theme, new SelectList(Model.ThemesAvailable, Model.Theme))
+		</div>
 	</fieldset>
 	
 	<fieldset>
@@ -101,7 +105,9 @@
 		@InstallStrings.Page4_Group4_Label2	
 		</label>
 
-		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.MarkupType, new { @class = "validate[required]" }))</div>
+		<div class="selectbox">
+			@Html.DropDownListFor(x => x.MarkupType, new SelectList(Model.MarkupTypesAvailable, Model.MarkupType))
+		</div>
 	</fieldset>
 	
 	<fieldset>
@@ -115,7 +121,7 @@
 
 		<div>
 			<div class="left">
-				@(Html.CheckBoxFor<SettingsSummary>(s => s.CacheEnabled))
+				@Html.CheckBoxFor(s => s.CacheEnabled)
 				@InstallStrings.Page4_Group5_Label3
 			</div>
 		</div>
@@ -123,7 +129,7 @@
 
 		<div>
 			<div class="left">
-				@(Html.CheckBoxFor<SettingsSummary>(s => s.CacheText))		
+				@Html.CheckBoxFor(s => s.CacheText)
 				@InstallStrings.Page4_Group5_Label4
 			</div>
 			<br /> <br /> 
