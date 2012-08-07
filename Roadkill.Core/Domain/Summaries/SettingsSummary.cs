@@ -15,6 +15,8 @@ namespace Roadkill.Core
 	[Serializable]
 	public class SettingsSummary
 	{
+		private static readonly string _themesRoot;
+
 		public string AdminEmail { get; set; }
 		public string AdminPassword { get; set; }
 		public string AdminRoleName { get; set; }
@@ -34,7 +36,16 @@ namespace Roadkill.Core
 		/// Used in the intial configuration/installation alongside Fluent CFG.
 		/// </summary>
 		public DatabaseType DatabaseType { get; set; }
-		public string[] DatabaseTypesAvailable = {"DB2", "Firebird", "MySQL", "Postgres", "Sqlite", "SqlServer2005", "SqlServer2008", "SqlServerCE"};
+		public IEnumerable<string> DatabaseTypesAvailable
+		{
+			get
+			{
+				foreach (DatabaseType dbType in Enum.GetValues(typeof(DatabaseType)))
+				{
+					yield return dbType.ToString();
+				}
+			}
+		}
 
 		public string EditorRoleName { get; set; }
 		public bool EnableRecaptcha { get; set; }
@@ -45,11 +56,26 @@ namespace Roadkill.Core
 
 		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_MarkupTypeEmpty")]
 		public string MarkupType { get; set; }
-		public string[] MarkupTypesAvailable = {"Creole","Markdown","MediaWiki"};
+		public IEnumerable<string> MarkupTypesAvailable
+		{
+			get
+			{
+				return new string[] { "Creole","Markdown","MediaWiki" };
+			}
+		}
 		
 		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_ThemeEmpty")]
 		public string Theme { get; set; }
-		public string[] ThemesAvailable = {"BlackBar","MediaWiki","Plain","Roadkillwiki.org"};
+		public IEnumerable<string> ThemesAvailable
+		{
+			get
+			{
+				foreach (string directory in Directory.GetDirectories(_themesRoot))
+				{
+					yield return new DirectoryInfo(directory).Name;
+				}
+			}
+		}
 
 		public string RecaptchaPrivateKey { get; set; }
 		public string RecaptchaPublicKey { get; set; }
@@ -68,6 +94,13 @@ namespace Roadkill.Core
 			{
 				return RoadkillSettings.Version;
 			}
+		}
+
+		static SettingsSummary()
+		{
+			_themesRoot = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Themes");
+			if (!Directory.Exists(_themesRoot))
+				throw new InvalidOperationException("The Themes directory could not be found");
 		}
 
 		public SettingsSummary()
