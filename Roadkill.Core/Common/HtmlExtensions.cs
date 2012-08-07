@@ -200,40 +200,5 @@ namespace Roadkill.Core
 			}
 		}
 
-		/// <summary>
-		/// Displays a drop list for the DatabaseType enum, using the currently selected value from RoadkillSettings.DatabaseType
-		/// </summary>
-		public static MvcHtmlString DropDownBoxForDatabaseType(this HtmlHelper helper)
-		{
-			List<SelectListItem> selectList = new List<SelectListItem>();
-
-			// These are hardcoded as there will never be (except perhaps Oracle) more than the list of datatypes below
-
-			SelectListItem listItem = new SelectListItem() { Text = "DB2", Value = DatabaseType.DB2.ToString() };
-			selectList.Add(listItem);
-
-			listItem = new SelectListItem() { Text = "Firebird", Value = DatabaseType.Firebird.ToString() };
-			selectList.Add(listItem);
-
-			listItem = new SelectListItem() { Text = "MySQL", Value = DatabaseType.MySQL.ToString() };
-			selectList.Add(listItem);
-
-			listItem = new SelectListItem() { Text = "Postgres", Value = DatabaseType.Postgres.ToString() };
-			selectList.Add(listItem);
-
-			listItem = new SelectListItem() { Text = "Sqlite", Value = DatabaseType.Sqlite.ToString()};
-			selectList.Add(listItem);
-
-			listItem = new SelectListItem() { Text = "SqlServer 2005", Value = DatabaseType.SqlServer2005.ToString(), Selected=true };
-			selectList.Add(listItem);
-
-			listItem = new SelectListItem() { Text = "SqlServer 2008", Value = DatabaseType.SqlServer2008.ToString() };
-			selectList.Add(listItem);
-
-			listItem = new SelectListItem() { Text = "Sql Server CE", Value = DatabaseType.SqlServerCe.ToString() };
-			selectList.Add(listItem);		
-
-			return helper.DropDownList("DatabaseType", selectList);
-		}
 	}
 }

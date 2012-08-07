@@ -1,6 +1,8 @@
-﻿<div id="settingsmenu">
-	@Html.ActionLink(SiteStrings.SiteSettings_Configuration,"Index")&nbsp;&nbsp;|&nbsp;&nbsp;
-	@Html.ActionLink(SiteStrings.SiteSettings_Users,"Users")&nbsp;&nbsp;|&nbsp;&nbsp;
-	@Html.ActionLink(SiteStrings.SiteSettings_Tools,"Tools")
-</div>
+﻿<ul id="settingsmenu" class="settingsmenu">
+	<li>@Html.ActionLink(SiteStrings.SiteSettings_Configuration, "Index")</li>
+	<li>|</li>
+	<li>@Html.ActionLink(SiteStrings.SiteSettings_Users, "Users")</li>
+	<li>|</li>
+	<li>@Html.ActionLink(SiteStrings.SiteSettings_Tools, "Tools")</li>
+</ul>
 <br /><br />

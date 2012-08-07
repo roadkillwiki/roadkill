@@ -8,8 +8,14 @@ $(document).ready(function()
 	setPage(2);
 	$("form").validationEngine();
 
+    $("span.example").click(
+        function () {
+            $("#ConnectionString").val($(this).text());
+        }
+    );
+
 	$("#testdbconnection").click(function()
-	{	
+	{
 		$("#db-loading").show();
 		hideAlerts();
 		$.get("@(Url.Action("TestDatabaseConnection"))",
@@ -45,7 +51,7 @@ $(document).ready(function()
 			@InstallStrings.Page2_Group1_Label
 		</label>
 
-		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.SiteName, new { @class = "validate[required]" }))</div>
+		<div class="textbox">@Html.TextBoxFor(s => s.SiteName, new { @class = "validate[required]" })</div>
 	</fieldset>
 	<br />
 	
@@ -55,7 +61,7 @@ $(document).ready(function()
 			@InstallStrings.Page2_Group2_Label
 		</label>
 
-		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.SiteUrl, new { @class = "validate[required]" }))</div>
+		<div class="textbox">@Html.TextBoxFor(s => s.SiteUrl, new { @class = "validate[required]" })</div>
 	</fieldset>
 	<br />
 	
@@ -70,7 +76,9 @@ $(document).ready(function()
 			<ol>
 				<li>
 					<b>SQL Server Express:</b><br />
-					<span class="example">database=roadkill;server=.\SQLEXPRESS;integrated security=SSPI</span></li>
+                    <span class="example">Database=roadkill;Server=.\SQLEXPRESS;User Id=?; Password=?;</span>
+					<span class="example">Database=roadkill;Server=.\SQLEXPRESS;Integrated Security=SSPI</span>
+				</li>
 				<li>
 					<b>SQL Server App_Data file-based:</b><br />
 					<span class="example">Server=.\SQLExpress;AttachDbFilename=|DataDirectory|\roadkill.mdf;Integrated Security=True;User Instance=True</span>
@@ -89,9 +97,9 @@ $(document).ready(function()
 			</ol>
 			
 			<h3>@InstallStrings.Page2_Group3_Label3</h3>
-			@Html.DropDownBoxForDatabaseType()
+			@Html.DropDownListFor(x => x.DatabaseType, new SelectList(Model.DatabaseTypesAvailable, Model.DatabaseType))
 
-			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.ConnectionString, new { @class = "validate[required]" }))</div>
+			<div class="textbox">@Html.TextBoxFor(s => s.ConnectionString, new { @class = "validate[required]", size="60" })</div>
 			<input id="testdbconnection" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
 
 			<div id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" alt="loading" /></div>

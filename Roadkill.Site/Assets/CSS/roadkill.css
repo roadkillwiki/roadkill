@@ -174,3 +174,8 @@
 .toc-showhide	{ font-weight:normal;font-size:0.8em; }
 .toc ul			{ list-style-type:none;padding:2px 5px;margin: 0px 0px 0px 2em;line-height:1.5em; }
 .toc-list>ul		{ margin:0px; }
+
+ul.settingsmenu {list-style-type: none;}
+ul.settingsmenu li {float:left;padding-right:15px;}
+ul.settingsmenu li a {font-size:12pt;text-decoration:none;color:navy;font-weight:bold;}
+ul.settingsmenu li a:hover {text-decoration:underline;}

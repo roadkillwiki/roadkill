@@ -58,7 +58,7 @@ namespace Roadkill.Core.Controllers
 		[ImportModelState]
 		public ActionResult Users()
 		{
-			IList<IEnumerable<UserSummary>> list = new List<IEnumerable<UserSummary>>();
+			var list = new List<IEnumerable<UserSummary>>();
 			list.Add(UserManager.Current.ListAdmins());
 			list.Add(UserManager.Current.ListEditors());
 
