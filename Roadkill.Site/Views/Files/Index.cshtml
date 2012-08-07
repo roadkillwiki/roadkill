@@ -1,0 +1,61 @@
+﻿@model IList<IList<string>>
+@{
+	Layout = "~/Views/Shared/_Blank.cshtml";
+	ViewBag.Title = SiteStrings.FileExplorer_Title;
+}
+
+@Url.CssLink("jqueryFileTree.css")
+@Url.ScriptLink("jqueryFileTree.js")
+<script type="text/javascript">
+$(document).ready(function ()
+{
+	$.require("roadkill.files.js");
+});
+</script>
+<div id="files-container" class="padded">
+	<a href="javascript:;" id="uploadfile">@SiteStrings.FileExplorer_Upload</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+	<a href="javascript:;" id="newdirectory">@SiteStrings.FileExplorer_NewDirectory</a>
+	<br /><br />
+
+	<div id="generic-container" class="hidden lightborder rounded5 midpadded"></div>
+
+	<div id="uploadfile-container" class="hidden">
+	<div class="selectedfolder"></div>
+	@using (Html.BeginForm("UploadFile", "Files", FormMethod.Post, new { enctype = "multipart/form-data" }))
+	{
+		@Html.Hidden("currentUploadFolderPath")
+		<input type="file" id="uploadFile" name="uploadFile"/>
+		<input type="submit" value="@SiteStrings.FileExplorer_Button_Upload" class="smallerbutton"/>
+	}
+	</div>
+
+	<div id="newfolder-container" class="hidden">
+	<div class="selectedfolder"></div>
+	@using (Html.BeginForm("NewFolder", "Files"))
+	{
+		@Html.Hidden("currentFolderPath")
+		<span>@SiteStrings.FileExplorer_FolderName</span>
+		@Html.TextBox("newFolderName")
+		<input type="submit" value="@SiteStrings.FileExplorer_Button_Create" class="smallerbutton"/>
+	}
+	</div>
+
+	<h2>@SiteStrings.FileExplorer_ChooseFile</h2>
+	@if (@TempData["Error"] != null)
+	{
+	<span class="validation-summary-errors">@TempData["Error"]</span>
+	<br /><br />
+	}
+	<div>
+		<div id="filetree-container" class="left padded"></div>
+		<div class="left">
+			<div id="file-preview" class="hidden lightborder padded">
+				<span id="previewname" class="smallest"></span><br />
+				<img id="previewimage" src="" alt="preview" />
+				<input id="choosebutton" type="button" value="@SiteStrings.FileExplorer_Button_Select" class="smallestbutton" />
+			</div>
+			<br class="clear" />
+		</div>
+	</div>
+	<br class="clear" />
+</div>

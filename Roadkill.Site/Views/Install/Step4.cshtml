@@ -1,0 +1,151 @@
+﻿@model SettingsSummary
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		setPage(4);
+		$("form").validationEngine();
+
+		$("#testattachments").click(function()
+		{	
+			hideAlerts();
+
+			$.get("@(Url.Action("TestAttachments"))",
+					{ "folder" : $("#AttachmentsFolder").val() },
+					function(data)
+					{
+						if (data.Success)
+						{
+							showSuccess("#attachmentssuccess");
+						}
+						else
+						{
+							showFailure("#attachmentsfailure",data.ErrorMessage);
+						}
+					});
+		});
+
+		$("form").submit(function ()
+		{
+			$("#wait").modal({ close: false });
+		});
+	});
+</script>
+<style>
+.xbutton		{ cursor:pointer;border: 1px solid #B8B8B8;text-shadow: 1px 1px rgba(255, 255, 255, 0.5);-moz-box-shadow: rgba(0, 0, 0, 0.0898438) 0 1px 3px;-webkit-box-shadow: rgba(0, 0, 0, 0.0898438) 0 1px 3px;min-width:100px;font-size: 14px;font-weight: normal;padding: 9px 20px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px; }
+</style>
+<p>
+@InstallStrings.Page4_Label1
+</p>
+
+@using (Html.BeginForm("Step5", "Install"))
+{
+	@Html.HiddenFor(h => h.AdminEmail)
+	@Html.HiddenFor(h => h.AdminPassword)
+	@Html.HiddenFor(h => h.AdminRoleName)
+	@Html.HiddenFor(h => h.AllowUserSignup)
+	@Html.HiddenFor(h => h.ConnectionString)
+	@Html.HiddenFor(h => h.DatabaseType)
+	@Html.HiddenFor(h => h.EditorRoleName)
+	@Html.HiddenFor(h => h.EnableRecaptcha)
+	@Html.HiddenFor(h => h.LdapConnectionString)
+	@Html.HiddenFor(h => h.LdapUsername)
+	@Html.HiddenFor(h => h.LdapPassword)
+	@Html.HiddenFor(h => h.RecaptchaPrivateKey)
+	@Html.HiddenFor(h => h.RecaptchaPublicKey)
+	@Html.HiddenFor(h => h.SiteName)
+	@Html.HiddenFor(h => h.SiteUrl)
+	@Html.HiddenFor(h => h.UseWindowsAuth)
+	
+	<fieldset>
+		<legend>@InstallStrings.Page4_Group1_Title</legend>
+		<label>
+			@InstallStrings.Page4_Group1_Label1
+			<br /><br />
+			@InstallStrings.Page4_Group1_Label2
+		</label>
+
+		<div class="small">
+			<div class="textbox">@Html.TextBoxFor(s => s.AttachmentsFolder, new { @class = "validate[required]" })</div>
+			<input id="testattachments" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
+			<div id="attachmentssuccess" class="success alert hidden">
+				<h2>@InstallStrings.Shared_Success</h2>
+				<p>@InstallStrings.Page4_Group1_Success</p>
+			</div>
+
+			<div id="attachmentsfailure" class="failure alert hidden">
+				<h2>@InstallStrings.Shared_Failure</h2>
+				<p>@InstallStrings.Page4_Group1_Error&nbsp;<span class="errormessage"></span></p>
+			</div>
+		</div>	
+	</fieldset>
+	
+	<fieldset>
+		<legend>@InstallStrings.Page4_Group2_Title</legend>
+		<label>@InstallStrings.Page4_Group2_Label1</label>
+
+		<div class="textbox">@Html.TextBoxFor(s => s.AllowedExtensions, new { @class = "validate[required]" })</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>@InstallStrings.Page4_Group3_Title</legend>
+		<label>@InstallStrings.Page4_Group3_Label1</label>
+
+		<div class="textbox">
+			@Html.DropDownListFor(x => x.Theme, new SelectList(Model.ThemesAvailable, Model.Theme))
+		</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>@InstallStrings.Page4_Group4_Title</legend>
+		<label>
+		@InstallStrings.Page4_Group4_Label1<br /><br />
+		@InstallStrings.Page4_Group4_Label2	
+		</label>
+
+		<div class="selectbox">
+			@Html.DropDownListFor(x => x.MarkupType, new SelectList(Model.MarkupTypesAvailable, Model.MarkupType))
+		</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>@InstallStrings.Page4_Group5_Title</legend>
+		<label>
+		@InstallStrings.Page4_Group5_Label1
+		<br /><br />
+		@InstallStrings.Page4_Group5_Label2
+		</label>
+		<br />
+
+		<div>
+			<div class="left">
+				@Html.CheckBoxFor(s => s.CacheEnabled)
+				@InstallStrings.Page4_Group5_Label3
+			</div>
+		</div>
+		<br class="clear" />
+
+		<div>
+			<div class="left">
+				@Html.CheckBoxFor(s => s.CacheText)
+				@InstallStrings.Page4_Group5_Label4
+			</div>
+			<br /> <br /> 
+			<span class="italic">@InstallStrings.Page4_Group5_Label5</span>
+		</div>
+	</fieldset>
+
+	<div>
+		<div class="previous"><a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a></div>
+	
+		<div class="continue">
+			<input type="submit" class="button" value="@InstallStrings.Shared_NextButton" />
+		</div>
+	</div>
+}
+
+<div id="wait" class="hidden" style="background-color:#333;width:100px;text-align:center;">
+	<img src="@(Url.Content("~/Assets/images/loadinglarge.gif"))" border="0" alt="loading" />
+</div>

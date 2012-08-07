@@ -1,0 +1,80 @@
+﻿@{ 
+	ViewBag.Title = SiteStrings.SiteSettings_Tools_Title;
+}
+<h1>@SiteStrings.SiteSettings_Tools_Title</h1>
+
+@Html.Partial("SettingsMenu")
+
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		$("#settingscontainer a.refreshlink").click(function ()
+		{
+			$("#wait").modal({ close: false });
+		});
+	});
+</script>
+
+<span class="bold" style="color:green">@TempData["Message"]</span>
+
+<div id="settingscontainer">
+	<p>
+	<b>@Html.ActionLink(SiteStrings.SiteSettings_Tools_ClearDatabase, "ClearPages", null, new { @class = "refreshlink" })</b><br />
+	@SiteStrings.SiteSettings_Tools_ClearDatabase_Label
+	</p>
+
+	<p>
+	<b>@Html.ActionLink(SiteStrings.SiteSettings_Tools_RebuildSearch, "UpdateSearchIndex", null, new { @class = "refreshlink" })</b><br />
+	@SiteStrings.SiteSettings_Tools_RebuildSearch_Label
+	</p>
+
+	<p>
+	<b>@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportXml, "ExportAsXml")</b><br />
+	@SiteStrings.SiteSettings_Tools_ExportXml_Label
+	</p>
+
+	<p>
+	<b>@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportContent, "ExportAsWikiFiles")</b><br />
+	@SiteStrings.SiteSettings_Tools_ExportContent_Label
+	</p>
+
+	<p>
+	<b>@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportAttachments, "ExportAttachments")</b><br />
+	@SiteStrings.SiteSettings_Tools_ExportAttachments_Label
+	</p>
+	<br /><br />
+
+	<span class="bold borderbottom">@SiteStrings.SiteSettings_Tools_ScrewTurnImport</span><br />
+	<p>
+	@SiteStrings.SiteSettings_Tools_ScrewTurnImport_Label
+	</p>
+
+	@using (Html.BeginForm("ImportFromScrewTurn", "Settings"))
+	{
+	<b>@SiteStrings.SiteSettings_Tools_ScrewTurnImport_Connection</b>
+	@(Html.TextBox("screwturnConnectionString", null, new { style = "width:30em" }))<br />
+	<input type="submit" class="button" value="@SiteStrings.Button_Import" />
+	}
+	<br /><br />
+
+	<span class="bold borderbottom">@SiteStrings.SiteSettings_Tools_RenameTag</span><br />
+	<p>
+	@SiteStrings.SiteSettings_Tools_RenameTag_Label
+	</p>
+
+	@using (Html.BeginForm("RenameTag", "Settings"))
+	{
+	<div class="left bold" style="width:150px;">@SiteStrings.SiteSettings_Tools_RenameTag_Existing</div>
+	<div class="left">@(Html.TextBox("oldTagName", null, new { style = "width:100px" }))</div>
+	<br class="clear" />
+	 
+	<div class="left bold" style="width:150px;">@SiteStrings.SiteSettings_Tools_RenameTag_New</div>
+	<div class="left">@(Html.TextBox("newTagName", null, new { style = "width:100px" }))</div>
+	<br class="clear" />
+	<input type="submit" class="button" value="@SiteStrings.Button_Rename" />
+	}
+</div>
+
+<div id="wait" class="hidden" style="background-color:#333;width:100px;text-align:center;">
+	<img src="@(Url.Content("~/Assets/images/loadinglarge.gif"))" border="0" />
+</div>
