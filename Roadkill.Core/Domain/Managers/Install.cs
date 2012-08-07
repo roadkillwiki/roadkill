@@ -106,7 +106,7 @@ namespace Roadkill.Core
 			try
 			{
 				DatabaseType dbType;
-				if (!Enum.TryParse<DatabaseType>(databaseType, out dbType))
+				if (!Enum.TryParse<DatabaseType>(databaseType, true, out dbType))
 					dbType = DatabaseType.SqlServer2005;
 
 				Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");

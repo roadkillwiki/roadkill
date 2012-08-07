@@ -9,8 +9,7 @@
 5) Delete the /packages.config file from the publish folder
 6) Remove the fi-FI folder from the /bin folder (as it's a fake localization satellite assembly)
 7) Remove the fi-FI folder from the /App_Data/EmailTemplates (as it's fake localization templates)
-8) Copy lib/System.Data.SqlServerCe.dll to the publish /bin folder
-9) Copy /lib/Empty-databases/roadkill.sqlite to the publish /App_Data folder
-10) Copy /lib/Empty-databases/roadkill.sdf to the publish /App_Data folder
-11) Copy /lib/Empty-databases/roadkill.mdf to the publish /App_Data folder
-12) Zip up using the name 'Roadkill_v{number}.zip' e.g. Roadkill_v1.3.zip, add to the downloads on bitbucket/codeplex.
+8) Copy /lib/Empty-databases/roadkill.sqlite to the publish /App_Data folder
+9) Copy /lib/Empty-databases/roadkill.sdf to the publish /App_Data folder
+10) Copy /lib/Empty-databases/roadkill.mdf to the publish /App_Data folder
+11) Zip up using the name 'Roadkill_v{number}.zip' e.g. Roadkill_v1.3.zip, add to the downloads on bitbucket/codeplex.
