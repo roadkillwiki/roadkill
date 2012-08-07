@@ -2,19 +2,19 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Roadkill.Core;
 using Roadkill.Tests.Core;
+using NUnit.Framework;
 
-namespace Roadkill.Tests
+namespace Roadkill.Tests.Core
 {
 	/// <summary>
-	/// Summary description for UnitTest1
+	/// Tests the SQL User manager class (the default auth mechanism in Roadkill)
 	/// </summary>
-	//[TestClass]  // Commented out for Appharbor
-	public class SqlUserManagerTests : TestBase
+	[TestFixture]
+	public class SqlUserManagerTests : CoreTestBase
 	{
-		[TestMethod]
+		[Test]
 		public void AddAdmin_And_GetUserByEmail()
 		{
 			Assert.IsNull(UserManager.Current.GetUser("admin@localhost"));
@@ -31,7 +31,7 @@ namespace Roadkill.Tests
 			Assert.AreEqual(true, actual.IsAdmin);
 		}
 
-		[TestMethod]
+		[Test]
 		public void AddEditor_And_GetUserByEmail()
 		{
 			Assert.IsNull(UserManager.Current.GetUser("editor@localhost"));
@@ -49,7 +49,7 @@ namespace Roadkill.Tests
 			Assert.AreEqual(true, actual.IsEditor);
 		}
 
-		[TestMethod]
+		[Test]
 		public void AddUser_With_Existing_Username_ShouldFail()
 		{
 			Assert.IsTrue(UserManager.Current.AddUser("editor@localhost", "editor", "password", false, true));
@@ -59,7 +59,7 @@ namespace Roadkill.Tests
 			Assert.IsFalse(UserManager.Current.AddUser("editor2@localhost", "editor", "password", false, true));
 		}
 
-		[TestMethod]
+		[Test]
 		public void AddUser_With_Existing_Email_ShouldFail()
 		{
 			Assert.IsTrue(UserManager.Current.AddUser("editor@localhost", "editor", "password", false, true));
@@ -69,7 +69,7 @@ namespace Roadkill.Tests
 			Assert.IsFalse(UserManager.Current.AddUser("editor@localhost", "editor2", "password", false, true));
 		}
 
-		[TestMethod]
+		[Test]
 		public void Authenticate_Should_Succeed()
 		{
 			Assert.IsNull(UserManager.Current.GetUser("admin@localhost"));
@@ -78,7 +78,7 @@ namespace Roadkill.Tests
 			Assert.IsTrue(UserManager.Current.Authenticate("admin@localhost", "password"));
 		}
 
-		[TestMethod]
+		[Test]
 		public void Authenticate_BadUsername_ShouldFail()
 		{
 			Assert.IsNull(UserManager.Current.GetUser("admin@localhost"));
@@ -87,7 +87,7 @@ namespace Roadkill.Tests
 			Assert.IsFalse(UserManager.Current.Authenticate("admin2@localhost", "password"));
 		}
 
-		[TestMethod]
+		[Test]
 		public void Authenticate_BadPassword_ShouldFail()
 		{
 			Assert.IsNull(UserManager.Current.GetUser("admin@localhost"));
@@ -96,7 +96,7 @@ namespace Roadkill.Tests
 			Assert.IsFalse(UserManager.Current.Authenticate("admin@localhost", "wrongpassword"));
 		}
 
-		[TestMethod]
+		[Test]
 		public void ChangePassword_With_No_Existing_Password_And_Authenticate()
 		{
 			CreateEditorWithAsserts();
@@ -105,21 +105,21 @@ namespace Roadkill.Tests
 			Assert.IsTrue(UserManager.Current.Authenticate("editor@localhost", "newpassword"));
 		}
 
-		[TestMethod]
+		[Test]
 		public void ChangePassword_Using_Correct_ExistingPassword()
 		{
 			CreateEditorWithAsserts();
 			Assert.IsTrue(UserManager.Current.ChangePassword("editor@localhost","password", "newpassword"));
 		}
 
-		[TestMethod]
+		[Test]
 		public void ChangePassword_Using_Incorrect_ExistingPassword()
 		{
 			CreateEditorWithAsserts();
 			Assert.IsFalse(UserManager.Current.ChangePassword("editor@localhost", "wrongpasword", "newpassword"));
 		}
 
-		[TestMethod]
+		[Test]
 		[ExpectedException(typeof(SecurityException))]
 		public void ChangePassword_With_EmptyPassword_ShouldFail()
 		{
@@ -127,7 +127,7 @@ namespace Roadkill.Tests
 			UserManager.Current.ChangePassword("editor@localhost","");
 		}
 
-		[TestMethod]
+		[Test]
 		public void DeleteUser()
 		{
 			CreateEditorWithAsserts();
@@ -135,7 +135,7 @@ namespace Roadkill.Tests
 			Assert.IsFalse(UserManager.Current.DeleteUser("editor2@localhost"));
 		}
 
-		[TestMethod]
+		[Test]
 		public void GetUserById()
 		{
 			Assert.IsNull(UserManager.Current.GetUser("editor@localhost"));
@@ -149,7 +149,7 @@ namespace Roadkill.Tests
 			Assert.IsNull(UserManager.Current.GetUserById(new Guid()));
 		}
 
-		[TestMethod]
+		[Test]
 		public void IsEditor_And_Is_Not_Admin()
 		{
 			CreateEditorWithAsserts();
@@ -157,7 +157,7 @@ namespace Roadkill.Tests
 			Assert.IsFalse(UserManager.Current.IsAdmin("editor@localhost"));
 		}
 
-		[TestMethod]
+		[Test]
 		public void IsAdmin_And_IsEditor()
 		{
 			Assert.IsNull(UserManager.Current.GetUser("admin@localhost"));
@@ -170,7 +170,7 @@ namespace Roadkill.Tests
 			Assert.IsTrue(UserManager.Current.IsAdmin("admin@localhost"));
 		}
 
-		[TestMethod]
+		[Test]
 		public void ListAdmins_And_ListEditors()
 		{
 			Assert.IsTrue(UserManager.Current.AddUser("editor1@localhost", "editor1", "password", false, true));
@@ -182,7 +182,7 @@ namespace Roadkill.Tests
 			Assert.AreEqual(2, UserManager.Current.ListEditors().ToList().Count);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ResetPassword()
 		{
 			CreateEditorWithAsserts();
@@ -193,7 +193,7 @@ namespace Roadkill.Tests
 			Assert.AreEqual(key, actual.PasswordResetKey);
 		}
 
-		[TestMethod]
+		[Test]
 		public void Signup_And_Activate()
 		{
 			// Signup
@@ -220,7 +220,7 @@ namespace Roadkill.Tests
 			Assert.IsTrue(actual.IsActivated);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ToggleAdmin_And_ToggleEditor()
 		{
 			CreateEditorWithAsserts();
@@ -247,7 +247,7 @@ namespace Roadkill.Tests
 			Assert.IsTrue(actual.IsEditor);
 		}
 
-		[TestMethod]
+		[Test]
 		public void UserExists()
 		{
 			CreateEditorWithAsserts();
@@ -255,7 +255,7 @@ namespace Roadkill.Tests
 			Assert.IsFalse(UserManager.Current.UserExists("editor2@localhost"));
 		}
 
-		[TestMethod]
+		[Test]
 		public void UsernameExists()
 		{
 			CreateEditorWithAsserts();
@@ -263,7 +263,7 @@ namespace Roadkill.Tests
 			Assert.IsFalse(UserManager.Current.UserNameExists("editor2"));
 		}
 
-		[TestMethod]
+		[Test]
 		public void UpdateUser()
 		{
 			CreateEditorWithAsserts();
@@ -285,7 +285,7 @@ namespace Roadkill.Tests
 			Assert.AreEqual("Bishop",actual.Lastname);
 		}
 
-		[TestMethod]
+		[Test]
 		[ExpectedException(typeof(SecurityException))]
 		public void UpdateUser_With_Existing_Username_Fails()
 		{
@@ -303,7 +303,7 @@ namespace Roadkill.Tests
 			Assert.IsFalse(UserManager.Current.Authenticate("harold@localhost", "password"));
 		}
 
-		[TestMethod]
+		[Test]
 		[ExpectedException(typeof(SecurityException))]
 		public void UpdateUser_With_Existing_Email_Fails()
 		{
