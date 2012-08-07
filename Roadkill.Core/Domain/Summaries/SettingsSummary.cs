@@ -15,7 +15,7 @@ namespace Roadkill.Core
 	[Serializable]
 	public class SettingsSummary
 	{
-		private static readonly string _themesRoot;
+		private static string _themesRoot;
 
 		public string AdminEmail { get; set; }
 		public string AdminPassword { get; set; }
@@ -70,6 +70,13 @@ namespace Roadkill.Core
 		{
 			get
 			{
+				if (string.IsNullOrEmpty(_themesRoot))
+				{
+					_themesRoot = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Themes");
+					if (!Directory.Exists(_themesRoot))
+						throw new InvalidOperationException("The Themes directory could not be found");
+				}
+
 				foreach (string directory in Directory.GetDirectories(_themesRoot))
 				{
 					yield return new DirectoryInfo(directory).Name;
@@ -94,13 +101,6 @@ namespace Roadkill.Core
 			{
 				return RoadkillSettings.Version;
 			}
-		}
-
-		static SettingsSummary()
-		{
-			_themesRoot = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Themes");
-			if (!Directory.Exists(_themesRoot))
-				throw new InvalidOperationException("The Themes directory could not be found");
 		}
 
 		public SettingsSummary()
