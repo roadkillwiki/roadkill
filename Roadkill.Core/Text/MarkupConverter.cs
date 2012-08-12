@@ -84,7 +84,8 @@ namespace Roadkill.Core.Converters
 				string src = e.OriginalSrc;
 				src = _imgFileRegex.Replace(src, "");
 
-				e.Src = helper.Content(RoadkillSettings.AttachmentsFolder + "/" + src);
+				string urlPath = RoadkillSettings.AttachmentsUrlPath + (src.StartsWith("/") ? "" : "/") + src;
+				e.Src = helper.Content(urlPath);
 			}
 		}
 
@@ -98,15 +99,23 @@ namespace Roadkill.Core.Converters
 			if (!e.OriginalHref.StartsWith("http://") && !e.OriginalHref.StartsWith("www.") && !e.OriginalHref.StartsWith("mailto:"))
 			{
 				string href = e.OriginalHref;
+				string lowerHref = href.ToLower();
 
-				if (href.ToLower().StartsWith("attachment:"))
+				if (lowerHref.StartsWith("attachment:") || lowerHref.StartsWith("~/"))
 				{
 					// Parse "attachments:" to add the attachments path to the front of the href
-					href = href.Remove(0,11);
-					if (!href.StartsWith("/"))
-						href = "/" + href;
+					if (lowerHref.StartsWith("attachment:"))
+					{
+						href = href.Remove(0,11);
+						if (!href.StartsWith("/"))
+							href = "/" + href;
+					}
+					else if (lowerHref.StartsWith("~/"))
+					{
+						href = href.Remove(0, 1);
+					}
 
-					href = helper.Content(RoadkillSettings.AttachmentsFolder) + href;
+					href = helper.Content(RoadkillSettings.AttachmentsUrlPath) + href;
 				}
 				else
 				{

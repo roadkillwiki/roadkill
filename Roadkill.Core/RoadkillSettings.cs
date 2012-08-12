@@ -18,6 +18,7 @@ namespace Roadkill.Core
 	{
 		internal static DatabaseType? _databaseType = null;
 		internal static string _connectionString;
+		internal static string _attachmentsFolder;
 
 		/// <summary>
 		/// Whether users can register themselves, or if the administrators should do it. 
@@ -52,11 +53,44 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The folder where all uploads (typically image files) are saved to. This should start with "~/" to indicate the site root.
+		/// The folder where all uploads (typically image files) are saved to. This is taken from the web.config,
+		/// if the setting uses "~/" then the path is translated into one that is relative to the site root, 
+		/// otherwise it is assumed to be an absolute file path.
 		/// </summary>
 		public static string AttachmentsFolder
 		{
-			get { return RoadkillSection.Current.AttachmentsFolder; }
+			get 
+			{ 
+				if (string.IsNullOrEmpty(_attachmentsFolder))
+				{
+					if (RoadkillSection.Current.AttachmentsFolder.StartsWith("~"))
+					{
+						_attachmentsFolder = HttpContext.Current.Server.MapPath(RoadkillSection.Current.AttachmentsFolder);
+					}
+					else
+					{
+						_attachmentsFolder = RoadkillSection.Current.AttachmentsFolder; 
+					}
+				}
+
+				return _attachmentsFolder;
+			}
+		}
+
+		/// <summary>
+		/// The route used for all attachment HTTP requests (currently non-configurable);
+		/// </summary>
+		public static string AttachmentsUrlPath
+		{
+			get { return "/Attachments"; }
+		}
+
+		/// <summary>
+		/// The route used for all attachment HTTP requests (currently non-configurable), minus any starting "/";
+		/// </summary>
+		public static string AttachmentsRoutePath
+		{
+			get { return "Attachments"; }
 		}
 
 		/// <summary>
@@ -328,6 +362,17 @@ namespace Roadkill.Core
 			get
 			{
 				return RoadkillSection.Current.IgnoreSearchIndexErrors;
+			}
+		}
+
+		/// <summary>
+		/// Whether to scale images dynamically on the page, using Javascript, so they fit inside the main page container (400x400px).
+		/// </summary>
+		public static bool ResizeImages
+		{
+			get
+			{
+				return RoadkillSection.Current.ResizeImages;
 			}
 		}
 	}

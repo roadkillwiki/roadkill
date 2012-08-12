@@ -191,6 +191,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Lucene.Net.2.9.4.1\lib\net40\Lucene.Net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\..\..\Windows\System32\inetsrv\Microsoft.Web.Administration.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NHibernate.3.3.1.4000\lib\Net35\NHibernate.dll</HintPath>
@@ -229,6 +232,7 @@
     <Compile Include="Controllers\Attributes\AdminRequiredAttribute.cs" />
     <Compile Include="Controllers\Attributes\EditorRequiredAttribute.cs" />
     <Compile Include="Common\Salt.cs" />
+    <Compile Include="Files\AttachmentFileHandler.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Domain\Email\ResetPasswordEmail.cs" />
     <Compile Include="Domain\Email\SignupEmail.cs" />
@@ -238,6 +242,7 @@
     <Compile Include="Exceptions\EmailException.cs" />
     <Compile Include="Exceptions\SearchException.cs" />
     <Compile Include="Exceptions\DatabaseException.cs" />
+    <Compile Include="Files\AttachmentRouteHandler.cs" />
     <Compile Include="Localization\Resx\InstallStrings.Designer.cs">
       <DependentUpon>InstallStrings.resx</DependentUpon>
       <AutoGen>True</AutoGen>

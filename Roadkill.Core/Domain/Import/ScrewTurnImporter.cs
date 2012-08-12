@@ -29,7 +29,7 @@ namespace Roadkill.Core
 		public void ImportFromSql(string connectionString)
 		{
 			_connectionString = connectionString;
-			_attachmentsFolder = HttpContext.Current.Server.MapPath(RoadkillSettings.AttachmentsFolder);
+			_attachmentsFolder = RoadkillSettings.AttachmentsFolder;
 
 			using (SqlConnection connection = new SqlConnection(_connectionString))
 			{
