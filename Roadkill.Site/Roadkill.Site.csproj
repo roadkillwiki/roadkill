@@ -293,6 +293,7 @@
     <Content Include="App_Data\SQLiteBinaries\x64\System.Data.SQLite.Linq.dll" />
     <Content Include="App_Data\SQLiteBinaries\x86\System.Data.SQLite.dll" />
     <Content Include="App_Data\SQLiteBinaries\x86\System.Data.SQLite.Linq.dll" />
+    <None Include="mimetypes.config" />
     <Content Include="packages.config" />
     <None Include="build-readme.txt" />
     <Content Include="Themes\BlackBar\Theme.print.css" />

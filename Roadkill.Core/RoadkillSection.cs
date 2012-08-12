@@ -141,6 +141,22 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// Whether to scale images dynamically on the page, using Javascript, so they fit inside the main page container (400x400px).
+		/// </summary>
+		[ConfigurationProperty("resizeImages", IsRequired = false, DefaultValue=true)]
+		public bool ResizeImages
+		{
+			get 
+			{
+				if (this["resizeImages"] == null)
+					return true;
+				else
+					return (bool)this["resizeImages"]; 
+			}
+			set { this["resizeImages"] = value; }
+		}
+
+		/// <summary>
 		/// Whether to enabled Windows and Active Directory authentication.
 		/// </summary>
 		[ConfigurationProperty("useWindowsAuthentication", IsRequired = true)]

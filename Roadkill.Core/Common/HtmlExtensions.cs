@@ -200,5 +200,25 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Returns the Javascript to dynamically resize images, if the setting is enabled.
+		/// </summary>
+		public static MvcHtmlString ResizeImagesScript(this HtmlHelper helper)
+		{
+			if (RoadkillSettings.ResizeImages)
+			{
+				return MvcHtmlString.Create(@"<script type=""text/javascript"">
+			$(document).ready(function ()
+			{
+				// Resize all images to a maximum of 400x400
+				$(""#pagecontent img"").aeImageResize({ height: 400, width: 400 });
+			});
+		</script>");
+			}
+			else
+			{
+				return MvcHtmlString.Empty;
+			}
+		}
 	}
 }

@@ -4,6 +4,7 @@ using System.Web.Routing;
 using Roadkill.Core.Search;
 using System;
 using System.IO;
+using Roadkill.Core.Files;
 
 namespace Roadkill.Core
 {
@@ -47,6 +48,7 @@ namespace Roadkill.Core
 
 		protected void Application_Start()
 		{
+			AttachmentRouteHandler.Register();
 			AreaRegistration.RegisterAllAreas();
 			RegisterRoutes(RouteTable.Routes);
 
