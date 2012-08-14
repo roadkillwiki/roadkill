@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 using System.IO;
 using Roadkill.Core.Search;
 using System.Web;
+using Roadkill.Core.Converters;
 
 namespace Roadkill.Core
 {
@@ -318,6 +319,10 @@ namespace Roadkill.Core
 				pageContent.EditedOn = DateTime.Now;
 				pageContent.Page = page;
 				NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContent);
+
+				// Update all links to this page, if it has had its title renamed
+				//MarkupConverter converter = new MarkupConverter();
+				//pageContent.Text = converter.ReplacePageLinks(pageContent.Text, "target page", "new name");
 
 				// Update the lucene index
 				SearchManager.Current.Update(page.ToSummary());

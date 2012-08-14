@@ -78,7 +78,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The route used for all attachment HTTP requests (currently non-configurable);
+		/// The route used for all attachment HTTP requests (currently non-configurable). Should not contain a trailing slash.
 		/// </summary>
 		public static string AttachmentsUrlPath
 		{
@@ -86,7 +86,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The route used for all attachment HTTP requests (currently non-configurable), minus any starting "/";
+		/// The route used for all attachment HTTP requests (currently non-configurable), minus any starting "/".
 		/// </summary>
 		public static string AttachmentsRoutePath
 		{

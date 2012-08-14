@@ -93,38 +93,38 @@ using System.Text.RegularExpressions;
 namespace Roadkill.Core.Converters
 {
 
-    public class MarkdownOptions
-    {
-        /// <summary>
-        /// when true, (most) bare plain URLs are auto-hyperlinked  
-        /// WARNING: this is a significant deviation from the markdown spec
-        /// </summary>
-        public bool AutoHyperlink { get; set; }
-        /// <summary>
-        /// when true, RETURN becomes a literal newline  
-        /// WARNING: this is a significant deviation from the markdown spec
-        /// </summary>
-        public bool AutoNewlines { get; set; }
-        /// <summary>
-        /// use ">" for HTML output, or " />" for XHTML output
-        /// </summary>
-        public string EmptyElementSuffix { get; set; }
-        /// <summary>
-        /// when true, problematic URL characters like [, ], (, and so forth will be encoded 
-        /// WARNING: this is a significant deviation from the markdown spec
-        /// </summary>
-        public bool EncodeProblemUrlCharacters { get; set; }
-        /// <summary>
-        /// when false, email addresses will never be auto-linked  
-        /// WARNING: this is a significant deviation from the markdown spec
-        /// </summary>
-        public bool LinkEmails { get; set; }
-        /// <summary>
-        /// when true, bold and italic require non-word characters on either side  
-        /// WARNING: this is a significant deviation from the markdown spec
-        /// </summary>
-        public bool StrictBoldItalic { get; set; }
-    }
+	public class MarkdownOptions
+	{
+		/// <summary>
+		/// when true, (most) bare plain URLs are auto-hyperlinked  
+		/// WARNING: this is a significant deviation from the markdown spec
+		/// </summary>
+		public bool AutoHyperlink { get; set; }
+		/// <summary>
+		/// when true, RETURN becomes a literal newline  
+		/// WARNING: this is a significant deviation from the markdown spec
+		/// </summary>
+		public bool AutoNewlines { get; set; }
+		/// <summary>
+		/// use ">" for HTML output, or " />" for XHTML output
+		/// </summary>
+		public string EmptyElementSuffix { get; set; }
+		/// <summary>
+		/// when true, problematic URL characters like [, ], (, and so forth will be encoded 
+		/// WARNING: this is a significant deviation from the markdown spec
+		/// </summary>
+		public bool EncodeProblemUrlCharacters { get; set; }
+		/// <summary>
+		/// when false, email addresses will never be auto-linked  
+		/// WARNING: this is a significant deviation from the markdown spec
+		/// </summary>
+		public bool LinkEmails { get; set; }
+		/// <summary>
+		/// when true, bold and italic require non-word characters on either side  
+		/// WARNING: this is a significant deviation from the markdown spec
+		/// </summary>
+		public bool StrictBoldItalic { get; set; }
+	}
 
 	/// <summary>
 	/// Markdown is a text-to-HTML conversion tool for web writers. 
@@ -560,13 +560,13 @@ namespace Roadkill.Core.Converters
 			if (_nestedBracketsPattern == null)
 				_nestedBracketsPattern =
 					RepeatString(@"
-                    (?>              # Atomic matching
-                       [^\[\]]+      # Anything other than brackets
-                     |
-                       \[
-                           ", _nestDepth) + RepeatString(
+					(?>              # Atomic matching
+					   [^\[\]]+      # Anything other than brackets
+					 |
+					   \[
+						   ", _nestDepth) + RepeatString(
 					@" \]
-                    )*"
+					)*"
 					, _nestDepth);
 			return _nestedBracketsPattern;
 		}
@@ -584,34 +584,34 @@ namespace Roadkill.Core.Converters
 			if (_nestedParensPattern == null)
 				_nestedParensPattern =
 					RepeatString(@"
-                    (?>              # Atomic matching
-                       [^()\s]+      # Anything other than parens or whitespace
-                     |
-                       \(
-                           ", _nestDepth) + RepeatString(
+					(?>              # Atomic matching
+					   [^()\s]+      # Anything other than parens or whitespace
+					 |
+					   \(
+						   ", _nestDepth) + RepeatString(
 					@" \)
-                    )*"
+					)*"
 					, _nestDepth);
 			return _nestedParensPattern;
 		}
 
 		private static Regex _linkDef = new Regex(string.Format(@"
-                        ^[ ]{{0,{0}}}\[(.+)\]:  # id = $1
-                          [ ]*
-                          \n?                   # maybe *one* newline
-                          [ ]*
-                        <?(\S+?)>?              # url = $2
-                          [ ]*
-                          \n?                   # maybe one newline
-                          [ ]*
-                        (?:
-                            (?<=\s)             # lookbehind for whitespace
-                            [""(]
-                            (.+?)               # title = $3
-                            ["")]
-                            [ ]*
-                        )?                      # title is optional
-                        (?:\n+|\Z)", _tabWidth - 1), RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+						^[ ]{{0,{0}}}\[(.+)\]:  # id = $1
+						  [ ]*
+						  \n?                   # maybe *one* newline
+						  [ ]*
+						<?(\S+?)>?              # url = $2
+						  [ ]*
+						  \n?                   # maybe one newline
+						  [ ]*
+						(?:
+							(?<=\s)             # lookbehind for whitespace
+							[""(]
+							(.+?)               # title = $3
+							["")]
+							[ ]*
+						)?                      # title is optional
+						(?:\n+|\Z)", _tabWidth - 1), RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
 		/// <summary>
 		/// Strips link definitions from text, stores the URLs and titles in hash references.
@@ -663,38 +663,38 @@ namespace Roadkill.Core.Converters
 
 			// Regular expression for the content of a block tag.
 			string attr = @"
-            (?>				            # optional tag attributes
-              \s			            # starts with whitespace
-              (?>
-                [^>""/]+	            # text outside quotes
-              |
-                /+(?!>)		            # slash not followed by >
-              |
-                ""[^""]*""		        # text inside double quotes (tolerate >)
-              |
-                '[^']*'	                # text inside single quotes (tolerate >)
-              )*
-            )?	
-            ";
+			(?>				            # optional tag attributes
+			  \s			            # starts with whitespace
+			  (?>
+				[^>""/]+	            # text outside quotes
+			  |
+				/+(?!>)		            # slash not followed by >
+			  |
+				""[^""]*""		        # text inside double quotes (tolerate >)
+			  |
+				'[^']*'	                # text inside single quotes (tolerate >)
+			  )*
+			)?	
+			";
 
 			string content = RepeatString(@"
-                (?>
-                  [^<]+			        # content without tag
-                |
-                  <\2			        # nested opening tag
-                    " + attr + @"       # attributes
-                  (?>
-                      />
-                  |
-                      >", _nestDepth) +   // end of opening tag
+				(?>
+				  [^<]+			        # content without tag
+				|
+				  <\2			        # nested opening tag
+					" + attr + @"       # attributes
+				  (?>
+					  />
+				  |
+					  >", _nestDepth) +   // end of opening tag
 					  ".*?" +             // last level nested tag content
 			RepeatString(@"
-                      </\2\s*>	        # closing nested tag
-                  )
-                  |				
-                  <(?!/\2\s*>           # other tags with a different name
-                  )
-                )*", _nestDepth);
+					  </\2\s*>	        # closing nested tag
+				  )
+				  |				
+				  <(?!/\2\s*>           # other tags with a different name
+				  )
+				)*", _nestDepth);
 
 			string content2 = content.Replace(@"\2", @"\3");
 
@@ -710,67 +710,67 @@ namespace Roadkill.Core.Converters
 			// We need to do this before the next, more liberal match, because the next
 			// match will start at the first `<div>` and stop at the first `</div>`.
 			string pattern = @"
-            (?>
-                  (?>
-                    (?<=\n)     # Starting after a blank line
-                    |           # or
-                    \A\n?       # the beginning of the doc
-                  )
-                  (             # save in $1
+			(?>
+				  (?>
+					(?<=\n)     # Starting after a blank line
+					|           # or
+					\A\n?       # the beginning of the doc
+				  )
+				  (             # save in $1
 
-                    # Match from `\n<tag>` to `</tag>\n`, handling nested tags 
-                    # in between.
-                      
-                        [ ]{0,$less_than_tab}
-                        <($block_tags_b_re)   # start tag = $2
-                        $attr>                # attributes followed by > and \n
-                        $content              # content, support nesting
-                        </\2>                 # the matching end tag
-                        [ ]*                  # trailing spaces
-                        (?=\n+|\Z)            # followed by a newline or end of document
+					# Match from `\n<tag>` to `</tag>\n`, handling nested tags 
+					# in between.
+					  
+						[ ]{0,$less_than_tab}
+						<($block_tags_b_re)   # start tag = $2
+						$attr>                # attributes followed by > and \n
+						$content              # content, support nesting
+						</\2>                 # the matching end tag
+						[ ]*                  # trailing spaces
+						(?=\n+|\Z)            # followed by a newline or end of document
 
-                  | # Special version for tags of group a.
+				  | # Special version for tags of group a.
 
-                        [ ]{0,$less_than_tab}
-                        <($block_tags_a_re)   # start tag = $3
-                        $attr>[ ]*\n          # attributes followed by >
-                        $content2             # content, support nesting
-                        </\3>                 # the matching end tag
-                        [ ]*                  # trailing spaces
-                        (?=\n+|\Z)            # followed by a newline or end of document
-                      
-                  | # Special case just for <hr />. It was easier to make a special 
-                    # case than to make the other regex more complicated.
-                  
-                        [ ]{0,$less_than_tab}
-                        <(hr)                 # start tag = $2
-                        $attr                 # attributes
-                        /?>                   # the matching end tag
-                        [ ]*
-                        (?=\n{2,}|\Z)         # followed by a blank line or end of document
-                  
-                  | # Special case for standalone HTML comments:
-                  
-                      [ ]{0,$less_than_tab}
-                      (?s:
-                        <!-- .*? -->
-                      )
-                      [ ]*
-                      (?=\n{2,}|\Z)            # followed by a blank line or end of document
-                  
-                  | # PHP and ASP-style processor instructions (<? and <%)
-                  
-                      [ ]{0,$less_than_tab}
-                      (?s:
-                        <([?%])                # $2
-                        .*?
-                        \2>
-                      )
-                      [ ]*
-                      (?=\n{2,}|\Z)            # followed by a blank line or end of document
-                      
-                  )
-            )";
+						[ ]{0,$less_than_tab}
+						<($block_tags_a_re)   # start tag = $3
+						$attr>[ ]*\n          # attributes followed by >
+						$content2             # content, support nesting
+						</\3>                 # the matching end tag
+						[ ]*                  # trailing spaces
+						(?=\n+|\Z)            # followed by a newline or end of document
+					  
+				  | # Special case just for <hr />. It was easier to make a special 
+					# case than to make the other regex more complicated.
+				  
+						[ ]{0,$less_than_tab}
+						<(hr)                 # start tag = $2
+						$attr                 # attributes
+						/?>                   # the matching end tag
+						[ ]*
+						(?=\n{2,}|\Z)         # followed by a blank line or end of document
+				  
+				  | # Special case for standalone HTML comments:
+				  
+					  [ ]{0,$less_than_tab}
+					  (?s:
+						<!-- .*? -->
+					  )
+					  [ ]*
+					  (?=\n{2,}|\Z)            # followed by a blank line or end of document
+				  
+				  | # PHP and ASP-style processor instructions (<? and <%)
+				  
+					  [ ]{0,$less_than_tab}
+					  (?s:
+						<([?%])                # $2
+						.*?
+						\2>
+					  )
+					  [ ]*
+					  (?=\n{2,}|\Z)            # followed by a blank line or end of document
+					  
+				  )
+			)";
 
 			pattern = pattern.Replace("$less_than_tab", (_tabWidth - 1).ToString());
 			pattern = pattern.Replace("$block_tags_b_re", blockTagsB);
@@ -806,10 +806,10 @@ namespace Roadkill.Core.Converters
 		}
 
 		private static Regex _htmlTokens = new Regex(@"
-            (<!(?:--.*?--\s*)+>)|        # match <!-- foo -->
-            (<\?.*?\?>)|                 # match <?foo?> " +
+			(<!(?:--.*?--\s*)+>)|        # match <!-- foo -->
+			(<\?.*?\?>)|                 # match <?foo?> " +
 			RepeatString(@" 
-            (<[A-Za-z\/!$](?:[^<>]|", _nestDepth) + RepeatString(@")*>)", _nestDepth) +
+			(<[A-Za-z\/!$](?:[^<>]|", _nestDepth) + RepeatString(@")*>)", _nestDepth) +
 									   " # match <tag> and </tag>",
 			RegexOptions.Multiline | RegexOptions.Singleline | RegexOptions.ExplicitCapture | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
@@ -847,44 +847,44 @@ namespace Roadkill.Core.Converters
 
 
 		private static Regex _anchorRef = new Regex(string.Format(@"
-            (                               # wrap whole match in $1
-                \[
-                    ({0})                   # link text = $2
-                \]
+			(                               # wrap whole match in $1
+				\[
+					({0})                   # link text = $2
+				\]
 
-                [ ]?                        # one optional space
-                (?:\n[ ]*)?                 # one optional newline followed by spaces
+				[ ]?                        # one optional space
+				(?:\n[ ]*)?                 # one optional newline followed by spaces
 
-                \[
-                    (.*?)                   # id = $3
-                \]
-            )", GetNestedBracketsPattern()), RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+				\[
+					(.*?)                   # id = $3
+				\]
+			)", GetNestedBracketsPattern()), RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
 		private static Regex _anchorInline = new Regex(string.Format(@"
-                (                           # wrap whole match in $1
-                    \[
-                        ({0})               # link text = $2
-                    \]
-                    \(                      # literal paren
-                        [ ]*
-                        ({1})               # href = $3
-                        [ ]*
-                        (                   # $4
-                        (['""])           # quote char = $5
-                        (.*?)               # title = $6
-                        \5                  # matching quote
-                        [ ]*                # ignore any spaces between closing quote and )
-                        )?                  # title is optional
-                    \)
-                )", GetNestedBracketsPattern(), GetNestedParensPattern()),
+				(                           # wrap whole match in $1
+					\[
+						({0})               # link text = $2
+					\]
+					\(                      # literal paren
+						[ ]*
+						({1})               # href = $3
+						[ ]*
+						(                   # $4
+						(['""])           # quote char = $5
+						(.*?)               # title = $6
+						\5                  # matching quote
+						[ ]*                # ignore any spaces between closing quote and )
+						)?                  # title is optional
+					\)
+				)", GetNestedBracketsPattern(), GetNestedParensPattern()),
 				  RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
 		private static Regex _anchorRefShortcut = new Regex(@"
-            (                               # wrap whole match in $1
-              \[
-                 ([^\[\]]+)                 # link text = $2; can't contain [ or ]
-              \]
-            )", RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+			(                               # wrap whole match in $1
+			  \[
+				 ([^\[\]]+)                 # link text = $2; can't contain [ or ]
+			  \]
+			)", RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
 		/// <summary>
 		/// Turn Markdown link shortcuts into HTML anchor tags
@@ -1028,38 +1028,38 @@ namespace Roadkill.Core.Converters
 		}
 
 		private static Regex _imagesRef = new Regex(@"
-                    (               # wrap whole match in $1
-                    !\[
-                        (.*?)       # alt text = $2
-                    \]
+					(               # wrap whole match in $1
+					!\[
+						(.*?)       # alt text = $2
+					\]
 
-                    [ ]?            # one optional space
-                    (?:\n[ ]*)?     # one optional newline followed by spaces
+					[ ]?            # one optional space
+					(?:\n[ ]*)?     # one optional newline followed by spaces
 
-                    \[
-                        (.*?)       # id = $3
-                    \]
+					\[
+						(.*?)       # id = $3
+					\]
 
-                    )", RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
+					)", RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
 
 		private static Regex _imagesInline = new Regex(String.Format(@"
-              (                     # wrap whole match in $1
-                !\[
-                    (.*?)           # alt text = $2
-                \]
-                \s?                 # one optional whitespace character
-                \(                  # literal paren
-                    [ ]*
-                    ({0})           # href = $3
-                    [ ]*
-                    (               # $4
-                    (['""])       # quote char = $5
-                    (.*?)           # title = $6
-                    \5              # matching quote
-                    [ ]*
-                    )?              # title is optional
-                \)
-              )", GetNestedParensPattern()),
+			  (                     # wrap whole match in $1
+				!\[
+					(.*?)           # alt text = $2
+				\]
+				\s?                 # one optional whitespace character
+				\(                  # literal paren
+					[ ]*
+					({0})           # href = $3
+					[ ]*
+					(               # $4
+					(['""])       # quote char = $5
+					(.*?)           # title = $6
+					\5              # matching quote
+					[ ]*
+					)?              # title is optional
+				\)
+			  )", GetNestedParensPattern()),
 				  RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
 
 		/// <summary>
@@ -1156,21 +1156,21 @@ namespace Roadkill.Core.Converters
 		}
 
 		private static Regex _headerSetext = new Regex(@"
-                ^(.+?)
-                [ ]*
-                \n
-                (=+|-+)     # $1 = string of ='s or -'s
-                [ ]*
-                \n+",
+				^(.+?)
+				[ ]*
+				\n
+				(=+|-+)     # $1 = string of ='s or -'s
+				[ ]*
+				\n+",
 			RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
 		private static Regex _headerAtx = new Regex(@"
-                ^(\#{1,6})  # $1 = string of #'s
-                [ ]*
-                (.+?)       # $2 = Header text
-                [ ]*
-                \#*         # optional closing #'s (not counted)
-                \n+",
+				^(\#{1,6})  # $1 = string of #'s
+				[ ]*
+				(.+?)       # $2 = Header text
+				[ ]*
+				\#*         # optional closing #'s (not counted)
+				\n+",
 			RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
 		/// <summary>
@@ -1212,15 +1212,15 @@ namespace Roadkill.Core.Converters
 
 
 		private static Regex _horizontalRules = new Regex(@"
-            ^[ ]{0,3}         # Leading space
-                ([-*_])       # $1: First marker
-                (?>           # Repeated marker group
-                    [ ]{0,2}  # Zero, one, or two spaces.
-                    \1        # Marker character
-                ){2,}         # Group repeated at least twice
-                [ ]*          # Trailing spaces
-                $             # End of line.
-            ", RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+			^[ ]{0,3}         # Leading space
+				([-*_])       # $1: First marker
+				(?>           # Repeated marker group
+					[ ]{0,2}  # Zero, one, or two spaces.
+					\1        # Marker character
+				){2,}         # Group repeated at least twice
+				[ ]*          # Trailing spaces
+				$             # End of line.
+			", RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
 		/// <summary>
 		/// Turn Markdown horizontal rules into HTML hr tags
@@ -1237,24 +1237,24 @@ namespace Roadkill.Core.Converters
 		}
 
 		private static string _wholeList = string.Format(@"
-            (                               # $1 = whole list
-              (                             # $2
-                [ ]{{0,{1}}}
-                ({0})                       # $3 = first list item marker
-                [ ]+
-              )
-              (?s:.+?)
-              (                             # $4
-                  \z
-                |
-                  \n{{2,}}
-                  (?=\S)
-                  (?!                       # Negative lookahead for another list item marker
-                    [ ]*
-                    {0}[ ]+
-                  )
-              )
-            )", string.Format("(?:{0}|{1})", _markerUL, _markerOL), _tabWidth - 1);
+			(                               # $1 = whole list
+			  (                             # $2
+				[ ]{{0,{1}}}
+				({0})                       # $3 = first list item marker
+				[ ]+
+			  )
+			  (?s:.+?)
+			  (                             # $4
+				  \z
+				|
+				  \n{{2,}}
+				  (?=\S)
+				  (?!                       # Negative lookahead for another list item marker
+					[ ]*
+					{0}[ ]+
+				  )
+			  )
+			)", string.Format("(?:{0}|{1})", _markerUL, _markerOL), _tabWidth - 1);
 
 		private static Regex _listNested = new Regex(@"^" + _wholeList,
 			RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
@@ -1323,10 +1323,10 @@ namespace Roadkill.Core.Converters
 
 			string pattern = string.Format(
 			  @"(^[ ]*)                    # leading whitespace = $1
-                ({0}) [ ]+                 # list marker = $2
-                ((?s:.+?)                  # list item text = $3
-                (\n+))      
-                (?= (\z | \1 ({0}) [ ]+))", marker);
+				({0}) [ ]+                 # list marker = $2
+				((?s:.+?)                  # list item text = $3
+				(\n+))      
+				(?= (\z | \1 ({0}) [ ]+))", marker);
 
 			bool lastItemHadADoubleNewline = false;
 
@@ -1359,14 +1359,14 @@ namespace Roadkill.Core.Converters
 		}
 
 		private static Regex _codeBlock = new Regex(string.Format(@"
-                    (?:\n\n|\A\n?)
-                    (                        # $1 = the code block -- one or more lines, starting with a space
-                    (?:
-                        (?:[ ]{{{0}}})       # Lines must start with a tab-width of spaces
-                        .*\n+
-                    )+
-                    )
-                    ((?=^[ ]{{0,{0}}}\S)|\Z) # Lookahead for non-space at line-start, or end of doc",
+					(?:\n\n|\A\n?)
+					(                        # $1 = the code block -- one or more lines, starting with a space
+					(?:
+						(?:[ ]{{{0}}})       # Lines must start with a tab-width of spaces
+						.*\n+
+					)+
+					)
+					((?=^[ ]{{0,{0}}}\S)|\Z) # Lookahead for non-space at line-start, or end of doc",
 					_tabWidth), RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
 		/// <summary>
@@ -1389,12 +1389,12 @@ namespace Roadkill.Core.Converters
 		}
 
 		private static Regex _codeSpan = new Regex(@"
-                    (?<!\\)   # Character before opening ` can't be a backslash
-                    (`+)      # $1 = Opening run of `
-                    (.+?)     # $2 = The code block
-                    (?<!`)
-                    \1
-                    (?!`)", RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
+					(?<!\\)   # Character before opening ` can't be a backslash
+					(`+)      # $1 = Opening run of `
+					(.+?)     # $2 = The code block
+					(?<!`)
+					\1
+					(?!`)", RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
 
 		/// <summary>
 		/// Turn Markdown `code spans` into HTML code tags
@@ -1480,14 +1480,14 @@ namespace Roadkill.Core.Converters
 		}
 
 		private static Regex _blockquote = new Regex(@"
-            (                           # Wrap whole match in $1
-                (
-                ^[ ]*>[ ]?              # '>' at the start of a line
-                    .+\n                # rest of the first line
-                (.+\n)*                 # subsequent consecutive lines
-                \n*                     # blanks
-                )+
-            )", RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline | RegexOptions.Compiled);
+			(                           # Wrap whole match in $1
+				(
+				^[ ]*>[ ]?              # '>' at the start of a line
+					.+\n                # rest of the first line
+				(.+\n)*                 # subsequent consecutive lines
+				\n*                     # blanks
+				)+
+			)", RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline | RegexOptions.Compiled);
 
 		/// <summary>
 		/// Turn Markdown > quoted blocks into HTML blockquote blocks
@@ -1546,13 +1546,13 @@ namespace Roadkill.Core.Converters
 				// Email addresses: <address@domain.foo>
 				string pattern =
 					@"<
-                      (?:mailto:)?
-                      (
-                        [-.\w]+
-                        \@
-                        [-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]+
-                      )
-                      >";
+					  (?:mailto:)?
+					  (
+						[-.\w]+
+						\@
+						[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]+
+					  )
+					  >";
 				text = Regex.Replace(text, pattern, new MatchEvaluator(EmailEvaluator), RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
 			}
 
