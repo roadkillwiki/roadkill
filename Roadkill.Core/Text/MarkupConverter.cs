@@ -131,7 +131,6 @@ namespace Roadkill.Core.Converters
 			}
 		}
 
-
 		/// <summary>
 		/// Strips script, link, style etc tags and javascript attributes. Based on http://htmlagilitypack.codeplex.com/discussions/24346
 		/// </summary>
@@ -187,6 +186,28 @@ namespace Roadkill.Core.Converters
 			}
 
 			return document.DocumentNode.InnerHtml;
+		}
+
+		public string ReplacePageLinks(string text, string oldPageName, string newPageName)
+		{
+			string search = string.Format("{0}{1}", Parser.LinkStartToken, Parser.LinkEndToken);
+			search = search.Replace("%LINKTEXT%", "(?:.*?)");
+			search = search.Replace("(", @"\(").Replace(")", @"\)").Replace("[", @"\[").Replace("]", @"\]");
+			search = search.Replace("%URL%", "(?<url>" + oldPageName + ")"); // brackets or square brackets will break the URL, so ignore these.
+			
+
+			Regex regex = new Regex(search, RegexOptions.IgnoreCase);
+			return regex.Replace(text, delegate(Match match)
+			{
+				if (match.Success && match.Groups.Count == 2)
+				{
+					return match.Value.Replace(match.Groups[1].Value, newPageName);
+				}
+				else
+				{
+					return match.Value;
+				}
+			});
 		}
 	}
 }
