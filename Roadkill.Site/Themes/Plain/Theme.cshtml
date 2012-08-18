@@ -6,7 +6,58 @@
 </head>
 
 <body>
-@RenderSection("PageToolbar", false)
-@RenderBody()
+@{
+	var settingsLink = Html.SettingsLink("", "");
+	var loginLink = Html.LoginLink("", "");
+	var newPageLink = Html.NewPageLink("", "");
+}
+@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+{
+	<div id="header">
+			<ul class="mainmenu">
+				@if (settingsLink.ToString().Length > 0) { 
+					<li>@settingsLink</li>
+					<li>|</li>
+				}
+				@if (newPageLink.ToString().Length > 0)
+				{ 
+					<li>@newPageLink</li>
+					<li>|</li>
+				}
+				<li>@Html.MainPageLink(SiteStrings.Navigation_MainPage, "", "")</li>
+				<li>|</li>
+				<li>@Html.ActionLink(SiteStrings.Navigation_Categories, "AllTags", "Pages")</li>
+				<li>|</li>
+				<li>@Html.ActionLink(SiteStrings.Navigation_AllPages, "AllPages", "Pages")</li>
+                <li>|</li>
+				<li>@Html.LoginStatus()</li>
+				@if (loginLink.ToString().Length > 0)
+				{ 
+        			<li>|</li>
+					<li>@loginLink</li>
+                }
+			</ul>
+            <div class="search">
+			    <span>Search:</span> <input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" />
+            </div>
+	</div>
+}
+    <br /><br />
+    <div id="container">
+        @RenderSection("PageToolbar", false)
+        <div id="content">
+	        @RenderBody()
+        </div>
+    </div>
+	<div id="footer">
+		@if (RoadkillContext.Current.IsContentPage)
+		{
+		<p>@SiteStrings.Shared_LastModified @RoadkillContext.Current.Page.ModifiedOn.ToString("dd MMM yyyy") 
+		at @RoadkillContext.Current.Page.ModifiedOn.ToShortTimeString().</p>
+		}
+		<p>
+			@SiteStrings.Shared_PoweredBy (@RoadkillSettings.Version).
+		</p>
+	</div>
 </body>
 </html>
