@@ -120,7 +120,7 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Plasma|AnyCPU'">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Plasma-desktop|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -136,7 +136,7 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Plasma|x64'">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Plasma-desktop|x64' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Plasma\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -152,7 +152,7 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Plasma|x86'">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Plasma-desktop|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Plasma\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -293,8 +293,8 @@
     <Content Include="App_Data\SQLiteBinaries\x64\System.Data.SQLite.Linq.dll" />
     <Content Include="App_Data\SQLiteBinaries\x86\System.Data.SQLite.dll" />
     <Content Include="App_Data\SQLiteBinaries\x86\System.Data.SQLite.Linq.dll" />
-    <None Include="mimetypes.config" />
-    <Content Include="packages.config" />
+    <Content Include="mimetypes.config" />
+    <None Include="packages.config" />
     <None Include="build-readme.txt" />
     <Content Include="Themes\BlackBar\Theme.print.css" />
     <Content Include="Themes\Mediawiki\border.png" />
