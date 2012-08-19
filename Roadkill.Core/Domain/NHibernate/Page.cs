@@ -73,6 +73,7 @@ namespace Roadkill.Core
 			{
 				Id = Id,
 				Title = Title,
+				PreviousTitle = Title,
 				CreatedBy = CreatedBy,
 				CreatedOn = CreatedOn,
 				IsLocked = IsLocked,

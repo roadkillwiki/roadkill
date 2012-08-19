@@ -320,9 +320,22 @@ namespace Roadkill.Core
 				pageContent.Page = page;
 				NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContent);
 
-				// Update all links to this page, if it has had its title renamed
-				//MarkupConverter converter = new MarkupConverter();
-				//pageContent.Text = converter.ReplacePageLinks(pageContent.Text, "target page", "new name");
+				// Update all links to this page (if it has had its title renamed). Case changes don't need any updates.
+				if (summary.PreviousTitle != null && summary.PreviousTitle.ToLower() != summary.Title.ToLower())
+				{
+					MarkupConverter converter = new MarkupConverter();
+					foreach (PageContent content in PageContents)
+					{
+						if (converter.ContainsPageLink(content.Text, summary.PreviousTitle))
+						{
+							// force the proxy to hydrate, for "Illegally attempted to associate a proxy with two open Sessions" errors
+							NHibernateUtil.Initialize(content.Page); 
+
+							content.Text = converter.ReplacePageLinks(content.Text, summary.PreviousTitle, summary.Title);
+							NHibernateRepository.Current.SaveOrUpdate<PageContent>(content);
+						}
+					}
+				}
 
 				// Update the lucene index
 				SearchManager.Current.Update(page.ToSummary());

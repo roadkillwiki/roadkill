@@ -70,6 +70,11 @@ namespace Roadkill.Core
 		public string Tags { get; set; }
 
 		/// <summary>
+		/// The page title before any update.
+		/// </summary>
+		public string PreviousTitle { get; set; }
+
+		/// <summary>
 		/// The page title.
 		/// </summary>
 		[Required(ErrorMessageResourceType=typeof(SiteStrings), ErrorMessageResourceName="Page_Validation_Title")]
