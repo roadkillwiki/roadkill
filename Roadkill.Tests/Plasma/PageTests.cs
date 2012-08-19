@@ -23,6 +23,7 @@ namespace Roadkill.Tests.Plasma
 	public class PageTests : PlasmaTestBase
 	{
 		[Test]
+		[Ignore]
 		public void Homepage_HasContent()
 		{
 			AspNetResponse homePage = AppInstance.ProcessRequest("/");
@@ -42,6 +43,7 @@ namespace Roadkill.Tests.Plasma
 		}
 
 		[Test]
+		[Ignore]
 		public void Login_HasContent()
 		{
 			AspNetResponse loginPage = AppInstance.ProcessRequest("/user/login");
@@ -64,6 +66,7 @@ namespace Roadkill.Tests.Plasma
 		}
 
 		[Test]
+		[Ignore]
 		public void Login_AsEditor()
 		{
 			AspNetRequest request = new AspNetRequest("/user/login");
