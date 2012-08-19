@@ -175,12 +175,12 @@
 .toc ul			{ list-style-type:none;padding:2px 5px;margin: 0px 0px 0px 2em;line-height:1.5em; }
 .toc-list>ul	{ margin:0px; }
 
-ul.mainmenu { list-style-type:none; padding-left:0px; }
-ul.mainmenu li { float:left;padding-right:15px; }
-ul.mainmenu li a { font-size:12pt;text-decoration:none;color:navy;font-weight:bold; }
+ul.mainmenu		 { list-style-type:none; padding-left:0px; }
+ul.mainmenu li	 { float:left;padding-right:15px; }
+ul.mainmenu li a { font-weight:bold; }
 ul.mainmenu li a:hover { text-decoration:underline; }
 
 ul.settingsmenu { list-style-type: none;padding-left:0px; }
 ul.settingsmenu li { float:left;padding-right:15px; }
-ul.settingsmenu li a { font-size:12pt;text-decoration:none;color:navy;font-weight:bold; }
+ul.settingsmenu li a { font-weight:bold; }
 ul.settingsmenu li a:hover { text-decoration:underline; }
