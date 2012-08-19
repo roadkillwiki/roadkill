@@ -188,15 +188,28 @@ namespace Roadkill.Core.Converters
 			return document.DocumentNode.InnerHtml;
 		}
 
+		/// <summary>
+		/// Whether the text provided contains any links to the page title.
+		/// </summary>
+		/// <param name="text">The page's text contents.</param>
+		/// <param name="pageName">The name (title) of the page.</param>
+		/// <returns>True if the text contains links; false otherwise.</returns>
+		public bool ContainsPageLink(string text, string pageName)
+		{
+			Regex regex = new Regex(GetLinkUpdateRegex(pageName), RegexOptions.IgnoreCase);
+			return regex.IsMatch(text);
+		}
+
+		/// <summary>
+		/// Replaces all links with an old page title in the provided page text, with links with a new page name.
+		/// </summary>
+		/// <param name="text">The page's text contents.</param>
+		/// <param name="pageName">The previous name (title) of the page.</param>
+		/// <param name="newPageName">The new name (title) of the page.</param>
+		/// <returns>The text with link title names replaced.</returns>
 		public string ReplacePageLinks(string text, string oldPageName, string newPageName)
 		{
-			string search = string.Format("{0}{1}", Parser.LinkStartToken, Parser.LinkEndToken);
-			search = search.Replace("%LINKTEXT%", "(?:.*?)");
-			search = search.Replace("(", @"\(").Replace(")", @"\)").Replace("[", @"\[").Replace("]", @"\]");
-			search = search.Replace("%URL%", "(?<url>" + oldPageName + ")"); // brackets or square brackets will break the URL, so ignore these.
-			
-
-			Regex regex = new Regex(search, RegexOptions.IgnoreCase);
+			Regex regex = new Regex(GetLinkUpdateRegex(oldPageName), RegexOptions.IgnoreCase);
 			return regex.Replace(text, delegate(Match match)
 			{
 				if (match.Success && match.Groups.Count == 2)
@@ -208,6 +221,16 @@ namespace Roadkill.Core.Converters
 					return match.Value;
 				}
 			});
+		}
+
+		private string GetLinkUpdateRegex(string pageName)
+		{
+			string regex = string.Format("{0}{1}", Parser.LinkStartToken, Parser.LinkEndToken);
+			regex = regex.Replace("%LINKTEXT%", "(?:.*?)");
+			regex = regex.Replace("(", @"\(").Replace(")", @"\)").Replace("[", @"\[").Replace("]", @"\]");
+			regex = regex.Replace("%URL%", "(?<url>" + pageName + ")"); // brackets or square brackets will break the URL, so ignore these.
+
+			return regex;
 		}
 	}
 }

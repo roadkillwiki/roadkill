@@ -21,6 +21,7 @@
 	{
 		@(Html.HiddenFor<PageSummary, int>(p => p.Id))
 		@(Html.HiddenFor<PageSummary, string>(p => p.Tags))
+		@(Html.HiddenFor<PageSummary, string>(p => p.PreviousTitle))
 	 
 		<div class="title">
 			<label for="Title">@SiteStrings.EditPage_Title_Label</label>
@@ -57,7 +58,7 @@
 			<a href="javascript:;" class="wysiwyg-link"><img src="@(Url.Content("~/Assets/images/wysiwyg/link.png"))" alt="link" border="0" /></a>
 			<a href="javascript:;" class="wysiwyg-help"><img src="@(Url.Content("~/Assets/images/wysiwyg/help.png"))" alt="help" border="0" /></a>
 		</div>
-		@(Html.TextAreaFor<PageSummary, string>(p => p.Content, new { @class = "edittextarea", tabindex=3 }))
+		@(Html.TextAreaFor<PageSummary, string>(p => p.Content, new { @class = "edittextarea", tabindex = 3 }))
 		<br />
 
 		if (Model.Id > 0)
