@@ -26,7 +26,7 @@ namespace Roadkill.Tests.Plasma
 			string siteRootFolder = AppDomain.CurrentDomain.BaseDirectory;
 
 #if RELEASE
-			siteRootFolder = Path.Combine(rootFolder, "_PublishedWebsites", "Roadkill.Site");
+			siteRootFolder = Path.Combine(siteRootFolder, "_PublishedWebsites", "Roadkill.Site");
 #else
 			siteRootFolder = Path.Combine(siteRootFolder, "..", "..", "..", "Roadkill.Site");
 #endif
