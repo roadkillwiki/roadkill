@@ -23,14 +23,17 @@ namespace Roadkill.Tests.Plasma
 		[TestFixtureSetUp]
 		public void Init()
 		{
-#if PLASMA
-			CopySqliteToSite();
-#endif
-			
 			// Set the Plasma root directory to the site's directory
 			string rootFolder = AppDomain.CurrentDomain.BaseDirectory;
 
+#if PLASMADESKTOP
+			CopySqliteToSite();
 			rootFolder = Path.Combine(rootFolder, "..", "..", "..", "Roadkill.Site");
+#else
+
+			rootFolder = Path.Combine(rootFolder, "_PublishedWebsites", "Roadkill.Site");
+#endif
+			
 			DirectoryInfo siteDirectory = new DirectoryInfo(rootFolder);
 			AppInstance = new AspNetApplication("/", siteDirectory.FullName); 
 		}
