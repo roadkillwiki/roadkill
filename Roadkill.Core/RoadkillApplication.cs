@@ -70,12 +70,18 @@ namespace Roadkill.Core
 
 		private void ConfigureForPlasma()
 		{
-#if RELEASE
+#if PLASMADESKTOP || RELEASE
 			RoadkillSection.Current.Installed = true;
 			RoadkillSection.Current.DatabaseType = "SQLite";
 
 			// Set the connection string to the SQLite database in the test bin folder
 			string root = AppDomain.CurrentDomain.BaseDirectory;
+#if APPHARBOR
+			root = Path.Combine(root, "..", "..");
+#else
+			root = Path.Combine(root, "..", "Roadkill.Tests","bin","PlasmaDesktop");
+#endif
+
 			string dbfile = Path.Combine(root, "lib", "roadkill.plasma.sqlite");
 			RoadkillSettings.ConnectionString = "Data Source=" +Path.GetFullPath(dbfile);
 #endif

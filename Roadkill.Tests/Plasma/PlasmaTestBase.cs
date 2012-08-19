@@ -30,8 +30,8 @@ namespace Roadkill.Tests.Plasma
 #if APPHARBOR
 				siteRootFolder = Path.Combine(siteRootFolder, "_PublishedWebsites", "Roadkill.Site");
 #else
-			siteRootFolder = Path.Combine(siteRootFolder, "..", "..", "..", "Roadkill.Site");
-			CopySqliteToSite(siteRootFolder);
+				siteRootFolder = Path.Combine(siteRootFolder, "..", "..", "..", "Roadkill.Site");
+				CopySqliteToSite(siteRootFolder);
 #endif
 
 				DirectoryInfo siteDirectory = new DirectoryInfo(siteRootFolder);
