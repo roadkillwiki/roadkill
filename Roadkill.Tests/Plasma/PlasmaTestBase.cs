@@ -23,17 +23,24 @@ namespace Roadkill.Tests.Plasma
 		[TestFixtureSetUp]
 		public void Init()
 		{
-			string siteRootFolder = AppDomain.CurrentDomain.BaseDirectory;
+			try
+			{
+				string siteRootFolder = AppDomain.CurrentDomain.BaseDirectory;
 
 #if APPHARBOR
-			siteRootFolder = Path.Combine(siteRootFolder, "_PublishedWebsites", "Roadkill.Site");
+				siteRootFolder = Path.Combine(siteRootFolder, "_PublishedWebsites", "Roadkill.Site");
 #else
 			siteRootFolder = Path.Combine(siteRootFolder, "..", "..", "..", "Roadkill.Site");
 			CopySqliteToSite(siteRootFolder);
 #endif
 
-			DirectoryInfo siteDirectory = new DirectoryInfo(siteRootFolder);
-			AppInstance = new AspNetApplication("/", siteDirectory.FullName); 
+				DirectoryInfo siteDirectory = new DirectoryInfo(siteRootFolder);
+				AppInstance = new AspNetApplication("/", siteDirectory.FullName);
+			}
+			catch (Exception e)
+			{
+				Assert.Fail(e.StackTrace.ToString());
+			}
 		}
 
 		private void CopySqliteToSite(string rootFolder)
