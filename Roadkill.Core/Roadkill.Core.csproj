@@ -121,10 +121,10 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Plasma|AnyCPU'">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Plasma-desktop|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Plasma\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;PLASMA</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;PLASMADESKTOP</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisLogFile>bin\Debug\Roadkill.Core.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
@@ -138,7 +138,7 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Plasma|x64'">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Plasma-desktop|x64' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Plasma\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -153,7 +153,7 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Plasma|x86'">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Plasma-desktop|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Plasma\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
