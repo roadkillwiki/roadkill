@@ -29,9 +29,9 @@ namespace Roadkill.Tests.Plasma
 			siteRootFolder = Path.Combine(siteRootFolder, "_PublishedWebsites", "Roadkill.Site");
 #else
 			siteRootFolder = Path.Combine(siteRootFolder, "..", "..", "..", "Roadkill.Site");
+			CopySqliteToSite(siteRootFolder);
 #endif
 
-			CopySqliteToSite(siteRootFolder);
 			DirectoryInfo siteDirectory = new DirectoryInfo(siteRootFolder);
 			AppInstance = new AspNetApplication("/", siteDirectory.FullName); 
 		}
