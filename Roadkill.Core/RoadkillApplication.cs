@@ -48,9 +48,7 @@ namespace Roadkill.Core
 
 		protected void Application_Start()
 		{
-#if DEBUG
 			AttachmentRouteHandler.Register();
-#endif
 			AreaRegistration.RegisterAllAreas();
 			RegisterRoutes(RouteTable.Routes);
 
