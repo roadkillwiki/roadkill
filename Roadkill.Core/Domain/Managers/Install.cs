@@ -67,15 +67,13 @@ namespace Roadkill.Core
 			{
 				errors = "The folder name is empty";
 			}
-			else if (!folder.StartsWith("~/"))
-			{
-				errors = "The folder name should start with a ~/";
-			}
 			else
 			{
 				try
 				{
-					string directory = HttpContext.Current.Server.MapPath(folder);
+					string directory = folder;
+					if (folder.StartsWith("~"))
+						directory = HttpContext.Current.Server.MapPath(folder);
 
 					if (Directory.Exists(directory))
 					{
