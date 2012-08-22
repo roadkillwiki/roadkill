@@ -225,6 +225,9 @@
   <data name="User_Validation_Email" xml:space="preserve">
     <value>The email field is required.</value>
   </data>
+  <data name="User_Validation_Email_Check" xml:space="preserve">
+    <value>The email field does not contain a valid email.</value>
+  </data>
   <data name="User_Validation_UsernameExists" xml:space="preserve">
     <value>The username {0} already exists.</value>
   </data>

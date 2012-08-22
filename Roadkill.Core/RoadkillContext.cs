@@ -136,5 +136,21 @@ namespace Roadkill.Core
 		{
 			IsWeb = true;
 		}
+
+		/// <summary>
+		/// Clears the request context item that stores the current logged in username.
+		/// </summary>
+		public static void Clear()
+		{
+			if (IsWeb)
+			{
+				if (HttpContext.Current.Items[CONTEXT_KEY] != null)
+				{
+					HttpContext.Current.Items.Remove(CONTEXT_KEY);
+				}
+
+				string user = Current.CurrentUser;
+			}
+		}
 	}
 }

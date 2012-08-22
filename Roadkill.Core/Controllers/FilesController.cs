@@ -152,7 +152,7 @@ namespace Roadkill.Core.Controllers
 
 			string extension = Path.GetExtension(filename).Replace(".","");
 	
-			if (RoadkillSettings.AllowedFileTypes.Contains(extension))
+			if (RoadkillSettings.AllowedFileTypes.FirstOrDefault(e => e.ToLower() == extension.ToLower()) != null)
 			{
 				try
 				{
@@ -161,7 +161,7 @@ namespace Roadkill.Core.Controllers
 					if (!Directory.Exists(RoadkillSettings.AttachmentsFolder))
 						Directory.CreateDirectory(RoadkillSettings.AttachmentsFolder);
 
-					string filePath = string.Format(@"{0}\{1}", summary.DiskPath, filename);
+					string filePath = Path.Combine(summary.DiskPath, Path.GetFileName(filename));
 					HttpPostedFileBase postedFile = Request.Files["uploadFile"] as HttpPostedFileBase;
 					postedFile.SaveAs(filePath);
 				}
