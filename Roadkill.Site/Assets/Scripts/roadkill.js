@@ -93,12 +93,22 @@ function formatPreTags()
 
 function openModal(selector, params)
 {
+	if (typeof params !== "undefined")
+	{
+		params.openSpeed = 150;
+		params.closeSpeed = 150;
+	}
+	else
+	{
+		params = { openSpeed : 150, closeSpeed: 150 };
+	}
+
 	$.fancybox($(selector), params);
 }
 
 function openIframeModal(html)
 {
-	$.fancybox(html);
+	$.fancybox(html, { openSpeed: "fast", openEffect : "none" });
 }
 
 function closeModal()

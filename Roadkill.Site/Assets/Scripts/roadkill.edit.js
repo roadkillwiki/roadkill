@@ -60,16 +60,28 @@ function showPreview()
 	$("#previewLoading").show();
 	var text = $("#Content").val();
 
-	$.ajax({ 
+	var request = $.ajax({
 		type: "POST",
-		url: ROADKILL_PREVIEWURL, 
+		url: ROADKILL_PREVIEWURL,
 		data: { "id": text },
-		cache: false})
-		.done(function (htmlResult)
-		{
-			$("#preview").html(htmlResult);
-			$("#preview").show();
-			openModal("#previewContainer");
-			$("#previewLoading").hide();
-		});
+		cache: false,
+		dataType: "text"
+	});
+	
+	request.done(function (htmlResult)
+	{
+		$("#preview").html(htmlResult);
+	});
+
+	request.fail(function (jqXHR, textStatus, errorThrown)
+	{
+		$("#preview").html("<span style='color:red'>An error occurred with the preview: "+errorThrown+"</span>");
+	});
+	
+	request.always(function ()
+	{
+		$("#preview").show();
+		openModal("#previewContainer");
+		$("#previewLoading").hide();
+	});
 }
