@@ -107,7 +107,7 @@
 #previewLoading		{ display:none; }
 #previewContainer	{ display:none;background-color:#FFF;height:450px;width:800px;overflow:hidden; }
 #previewContainer #title { background-color:#444;color:#FFF;font-weight:bold;font-size:1.2em;padding:5px; }
-#preview			{ padding:10px;border:1px solid #d3d2d2;height:400px;overflow:scroll; }
+#preview			{ padding:10px;border:1px solid #d3d2d2;height:400px;overflow:scroll;color:#000; }
 .jqConfirm			{ font-weight:bold !important; }
 
 #edit				{ width:700px; }
