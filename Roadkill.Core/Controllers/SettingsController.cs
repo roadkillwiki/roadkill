@@ -134,7 +134,7 @@ namespace Roadkill.Core.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				if (summary.UsernameHasChanged)
+				if (summary.UsernameHasChanged || summary.EmailHasChanged)
 				{
 					if (!UserManager.Current.UpdateUser(summary))
 					{

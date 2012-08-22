@@ -1,4 +1,5 @@
-﻿/// <reference path="jquery-1.4.1-vsdoc.js" />
+﻿/// <reference path="jquery-1.8.0-vsdoc.js" />
+
 var _tags;
 var _loadTagsTimer;
 
@@ -59,15 +60,16 @@ function showPreview()
 	$("#previewLoading").show();
 	var text = $("#Content").val();
 
-	$.ajax({
+	$.ajax({ 
 		type: "POST",
-		url: ROADKILL_PREVIEWURL,
+		url: ROADKILL_PREVIEWURL, 
 		data: { "id": text },
-		success: function (htmlResult)
+		cache: false})
+		.done(function (htmlResult)
 		{
 			$("#preview").html(htmlResult);
-			$("#previewContainer").modal();
+			$("#preview").show();
+			openModal("#previewContainer");
 			$("#previewLoading").hide();
-		}
-	});
+		});
 }

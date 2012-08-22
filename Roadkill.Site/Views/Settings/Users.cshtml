@@ -15,11 +15,18 @@
 @if (TempData["action"] != null)
 {
 	<script type="text/javascript">
-	$(document).ready(function ()
-	{
-		// Show the user dialog if there were errors
-		showUserModal("@(TempData["action"])");
-	});
+		$(window).load(function ()
+		{
+			if ($.browser.msie === true)
+			{
+				var ie9Fix = 'showUserModal("@(TempData["action"])")';
+				setTimeout(ie9Fix, 500);
+			}
+			else
+			{
+				showUserModal("@(TempData["action"])")
+			}
+		});
 	</script>
 }
 

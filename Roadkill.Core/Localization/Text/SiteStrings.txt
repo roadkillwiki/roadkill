@@ -52,6 +52,7 @@ Shared_Error=An error occurred:
 
 User_Validation_Username=The username field is required.
 User_Validation_Email=The email field is required.
+User_Validation_Email_Check=The email field does not contain a valid email.
 User_Validation_UsernameExists=The username {0} already exists.
 User_Validation_UsernameEmpty=The The username is empty.
 User_Validation_EmailExists=The email {0} already exists.

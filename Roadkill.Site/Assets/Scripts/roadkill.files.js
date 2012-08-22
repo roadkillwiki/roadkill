@@ -1,4 +1,4 @@
-﻿/// <reference path="jquery-1.4.1-vsdoc.js" />
+﻿/// <reference path="jquery-1.8.0-vsdoc.js" />
 
 /**
  Event bindings and handlers for the file manager.
@@ -19,10 +19,9 @@ function initFileManager()
 	$("#previewimage").hide();
 
 	// Choose button calls the 'addImage' function from wyswyg.js
-	$("#choosebutton").click(function()
+	$("#choosebutton").click(function ()
 	{
 		window.top.addImage($("#previewimage").attr("src").replace(ROADKILL_ATTACHMENTSPATH, ""));
-		$("#filechooser-iframe").close();
 	});
 
 	// Setup the jquery filetree

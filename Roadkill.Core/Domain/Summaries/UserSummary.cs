@@ -82,13 +82,24 @@ namespace Roadkill.Core
 		public bool IsNew { get; set; }
 
 		/// <summary>
-		/// Indicates whether a username change is required.
+		/// Indicates whether the username has changed.
 		/// </summary>
 		public bool UsernameHasChanged
 		{
 			get
 			{
 				return ExistingUsername != NewUsername;
+			}
+		}
+
+		/// <summary>
+		/// Indicates whether the email changed.
+		/// </summary>
+		public bool EmailHasChanged
+		{
+			get
+			{
+				return ExistingEmail != NewEmail;
 			}
 		}
 
@@ -159,7 +170,11 @@ namespace Roadkill.Core
 			// Only check if the username has changed
 			if ((user.IsNew && user.Id == null) || user.ExistingEmail != user.NewEmail)
 			{
-				if (UserManager.Current.UserExists(user.NewEmail))
+				if (!user.NewEmail.Contains("@"))
+				{
+					return new ValidationResult(SiteStrings.User_Validation_Email_Check);
+				}
+				else if (UserManager.Current.UserExists(user.NewEmail))
 				{
 					return new ValidationResult(string.Format(SiteStrings.User_Validation_EmailExists, user.NewEmail));
 				}

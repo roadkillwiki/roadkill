@@ -1,4 +1,4 @@
-/// <reference path="jquery-1.4.1-vsdoc.js" />
+/// <reference path="jquery-1.8.0-vsdoc.js" />
 
 /**
 Event bindings and handlers for all pages.
@@ -11,14 +11,14 @@ $(document).ready(function () {
 	$.require("jquery-ui-1.8.core-and-interactions.min.js");
 	$.require("jquery-ui-1.8.autocomplete.min.js");
 	$.require("jquery.timeago.js");
-	$.require("jquery.simplemodal.1.4.1.min.js")
+	$.require("jquery.fancybox.pack.js")
 
 	// Friendly times for the history tables
 	$("#historytable .editedon").timeago();
 
 	// Bind the info icon on each page
 	$("#pageinfo-button>a").click(function () {
-		$("#pageinformation").modal();
+		openModal("#pageinformation");
 	});
 
 	// The show/hide for table of contents
@@ -89,4 +89,19 @@ function formatPreTags()
 		html = html.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 		current.html(html);
 	});
+}
+
+function openModal(selector, params)
+{
+	$.fancybox($(selector), params);
+}
+
+function openIframeModal(html)
+{
+	$.fancybox(html);
+}
+
+function closeModal()
+{
+	$.fancybox.close(true);
 }

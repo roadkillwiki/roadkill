@@ -94,7 +94,7 @@ namespace Roadkill.Core.Controllers
 		public ActionResult Login()
 		{
 			// Show a plain login page if the session has ended inside the file explorer dialog
-			if (Request.QueryString["ReturnUrl"] != null && Request.QueryString["ReturnUrl"].Contains("Files"))
+			if (Request.QueryString["ReturnUrl"] != null && Request.QueryString["ReturnUrl"].ToLower().Contains("files"))
 				return View("BlankLogin");
 
 			return View();
@@ -107,6 +107,10 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult Login(string email, string password, string fromUrl)
 		{
+			string viewName = "Login";
+			if (Request.QueryString["ReturnUrl"] != null && Request.QueryString["ReturnUrl"].ToLower().Contains("files"))
+				viewName = "BlankLogin";
+
 			if (UserManager.Current.Authenticate(email, password))
 			{
 				FormsAuthentication.SetAuthCookie(email, true);
@@ -119,7 +123,7 @@ namespace Roadkill.Core.Controllers
 			else
 			{
 				ModelState.AddModelError("Username/Password", SiteStrings.Login_Error);
-				return View();
+				return View(viewName);
 			}
 		}
 
@@ -170,7 +174,14 @@ namespace Roadkill.Core.Controllers
 			{
 				try
 				{
-					if (!UserManager.Current.UpdateUser(summary))
+					if (UserManager.Current.UpdateUser(summary))
+					{
+						// Reset the auth cookie to the new email.
+						FormsAuthentication.SetAuthCookie(summary.NewEmail, true);
+						RoadkillContext.Clear();
+						RoadkillContext.Current.CurrentUser = summary.NewEmail;
+					}
+					else
 					{
 						ModelState.AddModelError("General", SiteStrings.Profile_Error);
 						summary.ExistingEmail = summary.NewEmail;

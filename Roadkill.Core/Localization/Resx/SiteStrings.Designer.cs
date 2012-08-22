@@ -1960,6 +1960,15 @@ namespace Roadkill.Core.Localization.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The email field does not contain a valid email..
+        /// </summary>
+        public static string User_Validation_Email_Check {
+            get {
+                return ResourceManager.GetString("User_Validation_Email_Check", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The email {0} already exists..
         /// </summary>
         public static string User_Validation_EmailExists {

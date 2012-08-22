@@ -8,11 +8,11 @@ $(document).ready(function()
 	setPage(2);
 	$("form").validationEngine();
 
-    $("span.example").click(
-        function () {
-            $("#ConnectionString").val($(this).text());
-        }
-    );
+	$("span.example").click(
+		function () {
+			$("#ConnectionString").val($(this).text());
+		}
+	);
 
 	$("#testdbconnection").click(function()
 	{
@@ -76,7 +76,7 @@ $(document).ready(function()
 			<ol>
 				<li>
 					<b>SQL Server Express:</b><br />
-                    <span class="example">Database=roadkill;Server=.\SQLEXPRESS;User Id=?; Password=?;</span>
+					<span class="example">Database=roadkill;Server=.\SQLEXPRESS;User Id=?; Password=?;</span>
 					<span class="example">Database=roadkill;Server=.\SQLEXPRESS;Integrated Security=SSPI</span>
 				</li>
 				<li>

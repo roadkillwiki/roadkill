@@ -1,4 +1,4 @@
-﻿/// <reference path="jquery-1.4.1-vsdoc.js" />
+﻿/// <reference path="jquery-1.8.0-vsdoc.js" />
 
 /**
 Event bindings and handlers for the edit text area toolbar.
@@ -52,7 +52,7 @@ function initWYSIWYG()
 	});
 	$(".wysiwyg-picture").click(function ()
 	{
-		$.modal("<iframe src='" + ROADKILL_FILEMANAGERURL + "' id='filechooser-iframe' width='700' height='400'></iframe>");
+		openIframeModal("<iframe src='" + ROADKILL_FILEMANAGERURL + "' id='filechooser-iframe' width='700' height='400' scrolling='no'></iframe>");
 	});
 	$(".wysiwyg-link").click(function ()
 	{
@@ -60,7 +60,7 @@ function initWYSIWYG()
 	});
 	$(".wysiwyg-help").click(function ()
 	{
-		$.modal("<iframe src='" + ROADKILL_WIKIMARKUPHELP+"' id='help-iframe'></iframe>");
+		openIframeModal("<iframe src='" + ROADKILL_WIKIMARKUPHELP + "' id='help-iframe' scrolling='no'></iframe>");
 	});
 }
 
@@ -128,7 +128,7 @@ function addImage(image)
 
 		$("#Content").replaceSelection(prefix + suffix);
 		$("#Content").setSelection(range.start + prefix.length, range.start + prefix.length);
-		$.modal.close();
+		closeModal();
 	}
 }
 

@@ -65,7 +65,6 @@ namespace Roadkill.Core.Controllers
 		/// Returns Javascript 'constants' for the site. If the user is logged in, 
 		/// additional variables are returned that are used by the edit page.
 		/// </summary>
-		[OutputCache(Duration=3600)]
 		public ActionResult GlobalJsVars()
 		{
 			Response.ContentType = "text/javascript";

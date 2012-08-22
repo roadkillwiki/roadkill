@@ -270,6 +270,11 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Assets\CSS\htmldiff.css" />
+    <Content Include="Assets\CSS\images\blank.gif" />
+    <Content Include="Assets\CSS\images\fancybox_loading.gif" />
+    <Content Include="Assets\CSS\images\fancybox_overlay.png" />
+    <Content Include="Assets\CSS\images\fancybox_sprite.png" />
+    <Content Include="Assets\CSS\jquery.fancybox.css" />
     <Content Include="Assets\CSS\jquery.tagit.css" />
     <Content Include="Assets\CSS\images\application.png" />
     <Content Include="Assets\CSS\images\code.png" />
@@ -304,6 +309,9 @@
     <Content Include="Assets\Images\installer-ex-chicken.png" />
     <Content Include="Assets\Images\installerbg.png" />
     <Content Include="Assets\Images\loadinglarge.gif" />
+    <None Include="Assets\Scripts\jquery-1.8.0-vsdoc.js" />
+    <Content Include="Assets\Scripts\jquery-1.8.0.min.js" />
+    <Content Include="Assets\Scripts\jquery.fancybox.pack.js" />
     <Content Include="Assets\Scripts\jquery.tooltip.min.js" />
     <Content Include="Assets\Scripts\jquery.validate.js" />
     <Content Include="Assets\Scripts\jquery.validationEngine.js" />
@@ -333,7 +341,6 @@
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-zh_TW.js" />
     <Content Include="Assets\Scripts\roadkill.settings.js" />
     <Content Include="Assets\Scripts\roadkill.files.js" />
-    <Content Include="Assets\Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Assets\CSS\jqueryFileTree.css" />
     <Content Include="Assets\Scripts\jqueryFileTree.js" />
     <Content Include="Assets\Scripts\roadkill.edit.js" />
@@ -376,7 +383,6 @@
     <Content Include="Assets\Images\wysiwyg\underline.png" />
     <Content Include="Assets\Images\wysiwyg\link.png" />
     <Content Include="Assets\CSS\close-x.png" />
-    <Content Include="Assets\Scripts\jquery.simplemodal.1.4.1.min.js" />
     <Content Include="Assets\Scripts\roadkill.wysiwyg.js" />
     <Content Include="Assets\Scripts\jquery-ui-1.8.autocomplete.min.js" />
     <Content Include="Assets\Scripts\jquery-ui-1.8.core-and-interactions.min.js" />
@@ -433,7 +439,6 @@
     <Content Include="Views\Settings\Index.cshtml" />
     <Content Include="Views\Install\Step1.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Assets\Scripts\jquery-1.4.1.min.js" />
     <Content Include="Views\Wiki\Index.cshtml" />
     <Content Include="Views\Pages\AllPages.cshtml" />
     <Content Include="Views\Pages\AllTags.cshtml" />

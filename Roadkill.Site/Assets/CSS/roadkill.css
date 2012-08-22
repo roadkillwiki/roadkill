@@ -1,6 +1,7 @@
 ﻿@import url("jquery.ui.autocomplete.custom.css");	/* used for tagit */
 @import url("jquery.tagit.css");					/* used for tagit */
 @import url("htmldiff.css");						/* used for version history diffs*/
+@import url("jquery.fancybox.css");					/* universal modals */
 
 /* General classes */
 .biggest		{ font-size:1.5em; }
@@ -34,11 +35,6 @@
 .smallest		{ font-size:0.7em; }
 .smallerbutton	{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;cursor:pointer;font-size:0.9em;width:75px;padding:3px 10px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px; }
 .smallestbutton	{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;font-size:0.8em; }
-
-/* Modal dialog styles for jquery.simplemodal */
-#simplemodal-overlay	{ background-color:#000; }
-#simplemodal-container	{ background-color:#333;border:2px solid #d3d2d2; padding:12px; }
-#simplemodal-container a.modalCloseImg { background:url('close-x.png') no-repeat;width:25px;height:29px;display:inline;z-index:3200;position:absolute;top:-15px;right:-18px;cursor:pointer;}
 
 /* Toolbar for logged in users */
 #toolbar			{ margin:5px 0px 0px 5px;padding:2px; }
@@ -109,7 +105,7 @@
 
 /* Edit page [editors] */
 #previewLoading		{ display:none; }
-#previewContainer	{ display:none;background-color:#FFF;height:450px;width:800px; }
+#previewContainer	{ display:none;background-color:#FFF;height:450px;width:800px;overflow:hidden; }
 #previewContainer #title { background-color:#444;color:#FFF;font-weight:bold;font-size:1.2em;padding:5px; }
 #preview			{ padding:10px;border:1px solid #d3d2d2;height:400px;overflow:scroll; }
 .jqConfirm			{ font-weight:bold !important; }

@@ -1,5 +1,4 @@
-/// <reference path="jquery-1.4.1-vsdoc.js" />
-
+/// <reference path="jquery-1.8.0-vsdoc.js" />
 
 /**
 Event bindings and handlers for the admin settings page.
@@ -29,7 +28,7 @@ function bindUserButtons()
 		$("#IsNew").val("True");
 
 		$(".validation-summary-errors").hide();
-		$("#userdialogContainer").modal();
+		openModal("#userdialogContainer");
 	});
 
 	// Add editor link
@@ -46,7 +45,7 @@ function bindUserButtons()
 		$("#IsNew").val("True");
 
 		$(".validation-summary-errors").hide();
-		$("#userdialogContainer").modal();
+		openModal("#userdialogContainer");
 	});
 
 	// Edit link for each user
@@ -66,7 +65,7 @@ function bindUserButtons()
 		$("#IsNew").val("False");
 
 		$(".validation-summary-errors").hide();
-		$("#userdialogContainer").modal();
+		openModal("#userdialogContainer");
 	});
 }
 
@@ -91,5 +90,5 @@ function showUserModal(action)
 		$("#userdialogContainer h2").html(ROADKILL_EDITUSER_TITLE);
 	}
 
-	$("#userdialogContainer").modal();
+	openModal("#userdialogContainer");
 }
