@@ -39,7 +39,7 @@ namespace Roadkill.Tests.Selenium
 		[TestFixtureTearDown]
 		public void FixtureTearDown()
 		{
-			_webDriver.Close();
+			_webDriver.Quit();
 		}
 
 		[Test]
