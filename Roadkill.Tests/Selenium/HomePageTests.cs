@@ -20,12 +20,12 @@ namespace Roadkill.Tests.Selenium
 	/// You can always run these tests on your desktop machine by changing the _useSaucelabs variable to false.
 	/// </summary>
 	[TestFixture]
+	[Ignore]
 	public class HomePageTests
 	{
 		private static IWebDriver _webDriver;
 
 		[TestFixtureSetUp]
-		[Ignore]
 		public void FixtureSetup()
 		{
 			if (SeleniumSettings.UseSaucelabs && SeleniumSettings.HasValidSaucelabsKey == false)
@@ -39,7 +39,6 @@ namespace Roadkill.Tests.Selenium
 		}
 
 		[TestFixtureTearDown]
-		[Ignore]
 		public void FixtureTearDown()
 		{
 			_webDriver.Quit();
