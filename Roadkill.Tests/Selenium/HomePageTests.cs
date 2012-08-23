@@ -43,6 +43,7 @@ namespace Roadkill.Tests.Selenium
 		}
 
 		[Test]
+		[Ignore]
 		public void Homepage_HasLeftMenu()
 		{
 			_webDriver.Navigate().GoToUrl(SeleniumSettings.GetUrl("/"));
