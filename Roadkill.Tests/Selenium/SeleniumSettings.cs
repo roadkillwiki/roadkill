@@ -84,5 +84,22 @@ namespace Roadkill.Tests.Selenium
 		{
 			return new Uri(new Uri(BaseUrl), path).ToString();
 		}
+
+		public static string Dump()
+		{
+			StringBuilder builder = new StringBuilder();
+			builder.AppendLine(string.Format("{0} - {1}", "UseSaucelabs", UseSaucelabs));
+			builder.AppendLine(string.Format("{0} - {1}", "BaseUrl", BaseUrl));
+			builder.AppendLine(string.Format("{0} - {1}", "SaucelabsUsername", SaucelabsUsername));
+			builder.AppendLine(string.Format("{0} - {1}", "SaucelabsAccessKey", SaucelabsAccessKey));
+			builder.AppendLine(string.Format("{0} - {1}", "TestAdminEmail", TestAdminEmail));
+			builder.AppendLine(string.Format("{0} - {1}", "TestAdminPassword", TestAdminPassword));
+			builder.AppendLine(string.Format("{0} - {1}", "TestEditorEmail", TestEditorEmail));
+			builder.AppendLine(string.Format("{0} - {1}", "TestEditorPassword", TestEditorPassword));
+			builder.AppendLine(string.Format("{0} - {1}", "TestEditorPassword", TestEditorPassword ));
+			builder.AppendLine(string.Format("{0} - {1}", "HasValidSaucelabsKey", HasValidSaucelabsKey));
+
+			return builder.ToString();
+		}
 	}
 }
