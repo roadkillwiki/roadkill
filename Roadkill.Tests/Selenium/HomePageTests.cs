@@ -20,7 +20,6 @@ namespace Roadkill.Tests.Selenium
 	/// You can always run these tests on your desktop machine by changing the _useSaucelabs variable to false.
 	/// </summary>
 	[TestFixture]
-	[Ignore]
 	public class HomePageTests
 	{
 		private static IWebDriver _webDriver;
@@ -28,13 +27,21 @@ namespace Roadkill.Tests.Selenium
 		[TestFixtureSetUp]
 		public void FixtureSetup()
 		{
-			if (SeleniumSettings.UseSaucelabs && SeleniumSettings.HasValidSaucelabsKey == false)
+			try
 			{
-				Assert.Ignore("Saucelabs tests require an access key configuration setting");
+				if (SeleniumSettings.UseSaucelabs && SeleniumSettings.HasValidSaucelabsKey == false)
+				{
+					Assert.Ignore("Saucelabs tests require an access key configuration setting");
+				}
+				else
+				{
+					_webDriver = GetWebDriver();
+				}
 			}
-			else
+			catch (Exception e)
 			{
-				_webDriver = GetWebDriver();
+				Console.WriteLine("FixtureSetup failed: " + SeleniumSettings.Dump());
+				Console.WriteLine(e.StackTrace);
 			}
 		}
 
@@ -45,7 +52,6 @@ namespace Roadkill.Tests.Selenium
 		}
 
 		[Test]
-		[Ignore]
 		public void Homepage_HasLeftMenu()
 		{
 			_webDriver.Navigate().GoToUrl(SeleniumSettings.GetUrl("/"));
