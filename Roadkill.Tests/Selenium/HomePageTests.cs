@@ -27,6 +27,7 @@ namespace Roadkill.Tests.Selenium
 		[TestFixtureSetUp]
 		public void FixtureSetup()
 		{
+			Console.WriteLine("FixtureSetup failed: " + SeleniumSettings.Dump());
 			try
 			{
 				if (SeleniumSettings.UseSaucelabs && SeleniumSettings.HasValidSaucelabsKey == false)
@@ -40,7 +41,6 @@ namespace Roadkill.Tests.Selenium
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine("FixtureSetup failed: " + SeleniumSettings.Dump());
 				Console.WriteLine(e.StackTrace);
 			}
 		}
