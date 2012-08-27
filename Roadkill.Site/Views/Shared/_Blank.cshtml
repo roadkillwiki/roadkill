@@ -1,0 +1,13 @@
+﻿@using Roadkill.Core
+<!DOCTYPE html>
+<html>
+<head>
+	<title>@ViewBag.Title</title>
+	@Html.Partial("HeadContent")
+</head>
+
+<body>
+@RenderSection("PageToolbar", false)
+@RenderBody()
+</body>
+</html>

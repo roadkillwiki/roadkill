@@ -1,0 +1,52 @@
+﻿@model PageSummary
+ 
+@if (RoadkillContext.Current.IsLoggedIn)
+{
+<div id="toolbar">
+	@if (Model.Id != 0)
+	{
+	<div id="editbutton" class="linkbutton">
+	@if (Model.IsLocked && !RoadkillContext.Current.IsAdmin)
+	{
+		<span title="This page can only be edited by administrators.">@SiteStrings.Shared_EditLink</span>
+	}
+	else
+	{
+		@Html.ActionLink(SiteStrings.Shared_EditLink, "Edit", "Pages", new { id = Model.Id }, null)
+	}		
+	</div>
+	<div id="pagehistory-button" class="linkbutton"> 
+		@Html.ActionLink(SiteStrings.Navigation_History, "History", "Pages", new { id = Model.Id }, null)
+	</div>
+	<div id="pageinfo-button" class="jqmAlert"> 
+		<a href="javascript:;"><img src="@Url.Content("~/Assets/Images/info_icon.png")" border="0" alt="Page information" /></a>
+	</div>
+	<br style="clear:both" />
+
+	<div id="pageinformation">
+		<h3>@Model.Title</h3>
+
+		<div class="tags">
+			@Html.TagBlocks(Model.Tags)
+		</div>
+		<br class="clear" />
+
+		<div class="left">
+			<b>@SiteStrings.Page_Info_CreatedOn</b><br />
+			@Model.CreatedOn<br /><br />
+
+			<b>@SiteStrings.Page_Info_CreatedBy</b><br />
+			@Model.CreatedBy
+		</div>
+
+		<div class="right">
+			<b>@SiteStrings.Page_Info_ModifiedOn</b><br />
+			@Model.ModifiedOn<br /><br />
+
+			<b>@SiteStrings.Page_Info_ModifiedBy</b><br />
+			@Model.ModifiedBy
+		</div>
+	</div> 
+	}
+</div>
+}

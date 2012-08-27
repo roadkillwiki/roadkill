@@ -1,0 +1,53 @@
+﻿@model SettingsSummary
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		setPage(5);
+	});
+</script>
+
+@if (!ViewData.ModelState.IsValid)
+{
+	<div style="margin-top:10px">
+		<h1>@InstallStrings.Page5_Error_Title</h1>
+		<br />
+		@InstallStrings.Page5_Error_Label1
+		<br /><br />
+		<pre class="alert failure" style="width:100%;overflow:scroll;">
+			@Html.ValidationSummary()
+		</pre>
+	</div>
+}
+else
+{
+	<div style="margin-top:10px">
+		<h1>@InstallStrings.Page5_Success_Title</h1>
+		
+		@if (Model.UseWindowsAuth)
+		{
+		<h2>@InstallStrings.Page5_Success_AD_Title</h2>
+		<div>
+		<p>
+			@InstallStrings.Page5_Success_AD_Label
+		</p>
+
+		<pre>
+&lt;system.webServer&gt;
+	...
+	&lt;security&gt;
+		&lt;authentication&gt;
+			&lt;anonymousAuthentication enabled="false"/&gt;
+			&lt;windowsAuthentication enabled="true" /&gt;
+			&lt;basicAuthentication enabled="true" /&gt;
+		&lt;/authentication&gt;
+	&lt;/security&gt;
+&lt;/system.webServer&gt;
+		</pre>
+		</div>
+		 }
+		@Html.ActionLink(InstallStrings.Page5_Success_Label1, "Index", "Home")
+	</div>
+}
