@@ -777,4 +777,43 @@
   <data name="SiteSettings_Validation_SiteUrlEmpty" xml:space="preserve">
     <value>The site url is empty.</value>
   </data>
+  <data name="EditPage_Toolbar_Bold" xml:space="preserve">
+    <value>Insert Bold text markdown characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_BulletList" xml:space="preserve">
+    <value>Insert Bullet List markdown characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading1" xml:space="preserve">
+    <value>Insert Heading 1 level markdown characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading2" xml:space="preserve">
+    <value>Insert Heading 1 level markdown characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading3" xml:space="preserve">
+    <value>Insert Heading 1 level markdown characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading4" xml:space="preserve">
+    <value>Insert Heading 4 level markdown characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading5" xml:space="preserve">
+    <value>Insert Heading 5 level markdown characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_Help" xml:space="preserve">
+    <value>View Help reference for the markdown syntax.</value>
+  </data>
+  <data name="EditPage_Toolbar_Image" xml:space="preserve">
+    <value>Insert Image markdown characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_Italic" xml:space="preserve">
+    <value>Insert Italic markdown characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_Link" xml:space="preserve">
+    <value>Insert URL Link markdown characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_NumberList" xml:space="preserve">
+    <value>Insert Numbered List markdown characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_Underline" xml:space="preserve">
+    <value>Insert Underline markdown characters.</value>
+  </data>
 </root>

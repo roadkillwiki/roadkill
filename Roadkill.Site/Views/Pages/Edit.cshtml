@@ -44,19 +44,19 @@
 		<br />
 	 
 		<div id="wysiwyg-toolbar">
-			<a href="javascript:;" class="wysiwyg-bold"><img src="@(Url.Content("~/Assets/images/wysiwyg/bold.png"))" border="0" alt="bold" /></a>
-			<a href="javascript:;" class="wysiwyg-italic"><img src="@(Url.Content("~/Assets/images/wysiwyg/italic.png"))" border="0" alt="italic" /></a>
-			<a href="javascript:;" class="wysiwyg-underline"><img src="@(Url.Content("~/Assets/images/wysiwyg/underline.png"))" border="0" alt="underline" /></a>
-			<a href="javascript:;" class="wysiwyg-h1"><img src="@(Url.Content("~/Assets/images/wysiwyg/h1.png"))" border="0" alt="heading 1" /></a>
-			<a href="javascript:;" class="wysiwyg-h2"><img src="@(Url.Content("~/Assets/images/wysiwyg/h2.png"))" border="0" alt="heading 2" /></a>
-			<a href="javascript:;" class="wysiwyg-h3"><img src="@(Url.Content("~/Assets/images/wysiwyg/h3.png"))" border="0" alt="heading 3" /></a>
-			<a href="javascript:;" class="wysiwyg-h4"><img src="@(Url.Content("~/Assets/images/wysiwyg/h4.png"))" border="0" alt="heading 4" /></a>
-			<a href="javascript:;" class="wysiwyg-h5"><img src="@(Url.Content("~/Assets/images/wysiwyg/h5.png"))" border="0" alt="heading 5" /></a>
-			<a href="javascript:;" class="wysiwyg-bullets"><img src="@(Url.Content("~/Assets/images/wysiwyg/bullets.png"))" alt="bulleted list" border="0" /></a>
-			<a href="javascript:;" class="wysiwyg-numbers"><img src="@(Url.Content("~/Assets/images/wysiwyg/numbers.png"))" alt="numbered list" border="0" /></a>
-			<a href="javascript:;" class="wysiwyg-picture"><img src="@(Url.Content("~/Assets/images/wysiwyg/picture.png"))" alt="Add alt picture" border="0" /></a>
-			<a href="javascript:;" class="wysiwyg-link"><img src="@(Url.Content("~/Assets/images/wysiwyg/link.png"))" alt="link" border="0" /></a>
-			<a href="javascript:;" class="wysiwyg-help"><img src="@(Url.Content("~/Assets/images/wysiwyg/help.png"))" alt="help" border="0" /></a>
+			<a href="javascript:;" class="wysiwyg-bold"><img src="@(Url.Content("~/Assets/images/wysiwyg/bold.png"))" border="0" title="@SiteStrings.EditPage_Toolbar_Bold" alt="bold" /></a>
+			<a href="javascript:;" class="wysiwyg-italic"><img src="@(Url.Content("~/Assets/images/wysiwyg/italic.png"))" border="0" title="@SiteStrings.EditPage_Toolbar_Italic" alt="italic" /></a>
+			<a href="javascript:;" class="wysiwyg-underline"><img src="@(Url.Content("~/Assets/images/wysiwyg/underline.png"))" border="0" title="@SiteStrings.EditPage_Toolbar_Underline" alt="underline" /></a>
+			<a href="javascript:;" class="wysiwyg-h1"><img src="@(Url.Content("~/Assets/images/wysiwyg/h1.png"))" border="0" title="@SiteStrings.EditPage_Toolbar_Heading1" alt="heading 1" /></a>
+			<a href="javascript:;" class="wysiwyg-h2"><img src="@(Url.Content("~/Assets/images/wysiwyg/h2.png"))" border="0" title="@SiteStrings.EditPage_Toolbar_Heading2" alt="heading 2" /></a>
+			<a href="javascript:;" class="wysiwyg-h3"><img src="@(Url.Content("~/Assets/images/wysiwyg/h3.png"))" border="0" title="@SiteStrings.EditPage_Toolbar_Heading3" alt="heading 3" /></a>
+			<a href="javascript:;" class="wysiwyg-h4"><img src="@(Url.Content("~/Assets/images/wysiwyg/h4.png"))" border="0" title="@SiteStrings.EditPage_Toolbar_Heading4" alt="heading 4" /></a>
+			<a href="javascript:;" class="wysiwyg-h5"><img src="@(Url.Content("~/Assets/images/wysiwyg/h5.png"))" border="0" title="@SiteStrings.EditPage_Toolbar_Heading5" alt="heading 5" /></a>
+			<a href="javascript:;" class="wysiwyg-bullets"><img src="@(Url.Content("~/Assets/images/wysiwyg/bullets.png"))" title="@SiteStrings.EditPage_Toolbar_BulletList" alt="bulleted list" border="0" /></a>
+			<a href="javascript:;" class="wysiwyg-numbers"><img src="@(Url.Content("~/Assets/images/wysiwyg/numbers.png"))" title="@SiteStrings.EditPage_Toolbar_NumberList" alt="numbered list" border="0" /></a>
+			<a href="javascript:;" class="wysiwyg-picture"><img src="@(Url.Content("~/Assets/images/wysiwyg/picture.png"))" title="@SiteStrings.EditPage_Toolbar_Image" alt="Add alt picture" border="0" /></a>
+			<a href="javascript:;" class="wysiwyg-link"><img src="@(Url.Content("~/Assets/images/wysiwyg/link.png"))" title="@SiteStrings.EditPage_Toolbar_Link" alt="link" border="0" /></a>
+			<a href="javascript:;" class="wysiwyg-help"><img src="@(Url.Content("~/Assets/images/wysiwyg/help.png"))" title="@SiteStrings.EditPage_Toolbar_Help" alt="help" border="0" /></a>
 		</div>
 		@(Html.TextAreaFor<PageSummary, string>(p => p.Content, new { @class = "edittextarea", tabindex = 3 }))
 		<br />
