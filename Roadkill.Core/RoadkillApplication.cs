@@ -52,7 +52,6 @@ namespace Roadkill.Core
 			AreaRegistration.RegisterAllAreas();
 			RegisterRoutes(RouteTable.Routes);
 
-			ConfigureForPlasma();
 			SetupNHibernate();
 		}
 
@@ -66,18 +65,6 @@ namespace Roadkill.Core
 			{
 				NHibernateRepository.Current.Configure(RoadkillSettings.DatabaseType, RoadkillSettings.ConnectionString, false, RoadkillSettings.CachedEnabled);
 			}
-		}
-
-		/// <summary>
-		/// Switches the database and sets the instance to installed for the Plasma tests.
-		/// </summary>
-		private void ConfigureForPlasma()
-		{
-#if RELEASE
-			RoadkillSection.Current.Installed = true;
-			RoadkillSection.Current.DatabaseType = "SQLite";
-			RoadkillSettings.ConnectionString = @"Data Source=|DataDirectory|\roadkill.plasma.sqlite";
-#endif
 		}
 	}
 }
