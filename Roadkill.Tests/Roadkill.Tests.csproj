@@ -115,9 +115,9 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PlasmaDesktop|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Plasma|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\PlasmaDesktop\</OutputPath>
+    <OutputPath>bin\Plasma\</OutputPath>
     <DefineConstants>TRACE;DEBUG;PLASMADESKTOP</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -129,10 +129,11 @@
     <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PlasmaDesktop|x86'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Plasma|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\PlasmaDesktop\</OutputPath>
+    <OutputPath>bin\x86\Plasma\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -144,9 +145,9 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PlasmaDesktop|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Plasma|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\PlasmaDesktop\</OutputPath>
+    <OutputPath>bin\x64\Plasma\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -217,8 +218,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoreTests\CoreTestBase.cs" />
-    <Compile Include="Selenium\HomePageTests.cs" />
-    <Compile Include="Selenium\SeleniumSettings.cs" />
     <Content Include="lib\roadkill.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -236,11 +235,6 @@
       <Project>{9C86C475-F3BD-44D1-942A-78BF19158C3A}</Project>
       <Name>Roadkill.Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
