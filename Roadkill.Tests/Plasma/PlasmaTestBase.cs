@@ -16,6 +16,7 @@ namespace Roadkill.Tests.Plasma
 	/// 
 	/// For Plasma to work on your desktop machine, compile using the Plasma configuration.
 	/// </summary>
+	[TestFixture]
 	public class PlasmaTestBase
 	{
 		protected static AspNetApplication AppInstance;
@@ -47,7 +48,8 @@ namespace Roadkill.Tests.Plasma
 			try
 			{
 				//
-				// Copy the blank SQL databases
+				// Copy the sqlite database into the App_Data folder
+				// Copy the sqlite binaries from app_data into bin for the site root.
 				//
 				string testRootFolder = AppDomain.CurrentDomain.BaseDirectory;
 				string appData = Path.Combine(rootFolder, "App_Data");
