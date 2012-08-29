@@ -224,6 +224,7 @@
     <Content Include="lib\roadkill.plasma.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <Compile Include="Plasma\PageTests.cs" />
     <Compile Include="Plasma\PlasmaTestBase.cs" />
