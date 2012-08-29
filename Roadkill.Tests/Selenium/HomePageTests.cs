@@ -24,7 +24,7 @@ namespace Roadkill.Tests.Selenium
 	{
 		private static IWebDriver _webDriver;
 
-		[TestFixtureSetUp]
+		//[TestFixtureSetUp]
 		public void FixtureSetup()
 		{
 			try
@@ -44,13 +44,14 @@ namespace Roadkill.Tests.Selenium
 			}
 		}
 
-		[TestFixtureTearDown]
+		//[TestFixtureTearDown]
 		public void FixtureTearDown()
 		{
 			_webDriver.Quit();
 		}
 
 		[Test]
+		[Ignore]
 		public void Homepage_HasLeftMenu()
 		{
 			_webDriver.Navigate().GoToUrl(SeleniumSettings.GetUrl("/"));
