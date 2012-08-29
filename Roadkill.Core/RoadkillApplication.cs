@@ -76,9 +76,7 @@ namespace Roadkill.Core
 #if RELEASE
 			RoadkillSection.Current.Installed = true;
 			RoadkillSection.Current.DatabaseType = "SQLite";
-
-			string dbfile = Path.Combine("App_Data", "roadkill.plasma.sqlite");
-			RoadkillSettings.ConnectionString = "Data Source=" +Path.GetFullPath(dbfile);
+			RoadkillSettings.ConnectionString = @"Data Source=|DataDirectory|\roadkill.plasma.sqlite";
 #endif
 		}
 	}
