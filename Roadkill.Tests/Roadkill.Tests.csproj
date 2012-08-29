@@ -118,7 +118,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Plasma|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Plasma\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;PLASMADESKTOP</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;PLASMA</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisLogFile>bin\Debug\Roadkill.Tests.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
