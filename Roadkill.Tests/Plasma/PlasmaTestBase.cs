@@ -27,7 +27,7 @@ namespace Roadkill.Tests.Plasma
 			{
 				string siteRootFolder = AppDomain.CurrentDomain.BaseDirectory;
 
-#if APPHARBOR
+#if RELEASE
 				// Atalassian AMI uses C:\build-dir\REPONAME\_PUBLISHEDWEBSITE
 				// Tests are run inside C:\build-dir\REPONAME\Roadkill.Tests\bin\debug
 				siteRootFolder = Path.Combine(siteRootFolder, "..", "..", "..", "_PublishedWebsite");
