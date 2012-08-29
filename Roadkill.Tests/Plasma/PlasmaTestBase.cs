@@ -28,7 +28,9 @@ namespace Roadkill.Tests.Plasma
 				string siteRootFolder = AppDomain.CurrentDomain.BaseDirectory;
 
 #if APPHARBOR
-				siteRootFolder = Path.Combine(siteRootFolder, "_PublishedWebsites", "Roadkill.Site");
+				// Atalassian AMI uses C:\build-dir\REPONAME\_PUBLISHEDWEBSITE
+				// Tests are run inside C:\build-dir\REPONAME\Roadkill.Tests\bin\debug
+				siteRootFolder = Path.Combine(siteRootFolder, "..", "..", "..", "_PublishedWebsite");
 #else
 				siteRootFolder = Path.Combine(siteRootFolder, "..", "..", "..", "Roadkill.Site");
 				CopySqliteToSite(siteRootFolder);
