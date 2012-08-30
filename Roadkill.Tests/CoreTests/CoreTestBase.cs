@@ -8,7 +8,6 @@ using System.IO;
 
 namespace Roadkill.Tests.Core
 {
-	[TestFixture]
 	public class CoreTestBase
 	{
 		/// <summary>
