@@ -86,5 +86,24 @@ namespace Roadkill.Tests.Plasma
 			HtmlNode loggedIn = document.QuerySelector("#loggedinas");
 			Assert.That(loggedIn.InnerText, Is.EqualTo("Logged in as editor&nbsp;-&nbsp;Logout"));
 		}
+
+		[Test]
+		public void Test_HasContent()
+		{
+			AspNetResponse homePage = AppInstance.ProcessRequest("/");
+
+			HtmlDocument html = new HtmlDocument();
+			html.LoadHtml(homePage.BodyAsString);
+
+			HtmlNode document = html.DocumentNode;
+			IEnumerable<HtmlNode> h1Elements = document.QuerySelectorAll("h1");
+			Assert.That(h1Elements.Count(), Is.GreaterThan(0));
+
+			IEnumerable<HtmlNode> navigation = document.QuerySelectorAll("#leftmenu>ul>li");
+			Assert.That(navigation.Count(), Is.EqualTo(3));
+
+			HtmlNode loggedIn = document.QuerySelector("#loggedinas");
+			Assert.That(loggedIn.InnerText, Is.EqualTo("Not logged in&nbsp;-&nbsp;Login"));
+		}
 	}
 }
