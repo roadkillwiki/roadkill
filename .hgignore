@@ -43,6 +43,7 @@ _ReSharper*/
 *ROADKILLASPNET.MDF
 *ASPNET.MDF
 *ASPNET.ldf
+*desktop.ini
 
 *roadkillaspnet_log.ldf
 .git*/

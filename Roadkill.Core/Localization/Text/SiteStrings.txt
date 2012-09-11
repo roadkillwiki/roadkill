@@ -154,6 +154,19 @@ EditPage_LinkUrl_PlaceHolder=enter url or page name
 EditPage_LinkText_PlaceHolder=Link text
 EditPage_Image_Title=Image title
 EditPage_Error=Unable to save the page:
+EditPage_Toolbar_Bold=Insert Bold text markdown characters.
+EditPage_Toolbar_BulletList=Insert Bullet List markdown characters.
+EditPage_Toolbar_Heading1=Insert Heading 1 level markdown characters.
+EditPage_Toolbar_Heading2=Insert Heading 1 level markdown characters.
+EditPage_Toolbar_Heading3=Insert Heading 1 level markdown characters.
+EditPage_Toolbar_Heading4=Insert Heading 4 level markdown characters.
+EditPage_Toolbar_Heading5=Insert Heading 5 level markdown characters.
+EditPage_Toolbar_Help=View Help reference for the markdown syntax.
+EditPage_Toolbar_Image=Insert Image markdown characters.
+EditPage_Toolbar_Italic=Insert Italic markdown characters.
+EditPage_Toolbar_Link=Insert URL Link markdown characters.
+EditPage_Toolbar_NumberList=Insert Numbered List markdown characters.
+EditPage_Toolbar_Underline=Insert Underline markdown characters.
 
 ; Site settings config
 SiteSettings_Configuration=Configuration
