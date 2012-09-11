@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Activate_Error" xml:space="preserve">
     <value>[Ŧĥęřę ŵäş ä přőþľęm äčŧįväŧįŉģ yőūř äččőūŉŧ. Ĩŧ mäy ĥävę äľřęäđy þęęŉ äčŧįväŧęđ.]</value>
@@ -197,6 +197,45 @@
   </data>
   <data name="EditPage_Title_Label" xml:space="preserve">
     <value>[Ŧįŧľę]</value>
+  </data>
+  <data name="EditPage_Toolbar_Bold" xml:space="preserve">
+    <value>[Ĩŉşęřŧ ßőľđ ŧęχŧ mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+  </data>
+  <data name="EditPage_Toolbar_BulletList" xml:space="preserve">
+    <value>[Ĩŉşęřŧ ßūľľęŧ Ŀįşŧ mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading1" xml:space="preserve">
+    <value>[Ĩŉşęřŧ Ħęäđįŉģ 1 ľęvęľ mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading2" xml:space="preserve">
+    <value>[Ĩŉşęřŧ Ħęäđįŉģ 1 ľęvęľ mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading3" xml:space="preserve">
+    <value>[Ĩŉşęřŧ Ħęäđįŉģ 1 ľęvęľ mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading4" xml:space="preserve">
+    <value>[Ĩŉşęřŧ Ħęäđįŉģ 4 ľęvęľ mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading5" xml:space="preserve">
+    <value>[Ĩŉşęřŧ Ħęäđįŉģ 5 ľęvęľ mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+  </data>
+  <data name="EditPage_Toolbar_Help" xml:space="preserve">
+    <value>[Vįęŵ Ħęľp řęƒęřęŉčę ƒőř ŧĥę mäřĸđőŵŉ şyŉŧäχ.]</value>
+  </data>
+  <data name="EditPage_Toolbar_Image" xml:space="preserve">
+    <value>[Ĩŉşęřŧ Ĩmäģę mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+  </data>
+  <data name="EditPage_Toolbar_Italic" xml:space="preserve">
+    <value>[Ĩŉşęřŧ Ĩŧäľįč mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+  </data>
+  <data name="EditPage_Toolbar_Link" xml:space="preserve">
+    <value>[Ĩŉşęřŧ ŮŖĿ Ŀįŉĸ mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+  </data>
+  <data name="EditPage_Toolbar_NumberList" xml:space="preserve">
+    <value>[Ĩŉşęřŧ Ńūmþęřęđ Ŀįşŧ mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+  </data>
+  <data name="EditPage_Toolbar_Underline" xml:space="preserve">
+    <value>[Ĩŉşęřŧ Ůŉđęřľįŉę mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
   </data>
   <data name="FileExplorer_Button_Create" xml:space="preserve">
     <value>[Cřęäŧę]</value>
@@ -750,6 +789,9 @@
   <data name="User_Validation_Email" xml:space="preserve">
     <value>[Ŧĥę ęmäįľ ƒįęľđ įş řęqūįřęđ.]</value>
   </data>
+  <data name="User_Validation_Email_Check" xml:space="preserve">
+    <value>[Ŧĥę ęmäįľ ƒįęľđ đőęş ŉőŧ čőŉŧäįŉ ä väľįđ ęmäįľ.]</value>
+  </data>
   <data name="User_Validation_EmailExists" xml:space="preserve">
     <value>[Ŧĥę ęmäįľ {0} äľřęäđy ęχįşŧş.]</value>
   </data>
@@ -773,8 +815,5 @@
   </data>
   <data name="Version_Title" xml:space="preserve">
     <value>[Vęřşįőŉ {0}]</value>
-  </data>
-  <data name="User_Validation_Email_Check" xml:space="preserve">
-    <value>[Ŧĥę ęmäįľ ƒįęľđ does not contaįn a valįd ęmaįl.]</value>
   </data>
 </root>

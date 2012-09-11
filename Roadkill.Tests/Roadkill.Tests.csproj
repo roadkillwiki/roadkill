@@ -226,6 +226,7 @@
     </Content>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <Compile Include="CoreTests\CreoleParserTests.cs" />
     <Compile Include="Plasma\PageTests.cs" />
     <Compile Include="Plasma\PlasmaTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

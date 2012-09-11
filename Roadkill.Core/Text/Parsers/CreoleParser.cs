@@ -661,7 +661,7 @@ namespace Roadkill.Core.Converters
 						markup = markup.Remove(iPos, 1);
 					}
 				}
-				iPos = markup.IndexOf('~', iPos);
+				iPos = markup.IndexOf('~', iPos + 1);
 			}
 			return markup;
 		}
