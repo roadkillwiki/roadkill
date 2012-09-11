@@ -23,7 +23,6 @@ namespace Roadkill.Tests.Plasma
 	public class PageTests : PlasmaTestBase
 	{
 		[Test]
-		[Ignore]
 		public void Homepage_HasContent()
 		{
 			AspNetResponse homePage = AppInstance.ProcessRequest("/");
@@ -43,7 +42,6 @@ namespace Roadkill.Tests.Plasma
 		}
 
 		[Test]
-		[Ignore]
 		public void Login_HasContent()
 		{
 			AspNetResponse loginPage = AppInstance.ProcessRequest("/user/login");
@@ -66,7 +64,6 @@ namespace Roadkill.Tests.Plasma
 		}
 
 		[Test]
-		[Ignore]
 		public void Login_AsEditor()
 		{
 			AspNetRequest request = new AspNetRequest("/user/login");
@@ -88,6 +85,25 @@ namespace Roadkill.Tests.Plasma
 			HtmlNode document = html.DocumentNode;
 			HtmlNode loggedIn = document.QuerySelector("#loggedinas");
 			Assert.That(loggedIn.InnerText, Is.EqualTo("Logged in as editor&nbsp;-&nbsp;Logout"));
+		}
+
+		[Test]
+		public void Test_HasContent()
+		{
+			AspNetResponse homePage = AppInstance.ProcessRequest("/");
+
+			HtmlDocument html = new HtmlDocument();
+			html.LoadHtml(homePage.BodyAsString);
+
+			HtmlNode document = html.DocumentNode;
+			IEnumerable<HtmlNode> h1Elements = document.QuerySelectorAll("h1");
+			Assert.That(h1Elements.Count(), Is.GreaterThan(0));
+
+			IEnumerable<HtmlNode> navigation = document.QuerySelectorAll("#leftmenu>ul>li");
+			Assert.That(navigation.Count(), Is.EqualTo(3));
+
+			HtmlNode loggedIn = document.QuerySelector("#loggedinas");
+			Assert.That(loggedIn.InnerText, Is.EqualTo("Not logged in&nbsp;-&nbsp;Login"));
 		}
 	}
 }

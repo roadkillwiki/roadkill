@@ -16,6 +16,7 @@ namespace Roadkill.Tests.Plasma
 	/// 
 	/// For Plasma to work on your desktop machine, compile using the Plasma configuration.
 	/// </summary>
+	[TestFixture]
 	public class PlasmaTestBase
 	{
 		protected static AspNetApplication AppInstance;
@@ -27,12 +28,12 @@ namespace Roadkill.Tests.Plasma
 			{
 				string siteRootFolder = AppDomain.CurrentDomain.BaseDirectory;
 
-#if APPHARBOR
-				siteRootFolder = Path.Combine(siteRootFolder, "_PublishedWebsites", "Roadkill.Site");
-#else
-				siteRootFolder = Path.Combine(siteRootFolder, "..", "..", "..", "Roadkill.Site");
+				// Atalassian AMI uses C:\build-dir\REPONAME\_PLASMAWEBSITE
+				// Tests are run inside C:\build-dir\REPONAME\Roadkill.Tests\bin\release
+				// Copy the SQLite into the _PLASMAWEBSITE folder.
+				siteRootFolder = Path.Combine(siteRootFolder, "..", "..", "..", "_PLASMAWEBSITE");
+				CopySqliteDatabaseToSite(siteRootFolder);
 				CopySqliteToSite(siteRootFolder);
-#endif
 
 				DirectoryInfo siteDirectory = new DirectoryInfo(siteRootFolder);
 				AppInstance = new AspNetApplication("/", siteDirectory.FullName);
@@ -43,26 +44,36 @@ namespace Roadkill.Tests.Plasma
 			}
 		}
 
-		private void CopySqliteToSite(string rootFolder)
+		private void CopySqliteDatabaseToSite(string siteRootFolder)
+		{
+			string testBinFolder = AppDomain.CurrentDomain.BaseDirectory;
+
+			string source = Path.Combine(testBinFolder, "lib", "roadkill.plasma.sqlite");
+			string dest = Path.Combine(siteRootFolder, "App_Data", "roadkill.plasma.sqlite");
+			System.IO.File.Copy(source, dest, true);
+		}
+
+		private void CopySqliteToSite(string siteRootFolder)
 		{
 			try
 			{
 				//
-				// Copy the blank SQL databases
+				// Copy the sqlite database into the App_Data folder
+				// Copy the sqlite binaries from app_data into bin for the site root.
 				//
 				string testRootFolder = AppDomain.CurrentDomain.BaseDirectory;
-				string appData = Path.Combine(rootFolder, "App_Data");
-				string binFolder = Path.Combine(rootFolder, "bin");
+				string siteAppData = Path.Combine(siteRootFolder, "App_Data");
+				string siteBinFolder = Path.Combine(siteRootFolder, "bin");
 
-				string sqliteFileSource = Path.Combine(appData, "SQLiteBinaries", "x86", "System.Data.SQLite.dll");
-				string sqliteFileDest = Path.Combine(binFolder, "System.Data.SQLite.dll");
-				string sqliteLinqFileSource = Path.Combine(appData, "SQLiteBinaries", "x86", "System.Data.SQLite.Linq.dll");
-				string sqliteFileLinqDest = Path.Combine(binFolder, "System.Data.SQLite.Linq.dll");
+				string sqliteFileSource = Path.Combine(siteAppData, "SQLiteBinaries", "x86", "System.Data.SQLite.dll");
+				string sqliteFileDest = Path.Combine(siteBinFolder, "System.Data.SQLite.dll");
+				string sqliteLinqFileSource = Path.Combine(siteAppData, "SQLiteBinaries", "x86", "System.Data.SQLite.Linq.dll");
+				string sqliteFileLinqDest = Path.Combine(siteBinFolder, "System.Data.SQLite.Linq.dll");
 
 				if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
 				{
-					sqliteFileSource = Path.Combine(appData, "SQLiteBinaries", "x64", "System.Data.SQLite.dll");
-					sqliteLinqFileSource = Path.Combine(appData, "SQLiteBinaries", "x64", "System.Data.SQLite.Linq.dll");
+					sqliteFileSource = Path.Combine(siteAppData, "SQLiteBinaries", "x64", "System.Data.SQLite.dll");
+					sqliteLinqFileSource = Path.Combine(siteAppData, "SQLiteBinaries", "x64", "System.Data.SQLite.Linq.dll");
 				}
 
 				
