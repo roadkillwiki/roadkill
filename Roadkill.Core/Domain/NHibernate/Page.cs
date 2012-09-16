@@ -54,7 +54,7 @@ namespace Roadkill.Core
 			PageContent latest;
 			using (ISession session = NHibernateRepository.Current.SessionFactory.OpenSession())
 			{
-				latest = session.QueryOver<PageContent>().OrderBy(p => p.VersionNumber).Desc.Take(1).SingleOrDefault();
+				latest = session.QueryOver<PageContent>().Where(p => p.Page.Id == Id).OrderBy(p => p.VersionNumber).Desc.Take(1).SingleOrDefault();
 				latest.Page = session.Get<Page>(latest.Page.Id);
 			}
 
