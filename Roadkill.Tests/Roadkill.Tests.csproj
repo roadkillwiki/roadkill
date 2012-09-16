@@ -237,6 +237,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
     <Compile Include="CoreTests\CreoleParserTests.cs" />
+    <Compile Include="Headless\LoginTests.cs" />
     <Compile Include="Headless\SearchTests.cs" />
     <Compile Include="Headless\HomePageTests.cs" />
     <Compile Include="Headless\Urls.cs" />
