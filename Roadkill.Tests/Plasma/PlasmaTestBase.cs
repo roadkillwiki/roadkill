@@ -22,7 +22,7 @@ namespace Roadkill.Tests.Plasma
 		protected static AspNetApplication AppInstance;
 
 		[TestFixtureSetUp]
-		public void Init()
+		public void Setup()
 		{
 			try
 			{
@@ -32,6 +32,9 @@ namespace Roadkill.Tests.Plasma
 				// Tests are run inside C:\build-dir\REPONAME\Roadkill.Tests\bin\release
 				// Copy the SQLite into the _PLASMAWEBSITE folder.
 				siteRootFolder = Path.Combine(siteRootFolder, "..", "..", "..", "_PLASMAWEBSITE");
+				// comment out the line above and un-comment the below for desktop builds
+				//siteRootFolder = Path.Combine(siteRootFolder, "..", "..", "..", "Roadkill.Site");
+
 				CopySqliteDatabaseToSite(siteRootFolder);
 				CopySqliteToSite(siteRootFolder);
 
@@ -50,6 +53,11 @@ namespace Roadkill.Tests.Plasma
 
 			string source = Path.Combine(testBinFolder, "lib", "roadkill.plasma.sqlite");
 			string dest = Path.Combine(siteRootFolder, "App_Data", "roadkill.plasma.sqlite");
+
+			FileInfo destInfo = new FileInfo(dest);
+			if (!destInfo.Exists)
+				destInfo.Directory.Create();
+
 			System.IO.File.Copy(source, dest, true);
 		}
 
@@ -76,6 +84,13 @@ namespace Roadkill.Tests.Plasma
 					sqliteLinqFileSource = Path.Combine(siteAppData, "SQLiteBinaries", "x64", "System.Data.SQLite.Linq.dll");
 				}
 
+				FileInfo destInfo = new FileInfo(sqliteFileDest);
+				if (!destInfo.Exists)
+					destInfo.Directory.Create();
+
+				destInfo = new FileInfo(sqliteFileLinqDest);
+				if (!destInfo.Exists)
+					destInfo.Directory.Create();
 				
 				System.IO.File.Copy(sqliteFileSource, sqliteFileDest, true);
 				System.IO.File.Copy(sqliteLinqFileSource, sqliteFileLinqDest, true);

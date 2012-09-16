@@ -64,11 +64,11 @@ namespace Roadkill.Tests.Plasma
 		}
 
 		[Test]
-		public void Login_AsEditor()
+		public void Login_AsAdmin()
 		{
 			AspNetRequest request = new AspNetRequest("/user/login");
 			request.Method = "POST";
-			request.QueryString = "email=nobody@roadkillwiki.org&password=editor";
+			request.QueryString = "email=admin@localhost&password=password";
 
 			AspNetResponse loginPage = AppInstance.ProcessRequest(request);
 			Assert.That(loginPage.Status, Is.EqualTo(302), loginPage.BodyAsString);
@@ -84,7 +84,7 @@ namespace Roadkill.Tests.Plasma
 
 			HtmlNode document = html.DocumentNode;
 			HtmlNode loggedIn = document.QuerySelector("#loggedinas");
-			Assert.That(loggedIn.InnerText, Is.EqualTo("Logged in as editor&nbsp;-&nbsp;Logout"));
+			Assert.That(loggedIn.InnerText, Is.EqualTo("Logged in as admin&nbsp;-&nbsp;Logout"));
 		}
 
 		[Test]
