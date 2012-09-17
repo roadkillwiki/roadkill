@@ -257,6 +257,10 @@
     <Compile Include="Controllers\Attributes\AdminRequiredAttribute.cs" />
     <Compile Include="Controllers\Attributes\EditorRequiredAttribute.cs" />
     <Compile Include="Common\Salt.cs" />
+    <Compile Include="Domain\Managers\Security\Windows\PrincipalWrapper.cs" />
+    <Compile Include="Domain\Managers\Security\Windows\IRoadKillPrincipal.cs" />
+    <Compile Include="Domain\Managers\Security\Windows\IActiveDirectoryService.cs" />
+    <Compile Include="Domain\Managers\Security\Windows\DefaultActiveDirectoryService.cs" />
     <Compile Include="Files\AttachmentFileHandler.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Domain\Email\ResetPasswordEmail.cs" />
@@ -299,7 +303,7 @@
     <Compile Include="Text\IMarkupParser.cs" />
     <Compile Include="Text\LinkEventArgs.cs" />
     <Compile Include="Text\Parsers\MediaWikiParser.cs" />
-    <Compile Include="Domain\Managers\Security\ActiveDirectoryUserManager.cs" />
+    <Compile Include="Domain\Managers\Security\Windows\ActiveDirectoryUserManager.cs" />
     <Compile Include="Domain\Managers\Security\SqlUserManager.cs" />
     <Compile Include="Domain\Managers\Security\UserManager.cs" />
     <Compile Include="Domain\Managers\SettingsManager.cs" />

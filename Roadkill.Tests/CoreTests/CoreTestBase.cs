@@ -43,6 +43,7 @@ namespace Roadkill.Tests.Core
 		public void Initialize()
 		{
 			RoadkillContext.IsWeb = false;
+			UserManager.Initialize(new SqlUserManager()); // other tests can interfere as it's static
 
 			SettingsSummary summary = new SettingsSummary();
 			summary.ConnectionString = RoadkillSettings.ConnectionString;

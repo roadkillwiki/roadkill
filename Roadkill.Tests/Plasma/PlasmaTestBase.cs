@@ -31,9 +31,16 @@ namespace Roadkill.Tests.Plasma
 				// Atalassian AMI uses C:\build-dir\REPONAME\_PLASMAWEBSITE
 				// Tests are run inside C:\build-dir\REPONAME\Roadkill.Tests\bin\release
 				// Copy the SQLite into the _PLASMAWEBSITE folder.
-				siteRootFolder = Path.Combine(siteRootFolder, "..", "..", "..", "_PLASMAWEBSITE");
-				// comment out the line above and un-comment the below for desktop builds
-				//siteRootFolder = Path.Combine(siteRootFolder, "..", "..", "..", "Roadkill.Site");
+
+				if (Environment.UserInteractive)
+				{
+					// desktop builds
+					siteRootFolder = Path.Combine(siteRootFolder, "..", "..", "..", "Roadkill.Site");	
+				}
+				else
+				{
+					siteRootFolder = Path.Combine(siteRootFolder, "..", "..", "..", "_PLASMAWEBSITE");
+				}
 
 				CopySqliteDatabaseToSite(siteRootFolder);
 				CopySqliteToSite(siteRootFolder);
