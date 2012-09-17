@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Web;
 namespace Roadkill.Core
 {
 	/// <summary>
@@ -163,14 +164,44 @@ namespace Roadkill.Core
 		public abstract bool UserNameExists(string username);
 
 		/// <summary>
+		/// Hashes the provided password for storage in the database.
+		/// </summary>
+		/// <param name="password">The password to hash.</param>
+		/// <returns>A hashed version of the password.</returns>
+		public abstract string HashPassword(string password, string salt);
+
+		/// <summary>
+		/// Gets the current username for the logged in user.
+		/// </summary>
+		/// <param name="context">The current <see cref="System.Web.HttpContext"/> for the request.</param>
+		/// <returns>The username of the logged in user, or an empty string if the user is not logged in.</returns>
+		public abstract string GetLoggedInUserName(HttpContextBase context);
+
+		/// <summary>
 		/// Gets the current <see cref="UserManager"/> for the application.
 		/// </summary>
 		public static UserManager Current
 		{
 			get
 			{
+				if (!_initialized)
+					Initialize(null);
+
 				return Nested.Current;
 			}
+		}
+
+		private static bool _initialized;
+
+		/// <summary>
+		/// Initializes the current UserManager instance with the provided type. 
+		/// </summary>
+		/// <param name="manager">The <see cref="UserManager"/> to initialize the current instance with. 
+		/// If this is null, the type is loaded via the various roadkill settings.</param>
+		public static void Initialize(UserManager manager)
+		{
+			Nested.Initialize(manager);
+			_initialized = true;
 		}
 
 		/// <summary>
@@ -178,28 +209,36 @@ namespace Roadkill.Core
 		/// </summary>
 		class Nested
 		{
-			internal static readonly UserManager Current;
+			internal static UserManager Current;
 
-			static Nested()
+			public static void Initialize(UserManager manager)
 			{
-				if (!string.IsNullOrEmpty(RoadkillSettings.UserManagerType))
+				if (manager == null)
 				{
-					Nested.Current = LoadFromType();
-				}
-				else
-				{
-					if (RoadkillSettings.UseWindowsAuthentication)
+
+					if (!string.IsNullOrEmpty(RoadkillSettings.UserManagerType))
 					{
-						Nested.Current = new ActiveDirectoryUserManager(RoadkillSettings.LdapConnectionString,
-																	RoadkillSettings.LdapUsername,
-																	RoadkillSettings.LdapPassword,
-																	RoadkillSettings.EditorRoleName,
-																	RoadkillSettings.AdminRoleName);
+						Nested.Current = LoadFromType();
 					}
 					else
 					{
-						Nested.Current = new SqlUserManager();
+						if (RoadkillSettings.UseWindowsAuthentication)
+						{
+							Nested.Current = new ActiveDirectoryUserManager(RoadkillSettings.LdapConnectionString,
+																		RoadkillSettings.LdapUsername,
+																		RoadkillSettings.LdapPassword,
+																		RoadkillSettings.EditorRoleName,
+																		RoadkillSettings.AdminRoleName);
+						}
+						else
+						{
+							Nested.Current = new SqlUserManager();
+						}
 					}
+				}
+				else
+				{
+					Nested.Current = manager;
 				}
 			}
 		}

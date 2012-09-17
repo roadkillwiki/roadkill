@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.DirectoryServices.AccountManagement;
+using System.Web;
 
 namespace Roadkill.Core
 {
@@ -206,6 +207,14 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// Gets the current <see cref="WindowsIdentity"/> username.
+		/// </summary>
+		public override string GetLoggedInUserName(HttpContextBase context)
+		{
+			return context.Request.LogonUserIdentity.Name;
+		}
+
+		/// <summary>
 		/// Lowercases the username and takes the "john" part from "DOMAIN\john".
 		/// </summary>
 		private string CleanUsername(string username)
@@ -370,6 +379,12 @@ namespace Roadkill.Core
 
 		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
 		public override bool UserNameExists(string username)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		public override string HashPassword(string password, string salt)
 		{
 			throw new NotImplementedException();
 		}
