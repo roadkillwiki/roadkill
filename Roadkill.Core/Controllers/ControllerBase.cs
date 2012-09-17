@@ -49,33 +49,16 @@ namespace Roadkill.Core.Controllers
 			}
 #endif
 
-			RoadkillContext.Current.CurrentUser = GetCurrentUser();
+			RoadkillContext.Current.CurrentUser = GetCurrentUser(HttpContext);
 		}
 
 		/// <summary>
 		/// Gets the current logged in user.
 		/// </summary>
 		/// <returns>The logged in user. Returns an empty string if the user is not logged in</returns>
-		protected string GetCurrentUser()
+		public string GetCurrentUser(HttpContextBase context)
 		{
-			if (FormsAuthentication.IsEnabled)
-			{
-				if (Request.Cookies[FormsAuthentication.FormsCookieName] != null)
-				{
-					string cookie = Request.Cookies[FormsAuthentication.FormsCookieName].Value;
-					if (!string.IsNullOrEmpty(cookie))
-					{
-						FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie);
-						return ticket.Name;
-					}
-				}
-
-				return "";
-			}
-			else
-			{
-				return Request.LogonUserIdentity.Name;
-			}
+			return UserManager.Current.GetLoggedInUserName(context);
 		}
 	}
 }

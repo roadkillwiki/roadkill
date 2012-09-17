@@ -113,8 +113,6 @@ namespace Roadkill.Core.Controllers
 
 			if (UserManager.Current.Authenticate(email, password))
 			{
-				FormsAuthentication.SetAuthCookie(email, true);
-
 				if (!string.IsNullOrWhiteSpace(fromUrl))
 					return Redirect(fromUrl);
 				else

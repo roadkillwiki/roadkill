@@ -8,6 +8,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Configuration.Provider;
 using NHibernate;
+using System.Web;
 
 namespace Roadkill.Core
 {
@@ -112,7 +113,10 @@ namespace Roadkill.Core
 				if (user != null)
 				{
 					if (user.Password == User.HashPassword(password, user.Salt))
+					{
+						FormsAuthentication.SetAuthCookie(email, true);
 						return true;
+					}
 				}
 
 				return false;
@@ -601,6 +605,38 @@ namespace Roadkill.Core
 			{
 				throw new SecurityException(ex, "An error occurred checking if username {0} exists", username);
 			}
+		}
+
+		/// <summary>
+		/// Hashes the password and salt using SHA1 via FormsAuthentication.
+		/// </summary>
+		public override string HashPassword(string password, string salt)
+		{
+			return FormsAuthentication.HashPasswordForStoringInConfigFile(password + salt, "SHA1");
+		}
+
+		/// <summary>
+		/// Gets the current username by decrypting the cookie. If FormsAuthentication is disabled or
+		/// there is no logged in user, this returns an empty string.
+		/// </summary>
+		public override string GetLoggedInUserName(HttpContextBase context)
+		{
+			if (FormsAuthentication.IsEnabled)
+			{
+				if (context.Request.Cookies[FormsAuthentication.FormsCookieName] != null)
+				{
+					string cookie = context.Request.Cookies[FormsAuthentication.FormsCookieName].Value;
+					if (!string.IsNullOrEmpty(cookie))
+					{
+						FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie);
+						return ticket.Name;
+					}
+				}
+
+				
+			}
+
+			return "";
 		}
 	}
 }

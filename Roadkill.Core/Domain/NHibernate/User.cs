@@ -50,7 +50,7 @@ namespace Roadkill.Core
 
 		public static string HashPassword(string password,string salt)
 		{
-			return FormsAuthentication.HashPasswordForStoringInConfigFile(password + salt, "SHA1");
+			return UserManager.Current.HashPassword(password, salt);
 		}
 
 		public virtual UserSummary ToSummary()
