@@ -215,7 +215,6 @@ namespace Roadkill.Core
 			{
 				if (manager == null)
 				{
-
 					if (!string.IsNullOrEmpty(RoadkillSettings.UserManagerType))
 					{
 						Nested.Current = LoadFromType();

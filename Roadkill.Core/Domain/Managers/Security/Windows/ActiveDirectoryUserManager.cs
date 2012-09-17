@@ -20,6 +20,7 @@ namespace Roadkill.Core
 		private List<string> _editorGroupNames;
 		private List<string> _adminGroupNames;
 		private string _domainName;
+		private IActiveDirectoryService _service;
 
 		/// <summary>
 		/// Returns false as <see cref="ActiveDirectoryUserManager"/> does not support user updates.
@@ -32,6 +33,15 @@ namespace Roadkill.Core
 			}
 		}
 
+
+		/// <summary>
+		/// Creates a new instance of a <see cref="ActiveDirectoryUserManager"/> using the given service.
+		/// </summary>
+		public ActiveDirectoryUserManager(string ldapConnectionString, string username, string password, string editorGroupName, string adminGroupName) :
+			this(new DefaultActiveDirectoryService(), ldapConnectionString, username, password, editorGroupName, adminGroupName)
+		{
+		}
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ActiveDirectoryUserManager"/> class.
 		/// </summary>
@@ -40,7 +50,8 @@ namespace Roadkill.Core
 		/// <param name="password">The password to authenticate against the Active Directory with.</param>
 		/// <param name="editorGroupName">The name of the group for editors.</param>
 		/// <param name="adminGroupName">The name of the group for admins.</param>
-		public ActiveDirectoryUserManager(string ldapConnectionString, string username, string password, string editorGroupName, string adminGroupName)
+		/// <param name="service">A custom service for providing membership lookups.</param>
+		public ActiveDirectoryUserManager(IActiveDirectoryService service, string ldapConnectionString, string username, string password, string editorGroupName, string adminGroupName)
 		{
 			// Some guards
 			if (string.IsNullOrEmpty(ldapConnectionString))
@@ -52,6 +63,7 @@ namespace Roadkill.Core
 			if (string.IsNullOrEmpty(adminGroupName))
 				throw new SecurityException("The LDAP admin group name is empty", null);
 
+			_service = service;
 			_connectionString = ldapConnectionString;
 			_username = username;
 			_password = password;
@@ -245,39 +257,9 @@ namespace Roadkill.Core
 					_password = null;
 				}
 
-				using (PrincipalContext context = new PrincipalContext(ContextType.Domain, _domainName, _username, _password))
+				foreach (IRoadKillPrincipal principle in _service.GetMembers(_domainName, _username, _password, groupName))
 				{
-					if (!string.IsNullOrEmpty(_username))
-					{
-						bool valid = context.ValidateCredentials(_username, _password);
-						if (!valid)
-							throw new SecurityException(null, "Unable to authenticate with '{0}' using '{1}'", _domainName, _username);
-					}
-
-					try
-					{
-						using (GroupPrincipal group = GroupPrincipal.FindByIdentity(context, IdentityType.SamAccountName, groupName))
-						{
-							// FindByIdentity returns null if no matches were found
-							if (group == null)
-								throw new InvalidOperationException(string.Format("The group {0} could not be found", groupName));
-
-							using (PrincipalSearchResult<Principal> users = group.GetMembers())
-							{
-								foreach (Principal principle in users)
-								{
-									if (principle is UserPrincipal)
-										results.Add(principle.SamAccountName.ToLower());
-
-									principle.Dispose();
-								}
-							}
-						}
-					}
-					catch (Exception ex)
-					{
-						throw new SecurityException(ex, "Unable to query Active Directory.");
-					}
+					results.Add(principle.SamAccountName.ToLower());
 				}
 
 				_usersInGroupCache.Add(groupName, results);
