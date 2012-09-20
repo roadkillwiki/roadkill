@@ -21,6 +21,14 @@ namespace Roadkill.Core.Controllers
 	/// this controller redirect to the homepage</remarks>
 	public class InstallController : ControllerBase
 	{
+		private SearchManager _searchManager;
+
+		public InstallController() : this(new SearchManager()) { }
+		public InstallController(SearchManager searchManager)
+		{
+			_searchManager = searchManager;
+		}
+
 		/// <summary>
 		/// Displays the start page for the installer (step1).
 		/// </summary>
@@ -132,7 +140,7 @@ namespace Roadkill.Core.Controllers
 					}					
 	
 					// Create a blank search index
-					SearchManager.Current.CreateIndex();
+					_searchManager.CreateIndex();
 				}
 			}
 			catch (Exception e)

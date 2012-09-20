@@ -23,6 +23,14 @@ namespace Roadkill.Core.Controllers
 	[AdminRequired]
 	public class SettingsController : ControllerBase
 	{
+		private SearchManager _searchManager;
+
+		public SettingsController() : this(new SearchManager()) { }
+		public SettingsController(SearchManager searchManager)
+		{
+			_searchManager = searchManager;
+		}
+
 		/// <summary>
 		/// The default settings page that displays the current Roadkill settings.
 		/// </summary>
@@ -322,7 +330,7 @@ namespace Roadkill.Core.Controllers
 		public ActionResult UpdateSearchIndex()
 		{
 			TempData["Message"] = SiteStrings.SiteSettings_Tools_RebuildSearch_Message;
-			SearchManager.Current.CreateIndex();
+			_searchManager.CreateIndex();
 			return RedirectToAction("Tools");
 		}
 

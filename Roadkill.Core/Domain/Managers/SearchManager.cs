@@ -22,31 +22,13 @@ namespace Roadkill.Core.Search
 	/// </summary>
 	public class SearchManager : ManagerBase
 	{
-		private static string _indexPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\search";
+		protected virtual string IndexPath { get; set; }
 		private static Regex _removeTagsRegex = new Regex("<(.|\n)*?>");
 		private static readonly LuceneVersion LUCENEVERSION = LuceneVersion.LUCENE_29;
 
-		/// <summary>
-		/// Gets the current <see cref="SearchManager"/> for the application.
-		/// </summary>
-		public static SearchManager Current
+		public SearchManager()
 		{
-			get
-			{
-				return Nested.Current;
-			}
-		}
-
-		/// <summary>
-		/// Singleton implementation.
-		/// </summary>
-		class Nested
-		{
-			internal static readonly SearchManager Current = new SearchManager();
-
-			static Nested()
-			{
-			}
+			IndexPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\search";
 		}
 
 		/// <summary>
@@ -55,10 +37,10 @@ namespace Roadkill.Core.Search
 		/// <param name="searchText">The text to search with.</param>
 		/// <remarks>Syntax reference: http://lucene.apache.org/java/2_3_2/queryparsersyntax.html#Wildcard</remarks>
 		/// <exception cref="SearchException">An error occured searching the lucene.net index.</exception>
-		public List<SearchResult> SearchIndex(string searchText)
+		public IEnumerable<SearchResult> SearchIndex(string searchText)
 		{
 			// This check is for the benefit of the CI builds
-			if (!Directory.Exists(_indexPath))
+			if (!Directory.Exists(IndexPath))
 				CreateIndex();
 
 			List<SearchResult> list = new List<SearchResult>();
@@ -85,7 +67,7 @@ namespace Roadkill.Core.Search
 			{
 				try
 				{
-					using (IndexSearcher searcher = new IndexSearcher(FSDirectory.Open(new DirectoryInfo(_indexPath)), true))
+					using (IndexSearcher searcher = new IndexSearcher(FSDirectory.Open(new DirectoryInfo(IndexPath)), true))
 					{
 						TopDocs topDocs = searcher.Search(query, 1000);
 
@@ -134,7 +116,7 @@ namespace Roadkill.Core.Search
 				EnsureDirectoryExists();
 
 				StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
-				using (IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(_indexPath)), analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
+				using (IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(IndexPath)), analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
 				{
 					writer.AddDocument(SummaryToDocument(summary));
 					writer.Optimize();
@@ -157,7 +139,7 @@ namespace Roadkill.Core.Search
 			try
 			{
 				StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
-				using (IndexReader reader = IndexReader.Open(FSDirectory.Open(new DirectoryInfo(_indexPath)), false))
+				using (IndexReader reader = IndexReader.Open(FSDirectory.Open(new DirectoryInfo(IndexPath)), false))
 				{
 					reader.DeleteDocuments(new Term("id", summary.Id.ToString()));
 				}
@@ -192,7 +174,7 @@ namespace Roadkill.Core.Search
 			try
 			{
 				StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
-				using (IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(_indexPath)), analyzer, true,IndexWriter.MaxFieldLength.UNLIMITED))
+				using (IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(IndexPath)), analyzer, true,IndexWriter.MaxFieldLength.UNLIMITED))
 				{
 					foreach (Page page in Pages.ToList())
 					{
@@ -213,12 +195,12 @@ namespace Roadkill.Core.Search
 		{
 			try
 			{
-				if (!Directory.Exists(_indexPath))
-					Directory.CreateDirectory(_indexPath);
+				if (!Directory.Exists(IndexPath))
+					Directory.CreateDirectory(IndexPath);
 			}
 			catch (IOException ex)
 			{
-				throw new SearchException(ex, "An error occured while creating the search directory '{0}'", _indexPath);
+				throw new SearchException(ex, "An error occured while creating the search directory '{0}'", IndexPath);
 			}
 		}
 
@@ -246,7 +228,7 @@ namespace Roadkill.Core.Search
 			document.Add(new Field("title", summary.Title, Field.Store.YES, Field.Index.ANALYZED));
 			document.Add(new Field("tags", summary.Tags.SpaceDelimitTags(), Field.Store.YES, Field.Index.ANALYZED));
 			document.Add(new Field("createdby", summary.CreatedBy, Field.Store.YES, Field.Index.NOT_ANALYZED));
-			document.Add(new Field("createdon", summary.CreatedOn.ToString("u"), Field.Store.YES, Field.Index.NOT_ANALYZED));
+			document.Add(new Field("createdon", summary.CreatedOn.ToString("s"), Field.Store.YES, Field.Index.NOT_ANALYZED));
 			document.Add(new Field("contentlength", summary.Content.Length.ToString(), Field.Store.YES, Field.Index.NO));
 
 			return document;

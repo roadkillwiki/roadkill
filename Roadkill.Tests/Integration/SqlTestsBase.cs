@@ -6,9 +6,9 @@ using Roadkill.Core;
 using NUnit.Framework;
 using System.IO;
 
-namespace Roadkill.Tests.Core
+namespace Roadkill.Tests.Integration
 {
-	public class CoreTestBase
+	public class SqlTestsBase
 	{
 		/// <summary>
 		/// Attempts to copy the correct SQL binaries to the bin folder for the architecture the app pool is running under.
@@ -16,6 +16,10 @@ namespace Roadkill.Tests.Core
 		[TestFixtureSetUp]
 		public void Init()
 		{
+			// Moq tests can interfere so reset these to their defaults.
+			NHibernateRepository.Initialize(new NHibernateRepository());
+			UserManager.Initialize(new SqlUserManager()); 
+
 			//
 			// Copy the SQLite files over
 			//
@@ -43,7 +47,6 @@ namespace Roadkill.Tests.Core
 		public void Initialize()
 		{
 			RoadkillContext.IsWeb = false;
-			UserManager.Initialize(new SqlUserManager()); // other tests can interfere as it's static
 
 			SettingsSummary summary = new SettingsSummary();
 			summary.ConnectionString = RoadkillSettings.ConnectionString;

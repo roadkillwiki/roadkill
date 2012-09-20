@@ -18,6 +18,14 @@ namespace Roadkill.Core.Controllers
 	/// </summary>
 	public class HomeController : ControllerBase
 	{
+		private SearchManager _searchManager;
+
+		public HomeController() : this(new SearchManager()) { }
+		public HomeController(SearchManager searchManager)
+		{
+			_searchManager = searchManager;
+		}
+
 		/// <summary>
 		/// Display the homepage/mainpage. If no page has been tagged with the 'homepage' tag,
 		/// then a dummy PageSummary is put in its place.
@@ -57,7 +65,7 @@ namespace Roadkill.Core.Controllers
 		{
 			ViewData["search"] = q;
 
-			List<SearchResult> results = SearchManager.Current.SearchIndex(q);
+			List<SearchResult> results = _searchManager.SearchIndex(q).ToList();
 			return View(results);
 		}
 
