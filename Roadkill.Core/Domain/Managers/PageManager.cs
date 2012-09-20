@@ -17,6 +17,14 @@ namespace Roadkill.Core
 	/// </summary>
 	public class PageManager : ManagerBase
 	{
+		private SearchManager _searchManager;
+
+		public PageManager() : this(new SearchManager()) { }
+		public PageManager(SearchManager searchManager)
+		{
+			_searchManager = searchManager;
+		}
+
 		/// <summary>
 		/// Adds the page to the database.
 		/// </summary>
@@ -50,7 +58,7 @@ namespace Roadkill.Core
 				// Update the lucene index
 				try
 				{
-					SearchManager.Current.Add(page.ToSummary());
+					_searchManager.Add(page.ToSummary());
 				}
 				catch (SearchException)
 				{
@@ -167,7 +175,7 @@ namespace Roadkill.Core
 				// We cannot call the ToSummary() method on an object that no longer exists.
 				try
 				{
-					SearchManager.Current.Delete(page.ToSummary());
+					_searchManager.Delete(page.ToSummary());
 				}
 				catch (SearchException)
 				{
@@ -338,7 +346,7 @@ namespace Roadkill.Core
 				}
 
 				// Update the lucene index
-				SearchManager.Current.Update(page.ToSummary());
+				_searchManager.Update(page.ToSummary());
 			}
 			catch (HibernateException ex)
 			{
@@ -359,7 +367,7 @@ namespace Roadkill.Core
 
 				foreach (PageSummary summary in pageSummaries)
 				{
-					SearchManager.Current.Delete(summary);
+					_searchManager.Delete(summary);
 
 					summary.Tags = summary.Tags.Replace(oldTagName + ";", newTagName + ";");
 					UpdatePage(summary);

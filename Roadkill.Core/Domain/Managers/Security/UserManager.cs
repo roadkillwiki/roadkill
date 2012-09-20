@@ -177,6 +177,8 @@ namespace Roadkill.Core
 		/// <returns>The username of the logged in user, or an empty string if the user is not logged in.</returns>
 		public abstract string GetLoggedInUserName(HttpContextBase context);
 
+		private static bool _initialized;
+
 		/// <summary>
 		/// Gets the current <see cref="UserManager"/> for the application.
 		/// </summary>
@@ -190,8 +192,6 @@ namespace Roadkill.Core
 				return Nested.Current;
 			}
 		}
-
-		private static bool _initialized;
 
 		/// <summary>
 		/// Initializes the current UserManager instance with the provided type. 

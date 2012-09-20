@@ -26,17 +26,6 @@ namespace Roadkill.Core
 		public virtual bool AllowUserSignup { get; set; }
 
 		/// <summary>
-		/// The configuration class should be a singleton, this retrieves it.
-		/// </summary>
-		public static SiteConfiguration Current
-		{
-			get
-			{
-				return NHibernateRepository.Current.Queryable<SiteConfiguration>().FirstOrDefault(s => s.Id == _configurationId);
-			}
-		}
-
-		/// <summary>
 		/// Whether to Recaptcha is enabled for user signups and password resets.
 		/// </summary>
 		public virtual bool EnableRecaptcha { get; set; }
@@ -86,6 +75,48 @@ namespace Roadkill.Core
 		public SiteConfiguration()
 		{
 			Id = _configurationId;
+		}
+
+		private static bool _initialized;
+
+		/// <summary>
+		/// The configuration class should be a singleton, this retrieves it.
+		/// </summary>
+		public static SiteConfiguration Current
+		{
+			get
+			{
+				if (!_initialized)
+					Initialize(null);
+
+				return Nested.Current;
+			}
+		}
+
+		/// <summary>
+		/// Re-initializes the SiteConfiguration's singleton instance.
+		/// </summary>
+		/// <param name="configuration">The SiteConfiguration type to re-initialize with.</param>
+		public static void Initialize(SiteConfiguration configuration)
+		{
+			Nested.Initialize(configuration);
+			_initialized = true;
+		}
+
+		/// <summary>
+		/// Singleton for Current
+		/// </summary>
+		class Nested
+		{
+			internal static SiteConfiguration Current;
+
+			public static void Initialize(SiteConfiguration configuration)
+			{
+				if (configuration == null)
+					Current = NHibernateRepository.Current.Queryable<SiteConfiguration>().FirstOrDefault(s => s.Id == _configurationId);
+				else
+					Current = configuration;
+			}
 		}
 	}
 

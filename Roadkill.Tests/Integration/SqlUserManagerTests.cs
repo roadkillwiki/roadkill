@@ -6,13 +6,13 @@ using Roadkill.Core;
 using Roadkill.Tests.Core;
 using NUnit.Framework;
 
-namespace Roadkill.Tests.Core
+namespace Roadkill.Tests.Integration
 {
 	/// <summary>
 	/// Tests the SQL User manager class (the default auth mechanism in Roadkill)
 	/// </summary>
 	[TestFixture]
-	public class SqlUserManagerTests : CoreTestBase
+	public class SqlUserManagerTests : SqlTestsBase
 	{
 		[Test]
 		public void AddAdmin_And_GetUserByEmail()

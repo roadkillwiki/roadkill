@@ -22,35 +22,12 @@ namespace Roadkill.Core
 		/// <summary>
 		/// The current NHibernate <see cref="ISessionFactory"/>. This is created once, the first the NHibernateRepository is used.
 		/// </summary>
-		public ISessionFactory SessionFactory { get; private set; }
+		public virtual ISessionFactory SessionFactory { get; protected set; }
 
 		/// <summary>
 		/// The current Fluent NHibernate <see cref="FluentConfiguration"/> object that represents the current NHibernate configuration.
 		/// </summary>
-		public FluentConfiguration Configuration { get; private set; }
-
-		/// <summary>
-		/// Gets the current <see cref="NHibernateRepository"/> for the application.
-		/// </summary>
-		public static NHibernateRepository Current
-		{
-			get
-			{
-				return Nested.Current;
-			}
-		}
-
-		/// <summary>
-		/// Singleton for Current
-		/// </summary>
-		class Nested
-		{
-			internal static readonly NHibernateRepository Current = new NHibernateRepository();
-
-			static Nested()
-			{
-			}	
-		}
+		public virtual FluentConfiguration Configuration { get; protected set; }
 
 		/// <summary>
 		/// Initializes and configures NHibernate using the connection string with Fluent NHibernate.
@@ -62,7 +39,7 @@ namespace Roadkill.Core
 		/// <remarks>
 		/// Microsoft SQL Server CE: http://www.microsoft.com/downloads/en/details.aspx?FamilyID=033cfb76-5382-44fb-bc7e-b3c8174832e2
 		/// </remarks>
-		public void Configure(DatabaseType databaseType,string connection, bool createSchema, bool enableL2Cache)
+		public virtual void Configure(DatabaseType databaseType,string connection, bool createSchema, bool enableL2Cache)
 		{
 			NHibernateConfig config = new NHibernateConfig();
 			Configuration = Fluently.Configure(config);
@@ -172,7 +149,7 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <typeparam name="T">The domain type to query against.</typeparam>
 		/// <returns><see cref="IQueryable`T"/> for LINQ-to-NHibernate LINQ queries.</returns>
-		public IQueryable<T> Queryable<T>()
+		public virtual IQueryable<T> Queryable<T>()
 		{
 			IQueryable<T> queryable = SessionFactory.OpenSession().Query<T>();
 			queryable = queryable.Cacheable<T>();
@@ -184,7 +161,7 @@ namespace Roadkill.Core
 		/// Deletes the object from the database.
 		/// </summary>
 		/// <param name="obj">The object to delete.</param>
-		public void Delete<T>(T obj) where T : class
+		public virtual void Delete<T>(T obj) where T : class
 		{
 			ISession session = SessionFactory.OpenSession();
 			using (session.BeginTransaction())
@@ -197,7 +174,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Deletes alls objects from the database.
 		/// </summary>
-		public void DeleteAll<T>() where T : class
+		public virtual void DeleteAll<T>() where T : class
 		{
 			string className = typeof(T).FullName;
 			ISession session = SessionFactory.OpenSession();
@@ -213,7 +190,7 @@ namespace Roadkill.Core
 		/// Inserts or updates the object depending on whether it exists in the database.
 		/// </summary>
 		/// <param name="obj">The object to insert/update.</param>
-		public void SaveOrUpdate<T>(T obj) where T : class
+		public virtual void SaveOrUpdate<T>(T obj) where T : class
 		{
 			ISession session = SessionFactory.OpenSession();
 			using (session.BeginTransaction())
@@ -228,12 +205,54 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <param name="sql">The sql query to run</param>
 		/// <returns>The number of rows affected.</returns>
-		public int ExecuteNonQuery(string sql)
+		public virtual int ExecuteNonQuery(string sql)
 		{
 			using (ISession session = SessionFactory.OpenSession())
 			{
 				ISQLQuery query = session.CreateSQLQuery(sql);
 				return query.ExecuteUpdate();
+			}
+		}
+
+		private static bool _initialized;
+
+		/// <summary>
+		/// Gets the current <see cref="NHibernateRepository"/> for the application.
+		/// </summary>
+		public static NHibernateRepository Current
+		{
+			get
+			{
+				if (!_initialized)
+					Initialize(null);
+
+				return Nested.Current;
+			}
+		}
+
+		/// <summary>
+		/// Re-initializes the repository's singleton instance.
+		/// </summary>
+		/// <param name="repository">The repository type to re-initialize with.</param>
+		public static void Initialize(NHibernateRepository repository)
+		{
+			Nested.Initialize(repository);
+			_initialized = true;
+		}
+
+		/// <summary>
+		/// Singleton for Current
+		/// </summary>
+		class Nested
+		{
+			internal static NHibernateRepository Current;
+
+			public static void Initialize(NHibernateRepository repository)
+			{
+				if (repository == null)
+					Current = new NHibernateRepository();
+				else
+					Current = repository;
 			}
 		}
 	}

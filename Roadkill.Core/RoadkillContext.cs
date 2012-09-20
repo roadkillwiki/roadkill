@@ -25,8 +25,9 @@ namespace Roadkill.Core
 		public string CurrentUser { get; set; }
 
 		/// <summary>
-		/// The username of the current user. This differs from <see cref="CurrenUser"/> which retrieves the email,
+		/// Gets the username of the current user. This differs from <see cref="CurrenUser"/> which retrieves the email,
 		/// unless using windows auth where both fields are the same.
+		/// This property is derived from the current UserManager's GetUser() method, if the CurrentUser property is not empty.
 		/// </summary>
 		public string CurrentUsername
 		{
