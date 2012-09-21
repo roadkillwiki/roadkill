@@ -66,17 +66,22 @@ namespace Roadkill.Tests
 
 		protected Page CreateMockPage(int id, string createdBy, string title, string tags, string textContent = "")
 		{
-			return CreateAndGetMockPage(id, createdBy, title, tags, textContent).Object;
+			return CreateAndGetMockPage(id, createdBy, title, tags, DateTime.Today, textContent).Object;
 		}
 
-		protected Mock<Page> CreateAndGetMockPage(int id, string createdBy, string title, string tags, string textContent = "")
+		protected Page CreateMockPage(int id, string createdBy, string title, string tags, DateTime createdOn, string textContent = "")
+		{
+			return CreateAndGetMockPage(id, createdBy, title, tags, createdOn, textContent).Object;
+		}
+
+		protected Mock<Page> CreateAndGetMockPage(int id, string createdBy, string title, string tags, DateTime createdOn, string textContent = "")
 		{
 			var pageMock = new Mock<Page>() { CallBase = true };
 			pageMock.SetupProperty(x => x.Id, id);
 			pageMock.SetupProperty(x => x.CreatedBy, createdBy);
 			pageMock.SetupProperty(x => x.Title, title);
 			pageMock.SetupProperty(x => x.Tags, tags);
-			pageMock.SetupProperty(x => x.CreatedOn, DateTime.Today);
+			pageMock.SetupProperty(x => x.CreatedOn, createdOn);
 
 			PageContent pageContent = new PageContent();
 			pageContent.Page = pageMock.Object;

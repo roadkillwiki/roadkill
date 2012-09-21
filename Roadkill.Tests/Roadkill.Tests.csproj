@@ -162,15 +162,15 @@
   <ItemGroup>
     <Reference Include="Fizzler, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Fizzler.0.9.2\lib\net35\Fizzler.dll</HintPath>
+      <HintPath>..\packages\Fizzler.0.9.3\lib\net35\Fizzler.dll</HintPath>
     </Reference>
     <Reference Include="Fizzler.Sandbox, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Fizzler.0.9.2\lib\net35\Fizzler.Sandbox.dll</HintPath>
+      <HintPath>..\packages\Fizzler.0.9.3\lib\net35\Fizzler.Sandbox.dll</HintPath>
     </Reference>
     <Reference Include="Fizzler.Systems.HtmlAgilityPack, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Fizzler.0.9.2\lib\net35\Fizzler.Systems.HtmlAgilityPack.dll</HintPath>
+      <HintPath>..\packages\Fizzler.0.9.3\lib\net35\Fizzler.Systems.HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -182,10 +182,6 @@
     </Reference>
     <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
-    </Reference>
-    <Reference Include="Mannex, Version=1.0.12026.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Fizzler.0.9.2\lib\net35\Mannex.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
