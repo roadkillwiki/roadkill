@@ -20,7 +20,7 @@ namespace Roadkill.Tests.Controllers
 		public void AddPage_Should_Call_NHibernate()
 		{
 			// Arrange
-			Mock<Page> page = CreateAndGetMockPage(1, "admin", "Homepage", "homepage");
+			Mock<Page> page = CreateAndGetMockPage(1, "admin", "Homepage", "homepage",  DateTime.Today);
 			PageSummary summary = page.Object.ToSummary(page.Object.CurrentContent());
 			page.Setup(x => x.ToSummary()).Returns(summary);
 			_mockRepository.Setup(x => x.SaveOrUpdate<Page>(page.Object));

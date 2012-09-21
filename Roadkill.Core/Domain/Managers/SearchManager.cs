@@ -228,7 +228,7 @@ namespace Roadkill.Core.Search
 			document.Add(new Field("title", summary.Title, Field.Store.YES, Field.Index.ANALYZED));
 			document.Add(new Field("tags", summary.Tags.SpaceDelimitTags(), Field.Store.YES, Field.Index.ANALYZED));
 			document.Add(new Field("createdby", summary.CreatedBy, Field.Store.YES, Field.Index.NOT_ANALYZED));
-			document.Add(new Field("createdon", summary.CreatedOn.ToString("s"), Field.Store.YES, Field.Index.NOT_ANALYZED));
+			document.Add(new Field("createdon", summary.CreatedOn.ToShortDateString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
 			document.Add(new Field("contentlength", summary.Content.Length.ToString(), Field.Store.YES, Field.Index.NO));
 
 			return document;
