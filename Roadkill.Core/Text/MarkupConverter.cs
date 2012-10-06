@@ -124,7 +124,8 @@ namespace Roadkill.Core.Converters
 					PageSummary summary = manager.FindByTitle(href);
 					if (summary != null)
 						href = helper.Action("Index", "Wiki", new { id = summary.Id, title = summary.Title.EncodeTitle() });
-
+					else
+					    href = helper.Action("New", "Pages", new { title = href });
 				}
 				e.Href = href;
 				e.Target = "";

@@ -177,9 +177,9 @@ namespace Roadkill.Core.Controllers
 		/// <returns>An empty <see cref="PageSummary"/> as the model.</returns>
 		/// <remarks>This action requires editor rights.</remarks>
 		[EditorRequired]
-		public ActionResult New()
+		public ActionResult New(string title = "")
 		{
-			return View("Edit", new PageSummary());
+			return View("Edit", new PageSummary(){Title = title});
 		}
 
 		/// <summary>
