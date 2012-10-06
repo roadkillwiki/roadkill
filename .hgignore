@@ -1,0 +1,51 @@
+# Ignore file for Visual Studio 2008
+
+# use glob syntax
+syntax: glob
+
+# Ignores
+Attachments*/
+Search*/
+search*/
+export*/
+
+*.DS_Store
+*.obj
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.scc
+[Bb]in
+[Dd]ebug*/
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+[Bb]uild[Ll]og.*
+*.[Pp]ublish.xml
+*.testsettings
+*.vsmdi
+*ROADKILLASPNET.MDF
+*ASPNET.MDF
+*ASPNET.ldf
+*desktop.ini
+*_PLASMAWEBSITE/
+*roadkillaspnet_log.ldf
+.git*/
+
+

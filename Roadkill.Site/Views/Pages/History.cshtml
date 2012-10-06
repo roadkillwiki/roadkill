@@ -1,0 +1,31 @@
+﻿@model IList<HistorySummary>
+@{ 
+	ViewBag.Title = SiteStrings.History_Title;
+}
+<h1>History</h1>
+
+<table id="historytable">
+	<thead>
+		<tr>
+			<td class="version">@SiteStrings.History_Version</td>
+			<td class="editedon">@SiteStrings.History_EditedOn</td>
+			<td class="version">@SiteStrings.History_EditedBy</td>
+			<td class="revert"></td>
+		</tr>
+	</thead>
+	<tbody>
+
+		@for (int i=0;i < Model.Count;i++)
+		{
+		<tr>
+			<td class="version">@Html.ActionLink(Model[i].VersionNumber.ToString(), "Version", new { id = Model[i].Id })</td>
+			<td class="editedon" title="@Model[i].EditedOn.ToString("U")">@Model[i].EditedOn</td>
+			<td class="editedby">@Html.ActionLink(Model[i].EditedBy, "ByUser", "Pages", new { id = Model[i].EditedBy.ToBase64(), encoded = true }, null)</td>
+			@if (i > 0 && RoadkillContext.Current.IsLoggedIn && (!Model[i].IsPageAdminOnly || RoadkillContext.Current.IsAdmin))
+			{
+			<td class="revert">@Html.ActionLink(SiteStrings.History_RevertLink, "Revert", new { versionId = Model[i].Id, pageId = Model[i].PageId })</td>
+			}
+		</tr>
+		}
+	</tbody>
+</table>
