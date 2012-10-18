@@ -30,41 +30,12 @@ namespace Roadkill.Core
 
 		public virtual PageContent CurrentContent()
 		{
-			if (RoadkillSettings.DatabaseType == DatabaseType.SqlServerCe)
-				return ContentForSqlCeBug();
-
-			// Fetches the parent page object via SQL as well as the PageContent, avoiding lazy loading.
-			IQuery query = NHibernateRepository.Current.SessionFactory.OpenSession()
-					.CreateQuery("FROM PageContent fetch all properties WHERE Page.Id=:Id AND VersionNumber=(SELECT max(VersionNumber) FROM PageContent WHERE Page.Id=:Id)");
-
-			query.SetCacheable(true);
-			query.SetInt32("Id", Id);
-			query.SetMaxResults(1);
-			PageContent content = query.UniqueResult<PageContent>();
-
-			return content;
-		}
-
-		/// <summary>
-		/// Work around for an NHibernate 3.3.1 SQL CE bug with the HQL query in CurrentContent() - this is two SQL queries per page instead of one.
-		/// </summary>
-		/// <returns></returns>
-		private PageContent ContentForSqlCeBug()
-		{
-			PageContent latest;
-			using (ISession session = NHibernateRepository.Current.SessionFactory.OpenSession())
-			{
-				latest = session.QueryOver<PageContent>().Where(p => p.Page.Id == Id).OrderBy(p => p.VersionNumber).Desc.Take(1).SingleOrDefault();
-				latest.Page = session.Get<Page>(latest.Page.Id);
-			}
-
-			return latest;
+			return new PageManager().GetCurrentContent(Id);
 		}
 
 		public virtual PageSummary ToSummary()
 		{
-			PageContent content = CurrentContent();
-			return ToSummary(content);
+			return ToSummary(CurrentContent());
 		}
 
 		public virtual PageSummary ToSummary(PageContent content)
