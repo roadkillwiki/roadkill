@@ -15,6 +15,7 @@ namespace Roadkill.Core.Controllers
 	/// Provides all page related functionality, including editing and viewing pages.
 	/// </summary>
 	[HandleError]
+	[OptionalAuthorization]
 	public class PagesController : ControllerBase
 	{
 		/// <summary>
@@ -103,7 +104,7 @@ namespace Roadkill.Core.Controllers
 		public ActionResult Edit(int id)
 		{
 			PageManager manager = new PageManager();
-			PageSummary summary = manager.Get(id);
+			PageSummary summary = manager.GetById(id);
 
 			if (summary != null)
 			{
@@ -214,7 +215,7 @@ namespace Roadkill.Core.Controllers
 		{
 			// Check if the page is locked to admin edits only before reverting.
 			PageManager pageManager = new PageManager();
-			PageSummary page = pageManager.Get(pageId);
+			PageSummary page = pageManager.GetById(pageId);
 			if (page == null || (page.IsLocked && !RoadkillContext.Current.IsAdmin))
 				return RedirectToAction("Index", "Home");
 

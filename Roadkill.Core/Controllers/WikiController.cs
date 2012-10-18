@@ -11,6 +11,7 @@ namespace Roadkill.Core.Controllers
 	/// <summary>
 	/// Provides functionality for the /wiki/{id}/{title} route, which all pages are displayed via.
 	/// </summary>
+	[OptionalAuthorization]
 	public class WikiController : ControllerBase
 	{
 		/// <summary>
@@ -27,7 +28,7 @@ namespace Roadkill.Core.Controllers
 				return RedirectToAction("Index", "Home");
 
 			PageManager manager = new PageManager();
-			PageSummary summary = manager.Get(id.Value);
+			PageSummary summary = manager.GetById(id.Value);
 
 			if (summary == null)
 				return new HttpNotFoundResult(string.Format("The page with id '{0}' could not be found", id));

@@ -366,6 +366,17 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// Whether the site is public, i.e. all pages are visible by default. This is optional in the web.config and the default is true.
+		/// </summary>
+		public static bool IsPublicSite
+		{
+			get
+			{
+				return RoadkillSection.Current.IsPublicSite;
+			}
+		}
+
+		/// <summary>
 		/// Whether to scale images dynamically on the page, using Javascript, so they fit inside the main page container (400x400px).
 		/// </summary>
 		public static bool ResizeImages

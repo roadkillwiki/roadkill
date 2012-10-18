@@ -37,7 +37,7 @@ namespace Roadkill.Core.Search
 		/// <param name="searchText">The text to search with.</param>
 		/// <remarks>Syntax reference: http://lucene.apache.org/java/2_3_2/queryparsersyntax.html#Wildcard</remarks>
 		/// <exception cref="SearchException">An error occured searching the lucene.net index.</exception>
-		public IEnumerable<SearchResult> SearchIndex(string searchText)
+		public virtual IEnumerable<SearchResult> SearchIndex(string searchText)
 		{
 			// This check is for the benefit of the CI builds
 			if (!Directory.Exists(IndexPath))
@@ -109,7 +109,7 @@ namespace Roadkill.Core.Search
 		/// </summary>
 		/// <param name="page">The page to add.</param>
 		/// <exception cref="SearchException">An error occured with the lucene.net IndexWriter while adding the page to the index.</exception>
-		public void Add(PageSummary summary)
+		public virtual void Add(PageSummary summary)
 		{
 			try
 			{
@@ -134,20 +134,25 @@ namespace Roadkill.Core.Search
 		/// </summary>
 		/// <param name="summary">The page to remove.</param>
 		/// <exception cref="SearchException">An error occured with the lucene.net IndexReader while deleting the page from the index.</exception>
-		public void Delete(PageSummary summary)
+		public virtual int Delete(PageSummary summary)
 		{
 			try
 			{
 				StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
+				int count = 0;
 				using (IndexReader reader = IndexReader.Open(FSDirectory.Open(new DirectoryInfo(IndexPath)), false))
 				{
-					reader.DeleteDocuments(new Term("id", summary.Id.ToString()));
+					count += reader.DeleteDocuments(new Term("id", summary.Id.ToString()));
 				}
+
+				return count;
 			}
 			catch (Exception ex)
 			{
 				if (!RoadkillSettings.IgnoreSearchIndexErrors)
 					throw new SearchException(ex, "An error occured while deleting page '{0}' from the search index", summary.Title);
+				else
+					return 0;
 			}
 		}
 
@@ -156,7 +161,7 @@ namespace Roadkill.Core.Search
 		/// </summary>
 		/// <param name="summary">The page to update</param>
 		/// <exception cref="SearchException">An error occured with lucene.net while deleting the page or inserting it back into the index.</exception>
-		public void Update(PageSummary summary)
+		public virtual void Update(PageSummary summary)
 		{
 			EnsureDirectoryExists();
 			Delete(summary);
@@ -167,7 +172,7 @@ namespace Roadkill.Core.Search
 		/// Creates the initial search index based on all pages in the system.
 		/// </summary>
 		/// <exception cref="SearchException">An error occured with the lucene.net IndexWriter while adding the page to the index.</exception>
-		public void CreateIndex()
+		public virtual void CreateIndex()
 		{
 			EnsureDirectoryExists();
 

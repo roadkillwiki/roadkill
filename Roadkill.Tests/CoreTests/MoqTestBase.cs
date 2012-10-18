@@ -25,6 +25,9 @@ namespace Roadkill.Tests
 		[SetUp]
 		public void Setup()
 		{
+			// Required by the indexer to parser the markup
+			SiteConfiguration.Initialize(new SiteConfiguration() { MarkupType = "Creole" }); 
+
 			RoadkillContext.IsWeb = false;
 			_contentList = new List<PageContent>();
 			_pageList = new List<Page>();
@@ -64,17 +67,20 @@ namespace Roadkill.Tests
 			_mockSearchManager = new Mock<SearchManager>();
 		}
 
-		protected Page CreateMockPage(int id, string createdBy, string title, string tags, string textContent = "")
+		protected Page AddMockPage(int id, string createdBy, string title, string tags, string textContent = "")
 		{
-			return CreateAndGetMockPage(id, createdBy, title, tags, DateTime.Today, textContent).Object;
+			return AddAndGetMockPage(id, createdBy, title, tags, DateTime.Today, textContent).Object;
 		}
 
-		protected Page CreateMockPage(int id, string createdBy, string title, string tags, DateTime createdOn, string textContent = "")
+		protected Page AddMockPage(int id, string createdBy, string title, string tags, DateTime createdOn, string textContent = "")
 		{
-			return CreateAndGetMockPage(id, createdBy, title, tags, createdOn, textContent).Object;
+			return AddAndGetMockPage(id, createdBy, title, tags, createdOn, textContent).Object;
 		}
 
-		protected Mock<Page> CreateAndGetMockPage(int id, string createdBy, string title, string tags, DateTime createdOn, string textContent = "")
+		/// <summary>
+		/// Adds a page to the mock repository
+		/// </summary>
+		protected Mock<Page> AddAndGetMockPage(int id, string createdBy, string title, string tags, DateTime createdOn, string textContent = "")
 		{
 			var pageMock = new Mock<Page>() { CallBase = true };
 			pageMock.SetupProperty(x => x.Id, id);
@@ -96,6 +102,8 @@ namespace Roadkill.Tests
 				pageContent.Text = textContent;
 
 			pageMock.Setup(x => x.CurrentContent()).Returns(pageContent);
+			_mockRepository.Setup(x => x.Delete(pageMock.Object)).Callback(() => _pageList.Remove(pageMock.Object));
+			_mockRepository.Setup(x => x.Delete(pageContent)).Callback(() => _contentList.Remove(pageContent));
 
 			_contentList.Add(pageContent);
 			_pageList.Add(pageMock.Object);
