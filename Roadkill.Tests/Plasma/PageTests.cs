@@ -20,6 +20,7 @@ namespace Roadkill.Tests.Plasma
 	/// Performs basic tests for correct HTML from the site.
 	/// </summary>
 	[TestFixture]
+	[Explicit]
 	public class PageTests : PlasmaTestBase
 	{
 		[Test]

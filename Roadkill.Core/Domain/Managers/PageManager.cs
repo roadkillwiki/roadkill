@@ -278,7 +278,7 @@ namespace Roadkill.Core
 		/// <param name="id">The id of the page</param>
 		/// <returns>A <see cref="PageSummary"/> for the page.</returns>
 		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while getting the page.</exception>
-		public PageSummary Get(int id)
+		public PageSummary GetById(int id)
 		{
 			try
 			{
@@ -377,6 +377,38 @@ namespace Roadkill.Core
 			{
 				throw new DatabaseException(ex, "An error occurred while changing the tagname {0} to {1}", oldTagName, newTagName);
 			}
+		}
+
+		/// <summary>
+		/// Retrieves the current text content for a page.
+		/// </summary>
+		/// <param name="pageId">The id of the page.</param>
+		/// <returns>The <see cref="PageContent"/> for the page.</returns>
+		public PageContent GetCurrentContent(int pageId)
+		{
+			PageContent latest;
+			if (RoadkillSettings.DatabaseType != DatabaseType.SqlServerCe)
+			{
+				// Fetches the parent page object via SQL as well as the PageContent, avoiding lazy loading.
+				IQuery query = NHibernateRepository.Current.SessionFactory.OpenSession()
+						.CreateQuery("FROM PageContent fetch all properties WHERE Page.Id=:Id AND VersionNumber=(SELECT max(VersionNumber) FROM PageContent WHERE Page.Id=:Id)");
+
+				query.SetCacheable(true);
+				query.SetInt32("Id", pageId);
+				query.SetMaxResults(1);
+				latest = query.UniqueResult<PageContent>();
+			}
+			else
+			{
+				// Work around for an NHibernate 3.3.1 SQL CE bug with the HQL query in CurrentContent() - this is two SQL queries per page instead of one.
+				using (ISession session = NHibernateRepository.Current.SessionFactory.OpenSession())
+				{
+					latest = session.QueryOver<PageContent>().Where(p => p.Page.Id == pageId).OrderBy(p => p.VersionNumber).Desc.Take(1).SingleOrDefault();
+					latest.Page = session.Get<Page>(latest.Page.Id);
+				}
+			}
+
+			return latest;
 		}
 
 		/// <summary>

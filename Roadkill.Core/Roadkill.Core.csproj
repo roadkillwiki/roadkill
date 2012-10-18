@@ -249,10 +249,11 @@
   <ItemGroup>
     <Compile Include="Common\Log.cs" />
     <Compile Include="Common\ShortGuid.cs" />
+    <Compile Include="Controllers\Attributes\OptionalAuthorizationAttribute.cs" />
     <Compile Include="Controllers\Attributes\RecaptchaRequiredAttribute.cs" />
     <Compile Include="Controllers\Attributes\ImportModelStateAttribute.cs" />
     <Compile Include="Controllers\Attributes\ExportModelStateAttribute.cs" />
-    <Compile Include="Common\HtmlLinkExtensions.cs" />
+    <Compile Include="Common\Extensions\HtmlLinkExtensions.cs" />
     <Compile Include="Common\LowercaseRoute.cs" />
     <Compile Include="Controllers\Attributes\AdminRequiredAttribute.cs" />
     <Compile Include="Controllers\Attributes\EditorRequiredAttribute.cs" />
@@ -332,8 +333,8 @@
     <Compile Include="Exceptions\InstallerException.cs" />
     <Compile Include="RoadkillSettings.cs" />
     <Compile Include="RoadkillContext.cs" />
-    <Compile Include="Common\Extensions.cs" />
-    <Compile Include="Common\HtmlExtensions.cs" />
+    <Compile Include="Common\Extensions\Extensions.cs" />
+    <Compile Include="Common\Extensions\HtmlExtensions.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PagesController.cs" />

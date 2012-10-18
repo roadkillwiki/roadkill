@@ -16,6 +16,7 @@ namespace Roadkill.Core.Controllers
 	/// <summary>
 	/// Provides functionality that is common through the site.
 	/// </summary>
+	[OptionalAuthorization]
 	public class HomeController : ControllerBase
 	{
 		private SearchManager _searchManager;
