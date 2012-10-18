@@ -188,6 +188,17 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// Whether the site is public, i.e. all pages are visible by default. The default is true,
+		/// and this is optional.
+		/// </summary>
+		[ConfigurationProperty("isPublicSite", IsRequired = false, DefaultValue=true)]
+		public bool IsPublicSite
+		{
+			get { return (bool)this["isPublicSite"]; }
+			set { this["isPublicSite"] = value; }
+		}
+
+		/// <summary>
 		/// Gets a value indicating whether the <see cref="T:System.Configuration.ConfigurationElement"/> object is read-only,
 		/// and can therefore be saved back to disk.
 		/// </summary>

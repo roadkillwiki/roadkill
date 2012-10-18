@@ -239,8 +239,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoreTests\MoqTestBase.cs" />
-    <Compile Include="CoreTests\PageManagerTests.cs" />
-    <Compile Include="CoreTests\ActiveDirectoryUserManagerTests.cs" />
+    <Compile Include="CoreTests\Managers\PageManagerTests.cs" />
+    <Compile Include="CoreTests\Managers\ActiveDirectoryUserManagerTests.cs" />
     <Compile Include="Integration\SqlTestsBase.cs" />
     <Content Include="lib\roadkill.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -250,7 +250,7 @@
     </Content>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <Compile Include="CoreTests\CreoleParserTests.cs" />
+    <Compile Include="CoreTests\Text\CreoleParserTests.cs" />
     <Compile Include="Headless\LoginTests.cs" />
     <Compile Include="Headless\SearchTests.cs" />
     <Compile Include="Headless\HomePageTests.cs" />
@@ -269,7 +269,10 @@
       <Name>Roadkill.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="CoreTests\Extensions\" />
+    <Folder Include="CoreTests\Summaries\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="lib\SQLiteBinaries\x64\System.Data.SQLite.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
