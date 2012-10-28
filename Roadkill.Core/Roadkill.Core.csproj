@@ -293,7 +293,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="RoadkillSection.cs" />
+    <Compile Include="Configuration\RoadkillSection.cs" />
     <Compile Include="Controllers\InstallController.cs" />
     <Compile Include="Controllers\FilesController.cs" />
     <Compile Include="Controllers\WikiController.cs" />
@@ -331,7 +331,7 @@
     <Compile Include="Text\Parsers\Markdown.cs" />
     <Compile Include="Text\MarkupConverter.cs" />
     <Compile Include="Exceptions\InstallerException.cs" />
-    <Compile Include="RoadkillSettings.cs" />
+    <Compile Include="Configuration\RoadkillSettings.cs" />
     <Compile Include="RoadkillContext.cs" />
     <Compile Include="Common\Extensions\Extensions.cs" />
     <Compile Include="Common\Extensions\HtmlExtensions.cs" />

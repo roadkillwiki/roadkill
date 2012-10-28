@@ -10,6 +10,9 @@ using System.Reflection;
 
 namespace Roadkill.Core.Files
 {
+	/// <summary>
+	/// A <see cref="IHttpHandler"/> that serves all uploaded files.
+	/// </summary>
 	public class AttachmentFileHandler : IHttpHandler
 	{
 		public bool IsReusable
@@ -20,20 +23,12 @@ namespace Roadkill.Core.Files
 		public void ProcessRequest(HttpContext context)
 		{
 			string fileExtension = Path.GetExtension(context.Request.Url.LocalPath);
-			string mimeType = "text/plain";
 			string attachmentFolder = RoadkillSettings.AttachmentsFolder;
 
 			using (ServerManager serverManager = new ServerManager())
 			{
 				// Get the mimetype from the IIS settings (configurable in the mimetypes.xml file in the site)
-				Configuration config = serverManager.GetApplicationHostConfiguration();
-				ConfigurationSection staticContentSection = config.GetSection("system.webServer/staticContent");
-				ConfigurationElementCollection mimemaps = staticContentSection.GetCollection();
-
-				ConfigurationElement element = mimemaps.FirstOrDefault(m => m.Attributes["fileExtension"].Value.ToString() == fileExtension);
-
-				if (element != null)
-					mimeType = element.Attributes["mimeType"].Value.ToString();
+				string mimeType = GetMimeType(fileExtension, serverManager);
 
 				byte[] buffer = null;
 				try
@@ -85,6 +80,22 @@ namespace Roadkill.Core.Files
 					context.Response.End();
 				}
 			}
+		}
+
+		private string GetMimeType(string fileExtension, ServerManager serverManager)
+		{
+			string mimeType = "text/plain";
+
+			Configuration config = serverManager.GetApplicationHostConfiguration();
+			ConfigurationSection staticContentSection = config.GetSection("system.webServer/staticContent");
+			ConfigurationElementCollection mimemaps = staticContentSection.GetCollection();
+
+			ConfigurationElement element = mimemaps.FirstOrDefault(m => m.Attributes["fileExtension"].Value.ToString() == fileExtension);
+
+			if (element != null)
+				mimeType = element.Attributes["mimeType"].Value.ToString();
+
+			return mimeType;
 		}
 	}
 }
