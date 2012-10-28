@@ -183,6 +183,7 @@
     <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
@@ -206,6 +207,9 @@
     </Reference>
     <Reference Include="RazorHosting">
       <HintPath>..\packages\SimpleBrowser.0.5.9\lib\net40\RazorHosting.dll</HintPath>
+    </Reference>
+    <Reference Include="Roadkill.Core.Fakes">
+      <HintPath>FakesAssemblies\Roadkill.Core.Fakes.dll</HintPath>
     </Reference>
     <Reference Include="SimpleBrowser">
       <HintPath>..\packages\SimpleBrowser.0.5.9\lib\net40\SimpleBrowser.dll</HintPath>
@@ -238,6 +242,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoreTests\Configuration\RoadkillSectionTests.cs" />
     <Compile Include="CoreTests\MoqTestBase.cs" />
     <Compile Include="CoreTests\Managers\PageManagerTests.cs" />
     <Compile Include="CoreTests\Managers\ActiveDirectoryUserManagerTests.cs" />
@@ -249,6 +254,16 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />
+    <Fakes Include="Fakes\Roadkill.Core.fakes" />
+    <Content Include="test.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="test-optional-values.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="test-missing-values.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <Compile Include="CoreTests\Text\CreoleParserTests.cs" />
     <Compile Include="Headless\LoginTests.cs" />

@@ -17,6 +17,7 @@ namespace Roadkill.Tests.Plasma
 	/// For Plasma to work on your desktop machine, compile using the Plasma configuration.
 	/// </summary>
 	[TestFixture]
+	[Explicit]
 	public class PlasmaTestBase
 	{
 		protected static AspNetApplication AppInstance;

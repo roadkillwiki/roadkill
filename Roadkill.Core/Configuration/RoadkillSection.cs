@@ -9,11 +9,12 @@ using System.Xml.XPath;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// Represents a &lt;roadkill&gt; section inside a configuration file.
+	/// Config file settings - represents a &lt;roadkill&gt; section inside a configuration file.
 	/// </summary>
 	public class RoadkillSection : ConfigurationSection
 	{
 		private static RoadkillSection _section;
+		private static Configuration _configuration;
 
 		/// <summary>
 		/// The current instance of the section. This is not a singleton but there is no requirement for this to be threadsafe.
@@ -23,7 +24,13 @@ namespace Roadkill.Core
 			get
 			{
 				if (_section == null)
-					_section = ConfigurationManager.GetSection("roadkill") as RoadkillSection;
+				{
+					// If a custom config file is being used, get the section from there.
+					if (_configuration != null)
+						_section = _configuration.GetSection("roadkill") as RoadkillSection;
+					else
+						_section = ConfigurationManager.GetSection("roadkill") as RoadkillSection;
+				}
 
 				return _section;
 			}
@@ -99,6 +106,15 @@ namespace Roadkill.Core
 			set { this["editorRoleName"] = value; }
 		}
 
+		/// <summary>
+		/// Whether errors in updating the lucene index throw exceptions or are just ignored.
+		/// </summary>
+		[ConfigurationProperty("ignoreSearchIndexErrors", IsRequired = false)]
+		public bool IgnoreSearchIndexErrors
+		{
+			get { return (bool)this["ignoreSearchIndexErrors"]; }
+			set { this["ignoreSearchIndexErrors"] = value; }
+		}
 
 		/// <summary>
 		/// Gets or sets whether this roadkill instance has been installed.
@@ -108,6 +124,17 @@ namespace Roadkill.Core
 		{
 			get { return (bool)this["installed"]; }
 			set { this["installed"] = value; }
+		}
+
+		/// <summary>
+		/// Whether the site is public, i.e. all pages are visible by default. The default is true,
+		/// and this is optional.
+		/// </summary>
+		[ConfigurationProperty("isPublicSite", IsRequired = false, DefaultValue = true)]
+		public bool IsPublicSite
+		{
+			get { return (bool)this["isPublicSite"]; }
+			set { this["isPublicSite"] = value; }
 		}
 
 		/// <summary>
@@ -178,27 +205,6 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Whether errors in updating the lucene index throw exceptions or are just ignored.
-		/// </summary>
-		[ConfigurationProperty("ignoreSearchIndexErrors", IsRequired = false)]
-		public bool IgnoreSearchIndexErrors
-		{
-			get { return (bool)this["ignoreSearchIndexErrors"]; }
-			set { this["ignoreSearchIndexErrors"] = value; }
-		}
-
-		/// <summary>
-		/// Whether the site is public, i.e. all pages are visible by default. The default is true,
-		/// and this is optional.
-		/// </summary>
-		[ConfigurationProperty("isPublicSite", IsRequired = false, DefaultValue=true)]
-		public bool IsPublicSite
-		{
-			get { return (bool)this["isPublicSite"]; }
-			set { this["isPublicSite"] = value; }
-		}
-
-		/// <summary>
 		/// Gets a value indicating whether the <see cref="T:System.Configuration.ConfigurationElement"/> object is read-only,
 		/// and can therefore be saved back to disk.
 		/// </summary>
@@ -206,6 +212,17 @@ namespace Roadkill.Core
 		public override bool IsReadOnly()
 		{
 			return false;
+		}
+
+		/// <summary>
+		/// Loads a custom app.config file for the settings, overriding the default application config file.
+		/// </summary>
+		/// <param name="filePath">A full path to the config file.</param>
+		public static void LoadCustomConfigFile(string filePath)
+		{
+			ExeConfigurationFileMap fileMap = new ExeConfigurationFileMap();
+			fileMap.ExeConfigFilename = filePath;
+			_configuration = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
 		}
 	}
 }

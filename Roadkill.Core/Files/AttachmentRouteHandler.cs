@@ -7,6 +7,9 @@ using System.Web;
 
 namespace Roadkill.Core.Files
 {
+	/// <summary>
+	/// A route handler for the attachments virtual folder, which doesn't swallow MVC routes.
+	/// </summary>
 	public class AttachmentRouteHandler : IRouteHandler
 	{
 		public IHttpHandler GetHttpHandler(RequestContext requestContext)
@@ -14,6 +17,9 @@ namespace Roadkill.Core.Files
 			return new AttachmentFileHandler();
 		}
 
+		/// <summary>
+		/// Registers the /Attachments/ path (the name is taken from a web.config setting)
+		/// </summary>
 		public static void Register()
 		{
 			Route route = new Route(RoadkillSettings.AttachmentsRoutePath + "/{*filename}", new AttachmentRouteHandler());

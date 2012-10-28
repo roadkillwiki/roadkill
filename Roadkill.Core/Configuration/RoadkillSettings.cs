@@ -11,7 +11,7 @@ using System.IO;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// Holds setting information for both application and web.config settings for the Roadkill instance.
+	/// Combines settings information from the database (SiteConfiguration) and the web.config settings for the Roadkill instance.
 	/// </summary>
 	/// <remarks>This class acts as a helper for RoadkillSection and SiteConfiguration as a single point for all settings.</remarks>
 	public class RoadkillSettings
