@@ -13,8 +13,10 @@ namespace Roadkill.Core
 	/// </summary>
 	public class RoadkillSection : ConfigurationSection
 	{
+		[ThreadStatic]
 		private static RoadkillSection _section;
-		private static Configuration _configuration;
+		[ThreadStatic]
+		internal static Configuration Configuration;
 
 		/// <summary>
 		/// The current instance of the section. This is not a singleton but there is no requirement for this to be threadsafe.
@@ -25,11 +27,7 @@ namespace Roadkill.Core
 			{
 				if (_section == null)
 				{
-					// If a custom config file is being used, get the section from there.
-					if (_configuration != null)
-						_section = _configuration.GetSection("roadkill") as RoadkillSection;
-					else
-						_section = ConfigurationManager.GetSection("roadkill") as RoadkillSection;
+					_section = ConfigurationManager.GetSection("roadkill") as RoadkillSection;
 				}
 
 				return _section;
@@ -222,7 +220,8 @@ namespace Roadkill.Core
 		{
 			ExeConfigurationFileMap fileMap = new ExeConfigurationFileMap();
 			fileMap.ExeConfigFilename = filePath;
-			_configuration = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
+			Configuration = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
+			_section = Configuration.GetSection("roadkill") as RoadkillSection;
 		}
 	}
 }

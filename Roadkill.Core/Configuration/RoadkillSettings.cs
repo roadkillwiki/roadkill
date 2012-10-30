@@ -16,8 +16,9 @@ namespace Roadkill.Core
 	/// <remarks>This class acts as a helper for RoadkillSection and SiteConfiguration as a single point for all settings.</remarks>
 	public class RoadkillSettings
 	{
-		internal static DatabaseType? _databaseType = null;
+		[ThreadStatic] // a hack primarily for tests
 		internal static string _connectionString;
+		internal static DatabaseType? _databaseType = null;
 		internal static string _attachmentsFolder;
 
 		/// <summary>
@@ -48,7 +49,10 @@ namespace Roadkill.Core
 		{
 			get
 			{
-				return new List<string>(SiteConfiguration.Current.AllowedFileTypes.Split(','));
+				if (string.IsNullOrEmpty(SiteConfiguration.Current.AllowedFileTypes))
+					throw new InvalidOperationException("The allowed file types setting is empty");
+
+				return new List<string>(SiteConfiguration.Current.AllowedFileTypes.Replace(" ","").Split(','));
 			}
 		}
 
@@ -115,9 +119,14 @@ namespace Roadkill.Core
 		public static string ConnectionString
 		{
 			get 
-			{ 
+			{
 				if (string.IsNullOrEmpty(_connectionString))
-					_connectionString = ConfigurationManager.ConnectionStrings[RoadkillSection.Current.ConnectionStringName].ConnectionString;
+				{
+					if (RoadkillSection.Configuration == null)
+						_connectionString = ConfigurationManager.ConnectionStrings[RoadkillSection.Current.ConnectionStringName].ConnectionString;
+					else
+						_connectionString = RoadkillSection.Configuration.ConnectionStrings.ConnectionStrings[RoadkillSection.Current.ConnectionStringName].ConnectionString;
+				}
 
 				return _connectionString; 
 			}

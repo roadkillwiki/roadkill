@@ -98,7 +98,7 @@ namespace Roadkill.Core
 				config.SiteUrl = summary.SiteUrl;
 				config.Title = summary.SiteName;
 				config.Theme = summary.Theme;
-				
+
 				config.Version = RoadkillSettings.Version;
 
 				NHibernateRepository.Current.SaveOrUpdate<SiteConfiguration>(config);
@@ -150,6 +150,12 @@ namespace Roadkill.Core
 				section.LdapUsername = summary.LdapUsername;
 				section.LdapPassword = summary.LdapPassword;
 				section.UseWindowsAuthentication = summary.UseWindowsAuth;
+				
+				// Optional "tweak" settings - these need to be explicit as DefaultValue="" in the attribute doesn't
+				// determine the value when saving.
+				section.IsPublicSite = true;
+				section.IgnoreSearchIndexErrors = true;
+				section.ResizeImages = true;
 
 				section.Installed = true;
 

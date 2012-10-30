@@ -8,11 +8,14 @@ using NHibernate;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// All application configuration data stored with NHibernate, that does not require an application restart when changed. This object is intended for internal use only.
+	/// Contains all configuration data stored with NHibernate/the database, for settings that do not 
+	/// require an application restart when changed. This object is intended for internal use only.
 	/// </summary>
 	public class SiteConfiguration
 	{
 		private static Guid _configurationId = new Guid("b960e8e5-529f-4f7c-aee4-28eb23e13dbd");
+		[ThreadStatic]
+		private static bool _initialized;
 
 		/// <summary>
 		/// The files types allowed for uploading.
@@ -77,8 +80,6 @@ namespace Roadkill.Core
 			Id = _configurationId;
 		}
 
-		private static bool _initialized;
-
 		/// <summary>
 		/// The configuration class should be a singleton, this retrieves it.
 		/// </summary>
@@ -113,7 +114,13 @@ namespace Roadkill.Core
 			public static void Initialize(SiteConfiguration configuration)
 			{
 				if (configuration == null)
+				{
 					Current = NHibernateRepository.Current.Queryable<SiteConfiguration>().FirstOrDefault(s => s.Id == _configurationId);
+
+					if (Current == null)
+						throw new DatabaseException(null, "No configuration settings could be found in the database (id {0}). " +
+							"Has SettingsManager.SaveSiteConfiguration() been called?", _configurationId);
+				}
 				else
 					Current = configuration;
 			}
