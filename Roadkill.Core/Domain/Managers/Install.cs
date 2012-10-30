@@ -87,7 +87,7 @@ namespace Roadkill.Core
 				}
 				catch (Exception e)
 				{
-					errors = e.Message;
+					errors = e.ToString();
 				}
 			}
 
@@ -116,7 +116,7 @@ namespace Roadkill.Core
 			}
 			catch (Exception e)
 			{
-				return e.InnerException.Message;
+				return e.ToString();
 			}
 		}
 
@@ -192,7 +192,7 @@ namespace Roadkill.Core
 			}
 			catch (Exception e)
 			{
-				return e.Message;
+				return e.ToString();
 			}
 		}
 	}

@@ -208,9 +208,6 @@
     <Reference Include="RazorHosting">
       <HintPath>..\packages\SimpleBrowser.0.5.9\lib\net40\RazorHosting.dll</HintPath>
     </Reference>
-    <Reference Include="Roadkill.Core.Fakes">
-      <HintPath>FakesAssemblies\Roadkill.Core.Fakes.dll</HintPath>
-    </Reference>
     <Reference Include="SimpleBrowser">
       <HintPath>..\packages\SimpleBrowser.0.5.9\lib\net40\SimpleBrowser.dll</HintPath>
     </Reference>
@@ -246,6 +243,7 @@
     <Compile Include="CoreTests\MoqTestBase.cs" />
     <Compile Include="CoreTests\Managers\PageManagerTests.cs" />
     <Compile Include="CoreTests\Managers\ActiveDirectoryUserManagerTests.cs" />
+    <Compile Include="Integration\SettingsTests.cs" />
     <Compile Include="Integration\SqlTestsBase.cs" />
     <Content Include="lib\roadkill.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -254,14 +252,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />
-    <Fakes Include="Fakes\Roadkill.Core.fakes" />
-    <Content Include="test.config">
+    <Content Include="TestConfigs\test.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="test-optional-values.config">
+    <Content Include="TestConfigs\test-optional-values.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="test-missing-values.config">
+    <Content Include="TestConfigs\test-missing-values.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
@@ -284,10 +281,7 @@
       <Name>Roadkill.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CoreTests\Extensions\" />
-    <Folder Include="CoreTests\Summaries\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="lib\SQLiteBinaries\x64\System.Data.SQLite.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
