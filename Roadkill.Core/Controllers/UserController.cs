@@ -42,7 +42,7 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult CompleteResetPassword(string id)
 		{
-			if (RoadkillSettings.Current.UseWindowsAuthentication)
+			if (RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
 			User user = ServiceContainer.UserManager.GetUserByResetKey(id);
@@ -64,7 +64,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult CompleteResetPassword(string id, UserSummary summary)
 		{
-			if (RoadkillSettings.Current.UseWindowsAuthentication)
+			if (RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
 			// Don't use ModelState.isvalid as the summary object only has an ID and two passwords
@@ -206,7 +206,7 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult ResetPassword()
 		{
-			if (RoadkillSettings.Current.UseWindowsAuthentication)
+			if (RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
 			return View();
@@ -220,7 +220,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult ResetPassword(string email)
 		{
-			if (RoadkillSettings.Current.UseWindowsAuthentication)
+			if (RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
 #if APPHARBOR
@@ -285,7 +285,7 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult Signup()
 		{
-			if (RoadkillContext.Current.IsLoggedIn || !RoadkillSettings.Current.AllowUserSignup || RoadkillSettings.Current.UseWindowsAuthentication)
+			if (RoadkillContext.Current.IsLoggedIn || !RoadkillSettings.Current.SitePreferences.AllowUserSignup || RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
 			{
 				return RedirectToAction("Index","Home");
 			}
@@ -302,7 +302,7 @@ namespace Roadkill.Core.Controllers
 		[RecaptchaRequired]
 		public ActionResult Signup(UserSummary summary, bool? isCaptchaValid)
 		{
-			if (RoadkillContext.Current.IsLoggedIn || !RoadkillSettings.Current.AllowUserSignup || RoadkillSettings.Current.UseWindowsAuthentication)
+			if (RoadkillContext.Current.IsLoggedIn || !RoadkillSettings.Current.SitePreferences.AllowUserSignup || RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index","Home");
 
 			if (ModelState.IsValid)

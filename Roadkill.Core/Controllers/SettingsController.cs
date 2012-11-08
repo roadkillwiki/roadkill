@@ -287,7 +287,7 @@ namespace Roadkill.Core.Controllers
 				string zipFullPath = Path.Combine(exportFolder, zipFilename);
 				using (ZipFile zip = new ZipFile(zipFullPath))
 				{
-					zip.AddDirectory(RoadkillSettings.Current.AttachmentsFolder, "Attachments");
+					zip.AddDirectory(RoadkillSettings.Current.ApplicationSettings.AttachmentsFolder, "Attachments");
 					zip.Save();
 				}
 

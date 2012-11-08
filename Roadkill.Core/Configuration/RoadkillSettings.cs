@@ -16,42 +16,37 @@ namespace Roadkill.Core
 	/// </summary>
 	public class RoadkillSettings : IConfigurationContainer
 	{
-		public RoadkillSection ConfigurationFileSettings { get; set; }
-		public SiteConfiguration DatabaseStoreSettings { get; set; }
-		public bool AllowUserSignup { get; set; }
-		public string AdminRoleName { get; set; }
-		public IList<string> AllowedFileTypes { get; set; }
-		public string AppDataPath { get; set; }	
-		public string AttachmentsFolder { get; set; }
-		public string AttachmentsUrlPath { get; set; }
-		public string AttachmentsRoutePath { get; set; }
-		public bool CachedEnabled { get; set; }
-		public bool CacheText { get; set; }
-		public string ConnectionString { get; set; }
-		public string ConnectionStringName { get; set; }
-		public string CustomTokensPath { get; set; }
-		public DatabaseType DatabaseType { get; set; }
-		public string EditorRoleName { get; set; }
-		public bool IgnoreSearchIndexErrors { get; set; }
-		public bool IsPublicSite { get; set; }
-		public bool Installed { get; set; }
-		public bool IsRecaptchaEnabled { get; set; }
-		public string LdapConnectionString { get; set; }
-		public string LdapUsername { get; set; }
-		public string LdapPassword { get; set; }
-		public string MarkupType { get; set; }
-		public int MinimumPasswordLength { get; set; }
-		public string RecaptchaPrivateKey { get; set; }
-		public string RecaptchaPublicKey { get; set; }
-		public bool ResizeImages { get; set; }
-		public string SiteName { get; set; }
-		public string SiteUrl { get; set; }
-		public string Theme { get; set; }
-		public string Title { get; set; }
-		public string ThemePath { get; set; }
-		public string UserManagerType { get; set; }
-		public bool UseWindowsAuthentication { get; set; }
-		public string Version { get; set; }
+		private SitePreferences _sitePreferences;
+		private ApplicationSettings _applicationSettings;
+
+		public SitePreferences SitePreferences
+		{
+			get 
+			{
+				if (_sitePreferences == null)
+				{
+					LoadSitePreferences();
+				}
+
+				return _sitePreferences; 
+			}
+			set { _sitePreferences = value; }
+		}
+
+		public ApplicationSettings ApplicationSettings
+		{
+			get
+			{
+				if (_applicationSettings == null)
+				{
+					_applicationSettings = new ApplicationSettings();
+					_applicationSettings.Load(ConfigurationManager.GetSection("roadkill") as RoadkillSection);
+				}
+
+				return _applicationSettings; 
+			}
+			set { _applicationSettings = value; }
+		}
 
 		public static IConfigurationContainer Current
 		{
@@ -61,96 +56,20 @@ namespace Roadkill.Core
 			}
 		}
 
-		public RoadkillSettings() : this(false)
-		{
-		}
-
-		public RoadkillSettings(bool loadDatabaseSettings)
-		{ 
-			if (loadDatabaseSettings)
-				Refresh();
-		}
-
-		public void Refresh()
+		public virtual void LoadSitePreferences()
 		{
 			IRepository repository = ObjectFactory.GetInstance<IRepository>();
 
-			ConfigurationFileSettings = ConfigurationManager.GetSection("roadkill") as RoadkillSection;
-			
-			
-			AdminRoleName = ConfigurationFileSettings.AdminRoleName;
-			
-			AppDataPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\";
+			SitePreferences preferences = repository.GetSitePreferences();
 
-			if (ConfigurationFileSettings.AttachmentsFolder.StartsWith("~") && HttpContext.Current != null)
-			{
-				AttachmentsFolder = HttpContext.Current.Server.MapPath(ConfigurationFileSettings.AttachmentsFolder);
-			}
-			else
-			{
-				AttachmentsFolder = ConfigurationFileSettings.AttachmentsFolder;
-			}
-
-			AttachmentsUrlPath = "/Attachments";
-			AttachmentsRoutePath = "Attachments";
-			CachedEnabled = ConfigurationFileSettings.CacheEnabled;
-			CacheText = ConfigurationFileSettings.CacheText;
-			ConnectionString = ConfigurationManager.ConnectionStrings[ConfigurationFileSettings.ConnectionStringName].ConnectionString;
-			ConnectionStringName = ConfigurationFileSettings.ConnectionStringName;
-			CustomTokensPath = Path.Combine(AppDataPath, "tokens.xml");
-
-			DatabaseType dbType;
-			if (Enum.TryParse<DatabaseType>(ConfigurationFileSettings.DatabaseType, true, out dbType))
-				DatabaseType = dbType;
-			else
-				DatabaseType = DatabaseType.SqlServer2005;
-
-			EditorRoleName = ConfigurationFileSettings.EditorRoleName;
-			IgnoreSearchIndexErrors = ConfigurationFileSettings.IgnoreSearchIndexErrors;
-			IsPublicSite = ConfigurationFileSettings.IsPublicSite;
-			Installed = ConfigurationFileSettings.Installed;		
-			LdapConnectionString = ConfigurationFileSettings.LdapConnectionString;
-			LdapUsername = ConfigurationFileSettings.LdapUsername;
-			LdapPassword = ConfigurationFileSettings.LdapPassword;
-			MinimumPasswordLength = 6;
-			ResizeImages = ConfigurationFileSettings.ResizeImages;
-			ThemePath = string.Format("~/Themes/{0}", Theme);
-			UserManagerType = ConfigurationFileSettings.UserManagerType;
-			UseWindowsAuthentication = ConfigurationFileSettings.UseWindowsAuthentication;
-			Version = typeof(RoadkillSettings).Assembly.GetName().Version.ToString();
-
-			DatabaseStoreSettings = repository.Queryable<SiteConfiguration>().FirstOrDefault(s => s.Id == SiteConfiguration.ConfigurationId);
-
-			if (DatabaseStoreSettings == null)
+			if (preferences == null)
 				throw new DatabaseException(null, "No configuration settings could be found in the database (id {0}). " +
-					"Has SettingsManager.SaveSiteConfiguration() been called?", SiteConfiguration.ConfigurationId);
+					"Has SettingsManager.SaveSiteConfiguration() been called?", SitePreferences.ConfigurationId);
 
-			if (string.IsNullOrEmpty(DatabaseStoreSettings.AllowedFileTypes))
+			if (string.IsNullOrEmpty(preferences.AllowedFileTypes))
 				throw new InvalidOperationException("The allowed file types setting is empty");
 
-			AllowUserSignup = DatabaseStoreSettings.AllowUserSignup;
-			AllowedFileTypes = new List<string>(DatabaseStoreSettings.AllowedFileTypes.Replace(" ", "").Split(','));
-			IsRecaptchaEnabled = DatabaseStoreSettings.EnableRecaptcha;
-			MarkupType = DatabaseStoreSettings.MarkupType;
-			RecaptchaPrivateKey = DatabaseStoreSettings.RecaptchaPrivateKey;
-			RecaptchaPublicKey = DatabaseStoreSettings.RecaptchaPublicKey;
-			SiteName = DatabaseStoreSettings.Title;
-			SiteUrl = DatabaseStoreSettings.SiteUrl;
-			Theme = DatabaseStoreSettings.Theme;
-			Title = DatabaseStoreSettings.Title;
-		}
-
-		/// <summary>
-		/// Loads a custom app.config file for the settings, overriding the default application config file.
-		/// </summary>
-		/// <param name="filePath">A full path to the config file.</param>
-		public void LoadCustomConfigFile(string filePath)
-		{
-			ExeConfigurationFileMap fileMap = new ExeConfigurationFileMap();
-			fileMap.ExeConfigFilename = filePath;
-			Configuration cfg = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
-
-			ConfigurationFileSettings = cfg.GetSection("roadkill") as RoadkillSection;
+			_sitePreferences = preferences;
 		}
 	}
 }

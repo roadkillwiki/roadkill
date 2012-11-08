@@ -219,9 +219,9 @@ namespace Roadkill.Core
 			}
 			else
 			{
-				if (string.IsNullOrEmpty(user.Password) || user.Password.Length < RoadkillSettings.Current.MinimumPasswordLength)
+				if (string.IsNullOrEmpty(user.Password) || user.Password.Length < RoadkillSettings.Current.ApplicationSettings.MinimumPasswordLength)
 				{
-					return new ValidationResult(string.Format(SiteStrings.User_Validation_PasswordTooShort, RoadkillSettings.Current.MinimumPasswordLength));
+					return new ValidationResult(string.Format(SiteStrings.User_Validation_PasswordTooShort, RoadkillSettings.Current.ApplicationSettings.MinimumPasswordLength));
 				}
 			}
 

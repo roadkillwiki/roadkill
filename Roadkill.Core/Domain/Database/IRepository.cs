@@ -12,5 +12,6 @@ namespace Roadkill.Core
 		IQueryable<T> Queryable<T>();
 		void SaveOrUpdate<T>(T obj) where T : class;
 		PageContent GetLatestPageContent(int pageId);
+		SitePreferences GetSitePreferences();
 	}
 }

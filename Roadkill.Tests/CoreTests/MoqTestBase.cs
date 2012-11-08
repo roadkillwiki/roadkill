@@ -26,7 +26,7 @@ namespace Roadkill.Tests
 		public void Setup()
 		{
 			// Required by the indexer to parser the markup
-			SiteConfiguration.Initialize(new SiteConfiguration() { MarkupType = "Creole" }); 
+			SitePreferences.Initialize(new SitePreferences() { MarkupType = "Creole" }); 
 
 			RoadkillContext.IsWeb = false;
 			_contentList = new List<PageContent>();

@@ -30,7 +30,7 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult Index()
 		{
-			if (RoadkillSettings.Current.Installed)
+			if (RoadkillSettings.Current.ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
 			CopySqliteBinaries();
@@ -43,7 +43,7 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult Step2()
 		{
-			if (RoadkillSettings.Current.Installed)
+			if (RoadkillSettings.Current.ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
 			return View(new SettingsSummary());
@@ -56,7 +56,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult Step3(SettingsSummary summary)
 		{
-			if (RoadkillSettings.Current.Installed)
+			if (RoadkillSettings.Current.ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
 			return View(summary);
@@ -70,7 +70,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult Step3b(SettingsSummary summary)
 		{
-			if (RoadkillSettings.Current.Installed)
+			if (RoadkillSettings.Current.ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
 			summary.LdapConnectionString = "LDAP://";
@@ -90,7 +90,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult Step4(SettingsSummary summary)
 		{
-			if (RoadkillSettings.Current.Installed)
+			if (RoadkillSettings.Current.ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
 			summary.AllowedExtensions = "jpg,png,gif,zip,xml,pdf";
@@ -112,7 +112,7 @@ namespace Roadkill.Core.Controllers
 		[ValidateInput(false)]
 		public ActionResult Step5(SettingsSummary summary)
 		{
-			if (RoadkillSettings.Current.Installed)
+			if (RoadkillSettings.Current.ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
 			InstallHelper installHelper = new InstallHelper(ServiceContainer);
@@ -169,7 +169,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestLdap(string connectionString, string username, string password, string groupName)
 		{
-			if (RoadkillSettings.Current.Installed)
+			if (RoadkillSettings.Current.ApplicationSettings.Installed)
 				return Content("");
 
 			InstallHelper installHelper = new InstallHelper(ServiceContainer);
@@ -183,7 +183,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestWebConfig()
 		{
-			if (RoadkillSettings.Current.Installed)
+			if (RoadkillSettings.Current.ApplicationSettings.Installed)
 				return Content("");
 
 			InstallHelper installHelper = new InstallHelper(ServiceContainer);

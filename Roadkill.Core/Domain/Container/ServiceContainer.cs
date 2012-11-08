@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Roadkill.Core.Search;
 using StructureMap;
 
 namespace Roadkill.Core.Domain
@@ -14,37 +15,37 @@ namespace Roadkill.Core.Domain
 
 		public UserManager UserManager
 		{
-			get { throw new NotImplementedException(); }
+			get { return _userManager; }
 		}
 
 		public PageManager PageManager
 		{
-			get { throw new NotImplementedException(); }
+			get { return new PageManager(); }
 		}
 
-		public Search.SearchManager SearchManager
+		public SearchManager SearchManager
 		{
-			get { throw new NotImplementedException(); }
+			get { return new SearchManager(); }
 		}
 
 		public SettingsManager SettingsManager
 		{
-			get { throw new NotImplementedException(); }
+			get { return new SettingsManager(); }
 		}
 
 		public HistoryManager HistoryManager
 		{
-			get { throw new NotImplementedException(); }
+			get { return new HistoryManager(); }
 		}
 
-		public NHibernateRepository Repository
+		public IRepository Repository
 		{
-			get { throw new NotImplementedException(); }
+			get { return ObjectFactory.GetInstance<IRepository>(); }
 		}
 
 		public IConfigurationContainer Configuration
 		{
-			get { throw new NotImplementedException(); }
+			get { return ObjectFactory.GetInstance<IConfigurationContainer>(); }
 		}
 
 		#endregion
@@ -53,19 +54,19 @@ namespace Roadkill.Core.Domain
 		{
 			if (_userManager == null)
 			{
-				if (!string.IsNullOrEmpty(RoadkillSettings.Current.UserManagerType))
+				if (!string.IsNullOrEmpty(RoadkillSettings.Current.ApplicationSettings.UserManagerType))
 				{
 					_userManager = LoadFromType();
 				}
 				else
 				{
-					if (RoadkillSettings.Current.UseWindowsAuthentication)
+					if (RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
 					{
-						_userManager = new ActiveDirectoryUserManager(RoadkillSettings.Current.LdapConnectionString,
-																	RoadkillSettings.Current.LdapUsername,
-																	RoadkillSettings.Current.LdapPassword,
-																	RoadkillSettings.Current.EditorRoleName,
-																	RoadkillSettings.Current.AdminRoleName);
+						_userManager = new ActiveDirectoryUserManager(RoadkillSettings.Current.ApplicationSettings.LdapConnectionString,
+																	RoadkillSettings.Current.ApplicationSettings.LdapUsername,
+																	RoadkillSettings.Current.ApplicationSettings.LdapPassword,
+																	RoadkillSettings.Current.ApplicationSettings.EditorRoleName,
+																	RoadkillSettings.Current.ApplicationSettings.AdminRoleName);
 					}
 					else
 					{
@@ -87,7 +88,7 @@ namespace Roadkill.Core.Domain
 		{
 			// Attempt to load the type
 			Type userManagerType = typeof(UserManager);
-			Type reflectedType = Type.GetType(RoadkillSettings.Current.UserManagerType);
+			Type reflectedType = Type.GetType(RoadkillSettings.Current.ApplicationSettings.UserManagerType);
 
 			if (reflectedType.IsSubclassOf(userManagerType))
 			{
@@ -95,7 +96,8 @@ namespace Roadkill.Core.Domain
 			}
 			else
 			{
-				throw new SecurityException(null, "The type {0} specified in the userManagerType web.config setting is not an instance of a UserManager class", RoadkillSettings.Current.UserManagerType);
+				throw new SecurityException(null, "The type {0} specified in the userManagerType web.config setting is not an instance of a UserManager class",
+					RoadkillSettings.Current.ApplicationSettings.UserManagerType);
 			}
 		}
 	}

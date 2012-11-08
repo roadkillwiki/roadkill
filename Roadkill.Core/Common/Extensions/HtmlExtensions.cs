@@ -152,7 +152,7 @@ namespace Roadkill.Core
 		/// <returns>A url path to the item, e.g. '/MySite/Themes/Mediawiki/logo.png'</returns>
 		public static string ThemeContent(this UrlHelper helper, string relativePath)
 		{
-			return helper.Content(RoadkillSettings.Current.ThemePath + "/" + relativePath);
+			return helper.Content(RoadkillSettings.Current.SitePreferences.ThemePath + "/" + relativePath);
 		}
 
 		/// <summary>
@@ -174,13 +174,13 @@ namespace Roadkill.Core
 		/// </summary>
 		public static MvcHtmlString RenderCaptcha(this HtmlHelper helper)
 		{
-			if (RoadkillSettings.Current.IsRecaptchaEnabled)
+			if (RoadkillSettings.Current.SitePreferences.IsRecaptchaEnabled)
 			{
 				RecaptchaControl control = new RecaptchaControl();
 				control.ID = "recaptcha";
 				control.Theme = "clean";
-				control.PublicKey = RoadkillSettings.Current.RecaptchaPublicKey;
-				control.PrivateKey = RoadkillSettings.Current.RecaptchaPrivateKey;
+				control.PublicKey = RoadkillSettings.Current.SitePreferences.RecaptchaPublicKey;
+				control.PrivateKey = RoadkillSettings.Current.SitePreferences.RecaptchaPrivateKey;
 
 				using (StringWriter stringWriter = new StringWriter())
 				{
@@ -205,7 +205,7 @@ namespace Roadkill.Core
 		/// </summary>
 		public static MvcHtmlString ResizeImagesScript(this HtmlHelper helper)
 		{
-			if (RoadkillSettings.Current.ResizeImages)
+			if (RoadkillSettings.Current.ApplicationSettings.ResizeImages)
 			{
 				return MvcHtmlString.Create(@"<script type=""text/javascript"">
 			$(document).ready(function ()

@@ -33,7 +33,7 @@ namespace Roadkill.Core
 			}
 
 			// An empty editor role name implies everyone is an editor - there's no page security.
-			if (string.IsNullOrEmpty(RoadkillSettings.Current.EditorRoleName))
+			if (string.IsNullOrEmpty(RoadkillSettings.Current.ApplicationSettings.EditorRoleName))
 				return true;
 
 			if (ServiceContainer.Current.UserManager.IsAdmin(identity.Name) || ServiceContainer.Current.UserManager.IsEditor(identity.Name))

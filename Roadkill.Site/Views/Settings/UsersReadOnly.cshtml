@@ -16,7 +16,7 @@
 		@SiteStrings.SiteSettings_Users_AD_Label2
 	</p>
 	
-	<h2>@SiteStrings.SiteSettings_Users_Admins (@RoadkillSettings.AdminRoleName)</h2>
+	<h2>@SiteStrings.SiteSettings_Users_Admins (@RoadkillSettings.Current.ApplicationSettings.AdminRoleName)</h2>
 	<table class="settingstable">
 		@foreach (UserSummary user in Model[0])
 		{
@@ -27,7 +27,7 @@
 	</table>
 	<br class="clear" />
 
-	<h2>@SiteStrings.SiteSettings_Users_Editors (@RoadkillSettings.EditorRoleName)</h2>
+	<h2>@SiteStrings.SiteSettings_Users_Editors (@RoadkillSettings.Current.ApplicationSettings.EditorRoleName)</h2>
 	<table class="settingstable">
 	@foreach (UserSummary user in Model[1])
 	{

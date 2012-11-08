@@ -13,7 +13,7 @@ namespace Roadkill.Core.Domain
 		SearchManager SearchManager { get; }
 		SettingsManager SettingsManager { get; }
 		HistoryManager HistoryManager { get; }
-		NHibernateRepository Repository { get; }
+		IRepository Repository { get; }
 		IConfigurationContainer Configuration { get; }
 	}
 }
