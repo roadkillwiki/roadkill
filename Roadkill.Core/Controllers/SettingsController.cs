@@ -13,6 +13,7 @@ using Ionic.Zlib;
 using System.Diagnostics;
 using Roadkill.Core.Search;
 using Roadkill.Core.Localization.Resx;
+using Roadkill.Core.Domain;
 
 namespace Roadkill.Core.Controllers
 {
@@ -23,13 +24,8 @@ namespace Roadkill.Core.Controllers
 	[AdminRequired]
 	public class SettingsController : ControllerBase
 	{
-		private SearchManager _searchManager;
-
-		public SettingsController() : this(new SearchManager()) { }
-		public SettingsController(SearchManager searchManager)
-		{
-			_searchManager = searchManager;
-		}
+		public SettingsController() : this(new ServiceContainer()) {}
+		public SettingsController(IServiceContainer container) : base(container) { }
 
 		/// <summary>
 		/// The default settings page that displays the current Roadkill settings.
@@ -37,7 +33,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>A <see cref="SettingsSummary"/> as the model.</returns>
 		public ActionResult Index()
 		{
-			SettingsSummary summary = SettingsSummary.GetCurrentSettings();
+			SettingsSummary summary = SettingsSummary.FromSystemSettings();
 			return View(summary);
 		}
 
@@ -51,8 +47,8 @@ namespace Roadkill.Core.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				SettingsManager.SaveWebConfigSettings(summary);
-				SettingsManager.SaveSiteConfiguration(summary, false);
+				ServiceContainer.SettingsManager.SaveWebConfigSettings(summary);
+				ServiceContainer.SettingsManager.SaveSiteConfiguration(summary, false);
 			}
 			return View(summary);
 		}
@@ -67,10 +63,10 @@ namespace Roadkill.Core.Controllers
 		public ActionResult Users()
 		{
 			var list = new List<IEnumerable<UserSummary>>();
-			list.Add(UserManager.Current.ListAdmins());
-			list.Add(UserManager.Current.ListEditors());
+			list.Add(ServiceContainer.UserManager.ListAdmins());
+			list.Add(ServiceContainer.UserManager.ListEditors());
 
-			if (UserManager.Current.IsReadonly)
+			if (ServiceContainer.UserManager.IsReadonly)
 				return View("UsersReadOnly", list);
 			else
 				return View(list);
@@ -87,7 +83,7 @@ namespace Roadkill.Core.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				UserManager.Current.AddUser(summary.NewEmail, summary.NewUsername, summary.Password, true, false);
+				ServiceContainer.UserManager.AddUser(summary.NewEmail, summary.NewUsername, summary.Password, true, false);
 
 				// TODO
 				// ModelState.AddModelError("General", errors);
@@ -114,7 +110,7 @@ namespace Roadkill.Core.Controllers
 			{
 				try
 				{
-					UserManager.Current.AddUser(summary.NewEmail, summary.NewUsername, summary.Password, false, true);
+					ServiceContainer.UserManager.AddUser(summary.NewEmail, summary.NewUsername, summary.Password, false, true);
 				}
 				catch (SecurityException e)
 				{
@@ -144,7 +140,7 @@ namespace Roadkill.Core.Controllers
 			{
 				if (summary.UsernameHasChanged || summary.EmailHasChanged)
 				{
-					if (!UserManager.Current.UpdateUser(summary))
+					if (!ServiceContainer.UserManager.UpdateUser(summary))
 					{
 						ModelState.AddModelError("General", SiteStrings.SiteSettings_Users_EditUser_Error);
 					}
@@ -153,7 +149,7 @@ namespace Roadkill.Core.Controllers
 				}
 
 				if (!string.IsNullOrEmpty(summary.Password))
-					UserManager.Current.ChangePassword(summary.ExistingEmail, summary.Password);
+					ServiceContainer.UserManager.ChangePassword(summary.ExistingEmail, summary.Password);
 			}
 			else
 			{
@@ -171,7 +167,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Redirects to the Users action.</returns>
 		public ActionResult DeleteUser(string id)
 		{
-			UserManager.Current.DeleteUser(id);
+			ServiceContainer.UserManager.DeleteUser(id);
 			return RedirectToAction("Users");
 		}
 
@@ -225,8 +221,7 @@ namespace Roadkill.Core.Controllers
 		/// </returns>
 		public ActionResult ExportAsWikiFiles()
 		{
-			PageManager manager = new PageManager();
-			IEnumerable<PageSummary> pages = manager.AllPages();
+			IEnumerable<PageSummary> pages = ServiceContainer.PageManager.AllPages();
 
 			try
 			{
@@ -281,8 +276,7 @@ namespace Roadkill.Core.Controllers
 		/// </returns>
 		public ActionResult ExportAttachments()
 		{
-			PageManager manager = new PageManager();
-			IEnumerable<PageSummary> pages = manager.AllPages();
+			IEnumerable<PageSummary> pages = ServiceContainer.PageManager.AllPages();
 
 			try
 			{
@@ -293,7 +287,7 @@ namespace Roadkill.Core.Controllers
 				string zipFullPath = Path.Combine(exportFolder, zipFilename);
 				using (ZipFile zip = new ZipFile(zipFullPath))
 				{
-					zip.AddDirectory(RoadkillSettings.AttachmentsFolder, "Attachments");
+					zip.AddDirectory(RoadkillSettings.Current.AttachmentsFolder, "Attachments");
 					zip.Save();
 				}
 
@@ -330,7 +324,7 @@ namespace Roadkill.Core.Controllers
 		public ActionResult UpdateSearchIndex()
 		{
 			TempData["Message"] = SiteStrings.SiteSettings_Tools_RebuildSearch_Message;
-			_searchManager.CreateIndex();
+			ServiceContainer.SearchManager.CreateIndex();
 			return RedirectToAction("Tools");
 		}
 
@@ -341,7 +335,7 @@ namespace Roadkill.Core.Controllers
 		public ActionResult ClearPages()
 		{
 			TempData["Message"] = SiteStrings.SiteSettings_Tools_ClearDatabase_Message;
-			SettingsManager.ClearPageTables();
+			ServiceContainer.SettingsManager.ClearPageTables();
 			return RedirectToAction("Tools");
 		}
 
@@ -353,8 +347,7 @@ namespace Roadkill.Core.Controllers
 		{
 			TempData["Message"] = SiteStrings.SiteSettings_Tools_RenameTag_Message;
 
-			PageManager manager = new PageManager();
-			manager.RenameTag(oldTagName, newTagName);
+			ServiceContainer.PageManager.RenameTag(oldTagName, newTagName);
 
 			return RedirectToAction("Tools");
 		}

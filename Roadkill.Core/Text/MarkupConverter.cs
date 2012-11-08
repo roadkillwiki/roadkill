@@ -28,7 +28,7 @@ namespace Roadkill.Core.Converters
 			{
 				if (_parser == null)
 				{
-					switch (RoadkillSettings.MarkupType.ToLower())
+					switch (RoadkillSettings.Current.MarkupType.ToLower())
 					{
 						case "markdown":
 							_parser = new MarkdownParser();
@@ -84,7 +84,7 @@ namespace Roadkill.Core.Converters
 				string src = e.OriginalSrc;
 				src = _imgFileRegex.Replace(src, "");
 
-				string urlPath = RoadkillSettings.AttachmentsUrlPath + (src.StartsWith("/") ? "" : "/") + src;
+				string urlPath = RoadkillSettings.Current.AttachmentsUrlPath + (src.StartsWith("/") ? "" : "/") + src;
 				e.Src = helper.Content(urlPath);
 			}
 		}
@@ -115,7 +115,7 @@ namespace Roadkill.Core.Converters
 						href = href.Remove(0, 1);
 					}
 
-					href = helper.Content(RoadkillSettings.AttachmentsUrlPath) + href;
+					href = helper.Content(RoadkillSettings.Current.AttachmentsUrlPath) + href;
 				}
 				else
 				{

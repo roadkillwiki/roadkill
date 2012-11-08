@@ -22,7 +22,7 @@ namespace Roadkill.Core.Files
 		/// </summary>
 		public static void Register()
 		{
-			Route route = new Route(RoadkillSettings.AttachmentsRoutePath + "/{*filename}", new AttachmentRouteHandler());
+			Route route = new Route(RoadkillSettings.Current.AttachmentsRoutePath + "/{*filename}", new AttachmentRouteHandler());
 			route.Constraints = new RouteValueDictionary();
 			route.Constraints.Add("MvcContraint", new IgnoreMvcConstraint());
 
@@ -39,7 +39,7 @@ namespace Roadkill.Core.Files
 					return false;
 
 				// Remove the starting "/" for the route table
-				if (route.Url.StartsWith(RoadkillSettings.AttachmentsRoutePath + "/"))
+				if (route.Url.StartsWith(RoadkillSettings.Current.AttachmentsRoutePath + "/"))
 					return true;
 				else
 					return false;

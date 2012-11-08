@@ -5,6 +5,7 @@ using System.Text;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
+using Roadkill.Core.Domain;
 
 namespace Roadkill.Core
 {
@@ -32,10 +33,10 @@ namespace Roadkill.Core
 			}
 
 			// An empty editor role name implies everyone is an editor - there's no page security.
-			if (string.IsNullOrEmpty(RoadkillSettings.EditorRoleName))
+			if (string.IsNullOrEmpty(RoadkillSettings.Current.EditorRoleName))
 				return true;
 
-			if (UserManager.Current.IsAdmin(identity.Name) || UserManager.Current.IsEditor(identity.Name))
+			if (ServiceContainer.Current.UserManager.IsAdmin(identity.Name) || ServiceContainer.Current.UserManager.IsEditor(identity.Name))
 			{
 				return true;
 			}

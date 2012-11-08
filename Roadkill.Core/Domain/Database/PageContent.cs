@@ -37,7 +37,7 @@ namespace Roadkill.Core
 			
 			// Setting LazyLoad when the L2Cache is enabled makes it grab the data
 			// from the database for each request regardless.
-			if (!RoadkillSettings.CachedEnabled || !RoadkillSettings.CacheText)
+			if (!RoadkillSettings.Current.CachedEnabled || !RoadkillSettings.Current.CacheText)
 				part.LazyLoad();
 
 			References<Page>(x => x.Page)

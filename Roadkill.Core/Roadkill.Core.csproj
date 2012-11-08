@@ -204,6 +204,9 @@
     <Reference Include="Recaptcha, Version=1.0.5.0, Culture=neutral, PublicKeyToken=9afc4d65b28c38c2, processorArchitecture=MSIL">
       <HintPath>..\packages\recaptcha.1.0.5.0\lib\.NetFramework 4.0\Recaptcha.dll</HintPath>
     </Reference>
+    <Reference Include="StructureMap">
+      <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
@@ -258,21 +261,26 @@
     <Compile Include="Controllers\Attributes\AdminRequiredAttribute.cs" />
     <Compile Include="Controllers\Attributes\EditorRequiredAttribute.cs" />
     <Compile Include="Common\Salt.cs" />
+    <Compile Include="Configuration\IConfigurationContainer.cs" />
+    <Compile Include="Domain\Container\IServiceContainer.cs" />
+    <Compile Include="Domain\Container\ServiceContainer.cs" />
     <Compile Include="Domain\Managers\Security\Windows\PrincipalWrapper.cs" />
     <Compile Include="Domain\Managers\Security\Windows\IRoadKillPrincipal.cs" />
     <Compile Include="Domain\Managers\Security\Windows\IActiveDirectoryService.cs" />
     <Compile Include="Domain\Managers\Security\Windows\DefaultActiveDirectoryService.cs" />
+    <Compile Include="Domain\Database\IRepository.cs" />
     <Compile Include="Files\AttachmentFileHandler.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Domain\Email\ResetPasswordEmail.cs" />
     <Compile Include="Domain\Email\SignupEmail.cs" />
     <Compile Include="Domain\Email\Email.cs" />
     <Compile Include="Domain\Managers\Upgrade.cs" />
-    <Compile Include="Domain\NHibernate\DatabaseType.cs" />
+    <Compile Include="Domain\Database\DatabaseType.cs" />
     <Compile Include="Exceptions\EmailException.cs" />
     <Compile Include="Exceptions\SearchException.cs" />
     <Compile Include="Exceptions\DatabaseException.cs" />
     <Compile Include="Files\AttachmentRouteHandler.cs" />
+    <Compile Include="IRoadkillContext.cs" />
     <Compile Include="Localization\Resx\InstallStrings.Designer.cs">
       <DependentUpon>InstallStrings.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -308,15 +316,15 @@
     <Compile Include="Domain\Managers\Security\SqlUserManager.cs" />
     <Compile Include="Domain\Managers\Security\UserManager.cs" />
     <Compile Include="Domain\Managers\SettingsManager.cs" />
-    <Compile Include="Domain\NHibernate\User.cs" />
-    <Compile Include="Domain\NHibernate\NHibernateRepository.cs" />
-    <Compile Include="Domain\Managers\Install.cs" />
+    <Compile Include="Domain\Database\User.cs" />
+    <Compile Include="Domain\Database\NHibernateRepository.cs" />
+    <Compile Include="Domain\Managers\InstallHelper.cs" />
     <Compile Include="Domain\Managers\ManagerBase.cs" />
     <Compile Include="Domain\Summaries\UserSummary.cs" />
     <Compile Include="Exceptions\HistoryException.cs" />
     <Compile Include="Exceptions\ExceptionBase.cs" />
     <Compile Include="Exceptions\SecurityException.cs" />
-    <Compile Include="Domain\NHibernate\SiteConfiguration.cs" />
+    <Compile Include="Domain\Database\SiteConfiguration.cs" />
     <Compile Include="Domain\Summaries\SearchResult.cs" />
     <Compile Include="Domain\Summaries\DirectorySummary.cs" />
     <Compile Include="Domain\Summaries\SettingsSummary.cs" />
@@ -338,10 +346,10 @@
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PagesController.cs" />
-    <Compile Include="Domain\NHibernate\PageContent.cs" />
+    <Compile Include="Domain\Database\PageContent.cs" />
     <Compile Include="Domain\Managers\HistoryManager.cs" />
     <Compile Include="Domain\Managers\PageManager.cs" />
-    <Compile Include="Domain\NHibernate\Page.cs" />
+    <Compile Include="Domain\Database\Page.cs" />
     <Compile Include="Domain\Summaries\PageSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoadkillApplication.cs" />

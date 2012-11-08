@@ -239,6 +239,8 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\MvcMockContainer.cs" />
+    <Compile Include="Controllers\FilesControllerTests.cs" />
     <Compile Include="CoreTests\Configuration\RoadkillSectionTests.cs" />
     <Compile Include="CoreTests\MoqTestBase.cs" />
     <Compile Include="CoreTests\Managers\PageManagerTests.cs" />

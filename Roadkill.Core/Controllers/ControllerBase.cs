@@ -7,14 +7,23 @@ using System.Web.Security;
 using System.Web;
 using System.Diagnostics;
 using System.Threading;
+using Roadkill.Core.Domain;
 
 namespace Roadkill.Core.Controllers
 {
 	/// <summary>
-	/// A base controller for all Roadkill controller classes.
+	/// A base controller for all Roadkill controller classes which require services 
+	/// (via an IServiceContainer) or authentication.
 	/// </summary>
 	public class ControllerBase : Controller
 	{
+		protected IServiceContainer ServiceContainer;
+
+		public ControllerBase(IServiceContainer container)
+		{
+			ServiceContainer = container;
+		}
+
 		protected override void OnException(ExceptionContext filterContext)
 		{
 			Trace.WriteLine(filterContext.Exception, "Exception");
@@ -29,7 +38,7 @@ namespace Roadkill.Core.Controllers
 		/// <param name="filterContext">Information about the current request and action.</param>
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			if (!RoadkillSettings.Installed)
+			if (!RoadkillSettings.Current.Installed)
 			{
 				if (!(filterContext.Controller is InstallController))
 					filterContext.Result = new RedirectResult(this.Url.Action("Index","Install"));
@@ -58,7 +67,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>The logged in user. Returns an empty string if the user is not logged in</returns>
 		public string GetCurrentUser(HttpContextBase context)
 		{
-			return UserManager.Current.GetLoggedInUserName(context);
+			return ServiceContainer.UserManager.GetLoggedInUserName(context);
 		}
 	}
 }

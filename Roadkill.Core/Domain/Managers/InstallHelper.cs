@@ -9,24 +9,35 @@ using System.Web.Management;
 using System.Data.SqlClient;
 using System.IO;
 using System.Web;
+using Roadkill.Core.Domain;
+using StructureMap;
 
 namespace Roadkill.Core
 {
 	/// <summary>
 	/// Provides a set of tasks for the Roadkill installer.
 	/// </summary>
-	internal class Install
+	internal class InstallHelper
 	{
+		private IServiceContainer _container;
+		protected IRepository Repository;
+
+		public InstallHelper(IServiceContainer container)
+		{
+			_container = container;
+			Repository = ObjectFactory.GetInstance<IRepository>();
+		}
+
 		/// <summary>
 		/// Adds the admin user.
 		/// </summary>
 		/// <param name="summary">The settings to get the data from.</param>
 		/// <exception cref="InstallerException">An NHibernate (database) error occurred while adding the admin user.</exception>
-		public static void AddAdminUser(SettingsSummary summary)
+		public void AddAdminUser(SettingsSummary summary)
 		{
 			try
 			{
-				UserManager.Current.AddUser(summary.AdminEmail,"admin", summary.AdminPassword, true, false);
+				_container.UserManager.AddUser(summary.AdminEmail, "admin", summary.AdminPassword, true, false);
 			}
 			catch (SecurityException ex)
 			{
@@ -38,7 +49,7 @@ namespace Roadkill.Core
 		/// Resets the roadkill "installed" property in the web.config for when the installation fails.
 		/// </summary>
 		/// <exception cref="InstallerException">An web.config related error occurred while reseting the install state.</exception>
-		public static void ResetInstalledState()
+		public void ResetInstalledState()
 		{
 			try
 			{
@@ -99,7 +110,7 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <param name="connectionString">The connection string.</param>
 		/// <returns>Any error messages or an empty string if no errors occurred.</returns>
-		public static string TestConnection(string connectionString, string databaseType)
+		public string TestConnection(string connectionString, string databaseType)
 		{
 			try
 			{
@@ -111,7 +122,7 @@ namespace Roadkill.Core
 				RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
 
 				// Only create Schema if not already installed otherwise just a straight TestConnection
-				NHibernateRepository.Current.Configure(dbType, connectionString, !section.Installed, false);
+				Repository.Configure(dbType, connectionString, !section.Installed, false);
 				return "";
 			}
 			catch (Exception e)
@@ -124,7 +135,7 @@ namespace Roadkill.Core
 		/// Tests the web.config can be saved to by changing the "installed" to false.
 		/// </summary>
 		/// <returns>Any error messages or an empty string if no errors occurred.</returns>
-		public static string TestSaveWebConfig()
+		public string TestSaveWebConfig()
 		{
 			try
 			{
@@ -146,7 +157,7 @@ namespace Roadkill.Core
 		/// <param name="password">The ldap password.</param>
 		/// <param name="groupName">The Active Directory group name to test against. Defaults to "Users" if empty</param>
 		/// <returns>Any error messages or an empty string if no errors occurred.</returns>
-		public static string TestLdapConnection(string connectionString, string username, string password, string groupName)
+		public string TestLdapConnection(string connectionString, string username, string password, string groupName)
 		{
 			if (string.IsNullOrEmpty(connectionString))
 				return "The connection string is empty";

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -15,7 +16,7 @@ namespace Roadkill.Tests.Controllers
 	/// </summary>
 	public static class MvcMockHelpers
 	{
-		public static HttpContextBase FakeHttpContext()
+		public static HttpContextBase FakeHttpContext(MvcMockContainer container)
 		{
 			var context = new Mock<HttpContextBase>();
 			var request = new Mock<HttpRequestBase>();
@@ -33,21 +34,31 @@ namespace Roadkill.Tests.Controllers
 			context.Setup(ctx => ctx.Session).Returns(session.Object);
 			context.Setup(ctx => ctx.Server).Returns(server.Object);
 
+			container.Context = context;
+			container.Request = request;
+			container.Response = response;
+			container.SessionState = session;
+			container.ServerUtility = server;
+
 			return context.Object;
 		}
 
 		public static HttpContextBase FakeHttpContext(string url)
 		{
-			HttpContextBase context = FakeHttpContext();
+			MvcMockContainer container = new MvcMockContainer();
+			HttpContextBase context = FakeHttpContext(container);
 			context.Request.SetupRequestUrl(url);
 			return context;
 		}
 
-		public static void SetFakeControllerContext(this Controller controller)
+		public static MvcMockContainer SetFakeControllerContext(this Controller controller)
 		{
-			var httpContext = FakeHttpContext();
+			MvcMockContainer container = new MvcMockContainer();
+			var httpContext = FakeHttpContext(container);
 			ControllerContext context = new ControllerContext(new RequestContext(httpContext, new RouteData()), controller);
 			controller.ControllerContext = context;
+
+			return container;
 		}
 
 		static string GetUrlFileName(string url)

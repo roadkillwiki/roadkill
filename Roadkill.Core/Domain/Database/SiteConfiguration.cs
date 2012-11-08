@@ -13,9 +13,7 @@ namespace Roadkill.Core
 	/// </summary>
 	public class SiteConfiguration
 	{
-		private static Guid _configurationId = new Guid("b960e8e5-529f-4f7c-aee4-28eb23e13dbd");
-		[ThreadStatic]
-		private static bool _initialized;
+		internal static readonly Guid ConfigurationId = new Guid("b960e8e5-529f-4f7c-aee4-28eb23e13dbd");
 
 		/// <summary>
 		/// The files types allowed for uploading.
@@ -77,53 +75,7 @@ namespace Roadkill.Core
 
 		public SiteConfiguration()
 		{
-			Id = _configurationId;
-		}
-
-		/// <summary>
-		/// The configuration class should be a singleton, this retrieves it.
-		/// </summary>
-		public static SiteConfiguration Current
-		{
-			get
-			{
-				if (!_initialized)
-					Initialize(null);
-
-				return Nested.Current;
-			}
-		}
-
-		/// <summary>
-		/// Re-initializes the SiteConfiguration's singleton instance.
-		/// </summary>
-		/// <param name="configuration">The SiteConfiguration type to re-initialize with.</param>
-		public static void Initialize(SiteConfiguration configuration)
-		{
-			Nested.Initialize(configuration);
-			_initialized = true;
-		}
-
-		/// <summary>
-		/// Singleton for Current
-		/// </summary>
-		class Nested
-		{
-			internal static SiteConfiguration Current;
-
-			public static void Initialize(SiteConfiguration configuration)
-			{
-				if (configuration == null)
-				{
-					Current = NHibernateRepository.Current.Queryable<SiteConfiguration>().FirstOrDefault(s => s.Id == _configurationId);
-
-					if (Current == null)
-						throw new DatabaseException(null, "No configuration settings could be found in the database (id {0}). " +
-							"Has SettingsManager.SaveSiteConfiguration() been called?", _configurationId);
-				}
-				else
-					Current = configuration;
-			}
+			Id = ConfigurationId;
 		}
 	}
 

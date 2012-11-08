@@ -12,9 +12,9 @@ using StructureMap;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// The default implementation of <see cref="IConfigurationContainer"/>
+	/// 
 	/// </summary>
-	public class RoadkillSettings : IConfigurationContainer
+	public class RoadkillPreferences
 	{
 		public RoadkillSection ConfigurationFileSettings { get; set; }
 		public SiteConfiguration DatabaseStoreSettings { get; set; }
@@ -61,25 +61,23 @@ namespace Roadkill.Core
 			}
 		}
 
-		public RoadkillSettings() : this(false)
-		{
-		}
-
-		public RoadkillSettings(bool loadDatabaseSettings)
-		{ 
-			if (loadDatabaseSettings)
-				Refresh();
-		}
-
 		public void Refresh()
 		{
 			IRepository repository = ObjectFactory.GetInstance<IRepository>();
 
 			ConfigurationFileSettings = ConfigurationManager.GetSection("roadkill") as RoadkillSection;
-			
-			
+			DatabaseStoreSettings = repository.Queryable<SiteConfiguration>().FirstOrDefault(s => s.Id == SiteConfiguration.ConfigurationId);
+
+			if (DatabaseStoreSettings == null)
+				throw new DatabaseException(null, "No configuration settings could be found in the database (id {0}). " +
+					"Has SettingsManager.SaveSiteConfiguration() been called?", SiteConfiguration.ConfigurationId);
+
+			if (string.IsNullOrEmpty(DatabaseStoreSettings.AllowedFileTypes))
+				throw new InvalidOperationException("The allowed file types setting is empty");
+
+			AllowUserSignup = DatabaseStoreSettings.AllowUserSignup;
 			AdminRoleName = ConfigurationFileSettings.AdminRoleName;
-			
+			AllowedFileTypes = new List<string>(DatabaseStoreSettings.AllowedFileTypes.Replace(" ", "").Split(','));
 			AppDataPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\";
 
 			if (ConfigurationFileSettings.AttachmentsFolder.StartsWith("~") && HttpContext.Current != null)
@@ -108,36 +106,24 @@ namespace Roadkill.Core
 			EditorRoleName = ConfigurationFileSettings.EditorRoleName;
 			IgnoreSearchIndexErrors = ConfigurationFileSettings.IgnoreSearchIndexErrors;
 			IsPublicSite = ConfigurationFileSettings.IsPublicSite;
-			Installed = ConfigurationFileSettings.Installed;		
+			Installed = ConfigurationFileSettings.Installed;
+			IsRecaptchaEnabled = DatabaseStoreSettings.EnableRecaptcha;
 			LdapConnectionString = ConfigurationFileSettings.LdapConnectionString;
 			LdapUsername = ConfigurationFileSettings.LdapUsername;
 			LdapPassword = ConfigurationFileSettings.LdapPassword;
-			MinimumPasswordLength = 6;
-			ResizeImages = ConfigurationFileSettings.ResizeImages;
-			ThemePath = string.Format("~/Themes/{0}", Theme);
-			UserManagerType = ConfigurationFileSettings.UserManagerType;
-			UseWindowsAuthentication = ConfigurationFileSettings.UseWindowsAuthentication;
-			Version = typeof(RoadkillSettings).Assembly.GetName().Version.ToString();
-
-			DatabaseStoreSettings = repository.Queryable<SiteConfiguration>().FirstOrDefault(s => s.Id == SiteConfiguration.ConfigurationId);
-
-			if (DatabaseStoreSettings == null)
-				throw new DatabaseException(null, "No configuration settings could be found in the database (id {0}). " +
-					"Has SettingsManager.SaveSiteConfiguration() been called?", SiteConfiguration.ConfigurationId);
-
-			if (string.IsNullOrEmpty(DatabaseStoreSettings.AllowedFileTypes))
-				throw new InvalidOperationException("The allowed file types setting is empty");
-
-			AllowUserSignup = DatabaseStoreSettings.AllowUserSignup;
-			AllowedFileTypes = new List<string>(DatabaseStoreSettings.AllowedFileTypes.Replace(" ", "").Split(','));
-			IsRecaptchaEnabled = DatabaseStoreSettings.EnableRecaptcha;
 			MarkupType = DatabaseStoreSettings.MarkupType;
+			MinimumPasswordLength = 6;
 			RecaptchaPrivateKey = DatabaseStoreSettings.RecaptchaPrivateKey;
 			RecaptchaPublicKey = DatabaseStoreSettings.RecaptchaPublicKey;
+			ResizeImages = ConfigurationFileSettings.ResizeImages;
 			SiteName = DatabaseStoreSettings.Title;
 			SiteUrl = DatabaseStoreSettings.SiteUrl;
 			Theme = DatabaseStoreSettings.Theme;
 			Title = DatabaseStoreSettings.Title;
+			ThemePath = string.Format("~/Themes/{0}", Theme);
+			UserManagerType = ConfigurationFileSettings.UserManagerType;
+			UseWindowsAuthentication = ConfigurationFileSettings.UseWindowsAuthentication;
+			Version = typeof(RoadkillSettings).Assembly.GetName().Version.ToString();
 		}
 
 		/// <summary>

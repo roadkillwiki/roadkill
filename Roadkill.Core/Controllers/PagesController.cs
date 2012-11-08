@@ -8,6 +8,7 @@ using System.Web.Security;
 using System.IO;
 using Roadkill.Core.Diff;
 using Roadkill.Core.Converters;
+using Roadkill.Core.Domain;
 
 namespace Roadkill.Core.Controllers
 {
@@ -18,14 +19,16 @@ namespace Roadkill.Core.Controllers
 	[OptionalAuthorization]
 	public class PagesController : ControllerBase
 	{
+		public PagesController() : this(new ServiceContainer()) {}
+		public PagesController(IServiceContainer container) : base(container) { }
+
 		/// <summary>
 		/// Displays all pages in Roadkill.
 		/// </summary>
 		/// <returns>An <see cref="IEnumerable`PageSummary"/> as the model.</returns>
 		public ActionResult AllPages()
 		{
-			PageManager manager = new PageManager();
-			return View(manager.AllPages());
+			return View(ServiceContainer.PageManager.AllPages());
 		}
 
 		/// <summary>
@@ -34,8 +37,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>An <see cref="IEnumerable`TagSummary"/> as the model.</returns>
 		public ActionResult AllTags()
 		{
-			PageManager manager = new PageManager();
-			return View(manager.AllTags());
+			return View(ServiceContainer.PageManager.AllTags());
 		}
 
 		/// <summary>
@@ -46,8 +48,7 @@ namespace Roadkill.Core.Controllers
 		[EditorRequired]
 		public ActionResult AllTagsAsJson()
 		{
-			PageManager manager = new PageManager();
-			IEnumerable<TagSummary> tags = manager.AllTags();
+			IEnumerable<TagSummary> tags = ServiceContainer.PageManager.AllTags();
 			List<string> tagsArray = new List<string>();
 			foreach (TagSummary summary in tags)
 			{
@@ -74,8 +75,7 @@ namespace Roadkill.Core.Controllers
 
 			ViewData["Username"] = id;
 
-			PageManager manager = new PageManager();
-			return View(manager.AllPagesCreatedBy(id));
+			return View(ServiceContainer.PageManager.AllPagesCreatedBy(id));
 		}
 
 		/// <summary>
@@ -87,8 +87,7 @@ namespace Roadkill.Core.Controllers
 		[AdminRequired]
 		public ActionResult Delete(int id)
 		{
-			PageManager manager = new PageManager();
-			manager.DeletePage(id);
+			ServiceContainer.PageManager.DeletePage(id);
 
 			return RedirectToAction("AllPages");
 		}
@@ -103,8 +102,7 @@ namespace Roadkill.Core.Controllers
 		[EditorRequired]
 		public ActionResult Edit(int id)
 		{
-			PageManager manager = new PageManager();
-			PageSummary summary = manager.GetById(id);
+			PageSummary summary = ServiceContainer.PageManager.GetById(id);
 
 			if (summary != null)
 			{
@@ -133,8 +131,7 @@ namespace Roadkill.Core.Controllers
 			if (!ModelState.IsValid)
 				return View("Edit", summary);
 
-			PageManager manager = new PageManager();
-			manager.UpdatePage(summary);
+			ServiceContainer.PageManager.UpdatePage(summary);
 
 			return RedirectToAction("Index", "Wiki", new { id = summary.Id , nocache = DateTime.Now.Ticks });
 		}
@@ -168,8 +165,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>An <see cref="IList`HistorySummary"/> as the model.</returns>
 		public ActionResult History(int id)
 		{
-			HistoryManager manager = new HistoryManager();
-			return View(manager.GetHistory(id).ToList());
+			return View(ServiceContainer.HistoryManager.GetHistory(id).ToList());
 		}
 
 		/// <summary>
@@ -197,8 +193,7 @@ namespace Roadkill.Core.Controllers
 			if (!ModelState.IsValid)
 				return View("Edit", summary);
 
-			PageManager manager = new PageManager();
-			summary = manager.AddPage(summary);
+			summary = ServiceContainer.PageManager.AddPage(summary);
 
 			return RedirectToAction("Index", "Wiki", new { id = summary.Id, nocache = DateTime.Now.Ticks });
 		}
@@ -214,13 +209,11 @@ namespace Roadkill.Core.Controllers
 		public ActionResult Revert(Guid versionId, int pageId)
 		{
 			// Check if the page is locked to admin edits only before reverting.
-			PageManager pageManager = new PageManager();
-			PageSummary page = pageManager.GetById(pageId);
+			PageSummary page = ServiceContainer.PageManager.GetById(pageId);
 			if (page == null || (page.IsLocked && !RoadkillContext.Current.IsAdmin))
 				return RedirectToAction("Index", "Home");
 
-			HistoryManager manager = new HistoryManager();
-			manager.RevertTo(versionId);
+			ServiceContainer.HistoryManager.RevertTo(versionId);
 
 			return RedirectToAction("History", new { id = pageId });
 		}		
@@ -234,8 +227,7 @@ namespace Roadkill.Core.Controllers
 		{
 			ViewData["Tagname"] = id;
 
-			PageManager manager = new PageManager();
-			return View(manager.FindByTag(id));
+			return View(ServiceContainer.PageManager.FindByTag(id));
 		}
 
 		/// <summary>
@@ -246,8 +238,7 @@ namespace Roadkill.Core.Controllers
 		/// output inside the <see cref="PageSummary.Content"/> property.</returns>
 		public ActionResult Version(Guid id)
 		{
-			HistoryManager manager = new HistoryManager();
-			IList<PageSummary> bothVersions = manager.CompareVersions(id).ToList();
+			IList<PageSummary> bothVersions = ServiceContainer.HistoryManager.CompareVersions(id).ToList();
 			string diffHtml = "";
 
 			if (bothVersions[1] != null)

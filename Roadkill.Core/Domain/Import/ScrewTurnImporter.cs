@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Web;
+using StructureMap;
 
 namespace Roadkill.Core
 {
@@ -16,6 +17,12 @@ namespace Roadkill.Core
 	{
 		private string _connectionString;
 		private string _attachmentsFolder;
+		protected IRepository Repository;
+
+		public ScrewTurnImporter()
+		{
+			Repository = ObjectFactory.GetInstance<IRepository>();
+		}
 
 		/// <summary>
 		/// Indicates whether the class should convert the page sources to Creole wiki format. This is not implemented.
@@ -29,7 +36,7 @@ namespace Roadkill.Core
 		public void ImportFromSql(string connectionString)
 		{
 			_connectionString = connectionString;
-			_attachmentsFolder = RoadkillSettings.AttachmentsFolder;
+			_attachmentsFolder = RoadkillSettings.Current.AttachmentsFolder;
 
 			using (SqlConnection connection = new SqlConnection(_connectionString))
 			{
@@ -56,7 +63,7 @@ namespace Roadkill.Core
 								categories += ";";
 							page.Tags = categories;
 
-							NHibernateRepository.Current.SaveOrUpdate<Page>(page);
+							Repository.SaveOrUpdate<Page>(page);
 							AddContent(page);
 						}
 					}
@@ -177,7 +184,7 @@ namespace Roadkill.Core
 							content.VersionNumber = (int.Parse(reader["Revision"].ToString())) + 1;
 							content.Page = page;
 
-							NHibernateRepository.Current.SaveOrUpdate<PageContent>(content);
+							Repository.SaveOrUpdate<PageContent>(content);
 							hasContent = true;
 						}
 					}
@@ -192,7 +199,7 @@ namespace Roadkill.Core
 						content.VersionNumber = 1;
 						content.Page = page;
 
-						NHibernateRepository.Current.SaveOrUpdate<PageContent>(content);
+						Repository.SaveOrUpdate<PageContent>(content);
 					}
 				}
 			}

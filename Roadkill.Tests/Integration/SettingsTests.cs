@@ -94,8 +94,8 @@ namespace Roadkill.Tests.CoreTests
 			string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestConfigs", "test.config");
 
 			// Act
-			RoadkillSettings.ConnectionString = null; // blank it so the new config is reloaded
-			RoadkillSection.LoadCustomConfigFile(configFilePath);
+			RoadkillSettings.Current.ConnectionString = null; // blank it so the new config is reloaded
+			RoadkillSettings.Current.LoadCustomConfigFile(configFilePath);
 
 			// Assert
 			Assert.That(RoadkillSettings.ConnectionString, Is.EqualTo("connectionstring-test"), "ConnectionStringName");

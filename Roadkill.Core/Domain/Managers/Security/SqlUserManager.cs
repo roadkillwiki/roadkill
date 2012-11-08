@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Configuration.Provider;
 using NHibernate;
 using System.Web;
+using Roadkill.Core.Domain;
 
 namespace Roadkill.Core
 {
@@ -41,7 +42,7 @@ namespace Roadkill.Core
 				if (user != null)
 				{
 					user.IsActivated = true;
-					NHibernateRepository.Current.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdate<User>(user);
 
 					return true;
 				}
@@ -81,7 +82,7 @@ namespace Roadkill.Core
 					user.IsAdmin = isAdmin;
 					user.IsEditor = isEditor;
 					user.IsActivated = true;
-					NHibernateRepository.Current.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdate<User>(user);
 
 					return true;
 				}
@@ -147,7 +148,7 @@ namespace Roadkill.Core
 				{
 					user.Salt = new Salt();
 					user.SetPassword(newPassword);
-					NHibernateRepository.Current.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdate<User>(user);
 				}
 			}
 			catch (HibernateException ex)
@@ -184,7 +185,7 @@ namespace Roadkill.Core
 					user.Salt = new Salt();
 					user.SetPassword(newPassword);
 
-					NHibernateRepository.Current.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdate<User>(user);
 					return true;
 				}
 				else
@@ -213,7 +214,7 @@ namespace Roadkill.Core
 				User user = Users.FirstOrDefault(u => u.Email == email);
 				if (user != null)
 				{
-					NHibernateRepository.Current.Delete<User>(user);
+					Repository.Delete<User>(user);
 					return true;
 				}
 				else
@@ -359,12 +360,12 @@ namespace Roadkill.Core
 
 			try
 			{
-				User user = UserManager.Current.GetUser(email);
+				User user = ServiceContainer.Current.UserManager.GetUser(email);
 
 				if (user != null)
 				{
 					user.PasswordResetKey = Guid.NewGuid().ToString();
-					NHibernateRepository.Current.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdate<User>(user);
 
 					return user.PasswordResetKey;
 				}
@@ -406,7 +407,7 @@ namespace Roadkill.Core
 				user.IsEditor = true;
 				user.IsAdmin = false;
 				user.IsActivated = false;
-				NHibernateRepository.Current.SaveOrUpdate<User>(user);
+				Repository.SaveOrUpdate<User>(user);
 
 				if (completed != null)
 					completed();
@@ -432,7 +433,7 @@ namespace Roadkill.Core
 				if (user != null)
 				{
 					user.IsEditor = !user.IsEditor;
-					NHibernateRepository.Current.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdate<User>(user);
 				}
 			}
 			catch (HibernateException ex)
@@ -454,7 +455,7 @@ namespace Roadkill.Core
 				if (user != null)
 				{
 					user.IsAdmin = !user.IsAdmin;
-					NHibernateRepository.Current.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdate<User>(user);
 				}
 			}
 			catch (HibernateException ex)
@@ -499,7 +500,7 @@ namespace Roadkill.Core
 				// Update the profile details
 				user.Firstname = summary.Firstname;
 				user.Lastname = summary.Lastname;
-				NHibernateRepository.Current.SaveOrUpdate<User>(user);
+				Repository.SaveOrUpdate<User>(user);
 
 				// Save the email
 				if (summary.ExistingEmail != summary.NewEmail)
@@ -508,7 +509,7 @@ namespace Roadkill.Core
 					if (user != null)
 					{
 						user.Email = summary.NewEmail;
-						NHibernateRepository.Current.SaveOrUpdate<User>(user);
+						Repository.SaveOrUpdate<User>(user);
 					}
 					else
 					{
@@ -523,7 +524,7 @@ namespace Roadkill.Core
 					if (user != null)
 					{
 						user.Username = summary.NewUsername;
-						NHibernateRepository.Current.SaveOrUpdate<User>(user);
+						Repository.SaveOrUpdate<User>(user);
 
 						//
 						// Update the PageContent.EditedBy history
@@ -533,7 +534,7 @@ namespace Roadkill.Core
 						{
 							NHibernateUtil.Initialize(pageContents[i].Page); // force the proxy to hydrate
 							pageContents[i].EditedBy = summary.NewUsername;
-							NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContents[i]);
+							Repository.SaveOrUpdate<PageContent>(pageContents[i]);
 						}
 
 						//
@@ -543,14 +544,14 @@ namespace Roadkill.Core
 						for (int i = 0; i < pages.Count; i++)
 						{
 							pages[i].CreatedBy = summary.NewUsername;
-							NHibernateRepository.Current.SaveOrUpdate<Page>(pages[i]);
+							Repository.SaveOrUpdate<Page>(pages[i]);
 						}
 
 						pages = Pages.Where(p => p.ModifiedBy == summary.ExistingUsername).ToList();
 						for (int i = 0; i < pages.Count; i++)
 						{
 							pages[i].ModifiedBy = summary.NewUsername;
-							NHibernateRepository.Current.SaveOrUpdate<Page>(pages[i]);
+							Repository.SaveOrUpdate<Page>(pages[i]);
 						}
 					}
 					else

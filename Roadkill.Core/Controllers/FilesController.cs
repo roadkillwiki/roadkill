@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Web.UI;
 using Roadkill.Core.Localization.Resx;
+using Roadkill.Core.Domain;
 
 namespace Roadkill.Core.Controllers
 {
@@ -18,6 +19,9 @@ namespace Roadkill.Core.Controllers
 	/// </summary>
 	public class FilesController : ControllerBase
 	{
+		public FilesController() : this(new ServiceContainer()) {}
+		public FilesController(IServiceContainer container) : base(container) { }
+
 		/// <summary>
 		/// Displays the default file manager.
 		/// </summary>
@@ -39,7 +43,7 @@ namespace Roadkill.Core.Controllers
 		{
 			try
 			{
-				string folder = RoadkillSettings.AttachmentsFolder;
+				string folder = RoadkillSettings.Current.AttachmentsFolder;
 				string path = string.Format(@"{0}\{1}", folder, filePath);
 
 				if (System.IO.File.Exists(path))
@@ -151,15 +155,15 @@ namespace Roadkill.Core.Controllers
 				RedirectToAction("Index");
 
 			string extension = Path.GetExtension(filename).Replace(".","");
-	
-			if (RoadkillSettings.AllowedFileTypes.FirstOrDefault(e => e.ToLower() == extension.ToLower()) != null)
+
+			if (RoadkillSettings.Current.AllowedFileTypes.FirstOrDefault(e => e.ToLower() == extension.ToLower()) != null)
 			{
 				try
 				{
 					DirectorySummary summary = DirectorySummary.FromBase64UrlPath(currentUploadFolderPath);
 
-					if (!Directory.Exists(RoadkillSettings.AttachmentsFolder))
-						Directory.CreateDirectory(RoadkillSettings.AttachmentsFolder);
+					if (!Directory.Exists(RoadkillSettings.Current.AttachmentsFolder))
+						Directory.CreateDirectory(RoadkillSettings.Current.AttachmentsFolder);
 
 					string filePath = Path.Combine(summary.DiskPath, Path.GetFileName(filename));
 					HttpPostedFileBase postedFile = Request.Files["uploadFile"] as HttpPostedFileBase;

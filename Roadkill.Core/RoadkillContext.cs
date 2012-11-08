@@ -7,16 +7,17 @@ using System.Web.Mvc;
 using NHibernate;
 using System.Web.Security;
 using System.Text;
+using Roadkill.Core.Domain;
+using StructureMap;
 
 namespace Roadkill.Core
 {
 	/// <summary>
 	/// Encapsulates all Roadkill-specific information about the current user and page.
 	/// </summary>
-	public class RoadkillContext
+	public class RoadkillContext : IRoadkillContext
 	{
-		private static readonly string CONTEXT_KEY = "ROADKILL_CONTEXT";
-		private static RoadkillContext _contextForNoneWeb;
+		private IServiceContainer _serviceContainer;
 
 		/// <summary>
 		/// The current logged in user name (including domain suffix for Windows authentication).
@@ -34,7 +35,7 @@ namespace Roadkill.Core
 			get
 			{
 				if (IsLoggedIn)
-					return UserManager.Current.GetUser(CurrentUser).Username;
+					return _serviceContainer.UserManager.GetUser(CurrentUser).Username;
 				else
 					return "";
 			}
@@ -48,7 +49,7 @@ namespace Roadkill.Core
 			get
 			{
 				if (IsLoggedIn)
-					return UserManager.Current.IsAdmin(CurrentUser);
+					return _serviceContainer.UserManager.IsAdmin(CurrentUser);
 				else
 					return false;
 			}
@@ -62,7 +63,7 @@ namespace Roadkill.Core
 			get
 			{
 				if (IsLoggedIn)
-					return UserManager.Current.IsEditor(CurrentUser);
+					return _serviceContainer.UserManager.IsEditor(CurrentUser);
 				else
 					return false;
 			}
@@ -105,37 +106,18 @@ namespace Roadkill.Core
 		/// <summary>
 		/// The current <see cref="RoadkillContext"/>. One context exists per request and is stored in the HttpContext.Current.Items.
 		/// </summary>
-		public static RoadkillContext Current
+		public static IRoadkillContext Current
 		{
 			get
 			{
-				if (IsWeb)
-				{
-					RoadkillContext context = HttpContext.Current.Items[CONTEXT_KEY] as RoadkillContext;
-					if (context == null)
-					{
-						context = new RoadkillContext();
-						HttpContext.Current.Items[CONTEXT_KEY] = context;
-					}
-
-					return context;
-				}
-				else
-				{
-					if (_contextForNoneWeb == null)
-						_contextForNoneWeb = new RoadkillContext();
-
-					return _contextForNoneWeb;
-				}
+				return ObjectFactory.GetInstance<IRoadkillContext>();
 			}
 		}
 
-		/// <summary>
-		/// Static constructor for the <see cref="RoadkillContext"/> class.
-		/// </summary>
-		static RoadkillContext()
+		public RoadkillContext() : this(new ServiceContainer()) { }
+		public RoadkillContext(IServiceContainer container)
 		{
-			IsWeb = true;
+			_serviceContainer = container;
 		}
 
 		/// <summary>
@@ -143,15 +125,15 @@ namespace Roadkill.Core
 		/// </summary>
 		public static void Clear()
 		{
-			if (IsWeb)
-			{
-				if (HttpContext.Current.Items[CONTEXT_KEY] != null)
-				{
-					HttpContext.Current.Items.Remove(CONTEXT_KEY);
-				}
+			//if (IsWeb)
+			//{
+			//	if (HttpContext.Current.Items[CONTEXT_KEY] != null)
+			//	{
+			//		HttpContext.Current.Items.Remove(CONTEXT_KEY);
+			//	}
 
-				string user = Current.CurrentUser;
-			}
+			//	string user = Current.CurrentUser;
+			//}
 		}
 	}
 }

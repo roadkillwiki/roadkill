@@ -10,6 +10,7 @@ using System.Data.SqlClient;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Search;
 using Roadkill.Core.Localization.Resx;
+using Roadkill.Core.Domain;
 
 namespace Roadkill.Core.Controllers
 {
@@ -19,13 +20,8 @@ namespace Roadkill.Core.Controllers
 	[OptionalAuthorization]
 	public class HomeController : ControllerBase
 	{
-		private SearchManager _searchManager;
-
-		public HomeController() : this(new SearchManager()) { }
-		public HomeController(SearchManager searchManager)
-		{
-			_searchManager = searchManager;
-		}
+		public HomeController() : this(new ServiceContainer()) {}
+		public HomeController(IServiceContainer container) : base(container) { }
 
 		/// <summary>
 		/// Display the homepage/mainpage. If no page has been tagged with the 'homepage' tag,
@@ -33,14 +29,12 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult Index()
 		{
-			PageManager manager = new PageManager();
-
 			// Get the first locked homepage
-			PageSummary summary = manager.FindByTag("homepage").FirstOrDefault(h => h.IsLocked);
+			PageSummary summary = ServiceContainer.PageManager.FindByTag("homepage").FirstOrDefault(h => h.IsLocked);
 			if (summary == null)
 			{
 				// Look for a none-locked page as a fallback
-				summary = manager.FindByTag("homepage").FirstOrDefault();
+				summary = ServiceContainer.PageManager.FindByTag("homepage").FirstOrDefault();
 			}
 
 			if (summary == null)
@@ -66,7 +60,7 @@ namespace Roadkill.Core.Controllers
 		{
 			ViewData["search"] = q;
 
-			List<SearchResult> results = _searchManager.SearchIndex(q).ToList();
+			List<SearchResult> results = ServiceContainer.SearchManager.SearchIndex(q).ToList();
 			return View(results);
 		}
 

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using NUnit.Framework;
 using Roadkill.Core;
+using Roadkill.Core.Domain;
 using Roadkill.Core.Search;
 
 namespace Roadkill.Tests.Integration
@@ -17,7 +18,7 @@ namespace Roadkill.Tests.Integration
 		public void SearchSetup()
 		{
 			// Required by the indexer to parser the markup
-			SiteConfiguration.Initialize(new SiteConfiguration() { MarkupType = "Creole" }); 
+			ServiceContainer.Current.Configuration.MarkupType = "Creole";
 
 			string indexPath = AppDomain.CurrentDomain.BaseDirectory + "App_Data/search";
 			if (Directory.Exists(indexPath))
