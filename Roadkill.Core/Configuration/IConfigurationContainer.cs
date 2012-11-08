@@ -5,11 +5,16 @@ using System.Text;
 
 namespace Roadkill.Core
 {
+	public interface IConfigurationContainer
+	{
+		SitePreferences SitePreferences { get; set; }
+		ApplicationSettings ApplicationSettings { get; set; }
+	}
 	/// <summary>
 	/// Defines a type that contains all system settings from both configuration files
 	/// and database configuration storage.
 	/// </summary>
-	public interface IConfigurationContainer
+	public interface IConfigurationContainerX
 	{
 		/// <summary>
 		/// Retrieves the configuration settings that are stored inside an application config 
@@ -21,8 +26,8 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Retrieves the configuration settings that are stored in the database.
 		/// </summary>
-		/// <returns>A <see cref="SiteConfiguration"/></returns>
-		SiteConfiguration DatabaseStoreSettings { get; set; }
+		/// <returns>A <see cref="SitePreferences"/></returns>
+		SitePreferences DatabaseStoreSettings { get; set; }
 
 		/// <summary>
 		/// Refreshes all settings by getting the latest version from the database or configuration file.

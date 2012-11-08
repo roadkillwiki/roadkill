@@ -11,7 +11,7 @@ namespace Roadkill.Core
 	/// Contains all configuration data stored with NHibernate/the database, for settings that do not 
 	/// require an application restart when changed. This object is intended for internal use only.
 	/// </summary>
-	public class SiteConfiguration
+	public class SitePreferences
 	{
 		internal static readonly Guid ConfigurationId = new Guid("b960e8e5-529f-4f7c-aee4-28eb23e13dbd");
 
@@ -29,7 +29,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Whether to Recaptcha is enabled for user signups and password resets.
 		/// </summary>
-		public virtual bool EnableRecaptcha { get; set; }
+		public virtual bool IsRecaptchaEnabled { get; set; }
 
 		/// <summary>
 		/// Used to keep NHibernate happy
@@ -61,7 +61,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// The title of the site.
 		/// </summary>
-		public virtual string Title { get; set; }
+		public virtual string SiteName { get; set; }
 
 		/// <summary>
 		/// The site theme, defaults to "Blackbar"
@@ -73,26 +73,42 @@ namespace Roadkill.Core
 		/// </summary>
 		public virtual string Version { get; set; }
 
-		public SiteConfiguration()
+		public virtual string ThemePath
+		{
+			get
+			{
+				return string.Format("~/Themes/{0}", Theme);
+			}
+		}
+
+		public virtual List<string> AllowedFileTypesList
+		{
+			get
+			{
+				return new List<string>(AllowedFileTypes.Replace(" ", "").Split(','));
+			}
+		}
+
+		public SitePreferences()
 		{
 			Id = ConfigurationId;
 		}
 	}
 
-	public class SiteConfigurationMap : ClassMap<SiteConfiguration>
+	public class SitePreferencesMap : ClassMap<SitePreferences>
 	{
-		public SiteConfigurationMap()
+		public SitePreferencesMap()
 		{
 			Table("roadkill_siteconfiguration");
 			Id(x => x.Id).GeneratedBy.Assigned();
 			Map(x => x.AllowedFileTypes);
 			Map(x => x.AllowUserSignup);
-			Map(x => x.EnableRecaptcha);
+			Map(x => x.IsRecaptchaEnabled).Column("EnableRecaptcha");
 			Map(x => x.MarkupType);
 			Map(x => x.RecaptchaPrivateKey);
 			Map(x => x.RecaptchaPublicKey);
 			Map(x => x.SiteUrl);
-			Map(x => x.Title);
+			Map(x => x.SiteName).Column("Title");
 			Map(x => x.Theme);
 			Map(x => x.Version);
 

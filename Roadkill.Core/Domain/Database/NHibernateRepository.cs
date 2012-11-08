@@ -21,12 +21,12 @@ namespace Roadkill.Core
 	{
 		public NHibernateRepository()
 		{
-			if (RoadkillSettings.Current.Installed)
+			if (RoadkillSettings.Current.ApplicationSettings.Installed)
 			{
-				Configure(RoadkillSettings.Current.DatabaseType,
-							RoadkillSettings.Current.ConnectionString,
+				Configure(RoadkillSettings.Current.ApplicationSettings.DatabaseType,
+							RoadkillSettings.Current.ApplicationSettings.ConnectionString,
 							false,
-							RoadkillSettings.Current.CachedEnabled);
+							RoadkillSettings.Current.ApplicationSettings.CachedEnabled);
 			}
 		}
 
@@ -67,7 +67,7 @@ namespace Roadkill.Core
 
 			if (!config.Properties.ContainsKey("connection.connection_string_name"))
 			{
-				config.SetProperty("connection.connection_string_name", RoadkillSettings.Current.ConnectionStringName);
+				config.SetProperty("connection.connection_string_name", RoadkillSettings.Current.ApplicationSettings.ConnectionStringName);
 			}
 
 			// Only configure the caching if it's not already in the config file
@@ -228,7 +228,7 @@ namespace Roadkill.Core
 		public PageContent GetLatestPageContent(int pageId)
 		{
 			PageContent latest;
-			if (RoadkillSettings.Current.DatabaseType != DatabaseType.SqlServerCe)
+			if (RoadkillSettings.Current.ApplicationSettings.DatabaseType != DatabaseType.SqlServerCe)
 			{
 				// Fetches the parent page object via SQL as well as the PageContent, avoiding lazy loading.
 				IQuery query = SessionFactory.OpenSession()
@@ -250,6 +250,11 @@ namespace Roadkill.Core
 			}
 
 			return latest;
+		}
+
+		public SitePreferences GetSitePreferences()
+		{
+			return Queryable<SitePreferences>().FirstOrDefault(s => s.Id == SitePreferences.ConfigurationId);
 		}
 	}
 }

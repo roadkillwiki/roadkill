@@ -38,7 +38,7 @@ namespace Roadkill.Core.Controllers
 		/// <param name="filterContext">Information about the current request and action.</param>
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			if (!RoadkillSettings.Current.Installed)
+			if (!RoadkillSettings.Current.ApplicationSettings.Installed)
 			{
 				if (!(filterContext.Controller is InstallController))
 					filterContext.Result = new RedirectResult(this.Url.Action("Index","Install"));

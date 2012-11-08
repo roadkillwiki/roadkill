@@ -28,7 +28,7 @@ namespace Roadkill.Core
 			IIdentity identity = user.Identity;
 
 			// If the site is private then check for a login
-			if (!RoadkillSettings.Current.IsPublicSite)
+			if (!RoadkillSettings.Current.ApplicationSettings.IsPublicSite)
 			{
 				if (!identity.IsAuthenticated)
 				{

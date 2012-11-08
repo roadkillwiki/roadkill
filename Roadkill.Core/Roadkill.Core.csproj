@@ -252,6 +252,7 @@
   <ItemGroup>
     <Compile Include="Common\Log.cs" />
     <Compile Include="Common\ShortGuid.cs" />
+    <Compile Include="Configuration\ApplicationSettings.cs" />
     <Compile Include="Controllers\Attributes\OptionalAuthorizationAttribute.cs" />
     <Compile Include="Controllers\Attributes\RecaptchaRequiredAttribute.cs" />
     <Compile Include="Controllers\Attributes\ImportModelStateAttribute.cs" />
@@ -324,7 +325,7 @@
     <Compile Include="Exceptions\HistoryException.cs" />
     <Compile Include="Exceptions\ExceptionBase.cs" />
     <Compile Include="Exceptions\SecurityException.cs" />
-    <Compile Include="Domain\Database\SiteConfiguration.cs" />
+    <Compile Include="Domain\Database\SitePreferences.cs" />
     <Compile Include="Domain\Summaries\SearchResult.cs" />
     <Compile Include="Domain\Summaries\DirectorySummary.cs" />
     <Compile Include="Domain\Summaries\SettingsSummary.cs" />

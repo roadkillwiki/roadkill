@@ -78,10 +78,10 @@ namespace Roadkill.Core
 				//x.For<IServiceContainer>().LifecycleIs(new HybridSessionLifecycle());
 				//x.For<IRoadkillContext>().LifecycleIs(new HybridSessionLifecycle());
 
-				x.For<IRepository>().Use<NHibernateRepository>();
-				x.For<IConfigurationContainer>().Use<RoadkillSettings>();
-				x.For<IServiceContainer>().Use<ServiceContainer>();
-				x.For<IRoadkillContext>().Use<RoadkillContext>();
+				x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use<NHibernateRepository>();
+				x.For<IConfigurationContainer>().HybridHttpOrThreadLocalScoped().Use<RoadkillSettings>();
+				x.For<IServiceContainer>().HybridHttpOrThreadLocalScoped().Use<ServiceContainer>();
+				x.For<IRoadkillContext>().HybridHttpOrThreadLocalScoped().Use<RoadkillContext>();
 			});
 
 			ObjectFactory.Configure(x =>

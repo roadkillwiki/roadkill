@@ -32,7 +32,7 @@ namespace Roadkill.Core
 				return false;
 			}
 
-			if (string.IsNullOrEmpty(RoadkillSettings.Current.AdminRoleName))
+			if (string.IsNullOrEmpty(RoadkillSettings.Current.ApplicationSettings.AdminRoleName))
 				return true;
 
 			if (ServiceContainer.Current.UserManager.IsAdmin(identity.Name))

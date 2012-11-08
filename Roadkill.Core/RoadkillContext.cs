@@ -92,13 +92,6 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Whether the <see cref="RoadkillContext"/> is running inside a web environment. This
-		/// setting is for unit testing, to ensure the <see cref="Current"/> property does not
-		/// use the HttpContext.Current.Items as a store.
-		/// </summary>
-		public static bool IsWeb { get; set; }	
-
-		/// <summary>
 		/// The underlying <see cref="PageSummary"/> object for the current page.
 		/// </summary>
 		public PageSummary Page { get; set; }	

@@ -115,9 +115,7 @@ namespace Roadkill.Core
 				{
 					if (user.Password == User.HashPassword(password, user.Salt))
 					{
-						if (RoadkillContext.IsWeb)
-							FormsAuthentication.SetAuthCookie(email, true);
-
+						FormsAuthentication.SetAuthCookie(email, true);
 						return true;
 					}
 				}

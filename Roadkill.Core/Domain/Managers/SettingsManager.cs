@@ -60,7 +60,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				Repository.Configure(RoadkillSettings.Current.DatabaseType, summary.ConnectionString, true, summary.CacheEnabled);
+				Repository.Configure(RoadkillSettings.Current.ApplicationSettings.DatabaseType, summary.ConnectionString, true, summary.CacheEnabled);
 			}
 			catch (HibernateException ex)
 			{
@@ -72,36 +72,36 @@ namespace Roadkill.Core
 		/// Saves all settings that are stored in the database, to the configuration table.
 		/// </summary>
 		/// <param name="summary">Summary data containing the settings.</param>
-		/// <param name="isInstalling">If true, a new <see cref="SiteConfiguration"/> is created, otherwise the current one is updated.</param>
+		/// <param name="isInstalling">If true, a new <see cref="SitePreferences"/> is created, otherwise the current one is updated.</param>
 		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while saving the configuration.</exception>
 		public void SaveSiteConfiguration(SettingsSummary summary, bool isInstalling)
 		{
 			try
 			{
-				SiteConfiguration config;
+				SitePreferences config;
 
 				if (isInstalling)
 				{
-					config = new SiteConfiguration();
+					config = new SitePreferences();
 				}
 				else
 				{
-					config = RoadkillSettings.Current.DatabaseStoreSettings;
+					config = Repository.GetSitePreferences();
 				}
 
 				config.AllowedFileTypes = summary.AllowedExtensions;
 				config.AllowUserSignup = summary.AllowUserSignup;
-				config.EnableRecaptcha = summary.EnableRecaptcha;
+				config.IsRecaptchaEnabled = summary.EnableRecaptcha;
 				config.MarkupType = summary.MarkupType;
 				config.RecaptchaPrivateKey = summary.RecaptchaPrivateKey;
 				config.RecaptchaPublicKey = summary.RecaptchaPublicKey;
 				config.SiteUrl = summary.SiteUrl;
-				config.Title = summary.SiteName;
+				config.SiteName = summary.SiteName;
 				config.Theme = summary.Theme;
 
-				config.Version = RoadkillSettings.Current.Version;
+				config.Version = RoadkillSettings.Current.ApplicationSettings.Version;
 
-				Repository.SaveOrUpdate<SiteConfiguration>(config);
+				Repository.SaveOrUpdate<SitePreferences>(config);
 			}
 			catch (HibernateException ex)
 			{

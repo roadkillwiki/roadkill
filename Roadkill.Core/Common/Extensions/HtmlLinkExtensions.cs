@@ -55,7 +55,7 @@ namespace Roadkill.Core
 		/// <returns>If windows authentication is being used, an empty string is returned.</returns>
 		public static MvcHtmlString LoginLink(this HtmlHelper helper, string prefix, string suffix)
 		{
-			if (RoadkillSettings.Current.UseWindowsAuthentication)
+			if (RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
 				return MvcHtmlString.Empty;
 
 			string link = "";
@@ -68,7 +68,7 @@ namespace Roadkill.Core
 			{
 				link = helper.ActionLink(SiteStrings.Navigation_Login, "Login", "User").ToString();
 
-				if (RoadkillSettings.Current.AllowUserSignup)
+				if (RoadkillSettings.Current.SitePreferences.AllowUserSignup)
 					link += "&nbsp;/&nbsp;" + helper.ActionLink(SiteStrings.Navigation_Register, "Signup", "User").ToString();
 			}
 

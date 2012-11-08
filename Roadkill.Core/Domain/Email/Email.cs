@@ -71,22 +71,22 @@ namespace Roadkill.Core
 			HtmlView = HtmlView.Replace("{LASTNAME}", summary.Lastname);
 			HtmlView = HtmlView.Replace("{EMAIL}", summary.NewEmail);
 			HtmlView = HtmlView.Replace("{USERNAME}", summary.NewUsername);
-			HtmlView = HtmlView.Replace("{SITEURL}", RoadkillSettings.Current.SiteUrl);
+			HtmlView = HtmlView.Replace("{SITEURL}", RoadkillSettings.Current.SitePreferences.SiteUrl);
 			HtmlView = HtmlView.Replace("{ACTIVATIONKEY}", summary.ActivationKey);
 			HtmlView = HtmlView.Replace("{RESETKEY}", summary.PasswordResetKey);
 			HtmlView = HtmlView.Replace("{USERID}", summary.Id.ToString());
-			HtmlView = HtmlView.Replace("{SITENAME}", RoadkillSettings.Current.SiteName);
+			HtmlView = HtmlView.Replace("{SITENAME}", RoadkillSettings.Current.SitePreferences.SiteName);
 			HtmlView = HtmlView.Replace("{REQUEST_IP}", HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"]);
 
 			PlainTextView = PlainTextView.Replace("{FIRSTNAME}", summary.Firstname);
 			PlainTextView = PlainTextView.Replace("{LASTNAME}", summary.Lastname);
 			PlainTextView = PlainTextView.Replace("{EMAIL}", summary.NewEmail);
 			PlainTextView = PlainTextView.Replace("{USERNAME}", summary.NewUsername);
-			PlainTextView = PlainTextView.Replace("{SITEURL}", RoadkillSettings.Current.SiteUrl);
+			PlainTextView = PlainTextView.Replace("{SITEURL}", RoadkillSettings.Current.SitePreferences.SiteUrl);
 			PlainTextView = PlainTextView.Replace("{ACTIVATIONKEY}", summary.ActivationKey);
 			PlainTextView = PlainTextView.Replace("{RESETKEY}", summary.PasswordResetKey);
 			PlainTextView = PlainTextView.Replace("{USERID}", summary.Id.ToString());
-			PlainTextView = PlainTextView.Replace("{SITENAME}", RoadkillSettings.Current.SiteName);
+			PlainTextView = PlainTextView.Replace("{SITENAME}", RoadkillSettings.Current.SitePreferences.SiteName);
 			PlainTextView = PlainTextView.Replace("{REQUEST_IP}", HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"]);
 		}
 
