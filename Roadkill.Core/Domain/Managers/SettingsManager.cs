@@ -16,18 +16,18 @@ namespace Roadkill.Core
 	/// <summary>
 	/// Provides common tasks for changing the Roadkill application settings.
 	/// </summary>
-	public class SettingsManager
+	public class SettingsManager : ManagerBase
 	{
 		/// <summary>
 		/// Clears all pages and page content from the database.
 		/// </summary>
 		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while clearing the page data.</exception>
-		public static void ClearPageTables()
+		public void ClearPageTables()
 		{
 			try
 			{
-				NHibernateRepository.Current.DeleteAll<PageContent>();
-				NHibernateRepository.Current.DeleteAll<Page>();
+				Repository.DeleteAll<PageContent>();
+				Repository.DeleteAll<Page>();
 			}
 			catch (HibernateException ex)
 			{
@@ -39,11 +39,11 @@ namespace Roadkill.Core
 		/// Clears all users from the system.
 		/// </summary>
 		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while clearing the user table.</exception>
-		public static void ClearUserTable()
+		public void ClearUserTable()
 		{
 			try
 			{
-				NHibernateRepository.Current.DeleteAll<User>();
+				Repository.DeleteAll<User>();
 			}
 			catch (HibernateException ex)
 			{
@@ -56,11 +56,11 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <param name="summary">The settings data.</param>
 		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while creating the database tables.</exception>
-		public static void CreateTables(SettingsSummary summary)
+		public void CreateTables(SettingsSummary summary)
 		{
 			try
 			{
-				NHibernateRepository.Current.Configure(RoadkillSettings.DatabaseType, summary.ConnectionString, true, summary.CacheEnabled);
+				Repository.Configure(RoadkillSettings.Current.DatabaseType, summary.ConnectionString, true, summary.CacheEnabled);
 			}
 			catch (HibernateException ex)
 			{
@@ -74,7 +74,7 @@ namespace Roadkill.Core
 		/// <param name="summary">Summary data containing the settings.</param>
 		/// <param name="isInstalling">If true, a new <see cref="SiteConfiguration"/> is created, otherwise the current one is updated.</param>
 		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while saving the configuration.</exception>
-		public static void SaveSiteConfiguration(SettingsSummary summary, bool isInstalling)
+		public void SaveSiteConfiguration(SettingsSummary summary, bool isInstalling)
 		{
 			try
 			{
@@ -86,7 +86,7 @@ namespace Roadkill.Core
 				}
 				else
 				{
-					config = SiteConfiguration.Current;
+					config = RoadkillSettings.Current.DatabaseStoreSettings;
 				}
 
 				config.AllowedFileTypes = summary.AllowedExtensions;
@@ -99,9 +99,9 @@ namespace Roadkill.Core
 				config.Title = summary.SiteName;
 				config.Theme = summary.Theme;
 
-				config.Version = RoadkillSettings.Version;
+				config.Version = RoadkillSettings.Current.Version;
 
-				NHibernateRepository.Current.SaveOrUpdate<SiteConfiguration>(config);
+				Repository.SaveOrUpdate<SiteConfiguration>(config);
 			}
 			catch (HibernateException ex)
 			{
@@ -114,7 +114,7 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <param name="summary">Summary data containing the settings.</param>
 		/// <exception cref="InstallerException">An error occurred writing to or saving the web.config file</exception>
-		public static void SaveWebConfigSettings(SettingsSummary summary)
+		public void SaveWebConfigSettings(SettingsSummary summary)
 		{
 			try
 			{
@@ -170,7 +170,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Adds web.config settings for windows authentication.
 		/// </summary>
-		private static void WriteConfigForWindowsAuth(Configuration config)
+		private void WriteConfigForWindowsAuth(Configuration config)
 		{
 			// Turn on Windows authentication
 			AuthenticationSection authSection = config.GetSection("system.web/authentication") as AuthenticationSection;
@@ -185,7 +185,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Adds web.config settings for forms authentication.
 		/// </summary>
-		private static void WriteConfigForFormsAuth(Configuration config, SettingsSummary summary)
+		private void WriteConfigForFormsAuth(Configuration config, SettingsSummary summary)
 		{
 			// Turn on forms authentication
 			AuthenticationSection authSection = config.GetSection("system.web/authentication") as AuthenticationSection;

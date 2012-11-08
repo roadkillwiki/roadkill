@@ -5,6 +5,7 @@ using System.Text;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
+using Roadkill.Core.Domain;
 
 namespace Roadkill.Core
 {
@@ -31,10 +32,10 @@ namespace Roadkill.Core
 				return false;
 			}
 
-			if (string.IsNullOrEmpty(RoadkillSettings.AdminRoleName))
+			if (string.IsNullOrEmpty(RoadkillSettings.Current.AdminRoleName))
 				return true;
 
-			if (UserManager.Current.IsAdmin(identity.Name))
+			if (ServiceContainer.Current.UserManager.IsAdmin(identity.Name))
 				return true;
 			else
 				return false;

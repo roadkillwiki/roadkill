@@ -57,7 +57,7 @@ namespace Roadkill.Core
 		{
 			Name = Path.GetFileName(diskPath);
 			DiskPath = diskPath;
-			UrlPath = DiskPath.Replace(RoadkillSettings.AttachmentsFolder, "");
+			UrlPath = DiskPath.Replace(RoadkillSettings.Current.AttachmentsFolder, "");
 			UrlPath = UrlPath.Replace(@"\", "/");
 
 			Files = new List<FileSummary>();
@@ -71,7 +71,7 @@ namespace Roadkill.Core
 			if (!string.IsNullOrEmpty(base64Path))
 				path = base64Path.FromBase64();
 
-			path = RoadkillSettings.AttachmentsFolder + path;
+			path = RoadkillSettings.Current.AttachmentsFolder + path;
 
 			DirectorySummary summary = new DirectorySummary(path);
 			return summary;
@@ -107,7 +107,7 @@ namespace Roadkill.Core
 		{
 			Name = Path.GetFileName(diskPath);
 			DiskPath = diskPath;
-			UrlPath = diskPath.Replace(RoadkillSettings.AttachmentsFolder, "");
+			UrlPath = diskPath.Replace(RoadkillSettings.Current.AttachmentsFolder, "");
 			UrlPath = UrlPath.Replace(@"\", "/");
 			Extension = Path.GetExtension(diskPath).Replace(".", "");
 		}
@@ -119,7 +119,7 @@ namespace Roadkill.Core
 			if (!string.IsNullOrEmpty(base64Path))
 				path = base64Path.FromBase64();
 
-			path = RoadkillSettings.AttachmentsFolder + path;
+			path = RoadkillSettings.Current.AttachmentsFolder + path;
 
 			FileSummary summary = new FileSummary(path);
 			return summary;

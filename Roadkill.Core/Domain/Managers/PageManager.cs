@@ -45,7 +45,7 @@ namespace Roadkill.Core
 				page.CreatedOn = DateTime.Now;
 				page.ModifiedOn = DateTime.Now;
 				page.ModifiedBy = AppendIpForAppHarbor(currentUser);
-				NHibernateRepository.Current.SaveOrUpdate<Page>(page);
+				Repository.SaveOrUpdate<Page>(page);
 
 				PageContent pageContent = new PageContent();
 				pageContent.VersionNumber = 1;
@@ -53,7 +53,7 @@ namespace Roadkill.Core
 				pageContent.EditedBy = AppendIpForAppHarbor(currentUser);
 				pageContent.EditedOn = DateTime.Now;
 				pageContent.Page = page;
-				NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContent);
+				Repository.SaveOrUpdate<PageContent>(pageContent);
 
 				// Update the lucene index
 				try
@@ -186,10 +186,10 @@ namespace Roadkill.Core
 				for (int i = 0; i < children.Count; i++)
 				{
 					NHibernateUtil.Initialize(children[i].Page); // force the proxy to hydrate
-					NHibernateRepository.Current.Delete<PageContent>(children[i]);
+					Repository.Delete<PageContent>(children[i]);
 				}
 
-				NHibernateRepository.Current.Delete<Page>(page);
+				Repository.Delete<Page>(page);
 			}
 			catch (HibernateException ex)
 			{
@@ -318,7 +318,7 @@ namespace Roadkill.Core
 				if (RoadkillContext.Current.IsAdmin)
 					page.IsLocked = summary.IsLocked;
 
-				NHibernateRepository.Current.SaveOrUpdate<Page>(page);
+				Repository.SaveOrUpdate<Page>(page);
 
 				PageContent pageContent = new PageContent();
 				pageContent.VersionNumber = manager.MaxVersion(summary.Id) + 1;
@@ -326,7 +326,7 @@ namespace Roadkill.Core
 				pageContent.EditedBy = AppendIpForAppHarbor(currentUser);
 				pageContent.EditedOn = DateTime.Now;
 				pageContent.Page = page;
-				NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContent);
+				Repository.SaveOrUpdate<PageContent>(pageContent);
 
 				// Update all links to this page (if it has had its title renamed). Case changes don't need any updates.
 				if (summary.PreviousTitle != null && summary.PreviousTitle.ToLower() != summary.Title.ToLower())
@@ -340,7 +340,7 @@ namespace Roadkill.Core
 							NHibernateUtil.Initialize(content.Page); 
 
 							content.Text = converter.ReplacePageLinks(content.Text, summary.PreviousTitle, summary.Title);
-							NHibernateRepository.Current.SaveOrUpdate<PageContent>(content);
+							Repository.SaveOrUpdate<PageContent>(content);
 						}
 					}
 				}
@@ -386,29 +386,7 @@ namespace Roadkill.Core
 		/// <returns>The <see cref="PageContent"/> for the page.</returns>
 		public PageContent GetCurrentContent(int pageId)
 		{
-			PageContent latest;
-			if (RoadkillSettings.DatabaseType != DatabaseType.SqlServerCe)
-			{
-				// Fetches the parent page object via SQL as well as the PageContent, avoiding lazy loading.
-				IQuery query = NHibernateRepository.Current.SessionFactory.OpenSession()
-						.CreateQuery("FROM PageContent fetch all properties WHERE Page.Id=:Id AND VersionNumber=(SELECT max(VersionNumber) FROM PageContent WHERE Page.Id=:Id)");
-
-				query.SetCacheable(true);
-				query.SetInt32("Id", pageId);
-				query.SetMaxResults(1);
-				latest = query.UniqueResult<PageContent>();
-			}
-			else
-			{
-				// Work around for an NHibernate 3.3.1 SQL CE bug with the HQL query in CurrentContent() - this is two SQL queries per page instead of one.
-				using (ISession session = NHibernateRepository.Current.SessionFactory.OpenSession())
-				{
-					latest = session.QueryOver<PageContent>().Where(p => p.Page.Id == pageId).OrderBy(p => p.VersionNumber).Desc.Take(1).SingleOrDefault();
-					latest.Page = session.Get<Page>(latest.Page.Id);
-				}
-			}
-
-			return latest;
+			return Repository.GetLatestPageContent(pageId);
 		}
 
 		/// <summary>

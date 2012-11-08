@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Text;
 using System.Web.Security;
+using Roadkill.Core.Domain;
 
 namespace Roadkill.Core.Controllers
 {
@@ -14,6 +15,9 @@ namespace Roadkill.Core.Controllers
 	[OptionalAuthorization]
 	public class WikiController : ControllerBase
 	{
+		public WikiController() : this(new ServiceContainer()) {}
+		public WikiController(IServiceContainer container) : base(container) { }
+
 		/// <summary>
 		/// Displays the wiki page using the provided id.
 		/// </summary>

@@ -5,6 +5,9 @@ using Roadkill.Core.Search;
 using System;
 using System.IO;
 using Roadkill.Core.Files;
+using StructureMap;
+using Roadkill.Core.Domain;
+using StructureMap.Pipeline;
 
 namespace Roadkill.Core
 {
@@ -48,23 +51,43 @@ namespace Roadkill.Core
 
 		protected void Application_Start()
 		{
+			SetupIoC();
 			AttachmentRouteHandler.Register();
 			AreaRegistration.RegisterAllAreas();
 			RegisterRoutes(RouteTable.Routes);
-
-			SetupNHibernate();
 		}
 
 		/// <summary>
-		/// Initializes the NHibernate sessionfactory, creating the schema if necessary.
+		/// Initializes the Structuremap IoC containers for the Services and Configuration.
 		/// </summary>
-		/// <remarks>This method is virtual for mocking</remarks>
-		public virtual void SetupNHibernate()
+		public virtual void SetupIoC()
 		{
-			if (RoadkillSettings.Installed)
+			ObjectFactory.Initialize(x =>
 			{
-				NHibernateRepository.Current.Configure(RoadkillSettings.DatabaseType, RoadkillSettings.ConnectionString, false, RoadkillSettings.CachedEnabled);
-			}
+				x.Scan(scanner =>
+				{
+					scanner.AddAllTypesOf<IConfigurationContainer>();
+					scanner.AddAllTypesOf<IServiceContainer>();
+					scanner.AddAllTypesOf<IRoadkillContext>();
+					scanner.AddAllTypesOf<IRepository>();
+					scanner.WithDefaultConventions();
+				});
+
+				//x.For<IRepository>().LifecycleIs(new HybridSessionLifecycle()).Use<NHibernateRepository>();
+				//x.For<IConfigurationContainer>().Use<RoadkillSettings>();
+				//x.For<IServiceContainer>().LifecycleIs(new HybridSessionLifecycle());
+				//x.For<IRoadkillContext>().LifecycleIs(new HybridSessionLifecycle());
+
+				x.For<IRepository>().Use<NHibernateRepository>();
+				x.For<IConfigurationContainer>().Use<RoadkillSettings>();
+				x.For<IServiceContainer>().Use<ServiceContainer>();
+				x.For<IRoadkillContext>().Use<RoadkillContext>();
+			});
+
+			ObjectFactory.Configure(x =>
+			{
+				x.IncludeConfigurationFromConfigFile = true;
+			});
 		}
 	}
 }

@@ -17,8 +17,19 @@ namespace Roadkill.Core
 	/// <summary>
 	/// A repository class for all NHibernate actions.
 	/// </summary>
-	public class NHibernateRepository
+	public class NHibernateRepository : IRepository
 	{
+		public NHibernateRepository()
+		{
+			if (RoadkillSettings.Current.Installed)
+			{
+				Configure(RoadkillSettings.Current.DatabaseType,
+							RoadkillSettings.Current.ConnectionString,
+							false,
+							RoadkillSettings.Current.CachedEnabled);
+			}
+		}
+
 		/// <summary>
 		/// The current NHibernate <see cref="ISessionFactory"/>. This is created once, the first the NHibernateRepository is used.
 		/// </summary>
@@ -56,7 +67,7 @@ namespace Roadkill.Core
 
 			if (!config.Properties.ContainsKey("connection.connection_string_name"))
 			{
-				config.SetProperty("connection.connection_string_name", RoadkillSection.Current.ConnectionStringName);
+				config.SetProperty("connection.connection_string_name", RoadkillSettings.Current.ConnectionStringName);
 			}
 
 			// Only configure the caching if it's not already in the config file
@@ -214,46 +225,31 @@ namespace Roadkill.Core
 			}
 		}
 
-		private static bool _initialized;
-
-		/// <summary>
-		/// Gets the current <see cref="NHibernateRepository"/> for the application.
-		/// </summary>
-		public static NHibernateRepository Current
+		public PageContent GetLatestPageContent(int pageId)
 		{
-			get
+			PageContent latest;
+			if (RoadkillSettings.Current.DatabaseType != DatabaseType.SqlServerCe)
 			{
-				if (!_initialized)
-					Initialize(null);
+				// Fetches the parent page object via SQL as well as the PageContent, avoiding lazy loading.
+				IQuery query = SessionFactory.OpenSession()
+						.CreateQuery("FROM PageContent fetch all properties WHERE Page.Id=:Id AND VersionNumber=(SELECT max(VersionNumber) FROM PageContent WHERE Page.Id=:Id)");
 
-				return Nested.Current;
+				query.SetCacheable(true);
+				query.SetInt32("Id", pageId);
+				query.SetMaxResults(1);
+				latest = query.UniqueResult<PageContent>();
 			}
-		}
-
-		/// <summary>
-		/// Re-initializes the repository's singleton instance.
-		/// </summary>
-		/// <param name="repository">The repository type to re-initialize with.</param>
-		public static void Initialize(NHibernateRepository repository)
-		{
-			Nested.Initialize(repository);
-			_initialized = true;
-		}
-
-		/// <summary>
-		/// Singleton for Current
-		/// </summary>
-		class Nested
-		{
-			internal static NHibernateRepository Current;
-
-			public static void Initialize(NHibernateRepository repository)
+			else
 			{
-				if (repository == null)
-					Current = new NHibernateRepository();
-				else
-					Current = repository;
+				// Work around for an NHibernate 3.3.1 SQL CE bug with the HQL query in CurrentContent() - this is two SQL queries per page instead of one.
+				using (ISession session = SessionFactory.OpenSession())
+				{
+					latest = session.QueryOver<PageContent>().Where(p => p.Page.Id == pageId).OrderBy(p => p.VersionNumber).Desc.Take(1).SingleOrDefault();
+					latest.Page = session.Get<Page>(latest.Page.Id);
+				}
 			}
+
+			return latest;
 		}
 	}
 }

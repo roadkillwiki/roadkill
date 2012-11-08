@@ -40,6 +40,7 @@ namespace Roadkill.Core
 		private static void CacheRegexes()
 		{
 			_regexReplacements = new Dictionary<Regex,string>();
+
 			foreach (TextToken token in _tokens)
 			{
 				// Catch bad regexes
@@ -57,15 +58,15 @@ namespace Roadkill.Core
 
 		private static IEnumerable<TextToken> Deserialize()
 		{
-			if (!File.Exists(RoadkillSettings.CustomTokensPath))
+			if (!File.Exists(RoadkillSettings.Current.CustomTokensPath))
 			{
-				Log.Warn("The custom tokens file does not exist in {0}",RoadkillSettings.CustomTokensPath);
+				Log.Warn("The custom tokens file does not exist in {0}", RoadkillSettings.Current.CustomTokensPath);
 				return new List<TextToken>();
 			}
 
 			try
 			{
-				using (FileStream stream = new FileStream(RoadkillSettings.CustomTokensPath, FileMode.Open, FileAccess.Read))
+				using (FileStream stream = new FileStream(RoadkillSettings.Current.CustomTokensPath, FileMode.Open, FileAccess.Read))
 				{
 					XmlSerializer serializer = new XmlSerializer(typeof(List<TextToken>));
 					IEnumerable<TextToken> textTokens = (List<TextToken>)serializer.Deserialize(stream);
@@ -78,17 +79,17 @@ namespace Roadkill.Core
 			}
 			catch (IOException e)
 			{
-				Log.Warn(e, "An IO error occurred loading the Custom tokens file {0}", RoadkillSettings.CustomTokensPath);
+				Log.Warn(e, "An IO error occurred loading the Custom tokens file {0}", RoadkillSettings.Current.CustomTokensPath);
 				return new List<TextToken>();
 			}
 			catch (FormatException e)
 			{
-				Log.Warn(e, "A FormatException error occurred loading the Custom tokens file {0}", RoadkillSettings.CustomTokensPath);
+				Log.Warn(e, "A FormatException error occurred loading the Custom tokens file {0}", RoadkillSettings.Current.CustomTokensPath);
 				return new List<TextToken>();
 			}
 			catch (Exception e)
 			{
-				Log.Warn(e, "An unhandled exception error occurred loading the Custom tokens file {0}", RoadkillSettings.CustomTokensPath);
+				Log.Warn(e, "An unhandled exception error occurred loading the Custom tokens file {0}", RoadkillSettings.Current.CustomTokensPath);
 				return new List<TextToken>();
 			}
 		}

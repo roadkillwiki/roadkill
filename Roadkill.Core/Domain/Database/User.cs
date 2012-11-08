@@ -5,6 +5,7 @@ using System.Text;
 using FluentNHibernate.Mapping;
 using NHibernate;
 using System.Web.Security;
+using Roadkill.Core.Domain;
 
 namespace Roadkill.Core
 {
@@ -50,7 +51,7 @@ namespace Roadkill.Core
 
 		public static string HashPassword(string password,string salt)
 		{
-			return UserManager.Current.HashPassword(password, salt);
+			return ServiceContainer.Current.UserManager.HashPassword(password, salt);
 		}
 
 		public virtual UserSummary ToSummary()

@@ -124,7 +124,7 @@ namespace Roadkill.Core.Search
 			}
 			catch (Exception ex)
 			{
-				if (!RoadkillSettings.IgnoreSearchIndexErrors)
+				if (!RoadkillSettings.Current.IgnoreSearchIndexErrors)
 					throw new SearchException(ex, "An error occured while adding page '{0}' to the search index", summary.Title);
 			}
 		}
@@ -149,7 +149,7 @@ namespace Roadkill.Core.Search
 			}
 			catch (Exception ex)
 			{
-				if (!RoadkillSettings.IgnoreSearchIndexErrors)
+				if (!RoadkillSettings.Current.IgnoreSearchIndexErrors)
 					throw new SearchException(ex, "An error occured while deleting page '{0}' from the search index", summary.Title);
 				else
 					return 0;

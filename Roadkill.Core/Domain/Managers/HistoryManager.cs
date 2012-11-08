@@ -139,7 +139,7 @@ namespace Roadkill.Core
 				pageContent.EditedBy = currentUser;
 				pageContent.EditedOn = DateTime.Now;
 				pageContent.Page = page;
-				NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContent);
+				Repository.SaveOrUpdate<PageContent>(pageContent);
 			}
 			catch (ArgumentNullException ex)
 			{

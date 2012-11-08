@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using StructureMap;
 
 namespace Roadkill.Core
 {
@@ -10,6 +11,13 @@ namespace Roadkill.Core
 	/// </summary>
 	public class ManagerBase
 	{
+		protected IRepository Repository;
+
+		public ManagerBase()
+		{
+			Repository = ObjectFactory.GetInstance<IRepository>();
+		}
+
 		/// <summary>
 		/// Gets a LINQ-to-NHibernate <see cref="Queryable`Page`"/> object to perform queries with.
 		/// </summary>
@@ -17,7 +25,7 @@ namespace Roadkill.Core
 		{
 			get
 			{
-				return NHibernateRepository.Current.Queryable<Page>();
+				return Repository.Queryable<Page>();
 			}
 		}
 
@@ -28,7 +36,7 @@ namespace Roadkill.Core
 		{
 			get
 			{
-				return NHibernateRepository.Current.Queryable<PageContent>();
+				return Repository.Queryable<PageContent>();
 			}
 		}
 
@@ -39,7 +47,7 @@ namespace Roadkill.Core
 		{
 			get
 			{
-				return NHibernateRepository.Current.Queryable<User>();
+				return Repository.Queryable<User>();
 			}
 		}
 	}

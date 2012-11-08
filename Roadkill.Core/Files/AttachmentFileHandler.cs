@@ -23,7 +23,7 @@ namespace Roadkill.Core.Files
 		public void ProcessRequest(HttpContext context)
 		{
 			string fileExtension = Path.GetExtension(context.Request.Url.LocalPath);
-			string attachmentFolder = RoadkillSettings.AttachmentsFolder;
+			string attachmentFolder = RoadkillSettings.Current.AttachmentsFolder;
 
 			using (ServerManager serverManager = new ServerManager())
 			{
@@ -34,7 +34,7 @@ namespace Roadkill.Core.Files
 				try
 				{
 					// LocalPath uses "/" and a Windows filepath is \
-					string filePath = context.Request.Url.LocalPath.Replace(string.Format("/{0}", RoadkillSettings.AttachmentsRoutePath), "");
+					string filePath = context.Request.Url.LocalPath.Replace(string.Format("/{0}", RoadkillSettings.Current.AttachmentsRoutePath), "");
 					filePath = filePath.Replace('/', Path.DirectorySeparatorChar);
 
 					if (attachmentFolder.EndsWith(Path.DirectorySeparatorChar.ToString()))

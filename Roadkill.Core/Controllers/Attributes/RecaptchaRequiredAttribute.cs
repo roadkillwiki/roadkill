@@ -18,13 +18,13 @@ namespace Roadkill.Core
 
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			if (RoadkillSettings.IsRecaptchaEnabled)
+			if (RoadkillSettings.Current.IsRecaptchaEnabled)
 			{
 				string challengeValue = filterContext.HttpContext.Request.Form[CHALLENGE_KEY];
 				string responseValue = filterContext.HttpContext.Request.Form[RESPONSE_KEY];
 
 				RecaptchaValidator validator = new RecaptchaValidator();
-				validator.PrivateKey = RoadkillSettings.RecaptchaPrivateKey;
+				validator.PrivateKey = RoadkillSettings.Current.RecaptchaPrivateKey;
 				validator.RemoteIP = filterContext.HttpContext.Request.UserHostAddress;
 				validator.Challenge = challengeValue;
 				validator.Response = responseValue;
