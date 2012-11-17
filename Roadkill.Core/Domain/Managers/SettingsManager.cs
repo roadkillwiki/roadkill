@@ -10,14 +10,20 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Web;
 using NHibernate;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {
 	/// <summary>
 	/// Provides common tasks for changing the Roadkill application settings.
 	/// </summary>
-	public class SettingsManager : ManagerBase
+	public class SettingsManager : ServiceBase
 	{
+		public SettingsManager(IConfigurationContainer configuration, IRepository repository)
+			: base(configuration, repository)
+		{
+		}
+
 		/// <summary>
 		/// Clears all pages and page content from the database.
 		/// </summary>
@@ -60,7 +66,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				Repository.Configure(RoadkillSettings.Current.ApplicationSettings.DatabaseType, summary.ConnectionString, true, summary.CacheEnabled);
+				Repository.Configure(Configuration.ApplicationSettings.DatabaseType, summary.ConnectionString, true, summary.CacheEnabled);
 			}
 			catch (HibernateException ex)
 			{
@@ -99,7 +105,7 @@ namespace Roadkill.Core
 				config.SiteName = summary.SiteName;
 				config.Theme = summary.Theme;
 
-				config.Version = RoadkillSettings.Current.ApplicationSettings.Version;
+				config.Version = Configuration.ApplicationSettings.Version;
 
 				Repository.SaveOrUpdate<SitePreferences>(config);
 			}
@@ -118,7 +124,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+				System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 
 				if (summary.UseWindowsAuth)
 				{
@@ -170,7 +176,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Adds web.config settings for windows authentication.
 		/// </summary>
-		private void WriteConfigForWindowsAuth(Configuration config)
+		private void WriteConfigForWindowsAuth(System.Configuration.Configuration config)
 		{
 			// Turn on Windows authentication
 			AuthenticationSection authSection = config.GetSection("system.web/authentication") as AuthenticationSection;
@@ -185,7 +191,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Adds web.config settings for forms authentication.
 		/// </summary>
-		private void WriteConfigForFormsAuth(Configuration config, SettingsSummary summary)
+		private void WriteConfigForFormsAuth(System.Configuration.Configuration config, SettingsSummary summary)
 		{
 			// Turn on forms authentication
 			AuthenticationSection authSection = config.GetSection("system.web/authentication") as AuthenticationSection;

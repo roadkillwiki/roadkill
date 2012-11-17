@@ -8,37 +8,37 @@ using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Controllers;
+using Roadkill.Core.Domain;
 using Roadkill.Tests.Integration;
+using StructureMap;
 
 namespace Roadkill.Tests.Controllers
 {
 	[TestFixture]
-	public class FilesControllerTests : SqlTestsBase
+	public class FilesControllerTests
 	{
-		private User _testUser;
+		private IConfigurationContainer _config;
+		private UserManager _userManager;
 
-		[SetUp]
-		public void Setup()
+		[TestFixtureSetUp]
+		public void Init()
 		{
-			Mock<User> mockUser = new Mock<User>();
-			mockUser.SetupProperty<string>(x => x.Email, "test@localhost");
-			mockUser.SetupProperty<string>(x => x.Username, "testuser");
-			_testUser = mockUser.Object;
+			_config = new RoadkillSettings();
+			_config.ApplicationSettings = new ApplicationSettings();
+			_config.SitePreferences = new SitePreferences() { AllowedFileTypes = "png, jpg" };
 
-			Mock<UserManager> mock = new Mock<UserManager>();
-			UserManager.Initialize(mock.Object);
-			mock.Setup(x => x.GetUser(_testUser.Email)).Returns(mockUser.Object);
-			mock.Setup(x => x.Authenticate(_testUser.Email, "")).Returns(true);
-			mock.Setup(x => x.GetLoggedInUserName(It.IsAny<HttpContextBase>())).Returns(_testUser.Username);		
+			_userManager = new Mock<UserManager>(_config, null, null).Object;
 		}
 
 		[Test]
 		public void UploadFile_Should_Save_To_Filesystem_With_No_Errors_And_Redirect()
 		{
 			// Arrange
-			RoadkillSettings.Current.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
-			FilesController filesController = new FilesController();
+			_config.ApplicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
+
+			FilesController filesController = new FilesController(_config, _userManager);
 			MvcMockContainer mocksContainer =  filesController.SetFakeControllerContext();
 			SetupMockPostedFile(mocksContainer);
 
@@ -54,8 +54,6 @@ namespace Roadkill.Tests.Controllers
 				SiteUrl = "siteurl",
 				Theme = "theme",
 			};
-		
-			SettingsManager.SaveSiteConfiguration(validConfigSettings, true);
 
 			// Act
 
@@ -65,7 +63,7 @@ namespace Roadkill.Tests.Controllers
 			ActionResult result = filesController.UploadFile(pathAsBase64) as ActionResult;
 			
 			// Assert
-			string expectedFilePath = Path.Combine(RoadkillSettings.Current.AttachmentsFolder, "test.png");
+			string expectedFilePath = Path.Combine(_config.ApplicationSettings.AttachmentsFolder, "test.png");
 			Assert.That(File.Exists(expectedFilePath), "Filepath: " + expectedFilePath);
 			Assert.That(filesController.TempData["Error"], Is.Null, "Errors");
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "RedirectToRouteResult");

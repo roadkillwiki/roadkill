@@ -14,20 +14,24 @@ using System.Text.RegularExpressions;
 using Directory = System.IO.Directory;
 using LuceneVersion = Lucene.Net.Util.Version;
 using Lucene.Net.Store;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Search
 {
 	/// <summary>
 	/// Provides searching tasks using a Lucene.net search index.
 	/// </summary>
-	public class SearchManager : ManagerBase
+	public class SearchManager : ServiceBase
 	{
-		protected virtual string IndexPath { get; set; }
 		private static Regex _removeTagsRegex = new Regex("<(.|\n)*?>");
+		private MarkupConverter _markupConverter;
+		protected virtual string IndexPath { get; set; }
 		private static readonly LuceneVersion LUCENEVERSION = LuceneVersion.LUCENE_29;
 
-		public SearchManager()
+		public SearchManager(IConfigurationContainer configuration, IRepository repository, MarkupConverter markupConverter)
+			: base(configuration, repository)
 		{
+			_markupConverter = markupConverter;
 			IndexPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\search";
 		}
 
@@ -118,7 +122,17 @@ namespace Roadkill.Core.Search
 				StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
 				using (IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(IndexPath)), analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
 				{
-					writer.AddDocument(SummaryToDocument(summary));
+					Document document = new Document();
+					document.Add(new Field("id", summary.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
+					document.Add(new Field("content", summary.Content, Field.Store.YES, Field.Index.ANALYZED));
+					document.Add(new Field("contentsummary", GetContentSummary(summary), Field.Store.YES, Field.Index.NO));
+					document.Add(new Field("title", summary.Title, Field.Store.YES, Field.Index.ANALYZED));
+					document.Add(new Field("tags", summary.Tags.SpaceDelimitTags(), Field.Store.YES, Field.Index.ANALYZED));
+					document.Add(new Field("createdby", summary.CreatedBy, Field.Store.YES, Field.Index.NOT_ANALYZED));
+					document.Add(new Field("createdon", summary.CreatedOn.ToShortDateString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+					document.Add(new Field("contentlength", summary.Content.Length.ToString(), Field.Store.YES, Field.Index.NO));
+
+					writer.AddDocument(document);
 					writer.Optimize();
 				}
 			}
@@ -181,10 +195,21 @@ namespace Roadkill.Core.Search
 				StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
 				using (IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(IndexPath)), analyzer, true,IndexWriter.MaxFieldLength.UNLIMITED))
 				{
-					foreach (Page page in Pages.ToList())
+					foreach (Page page in Repository.Pages.ToList())
 					{
-						PageSummary summary = page.ToSummary();
-						writer.AddDocument(SummaryToDocument(summary));
+						PageSummary summary = Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+
+						Document document = new Document();
+						document.Add(new Field("id", summary.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
+						document.Add(new Field("content", summary.Content, Field.Store.YES, Field.Index.ANALYZED));
+						document.Add(new Field("contentsummary", GetContentSummary(summary), Field.Store.YES, Field.Index.NO));
+						document.Add(new Field("title", summary.Title, Field.Store.YES, Field.Index.ANALYZED));
+						document.Add(new Field("tags", summary.Tags.SpaceDelimitTags(), Field.Store.YES, Field.Index.ANALYZED));
+						document.Add(new Field("createdby", summary.CreatedBy, Field.Store.YES, Field.Index.NOT_ANALYZED));
+						document.Add(new Field("createdon", summary.CreatedOn.ToShortDateString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+						document.Add(new Field("contentlength", summary.Content.Length.ToString(), Field.Store.YES, Field.Index.NO));
+
+						writer.AddDocument(document);
 					}
 
 					writer.Optimize();
@@ -212,11 +237,10 @@ namespace Roadkill.Core.Search
 		/// <summary>
 		/// Converts the page summary to a lucene Document with the relevant searchable fields.
 		/// </summary>
-		private Document SummaryToDocument(PageSummary summary)
+		private string GetContentSummary(PageSummary summary)
 		{
 			// Get a summary by parsing the contents
-			MarkupConverter converter = new MarkupConverter();
-			IMarkupParser markupParser = converter.Parser;
+			IMarkupParser markupParser = _markupConverter.Parser;
 
 			// Turn the contents into HTML, then strip the tags for the mini summary. This needs some works
 			string contentSummary = summary.Content;
@@ -226,17 +250,7 @@ namespace Roadkill.Core.Search
 			if (contentSummary.Length > 150)
 				contentSummary = contentSummary.Substring(0, 149);
 
-			Document document = new Document();
-			document.Add(new Field("id", summary.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
-			document.Add(new Field("content", summary.Content, Field.Store.YES, Field.Index.ANALYZED));
-			document.Add(new Field("contentsummary", contentSummary, Field.Store.YES, Field.Index.NO));
-			document.Add(new Field("title", summary.Title, Field.Store.YES, Field.Index.ANALYZED));
-			document.Add(new Field("tags", summary.Tags.SpaceDelimitTags(), Field.Store.YES, Field.Index.ANALYZED));
-			document.Add(new Field("createdby", summary.CreatedBy, Field.Store.YES, Field.Index.NOT_ANALYZED));
-			document.Add(new Field("createdon", summary.CreatedOn.ToShortDateString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-			document.Add(new Field("contentlength", summary.Content.Length.ToString(), Field.Store.YES, Field.Index.NO));
-
-			return document;
+			return contentSummary;
 		}
 	}
 }

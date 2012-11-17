@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Text;
 using System.Web.Security;
 using Roadkill.Core.Domain;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Controllers
 {
@@ -14,8 +15,10 @@ namespace Roadkill.Core.Controllers
 	/// </summary>
 	public class HelpController : ControllerBase
 	{
-		public HelpController() : this(new ServiceContainer()) {}
-		public HelpController(IServiceContainer container) : base(container) { }
+		public HelpController(IConfigurationContainer configuration, UserManager userManager)
+			: base(configuration, userManager) 
+		{
+		}
 
 		[EditorRequired]
 		public ActionResult CreoleReference()

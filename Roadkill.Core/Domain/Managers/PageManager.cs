@@ -9,20 +9,29 @@ using System.IO;
 using Roadkill.Core.Search;
 using System.Web;
 using Roadkill.Core.Converters;
+using Lucene.Net.Documents;
+using System.Text.RegularExpressions;
+using Roadkill.Core.Configuration;
+using StructureMap;
 
 namespace Roadkill.Core
 {
 	/// <summary>
 	/// Provides a set of tasks for wiki page management.
 	/// </summary>
-	public class PageManager : ManagerBase
+	public class PageManager : ServiceBase, IInjectionLaunderer
 	{
 		private SearchManager _searchManager;
+		private MarkupConverter _markupConverter;
+		private HistoryManager _historyManager;
 
-		public PageManager() : this(new SearchManager()) { }
-		public PageManager(SearchManager searchManager)
+		public PageManager(IConfigurationContainer configuration, IRepository repository, SearchManager searchManager, 
+			MarkupConverter markupConverter, HistoryManager historyManager)
+			: base(configuration, repository)
 		{
 			_searchManager = searchManager;
+			_markupConverter = markupConverter;
+			_historyManager = historyManager;
 		}
 
 		/// <summary>
@@ -56,16 +65,17 @@ namespace Roadkill.Core
 				Repository.SaveOrUpdate<PageContent>(pageContent);
 
 				// Update the lucene index
+				PageSummary savedSummary = pageContent.ToSummary(_markupConverter);
 				try
 				{
-					_searchManager.Add(page.ToSummary());
+					_searchManager.Add(savedSummary);
 				}
 				catch (SearchException)
 				{
 					// TODO: log
 				}
 
-				return page.ToSummary();
+				return savedSummary;
 			}
 			catch (HibernateException e)
 			{
@@ -82,9 +92,9 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				IEnumerable<Page> pages = Pages.OrderBy(p => p.Title);
+				IEnumerable<Page> pages = Repository.Pages.OrderBy(p => p.Title);
 				IEnumerable<PageSummary> summaries = from page in pages
-													 select page.ToSummary();
+													 select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
 
 				return summaries;
 			}
@@ -104,9 +114,9 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				IEnumerable<Page> pages = Pages.Where(p => p.CreatedBy == userName);
+				IEnumerable<Page> pages = Repository.Pages.Where(p => p.CreatedBy == userName);
 				IEnumerable<PageSummary> summaries = from page in pages
-													 select page.ToSummary();
+													 select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
 
 				return summaries;
 			}
@@ -125,7 +135,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				var tagList = from p in Pages select new { Tag = p.Tags };
+				var tagList = from p in Repository.Pages select new { Tag = p.Tags };
 				List<TagSummary> tags = new List<TagSummary>();
 				foreach (var item in tagList)
 				{
@@ -169,20 +179,20 @@ namespace Roadkill.Core
 			{
 				// This isn't the "right" way to do it, but to avoid the pagecontent coming back
 				// each time a page is requested, it has no inverse relationship.
-				Page page = Pages.First(p => p.Id == pageId);
+				Page page = Repository.Pages.First(p => p.Id == pageId);
 
 				// Update the lucene index before we actually delete the page.
 				// We cannot call the ToSummary() method on an object that no longer exists.
 				try
 				{
-					_searchManager.Delete(page.ToSummary());
+					_searchManager.Delete(Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter));
 				}
 				catch (SearchException)
 				{
 					// TODO: log.
 				}
 
-				IList<PageContent> children = PageContents.Where(p => p.Page.Id == pageId).ToList();
+				IList<PageContent> children = Repository.PageContents.Where(p => p.Page.Id == pageId).ToList();
 				for (int i = 0; i < children.Count; i++)
 				{
 					NHibernateUtil.Initialize(children[i].Page); // force the proxy to hydrate
@@ -234,9 +244,9 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				IEnumerable<Page> pages = Pages.Where(p => p.Tags.Contains(tag)).OrderBy(p => p.Title);
+				IEnumerable<Page> pages = Repository.Pages.Where(p => p.Tags.Contains(tag)).OrderBy(p => p.Title);
 				IEnumerable<PageSummary> summaries = from page in pages
-													 select page.ToSummary();
+													 select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
 
 				return summaries;
 			}
@@ -259,12 +269,12 @@ namespace Roadkill.Core
 				if (string.IsNullOrEmpty(title))
 					return null;
 
-				Page page = Pages.FirstOrDefault(p => p.Title.ToLower() == title.ToLower());
+				Page page = Repository.Pages.FirstOrDefault(p => p.Title.ToLower() == title.ToLower());
 
 				if (page == null)
 					return null;
 				else
-					return page.ToSummary();
+					return Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
 			}
 			catch (HibernateException ex)
 			{
@@ -282,12 +292,12 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				Page page = Pages.FirstOrDefault(p => p.Id == id);
+				Page page = Repository.Pages.FirstOrDefault(p => p.Id == id);
 
 				if (page == null)
 					return null;
 				else
-					return page.ToSummary();
+					return Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
 			}
 			catch (HibernateException ex)
 			{
@@ -306,9 +316,8 @@ namespace Roadkill.Core
 			try
 			{
 				string currentUser = RoadkillContext.Current.CurrentUsername;
-				HistoryManager manager = new HistoryManager();
 
-				Page page = Pages.FirstOrDefault(p => p.Id == summary.Id);
+				Page page = Repository.Pages.FirstOrDefault(p => p.Id == summary.Id);
 				page.Title = summary.Title;
 				page.Tags = summary.Tags.CleanTags();
 				page.ModifiedOn = DateTime.Now;
@@ -321,7 +330,7 @@ namespace Roadkill.Core
 				Repository.SaveOrUpdate<Page>(page);
 
 				PageContent pageContent = new PageContent();
-				pageContent.VersionNumber = manager.MaxVersion(summary.Id) + 1;
+				pageContent.VersionNumber = _historyManager.MaxVersion(summary.Id) + 1;
 				pageContent.Text = summary.Content;
 				pageContent.EditedBy = AppendIpForAppHarbor(currentUser);
 				pageContent.EditedOn = DateTime.Now;
@@ -331,22 +340,11 @@ namespace Roadkill.Core
 				// Update all links to this page (if it has had its title renamed). Case changes don't need any updates.
 				if (summary.PreviousTitle != null && summary.PreviousTitle.ToLower() != summary.Title.ToLower())
 				{
-					MarkupConverter converter = new MarkupConverter();
-					foreach (PageContent content in PageContents)
-					{
-						if (converter.ContainsPageLink(content.Text, summary.PreviousTitle))
-						{
-							// force the proxy to hydrate, for "Illegally attempted to associate a proxy with two open Sessions" errors
-							NHibernateUtil.Initialize(content.Page); 
-
-							content.Text = converter.ReplacePageLinks(content.Text, summary.PreviousTitle, summary.Title);
-							Repository.SaveOrUpdate<PageContent>(content);
-						}
-					}
+					UpdateLinksToPage(summary.PreviousTitle, summary.Title);
 				}
 
 				// Update the lucene index
-				_searchManager.Update(page.ToSummary());
+				_searchManager.Update(Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter));
 			}
 			catch (HibernateException ex)
 			{
@@ -408,6 +406,26 @@ namespace Roadkill.Core
 #endif
 
 			return result;
+		}
+
+		public void UpdateLinksToPage(string oldTitle, string newTitle)
+		{
+			foreach (PageContent content in Repository.PageContents)
+			{
+				if (_markupConverter.ContainsPageLink(content.Text, oldTitle))
+				{
+					// force the proxy to hydrate, for "Illegally attempted to associate a proxy with two open Sessions" errors
+					NHibernateUtil.Initialize(content.Page);
+
+					content.Text = _markupConverter.ReplacePageLinks(content.Text, oldTitle, newTitle);
+					Repository.SaveOrUpdate<PageContent>(content);
+				}
+			}
+		}
+
+		public static PageManager GetInstance()
+		{
+			return ObjectFactory.GetInstance<PageManager>();
 		}
 	}
 }

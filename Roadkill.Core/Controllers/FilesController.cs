@@ -11,6 +11,7 @@ using System.IO;
 using System.Web.UI;
 using Roadkill.Core.Localization.Resx;
 using Roadkill.Core.Domain;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Controllers
 {
@@ -19,8 +20,10 @@ namespace Roadkill.Core.Controllers
 	/// </summary>
 	public class FilesController : ControllerBase
 	{
-		public FilesController() : this(new ServiceContainer()) {}
-		public FilesController(IServiceContainer container) : base(container) { }
+		public FilesController(IConfigurationContainer configuration, UserManager userManager)
+			: base(configuration, userManager) 
+		{
+		}
 
 		/// <summary>
 		/// Displays the default file manager.
@@ -96,14 +99,14 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		private DirectorySummary GetFilesAndFolders(string folder)
 		{
-			DirectorySummary summary = DirectorySummary.FromBase64UrlPath(folder);
+			DirectorySummary summary = DirectorySummary.FromBase64UrlPath(Configuration, folder);
 			string fullPath = summary.DiskPath;
 
 			if (Directory.Exists(fullPath))
 			{
 				foreach (string item in Directory.GetDirectories(fullPath))
 				{
-					summary.ChildFolders.Add(new DirectorySummary(item));
+					summary.ChildFolders.Add(new DirectorySummary(Configuration, item));
 				}
 				foreach (string item in Directory.GetFiles(fullPath))
 				{
@@ -127,7 +130,7 @@ namespace Roadkill.Core.Controllers
 		{
 			try
 			{
-				DirectorySummary summary = DirectorySummary.FromBase64UrlPath(currentFolderPath);
+				DirectorySummary summary = DirectorySummary.FromBase64UrlPath(Configuration, currentFolderPath);
 				string newPath = string.Format("{0}\\{1}", summary.DiskPath, newFolderName);
 				if (!Directory.Exists(newPath))
 					Directory.CreateDirectory(newPath);
@@ -156,14 +159,14 @@ namespace Roadkill.Core.Controllers
 
 			string extension = Path.GetExtension(filename).Replace(".","");
 
-			if (RoadkillSettings.Current.SitePreferences.AllowedFileTypesList.FirstOrDefault(e => e.ToLower() == extension.ToLower()) != null)
+			if (Configuration.SitePreferences.AllowedFileTypesList.FirstOrDefault(e => e.ToLower() == extension.ToLower()) != null)
 			{
 				try
 				{
-					DirectorySummary summary = DirectorySummary.FromBase64UrlPath(currentUploadFolderPath);
+					DirectorySummary summary = DirectorySummary.FromBase64UrlPath(Configuration, currentUploadFolderPath);
 
-					if (!Directory.Exists(RoadkillSettings.Current.ApplicationSettings.AttachmentsFolder))
-						Directory.CreateDirectory(RoadkillSettings.Current.ApplicationSettings.AttachmentsFolder);
+					if (!Directory.Exists(Configuration.ApplicationSettings.AttachmentsFolder))
+						Directory.CreateDirectory(Configuration.ApplicationSettings.AttachmentsFolder);
 
 					string filePath = Path.Combine(summary.DiskPath, Path.GetFileName(filename));
 					HttpPostedFileBase postedFile = Request.Files["uploadFile"] as HttpPostedFileBase;

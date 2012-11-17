@@ -1,4 +1,5 @@
 ﻿@using Roadkill.Core.Converters;
+@using Roadkill.Core.Configuration;
 var ROADKILL_CORESCRIPTPATH = "@Url.Content("~/Assets/Scripts/")";
 var ROADKILL_THEMEPATH =  "@Url.Content(RoadkillSettings.Current.SitePreferences.ThemePath)/";
 
@@ -16,7 +17,7 @@ var ROADKILL_ATTACHMENTSPATH = "@Url.Content(RoadkillSettings.Current.Applicatio
 
 // Tokens for the edit toolbar
 @{
-MarkupConverter converter = new MarkupConverter();
+MarkupConverter converter = MarkupConverter.GetInstance();
 IMarkupParser parser = converter.Parser;
 }
 var ROADKILL_EDIT_BOLD_TOKEN        = "@Html.Raw(parser.BoldToken)";

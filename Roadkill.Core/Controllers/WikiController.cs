@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Text;
 using System.Web.Security;
 using Roadkill.Core.Domain;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Controllers
 {
@@ -15,8 +16,13 @@ namespace Roadkill.Core.Controllers
 	[OptionalAuthorization]
 	public class WikiController : ControllerBase
 	{
-		public WikiController() : this(new ServiceContainer()) {}
-		public WikiController(IServiceContainer container) : base(container) { }
+		private PageManager _pageManager;
+
+		public WikiController(IConfigurationContainer configuration, UserManager userManager, PageManager pageManager)
+			: base(configuration, userManager) 
+		{
+			_pageManager = pageManager;
+		}
 
 		/// <summary>
 		/// Displays the wiki page using the provided id.
@@ -31,8 +37,7 @@ namespace Roadkill.Core.Controllers
 			if (id == null || id < 1)
 				return RedirectToAction("Index", "Home");
 
-			PageManager manager = new PageManager();
-			PageSummary summary = manager.GetById(id.Value);
+			PageSummary summary = _pageManager.GetById(id.Value);
 
 			if (summary == null)
 				return new HttpNotFoundResult(string.Format("The page with id '{0}' could not be found", id));

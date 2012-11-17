@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Roadkill.Core.Converters;
 
 namespace Roadkill.Core
 {
@@ -13,5 +14,8 @@ namespace Roadkill.Core
 		void SaveOrUpdate<T>(T obj) where T : class;
 		PageContent GetLatestPageContent(int pageId);
 		SitePreferences GetSitePreferences();
+		IQueryable<Page> Pages { get; }
+		IQueryable<PageContent> PageContents { get; }
+		IQueryable<User> Users { get; }
 	}
 }
