@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FluentNHibernate.Mapping;
+using Roadkill.Core.Configuration;
+using Roadkill.Core.Converters;
 
 namespace Roadkill.Core
 {
@@ -17,6 +19,25 @@ namespace Roadkill.Core
 		public virtual string EditedBy { get; set; }
 		public virtual DateTime EditedOn { get; set; }
 		public virtual int VersionNumber { get; set; }
+
+		public virtual PageSummary ToSummary(MarkupConverter markupConverter)
+		{
+			return new PageSummary()
+			{
+				Id = Page.Id,
+				Title = Page.Title,
+				PreviousTitle = Page.Title,
+				CreatedBy = Page.CreatedBy,
+				CreatedOn = Page.CreatedOn,
+				IsLocked = Page.IsLocked,
+				ModifiedBy = Page.ModifiedBy,
+				ModifiedOn = Page.ModifiedOn,
+				Tags = Page.Tags,
+				Content = Text,
+				ContentAsHtml = markupConverter.ToHtml(Text),
+				VersionNumber = VersionNumber,
+			};
+		}
 	}
 
 	/// <summary>

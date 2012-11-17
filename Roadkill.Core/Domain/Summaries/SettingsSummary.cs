@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using Roadkill.Core.Localization.Resx;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {

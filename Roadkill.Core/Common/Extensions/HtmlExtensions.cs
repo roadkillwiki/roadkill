@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using Recaptcha;
 using System.Web.UI;
 using System.IO;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {
@@ -89,16 +90,6 @@ namespace Roadkill.Core
 			title = Regex.Replace(title, @"\s", "-");
 
 			return title;
-		}
-
-		/// <summary>
-		/// Turns the provided wiki markdown into HTML, using the current markdown syntax parser.
-		/// </summary>
-		/// <param name="content">The wiki markdown.</param>
-		/// <returns>The converted HTML.</returns>
-		public static MvcHtmlString WikiMarkupToHtml(this HtmlHelper helper, string content)
-		{
-			return MvcHtmlString.Create(content.WikiMarkupToHtml());
 		}
 
 		/// <summary>

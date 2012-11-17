@@ -8,6 +8,7 @@ using System.Web;
 using System.Diagnostics;
 using System.Threading;
 using Roadkill.Core.Domain;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Controllers
 {
@@ -17,11 +18,13 @@ namespace Roadkill.Core.Controllers
 	/// </summary>
 	public class ControllerBase : Controller
 	{
-		protected IServiceContainer ServiceContainer;
+		protected IConfigurationContainer Configuration;
+		protected UserManager UserManager;
 
-		public ControllerBase(IServiceContainer container)
+		public ControllerBase(IConfigurationContainer configuration, UserManager userManager)
 		{
-			ServiceContainer = container;
+			Configuration = configuration;
+			UserManager = userManager;
 		}
 
 		protected override void OnException(ExceptionContext filterContext)
@@ -38,7 +41,7 @@ namespace Roadkill.Core.Controllers
 		/// <param name="filterContext">Information about the current request and action.</param>
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			if (!RoadkillSettings.Current.ApplicationSettings.Installed)
+			if (!Configuration.ApplicationSettings.Installed)
 			{
 				if (!(filterContext.Controller is InstallController))
 					filterContext.Result = new RedirectResult(this.Url.Action("Index","Install"));
@@ -58,16 +61,7 @@ namespace Roadkill.Core.Controllers
 			}
 #endif
 
-			RoadkillContext.Current.CurrentUser = GetCurrentUser(HttpContext);
-		}
-
-		/// <summary>
-		/// Gets the current logged in user.
-		/// </summary>
-		/// <returns>The logged in user. Returns an empty string if the user is not logged in</returns>
-		public string GetCurrentUser(HttpContextBase context)
-		{
-			return ServiceContainer.UserManager.GetLoggedInUserName(context);
+			RoadkillContext.Current.CurrentUser = UserManager.GetLoggedInUserName(HttpContext);
 		}
 	}
 }

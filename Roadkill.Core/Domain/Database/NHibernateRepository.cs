@@ -11,6 +11,8 @@ using NHibernate;
 using NHibernate.Linq;
 using System.Data;
 using NHibernateConfig = NHibernate.Cfg.Configuration;
+using Roadkill.Core.Converters;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {
@@ -19,14 +21,38 @@ namespace Roadkill.Core
 	/// </summary>
 	public class NHibernateRepository : IRepository
 	{
-		public NHibernateRepository()
+		private IConfigurationContainer _configuration;
+
+		/// <summary>
+		/// Gets a LINQ-to-NHibernate <see cref="Queryable`Page`"/> object to perform queries with.
+		/// </summary>
+		public IQueryable<Page> Pages
 		{
-			if (RoadkillSettings.Current.ApplicationSettings.Installed)
+			get
 			{
-				Configure(RoadkillSettings.Current.ApplicationSettings.DatabaseType,
-							RoadkillSettings.Current.ApplicationSettings.ConnectionString,
-							false,
-							RoadkillSettings.Current.ApplicationSettings.CachedEnabled);
+				return Queryable<Page>();
+			}
+		}
+
+		/// <summary>
+		/// Gets a LINQ-to-NHibernate <see cref="Queryable`PageContent`"/> object to perform queries with.
+		/// </summary>
+		public IQueryable<PageContent> PageContents
+		{
+			get
+			{
+				return Queryable<PageContent>();
+			}
+		}
+
+		/// <summary>
+		/// Gets a LINQ-to-NHibernate <see cref="Queryable`User`"/> object to perform queries with.
+		/// </summary>
+		public IQueryable<User> Users
+		{
+			get
+			{
+				return Queryable<User>();
 			}
 		}
 
@@ -39,6 +65,19 @@ namespace Roadkill.Core
 		/// The current Fluent NHibernate <see cref="FluentConfiguration"/> object that represents the current NHibernate configuration.
 		/// </summary>
 		public virtual FluentConfiguration Configuration { get; protected set; }
+
+		public NHibernateRepository(IConfigurationContainer configuration)
+		{
+			_configuration = configuration;
+
+			if (configuration.ApplicationSettings.Installed)
+			{
+				Configure(configuration.ApplicationSettings.DatabaseType,
+						  configuration.ApplicationSettings.ConnectionString,
+						  false,
+						  configuration.ApplicationSettings.CachedEnabled);
+			}
+		}
 
 		/// <summary>
 		/// Initializes and configures NHibernate using the connection string with Fluent NHibernate.
@@ -67,7 +106,7 @@ namespace Roadkill.Core
 
 			if (!config.Properties.ContainsKey("connection.connection_string_name"))
 			{
-				config.SetProperty("connection.connection_string_name", RoadkillSettings.Current.ApplicationSettings.ConnectionStringName);
+				config.SetProperty("connection.connection_string_name", _configuration.ApplicationSettings.ConnectionStringName);
 			}
 
 			// Only configure the caching if it's not already in the config file
@@ -228,7 +267,7 @@ namespace Roadkill.Core
 		public PageContent GetLatestPageContent(int pageId)
 		{
 			PageContent latest;
-			if (RoadkillSettings.Current.ApplicationSettings.DatabaseType != DatabaseType.SqlServerCe)
+			if (_configuration.ApplicationSettings.DatabaseType != DatabaseType.SqlServerCe)
 			{
 				// Fetches the parent page object via SQL as well as the PageContent, avoiding lazy loading.
 				IQuery query = SessionFactory.OpenSession()

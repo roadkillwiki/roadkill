@@ -253,6 +253,8 @@
     <Compile Include="Common\Log.cs" />
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
+    <Compile Include="Configuration\IInjectionLaunderer.cs" />
+    <Compile Include="Configuration\StructureMapControllerFactory.cs" />
     <Compile Include="Controllers\Attributes\OptionalAuthorizationAttribute.cs" />
     <Compile Include="Controllers\Attributes\RecaptchaRequiredAttribute.cs" />
     <Compile Include="Controllers\Attributes\ImportModelStateAttribute.cs" />
@@ -263,13 +265,12 @@
     <Compile Include="Controllers\Attributes\EditorRequiredAttribute.cs" />
     <Compile Include="Common\Salt.cs" />
     <Compile Include="Configuration\IConfigurationContainer.cs" />
-    <Compile Include="Domain\Container\IServiceContainer.cs" />
-    <Compile Include="Domain\Container\ServiceContainer.cs" />
     <Compile Include="Domain\Managers\Security\Windows\PrincipalWrapper.cs" />
     <Compile Include="Domain\Managers\Security\Windows\IRoadKillPrincipal.cs" />
     <Compile Include="Domain\Managers\Security\Windows\IActiveDirectoryService.cs" />
     <Compile Include="Domain\Managers\Security\Windows\DefaultActiveDirectoryService.cs" />
     <Compile Include="Domain\Database\IRepository.cs" />
+    <Compile Include="Exceptions\IoCException.cs" />
     <Compile Include="Files\AttachmentFileHandler.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Domain\Email\ResetPasswordEmail.cs" />
@@ -281,7 +282,7 @@
     <Compile Include="Exceptions\SearchException.cs" />
     <Compile Include="Exceptions\DatabaseException.cs" />
     <Compile Include="Files\AttachmentRouteHandler.cs" />
-    <Compile Include="IRoadkillContext.cs" />
+    <Compile Include="Context\IRoadkillContext.cs" />
     <Compile Include="Localization\Resx\InstallStrings.Designer.cs">
       <DependentUpon>InstallStrings.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -320,7 +321,7 @@
     <Compile Include="Domain\Database\User.cs" />
     <Compile Include="Domain\Database\NHibernateRepository.cs" />
     <Compile Include="Domain\Managers\InstallHelper.cs" />
-    <Compile Include="Domain\Managers\ManagerBase.cs" />
+    <Compile Include="Domain\Managers\ServiceBase.cs" />
     <Compile Include="Domain\Summaries\UserSummary.cs" />
     <Compile Include="Exceptions\HistoryException.cs" />
     <Compile Include="Exceptions\ExceptionBase.cs" />
@@ -341,7 +342,7 @@
     <Compile Include="Text\MarkupConverter.cs" />
     <Compile Include="Exceptions\InstallerException.cs" />
     <Compile Include="Configuration\RoadkillSettings.cs" />
-    <Compile Include="RoadkillContext.cs" />
+    <Compile Include="Context\RoadkillContext.cs" />
     <Compile Include="Common\Extensions\Extensions.cs" />
     <Compile Include="Common\Extensions\HtmlExtensions.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
@@ -353,7 +354,7 @@
     <Compile Include="Domain\Database\Page.cs" />
     <Compile Include="Domain\Summaries\PageSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RoadkillApplication.cs" />
+    <Compile Include="Configuration\RoadkillApplication.cs" />
     <Compile Include="Text\TocParser.cs" />
   </ItemGroup>
   <ItemGroup>

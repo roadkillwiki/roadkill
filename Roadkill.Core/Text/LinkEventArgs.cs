@@ -31,6 +31,11 @@ namespace Roadkill.Core.Converters
 		public string Target { get; set; }
 
 		/// <summary>
+		/// The css class attribute.
+		/// </summary>
+		public string CssClass { get; set; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="LinkEventArgs"/> class.
 		/// </summary>
 		public LinkEventArgs(string originalHref, string href, string text, string target)
@@ -39,6 +44,7 @@ namespace Roadkill.Core.Converters
 			Href = href;
 			Text = text;
 			Target = target;
+			CssClass = "";
 		}
 	}
 }

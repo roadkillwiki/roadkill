@@ -27,34 +27,6 @@ namespace Roadkill.Core
 		public virtual DateTime ModifiedOn { get; set; }
 		public virtual string Tags { get; set; }
 		public virtual bool IsLocked { get; set; }
-
-		public virtual PageContent CurrentContent()
-		{
-			return new PageManager().GetCurrentContent(Id);
-		}
-
-		public virtual PageSummary ToSummary()
-		{
-			return ToSummary(CurrentContent());
-		}
-
-		public virtual PageSummary ToSummary(PageContent content)
-		{
-			return new PageSummary()
-			{
-				Id = Id,
-				Title = Title,
-				PreviousTitle = Title,
-				CreatedBy = CreatedBy,
-				CreatedOn = CreatedOn,
-				IsLocked = IsLocked,
-				ModifiedBy = ModifiedBy,
-				ModifiedOn = ModifiedOn,
-				Tags = Tags,
-				Content = content.Text,
-				VersionNumber = content.VersionNumber,
-			};
-		}
 	}
 
 	/// <summary>

@@ -9,6 +9,7 @@ using Roadkill.Core.Search;
 using System.ComponentModel.DataAnnotations;
 using Roadkill.Core.Localization.Resx;
 using Roadkill.Core.Domain;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Controllers
 {
@@ -17,8 +18,11 @@ namespace Roadkill.Core.Controllers
 	/// </summary>
 	public class UserController : ControllerBase
 	{
-		public UserController() : this(new ServiceContainer()) {}
-		public UserController(IServiceContainer container) : base(container) {}
+		public UserController(IConfigurationContainer configuration, UserManager userManager)
+			: base(configuration, userManager) 
+		{
+
+		}
 
 		/// <summary>
 		/// Activates a newly registered account.
@@ -29,7 +33,7 @@ namespace Roadkill.Core.Controllers
 			if (string.IsNullOrEmpty(id))
 				RedirectToAction("Index", "Home");
 
-			if (!ServiceContainer.UserManager.ActivateUser(id))
+			if (!UserManager.ActivateUser(id))
 			{
 				ModelState.AddModelError("General", SiteStrings.Activate_Error);
 			}
@@ -45,7 +49,7 @@ namespace Roadkill.Core.Controllers
 			if (RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
-			User user = ServiceContainer.UserManager.GetUserByResetKey(id);
+			User user = UserManager.GetUserByResetKey(id);
 			
 			if (user == null)
 			{
@@ -77,10 +81,10 @@ namespace Roadkill.Core.Controllers
 			}
 			else
 			{
-				User user = ServiceContainer.UserManager.GetUserByResetKey(id);
+				User user = UserManager.GetUserByResetKey(id);
 				if (user != null)
 				{
-					ServiceContainer.UserManager.ChangePassword(user.Email, summary.Password);
+					UserManager.ChangePassword(user.Email, summary.Password);
 					return View("CompleteResetPasswordSuccessful");
 				}
 				else
@@ -115,7 +119,7 @@ namespace Roadkill.Core.Controllers
 			if (Request.QueryString["ReturnUrl"] != null && Request.QueryString["ReturnUrl"].ToLower().Contains("files"))
 				viewName = "BlankLogin";
 
-			if (ServiceContainer.UserManager.Authenticate(email, password))
+			if (UserManager.Authenticate(email, password))
 			{
 				if (!string.IsNullOrWhiteSpace(fromUrl))
 					return Redirect(fromUrl);
@@ -134,7 +138,7 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult Logout()
 		{
-			ServiceContainer.UserManager.Logout();
+			UserManager.Logout();
 			return RedirectToAction("Index", "Home", new { nocache = DateTime.Now.Ticks });
 		}
 
@@ -145,7 +149,7 @@ namespace Roadkill.Core.Controllers
 		{
 			if (RoadkillContext.Current.IsLoggedIn)
 			{
-				UserSummary summary = ServiceContainer.UserManager.GetUser(RoadkillContext.Current.CurrentUser).ToSummary();
+				UserSummary summary = UserManager.GetUser(RoadkillContext.Current.CurrentUser).ToSummary();
 				return View(summary);
 			}
 			else
@@ -176,7 +180,7 @@ namespace Roadkill.Core.Controllers
 			{
 				try
 				{
-					if (ServiceContainer.UserManager.UpdateUser(summary))
+					if (UserManager.UpdateUser(summary))
 					{
 						// Reset the auth cookie to the new email.
 						FormsAuthentication.SetAuthCookie(summary.NewEmail, true);
@@ -190,7 +194,7 @@ namespace Roadkill.Core.Controllers
 					}
 
 					if (!string.IsNullOrEmpty(summary.Password))
-						ServiceContainer.UserManager.ChangePassword(summary.ExistingEmail, summary.Password);
+						UserManager.ChangePassword(summary.ExistingEmail, summary.Password);
 				}
 				catch (SecurityException e)
 				{
@@ -235,14 +239,14 @@ namespace Roadkill.Core.Controllers
 			}
 			else
 			{
-				User user = ServiceContainer.UserManager.GetUser(email);
+				User user = UserManager.GetUser(email);
 				if (user == null)
 				{
 					ModelState.AddModelError("General", SiteStrings.ResetPassword_Error_EmailNotFound);
 				}
 				else
 				{
-					string key = ServiceContainer.UserManager.ResetPassword(email);
+					string key = UserManager.ResetPassword(email);
 					if (!string.IsNullOrEmpty(key))
 					{
 						// Everything worked, send the email
@@ -267,7 +271,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult ResendConfirmation(string email)
 		{
-			UserSummary summary = ServiceContainer.UserManager.GetUser(email).ToSummary();
+			UserSummary summary = UserManager.GetUser(email).ToSummary();
 			if (summary == null)
 			{
 				// Something went wrong with the signup, redirect to the first step of the signup.
@@ -319,7 +323,7 @@ namespace Roadkill.Core.Controllers
 					{
 						try
 						{
-							string key = ServiceContainer.UserManager.Signup(summary, null);
+							string key = UserManager.Signup(summary, null);
 							if (string.IsNullOrEmpty(key))
 							{
 								ModelState.AddModelError("General", SiteStrings.Signup_Error_General);

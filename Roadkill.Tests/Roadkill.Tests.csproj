@@ -214,6 +214,9 @@
     <Reference Include="SimpleBrowser.WebDriver">
       <HintPath>..\packages\SimpleBrowser.WebDriver.0.5.6\lib\net40\SimpleBrowser.WebDriver.dll</HintPath>
     </Reference>
+    <Reference Include="StructureMap">
+      <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
@@ -241,11 +244,10 @@
   <ItemGroup>
     <Compile Include="Controllers\MvcMockContainer.cs" />
     <Compile Include="Controllers\FilesControllerTests.cs" />
-    <Compile Include="CoreTests\Configuration\RoadkillSectionTests.cs" />
-    <Compile Include="CoreTests\MoqTestBase.cs" />
-    <Compile Include="CoreTests\Managers\PageManagerTests.cs" />
+    <Compile Include="CoreTests\Configuration\RoadkillSettingsTests.cs" />
+    <Compile Include="CoreTests\Mock\MockServiceContainer.cs" />
+    <None Include="CoreTests\Mock\PageManagerTests.cs" />
     <Compile Include="CoreTests\Managers\ActiveDirectoryUserManagerTests.cs" />
-    <Compile Include="Integration\SettingsTests.cs" />
     <Compile Include="Integration\SqlTestsBase.cs" />
     <Content Include="lib\roadkill.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -256,6 +258,7 @@
     <None Include="app.config" />
     <Content Include="TestConfigs\test.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="TestConfigs\test-optional-values.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -271,7 +274,7 @@
     <Compile Include="Headless\Urls.cs" />
     <Compile Include="Controllers\MvcMockHelpers.cs" />
     <Compile Include="Controllers\UserControllerTests.cs" />
-    <Compile Include="Integration\SearchManagerTests.cs" />
+    <Compile Include="CoreTests\Mock\SearchManagerTests.cs" />
     <Compile Include="Plasma\PageTests.cs" />
     <Compile Include="Plasma\PlasmaTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

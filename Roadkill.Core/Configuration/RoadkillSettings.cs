@@ -9,16 +9,20 @@ using System.Reflection;
 using System.IO;
 using StructureMap;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Configuration
 {
 	/// <summary>
 	/// The default implementation of <see cref="IConfigurationContainer"/>
 	/// </summary>
-	public class RoadkillSettings : IConfigurationContainer
+	public class RoadkillSettings : IConfigurationContainer, IInjectionLaunderer
 	{
 		private SitePreferences _sitePreferences;
 		private ApplicationSettings _applicationSettings;
 
+		/// <summary>
+		/// Retrieves the configuration settings that are stored in the database.
+		/// </summary>
+		/// <returns>A <see cref="SitePreferences"/></returns>
 		public SitePreferences SitePreferences
 		{
 			get 
@@ -32,7 +36,12 @@ namespace Roadkill.Core
 			}
 			set { _sitePreferences = value; }
 		}
-
+	
+		/// <summary>
+		/// Retrieves the configuration settings that are stored inside an application config 
+		/// file and require an application restart when changed.
+		/// </summary>
+		/// <returns>A <see cref="RoadkillSection"/></returns>
 		public ApplicationSettings ApplicationSettings
 		{
 			get
@@ -40,7 +49,7 @@ namespace Roadkill.Core
 				if (_applicationSettings == null)
 				{
 					_applicationSettings = new ApplicationSettings();
-					_applicationSettings.Load(ConfigurationManager.GetSection("roadkill") as RoadkillSection);
+					_applicationSettings.Load();
 				}
 
 				return _applicationSettings; 
@@ -58,8 +67,18 @@ namespace Roadkill.Core
 
 		public virtual void LoadSitePreferences()
 		{
-			IRepository repository = ObjectFactory.GetInstance<IRepository>();
+			IRepository repository;
 
+			try
+			{
+				repository = ObjectFactory.GetInstance<IRepository>();
+			}
+			catch (StructureMapException e)
+			{
+				throw new IoCException("A StructureMap exception occurred when loading the repository for SitePreferences - has RoadkillApplication.SetupIoC() been called? "
+					+ ObjectFactory.WhatDoIHave(), e);
+			}
+			
 			SitePreferences preferences = repository.GetSitePreferences();
 
 			if (preferences == null)

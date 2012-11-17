@@ -7,6 +7,7 @@ using Microsoft.Web.Administration;
 using System.IO;
 using System.Web.Routing;
 using System.Reflection;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Files
 {
@@ -86,7 +87,7 @@ namespace Roadkill.Core.Files
 		{
 			string mimeType = "text/plain";
 
-			Configuration config = serverManager.GetApplicationHostConfiguration();
+			Microsoft.Web.Administration.Configuration config = serverManager.GetApplicationHostConfiguration();
 			ConfigurationSection staticContentSection = config.GetSection("system.webServer/staticContent");
 			ConfigurationElementCollection mimemaps = staticContentSection.GetCollection();
 

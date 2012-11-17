@@ -17,7 +17,7 @@ namespace Roadkill.Core
 	/// </summary>
 	public class RoadkillContext : IRoadkillContext
 	{
-		private IServiceContainer _serviceContainer;
+		private UserManager _userManager;
 
 		/// <summary>
 		/// The current logged in user name (including domain suffix for Windows authentication).
@@ -35,7 +35,7 @@ namespace Roadkill.Core
 			get
 			{
 				if (IsLoggedIn)
-					return _serviceContainer.UserManager.GetUser(CurrentUser).Username;
+					return _userManager.GetUser(CurrentUser).Username;
 				else
 					return "";
 			}
@@ -49,7 +49,7 @@ namespace Roadkill.Core
 			get
 			{
 				if (IsLoggedIn)
-					return _serviceContainer.UserManager.IsAdmin(CurrentUser);
+					return _userManager.IsAdmin(CurrentUser);
 				else
 					return false;
 			}
@@ -63,7 +63,7 @@ namespace Roadkill.Core
 			get
 			{
 				if (IsLoggedIn)
-					return _serviceContainer.UserManager.IsEditor(CurrentUser);
+					return _userManager.IsEditor(CurrentUser);
 				else
 					return false;
 			}
@@ -107,10 +107,9 @@ namespace Roadkill.Core
 			}
 		}
 
-		public RoadkillContext() : this(new ServiceContainer()) { }
-		public RoadkillContext(IServiceContainer container)
+		public RoadkillContext(UserManager userManager)
 		{
-			_serviceContainer = container;
+			_userManager = userManager;
 		}
 
 		/// <summary>

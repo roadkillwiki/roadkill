@@ -16,6 +16,12 @@ namespace Roadkill.Tests.Controllers
 	[TestFixture]
 	public class PageManagerTests : MoqTestBase
 	{
+		[SetUp]
+		public void SearchSetup()
+		{
+			RoadkillApplication.SetupIoC();
+		}
+
 		[Test]
 		public void AddPage_Should_Save_To_Repository()
 		{

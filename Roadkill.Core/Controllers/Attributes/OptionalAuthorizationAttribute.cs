@@ -6,6 +6,8 @@ using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using Roadkill.Core.Domain;
+using StructureMap;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {
@@ -36,7 +38,7 @@ namespace Roadkill.Core
 				}
 				else
 				{
-					if (ServiceContainer.Current.UserManager.IsAdmin(identity.Name) || ServiceContainer.Current.UserManager.IsEditor(identity.Name))
+					if (UserManager.GetInstance().IsAdmin(identity.Name) || UserManager.GetInstance().IsEditor(identity.Name))
 					{
 						return true;
 					}

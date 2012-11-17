@@ -35,6 +35,11 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// The content after it has been transformed into HTML by the current wiki markup converter.
+		/// </summary>
+		public string ContentAsHtml { get; set; }
+
+		/// <summary>
 		/// The user who created the page.
 		/// </summary>
 		public string CreatedBy { get; set; }

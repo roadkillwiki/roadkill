@@ -11,5 +11,5 @@
 <h1 class="pagetitle">@Model.Title</h1>
 
 <div id="pagecontent">
-@Html.WikiMarkupToHtml(Model.Content)
+@MvcHtmlString.Create(Model.ContentAsHtml)
 </div>

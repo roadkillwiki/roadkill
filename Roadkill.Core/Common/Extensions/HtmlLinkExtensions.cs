@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using Roadkill.Core.Localization.Resx;
 using System.Globalization;
+using StructureMap;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {
@@ -127,7 +129,7 @@ namespace Roadkill.Core
 		/// <returns>If the page is not found, the link text is returned.</returns>
 		public static MvcHtmlString PageLink(this HtmlHelper helper, string linkText, string pageTitle, object htmlAttributes,string prefix,string suffix)
 		{
-			PageManager manager = new PageManager();
+			PageManager manager = ObjectFactory.GetInstance<PageManager>();
 			PageSummary summary = manager.FindByTitle(pageTitle);
 			if (summary != null)
 			{

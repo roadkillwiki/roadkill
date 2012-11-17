@@ -11,6 +11,7 @@ using Roadkill.Core.Converters;
 using Roadkill.Core.Search;
 using Roadkill.Core.Localization.Resx;
 using Roadkill.Core.Domain;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Controllers
 {
@@ -20,8 +21,18 @@ namespace Roadkill.Core.Controllers
 	[OptionalAuthorization]
 	public class HomeController : ControllerBase
 	{
-		public HomeController() : this(new ServiceContainer()) {}
-		public HomeController(IServiceContainer container) : base(container) { }
+		private PageManager _pageManager;
+		private SearchManager _searchManager;
+		private MarkupConverter _markupConverter;
+
+		public HomeController(IConfigurationContainer configuration, UserManager userManager, MarkupConverter markupConverter, 
+			PageManager pageManager, SearchManager searchManager)
+			: base(configuration, userManager) 
+		{
+			_markupConverter = markupConverter;
+			_pageManager = pageManager;
+			_searchManager = searchManager;
+		}
 
 		/// <summary>
 		/// Display the homepage/mainpage. If no page has been tagged with the 'homepage' tag,
@@ -30,11 +41,11 @@ namespace Roadkill.Core.Controllers
 		public ActionResult Index()
 		{
 			// Get the first locked homepage
-			PageSummary summary = ServiceContainer.PageManager.FindByTag("homepage").FirstOrDefault(h => h.IsLocked);
+			PageSummary summary = _pageManager.FindByTag("homepage").FirstOrDefault(h => h.IsLocked);
 			if (summary == null)
 			{
 				// Look for a none-locked page as a fallback
-				summary = ServiceContainer.PageManager.FindByTag("homepage").FirstOrDefault();
+				summary = _pageManager.FindByTag("homepage").FirstOrDefault();
 			}
 
 			if (summary == null)
@@ -42,6 +53,7 @@ namespace Roadkill.Core.Controllers
 				summary = new PageSummary();
 				summary.Title = SiteStrings.NoMainPage_Title;
 				summary.Content = SiteStrings.NoMainPage_Label;
+				summary.ContentAsHtml = _markupConverter.ToHtml(SiteStrings.NoMainPage_Label);
 				summary.CreatedBy = "";
 				summary.CreatedOn = DateTime.Now;
 				summary.Tags = "homepage";
@@ -60,7 +72,7 @@ namespace Roadkill.Core.Controllers
 		{
 			ViewData["search"] = q;
 
-			List<SearchResult> results = ServiceContainer.SearchManager.SearchIndex(q).ToList();
+			List<SearchResult> results = _searchManager.SearchIndex(q).ToList();
 			return View(results);
 		}
 

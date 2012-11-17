@@ -73,6 +73,9 @@ namespace Roadkill.Core
 		/// </summary>
 		public virtual string Version { get; set; }
 
+		/// <summary>
+		/// An asp.net relativate path e.g. ~/Themes/ to the current theme directory. Does not include a trailing slash.
+		/// </summary>
 		public virtual string ThemePath
 		{
 			get
@@ -81,6 +84,9 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Retrieves a list of the file extensions that are permitted for upload.
+		/// </summary>
 		public virtual List<string> AllowedFileTypesList
 		{
 			get

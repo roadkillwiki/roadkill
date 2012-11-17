@@ -8,6 +8,8 @@ using Roadkill.Core.Files;
 using StructureMap;
 using Roadkill.Core.Domain;
 using StructureMap.Pipeline;
+using Roadkill.Core.Configuration;
+using Roadkill.Core.Converters;
 
 namespace Roadkill.Core
 {
@@ -16,6 +18,16 @@ namespace Roadkill.Core
 	/// </summary>
 	public class RoadkillApplication : HttpApplication
 	{
+		protected void Application_Start()
+		{
+			SetupIoC();
+			AttachmentRouteHandler.Register();
+			AreaRegistration.RegisterAllAreas();
+			RegisterRoutes(RouteTable.Routes);
+
+			ControllerBuilder.Current.SetControllerFactory(new StructureMapControllerFactory());
+		}
+
 		public static void RegisterRoutes(RouteCollection routes)
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -49,39 +61,33 @@ namespace Roadkill.Core
 			);
 		}
 
-		protected void Application_Start()
-		{
-			SetupIoC();
-			AttachmentRouteHandler.Register();
-			AreaRegistration.RegisterAllAreas();
-			RegisterRoutes(RouteTable.Routes);
-		}
-
 		/// <summary>
-		/// Initializes the Structuremap IoC containers for the Services and Configuration.
+		/// Initializes the Structuremap IoC containers for the Services, Configuration and IRepository,
+		/// and registering the defaults for each.
 		/// </summary>
-		public virtual void SetupIoC()
+		public static void SetupIoC()
 		{
 			ObjectFactory.Initialize(x =>
 			{
 				x.Scan(scanner =>
 				{
 					scanner.AddAllTypesOf<IConfigurationContainer>();
-					scanner.AddAllTypesOf<IServiceContainer>();
+					scanner.AddAllTypesOf<ControllerBase>();
+					scanner.AddAllTypesOf<ServiceBase>();
 					scanner.AddAllTypesOf<IRoadkillContext>();
 					scanner.AddAllTypesOf<IRepository>();
+					scanner.AddAllTypesOf<MarkupConverter>();
 					scanner.WithDefaultConventions();
 				});
 
-				//x.For<IRepository>().LifecycleIs(new HybridSessionLifecycle()).Use<NHibernateRepository>();
-				//x.For<IConfigurationContainer>().Use<RoadkillSettings>();
-				//x.For<IServiceContainer>().LifecycleIs(new HybridSessionLifecycle());
-				//x.For<IRoadkillContext>().LifecycleIs(new HybridSessionLifecycle());
-
-				x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use<NHibernateRepository>();
+				// The order of the calls is important as the default concrete types have a dependency order:
+				// - Repository relies on RoadkillSettings
+				// - Container relies on Repository
+				// - Context relies on ServiceContainer
 				x.For<IConfigurationContainer>().HybridHttpOrThreadLocalScoped().Use<RoadkillSettings>();
-				x.For<IServiceContainer>().HybridHttpOrThreadLocalScoped().Use<ServiceContainer>();
+				x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use<NHibernateRepository>();
 				x.For<IRoadkillContext>().HybridHttpOrThreadLocalScoped().Use<RoadkillContext>();
+				x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<SqlUserManager>();
 			});
 
 			ObjectFactory.Configure(x =>

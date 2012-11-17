@@ -11,6 +11,7 @@ using System.IO;
 using System.Web;
 using Roadkill.Core.Domain;
 using StructureMap;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {
@@ -19,13 +20,13 @@ namespace Roadkill.Core
 	/// </summary>
 	internal class InstallHelper
 	{
-		private IServiceContainer _container;
-		protected IRepository Repository;
+		private UserManager _userManager;
+		private IRepository _repository;
 
-		public InstallHelper(IServiceContainer container)
+		public InstallHelper(UserManager userManager, IRepository repository)
 		{
-			_container = container;
-			Repository = ObjectFactory.GetInstance<IRepository>();
+			_userManager = userManager;
+			_repository = repository;
 		}
 
 		/// <summary>
@@ -37,7 +38,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				_container.UserManager.AddUser(summary.AdminEmail, "admin", summary.AdminPassword, true, false);
+				_userManager.AddUser(summary.AdminEmail, "admin", summary.AdminPassword, true, false);
 			}
 			catch (SecurityException ex)
 			{
@@ -53,7 +54,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+				System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 
 				RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
 				section.Installed = false;
@@ -118,11 +119,11 @@ namespace Roadkill.Core
 				if (!Enum.TryParse<DatabaseType>(databaseType, true, out dbType))
 					dbType = DatabaseType.SqlServer2005;
 
-				Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+				System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 				RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
 
 				// Only create Schema if not already installed otherwise just a straight TestConnection
-				Repository.Configure(dbType, connectionString, !section.Installed, false);
+				_repository.Configure(dbType, connectionString, !section.Installed, false);
 				return "";
 			}
 			catch (Exception e)

@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Web;
 using StructureMap;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {

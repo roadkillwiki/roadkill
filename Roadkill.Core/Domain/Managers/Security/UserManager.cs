@@ -2,13 +2,23 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Web;
+using Roadkill.Core.Configuration;
+using StructureMap;
 namespace Roadkill.Core
 {
 	/// <summary>
 	/// The base class for user management tasks.
 	/// </summary>
-	public abstract class UserManager : ManagerBase
+	public abstract class UserManager : ServiceBase, IInjectionLaunderer
 	{
+		protected PageManager PageManager;
+
+		public UserManager(IConfigurationContainer configuration, IRepository repository, PageManager pageManager)
+			: base(configuration, repository)
+		{
+			PageManager = pageManager;
+		}
+
 		/// <summary>
 		/// Indicates whether this UserManager can perform deletes, updates or inserts for users.
 		/// </summary>
@@ -164,17 +174,18 @@ namespace Roadkill.Core
 		public abstract bool UserNameExists(string username);
 
 		/// <summary>
-		/// Hashes the provided password for storage in the database.
-		/// </summary>
-		/// <param name="password">The password to hash.</param>
-		/// <returns>A hashed version of the password.</returns>
-		public abstract string HashPassword(string password, string salt);
-
-		/// <summary>
-		/// Gets the current username for the logged in user.
+		/// Gets the username for the logged in user based on information stored in the state of the <see cref="HttpContextBase"/>.
 		/// </summary>
 		/// <param name="context">The current <see cref="System.Web.HttpContext"/> for the request.</param>
 		/// <returns>The username of the logged in user, or an empty string if the user is not logged in.</returns>
 		public abstract string GetLoggedInUserName(HttpContextBase context);
+
+		/// <summary>
+		/// Temporary 'Bastard Injection' for the places (Attributes) that are not constructor injected.
+		/// </summary>
+		public static UserManager GetInstance()
+		{
+			return ObjectFactory.GetInstance<UserManager>();
+		}
 	}
 }

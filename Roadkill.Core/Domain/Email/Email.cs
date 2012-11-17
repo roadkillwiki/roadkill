@@ -5,6 +5,7 @@ using System.Text;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Web;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.DirectoryServices.AccountManagement;
 using System.Web;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {
@@ -37,8 +38,8 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Creates a new instance of a <see cref="ActiveDirectoryUserManager"/> using the given service.
 		/// </summary>
-		public ActiveDirectoryUserManager(string ldapConnectionString, string username, string password, string editorGroupName, string adminGroupName) :
-			this(new DefaultActiveDirectoryService(), ldapConnectionString, username, password, editorGroupName, adminGroupName)
+		public ActiveDirectoryUserManager(IConfigurationContainer configuration, IRepository repository, PageManager pageManager, string ldapConnectionString, string username, string password, string editorGroupName, string adminGroupName) :
+			this(configuration, repository, pageManager, new DefaultActiveDirectoryService(), ldapConnectionString, username, password, editorGroupName, adminGroupName)
 		{
 		}
 
@@ -51,7 +52,9 @@ namespace Roadkill.Core
 		/// <param name="editorGroupName">The name of the group for editors.</param>
 		/// <param name="adminGroupName">The name of the group for admins.</param>
 		/// <param name="service">A custom service for providing membership lookups.</param>
-		public ActiveDirectoryUserManager(IActiveDirectoryService service, string ldapConnectionString, string username, string password, string editorGroupName, string adminGroupName)
+		public ActiveDirectoryUserManager(IConfigurationContainer configuration, IRepository repository, PageManager pageManager, 
+			IActiveDirectoryService service, string ldapConnectionString, string username, string password, string editorGroupName, string adminGroupName)
+			: base(configuration, repository, pageManager)
 		{
 			// Some guards
 			if (string.IsNullOrEmpty(ldapConnectionString))
@@ -361,12 +364,6 @@ namespace Roadkill.Core
 
 		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
 		public override bool UserNameExists(string username)
-		{
-			throw new NotImplementedException();
-		}
-
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
-		public override string HashPassword(string password, string salt)
 		{
 			throw new NotImplementedException();
 		}
