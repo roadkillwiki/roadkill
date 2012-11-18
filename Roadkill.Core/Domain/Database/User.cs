@@ -5,6 +5,8 @@ using System.Text;
 using FluentNHibernate.Mapping;
 using NHibernate;
 using System.Web.Security;
+using Roadkill.Core.Domain;
+using System.Security.Cryptography;
 
 namespace Roadkill.Core
 {
@@ -48,9 +50,28 @@ namespace Roadkill.Core
 			Password = HashPassword(password,Salt);
 		}
 
-		public static string HashPassword(string password,string salt)
+		/// <summary>
+		/// Hashes the password and salt using SHA1 via FormsAuthentication, or 256 is FormsAuthentication is not enabled.
+		/// </summary>
+		public static string HashPassword(string password, string salt)
 		{
-			return UserManager.Current.HashPassword(password, salt);
+			if (FormsAuthentication.IsEnabled)
+			{
+				return FormsAuthentication.HashPasswordForStoringInConfigFile(password + salt, "SHA1");
+			}
+			else
+			{
+				SHA256 sha = new SHA256Managed();
+				byte[] hash = sha.ComputeHash(Encoding.ASCII.GetBytes(password + "salt"));
+
+				StringBuilder stringBuilder = new StringBuilder();
+				foreach (byte b in hash)
+				{
+					stringBuilder.AppendFormat("{0:x2}", b);
+				}
+
+				return stringBuilder.ToString();
+			}
 		}
 
 		public virtual UserSummary ToSummary()

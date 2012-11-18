@@ -11,14 +11,51 @@ using NHibernate;
 using NHibernate.Linq;
 using System.Data;
 using NHibernateConfig = NHibernate.Cfg.Configuration;
+using Roadkill.Core.Converters;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {
 	/// <summary>
 	/// A repository class for all NHibernate actions.
 	/// </summary>
-	public class NHibernateRepository
+	public class NHibernateRepository : IRepository
 	{
+		private IConfigurationContainer _configuration;
+
+		/// <summary>
+		/// Gets a LINQ-to-NHibernate <see cref="Queryable`Page`"/> object to perform queries with.
+		/// </summary>
+		public IQueryable<Page> Pages
+		{
+			get
+			{
+				return Queryable<Page>();
+			}
+		}
+
+		/// <summary>
+		/// Gets a LINQ-to-NHibernate <see cref="Queryable`PageContent`"/> object to perform queries with.
+		/// </summary>
+		public IQueryable<PageContent> PageContents
+		{
+			get
+			{
+				return Queryable<PageContent>();
+			}
+		}
+
+		/// <summary>
+		/// Gets a LINQ-to-NHibernate <see cref="Queryable`User`"/> object to perform queries with.
+		/// </summary>
+		public IQueryable<User> Users
+		{
+			get
+			{
+				return Queryable<User>();
+			}
+		}
+
 		/// <summary>
 		/// The current NHibernate <see cref="ISessionFactory"/>. This is created once, the first the NHibernateRepository is used.
 		/// </summary>
@@ -28,6 +65,19 @@ namespace Roadkill.Core
 		/// The current Fluent NHibernate <see cref="FluentConfiguration"/> object that represents the current NHibernate configuration.
 		/// </summary>
 		public virtual FluentConfiguration Configuration { get; protected set; }
+
+		public NHibernateRepository(IConfigurationContainer configuration)
+		{
+			_configuration = configuration;
+
+			if (configuration.ApplicationSettings.Installed)
+			{
+				Configure(configuration.ApplicationSettings.DatabaseType,
+						  configuration.ApplicationSettings.ConnectionString,
+						  false,
+						  configuration.ApplicationSettings.CachedEnabled);
+			}
+		}
 
 		/// <summary>
 		/// Initializes and configures NHibernate using the connection string with Fluent NHibernate.
@@ -56,7 +106,7 @@ namespace Roadkill.Core
 
 			if (!config.Properties.ContainsKey("connection.connection_string_name"))
 			{
-				config.SetProperty("connection.connection_string_name", RoadkillSection.Current.ConnectionStringName);
+				config.SetProperty("connection.connection_string_name", _configuration.ApplicationSettings.ConnectionStringName);
 			}
 
 			// Only configure the caching if it's not already in the config file
@@ -214,46 +264,36 @@ namespace Roadkill.Core
 			}
 		}
 
-		private static bool _initialized;
-
-		/// <summary>
-		/// Gets the current <see cref="NHibernateRepository"/> for the application.
-		/// </summary>
-		public static NHibernateRepository Current
+		public PageContent GetLatestPageContent(int pageId)
 		{
-			get
+			PageContent latest;
+			if (_configuration.ApplicationSettings.DatabaseType != DatabaseType.SqlServerCe)
 			{
-				if (!_initialized)
-					Initialize(null);
+				// Fetches the parent page object via SQL as well as the PageContent, avoiding lazy loading.
+				IQuery query = SessionFactory.OpenSession()
+						.CreateQuery("FROM PageContent fetch all properties WHERE Page.Id=:Id AND VersionNumber=(SELECT max(VersionNumber) FROM PageContent WHERE Page.Id=:Id)");
 
-				return Nested.Current;
+				query.SetCacheable(true);
+				query.SetInt32("Id", pageId);
+				query.SetMaxResults(1);
+				latest = query.UniqueResult<PageContent>();
 			}
+			else
+			{
+				// Work around for an NHibernate 3.3.1 SQL CE bug with the HQL query in CurrentContent() - this is two SQL queries per page instead of one.
+				using (ISession session = SessionFactory.OpenSession())
+				{
+					latest = session.QueryOver<PageContent>().Where(p => p.Page.Id == pageId).OrderBy(p => p.VersionNumber).Desc.Take(1).SingleOrDefault();
+					latest.Page = session.Get<Page>(latest.Page.Id);
+				}
+			}
+
+			return latest;
 		}
 
-		/// <summary>
-		/// Re-initializes the repository's singleton instance.
-		/// </summary>
-		/// <param name="repository">The repository type to re-initialize with.</param>
-		public static void Initialize(NHibernateRepository repository)
+		public SitePreferences GetSitePreferences()
 		{
-			Nested.Initialize(repository);
-			_initialized = true;
-		}
-
-		/// <summary>
-		/// Singleton for Current
-		/// </summary>
-		class Nested
-		{
-			internal static NHibernateRepository Current;
-
-			public static void Initialize(NHibernateRepository repository)
-			{
-				if (repository == null)
-					Current = new NHibernateRepository();
-				else
-					Current = repository;
-			}
+			return Queryable<SitePreferences>().FirstOrDefault(s => s.Id == SitePreferences.ConfigurationId);
 		}
 	}
 }

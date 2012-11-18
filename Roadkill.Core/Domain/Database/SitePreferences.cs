@@ -11,11 +11,9 @@ namespace Roadkill.Core
 	/// Contains all configuration data stored with NHibernate/the database, for settings that do not 
 	/// require an application restart when changed. This object is intended for internal use only.
 	/// </summary>
-	public class SiteConfiguration
+	public class SitePreferences
 	{
-		private static Guid _configurationId = new Guid("b960e8e5-529f-4f7c-aee4-28eb23e13dbd");
-		[ThreadStatic]
-		private static bool _initialized;
+		internal static readonly Guid ConfigurationId = new Guid("b960e8e5-529f-4f7c-aee4-28eb23e13dbd");
 
 		/// <summary>
 		/// The files types allowed for uploading.
@@ -31,7 +29,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Whether to Recaptcha is enabled for user signups and password resets.
 		/// </summary>
-		public virtual bool EnableRecaptcha { get; set; }
+		public virtual bool IsRecaptchaEnabled { get; set; }
 
 		/// <summary>
 		/// Used to keep NHibernate happy
@@ -63,7 +61,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// The title of the site.
 		/// </summary>
-		public virtual string Title { get; set; }
+		public virtual string SiteName { get; set; }
 
 		/// <summary>
 		/// The site theme, defaults to "Blackbar"
@@ -75,72 +73,48 @@ namespace Roadkill.Core
 		/// </summary>
 		public virtual string Version { get; set; }
 
-		public SiteConfiguration()
-		{
-			Id = _configurationId;
-		}
-
 		/// <summary>
-		/// The configuration class should be a singleton, this retrieves it.
+		/// An asp.net relativate path e.g. ~/Themes/ to the current theme directory. Does not include a trailing slash.
 		/// </summary>
-		public static SiteConfiguration Current
+		public virtual string ThemePath
 		{
 			get
 			{
-				if (!_initialized)
-					Initialize(null);
-
-				return Nested.Current;
+				return string.Format("~/Themes/{0}", Theme);
 			}
 		}
 
 		/// <summary>
-		/// Re-initializes the SiteConfiguration's singleton instance.
+		/// Retrieves a list of the file extensions that are permitted for upload.
 		/// </summary>
-		/// <param name="configuration">The SiteConfiguration type to re-initialize with.</param>
-		public static void Initialize(SiteConfiguration configuration)
+		public virtual List<string> AllowedFileTypesList
 		{
-			Nested.Initialize(configuration);
-			_initialized = true;
-		}
-
-		/// <summary>
-		/// Singleton for Current
-		/// </summary>
-		class Nested
-		{
-			internal static SiteConfiguration Current;
-
-			public static void Initialize(SiteConfiguration configuration)
+			get
 			{
-				if (configuration == null)
-				{
-					Current = NHibernateRepository.Current.Queryable<SiteConfiguration>().FirstOrDefault(s => s.Id == _configurationId);
-
-					if (Current == null)
-						throw new DatabaseException(null, "No configuration settings could be found in the database (id {0}). " +
-							"Has SettingsManager.SaveSiteConfiguration() been called?", _configurationId);
-				}
-				else
-					Current = configuration;
+				return new List<string>(AllowedFileTypes.Replace(" ", "").Split(','));
 			}
+		}
+
+		public SitePreferences()
+		{
+			Id = ConfigurationId;
 		}
 	}
 
-	public class SiteConfigurationMap : ClassMap<SiteConfiguration>
+	public class SitePreferencesMap : ClassMap<SitePreferences>
 	{
-		public SiteConfigurationMap()
+		public SitePreferencesMap()
 		{
 			Table("roadkill_siteconfiguration");
 			Id(x => x.Id).GeneratedBy.Assigned();
 			Map(x => x.AllowedFileTypes);
 			Map(x => x.AllowUserSignup);
-			Map(x => x.EnableRecaptcha);
+			Map(x => x.IsRecaptchaEnabled).Column("EnableRecaptcha");
 			Map(x => x.MarkupType);
 			Map(x => x.RecaptchaPrivateKey);
 			Map(x => x.RecaptchaPublicKey);
 			Map(x => x.SiteUrl);
-			Map(x => x.Title);
+			Map(x => x.SiteName).Column("Title");
 			Map(x => x.Theme);
 			Map(x => x.Version);
 

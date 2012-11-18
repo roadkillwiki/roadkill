@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using Roadkill.Core.Localization.Resx;
 using System.Globalization;
+using StructureMap;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {
@@ -55,7 +57,7 @@ namespace Roadkill.Core
 		/// <returns>If windows authentication is being used, an empty string is returned.</returns>
 		public static MvcHtmlString LoginLink(this HtmlHelper helper, string prefix, string suffix)
 		{
-			if (RoadkillSettings.UseWindowsAuthentication)
+			if (RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
 				return MvcHtmlString.Empty;
 
 			string link = "";
@@ -68,7 +70,7 @@ namespace Roadkill.Core
 			{
 				link = helper.ActionLink(SiteStrings.Navigation_Login, "Login", "User").ToString();
 
-				if (RoadkillSettings.AllowUserSignup)
+				if (RoadkillSettings.Current.SitePreferences.AllowUserSignup)
 					link += "&nbsp;/&nbsp;" + helper.ActionLink(SiteStrings.Navigation_Register, "Signup", "User").ToString();
 			}
 
@@ -127,7 +129,7 @@ namespace Roadkill.Core
 		/// <returns>If the page is not found, the link text is returned.</returns>
 		public static MvcHtmlString PageLink(this HtmlHelper helper, string linkText, string pageTitle, object htmlAttributes,string prefix,string suffix)
 		{
-			PageManager manager = new PageManager();
+			PageManager manager = ObjectFactory.GetInstance<PageManager>();
 			PageSummary summary = manager.FindByTitle(pageTitle);
 			if (summary != null)
 			{

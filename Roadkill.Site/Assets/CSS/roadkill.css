@@ -25,6 +25,7 @@
 .linkbutton	a	{ color:black;text-decoration:none; }
 .midpadded		{ padding:5px; }
 .normal			{ font-size:1em; }
+.missing-page-link	{ color:#BA0000; }
 .padded			{ padding:10px; }
 .right			{ float:right; }
 .rounded		{ -moz-border-radius:2px;border-radius:2px; }
@@ -79,7 +80,7 @@
 
 /* Tables */
 #pagecontent table,#pagecontent tr,#pagecontent td { border: 1px solid black;padding:2px; }
-#userpagetable			 { border:1px solid #d3d2d2;background-color:#f1f0f0; }
+#userpagetable	{ border:1px solid #d3d2d2;background-color:#f1f0f0; }
 
 /* All pages */
 #allpagestable tr		{ padding:5px; }
@@ -154,8 +155,7 @@
 #tooltip	{ position: absolute; z-index: 3000; border: 1px solid #111;background-color: #000;color:#DDD; padding: 8px;border-radius:8px; opacity: 0.85; }
 #tooltip h3, #tooltip div { margin: 0; }
 
-#userdialogContainer	{ display:none; }
-#userdialogContainer	{ color:White;width:360px; }
+#userdialogContainer	{ display:none;color:White;width:360px; }
 #userdialogContainer h2	{ border-bottom:1px solid white !important; }
 #userdialogContainer label	{ float:left;min-width:150px;line-height:25px;font-size:0.8em;font-weight:bold; }
 #userdialogContainer .textbox input	{ width:200px; }

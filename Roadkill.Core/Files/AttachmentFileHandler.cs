@@ -7,6 +7,7 @@ using Microsoft.Web.Administration;
 using System.IO;
 using System.Web.Routing;
 using System.Reflection;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Files
 {
@@ -23,7 +24,7 @@ namespace Roadkill.Core.Files
 		public void ProcessRequest(HttpContext context)
 		{
 			string fileExtension = Path.GetExtension(context.Request.Url.LocalPath);
-			string attachmentFolder = RoadkillSettings.AttachmentsFolder;
+			string attachmentFolder = RoadkillSettings.Current.ApplicationSettings.AttachmentsFolder;
 
 			using (ServerManager serverManager = new ServerManager())
 			{
@@ -34,7 +35,7 @@ namespace Roadkill.Core.Files
 				try
 				{
 					// LocalPath uses "/" and a Windows filepath is \
-					string filePath = context.Request.Url.LocalPath.Replace(string.Format("/{0}", RoadkillSettings.AttachmentsRoutePath), "");
+					string filePath = context.Request.Url.LocalPath.Replace(string.Format("/{0}", RoadkillSettings.Current.ApplicationSettings.AttachmentsRoutePath), "");
 					filePath = filePath.Replace('/', Path.DirectorySeparatorChar);
 
 					if (attachmentFolder.EndsWith(Path.DirectorySeparatorChar.ToString()))
@@ -86,7 +87,7 @@ namespace Roadkill.Core.Files
 		{
 			string mimeType = "text/plain";
 
-			Configuration config = serverManager.GetApplicationHostConfiguration();
+			Microsoft.Web.Administration.Configuration config = serverManager.GetApplicationHostConfiguration();
 			ConfigurationSection staticContentSection = config.GetSection("system.webServer/staticContent");
 			ConfigurationElementCollection mimemaps = staticContentSection.GetCollection();
 

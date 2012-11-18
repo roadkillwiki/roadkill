@@ -2,13 +2,23 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Web;
+using Roadkill.Core.Configuration;
+using StructureMap;
 namespace Roadkill.Core
 {
 	/// <summary>
 	/// The base class for user management tasks.
 	/// </summary>
-	public abstract class UserManager : ManagerBase
+	public abstract class UserManager : ServiceBase, IInjectionLaunderer
 	{
+		protected PageManager PageManager;
+
+		public UserManager(IConfigurationContainer configuration, IRepository repository, PageManager pageManager)
+			: base(configuration, repository)
+		{
+			PageManager = pageManager;
+		}
+
 		/// <summary>
 		/// Indicates whether this UserManager can perform deletes, updates or inserts for users.
 		/// </summary>
@@ -164,98 +174,18 @@ namespace Roadkill.Core
 		public abstract bool UserNameExists(string username);
 
 		/// <summary>
-		/// Hashes the provided password for storage in the database.
-		/// </summary>
-		/// <param name="password">The password to hash.</param>
-		/// <returns>A hashed version of the password.</returns>
-		public abstract string HashPassword(string password, string salt);
-
-		/// <summary>
-		/// Gets the current username for the logged in user.
+		/// Gets the username for the logged in user based on information stored in the state of the <see cref="HttpContextBase"/>.
 		/// </summary>
 		/// <param name="context">The current <see cref="System.Web.HttpContext"/> for the request.</param>
 		/// <returns>The username of the logged in user, or an empty string if the user is not logged in.</returns>
 		public abstract string GetLoggedInUserName(HttpContextBase context);
 
-		private static bool _initialized;
-
 		/// <summary>
-		/// Gets the current <see cref="UserManager"/> for the application.
+		/// Temporary 'Bastard Injection' for the places (Attributes) that are not constructor injected.
 		/// </summary>
-		public static UserManager Current
+		public static UserManager GetInstance()
 		{
-			get
-			{
-				if (!_initialized)
-					Initialize(null);
-
-				return Nested.Current;
-			}
-		}
-
-		/// <summary>
-		/// Initializes the current UserManager instance with the provided type. 
-		/// </summary>
-		/// <param name="manager">The <see cref="UserManager"/> to initialize the current instance with. 
-		/// If this is null, the type is loaded via the various roadkill settings.</param>
-		public static void Initialize(UserManager manager)
-		{
-			Nested.Initialize(manager);
-			_initialized = true;
-		}
-
-		/// <summary>
-		/// Singleton implementation.
-		/// </summary>
-		class Nested
-		{
-			internal static UserManager Current;
-
-			public static void Initialize(UserManager manager)
-			{
-				if (manager == null)
-				{
-					if (!string.IsNullOrEmpty(RoadkillSettings.UserManagerType))
-					{
-						Nested.Current = LoadFromType();
-					}
-					else
-					{
-						if (RoadkillSettings.UseWindowsAuthentication)
-						{
-							Nested.Current = new ActiveDirectoryUserManager(RoadkillSettings.LdapConnectionString,
-																		RoadkillSettings.LdapUsername,
-																		RoadkillSettings.LdapPassword,
-																		RoadkillSettings.EditorRoleName,
-																		RoadkillSettings.AdminRoleName);
-						}
-						else
-						{
-							Nested.Current = new SqlUserManager();
-						}
-					}
-				}
-				else
-				{
-					Nested.Current = manager;
-				}
-			}
-		}
-
-		public static UserManager LoadFromType()
-		{
-			// Attempt to load the type
-			Type userManagerType = typeof(UserManager);
-			Type reflectedType = Type.GetType(RoadkillSettings.UserManagerType);
-			
-			if (reflectedType.IsSubclassOf(userManagerType))
-			{
-				return (UserManager)reflectedType.Assembly.CreateInstance(reflectedType.FullName);
-			}
-			else
-			{
-				throw new SecurityException(null, "The type {0} specified in the userManagerType web.config setting is not an instance of a UserManager class", RoadkillSettings.UserManagerType);
-			}
+			return ObjectFactory.GetInstance<UserManager>();
 		}
 	}
 }

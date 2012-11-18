@@ -13,27 +13,6 @@ namespace Roadkill.Core
 	/// </summary>
 	public class RoadkillSection : ConfigurationSection
 	{
-		[ThreadStatic]
-		private static RoadkillSection _section;
-		[ThreadStatic]
-		internal static Configuration Configuration;
-
-		/// <summary>
-		/// The current instance of the section. This is not a singleton but there is no requirement for this to be threadsafe.
-		/// </summary>
-		public static RoadkillSection Current
-		{
-			get
-			{
-				if (_section == null)
-				{
-					_section = ConfigurationManager.GetSection("roadkill") as RoadkillSection;
-				}
-
-				return _section;
-			}
-		}
-
 		/// <summary>
 		/// Gets or sets the name of the admin role.
 		/// </summary>
@@ -210,18 +189,6 @@ namespace Roadkill.Core
 		public override bool IsReadOnly()
 		{
 			return false;
-		}
-
-		/// <summary>
-		/// Loads a custom app.config file for the settings, overriding the default application config file.
-		/// </summary>
-		/// <param name="filePath">A full path to the config file.</param>
-		public static void LoadCustomConfigFile(string filePath)
-		{
-			ExeConfigurationFileMap fileMap = new ExeConfigurationFileMap();
-			fileMap.ExeConfigFilename = filePath;
-			Configuration = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
-			_section = Configuration.GetSection("roadkill") as RoadkillSection;
 		}
 	}
 }

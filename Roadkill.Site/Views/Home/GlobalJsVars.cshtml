@@ -1,22 +1,23 @@
 ﻿@using Roadkill.Core.Converters;
+@using Roadkill.Core.Configuration;
 var ROADKILL_CORESCRIPTPATH = "@Url.Content("~/Assets/Scripts/")";
-var ROADKILL_THEMEPATH =  "@Url.Content(RoadkillSettings.ThemePath)/";
+var ROADKILL_THEMEPATH =  "@Url.Content(RoadkillSettings.Current.SitePreferences.ThemePath)/";
 
 // Edit page constants
 var ROADKILL_TAGAJAXURL = "@Url.Action("AllTagsAsJson", "Pages")/";
 var ROADKILL_PREVIEWURL = "@Url.Action("GetPreview", "Pages")/";
-var ROADKILL_MARKUPTYPE = "@RoadkillSettings.MarkupType";
-var ROADKILL_WIKIMARKUPHELP = "@Url.Action(RoadkillSettings.MarkupType + "Reference", "Help")";
+var ROADKILL_MARKUPTYPE = "@RoadkillSettings.Current.SitePreferences.MarkupType";
+var ROADKILL_WIKIMARKUPHELP = "@Url.Action(RoadkillSettings.Current.SitePreferences.MarkupType + "Reference", "Help")";
 
 // File manager constants
 var ROADKILL_FILEMANAGERURL = "@Url.Action("Index", "Files")";
 var ROADKILL_FILETREE_URL =  "@Url.Action("Folder", "Files")/";
 var ROADKILL_FILETREE_PATHNAME_URL =  "@Url.Action("GetPath", "Files")/";
-var ROADKILL_ATTACHMENTSPATH = "@Url.Content(RoadkillSettings.AttachmentsUrlPath)";
+var ROADKILL_ATTACHMENTSPATH = "@Url.Content(RoadkillSettings.Current.ApplicationSettings.AttachmentsUrlPath)";
 
 // Tokens for the edit toolbar
 @{
-MarkupConverter converter = new MarkupConverter();
+MarkupConverter converter = MarkupConverter.GetInstance();
 IMarkupParser parser = converter.Parser;
 }
 var ROADKILL_EDIT_BOLD_TOKEN        = "@Html.Raw(parser.BoldToken)";

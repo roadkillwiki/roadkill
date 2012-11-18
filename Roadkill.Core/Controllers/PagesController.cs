@@ -8,6 +8,9 @@ using System.Web.Security;
 using System.IO;
 using Roadkill.Core.Diff;
 using Roadkill.Core.Converters;
+using Roadkill.Core.Domain;
+using Roadkill.Core.Search;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Controllers
 {
@@ -18,14 +21,28 @@ namespace Roadkill.Core.Controllers
 	[OptionalAuthorization]
 	public class PagesController : ControllerBase
 	{
+		private SettingsManager _settingsManager;
+		private PageManager _pageManager;
+		private SearchManager _searchManager;
+		private HistoryManager _historyManager;
+
+		public PagesController(IConfigurationContainer configuration, UserManager userManager, 
+			SettingsManager settingsManager, PageManager pageManager, SearchManager searchManager, HistoryManager historyManager)
+			: base(configuration, userManager) 
+		{
+			_settingsManager = settingsManager;
+			_pageManager = pageManager;
+			_searchManager = searchManager;
+			_historyManager = historyManager;
+		}
+
 		/// <summary>
 		/// Displays all pages in Roadkill.
 		/// </summary>
 		/// <returns>An <see cref="IEnumerable`PageSummary"/> as the model.</returns>
 		public ActionResult AllPages()
 		{
-			PageManager manager = new PageManager();
-			return View(manager.AllPages());
+			return View(_pageManager.AllPages());
 		}
 
 		/// <summary>
@@ -34,8 +51,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>An <see cref="IEnumerable`TagSummary"/> as the model.</returns>
 		public ActionResult AllTags()
 		{
-			PageManager manager = new PageManager();
-			return View(manager.AllTags());
+			return View(_pageManager.AllTags());
 		}
 
 		/// <summary>
@@ -46,8 +62,7 @@ namespace Roadkill.Core.Controllers
 		[EditorRequired]
 		public ActionResult AllTagsAsJson()
 		{
-			PageManager manager = new PageManager();
-			IEnumerable<TagSummary> tags = manager.AllTags();
+			IEnumerable<TagSummary> tags = _pageManager.AllTags();
 			List<string> tagsArray = new List<string>();
 			foreach (TagSummary summary in tags)
 			{
@@ -74,8 +89,7 @@ namespace Roadkill.Core.Controllers
 
 			ViewData["Username"] = id;
 
-			PageManager manager = new PageManager();
-			return View(manager.AllPagesCreatedBy(id));
+			return View(_pageManager.AllPagesCreatedBy(id));
 		}
 
 		/// <summary>
@@ -87,8 +101,7 @@ namespace Roadkill.Core.Controllers
 		[AdminRequired]
 		public ActionResult Delete(int id)
 		{
-			PageManager manager = new PageManager();
-			manager.DeletePage(id);
+			_pageManager.DeletePage(id);
 
 			return RedirectToAction("AllPages");
 		}
@@ -103,8 +116,7 @@ namespace Roadkill.Core.Controllers
 		[EditorRequired]
 		public ActionResult Edit(int id)
 		{
-			PageManager manager = new PageManager();
-			PageSummary summary = manager.GetById(id);
+			PageSummary summary = _pageManager.GetById(id);
 
 			if (summary != null)
 			{
@@ -133,8 +145,7 @@ namespace Roadkill.Core.Controllers
 			if (!ModelState.IsValid)
 				return View("Edit", summary);
 
-			PageManager manager = new PageManager();
-			manager.UpdatePage(summary);
+			_pageManager.UpdatePage(summary);
 
 			return RedirectToAction("Index", "Wiki", new { id = summary.Id , nocache = DateTime.Now.Ticks });
 		}
@@ -155,7 +166,8 @@ namespace Roadkill.Core.Controllers
 
 			if (!string.IsNullOrEmpty(id))
 			{
-				html = id.WikiMarkupToHtml();
+				MarkupConverter converter = new MarkupConverter(Configuration);
+				html = converter.ToHtml(id);
 			}
 
 			return JavaScript(html);
@@ -168,8 +180,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>An <see cref="IList`HistorySummary"/> as the model.</returns>
 		public ActionResult History(int id)
 		{
-			HistoryManager manager = new HistoryManager();
-			return View(manager.GetHistory(id).ToList());
+			return View(_historyManager.GetHistory(id).ToList());
 		}
 
 		/// <summary>
@@ -197,8 +208,7 @@ namespace Roadkill.Core.Controllers
 			if (!ModelState.IsValid)
 				return View("Edit", summary);
 
-			PageManager manager = new PageManager();
-			summary = manager.AddPage(summary);
+			summary = _pageManager.AddPage(summary);
 
 			return RedirectToAction("Index", "Wiki", new { id = summary.Id, nocache = DateTime.Now.Ticks });
 		}
@@ -214,13 +224,11 @@ namespace Roadkill.Core.Controllers
 		public ActionResult Revert(Guid versionId, int pageId)
 		{
 			// Check if the page is locked to admin edits only before reverting.
-			PageManager pageManager = new PageManager();
-			PageSummary page = pageManager.GetById(pageId);
+			PageSummary page = _pageManager.GetById(pageId);
 			if (page == null || (page.IsLocked && !RoadkillContext.Current.IsAdmin))
 				return RedirectToAction("Index", "Home");
 
-			HistoryManager manager = new HistoryManager();
-			manager.RevertTo(versionId);
+			_historyManager.RevertTo(versionId);
 
 			return RedirectToAction("History", new { id = pageId });
 		}		
@@ -234,8 +242,7 @@ namespace Roadkill.Core.Controllers
 		{
 			ViewData["Tagname"] = id;
 
-			PageManager manager = new PageManager();
-			return View(manager.FindByTag(id));
+			return View(_pageManager.FindByTag(id));
 		}
 
 		/// <summary>
@@ -246,20 +253,20 @@ namespace Roadkill.Core.Controllers
 		/// output inside the <see cref="PageSummary.Content"/> property.</returns>
 		public ActionResult Version(Guid id)
 		{
-			HistoryManager manager = new HistoryManager();
-			IList<PageSummary> bothVersions = manager.CompareVersions(id).ToList();
+			MarkupConverter converter = new MarkupConverter(Configuration);
+			IList<PageSummary> bothVersions = _historyManager.CompareVersions(id).ToList();
 			string diffHtml = "";
 
 			if (bothVersions[1] != null)
 			{
-				string oldVersion = bothVersions[1].Content.WikiMarkupToHtml();
-				string newVersion = bothVersions[0].Content.WikiMarkupToHtml();
+				string oldVersion = converter.ToHtml(bothVersions[1].Content);
+				string newVersion = converter.ToHtml(bothVersions[0].Content);
 				HtmlDiff diff = new HtmlDiff(oldVersion, newVersion);
 				diffHtml = diff.Build();
 			}
 			else
 			{
-				diffHtml = bothVersions[0].Content.WikiMarkupToHtml();
+				diffHtml = converter.ToHtml(bothVersions[0].Content);
 			}
 
 			PageSummary summary = bothVersions[0];

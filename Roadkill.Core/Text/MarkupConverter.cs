@@ -6,50 +6,59 @@ using System.Web.Mvc;
 using System.Web;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
+using Roadkill.Core.Configuration;
+using StructureMap;
 
 namespace Roadkill.Core.Converters
 {
 	/// <summary>
 	/// A factory class for converting the system's markup syntax to HTML.
 	/// </summary>
-	public class MarkupConverter
+	public class MarkupConverter : IInjectionLaunderer
 	{
-		[ThreadStatic]
-		private static IMarkupParser _parser;
+		private IConfigurationContainer _configuration;
+		private IMarkupParser _parser;
 		private static Regex _imgFileRegex = new Regex("^File:", RegexOptions.IgnoreCase);
+
+		public IMarkupParser Parser
+		{
+			get { return _parser; }
+		}
 
 		/// <summary>
 		/// Gets the current <see cref="IMarkupParser"/> for the <see cref="RoadkillSettings.MarkupType"/>
 		/// </summary>
 		/// <returns>An <see cref="IMarkupParser"/> for Creole,Markdown or Media wiki formats.</returns>
-		public IMarkupParser Parser
+		public MarkupConverter(IConfigurationContainer configuration)
 		{
-			get
+			_configuration = configuration;
+
+			switch (_configuration.SitePreferences.MarkupType.ToLower())
 			{
-				if (_parser == null)
-				{
-					switch (RoadkillSettings.MarkupType.ToLower())
-					{
-						case "markdown":
-							_parser = new MarkdownParser();
-							break;
+				case "markdown":
+					_parser = new MarkdownParser();
+					break;
 
-						case "mediawiki":
-							_parser = new MediaWikiParser();
-							break;
+				case "mediawiki":
+					_parser = new MediaWikiParser();
+					break;
 
-						case "creole":
-						default:
-							_parser = new CreoleParser();
-							break;
-					}
-
-					_parser.LinkParsed += LinkParsed;
-					_parser.ImageParsed += ImageParsed;
-				}
-
-				return _parser;
+				case "creole":
+				default:
+					_parser = new CreoleParser();
+					break;
 			}
+
+			_parser.LinkParsed += LinkParsed;
+			_parser.ImageParsed += ImageParsed;
+		}
+
+		/// <summary>
+		/// 'Bastard Injection' for the views that cannot constructor inject.
+		/// </summary>
+		public static MarkupConverter GetInstance()
+		{
+			return ObjectFactory.GetInstance<MarkupConverter>();
 		}
 
 		/// <summary>
@@ -60,7 +69,7 @@ namespace Roadkill.Core.Converters
 		public string ToHtml(string text)
 		{
 			string html = CustomTokenParser.ReplaceTokens(text);
-			html = Parser.Transform(html);
+			html = _parser.Transform(html);
 			html = RemoveHarmfulTags(html);
 
 			if (html.IndexOf("{TOC}") > -1)
@@ -84,7 +93,7 @@ namespace Roadkill.Core.Converters
 				string src = e.OriginalSrc;
 				src = _imgFileRegex.Replace(src, "");
 
-				string urlPath = RoadkillSettings.AttachmentsUrlPath + (src.StartsWith("/") ? "" : "/") + src;
+				string urlPath = RoadkillSettings.Current.ApplicationSettings.AttachmentsUrlPath + (src.StartsWith("/") ? "" : "/") + src;
 				e.Src = helper.Content(urlPath);
 			}
 		}
@@ -100,6 +109,7 @@ namespace Roadkill.Core.Converters
 			{
 				string href = e.OriginalHref;
 				string lowerHref = href.ToLower();
+				string cssClass = "";
 
 				if (lowerHref.StartsWith("attachment:") || lowerHref.StartsWith("~/"))
 				{
@@ -115,20 +125,26 @@ namespace Roadkill.Core.Converters
 						href = href.Remove(0, 1);
 					}
 
-					href = helper.Content(RoadkillSettings.AttachmentsUrlPath) + href;
+					href = helper.Content(RoadkillSettings.Current.ApplicationSettings.AttachmentsUrlPath) + href;
 				}
 				else
 				{
 					// Parse internal links
-					PageManager manager = new PageManager();
-					PageSummary summary = manager.FindByTitle(href);
+					PageSummary summary = PageManager.GetInstance().FindByTitle(href);
 					if (summary != null)
+					{
 						href = helper.Action("Index", "Wiki", new { id = summary.Id, title = summary.Title.EncodeTitle() });
+					}
 					else
-					    href = helper.Action("New", "Pages", new { title = href });
+					{
+						href = helper.Action("New", "Pages", new { title = href });
+						cssClass = "missing-page-link";
+					}
 				}
+
 				e.Href = href;
 				e.Target = "";
+				e.CssClass = cssClass;
 			}
 		}
 
@@ -224,9 +240,12 @@ namespace Roadkill.Core.Converters
 			});
 		}
 
+		/// <summary>
+		/// Gets a regex to update all links in a page.
+		/// </summary>
 		private string GetLinkUpdateRegex(string pageName)
 		{
-			string regex = string.Format("{0}{1}", Parser.LinkStartToken, Parser.LinkEndToken);
+			string regex = string.Format("{0}{1}", _parser.LinkStartToken, _parser.LinkEndToken);
 			regex = regex.Replace("%LINKTEXT%", "(?:.*?)");
 			regex = regex.Replace("(", @"\(").Replace(")", @"\)").Replace("[", @"\[").Replace("]", @"\]");
 			regex = regex.Replace("%URL%", "(?<url>" + pageName + ")"); // brackets or square brackets will break the URL, so ignore these.

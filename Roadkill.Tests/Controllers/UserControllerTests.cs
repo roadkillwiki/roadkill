@@ -7,43 +7,42 @@ using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Controllers;
+using Roadkill.Core.Domain;
 
 namespace Roadkill.Tests.Controllers
 {
 	[TestFixture]
 	public class UserControllerTests
 	{
-		private User _testUser;
+		private IConfigurationContainer _config;
+		private IRepository _repository;
+		private Mock<UserManager> _userManager;
 
-		[SetUp]
-		public void Setup()
+		[TestFixtureSetUp]
+		public void Init()
 		{
-			Mock<User> mockUser = new Mock<User>();
-			mockUser.SetupProperty<string>(x => x.Email, "test@localhost");
-			mockUser.SetupProperty<string>(x => x.Username, "testuser");
-			_testUser = mockUser.Object;
-
-			Mock<UserManager> mock = new Mock<UserManager>();
-			UserManager.Initialize(mock.Object);
-			mock.Setup(x => x.GetUser(_testUser.Email)).Returns(mockUser.Object);
-			mock.Setup(x => x.Authenticate(_testUser.Email, "")).Returns(true);
-			mock.Setup(x => x.GetLoggedInUserName(It.IsAny<HttpContextBase>())).Returns(_testUser.Username);		
+			_config = new RoadkillSettings();
+			_repository = null;
+			_userManager = new Mock<UserManager>(_config, _repository, null);
+			_userManager.Setup(u => u.Authenticate(MockServiceContainer.AdminEmail, MockServiceContainer.AdminPassword)).Returns(true);
 		}
 
 		[Test]
 		public void Logon_Should_Redirect_And_SetUsername_ForContext()
 		{
 			// Arrange
-			UserController userController = new UserController();
+			RoadkillApplication.SetupIoC();
+			UserController userController = new UserController(_config, _userManager.Object);
 			userController.SetFakeControllerContext();
 
 			// Act	
-			ActionResult result = userController.Login(_testUser.Email, "", "");
+			ActionResult result = userController.Login(MockServiceContainer.AdminEmail, MockServiceContainer.AdminPassword, "");
 			
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
-			Assert.That(userController.GetCurrentUser(userController.HttpContext), Is.EqualTo(_testUser.Username));
+			Assert.That(userController.ModelState.Count, Is.EqualTo(0));
 		}
 	}
 }

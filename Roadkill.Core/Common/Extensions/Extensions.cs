@@ -16,17 +16,6 @@ namespace Roadkill.Core
 	public static class Extensions
 	{
 		/// <summary>
-		/// Converts the given wiki markup into HTML using the system's current MarkupType setting.
-		/// </summary>
-		/// <param name="markup"></param>
-		/// <returns></returns>
-		public static string WikiMarkupToHtml(this string markup)
-		{
-			MarkupConverter converter = new MarkupConverter();
-			return converter.ToHtml(markup);
-		}
-
-		/// <summary>
 		/// Removes all invalid characters from a title so it can be used as a filename to save to disk.
 		/// </summary>
 		/// <param name="title"></param>

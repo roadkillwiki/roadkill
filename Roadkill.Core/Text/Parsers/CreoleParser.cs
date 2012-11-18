@@ -911,10 +911,12 @@ namespace Roadkill.Core.Converters
 					OnLinkParsed(linkEventArgs);
 
 					markup = markup.Substring(0, iPos - 2)
-						+ String.Format("<a href=\"{0}\"{2}>{1}</a>",
+						+ String.Format("<a href=\"{0}\"{2}{3}>{1}</a>",
 											linkEventArgs.Href,
 											linkEventArgs.Text,
-											(string.IsNullOrWhiteSpace(linkEventArgs.Target)) ? "" : " target=\"" + linkEventArgs.Target+ "\"")
+											(string.IsNullOrWhiteSpace(linkEventArgs.Target)) ? "" : " target=\"" + linkEventArgs.Target+ "\"",
+											(string.IsNullOrWhiteSpace(linkEventArgs.CssClass)) ? "" : " class=\"" + linkEventArgs.CssClass + "\""
+											)
 							+ markup.Substring(iEnd + 2);
 				}
 				else

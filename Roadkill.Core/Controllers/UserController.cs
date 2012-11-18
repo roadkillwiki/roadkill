@@ -8,6 +8,8 @@ using System.Web.Security;
 using Roadkill.Core.Search;
 using System.ComponentModel.DataAnnotations;
 using Roadkill.Core.Localization.Resx;
+using Roadkill.Core.Domain;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Controllers
 {
@@ -16,6 +18,12 @@ namespace Roadkill.Core.Controllers
 	/// </summary>
 	public class UserController : ControllerBase
 	{
+		public UserController(IConfigurationContainer configuration, UserManager userManager)
+			: base(configuration, userManager) 
+		{
+
+		}
+
 		/// <summary>
 		/// Activates a newly registered account.
 		/// </summary>
@@ -25,7 +33,7 @@ namespace Roadkill.Core.Controllers
 			if (string.IsNullOrEmpty(id))
 				RedirectToAction("Index", "Home");
 
-			if (!UserManager.Current.ActivateUser(id))
+			if (!UserManager.ActivateUser(id))
 			{
 				ModelState.AddModelError("General", SiteStrings.Activate_Error);
 			}
@@ -38,10 +46,10 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult CompleteResetPassword(string id)
 		{
-			if (RoadkillSettings.UseWindowsAuthentication)
+			if (RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
-			User user = UserManager.Current.GetUserByResetKey(id);
+			User user = UserManager.GetUserByResetKey(id);
 			
 			if (user == null)
 			{
@@ -60,7 +68,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult CompleteResetPassword(string id, UserSummary summary)
 		{
-			if (RoadkillSettings.UseWindowsAuthentication)
+			if (RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
 			// Don't use ModelState.isvalid as the summary object only has an ID and two passwords
@@ -73,10 +81,10 @@ namespace Roadkill.Core.Controllers
 			}
 			else
 			{
-				User user = UserManager.Current.GetUserByResetKey(id);
+				User user = UserManager.GetUserByResetKey(id);
 				if (user != null)
 				{
-					UserManager.Current.ChangePassword(user.Email, summary.Password);
+					UserManager.ChangePassword(user.Email, summary.Password);
 					return View("CompleteResetPasswordSuccessful");
 				}
 				else
@@ -111,7 +119,7 @@ namespace Roadkill.Core.Controllers
 			if (Request.QueryString["ReturnUrl"] != null && Request.QueryString["ReturnUrl"].ToLower().Contains("files"))
 				viewName = "BlankLogin";
 
-			if (UserManager.Current.Authenticate(email, password))
+			if (UserManager.Authenticate(email, password))
 			{
 				if (!string.IsNullOrWhiteSpace(fromUrl))
 					return Redirect(fromUrl);
@@ -130,7 +138,7 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult Logout()
 		{
-			UserManager.Current.Logout();
+			UserManager.Logout();
 			return RedirectToAction("Index", "Home", new { nocache = DateTime.Now.Ticks });
 		}
 
@@ -141,7 +149,7 @@ namespace Roadkill.Core.Controllers
 		{
 			if (RoadkillContext.Current.IsLoggedIn)
 			{
-				UserSummary summary = UserManager.Current.GetUser(RoadkillContext.Current.CurrentUser).ToSummary();
+				UserSummary summary = UserManager.GetUser(RoadkillContext.Current.CurrentUser).ToSummary();
 				return View(summary);
 			}
 			else
@@ -172,7 +180,7 @@ namespace Roadkill.Core.Controllers
 			{
 				try
 				{
-					if (UserManager.Current.UpdateUser(summary))
+					if (UserManager.UpdateUser(summary))
 					{
 						// Reset the auth cookie to the new email.
 						FormsAuthentication.SetAuthCookie(summary.NewEmail, true);
@@ -186,7 +194,7 @@ namespace Roadkill.Core.Controllers
 					}
 
 					if (!string.IsNullOrEmpty(summary.Password))
-						UserManager.Current.ChangePassword(summary.ExistingEmail, summary.Password);
+						UserManager.ChangePassword(summary.ExistingEmail, summary.Password);
 				}
 				catch (SecurityException e)
 				{
@@ -202,7 +210,7 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult ResetPassword()
 		{
-			if (RoadkillSettings.UseWindowsAuthentication)
+			if (RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
 			return View();
@@ -216,7 +224,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult ResetPassword(string email)
 		{
-			if (RoadkillSettings.UseWindowsAuthentication)
+			if (RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
 #if APPHARBOR
@@ -230,15 +238,15 @@ namespace Roadkill.Core.Controllers
 				ModelState.AddModelError("General", SiteStrings.ResetPassword_Error_MissingEmail);
 			}
 			else
-			{	
-				User user = UserManager.Current.GetUser(email);
+			{
+				User user = UserManager.GetUser(email);
 				if (user == null)
 				{
 					ModelState.AddModelError("General", SiteStrings.ResetPassword_Error_EmailNotFound);
 				}
 				else
 				{
-					string key = UserManager.Current.ResetPassword(email);
+					string key = UserManager.ResetPassword(email);
 					if (!string.IsNullOrEmpty(key))
 					{
 						// Everything worked, send the email
@@ -263,7 +271,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult ResendConfirmation(string email)
 		{
-			UserSummary summary = UserManager.Current.GetUser(email).ToSummary();
+			UserSummary summary = UserManager.GetUser(email).ToSummary();
 			if (summary == null)
 			{
 				// Something went wrong with the signup, redirect to the first step of the signup.
@@ -281,7 +289,7 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult Signup()
 		{
-			if (RoadkillContext.Current.IsLoggedIn || !RoadkillSettings.AllowUserSignup || RoadkillSettings.UseWindowsAuthentication)
+			if (RoadkillContext.Current.IsLoggedIn || !RoadkillSettings.Current.SitePreferences.AllowUserSignup || RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
 			{
 				return RedirectToAction("Index","Home");
 			}
@@ -298,7 +306,7 @@ namespace Roadkill.Core.Controllers
 		[RecaptchaRequired]
 		public ActionResult Signup(UserSummary summary, bool? isCaptchaValid)
 		{
-			if (RoadkillContext.Current.IsLoggedIn || !RoadkillSettings.AllowUserSignup || RoadkillSettings.UseWindowsAuthentication)
+			if (RoadkillContext.Current.IsLoggedIn || !RoadkillSettings.Current.SitePreferences.AllowUserSignup || RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index","Home");
 
 			if (ModelState.IsValid)
@@ -315,7 +323,7 @@ namespace Roadkill.Core.Controllers
 					{
 						try
 						{
-							string key = UserManager.Current.Signup(summary, null);
+							string key = UserManager.Signup(summary, null);
 							if (string.IsNullOrEmpty(key))
 							{
 								ModelState.AddModelError("General", SiteStrings.Signup_Error_General);

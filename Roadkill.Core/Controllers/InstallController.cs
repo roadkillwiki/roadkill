@@ -11,6 +11,8 @@ using Roadkill.Core.Converters;
 using Roadkill.Core.Search;
 using System.IO;
 using IOFile = System.IO.File;
+using Roadkill.Core.Domain;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Controllers
 {
@@ -21,12 +23,19 @@ namespace Roadkill.Core.Controllers
 	/// this controller redirect to the homepage</remarks>
 	public class InstallController : ControllerBase
 	{
+		private IRepository _repository;
+		private PageManager _pageManager;
 		private SearchManager _searchManager;
+		private SettingsManager _settingsManager;
 
-		public InstallController() : this(new SearchManager()) { }
-		public InstallController(SearchManager searchManager)
+		public InstallController(IConfigurationContainer configuration, UserManager userManager,
+			PageManager pageManager, SearchManager searchManager, IRepository respository, SettingsManager settingsManager)
+			: base(configuration, userManager) 
 		{
+			_pageManager = pageManager;
 			_searchManager = searchManager;
+			_repository = respository;
+			_settingsManager = settingsManager;
 		}
 
 		/// <summary>
@@ -34,7 +43,7 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult Index()
 		{
-			if (RoadkillSettings.Installed)
+			if (Configuration.ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
 			CopySqliteBinaries();
@@ -47,7 +56,7 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult Step2()
 		{
-			if (RoadkillSettings.Installed)
+			if (Configuration.ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
 			return View(new SettingsSummary());
@@ -60,7 +69,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult Step3(SettingsSummary summary)
 		{
-			if (RoadkillSettings.Installed)
+			if (Configuration.ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
 			return View(summary);
@@ -74,7 +83,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult Step3b(SettingsSummary summary)
 		{
-			if (RoadkillSettings.Installed)
+			if (Configuration.ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
 			summary.LdapConnectionString = "LDAP://";
@@ -94,7 +103,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult Step4(SettingsSummary summary)
 		{
-			if (RoadkillSettings.Installed)
+			if (RoadkillSettings.Current.ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
 			summary.AllowedExtensions = "jpg,png,gif,zip,xml,pdf";
@@ -116,8 +125,10 @@ namespace Roadkill.Core.Controllers
 		[ValidateInput(false)]
 		public ActionResult Step5(SettingsSummary summary)
 		{
-			if (RoadkillSettings.Installed)
+			if (Configuration.ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
+
+			InstallHelper installHelper = new InstallHelper(UserManager, _repository);
 
 			try
 			{
@@ -127,16 +138,16 @@ namespace Roadkill.Core.Controllers
 				if (ModelState.IsValid)
 				{
 					// Update the web.config first, so all connections can be referenced.
-					SettingsManager.SaveWebConfigSettings(summary);
+					_settingsManager.SaveWebConfigSettings(summary);
 
 					// Create the roadkill schema and save the configuration settings
-					SettingsManager.CreateTables(summary);
-					SettingsManager.SaveSiteConfiguration(summary, true);	
+					_settingsManager.CreateTables(summary);
+					_settingsManager.SaveSiteConfiguration(summary, true);	
 
 					// Add a user if we're not using AD.
 					if (!summary.UseWindowsAuth)
 					{
-						Install.AddAdminUser(summary);
+						installHelper.AddAdminUser(summary);
 					}					
 	
 					// Create a blank search index
@@ -147,7 +158,7 @@ namespace Roadkill.Core.Controllers
 			{
 				try
 				{
-					Install.ResetInstalledState();
+					installHelper.ResetInstalledState();
 				}
 				catch (Exception ex)
 				{
@@ -171,10 +182,11 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestLdap(string connectionString, string username, string password, string groupName)
 		{
-			if (RoadkillSettings.Installed)
+			if (RoadkillSettings.Current.ApplicationSettings.Installed)
 				return Content("");
 
-			string errors = Install.TestLdapConnection(connectionString, username, password, groupName);
+			InstallHelper installHelper = new InstallHelper(UserManager, _repository);
+			string errors = installHelper.TestLdapConnection(connectionString, username, password, groupName);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 
@@ -184,10 +196,11 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestWebConfig()
 		{
-			if (RoadkillSettings.Installed)
+			if (RoadkillSettings.Current.ApplicationSettings.Installed)
 				return Content("");
 
-			string errors = Install.TestSaveWebConfig();
+			InstallHelper installHelper = new InstallHelper(UserManager, _repository);
+			string errors = installHelper.TestSaveWebConfig();
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 
@@ -198,7 +211,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestAttachments(string folder)
 		{
-			string errors = Install.TestAttachments(folder);
+			string errors = InstallHelper.TestAttachments(folder);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 
@@ -209,7 +222,8 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestDatabaseConnection(string connectionString,string databaseType)
 		{
-			string errors = Install.TestConnection(connectionString, databaseType);
+			InstallHelper installHelper = new InstallHelper(UserManager, _repository);
+			string errors = installHelper.TestConnection(connectionString, databaseType);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 
