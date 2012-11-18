@@ -6,6 +6,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Web.Security;
 using System.Text.RegularExpressions;
 using Roadkill.Core.Localization.Resx;
+using Roadkill.Core.Domain;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {
@@ -146,7 +148,7 @@ namespace Roadkill.Core
 		{
 			if ((user.IsNew && user.Id == null) || user.ExistingUsername != user.NewUsername)
 			{
-				if (UserManager.Current.UserNameExists(user.NewUsername))
+				if (UserManager.GetInstance().UserNameExists(user.NewUsername))
 				{
 					return new ValidationResult(string.Format(SiteStrings.User_Validation_UsernameExists, user.NewUsername));
 				}
@@ -174,7 +176,7 @@ namespace Roadkill.Core
 				{
 					return new ValidationResult(SiteStrings.User_Validation_Email_Check);
 				}
-				else if (UserManager.Current.UserExists(user.NewEmail))
+				else if (UserManager.GetInstance().UserExists(user.NewEmail))
 				{
 					return new ValidationResult(string.Format(SiteStrings.User_Validation_EmailExists, user.NewEmail));
 				}
@@ -218,9 +220,9 @@ namespace Roadkill.Core
 			}
 			else
 			{
-				if (string.IsNullOrEmpty(user.Password) || user.Password.Length < RoadkillSettings.MinimumPasswordLength)
+				if (string.IsNullOrEmpty(user.Password) || user.Password.Length < RoadkillSettings.Current.ApplicationSettings.MinimumPasswordLength)
 				{
-					return new ValidationResult(string.Format(SiteStrings.User_Validation_PasswordTooShort, RoadkillSettings.MinimumPasswordLength));
+					return new ValidationResult(string.Format(SiteStrings.User_Validation_PasswordTooShort, RoadkillSettings.Current.ApplicationSettings.MinimumPasswordLength));
 				}
 			}
 

@@ -9,24 +9,36 @@ using System.Web.Management;
 using System.Data.SqlClient;
 using System.IO;
 using System.Web;
+using Roadkill.Core.Domain;
+using StructureMap;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {
 	/// <summary>
 	/// Provides a set of tasks for the Roadkill installer.
 	/// </summary>
-	internal class Install
+	internal class InstallHelper
 	{
+		private UserManager _userManager;
+		private IRepository _repository;
+
+		public InstallHelper(UserManager userManager, IRepository repository)
+		{
+			_userManager = userManager;
+			_repository = repository;
+		}
+
 		/// <summary>
 		/// Adds the admin user.
 		/// </summary>
 		/// <param name="summary">The settings to get the data from.</param>
 		/// <exception cref="InstallerException">An NHibernate (database) error occurred while adding the admin user.</exception>
-		public static void AddAdminUser(SettingsSummary summary)
+		public void AddAdminUser(SettingsSummary summary)
 		{
 			try
 			{
-				UserManager.Current.AddUser(summary.AdminEmail,"admin", summary.AdminPassword, true, false);
+				_userManager.AddUser(summary.AdminEmail, "admin", summary.AdminPassword, true, false);
 			}
 			catch (SecurityException ex)
 			{
@@ -38,11 +50,11 @@ namespace Roadkill.Core
 		/// Resets the roadkill "installed" property in the web.config for when the installation fails.
 		/// </summary>
 		/// <exception cref="InstallerException">An web.config related error occurred while reseting the install state.</exception>
-		public static void ResetInstalledState()
+		public void ResetInstalledState()
 		{
 			try
 			{
-				Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+				System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 
 				RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
 				section.Installed = false;
@@ -99,7 +111,7 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <param name="connectionString">The connection string.</param>
 		/// <returns>Any error messages or an empty string if no errors occurred.</returns>
-		public static string TestConnection(string connectionString, string databaseType)
+		public string TestConnection(string connectionString, string databaseType)
 		{
 			try
 			{
@@ -107,11 +119,11 @@ namespace Roadkill.Core
 				if (!Enum.TryParse<DatabaseType>(databaseType, true, out dbType))
 					dbType = DatabaseType.SqlServer2005;
 
-				Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+				System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 				RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
 
 				// Only create Schema if not already installed otherwise just a straight TestConnection
-				NHibernateRepository.Current.Configure(dbType, connectionString, !section.Installed, false);
+				_repository.Configure(dbType, connectionString, !section.Installed, false);
 				return "";
 			}
 			catch (Exception e)
@@ -124,7 +136,7 @@ namespace Roadkill.Core
 		/// Tests the web.config can be saved to by changing the "installed" to false.
 		/// </summary>
 		/// <returns>Any error messages or an empty string if no errors occurred.</returns>
-		public static string TestSaveWebConfig()
+		public string TestSaveWebConfig()
 		{
 			try
 			{
@@ -146,7 +158,7 @@ namespace Roadkill.Core
 		/// <param name="password">The ldap password.</param>
 		/// <param name="groupName">The Active Directory group name to test against. Defaults to "Users" if empty</param>
 		/// <returns>Any error messages or an empty string if no errors occurred.</returns>
-		public static string TestLdapConnection(string connectionString, string username, string password, string groupName)
+		public string TestLdapConnection(string connectionString, string username, string password, string groupName)
 		{
 			if (string.IsNullOrEmpty(connectionString))
 				return "The connection string is empty";

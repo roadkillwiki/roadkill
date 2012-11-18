@@ -5,6 +5,9 @@ using System.Text;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
+using Roadkill.Core.Domain;
+using StructureMap;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {
@@ -27,7 +30,7 @@ namespace Roadkill.Core
 			IIdentity identity = user.Identity;
 
 			// If the site is private then check for a login
-			if (!RoadkillSettings.IsPublicSite)
+			if (!RoadkillSettings.Current.ApplicationSettings.IsPublicSite)
 			{
 				if (!identity.IsAuthenticated)
 				{
@@ -35,7 +38,7 @@ namespace Roadkill.Core
 				}
 				else
 				{
-					if (UserManager.Current.IsAdmin(identity.Name) || UserManager.Current.IsEditor(identity.Name))
+					if (UserManager.GetInstance().IsAdmin(identity.Name) || UserManager.GetInstance().IsEditor(identity.Name))
 					{
 						return true;
 					}

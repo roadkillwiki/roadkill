@@ -1,8 +1,9 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
+﻿@using Roadkill.Core.Configuration;
+@model System.Web.Mvc.HandleErrorInfo
 @{
-	if (RoadkillSettings.Installed)
+	if (RoadkillSettings.Current.ApplicationSettings.Installed)
 	{
-		Layout = RoadkillSettings.ThemePath + "/Theme.cshtml";
+		Layout = RoadkillSettings.Current.SitePreferences.ThemePath + "/Theme.cshtml";
 	}
 }
 

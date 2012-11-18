@@ -47,5 +47,6 @@ _ReSharper*/
 *_PLASMAWEBSITE/
 *roadkillaspnet_log.ldf
 .git*/
+.DotSettings*
 
 

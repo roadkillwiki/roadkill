@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using Roadkill.Core.Localization.Resx;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {
@@ -99,7 +100,7 @@ namespace Roadkill.Core
 		{
 			get
 			{
-				return RoadkillSettings.Version;
+				return RoadkillSettings.Current.ApplicationSettings.Version;
 			}
 		}
 
@@ -109,30 +110,30 @@ namespace Roadkill.Core
 			SiteUrl = "http://localhost";
 		}
 
-		public static SettingsSummary GetCurrentSettings()
+		public static SettingsSummary FromSystemSettings()
 		{
 			SettingsSummary summary = new SettingsSummary();
-			
-			summary.AdminRoleName = RoadkillSettings.AdminRoleName;
-			summary.AllowedExtensions = string.Join(",",RoadkillSettings.AllowedFileTypes);
-			summary.AllowUserSignup = SiteConfiguration.Current.AllowUserSignup;
-			summary.AttachmentsFolder = RoadkillSettings.AttachmentsFolder;
-			summary.CacheEnabled = RoadkillSettings.CachedEnabled;
-			summary.CacheText = RoadkillSettings.CacheText;
-			summary.ConnectionString = RoadkillSettings.ConnectionString;
-			summary.DatabaseType = RoadkillSettings.DatabaseType;
-			summary.EditorRoleName = RoadkillSettings.EditorRoleName;
-			summary.EnableRecaptcha = SiteConfiguration.Current.EnableRecaptcha;
-			summary.LdapConnectionString = RoadkillSettings.LdapConnectionString;
-			summary.LdapUsername = RoadkillSettings.LdapUsername;
-			summary.LdapPassword = RoadkillSettings.LdapPassword;
-			summary.MarkupType = RoadkillSettings.MarkupType;
-			summary.RecaptchaPrivateKey = SiteConfiguration.Current.RecaptchaPrivateKey;
-			summary.RecaptchaPublicKey = SiteConfiguration.Current.RecaptchaPublicKey;
-			summary.SiteName = SiteConfiguration.Current.Title;
-			summary.SiteUrl = SiteConfiguration.Current.SiteUrl;
-			summary.Theme = RoadkillSettings.Theme;
-			summary.UseWindowsAuth = RoadkillSettings.UseWindowsAuthentication;
+
+			summary.AdminRoleName = RoadkillSettings.Current.ApplicationSettings.AdminRoleName;
+			summary.AllowedExtensions = string.Join(",", RoadkillSettings.Current.SitePreferences.AllowedFileTypes);
+			summary.AllowUserSignup = RoadkillSettings.Current.SitePreferences.AllowUserSignup;
+			summary.AttachmentsFolder = RoadkillSettings.Current.ApplicationSettings.AttachmentsFolder;
+			summary.CacheEnabled = RoadkillSettings.Current.ApplicationSettings.CachedEnabled;
+			summary.CacheText = RoadkillSettings.Current.ApplicationSettings.CacheText;
+			summary.ConnectionString = RoadkillSettings.Current.ApplicationSettings.ConnectionString;
+			summary.DatabaseType = RoadkillSettings.Current.ApplicationSettings.DatabaseType;
+			summary.EditorRoleName = RoadkillSettings.Current.ApplicationSettings.EditorRoleName;
+			summary.EnableRecaptcha = RoadkillSettings.Current.SitePreferences.IsRecaptchaEnabled;
+			summary.LdapConnectionString = RoadkillSettings.Current.ApplicationSettings.LdapConnectionString;
+			summary.LdapUsername = RoadkillSettings.Current.ApplicationSettings.LdapUsername;
+			summary.LdapPassword = RoadkillSettings.Current.ApplicationSettings.LdapPassword;
+			summary.MarkupType = RoadkillSettings.Current.SitePreferences.MarkupType;
+			summary.RecaptchaPrivateKey = RoadkillSettings.Current.SitePreferences.RecaptchaPrivateKey;
+			summary.RecaptchaPublicKey = RoadkillSettings.Current.SitePreferences.RecaptchaPublicKey;
+			summary.SiteName = RoadkillSettings.Current.SitePreferences.SiteName;
+			summary.SiteUrl = RoadkillSettings.Current.SitePreferences.SiteUrl;
+			summary.Theme = RoadkillSettings.Current.SitePreferences.Theme;
+			summary.UseWindowsAuth = RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication;
 
 			return summary;
 		}

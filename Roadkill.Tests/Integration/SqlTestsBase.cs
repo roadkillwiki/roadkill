@@ -5,20 +5,23 @@ using System.Text;
 using Roadkill.Core;
 using NUnit.Framework;
 using System.IO;
+using Roadkill.Core.Domain;
+using Roadkill.Core.Configuration;
+using System.Configuration;
 
 namespace Roadkill.Tests.Integration
 {
 	public class SqlTestsBase
 	{
+		protected SqlUserManager _sqlUserManager;
+
 		/// <summary>
 		/// Attempts to copy the correct SQL binaries to the bin folder for the architecture the app pool is running under.
 		/// </summary>
 		[TestFixtureSetUp]
 		public void Init()
 		{
-			// Moq tests can interfere so reset these to their defaults.
-			NHibernateRepository.Initialize(new NHibernateRepository());
-			UserManager.Initialize(new SqlUserManager()); 
+			RoadkillApplication.SetupIoC();
 
 			//
 			// Copy the SQLite files over
@@ -46,14 +49,18 @@ namespace Roadkill.Tests.Integration
 		[SetUp]
 		public void Initialize()
 		{
-			RoadkillContext.IsWeb = false;
+			RoadkillApplication.SetupIoC();
+
+			IConfigurationContainer config = new RoadkillSettings();
+			config.ApplicationSettings = new ApplicationSettings();
+			config.ApplicationSettings.Load(null); // from app.config
 
 			SettingsSummary summary = new SettingsSummary();
-			summary.ConnectionString = RoadkillSettings.ConnectionString;
-			SettingsManager.CreateTables(summary);
+			summary.ConnectionString = config.ApplicationSettings.ConnectionString;
 
-			RoadkillApplication app = new RoadkillApplication();
-			app.SetupNHibernate();
+			SettingsManager settingsManager = new SettingsManager(config, new NHibernateRepository(config));
+			settingsManager.CreateTables(summary);
+			settingsManager.SaveSiteConfiguration(new SettingsSummary() { AllowedExtensions = "jpg, gif", MarkupType = "Creole" }, true);
 		}
 	}
 }

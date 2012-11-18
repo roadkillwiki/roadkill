@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using Recaptcha;
 using System.Web.UI;
 using System.IO;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {
@@ -92,16 +93,6 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Turns the provided wiki markdown into HTML, using the current markdown syntax parser.
-		/// </summary>
-		/// <param name="content">The wiki markdown.</param>
-		/// <returns>The converted HTML.</returns>
-		public static MvcHtmlString WikiMarkupToHtml(this HtmlHelper helper, string content)
-		{
-			return MvcHtmlString.Create(content.WikiMarkupToHtml());
-		}
-
-		/// <summary>
 		/// Gets a CSS class name for the tag based on the <see cref="TagSummary.Count"/> - the number of
 		/// pages with that tag in the system.
 		/// </summary>
@@ -152,7 +143,7 @@ namespace Roadkill.Core
 		/// <returns>A url path to the item, e.g. '/MySite/Themes/Mediawiki/logo.png'</returns>
 		public static string ThemeContent(this UrlHelper helper, string relativePath)
 		{
-			return helper.Content(RoadkillSettings.ThemePath + "/" + relativePath);
+			return helper.Content(RoadkillSettings.Current.SitePreferences.ThemePath + "/" + relativePath);
 		}
 
 		/// <summary>
@@ -174,13 +165,13 @@ namespace Roadkill.Core
 		/// </summary>
 		public static MvcHtmlString RenderCaptcha(this HtmlHelper helper)
 		{
-			if (RoadkillSettings.IsRecaptchaEnabled)
+			if (RoadkillSettings.Current.SitePreferences.IsRecaptchaEnabled)
 			{
 				RecaptchaControl control = new RecaptchaControl();
 				control.ID = "recaptcha";
 				control.Theme = "clean";
-				control.PublicKey = RoadkillSettings.RecaptchaPublicKey;
-				control.PrivateKey = RoadkillSettings.RecaptchaPrivateKey;
+				control.PublicKey = RoadkillSettings.Current.SitePreferences.RecaptchaPublicKey;
+				control.PrivateKey = RoadkillSettings.Current.SitePreferences.RecaptchaPrivateKey;
 
 				using (StringWriter stringWriter = new StringWriter())
 				{
@@ -205,7 +196,7 @@ namespace Roadkill.Core
 		/// </summary>
 		public static MvcHtmlString ResizeImagesScript(this HtmlHelper helper)
 		{
-			if (RoadkillSettings.ResizeImages)
+			if (RoadkillSettings.Current.ApplicationSettings.ResizeImages)
 			{
 				return MvcHtmlString.Create(@"<script type=""text/javascript"">
 			$(document).ready(function ()

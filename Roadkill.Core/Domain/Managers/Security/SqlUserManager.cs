@@ -9,6 +9,9 @@ using System.Data.SqlClient;
 using System.Configuration.Provider;
 using NHibernate;
 using System.Web;
+using Roadkill.Core.Domain;
+using System.Security.Cryptography;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {
@@ -17,8 +20,13 @@ namespace Roadkill.Core
 	/// </summary>
 	public class SqlUserManager : UserManager
 	{
+		public SqlUserManager(IConfigurationContainer configuration, IRepository repository, PageManager pageManager)
+			: base(configuration, repository, pageManager)
+		{
+		}
+
 		/// <summary>
-		/// Indicates whether this UserManager can perform deletes, updates or inserts for users.
+		/// Indicates whether this UserManager can perform deletes, updates or inserts for Repository.Users.
 		/// </summary>
 		public override bool IsReadonly
 		{
@@ -37,11 +45,11 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				User user = Users.FirstOrDefault(u => u.ActivationKey == activationKey && u.IsActivated == false);
+				User user = Repository.Users.FirstOrDefault(u => u.ActivationKey == activationKey && u.IsActivated == false);
 				if (user != null)
 				{
 					user.IsActivated = true;
-					NHibernateRepository.Current.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdate<User>(user);
 
 					return true;
 				}
@@ -71,7 +79,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				User user = Users.FirstOrDefault(u => u.Email == email || u.Username == username);
+				User user = Repository.Users.FirstOrDefault(u => u.Email == email || u.Username == username);
 				if (user == null)
 				{
 					user = new User();
@@ -81,7 +89,7 @@ namespace Roadkill.Core
 					user.IsAdmin = isAdmin;
 					user.IsEditor = isEditor;
 					user.IsActivated = true;
-					NHibernateRepository.Current.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdate<User>(user);
 
 					return true;
 				}
@@ -109,12 +117,12 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				User user = Users.FirstOrDefault(u => u.Email == email && u.IsActivated);
+				User user = Repository.Users.FirstOrDefault(u => u.Email == email && u.IsActivated);
 				if (user != null)
 				{
 					if (user.Password == User.HashPassword(password, user.Salt))
 					{
-						if (RoadkillContext.IsWeb)
+						if (FormsAuthentication.IsEnabled)
 							FormsAuthentication.SetAuthCookie(email, true);
 
 						return true;
@@ -142,12 +150,12 @@ namespace Roadkill.Core
 				if (string.IsNullOrWhiteSpace(newPassword))
 					throw new SecurityException(null, "Cannot change the password as it's empty.");
 
-				User user = Users.FirstOrDefault(u => u.Email == email);
+				User user = Repository.Users.FirstOrDefault(u => u.Email == email);
 				if (user != null)
 				{
 					user.Salt = new Salt();
 					user.SetPassword(newPassword);
-					NHibernateRepository.Current.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdate<User>(user);
 				}
 			}
 			catch (HibernateException ex)
@@ -173,7 +181,7 @@ namespace Roadkill.Core
 				if (!Authenticate(email, oldPassword))
 					return false;
 
-				User user = Users.FirstOrDefault(u => u.Email == email);
+				User user = Repository.Users.FirstOrDefault(u => u.Email == email);
 				if (user != null)
 				{
 					if (string.IsNullOrWhiteSpace(newPassword))
@@ -184,7 +192,7 @@ namespace Roadkill.Core
 					user.Salt = new Salt();
 					user.SetPassword(newPassword);
 
-					NHibernateRepository.Current.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdate<User>(user);
 					return true;
 				}
 				else
@@ -210,10 +218,10 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				User user = Users.FirstOrDefault(u => u.Email == email);
+				User user = Repository.Users.FirstOrDefault(u => u.Email == email);
 				if (user != null)
 				{
-					NHibernateRepository.Current.Delete<User>(user);
+					Repository.Delete<User>(user);
 					return true;
 				}
 				else
@@ -234,7 +242,7 @@ namespace Roadkill.Core
 		/// <returns>A <see cref="User"/> object</returns>
 		public override User GetUserById(Guid id)
 		{
-			return Users.FirstOrDefault(u => u.Id == id);
+			return Repository.Users.FirstOrDefault(u => u.Id == id);
 		}
 
 		/// <summary>
@@ -244,7 +252,7 @@ namespace Roadkill.Core
 		/// <returns>A <see cref="User"/> object</returns>
 		public override User GetUser(string email)
 		{
-			return Users.FirstOrDefault(u => u.Email == email);
+			return Repository.Users.FirstOrDefault(u => u.Email == email);
 		}
 
 		/// <summary>
@@ -254,7 +262,7 @@ namespace Roadkill.Core
 		/// <returns>A <see cref="User"/> object</returns>
 		public override User GetUserByResetKey(string resetKey)
 		{
-			return Users.FirstOrDefault(u => u.PasswordResetKey == resetKey);
+			return Repository.Users.FirstOrDefault(u => u.PasswordResetKey == resetKey);
 		}
 
 		/// <summary>
@@ -269,7 +277,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				return Users.FirstOrDefault(u => u.Email == email && u.IsAdmin) != null;
+				return Repository.Users.FirstOrDefault(u => u.Email == email && u.IsAdmin) != null;
 			}
 			catch (HibernateException ex)
 			{
@@ -289,7 +297,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				return Users.FirstOrDefault(u => u.Email == email && u.IsEditor) != null;
+				return Repository.Users.FirstOrDefault(u => u.Email == email && u.IsEditor) != null;
 			}
 			catch (HibernateException ex)
 			{
@@ -308,7 +316,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				var users = Users.ToList().Where(u => u.IsAdmin).Select(u => u.ToSummary());
+				var users = Repository.Users.ToList().Where(u => u.IsAdmin).Select(u => u.ToSummary());
 				return users;
 			}
 			catch (HibernateException ex)
@@ -328,7 +336,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				var users = Users.ToList().Where(u => u.IsEditor).Select(u => u.ToSummary());
+				var users = Repository.Users.ToList().Where(u => u.IsEditor).Select(u => u.ToSummary());
 				return users;
 			}
 			catch (HibernateException ex)
@@ -342,7 +350,8 @@ namespace Roadkill.Core
 		/// </summary>
 		public override void Logout()
 		{
-			FormsAuthentication.SignOut();
+			if (FormsAuthentication.IsEnabled)
+				FormsAuthentication.SignOut();
 		}
 
 		/// <summary>
@@ -359,12 +368,12 @@ namespace Roadkill.Core
 
 			try
 			{
-				User user = UserManager.Current.GetUser(email);
+				User user = GetUser(email);
 
 				if (user != null)
 				{
 					user.PasswordResetKey = Guid.NewGuid().ToString();
-					NHibernateRepository.Current.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdate<User>(user);
 
 					return user.PasswordResetKey;
 				}
@@ -406,7 +415,7 @@ namespace Roadkill.Core
 				user.IsEditor = true;
 				user.IsAdmin = false;
 				user.IsActivated = false;
-				NHibernateRepository.Current.SaveOrUpdate<User>(user);
+				Repository.SaveOrUpdate<User>(user);
 
 				if (completed != null)
 					completed();
@@ -428,11 +437,11 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				User user = Users.FirstOrDefault(u => u.Email == email);
+				User user = Repository.Users.FirstOrDefault(u => u.Email == email);
 				if (user != null)
 				{
 					user.IsEditor = !user.IsEditor;
-					NHibernateRepository.Current.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdate<User>(user);
 				}
 			}
 			catch (HibernateException ex)
@@ -450,11 +459,11 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				User user = Users.FirstOrDefault(u => u.Email == email);
+				User user = Repository.Users.FirstOrDefault(u => u.Email == email);
 				if (user != null)
 				{
 					user.IsAdmin = !user.IsAdmin;
-					NHibernateRepository.Current.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdate<User>(user);
 				}
 			}
 			catch (HibernateException ex)
@@ -480,35 +489,35 @@ namespace Roadkill.Core
 				// These checks is run in the UserSummary object by MVC - but doubled up in here for _when_ the API is used without MVC.
 				if (summary.ExistingEmail != summary.NewEmail)
 				{
-					user = Users.FirstOrDefault(u => u.Email == summary.NewEmail);
+					user = Repository.Users.FirstOrDefault(u => u.Email == summary.NewEmail);
 					if (user != null)
 						throw new SecurityException(null, "The email provided already exists.");
 				}
 
 				if (summary.ExistingUsername != summary.NewUsername)
 				{
-					user = Users.FirstOrDefault(u => u.Username == summary.NewUsername);
+					user = Repository.Users.FirstOrDefault(u => u.Username == summary.NewUsername);
 					if (user != null)
 						throw new SecurityException(null, "The username provided already exists.");
 				}
 
-				user = Users.FirstOrDefault(u => u.Id == summary.Id);
+				user = Repository.Users.FirstOrDefault(u => u.Id == summary.Id);
 				if (user == null)
 					throw new SecurityException(null, "The user does not exist.");
 
 				// Update the profile details
 				user.Firstname = summary.Firstname;
 				user.Lastname = summary.Lastname;
-				NHibernateRepository.Current.SaveOrUpdate<User>(user);
+				Repository.SaveOrUpdate<User>(user);
 
 				// Save the email
 				if (summary.ExistingEmail != summary.NewEmail)
 				{
-					user = Users.FirstOrDefault(u => u.Email == summary.ExistingEmail);
+					user = Repository.Users.FirstOrDefault(u => u.Email == summary.ExistingEmail);
 					if (user != null)
 					{
 						user.Email = summary.NewEmail;
-						NHibernateRepository.Current.SaveOrUpdate<User>(user);
+						Repository.SaveOrUpdate<User>(user);
 					}
 					else
 					{
@@ -519,38 +528,38 @@ namespace Roadkill.Core
 				// Save the username
 				if (summary.ExistingUsername != summary.NewUsername)
 				{
-					user = Users.FirstOrDefault(u => u.Username == summary.ExistingUsername);
+					user = Repository.Users.FirstOrDefault(u => u.Username == summary.ExistingUsername);
 					if (user != null)
 					{
 						user.Username = summary.NewUsername;
-						NHibernateRepository.Current.SaveOrUpdate<User>(user);
+						Repository.SaveOrUpdate<User>(user);
 
 						//
 						// Update the PageContent.EditedBy history
 						//
-						IList<PageContent> pageContents = PageContents.Where(p => p.EditedBy == summary.ExistingUsername).ToList();
+						IList<PageContent> pageContents = Repository.PageContents.Where(p => p.EditedBy == summary.ExistingUsername).ToList();
 						for (int i = 0; i < pageContents.Count; i++)
 						{
 							NHibernateUtil.Initialize(pageContents[i].Page); // force the proxy to hydrate
 							pageContents[i].EditedBy = summary.NewUsername;
-							NHibernateRepository.Current.SaveOrUpdate<PageContent>(pageContents[i]);
+							Repository.SaveOrUpdate<PageContent>(pageContents[i]);
 						}
 
 						//
 						// Update all Page.CreatedBy and Page.ModifiedBy
 						//
-						IList<Page> pages = Pages.Where(p => p.CreatedBy == summary.ExistingUsername).ToList();
+						IList<Page> pages = Repository.Pages.Where(p => p.CreatedBy == summary.ExistingUsername).ToList();
 						for (int i = 0; i < pages.Count; i++)
 						{
 							pages[i].CreatedBy = summary.NewUsername;
-							NHibernateRepository.Current.SaveOrUpdate<Page>(pages[i]);
+							Repository.SaveOrUpdate<Page>(pages[i]);
 						}
 
-						pages = Pages.Where(p => p.ModifiedBy == summary.ExistingUsername).ToList();
+						pages = Repository.Pages.Where(p => p.ModifiedBy == summary.ExistingUsername).ToList();
 						for (int i = 0; i < pages.Count; i++)
 						{
 							pages[i].ModifiedBy = summary.NewUsername;
-							NHibernateRepository.Current.SaveOrUpdate<Page>(pages[i]);
+							Repository.SaveOrUpdate<Page>(pages[i]);
 						}
 					}
 					else
@@ -579,7 +588,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				User user = Users.FirstOrDefault(u => u.Email == email);
+				User user = Repository.Users.FirstOrDefault(u => u.Email == email);
 				return (user != null);
 			}
 			catch (HibernateException ex)
@@ -600,21 +609,13 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				User user = Users.FirstOrDefault(u => u.Username == username);
+				User user = Repository.Users.FirstOrDefault(u => u.Username == username);
 				return (user != null);
 			}
 			catch (HibernateException ex)
 			{
 				throw new SecurityException(ex, "An error occurred checking if username {0} exists", username);
 			}
-		}
-
-		/// <summary>
-		/// Hashes the password and salt using SHA1 via FormsAuthentication.
-		/// </summary>
-		public override string HashPassword(string password, string salt)
-		{
-			return FormsAuthentication.HashPasswordForStoringInConfigFile(password + salt, "SHA1");
 		}
 
 		/// <summary>
@@ -634,8 +635,6 @@ namespace Roadkill.Core
 						return ticket.Name;
 					}
 				}
-
-				
 			}
 
 			return "";

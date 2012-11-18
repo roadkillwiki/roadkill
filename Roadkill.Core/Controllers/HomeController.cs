@@ -10,6 +10,8 @@ using System.Data.SqlClient;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Search;
 using Roadkill.Core.Localization.Resx;
+using Roadkill.Core.Domain;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Controllers
 {
@@ -19,11 +21,16 @@ namespace Roadkill.Core.Controllers
 	[OptionalAuthorization]
 	public class HomeController : ControllerBase
 	{
+		private PageManager _pageManager;
 		private SearchManager _searchManager;
+		private MarkupConverter _markupConverter;
 
-		public HomeController() : this(new SearchManager()) { }
-		public HomeController(SearchManager searchManager)
+		public HomeController(IConfigurationContainer configuration, UserManager userManager, MarkupConverter markupConverter, 
+			PageManager pageManager, SearchManager searchManager)
+			: base(configuration, userManager) 
 		{
+			_markupConverter = markupConverter;
+			_pageManager = pageManager;
 			_searchManager = searchManager;
 		}
 
@@ -33,14 +40,12 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult Index()
 		{
-			PageManager manager = new PageManager();
-
 			// Get the first locked homepage
-			PageSummary summary = manager.FindByTag("homepage").FirstOrDefault(h => h.IsLocked);
+			PageSummary summary = _pageManager.FindByTag("homepage").FirstOrDefault(h => h.IsLocked);
 			if (summary == null)
 			{
 				// Look for a none-locked page as a fallback
-				summary = manager.FindByTag("homepage").FirstOrDefault();
+				summary = _pageManager.FindByTag("homepage").FirstOrDefault();
 			}
 
 			if (summary == null)
@@ -48,6 +53,7 @@ namespace Roadkill.Core.Controllers
 				summary = new PageSummary();
 				summary.Title = SiteStrings.NoMainPage_Title;
 				summary.Content = SiteStrings.NoMainPage_Label;
+				summary.ContentAsHtml = _markupConverter.ToHtml(SiteStrings.NoMainPage_Label);
 				summary.CreatedBy = "";
 				summary.CreatedOn = DateTime.Now;
 				summary.Tags = "homepage";
