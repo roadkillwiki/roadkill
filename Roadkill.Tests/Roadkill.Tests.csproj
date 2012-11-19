@@ -246,6 +246,7 @@
     <Compile Include="Controllers\FilesControllerTests.cs" />
     <Compile Include="CoreTests\Configuration\RoadkillSettingsTests.cs" />
     <Compile Include="CoreTests\Mock\MockServiceContainer.cs" />
+    <Compile Include="GlobalSetup.cs" />
     <None Include="CoreTests\Mock\PageManagerTests.cs" />
     <Compile Include="CoreTests\Managers\ActiveDirectoryUserManagerTests.cs" />
     <Compile Include="Integration\SqlTestsBase.cs" />

@@ -19,8 +19,6 @@ public class GlobalSetup
 	[TestFixtureSetUp]
 	public void Init()
 	{
-		RoadkillApplication.SetupIoC();
-
 		//
 		// Copy the SQLite files over
 		//
