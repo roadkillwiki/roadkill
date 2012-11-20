@@ -5,9 +5,10 @@ using System.Text;
 using NUnit.Framework;
 using Roadkill.Core.Converters;
 
-namespace Roadkill.Tests.CoreTests
+namespace Roadkill.Tests.Unit
 {
 	[TestFixture]
+	[Category("Unit")]
 	public class CreoleParserTests
 	{
 		[Test]

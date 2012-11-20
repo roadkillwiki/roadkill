@@ -242,13 +242,13 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\MvcMockContainer.cs" />
-    <Compile Include="Controllers\FilesControllerTests.cs" />
-    <Compile Include="CoreTests\Configuration\RoadkillSettingsTests.cs" />
-    <Compile Include="CoreTests\Mock\MockServiceContainer.cs" />
+    <Compile Include="Unit\Controllers\MvcMockContainer.cs" />
+    <Compile Include="Unit\Controllers\FilesControllerTests.cs" />
+    <Compile Include="Unit\RoadkillSettingsTests.cs" />
+    <Compile Include="Unit\MockServiceContainer.cs" />
     <Compile Include="GlobalSetup.cs" />
-    <None Include="CoreTests\Mock\PageManagerTests.cs" />
-    <Compile Include="CoreTests\Managers\ActiveDirectoryUserManagerTests.cs" />
+    <None Include="Unit\PageManagerTests.cs" />
+    <Compile Include="Unit\ActiveDirectoryUserManagerTests.cs" />
     <Compile Include="Integration\SqlTestsBase.cs" />
     <Content Include="lib\roadkill.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -257,27 +257,27 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />
-    <Content Include="TestConfigs\test.config">
+    <Content Include="Unit\TestConfigs\test.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="TestConfigs\test-optional-values.config">
+    <Content Include="Unit\TestConfigs\test-optional-values.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestConfigs\test-missing-values.config">
+    <Content Include="Unit\TestConfigs\test-missing-values.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
-    <Compile Include="CoreTests\Text\CreoleParserTests.cs" />
-    <Compile Include="Headless\LoginTests.cs" />
-    <Compile Include="Headless\SearchTests.cs" />
-    <Compile Include="Headless\HomePageTests.cs" />
-    <Compile Include="Headless\Urls.cs" />
-    <Compile Include="Controllers\MvcMockHelpers.cs" />
-    <Compile Include="Controllers\UserControllerTests.cs" />
-    <Compile Include="CoreTests\Mock\SearchManagerTests.cs" />
-    <Compile Include="Plasma\PageTests.cs" />
-    <Compile Include="Plasma\PlasmaTestBase.cs" />
+    <Compile Include="Unit\CreoleParserTests.cs" />
+    <Compile Include="Acceptance\LoginTests.cs" />
+    <Compile Include="Acceptance\SearchTests.cs" />
+    <Compile Include="Acceptance\HomePageTests.cs" />
+    <Compile Include="Acceptance\Urls.cs" />
+    <Compile Include="Unit\Controllers\MvcMockHelpers.cs" />
+    <Compile Include="Unit\Controllers\UserControllerTests.cs" />
+    <Compile Include="Integration\SearchManagerTests.cs" />
+    <Compile Include="Integration\Plasma\PageTests.cs" />
+    <Compile Include="Integration\Plasma\PlasmaTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Integration\SqlUserManagerTests.cs" />
   </ItemGroup>
