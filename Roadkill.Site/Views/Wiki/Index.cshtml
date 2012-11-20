@@ -1,0 +1,14 @@
+﻿@model PageSummary
+@{ 
+	ViewBag.Title = Model.Title;
+}
+@section PageToolbar
+{  
+@Html.Partial("PageToolbar",Model)
+}
+
+<h1 class="pagetitle">@Model.Title</h1>
+
+<div id="pagecontent">
+@MvcHtmlString.Create(Model.ContentAsHtml)
+</div>

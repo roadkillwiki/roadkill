@@ -1,0 +1,7 @@
+﻿@using Roadkill.Core.Configuration;
+@{
+	if (RoadkillSettings.Current.ApplicationSettings.Installed)
+	{
+		Layout = RoadkillSettings.Current.SitePreferences.ThemePath + "/Theme.cshtml";
+	}
+}

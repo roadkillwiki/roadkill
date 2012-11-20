@@ -1,0 +1,19 @@
+﻿@model UserSummary
+@{ 
+	ViewBag.Title = SiteStrings.Signup_Complete_Title;
+}
+
+<h1>@SiteStrings.Signup_Complete_Title</h1>
+<p>@string.Format(SiteStrings.Signup_Complete_Label, Model.NewEmail)</p>
+<br />
+
+<div class="bigger bold">@SiteStrings.Signup_Complete_NoEmail</div>
+@if (TempData["resend"] != null)
+{
+<p class="green">@SiteStrings.Signup_Complete_EmailResent</p>
+}
+@using (Html.BeginForm("ResendConfirmation","User"))
+{
+	@Html.Hidden("email",Model.NewEmail)
+	<input type="submit" class="boringbutton" value="@SiteStrings.Signup_Complete_EmailResend_Button" />
+}
