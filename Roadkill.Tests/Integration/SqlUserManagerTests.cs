@@ -13,6 +13,7 @@ namespace Roadkill.Tests.Integration
 	/// Tests the SQL User manager class (the default auth mechanism in Roadkill)
 	/// </summary>
 	[TestFixture]
+	[Category("Integration")]
 	public class SqlUserManagerTests : SqlTestsBase
 	{
 		[Test]

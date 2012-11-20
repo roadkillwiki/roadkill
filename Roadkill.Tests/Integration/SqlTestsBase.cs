@@ -11,6 +11,7 @@ using System.Configuration;
 
 namespace Roadkill.Tests.Integration
 {
+	[Category("Integration")]
 	public class SqlTestsBase
 	{
 		protected SqlUserManager _sqlUserManager;

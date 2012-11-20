@@ -14,13 +14,14 @@ using System.Diagnostics;
 using HtmlAgilityPack;
 using Fizzler.Systems.HtmlAgilityPack;
 
-namespace Roadkill.Tests.Plasma
+namespace Roadkill.Tests.Integration.Plasma
 {
 	/// <summary>
 	/// Performs basic tests for correct HTML from the site.
 	/// </summary>
 	[TestFixture]
 	[Explicit]
+	[Category("Integration")]
 	public class PageTests : PlasmaTestBase
 	{
 		[Test]
