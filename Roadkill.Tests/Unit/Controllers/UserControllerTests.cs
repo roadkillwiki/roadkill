@@ -11,9 +11,10 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Controllers;
 using Roadkill.Core.Domain;
 
-namespace Roadkill.Tests.Controllers
+namespace Roadkill.Tests.Unit.Controllers
 {
 	[TestFixture]
+	[Category("Unit")]
 	public class UserControllerTests
 	{
 		private IConfigurationContainer _config;

@@ -17,6 +17,7 @@ namespace Roadkill.Tests.Core
 	/// </summary>
 	/// This class promises very little for the actual implementation, as that's untestable without an AD server.
 	[TestFixture]
+	[Category("Unit")]
 	public class ActiveDirectoryUserManagerTests
 	{
 		private static readonly string _domainPath = "dc=domain.com";

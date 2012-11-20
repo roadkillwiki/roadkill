@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NUnit.Framework;
 
-namespace Roadkill.Tests.Headless
+namespace Roadkill.Tests.Acceptance
 {
+	[Category("Acceptance")]
 	public class Settings
 	{
 		public static string HeadlessUrl { get; private set; }

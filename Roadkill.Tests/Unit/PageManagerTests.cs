@@ -11,9 +11,10 @@ using Roadkill.Core;
 using Roadkill.Core.Controllers;
 using Roadkill.Core.Search;
 
-namespace Roadkill.Tests.Controllers
+namespace Roadkill.Tests.Unit
 {
 	[TestFixture]
+	[Category("Unit")]
 	public class PageManagerTests : MoqTestBase
 	{
 		[SetUp]

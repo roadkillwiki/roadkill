@@ -16,12 +16,13 @@ using Fizzler.Systems.HtmlAgilityPack;
 using SimpleBrowser.WebDriver;
 using System.Threading;
 
-namespace Roadkill.Tests.Headless
+namespace Roadkill.Tests.Acceptance
 {
 	/// <summary>
 	/// Web tests using a headless browser (non-javascript interaction)
 	/// </summary>
 	[TestFixture]
+	[Category("Acceptance")]
 	public class LoginTests
 	{
 		private SimpleBrowserDriver _driver;

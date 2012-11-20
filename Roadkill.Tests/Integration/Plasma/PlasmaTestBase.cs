@@ -7,7 +7,7 @@ using Plasma.Core;
 using NUnit.Framework;
 using System.Text.RegularExpressions;
 
-namespace Roadkill.Tests.Plasma
+namespace Roadkill.Tests.Integration.Plasma
 {
 	/// <summary>
 	/// Plasma hosts the site inside the same app domain as the tests, skipping IIS.
@@ -18,6 +18,7 @@ namespace Roadkill.Tests.Plasma
 	/// </summary>
 	[TestFixture]
 	[Explicit]
+	[Category("Integration")]
 	public class PlasmaTestBase
 	{
 		protected static AspNetApplication AppInstance;
