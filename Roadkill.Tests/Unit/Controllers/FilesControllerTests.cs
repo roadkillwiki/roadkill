@@ -14,9 +14,10 @@ using Roadkill.Core.Domain;
 using Roadkill.Tests.Integration;
 using StructureMap;
 
-namespace Roadkill.Tests.Controllers
+namespace Roadkill.Tests.Unit.Controllers
 {
 	[TestFixture]
+	[Category("Unit")]
 	public class FilesControllerTests
 	{
 		private IConfigurationContainer _config;

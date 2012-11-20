@@ -11,10 +11,11 @@ using Roadkill.Core.Converters;
 using Roadkill.Core.Domain;
 using Roadkill.Tests.Integration;
 
-namespace Roadkill.Tests.CoreTests
+namespace Roadkill.Tests.Unit
 {
 	[TestFixture]
 	[Description("Tests for both database and .config file settings.")]
+	[Category("Unit")]
 	public class RoadkillSettingsTests
 	{
 		private IConfigurationContainer _config;
@@ -29,7 +30,7 @@ namespace Roadkill.Tests.CoreTests
 		public void RoadkillSection_Properties_Have_Correct_Key_Mappings_And_Values()
 		{
 			// Arrange
-			string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestConfigs", "test.config");
+			string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Unit", "TestConfigs", "test.config");
 
 			// Act
 			ApplicationSettings appSettings = new ApplicationSettings();
@@ -59,7 +60,7 @@ namespace Roadkill.Tests.CoreTests
 		public void RoadkillSection_Optional_Settings_With_Missing_Values_Have_Default_Values()
 		{
 			// Arrange
-			string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestConfigs", "test-optional-values.config");
+			string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Unit", "TestConfigs", "test-optional-values.config");
 
 			// Act
 			ApplicationSettings appSettings = new ApplicationSettings();
@@ -80,7 +81,7 @@ namespace Roadkill.Tests.CoreTests
 		public void Connection_Setting_Should_Find_Connection_Value()
 		{
 			// Arrange
-			string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestConfigs", "test.config");
+			string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Unit", "TestConfigs", "test.config");
 
 			// Act
 			ApplicationSettings appSettings = new ApplicationSettings();
@@ -95,7 +96,7 @@ namespace Roadkill.Tests.CoreTests
 		public void RoadkillSection_Missing_Values_Throw_Exception()
 		{
 			// Arrange
-			string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestConfigs", "test-missing-values.config");
+			string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Unit", "TestConfigs", "test-missing-values.config");
 
 			// Act
 			ApplicationSettings appSettings = new ApplicationSettings();
