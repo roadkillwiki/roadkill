@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,13 +11,14 @@ using System.Configuration;
 
 // NB no namespace, so this fixture setup is used for every class
 
+[SetUpFixture]
 public class GlobalSetup
 {
-	/// <summary>
+    /// <summary>
 	/// Attempts to copy the correct SQL binaries to the bin folder for the architecture the app pool is running under.
 	/// </summary>
-	[TestFixtureSetUp]
-	public void Init()
+	[SetUp]
+	public void BeforeAllTests()
 	{
 		//
 		// Copy the SQLite files over
