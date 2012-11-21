@@ -180,24 +180,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Iesi.Collections.3.3.1.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.4.5.9\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NHibernate.3.3.1.4000\lib\Net35\NHibernate.dll</HintPath>
+      <HintPath>..\packages\NHibernate.3.3.2.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.6.1.12217, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+    <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NUnit.2.6.1\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Plasma.Core">
       <HintPath>..\packages\Plasma.WebDriver.1.1.0.5\lib\net35\Plasma.Core.dll</HintPath>
@@ -205,14 +198,17 @@
     <Reference Include="Plasma.WebDriver">
       <HintPath>..\packages\Plasma.WebDriver.1.1.0.5\lib\net35\Plasma.WebDriver.dll</HintPath>
     </Reference>
-    <Reference Include="RazorHosting">
-      <HintPath>..\packages\SimpleBrowser.0.5.9\lib\net40\RazorHosting.dll</HintPath>
+    <Reference Include="RazorHosting, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SimpleBrowser.0.5.11\lib\net40\RazorHosting.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleBrowser">
-      <HintPath>..\packages\SimpleBrowser.0.5.9\lib\net40\SimpleBrowser.dll</HintPath>
+    <Reference Include="SimpleBrowser, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SimpleBrowser.0.5.11\lib\net40\SimpleBrowser.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleBrowser.WebDriver">
-      <HintPath>..\packages\SimpleBrowser.WebDriver.0.5.6\lib\net40\SimpleBrowser.WebDriver.dll</HintPath>
+    <Reference Include="SimpleBrowser.WebDriver, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SimpleBrowser.WebDriver.0.5.12\lib\net40\SimpleBrowser.WebDriver.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
@@ -228,12 +224,13 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
-    <Reference Include="ThoughtWorks.Selenium.Core">
-      <HintPath>..\packages\Selenium.RC.2.25.1\lib\net40\ThoughtWorks.Selenium.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="WebDriver, Version=2.25.1.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
+    <Reference Include="ThoughtWorks.Selenium.Core, Version=2.26.0.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Selenium.WebDriver.2.25.1\lib\net40\WebDriver.dll</HintPath>
+      <HintPath>..\packages\Selenium.RC.2.26.0\lib\net40\ThoughtWorks.Selenium.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver, Version=2.26.0.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Selenium.WebDriver.2.26.0\lib\net40\WebDriver.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -247,7 +244,7 @@
     <Compile Include="Unit\RoadkillSettingsTests.cs" />
     <Compile Include="Unit\MockServiceContainer.cs" />
     <Compile Include="GlobalSetup.cs" />
-    <None Include="Unit\PageManagerTests.cs" />
+    <Compile Include="Unit\PageManagerTests.cs" />
     <Compile Include="Unit\ActiveDirectoryUserManagerTests.cs" />
     <Compile Include="Integration\SqlTestsBase.cs" />
     <Content Include="lib\roadkill.sqlite">

@@ -4,6 +4,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
@@ -110,8 +111,19 @@ namespace Roadkill.Tests.Unit
 		public void SettingsManager_Should_Save_Settings()
 		{
 			// Arrange
-			SettingsManager settingsManager = new SettingsManager(_config, new NHibernateRepository(_config));
-
+			SitePreferences preferences = new SitePreferences()
+			{
+				Id = SitePreferences.ConfigurationId,
+				AllowedFileTypes = "jpg, png, gif",
+				AllowUserSignup = true,
+				IsRecaptchaEnabled = true,
+				MarkupType = "markuptype",
+				RecaptchaPrivateKey = "privatekey",
+				RecaptchaPublicKey = "publickey",
+				SiteName = "sitename",
+				SiteUrl = "siteurl",
+				Theme = "theme",
+			};
 			SettingsSummary validConfigSettings = new SettingsSummary()
 			{
 				AllowedExtensions = "jpg, png, gif",
@@ -125,10 +137,20 @@ namespace Roadkill.Tests.Unit
 				Theme = "theme",
 			};
 
+			Mock<IRepository> repositoryMock = new Mock<IRepository>();
+			repositoryMock.Setup(x => x.SaveOrUpdate<SitePreferences>(preferences));
+			repositoryMock.Setup(x => x.GetSitePreferences()).Returns(preferences);
+
+			RoadkillApplication.SetupIoC(_config, repositoryMock.Object, null);
+			SettingsManager settingsManager = new SettingsManager(_config, repositoryMock.Object);
+
 			// Act
 			settingsManager.SaveSiteConfiguration(validConfigSettings, true);
 
 			// Assert
+			repositoryMock.Verify(x => x.SaveOrUpdate<SitePreferences>(
+				It.Is<SitePreferences>(s => s.Id == preferences.Id && s.MarkupType == preferences.MarkupType)
+			));
 			Assert.That(RoadkillSettings.Current.SitePreferences.AllowedFileTypes.Contains("jpg"), "AllowedFileTypes jpg");
 			Assert.That(RoadkillSettings.Current.SitePreferences.AllowedFileTypes.Contains("gif"), "AllowedFileTypes gif");
 			Assert.That(RoadkillSettings.Current.SitePreferences.AllowedFileTypes.Contains("png"), "AllowedFileTypes png");

@@ -15,6 +15,7 @@ namespace Roadkill.Tests
 {
 	public class MockServiceContainer
 	{
+		// Pending a cleanup for the PageManager tests
 		public static string AdminEmail = "admin@localhost";
 		public static string AdminUsername = "admin";
 		public static string AdminPassword = "password";
