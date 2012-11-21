@@ -77,22 +77,22 @@ namespace Roadkill.Core.Search
 
 						foreach (ScoreDoc scoreDoc in topDocs.ScoreDocs)
 						{
-							Document document = searcher.Doc(scoreDoc.doc);
+							Document document = searcher.Doc(scoreDoc.Doc);
 
 							DateTime createdOn = DateTime.Now;
-							if (!DateTime.TryParse(document.GetField("createdon").StringValue(), out createdOn))
+							if (!DateTime.TryParse(document.GetField("createdon").StringValue, out createdOn))
 								createdOn = DateTime.Now;
 
 							SearchResult result = new SearchResult()
 							{
-								Id = int.Parse(document.GetField("id").StringValue()),
-								Title = document.GetField("title").StringValue(),
-								ContentSummary = document.GetField("contentsummary").StringValue(),
-								Tags = document.GetField("tags").StringValue(),
-								CreatedBy = document.GetField("createdby").StringValue(),
+								Id = int.Parse(document.GetField("id").StringValue),
+								Title = document.GetField("title").StringValue,
+								ContentSummary = document.GetField("contentsummary").StringValue,
+								Tags = document.GetField("tags").StringValue,
+								CreatedBy = document.GetField("createdby").StringValue,
 								CreatedOn = createdOn,
-								ContentLength = int.Parse(document.GetField("contentlength").StringValue()),
-								Score = scoreDoc.score
+								ContentLength = int.Parse(document.GetField("contentlength").StringValue),
+								Score = scoreDoc.Score
 							};
 
 							list.Add(result);

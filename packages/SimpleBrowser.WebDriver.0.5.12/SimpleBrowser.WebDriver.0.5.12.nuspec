@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>SimpleBrowser.WebDriver</id>
+    <version>0.5.12</version>
+    <title>SimpleBrowser.WebDriver</title>
+    <authors>Teun Duynstee</authors>
+    <owners>Teun Duynstee</owners>
+    <projectUrl>https://github.com/Teun/SimpleBrowser.WebDriver</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Allows you to automate SimpleBrowser, the C# headless browser from code using Selenium webDriver. SimpleBrowser is a lightweight, yet highly capable browser automation engine designed for automation and testing scenarios.</description>
+    <tags>selenium webdriver .net headless browser http cookies browserautomation automation</tags>
+    <dependencies>
+      <dependency id="SimpleBrowser" version="0.5.11" />
+      <dependency id="Selenium.WebDriver" version="2.21.0" />
+    </dependencies>
+  </metadata>
+</package>

@@ -80,7 +80,6 @@ namespace Roadkill.Core
 				}
 
 				tags = string.Join(";",results);
-				tags += ";";
 
 				return tags.Replace(" ", "-");
 			}

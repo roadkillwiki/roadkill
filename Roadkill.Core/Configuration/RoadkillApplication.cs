@@ -65,7 +65,7 @@ namespace Roadkill.Core
 		/// Initializes the Structuremap IoC containers for the Services, Configuration and IRepository,
 		/// and registering the defaults for each.
 		/// </summary>
-		public static void SetupIoC()
+		public static void SetupIoC(IConfigurationContainer config = null, IRepository repository = null, IRoadkillContext context = null)
 		{
 			ObjectFactory.Initialize(x =>
 			{
@@ -84,9 +84,35 @@ namespace Roadkill.Core
 				// - Repository relies on RoadkillSettings
 				// - Container relies on Repository
 				// - Context relies on ServiceContainer
-				x.For<IConfigurationContainer>().HybridHttpOrThreadLocalScoped().Use<RoadkillSettings>();
-				x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use<NHibernateRepository>();
-				x.For<IRoadkillContext>().HybridHttpOrThreadLocalScoped().Use<RoadkillContext>();
+
+				if (config == null)
+				{
+					x.For<IConfigurationContainer>().HybridHttpOrThreadLocalScoped().Use<RoadkillSettings>();
+				}
+				else
+				{
+					x.For<IConfigurationContainer>().HybridHttpOrThreadLocalScoped().Use(config);
+				}
+
+				if (repository == null)
+				{
+					x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use<NHibernateRepository>();
+				}
+				else
+				{
+					x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use(repository);
+				}
+
+				if (context == null)
+				{
+					x.For<IRoadkillContext>().HybridHttpOrThreadLocalScoped().Use<RoadkillContext>();
+				}
+				else
+				{
+					x.For<IRoadkillContext>().HybridHttpOrThreadLocalScoped().Use(context);
+				}
+
+				// TODO: load UserManager from config
 				x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<SqlUserManager>();
 			});
 
