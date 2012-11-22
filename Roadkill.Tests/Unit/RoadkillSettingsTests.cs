@@ -126,7 +126,7 @@ namespace Roadkill.Tests.Unit
 				SiteUrl = "siteurl",
 				Theme = "theme",
 			};
-			SettingsSummary validConfigSettings = new SettingsSummary()
+			SettingsSummary validConfigSettings = new SettingsSummary(_config)
 			{
 				AllowedExtensions = "jpg, png, gif",
 				AllowUserSignup = true,
@@ -153,17 +153,20 @@ namespace Roadkill.Tests.Unit
 			repositoryMock.Verify(x => x.SaveOrUpdate<SitePreferences>(
 				It.Is<SitePreferences>(s => s.Id == preferences.Id && s.MarkupType == preferences.MarkupType)
 			));
-			Assert.That(RoadkillSettings.Current.SitePreferences.AllowedFileTypes.Contains("jpg"), "AllowedFileTypes jpg");
-			Assert.That(RoadkillSettings.Current.SitePreferences.AllowedFileTypes.Contains("gif"), "AllowedFileTypes gif");
-			Assert.That(RoadkillSettings.Current.SitePreferences.AllowedFileTypes.Contains("png"), "AllowedFileTypes png");
-			Assert.That(RoadkillSettings.Current.SitePreferences.AllowUserSignup, Is.True, "AllowUserSignup");
-			Assert.That(RoadkillSettings.Current.SitePreferences.IsRecaptchaEnabled, Is.True, "IsRecaptchaEnabled");
-			Assert.That(RoadkillSettings.Current.SitePreferences.MarkupType, Is.EqualTo("markuptype"), "MarkupType");
-			Assert.That(RoadkillSettings.Current.SitePreferences.RecaptchaPrivateKey, Is.EqualTo("privatekey"), "RecaptchaPrivateKey");
-			Assert.That(RoadkillSettings.Current.SitePreferences.RecaptchaPublicKey, Is.EqualTo("publickey"), "RecaptchaPublicKey");
-			Assert.That(RoadkillSettings.Current.SitePreferences.SiteName, Is.EqualTo("sitename"), "SiteName");
-			Assert.That(RoadkillSettings.Current.SitePreferences.SiteUrl, Is.EqualTo("siteurl"), "SiteUrl");
-			Assert.That(RoadkillSettings.Current.SitePreferences.Theme, Is.EqualTo("theme"), "Theme");
+
+			IConfigurationContainer config = RoadkillSettings.GetInstance();
+
+			Assert.That(config.SitePreferences.AllowedFileTypes.Contains("jpg"), "AllowedFileTypes jpg");
+			Assert.That(config.SitePreferences.AllowedFileTypes.Contains("gif"), "AllowedFileTypes gif");
+			Assert.That(config.SitePreferences.AllowedFileTypes.Contains("png"), "AllowedFileTypes png");
+			Assert.That(config.SitePreferences.AllowUserSignup, Is.True, "AllowUserSignup");
+			Assert.That(config.SitePreferences.IsRecaptchaEnabled, Is.True, "IsRecaptchaEnabled");
+			Assert.That(config.SitePreferences.MarkupType, Is.EqualTo("markuptype"), "MarkupType");
+			Assert.That(config.SitePreferences.RecaptchaPrivateKey, Is.EqualTo("privatekey"), "RecaptchaPrivateKey");
+			Assert.That(config.SitePreferences.RecaptchaPublicKey, Is.EqualTo("publickey"), "RecaptchaPublicKey");
+			Assert.That(config.SitePreferences.SiteName, Is.EqualTo("sitename"), "SiteName");
+			Assert.That(config.SitePreferences.SiteUrl, Is.EqualTo("siteurl"), "SiteUrl");
+			Assert.That(config.SitePreferences.Theme, Is.EqualTo("theme"), "Theme");
 
 			// How can ~/ for Attachments be tested?
 			// AppDataPath etc.?
@@ -232,7 +235,7 @@ namespace Roadkill.Tests.Unit
 	public class MockUserManager : UserManager
 	{
 		public MockUserManager()
-			: base(null, null, null)
+			: base(null, null)
 		{
 
 		}

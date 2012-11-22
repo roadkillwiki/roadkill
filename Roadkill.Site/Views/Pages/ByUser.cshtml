@@ -12,7 +12,7 @@
 	{
 	<tr>
 		<td class="title" style="width:90%">@Html.ActionLink(summary.Title,"Index","Wiki",new { id = summary.Id,title=Url.EncodeTitle(summary.Title)},null)</td>
-		@if (RoadkillContext.Current.IsLoggedIn)
+		@if (RoadkillContext.IsLoggedIn)
 		{
 		<td class="edit">@Html.ActionLink(SiteStrings.Shared_EditLink, "Edit",new { id = summary.Id} )</td>
 		<td class="delete">@Html.ActionLink(SiteStrings.Shared_DeleteLink, "Delete", new { id = summary.Id })</td>

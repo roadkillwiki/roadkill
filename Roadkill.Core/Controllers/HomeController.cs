@@ -25,9 +25,9 @@ namespace Roadkill.Core.Controllers
 		private SearchManager _searchManager;
 		private MarkupConverter _markupConverter;
 
-		public HomeController(IConfigurationContainer configuration, UserManager userManager, MarkupConverter markupConverter, 
-			PageManager pageManager, SearchManager searchManager)
-			: base(configuration, userManager) 
+		public HomeController(IConfigurationContainer configuration, UserManager userManager, MarkupConverter markupConverter,
+			PageManager pageManager, SearchManager searchManager, IRoadkillContext context)
+			: base(configuration, userManager, context) 
 		{
 			_markupConverter = markupConverter;
 			_pageManager = pageManager;
@@ -61,7 +61,7 @@ namespace Roadkill.Core.Controllers
 				summary.ModifiedBy = "";
 			}
 
-			RoadkillContext.Current.Page = summary;
+			Context.Page = summary;
 			return View(summary);
 		}
 

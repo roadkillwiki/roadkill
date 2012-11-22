@@ -1,9 +1,9 @@
-﻿@using Roadkill.Core.Configuration;
-@model System.Web.Mvc.HandleErrorInfo
+﻿@inherits RoadkillViewPage<System.Web.Mvc.HandleErrorInfo>
+
 @{
-	if (RoadkillSettings.Current.ApplicationSettings.Installed)
+	if (Configuration.ApplicationSettings.Installed)
 	{
-		Layout = RoadkillSettings.Current.SitePreferences.ThemePath + "/Theme.cshtml";
+		Layout = Configuration.SitePreferences.ThemePath + "/Theme.cshtml";
 	}
 }
 
@@ -18,7 +18,7 @@
 		Sorry, an error occurred while processing your request.
 	</h2>
 
-	@if (RoadkillContext.Current.IsAdmin)
+	@if (RoadkillContext.IsAdmin)
 	{
 	<p>@Model.Exception.Message</p>
 	<pre>@Model.Exception.ToString()</pre>

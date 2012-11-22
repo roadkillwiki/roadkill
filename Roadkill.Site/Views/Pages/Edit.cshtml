@@ -34,7 +34,7 @@
 			<ul id="mytags"></ul>
 		</div>
 	 
-		if (RoadkillContext.Current.IsAdmin)
+		if (RoadkillContext.IsAdmin)
 		{
 		<div class="lockpage">
 			@(Html.CheckBoxFor<PageSummary>(p => p.IsLocked))

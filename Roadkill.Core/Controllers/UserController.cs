@@ -18,8 +18,8 @@ namespace Roadkill.Core.Controllers
 	/// </summary>
 	public class UserController : ControllerBase
 	{
-		public UserController(IConfigurationContainer configuration, UserManager userManager)
-			: base(configuration, userManager) 
+		public UserController(IConfigurationContainer configuration, UserManager userManager, IRoadkillContext context)
+			: base(configuration, userManager, context) 
 		{
 
 		}
@@ -46,7 +46,7 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult CompleteResetPassword(string id)
 		{
-			if (RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
+			if (Configuration.ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
 			User user = UserManager.GetUserByResetKey(id);
@@ -68,7 +68,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult CompleteResetPassword(string id, UserSummary summary)
 		{
-			if (RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
+			if (Configuration.ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
 			// Don't use ModelState.isvalid as the summary object only has an ID and two passwords
@@ -147,9 +147,9 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult Profile()
 		{
-			if (RoadkillContext.Current.IsLoggedIn)
+			if (Context.IsLoggedIn)
 			{
-				UserSummary summary = UserManager.GetUser(RoadkillContext.Current.CurrentUser).ToSummary();
+				UserSummary summary = UserManager.GetUser(Context.CurrentUser).ToSummary();
 				return View(summary);
 			}
 			else
@@ -164,7 +164,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult Profile(UserSummary summary)
 		{
-			if (!RoadkillContext.Current.IsLoggedIn)
+			if (!Context.IsLoggedIn)
 				return RedirectToAction("Login");
 
 			// If the ID (and probably IsNew) have been tampered with in an attempt to create new users, just redirect.
@@ -184,8 +184,7 @@ namespace Roadkill.Core.Controllers
 					{
 						// Reset the auth cookie to the new email.
 						FormsAuthentication.SetAuthCookie(summary.NewEmail, true);
-						RoadkillContext.Clear();
-						RoadkillContext.Current.CurrentUser = summary.NewEmail;
+						Context.CurrentUser = summary.NewEmail;
 					}
 					else
 					{
@@ -210,7 +209,7 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult ResetPassword()
 		{
-			if (RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
+			if (Configuration.ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
 			return View();
@@ -224,7 +223,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult ResetPassword(string email)
 		{
-			if (RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
+			if (Configuration.ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
 #if APPHARBOR
@@ -251,7 +250,7 @@ namespace Roadkill.Core.Controllers
 					{
 						// Everything worked, send the email
 						user.PasswordResetKey = key;
-						Email.Send(new ResetPasswordEmail(user.ToSummary()));
+						Email.Send(new ResetPasswordEmail(user.ToSummary(), Configuration));
 						return View("ResetPasswordSent",(object) email);
 					}
 					else
@@ -278,7 +277,7 @@ namespace Roadkill.Core.Controllers
 				return View("Signup");
 			}
 
-			Email.Send(new SignupEmail(summary));
+			Email.Send(new SignupEmail(summary, Configuration));
 			TempData["resend"] = true;
 			return View("SignupComplete", summary);
 		}
@@ -289,7 +288,7 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult Signup()
 		{
-			if (RoadkillContext.Current.IsLoggedIn || !RoadkillSettings.Current.SitePreferences.AllowUserSignup || RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
+			if (Context.IsLoggedIn || !Configuration.SitePreferences.AllowUserSignup || Configuration.ApplicationSettings.UseWindowsAuthentication)
 			{
 				return RedirectToAction("Index","Home");
 			}
@@ -306,7 +305,7 @@ namespace Roadkill.Core.Controllers
 		[RecaptchaRequired]
 		public ActionResult Signup(UserSummary summary, bool? isCaptchaValid)
 		{
-			if (RoadkillContext.Current.IsLoggedIn || !RoadkillSettings.Current.SitePreferences.AllowUserSignup || RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
+			if (Context.IsLoggedIn || !Configuration.SitePreferences.AllowUserSignup || Configuration.ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index","Home");
 
 			if (ModelState.IsValid)
@@ -331,7 +330,7 @@ namespace Roadkill.Core.Controllers
 							else
 							{
 								// Send the confirm email
-								Email.Send(new SignupEmail(summary));
+								Email.Send(new SignupEmail(summary, Configuration));
 								return View("SignupComplete", summary);
 							}
 						}

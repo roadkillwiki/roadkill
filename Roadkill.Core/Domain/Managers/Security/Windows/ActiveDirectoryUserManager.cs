@@ -37,8 +37,8 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ActiveDirectoryUserManager"/> class.
 		/// </summary>
-		public ActiveDirectoryUserManager(IConfigurationContainer configuration, IRepository repository, PageManager pageManager, IActiveDirectoryService service)
-			: base(configuration, repository, pageManager)
+		public ActiveDirectoryUserManager(IConfigurationContainer configuration, IRepository repository, IActiveDirectoryService service)
+			: base(configuration, repository)
 		{
 			// Some guards
 			if (configuration == null)

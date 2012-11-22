@@ -19,19 +19,23 @@ namespace Roadkill.Core
 
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			if (RoadkillSettings.Current.SitePreferences.IsRecaptchaEnabled)
+			Roadkill.Core.Controllers.ControllerBase controller = filterContext.Controller as Roadkill.Core.Controllers.ControllerBase;
+			if (controller != null)
 			{
-				string challengeValue = filterContext.HttpContext.Request.Form[CHALLENGE_KEY];
-				string responseValue = filterContext.HttpContext.Request.Form[RESPONSE_KEY];
+				if (controller.Configuration.SitePreferences.IsRecaptchaEnabled)
+				{
+					string challengeValue = filterContext.HttpContext.Request.Form[CHALLENGE_KEY];
+					string responseValue = filterContext.HttpContext.Request.Form[RESPONSE_KEY];
 
-				RecaptchaValidator validator = new RecaptchaValidator();
-				validator.PrivateKey = RoadkillSettings.Current.SitePreferences.RecaptchaPrivateKey;
-				validator.RemoteIP = filterContext.HttpContext.Request.UserHostAddress;
-				validator.Challenge = challengeValue;
-				validator.Response = responseValue;
+					RecaptchaValidator validator = new RecaptchaValidator();
+					validator.PrivateKey = controller.Configuration.SitePreferences.RecaptchaPrivateKey;
+					validator.RemoteIP = filterContext.HttpContext.Request.UserHostAddress;
+					validator.Challenge = challengeValue;
+					validator.Response = responseValue;
 
-				RecaptchaResponse validationResponse = validator.Validate();
-				filterContext.ActionParameters["isCaptchaValid"] = validationResponse.IsValid;
+					RecaptchaResponse validationResponse = validator.Validate();
+					filterContext.ActionParameters["isCaptchaValid"] = validationResponse.IsValid;
+				}
 			}
 
 			base.OnActionExecuting(filterContext);

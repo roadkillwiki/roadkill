@@ -1,19 +1,19 @@
 ﻿@using Roadkill.Core.Converters;
 @using Roadkill.Core.Configuration;
 var ROADKILL_CORESCRIPTPATH = "@Url.Content("~/Assets/Scripts/")";
-var ROADKILL_THEMEPATH =  "@Url.Content(RoadkillSettings.Current.SitePreferences.ThemePath)/";
+var ROADKILL_THEMEPATH =  "@Url.Content(Configuration.SitePreferences.ThemePath)/";
 
 // Edit page constants
 var ROADKILL_TAGAJAXURL = "@Url.Action("AllTagsAsJson", "Pages")/";
 var ROADKILL_PREVIEWURL = "@Url.Action("GetPreview", "Pages")/";
-var ROADKILL_MARKUPTYPE = "@RoadkillSettings.Current.SitePreferences.MarkupType";
-var ROADKILL_WIKIMARKUPHELP = "@Url.Action(RoadkillSettings.Current.SitePreferences.MarkupType + "Reference", "Help")";
+var ROADKILL_MARKUPTYPE = "@Configuration.SitePreferences.MarkupType";
+var ROADKILL_WIKIMARKUPHELP = "@Url.Action(Configuration.SitePreferences.MarkupType + "Reference", "Help")";
 
 // File manager constants
 var ROADKILL_FILEMANAGERURL = "@Url.Action("Index", "Files")";
 var ROADKILL_FILETREE_URL =  "@Url.Action("Folder", "Files")/";
 var ROADKILL_FILETREE_PATHNAME_URL =  "@Url.Action("GetPath", "Files")/";
-var ROADKILL_ATTACHMENTSPATH = "@Url.Content(RoadkillSettings.Current.ApplicationSettings.AttachmentsUrlPath)";
+var ROADKILL_ATTACHMENTSPATH = "@Url.Content(Configuration.ApplicationSettings.AttachmentsUrlPath)";
 
 // Tokens for the edit toolbar
 @{
@@ -34,7 +34,7 @@ var ROADKILL_EDIT_LINK_URLPLACEHOLDER  = "@Html.Raw(SiteStrings.EditPage_LinkUrl
 var ROADKILL_EDIT_LINK_TEXTPLACEHOLDER  = "@Html.Raw(SiteStrings.EditPage_LinkText_PlaceHolder)";
 var ROADKILL_EDIT_IMAGE_TITLE       = "@Html.Raw(SiteStrings.EditPage_Image_Title)";
 
-@if (RoadkillContext.Current.IsAdmin)
+@if (RoadkillContext.IsAdmin)
 {
 // User management constants for the settings->user page
 @:var ROADKILL_ADDADMIN_FORMACTION = "@Url.Action("AddAdmin", "Settings")";

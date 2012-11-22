@@ -12,7 +12,7 @@
 	{
 		<tr>
 			<td class="title">@Html.ActionLink(summary.Title, "Index", "Wiki", new { id = summary.Id, title = summary.Title.EncodeTitle() }, null)</td>
-			@if (RoadkillContext.Current.IsLoggedIn)
+			@if (RoadkillContext.IsLoggedIn)
 			{
 			<td class="edit">@Html.ActionLink(SiteStrings.Shared_EditLink,"Edit",new { id = summary.Id} )</td>
 			}

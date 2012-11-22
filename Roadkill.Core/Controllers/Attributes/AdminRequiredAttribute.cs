@@ -17,12 +17,21 @@ namespace Roadkill.Core
 	/// </summary>
 	public class AdminRequiredAttribute : AuthorizeAttribute
 	{
+		private IConfigurationContainer _config;
 		private UserManager _userManager;
 
-		public AdminRequiredAttribute()
+		public override void OnAuthorization(AuthorizationContext filterContext)
 		{
-			// "Bastard injection" for now
-			_userManager = ObjectFactory.GetInstance<UserManager>();
+			// Should refactor this to use IFilterProvider
+
+			Roadkill.Core.Controllers.ControllerBase controller = filterContext.Controller as Roadkill.Core.Controllers.ControllerBase;
+			if (controller != null)
+			{
+				_config = controller.Configuration;
+				_userManager = controller.UserManager;
+			}
+
+			base.OnAuthorization(filterContext);
 		}
 
 		/// <summary>
@@ -43,51 +52,13 @@ namespace Roadkill.Core
 				return false;
 			}
 
-			if (string.IsNullOrEmpty(RoadkillSettings.Current.ApplicationSettings.AdminRoleName))
+			if (string.IsNullOrEmpty(_config.ApplicationSettings.AdminRoleName))
 				return true;
 
 			if (_userManager.IsAdmin(identity.Name))
 				return true;
 			else
 				return false;
-		}
-	}
-
-	public class AdminRequiredFilterProvider : IFilterProvider
-	{
-
-		public IEnumerable<Filter> GetFilters(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
-		{
-			if (controllerContext.Controller is SettingsController)
-			{
-				if (actionDescriptor.ActionName == "Index")
-					return null;
-			}
-
-			return null;
-		}
-	}
-
-	public class ConditionalFilterProvider : IFilterProvider
-	{
-		private readonly
-		  IEnumerable<Func<ControllerContext, ActionDescriptor, object>> _conditions;
-
-		public ConditionalFilterProvider(
-		  IEnumerable<Func<ControllerContext, ActionDescriptor, object>> conditions)
-		{
-
-			_conditions = conditions;
-		}
-
-		public IEnumerable<Filter> GetFilters(
-			ControllerContext controllerContext,
-			ActionDescriptor actionDescriptor)
-		{
-			return from condition in _conditions
-				   select condition(controllerContext, actionDescriptor) into filter
-				   where filter != null
-				   select new Filter(filter, FilterScope.Global, null);
 		}
 	}
 }

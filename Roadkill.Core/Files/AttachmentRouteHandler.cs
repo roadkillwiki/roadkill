@@ -21,17 +21,24 @@ namespace Roadkill.Core.Files
 		/// <summary>
 		/// Registers the /Attachments/ path (the name is taken from a web.config setting)
 		/// </summary>
-		public static void Register()
+		public static void Register(IConfigurationContainer config)
 		{
-			Route route = new Route(RoadkillSettings.Current.ApplicationSettings.AttachmentsRoutePath + "/{*filename}", new AttachmentRouteHandler());
+			Route route = new Route(config.ApplicationSettings.AttachmentsRoutePath + "/{*filename}", new AttachmentRouteHandler());
 			route.Constraints = new RouteValueDictionary();
-			route.Constraints.Add("MvcContraint", new IgnoreMvcConstraint());
+			route.Constraints.Add("MvcContraint", new IgnoreMvcConstraint(config));
 
 			RouteTable.Routes.Add(route);
 		}
 
 		internal class IgnoreMvcConstraint : IRouteConstraint
 		{
+			private IConfigurationContainer _config;
+
+			public IgnoreMvcConstraint(IConfigurationContainer config)
+			{
+				_config = config;
+			}
+
 			public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
 			{
 				if (routeDirection == RouteDirection.UrlGeneration)
@@ -40,7 +47,7 @@ namespace Roadkill.Core.Files
 					return false;
 
 				// Remove the starting "/" for the route table
-				if (route.Url.StartsWith(RoadkillSettings.Current.ApplicationSettings.AttachmentsRoutePath + "/"))
+				if (route.Url.StartsWith(_config.ApplicationSettings.AttachmentsRoutePath + "/"))
 					return true;
 				else
 					return false;

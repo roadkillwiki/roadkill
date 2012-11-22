@@ -14,15 +14,17 @@ namespace Roadkill.Core
 	/// <summary>
 	/// Retrieves page data from a ScrewTurn wiki database, and attempts to import the data into Roadkill.
 	/// </summary>
-	public class ScrewTurnImporter : IWikiImporter
+	public class ScrewTurnImporter : IWikiImporter, IInjectionLaunderer
 	{
 		private string _connectionString;
 		private string _attachmentsFolder;
 		protected IRepository Repository;
+		protected IConfigurationContainer Configuration;
 
-		public ScrewTurnImporter()
+		public ScrewTurnImporter(IConfigurationContainer configuration)
 		{
 			Repository = ObjectFactory.GetInstance<IRepository>();
+			Configuration = configuration;
 		}
 
 		/// <summary>
@@ -37,7 +39,7 @@ namespace Roadkill.Core
 		public void ImportFromSql(string connectionString)
 		{
 			_connectionString = connectionString;
-			_attachmentsFolder = RoadkillSettings.Current.ApplicationSettings.AttachmentsFolder;
+			_attachmentsFolder = Configuration.ApplicationSettings.AttachmentsFolder;
 
 			using (SqlConnection connection = new SqlConnection(_connectionString))
 			{

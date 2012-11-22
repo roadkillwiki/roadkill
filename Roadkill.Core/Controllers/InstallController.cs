@@ -29,8 +29,9 @@ namespace Roadkill.Core.Controllers
 		private SettingsManager _settingsManager;
 
 		public InstallController(IConfigurationContainer configuration, UserManager userManager,
-			PageManager pageManager, SearchManager searchManager, IRepository respository, SettingsManager settingsManager)
-			: base(configuration, userManager) 
+			PageManager pageManager, SearchManager searchManager, IRepository respository, 
+			SettingsManager settingsManager, IRoadkillContext context)
+			: base(configuration, userManager, context) 
 		{
 			_pageManager = pageManager;
 			_searchManager = searchManager;
@@ -59,7 +60,7 @@ namespace Roadkill.Core.Controllers
 			if (Configuration.ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
-			return View(new SettingsSummary());
+			return View(new SettingsSummary(Configuration));
 		}
 
 		/// <summary>
@@ -103,7 +104,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult Step4(SettingsSummary summary)
 		{
-			if (RoadkillSettings.Current.ApplicationSettings.Installed)
+			if (Configuration.ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
 			summary.AllowedExtensions = "jpg,png,gif,zip,xml,pdf";
@@ -182,7 +183,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestLdap(string connectionString, string username, string password, string groupName)
 		{
-			if (RoadkillSettings.Current.ApplicationSettings.Installed)
+			if (Configuration.ApplicationSettings.Installed)
 				return Content("");
 
 			InstallHelper installHelper = new InstallHelper(UserManager, _repository);
@@ -196,7 +197,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestWebConfig()
 		{
-			if (RoadkillSettings.Current.ApplicationSettings.Installed)
+			if (Configuration.ApplicationSettings.Installed)
 				return Content("");
 
 			InstallHelper installHelper = new InstallHelper(UserManager, _repository);

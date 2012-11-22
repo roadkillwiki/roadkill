@@ -19,6 +19,11 @@ namespace Roadkill.Core
 	{
 		private UserManager _userManager;
 
+		public RoadkillContext(UserManager userManager)
+		{
+			_userManager = userManager;
+		}
+
 		/// <summary>
 		/// The current logged in user name (including domain suffix for Windows authentication).
 		/// This is set once a controller action has finished execution.
@@ -95,37 +100,5 @@ namespace Roadkill.Core
 		/// The underlying <see cref="PageSummary"/> object for the current page.
 		/// </summary>
 		public PageSummary Page { get; set; }	
-
-		/// <summary>
-		/// The current <see cref="RoadkillContext"/>. One context exists per request and is stored in the HttpContext.Current.Items.
-		/// </summary>
-		public static IRoadkillContext Current
-		{
-			get
-			{
-				return ObjectFactory.GetInstance<IRoadkillContext>();
-			}
-		}
-
-		public RoadkillContext(UserManager userManager)
-		{
-			_userManager = userManager;
-		}
-
-		/// <summary>
-		/// Clears the request context item that stores the current logged in username.
-		/// </summary>
-		public static void Clear()
-		{
-			//if (IsWeb)
-			//{
-			//	if (HttpContext.Current.Items[CONTEXT_KEY] != null)
-			//	{
-			//		HttpContext.Current.Items.Remove(CONTEXT_KEY);
-			//	}
-
-			//	string user = Current.CurrentUser;
-			//}
-		}
 	}
 }

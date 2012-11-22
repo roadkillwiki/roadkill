@@ -72,7 +72,8 @@ namespace Roadkill.Core.Converters
 		/// <returns>The wiki markup converted to HTML.</returns>
 		public string ToHtml(string text)
 		{
-			string html = CustomTokenParser.ReplaceTokens(text);
+			CustomTokenParser tokenParser = new CustomTokenParser(_configuration);
+			string html = tokenParser.ReplaceTokens(text);
 			html = _parser.Transform(html);
 			html = RemoveHarmfulTags(html);
 
@@ -97,7 +98,7 @@ namespace Roadkill.Core.Converters
 				string src = e.OriginalSrc;
 				src = _imgFileRegex.Replace(src, "");
 
-				string urlPath = RoadkillSettings.Current.ApplicationSettings.AttachmentsUrlPath + (src.StartsWith("/") ? "" : "/") + src;
+				string urlPath = _configuration.ApplicationSettings.AttachmentsUrlPath + (src.StartsWith("/") ? "" : "/") + src;
 				e.Src = helper.Content(urlPath);
 			}
 		}
@@ -129,7 +130,7 @@ namespace Roadkill.Core.Converters
 						href = href.Remove(0, 1);
 					}
 
-					href = helper.Content(RoadkillSettings.Current.ApplicationSettings.AttachmentsUrlPath) + href;
+					href = helper.Content(_configuration.ApplicationSettings.AttachmentsUrlPath) + href;
 				}
 				else
 				{

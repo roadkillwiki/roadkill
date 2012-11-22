@@ -1,12 +1,12 @@
 ﻿@model PageSummary
  
-@if (RoadkillContext.Current.IsLoggedIn)
+@if (RoadkillContext.IsLoggedIn)
 {
 <div id="toolbar">
 	@if (Model.Id != 0)
 	{
 	<div id="editbutton" class="linkbutton">
-	@if (Model.IsLocked && !RoadkillContext.Current.IsAdmin)
+	@if (Model.IsLocked && !RoadkillContext.IsAdmin)
 	{
 		<span title="This page can only be edited by administrators.">@SiteStrings.Shared_EditLink</span>
 	}

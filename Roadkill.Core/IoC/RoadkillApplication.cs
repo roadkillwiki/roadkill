@@ -22,10 +22,13 @@ namespace Roadkill.Core
 		protected void Application_Start()
 		{
 			SetupIoC();
-			AttachmentRouteHandler.Register();
+			AttachmentRouteHandler.Register(ObjectFactory.GetInstance<IConfigurationContainer>());
+
 			AreaRegistration.RegisterAllAreas();
 			RegisterRoutes(RouteTable.Routes);
 
+			ModelBinders.Binders[typeof(UserSummary)] = new UserSummaryModelBinder();
+			ModelBinders.Binders[typeof(SettingsSummary)] = new SettingsSummaryModelBinder();
 			ControllerBuilder.Current.SetControllerFactory(new StructureMapControllerFactory());
 		}
 
@@ -86,8 +89,13 @@ namespace Roadkill.Core
 					scanner.AddAllTypesOf<IRoadkillContext>();
 					scanner.AddAllTypesOf<IRepository>();
 					scanner.AddAllTypesOf<MarkupConverter>();
+					scanner.AddAllTypesOf<CustomTokenParser>();
 					scanner.WithDefaultConventions();
 				});
+
+				// Models that require IConfigurationContainer or IRoadkillContext in their constructors
+				x.For<UserSummary>().Use<UserSummary>();
+				x.For<SettingsSummary>().Use<SettingsSummary>();
 
 				// The order of the calls is important as the default concrete types have a dependency order:
 				// - IRepository relies on IConfigurationContainer
@@ -121,7 +129,6 @@ namespace Roadkill.Core
 				}
 
 				x.For<IActiveDirectoryService>().HybridHttpOrThreadLocalScoped().Use<DefaultActiveDirectoryService>();
-				x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<SqlUserManager>();
 
 				if (config != null)
 				{
@@ -132,12 +139,20 @@ namespace Roadkill.Core
 						{
 							x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<ActiveDirectoryUserManager>();
 						}
+						else
+						{
+							x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<SqlUserManager>();
+						}
 					}
 					else
 					{
 						// Load UserManager type from config
 						x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use(LoadFromType(userManagerTypeName));
 					}
+				}
+				else
+				{
+					x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<SqlUserManager>();
 				}
 				
 			});

@@ -20,8 +20,8 @@ namespace Roadkill.Core
 	/// </summary>
 	public class SqlUserManager : UserManager
 	{
-		public SqlUserManager(IConfigurationContainer configuration, IRepository repository, PageManager pageManager)
-			: base(configuration, repository, pageManager)
+		public SqlUserManager(IConfigurationContainer configuration, IRepository repository)
+			: base(configuration, repository)
 		{
 		}
 

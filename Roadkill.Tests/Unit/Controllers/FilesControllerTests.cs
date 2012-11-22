@@ -22,10 +22,12 @@ namespace Roadkill.Tests.Unit.Controllers
 	{
 		private IConfigurationContainer _config;
 		private UserManager _userManager;
+		private IRoadkillContext _context;
 
 		[SetUp]
 		public void Init()
 		{
+			_context = new Mock<IRoadkillContext>().Object;
 			_config = new RoadkillSettings();
 			_config.ApplicationSettings = new ApplicationSettings();
 			_config.SitePreferences = new SitePreferences() { AllowedFileTypes = "png, jpg" };
@@ -34,22 +36,25 @@ namespace Roadkill.Tests.Unit.Controllers
 			try
 			{
 				DirectoryInfo directoryInfo = new DirectoryInfo(_config.ApplicationSettings.AttachmentsFolder);
-				directoryInfo.Attributes = FileAttributes.Normal;
-				directoryInfo.Delete(true);
+				if (directoryInfo.Exists)
+				{
+					directoryInfo.Attributes = FileAttributes.Normal;
+					directoryInfo.Delete(true);
+				}
 			}
 			catch (IOException e)
 			{
 				Assert.Fail("Unable to delete the attachments folder "+_config.ApplicationSettings.AttachmentsFolder+", does it have a lock?" + e.ToString());
 			}
 
-			_userManager = new Mock<UserManager>(_config, null, null).Object;
+			_userManager = new Mock<UserManager>(_config, null).Object;
 		}
 
 		[Test]
 		public void UploadFile_Should_Save_To_Filesystem_With_No_Errors_And_Redirect()
 		{
 			// Arrange
-			FilesController filesController = new FilesController(_config, _userManager);
+			FilesController filesController = new FilesController(_config, _userManager, _context);
 			MvcMockContainer mocksContainer =  filesController.SetFakeControllerContext();
 			SetupMockPostedFile(mocksContainer);
 
@@ -68,7 +73,7 @@ namespace Roadkill.Tests.Unit.Controllers
 		public void DeleteFile_Should_Remove_From_Filesystem_With_No_Errors_And_Redirect()
 		{
 			// Arrange
-			FilesController filesController = new FilesController(_config, _userManager);
+			FilesController filesController = new FilesController(_config, _userManager, _context);
 			MvcMockContainer mocksContainer = filesController.SetFakeControllerContext();
 			SetupMockPostedFile(mocksContainer);
 
@@ -91,7 +96,7 @@ namespace Roadkill.Tests.Unit.Controllers
 		public void NewFolder_Should_Create_Folder_On_Filesystem_With_No_Errors_And_Redirect()
 		{
 			// Arrange
-			FilesController filesController = new FilesController(_config, _userManager);
+			FilesController filesController = new FilesController(_config, _userManager, _context);
 			MvcMockContainer mocksContainer = filesController.SetFakeControllerContext();
 			SetupMockPostedFile(mocksContainer);
 
@@ -111,7 +116,7 @@ namespace Roadkill.Tests.Unit.Controllers
 		public void Folder_Action_Should_Contain_Files_And_Folders()
 		{
 			// Arrange
-			FilesController filesController = new FilesController(_config, _userManager);
+			FilesController filesController = new FilesController(_config, _userManager, _context);
 			MvcMockContainer mocksContainer = filesController.SetFakeControllerContext();
 			SetupMockPostedFile(mocksContainer);
 			string dir = @"folder1";
@@ -144,7 +149,7 @@ namespace Roadkill.Tests.Unit.Controllers
 		public void GetPath_Should_Return_PlainText_Path()
 		{
 			// Arrange
-			FilesController filesController = new FilesController(_config, _userManager);
+			FilesController filesController = new FilesController(_config, _userManager, _context);
 			MvcMockContainer mocksContainer = filesController.SetFakeControllerContext();
 			SetupMockPostedFile(mocksContainer);
 

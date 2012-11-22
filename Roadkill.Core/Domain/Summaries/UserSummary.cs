@@ -21,6 +21,13 @@ namespace Roadkill.Core
 	[CustomValidation(typeof(UserSummary), "VerifyPasswordsMatch")]
 	public class UserSummary
 	{
+		protected IConfigurationContainer Config;
+
+		public UserSummary(IConfigurationContainer config)
+		{
+			Config = config;
+		}
+
 		/// <summary>
 		/// The user's id
 		/// </summary>
@@ -220,9 +227,9 @@ namespace Roadkill.Core
 			}
 			else
 			{
-				if (string.IsNullOrEmpty(user.Password) || user.Password.Length < RoadkillSettings.Current.ApplicationSettings.MinimumPasswordLength)
+				if (string.IsNullOrEmpty(user.Password) || user.Password.Length < user.Config.ApplicationSettings.MinimumPasswordLength)
 				{
-					return new ValidationResult(string.Format(SiteStrings.User_Validation_PasswordTooShort, RoadkillSettings.Current.ApplicationSettings.MinimumPasswordLength));
+					return new ValidationResult(string.Format(SiteStrings.User_Validation_PasswordTooShort, user.Config.ApplicationSettings.MinimumPasswordLength));
 				}
 			}
 

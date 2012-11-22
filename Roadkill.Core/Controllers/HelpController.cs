@@ -15,8 +15,8 @@ namespace Roadkill.Core.Controllers
 	/// </summary>
 	public class HelpController : ControllerBase
 	{
-		public HelpController(IConfigurationContainer configuration, UserManager userManager)
-			: base(configuration, userManager) 
+		public HelpController(IConfigurationContainer configuration, UserManager userManager, IRoadkillContext context)
+			: base(configuration, userManager, context) 
 		{
 		}
 

@@ -37,12 +37,12 @@ namespace Roadkill.Tests.Integration
 			_config.ApplicationSettings = new ApplicationSettings();
 			_config.ApplicationSettings.Load(null); // from app.config
 
-			SettingsSummary summary = new SettingsSummary();
+			SettingsSummary summary = new SettingsSummary(_config);
 			summary.ConnectionString = _config.ApplicationSettings.ConnectionString;
 
 			SettingsManager settingsManager = new SettingsManager(_config, new NHibernateRepository(_config));
 			settingsManager.CreateTables(summary);
-			settingsManager.SaveSiteConfiguration(new SettingsSummary() { AllowedExtensions = "jpg, gif", MarkupType = "Creole" }, true);
+			settingsManager.SaveSiteConfiguration(new SettingsSummary(_config) { AllowedExtensions = "jpg, gif", MarkupType = "Creole" }, true);
 		}
 
 		[Test]

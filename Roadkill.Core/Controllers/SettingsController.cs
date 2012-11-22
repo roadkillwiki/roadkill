@@ -29,9 +29,9 @@ namespace Roadkill.Core.Controllers
 		private PageManager _pageManager;
 		private SearchManager _searchManager;
 
-		public SettingsController(IConfigurationContainer configuration, UserManager userManager, 
-			SettingsManager settingsManager, PageManager pageManager, SearchManager searchManager)
-			: base(configuration, userManager) 
+		public SettingsController(IConfigurationContainer configuration, UserManager userManager,
+			SettingsManager settingsManager, PageManager pageManager, SearchManager searchManager, IRoadkillContext context)
+			: base(configuration, userManager, context) 
 		{
 			_settingsManager = settingsManager;
 			_pageManager = pageManager;
@@ -44,7 +44,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>A <see cref="SettingsSummary"/> as the model.</returns>
 		public ActionResult Index()
 		{
-			SettingsSummary summary = SettingsSummary.FromSystemSettings();
+			SettingsSummary summary = SettingsSummary.FromSystemSettings(Configuration);
 			return View(summary);
 		}
 
@@ -296,7 +296,7 @@ namespace Roadkill.Core.Controllers
 				string zipFullPath = Path.Combine(exportFolder, zipFilename);
 				using (ZipFile zip = new ZipFile(zipFullPath))
 				{
-					zip.AddDirectory(RoadkillSettings.Current.ApplicationSettings.AttachmentsFolder, "Attachments");
+					zip.AddDirectory(Configuration.ApplicationSettings.AttachmentsFolder, "Attachments");
 					zip.Save();
 				}
 
@@ -319,7 +319,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult ImportFromScrewTurn(string screwturnConnectionString)
 		{
-			ScrewTurnImporter importer = new ScrewTurnImporter();
+			ScrewTurnImporter importer = new ScrewTurnImporter(Configuration);
 			importer.ImportFromSql(screwturnConnectionString);
 			TempData["Message"] = SiteStrings.SiteSettings_Tools_ScrewTurnImport_Message;
 
