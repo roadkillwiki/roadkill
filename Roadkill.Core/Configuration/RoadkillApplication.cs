@@ -1,4 +1,4 @@
-﻿using System.Web;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Roadkill.Core.Search;
@@ -10,6 +10,7 @@ using Roadkill.Core.Domain;
 using StructureMap.Pipeline;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
+using System.Reflection;
 
 namespace Roadkill.Core
 {
@@ -64,6 +65,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Initializes the Structuremap IoC containers for the Services, Configuration and IRepository,
 		/// and registering the defaults for each.
+		/// The configuration is only used for its ApplicationSettings object.
 		/// </summary>
 		public static void SetupIoC(IConfigurationContainer config = null, IRepository repository = null, IRoadkillContext context = null)
 		{
@@ -111,15 +113,47 @@ namespace Roadkill.Core
 				{
 					x.For<IRoadkillContext>().HybridHttpOrThreadLocalScoped().Use(context);
 				}
-
-				// TODO: load UserManager from config
-				x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<SqlUserManager>();
+				
+				string userManagerTypeName = config.ApplicationSettings.UserManagerType;
+				if (string.IsNullOrEmpty(userManagerTypeName))
+				{
+					if (config.ApplicationSettings.UseWindowsAuthentication)
+					{
+						x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<ActiveDirectoryUserManager>();
+					}
+					else
+					{
+						x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<SqlUserManager>();
+					}
+				}
+				else
+				{
+					// Load UserManager type from config
+					x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use(LoadFromType(userManagerTypeName));
+				}
+				
 			});
 
 			ObjectFactory.Configure(x =>
 			{
 				x.IncludeConfigurationFromConfigFile = true;
 			});
+		}
+		
+		public UserManager LoadFromType(string typeName)
+		{
+			// Attempt to load the type
+			Type userManagerType = typeof(UserManager);
+			Type reflectedType = Type.GetType(typeName);
+			
+			if (reflectedType.IsSubclassOf(userManagerType))
+			{
+				return (UserManager)reflectedType.Assembly.CreateInstance(reflectedType.FullName);
+			}
+			else
+			{
+				throw new SecurityException(null, "The type {0} specified in the userManagerType web.config setting is not an instance of a UserManager class", typeName);
+			}
 		}
 	}
 }
