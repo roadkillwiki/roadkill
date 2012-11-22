@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -165,6 +165,24 @@ namespace Roadkill.Tests.Unit
 
 			// How can ~/ for Attachments be tested?
 			// AppDataPath etc.?
+		}
+		
+		[Test]
+		public void Custom_UserManager_Should_Load()
+		{
+			Assert.Fail();
+		}
+		
+		[Test]
+		public void UseWindowsAuth_Should_Load_ActiveDirectory_UserManager()
+		{
+			Assert.Fail();
+		}
+		
+		[Test]
+		public void Should_Use_SqlUserManager_By_Default()
+		{
+			Assert.Fail();
 		}
 	}
 }
