@@ -120,7 +120,8 @@ namespace Roadkill.Core.Configuration
 		/// <summary>
 		/// The type for the <see cref="UserManager"/>. If the setting for this is blank
 		/// in the web.config, then the <see cref="UseWindowsAuthentication"/> is checked and if false
-		/// a <see cref="SqlUserManager"/> is created.
+		/// a <see cref="SqlUserManager"/> is created. The format of this setting can be retrieved by
+		/// using <code>typeof(YourUserManager).AssemblyQualifiedName.</code>
 		/// </summary>
 		public string UserManagerType { get; set; }
 

@@ -46,7 +46,7 @@ namespace Roadkill.Core.Controllers
 		{
 			try
 			{
-				string folder = RoadkillSettings.Current.ApplicationSettings.AttachmentsFolder;
+				string folder = Configuration.ApplicationSettings.AttachmentsFolder;
 				string path = string.Format(@"{0}\{1}", folder, filePath);
 
 				if (System.IO.File.Exists(path))
@@ -90,7 +90,7 @@ namespace Roadkill.Core.Controllers
 		[EditorRequired]
 		public ActionResult GetPath(string id)
 		{
-			FileSummary summary = FileSummary.FromBase64UrlPath(id);
+			FileSummary summary = FileSummary.FromBase64UrlPath(id, Configuration);
 			return Content(summary.UrlPath);
 		}	
 
@@ -110,7 +110,7 @@ namespace Roadkill.Core.Controllers
 				}
 				foreach (string item in Directory.GetFiles(fullPath))
 				{
-					summary.Files.Add(new FileSummary(item));
+					summary.Files.Add(new FileSummary(item, Configuration));
 				}
 			}
 

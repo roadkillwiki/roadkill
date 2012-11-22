@@ -57,7 +57,6 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		[RequiresSTA]
 		public void RoadkillSection_Optional_Settings_With_Missing_Values_Have_Default_Values()
 		{
 			// Arrange
@@ -93,7 +92,6 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		[ExpectedException(typeof(ConfigurationErrorsException))]
 		public void RoadkillSection_Missing_Values_Throw_Exception()
 		{
 			// Arrange
@@ -101,10 +99,14 @@ namespace Roadkill.Tests.Unit
 
 			// Act
 			ApplicationSettings appSettings = new ApplicationSettings();
-			appSettings.LoadCustomConfigFile(configFilePath);
+			
 
-			// Assert (call the Current method to load the config)
-			var x = appSettings.ConnectionStringName;
+			// Assert
+			Assert.Throws<ConfigurationErrorsException>(() => 
+			{ 
+				//var x = appSettings.ConnectionStringName; 
+				appSettings.LoadCustomConfigFile(configFilePath);
+			});
 		}
 
 		[Test]
@@ -170,19 +172,184 @@ namespace Roadkill.Tests.Unit
 		[Test]
 		public void Custom_UserManager_Should_Load()
 		{
-			Assert.Fail();
+			// Arrange
+			Mock<IRepository> mockRepository = new Mock<IRepository>();
+			Mock<IRoadkillContext> mockContext = new Mock<IRoadkillContext>();
+
+			IConfigurationContainer config = new RoadkillSettings();
+			config.SitePreferences = new SitePreferences();
+			config.ApplicationSettings = new ApplicationSettings();
+			config.ApplicationSettings.UserManagerType = typeof(MockUserManager).AssemblyQualifiedName;
+			
+			// Act
+			RoadkillApplication.SetupIoC(config, mockRepository.Object, mockContext.Object);
+
+			// Assert
+			Assert.That(UserManager.GetInstance(), Is.TypeOf(typeof(MockUserManager)));
 		}
 		
 		[Test]
 		public void UseWindowsAuth_Should_Load_ActiveDirectory_UserManager()
 		{
-			Assert.Fail();
+			// Arrange
+			Mock<IRepository> mockRepository = new Mock<IRepository>();
+			Mock<IRoadkillContext> mockContext = new Mock<IRoadkillContext>();
+
+			IConfigurationContainer config = new RoadkillSettings();
+			config.SitePreferences = new SitePreferences();
+			config.ApplicationSettings = new ApplicationSettings();
+			config.ApplicationSettings.UseWindowsAuthentication = true;
+			config.ApplicationSettings.LdapConnectionString = "LDAP://dc=roadkill.org";
+			config.ApplicationSettings.AdminRoleName = "editors";
+			config.ApplicationSettings.EditorRoleName = "editors";
+
+			// Act
+			RoadkillApplication.SetupIoC(config, mockRepository.Object, mockContext.Object);
+
+			// Assert
+			Assert.That(UserManager.GetInstance(), Is.TypeOf(typeof(ActiveDirectoryUserManager)));
 		}
 		
 		[Test]
 		public void Should_Use_SqlUserManager_By_Default()
 		{
-			Assert.Fail();
+			// Arrange
+			Mock<IRepository> mockRepository = new Mock<IRepository>();
+			Mock<IRoadkillContext> mockContext = new Mock<IRoadkillContext>();
+
+			IConfigurationContainer config = new RoadkillSettings();
+			config.SitePreferences = new SitePreferences();
+			config.ApplicationSettings = new ApplicationSettings();
+
+			// Act
+			RoadkillApplication.SetupIoC(config, mockRepository.Object, mockContext.Object);
+
+			// Assert
+			Assert.That(UserManager.GetInstance(), Is.TypeOf(typeof(SqlUserManager)));
+		}
+	}
+
+	public class MockUserManager : UserManager
+	{
+		public MockUserManager()
+			: base(null, null, null)
+		{
+
+		}
+
+		public override bool IsReadonly
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		public override bool ActivateUser(string activationKey)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override bool AddUser(string email, string username, string password, bool isAdmin, bool isEditor)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override bool Authenticate(string email, string password)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void ChangePassword(string email, string newPassword)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override bool ChangePassword(string email, string oldPassword, string newPassword)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override bool DeleteUser(string email)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override User GetUserById(Guid id)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override User GetUser(string email)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override User GetUserByResetKey(string resetKey)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override bool IsAdmin(string email)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override bool IsEditor(string email)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override IEnumerable<UserSummary> ListAdmins()
+		{
+			throw new NotImplementedException();
+		}
+
+		public override IEnumerable<UserSummary> ListEditors()
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void Logout()
+		{
+			throw new NotImplementedException();
+		}
+
+		public override string ResetPassword(string email)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override string Signup(UserSummary summary, Action completed)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void ToggleAdmin(string email)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void ToggleEditor(string email)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override bool UpdateUser(UserSummary summary)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override bool UserExists(string email)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override bool UserNameExists(string username)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override string GetLoggedInUserName(System.Web.HttpContextBase context)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

@@ -242,7 +242,6 @@
     <Compile Include="Unit\Controllers\MvcMockContainer.cs" />
     <Compile Include="Unit\Controllers\FilesControllerTests.cs" />
     <Compile Include="Unit\RoadkillSettingsTests.cs" />
-    <Compile Include="Unit\MockServiceContainer.cs" />
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="Unit\PageManagerTests.cs" />
     <Compile Include="Unit\ActiveDirectoryUserManagerTests.cs" />
