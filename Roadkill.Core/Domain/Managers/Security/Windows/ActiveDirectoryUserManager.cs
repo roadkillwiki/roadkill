@@ -34,37 +34,33 @@ namespace Roadkill.Core
 			}
 		}
 
-
-		/// <summary>
-		/// Creates a new instance of a <see cref="ActiveDirectoryUserManager"/> using the given service.
-		/// </summary>
-		public ActiveDirectoryUserManager(IConfigurationContainer configuration, IRepository repository, PageManager pageManager, string ldapConnectionString, string username, string password, string editorGroupName, string adminGroupName) :
-			this(configuration, repository, pageManager, new DefaultActiveDirectoryService(), ldapConnectionString, username, password, editorGroupName, adminGroupName)
-		{
-		}
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ActiveDirectoryUserManager"/> class.
 		/// </summary>
-		/// <param name="ldapConnectionString">The LDAP connection string.</param>
-		/// <param name="username">The username to authenticate against the Active Directory with.</param>
-		/// <param name="password">The password to authenticate against the Active Directory with.</param>
-		/// <param name="editorGroupName">The name of the group for editors.</param>
-		/// <param name="adminGroupName">The name of the group for admins.</param>
-		/// <param name="service">A custom service for providing membership lookups.</param>
-		public ActiveDirectoryUserManager(IConfigurationContainer configuration, IRepository repository, PageManager pageManager, 
-			IActiveDirectoryService service, string ldapConnectionString, string username, string password, string editorGroupName, string adminGroupName)
+		public ActiveDirectoryUserManager(IConfigurationContainer configuration, IRepository repository, PageManager pageManager, IActiveDirectoryService service)
 			: base(configuration, repository, pageManager)
 		{
 			// Some guards
-			if (string.IsNullOrEmpty(ldapConnectionString))
+			if (configuration == null)
+				throw new SecurityException("The configuration is null", null);
+
+			if (configuration.ApplicationSettings == null)
+				throw new SecurityException("The configuration ApplicationSettings is null", null);
+
+			if (string.IsNullOrEmpty(configuration.ApplicationSettings.LdapConnectionString))
 				throw new SecurityException("The LDAP connection string is empty", null);
 
-			if (string.IsNullOrEmpty(editorGroupName))
+			if (string.IsNullOrEmpty(configuration.ApplicationSettings.EditorRoleName))
 				throw new SecurityException("The LDAP editor group name is empty", null);
 
-			if (string.IsNullOrEmpty(adminGroupName))
+			if (string.IsNullOrEmpty(configuration.ApplicationSettings.AdminRoleName))
 				throw new SecurityException("The LDAP admin group name is empty", null);
+
+			string ldapConnectionString = configuration.ApplicationSettings.LdapConnectionString;
+			string username = configuration.ApplicationSettings.LdapUsername;
+			string password = configuration.ApplicationSettings.LdapPassword;
+			string editorGroupName = configuration.ApplicationSettings.EditorRoleName;
+			string adminGroupName = configuration.ApplicationSettings.AdminRoleName;
 
 			_service = service;
 			_connectionString = ldapConnectionString;

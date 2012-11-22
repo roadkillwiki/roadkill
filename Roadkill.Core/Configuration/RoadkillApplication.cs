@@ -65,10 +65,17 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Initializes the Structuremap IoC containers for the Services, Configuration and IRepository,
 		/// and registering the defaults for each.
-		/// The configuration is only used for its ApplicationSettings object.
+		/// No settings are loaded from the database in this method, or config file settings loaded. The
+		/// <see cref="ApplicationSettings.UserManagerType"/> is used.
 		/// </summary>
+		/// <param name="config">If null, then a new per-thread/http request <see cref="RoadkillSettings"/> class is used for the configuration.</param>
+		/// <param name="context">If null, then a new per-thread/http request <see cref="RoadkillContext"/> is used.</param>
+		/// <param name="repository">If null, then a new per-thread/http request <see cref="NHibernateRepository"/> is used.</param>
 		public static void SetupIoC(IConfigurationContainer config = null, IRepository repository = null, IRoadkillContext context = null)
 		{
+			if (config != null && config.ApplicationSettings == null)
+				throw new IoCException("The ApplicationSettings of the configuration settings is null - " + ObjectFactory.WhatDoIHave(), null);
+
 			ObjectFactory.Initialize(x =>
 			{
 				x.Scan(scanner =>
@@ -83,9 +90,8 @@ namespace Roadkill.Core
 				});
 
 				// The order of the calls is important as the default concrete types have a dependency order:
-				// - Repository relies on RoadkillSettings
-				// - Container relies on Repository
-				// - Context relies on ServiceContainer
+				// - IRepository relies on IConfigurationContainer
+				// - IRoadkillContext relies on UserManager, which relies on IRepository
 
 				if (config == null)
 				{
@@ -113,23 +119,25 @@ namespace Roadkill.Core
 				{
 					x.For<IRoadkillContext>().HybridHttpOrThreadLocalScoped().Use(context);
 				}
-				
-				string userManagerTypeName = config.ApplicationSettings.UserManagerType;
-				if (string.IsNullOrEmpty(userManagerTypeName))
+
+				x.For<IActiveDirectoryService>().HybridHttpOrThreadLocalScoped().Use<DefaultActiveDirectoryService>();
+				x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<SqlUserManager>();
+
+				if (config != null)
 				{
-					if (config.ApplicationSettings.UseWindowsAuthentication)
+					string userManagerTypeName = config.ApplicationSettings.UserManagerType;
+					if (string.IsNullOrEmpty(userManagerTypeName))
 					{
-						x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<ActiveDirectoryUserManager>();
+						if (config.ApplicationSettings.UseWindowsAuthentication)
+						{
+							x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<ActiveDirectoryUserManager>();
+						}
 					}
 					else
 					{
-						x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<SqlUserManager>();
+						// Load UserManager type from config
+						x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use(LoadFromType(userManagerTypeName));
 					}
-				}
-				else
-				{
-					// Load UserManager type from config
-					x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use(LoadFromType(userManagerTypeName));
 				}
 				
 			});
@@ -140,7 +148,7 @@ namespace Roadkill.Core
 			});
 		}
 		
-		public UserManager LoadFromType(string typeName)
+		private static UserManager LoadFromType(string typeName)
 		{
 			// Attempt to load the type
 			Type userManagerType = typeof(UserManager);

@@ -104,25 +104,25 @@ namespace Roadkill.Core
 		/// Initializes a new instance of the <see cref="FileSummary"/> class.
 		/// </summary>
 		/// <param name="diskPath">A full disk path, including the attachments folder.</param>
-		public FileSummary(string diskPath)
+		public FileSummary(string diskPath, IConfigurationContainer config)
 		{
 			Name = Path.GetFileName(diskPath);
 			DiskPath = diskPath;
-			UrlPath = diskPath.Replace(RoadkillSettings.Current.ApplicationSettings.AttachmentsFolder, "");
+			UrlPath = diskPath.Replace(config.ApplicationSettings.AttachmentsFolder, "");
 			UrlPath = UrlPath.Replace(@"\", "/");
 			Extension = Path.GetExtension(diskPath).Replace(".", "");
 		}
 
-		public static FileSummary FromBase64UrlPath(string base64Path)
+		public static FileSummary FromBase64UrlPath(string base64Path, IConfigurationContainer config)
 		{
 			string path = "";
 
 			if (!string.IsNullOrEmpty(base64Path))
 				path = base64Path.FromBase64();
 
-			path = RoadkillSettings.Current.ApplicationSettings.AttachmentsFolder + path;
+			path = config.ApplicationSettings.AttachmentsFolder + path;
 
-			FileSummary summary = new FileSummary(path);
+			FileSummary summary = new FileSummary(path, config);
 			return summary;
 		}
 	}

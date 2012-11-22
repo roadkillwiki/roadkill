@@ -12,7 +12,11 @@ using StructureMap;
 namespace Roadkill.Core.Configuration
 {
 	/// <summary>
-	/// The default implementation of <see cref="IConfigurationContainer"/>
+	/// The default implementation of <see cref="IConfigurationContainer"/>. If the 
+	/// <see cref="SitePreferences"/> property of this object is not set, then a 
+	/// <see cref="SitePreferences"/> object is loaded from the database the first time 
+	/// this property is called. This same behaviour is used for the <see cref="ApplicationSettings"/>, 
+	/// but with the configuration being loaded from a config file.
 	/// </summary>
 	public class RoadkillSettings : IConfigurationContainer, IInjectionLaunderer
 	{

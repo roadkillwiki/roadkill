@@ -17,29 +17,32 @@ namespace Roadkill.Tests.Unit.Controllers
 	[Category("Unit")]
 	public class UserControllerTests
 	{
+		public static string AdminEmail = "admin@localhost";
+		public static string AdminUsername = "admin";
+		public static string AdminPassword = "password";
+
 		private IConfigurationContainer _config;
 		private IRepository _repository;
 		private Mock<UserManager> _userManager;
 
 		[TestFixtureSetUp]
-		public void Init()
+		public void TestsSetup()
 		{
 			_config = new RoadkillSettings();
 			_repository = null;
 			_userManager = new Mock<UserManager>(_config, _repository, null);
-			_userManager.Setup(u => u.Authenticate(MockServiceContainer.AdminEmail, MockServiceContainer.AdminPassword)).Returns(true);
+			_userManager.Setup(u => u.Authenticate(AdminEmail, AdminPassword)).Returns(true);
 		}
 
 		[Test]
 		public void Logon_Should_Redirect_And_SetUsername_ForContext()
 		{
 			// Arrange
-			RoadkillApplication.SetupIoC();
 			UserController userController = new UserController(_config, _userManager.Object);
 			userController.SetFakeControllerContext();
 
 			// Act	
-			ActionResult result = userController.Login(MockServiceContainer.AdminEmail, MockServiceContainer.AdminPassword, "");
+			ActionResult result = userController.Login(AdminEmail, AdminPassword, "");
 			
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());

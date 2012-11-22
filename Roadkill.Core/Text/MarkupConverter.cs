@@ -32,8 +32,12 @@ namespace Roadkill.Core.Converters
 		public MarkupConverter(IConfigurationContainer configuration)
 		{
 			_configuration = configuration;
+			string markupType = "creole";
 
-			switch (_configuration.SitePreferences.MarkupType.ToLower())
+			if (!string.IsNullOrEmpty(_configuration.SitePreferences.MarkupType))
+				markupType = _configuration.SitePreferences.MarkupType.ToLower();
+
+			switch (markupType)
 			{
 				case "markdown":
 					_parser = new MarkdownParser();

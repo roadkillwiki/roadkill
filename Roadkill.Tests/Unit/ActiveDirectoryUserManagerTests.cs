@@ -40,8 +40,6 @@ namespace Roadkill.Tests.Core
 		[SetUp]
 		public void Setup()
 		{
-			RoadkillApplication.SetupIoC();
-
 			List<IRoadKillPrincipal> adminUsers = new List<IRoadKillPrincipal>();
 			adminUsers.Add(new MockPrincipal() { SamAccountName = "admin1" });
 			adminUsers.Add(new MockPrincipal() { SamAccountName = "admin2" });
@@ -55,15 +53,22 @@ namespace Roadkill.Tests.Core
 			_serviceMock.Setup(x => x.GetMembers(_domainPath, _username, _password, _editorsGroupName)).Returns(editorUsers);
 
 			_config = new RoadkillSettings();
-			_repository = null;
-			_pageManager = null;
+			_config.SitePreferences = new SitePreferences();
+			_config.ApplicationSettings = new ApplicationSettings();
+			_config.ApplicationSettings.LdapConnectionString = _ldapString;
+			_config.ApplicationSettings.LdapUsername = _username;
+			_config.ApplicationSettings.LdapPassword = _password;
+			_config.ApplicationSettings.AdminRoleName = _adminsGroupName;
+			_config.ApplicationSettings.EditorRoleName = _editorsGroupName;
+			_repository = new Mock<IRepository>().Object;
+			_pageManager = null; // This can be null for ActiveDirectoryUserManager, but needs to be filled in future.
 		}
 
 		[Test]
 		public void Should_Setup_With_Good_Ldap_String()
 		{
 			// Arrange + Act
-			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object, _ldapString, _username, _password, _editorsGroupName, _adminsGroupName);
+			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object);
 
 			// Assert
 			Assert.That(manager, Is.Not.Null);
@@ -73,7 +78,7 @@ namespace Roadkill.Tests.Core
 		public void Admins_Should_Belong_To_Group()
 		{
 			// Arrange
-			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object, _ldapString, _username, _password, _editorsGroupName, _adminsGroupName);
+			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object);
 
 			// Act + Assert
 			Assert.That(manager.IsAdmin("admin1"), Is.True);
@@ -84,7 +89,7 @@ namespace Roadkill.Tests.Core
 		public void Editors_Should_Not_Be_Admins()
 		{
 			// Arrange
-			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object, _ldapString, _username, _password, _editorsGroupName, _adminsGroupName);
+			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object);
 
 			// Act + Assert
 			Assert.That(manager.IsAdmin("editor1"), Is.False);
@@ -95,7 +100,7 @@ namespace Roadkill.Tests.Core
 		public void Editors_Should_Belong_To_Group()
 		{
 			// Arrange
-			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object, _ldapString, _username, _password, _editorsGroupName, _adminsGroupName);
+			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object);
 
 			// Act + Assert
 			Assert.That(manager.IsEditor("editor1"), Is.True);
@@ -106,7 +111,7 @@ namespace Roadkill.Tests.Core
 		public void GetUser_Should_Return_Object_With_Permissions()
 		{
 			// Arrange
-			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object, _ldapString, _username, _password, _editorsGroupName, _adminsGroupName);
+			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object);
 
 			// Act
 			User user = manager.GetUser("editor1");
@@ -124,7 +129,7 @@ namespace Roadkill.Tests.Core
 		public void ListAdmins_Should_Contain_Correct_Users()
 		{
 			// Arrange
-			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object, _ldapString, _username, _password, _editorsGroupName, _adminsGroupName);
+			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object);
 
 			// Act
 			List<UserSummary> users = manager.ListAdmins().ToList();
@@ -139,7 +144,7 @@ namespace Roadkill.Tests.Core
 		public void ListEditor_Should_Contain_Correct_Users()
 		{
 			// Arrange
-			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object, _ldapString, _username, _password, _editorsGroupName, _adminsGroupName);
+			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object);
 
 			// Act
 			List<UserSummary> users = manager.ListEditors().ToList();
@@ -155,7 +160,8 @@ namespace Roadkill.Tests.Core
 		public void Empty_Ldap_String_Throws_Exception()
 		{
 			// Arrange + act + assert
-			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object, "", _username, _password, _editorsGroupName, _adminsGroupName);
+			_config.ApplicationSettings.LdapConnectionString = "";
+			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object);
 		}
 
 		[Test]
@@ -163,7 +169,8 @@ namespace Roadkill.Tests.Core
 		public void Wrong_Format_Ldap_String_Throws_Exception()
 		{
 			// Arrange + act + assert
-			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object, "iforgot.the.ldap.part.com", _username, _password, _editorsGroupName, _adminsGroupName);
+			_config.ApplicationSettings.LdapConnectionString = "iforgot.the.ldap.part.com";
+			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object);
 		}
 
 		[Test]
@@ -171,7 +178,8 @@ namespace Roadkill.Tests.Core
 		public void No_Admin_Group_Throws_Exception()
 		{
 			// Arrange + act + assert
-			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object, _ldapString, _username, _password, _editorsGroupName, "");
+			_config.ApplicationSettings.AdminRoleName = "";
+			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object);
 		}
 
 		[Test]
@@ -179,7 +187,8 @@ namespace Roadkill.Tests.Core
 		public void No_Editor_Group_Throws_Exception()
 		{
 			// Arrange + act + assert
-			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object, _ldapString, _username, _password, "", _adminsGroupName);
+			_config.ApplicationSettings.EditorRoleName = "";
+			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _pageManager, _serviceMock.Object);
 		}
 	}
 }

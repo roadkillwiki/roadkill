@@ -29,6 +29,8 @@ namespace Roadkill.Tests.Unit.Controllers
 			request.Setup(r => r.Form).Returns(new NameValueCollection());
 			request.Setup(r => r.QueryString).Returns(new NameValueCollection());
 
+			server.Setup(s => s.UrlDecode(It.IsAny<string>())).Returns<string>(s => s);
+
 			context.Setup(ctx => ctx.Request).Returns(request.Object);
 			context.Setup(ctx => ctx.Response).Returns(response.Object);
 			context.Setup(ctx => ctx.Session).Returns(session.Object);
