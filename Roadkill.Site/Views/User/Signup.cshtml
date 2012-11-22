@@ -37,7 +37,7 @@
 		@(Html.PasswordFor<UserSummary, string>(t => t.PasswordConfirmation, new { @class = "usertextbox" }))	
 		<br class="clear" />
 
-		@Html.RenderCaptcha()
+		@Html.RenderCaptcha(Configuration)
 	
 		<input type="submit" id="userbutton" class="button" value="@SiteStrings.Signup_Button" style="width:150px"  /><!-- explicit width for IE7 (ie7js doesn't fix it) -->
 	</fieldset>

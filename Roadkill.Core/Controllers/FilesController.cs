@@ -20,8 +20,8 @@ namespace Roadkill.Core.Controllers
 	/// </summary>
 	public class FilesController : ControllerBase
 	{
-		public FilesController(IConfigurationContainer configuration, UserManager userManager)
-			: base(configuration, userManager) 
+		public FilesController(IConfigurationContainer configuration, UserManager userManager, IRoadkillContext context)
+			: base(configuration, userManager, context) 
 		{
 		}
 

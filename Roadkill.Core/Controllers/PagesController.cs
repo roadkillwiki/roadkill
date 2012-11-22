@@ -26,9 +26,10 @@ namespace Roadkill.Core.Controllers
 		private SearchManager _searchManager;
 		private HistoryManager _historyManager;
 
-		public PagesController(IConfigurationContainer configuration, UserManager userManager, 
-			SettingsManager settingsManager, PageManager pageManager, SearchManager searchManager, HistoryManager historyManager)
-			: base(configuration, userManager) 
+		public PagesController(IConfigurationContainer configuration, UserManager userManager,
+			SettingsManager settingsManager, PageManager pageManager, SearchManager searchManager, 
+			HistoryManager historyManager, IRoadkillContext context)
+			: base(configuration, userManager, context) 
 		{
 			_settingsManager = settingsManager;
 			_pageManager = pageManager;
@@ -120,7 +121,7 @@ namespace Roadkill.Core.Controllers
 
 			if (summary != null)
 			{
-				if (summary.IsLocked && !RoadkillContext.Current.IsAdmin)
+				if (summary.IsLocked && !Context.IsAdmin)
 					return new HttpStatusCodeResult(403, string.Format("The page '{0}' can only be edited by administrators.",summary.Title));
 
 				return View("Edit", summary);
@@ -225,10 +226,10 @@ namespace Roadkill.Core.Controllers
 		{
 			// Check if the page is locked to admin edits only before reverting.
 			PageSummary page = _pageManager.GetById(pageId);
-			if (page == null || (page.IsLocked && !RoadkillContext.Current.IsAdmin))
+			if (page == null || (page.IsLocked && !Context.IsAdmin))
 				return RedirectToAction("Index", "Home");
 
-			_historyManager.RevertTo(versionId);
+			_historyManager.RevertTo(versionId, Context);
 
 			return RedirectToAction("History", new { id = pageId });
 		}		

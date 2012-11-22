@@ -24,14 +24,16 @@ namespace Roadkill.Core
 		private SearchManager _searchManager;
 		private MarkupConverter _markupConverter;
 		private HistoryManager _historyManager;
+		private IRoadkillContext _context;
 
 		public PageManager(IConfigurationContainer configuration, IRepository repository, SearchManager searchManager, 
-			MarkupConverter markupConverter, HistoryManager historyManager)
+			MarkupConverter markupConverter, HistoryManager historyManager, IRoadkillContext context)
 			: base(configuration, repository)
 		{
 			_searchManager = searchManager;
 			_markupConverter = markupConverter;
 			_historyManager = historyManager;
+			_context = context;
 		}
 
 		/// <summary>
@@ -45,7 +47,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				string currentUser = RoadkillContext.Current.CurrentUsername;
+				string currentUser = _context.CurrentUsername;
 
 				Page page = new Page();
 				page.Title = summary.Title;
@@ -315,7 +317,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				string currentUser = RoadkillContext.Current.CurrentUsername;
+				string currentUser = _context.CurrentUsername;
 
 				Page page = Repository.Pages.FirstOrDefault(p => p.Id == summary.Id);
 				page.Title = summary.Title;
@@ -324,7 +326,7 @@ namespace Roadkill.Core
 				page.ModifiedBy = AppendIpForAppHarbor(currentUser);
 
 				// A second check to ensure a fake IsLocked POST doesn't work.
-				if (RoadkillContext.Current.IsAdmin)
+				if (_context.IsAdmin)
 					page.IsLocked = summary.IsLocked;
 
 				Repository.SaveOrUpdate<Page>(page);
@@ -395,7 +397,7 @@ namespace Roadkill.Core
 			string result = username;
 
 #if APPHARBOR
-			if (!RoadkillContext.Current.IsAdmin)
+			if (!_context.IsAdmin)
 			{
 				string ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
 				if (string.IsNullOrEmpty(ip))

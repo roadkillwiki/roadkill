@@ -11,6 +11,7 @@ using Recaptcha;
 using System.Web.UI;
 using System.IO;
 using Roadkill.Core.Configuration;
+using ControllerBase = Roadkill.Core.Controllers.ControllerBase;
 
 namespace Roadkill.Core
 {
@@ -141,9 +142,9 @@ namespace Roadkill.Core
 		/// <param name="helper">The helper.</param>
 		/// <param name="relativePath">The filename or path inside the current theme directory.</param>
 		/// <returns>A url path to the item, e.g. '/MySite/Themes/Mediawiki/logo.png'</returns>
-		public static string ThemeContent(this UrlHelper helper, string relativePath)
+		public static string ThemeContent(this UrlHelper helper, string relativePath, IConfigurationContainer config)
 		{
-			return helper.Content(RoadkillSettings.Current.SitePreferences.ThemePath + "/" + relativePath);
+			return helper.Content(config.SitePreferences.ThemePath + "/" + relativePath);
 		}
 
 		/// <summary>
@@ -163,15 +164,16 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Renders the Recaptcha control as HTML, if recaptcha is enabled.
 		/// </summary>
-		public static MvcHtmlString RenderCaptcha(this HtmlHelper helper)
+		public static MvcHtmlString RenderCaptcha(this HtmlHelper helper, IConfigurationContainer config)
 		{
-			if (RoadkillSettings.Current.SitePreferences.IsRecaptchaEnabled)
+			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
+			if (controller != null && controller.Configuration.SitePreferences.IsRecaptchaEnabled)
 			{
 				RecaptchaControl control = new RecaptchaControl();
 				control.ID = "recaptcha";
 				control.Theme = "clean";
-				control.PublicKey = RoadkillSettings.Current.SitePreferences.RecaptchaPublicKey;
-				control.PrivateKey = RoadkillSettings.Current.SitePreferences.RecaptchaPrivateKey;
+				control.PublicKey = config.SitePreferences.RecaptchaPublicKey;
+				control.PrivateKey = config.SitePreferences.RecaptchaPrivateKey;
 
 				using (StringWriter stringWriter = new StringWriter())
 				{
@@ -196,7 +198,8 @@ namespace Roadkill.Core
 		/// </summary>
 		public static MvcHtmlString ResizeImagesScript(this HtmlHelper helper)
 		{
-			if (RoadkillSettings.Current.ApplicationSettings.ResizeImages)
+			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
+			if (controller != null && controller.Configuration.ApplicationSettings.ResizeImages)
 			{
 				return MvcHtmlString.Create(@"<script type=""text/javascript"">
 			$(document).ready(function ()

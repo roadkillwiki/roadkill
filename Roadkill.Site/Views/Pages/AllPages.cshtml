@@ -2,7 +2,7 @@
 @{ 
 	ViewBag.Title = SiteStrings.AllPages_Title;
 }
-@if (RoadkillContext.Current.IsAdmin)
+@if (RoadkillContext.IsAdmin)
 {
 <script type="text/javascript">
 	$(document).ready(function ()
@@ -21,10 +21,10 @@
 {
 	<tr>
 		<td class="title" style="width:90%">@Html.ActionLink(summary.Title, "Index", "Wiki", new { id = summary.Id, title = summary.Title.EncodeTitle() }, null)</td>
-		@if (RoadkillContext.Current.IsLoggedIn)
+		@if (RoadkillContext.IsLoggedIn)
 		{
 		<td class="edit">@Html.ActionLink(SiteStrings.Shared_EditLink, "Edit", new { id = summary.Id })</td>	  
-		if (RoadkillContext.Current.IsAdmin)
+		if (RoadkillContext.IsAdmin)
 		{
 		<td class="delete">@Html.ActionLink(SiteStrings.Shared_DeleteLink, "Delete", new { id = summary.Id }, new { @class = "confirm" })</td>
 		}

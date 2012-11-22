@@ -14,11 +14,13 @@ namespace Roadkill.Core
 	public class HistoryManager : ServiceBase
 	{
 		private MarkupConverter _markupConverter;
+		private IRoadkillContext _context;
 
-		public HistoryManager(IConfigurationContainer configuration, IRepository repository, MarkupConverter markupConverter)
+		public HistoryManager(IConfigurationContainer configuration, IRepository repository, MarkupConverter markupConverter, IRoadkillContext context)
 			: base(configuration, repository)
 		{
 			_markupConverter = markupConverter;
+			_context = context;
 		}
 
 		/// <summary>
@@ -116,7 +118,7 @@ namespace Roadkill.Core
 
 				if (pageContent != null)
 				{
-					RevertTo(pageContent.Id);
+					RevertTo(pageContent.Id, _context);
 				}
 			}
 			catch (ArgumentNullException ex)
@@ -134,11 +136,11 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <param name="versionNumber">The version ID to revert to.</param>
 		/// <exception cref="HistoryException">An NHibernate (database) error occurred while reverting to the version.</exception>
-		public void RevertTo(Guid versionId)
+		public void RevertTo(Guid versionId, IRoadkillContext context)
 		{
 			try
 			{
-				string currentUser = RoadkillContext.Current.CurrentUsername;
+				string currentUser = context.CurrentUsername;
 
 				PageContent versionContent = Repository.PageContents.FirstOrDefault(p => p.Id == versionId);
 				Page page = Repository.Pages.FirstOrDefault(p => p.Id == versionContent.Page.Id);

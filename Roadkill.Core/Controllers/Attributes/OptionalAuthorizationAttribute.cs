@@ -16,6 +16,21 @@ namespace Roadkill.Core
 	/// </summary>
 	public class OptionalAuthorizationAttribute : AuthorizeAttribute
 	{
+		private IConfigurationContainer _config;
+		private UserManager _userManager;
+
+		public override void OnAuthorization(AuthorizationContext filterContext)
+		{
+			Roadkill.Core.Controllers.ControllerBase controller = filterContext.Controller as Roadkill.Core.Controllers.ControllerBase;
+			if (controller != null)
+			{
+				_config = controller.Configuration;
+				_userManager = controller.UserManager;
+			}
+
+			base.OnAuthorization(filterContext);
+		}
+
 		/// <summary>
 		/// Provides an entry point for custom authorization checks.
 		/// </summary>
@@ -30,7 +45,7 @@ namespace Roadkill.Core
 			IIdentity identity = user.Identity;
 
 			// If the site is private then check for a login
-			if (!RoadkillSettings.Current.ApplicationSettings.IsPublicSite)
+			if (!_config.ApplicationSettings.IsPublicSite)
 			{
 				if (!identity.IsAuthenticated)
 				{
@@ -38,7 +53,7 @@ namespace Roadkill.Core
 				}
 				else
 				{
-					if (UserManager.GetInstance().IsAdmin(identity.Name) || UserManager.GetInstance().IsEditor(identity.Name))
+					if (_userManager.IsAdmin(identity.Name) || _userManager.IsEditor(identity.Name))
 					{
 						return true;
 					}

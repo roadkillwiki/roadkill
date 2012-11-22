@@ -61,14 +61,6 @@ namespace Roadkill.Core.Configuration
 			set { _applicationSettings = value; }
 		}
 
-		public static IConfigurationContainer Current
-		{
-			get
-			{
-				return ObjectFactory.GetInstance<IConfigurationContainer>();
-			}
-		}
-
 		public virtual void LoadSitePreferences()
 		{
 			IRepository repository;
@@ -93,6 +85,15 @@ namespace Roadkill.Core.Configuration
 				throw new InvalidOperationException("The allowed file types setting is empty");
 
 			_sitePreferences = preferences;
+		}
+
+		/// <summary>
+		/// Used for Fluent NHibernate's class mappings, and temporary solution for MVC attributes.
+		/// </summary>
+		/// <returns></returns>
+		internal static IConfigurationContainer GetInstance()
+		{
+			return ObjectFactory.GetInstance<IConfigurationContainer>();
 		}
 	}
 }

@@ -18,8 +18,8 @@ namespace Roadkill.Core.Controllers
 	{
 		private PageManager _pageManager;
 
-		public WikiController(IConfigurationContainer configuration, UserManager userManager, PageManager pageManager)
-			: base(configuration, userManager) 
+		public WikiController(IConfigurationContainer configuration, UserManager userManager, PageManager pageManager, IRoadkillContext context)
+			: base(configuration, userManager, context) 
 		{
 			_pageManager = pageManager;
 		}
@@ -42,10 +42,10 @@ namespace Roadkill.Core.Controllers
 			if (summary == null)
 				return new HttpNotFoundResult(string.Format("The page with id '{0}' could not be found", id));
 
-			RoadkillContext.Current.Page = summary;
+			Context.Page = summary;
 
 			// This is using RFC 1123, the header needs RFC 2822 but this gives the same date output
-			if (!RoadkillContext.Current.IsLoggedIn)
+			if (!Context.IsLoggedIn)
 			{
 				Response.AddHeader("Last-Modified", summary.ModifiedOn.ToString("r")); 
 			}

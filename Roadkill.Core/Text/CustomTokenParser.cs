@@ -16,19 +16,24 @@ namespace Roadkill.Core
 	{
 		private static IEnumerable<TextToken> _tokens;
 		private static Dictionary<Regex,string> _regexReplacements;
+		private static bool _isCached;
 
 		public static IEnumerable<TextToken> Tokens
 		{
 			get { return _tokens;  }
 		}
 
-		static CustomTokenParser()
+		public CustomTokenParser(IConfigurationContainer config)
 		{
-			_tokens = Deserialize();
-			CacheRegexes();
+			if (!_isCached)
+			{
+				_tokens = Deserialize(config);
+				CacheRegexes();
+				_isCached = true;
+			}
 		}
 
-		public static string ReplaceTokens(string html)
+		public string ReplaceTokens(string html)
 		{
 			foreach (Regex regex in _regexReplacements.Keys)
 			{
@@ -57,17 +62,17 @@ namespace Roadkill.Core
 			}
 		}
 
-		private static IEnumerable<TextToken> Deserialize()
+		private static IEnumerable<TextToken> Deserialize(IConfigurationContainer config)
 		{
-			if (!File.Exists(RoadkillSettings.Current.ApplicationSettings.CustomTokensPath))
+			if (!File.Exists(config.ApplicationSettings.CustomTokensPath))
 			{
-				Log.Warn("Warning: The custom tokens file does not exist in path '{0}'", RoadkillSettings.Current.ApplicationSettings.CustomTokensPath);
+				Log.Warn("Warning: The custom tokens file does not exist in path '{0}'", config.ApplicationSettings.CustomTokensPath);
 				return new List<TextToken>();
 			}
 
 			try
 			{
-				using (FileStream stream = new FileStream(RoadkillSettings.Current.ApplicationSettings.CustomTokensPath, FileMode.Open, FileAccess.Read))
+				using (FileStream stream = new FileStream(config.ApplicationSettings.CustomTokensPath, FileMode.Open, FileAccess.Read))
 				{
 					XmlSerializer serializer = new XmlSerializer(typeof(List<TextToken>));
 					IEnumerable<TextToken> textTokens = (List<TextToken>)serializer.Deserialize(stream);
@@ -80,17 +85,17 @@ namespace Roadkill.Core
 			}
 			catch (IOException e)
 			{
-				Log.Warn(e, "An IO error occurred loading the Custom tokens file {0}", RoadkillSettings.Current.ApplicationSettings.CustomTokensPath);
+				Log.Warn(e, "An IO error occurred loading the Custom tokens file {0}", config.ApplicationSettings.CustomTokensPath);
 				return new List<TextToken>();
 			}
 			catch (FormatException e)
 			{
-				Log.Warn(e, "A FormatException error occurred loading the Custom tokens file {0}", RoadkillSettings.Current.ApplicationSettings.CustomTokensPath);
+				Log.Warn(e, "A FormatException error occurred loading the Custom tokens file {0}", config.ApplicationSettings.CustomTokensPath);
 				return new List<TextToken>();
 			}
 			catch (Exception e)
 			{
-				Log.Warn(e, "An unhandled exception error occurred loading the Custom tokens file {0}", RoadkillSettings.Current.ApplicationSettings.CustomTokensPath);
+				Log.Warn(e, "An unhandled exception error occurred loading the Custom tokens file {0}", config.ApplicationSettings.CustomTokensPath);
 				return new List<TextToken>();
 			}
 		}

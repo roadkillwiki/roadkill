@@ -8,6 +8,7 @@ using Roadkill.Core.Localization.Resx;
 using System.Globalization;
 using StructureMap;
 using Roadkill.Core.Configuration;
+using ControllerBase = Roadkill.Core.Controllers.ControllerBase;
 
 namespace Roadkill.Core
 {
@@ -22,9 +23,10 @@ namespace Roadkill.Core
 		/// <returns>"Logged in as {user}" if the user is logged in; "Not logged in" if the user is not logged in.</returns>
 		public static MvcHtmlString LoginStatus(this HtmlHelper helper)
 		{
-			if (RoadkillContext.Current.IsLoggedIn)
+			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
+			if (controller != null && controller.Context.IsLoggedIn)
 			{
-				string text = string.Format("{0} {1}", SiteStrings.Shared_LoggedInAs, RoadkillContext.Current.CurrentUsername);
+				string text = string.Format("{0} {1}", SiteStrings.Shared_LoggedInAs, controller.Context.CurrentUsername);
 				return helper.ActionLink(text, "Profile", "User");
 			}
 			else
@@ -39,7 +41,8 @@ namespace Roadkill.Core
 		/// <returns>If the user is not logged in and not an admin, an empty string is returned.</returns>
 		public static MvcHtmlString SettingsLink(this HtmlHelper helper, string prefix,string suffix)
 		{
-			if (RoadkillContext.Current.IsAdmin)
+			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
+			if (controller != null && controller.Context.IsAdmin)
 			{
 				string link = helper.ActionLink(SiteStrings.Navigation_SiteSettings, "Index", "Settings").ToString();
 				return MvcHtmlString.Create(prefix + link + suffix);
@@ -57,12 +60,14 @@ namespace Roadkill.Core
 		/// <returns>If windows authentication is being used, an empty string is returned.</returns>
 		public static MvcHtmlString LoginLink(this HtmlHelper helper, string prefix, string suffix)
 		{
-			if (RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication)
+			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
+
+			if (controller == null || controller.Configuration.ApplicationSettings.UseWindowsAuthentication)
 				return MvcHtmlString.Empty;
 
 			string link = "";
 
-			if (RoadkillContext.Current.IsLoggedIn)
+			if (controller.Context.IsLoggedIn)
 			{
 				link = helper.ActionLink(SiteStrings.Navigation_Logout, "Logout", "User").ToString();
 			}
@@ -70,7 +75,7 @@ namespace Roadkill.Core
 			{
 				link = helper.ActionLink(SiteStrings.Navigation_Login, "Login", "User").ToString();
 
-				if (RoadkillSettings.Current.SitePreferences.AllowUserSignup)
+				if (controller.Configuration.SitePreferences.AllowUserSignup)
 					link += "&nbsp;/&nbsp;" + helper.ActionLink(SiteStrings.Navigation_Register, "Signup", "User").ToString();
 			}
 
@@ -83,7 +88,9 @@ namespace Roadkill.Core
 		/// <returns>If the user is not logged in and not an admin, an empty string is returned.</returns>
 		public static MvcHtmlString NewPageLink(this HtmlHelper helper, string prefix, string suffix)
 		{
-			if (RoadkillContext.Current.IsLoggedIn && (RoadkillContext.Current.IsAdmin || RoadkillContext.Current.IsEditor))
+			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
+
+			if (controller != null && (controller.Context.IsLoggedIn && (controller.Context.IsAdmin || controller.Context.IsEditor)))
 			{
 				string link = helper.ActionLink(SiteStrings.Navigation_NewPage, "New", "Pages").ToString();
 				return MvcHtmlString.Create(prefix + link + suffix);

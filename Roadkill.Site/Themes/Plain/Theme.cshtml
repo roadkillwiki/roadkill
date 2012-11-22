@@ -50,13 +50,13 @@
         </div>
     </div>
 	<div id="footer">
-		@if (RoadkillContext.Current.IsContentPage)
+		@if (RoadkillContext.IsContentPage)
 		{
-		<p>@SiteStrings.Shared_LastModified @RoadkillContext.Current.Page.ModifiedOn.ToString("dd MMM yyyy") 
-		at @RoadkillContext.Current.Page.ModifiedOn.ToShortTimeString().</p>
+		<p>@SiteStrings.Shared_LastModified @RoadkillContext.Page.ModifiedOn.ToString("dd MMM yyyy") 
+		at @RoadkillContext.Page.ModifiedOn.ToShortTimeString().</p>
 		}
 		<p>
-			@SiteStrings.Shared_PoweredBy (@Roadkill.Core.Configuration.RoadkillSettings.Current.ApplicationSettings.Version).
+			@SiteStrings.Shared_PoweredBy (@Configuration.ApplicationSettings.Version).
 		</p>
 	</div>
 </body>

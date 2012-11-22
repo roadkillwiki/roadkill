@@ -1,7 +1,8 @@
 ﻿@using Roadkill.Core.Configuration;
 @{
-	if (RoadkillSettings.Current.ApplicationSettings.Installed)
+	IConfigurationContainer config = ((Roadkill.Core.Controllers.ControllerBase)ViewContext.Controller).Configuration;
+	if (config.ApplicationSettings.Installed)
 	{
-		Layout = RoadkillSettings.Current.SitePreferences.ThemePath + "/Theme.cshtml";
+		Layout = config.SitePreferences.ThemePath + "/Theme.cshtml";
 	}
 }

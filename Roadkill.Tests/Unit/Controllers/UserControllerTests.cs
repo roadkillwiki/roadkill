@@ -24,13 +24,15 @@ namespace Roadkill.Tests.Unit.Controllers
 		private IConfigurationContainer _config;
 		private IRepository _repository;
 		private Mock<UserManager> _userManager;
+		private IRoadkillContext _context;
 
 		[TestFixtureSetUp]
 		public void TestsSetup()
 		{
+			_context = new Mock<IRoadkillContext>().Object;
 			_config = new RoadkillSettings();
 			_repository = null;
-			_userManager = new Mock<UserManager>(_config, _repository, null);
+			_userManager = new Mock<UserManager>(_config, _repository);
 			_userManager.Setup(u => u.Authenticate(AdminEmail, AdminPassword)).Returns(true);
 		}
 
@@ -38,7 +40,7 @@ namespace Roadkill.Tests.Unit.Controllers
 		public void Logon_Should_Redirect_And_SetUsername_ForContext()
 		{
 			// Arrange
-			UserController userController = new UserController(_config, _userManager.Object);
+			UserController userController = new UserController(_config, _userManager.Object, _context);
 			userController.SetFakeControllerContext();
 
 			// Act	

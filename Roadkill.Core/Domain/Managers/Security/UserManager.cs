@@ -13,10 +13,10 @@ namespace Roadkill.Core
 	{
 		protected PageManager PageManager;
 
-		public UserManager(IConfigurationContainer configuration, IRepository repository, PageManager pageManager)
+		public UserManager(IConfigurationContainer configuration, IRepository repository)
 			: base(configuration, repository)
 		{
-			PageManager = pageManager;
+
 		}
 
 		/// <summary>
@@ -183,7 +183,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Temporary 'Bastard Injection' for the places (Attributes) that are not constructor injected.
 		/// </summary>
-		public static UserManager GetInstance()
+		internal static UserManager GetInstance()
 		{
 			return ObjectFactory.GetInstance<UserManager>();
 		}

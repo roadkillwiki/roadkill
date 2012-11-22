@@ -18,13 +18,15 @@ namespace Roadkill.Core.Controllers
 	/// </summary>
 	public class ControllerBase : Controller
 	{
-		protected IConfigurationContainer Configuration;
-		protected UserManager UserManager;
+		public IConfigurationContainer Configuration { get; private set; }
+		public UserManager UserManager { get; private set; }
+		public IRoadkillContext Context { get; private set; }
 
-		public ControllerBase(IConfigurationContainer configuration, UserManager userManager)
+		public ControllerBase(IConfigurationContainer configuration, UserManager userManager, IRoadkillContext context)
 		{
 			Configuration = configuration;
 			UserManager = userManager;
+			Context = context;
 		}
 
 		protected override void OnException(ExceptionContext filterContext)
@@ -61,7 +63,9 @@ namespace Roadkill.Core.Controllers
 			}
 #endif
 
-			RoadkillContext.Current.CurrentUser = UserManager.GetLoggedInUserName(HttpContext);
+			Context.CurrentUser = UserManager.GetLoggedInUserName(HttpContext);
+			ViewBag.Context = Context;
+			ViewBag.Config = Configuration;			
 		}
 	}
 }

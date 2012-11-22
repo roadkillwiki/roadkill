@@ -17,6 +17,14 @@ namespace Roadkill.Core
 	public class SettingsSummary
 	{
 		private static string _themesRoot;
+		protected IConfigurationContainer Config;
+
+		public SettingsSummary(IConfigurationContainer config)
+		{
+			Config = config;
+			DatabaseType = DatabaseType.SqlServer2005;
+			SiteUrl = "http://localhost";
+		}
 
 		public string AdminEmail { get; set; }
 		public string AdminPassword { get; set; }
@@ -100,40 +108,34 @@ namespace Roadkill.Core
 		{
 			get
 			{
-				return RoadkillSettings.Current.ApplicationSettings.Version;
+				return Config.ApplicationSettings.Version;
 			}
 		}
 
-		public SettingsSummary()
+		public static SettingsSummary FromSystemSettings(IConfigurationContainer config)
 		{
-			DatabaseType = DatabaseType.SqlServer2005;
-			SiteUrl = "http://localhost";
-		}
+			SettingsSummary summary = new SettingsSummary(config);
 
-		public static SettingsSummary FromSystemSettings()
-		{
-			SettingsSummary summary = new SettingsSummary();
-
-			summary.AdminRoleName = RoadkillSettings.Current.ApplicationSettings.AdminRoleName;
-			summary.AllowedExtensions = string.Join(",", RoadkillSettings.Current.SitePreferences.AllowedFileTypes);
-			summary.AllowUserSignup = RoadkillSettings.Current.SitePreferences.AllowUserSignup;
-			summary.AttachmentsFolder = RoadkillSettings.Current.ApplicationSettings.AttachmentsFolder;
-			summary.CacheEnabled = RoadkillSettings.Current.ApplicationSettings.CachedEnabled;
-			summary.CacheText = RoadkillSettings.Current.ApplicationSettings.CacheText;
-			summary.ConnectionString = RoadkillSettings.Current.ApplicationSettings.ConnectionString;
-			summary.DatabaseType = RoadkillSettings.Current.ApplicationSettings.DatabaseType;
-			summary.EditorRoleName = RoadkillSettings.Current.ApplicationSettings.EditorRoleName;
-			summary.EnableRecaptcha = RoadkillSettings.Current.SitePreferences.IsRecaptchaEnabled;
-			summary.LdapConnectionString = RoadkillSettings.Current.ApplicationSettings.LdapConnectionString;
-			summary.LdapUsername = RoadkillSettings.Current.ApplicationSettings.LdapUsername;
-			summary.LdapPassword = RoadkillSettings.Current.ApplicationSettings.LdapPassword;
-			summary.MarkupType = RoadkillSettings.Current.SitePreferences.MarkupType;
-			summary.RecaptchaPrivateKey = RoadkillSettings.Current.SitePreferences.RecaptchaPrivateKey;
-			summary.RecaptchaPublicKey = RoadkillSettings.Current.SitePreferences.RecaptchaPublicKey;
-			summary.SiteName = RoadkillSettings.Current.SitePreferences.SiteName;
-			summary.SiteUrl = RoadkillSettings.Current.SitePreferences.SiteUrl;
-			summary.Theme = RoadkillSettings.Current.SitePreferences.Theme;
-			summary.UseWindowsAuth = RoadkillSettings.Current.ApplicationSettings.UseWindowsAuthentication;
+			summary.AdminRoleName = config.ApplicationSettings.AdminRoleName;
+			summary.AllowedExtensions = string.Join(",", config.SitePreferences.AllowedFileTypes);
+			summary.AllowUserSignup = config.SitePreferences.AllowUserSignup;
+			summary.AttachmentsFolder = config.ApplicationSettings.AttachmentsFolder;
+			summary.CacheEnabled = config.ApplicationSettings.CachedEnabled;
+			summary.CacheText = config.ApplicationSettings.CacheText;
+			summary.ConnectionString = config.ApplicationSettings.ConnectionString;
+			summary.DatabaseType = config.ApplicationSettings.DatabaseType;
+			summary.EditorRoleName = config.ApplicationSettings.EditorRoleName;
+			summary.EnableRecaptcha = config.SitePreferences.IsRecaptchaEnabled;
+			summary.LdapConnectionString = config.ApplicationSettings.LdapConnectionString;
+			summary.LdapUsername = config.ApplicationSettings.LdapUsername;
+			summary.LdapPassword = config.ApplicationSettings.LdapPassword;
+			summary.MarkupType = config.SitePreferences.MarkupType;
+			summary.RecaptchaPrivateKey = config.SitePreferences.RecaptchaPrivateKey;
+			summary.RecaptchaPublicKey = config.SitePreferences.RecaptchaPublicKey;
+			summary.SiteName = config.SitePreferences.SiteName;
+			summary.SiteUrl = config.SitePreferences.SiteUrl;
+			summary.Theme = config.SitePreferences.Theme;
+			summary.UseWindowsAuth = config.ApplicationSettings.UseWindowsAuthentication;
 
 			return summary;
 		}
