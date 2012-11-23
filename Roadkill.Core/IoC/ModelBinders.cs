@@ -7,17 +7,17 @@ using StructureMap;
 
 namespace Roadkill.Core
 {
-	public class UserSummaryModelBinder : IModelBinder
+	public class UserSummaryModelBinder : DefaultModelBinder
 	{
-		public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+		protected override object CreateModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Type modelType)
 		{
-			return ObjectFactory.GetInstance<UserSummary>();
+			return base.CreateModel(controllerContext, bindingContext, modelType);
 		}
 	}
 
-	public class SettingsSummaryModelBinder : IModelBinder
+	public class SettingsSummaryModelBinder : DefaultModelBinder
 	{
-		public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+		protected override object CreateModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Type modelType)
 		{
 			return ObjectFactory.GetInstance<SettingsSummary>();
 		}

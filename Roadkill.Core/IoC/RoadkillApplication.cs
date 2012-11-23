@@ -27,8 +27,8 @@ namespace Roadkill.Core
 			AreaRegistration.RegisterAllAreas();
 			RegisterRoutes(RouteTable.Routes);
 
-			ModelBinders.Binders[typeof(UserSummary)] = new UserSummaryModelBinder();
-			ModelBinders.Binders[typeof(SettingsSummary)] = new SettingsSummaryModelBinder();
+			ModelBinders.Binders.Add(typeof(UserSummary),new UserSummaryModelBinder());
+			ModelBinders.Binders.Add(typeof(SettingsSummary),new SettingsSummaryModelBinder());
 			ControllerBuilder.Current.SetControllerFactory(new StructureMapControllerFactory());
 		}
 
