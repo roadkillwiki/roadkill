@@ -16,10 +16,10 @@ namespace Roadkill.Core
 		private MarkupConverter _markupConverter;
 		private IRoadkillContext _context;
 
-		public HistoryManager(IConfigurationContainer configuration, IRepository repository, MarkupConverter markupConverter, IRoadkillContext context)
+		public HistoryManager(IConfigurationContainer configuration, IRepository repository, IRoadkillContext context)
 			: base(configuration, repository)
 		{
-			_markupConverter = markupConverter;
+			_markupConverter = new MarkupConverter(configuration, repository);
 			_context = context;
 		}
 

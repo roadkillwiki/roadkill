@@ -17,8 +17,7 @@ var ROADKILL_ATTACHMENTSPATH = "@Url.Content(Configuration.ApplicationSettings.A
 
 // Tokens for the edit toolbar
 @{
-MarkupConverter converter = MarkupConverter.GetInstance();
-IMarkupParser parser = converter.Parser;
+IMarkupParser parser = MarkupConverter.Parser;
 }
 var ROADKILL_EDIT_BOLD_TOKEN        = "@Html.Raw(parser.BoldToken)";
 var ROADKILL_EDIT_ITALIC_TOKEN      = "@Html.Raw(parser.ItalicToken)";

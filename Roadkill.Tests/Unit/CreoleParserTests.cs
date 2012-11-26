@@ -32,11 +32,35 @@ namespace Roadkill.Tests.Unit
 		[Test]
 		public void Tilde_Should_Be_Escapeable()
 		{
-			CreoleParser parser = new CreoleParser();
-
+			// Bug #80
+			
+			// Arrange
 			string creoleText = @"Escaping a ~~tilde test";
 			string expectedHtml = "<p>Escaping a ~tilde test\n</p>";
+
+			// Act
+			CreoleParser parser = new CreoleParser();
 			string actualHtml = parser.Transform(creoleText);
+			
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		public void Text_should_Appear_After_Images()
+		{
+			// Bug #85
+
+			// Arrange
+			string creoleText = "{{image01.jpg|alt text}} Any text here WILL BE shown on webpage";
+			string expectedHtml = @"<p><div class=""floatnone""><div class=""image_frame""><img src=""image01.jpg"" alt=""alt text"" title=""alt text"" border=""0"" />"+
+				@"<div class=""caption"">alt text</div></div></div> Any text here WILL BE shown on webpage" + "\n</p>";
+			
+			// Act
+			CreoleParser parser = new CreoleParser();
+			string actualHtml = parser.Transform(creoleText);
+
+			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
 		}
 	}

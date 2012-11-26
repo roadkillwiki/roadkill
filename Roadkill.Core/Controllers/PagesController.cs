@@ -167,7 +167,7 @@ namespace Roadkill.Core.Controllers
 
 			if (!string.IsNullOrEmpty(id))
 			{
-				MarkupConverter converter = new MarkupConverter(Configuration);
+				MarkupConverter converter = _pageManager.GetMarkupConverter();
 				html = converter.ToHtml(id);
 			}
 
@@ -254,7 +254,7 @@ namespace Roadkill.Core.Controllers
 		/// output inside the <see cref="PageSummary.Content"/> property.</returns>
 		public ActionResult Version(Guid id)
 		{
-			MarkupConverter converter = new MarkupConverter(Configuration);
+			MarkupConverter converter = _pageManager.GetMarkupConverter();
 			IList<PageSummary> bothVersions = _historyManager.CompareVersions(id).ToList();
 			string diffHtml = "";
 

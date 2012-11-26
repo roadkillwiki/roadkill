@@ -295,5 +295,25 @@ namespace Roadkill.Core
 		{
 			return Queryable<SitePreferences>().FirstOrDefault(s => s.Id == SitePreferences.ConfigurationId);
 		}
+
+		public Page FindPageByTitle(string title)
+		{
+			try
+			{
+				if (string.IsNullOrEmpty(title))
+					return null;
+
+				Page page = Pages.FirstOrDefault(p => p.Title.ToLower() == title.ToLower());
+
+				if (page == null)
+					return null;
+				else
+					return page;
+			}
+			catch (HibernateException ex)
+			{
+				throw new DatabaseException(ex, "An error occurred finding the page with title '{0}' in the database", title);
+			}
+		}
 	}
 }

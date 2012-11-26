@@ -49,7 +49,7 @@ namespace Roadkill.Tests.Integration
 		public void Search_With_No_Field_Returns_Results()
 		{
 			// Arrange
-			SearchManager searchManager = new SearchManager(_config, _repository, new MarkupConverter(_config));
+			SearchManager searchManager = new SearchManager(_config, _repository);
 			searchManager.CreateIndex();
 
 			PageSummary page1 = CreatePage(1, "admin", "title content", "tag1", "title content1");
@@ -69,7 +69,7 @@ namespace Roadkill.Tests.Integration
 		public void Search_By_Title()
 		{
 			// Arrange
-			SearchManager searchManager = new SearchManager(_config, _repository, new MarkupConverter(_config));
+			SearchManager searchManager = new SearchManager(_config, _repository);
 			searchManager.CreateIndex();
 
 			PageSummary page1 = CreatePage(1, "admin", "the title", "tag1", "title content");
@@ -93,7 +93,7 @@ namespace Roadkill.Tests.Integration
 		public void Search_By_TagsField_Returns_Multiple_Results()
 		{
 			// Arrange
-			SearchManager searchManager = new SearchManager(_config, _repository, new MarkupConverter(_config));
+			SearchManager searchManager = new SearchManager(_config, _repository);
 			searchManager.CreateIndex();
 
 			PageSummary page1 = CreatePage(1, "admin", "random name1", "homepage1, tag1", "title content");
@@ -117,7 +117,7 @@ namespace Roadkill.Tests.Integration
 		public void Search_By_IdField_Returns_Single_Results()
 		{
 			// Arrange
-			SearchManager searchManager = new SearchManager(_config, _repository, new MarkupConverter(_config));
+			SearchManager searchManager = new SearchManager(_config, _repository);
 			searchManager.CreateIndex();
 
 			PageSummary page1 = CreatePage(1, "admin", "random name2", "tag1", "title content");
@@ -141,7 +141,7 @@ namespace Roadkill.Tests.Integration
 		public void CreatedBy_Only_Searchable_Using_Field_Syntax()
 		{
 			// Arrange
-			SearchManager searchManager = new SearchManager(_config, _repository, new MarkupConverter(_config));
+			SearchManager searchManager = new SearchManager(_config, _repository);
 			searchManager.CreateIndex();
 
 			PageSummary page1 = CreatePage(1, "admin", "random name2", "homepage, tag1", "title content 11");
@@ -164,7 +164,7 @@ namespace Roadkill.Tests.Integration
 		{
 			// Arrange
 			string todaysDate = DateTime.Today.ToShortDateString(); // (CreatePage uses Today date, SearchManager uses 's'/ISO8601)
-			SearchManager searchManager = new SearchManager(_config, _repository, new MarkupConverter(_config));
+			SearchManager searchManager = new SearchManager(_config, _repository);
 			searchManager.CreateIndex();
 
 			PageSummary page1 = CreatePage(1, "admin", "random name2", "homepage, tag1", "title content", DateTime.Today);
@@ -188,7 +188,7 @@ namespace Roadkill.Tests.Integration
 		public void Delete_Should_Remove_Page_From_Index()
 		{
 			// Arrange
-			SearchManager searchManager = new SearchManager(_config, _repository, new MarkupConverter(_config));
+			SearchManager searchManager = new SearchManager(_config, _repository);
 			searchManager.CreateIndex();
 
 			PageSummary page1 = CreatePage(1, "admin", "homepage title", "homepage1, tag1", "title content");
@@ -209,7 +209,7 @@ namespace Roadkill.Tests.Integration
 		public void Update_Should_Show_In_Index_Search()
 		{
 			// Arrange
-			SearchManager searchManager = new SearchManager(_config, _repository, new MarkupConverter(_config));
+			SearchManager searchManager = new SearchManager(_config, _repository);
 			searchManager.CreateIndex();
 
 			PageSummary page1 = CreatePage(1, "admin", "homepage title", "homepage1, tag1", "title content");

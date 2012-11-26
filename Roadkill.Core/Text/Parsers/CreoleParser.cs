@@ -998,24 +998,32 @@ namespace Roadkill.Core.Converters
 
 					string imageFrame = String.Format(divHtml, "image_frame", imageFrameContent);
 
+					string replacement = markup.Substring(0, iPos - 2);
 					switch (align)
 					{
 						case ImageEventArgs.HorizontalAlignment.Left:
-							markup = String.Format(divHtml, "floatleft", imageFrame);
+							replacement += String.Format(divHtml, "floatleft", imageFrame);
 							break;
 						case ImageEventArgs.HorizontalAlignment.Right:
-							markup = String.Format(divHtml, "floatright", imageFrame);
+							replacement += String.Format(divHtml, "floatright", imageFrame);
 							break;
 						case ImageEventArgs.HorizontalAlignment.Center:
-							markup = String.Format(divHtml, "center", String.Format(divHtml, "floatnone", imageFrame));
+							replacement += String.Format(divHtml, "center", String.Format(divHtml, "floatnone", imageFrame));
 							break;
 						default:
-							markup = String.Format(divHtml, "floatnone", imageFrame);
+							replacement += String.Format(divHtml, "floatnone", imageFrame);
 							break;
 					}
+
+					replacement += markup.Substring(iEnd + 2);
+
+					markup = replacement;
 				}
 				else
+				{
 					break;
+				}
+
 				iPos = _indexOfWithSkip(markup, "{{", iPos);
 			}
 			return markup;

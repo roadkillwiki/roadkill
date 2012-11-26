@@ -57,9 +57,9 @@ namespace Roadkill.Tests.Unit
 			_config.SitePreferences = new SitePreferences() { MarkupType = "Creole" };
 
 			// Managers needed by  the PageManager
-			_markupConverter = new MarkupConverter(_config);
-			_mockSearchManager = new Mock<SearchManager>(_config, _mockRepository.Object, _markupConverter);
-			_historyManager = new HistoryManager(_config, _mockRepository.Object, _markupConverter, _context);
+			_markupConverter = new MarkupConverter(_config, _mockRepository.Object);
+			_mockSearchManager = new Mock<SearchManager>(_config, _mockRepository.Object);
+			_historyManager = new HistoryManager(_config, _mockRepository.Object, _context);
 
 			// Usermanager stub
 			Mock<User> mockUser = new Mock<User>();
@@ -130,7 +130,7 @@ namespace Roadkill.Tests.Unit
 				}
 			);
 
-
+			_mockRepository.Setup(r => r.FindPageByTitle(title)).Returns(pageMock.Object);
 			_mockRepository.Setup(x => x.SaveOrUpdate<PageContent>(pageContent));
 			_mockRepository.Setup(x => x.GetLatestPageContent(id)).Returns(pageContent);
 
@@ -160,7 +160,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary summary = AddToMockRepository(1,AdminUsername, "Homepage", "1;2;3;",DateTime.Now, "**Homepage**");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _markupConverter, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
 			PageSummary newSummary = manager.AddPage(summary);
 
 			// Assert
@@ -185,7 +185,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary page5 = AddToMockRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _markupConverter, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
 			List<TagSummary> summaries = manager.AllTags().OrderBy(t => t.Name).ToList();
 
 			// Assert
@@ -207,7 +207,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary page5 = AddToMockRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _markupConverter, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
 			manager.DeletePage(page1.Id);
 			manager.DeletePage(page2.Id);
 			List<PageSummary> summaries = manager.AllPages().ToList();
@@ -229,7 +229,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary page5 = AddToMockRepository(5, "bob", "page 5", "animals;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _markupConverter, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
 			List<PageSummary> summaries = manager.AllPagesCreatedBy("bob").ToList();
 
 			// Assert
@@ -248,7 +248,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary page5 = AddToMockRepository(5, "bob", "page 5", "animals;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _markupConverter, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
 			List<PageSummary> summaries = manager.AllPages().ToList();
 
 			// Assert
@@ -264,7 +264,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary page3 = AddToMockRepository(3, "admin", "page 3", "page3;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _markupConverter, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
 			List<PageSummary> summaries = manager.FindByTag("homepage").ToList();
 
 			// Assert
@@ -284,7 +284,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary page5 = AddToMockRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _markupConverter, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
 			List<PageSummary> summaries = manager.FindByTag("animals").ToList();
 
 			// Assert
@@ -302,7 +302,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary page5 = AddToMockRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _markupConverter, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
 			PageSummary summary = manager.FindByTitle("page 3");
 
 			// Assert
@@ -320,7 +320,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary page5 = AddToMockRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _markupConverter, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
 			PageSummary summary = manager.GetById(page3.Id);
 
 			// Assert
@@ -336,7 +336,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary page2 = AddToMockRepository(2, "admin", "page 2", "page2;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _markupConverter, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
 			string xml = manager.ExportToXml();
 
 			// Assert
@@ -354,7 +354,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary page2 = AddToMockRepository(2, "admin", "page 2", "animal;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _markupConverter, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
 			manager.RenameTag("animal", "vegetable");
 			List<PageSummary> animalTagList = manager.FindByTag("animal").ToList();
 			List<PageSummary> vegetableTagList = manager.FindByTag("vegetable").ToList();
@@ -374,7 +374,7 @@ namespace Roadkill.Tests.Unit
 			summary.Content = "**New content**";
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _markupConverter, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
 			manager.UpdatePage(summary); // assumes it's already in the repository
 			PageSummary actual = manager.GetById(1);
 

@@ -14,12 +14,18 @@ namespace Roadkill.Core.Converters
 	/// <summary>
 	/// A factory class for converting the system's markup syntax to HTML.
 	/// </summary>
-	public class MarkupConverter : IInjectionLaunderer
+	public class MarkupConverter
 	{
 		private IConfigurationContainer _configuration;
+		private IRepository _repository;
 		private IMarkupParser _parser;
+		private UrlHelper _urlHelper;
 		private static Regex _imgFileRegex = new Regex("^File:", RegexOptions.IgnoreCase);
 
+		public Func<string,string> AbsolutePathConverter { get; set; }
+		public Func<int, string, string> InternalUrlForTitle { get; set; }
+		public Func<string, string> NewPageUrlForTitle { get; set; }
+		
 		public IMarkupParser Parser
 		{
 			get { return _parser; }
@@ -29,9 +35,15 @@ namespace Roadkill.Core.Converters
 		/// Gets the current <see cref="IMarkupParser"/> for the <see cref="RoadkillSettings.MarkupType"/>
 		/// </summary>
 		/// <returns>An <see cref="IMarkupParser"/> for Creole,Markdown or Media wiki formats.</returns>
-		public MarkupConverter(IConfigurationContainer configuration)
+		public MarkupConverter(IConfigurationContainer configuration, IRepository repository)
 		{
+			AbsolutePathConverter = ConvertToAbsolutePath;
+			InternalUrlForTitle = GetUrlForTitle;
+			NewPageUrlForTitle = GetNewPageUrlForTitle;
+
+			_repository = repository;
 			_configuration = configuration;
+
 			string markupType = "creole";
 
 			if (!string.IsNullOrEmpty(_configuration.SitePreferences.MarkupType))
@@ -55,14 +67,6 @@ namespace Roadkill.Core.Converters
 
 			_parser.LinkParsed += LinkParsed;
 			_parser.ImageParsed += ImageParsed;
-		}
-
-		/// <summary>
-		/// 'Bastard Injection' for the views that cannot constructor inject.
-		/// </summary>
-		public static MarkupConverter GetInstance()
-		{
-			return ObjectFactory.GetInstance<MarkupConverter>();
 		}
 
 		/// <summary>
@@ -91,15 +95,13 @@ namespace Roadkill.Core.Converters
 		/// </summary>
 		private void ImageParsed(object sender, ImageEventArgs e)
 		{
-			UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-
 			if (!e.OriginalSrc.StartsWith("http://") && !e.OriginalSrc.StartsWith("www."))
 			{
 				string src = e.OriginalSrc;
 				src = _imgFileRegex.Replace(src, "");
 
 				string urlPath = _configuration.ApplicationSettings.AttachmentsUrlPath + (src.StartsWith("/") ? "" : "/") + src;
-				e.Src = helper.Content(urlPath);
+				e.Src = ConvertToAbsolutePath(urlPath);
 			}
 		}
 
@@ -108,8 +110,6 @@ namespace Roadkill.Core.Converters
 		/// </summary>
 		private void LinkParsed(object sender, LinkEventArgs e)
 		{
-			UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-
 			if (!e.OriginalHref.StartsWith("http://") && !e.OriginalHref.StartsWith("www.") && !e.OriginalHref.StartsWith("mailto:"))
 			{
 				string href = e.OriginalHref;
@@ -130,19 +130,28 @@ namespace Roadkill.Core.Converters
 						href = href.Remove(0, 1);
 					}
 
-					href = helper.Content(_configuration.ApplicationSettings.AttachmentsUrlPath) + href;
+					href = ConvertToAbsolutePath(_configuration.ApplicationSettings.AttachmentsUrlPath) + href;
 				}
 				else
 				{
 					// Parse internal links
-					PageSummary summary = PageManager.GetInstance().FindByTitle(href);
-					if (summary != null)
+
+					// For markdown, only urls with "-" in them are valid, spaces are ignored.
+					// So remove these, so a match is made. No url has a "-" in, so replacing them is ok.
+					string title = href;
+					if (Parser is MarkdownParser)
 					{
-						href = helper.Action("Index", "Wiki", new { id = summary.Id, title = summary.Title.EncodeTitle() });
+						title = title.Replace("-", " ");
+					}
+
+					Page page = _repository.FindPageByTitle(title);
+					if (page != null)
+					{
+						href = InternalUrlForTitle(page.Id, page.Title);
 					}
 					else
 					{
-						href = helper.Action("New", "Pages", new { title = href });
+						href = NewPageUrlForTitle(href);
 						cssClass = "missing-page-link";
 					}
 				}
@@ -256,6 +265,24 @@ namespace Roadkill.Core.Converters
 			regex = regex.Replace("%URL%", "(?<url>" + pageName + ")"); // brackets or square brackets will break the URL, so ignore these.
 
 			return regex;
+		}
+
+		private string ConvertToAbsolutePath(string relativeUrl)
+		{
+			UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+			return helper.Content(relativeUrl);
+		}
+
+		private string GetUrlForTitle(int id, string title)
+		{
+			UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+			return helper.Action("Index", "Wiki", new { id = id, title = title.EncodeTitle() });
+		}
+
+		private string GetNewPageUrlForTitle(string title)
+		{
+			UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+			return helper.Action("New", "Pages", new { title = title });
 		}
 	}
 }
