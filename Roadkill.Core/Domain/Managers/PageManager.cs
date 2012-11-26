@@ -27,11 +27,11 @@ namespace Roadkill.Core
 		private IRoadkillContext _context;
 
 		public PageManager(IConfigurationContainer configuration, IRepository repository, SearchManager searchManager, 
-			MarkupConverter markupConverter, HistoryManager historyManager, IRoadkillContext context)
+			HistoryManager historyManager, IRoadkillContext context)
 			: base(configuration, repository)
 		{
 			_searchManager = searchManager;
-			_markupConverter = markupConverter;
+			_markupConverter = new MarkupConverter(configuration, repository);
 			_historyManager = historyManager;
 			_context = context;
 		}
@@ -271,7 +271,7 @@ namespace Roadkill.Core
 				if (string.IsNullOrEmpty(title))
 					return null;
 
-				Page page = Repository.Pages.FirstOrDefault(p => p.Title.ToLower() == title.ToLower());
+				Page page = Repository.FindPageByTitle(title);
 
 				if (page == null)
 					return null;
@@ -425,9 +425,9 @@ namespace Roadkill.Core
 			}
 		}
 
-		public static PageManager GetInstance()
+		public MarkupConverter GetMarkupConverter()
 		{
-			return ObjectFactory.GetInstance<PageManager>();
+			return new MarkupConverter(Configuration, Repository);
 		}
 	}
 }

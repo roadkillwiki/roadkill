@@ -28,10 +28,10 @@ namespace Roadkill.Core.Search
 		protected virtual string IndexPath { get; set; }
 		private static readonly LuceneVersion LUCENEVERSION = LuceneVersion.LUCENE_29;
 
-		public SearchManager(IConfigurationContainer configuration, IRepository repository, MarkupConverter markupConverter)
+		public SearchManager(IConfigurationContainer configuration, IRepository repository)
 			: base(configuration, repository)
 		{
-			_markupConverter = markupConverter;
+			_markupConverter = new MarkupConverter(configuration, repository);
 			IndexPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\search";
 		}
 

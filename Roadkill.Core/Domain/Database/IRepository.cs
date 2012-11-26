@@ -12,6 +12,7 @@ namespace Roadkill.Core
 		int ExecuteNonQuery(string sql);
 		IQueryable<T> Queryable<T>();
 		void SaveOrUpdate<T>(T obj) where T : class;
+		Page FindPageByTitle(string title);
 		PageContent GetLatestPageContent(int pageId);
 		SitePreferences GetSitePreferences();
 		IQueryable<Page> Pages { get; }
