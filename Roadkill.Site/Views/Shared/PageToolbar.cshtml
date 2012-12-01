@@ -2,51 +2,46 @@
  
 @if (RoadkillContext.IsLoggedIn)
 {
-<div id="toolbar">
-	@if (Model.Id != 0)
-	{
-	<div id="editbutton" class="linkbutton">
-	@if (Model.IsLocked && !RoadkillContext.IsAdmin)
-	{
-		<span title="This page can only be edited by administrators.">@SiteStrings.Shared_EditLink</span>
-	}
-	else
-	{
-		@Html.ActionLink(SiteStrings.Shared_EditLink, "Edit", "Pages", new { id = Model.Id }, null)
-	}		
+if (Model.Id != 0)
+{
+<div id="toolbar" class="btn-toolbar">
+	<div class="btn-group">	
+		@if (Model.IsLocked && !RoadkillContext.IsAdmin)
+		{
+			<a class="btn btn-mini disabled" href="#" title="@SiteStrings.Shared_EditLink - this page can only be edited by administrators."><i class="icon-pencil"></i></a>
+		}
+		else
+		{
+			<a class="btn btn-mini" href="@Url.Action("Edit", "Pages", new { id = Model.Id})" title="@SiteStrings.Shared_EditLink"><i class="icon-pencil"></i></a>
+		}		
+	
+		<a id="pageinfo-button" class="btn btn-mini" href="javascript:;" title="Page information"><i class="icon-book"></i></a>
 	</div>
-	<div id="pagehistory-button" class="linkbutton"> 
-		@Html.ActionLink(SiteStrings.Navigation_History, "History", "Pages", new { id = Model.Id }, null)
-	</div>
-	<div id="pageinfo-button" class="jqmAlert"> 
-		<a href="javascript:;"><img src="@Url.Content("~/Assets/Images/info_icon.png")" border="0" alt="Page information" /></a>
-	</div>
-	<br style="clear:both" />
-
-	<div id="pageinformation">
-		<h3>@Model.Title</h3>
-
-		<div class="tags">
-			@Html.TagBlocks(Model.Tags)
-		</div>
-		<br class="clear" />
-
-		<div class="left">
-			<b>@SiteStrings.Page_Info_CreatedOn</b><br />
-			@Model.CreatedOn<br /><br />
-
-			<b>@SiteStrings.Page_Info_CreatedBy</b><br />
-			@Model.CreatedBy
-		</div>
-
-		<div class="right">
-			<b>@SiteStrings.Page_Info_ModifiedOn</b><br />
-			@Model.ModifiedOn<br /><br />
-
-			<b>@SiteStrings.Page_Info_ModifiedBy</b><br />
-			@Model.ModifiedBy
-		</div>
-	</div> 
-	}
 </div>
+
+<div id="pageinformation">
+	<h4>@Model.Title</h4>
+
+	<div class="tags">
+		@Html.TagBlocks(Model.Tags)
+	</div>
+	<br class="clear" />
+
+	<div class="left">
+		<b>@SiteStrings.Page_Info_CreatedOn</b><br />
+		@Model.CreatedOn<br /><br />
+
+		<b>@SiteStrings.Page_Info_CreatedBy</b><br />
+		@Model.CreatedBy
+	</div>
+
+	<div class="right">
+		<b>@SiteStrings.Page_Info_ModifiedOn</b><br />
+		@Model.ModifiedOn<br /><br />
+
+		<b>@SiteStrings.Page_Info_ModifiedBy</b><br />
+		@Model.ModifiedBy
+	</div>
+</div> 
+}
 }

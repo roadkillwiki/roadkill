@@ -20,7 +20,7 @@ namespace Roadkill.Tests.Integration.Plasma
 	/// Performs basic tests for correct HTML from the site.
 	/// </summary>
 	[TestFixture]
-	[Explicit]
+	//[Explicit]
 	[Category("Integration")]
 	public class PageTests : PlasmaTestBase
 	{

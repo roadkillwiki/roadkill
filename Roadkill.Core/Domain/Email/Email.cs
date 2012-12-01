@@ -61,8 +61,9 @@ namespace Roadkill.Core
 			UserSummary = summary;
 			PlainTextView = plainTextView;
 			HtmlView = htmlView;
-			ReplaceTokens(summary);
 			Config = config;
+
+			ReplaceTokens(summary);	
 		}
 
 		/// <summary>

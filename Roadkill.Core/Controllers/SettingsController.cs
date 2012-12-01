@@ -257,7 +257,7 @@ namespace Roadkill.Core.Controllers
 
 						filePath = Path.Combine(exportFolder, filePath);
 						filePath += ".wiki";
-						string content = "Tags:" + summary.Tags.SpaceDelimitTags() + "\r\n" + summary.Content;
+						string content = "Tags:" + summary.SpaceDelimitedTags() + "\r\n" + summary.Content;
 
 						System.IO.File.WriteAllText(filePath, content);
 						zip.AddFile(filePath, "");

@@ -26,26 +26,21 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <param name="content">The tags in ";" delimited format.</param>
 		/// <returns>A HTML tag cloud.</returns>
-		public static MvcHtmlString TagBlocks(this HtmlHelper helper, string content)
+		public static MvcHtmlString TagBlocks(this HtmlHelper helper, IEnumerable<string> tags)
 		{
 			string result = "";
 
-			if (!string.IsNullOrWhiteSpace(content))
+			StringBuilder builder = new StringBuilder();
+			foreach (string item in tags)
 			{
-				string[] parts = content.Split(';');
-
-				StringBuilder builder = new StringBuilder();
-				foreach (string item in parts)
+				if (!string.IsNullOrWhiteSpace(item))
 				{
-					if (!string.IsNullOrWhiteSpace(item))
-					{
-						string url = helper.ActionLink(item, "Tag", "Pages", new { id = item },null).ToString();
-						builder.AppendFormat("<span class=\"tagblock\">{0}</span>", url);
-					}
+					string url = helper.ActionLink(item, "Tag", "Pages", new { id = item },null).ToString();
+					builder.AppendFormat("<span class=\"tagblock\">{0}</span>", url);
 				}
-
-				result = builder.ToString();
 			}
+
+			result = builder.ToString();
 
 			return MvcHtmlString.Create(result);
 		}

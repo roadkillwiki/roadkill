@@ -1,6 +1,4 @@
-﻿@import url("jquery.ui.autocomplete.custom.css");	/* used for tagit */
-@import url("jquery.tagit.css");					/* used for tagit */
-@import url("htmldiff.css");						/* used for version history diffs*/
+﻿@import url("htmldiff.css");						/* used for version history diffs*/
 @import url("jquery.fancybox.css");					/* universal modals */
 
 /* General classes */
@@ -10,49 +8,36 @@
 .bold			{ font-weight:bold; }
 .blueborder		{ border:1px solid #032451; }
 .borderbottom	{ border-bottom:1px solid #032451; }
-.boringbutton	{ height:23px; min-width:75px; }
-.button			{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;cursor:pointer;min-width:100px;font-size: 14px;font-weight: normal;padding:8px 20px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px; }
-.button:focus	{ border:2px solid #99b3d4;}
 .clear			{ clear:both; }
 .center			{ display:block;margin-left:auto; margin-right:auto; }
 .dimmed			{ opacity:0.5; }
-.green			{ color:Green; }
 .hidden			{ display:none; }
 .italic			{ font-style:italic; }
 .left			{ float:left; }
 .lightborder	{ border:1px solid #e3e2e2; }
-.linkbutton		{ border:1px solid #d3d2d2;padding:3px;font-size:0.8em; }
-.linkbutton	a	{ color:black;text-decoration:none; }
+.longtextbox	{ width: 60%; }
 .midpadded		{ padding:5px; }
-.normal			{ font-size:1em; }
 .missing-page-link	{ color:#BA0000; }
 .padded			{ padding:10px; }
 .right			{ float:right; }
-.rounded		{ -moz-border-radius:2px;border-radius:2px; }
-.rounded5		{ -moz-border-radius:5px;border-radius:5px; }
-.rounded10		{ -moz-border-radius:10px;border-radius:10px; }
+.rounded		{ border-radius:2px; }
+.rounded5		{ border-radius:5px; }
+.rounded10		{ border-radius:10px; }
 .small			{ font-size:0.9em; }
 .smaller		{ font-size:0.8em; }
 .smallest		{ font-size:0.7em; }
-.smallerbutton	{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;cursor:pointer;font-size:0.9em;width:75px;padding:3px 10px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px; }
-.smallestbutton	{ background:#032451;border:1px solid #000;color:#FFF;font-weight:bold;font-size:0.8em; }
 
-/* Toolbar for logged in users */
-#toolbar			{ margin:5px 0px 0px 5px;padding:2px; }
-#editbutton			{ float:left; }
-#newpage			{ float:left; }
-#pagehistory-button	{ float:left;margin-left:5px; }
-#pageinfo-button	{ float:left;margin:4px 0px 0px 5px; }
+/* Page info dialog from the toolbar */
 #pageinformation	{ display:none;color:#FFF;min-width:400px;width:400px; } /* width is explicit for an IE7 bug */
-#pageinformation h3 { border-bottom:1px solid #EEE;margin:0px; }
+#pageinformation h4 { border-bottom:1px solid #EEE;margin:0px; }
 #pageinformation .tags		{ padding:4px;margin-top:10px; }
 #pageinformation .tagblock	{ border:1px solid #656464;background-color:#212121;color:#b8b7b7;margin-right:3px;padding:3px; }
 
 /* Login,profile,reset password pages */
-#profile		{ background-color:#EFEFEF;width:35em;padding:1em; }
-#login			{ background-color:#EFEFEF;width:25em;padding:1em; }
-#resetpassword	{ background-color:#EFEFEF;width:30em;padding:1em; }
-.userlabel		{ float:left;margin:0 5px 0 0;padding:5px 0 0 0;font-weight:bold; }
+#profile		{ background-color:#fbfafa;width:35em;padding:1em; }
+#login			{ background-color:#fbfafa;width:25em;padding:1em; }
+#resetpassword	{ background-color:#fbfafa;width:30em;padding:1em; }
+.userlabel		{ float:left;margin:0 5px 0 0;padding:5px 0 0 0; }
 .usertextbox	{ float:right;width:15em;display:block; padding:0.25em; margin:0 0 10px 0;color:#3A3A3A; }
 #userbutton		{ float:right; }
 
@@ -64,7 +49,13 @@
 .searchresult-tags span	{ margin-left:5px; }
 .searchresult-tags span a	{ color:#4e6fa3 !important;text-decoration:none; }
 .searchresult-tags span a:hover	{ color:#000 !important;text-decoration:underline; }
-.searchbox				{ width:20em; }
+.searchbox				{ width:20em; margin-right:10px; }
+
+/* History table */
+#historytable .version	{ width:10%; }
+#historytable .editedon	{ width:20%; }
+#historytable .editedby	{ width:60%; }
+#historytable .revert	{ text-align:right; }
 
 /* All tags(categories) page */
 #tagcloud		{ margin:0px;padding:2px;line-height:3em;border:1px solid #e3e2e2;padding:10px; }
@@ -78,31 +69,25 @@
 .tagcloud4		{ font-size:1.5em; }
 .tagcloud5		{ font-size:2em; }
 
-/* Tables */
-#pagecontent table,#pagecontent tr,#pagecontent td { border: 1px solid black;padding:2px; }
+/* Table of contents {TOC} */
+.toc			{ border:1px solid #AAA; background-color:#F9F9F9; padding:5px 0px;display:table;margin-bottom:15px; }
+.toc-title		{ font-weight:bold;text-align:center;min-width:100px; }
+.toc-showhide	{ font-weight:normal;font-size:0.8em; }
+.toc ul			{ list-style-type:none;padding:2px 5px;margin: 0px 0px 0px 2em;line-height:1.5em; }
+.toc-list>ul	{ margin:0px; }
+
+/* Left side menu */
+ul.mainmenu		 { list-style-type:none; padding-left:0px; }
+ul.mainmenu li	 { float:left;padding-right:15px; }
+ul.mainmenu li a { font-weight:bold; }
+ul.mainmenu li a:hover { text-decoration:underline; }
+
+/* Wiki page tables */
+#pagecontent table,
+	#pagecontent tr,
+	#pagecontent td { border: 1px solid black;padding:2px; }
 #userpagetable	{ border:1px solid #d3d2d2;background-color:#f1f0f0; }
-
-/* All pages */
-#allpagestable tr		{ padding:5px; }
-#allpagestable .title	{ min-width:350px; }
-#allpagestable .edit	{ width:50px; }
-#allpagestable .delete	{ width:50px; }
-
-/* Used in tags and all pages */
-#pagestable			{ border:1px solid #d3d2d2;background-color:#f1f0f0; }
-#pagestable tr		{ padding:5px; }
-#pagestable .title	{ min-width:350px; }
-#pagestable .edit	{ width:50px; }
-#pagestable .delete	{ width:50px; }
-
-/* Page history */
-#historytable			{ border:1px solid #d3d2d2;background-color:#f1f0f0; }
-#historytable thead tr td { font-weight:bold; }
-#historytable tr		{ padding:5px; }
-#historytable .version	{ width:100px; }
-#historytable .editedon	{ min-width:200px; }
-#historytable .editedby	{ width:150px; }
-#historytable .revert	{ width:100px; }
+.table .stretch	{ width:99%; }
 
 /* Edit page [editors] */
 #previewLoading		{ display:none; }
@@ -110,17 +95,15 @@
 #previewContainer #title { background-color:#444;color:#FFF;font-weight:bold;font-size:1.2em;padding:5px; }
 #preview			{ padding:10px;border:1px solid #d3d2d2;height:400px;overflow:scroll;color:#000; }
 .jqConfirm			{ font-weight:bold !important; }
+#wysiwyg-toolbar	{ padding-bottom: 5px; }
 
-#edit				{ width:700px; }
-#edit label			{ float:left;width:50px;padding:5px 5px 0 0;font-weight:bold; }
-#edit .title input	{ border:1px solid #032451;height:30px;width:555px;padding-left:5px; }
-#edit .lockpage		{ margin-left:50px; }
-#edit .tagit		{ border:1px solid #032451;height:30px;width:550px;font-family:Arial; }
-.edittextarea		{ width:100%;height:300px;border:1px solid #032451; }
-.buttonContainer	{ float:right;padding-top:10px;text-align:right; }
-
-.validation-summary-errors { border:1px solid #ffdd00;color:#000;background-color:#fbfcdd;padding:10px;font-size:1em;margin-bottom:10px;max-width:500px;border-radius:5px; }
-.validation-summary-errors span {font-weight:bold; }
+#editpage					{ width:700px; }
+#editpage label				{ float:left;width:50px;padding:5px 5px 0 0;font-weight:bold; }
+#editpage .lockpage			{ margin-left:50px; }
+#editpage .lockpage input	{ margin-top:0px; }
+#TagsEntry					{ width:100px; }
+#editpage textarea			{ width:100%;height:300px; }
+#editpage .buttonContainer	{ float:right;padding-top:10px;text-align:right; }
 
 /* Help iFrame for edit page [editors] */
 #help-iframe	{ width:520px;height:300px; }
@@ -130,53 +113,16 @@
 
 /* File manager [editors] */
 #files-container	{ background-color:#FFF;min-height:400px; }
-.selectedfolder		{ background-color:#e3e2e2; }
+.selectedfolder		{ background-color:#e3e2e2;padding:5px;margin-bottom:5px; }
 #filetree-container	{ width:500px; }
 #file-preview		{ position:fixed;margin-left:5px;width:90px;bottom:0px;right:0px; }
 #file-preview img	{ max-height:50px;max-width:50px; }
 
-/* Settings page [admins] */
-#settings			{ width:700px;padding:10px; }
-#settings label		{ float:left;min-width:300px;line-height:25px;font-size:1em;font-weight:bold; }
-#settings .row		{ height:35px; }
-#settings .checkbox { margin-top:3px; }
-#settings .help		{ margin-left:5px;}
-#settings .checkbox input		{ margin:0px; }
-#settings .textbox input		{ float:left; border:1px solid #AAA;height:20px;width:350px;font-size:1em;border-radius:5px;padding:5px; }
-#settings .smalltextbox input	{ float:left; border:1px solid #AAA;height:20px;width:150px;border-radius:5px;padding:5px; }
-#settings .selectbox select		{ border:1px solid #AAA;height:20px;border-radius:5px;padding:5px;height:30px; }
+/* Tools/config page [admins] */
+#configuration-container legend		{ font-size:2em; font-weight:bold; }
+#configuration-container fieldset	{ padding-bottom:10px; }
+#settings-container p	{ padding-top: 10px; }
 
-.settingstable			{ border:1px solid #d3d2d2;background-color:#f1f0f0; }
-.settingstable tr		{ padding:5px; }
-.settingstable .title	{ width:650px; }
-.settingstable .edit	{ width:50px; }
-.settingstable .delete	{ width:50px; }
-
-#tooltip	{ position: absolute; z-index: 3000; border: 1px solid #111;background-color: #000;color:#DDD; padding: 8px;border-radius:8px; opacity: 0.85; }
-#tooltip h3, #tooltip div { margin: 0; }
-
+/* Users page [admins] */
 #userdialogContainer	{ display:none;color:White;width:360px; }
 #userdialogContainer h2	{ border-bottom:1px solid white !important; }
-#userdialogContainer label	{ float:left;min-width:150px;line-height:25px;font-size:0.8em;font-weight:bold; }
-#userdialogContainer .textbox input	{ width:200px; }
-
-/* CSS styles for replaceable tokens */
-.token-warningbox	{ border:1px solid #FCEFA1;padding:5px;background-color:#FBF9EE;border-radius:4px;width:500px; }
-.token-alertbox		{ border:1px solid #CD0A0A;padding:5px;background-color:#FEF1EC;border-radius:4px;width:500px; }
-
-/* Table of contents {TOC} */
-.toc			{ border:1px solid #AAA; background-color:#F9F9F9; padding:5px 0px;display:table;margin-bottom:15px; }
-.toc-title		{ font-weight:bold;text-align:center;min-width:100px; }
-.toc-showhide	{ font-weight:normal;font-size:0.8em; }
-.toc ul			{ list-style-type:none;padding:2px 5px;margin: 0px 0px 0px 2em;line-height:1.5em; }
-.toc-list>ul	{ margin:0px; }
-
-ul.mainmenu		 { list-style-type:none; padding-left:0px; }
-ul.mainmenu li	 { float:left;padding-right:15px; }
-ul.mainmenu li a { font-weight:bold; }
-ul.mainmenu li a:hover { text-decoration:underline; }
-
-ul.settingsmenu { list-style-type: none;padding-left:0px; }
-ul.settingsmenu li { float:left;padding-right:15px; }
-ul.settingsmenu li a { font-weight:bold; }
-ul.settingsmenu li a:hover { text-decoration:underline; }

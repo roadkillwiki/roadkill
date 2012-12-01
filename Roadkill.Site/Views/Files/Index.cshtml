@@ -6,12 +6,8 @@
 
 @Url.CssLink("jqueryFileTree.css")
 @Url.ScriptLink("jqueryFileTree.js")
-<script type="text/javascript">
-$(document).ready(function ()
-{
-	$.require("roadkill.files.js");
-});
-</script>
+@Url.ScriptLink("roadkill.files.js")
+
 <div id="files-container" class="padded">
 	<a href="javascript:;" id="uploadfile">@SiteStrings.FileExplorer_Upload</a>&nbsp;&nbsp;|&nbsp;&nbsp;
 	<a href="javascript:;" id="newdirectory">@SiteStrings.FileExplorer_NewDirectory</a>
@@ -20,27 +16,27 @@ $(document).ready(function ()
 	<div id="generic-container" class="hidden lightborder rounded5 midpadded"></div>
 
 	<div id="uploadfile-container" class="hidden">
-	<div class="selectedfolder"></div>
+	<div class="selectedfolder">Adding to folder: /</div>
 	@using (Html.BeginForm("UploadFile", "Files", FormMethod.Post, new { enctype = "multipart/form-data" }))
 	{
 		@Html.Hidden("currentUploadFolderPath")
 		<input type="file" id="uploadFile" name="uploadFile"/>
-		<input type="submit" value="@SiteStrings.FileExplorer_Button_Upload" class="smallerbutton"/>
+		<input type="submit" value="@SiteStrings.FileExplorer_Button_Upload" class="btn btn-primary"/>
 	}
 	</div>
 
 	<div id="newfolder-container" class="hidden">
-	<div class="selectedfolder"></div>
+	<div class="selectedfolder">Adding to folder: /</div>
 	@using (Html.BeginForm("NewFolder", "Files"))
 	{
 		@Html.Hidden("currentFolderPath")
 		<span>@SiteStrings.FileExplorer_FolderName</span>
 		@Html.TextBox("newFolderName")
-		<input type="submit" value="@SiteStrings.FileExplorer_Button_Create" class="smallerbutton"/>
+		<input type="submit" value="@SiteStrings.FileExplorer_Button_Create" class="btn btn-primary"/>
 	}
 	</div>
 
-	<h2>@SiteStrings.FileExplorer_ChooseFile</h2>
+	<h1>@SiteStrings.FileExplorer_ChooseFile</h1>
 	@if (@TempData["Error"] != null)
 	{
 	<span class="validation-summary-errors">@TempData["Error"]</span>
@@ -52,7 +48,7 @@ $(document).ready(function ()
 			<div id="file-preview" class="hidden lightborder padded">
 				<span id="previewname" class="smallest"></span><br />
 				<img id="previewimage" src="" alt="preview" />
-				<input id="choosebutton" type="button" value="@SiteStrings.FileExplorer_Button_Select" class="smallestbutton" />
+				<input id="choosebutton" type="button" value="@SiteStrings.FileExplorer_Button_Select" class="btn btn-primary btn-mini" />
 			</div>
 			<br class="clear" />
 		</div>

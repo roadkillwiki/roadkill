@@ -7,14 +7,18 @@
 
 @if (Model.Count() > 0)
 {
-<table id="pagestable">
+<table class="table table-striped">
 	@foreach (PageSummary summary in Model)
 	{
 		<tr>
-			<td class="title">@Html.ActionLink(summary.Title, "Index", "Wiki", new { id = summary.Id, title = summary.Title.EncodeTitle() }, null)</td>
+			<td class="stretch">@Html.ActionLink(summary.Title, "Index", "Wiki", new { id = summary.Id, title = summary.Title.EncodeTitle() }, null)</td>
 			@if (RoadkillContext.IsLoggedIn)
 			{
-			<td class="edit">@Html.ActionLink(SiteStrings.Shared_EditLink,"Edit",new { id = summary.Id} )</td>
+			<td class="edit">@Html.ActionLink(SiteStrings.Shared_EditLink,"Edit",new { id = summary.Id}, new {@class = "btn btn-mini btn-primary" } )</td>
+			}
+			else
+			{
+			<td></td>
 			}
 		</tr>
 	}

@@ -15,27 +15,30 @@ namespace Roadkill.Core.Controllers
 	/// </summary>
 	public class HelpController : ControllerBase
 	{
+		private CustomTokenParser _customTokenParser;
+
 		public HelpController(IConfigurationContainer configuration, UserManager userManager, IRoadkillContext context)
 			: base(configuration, userManager, context) 
 		{
+			_customTokenParser = new CustomTokenParser(configuration);
 		}
 
 		[EditorRequired]
 		public ActionResult CreoleReference()
 		{
-			return View(CustomTokenParser.Tokens);
+			return View(_customTokenParser.Tokens);
 		}
 
 		[EditorRequired]
 		public ActionResult MediaWikiReference()
 		{
-			return View(CustomTokenParser.Tokens);
+			return View(_customTokenParser.Tokens);
 		}
 
 		[EditorRequired]
 		public ActionResult MarkdownReference()
 		{
-			return View(CustomTokenParser.Tokens);
+			return View(_customTokenParser.Tokens);
 		}
 	}
 }

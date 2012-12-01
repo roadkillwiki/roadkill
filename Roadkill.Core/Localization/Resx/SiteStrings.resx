@@ -378,6 +378,9 @@
   <data name="AllTags_NoResults" xml:space="preserve">
     <value>No tags found.</value>
   </data>
+  <data name="AllPages_TitleColumnHeading" xml:space="preserve">
+    <value>Title</value>
+  </data>
   <data name="Pages_ForUser" xml:space="preserve">
     <value>All pages created by {0}</value>
   </data>
@@ -489,6 +492,45 @@
   <data name="EditPage_Error" xml:space="preserve">
     <value>Unable to save the page:</value>
   </data>
+  <data name="EditPage_Toolbar_Bold" xml:space="preserve">
+    <value>Insert Bold text markup characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_BulletList" xml:space="preserve">
+    <value>Insert Bullet List markup characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading1" xml:space="preserve">
+    <value>Insert Heading 1 level markup characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading2" xml:space="preserve">
+    <value>Insert Heading 1 level markup characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading3" xml:space="preserve">
+    <value>Insert Heading 1 level markup characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading4" xml:space="preserve">
+    <value>Insert Heading 4 level markup characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading5" xml:space="preserve">
+    <value>Insert Heading 5 level markup characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_Help" xml:space="preserve">
+    <value>View Help reference for the markup syntax.</value>
+  </data>
+  <data name="EditPage_Toolbar_Image" xml:space="preserve">
+    <value>Insert Image markup characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_Italic" xml:space="preserve">
+    <value>Insert Italic markup characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_Link" xml:space="preserve">
+    <value>Insert URL Link markup characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_NumberList" xml:space="preserve">
+    <value>Insert Numbered List markup characters.</value>
+  </data>
+  <data name="EditPage_Toolbar_Underline" xml:space="preserve">
+    <value>Insert Underline markup characters.</value>
+  </data>
   <data name="SiteSettings_Configuration" xml:space="preserve">
     <value>Configuration</value>
   </data>
@@ -501,77 +543,80 @@
   <data name="SiteSettings_Configuration_Title" xml:space="preserve">
     <value>Site Settings</value>
   </data>
+  <data name="SiteSettings_Configuration_Site" xml:space="preserve">
+    <value>Site</value>
+  </data>
   <data name="SiteSettings_Configuration_SiteName" xml:space="preserve">
-    <value>Site name:</value>
+    <value>Site name</value>
   </data>
   <data name="SiteSettings_Configuration_SiteUrl" xml:space="preserve">
-    <value>Site url:</value>
+    <value>Site url</value>
   </data>
-  <data name="SiteSettings_Configuration_ConnectionStrings" xml:space="preserve">
-    <value>Connection strings</value>
+  <data name="SiteSettings_Configuration_Database" xml:space="preserve">
+    <value>Database</value>
   </data>
   <data name="SiteSettings_Configuration_DatabaseType" xml:space="preserve">
-    <value>Database type:</value>
+    <value>Database type</value>
   </data>
   <data name="SiteSettings_Configuration_DatabaseConnectionString" xml:space="preserve">
-    <value>Database connection string:</value>
+    <value>Database connection string</value>
   </data>
   <data name="SiteSettings_Configuration_Security" xml:space="preserve">
     <value>Security</value>
   </data>
   <data name="SiteSettings_Configuration_UseWindowsAuth" xml:space="preserve">
-    <value>Use Windows Authentication:</value>
+    <value>Use Windows Authentication</value>
   </data>
   <data name="SiteSettings_Configuration_AllowUserSignups" xml:space="preserve">
-    <value>Allow user signups:</value>
+    <value>Allow user signups</value>
   </data>
   <data name="SiteSettings_Configuration_EnableRecaptcha" xml:space="preserve">
-    <value>Enable recaptcha:</value>
+    <value>Enable recaptcha</value>
   </data>
   <data name="SiteSettings_Configuration_RecaptchaPrivateKey" xml:space="preserve">
-    <value>Recaptcha private key:</value>
+    <value>Recaptcha private key</value>
   </data>
   <data name="SiteSettings_Configuration_RecaptchaPublicKey" xml:space="preserve">
-    <value>Recaptcha public key:</value>
+    <value>Recaptcha public key</value>
   </data>
   <data name="SiteSettings_Configuration_AD_Connection" xml:space="preserve">
-    <value>Authentication/LDAP connection string:</value>
+    <value>Authentication/LDAP connection string</value>
   </data>
   <data name="SiteSettings_Configuration_AD_Username" xml:space="preserve">
-    <value>LDAP username:</value>
+    <value>LDAP username</value>
   </data>
   <data name="SiteSettings_Configuration_AD_Password" xml:space="preserve">
-    <value>LDAP password:</value>
+    <value>LDAP password</value>
   </data>
   <data name="SiteSettings_Configuration_EditorRole" xml:space="preserve">
-    <value>Editor role/security group name:</value>
+    <value>Editor role/security group name</value>
   </data>
   <data name="SiteSettings_Configuration_AdminRole" xml:space="preserve">
-    <value>Admin role/security group name:</value>
+    <value>Admin role/security group name</value>
   </data>
   <data name="SiteSettings_Configuration_General" xml:space="preserve">
     <value>General</value>
   </data>
   <data name="SiteSettings_Configuration_MarkupType" xml:space="preserve">
-    <value>Markup type:</value>
+    <value>Markup type</value>
   </data>
   <data name="SiteSettings_Configuration_Theme" xml:space="preserve">
-    <value>Theme:</value>
+    <value>Theme</value>
   </data>
   <data name="SiteSettings_Configuration_Attachments" xml:space="preserve">
-    <value>Attachments folder:</value>
+    <value>Attachments folder</value>
   </data>
   <data name="SiteSettings_Configuration_Extensions" xml:space="preserve">
-    <value>Allowed extensions:</value>
+    <value>Allowed extensions</value>
   </data>
   <data name="SiteSettings_Configuration_Caching" xml:space="preserve">
-    <value>Caching:</value>
+    <value>Caching</value>
   </data>
   <data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
-    <value>Cache page text:</value>
+    <value>Cache page text</value>
   </data>
   <data name="SiteSettings_Configuration_Error" xml:space="preserve">
-    <value>Unable to save the settings:</value>
+    <value>Unable to save the settings</value>
   </data>
   <data name="SiteSettings_Configuration_SiteName_Help" xml:space="preserve">
     <value>The name of the site, which is used in certain themes.</value>
@@ -776,44 +821,5 @@
   </data>
   <data name="SiteSettings_Validation_SiteUrlEmpty" xml:space="preserve">
     <value>The site url is empty.</value>
-  </data>
-  <data name="EditPage_Toolbar_Bold" xml:space="preserve">
-    <value>Insert Bold text markdown characters.</value>
-  </data>
-  <data name="EditPage_Toolbar_BulletList" xml:space="preserve">
-    <value>Insert Bullet List markdown characters.</value>
-  </data>
-  <data name="EditPage_Toolbar_Heading1" xml:space="preserve">
-    <value>Insert Heading 1 level markdown characters.</value>
-  </data>
-  <data name="EditPage_Toolbar_Heading2" xml:space="preserve">
-    <value>Insert Heading 1 level markdown characters.</value>
-  </data>
-  <data name="EditPage_Toolbar_Heading3" xml:space="preserve">
-    <value>Insert Heading 1 level markdown characters.</value>
-  </data>
-  <data name="EditPage_Toolbar_Heading4" xml:space="preserve">
-    <value>Insert Heading 4 level markdown characters.</value>
-  </data>
-  <data name="EditPage_Toolbar_Heading5" xml:space="preserve">
-    <value>Insert Heading 5 level markdown characters.</value>
-  </data>
-  <data name="EditPage_Toolbar_Help" xml:space="preserve">
-    <value>View Help reference for the markdown syntax.</value>
-  </data>
-  <data name="EditPage_Toolbar_Image" xml:space="preserve">
-    <value>Insert Image markdown characters.</value>
-  </data>
-  <data name="EditPage_Toolbar_Italic" xml:space="preserve">
-    <value>Insert Italic markdown characters.</value>
-  </data>
-  <data name="EditPage_Toolbar_Link" xml:space="preserve">
-    <value>Insert URL Link markdown characters.</value>
-  </data>
-  <data name="EditPage_Toolbar_NumberList" xml:space="preserve">
-    <value>Insert Numbered List markdown characters.</value>
-  </data>
-  <data name="EditPage_Toolbar_Underline" xml:space="preserve">
-    <value>Insert Underline markdown characters.</value>
   </data>
 </root>

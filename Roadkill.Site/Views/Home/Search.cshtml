@@ -21,8 +21,11 @@ else
 
 @using (Html.BeginForm("Search", "Home", FormMethod.Get))
 {
-	@Html.TextBox("q",null,new { placeholder=SiteStrings.Search_PlaceHolder, @class="searchbox"})
-	<input type="submit" value="@SiteStrings.Button_Search" />
+	<div>
+		<div class="left">@Html.TextBox("q",null,new { placeholder=SiteStrings.Search_PlaceHolder, @class="searchbox"})</div>
+		<div class="left"><input type="submit" class="btn btn-primary" value="@SiteStrings.Button_Search" /></div>
+	</div>
+	<br class="clear" />
 }
 
 @foreach (SearchResult result in Model)
@@ -32,7 +35,7 @@ else
 		<div class="searchresult-summary">@MvcHtmlString.Create(result.ContentSummary)...</div>
 		<div>
 			<div class="searchresult-date left">@Html.FormatFileSize(result.ContentLength) - @result.CreatedOn.ToString("dd MMM yyyy HH:ss")</div>
-			<div class="searchresult-tags left">@Html.TagBlocks(result.Tags.SemiColonDelimitTags())</div>
+			<div class="searchresult-tags left">@Html.TagBlocks(result.TagsAsList())</div>
 		</div>
 	</div>
 	<br class="clear" /><br />

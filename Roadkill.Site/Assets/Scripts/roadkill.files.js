@@ -31,7 +31,8 @@ function initFileManager()
 		script: ROADKILL_FILETREE_URL,
 		onFolderClick: function (path, name)
 		{
-			$(".selectedfolder").html("Adding to folder: " + name);
+			$(".selectedfolder").text("Adding to folder: " + name);
+			$(".selectedfolder").show();
 			$("#currentUploadFolderPath").val(path);
 			$("#currentFolderPath").val(path);
 		}

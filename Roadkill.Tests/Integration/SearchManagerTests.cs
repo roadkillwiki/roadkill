@@ -246,7 +246,7 @@ namespace Roadkill.Tests.Integration
 				Id = id,
 				CreatedBy = createdBy,
 				Title = title,
-				Tags = tags,
+				RawTags = tags,
 				Content = textContent,
 				CreatedOn = createdOn.Value,
 				ModifiedBy = createdBy,

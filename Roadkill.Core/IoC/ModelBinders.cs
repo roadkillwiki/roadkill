@@ -11,7 +11,7 @@ namespace Roadkill.Core
 	{
 		protected override object CreateModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Type modelType)
 		{
-			return base.CreateModel(controllerContext, bindingContext, modelType);
+			return ObjectFactory.GetInstance<UserSummary>();
 		}
 	}
 

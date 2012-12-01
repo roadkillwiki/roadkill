@@ -27,6 +27,7 @@ namespace Roadkill.Core
 			AreaRegistration.RegisterAllAreas();
 			RegisterRoutes(RouteTable.Routes);
 
+			// MVC Object factories for view models that require IOC, and all controllers
 			ModelBinders.Binders.Add(typeof(UserSummary),new UserSummaryModelBinder());
 			ModelBinders.Binders.Add(typeof(SettingsSummary),new SettingsSummaryModelBinder());
 			ControllerBuilder.Current.SetControllerFactory(new StructureMapControllerFactory());

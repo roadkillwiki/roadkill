@@ -181,7 +181,7 @@ namespace Roadkill.Core
 		public abstract string GetLoggedInUserName(HttpContextBase context);
 
 		/// <summary>
-		/// Temporary 'Bastard Injection' for the places (Attributes) that are not constructor injected.
+		/// Temporary 'Bastard Injection' for the places (attributes and tests) that are not constructor injected.
 		/// </summary>
 		internal static UserManager GetInstance()
 		{

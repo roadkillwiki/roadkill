@@ -18,7 +18,7 @@ namespace Roadkill.Core
 		private static Dictionary<Regex,string> _regexReplacements;
 		private static bool _isCached;
 
-		public static IEnumerable<TextToken> Tokens
+		public IEnumerable<TextToken> Tokens
 		{
 			get { return _tokens;  }
 		}

@@ -19,7 +19,7 @@ namespace Roadkill.Core
 	/// <summary>
 	/// Provides a set of tasks for wiki page management.
 	/// </summary>
-	public class PageManager : ServiceBase, IInjectionLaunderer
+	public class PageManager : ServiceBase
 	{
 		private SearchManager _searchManager;
 		private MarkupConverter _markupConverter;
@@ -51,7 +51,7 @@ namespace Roadkill.Core
 
 				Page page = new Page();
 				page.Title = summary.Title;
-				page.Tags = summary.Tags.CleanTags();
+				page.Tags = summary.CommaDelimitedTags();
 				page.CreatedBy = AppendIpForAppHarbor(currentUser);
 				page.CreatedOn = DateTime.Now;
 				page.ModifiedOn = DateTime.Now;
@@ -141,8 +141,7 @@ namespace Roadkill.Core
 				List<TagSummary> tags = new List<TagSummary>();
 				foreach (var item in tagList)
 				{
-					string[] parts = item.Tag.Split(';');
-					foreach (string part in parts)
+					foreach (string part in item.Tag.ParseTags())
 					{
 						if (!string.IsNullOrEmpty(part))
 						{
@@ -321,7 +320,7 @@ namespace Roadkill.Core
 
 				Page page = Repository.Pages.FirstOrDefault(p => p.Id == summary.Id);
 				page.Title = summary.Title;
-				page.Tags = summary.Tags.CleanTags();
+				page.Tags = summary.CommaDelimitedTags();
 				page.ModifiedOn = DateTime.Now;
 				page.ModifiedBy = AppendIpForAppHarbor(currentUser);
 
@@ -369,7 +368,7 @@ namespace Roadkill.Core
 				{
 					_searchManager.Delete(summary);
 
-					summary.Tags = summary.Tags.Replace(oldTagName + ";", newTagName + ";");
+					summary.RawTags = summary.CommaDelimitedTags().Replace(oldTagName + ";", newTagName + ";");
 					UpdatePage(summary);
 				}
 			}

@@ -11,7 +11,7 @@
 	@(Html.HiddenFor<UserSummary, string>(h => h.ExistingUsername))
 	
 	<fieldset id="profile" class="rounded10 lightborder">
-		@Html.ValidationSummary(SiteStrings.Signup_Error_General)
+		@Html.ValidationSummary(SiteStrings.Signup_Error_General, new { @class = "alert alert-block alert-error fade in", data_dismiss = "alert" })
 
 		<label for="NewEmail" class="userlabel">@SiteStrings.Shared_Firstname</label>
 		@(Html.TextBoxFor<UserSummary, string>(t => t.Firstname, new { @class = "usertextbox" }))
@@ -39,6 +39,6 @@
 
 		@Html.RenderCaptcha(Configuration)
 	
-		<input type="submit" id="userbutton" class="button" value="@SiteStrings.Signup_Button" style="width:150px"  /><!-- explicit width for IE7 (ie7js doesn't fix it) -->
+		<input type="submit" id="userbutton" class="btn btn-primary" value="@SiteStrings.Signup_Button" style="width:150px"  /><!-- explicit width for IE7 (ie7js doesn't fix it) -->
 	</fieldset>
 }

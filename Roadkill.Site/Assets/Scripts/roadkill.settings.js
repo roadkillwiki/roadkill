@@ -17,7 +17,7 @@ function bindUserButtons()
 	// Add admin link
 	$("#addadmin").click(function ()
 	{
-		$("#userdialogContainer h2").html(ROADKILL_ADDADMIN_TITLE);
+		$("#userdialogContainer h1").html(ROADKILL_ADDADMIN_TITLE);
 		$("form#userform").attr("action", ROADKILL_ADDADMIN_FORMACTION);
 
 		$("#Id").val("{10000000-0000-0000-0000-000000000000}"); // data annotations workaround
@@ -34,7 +34,7 @@ function bindUserButtons()
 	// Add editor link
 	$("#addeditor").click(function ()
 	{
-		$("#userdialogContainer h2").html(ROADKILL_ADDEDITOR_TITLE);
+		$("#userdialogContainer h1").html(ROADKILL_ADDEDITOR_TITLE);
 		$("form#userform").attr("action", ROADKILL_ADDEDITOR_FORMACTION);
 
 		$("#Id").val("{10000000-0000-0000-0000-000000000000}"); // data annotations workaround
@@ -49,9 +49,9 @@ function bindUserButtons()
 	});
 
 	// Edit link for each user
-	$(".settingstable .edit a").click(function ()
+	$(".edit a").click(function ()
 	{
-		$("#userdialogContainer h2").html(ROADKILL_EDITUSER_TITLE);
+		$("#userdialogContainer h1").html(ROADKILL_EDITUSER_TITLE);
 		$("form#userform").attr("action", ROADKILL_EDITUSER_FORMACTION);
 
 		var anchor = $(this);
@@ -77,17 +77,17 @@ function showUserModal(action)
 	if(action == "addadmin")
 	{
 		$("form#userform").attr("action", ROADKILL_ADDADMIN_FORMACTION);
-		$("#userdialogContainer h2").html(ROADKILL_ADDADMIN_TITLE);
+		$("#userdialogContainer h1").html(ROADKILL_ADDADMIN_TITLE);
 	}
 	else if(action == "addeditor")
 	{
 		$("form#userform").attr("action", ROADKILL_ADDEDITOR_FORMACTION);
-		$("#userdialogContainer h2").html(ROADKILL_ADDEDITOR_TITLE);
+		$("#userdialogContainer h1").html(ROADKILL_ADDEDITOR_TITLE);
 	}
 	else if(action == "edituser")
 	{
 		$("form#userform").attr("action", ROADKILL_EDITUSER_FORMACTION);
-		$("#userdialogContainer h2").html(ROADKILL_EDITUSER_TITLE);
+		$("#userdialogContainer h1").html(ROADKILL_EDITUSER_TITLE);
 	}
 
 	openModal("#userdialogContainer");

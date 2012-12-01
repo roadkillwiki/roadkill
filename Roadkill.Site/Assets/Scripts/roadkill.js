@@ -1,23 +1,16 @@
+/// <reference path="jquery.require.js" />
 /// <reference path="jquery-1.8.0-vsdoc.js" />
 
 /**
 Event bindings and handlers for all pages.
 */
-$(document).ready(function () {
-	// All requires JS files accross the site (logged in or not)
-	$.require("jquery.extensions.min.js");
-	$.require("jquery.form-extensions.min.js");
-	$.require("jquery.ae.image.resize.min.js");
-	$.require("jquery-ui-1.8.core-and-interactions.min.js");
-	$.require("jquery-ui-1.8.autocomplete.min.js");
-	$.require("jquery.timeago.js");
-	$.require("jquery.fancybox.pack.js")
-
+$(document).ready(function ()
+{
 	// Friendly times for the history tables
 	$("#historytable .editedon").timeago();
 
 	// Bind the info icon on each page
-	$("#pageinfo-button>a").click(function () {
+	$("#pageinfo-button").click(function () {
 		openModal("#pageinformation");
 	});
 

@@ -64,13 +64,11 @@ namespace Roadkill.Core.Controllers
 		public ActionResult AllTagsAsJson()
 		{
 			IEnumerable<TagSummary> tags = _pageManager.AllTags();
-			List<string> tagsArray = new List<string>();
-			foreach (TagSummary summary in tags)
-			{
-				tagsArray.Add(summary.Name);
-			}
+			var tagsJson = tags.Select(t => new { tag = t.Name });
+			Dictionary<string, object> result = new Dictionary<string, object>();
+			result.Add("tags", tagsJson);
 
-			return Json(tagsArray, JsonRequestBehavior.AllowGet);
+			return Json(result, JsonRequestBehavior.AllowGet);
 		}
 
 		/// <summary>
