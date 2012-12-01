@@ -12,6 +12,8 @@ namespace Roadkill.Core
 	/// </summary>
 	public class PageSummary
 	{
+		private List<string> _tags;
+		private string _rawTags;
 		private string _content;
 
 		/// <summary>
@@ -69,10 +71,30 @@ namespace Roadkill.Core
 		/// The date the page was last modified on.
 		/// </summary>
 		public DateTime ModifiedOn { get; set; }
+		
 		/// <summary>
-		/// These are stored in ";" separated format.
+		/// The tags for the for the page.
 		/// </summary>
-		public string Tags { get; set; }
+		public IEnumerable<string> Tags
+		{
+			get { return _tags; }
+		}
+
+		/// <summary>
+		/// The tags for the for the page.
+		/// </summary>
+		public string RawTags
+		{
+			get 
+			{ 
+				return _rawTags; 
+			}
+			set
+			{
+				_rawTags = value;
+				ParseRawTags();
+			}
+		}
 
 		/// <summary>
 		/// The page title before any update.
@@ -94,5 +116,31 @@ namespace Roadkill.Core
 		/// Whether the page has been locked so that only admins can edit it.
 		/// </summary>
 		public bool IsLocked { get; set; }
+
+		public PageSummary()
+		{
+			_tags = new List<string>();
+		}
+
+		/// <summary>
+		/// Joins the parsed tags with a comma.
+		/// </summary>
+		public string CommaDelimitedTags()
+		{
+			return string.Join(",", _tags);
+		}
+
+		/// <summary>
+		/// Joins the tags with a space.
+		/// </summary>
+		public string SpaceDelimitedTags()
+		{
+			return string.Join(" ", _tags);
+		}
+
+		private void ParseRawTags()
+		{
+			_tags = _rawTags.ParseTags().ToList();
+		}
 	}
 }

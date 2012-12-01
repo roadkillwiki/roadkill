@@ -52,7 +52,7 @@ function initWYSIWYG()
 	});
 	$(".wysiwyg-picture").click(function ()
 	{
-		openIframeModal("<iframe src='" + ROADKILL_FILEMANAGERURL + "' id='filechooser-iframe' width='700' height='400' scrolling='no'></iframe>");
+		openIframeModal("<iframe src='" + ROADKILL_FILEMANAGERURL + "' id='filechooser-iframe' width='700' height='400' scrolling='auto'></iframe>");
 	});
 	$(".wysiwyg-link").click(function ()
 	{
@@ -60,7 +60,7 @@ function initWYSIWYG()
 	});
 	$(".wysiwyg-help").click(function ()
 	{
-		openIframeModal("<iframe src='" + ROADKILL_WIKIMARKUPHELP + "' id='help-iframe' scrolling='no'></iframe>");
+		openIframeModal("<iframe src='" + ROADKILL_WIKIMARKUPHELP + "' id='help-iframe' scrolling='auto'></iframe>");
 	});
 }
 

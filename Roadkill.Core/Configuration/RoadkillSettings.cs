@@ -88,7 +88,7 @@ namespace Roadkill.Core.Configuration
 		}
 
 		/// <summary>
-		/// Used for Fluent NHibernate's class mappings, and temporary solution for MVC attributes.
+		/// Used for Fluent NHibernate's class mappings, and the file handler http handler.
 		/// </summary>
 		/// <returns></returns>
 		internal static IConfigurationContainer GetInstance()

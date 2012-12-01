@@ -61,79 +61,39 @@ namespace Roadkill.Core
 				return Encoding.Default.GetString(Convert.FromBase64String(base64Text));
 		}
 
+
 		/// <summary>
-		/// Removes any blank tags (";") from the string, and replaces spaces with "-"
+		/// Takes a string of tags: "tagone,tagtwo,tag3 " and returns a list.
 		/// </summary>
 		/// <param name="tags"></param>
 		/// <returns></returns>
-		public static string CleanTags(this string tags)
+		public static IEnumerable<string> ParseTags(this string tags)
 		{
+			List<string> tagList = new List<string>();
+			char delimiter = ',';
+
 			if (!string.IsNullOrEmpty(tags))
 			{
-				// Remove any tags that are just ";"
-				string[] parts = tags.Split(';');
-				List<string> results = new List<string>();
-				foreach (string item in parts)
+				// For the legacy tag seperatir format
+				if (tags.IndexOf(";") != -1)
+					delimiter = ';';
+
+				if (tags.IndexOf(delimiter) != -1)
 				{
-					if (item != ";")
-						results.Add(item);
+					string[] parts = tags.Split(delimiter);
+					foreach (string item in parts)
+					{
+						if (item != ",")
+							tagList.Add(item);
+					}
 				}
-
-				tags = string.Join(";",results);
-
-				return tags.Replace(" ", "-");
-			}
-			else
-			{
-				if (tags != null)
-					return tags.TrimEnd();
 				else
-					return "";
-			}
-		}
-
-		/// <summary>
-		/// Takes a string of tags: "tagone;tagtwo;tag3;" and returns "tagone tagtwo tag3"
-		/// </summary>
-		/// <param name="helper"></param>
-		/// <param name="tags"></param>
-		/// <returns></returns>
-		public static string SpaceDelimitTags(this string tags)
-		{
-			if (string.IsNullOrEmpty(tags))
-				return "";
-
-			string result = "";
-
-			if (!string.IsNullOrWhiteSpace(tags))
-			{
-				string[] parts = tags.Split(';');
-				result = string.Join(" ", parts);
+				{
+					tagList.Add(tags.TrimEnd());
+				}
 			}
 
-			return result;
-		}
-
-		/// <summary>
-		/// Takes a string of tags: "tagone tagtwo tag3 " and returns "tagone;tagtwo;tag3"
-		/// </summary>
-		/// <param name="helper"></param>
-		/// <param name="tags"></param>
-		/// <returns></returns>
-		public static string SemiColonDelimitTags(this string tags)
-		{
-			if (string.IsNullOrEmpty(tags))
-				return "";
-
-			string result = "";
-
-			if (!string.IsNullOrWhiteSpace(tags))
-			{
-				string[] parts = tags.Split(' ');
-				result = string.Join(";", parts);
-			}
-
-			return result;
+			return tagList;
 		}
 	}
 }

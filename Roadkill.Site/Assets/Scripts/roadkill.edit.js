@@ -1,20 +1,11 @@
 ﻿/// <reference path="jquery-1.8.0-vsdoc.js" />
-
-var _tags;
-var _loadTagsTimer;
+/// <reference path="..\bootstrap\js\bootstrap.js" />
 
 /**
 Event bindings and handlers for the edit page/
 */
 $(document).ready(function ()
 {
-	$.require("tag-it.js");
-	$.require("roadkill.wysiwyg.js");
-
-	// Tag box
-	initTagIt();
-	_loadTagsTimer = setTimeout("loadTags();", 2000);
-
 	// Toolbar
 	initWYSIWYG(); // inside wysiwyg.js
 
@@ -26,29 +17,20 @@ $(document).ready(function ()
 });
 
 /**
-Sets up the tag box with tagit
+Sets up the tags
 */
-function initTagIt()
+function initTagsManager(tags)
 {
-	$("#mytags").tagit({
-		tabIndex : 2,
-		availableTags	: _tags,
-		singleField		: true,
-		singleFieldNode	: $("#Tags"),
-		singleFieldDelimiter: ";"
-	});
-}
-
-/**
-Loads all tags with a JSON AJAX request.
-*/
-function loadTags()
-{
-	$.get(ROADKILL_TAGAJAXURL, function (data)
-	{
-		_tags = eval(data);
-		initTagIt();
-		clearTimeout(_loadTagsTimer);
+	$("#TagsEntry").typeahead({});
+	$("#TagsEntry").tagsManager({
+		prefilled: tags,
+		preventSubmitOnEnter: true,
+		typeahead: true,
+		typeaheadAjaxSource: ROADKILL_TAGAJAXURL,
+		blinkBGColor_1: "#FFFF9C",
+		blinkBGColor_2: "#CDE69C",
+		delimeters: [59, 186, 32],
+		hiddenTagListName: "RawTags"
 	});
 }
 

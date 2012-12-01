@@ -6,25 +6,21 @@
 @Url.CssLink("validationEngine.jquery.css")
 @Url.ScriptLinkForValidationLocalization()
 @Url.ScriptLink("jquery.validationEngine.js")
-@Url.ScriptLink("jquery.tooltip.min.js")
 
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
+		$("input[rel=popover][type!=checkbox]").popover({ placement: "right", trigger: "hover", html: true });
+		$("input[type=checkbox][rel=popover],select[rel=popover]").popover({ placement: "right", trigger: "hover", html: true });
+
 		toggleUserSettings();
+
 		$("form").validationEngine();
 		$("#UseWindowsAuth").click(function ()
-			{
-				toggleUserSettings();
-			});
-		$(".row a").tooltip(
-			{
-				bodyHandler: function ()
-				{
-					return $(this).attr("rel");
-				},
-				showURL: false
-			});
+		{
+			toggleUserSettings();
+		});
+
 
 		$("#testdbconnection").click(function()
 		{
@@ -77,246 +73,103 @@
 		}
 	}
 </script>
+@Html.Partial("SettingsMenu", ViewData)
 
-<h1>@SiteStrings.SiteSettings_Configuration_Title</h1>
-
-@Html.Partial("SettingsMenu")
-
-@Html.ValidationSummary("Unable to save the settings:")
+@Html.ValidationSummary("Unable to save the settings:", new { @class = "alert alert-block alert-error fade in", data_dismiss = "alert" })
 
 @using (Html.BeginForm())
 {
-<div id="settings" class="blueborder rounded5">
-	<div class="row">
+<div id="configuration-container">
+	<fieldset>
+		<legend>@SiteStrings.SiteSettings_Configuration_Site</legend>
 		<label for="SiteName">@SiteStrings.SiteSettings_Configuration_SiteName</label>
-		<div class="left textbox">
-			@(Html.TextBoxFor(s => s.SiteName, new { @class = "validate[required]" }))
-		</div>
-		<div class="help right">
-			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_SiteName_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-		</div>
-		<br class="clear" />
-	</div>
+		@(Html.TextBoxFor(s => s.SiteName, new { @class = "validate[required]", rel="popover", data_content=SiteStrings.SiteSettings_Configuration_SiteName_Help }))
 
-	<div class="row">
 		<label for="SiteUrl">@SiteStrings.SiteSettings_Configuration_SiteUrl</label>
-		<div class="left textbox">
-			@(Html.TextBoxFor(s => s.SiteUrl, new { @class = "validate[required]" }))
-		</div>
-		<div class="help right">
-			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_SiteUrl_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-		</div>
-		<br class="clear" />
-	</div>
+		@(Html.TextBoxFor(s => s.SiteUrl, new { @class = "longtextbox validate[required]", rel="popover", data_content=SiteStrings.SiteSettings_Configuration_SiteUrl_Help }))
+	</fieldset>
 
-	<h2>@SiteStrings.SiteSettings_Configuration_ConnectionStrings</h2>
-	<div class="row">
-		<label for="DatabaseType">@SiteStrings.SiteSettings_Configuration_DatabaseType@Model.DatabaseType</label>
-		<div class="left selectbox">
-			@Html.DropDownListFor(x => x.DatabaseType, new SelectList(Model.DatabaseTypesAvailable, Model.DatabaseType))
-			&nbsp;&nbsp;<input id="testdbconnection" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
-            <span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" alt="loading" /></span>
-		</div>
-		<div class="help right">
-			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_DatabaseType_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-		</div>
-		<br class="clear" />
-	</div>
+	<fieldset>
+		<legend>@SiteStrings.SiteSettings_Configuration_Database</legend>
 
-	<div class="row">
+		<label for="DatabaseType">@SiteStrings.SiteSettings_Configuration_DatabaseType</label>
+		@Html.DropDownListFor(x => x.DatabaseType, new SelectList(Model.DatabaseTypesAvailable, Model.DatabaseType), new { rel = "popover", data_content = SiteStrings.SiteSettings_Configuration_DatabaseType_Help })
+		&nbsp;&nbsp;<input id="testdbconnection" class="btn btn-small" type="button" value="@InstallStrings.Shared_TestButton" />
+		<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" alt="loading" /></span>
+
 		<label for="ConnectionString">@SiteStrings.SiteSettings_Configuration_DatabaseConnectionString</label>
-		<div class="left textbox" >
-			@(Html.TextBoxFor(s => s.ConnectionString, new { @class = "validate[required]" }))
-			
-		</div>
-		<div class="help right">
-			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_DatabaseConnectionString_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-		</div>
-		<br class="clear" />
-	</div>
+		@(Html.TextBoxFor(s => s.ConnectionString, new { @class = "longtextbox validate[required]", rel="popover", data_content=SiteStrings.SiteSettings_Configuration_DatabaseConnectionString_Help }))	
+	</fieldset>
 
-	<h2>@SiteStrings.SiteSettings_Configuration_Security</h2>
-	<div class="row">
-		<label for="UseWindowsAuth">@SiteStrings.SiteSettings_Configuration_UseWindowsAuth</label>
-		<div class="left checkbox">
-			@(Html.CheckBoxFor(s => s.UseWindowsAuth))
-		</div>
-		<div class="help right">
-			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_UseWindowsAuth_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-		</div>
-		<br class="clear" />
-	</div>
+	<fieldset>
+		<legend>@SiteStrings.SiteSettings_Configuration_Security</legend>
 
-	<!-- SQL users -->
-	 <div id="aspnetuser-settings" class="hidden">
-		<div class="row">
-			<label for="AllowUserSignup">@SiteStrings.SiteSettings_Configuration_AllowUserSignups</label>
-			<div class="left checkbox">
-				@(Html.CheckBoxFor(s => s.AllowUserSignup))
-			</div>
-			<div class="help right">
-				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_AllowUserSignups_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-			</div>
-			<br class="clear" />
-		</div>
+		<label for="UseWindowsAuth" class="checkbox">@SiteStrings.SiteSettings_Configuration_UseWindowsAuth
+		@(Html.CheckBoxFor(s => s.UseWindowsAuth, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_UseWindowsAuth_Help }))
+		</label>
 
-		<div class="row">
-			<label for="EnableRecaptcha">@SiteStrings.SiteSettings_Configuration_EnableRecaptcha</label>
-			<div class="left checkbox">
-				@Html.CheckBoxFor(s => s.EnableRecaptcha)
-			</div>
-			<div class="help right">
-				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_EnableRecaptcha_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-			</div>
-			<br class="clear" />
-		</div>
+		<!-- SQL users -->
+		<div id="aspnetuser-settings" class="hidden">
+			<label for="AllowUserSignup" class="checkbox">@SiteStrings.SiteSettings_Configuration_AllowUserSignups
+			@(Html.CheckBoxFor(s => s.AllowUserSignup, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_AllowUserSignups }))
+			</label>
 
-		<div class="row">
+			<label for="EnableRecaptcha" class="checkbox">@SiteStrings.SiteSettings_Configuration_EnableRecaptcha
+			@Html.CheckBoxFor(s => s.EnableRecaptcha, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_EnableRecaptcha_Help })
+			</label>
+
 			<label for="RecaptchaPrivateKey">@SiteStrings.SiteSettings_Configuration_RecaptchaPrivateKey</label>
-			<div class="left textbox">
-				@Html.TextBoxFor(s => s.RecaptchaPrivateKey)
-			</div>
-			<div class="help right">
-				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_RecaptchaPrivateKey_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-			</div>
-			<br class="clear" />
-		</div>
+			@Html.TextBoxFor(s => s.RecaptchaPrivateKey, new { @class="longtextbox", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_RecaptchaPrivateKey_Help })
 
-		<div class="row">
 			<label for="RecaptchaPrivateKey">@SiteStrings.SiteSettings_Configuration_RecaptchaPublicKey</label>
-			<div class="left textbox">
-				@Html.TextBoxFor(s => s.RecaptchaPublicKey)
-			</div>
-			<div class="help right">
-				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_RecaptchaPublicKey_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-			</div>
-			<br class="clear" />
+			@Html.TextBoxFor(s => s.RecaptchaPublicKey, new { @class="longtextbox", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_RecaptchaPublicKey_Help })
 		</div>
-	</div>
 
-	<!-- LDAP users -->
-	<div id="ldapsettings" class="hidden">
-		<div class="row">
+		<!-- LDAP users -->
+		<div id="ldapsettings" class="hidden">
 			<label for="LdapConnectionString">@SiteStrings.SiteSettings_Configuration_AD_Connection</label>
-			<div class="left textbox">
-				@Html.TextBoxFor(s => s.LdapConnectionString, new { @class = "validate[required]" })
-			</div>
-			<div class="help right">
-				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_AD_Connection_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-			</div>
-			<br class="clear" />
-		</div>
-		<div class="row">
+			@Html.TextBoxFor(s => s.LdapConnectionString, new { @class = "longtextbox validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_AD_Connection_Help })
+
 			<label for="LdapUsername">@SiteStrings.SiteSettings_Configuration_AD_Username</label>
-			<div class="left textbox">
-				@Html.TextBoxFor(s => s.LdapUsername)
-			</div>
-			<div class="help right">
-				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_AD_Username_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-			</div>
-			<br class="clear" />
-		</div>
-		<div class="row">
+			@Html.TextBoxFor(s => s.LdapUsername, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_AD_Username_Help })
+
 			<label for="LdapPassword">@SiteStrings.SiteSettings_Configuration_AD_Password</label>
-			<div class="left textbox">
-				@Html.TextBoxFor(s => s.LdapPassword)
-			</div>
-			<div class="help right">
-				<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_AD_Password_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-			</div>
-			<br class="clear" />
+			@Html.TextBoxFor(s => s.LdapPassword, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_AD_Password_Help })
 		</div>
-	</div>
-
-	<div class="row">
+		
 		<label for="EditorRoleName">@SiteStrings.SiteSettings_Configuration_EditorRole</label>
-		<div class="left smalltextbox">
-			@Html.TextBoxFor(s => s.EditorRoleName, new { @class = "validate[required]" })
-		</div>
-		<div class="help right">
-			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_EditorRole_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-		</div>
-		<br class="clear" />
-	</div>
-	<div class="row">
-		<label for="AdminRoleName">@SiteStrings.SiteSettings_Configuration_AdminRole</label>
-		<div class="left smalltextbox">
-			@Html.TextBoxFor(s => s.AdminRoleName)
-		</div>
-		<div class="help right">
-			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_AdminRole_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-		</div>
-		<br class="clear" />
-	</div>
-	
-	<h2>@SiteStrings.SiteSettings_Configuration_General</h2>
-	<div class="row">
-		<label for="MarkupType">@SiteStrings.SiteSettings_Configuration_MarkupType</label>
-		<div class="left selectbox">
-			@Html.DropDownListFor(x => x.MarkupType, new SelectList(Model.MarkupTypesAvailable, Model.MarkupType))
-		</div>
-		<div class="help right">
-			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_MarkupType_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-		</div>
-		<br class="clear" />
-	</div>
-	<div class="row">
-		<label for="Theme">@SiteStrings.SiteSettings_Configuration_Theme</label>
-		<div class="left selectbox">
-			@Html.DropDownListFor(x => x.Theme, new SelectList(Model.ThemesAvailable, Model.Theme))
-		</div>
-		<div class="help right">
-			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_Theme_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-		</div>
-		<br class="clear" />
-	</div>
-	<div class="row">
-		<label for="AttachmentsFolder">@SiteStrings.SiteSettings_Configuration_Attachments</label>
-		<div class="left smalltextbox">
-			@Html.TextBoxFor(s => s.AttachmentsFolder, new { @class = "validate[required]" })
-		</div>
-			&nbsp;&nbsp;<input id="testattachments" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
-		<div class="help right">
-			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_Attachments_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-		</div>
-		<br class="clear" />
-	</div>
-	<div class="row">
-		<label for="AllowedExtensions">@SiteStrings.SiteSettings_Configuration_Extensions</label>
-		<div class="left smalltextbox">
-			@Html.TextBoxFor(s => s.AllowedExtensions, new { @class = "validate[required]" })
-		</div>
-		<div class="help right">
-			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_Extensions_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-		</div>
-		<br class="clear" />
-	</div>
-	<div class="row">
-		<label for="CacheEnabled">@SiteStrings.SiteSettings_Configuration_Caching</label>
-		<div class="left checkbox">
-			@Html.CheckBoxFor(s => s.CacheEnabled)
-		</div>
-		<div class="help right">
-			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_Caching_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-		</div>
-		<br class="clear" />
-	</div>
-	<div class="row">
-		<label for="CacheText">@SiteStrings.SiteSettings_Configuration_CachePageText</label>
-		<div class="left checkbox">
-			@Html.CheckBoxFor(s => s.CacheText)
-		</div>
-		<div class="help right">
-			<a href="javascript:;" rel="@SiteStrings.SiteSettings_Configuration_CachePageText_Help"><img alt="help" border="0" src="@Url.Content("~/Assets/Images/help.png")" /></a>
-		</div>
-		<br class="clear" />
-	</div>
-	
-	<input type="submit" class="right button" value="@SiteStrings.Button_Save" />
-	<br class="clear" />
-</div>
+		@Html.TextBoxFor(s => s.EditorRoleName, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_EditorRole_Help })
 
-<p>
-Roadkill @string.Format(SiteStrings.Version_Title, Model.Version)
-</p>
+		<label for="AdminRoleName">@SiteStrings.SiteSettings_Configuration_AdminRole</label>
+		@Html.TextBoxFor(s => s.AdminRoleName, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_AdminRole_Help })
+	</fieldset>
+	
+	<fieldset>
+		<legend>@SiteStrings.SiteSettings_Configuration_General</legend>
+
+		<label for="MarkupType">@SiteStrings.SiteSettings_Configuration_MarkupType</label>
+		@Html.DropDownListFor(x => x.MarkupType, new SelectList(Model.MarkupTypesAvailable, Model.MarkupType), new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_MarkupType_Help })
+	
+		<label for="Theme">@SiteStrings.SiteSettings_Configuration_Theme</label>
+		@Html.DropDownListFor(x => x.Theme, new SelectList(Model.ThemesAvailable, Model.Theme), new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Theme_Help })
+
+		<label for="AttachmentsFolder">@SiteStrings.SiteSettings_Configuration_Attachments</label>
+		@Html.TextBoxFor(s => s.AttachmentsFolder, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Attachments_Help })
+		&nbsp;&nbsp;<input id="testattachments" class="btn btn-small" type="button" value="@InstallStrings.Shared_TestButton" />
+
+		<label for="AllowedExtensions">@SiteStrings.SiteSettings_Configuration_Extensions</label>
+		@Html.TextBoxFor(s => s.AllowedExtensions, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Extensions_Help })
+
+		<label for="CacheEnabled" class="checkbox">@SiteStrings.SiteSettings_Configuration_Caching
+		@Html.CheckBoxFor(s => s.CacheEnabled, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Caching_Help })
+		</label>
+
+		<label for="CacheText" class="checkbox">@SiteStrings.SiteSettings_Configuration_CachePageText
+		@Html.CheckBoxFor(s => s.CacheText, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_CachePageText_Help })
+		</label>
+	</fieldset>
+	
+	<br />
+	<input type="submit" class="btn btn-primary btn-large" value="@SiteStrings.Button_Save" />
+</div>
 }

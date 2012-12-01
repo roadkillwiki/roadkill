@@ -182,5 +182,17 @@ namespace Roadkill.Core
 
 			return MvcHtmlString.Create("<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content(path) + "\"></script>");
 		}
+
+		/// <summary>
+		/// Provides a Javascript script tag for the Javascript file provided. If the relative path does not begin with ~ then
+		/// the Assets/Scripts folder is assumed.
+		/// </summary>
+		public static MvcHtmlString BootStrap(this UrlHelper helper)
+		{
+			string resources = "<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content("~/Assets/bootstrap/js/bootstrap.min.js") + "\"></script>";
+			resources += "<link href=\"" + helper.Content("~/Assets/bootstrap/css/bootstrap.min.css") + "\" rel=\"stylesheet\" media=\"screen\" />";
+
+			return MvcHtmlString.Create(resources);
+		}
 	}
 }

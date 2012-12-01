@@ -118,702 +118,708 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Activate_Error" xml:space="preserve">
-    <value>[Ŧĥęřę ŵäş ä přőþľęm äčŧįväŧįŉģ yőūř äččőūŉŧ. Ĩŧ mäy ĥävę äľřęäđy þęęŉ äčŧįväŧęđ.]</value>
+    <value>[Ŧĥęřę ŵäş ä přőþľęm äčŧįväŧįŉģ yőūř äččőūŉŧ. Ĩŧ mäy ĥävę äľřęäđy þęęŉ äčŧįväŧęđ. !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Activate_Error_Title" xml:space="preserve">
-    <value>[Åčŧįväŧįőŉ ŵäş ūŉşūččęşşƒūľ]</value>
+    <value>[Åčŧįväŧįőŉ ŵäş ūŉşūččęşşƒūľ !!! !!!]</value>
   </data>
   <data name="Activate_Label" xml:space="preserve">
-    <value>[Ÿőūř äččőūŉŧ ĥäş þęęŉ şūčęşşƒūľľy äčŧįväŧęđ.]</value>
+    <value>[Ÿőūř äččőūŉŧ ĥäş þęęŉ şūčęşşƒūľľy äčŧįväŧęđ. !!! !!!]</value>
   </data>
   <data name="Activate_Link" xml:space="preserve">
-    <value>[Cľįčĸ ĥęřę ŧő ľőģįŉ]</value>
+    <value>[Cľįčĸ ĥęřę ŧő ľőģįŉ !!! !!!]</value>
   </data>
   <data name="Activate_Success_Title" xml:space="preserve">
-    <value>[Åčŧįväŧįőŉ şūččęşşƒūľ]</value>
+    <value>[Åčŧįväŧįőŉ şūččęşşƒūľ !!! !!!]</value>
   </data>
   <data name="Activate_Title" xml:space="preserve">
-    <value>[Åččőūŉŧ Åčŧįväŧįőŉ]</value>
+    <value>[Åččőūŉŧ Åčŧįväŧįőŉ !!! !!!]</value>
   </data>
   <data name="AllPages_NoPages" xml:space="preserve">
-    <value>[Ńő päģęş ƒőūŉđ.]</value>
+    <value>[Ńő päģęş ƒőūŉđ. !!! !!!]</value>
   </data>
   <data name="AllPages_Title" xml:space="preserve">
-    <value>[Åľľ Päģęş]</value>
+    <value>[Åľľ Päģęş !!! !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="AllPages_TitleColumnHeading" xml:space="preserve">
+    <value>[Ŧįŧľę !!! !!! !!! !!!]</value>
   </data>
   <data name="AllTags_NoResults" xml:space="preserve">
-    <value>[Ńő ŧäģş ƒőūŉđ.]</value>
+    <value>[Ńő ŧäģş ƒőūŉđ. !!! !!!]</value>
   </data>
   <data name="AllTags_Title" xml:space="preserve">
-    <value>[Åľľ Ŧäģş]</value>
+    <value>[Åľľ Ŧäģş !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Button_Cancel" xml:space="preserve">
-    <value>[Cäŉčęľ]</value>
+    <value>[Cäŉčęľ !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Button_Import" xml:space="preserve">
-    <value>[Ĩmpőřŧ]</value>
+    <value>[Ĩmpőřŧ !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Button_Login" xml:space="preserve">
-    <value>[Ŀőģįŉ]</value>
+    <value>[Ŀőģįŉ !!! !!! !!! !!!]</value>
   </data>
   <data name="Button_Preview" xml:space="preserve">
-    <value>[Přęvįęŵ]</value>
+    <value>[Přęvįęŵ !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Button_Rename" xml:space="preserve">
-    <value>[Ŗęŉämę]</value>
+    <value>[Ŗęŉämę !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Button_Save" xml:space="preserve">
-    <value>[Ŝävę]</value>
+    <value>[Ŝävę !!! !!! !!!]</value>
   </data>
   <data name="Button_Search" xml:space="preserve">
-    <value>[Ŝęäřčĥ]</value>
+    <value>[Ŝęäřčĥ !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Button_Upload" xml:space="preserve">
-    <value>[Ůpľőäđ]</value>
+    <value>[Ůpľőäđ !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="EditPage_AdminOnly" xml:space="preserve">
-    <value>[Ŧĥįş päģę čäŉ őŉľy þę ęđįŧęđ þy äđmįŉįşŧřäŧőřş.]</value>
+    <value>[Ŧĥįş päģę čäŉ őŉľy þę ęđįŧęđ þy äđmįŉįşŧřäŧőřş. !!! !!! !!!]</value>
   </data>
   <data name="EditPage_Error" xml:space="preserve">
-    <value>[Ůŉäþľę ŧő şävę ŧĥę päģę:]</value>
+    <value>[Ůŉäþľę ŧő şävę ŧĥę päģę: !!! !!!]</value>
   </data>
   <data name="EditPage_Image_Title" xml:space="preserve">
-    <value>[Ĩmäģę ŧįŧľę]</value>
+    <value>[Ĩmäģę ŧįŧľę !!! !!!]</value>
   </data>
   <data name="EditPage_LinkText_PlaceHolder" xml:space="preserve">
-    <value>[Ŀįŉĸ ŧęχŧ]</value>
+    <value>[Ŀįŉĸ ŧęχŧ !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="EditPage_LinkUrl_PlaceHolder" xml:space="preserve">
-    <value>[ęŉŧęř ūřľ őř päģę ŉämę]</value>
+    <value>[ęŉŧęř ūřľ őř päģę ŉämę !!! !!!]</value>
   </data>
   <data name="EditPage_Preview" xml:space="preserve">
-    <value>[Přęvįęŵ]</value>
+    <value>[Přęvįęŵ !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="EditPage_Tags_Label" xml:space="preserve">
-    <value>[Ŧäģş]</value>
+    <value>[Ŧäģş !!! !!! !!!]</value>
   </data>
   <data name="EditPage_Title" xml:space="preserve">
-    <value>[Åđđ/ęđįŧ päģę]</value>
+    <value>[Åđđ/ęđįŧ päģę !!! !!!]</value>
   </data>
   <data name="EditPage_Title_Label" xml:space="preserve">
-    <value>[Ŧįŧľę]</value>
+    <value>[Ŧįŧľę !!! !!! !!! !!!]</value>
   </data>
   <data name="EditPage_Toolbar_Bold" xml:space="preserve">
-    <value>[Ĩŉşęřŧ ßőľđ ŧęχŧ mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+    <value>[Ĩŉşęřŧ ßőľđ ŧęχŧ mäřĸūp čĥäřäčŧęřş. !!! !!!]</value>
   </data>
   <data name="EditPage_Toolbar_BulletList" xml:space="preserve">
-    <value>[Ĩŉşęřŧ ßūľľęŧ Ŀįşŧ mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+    <value>[Ĩŉşęřŧ ßūľľęŧ Ŀįşŧ mäřĸūp čĥäřäčŧęřş. !!! !!!]</value>
   </data>
   <data name="EditPage_Toolbar_Heading1" xml:space="preserve">
-    <value>[Ĩŉşęřŧ Ħęäđįŉģ 1 ľęvęľ mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+    <value>[Ĩŉşęřŧ Ħęäđįŉģ 1 ľęvęľ mäřĸūp čĥäřäčŧęřş. !!! !!!]</value>
   </data>
   <data name="EditPage_Toolbar_Heading2" xml:space="preserve">
-    <value>[Ĩŉşęřŧ Ħęäđįŉģ 1 ľęvęľ mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+    <value>[Ĩŉşęřŧ Ħęäđįŉģ 1 ľęvęľ mäřĸūp čĥäřäčŧęřş. !!! !!!]</value>
   </data>
   <data name="EditPage_Toolbar_Heading3" xml:space="preserve">
-    <value>[Ĩŉşęřŧ Ħęäđįŉģ 1 ľęvęľ mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+    <value>[Ĩŉşęřŧ Ħęäđįŉģ 1 ľęvęľ mäřĸūp čĥäřäčŧęřş. !!! !!!]</value>
   </data>
   <data name="EditPage_Toolbar_Heading4" xml:space="preserve">
-    <value>[Ĩŉşęřŧ Ħęäđįŉģ 4 ľęvęľ mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+    <value>[Ĩŉşęřŧ Ħęäđįŉģ 4 ľęvęľ mäřĸūp čĥäřäčŧęřş. !!! !!!]</value>
   </data>
   <data name="EditPage_Toolbar_Heading5" xml:space="preserve">
-    <value>[Ĩŉşęřŧ Ħęäđįŉģ 5 ľęvęľ mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+    <value>[Ĩŉşęřŧ Ħęäđįŉģ 5 ľęvęľ mäřĸūp čĥäřäčŧęřş. !!! !!!]</value>
   </data>
   <data name="EditPage_Toolbar_Help" xml:space="preserve">
-    <value>[Vįęŵ Ħęľp řęƒęřęŉčę ƒőř ŧĥę mäřĸđőŵŉ şyŉŧäχ.]</value>
+    <value>[Vįęŵ Ħęľp řęƒęřęŉčę ƒőř ŧĥę mäřĸūp şyŉŧäχ. !!! !!!]</value>
   </data>
   <data name="EditPage_Toolbar_Image" xml:space="preserve">
-    <value>[Ĩŉşęřŧ Ĩmäģę mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+    <value>[Ĩŉşęřŧ Ĩmäģę mäřĸūp čĥäřäčŧęřş. !!! !!!]</value>
   </data>
   <data name="EditPage_Toolbar_Italic" xml:space="preserve">
-    <value>[Ĩŉşęřŧ Ĩŧäľįč mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+    <value>[Ĩŉşęřŧ Ĩŧäľįč mäřĸūp čĥäřäčŧęřş. !!! !!!]</value>
   </data>
   <data name="EditPage_Toolbar_Link" xml:space="preserve">
-    <value>[Ĩŉşęřŧ ŮŖĿ Ŀįŉĸ mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+    <value>[Ĩŉşęřŧ ŮŖĿ Ŀįŉĸ mäřĸūp čĥäřäčŧęřş. !!! !!!]</value>
   </data>
   <data name="EditPage_Toolbar_NumberList" xml:space="preserve">
-    <value>[Ĩŉşęřŧ Ńūmþęřęđ Ŀįşŧ mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+    <value>[Ĩŉşęřŧ Ńūmþęřęđ Ŀįşŧ mäřĸūp čĥäřäčŧęřş. !!! !!!]</value>
   </data>
   <data name="EditPage_Toolbar_Underline" xml:space="preserve">
-    <value>[Ĩŉşęřŧ Ůŉđęřľįŉę mäřĸđőŵŉ čĥäřäčŧęřş.]</value>
+    <value>[Ĩŉşęřŧ Ůŉđęřľįŉę mäřĸūp čĥäřäčŧęřş. !!! !!!]</value>
   </data>
   <data name="FileExplorer_Button_Create" xml:space="preserve">
-    <value>[Cřęäŧę]</value>
+    <value>[Cřęäŧę !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="FileExplorer_Button_Select" xml:space="preserve">
-    <value>[şęľęčŧ]</value>
+    <value>[şęľęčŧ !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="FileExplorer_Button_Upload" xml:space="preserve">
-    <value>[Ůpľőäđ]</value>
+    <value>[Ůpľőäđ !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="FileExplorer_ChooseFile" xml:space="preserve">
-    <value>[Cĥőőşę ä ƒįľę]</value>
+    <value>[Cĥőőşę ä ƒįľę !!! !!!]</value>
   </data>
   <data name="FileExplorer_Error_BadExtension" xml:space="preserve">
-    <value>[Fįľęş ŵįŧĥ ŧĥę ęχŧęŉşįőŉ '{0}' äřę ŉőŧ äľľőŵęđ ŧő þę ūpľőäđęđ]</value>
+    <value>[Fįľęş ŵįŧĥ ŧĥę ęχŧęŉşįőŉ '{0}' äřę ŉőŧ äľľőŵęđ ŧő þę ūpľőäđęđ !!! !!! !!! !!!]</value>
   </data>
   <data name="FileExplorer_Error_DeleteFile" xml:space="preserve">
-    <value>[Åŉ ęřřőř őččūřřęđ đęľęŧįŉģ ŧĥę ƒįľę: {0}]</value>
+    <value>[Åŉ ęřřőř őččūřřęđ đęľęŧįŉģ ŧĥę ƒįľę: {0} !!! !!!]</value>
   </data>
   <data name="FileExplorer_Error_FileUpload" xml:space="preserve">
-    <value>[Åŉ ęřřőř őččūřřęđ ūpľőäđįŉģ ŧĥę ƒįľę: {0}]</value>
+    <value>[Åŉ ęřřőř őččūřřęđ ūpľőäđįŉģ ŧĥę ƒįľę: {0} !!! !!!]</value>
   </data>
   <data name="FileExplorer_Error_NewDirectory" xml:space="preserve">
-    <value>[Åŉ ęřřőř őččūřřęđ čřęäŧįŉģ ŧĥę đįřęčŧőřy: {0}]</value>
+    <value>[Åŉ ęřřőř őččūřřęđ čřęäŧįŉģ ŧĥę đįřęčŧőřy: {0} !!! !!!]</value>
   </data>
   <data name="FileExplorer_FolderName" xml:space="preserve">
-    <value>[Főľđęř ŉämę:]</value>
+    <value>[Főľđęř ŉämę: !!! !!!]</value>
   </data>
   <data name="FileExplorer_NewDirectory" xml:space="preserve">
-    <value>[Ńęŵ đįřęčŧőřy]</value>
+    <value>[Ńęŵ đįřęčŧőřy !!! !!!]</value>
   </data>
   <data name="FileExplorer_Title" xml:space="preserve">
-    <value>[Fįľę ęχpľőřęř]</value>
+    <value>[Fįľę ęχpľőřęř !!! !!!]</value>
   </data>
   <data name="FileExplorer_Upload" xml:space="preserve">
-    <value>[Ůpľőäđ ä ƒįľę]</value>
+    <value>[Ůpľőäđ ä ƒįľę !!! !!!]</value>
   </data>
   <data name="History_EditedBy" xml:space="preserve">
-    <value>[Ēđįŧęđ þy]</value>
+    <value>[Ēđįŧęđ þy !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="History_EditedOn" xml:space="preserve">
-    <value>[Ēđįŧęđ őŉ]</value>
+    <value>[Ēđįŧęđ őŉ !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="History_RevertLink" xml:space="preserve">
-    <value>[Ŗęvęřŧ]</value>
+    <value>[Ŗęvęřŧ !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="History_Title" xml:space="preserve">
-    <value>[Päģę ĥįşŧőřy]</value>
+    <value>[Päģę ĥįşŧőřy !!! !!!]</value>
   </data>
   <data name="History_Version" xml:space="preserve">
-    <value>[Vęřşįőŉ]</value>
+    <value>[Vęřşįőŉ !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Login_Error" xml:space="preserve">
-    <value>[Ŧĥę ūşęřŉämę/päşşŵőřđ įş įŉčőřřęčŧ]</value>
+    <value>[Ŧĥę ūşęřŉämę/päşşŵőřđ įş įŉčőřřęčŧ !!! !!!]</value>
   </data>
   <data name="Login_ForgottenPassword" xml:space="preserve">
-    <value>[Főřģőŧŧęŉ yőūř päşşŵőřđ?]</value>
+    <value>[Főřģőŧŧęŉ yőūř päşşŵőřđ? !!! !!!]</value>
   </data>
   <data name="Login_Title" xml:space="preserve">
-    <value>[Ŀőģįŉ]</value>
+    <value>[Ŀőģįŉ !!! !!! !!! !!!]</value>
   </data>
   <data name="Login_Unsuccessful_Title" xml:space="preserve">
-    <value>[Ŀőģįŉ ŵäş ūŉşūččęşşƒūľ]</value>
+    <value>[Ŀőģįŉ ŵäş ūŉşūččęşşƒūľ !!! !!!]</value>
   </data>
   <data name="Navigation_AllPages" xml:space="preserve">
-    <value>[Åľľ päģęş]</value>
+    <value>[Åľľ päģęş !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Navigation_Categories" xml:space="preserve">
-    <value>[Cäŧęģőřįęş]</value>
+    <value>[Cäŧęģőřįęş !!! !!!]</value>
   </data>
   <data name="Navigation_Delete" xml:space="preserve">
-    <value>[Đęľęŧę]</value>
+    <value>[Đęľęŧę !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Navigation_Edit" xml:space="preserve">
-    <value>[Ēđįŧ]</value>
+    <value>[Ēđįŧ !!! !!! !!!]</value>
   </data>
   <data name="Navigation_History" xml:space="preserve">
-    <value>[Ħįşŧőřy]</value>
+    <value>[Ħįşŧőřy !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Navigation_Login" xml:space="preserve">
-    <value>[Ŀőģįŉ]</value>
+    <value>[Ŀőģįŉ !!! !!! !!! !!!]</value>
   </data>
   <data name="Navigation_Logout" xml:space="preserve">
-    <value>[Ŀőģőūŧ]</value>
+    <value>[Ŀőģőūŧ !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Navigation_MainPage" xml:space="preserve">
-    <value>[Mäįŉ Päģę]</value>
+    <value>[Mäįŉ Päģę !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Navigation_NewPage" xml:space="preserve">
-    <value>[Ńęŵ päģę]</value>
+    <value>[Ńęŵ päģę !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Navigation_Register" xml:space="preserve">
-    <value>[Ŗęģįşŧęř]</value>
+    <value>[Ŗęģįşŧęř !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Navigation_SiteSettings" xml:space="preserve">
-    <value>[Ŝįŧę şęŧŧįŉģş]</value>
+    <value>[Ŝįŧę şęŧŧįŉģş !!! !!!]</value>
   </data>
   <data name="Navigation_ViewHistory" xml:space="preserve">
-    <value>[Vįęŵ Ħįşŧőřy]</value>
+    <value>[Vįęŵ Ħįşŧőřy !!! !!!]</value>
   </data>
   <data name="NoMainPage_Label" xml:space="preserve">
-    <value>[Ŧő şęŧ ä mäįŉ päģę, čřęäŧę ä päģę äŉđ äşşįģŉ ŧĥę ŧäģ 'ĥőmępäģę' ŧő įŧ. ]</value>
+    <value>[Ŧő şęŧ ä mäįŉ päģę, čřęäŧę ä päģę äŉđ äşşįģŉ ŧĥę ŧäģ 'ĥőmępäģę' ŧő įŧ.  !!! !!! !!! !!!]</value>
   </data>
   <data name="NoMainPage_Title" xml:space="preserve">
-    <value>[Ÿőū ĥävę ŉő mäįŉpäģę şęŧ]</value>
+    <value>[Ÿőū ĥävę ŉő mäįŉpäģę şęŧ !!! !!!]</value>
   </data>
   <data name="Page_Info_CreatedBy" xml:space="preserve">
-    <value>[Cřęäŧęđ þy:]</value>
+    <value>[Cřęäŧęđ þy: !!! !!!]</value>
   </data>
   <data name="Page_Info_CreatedOn" xml:space="preserve">
-    <value>[Cřęäŧęđ őŉ:]</value>
+    <value>[Cřęäŧęđ őŉ: !!! !!!]</value>
   </data>
   <data name="Page_Info_ModifiedBy" xml:space="preserve">
-    <value>[Ŀäşŧ mőđįƒįęđ þy:]</value>
+    <value>[Ŀäşŧ mőđįƒįęđ þy: !!! !!!]</value>
   </data>
   <data name="Page_Info_ModifiedOn" xml:space="preserve">
-    <value>[Ŀäşŧ mőđįƒįęđ őŉ:]</value>
+    <value>[Ŀäşŧ mőđįƒįęđ őŉ: !!! !!!]</value>
   </data>
   <data name="Page_Validation_Title" xml:space="preserve">
-    <value>[Ŧĥę ŧįŧľę ƒįęľđ įş řęqūįřęđ.]</value>
+    <value>[Ŧĥę ŧįŧľę ƒįęľđ įş řęqūįřęđ. !!! !!!]</value>
   </data>
   <data name="Pages_ForTag" xml:space="preserve">
-    <value>[Åľľ päģęş ƒőř ŧäģ {0}]</value>
+    <value>[Åľľ päģęş ƒőř ŧäģ {0} !!! !!!]</value>
   </data>
   <data name="Pages_ForTag_NoPages" xml:space="preserve">
-    <value>[Ńő päģęş ƒőř {0}]</value>
+    <value>[Ńő päģęş ƒőř {0} !!! !!!]</value>
   </data>
   <data name="Pages_ForUser" xml:space="preserve">
-    <value>[Åľľ päģęş čřęäŧęđ þy {0}]</value>
+    <value>[Åľľ päģęş čřęäŧęđ þy {0} !!! !!!]</value>
   </data>
   <data name="Pages_ForUser_NoPages" xml:space="preserve">
-    <value>[{0} ĥäşŉ'ŧ čřęäŧęđ äŉy päģęş yęŧ.]</value>
+    <value>[{0} ĥäşŉ'ŧ čřęäŧęđ äŉy päģęş yęŧ. !!! !!!]</value>
   </data>
   <data name="Profile_Error" xml:space="preserve">
-    <value>[Åŉ ęřřőř őččūřřęđ ūpđäŧįŉģ yőūř přőƒįľę]</value>
+    <value>[Åŉ ęřřőř őččūřřęđ ūpđäŧįŉģ yőūř přőƒįľę !!! !!!]</value>
   </data>
   <data name="Profile_Title" xml:space="preserve">
-    <value>[Přőƒįľę]</value>
+    <value>[Přőƒįľę !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="ResetPassword_Button" xml:space="preserve">
-    <value>[Ŗęşęŧ päşşŵőřđ]</value>
+    <value>[Ŗęşęŧ päşşŵőřđ !!! !!!]</value>
   </data>
   <data name="ResetPassword_Complete_Label" xml:space="preserve">
-    <value>[Pľęäşę ęŉŧęř yőūř ŉęŵ päşşŵőřđ.]</value>
+    <value>[Pľęäşę ęŉŧęř yőūř ŉęŵ päşşŵőřđ. !!! !!!]</value>
   </data>
   <data name="ResetPassword_EmailSent_Label" xml:space="preserve">
-    <value>[Ŧĥäŉĸ yőū, äŉ ęmäįľ ĥäş þęęŉ şęŉŧ ŧő {0} ŵįŧĥ đęŧäįľş őŉ ĥőŵ ŧő řęşęŧ yőūř päşşŵőřđ.]</value>
+    <value>[Ŧĥäŉĸ yőū, äŉ ęmäįľ ĥäş þęęŉ şęŉŧ ŧő {0} ŵįŧĥ đęŧäįľş őŉ ĥőŵ ŧő řęşęŧ yőūř päşşŵőřđ. !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="ResetPassword_EmailSent_Title" xml:space="preserve">
-    <value>[Ÿőūř päşşŵőřđ řęşęŧ řęqūęşŧ ŵäş şęŉŧ.]</value>
+    <value>[Ÿőūř päşşŵőřđ řęşęŧ řęqūęşŧ ŵäş şęŉŧ. !!! !!!]</value>
   </data>
   <data name="ResetPassword_Error" xml:space="preserve">
-    <value>[Ŧĥę päşşŵőřđş đő ŉőŧ mäŧčĥ, őř äřę ŧőő şĥőřŧ]</value>
+    <value>[Ŧĥę päşşŵőřđş đő ŉőŧ mäŧčĥ, őř äřę ŧőő şĥőřŧ !!! !!!]</value>
   </data>
   <data name="ResetPassword_Error_EmailNotFound" xml:space="preserve">
-    <value>[Ŧĥę ęmäįľ äđđřęşş čőūľđ ŉőŧ þę ƒőūŉđ]</value>
+    <value>[Ŧĥę ęmäįľ äđđřęşş čőūľđ ŉőŧ þę ƒőūŉđ !!! !!!]</value>
   </data>
   <data name="ResetPassword_Error_MissingEmail" xml:space="preserve">
-    <value>[Pľęäşę ęŉŧęř äŉ ęmäįľ äđđřęşş]</value>
+    <value>[Pľęäşę ęŉŧęř äŉ ęmäįľ äđđřęşş !!! !!!]</value>
   </data>
   <data name="ResetPassword_Error_ServerError" xml:space="preserve">
-    <value>[Ŧĥę päşşŵőřđ řęşęŧ ƒäįľęđ ƒřőm ä şęřvęř ęřřőř.]</value>
+    <value>[Ŧĥę päşşŵőřđ řęşęŧ ƒäįľęđ ƒřőm ä şęřvęř ęřřőř. !!! !!!]</value>
   </data>
   <data name="ResetPassword_Invalid_Label" xml:space="preserve">
-    <value>[Ŧĥę päşşŵőřđ řęşęŧ ĸęy įş ŉő ľőŉģęř väľįđ.]</value>
+    <value>[Ŧĥę päşşŵőřđ řęşęŧ ĸęy įş ŉő ľőŉģęř väľįđ. !!! !!!]</value>
   </data>
   <data name="ResetPassword_Invalid_Title" xml:space="preserve">
-    <value>[Ŗęşęŧ päşşŵőřđ įŉväľįđ.]</value>
+    <value>[Ŗęşęŧ päşşŵőřđ įŉväľįđ. !!! !!!]</value>
   </data>
   <data name="ResetPassword_Label" xml:space="preserve">
-    <value>[Ēŉŧęř yőūř ęmäįľ þęľőŵ ŧő řęşęŧ yőūř päşşŵőřđ. Ÿőū ŵįľľ ŧĥęŉ řęčęįvę äŉ ęmäįľ ŵįŧĥ ä ľįŉĸ ŧő řęşęŧ yőūř päşşŵőřđ.]</value>
+    <value>[Ēŉŧęř yőūř ęmäįľ þęľőŵ ŧő řęşęŧ yőūř päşşŵőřđ. Ÿőū ŵįľľ ŧĥęŉ řęčęįvę äŉ ęmäįľ ŵįŧĥ ä ľįŉĸ ŧő řęşęŧ yőūř päşşŵőřđ. !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="ResetPassword_Successful_Label" xml:space="preserve">
-    <value>[Ÿőūř päşşŵőřđ ŵäş şūčęşşƒūľľy řęşęŧ.]</value>
+    <value>[Ÿőūř päşşŵőřđ ŵäş şūčęşşƒūľľy řęşęŧ. !!! !!!]</value>
   </data>
   <data name="ResetPassword_Successful_Title" xml:space="preserve">
-    <value>[Ŗęşęŧ päşşŵőřđ şūččęşşƒūľ.]</value>
+    <value>[Ŗęşęŧ päşşŵőřđ şūččęşşƒūľ. !!! !!!]</value>
   </data>
   <data name="ResetPassword_Title" xml:space="preserve">
-    <value>[Ŗęşęŧ yőūř päşşŵőřđ.]</value>
+    <value>[Ŗęşęŧ yőūř päşşŵőřđ. !!! !!!]</value>
   </data>
   <data name="Search_NoResults" xml:space="preserve">
-    <value>[Ÿőūř şęäřčĥ '{0}' đįđ ŉőŧ mäŧčĥ äŉy päģęş]</value>
+    <value>[Ÿőūř şęäřčĥ '{0}' đįđ ŉőŧ mäŧčĥ äŉy päģęş !!! !!!]</value>
   </data>
   <data name="Search_PlaceHolder" xml:space="preserve">
-    <value>[Ēŉŧęř ŧęχŧ ŧő şęäřčĥ]</value>
+    <value>[Ēŉŧęř ŧęχŧ ŧő şęäřčĥ !!! !!!]</value>
   </data>
   <data name="Search_Results" xml:space="preserve">
-    <value>[Ŝęäřčĥ řęşūľŧş ƒőř '{0}']</value>
+    <value>[Ŝęäřčĥ řęşūľŧş ƒőř '{0}' !!! !!!]</value>
   </data>
   <data name="Shared_ConfirmLink" xml:space="preserve">
-    <value>[Cőŉƒįřm]</value>
+    <value>[Cőŉƒįřm !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Shared_DeleteLink" xml:space="preserve">
-    <value>[Đęľęŧę]</value>
+    <value>[Đęľęŧę !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Shared_EditLink" xml:space="preserve">
-    <value>[Ēđįŧ]</value>
+    <value>[Ēđįŧ !!! !!! !!!]</value>
   </data>
   <data name="Shared_Email_Label" xml:space="preserve">
-    <value>[Ēmäįľ:]</value>
+    <value>[Ēmäįľ: !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Shared_Error" xml:space="preserve">
-    <value>[Åŉ ęřřőř őččūřřęđ:]</value>
+    <value>[Åŉ ęřřőř őččūřřęđ: !!! !!!]</value>
   </data>
   <data name="Shared_Firstname" xml:space="preserve">
-    <value>[Fįřşŧ ŉämę:]</value>
+    <value>[Fįřşŧ ŉämę: !!! !!!]</value>
   </data>
   <data name="Shared_LastModified" xml:space="preserve">
-    <value>[Ŧĥįş päģę ŵäş ľäşŧ mőđįƒįęđ őŉ]</value>
+    <value>[Ŧĥįş päģę ŵäş ľäşŧ mőđįƒįęđ őŉ !!! !!!]</value>
   </data>
   <data name="Shared_Lastname" xml:space="preserve">
-    <value>[Ŀäşŧ ŉämę:]</value>
+    <value>[Ŀäşŧ ŉämę: !!! !!!]</value>
   </data>
   <data name="Shared_LoggedInAs" xml:space="preserve">
-    <value>[Ŀőģģęđ įŉ äş]</value>
+    <value>[Ŀőģģęđ įŉ äş !!! !!!]</value>
   </data>
   <data name="Shared_NotLoggedIn" xml:space="preserve">
-    <value>[Ńőŧ ľőģģęđ įŉ]</value>
+    <value>[Ńőŧ ľőģģęđ įŉ !!! !!!]</value>
   </data>
   <data name="Shared_Password_Label" xml:space="preserve">
-    <value>[Päşşŵőřđ:]</value>
+    <value>[Päşşŵőřđ: !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Shared_PasswordConfirm_Label" xml:space="preserve">
-    <value>[Päşşŵőřđ čőŉƒįřm:]</value>
+    <value>[Päşşŵőřđ čőŉƒįřm: !!! !!!]</value>
   </data>
   <data name="Shared_PoweredBy" xml:space="preserve">
-    <value>[Pőŵęřęđ þy Ŗőäđĸįľľ Ŵįĸį]</value>
+    <value>[Pőŵęřęđ þy Ŗőäđĸįľľ Ŵįĸį !!! !!!]</value>
   </data>
   <data name="Shared_Username" xml:space="preserve">
-    <value>[Ůşęřŉämę:]</value>
+    <value>[Ůşęřŉämę: !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Signup_Button" xml:space="preserve">
-    <value>[Ŗęģįşŧęř ŉęŵ ūşęř]</value>
+    <value>[Ŗęģįşŧęř ŉęŵ ūşęř !!! !!!]</value>
   </data>
   <data name="Signup_Complete_EmailResend_Button" xml:space="preserve">
-    <value>[Ŗęşęŉđ ęmäįľ čőŉƒįřmäŧįőŉ]</value>
+    <value>[Ŗęşęŉđ ęmäįľ čőŉƒįřmäŧįőŉ !!! !!!]</value>
   </data>
   <data name="Signup_Complete_EmailResent" xml:space="preserve">
-    <value>[Ŧĥę čőŉƒįřmäŧįőŉ ęmäįľ ŵäş řęşęŉŧ.]</value>
+    <value>[Ŧĥę čőŉƒįřmäŧįőŉ ęmäįľ ŵäş řęşęŉŧ. !!! !!!]</value>
   </data>
   <data name="Signup_Complete_Label" xml:space="preserve">
-    <value>[Ŧĥäŉĸ yőū, äŉ ęmäįľ ĥäş þęęŉ şęŉŧ ŧő {0} ŵįŧĥ đęŧäįľş őŉ ĥőŵ ŧő čőmpľęŧę ŧĥę şįģŉūp.]</value>
+    <value>[Ŧĥäŉĸ yőū, äŉ ęmäįľ ĥäş þęęŉ şęŉŧ ŧő {0} ŵįŧĥ đęŧäįľş őŉ ĥőŵ ŧő čőmpľęŧę ŧĥę şįģŉūp. !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="Signup_Complete_NoEmail" xml:space="preserve">
-    <value>[Ńőŧ řęčęįvęđ yőūř ęmäįľ?]</value>
+    <value>[Ńőŧ řęčęįvęđ yőūř ęmäįľ? !!! !!!]</value>
   </data>
   <data name="Signup_Complete_Title" xml:space="preserve">
-    <value>[Ŝįģŉūp čőmpľęŧę.]</value>
+    <value>[Ŝįģŉūp čőmpľęŧę. !!! !!!]</value>
   </data>
   <data name="Signup_Error_General" xml:space="preserve">
-    <value>[Åŉ ęřřőř őččūřřęđ ŵįŧĥ ŧĥę şįģŉūp.]</value>
+    <value>[Åŉ ęřřőř őččūřřęđ ŵįŧĥ ŧĥę şįģŉūp. !!! !!!]</value>
   </data>
   <data name="Signup_Error_Recaptcha" xml:space="preserve">
-    <value>[Ŧĥę ŧŵő ŵőřđş ƒőř ŧĥę äŉŧį-şpäm þőχ ŵęřę įŉčőřřęčŧ]</value>
+    <value>[Ŧĥę ŧŵő ŵőřđş ƒőř ŧĥę äŉŧį-şpäm þőχ ŵęřę įŉčőřřęčŧ !!! !!! !!!]</value>
   </data>
   <data name="Signup_Label" xml:space="preserve">
-    <value>[Pľęäşę ęŉŧęř yőū đęŧäįľş þęľőŵ.]</value>
+    <value>[Pľęäşę ęŉŧęř yőū đęŧäįľş þęľőŵ. !!! !!!]</value>
   </data>
   <data name="Signup_Title" xml:space="preserve">
-    <value>[Ŗęģįşŧęř / Ŝįģŉūp]</value>
+    <value>[Ŗęģįşŧęř / Ŝįģŉūp !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration" xml:space="preserve">
-    <value>[Cőŉƒįģūřäŧįőŉ]</value>
+    <value>[Cőŉƒįģūřäŧįőŉ !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_AD_Connection" xml:space="preserve">
-    <value>[Åūŧĥęŉŧįčäŧįőŉ/ĿĐÅP čőŉŉęčŧįőŉ şŧřįŉģ:]</value>
+    <value>[Åūŧĥęŉŧįčäŧįőŉ/ĿĐÅP čőŉŉęčŧįőŉ şŧřįŉģ !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_AD_Connection_Help" xml:space="preserve">
-    <value>[Ŧĥę ĿĐÅP čőŉŉęčŧįőŉ şŧřįŉģ ƒőř ŧĥę Åčŧįvę Đįřęčŧőřy čőŉŉęčŧįőŉ.Ŧĥįş şĥőūľđ þę įŉ ŧĥę ƒőřmäŧ ĿĐÅP://myđč01.čőmpäŉy.įŉŧęřŉäľ (įŧ şĥőūľđ þę ūppęřčäşę ĿĐÅP).]</value>
+    <value>[Ŧĥę ĿĐÅP čőŉŉęčŧįőŉ şŧřįŉģ ƒőř ŧĥę Åčŧįvę Đįřęčŧőřy čőŉŉęčŧįőŉ.Ŧĥįş şĥőūľđ þę įŉ ŧĥę ƒőřmäŧ ĿĐÅP://myđč01.čőmpäŉy.įŉŧęřŉäľ (įŧ şĥőūľđ þę ūppęřčäşę ĿĐÅP). !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_AD_Password" xml:space="preserve">
-    <value>[ĿĐÅP päşşŵőřđ:]</value>
+    <value>[ĿĐÅP päşşŵőřđ !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_AD_Password_Help" xml:space="preserve">
-    <value>[Ŧĥę päşşŵőřđ ŧő ūşę ƒőř äūŧĥęŉŧįčäŧįőŉ.]</value>
+    <value>[Ŧĥę päşşŵőřđ ŧő ūşę ƒőř äūŧĥęŉŧįčäŧįőŉ. !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_AD_Username" xml:space="preserve">
-    <value>[ĿĐÅP ūşęřŉämę:]</value>
+    <value>[ĿĐÅP ūşęřŉämę !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_AD_Username_Help" xml:space="preserve">
-    <value>[Ŧĥę ūşęřŉämę ŧő äūŧĥęŉŧįčäŧę äģäįŉşŧ ŧĥę Åčŧįvę Đįřęčŧőřy ŵįŧĥ. Ŀęävę þľäŉĸ įƒ ŧĥę äpp pőőľ įş řūŉŉįŉģ ūŉđęř ä ūşęř ŵįŧĥ ŧĥįş pęřmįşşįőŉ.]</value>
+    <value>[Ŧĥę ūşęřŉämę ŧő äūŧĥęŉŧįčäŧę äģäįŉşŧ ŧĥę Åčŧįvę Đįřęčŧőřy ŵįŧĥ. Ŀęävę þľäŉĸ įƒ ŧĥę äpp pőőľ įş řūŉŉįŉģ ūŉđęř ä ūşęř ŵįŧĥ ŧĥįş pęřmįşşįőŉ. !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_AdminRole" xml:space="preserve">
-    <value>[Åđmįŉ řőľę/şęčūřįŧy ģřőūp ŉämę:]</value>
+    <value>[Åđmįŉ řőľę/şęčūřįŧy ģřőūp ŉämę !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
-    <value>[&lt;b&gt;ŴÅŖŃĨŃĞ&lt;/b&gt; čĥäŉģįŉģ ŧĥįş mäy ľőčĸ yőū őūŧ őƒ ŧĥę şįŧę. Mäĸę ä þäčĸūp őƒ yőūř ŵęþ.čőŉƒįģ ƒįřşŧ þęƒőřę şävįŉģ. &lt;br/&gt;&lt;br/&gt;Ŧĥįş įş ŧĥę ŉämę őƒ ŧĥę äđmįŉ řőľę. Åđmįŉş ĥävę ŧĥę şämę řįģĥŧş äş ęđįŧőřş, þūŧ äľşő ĥävę äččęşş ŧő čőŉƒįģūřäŧįőŉ şęŧŧįŉģş äŉđ ŧőőľş ƒőř ŧĥę şįŧę.]</value>
+    <value>[&lt;b&gt;ŴÅŖŃĨŃĞ&lt;/b&gt; čĥäŉģįŉģ ŧĥįş mäy ľőčĸ yőū őūŧ őƒ ŧĥę şįŧę. Mäĸę ä þäčĸūp őƒ yőūř ŵęþ.čőŉƒįģ ƒįřşŧ þęƒőřę şävįŉģ. &lt;br/&gt;&lt;br/&gt;Ŧĥįş įş ŧĥę ŉämę őƒ ŧĥę äđmįŉ řőľę. Åđmįŉş ĥävę ŧĥę şämę řįģĥŧş äş ęđįŧőřş, þūŧ äľşő ĥävę äččęşş ŧő čőŉƒįģūřäŧįőŉ şęŧŧįŉģş äŉđ ŧőőľş ƒőř ŧĥę şįŧę. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_AllowUserSignups" xml:space="preserve">
-    <value>[Åľľőŵ ūşęř şįģŉūpş:]</value>
+    <value>[Åľľőŵ ūşęř şįģŉūpş !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
-    <value>[Cĥęčĸ ŧĥįş őpŧįőŉ įƒ yőū ŵäŉŧ ŧő äľľőŵ pęőpľę ŧő şįģŉūp äş ä ŉęŵ ūşęřş.]</value>
+    <value>[Cĥęčĸ ŧĥįş őpŧįőŉ įƒ yőū ŵäŉŧ ŧő äľľőŵ pęőpľę ŧő şįģŉūp äş ä ŉęŵ ūşęřş. !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_Attachments" xml:space="preserve">
-    <value>[Åŧŧäčĥmęŉŧş ƒőľđęř:]</value>
+    <value>[Åŧŧäčĥmęŉŧş ƒőľđęř !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_Attachments_Help" xml:space="preserve">
-    <value>[Ŧĥįş įş ŧĥę đįřęčŧőřy ŵĥęřę äľľ ƒįľęş äřę ūpľőäđęđ ŧő. Ŧĥįş şęŧŧįŉģ şĥőūľđ şŧäřŧ ŵįŧĥ ~/ ŧő įŉđįčäŧę ŧĥę şįŧę řőőŧ ƒőľđęř.]</value>
+    <value>[Ŧĥįş įş ŧĥę đįřęčŧőřy ŵĥęřę äľľ ƒįľęş äřę ūpľőäđęđ ŧő. Ŧĥįş şęŧŧįŉģ şĥőūľđ şŧäřŧ ŵįŧĥ ~/ ŧő įŉđįčäŧę ŧĥę şįŧę řőőŧ ƒőľđęř. !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
-    <value>[Cäčĥę päģę ŧęχŧ:]</value>
+    <value>[Cäčĥę päģę ŧęχŧ !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_CachePageText_Help" xml:space="preserve">
-    <value>[Cäčĥę ŧęχŧ čőŉŧęŉŧ. Ůŉčĥęčĸįŉģ ŧĥįş ŵįľľ męäŉ ęäčĥ päģę'ş ŧęχŧūäľ čőŉŧęŉŧ įş ľőäđęđ ƒřőm ŧĥę đäŧäþäşę ęäčĥ ŧįmę.]</value>
+    <value>[Cäčĥę ŧęχŧ čőŉŧęŉŧ. Ůŉčĥęčĸįŉģ ŧĥįş ŵįľľ męäŉ ęäčĥ päģę'ş ŧęχŧūäľ čőŉŧęŉŧ įş ľőäđęđ ƒřőm ŧĥę đäŧäþäşę ęäčĥ ŧįmę. !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_Caching" xml:space="preserve">
-    <value>[Cäčĥįŉģ:]</value>
+    <value>[Cäčĥįŉģ !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_Caching_Help" xml:space="preserve">
-    <value>[Ēŉäþľę ŃĦįþęřŉäŧę čäčĥįŉģ. Ŗőäđĸįľľ ūşęş ŃĦįþęřŉäŧę čäčĥįŉģ äľőŉģ ŵįŧĥ ÅŜP.ŃĒŦ'ş őūŧpūŧ čäčĥįŉģ. Ĩŧ'ş řęčőmmęŉđęđ ŧĥäŧ yőū ęŉäþľę čäčĥįŉģ ŧő įŉčřęäşę ŧĥę řęşpőŉşįvęŉęşş őƒ ŧĥę şįŧę. Đäŧäþäşę čäčĥįŉģ įş ŉőŧ čūřřęŉŧľy şūppőřŧęđ ƒőř ƒőř ŵęþ ģäřđęŉş őř ŵęþ ƒäřmş.]</value>
-  </data>
-  <data name="SiteSettings_Configuration_ConnectionStrings" xml:space="preserve">
-    <value>[Cőŉŉęčŧįőŉ şŧřįŉģş]</value>
+    <value>[Ēŉäþľę ŃĦįþęřŉäŧę čäčĥįŉģ. Ŗőäđĸįľľ ūşęş ŃĦįþęřŉäŧę čäčĥįŉģ äľőŉģ ŵįŧĥ ÅŜP.ŃĒŦ'ş őūŧpūŧ čäčĥįŉģ. Ĩŧ'ş řęčőmmęŉđęđ ŧĥäŧ yőū ęŉäþľę čäčĥįŉģ ŧő įŉčřęäşę ŧĥę řęşpőŉşįvęŉęşş őƒ ŧĥę şįŧę. Đäŧäþäşę čäčĥįŉģ įş ŉőŧ čūřřęŉŧľy şūppőřŧęđ ƒőř ƒőř ŵęþ ģäřđęŉş őř ŵęþ ƒäřmş. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_ConnectionStrings_Help" xml:space="preserve">
-    <value>[Cĥäŉģęş yőūř đäŧäþäşę ŧypę - yőū ŵįľľ ŉęęđ ŧő řęčřęäŧę ŧĥę şčĥęmä įŉ ŧĥę ŧőőľş ƒőř ŧĥįş ŧő ŵőřĸ čőřřęčŧľy.]</value>
+    <value>[Cĥäŉģęş yőūř đäŧäþäşę ŧypę - yőū ŵįľľ ŉęęđ ŧő řęčřęäŧę ŧĥę şčĥęmä įŉ ŧĥę ŧőőľş ƒőř ŧĥįş ŧő ŵőřĸ čőřřęčŧľy. !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="SiteSettings_Configuration_Database" xml:space="preserve">
+    <value>[Đäŧäþäşę !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_DatabaseConnectionString" xml:space="preserve">
-    <value>[Đäŧäþäşę čőŉŉęčŧįőŉ şŧřįŉģ:]</value>
+    <value>[Đäŧäþäşę čőŉŉęčŧįőŉ şŧřįŉģ !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_DatabaseConnectionString_Help" xml:space="preserve">
-    <value>[Ŧĥę đäŧäþäşę čőŉŉęčŧįőŉ şŧřįŉģ.]</value>
+    <value>[Ŧĥę đäŧäþäşę čőŉŉęčŧįőŉ şŧřįŉģ. !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_DatabaseType" xml:space="preserve">
-    <value>[Đäŧäþäşę ŧypę:]</value>
+    <value>[Đäŧäþäşę ŧypę !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_DatabaseType_Help" xml:space="preserve">
-    <value>[Cĥäŉģęş yőūř đäŧäþäşę ŧypę - yőū ŵįľľ ŉęęđ ŧő řęčřęäŧę ŧĥę şčĥęmä įŉ ŧĥę ŧőőľş ƒőř ŧĥįş ŧő ŵőřĸ čőřřęčŧľy.]</value>
+    <value>[Cĥäŉģęş yőūř đäŧäþäşę ŧypę - yőū ŵįľľ ŉęęđ ŧő řęčřęäŧę ŧĥę şčĥęmä įŉ ŧĥę ŧőőľş ƒőř ŧĥįş ŧő ŵőřĸ čőřřęčŧľy. !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_EditorRole" xml:space="preserve">
-    <value>[Ēđįŧőř řőľę/şęčūřįŧy ģřőūp ŉämę:]</value>
+    <value>[Ēđįŧőř řőľę/şęčūřįŧy ģřőūp ŉämę !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_EditorRole_Help" xml:space="preserve">
-    <value>[Ŧĥįş įş ŧĥę ŉämę őƒ ŧĥę ęđįŧőř řőľę - pęőpľę ŵĥő čäŉ ęđįŧ äŉđ čřęäŧę päģęş.]</value>
+    <value>[Ŧĥįş įş ŧĥę ŉämę őƒ ŧĥę ęđįŧőř řőľę - pęőpľę ŵĥő čäŉ ęđįŧ äŉđ čřęäŧę päģęş. !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_EnableRecaptcha" xml:space="preserve">
-    <value>[Ēŉäþľę řęčäpŧčĥä:]</value>
+    <value>[Ēŉäþľę řęčäpŧčĥä !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_EnableRecaptcha_Help" xml:space="preserve">
-    <value>[Ēŉäþľę Ŗęčäpŧčĥä şūppőřŧ - ä ƒřęę äŉŧį-şpäm þőŧ şęřvįčę. Ÿőū ŵįľľ ŉęęđ ŧő şįģŉūp äŉđ čőpy yőūř pūþľįč äŉđ přįväŧę ĸęy įŉŧő ŧĥę ƒįęľđş þęľőŵ.]</value>
+    <value>[Ēŉäþľę Ŗęčäpŧčĥä şūppőřŧ - ä ƒřęę äŉŧį-şpäm þőŧ şęřvįčę. Ÿőū ŵįľľ ŉęęđ ŧő şįģŉūp äŉđ čőpy yőūř pūþľįč äŉđ přįväŧę ĸęy įŉŧő ŧĥę ƒįęľđş þęľőŵ. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_Error" xml:space="preserve">
-    <value>[Ůŉäþľę ŧő şävę ŧĥę şęŧŧįŉģş:]</value>
+    <value>[Ůŉäþľę ŧő şävę ŧĥę şęŧŧįŉģş !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_Extensions" xml:space="preserve">
-    <value>[Åľľőŵęđ ęχŧęŉşįőŉş:]</value>
+    <value>[Åľľőŵęđ ęχŧęŉşįőŉş !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_Extensions_Help" xml:space="preserve">
-    <value>[Ŧĥęşę äřę ŧĥę ƒįľę ęχŧęŉşįőŉş ŧĥäŧ čäŉ þę ūpľőäđęđ, čőmmä şępäřäŧęđ.]</value>
+    <value>[Ŧĥęşę äřę ŧĥę ƒįľę ęχŧęŉşįőŉş ŧĥäŧ čäŉ þę ūpľőäđęđ, čőmmä şępäřäŧęđ. !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_General" xml:space="preserve">
-    <value>[Ğęŉęřäľ]</value>
+    <value>[Ğęŉęřäľ !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_MarkupType" xml:space="preserve">
-    <value>[Mäřĸūp ŧypę:]</value>
+    <value>[Mäřĸūp ŧypę !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
-    <value>[Ŧĥįş įş ŧĥę mäřĸūp ƒőřmäŧ ŧĥäŧ įş ūşęđ. Ŗőäđĸįľľ čūřřęŉŧľy şūppőřŧş ŧĥę ƒőľľőŵįŉģ väľūęş: Cřęőľę, Mäřĸđőŵŉ, Męđįäŵįĸį.]</value>
+    <value>[Ŧĥįş įş ŧĥę mäřĸūp ƒőřmäŧ ŧĥäŧ įş ūşęđ. Ŗőäđĸįľľ čūřřęŉŧľy şūppőřŧş ŧĥę ƒőľľőŵįŉģ väľūęş: Cřęőľę, Mäřĸđőŵŉ, Męđįäŵįĸį. !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_RecaptchaPrivateKey" xml:space="preserve">
-    <value>[Ŗęčäpŧčĥä přįväŧę ĸęy:]</value>
+    <value>[Ŗęčäpŧčĥä přįväŧę ĸęy !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_RecaptchaPrivateKey_Help" xml:space="preserve">
-    <value>[Ŧĥę přįväŧę ĸęy ƒőř Ŗęčäpŧčĥä, ŵĥįčĥ įş přővįđęđ ŵĥęŉ yőū şįģŉūp ŵįŧĥ řęčäpŧčĥä.]</value>
+    <value>[Ŧĥę přįväŧę ĸęy ƒőř Ŗęčäpŧčĥä, ŵĥįčĥ įş přővįđęđ ŵĥęŉ yőū şįģŉūp ŵįŧĥ řęčäpŧčĥä. !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_RecaptchaPublicKey" xml:space="preserve">
-    <value>[Ŗęčäpŧčĥä pūþľįč ĸęy:]</value>
+    <value>[Ŗęčäpŧčĥä pūþľįč ĸęy !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_RecaptchaPublicKey_Help" xml:space="preserve">
-    <value>[Ŧĥę pūþľįč ĸęy ƒőř Ŗęčäpŧčĥä, ŵĥįčĥ įş přővįđęđ ŵĥęŉ yőū şįģŉūp ŵįŧĥ řęčäpŧčĥä.]</value>
+    <value>[Ŧĥę pūþľįč ĸęy ƒőř Ŗęčäpŧčĥä, ŵĥįčĥ įş přővįđęđ ŵĥęŉ yőū şįģŉūp ŵįŧĥ řęčäpŧčĥä. !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_Security" xml:space="preserve">
-    <value>[Ŝęčūřįŧy]</value>
+    <value>[Ŝęčūřįŧy !!! !!! !!! !!! !!! !!! !!!]</value>
+  </data>
+  <data name="SiteSettings_Configuration_Site" xml:space="preserve">
+    <value>[Ŝįŧę !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_SiteName" xml:space="preserve">
-    <value>[Ŝįŧę ŉämę:]</value>
+    <value>[Ŝįŧę ŉämę !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_SiteName_Help" xml:space="preserve">
-    <value>[Ŧĥę ŉämę őƒ ŧĥę şįŧę, ŵĥįčĥ įş ūşęđ įŉ čęřŧäįŉ ŧĥęmęş.]</value>
+    <value>[Ŧĥę ŉämę őƒ ŧĥę şįŧę, ŵĥįčĥ įş ūşęđ įŉ čęřŧäįŉ ŧĥęmęş. !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_SiteUrl" xml:space="preserve">
-    <value>[Ŝįŧę ūřľ:]</value>
+    <value>[Ŝįŧę ūřľ !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_SiteUrl_Help" xml:space="preserve">
-    <value>[Ŧĥę ūřľ őƒ ŧĥę şįŧę, ŵĥįčĥ įş ūşęđ įŉ şįģŉūp äŉđ řęşęŧ päşşŵőřđ ęmäįľş.  Đő ŉőŧ įŉčľūđę ŧĥę ŧřäįľįŉģ şľäşĥ.]</value>
+    <value>[Ŧĥę ūřľ őƒ ŧĥę şįŧę, ŵĥįčĥ įş ūşęđ įŉ şįģŉūp äŉđ řęşęŧ päşşŵőřđ ęmäįľş.  Đő ŉőŧ įŉčľūđę ŧĥę ŧřäįľįŉģ şľäşĥ. !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_Theme" xml:space="preserve">
-    <value>[Ŧĥęmę:]</value>
+    <value>[Ŧĥęmę !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_Theme_Help" xml:space="preserve">
-    <value>[Ŧĥįş įş ŧĥę ŧĥęmę ŧĥäŧ ŧĥę şįŧę ūşęş. Ŧĥįş şĥőūľđ mäŧčĥ ä ƒőľđęř ŉämę įŉ ŧĥę Ŧĥęmęş đįřęčŧőřy.]</value>
+    <value>[Ŧĥįş įş ŧĥę ŧĥęmę ŧĥäŧ ŧĥę şįŧę ūşęş. Ŧĥįş şĥőūľđ mäŧčĥ ä ƒőľđęř ŉämę įŉ ŧĥę Ŧĥęmęş đįřęčŧőřy. !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_Title" xml:space="preserve">
-    <value>[Ŝįŧę Ŝęŧŧįŉģş]</value>
+    <value>[Ŝįŧę Ŝęŧŧįŉģş !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_UseWindowsAuth" xml:space="preserve">
-    <value>[Ůşę Ŵįŉđőŵş Åūŧĥęŉŧįčäŧįőŉ:]</value>
+    <value>[Ůşę Ŵįŉđőŵş Åūŧĥęŉŧįčäŧįőŉ !!! !!!]</value>
   </data>
   <data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
-    <value>[&lt;b&gt;ŴÅŖŃĨŃĞ&lt;/b&gt; čĥäŉģįŉģ ŧĥįş mäy ľőčĸ yőū őūŧ őƒ ŧĥę şįŧę. Mäĸę ä þäčĸūp őƒ yőūř ŵęþ.čőŉƒįģ ƒįřşŧ þęƒőřę şävįŉģ.&lt;br/&gt;&lt;br/&gt; Ŝęŧş ŵĥęŧĥęř ŧő ūşę Ŵįŉđőŵş Åūŧĥęŉŧįčäŧįőŉ äŉđ Åčŧįvę Đįřęčŧőřy ƒőř äūŧĥęŉŧįčäŧįőŉ.]</value>
+    <value>[&lt;b&gt;ŴÅŖŃĨŃĞ&lt;/b&gt; čĥäŉģįŉģ ŧĥįş mäy ľőčĸ yőū őūŧ őƒ ŧĥę şįŧę. Mäĸę ä þäčĸūp őƒ yőūř ŵęþ.čőŉƒįģ ƒįřşŧ þęƒőřę şävįŉģ.&lt;br/&gt;&lt;br/&gt; Ŝęŧş ŵĥęŧĥęř ŧő ūşę Ŵįŉđőŵş Åūŧĥęŉŧįčäŧįőŉ äŉđ Åčŧįvę Đįřęčŧőřy ƒőř äūŧĥęŉŧįčäŧįőŉ. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools" xml:space="preserve">
-    <value>[Ŧőőľş]</value>
+    <value>[Ŧőőľş !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_ClearDatabase" xml:space="preserve">
-    <value>[Cľęäř ŧĥę đäŧäþäşę]</value>
+    <value>[Cľęäř ŧĥę đäŧäþäşę !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_ClearDatabase_Label" xml:space="preserve">
-    <value>[Cľęäřş äľľ päģęş äŉđ ŧęχŧ ƒřőm ŧĥę đäŧäþäşę. Ŧĥįş đőęş ŉőŧ řęmővę äŉy ūşęřş.]</value>
+    <value>[Cľęäřş äľľ päģęş äŉđ ŧęχŧ ƒřőm ŧĥę đäŧäþäşę. Ŧĥįş đőęş ŉőŧ řęmővę äŉy ūşęřş. !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_ClearDatabase_Message" xml:space="preserve">
-    <value>[Đäŧäþäşę čľęäřęđ]</value>
+    <value>[Đäŧäþäşę čľęäřęđ !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_ExportAttachments" xml:space="preserve">
-    <value>[Ēχpőřŧ äŧŧäčĥmęŉŧş äş ä žįp]</value>
+    <value>[Ēχpőřŧ äŧŧäčĥmęŉŧş äş ä žįp !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_ExportAttachments_Error" xml:space="preserve">
-    <value>[Ēχpőřŧįŉģ äŧŧäčĥmęŉŧş ƒäįľęđ: {0}]</value>
+    <value>[Ēχpőřŧįŉģ äŧŧäčĥmęŉŧş ƒäįľęđ: {0} !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_ExportAttachments_Label" xml:space="preserve">
-    <value>[Ēχpőřŧş äľľ ŧĥę čőŉŧęŉŧş őƒ äŧŧäčĥmęŉŧş ƒőľđęř äŉđ şūþƒőľđęřş äş ä žįp ƒįľę.]</value>
+    <value>[Ēχpőřŧş äľľ ŧĥę čőŉŧęŉŧş őƒ äŧŧäčĥmęŉŧş ƒőľđęř äŉđ şūþƒőľđęřş äş ä žįp ƒįľę. !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_ExportContent" xml:space="preserve">
-    <value>[Ēχpőřŧ äľľ čőŉŧęŉŧ äş ä žįp]</value>
+    <value>[Ēχpőřŧ äľľ čőŉŧęŉŧ äş ä žįp !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_ExportContent_Error" xml:space="preserve">
-    <value>[Ŵįĸį čőŉŧęŉŧ ęχpőřŧ ƒäįľęđ: {0}]</value>
+    <value>[Ŵįĸį čőŉŧęŉŧ ęχpőřŧ ƒäįľęđ: {0} !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_ExportContent_Label" xml:space="preserve">
-    <value>[Ēχpőřŧş äľľ päģęş, įŉčľūđįŉģ ŧęχŧ čőŉŧęŉŧ äş ä şęřįęş őƒ ".ŵįĸį" ƒįľęş. Øŉľy ŧĥę čūřřęŉŧ čőŉŧęŉŧ äŉđ ŧäģş äřę įŉčľūđęđ, ŉő ĥįşŧőřy įş přővįđęđ. Ŧĥįş žįp ƒįľę đőęş ŉőŧ įŉčľūđę ŧĥę äŧŧäčĥmęŉŧş ƒőľđęř.]</value>
+    <value>[Ēχpőřŧş äľľ päģęş, įŉčľūđįŉģ ŧęχŧ čőŉŧęŉŧ äş ä şęřįęş őƒ ".ŵįĸį" ƒįľęş. Øŉľy ŧĥę čūřřęŉŧ čőŉŧęŉŧ äŉđ ŧäģş äřę įŉčľūđęđ, ŉő ĥįşŧőřy įş přővįđęđ. Ŧĥįş žįp ƒįľę đőęş ŉőŧ įŉčľūđę ŧĥę äŧŧäčĥmęŉŧş ƒőľđęř. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_ExportXml" xml:space="preserve">
-    <value>[Ēχpőřŧ ŧő XMĿ]</value>
+    <value>[Ēχpőřŧ ŧő XMĿ !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_ExportXml_Error" xml:space="preserve">
-    <value>[Ēχpőřŧįŉģ ŧő XMĿ ƒäįľęđ: {0}]</value>
+    <value>[Ēχpőřŧįŉģ ŧő XMĿ ƒäįľęđ: {0} !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_ExportXml_Label" xml:space="preserve">
-    <value>[Ēχpőřŧş äľľ päģę ŧęχŧ čőŉŧęŉŧ äŉđ äľľ ĥįşŧőřy äş ä şįŉģľę XMĿ ƒįľę.]</value>
+    <value>[Ēχpőřŧş äľľ päģę ŧęχŧ čőŉŧęŉŧ äŉđ äľľ ĥįşŧőřy äş ä şįŉģľę XMĿ ƒįľę. !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_RebuildSearch" xml:space="preserve">
-    <value>[Ŗęþūįľđ şęäřčĥ įŉđęχ]</value>
+    <value>[Ŗęþūįľđ şęäřčĥ įŉđęχ !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_RebuildSearch_Label" xml:space="preserve">
-    <value>[Főřčęş ä řę-þūįľđ őƒ ŧĥę päģę şęäřčĥ įŉđęχ, ūşęƒūľ įƒ ŧĥę şęäřčĥ þęģįŉş ŧő ģęŧ őūŧ őƒ şyŉč ƒőř äŉy řęäşőŉ.]</value>
+    <value>[Főřčęş ä řę-þūįľđ őƒ ŧĥę päģę şęäřčĥ įŉđęχ, ūşęƒūľ įƒ ŧĥę şęäřčĥ þęģįŉş ŧő ģęŧ őūŧ őƒ şyŉč ƒőř äŉy řęäşőŉ. !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_RebuildSearch_Message" xml:space="preserve">
-    <value>[Ŗęþūįľđ őƒ şęäřčĥ įŉđęχ čőmpľęŧę]</value>
+    <value>[Ŗęþūįľđ őƒ şęäřčĥ įŉđęχ čőmpľęŧę !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_RenameTag" xml:space="preserve">
-    <value>[Ŗęŉämę ä ŧäģ]</value>
+    <value>[Ŗęŉämę ä ŧäģ !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_RenameTag_Existing" xml:space="preserve">
-    <value>[Ēχįşŧįŉģ ŧäģ:]</value>
+    <value>[Ēχįşŧįŉģ ŧäģ: !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_RenameTag_Label" xml:space="preserve">
-    <value>[Ŧĥįş ŵįľľ řęŉämę ä ŧäģ, äŉđ ūpđäŧę äľľ päģęş ŧĥäŧ řęƒęřęŉčę ŧĥę ŧäģ ŧő ūşę ŧĥę ŉęŵ ŧäģŉämę. Ŧĥę ŧäģŉämę įş čäşę şęŉşįŧįvę.]</value>
+    <value>[Ŧĥįş ŵįľľ řęŉämę ä ŧäģ, äŉđ ūpđäŧę äľľ päģęş ŧĥäŧ řęƒęřęŉčę ŧĥę ŧäģ ŧő ūşę ŧĥę ŉęŵ ŧäģŉämę. Ŧĥę ŧäģŉämę įş čäşę şęŉşįŧįvę. !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_RenameTag_Message" xml:space="preserve">
-    <value>[Ŧäģ řęŉämę şūččęşşƒūľ]</value>
+    <value>[Ŧäģ řęŉämę şūččęşşƒūľ !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_RenameTag_New" xml:space="preserve">
-    <value>[Ńęŵ ŧäģ ŉämę:]</value>
+    <value>[Ńęŵ ŧäģ ŉämę: !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_ScrewTurnImport" xml:space="preserve">
-    <value>[Ĩmpőřŧ ƒřőm şčřęŵŧūřŉ]</value>
+    <value>[Ĩmpőřŧ ƒřőm şčřęŵŧūřŉ !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_ScrewTurnImport_Connection" xml:space="preserve">
-    <value>[Ŝčřęŵŧūřŉ čőŉŉęčŧįőŉ şŧřįŉģ:]</value>
+    <value>[Ŝčřęŵŧūřŉ čőŉŉęčŧįőŉ şŧřįŉģ: !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_ScrewTurnImport_Label" xml:space="preserve">
-    <value>[Ĩmpőřŧş äľľ čőŉŧęŉŧ ƒřőm ä Ŝčřęŵŧūřŉ 2 đäŧäþäşę. Ÿőū ŵįľľ ŉęęđ ŧő şęŧ ŧĥę mäřĸūpŧypę ŧő MęđįäŴįĸį įŉ ŧĥę şęŧŧįŉģş/ŵęþ.čőŉƒįģ ƒįľę ƒőř ŧĥę ƒőřmäŧ ŧő þę čőmpäŧįþľę. Åş şčřęŵŧūřŉ ūşęş äş väřįäŧįőŉ őŉ ŧĥę męđįäŵįĸį şyŉŧäχ, şőmę čőŉŧęŉŧ ŵįľľ ŉőŧ řęŉđęř pęřƒęčŧľy. Ŧĥįş įŉčľūđęş şőmę įmäģęş äŉđ ľįŉĸş.]</value>
+    <value>[Ĩmpőřŧş äľľ čőŉŧęŉŧ ƒřőm ä Ŝčřęŵŧūřŉ 2 đäŧäþäşę. Ÿőū ŵįľľ ŉęęđ ŧő şęŧ ŧĥę mäřĸūpŧypę ŧő MęđįäŴįĸį įŉ ŧĥę şęŧŧįŉģş/ŵęþ.čőŉƒįģ ƒįľę ƒőř ŧĥę ƒőřmäŧ ŧő þę čőmpäŧįþľę. Åş şčřęŵŧūřŉ ūşęş äş väřįäŧįőŉ őŉ ŧĥę męđįäŵįĸį şyŉŧäχ, şőmę čőŉŧęŉŧ ŵįľľ ŉőŧ řęŉđęř pęřƒęčŧľy. Ŧĥįş įŉčľūđęş şőmę įmäģęş äŉđ ľįŉĸş. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_ScrewTurnImport_Message" xml:space="preserve">
-    <value>[Ĩmpőřŧ şūččęşşƒūľ]</value>
+    <value>[Ĩmpőřŧ şūččęşşƒūľ !!! !!!]</value>
   </data>
   <data name="SiteSettings_Tools_Title" xml:space="preserve">
-    <value>[Ŝįŧę ŧőőľş]</value>
+    <value>[Ŝįŧę ŧőőľş !!! !!!]</value>
   </data>
   <data name="SiteSettings_Users" xml:space="preserve">
-    <value>[Ůşęřş]</value>
+    <value>[Ůşęřş !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Users_AD_Label1" xml:space="preserve">
-    <value>[Ůşęř ŉämęş äŉđ päşşŵőřđş äřę ŉőŧ ęđįŧäþľę ŵįŧĥ Ŵįŉđőŵş äūŧĥęŉŧįčäŧįőŉ - yőū şĥőūľđ đő ŧĥįş ŧĥřőūģĥ Åčŧįvę Đįřęčŧőřy.]</value>
+    <value>[Ůşęř ŉämęş äŉđ päşşŵőřđş äřę ŉőŧ ęđįŧäþľę ŵįŧĥ Ŵįŉđőŵş äūŧĥęŉŧįčäŧįőŉ - yőū şĥőūľđ đő ŧĥįş ŧĥřőūģĥ Åčŧįvę Đįřęčŧőřy. !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Users_AD_Label2" xml:space="preserve">
-    <value>[Ŧő äđđ ä ūşęř äş äŉ äđmįŉ őř ęđįŧőř, mäĸę şūřę ŧĥęy äřę päřŧ őƒ ŧĥę Ŵįŉđőŵş şęčūřįŧy ģřőūp ŧĥäŧ yőū ĥävę şpęčįƒįęđ ƒőř ŧĥę "ÅđmįŉŖőľęŉämę" äŉđ "ĒđįŧőřŖőľęŉämę" şęŧŧįŉģş įŉ ŧĥę ŵęþ.čőŉƒįģ.]</value>
+    <value>[Ŧő äđđ ä ūşęř äş äŉ äđmįŉ őř ęđįŧőř, mäĸę şūřę ŧĥęy äřę päřŧ őƒ ŧĥę Ŵįŉđőŵş şęčūřįŧy ģřőūp ŧĥäŧ yőū ĥävę şpęčįƒįęđ ƒőř ŧĥę "ÅđmįŉŖőľęŉämę" äŉđ "ĒđįŧőřŖőľęŉämę" şęŧŧįŉģş įŉ ŧĥę ŵęþ.čőŉƒįģ. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Users_AD_Title" xml:space="preserve">
-    <value>[Ŵįŉđőŵş/Åčŧįvę Đįřęčŧőřy äūŧĥęŉŧįčäŧįőŉ įş ęŉäþľęđ]</value>
+    <value>[Ŵįŉđőŵş/Åčŧįvę Đįřęčŧőřy äūŧĥęŉŧįčäŧįőŉ įş ęŉäþľęđ !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Users_AddAdminDialog_Title" xml:space="preserve">
-    <value>[Åđđ äđmįŉ]</value>
+    <value>[Åđđ äđmįŉ !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Users_AddEditorDialog_Title" xml:space="preserve">
-    <value>[Åđđ ęđįŧőř]</value>
+    <value>[Åđđ ęđįŧőř !!! !!!]</value>
   </data>
   <data name="SiteSettings_Users_AddUserDialog_Error" xml:space="preserve">
-    <value>[Ůŉäþľę ŧő şävę ŧĥę ūşęř đęŧäįľş:]</value>
+    <value>[Ůŉäþľę ŧő şävę ŧĥę ūşęř đęŧäįľş: !!! !!!]</value>
   </data>
   <data name="SiteSettings_Users_AddUserDialog_Help" xml:space="preserve">
-    <value>[Főř ęχįşŧįŉģ ūşęřş, ľęävę ŧĥę päşşŵőřđ ƒįęľđş þľäŉĸ ŧő čĥäŉģę ĵūşŧ ŧĥę ūşęřŉämę.]</value>
+    <value>[Főř ęχįşŧįŉģ ūşęřş, ľęävę ŧĥę päşşŵőřđ ƒįęľđş þľäŉĸ ŧő čĥäŉģę ĵūşŧ ŧĥę ūşęřŉämę. !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Users_Admins" xml:space="preserve">
-    <value>[Åđmįŉş]</value>
+    <value>[Åđmįŉş !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Users_ColumnHeader_Email" xml:space="preserve">
-    <value>[Ēmäįľ]</value>
+    <value>[Ēmäįľ !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Users_ColumnHeader_Username" xml:space="preserve">
-    <value>[Ůşęřŉämę]</value>
+    <value>[Ůşęřŉämę !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Users_Editors" xml:space="preserve">
-    <value>[Ēđįŧőřş]</value>
+    <value>[Ēđįŧőřş !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Users_EditUser_Error" xml:space="preserve">
-    <value>[Ůpđäŧįŉģ ŧĥę ūşęř ƒäįľęđ.]</value>
+    <value>[Ůpđäŧįŉģ ŧĥę ūşęř ƒäįľęđ. !!! !!!]</value>
   </data>
   <data name="SiteSettings_Users_EditUserDialog_Title" xml:space="preserve">
-    <value>[Ēđįŧ ūşęř]</value>
+    <value>[Ēđįŧ ūşęř !!! !!! !!! !!! !!! !!! !!! !!!]</value>
   </data>
   <data name="SiteSettings_Users_NewAdmin" xml:space="preserve">
-    <value>[Ńęŵ äđmįŉ ūşęř]</value>
+    <value>[Ńęŵ äđmįŉ ūşęř !!! !!!]</value>
   </data>
   <data name="SiteSettings_Users_NewEditor" xml:space="preserve">
-    <value>[Ńęŵ ęđįŧőř ūşęř]</value>
+    <value>[Ńęŵ ęđįŧőř ūşęř !!! !!!]</value>
   </data>
   <data name="SiteSettings_Users_Title" xml:space="preserve">
-    <value>[Ŝįŧę ūşęřş]</value>
+    <value>[Ŝįŧę ūşęřş !!! !!!]</value>
   </data>
   <data name="SiteSettings_Validation_AttachmentsEmpty" xml:space="preserve">
-    <value>[Ŧĥę äŧŧäčĥmęŉŧş ƒőľđęř įş ęmpŧy.]</value>
+    <value>[Ŧĥę äŧŧäčĥmęŉŧş ƒőľđęř įş ęmpŧy. !!! !!!]</value>
   </data>
   <data name="SiteSettings_Validation_ConnectionEmpty" xml:space="preserve">
-    <value>[Ŧĥę čőŉŉęčŧįőŉ şŧřįŉģ įş ęmpŧy.]</value>
+    <value>[Ŧĥę čőŉŉęčŧįőŉ şŧřįŉģ įş ęmpŧy. !!! !!!]</value>
   </data>
   <data name="SiteSettings_Validation_MarkupTypeEmpty" xml:space="preserve">
-    <value>[Ŧĥę mäřĸūp ŧypę įş ęmpŧy.]</value>
+    <value>[Ŧĥę mäřĸūp ŧypę įş ęmpŧy. !!! !!!]</value>
   </data>
   <data name="SiteSettings_Validation_SiteNameEmpty" xml:space="preserve">
-    <value>[Ŧĥę şįŧęŉämę įş ęmpŧy.]</value>
+    <value>[Ŧĥę şįŧęŉämę įş ęmpŧy. !!! !!!]</value>
   </data>
   <data name="SiteSettings_Validation_SiteUrlEmpty" xml:space="preserve">
-    <value>[Ŧĥę şįŧę ūřľ įş ęmpŧy.]</value>
+    <value>[Ŧĥę şįŧę ūřľ įş ęmpŧy. !!! !!!]</value>
   </data>
   <data name="SiteSettings_Validation_ThemeEmpty" xml:space="preserve">
-    <value>[Ŧĥę ŧĥęmę įş ęmpŧy.]</value>
+    <value>[Ŧĥę ŧĥęmę įş ęmpŧy. !!! !!!]</value>
   </data>
   <data name="User_Validation_Email" xml:space="preserve">
-    <value>[Ŧĥę ęmäįľ ƒįęľđ įş řęqūįřęđ.]</value>
+    <value>[Ŧĥę ęmäįľ ƒįęľđ įş řęqūįřęđ. !!! !!!]</value>
   </data>
   <data name="User_Validation_Email_Check" xml:space="preserve">
-    <value>[Ŧĥę ęmäįľ ƒįęľđ đőęş ŉőŧ čőŉŧäįŉ ä väľįđ ęmäįľ.]</value>
+    <value>[Ŧĥę ęmäįľ ƒįęľđ đőęş ŉőŧ čőŉŧäįŉ ä väľįđ ęmäįľ. !!! !!! !!!]</value>
   </data>
   <data name="User_Validation_EmailExists" xml:space="preserve">
-    <value>[Ŧĥę ęmäįľ {0} äľřęäđy ęχįşŧş.]</value>
+    <value>[Ŧĥę ęmäįľ {0} äľřęäđy ęχįşŧş. !!! !!!]</value>
   </data>
   <data name="User_Validation_PasswordsDontMatch" xml:space="preserve">
-    <value>[Ŧĥę päşşŵőřđş đőŉ'ŧ mäŧčĥ.]</value>
+    <value>[Ŧĥę päşşŵőřđş đőŉ'ŧ mäŧčĥ. !!! !!!]</value>
   </data>
   <data name="User_Validation_PasswordTooShort" xml:space="preserve">
-    <value>[Ŧĥę päşşŵőřđ įş ľęşş ŧĥäŉ {0} čĥäřäčŧęřş]</value>
+    <value>[Ŧĥę päşşŵőřđ įş ľęşş ŧĥäŉ {0} čĥäřäčŧęřş !!! !!!]</value>
   </data>
   <data name="User_Validation_Username" xml:space="preserve">
-    <value>[Ŧĥę ūşęřŉämę ƒįęľđ įş řęqūįřęđ.]</value>
+    <value>[Ŧĥę ūşęřŉämę ƒįęľđ įş řęqūįřęđ. !!! !!!]</value>
   </data>
   <data name="User_Validation_UsernameEmpty" xml:space="preserve">
-    <value>[Ŧĥę Ŧĥę ūşęřŉämę įş ęmpŧy.]</value>
+    <value>[Ŧĥę Ŧĥę ūşęřŉämę įş ęmpŧy. !!! !!!]</value>
   </data>
   <data name="User_Validation_UsernameExists" xml:space="preserve">
-    <value>[Ŧĥę ūşęřŉämę {0} äľřęäđy ęχįşŧş.]</value>
+    <value>[Ŧĥę ūşęřŉämę {0} äľřęäđy ęχįşŧş. !!! !!!]</value>
   </data>
   <data name="Version_BackLink" xml:space="preserve">
-    <value>[þäčĸ]</value>
+    <value>[þäčĸ !!! !!! !!!]</value>
   </data>
   <data name="Version_Title" xml:space="preserve">
-    <value>[Vęřşįőŉ {0}]</value>
+    <value>[Vęřşįőŉ {0} !!! !!!]</value>
   </data>
 </root>

@@ -17,7 +17,6 @@ namespace Roadkill.Tests.Integration.Plasma
 	/// For Plasma to work on your desktop machine, compile using the Plasma configuration.
 	/// </summary>
 	[TestFixture]
-	[Explicit]
 	[Category("Integration")]
 	public class PlasmaTestBase
 	{
@@ -45,7 +44,6 @@ namespace Roadkill.Tests.Integration.Plasma
 				}
 
 				CopySqliteDatabaseToSite(siteRootFolder);
-				CopySqliteToSite(siteRootFolder);
 
 				DirectoryInfo siteDirectory = new DirectoryInfo(siteRootFolder);
 				AppInstance = new AspNetApplication("/", siteDirectory.FullName);
@@ -68,47 +66,6 @@ namespace Roadkill.Tests.Integration.Plasma
 				destInfo.Directory.Create();
 
 			System.IO.File.Copy(source, dest, true);
-		}
-
-		private void CopySqliteToSite(string siteRootFolder)
-		{
-			try
-			{
-				//
-				// Copy the sqlite database into the App_Data folder
-				// Copy the sqlite binaries from app_data into bin for the site root.
-				//
-				string testRootFolder = AppDomain.CurrentDomain.BaseDirectory;
-				string siteAppData = Path.Combine(siteRootFolder, "App_Data");
-				string siteBinFolder = Path.Combine(siteRootFolder, "bin");
-
-				string sqliteFileSource = Path.Combine(siteAppData, "SQLiteBinaries", "x86", "System.Data.SQLite.dll");
-				string sqliteFileDest = Path.Combine(siteBinFolder, "System.Data.SQLite.dll");
-				string sqliteLinqFileSource = Path.Combine(siteAppData, "SQLiteBinaries", "x86", "System.Data.SQLite.Linq.dll");
-				string sqliteFileLinqDest = Path.Combine(siteBinFolder, "System.Data.SQLite.Linq.dll");
-
-				if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
-				{
-					sqliteFileSource = Path.Combine(siteAppData, "SQLiteBinaries", "x64", "System.Data.SQLite.dll");
-					sqliteLinqFileSource = Path.Combine(siteAppData, "SQLiteBinaries", "x64", "System.Data.SQLite.Linq.dll");
-				}
-
-				FileInfo destInfo = new FileInfo(sqliteFileDest);
-				if (!destInfo.Exists)
-					destInfo.Directory.Create();
-
-				destInfo = new FileInfo(sqliteFileLinqDest);
-				if (!destInfo.Exists)
-					destInfo.Directory.Create();
-				
-				System.IO.File.Copy(sqliteFileSource, sqliteFileDest, true);
-				System.IO.File.Copy(sqliteLinqFileSource, sqliteFileLinqDest, true);
-			}
-			catch (Exception e)
-			{
-				// Could be ignored
-				throw e;
-			}
 		}
 
 		[TestFixtureTearDown]

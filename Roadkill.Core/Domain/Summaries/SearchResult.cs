@@ -50,5 +50,29 @@ namespace Roadkill.Core.Search
 		/// The lucene.net score for the search result.
 		/// </summary>
 		public float Score { get; internal set; }
+
+		public IEnumerable<string> TagsAsList()
+		{
+			List<string> tags = new List<string>();
+
+			if (!string.IsNullOrEmpty(Tags))
+			{
+				if (Tags.IndexOf(" ") != -1)
+				{
+					string[] parts = Tags.Split(' ');
+					foreach (string item in parts)
+					{
+						if (item != " ")
+							tags.Add(item);
+					}
+				}
+				else
+				{
+					tags.Add(Tags.TrimEnd());
+				}
+			}
+
+			return tags;
+		}
 	}
 }

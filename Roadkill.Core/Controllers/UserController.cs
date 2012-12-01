@@ -72,8 +72,8 @@ namespace Roadkill.Core.Controllers
 				return RedirectToAction("Index", "Home");
 
 			// Don't use ModelState.isvalid as the summary object only has an ID and two passwords
-			if (UserSummary.VerifyPassword(summary,null) != ValidationResult.Success || 
-				UserSummary.VerifyPasswordsMatch(summary,null) != ValidationResult.Success)
+			if (string.IsNullOrEmpty(summary.Password) || string.IsNullOrEmpty(summary.PasswordConfirmation) ||
+				summary.Password != summary.PasswordConfirmation)
 			{
 				ModelState.Clear();
 				ModelState.AddModelError("Passwords", SiteStrings.ResetPassword_Error);

@@ -142,7 +142,7 @@ namespace Roadkill.Tests.Unit
 				Id = id,
 				Title = title,
 				Content = textContent,
-				Tags = tags,
+				RawTags = tags,
 				CreatedBy = createdBy,
 				CreatedOn = createdOn
 			};
@@ -168,7 +168,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(newSummary.Content, Is.EqualTo(summary.Content));
 			_mockRepository.Verify
 			(
-				x => x.SaveOrUpdate<Page>(It.Is<Page>(p => p.Title == summary.Title && p.CreatedBy == AdminUsername && p.Tags == summary.Tags))
+				x => x.SaveOrUpdate<Page>(It.Is<Page>(p => p.Title == summary.Title && p.CreatedBy == AdminUsername && p.Tags == summary.CommaDelimitedTags()))
 			);
 
 			_mockRepository.Verify(x => x.SaveOrUpdate<PageContent>(It.Is<PageContent>(p => p.Text == summary.Content)));
@@ -369,7 +369,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			PageSummary summary = AddToMockRepository(1, "admin", "Homepage", "animal;");
-			summary.Tags = "new;tags;";
+			summary.RawTags = "new,tags,";
 			summary.Title = "New title";
 			summary.Content = "**New content**";
 
@@ -383,7 +383,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(actual.Tags, Is.EqualTo(summary.Tags), "Tags");
 			_mockRepository.Verify
 			(
-				x => x.SaveOrUpdate<Page>(It.Is<Page>(p => p.Id == summary.Id && p.Title == summary.Title && p.CreatedBy == AdminUsername && p.Tags == summary.Tags))
+				x => x.SaveOrUpdate<Page>(It.Is<Page>(p => p.Id == summary.Id && p.Title == summary.Title && p.CreatedBy == AdminUsername && p.Tags == summary.CommaDelimitedTags()))
 			);
 			_mockRepository.Verify
 			(

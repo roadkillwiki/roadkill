@@ -32,7 +32,7 @@ namespace Roadkill.Core
 				IsLocked = Page.IsLocked,
 				ModifiedBy = Page.ModifiedBy,
 				ModifiedOn = Page.ModifiedOn,
-				Tags = Page.Tags,
+				RawTags = Page.Tags,
 				Content = Text,
 				ContentAsHtml = markupConverter.ToHtml(Text),
 				VersionNumber = VersionNumber,

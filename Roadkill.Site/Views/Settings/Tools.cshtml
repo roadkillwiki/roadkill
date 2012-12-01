@@ -1,7 +1,7 @@
 ﻿@{ 
 	ViewBag.Title = SiteStrings.SiteSettings_Tools_Title;
+	ViewData["ToolsActive"] = true;
 }
-<h1>@SiteStrings.SiteSettings_Tools_Title</h1>
 
 @Html.Partial("SettingsMenu")
 
@@ -10,41 +10,48 @@
 	{
 		$("#settingscontainer a.refreshlink").click(function ()
 		{
-			openModal("#wait", { closeBtn: false });
+			// Appends the progress bar div under the clicked anchor, and shows it
+			$(this).parent().parent().append($("#wait"));
+			$(this).parent().parent().find(".progress").show();
 		});
+
+		if ($(".alert").text().trim().length > 0)
+		{
+			$(".alert").show().delay(2500).fadeOut(1000);
+		}
 	});
 </script>
 
-<span class="bold" style="color:green">@TempData["Message"]</span>
+<div class="alert alert-success hide">@TempData["Message"]</div>
 
-<div id="settingscontainer">
-	<p>
-	<b>@Html.ActionLink(SiteStrings.SiteSettings_Tools_ClearDatabase, "ClearPages", null, new { @class = "refreshlink" })</b><br />
-	@SiteStrings.SiteSettings_Tools_ClearDatabase_Label
-	</p>
+<div id="settings-container">
+	<div>
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ClearDatabase, "ClearPages", null, new { @class = "refreshlink btn btn-success" })<br />
+		<p>@SiteStrings.SiteSettings_Tools_ClearDatabase_Label</p>
+	</div>
 
-	<p>
-	<b>@Html.ActionLink(SiteStrings.SiteSettings_Tools_RebuildSearch, "UpdateSearchIndex", null, new { @class = "refreshlink" })</b><br />
-	@SiteStrings.SiteSettings_Tools_RebuildSearch_Label
-	</p>
+	<div>
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_RebuildSearch, "UpdateSearchIndex", null, new { @class = "refreshlink btn btn-success" })<br />
+		<p>@SiteStrings.SiteSettings_Tools_RebuildSearch_Label</p>
+	</div>
 
-	<p>
-	<b>@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportXml, "ExportAsXml")</b><br />
-	@SiteStrings.SiteSettings_Tools_ExportXml_Label
-	</p>
+	<div>
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportXml, "ExportAsXml", null, new { @class = "btn btn-success" })<br />
+		<p>@SiteStrings.SiteSettings_Tools_ExportXml_Label</p>
+	</div>
 
-	<p>
-	<b>@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportContent, "ExportAsWikiFiles")</b><br />
-	@SiteStrings.SiteSettings_Tools_ExportContent_Label
-	</p>
+	<div>
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportContent, "ExportAsWikiFiles", null, new { @class = "btn btn-success" })<br />
+		<p>@SiteStrings.SiteSettings_Tools_ExportContent_Label</p>
+	</div>
 
-	<p>
-	<b>@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportAttachments, "ExportAttachments")</b><br />
-	@SiteStrings.SiteSettings_Tools_ExportAttachments_Label
-	</p>
-	<br /><br />
+	<div>
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportAttachments, "ExportAttachments", null, new { @class = "btn btn-success" })<br />
+		<p>@SiteStrings.SiteSettings_Tools_ExportAttachments_Label</p>
+	</div>
+	<br />
 
-	<span class="bold borderbottom">@SiteStrings.SiteSettings_Tools_ScrewTurnImport</span><br />
+	<h1>@SiteStrings.SiteSettings_Tools_ScrewTurnImport</h1><br />
 	<p>
 	@SiteStrings.SiteSettings_Tools_ScrewTurnImport_Label
 	</p>
@@ -52,12 +59,12 @@
 	@using (Html.BeginForm("ImportFromScrewTurn", "Settings"))
 	{
 	<b>@SiteStrings.SiteSettings_Tools_ScrewTurnImport_Connection</b>
-	@(Html.TextBox("screwturnConnectionString", null, new { style = "width:30em" }))<br />
-	<input type="submit" class="button" value="@SiteStrings.Button_Import" />
+	@(Html.TextBox("screwturnConnectionString", null, new { @class = "longtextbox" }))<br />
+	<input type="submit" class="btn-small btn-primary" value="@SiteStrings.Button_Import" />
 	}
-	<br /><br />
+	<br />
 
-	<span class="bold borderbottom">@SiteStrings.SiteSettings_Tools_RenameTag</span><br />
+	<h1>@SiteStrings.SiteSettings_Tools_RenameTag</h1><br />
 	<p>
 	@SiteStrings.SiteSettings_Tools_RenameTag_Label
 	</p>
@@ -71,10 +78,11 @@
 	<div class="left bold" style="width:150px;">@SiteStrings.SiteSettings_Tools_RenameTag_New</div>
 	<div class="left">@(Html.TextBox("newTagName", null, new { style = "width:100px" }))</div>
 	<br class="clear" />
-	<input type="submit" class="button" value="@SiteStrings.Button_Rename" />
+	<input type="submit" class="btn-small btn-primary" value="@SiteStrings.Button_Rename" />
 	}
 </div>
 
-<div id="wait" class="hidden" style="background-color:#333;width:100px;text-align:center;">
-	<img src="@(Url.Content("~/Assets/images/loadinglarge.gif"))" border="0" />
+
+<div id="wait" class="progress progress-striped active hidden" style="text-align:center;width:200px;">
+	<div class="bar" style="width: 60%;"></div>
 </div>

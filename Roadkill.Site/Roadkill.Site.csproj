@@ -14,7 +14,7 @@
     <RootNamespace>Roadkill.Site</RootNamespace>
     <AssemblyName>Roadkill.Site</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <MvcBuildViews>false</MvcBuildViews>
+    <MvcBuildViews>true</MvcBuildViews>
     <TargetFrameworkProfile />
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -257,13 +257,20 @@
     <Content Include="App_Data\tokens.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Assets\bootstrap\css\bootstrap-responsive.css" />
+    <Content Include="Assets\bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="Assets\bootstrap\css\bootstrap.css" />
+    <Content Include="Assets\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Assets\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="Assets\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="Assets\bootstrap\js\bootstrap.js" />
+    <Content Include="Assets\bootstrap\js\bootstrap.min.js" />
     <Content Include="Assets\CSS\htmldiff.css" />
     <Content Include="Assets\CSS\images\blank.gif" />
     <Content Include="Assets\CSS\images\fancybox_loading.gif" />
     <Content Include="Assets\CSS\images\fancybox_overlay.png" />
     <Content Include="Assets\CSS\images\fancybox_sprite.png" />
     <Content Include="Assets\CSS\jquery.fancybox.css" />
-    <Content Include="Assets\CSS\jquery.tagit.css" />
     <Content Include="Assets\CSS\images\application.png" />
     <Content Include="Assets\CSS\images\code.png" />
     <Content Include="Assets\CSS\images\css.png" />
@@ -297,10 +304,12 @@
     <Content Include="Assets\Images\installer-ex-chicken.png" />
     <Content Include="Assets\Images\installerbg.png" />
     <Content Include="Assets\Images\loadinglarge.gif" />
+    <Content Include="Assets\bootstrap\img\Thumbs.db" />
     <None Include="Assets\Scripts\jquery-1.8.0-vsdoc.js" />
+    <Content Include="Assets\CSS\bootstrap-tagmanager.css" />
+    <Content Include="Assets\Scripts\bootstrap-tagmanager.js" />
     <Content Include="Assets\Scripts\jquery-1.8.0.min.js" />
     <Content Include="Assets\Scripts\jquery.fancybox.pack.js" />
-    <Content Include="Assets\Scripts\jquery.tooltip.min.js" />
     <Content Include="Assets\Scripts\jquery.validate.js" />
     <Content Include="Assets\Scripts\jquery.validationEngine.js" />
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-cz.js" />
@@ -372,13 +381,8 @@
     <Content Include="Assets\Images\wysiwyg\link.png" />
     <Content Include="Assets\CSS\close-x.png" />
     <Content Include="Assets\Scripts\roadkill.wysiwyg.js" />
-    <Content Include="Assets\Scripts\jquery-ui-1.8.autocomplete.min.js" />
-    <Content Include="Assets\Scripts\jquery-ui-1.8.core-and-interactions.min.js" />
-    <Content Include="Assets\CSS\jquery.ui.autocomplete.custom.css" />
     <Content Include="Assets\CSS\roadkill.css" />
-    <Content Include="Assets\Scripts\jquery.require.js" />
     <Content Include="Assets\Scripts\jquery.timeago.js" />
-    <Content Include="Assets\Scripts\tag-it.js" />
     <Content Include="Assets\Images\loading.gif" />
     <Content Include="Themes\BlackBar\Theme.css" />
     <Content Include="Themes\Roadkillwiki.org\roadkill-large.png" />

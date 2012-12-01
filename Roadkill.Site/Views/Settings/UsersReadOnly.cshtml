@@ -3,13 +3,15 @@
 @{ 
 	ViewBag.Title = SiteStrings.SiteSettings_Users_Title;
 }
-<h1>@SiteStrings.SiteSettings_Users_Title</h1>
 
 @Html.Partial("SettingsMenu")
 
-<div id="settings" class="blueborder rounded5">
+<div>
+	<p class="label label-info">
+		@SiteStrings.SiteSettings_Users_AD_Title
+	</p>
+
 	<p>
-		<b>@SiteStrings.SiteSettings_Users_AD_Title</b><br />
 		@SiteStrings.SiteSettings_Users_AD_Label1
 	</p>
 	
@@ -17,8 +19,8 @@
 		@SiteStrings.SiteSettings_Users_AD_Label2
 	</p>
 	
-	<h2>@SiteStrings.SiteSettings_Users_Admins (@Configuration.ApplicationSettings.AdminRoleName)</h2>
-	<table class="settingstable">
+	<h2>@SiteStrings.SiteSettings_Users_Admins (using group '@Configuration.ApplicationSettings.AdminRoleName')</h2>
+	<table class="table table-striped">
 		@foreach (UserSummary user in Model[0])
 		{
 		<tr>
@@ -28,8 +30,8 @@
 	</table>
 	<br class="clear" />
 
-	<h2>@SiteStrings.SiteSettings_Users_Editors (@Configuration.ApplicationSettings.EditorRoleName)</h2>
-	<table class="settingstable">
+	<h2>@SiteStrings.SiteSettings_Users_Editors (using group '@Configuration.ApplicationSettings.EditorRoleName')</h2>
+	<table class="table table-striped">
 	@foreach (UserSummary user in Model[1])
 	{
 		<tr>
