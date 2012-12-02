@@ -368,7 +368,18 @@ namespace Roadkill.Core
 				{
 					_searchManager.Delete(summary);
 
-					summary.RawTags = summary.CommaDelimitedTags().Replace(oldTagName + ";", newTagName + ";");
+					string tags = summary.CommaDelimitedTags();
+
+					if (tags.IndexOf(";") != -1)
+					{
+						tags = tags.Replace(oldTagName + ";", newTagName + ";");
+					}
+					else if (tags.IndexOf(",") != -1)
+					{
+						tags = tags.Replace(oldTagName + ",", newTagName + ",");
+					}
+
+					summary.RawTags = tags;
 					UpdatePage(summary);
 				}
 			}
