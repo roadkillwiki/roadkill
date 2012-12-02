@@ -37,36 +37,39 @@ namespace Roadkill.Core.Converters
 		/// <returns>An <see cref="IMarkupParser"/> for Creole,Markdown or Media wiki formats.</returns>
 		public MarkupConverter(IConfigurationContainer configuration, IRepository repository)
 		{
-			AbsolutePathConverter = ConvertToAbsolutePath;
-			InternalUrlForTitle = GetUrlForTitle;
-			NewPageUrlForTitle = GetNewPageUrlForTitle;
-
-			_repository = repository;
-			_configuration = configuration;
-
-			string markupType = "creole";
-
-			if (!string.IsNullOrEmpty(_configuration.SitePreferences.MarkupType))
-				markupType = _configuration.SitePreferences.MarkupType.ToLower();
-
-			switch (markupType)
+			if (configuration.ApplicationSettings.Installed)
 			{
-				case "markdown":
-					_parser = new MarkdownParser();
-					break;
+				AbsolutePathConverter = ConvertToAbsolutePath;
+				InternalUrlForTitle = GetUrlForTitle;
+				NewPageUrlForTitle = GetNewPageUrlForTitle;
 
-				case "mediawiki":
-					_parser = new MediaWikiParser();
-					break;
+				_repository = repository;
+				_configuration = configuration;
 
-				case "creole":
-				default:
-					_parser = new CreoleParser();
-					break;
+				string markupType = "creole";
+
+				if (!string.IsNullOrEmpty(_configuration.SitePreferences.MarkupType))
+					markupType = _configuration.SitePreferences.MarkupType.ToLower();
+
+				switch (markupType)
+				{
+					case "markdown":
+						_parser = new MarkdownParser();
+						break;
+
+					case "mediawiki":
+						_parser = new MediaWikiParser();
+						break;
+
+					case "creole":
+					default:
+						_parser = new CreoleParser();
+						break;
+				}
+
+				_parser.LinkParsed += LinkParsed;
+				_parser.ImageParsed += ImageParsed;
 			}
-
-			_parser.LinkParsed += LinkParsed;
-			_parser.ImageParsed += ImageParsed;
 		}
 
 		/// <summary>
