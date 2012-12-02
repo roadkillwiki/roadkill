@@ -41,6 +41,11 @@ namespace Roadkill.Core
 		/// <exception cref="T:System.ArgumentNullException">The <paramref name="httpContext"/> parameter is null.</exception>
 		protected override bool AuthorizeCore(HttpContextBase httpContext)
 		{
+			if (!_config.ApplicationSettings.Installed)
+			{
+				return true;
+			}
+
 			IPrincipal user = httpContext.User;
 			IIdentity identity = user.Identity;
 

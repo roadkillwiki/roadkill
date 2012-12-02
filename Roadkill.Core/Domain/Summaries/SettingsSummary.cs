@@ -7,6 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using Roadkill.Core.Localization.Resx;
 using Roadkill.Core.Configuration;
+using System.Web;
 
 namespace Roadkill.Core
 {
@@ -23,7 +24,16 @@ namespace Roadkill.Core
 		{
 			Config = config;
 			DatabaseType = DatabaseType.SqlServer2005;
-			SiteUrl = "http://localhost";
+
+			if (HttpContext.Current != null)
+			{
+				Uri uri = HttpContext.Current.Request.Url;
+				SiteUrl = string.Format("{0}://{1}{2}", uri.Scheme, uri.Host, (uri.Port != 80 && uri.Port != 443) ? ":" +uri.Port : "");
+			}
+			else
+			{
+				SiteUrl = "http://localhost";
+			}
 		}
 
 		public string AdminEmail { get; set; }
