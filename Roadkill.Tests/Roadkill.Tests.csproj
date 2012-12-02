@@ -240,6 +240,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Acceptance\AcceptanceTestsBase.cs" />
+    <Compile Include="Acceptance\PageTests.cs" />
+    <Compile Include="Acceptance\UserTests.cs" />
     <Compile Include="Unit\Controllers\MvcMockContainer.cs" />
     <Compile Include="Unit\Controllers\FilesControllerTests.cs" />
     <Compile Include="Unit\MarkdownTests.cs" />
@@ -268,7 +270,7 @@
     <None Include="packages.config" />
     <Compile Include="Unit\CreoleParserTests.cs" />
     <Compile Include="Acceptance\LoginTests.cs" />
-    <Compile Include="Acceptance\HomePageTests.cs" />
+    <Compile Include="Acceptance\DemoSiteTests.cs" />
     <Compile Include="Unit\Controllers\MvcMockHelpers.cs" />
     <Compile Include="Unit\Controllers\UserControllerTests.cs" />
     <Compile Include="Integration\SearchManagerTests.cs" />

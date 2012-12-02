@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
 using SimpleBrowser.WebDriver;
 
 namespace Roadkill.Tests.Acceptance
@@ -12,22 +14,34 @@ namespace Roadkill.Tests.Acceptance
 	[Category("Acceptance")]
 	public class AcceptanceTestsBase
 	{
-		protected SimpleBrowserDriver Driver;
+		protected static readonly string ADMIN_EMAIL = "admin@localhost";
+		protected static readonly string ADMIN_PASSWORD = "password";
+
+		protected static readonly string EDITOR_EMAIL = "editor@localhost";
+		protected static readonly string EDITOR_PASSWORD = "password";
+
+		protected IWebDriver Driver;
 		protected string LoginUrl;
 		protected string BaseUrl;
+		protected string LogoutUrl;
 		private Process _iisProcess;
 
 		[TestFixtureSetUp]
 		public void Setup()
 		{
-			// Launch IIS Express
-			LaunchIisExpress();
+			string sitePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Roadkill.Site");
+			sitePath = new DirectoryInfo(sitePath).FullName;
+
+			CopyWebConfigAndDb(sitePath);
+			LaunchIisExpress(sitePath);
 
 			BaseUrl = "http://localhost:9876";
 			LoginUrl = BaseUrl + "/user/login";
+			LogoutUrl = BaseUrl + "/user/logout";
 
 			Driver = new SimpleBrowserDriver();
-			Driver.Navigate().GoToUrl(BaseUrl);
+			Driver = new FirefoxDriver();
+			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(2));
 		}
 
 		[TestFixtureTearDown]
@@ -42,14 +56,26 @@ namespace Roadkill.Tests.Acceptance
 			}
 		}
 
-		private void LaunchIisExpress()
+		private void CopyWebConfigAndDb(string sitePath)
 		{
-			string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Roadkill.Site");
-			path = new DirectoryInfo(path).FullName; // Don't use "..\..\" format, IIS Express needs a full path
+			string libFolder = Path.Combine(sitePath, "..", "lib");
+			libFolder = new DirectoryInfo(libFolder).FullName;
 
+			string testsWebConfigPath = Path.Combine(libFolder, "Configs", "web.acceptancetests.config");
+			string testsDBPath = Path.Combine(libFolder, "Empty-databases", "roadkill-acceptancetests.sdf");
+
+			// Be a good neighbour and backup the web.config
+			string siteWebConfig = Path.Combine(sitePath, "web.config");
+			File.Copy(siteWebConfig, siteWebConfig +".bak", true);
+			File.Copy(testsWebConfigPath, siteWebConfig, true);
+
+			File.Copy(testsDBPath, Path.Combine(sitePath, "App_Data", "roadkill-acceptancetests.sdf"), true);
+		}
+
+		private void LaunchIisExpress(string sitePath)
+		{
 			ProcessStartInfo startInfo = new ProcessStartInfo();
-			startInfo.Arguments = string.Format("/path:\"{1}\" /port:{2}", "Roadkill Unit Tests", path, 9876);
-
+			startInfo.Arguments = string.Format("/path:\"{0}\" /port:{1}", sitePath, 9876);
 
 			string programfiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
 			if (Environment.Is64BitOperatingSystem)
@@ -60,7 +86,7 @@ namespace Roadkill.Tests.Acceptance
 			if (!File.Exists(startInfo.FileName))
 			{
 				throw new FileNotFoundException("IIS Express is not installed and is required for the acceptance tests\n " +
-					"Install it from http://www.microsoft.com/en-gb/download/details.aspx?id=1038");
+					"Download it from http://www.microsoft.com/en-gb/download/details.aspx?id=1038");
 			}
 
 			try

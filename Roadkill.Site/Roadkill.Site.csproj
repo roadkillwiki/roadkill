@@ -302,7 +302,6 @@
     <Content Include="Assets\Images\favicon.png" />
     <Content Include="Assets\Images\help.png" />
     <Content Include="Assets\Images\installer-ex-chicken.png" />
-    <Content Include="Assets\Images\installerbg.png" />
     <Content Include="Assets\Images\loadinglarge.gif" />
     <Content Include="Assets\bootstrap\img\Thumbs.db" />
     <None Include="Assets\Scripts\jquery-1.8.0-vsdoc.js" />

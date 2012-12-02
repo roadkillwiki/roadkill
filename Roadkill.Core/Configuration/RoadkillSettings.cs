@@ -63,6 +63,9 @@ namespace Roadkill.Core.Configuration
 
 		public virtual void LoadSitePreferences()
 		{
+			if (!_applicationSettings.Installed)
+				return;
+
 			IRepository repository;
 
 			try
