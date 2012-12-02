@@ -25,6 +25,7 @@
 	{
 		@(Html.HiddenFor<PageSummary, int>(p => p.Id))
 		@(Html.HiddenFor<PageSummary, string>(p => p.PreviousTitle))
+		@(Html.HiddenFor<PageSummary, string>(p => p.RawTags))
 	 
 		<div>
 			<label for="Title">@SiteStrings.EditPage_Title_Label</label>

@@ -46,7 +46,7 @@
 			<td class="edit"><a href="javascript:;" class="btn btn-primary btn-mini" rel="var user = {id : '@user.Id', email :'@user.ExistingEmail',username:'@user.ExistingUsername'}">@SiteStrings.Navigation_Edit</a></td>
 		@if (Model[0].Count() > 0 && user.ExistingEmail != RoadkillContext.CurrentUser)
 		{
-			<td class="delete">@Html.ActionLink(SiteStrings.Navigation_Delete, "Delete", new { id = user.ExistingEmail }, new { @class = "confirm btn btn-mini" })</td>
+			<td class="delete">@Html.ActionLink(SiteStrings.Navigation_Delete, "DeleteUser", new { id = user.ExistingEmail }, new { @class = "confirm btn btn-mini" })</td>
 		}
 		else
 		{

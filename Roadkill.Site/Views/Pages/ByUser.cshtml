@@ -20,7 +20,7 @@
 <table class="table table-striped">
 	<thead>
 		<tr>
-			<th>@SiteStrings.AllPages_TitleColumnHeading</th>
+			<th class="stretch">@SiteStrings.AllPages_TitleColumnHeading</th>
 			<th></th>
 			<th></th>
 		</tr>
@@ -28,7 +28,7 @@
 	@foreach (PageSummary summary in Model)
 	{
 	<tr>
-		<td class="title">@Html.ActionLink(summary.Title,"Index","Wiki",new { id = summary.Id,title=Url.EncodeTitle(summary.Title)},null)</td>
+		<td class="stretch">@Html.ActionLink(summary.Title,"Index","Wiki",new { id = summary.Id,title=Url.EncodeTitle(summary.Title)},null)</td>
 		@if (RoadkillContext.IsLoggedIn)
 		{
 		if (!summary.IsLocked || (summary.IsLocked && RoadkillContext.IsAdmin))
