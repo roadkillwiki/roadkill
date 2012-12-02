@@ -23,75 +23,59 @@ namespace Roadkill.Tests.Acceptance
 	/// </summary>
 	[TestFixture]
 	[Category("Acceptance")]
-	public class LoginTests
-	{
-		private SimpleBrowserDriver _driver;
-		private readonly string LOGINURL = Settings.HeadlessUrl + "/user/login";
-
-		[TestFixtureSetUp]
-		public void Setup()
-		{
-			_driver = new SimpleBrowserDriver();
-			_driver.Navigate().GoToUrl(Settings.HeadlessUrl);
-		}
-
-		[TestFixtureTearDown]
-		public void TearDown()
-		{
-			_driver.Dispose();
-		}
-
-		
+	[Explicit]
+	public class LoginTests : AcceptanceTestsBase
+	{		
 		[Test]
-		public void CanLogin_AsEditor()
+		public void CanLogin_AsAdmin()
 		{
-			_driver.Navigate().GoToUrl(LOGINURL);
-			_driver.FindElement(By.Name("email")).SendKeys("nobody@roadkillwiki.org");
-			_driver.FindElement(By.Name("password")).SendKeys("editor");
-			_driver.FindElement(By.CssSelector("input[value=Login]")).Click();
+			Driver.Navigate().GoToUrl(LoginUrl);
+			Driver.FindElement(By.Name("email")).SendKeys("admin@localhost");
+			Driver.FindElement(By.Name("password")).SendKeys("password");
+			Driver.FindElement(By.CssSelector("input[value=Login]")).Click();
 			
 			Thread.Sleep(2000);
-			Assert.That(_driver.FindElement(By.CssSelector("#loggedinas a")).Text,Is.EqualTo("Logged in as editor"));
+			Assert.That(Driver.FindElement(By.CssSelector("#loggedinas a")).Text,Is.EqualTo("Logged in as admin"));
 		}
 
 		[Test]
-		public void BadEmail_AsEditor_ShowsError()
+		public void BadEmail_AsAdmin_ShowsError()
 		{
-			_driver.Navigate().GoToUrl(LOGINURL);
-			_driver.FindElement(By.Name("email")).SendKeys("badlogin@roadkillwiki.org");
-			_driver.FindElement(By.Name("password")).SendKeys("editor");
-			_driver.FindElement(By.CssSelector("input[value=Login]")).Click();
+			Driver.Navigate().GoToUrl(LoginUrl);
+			Driver.FindElement(By.Name("email")).SendKeys("badlogin@roadkillwiki.org");
+			Driver.FindElement(By.Name("password")).SendKeys("editor");
+			Driver.FindElement(By.CssSelector("input[value=Login]")).Click();
 
 			Thread.Sleep(2000);
-			Assert.That(_driver.FindElement(By.CssSelector(".validation-summary-errors span")).Text, Is.EqualTo("Login was unsuccessful"));
+			Assert.That(Driver.FindElement(By.CssSelector(".validation-summary-errors span")).Text, Is.EqualTo("Login was unsuccessful"));
 		}
 
 		[Test]
-		public void BadPassword_AsEditor_ShowsError()
+		public void BadPassword_AsAdmin_ShowsError()
 		{
-			_driver.Navigate().GoToUrl(LOGINURL);
-			_driver.FindElement(By.Name("email")).SendKeys("nobody@roadkillwiki.org");
-			_driver.FindElement(By.Name("password")).SendKeys("badpassword");
-			_driver.FindElement(By.CssSelector("input[value=Login]")).Click();
+			Driver.Navigate().GoToUrl(LoginUrl);
+			Driver.FindElement(By.Name("email")).SendKeys("admin@localhost");
+			Driver.FindElement(By.Name("password")).SendKeys("badpassword");
+			Driver.FindElement(By.CssSelector("input[value=Login]")).Click();
 
 			Thread.Sleep(2000);
-			Assert.That(_driver.FindElement(By.CssSelector(".validation-summary-errors span")).Text, Is.EqualTo("Login was unsuccessful"));
+			Assert.That(Driver.FindElement(By.CssSelector(".validation-summary-errors span")).Text, Is.EqualTo("Login was unsuccessful"));
 		}
 
 		[Test]
-		public void CanLogout_AsEditor()
+		public void CanLogout_AsAdmin()
 		{
-			_driver.Navigate().GoToUrl(LOGINURL);
-			_driver.FindElement(By.Name("email")).SendKeys("nobody@roadkillwiki.org");
-			_driver.FindElement(By.Name("password")).SendKeys("editor");
-			_driver.FindElement(By.CssSelector("input[value=Login]")).Click();
+			Driver.Navigate().GoToUrl(LoginUrl);
+			Driver.FindElement(By.Name("email")).SendKeys("admin@localhost");
+			Driver.FindElement(By.Name("password")).SendKeys("password");
+			Driver.FindElement(By.CssSelector("input[value=Login]")).Click();
 
 			Thread.Sleep(2000);
-			_driver.FindElement(By.CssSelector("#loggedinas a[href=/user/logout]")).Click(); // do it by url to be safe
+			Driver.FindElement(By.CssSelector("#loggedinas a[href=/user/logout]")).Click(); // do it by url to be safe
 			Thread.Sleep(2000);
 
-			Assert.That(_driver.FindElement(By.CssSelector("#loggedinas a")).Text, Is.EqualTo("Login"));			
-			string actual = _driver.FindElement(By.CssSelector("#loggedinas")).Text;
+			Assert.That(Driver.FindElement(By.CssSelector("#loggedinas a")).Text, Is.EqualTo("Login"));			
+			string actual = Driver.FindElement(By.CssSelector("#loggedinas")).Text;
 			Assert.That(actual, Is.StringContaining("Not logged in"));
 		}
 	}

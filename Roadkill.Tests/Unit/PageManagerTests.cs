@@ -270,7 +270,7 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(summaries.Count, Is.EqualTo(1), "Summary count");
 			Assert.That(summaries[0].Title, Is.EqualTo("Homepage"), "Summary title");
-			Assert.That(summaries[0].Tags, Is.EqualTo("homepage;"), "Summary tags");
+			Assert.That(summaries[0].Tags.ToList()[0], Is.EqualTo("homepage"), "Summary tags");
 		}
 
 		[Test]
@@ -347,7 +347,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void RenameTags_For_Multiple_Tags_Returns_Many_Results()
+		public void RenameTags_For_Multiple_Tags_Returns_Multiple_Results()
 		{
 			// Arrange
 			PageSummary page1 = AddToMockRepository(1, "admin", "Homepage", "animal;");

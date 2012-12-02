@@ -239,6 +239,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Acceptance\AcceptanceTestsBase.cs" />
     <Compile Include="Unit\Controllers\MvcMockContainer.cs" />
     <Compile Include="Unit\Controllers\FilesControllerTests.cs" />
     <Compile Include="Unit\MarkdownTests.cs" />
@@ -267,14 +268,10 @@
     <None Include="packages.config" />
     <Compile Include="Unit\CreoleParserTests.cs" />
     <Compile Include="Acceptance\LoginTests.cs" />
-    <Compile Include="Acceptance\SearchTests.cs" />
     <Compile Include="Acceptance\HomePageTests.cs" />
-    <Compile Include="Acceptance\Urls.cs" />
     <Compile Include="Unit\Controllers\MvcMockHelpers.cs" />
     <Compile Include="Unit\Controllers\UserControllerTests.cs" />
     <Compile Include="Integration\SearchManagerTests.cs" />
-    <Compile Include="Integration\Plasma\PageTests.cs" />
-    <Compile Include="Integration\Plasma\PlasmaTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Integration\SqlUserManagerTests.cs" />
   </ItemGroup>
