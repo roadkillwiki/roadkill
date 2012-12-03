@@ -240,7 +240,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Acceptance\AcceptanceTestsBase.cs" />
+    <Compile Include="Acceptance\AcceptanceTestsSetup.cs" />
     <Compile Include="Acceptance\PageTests.cs" />
+    <Compile Include="Acceptance\RequiresBrowserWithJavascriptAttribute.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
     <Compile Include="Unit\Controllers\MvcMockContainer.cs" />
     <Compile Include="Unit\Controllers\FilesControllerTests.cs" />
@@ -250,6 +252,9 @@
     <Compile Include="Unit\PageManagerTests.cs" />
     <Compile Include="Unit\ActiveDirectoryUserManagerTests.cs" />
     <Compile Include="Integration\SqlTestsBase.cs" />
+    <Content Include="chromedriver.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="lib\roadkill.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

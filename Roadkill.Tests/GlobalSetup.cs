@@ -15,7 +15,7 @@ using System.Configuration;
 public class GlobalSetup
 {
     /// <summary>
-	/// Attempts to copy the correct SQL binaries to the bin folder for the architecture the app pool is running under.
+	/// Attempts to copy the correct SQL binaries to the bin folder for the architecture the tests are running under.
 	/// </summary>
 	[SetUp]
 	public void BeforeAllTests()
