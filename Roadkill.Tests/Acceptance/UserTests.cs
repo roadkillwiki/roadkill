@@ -24,7 +24,6 @@ namespace Roadkill.Tests.Acceptance
 	/// </summary>
 	[TestFixture]
 	[Category("Acceptance")]
-	[Explicit]
 	public class UserTests : AcceptanceTestsBase
 	{
 		[Test]
@@ -40,9 +39,9 @@ namespace Roadkill.Tests.Acceptance
 			Driver.Navigate().GoToUrl(LoginUrl);
 
 			// Act
-			Driver.FindElement(By.CssSelector("a[href=/user/resetpassword]")).Click();
+			Driver.FindElement(By.CssSelector("a[href='/user/resetpassword']")).Click();
 			Driver.FindElement(By.Name("email")).SendKeys(ADMIN_EMAIL);
-			Driver.FindElement(By.CssSelector("input[value=Reset password]")).Click();
+			Driver.FindElement(By.CssSelector("input[value='Reset password']")).Click();
 			
 			// Assert
 			Assert.That(Driver.FindElements(By.CssSelector("#content h1"))[0].Text, Contains.Substring("Your password reset request was sent."));
@@ -61,15 +60,15 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("input[value=Login]")).Click();
 
 			// Act
-			Driver.FindElement(By.CssSelector("a[href=/user/profile]")).Click();
+			Driver.FindElement(By.CssSelector("a[href='/user/profile']")).Click();
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector("#Firstname")).Text, Is.EqualTo("Chris"));
-			Assert.That(Driver.FindElement(By.CssSelector("#Lastname")).Text, Is.EqualTo("Admin"));
-			Assert.That(Driver.FindElement(By.CssSelector("#NewEmail")).Text, Is.EqualTo("admin@localhost"));
-			Assert.That(Driver.FindElement(By.CssSelector("#NewUsername")).Text, Is.EqualTo("admin"));
-			Assert.That(Driver.FindElement(By.CssSelector("#Password")).Text, Is.EqualTo(""));
-			Assert.That(Driver.FindElement(By.CssSelector("#PasswordConfirmation")).Text, Is.EqualTo(""));
+			Assert.That(Driver.FindElement(By.CssSelector("#Firstname")).GetAttribute("value"), Is.EqualTo("Chris"));
+			Assert.That(Driver.FindElement(By.CssSelector("#Lastname")).GetAttribute("value"), Is.EqualTo("Admin"));
+			Assert.That(Driver.FindElement(By.CssSelector("#NewEmail")).GetAttribute("value"), Is.EqualTo("admin@localhost"));
+			Assert.That(Driver.FindElement(By.CssSelector("#NewUsername")).GetAttribute("value"), Is.EqualTo("admin"));
+			Assert.That(Driver.FindElement(By.CssSelector("#Password")).GetAttribute("value"), Is.EqualTo(""));
+			Assert.That(Driver.FindElement(By.CssSelector("#PasswordConfirmation")).GetAttribute("value"), Is.EqualTo(""));
 		}
 
 		[Test]
@@ -81,7 +80,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.Name("email")).SendKeys(ADMIN_EMAIL);
 			Driver.FindElement(By.Name("password")).SendKeys(ADMIN_PASSWORD);
 			Driver.FindElement(By.CssSelector("input[value=Login]")).Click();
-			Driver.FindElement(By.CssSelector("a[href=/user/profile]")).Click();	
+			Driver.FindElement(By.CssSelector("a[href='/user/profile']")).Click();	
 
 			// Act
 			Driver.FindElement(By.CssSelector("#Firstname")).Clear();
@@ -89,15 +88,15 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("#Lastname")).Clear();
 			Driver.FindElement(By.CssSelector("#Lastname")).SendKeys("NewLastName");
 			Driver.FindElement(By.CssSelector("input[value=Save]")).Click();
-			Driver.FindElement(By.CssSelector("a[href=/user/profile]")).Click();
+			Driver.FindElement(By.CssSelector("a[href='/user/profile']")).Click();
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector("#Firstname")).Text, Is.EqualTo("NewFirstName"));
-			Assert.That(Driver.FindElement(By.CssSelector("#Lastname")).Text, Is.EqualTo("NewLastName"));
-			Assert.That(Driver.FindElement(By.CssSelector("#NewEmail")).Text, Is.EqualTo("admin@localhost"));
-			Assert.That(Driver.FindElement(By.CssSelector("#NewUsername")).Text, Is.EqualTo("admin"));
-			Assert.That(Driver.FindElement(By.CssSelector("#Password")).Text, Is.EqualTo(""));
-			Assert.That(Driver.FindElement(By.CssSelector("#PasswordConfirmation")).Text, Is.EqualTo(""));
+			Assert.That(Driver.FindElement(By.CssSelector("#Firstname")).GetAttribute("value"), Is.EqualTo("NewFirstName"));
+			Assert.That(Driver.FindElement(By.CssSelector("#Lastname")).GetAttribute("value"), Is.EqualTo("NewLastName"));
+			Assert.That(Driver.FindElement(By.CssSelector("#NewEmail")).GetAttribute("value"), Is.EqualTo("admin@localhost"));
+			Assert.That(Driver.FindElement(By.CssSelector("#NewUsername")).GetAttribute("value"), Is.EqualTo("admin"));
+			Assert.That(Driver.FindElement(By.CssSelector("#Password")).GetAttribute("value"), Is.EqualTo(""));
+			Assert.That(Driver.FindElement(By.CssSelector("#PasswordConfirmation")).GetAttribute("value"), Is.EqualTo(""));
 		}
 
 		[Test]
@@ -109,7 +108,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.Name("email")).SendKeys(EDITOR_EMAIL);
 			Driver.FindElement(By.Name("password")).SendKeys(EDITOR_PASSWORD);
 			Driver.FindElement(By.CssSelector("input[value=Login]")).Click();
-			Driver.FindElement(By.CssSelector("a[href=/user/profile]")).Click();	
+			Driver.FindElement(By.CssSelector("a[href='/user/profile']")).Click();	
 
 			// Act
 			Driver.FindElement(By.CssSelector("#Password")).Clear();

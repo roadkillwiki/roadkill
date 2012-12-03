@@ -141,11 +141,10 @@ namespace Roadkill.Core
 				List<TagSummary> tags = new List<TagSummary>();
 				foreach (var item in tagList)
 				{
-					foreach (string part in item.Tag.ParseTags())
+					foreach (string tagName in item.Tag.ParseTags())
 					{
-						if (!string.IsNullOrEmpty(part))
+						if (!string.IsNullOrEmpty(tagName))
 						{
-							string tagName = part.ToLower();
 							TagSummary summary = new TagSummary(tagName);
 							int index = tags.IndexOf(summary);
 
