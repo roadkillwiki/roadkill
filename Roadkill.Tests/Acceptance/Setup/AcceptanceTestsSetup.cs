@@ -8,6 +8,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
+using SimpleBrowser.WebDriver;
 
 namespace Roadkill.Tests.Acceptance
 {
@@ -24,9 +25,14 @@ namespace Roadkill.Tests.Acceptance
 			LaunchIisExpress();
 
 			//Driver = new SimpleBrowserDriver();
-			Driver = new FirefoxDriver();
-			//Driver = new ChromeDriver();
-			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(2));
+			//Driver = new FirefoxDriver();
+			Driver = new ChromeDriver();
+
+			try
+			{
+				Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(2));
+			}
+			catch (NotImplementedException) { }
 		}
 
 		[TearDown]
@@ -34,7 +40,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			Driver.Quit();
 
-			if (IisProcess != null)
+			if (IisProcess != null && !IisProcess.HasExited)
 			{
 				IisProcess.CloseMainWindow();
 				IisProcess.Dispose();
