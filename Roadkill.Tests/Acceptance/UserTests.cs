@@ -24,7 +24,7 @@ namespace Roadkill.Tests.Acceptance
 	/// </summary>
 	[TestFixture]
 	[Category("Acceptance")]
-	public class UserTests : AcceptanceTestsBase
+	public class UserTests : AcceptanceTestBase
 	{
 		[Test]
 		public void Reset_Password_Sends_Email()

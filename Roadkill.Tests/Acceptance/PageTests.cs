@@ -24,7 +24,7 @@ namespace Roadkill.Tests.Acceptance
 	/// </summary>
 	[TestFixture]
 	[Category("Acceptance")]
-	public class PageTests : AcceptanceTestsBase
+	public class PageTests : AcceptanceTestBase
 	{
 		[Test]
 		public void No_MainPage_Set()
