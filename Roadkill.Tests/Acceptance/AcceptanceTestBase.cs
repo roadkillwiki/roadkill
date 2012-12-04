@@ -4,7 +4,7 @@ using OpenQA.Selenium;
 
 namespace Roadkill.Tests.Acceptance
 {
-	public abstract class AcceptanceTestsBase
+	public abstract class AcceptanceTestBase
 	{
 		protected static readonly string ADMIN_EMAIL = "admin@localhost";
 		protected static readonly string ADMIN_PASSWORD = "password";

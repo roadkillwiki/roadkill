@@ -70,15 +70,22 @@ namespace Roadkill.Tests.Acceptance
 			startInfo.Arguments = string.Format("/path:\"{0}\" /port:{1}", sitePath, 9876);
 
 			string programfiles = programfiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-			if (Environment.Is64BitOperatingSystem)
-				Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
-
+			string searchPath1 = string.Format(@"{0}\IIS Express\iisexpress.exe", programfiles);
+			string searchPath2 = "";
 			startInfo.FileName = string.Format(@"{0}\IIS Express\iisexpress.exe", programfiles);
 
 			if (!File.Exists(startInfo.FileName))
 			{
-				throw new FileNotFoundException("IIS Express is not installed and is required for the acceptance tests\n " +
-					"Download it from http://www.microsoft.com/en-gb/download/details.aspx?id=1038");
+				programfiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+				searchPath2 = string.Format(@"{0}\IIS Express\iisexpress.exe", programfiles);
+				startInfo.FileName = string.Format(@"{0}\IIS Express\iisexpress.exe", programfiles);
+			}
+
+			if (!File.Exists(startInfo.FileName))
+			{
+				throw new FileNotFoundException(string.Format("IIS Express is not installed in '{0}' or '{1}' and is required for the acceptance tests\n " +
+					"Download it from http://www.microsoft.com/en-gb/download/details.aspx?id=1038",
+					searchPath1, searchPath2);
 			}
 
 			try

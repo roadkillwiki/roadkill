@@ -23,7 +23,7 @@ namespace Roadkill.Tests.Acceptance
 	/// </summary>
 	[TestFixture]
 	[Category("Acceptance")]
-	public class LoginTests : AcceptanceTestsBase
+	public class LoginTests : AcceptanceTestBase
 	{
 		[Test]
 		public void Can_Login_As_Admin()
