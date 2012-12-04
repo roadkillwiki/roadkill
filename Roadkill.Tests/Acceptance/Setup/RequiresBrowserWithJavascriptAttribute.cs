@@ -9,7 +9,8 @@ namespace Roadkill.Tests.Acceptance
 	/// <summary>
 	/// Explicit as this test cannot run with using a headless browser.
 	/// </summary>
-	public class RequiresBrowserWithJavascriptAttribute : Attribute //: ExplicitAttribute
+	public class RequiresBrowserWithJavascriptAttribute : TestAttribute
 	{
+		
 	}
 }
