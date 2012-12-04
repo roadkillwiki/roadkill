@@ -85,7 +85,7 @@ namespace Roadkill.Tests.Acceptance
 			{
 				throw new FileNotFoundException(string.Format("IIS Express is not installed in '{0}' or '{1}' and is required for the acceptance tests\n " +
 					"Download it from http://www.microsoft.com/en-gb/download/details.aspx?id=1038",
-					searchPath1, searchPath2);
+					searchPath1, searchPath2));
 			}
 
 			try
