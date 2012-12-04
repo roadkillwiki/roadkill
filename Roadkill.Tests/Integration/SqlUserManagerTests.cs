@@ -6,6 +6,7 @@ using Roadkill.Core;
 using Roadkill.Tests.Core;
 using NUnit.Framework;
 using Roadkill.Core.Domain;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Tests.Integration
 {
@@ -14,8 +15,27 @@ namespace Roadkill.Tests.Integration
 	/// </summary>
 	[TestFixture]
 	[Category("Integration")]
-	public class SqlUserManagerTests : SqlTestsBase
+	public class SqlUserManagerTests
 	{
+		protected SqlUserManager _sqlUserManager;
+
+		[SetUp]
+		public void Initialize()
+		{
+			RoadkillApplication.SetupIoC();
+
+			IConfigurationContainer config = new RoadkillSettings();
+			config.ApplicationSettings = new ApplicationSettings();
+			config.ApplicationSettings.Load(null); // from app.config
+
+			SettingsSummary summary = new SettingsSummary(config);
+			summary.ConnectionString = config.ApplicationSettings.ConnectionString;
+
+			SettingsManager settingsManager = new SettingsManager(config, new NHibernateRepository(config));
+			settingsManager.CreateTables(summary);
+			settingsManager.SaveSiteConfiguration(new SettingsSummary(config) { AllowedExtensions = "jpg, gif", MarkupType = "Creole" }, true);
+		}
+
 		[Test]
 		public void AddAdmin_And_GetUserByEmail()
 		{

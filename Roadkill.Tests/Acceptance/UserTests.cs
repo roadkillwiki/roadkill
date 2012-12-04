@@ -24,6 +24,7 @@ namespace Roadkill.Tests.Acceptance
 	/// </summary>
 	[TestFixture]
 	[Category("Acceptance")]
+	[Explicit]
 	public class UserTests : AcceptanceTestBase
 	{
 		[Test]
@@ -177,81 +178,6 @@ namespace Roadkill.Tests.Acceptance
 
 			// Assert
 			Assert.That(Driver.FindElements(By.CssSelector(".table>tbody>tr")).Count, Is.EqualTo(2));
-		}
-
-		[Test]
-		public void All_Pages_Has_Edit_NoDelete_For_Editor()
-		{
-
-		}
-
-		[Test]
-		public void All_Pages_Has_No_Buttons_For_Anonymous()
-		{
-
-		}
-
-		///////
-
-
-		[Test]
-		public void TagPage_Has_Edit_Delete_For_Admin()
-		{
-
-		}
-
-		[Test]
-		public void TagPage_Has_Edit_NoDelete_For_Editor()
-		{
-
-		}
-
-		[Test]
-		public void TagPage_Has_No_Buttons_For_Anonymous()
-		{
-
-		}
-		
-		///////
-
-
-		[Test]
-		public void ByUserPage_Has_Edit_Delete_For_Admin()
-		{
-
-		}
-
-		[Test]
-		public void ByUserPage_Has_Edit_NoDelete_For_Editor()
-		{
-
-		}
-
-		[Test]
-		public void ByUserPage_Has_No_Buttons_For_Anonymous()
-		{
-
-		}
-
-		///////
-
-
-		[Test]
-		public void HistoryPage_Has_Revert_For_Admin()
-		{
-
-		}
-
-		[Test]
-		public void HistoryPage_Has_Revert_For_Editor()
-		{
-
-		}
-
-		[Test]
-		public void HistoryPage_Has_No_Revert_For_Anonymous()
-		{
-
 		}
 	}
 }

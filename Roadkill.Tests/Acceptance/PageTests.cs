@@ -24,6 +24,7 @@ namespace Roadkill.Tests.Acceptance
 	/// </summary>
 	[TestFixture]
 	[Category("Acceptance")]
+	[Explicit]
 	public class PageTests : AcceptanceTestBase
 	{
 		[Test]
@@ -38,16 +39,21 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Anonymous_Has_Limited_Menu_Options()
+		public void No_Extra_Menu_Options_For_Anonymous_Users()
 		{
 			// Arrange
-			Driver.Navigate().GoToUrl(LogoutUrl);
+			Logout();
 
 			// Act
 			IEnumerable<IWebElement> leftmenuItems = Driver.FindElements(By.CssSelector("div#leftmenu li"));
 
 			// Assert
 			Assert.That(leftmenuItems.Count(), Is.EqualTo(3));
+		}
+
+		private void Logout()
+		{
+			Driver.Navigate().GoToUrl(LogoutUrl);
 		}
 
 		[Test]
@@ -83,7 +89,7 @@ namespace Roadkill.Tests.Acceptance
 			LoginAsAdmin();
 
 			// Act
-			CreatePageWithTag("Homepage");
+			CreatePageWithTags("Homepage");
 
 			// Assert
 			Driver.Navigate().GoToUrl(BaseUrl);
@@ -92,11 +98,11 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void AllTagsPage_As_Anonymous_User_Displays_Correct_Tags()
+		public void AllTagsPage_Displays_Correct_Tags_For_All_Users()
 		{
 			// Arrange
 			LoginAsAdmin();
-			CreatePageWithTag("Tag1", "Tag2");
+			CreatePageWithTags("Tag1", "Tag2");
 
 			// Act	
 			Driver.Navigate().GoToUrl(LogoutUrl);
@@ -114,7 +120,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			LoginAsEditor();
-			CreatePageWithTag("Homepage");
+			CreatePageWithTags("Homepage");
 
 			// Act
 			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
@@ -122,7 +128,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// Assert
 			Assert.That(Driver.FindElements(By.CssSelector("#toolbar i.icon-pencil")).Count, Is.EqualTo(1));
-			Assert.That(Driver.FindElements(By.CssSelector("#pageinfo-button")).Count, Is.EqualTo(1));
+			Assert.That(Driver.FindElements(By.CssSelector("#pageedit-button")).Count, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -131,7 +137,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			LoginAsAdmin();
-			CreatePageWithTag("Homepage");
+			CreatePageWithTags("Homepage");
 
 			// Act
 			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
@@ -139,7 +145,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// Assert
 			Assert.That(Driver.FindElements(By.CssSelector("#toolbar i.icon-pencil")).Count, Is.EqualTo(1));
-			Assert.That(Driver.FindElements(By.CssSelector("#pageinfo-button")).Count, Is.EqualTo(1));
+			Assert.That(Driver.FindElements(By.CssSelector("#pageedit-button")).Count, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -148,7 +154,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			LoginAsEditor();
-			CreatePageWithTag("Homepage");
+			CreatePageWithTags("Homepage");
 
 			// Act
 			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
@@ -169,7 +175,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			LoginAsEditor();
-			CreatePageWithTag("Homepage");
+			CreatePageWithTags("Homepage");
 
 			// Act
 			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
@@ -185,12 +191,231 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void View_History_Link_Exists()
+		public void View_History_Link_Exists_For_All_Users()
 		{
+			// Arrange
+			LoginAsEditor();
+			CreatePageWithTags("Homepage");
 
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
+			Driver.FindElement(By.CssSelector(".table td a")).Click();
+
+			// Assert
+			Assert.That(Driver.FindElements(By.CssSelector("#viewhistory")).Count, Is.EqualTo(1));
+			Assert.That(Driver.FindElement(By.CssSelector("#viewhistory a")).Text, Is.EqualTo("View History"));
 		}
 
-		private void CreatePageWithTag(params string[] tags)
+		[Test]
+		public void All_Pages_Has_Edit_But_No_Delete_Button_For_Editor()
+		{
+			// Arrange
+			LoginAsEditor();
+			CreatePageWithTags("Homepage");
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
+
+			// Assert
+			Assert.That(Driver.FindElements(By.CssSelector(".table .edit a")).Count, Is.EqualTo(1));
+			Assert.That(Driver.FindElements(By.CssSelector(".table .delete a")).Count, Is.EqualTo(0));
+		}
+
+		[Test]
+		public void All_Pages_Has_Edit_And_Delete_Button_For_Admin()
+		{
+			// Arrange
+			LoginAsAdmin();
+			CreatePageWithTags("Homepage");
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
+
+			// Assert
+			Assert.That(Driver.FindElements(By.CssSelector(".table .edit a")).Count, Is.EqualTo(1));
+			Assert.That(Driver.FindElements(By.CssSelector(".table .delete a")).Count, Is.EqualTo(1));
+		}
+
+		[Test]
+		public void All_Pages_Has_No_Buttons_For_Anonymous()
+		{
+			// Arrange
+			LoginAsAdmin();
+			CreatePageWithTags("Homepage");
+			Logout();
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/pages/alltags']")).Click();
+			Driver.FindElement(By.CssSelector("#tagcloud a")).Click();	
+
+			// Assert
+			Assert.That(Driver.FindElements(By.CssSelector(".table .edit a")).Count, Is.EqualTo(0));
+			Assert.That(Driver.FindElements(By.CssSelector(".table .delete a")).Count, Is.EqualTo(0));
+		}
+
+		[Test]
+		public void TagPage_Has_Edit_And_Delete_Button_For_Admin()
+		{
+			// Arrange
+			LoginAsAdmin();
+			CreatePageWithTags("Homepage");
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/pages/alltags']")).Click();
+			Driver.FindElement(By.CssSelector("#tagcloud a")).Click();
+
+			// Assert
+			Assert.That(Driver.FindElements(By.CssSelector(".table .edit a")).Count, Is.EqualTo(1));
+			Assert.That(Driver.FindElements(By.CssSelector(".table .delete a")).Count, Is.EqualTo(0));
+		}
+
+		[Test]
+		public void TagPage_Has_Edit_But_No_Delete_Button_For_Editor()
+		{
+			// Arrange
+			LoginAsEditor();
+			CreatePageWithTags("Homepage");
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/pages/alltags']")).Click();
+			Driver.FindElement(By.CssSelector("#tagcloud a")).Click();
+
+			// Assert
+			Assert.That(Driver.FindElements(By.CssSelector(".table .edit a")).Count, Is.EqualTo(1));
+			Assert.That(Driver.FindElements(By.CssSelector(".table .delete a")).Count, Is.EqualTo(0));
+		}
+
+		[Test]
+		public void TagPage_Has_No_Buttons_For_Anonymous()
+		{
+			// Arrange
+			LoginAsEditor();
+			CreatePageWithTags("Homepage");
+			Logout();
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/pages/alltags']")).Click();
+
+			// Assert
+			Assert.That(Driver.FindElements(By.CssSelector(".table .edit a")).Count, Is.EqualTo(0));
+			Assert.That(Driver.FindElements(By.CssSelector(".table .delete a")).Count, Is.EqualTo(0));
+		}
+
+		[Test]
+		public void ByUserPage_Has_Edit_And_Delete_Button_For_Admin()
+		{
+			// Arrange
+			LoginAsAdmin();
+			CreatePageWithTags("Homepage");
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
+			Driver.FindElement(By.CssSelector(".table td a")).Click();
+			Driver.FindElement(By.CssSelector("#viewhistory a")).Click();
+			Driver.FindElement(By.CssSelector("#historytable .editedby a")).Click();
+
+			// Assert
+			Assert.That(Driver.FindElements(By.CssSelector(".table .edit a")).Count, Is.EqualTo(1));
+			Assert.That(Driver.FindElements(By.CssSelector(".table .delete a")).Count, Is.EqualTo(1));
+		}
+
+		[Test]
+		public void ByUserPage_Has_Edit_But_No_Delete_Button_For_Editor()
+		{
+			// Arrange
+			LoginAsEditor();
+			CreatePageWithTags("Homepage");
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
+			Driver.FindElement(By.CssSelector(".table td a")).Click();
+			Driver.FindElement(By.CssSelector("#viewhistory a")).Click();
+			Driver.FindElement(By.CssSelector("#historytable .editedby a")).Click();
+
+			// Assert
+			Assert.That(Driver.FindElements(By.CssSelector(".table .edit a")).Count, Is.EqualTo(1));
+			Assert.That(Driver.FindElements(By.CssSelector(".table .delete a")).Count, Is.EqualTo(0));
+		}
+
+		[Test]
+		public void ByUserPage_Has_No_Buttons_For_Anonymous()
+		{
+			// Arrange
+			LoginAsEditor();
+			CreatePageWithTags("Homepage");
+			Logout();
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
+			Driver.FindElement(By.CssSelector(".table td a")).Click();
+			Driver.FindElement(By.CssSelector("#viewhistory a")).Click();
+			Driver.FindElement(By.CssSelector("#historytable .editedby a")).Click();
+
+			// Assert
+			Assert.That(Driver.FindElements(By.CssSelector(".table .edit a")).Count, Is.EqualTo(0));
+			Assert.That(Driver.FindElements(By.CssSelector(".table .delete a")).Count, Is.EqualTo(0));
+		}
+
+		///
+
+		[Test]
+		public void HistoryPage_Has_Revert_For_Admin()
+		{
+			// Arrange
+			LoginAsAdmin();
+			CreatePageWithTags("Homepage");
+			Driver.FindElement(By.CssSelector("#pageedit-button")).Click();
+			Driver.FindElement(By.CssSelector("input[value=Save]")).Click();
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
+			Driver.FindElement(By.CssSelector(".table td a")).Click();
+			Driver.FindElement(By.CssSelector("#viewhistory a")).Click();
+
+			// Assert
+			Assert.That(Driver.FindElements(By.CssSelector(".table .revert a")).Count, Is.EqualTo(1));
+		}
+
+		[Test]
+		public void HistoryPage_Has_Revert_For_Editor()
+		{
+			// Arrange
+			LoginAsEditor();
+			CreatePageWithTags("Homepage");
+			Driver.FindElement(By.CssSelector("#pageedit-button")).Click();
+			Driver.FindElement(By.CssSelector("input[value=Save]")).Click();
+
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
+			Driver.FindElement(By.CssSelector(".table td a")).Click();
+			Driver.FindElement(By.CssSelector("#viewhistory a")).Click();
+			
+
+			// Assert
+			Assert.That(Driver.FindElements(By.CssSelector(".table .revert a")).Count, Is.EqualTo(1));
+		}
+
+		[Test]
+		public void HistoryPage_Has_No_Revert_For_Anonymous()
+		{
+			// Arrange
+			LoginAsEditor();
+			CreatePageWithTags("Homepage");
+			Driver.FindElement(By.CssSelector("#pageedit-button")).Click();
+			Driver.FindElement(By.CssSelector("input[value=Save]")).Click();
+			Logout();
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
+			Driver.FindElement(By.CssSelector(".table td a")).Click();
+			Driver.FindElement(By.CssSelector("#viewhistory a")).Click();
+
+			// Assert
+			Assert.That(Driver.FindElements(By.CssSelector(".table .revert a")).Count, Is.EqualTo(0));
+		}
+
+		private void CreatePageWithTags(params string[] tags)
 		{
 			Driver.FindElement(By.CssSelector("a[href='/pages/new']")).Click();
 			Driver.FindElement(By.Name("Title")).SendKeys("My title");

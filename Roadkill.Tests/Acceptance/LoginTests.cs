@@ -23,6 +23,7 @@ namespace Roadkill.Tests.Acceptance
 	/// </summary>
 	[TestFixture]
 	[Category("Acceptance")]
+	[Explicit]
 	public class LoginTests : AcceptanceTestBase
 	{
 		[Test]
