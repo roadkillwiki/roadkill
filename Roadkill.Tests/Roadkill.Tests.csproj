@@ -239,7 +239,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Acceptance\AcceptanceTestsBase.cs" />
+    <Compile Include="Acceptance\AcceptanceTestBase.cs" />
     <Compile Include="Acceptance\AcceptanceTestsSetup.cs" />
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\RequiresBrowserWithJavascriptAttribute.cs" />
