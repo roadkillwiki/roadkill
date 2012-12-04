@@ -8,11 +8,11 @@ if (Model.Id != 0)
 	<div class="btn-group">	
 		@if (Model.IsLocked && !RoadkillContext.IsAdmin)
 		{
-			<a class="btn btn-mini disabled" href="#" title="@SiteStrings.Shared_EditLink - this page can only be edited by administrators."><i class="icon-pencil"></i></a>
+			<a id="pageedit-button" class="btn btn-mini disabled" href="#" title="@SiteStrings.Shared_EditLink - this page can only be edited by administrators."><i class="icon-pencil"></i></a>
 		}
 		else
 		{
-			<a class="btn btn-mini" href="@Url.Action("Edit", "Pages", new { id = Model.Id})" title="@SiteStrings.Shared_EditLink"><i class="icon-pencil"></i></a>
+			<a id="pageedit-button" class="btn btn-mini" href="@Url.Action("Edit", "Pages", new { id = Model.Id})" title="@SiteStrings.Shared_EditLink"><i class="icon-pencil"></i></a>
 		}		
 	
 		<a id="pageinfo-button" class="btn btn-mini" href="javascript:;" title="Page information"><i class="icon-book"></i></a>

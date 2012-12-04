@@ -30,7 +30,7 @@ namespace Roadkill.Tests.Core
 		private Mock<IActiveDirectoryService> _serviceMock;
 		private IRepository _repository;
 		private IConfigurationContainer _config;
-		private PageManager _pageManager;
+		private ActiveDirectoryUserManager _manager;
 
 		private class MockPrincipal : IRoadKillPrincipal
 		{
@@ -61,39 +61,28 @@ namespace Roadkill.Tests.Core
 			_config.ApplicationSettings.AdminRoleName = _adminsGroupName;
 			_config.ApplicationSettings.EditorRoleName = _editorsGroupName;
 			_repository = new Mock<IRepository>().Object;
-			_pageManager = null; // This can be null for ActiveDirectoryUserManager, but needs to be filled in future.
-		}
 
-		[Test]
-		public void Should_Setup_With_Good_Ldap_String()
-		{
-			// Arrange + Act
-			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _serviceMock.Object);
-
-			// Assert
-			Assert.That(manager, Is.Not.Null);
+			_manager = new ActiveDirectoryUserManager(_config, _repository, _serviceMock.Object);
 		}
 
 		[Test]
 		public void Admins_Should_Belong_To_Group()
 		{
 			// Arrange
-			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _serviceMock.Object);
 
 			// Act + Assert
-			Assert.That(manager.IsAdmin("admin1"), Is.True);
-			Assert.That(manager.IsAdmin("admin2"), Is.True);
+			Assert.That(_manager.IsAdmin("admin1"), Is.True);
+			Assert.That(_manager.IsAdmin("admin2"), Is.True);
 		}
 
 		[Test]
 		public void Editors_Should_Not_Be_Admins()
 		{
-			// Arrange
-			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _serviceMock.Object);
+			// Arrange		
 
 			// Act + Assert
-			Assert.That(manager.IsAdmin("editor1"), Is.False);
-			Assert.That(manager.IsAdmin("editor2"), Is.False);
+			Assert.That(_manager.IsAdmin("editor1"), Is.False);
+			Assert.That(_manager.IsAdmin("editor2"), Is.False);
 		}
 
 		[Test]
@@ -110,11 +99,10 @@ namespace Roadkill.Tests.Core
 		[Test]
 		public void GetUser_Should_Return_Object_With_Permissions()
 		{
-			// Arrange
-			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _serviceMock.Object);
+			// Arrange			
 
 			// Act
-			User user = manager.GetUser("editor1");
+			User user = _manager.GetUser("editor1");
 
 			// Assert
 			Assert.That(user, Is.Not.Null);
@@ -129,10 +117,9 @@ namespace Roadkill.Tests.Core
 		public void ListAdmins_Should_Contain_Correct_Users()
 		{
 			// Arrange
-			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _serviceMock.Object);
 
 			// Act
-			List<UserSummary> users = manager.ListAdmins().ToList();
+			List<UserSummary> users = _manager.ListAdmins().ToList();
 
 			// Assert
 			Assert.That(users.Count, Is.EqualTo(2));
@@ -144,10 +131,9 @@ namespace Roadkill.Tests.Core
 		public void ListEditor_Should_Contain_Correct_Users()
 		{
 			// Arrange
-			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _serviceMock.Object);
 
 			// Act
-			List<UserSummary> users = manager.ListEditors().ToList();
+			List<UserSummary> users = _manager.ListEditors().ToList();
 
 			// Assert
 			Assert.That(users.Count, Is.EqualTo(2));
@@ -156,8 +142,18 @@ namespace Roadkill.Tests.Core
 		}
 
 		[Test]
+		public void Should_Not_Throw_SecurityException_With_Valid_Ldap_String()
+		{
+			// Arrange + Act
+			ActiveDirectoryUserManager manager = new ActiveDirectoryUserManager(_config, _repository, _serviceMock.Object);
+
+			// Assert
+			Assert.That(_manager, Is.Not.Null);
+		}
+
+		[Test]
 		[ExpectedException(typeof(SecurityException))]
-		public void Empty_Ldap_String_Throws_Exception()
+		public void Empty_Ldap_String_Should_Throw_SecurityException_In_Constructor()
 		{
 			// Arrange + act + assert
 			_config.ApplicationSettings.LdapConnectionString = "";
@@ -166,7 +162,7 @@ namespace Roadkill.Tests.Core
 
 		[Test]
 		[ExpectedException(typeof(SecurityException))]
-		public void Wrong_Format_Ldap_String_Throws_Exception()
+		public void Wrong_Format_Ldap_String_Should_Throw_SecurityException_In_Constructor()
 		{
 			// Arrange + act + assert
 			_config.ApplicationSettings.LdapConnectionString = "iforgot.the.ldap.part.com";
@@ -175,7 +171,7 @@ namespace Roadkill.Tests.Core
 
 		[Test]
 		[ExpectedException(typeof(SecurityException))]
-		public void No_Admin_Group_Throws_Exception()
+		public void No_Admin_Group_Should_Throw_SecurityException_In_Constructor()
 		{
 			// Arrange + act + assert
 			_config.ApplicationSettings.AdminRoleName = "";
@@ -184,7 +180,7 @@ namespace Roadkill.Tests.Core
 
 		[Test]
 		[ExpectedException(typeof(SecurityException))]
-		public void No_Editor_Group_Throws_Exception()
+		public void No_Editor_Group_Should_Throw_SecurityException_In_Constructor()
 		{
 			// Arrange + act + assert
 			_config.ApplicationSettings.EditorRoleName = "";

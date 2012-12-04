@@ -239,19 +239,18 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Acceptance\AcceptanceTestBase.cs" />
-    <Compile Include="Acceptance\AcceptanceTestsSetup.cs" />
+    <Compile Include="Acceptance\Setup\AcceptanceTestBase.cs" />
+    <Compile Include="Acceptance\Setup\AcceptanceTestsSetup.cs" />
     <Compile Include="Acceptance\PageTests.cs" />
-    <Compile Include="Acceptance\RequiresBrowserWithJavascriptAttribute.cs" />
+    <Compile Include="Acceptance\Setup\RequiresBrowserWithJavascriptAttribute.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
-    <Compile Include="Unit\Controllers\MvcMockContainer.cs" />
-    <Compile Include="Unit\Controllers\FilesControllerTests.cs" />
+    <Compile Include="Unit\Setup\MvcMockContainer.cs" />
+    <Compile Include="Unit\FilesControllerTests.cs" />
     <Compile Include="Unit\MarkdownTests.cs" />
     <Compile Include="Unit\RoadkillSettingsTests.cs" />
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="Unit\PageManagerTests.cs" />
     <Compile Include="Unit\ActiveDirectoryUserManagerTests.cs" />
-    <Compile Include="Integration\SqlTestsBase.cs" />
     <Content Include="chromedriver.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -276,8 +275,8 @@
     <Compile Include="Unit\CreoleParserTests.cs" />
     <Compile Include="Acceptance\LoginTests.cs" />
     <Compile Include="Acceptance\DemoSiteTests.cs" />
-    <Compile Include="Unit\Controllers\MvcMockHelpers.cs" />
-    <Compile Include="Unit\Controllers\UserControllerTests.cs" />
+    <Compile Include="Unit\Setup\MvcMockHelpers.cs" />
+    <Compile Include="Unit\UserControllerTests.cs" />
     <Compile Include="Integration\SearchManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Integration\SqlUserManagerTests.cs" />
