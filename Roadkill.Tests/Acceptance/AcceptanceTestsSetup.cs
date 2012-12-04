@@ -24,20 +24,21 @@ namespace Roadkill.Tests.Acceptance
 			LaunchIisExpress();
 
 			//Driver = new SimpleBrowserDriver();
-			//Driver = new FirefoxDriver();
-			Driver = new ChromeDriver();
+			Driver = new FirefoxDriver();
+			//Driver = new ChromeDriver();
 			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(2));
 		}
 
 		[TearDown]
 		public void AfterAllTests()
 		{
-			Driver.Dispose();
+			Driver.Quit();
 
 			if (IisProcess != null)
 			{
 				IisProcess.CloseMainWindow();
 				IisProcess.Dispose();
+				Console.WriteLine("Killed IISExpress");
 			}
 		}
 
@@ -60,7 +61,10 @@ namespace Roadkill.Tests.Acceptance
 			// Be a good neighbour and backup the web.config
 			string siteWebConfig = Path.Combine(sitePath, "web.config");
 			File.Copy(siteWebConfig, siteWebConfig + ".bak", true);
+			Console.WriteLine("Backed up web.config to {0}.bak", siteWebConfig);
+
 			File.Copy(testsWebConfigPath, siteWebConfig, true);
+			Console.WriteLine("Copied web.config from '{0}' to '{1}'", testsWebConfigPath, siteWebConfig);
 		}
 
 		private void LaunchIisExpress()
@@ -90,6 +94,7 @@ namespace Roadkill.Tests.Acceptance
 
 			try
 			{
+				Console.WriteLine("Launching IIS Express from {0}", startInfo.FileName);
 				IisProcess = Process.Start(startInfo);
 			}
 			catch
