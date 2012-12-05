@@ -48,5 +48,7 @@ _ReSharper*/
 *roadkillaspnet_log.ldf
 .git*/
 .DotSettings*
+*App_Data/roadkill-acceptancetests
+*App_Data/roadkill-dev
 
 

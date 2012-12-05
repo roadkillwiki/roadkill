@@ -51,11 +51,6 @@ namespace Roadkill.Tests.Acceptance
 			Assert.That(leftmenuItems.Count(), Is.EqualTo(3));
 		}
 
-		private void Logout()
-		{
-			Driver.Navigate().GoToUrl(LogoutUrl);
-		}
-
 		[Test]
 		public void Login_As_Admin_Shows_All_Left_Menu_Options()
 		{
@@ -413,40 +408,6 @@ namespace Roadkill.Tests.Acceptance
 
 			// Assert
 			Assert.That(Driver.FindElements(By.CssSelector(".table .revert a")).Count, Is.EqualTo(0));
-		}
-
-		private void CreatePageWithTags(params string[] tags)
-		{
-			Driver.FindElement(By.CssSelector("a[href='/pages/new']")).Click();
-			Driver.FindElement(By.Name("Title")).SendKeys("My title");
-			//Driver.FindElement(By.Name("RawTags")).SendKeys("Tag1,Tag2");
-
-			foreach (string tag in tags)
-			{
-				Driver.FindElement(By.Name("TagsEntry")).SendKeys(tag);
-				Driver.FindElement(By.Name("TagsEntry")).SendKeys(Keys.Space);
-			}
-
-			Driver.FindElement(By.Name("Content")).SendKeys("Some content goes here");
-			Driver.FindElement(By.CssSelector("input[value=Save]")).Click();
-		}
-
-		private void LoginAsAdmin()
-		{
-			Driver.Navigate().GoToUrl(LogoutUrl);
-			Driver.Navigate().GoToUrl(LoginUrl);
-			Driver.FindElement(By.Name("email")).SendKeys(ADMIN_EMAIL);
-			Driver.FindElement(By.Name("password")).SendKeys(ADMIN_PASSWORD);
-			Driver.FindElement(By.CssSelector("input[value=Login]")).Click();
-		}
-
-		private void LoginAsEditor()
-		{
-			Driver.Navigate().GoToUrl(LogoutUrl);
-			Driver.Navigate().GoToUrl(LoginUrl);
-			Driver.FindElement(By.Name("email")).SendKeys(EDITOR_EMAIL);
-			Driver.FindElement(By.Name("password")).SendKeys(EDITOR_PASSWORD);
-			Driver.FindElement(By.CssSelector("input[value=Login]")).Click();
 		}
 	}
 }
