@@ -239,6 +239,8 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Acceptance\SearchTests.cs" />
+    <Compile Include="Acceptance\SettingsTests.cs" />
     <Compile Include="Acceptance\Setup\AcceptanceTestBase.cs" />
     <Compile Include="Acceptance\Setup\AcceptanceTestsSetup.cs" />
     <Compile Include="Acceptance\PageTests.cs" />

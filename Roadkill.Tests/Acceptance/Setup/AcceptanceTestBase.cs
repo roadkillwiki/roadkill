@@ -11,6 +11,7 @@ namespace Roadkill.Tests.Acceptance
 
 		protected static readonly string EDITOR_EMAIL = "editor@localhost";
 		protected static readonly string EDITOR_PASSWORD = "password";
+		protected string SitePath;
 
 		protected IWebDriver Driver;
 		protected string LoginUrl;
@@ -29,12 +30,49 @@ namespace Roadkill.Tests.Acceptance
 
 		private void CopyDb()
 		{
-			string sitePath = AcceptanceTestsSetup.GetSitePath();
-			string libFolder = Path.Combine(sitePath, "..", "lib");
+			SitePath = AcceptanceTestsSetup.GetSitePath();
+			string libFolder = Path.Combine(SitePath, "..", "lib");
 			libFolder = new DirectoryInfo(libFolder).FullName;
 
 			string testsDBPath = Path.Combine(libFolder, "Empty-databases", "roadkill-acceptancetests.sdf");
-			File.Copy(testsDBPath, Path.Combine(sitePath, "App_Data", "roadkill-acceptancetests.sdf"), true);
+			File.Copy(testsDBPath, Path.Combine(SitePath, "App_Data", "roadkill-acceptancetests.sdf"), true);
+		}
+
+		protected void CreatePageWithTags(string title = "My title", params string[] tags)
+		{
+			Driver.FindElement(By.CssSelector("a[href='/pages/new']")).Click();
+			Driver.FindElement(By.Name("Title")).SendKeys(title);
+			//Driver.FindElement(By.Name("RawTags")).SendKeys("Tag1,Tag2");
+
+			foreach (string tag in tags)
+			{
+				Driver.FindElement(By.Name("TagsEntry")).SendKeys(tag);
+				Driver.FindElement(By.Name("TagsEntry")).SendKeys(Keys.Space);
+			}
+
+			Driver.FindElement(By.Name("Content")).SendKeys("Some content goes here");
+			Driver.FindElement(By.CssSelector("input[value=Save]")).Click();
+		}
+
+		protected void LoginAsAdmin()
+		{
+			Driver.Navigate().GoToUrl(LoginUrl);
+			Driver.FindElement(By.Name("email")).SendKeys(ADMIN_EMAIL);
+			Driver.FindElement(By.Name("password")).SendKeys(ADMIN_PASSWORD);
+			Driver.FindElement(By.CssSelector("input[value=Login]")).Click();
+		}
+
+		protected void LoginAsEditor()
+		{
+			Driver.Navigate().GoToUrl(LoginUrl);
+			Driver.FindElement(By.Name("email")).SendKeys(EDITOR_EMAIL);
+			Driver.FindElement(By.Name("password")).SendKeys(EDITOR_PASSWORD);
+			Driver.FindElement(By.CssSelector("input[value=Login]")).Click();
+		}
+
+		protected void Logout()
+		{
+			Driver.Navigate().GoToUrl(LogoutUrl);
 		}
 	}
 }
