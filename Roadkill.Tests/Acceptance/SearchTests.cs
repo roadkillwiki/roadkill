@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,7 +10,6 @@ namespace Roadkill.Tests.Acceptance
 {
 	[TestFixture]
 	[Category("Acceptance")]
-	[Explicit]
 	public class SearchTests : AcceptanceTestBase
 	{
 		[SetUp]

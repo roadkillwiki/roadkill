@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +24,6 @@ namespace Roadkill.Tests.Acceptance
 	/// </summary>
 	[TestFixture]
 	[Category("Acceptance")]
-	[Explicit]
 	public class PageTests : AcceptanceTestBase
 	{
 		[Test]
