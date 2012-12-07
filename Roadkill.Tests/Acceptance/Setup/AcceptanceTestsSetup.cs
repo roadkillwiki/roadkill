@@ -25,8 +25,8 @@ namespace Roadkill.Tests.Acceptance
 			LaunchIisExpress();
 
 			//Driver = new SimpleBrowserDriver();
-			//Driver = new FirefoxDriver();
-			Driver = new ChromeDriver();
+			Driver = new FirefoxDriver();
+			//Driver = new ChromeDriver();
 
 			try
 			{
@@ -100,7 +100,7 @@ namespace Roadkill.Tests.Acceptance
 
 			try
 			{
-				Console.WriteLine("Launching IIS Express: ", startInfo.ToString());
+				Console.WriteLine("Launching IIS Express: {0} {1}", startInfo.FileName, startInfo.Arguments);
 				IisProcess = Process.Start(startInfo);
 			}
 			catch
