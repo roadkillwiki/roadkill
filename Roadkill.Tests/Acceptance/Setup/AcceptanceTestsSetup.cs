@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -100,7 +100,7 @@ namespace Roadkill.Tests.Acceptance
 
 			try
 			{
-				Console.WriteLine("Launching IIS Express from {0}", startInfo.FileName);
+				Console.WriteLine("Launching IIS Express: ", startInfo.ToString());
 				IisProcess = Process.Start(startInfo);
 			}
 			catch
