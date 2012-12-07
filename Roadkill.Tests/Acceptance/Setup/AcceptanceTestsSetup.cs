@@ -25,8 +25,8 @@ namespace Roadkill.Tests.Acceptance
 			LaunchIisExpress();
 
 			//Driver = new SimpleBrowserDriver();
-			Driver = new FirefoxDriver();
-			//Driver = new ChromeDriver();
+			//Driver = new FirefoxDriver();
+			Driver = new ChromeDriver();
 
 			try
 			{
