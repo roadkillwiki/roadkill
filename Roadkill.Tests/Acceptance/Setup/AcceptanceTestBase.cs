@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Net.Mail;
+using System.Reflection;
 using NUnit.Framework;
 using OpenQA.Selenium;
 

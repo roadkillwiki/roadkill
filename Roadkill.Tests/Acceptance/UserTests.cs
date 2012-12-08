@@ -30,7 +30,11 @@ namespace Roadkill.Tests.Acceptance
 		public void Reset_Password_Sends_Email()
 		{
 			// Arrange
-			foreach (string file in Directory.GetFiles(@"C:\inetpub\temp\smtp\", "*.eml"))
+			string pickupPath = Path.Combine(SitePath, "App_Data", "TempSmtp");
+			if (!Directory.Exists(pickupPath))
+				Directory.CreateDirectory(pickupPath);
+
+			foreach (string file in Directory.GetFiles(pickupPath, "*.eml"))
 			{
 				File.Delete(file);
 			}
@@ -44,9 +48,9 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("input[value='Reset password']")).Click();
 			
 			// Assert
-			Assert.That(Driver.FindElements(By.CssSelector("#content h1"))[0].Text, Contains.Substring("Your password reset request was sent."));
+			Assert.That(Driver.FindElements(By.CssSelector("#content h1"))[0].Text, Contains.Substring("Your password reset request was sent."), Driver.PageSource);
 			Assert.That(Driver.FindElement(By.CssSelector("#content p")).Text, Contains.Substring("Thank you, an email has been sent to admin@localhost with details on how to reset your password."));
-			Assert.That(Directory.GetFiles(@"C:\inetpub\temp\smtp\", "*.eml").Count(), Is.EqualTo(1));
+			Assert.That(Directory.GetFiles(pickupPath, "*.eml").Count(), Is.EqualTo(1));
 		}
 
 		[Test]
