@@ -6,6 +6,7 @@ using System.Net.Mail;
 using System.Net.Mime;
 using System.Web;
 using Roadkill.Core.Configuration;
+using System.Configuration;
 
 namespace Roadkill.Core
 {
@@ -122,6 +123,15 @@ namespace Roadkill.Core
 
 			// Send + auth with the SMTP server if needed.
 			SmtpClient client = new SmtpClient();
+			
+			// Add "~" support for pickupdirectories.
+			if (client.DeliveryMethod == SmtpDeliveryMethod.SpecifiedPickupDirectory && client.PickupDirectoryLocation.StartsWith("~"))
+			{
+				string root = AppDomain.CurrentDomain.BaseDirectory;
+				string pickupRoot = client.PickupDirectoryLocation.Replace("~/", root);
+				pickupRoot = pickupRoot.Replace("/",@"\");
+				client.PickupDirectoryLocation = pickupRoot;
+			}
 			client.Send(message);
 		}
 	}
