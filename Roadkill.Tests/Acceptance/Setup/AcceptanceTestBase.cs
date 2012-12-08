@@ -38,7 +38,12 @@ namespace Roadkill.Tests.Acceptance
 			File.Copy(testsDBPath, Path.Combine(SitePath, "App_Data", "roadkill-acceptancetests.sdf"), true);
 		}
 
-		protected void CreatePageWithTags(string title = "My title", params string[] tags)
+		protected void CreatePageWithTags(params string[] tags)
+		{
+			CreatePageWithTitleAndTags("My title", tags);
+		}
+
+		protected void CreatePageWithTitleAndTags(string title, params string[] tags)
 		{
 			Driver.FindElement(By.CssSelector("a[href='/pages/new']")).Click();
 			Driver.FindElement(By.Name("Title")).SendKeys(title);

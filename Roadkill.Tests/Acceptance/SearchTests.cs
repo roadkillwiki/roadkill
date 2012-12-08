@@ -31,9 +31,9 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			LoginAsEditor();
-			CreatePageWithTags("Homepage");
-			CreatePageWithTags("Another page 1", "Another");
-			CreatePageWithTags("Another page 2", "Another");
+			CreatePageWithTitleAndTags("Homepage");
+			CreatePageWithTitleAndTags("Another page 1", "Another");
+			CreatePageWithTitleAndTags("Another page 2", "Another");
 			Logout();
 
 			// Act
@@ -53,9 +53,9 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			LoginAsEditor();
-			CreatePageWithTags("Homepage");
-			CreatePageWithTags("Another page 1", "Another");
-			CreatePageWithTags("Another page 2", "Another");
+			CreatePageWithTitleAndTags("Homepage");
+			CreatePageWithTitleAndTags("Another page 1", "Another");
+			CreatePageWithTitleAndTags("Another page 2", "Another");
 			Logout();
 
 			// Act
@@ -79,8 +79,8 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			LoginAsEditor();
-			CreatePageWithTags("Page 1", "Another");
-			CreatePageWithTags("Page 2", "Another");
+			CreatePageWithTitleAndTags("Page 1", "Another");
+			CreatePageWithTitleAndTags("Page 2", "Another");
 			Logout();
 
 			// Act

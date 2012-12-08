@@ -220,7 +220,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			LoginAsAdmin();
-			CreatePageWithTags("Homepage");
+			CreatePageWithTitleAndTags("Homepage");
 
 			// Act
 			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
