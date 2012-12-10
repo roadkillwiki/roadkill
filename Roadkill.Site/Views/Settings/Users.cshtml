@@ -88,7 +88,7 @@
 		@using (Html.BeginForm("AddAdmin", "Settings", FormMethod.Post, new { id = "userform" }))
 		{
 			@Html.Hidden("Id")
-			@Html.Hidden("IsNew")
+			@Html.Hidden("IsBeingCreatedByAdmin")
 			@Html.Hidden("ExistingEmail")
 			@Html.Hidden("ExistingUsername")
 

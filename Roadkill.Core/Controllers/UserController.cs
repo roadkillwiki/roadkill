@@ -172,7 +172,7 @@ namespace Roadkill.Core.Controllers
 			if (summary.Id == null || summary.Id == Guid.Empty)
 				return RedirectToAction("Login");
 
-#if APPHARBOR
+#if DEMOSITE
 			ModelState.AddModelError("General", "The demo site login cannot be changed.");
 #endif
 
@@ -226,7 +226,7 @@ namespace Roadkill.Core.Controllers
 			if (Configuration.ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
-#if APPHARBOR
+#if DEMOSITE
 			ModelState.AddModelError("General", "The demo site login cannot be changed.");
 			return View();
 #endif

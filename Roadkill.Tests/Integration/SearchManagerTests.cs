@@ -236,6 +236,26 @@ namespace Roadkill.Tests.Integration
 			thread.Start();
 		}
 
+		[Test]
+		[Description("See bug #93")]
+		public void Cyrillic_Content_Should_Be_Stored_And_Retrieved_Correctly()
+		{
+			// Arrange
+			SearchManager searchManager = new SearchManager(_config, _repository);
+			searchManager.CreateIndex();
+
+			PageSummary page1 = CreatePage(1, "admin", "ОШИБКА: неверная последовательность байт для кодировки", "tag1", 
+				"БД сервера событий была перенесена из PostgreSQL 8.3 на PostgreSQL 9.1.4. Сервер, развернутый на Windows платформе, не мог с ней работать, т.к. установщик PostgreSQL 9.1.4 создает шаблон базы с использованием кодировки UTF8 и, сответственно, новая БД не могла быть создана с требуемой");
+
+			searchManager.Add(page1);
+
+			// Act
+			List<SearchResult> results = searchManager.SearchIndex("ОШИБКА").ToList();
+
+			// Assert
+			Assert.That(results[0].ContentSummary, Contains.Substring("БД сервера событий была перенесена из"));
+		}
+
 		protected PageSummary CreatePage(int id, string createdBy, string title, string tags, string textContent = "", DateTime? createdOn = null)
 		{
 			if (createdOn == null)

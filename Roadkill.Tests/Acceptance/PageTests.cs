@@ -19,9 +19,6 @@ using OpenQA.Selenium.Firefox;
 
 namespace Roadkill.Tests.Acceptance
 {
-	/// <summary>
-	/// Web tests using a headless browser (non-javascript interaction)
-	/// </summary>
 	[TestFixture]
 	[Category("Acceptance")]
 	public class PageTests : AcceptanceTestBase

@@ -19,9 +19,6 @@ using OpenQA.Selenium.Firefox;
 
 namespace Roadkill.Tests.Acceptance
 {
-	/// <summary>
-	/// Web tests using a headless browser (non-javascript interaction)
-	/// </summary>
 	[TestFixture]
 	[Category("Acceptance")]
 	public class UserTests : AcceptanceTestBase
@@ -54,7 +51,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Profile_Shows_Correct_Information()
+		public void View_Profile_Shows_Correct_Information()
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(LogoutUrl);
@@ -76,7 +73,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Save_Profile_Shows_Correct_Information()
+		public void Save_Profile_Saves_And_Shows_Correct_Information()
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(LogoutUrl);
@@ -132,55 +129,132 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void All_Pages_Has_Edit_Delete_For_Admin()
+		public void Register_Shows_Confirmation_Page_And_Sends_Email()
 		{
-			//
 			// Arrange
-			//
+			string pickupPath = Path.Combine(SitePath, "App_Data", "TempSmtp");
+			if (!Directory.Exists(pickupPath))
+				Directory.CreateDirectory(pickupPath);
+
+			foreach (string file in Directory.GetFiles(pickupPath, "*.eml"))
+			{
+				File.Delete(file);
+			}
+
 			Driver.Navigate().GoToUrl(LogoutUrl);
-			Driver.Navigate().GoToUrl(LoginUrl);
-			Driver.FindElement(By.Name("email")).SendKeys(ADMIN_EMAIL);
-			Driver.FindElement(By.Name("password")).SendKeys(ADMIN_PASSWORD);
-			Driver.FindElement(By.CssSelector("input[value=Login]")).Click();
+			Driver.FindElement(By.CssSelector("a[href='/user/signup']")).Click();
+			Driver.FindElement(By.CssSelector("#Firstname")).Clear();
+			Driver.FindElement(By.CssSelector("#Firstname")).SendKeys("My Firstname");
+			Driver.FindElement(By.CssSelector("#Lastname")).Clear();
+			Driver.FindElement(By.CssSelector("#Lastname")).SendKeys("My Lastname");
+			Driver.FindElement(By.CssSelector("#NewEmail")).Clear();
+			Driver.FindElement(By.CssSelector("#NewEmail")).SendKeys("newemail@localhost");
+			Driver.FindElement(By.CssSelector("#NewUsername")).Clear();
+			Driver.FindElement(By.CssSelector("#NewUsername")).SendKeys("myusername");
+			Driver.FindElement(By.CssSelector("#Password")).Clear();
+			Driver.FindElement(By.CssSelector("#Password")).SendKeys("password");
+			Driver.FindElement(By.CssSelector("#PasswordConfirmation")).Clear();
+			Driver.FindElement(By.CssSelector("#PasswordConfirmation")).SendKeys("password");
 
-			// 1st new page
-			Driver.FindElement(By.CssSelector("a[href='/pages/new']")).Click();
-			Driver.FindElement(By.CssSelector("#Title")).SendKeys("My title1");
-
-			if (Driver is SimpleBrowserDriver)
-			{
-				Driver.FindElement(By.Name("RawTags")).SendKeys("Homepage");
-			}
-			else
-			{
-				Driver.FindElement(By.Name("TagsEntry")).SendKeys("Homepage");
-				Driver.FindElement(By.Name("TagsEntry")).SendKeys(Keys.Space);
-			}
-			Driver.FindElement(By.Name("Content")).SendKeys("Some content goes here1");
-			Driver.FindElement(By.CssSelector("input[value=Save]")).Click();
-
-			// 2nd new page
-			Driver.FindElement(By.CssSelector("a[href='/pages/new']")).Click();
-			Driver.FindElement(By.Name("Title")).SendKeys("My title2");
-			if (Driver is SimpleBrowserDriver)
-			{
-				Driver.FindElement(By.Name("RawTags")).SendKeys("Tag2");
-			}
-			else
-			{
-				Driver.FindElement(By.Name("TagsEntry")).SendKeys("Tag2");
-				Driver.FindElement(By.Name("TagsEntry")).SendKeys(Keys.Space);
-			}
-			Driver.FindElement(By.Name("Content")).SendKeys("Some content goes here2");
-			Driver.FindElement(By.CssSelector("input[value=Save]")).Click();
-
-			//
 			// Act
-			//
-			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
+			Driver.FindElement(By.CssSelector("input[value='Register new user']")).Click();
 
 			// Assert
-			Assert.That(Driver.FindElements(By.CssSelector(".table>tbody>tr")).Count, Is.EqualTo(2));
+			Assert.That(Driver.FindElement(By.CssSelector("#content h1")).Text, Is.EqualTo("Signup complete."));
+			Assert.That(Driver.FindElement(By.CssSelector("#content p")).Text, Is.EqualTo("Thank you, an email has been sent to newemail@localhost with details on how to complete the signup."));
+			Assert.That(Driver.FindElements(By.CssSelector("input[value='Resend email confirmation']")).Count, Is.EqualTo(1));
+			Assert.That(Directory.GetFiles(pickupPath, "*.eml").Count(), Is.EqualTo(1));
+		}
+
+		[Test]
+		public void Register_With_Missing_Email_Shows_Validation_Errors()
+		{
+			// Arrange
+			Driver.Navigate().GoToUrl(LogoutUrl);
+			Driver.FindElement(By.CssSelector("a[href='/user/signup']")).Click();
+			Driver.FindElement(By.CssSelector("#Firstname")).Clear();
+			Driver.FindElement(By.CssSelector("#Firstname")).SendKeys("My Firstname");
+			Driver.FindElement(By.CssSelector("#Lastname")).Clear();
+			Driver.FindElement(By.CssSelector("#Lastname")).SendKeys("My Lastname");
+			
+			Driver.FindElement(By.CssSelector("#NewEmail")).Clear();
+			// Missing
+			
+			Driver.FindElement(By.CssSelector("#NewUsername")).Clear();
+			Driver.FindElement(By.CssSelector("#NewUsername")).SendKeys("myusername");
+			Driver.FindElement(By.CssSelector("#Password")).Clear();
+			Driver.FindElement(By.CssSelector("#Password")).SendKeys("password");
+			Driver.FindElement(By.CssSelector("#PasswordConfirmation")).Clear();
+			Driver.FindElement(By.CssSelector("#PasswordConfirmation")).SendKeys("password");
+
+			// Act
+			Driver.FindElement(By.CssSelector("input[value='Register new user']")).Click();
+
+			// Assert
+			Assert.That(Driver.FindElement(By.CssSelector(".validation-summary-errors li")).Text, Is.EqualTo("The email field is required."));
+		}
+
+		[Test]
+		public void Register_With_Missing_Password_Shows_Validation_Errors()
+		{
+			// Arrange
+			Driver.Navigate().GoToUrl(LogoutUrl);
+			Driver.FindElement(By.CssSelector("a[href='/user/signup']")).Click();
+			Driver.FindElement(By.CssSelector("#Firstname")).Clear();
+			Driver.FindElement(By.CssSelector("#Firstname")).SendKeys("My Firstname");
+			Driver.FindElement(By.CssSelector("#Lastname")).Clear();
+			Driver.FindElement(By.CssSelector("#Lastname")).SendKeys("My Lastname");
+			Driver.FindElement(By.CssSelector("#NewEmail")).Clear();
+			Driver.FindElement(By.CssSelector("#NewEmail")).SendKeys("newemail@localhost");
+			Driver.FindElement(By.CssSelector("#NewUsername")).Clear();
+			Driver.FindElement(By.CssSelector("#NewUsername")).SendKeys("myusername");
+			Driver.FindElement(By.CssSelector("#Password")).Clear();
+			Driver.FindElement(By.CssSelector("#Password")).SendKeys("");
+			Driver.FindElement(By.CssSelector("#PasswordConfirmation")).Clear();
+			Driver.FindElement(By.CssSelector("#PasswordConfirmation")).SendKeys("");
+
+			// Act
+			Driver.FindElement(By.CssSelector("input[value='Register new user']")).Click();
+
+			// Assert
+			Assert.That(Driver.FindElement(By.CssSelector(".validation-summary-errors li")).Text, Is.EqualTo("The password is less than 6 characters"));
+		}
+
+		[Test]
+		public void Register_And_Resend_Email_Confirmation_Sends_Email()
+		{
+			// Arrange
+			string pickupPath = Path.Combine(SitePath, "App_Data", "TempSmtp");
+			if (!Directory.Exists(pickupPath))
+				Directory.CreateDirectory(pickupPath);
+
+			foreach (string file in Directory.GetFiles(pickupPath, "*.eml"))
+			{
+				File.Delete(file);
+			}
+
+			Driver.Navigate().GoToUrl(LogoutUrl);
+			Driver.FindElement(By.CssSelector("a[href='/user/signup']")).Click();
+			Driver.FindElement(By.CssSelector("#Firstname")).Clear();
+			Driver.FindElement(By.CssSelector("#Firstname")).SendKeys("My Firstname");
+			Driver.FindElement(By.CssSelector("#Lastname")).Clear();
+			Driver.FindElement(By.CssSelector("#Lastname")).SendKeys("My Lastname");
+			Driver.FindElement(By.CssSelector("#NewEmail")).Clear();
+			Driver.FindElement(By.CssSelector("#NewEmail")).SendKeys("newemail@localhost");
+			Driver.FindElement(By.CssSelector("#NewUsername")).Clear();
+			Driver.FindElement(By.CssSelector("#NewUsername")).SendKeys("myusername");
+			Driver.FindElement(By.CssSelector("#Password")).Clear();
+			Driver.FindElement(By.CssSelector("#Password")).SendKeys("password");
+			Driver.FindElement(By.CssSelector("#PasswordConfirmation")).Clear();
+			Driver.FindElement(By.CssSelector("#PasswordConfirmation")).SendKeys("password");
+			Driver.FindElement(By.CssSelector("input[value='Register new user']")).Click();
+
+			// Act
+			Driver.FindElement(By.CssSelector("input[value='Resend email confirmation']")).Click();
+
+			// Assert
+			Assert.That(Driver.FindElement(By.CssSelector(".alert")).Text, Is.EqualTo("The confirmation email was resent."));
+			Assert.That(Directory.GetFiles(pickupPath, "*.eml").Count(), Is.EqualTo(2));
 		}
 	}
 }
