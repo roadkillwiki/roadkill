@@ -25,7 +25,7 @@ function bindUserButtons()
 		$("#ExistingEmail").val("");
 		$("#NewUsername").val("");
 		$("#NewEmail").val("");
-		$("#IsNew").val("True");
+		$("#IsBeingCreatedByAdmin").val("True");
 
 		$(".validation-summary-errors").hide();
 		openModal("#userdialogContainer");
@@ -42,7 +42,7 @@ function bindUserButtons()
 		$("#ExistingEmail").val("");
 		$("#NewUsername").val("");
 		$("#NewEmail").val("");
-		$("#IsNew").val("True");
+		$("#IsBeingCreatedByAdmin").val("True");
 
 		$(".validation-summary-errors").hide();
 		openModal("#userdialogContainer");
@@ -62,7 +62,7 @@ function bindUserButtons()
 		$("#ExistingEmail").val(user.email);
 		$("#NewUsername").val(user.username);
 		$("#NewEmail").val(user.email);
-		$("#IsNew").val("False");
+		$("#IsBeingCreatedByAdmin").val("False");
 
 		$(".validation-summary-errors").hide();
 		openModal("#userdialogContainer");

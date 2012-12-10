@@ -51,8 +51,8 @@ namespace Roadkill.Core.Controllers
 				return;
 			}
 
-#if APPHARBOR
-			// To be removed in 1.5
+#if DEMOSITE
+			// To be removed?
 			if (Request.QueryString["locale"] == "on")
 			{
 				Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("fi-FI");

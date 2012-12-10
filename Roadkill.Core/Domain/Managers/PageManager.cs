@@ -52,16 +52,16 @@ namespace Roadkill.Core
 				Page page = new Page();
 				page.Title = summary.Title;
 				page.Tags = summary.CommaDelimitedTags();
-				page.CreatedBy = AppendIpForAppHarbor(currentUser);
+				page.CreatedBy = AppendIpForDemoSite(currentUser);
 				page.CreatedOn = DateTime.Now;
 				page.ModifiedOn = DateTime.Now;
-				page.ModifiedBy = AppendIpForAppHarbor(currentUser);
+				page.ModifiedBy = AppendIpForDemoSite(currentUser);
 				Repository.SaveOrUpdate<Page>(page);
 
 				PageContent pageContent = new PageContent();
 				pageContent.VersionNumber = 1;
 				pageContent.Text = summary.Content;
-				pageContent.EditedBy = AppendIpForAppHarbor(currentUser);
+				pageContent.EditedBy = AppendIpForDemoSite(currentUser);
 				pageContent.EditedOn = DateTime.Now;
 				pageContent.Page = page;
 				Repository.SaveOrUpdate<PageContent>(pageContent);
@@ -321,7 +321,7 @@ namespace Roadkill.Core
 				page.Title = summary.Title;
 				page.Tags = summary.CommaDelimitedTags();
 				page.ModifiedOn = DateTime.Now;
-				page.ModifiedBy = AppendIpForAppHarbor(currentUser);
+				page.ModifiedBy = AppendIpForDemoSite(currentUser);
 
 				// A second check to ensure a fake IsLocked POST doesn't work.
 				if (_context.IsAdmin)
@@ -332,7 +332,7 @@ namespace Roadkill.Core
 				PageContent pageContent = new PageContent();
 				pageContent.VersionNumber = _historyManager.MaxVersion(summary.Id) + 1;
 				pageContent.Text = summary.Content;
-				pageContent.EditedBy = AppendIpForAppHarbor(currentUser);
+				pageContent.EditedBy = AppendIpForDemoSite(currentUser);
 				pageContent.EditedOn = DateTime.Now;
 				pageContent.Page = page;
 				Repository.SaveOrUpdate<PageContent>(pageContent);
@@ -401,11 +401,11 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Adds an IP address after the username for any Appharbor vandalism.
 		/// </summary>
-		private string AppendIpForAppHarbor(string username)
+		private string AppendIpForDemoSite(string username)
 		{
 			string result = username;
 
-#if APPHARBOR
+#if DEMOSITE
 			if (!_context.IsAdmin)
 			{
 				string ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];

@@ -27,6 +27,7 @@ namespace Roadkill.Tests.Unit.Controllers
 		[SetUp]
 		public void Init()
 		{
+			// File-specific settings
 			_context = new Mock<IRoadkillContext>().Object;
 			_config = new RoadkillSettings();
 			_config.ApplicationSettings = new ApplicationSettings();
@@ -35,6 +36,7 @@ namespace Roadkill.Tests.Unit.Controllers
 
 			try
 			{
+				// Delete any existing attachments folder
 				DirectoryInfo directoryInfo = new DirectoryInfo(_config.ApplicationSettings.AttachmentsFolder);
 				if (directoryInfo.Exists)
 				{

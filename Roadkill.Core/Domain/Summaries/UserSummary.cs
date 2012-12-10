@@ -16,16 +16,25 @@ namespace Roadkill.Core
 	/// </summary>
 	[CustomValidation(typeof(UserSummary), "VerifyId")]
 	[CustomValidation(typeof(UserSummary), "VerifyNewUsername")]
+	[CustomValidation(typeof(UserSummary), "VerifyNewUsernameIsNotInUse")]
 	[CustomValidation(typeof(UserSummary), "VerifyNewEmail")]
+	[CustomValidation(typeof(UserSummary), "VerifyNewEmailIsNotInUse")]
 	[CustomValidation(typeof(UserSummary), "VerifyPassword")]
 	[CustomValidation(typeof(UserSummary), "VerifyPasswordsMatch")]
 	public class UserSummary
 	{
 		protected IConfigurationContainer Config;
+		protected UserManager UserManager;
 
-		public UserSummary(IConfigurationContainer config)
+		public UserSummary()
+		{
+			// Used for non-controllers
+		}
+
+		public UserSummary(IConfigurationContainer config, UserManager userManager)
 		{
 			Config = config;
+			UserManager = userManager;
 		}
 
 		/// <summary>
@@ -86,9 +95,9 @@ namespace Roadkill.Core
 		public string PasswordResetKey { get; set; }
 
 		/// <summary>
-		/// Whether this is a new user or an existing user.
+		/// If the user is being created via the settings->users interface (to work around data annotation GUID issues).
 		/// </summary>
-		public bool IsNew { get; set; }
+		public bool IsBeingCreatedByAdmin { get; set; }
 
 		/// <summary>
 		/// Indicates whether the username has changed.
@@ -113,14 +122,6 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="UserSummary"/> class.
-		/// </summary>
-		public UserSummary()
-		{
-			IsNew = true;
-		}
-
-		/// <summary>
 		/// Checks if the <see cref="Id"/> is empty.
 		/// </summary>
 		/// <param name="user"></param>
@@ -130,7 +131,7 @@ namespace Roadkill.Core
 		{
 			if (user.Id == Guid.Empty)
 			{
-				if (user.IsNew)
+				if (user.IsBeingCreatedByAdmin)
 				{
 					return ValidationResult.Success;
 				}
@@ -146,26 +147,59 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// Checks if the <see cref="NewUsername"/> provided is valid.
+		/// </summary>
+		/// <param name="user"></param>
+		/// <returns><see cref="ValidationResult.Success"/> if the username isn't empty.</returns>
+		public static ValidationResult VerifyNewUsername(UserSummary user, ValidationContext context)
+		{
+			// Only check if it's a new user, OR the username has changed
+			if (!string.IsNullOrEmpty(user.NewUsername) && user.NewUsername.Trim().Length == 0)
+			{
+				return new ValidationResult(string.Format(SiteStrings.User_Validation_UsernameEmpty, user.NewUsername));
+			}
+			else
+			{
+				return ValidationResult.Success;
+			}
+		}
+
+		/// <summary>
 		/// Checks if the <see cref="NewUsername"/> provided is already a user in the system.
 		/// </summary>
 		/// <param name="user"></param>
 		/// <returns><see cref="ValidationResult.Success"/> if the username hasn't changed, 
 		/// or if it has and the new username doesn't  already exist.</returns>
-		public static ValidationResult VerifyNewUsername(UserSummary user, ValidationContext context)
+		public static ValidationResult VerifyNewUsernameIsNotInUse(UserSummary user, ValidationContext context)
 		{
-			if ((user.IsNew && user.Id == null) || user.ExistingUsername != user.NewUsername)
+			// Only check if it's a new user, OR the username has changed
+			if ((user.IsBeingCreatedByAdmin || user.Id == null) || user.ExistingUsername != user.NewUsername)
 			{
-				if (UserManager.GetInstance().UserNameExists(user.NewUsername))
+				if (user.UserManager == null || user.UserManager.UserNameExists(user.NewUsername))
 				{
 					return new ValidationResult(string.Format(SiteStrings.User_Validation_UsernameExists, user.NewUsername));
-				}
-				else if (!string.IsNullOrEmpty(user.NewUsername) && user.NewUsername.Trim().Length == 0)
-				{
-					return new ValidationResult(string.Format(SiteStrings.User_Validation_UsernameEmpty, user.NewUsername));
 				}
 			}
 
 			return ValidationResult.Success;
+		}
+
+		/// <summary>
+		/// Checks if the <see cref="NewEmail"/> is a valid format.
+		/// </summary>
+		/// <param name="user"></param>
+		/// <returns><see cref="ValidationResult.Success"/> if the email has an @ in it.</returns>
+		public static ValidationResult VerifyNewEmail(UserSummary user, ValidationContext context)
+		{
+			// Only check if it's a new user, OR the email has changed
+			if (!user.NewEmail.Contains("@"))
+			{
+				return new ValidationResult(SiteStrings.User_Validation_Email_Check);
+			}
+			else
+			{
+				return ValidationResult.Success;
+			}
 		}
 
 		/// <summary>
@@ -174,16 +208,12 @@ namespace Roadkill.Core
 		/// <param name="user"></param>
 		/// <returns><see cref="ValidationResult.Success"/> if the email hasn't changed, 
 		/// or if it has and the new email doesn't  already exist.</returns>
-		public static ValidationResult VerifyNewEmail(UserSummary user, ValidationContext context)
+		public static ValidationResult VerifyNewEmailIsNotInUse(UserSummary user, ValidationContext context)
 		{
-			// Only check if the username has changed
-			if ((user.IsNew && user.Id == null) || user.ExistingEmail != user.NewEmail)
+			// Only check if it's a new user, OR the email has changed
+			if ((user.IsBeingCreatedByAdmin || user.Id == null) || user.ExistingEmail != user.NewEmail)
 			{
-				if (!user.NewEmail.Contains("@"))
-				{
-					return new ValidationResult(SiteStrings.User_Validation_Email_Check);
-				}
-				else if (UserManager.GetInstance().UserExists(user.NewEmail))
+				if (user.UserManager == null || user.UserManager.UserExists(user.NewEmail))
 				{
 					return new ValidationResult(string.Format(SiteStrings.User_Validation_EmailExists, user.NewEmail));
 				}
@@ -197,8 +227,13 @@ namespace Roadkill.Core
 		/// </summary>
 		public static ValidationResult VerifyPasswordsMatch(UserSummary user, ValidationContext context)
 		{
-			// A blank password indicates no change is occuring.
-			if (!(user.IsNew && user.Id == null) && string.IsNullOrEmpty(user.Password))
+			if (user.IsBeingCreatedByAdmin && user.Password != user.PasswordConfirmation)
+			{
+				return new ValidationResult(SiteStrings.User_Validation_PasswordsDontMatch);
+			}
+
+			// If it's an existing user, then a blank password indicates no change is occurring.
+			if (user.Id != null && string.IsNullOrEmpty(user.Password))
 			{
 				return ValidationResult.Success;
 			}
@@ -220,8 +255,13 @@ namespace Roadkill.Core
 		/// <returns></returns>
 		public static ValidationResult VerifyPassword(UserSummary user, ValidationContext context)
 		{
-			// A blank password indicates no change is occuring.
-			if (!(user.IsNew && user.Id == null) && string.IsNullOrEmpty(user.Password))
+			if (user.IsBeingCreatedByAdmin && (string.IsNullOrEmpty(user.Password) || user.Password.Length < user.Config.ApplicationSettings.MinimumPasswordLength))
+			{
+				return new ValidationResult(string.Format(SiteStrings.User_Validation_PasswordTooShort, user.Config.ApplicationSettings.MinimumPasswordLength));
+			}
+
+			// If it's an existing user, a blank password indicates no change is occurring.
+			if (user.Id != null && string.IsNullOrEmpty(user.Password))
 			{
 				return ValidationResult.Success;
 			}
