@@ -14,7 +14,7 @@ using Roadkill.Core.Domain;
 using Roadkill.Tests.Integration;
 using StructureMap;
 
-namespace Roadkill.Tests.Unit.Controllers
+namespace Roadkill.Tests.Unit
 {
 	[TestFixture]
 	[Category("Unit")]

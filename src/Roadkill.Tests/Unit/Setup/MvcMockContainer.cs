@@ -5,7 +5,7 @@ using System.Text;
 using System.Web;
 using Moq;
 
-namespace Roadkill.Tests.Unit.Controllers
+namespace Roadkill.Tests.Unit
 {
 	/// <summary>
 	/// Provides access to the Mock objects for the MVC mock helper extention methods.
