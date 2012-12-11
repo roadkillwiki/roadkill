@@ -33,10 +33,9 @@ namespace Roadkill.Tests.Acceptance
 		private void CopyDb()
 		{
 			SitePath = AcceptanceTestsSetup.GetSitePath();
-			string libFolder = Path.Combine(SitePath, "..", "..", "lib");
-			libFolder = new DirectoryInfo(libFolder).FullName;
 
-			string testsDBPath = Path.Combine(libFolder, "Empty-databases", "roadkill-acceptancetests.sdf");
+
+			string testsDBPath = Path.Combine(GlobalSetup.LIB_FOLDER, "Empty-databases", "roadkill-acceptancetests.sdf");
 			File.Copy(testsDBPath, Path.Combine(SitePath, "App_Data", "roadkill-acceptancetests.sdf"), true);
 		}
 
@@ -49,6 +48,8 @@ namespace Roadkill.Tests.Acceptance
 		{
 			Driver.FindElement(By.CssSelector("a[href='/pages/new']")).Click();
 			Driver.FindElement(By.Name("Title")).SendKeys(title);
+
+			// Use for SimpleBrowser, as it has no javascript interaction
 			//Driver.FindElement(By.Name("RawTags")).SendKeys("Tag1,Tag2");
 
 			foreach (string tag in tags)

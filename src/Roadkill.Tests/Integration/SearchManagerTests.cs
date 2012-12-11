@@ -35,7 +35,7 @@ namespace Roadkill.Tests.Integration
 
 			_config = new RoadkillSettings();
 			_config.ApplicationSettings = new ApplicationSettings();
-			_config.ApplicationSettings.Load(null); // from app.config
+			_config.ApplicationSettings.Load(null); // load from the app.config
 
 			SettingsSummary summary = new SettingsSummary(_config);
 			summary.ConnectionString = _config.ApplicationSettings.ConnectionString;

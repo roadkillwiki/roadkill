@@ -50,7 +50,7 @@ namespace Roadkill.Tests.Acceptance
 
 		public static string GetSitePath()
 		{
-			string sitePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Roadkill.Site");
+			string sitePath = Path.Combine(GlobalSetup.ROOT_FOLDER, "src", "Roadkill.Site");
 			sitePath = new DirectoryInfo(sitePath).FullName;
 
 			return sitePath;
@@ -59,10 +59,8 @@ namespace Roadkill.Tests.Acceptance
 		private void CopyWebConfig()
 		{
 			string sitePath = GetSitePath();
-			string libFolder = Path.Combine(sitePath, "..", "..", "lib");
-			libFolder = new DirectoryInfo(libFolder).FullName;
 
-			string testsWebConfigPath = Path.Combine(libFolder, "Configs", "web.acceptancetests.config");
+			string testsWebConfigPath = Path.Combine(GlobalSetup.LIB_FOLDER, "Configs", "web.acceptancetests.config");
 
 			// Be a good neighbour and backup the web.config
 			string siteWebConfig = Path.Combine(sitePath, "web.config");
