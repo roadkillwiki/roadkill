@@ -1,21 +1,7 @@
-using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Roadkill.Core;
-using Roadkill.Tests.Core;
 using NUnit.Framework;
-using System.IO;
-
-using Plasma.Core;
-using Plasma.WebDriver;
 using OpenQA.Selenium;
-using System.Diagnostics;
-using HtmlAgilityPack;
-using Fizzler.Systems.HtmlAgilityPack;
-using SimpleBrowser.WebDriver;
-using System.Threading;
-using OpenQA.Selenium.Firefox;
 
 namespace Roadkill.Tests.Acceptance
 {
