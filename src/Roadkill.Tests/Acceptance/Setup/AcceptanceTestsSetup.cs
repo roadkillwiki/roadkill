@@ -59,7 +59,7 @@ namespace Roadkill.Tests.Acceptance
 		private void CopyWebConfig()
 		{
 			string sitePath = GetSitePath();
-			string libFolder = Path.Combine(sitePath, "..", "lib");
+			string libFolder = Path.Combine(sitePath, "..", "..", "lib");
 			libFolder = new DirectoryInfo(libFolder).FullName;
 
 			string testsWebConfigPath = Path.Combine(libFolder, "Configs", "web.acceptancetests.config");

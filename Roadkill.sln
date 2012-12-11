@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roadkill.Site", "Roadkill.Site\Roadkill.Site.csproj", "{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roadkill.Site", "src\Roadkill.Site\Roadkill.Site.csproj", "{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roadkill.Core", "Roadkill.Core\Roadkill.Core.csproj", "{9C86C475-F3BD-44D1-942A-78BF19158C3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roadkill.Core", "src\Roadkill.Core\Roadkill.Core.csproj", "{9C86C475-F3BD-44D1-942A-78BF19158C3A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D9791D01-184A-44AE-9CDE-42E8C411026D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roadkill.Tests", "Roadkill.Tests\Roadkill.Tests.csproj", "{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roadkill.Tests", "src\Roadkill.Tests\Roadkill.Tests.csproj", "{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
