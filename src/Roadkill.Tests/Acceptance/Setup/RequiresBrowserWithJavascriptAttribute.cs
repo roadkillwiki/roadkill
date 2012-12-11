@@ -7,9 +7,9 @@ using NUnit.Framework;
 namespace Roadkill.Tests.Acceptance
 {
 	/// <summary>
-	/// Explicit as this test cannot run with using a headless browser.
+	/// Marks a test (for future use) as not being able to be run in a headless browser.
 	/// </summary>
-	public class RequiresBrowserWithJavascriptAttribute : TestAttribute
+	public class RequiresBrowserWithJavascriptAttribute : TestAttribute // ExplicitAttribute
 	{
 		
 	}

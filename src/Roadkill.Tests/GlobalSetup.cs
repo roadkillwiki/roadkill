@@ -14,6 +14,17 @@ using System.Configuration;
 [SetUpFixture]
 public class GlobalSetup
 {
+	public static readonly string ROOT_FOLDER;
+	public static readonly string LIB_FOLDER;
+
+	static GlobalSetup()
+	{
+		string relativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..");
+
+		ROOT_FOLDER = new DirectoryInfo(relativePath).FullName;
+		LIB_FOLDER = Path.Combine(ROOT_FOLDER, "lib");
+	}
+
     /// <summary>
 	/// Attempts to copy the correct SQL binaries to the bin folder for the architecture the tests are running under.
 	/// </summary>
@@ -23,16 +34,16 @@ public class GlobalSetup
 		//
 		// Copy the SQLite files over
 		//
-		string rootFolder = AppDomain.CurrentDomain.BaseDirectory;
-		string sqliteFileSource = Path.Combine(rootFolder, "lib", "SQLiteBinaries", "x86", "System.Data.SQLite.dll");
-		string sqliteFileDest = Path.Combine(rootFolder, "System.Data.SQLite.dll");
-		string sqliteLinqFileSource = Path.Combine(rootFolder, "lib", "SQLiteBinaries", "x86", "System.Data.SQLite.Linq.dll");
-		string sqliteFileLinqDest = Path.Combine(rootFolder, "System.Data.SQLite.Linq.dll");
+		string binFolder = AppDomain.CurrentDomain.BaseDirectory;
+		string sqliteFileSource = Path.Combine(binFolder, "lib", "SQLiteBinaries", "x86", "System.Data.SQLite.dll");
+		string sqliteFileDest = Path.Combine(binFolder, "System.Data.SQLite.dll");
+		string sqliteLinqFileSource = Path.Combine(binFolder, "lib", "SQLiteBinaries", "x86", "System.Data.SQLite.Linq.dll");
+		string sqliteFileLinqDest = Path.Combine(binFolder, "System.Data.SQLite.Linq.dll");
 
 		if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
 		{
-			sqliteFileSource = Path.Combine(rootFolder, "lib", "SQLiteBinaries", "x64", "System.Data.SQLite.dll");
-			sqliteLinqFileSource = Path.Combine(rootFolder, "lib", "SQLiteBinaries", "x64", "System.Data.SQLite.Linq.dll");
+			sqliteFileSource = Path.Combine(binFolder, "lib", "SQLiteBinaries", "x64", "System.Data.SQLite.dll");
+			sqliteLinqFileSource = Path.Combine(binFolder, "lib", "SQLiteBinaries", "x64", "System.Data.SQLite.Linq.dll");
 		}
 
 		System.IO.File.Copy(sqliteFileSource, sqliteFileDest, true);
