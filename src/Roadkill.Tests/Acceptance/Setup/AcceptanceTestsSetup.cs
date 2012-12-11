@@ -54,11 +54,13 @@ namespace Roadkill.Tests.Acceptance
 		private void CopyWebConfig()
 		{
 			string sitePath = GetSitePath();
+			string siteWebConfig = Path.Combine(sitePath, "web.config");
 
 			string testsWebConfigPath = Path.Combine(GlobalSetup.LIB_FOLDER, "Configs", "web.acceptancetests.config");
+			Console.WriteLine("Original web.config path: {0}", siteWebConfig);
+			Console.WriteLine("Acceptance tests web.config path: {0}", testsWebConfigPath);
 
 			// Be a good neighbour and backup the web.config
-			string siteWebConfig = Path.Combine(sitePath, "web.config");
 			File.Copy(siteWebConfig, siteWebConfig + ".bak", true);
 			Console.WriteLine("Backed up web.config to {0}.bak", siteWebConfig);
 
