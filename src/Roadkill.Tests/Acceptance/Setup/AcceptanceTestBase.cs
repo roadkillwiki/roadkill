@@ -33,7 +33,7 @@ namespace Roadkill.Tests.Acceptance
 		private void CopyDb()
 		{
 			SitePath = AcceptanceTestsSetup.GetSitePath();
-			string libFolder = Path.Combine(SitePath, "..", "lib");
+			string libFolder = Path.Combine(SitePath, "..", "..", "lib");
 			libFolder = new DirectoryInfo(libFolder).FullName;
 
 			string testsDBPath = Path.Combine(libFolder, "Empty-databases", "roadkill-acceptancetests.sdf");
