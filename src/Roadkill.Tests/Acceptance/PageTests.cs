@@ -354,6 +354,8 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			LoginAsAdmin();
+			Driver.Navigate().GoToUrl(BaseUrl + "/settings/updatesearchindex");
+
 			CreatePageWithTags("Homepage");
 			Driver.FindElement(By.CssSelector("#pageedit-button")).Click();
 			Driver.FindElement(By.CssSelector("input[value=Save]")).Click();
@@ -371,6 +373,10 @@ namespace Roadkill.Tests.Acceptance
 		public void HistoryPage_Has_Revert_For_Editor()
 		{
 			// Arrange
+			LoginAsAdmin();
+			Driver.Navigate().GoToUrl(BaseUrl + "/settings/updatesearchindex");
+			Logout();
+
 			LoginAsEditor();
 			CreatePageWithTags("Homepage");
 			Driver.FindElement(By.CssSelector("#pageedit-button")).Click();
@@ -391,6 +397,10 @@ namespace Roadkill.Tests.Acceptance
 		public void HistoryPage_Has_No_Revert_For_Anonymous()
 		{
 			// Arrange
+			LoginAsAdmin();
+			Driver.Navigate().GoToUrl(BaseUrl + "/settings/updatesearchindex");
+			Logout();
+
 			LoginAsEditor();
 			CreatePageWithTags("Homepage");
 			Driver.FindElement(By.CssSelector("#pageedit-button")).Click();
