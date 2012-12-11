@@ -34,7 +34,6 @@ namespace Roadkill.Tests.Acceptance
 		{
 			SitePath = AcceptanceTestsSetup.GetSitePath();
 
-
 			string testsDBPath = Path.Combine(GlobalSetup.LIB_FOLDER, "Empty-databases", "roadkill-acceptancetests.sdf");
 			File.Copy(testsDBPath, Path.Combine(SitePath, "App_Data", "roadkill-acceptancetests.sdf"), true);
 		}
