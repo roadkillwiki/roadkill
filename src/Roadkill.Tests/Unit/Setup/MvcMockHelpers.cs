@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Moq;
 
-namespace Roadkill.Tests.Unit.Controllers
+namespace Roadkill.Tests.Unit
 {
 	/// <summary>
 	/// Based on http://www.hanselman.com/blog/ASPNETMVCSessionAtMix08TDDAndMvcMockHelpers.aspx

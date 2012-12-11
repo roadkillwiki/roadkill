@@ -23,6 +23,9 @@ public class GlobalSetup
 
 		ROOT_FOLDER = new DirectoryInfo(relativePath).FullName;
 		LIB_FOLDER = Path.Combine(ROOT_FOLDER, "lib");
+
+		Console.WriteLine("Using '{0}' for tests ROOT_FOLDER", ROOT_FOLDER);
+		Console.WriteLine("Using '{0}' for tests LIB_FOLDER", LIB_FOLDER);
 	}
 
     /// <summary>
