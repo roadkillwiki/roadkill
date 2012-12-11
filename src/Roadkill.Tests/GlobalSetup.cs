@@ -14,18 +14,35 @@ using System.Configuration;
 [SetUpFixture]
 public class GlobalSetup
 {
-	public static readonly string ROOT_FOLDER;
-	public static readonly string LIB_FOLDER;
+	private static string _rootFolder;
+	private static string _libFolder;
 
-	static GlobalSetup()
+	public static string ROOT_FOLDER
 	{
-		string relativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..");
+		get
+		{
+			if (string.IsNullOrEmpty(_rootFolder))
+			{
+				string relativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..");
 
-		ROOT_FOLDER = new DirectoryInfo(relativePath).FullName;
-		LIB_FOLDER = Path.Combine(ROOT_FOLDER, "lib");
+				_rootFolder = new DirectoryInfo(relativePath).FullName;
+				Console.WriteLine("Using '{0}' for tests ROOT_FOLDER", ROOT_FOLDER);
+			}
+			return _rootFolder;
+		}
+	}
 
-		Console.WriteLine("Using '{0}' for tests ROOT_FOLDER", ROOT_FOLDER);
-		Console.WriteLine("Using '{0}' for tests LIB_FOLDER", LIB_FOLDER);
+	public static string LIB_FOLDER
+	{
+		get
+		{
+			if (string.IsNullOrEmpty(_libFolder))
+			{
+				_libFolder = Path.Combine(ROOT_FOLDER, "lib");
+			}
+
+			return _libFolder;
+		}
 	}
 
     /// <summary>
