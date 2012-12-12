@@ -14,7 +14,6 @@ namespace Roadkill.Core
 	/// <summary>
 	/// Provides a data summary class for creating and saving user details.
 	/// </summary>
-	[CustomValidation(typeof(UserSummary), "VerifyId")]
 	[CustomValidation(typeof(UserSummary), "VerifyNewUsername")]
 	[CustomValidation(typeof(UserSummary), "VerifyNewUsernameIsNotInUse")]
 	[CustomValidation(typeof(UserSummary), "VerifyNewEmail")]
@@ -118,31 +117,6 @@ namespace Roadkill.Core
 			get
 			{
 				return ExistingEmail != NewEmail;
-			}
-		}
-
-		/// <summary>
-		/// Checks if the <see cref="Id"/> is empty.
-		/// </summary>
-		/// <param name="user"></param>
-		/// <returns><see cref="ValidationResult.Success"/> if the ID isn't empty or if the user is new, 
-		/// otherwise an error message.</returns>
-		public static ValidationResult VerifyId(UserSummary user, ValidationContext context)
-		{
-			if (user.Id == Guid.Empty)
-			{
-				if (user.IsBeingCreatedByAdmin)
-				{
-					return ValidationResult.Success;
-				}
-				else
-				{
-					return new ValidationResult("The User ID is empty");
-				}
-			}
-			else
-			{
-				return ValidationResult.Success;
 			}
 		}
 
@@ -260,17 +234,15 @@ namespace Roadkill.Core
 				return new ValidationResult(string.Format(SiteStrings.User_Validation_PasswordTooShort, user.Config.ApplicationSettings.MinimumPasswordLength));
 			}
 
-			// If it's an existing user, a blank password indicates no change is occurring.
 			if (user.Id != null && string.IsNullOrEmpty(user.Password))
 			{
+				// Existing user, a blank password indicates no change is occurring.
 				return ValidationResult.Success;
 			}
-			else
+			else if (string.IsNullOrEmpty(user.Password) || user.Password.Length < user.Config.ApplicationSettings.MinimumPasswordLength)
 			{
-				if (string.IsNullOrEmpty(user.Password) || user.Password.Length < user.Config.ApplicationSettings.MinimumPasswordLength)
-				{
-					return new ValidationResult(string.Format(SiteStrings.User_Validation_PasswordTooShort, user.Config.ApplicationSettings.MinimumPasswordLength));
-				}
+				// New or existing users with invalid passwords
+				return new ValidationResult(string.Format(SiteStrings.User_Validation_PasswordTooShort, user.Config.ApplicationSettings.MinimumPasswordLength));
 			}
 
 			return ValidationResult.Success;
