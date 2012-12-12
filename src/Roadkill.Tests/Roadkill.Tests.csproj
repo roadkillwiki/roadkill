@@ -225,6 +225,8 @@
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\Setup\RequiresBrowserWithJavascriptAttribute.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
+    <Compile Include="Unit\UserSummaryUsernameValidationTests.cs" />
+    <Compile Include="Unit\UserSummaryPasswordValidationTests.cs" />
     <Compile Include="Unit\HomeControllerTests.cs" />
     <Compile Include="Unit\Setup\MvcMockContainer.cs" />
     <Compile Include="Unit\FilesControllerTests.cs" />
@@ -233,7 +235,7 @@
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="Unit\PageManagerTests.cs" />
     <Compile Include="Unit\ActiveDirectoryUserManagerTests.cs" />
-    <Compile Include="Unit\UserSummaryValidationTests.cs" />
+    <Compile Include="Unit\UserSummaryEmailValidationTests.cs" />
     <Content Include="chromedriver.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
