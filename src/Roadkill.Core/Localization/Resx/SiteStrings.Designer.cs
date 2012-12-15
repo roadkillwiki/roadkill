@@ -1285,7 +1285,7 @@ namespace Roadkill.Core.Localization.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;b&gt;WARNING&lt;/b&gt; changing this may lock you out of the site. Make a backup of your web.config first before saving. &lt;br/&gt;&lt;br/&gt;This is the name of the admin role. Admins have the same rights as editors, but also have access to configuration settings and tools for the site..
+        ///   Looks up a localized string similar to &lt;b&gt;WARNING&lt;/b&gt; changing this may lock you out of the site when using Active Directory/Windows authentication. Make a backup of your web.config first before saving. &lt;br/&gt;&lt;br/&gt;This is the name of the admin role. Admins have the same rights as editors, but also have access to configuration settings and tools for the site..
         /// </summary>
         public static string SiteSettings_Configuration_AdminRole_Help {
             get {
@@ -1429,7 +1429,7 @@ namespace Roadkill.Core.Localization.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This is the name of the editor role - people who can edit and create pages..
+        ///   Looks up a localized string similar to This is the name of the editor role - people who can edit and create pages. This is only used for Active Directory/Windows authentication - leave this blank to allow all users to be editors..
         /// </summary>
         public static string SiteSettings_Configuration_EditorRole_Help {
             get {

@@ -96,16 +96,16 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Determines whether the specified user with the given email/username is an admin.
 		/// </summary>
-		/// <param name="email">The email address or username of the user.</param>
+		/// <param name="cookieValue">The user id or username of the user.</param>
 		/// <returns>true if the user is an admin; false otherwise.</returns>
-		public abstract bool IsAdmin(string email);
+		public abstract bool IsAdmin(string cookieValue);
 
 		/// <summary>
 		/// Determines whether the specified user with the given email/username is an editor.
 		/// </summary>
-		/// <param name="email">The email address or username of the user.</param>
+		/// <param name="cookieValue">The user id or username of the user.</param>
 		/// <returns>true if the user is an editor; false otherwise.</returns>
-		public abstract bool IsEditor(string email);
+		public abstract bool IsEditor(string cookieValue);
 
 		/// <summary>
 		/// Lists all admins in the system.

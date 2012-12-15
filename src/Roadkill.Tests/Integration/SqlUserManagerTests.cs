@@ -171,8 +171,10 @@ namespace Roadkill.Tests.Integration
 		public void IsEditor_And_Is_Not_Admin()
 		{
 			CreateEditorWithAsserts();
-			Assert.IsTrue(UserManager.GetInstance().IsEditor("editor@localhost"));
-			Assert.IsFalse(UserManager.GetInstance().IsAdmin("editor@localhost"));
+
+			User actual = UserManager.GetInstance().GetUser("editor@localhost");
+			Assert.IsTrue(UserManager.GetInstance().IsEditor(actual.Id.ToString()));
+			Assert.IsFalse(UserManager.GetInstance().IsAdmin(actual.Id.ToString()));
 		}
 
 		[Test]
@@ -184,8 +186,8 @@ namespace Roadkill.Tests.Integration
 			User actual = UserManager.GetInstance().GetUser("admin@localhost");
 			Assert.IsNotNull(actual);
 
-			Assert.IsTrue(UserManager.GetInstance().IsEditor("admin@localhost"));
-			Assert.IsTrue(UserManager.GetInstance().IsAdmin("admin@localhost"));
+			Assert.IsTrue(UserManager.GetInstance().IsEditor(actual.Id.ToString()));
+			Assert.IsTrue(UserManager.GetInstance().IsAdmin(actual.Id.ToString()));
 		}
 
 		[Test]

@@ -119,6 +119,7 @@ ul.mainmenu li a:hover { text-decoration:underline; }
 #file-preview img	{ max-height:50px;max-width:50px; }
 
 /* Tools/config page [admins] */
+.test-button	{ margin-bottom:15px !important; }
 #configuration-container legend		{ font-size:2em; font-weight:bold; }
 #configuration-container fieldset	{ padding-bottom:10px; }
 #settings-container p	{ padding-top: 10px; }

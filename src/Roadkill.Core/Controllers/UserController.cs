@@ -142,7 +142,7 @@ namespace Roadkill.Core.Controllers
 		{
 			if (Context.IsLoggedIn)
 			{
-				UserSummary summary = UserManager.GetUser(Context.CurrentUser).ToSummary();
+				UserSummary summary = UserManager.GetUserById(new Guid(Context.CurrentUser)).ToSummary();
 				return View(summary);
 			}
 			else
@@ -173,13 +173,7 @@ namespace Roadkill.Core.Controllers
 			{
 				try
 				{
-					if (UserManager.UpdateUser(summary))
-					{
-						// Reset the auth cookie to the new email.
-						FormsAuthentication.SetAuthCookie(summary.NewEmail, true);
-						Context.CurrentUser = summary.NewEmail;
-					}
-					else
+					if (!UserManager.UpdateUser(summary))
 					{
 						ModelState.AddModelError("General", SiteStrings.Profile_Error);
 						summary.ExistingEmail = summary.NewEmail;

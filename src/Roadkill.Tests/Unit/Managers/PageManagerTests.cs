@@ -62,19 +62,22 @@ namespace Roadkill.Tests.Unit
 			_historyManager = new HistoryManager(_config, _mockRepository.Object, _context);
 
 			// Usermanager stub
-			Mock<User> mockUser = new Mock<User>();
-			mockUser.SetupProperty<string>(x => x.Email, AdminEmail);
-			mockUser.SetupProperty<string>(x => x.Username, AdminUsername);
-			_testUser = mockUser.Object;
+			Mock<User> mockAdminUser = new Mock<User>();
+			mockAdminUser.SetupProperty<Guid>(x => x.Id, Guid.NewGuid());
+			mockAdminUser.SetupProperty<string>(x => x.Email, AdminEmail);
+			mockAdminUser.SetupProperty<string>(x => x.Username, AdminUsername);
+			_testUser = mockAdminUser.Object;
+			Guid userId = mockAdminUser.Object.Id;
 
 			_mockUserManager = new Mock<UserManager>(_config, _mockRepository.Object);
-			_mockUserManager.Setup(x => x.GetUser(_testUser.Email)).Returns(mockUser.Object);
+			_mockUserManager.Setup(x => x.GetUser(_testUser.Email)).Returns(mockAdminUser.Object);//GetUserById
+			_mockUserManager.Setup(x => x.GetUserById(userId)).Returns(mockAdminUser.Object);
 			_mockUserManager.Setup(x => x.Authenticate(_testUser.Email, "")).Returns(true);
 			_mockUserManager.Setup(x => x.GetLoggedInUserName(It.IsAny<HttpContextBase>())).Returns(_testUser.Username);
 
 			// Context stub
 			_context = new RoadkillContext(_mockUserManager.Object);
-			_context.CurrentUser = AdminEmail;
+			_context.CurrentUser = userId.ToString();
 
 			// And finally the IoC objects
 			RoadkillApplication.SetupIoC(_config, _mockRepository.Object, _context);

@@ -116,7 +116,7 @@ namespace Roadkill.Core
 					if (user.Password == User.HashPassword(password, user.Salt))
 					{
 						if (FormsAuthentication.IsEnabled)
-							FormsAuthentication.SetAuthCookie(email, true);
+							FormsAuthentication.SetAuthCookie(user.Id.ToString(), true);
 
 						return true;
 					}
@@ -261,40 +261,49 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Determines whether the specified user with the given email is an admin.
 		/// </summary>
-		/// <param name="email">The email address or username of the user.</param>
+		/// <param name="cookieValue">The user id or username of the user.</param>
 		/// <returns>
 		/// true if the user is an admin; false otherwise.
 		/// </returns>
 		/// <exception cref="SecurityException">An NHibernate (database) error occurred while email/username.</exception>
-		public override bool IsAdmin(string email)
+		public override bool IsAdmin(string cookieValue)
 		{
-			try
+			Guid id;
+			if (Guid.TryParse(cookieValue, out id))
 			{
-				return Repository.Users.FirstOrDefault(u => u.Email == email && u.IsAdmin) != null;
+				return Repository.Users.FirstOrDefault(u => u.Id == id && u.IsAdmin) != null;
 			}
-			catch (HibernateException ex)
+			else
 			{
-				throw new SecurityException(ex, "An error occurred checking if {0} is an admin", email);
+				throw new SecurityException("The user's cookie value does not contain a Guid when checking for admin rights.", null);
 			}
 		}
 
 		/// <summary>
 		/// Determines whether the specified user with the given email is an editor.
 		/// </summary>
-		/// <param name="email">The email address or username of the user.</param>
+		/// <param name="cookieValue">The user id or username of the user.</param>
 		/// <returns>
 		/// true if the user is an editor; false otherwise.
 		/// </returns>
 		/// <exception cref="SecurityException">An NHibernate (database) error occurred while checking email/username.</exception>
-		public override bool IsEditor(string email)
+		public override bool IsEditor(string cookieValue)
 		{
 			try
 			{
-				return Repository.Users.FirstOrDefault(u => u.Email == email && u.IsEditor) != null;
+				Guid id;
+				if (Guid.TryParse(cookieValue, out id))
+				{
+					return Repository.Users.FirstOrDefault(u => u.Id == id && u.IsEditor) != null;
+				}
+				else
+				{
+					throw new SecurityException("The user's cookie value does not contain a Guid when checking for editor rights.", null);
+				}
 			}
 			catch (HibernateException ex)
 			{
-				throw new SecurityException(ex, "An error occurred checking if {0} is an editor", email);
+				throw new SecurityException(ex, "An error occurred checking if {0} is an editor", cookieValue);
 			}
 		}
 
