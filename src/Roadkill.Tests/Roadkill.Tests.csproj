@@ -201,15 +201,17 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
-    <Reference Include="ThoughtWorks.Selenium.Core, Version=2.26.0.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
+    <Reference Include="ThoughtWorks.Selenium.Core, Version=2.28.0.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Selenium.RC.2.26.0\lib\net40\ThoughtWorks.Selenium.Core.dll</HintPath>
+      <HintPath>..\..\packages\Selenium.RC.2.28.0\lib\net40\ThoughtWorks.Selenium.Core.dll</HintPath>
     </Reference>
-    <Reference Include="WebDriver">
-      <HintPath>..\..\packages\Selenium.WebDriver.2.27.1\lib\net40\WebDriver.dll</HintPath>
+    <Reference Include="WebDriver, Version=2.28.0.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Selenium.WebDriver.2.28.0\lib\net40\WebDriver.dll</HintPath>
     </Reference>
-    <Reference Include="WebDriver.Support">
-      <HintPath>..\..\packages\Selenium.Support.2.27.1\lib\net40\WebDriver.Support.dll</HintPath>
+    <Reference Include="WebDriver.Support, Version=2.28.0.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Selenium.Support.2.28.0\lib\net40\WebDriver.Support.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -225,24 +227,21 @@
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\Setup\RequiresBrowserWithJavascriptAttribute.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
-    <Compile Include="Unit\UserSummaryUsernameValidationTests.cs" />
-    <Compile Include="Unit\UserSummaryPasswordValidationTests.cs" />
-    <Compile Include="Unit\HomeControllerTests.cs" />
-    <Compile Include="Unit\Setup\MvcMockContainer.cs" />
-    <Compile Include="Unit\FilesControllerTests.cs" />
-    <Compile Include="Unit\MarkdownTests.cs" />
+    <Compile Include="Unit\Models\UserSummaryUsernameValidationTests.cs" />
+    <Compile Include="Unit\Models\UserSummaryPasswordValidationTests.cs" />
+    <Compile Include="Unit\Controllers\HomeControllerTests.cs" />
+    <Compile Include="Unit\Controllers\MvcMockContainer.cs" />
+    <Compile Include="Unit\Controllers\FilesControllerTests.cs" />
+    <Compile Include="Unit\Text\MarkdownTests.cs" />
     <Compile Include="Unit\RoadkillSettingsTests.cs" />
     <Compile Include="GlobalSetup.cs" />
-    <Compile Include="Unit\PageManagerTests.cs" />
-    <Compile Include="Unit\ActiveDirectoryUserManagerTests.cs" />
-    <Compile Include="Unit\UserSummaryEmailValidationTests.cs" />
+    <Compile Include="Unit\Managers\PageManagerTests.cs" />
+    <Compile Include="Unit\Managers\ActiveDirectoryUserManagerTests.cs" />
+    <Compile Include="Unit\Models\UserSummaryEmailValidationTests.cs" />
     <Content Include="chromedriver.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="lib\roadkill.sqlite">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="lib\roadkill.plasma.sqlite">
+    <Content Include="SqliteSetup\roadkill.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />
@@ -259,11 +258,11 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <Compile Include="Unit\CreoleParserTests.cs" />
+    <Compile Include="Unit\Text\CreoleParserTests.cs" />
     <Compile Include="Acceptance\LoginTests.cs" />
     <Compile Include="Acceptance\DemoSiteTests.cs" />
-    <Compile Include="Unit\Setup\MvcMockHelpers.cs" />
-    <Compile Include="Unit\UserControllerTests.cs" />
+    <Compile Include="Unit\Controllers\MvcMockHelpers.cs" />
+    <Compile Include="Unit\Controllers\UserControllerTests.cs" />
     <Compile Include="Integration\SearchManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Integration\SqlUserManagerTests.cs" />
@@ -276,16 +275,16 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="lib\SQLiteBinaries\x64\System.Data.SQLite.dll">
+    <Content Include="SqliteSetup\SQLiteBinaries\x64\System.Data.SQLite.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="lib\SQLiteBinaries\x64\System.Data.SQLite.Linq.dll">
+    <Content Include="SqliteSetup\SQLiteBinaries\x64\System.Data.SQLite.Linq.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="lib\SQLiteBinaries\x86\System.Data.SQLite.dll">
+    <Content Include="SqliteSetup\SQLiteBinaries\x86\System.Data.SQLite.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="lib\SQLiteBinaries\x86\System.Data.SQLite.Linq.dll">
+    <Content Include="SqliteSetup\SQLiteBinaries\x86\System.Data.SQLite.Linq.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

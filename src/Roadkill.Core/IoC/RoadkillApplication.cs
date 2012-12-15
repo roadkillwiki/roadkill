@@ -1,16 +1,11 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Roadkill.Core.Search;
 using System;
-using System.IO;
 using Roadkill.Core.Files;
 using StructureMap;
-using Roadkill.Core.Domain;
-using StructureMap.Pipeline;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
-using System.Reflection;
 
 namespace Roadkill.Core
 {

@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Configuration;
-using System.Web.Configuration;
 using System.DirectoryServices;
-using System.Web.Management;
-using System.Data.SqlClient;
 using System.IO;
 using System.Web;
-using Roadkill.Core.Domain;
-using StructureMap;
-using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {

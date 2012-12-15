@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
 using System.Linq;
 using Roadkill.Core;
-using Roadkill.Tests.Core;
 using NUnit.Framework;
-using Roadkill.Core.Domain;
 using Roadkill.Core.Configuration;
 
 namespace Roadkill.Tests.Integration
