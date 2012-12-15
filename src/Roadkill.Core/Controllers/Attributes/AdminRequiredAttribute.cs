@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Principal;
+﻿using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
-using Roadkill.Core.Domain;
-using StructureMap;
-using Roadkill.Core.Controllers;
 using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core

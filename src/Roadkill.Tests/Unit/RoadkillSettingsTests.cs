@@ -2,15 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Text;
 using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Converters;
-using Roadkill.Core.Domain;
-using Roadkill.Tests.Integration;
 
 namespace Roadkill.Tests.Unit
 {

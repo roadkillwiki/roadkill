@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using FluentNHibernate.Mapping;
-using NHibernate;
 using System.Web.Security;
-using Roadkill.Core.Domain;
 using System.Security.Cryptography;
 
 namespace Roadkill.Core
