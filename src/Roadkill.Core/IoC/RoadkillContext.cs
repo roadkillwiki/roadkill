@@ -1,4 +1,5 @@
 ﻿
+using System;
 namespace Roadkill.Core
 {
 	/// <summary>
@@ -14,7 +15,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The current logged in user name (including domain suffix for Windows authentication).
+		/// The current logged in user id (a guid), or a username including domain suffix for Windows authentication.
 		/// This is set once a controller action has finished execution.
 		/// </summary>
 		public string CurrentUser { get; set; }
@@ -29,7 +30,7 @@ namespace Roadkill.Core
 			get
 			{
 				if (IsLoggedIn)
-					return _userManager.GetUser(CurrentUser).Username;
+					return _userManager.GetUserById(new Guid(CurrentUser)).Username;
 				else
 					return "";
 			}

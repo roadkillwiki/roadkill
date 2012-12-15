@@ -94,7 +94,7 @@
 
 		<label for="DatabaseType">@SiteStrings.SiteSettings_Configuration_DatabaseType</label>
 		@Html.DropDownListFor(x => x.DatabaseType, new SelectList(Model.DatabaseTypesAvailable, Model.DatabaseType), new { rel = "popover", data_content = SiteStrings.SiteSettings_Configuration_DatabaseType_Help })
-		&nbsp;&nbsp;<input id="testdbconnection" class="btn btn-small" type="button" value="@InstallStrings.Shared_TestButton" />
+		&nbsp;&nbsp;<input id="testdbconnection" class="btn test-button" type="button" value="@InstallStrings.Shared_TestButton" />
 		<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" alt="loading" /></span>
 
 		<label for="ConnectionString">@SiteStrings.SiteSettings_Configuration_DatabaseConnectionString</label>
@@ -111,7 +111,7 @@
 		<!-- SQL users -->
 		<div id="aspnetuser-settings" class="hidden">
 			<label for="AllowUserSignup" class="checkbox">@SiteStrings.SiteSettings_Configuration_AllowUserSignups
-			@(Html.CheckBoxFor(s => s.AllowUserSignup, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_AllowUserSignups }))
+			@(Html.CheckBoxFor(s => s.AllowUserSignup, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_AllowUserSignups_Help }))
 			</label>
 
 			<label for="EnableRecaptcha" class="checkbox">@SiteStrings.SiteSettings_Configuration_EnableRecaptcha
@@ -155,7 +155,7 @@
 
 		<label for="AttachmentsFolder">@SiteStrings.SiteSettings_Configuration_Attachments</label>
 		@Html.TextBoxFor(s => s.AttachmentsFolder, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Attachments_Help })
-		&nbsp;&nbsp;<input id="testattachments" class="btn btn-small" type="button" value="@InstallStrings.Shared_TestButton" />
+		&nbsp;&nbsp;<input id="testattachments" class="btn test-button" type="button" value="@InstallStrings.Shared_TestButton" />
 
 		<label for="AllowedExtensions">@SiteStrings.SiteSettings_Configuration_Extensions</label>
 		@Html.TextBoxFor(s => s.AllowedExtensions, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Extensions_Help })

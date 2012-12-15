@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SeleniumExtensions</name>
+    </assembly>
+    <members>
+        <member name="T:OpenQA.Selenium.WebDriverExtensions">
+            <summary>
+            A set of CSS and form based extension methods for <see cref="T:OpenQA.Selenium.IWebDriver"/>.
+            </summary>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.ClickButtonWithValue(OpenQA.Selenium.IWebDriver,System.String)">
+            <summary>
+            Clicks a button that has the given value.
+            </summary>
+            <param name="buttonValue">The button's value (input[value=])</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.ClickButtonWithId(OpenQA.Selenium.IWebDriver,System.String)">
+            <summary>
+            Clicks a button with the id ending with the provided value.
+            </summary>
+            <param name="idEndsWith">A CSS id.</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.SelectItemInList(OpenQA.Selenium.IWebDriver,System.String,System.Int32)">
+            <summary>
+            Selects an item from a drop down box using the given CSS id and the itemIndex.
+            </summary>
+            <param name="selector">A valid CSS selector.</param>
+            <param name="itemIndex">A zero-based index that determines which drop down box to target from the CSS selector (assuming
+            the CSS selector returns more than one drop down box).</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.SelectItemInList(OpenQA.Selenium.IWebDriver,System.String,System.Int32,System.Int32)">
+            <summary>
+            Selects an item from the nth drop down box (based on the elementIndex argument), using the given CSS id and the itemIndex.
+            </summary>
+            <param name="selector">A valid CSS selector.</param>
+            <param name="itemIndex">A zero-based index that determines which drop down box to target from the CSS selector (assuming
+            the CSS selector returns more than one drop down box).</param>
+            <param name="elementIndex">The element in the drop down list to select.</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.ElementCount(OpenQA.Selenium.IWebDriver,System.String)">
+            <summary>
+            Returns the number of elements that match the given CSS selector.
+            </summary>
+            <param name="selector">A valid CSS selector.</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <returns>The number of elements found.</returns>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.SelectedIndex(OpenQA.Selenium.IWebDriver,System.String)">
+            <summary>
+            Gets the selected index from a drop down box using the given CSS selector.
+            </summary>
+            <param name="selector">A valid CSS selector.</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <returns>The index of the selected item in the drop down box</returns>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.SelectedIndex(OpenQA.Selenium.IWebDriver,System.String,System.Int32)">
+            <summary>
+            Gets the selected index from the nth drop down box (based on the elementIndex argument), using the given CSS selector.
+            </summary>
+            <param name="selector">A valid CSS selector.</param>
+            <param name="itemIndex">A zero-based index that determines which drop down box to target from the CSS selector (assuming
+            the CSS selector returns more than one drop down box).</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <returns>The index of the selected item in the drop down box</returns>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.SelectedItemValue(OpenQA.Selenium.IWebDriver,System.String)">
+            <summary>
+            Gets the selected value from a drop down box using the given CSS selector.
+            </summary>
+            <param name="selector">A valid CSS selector.</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <returns>The value of the selected item.</returns>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.ClickLinkWithText(OpenQA.Selenium.IWebDriver,System.String)">
+            <summary>
+            Clicks a link with the text provided. This is case sensitive and searches using an Xpath contains() search.
+            </summary>
+            <param name="linkContainsText">The link text to search for.</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.ClickLinkWithId(OpenQA.Selenium.IWebDriver,System.String)">
+            <summary>
+            Clicks a link with the id ending with the provided value.
+            </summary>
+            <param name="idEndsWith">A CSS id.</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.Click(OpenQA.Selenium.IWebDriver,System.String)">
+            <summary>
+            Clicks an element using the given CSS selector.
+            </summary>
+            <param name="selector">A valid CSS selector.</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.Click(OpenQA.Selenium.IWebDriver,System.String,System.Int32)">
+            <summary>
+            Clicks an element using the given CSS selector.
+            </summary>
+            <param name="selector">A valid CSS selector.</param>
+            <param name="itemIndex">A zero-based index that determines which element to target from the CSS selector (assuming
+            the CSS selector returns more than one element).</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.InputWithId(OpenQA.Selenium.IWebDriver,System.String)">
+            <summary>
+            Gets an input element with the id ending with the provided value.
+            </summary>
+            <param name="idEndsWith">A CSS id.</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <returns>An <see cref="T:OpenQA.Selenium.IWebElement"/> for the item matched.</returns>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.ElementValueWithId(OpenQA.Selenium.IWebDriver,System.String)">
+            <summary>
+            Gets an element's value with the id ending with the provided value.
+            </summary>
+            <param name="idEndsWith">A CSS id.</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <returns>The element's value.</returns>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.ElementValue(OpenQA.Selenium.IWebDriver,System.String)">
+            <summary>
+            Gets an element's value using the given CSS selector.
+            </summary>
+            <param name="selector">A valid CSS selector.</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <returns>The element's value.</returns>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.ElementValue(OpenQA.Selenium.IWebDriver,System.String,System.Int32)">
+            <summary>
+            Gets an element's value using the given CSS selector.
+            </summary>
+            <param name="selector">A valid CSS selector.</param>
+            <param name="itemIndex">A zero-based index that determines which element to target from the CSS selector (assuming
+            the CSS selector returns more than one element).</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <returns>The element's value.</returns>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.ElementText(OpenQA.Selenium.IWebDriver,System.String,System.Int32)">
+            <summary>
+            Gets an element's text using the given CSS selector.
+            </summary>
+            <param name="selector">A valid CSS selector.</param>
+            <param name="itemIndex">A zero-based index that determines which element to target from the CSS selector (assuming
+            the CSS selector returns more than one element).</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <returns>The element's text.</returns>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.IsCheckboxChecked(OpenQA.Selenium.IWebDriver,System.String)">
+            <summary>
+            Return true if the checkbox with the id ending with the provided value is checked/selected.
+            </summary>
+            <param name="idEndsWith">A CSS id.</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <returns>True if the checkbox is checked.</returns>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.ClickCheckbox(OpenQA.Selenium.IWebDriver,System.String)">
+            <summary>
+            Clicks the checkbox with the id ending with the provided value.
+            </summary>
+            <param name="idEndsWith">A CSS id.</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.SetValue(OpenQA.Selenium.IWebElement,System.String)">
+            <summary>
+            Sets an element's (an input field) value to the provided text by using SendKeys().
+            </summary>
+            <param name="value">The text to type.</param>
+            <param name="element">A <see cref="T:OpenQA.Selenium.IWebElement"/> instance.</param>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.SetValue(OpenQA.Selenium.IWebDriver,System.String,System.String)">
+            <summary>
+            Sets an element's (an input field) value to the provided text, using the given CSS selector and using SendKeys().
+            </summary>
+            <param name="selector">A valid CSS selector.</param>
+            <param name="value">The text to type.</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.SetValue(OpenQA.Selenium.IWebDriver,System.String,System.String,System.Int32)">
+            <summary>
+            Sets an element's (an input field) value to the provided text, using the given CSS selector and using SendKeys().
+            </summary>
+            <param name="selector">A valid CSS selector.</param>
+            <param name="value">The text to type.</param>
+            <param name="itemIndex">A zero-based index that determines which element to target from the CSS selector (assuming
+            the CSS selector returns more than one element).</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.FillTextBox(OpenQA.Selenium.IWebDriver,System.String,System.String)">
+            <summary>
+            Sets the textbox with the given CSS id to the provided value.
+            </summary>
+            <param name="idEndsWith">A CSS id.</param>
+            <param name="value">The text to type.</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.FillTextArea(OpenQA.Selenium.IWebDriver,System.String,System.String)">
+            <summary>
+            Sets the textarea with the given CSS id to the provided value.
+            </summary>
+            <param name="value">The text to set the value to.</param>
+            <param name="idEndsWith">A CSS id.</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">No element was found.</exception>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.Wait(OpenQA.Selenium.IWebDriver,System.Double)">
+            <summary>
+            Waits the specified time in second (using a thread sleep)
+            </summary>
+            <param name="seconds">The number of seconds to wait (this uses TimeSpan.FromSeconds)</param>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+        </member>
+        <member name="M:OpenQA.Selenium.WebDriverExtensions.WaitForPageLoad(OpenQA.Selenium.IWebDriver)">
+            <summary>
+            Waits 2 seconds, which is *usually* the maximum time needed for all Javascript execution to finish on the page.
+            </summary>
+            <param name="webdriver">A <see cref="T:OpenQA.Selenium.IWebDriver"/> instance.</param>
+        </member>
+    </members>
+</doc>

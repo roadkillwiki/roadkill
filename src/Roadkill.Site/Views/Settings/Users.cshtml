@@ -30,7 +30,7 @@
 	<p>
 		<button id="addadmin" class="btn btn-primary btn-success">@SiteStrings.SiteSettings_Users_NewAdmin</button>
 	</p>
-	<table class="table table-striped">
+	<table class="table table-striped" id="admins-table">
 		<thead>
 			<tr>
 				<th>@SiteStrings.SiteSettings_Users_ColumnHeader_Username</th>
@@ -44,7 +44,7 @@
 			<td style="width:30%;">@user.ExistingUsername</td>
 			<td class="stretch">@user.ExistingEmail</td>
 			<td class="edit"><a href="javascript:;" class="btn btn-primary btn-mini" rel="var user = {id : '@user.Id', email :'@user.ExistingEmail',username:'@user.ExistingUsername'}">@SiteStrings.Navigation_Edit</a></td>
-		@if (Model[0].Count() > 0 && user.ExistingEmail != RoadkillContext.CurrentUser)
+		@if (Model[0].Count() > 0 && user.Id.ToString() != RoadkillContext.CurrentUser)
 		{
 			<td class="delete">@Html.ActionLink(SiteStrings.Navigation_Delete, "DeleteUser", new { id = user.ExistingEmail }, new { @class = "confirm btn btn-mini" })</td>
 		}
@@ -61,7 +61,7 @@
 	<p>
 		<button id="addeditor" class="btn btn-primary btn-success">@SiteStrings.SiteSettings_Users_NewEditor</button>
 	</p>
-	<table class="table table-striped">
+	<table class="table table-striped" id="editors-table">
 		<thead>
 			<tr>
 				<th>@SiteStrings.SiteSettings_Users_ColumnHeader_Username</th>

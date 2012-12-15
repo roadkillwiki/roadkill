@@ -11,7 +11,7 @@ namespace Roadkill.Tests.Unit
 {
 	[TestFixture]
 	[Description("Tests for both database and .config file settings.")]
-	[Category("Unit")]
+	[Category("Integration")]
 	public class RoadkillSettingsTests
 	{
 		private IConfigurationContainer _config;
@@ -177,13 +177,13 @@ namespace Roadkill.Tests.Unit
 			IConfigurationContainer config = new RoadkillSettings();
 			config.SitePreferences = new SitePreferences();
 			config.ApplicationSettings = new ApplicationSettings();
-			config.ApplicationSettings.UserManagerType = typeof(MockUserManager).AssemblyQualifiedName;
+			config.ApplicationSettings.UserManagerType = typeof(UserManagerStub).AssemblyQualifiedName;
 			
 			// Act
 			RoadkillApplication.SetupIoC(config, mockRepository.Object, mockContext.Object);
 
 			// Assert
-			Assert.That(UserManager.GetInstance(), Is.TypeOf(typeof(MockUserManager)));
+			Assert.That(UserManager.GetInstance(), Is.TypeOf(typeof(UserManagerStub)));
 		}
 		
 		[Test]
@@ -227,9 +227,9 @@ namespace Roadkill.Tests.Unit
 		}
 	}
 
-	public class MockUserManager : UserManager
+	public class UserManagerStub : UserManager
 	{
-		public MockUserManager()
+		public UserManagerStub()
 			: base(null, null)
 		{
 

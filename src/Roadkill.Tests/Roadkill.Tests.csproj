@@ -180,6 +180,9 @@
     <Reference Include="RazorHosting">
       <HintPath>..\..\packages\SimpleBrowser.0.5.11\lib\net40\RazorHosting.dll</HintPath>
     </Reference>
+    <Reference Include="SeleniumExtensions">
+      <HintPath>..\..\packages\SeleniumExtensions.1.0.0.6\lib\SeleniumExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="SimpleBrowser">
       <HintPath>..\..\packages\SimpleBrowser.0.5.11\lib\net40\SimpleBrowser.dll</HintPath>
     </Reference>
@@ -227,13 +230,14 @@
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\Setup\RequiresBrowserWithJavascriptAttribute.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
+    <Compile Include="Unit\Controllers\WikiControllerTests.cs" />
     <Compile Include="Unit\Models\UserSummaryUsernameValidationTests.cs" />
     <Compile Include="Unit\Models\UserSummaryPasswordValidationTests.cs" />
     <Compile Include="Unit\Controllers\HomeControllerTests.cs" />
-    <Compile Include="Unit\Controllers\MvcMockContainer.cs" />
+    <Compile Include="Unit\Controllers\Setup\MvcMockContainer.cs" />
     <Compile Include="Unit\Controllers\FilesControllerTests.cs" />
     <Compile Include="Unit\Text\MarkdownTests.cs" />
-    <Compile Include="Unit\RoadkillSettingsTests.cs" />
+    <Compile Include="Integration\RoadkillSettingsTests.cs" />
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="Unit\Managers\PageManagerTests.cs" />
     <Compile Include="Unit\Managers\ActiveDirectoryUserManagerTests.cs" />
@@ -261,7 +265,7 @@
     <Compile Include="Unit\Text\CreoleParserTests.cs" />
     <Compile Include="Acceptance\LoginTests.cs" />
     <Compile Include="Acceptance\DemoSiteTests.cs" />
-    <Compile Include="Unit\Controllers\MvcMockHelpers.cs" />
+    <Compile Include="Unit\Controllers\Setup\MvcMockHelpers.cs" />
     <Compile Include="Unit\Controllers\UserControllerTests.cs" />
     <Compile Include="Integration\SearchManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

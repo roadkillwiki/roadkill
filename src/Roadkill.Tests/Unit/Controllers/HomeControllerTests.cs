@@ -40,8 +40,8 @@ namespace Roadkill.Tests.Unit
 			_config.ApplicationSettings = new ApplicationSettings();
 			_config.SitePreferences = new SitePreferences() { AllowedFileTypes = "png, jpg" };
 			_config.ApplicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
-			
-			// Dependencies for homecontroller
+
+			// Dependencies for PageManager
 			Mock<IRepository> repositoryMock = new Mock<IRepository>();
 			repositoryMock.Setup(x => x.Pages).Returns(_pages.AsQueryable());
 			repositoryMock.Setup(x => x.PageContents).Returns(_pagesContent.AsQueryable());
