@@ -24,7 +24,7 @@ namespace Roadkill.Core.Controllers
 		public ActionResult Activate(string id)
 		{
 			if (string.IsNullOrEmpty(id))
-				RedirectToAction("Index", "Home");
+				return RedirectToAction("Index", "Home");
 
 			if (!UserManager.ActivateUser(id))
 			{
@@ -248,8 +248,7 @@ namespace Roadkill.Core.Controllers
 			}
 
 			return View();
-		}
-		
+		}	
 
 		/// <summary>
 		/// Resends a signup confirmation email, from the signupcomplete page.
