@@ -239,6 +239,7 @@
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
     <Compile Include="Controllers\RoadkillViewPage.cs" />
+    <Compile Include="Files\MimeMapping.cs" />
     <Compile Include="IoC\IInjectionLaunderer.cs" />
     <Compile Include="IoC\StructureMapControllerFactory.cs" />
     <Compile Include="Controllers\Attributes\OptionalAuthorizationAttribute.cs" />

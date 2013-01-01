@@ -1,0 +1,276 @@
+﻿; Note: any line starting with ; is a comment!
+; This file contains Roadkill site-wide localization strings.
+;
+; Notes for translators:
+; - Please make a copy of this file before editing. A list of cultures/languages can be found here:
+; - http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo(v=vs.71).aspx
+; 
+; Notes for developers:
+; - This file should be turned into a resx file by running resgen /compile SiteStrings.txt,SiteStrings.resx in a VS command prompt.
+; - The name of this file should be in the format "SiteStrings.(culture-name).txt", e.g. "Site.en-GB.txt"
+; - The output resx file should then be copied + pasted into the core's Localization/Resx folder inside VS2010, 
+; - The build properties for the file should be "Embedded resource" and the custom tool "PublicResXFileCodeGenerator"
+; - Delete the .resx file from the "Text" folder once you've copied it over.
+
+Navigation_Login=Přihlásit se
+Navigation_Logout=Odhlásit se
+Navigation_Register=Zaregistrovat se
+Navigation_MainPage=Hlavní stránka
+Navigation_Categories=Kategorie
+Navigation_AllPages=Všechny stránky
+Navigation_NewPage=Nová stránka
+Navigation_SiteSettings=Nastavení
+Navigation_Edit=Upravit
+Navigation_Delete=Smazat
+Navigation_History=Historie
+Navigation_ViewHistory=Zobrazit historii
+
+Button_Login=Přihlásit se
+Button_Cancel=Storno
+Button_Save=Uložit
+Button_Preview=Náhled
+Button_Import=Importovat
+Button_Rename=Přejmenovat
+Button_Upload=Nahrát
+Button_Search=Hledat
+
+Shared_EditLink=Upravit
+Shared_DeleteLink=Smazat
+Shared_ConfirmLink=Potvrdit
+Shared_NotLoggedIn=Nepřihlášen
+Shared_LoggedInAs=Přihlášen jako
+Shared_LastModified=Tato stránka byla naposledy upravena
+Shared_PoweredBy=Beží na Roadkill .NET
+
+Shared_Firstname=Jméno:
+Shared_Lastname=Příjmení:
+Shared_Username=Uživatelské jméno:
+Shared_Email_Label=Email:
+Shared_Password_Label=Heslo:
+Shared_PasswordConfirm_Label=Potvrzení hesla:
+Shared_Error=Vyskytla se chyba:
+
+User_Validation_Username=Uživatelské jméno je povinné.
+User_Validation_Email=Email je povinný.
+User_Validation_Email_Check=Pole email neobsahuje platnou emailovou adresu.
+User_Validation_UsernameExists=Uživatelské jméno {0} již existuje.
+User_Validation_UsernameEmpty=Uživatelské jméno není vyplněno.
+User_Validation_EmailExists=Emailová adresa {0} již existuje.
+User_Validation_PasswordsDontMatch=Hesla nesouhlasí.
+User_Validation_PasswordTooShort=Heslo obsahuje méně než {0} znaků
+
+Login_Title=Přihlášení
+Login_ForgottenPassword=Zapoměli jste své heslo?
+Login_Unsuccessful_Title=Přihlášení nebylo úspešné
+Login_Error=Chybné jméno nebo heslo
+
+Signup_Title=Zaregistrovat se
+Signup_Label=Vyplňte níže uvedené prosím.
+Signup_Button=Registrace nového uživatele
+Signup_Complete_Title=Registrace byla úspěšná.
+Signup_Complete_Label=Děkujeme Vám, email s pokyny pro dokončení registrace Vám byl odeslán na adresu {0}.
+Signup_Complete_NoEmail=Neobržel jste email?
+Signup_Complete_EmailResent=Potvrzovací email byl znovu odeslán.
+Signup_Complete_EmailResend_Button=Znovu odeslat potvrzovací email
+Signup_Error_General=Při registraci se vyskytla chyba.
+Signup_Error_Recaptcha=Dvě slova byla pro antispamový filtr nesprávná.
+
+Activate_Title=Aktivace účtu
+Activate_Success_Title=Aktivace byla úspěšná
+Activate_Error_Title=Při aktivaci se vyskytla chyba
+Activate_Label=Váš účt byl úspěšně aktivován.
+Activate_Link=Klikněte zde pro přihlášení
+Activate_Error=Došlo k chybě při aktivaci Vašeho účtu. Je pravděpodobně již aktivován.
+
+ResetPassword_Title=Změnit heslo.
+ResetPassword_Label=Pro změnu hesla zadejte svou emailovou adresu. Obdržíte email s odkazem na změnu hesla.
+ResetPassword_Complete_Label=Zadejte své nové heslo.
+ResetPassword_Button=Změnit heslo
+ResetPassword_Successful_Title=Změna hesla byla úspěšná.
+ResetPassword_Successful_Label=Vaše heslo bylo úspešně nastaveno.
+ResetPassword_Invalid_Title=Neplatná změna hesla.
+ResetPassword_Invalid_Label=Klíč pro změnu hesla již není platný.
+ResetPassword_EmailSent_Title=Váš požadavek na změnu hesla byl odeslán.
+ResetPassword_EmailSent_Label=Dobrý den, na adresu {0} Vám byl poslán email s pokyny pro změnu hesla.
+ResetPassword_Error=Hesla nesouhlasí nebo jsou příliš krátká
+ResetPassword_Error_ServerError=Z důvodu chyby serveru nebylo heslo změněno
+ResetPassword_Error_EmailNotFound=Emailová adresa nebyla nalezena
+ResetPassword_Error_MissingEmail=zadejte prosím emailovou adresu
+
+Profile_Title=Profil
+Profile_Error=Vyskytla se chyba při aktualizaci Vašeho profilu
+
+NoMainPage_Title=Nemáte nastavenou žádnou hlavní stránku
+NoMainPage_Label=Hlavní stránku nastavíte přiřazením štítku 'homepage' na jakoukoliv stránku.
+
+Search_PlaceHolder=Zadejte text
+Search_Results=Výsledky hledání '{0}'
+Search_NoResults=Váš dotaz '{0}' nic nenašel.
+
+AllPages_Title=Všechny stránky
+AllPages_NoPages=Žádné stránky nenalezeny.
+AllTags_Title=Všechny štítky
+AllTags_NoResults=Žádné štítky nenalezeny.
+
+Pages_ForUser=Všechny stránky vytvořil {0}
+Pages_ForUser_NoPages={0} zatím žádnou stránku nevytvořil.
+Pages_ForTag=Všechny stránky pro štítek {0}
+Pages_ForTag_NoPages=Žádné stránky pro štítek {0}
+
+History_Title=Historie stránky
+History_Version=Verze
+History_EditedOn=Upraveno
+History_EditedBy=Upravil
+History_RevertLink=Obnovit
+
+Version_Title=Verze {0}
+Version_BackLink=zpět
+
+Page_Info_CreatedOn=Vytvořeno:
+Page_Info_CreatedBy=Vytvořil:
+Page_Info_ModifiedOn=Upraveno:
+Page_Info_ModifiedBy=Upravil:
+Page_Validation_Title=Vyplnění popisu je povinné.
+
+FileExplorer_Title=Správce souborů
+FileExplorer_Upload=Nahrát soubor
+FileExplorer_NewDirectory=Nový adresář
+FileExplorer_FolderName=Název adresáře:
+FileExplorer_ChooseFile=Vyber soubor
+FileExplorer_Button_Upload=Nahrát
+FileExplorer_Button_Create=vytvořit
+FileExplorer_Button_Select=výběr
+FileExplorer_Error_BadExtension=Soubory s přípovou '{0}' není povoleno nahrávat
+FileExplorer_Error_FileUpload=Vyskytla se chyba při nahrávání souboru: {0}
+FileExplorer_Error_NewDirectory=Vyskytla se chyba při vytváření adresáře: {0}
+FileExplorer_Error_DeleteFile=Vyskytla se chyba při výmazu souboru: {0}
+
+EditPage_Title=Přidat/upravit stránku
+EditPage_Title_Label=Název
+EditPage_Tags_Label=Štítky
+EditPage_AdminOnly=Tuto stránku mohou upravovat pouze správci.
+EditPage_Preview=Náhled
+EditPage_LinkUrl_PlaceHolder=zadejte url nebo název stránky
+EditPage_LinkText_PlaceHolder=Text odkazu
+EditPage_Image_Title=Název obrázku
+EditPage_Error=Chyba při ukládání stránky:
+EditPage_Toolbar_Bold=Vložit značky pro tučný text.
+EditPage_Toolbar_BulletList=Vložit značky pro nečíslovaný seznam.
+EditPage_Toolbar_Heading1=Vložit značky pro Nadpis 1.
+EditPage_Toolbar_Heading2=Vložit značky pro Nadpis 2.
+EditPage_Toolbar_Heading3=Vložit značky pro Nadpis 3.
+EditPage_Toolbar_Heading4=Vložit značky pro Nadpis 4.
+EditPage_Toolbar_Heading5=Vložit značky pro Nadpis 5.
+EditPage_Toolbar_Help=Zobrazit nápovědu k syntaxi značkovacího jazyka.
+EditPage_Toolbar_Image=Vložit značky pro obrázek.
+EditPage_Toolbar_Italic=Vložit značky pro kurzívu.
+EditPage_Toolbar_Link=Vložit značky pro URL odkaz.
+EditPage_Toolbar_NumberList=Vložit značky pro číslovaný seznam.
+EditPage_Toolbar_Underline=Vložit značky pro podtržení.
+
+; Site settings config
+SiteSettings_Configuration=Nastavení
+SiteSettings_Users=Uživatelé
+SiteSettings_Tools=Nástroje
+
+SiteSettings_Configuration_Title=Nastavení
+SiteSettings_Configuration_SiteName=Název stránek:
+SiteSettings_Configuration_SiteUrl=URL adresa:
+SiteSettings_Configuration_ConnectionStrings=Připojovací údaje
+SiteSettings_Configuration_DatabaseType=Typ databáze:
+SiteSettings_Configuration_DatabaseConnectionString=Připojovací řetězec databáze:
+SiteSettings_Configuration_Security=Zabezpečení
+SiteSettings_Configuration_UseWindowsAuth=Použít ověřování Windows:
+SiteSettings_Configuration_AllowUserSignups=Povolot registraci uživatelů:
+SiteSettings_Configuration_EnableRecaptcha=Povolit recaptcha:
+SiteSettings_Configuration_RecaptchaPrivateKey=Recaptcha soukromý klíč:
+SiteSettings_Configuration_RecaptchaPublicKey=Recaptcha veřejný klíč:
+SiteSettings_Configuration_AD_Connection=Připojovací řetězec k LDAP:
+SiteSettings_Configuration_AD_Username=Uživatelské jméno v LDAP:
+SiteSettings_Configuration_AD_Password=Heslo LDAP:
+SiteSettings_Configuration_EditorRole=Název role redaktora/název skupiny:
+SiteSettings_Configuration_AdminRole=Název role správce/název skupiny:
+SiteSettings_Configuration_General=Obecné
+SiteSettings_Configuration_MarkupType=Značkovací jazyk:
+SiteSettings_Configuration_Theme=Téma:
+SiteSettings_Configuration_Attachments=Složka příloh:
+SiteSettings_Configuration_Extensions=Povolené přípony:
+SiteSettings_Configuration_Caching=Ukládání do vyrovnávací paměti:
+SiteSettings_Configuration_CachePageText=Ukládat do vyr. paměti i text stránek:
+SiteSettings_Configuration_Error=Chyba při ukládání nastavení:
+
+; Help labels for configuration
+SiteSettings_Configuration_SiteName_Help=Název stránek.
+SiteSettings_Configuration_SiteUrl_Help=Adresa použitá v emailech zasílaných při registraci a změnách hesla.  Uvádějte bez zpětného lomítka na konci.
+SiteSettings_Configuration_ConnectionStrings_Help=Mění typ databáze - v menu Nástroje znovu vytvořte schéma.
+SiteSettings_Configuration_DatabaseType_Help=Mění typ databáze - v menu Nástroje znovu vytvořte schéma.
+SiteSettings_Configuration_DatabaseConnectionString_Help=Připojovací řetězec k databázi.
+SiteSettings_Configuration_UseWindowsAuth_Help=<b>POZOR</b> změnou si můžete uzamknout Váš účet v síti. Před změnou si zazálohujte web.config.<br/><br/> Nastavte zda pro přihlašování použít Windows a Active Directory.
+SiteSettings_Configuration_AllowUserSignups_Help=Zaškrtněte pokud chcete aby se lidé mohli sami registrovat.
+SiteSettings_Configuration_EnableRecaptcha_Help=Zapíná podporu Recaptcha - anti spamová služba zdarma. Je nutné se zaregistrovat a veřejný a soukromý klíč zkopírovat do níže uvedených polí.
+SiteSettings_Configuration_RecaptchaPrivateKey_Help=Soukromý klíč pro Recaptcha. Je poskytnut při registraci.
+SiteSettings_Configuration_RecaptchaPublicKey_Help=Veřejný klíč pro Recaptcha. Je poskytnut při registraci.
+SiteSettings_Configuration_AD_Connection_Help=Připojení k LDAP Active Directory.Použite formát LDAP://mydc01.company.internal (LDAP pište velkými znaky).
+SiteSettings_Configuration_AD_Username_Help=Uživatelské jméno pro ověření v Active Directory. Nechte prázdné pokud uživatel po kterým beží aplikační pool již oprávnění má.
+SiteSettings_Configuration_AD_Password_Help=Heslo pro ověření uživatele v AD.
+SiteSettings_Configuration_EditorRole_Help=Název role redaktora - lidé kteří mohou vytvářet a měnit stránky.
+SiteSettings_Configuration_AdminRole_Help=Název role správce - má práva jako redaktor ale navíc má přísup k nastavení stránek.
+SiteSettings_Configuration_MarkupType_Help=Použitý značkovací jazyk. Roadkill nyní podporuje tyto hodnoty: Creole, Markdown, Mediawiki.
+SiteSettings_Configuration_Theme_Help=Použité téma stránek. Název tématu musí být stejný jako název adresáře ve složce Themes.
+SiteSettings_Configuration_Attachments_Help=Do tohoto adresáře jsou nahrávány všechny soubory. Cesta by měla začínat ~/ což znamená kořenový adresář.
+SiteSettings_Configuration_Extensions_Help=Soubory s těmito příponami mohou být nahrávány. Oddělujte je čárkou.
+SiteSettings_Configuration_Caching_Help=Zapíná používání vyrovnávací paměti vNHibernate. Roadkill používá vyrovnávací pamět NHibernate společně s výstupná vyrovnávací pamětí v ASP.NET. Pro zlepšení odezev aplikace je doporučeno ukládání do vyrovnávací paměti povolit. Databáová vyrovnávací paměť není pro webové zahrady či farmy podporována.
+SiteSettings_Configuration_CachePageText_Help=Ukládat do vyrovnávací paměti textový obsah stránek. Není-li povoleno, bude při každém zobrazení stránka načítána znovu z databáze.
+
+; Site Settings users
+SiteSettings_Users_Title=Uživatelé
+SiteSettings_Users_ColumnHeader_Username=Uživatelské jméno
+SiteSettings_Users_ColumnHeader_Email=Email
+SiteSettings_Users_Admins=Správci
+SiteSettings_Users_NewAdmin=Nový správce
+SiteSettings_Users_Editors=Redaktoři
+SiteSettings_Users_NewEditor=Nový redaktor
+SiteSettings_Users_AddAdminDialog_Title=Přidat správce
+SiteSettings_Users_AddEditorDialog_Title=Přidat redaktora
+SiteSettings_Users_EditUserDialog_Title=Upravit uživatele
+SiteSettings_Users_AddUserDialog_Help=Při změně uživatelského jména nebo emailu stávajícím uživatelům ponechte pole hesla prázdné.
+SiteSettings_Users_AddUserDialog_Error=Nebylo možné uložit údaje uživatele:
+SiteSettings_Users_EditUser_Error=Chyba při aktualizaci údajů uživatele.
+
+SiteSettings_Users_AD_Title=Ověření Windows/Active Directory je povoleno
+SiteSettings_Users_AD_Label1=Uživatelská jména a hesla nelze upravovat při použití ověření Windows - poveďte to přímo v Active Directory.
+SiteSettings_Users_AD_Label2=Jako správce nebo redaktora přidáte uživatele jeho zařazením do skupiny nastavené ve web.config u "AdminRolename" a "EditorRolename".
+
+; Site Settings tools
+SiteSettings_Tools_Title=Nástroje
+SiteSettings_Tools_ClearDatabase=Vyčistit databázi
+SiteSettings_Tools_ClearDatabase_Label=Smaže všechny stránky a text z databáze. Uživatelé zůstanou zachováni.
+SiteSettings_Tools_ClearDatabase_Message=Databáze vyčištěna
+SiteSettings_Tools_RebuildSearch=Znovu vytvořit index hledání
+SiteSettings_Tools_RebuildSearch_Label=Vynutí znovu vytvoření indexu hledání. Používá se pokud hledání z různých důvodů nefunguje správně.
+SiteSettings_Tools_RebuildSearch_Message=Index úspešně znovu vytvořen.
+SiteSettings_Tools_ExportXml=Exportovat do XML
+SiteSettings_Tools_ExportXml_Label=Veškerý obsah včetně historie exportuje do jednoho XML souboru.
+SiteSettings_Tools_ExportXml_Error=Chyba při exportu do XML: {0}
+SiteSettings_Tools_ExportContent=Exportovat veškerý obsah jako zip
+SiteSettings_Tools_ExportContent_Label=Všechny stránky včetně textového obsahu exportuje jako soubory ".wiki". Zahnut je pouze aktuální obsah a štítky - bez historie a příloh.
+SiteSettings_Tools_ExportContent_Error=Chyba při exportu obsahu Wiki: {0}
+SiteSettings_Tools_ExportAttachments=Exportovat přílohy jako zip
+SiteSettings_Tools_ExportAttachments_Label=Exportuje veškerý obsah adresáře příloh (včetně podadresářů) jako zip soubor.
+SiteSettings_Tools_ExportAttachments_Error=Chyba pri exportu příloh: {0}
+SiteSettings_Tools_ScrewTurnImport=Importovat ze Screwturn
+SiteSettings_Tools_ScrewTurnImport_Label=Naimportuje veškerý obsah Screwturn 2 databáze. Kvůli kompatibilitě nastavte v souboru v settings/web.config značkovací jazyk na MediaWiki. Jelikož Screwturn nepoužívá přesnou syntaxi Mediawiki, nemusí se všechen obsah zobrazovat bezchybně. Týká se to zejména obrázků a odkazů.
+SiteSettings_Tools_ScrewTurnImport_Connection=Připojovají řetězec ke Screwturn:
+SiteSettings_Tools_ScrewTurnImport_Message=Import byl úspěšný
+SiteSettings_Tools_RenameTag=Změnit název štítku
+SiteSettings_Tools_RenameTag_Label=Přejmenuje štítek a aktualizuje jeho výskyty na všech stránkách. Název štítku je citlivý na velikost písmen.
+SiteSettings_Tools_RenameTag_Existing=Stávající jméno štítku:
+SiteSettings_Tools_RenameTag_New=Nový název štítku:
+SiteSettings_Tools_RenameTag_Message=Štítek byl úspěšně přejmenován.
+
+SiteSettings_Validation_AttachmentsEmpty=Adresář příloh je prázdný.
+SiteSettings_Validation_ConnectionEmpty=Připojovací řetězec není vyplněn.
+SiteSettings_Validation_MarkupTypeEmpty=Není vybrán značkovací jazyk.
+SiteSettings_Validation_ThemeEmpty=Téma není vyplněno.
+SiteSettings_Validation_SiteNameEmpty=Název stránek
+SiteSettings_Validation_SiteUrlEmpty=Adresa stránek

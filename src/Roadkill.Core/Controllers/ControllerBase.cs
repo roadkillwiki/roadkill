@@ -43,18 +43,6 @@ namespace Roadkill.Core.Controllers
 				return;
 			}
 
-#if DEMOSITE
-			// To be removed?
-			if (Request.QueryString["locale"] == "on")
-			{
-				Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("fi-FI");
-			}
-			else if (Request.QueryString["locale"] == "off")
-			{
-				Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
-			}
-#endif
-
 			Context.CurrentUser = UserManager.GetLoggedInUserName(HttpContext);
 			ViewBag.Context = Context;
 			ViewBag.Config = Configuration;			

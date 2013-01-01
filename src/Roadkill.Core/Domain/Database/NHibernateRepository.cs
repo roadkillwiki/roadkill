@@ -24,7 +24,7 @@ namespace Roadkill.Core
 		private IConfigurationContainer _configuration;
 
 		/// <summary>
-		/// Gets a LINQ-to-NHibernate <see cref="Queryable`Page`"/> object to perform queries with.
+		/// Gets a LINQ-to-NHibernate <see cref="Queryable{Page}"/> object to perform queries with.
 		/// </summary>
 		public IQueryable<Page> Pages
 		{
@@ -35,7 +35,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Gets a LINQ-to-NHibernate <see cref="Queryable`PageContent`"/> object to perform queries with.
+		/// Gets a LINQ-to-NHibernate <see cref="Queryable{PageContent}"/> object to perform queries with.
 		/// </summary>
 		public IQueryable<PageContent> PageContents
 		{
@@ -46,7 +46,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Gets a LINQ-to-NHibernate <see cref="Queryable`User`"/> object to perform queries with.
+		/// Gets a LINQ-to-NHibernate <see cref="Queryable{User}"/> object to perform queries with.
 		/// </summary>
 		public IQueryable<User> Users
 		{
@@ -82,7 +82,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Initializes and configures NHibernate using the connection string with Fluent NHibernate.
 		/// </summary>
-		/// <param name="driver">The database used.</param>
+		/// <param name="databaseType">The database used.</param>
 		/// <param name="connection">The connection string to configure with.</param>
 		/// <param name="createSchema">if set to <c>true</c> the database schema is created automatically.</param>
 		/// <param name="enableL2Cache">if set to <c>true</c> NHibernate L2 caching is enabled for all domain objects.</param>
@@ -194,11 +194,11 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Provides a LINQ-to-NHibernate <see cref="IQueryable`T"/> object to query with.
+		/// Provides a LINQ-to-NHibernate <see cref="IQueryable{T}"/> object to query with.
 		/// Session disposal is the responsibility of the caller.
 		/// </summary>
 		/// <typeparam name="T">The domain type to query against.</typeparam>
-		/// <returns><see cref="IQueryable`T"/> for LINQ-to-NHibernate LINQ queries.</returns>
+		/// <returns><see cref="IQueryable{T}"/> for LINQ-to-NHibernate LINQ queries.</returns>
 		public virtual IQueryable<T> Queryable<T>()
 		{
 			IQueryable<T> queryable = SessionFactory.OpenSession().Query<T>();
