@@ -131,7 +131,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Retrieves a list of all tags in the system.
 		/// </summary>
-		/// <returns>A <see cref="IEnumerable`TagSummary`"/> for the tags.</returns>
+		/// <returns>A <see cref="IEnumerable{TagSummary}"/> for the tags.</returns>
 		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while getting the tags.</exception>
 		public IEnumerable<TagSummary> AllTags()
 		{

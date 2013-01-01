@@ -46,8 +46,8 @@ namespace Roadkill.Core.Files
 						filePath = filePath.Remove(0, 1);
 
 					// Ignoring Path.AltDirectorySeparatorChar, Path.VolumeSeparatorChar for now.
-					string fullPath = attachmentFolder +Path.DirectorySeparatorChar+  filePath;
-					
+					string fullPath = attachmentFolder + Path.DirectorySeparatorChar + filePath;
+
 					if (!File.Exists(fullPath))
 						throw new FileNotFoundException(string.Format("The url {0} (translated to {1}) does not exist on the server", context.Request.Url.LocalPath, fullPath));
 
@@ -70,7 +70,7 @@ namespace Roadkill.Core.Files
 				}
 				catch (FileNotFoundException ex)
 				{
-					Log.Error(ex,"Unable to find the attachment file");
+					Log.Error(ex, "Unable to find the attachment file");
 					context.Response.StatusCode = 404;
 					context.Response.End();
 				}
@@ -86,18 +86,26 @@ namespace Roadkill.Core.Files
 
 		private string GetMimeType(string fileExtension, ServerManager serverManager)
 		{
-			string mimeType = "text/plain";
+			try
+			{
+				string mimeType = "text/plain";
 
-			Microsoft.Web.Administration.Configuration config = serverManager.GetApplicationHostConfiguration();
-			ConfigurationSection staticContentSection = config.GetSection("system.webServer/staticContent");
-			ConfigurationElementCollection mimemaps = staticContentSection.GetCollection();
+				Microsoft.Web.Administration.Configuration config = serverManager.GetApplicationHostConfiguration();
+				ConfigurationSection staticContentSection = config.GetSection("system.webServer/staticContent");
+				ConfigurationElementCollection mimemaps = staticContentSection.GetCollection();
 
-			ConfigurationElement element = mimemaps.FirstOrDefault(m => m.Attributes["fileExtension"].Value.ToString() == fileExtension);
+				ConfigurationElement element = mimemaps.FirstOrDefault(m => m.Attributes["fileExtension"].Value.ToString() == fileExtension);
 
-			if (element != null)
-				mimeType = element.Attributes["mimeType"].Value.ToString();
+				if (element != null)
+					mimeType = element.Attributes["mimeType"].Value.ToString();
 
-			return mimeType;
+				return mimeType;
+			}
+			catch (UnauthorizedAccessException)
+			{
+				// Shared hosting won't have access to the applicationhost.config file
+				return MimeMapping.GetMimeMapping("." +fileExtension);
+			}
 		}
 	}
 }

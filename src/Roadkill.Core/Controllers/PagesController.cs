@@ -35,7 +35,7 @@ namespace Roadkill.Core.Controllers
 		/// <summary>
 		/// Displays all pages in Roadkill.
 		/// </summary>
-		/// <returns>An <see cref="IEnumerable`PageSummary"/> as the model.</returns>
+		/// <returns>An <see cref="IEnumerable{PageSummary}"/> as the model.</returns>
 		public ActionResult AllPages()
 		{
 			return View(_pageManager.AllPages());
@@ -44,7 +44,7 @@ namespace Roadkill.Core.Controllers
 		/// <summary>
 		/// Displays all tags (categories if you prefer that term) in Roadkill.
 		/// </summary>
-		/// <returns>An <see cref="IEnumerable`TagSummary"/> as the model.</returns>
+		/// <returns>An <see cref="IEnumerable{TagSummary}"/> as the model.</returns>
 		public ActionResult AllTags()
 		{
 			return View(_pageManager.AllTags());
@@ -71,7 +71,7 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		/// <param name="id">The username</param>
 		/// <param name="encoded">Whether the username paramter is Base64 encoded.</param>
-		/// <returns>An <see cref="IEnumerable`PageSummary"/> as the model.</returns>
+		/// <returns>An <see cref="IEnumerable{PageSummary}"/> as the model.</returns>
 		public ActionResult ByUser(string id,bool? encoded)
 		{
 			// Usernames are base64 encoded by roadkill (to cater for usernames like domain\john).
@@ -171,7 +171,7 @@ namespace Roadkill.Core.Controllers
 		/// Lists the history of edits for a page.
 		/// </summary>
 		/// <param name="id">The ID of the page.</param>
-		/// <returns>An <see cref="IList`HistorySummary"/> as the model.</returns>
+		/// <returns>An <see cref="IList{HistorySummary}"/> as the model.</returns>
 		public ActionResult History(int id)
 		{
 			return View(_historyManager.GetHistory(id).ToList());
@@ -231,7 +231,7 @@ namespace Roadkill.Core.Controllers
 		/// Returns all pages for the given tag.
 		/// </summary>
 		/// <param name="id">The tag name</param>
-		/// <returns>An <see cref="IEnumerable`PageSummary"/> as the model.</returns>
+		/// <returns>An <see cref="IEnumerable{PageSummary}"/> as the model.</returns>
 		public ActionResult Tag(string id)
 		{
 			ViewData["Tagname"] = id;
