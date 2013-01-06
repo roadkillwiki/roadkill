@@ -348,6 +348,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Localization\Resx\InstallStrings.cs-CZ.resx" />
     <EmbeddedResource Include="Localization\Resx\InstallStrings.fi-FI.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>InstallStrings.fi-FI.designer.cs</LastGenOutput>
@@ -356,6 +357,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>InstallStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Localization\Resx\SiteStrings.cs-CZ.resx" />
     <EmbeddedResource Include="Localization\Resx\SiteStrings.fi-FI.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SiteStrings.fi-FI.designer.cs</LastGenOutput>
@@ -366,7 +368,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Localization\Text\InstallStrings.cs-CZ.txt" />
     <Content Include="Localization\Text\InstallStrings.txt" />
+    <Content Include="Localization\Text\SiteStrings.cs-CZ.txt" />
     <Content Include="Localization\Text\SiteStrings.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

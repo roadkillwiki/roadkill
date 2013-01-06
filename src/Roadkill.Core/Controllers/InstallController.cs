@@ -236,8 +236,11 @@ namespace Roadkill.Core.Controllers
 				sqliteLinqFileSource = Server.MapPath("~/App_Data/SQLiteBinaries/x64/System.Data.SQLite.Linq.dll");
 			}
 
-			System.IO.File.Copy(sqliteFileSource, sqliteFileDest, true);
-			System.IO.File.Copy(sqliteLinqFileSource, sqliteFileLinqDest, true);
+			if (!System.IO.File.Exists(sqliteFileDest))
+				System.IO.File.Copy(sqliteFileSource, sqliteFileDest);
+
+			if (!System.IO.File.Exists(sqliteFileLinqDest))
+				System.IO.File.Copy(sqliteLinqFileSource, sqliteFileLinqDest);
 		}
 	}
 

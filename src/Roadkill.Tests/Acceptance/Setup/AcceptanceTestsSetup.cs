@@ -16,6 +16,7 @@ namespace Roadkill.Tests.Acceptance
 		[SetUp]
 		public void BeforeAllTests()
 		{
+			CopySqliteBinaries();
 			CopyWebConfig();
 			LaunchIisExpress();
 
@@ -75,6 +76,28 @@ namespace Roadkill.Tests.Acceptance
 			}
 		}
 
+		private void CopySqliteBinaries()
+		{
+			string sitePath = GetSitePath();
+
+			string sqliteFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x86/System.Data.SQLite.dll", sitePath);
+			string sqliteFileDest = string.Format("{0}/bin/System.Data.SQLite.dll", sitePath);
+			string sqliteLinqFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x86/System.Data.SQLite.Linq.dll", sitePath);
+			string sqliteFileLinqDest = string.Format("{0}/bin/System.Data.SQLite.Linq.dll", sitePath);
+
+			if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
+			{
+				sqliteFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x64/System.Data.SQLite.dll", sitePath);
+				sqliteLinqFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x64/System.Data.SQLite.Linq.dll", sitePath);
+			}
+
+			if (!System.IO.File.Exists(sqliteFileDest))
+				System.IO.File.Copy(sqliteFileSource, sqliteFileDest);
+
+			if (!System.IO.File.Exists(sqliteFileLinqDest))
+				System.IO.File.Copy(sqliteLinqFileSource, sqliteFileLinqDest);
+		}
+
 		private void LaunchIisExpress()
 		{
 			string sitePath = GetSitePath();
@@ -111,6 +134,5 @@ namespace Roadkill.Tests.Acceptance
 				IisProcess.Dispose();
 			}
 		}
-
 	}
 }

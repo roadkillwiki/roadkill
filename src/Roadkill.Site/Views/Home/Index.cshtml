@@ -10,6 +10,10 @@
 
 <h1 class="pagetitle">@Model.Title</h1>
 
-<div id="pagecontent">
-@MvcHtmlString.Create(Model.ContentAsHtml)
+<div id="pagecontent" itemscope itemtype="http://schema.org/Article">
+	<meta itemprop="dateCreated" content="@Model.CreatedOn"/>
+	<meta itemprop="creator" content="@Model.CreatedBy"/>
+	<meta itemprop="dateModified" content="@Model.ModifiedOn"/>
+	<meta itemprop="keywords" content="@Model.SpaceDelimitedTags()"/>
+	@MvcHtmlString.Create(Model.ContentAsHtml)
 </div>

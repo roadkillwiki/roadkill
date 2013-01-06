@@ -4,13 +4,7 @@
 <head>
 	<title>@ViewBag.Title</title>
 	@Html.Partial("HeadContent")
-	<script type="text/javascript">
-		$(document).ready(function ()
-		{
-			// Resize all images to a maximum of 400x400
-			$("#pagecontent img").aeImageResize({ height: 400, width: 400 });
-		});
-	</script>
+	@Html.ResizeImagesScript()
 </head>
 
 <body>
