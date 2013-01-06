@@ -124,38 +124,35 @@ namespace Roadkill.Core
 					x.For<IRoadkillContext>().HybridHttpOrThreadLocalScoped().Use(context);
 				}
 
-				x.For<IActiveDirectoryService>().HybridHttpOrThreadLocalScoped().Use<DefaultActiveDirectoryService>();
-
-				if (config != null)
-				{
-					string userManagerTypeName = config.ApplicationSettings.UserManagerType;
-					if (string.IsNullOrEmpty(userManagerTypeName))
-					{
-						if (config.ApplicationSettings.UseWindowsAuthentication)
-						{
-							x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<ActiveDirectoryUserManager>();
-						}
-						else
-						{
-							x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<SqlUserManager>();
-						}
-					}
-					else
-					{
-						// Load UserManager type from config
-						x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use(LoadFromType(userManagerTypeName));
-					}
-				}
-				else
-				{
-					x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<SqlUserManager>();
-				}
-				
+				x.For<IActiveDirectoryService>().HybridHttpOrThreadLocalScoped().Use<DefaultActiveDirectoryService>();				
 			});
 
 			ObjectFactory.Configure(x =>
 			{
 				x.IncludeConfigurationFromConfigFile = true;
+
+				if (config == null)
+				{
+					config = ObjectFactory.GetInstance<IConfigurationContainer>();
+				}
+
+				string userManagerTypeName = config.ApplicationSettings.UserManagerType;
+				if (string.IsNullOrEmpty(userManagerTypeName))
+				{
+					if (config.ApplicationSettings.UseWindowsAuthentication)
+					{
+						x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<ActiveDirectoryUserManager>();
+					}
+					else
+					{
+						x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<SqlUserManager>();
+					}
+				}
+				else
+				{
+					// Load UserManager type from config
+					x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use(LoadFromType(userManagerTypeName));
+				}
 			});
 		}
 		

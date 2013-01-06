@@ -36,6 +36,18 @@ namespace Roadkill.Core
 		public DateTime EditedOn { get; set; }
 
 		/// <summary>
+		/// Displays Editedon in IS8601 format, plus the timezone offset included
+		/// </summary>
+		public string EditedOnWithOffset
+		{
+			get
+			{
+				// Use RFC1123 (u) as it includes the Z for the offset (and 's' is IS8601 timeago expects)
+				return string.Format("{0}{1:%z}", EditedOn.ToString("u"), EditedOn);
+			}
+		}
+
+		/// <summary>
 		/// Whether the page can only be edited by administrators. This disables the "revert" behaviour.
 		/// </summary>
 		public bool IsPageAdminOnly { get; set; }

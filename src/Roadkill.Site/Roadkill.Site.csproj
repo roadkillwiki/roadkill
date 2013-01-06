@@ -370,6 +370,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\Demosite.pubxml" />
+    <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Web.DemoSite.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

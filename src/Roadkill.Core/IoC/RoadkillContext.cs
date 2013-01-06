@@ -30,7 +30,18 @@ namespace Roadkill.Core
 			get
 			{
 				if (IsLoggedIn)
-					return _userManager.GetUserById(new Guid(CurrentUser)).Username;
+				{
+					Guid userId;
+					if (Guid.TryParse(CurrentUser, out userId))
+					{
+						// Guids are used for cookie auth
+						return _userManager.GetUserById(userId).Username;
+					}
+					else
+					{
+						return CurrentUser;
+					}
+				}
 				else
 					return "";
 			}

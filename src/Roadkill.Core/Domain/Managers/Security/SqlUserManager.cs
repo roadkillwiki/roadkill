@@ -275,7 +275,9 @@ namespace Roadkill.Core
 			}
 			else
 			{
-				throw new SecurityException("The user's cookie value does not contain a Guid when checking for admin rights.", null);
+				Logout();
+				return false;
+				//throw new SecurityException("The user's cookie value does not contain a Guid when checking for admin rights.", null);
 			}
 		}
 
@@ -298,6 +300,8 @@ namespace Roadkill.Core
 				}
 				else
 				{
+					Logout();
+					return false;
 					throw new SecurityException("The user's cookie value does not contain a Guid when checking for editor rights.", null);
 				}
 			}

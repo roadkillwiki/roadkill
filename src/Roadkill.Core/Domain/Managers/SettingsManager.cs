@@ -66,7 +66,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				Repository.Configure(Configuration.ApplicationSettings.DatabaseType, summary.ConnectionString, true, summary.CacheEnabled);
+				Repository.Configure(summary.DatabaseType, summary.ConnectionString, true, summary.CacheEnabled);
 			}
 			catch (HibernateException ex)
 			{

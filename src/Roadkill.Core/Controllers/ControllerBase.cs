@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Diagnostics;
 using Roadkill.Core.Configuration;
+using System;
 
 namespace Roadkill.Core.Controllers
 {
@@ -45,7 +46,17 @@ namespace Roadkill.Core.Controllers
 
 			Context.CurrentUser = UserManager.GetLoggedInUserName(HttpContext);
 			ViewBag.Context = Context;
-			ViewBag.Config = Configuration;			
+			ViewBag.Config = Configuration;
+
+			// This is a fix for versions before 1.5 storing the username instead of a guid in the login cookie
+			if (!Configuration.ApplicationSettings.UseWindowsAuthentication)
+			{
+				Guid userId;
+				if (!Guid.TryParse(Context.CurrentUser, out userId))
+				{
+					UserManager.Logout();
+				}
+			}
 		}
 	}
 }
