@@ -1,4 +1,5 @@
-﻿Steps to create a new download version (this could be turned into a NANT/MSBuild script at some point):
+﻿==BUILD README==
+These are the steps to create a new download version:
 
 1) Update the version in AssemblyInfo.cs in Core and Site
 2) Compile using the 'Download' configuration
