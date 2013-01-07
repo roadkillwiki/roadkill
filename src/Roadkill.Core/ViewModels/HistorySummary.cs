@@ -42,8 +42,8 @@ namespace Roadkill.Core
 		{
 			get
 			{
-				// Use RFC1123 (u) as it includes the Z for the offset (and 's' is IS8601 timeago expects)
-				return string.Format("{0}{1:%z}", EditedOn.ToString("u"), EditedOn);
+				// Use IS8601 plus the time offset (inject the Z)
+				return string.Format("{0}Z{1:%zzz}", EditedOn.ToString("s"), EditedOn);
 			}
 		}
 
