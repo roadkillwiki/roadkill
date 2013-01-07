@@ -16,7 +16,7 @@ namespace Roadkill.Tests.Acceptance
 		[SetUp]
 		public void BeforeAllTests()
 		{
-			CopySqliteBinaries();
+			CopyDbBinaries();
 			CopyWebConfig();
 			LaunchIisExpress();
 
@@ -76,7 +76,7 @@ namespace Roadkill.Tests.Acceptance
 			}
 		}
 
-		private void CopySqliteBinaries()
+		private void CopyDbBinaries()
 		{
 			string sitePath = GetSitePath();
 
@@ -84,6 +84,9 @@ namespace Roadkill.Tests.Acceptance
 			string sqliteFileDest = string.Format("{0}/bin/System.Data.SQLite.dll", sitePath);
 			string sqliteLinqFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x86/System.Data.SQLite.Linq.dll", sitePath);
 			string sqliteFileLinqDest = string.Format("{0}/bin/System.Data.SQLite.Linq.dll", sitePath);
+
+			string sqlCeLinqFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x86/System.Data.SQLite.Linq.dll", sitePath);
+			string sqlCeFileLinqDest = string.Format("{0}/bin/System.Data.SQLite.Linq.dll", sitePath);
 
 			if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
 			{
