@@ -11,8 +11,8 @@ These are the steps to create a new download version:
 5) Remove the fi-FI folder from the /bin folder (as it's a fake localization satellite assembly)
 6) Remove the fi-FI folder from the /App_Data/EmailTemplates (as it's fake localization templates)
 7) Remove the comments at the top from the web.config
-8) Remove the XML files from the publish bin folder
-0) Copy /lib/Empty-databases/roadkill.sqlite to the publish /App_Data folder
+8) Copy /lib/System.Data.SqlServerCe.dll to the publish /bin folder (publish leaves it out for some reason)
+9) Copy /lib/Empty-databases/roadkill.sqlite to the publish /App_Data folder
 10) Copy /lib/Empty-databases/roadkill.sdf to the publish /App_Data folder
 11) Copy /lib/Empty-databases/roadkill.mdf to the publish /App_Data folder
 12) Zip up using the name 'Roadkill_v{number}.zip' e.g. Roadkill_v1.3.zip, add to the downloads on bitbucket/codeplex.
