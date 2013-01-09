@@ -26,10 +26,13 @@ namespace Roadkill.Tests.Integration
 
 			SettingsSummary summary = new SettingsSummary(config);
 			summary.ConnectionString = config.ApplicationSettings.ConnectionString;
+			summary.DatabaseType = DatabaseType.Sqlite;
+			summary.AllowedExtensions = "jpg, gif";
+			summary.MarkupType = "Creole";
 
 			SettingsManager settingsManager = new SettingsManager(config, new NHibernateRepository(config));
 			settingsManager.CreateTables(summary);
-			settingsManager.SaveSiteConfiguration(new SettingsSummary(config) { AllowedExtensions = "jpg, gif", MarkupType = "Creole" }, true);
+			settingsManager.SaveSiteConfiguration(summary, true);
 		}
 
 		[Test]

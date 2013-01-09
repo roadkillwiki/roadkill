@@ -21,25 +21,15 @@ namespace Roadkill.Tests.Integration
 		[SetUp]
 		public void Initialize()
 		{
-			string indexPath = AppDomain.CurrentDomain.BaseDirectory + "App_Data/search";
+			string indexPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\search";
 			if (Directory.Exists(indexPath))
 				Directory.Delete(indexPath, true);
 
 			_repository = new Mock<IRepository>().Object;
-
-			// Site setup
-			RoadkillApplication.SetupIoC();
-
 			_config = new RoadkillSettings();
 			_config.ApplicationSettings = new ApplicationSettings();
 			_config.ApplicationSettings.Load(null); // load from the app.config
-
-			SettingsSummary summary = new SettingsSummary(_config);
-			summary.ConnectionString = _config.ApplicationSettings.ConnectionString;
-
-			SettingsManager settingsManager = new SettingsManager(_config, new NHibernateRepository(_config));
-			settingsManager.CreateTables(summary);
-			settingsManager.SaveSiteConfiguration(new SettingsSummary(_config) { AllowedExtensions = "jpg, gif", MarkupType = "Creole" }, true);
+			_config.SitePreferences = new SitePreferences();
 		}
 
 		[Test]
