@@ -230,6 +230,7 @@
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\Setup\RequiresBrowserWithJavascriptAttribute.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
+    <Compile Include="Unit\ConfigurationContainerStub.cs" />
     <Compile Include="Unit\Controllers\WikiControllerTests.cs" />
     <Compile Include="Unit\Models\UserSummaryUsernameValidationTests.cs" />
     <Compile Include="Unit\Models\UserSummaryPasswordValidationTests.cs" />

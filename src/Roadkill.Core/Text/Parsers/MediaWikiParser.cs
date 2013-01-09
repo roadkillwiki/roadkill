@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Converters
 {
@@ -99,6 +100,8 @@ namespace Roadkill.Core.Converters
 		{
 			return _processBracketingCreole("''", _getStartTag("<em>"), "</em>", markup);
 		}
+
+		public MediaWikiParser(IConfigurationContainer config) : base(config) { }
 
 		/// <summary>
 		/// Convert Media Wiki markup to HTML.
