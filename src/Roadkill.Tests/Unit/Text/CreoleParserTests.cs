@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using Roadkill.Core;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 
 namespace Roadkill.Tests.Unit
@@ -14,19 +16,23 @@ namespace Roadkill.Tests.Unit
 		[Test]
 		public void Tilde_Should_Escape_Text()
 		{
-			CreoleParser parser = new CreoleParser();
-
 			// Some very simplistic tests based off
-			// http://www.wikicreole.org/wiki/EscapeCharacterProposal
+			// http://www.wikicreole.org/wiki/EscapeCharacterProposa
+
+			// Arrange
+			CreoleParser parser = new CreoleParser(new ConfigurationContainerStub());
 			string creoleText = @"This isn't a ~-list item.";
 			string expectedHtml = "<p>This isn't a -list item.\n</p>";
-			string actualHtml = parser.Transform(creoleText);
-			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+			string creoleText2 = @"No bold ~**this isn't bold~** test";
+			string expectedHtml2 = "<p>No bold **this isn't bold** test\n</p>";
 
-			creoleText = @"No bold ~**this isn't bold~** test";
-			expectedHtml = "<p>No bold **this isn't bold** test\n</p>";
-			actualHtml = parser.Transform(creoleText);
+			// Act		
+			string actualHtml = parser.Transform(creoleText);
+			string actualHtml2 = parser.Transform(creoleText2);
+
+			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+			Assert.That(actualHtml2, Is.EqualTo(expectedHtml2));
 		}
 
 		[Test]
@@ -39,7 +45,7 @@ namespace Roadkill.Tests.Unit
 			string expectedHtml = "<p>Escaping a ~tilde test\n</p>";
 
 			// Act
-			CreoleParser parser = new CreoleParser();
+			CreoleParser parser = new CreoleParser(new ConfigurationContainerStub());
 			string actualHtml = parser.Transform(creoleText);
 			
 			// Assert
@@ -57,7 +63,22 @@ namespace Roadkill.Tests.Unit
 				@"<div class=""caption"">alt text</div></div></div> Any text here WILL BE shown on webpage" + "\n</p>";
 			
 			// Act
-			CreoleParser parser = new CreoleParser();
+			CreoleParser parser = new CreoleParser(new ConfigurationContainerStub());
+			string actualHtml = parser.Transform(creoleText);
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		public void Tag_Link_Should_Be_Replaced()
+		{
+			// Arrange
+			string creoleText = "Here are all the tags for animals: [[tag:animal|Animals]]";
+			string expectedHtml = "<p>Here are all the tags for animals: <a href=\"/pages/tag/animal\">Animals</a>\n</p>";
+
+			// Act
+			CreoleParser parser = new CreoleParser(new ConfigurationContainerStub());
 			string actualHtml = parser.Transform(creoleText);
 
 			// Assert

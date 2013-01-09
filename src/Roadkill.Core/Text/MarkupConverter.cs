@@ -56,12 +56,12 @@ namespace Roadkill.Core.Converters
 					break;
 
 				case "mediawiki":
-					_parser = new MediaWikiParser();
+					_parser = new MediaWikiParser(_configuration);
 					break;
 
 				case "creole":
 				default:
-					_parser = new CreoleParser();
+					_parser = new CreoleParser(_configuration);
 					break;
 			}
 
@@ -110,7 +110,7 @@ namespace Roadkill.Core.Converters
 		/// </summary>
 		private void LinkParsed(object sender, LinkEventArgs e)
 		{
-			if (!e.OriginalHref.StartsWith("http://") && !e.OriginalHref.StartsWith("www.") && !e.OriginalHref.StartsWith("mailto:"))
+			if (!e.OriginalHref.StartsWith("http://") && !e.OriginalHref.StartsWith("www.") && !e.OriginalHref.StartsWith("mailto:") && !e.OriginalHref.StartsWith("tag:"))
 			{
 				string href = e.OriginalHref;
 				string lowerHref = href.ToLower();

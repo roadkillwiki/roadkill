@@ -48,6 +48,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Linq.Expressions;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Converters
 {
@@ -75,6 +76,7 @@ namespace Roadkill.Core.Converters
 	{
 		private string _tabStop;
 		private int _nTabSpaces;
+		private IConfigurationContainer _configuration;
 
 		/// <summary>
 		/// The start and end tokens to indicate bold text.
@@ -194,7 +196,7 @@ namespace Roadkill.Core.Converters
 		/// allows the user to do a wikipedia link like:
 		/// [[wikipedia:Microsoft]] 
 		/// </summary>
-		public Dictionary<string, string> InterWiki;
+		public Dictionary<string, string> InterWiki { get; set; }
 
 
 		/// <summary>
@@ -217,14 +219,17 @@ namespace Roadkill.Core.Converters
 			}
 		}
 
-		public CreoleParser()
+		public CreoleParser(IConfigurationContainer configuration)
 		{
+			_configuration = configuration;
 			AddIdToParagraphTags = false;
 			HTMLAttributes = new Dictionary<string, string>();
 			InterWiki = new Dictionary<string, string>();
 			TabStop = 7; // default to 7 char tabstop
 			NoWikiEscapeStart = "{{{";
 			NoWikiEscapeEnd = "}}}";
+
+			InterWiki.Add("tag", configuration.SitePreferences.SiteUrl + "/pages/tag/");
 		}
 
 
