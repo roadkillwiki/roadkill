@@ -17,7 +17,7 @@ using Roadkill.Core.Configuration;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// A repository class for all NHibernate actions.
+	/// A fluent NHibernate-based repository.
 	/// </summary>
 	public class NHibernateRepository : IRepository
 	{

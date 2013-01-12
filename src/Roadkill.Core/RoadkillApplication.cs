@@ -64,8 +64,8 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Initializes the Structuremap IoC containers for the Services, Configuration and IRepository,
 		/// and registering the defaults for each.
-		/// No settings are loaded from the database in this method, or config file settings loaded. The
-		/// <see cref="ApplicationSettings.UserManagerType"/> is used.
+		/// No settings are loaded from the database in this method, or config file settings loaded, except the
+		/// <see cref="ApplicationSettings.UserManagerType"/> setting.
 		/// </summary>
 		/// <param name="config">If null, then a new per-thread/http request <see cref="RoadkillSettings"/> class is used for the configuration.</param>
 		/// <param name="context">If null, then a new per-thread/http request <see cref="RoadkillContext"/> is used.</param>
@@ -151,14 +151,13 @@ namespace Roadkill.Core
 				else
 				{
 					// Load UserManager type from config
-					x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use(LoadFromType(userManagerTypeName));
+					x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use(LoadUserManagerFromType(userManagerTypeName));
 				}
 			});
 		}
 		
-		private static UserManager LoadFromType(string typeName)
+		private static UserManager LoadUserManagerFromType(string typeName)
 		{
-			// Attempt to load the type
 			Type userManagerType = typeof(UserManager);
 			Type reflectedType = Type.GetType(typeName);
 			

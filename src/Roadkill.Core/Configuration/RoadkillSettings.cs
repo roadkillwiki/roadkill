@@ -61,6 +61,10 @@ namespace Roadkill.Core.Configuration
 			set { _applicationSettings = value; }
 		}
 
+		/// <summary>
+		/// Loads the site preferences from the database, populating the <see cref="SitePreferences"/> property. 
+		/// If the <see cref="ApplicationSettings.Installed"/> is false, this method does nothing.
+		/// </summary>
 		public virtual void LoadSitePreferences()
 		{
 			if (!_applicationSettings.Installed)

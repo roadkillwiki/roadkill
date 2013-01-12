@@ -9,6 +9,10 @@ namespace Roadkill.Core
 	{
 		private UserManager _userManager;
 
+		/// <summary>
+		/// Creates a new instance of a <see cref="RoadkillContext"/>.
+		/// </summary>
+		/// <param name="userManager">A <see cref="UserManager"/> which the RoadkillContext uses for user lookups.</param>
 		public RoadkillContext(UserManager userManager)
 		{
 			_userManager = userManager;
@@ -21,7 +25,7 @@ namespace Roadkill.Core
 		public string CurrentUser { get; set; }
 
 		/// <summary>
-		/// Gets the username of the current user. This differs from <see cref="CurrenUser"/> which retrieves the email,
+		/// Gets the username of the current user. This differs from <see cref="CurrentUser"/> which retrieves the email,
 		/// unless using windows auth where both fields are the same.
 		/// This property is derived from the current UserManager's GetUser() method, if the CurrentUser property is not empty.
 		/// </summary>
