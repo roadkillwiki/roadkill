@@ -15,7 +15,7 @@ namespace Roadkill.Core
 
 		public override void OnAuthorization(AuthorizationContext filterContext)
 		{
-			// Should refactor this to use IFilterProvider
+			// Should refactor this so its in the IFilterProvider
 
 			Roadkill.Core.Controllers.ControllerBase controller = filterContext.Controller as Roadkill.Core.Controllers.ControllerBase;
 			if (controller != null)

@@ -118,6 +118,7 @@ namespace Roadkill.Core
 		/// Checks if the <see cref="NewUsername"/> provided is valid.
 		/// </summary>
 		/// <param name="user"></param>
+		/// <param name="context"></param>
 		/// <returns><see cref="ValidationResult.Success"/> if the username isn't empty.</returns>
 		public static ValidationResult VerifyNewUsername(UserSummary user, ValidationContext context)
 		{
@@ -136,6 +137,7 @@ namespace Roadkill.Core
 		/// Checks if the <see cref="NewUsername"/> provided is already a user in the system.
 		/// </summary>
 		/// <param name="user"></param>
+		/// <param name="context"></param>
 		/// <returns><see cref="ValidationResult.Success"/> if the username hasn't changed, 
 		/// or if it has and the new username doesn't  already exist.</returns>
 		public static ValidationResult VerifyNewUsernameIsNotInUse(UserSummary user, ValidationContext context)

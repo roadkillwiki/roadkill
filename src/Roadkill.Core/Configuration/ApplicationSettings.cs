@@ -11,6 +11,9 @@ using StructureMap;
 
 namespace Roadkill.Core.Configuration
 {
+	/// <summary>
+	/// Contains all settings that require an application (appdomain) restart when changed - typically stored in a .config file.
+	/// </summary>
 	public class ApplicationSettings
 	{
 		/// <summary>
