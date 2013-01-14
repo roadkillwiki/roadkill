@@ -110,7 +110,7 @@ namespace Roadkill.Core.Converters
 		/// </summary>
 		private void LinkParsed(object sender, LinkEventArgs e)
 		{
-			if (!e.OriginalHref.StartsWith("http://") && !e.OriginalHref.StartsWith("www.") && !e.OriginalHref.StartsWith("mailto:") && !e.OriginalHref.StartsWith("tag:"))
+			if (!e.OriginalHref.StartsWith("http://") && !e.OriginalHref.StartsWith("https://") && !e.OriginalHref.StartsWith("www.") && !e.OriginalHref.StartsWith("mailto:") && !e.OriginalHref.StartsWith("tag:"))
 			{
 				string href = e.OriginalHref;
 				string lowerHref = href.ToLower();
