@@ -341,38 +341,55 @@ namespace Roadkill.Core.Converters
 						// process = as headers only on start of lines
 						htmlMarkup.Append(_processCreoleFragment(_processHeadersCreole(line)));
 					}
-					// --- start of table
+					// --- start of table with header row
 					else if (!InTable && lineTrimmed.StartsWith("|="))
 					{
-						// start a new table
-
 						// close any pending lists
 						_closeLists(ref htmlMarkup, ref iBullet, ref iNumber, lineTrimmed);
-
+                        
+                        // start a new table
+                        htmlMarkup.Append(_getStartTag("<table>"));
 						InTable = true;
 						htmlMarkup.Append(_processTableHeaderRow(lineTrimmed));
 					}
-					// --- new row in table
-					else if (InTable && lineTrimmed[0] == '|')
-					{
-						// we are already processing table so this must be a new row
-						htmlMarkup.Append(_processTableRow(lineTrimmed));
-					}
-					// --- process {{{ }}} <pre>
-					else if (lineTrimmed.StartsWith(NoWikiEscapeStart) && (lineTrimmed.Length == NoWikiEscapeStart.Length))
-					{
-						// we are already processing table so this must be a new row
-						htmlMarkup.Append(_getStartTag("<pre>"));
-						InEscape = true;
-					}
-					else
-					{
-						// we didn't find a special "start of line" command, 
-						// namely ordered list, unordered list or table definition
+                    // --- start of table - standard row
+                    else if (!InTable && lineTrimmed[0] == '|')
+                    {
+                        // close any pending lists
+                        _closeLists(ref htmlMarkup, ref iBullet, ref iNumber, lineTrimmed);
 
-						// just add it, processing any markup on it.
-						htmlMarkup.Append(String.Format("{0}\n", _processCreoleFragment(line)));
-					}
+                        // start a new table
+                        htmlMarkup.Append(_getStartTag("<table>"));
+                        InTable = true;
+                        htmlMarkup.Append(_processTableRow(lineTrimmed));
+                    }
+                    // --- new header row in table
+                    else if (InTable && lineTrimmed.StartsWith("|="))
+                    {
+                        // we are already processing table so this must be a new header row
+                        htmlMarkup.Append(_processTableHeaderRow(lineTrimmed));
+                    }
+                    // --- new standard row in table
+                    else if (InTable && lineTrimmed[0] == '|')
+                    {
+                        // we are already processing table so this must be a new row
+                        htmlMarkup.Append(_processTableRow(lineTrimmed));
+                    }
+                    // --- process {{{ }}} <pre>
+                    else if (lineTrimmed.StartsWith(NoWikiEscapeStart) && (lineTrimmed.Length == NoWikiEscapeStart.Length))
+                    {
+                        // we are already processing table so this must be a new row
+                        htmlMarkup.Append(_getStartTag("<pre>"));
+                        InEscape = true;
+                    }
+                    else
+                    {
+                        // we didn't find a special "start of line" command, 
+                        // namely ordered list, unordered list or table definition
+
+                        // just add it, processing any markup on it.
+                        htmlMarkup.Append(String.Format("{0}\n", _processCreoleFragment(line)));
+                    }
 				}
 				else
 				{
@@ -526,7 +543,6 @@ namespace Roadkill.Core.Converters
 		private string _processTableHeaderRow(string line)
 		{
 			string markup = "";
-			markup += _getStartTag("<table>");
 			// add header
 			markup += String.Format("{0}\n{1}\n", _getStartTag("<thead>"), _getStartTag("<tr>"));
 
