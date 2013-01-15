@@ -74,7 +74,7 @@ namespace Roadkill.Core
 
 			if (!string.IsNullOrEmpty(tags))
 			{
-				// For the legacy tag seperatir format
+				// For the legacy tag seperator format
 				if (tags.IndexOf(";") != -1)
 					delimiter = ';';
 
