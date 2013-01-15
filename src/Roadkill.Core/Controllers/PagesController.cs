@@ -22,9 +22,9 @@ namespace Roadkill.Core.Controllers
 		private HistoryManager _historyManager;
 
 		public PagesController(IConfigurationContainer configuration, UserManager userManager,
-			SettingsManager settingsManager, PageManager pageManager, SearchManager searchManager, 
+			SettingsManager settingsManager, PageManager pageManager, SearchManager searchManager,
 			HistoryManager historyManager, IRoadkillContext context)
-			: base(configuration, userManager, context) 
+			: base(configuration, userManager, context)
 		{
 			_settingsManager = settingsManager;
 			_pageManager = pageManager;
@@ -72,7 +72,7 @@ namespace Roadkill.Core.Controllers
 		/// <param name="id">The username</param>
 		/// <param name="encoded">Whether the username paramter is Base64 encoded.</param>
 		/// <returns>An <see cref="IEnumerable{PageSummary}"/> as the model.</returns>
-		public ActionResult ByUser(string id,bool? encoded)
+		public ActionResult ByUser(string id, bool? encoded)
 		{
 			// Usernames are base64 encoded by roadkill (to cater for usernames like domain\john).
 			// However the URL also supports humanly-readable format, e.g. /ByUser/chris
@@ -115,7 +115,7 @@ namespace Roadkill.Core.Controllers
 			if (summary != null)
 			{
 				if (summary.IsLocked && !Context.IsAdmin)
-					return new HttpStatusCodeResult(403, string.Format("The page '{0}' can only be edited by administrators.",summary.Title));
+					return new HttpStatusCodeResult(403, string.Format("The page '{0}' can only be edited by administrators.", summary.Title));
 
 				return View("Edit", summary);
 			}
@@ -141,7 +141,7 @@ namespace Roadkill.Core.Controllers
 
 			_pageManager.UpdatePage(summary);
 
-			return RedirectToAction("Index", "Wiki", new { id = summary.Id , nocache = DateTime.Now.Ticks });
+			return RedirectToAction("Index", "Wiki", new { id = summary.Id, nocache = DateTime.Now.Ticks });
 		}
 
 		/// <summary>
@@ -165,7 +165,7 @@ namespace Roadkill.Core.Controllers
 			}
 
 			return JavaScript(html);
-		}		
+		}
 
 		/// <summary>
 		/// Lists the history of edits for a page.
@@ -185,7 +185,7 @@ namespace Roadkill.Core.Controllers
 		[EditorRequired]
 		public ActionResult New(string title = "")
 		{
-			return View("Edit", new PageSummary(){Title = title});
+			return View("Edit", new PageSummary() { Title = title });
 		}
 
 		/// <summary>
@@ -225,7 +225,7 @@ namespace Roadkill.Core.Controllers
 			_historyManager.RevertTo(versionId, Context);
 
 			return RedirectToAction("History", new { id = pageId });
-		}		
+		}
 
 		/// <summary>
 		/// Returns all pages for the given tag.

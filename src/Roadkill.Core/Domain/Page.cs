@@ -25,7 +25,15 @@ namespace Roadkill.Core
 		public virtual DateTime CreatedOn { get; set; }
 		public virtual string ModifiedBy { get; set; }
 		public virtual DateTime ModifiedOn { get; set; }
+
+		/// <summary>
+		/// Tag tags for the page, in the format "tag1,tag2,tag3" (no spaces between tags).
+		/// </summary>
 		public virtual string Tags { get; set; }
+
+		/// <summary>
+		/// Whether the page is locked for admin-only editing.
+		/// </summary>
 		public virtual bool IsLocked { get; set; }
 	}
 }
