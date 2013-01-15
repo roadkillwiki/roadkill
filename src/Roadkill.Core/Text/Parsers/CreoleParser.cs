@@ -301,7 +301,7 @@ namespace Roadkill.Core.Converters
 						}
 						else
 						{
-							htmlMarkup.Append(String.Format("</p>\n{0}",_getStartTag("<p>")));
+							htmlMarkup.Append(String.Format("</p>\n{0}", _getStartTag("<p>")));
 						}
 					}
 					// --- process bullets
@@ -346,50 +346,50 @@ namespace Roadkill.Core.Converters
 					{
 						// close any pending lists
 						_closeLists(ref htmlMarkup, ref iBullet, ref iNumber, lineTrimmed);
-                        
-                        // start a new table
-                        htmlMarkup.Append(_getStartTag("<table>"));
+
+						// start a new table
+						htmlMarkup.Append(_getStartTag("<table>"));
 						InTable = true;
 						htmlMarkup.Append(_processTableHeaderRow(lineTrimmed));
 					}
-                    // --- start of table - standard row
-                    else if (!InTable && lineTrimmed[0] == '|')
-                    {
-                        // close any pending lists
-                        _closeLists(ref htmlMarkup, ref iBullet, ref iNumber, lineTrimmed);
+					// --- start of table - standard row
+					else if (!InTable && lineTrimmed[0] == '|')
+					{
+						// close any pending lists
+						_closeLists(ref htmlMarkup, ref iBullet, ref iNumber, lineTrimmed);
 
-                        // start a new table
-                        htmlMarkup.Append(_getStartTag("<table>"));
-                        InTable = true;
-                        htmlMarkup.Append(_processTableRow(lineTrimmed));
-                    }
-                    // --- new header row in table
-                    else if (InTable && lineTrimmed.StartsWith("|="))
-                    {
-                        // we are already processing table so this must be a new header row
-                        htmlMarkup.Append(_processTableHeaderRow(lineTrimmed));
-                    }
-                    // --- new standard row in table
-                    else if (InTable && lineTrimmed[0] == '|')
-                    {
-                        // we are already processing table so this must be a new row
-                        htmlMarkup.Append(_processTableRow(lineTrimmed));
-                    }
-                    // --- process {{{ }}} <pre>
-                    else if (lineTrimmed.StartsWith(NoWikiEscapeStart) && (lineTrimmed.Length == NoWikiEscapeStart.Length))
-                    {
-                        // we are already processing table so this must be a new row
-                        htmlMarkup.Append(_getStartTag("<pre>"));
-                        InEscape = true;
-                    }
-                    else
-                    {
-                        // we didn't find a special "start of line" command, 
-                        // namely ordered list, unordered list or table definition
+						// start a new table
+						htmlMarkup.Append(_getStartTag("<table>"));
+						InTable = true;
+						htmlMarkup.Append(_processTableRow(lineTrimmed));
+					}
+					// --- new header row in table
+					else if (InTable && lineTrimmed.StartsWith("|="))
+					{
+						// we are already processing table so this must be a new header row
+						htmlMarkup.Append(_processTableHeaderRow(lineTrimmed));
+					}
+					// --- new standard row in table
+					else if (InTable && lineTrimmed[0] == '|')
+					{
+						// we are already processing table so this must be a new row
+						htmlMarkup.Append(_processTableRow(lineTrimmed));
+					}
+					// --- process {{{ }}} <pre>
+					else if (lineTrimmed.StartsWith(NoWikiEscapeStart) && (lineTrimmed.Length == NoWikiEscapeStart.Length))
+					{
+						// we are already processing table so this must be a new row
+						htmlMarkup.Append(_getStartTag("<pre>"));
+						InEscape = true;
+					}
+					else
+					{
+						// we didn't find a special "start of line" command, 
+						// namely ordered list, unordered list or table definition
 
-                        // just add it, processing any markup on it.
-                        htmlMarkup.Append(String.Format("{0}\n", _processCreoleFragment(line)));
-                    }
+						// just add it, processing any markup on it.
+						htmlMarkup.Append(String.Format("{0}\n", _processCreoleFragment(line)));
+					}
 				}
 				else
 				{
@@ -935,7 +935,7 @@ namespace Roadkill.Core.Converters
 						+ String.Format("<a href=\"{0}\"{2}{3}>{1}</a>",
 											linkEventArgs.Href,
 											linkEventArgs.Text,
-											(string.IsNullOrWhiteSpace(linkEventArgs.Target)) ? "" : " target=\"" + linkEventArgs.Target+ "\"",
+											(string.IsNullOrWhiteSpace(linkEventArgs.Target)) ? "" : " target=\"" + linkEventArgs.Target + "\"",
 											(string.IsNullOrWhiteSpace(linkEventArgs.CssClass)) ? "" : " class=\"" + linkEventArgs.CssClass + "\""
 											)
 							+ markup.Substring(iEnd + 2);
