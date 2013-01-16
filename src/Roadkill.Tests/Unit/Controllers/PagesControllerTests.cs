@@ -220,9 +220,76 @@ namespace Roadkill.Tests.Unit
 			Assert.That(_pages.Count, Is.EqualTo(1));
 		}
 
-		// controller.ByUser();
-		// controller.Delete();
-		// controller.Edit(); x2
+		[Test]
+		public void Edit_GET_Should_Redirect_With_Invalid_Page_Id()
+		{
+			// Arrange
+			PagesController controller = new PagesController(_config, _userManager, _settingsManager, _pageManager, null, _historyManager, _context);
+			MvcMockContainer mocksContainer = controller.SetFakeControllerContext();
+
+			// Act
+			ActionResult result = controller.Edit(1);
+
+			// Assert
+			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "ViewResult");
+			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
+			Assert.NotNull(redirectResult, "Null RedirectToRouteResult");
+
+			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("New"));
+		}
+
+		[Test]
+		public void Edit_GET_As_Editor_With_Locked_Page_Should_Return_403()
+		{
+			// Arrange
+			RoadkillContextStub contextStub = new RoadkillContextStub();
+			contextStub.IsAdmin = false;
+			PagesController controller = new PagesController(_config, _userManager, _settingsManager, _pageManager, null, _historyManager, contextStub);
+			MvcMockContainer mocksContainer = controller.SetFakeControllerContext();
+
+			Page page = new Page() { Id = 1, Tags = "a-tag,b-tag", Title = "Welcome", IsLocked = true };
+			PageContent page1Content = new PageContent() { Id = Guid.NewGuid(), Page = page, Text = "" };
+			_pages.Add(page);
+			_pagesContent.Add(page1Content);
+
+			// Act
+			ActionResult result = controller.Edit(page.Id);
+
+			// Assert
+			Assert.That(result, Is.TypeOf<HttpStatusCodeResult>(), "ViewResult");
+			HttpStatusCodeResult statusResult = result as HttpStatusCodeResult;
+			Assert.NotNull(statusResult, "Null RedirectToRouteResult");
+
+			Assert.That(statusResult.StatusCode, Is.EqualTo(403));
+		}
+
+		[Test]
+		public void Edit_GET_Should_Return_ViewResult()
+		{
+			// Arrange
+			PagesController controller = new PagesController(_config, _userManager, _settingsManager, _pageManager, null, _historyManager, _context);
+			MvcMockContainer mocksContainer = controller.SetFakeControllerContext();
+
+			Page page = new Page() { Id = 1, Tags = "tag1,tag2", Title = "Welcome to the site" };
+			PageContent pageContent = new PageContent() { Id = Guid.NewGuid(), Page = page, Text = "Hello world 1" };
+			_pages.Add(page);
+			_pagesContent.Add(pageContent);
+
+			// Act
+			ActionResult result = controller.Edit(page.Id);
+
+			// Assert
+			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
+			ViewResult viewResult = result as ViewResult;
+			Assert.NotNull(viewResult, "Null viewResult");
+
+			PageSummary model = result.ModelFromActionResult<PageSummary>();
+			Assert.NotNull(model, "Null model");
+			Assert.That(model.Id, Is.EqualTo(page.Id));
+			Assert.That(model.Content, Is.EqualTo(pageContent.Text));
+		}
+
+		// controller.Edit(); POST
 		// controller.GetPreview();
 		// controller.History();
 		// controller.New(); x2
