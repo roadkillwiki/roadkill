@@ -52,8 +52,7 @@ namespace Roadkill.Core
         /// <param name="group">The group from which users will be added to the principal list.</param>
         /// <param name="principals">The list of user principals.</param>
         private static void AddGroupMembers(GroupPrincipal group, List<PrincipalWrapper> principals)
-        {
-
+        {            
             using (PrincipalSearchResult<Principal> list = group.GetMembers())
             {
                 foreach (Principal principal in list)
