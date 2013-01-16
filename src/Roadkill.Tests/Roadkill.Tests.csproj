@@ -230,7 +230,7 @@
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\Setup\RequiresBrowserWithJavascriptAttribute.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
-    <Compile Include="Unit\ConfigurationContainerStub.cs" />
+    <Compile Include="Unit\Stubs\ConfigurationContainerStub.cs" />
     <Compile Include="Unit\Controllers\PagesControllerTests.cs" />
     <Compile Include="Unit\Controllers\WikiControllerTests.cs" />
     <Compile Include="Unit\Models\UserSummaryUsernameValidationTests.cs" />
@@ -238,6 +238,7 @@
     <Compile Include="Unit\Controllers\HomeControllerTests.cs" />
     <Compile Include="Unit\Controllers\Setup\MvcMockContainer.cs" />
     <Compile Include="Unit\Controllers\FilesControllerTests.cs" />
+    <Compile Include="Unit\Stubs\RoadkillContextStub.cs" />
     <Compile Include="Unit\Text\MarkdownTests.cs" />
     <Compile Include="Integration\RoadkillSettingsTests.cs" />
     <Compile Include="GlobalSetup.cs" />
