@@ -84,5 +84,22 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
 		}
+
+		[Test]
+		public void Tables_Should_Be_Created_Without_Header()
+		{
+			// Issue #95
+
+			// Arrange
+			string creoleText = @"|Cell 1.1 | Cell 1.2 |";
+			string expectedHtml = "<table><tr><td>Cell 1.1</td><td>Cell 1.2</td></tr>";
+
+			// Act
+			CreoleParser parser = new CreoleParser(new ConfigurationContainerStub());
+			string actualHtml = parser.Transform(creoleText);
+
+			// Assert
+			Assert.That(actualHtml, Contains.Substring(expectedHtml));
+		}
 	}
 }
