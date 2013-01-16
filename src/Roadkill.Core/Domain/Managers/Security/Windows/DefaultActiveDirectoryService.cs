@@ -32,18 +32,8 @@ namespace Roadkill.Core
 						if (group == null)
 							throw new InvalidOperationException(string.Format("The group {0} could not be found", groupName));
 
-						using (PrincipalSearchResult<Principal> list = group.GetMembers())
-						{
-							foreach (Principal user in list)
-							{
-								UserPrincipal userPrincipal = user as UserPrincipal;
-								if (userPrincipal != null)
-								{
-									results.Add(new PrincipalWrapper(userPrincipal));
-									userPrincipal.Dispose();
-								}
-							}
-						}
+                        // Add all of the members of this group, and any sub-group to the list of members.
+                        AddGroupMembers(group, results);
 					}
 				}
 				catch (Exception ex)
@@ -54,5 +44,38 @@ namespace Roadkill.Core
 
 			return results;
 		}
+
+        /// <summary>
+        /// This method adds all of the user principals in the specified group to the list of principals.
+        /// It will also include any user principal that is a member of a group within the specified group.
+        /// </summary>
+        /// <param name="group">The group from which users will be added to the principal list.</param>
+        /// <param name="principals">The list of user principals.</param>
+        private static void AddGroupMembers(GroupPrincipal group, List<PrincipalWrapper> principals)
+        {
+
+            using (PrincipalSearchResult<Principal> list = group.GetMembers())
+            {
+                foreach (Principal principal in list)
+                {
+                    UserPrincipal userPrincipal = principal as UserPrincipal;
+                    if (userPrincipal != null)
+                    {
+                        principals.Add(new PrincipalWrapper(userPrincipal));
+                        userPrincipal.Dispose();
+                    }
+                    else
+                    {
+                        GroupPrincipal groupPrincipal = principal as GroupPrincipal;
+
+                        if (groupPrincipal != null)
+                        {
+                            AddGroupMembers(groupPrincipal, principals);
+                        }
+                    }
+                }
+            }
+        }
+
 	}
 }
