@@ -289,6 +289,8 @@ namespace Roadkill.Tests.Unit
 			Assert.That(model.Content, Is.EqualTo(pageContent.Text));
 		}
 
+		// Document PrincipalWrapper
+		// Refactor so controller + page setup is inside a Setup()
 		// controller.Edit(); POST
 		// controller.GetPreview();
 		// controller.History();
