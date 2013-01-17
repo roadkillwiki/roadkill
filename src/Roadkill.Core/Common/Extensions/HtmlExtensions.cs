@@ -209,5 +209,19 @@ namespace Roadkill.Core
 				return MvcHtmlString.Empty;
 			}
 		}
+
+		/// <summary>
+		/// Gets the full path for the attachments folder, including any extra application paths from the url.
+		/// </summary>
+		public static MvcHtmlString GetAttachmentsPath(this UrlHelper helper, IConfigurationContainer config)
+		{
+			string attachmentsPath = config.ApplicationSettings.AttachmentsUrlPath;
+			if (helper.RequestContext.HttpContext != null)
+			{
+				attachmentsPath = helper.RequestContext.HttpContext.Request.ApplicationPath + attachmentsPath;
+			}
+
+			return MvcHtmlString.Create(attachmentsPath);
+		}
 	}
 }

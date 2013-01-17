@@ -100,7 +100,13 @@ namespace Roadkill.Core.Converters
 				string src = e.OriginalSrc;
 				src = _imgFileRegex.Replace(src, "");
 
-				string urlPath = _configuration.ApplicationSettings.AttachmentsUrlPath + (src.StartsWith("/") ? "" : "/") + src;
+				string attachmentsPath = _configuration.ApplicationSettings.AttachmentsUrlPath;
+				if (HttpContext.Current != null)
+				{
+					attachmentsPath = HttpContext.Current.Request.ApplicationPath + attachmentsPath;
+				}
+
+				string urlPath = attachmentsPath + (src.StartsWith("/") ? "" : "/") + src;
 				e.Src = ConvertToAbsolutePath(urlPath);
 			}
 		}
@@ -130,7 +136,13 @@ namespace Roadkill.Core.Converters
 						href = href.Remove(0, 1);
 					}
 
-					href = ConvertToAbsolutePath(_configuration.ApplicationSettings.AttachmentsUrlPath) + href;
+					string attachmentsPath = _configuration.ApplicationSettings.AttachmentsUrlPath;
+					if (HttpContext.Current != null)
+					{
+						attachmentsPath = HttpContext.Current.Request.ApplicationPath + attachmentsPath;
+					}
+
+					href = ConvertToAbsolutePath(attachmentsPath) + href;
 				}
 				else
 				{
