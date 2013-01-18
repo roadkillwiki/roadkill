@@ -12,6 +12,7 @@ using System.Web.UI;
 using System.IO;
 using Roadkill.Core.Configuration;
 using ControllerBase = Roadkill.Core.Controllers.ControllerBase;
+using Roadkill.Core.Files;
 
 namespace Roadkill.Core
 {
@@ -215,13 +216,7 @@ namespace Roadkill.Core
 		/// </summary>
 		public static MvcHtmlString GetAttachmentsPath(this UrlHelper helper, IConfigurationContainer config)
 		{
-			string attachmentsPath = config.ApplicationSettings.AttachmentsUrlPath;
-			if (helper.RequestContext.HttpContext != null)
-			{
-				attachmentsPath = helper.RequestContext.HttpContext.Request.ApplicationPath + attachmentsPath;
-			}
-
-			return MvcHtmlString.Create(attachmentsPath);
+			return MvcHtmlString.Create(AttachmentFileHandler.GetAttachmentsPath(config));
 		}
 	}
 }
