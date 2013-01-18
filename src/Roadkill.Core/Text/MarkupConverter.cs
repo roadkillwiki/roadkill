@@ -8,6 +8,8 @@ using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using Roadkill.Core.Configuration;
 using StructureMap;
+using System.IO;
+using Roadkill.Core.Files;
 
 namespace Roadkill.Core.Converters
 {
@@ -100,12 +102,7 @@ namespace Roadkill.Core.Converters
 				string src = e.OriginalSrc;
 				src = _imgFileRegex.Replace(src, "");
 
-				string attachmentsPath = _configuration.ApplicationSettings.AttachmentsUrlPath;
-				if (HttpContext.Current != null)
-				{
-					attachmentsPath = HttpContext.Current.Request.ApplicationPath + attachmentsPath;
-				}
-
+				string attachmentsPath = AttachmentFileHandler.GetAttachmentsPath(_configuration);
 				string urlPath = attachmentsPath + (src.StartsWith("/") ? "" : "/") + src;
 				e.Src = ConvertToAbsolutePath(urlPath);
 			}
@@ -136,12 +133,7 @@ namespace Roadkill.Core.Converters
 						href = href.Remove(0, 1);
 					}
 
-					string attachmentsPath = _configuration.ApplicationSettings.AttachmentsUrlPath;
-					if (HttpContext.Current != null)
-					{
-						attachmentsPath = HttpContext.Current.Request.ApplicationPath + attachmentsPath;
-					}
-
+					string attachmentsPath = AttachmentFileHandler.GetAttachmentsPath(_configuration);
 					href = ConvertToAbsolutePath(attachmentsPath) + href;
 				}
 				else

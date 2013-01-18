@@ -107,5 +107,23 @@ namespace Roadkill.Core.Files
 				return MimeMapping.GetMimeMapping("." +fileExtension);
 			}
 		}
+
+		internal static string GetAttachmentsPath(IConfigurationContainer configuration)
+		{
+			string attachmentsPath = configuration.ApplicationSettings.AttachmentsUrlPath;
+			if (HttpContext.Current != null)
+			{
+				string applicationPath = HttpContext.Current.Request.ApplicationPath;
+				if (!applicationPath.EndsWith("/"))
+					applicationPath += "/";
+
+				if (attachmentsPath.StartsWith("/"))
+					attachmentsPath = attachmentsPath.Remove(0, 1);
+
+				attachmentsPath = applicationPath + attachmentsPath;
+			}
+
+			return attachmentsPath;
+		}
 	}
 }
