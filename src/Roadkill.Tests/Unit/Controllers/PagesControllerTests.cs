@@ -26,19 +26,20 @@ namespace Roadkill.Tests.Unit
 		private PageManager _pageManager;
 		private HistoryManager _historyManager;
 		private SettingsManager _settingsManager;
-		private PagesController _pagesController;
 		private SearchManager _searchManager;
+		private PagesController _pagesController;
+		private MvcMockContainer _mocksContainer;
+		private RoadkillContextStub _contextStub;
 
 		private List<Page> _pages;
 		private List<PageContent> _pagesContent;
 
 		[SetUp]
-		public void Init()
+		public void Setup()
 		{
 			_pages = new List<Page>();
 			_pagesContent = new List<PageContent>();
 
-			_context = new Mock<IRoadkillContext>().Object;
 			_config = new RoadkillSettings();
 			_config.ApplicationSettings = new ApplicationSettings();
 			_config.SitePreferences = new SitePreferences() { AllowedFileTypes = "png, jpg" };
@@ -56,30 +57,43 @@ namespace Roadkill.Tests.Unit
 			_historyManager = new HistoryManager(_config, _repository, _context);
 			_settingsManager = new SettingsManager(_config, _repository);
 			_searchManager = new SearchManager(_config, _repository);
-			_pageManager = new PageManager(_config, _repository, _searchManager, _historyManager, _context);	
+			_pageManager = new PageManager(_config, _repository, _searchManager, _historyManager, _context);
 
-			_pagesController = new PagesController(_config, _userManager, _settingsManager, _pageManager, _searchManager, _historyManager, _context);
+			_contextStub = new RoadkillContextStub();
+			_pagesController = new PagesController(_config, _userManager, _settingsManager, _pageManager, _searchManager, _historyManager, _contextStub);
+			_mocksContainer = _pagesController.SetFakeControllerContext();
+		}
+
+		private Page AddDummyPage1()
+		{
+			Page page1 = new Page() { Id = 1, Tags = "tag1,tag2", Title = "Welcome to the site", CreatedBy = "admin" };
+			PageContent page1Content = new PageContent() { Id = Guid.NewGuid(), Page = page1, Text = "Hello world 1" };
+			_pages.Add(page1);
+			_pagesContent.Add(page1Content);
+
+			return page1;
+		}
+
+		private Page AddDummyPage2()
+		{
+			Page page2 = new Page() { Id = 50, Tags = "anothertag", Title = "Page 2" };
+			PageContent page2Content = new PageContent() { Id = Guid.NewGuid(), Page = page2, Text = "Hello world 2" };
+			_pages.Add(page2);
+			_pagesContent.Add(page2Content);
+
+			return page2;
 		}
 
 		[Test]
 		public void AllPages_Should_Return_Model_And_Pages()
 		{
 			// Arrange
-			PagesController controller = new PagesController(_config, _userManager, _settingsManager, _pageManager, null, _historyManager, _context);
-			MvcMockContainer mocksContainer = controller.SetFakeControllerContext();
-			
-			Page page1 = new Page() {Id = 1, Tags = "homepage, tag2", Title = "Welcome to the site"};
-			PageContent page1Content = new PageContent() { Id = Guid.NewGuid(), Page = page1, Text = "Hello world 1" };
-			_pages.Add(page1);
-			_pagesContent.Add(page1Content);
-
-			Page page2 = new Page() { Id = 50, Tags = "anothertag", Title = "Page 2" };
-			PageContent page2Content = new PageContent() { Id = Guid.NewGuid(), Page = page2, Text = "Hello world 2" };
-			_pages.Add(page2);
-			_pagesContent.Add(page2Content);
+			Page page1 = AddDummyPage1();
+			Page page2 = AddDummyPage2();
+			PageContent page1Content = _pagesContent.First(p => p.Page.Id == page1.Id);
 
 			// Act
-			ActionResult result = controller.AllPages();
+			ActionResult result = _pagesController.AllPages();
 
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
@@ -97,21 +111,14 @@ namespace Roadkill.Tests.Unit
 		public void AllTags_Should_Return_Model_And_Tags()
 		{
 			// Arrange
-			PagesController controller = new PagesController(_config, _userManager, _settingsManager, _pageManager, null, _historyManager, _context);
-			MvcMockContainer mocksContainer = controller.SetFakeControllerContext();
+			Page page1 = AddDummyPage1();
+			page1.Tags = "a-tag,b-tag";
 
-			Page page1 = new Page() { Id = 1, Tags = "a-tag,b-tag", Title = "Welcome to the site" };
-			PageContent page1Content = new PageContent() { Id = Guid.NewGuid(), Page = page1, Text = "Hello world 1" };
-			_pages.Add(page1);
-			_pagesContent.Add(page1Content);
-
-			Page page2 = new Page() { Id = 50, Tags = "z-tag,a-tag", Title = "Page 2" };
-			PageContent page2Content = new PageContent() { Id = Guid.NewGuid(), Page = page2, Text = "Hello world 2" };
-			_pages.Add(page2);
-			_pagesContent.Add(page2Content);
+			Page page2 = AddDummyPage2();
+			page2.Tags = "z-tag,a-tag";
 
 			// Act
-			ActionResult result = controller.AllTags();
+			ActionResult result = _pagesController.AllTags();
 
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
@@ -129,21 +136,14 @@ namespace Roadkill.Tests.Unit
 		public void AllTagsAsJson_Should_Return_Model_And_Tags()
 		{
 			// Arrange
-			PagesController controller = new PagesController(_config, _userManager, _settingsManager, _pageManager, null, _historyManager, _context);
-			MvcMockContainer mocksContainer = controller.SetFakeControllerContext();
+			Page page1 = AddDummyPage1();
+			page1.Tags = "a-tag,b-tag";
 
-			Page page1 = new Page() { Id = 1, Tags = "a-tag,b-tag", Title = "Welcome to the site" };
-			PageContent page1Content = new PageContent() { Id = Guid.NewGuid(), Page = page1, Text = "Hello world 1" };
-			_pages.Add(page1);
-			_pagesContent.Add(page1Content);
-
-			Page page2 = new Page() { Id = 50, Tags = "z-tag,a-tag", Title = "Page 2" };
-			PageContent page2Content = new PageContent() { Id = Guid.NewGuid(), Page = page2, Text = "Hello world 2" };
-			_pages.Add(page2);
-			_pagesContent.Add(page2Content);
+			Page page2 = AddDummyPage2();
+			page2.Tags = "z-tag,a-tag";
 
 			// Act
-			ActionResult result = controller.AllTagsAsJson();		
+			ActionResult result = _pagesController.AllTagsAsJson();		
 
 			// Assert
 			Assert.That(result, Is.TypeOf<JsonResult>(), "ViewResult");
@@ -159,25 +159,20 @@ namespace Roadkill.Tests.Unit
 		public void ByUser_Should_Contains_ViewData_And_Return_Model_And_Pages()
 		{
 			// Arrange
-			PagesController controller = new PagesController(_config, _userManager, _settingsManager, _pageManager, null, _historyManager, _context);
-			MvcMockContainer mocksContainer = controller.SetFakeControllerContext();
 			string username = "amazinguser";
 
-			Page page1 = new Page() { Id = 1, Tags = "a-tag,b-tag", Title = "Welcome to the site", CreatedBy = username };
-			PageContent page1Content = new PageContent() { Id = Guid.NewGuid(), Page = page1, Text = "Hello world 1" };
-			_pages.Add(page1);
-			_pagesContent.Add(page1Content);
+			Page page1 = AddDummyPage1();
+			page1.CreatedBy = username;
+			PageContent page1Content = _pagesContent.First(p => p.Page.Id == page1.Id);
 
-			Page page2 = new Page() { Id = 50, Tags = "z-tag,a-tag", Title = "Page 2", CreatedBy = username };
-			PageContent page2Content = new PageContent() { Id = Guid.NewGuid(), Page = page2, Text = "Hello world 2" };
-			_pages.Add(page2);
-			_pagesContent.Add(page2Content);
+			Page page2 = AddDummyPage2();
+			page2.CreatedBy = username;
 
 			// Act
-			ActionResult result = controller.ByUser(username, false);
+			ActionResult result = _pagesController.ByUser(username, false);
 
 			// Assert
-			Assert.That(controller.ViewData.Keys.Count, Is.GreaterThanOrEqualTo(1));
+			Assert.That(_pagesController.ViewData.Keys.Count, Is.GreaterThanOrEqualTo(1));
 
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 			IEnumerable<PageSummary> model = result.ModelFromActionResult<IEnumerable<PageSummary>>();
@@ -195,21 +190,11 @@ namespace Roadkill.Tests.Unit
 		public void Delete_Should_Contains_Redirect_And_Remove_Page()
 		{
 			// Arrange
-			PagesController controller = new PagesController(_config, _userManager, _settingsManager, _pageManager, null, _historyManager, _context);
-			MvcMockContainer mocksContainer = controller.SetFakeControllerContext();
-
-			Page page1 = new Page() { Id = 1, Tags = "a-tag,b-tag", Title = "Welcome to the site"};
-			PageContent page1Content = new PageContent() { Id = Guid.NewGuid(), Page = page1, Text = "Hello world 1" };
-			_pages.Add(page1);
-			_pagesContent.Add(page1Content);
-
-			Page page2 = new Page() { Id = 50, Tags = "z-tag,a-tag", Title = "Page 2"};
-			PageContent page2Content = new PageContent() { Id = Guid.NewGuid(), Page = page2, Text = "Hello world 2" };
-			_pages.Add(page2);
-			_pagesContent.Add(page2Content);
+			Page page1 = AddDummyPage1();
+			Page page2 = AddDummyPage2();
 
 			// Act
-			ActionResult result = controller.Delete(50);
+			ActionResult result = _pagesController.Delete(50);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "ViewResult");
@@ -224,11 +209,9 @@ namespace Roadkill.Tests.Unit
 		public void Edit_GET_Should_Redirect_With_Invalid_Page_Id()
 		{
 			// Arrange
-			PagesController controller = new PagesController(_config, _userManager, _settingsManager, _pageManager, null, _historyManager, _context);
-			MvcMockContainer mocksContainer = controller.SetFakeControllerContext();
 
 			// Act
-			ActionResult result = controller.Edit(1);
+			ActionResult result = _pagesController.Edit(1);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "ViewResult");
@@ -242,18 +225,12 @@ namespace Roadkill.Tests.Unit
 		public void Edit_GET_As_Editor_With_Locked_Page_Should_Return_403()
 		{
 			// Arrange
-			RoadkillContextStub contextStub = new RoadkillContextStub();
-			contextStub.IsAdmin = false;
-			PagesController controller = new PagesController(_config, _userManager, _settingsManager, _pageManager, null, _historyManager, contextStub);
-			MvcMockContainer mocksContainer = controller.SetFakeControllerContext();
-
-			Page page = new Page() { Id = 1, Tags = "a-tag,b-tag", Title = "Welcome", IsLocked = true };
-			PageContent page1Content = new PageContent() { Id = Guid.NewGuid(), Page = page, Text = "" };
-			_pages.Add(page);
-			_pagesContent.Add(page1Content);
+			_contextStub.IsAdmin = false;
+			Page page1 = AddDummyPage1();
+			page1.IsLocked = true;
 
 			// Act
-			ActionResult result = controller.Edit(page.Id);
+			ActionResult result = _pagesController.Edit(page1.Id);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<HttpStatusCodeResult>(), "ViewResult");
@@ -267,16 +244,11 @@ namespace Roadkill.Tests.Unit
 		public void Edit_GET_Should_Return_ViewResult()
 		{
 			// Arrange
-			PagesController controller = new PagesController(_config, _userManager, _settingsManager, _pageManager, null, _historyManager, _context);
-			MvcMockContainer mocksContainer = controller.SetFakeControllerContext();
-
-			Page page = new Page() { Id = 1, Tags = "tag1,tag2", Title = "Welcome to the site" };
-			PageContent pageContent = new PageContent() { Id = Guid.NewGuid(), Page = page, Text = "Hello world 1" };
-			_pages.Add(page);
-			_pagesContent.Add(pageContent);
+			Page page = AddDummyPage1();
+			PageContent pageContent = _pagesContent.First(p => p.Page.Id == page.Id);
 
 			// Act
-			ActionResult result = controller.Edit(page.Id);
+			ActionResult result = _pagesController.Edit(page.Id);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
@@ -289,8 +261,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(model.Content, Is.EqualTo(pageContent.Text));
 		}
 
-		// Document PrincipalWrapper
-		// Refactor so controller + page setup is inside a Setup()
+		
 		// controller.Edit(); POST
 		// controller.GetPreview();
 		// controller.History();
@@ -298,5 +269,6 @@ namespace Roadkill.Tests.Unit
 		// controller.Revert();
 		// controller.Tag()
 		// controller.Version();
+		// Document PrincipalWrapper
 	}
 }
