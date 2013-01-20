@@ -20,7 +20,7 @@ namespace Roadkill.Tests.Acceptance
 		[SetUp]
 		public void Setup()
 		{
-			_baseUrl = "http://roadkill.apphb.com";
+			_baseUrl = "http://www.roadkillwiki.net";
 			_driver = new SimpleBrowserDriver();
 			_driver.Navigate().GoToUrl(_baseUrl);
 		}

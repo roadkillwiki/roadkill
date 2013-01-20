@@ -3,14 +3,13 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Roadkill.Core;
-using Roadkill.Tests.Core;
 using NUnit.Framework;
 using Moq;
 using System.DirectoryServices.AccountManagement;
 using Moq.Language.Flow;
 using Roadkill.Core.Configuration;
 
-namespace Roadkill.Tests.Core
+namespace Roadkill.Tests.Unit
 {
 	/// <summary>
 	/// Tests the ActiveDirectory User manager class using stubs for the service.
