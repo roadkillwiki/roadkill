@@ -124,7 +124,8 @@ namespace Roadkill.Core
 					x.For<IRoadkillContext>().HybridHttpOrThreadLocalScoped().Use(context);
 				}
 
-				x.For<IActiveDirectoryService>().HybridHttpOrThreadLocalScoped().Use<DefaultActiveDirectoryService>();				
+				x.For<IActiveDirectoryService>().HybridHttpOrThreadLocalScoped().Use<DefaultActiveDirectoryService>();
+				x.For<IPageManager>().HybridHttpOrThreadLocalScoped().Use<PageManager>();	
 			});
 
 			ObjectFactory.Configure(x =>
