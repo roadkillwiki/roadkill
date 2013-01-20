@@ -81,7 +81,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The tags for the for the page.
+		/// The tags for the page - these are given by the page in command separated format.
 		/// </summary>
 		public string RawTags
 		{

@@ -19,7 +19,6 @@ namespace Roadkill.Tests.Unit
 	public class PagesControllerTests
 	{
 		private IConfigurationContainer _config;
-		private IRoadkillContext _context;
 		private IRepository _repository;
 
 		private UserManager _userManager;
@@ -39,6 +38,7 @@ namespace Roadkill.Tests.Unit
 		{
 			_pages = new List<Page>();
 			_pagesContent = new List<PageContent>();
+			_contextStub = new RoadkillContextStub();
 
 			_config = new RoadkillSettings();
 			_config.ApplicationSettings = new ApplicationSettings();
@@ -54,12 +54,11 @@ namespace Roadkill.Tests.Unit
 
 			_repository = repositoryMock.Object;
 			_userManager = new Mock<UserManager>(_config, _repository).Object;
-			_historyManager = new HistoryManager(_config, _repository, _context);
+			_historyManager = new HistoryManager(_config, _repository, _contextStub);
 			_settingsManager = new SettingsManager(_config, _repository);
 			_searchManager = new SearchManager(_config, _repository);
-			_pageManager = new PageManager(_config, _repository, _searchManager, _historyManager, _context);
+			_pageManager = new PageManager(_config, _repository, _searchManager, _historyManager, _contextStub);
 
-			_contextStub = new RoadkillContextStub();
 			_pagesController = new PagesController(_config, _userManager, _settingsManager, _pageManager, _searchManager, _historyManager, _contextStub);
 			_mocksContainer = _pagesController.SetFakeControllerContext();
 		}
@@ -261,8 +260,54 @@ namespace Roadkill.Tests.Unit
 			Assert.That(model.Content, Is.EqualTo(pageContent.Text));
 		}
 
+		[Test]
+		public void Edit_POST_Should_Return_RedirectResult_And_Save()
+		{
+			// Arrange
+			_contextStub.CurrentUser = "Admin";
+			Page page = AddDummyPage1();
+
+			PageSummary summary = new PageSummary();
+			summary.Id = page.Id;
+			summary.RawTags = "newtag1,newtag2";
+			summary.Title = "New page title";
+			summary.Content = "*Some new content here*";
+
+			// Act
+			ActionResult result = _pagesController.Edit(summary);
+
+			// Assert
+			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "ViewResult");
+			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
+			Assert.NotNull(redirectResult, "Null RedirectToRouteResult");
+
+			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Index"));
+			Assert.That(redirectResult.RouteValues["controller"], Is.EqualTo("Wiki"));
+			Assert.That(_pages.Count, Is.EqualTo(1));
+			Assert.That(_pages[0].Title, Is.EqualTo(summary.Title));
+			Assert.That(_pages[0].Tags, Is.EqualTo(summary.RawTags));
+			Assert.That(_pagesContent[0].Text, Is.EqualTo(summary.Content));
+		}
+
+		[Test]
+		public void Edit_POST_With_Invalid_Data_Should_Return_View_And_Invalid_ModelState()
+		{
+			// Arrange
+			_contextStub.CurrentUser = "Admin";
+			Page page = AddDummyPage1();
+
+			PageSummary summary = new PageSummary();
+			summary.Id = page.Id;
+
+			// Act
+			_pagesController.ModelState.AddModelError("Title", "You forgot it");
+			ActionResult result = _pagesController.Edit(summary);
+
+			// Assert
+			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
+			Assert.False(_pagesController.ModelState.IsValid);
+		}
 		
-		// controller.Edit(); POST
 		// controller.GetPreview();
 		// controller.History();
 		// controller.New(); x2
