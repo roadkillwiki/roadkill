@@ -237,6 +237,7 @@
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
     <Compile Include="Controllers\RoadkillViewPage.cs" />
+    <Compile Include="Domain\Managers\IPageManager.cs" />
     <Compile Include="Domain\NHibernate\PageMap.cs" />
     <Compile Include="Domain\NHibernate\PageContentMap.cs" />
     <Compile Include="Domain\NHibernate\SitePreferencesMap.cs" />
