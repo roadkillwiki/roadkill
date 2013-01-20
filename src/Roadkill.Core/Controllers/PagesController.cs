@@ -17,12 +17,12 @@ namespace Roadkill.Core.Controllers
 	public class PagesController : ControllerBase
 	{
 		private SettingsManager _settingsManager;
-		private PageManager _pageManager;
+		private IPageManager _pageManager;
 		private SearchManager _searchManager;
 		private HistoryManager _historyManager;
 
 		public PagesController(IConfigurationContainer configuration, UserManager userManager,
-			SettingsManager settingsManager, PageManager pageManager, SearchManager searchManager,
+			SettingsManager settingsManager, IPageManager pageManager, SearchManager searchManager,
 			HistoryManager historyManager, IRoadkillContext context)
 			: base(configuration, userManager, context)
 		{

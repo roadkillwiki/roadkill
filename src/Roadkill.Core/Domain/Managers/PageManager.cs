@@ -19,7 +19,7 @@ namespace Roadkill.Core
 	/// <summary>
 	/// Provides a set of tasks for wiki page management.
 	/// </summary>
-	public class PageManager : ServiceBase
+	public class PageManager : ServiceBase, IPageManager
 	{
 		private SearchManager _searchManager;
 		private MarkupConverter _markupConverter;
@@ -107,10 +107,10 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Alls the pages created by.
+		/// Gets alls the pages created by a user.
 		/// </summary>
 		/// <param name="userName">Name of the user.</param>
-		/// <returns></returns>
+		/// <returns>All pages created by the provided user, or an empty list if none are found.</returns>
 		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while retrieving the list.</exception>
 		public IEnumerable<PageSummary> AllPagesCreatedBy(string userName)
 		{
@@ -238,7 +238,7 @@ namespace Roadkill.Core
 		/// Finds all pages with the given tag.
 		/// </summary>
 		/// <param name="tag">The tag to search for.</param>
-		/// <returns>A <see cref="IEnumerable`PageSummary"/> of pages tagged with the provided tag.</returns>
+		/// <returns>A <see cref="IEnumerable{PageSummary}"/> of pages tagged with the provided tag.</returns>
 		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while getting the list.</exception>
 		public IEnumerable<PageSummary> FindByTag(string tag)
 		{
@@ -419,6 +419,11 @@ namespace Roadkill.Core
 			return result;
 		}
 
+		/// <summary>
+		/// Updates all links in pages to another page, when that page's title is changed.
+		/// </summary>
+		/// <param name="oldTitle">The previous page title.</param>
+		/// <param name="newTitle">The new page title.</param>
 		public void UpdateLinksToPage(string oldTitle, string newTitle)
 		{
 			foreach (PageContent content in Repository.PageContents)
@@ -434,6 +439,10 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Retrieves the <see cref="MarkupConverter"/> used by this pagemanager.
+		/// </summary>
+		/// <returns></returns>
 		public MarkupConverter GetMarkupConverter()
 		{
 			return new MarkupConverter(Configuration, Repository);
