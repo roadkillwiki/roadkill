@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -71,7 +72,7 @@ namespace Roadkill.Tests.Unit
 		private Page AddDummyPage1()
 		{
 			Page page1 = new Page() { Id = 1, Tags = "tag1,tag2", Title = "Welcome to the site", CreatedBy = "admin" };
-			PageContent page1Content = new PageContent() { Id = Guid.NewGuid(), Page = page1, Text = "Hello world 1" };
+			PageContent page1Content = new PageContent() { Id = Guid.NewGuid(), Page = page1, Text = "Hello world 1", VersionNumber = 1 };
 			_pages.Add(page1);
 			_pagesContent.Add(page1Content);
 
@@ -316,8 +317,29 @@ namespace Roadkill.Tests.Unit
 			JavaScriptResult javascriptResult = result as JavaScriptResult;
 			Assert.That(javascriptResult.Script, Contains.Substring(_pagesContent[0].Text));
 		}
+
+		[Test]
+		public void History_Returns_ViewResult_And_Model_With_Two_Versions()
+		{
+			// Arrange
+			Page page = AddDummyPage1();
+			_pagesContent.Add(new PageContent() { VersionNumber = 2, Page = page, Id = Guid.NewGuid(), Text = "v2text" });
+
+			// Act
+			ActionResult result = _pagesController.History(page.Id);
+
+			// Assert
+			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
+			ViewResult viewResult = result as ViewResult;
+
+			List<HistorySummary> model = viewResult.ModelFromActionResult<IEnumerable<HistorySummary>>().ToList();
+			Assert.That(model.Count, Is.EqualTo(2));
+			Assert.That(model[0].PageId, Is.EqualTo(page.Id));
+			Assert.That(model[1].PageId, Is.EqualTo(page.Id));
+			Assert.That(model[0].VersionNumber, Is.EqualTo(2)); // latest first
+			Assert.That(model[1].VersionNumber, Is.EqualTo(1));
+		}
 		
-		// controller.History();
 		// controller.New(); x2
 		// controller.Revert();
 		// controller.Tag()
