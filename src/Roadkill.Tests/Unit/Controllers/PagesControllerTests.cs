@@ -61,6 +61,7 @@ namespace Roadkill.Tests.Unit
 			_settingsManager = new SettingsManager(_config, _repository);
 			_searchManager = new SearchManager(_config, _repository);
 			_pageManagerMock = new Mock<IPageManager>();
+			_pageManagerMock.Setup(x => x.GetMarkupConverter()).Returns(new MarkupConverter(_config, _repository));
 			_pageManager = _pageManagerMock.Object;
 
 			_pagesController = new PagesController(_config, _userManager, _settingsManager, _pageManager, _searchManager, _historyManager, _contextStub);
@@ -297,8 +298,25 @@ namespace Roadkill.Tests.Unit
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 			Assert.False(_pagesController.ModelState.IsValid);
 		}
+
+		[Test]
+		public void GetPreview_Should_Return_JavascriptResult_And_Page_Content()
+		{
+			// Arrange
+			_contextStub.CurrentUser = "Admin";
+			Page page = AddDummyPage1();
+
+			// Act
+			ActionResult result = _pagesController.GetPreview(_pagesContent[0].Text);
+
+			// Assert
+			_pageManagerMock.Verify(x => x.GetMarkupConverter());
+
+			Assert.That(result, Is.TypeOf<JavaScriptResult>(), "ViewResult");
+			JavaScriptResult javascriptResult = result as JavaScriptResult;
+			Assert.That(javascriptResult.Script, Contains.Substring(_pagesContent[0].Text));
+		}
 		
-		// controller.GetPreview();
 		// controller.History();
 		// controller.New(); x2
 		// controller.Revert();
