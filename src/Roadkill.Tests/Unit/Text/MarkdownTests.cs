@@ -16,8 +16,6 @@ namespace Roadkill.Tests.Unit
 	[Category("Unit")]
 	public class MarkdownParserTests
 	{
-
-
 		[Test]
 		public void Internal_Links_Should_Resolve_With_Id()
 		{

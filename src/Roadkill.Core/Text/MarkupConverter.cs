@@ -27,6 +27,7 @@ namespace Roadkill.Core.Converters
 		public Func<string,string> AbsolutePathConverter { get; set; }
 		public Func<int, string, string> InternalUrlForTitle { get; set; }
 		public Func<string, string> NewPageUrlForTitle { get; set; }
+		private List<string> _linkIgnorePrefixes;
 		
 		public IMarkupParser Parser
 		{
@@ -42,6 +43,16 @@ namespace Roadkill.Core.Converters
 			AbsolutePathConverter = ConvertToAbsolutePath;
 			InternalUrlForTitle = GetUrlForTitle;
 			NewPageUrlForTitle = GetNewPageUrlForTitle;
+
+			_linkIgnorePrefixes = new List<string>()
+			{
+				"http://",
+				"https://",
+				"www.",
+				"mailto:",
+				"#",
+				"tag:"
+			};
 
 			_repository = repository;
 			_configuration = configuration;
@@ -113,7 +124,7 @@ namespace Roadkill.Core.Converters
 		/// </summary>
 		private void LinkParsed(object sender, LinkEventArgs e)
 		{
-			if (!e.OriginalHref.StartsWith("http://") && !e.OriginalHref.StartsWith("https://") && !e.OriginalHref.StartsWith("www.") && !e.OriginalHref.StartsWith("mailto:") && !e.OriginalHref.StartsWith("tag:"))
+			if (!_linkIgnorePrefixes.Any(x =>  e.OriginalHref.StartsWith(x)))
 			{
 				string href = e.OriginalHref;
 				string lowerHref = href.ToLower();
