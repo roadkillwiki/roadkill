@@ -27,7 +27,7 @@ namespace Roadkill.Core
 		/// Retrieves all history for a page.
 		/// </summary>
 		/// <param name="pageId">The id of the page to get the history for.</param>
-		/// <returns>An <see cref="IEnumerable`HistorySummary"/> ordered by the most recent version number.</returns>
+		/// <returns>An <see cref="IEnumerable{HistorySummary}"/> ordered by the most recent version number.</returns>
 		/// <exception cref="HistoryException">An NHibernate (database) error occurred while retrieving the list.</exception>
 		public IEnumerable<HistorySummary> GetHistory(int pageId)
 		{
@@ -134,7 +134,8 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Reverts to a particular version, creating a new version in the process.
 		/// </summary>
-		/// <param name="versionNumber">The version ID to revert to.</param>
+		/// <param name="versionId">The version ID to revert to.</param>
+		/// <param name="context">The current logged in user's context.</param>
 		/// <exception cref="HistoryException">An NHibernate (database) error occurred while reverting to the version.</exception>
 		public void RevertTo(Guid versionId, IRoadkillContext context)
 		{
