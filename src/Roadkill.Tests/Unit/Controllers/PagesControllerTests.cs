@@ -33,6 +33,7 @@ namespace Roadkill.Tests.Unit
 		private PagesController _pagesController;
 		private MvcMockContainer _mocksContainer;
 		private RoadkillContextStub _contextStub;
+		private MarkupConverter _markupConverter;
 		
 		private List<Page> _pages;
 		private List<PageContent> _pagesContent;
@@ -61,8 +62,20 @@ namespace Roadkill.Tests.Unit
 			_historyManager = new HistoryManager(_config, _repository, _contextStub);
 			_settingsManager = new SettingsManager(_config, _repository);
 			_searchManager = new SearchManager(_config, _repository);
+
+			_markupConverter = new MarkupConverter(_config, _repository);
 			_pageManagerMock = new Mock<IPageManager>();
 			_pageManagerMock.Setup(x => x.GetMarkupConverter()).Returns(new MarkupConverter(_config, _repository));
+			_pageManagerMock.Setup(x => x.GetById(It.IsAny<int>())).Returns<int>(x =>
+				{
+					PageContent content = _pagesContent.FirstOrDefault(p => p.Page.Id == x);
+
+					if (content != null)
+						return content.ToSummary(_markupConverter);
+					else
+						return null;
+				});
+			_pageManagerMock.Setup(x => x.FindByTag(It.IsAny<string>()));
 			_pageManager = _pageManagerMock.Object;
 
 			_pagesController = new PagesController(_config, _userManager, _settingsManager, _pageManager, _searchManager, _historyManager, _contextStub);
@@ -145,7 +158,7 @@ namespace Roadkill.Tests.Unit
 			ActionResult result = _pagesController.AllTagsAsJson();		
 
 			// Assert
-			Assert.That(result, Is.TypeOf<JsonResult>(), "ViewResult");
+			Assert.That(result, Is.TypeOf<JsonResult>(), "JsonResult");
 
 			JsonResult jsonResult = result as JsonResult;
 			Assert.NotNull(jsonResult, "Null jsonResult");
@@ -191,7 +204,7 @@ namespace Roadkill.Tests.Unit
 			ActionResult result = _pagesController.Delete(50);
 
 			// Assert
-			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "ViewResult");
+			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "RedirectToRouteResult");
 			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
 			Assert.NotNull(redirectResult, "Null RedirectToRouteResult");
 
@@ -208,7 +221,7 @@ namespace Roadkill.Tests.Unit
 			ActionResult result = _pagesController.Edit(1);
 
 			// Assert
-			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "ViewResult");
+			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "RedirectToRouteResult");
 			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
 			Assert.NotNull(redirectResult, "Null RedirectToRouteResult");
 
@@ -228,9 +241,9 @@ namespace Roadkill.Tests.Unit
 			ActionResult result = _pagesController.Edit(page.Id);
 
 			// Assert
-			Assert.That(result, Is.TypeOf<HttpStatusCodeResult>(), "ViewResult");
+			Assert.That(result, Is.TypeOf<HttpStatusCodeResult>(), "HttpStatusCodeResult");
 			HttpStatusCodeResult statusResult = result as HttpStatusCodeResult;
-			Assert.NotNull(statusResult, "Null RedirectToRouteResult");
+			Assert.NotNull(statusResult, "Null HttpStatusCodeResult");
 
 			Assert.That(statusResult.StatusCode, Is.EqualTo(403));
 		}
@@ -271,7 +284,7 @@ namespace Roadkill.Tests.Unit
 			ActionResult result = _pagesController.Edit(summary);
 
 			// Assert
-			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "ViewResult");
+			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "RedirectToRouteResult");
 			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
 			Assert.NotNull(redirectResult, "Null RedirectToRouteResult");
 
@@ -313,7 +326,7 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			_pageManagerMock.Verify(x => x.GetMarkupConverter());
 
-			Assert.That(result, Is.TypeOf<JavaScriptResult>(), "ViewResult");
+			Assert.That(result, Is.TypeOf<JavaScriptResult>(), "JavaScriptResult");
 			JavaScriptResult javascriptResult = result as JavaScriptResult;
 			Assert.That(javascriptResult.Script, Contains.Substring(_pagesContent[0].Text));
 		}
@@ -339,11 +352,166 @@ namespace Roadkill.Tests.Unit
 			Assert.That(model[0].VersionNumber, Is.EqualTo(2)); // latest first
 			Assert.That(model[1].VersionNumber, Is.EqualTo(1));
 		}
-		
-		// controller.New(); x2
-		// controller.Revert();
-		// controller.Tag()
-		// controller.Version();
-		// Document PrincipalWrapper
+
+		[Test]
+		public void New_GET_Should_Return_ViewResult()
+		{
+			// Arrange
+			string title = "my title";
+
+			// Act
+			ActionResult result = _pagesController.New(title);
+
+			// Assert
+			Assert.That(result, Is.TypeOf<ViewResult>(), "ActionResult is not a ViewResult");
+			ViewResult viewResult = result as ViewResult;
+			Assert.NotNull(viewResult, "Null viewResult");
+			Assert.That(viewResult.ViewName, Is.EqualTo("Edit"));
+			
+			PageSummary summary = viewResult.ModelFromActionResult<PageSummary>();
+			Assert.NotNull(summary, "Null model");
+			Assert.That(summary.Title, Is.EqualTo(title));
+		}
+
+		[Test]
+		public void New_POST_Should_Return_RedirectResult_And_Call_PageManager()
+		{
+			// Arrange
+			PageSummary summary = new PageSummary();
+			summary.RawTags = "newtag1,newtag2";
+			summary.Title = "New page title";
+			summary.Content = "*Some new content here*";
+
+			_pageManagerMock.Setup(x => x.AddPage(summary)).Returns(() =>
+			{
+				_pages.Add(new Page() { Id = 50, Title = summary.Title, Tags = summary.RawTags });
+				_pagesContent.Add(new PageContent() { Id = Guid.NewGuid(), Text = summary.Content });
+				summary.Id = 50;
+
+				return summary;
+			});
+
+			// Act
+			ActionResult result = _pagesController.New(summary);
+
+			// Assert
+			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "RedirectToRouteResult not returned");
+			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
+			Assert.NotNull(redirectResult, "Null RedirectToRouteResult");
+
+			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Index"));
+			Assert.That(redirectResult.RouteValues["controller"], Is.EqualTo("Wiki"));
+			Assert.That(_pages.Count, Is.EqualTo(1));
+			_pageManagerMock.Verify(x => x.AddPage(summary));
+		}
+
+		[Test]
+		public void New_POST_With_Invalid_Data_Should_Return_View_And_Invalid_ModelState()
+		{
+			// Arrange
+			PageSummary summary = new PageSummary();
+			summary.Title = "";
+
+			// Act
+			_pagesController.ModelState.AddModelError("Title", "You forgot it");
+			ActionResult result = _pagesController.New(summary);
+
+			// Assert
+			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
+			Assert.False(_pagesController.ModelState.IsValid);
+		}
+
+		[Test]
+		public void Revert_Should_Return_RedirectToRouteResult_With_Page_Id()
+		{
+			// Arrange
+			_contextStub.IsAdmin = true;
+			Page page = AddDummyPage1();
+
+			Guid version2Guid = Guid.NewGuid();
+			Guid version3Guid = Guid.NewGuid();
+
+			_pagesContent.Add(new PageContent() { Id = version2Guid, Page = page, Text = "version2 text"});
+			_pagesContent.Add(new PageContent() { Id = version3Guid, Page = page, Text = "version3 text"});
+
+			// Act
+			ActionResult result = _pagesController.Revert(version2Guid, page.Id);
+
+			// Assert
+			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "RedirectToRouteResult not returned");
+			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
+			Assert.NotNull(redirectResult, "Null RedirectToRouteResult");
+
+			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("History"));
+			Assert.That(redirectResult.RouteValues["id"], Is.EqualTo(1));
+		}
+
+		[Test]
+		public void Revert_As_Editor_And_Locked_Page_Should_Return_RedirectToRouteResult_To_Index()
+		{
+			// Arrange
+			Page page = AddDummyPage1();
+			page.IsLocked = true;
+
+			Guid version2Guid = Guid.NewGuid();
+			Guid version3Guid = Guid.NewGuid();
+
+			_pagesContent.Add(new PageContent() { Id = version2Guid, Page = page, Text = "version2 text" });
+			_pagesContent.Add(new PageContent() { Id = version3Guid, Page = page, Text = "version3 text" });
+
+			// Act
+			ActionResult result = _pagesController.Revert(version2Guid, page.Id);
+
+			// Assert
+			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "RedirectToRouteResult not returned");
+			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
+			Assert.NotNull(redirectResult, "Null RedirectToRouteResult");
+
+			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Index"));
+			Assert.That(redirectResult.RouteValues["controller"], Is.EqualTo("Home"));
+		}
+
+		[Test]
+		public void Tag_Returns_ViewResult_And_Calls_PageManager()
+		{
+			// Arrange
+			Page page1 = AddDummyPage1();
+			Page page2 = AddDummyPage2();
+			page1.Tags = "tag1,tag2";
+			page2.Tags = "tag2";
+
+			// Act
+			ActionResult result = _pagesController.Tag("tag2");
+
+			// Assert
+			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
+			ViewResult viewResult = result as ViewResult;
+			_pageManagerMock.Verify(x => x.FindByTag("tag2"));
+		}
+
+		[Test]
+		public void Version_Should_Return_ViewResult_And_PageSummary_Model()
+		{
+			// Arrange
+			Page page = AddDummyPage1();
+			page.IsLocked = true;
+
+			Guid version2Guid = Guid.NewGuid();
+			Guid version3Guid = Guid.NewGuid();
+
+			_pagesContent.Add(new PageContent() { Id = version2Guid, Page = page, Text = "version2 text" });
+			_pagesContent.Add(new PageContent() { Id = version3Guid, Page = page, Text = "version3 text" });
+
+			// Act
+			ActionResult result = _pagesController.Version(version2Guid);
+
+			// Assert
+			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
+			ViewResult viewResult = result as ViewResult;
+			Assert.NotNull(viewResult, "Null ViewResult");
+
+			PageSummary summary = viewResult.ModelFromActionResult<PageSummary>();
+			Assert.That(summary.Content, Contains.Substring("version2 text"));
+		}
 	}
 }
