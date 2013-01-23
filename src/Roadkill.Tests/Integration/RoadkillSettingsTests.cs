@@ -35,7 +35,7 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(appSettings.AdminRoleName, Is.EqualTo("Admin-test"), "AdminRoleName");
 			Assert.That(appSettings.AttachmentsFolder, Is.EqualTo("/Attachments-test"), "AttachmentsFolder");
-			Assert.That(appSettings.CachedEnabled, Is.True, "CacheEnabled");
+			Assert.That(appSettings.CacheEnabled, Is.True, "CacheEnabled");
 			Assert.That(appSettings.CacheText, Is.True, "CacheText");
 			Assert.That(appSettings.ConnectionStringName, Is.EqualTo("Roadkill-test"), "ConnectionStringName");
 			Assert.That(appSettings.DatabaseType, Is.EqualTo(DatabaseType.Sqlite), "DatabaseType");

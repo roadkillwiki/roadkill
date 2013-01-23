@@ -45,9 +45,9 @@ namespace Roadkill.Core.Configuration
 		public string AttachmentsRoutePath { get; set; }
 
 		/// <summary>
-		///  Indicates whether caching (currently NHibernate level 2 caching) is enabled.
+		///  Indicates whether caching (currently NHibernate level 2 caching, and Http headers) is enabled.
 		/// </summary>
-		public bool CachedEnabled { get; set; }
+		public bool CacheEnabled { get; set; }
 
 		/// <summary>
 		/// Indicates whether textual content for pages is cached.
@@ -166,7 +166,7 @@ namespace Roadkill.Core.Configuration
 
 			AttachmentsUrlPath = "/Attachments";
 			AttachmentsRoutePath = "Attachments";
-			CachedEnabled = section.CacheEnabled;
+			CacheEnabled = section.CacheEnabled;
 			CacheText = section.CacheText;
 
 			if (config == null)

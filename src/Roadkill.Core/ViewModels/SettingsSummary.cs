@@ -130,7 +130,7 @@ namespace Roadkill.Core
 			summary.AllowedExtensions = string.Join(",", config.SitePreferences.AllowedFileTypes);
 			summary.AllowUserSignup = config.SitePreferences.AllowUserSignup;
 			summary.AttachmentsFolder = config.ApplicationSettings.AttachmentsFolder;
-			summary.CacheEnabled = config.ApplicationSettings.CachedEnabled;
+			summary.CacheEnabled = config.ApplicationSettings.CacheEnabled;
 			summary.CacheText = config.ApplicationSettings.CacheText;
 			summary.ConnectionString = config.ApplicationSettings.ConnectionString;
 			summary.DatabaseType = config.ApplicationSettings.DatabaseType;

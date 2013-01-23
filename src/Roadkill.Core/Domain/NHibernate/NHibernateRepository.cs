@@ -75,7 +75,7 @@ namespace Roadkill.Core
 				Configure(configuration.ApplicationSettings.DatabaseType,
 						  configuration.ApplicationSettings.ConnectionString,
 						  false,
-						  configuration.ApplicationSettings.CachedEnabled);
+						  configuration.ApplicationSettings.CacheEnabled);
 			}
 		}
 

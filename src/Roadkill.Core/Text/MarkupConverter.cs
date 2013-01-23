@@ -24,18 +24,34 @@ namespace Roadkill.Core.Converters
 		private UrlHelper _urlHelper;
 		private static Regex _imgFileRegex = new Regex("^File:", RegexOptions.IgnoreCase);
 
+		/// <summary>
+		/// A method used by the converter to convert absolute paths to relative paths.
+		/// </summary>
 		public Func<string,string> AbsolutePathConverter { get; set; }
+
+		/// <summary>
+		/// A method used by the converter to get the internal url of a page based on the page title.
+		/// </summary>
 		public Func<int, string, string> InternalUrlForTitle { get; set; }
+
+		/// <summary>
+		/// A method used by the converter to get the url for adding a new page.
+		/// </summary>
 		public Func<string, string> NewPageUrlForTitle { get; set; }
 		private List<string> _linkIgnorePrefixes;
 		
+		/// <summary>
+		/// The current <see cref="IMarkupParser"/> being used by this instance, which is taken from 
+		/// the configuration markdown type setting.
+		/// </summary>
 		public IMarkupParser Parser
 		{
 			get { return _parser; }
 		}
 
 		/// <summary>
-		/// Gets the current <see cref="IMarkupParser"/> for the <see cref="RoadkillSettings.MarkupType"/>
+		/// Creates a new markdown parser which handles the image and link parsing by the various different 
+		/// markdown format parsers.
 		/// </summary>
 		/// <returns>An <see cref="IMarkupParser"/> for Creole,Markdown or Media wiki formats.</returns>
 		public MarkupConverter(IConfigurationContainer configuration, IRepository repository)
@@ -104,7 +120,7 @@ namespace Roadkill.Core.Converters
 		}
 
 		/// <summary>
-		/// Adds the attachments folder as a prefix to all image URLs before the HTML <img> tag is written.
+		/// Adds the attachments folder as a prefix to all image URLs before the HTML &lt;img&gt; tag is written.
 		/// </summary>
 		private void ImageParsed(object sender, ImageEventArgs e)
 		{
@@ -115,7 +131,7 @@ namespace Roadkill.Core.Converters
 
 				string attachmentsPath = AttachmentFileHandler.GetAttachmentsPath(_configuration);
 				string urlPath = attachmentsPath + (src.StartsWith("/") ? "" : "/") + src;
-				e.Src = ConvertToAbsolutePath(urlPath);
+				e.Src = AbsolutePathConverter(urlPath);
 			}
 		}
 
@@ -145,7 +161,7 @@ namespace Roadkill.Core.Converters
 					}
 
 					string attachmentsPath = AttachmentFileHandler.GetAttachmentsPath(_configuration);
-					href = ConvertToAbsolutePath(attachmentsPath) + href;
+					href = AbsolutePathConverter(attachmentsPath) + href;
 				}
 				else
 				{
@@ -178,60 +194,12 @@ namespace Roadkill.Core.Converters
 		}
 
 		/// <summary>
-		/// Strips script, link, style etc tags and javascript attributes. Based on http://htmlagilitypack.codeplex.com/discussions/24346
+		/// Strips a lot of unsafe Javascript/Html/CSS from the markup, taken from http://ajaxcontroltoolkit.codeplex.com/.
 		/// </summary>
 		private string RemoveHarmfulTags(string html)
 		{
-			HtmlDocument document = new HtmlDocument();
-			document.LoadHtml(html);
-			
-			HtmlNodeCollection collection = document.DocumentNode.SelectNodes("//script|//link|//iframe|//frameset|//frame|//applet");
-			if (collection != null)
-			{
-				foreach (HtmlNode node in collection)
-				{
-					node.ParentNode.RemoveChild(node, false);
-				}
-			}
-
-			// Remove hrefs to java/j/vbscript URLs
-			collection = document.DocumentNode.SelectNodes("//a[starts-with(translate(@href, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'javascript')]|//a[starts-with(translate(@href, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'jscript')]|//a[starts-with(translate(@href, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'vbscript')]");
-			if (collection != null)
-			{
-
-				foreach (HtmlNode node in collection)
-				{
-					node.SetAttributeValue("href", "#");
-				}
-			}
-
-			// Remove img with refs to java/j/vbscript URLs
-			collection = document.DocumentNode.SelectNodes("//img[starts-with(translate(@src, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'javascript')]|//img[starts-with(translate(@src, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'jscript')]|//img[starts-with(translate(@src, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'vbscript')]");
-			if (collection != null)
-			{
-				foreach (HtmlNode node in collection)
-				{
-					node.SetAttributeValue("src", "#");
-				}
-			}
-
-			collection = document.DocumentNode.SelectNodes("//*[@onclick or @onmouseover or @onfocus or @onblur or @onmouseout or @ondoubleclick or @onload or @onunload]");
-			if (collection != null)
-			{
-				foreach (HtmlNode node in collection)
-				{
-					node.Attributes.Remove("onFocus");
-					node.Attributes.Remove("onBlur");
-					node.Attributes.Remove("onClick");
-					node.Attributes.Remove("onMouseOver");
-					node.Attributes.Remove("onMouseOut");
-					node.Attributes.Remove("onDoubleClick");
-					node.Attributes.Remove("onLoad");
-					node.Attributes.Remove("onUnload");
-				}
-			}
-
-			return document.DocumentNode.InnerHtml;
+			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			return sanitizer.GetSafeHtmlFragment(html, new Dictionary<string, string[]>(), new Dictionary<string, string[]>());
 		}
 
 		/// <summary>
