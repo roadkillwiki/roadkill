@@ -300,6 +300,7 @@
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Text\CustomToken.cs" />
     <Compile Include="Text\CustomTokenParser.cs" />
+    <Compile Include="Text\MarkupSanitizer.cs" />
     <Compile Include="Text\ImageEventArgs.cs" />
     <Compile Include="Text\IMarkupParser.cs" />
     <Compile Include="Text\LinkEventArgs.cs" />

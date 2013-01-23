@@ -10,7 +10,8 @@ $(document).ready(function ()
 	$("#historytable .editedon").timeago();
 
 	// Bind the info icon on each page
-	$("#pageinfo-button").click(function () {
+	$("#pageinfo-button").click(function ()
+	{
 		openModal("#pageinformation");
 	});
 
@@ -44,7 +45,7 @@ function bindConfirmDelete()
 		var text;
 		button = $(this);
 
-		if(!button.hasClass("jqConfirm"))
+		if (!button.hasClass("jqConfirm"))
 		{
 			value = button.val();
 			text = button.text();
@@ -96,7 +97,7 @@ function openModal(selector, params)
 	}
 	else
 	{
-		params = { openSpeed : 150, closeSpeed: 150 };
+		params = { openSpeed: 150, closeSpeed: 150 };
 	}
 
 	$.fancybox($(selector), params);
@@ -104,7 +105,7 @@ function openModal(selector, params)
 
 function openIframeModal(html)
 {
-	$.fancybox(html, { openSpeed: "fast", openEffect : "none" });
+	$.fancybox(html, { openSpeed: "fast", openEffect: "none" });
 }
 
 function closeModal()
