@@ -71,17 +71,20 @@ function bindConfirmDelete()
 }
 
 /**
-Formats pre tags so that < > are encoded so they display.
+Formats pre tags for Creole/Mediawiki so that < > are encoded and display.
 */
 function formatPreTags()
 {
-	$("pre").each(function (index)
+	if (ROADKILL_MARKUPTYPE !== "Markdown")
 	{
-		var current = $(this);
-		var html = current.html();
-		html = html.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-		current.html(html);
-	});
+		$("pre").each(function (index)
+		{
+			var current = $(this);
+			var html = current.html();
+			html = html.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+			current.html(html);
+		});
+	}
 }
 
 function openModal(selector, params)

@@ -27,7 +27,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Links_Starting_With_Http_Www_Mailto_Tag_Ignored()
+		public void Links_Starting_With_Http_Www_Mailto_Tag_Are_Ignored()
 		{
 			// Arrange
 			ConfigurationContainerStub config = new ConfigurationContainerStub();
