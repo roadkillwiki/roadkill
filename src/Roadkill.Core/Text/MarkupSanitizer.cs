@@ -5,10 +5,17 @@ using System.Linq;
 using System.Web;
 using System.Text.RegularExpressions;
 
-// Take from: http://ajaxcontroltoolkit.codeplex.com
+// Taken from: http://ajaxcontroltoolkit.codeplex.com
 
 namespace Roadkill.Core.Converters
 {
+	public enum SanitizeMode
+	{
+		Custom,
+		Loose,
+		Strict
+	}
+
     /// <summary>
     /// Sanitizer class that allows tag and attributes those are in whitelist and removes
     /// other tags and attributes. This also cleans attribute values to remove vulnerable
@@ -16,78 +23,129 @@ namespace Roadkill.Core.Converters
     /// </summary>
     public class MarkupSanitizer
     {
+		// declare an array to mark which characters are to be encoded.
+		private string[] _encodedCharacters = new string[256];
 
-        private string _applicationName;
-        // declare an array to mark which characters are to be encoded.
-        string[] encodedCharacters = new string[256];
+		public SanitizeMode Mode { get; private set; }
+		public Dictionary<string, string[]> ElementWhiteList { get; private set; }
+		public Dictionary<string, string[]> AttributeWhiteList { get; private set; }
+
+		public MarkupSanitizer() 
+			: this(SanitizeMode.Strict, null, null)
+		{
+		}
+
+		public MarkupSanitizer(SanitizeMode mode)
+			: this(mode, null, null)
+		{
+		}
 
         /// <summary>
         /// Constructor to initialize array of encoded values.
         /// </summary>
-        public MarkupSanitizer()
+        public MarkupSanitizer(SanitizeMode mode, Dictionary<string, string[]> elementWhiteList, Dictionary<string, string[]> attributeWhieList)
         {
             // Intialize array
             for (int i = 0; i < 0xFF; i++)
             {
                 if (i >= 0x30 && i <= 0x39 || i >= 0x41 && i <= 0x5A || i >= 0x61 && i <= 0x7A)
                 {
-                    encodedCharacters[i] = null;
+                    _encodedCharacters[i] = null;
                 }
                 else
                 {
-                    encodedCharacters[i] = i.ToString("X2");
+                    _encodedCharacters[i] = i.ToString("X2");
                 }
             }
+
+			if (elementWhiteList != null)
+			{
+				ElementWhiteList = elementWhiteList;
+				Mode = SanitizeMode.Custom;
+			}
+			else
+			{
+				Mode = mode;
+				ElementWhiteList = CreateElementWhiteList();
+
+				if (mode == SanitizeMode.Loose)
+				{
+
+				}
+			}
+
+			if (attributeWhieList != null)
+			{
+				AttributeWhiteList = attributeWhieList;
+			}
+			else
+			{
+				Mode = mode;
+				AttributeWhiteList = CreateAttributeWhiteList();
+
+				if (mode == SanitizeMode.Loose)
+				{
+
+				}
+			}
         }
 
-        /// <summary>
-        /// Property to provide name of Application.
-        /// </summary>
-        public string ApplicationName
-        {
-            get
-            {
-                return _applicationName;
-            }
-            set
-            {
-                _applicationName = value;
-            }
+		private Dictionary<string, string[]> CreateElementWhiteList()
+		{
+			// make list of tags and its relatd attributes
+			Dictionary<string, string[]> tagList = new Dictionary<string, string[]>();
 
-        }
+			tagList.Add("strong", new string[] { "style", });
+			tagList.Add("b", new string[] { "style" });
+			tagList.Add("em", new string[] { "style" });
+			tagList.Add("i", new string[] { "style" });
+			tagList.Add("u", new string[] { "style" });
+			tagList.Add("strike", new string[] { "style" });
+			tagList.Add("sub", new string[] { });
+			tagList.Add("sup", new string[] { });
+			tagList.Add("p", new string[] { "style", "align", "dir" });
+			tagList.Add("ol", new string[] { });
+			tagList.Add("li", new string[] { });
+			tagList.Add("ul", new string[] { });
+			tagList.Add("font", new string[] { "style", "color", "face", "size" });
+			tagList.Add("blockquote", new string[] { "style", "dir" });
+			tagList.Add("hr", new string[] { "size", "width" });
+			tagList.Add("img", new string[] { "src" });
+			tagList.Add("div", new string[] { "style", "align" });
+			tagList.Add("span", new string[] { "style" });
+			tagList.Add("br", new string[] { "style" });
+			tagList.Add("center", new string[] { "style" });
+			tagList.Add("a", new string[] { "href" });
+			tagList.Add("pre", new string[] { "id" });
+			tagList.Add("code", new string[] { "id" });
 
-        /// <summary>
-        /// Property that indicates that RequiresFullTrust is not necessary for this sanitizer. 
-        /// </summary>
-        public bool RequiresFullTrust
-        {
-            get
-            {
-                return false;
-            }
-        }
+			return tagList;
+		}
 
-        /// <summary>
-        /// This accepts html text and white list for tags and attributes and 
-        /// returns safe html text.
-        /// </summary>
-        /// <param name="htmlFragment">Html Content which need to sanitze.</param>
-        /// <param name="elementWhiteList">Whitelist of tags.</param>
-        /// <param name="attributeWhiteList">WhiteList of attributes.</param>
-        /// <returns>Html text after sanitize.</returns>
-        public string GetSafeHtmlFragment(string htmlFragment, Dictionary<string, string[]> elementWhiteList, Dictionary<string, string[]> attributeWhiteList)
-        {
-            return SanitizeHtml(htmlFragment, elementWhiteList, attributeWhiteList);
-        }
+		private Dictionary<string, string[]> CreateAttributeWhiteList()
+		{
+			Dictionary<string, string[]> attributeList = new Dictionary<string, string[]>();
+
+			// create white list of attributes and its values
+			attributeList.Add("style", new string[] { "background-color", "margin", "margin-right", "padding", "border", "text-align" });
+			attributeList.Add("align", new string[] { "left", "right", "center", "justify" });
+			attributeList.Add("color", new string[] { });
+			attributeList.Add("size", new string[] { });
+			attributeList.Add("face", new string[] { });
+			attributeList.Add("dir", new string[] { "ltr", "rtl", "Auto" });
+			attributeList.Add("width", new string[] { });
+			attributeList.Add("src", new string[] { });
+			attributeList.Add("href", new string[] { });
+
+			return attributeList;
+		}
 
         /// <summary>
         /// This method actually do the process of sanitization.
         /// </summary>
         /// <param name="htmlText">Html Content which need to sanitze.</param>
-        /// <param name="elementWhiteList">Whitelist of tags.</param>
-        /// <param name="attributeWhiteList">WhiteList of attributes.</param>
         /// <returns>Html text after sanitize.</returns>
-        private string SanitizeHtml(string htmlText, Dictionary<string, string[]> elementWhiteList, Dictionary<string, string[]> attributeWhiteList)
+        public string SanitizeHtml(string htmlText)
         {
             // Create Html document
             HtmlDocument html = new HtmlDocument();
@@ -100,8 +158,8 @@ namespace Roadkill.Core.Converters
                 return string.Empty;
 
             HtmlNode allNodes = html.DocumentNode;
-            Dictionary<string, string[]> validHtmlTags = elementWhiteList;
-            Dictionary<string, string[]> validAttributes = attributeWhiteList;
+            Dictionary<string, string[]> validHtmlTags = ElementWhiteList;
+            Dictionary<string, string[]> validAttributes = AttributeWhiteList;
             string[] tagWhiteList = (from kv in validHtmlTags
                                      select kv.Key).ToArray();
 
@@ -179,7 +237,6 @@ namespace Roadkill.Core.Converters
         /// <param name="attribute">Attribute that contain values that need to check and clean.</param>
         private void CleanAttributeValues(HtmlAttribute attribute)
         {
-
             attribute.Value = HttpUtility.HtmlEncode(attribute.Value);
             
             attribute.Value = Regex.Replace(attribute.Value, @"\s*j\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*", "", RegexOptions.IgnoreCase);
@@ -220,7 +277,7 @@ namespace Roadkill.Core.Converters
             // check for alphnumeric characters
             if (c < 0xFF)
             {
-                hex = encodedCharacters[c];
+                hex = _encodedCharacters[c];
                 if (hex == null)
                     return "" + c;
             }

@@ -199,7 +199,7 @@ namespace Roadkill.Core.Converters
 		private string RemoveHarmfulTags(string html)
 		{
 			MarkupSanitizer sanitizer = new MarkupSanitizer();
-			return sanitizer.GetSafeHtmlFragment(html, new Dictionary<string, string[]>(), new Dictionary<string, string[]>());
+			return sanitizer.SanitizeHtml(html);
 		}
 
 		/// <summary>
