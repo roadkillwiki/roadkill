@@ -406,6 +406,7 @@ namespace Roadkill.Core
 			string result = username;
 
 #if DEMOSITE
+			Console.WriteLine("NUnit warning: You're running using #DEMOSITE !");
 			if (!_context.IsAdmin)
 			{
 				string ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];

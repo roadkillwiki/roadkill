@@ -14,6 +14,7 @@ namespace Roadkill.Tests.Unit
 	///to contain all HtmlAgilityPackSanitizerProviderTest Unit Tests
 	///</summary>
 	[TestFixture]
+	[Category("Unit")]
 	public class MarkupSanitizerTests
 	{
 		/// <summary>

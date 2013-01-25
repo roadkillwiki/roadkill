@@ -7,6 +7,8 @@ using Roadkill.Core.Converters;
 
 namespace Roadkill.Tests.Unit
 {
+	[TestFixture]
+	[Category("Unit")]
 	public class MarkupConverterTests
 	{
 		private ConfigurationContainerStub _config;
@@ -130,7 +132,7 @@ namespace Roadkill.Tests.Unit
 				"<iframe src=\"google.com\"></iframe><frame>blah</frame> <applet code=\"MyApplet.class\" width=100 height=140></applet>" +
 				"<frameset src='new.html'></frameset>";
 
-			string expectedHtml = ""; // if they're adding this in they're not playing cricket, and can expect nothing back.
+			string expectedHtml = "<p> some text blah \n</p>";
 
 			// Act
 			string actualHtml = _converter.ToHtml(markdown);
@@ -145,7 +147,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_config.SitePreferences.MarkupType = "Creole";
 
-			string expectedHtml = "<p><a href=\"#myanchortag\">hello world</a> <a href=\"https://www.google.com\">google</a>\n</p>";
+			string expectedHtml = "<p><a href=\"&#x23;myanchortag\">hello world</a> <a href=\"https&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com\">google</a>\n</p>";
 			MarkupConverter converter = new MarkupConverter(_config, null);
 
 			// Act
@@ -161,7 +163,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_config.SitePreferences.MarkupType = "Creole";
 
-			string expectedHtml = "<p><a href=\"http://www.blah.com\">link1</a> <a href=\"www.blah.com\">link2</a> <a href=\"mailto:spam@gmail.com\">spam</a>\n</p>";
+			string expectedHtml = "<p><a href=\"http&#x3A;&#x2F;&#x2F;www&#x2E;blah&#x2E;com\">link1</a> <a href=\"www&#x2E;blah&#x2E;com\">link2</a> <a href=\"mailto&#x3A;spam&#x40;gmail&#x2E;com\">spam</a>\n</p>";
 			MarkupConverter converter = new MarkupConverter(_config, null);
 
 			// Act
