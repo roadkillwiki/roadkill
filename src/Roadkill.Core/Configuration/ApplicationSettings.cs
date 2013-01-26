@@ -80,6 +80,11 @@ namespace Roadkill.Core.Configuration
 		public string EditorRoleName { get; set; }
 
 		/// <summary>
+		/// The file path for the html element white list file.
+		/// </summary>
+		public string HtmlElementWhiteListPath { get; set; }
+
+		/// <summary>
 		/// Whether errors in updating the lucene index throw exceptions or are just ignored.
 		/// </summary>
 		public bool IgnoreSearchIndexErrors { get; set; }
@@ -184,6 +189,7 @@ namespace Roadkill.Core.Configuration
 				DatabaseType = DatabaseType.SqlServer2005;
 
 			EditorRoleName = section.EditorRoleName;
+			HtmlElementWhiteListPath = Path.Combine(AppDataPath, "elementwhitelist.xml");
 			IgnoreSearchIndexErrors = section.IgnoreSearchIndexErrors;
 			IsPublicSite = section.IsPublicSite;
 			Installed = section.Installed;		

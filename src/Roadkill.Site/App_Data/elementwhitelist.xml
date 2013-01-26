@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<HtmlWhiteList xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ElementWhiteList>
+    <HtmlElement Name="strong">
+      <AllowedAttributes>
+        <HtmlAttribute Name="style" />
+      </AllowedAttributes>
+    </HtmlElement>
+    <HtmlElement Name="b">
+      <AllowedAttributes>
+        <HtmlAttribute Name="style" />
+      </AllowedAttributes>
+    </HtmlElement>
+    <HtmlElement Name="em">
+      <AllowedAttributes>
+        <HtmlAttribute Name="style" />
+      </AllowedAttributes>
+    </HtmlElement>
+    <HtmlElement Name="i">
+      <AllowedAttributes>
+        <HtmlAttribute Name="style" />
+      </AllowedAttributes>
+    </HtmlElement>
+    <HtmlElement Name="u">
+      <AllowedAttributes>
+        <HtmlAttribute Name="style" />
+      </AllowedAttributes>
+    </HtmlElement>
+    <HtmlElement Name="strike">
+      <AllowedAttributes>
+        <HtmlAttribute Name="style" />
+      </AllowedAttributes>
+    </HtmlElement>
+    <HtmlElement Name="sub">
+      <AllowedAttributes />
+    </HtmlElement>
+    <HtmlElement Name="sup">
+      <AllowedAttributes />
+    </HtmlElement>
+    <HtmlElement Name="p">
+      <AllowedAttributes>
+        <HtmlAttribute Name="style" />
+        <HtmlAttribute Name="align" />
+        <HtmlAttribute Name="dir" />
+      </AllowedAttributes>
+    </HtmlElement>
+    <HtmlElement Name="ol">
+      <AllowedAttributes />
+    </HtmlElement>
+    <HtmlElement Name="li">
+      <AllowedAttributes />
+    </HtmlElement>
+    <HtmlElement Name="ul">
+      <AllowedAttributes />
+    </HtmlElement>
+    <HtmlElement Name="font">
+      <AllowedAttributes>
+        <HtmlAttribute Name="style" />
+        <HtmlAttribute Name="color" />
+        <HtmlAttribute Name="face" />
+        <HtmlAttribute Name="size" />
+      </AllowedAttributes>
+    </HtmlElement>
+    <HtmlElement Name="blockquote">
+      <AllowedAttributes>
+        <HtmlAttribute Name="style" />
+        <HtmlAttribute Name="dir" />
+      </AllowedAttributes>
+    </HtmlElement>
+    <HtmlElement Name="hr">
+      <AllowedAttributes>
+        <HtmlAttribute Name="size" />
+        <HtmlAttribute Name="width" />
+      </AllowedAttributes>
+    </HtmlElement>
+    <HtmlElement Name="img">
+      <AllowedAttributes>
+        <HtmlAttribute Name="src" />
+      </AllowedAttributes>
+    </HtmlElement>
+    <HtmlElement Name="div">
+      <AllowedAttributes>
+        <HtmlAttribute Name="style" />
+        <HtmlAttribute Name="align" />
+      </AllowedAttributes>
+    </HtmlElement>
+    <HtmlElement Name="span">
+      <AllowedAttributes>
+        <HtmlAttribute Name="style" />
+      </AllowedAttributes>
+    </HtmlElement>
+    <HtmlElement Name="br">
+      <AllowedAttributes>
+        <HtmlAttribute Name="style" />
+      </AllowedAttributes>
+    </HtmlElement>
+    <HtmlElement Name="center">
+      <AllowedAttributes>
+        <HtmlAttribute Name="style" />
+      </AllowedAttributes>
+    </HtmlElement>
+    <HtmlElement Name="a">
+      <AllowedAttributes>
+        <HtmlAttribute Name="href" />
+      </AllowedAttributes>
+    </HtmlElement>
+    <HtmlElement Name="pre">
+      <AllowedAttributes>
+        <HtmlAttribute Name="id" />
+      </AllowedAttributes>
+    </HtmlElement>
+    <HtmlElement Name="code">
+      <AllowedAttributes>
+        <HtmlAttribute Name="id" />
+      </AllowedAttributes>
+    </HtmlElement>
+  </ElementWhiteList>
+</HtmlWhiteList>

@@ -3,9 +3,13 @@
 // and http://ha.ckers.org/xss.html
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
 using HtmlAgilityPack;
 using NUnit.Framework;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
+using Roadkill.Core.Text.Sanitizer;
 
 namespace Roadkill.Tests.Unit
 {
@@ -17,6 +21,88 @@ namespace Roadkill.Tests.Unit
 	[Category("Unit")]
 	public class MarkupSanitizerTests
 	{
+		private IConfigurationContainer _config;
+
+		[SetUp]
+		public void Setup()
+		{
+			_config = new ConfigurationContainerStub();
+		}
+
+		[Test, Ignore]
+		public void GenerateTestXmlFile()
+		{
+			// Arrange
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
+
+			using (FileStream stream = new FileStream("test.xml", FileMode.Create, FileAccess.Write))
+			{
+				//XmlSerializer serializer = new XmlSerializer(typeof(HtmlWhiteList));
+				//serializer.Serialize(stream, MarkupSanitizer._htmlWhiteList);
+
+				XmlSerializer serializer = new XmlSerializer(typeof(HtmlWhiteList));
+
+				List<HtmlElement> list = new List<HtmlElement>();
+				list.Add(new HtmlElement("blah", new string[] { "id", "class" }));
+				list.Add(new HtmlElement("test", new string[] { "href" }));
+
+				HtmlWhiteList whiteList = new HtmlWhiteList();
+				whiteList.ElementWhiteList = list;
+
+				serializer.Serialize(stream, whiteList);
+			}
+		}
+
+		[Test]
+		public void ShouldDeserializeWhiteListFromFile()
+		{
+			// Arrange
+			string whitelistFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Unit", "Text", "whitelist.xml");
+			_config.ApplicationSettings.HtmlElementWhiteListPath = whitelistFile;
+
+			string htmlFragment = "<test href=\"http://www.google.com\">link</test> <blah id=\"myid\" class=\"class1 class2\">somediv</blah><a href=\"test\">test</a>";
+
+			// Act
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
+			string actual = sanitizer.SanitizeHtml(htmlFragment);
+
+			// Assert
+			string expected = "<test href=\"http&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com\">link</test> <blah id=\"myid\" class=\"class1&#x20;class2\">somediv</blah>";
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
+		}
+
+		[Test]
+		public void ShouldDeserializeWhiteList()
+		{
+			// Arrange
+			string whitelistFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "whitelistgenerated.xml");
+			_config.ApplicationSettings.HtmlElementWhiteListPath = whitelistFile;
+			
+			using (FileStream stream = new FileStream(whitelistFile, FileMode.Create, FileAccess.Write))
+			{
+				XmlSerializer serializer = new XmlSerializer(typeof(HtmlWhiteList));
+				
+				List<HtmlElement> list = new List<HtmlElement>();
+				list.Add(new HtmlElement("blah", new string[] { "id", "class" }));
+				list.Add(new HtmlElement("test", new string[] { "href" }));
+				
+				HtmlWhiteList whiteList = new HtmlWhiteList();
+				whiteList.ElementWhiteList = list;
+
+				serializer.Serialize(stream, whiteList);
+			}
+
+			string htmlFragment = "<test href=\"http://www.google.com\">link</test> <blah id=\"myid\" class=\"class1 class2\">somediv</blah><a href=\"test\">test</a>";
+
+			// Act
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
+			string actual = sanitizer.SanitizeHtml(htmlFragment);
+
+			// Assert
+			string expected = "<test href=\"http&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com\">link</test> <blah id=\"myid\" class=\"class1&#x20;class2\">somediv</blah>";
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
+		}
+
 		/// <summary>
 		/// A test for Xss locator
 		/// Example <!-- <a href="'';!--\"<XSS>=&{()}"> --> 
@@ -25,7 +111,7 @@ namespace Roadkill.Tests.Unit
 		public void XSSLocatorTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<a href=\"'';!--\"<XSS>=&{()}\">";
@@ -33,7 +119,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			string expected = "<a href=\"&#x26;&#x23;39&#x3B;&#x26;&#x23;39&#x3B;&#x3B;&#x21;&#x2D;&#x2D;\"></a>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -44,7 +130,7 @@ namespace Roadkill.Tests.Unit
 		public void ImageXSS1Test()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Action
 			string htmlFragment = "<IMG SRC=\"javascript:alert('XSS');\">";
@@ -52,7 +138,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			string expected = "<IMG SRC=\"&#x3A;alert&#x28;&#x26;&#x23;39&#x3B;XSS&#x26;&#x23;39&#x3B;&#x29;&#x3B;\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -63,7 +149,7 @@ namespace Roadkill.Tests.Unit
 		public void ImageXSS2Test()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC=javascript:alert('XSS')>";
@@ -71,7 +157,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			string expected = "<IMG SRC=\"&#x3A;alert&#x28;&#x26;&#x23;39&#x3B;XSS&#x26;&#x23;39&#x3B;&#x29;\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -82,7 +168,7 @@ namespace Roadkill.Tests.Unit
 		public void ImageCaseInsensitiveXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC=JaVaScRiPt:alert('XSS')>";
@@ -90,7 +176,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			string expected = "<IMG SRC=\"&#x3A;alert&#x28;&#x26;&#x23;39&#x3B;XSS&#x26;&#x23;39&#x3B;&#x29;\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -101,7 +187,7 @@ namespace Roadkill.Tests.Unit
 		public void ImageHtmlEntitiesXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC=javascript:alert(&quot;XSS&quot;)>";
@@ -109,7 +195,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			string expected = "<IMG SRC=\"&#x3A;alert&#x28;&#x26;amp&#x3B;quot&#x3B;XSS&#x26;amp&#x3B;quot&#x3B;&#x29;\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -120,7 +206,7 @@ namespace Roadkill.Tests.Unit
 		public void ImageGraveAccentXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC=`javascript:alert(\"RSnake says, 'XSS'\")`>";
@@ -128,7 +214,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			string expected = "<IMG SRC=\"&#x60;&#x3A;alert&#x28;&#x26;quot&#x3B;RSnake\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -139,7 +225,7 @@ namespace Roadkill.Tests.Unit
 		public void ImageMalformedXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG \"\"\"><SCRIPT>alert(\"XSS\")</SCRIPT>\">";
@@ -147,7 +233,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			string expected = "<IMG>\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -158,7 +244,7 @@ namespace Roadkill.Tests.Unit
 		public void ImageFromCharCodeXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC=javascript:alert(String.fromCharCode(88,83,83))>";
@@ -166,7 +252,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			string expected = "<IMG SRC=\"&#x3A;alert&#x28;String&#x2E;fromCharCode&#x28;88&#x2C;83&#x2C;83&#x29;&#x29;\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -177,7 +263,7 @@ namespace Roadkill.Tests.Unit
 		public void ImageUTF8UnicodeXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC=&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;&#39;&#88;&#83;&#83;&#39;&#41;>";
@@ -185,7 +271,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			string expected = "<IMG SRC=\"&#x26;amp&#x3B;&#x23;106&#x3B;&#x26;amp&#x3B;&#x23;97&#x3B;&#x26;amp&#x3B;&#x23;118&#x3B;&#x26;amp&#x3B;&#x23;97&#x3B;&#x26;amp&#x3B;&#x23;115&#x3B;&#x26;amp&#x3B;&#x23;99&#x3B;&#x26;amp&#x3B;&#x23;114&#x3B;&#x26;amp&#x3B;&#x23;105&#x3B;&#x26;amp&#x3B;&#x23;112&#x3B;&#x26;amp&#x3B;&#x23;116&#x3B;&#x26;amp&#x3B;&#x23;58&#x3B;&#x26;amp&#x3B;&#x23;97&#x3B;&#x26;amp&#x3B;&#x23;108&#x3B;&#x26;amp&#x3B;&#x23;101&#x3B;&#x26;amp&#x3B;&#x23;114&#x3B;&#x26;amp&#x3B;&#x23;116&#x3B;&#x26;amp&#x3B;&#x23;40&#x3B;&#x26;amp&#x3B;&#x23;39&#x3B;&#x26;amp&#x3B;&#x23;88&#x3B;&#x26;amp&#x3B;&#x23;83&#x3B;&#x26;amp&#x3B;&#x23;83&#x3B;&#x26;amp&#x3B;&#x23;39&#x3B;&#x26;amp&#x3B;&#x23;41&#x3B;\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -196,7 +282,7 @@ namespace Roadkill.Tests.Unit
 		public void ImageLongUTF8UnicodeXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC=&#0000106&#0000097&#0000118&#0000097&#0000115&#0000099&#0000114&#0000105&#0000112&#0000116&#0000058&#0000097&#0000108&#0000101&#0000114&#0000116&#0000040&#0000039&#0000088&#0000083&#0000083&#0000039&#0000041>";
@@ -204,7 +290,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			string expected = "<IMG SRC=\"&#x26;amp&#x3B;&#x23;0000106&#x26;amp&#x3B;&#x23;0000097&#x26;amp&#x3B;&#x23;0000118&#x26;amp&#x3B;&#x23;0000097&#x26;amp&#x3B;&#x23;0000115&#x26;amp&#x3B;&#x23;0000099&#x26;amp&#x3B;&#x23;0000114&#x26;amp&#x3B;&#x23;0000105&#x26;amp&#x3B;&#x23;0000112&#x26;amp&#x3B;&#x23;0000116&#x26;amp&#x3B;&#x23;0000058&#x26;amp&#x3B;&#x23;0000097&#x26;amp&#x3B;&#x23;0000108&#x26;amp&#x3B;&#x23;0000101&#x26;amp&#x3B;&#x23;0000114&#x26;amp&#x3B;&#x23;0000116&#x26;amp&#x3B;&#x23;0000040&#x26;amp&#x3B;&#x23;0000039&#x26;amp&#x3B;&#x23;0000088&#x26;amp&#x3B;&#x23;0000083&#x26;amp&#x3B;&#x23;0000083&#x26;amp&#x3B;&#x23;0000039&#x26;amp&#x3B;&#x23;0000041\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -215,7 +301,7 @@ namespace Roadkill.Tests.Unit
 		public void ImageHexEncodeXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC=&#x6A&#x61&#x76&#x61&#x73&#x63&#x72&#x69&#x70&#x74&#x3A&#x61&#x6C&#x65&#x72&#x74&#x28&#x27&#x58&#x53&#x53&#x27&#x29>";
@@ -223,7 +309,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			string expected = "<IMG SRC=\"&#x26;amp&#x3B;&#x23;x6A&#x26;amp&#x3B;&#x23;x61&#x26;amp&#x3B;&#x23;x76&#x26;amp&#x3B;&#x23;x61&#x26;amp&#x3B;&#x23;x73&#x26;amp&#x3B;&#x23;x63&#x26;amp&#x3B;&#x23;x72&#x26;amp&#x3B;&#x23;x69&#x26;amp&#x3B;&#x23;x70&#x26;amp&#x3B;&#x23;x74&#x26;amp&#x3B;&#x23;x3A&#x26;amp&#x3B;&#x23;x61&#x26;amp&#x3B;&#x23;x6C&#x26;amp&#x3B;&#x23;x65&#x26;amp&#x3B;&#x23;x72&#x26;amp&#x3B;&#x23;x74&#x26;amp&#x3B;&#x23;x28&#x26;amp&#x3B;&#x23;x27&#x26;amp&#x3B;&#x23;x58&#x26;amp&#x3B;&#x23;x53&#x26;amp&#x3B;&#x23;x53&#x26;amp&#x3B;&#x23;x27&#x26;amp&#x3B;&#x23;x29\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -234,7 +320,7 @@ namespace Roadkill.Tests.Unit
 		public void ImageEmbeddedTabXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC=\"jav	ascript:alert('XSS');\">";
@@ -242,7 +328,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			string expected = "<IMG SRC=\"&#x3A;alert&#x28;&#x26;&#x23;39&#x3B;XSS&#x26;&#x23;39&#x3B;&#x29;&#x3B;\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -253,7 +339,7 @@ namespace Roadkill.Tests.Unit
 		public void ImageEmbeddedEncodedTabXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC=\"jav&#x09;ascript:alert('XSS');\">";
@@ -261,7 +347,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			string expected = "<IMG SRC=\"jav&#x26;amp&#x3B;&#x23;x09&#x3B;a&#x3A;alert&#x28;&#x26;&#x23;39&#x3B;XSS&#x26;&#x23;39&#x3B;&#x29;&#x3B;\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -272,7 +358,7 @@ namespace Roadkill.Tests.Unit
 		public void ImageEmbeddedNewLineXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC=\"jav&#x0A;ascript:alert('XSS');\">";
@@ -280,7 +366,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			string expected = "<IMG SRC=\"jav&#x26;amp&#x3B;&#x23;x0A&#x3B;a&#x3A;alert&#x28;&#x26;&#x23;39&#x3B;XSS&#x26;&#x23;39&#x3B;&#x29;&#x3B;\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -291,7 +377,7 @@ namespace Roadkill.Tests.Unit
 		public void ImageEmbeddedCarriageReturnXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC=\"jav&#x0D;ascript:alert('XSS');\">";
@@ -299,7 +385,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			string expected = "<IMG SRC=\"jav&#x26;amp&#x3B;&#x23;x0D&#x3B;a&#x3A;alert&#x28;&#x26;&#x23;39&#x3B;XSS&#x26;&#x23;39&#x3B;&#x29;&#x3B;\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -338,7 +424,7 @@ namespace Roadkill.Tests.Unit
 		public void ImageMultilineInjectedXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = @"<IMG
@@ -376,7 +462,7 @@ S
 
 			// Assert
 			string expected = "<img src=\"&#x3A;&#x0D;&#x0A;a&#x0D;&#x0A;l&#x0D;&#x0A;e&#x0D;&#x0A;r&#x0D;&#x0A;t&#x0D;&#x0A;&#x28;&#x0D;&#x0A;&#x26;&#x23;39&#x3B;&#x0D;&#x0A;X&#x0D;&#x0A;S&#x0D;&#x0A;S&#x0D;&#x0A;&#x26;&#x23;39&#x3B;&#x0D;&#x0A;&#x29;&#x0D;&#x0A;\">\r\n";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -387,7 +473,7 @@ S
 		public void ImageNullBreaksUpXSSTest1()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "perl -e 'print \"<IMG SRC=java\0script:alert(\"XSS\")>\";' > out";
@@ -395,7 +481,7 @@ S
 
 			// Assert
 			string expected = "perl -e 'print \"<img src=\"java&#xfffd;&#x3A;alert&#x28;&#x26;quot&#x3B;XSS&#x26;quot&#x3B;&#x29;\">\";' > out";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -406,7 +492,7 @@ S
 		public void ImageNullBreaksUpXSSTest2()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<image src=\" perl -e 'print \"<SCR\0IPT>alert(\"XSS\")</SCR\0IPT>\";' > out \">";
@@ -414,7 +500,7 @@ S
 
 			// Assert
 			string expected = "\";' > out \">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -425,7 +511,7 @@ S
 		public void ImageSpaceAndMetaCharXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC=\" &#14;  javascript:alert('XSS');\">";
@@ -433,7 +519,7 @@ S
 
 			// Assert
 			string expected = "<IMG SRC=\"&#x20;&#x26;amp&#x3B;&#x23;14&#x3B;&#x3A;alert&#x28;&#x26;&#x23;39&#x3B;XSS&#x26;&#x23;39&#x3B;&#x29;&#x3B;\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -444,7 +530,7 @@ S
 		public void ImageHalfOpenHtmlXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC=\"javascript:alert('XSS')\"";
@@ -452,7 +538,7 @@ S
 
 			// Assert
 			string expected = "";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -463,7 +549,7 @@ S
 		public void ImageDoubleOpenAngleBracketXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<image src=http://ha.ckers.org/scriptlet.html <";
@@ -471,7 +557,7 @@ S
 
 			// Assert
 			string expected = "";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -482,7 +568,7 @@ S
 		public void DivJavascriptEscapingXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<div style=\"\";alert('XSS');//\">";
@@ -490,7 +576,7 @@ S
 
 			// Assert
 			string expected = "<div style=\"\"></div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -501,7 +587,7 @@ S
 		public void ImageInputXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<INPUT TYPE=\"IMAGE\" SRC=\"javascript:alert('XSS');\">";
@@ -509,7 +595,7 @@ S
 
 			// Assert
 			string expected = "";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -520,7 +606,7 @@ S
 		public void ImageDynsrcXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG DYNSRC=\"javascript:alert('XSS')\">";
@@ -528,7 +614,7 @@ S
 
 			// Assert
 			string expected = "<IMG>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -539,7 +625,7 @@ S
 		public void ImageLowsrcXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG LOWSRC=\"javascript:alert('XSS')\">";
@@ -547,7 +633,7 @@ S
 
 			// Assert
 			string expected = "<IMG>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -558,7 +644,7 @@ S
 		public void BGSoundXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<BGSOUND SRC=\"javascript:alert('XSS');\">";
@@ -566,7 +652,7 @@ S
 
 			// Assert
 			string expected = "";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -577,7 +663,7 @@ S
 		public void BRJavascriptIncludeXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<BR SIZE=\"&{alert('XSS')}\">";
@@ -585,7 +671,7 @@ S
 
 			// Assert
 			string expected = "<BR>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -596,7 +682,7 @@ S
 		public void PWithUrlInStyleXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<p STYLE=\"behavior: url(www.ha.ckers.org);\">";
@@ -605,7 +691,7 @@ S
 			// Assert
 			// intentionally keep it failing to get notice when reviewing unit tests so can disucss
 			string expected = "<p STYLE=\"&#x3A;&#x20;url&#x28;www&#x2E;ha&#x2E;ckers&#x2E;org&#x29;&#x3B;\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -616,7 +702,7 @@ S
 		public void ImageWithVBScriptXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC='vbscript:msgbox(\"XSS\")'>";
@@ -624,7 +710,7 @@ S
 
 			// Assert
 			string expected = "<IMG SRC='vb&#x3A;msgbox&#x28;&#x26;quot&#x3B;XSS&#x26;quot&#x3B;&#x29;'>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -635,7 +721,7 @@ S
 		public void ImageWithMochaXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC=\"mocha:[code]\">";
@@ -643,7 +729,7 @@ S
 
 			// Assert
 			string expected = "<IMG SRC=\"&#x3A;&#x5B;code&#x5D;\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -654,7 +740,7 @@ S
 		public void ImageWithLivescriptXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC=\"Livescript:[code]\">";
@@ -662,7 +748,7 @@ S
 
 			// Assert
 			string expected = "<IMG SRC=\"Live&#x3A;&#x5B;code&#x5D;\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -673,7 +759,7 @@ S
 		public void IframeXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IFRAME SRC=\"javascript:alert('XSS');\"></IFRAME>";
@@ -681,7 +767,7 @@ S
 
 			// Assert
 			string expected = "";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -692,7 +778,7 @@ S
 		public void FrameXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<FRAMESET><FRAME SRC=\"javascript:alert('XSS');\"></FRAMESET>";
@@ -700,7 +786,7 @@ S
 
 			// Assert
 			string expected = "";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -711,7 +797,7 @@ S
 		public void TableXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<TABLE BACKGROUND=\"javascript:alert('XSS')\">";
@@ -719,7 +805,7 @@ S
 
 			// Assert
 			string expected = "";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -730,7 +816,7 @@ S
 		public void TDXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<TABLE><TD BACKGROUND=\"javascript:alert('XSS')\">";
@@ -738,7 +824,7 @@ S
 
 			// Assert
 			string expected = "";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -749,7 +835,7 @@ S
 		public void DivBackgroundImageXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<DIV STYLE=\"background-image: url(javascript:alert('XSS'))\">";
@@ -757,7 +843,7 @@ S
 
 			// Assert
 			string expected = "<DIV STYLE=\"background&#x2D;image&#x3A;&#x20;url&#x28;&#x3A;alert&#x28;&#x26;&#x23;39&#x3B;XSS&#x26;&#x23;39&#x3B;&#x29;&#x29;\"></div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -768,7 +854,7 @@ S
 		public void DivBackgroundImageWithUnicodedXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<DIV STYLE=\"background-image:\0075\0072\006C\0028'\006a\0061\0076\0061\0073\0063\0072\0069\0070\0074\003a\0061\006c\0065\0072\0074\0028.1027\0058.1053\0053\0027\0029'\0029\">";
@@ -776,7 +862,7 @@ S
 
 			// Assert
 			string expected = "<DIV STYLE=\"background&#x2D;image&#x3A;&#xfffd;075&#xfffd;072&#xfffd;06C&#xfffd;028&#x26;&#x23;39&#x3B;&#xfffd;06a&#xfffd;061&#xfffd;076&#xfffd;061&#xfffd;073&#xfffd;063&#xfffd;072&#xfffd;069&#xfffd;070&#xfffd;074&#xfffd;03a&#xfffd;061&#xfffd;06c&#xfffd;065&#xfffd;072&#xfffd;074&#xfffd;028&#x2E;1027&#xfffd;058&#x2E;1053&#xfffd;053&#xfffd;027&#xfffd;029&#x26;&#x23;39&#x3B;&#xfffd;029\"></div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -787,7 +873,7 @@ S
 		public void DivBackgroundImageWithExtraCharactersXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<DIV STYLE=\"background-image: url(&#1;javascript:alert('XSS'))\">";
@@ -795,7 +881,7 @@ S
 
 			// Assert
 			string expected = "<DIV STYLE=\"background&#x2D;image&#x3A;&#x20;url&#x28;&#x26;amp&#x3B;&#x23;1&#x3B;&#x3A;alert&#x28;&#x26;&#x23;39&#x3B;XSS&#x26;&#x23;39&#x3B;&#x29;&#x29;\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -806,7 +892,7 @@ S
 		public void DivExpressionXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<DIV STYLE=\"width: expression(alert('XSS'));\">";
@@ -814,7 +900,7 @@ S
 
 			// Assert
 			string expected = "<DIV STYLE=\"width&#x3A;&#x28;alert&#x28;&#x26;&#x23;39&#x3B;XSS&#x26;&#x23;39&#x3B;&#x29;&#x29;&#x3B;\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -825,7 +911,7 @@ S
 		public void ImageStyleExpressionXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG STYLE=\"xss:expr/*XSS*/ession(alert('XSS'))\">";
@@ -833,7 +919,7 @@ S
 
 			// Assert
 			string expected = "<IMG>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -844,7 +930,7 @@ S
 		public void AnchorTagStyleExpressionXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "exp/*<A STYLE='no\\xss:noxss(\"*//*\");xss:&#101;x&#x2F;*XSS*//*/*/pression(alert(\"XSS\"))'>";
@@ -852,7 +938,7 @@ S
 
 			// Assert
 			string expected = "exp/*<a></a>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -863,7 +949,7 @@ S
 		public void BaseTagXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<BASE HREF=\"javascript:alert('XSS');//\">";
@@ -871,7 +957,7 @@ S
 
 			// Assert
 			string expected = "";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -882,7 +968,7 @@ S
 		public void EmbedTagXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<EMBED SRC=\"http://ha.ckers.org/xss.swf\" AllowScriptAccess=\"always\"></EMBED>";
@@ -890,7 +976,7 @@ S
 
 			// Assert
 			string expected = "";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -901,7 +987,7 @@ S
 		public void EmbedSVGXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<EMBED SRC=\"data:image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dH A6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv MjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hs aW5rIiB2ZXJzaW9uPSIxLjAiIHg9IjAiIHk9IjAiIHdpZHRoPSIxOTQiIGhlaWdodD0iMjAw IiBpZD0ieHNzIj48c2NyaXB0IHR5cGU9InRleHQvZWNtYXNjcmlwdCI+YWxlcnQoIlh TUyIpOzwvc2NyaXB0Pjwvc3ZnPg==\" type=\"image/svg+xml\" AllowScriptAccess=\"always\"></EMBED>";
@@ -909,7 +995,7 @@ S
 
 			// Assert
 			string expected = "";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -920,7 +1006,7 @@ S
 		public void XmlNamespaceXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<HTML xmlns:xss>  <?import namespace=\"xss\" implementation=\"http://ha.ckers.org/xss.htc\">  <xss:xss>XSS</xss:xss></HTML>";
@@ -928,7 +1014,7 @@ S
 
 			// Assert
 			string expected = "";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -939,7 +1025,7 @@ S
 		public void XmlWithCDataXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<XML ID=I><X><C><![CDATA[<IMG SRC=\"javas]]><![CDATA[cript:alert('XSS');\">]]></C></X></xml><SPAN DATASRC=#I DATAFLD=C DATAFORMATAS=HTML></SPAN>";
@@ -947,7 +1033,7 @@ S
 
 			// Assert
 			string expected = "<SPAN></SPAN>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -958,7 +1044,7 @@ S
 		public void XmlWithCommentObfuscationXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<XML ID=\"xss\"><I><B>&lt;IMG SRC=\"javas<!-- -->cript:alert('XSS')\"&gt;</B></I></XML><SPAN DATASRC=\"#xss\" DATAFLD=\"B\" DATAFORMATAS=\"HTML\"></SPAN>";
@@ -966,7 +1052,7 @@ S
 
 			// Assert
 			string expected = "<SPAN></SPAN>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -977,7 +1063,7 @@ S
 		public void XmlWithEmbeddedScriptXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<XML SRC=\"xsstest.xml\" ID=I></XML><SPAN DATASRC=#I DATAFLD=C DATAFORMATAS=HTML></SPAN>";
@@ -985,7 +1071,7 @@ S
 
 			// Assert
 			string expected = "<SPAN></SPAN>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -996,7 +1082,7 @@ S
 		public void HtmlPlusTimeXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<HTML><BODY><?xml:namespace prefix=\"t\" ns=\"urn:schemas-microsoft-com:time\"><?import namespace=\"t\" implementation=\"#default#time2\"><t:set attributeName=\"innerHTML\" to=\"XSS&lt;SCRIPT DEFER&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;\"></BODY></HTML>";
@@ -1004,7 +1090,7 @@ S
 
 			// Assert
 			string expected = "";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1015,7 +1101,7 @@ S
 		public void ImageWithEmbeddedCommandXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC=\"http://www.thesiteyouareon.com/somecommand.php?somevariables=maliciouscode\">";
@@ -1023,7 +1109,7 @@ S
 
 			// Assert
 			string expected = "<IMG SRC=\"http&#x3A;&#x2F;&#x2F;www&#x2E;thesiteyouareon&#x2E;com&#x2F;somecommand&#x2E;php&#x3F;somevariables&#x3D;maliciouscode\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1034,7 +1120,7 @@ S
 		public void ImageWithEmbeddedCommand2XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<IMG SRC=\"Redirect 302 /a.jpg http://victimsite.com/admin.asp&deleteuser\">";
@@ -1042,7 +1128,7 @@ S
 
 			// Assert
 			string expected = "<IMG SRC=\"Redirect&#x20;302&#x20;&#x2F;a&#x2E;jpg&#x20;http&#x3A;&#x2F;&#x2F;victimsite&#x2E;com&#x2F;admin&#x2E;asp&#x26;amp&#x3B;deleteuser\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1053,7 +1139,7 @@ S
 		public void AnchorTagIPVersesHostnameXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://66.102.7.147/\">XSS</A>";
@@ -1061,7 +1147,7 @@ S
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;66&#x2E;102&#x2E;7&#x2E;147&#x2F;\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1072,7 +1158,7 @@ S
 		public void AnchorTagUrlEncodingXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://%77%77%77%2E%67%6F%6F%67%6C%65%2E%63%6F%6D\">XSS</A>";
@@ -1080,7 +1166,7 @@ S
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;&#x25;77&#x25;77&#x25;77&#x25;2E&#x25;67&#x25;6F&#x25;6F&#x25;67&#x25;6C&#x25;65&#x25;2E&#x25;63&#x25;6F&#x25;6D\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1091,7 +1177,7 @@ S
 		public void AnchorTagDwordEncodingXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://1113982867/\">XSS</A>";
@@ -1099,7 +1185,7 @@ S
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;1113982867&#x2F;\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1110,7 +1196,7 @@ S
 		public void AnchorTagHexEncodingXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://0x42.0x0000066.0x7.0x93/\">XSS</A>";
@@ -1118,7 +1204,7 @@ S
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;0x42&#x2E;0x0000066&#x2E;0x7&#x2E;0x93&#x2F;\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1129,7 +1215,7 @@ S
 		public void AnchorTagOctalEncodingXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://0102.0146.0007.00000223/\">XSS</A>";
@@ -1137,7 +1223,7 @@ S
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;0102&#x2E;0146&#x2E;0007&#x2E;00000223&#x2F;\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1148,7 +1234,7 @@ S
 		public void AnchorTagMixedEncodingXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = @"<A HREF=""h
@@ -1157,7 +1243,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"h&#x0D;&#x0A;tt&#x09;p&#x3A;&#x2F;&#x2F;6&#x26;amp&#x3B;&#x23;9&#x3B;6&#x2E;000146&#x2E;0x7&#x2E;147&#x2F;\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1168,7 +1254,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagProtocolResolutionXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"//www.google.com/\">XSS</A>";
@@ -1176,7 +1262,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2F;\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1187,7 +1273,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagGoogleFeelingLucky1XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"//google\">XSS</A>";
@@ -1195,7 +1281,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"&#x2F;&#x2F;google\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1206,7 +1292,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagGoogleFeelingLucky2XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://ha.ckers.org@google\">XSS</A>";
@@ -1214,7 +1300,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;ha&#x2E;ckers&#x2E;org&#x40;google\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1225,7 +1311,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagGoogleFeelingLucky3XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://google:ha.ckers.org\">XSS</A>";
@@ -1233,7 +1319,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;google&#x3A;ha&#x2E;ckers&#x2E;org\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1244,7 +1330,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagRemovingCNamesXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://google.com/\">XSS</A>";
@@ -1252,7 +1338,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;google&#x2E;com&#x2F;\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1263,7 +1349,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagAbsoluteDNSXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://www.google.com./\">XSS</A>";
@@ -1271,7 +1357,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2E;&#x2F;\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1282,7 +1368,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagJavascriptLinkLocationXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"javascript:document.location='http://www.google.com/'\">XSS</A>";
@@ -1290,7 +1376,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"&#x3A;document&#x2E;location&#x3D;&#x26;&#x23;39&#x3B;http&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2F;&#x26;&#x23;39&#x3B;\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1301,7 +1387,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagContentReplaceXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://www.gohttp://www.google.com/ogle.com/\">XSS</A>";
@@ -1309,7 +1395,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;www&#x2E;gohttp&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2F;ogle&#x2E;com&#x2F;\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1320,7 +1406,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagNoFilterEvasionXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://www.codeplex.com?url=<SCRIPT SRC=http://ha.ckers.org/xss.js></SCRIPT>\">XSS</A>";
@@ -1328,7 +1414,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;SRC&#x3D;http&#x3A;&#x2F;&#x2F;ha&#x2E;ckers&#x2E;org&#x2F;xss&#x2E;js&#x26;gt&#x3B;&#x26;lt&#x3B;&#x2F;&#x26;gt&#x3B;\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1339,7 +1425,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivNoFilterEvasionXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: http://www.codeplex.com?url=<SCRIPT SRC=http://ha.ckers.org/xss.js></SCRIPT>\">";
@@ -1347,7 +1433,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x20;http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;SRC&#x3D;http&#x3A;&#x2F;&#x2F;ha&#x2E;ckers&#x2E;org&#x2F;xss&#x2E;js&#x26;gt&#x3B;&#x26;lt&#x3B;&#x2F;&#x26;gt&#x3B;\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1358,7 +1444,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivStyleExpressionNoFilterEvasionXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: expression(<SCRIPT SRC=http://ha.ckers.org/xss.js></SCRIPT>)\">";
@@ -1366,7 +1452,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x28;&#x26;lt&#x3B;SRC&#x3D;http&#x3A;&#x2F;&#x2F;ha&#x2E;ckers&#x2E;org&#x2F;xss&#x2E;js&#x26;gt&#x3B;&#x26;lt&#x3B;&#x2F;&#x26;gt&#x3B;&#x29;\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1377,7 +1463,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagNonAlphaNonDigitXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://www.codeplex.com?url=<SCRIPT/XSS SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>\">XSS</A>";
@@ -1385,7 +1471,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;&#x2F;XSS&#x20;SRC&#x3D;\">\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1396,7 +1482,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivNonAlphaNonDigitXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: http://www.codeplex.com?url=<SCRIPT/XSS SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>\">";
@@ -1404,7 +1490,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x20;http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;&#x2F;XSS&#x20;SRC&#x3D;\">\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1415,7 +1501,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivStyleExpressionNonAlphaNonDigitXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: expression(<SCRIPT/XSS SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>)\">";
@@ -1423,7 +1509,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x28;&#x26;lt&#x3B;&#x2F;XSS&#x20;SRC&#x3D;\">)\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1434,7 +1520,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagNonAlphaNonDigit3XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://www.codeplex.com?url=<SCRIPT/SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>\">XSS</A>";
@@ -1442,7 +1528,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;&#x2F;SRC&#x3D;\">\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1453,7 +1539,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivNonAlphaNonDigit3XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: http://www.codeplex.com?url=<SCRIPT/SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>\">";
@@ -1461,7 +1547,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x20;http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;&#x2F;SRC&#x3D;\">\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1472,7 +1558,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivStyleExpressionNonAlphaNonDigit3XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: expression(<SCRIPT/SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>)\">";
@@ -1480,7 +1566,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x28;&#x26;lt&#x3B;&#x2F;SRC&#x3D;\">)\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1491,7 +1577,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagExtraneousOpenBracketsXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://www.codeplex.com?url=<<SCRIPT>alert(\"XSS\");//<</SCRIPT>\">XSS</A>";
@@ -1499,7 +1585,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;&#x26;lt&#x3B;&#x26;gt&#x3B;alert&#x28;\"></A>\">XSS";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1510,7 +1596,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivExtraneousOpenBracketsXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: http://www.codeplex.com?url=<<SCRIPT>alert(\"XSS\");//<</SCRIPT>\">";
@@ -1518,7 +1604,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x20;http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;&#x26;lt&#x3B;&#x26;gt&#x3B;alert&#x28;\"></Div>\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1529,7 +1615,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivStyleExpressionExtraneousOpenBracketsXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: expression(<<SCRIPT>alert(\"XSS\");//<</SCRIPT>)\">";
@@ -1537,7 +1623,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x28;&#x26;lt&#x3B;&#x26;lt&#x3B;&#x26;gt&#x3B;alert&#x28;\"></div>)\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1548,7 +1634,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagNoClosingScriptTagsXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://www.codeplex.com?url=<SCRIPT SRC=http://ha.ckers.org/xss.js?<B>\">XSS</A>";
@@ -1556,7 +1642,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;SRC&#x3D;http&#x3A;&#x2F;&#x2F;ha&#x2E;ckers&#x2E;org&#x2F;xss&#x2E;js&#x3F;&#x26;lt&#x3B;B&#x26;gt&#x3B;\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1567,7 +1653,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivNoClosingScriptTagsXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: http://www.codeplex.com?url=<SCRIPT SRC=http://ha.ckers.org/xss.js?<B>\">";
@@ -1575,7 +1661,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x20;http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;SRC&#x3D;http&#x3A;&#x2F;&#x2F;ha&#x2E;ckers&#x2E;org&#x2F;xss&#x2E;js&#x3F;&#x26;lt&#x3B;B&#x26;gt&#x3B;\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1586,7 +1672,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivStyleExpressionNoClosingScriptTagsXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: expression(<SCRIPT SRC=http://ha.ckers.org/xss.js?<B>)\">";
@@ -1594,7 +1680,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x28;&#x26;lt&#x3B;SRC&#x3D;http&#x3A;&#x2F;&#x2F;ha&#x2E;ckers&#x2E;org&#x2F;xss&#x2E;js&#x3F;&#x26;lt&#x3B;B&#x26;gt&#x3B;&#x29;\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1605,7 +1691,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagProtocolResolutionScriptXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://www.codeplex.com?url=<SCRIPT SRC=//ha.ckers.org/.j>\">XSS</A>";
@@ -1613,7 +1699,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;SRC&#x3D;&#x2F;&#x2F;ha&#x2E;ckers&#x2E;org&#x2F;&#x2E;j&#x26;gt&#x3B;\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1624,7 +1710,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivProtocolResolutionScriptXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: http://www.codeplex.com?url=<SCRIPT SRC=//ha.ckers.org/.j>\">";
@@ -1632,7 +1718,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x20;http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;SRC&#x3D;&#x2F;&#x2F;ha&#x2E;ckers&#x2E;org&#x2F;&#x2E;j&#x26;gt&#x3B;\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1643,7 +1729,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivStyleExpressionProtocolResolutionScriptXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: expression(<SCRIPT SRC=//ha.ckers.org/.j>)\">";
@@ -1651,7 +1737,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x28;&#x26;lt&#x3B;SRC&#x3D;&#x2F;&#x2F;ha&#x2E;ckers&#x2E;org&#x2F;&#x2E;j&#x26;gt&#x3B;&#x29;\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1662,7 +1748,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagNoQuotesXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://www.codeplex.com?url=<SCRIPT>a=/XSS/alert(a.source)</SCRIPT>\">XSS</A>";
@@ -1670,7 +1756,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;&#x26;gt&#x3B;a&#x3D;&#x2F;XSS&#x2F;alert&#x28;a&#x2E;source&#x29;&#x26;lt&#x3B;&#x2F;&#x26;gt&#x3B;\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1681,7 +1767,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivNoQuotesXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: http://www.codeplex.com?url=<SCRIPT>a=/XSS/alert(a.source)</SCRIPT>\">";
@@ -1689,7 +1775,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x20;http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;&#x26;gt&#x3B;a&#x3D;&#x2F;XSS&#x2F;alert&#x28;a&#x2E;source&#x29;&#x26;lt&#x3B;&#x2F;&#x26;gt&#x3B;\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1700,7 +1786,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivStyleExpressionNoQuotesXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: expression(<SCRIPT>a=/XSS/alert(a.source)</SCRIPT>)\">";
@@ -1708,7 +1794,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x28;&#x26;lt&#x3B;&#x26;gt&#x3B;a&#x3D;&#x2F;XSS&#x2F;alert&#x28;a&#x2E;source&#x29;&#x26;lt&#x3B;&#x2F;&#x26;gt&#x3B;&#x29;\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1719,7 +1805,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagUSASCIIEncodingXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://www.codeplex.com?url=¼script¾alert(¢XSS¢)¼/script¾\">XSS</A>";
@@ -1727,7 +1813,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;&#x23;188&#x3B;&#x26;&#x23;190&#x3B;alert&#x28;&#x26;&#x23;162&#x3B;XSS&#x26;&#x23;162&#x3B;&#x29;&#x26;&#x23;188&#x3B;&#x2F;&#x26;&#x23;190&#x3B;\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1738,7 +1824,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivUSASCIIEncodingXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: http://www.codeplex.com?url=¼script¾alert(¢XSS¢)¼/script¾\">";
@@ -1746,7 +1832,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x20;http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;&#x23;188&#x3B;&#x26;&#x23;190&#x3B;alert&#x28;&#x26;&#x23;162&#x3B;XSS&#x26;&#x23;162&#x3B;&#x29;&#x26;&#x23;188&#x3B;&#x2F;&#x26;&#x23;190&#x3B;\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1757,7 +1843,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivStyleExpressionUSASCIIEncodingXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: expression(¼script¾alert(¢XSS¢)¼/script¾)\">";
@@ -1765,7 +1851,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x28;&#x26;&#x23;188&#x3B;&#x26;&#x23;190&#x3B;alert&#x28;&#x26;&#x23;162&#x3B;XSS&#x26;&#x23;162&#x3B;&#x29;&#x26;&#x23;188&#x3B;&#x2F;&#x26;&#x23;190&#x3B;&#x29;\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1776,7 +1862,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagDownlevelHiddenBlockXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://www.codeplex.com?url=<!--[if gte IE 4]><SCRIPT>alert('XSS');</SCRIPT><![endif]-->\">XSS</A>";
@@ -1784,7 +1870,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;&#x21;&#x2D;&#x2D;&#x5B;if&#x20;gte&#x20;IE&#x20;4&#x5D;&#x26;gt&#x3B;&#x26;lt&#x3B;&#x26;gt&#x3B;alert&#x28;&#x26;&#x23;39&#x3B;XSS&#x26;&#x23;39&#x3B;&#x29;&#x3B;&#x26;lt&#x3B;&#x2F;&#x26;gt&#x3B;&#x26;lt&#x3B;&#x21;&#x5B;endif&#x5D;&#x2D;&#x2D;&#x26;gt&#x3B;\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1795,7 +1881,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivDownlevelHiddenBlockXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: http://www.codeplex.com?url=<!--[if gte IE 4]><SCRIPT>alert('XSS');</SCRIPT><![endif]-->\">";
@@ -1803,7 +1889,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x20;http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;&#x21;&#x2D;&#x2D;&#x5B;if&#x20;gte&#x20;IE&#x20;4&#x5D;&#x26;gt&#x3B;&#x26;lt&#x3B;&#x26;gt&#x3B;alert&#x28;&#x26;&#x23;39&#x3B;XSS&#x26;&#x23;39&#x3B;&#x29;&#x3B;&#x26;lt&#x3B;&#x2F;&#x26;gt&#x3B;&#x26;lt&#x3B;&#x21;&#x5B;endif&#x5D;&#x2D;&#x2D;&#x26;gt&#x3B;\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1814,7 +1900,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivStyleExpressionDownlevelHiddenBlockXSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: expression(<!--[if gte IE 4]><SCRIPT>alert('XSS');</SCRIPT><![endif]-->)\">";
@@ -1822,7 +1908,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x28;&#x26;lt&#x3B;&#x21;&#x2D;&#x2D;&#x5B;if&#x20;gte&#x20;IE&#x20;4&#x5D;&#x26;gt&#x3B;&#x26;lt&#x3B;&#x26;gt&#x3B;alert&#x28;&#x26;&#x23;39&#x3B;XSS&#x26;&#x23;39&#x3B;&#x29;&#x3B;&#x26;lt&#x3B;&#x2F;&#x26;gt&#x3B;&#x26;lt&#x3B;&#x21;&#x5B;endif&#x5D;&#x2D;&#x2D;&#x26;gt&#x3B;&#x29;\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1833,7 +1919,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagHtmlQuotesEncapsulation1XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://www.codeplex.com?url=<SCRIPT a=\">\" SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>\">XSS</A>";
@@ -1841,7 +1927,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;a&#x3D;\">\" SRC=\"http://ha.ckers.org/xss.js\">\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1852,7 +1938,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivHtmlQuotesEncapsulation1XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: http://www.codeplex.com?url=<SCRIPT a=\">\" SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>\">";
@@ -1860,7 +1946,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x20;http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;a&#x3D;\">\" SRC=\"http://ha.ckers.org/xss.js\">\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1871,7 +1957,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivStyleExpressionHtmlQuotesEncapsulation1XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: expression(<SCRIPT a=\">\" SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>)\">";
@@ -1879,7 +1965,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x28;&#x26;lt&#x3B;a&#x3D;\">\" SRC=\"http://ha.ckers.org/xss.js\">)\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1890,7 +1976,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagHtmlQuotesEncapsulation2XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://www.codeplex.com?url=<SCRIPT =\">\" SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>\">XSS</A>";
@@ -1898,7 +1984,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;&#x3D;\">\" SRC=\"http://ha.ckers.org/xss.js\">\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1909,7 +1995,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivHtmlQuotesEncapsulation2XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: http://www.codeplex.com?url=<SCRIPT =\">\" SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>\">";
@@ -1917,7 +2003,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x20;http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;&#x3D;\">\" SRC=\"http://ha.ckers.org/xss.js\">\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1928,7 +2014,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivStyleExpressionHtmlQuotesEncapsulation2XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: expression(<SCRIPT =\">\" SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>)\">";
@@ -1936,7 +2022,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x28;&#x26;lt&#x3B;&#x3D;\">\" SRC=\"http://ha.ckers.org/xss.js\">)\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1947,7 +2033,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagHtmlQuotesEncapsulation3XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://www.codeplex.com?url=<SCRIPT a=\">\" '' SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>\">XSS</A>";
@@ -1955,7 +2041,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;a&#x3D;\">\" '' SRC=\"http://ha.ckers.org/xss.js\">\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1966,7 +2052,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivHtmlQuotesEncapsulation3XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: http://www.codeplex.com?url=<SCRIPT a=\" > \" '' SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>\">";
@@ -1974,7 +2060,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x20;http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;a&#x3D;\"> \" '' SRC=\"http://ha.ckers.org/xss.js\">\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -1985,7 +2071,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivStyleExpressionHtmlQuotesEncapsulation3XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: expression(<SCRIPT a=\" > \" '' SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>)\">";
@@ -1993,7 +2079,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x28;&#x26;lt&#x3B;a&#x3D;\"> \" '' SRC=\"http://ha.ckers.org/xss.js\">)\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -2004,7 +2090,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagHtmlQuotesEncapsulation4XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://www.codeplex.com?url=<SCRIPT \"a='>'\" SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>\">XSS</A>";
@@ -2012,7 +2098,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;\">\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -2023,7 +2109,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivHtmlQuotesEncapsulation4XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: http://www.codeplex.com?url=<SCRIPT \"a='>'\" SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>\">";
@@ -2031,7 +2117,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x20;http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;\">\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -2042,7 +2128,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivStyleExpressionHtmlQuotesEncapsulation4XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: expression(<SCRIPT \"a='>'\" SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>)\">";
@@ -2050,7 +2136,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x28;&#x26;lt&#x3B;\">)\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -2061,7 +2147,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagHtmlQuotesEncapsulation5XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://www.codeplex.com?url=<SCRIPT a=`>` SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>\">XSS</A>";
@@ -2069,7 +2155,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;a&#x3D;&#x60;&#x26;gt&#x3B;&#x60;&#x20;SRC&#x3D;\">\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -2080,7 +2166,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivHtmlQuotesEncapsulation5XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: http://www.codeplex.com?url=<SCRIPT a=`>` SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>\">";
@@ -2088,7 +2174,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x20;http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;a&#x3D;&#x60;&#x26;gt&#x3B;&#x60;&#x20;SRC&#x3D;\">\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -2099,7 +2185,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivStyleExpressionHtmlQuotesEncapsulation5XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: expression(<SCRIPT a=`>` SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>)\">";
@@ -2107,7 +2193,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x28;&#x26;lt&#x3B;a&#x3D;&#x60;&#x26;gt&#x3B;&#x60;&#x20;SRC&#x3D;\">)\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -2118,7 +2204,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagHtmlQuotesEncapsulation6XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://www.codeplex.com?url=<SCRIPT a=\">'>\" SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>\">XSS</A>";
@@ -2126,7 +2212,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;a&#x3D;\">'>\" SRC=\"http://ha.ckers.org/xss.js\">\">XSS</A>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -2137,7 +2223,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivHtmlQuotesEncapsulation6XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: http://www.codeplex.com?url=<SCRIPT a=\">'>\" SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>\">";
@@ -2145,7 +2231,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x20;http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;a&#x3D;\">'>\" SRC=\"http://ha.ckers.org/xss.js\">\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -2156,7 +2242,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivStyleExpressionHtmlQuotesEncapsulation6XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: expression(<SCRIPT a=\">'>\" SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>)\">";
@@ -2164,7 +2250,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x28;&#x26;lt&#x3B;a&#x3D;\">'>\" SRC=\"http://ha.ckers.org/xss.js\">)\"></Div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -2175,7 +2261,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void AnchorTagHtmlQuotesEncapsulation7XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<A HREF=\"http://www.codeplex.com?url=<SCRIPT>document.write(\"<SCRI\");</SCRIPT>PT SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>\">XSS</A>";
@@ -2183,7 +2269,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<A HREF=\"http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;&#x26;gt&#x3B;document&#x2E;write&#x28;\"></a>PT SRC=\"http://ha.ckers.org/xss.js\">\">XSS";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -2194,7 +2280,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivHtmlQuotesEncapsulation7XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: http://www.codeplex.com?url=<SCRIPT>document.write(\"<SCRI\");</SCRIPT>PT SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>\">";
@@ -2202,7 +2288,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x20;http&#x3A;&#x2F;&#x2F;www&#x2E;codeplex&#x2E;com&#x3F;url&#x3D;&#x26;lt&#x3B;&#x26;gt&#x3B;document&#x2E;write&#x28;\"></div>PT SRC=\"http://ha.ckers.org/xss.js\">\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		/// <summary>
@@ -2213,7 +2299,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		public void DivStyleExpressionHtmlQuotesEncapsulation7XSSTest()
 		{
 			// Arrange
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<Div style=\"background-color: expression(<SCRIPT>document.write(\"<SCRI\");</SCRIPT>PT SRC=\"http://ha.ckers.org/xss.js\"></SCRIPT>)\">";
@@ -2221,13 +2307,13 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<Div style=\"background&#x2D;color&#x3A;&#x28;&#x26;lt&#x3B;&#x26;gt&#x3B;document&#x2E;write&#x28;\"></div>PT SRC=\"http://ha.ckers.org/xss.js\">)\">";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
 		[Test]
 		public void HtmlEncode()
 		{
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
 
 			// Act
 			string htmlFragment = "<div style=\"background-color: test\">";
@@ -2235,7 +2321,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 
 			// Assert
 			string expected = "<div style=\"background&#x2D;color&#x3A;&#x20;test\"></div>";
-			Assert.That(expected, Is.EqualTo(actual).IgnoreCase);
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 	}
 }
