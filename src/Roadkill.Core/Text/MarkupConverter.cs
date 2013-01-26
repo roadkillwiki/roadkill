@@ -10,6 +10,7 @@ using Roadkill.Core.Configuration;
 using StructureMap;
 using System.IO;
 using Roadkill.Core.Files;
+using Roadkill.Core.Text.Sanitizer;
 
 namespace Roadkill.Core.Converters
 {
@@ -198,7 +199,7 @@ namespace Roadkill.Core.Converters
 		/// </summary>
 		private string RemoveHarmfulTags(string html)
 		{
-			MarkupSanitizer sanitizer = new MarkupSanitizer();
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_configuration);
 			return sanitizer.SanitizeHtml(html);
 		}
 

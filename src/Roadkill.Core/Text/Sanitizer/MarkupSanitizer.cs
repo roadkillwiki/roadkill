@@ -4,18 +4,13 @@ using System.Text;
 using System.Linq;
 using System.Web;
 using System.Text.RegularExpressions;
+using Roadkill.Core.Configuration;
+using HapHtmlAttribute = HtmlAgilityPack.HtmlAttribute;
 
-// Taken from: http://ajaxcontroltoolkit.codeplex.com
-
-namespace Roadkill.Core.Converters
+// Parts of this class are based on source (c) 2009 Codeplex Foundation 
+// from: http://ajaxcontroltoolkit.codeplex.com under the new BSD license.
+namespace Roadkill.Core.Text.Sanitizer
 {
-	public enum SanitizeMode
-	{
-		Custom,
-		Loose,
-		Strict
-	}
-
     /// <summary>
     /// Sanitizer class that allows tag and attributes those are in whitelist and removes
     /// other tags and attributes. This also cleans attribute values to remove vulnerable
@@ -25,26 +20,11 @@ namespace Roadkill.Core.Converters
     {
 		// declare an array to mark which characters are to be encoded.
 		private string[] _encodedCharacters = new string[256];
+		private IConfigurationContainer _config;
+		internal static HtmlWhiteList _htmlWhiteList;
 
-		public SanitizeMode Mode { get; private set; }
-		public Dictionary<string, string[]> ElementWhiteList { get; private set; }
-		public Dictionary<string, string[]> AttributeWhiteList { get; private set; }
-
-		public MarkupSanitizer() 
-			: this(SanitizeMode.Strict, null, null)
+		public MarkupSanitizer(IConfigurationContainer config) 
 		{
-		}
-
-		public MarkupSanitizer(SanitizeMode mode)
-			: this(mode, null, null)
-		{
-		}
-
-        /// <summary>
-        /// Constructor to initialize array of encoded values.
-        /// </summary>
-        public MarkupSanitizer(SanitizeMode mode, Dictionary<string, string[]> elementWhiteList, Dictionary<string, string[]> attributeWhieList)
-        {
             // Intialize array
             for (int i = 0; i < 0xFF; i++)
             {
@@ -58,90 +38,14 @@ namespace Roadkill.Core.Converters
                 }
             }
 
-			if (elementWhiteList != null)
-			{
-				ElementWhiteList = elementWhiteList;
-				Mode = SanitizeMode.Custom;
-			}
-			else
-			{
-				Mode = mode;
-				ElementWhiteList = CreateElementWhiteList();
+			_config = config;
 
-				if (mode == SanitizeMode.Loose)
-				{
-
-				}
-			}
-
-			if (attributeWhieList != null)
-			{
-				AttributeWhiteList = attributeWhieList;
-			}
-			else
-			{
-				Mode = mode;
-				AttributeWhiteList = CreateAttributeWhiteList();
-
-				if (mode == SanitizeMode.Loose)
-				{
-
-				}
-			}
+			if (_htmlWhiteList == null)
+				_htmlWhiteList = HtmlWhiteList.Deserialize(config);
         }
 
-		private Dictionary<string, string[]> CreateElementWhiteList()
-		{
-			// make list of tags and its relatd attributes
-			Dictionary<string, string[]> tagList = new Dictionary<string, string[]>();
-
-			tagList.Add("strong", new string[] { "style", });
-			tagList.Add("b", new string[] { "style" });
-			tagList.Add("em", new string[] { "style" });
-			tagList.Add("i", new string[] { "style" });
-			tagList.Add("u", new string[] { "style" });
-			tagList.Add("strike", new string[] { "style" });
-			tagList.Add("sub", new string[] { });
-			tagList.Add("sup", new string[] { });
-			tagList.Add("p", new string[] { "style", "align", "dir" });
-			tagList.Add("ol", new string[] { });
-			tagList.Add("li", new string[] { });
-			tagList.Add("ul", new string[] { });
-			tagList.Add("font", new string[] { "style", "color", "face", "size" });
-			tagList.Add("blockquote", new string[] { "style", "dir" });
-			tagList.Add("hr", new string[] { "size", "width" });
-			tagList.Add("img", new string[] { "src" });
-			tagList.Add("div", new string[] { "style", "align" });
-			tagList.Add("span", new string[] { "style" });
-			tagList.Add("br", new string[] { "style" });
-			tagList.Add("center", new string[] { "style" });
-			tagList.Add("a", new string[] { "href" });
-			tagList.Add("pre", new string[] { "id" });
-			tagList.Add("code", new string[] { "id" });
-
-			return tagList;
-		}
-
-		private Dictionary<string, string[]> CreateAttributeWhiteList()
-		{
-			Dictionary<string, string[]> attributeList = new Dictionary<string, string[]>();
-
-			// create white list of attributes and its values
-			attributeList.Add("style", new string[] { "background-color", "margin", "margin-right", "padding", "border", "text-align" });
-			attributeList.Add("align", new string[] { "left", "right", "center", "justify" });
-			attributeList.Add("color", new string[] { });
-			attributeList.Add("size", new string[] { });
-			attributeList.Add("face", new string[] { });
-			attributeList.Add("dir", new string[] { "ltr", "rtl", "Auto" });
-			attributeList.Add("width", new string[] { });
-			attributeList.Add("src", new string[] { });
-			attributeList.Add("href", new string[] { });
-
-			return attributeList;
-		}
-
         /// <summary>
-        /// This method actually do the process of sanitization.
+        /// Removes all tags from a html string that aren't in the whitelist.
         /// </summary>
         /// <param name="htmlText">Html Content which need to sanitze.</param>
         /// <returns>Html text after sanitize.</returns>
@@ -158,40 +62,33 @@ namespace Roadkill.Core.Converters
                 return string.Empty;
 
             HtmlNode allNodes = html.DocumentNode;
-            Dictionary<string, string[]> validHtmlTags = ElementWhiteList;
-            Dictionary<string, string[]> validAttributes = AttributeWhiteList;
-            string[] tagWhiteList = (from kv in validHtmlTags
-                                     select kv.Key).ToArray();
-
-			if (tagWhiteList.Count() > 0)
-			{
-				CleanNodes(allNodes, tagWhiteList);
-			}
+			string[] tagNames = _htmlWhiteList.ElementWhiteList.Select(x => x.Name).ToArray();
+			CleanNodes(allNodes, tagNames);
 
             // Filter the attributes of the remaining
-            foreach (KeyValuePair<string, string[]> tag in validHtmlTags)
+            foreach (HtmlElement whiteListTag in _htmlWhiteList.ElementWhiteList)
             {
                 IEnumerable<HtmlNode> nodes = (from n in allNodes.DescendantsAndSelf()
-                                               where n.Name == tag.Key
+                                               where n.Name == whiteListTag.Name
                                                select n);
 
                 if (nodes == null) continue;
 
-                foreach (var n in nodes)
+                foreach (HtmlNode node in nodes)
                 {
-                    if (!n.HasAttributes) continue;
+                    if (!node.HasAttributes) continue;
 
                     // Get all the allowed attributes for this tag
-                    HtmlAttribute[] attr = n.Attributes.ToArray();
-                    foreach (HtmlAttribute a in attr)
+                    HapHtmlAttribute[] attributes = node.Attributes.ToArray();
+					foreach (HapHtmlAttribute attribute in attributes)
                     {
-                        if (!tag.Value.Contains(a.Name))
+                        if (!whiteListTag.ContainsAttribute(attribute.Name))
                         {
-                            a.Remove(); // Wasn't in the list
+                            attribute.Remove(); // Wasn't in the list
                         }
                         else
                         {
-                            CleanAttributeValues(a);
+                            CleanAttributeValues(attribute);
                         }
                     }
                 }
@@ -235,7 +132,7 @@ namespace Roadkill.Core.Converters
         /// This removes the vulnerable keywords and make values safe by html encoding and html character escaping.
         /// </summary>        
         /// <param name="attribute">Attribute that contain values that need to check and clean.</param>
-        private void CleanAttributeValues(HtmlAttribute attribute)
+        private void CleanAttributeValues(HapHtmlAttribute attribute)
         {
             attribute.Value = HttpUtility.HtmlEncode(attribute.Value);
             
@@ -256,13 +153,13 @@ namespace Roadkill.Core.Converters
             }
 
             // HtmlEntity Escape
-            StringBuilder sbAttriuteValue = new StringBuilder();
+            StringBuilder sbAttributeValue = new StringBuilder();
             foreach (char c in attribute.Value.ToCharArray())
             {
-                sbAttriuteValue.Append(EncodeCharacterToHtmlEntityEscape(c));
+                sbAttributeValue.Append(EncodeCharacterToHtmlEntityEscape(c));
             }
 
-            attribute.Value = sbAttriuteValue.ToString();
+            attribute.Value = sbAttributeValue.ToString();
 
         }
 

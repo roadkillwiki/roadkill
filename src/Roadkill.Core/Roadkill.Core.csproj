@@ -300,7 +300,10 @@
     <Compile Include="Controllers\HelpController.cs" />
     <Compile Include="Text\CustomToken.cs" />
     <Compile Include="Text\CustomTokenParser.cs" />
-    <Compile Include="Text\MarkupSanitizer.cs" />
+    <Compile Include="Text\Sanitizer\HtmlWhiteList.cs" />
+    <Compile Include="Text\Sanitizer\HtmlAttribute.cs" />
+    <Compile Include="Text\Sanitizer\HtmlElement.cs" />
+    <Compile Include="Text\Sanitizer\MarkupSanitizer.cs" />
     <Compile Include="Text\ImageEventArgs.cs" />
     <Compile Include="Text\IMarkupParser.cs" />
     <Compile Include="Text\LinkEventArgs.cs" />
