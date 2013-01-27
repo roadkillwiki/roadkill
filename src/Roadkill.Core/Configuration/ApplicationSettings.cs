@@ -126,6 +126,12 @@ namespace Roadkill.Core.Configuration
 		public bool ResizeImages { get; set; }
 
 		/// <summary>
+		/// Gets a value indicating whether the html that is converted from the markup is 
+		/// cleaned for tags, using the App_Data/htmlwhitelist.xml file.
+		/// </summary>
+		public bool UseHtmlWhiteList { get; set; }
+
+		/// <summary>
 		/// The type for the <see cref="UserManager"/>. If the setting for this is blank
 		/// in the web.config, then the <see cref="UseWindowsAuthentication"/> is checked and if false
 		/// a <see cref="SqlUserManager"/> is created. The format of this setting can be retrieved by
@@ -150,15 +156,27 @@ namespace Roadkill.Core.Configuration
 		/// is used to load the settings.</param>
 		public virtual void Load(System.Configuration.Configuration config = null)
 		{
+			// Configuration options that aren't configured from web.config
+			AppDataPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\";
+			CustomTokensPath = Path.Combine(AppDataPath, "tokens.xml");
+			HtmlElementWhiteListPath = Path.Combine(AppDataPath, "htmlwhitelist.xml");
+			MinimumPasswordLength = 6;
+			Version = typeof(RoadkillSettings).Assembly.GetName().Version.ToString();
+
+			// Web/app.config settings
 			RoadkillSection section;
 
 			if (config == null)
+			{
 				section = ConfigurationManager.GetSection("roadkill") as RoadkillSection;
+			}
 			else
+			{
 				section = config.GetSection("roadkill") as RoadkillSection;
+			}
 
 			AdminRoleName = section.AdminRoleName;		
-			AppDataPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\";
+			
 
 			if (section.AttachmentsFolder.StartsWith("~") && HttpContext.Current != null)
 			{
@@ -175,32 +193,37 @@ namespace Roadkill.Core.Configuration
 			CacheText = section.CacheText;
 
 			if (config == null)
+			{
 				ConnectionString = ConfigurationManager.ConnectionStrings[section.ConnectionStringName].ConnectionString;
+			}
 			else
+			{
 				ConnectionString = config.ConnectionStrings.ConnectionStrings[section.ConnectionStringName].ConnectionString;
+			}
 
-			ConnectionStringName = section.ConnectionStringName;
-			CustomTokensPath = Path.Combine(AppDataPath, "tokens.xml");
+			ConnectionStringName = section.ConnectionStringName;		
 
 			DatabaseType dbType;
 			if (Enum.TryParse<DatabaseType>(section.DatabaseType, true, out dbType))
+			{
 				DatabaseType = dbType;
+			}
 			else
+			{
 				DatabaseType = DatabaseType.SqlServer2005;
+			}
 
 			EditorRoleName = section.EditorRoleName;
-			HtmlElementWhiteListPath = Path.Combine(AppDataPath, "elementwhitelist.xml");
 			IgnoreSearchIndexErrors = section.IgnoreSearchIndexErrors;
 			IsPublicSite = section.IsPublicSite;
 			Installed = section.Installed;		
 			LdapConnectionString = section.LdapConnectionString;
 			LdapUsername = section.LdapUsername;
 			LdapPassword = section.LdapPassword;
-			MinimumPasswordLength = 6;
 			ResizeImages = section.ResizeImages;
+			UseHtmlWhiteList = section.UseHtmlWhiteList;
 			UserManagerType = section.UserManagerType;
 			UseWindowsAuthentication = section.UseWindowsAuthentication;
-			Version = typeof(RoadkillSettings).Assembly.GetName().Version.ToString();
 		}
 
 		/// <summary>

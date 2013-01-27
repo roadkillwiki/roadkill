@@ -18,6 +18,7 @@ namespace Roadkill.Tests.Unit
 		public void Setup()
 		{
 			_config = new ConfigurationContainerStub();
+			_config.ApplicationSettings.UseHtmlWhiteList = true;
 			_converter = new MarkupConverter(_config, null);
 		}
 
@@ -170,6 +171,24 @@ namespace Roadkill.Tests.Unit
 			string actualHtml = converter.ToHtml("[[http://www.blah.com|link1]] [[www.blah.com|link2]] [[mailto:spam@gmail.com|spam]]");
 
 			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		public void Html_Should_Not_Be_Sanitized_If_UseHtmlWhiteList_Setting_Is_False()
+		{
+			// Arrange
+			_config.SitePreferences.MarkupType = "Creole";
+			_config.ApplicationSettings.UseHtmlWhiteList = false;
+
+			string htmlFragment = "<div onclick=\"javascript:alert('ouch');\">test</div>";
+			MarkupConverter converter = new MarkupConverter(_config, null);
+
+			// Act
+			string actualHtml = converter.ToHtml(htmlFragment);
+
+			// Assert
+			string expectedHtml = "<p>" +htmlFragment+ "\n</p>";
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
 		}
 	}

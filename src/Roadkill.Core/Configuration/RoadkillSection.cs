@@ -161,6 +161,17 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// Whether to remove all HTML tags from the markup except those found in the whitelist.xml file,
+		/// inside the App_Data folder.
+		/// </summary>
+		[ConfigurationProperty("useHtmlWhiteList", IsRequired = false, DefaultValue=true)]
+		public bool UseHtmlWhiteList
+		{
+			get { return (bool)this["useHtmlWhiteList"]; }
+			set { this["useHtmlWhiteList"] = value; }
+		}
+
+		/// <summary>
 		/// Whether to enabled Windows and Active Directory authentication.
 		/// </summary>
 		[ConfigurationProperty("useWindowsAuthentication", IsRequired = true)]

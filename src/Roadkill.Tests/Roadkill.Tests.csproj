@@ -239,6 +239,7 @@
     <Compile Include="Unit\Controllers\Setup\MvcMockContainer.cs" />
     <Compile Include="Unit\Controllers\FilesControllerTests.cs" />
     <Compile Include="Unit\Stubs\RoadkillContextStub.cs" />
+    <Compile Include="Unit\Stubs\UserManagerStub.cs" />
     <Compile Include="Unit\Text\MarkupSanitizerTests.cs" />
     <Compile Include="Unit\Text\MarkdownTests.cs" />
     <Compile Include="Integration\RoadkillSettingsTests.cs" />
@@ -257,14 +258,14 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />
-    <Content Include="Unit\TestConfigs\test.config">
+    <Content Include="Integration\TestConfigs\test.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Unit\TestConfigs\test-optional-values.config">
+    <Content Include="Integration\TestConfigs\test-optional-values.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Unit\TestConfigs\test-missing-values.config">
+    <Content Include="Integration\TestConfigs\test-missing-values.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config">
