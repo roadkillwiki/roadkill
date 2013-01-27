@@ -27,6 +27,7 @@ namespace Roadkill.Tests.Unit
 		public void Setup()
 		{
 			_config = new ConfigurationContainerStub();
+			_config.ApplicationSettings.UseHtmlWhiteList = true;
 		}
 
 		[Test, Ignore]

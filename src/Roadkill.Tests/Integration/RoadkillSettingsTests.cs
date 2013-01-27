@@ -17,7 +17,7 @@ namespace Roadkill.Tests.Unit
 		private IConfigurationContainer _config;
 
 		[SetUp]
-		public void SearchSetup()
+		public void Setup()
 		{
 			_config = new RoadkillSettings();
 		}
@@ -26,7 +26,7 @@ namespace Roadkill.Tests.Unit
 		public void RoadkillSection_Properties_Have_Correct_Key_Mappings_And_Values()
 		{
 			// Arrange
-			string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Unit", "TestConfigs", "test.config");
+			string configFilePath = GetConfigPath("test.config");
 
 			// Act
 			ApplicationSettings appSettings = new ApplicationSettings();
@@ -47,6 +47,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(appSettings.LdapPassword, Is.EqualTo("ldappassword-test"), "LdapPassword");
 			Assert.That(appSettings.LdapUsername, Is.EqualTo("ldapusername-test"), "LdapUsername");
 			Assert.That(appSettings.ResizeImages, Is.True, "ResizeImages");
+			Assert.That(appSettings.UseHtmlWhiteList, Is.EqualTo(false), "UseHtmlWhiteList");
 			Assert.That(appSettings.UserManagerType, Is.EqualTo("SqlUserManager-test"), "SqlUserManager");
 			Assert.That(appSettings.UseWindowsAuthentication, Is.False, "UseWindowsAuthentication");
 		}
@@ -55,7 +56,7 @@ namespace Roadkill.Tests.Unit
 		public void RoadkillSection_Optional_Settings_With_Missing_Values_Have_Default_Values()
 		{
 			// Arrange
-			string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Unit", "TestConfigs", "test-optional-values.config");
+			string configFilePath = GetConfigPath("test-optional-values.config");
 
 			// Act
 			ApplicationSettings appSettings = new ApplicationSettings();
@@ -69,6 +70,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(appSettings.LdapPassword, Is.EqualTo(""), "LdapPassword");
 			Assert.That(appSettings.LdapUsername, Is.EqualTo(""), "LdapUsername");
 			Assert.That(appSettings.ResizeImages, Is.True, "ResizeImages");
+			Assert.That(appSettings.UseHtmlWhiteList, Is.EqualTo(true), "UseHtmlWhiteList");
 			Assert.That(appSettings.UserManagerType, Is.EqualTo(""), "SqlUserManager");
 		}
 
@@ -76,7 +78,7 @@ namespace Roadkill.Tests.Unit
 		public void Connection_Setting_Should_Find_Connection_Value()
 		{
 			// Arrange
-			string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Unit", "TestConfigs", "test.config");
+			string configFilePath = GetConfigPath("test.config");
 
 			// Act
 			ApplicationSettings appSettings = new ApplicationSettings();
@@ -90,7 +92,7 @@ namespace Roadkill.Tests.Unit
 		public void RoadkillSection_Missing_Values_Throw_Exception()
 		{
 			// Arrange
-			string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Unit", "TestConfigs", "test-missing-values.config");
+			string configFilePath = GetConfigPath("test-missing-values.config");
 
 			// Act
 			ApplicationSettings appSettings = new ApplicationSettings();
@@ -225,129 +227,10 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(UserManager.GetInstance(), Is.TypeOf(typeof(SqlUserManager)));
 		}
-	}
 
-	public class UserManagerStub : UserManager
-	{
-		public UserManagerStub()
-			: base(null, null)
+		private string GetConfigPath(string filename)
 		{
-
-		}
-
-		public override bool IsReadonly
-		{
-			get { throw new NotImplementedException(); }
-		}
-
-		public override bool ActivateUser(string activationKey)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override bool AddUser(string email, string username, string password, bool isAdmin, bool isEditor)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override bool Authenticate(string email, string password)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override void ChangePassword(string email, string newPassword)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override bool ChangePassword(string email, string oldPassword, string newPassword)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override bool DeleteUser(string email)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override User GetUserById(Guid id)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override User GetUser(string email)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override User GetUserByResetKey(string resetKey)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override bool IsAdmin(string email)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override bool IsEditor(string email)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override IEnumerable<UserSummary> ListAdmins()
-		{
-			throw new NotImplementedException();
-		}
-
-		public override IEnumerable<UserSummary> ListEditors()
-		{
-			throw new NotImplementedException();
-		}
-
-		public override void Logout()
-		{
-			throw new NotImplementedException();
-		}
-
-		public override string ResetPassword(string email)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override string Signup(UserSummary summary, Action completed)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override void ToggleAdmin(string email)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override void ToggleEditor(string email)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override bool UpdateUser(UserSummary summary)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override bool UserExists(string email)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override bool UserNameExists(string username)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override string GetLoggedInUserName(System.Web.HttpContextBase context)
-		{
-			throw new NotImplementedException();
+			return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "TestConfigs", filename);
 		}
 	}
 }

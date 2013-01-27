@@ -195,12 +195,19 @@ namespace Roadkill.Core.Converters
 		}
 
 		/// <summary>
-		/// Strips a lot of unsafe Javascript/Html/CSS from the markup, taken from http://ajaxcontroltoolkit.codeplex.com/.
+		/// Strips a lot of unsafe Javascript/Html/CSS from the markup, if the feature is enabled.
 		/// </summary>
 		private string RemoveHarmfulTags(string html)
 		{
-			MarkupSanitizer sanitizer = new MarkupSanitizer(_configuration);
-			return sanitizer.SanitizeHtml(html);
+			if (_configuration.ApplicationSettings.UseHtmlWhiteList)
+			{
+				MarkupSanitizer sanitizer = new MarkupSanitizer(_configuration);
+				return sanitizer.SanitizeHtml(html);
+			}
+			else
+			{
+				return html;
+			}
 		}
 
 		/// <summary>
