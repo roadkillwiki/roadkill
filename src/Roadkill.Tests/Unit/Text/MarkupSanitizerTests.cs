@@ -55,16 +55,18 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ShouldDeserializeWhiteListFromFile()
+		public void ShouldDeserializeWhiteListFromExistingXmlFile()
 		{
 			// Arrange
 			string whitelistFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Unit", "Text", "whitelist.xml");
-			_config.ApplicationSettings.HtmlElementWhiteListPath = whitelistFile;
+			IConfigurationContainer config = new ConfigurationContainerStub();
+			config.ApplicationSettings.HtmlElementWhiteListPath = whitelistFile;
 
 			string htmlFragment = "<test href=\"http://www.google.com\">link</test> <blah id=\"myid\" class=\"class1 class2\">somediv</blah><a href=\"test\">test</a>";
 
 			// Act
-			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
+			MarkupSanitizer sanitizer = new MarkupSanitizer(config);
+			sanitizer.SetWhiteListCacheKey("ShouldDeserializeWhiteListFromExistingXmlFile");
 			string actual = sanitizer.SanitizeHtml(htmlFragment);
 
 			// Assert
@@ -73,11 +75,12 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ShouldDeserializeWhiteList()
+		public void ShouldDeserializeWhiteListFromGeneratedXmlFile()
 		{
 			// Arrange
 			string whitelistFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "whitelistgenerated.xml");
-			_config.ApplicationSettings.HtmlElementWhiteListPath = whitelistFile;
+			IConfigurationContainer config = new ConfigurationContainerStub();
+			config.ApplicationSettings.HtmlElementWhiteListPath = whitelistFile;
 			
 			using (FileStream stream = new FileStream(whitelistFile, FileMode.Create, FileAccess.Write))
 			{
@@ -96,7 +99,8 @@ namespace Roadkill.Tests.Unit
 			string htmlFragment = "<test href=\"http://www.google.com\">link</test> <blah id=\"myid\" class=\"class1 class2\">somediv</blah><a href=\"test\">test</a>";
 
 			// Act
-			MarkupSanitizer sanitizer = new MarkupSanitizer(_config);
+			MarkupSanitizer sanitizer = new MarkupSanitizer(config);
+			sanitizer.SetWhiteListCacheKey("ShouldDeserializeWhiteListFromGeneratedXmlFile");
 			string actual = sanitizer.SanitizeHtml(htmlFragment);
 
 			// Assert
@@ -805,7 +809,7 @@ S
 			string actual = sanitizer.SanitizeHtml(htmlFragment);
 
 			// Assert
-			string expected = "";
+			string expected = "<table></table>";
 			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
@@ -824,7 +828,7 @@ S
 			string actual = sanitizer.SanitizeHtml(htmlFragment);
 
 			// Assert
-			string expected = "";
+			string expected = "<table><td></td></table>";
 			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
 		}
 
