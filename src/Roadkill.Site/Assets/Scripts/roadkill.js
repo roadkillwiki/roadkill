@@ -29,8 +29,6 @@ $(document).ready(function ()
 
 		$(this).parent().next().toggle();
 	});
-
-	formatPreTags();
 });
 
 /**
@@ -69,23 +67,6 @@ function bindConfirmDelete()
 			return false;
 		}
 	});
-}
-
-/**
-Formats pre tags for Creole/Mediawiki so that < > are encoded and display.
-*/
-function formatPreTags()
-{
-	if (ROADKILL_MARKUPTYPE !== "Markdown")
-	{
-		$("pre").each(function (index)
-		{
-			var current = $(this);
-			var html = current.html();
-			html = html.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-			current.html(html);
-		});
-	}
 }
 
 function openModal(selector, params)

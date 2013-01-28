@@ -49,6 +49,7 @@ using System.Text;
 using System.Linq;
 using System.Linq.Expressions;
 using Roadkill.Core.Configuration;
+using System.Web;
 
 namespace Roadkill.Core.Converters
 {
@@ -400,7 +401,7 @@ namespace Roadkill.Core.Converters
 						InEscape = false;
 					}
 					else
-						htmlMarkup.Append(line + "\n"); // just pass it straight through unparsed
+						htmlMarkup.Append(System.Web.HttpUtility.HtmlEncode(line) + "\n"); // just pass it straight through unparsed
 				}
 				idParagraph++;
 			}
@@ -1063,9 +1064,8 @@ namespace Roadkill.Core.Converters
 				int iEnd = markup.IndexOf(NoWikiEscapeEnd, iPos);
 				if (iEnd > iPos)
 				{
-					markup = markup.Substring(0, iPos) + _getStartTag("<tt>") +
+					markup = markup.Substring(0, iPos) +
 						markup.Substring(iPos + NoWikiEscapeStart.Length, iEnd - (iPos + NoWikiEscapeStart.Length)) +
-						String.Format("</tt>") +
 						markup.Substring(iEnd + 3);
 
 					iPos = markup.IndexOf(NoWikiEscapeStart, iPos);
