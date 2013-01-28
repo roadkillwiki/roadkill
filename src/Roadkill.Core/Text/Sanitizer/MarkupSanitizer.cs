@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
-using HtmlAgilityPack;
-using System.Text;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Runtime.Caching;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Web;
+using HtmlAgilityPack;
 using Roadkill.Core.Configuration;
 using HapHtmlAttribute = HtmlAgilityPack.HtmlAttribute;
 
@@ -18,14 +21,21 @@ namespace Roadkill.Core.Text.Sanitizer
     /// </summary>
     public class MarkupSanitizer
     {
-		// declare an array to mark which characters are to be encoded.
 		private string[] _encodedCharacters = new string[256];
 		private IConfigurationContainer _config;
-		internal static HtmlWhiteList _htmlWhiteList;
+		private string _cacheKey;
+		internal static MemoryCache _memoryCache = new MemoryCache("MarkupSanitizer");
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="config"></param>
 		public MarkupSanitizer(IConfigurationContainer config) 
 		{
-            // Intialize array
+			_config = config;
+			_cacheKey = "whitelist";
+
+			// Intialize an array to mark which characters are to be encoded.
             for (int i = 0; i < 0xFF; i++)
             {
                 if (i >= 0x30 && i <= 0x39 || i >= 0x41 && i <= 0x5A || i >= 0x61 && i <= 0x7A)
@@ -37,12 +47,33 @@ namespace Roadkill.Core.Text.Sanitizer
                     _encodedCharacters[i] = i.ToString("X2");
                 }
             }
-
-			_config = config;
-
-			if (_htmlWhiteList == null)
-				_htmlWhiteList = HtmlWhiteList.Deserialize(config);
         }
+
+		/// <summary>
+		/// Changes the key name used for the cache'd version of the HtmlWhiteList object.
+		/// </summary>
+		/// <param name="key"></param>
+		public void SetWhiteListCacheKey(string key)
+		{
+			_memoryCache.Remove(_cacheKey);
+			_cacheKey = key;
+		}
+
+		/// <summary>
+		/// A MemoryCache is used as an alternative to a unit-test unfriendly static HtmlWhiteList.
+		/// </summary>
+		private HtmlWhiteList GetCachedWhiteList()
+		{
+			HtmlWhiteList whiteList = _memoryCache.Get(_cacheKey) as HtmlWhiteList;
+
+			if (whiteList == null)
+			{
+				whiteList = HtmlWhiteList.Deserialize(_config);
+				_memoryCache.Add(_cacheKey, whiteList, new CacheItemPolicy());
+			}
+
+			return whiteList;
+		}
 
         /// <summary>
         /// Removes all tags from a html string that aren't in the whitelist.
@@ -62,11 +93,11 @@ namespace Roadkill.Core.Text.Sanitizer
                 return string.Empty;
 
             HtmlNode allNodes = html.DocumentNode;
-			string[] tagNames = _htmlWhiteList.ElementWhiteList.Select(x => x.Name).ToArray();
+			string[] tagNames = GetCachedWhiteList().ElementWhiteList.Select(x => x.Name).ToArray();
 			CleanNodes(allNodes, tagNames);
 
             // Filter the attributes of the remaining
-            foreach (HtmlElement whiteListTag in _htmlWhiteList.ElementWhiteList)
+			foreach (HtmlElement whiteListTag in GetCachedWhiteList().ElementWhiteList)
             {
                 IEnumerable<HtmlNode> nodes = (from n in allNodes.DescendantsAndSelf()
                                                where n.Name == whiteListTag.Name

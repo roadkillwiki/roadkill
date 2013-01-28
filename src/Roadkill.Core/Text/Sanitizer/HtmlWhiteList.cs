@@ -70,13 +70,26 @@ namespace Roadkill.Core.Text.Sanitizer
 			tagList.Add(new HtmlElement("blockquote", new string[] { "style", "dir" }));
 			tagList.Add(new HtmlElement("hr", new string[] { "size", "width" }));
 			tagList.Add(new HtmlElement("img", new string[] { "src" }));
-			tagList.Add(new HtmlElement("div", new string[] { "style", "align" }));
-			tagList.Add(new HtmlElement("span", new string[] { "style" }));
+			tagList.Add(new HtmlElement("div", new string[] { "style", "align", "class" }));
+			tagList.Add(new HtmlElement("span", new string[] { "style", "class" }));
 			tagList.Add(new HtmlElement("br", new string[] { "style" }));
 			tagList.Add(new HtmlElement("center", new string[] { "style" }));
 			tagList.Add(new HtmlElement("a", new string[] { "href" }));
-			tagList.Add(new HtmlElement("pre", new string[] { "id" }));
-			tagList.Add(new HtmlElement("code", new string[] { "id" }));
+			tagList.Add(new HtmlElement("pre", new string[] { "id", "class" }));
+			tagList.Add(new HtmlElement("code", new string[] { "id", "class" }));
+
+			tagList.Add(new HtmlElement("h1", new string[] { "id", "class" }));
+			tagList.Add(new HtmlElement("h2", new string[] { "id", "class" }));
+			tagList.Add(new HtmlElement("h3", new string[] { "id", "class" }));
+			tagList.Add(new HtmlElement("h4", new string[] { "id", "class" }));
+			tagList.Add(new HtmlElement("h5", new string[] { "id", "class" }));
+
+			tagList.Add(new HtmlElement("table", new string[] { "id", "class" }));
+			tagList.Add(new HtmlElement("thead", new string[] { "id", "class" }));
+			tagList.Add(new HtmlElement("th", new string[] { "id", "class" }));
+			tagList.Add(new HtmlElement("tbody", new string[] { "id", "class" }));
+			tagList.Add(new HtmlElement("tr", new string[] { "id", "class" }));
+			tagList.Add(new HtmlElement("td", new string[] { "id", "class" }));
 
 			return new HtmlWhiteList() { ElementWhiteList = tagList };
 		}
