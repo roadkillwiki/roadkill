@@ -2,7 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using SimpleBrowser.WebDriver;
+using OpenQA.Selenium.PhantomJS;
 
 namespace Roadkill.Tests.Acceptance
 {
@@ -14,14 +14,14 @@ namespace Roadkill.Tests.Acceptance
 	[Explicit]
 	public class DemoSiteTests
 	{
-		private SimpleBrowserDriver _driver;
+		private IWebDriver _driver;
 		private string _baseUrl;
 
 		[SetUp]
 		public void Setup()
 		{
 			_baseUrl = "http://www.roadkillwiki.net";
-			_driver = new SimpleBrowserDriver();
+			_driver = new PhantomJSDriver();
 			_driver.Navigate().GoToUrl(_baseUrl);
 		}
 

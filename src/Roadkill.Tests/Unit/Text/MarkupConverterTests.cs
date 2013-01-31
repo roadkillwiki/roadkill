@@ -71,7 +71,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ImageParsed_Should_Ignore_Images_Starting_With_Http()
+		public void ImageParsed_Should_Not_Rewrite_Images_Starting_With_Http_As_Internal()
 		{
 			// Arrange
 			_config.SitePreferences.MarkupType = "Markdown";
@@ -98,7 +98,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ImageParsed_Should_Ignore_Images_Starting_With_Www()
+		public void ImageParsed_Should_Not_Rewrite_Images_Starting_With_Www_As_Internal()
 		{
 			// Arrange
 			_config.SitePreferences.MarkupType = "Markdown";
@@ -143,7 +143,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Links_Starting_With_Https_Or_Hash_Are_Ignored()
+		public void Links_Starting_With_Https_Or_Hash_Are_Not_Rewritten_As_Internal()
 		{
 			// Arrange
 			_config.SitePreferences.MarkupType = "Creole";
@@ -159,7 +159,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Links_Starting_With_Http_Www_Mailto_Tag_Are_Ignored()
+		public void Links_Starting_With_Http_Www_Mailto_Tag_Are_No_Rewritten_As_Internal()
 		{
 			// Arrange
 			_config.SitePreferences.MarkupType = "Creole";
@@ -191,5 +191,10 @@ namespace Roadkill.Tests.Unit
 			string expectedHtml = "<p>" +htmlFragment+ "\n</p>";
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
 		}
+
+		// ContainsPageLink
+		// ReplacePageLinks
+		// TOCParser
+		// Creole tests
 	}
 }

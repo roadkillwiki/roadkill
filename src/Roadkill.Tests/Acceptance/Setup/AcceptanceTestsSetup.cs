@@ -4,9 +4,13 @@ using System.IO;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.PhantomJS;
 
 namespace Roadkill.Tests.Acceptance
 {
+	/// <summary>
+	/// Separate from the TestBase so it isn't run by nunit as a test.
+	/// </summary>
 	[SetUpFixture]
 	public class AcceptanceTestsSetup
 	{
@@ -20,9 +24,9 @@ namespace Roadkill.Tests.Acceptance
 			CopyWebConfig();
 			LaunchIisExpress();
 
-			//Driver = new SimpleBrowserDriver();
 			//Driver = new FirefoxDriver();
-			Driver = new ChromeDriver();
+			//Driver = new ChromeDriver();
+			Driver = new PhantomJSDriver();
 
 			try
 			{
