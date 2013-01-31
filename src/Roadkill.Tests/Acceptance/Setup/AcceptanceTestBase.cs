@@ -48,9 +48,6 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("a[href='/pages/new']")).Click();
 			Driver.FindElement(By.Name("Title")).SendKeys(title);
 
-			// Use for SimpleBrowser, as it has no javascript interaction
-			//Driver.FindElement(By.Name("RawTags")).SendKeys("Tag1,Tag2");
-
 			foreach (string tag in tags)
 			{
 				Driver.FindElement(By.Name("TagsEntry")).SendKeys(tag);

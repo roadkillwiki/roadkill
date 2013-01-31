@@ -177,17 +177,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="RazorHosting">
-      <HintPath>..\..\packages\SimpleBrowser.0.5.11\lib\net40\RazorHosting.dll</HintPath>
-    </Reference>
     <Reference Include="SeleniumExtensions">
       <HintPath>..\..\packages\SeleniumExtensions.1.0.0.6\lib\SeleniumExtensions.dll</HintPath>
-    </Reference>
-    <Reference Include="SimpleBrowser">
-      <HintPath>..\..\packages\SimpleBrowser.0.5.11\lib\net40\SimpleBrowser.dll</HintPath>
-    </Reference>
-    <Reference Include="SimpleBrowser.WebDriver">
-      <HintPath>..\..\packages\SimpleBrowser.WebDriver.0.5.12\lib\net40\SimpleBrowser.WebDriver.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
@@ -204,17 +195,17 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
-    <Reference Include="ThoughtWorks.Selenium.Core, Version=2.28.0.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
+    <Reference Include="ThoughtWorks.Selenium.Core, Version=2.29.1.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Selenium.RC.2.28.0\lib\net40\ThoughtWorks.Selenium.Core.dll</HintPath>
+      <HintPath>..\..\packages\Selenium.RC.2.29.1\lib\net40\ThoughtWorks.Selenium.Core.dll</HintPath>
     </Reference>
-    <Reference Include="WebDriver, Version=2.28.0.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
+    <Reference Include="WebDriver, Version=2.29.1.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Selenium.WebDriver.2.28.0\lib\net40\WebDriver.dll</HintPath>
+      <HintPath>..\..\packages\Selenium.WebDriver.2.29.1\lib\net40\WebDriver.dll</HintPath>
     </Reference>
-    <Reference Include="WebDriver.Support, Version=2.28.0.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
+    <Reference Include="WebDriver.Support, Version=2.29.1.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Selenium.Support.2.28.0\lib\net40\WebDriver.Support.dll</HintPath>
+      <HintPath>..\..\packages\Selenium.Support.2.29.1\lib\net40\WebDriver.Support.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -240,6 +231,7 @@
     <Compile Include="Unit\Controllers\FilesControllerTests.cs" />
     <Compile Include="Unit\Stubs\RoadkillContextStub.cs" />
     <Compile Include="Unit\Stubs\UserManagerStub.cs" />
+    <Compile Include="Unit\Text\TocParserTests.cs" />
     <Compile Include="Unit\Text\MarkupSanitizerTests.cs" />
     <Compile Include="Unit\Text\MarkdownTests.cs" />
     <Compile Include="Integration\RoadkillSettingsTests.cs" />
@@ -250,6 +242,9 @@
     <Compile Include="Unit\Text\MarkupConverterTests.cs" />
     <Content Include="chromedriver.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="phantomjs.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="SqliteSetup\roadkill.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
