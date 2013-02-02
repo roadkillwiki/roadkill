@@ -262,5 +262,156 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
 		}
+
+		[Test]
+		public void Should_Render_Bold_Across_Line_Breaks_But_Not_Paragraphs()
+		{
+			// Arrange
+			string creoleText = @"Character formatting extends across line breaks: **bold,
+this is still bold. This line deliberately does not end in star-star.
+
+Not bold. Character formatting does not cross paragraph boundaries.";
+
+			// CreoleParser doesn't inject \n on the 1st line - is this right?
+			string expectedHtml = "<p>Character formatting extends across line breaks: <strong>bold,\r "+
+ "this is still bold. This line deliberately does not end in star-star.</strong>\n"+
+"</p>\n"+
+"<p>Not bold. Character formatting does not cross paragraph boundaries.\n"+
+"</p>";
+
+			// Act
+			string actualHtml = _parser.Transform(creoleText);
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		public void Internal_And_External_Links_Should_Render_As_Anchor_Tags()
+		{
+			// Arrange
+			string creoleText = "You can use [[internal links]] or [[http://www.wikicreole.org|external links]], give the link a [[internal links|different]] name.";
+			string expectedHtml = "<p>You can use <a href=\"internal links\">internal links</a> or <a href=\"http://www.wikicreole.org\">external links</a>, give the link a <a href=\"internal links\">different</a> name.\n</p>";
+
+			// Act
+			string actualHtml = _parser.Transform(creoleText);
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		public void Internal_Links_With_Quote_And_External_Link_Should_Render_As_Anchor_Tags()
+		{
+			// Arrange
+			string creoleText = "Here's another sentence: This wisdom is taken from [[Ward Cunningham's]] [[http://www.c2.com/doc/wikisym/WikiSym2006.pdf|Presentation at the Wikisym 06]].";
+			string expectedHtml = "<p>Here's another sentence: This wisdom is taken from <a href=\"Ward Cunningham's\">Ward Cunningham's</a> <a href=\"http://www.c2.com/doc/wikisym/WikiSym2006.pdf\">Presentation at the Wikisym 06</a>.\n</p>";
+
+			// Act
+			string actualHtml = _parser.Transform(creoleText);
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		public void External_Link_With_No_Description_Should_Render_Plain_Link_In_Anchor_Tag()
+		{
+			// Arrange
+			string creoleText = "Here's a external link without a description: [[http://www.wikicreole.org]]";
+			string expectedHtml = "<p>Here's a external link without a description: <a href=\"http://www.wikicreole.org\">http://www.wikicreole.org</a>\n</p>";
+
+			// Act
+			string actualHtml = _parser.Transform(creoleText);
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		public void Links_Within_Italic_Markup_Should_Render_Em_Tag_And_Anchor_Tag()
+		{
+			// Arrange
+			string creoleText = "Be careful that italic links are rendered properly:  //[[http://my.book.example/|My Book Title]]//";
+			string expectedHtml = "<p>Be careful that italic links are rendered properly:  <em><a href=\"http://my.book.example/\">My Book Title</a></em>\n</p>";
+
+			// Act
+			string actualHtml = _parser.Transform(creoleText);
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		public void Free_Links_With_No_Square_Brackets_Should_Render_As_Anchor_Tags()
+		{
+			// Arrange
+			string creoleText = "Free links without braces should be rendered as well, like http://www.wikicreole.org/ and http://www.wikicreole.org/users/~example.";
+			string expectedHtml = "<p>Free links without braces should be rendered as well, like <a target=\"_blank\" href=\"http://www.wikicreole.org/\">http://www.wikicreole.org/</a> and <a target=\"_blank\" href=\"http://www.wikicreole.org/users/\">http://www.wikicreole.org/users/</a>.</p>";
+
+			// Act
+			string actualHtml = _parser.Transform(creoleText);
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		[Ignore("Currently failing")]
+		public void Links_With_Tilde_Should_Not_Be_Escaped()
+		{
+			// Arrange
+			string creoleText = "Links with tildes should not be escaped, http://www.wikicreole.org/users/~example.";
+			string expectedHtml = "<p>Links with tildes should not be escaped, <a target=\"_blank\" href=\"http://www.wikicreole.org/users/~example\">http://www.wikicreole.org/users/~example</a>.</p>";
+
+			// Act
+			string actualHtml = _parser.Transform(creoleText);
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		public void Unknown_Protocols_Should_Render_As_Italic()
+		{
+			// Arrange
+			string creoleText = "Creole1.0 specifies that http://bar and ftp://bar should not render italic, something like foo://bar should render as italic.";
+			string expectedHtml = "<p>Creole1.0 specifies that <a target=\"_blank\" href=\"http://bar\">http://bar</a> and <a target=\"_blank\" href=\"ftp://bar\">ftp://bar</a> should not render italic, something like foo:<em>bar should render as italic.</em>\n</p>";
+
+			// Act
+			string actualHtml = _parser.Transform(creoleText);
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		public void Four_Dashes_Should_Draw_Hr_Tag()
+		{
+			// Arrange
+			string creoleText = @"You can use this to draw a line to separate the page:
+----";
+			string expectedHtml = "<p>You can use this to draw a line to separate the page:\n<hr/>\n</p>";
+
+			// Act
+			string actualHtml = _parser.Transform(creoleText);
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		public void Template()
+		{
+			// Arrange
+			string creoleText = "";
+			string expectedHtml = "";
+
+			// Act
+			string actualHtml = _parser.Transform(creoleText);
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
 	}
 }

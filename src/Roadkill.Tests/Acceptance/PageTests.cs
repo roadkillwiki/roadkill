@@ -92,7 +92,6 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		[RequiresBrowserWithJavascript]
 		public void EditIcon_Exists_For_Editors()
 		{
 			// Arrange
@@ -109,7 +108,6 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		[RequiresBrowserWithJavascript]
 		public void EditIcon_Exists_For_Admins()
 		{
 			// Arrange
@@ -126,7 +124,6 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		[RequiresBrowserWithJavascript]
 		public void Properties_Icon_Exists_For_Editors()
 		{
 			// Arrange
@@ -147,7 +144,6 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		[RequiresBrowserWithJavascript]
 		public void Properties_Icon_Exists_For_Admin()
 		{
 			// Arrange
