@@ -219,7 +219,6 @@
     <Compile Include="Acceptance\Setup\AcceptanceTestBase.cs" />
     <Compile Include="Acceptance\Setup\AcceptanceTestsSetup.cs" />
     <Compile Include="Acceptance\PageTests.cs" />
-    <Compile Include="Acceptance\Setup\RequiresBrowserWithJavascriptAttribute.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
     <Compile Include="Unit\Stubs\ConfigurationContainerStub.cs" />
     <Compile Include="Unit\Controllers\PagesControllerTests.cs" />
