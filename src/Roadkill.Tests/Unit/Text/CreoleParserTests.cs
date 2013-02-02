@@ -346,8 +346,8 @@ Not bold. Character formatting does not cross paragraph boundaries.";
 		public void Free_Links_With_No_Square_Brackets_Should_Render_As_Anchor_Tags()
 		{
 			// Arrange
-			string creoleText = "Free links without braces should be rendered as well, like http://www.wikicreole.org/ and http://www.wikicreole.org/users/~example.";
-			string expectedHtml = "<p>Free links without braces should be rendered as well, like <a target=\"_blank\" href=\"http://www.wikicreole.org/\">http://www.wikicreole.org/</a> and <a target=\"_blank\" href=\"http://www.wikicreole.org/users/\">http://www.wikicreole.org/users/</a>.</p>";
+			string creoleText = "Free links without braces should be rendered as well, like http://www.wikicreole.org/ and http://www.wikicreole.org/users/";
+			string expectedHtml = "<p>Free links without braces should be rendered as well, like <a target=\"_blank\" href=\"http://www.wikicreole.org/\">http://www.wikicreole.org/</a> and <a target=\"_blank\" href=\"http://www.wikicreole.org/users/\">http://www.wikicreole.org/users/</a>\n</p>";
 
 			// Act
 			string actualHtml = _parser.Transform(creoleText);
