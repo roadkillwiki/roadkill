@@ -67,8 +67,9 @@ namespace Roadkill.Core
 		/// The database type for Roadkill. This defaults to SQLServer2005 if empty - see DatabaseType enum for all options.
 		/// </summary>
 		[ConfigurationProperty("databaseType", IsRequired = false)]
-		public string DatabaseType
+		public string DataStoreType
 		{
+			// TODO: update the key to be "dataStoreType", plus make it backward compatible
 			get { return (string)this["databaseType"]; }
 			set { this["databaseType"] = value; }
 		}
@@ -142,6 +143,16 @@ namespace Roadkill.Core
 		{
 			get { return (string)this["ldapPassword"]; }
 			set { this["ldapPassword"] = value; }
+		}
+
+		/// <summary>
+		/// The repository type used for all datastore queries.
+		/// </summary>
+		[ConfigurationProperty("repositoryType", IsRequired = false, DefaultValue = "Roadkill.Core.NHibernateRepository, Roadkill.Core")]
+		public string RepositoryType
+		{
+			get { return (string)this["repositoryType"]; }
+			set { this["repositoryType"] = value; }
 		}
 
 		/// <summary>

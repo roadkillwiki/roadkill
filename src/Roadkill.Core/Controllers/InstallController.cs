@@ -127,6 +127,13 @@ namespace Roadkill.Core.Controllers
 
 				if (ModelState.IsValid)
 				{
+					// Update all repository for the dependencies of this class
+					// (changing the For() in StructureMap won't do this as the references have already been created).
+					_repository = IoCConfigurator.SwitchRepository(summary.DataStoreType);
+					UserManager.UpdateRepository(_repository);
+					_settingsManager.UpdateRepository(_repository);
+					_searchManager.UpdateRepository(_repository);
+
 					// Update the web.config first, so all connections can be referenced.
 					_settingsManager.SaveWebConfigSettings(summary);
 
@@ -208,10 +215,12 @@ namespace Roadkill.Core.Controllers
 		/// <summary>
 		/// This action is for JSON calls only. Attempts a database connection using the provided connection string.
 		/// </summary>
-		/// <param name="folder"></param>
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
-		public ActionResult TestDatabaseConnection(string connectionString,string databaseType)
+		public ActionResult TestDatabaseConnection(string connectionString, string databaseType)
 		{
+			DataStoreType dataStoreType = DataStoreType.ByName(databaseType);
+			_repository = IoCConfigurator.SwitchRepository(dataStoreType);
+
 			InstallHelper installHelper = new InstallHelper(UserManager, _repository);
 			string errors = installHelper.TestConnection(connectionString, databaseType);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);

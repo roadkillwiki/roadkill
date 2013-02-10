@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,6 +43,10 @@ namespace Roadkill.Core
 		/// <summary>
 		/// SQL Server Compact Edition 4.0
 		/// </summary>
-		SqlServerCe
+		SqlServerCe,
+		/// <summary>
+		/// A MangoDB server.
+		/// </summary>
+		MongoDb
 	}
 }

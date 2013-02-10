@@ -25,8 +25,7 @@ namespace Roadkill.Tests.Acceptance
 			LaunchIisExpress();
 
 			//Driver = new FirefoxDriver();
-			//Driver = new ChromeDriver();
-			Driver = new PhantomJSDriver();
+			Driver = new ChromeDriver();
 
 			try
 			{

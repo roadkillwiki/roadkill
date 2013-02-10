@@ -23,12 +23,17 @@ namespace Roadkill.Core
 		public SettingsSummary(IConfigurationContainer config)
 		{
 			Config = config;
-			DatabaseType = DatabaseType.SqlServer2005;
+			DataStoreType = DataStoreType.SqlServer2005;
 
 			if (HttpContext.Current != null)
 			{
 				Uri uri = HttpContext.Current.Request.Url;
-				SiteUrl = string.Format("{0}://{1}{2}", uri.Scheme, uri.Host, (uri.Port != 80 && uri.Port != 443) ? ":" +uri.Port : "");
+
+				string port = "";
+				if (uri.Port != 80 && uri.Port != 443)
+					port = ":" + uri.Port;
+
+				SiteUrl = string.Format("{0}://{1}{2}", uri.Scheme, uri.Host, port);
 			}
 			else
 			{
@@ -52,17 +57,14 @@ namespace Roadkill.Core
 		public string ConnectionString { get; set; }
 
 		/// <summary>
-		/// Used in the intial configuration/installation alongside Fluent CFG.
+		/// Used in the intial configuration/installation.
 		/// </summary>
-		public DatabaseType DatabaseType { get; set; }
+		public DataStoreType DataStoreType { get; set; }
 		public IEnumerable<string> DatabaseTypesAvailable
 		{
 			get
 			{
-				foreach (DatabaseType dbType in Enum.GetValues(typeof(DatabaseType)))
-				{
-					yield return dbType.ToString();
-				}
+				return DataStoreType.AllTypes.Select(x => x.Name);
 			}
 		}
 
@@ -122,6 +124,9 @@ namespace Roadkill.Core
 			}
 		}
 
+		/// <summary>
+		/// Converts the current configuration settings from the databaes into a SettingsSummary view model.
+		/// </summary>
 		public static SettingsSummary FromSystemSettings(IConfigurationContainer config)
 		{
 			SettingsSummary summary = new SettingsSummary(config);
@@ -133,7 +138,7 @@ namespace Roadkill.Core
 			summary.CacheEnabled = config.ApplicationSettings.CacheEnabled;
 			summary.CacheText = config.ApplicationSettings.CacheText;
 			summary.ConnectionString = config.ApplicationSettings.ConnectionString;
-			summary.DatabaseType = config.ApplicationSettings.DatabaseType;
+			summary.DataStoreType = config.ApplicationSettings.DataStoreType;
 			summary.EditorRoleName = config.ApplicationSettings.EditorRoleName;
 			summary.EnableRecaptcha = config.SitePreferences.IsRecaptchaEnabled;
 			summary.LdapConnectionString = config.ApplicationSettings.LdapConnectionString;

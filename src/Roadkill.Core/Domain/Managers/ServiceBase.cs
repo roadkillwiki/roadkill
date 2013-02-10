@@ -20,5 +20,10 @@ namespace Roadkill.Core
 			Configuration = configuration;
 			Repository = repository;
 		}
+
+		public void UpdateRepository(IRepository repository)
+		{
+			Repository = repository;
+		}
 	}
 }
