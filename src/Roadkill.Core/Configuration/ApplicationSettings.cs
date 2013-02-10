@@ -72,7 +72,7 @@ namespace Roadkill.Core.Configuration
 		/// <summary>
 		/// The database type used as the backing store.
 		/// </summary>
-		public DatabaseType DatabaseType { get; set; }
+		public DataStoreType DataStoreType { get; set; }
 
 		/// <summary>
 		/// The name of the role or Active Directory security group that users should belong to in order to create and edit pages.
@@ -121,6 +121,11 @@ namespace Roadkill.Core.Configuration
 		public int MinimumPasswordLength { get; set; }
 
 		/// <summary>
+		/// The fully qualified assembly and classname for the repository.
+		/// </summary>
+		public string RepositoryType { get; set; }
+
+		/// <summary>
 		/// Whether to scale images dynamically on the page, using Javascript, so they fit inside the main page container (400x400px).
 		/// </summary>
 		public bool ResizeImages { get; set; }
@@ -134,7 +139,7 @@ namespace Roadkill.Core.Configuration
 		/// <summary>
 		/// The type for the <see cref="UserManager"/>. If the setting for this is blank
 		/// in the web.config, then the <see cref="UseWindowsAuthentication"/> is checked and if false
-		/// a <see cref="SqlUserManager"/> is created. The format of this setting can be retrieved by
+		/// a <see cref="DefaultUserManager"/> is created. The format of this setting can be retrieved by
 		/// using <code>typeof(YourUserManager).AssemblyQualifiedName.</code>
 		/// </summary>
 		public string UserManagerType { get; set; }
@@ -203,15 +208,9 @@ namespace Roadkill.Core.Configuration
 
 			ConnectionStringName = section.ConnectionStringName;		
 
-			DatabaseType dbType;
-			if (Enum.TryParse<DatabaseType>(section.DatabaseType, true, out dbType))
-			{
-				DatabaseType = dbType;
-			}
-			else
-			{
-				DatabaseType = DatabaseType.SqlServer2005;
-			}
+			DataStoreType = DataStoreType.ByName(section.DataStoreType);
+			if (DataStoreType == null)
+				DataStoreType = DataStoreType.ByName("SqlServer2005"); // default to SQL Server
 
 			EditorRoleName = section.EditorRoleName;
 			IgnoreSearchIndexErrors = section.IgnoreSearchIndexErrors;
@@ -220,6 +219,7 @@ namespace Roadkill.Core.Configuration
 			LdapConnectionString = section.LdapConnectionString;
 			LdapUsername = section.LdapUsername;
 			LdapPassword = section.LdapPassword;
+			RepositoryType = section.RepositoryType;
 			ResizeImages = section.ResizeImages;
 			UseHtmlWhiteList = section.UseHtmlWhiteList;
 			UserManagerType = section.UserManagerType;

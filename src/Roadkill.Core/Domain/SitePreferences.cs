@@ -11,7 +11,7 @@ namespace Roadkill.Core
 	/// Contains all configuration data stored with NHibernate/the database, for settings that do not 
 	/// require an application restart when changed. This object is intended for internal use only.
 	/// </summary>
-	public class SitePreferences
+	public class SitePreferences : DataStoreEntity
 	{
 		internal static readonly Guid ConfigurationId = new Guid("b960e8e5-529f-4f7c-aee4-28eb23e13dbd");
 
@@ -93,6 +93,12 @@ namespace Roadkill.Core
 			{
 				return new List<string>(AllowedFileTypes.Replace(" ", "").Split(','));
 			}
+		}
+
+		public override Guid ObjectId
+		{
+			get { return Id; }
+			set { Id = value; }
 		}
 
 		public SitePreferences()

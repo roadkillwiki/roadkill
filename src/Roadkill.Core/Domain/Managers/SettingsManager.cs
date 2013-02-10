@@ -27,7 +27,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Clears all pages and page content from the database.
 		/// </summary>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while clearing the page data.</exception>
+		/// <exception cref="DatabaseException">An datastore error occurred while clearing the page data.</exception>
 		public void ClearPageTables()
 		{
 			try
@@ -61,12 +61,12 @@ namespace Roadkill.Core
 		/// Creates the database schema tables.
 		/// </summary>
 		/// <param name="summary">The settings data.</param>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while creating the database tables.</exception>
+		/// <exception cref="DatabaseException">An datastore error occurred while creating the database tables.</exception>
 		public void CreateTables(SettingsSummary summary)
 		{
 			try
 			{
-				Repository.Configure(summary.DatabaseType, summary.ConnectionString, true, summary.CacheEnabled);
+				Repository.Configure(summary.DataStoreType, summary.ConnectionString, true, summary.CacheEnabled);
 			}
 			catch (HibernateException ex)
 			{
@@ -79,7 +79,7 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <param name="summary">Summary data containing the settings.</param>
 		/// <param name="isInstalling">If true, a new <see cref="SitePreferences"/> is created, otherwise the current one is updated.</param>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while saving the configuration.</exception>
+		/// <exception cref="DatabaseException">An datastore error occurred while saving the configuration.</exception>
 		public void SaveSiteConfiguration(SettingsSummary summary, bool isInstalling)
 		{
 			try
@@ -150,15 +150,15 @@ namespace Roadkill.Core
 				section.CacheEnabled = summary.CacheEnabled;
 				section.CacheText = summary.CacheText;
 				section.ConnectionStringName = "Roadkill";
-				section.DatabaseType = summary.DatabaseType.ToString();
+				section.DataStoreType = summary.DataStoreType.Name;
 				section.EditorRoleName = summary.EditorRoleName;
 				section.LdapConnectionString = summary.LdapConnectionString;
 				section.LdapUsername = summary.LdapUsername;
 				section.LdapPassword = summary.LdapPassword;
+				section.RepositoryType = summary.DataStoreType.CustomRepositoryType;
 				section.UseWindowsAuthentication = summary.UseWindowsAuth;
 				
-				// Optional "tweak" settings - these need to be explicit as DefaultValue="" in the attribute doesn't
-				// determine the value when saving.
+				// Optional "tweak" settings - these need to be explicit as DefaultValue="" in the attribute doesn't determine the value when saving.
 				section.IsPublicSite = true;
 				section.IgnoreSearchIndexErrors = true;
 				section.ResizeImages = true;

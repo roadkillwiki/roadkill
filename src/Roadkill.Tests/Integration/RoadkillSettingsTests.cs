@@ -38,7 +38,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(appSettings.CacheEnabled, Is.True, "CacheEnabled");
 			Assert.That(appSettings.CacheText, Is.True, "CacheText");
 			Assert.That(appSettings.ConnectionStringName, Is.EqualTo("Roadkill-test"), "ConnectionStringName");
-			Assert.That(appSettings.DatabaseType, Is.EqualTo(DatabaseType.Sqlite), "DatabaseType");
+			Assert.That(appSettings.DataStoreType, Is.EqualTo(DataStoreType.Sqlite), "DatabaseType");
 			Assert.That(appSettings.EditorRoleName, Is.EqualTo("Editor-test"), "EditorRoleName");
 			Assert.That(appSettings.IgnoreSearchIndexErrors, Is.True, "IgnoreSearchIndexErrors");
 			Assert.That(appSettings.Installed, Is.True, "Installed");
@@ -48,7 +48,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(appSettings.LdapUsername, Is.EqualTo("ldapusername-test"), "LdapUsername");
 			Assert.That(appSettings.ResizeImages, Is.True, "ResizeImages");
 			Assert.That(appSettings.UseHtmlWhiteList, Is.EqualTo(false), "UseHtmlWhiteList");
-			Assert.That(appSettings.UserManagerType, Is.EqualTo("SqlUserManager-test"), "SqlUserManager");
+			Assert.That(appSettings.UserManagerType, Is.EqualTo("DefaultUserManager-test"), "DefaultUserManager");
 			Assert.That(appSettings.UseWindowsAuthentication, Is.False, "UseWindowsAuthentication");
 		}
 
@@ -63,7 +63,7 @@ namespace Roadkill.Tests.Unit
 			appSettings.LoadCustomConfigFile(configFilePath);
 
 			// Assert
-			Assert.That(appSettings.DatabaseType, Is.EqualTo(DatabaseType.SqlServer2005), "DatabaseType");
+			Assert.That(appSettings.DataStoreType, Is.EqualTo(DataStoreType.SqlServer2005), "DatabaseType");
 			Assert.That(appSettings.IgnoreSearchIndexErrors, Is.False, "IgnoreSearchIndexErrors");
 			Assert.That(appSettings.IsPublicSite, Is.True, "IsPublicSite");
 			Assert.That(appSettings.LdapConnectionString, Is.EqualTo(""), "LdapConnectionString");
@@ -71,7 +71,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(appSettings.LdapUsername, Is.EqualTo(""), "LdapUsername");
 			Assert.That(appSettings.ResizeImages, Is.True, "ResizeImages");
 			Assert.That(appSettings.UseHtmlWhiteList, Is.EqualTo(true), "UseHtmlWhiteList");
-			Assert.That(appSettings.UserManagerType, Is.EqualTo(""), "SqlUserManager");
+			Assert.That(appSettings.UserManagerType, Is.EqualTo(""), "DefaultUserManager");
 		}
 
 		[Test]
@@ -140,7 +140,7 @@ namespace Roadkill.Tests.Unit
 			repositoryMock.Setup(x => x.SaveOrUpdate<SitePreferences>(preferences));
 			repositoryMock.Setup(x => x.GetSitePreferences()).Returns(preferences);
 
-			RoadkillApplication.SetupIoC(_config, repositoryMock.Object, null);
+			IoCConfigurator.Setup(_config, repositoryMock.Object, null);
 			SettingsManager settingsManager = new SettingsManager(_config, repositoryMock.Object);
 
 			// Act
@@ -182,7 +182,7 @@ namespace Roadkill.Tests.Unit
 			config.ApplicationSettings.UserManagerType = typeof(UserManagerStub).AssemblyQualifiedName;
 			
 			// Act
-			RoadkillApplication.SetupIoC(config, mockRepository.Object, mockContext.Object);
+			IoCConfigurator.Setup(config, mockRepository.Object, mockContext.Object);
 
 			// Assert
 			Assert.That(UserManager.GetInstance(), Is.TypeOf(typeof(UserManagerStub)));
@@ -204,14 +204,14 @@ namespace Roadkill.Tests.Unit
 			config.ApplicationSettings.EditorRoleName = "editors";
 
 			// Act
-			RoadkillApplication.SetupIoC(config, mockRepository.Object, mockContext.Object);
+			IoCConfigurator.Setup(config, mockRepository.Object, mockContext.Object);
 
 			// Assert
 			Assert.That(UserManager.GetInstance(), Is.TypeOf(typeof(ActiveDirectoryUserManager)));
 		}
 		
 		[Test]
-		public void Should_Use_SqlUserManager_By_Default()
+		public void Should_Use_DefaultUserManager_By_Default()
 		{
 			// Arrange
 			Mock<IRepository> mockRepository = new Mock<IRepository>();
@@ -222,10 +222,10 @@ namespace Roadkill.Tests.Unit
 			config.ApplicationSettings = new ApplicationSettings();
 
 			// Act
-			RoadkillApplication.SetupIoC(config, mockRepository.Object, mockContext.Object);
+			IoCConfigurator.Setup(config, mockRepository.Object, mockContext.Object);
 
 			// Assert
-			Assert.That(UserManager.GetInstance(), Is.TypeOf(typeof(SqlUserManager)));
+			Assert.That(UserManager.GetInstance(), Is.TypeOf(typeof(DefaultUserManager)));
 		}
 
 		private string GetConfigPath(string filename)

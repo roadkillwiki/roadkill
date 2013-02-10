@@ -10,8 +10,10 @@ namespace Roadkill.Core
 	/// <summary>
 	/// A page object for use with the NHibernate data store. This object is intended for internal use only.
 	/// </summary>
-	public class Page
+	public class Page : DataStoreEntity
 	{
+		private Guid _objectId;
+
 		/// <remarks>
 		/// Reasons for using an int for the primary key:
 		/// + Clustered PKs without using guid.comb
@@ -35,5 +37,11 @@ namespace Roadkill.Core
 		/// Whether the page is locked for admin-only editing.
 		/// </summary>
 		public virtual bool IsLocked { get; set; }
+
+		public override Guid ObjectId
+		{
+			get { return _objectId; }
+			set { _objectId = value; }
+		}
 	}
 }

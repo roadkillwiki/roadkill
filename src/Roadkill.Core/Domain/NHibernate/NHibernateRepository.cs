@@ -72,7 +72,7 @@ namespace Roadkill.Core
 
 			if (configuration.ApplicationSettings.Installed)
 			{
-				Configure(configuration.ApplicationSettings.DatabaseType,
+				Configure(configuration.ApplicationSettings.DataStoreType,
 						  configuration.ApplicationSettings.ConnectionString,
 						  false,
 						  configuration.ApplicationSettings.CacheEnabled);
@@ -82,14 +82,14 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Initializes and configures NHibernate using the connection string with Fluent NHibernate.
 		/// </summary>
-		/// <param name="databaseType">The database used.</param>
+		/// <param name="datastoreType">The database used.</param>
 		/// <param name="connection">The connection string to configure with.</param>
 		/// <param name="createSchema">if set to <c>true</c> the database schema is created automatically.</param>
 		/// <param name="enableL2Cache">if set to <c>true</c> NHibernate L2 caching is enabled for all domain objects.</param>
 		/// <remarks>
 		/// Microsoft SQL Server CE: http://www.microsoft.com/downloads/en/details.aspx?FamilyID=033cfb76-5382-44fb-bc7e-b3c8174832e2
 		/// </remarks>
-		public virtual void Configure(DatabaseType databaseType,string connection, bool createSchema, bool enableL2Cache)
+		public virtual void Configure(DataStoreType dataStoreType, string connection, bool createSchema, bool enableL2Cache)
 		{
 			NHibernateConfig config = new NHibernateConfig();
 			Configuration = Fluently.Configure(config);
@@ -101,7 +101,7 @@ namespace Roadkill.Core
 			// Only configure the Databasetype if it's not already in the config file
 			if (!config.Properties.ContainsKey("connection.driver_class"))
 			{
-				SetDatabase(databaseType, connection);
+				SetDatabase(dataStoreType, connection);
 			}
 
 			if (!config.Properties.ContainsKey("connection.connection_string_name"))
@@ -128,68 +128,49 @@ namespace Roadkill.Core
 			}
 		}
 
-		private void SetDatabase(DatabaseType databaseType, string connection)
+		private void SetDatabase(DataStoreType dataStoreType, string connection)
 		{
-			switch (databaseType)
+			if (dataStoreType == DataStoreType.DB2)
 			{
-				case DatabaseType.DB2:
-					{
-						DB2Configuration db2 = DB2Configuration.Standard.ConnectionString(connection);
-						Configuration.Database(db2);
-					}
-					break;
-
-				case DatabaseType.Firebird:
-					{
-						FirebirdConfiguration fireBird = new FirebirdConfiguration();
-						fireBird.ConnectionString(connection);
-						Configuration.Database(fireBird);
-					}
-					break;
-
-				case DatabaseType.MySQL:
-					{
-						MySQLConfiguration mySql = MySQLConfiguration.Standard.ConnectionString(connection);
-						Configuration.Database(mySql);
-					}
-					break;
-
-				case DatabaseType.Postgres:
-					{
-						PostgreSQLConfiguration postgres = PostgreSQLConfiguration.Standard.ConnectionString(connection);
-						Configuration.Database(postgres);
-					}
-					break;
-
-				case DatabaseType.Sqlite:
-					{
-						SQLiteConfiguration sqlLite = SQLiteConfiguration.Standard.ConnectionString(connection);
-						Configuration.Database(sqlLite);
-					}
-					break;
-
-				case DatabaseType.SqlServer2008:
-					{
-						MsSqlConfiguration msSql = MsSqlConfiguration.MsSql2008.ConnectionString(connection);
-						Configuration.Database(msSql);
-					}
-					break;
-
-				case DatabaseType.SqlServerCe:
-					{
-						MsSqlCeConfiguration msSqlCe = MsSqlCeConfiguration.Standard.ConnectionString(connection);
-						msSqlCe.Dialect("NHibernate.Dialect.MsSqlCe40Dialect, NHibernate"); // fluent uses SQL CE 3 which is wrong
-						Configuration.Database(msSqlCe);
-					}
-					break;
-
-				case DatabaseType.SqlServer2005:
-				default:
-					{
-						MsSqlConfiguration msSql = MsSqlConfiguration.MsSql2005.ConnectionString(connection);
-						Configuration.Database(msSql);
-					}
-					break;
+				DB2Configuration db2 = DB2Configuration.Standard.ConnectionString(connection);
+				Configuration.Database(db2);
+			}
+			else if (dataStoreType == DataStoreType.Firebird)
+			{
+				FirebirdConfiguration fireBird = new FirebirdConfiguration();
+				fireBird.ConnectionString(connection);
+				Configuration.Database(fireBird);
+			}
+			else if (dataStoreType == DataStoreType.MySQL)
+			{
+				MySQLConfiguration mySql = MySQLConfiguration.Standard.ConnectionString(connection);
+				Configuration.Database(mySql);
+			}
+			else if (dataStoreType == DataStoreType.Postgres)
+			{
+				PostgreSQLConfiguration postgres = PostgreSQLConfiguration.Standard.ConnectionString(connection);
+				Configuration.Database(postgres);
+			}
+			else if (dataStoreType == DataStoreType.Sqlite)
+			{
+				SQLiteConfiguration sqlLite = SQLiteConfiguration.Standard.ConnectionString(connection);
+				Configuration.Database(sqlLite);
+			}
+			else if (dataStoreType == DataStoreType.SqlServer2008)
+			{
+				MsSqlConfiguration msSql = MsSqlConfiguration.MsSql2008.ConnectionString(connection);
+				Configuration.Database(msSql);
+			}
+			else if (dataStoreType == DataStoreType.SqlServerCe)
+			{
+				MsSqlCeConfiguration msSqlCe = MsSqlCeConfiguration.Standard.ConnectionString(connection);
+				msSqlCe.Dialect("NHibernate.Dialect.MsSqlCe40Dialect, NHibernate"); // fluent uses SQL CE 3 which is wrong
+				Configuration.Database(msSqlCe);
+			}
+			else
+			{
+				MsSqlConfiguration msSql = MsSqlConfiguration.MsSql2005.ConnectionString(connection);
+				Configuration.Database(msSql);
 			}
 		}
 
@@ -199,7 +180,7 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <typeparam name="T">The domain type to query against.</typeparam>
 		/// <returns><see cref="IQueryable{T}"/> for LINQ-to-NHibernate LINQ queries.</returns>
-		public virtual IQueryable<T> Queryable<T>()
+		public virtual IQueryable<T> Queryable<T>() where T : DataStoreEntity
 		{
 			IQueryable<T> queryable = SessionFactory.OpenSession().Query<T>();
 			queryable = queryable.Cacheable<T>();
@@ -211,7 +192,7 @@ namespace Roadkill.Core
 		/// Deletes the object from the database.
 		/// </summary>
 		/// <param name="obj">The object to delete.</param>
-		public virtual void Delete<T>(T obj) where T : class
+		public virtual void Delete<T>(T obj) where T : DataStoreEntity
 		{
 			ISession session = SessionFactory.OpenSession();
 			using (session.BeginTransaction())
@@ -224,7 +205,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Deletes alls objects from the database.
 		/// </summary>
-		public virtual void DeleteAll<T>() where T : class
+		public virtual void DeleteAll<T>() where T : DataStoreEntity
 		{
 			string className = typeof(T).FullName;
 			ISession session = SessionFactory.OpenSession();
@@ -240,7 +221,7 @@ namespace Roadkill.Core
 		/// Inserts or updates the object depending on whether it exists in the database.
 		/// </summary>
 		/// <param name="obj">The object to insert/update.</param>
-		public virtual void SaveOrUpdate<T>(T obj) where T : class
+		public virtual void SaveOrUpdate<T>(T obj) where T : DataStoreEntity
 		{
 			ISession session = SessionFactory.OpenSession();
 			using (session.BeginTransaction())
@@ -267,7 +248,16 @@ namespace Roadkill.Core
 		public PageContent GetLatestPageContent(int pageId)
 		{
 			PageContent latest;
-			if (_configuration.ApplicationSettings.DatabaseType != DatabaseType.SqlServerCe)
+			if (_configuration.ApplicationSettings.DataStoreType == DataStoreType.SqlServerCe)
+			{
+				// Work around for an NHibernate 3.3.1 SQL CE bug with the HQL query in CurrentContent() - this is two SQL queries per page instead of one.
+				using (ISession session = SessionFactory.OpenSession())
+				{
+					latest = session.QueryOver<PageContent>().Where(p => p.Page.Id == pageId).OrderBy(p => p.VersionNumber).Desc.Take(1).SingleOrDefault();
+					latest.Page = session.Get<Page>(latest.Page.Id);
+				}
+			}
+			else
 			{
 				// Fetches the parent page object via SQL as well as the PageContent, avoiding lazy loading.
 				IQuery query = SessionFactory.OpenSession()
@@ -277,15 +267,6 @@ namespace Roadkill.Core
 				query.SetInt32("Id", pageId);
 				query.SetMaxResults(1);
 				latest = query.UniqueResult<PageContent>();
-			}
-			else
-			{
-				// Work around for an NHibernate 3.3.1 SQL CE bug with the HQL query in CurrentContent() - this is two SQL queries per page instead of one.
-				using (ISession session = SessionFactory.OpenSession())
-				{
-					latest = session.QueryOver<PageContent>().Where(p => p.Page.Id == pageId).OrderBy(p => p.VersionNumber).Desc.Take(1).SingleOrDefault();
-					latest.Page = session.Get<Page>(latest.Page.Id);
-				}
 			}
 
 			return latest;

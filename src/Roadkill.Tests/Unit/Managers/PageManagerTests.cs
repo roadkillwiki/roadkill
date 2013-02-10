@@ -80,7 +80,7 @@ namespace Roadkill.Tests.Unit
 			_context.CurrentUser = userId.ToString();
 
 			// And finally the IoC objects
-			RoadkillApplication.SetupIoC(_config, _mockRepository.Object, _context);
+			IoCConfigurator.Setup(_config, _mockRepository.Object, _context);
 		}
 
 		public PageSummary AddToMockRepository(int id, string createdBy, string title, string tags, string textContent = "")

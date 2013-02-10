@@ -230,7 +230,8 @@ namespace Roadkill.Core.Converters
 			NoWikiEscapeStart = "{{{";
 			NoWikiEscapeEnd = "}}}";
 
-			InterWiki.Add("tag", configuration.SitePreferences.SiteUrl + "/pages/tag/");
+			if (configuration.SitePreferences != null)
+				InterWiki.Add("tag", configuration.SitePreferences.SiteUrl + "/pages/tag/");
 		}
 
 
