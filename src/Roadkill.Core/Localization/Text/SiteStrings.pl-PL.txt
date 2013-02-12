@@ -1,0 +1,276 @@
+﻿; Note: any line starting with ; is a comment!
+; This file contains Roadkill site-wide localization strings.
+;
+; Notes for translators:
+; - Please make a copy of this file before editing. A list of cultures/languages can be found here:
+; - http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo(v=vs.71).aspx
+; 
+; Notes for developers:
+; - This file should be turned into a resx file by running resgen /compile SiteStrings.txt,SiteStrings.resx in a VS command prompt.
+; - The name of this file should be in the format "SiteStrings.(culture-name).txt", e.g. "Site.en-GB.txt"
+; - The output resx file should then be copied + pasted into the core's Localization/Resx folder inside VS2010, 
+; - The build properties for the file should be "Embedded resource" and the custom tool "PublicResXFileCodeGenerator"
+; - Delete the .resx file from the "Text" folder once you've copied it over.
+
+Navigation_Login=Zaloguj
+Navigation_Logout=Wyloguj
+Navigation_Register=Zarejestruj
+Navigation_MainPage=Strona główna
+Navigation_Categories=Kategorie
+Navigation_AllPages=Wszystkie strony
+Navigation_NewPage=Nowa strona
+Navigation_SiteSettings=Ustawienia witryny
+Navigation_Edit=Edytuj
+Navigation_Delete=Usuń
+Navigation_History=Historia
+Navigation_ViewHistory=Zobacz historię
+
+Button_Login=Zaloguj
+Button_Cancel=Anuluj
+Button_Save=Zapisz
+Button_Preview=Podgląd
+Button_Import=Importuj
+Button_Rename=Zmień nazwę
+Button_Upload=Prześlij
+Button_Search=Szukaj
+
+Shared_EditLink=Edytuj
+Shared_DeleteLink=Usuń
+Shared_ConfirmLink=Potwierdź
+Shared_NotLoggedIn=Nie zalogowany
+Shared_LoggedInAs=Zalogowany jako
+Shared_LastModified=Tę stronę ostatnio zmodyfikowano
+Shared_PoweredBy=Powered by Roadkill Wiki
+
+Shared_Firstname=Imię:
+Shared_Lastname=Nazwisko:
+Shared_Username=Nazwa użytkownika:
+Shared_Email_Label=Adres email:
+Shared_Password_Label=Hasło:
+Shared_PasswordConfirm_Label=Potwierdź hasło:
+Shared_Error=Wystąpił błąd:
+
+User_Validation_Username=Pole Nazwa użytkownika jest wymagane.
+User_Validation_Email=Pole Adres email jest wymagane.
+User_Validation_Email_Check=Niepoprawne pole Adres email.
+User_Validation_UsernameExists=Użytkownik o nazwie {0} już istnieje.
+User_Validation_UsernameEmpty=Nazwa użytkownika jest pusta.
+User_Validation_EmailExists=Adres email {0} już istnieje.
+User_Validation_PasswordsDontMatch=Hasła nie pasują do siebie.
+User_Validation_PasswordTooShort=Hasło jest krótsze niż {0} znaków.
+
+Login_Title=Zaloguj się
+Login_ForgottenPassword=Zapomniałeś hasła ?
+Login_Unsuccessful_Title=Logowanie nieudane
+Login_Error=Nieprawidłowa nazwa użytkownika lub hasło
+
+Signup_Title=Zarejestruj
+Signup_Label=Uzupełnij swoje dane.
+Signup_Button=Zarejestruj nowego użytkownika
+Signup_Complete_Title=Rejestracja zakończona.
+Signup_Complete_Label=Dziękujemy, na adres {0} zostanie wysłany email ze szczegółami, jak dokończyć rejestrację.
+Signup_Complete_NoEmail=Nie otrzymałeś email-a?
+Signup_Complete_EmailResent=Email z potwierdzeniem został ponownie wysłany.
+Signup_Complete_EmailResend_Button=Wyślij ponownie email z potwierdzeniem
+Signup_Error_General=Wystąpił błąd podczas rejestracji.
+Signup_Error_Recaptcha=Nieprawidłowy kod weryfikacyjny
+
+Activate_Title=Aktywacja konta
+Activate_Success_Title=Aktywacja zakończona powodzeniem
+Activate_Error_Title=Aktywacja zakończona niepowodzeniem
+Activate_Label=Twoje konto zostało aktywowane.
+Activate_Link=Kliknij, aby się zalogować
+Activate_Error=Wystąpił problem z aktywacją Twojego konta.
+
+ResetPassword_Title=Przywracanie hasła
+ResetPassword_Label=Wprowadź swój adres email w celu przywrócenia hasła. Otrzymasz wiadomość email z linkiem do ustalenia nowego hasła
+ResetPassword_Complete_Label=Wprowadź nowe hasło.
+ResetPassword_Button=Przywracanie hasła
+ResetPassword_Successful_Title=Zakończono przywracanie hasła.
+ResetPassword_Successful_Label=Ustalenie nowego hasła zakończone powodzeniem.
+ResetPassword_Invalid_Title=Nie udało się odzyskać hasła
+ResetPassword_Invalid_Label=Klucz do ustalenia nowego hasła utracił ważność.
+ResetPassword_EmailSent_Title=Wysłano żądanie przywracania hasła.
+ResetPassword_EmailSent_Label=Dziękujemy, email ze szczegółami dotyczącymi przywracania hasła został wysłany na adres {0}.
+ResetPassword_Error=Hasła nie pasują do siebie, lub hasło jest za krótkie
+ResetPassword_Error_ServerError=Ustalenie nowego hasła nie udało się z powodu błędu serwera.
+ResetPassword_Error_EmailNotFound=Nie znaleziono adresu email
+ResetPassword_Error_MissingEmail=Wprowadź adres email
+
+Profile_Title=Profil
+Profile_Error=Wystąpił błąd podczas aktualizacji profilu
+
+NoMainPage_Title=Nie ustawiono strony głównej
+NoMainPage_Label=Aby ustawić stronę główną, utwórz stronę i przypisz jej kategorię 'homepage'.
+
+Search_PlaceHolder=Wprowadź szukany tekst
+Search_Results=Wyniki wyszukiwania dla '{0}'
+Search_NoResults=Brak wyników wyszukiwania dla '{0}'
+
+AllPages_Title=Wszystkie strony
+AllPages_NoPages=Nie znaleziono żadnej strony
+AllTags_Title=Wszystkie kategorie
+AllTags_NoResults=Nie znaleziono kategorii
+
+Pages_ForUser=Wszystkie strony utworzone przez {0}
+Pages_ForUser_NoPages={0} nie utworzył jeszcze żadnej strony
+Pages_ForTag=Wszystkie strony dla kategorii {0}
+Pages_ForTag_NoPages=Brak stron w kategorii {0}
+
+History_Title=Historia strony
+History_Version=Wersja
+History_EditedOn=Kiedy
+History_EditedBy=Przez
+History_RevertLink=Przywróć
+
+Version_Title=Wersja {0}
+Version_BackLink=powrót
+
+Page_Info_CreatedOn=Utworzona:
+Page_Info_CreatedBy=Przez:
+Page_Info_ModifiedOn=Ostatnia zmiana:
+Page_Info_ModifiedBy=Przez:
+Page_Validation_Title=Tytuł jest wymagany
+
+FileExplorer_Title=Przeglądanie plików
+FileExplorer_Upload=Prześlij plik
+FileExplorer_NewDirectory=Nowy folder
+FileExplorer_FolderName=Nazwa folderu:
+FileExplorer_ChooseFile=Wybierz plik
+FileExplorer_Button_Upload=Prześlij
+FileExplorer_Button_Create=Utwórz
+FileExplorer_Button_Select=Wybierz
+FileExplorer_Error_BadExtension=Nie można przesyłać plików z rozszerzeniem '{0}'
+FileExplorer_Error_FileUpload=Wystąpił błąd podczas przesyłania pliku: {0}
+FileExplorer_Error_NewDirectory=Wystąpił błąd podczas tworzenia folderu: {0}
+FileExplorer_Error_DeleteFile=Wystąpił błąd podczas usuwania pliku: {0}
+
+EditPage_Title=Dodaj/zmień stronę
+EditPage_Title_Label=Tytuł
+EditPage_Tags_Label=Kategorie
+EditPage_AdminOnly=Ta strona może być zmieniona tylko przez administratora
+EditPage_Preview=Podgląd
+EditPage_LinkUrl_PlaceHolder=wprowadź url lub nazwę strony
+EditPage_LinkText_PlaceHolder=Treść odnośnika
+EditPage_Image_Title=Tytuł rysunku
+EditPage_Error=Nie można zapisać strony:
+EditPage_Toolbar_Bold=Wstaw znacznik Pogrubienie
+EditPage_Toolbar_BulletList=Wstaw znacznik Lista wypunktowana.
+EditPage_Toolbar_Heading1=Wstaw znacznik Nagłówek 1
+EditPage_Toolbar_Heading2=Wstaw znacznik Nagłówek 2
+EditPage_Toolbar_Heading3=Wstaw znacznik Nagłówek 3
+EditPage_Toolbar_Heading4=Wstaw znacznik Nagłówek 4
+EditPage_Toolbar_Heading5=Wstaw znacznik Nagłówek 5
+EditPage_Toolbar_Help=Pomoc dotycząca używania znaczników.
+EditPage_Toolbar_Image=Wstaw znacznik Rysunek
+EditPage_Toolbar_Italic=Wstaw znacznik Pochylenie
+EditPage_Toolbar_Link=Wstaw znacznik URL Link
+EditPage_Toolbar_NumberList=Wstaw znacznik Lista numerowana
+EditPage_Toolbar_Underline=Wstaw znacznik Podkreślenie
+
+; Site settings config
+SiteSettings_Configuration=Konfiguracja
+SiteSettings_Users=Użytkownicy
+SiteSettings_Tools=Narzędzia
+
+SiteSettings_Configuration_Title=Ustawienia witryny
+SiteSettings_Configuration_SiteName=Nazwa witryny:
+SiteSettings_Configuration_SiteUrl=URL witryny:
+SiteSettings_Configuration_ConnectionStrings=Parametry połączeń z bazami danych
+SiteSettings_Configuration_DatabaseType=Rodzaj bazy danych:
+SiteSettings_Configuration_DatabaseConnectionString=Połączenie z bazą danych (connection string):
+SiteSettings_Configuration_Security=Zabezpiecznie
+SiteSettings_Configuration_UseWindowsAuth=Uwierzytelnianie zintegrowane Windows:
+SiteSettings_Configuration_AllowUserSignups=Pozwól na rejestrację użytkowników
+SiteSettings_Configuration_EnableRecaptcha=Włącz weryfikację recaptcha
+SiteSettings_Configuration_RecaptchaPrivateKey=Klucz prywatny recaptcha
+SiteSettings_Configuration_RecaptchaPublicKey=Klucz publiczny recaptcha
+SiteSettings_Configuration_AD_Connection=Połączenie LDAP (connection string)
+SiteSettings_Configuration_AD_Username=Użytkownik LDAP:
+SiteSettings_Configuration_AD_Password=Hasło LDAP:
+SiteSettings_Configuration_EditorRole=Nazwa roli/grupy Windows - redaktorzy:
+SiteSettings_Configuration_AdminRole=Nazwa roli/grupy Windows - administratorzy:
+SiteSettings_Configuration_General=Ogólne
+SiteSettings_Configuration_MarkupType=Typ znaczników tekstu:
+SiteSettings_Configuration_Theme=Motyw:
+SiteSettings_Configuration_Attachments=Folder załączników:
+SiteSettings_Configuration_Extensions=Rozszerzenia załączników:
+SiteSettings_Configuration_Caching=Buforowanie:
+SiteSettings_Configuration_CachePageText=Buforuj zawartość stron:
+SiteSettings_Configuration_Error=Nie można zapisać ustawień: 
+
+; Help labels for configuration
+SiteSettings_Configuration_SiteName_Help=Nazwa witryny używanej w wybranym motywie
+SiteSettings_Configuration_SiteUrl_Help=URL strony używanej do rejestracji oraz przywracania hasła. Nie zawiera końcowego ukośnika.
+SiteSettings_Configuration_ConnectionStrings_Help=Zmiana połączenia do bazy danych. Wymaga ponownego utworzenia bazy za pomocą Narzędzi.
+SiteSettings_Configuration_DatabaseType_Help=Zmiana rodzaju bazy danych. Wymaga ponownego utworzenia bazy za pomocą Narzędzi.
+SiteSettings_Configuration_DatabaseConnectionString_Help=Połączenie do bazy danych (connection string).
+SiteSettings_Configuration_UseWindowsAuth_Help=<b>UWAGA</b> zmiana może zablokować Ci korzystanie z witryny. Przed zapisaniem utwórz kopię zapasową pliku web.config. <br/> Wybierz, aby korzystać z uwierzytelniania systemu Windows i Active Directory.
+SiteSettings_Configuration_AllowUserSignups_Help=Zaznacz tą opcję, aby umożliwić rejestrację nowym użytkownikom.
+SiteSettings_Configuration_EnableRecaptcha_Help=Zezwól na używanie recaptcha (darmowy serwis anty-spamowy). Wymagana będzie rejestracja i podanie prywatnego i publicznego klucza w polach poniżej.
+SiteSettings_Configuration_RecaptchaPrivateKey_Help=Klucz prywatny dla usługi recaptcha, wymagany podczas rejestracji z wykorzystaniem recaptcha.
+SiteSettings_Configuration_RecaptchaPublicKey_Help=Klucz publiczny dla usługi recaptcha, wymagany podczas rejestracji z wykorzystaniem recaptcha.
+SiteSettings_Configuration_AD_Connection_Help=Połączenie LDAP (connection string) do usługi Active Directory. Przykładowy format: LDAP://mydc01.company.internal
+SiteSettings_Configuration_AD_Username_Help=Nazwa użytkownika do uwierzytelnienia w Active Directory. Pozostaw puste, jeśli pula aplikacji pracuje na koncie z takimi uprawnieniami.
+SiteSettings_Configuration_AD_Password_Help=Hasło do uwierzytelnienia w Active Directory.
+SiteSettings_Configuration_EditorRole_Help=Nazwa roli redaktora. Redaktorzy mogą tworzyć i edytować strony.
+SiteSettings_Configuration_AdminRole_Help=<b>UWAGA</b> zmiana może zablokować Ci korzystanie z witryny. Przed zapisaniem utwórz kopię zapasową pliku web.config. Nazwa roli administratora. Administratorzy mają takie same prawa jak redaktorzy, ponadto mają dostęp do konfiguracji oraz narzędzi.
+SiteSettings_Configuration_MarkupType_Help=Używany format znaczników. Obecnie Roadkill wspiera formaty: Creole, Markdown, Mediawiki.
+SiteSettings_Configuration_Theme_Help=Motyw używany dla witryny. Należy wskazać nazwę folderu w katalogu Themes.
+SiteSettings_Configuration_Attachments_Help=Nazwa katalogu do którego są przesyłane wszystkie załączniki. Ścieżka powinna zaczynać się od ~/ co wskazuje na katalog główny.
+SiteSettings_Configuration_Extensions_Help=Lista rozszerzeń plików (oddzielonych przecinkiem), które mogą być przesyłane jako załączniki.
+SiteSettings_Configuration_Caching_Help=Włącz buforowanie NHibernate. Roadkill używa buforowania NHibernate wraz z buforowaniem wyjścia ASP.NET. Zaleca się włączenie buforowania w celu poprawienia szybkości działania witryny. Buforowanie danych nie jest obecnie obsługiwane w farmach serwerów web.
+SiteSettings_Configuration_CachePageText_Help=Buforowanie zawartości stron. Wyłączenie oznacza, że treść każdej strony będzie za każdym razem pobierana z bazy danych.
+
+; Site Settings users
+SiteSettings_Users_Title=Użytkownicy witryny
+SiteSettings_Users_ColumnHeader_Username=Nazwa użytkownika
+SiteSettings_Users_ColumnHeader_Email=Email
+SiteSettings_Users_Admins=Administratorzy
+SiteSettings_Users_NewAdmin=Nowy administrator
+SiteSettings_Users_Editors=Redaktorzy
+SiteSettings_Users_NewEditor=Nowy redaktor
+SiteSettings_Users_AddAdminDialog_Title=Dodaj administratora
+SiteSettings_Users_AddEditorDialog_Title=Dodaj redaktora
+SiteSettings_Users_EditUserDialog_Title=Zmiana użytkownika
+SiteSettings_Users_AddUserDialog_Help=Dla istniejących użytkowników, pozostaw pole hasło puste (aby zmienić tylko nazwę).
+SiteSettings_Users_AddUserDialog_Error=Nie można zapisać zmian:
+SiteSettings_Users_EditUser_Error=Zmiana użytkownika zakończona niepowodzeniem.
+
+SiteSettings_Users_AD_Title=Włączone uwierzytelnianie Windows/Active Directory
+SiteSettings_Users_AD_Label1=Jeśli włączono uwierzytelnianie Windows, nie można zmieniać nazw i haseł. Należy to wykonać poprzez Active Directory.
+SiteSettings_Users_AD_Label2=Aby dodać użytkownika jako administratora lub redaktora, należy się upewnić, że są członkami grupy w systemie Windows, które są ustawione w web.config jako "AdminRole" lub "EditorRole".
+
+; Site Settings tools
+SiteSettings_Tools_Title=Narzędzia
+SiteSettings_Tools_ClearDatabase=Czyszczenie bazy danych
+SiteSettings_Tools_ClearDatabase_Label=Wyczyść wszystkie strony i teksty z bazy danych. Ta funkcje nie usuwa żadnego użytkownika.
+SiteSettings_Tools_ClearDatabase_Message=Baza danych została wyczyszczona
+SiteSettings_Tools_RebuildSearch=Odbudowa indeksu wyszukiwania
+SiteSettings_Tools_RebuildSearch_Label=Wymusza odbudowanie indeksu wyszukiwania dla wszystkich stron. Przydatne, jeśli wyszukiwanie nie działa poprawnie.
+SiteSettings_Tools_RebuildSearch_Message=Odbudowa indeksu zakończona
+SiteSettings_Tools_ExportXml=Eksport do XML
+SiteSettings_Tools_ExportXml_Label=Zapisuje zawartość tekstową wszystkich stron i ich historii do jednego pliku XML.
+SiteSettings_Tools_ExportXml_Error=Eksport do XML zakończony niepowodzeniem: {0}
+SiteSettings_Tools_ExportContent=Eksport do pliku zip
+SiteSettings_Tools_ExportContent_Label=Zapisuje wszystkie strony jako pliki ".wiki". Zapisywana jest tylko bieżąca zawartość (bez historii). Plik zip nie zawiera załączników.
+SiteSettings_Tools_ExportContent_Error=Eksport zakończony niepowodzeniem: {0}
+SiteSettings_Tools_ExportAttachments=Eksport załączników
+SiteSettings_Tools_ExportAttachments_Label=Zapisuje wszystkie załączniki do pliku zip.
+SiteSettings_Tools_ExportAttachments_Error=Eksport załączników zakończony niepowodzeniem: {0}
+SiteSettings_Tools_ScrewTurnImport=Import ze Screwturn
+SiteSettings_Tools_ScrewTurnImport_Label=Importuje całą zawartość z bazy Screwturn. Dla zachowania kompatybilności formatu należy ustawić typ znaczników na Mediawiki. Ponieważ Screwturn używa odmiany znaczników mediawiki, część zawartości może nie być wyświetlana właściwie. Dotyczy to również linków i rysunków.
+SiteSettings_Tools_ScrewTurnImport_Connection=Połączenie do Screwturn:
+SiteSettings_Tools_ScrewTurnImport_Message=Import zakończony powodzeniem
+SiteSettings_Tools_RenameTag=Zmiana nazwy kategorii
+SiteSettings_Tools_RenameTag_Label=Zmienia nazwę kategorii i aktualizuje wszystkie strony w tej kategorii do nowej nazwy. Nazwa uwzględnia wielkość liter.
+SiteSettings_Tools_RenameTag_Existing=Obecna kategoria:
+SiteSettings_Tools_RenameTag_New=Nowa kategoria:
+SiteSettings_Tools_RenameTag_Message=Zmiana kategorii zakończona sukcesem
+
+SiteSettings_Validation_AttachmentsEmpty=Uzupełnij nazwę katalogu załączników.
+SiteSettings_Validation_ConnectionEmpty=Uzupełnij parametry połączenia (connection string).
+SiteSettings_Validation_MarkupTypeEmpty=Uzupełnij typ załaczników.
+SiteSettings_Validation_ThemeEmpty=Wybierz motyw.
+SiteSettings_Validation_SiteNameEmpty=Uzupełnij nazwę witryny.
+SiteSettings_Validation_SiteUrlEmpty=Uzupełnij URL witryny.
