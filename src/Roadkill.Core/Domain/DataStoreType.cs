@@ -35,7 +35,7 @@ namespace Roadkill.Core
 		{
 			_allTypes = new List<DataStoreType>()
 			{
-				DB2, Firebird, MySQL, Postgres, Sqlite, SqlServer2005, SqlServer2008, SqlServerCe, MongoDB
+				DB2, Firebird, MongoDB, MySQL, Postgres, Sqlite, SqlServerCe, SqlServer2005, SqlServer2008
 			};
 		}
 
