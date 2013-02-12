@@ -277,7 +277,6 @@
     <Compile Include="Domain\Email\ResetPasswordEmail.cs" />
     <Compile Include="Domain\Email\SignupEmail.cs" />
     <Compile Include="Domain\Email\Email.cs" />
-    <Compile Include="Domain\DatabaseType.cs" />
     <Compile Include="Exceptions\EmailException.cs" />
     <Compile Include="Exceptions\SearchException.cs" />
     <Compile Include="Exceptions\DatabaseException.cs" />
