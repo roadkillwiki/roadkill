@@ -244,6 +244,9 @@
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
     <Compile Include="Controllers\RoadkillViewPage.cs" />
+    <Compile Include="Database\IRepository2.cs" />
+    <Compile Include="Database\IUserRepository.cs" />
+    <Compile Include="Database\IPageRepository.cs" />
     <Compile Include="Domain\DataStoreType.cs" />
     <Compile Include="Domain\DataStoreEntity.cs" />
     <Compile Include="Domain\Managers\IPageManager.cs" />

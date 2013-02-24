@@ -116,7 +116,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				IEnumerable<Page> pages = Repository.Pages.Where(p => p.CreatedBy == userName);
+				IEnumerable<Page> pages = Repository.FindPagesByCreatedBy(userName);
 				IEnumerable<PageSummary> summaries = from page in pages
 													 select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
 
@@ -137,11 +137,12 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				var tagList = from p in Repository.Pages select new { Tag = p.Tags };
+				IEnumerable<string> tagList = Repository.AllTags();
 				List<TagSummary> tags = new List<TagSummary>();
-				foreach (var item in tagList)
+
+				foreach (string item in tagList)
 				{
-					foreach (string tagName in item.Tag.ParseTags())
+					foreach (string tagName in item.ParseTags())
 					{
 						if (!string.IsNullOrEmpty(tagName))
 						{
@@ -179,7 +180,7 @@ namespace Roadkill.Core
 			{
 				// This isn't the "right" way to do it, but to avoid the pagecontent coming back
 				// each time a page is requested, it has no inverse relationship.
-				Page page = Repository.Pages.First(p => p.Id == pageId);
+				Page page = Repository.GetPageById(pageId);
 
 				// Update the lucene index before we actually delete the page.
 				// We cannot call the ToSummary() method on an object that no longer exists.

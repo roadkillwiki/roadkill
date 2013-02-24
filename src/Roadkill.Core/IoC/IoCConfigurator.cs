@@ -9,6 +9,9 @@ using StructureMap;
 
 namespace Roadkill.Core
 {
+	/// <summary>
+	/// TODO: make this into less of a mess
+	/// </summary>
 	public class IoCConfigurator
 	{
 		/// <summary>
