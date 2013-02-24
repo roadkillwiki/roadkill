@@ -143,8 +143,8 @@ namespace Roadkill.Core
 			{
 				string currentUser = context.CurrentUsername;
 
-				PageContent versionContent = Repository.PageContents.FirstOrDefault(p => p.Id == versionId);
-				Page page = Repository.Pages.FirstOrDefault(p => p.Id == versionContent.Page.Id);
+				PageContent versionContent = Repository.GetPageContentByVersionId(versionId);
+				Page page = Repository.GetPageById(versionContent.Page.Id);
 
 				PageContent pageContent = new PageContent();
 				pageContent.VersionNumber = MaxVersion(page.Id) + 1;

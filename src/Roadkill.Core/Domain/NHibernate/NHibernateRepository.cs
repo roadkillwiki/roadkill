@@ -296,5 +296,123 @@ namespace Roadkill.Core
 				throw new DatabaseException(ex, "An error occurred finding the page with title '{0}' in the database", title);
 			}
 		}
+
+		#region IPageRepository Members
+
+		public IEnumerable<Page> AllPages()
+		{
+			throw new NotImplementedException();
+		}
+
+		public Page GetPageById(int id)
+		{
+			return Pages.FirstOrDefault(p => p.Id == id);
+		}
+
+		public IEnumerable<Page> FindPagesByCreatedBy(string username)
+		{
+			return Pages.Where(p => p.CreatedBy == username);
+		}
+
+		public IEnumerable<Page> FindPagesByModifiedBy(string username)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IEnumerable<Page> FindPagesByTag(string tag)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IEnumerable<string> AllTags()
+		{
+			return new List<string>(Pages.Select(p => p.Tags));
+		}
+
+		public Page GetPageByTitle(string title)
+		{
+			throw new NotImplementedException();
+		}
+
+		public PageContent GetPageContentById(Guid id)
+		{
+			throw new NotImplementedException();
+		}
+
+		public PageContent GetLatestPageContentVersion(Guid id)
+		{
+			throw new NotImplementedException();
+		}
+
+		public PageContent GetPageContentByPageIdAndVersionNumber(int id, int versionNumber)
+		{
+			throw new NotImplementedException();
+		}
+
+		public PageContent GetPageContentByEditBy(string username)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IEnumerable<PageContent> FindPageContentsByPageId(int pageId)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IEnumerable<PageContent> AllPageContents()
+		{
+			throw new NotImplementedException();
+		}
+
+		#endregion
+
+		#region IUserRepository Members
+
+		public User GetAdminById(Guid id)
+		{
+			throw new NotImplementedException();
+		}
+
+		public User GetUserByActivationKey(string key)
+		{
+			throw new NotImplementedException();
+		}
+
+		public User GetEditorById(Guid id)
+		{
+			throw new NotImplementedException();
+		}
+
+		public User GetUserByEmail(string email)
+		{
+			throw new NotImplementedException();
+		}
+
+		public User GetUserById(Guid id)
+		{
+			throw new NotImplementedException();
+		}
+
+		public User GetUserByPasswordResetKey(string key)
+		{
+			throw new NotImplementedException();
+		}
+
+		public User GetUserByUsername(string username)
+		{
+			throw new NotImplementedException();
+		}
+
+		public User GetUserByUsernameOrEmail(string username)
+		{
+			throw new NotImplementedException();
+		}
+
+		public PageContent GetPageContentByVersionId(Guid versionId)
+		{
+			return PageContents.FirstOrDefault(p => p.Id == versionId);
+		}
+
+		#endregion
 	}
 }

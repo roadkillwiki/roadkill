@@ -7,7 +7,7 @@ namespace Roadkill.Core
 	/// <summary>
 	/// Defines a repository for storing and retrieving Roadkill domain objects in a data store.
 	/// </summary>
-	public interface IRepository
+	public interface IRepository : IPageRepository, IUserRepository
 	{
 		/// <summary>
 		/// Configures the repository when the Roadkill application is first run, or can be used for 

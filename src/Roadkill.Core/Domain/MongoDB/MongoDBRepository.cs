@@ -12,7 +12,7 @@ using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {
-	public class MongoDBRepository : IRepository
+	public class MongoDBRepository //: IRepository
 	{
 		private IConfigurationContainer _configuration;
 
