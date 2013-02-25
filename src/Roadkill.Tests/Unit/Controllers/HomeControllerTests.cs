@@ -21,6 +21,7 @@ namespace Roadkill.Tests.Unit
 		private IConfigurationContainer _config;
 		private IRoadkillContext _context;
 		private IRepository _repository;
+		private Mock<IRepository> _mockRepository;
 
 		private UserManager _userManager;
 		private PageManager _pageManager;
@@ -42,14 +43,15 @@ namespace Roadkill.Tests.Unit
 			_config.ApplicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
 
 			// Dependencies for PageManager
-			Mock<IRepository> repositoryMock = new Mock<IRepository>();
-			repositoryMock.Setup(x => x.Pages).Returns(_pages.AsQueryable());
-			repositoryMock.Setup(x => x.PageContents).Returns(_pagesContent.AsQueryable());
-			repositoryMock.Setup(x => x.GetLatestPageContent(It.IsAny<int>())).Returns<int>((id) => _pagesContent.FirstOrDefault(p => p.Page.Id == id));
+			_mockRepository = new Mock<IRepository>();
+			_mockRepository.Setup(x => x.PageContents).Returns(_pagesContent.AsQueryable());
+			_mockRepository.Setup(x => x.GetLatestPageContent(It.IsAny<int>())).Returns<int>((id) => _pagesContent.FirstOrDefault(p => p.Page.Id == id));
+			_mockRepository.Setup(x => x.AllTags()).Returns(_pages.Select(x => x.Tags));
+			_mockRepository.Setup(x => x.FindPagesContainingTag(It.IsAny<string>())).Returns<string>(x => _pages.Where(p => p.Tags.Contains(x)));
 
 			Mock<SearchManager> searchMock = new Mock<SearchManager>();
 
-			_repository = repositoryMock.Object;
+			_repository = _mockRepository.Object;
 			_userManager = new Mock<UserManager>(_config, null).Object;
 			_searchManager = new FakeSearchManager(_config, _repository);
 			_searchManager.PageContents = _pagesContent;

@@ -284,7 +284,7 @@ namespace Roadkill.Core
 				if (string.IsNullOrEmpty(title))
 					return null;
 
-				Page page = Pages.FirstOrDefault(p => p.Title.ToLower() == title.ToLower());
+				Page page = FindPageByTitle(title);
 
 				if (page == null)
 					return null;
@@ -297,11 +297,9 @@ namespace Roadkill.Core
 			}
 		}
 
-		#region IPageRepository Members
-
 		public IEnumerable<Page> AllPages()
 		{
-			throw new NotImplementedException();
+			return Pages;
 		}
 
 		public Page GetPageById(int id)
@@ -316,12 +314,12 @@ namespace Roadkill.Core
 
 		public IEnumerable<Page> FindPagesByModifiedBy(string username)
 		{
-			throw new NotImplementedException();
+			return Pages.Where(p => p.ModifiedBy == username);
 		}
 
-		public IEnumerable<Page> FindPagesByTag(string tag)
+		public IEnumerable<Page> FindPagesContainingTag(string tag)
 		{
-			throw new NotImplementedException();
+			return Pages.Where(p => p.Tags.ToLower().Contains(tag.ToLower()));
 		}
 
 		public IEnumerable<string> AllTags()
@@ -331,88 +329,77 @@ namespace Roadkill.Core
 
 		public Page GetPageByTitle(string title)
 		{
-			throw new NotImplementedException();
+			return Pages.FirstOrDefault(p => p.Title == title);
 		}
 
 		public PageContent GetPageContentById(Guid id)
 		{
-			throw new NotImplementedException();
-		}
-
-		public PageContent GetLatestPageContentVersion(Guid id)
-		{
-			throw new NotImplementedException();
+			return PageContents.FirstOrDefault(p => p.Id == id);
 		}
 
 		public PageContent GetPageContentByPageIdAndVersionNumber(int id, int versionNumber)
 		{
-			throw new NotImplementedException();
+			return PageContents.FirstOrDefault(p => p.Page.Id == id && p.VersionNumber == versionNumber);
 		}
 
-		public PageContent GetPageContentByEditBy(string username)
+		public PageContent GetPageContentByEditedBy(string username)
 		{
-			throw new NotImplementedException();
+			return PageContents.FirstOrDefault(p => p.EditedBy == username);
 		}
 
 		public IEnumerable<PageContent> FindPageContentsByPageId(int pageId)
 		{
-			throw new NotImplementedException();
+			return PageContents.Where(p => p.Page.Id == pageId);
 		}
 
 		public IEnumerable<PageContent> AllPageContents()
 		{
-			throw new NotImplementedException();
+			return PageContents;
 		}
-
-		#endregion
-
-		#region IUserRepository Members
 
 		public User GetAdminById(Guid id)
 		{
-			throw new NotImplementedException();
+			return Users.FirstOrDefault(x => x.Id == id && x.IsAdmin);
 		}
 
 		public User GetUserByActivationKey(string key)
 		{
-			throw new NotImplementedException();
+			return Users.FirstOrDefault(x => x.ActivationKey == key);
 		}
 
 		public User GetEditorById(Guid id)
 		{
-			throw new NotImplementedException();
+			return Users.FirstOrDefault(x => x.Id == id && x.IsEditor);
 		}
 
 		public User GetUserByEmail(string email)
 		{
-			throw new NotImplementedException();
+			return Users.FirstOrDefault(x => x.Email == email);
 		}
 
 		public User GetUserById(Guid id)
 		{
-			throw new NotImplementedException();
+			return Users.FirstOrDefault(x => x.Id == id);
 		}
 
 		public User GetUserByPasswordResetKey(string key)
 		{
-			throw new NotImplementedException();
+			return Users.FirstOrDefault(x => x.PasswordResetKey == key);
 		}
 
 		public User GetUserByUsername(string username)
 		{
-			throw new NotImplementedException();
+			return Users.FirstOrDefault(x => x.Username == username);
 		}
 
 		public User GetUserByUsernameOrEmail(string username)
 		{
-			throw new NotImplementedException();
+			return Users.FirstOrDefault(x => x.Username == username || x.Email == username);
 		}
 
 		public PageContent GetPageContentByVersionId(Guid versionId)
 		{
 			return PageContents.FirstOrDefault(p => p.Id == versionId);
 		}
-
-		#endregion
 	}
 }

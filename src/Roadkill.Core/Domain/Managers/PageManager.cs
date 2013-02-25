@@ -94,7 +94,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				IEnumerable<Page> pages = Repository.Pages.OrderBy(p => p.Title);
+				IEnumerable<Page> pages = Repository.AllPages().OrderBy(p => p.Title);
 				IEnumerable<PageSummary> summaries = from page in pages
 													 select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
 
@@ -245,7 +245,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				IEnumerable<Page> pages = Repository.Pages.Where(p => p.Tags.Contains(tag)).OrderBy(p => p.Title);
+				IEnumerable<Page> pages = Repository.FindPagesContainingTag(tag).OrderBy(p => p.Title);
 				IEnumerable<PageSummary> summaries = from page in pages
 													 select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
 
@@ -293,7 +293,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				Page page = Repository.Pages.FirstOrDefault(p => p.Id == id);
+				Page page = Repository.GetPageById(id);
 
 				if (page == null)
 					return null;
@@ -318,7 +318,7 @@ namespace Roadkill.Core
 			{
 				string currentUser = _context.CurrentUsername;
 
-				Page page = Repository.Pages.FirstOrDefault(p => p.Id == summary.Id);
+				Page page = Repository.GetPageById(summary.Id);
 				page.Title = summary.Title;
 				page.Tags = summary.CommaDelimitedTags();
 				page.ModifiedOn = DateTime.Now;

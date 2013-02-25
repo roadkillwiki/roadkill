@@ -21,7 +21,7 @@ namespace Roadkill.Tests.Unit
 	{
 		private IConfigurationContainer _config;
 		private IRepository _repository;
-		private Mock<IRepository> _repositoryMock;
+		private Mock<IRepository> _mockRepository;
 
 		private UserManager _userManager;
 		private IPageManager _pageManager;
@@ -51,13 +51,15 @@ namespace Roadkill.Tests.Unit
 			_config.ApplicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
 
 			// Dependencies for PageManager
-			_repositoryMock = new Mock<IRepository>();
-			_repositoryMock.Setup(x => x.Pages).Returns(_pages.AsQueryable());
-			_repositoryMock.Setup(x => x.PageContents).Returns(_pagesContent.AsQueryable());
-			_repositoryMock.Setup(x => x.GetLatestPageContent(It.IsAny<int>())).Returns<int>((id) => _pagesContent.FirstOrDefault(p => p.Page.Id == id));
-			_repositoryMock.Setup(x => x.Delete<Page>(It.IsAny<Page>())).Callback<Page>(page => _pages.Remove(_pages.First(p => p.Id == page.Id)));
+			_mockRepository = new Mock<IRepository>();
+			_mockRepository.Setup(x => x.GetPageById(It.IsAny<int>())).Returns<int>(x => _pages.FirstOrDefault(p => p.Id == x));
+			_mockRepository.Setup(x => x.GetPageContentByVersionId(It.IsAny<Guid>())).Returns<Guid>(x => _pagesContent.FirstOrDefault(p => p.Id == x));
+			_mockRepository.Setup(x => x.GetLatestPageContent(It.IsAny<int>())).Returns<int>((id) => _pagesContent.FirstOrDefault(p => p.Page.Id == id));
+			_mockRepository.Setup(x => x.Delete<Page>(It.IsAny<Page>())).Callback<Page>(page => _pages.Remove(_pages.First(p => p.Id == page.Id)));
+			_mockRepository.Setup(x => x.FindPagesContainingTag(It.IsAny<string>())).Returns<string>(x => _pages.Where(p => p.Tags.ToLower().Contains(x.ToLower())));
+			_mockRepository.Setup(x => x.PageContents).Returns(_pagesContent.AsQueryable());
 
-			_repository = _repositoryMock.Object;
+			_repository = _mockRepository.Object;
 			_userManager = new Mock<UserManager>(_config, _repository).Object;
 			_historyManager = new HistoryManager(_config, _repository, _contextStub);
 			_settingsManager = new SettingsManager(_config, _repository);
