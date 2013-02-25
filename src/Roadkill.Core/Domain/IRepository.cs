@@ -68,12 +68,6 @@ namespace Roadkill.Core
 		SitePreferences GetSitePreferences();
 
 		/// <summary>
-		/// Retrieves a LINQ object (<see cref="Queryable{Page}"/>) object to queries with. This object 
-		/// is only ever used for reads, and not inserts/updates/deletes.
-		/// </summary>
-		IQueryable<Page> Pages { get; }
-
-		/// <summary>
 		/// Retrieves a LINQ object (<see cref="Queryable{PageContent}"/>) object to queries with. This object 
 		/// is only ever used for reads, and not inserts/updates/deletes.
 		/// </summary>

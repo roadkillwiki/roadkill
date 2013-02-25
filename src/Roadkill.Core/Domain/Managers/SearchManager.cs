@@ -195,7 +195,7 @@ namespace Roadkill.Core.Search
 				StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
 				using (IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(IndexPath)), analyzer, true,IndexWriter.MaxFieldLength.UNLIMITED))
 				{
-					foreach (Page page in Repository.Pages.ToList())
+					foreach (Page page in Repository.AllPages().ToList())
 					{
 						PageSummary summary = Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
 
