@@ -13,7 +13,7 @@ namespace Roadkill.Core
 		/// Configures the repository when the Roadkill application is first run, or can be used for 
 		/// reconfiguring the repository when settings change.
 		/// </summary>
-		/// <param name="datastoreType">Specifies the storage type (database server, XML, NoSQL etc.) for the data.</param>
+		/// <param name="dataStoreType">Specifies the storage type (database server, XML, NoSQL etc.) for the data.</param>
 		/// <param name="connection">The connection string to the data store.</param>
 		/// <param name="createSchema">If true, then the Configure method will wipe all data from the data store and 
 		/// recreate the tables (if needed)</param>
@@ -54,13 +54,6 @@ namespace Roadkill.Core
 		Page FindPageByTitle(string title);
 
 		/// <summary>
-		/// Retrieves the latest version of a page's textual content from the data store.
-		/// </summary>
-		/// <param name="pageId">The id of the page to lookup</param>
-		/// <returns>A <see cref="PageContent"/> object for the page id, or null if it doesn't exist.</returns>
-		PageContent GetLatestPageContent(int pageId);
-
-		/// <summary>
 		/// Retrieves the <see cref="SitePreferences"/> from the data store. The site preferences object can 
 		/// use the <see cref="SitePreferences.ConfigurationId"/> for its identity.
 		/// </summary>
@@ -73,10 +66,22 @@ namespace Roadkill.Core
 		/// </summary>
 		IQueryable<PageContent> PageContents { get; }
 
+		// Pending renames:
+
 		/// <summary>
-		/// Retrieves a LINQ object (<see cref="Queryable{User}"/>) object to queries with. This object 
-		/// is only ever used for reads, and not inserts/updates/deletes.
+		/// Configures the repository when the Roadkill application is first run, or can be used for 
+		/// reconfiguring the repository when settings change.
 		/// </summary>
-		IQueryable<User> Users { get; }
+		/// <param name="datastoreType">Specifies the storage type (database server, XML, NoSQL etc.) for the data.</param>
+		/// <param name="connection">The connection string to the data store.</param>
+		/// <param name="createSchema">If true, then the Configure method will wipe all data from the data store and 
+		/// recreate the tables (if needed)</param>
+		/// <param name="enableCache">If true, then caching between the datastore and the Roadkill application is turned on.</param>
+		//void Install(DataStoreType dataStoreType, string connection, bool createSchema, bool enableCache);
+
+		// When is this called? 
+		// - Installer (switching database types)
+		// - Admin page when switching dbs
+		//void Reconfigure(DataStoreType dataStoreType, string connection, bool createSchema, bool enableCache);
 	}
 }

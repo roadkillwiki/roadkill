@@ -74,8 +74,8 @@ namespace Roadkill.Tests.Unit
 			Guid userId = mockAdminUser.Object.Id;
 
 			_mockUserManager = new Mock<UserManager>(_config, _mockRepository.Object);
-			_mockUserManager.Setup(x => x.GetUser(_testUser.Email)).Returns(mockAdminUser.Object);//GetUserById
-			_mockUserManager.Setup(x => x.GetUserById(userId)).Returns(mockAdminUser.Object);
+			_mockUserManager.Setup(x => x.GetUser(_testUser.Email, It.IsAny<bool>())).Returns(mockAdminUser.Object);//GetUserById
+			_mockUserManager.Setup(x => x.GetUserById(userId, It.IsAny<bool>())).Returns(mockAdminUser.Object);
 			_mockUserManager.Setup(x => x.Authenticate(_testUser.Email, "")).Returns(true);
 			_mockUserManager.Setup(x => x.GetLoggedInUserName(It.IsAny<HttpContextBase>())).Returns(_testUser.Username);
 

@@ -230,7 +230,7 @@ namespace Roadkill.Tests.Integration
 			string key = UserManager.GetInstance().Signup(summary,null);
 			Assert.IsNotNull(key);
 
-			User actual = UserManager.GetInstance().GetUser("harry@localhost");
+			User actual = UserManager.GetInstance().GetUser("harry@localhost", false);
 			Assert.IsNotNull(actual);
 			Assert.AreEqual(key,actual.ActivationKey);
 

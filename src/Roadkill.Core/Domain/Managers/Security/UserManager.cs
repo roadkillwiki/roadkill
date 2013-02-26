@@ -77,14 +77,14 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <param name="email">The ID of the user.</param>
 		/// <returns>A <see cref="User"/> object</returns>
-		public abstract User GetUserById(Guid id);
+		public abstract User GetUserById(Guid id, bool isActivated = true);
 
 		/// <summary>
 		/// Retrieves a full <see cref="User"/> object for the email address provided, or null if the user doesn't exist.
 		/// </summary>
 		/// <param name="email">The email address of the user to get</param>
 		/// <returns>A <see cref="User"/> object</returns>
-		public abstract User GetUser(string email);
+		public abstract User GetUser(string email, bool isActivated = true);
 
 		/// <summary>
 		/// Retrieves a full <see cref="User"/> object for a password reset request.

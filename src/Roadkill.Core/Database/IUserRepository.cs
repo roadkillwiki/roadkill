@@ -10,10 +10,12 @@ namespace Roadkill.Core
 		User GetAdminById(Guid id);
 		User GetUserByActivationKey(string key);
 		User GetEditorById(Guid id);
-		User GetUserByEmail(string email);
-		User GetUserById(Guid id);
+		User GetUserByEmail(string email, bool IsActivated = true);
+		User GetUserById(Guid id, bool IsActivated = true);
 		User GetUserByPasswordResetKey(string key);
 		User GetUserByUsername(string username);
-		User GetUserByUsernameOrEmail(string username);
+		User GetUserByUsernameOrEmail(string username, string email);
+		IEnumerable<User> FindAllEditors();
+		IEnumerable<User> FindAllAdmins();
 	}
 }

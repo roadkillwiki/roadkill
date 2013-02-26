@@ -244,7 +244,6 @@
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
     <Compile Include="Controllers\RoadkillViewPage.cs" />
-    <Compile Include="Database\IRepository2.cs" />
     <Compile Include="Database\IUserRepository.cs" />
     <Compile Include="Database\IPageRepository.cs" />
     <Compile Include="Domain\DataStoreType.cs" />
@@ -273,7 +272,7 @@
     <Compile Include="Domain\Managers\Security\Windows\IRoadKillPrincipal.cs" />
     <Compile Include="Domain\Managers\Security\Windows\IActiveDirectoryService.cs" />
     <Compile Include="Domain\Managers\Security\Windows\DefaultActiveDirectoryService.cs" />
-    <Compile Include="Domain\IRepository.cs" />
+    <Compile Include="Database\IRepository.cs" />
     <Compile Include="Exceptions\IoCException.cs" />
     <Compile Include="Files\AttachmentFileHandler.cs" />
     <Compile Include="Controllers\UserController.cs" />
