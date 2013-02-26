@@ -50,7 +50,7 @@ namespace Roadkill.Tests.Unit
 			});
 			_userManager.Setup(s => s.ActivateUser("activatekey")).Returns(true);
 			_userManager.Setup(s => s.GetUserByResetKey("resetkey")).Returns(_users[0]);
-			_userManager.Setup(s => s.GetUserById(dummyUser.Id)).Returns(dummyUser);
+			_userManager.Setup(s => s.GetUserById(dummyUser.Id, It.IsAny<bool>())).Returns(dummyUser);
 
 			_context = new RoadkillContext(_userManager.Object);
 		}

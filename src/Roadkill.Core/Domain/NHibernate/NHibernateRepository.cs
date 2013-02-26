@@ -364,7 +364,7 @@ namespace Roadkill.Core
 
 		public User GetUserByActivationKey(string key)
 		{
-			return Users.FirstOrDefault(x => x.ActivationKey == key);
+			return Users.FirstOrDefault(x => x.ActivationKey == key && x.IsActivated == false);
 		}
 
 		public User GetEditorById(Guid id)
@@ -372,14 +372,14 @@ namespace Roadkill.Core
 			return Users.FirstOrDefault(x => x.Id == id && x.IsEditor);
 		}
 
-		public User GetUserByEmail(string email)
+		public User GetUserByEmail(string email, bool isActivated = true)
 		{
-			return Users.FirstOrDefault(x => x.Email == email);
+			return Users.FirstOrDefault(x => x.Email == email && x.IsActivated == isActivated);
 		}
 
-		public User GetUserById(Guid id)
+		public User GetUserById(Guid id, bool isActivated = true)
 		{
-			return Users.FirstOrDefault(x => x.Id == id);
+			return Users.FirstOrDefault(x => x.Id == id && x.IsActivated == isActivated);
 		}
 
 		public User GetUserByPasswordResetKey(string key)
@@ -392,9 +392,19 @@ namespace Roadkill.Core
 			return Users.FirstOrDefault(x => x.Username == username);
 		}
 
-		public User GetUserByUsernameOrEmail(string username)
+		public User GetUserByUsernameOrEmail(string username, string email)
 		{
-			return Users.FirstOrDefault(x => x.Username == username || x.Email == username);
+			return Users.FirstOrDefault(x => x.Username == username || x.Email == email);
+		}
+
+		public IEnumerable<User> FindAllEditors()
+		{
+			return Users.Where(x => x.IsEditor);
+		}
+
+		public IEnumerable<User> FindAllAdmins()
+		{
+			return Users.Where(x => x.IsAdmin);
 		}
 
 		public PageContent GetPageContentByVersionId(Guid versionId)

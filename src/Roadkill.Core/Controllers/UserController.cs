@@ -256,7 +256,7 @@ namespace Roadkill.Core.Controllers
 		[HttpPost]
 		public ActionResult ResendConfirmation(string email)
 		{
-			UserSummary summary = UserManager.GetUser(email).ToSummary();
+			UserSummary summary = UserManager.GetUser(email, false).ToSummary();
 			if (summary == null)
 			{
 				// Something went wrong with the signup, redirect to the first step of the signup.
