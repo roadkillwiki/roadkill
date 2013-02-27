@@ -44,7 +44,6 @@ namespace Roadkill.Tests.Unit
 
 			// Dependencies for PageManager
 			_mockRepository = new Mock<IRepository>();
-			_mockRepository.Setup(x => x.PageContents).Returns(_pagesContent.AsQueryable());
 			_mockRepository.Setup(x => x.GetLatestPageContent(It.IsAny<int>())).Returns<int>((id) => _pagesContent.FirstOrDefault(p => p.Page.Id == id));
 			_mockRepository.Setup(x => x.AllTags()).Returns(_pages.Select(x => x.Tags));
 			_mockRepository.Setup(x => x.FindPagesContainingTag(It.IsAny<string>())).Returns<string>(x => _pages.Where(p => p.Tags.Contains(x)));

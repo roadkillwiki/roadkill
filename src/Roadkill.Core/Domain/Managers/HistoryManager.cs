@@ -33,7 +33,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				IEnumerable<PageContent> contentList = Repository.PageContents.Where(p => p.Page.Id == pageId);
+				IEnumerable<PageContent> contentList = Repository.FindPageContentsByPageId(pageId);
 				IEnumerable<HistorySummary> historyList = from p in contentList
 														  select
 															  new HistorySummary()
@@ -71,7 +71,7 @@ namespace Roadkill.Core
 			{
 				List<PageSummary> versions = new List<PageSummary>();
 
-				PageContent mainContent = Repository.PageContents.FirstOrDefault(p => p.Id == mainVersionId);
+				PageContent mainContent = Repository.GetPageContentByVersionId(mainVersionId);
 				versions.Add(mainContent.ToSummary(_markupConverter));
 
 				if (mainContent.VersionNumber == 1)
@@ -80,7 +80,7 @@ namespace Roadkill.Core
 				}
 				else
 				{
-					PageContent previousContent = Repository.PageContents.FirstOrDefault(p => p.Page.Id == mainContent.Page.Id && p.VersionNumber == mainContent.VersionNumber - 1);
+					PageContent previousContent = Repository.GetPageContentByPageIdAndVersionNumber(mainContent.Page.Id, mainContent.VersionNumber - 1);
 
 					if (previousContent == null)
 					{
@@ -114,7 +114,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				PageContent pageContent = Repository.PageContents.FirstOrDefault(p => p.Page.Id == pageId && p.VersionNumber == versionNumber);
+				PageContent pageContent = Repository.GetPageContentByPageIdAndVersionNumber(pageId, versionNumber);
 
 				if (pageContent != null)
 				{
@@ -171,7 +171,7 @@ namespace Roadkill.Core
 		/// <returns>The latest version number.</returns>
 		public int MaxVersion(int pageId)
 		{
-			return Repository.PageContents.Where(p => p.Page.Id == pageId).Max(p => p.VersionNumber);
+			return Repository.GetLatestPageContent(pageId).VersionNumber;
 		}
 	}
 }

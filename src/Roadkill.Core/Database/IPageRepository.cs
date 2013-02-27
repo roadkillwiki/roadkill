@@ -33,6 +33,7 @@ namespace Roadkill.Core
 		PageContent GetPageContentByVersionId(Guid versionId);
 		PageContent GetPageContentByEditedBy(string username);
 		IEnumerable<PageContent> FindPageContentsByPageId(int pageId);
+		IEnumerable<PageContent> FindPageContentsEditedBy(string username);
 		IEnumerable<PageContent> AllPageContents();
 	}
 }

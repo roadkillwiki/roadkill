@@ -193,10 +193,14 @@ namespace Roadkill.Core
 					// TODO: log.
 				}
 
-				IList<PageContent> children = Repository.PageContents.Where(p => p.Page.Id == pageId).ToList();
+				IList<PageContent> children = Repository.FindPageContentsByPageId(pageId).ToList();
 				for (int i = 0; i < children.Count; i++)
 				{
-					NHibernateUtil.Initialize(children[i].Page); // force the proxy to hydrate
+					if (Repository is NHibernateRepository)
+					{
+						NHibernateUtil.Initialize(children[i].Page); // force the proxy to hydrate
+					}
+
 					Repository.Delete<PageContent>(children[i]);
 				}
 
@@ -270,7 +274,7 @@ namespace Roadkill.Core
 				if (string.IsNullOrEmpty(title))
 					return null;
 
-				Page page = Repository.FindPageByTitle(title);
+				Page page = Repository.GetPageByTitle(title);
 
 				if (page == null)
 					return null;
@@ -428,12 +432,15 @@ namespace Roadkill.Core
 		/// <param name="newTitle">The new page title.</param>
 		public void UpdateLinksToPage(string oldTitle, string newTitle)
 		{
-			foreach (PageContent content in Repository.PageContents)
+			foreach (PageContent content in Repository.AllPageContents())
 			{
 				if (_markupConverter.ContainsPageLink(content.Text, oldTitle))
 				{
 					// force the proxy to hydrate, for "Illegally attempted to associate a proxy with two open Sessions" errors
-					NHibernateUtil.Initialize(content.Page);
+					if (Repository is NHibernateRepository)
+					{
+						NHibernateUtil.Initialize(content.Page);
+					}
 
 					content.Text = _markupConverter.ReplacePageLinks(content.Text, oldTitle, newTitle);
 					Repository.SaveOrUpdate<PageContent>(content);

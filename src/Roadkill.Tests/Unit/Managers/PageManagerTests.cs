@@ -53,7 +53,7 @@ namespace Roadkill.Tests.Unit
 			_mockRepository.Setup(x => x.FindPagesByCreatedBy(It.IsAny<string>())).Returns<string>(x => _pages.Where(p => p.CreatedBy == x));
 			_mockRepository.Setup(x => x.AllPages()).Returns(_pages);
 			_mockRepository.Setup(x => x.AllTags()).Returns(_pages.Select(x => x.Tags));
-			_mockRepository.Setup(x => x.PageContents).Returns(_pagesContent.AsQueryable());
+			//TODO_mockRepository.Setup(x => x.PageContents).Returns(_pagesContent.AsQueryable());
 
 			// Config stub
 			_config = new RoadkillSettings();
@@ -137,7 +137,7 @@ namespace Roadkill.Tests.Unit
 				}
 			);
 
-			_mockRepository.Setup(r => r.FindPageByTitle(title)).Returns(pageMock.Object);
+			_mockRepository.Setup(r => r.GetPageByTitle(title)).Returns(pageMock.Object);
 			_mockRepository.Setup(x => x.SaveOrUpdate<PageContent>(pageContent));
 			_mockRepository.Setup(x => x.GetLatestPageContent(id)).Returns(pageContent);
 

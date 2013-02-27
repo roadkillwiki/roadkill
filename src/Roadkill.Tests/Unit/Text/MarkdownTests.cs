@@ -25,7 +25,7 @@ namespace Roadkill.Tests.Unit
 			Page page = new Page() { Id = 1, Title = "My first page"};
 
 			Mock<IRepository> mockRepository = new Mock<IRepository>();
-			mockRepository.Setup(x => x.FindPageByTitle(page.Title)).Returns<string>(p => { return page; });
+			mockRepository.Setup(x => x.GetPageByTitle(page.Title)).Returns<string>(p => { return page; });
 
 			IConfigurationContainer config = new RoadkillSettings();
 			config.SitePreferences = new SitePreferences() { MarkupType = "Markdown" };
@@ -55,7 +55,7 @@ namespace Roadkill.Tests.Unit
 			Page page = new Page() { Id = 1, Title = "My first page" };
 
 			Mock<IRepository> mockRepository = new Mock<IRepository>();
-			mockRepository.Setup(x => x.FindPageByTitle(page.Title)).Returns<string>(p => { return page; });
+			mockRepository.Setup(x => x.GetPageByTitle(page.Title)).Returns<string>(p => { return page; });
 
 			IConfigurationContainer config = new RoadkillSettings();
 			config.SitePreferences = new SitePreferences() { MarkupType = "Markdown" };

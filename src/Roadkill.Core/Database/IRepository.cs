@@ -47,24 +47,11 @@ namespace Roadkill.Core
 		void SaveOrUpdate<T>(T obj) where T : DataStoreEntity;
 
 		/// <summary>
-		/// Retrieves a page from the data store by its title.
-		/// </summary>
-		/// <param name="title">The title of the page.</param>
-		/// <returns>A <see cref="Page"/> object for the title, or null if the title cannot be found.</returns>
-		Page FindPageByTitle(string title);
-
-		/// <summary>
 		/// Retrieves the <see cref="SitePreferences"/> from the data store. The site preferences object can 
 		/// use the <see cref="SitePreferences.ConfigurationId"/> for its identity.
 		/// </summary>
 		/// <returns>A <see cref="SitePreferences"/> object</returns>
 		SitePreferences GetSitePreferences();
-
-		/// <summary>
-		/// Retrieves a LINQ object (<see cref="Queryable{PageContent}"/>) object to queries with. This object 
-		/// is only ever used for reads, and not inserts/updates/deletes.
-		/// </summary>
-		IQueryable<PageContent> PageContents { get; }
 
 		// Pending renames:
 
