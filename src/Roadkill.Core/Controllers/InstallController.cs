@@ -127,9 +127,9 @@ namespace Roadkill.Core.Controllers
 
 				if (ModelState.IsValid)
 				{
-					// Update all repository for the dependencies of this class
+					// Update all repository references for the dependencies of this class
 					// (changing the For() in StructureMap won't do this as the references have already been created).
-					_repository = IoCConfigurator.SwitchRepository(summary.DataStoreType);
+					_repository = IoCConfigurator.SwitchRepository(summary.DataStoreType, summary.ConnectionString, summary.CacheEnabled);
 					UserManager.UpdateRepository(_repository);
 					_settingsManager.UpdateRepository(_repository);
 					_searchManager.UpdateRepository(_repository);
@@ -219,7 +219,7 @@ namespace Roadkill.Core.Controllers
 		public ActionResult TestDatabaseConnection(string connectionString, string databaseType)
 		{
 			DataStoreType dataStoreType = DataStoreType.ByName(databaseType);
-			_repository = IoCConfigurator.SwitchRepository(dataStoreType);
+			_repository = IoCConfigurator.SwitchRepository(dataStoreType, connectionString, false);
 
 			InstallHelper installHelper = new InstallHelper(UserManager, _repository);
 			string errors = installHelper.TestConnection(connectionString, databaseType);

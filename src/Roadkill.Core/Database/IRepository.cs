@@ -7,19 +7,8 @@ namespace Roadkill.Core
 	/// <summary>
 	/// Defines a repository for storing and retrieving Roadkill domain objects in a data store.
 	/// </summary>
-	public interface IRepository : IPageRepository, IUserRepository
+	public interface IRepository : IPageRepository, IUserRepository, IDisposable
 	{
-		/// <summary>
-		/// Configures the repository when the Roadkill application is first run, or can be used for 
-		/// reconfiguring the repository when settings change.
-		/// </summary>
-		/// <param name="dataStoreType">Specifies the storage type (database server, XML, NoSQL etc.) for the data.</param>
-		/// <param name="connection">The connection string to the data store.</param>
-		/// <param name="createSchema">If true, then the Configure method will wipe all data from the data store and 
-		/// recreate the tables (if needed)</param>
-		/// <param name="enableCache">If true, then caching between the datastore and the Roadkill application is turned on.</param>
-		void Configure(DataStoreType dataStoreType, string connection, bool createSchema, bool enableCache);
-
 		/// <summary>
 		/// Delete a Roadkill domain object in the data store.
 		/// </summary>
@@ -53,22 +42,10 @@ namespace Roadkill.Core
 		/// <returns>A <see cref="SitePreferences"/> object</returns>
 		SitePreferences GetSitePreferences();
 
-		// Pending renames:
+		void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache);
 
-		/// <summary>
-		/// Configures the repository when the Roadkill application is first run, or can be used for 
-		/// reconfiguring the repository when settings change.
-		/// </summary>
-		/// <param name="datastoreType">Specifies the storage type (database server, XML, NoSQL etc.) for the data.</param>
-		/// <param name="connection">The connection string to the data store.</param>
-		/// <param name="createSchema">If true, then the Configure method will wipe all data from the data store and 
-		/// recreate the tables (if needed)</param>
-		/// <param name="enableCache">If true, then caching between the datastore and the Roadkill application is turned on.</param>
-		//void Install(DataStoreType dataStoreType, string connection, bool createSchema, bool enableCache);
+		void Install(DataStoreType dataStoreType, string connectionString, bool enableCache);
 
-		// When is this called? 
-		// - Installer (switching database types)
-		// - Admin page when switching dbs
-		//void Reconfigure(DataStoreType dataStoreType, string connection, bool createSchema, bool enableCache);
+		void Test(DataStoreType dataStoreType, string connectionString);
 	}
 }

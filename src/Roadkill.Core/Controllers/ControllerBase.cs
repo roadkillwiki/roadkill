@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using Roadkill.Core.Configuration;
 using System;
+using StructureMap;
+using NHibernate;
 
 namespace Roadkill.Core.Controllers
 {

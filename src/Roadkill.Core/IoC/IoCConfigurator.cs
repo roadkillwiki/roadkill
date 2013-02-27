@@ -25,6 +25,10 @@ namespace Roadkill.Core
 		/// <param name="repository">If null, then a new per-thread/http request <see cref="NHibernateRepository"/> is used.</param>
 		public static void Setup(IConfigurationContainer config = null, IRepository repository = null, IRoadkillContext context = null)
 		{
+
+			// All these parameters are there for tests to stub them...
+			// ...the application passes in null for all them
+
 			if (config != null && config.ApplicationSettings == null)
 				throw new IoCException("The IConfigurationContainer.ApplicationSettings of the config parameter is null - " + ObjectFactory.WhatDoIHave(), null);
 
@@ -70,11 +74,12 @@ namespace Roadkill.Core
 
 				if (repository == null)
 				{
-					SwitchRepository(config.ApplicationSettings.DataStoreType);
+					repository = SwitchRepository(config.ApplicationSettings.DataStoreType, config.ApplicationSettings.ConnectionString, config.ApplicationSettings.CacheEnabled);
 				}
 				else
 				{
 					x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use(repository);
+					repository.Startup(config.ApplicationSettings.DataStoreType, config.ApplicationSettings.ConnectionString, config.ApplicationSettings.CacheEnabled);
 				}
 
 				if (context == null)
@@ -124,18 +129,18 @@ namespace Roadkill.Core
 			}
 		}
 
-		public static IRepository SwitchRepository(DataStoreType storeType)
+		public static IRepository SwitchRepository(DataStoreType dataStoreType, string connectionString, bool enableCache)
 		{
-			if (storeType.RequiresCustomRepository)
+			if (dataStoreType.RequiresCustomRepository)
 			{
 				Type interfaceType = typeof(IRepository);
-				Type reflectedType = Type.GetType(storeType.CustomRepositoryType);
+				Type reflectedType = Type.GetType(dataStoreType.CustomRepositoryType);
 
 				if (interfaceType.IsAssignableFrom(reflectedType))
 				{
 					ObjectFactory.Configure(x =>
 					{
-						x.For<IRepository>().Use((IRepository)ObjectFactory.GetInstance(reflectedType));
+						x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use((IRepository)ObjectFactory.GetInstance(reflectedType));
 					});
 				}
 				else
@@ -147,11 +152,18 @@ namespace Roadkill.Core
 			{
 				ObjectFactory.Configure(x =>
 				{
-					x.For<IRepository>().Use<NHibernateRepository>();
+					x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use<NHibernateRepository>();
 				});
 			}
 
-			return ObjectFactory.GetInstance<IRepository>();
+			IRepository repository = ObjectFactory.GetInstance<IRepository>();
+			repository.Startup(dataStoreType, connectionString, enableCache);
+			return repository;
+		}
+
+		public static void RemoveHttpScopedObjects()
+		{
+			ObjectFactory.GetInstance<IRepository>().Dispose();
 		}
 	}
 }

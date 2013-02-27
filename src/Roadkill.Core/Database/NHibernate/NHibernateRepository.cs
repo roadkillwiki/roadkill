@@ -13,6 +13,7 @@ using System.Data;
 using NHibernateConfig = NHibernate.Cfg.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Configuration;
+using StructureMap;
 
 namespace Roadkill.Core
 {
@@ -21,8 +22,6 @@ namespace Roadkill.Core
 	/// </summary>
 	public class NHibernateRepository : IRepository
 	{
-		private IConfigurationContainer _configuration;
-
 		/// <summary>
 		/// Gets a LINQ-to-NHibernate <see cref="Queryable{Page}"/> object to perform queries with.
 		/// </summary>
@@ -59,120 +58,38 @@ namespace Roadkill.Core
 		/// <summary>
 		/// The current NHibernate <see cref="ISessionFactory"/>. This is created once, the first the NHibernateRepository is used.
 		/// </summary>
-		public virtual ISessionFactory SessionFactory { get; protected set; }
+		public virtual ISessionFactory SessionFactory
+		{
+			get
+			{
+				ISessionFactory factory = ObjectFactory.GetInstance<ISessionFactory>();
+				if (factory == null)
+					throw new DatabaseException("The ISessionFactory for NHibernateRepository is null - has Startup() been called?", null);
+
+				return factory;
+			}
+		}
+
+		public virtual ISession Session
+		{
+			get
+			{
+				return ObjectFactory.GetInstance<ISession>();
+			}
+		}
+
+		public virtual NHibernateConfig NHibernateConfig
+		{
+			get
+			{
+				return ObjectFactory.GetInstance<NHibernateConfig>();
+			}
+		}
 
 		/// <summary>
 		/// The current Fluent NHibernate <see cref="FluentConfiguration"/> object that represents the current NHibernate configuration.
 		/// </summary>
 		public virtual FluentConfiguration Configuration { get; protected set; }
-
-		public NHibernateRepository(IConfigurationContainer configuration)
-		{
-			_configuration = configuration;
-
-			if (configuration.ApplicationSettings.Installed)
-			{
-				Configure(configuration.ApplicationSettings.DataStoreType,
-						  configuration.ApplicationSettings.ConnectionString,
-						  false,
-						  configuration.ApplicationSettings.CacheEnabled);
-			}
-		}
-
-		/// <summary>
-		/// Initializes and configures NHibernate using the connection string with Fluent NHibernate.
-		/// </summary>
-		/// <param name="datastoreType">The database used.</param>
-		/// <param name="connection">The connection string to configure with.</param>
-		/// <param name="createSchema">if set to <c>true</c> the database schema is created automatically.</param>
-		/// <param name="enableL2Cache">if set to <c>true</c> NHibernate L2 caching is enabled for all domain objects.</param>
-		/// <remarks>
-		/// Microsoft SQL Server CE: http://www.microsoft.com/downloads/en/details.aspx?FamilyID=033cfb76-5382-44fb-bc7e-b3c8174832e2
-		/// </remarks>
-		public virtual void Configure(DataStoreType dataStoreType, string connection, bool createSchema, bool enableL2Cache)
-		{
-			NHibernateConfig config = new NHibernateConfig();
-			Configuration = Fluently.Configure(config);
-			Configuration.Mappings(m => m.FluentMappings.AddFromAssemblyOf<Page>());
-
-			if (createSchema)
-				Configuration.ExposeConfiguration(c => new SchemaExport(c).Execute(false, true, false));
-
-			// Only configure the Databasetype if it's not already in the config file
-			if (!config.Properties.ContainsKey("connection.driver_class"))
-			{
-				SetDatabase(dataStoreType, connection);
-			}
-
-			if (!config.Properties.ContainsKey("connection.connection_string_name"))
-			{
-				config.SetProperty("connection.connection_string_name", _configuration.ApplicationSettings.ConnectionStringName);
-			}
-
-			// Only configure the caching if it's not already in the config file
-			if (!config.Properties.ContainsKey("cache.use_second_level_cache"))
-			{
-				if (enableL2Cache)
-				{
-					Configuration.Cache(c => c.ProviderClass<HashtableCacheProvider>().UseQueryCache().UseSecondLevelCache());
-				}
-			}
-
-			try
-			{
-				SessionFactory = Configuration.BuildSessionFactory();
-			}
-			catch (Exception e)
-			{
-				throw e;
-			}
-		}
-
-		private void SetDatabase(DataStoreType dataStoreType, string connection)
-		{
-			if (dataStoreType == DataStoreType.DB2)
-			{
-				DB2Configuration db2 = DB2Configuration.Standard.ConnectionString(connection);
-				Configuration.Database(db2);
-			}
-			else if (dataStoreType == DataStoreType.Firebird)
-			{
-				FirebirdConfiguration fireBird = new FirebirdConfiguration();
-				fireBird.ConnectionString(connection);
-				Configuration.Database(fireBird);
-			}
-			else if (dataStoreType == DataStoreType.MySQL)
-			{
-				MySQLConfiguration mySql = MySQLConfiguration.Standard.ConnectionString(connection);
-				Configuration.Database(mySql);
-			}
-			else if (dataStoreType == DataStoreType.Postgres)
-			{
-				PostgreSQLConfiguration postgres = PostgreSQLConfiguration.Standard.ConnectionString(connection);
-				Configuration.Database(postgres);
-			}
-			else if (dataStoreType == DataStoreType.Sqlite)
-			{
-				SQLiteConfiguration sqlLite = SQLiteConfiguration.Standard.ConnectionString(connection);
-				Configuration.Database(sqlLite);
-			}
-			else if (dataStoreType == DataStoreType.SqlServer2008)
-			{
-				MsSqlConfiguration msSql = MsSqlConfiguration.MsSql2008.ConnectionString(connection);
-				Configuration.Database(msSql);
-			}
-			else if (dataStoreType == DataStoreType.SqlServerCe)
-			{
-				MsSqlCeConfiguration msSqlCe = MsSqlCeConfiguration.Standard.ConnectionString(connection);
-				msSqlCe.Dialect("NHibernate.Dialect.MsSqlCe40Dialect, NHibernate"); // fluent uses SQL CE 3 which is wrong
-				Configuration.Database(msSqlCe);
-			}
-			else
-			{
-				MsSqlConfiguration msSql = MsSqlConfiguration.MsSql2005.ConnectionString(connection);
-				Configuration.Database(msSql);
-			}
-		}
 
 		/// <summary>
 		/// Provides a LINQ-to-NHibernate <see cref="IQueryable{T}"/> object to query with.
@@ -182,7 +99,7 @@ namespace Roadkill.Core
 		/// <returns><see cref="IQueryable{T}"/> for LINQ-to-NHibernate LINQ queries.</returns>
 		public virtual IQueryable<T> Queryable<T>() where T : DataStoreEntity
 		{
-			IQueryable<T> queryable = SessionFactory.OpenSession().Query<T>();
+			IQueryable<T> queryable = Session.Query<T>();
 			queryable = queryable.Cacheable<T>();
 
 			return queryable;
@@ -194,11 +111,10 @@ namespace Roadkill.Core
 		/// <param name="obj">The object to delete.</param>
 		public virtual void Delete<T>(T obj) where T : DataStoreEntity
 		{
-			ISession session = SessionFactory.OpenSession();
-			using (session.BeginTransaction())
+			using (Session.BeginTransaction())
 			{
-				session.Delete(obj);
-				session.Transaction.Commit();
+				Session.Delete(obj);
+				Session.Transaction.Commit();
 			}
 		}
 
@@ -208,12 +124,11 @@ namespace Roadkill.Core
 		public virtual void DeleteAll<T>() where T : DataStoreEntity
 		{
 			string className = typeof(T).FullName;
-			ISession session = SessionFactory.OpenSession();
-			using (session.BeginTransaction()) // 2.1 uses transactions by default
+			using (Session.BeginTransaction()) // 2.1 uses transactions by default
 			{
 				// TODO: use ClassExtractor for a more intelligent way
-				session.CreateQuery(string.Format("DELETE {0} o", className)).ExecuteUpdate();
-				session.Transaction.Commit();
+				Session.CreateQuery(string.Format("DELETE {0} o", className)).ExecuteUpdate();
+				Session.Transaction.Commit();
 			}
 		}
 
@@ -223,11 +138,10 @@ namespace Roadkill.Core
 		/// <param name="obj">The object to insert/update.</param>
 		public virtual void SaveOrUpdate<T>(T obj) where T : DataStoreEntity
 		{
-			ISession session = SessionFactory.OpenSession();
-			using (session.BeginTransaction())
+			using (Session.BeginTransaction())
 			{
-				session.SaveOrUpdate(obj);
-				session.Transaction.Commit();
+				Session.SaveOrUpdate(obj);
+				Session.Transaction.Commit();
 			}
 		}
 
@@ -238,29 +152,23 @@ namespace Roadkill.Core
 		/// <returns>The number of rows affected.</returns>
 		public virtual int ExecuteNonQuery(string sql)
 		{
-			using (ISession session = SessionFactory.OpenSession())
-			{
-				ISQLQuery query = session.CreateSQLQuery(sql);
-				return query.ExecuteUpdate();
-			}
+			ISQLQuery query = Session.CreateSQLQuery(sql);
+			return query.ExecuteUpdate();
 		}
 
 		public PageContent GetLatestPageContent(int pageId)
 		{
 			PageContent latest;
-			if (_configuration.ApplicationSettings.DataStoreType == DataStoreType.SqlServerCe)
+			if (NHibernateConfig.GetProperty("dataStoreType") == DataStoreType.SqlServerCe.Name)
 			{
 				// Work around for an NHibernate 3.3.1 SQL CE bug with the HQL query in CurrentContent() - this is two SQL queries per page instead of one.
-				using (ISession session = SessionFactory.OpenSession())
-				{
-					latest = session.QueryOver<PageContent>().Where(p => p.Page.Id == pageId).OrderBy(p => p.VersionNumber).Desc.Take(1).SingleOrDefault();
-					latest.Page = session.Get<Page>(latest.Page.Id);
-				}
+				latest = Session.QueryOver<PageContent>().Where(p => p.Page.Id == pageId).OrderBy(p => p.VersionNumber).Desc.Take(1).SingleOrDefault();
+				latest.Page = Session.Get<Page>(latest.Page.Id);
 			}
 			else
 			{
 				// Fetches the parent page object via SQL as well as the PageContent, avoiding lazy loading.
-				IQuery query = SessionFactory.OpenSession()
+				IQuery query = Session
 						.CreateQuery("FROM PageContent fetch all properties WHERE Page.Id=:Id AND VersionNumber=(SELECT max(VersionNumber) FROM PageContent WHERE Page.Id=:Id)");
 
 				query.SetCacheable(true);
@@ -405,6 +313,143 @@ namespace Roadkill.Core
 		public IEnumerable<PageContent> FindPageContentsEditedBy(string username)
 		{
 			return PageContents.Where(p => p.EditedBy == username);
+		}
+
+		// ---- SETUP ----
+
+		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)
+		{
+			InitializeSessionFactory(dataStoreType, connectionString, enableCache, false);
+		}
+
+		public void Install(DataStoreType dataStoreType, string connectionString, bool enableCache)
+		{
+			InitializeSessionFactory(dataStoreType, connectionString, enableCache, true);
+		}
+
+		public void InitializeSessionFactory(DataStoreType dataStoreType, string connectionString, bool enableCache, bool createSchema)
+		{
+			NHibernateConfig config = new NHibernateConfig();
+			Configuration = Fluently.Configure(config);
+			Configuration.Mappings(m => m.FluentMappings.AddFromAssemblyOf<Page>());
+			config.SetProperty("dataStoreType", dataStoreType.Name);
+
+			if (createSchema)
+				Configuration.ExposeConfiguration(c => new SchemaExport(c).Execute(false, true, false));
+
+			// Only configure the Databasetype if it's not already in the config file
+			if (!config.Properties.ContainsKey("connection.driver_class"))
+			{
+				SetDatabase(dataStoreType, connectionString);
+			}
+
+			if (!config.Properties.ContainsKey("connection.connection_string_name"))
+			{
+				config.SetProperty("connection.connection_string", connectionString);
+			}
+
+			// Only configure the caching if it's not already in the config file
+			if (!config.Properties.ContainsKey("cache.use_second_level_cache"))
+			{
+				if (enableCache)
+				{
+					// SQL CE's second level cache breaks with QueryOver
+					if (dataStoreType != DataStoreType.SqlServerCe)
+					{
+						Configuration.Cache(c => c.ProviderClass<HashtableCacheProvider>().UseQueryCache().UseSecondLevelCache());
+					}
+				}
+			}
+
+			try
+			{
+				ISessionFactory sessionFactory = Configuration.BuildSessionFactory();
+
+				// Store one SessionFactory per http request or thread if no http context.
+				// StructureMap does all this magic for us.
+				ObjectFactory.Configure(x =>
+				{
+					x.For<NHibernate.Cfg.Configuration>().Singleton().Use(config);
+					x.For<ISessionFactory>().Singleton().Use(sessionFactory);
+					x.For<ISession>().HybridHttpOrThreadLocalScoped().Use(ctx => ctx.GetInstance<ISessionFactory>().OpenSession());
+				});
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+		}
+
+		public void Test(DataStoreType dataStoreType, string connection)
+		{
+			NHibernateConfig config = new NHibernateConfig();
+			Configuration = Fluently.Configure(config);
+			Configuration.Mappings(m => m.FluentMappings.AddFromAssemblyOf<Page>());
+
+			SetDatabase(dataStoreType, connection);
+			config.SetProperty("connection.connection_string", connection);
+
+			try
+			{
+				// Don't do anything with the SessionFactory as it's just to test the connection
+				ISessionFactory factory = Configuration.BuildSessionFactory();
+				factory.OpenSession();
+			}
+			catch (HibernateException e)
+			{
+				throw new DatabaseException("NHibernate exception occurred testing the database", e);
+			}
+		}
+
+		private void SetDatabase(DataStoreType dataStoreType, string connection)
+		{
+			if (dataStoreType == DataStoreType.DB2)
+			{
+				DB2Configuration db2 = DB2Configuration.Standard.ConnectionString(connection);
+				Configuration.Database(db2);
+			}
+			else if (dataStoreType == DataStoreType.Firebird)
+			{
+				FirebirdConfiguration fireBird = new FirebirdConfiguration();
+				fireBird.ConnectionString(connection);
+				Configuration.Database(fireBird);
+			}
+			else if (dataStoreType == DataStoreType.MySQL)
+			{
+				MySQLConfiguration mySql = MySQLConfiguration.Standard.ConnectionString(connection);
+				Configuration.Database(mySql);
+			}
+			else if (dataStoreType == DataStoreType.Postgres)
+			{
+				PostgreSQLConfiguration postgres = PostgreSQLConfiguration.Standard.ConnectionString(connection);
+				Configuration.Database(postgres);
+			}
+			else if (dataStoreType == DataStoreType.Sqlite)
+			{
+				SQLiteConfiguration sqlLite = SQLiteConfiguration.Standard.ConnectionString(connection);
+				Configuration.Database(sqlLite);
+			}
+			else if (dataStoreType == DataStoreType.SqlServer2008)
+			{
+				MsSqlConfiguration msSql = MsSqlConfiguration.MsSql2008.ConnectionString(connection);
+				Configuration.Database(msSql);
+			}
+			else if (dataStoreType == DataStoreType.SqlServerCe)
+			{
+				MsSqlCeConfiguration msSqlCe = MsSqlCeConfiguration.Standard.ConnectionString(connection);
+				msSqlCe.Dialect("NHibernate.Dialect.MsSqlCe40Dialect, NHibernate"); // fluent uses SQL CE 3 which is wrong
+				Configuration.Database(msSqlCe);
+			}
+			else
+			{
+				MsSqlConfiguration msSql = MsSqlConfiguration.MsSql2005.ConnectionString(connection);
+				Configuration.Database(msSql);
+			}
+		}
+
+		public void Dispose()
+		{
+			Session.Dispose();
 		}
 	}
 }
