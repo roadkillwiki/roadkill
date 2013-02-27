@@ -111,14 +111,14 @@ namespace Roadkill.Core
 					dataStoreType = DataStoreType.ByName("SQLServer2005");
 
 				// Update the current repository, though it may not need changing
-				IoCConfigurator.SwitchRepository(dataStoreType);
+				IoCConfigurator.SwitchRepository(dataStoreType, connectionString, false);
 
 				System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 				RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
 
 				// Only create the Schema if not already installed otherwise just a straight TestConnection
 				bool createSchema = !section.Installed;
-				_repository.Configure(dataStoreType, connectionString, createSchema, false);
+				_repository.Test(dataStoreType, connectionString);
 				return "";
 			}
 			catch (Exception e)
