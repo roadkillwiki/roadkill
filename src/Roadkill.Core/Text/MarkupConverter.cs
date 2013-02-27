@@ -176,7 +176,7 @@ namespace Roadkill.Core.Converters
 						title = title.Replace("-", " ");
 					}
 
-					Page page = _repository.FindPageByTitle(title);
+					Page page = _repository.GetPageByTitle(title);
 					if (page != null)
 					{
 						href = InternalUrlForTitle(page.Id, page.Title);

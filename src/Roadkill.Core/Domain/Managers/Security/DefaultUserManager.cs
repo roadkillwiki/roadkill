@@ -545,10 +545,14 @@ namespace Roadkill.Core
 						//
 						// Update the PageContent.EditedBy history
 						//
-						IList<PageContent> pageContents = Repository.PageContents.Where(p => p.EditedBy == summary.ExistingUsername).ToList();
+						IList<PageContent> pageContents = Repository.FindPageContentsEditedBy(summary.ExistingUsername).ToList();
 						for (int i = 0; i < pageContents.Count; i++)
 						{
-							NHibernateUtil.Initialize(pageContents[i].Page); // force the proxy to hydrate
+							if (Repository is NHibernateRepository)
+							{
+								NHibernateUtil.Initialize(pageContents[i].Page); // force the proxy to hydrate
+							}
+
 							pageContents[i].EditedBy = summary.NewUsername;
 							Repository.SaveOrUpdate<PageContent>(pageContents[i]);
 						}
