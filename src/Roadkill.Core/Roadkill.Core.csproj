@@ -255,9 +255,9 @@
     <Compile Include="Database\NHibernate\SitePreferencesMap.cs" />
     <Compile Include="Database\NHibernate\UserMap.cs" />
     <Compile Include="Files\MimeMapping.cs" />
+    <Compile Include="IoC\IocSetup.cs" />
     <Compile Include="IoC\IInjectionLaunderer.cs" />
-    <Compile Include="IoC\IoCConfigurator.cs" />
-    <Compile Include="IoC\StructureMapControllerFactory.cs" />
+    <Compile Include="IoC\ControllerFactory.cs" />
     <Compile Include="Controllers\Attributes\OptionalAuthorizationAttribute.cs" />
     <Compile Include="Controllers\Attributes\RecaptchaRequiredAttribute.cs" />
     <Compile Include="Controllers\Attributes\ImportModelStateAttribute.cs" />

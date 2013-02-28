@@ -18,7 +18,8 @@ namespace Roadkill.Tests.Integration
 		[SetUp]
 		public void Initialize()
 		{
-			IoCConfigurator.Setup();
+			IoCSetup iocSetup = new IoCSetup();
+			iocSetup.Run();
 
 			IConfigurationContainer config = new RoadkillSettings();
 			config.ApplicationSettings = new ApplicationSettings();

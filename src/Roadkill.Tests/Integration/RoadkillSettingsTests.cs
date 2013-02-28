@@ -136,18 +136,19 @@ namespace Roadkill.Tests.Unit
 				Theme = "theme",
 			};
 
-			Mock<IRepository> repositoryMock = new Mock<IRepository>();
-			repositoryMock.Setup(x => x.SaveOrUpdate<SitePreferences>(preferences));
-			repositoryMock.Setup(x => x.GetSitePreferences()).Returns(preferences);
+			Mock<IRepository> mockRepository = new Mock<IRepository>();
+			mockRepository.Setup(x => x.SaveOrUpdate<SitePreferences>(preferences));
+			mockRepository.Setup(x => x.GetSitePreferences()).Returns(preferences);
 
-			IoCConfigurator.Setup(_config, repositoryMock.Object, null);
-			SettingsManager settingsManager = new SettingsManager(_config, repositoryMock.Object);
+			IoCSetup iocSetup = new IoCSetup(_config, mockRepository.Object, new RoadkillContext(null)); // context isn't used
+			iocSetup.Run();
+			SettingsManager settingsManager = new SettingsManager(_config, mockRepository.Object);
 
 			// Act
 			settingsManager.SaveSiteConfiguration(validConfigSettings, true);
 
 			// Assert
-			repositoryMock.Verify(x => x.SaveOrUpdate<SitePreferences>(
+			mockRepository.Verify(x => x.SaveOrUpdate<SitePreferences>(
 				It.Is<SitePreferences>(s => s.Id == preferences.Id && s.MarkupType == preferences.MarkupType)
 			));
 
@@ -182,7 +183,8 @@ namespace Roadkill.Tests.Unit
 			config.ApplicationSettings.UserManagerType = typeof(UserManagerStub).AssemblyQualifiedName;
 			
 			// Act
-			IoCConfigurator.Setup(config, mockRepository.Object, mockContext.Object);
+			IoCSetup iocSetup = new IoCSetup(config, mockRepository.Object, mockContext.Object);
+			iocSetup.Run();
 
 			// Assert
 			Assert.That(UserManager.GetInstance(), Is.TypeOf(typeof(UserManagerStub)));
@@ -204,7 +206,8 @@ namespace Roadkill.Tests.Unit
 			config.ApplicationSettings.EditorRoleName = "editors";
 
 			// Act
-			IoCConfigurator.Setup(config, mockRepository.Object, mockContext.Object);
+			IoCSetup iocSetup = new IoCSetup(config, mockRepository.Object, mockContext.Object);
+			iocSetup.Run();
 
 			// Assert
 			Assert.That(UserManager.GetInstance(), Is.TypeOf(typeof(ActiveDirectoryUserManager)));
@@ -222,7 +225,8 @@ namespace Roadkill.Tests.Unit
 			config.ApplicationSettings = new ApplicationSettings();
 
 			// Act
-			IoCConfigurator.Setup(config, mockRepository.Object, mockContext.Object);
+			IoCSetup iocSetup = new IoCSetup(config, mockRepository.Object, mockContext.Object);
+			iocSetup.Run();
 
 			// Assert
 			Assert.That(UserManager.GetInstance(), Is.TypeOf(typeof(DefaultUserManager)));

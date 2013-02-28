@@ -17,7 +17,8 @@ namespace Roadkill.Core
 		protected void Application_Start()
 		{
 			// Configure StructureMap dependencies
-			IoCConfigurator.Setup();
+			IoCSetup iocSetup = new IoCSetup();
+			iocSetup.Run();
 
 			// Register the ~/attachments/ route
 			AttachmentRouteHandler.Register(ObjectFactory.GetInstance<IConfigurationContainer>());
@@ -31,7 +32,7 @@ namespace Roadkill.Core
 			ModelBinders.Binders.Add(typeof(SettingsSummary),new SettingsSummaryModelBinder());
 
 			// *All* Roadkill MVC controllers are new'd up by a controller factory so dependencies are injected into them
-			ControllerBuilder.Current.SetControllerFactory(new StructureMapControllerFactory());
+			ControllerBuilder.Current.SetControllerFactory(new ControllerFactory());
 		}
 
 		public static void RegisterRoutes(RouteCollection routes)
@@ -69,7 +70,7 @@ namespace Roadkill.Core
 
 		protected void Application_EndRequest(object sender, EventArgs e)
 		{
-			IoCConfigurator.RemoveHttpScopedObjects();
+			IoCSetup.DisposeRepository();
 		}
 	}
 }
