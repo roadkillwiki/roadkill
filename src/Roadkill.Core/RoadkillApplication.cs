@@ -16,6 +16,8 @@ namespace Roadkill.Core
 	{
 		protected void Application_Start()
 		{
+			log4net.Config.XmlConfigurator.Configure(); 
+
 			// Configure StructureMap dependencies
 			IoCConfigurator.Setup();
 

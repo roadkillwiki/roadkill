@@ -33,7 +33,7 @@ namespace Roadkill.Core.Controllers
 		}
 
 		/// <summary>
-		/// Displays all pages in Roadkill.
+		/// Displays a list of all page titles and ids in Roadkill.
 		/// </summary>
 		/// <returns>An <see cref="IEnumerable{PageSummary}"/> as the model.</returns>
 		public ActionResult AllPages()
