@@ -122,7 +122,7 @@ namespace Roadkill.Tests.Unit
 			Assert.NotNull(model, "Null model");
 
 			List<PageSummary> summaryList = model.OrderBy(p => p.Id).ToList();
-			_pageManagerMock.Verify(x => x.AllPages());
+			_pageManagerMock.Verify(x => x.AllPages(false));
 		}
 
 		[Test]

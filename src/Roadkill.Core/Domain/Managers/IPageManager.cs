@@ -19,7 +19,7 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <returns>An <see cref="IEnumerable`PageSummary"/> of the pages.</returns>
 		/// <exception cref="DatabaseException">An database error occurred while retrieving the list.</exception>
-		IEnumerable<PageSummary> AllPages();
+		IEnumerable<PageSummary> AllPages(bool loadPageContent = false);
 
 		/// <summary>
 		/// Gets alls the pages created by a user.

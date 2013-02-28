@@ -343,10 +343,12 @@ namespace Roadkill.Core
 				SetDatabase(dataStoreType, connectionString);
 			}
 
-			if (!config.Properties.ContainsKey("connection.connection_string_name"))
+			if (!config.Properties.ContainsKey("connection.connection_string"))
 			{
 				config.SetProperty("connection.connection_string", connectionString);
 			}
+
+			config.SetProperty("show_sql", "true");
 
 			// Only configure the caching if it's not already in the config file
 			if (!config.Properties.ContainsKey("cache.use_second_level_cache"))

@@ -90,13 +90,23 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <returns>An <see cref="IEnumerable`PageSummary"/> of the pages.</returns>
 		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while retrieving the list.</exception>
-		public IEnumerable<PageSummary> AllPages()
+		public IEnumerable<PageSummary> AllPages(bool loadPageContent = false)
 		{
 			try
 			{
 				IEnumerable<Page> pages = Repository.AllPages().OrderBy(p => p.Title);
-				IEnumerable<PageSummary> summaries = from page in pages
-													 select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+				IEnumerable<PageSummary> summaries;
+
+				if (loadPageContent)
+				{
+					summaries = from page in pages
+								select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+				}
+				else
+				{
+					summaries = from page in pages
+								select new PageSummary() { Id = page.Id, Title = page.Title };
+				}
 
 				return summaries;
 			}
