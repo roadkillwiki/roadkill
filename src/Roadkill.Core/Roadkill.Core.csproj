@@ -172,9 +172,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="Lucene.Net, Version=3.0.3.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
