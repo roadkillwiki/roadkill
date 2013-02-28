@@ -11,7 +11,7 @@ namespace Roadkill.Core.Configuration
 	/// <summary>
 	/// The factory for all Controller instances in Roadkill, used by the MVC framework.
 	/// </summary>
-	public class StructureMapControllerFactory : DefaultControllerFactory
+	public class ControllerFactory : DefaultControllerFactory
 	{
 		/// <summary>
 		/// Creates an instance of the controller given by the controllerType argument. This uses 
