@@ -8,6 +8,7 @@ using System.IO;
 using Roadkill.Core.Localization.Resx;
 using Roadkill.Core.Configuration;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Roadkill.Core
 {

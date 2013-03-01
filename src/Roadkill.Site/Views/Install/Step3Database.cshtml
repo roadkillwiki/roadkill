@@ -17,7 +17,7 @@
 @using (Html.BeginForm("Step4","Install"))
 {
 	@(Html.HiddenFor<SettingsSummary, string>(h => h.ConnectionString))
-	@(Html.HiddenFor<SettingsSummary, DatabaseType>(h => h.DatabaseType))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.DataStoreType.Name))
 	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteName))
 	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteUrl))
 	@(Html.HiddenFor<SettingsSummary, bool>(h => h.UseWindowsAuth))

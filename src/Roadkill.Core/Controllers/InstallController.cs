@@ -127,6 +127,9 @@ namespace Roadkill.Core.Controllers
 
 				if (ModelState.IsValid)
 				{
+					// The name is passed through each step, so parse it
+					summary.DataStoreType = DataStoreType.ByName(summary.DataStoreType.Name);
+
 					// Update all repository references for the dependencies of this class
 					// (changing the For() in StructureMap won't do this as the references have already been created).
 					_repository = IoCSetup.ChangeRepository(summary.DataStoreType, summary.ConnectionString, summary.CacheEnabled);
@@ -218,9 +221,6 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestDatabaseConnection(string connectionString, string databaseType)
 		{
-			DataStoreType dataStoreType = DataStoreType.ByName(databaseType);
-			_repository = IoCSetup.ChangeRepository(dataStoreType, connectionString, false);
-
 			InstallHelper installHelper = new InstallHelper(UserManager, _repository);
 			string errors = installHelper.TestConnection(connectionString, databaseType);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
