@@ -80,7 +80,6 @@ namespace Roadkill.Tests.Acceptance
 			// Assert
 			Assert.That(Driver.FindElement(By.CssSelector("div#webconfig-failure")).Displayed, Is.True);
 			Assert.That(Driver.FindElement(By.CssSelector(".continue > a")).Displayed, Is.False);
-			File.SetAttributes(webConfigPath, FileAttributes.Normal);
 		}
 
 		[Test]

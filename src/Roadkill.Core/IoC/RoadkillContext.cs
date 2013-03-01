@@ -36,7 +36,7 @@ namespace Roadkill.Core
 				if (IsLoggedIn)
 				{
 					Guid userId;
-					if (Guid.TryParse(CurrentUser, out userId))
+					if (Guid.TryParse(CurrentUser, out userId) && userId != Guid.Empty)
 					{
 						// Guids are used for cookie auth
 						return _userManager.GetUserById(userId).Username;
