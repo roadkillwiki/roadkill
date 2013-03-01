@@ -98,7 +98,7 @@ $(document).ready(function()
 			</ol>
 			
 			<h3>@InstallStrings.Page2_Group3_Label3</h3>
-			@Html.DropDownListFor(x => x.DataStoreType.Name, new SelectList(Model.DatabaseTypesAvailable, Model.DataStoreType.Name))
+			@Html.DropDownListFor(x => x.DataStoreType.Name, Html.DatabaseTypesAvailable(Model)), 
 
 			<div class="textbox">@Html.TextBoxFor(s => s.ConnectionString, new { @class = "validate[required]", size="60" })</div>
 			<input id="testdbconnection" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
@@ -111,7 +111,7 @@ $(document).ready(function()
 
 			<div id="connectionfailure" class="failure alert hidden">
 				<h2>@InstallStrings.Shared_Failure</h2>
-				<p>@InstallStrings.Page2_Error&nbsp;<span class="errormessage"></span></p>
+				<p>@InstallStrings.Page2_Error&nbsp;<pre class="errormessage" style="width:100%;overflow:scroll;"></pre></p>
 			</div>
 		</div>
 		

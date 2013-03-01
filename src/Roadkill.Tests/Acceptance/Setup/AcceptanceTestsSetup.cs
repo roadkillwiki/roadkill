@@ -9,7 +9,7 @@ using OpenQA.Selenium.PhantomJS;
 namespace Roadkill.Tests.Acceptance
 {
 	/// <summary>
-	/// Separate from the TestBase so it isn't run by nunit as a test.
+	/// Separate from the AcceptanceTestBase so it isn't run by nunit as a test.
 	/// </summary>
 	[SetUpFixture]
 	public class AcceptanceTestsSetup
@@ -45,6 +45,14 @@ namespace Roadkill.Tests.Acceptance
 				IisProcess.Dispose();
 				Console.WriteLine("Killed IISExpress");
 			}
+
+			try
+			{
+				string sitePath = GetSitePath();
+				string installerTestsAttachmentsPath = Path.Combine(sitePath, "AcceptanceTests");
+				Directory.Delete(installerTestsAttachmentsPath, true);
+			}
+			catch { }
 		}
 
 		public static string GetSitePath()

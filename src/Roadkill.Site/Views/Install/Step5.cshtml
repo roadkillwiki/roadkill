@@ -11,7 +11,7 @@
 
 @if (!ViewData.ModelState.IsValid)
 {
-	<div style="margin-top:10px">
+	<div style="margin-top:10px" id="installfailed">
 		<h1>@InstallStrings.Page5_Error_Title</h1>
 		<br />
 		@InstallStrings.Page5_Error_Label1
@@ -23,7 +23,7 @@
 }
 else
 {
-	<div style="margin-top:10px">
+	<div style="margin-top:10px" id="installsuccess">
 		<h1>@InstallStrings.Page5_Success_Title</h1>
 		
 		@if (Model.UseWindowsAuth)

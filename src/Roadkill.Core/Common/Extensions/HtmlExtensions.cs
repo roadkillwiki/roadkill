@@ -218,5 +218,28 @@ namespace Roadkill.Core
 		{
 			return MvcHtmlString.Create(AttachmentFileHandler.GetAttachmentsPath(config));
 		}
+
+		/// <summary>
+		/// Gets a IEnumerable{SelectListItem} from a the SettingsSummary.DatabaseTypesAvailable, as a default
+		/// SelectList doesn't add option value attributes.
+		/// </summary>
+		public static IEnumerable<SelectListItem> DatabaseTypesAvailable(this HtmlHelper helper, SettingsSummary summary)
+		{
+			List<SelectListItem> items =  new List<SelectListItem>();
+
+			foreach (string name in summary.DatabaseTypesAvailable)
+			{
+				SelectListItem item =  new SelectListItem();
+				item.Text = name;
+				item.Value = name;
+
+				if (name == summary.DataStoreType.Name)
+					item.Selected = true;
+
+				items.Add(item);
+			}
+
+			return items;
+		}
 	}
 }
