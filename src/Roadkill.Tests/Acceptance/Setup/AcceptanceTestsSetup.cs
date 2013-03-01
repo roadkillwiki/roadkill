@@ -46,11 +46,20 @@ namespace Roadkill.Tests.Acceptance
 				Console.WriteLine("Killed IISExpress");
 			}
 
+			string sitePath = GetSitePath();
 			try
 			{
-				string sitePath = GetSitePath();
+				// Remove any attachment folders used by the installer tests
 				string installerTestsAttachmentsPath = Path.Combine(sitePath, "AcceptanceTests");
 				Directory.Delete(installerTestsAttachmentsPath, true);
+			}
+			catch { }
+
+			try
+			{
+				// Remove the readonly flag from one of the installer tests (this could be fired in any order)
+				string webConfigPath = Path.Combine(sitePath, "web.config");
+				File.SetAttributes(webConfigPath, FileAttributes.Normal);
 			}
 			catch { }
 		}
