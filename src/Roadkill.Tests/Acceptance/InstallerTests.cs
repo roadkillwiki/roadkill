@@ -11,17 +11,54 @@ namespace Roadkill.Tests.Acceptance
 	[Category("Acceptance")]
 	public class InstallerTests : AcceptanceTestBase
 	{
+		[TearDown]
+		public void TearDown()
+		{
+			string sitePath = AcceptanceTestsSetup.GetSitePath();
+			try
+			{
+				// Remove any attachment folders used by the installer tests
+				string installerTestsAttachmentsPath = Path.Combine(sitePath, "AcceptanceTests");
+				Directory.Delete(installerTestsAttachmentsPath, true);
+			}
+			catch { }
+
+			try
+			{
+				SetInstalledStatus(true);
+			}
+			catch { }
+		}
+
+		[TestFixtureTearDown]
+		public void TestFixtureTearDown()
+		{
+			// Reset the web.config back for all other acceptance tests
+			AcceptanceTestsSetup.CopyWebConfig();
+		}
+
 		[SetUp]
 		public void Setup()
 		{
-			// Switch installed=false in the web.config
+			SetInstalledStatus(false);
+			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10)); // for ajax calls
+		}
+
+		private void SetInstalledStatus(bool installed)
+		{
 			string sitePath = AcceptanceTestsSetup.GetSitePath();
 			string webConfigPath = Path.Combine(sitePath, "web.config");
-			string fileText = File.ReadAllText(webConfigPath);
-			fileText = fileText.Replace("installed=\"true\"", "installed=\"false\"");
-			File.WriteAllText(webConfigPath, fileText);
 
-			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10)); // for ajax calls
+			// Remove the readonly flag from one of the installer tests (this could be fired in any order)
+			File.SetAttributes(webConfigPath, FileAttributes.Normal);
+
+			// Switch installed=false in the web.config
+			string fileText = File.ReadAllText(webConfigPath);
+
+			string oldValue = string.Format("installed=\"{0}\"", (!installed).ToString().ToLower());
+			string newValue = string.Format("installed=\"{0}\"", (installed).ToString().ToLower());
+			fileText = fileText.Replace(oldValue, newValue);
+			File.WriteAllText(webConfigPath, fileText);
 		}
 
 		[Test]
@@ -66,12 +103,14 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
+		[Ignore("Too flakey - this can be tested through the Controller in unit tests instead")]
 		public void Step1_Web_Config_Test_Button_Should_Display_Error_Box_And_No_Continue_Link_For_Readonly_Webconfig()
 		{
 			// Arrange
 			string sitePath = AcceptanceTestsSetup.GetSitePath();
 			string webConfigPath = Path.Combine(sitePath, "web.config");
 			File.SetAttributes(webConfigPath, FileAttributes.ReadOnly);
+			Driver.Wait(0.5);
 			Driver.Navigate().GoToUrl(BaseUrl);
 
 			// Act
@@ -164,6 +203,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.Id("SiteUrl")).Clear();
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys("not empty");
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+			Driver.Wait(0.5);
 
 			// Assert
 			Assert.That(Driver.FindElement(By.CssSelector(".formErrorContent")).Displayed, Is.True);
@@ -185,6 +225,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.Id("SiteUrl")).SendKeys("not empty");
 			Driver.FindElement(By.Id("ConnectionString")).Clear();
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+			Driver.Wait(0.5);
 
 			// Assert
 			Assert.That(Driver.FindElement(By.CssSelector(".formErrorContent")).Displayed, Is.True);
@@ -213,6 +254,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.Id("AdminPassword")).SendKeys("not empty");
 			Driver.FindElement(By.Id("password2")).SendKeys("not empty");
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+			Driver.Wait(0.5);
 
 			// Assert
 			Assert.That(Driver.FindElement(By.CssSelector(".formErrorContent")).Displayed, Is.True);
@@ -241,6 +283,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.Id("AdminPassword")).Clear();
 			Driver.FindElement(By.Id("password2")).SendKeys("not empty");
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+			Driver.Wait(0.5);
 
 			// Assert
 			Assert.That(Driver.FindElement(By.CssSelector(".formErrorContent")).Displayed, Is.True);
@@ -269,6 +312,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.Id("AdminPassword")).SendKeys("1");
 			Driver.FindElement(By.Id("password2")).SendKeys("not empty");
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+			Driver.Wait(0.5);
 
 			// Assert
 			Assert.That(Driver.FindElement(By.CssSelector(".formErrorContent")).Displayed, Is.True);
@@ -297,6 +341,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.Id("AdminPassword")).SendKeys("not empty");
 			Driver.FindElement(By.Id("password2")).Clear();
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+			Driver.Wait(0.5);
 
 			// Assert
 			Assert.That(Driver.FindElement(By.CssSelector(".formErrorContent")).Displayed, Is.True);

@@ -45,23 +45,6 @@ namespace Roadkill.Tests.Acceptance
 				IisProcess.Dispose();
 				Console.WriteLine("Killed IISExpress");
 			}
-
-			string sitePath = GetSitePath();
-			try
-			{
-				// Remove any attachment folders used by the installer tests
-				string installerTestsAttachmentsPath = Path.Combine(sitePath, "AcceptanceTests");
-				Directory.Delete(installerTestsAttachmentsPath, true);
-			}
-			catch { }
-
-			try
-			{
-				// Remove the readonly flag from one of the installer tests (this could be fired in any order)
-				string webConfigPath = Path.Combine(sitePath, "web.config");
-				File.SetAttributes(webConfigPath, FileAttributes.Normal);
-			}
-			catch { }
 		}
 
 		public static string GetSitePath()
@@ -72,7 +55,7 @@ namespace Roadkill.Tests.Acceptance
 			return sitePath;
 		}
 
-		private void CopyWebConfig()
+		public static void CopyWebConfig()
 		{
 			try
 			{
