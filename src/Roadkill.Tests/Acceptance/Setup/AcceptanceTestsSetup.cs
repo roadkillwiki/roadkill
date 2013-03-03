@@ -67,12 +67,19 @@ namespace Roadkill.Tests.Acceptance
 				Console.WriteLine("Acceptance tests web.config path: {0}", testsWebConfigPath);
 
 				// Be a good neighbour and backup the web.config
-				string backupFile = siteWebConfig + ".bak";
-				if (File.Exists(backupFile))
-					File.Delete(backupFile);
+				try
+				{
+					string backupFile = siteWebConfig + ".bak";
+					if (File.Exists(backupFile))
+						File.Delete(backupFile);
 
-				File.Copy(siteWebConfig, siteWebConfig + ".bak", true);
-				Console.WriteLine("Backed up web.config to {0}.bak", siteWebConfig);
+					File.Copy(siteWebConfig, siteWebConfig + ".bak", true);
+					Console.WriteLine("Backed up web.config to {0}.bak", siteWebConfig);
+				}
+				catch
+				{
+					// Doesn't matter as the lib folder contains the dev web.config template
+				}
 
 				File.Copy(testsWebConfigPath, siteWebConfig, true);
 				Console.WriteLine("Copied web.config from '{0}' to '{1}'", testsWebConfigPath, siteWebConfig);

@@ -13,16 +13,21 @@ namespace Roadkill.Tests.Acceptance
 	//[Ignore("Currently breaking on the CI server - run this locally only")]
 	public class InstallerTests : AcceptanceTestBase
 	{
+		[TestFixtureSetUp]
+		public void TestFixtureSetUp()
+		{
+			Console.WriteLine("--- Starting installer acceptance tests ---");
+			AcceptanceTestsSetup.CopyWebConfig();
+		}
+
 		[SetUp]
 		public void Setup()
 		{
-			Console.WriteLine("--- Starting installer acceptance test ---");
-			AcceptanceTestsSetup.CopyWebConfig();
-			UpdateWebConfig();
 			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10)); // for ajax calls
+			UpdateWebConfig();
 		}
 
-		[TearDown]
+		[TestFixtureTearDown]
 		public void TearDown()
 		{
 			string sitePath = AcceptanceTestsSetup.GetSitePath();
@@ -33,9 +38,6 @@ namespace Roadkill.Tests.Acceptance
 				string installerTestsAttachmentsPath = Path.Combine(sitePath, "AcceptanceTests");
 				Directory.Delete(installerTestsAttachmentsPath, true);
 				Console.WriteLine("Deleted temp attachment folders for installer tests");
-
-				File.Delete(webConfigPath);
-				Console.WriteLine("Deleted web.config for installer tests");
 			}
 			catch { }
 
