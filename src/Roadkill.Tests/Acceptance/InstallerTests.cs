@@ -9,7 +9,7 @@ namespace Roadkill.Tests.Acceptance
 {
 	[TestFixture(Description="This class has a lot of ajax calls that rely on Thread.Sleeps to complete")]
 	[Category("Acceptance")]
-	[Explicit("Currently breaking on the CI server - run this locally only")]
+	[Ignore("Currently breaking on the CI server - run this locally only")]
 	public class InstallerTests : AcceptanceTestBase
 	{
 		[SetUp]
