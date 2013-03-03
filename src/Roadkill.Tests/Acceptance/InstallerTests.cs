@@ -7,22 +7,20 @@ using Roadkill.Core;
 
 namespace Roadkill.Tests.Acceptance
 {
-	[TestFixture]
+	[TestFixture(Description="This class has a lot of ajax calls that rely on Thread.Sleeps to complete")]
 	[Category("Acceptance")]
 	public class InstallerTests : AcceptanceTestBase
 	{
+		[SetUp]
+		public void Setup()
+		{
+			SetInstalledStatus(false);
+			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10)); // for ajax calls
+		}
+
 		[TearDown]
 		public void TearDown()
 		{
-			string sitePath = AcceptanceTestsSetup.GetSitePath();
-			try
-			{
-				// Remove any attachment folders used by the installer tests
-				string installerTestsAttachmentsPath = Path.Combine(sitePath, "AcceptanceTests");
-				Directory.Delete(installerTestsAttachmentsPath, true);
-			}
-			catch { }
-
 			try
 			{
 				SetInstalledStatus(true);
@@ -33,15 +31,18 @@ namespace Roadkill.Tests.Acceptance
 		[TestFixtureTearDown]
 		public void TestFixtureTearDown()
 		{
-			// Reset the web.config back for all other acceptance tests
-			AcceptanceTestsSetup.CopyWebConfig();
-		}
+			string sitePath = AcceptanceTestsSetup.GetSitePath();
+			try
+			{
+				// Remove any attachment folders used by the installer tests
+				string installerTestsAttachmentsPath = Path.Combine(sitePath, "AcceptanceTests");
+				Directory.Delete(installerTestsAttachmentsPath, true);
+			}
+			catch { }
 
-		[SetUp]
-		public void Setup()
-		{
-			SetInstalledStatus(false);
-			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10)); // for ajax calls
+			// Reset the db and web.config back for all other acceptance tests
+			CopyDb();
+			AcceptanceTestsSetup.CopyWebConfig();
 		}
 
 		private void SetInstalledStatus(bool installed)
@@ -95,7 +96,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
-			Driver.Wait(0.5);
+			Driver.Wait(2);
 
 			// Assert
 			Assert.That(Driver.FindElement(By.CssSelector("div#webconfig-success")).Displayed, Is.True);
@@ -110,11 +111,12 @@ namespace Roadkill.Tests.Acceptance
 			string sitePath = AcceptanceTestsSetup.GetSitePath();
 			string webConfigPath = Path.Combine(sitePath, "web.config");
 			File.SetAttributes(webConfigPath, FileAttributes.ReadOnly);
-			Driver.Wait(0.5);
+			Driver.Wait(1);
 			Driver.Navigate().GoToUrl(BaseUrl);
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
+			Driver.Wait(2);
 
 			// Assert
 			Assert.That(Driver.FindElement(By.CssSelector("div#webconfig-failure")).Displayed, Is.True);

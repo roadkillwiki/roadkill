@@ -16,6 +16,7 @@ namespace Roadkill.Tests.Acceptance
 		public void Configuration_Page_Shows_All_Settings()
 		{
 			// Arrange
+			//AcceptanceTestsSetup.CopyWebConfig();
 			LoginAsAdmin();
 			DataStoreType sqlCeType = DataStoreType.ByName("SqlServerCe");
 
@@ -25,7 +26,7 @@ namespace Roadkill.Tests.Acceptance
 			// Assert
 			Assert.That(Driver.ElementValue("#SiteName"), Is.EqualTo("Acceptance Tests"));
 			Assert.That(Driver.ElementValue("#SiteUrl"), Is.EqualTo("http://localhost:57025"));
-			Assert.That(Driver.ElementValue("#ConnectionString"), Is.EqualTo(@"Data Source=|DataDirectory|\roadkill-acceptancetests.sdf;"));
+			Assert.That(Driver.ElementValue("#ConnectionString"), Is.StringStarting(@"Data Source=|DataDirectory|\roadkill-acceptancetests.sdf"));
 			Assert.That(Driver.ElementValue("#RecaptchaPrivateKey"), Is.EqualTo("Recaptcha Private Key"));
 			Assert.That(Driver.ElementValue("#RecaptchaPublicKey"), Is.EqualTo("Recaptcha Public Key"));
 			Assert.That(Driver.ElementValue("#EditorRoleName"), Is.EqualTo("Editor"));
