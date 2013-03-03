@@ -30,7 +30,8 @@ namespace Roadkill.Tests.Unit
 			_config.ApplicationSettings.UseHtmlWhiteList = true;
 		}
 
-		[Test, Ignore]
+		[Test]
+		[Ignore("This was use to generate the initial Whitelist XML file and isn't a test")]
 		public void GenerateTestXmlFile()
 		{
 			// Arrange
