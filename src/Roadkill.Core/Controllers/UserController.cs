@@ -142,7 +142,12 @@ namespace Roadkill.Core.Controllers
 		{
 			if (Context.IsLoggedIn)
 			{
-				UserSummary summary = UserManager.GetUserById(new Guid(Context.CurrentUser)).ToSummary();
+				UserSummary summary = null;
+				if (!Configuration.ApplicationSettings.UseWindowsAuthentication)
+				{
+					summary = UserManager.GetUserById(new Guid(Context.CurrentUser)).ToSummary();
+				}
+
 				return View(summary);
 			}
 			else

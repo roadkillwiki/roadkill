@@ -207,9 +207,17 @@ namespace Roadkill.Core
 			return repository;
 		}
 
+		/// <summary>
+		/// This method could be removed and then a refactor into an IUnitOfWork with StructureMap
+		/// </summary>
 		public static void DisposeRepository()
 		{
-			ObjectFactory.GetInstance<IRepository>().Dispose();
+			// Don't try to dispose a repository if the app isn't installed, as it the repository won't be correctly configured.
+			IConfigurationContainer config = ObjectFactory.GetInstance<IConfigurationContainer>();
+			if (config.ApplicationSettings.Installed)
+			{
+				ObjectFactory.GetInstance<IRepository>().Dispose();
+			}
 		}
 	}
 }

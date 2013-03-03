@@ -290,18 +290,8 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Localization\Resx\InstallStrings.fi-FI.designer.cs">
-      <DependentUpon>InstallStrings.fi-FI.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Localization\Resx\SiteStrings.Designer.cs">
       <DependentUpon>SiteStrings.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Localization\Resx\SiteStrings.fi-FI.designer.cs">
-      <DependentUpon>SiteStrings.fi-FI.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -368,20 +358,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization\Resx\InstallStrings.cs-CZ.resx" />
-    <EmbeddedResource Include="Localization\Resx\InstallStrings.fi-FI.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>InstallStrings.fi-FI.designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Localization\Resx\InstallStrings.pl-PL.resx" />
     <EmbeddedResource Include="Localization\Resx\InstallStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>InstallStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Localization\Resx\SiteStrings.cs-CZ.resx" />
-    <EmbeddedResource Include="Localization\Resx\SiteStrings.fi-FI.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SiteStrings.fi-FI.designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Localization\Resx\SiteStrings.pl-PL.resx" />
     <EmbeddedResource Include="Localization\Resx\SiteStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -329,6 +329,13 @@ namespace Roadkill.Core
 
 		public void InitializeSessionFactory(DataStoreType dataStoreType, string connectionString, bool enableCache, bool createSchema)
 		{
+			// These are valid states, not exceptions
+			if (dataStoreType == null)
+				return;
+
+			if (string.IsNullOrEmpty(connectionString))
+				return;
+
 			NHibernateConfig config = new NHibernateConfig();
 			Configuration = Fluently.Configure(config);
 			Configuration.Mappings(m => m.FluentMappings.AddFromAssemblyOf<Page>());
@@ -449,7 +456,10 @@ namespace Roadkill.Core
 
 		public void Dispose()
 		{
-			Session.Dispose();
+			if (SessionFactory != null && Session != null)
+			{
+				Session.Dispose();
+			}
 		}
 	}
 }
