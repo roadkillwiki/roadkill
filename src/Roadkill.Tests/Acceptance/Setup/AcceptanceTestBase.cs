@@ -30,7 +30,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver = AcceptanceTestsSetup.Driver;
 		}
 
-		private void CopyDb()
+		protected void CopyDb()
 		{
 			SitePath = AcceptanceTestsSetup.GetSitePath();
 

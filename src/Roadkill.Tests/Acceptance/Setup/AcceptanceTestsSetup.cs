@@ -67,6 +67,10 @@ namespace Roadkill.Tests.Acceptance
 				Console.WriteLine("Acceptance tests web.config path: {0}", testsWebConfigPath);
 
 				// Be a good neighbour and backup the web.config
+				string backupFile = siteWebConfig + ".bak";
+				if (File.Exists(backupFile))
+					File.Delete(backupFile);
+
 				File.Copy(siteWebConfig, siteWebConfig + ".bak", true);
 				Console.WriteLine("Backed up web.config to {0}.bak", siteWebConfig);
 
