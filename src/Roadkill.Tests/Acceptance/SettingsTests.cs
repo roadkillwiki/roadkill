@@ -16,7 +16,6 @@ namespace Roadkill.Tests.Acceptance
 		public void Configuration_Page_Shows_All_Settings()
 		{
 			// Arrange
-			//AcceptanceTestsSetup.CopyWebConfig();
 			LoginAsAdmin();
 			DataStoreType sqlCeType = DataStoreType.ByName("SqlServerCe");
 
