@@ -9,6 +9,7 @@ namespace Roadkill.Tests.Acceptance
 {
 	[TestFixture(Description="This class has a lot of ajax calls that rely on Thread.Sleeps to complete")]
 	[Category("Acceptance")]
+	[Explicit("Currently breaking on the CI server - run this locally only")]
 	public class InstallerTests : AcceptanceTestBase
 	{
 		[SetUp]
@@ -104,7 +105,6 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		[Ignore("Too flakey - this can be tested through the Controller in unit tests instead")]
 		public void Step1_Web_Config_Test_Button_Should_Display_Error_Box_And_No_Continue_Link_For_Readonly_Webconfig()
 		{
 			// Arrange
