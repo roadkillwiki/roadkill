@@ -12,7 +12,7 @@ Installation
 ------------------------
 
 1) Create your website or virtual directory in IIS
-2) Create a database and assign it a login (dbo is best)
+2) If using SQL Server: create a database and assign it a login (dbo is best)
 3) Copy the contents of this folder to the IIS directory you previously made.
 4) Point your browser to the URL - the installer will do the rest for you.
 

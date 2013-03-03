@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using System.IO;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -9,44 +10,43 @@ namespace Roadkill.Tests.Acceptance
 {
 	[TestFixture(Description="This class has a lot of ajax calls that rely on Thread.Sleeps to complete")]
 	[Category("Acceptance")]
-	[Ignore("Currently breaking on the CI server - run this locally only")]
+	//[Ignore("Currently breaking on the CI server - run this locally only")]
 	public class InstallerTests : AcceptanceTestBase
 	{
 		[SetUp]
 		public void Setup()
 		{
-			SetInstalledStatus(false);
+			Console.WriteLine("--- Starting installer acceptance test ---");
+			AcceptanceTestsSetup.CopyWebConfig();
+			UpdateWebConfig();
 			Driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10)); // for ajax calls
 		}
 
 		[TearDown]
 		public void TearDown()
 		{
-			try
-			{
-				SetInstalledStatus(true);
-			}
-			catch { }
-		}
-
-		[TestFixtureTearDown]
-		public void TestFixtureTearDown()
-		{
 			string sitePath = AcceptanceTestsSetup.GetSitePath();
+			string webConfigPath = Path.Combine(sitePath, "web.config");
 			try
 			{
 				// Remove any attachment folders used by the installer tests
 				string installerTestsAttachmentsPath = Path.Combine(sitePath, "AcceptanceTests");
 				Directory.Delete(installerTestsAttachmentsPath, true);
+				Console.WriteLine("Deleted temp attachment folders for installer tests");
+
+				File.Delete(webConfigPath);
+				Console.WriteLine("Deleted web.config for installer tests");
 			}
 			catch { }
 
 			// Reset the db and web.config back for all other acceptance tests
 			CopyDb();
 			AcceptanceTestsSetup.CopyWebConfig();
+			Console.WriteLine("Copied databases and web.config back for installer tests");
+			Console.WriteLine("--- Finished installer acceptance test ---");
 		}
 
-		private void SetInstalledStatus(bool installed)
+		private void UpdateWebConfig()
 		{
 			string sitePath = AcceptanceTestsSetup.GetSitePath();
 			string webConfigPath = Path.Combine(sitePath, "web.config");
@@ -55,12 +55,16 @@ namespace Roadkill.Tests.Acceptance
 			File.SetAttributes(webConfigPath, FileAttributes.Normal);
 
 			// Switch installed=false in the web.config
-			string fileText = File.ReadAllText(webConfigPath);
+			ExeConfigurationFileMap fileMap = new ExeConfigurationFileMap();
+			fileMap.ExeConfigFilename = webConfigPath;
+			System.Configuration.Configuration config = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
+			RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
 
-			string oldValue = string.Format("installed=\"{0}\"", (!installed).ToString().ToLower());
-			string newValue = string.Format("installed=\"{0}\"", (installed).ToString().ToLower());
-			fileText = fileText.Replace(oldValue, newValue);
-			File.WriteAllText(webConfigPath, fileText);
+			section.Installed = false;
+			config.ConnectionStrings.ConnectionStrings["Roadkill"].ConnectionString = "";
+			config.Save(ConfigurationSaveMode.Minimal);
+
+			Console.WriteLine("Updated {0} for installer tests", webConfigPath);
 		}
 
 		[Test]
