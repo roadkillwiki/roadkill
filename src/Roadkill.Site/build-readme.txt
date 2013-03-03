@@ -1,7 +1,7 @@
 ﻿==BUILD README==
 These are the steps to create a new download version:
 
-Firstly for the version being released: commit to Hg, *and then use hg tag v1.5.2* the version.
+Firstly for the version being released: commit to Hg, *and then use hg tag v1.x.x* the version.
 
 1) Update the version in AssemblyInfo.cs in Core and Site
 2) Compile using the 'Download' configuration
@@ -21,12 +21,13 @@ Firstly for the version being released: commit to Hg, *and then use hg tag v1.5.
 
 ==Testing Windows Authentication==
 This can be done by creating a new Windows 2008 server and running into inside VirtualBox.
-Install ActiveDirectory, call your domain Contoso.com.
-Roadkill settings are then:
--	LDAP://contoso.com
--	administrator
--	Passw0rd
 
+Install ActiveDirectory, call your domain Contoso.com.
 The two user groups are RoadkillEditors, RoadkillAdmins. I then setup two users to belong to each:
 BobAdmin - RoadkillAdmins
 EricEditor - RoadkillEditors
+
+The Roadkill Windows auth settings are then:
+-	LDAP://contoso.com
+-	administrator
+-	Passw0rd
