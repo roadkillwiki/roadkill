@@ -103,11 +103,10 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
-			//Driver.Wait(2);
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector("div#webconfig-success"), 2).Displayed, Is.True);
-			Assert.That(Driver.FindElement(By.CssSelector(".continue > a"), 2).Displayed, Is.True);
+			Assert.That(Driver.IsElementDisplayed(By.CssSelector("div#webconfig-success")), Is.True);
+			Assert.That(Driver.IsElementDisplayed(By.CssSelector(".continue > a")), Is.True);
 		}
 
 		[Test]
@@ -117,16 +116,14 @@ namespace Roadkill.Tests.Acceptance
 			string sitePath = AcceptanceTestsSetup.GetSitePath();
 			string webConfigPath = Path.Combine(sitePath, "web.config");
 			File.SetAttributes(webConfigPath, FileAttributes.ReadOnly);
-			Driver.Wait(1);
 			Driver.Navigate().GoToUrl(BaseUrl);
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
-			//Driver.Wait(2);
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector("div#webconfig-failure"), 2).Displayed, Is.True);
-			Assert.That(Driver.FindElement(By.CssSelector(".continue > a"), 2).Displayed, Is.False);
+			Assert.That(Driver.IsElementDisplayed(By.CssSelector("div#webconfig-failure")), Is.True);
+			Assert.That(Driver.FindElement(By.CssSelector(".continue > a")).Displayed, Is.False);
 		}
 
 		[Test]
@@ -137,18 +134,16 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
-			Driver.Wait(0.5);
-			Driver.FindElement(By.CssSelector(".continue > a")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
 
 			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreType_Name")));
 			select.SelectByValue(DataStoreType.SqlServerCe.Name);
 
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"Data Source=|DataDirectory|\roadkill-acceptancetests.sdf");
 			Driver.FindElement(By.CssSelector("input[id=testdbconnection]")).Click();
-			Driver.Wait(10);
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector("div#connectionsuccess")).Displayed, Is.True);
+			Assert.That(Driver.IsElementDisplayed(By.CssSelector("div#connectionsuccess")), Is.True);
 			Assert.That(Driver.FindElement(By.CssSelector("div#connectionfailure")).Displayed, Is.False);
 		}
 
@@ -160,18 +155,16 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
-			Driver.Wait(0.5);
-			Driver.FindElement(By.CssSelector(".continue > a")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
 
 			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreType_Name")));
 			select.SelectByValue(DataStoreType.SqlServerCe.Name);
 
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"Data Source=|DataDirectory|\madeupfilename.sdf");
 			Driver.FindElement(By.CssSelector("input[id=testdbconnection]")).Click();
-			Driver.Wait(6);
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector("div#connectionfailure")).Displayed, Is.True);
+			Assert.That(Driver.IsElementDisplayed(By.CssSelector("div#connectionfailure")), Is.True);
 			Assert.That(Driver.FindElement(By.CssSelector("div#connectionsuccess")).Displayed, Is.False);
 		}
 
@@ -183,8 +176,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
-			Driver.Wait(0.5);
-			Driver.FindElement(By.CssSelector(".continue > a")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
 
 			Driver.FindElement(By.Id("SiteName")).Clear();
 			Driver.FindElement(By.Id("SiteUrl")).SendKeys("not empty");
@@ -192,7 +184,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector(".formErrorContent")).Displayed, Is.True);
+			Assert.That(Driver.IsElementDisplayed(By.CssSelector(".formErrorContent")), Is.True);
 			Assert.That(Driver.FindElement(By.Id("SiteName")).Displayed, Is.True);
 		}
 
@@ -204,17 +196,15 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
-			Driver.Wait(0.5);
-			Driver.FindElement(By.CssSelector(".continue > a")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
 
 			Driver.FindElement(By.Id("SiteName")).SendKeys("not empty");
 			Driver.FindElement(By.Id("SiteUrl")).Clear();
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys("not empty");
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
-			Driver.Wait(0.5);
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector(".formErrorContent")).Displayed, Is.True);
+			Assert.That(Driver.IsElementDisplayed(By.CssSelector(".formErrorContent")), Is.True);
 			Assert.That(Driver.FindElement(By.Id("SiteUrl")).Displayed, Is.True);
 		}
 
@@ -226,17 +216,15 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
-			Driver.Wait(0.5);
-			Driver.FindElement(By.CssSelector(".continue > a")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
 
 			Driver.FindElement(By.Id("SiteName")).SendKeys("not empty");
 			Driver.FindElement(By.Id("SiteUrl")).SendKeys("not empty");
 			Driver.FindElement(By.Id("ConnectionString")).Clear();
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
-			Driver.Wait(0.5);
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector(".formErrorContent")).Displayed, Is.True);
+			Assert.That(Driver.IsElementDisplayed(By.CssSelector(".formErrorContent")), Is.True);
 			Assert.That(Driver.FindElement(By.Id("ConnectionString")).Displayed, Is.True);
 		}
 
@@ -248,8 +236,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
-			Driver.Wait(0.5);
-			Driver.FindElement(By.CssSelector(".continue > a")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
 
 			Driver.FindElement(By.Id("SiteName")).SendKeys("not empty");
 			Driver.FindElement(By.Id("SiteUrl")).SendKeys("not empty");
@@ -262,10 +249,9 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.Id("AdminPassword")).SendKeys("not empty");
 			Driver.FindElement(By.Id("password2")).SendKeys("not empty");
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
-			Driver.Wait(0.5);
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector(".formErrorContent")).Displayed, Is.True);
+			Assert.That(Driver.IsElementDisplayed(By.CssSelector(".formErrorContent")), Is.True);
 			Assert.That(Driver.FindElement(By.Id("AdminEmail")).Displayed, Is.True);
 		}
 
@@ -277,8 +263,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
-			Driver.Wait(0.5);
-			Driver.FindElement(By.CssSelector(".continue > a")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
 
 			Driver.FindElement(By.Id("SiteName")).SendKeys("not empty");
 			Driver.FindElement(By.Id("SiteUrl")).SendKeys("not empty");
@@ -291,10 +276,9 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.Id("AdminPassword")).Clear();
 			Driver.FindElement(By.Id("password2")).SendKeys("not empty");
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
-			Driver.Wait(0.5);
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector(".formErrorContent")).Displayed, Is.True);
+			Assert.That(Driver.IsElementDisplayed(By.CssSelector(".formErrorContent")), Is.True);
 			Assert.That(Driver.FindElement(By.Id("AdminPassword")).Displayed, Is.True);
 		}
 
@@ -306,8 +290,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
-			Driver.Wait(0.5);
-			Driver.FindElement(By.CssSelector(".continue > a")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
 
 			Driver.FindElement(By.Id("SiteName")).SendKeys("not empty");
 			Driver.FindElement(By.Id("SiteUrl")).SendKeys("not empty");
@@ -320,10 +303,9 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.Id("AdminPassword")).SendKeys("1");
 			Driver.FindElement(By.Id("password2")).SendKeys("not empty");
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
-			Driver.Wait(0.5);
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector(".formErrorContent")).Displayed, Is.True);
+			Assert.That(Driver.IsElementDisplayed(By.CssSelector(".formErrorContent")), Is.True);
 			Assert.That(Driver.FindElement(By.Id("AdminPassword")).Displayed, Is.True);
 		}
 
@@ -335,8 +317,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
-			Driver.Wait(0.5);
-			Driver.FindElement(By.CssSelector(".continue > a")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
 
 			Driver.FindElement(By.Id("SiteName")).SendKeys("not empty");
 			Driver.FindElement(By.Id("SiteUrl")).SendKeys("not empty");
@@ -349,10 +330,9 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.Id("AdminPassword")).SendKeys("not empty");
 			Driver.FindElement(By.Id("password2")).Clear();
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
-			Driver.Wait(0.5);
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector(".formErrorContent")).Displayed, Is.True);
+			Assert.That(Driver.IsElementDisplayed(By.CssSelector(".formErrorContent")), Is.True);
 			Assert.That(Driver.FindElement(By.Id("password2")).Displayed, Is.True);
 		}
 
@@ -369,8 +349,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
-			Driver.Wait(0.5);
-			Driver.FindElement(By.CssSelector(".continue > a")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
 
 			Driver.FindElement(By.Id("SiteName")).SendKeys("not empty");
 			Driver.FindElement(By.Id("SiteUrl")).SendKeys("not empty");
@@ -387,12 +366,11 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.Id("AttachmentsFolder")).Clear();
 			Driver.FindElement(By.Id("AttachmentsFolder")).SendKeys("~/AcceptanceTests/" + folderGuid);
 			Driver.FindElement(By.CssSelector("input[id=testattachments]")).Click();
-			Driver.Wait(2);
 
 			// Assert
 			try
 			{
-				Assert.That(Driver.FindElement(By.CssSelector("div#attachmentssuccess")).Displayed, Is.True);
+				Assert.That(Driver.IsElementDisplayed(By.CssSelector("div#attachmentssuccess")), Is.True);
 				Assert.That(Driver.FindElement(By.CssSelector("div#attachmentsfailure")).Displayed, Is.False);
 			}
 			finally
@@ -411,8 +389,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
-			Driver.Wait(0.5);
-			Driver.FindElement(By.CssSelector(".continue > a")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
 
 			Driver.FindElement(By.Id("SiteName")).SendKeys("not empty");
 			Driver.FindElement(By.Id("SiteUrl")).SendKeys("not empty");
@@ -429,10 +406,9 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.Id("AttachmentsFolder")).Clear();
 			Driver.FindElement(By.Id("AttachmentsFolder")).SendKeys("~/" + folderGuid);
 			Driver.FindElement(By.CssSelector("input[id=testattachments]")).Click();
-			Driver.Wait(2);
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector("div#attachmentsfailure")).Displayed, Is.True);
+			Assert.That(Driver.IsElementDisplayed(By.CssSelector("div#attachmentsfailure")), Is.True);
 			Assert.That(Driver.FindElement(By.CssSelector("div#attachmentssuccess")).Displayed, Is.False);
 		}
 
@@ -446,8 +422,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
-			Driver.Wait(0.5);
-			Driver.FindElement(By.CssSelector(".continue > a")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
 
 			Driver.FindElement(By.Id("SiteName")).Clear();
 			Driver.FindElement(By.Id("SiteName")).SendKeys("Site Name");
@@ -487,8 +462,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// step 1
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
-			Driver.Wait(0.5);
-			Driver.FindElement(By.CssSelector(".continue > a")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
 
 			// step 2
 			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
@@ -521,14 +495,23 @@ namespace Roadkill.Tests.Acceptance
 	
 	public static class WebDriverExtensions
 	{
-	    public static IWebElement FindElement(this IWebDriver driver, By by, int timeoutInSeconds)
+		public static IWebElement WaitForElementDisplayed(this IWebDriver driver, By by, int timeoutInSeconds = 10)
+		{
+			WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
+			if (wait.Until<bool>(x => x.FindElement(by).Displayed))
+			{
+				return driver.FindElement(by);
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+	    public static bool IsElementDisplayed(this IWebDriver driver, By by, int timeoutInSeconds = 10)
 	    {
-	        if (timeoutInSeconds > 0)
-	        {
-	            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
-	            return wait.Until(drv => drv.FindElement(by));
-	        }
-	        return driver.FindElement(by);
+			WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
+	        return wait.Until<bool>(x => x.FindElement(by).Displayed);
 	    }
 	}
 }
