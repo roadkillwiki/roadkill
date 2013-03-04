@@ -103,11 +103,11 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
-			Driver.Wait(2);
+			//Driver.Wait(2);
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector("div#webconfig-success")).Displayed, Is.True);
-			Assert.That(Driver.FindElement(By.CssSelector(".continue > a")).Displayed, Is.True);
+			Assert.That(Driver.FindElement(By.CssSelector("div#webconfig-success"), 2).Displayed, Is.True);
+			Assert.That(Driver.FindElement(By.CssSelector(".continue > a"), 2).Displayed, Is.True);
 		}
 
 		[Test]
@@ -122,11 +122,11 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
-			Driver.Wait(2);
+			//Driver.Wait(2);
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector("div#webconfig-failure")).Displayed, Is.True);
-			Assert.That(Driver.FindElement(By.CssSelector(".continue > a")).Displayed, Is.False);
+			Assert.That(Driver.FindElement(By.CssSelector("div#webconfig-failure"), 2).Displayed, Is.True);
+			Assert.That(Driver.FindElement(By.CssSelector(".continue > a"), 2).Displayed, Is.False);
 		}
 
 		[Test]
@@ -517,5 +517,18 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
 			LoginAsAdmin();
 		}
+	}
+	
+	public static class WebDriverExtensions
+	{
+	    public static IWebElement FindElement(this IWebDriver driver, By by, int timeoutInSeconds)
+	    {
+	        if (timeoutInSeconds > 0)
+	        {
+	            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
+	            return wait.Until(drv => drv.FindElement(by));
+	        }
+	        return driver.FindElement(by);
+	    }
 	}
 }
