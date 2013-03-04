@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Moq;
@@ -197,6 +197,7 @@ namespace Roadkill.Tests.Unit
 		public void Profile_Should_Return_Correct_ActionResult_And_Model()
 		{
 			// Arrange
+			_config.ApplicationSettings.UseWindowsAuthentication = false;
 			UserController userController = new UserController(_config, _userManager.Object, _context);
 			userController.SetFakeControllerContext();
 
