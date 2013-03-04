@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
@@ -9,13 +10,11 @@ using NHibernate;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// Contains all configuration data stored with NHibernate/the database, for settings that do not 
-	/// require an application restart when changed. This object is intended for internal use only.
+	/// Contains all configuration data stored with NHibernate/the database, for settings that do not require an application restart when changed.
 	/// </summary>
-	public class SitePreferences : DataStoreEntity
+	[Serializable]
+	public class SitePreferences
 	{
-		internal static readonly Guid ConfigurationId = new Guid("b960e8e5-529f-4f7c-aee4-28eb23e13dbd");
-
 		/// <summary>
 		/// The files types allowed for uploading.
 		/// </summary>
@@ -31,11 +30,6 @@ namespace Roadkill.Core
 		/// Whether to Recaptcha is enabled for user signups and password resets.
 		/// </summary>
 		public virtual bool IsRecaptchaEnabled { get; set; }
-
-		/// <summary>
-		/// Used to keep NHibernate happy
-		/// </summary>
-		public virtual Guid Id { get; set; }
 
 		/// <summary>
 		/// The type of markup used: Three available options are: Creole, Markdown, MediaWiki.
@@ -70,13 +64,9 @@ namespace Roadkill.Core
 		public virtual string Theme { get; set; }
 
 		/// <summary>
-		/// The current version of Roadkill. This is used for upgrades.
-		/// </summary>
-		public virtual string Version { get; set; }
-
-		/// <summary>
 		/// An asp.net relativate path e.g. ~/Themes/ to the current theme directory. Does not include a trailing slash.
 		/// </summary>
+		[XmlIgnore]
 		public virtual string ThemePath
 		{
 			get
@@ -88,6 +78,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Retrieves a list of the file extensions that are permitted for upload.
 		/// </summary>
+		[XmlIgnore]
 		public virtual List<string> AllowedFileTypesList
 		{
 			get
@@ -96,15 +87,25 @@ namespace Roadkill.Core
 			}
 		}
 
-		public override Guid ObjectId
+		public virtual string GetXml()
 		{
-			get { return Id; }
-			set { Id = value; }
+			XmlSerializer serializer = new XmlSerializer(typeof(SitePreferences));
+			StringBuilder builder = new StringBuilder();
+			using (StringWriter writer = new StringWriter(builder))
+			{
+				serializer.Serialize(writer, this);
+				return builder.ToString();
+			}
 		}
 
-		public SitePreferences()
+		public static SitePreferences LoadFromXml(string xml)
 		{
-			Id = ConfigurationId;
+			XmlSerializer serializer = new XmlSerializer(typeof(SitePreferences));
+			
+			using (StringReader reader = new StringReader(xml))
+			{
+				return (SitePreferences) serializer.Deserialize(reader);
+			}
 		}
 	}
 }

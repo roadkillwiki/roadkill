@@ -42,6 +42,8 @@ namespace Roadkill.Core
 		/// <returns>A <see cref="SitePreferences"/> object</returns>
 		SitePreferences GetSitePreferences();
 
+		void SaveSitePreferences(SitePreferences preferences);
+
 		void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache);
 
 		void Install(DataStoreType dataStoreType, string connectionString, bool enableCache);

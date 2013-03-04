@@ -112,7 +112,6 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			SitePreferences preferences = new SitePreferences()
 			{
-				Id = SitePreferences.ConfigurationId,
 				AllowedFileTypes = "jpg, png, gif",
 				AllowUserSignup = true,
 				IsRecaptchaEnabled = true,
@@ -137,7 +136,7 @@ namespace Roadkill.Tests.Unit
 			};
 
 			Mock<IRepository> mockRepository = new Mock<IRepository>();
-			mockRepository.Setup(x => x.SaveOrUpdate<SitePreferences>(preferences));
+			mockRepository.Setup(x => x.SaveSitePreferences(preferences));
 			mockRepository.Setup(x => x.GetSitePreferences()).Returns(preferences);
 
 			IoCSetup iocSetup = new IoCSetup(_config, mockRepository.Object, new RoadkillContext(null)); // context isn't used
@@ -148,8 +147,8 @@ namespace Roadkill.Tests.Unit
 			settingsManager.SaveSiteConfiguration(validConfigSettings, true);
 
 			// Assert
-			mockRepository.Verify(x => x.SaveOrUpdate<SitePreferences>(
-				It.Is<SitePreferences>(s => s.Id == preferences.Id && s.MarkupType == preferences.MarkupType)
+			mockRepository.Verify(x => x.SaveSitePreferences(
+				It.Is<SitePreferences>(s => s.MarkupType == preferences.MarkupType)
 			));
 
 			IConfigurationContainer config = RoadkillSettings.GetInstance();
