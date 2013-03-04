@@ -145,7 +145,7 @@ namespace Roadkill.Tests.Acceptance
 
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"Data Source=|DataDirectory|\roadkill-acceptancetests.sdf");
 			Driver.FindElement(By.CssSelector("input[id=testdbconnection]")).Click();
-			Driver.Wait(2);
+			Driver.Wait(6);
 
 			// Assert
 			Assert.That(Driver.FindElement(By.CssSelector("div#connectionsuccess")).Displayed, Is.True);
@@ -168,7 +168,7 @@ namespace Roadkill.Tests.Acceptance
 
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"Data Source=|DataDirectory|\madeupfilename.sdf");
 			Driver.FindElement(By.CssSelector("input[id=testdbconnection]")).Click();
-			Driver.Wait(2);
+			Driver.Wait(6);
 
 			// Assert
 			Assert.That(Driver.FindElement(By.CssSelector("div#connectionfailure")).Displayed, Is.True);
