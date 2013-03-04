@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -222,8 +222,8 @@
     <Compile Include="Unit\Stubs\ConfigurationContainerStub.cs" />
     <Compile Include="Unit\Controllers\PagesControllerTests.cs" />
     <Compile Include="Unit\Controllers\WikiControllerTests.cs" />
-    <Compile Include="Unit\Models\UserSummaryUsernameValidationTests.cs" />
-    <Compile Include="Unit\Models\UserSummaryPasswordValidationTests.cs" />
+    <Compile Include="Unit\ViewModels\UserSummaryUsernameValidationTests.cs" />
+    <Compile Include="Unit\ViewModels\UserSummaryPasswordValidationTests.cs" />
     <Compile Include="Unit\Controllers\HomeControllerTests.cs" />
     <Compile Include="Unit\Controllers\Setup\MvcMockContainer.cs" />
     <Compile Include="Unit\Controllers\FilesControllerTests.cs" />
@@ -236,7 +236,7 @@
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="Unit\Managers\PageManagerTests.cs" />
     <Compile Include="Unit\Managers\ActiveDirectoryUserManagerTests.cs" />
-    <Compile Include="Unit\Models\UserSummaryEmailValidationTests.cs" />
+    <Compile Include="Unit\ViewModels\UserSummaryEmailValidationTests.cs" />
     <Compile Include="Unit\Text\MarkupConverterTests.cs" />
     <Content Include="chromedriver.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
