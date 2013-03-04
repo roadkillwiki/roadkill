@@ -2,7 +2,7 @@ body				{ font-family:sans-serif;background:url('pagebg.png');font-size:0.8em;ma
 /* Resize headers as Bootstrap makes them enormous */
 h1					{ font-size:2em; }
 h2					{ font-size:1.5em; }
-h3					{ font-size:1.17%; }
+h3					{ font-size:1.17em; }
 h4					{ font-size:1em; }
 h5					{ font-size: 90%; }
 h1,h2,h3,h4,h5		{ border-bottom:1px solid #AAA;bottom-padding:3px; }
