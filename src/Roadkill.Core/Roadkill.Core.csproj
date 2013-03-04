@@ -248,6 +248,7 @@
     <Compile Include="Database\IPageRepository.cs" />
     <Compile Include="Database\DataStoreType.cs" />
     <Compile Include="Database\DataStoreEntity.cs" />
+    <Compile Include="Database\SitePreferencesEntity.cs" />
     <Compile Include="Domain\Managers\IPageManager.cs" />
     <Compile Include="Database\MongoDB\MongoDBRepository.cs" />
     <Compile Include="Database\NHibernate\PageMap.cs" />

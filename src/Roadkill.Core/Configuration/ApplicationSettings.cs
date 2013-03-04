@@ -152,7 +152,13 @@ namespace Roadkill.Core.Configuration
 		/// <summary>
 		/// The current Roadkill version.
 		/// </summary>
-		public string Version { get; set; }
+		public static Version Version
+		{
+			get
+			{
+				return typeof(RoadkillSettings).Assembly.GetName().Version;
+			}
+		}
 
 		/// <summary>
 		/// Loads the settings from the configuration file.
@@ -166,7 +172,6 @@ namespace Roadkill.Core.Configuration
 			CustomTokensPath = Path.Combine(AppDataPath, "tokens.xml");
 			HtmlElementWhiteListPath = Path.Combine(AppDataPath, "htmlwhitelist.xml");
 			MinimumPasswordLength = 6;
-			Version = typeof(RoadkillSettings).Assembly.GetName().Version.ToString();
 
 			// Web/app.config settings
 			RoadkillSection section;

@@ -182,12 +182,26 @@ namespace Roadkill.Core
 
 		public SitePreferences GetSitePreferences()
 		{
-			return Queryable<SitePreferences>().FirstOrDefault(s => s.Id == SitePreferences.ConfigurationId);
+			SitePreferencesEntity entity = Queryable<SitePreferencesEntity>().FirstOrDefault();
+			SitePreferences preferences = SitePreferences.LoadFromXml(entity.Xml);
+			return preferences;
+		}
+
+		public void SaveSitePreferences(SitePreferences preferences)
+		{
+			// Get the fresh db entity first
+			SitePreferencesEntity entity = Queryable<SitePreferencesEntity>().FirstOrDefault();
+			if (entity == null)
+				entity = new SitePreferencesEntity();
+
+			entity.Version = ApplicationSettings.Version.ToString();
+			entity.Xml = preferences.GetXml();
+			SaveOrUpdate<SitePreferencesEntity>(entity);
 		}
 
 		public IEnumerable<Page> AllPages()
 		{
-			return Pages;
+			return Pages.ToList();
 		}
 
 		public Page GetPageById(int id)
@@ -380,10 +394,63 @@ namespace Roadkill.Core
 					x.For<ISessionFactory>().Singleton().Use(sessionFactory);
 					x.For<ISession>().HybridHttpOrThreadLocalScoped().Use(ctx => ctx.GetInstance<ISessionFactory>().OpenSession());
 				});
+
+				OneTimeSitePreferencesUpgrade();
 			}
 			catch (Exception e)
 			{
 				throw e;
+			}
+		}
+
+		public void OneTimeSitePreferencesUpgrade()
+		{
+			string tableVersion = Session.CreateSQLQuery("SELECT Version FROM roadkill_siteconfiguration").UniqueResult<string>();
+			if (string.IsNullOrEmpty(tableVersion))
+				return;
+
+			Version version = Version.Parse(tableVersion);
+			if (version < ApplicationSettings.Version)
+			{
+				// Take the old values first, using NHibernate's amazing ISQLQuery
+				object[] tempResult = (object[])Session.CreateSQLQuery("SELECT AllowedFileTypes,AllowUserSignup,EnableRecaptcha,MarkupType," +
+					"RecaptchaPrivateKey,RecaptchaPublicKey, SiteUrl, Title, Theme FROM roadkill_siteconfiguration").UniqueResult();
+
+				SitePreferences oldPreferences = new SitePreferences()
+				{
+					AllowedFileTypes = (string)tempResult[0],
+					AllowUserSignup = (bool)tempResult[1],
+					IsRecaptchaEnabled = (bool)tempResult[2],
+					MarkupType = (string)tempResult[3],
+					RecaptchaPrivateKey = (string)tempResult[4],
+					RecaptchaPublicKey = (string)tempResult[5],
+					SiteUrl = (string)tempResult[6],
+					SiteName = (string)tempResult[7],
+					Theme = (string)tempResult[8]
+				};
+
+				// Drop the old columns
+				Session.CreateSQLQuery("ALTER TABLE roadkill_siteconfiguration DROP COLUMN AllowedFileTypes").ExecuteUpdate();
+				Session.CreateSQLQuery("ALTER TABLE roadkill_siteconfiguration DROP COLUMN AllowUserSignup").ExecuteUpdate();
+				Session.CreateSQLQuery("ALTER TABLE roadkill_siteconfiguration DROP COLUMN EnableRecaptcha").ExecuteUpdate();
+				Session.CreateSQLQuery("ALTER TABLE roadkill_siteconfiguration DROP COLUMN MarkupType").ExecuteUpdate();
+				Session.CreateSQLQuery("ALTER TABLE roadkill_siteconfiguration DROP COLUMN RecaptchaPrivateKey").ExecuteUpdate();
+				Session.CreateSQLQuery("ALTER TABLE roadkill_siteconfiguration DROP COLUMN RecaptchaPublicKey").ExecuteUpdate();
+				Session.CreateSQLQuery("ALTER TABLE roadkill_siteconfiguration DROP COLUMN SiteUrl").ExecuteUpdate();
+				Session.CreateSQLQuery("ALTER TABLE roadkill_siteconfiguration DROP COLUMN Title").ExecuteUpdate();
+				Session.CreateSQLQuery("ALTER TABLE roadkill_siteconfiguration DROP COLUMN Theme").ExecuteUpdate();
+
+				// Add the XML column (which involves rebuilding the SessionFactory)
+				Configuration.ExposeConfiguration(c => new SchemaUpdate(c).Execute(false, true));
+				ISessionFactory sessionFactory = Configuration.BuildSessionFactory();
+				ObjectFactory.Configure(x =>
+				{
+					x.For<ISessionFactory>().Singleton().Use(sessionFactory);
+					x.For<ISession>().HybridHttpOrThreadLocalScoped().Use(ctx => ctx.GetInstance<ISessionFactory>().OpenSession());
+				});
+
+				// Migrate the Data
+				SaveSitePreferences(oldPreferences);
 			}
 		}
 

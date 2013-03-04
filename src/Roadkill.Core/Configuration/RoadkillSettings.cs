@@ -85,8 +85,8 @@ namespace Roadkill.Core.Configuration
 			SitePreferences preferences = repository.GetSitePreferences();
 
 			if (preferences == null)
-				throw new DatabaseException(null, "No configuration settings could be found in the database (id {0}). " +
-					"Has SettingsManager.SaveSiteConfiguration() been called?", SitePreferences.ConfigurationId);
+				throw new DatabaseException(null, "No configuration settings could be found in the database. " +
+					"Has SettingsManager.SaveSiteConfiguration() been called?");
 
 			if (string.IsNullOrEmpty(preferences.AllowedFileTypes))
 				throw new InvalidOperationException("The allowed file types setting is empty");

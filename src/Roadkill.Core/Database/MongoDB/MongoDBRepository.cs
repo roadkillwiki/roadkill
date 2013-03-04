@@ -120,7 +120,8 @@ namespace Roadkill.Core
 
 		public SitePreferences GetSitePreferences()
 		{
-			return Queryable<SitePreferences>().FirstOrDefault();
+			return null;
+			//return Queryable<SitePreferences>().FirstOrDefault();
 		}
 
 		public IQueryable<Page> Pages

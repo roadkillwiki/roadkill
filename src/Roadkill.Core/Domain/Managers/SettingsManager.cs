@@ -84,17 +84,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				SitePreferences config;
-
-				if (isInstalling)
-				{
-					config = new SitePreferences();
-				}
-				else
-				{
-					config = Repository.GetSitePreferences();
-				}
-
+				SitePreferences config = new SitePreferences();
 				config.AllowedFileTypes = summary.AllowedExtensions;
 				config.AllowUserSignup = summary.AllowUserSignup;
 				config.IsRecaptchaEnabled = summary.EnableRecaptcha;
@@ -105,9 +95,7 @@ namespace Roadkill.Core
 				config.SiteName = summary.SiteName;
 				config.Theme = summary.Theme;
 
-				config.Version = Configuration.ApplicationSettings.Version;
-
-				Repository.SaveOrUpdate<SitePreferences>(config);
+				Repository.SaveSitePreferences(config);
 			}
 			catch (HibernateException ex)
 			{
