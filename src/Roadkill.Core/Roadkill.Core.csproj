@@ -248,12 +248,13 @@
     <Compile Include="Database\IPageRepository.cs" />
     <Compile Include="Database\DataStoreType.cs" />
     <Compile Include="Database\DataStoreEntity.cs" />
+    <Compile Include="Database\ObjectCache.cs" />
     <Compile Include="Database\SitePreferencesEntity.cs" />
     <Compile Include="Domain\Managers\IPageManager.cs" />
     <Compile Include="Database\MongoDB\MongoDBRepository.cs" />
     <Compile Include="Database\NHibernate\PageMap.cs" />
     <Compile Include="Database\NHibernate\PageContentMap.cs" />
-    <Compile Include="Database\NHibernate\SitePreferencesMap.cs" />
+    <Compile Include="Database\NHibernate\SitePreferencesEntityMap.cs" />
     <Compile Include="Database\NHibernate\UserMap.cs" />
     <Compile Include="Files\MimeMapping.cs" />
     <Compile Include="IoC\IocSetup.cs" />

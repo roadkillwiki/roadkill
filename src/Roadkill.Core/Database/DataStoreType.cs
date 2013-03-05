@@ -24,7 +24,7 @@ namespace Roadkill.Core
 		public static readonly DataStoreType SqlServer2005 = new DataStoreType("SqlServer2005", "A SqlServer 2005 (or above) database using NHibernate.");
 		public static readonly DataStoreType SqlServer2008 = new DataStoreType("SqlServer2008", "A SqlServer 2008 database using NHibernate.");
 		public static readonly DataStoreType SqlServerCe = new DataStoreType("SqlServerCe", "A SqlServer Ce database using NHibernate.");
-		public static readonly DataStoreType MongoDB = new DataStoreType("MongoDB", "A MongoDB server, using the official MongoDB driver.", true, typeof(MongoDBRepository).FullName + ", Roadkill.Core");
+		public static readonly DataStoreType MongoDB = new DataStoreType("MongoDB", "A MongoDB server, using the official MongoDB driver.", true, typeof(MongoDBRepository).FullName);
 
 		public static IEnumerable<DataStoreType> AllTypes
 		{

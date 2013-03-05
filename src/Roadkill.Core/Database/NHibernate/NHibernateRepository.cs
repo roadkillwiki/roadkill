@@ -183,7 +183,17 @@ namespace Roadkill.Core
 		public SitePreferences GetSitePreferences()
 		{
 			SitePreferencesEntity entity = Queryable<SitePreferencesEntity>().FirstOrDefault();
-			SitePreferences preferences = SitePreferences.LoadFromXml(entity.Xml);
+			SitePreferences preferences = new SitePreferences();
+
+			if (entity != null)
+			{
+				preferences = SitePreferences.LoadFromXml(entity.Xml);
+			}
+			else
+			{
+				Log.Warn("No configuration settings could be found in the database, using a default instance");
+			}
+
 			return preferences;
 		}
 
@@ -199,138 +209,6 @@ namespace Roadkill.Core
 			SaveOrUpdate<SitePreferencesEntity>(entity);
 		}
 
-		public IEnumerable<Page> AllPages()
-		{
-			return Pages.ToList();
-		}
-
-		public Page GetPageById(int id)
-		{
-			return Pages.FirstOrDefault(p => p.Id == id);
-		}
-
-		public IEnumerable<Page> FindPagesByCreatedBy(string username)
-		{
-			return Pages.Where(p => p.CreatedBy == username);
-		}
-
-		public IEnumerable<Page> FindPagesByModifiedBy(string username)
-		{
-			return Pages.Where(p => p.ModifiedBy == username);
-		}
-
-		public IEnumerable<Page> FindPagesContainingTag(string tag)
-		{
-			return Pages.Where(p => p.Tags.ToLower().Contains(tag.ToLower()));
-		}
-
-		public IEnumerable<string> AllTags()
-		{
-			return new List<string>(Pages.Select(p => p.Tags));
-		}
-
-		public Page GetPageByTitle(string title)
-		{
-			try
-			{
-				if (string.IsNullOrEmpty(title))
-					return null;
-
-				return Pages.FirstOrDefault(p => p.Title == title);
-			}
-			catch (HibernateException ex)
-			{
-				throw new DatabaseException(ex, "An error occurred finding the page with title '{0}' in the database", title);
-			}
-		}
-
-		public PageContent GetPageContentById(Guid id)
-		{
-			return PageContents.FirstOrDefault(p => p.Id == id);
-		}
-
-		public PageContent GetPageContentByPageIdAndVersionNumber(int id, int versionNumber)
-		{
-			return PageContents.FirstOrDefault(p => p.Page.Id == id && p.VersionNumber == versionNumber);
-		}
-
-		public PageContent GetPageContentByEditedBy(string username)
-		{
-			return PageContents.FirstOrDefault(p => p.EditedBy == username);
-		}
-
-		public IEnumerable<PageContent> FindPageContentsByPageId(int pageId)
-		{
-			return PageContents.Where(p => p.Page.Id == pageId);
-		}
-
-		public IEnumerable<PageContent> AllPageContents()
-		{
-			return PageContents;
-		}
-
-		public User GetAdminById(Guid id)
-		{
-			return Users.FirstOrDefault(x => x.Id == id && x.IsAdmin);
-		}
-
-		public User GetUserByActivationKey(string key)
-		{
-			return Users.FirstOrDefault(x => x.ActivationKey == key && x.IsActivated == false);
-		}
-
-		public User GetEditorById(Guid id)
-		{
-			return Users.FirstOrDefault(x => x.Id == id && x.IsEditor);
-		}
-
-		public User GetUserByEmail(string email, bool isActivated = true)
-		{
-			return Users.FirstOrDefault(x => x.Email == email && x.IsActivated == isActivated);
-		}
-
-		public User GetUserById(Guid id, bool isActivated = true)
-		{
-			return Users.FirstOrDefault(x => x.Id == id && x.IsActivated == isActivated);
-		}
-
-		public User GetUserByPasswordResetKey(string key)
-		{
-			return Users.FirstOrDefault(x => x.PasswordResetKey == key);
-		}
-
-		public User GetUserByUsername(string username)
-		{
-			return Users.FirstOrDefault(x => x.Username == username);
-		}
-
-		public User GetUserByUsernameOrEmail(string username, string email)
-		{
-			return Users.FirstOrDefault(x => x.Username == username || x.Email == email);
-		}
-
-		public IEnumerable<User> FindAllEditors()
-		{
-			return Users.Where(x => x.IsEditor);
-		}
-
-		public IEnumerable<User> FindAllAdmins()
-		{
-			return Users.Where(x => x.IsAdmin);
-		}
-
-		public PageContent GetPageContentByVersionId(Guid versionId)
-		{
-			return PageContents.FirstOrDefault(p => p.Id == versionId);
-		}
-
-		public IEnumerable<PageContent> FindPageContentsEditedBy(string username)
-		{
-			return PageContents.Where(p => p.EditedBy == username);
-		}
-
-		// ---- SETUP ----
-
 		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)
 		{
 			InitializeSessionFactory(dataStoreType, connectionString, enableCache, false);
@@ -343,7 +221,7 @@ namespace Roadkill.Core
 
 		public void InitializeSessionFactory(DataStoreType dataStoreType, string connectionString, bool enableCache, bool createSchema)
 		{
-			// These are valid states, not exceptions
+			// These two are valid states if Roadkill isn't installed, so just return.
 			if (dataStoreType == null)
 				return;
 
@@ -519,6 +397,136 @@ namespace Roadkill.Core
 				MsSqlConfiguration msSql = MsSqlConfiguration.MsSql2005.ConnectionString(connection);
 				Configuration.Database(msSql);
 			}
+		}
+
+		public IEnumerable<Page> AllPages()
+		{
+			return Pages.ToList();
+		}
+
+		public Page GetPageById(int id)
+		{
+			return Pages.FirstOrDefault(p => p.Id == id);
+		}
+
+		public IEnumerable<Page> FindPagesByCreatedBy(string username)
+		{
+			return Pages.Where(p => p.CreatedBy == username);
+		}
+
+		public IEnumerable<Page> FindPagesByModifiedBy(string username)
+		{
+			return Pages.Where(p => p.ModifiedBy == username);
+		}
+
+		public IEnumerable<Page> FindPagesContainingTag(string tag)
+		{
+			return Pages.Where(p => p.Tags.ToLower().Contains(tag.ToLower()));
+		}
+
+		public IEnumerable<string> AllTags()
+		{
+			return new List<string>(Pages.Select(p => p.Tags));
+		}
+
+		public Page GetPageByTitle(string title)
+		{
+			try
+			{
+				if (string.IsNullOrEmpty(title))
+					return null;
+
+				return Pages.FirstOrDefault(p => p.Title == title);
+			}
+			catch (HibernateException ex)
+			{
+				throw new DatabaseException(ex, "An error occurred finding the page with title '{0}' in the database", title);
+			}
+		}
+
+		public PageContent GetPageContentById(Guid id)
+		{
+			return PageContents.FirstOrDefault(p => p.Id == id);
+		}
+
+		public PageContent GetPageContentByPageIdAndVersionNumber(int id, int versionNumber)
+		{
+			return PageContents.FirstOrDefault(p => p.Page.Id == id && p.VersionNumber == versionNumber);
+		}
+
+		public PageContent GetPageContentByEditedBy(string username)
+		{
+			return PageContents.FirstOrDefault(p => p.EditedBy == username);
+		}
+
+		public IEnumerable<PageContent> FindPageContentsByPageId(int pageId)
+		{
+			return PageContents.Where(p => p.Page.Id == pageId);
+		}
+
+		public IEnumerable<PageContent> AllPageContents()
+		{
+			return PageContents.ToList();
+		}
+
+		public User GetAdminById(Guid id)
+		{
+			return Users.FirstOrDefault(x => x.Id == id && x.IsAdmin);
+		}
+
+		public User GetUserByActivationKey(string key)
+		{
+			return Users.FirstOrDefault(x => x.ActivationKey == key && x.IsActivated == false);
+		}
+
+		public User GetEditorById(Guid id)
+		{
+			return Users.FirstOrDefault(x => x.Id == id && x.IsEditor);
+		}
+
+		public User GetUserByEmail(string email, bool isActivated = true)
+		{
+			return Users.FirstOrDefault(x => x.Email == email && x.IsActivated == isActivated);
+		}
+
+		public User GetUserById(Guid id, bool isActivated = true)
+		{
+			return Users.FirstOrDefault(x => x.Id == id && x.IsActivated == isActivated);
+		}
+
+		public User GetUserByPasswordResetKey(string key)
+		{
+			return Users.FirstOrDefault(x => x.PasswordResetKey == key);
+		}
+
+		public User GetUserByUsername(string username)
+		{
+			return Users.FirstOrDefault(x => x.Username == username);
+		}
+
+		public User GetUserByUsernameOrEmail(string username, string email)
+		{
+			return Users.FirstOrDefault(x => x.Username == username || x.Email == email);
+		}
+
+		public IEnumerable<User> FindAllEditors()
+		{
+			return Users.Where(x => x.IsEditor);
+		}
+
+		public IEnumerable<User> FindAllAdmins()
+		{
+			return Users.Where(x => x.IsAdmin);
+		}
+
+		public PageContent GetPageContentByVersionId(Guid versionId)
+		{
+			return PageContents.FirstOrDefault(p => p.Id == versionId);
+		}
+
+		public IEnumerable<PageContent> FindPageContentsEditedBy(string username)
+		{
+			return PageContents.Where(p => p.EditedBy == username);
 		}
 
 		public void Dispose()

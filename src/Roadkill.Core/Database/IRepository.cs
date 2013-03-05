@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
+using StructureMap.Attributes;
 
 namespace Roadkill.Core
 {

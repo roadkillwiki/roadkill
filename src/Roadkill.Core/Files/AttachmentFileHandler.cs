@@ -16,16 +16,22 @@ namespace Roadkill.Core.Files
 	/// </summary>
 	public class AttachmentFileHandler : IHttpHandler
 	{
+		private IConfigurationContainer _config;
+
 		public bool IsReusable
 		{
 			get { return true; }
 		}
 
+		public AttachmentFileHandler(IConfigurationContainer config)
+		{
+			_config = config;
+		}
+
 		public void ProcessRequest(HttpContext context)
 		{
-			IConfigurationContainer config = RoadkillSettings.GetInstance();
 			string fileExtension = Path.GetExtension(context.Request.Url.LocalPath);
-			string attachmentFolder = config.ApplicationSettings.AttachmentsFolder;
+			string attachmentFolder = _config.ApplicationSettings.AttachmentsFolder;
 
 			using (ServerManager serverManager = new ServerManager())
 			{
@@ -36,7 +42,7 @@ namespace Roadkill.Core.Files
 				try
 				{
 					// LocalPath uses "/" and a Windows filepath is \
-					string filePath = context.Request.Url.LocalPath.Replace(string.Format("/{0}", config.ApplicationSettings.AttachmentsRoutePath), "");
+					string filePath = context.Request.Url.LocalPath.Replace(string.Format("/{0}", _config.ApplicationSettings.AttachmentsRoutePath), "");
 					filePath = filePath.Replace('/', Path.DirectorySeparatorChar);
 
 					if (attachmentFolder.EndsWith(Path.DirectorySeparatorChar.ToString()))
