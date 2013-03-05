@@ -20,19 +20,9 @@ namespace Roadkill.Core
 			IoCSetup iocSetup = new IoCSetup();
 			iocSetup.Run();
 
-			// Register the ~/attachments/ route
-			AttachmentRouteHandler.Register(ObjectFactory.GetInstance<IConfigurationContainer>());
-
 			// All other routes
 			AreaRegistration.RegisterAllAreas();
 			RegisterRoutes(RouteTable.Routes);
-
-			// Some view models are new'd up by a custom object factory so dependencies are injected into them
-			ModelBinders.Binders.Add(typeof(UserSummary),new UserSummaryModelBinder());
-			ModelBinders.Binders.Add(typeof(SettingsSummary),new SettingsSummaryModelBinder());
-
-			// *All* Roadkill MVC controllers are new'd up by a controller factory so dependencies are injected into them
-			ControllerBuilder.Current.SetControllerFactory(new ControllerFactory());
 		}
 
 		public static void RegisterRoutes(RouteCollection routes)

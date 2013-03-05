@@ -9,124 +9,17 @@ using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
 using Roadkill.Core.Configuration;
+using StructureMap.Attributes;
 
 namespace Roadkill.Core
 {
-	public class MongoDBRepository //: IRepository
+	public class MongoDBRepository : IRepository
 	{
-		private IConfigurationContainer _configuration;
-
-		public MongoDBRepository(IConfigurationContainer config)
-		{
-			_configuration = config;
-		}
-
-		public void Configure(DataStoreType dataStoreType, string connection, bool createSchema, bool enableCache)
-		{
-			string databaseName = MongoUrl.Create(connection).DatabaseName;
-
-			if (createSchema)
-			{
-				MongoClient client = new MongoClient(connection);
-				MongoServer server = client.GetServer();
-				MongoDatabase database = server.GetDatabase(databaseName);
-				database.DropCollection("Pages");
-				database.DropCollection("PageContents");
-				database.DropCollection("Users");
-				database.DropCollection("SitePreferences");
-			}
-			else
-			{
-				// Just test
-				MongoClient client = new MongoClient(connection);
-				MongoServer server = client.GetServer();
-				MongoDatabase database = server.GetDatabase(databaseName);
-			}
-		}
-
-		public void Delete<T>(T obj) where T : DataStoreEntity
-		{
-			MongoCollection<T> collection = GetCollection<T>();
-			IMongoQuery query = Query.EQ("ObjectId", obj.ObjectId);
-			collection.Remove(query);
-
-			//if (_configuration.ApplicationSettings.CacheEnabled)
-			//{
-			//	TypedMemoryCache.Remove<MongoCollection<T>>(collection);
-			//}
-		}
-
-		public void DeleteAll<T>() where T : DataStoreEntity
-		{
-			MongoCollection<T> collection = GetCollection<T>();
-			collection.RemoveAll();
-
-			//if (_configuration.ApplicationSettings.CacheEnabled)
-			//{
-			//	TypedMemoryCache.ClearCache();
-			//}
-		}
-
-		public IQueryable<T> Queryable<T>() where T : DataStoreEntity
-		{
-			MongoCollection<T> collection;
-			
-			//if (_configuration.ApplicationSettings.CacheEnabled)
-			//{
-			//	collection = TypedMemoryCache.Get<MongoCollection<T>>();
-
-			//	if (collection != null)
-			//		return collection.AsQueryable<T>();
-			//}
-
-			collection = GetCollection<T>();
-			TypedMemoryCache.Add<MongoCollection<T>>(collection);
-
-			return collection.AsQueryable<T>();
-		}
-
-		public void SaveOrUpdate<T>(T obj) where T : DataStoreEntity
-		{
-			Page page = obj as Page;
-			if (page != null && page.Id	== 0)
-			{
-				int newId = 1;
-				Page recentPage = Queryable<Page>().OrderByDescending(x => x.Id).FirstOrDefault();
-				if (recentPage != null)
-				{
-					newId = recentPage.Id + 1;
-				}
-
-				obj.ObjectId = Guid.NewGuid();
-				page.Id = newId;
-			}
-
-			MongoCollection<T> collection = GetCollection<T>();
-			collection.Save<T>(obj);
-		}
-
-		public Page FindPageByTitle(string title)
-		{
-			return Queryable<Page>().FirstOrDefault(x => x.Title == title);
-		}
-
-		public PageContent GetLatestPageContent(int pageId)
-		{
-			return Queryable<PageContent>()
-				.Where(x => x.Page.Id == pageId)
-				.OrderByDescending(x => x.EditedOn)
-				.FirstOrDefault();
-		}
-
-		public SitePreferences GetSitePreferences()
-		{
-			return null;
-			//return Queryable<SitePreferences>().FirstOrDefault();
-		}
+		public IConfigurationContainer Configuration { get; set; }
 
 		public IQueryable<Page> Pages
 		{
-			get 
+			get
 			{
 				return Queryable<Page>();
 			}
@@ -148,10 +41,14 @@ namespace Roadkill.Core
 			}
 		}
 
-		private MongoCollection<T> GetCollection<T>(string connectionString = "")
+
+		public MongoDBRepository(IConfigurationContainer config)
 		{
-			if (string.IsNullOrEmpty(connectionString))
-				connectionString = _configuration.ApplicationSettings.ConnectionString;
+		}
+
+		private MongoCollection<T> GetCollection<T>()
+		{
+			string connectionString = Configuration.ApplicationSettings.ConnectionString;
 
 			string databaseName = MongoUrl.Create(connectionString).DatabaseName;
 			MongoClient client = new MongoClient(connectionString);
@@ -160,38 +57,237 @@ namespace Roadkill.Core
 
 			return database.GetCollection<T>(typeof(T).Name);
 		}
-	}
 
-	// IQueryable cache that doesn't work
-	public class TypedMemoryCache
-	{
-		internal static MemoryCache _entityCache = new MemoryCache("EntityCache");
-
-		public static void Add<T>(T obj) where T : MongoCollection
+		public void Delete<T>(T obj) where T : DataStoreEntity
 		{
-			_entityCache.Add(typeof(T).FullName, obj, new CacheItemPolicy());
+			MongoCollection<T> collection = GetCollection<T>();
+			IMongoQuery query = Query.EQ("ObjectId", obj.ObjectId);
+			collection.Remove(query);
 		}
 
-		public static T Get<T>() where T : MongoCollection
+		public void DeleteAll<T>() where T : DataStoreEntity
 		{
-			return (T) _entityCache.Get(typeof(T).FullName);
+			MongoCollection<T> collection = GetCollection<T>();
+			collection.RemoveAll();
 		}
 
-		public static void Remove<T>(T obj) where T : MongoCollection
+		public IQueryable<T> Queryable<T>() where T : DataStoreEntity
 		{
-			_entityCache.Remove(typeof(T).FullName);
+			return GetCollection<T>().AsQueryable();
 		}
 
-		public static void ClearCache()
+		public void SaveOrUpdate<T>(T obj) where T : DataStoreEntity
 		{
-			_entityCache.Dispose();
-			_entityCache = new MemoryCache("EntityCache");
+			// Implement autoincrement identity(1,1) for MongoDB, for Page objects
+			Page page = obj as Page;
+			if (page != null && page.Id == 0)
+			{
+				int newId = 1;
+				Page recentPage = Queryable<Page>().OrderByDescending(x => x.Id).FirstOrDefault();
+				if (recentPage != null)
+				{
+					newId = recentPage.Id + 1;
+				}
+
+				obj.ObjectId = Guid.NewGuid();
+				page.Id = newId;
+			}
+
+			MongoCollection<T> collection = GetCollection<T>();
+			collection.Save<T>(obj);
 		}
 
-		public IQueryable<T> GetQueryable<T>() where T : MongoCollection
+		public PageContent GetLatestPageContent(int pageId)
 		{
-			IEnumerable<T> filtered = _entityCache.OfType<T>();
-			return filtered.ToList().AsQueryable<T>();
+			return Queryable<PageContent>()
+				.Where(x => x.Page.Id == pageId)
+				.OrderByDescending(x => x.EditedOn)
+				.FirstOrDefault();
+		}
+
+		public SitePreferences GetSitePreferences()
+		{
+			SitePreferencesEntity entity = Queryable<SitePreferencesEntity>().FirstOrDefault();
+			SitePreferences preferences = new SitePreferences();
+
+			if (entity != null)
+			{
+				preferences = SitePreferences.LoadFromXml(entity.Xml);
+			}
+			else
+			{
+				Log.Warn("No configuration settings could be found in the database, using a default instance");
+			}
+
+			return preferences;
+		}
+
+		public void SaveSitePreferences(SitePreferences preferences)
+		{
+			// Get the fresh db entity first
+			SitePreferencesEntity entity = Queryable<SitePreferencesEntity>().FirstOrDefault();
+			if (entity == null)
+				entity = new SitePreferencesEntity();
+
+			entity.Version = ApplicationSettings.Version.ToString();
+			entity.Xml = preferences.GetXml();
+			SaveOrUpdate<SitePreferencesEntity>(entity);
+		}
+
+		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)
+		{
+			// Nothing to do here
+		}
+
+		public void Install(DataStoreType dataStoreType, string connectionString, bool enableCache)
+		{
+			string databaseName = MongoUrl.Create(connectionString).DatabaseName;
+			MongoClient client = new MongoClient(connectionString);
+			MongoServer server = client.GetServer();
+			MongoDatabase database = server.GetDatabase(databaseName);
+			database.DropCollection("Pages");
+			database.DropCollection("PageContents");
+			database.DropCollection("Users");
+			database.DropCollection("SitePreferences");
+		}
+
+		public void Test(DataStoreType dataStoreType, string connectionString)
+		{
+			string databaseName = MongoUrl.Create(connectionString).DatabaseName;
+			MongoClient client = new MongoClient(connectionString);
+			MongoServer server = client.GetServer();
+			MongoDatabase database = server.GetDatabase(databaseName);
+			database.GetCollectionNames();
+		}
+
+		public IEnumerable<Page> AllPages()
+		{
+			return Pages.ToList();
+		}
+
+		public Page GetPageById(int id)
+		{
+			return Pages.FirstOrDefault(p => p.Id == id);
+		}
+
+		public IEnumerable<Page> FindPagesByCreatedBy(string username)
+		{
+			return Pages.Where(p => p.CreatedBy == username);
+		}
+
+		public IEnumerable<Page> FindPagesByModifiedBy(string username)
+		{
+			return Pages.Where(p => p.ModifiedBy == username);
+		}
+
+		public IEnumerable<Page> FindPagesContainingTag(string tag)
+		{
+			return Pages.Where(p => p.Tags.ToLower().Contains(tag.ToLower()));
+		}
+
+		public IEnumerable<string> AllTags()
+		{
+			return new List<string>(Pages.Select(p => p.Tags));
+		}
+
+		public Page GetPageByTitle(string title)
+		{
+			if (string.IsNullOrEmpty(title))
+				return null;
+
+			return Pages.FirstOrDefault(p => p.Title == title);
+		}
+
+		public PageContent GetPageContentById(Guid id)
+		{
+			return PageContents.FirstOrDefault(p => p.Id == id);
+		}
+
+		public PageContent GetPageContentByPageIdAndVersionNumber(int id, int versionNumber)
+		{
+			return PageContents.FirstOrDefault(p => p.Page.Id == id && p.VersionNumber == versionNumber);
+		}
+
+		public PageContent GetPageContentByEditedBy(string username)
+		{
+			return PageContents.FirstOrDefault(p => p.EditedBy == username);
+		}
+
+		public IEnumerable<PageContent> FindPageContentsByPageId(int pageId)
+		{
+			return PageContents.Where(p => p.Page.Id == pageId);
+		}
+
+		public IEnumerable<PageContent> AllPageContents()
+		{
+			return PageContents.ToList();
+		}
+
+		public User GetAdminById(Guid id)
+		{
+			return Users.FirstOrDefault(x => x.Id == id && x.IsAdmin);
+		}
+
+		public User GetUserByActivationKey(string key)
+		{
+			return Users.FirstOrDefault(x => x.ActivationKey == key && x.IsActivated == false);
+		}
+
+		public User GetEditorById(Guid id)
+		{
+			return Users.FirstOrDefault(x => x.Id == id && x.IsEditor);
+		}
+
+		public User GetUserByEmail(string email, bool isActivated = true)
+		{
+			return Users.FirstOrDefault(x => x.Email == email && x.IsActivated == isActivated);
+		}
+
+		public User GetUserById(Guid id, bool isActivated = true)
+		{
+			return Users.FirstOrDefault(x => x.Id == id && x.IsActivated == isActivated);
+		}
+
+		public User GetUserByPasswordResetKey(string key)
+		{
+			return Users.FirstOrDefault(x => x.PasswordResetKey == key);
+		}
+
+		public User GetUserByUsername(string username)
+		{
+			return Users.FirstOrDefault(x => x.Username == username);
+		}
+
+		public User GetUserByUsernameOrEmail(string username, string email)
+		{
+			return Users.FirstOrDefault(x => x.Username == username || x.Email == email);
+		}
+
+		public IEnumerable<User> FindAllEditors()
+		{
+			return Users.Where(x => x.IsEditor);
+		}
+
+		public IEnumerable<User> FindAllAdmins()
+		{
+			return Users.Where(x => x.IsAdmin);
+		}
+
+		public PageContent GetPageContentByVersionId(Guid versionId)
+		{
+			return PageContents.FirstOrDefault(p => p.Id == versionId);
+		}
+
+		public IEnumerable<PageContent> FindPageContentsEditedBy(string username)
+		{
+			return PageContents.Where(p => p.EditedBy == username);
+		}
+
+		//-------------
+
+		public void Dispose()
+		{
+			
 		}
 	}
 }

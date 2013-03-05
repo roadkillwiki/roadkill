@@ -13,21 +13,21 @@ namespace Roadkill.Core.Files
 	/// </summary>
 	public class AttachmentRouteHandler : IRouteHandler
 	{
-		public IHttpHandler GetHttpHandler(RequestContext requestContext)
-		{
-			return new AttachmentFileHandler();
-		}
+		private IConfigurationContainer _config;
 
-		/// <summary>
-		/// Registers the /Attachments/ path (the name is taken from a web.config setting)
-		/// </summary>
-		public static void Register(IConfigurationContainer config)
+		public AttachmentRouteHandler(IConfigurationContainer config)
 		{
-			Route route = new Route(config.ApplicationSettings.AttachmentsRoutePath + "/{*filename}", new AttachmentRouteHandler());
+			Route route = new Route(config.ApplicationSettings.AttachmentsRoutePath + "/{*filename}", new AttachmentRouteHandler(config));
 			route.Constraints = new RouteValueDictionary();
 			route.Constraints.Add("MvcContraint", new IgnoreMvcConstraint(config));
 
 			RouteTable.Routes.Add(route);
+			_config = config;
+		}
+
+		public IHttpHandler GetHttpHandler(RequestContext requestContext)
+		{
+			return new AttachmentFileHandler(_config);
 		}
 
 		internal class IgnoreMvcConstraint : IRouteConstraint
