@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using Roadkill.Core;
 
 namespace Roadkill.Tests.Acceptance
@@ -40,7 +41,8 @@ namespace Roadkill.Tests.Acceptance
 			Assert.True(Driver.IsCheckboxChecked("CacheText"));
 
 			Assert.That(Driver.FindElements(By.CssSelector("#DataStoreType_Name option")).Count, Is.EqualTo(DataStoreType.AllTypes.Count()));
-			Assert.That(Driver.SelectedIndex("#DataStoreType_Name"), Is.EqualTo(DataStoreType.AllTypes.ToList().IndexOf(sqlCeType)));
+			SelectElement element = new SelectElement(Driver.FindElement(By.CssSelector("#DataStoreType_Name")));
+			Assert.That(element.SelectedOption.GetAttribute("value"), Is.EqualTo(DataStoreType.ByName("SqlServerCe").Name));
 			Assert.That(Driver.SelectedIndex("#MarkupType"), Is.EqualTo(0));
 			Assert.That(Driver.SelectedIndex("#Theme"), Is.EqualTo(1));
 		}

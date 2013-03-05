@@ -211,6 +211,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Acceptance\UpgradeToVersion16Tests.cs" />
     <Compile Include="Acceptance\InstallerTests.cs" />
     <Compile Include="Acceptance\SearchTests.cs" />
     <Compile Include="Acceptance\SettingsTests.cs" />
@@ -240,12 +241,6 @@
     <Compile Include="Unit\Text\MarkupConverterTests.cs" />
     <Content Include="chromedriver.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Integration\pre-v16-roadkill.sdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqliteSetup\roadkill.sqlite">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Unit\Text\whitelist.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -280,20 +275,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Content Include="SqliteSetup\SQLiteBinaries\x64\System.Data.SQLite.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqliteSetup\SQLiteBinaries\x64\System.Data.SQLite.Linq.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqliteSetup\SQLiteBinaries\x86\System.Data.SQLite.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqliteSetup\SQLiteBinaries\x86\System.Data.SQLite.Linq.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
