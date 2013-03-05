@@ -48,18 +48,22 @@ public class GlobalSetup
 		// Copy the SQLite files over
 		//
 		string binFolder = AppDomain.CurrentDomain.BaseDirectory;
-		string sqliteFileSource = Path.Combine(binFolder, "SqliteSetup", "SQLiteBinaries", "x86", "System.Data.SQLite.dll");
+		string sqliteFileSource = Path.Combine(LIB_FOLDER, "Test-databases", "SQLite", "x86", "System.Data.SQLite.dll");
+		string sqliteLinqFileSource = Path.Combine(LIB_FOLDER, "Test-databases", "SQLite", "x86", "System.Data.SQLite.Linq.dll");
+		string sqliteDbFileSource = Path.Combine(LIB_FOLDER, "Test-databases", "roadkill-integrationtests.sqlite");
+		
 		string sqliteFileDest = Path.Combine(binFolder, "System.Data.SQLite.dll");
-		string sqliteLinqFileSource = Path.Combine(binFolder, "SqliteSetup", "SQLiteBinaries", "x86", "System.Data.SQLite.Linq.dll");
 		string sqliteFileLinqDest = Path.Combine(binFolder, "System.Data.SQLite.Linq.dll");
+		string sqliteDbFileDest = Path.Combine(binFolder, "roadkill-integrationtests.sqlite");
 
 		if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
 		{
-			sqliteFileSource = Path.Combine(binFolder, "SqliteSetup", "SQLiteBinaries", "x64", "System.Data.SQLite.dll");
-			sqliteLinqFileSource = Path.Combine(binFolder, "SqliteSetup", "SQLiteBinaries", "x64", "System.Data.SQLite.Linq.dll");
+			sqliteFileSource = Path.Combine(LIB_FOLDER, "SQLite", "x64", "System.Data.SQLite.dll");
+			sqliteLinqFileSource = Path.Combine(LIB_FOLDER, "SQLite", "x64", "System.Data.SQLite.Linq.dll");
 		}
 
 		System.IO.File.Copy(sqliteFileSource, sqliteFileDest, true);
 		System.IO.File.Copy(sqliteLinqFileSource, sqliteFileLinqDest, true);
+		System.IO.File.Copy(sqliteDbFileSource, sqliteDbFileDest, true);
 	}
 }
