@@ -74,7 +74,10 @@ namespace Roadkill.Core
 			if (_config.ApplicationSettings.DataStoreType.RequiresCustomRepository)
 			{
 				IRepository customRepository = LoadRepositoryFromType(_config.ApplicationSettings.DataStoreType.CustomRepositoryType);
-				x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use(customRepository);
+				ObjectFactory.Configure(x =>
+    			{
+					x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use(customRepository);
+				});
 			}
 
 			// Let the repositories perform any startup tasks (I'm looking at you, NHibernate)
