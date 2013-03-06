@@ -17,12 +17,16 @@ namespace Roadkill.Core.Files
 
 		public AttachmentRouteHandler(IConfigurationContainer config)
 		{
+			_config = config;
+		}
+
+		public static void Register(IConfigurationContainer config)
+		{
 			Route route = new Route(config.ApplicationSettings.AttachmentsRoutePath + "/{*filename}", new AttachmentRouteHandler(config));
 			route.Constraints = new RouteValueDictionary();
 			route.Constraints.Add("MvcContraint", new IgnoreMvcConstraint(config));
 
 			RouteTable.Routes.Add(route);
-			_config = config;
 		}
 
 		public IHttpHandler GetHttpHandler(RequestContext requestContext)

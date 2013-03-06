@@ -19,6 +19,7 @@ namespace Roadkill.Core
 			// Configure StructureMap dependencies
 			IoCSetup iocSetup = new IoCSetup();
 			iocSetup.Run();
+			iocSetup.RegisterMvcFactoriesAndRouteHandlers();
 
 			// All other routes
 			AreaRegistration.RegisterAllAreas();

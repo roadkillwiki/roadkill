@@ -6,7 +6,7 @@ using Roadkill.Core;
 
 namespace Roadkill.Tests.Unit
 {
-	public class RoadkillContextStub : IRoadkillContext
+	internal class RoadkillContextStub : IRoadkillContext
 	{
 		public string CurrentUser { get; set; }
 		public string CurrentUsername { get; set; }

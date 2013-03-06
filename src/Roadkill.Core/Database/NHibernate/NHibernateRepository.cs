@@ -14,6 +14,7 @@ using NHibernateConfig = NHibernate.Cfg.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Configuration;
 using StructureMap;
+using System.Threading;
 
 namespace Roadkill.Core
 {
@@ -163,6 +164,11 @@ namespace Roadkill.Core
 			{
 				// Work around for an NHibernate 3.3.1 SQL CE bug with the HQL query in CurrentContent() - this is two SQL queries per page instead of one.
 				latest = Session.QueryOver<PageContent>().Where(p => p.Page.Id == pageId).OrderBy(p => p.VersionNumber).Desc.Take(1).SingleOrDefault();
+				
+				// An NHibernate bug?
+				if (string.IsNullOrEmpty(latest.Text) && latest.VersionNumber == 1)
+					latest = PageContents.FirstOrDefault(p => p.Page.Id == pageId);
+
 				latest.Page = Session.Get<Page>(latest.Page.Id);
 			}
 			else

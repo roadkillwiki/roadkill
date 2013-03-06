@@ -66,7 +66,7 @@ namespace Roadkill.Core
 		{
 			if (!File.Exists(config.ApplicationSettings.CustomTokensPath))
 			{
-				Log.Warn("Warning: The custom tokens file does not exist in path '{0}'", config.ApplicationSettings.CustomTokensPath);
+				Log.Warn("Warning: The custom tokens file does not exist in path '{0}' - using an empty token list.", config.ApplicationSettings.CustomTokensPath);
 				return new List<TextToken>();
 			}
 

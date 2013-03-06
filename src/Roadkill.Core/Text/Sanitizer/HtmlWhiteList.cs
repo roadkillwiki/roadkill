@@ -16,7 +16,7 @@ namespace Roadkill.Core.Text.Sanitizer
 		{
 			if (!File.Exists(config.ApplicationSettings.HtmlElementWhiteListPath))
 			{
-				Log.Warn("Warning: The custom tokens file does not exist in path '{0}'", config.ApplicationSettings.HtmlElementWhiteListPath);
+				Log.Warn("Warning: The custom HTML white list tokens file does not exist in path '{0}' - using Default white list.", config.ApplicationSettings.HtmlElementWhiteListPath);
 				return CreateDefaultWhiteList();
 			}
 

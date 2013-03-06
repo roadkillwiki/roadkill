@@ -3,13 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Roadkill.Core;
+using Roadkill.Core.Configuration;
+using StructureMap;
 
 namespace Roadkill.Tests
 {
+	[Pluggable("x")]
 	public class UserManagerStub : UserManager
 	{
 		public UserManagerStub()
 			: base(null, null)
+		{
+
+		}
+
+		public UserManagerStub(IConfigurationContainer configuration, IRepository repository)
+			: base(configuration, repository)
 		{
 
 		}

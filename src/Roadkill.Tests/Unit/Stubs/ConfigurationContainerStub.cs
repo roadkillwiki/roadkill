@@ -7,7 +7,7 @@ using Roadkill.Core.Configuration;
 
 namespace Roadkill.Tests.Unit
 {
-	public class ConfigurationContainerStub : IConfigurationContainer
+	internal class ConfigurationContainerStub : IConfigurationContainer
 	{
 		public SitePreferences SitePreferences { get; set; }
 		public ApplicationSettings ApplicationSettings { get; set; }

@@ -273,7 +273,7 @@
     <Compile Include="Domain\Managers\Security\Windows\PrincipalWrapper.cs" />
     <Compile Include="Domain\Managers\Security\Windows\IRoadKillPrincipal.cs" />
     <Compile Include="Domain\Managers\Security\Windows\IActiveDirectoryService.cs" />
-    <Compile Include="Domain\Managers\Security\Windows\DefaultActiveDirectoryService.cs" />
+    <Compile Include="Domain\Managers\Security\Windows\ActiveDirectoryService.cs" />
     <Compile Include="Database\IRepository.cs" />
     <Compile Include="Exceptions\IoCException.cs" />
     <Compile Include="Files\AttachmentFileHandler.cs" />

@@ -220,9 +220,11 @@
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
     <Compile Include="Unit\DataStore\DataStoreTypeTests.cs" />
+    <Compile Include="Unit\IoCSetupTests.cs" />
     <Compile Include="Unit\Stubs\ConfigurationContainerStub.cs" />
     <Compile Include="Unit\Controllers\PagesControllerTests.cs" />
     <Compile Include="Unit\Controllers\WikiControllerTests.cs" />
+    <Compile Include="Unit\Stubs\RepositoryStub.cs" />
     <Compile Include="Unit\ViewModels\UserSummaryUsernameValidationTests.cs" />
     <Compile Include="Unit\ViewModels\UserSummaryPasswordValidationTests.cs" />
     <Compile Include="Unit\Controllers\HomeControllerTests.cs" />
@@ -254,6 +256,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Integration\TestConfigs\test-missing-values.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Integration\TestConfigs\test-mongodb.config">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config">

@@ -170,26 +170,6 @@ namespace Roadkill.Tests.Unit
 		}
 		
 		[Test]
-		public void Custom_UserManager_Should_Load()
-		{
-			// Arrange
-			Mock<IRepository> mockRepository = new Mock<IRepository>();
-			Mock<IRoadkillContext> mockContext = new Mock<IRoadkillContext>();
-
-			IConfigurationContainer config = new RoadkillSettings();
-			config.SitePreferences = new SitePreferences();
-			config.ApplicationSettings = new ApplicationSettings();
-			config.ApplicationSettings.UserManagerType = typeof(UserManagerStub).AssemblyQualifiedName;
-			
-			// Act
-			IoCSetup iocSetup = new IoCSetup(config, mockRepository.Object, mockContext.Object);
-			iocSetup.Run();
-
-			// Assert
-			Assert.That(UserManager.GetInstance(), Is.TypeOf(typeof(UserManagerStub)));
-		}
-		
-		[Test]
 		public void UseWindowsAuth_Should_Load_ActiveDirectory_UserManager()
 		{
 			// Arrange
@@ -214,6 +194,25 @@ namespace Roadkill.Tests.Unit
 		
 		[Test]
 		public void Should_Use_DefaultUserManager_By_Default()
+		{
+			// Arrange
+			Mock<IRepository> mockRepository = new Mock<IRepository>();
+			Mock<IRoadkillContext> mockContext = new Mock<IRoadkillContext>();
+
+			IConfigurationContainer config = new RoadkillSettings();
+			config.SitePreferences = new SitePreferences();
+			config.ApplicationSettings = new ApplicationSettings();
+
+			// Act
+			IoCSetup iocSetup = new IoCSetup(config, mockRepository.Object, mockContext.Object);
+			iocSetup.Run();
+
+			// Assert
+			Assert.That(UserManager.GetInstance(), Is.TypeOf(typeof(DefaultUserManager)));
+		}
+
+		[Test]
+		public void MongoDB_databaseType_Should_Load_Repository()
 		{
 			// Arrange
 			Mock<IRepository> mockRepository = new Mock<IRepository>();

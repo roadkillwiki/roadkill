@@ -9,7 +9,7 @@ namespace Roadkill.Core
 	/// <summary>
 	/// Default AD implentation of the service.
 	/// </summary>
-	internal class DefaultActiveDirectoryService : IActiveDirectoryService
+	public class ActiveDirectoryService : IActiveDirectoryService
 	{
 		public IEnumerable<IRoadKillPrincipal> GetMembers(string domainName, string username, string password, string groupName)
 		{
@@ -75,6 +75,5 @@ namespace Roadkill.Core
                 }
             }
         }
-
 	}
 }
