@@ -1,0 +1,127 @@
+﻿@model SettingsSummary
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+<script type="text/javascript">
+$(document).ready(function()
+{
+	setPage(2);
+	$("form").validationEngine();
+
+	$("span.example").click(
+		function () {
+			$("#ConnectionString").val($(this).text());
+		}
+	);
+
+	$("#testdbconnection").click(function()
+	{
+		$("#db-loading").show();
+		hideAlerts();
+		$.get("@(Url.Action("TestDatabaseConnection"))",
+				{ 
+					"connectionString" : $("#ConnectionString").val(),
+					"databaseType": $("#DataStoreType_Name").val()
+				 },
+				function(data)
+				{
+					$("#db-loading").hide();
+					if (data.Success)
+					{
+						showSuccess("#connectionsuccess");
+					}
+					else
+					{
+						showFailure("#connectionfailure",data.ErrorMessage);
+					}
+				});
+	});
+});
+</script>
+
+<p>
+@InstallStrings.Page2_Label1
+</p>
+
+@using (Html.BeginForm("Step3","Install"))
+{
+	<fieldset>
+		<legend><span>@InstallStrings.Page2_Group1_Title</span></legend>
+		<label class="textbox">
+			@InstallStrings.Page2_Group1_Label
+		</label>
+
+		<div class="textbox">@Html.TextBoxFor(s => s.SiteName, new { @class = "validate[required]" })</div>
+	</fieldset>
+	<br />
+	
+	<fieldset>
+		<legend><span>@InstallStrings.Page2_Group2_Title</span></legend>
+		<label class="textbox">
+			@InstallStrings.Page2_Group2_Label
+		</label>
+
+		<div class="textbox">@Html.TextBoxFor(s => s.SiteUrl, new { @class = "validate[required]" })</div>
+	</fieldset>
+	<br />
+	
+	<fieldset>
+		<legend><span>@InstallStrings.Page2_Group3_Title</span></legend>
+		<label>
+			@InstallStrings.Page2_Group3_Label
+		</label>
+		<br />
+		<h2>@InstallStrings.Page2_Group3_Label2</h2>
+		<div class="medium">
+			<ol>
+				<li>
+					<b>SQL Server Express:</b><br />
+					<span class="example">Database=roadkill;Server=.\SQLEXPRESS;User Id=?; Password=?;</span>
+					<span class="example">Database=roadkill;Server=.\SQLEXPRESS;Integrated Security=SSPI</span>
+				</li>
+				<li>
+					<b>SQL Server App_Data file-based:</b><br />
+					<span class="example">Server=.\SQLExpress;AttachDbFilename=|DataDirectory|\roadkill.mdf;Integrated Security=True;User Instance=True</span>
+				</li>
+				<li>
+					<b>SQLite (stored in the App_Data folder):</b><br />
+					<span class="example">Data Source=|DataDirectory|\roadkill.sqlite;</span>
+				</li>
+				<li style="margin-top:10px">
+					<b>SQL Server Compact:</b><br />
+					<span class="example">Data Source=|DataDirectory|\roadkill.sdf;</span>
+				</li>
+				<li style="margin-top:10px">
+					<b>MongoDB</b><br />
+					<span class="example">mongodb://username:password@my.host.com:10057/MyDatabaseName</span>
+				</li>
+			</ol>
+			
+			<h3>@InstallStrings.Page2_Group3_Label3</h3>
+			@Html.DropDownListFor(x => x.DataStoreType.Name, Html.DatabaseTypesAvailable(Model))
+
+			<div class="textbox">@Html.TextBoxFor(s => s.ConnectionString, new { @class = "validate[required]", size="60" })</div>
+			<input id="testdbconnection" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
+
+			<div id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" alt="loading" /></div>
+			<div id="connectionsuccess" class="success alert hidden">
+				<h2>@InstallStrings.Shared_Success</h2>
+				<p>@InstallStrings.Page2_Success</p>
+			</div>
+
+			<div id="connectionfailure" class="failure alert hidden">
+				<h2>@InstallStrings.Shared_Failure</h2>
+				<p>@InstallStrings.Page2_Error&nbsp;<pre class="errormessage" style="width:100%;overflow:scroll;"></pre></p>
+			</div>
+		</div>
+		
+	</fieldset>
+
+	<div>
+		<div class="previous">@Html.ActionLink("< " + InstallStrings.Shared_Back, "Index")</div>
+	
+		<div class="continue">
+			<input type="submit" value="@InstallStrings.Shared_NextButton" class="button next" />
+		</div>
+	</div>
+}

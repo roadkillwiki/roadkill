@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>@ViewBag.Title</title>
+	@Html.Partial("HeadContent")
+	@Html.ResizeImagesScript()
+</head>
+
+<body>
+@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+{
+	<div id="header">
+		<div id="loggedinas" class="left">
+			@Html.LoginStatus()
+		</div>
+		<div class="right">
+			@Html.SettingsLink("","&nbsp;|&nbsp;")
+			@Html.LoginLink("","&nbsp;|&nbsp;")
+			@Html.NewPageLink("","&nbsp;|&nbsp;")
+
+			@Html.MainPageLink(SiteStrings.Navigation_MainPage, "", "")
+			&nbsp;|&nbsp;@Html.ActionLink(SiteStrings.Navigation_Categories, "AllTags", "Pages")
+			&nbsp;|&nbsp;@Html.ActionLink(SiteStrings.Navigation_AllPages, "AllPages", "Pages")
+			&nbsp;|&nbsp;Search: <input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" />
+		</div>
+	</div>
+}
+	@RenderSection("PageToolbar", false)
+
+	<div id="container">
+		@RenderBody()
+	</div>
+</body>
+</html>
