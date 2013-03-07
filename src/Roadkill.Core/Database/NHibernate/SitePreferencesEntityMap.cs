@@ -5,7 +5,7 @@ using System.Text;
 using FluentNHibernate.Mapping;
 using NHibernate;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Database.NHibernate
 {
 	public class SitePreferencesEntityMap : ClassMap<SitePreferencesEntity>
 	{

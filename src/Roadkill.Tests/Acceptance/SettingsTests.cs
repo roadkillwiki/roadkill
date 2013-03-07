@@ -6,6 +6,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using Roadkill.Core;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Tests.Acceptance
 {

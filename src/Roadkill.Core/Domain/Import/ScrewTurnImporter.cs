@@ -8,6 +8,7 @@ using System.IO;
 using System.Web;
 using StructureMap;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Core
 {

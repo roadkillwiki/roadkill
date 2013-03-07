@@ -6,7 +6,7 @@ using FluentNHibernate.Mapping;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Database.NHibernate
 {
 	/// <summary>
 	/// Configures the Fluent NHibernate mapping for a <see cref="PageContent"/>

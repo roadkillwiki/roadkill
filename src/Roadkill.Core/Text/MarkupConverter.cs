@@ -11,6 +11,7 @@ using StructureMap;
 using System.IO;
 using Roadkill.Core.Files;
 using Roadkill.Core.Text.Sanitizer;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Core.Converters
 {

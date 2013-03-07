@@ -12,7 +12,8 @@ Firstly for the version being released: commit to Hg, *and then use hg tag v1.x.
 	- /TextFiles/upgradeXXX.txt (if required)
 5) Remove the comments at the top from the web.config, and the "To log NHibernate SQL:" section
 6) Copy /lib/System.Data.SqlServerCe.dll to the publish /bin folder (publish leaves it out for some reason)
-7) Copy /lib/Microsoft.Web.Administration.dll to the publish /bin folder 
+6a) CopySystem.Data.Sqlite.Linq to the publish /bin folder (publish leaves it out for some reason)
+7) Copy /lib/Microsoft.Web.Administration.dll to the publish /bin folder (publish leaves it out for some reason)
 8) Copy /lib/Empty-databases/roadkill.sqlite to the publish /App_Data folder
 9) Copy /lib/Empty-databases/roadkill.sdf to the publish /App_Data folder
 10) Copy /lib/Empty-databases/roadkill.mdf to the publish /App_Data folder

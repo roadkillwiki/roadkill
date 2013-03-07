@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NHibernate.Dialect;
+using Roadkill.Core.Database.MongoDB;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Database
 {
 	public class DataStoreType : IEnumerable<DataStoreType>
 	{

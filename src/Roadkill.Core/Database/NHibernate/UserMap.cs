@@ -4,7 +4,7 @@ using FluentNHibernate.Mapping;
 using System.Web.Security;
 using System.Security.Cryptography;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Database.NHibernate
 {
 	/// <summary>
 	/// Configures the Fluent NHibernate mapping for a <see cref="User	"/>
@@ -14,10 +14,10 @@ namespace Roadkill.Core
 		public UserMap()
 		{
 			Table("roadkill_users");
+			Id(x => x.Id);
 			Map(x => x.ActivationKey);
 			Map(x => x.Email).Index("email");
 			Map(x => x.Firstname);
-			Id(x => x.Id);
 			Map(x => x.IsEditor);
 			Map(x => x.IsAdmin);
 			Map(x => x.IsActivated);

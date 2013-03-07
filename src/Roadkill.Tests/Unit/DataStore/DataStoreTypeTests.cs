@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using Roadkill.Core;
+using Roadkill.Core.Database;
+using Roadkill.Core.Database.MongoDB;
 
 namespace Roadkill.Tests.Unit
 {

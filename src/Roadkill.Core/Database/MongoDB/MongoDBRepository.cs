@@ -11,11 +11,11 @@ using MongoDB.Driver.Linq;
 using Roadkill.Core.Configuration;
 using StructureMap.Attributes;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Database.MongoDB
 {
 	public class MongoDBRepository : IRepository
 	{
-		public IConfigurationContainer Configuration { get; set; }
+		private IConfigurationContainer _configuration;
 
 		public IQueryable<Page> Pages
 		{
@@ -44,11 +44,12 @@ namespace Roadkill.Core
 
 		public MongoDBRepository(IConfigurationContainer config)
 		{
+			_configuration = config;
 		}
 
 		private MongoCollection<T> GetCollection<T>()
 		{
-			string connectionString = Configuration.ApplicationSettings.ConnectionString;
+			string connectionString = _configuration.ApplicationSettings.ConnectionString;
 
 			string databaseName = MongoUrl.Create(connectionString).DatabaseName;
 			MongoClient client = new MongoClient(connectionString);

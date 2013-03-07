@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Roadkill.Core.Converters;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Database
 {
 	public interface IUserRepository
 	{

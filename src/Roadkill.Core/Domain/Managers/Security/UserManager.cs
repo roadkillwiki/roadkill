@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Web;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 using StructureMap;
 namespace Roadkill.Core
 {
