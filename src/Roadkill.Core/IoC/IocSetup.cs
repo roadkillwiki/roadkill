@@ -1,43 +1,25 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Web.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Controllers;
 using Roadkill.Core.Converters;
-using Roadkill.Core.Files;
 using StructureMap;
 using StructureMap.Graph;
-using StructureMap.Pipeline;
-using StructureMap.Query;
-using ControllerBase = System.Web.Mvc.ControllerBase;
 
 namespace Roadkill.Core
 {
 	public class IoCSetup
 	{
-		//
-		// The dependency chain is:
-		//
-		// - IConfiguration has no dependencies, and (should) lazy load its two properties on demand
-		// - IRepository relies on IConfigurationContainer 
-		// - RoadkillContext relies on UserManager, which relies on IRepository
-		// - ActiveDirectoryManager relies on IActiveDirectoryService
-		// - The others can rely on everything above.
-		//
-
 		private IConfigurationContainer _config;
 		private IRepository _repository;
 		private IRoadkillContext _context;
-		private bool _useCustomInstances;
-		private bool _hasRunInitialization;
+		private bool _shouldRegisterDefaultInstances;
 
 		public IoCSetup()
 		{
-			_useCustomInstances = false;
+			_shouldRegisterDefaultInstances = true;
 		}
 
 		public IoCSetup(IConfigurationContainer configurationContainer, IRepository repository, IRoadkillContext context)
@@ -57,107 +39,82 @@ namespace Roadkill.Core
 			_config = configurationContainer;
 			_repository = repository;
 			_context = context;
-			_useCustomInstances = true;
+			_shouldRegisterDefaultInstances = false;
 		}
 
 		public void Run()
 		{
-			string pluginPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Plugins");
+			//
+			// The dependency graph is:
+			//
+			// - IConfiguration has no dependencies, and (should) lazy load its two properties on demand
+			// - IRepository relies on IConfigurationContainer 
+			// - RoadkillContext relies on UserManager, which relies on IRepository
+			// - Everything else is registered after these 3 types
+			//
 
 			ObjectFactory.Initialize(x =>
 			{
-				x.Scan(scanner =>
-				{
-					scanner.TheCallingAssembly();
-					scanner.SingleImplementationsOfInterface();
-					scanner.WithDefaultConventions();
+				RegisterInjectedTypes(x);
 
-					// Plugin UserManagers
-					if (Directory.Exists(pluginPath))
-						scanner.AssembliesFromPath(pluginPath);
-
-					// Config, repository, context
-					scanner.AddAllTypesOf<IConfigurationContainer>();
-					scanner.AddAllTypesOf<IRepository>();
-					scanner.AddAllTypesOf<IRoadkillContext>();
-
-					// Managers and services
-					scanner.AddAllTypesOf<ServiceBase>();
-					scanner.AddAllTypesOf<IPageManager>();
-					scanner.AddAllTypesOf<IActiveDirectoryService>();
-					scanner.AddAllTypesOf<UserManager>();
-					
-					// Text parsers
-					scanner.AddAllTypesOf<MarkupConverter>();
-					scanner.AddAllTypesOf<CustomTokenParser>();
-
-					// MVC Related
-					scanner.AddAllTypesOf<Roadkill.Core.Controllers.ControllerBase>();
-					scanner.AddAllTypesOf<UserSummary>();
-					scanner.AddAllTypesOf<SettingsSummary>();
-					scanner.AddAllTypesOf<AttachmentRouteHandler>();
-				});
-
-				// Set the 3 core types to use HTTP/Thread-based lifetimes
-				x.For<IConfigurationContainer>().HybridHttpOrThreadLocalScoped();
-				x.For<IRepository>().HybridHttpOrThreadLocalScoped();
-				x.For<IRoadkillContext>().HybridHttpOrThreadLocalScoped();
-			});
-
-			ObjectFactory.Configure(x =>
-			{
-				if (_useCustomInstances)
-				{
+				if (_shouldRegisterDefaultInstances)
+					RegisterDefaultInstances(x);
+				else
 					RegisterCustomInstances(x);
-				}
-				else
-				{
-					_config = ObjectFactory.GetInstance<IConfigurationContainer>();
-					
-					//
-					// Default repository, or get it from the DataStoreType
-					//
-					x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use<NHibernateRepository>();
 
-					_config.ApplicationSettings.Load();
-					if (_config.ApplicationSettings.DataStoreType.RequiresCustomRepository)
-					{
-						IRepository customRepository = LoadRepositoryFromType(_config.ApplicationSettings.DataStoreType.CustomRepositoryType);
-						x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use(customRepository);
-					}
-				}			
-
-				//
-				// UserManager : Windows authentication, custom or the default
-				//
-				string userManagerTypeName = _config.ApplicationSettings.UserManagerType;
-
-				if (_config.ApplicationSettings.UseWindowsAuthentication)
-				{
-					x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<ActiveDirectoryUserManager>();
-				}
-				else if (!string.IsNullOrEmpty(userManagerTypeName))
-				{
-					InstanceRef userManagerRef = ObjectFactory.Model.InstancesOf<UserManager>().FirstOrDefault(t => t.ConcreteType.FullName == userManagerTypeName);
-					x.For<UserManager>().HybridHttpOrThreadLocalScoped().TheDefault.Is.OfConcreteType(userManagerRef.ConcreteType);
-				}
-				else
-				{
-					x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<DefaultUserManager>();
-				}
-				
+				RegisterViewModels(x);
+				x.For<IPageManager>().HybridHttpOrThreadLocalScoped().Use<PageManager>();
+				RegisterUserManager(x);
 			});
+
+			// GetInstance only works once the Configure() method completes
+			_repository = ObjectFactory.GetInstance<IRepository>();
+			_context = ObjectFactory.GetInstance<IRoadkillContext>();
+
+			if (_config.ApplicationSettings.DataStoreType.RequiresCustomRepository)
+			{
+				IRepository customRepository = LoadRepositoryFromType(_config.ApplicationSettings.DataStoreType.CustomRepositoryType);
+				ObjectFactory.Configure(x =>
+				{
+					x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use(customRepository);
+				});
+			}
 
 			// Let the repositories perform any startup tasks (I'm looking at you, NHibernate)
-			_repository = ObjectFactory.GetInstance<IRepository>();
 			_repository.Startup(_config.ApplicationSettings.DataStoreType,
 								_config.ApplicationSettings.ConnectionString,
 								_config.ApplicationSettings.CacheEnabled);
-
-			_hasRunInitialization = true;
 		}
 
-		private void RegisterCustomInstances(ConfigurationExpression x)
+		private void RegisterInjectedTypes(IInitializationExpression x)
+		{
+			x.Scan(scanner =>
+			{
+				scanner.AddAllTypesOf<IConfigurationContainer>();
+				scanner.AddAllTypesOf<ControllerBase>();
+				scanner.AddAllTypesOf<ServiceBase>();
+				scanner.AddAllTypesOf<IRoadkillContext>();
+				scanner.AddAllTypesOf<IRepository>();
+				scanner.AddAllTypesOf<MarkupConverter>();
+				scanner.AddAllTypesOf<CustomTokenParser>();
+				scanner.WithDefaultConventions();
+			});
+		}
+
+		private void RegisterDefaultInstances(IInitializationExpression x)
+		{
+			// Config
+			x.For<IConfigurationContainer>().HybridHttpOrThreadLocalScoped().Use<RoadkillSettings>();
+			_config = new RoadkillSettings(); // doesn't have any dependencies to inject, so new'd up is fine.
+
+			// Repository
+			x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use<NHibernateRepository>();
+
+			// Context
+			x.For<IRoadkillContext>().HybridHttpOrThreadLocalScoped().Use<RoadkillContext>();
+		}
+
+		private void RegisterCustomInstances(IInitializationExpression x)
 		{
 			// Config
 			x.For<IConfigurationContainer>().HybridHttpOrThreadLocalScoped().Use(_config);
@@ -167,6 +124,65 @@ namespace Roadkill.Core
 
 			// Context
 			x.For<IRoadkillContext>().HybridHttpOrThreadLocalScoped().Use(_context);
+		}
+
+		private void RegisterViewModels(IInitializationExpression x)
+		{
+			// These models require IConfigurationContainer or IRoadkillContext in their constructors
+			x.For<UserSummary>().Use<UserSummary>();
+			x.For<SettingsSummary>().Use<SettingsSummary>();
+		}
+
+		private void RegisterUserManager(IInitializationExpression x)
+		{
+			string userManagerTypeName = _config.ApplicationSettings.UserManagerType;
+			if (string.IsNullOrEmpty(userManagerTypeName))
+			{
+				if (_config.ApplicationSettings.UseWindowsAuthentication)
+				{
+					x.For<IActiveDirectoryService>().HybridHttpOrThreadLocalScoped().Use<DefaultActiveDirectoryService>(); // will the API need this?
+					x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<ActiveDirectoryUserManager>();
+				}
+				else
+				{
+					x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<DefaultUserManager>();
+				}
+			}
+			else
+			{
+				// Load UserManager type from config
+				x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use(LoadUserManagerFromType(userManagerTypeName));
+			}
+		}
+
+		private UserManager LoadUserManagerFromType(string typeName)
+		{
+			Type userManagerType = typeof(UserManager);
+			Type reflectedType = Type.GetType(typeName);
+
+			if (reflectedType.IsSubclassOf(userManagerType))
+			{
+				return (UserManager)reflectedType.Assembly.CreateInstance(reflectedType.FullName);
+			}
+			else
+			{
+				throw new SecurityException(null, "The type {0} specified in the userManagerType web.config setting is not an instance of a UserManager class", typeName);
+			}
+		}
+
+		private static IRepository LoadRepositoryFromType(string typeName)
+		{
+			Type userManagerType = typeof(IRepository);
+			Type reflectedType = Type.GetType(typeName);
+
+			if (reflectedType.IsSubclassOf(userManagerType))
+			{
+				return (IRepository)reflectedType.Assembly.CreateInstance(reflectedType.FullName);
+			}
+			else
+			{
+				throw new SecurityException(null, "The type {0} specified in the repositoryType web.config setting is not an instance of a IRepository.", typeName);
+			}
 		}
 
 		public static IRepository ChangeRepository(DataStoreType dataStoreType, string connectionString, bool enableCache)
@@ -190,44 +206,6 @@ namespace Roadkill.Core
 			IRepository repository = ObjectFactory.GetInstance<IRepository>();
 			repository.Startup(dataStoreType, connectionString, enableCache);
 			return repository;
-		}
-
-		private static IRepository LoadRepositoryFromType(string typeName)
-		{
-			Type repositoryType = typeof(IRepository);
-			Type reflectedType = Type.GetType(typeName);
-
-			if (repositoryType.IsAssignableFrom(reflectedType))
-			{
-				return (IRepository) ObjectFactory.GetInstance(reflectedType);
-			}
-			else
-			{
-				throw new IoCException(null, "The type {0} specified in the repositoryType web.config setting is not an instance of a IRepository.", typeName);
-			}
-		}
-
-		public void RegisterMvcFactoriesAndRouteHandlers()
-		{
-			if (_hasRunInitialization)
-			{
-				// Some view models are new'd up by a custom object factory so dependencies are injected into them
-				if (!ModelBinders.Binders.ContainsKey(typeof(UserSummary)))
-					ModelBinders.Binders.Add(typeof(UserSummary), new UserSummaryModelBinder());
-
-				if (!ModelBinders.Binders.ContainsKey(typeof(SettingsSummary)))
-					ModelBinders.Binders.Add(typeof(SettingsSummary), new SettingsSummaryModelBinder());
-
-				// *All* Roadkill MVC controllers are new'd up by a controller factory so dependencies are injected into them
-				ControllerBuilder.Current.SetControllerFactory(new ControllerFactory());
-
-				// Attachments path
-				AttachmentRouteHandler.Register(_config);
-			}
-			else
-			{
-				throw new IoCException("Please call Run() to perform IoC initialization before performing MVC setup.", null);
-			}
 		}
 
 		/// <summary>
