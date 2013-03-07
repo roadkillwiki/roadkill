@@ -13,6 +13,8 @@ using Lucene.Net.Documents;
 using System.Text.RegularExpressions;
 using Roadkill.Core.Configuration;
 using StructureMap;
+using Roadkill.Core.Database;
+using Roadkill.Core.Database.NHibernate;
 
 namespace Roadkill.Core
 {

@@ -3,6 +3,7 @@ using System.Configuration;
 using System.DirectoryServices;
 using System.IO;
 using System.Web;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Core
 {

@@ -5,6 +5,7 @@ using OpenQA.Selenium;
 using Roadkill.Core;
 using System.Linq;
 using OpenQA.Selenium.Support.UI;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Tests.Acceptance
 {

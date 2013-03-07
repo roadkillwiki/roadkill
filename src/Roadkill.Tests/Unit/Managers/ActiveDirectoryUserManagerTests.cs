@@ -8,6 +8,7 @@ using Moq;
 using System.DirectoryServices.AccountManagement;
 using Moq.Language.Flow;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Tests.Unit
 {

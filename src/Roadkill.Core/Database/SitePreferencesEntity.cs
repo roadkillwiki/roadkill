@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Database
 {
 	/// <summary>
 	/// The SitePreferences XML stored in the database, and the Roadkill version.

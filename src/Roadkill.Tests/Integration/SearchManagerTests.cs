@@ -7,6 +7,7 @@ using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 using Roadkill.Core.Search;
 
 namespace Roadkill.Tests.Integration

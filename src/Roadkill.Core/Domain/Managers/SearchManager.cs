@@ -15,6 +15,7 @@ using Directory = System.IO.Directory;
 using LuceneVersion = Lucene.Net.Util.Version;
 using Lucene.Net.Store;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Core.Search
 {

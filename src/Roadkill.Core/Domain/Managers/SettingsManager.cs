@@ -11,6 +11,7 @@ using System.IO;
 using System.Web;
 using NHibernate;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Core
 {

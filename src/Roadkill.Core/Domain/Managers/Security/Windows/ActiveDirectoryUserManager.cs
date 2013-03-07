@@ -5,6 +5,7 @@ using System.Text;
 using System.DirectoryServices.AccountManagement;
 using System.Web;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Core
 {

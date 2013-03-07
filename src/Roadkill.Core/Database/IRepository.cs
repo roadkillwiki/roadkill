@@ -4,7 +4,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using StructureMap.Attributes;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Database
 {
 	/// <summary>
 	/// Defines a repository for storing and retrieving Roadkill domain objects in a data store.

@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using Roadkill.Core.Search;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Core.Controllers
 {
@@ -234,22 +235,16 @@ namespace Roadkill.Core.Controllers
 			//
 			// Copy the SQLite files over
 			//
-			string sqliteFileSource = Server.MapPath("~/App_Data/SQLiteBinaries/x86/System.Data.SQLite.dll");
-			string sqliteFileDest = Server.MapPath("~/bin/System.Data.SQLite.dll");
-			string sqliteLinqFileSource = Server.MapPath("~/App_Data/SQLiteBinaries/x86/System.Data.SQLite.Linq.dll");
-			string sqliteFileLinqDest = Server.MapPath("~/bin/System.Data.SQLite.Linq.dll");
+			string sqliteInteropFileSource = Server.MapPath("~/App_Data/SQLiteBinaries/x86/SQLite.Interop.dll");
+			string sqliteInteropFileDest = Server.MapPath("~/bin/SQLite.Interop.dll");
 
 			if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
 			{
-				sqliteFileSource = Server.MapPath("~/App_Data/SQLiteBinaries/x64/System.Data.SQLite.dll");
-				sqliteLinqFileSource = Server.MapPath("~/App_Data/SQLiteBinaries/x64/System.Data.SQLite.Linq.dll");
+				sqliteInteropFileSource = Server.MapPath("~/App_Data/SQLiteBinaries/x64/SQLite.Interop.dll");
 			}
 
-			if (!System.IO.File.Exists(sqliteFileDest))
-				System.IO.File.Copy(sqliteFileSource, sqliteFileDest);
-
-			if (!System.IO.File.Exists(sqliteFileLinqDest))
-				System.IO.File.Copy(sqliteLinqFileSource, sqliteFileLinqDest);
+			if (!System.IO.File.Exists(sqliteInteropFileDest))
+				System.IO.File.Copy(sqliteInteropFileSource, sqliteInteropFileDest);
 		}
 	}
 

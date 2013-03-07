@@ -11,6 +11,7 @@ using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Controllers;
 using Roadkill.Core.Converters;
+using Roadkill.Core.Database;
 using Roadkill.Core.Search;
 
 namespace Roadkill.Tests.Unit

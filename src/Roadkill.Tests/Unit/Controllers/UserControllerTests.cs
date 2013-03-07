@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Controllers;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Tests.Unit
 {

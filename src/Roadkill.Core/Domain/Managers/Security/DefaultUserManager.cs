@@ -5,6 +5,8 @@ using System.Web.Security;
 using NHibernate;
 using System.Web;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
+using Roadkill.Core.Database.NHibernate;
 
 namespace Roadkill.Core
 {

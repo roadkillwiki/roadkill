@@ -5,7 +5,7 @@ using System.Text;
 using FluentNHibernate.Mapping;
 using NHibernate;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Database.NHibernate
 {
 	/// <summary>
 	/// Configures the Fluent NHibernate mapping for a <see cref="Page"/>

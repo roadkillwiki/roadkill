@@ -16,7 +16,7 @@ using Roadkill.Core.Configuration;
 using StructureMap;
 using System.Threading;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Database.NHibernate
 {
 	/// <summary>
 	/// A fluent NHibernate-based repository.
@@ -274,7 +274,7 @@ namespace Roadkill.Core
 				// StructureMap does all this magic for us.
 				ObjectFactory.Configure(x =>
 				{
-					x.For<NHibernate.Cfg.Configuration>().Singleton().Use(config);
+					x.For<NHibernateConfig>().Singleton().Use(config);
 					x.For<ISessionFactory>().Singleton().Use(sessionFactory);
 					x.For<ISession>().HybridHttpOrThreadLocalScoped().Use(ctx => ctx.GetInstance<ISessionFactory>().OpenSession());
 				});
@@ -289,9 +289,19 @@ namespace Roadkill.Core
 
 		public void OneTimeSitePreferencesUpgrade()
 		{
-			string tableVersion = Session.CreateSQLQuery("SELECT Version FROM roadkill_siteconfiguration").UniqueResult<string>();
-			if (string.IsNullOrEmpty(tableVersion))
+			string tableVersion = "";
+
+			try
+			{
+				tableVersion = Session.CreateSQLQuery("SELECT Version FROM roadkill_siteconfiguration").UniqueResult<string>();
+				
+				if (string.IsNullOrEmpty(tableVersion))
+					return;
+			}
+			catch (Exception e)
+			{
 				return;
+			}
 
 			Version version = Version.Parse(tableVersion);
 			if (version < ApplicationSettings.Version)

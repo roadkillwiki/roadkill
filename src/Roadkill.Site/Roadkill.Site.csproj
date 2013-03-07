@@ -498,7 +498,6 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(SolutionDir)lib\Microsoft.Web.Administration.dll" "$(TargetDir)" /Y
-xcopy "$(SolutionDir)lib\System.Data.SqlServerCe.dll" "$(TargetDir)" /Y
-xcopy "$(SolutionDir)lib\SQLite\x64\*.*" "$(TargetDir)" /Y</PostBuildEvent>
+xcopy "$(SolutionDir)src\Roadkill.Site\App_Data\SQLiteBinaries\x64\*.*" "$(TargetDir)" /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>
