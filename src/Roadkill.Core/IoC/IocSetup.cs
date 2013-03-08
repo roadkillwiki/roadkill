@@ -9,7 +9,6 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Controllers;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
-using Roadkill.Core.Database.EntityFramework;
 using Roadkill.Core.Database.NHibernate;
 using Roadkill.Core.Files;
 using StructureMap;

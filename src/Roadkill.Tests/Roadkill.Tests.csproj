@@ -219,6 +219,7 @@
     <Compile Include="Acceptance\Setup\AcceptanceTestsSetup.cs" />
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
+    <Compile Include="Integration\SchemaInstallerTests.cs" />
     <Compile Include="Unit\DataStore\DataStoreTypeTests.cs" />
     <Compile Include="Unit\IoCSetupTests.cs" />
     <Compile Include="Unit\Stubs\ConfigurationContainerStub.cs" />
@@ -243,6 +244,9 @@
     <Compile Include="Unit\Text\MarkupConverterTests.cs" />
     <Content Include="chromedriver.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="System.Data.SQLite.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="System.Data.SQLite.Linq.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
