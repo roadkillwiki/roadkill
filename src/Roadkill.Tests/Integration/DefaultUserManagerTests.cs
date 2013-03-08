@@ -5,7 +5,6 @@ using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.NHibernate;
-using Roadkill.Core.Database.EntityFramework;
 
 namespace Roadkill.Tests.Integration
 {
