@@ -21,7 +21,7 @@ namespace Roadkill.Tests.Acceptance
 		protected string LogoutUrl;
 
 		[SetUp]
-		public void BeforeEachTextFixture()
+		public void Setup()
 		{
 			CopyDb();
 			BaseUrl = "http://localhost:9876";

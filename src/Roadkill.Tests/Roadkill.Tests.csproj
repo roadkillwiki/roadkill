@@ -163,6 +163,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Iesi.Collections.3.3.1.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Microsoft.Web.Administration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>..\..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
@@ -187,6 +192,11 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\System.Data.SqlServerCe.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -220,6 +230,8 @@
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
     <Compile Include="Integration\SchemaInstallerTests.cs" />
+    <Compile Include="Smoke\CanaryTests.cs" />
+    <Compile Include="Smoke\DemoSiteTests.cs" />
     <Compile Include="Unit\DataStore\DataStoreTypeTests.cs" />
     <Compile Include="Unit\IoCSetupTests.cs" />
     <Compile Include="Unit\Stubs\ConfigurationContainerStub.cs" />
@@ -274,7 +286,6 @@
     </None>
     <Compile Include="Unit\Text\CreoleParserTests.cs" />
     <Compile Include="Acceptance\LoginTests.cs" />
-    <Compile Include="Acceptance\DemoSiteTests.cs" />
     <Compile Include="Unit\Controllers\Setup\MvcMockHelpers.cs" />
     <Compile Include="Unit\Controllers\UserControllerTests.cs" />
     <Compile Include="Integration\SearchManagerTests.cs" />
