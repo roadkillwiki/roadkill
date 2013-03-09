@@ -289,10 +289,6 @@
     <Content Include="Assets\CSS\jqueryFileTree.css" />
     <Content Include="Assets\Scripts\jqueryFileTree.js" />
     <Content Include="Assets\Scripts\roadkill.edit.js" />
-    <Content Include="App_Data\SQLiteBinaries\x64\System.Data.SQLite.dll" />
-    <Content Include="App_Data\SQLiteBinaries\x64\System.Data.SQLite.Linq.dll" />
-    <Content Include="App_Data\SQLiteBinaries\x86\System.Data.SQLite.dll" />
-    <Content Include="App_Data\SQLiteBinaries\x86\System.Data.SQLite.Linq.dll" />
     <Content Include="mimetypes.config" />
     <None Include="packages.config" />
     <None Include="build-readme.txt" />
@@ -442,6 +438,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Plugins\" />
+    <Folder Include="App_Data\SQLiteBinaries\x64\" />
+    <Folder Include="App_Data\SQLiteBinaries\x86\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
