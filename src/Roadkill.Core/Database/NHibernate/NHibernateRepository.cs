@@ -15,6 +15,9 @@ using Roadkill.Core.Converters;
 using Roadkill.Core.Configuration;
 using StructureMap;
 using System.Threading;
+using System.Data.SqlServerCe;
+using MySql.Data.MySqlClient;
+using System.Data.SQLite;
 
 namespace Roadkill.Core.Database.NHibernate
 {
