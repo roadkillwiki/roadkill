@@ -95,25 +95,16 @@ namespace Roadkill.Tests.Acceptance
 		{
 			string sitePath = GetSitePath();
 
-			string sqliteFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x86/System.Data.SQLite.dll", sitePath);
-			string sqliteFileDest = string.Format("{0}/bin/System.Data.SQLite.dll", sitePath);
-			string sqliteLinqFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x86/System.Data.SQLite.Linq.dll", sitePath);
-			string sqliteFileLinqDest = string.Format("{0}/bin/System.Data.SQLite.Linq.dll", sitePath);
-
-			string sqlCeLinqFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x86/System.Data.SQLite.Linq.dll", sitePath);
-			string sqlCeFileLinqDest = string.Format("{0}/bin/System.Data.SQLite.Linq.dll", sitePath);
+			string sqliteInteropFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x86/SQLite.Interop.dll", sitePath);
+			string sqliteInteropFileDest = string.Format("{0}/bin/SQLite.Interop.dll", sitePath);
 
 			if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
 			{
-				sqliteFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x64/System.Data.SQLite.dll", sitePath);
-				sqliteLinqFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x64/System.Data.SQLite.Linq.dll", sitePath);
+				sqliteInteropFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x64/SQLite.Interop.dll", sitePath);
 			}
 
-			if (!System.IO.File.Exists(sqliteFileDest))
-				System.IO.File.Copy(sqliteFileSource, sqliteFileDest);
-
-			if (!System.IO.File.Exists(sqliteFileLinqDest))
-				System.IO.File.Copy(sqliteLinqFileSource, sqliteFileLinqDest);
+			if (!System.IO.File.Exists(sqliteInteropFileDest))
+				System.IO.File.Copy(sqliteInteropFileSource, sqliteInteropFileDest);
 		}
 
 		private void LaunchIisExpress()
