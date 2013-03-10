@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DatabaseSchemaReader.DataSchema;
 using NHibernate.Dialect;
 using Roadkill.Core.Database.MongoDB;
 
@@ -16,16 +17,17 @@ namespace Roadkill.Core.Database
 		public string Description { get; set; }
 		public bool RequiresCustomRepository { get; set; }
 		public string CustomRepositoryType { get; set; }
+		public SqlType? InstallSqlType { get; set; }
 
-		public static readonly DataStoreType DB2 = new DataStoreType("DB2", "A DB2 database using NHibernate.");
-		public static readonly DataStoreType Firebird = new DataStoreType("Firebird", "A Firebird database using NHibernate.");
-		public static readonly DataStoreType MySQL = new DataStoreType("MySQL", "A MySQL database using NHibernate.");
-		public static readonly DataStoreType Postgres = new DataStoreType("Postgres", "A Postgres database using NHibernate.");
-		public static readonly DataStoreType Sqlite = new DataStoreType("Sqlite", "A Sqlite database using NHibernate.");
-		public static readonly DataStoreType SqlServer2005 = new DataStoreType("SqlServer2005", "A SqlServer 2005 (or above) database using NHibernate.");
-		public static readonly DataStoreType SqlServer2008 = new DataStoreType("SqlServer2008", "A SqlServer 2008 database using NHibernate.");
-		public static readonly DataStoreType SqlServerCe = new DataStoreType("SqlServerCe", "A SqlServer Ce database using NHibernate.");
-		public static readonly DataStoreType MongoDB = new DataStoreType("MongoDB", "A MongoDB server, using the official MongoDB driver.", true, typeof(MongoDBRepository).FullName);
+		public static readonly DataStoreType DB2 = new DataStoreType("DB2", "A DB2 database using NHibernate.", SqlType.Db2);
+		public static readonly DataStoreType Firebird = new DataStoreType("Firebird", "A Firebird database using NHibernate.", SqlType.MySql);
+		public static readonly DataStoreType MySQL = new DataStoreType("MySQL", "A MySQL database using NHibernate.", SqlType.MySql);
+		public static readonly DataStoreType Postgres = new DataStoreType("Postgres", "A Postgres database using NHibernate.", SqlType.PostgreSql);
+		public static readonly DataStoreType Sqlite = new DataStoreType("Sqlite", "A Sqlite database using NHibernate.", SqlType.SQLite);
+		public static readonly DataStoreType SqlServer2005 = new DataStoreType("SqlServer2005", "A SqlServer 2005 (or above) database using NHibernate.", SqlType.SqlServer);
+		public static readonly DataStoreType SqlServer2008 = new DataStoreType("SqlServer2008", "A SqlServer 2008 database using NHibernate.", SqlType.SqlServer);
+		public static readonly DataStoreType SqlServerCe = new DataStoreType("SqlServerCe", "A SqlServer Ce database using NHibernate.", SqlType.SqlServer);
+		public static readonly DataStoreType MongoDB = new DataStoreType("MongoDB", "A MongoDB server, using the official MongoDB driver.", true, typeof(MongoDBRepository).FullName, null);
 
 		public static IEnumerable<DataStoreType> AllTypes
 		{
@@ -40,16 +42,18 @@ namespace Roadkill.Core.Database
 			};
 		}
 
-		public DataStoreType(string name, string description) : this(name, description, false, "")
+		public DataStoreType(string name, string description, SqlType? sqlType)
+			: this(name, description, false, "", sqlType)
 		{
 		}
 
-		public DataStoreType(string name, string description, bool requiresCustomRepository, string customRepositoryType)
+		public DataStoreType(string name, string description, bool requiresCustomRepository, string customRepositoryType, SqlType? sqlType)
 		{
 			Name = name;
 			Description = description;
 			RequiresCustomRepository = requiresCustomRepository;
 			CustomRepositoryType = customRepositoryType;
+			InstallSqlType = sqlType;
 		}
 
 		public IEnumerator<DataStoreType> GetEnumerator()
