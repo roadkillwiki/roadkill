@@ -157,12 +157,8 @@
     <Reference Include="AutoMapper">
       <HintPath>..\..\packages\AutoMapper.2.2.1\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="FluentMigrator, Version=1.0.6.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\FluentMigrator.1.0.6.0\lib\40\FluentMigrator.dll</HintPath>
+    <Reference Include="DatabaseSchemaReader">
+      <HintPath>..\..\packages\DatabaseSchemaReader.1.2.7.0\lib\net35\DatabaseSchemaReader.dll</HintPath>
     </Reference>
     <Reference Include="FluentMigrator.Runner, Version=1.0.6.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -286,9 +282,7 @@
     <Compile Include="Database\Entities\DataStoreEntity.cs" />
     <Compile Include="Database\ObjectCache.cs" />
     <Compile Include="Database\Entities\SitePreferencesEntity.cs" />
-    <Compile Include="Database\Schema\SchemaRunner.cs" />
-    <Compile Include="Database\Schema\Version1.cs" />
-    <Compile Include="Database\Schema\Version16.cs" />
+    <Compile Include="Database\SchemaInstaller.cs" />
     <Compile Include="Domain\Managers\IPageManager.cs" />
     <Compile Include="Database\MongoDB\MongoDBRepository.cs" />
     <Compile Include="Database\NHibernate\PageMap.cs" />
