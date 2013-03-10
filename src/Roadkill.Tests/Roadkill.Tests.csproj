@@ -229,7 +229,7 @@
     <Compile Include="Acceptance\Setup\AcceptanceTestsSetup.cs" />
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
-    <Compile Include="Integration\SchemaInstallerTests.cs" />
+    <Compile Include="Integration\SchemaGeneratorTests.cs" />
     <Compile Include="Smoke\CanaryTests.cs" />
     <Compile Include="Smoke\DemoSiteTests.cs" />
     <Compile Include="Unit\DataStore\DataStoreTypeTests.cs" />

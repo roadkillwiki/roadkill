@@ -282,7 +282,7 @@
     <Compile Include="Database\Entities\DataStoreEntity.cs" />
     <Compile Include="Database\ObjectCache.cs" />
     <Compile Include="Database\Entities\SitePreferencesEntity.cs" />
-    <Compile Include="Database\SchemaInstaller.cs" />
+    <Compile Include="Database\SchemaGenerator.cs" />
     <Compile Include="Domain\Managers\IPageManager.cs" />
     <Compile Include="Database\MongoDB\MongoDBRepository.cs" />
     <Compile Include="Database\NHibernate\PageMap.cs" />
