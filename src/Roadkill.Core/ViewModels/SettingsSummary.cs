@@ -50,6 +50,7 @@ namespace Roadkill.Core
 		public bool AllowUserSignup { get; set; }
 
 		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_AttachmentsEmpty")]
+		[RegularExpression(@"^[^/Files].*", ErrorMessage = "'~/Files' is a reserved path, please choose another attachments folder.")]
 		public string AttachmentsFolder { get; set; }
 
 		public bool CacheEnabled { get; set; }
