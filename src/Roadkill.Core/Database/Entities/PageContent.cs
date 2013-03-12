@@ -12,7 +12,7 @@ namespace Roadkill.Core
 	/// <summary>
 	/// Contains versioned text data for a page for use with the NHibernate data store. This object is intended for internal use only.
 	/// </summary>
-	public class PageContent : DataStoreEntity
+	public class PageContent : IDataStoreEntity
 	{
 		public virtual Guid Id { get; set; }
 		public virtual Page Page { get; set; }
@@ -20,7 +20,7 @@ namespace Roadkill.Core
 		public virtual string EditedBy { get; set; }
 		public virtual DateTime EditedOn { get; set; }
 		public virtual int VersionNumber { get; set; }
-		public override Guid ObjectId
+		public Guid ObjectId
 		{
 			get { return Id; }
 			set { Id = value; }

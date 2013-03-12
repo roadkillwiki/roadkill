@@ -59,25 +59,25 @@ namespace Roadkill.Core.Database.MongoDB
 			return database.GetCollection<T>(typeof(T).Name);
 		}
 
-		public void Delete<T>(T obj) where T : DataStoreEntity
+		public void Delete<T>(T obj) where T : IDataStoreEntity
 		{
 			MongoCollection<T> collection = GetCollection<T>();
 			IMongoQuery query = Query.EQ("ObjectId", obj.ObjectId);
 			collection.Remove(query);
 		}
 
-		public void DeleteAll<T>() where T : DataStoreEntity
+		public void DeleteAll<T>() where T : IDataStoreEntity
 		{
 			MongoCollection<T> collection = GetCollection<T>();
 			collection.RemoveAll();
 		}
 
-		public IQueryable<T> Queryable<T>() where T : DataStoreEntity
+		public IQueryable<T> Queryable<T>() where T : IDataStoreEntity
 		{
 			return GetCollection<T>().AsQueryable();
 		}
 
-		public void SaveOrUpdate<T>(T obj) where T : DataStoreEntity
+		public void SaveOrUpdate<T>(T obj) where T : IDataStoreEntity
 		{
 			// Implement autoincrement identity(1,1) for MongoDB, for Page objects
 			Page page = obj as Page;
@@ -289,6 +289,36 @@ namespace Roadkill.Core.Database.MongoDB
 		public void Dispose()
 		{
 			
+		}
+
+		public void DeletePage(Page page)
+		{
+			Delete<Page>(page);
+		}
+
+		public void DeleteUser(User user)
+		{
+			Delete<User>(user);
+		}
+
+		public void DeletePageContent(PageContent pageContent)
+		{
+			Delete<PageContent>(pageContent);
+		}
+
+		public void DeleteAllPages()
+		{
+			DeleteAll<Page>();
+		}
+
+		public void DeleteAllUsers()
+		{
+			DeleteAll<User>();
+		}
+
+		public void DeleteAllPageContent()
+		{
+			DeleteAll<PageContent>();
 		}
 	}
 }

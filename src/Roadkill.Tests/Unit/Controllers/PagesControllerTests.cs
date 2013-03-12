@@ -56,7 +56,7 @@ namespace Roadkill.Tests.Unit
 			_mockRepository.Setup(x => x.GetPageById(It.IsAny<int>())).Returns<int>(x => _pages.FirstOrDefault(p => p.Id == x));
 			_mockRepository.Setup(x => x.GetPageContentByVersionId(It.IsAny<Guid>())).Returns<Guid>(x => _pagesContent.FirstOrDefault(p => p.Id == x));
 			_mockRepository.Setup(x => x.GetLatestPageContent(It.IsAny<int>())).Returns<int>((id) => _pagesContent.FirstOrDefault(p => p.Page.Id == id));
-			_mockRepository.Setup(x => x.Delete<Page>(It.IsAny<Page>())).Callback<Page>(page => _pages.Remove(_pages.First(p => p.Id == page.Id)));
+			_mockRepository.Setup(x => x.DeletePage(It.IsAny<Page>())).Callback<Page>(page => _pages.Remove(_pages.First(p => p.Id == page.Id)));
 			_mockRepository.Setup(x => x.FindPagesContainingTag(It.IsAny<string>())).Returns<string>(x => _pages.Where(p => p.Tags.ToLower().Contains(x.ToLower())));
 			_mockRepository.Setup(x => x.FindPageContentsByPageId(It.IsAny<int>())).Returns<int>(x => _pagesContent.Where(p => p.Page.Id == x));
 

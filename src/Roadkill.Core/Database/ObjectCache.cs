@@ -10,14 +10,14 @@ namespace Roadkill.Core.Database
 	{
 		internal static MemoryCache _entityCache = new MemoryCache("EntityCache");
 
-		public static void Add(DataStoreEntity obj)
+		public static void Add(IDataStoreEntity obj)
 		{
 			_entityCache.Add(obj.ObjectId.ToString(), obj, new CacheItemPolicy());
 		}
 
-		public static DataStoreEntity Get(Guid id)
+		public static IDataStoreEntity Get(Guid id)
 		{
-			return (DataStoreEntity) _entityCache.Get(id.ToString());
+			return (IDataStoreEntity) _entityCache.Get(id.ToString());
 		}
 
 		public static void Remove(Guid id)

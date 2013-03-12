@@ -45,7 +45,7 @@ public class GlobalSetup
 		{
 			if (string.IsNullOrEmpty(_packagesFolder))
 			{
-				_packagesFolder = Path.Combine(ROOT_FOLDER, "packages");
+				_packagesFolder = Path.Combine(ROOT_FOLDER, "Packages");
 			}
 
 			return _packagesFolder;
