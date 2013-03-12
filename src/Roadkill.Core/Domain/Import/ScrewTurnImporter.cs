@@ -67,7 +67,7 @@ namespace Roadkill.Core
 								categories += ";";
 							page.Tags = categories;
 
-							Repository.SaveOrUpdate<Page>(page);
+							Repository.SaveOrUpdatePage(page);
 							AddContent(page);
 						}
 					}
@@ -181,14 +181,13 @@ namespace Roadkill.Core
 						while (reader.Read())
 						{
 							PageContent content = new PageContent();
-							content.EditedBy = reader["User"].ToString();
-							content.EditedOn = (DateTime)reader["LastModified"];
-							content.Text = reader["Content"].ToString();
-							content.Text = CleanContent(content.Text);
-							content.VersionNumber = (int.Parse(reader["Revision"].ToString())) + 1;
-							content.Page = page;
+							string editedBy = reader["User"].ToString();
+							DateTime EditedOn = (DateTime)reader["LastModified"];
+							string text = reader["Content"].ToString();
+							text = CleanContent(content.Text);
+							int versionNumber = (int.Parse(reader["Revision"].ToString())) + 1;
 
-							Repository.SaveOrUpdate<PageContent>(content);
+							Repository.AddNewPageContentVersion(page, text, editedBy, EditedOn, versionNumber);
 							hasContent = true;
 						}
 					}
@@ -196,14 +195,7 @@ namespace Roadkill.Core
 					// For broken content, make sure the page has something
 					if (!hasContent)
 					{
-						PageContent content = new PageContent();
-						content.EditedBy = "unknown";
-						content.EditedOn = DateTime.Now;
-						content.Text = "";
-						content.VersionNumber = 1;
-						content.Page = page;
-
-						Repository.SaveOrUpdate<PageContent>(content);
+						Repository.AddNewPage(page, "", "unknown", DateTime.Now);
 					}
 				}
 			}

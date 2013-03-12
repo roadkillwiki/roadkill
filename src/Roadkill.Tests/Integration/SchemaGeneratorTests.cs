@@ -18,10 +18,10 @@ namespace Roadkill.Tests.Integration
 			// Arrange
 			DataStoreType dataStoreType = DataStoreType.Postgres;
 			string connectionString = @"Data Source=roadkill-integrationtests.sqlite;";
-			SchemaGenerator generator = new SchemaGenerator(dataStoreType, connectionString);
+			//SchemaGenerator generator = new SchemaGenerator(dataStoreType, connectionString);
 
 			// Act
-			Console.Write(generator.Create());
+			//Console.Write(generator.Create());
 
 			// Assert
 		}
@@ -32,10 +32,10 @@ namespace Roadkill.Tests.Integration
 			// Arrange
 			DataStoreType dataStoreType = DataStoreType.Sqlite;
 			string connectionString = @"Data Source=roadkill-integrationtests.sqlite;";
-			SchemaGenerator generator = new SchemaGenerator(dataStoreType, connectionString);
+			//SchemaGenerator generator = new SchemaGenerator(dataStoreType, connectionString);
 
 			// Act
-			Console.Write(generator.Drop());
+			//Console.Write(generator.Drop());
 
 			// Assert
 		}

@@ -107,6 +107,14 @@ namespace Roadkill.Core
 			}
 		}
 
+		public SitePreferences()
+		{
+			Theme = "Mediawiki";
+			MarkupType = "Creole";
+			SiteName = "Your site";
+			SiteUrl = "http://localhost";
+		}
+
 		public string GetXml()
 		{
 			XmlSerializer serializer = new XmlSerializer(typeof(SitePreferences));

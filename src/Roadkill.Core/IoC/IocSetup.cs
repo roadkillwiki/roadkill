@@ -10,7 +10,6 @@ using Roadkill.Core.Controllers;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
-using Roadkill.Core.Database.NHibernate;
 using Roadkill.Core.Files;
 using StructureMap;
 using StructureMap.Graph;
@@ -186,7 +185,7 @@ namespace Roadkill.Core
 			{
 				ObjectFactory.Configure(x =>
 				{
-					x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use<NHibernateRepository>();
+					x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use<LightSpeedRepository>();
 				});
 			}
 
@@ -240,10 +239,10 @@ namespace Roadkill.Core
 		{
 			// Don't try to dispose a repository if the app isn't installed, as it the repository won't be correctly configured.
 			IConfigurationContainer config = ObjectFactory.GetInstance<IConfigurationContainer>();
-			if (config.ApplicationSettings.Installed)
-			{
+			//if (config.ApplicationSettings.Installed)
+			//{
 				ObjectFactory.GetInstance<IRepository>().Dispose();
-			}
+			//}
 		}
 	}
 }

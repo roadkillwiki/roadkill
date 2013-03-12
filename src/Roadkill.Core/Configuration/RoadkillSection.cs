@@ -148,7 +148,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// The repository type used for all datastore queries.
 		/// </summary>
-		[ConfigurationProperty("repositoryType", IsRequired = false, DefaultValue = "Roadkill.Core.NHibernateRepository, Roadkill.Core")]
+		[ConfigurationProperty("repositoryType", IsRequired = false, DefaultValue = "")]
 		public string RepositoryType
 		{
 			get { return (string)this["repositoryType"]; }
