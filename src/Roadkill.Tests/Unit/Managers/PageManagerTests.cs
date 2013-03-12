@@ -53,8 +53,11 @@ namespace Roadkill.Tests.Unit
 			_mockRepository.Setup(x => x.FindPagesContainingTag(It.IsAny<string>())).Returns<string>(x => _pages.Where(p => p.Tags.ToLower().Contains(x.ToLower())));
 			_mockRepository.Setup(x => x.FindPagesByCreatedBy(It.IsAny<string>())).Returns<string>(x => _pages.Where(p => p.CreatedBy == x));
 			_mockRepository.Setup(x => x.AllPages()).Returns(_pages);
+			_mockRepository.Setup(x => x.DeletePage(It.IsAny<Page>())).Callback<Page>(x => _pages.Remove(x));
+			_mockRepository.Setup(x => x.DeletePageContent(It.IsAny<PageContent>())).Callback<PageContent>(x => _pagesContent.Remove(x));
+			_mockRepository.Setup(x => x.DeleteAllPages()).Callback(() => _pages = new List<Page>());
 			_mockRepository.Setup(x => x.AllTags()).Returns(_pages.Select(x => x.Tags));
-			//TODO_mockRepository.Setup(x => x.PageContents).Returns(_pagesContent.AsQueryable());
+			_mockRepository.Setup(x => x.GetLatestPageContent(It.IsAny<int>())).Returns<int>((id) => _pagesContent.FirstOrDefault(p => p.Page.Id == id));
 
 			// Config stub
 			_config = new RoadkillSettings();
@@ -118,8 +121,8 @@ namespace Roadkill.Tests.Unit
 			else
 				pageContent.Text = textContent;
 
-			_mockRepository.Setup(x => x.Delete(pageMock.Object)).Callback(() => _pages.Remove(pageMock.Object));
-			_mockRepository.Setup(x => x.Delete(pageContent)).Callback(() => _pagesContent.Remove(pageContent));
+			_mockRepository.Setup(x => x.DeletePage(pageMock.Object)).Callback(() => _pages.Remove(pageMock.Object));
+			_mockRepository.Setup(x => x.DeletePageContent(pageContent)).Callback(() => _pagesContent.Remove(pageContent));
 			_mockRepository.Setup(x => x.SaveOrUpdate<Page>(It.Is<Page>(p => p.Id == id))).Callback<Page>(p => 
 				{
 					Page page = _pages.Single(item => item.Id == p.Id);

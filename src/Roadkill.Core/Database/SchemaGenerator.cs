@@ -6,6 +6,7 @@ using System.Text;
 using DatabaseSchemaReader;
 using DatabaseSchemaReader.DataSchema;
 using DatabaseSchemaReader.SqlGen;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Database
 {
@@ -20,14 +21,27 @@ namespace Roadkill.Core.Database
 			_connectionString = connectionString;
 		}
 
-		public string Create()
+		public IEnumerable<string> Create()
 		{
 			DatabaseSchema schema = new DatabaseSchema(null, _dataStoreType.InstallSqlType.Value);
 			MapTablesAndColumns(schema);
 
 			DdlGeneratorFactory factory = new DdlGeneratorFactory(_dataStoreType.InstallSqlType.Value);
-			ITablesGenerator generator = factory.AllTablesGenerator(schema);
-			return generator.Write();
+			string[] delimiter = new string[] { ";\r\n" };
+
+			foreach (DatabaseTable table in schema.Tables)
+			{
+				ITableGenerator generator = factory.TableGenerator(table);
+				foreach (string statement in generator.Write().Split(delimiter, StringSplitOptions.RemoveEmptyEntries))
+					yield return statement;
+			}	
+
+			//SqlWriter writer = new SqlWriter(schema.Tables.First(x => x.Name == "roadkill_siteconfiguration"), _dataStoreType.InstallSqlType.Value);
+			string configSql = string.Format("INSERT INTO roadkill_siteconfiguration (Id, Version, Xml) Values('{0}', '{1}', '');",
+								SitePreferences.SitePreferencesId,
+								ApplicationSettings.Version);
+
+			yield return configSql;
 		}
 
 		public void Upgrade()
@@ -35,25 +49,29 @@ namespace Roadkill.Core.Database
 
 		}
 
-		public string Drop()
+		public IEnumerable<string> Drop()
 		{
-			DatabaseReader dbReader = new DatabaseReader(_connectionString, _dataStoreType.InstallSqlType.Value);
-			DatabaseSchema existingSchema = dbReader.ReadAll();
-
 			DatabaseSchema schema = new DatabaseSchema(null, _dataStoreType.InstallSqlType.Value);
 			MapTablesAndColumns(schema);
 
 			DdlGeneratorFactory factory = new DdlGeneratorFactory(_dataStoreType.InstallSqlType.Value);
 			IMigrationGenerator generator = factory.MigrationGenerator();
 
+			yield return "select 'drop table ' || roadkill_pages || ';' from information_schema.tables;";
+			yield return "select 'drop table ' || roadkill_pagecontent || ';' from information_schema.tables;";
+			yield return "select 'drop table ' || roadkill_users || ';' from information_schema.tables;";
+			yield return "select 'drop table ' || roadkill_siteconfiguration || ';' from information_schema.tables;";
+
+			string[] delimiter = new string[] { ";\r\n" };
+
 			StringBuilder sqlBuilder = new StringBuilder();
 			foreach (DatabaseTable table in schema.Tables)
 			{
-				if (existingSchema.FindTableByName(table.Name) != null)
-					sqlBuilder.AppendLine(generator.DropTable(table));
+				foreach (string statement in generator.DropTable(table).Split(delimiter, StringSplitOptions.RemoveEmptyEntries))
+				{
+				//	yield return statement;
+				}
 			}
-
-			return sqlBuilder.ToString();
 		}
 
 		public bool HasSchema()
@@ -65,36 +83,37 @@ namespace Roadkill.Core.Database
 		{
 			schema.AddTable("roadkill_pages")
 					.AddColumn<int>("Id").AddPrimaryKey("pk_roadkill_pages").AddIdentity()
-					.AddColumn<string>("Title").AddNullable()
-					.AddColumn<string>("Tags").AddNullable()
-					.AddColumn<string>("CreatedBy")
+					.AddColumn<string>("Title").AddNullable().AddLength(-1)
+					.AddColumn<string>("Tags").AddNullable().AddLength(500)
+					.AddColumn<string>("CreatedBy").AddLength(200)
 					.AddColumn<DateTime>("CreatedOn")
 					.AddColumn<bool>("IsLocked")
-					.AddColumn<string>("ModifiedBy").AddNullable()
+					.AddColumn<string>("ModifiedBy").AddNullable().AddLength(500)
 					.AddColumn<DateTime>("ModifiedOn").AddNullable()
 				.AddTable("roadkill_pagecontent")
 					.AddColumn<Guid>("Id").AddPrimaryKey("pk_roadkill_pagecontent")
-					.AddColumn<string>("EditedBy")
+					.AddColumn<string>("EditedBy").AddLength(500)
 					.AddColumn<DateTime>("EditedOn")
 					.AddColumn<int>("VersionNumber")
-					.AddColumn<DateTime>("Text").AddNullable()
+					.AddColumn<DateTime>("Text").AddNullable().AddLength(-1)
 					.AddColumn<int>("PageId").AddForeignKey("fk_roadkill_pageid", "roadkill_pages")	
 				.AddTable("roadkill_users")
 					.AddColumn<Guid>("Id").AddPrimaryKey("pk_roadkill_users")
-					.AddColumn<string>("ActivationKey").AddNullable()
-					.AddColumn<string>("Email")
-					.AddColumn<string>("Firstname").AddNullable()
-					.AddColumn<string>("Lastname").AddNullable()
+					.AddColumn<string>("ActivationKey").AddNullable().AddLength(64)
+					.AddColumn<string>("Email").AddLength(500)
+					.AddColumn<string>("Firstname").AddNullable().AddLength(500)
+					.AddColumn<string>("Lastname").AddNullable().AddLength(500)
 					.AddColumn<bool>("IsEditor")
 					.AddColumn<bool>("IsAdmin")
-					.AddColumn<string>("Password")
-					.AddColumn<string>("PasswordResetKey").AddNullable()
-					.AddColumn<string>("Salt")
-					.AddColumn<string>("Username")
+					.AddColumn<bool>("IsActivated")
+					.AddColumn<string>("Password").AddLength(500)
+					.AddColumn<string>("PasswordResetKey").AddNullable().AddLength(64)
+					.AddColumn<string>("Salt").AddLength(500)
+					.AddColumn<string>("Username").AddLength(500)
 				.AddTable("roadkill_siteconfiguration")
 					.AddColumn<Guid>("Id").AddPrimaryKey("pk_roadkill_siteconfiguration")
-					.AddColumn<string>("Version")
-					.AddColumn<string>("Xml");
+					.AddColumn<string>("Version").AddLength(20)
+					.AddColumn<string>("Xml").AddLength(-1);
 		}
 	}
 }

@@ -33,8 +33,8 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				Repository.DeleteAll<PageContent>();
-				Repository.DeleteAll<Page>();
+				Repository.DeleteAllPageContent();
+				Repository.DeleteAllPages();
 			}
 			catch (HibernateException ex)
 			{
@@ -50,7 +50,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				Repository.DeleteAll<User>();
+				Repository.DeleteAllUsers();
 			}
 			catch (HibernateException ex)
 			{

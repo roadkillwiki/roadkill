@@ -213,10 +213,10 @@ namespace Roadkill.Core
 						NHibernateUtil.Initialize(children[i].Page); // force the proxy to hydrate
 					}
 
-					Repository.Delete<PageContent>(children[i]);
+					Repository.DeletePageContent(children[i]);
 				}
 
-				Repository.Delete<Page>(page);
+				Repository.DeleteAllPages();
 			}
 			catch (HibernateException ex)
 			{

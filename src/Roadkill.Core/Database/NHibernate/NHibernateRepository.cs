@@ -1,23 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FluentNHibernate.Cfg.Db;
 using NHibernate.Cache;
-using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 using FluentNHibernate.Cfg;
 using NHibernate;
 using NHibernate.Linq;
-using System.Data;
 using NHibernateConfig = NHibernate.Cfg.Configuration;
-using Roadkill.Core.Converters;
 using Roadkill.Core.Configuration;
 using StructureMap;
-using System.Threading;
-using System.Data.SqlServerCe;
-using MySql.Data.MySqlClient;
-using System.Data.SQLite;
 
 namespace Roadkill.Core.Database.NHibernate
 {
@@ -101,7 +93,7 @@ namespace Roadkill.Core.Database.NHibernate
 		/// </summary>
 		/// <typeparam name="T">The domain type to query against.</typeparam>
 		/// <returns><see cref="IQueryable{T}"/> for LINQ-to-NHibernate LINQ queries.</returns>
-		public virtual IQueryable<T> Queryable<T>() where T : DataStoreEntity
+		public virtual IQueryable<T> Queryable<T>() where T : IDataStoreEntity
 		{
 			IQueryable<T> queryable = Session.Query<T>();
 			queryable = queryable.Cacheable<T>();
@@ -113,7 +105,7 @@ namespace Roadkill.Core.Database.NHibernate
 		/// Deletes the object from the database.
 		/// </summary>
 		/// <param name="obj">The object to delete.</param>
-		public virtual void Delete<T>(T obj) where T : DataStoreEntity
+		public virtual void Delete<T>(T obj) where T : IDataStoreEntity
 		{
 			using (Session.BeginTransaction())
 			{
@@ -125,7 +117,7 @@ namespace Roadkill.Core.Database.NHibernate
 		/// <summary>
 		/// Deletes alls objects from the database.
 		/// </summary>
-		public virtual void DeleteAll<T>() where T : DataStoreEntity
+		public virtual void DeleteAll<T>() where T : IDataStoreEntity
 		{
 			string className = typeof(T).FullName;
 			using (Session.BeginTransaction()) // 2.1 uses transactions by default
@@ -140,7 +132,7 @@ namespace Roadkill.Core.Database.NHibernate
 		/// Inserts or updates the object depending on whether it exists in the database.
 		/// </summary>
 		/// <param name="obj">The object to insert/update.</param>
-		public virtual void SaveOrUpdate<T>(T obj) where T : DataStoreEntity
+		public virtual void SaveOrUpdate<T>(T obj) where T : IDataStoreEntity
 		{
 			using (Session.BeginTransaction())
 			{
@@ -379,12 +371,6 @@ namespace Roadkill.Core.Database.NHibernate
 				DB2Configuration db2 = DB2Configuration.Standard.ConnectionString(connection);
 				Configuration.Database(db2);
 			}
-			else if (dataStoreType == DataStoreType.Firebird)
-			{
-				FirebirdConfiguration fireBird = new FirebirdConfiguration();
-				fireBird.ConnectionString(connection);
-				Configuration.Database(fireBird);
-			}
 			else if (dataStoreType == DataStoreType.MySQL)
 			{
 				MySQLConfiguration mySql = MySQLConfiguration.Standard.ConnectionString(connection);
@@ -554,6 +540,36 @@ namespace Roadkill.Core.Database.NHibernate
 			{
 				Session.Dispose();
 			}
+		}
+
+		public void DeletePage(Page page)
+		{
+			Delete<Page>(page);
+		}
+
+		public void DeleteUser(User user)
+		{
+			Delete<User>(user);
+		}
+
+		public void DeletePageContent(PageContent pageContent)
+		{
+			Delete<PageContent>(pageContent);
+		}
+
+		public void DeleteAllPages()
+		{
+			DeleteAll<Page>();
+		}
+
+		public void DeleteAllUsers()
+		{
+			DeleteAll<User>();
+		}
+
+		public void DeleteAllPageContent()
+		{
+			DeleteAll<PageContent>();
 		}
 	}
 }

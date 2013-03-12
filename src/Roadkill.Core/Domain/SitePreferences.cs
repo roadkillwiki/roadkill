@@ -15,6 +15,8 @@ namespace Roadkill.Core
 	[Serializable]
 	public class SitePreferences
 	{
+		internal static readonly Guid SitePreferencesId = new Guid("b960e8e5-529f-4f7c-aee4-28eb23e13dbd");
+
 		private string _allowedFileTypes;
 
 		/// <summary>
@@ -118,6 +120,9 @@ namespace Roadkill.Core
 
 		public static SitePreferences LoadFromXml(string xml)
 		{
+			if (string.IsNullOrEmpty(xml))
+				return new SitePreferences();
+
 			XmlSerializer serializer = new XmlSerializer(typeof(SitePreferences));
 			
 			using (StringReader reader = new StringReader(xml))

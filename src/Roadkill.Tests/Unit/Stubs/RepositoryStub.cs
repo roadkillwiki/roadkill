@@ -10,23 +10,42 @@ namespace Roadkill.Tests.Unit
 	internal class RepositoryStub : IRepository
 	{
 		#region IRepository Members
-
-		public void Delete<T>(T obj) where T : DataStoreEntity
+		public void DeletePage(Page page)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void DeleteAll<T>() where T : DataStoreEntity
+		public void DeletePageContent(PageContent pageContent)
 		{
 			throw new NotImplementedException();
 		}
 
-		public IQueryable<T> Queryable<T>() where T : DataStoreEntity
+		public void DeleteUser(User user)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void SaveOrUpdate<T>(T obj) where T : DataStoreEntity
+		public void DeleteAllPages()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void DeleteAllPageContent()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void DeleteAllUsers()
+		{
+			throw new NotImplementedException();
+		}
+
+		public IQueryable<T> Queryable<T>() where T : IDataStoreEntity
+		{
+			throw new NotImplementedException();
+		}
+
+		public void SaveOrUpdate<T>(T obj) where T : IDataStoreEntity
 		{
 			throw new NotImplementedException();
 		}

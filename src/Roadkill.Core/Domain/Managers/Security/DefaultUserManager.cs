@@ -216,7 +216,7 @@ namespace Roadkill.Core
 				User user = Repository.GetUserByEmail(email);
 				if (user != null)
 				{
-					Repository.Delete<User>(user);
+					Repository.DeleteUser(user);
 					return true;
 				}
 				else

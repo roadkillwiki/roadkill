@@ -190,6 +190,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Microsoft.Web.Administration.dll</HintPath>
     </Reference>
+    <Reference Include="Mindscape.LightSpeed">
+      <HintPath>..\..\lib\Lightspeed\Mindscape.LightSpeed.dll</HintPath>
+    </Reference>
+    <Reference Include="Mindscape.LightSpeed.Linq">
+      <HintPath>..\..\lib\Lightspeed\Mindscape.LightSpeed.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Mindscape.LightSpeed.MetaData">
+      <HintPath>..\..\lib\Lightspeed\Mindscape.LightSpeed.MetaData.dll</HintPath>
+    </Reference>
+    <Reference Include="Mindscape.LightSpeed.Providers.SqlServerCe4">
+      <HintPath>..\..\lib\LightSpeed\Providers\Mindscape.LightSpeed.Providers.SqlServerCe4.dll</HintPath>
+    </Reference>
     <Reference Include="MongoDB.Bson, Version=1.7.1.4791, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\mongocsharpdriver.1.7.1\lib\net35\MongoDB.Bson.dll</HintPath>
@@ -197,13 +209,6 @@
     <Reference Include="MongoDB.Driver, Version=1.7.1.4791, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\mongocsharpdriver.1.7.1\lib\net35\MongoDB.Driver.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data, Version=6.6.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\MySql.Data.6.6.4\lib\net40\MySql.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data.Entity">
-      <HintPath>..\..\packages\MySQL.Data.Entities.6.5.4.0\lib\net40\MySql.Data.Entity.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -230,7 +235,6 @@
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\System.Data.SqlServerCe.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
@@ -279,7 +283,12 @@
     <Compile Include="Database\IUserRepository.cs" />
     <Compile Include="Database\IPageRepository.cs" />
     <Compile Include="Database\DataStoreType.cs" />
-    <Compile Include="Database\Entities\DataStoreEntity.cs" />
+    <Compile Include="Database\Entities\IDataStoreEntity.cs" />
+    <Compile Include="Database\LightSpeed\LightSpeedRepository.cs" />
+    <Compile Include="Database\LightSpeed\PageEntity.cs" />
+    <Compile Include="Database\LightSpeed\PageContentEntity.cs" />
+    <Compile Include="Database\LightSpeed\SitePreferencesEntity.cs" />
+    <Compile Include="Database\LightSpeed\UserEntity.cs" />
     <Compile Include="Database\ObjectCache.cs" />
     <Compile Include="Database\Entities\SitePreferencesEntity.cs" />
     <Compile Include="Database\SchemaGenerator.cs" />
@@ -413,10 +422,10 @@
     <Content Include="Localization\Text\SiteStrings.cs-CZ.txt" />
     <Content Include="Localization\Text\SiteStrings.pl-PL.txt" />
     <Content Include="Localization\Text\SiteStrings.txt" />
+    <Content Include="x64\SQLite.Interop.dll" />
+    <Content Include="x86\SQLite.Interop.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Database\Lightspeed\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

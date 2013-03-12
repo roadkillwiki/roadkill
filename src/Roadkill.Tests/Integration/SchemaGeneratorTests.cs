@@ -16,7 +16,7 @@ namespace Roadkill.Tests.Integration
 		public void Create()
 		{
 			// Arrange
-			DataStoreType dataStoreType = DataStoreType.Sqlite;
+			DataStoreType dataStoreType = DataStoreType.Postgres;
 			string connectionString = @"Data Source=roadkill-integrationtests.sqlite;";
 			SchemaGenerator generator = new SchemaGenerator(dataStoreType, connectionString);
 

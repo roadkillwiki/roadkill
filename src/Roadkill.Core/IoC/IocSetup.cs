@@ -9,6 +9,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Controllers;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
+using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Database.NHibernate;
 using Roadkill.Core.Files;
 using StructureMap;
@@ -119,7 +120,7 @@ namespace Roadkill.Core
 					//
 					// Default repository, or get it from the DataStoreType
 					//
-					x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use<NHibernateRepository>();
+					x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use<LightSpeedRepository>();
 
 					_config.ApplicationSettings.Load();
 					if (_config.ApplicationSettings.DataStoreType.RequiresCustomRepository)

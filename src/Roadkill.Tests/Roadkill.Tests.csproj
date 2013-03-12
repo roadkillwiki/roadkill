@@ -260,9 +260,6 @@
     <Content Include="System.Data.SQLite.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="System.Data.SQLite.Linq.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Unit\Text\whitelist.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
