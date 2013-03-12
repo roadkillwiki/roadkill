@@ -9,7 +9,17 @@ namespace Roadkill.Tests.Unit
 {
 	internal class RepositoryStub : IRepository
 	{
+		private List<Page> _pages;
+		private List<PageContent> _pagesContent;
+
+		public RepositoryStub()
+		{
+			_pages = new List<Page>();
+			_pagesContent = new List<PageContent>();
+		}
+
 		#region IRepository Members
+
 		public void DeletePage(Page page)
 		{
 			throw new NotImplementedException();
@@ -40,17 +50,27 @@ namespace Roadkill.Tests.Unit
 			throw new NotImplementedException();
 		}
 
-		public IQueryable<T> Queryable<T>() where T : IDataStoreEntity
+		public void SaveOrUpdatePage(Page page)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void SaveOrUpdate<T>(T obj) where T : IDataStoreEntity
+		public PageContent AddNewPage(Page page, string text, string editedBy, DateTime editedOn)
 		{
 			throw new NotImplementedException();
 		}
 
-		public SitePreferences GetSitePreferences()
+		public PageContent AddNewPageContentVersion(Page page, string text, string editedBy, DateTime editedOn, int version)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void UpdatePageContent(PageContent content)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void SaveOrUpdateUser(User user)
 		{
 			throw new NotImplementedException();
 		}
@@ -60,19 +80,24 @@ namespace Roadkill.Tests.Unit
 			throw new NotImplementedException();
 		}
 
+		public SitePreferences GetSitePreferences()
+		{
+			throw new NotImplementedException();
+		}
+
 		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)
 		{
-			
+			throw new NotImplementedException();
 		}
 
 		public void Install(DataStoreType dataStoreType, string connectionString, bool enableCache)
 		{
-			
+			throw new NotImplementedException();
 		}
 
 		public void Test(DataStoreType dataStoreType, string connectionString)
 		{
-			
+			throw new NotImplementedException();
 		}
 
 		#endregion

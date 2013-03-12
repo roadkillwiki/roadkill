@@ -203,6 +203,8 @@ namespace Roadkill.Core.Configuration
 			CacheEnabled = section.CacheEnabled;
 			CacheText = section.CacheText;
 
+			ConnectionStringName = section.ConnectionStringName;
+
 			if (config == null)
 			{
 				ConnectionString = ConfigurationManager.ConnectionStrings[section.ConnectionStringName].ConnectionString;
@@ -212,7 +214,10 @@ namespace Roadkill.Core.Configuration
 				ConnectionString = config.ConnectionStrings.ConnectionStrings[section.ConnectionStringName].ConnectionString;
 			}
 
-			ConnectionStringName = section.ConnectionStringName;		
+			if (string.IsNullOrEmpty(ConnectionString))
+				throw new ArgumentNullException("ConnectionString");
+
+			ConnectionStringName = section.ConnectionStringName;
 
 			DataStoreType = DataStoreType.ByName(section.DataStoreType);
 			if (DataStoreType == null)

@@ -6,7 +6,6 @@ using NHibernate;
 using System.Web;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Database.NHibernate;
 
 namespace Roadkill.Core
 {
@@ -44,7 +43,7 @@ namespace Roadkill.Core
 				if (user != null)
 				{
 					user.IsActivated = true;
-					Repository.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdateUser(user);
 
 					return true;
 				}
@@ -84,7 +83,7 @@ namespace Roadkill.Core
 					user.IsAdmin = isAdmin;
 					user.IsEditor = isEditor;
 					user.IsActivated = true;
-					Repository.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdateUser(user);
 
 					return true;
 				}
@@ -150,7 +149,7 @@ namespace Roadkill.Core
 				{
 					user.Salt = new Salt();
 					user.SetPassword(newPassword);
-					Repository.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdateUser(user);
 				}
 			}
 			catch (HibernateException ex)
@@ -187,7 +186,7 @@ namespace Roadkill.Core
 					user.Salt = new Salt();
 					user.SetPassword(newPassword);
 
-					Repository.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdateUser(user);
 					return true;
 				}
 				else
@@ -383,7 +382,7 @@ namespace Roadkill.Core
 				if (user != null)
 				{
 					user.PasswordResetKey = Guid.NewGuid().ToString();
-					Repository.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdateUser(user);
 
 					return user.PasswordResetKey;
 				}
@@ -425,7 +424,7 @@ namespace Roadkill.Core
 				user.IsEditor = true;
 				user.IsAdmin = false;
 				user.IsActivated = false;
-				Repository.SaveOrUpdate<User>(user);
+				Repository.SaveOrUpdateUser(user);
 
 				if (completed != null)
 					completed();
@@ -451,7 +450,7 @@ namespace Roadkill.Core
 				if (user != null)
 				{
 					user.IsEditor = !user.IsEditor;
-					Repository.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdateUser(user);
 				}
 			}
 			catch (HibernateException ex)
@@ -473,7 +472,7 @@ namespace Roadkill.Core
 				if (user != null)
 				{
 					user.IsAdmin = !user.IsAdmin;
-					Repository.SaveOrUpdate<User>(user);
+					Repository.SaveOrUpdateUser(user);
 				}
 			}
 			catch (HibernateException ex)
@@ -518,7 +517,7 @@ namespace Roadkill.Core
 				// Update the profile details
 				user.Firstname = summary.Firstname;
 				user.Lastname = summary.Lastname;
-				Repository.SaveOrUpdate<User>(user);
+				Repository.SaveOrUpdateUser(user);
 
 				// Save the email
 				if (summary.ExistingEmail != summary.NewEmail)
@@ -527,7 +526,7 @@ namespace Roadkill.Core
 					if (user != null)
 					{
 						user.Email = summary.NewEmail;
-						Repository.SaveOrUpdate<User>(user);
+						Repository.SaveOrUpdateUser(user);
 					}
 					else
 					{
@@ -542,7 +541,7 @@ namespace Roadkill.Core
 					if (user != null)
 					{
 						user.Username = summary.NewUsername;
-						Repository.SaveOrUpdate<User>(user);
+						Repository.SaveOrUpdateUser(user);
 
 						//
 						// Update the PageContent.EditedBy history
@@ -550,13 +549,8 @@ namespace Roadkill.Core
 						IList<PageContent> pageContents = Repository.FindPageContentsEditedBy(summary.ExistingUsername).ToList();
 						for (int i = 0; i < pageContents.Count; i++)
 						{
-							if (Repository is NHibernateRepository)
-							{
-								NHibernateUtil.Initialize(pageContents[i].Page); // force the proxy to hydrate
-							}
-
 							pageContents[i].EditedBy = summary.NewUsername;
-							Repository.SaveOrUpdate<PageContent>(pageContents[i]);
+							Repository.UpdatePageContent(pageContents[i]);
 						}
 
 						//
@@ -566,14 +560,14 @@ namespace Roadkill.Core
 						for (int i = 0; i < pages.Count; i++)
 						{
 							pages[i].CreatedBy = summary.NewUsername;
-							Repository.SaveOrUpdate<Page>(pages[i]);
+							Repository.SaveOrUpdatePage(pages[i]);
 						}
 
 						pages = Repository.FindPagesByModifiedBy(summary.ExistingUsername).ToList();
 						for (int i = 0; i < pages.Count; i++)
 						{
 							pages[i].ModifiedBy = summary.NewUsername;
-							Repository.SaveOrUpdate<Page>(pages[i]);
+							Repository.SaveOrUpdatePage(pages[i]);
 						}
 					}
 					else

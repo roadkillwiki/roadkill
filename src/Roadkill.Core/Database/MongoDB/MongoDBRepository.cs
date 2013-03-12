@@ -320,5 +320,56 @@ namespace Roadkill.Core.Database.MongoDB
 		{
 			DeleteAll<PageContent>();
 		}
+
+		#region IRepository Members
+		public void SaveOrUpdatePage(Page page)
+		{
+			SaveOrUpdate<Page>(page);
+		}
+
+		public PageContent AddNewPage(Page page, string text, string editedBy, DateTime editedOn)
+		{
+			SaveOrUpdate<Page>(page);
+
+			PageContent pageContent = new PageContent()
+			{
+				Id = Guid.NewGuid(),
+				Page = page,
+				Text = text,
+				EditedBy = editedBy,
+				EditedOn = editedOn,
+				VersionNumber = 1,
+			};
+
+			SaveOrUpdate<PageContent>(pageContent);
+			return pageContent;
+		}
+
+		public PageContent AddNewPageContentVersion(Page page, string text, string editedBy, DateTime editedOn, int version)
+		{
+			PageContent pageContent = new PageContent()
+			{
+				Id = Guid.NewGuid(),
+				Page = page,
+				Text = text,
+				EditedBy = editedBy,
+				EditedOn = editedOn,
+				VersionNumber = version,
+			};
+
+			SaveOrUpdate<PageContent>(pageContent);
+			return pageContent;
+		}
+
+		public void SaveOrUpdateUser(User user)
+		{
+			SaveOrUpdate<User>(user);
+		}
+
+		public void UpdatePageContent(PageContent content)
+		{
+			SaveOrUpdate<PageContent>(content);
+		}
+		#endregion
 	}
 }

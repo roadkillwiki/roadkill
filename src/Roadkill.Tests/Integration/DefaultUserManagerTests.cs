@@ -4,7 +4,6 @@ using Roadkill.Core;
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Database.NHibernate;
 using Roadkill.Core.Database.LightSpeed;
 
 namespace Roadkill.Tests.Integration
@@ -31,8 +30,7 @@ namespace Roadkill.Tests.Integration
 			summary.AllowedExtensions = "jpg, gif";
 			summary.MarkupType = "Creole";
 
-			IRepository repository = new NHibernateRepository();
-			repository = new LightSpeedRepository();
+			IRepository repository = new LightSpeedRepository();
 			repository.Startup(DataStoreType.Sqlite, summary.ConnectionString, false);
 			_defaultUserManager = new DefaultUserManager(config, repository);
 

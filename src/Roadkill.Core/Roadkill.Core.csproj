@@ -157,9 +157,6 @@
     <Reference Include="AutoMapper">
       <HintPath>..\..\packages\AutoMapper.2.2.1\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="DatabaseSchemaReader">
-      <HintPath>..\..\packages\DatabaseSchemaReader.1.2.7.0\lib\net35\DatabaseSchemaReader.dll</HintPath>
-    </Reference>
     <Reference Include="FluentMigrator.Runner, Version=1.0.6.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\FluentMigrator.Tools.1.0.6.0\tools\AnyCPU\40\FluentMigrator.Runner.dll</HintPath>
@@ -181,6 +178,9 @@
     <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Lucene.Net, Version=3.0.3.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -210,9 +210,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\mongocsharpdriver.1.7.1\lib\net35\MongoDB.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Security">
+      <HintPath>..\..\lib\LightSpeed\Providers\Mono.Security.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NHibernate.3.3.2.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>..\..\lib\LightSpeed\Providers\Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="Recaptcha, Version=1.0.5.0, Culture=neutral, PublicKeyToken=9afc4d65b28c38c2, processorArchitecture=MSIL">
       <HintPath>..\..\packages\recaptcha.1.0.5.0\lib\.NetFramework 4.0\Recaptcha.dll</HintPath>
@@ -276,7 +282,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\Log.cs" />
+    <Compile Include="Common\Logging\UdpListener.cs" />
+    <Compile Include="Common\Logging\Log.cs" />
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
     <Compile Include="Controllers\RoadkillViewPage.cs" />
@@ -291,13 +298,10 @@
     <Compile Include="Database\LightSpeed\UserEntity.cs" />
     <Compile Include="Database\ObjectCache.cs" />
     <Compile Include="Database\Entities\SitePreferencesEntity.cs" />
-    <Compile Include="Database\SchemaGenerator.cs" />
+    <Compile Include="Database\Schema\Postgres\PostgresSchema.cs" />
+    <Compile Include="Database\Schema\SchemaBase.cs" />
     <Compile Include="Domain\Managers\IPageManager.cs" />
     <Compile Include="Database\MongoDB\MongoDBRepository.cs" />
-    <Compile Include="Database\NHibernate\PageMap.cs" />
-    <Compile Include="Database\NHibernate\PageContentMap.cs" />
-    <Compile Include="Database\NHibernate\SitePreferencesEntityMap.cs" />
-    <Compile Include="Database\NHibernate\UserMap.cs" />
     <Compile Include="Files\MimeMapping.cs" />
     <Compile Include="IoC\IocSetup.cs" />
     <Compile Include="IoC\IInjectionLaunderer.cs" />
@@ -359,7 +363,6 @@
     <Compile Include="Domain\Managers\Security\UserManager.cs" />
     <Compile Include="Domain\Managers\SettingsManager.cs" />
     <Compile Include="Database\Entities\User.cs" />
-    <Compile Include="Database\NHibernate\NHibernateRepository.cs" />
     <Compile Include="Domain\Managers\InstallHelper.cs" />
     <Compile Include="Domain\Managers\ServiceBase.cs" />
     <Compile Include="ViewModels\UserSummary.cs" />
@@ -416,16 +419,21 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Database\Schema\Postgres\Create.sql" />
+    <EmbeddedResource Include="Database\Schema\Postgres\Drop.sql" />
     <Content Include="Localization\Text\InstallStrings.cs-CZ.txt" />
     <Content Include="Localization\Text\InstallStrings.pl-PL.txt" />
     <Content Include="Localization\Text\InstallStrings.txt" />
     <Content Include="Localization\Text\SiteStrings.cs-CZ.txt" />
     <Content Include="Localization\Text\SiteStrings.pl-PL.txt" />
     <Content Include="Localization\Text\SiteStrings.txt" />
-    <Content Include="x64\SQLite.Interop.dll" />
-    <Content Include="x86\SQLite.Interop.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Database\Schema\MySql\" />
+    <Folder Include="Database\Schema\SQLite\" />
+    <Folder Include="Database\Schema\SQLServerCE\" />
+    <Folder Include="Database\Schema\SQLServer\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

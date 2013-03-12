@@ -38,11 +38,21 @@ namespace Roadkill.Core
 					Guid userId;
 					if (Guid.TryParse(CurrentUser, out userId) && userId != Guid.Empty)
 					{
-						// Guids are used for cookie auth
-						return _userManager.GetUserById(userId).Username;
+						// Guids are now used for cookie auth
+						User user = _userManager.GetUserById(userId); // handle old logins by ignoring them
+						if (user != null)
+						{
+							return user.Username;
+						}
+						else
+						{
+							_userManager.Logout();
+							return "(User id no longer exists)";
+						}
 					}
 					else
 					{
+						_userManager.Logout();
 						return CurrentUser;
 					}
 				}
