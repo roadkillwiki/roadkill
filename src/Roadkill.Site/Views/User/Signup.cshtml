@@ -1,0 +1,44 @@
+﻿@model UserSummary
+@{ 
+	ViewBag.Title = SiteStrings.Signup_Title;
+}
+
+<h1>@SiteStrings.Signup_Title</h1>
+<p>@SiteStrings.Signup_Label</p>
+@using (Html.BeginForm())
+{
+	@(Html.HiddenFor<UserSummary, string>(h => h.ExistingEmail))
+	@(Html.HiddenFor<UserSummary, string>(h => h.ExistingUsername))
+	
+	<fieldset id="profile" class="rounded10 lightborder">
+		@Html.ValidationSummary(SiteStrings.Signup_Error_General, new { @class = "alert alert-block alert-error fade in", data_dismiss = "alert" })
+
+		<label for="NewEmail" class="userlabel">@SiteStrings.Shared_Firstname</label>
+		@(Html.TextBoxFor<UserSummary, string>(t => t.Firstname, new { @class = "usertextbox" }))
+		<br class="clear" />
+
+		<label for="NewEmail" class="userlabel">@SiteStrings.Shared_Lastname</label>
+		@(Html.TextBoxFor<UserSummary, string>(t => t.Lastname, new { @class = "usertextbox" }))
+		<br class="clear" />
+
+		<label for="NewEmail" class="userlabel">@SiteStrings.Shared_Email_Label</label>
+		@(Html.TextBoxFor<UserSummary, string>(t => t.NewEmail, new { @class = "usertextbox" }))
+		<br class="clear" />
+
+		<label for="NewUsername" class="userlabel">@SiteStrings.Shared_Username</label>
+		@(Html.TextBoxFor<UserSummary, string>(t => t.NewUsername, new { @class = "usertextbox" }))
+		<br class="clear" />
+
+		<label for="Password" class="userlabel">@SiteStrings.Shared_Password_Label</label>
+		@(Html.PasswordFor<UserSummary, string>(t => t.Password, new { @class = "usertextbox" }))
+		<br class="clear" />
+
+		<label for="PasswordConfirmation" class="userlabel">@SiteStrings.Shared_PasswordConfirm_Label</label>
+		@(Html.PasswordFor<UserSummary, string>(t => t.PasswordConfirmation, new { @class = "usertextbox" }))	
+		<br class="clear" />
+
+		@Html.RenderCaptcha(Configuration)
+	
+		<input type="submit" id="userbutton" class="btn btn-primary" value="@SiteStrings.Signup_Button" style="width:150px"  /><!-- explicit width for IE7 (ie7js doesn't fix it) -->
+	</fieldset>
+}
