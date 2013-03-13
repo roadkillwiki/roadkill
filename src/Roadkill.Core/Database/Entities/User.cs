@@ -10,7 +10,7 @@ namespace Roadkill.Core
 	/// <summary>
 	/// A user object for use with the NHibernate data store. This object is intended for internal use only.
 	/// </summary>
-	public class User : DataStoreEntity
+	public class User : IDataStoreEntity
 	{
 		public virtual Guid Id { get; set; }
 
@@ -41,7 +41,7 @@ namespace Roadkill.Core
 		public virtual string ActivationKey { get; set; }
 		public virtual string PasswordResetKey { get; set; }
 
-		public override Guid ObjectId
+		public Guid ObjectId
 		{
 			get { return Id; }
 			set { Id = value; }

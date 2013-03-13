@@ -9,36 +9,80 @@ namespace Roadkill.Tests.Unit
 {
 	internal class RepositoryStub : IRepository
 	{
+		private List<Page> _pages;
+		private List<PageContent> _pagesContent;
+
+		public RepositoryStub()
+		{
+			_pages = new List<Page>();
+			_pagesContent = new List<PageContent>();
+		}
+
 		#region IRepository Members
 
-		public void Delete<T>(T obj) where T : DataStoreEntity
+		public void DeletePage(Page page)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void DeleteAll<T>() where T : DataStoreEntity
+		public void DeletePageContent(PageContent pageContent)
 		{
 			throw new NotImplementedException();
 		}
 
-		public IQueryable<T> Queryable<T>() where T : DataStoreEntity
+		public void DeleteUser(User user)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void SaveOrUpdate<T>(T obj) where T : DataStoreEntity
+		public void DeleteAllPages()
 		{
 			throw new NotImplementedException();
 		}
 
-		public SitePreferences GetSitePreferences()
+		public void DeleteAllPageContent()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void DeleteAllUsers()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void SaveOrUpdatePage(Page page)
+		{
+			throw new NotImplementedException();
+		}
+
+		public PageContent AddNewPage(Page page, string text, string editedBy, DateTime editedOn)
+		{
+			throw new NotImplementedException();
+		}
+
+		public PageContent AddNewPageContentVersion(Page page, string text, string editedBy, DateTime editedOn, int version)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void UpdatePageContent(PageContent content)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void SaveOrUpdateUser(User user)
 		{
 			throw new NotImplementedException();
 		}
 
 		public void SaveSitePreferences(SitePreferences preferences)
 		{
-			throw new NotImplementedException();
+			
+		}
+
+		public SitePreferences GetSitePreferences()
+		{
+			return new SitePreferences();
 		}
 
 		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)

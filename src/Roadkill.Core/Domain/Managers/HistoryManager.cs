@@ -147,13 +147,11 @@ namespace Roadkill.Core
 				PageContent versionContent = Repository.GetPageContentByVersionId(versionId);
 				Page page = Repository.GetPageById(versionContent.Page.Id);
 
-				PageContent pageContent = new PageContent();
-				pageContent.VersionNumber = MaxVersion(page.Id) + 1;
-				pageContent.Text = versionContent.Text;
-				pageContent.EditedBy = currentUser;
-				pageContent.EditedOn = DateTime.Now;
-				pageContent.Page = page;
-				Repository.SaveOrUpdate<PageContent>(pageContent);
+				int versionNumber = MaxVersion(page.Id) + 1;
+				string text = versionContent.Text;
+				string editedBy = currentUser;
+				DateTime editedOn = DateTime.Now;
+				Repository.AddNewPageContentVersion(page, text, editedBy, editedOn, versionNumber);
 			}
 			catch (ArgumentNullException ex)
 			{

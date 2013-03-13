@@ -9,7 +9,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Controllers;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
-using Roadkill.Core.Database.NHibernate;
+using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Files;
 using StructureMap;
 using StructureMap.Graph;
@@ -119,7 +119,7 @@ namespace Roadkill.Core
 					//
 					// Default repository, or get it from the DataStoreType
 					//
-					x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use<NHibernateRepository>();
+					x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use<LightSpeedRepository>();
 
 					_config.ApplicationSettings.Load();
 					if (_config.ApplicationSettings.DataStoreType.RequiresCustomRepository)
@@ -185,7 +185,7 @@ namespace Roadkill.Core
 			{
 				ObjectFactory.Configure(x =>
 				{
-					x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use<NHibernateRepository>();
+					x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use<LightSpeedRepository>();
 				});
 			}
 
@@ -236,12 +236,19 @@ namespace Roadkill.Core
 		/// This method could be removed and then a refactor into an IUnitOfWork with StructureMap
 		/// </summary>
 		public static void DisposeRepository()
-		{
-			// Don't try to dispose a repository if the app isn't installed, as it the repository won't be correctly configured.
+		{	
 			IConfigurationContainer config = ObjectFactory.GetInstance<IConfigurationContainer>();
+
+			// Don't try to dispose a repository if the app isn't installed, as it the repository won't be correctly configured.
+			// (as no connection string is set, the Startup doesn't complete and the IUnitOfWork isn't registered with StructureMap)
 			if (config.ApplicationSettings.Installed)
 			{
-				ObjectFactory.GetInstance<IRepository>().Dispose();
+				IRepository repository = ObjectFactory.GetInstance<IRepository>();
+
+				if (config.ApplicationSettings.Installed)
+				{
+					ObjectFactory.GetInstance<IRepository>().Dispose();
+				}
 			}
 		}
 	}

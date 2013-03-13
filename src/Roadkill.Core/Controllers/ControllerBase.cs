@@ -26,7 +26,7 @@ namespace Roadkill.Core.Controllers
 
 		protected override void OnException(ExceptionContext filterContext)
 		{
-			Trace.WriteLine(filterContext.Exception, "Exception");
+			Log.Error("{0}\n{1}", filterContext.Exception.Message, filterContext.Exception.ToString());
 			base.OnException(filterContext);
 		}
 
