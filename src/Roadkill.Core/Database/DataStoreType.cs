@@ -18,13 +18,12 @@ namespace Roadkill.Core.Database
 		public DataProvider LightSpeedDbType { get; set; }
 		public SchemaBase Schema { get; set; }
 
-		public static readonly DataStoreType DB2 = new DataStoreType("DB2", "A DB2 database using NHibernate.", DataProvider.DB2, new PostgresSchema());
-		public static readonly DataStoreType MySQL = new DataStoreType("MySQL", "A MySQL database using NHibernate.", DataProvider.MySql5, new PostgresSchema());
-		public static readonly DataStoreType Postgres = new DataStoreType("Postgres", "A Postgres database using NHibernate.", DataProvider.PostgreSql8, new PostgresSchema());
-		public static readonly DataStoreType Sqlite = new DataStoreType("Sqlite", "A Sqlite database using NHibernate.", DataProvider.SQLite3, new PostgresSchema());
-		public static readonly DataStoreType SqlServer2005 = new DataStoreType("SqlServer2005", "A SqlServer 2005 (or above) database using NHibernate.", DataProvider.SqlServer2005, new PostgresSchema());
-		public static readonly DataStoreType SqlServer2008 = new DataStoreType("SqlServer2008", "A SqlServer 2008 database using NHibernate.", DataProvider.SqlServer2008, new PostgresSchema());
-		public static readonly DataStoreType SqlServerCe = new DataStoreType("SqlServerCe", "A SqlServer Ce database using NHibernate.", DataProvider.SqlServerCE4, new PostgresSchema());
+		public static readonly DataStoreType MySQL = new DataStoreType("MySQL", "A MySQL database using store.", DataProvider.MySql5, new PostgresSchema());
+		public static readonly DataStoreType Postgres = new DataStoreType("Postgres", "A Postgres database store.", DataProvider.PostgreSql8, new PostgresSchema());
+		public static readonly DataStoreType Sqlite = new DataStoreType("Sqlite", "A Sqlite database using store.", DataProvider.SQLite3, new SqliteSchema());
+		public static readonly DataStoreType SqlServer2005 = new DataStoreType("SqlServer2005", "A SqlServer 2005 (or above) database using store.", DataProvider.SqlServer2005, new SqlServerSchema());
+		public static readonly DataStoreType SqlServer2008 = new DataStoreType("SqlServer2008", "A SqlServer 2008 database using store.", DataProvider.SqlServer2008, new SqlServerSchema());
+		public static readonly DataStoreType SqlServerCe = new DataStoreType("SqlServerCe", "A SqlServer Ce database using store.", DataProvider.SqlServerCE4, new SqlServerCESchema());
 		public static readonly DataStoreType MongoDB = new DataStoreType("MongoDB", "A MongoDB server, using the official MongoDB driver.", typeof(MongoDBRepository).FullName);
 
 		public static IEnumerable<DataStoreType> AllTypes
@@ -36,7 +35,7 @@ namespace Roadkill.Core.Database
 		{
 			_allTypes = new List<DataStoreType>()
 			{
-				DB2, MongoDB, MySQL, Postgres, Sqlite, SqlServerCe, SqlServer2005, SqlServer2008
+				MongoDB, MySQL, Postgres, Sqlite, SqlServerCe, SqlServer2005, SqlServer2008
 			};
 		}
 
@@ -77,7 +76,15 @@ namespace Roadkill.Core.Database
 
 		public static DataStoreType ByName(string name)
 		{
-			return DataStoreType.AllTypes.FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+			// default to SQL Server
+			if (string.IsNullOrEmpty(name))
+				name = "SqlServer2005";
+
+			DataStoreType dataStoreType = DataStoreType.AllTypes.FirstOrDefault(x => x.Name.ToLower() == name.ToLower());
+			if (dataStoreType == null)
+				throw new DatabaseException("Unable to find a data store provider for " + name, null);
+
+			return dataStoreType;
 		}
 
 		public override string ToString()

@@ -38,6 +38,12 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			get
 			{
+				if (UnitOfWork.Count() > 0)
+				{
+					Log.Information("Items: {0}", UnitOfWork.Count());
+					Log.Information("Items: {0}", UnitOfWork.Query<UserEntity>().Count());
+				}
+
 				return UnitOfWork.Query<UserEntity>();
 			}
 		}
@@ -144,22 +150,23 @@ namespace Roadkill.Core.Database.LightSpeed
 
 		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)
 		{
-			System.Diagnostics.Trace.Listeners.Add(new UdpListener());
-
-			LightSpeedContext context = new LightSpeedContext();
-			context.ConnectionString = connectionString;
-			context.DataProvider = dataStoreType.LightSpeedDbType;
-			context.IdentityMethod = IdentityMethod.GuidComb;
-			context.CascadeDeletes = false;
-			context.VerboseLogging = true;
-			context.Logger = new TraceLogger();
-			context.Cache = new Mindscape.LightSpeed.Caching.CacheBroker(new DefaultCache());
-
-			ObjectFactory.Configure(x =>
+			if (!string.IsNullOrEmpty(connectionString))
 			{
-				x.For<LightSpeedContext>().Singleton().Use(context);
-				x.For<IUnitOfWork>().HybridHttpOrThreadLocalScoped().Use(ctx => ctx.GetInstance<LightSpeedContext>().CreateUnitOfWork());
-			});
+				LightSpeedContext context = new LightSpeedContext();
+				context.ConnectionString = connectionString;
+				context.DataProvider = dataStoreType.LightSpeedDbType;
+				context.IdentityMethod = IdentityMethod.GuidComb;
+				context.CascadeDeletes = false;
+				context.VerboseLogging = true;
+				context.Logger = new TraceLogger();
+				//context.Cache = new Mindscape.LightSpeed.Caching.CacheBroker(new DefaultCache());
+
+				ObjectFactory.Configure(x =>
+				{
+					x.For<LightSpeedContext>().Singleton().Use(context);
+					x.For<IUnitOfWork>().HybridHttpOrThreadLocalScoped().Use(ctx => ctx.GetInstance<LightSpeedContext>().CreateUnitOfWork());
+				});
+			}
 		}
 
 		public void Install(DataStoreType dataStoreType, string connectionString, bool enableCache)
@@ -169,8 +176,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			context.DataProvider = dataStoreType.LightSpeedDbType;
 			context.IdentityMethod = IdentityMethod.GuidComb;
 			context.CascadeDeletes = false;
-			//context.VerboseLogging = true;
-			//context.Logger = new ConsoleLogger();
+			context.Logger = new TraceLogger();
 
 			using (IDbConnection connection = context.DataProviderObjectFactory.CreateConnection())
 			{
@@ -179,9 +185,9 @@ namespace Roadkill.Core.Database.LightSpeed
 
 				IDbCommand command = context.DataProviderObjectFactory.CreateCommand();
 				command.Connection = connection;
-				SchemaBase schema = new PostgresSchema();
-				schema.Drop(command);
-				schema.Create(command);
+
+				dataStoreType.Schema.Drop(command);
+				dataStoreType.Schema.Create(command);
 			}
 		}
 
@@ -367,6 +373,8 @@ namespace Roadkill.Core.Database.LightSpeed
 				entity = Mapper.Map<Page, PageEntity>(page);
 				UnitOfWork.Import<PageEntity>(entity);
 			}
+
+			UnitOfWork.SaveChanges();
 		}
 
 		public PageContent AddNewPage(Page page, string text, string editedBy, DateTime editedOn)
@@ -386,6 +394,8 @@ namespace Roadkill.Core.Database.LightSpeed
 			};
 
 			UnitOfWork.Add(pageContent);
+			UnitOfWork.SaveChanges();
+
 			return Mapper.Map<PageContentEntity, PageContent>(pageContent);
 		}
 
@@ -405,6 +415,7 @@ namespace Roadkill.Core.Database.LightSpeed
 				};
 
 				UnitOfWork.Add(pageContent);
+				UnitOfWork.SaveChanges();
 				return Mapper.Map<PageContentEntity, PageContent>(pageContent);
 			}
 
@@ -425,6 +436,8 @@ namespace Roadkill.Core.Database.LightSpeed
 				entity = Mapper.Map<User, UserEntity>(user);
 				UnitOfWork.Import<UserEntity>(entity);
 			}
+
+			UnitOfWork.SaveChanges();
 		}
 
 		public void UpdatePageContent(PageContent content)
@@ -435,6 +448,8 @@ namespace Roadkill.Core.Database.LightSpeed
 				entity = Mapper.Map<PageContent, PageContentEntity>(content);
 				UnitOfWork.Import<PageContentEntity>(entity);
 			}
+
+			UnitOfWork.SaveChanges();
 		}
 		#endregion
 	}

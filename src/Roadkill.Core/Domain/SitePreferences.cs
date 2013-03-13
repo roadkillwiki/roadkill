@@ -112,7 +112,7 @@ namespace Roadkill.Core
 			Theme = "Mediawiki";
 			MarkupType = "Creole";
 			SiteName = "Your site";
-			SiteUrl = "http://localhost";
+			SiteUrl = "";
 		}
 
 		public string GetXml()

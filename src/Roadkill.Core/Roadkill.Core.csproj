@@ -12,6 +12,10 @@
     <AssemblyName>Roadkill.Core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SccProjectName>&lt;Project Location In Database&gt;</SccProjectName>
+    <SccLocalPath>&lt;Local Binding Root of Project&gt;</SccLocalPath>
+    <SccAuxPath>&lt;Source Control Database&gt;</SccAuxPath>
+    <SccProvider>Mercurial Source Control Package</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -179,9 +183,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="Lucene.Net, Version=3.0.3.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
@@ -282,7 +283,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\Logging\UdpListener.cs" />
+    <Compile Include="Common\Logging\UdpTraceListener.cs" />
     <Compile Include="Common\Logging\Log.cs" />
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
@@ -300,6 +301,9 @@
     <Compile Include="Database\Entities\SitePreferencesEntity.cs" />
     <Compile Include="Database\Schema\Postgres\PostgresSchema.cs" />
     <Compile Include="Database\Schema\SchemaBase.cs" />
+    <Compile Include="Database\Schema\Sqlite\SqliteSchema.cs" />
+    <Compile Include="Database\Schema\SqlServerCE\SqlServerCESchema.cs" />
+    <Compile Include="Database\Schema\SqlServer\SqlServerSchema.cs" />
     <Compile Include="Domain\Managers\IPageManager.cs" />
     <Compile Include="Database\MongoDB\MongoDBRepository.cs" />
     <Compile Include="Files\MimeMapping.cs" />
@@ -421,6 +425,19 @@
   <ItemGroup>
     <EmbeddedResource Include="Database\Schema\Postgres\Create.sql" />
     <EmbeddedResource Include="Database\Schema\Postgres\Drop.sql" />
+    <EmbeddedResource Include="Database\Schema\Sqlite\Create.sql" />
+    <EmbeddedResource Include="Database\Schema\Sqlite\Drop.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServer\Create.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServer\Drop.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create2.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create3.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create4.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create5.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Drop1.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Drop4.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Drop3.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Drop2.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create1.sql" />
     <Content Include="Localization\Text\InstallStrings.cs-CZ.txt" />
     <Content Include="Localization\Text\InstallStrings.pl-PL.txt" />
     <Content Include="Localization\Text\InstallStrings.txt" />
@@ -430,9 +447,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Database\Schema\MySql\" />
-    <Folder Include="Database\Schema\SQLite\" />
-    <Folder Include="Database\Schema\SQLServerCE\" />
-    <Folder Include="Database\Schema\SQLServer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

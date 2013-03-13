@@ -29,9 +29,14 @@ namespace Roadkill.Core.Database.Schema
 		{
 			foreach (string statement in statements)
 			{
-				command.CommandText = statement;
-				command.ExecuteNonQuery();
+				RunStatement(statement, command);
 			}
+		}
+
+		protected virtual void RunStatement(string statement, IDbCommand command)
+		{
+			command.CommandText = statement;
+			command.ExecuteNonQuery();
 		}
 
 		protected string LoadFromResource(string resourcePath)
@@ -48,6 +53,9 @@ namespace Roadkill.Core.Database.Schema
 			{
 				result = reader.ReadToEnd();
 			}
+
+			if (string.IsNullOrEmpty(result))
+				Log.Warn("The embedded SQL file {0} is empty or cannot be found.", resourcePath);
 
 			return result;
 		}

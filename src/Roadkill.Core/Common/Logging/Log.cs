@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using Roadkill.Core.Common;
 
 namespace Roadkill.Core
 {
@@ -11,6 +12,21 @@ namespace Roadkill.Core
 	/// </summary>
 	public class Log
 	{
+		public static void UseConsoleLogging()
+		{
+			Trace.Listeners.Add(new ConsoleTraceListener());
+		}
+
+		public static void UseUdpLogging()
+		{
+			Trace.Listeners.Add(new UdpTraceListener());
+		}
+
+		public static void UseTextFileLogging()
+		{
+			Trace.Listeners.Add(new TextWriterTraceListener(@".\roadkill.log", "roadkill-textfile"));
+		}
+
 		/// <summary>
 		/// Creates an information log message.
 		/// </summary>
