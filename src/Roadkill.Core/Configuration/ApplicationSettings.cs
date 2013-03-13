@@ -215,14 +215,10 @@ namespace Roadkill.Core.Configuration
 			}
 
 			if (string.IsNullOrEmpty(ConnectionString))
-				throw new ArgumentNullException("ConnectionString");
+				Log.Warn("ConnectionString property is null/empty.");
 
 			ConnectionStringName = section.ConnectionStringName;
-
 			DataStoreType = DataStoreType.ByName(section.DataStoreType);
-			if (DataStoreType == null)
-				DataStoreType = DataStoreType.ByName("SqlServer2005"); // default to SQL Server
-
 			EditorRoleName = section.EditorRoleName;
 			IgnoreSearchIndexErrors = section.IgnoreSearchIndexErrors;
 			IsPublicSite = section.IsPublicSite;

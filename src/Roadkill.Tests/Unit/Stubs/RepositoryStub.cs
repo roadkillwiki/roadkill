@@ -77,27 +77,27 @@ namespace Roadkill.Tests.Unit
 
 		public void SaveSitePreferences(SitePreferences preferences)
 		{
-			throw new NotImplementedException();
+			
 		}
 
 		public SitePreferences GetSitePreferences()
 		{
-			throw new NotImplementedException();
+			return new SitePreferences();
 		}
 
 		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)
 		{
-			throw new NotImplementedException();
+			
 		}
 
 		public void Install(DataStoreType dataStoreType, string connectionString, bool enableCache)
 		{
-			throw new NotImplementedException();
+			
 		}
 
 		public void Test(DataStoreType dataStoreType, string connectionString)
 		{
-			throw new NotImplementedException();
+			
 		}
 
 		#endregion

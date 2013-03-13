@@ -236,13 +236,20 @@ namespace Roadkill.Core
 		/// This method could be removed and then a refactor into an IUnitOfWork with StructureMap
 		/// </summary>
 		public static void DisposeRepository()
-		{
-			// Don't try to dispose a repository if the app isn't installed, as it the repository won't be correctly configured.
+		{	
 			IConfigurationContainer config = ObjectFactory.GetInstance<IConfigurationContainer>();
-			//if (config.ApplicationSettings.Installed)
-			//{
-				ObjectFactory.GetInstance<IRepository>().Dispose();
-			//}
+
+			// Don't try to dispose a repository if the app isn't installed, as it the repository won't be correctly configured.
+			// (as no connection string is set, the Startup doesn't complete and the IUnitOfWork isn't registered with StructureMap)
+			if (config.ApplicationSettings.Installed)
+			{
+				IRepository repository = ObjectFactory.GetInstance<IRepository>();
+
+				if (config.ApplicationSettings.Installed)
+				{
+					ObjectFactory.GetInstance<IRepository>().Dispose();
+				}
+			}
 		}
 	}
 }

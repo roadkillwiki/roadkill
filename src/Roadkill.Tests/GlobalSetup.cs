@@ -1,6 +1,7 @@
 using System;
 using NUnit.Framework;
 using System.IO;
+using Roadkill.Core;
 
 // NB no namespace, so this fixture setup is used for every class
 
@@ -58,20 +59,23 @@ public class GlobalSetup
 	[SetUp]
 	public void BeforeAllTests()
 	{
+		Log.UseConsoleLogging();
+
 		//
 		// Copy the SQLite interop file
 		//
 		string binFolder = AppDomain.CurrentDomain.BaseDirectory;
 		string sqlInteropFileSource = Path.Combine(PACKAGES_FOLDER, "System.Data.SQLite.1.0.84.0", "content", "net40", "x86", "SQLite.Interop.dll");
-
 		string sqlInteropFileDest = Path.Combine(binFolder, "SQLite.Interop.dll");
-		string sqliteDbFileDest = Path.Combine(binFolder, "roadkill-integrationtests.sqlite");
 
-		if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
+		if (!File.Exists(sqlInteropFileDest))
 		{
-			sqlInteropFileSource = Path.Combine(PACKAGES_FOLDER, "System.Data.SQLite.1.0.84.0", "content", "net40", "x64", "SQLite.Interop.dll");
-		}
+			if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
+			{
+				sqlInteropFileSource = Path.Combine(PACKAGES_FOLDER, "System.Data.SQLite.1.0.84.0", "content", "net40", "x64", "SQLite.Interop.dll");
+			}
 
-		System.IO.File.Copy(sqlInteropFileSource, sqlInteropFileDest, true);
+			System.IO.File.Copy(sqlInteropFileSource, sqlInteropFileDest, true);
+		}
 	}
 }
