@@ -11,7 +11,7 @@ namespace Roadkill.Core
 	/// <summary>
 	/// A page object for use with the NHibernate data store. This object is intended for internal use only.
 	/// </summary>
-	public class Page : DataStoreEntity
+	public class Page : IDataStoreEntity
 	{
 		private Guid _objectId;
 
@@ -39,7 +39,7 @@ namespace Roadkill.Core
 		/// </summary>
 		public virtual bool IsLocked { get; set; }
 
-		public override Guid ObjectId
+		public Guid ObjectId
 		{
 			get { return _objectId; }
 			set { _objectId = value; }

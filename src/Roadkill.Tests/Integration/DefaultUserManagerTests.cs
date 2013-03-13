@@ -4,7 +4,7 @@ using Roadkill.Core;
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Database.NHibernate;
+using Roadkill.Core.Database.LightSpeed;
 
 namespace Roadkill.Tests.Integration
 {
@@ -20,9 +20,6 @@ namespace Roadkill.Tests.Integration
 		[SetUp]
 		public void Initialize()
 		{
-			IoCSetup iocSetup = new IoCSetup();
-			iocSetup.Run();
-
 			IConfigurationContainer config = new RoadkillSettings();
 			config.ApplicationSettings = new ApplicationSettings();
 			config.ApplicationSettings.Load(null); // from app.config
@@ -33,9 +30,12 @@ namespace Roadkill.Tests.Integration
 			summary.AllowedExtensions = "jpg, gif";
 			summary.MarkupType = "Creole";
 
-			IRepository repository = new NHibernateRepository();
+			IRepository repository = new LightSpeedRepository();
 			repository.Startup(DataStoreType.Sqlite, summary.ConnectionString, false);
 			_defaultUserManager = new DefaultUserManager(config, repository);
+
+			IoCSetup iocSetup = new IoCSetup(config, repository, new RoadkillContext(_defaultUserManager));
+			iocSetup.Run();
 
 			// Use the SettingsManager to install, so the site settings are saved 
 			SettingsManager settingsManager = new SettingsManager(config, repository);

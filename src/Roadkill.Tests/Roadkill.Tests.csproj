@@ -250,7 +250,7 @@
     <Compile Include="Unit\Text\MarkdownTests.cs" />
     <Compile Include="Integration\RoadkillSettingsTests.cs" />
     <Compile Include="GlobalSetup.cs" />
-    <Compile Include="Unit\Managers\PageManagerTests.cs" />
+    <None Include="Unit\Managers\PageManagerTests.cs" />
     <Compile Include="Unit\Managers\ActiveDirectoryUserManagerTests.cs" />
     <Compile Include="Unit\ViewModels\UserSummaryEmailValidationTests.cs" />
     <Compile Include="Unit\Text\MarkupConverterTests.cs" />
@@ -258,9 +258,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="System.Data.SQLite.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="System.Data.SQLite.Linq.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Unit\Text\whitelist.xml">

@@ -14,7 +14,6 @@ using System.Text.RegularExpressions;
 using Roadkill.Core.Configuration;
 using StructureMap;
 using Roadkill.Core.Database;
-using Roadkill.Core.Database.NHibernate;
 
 namespace Roadkill.Core
 {
@@ -58,15 +57,7 @@ namespace Roadkill.Core
 				page.CreatedOn = DateTime.Now;
 				page.ModifiedOn = DateTime.Now;
 				page.ModifiedBy = AppendIpForDemoSite(currentUser);
-				Repository.SaveOrUpdate<Page>(page);
-
-				PageContent pageContent = new PageContent();
-				pageContent.VersionNumber = 1;
-				pageContent.Text = summary.Content;
-				pageContent.EditedBy = AppendIpForDemoSite(currentUser);
-				pageContent.EditedOn = DateTime.Now;
-				pageContent.Page = page;
-				Repository.SaveOrUpdate<PageContent>(pageContent);
+				PageContent pageContent = Repository.AddNewPage(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.Now);
 
 				// Update the lucene index
 				PageSummary savedSummary = pageContent.ToSummary(_markupConverter);
@@ -208,15 +199,10 @@ namespace Roadkill.Core
 				IList<PageContent> children = Repository.FindPageContentsByPageId(pageId).ToList();
 				for (int i = 0; i < children.Count; i++)
 				{
-					if (Repository is NHibernateRepository)
-					{
-						NHibernateUtil.Initialize(children[i].Page); // force the proxy to hydrate
-					}
-
-					Repository.Delete<PageContent>(children[i]);
+					Repository.DeletePageContent(children[i]);
 				}
 
-				Repository.Delete<Page>(page);
+				Repository.DeleteAllPages();
 			}
 			catch (HibernateException ex)
 			{
@@ -344,15 +330,10 @@ namespace Roadkill.Core
 				if (_context.IsAdmin)
 					page.IsLocked = summary.IsLocked;
 
-				Repository.SaveOrUpdate<Page>(page);
+				Repository.SaveOrUpdatePage(page);
 
-				PageContent pageContent = new PageContent();
-				pageContent.VersionNumber = _historyManager.MaxVersion(summary.Id) + 1;
-				pageContent.Text = summary.Content;
-				pageContent.EditedBy = AppendIpForDemoSite(currentUser);
-				pageContent.EditedOn = DateTime.Now;
-				pageContent.Page = page;
-				Repository.SaveOrUpdate<PageContent>(pageContent);
+				int newVersion = _historyManager.MaxVersion(summary.Id) + 1;
+				PageContent pageContent = Repository.AddNewPageContentVersion(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.Now, newVersion); 
 
 				// Update all links to this page (if it has had its title renamed). Case changes don't need any updates.
 				if (summary.PreviousTitle != null && summary.PreviousTitle.ToLower() != summary.Title.ToLower())
@@ -448,14 +429,8 @@ namespace Roadkill.Core
 			{
 				if (_markupConverter.ContainsPageLink(content.Text, oldTitle))
 				{
-					// force the proxy to hydrate, for "Illegally attempted to associate a proxy with two open Sessions" errors
-					if (Repository is NHibernateRepository)
-					{
-						NHibernateUtil.Initialize(content.Page);
-					}
-
 					content.Text = _markupConverter.ReplacePageLinks(content.Text, oldTitle, newTitle);
-					Repository.SaveOrUpdate<PageContent>(content);
+					Repository.UpdatePageContent(content);
 				}
 			}
 		}

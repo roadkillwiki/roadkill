@@ -12,8 +12,8 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Controllers;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
+using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Database.MongoDB;
-using Roadkill.Core.Database.NHibernate;
 using Roadkill.Core.Files;
 using StructureMap;
 
@@ -50,7 +50,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			Assert.That(config, Is.TypeOf<RoadkillSettings>());
-			Assert.That(repository, Is.TypeOf<NHibernateRepository>());
+			Assert.That(repository, Is.TypeOf<LightSpeedRepository>());
 			Assert.That(context, Is.TypeOf<RoadkillContext>());
 			Assert.That(pageManager, Is.TypeOf<PageManager>());			
 			Assert.That(markupConverter, Is.TypeOf<MarkupConverter>());

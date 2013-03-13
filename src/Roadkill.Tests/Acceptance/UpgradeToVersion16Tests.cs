@@ -38,6 +38,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
+		[Ignore("Needs Schema.Upgrade implementations")]
 		public void Version15_Can_Login_As_Admin_And_Settings_Page_Contains_Settings()
 		{
 			// Arrange

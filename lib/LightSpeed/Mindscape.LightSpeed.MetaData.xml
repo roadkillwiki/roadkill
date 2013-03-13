@@ -1,0 +1,360 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Mindscape.LightSpeed.MetaData</name>
+    </assembly>
+    <members>
+        <member name="T:Mindscape.LightSpeed.MetaData.EntityExtensions">
+            <summary>
+            Extension methods which apply to a LightSpeed entity to gain access to the metadata
+            for that entity.
+            </summary>
+        </member>
+        <member name="M:Mindscape.LightSpeed.MetaData.EntityExtensions.EntityInfo(Mindscape.LightSpeed.Entity)">
+            <summary>
+            Get metadata information about a given entity.
+            </summary>
+            <param name="entity">The entity to provide metadata for.</param>
+            <returns>Metadata information</returns>
+        </member>
+        <member name="T:Mindscape.LightSpeed.MetaData.AssociationInfo">
+            <summary>
+            Represents an association declaration in a LightSpeed entity class, independent of any
+            particular entity.
+            </summary>
+            <remarks>
+            LightSpeed associations are bi-directional so ensure you inspect the <see cref="P:Mindscape.LightSpeed.MetaData.AssociationInfo.ReverseAssociation">ReverseAssociationInfo</see>
+            property for details on the association from the position of the other entity in the relationship.
+            </remarks>
+        </member>
+        <member name="T:Mindscape.LightSpeed.MetaData.FieldInfo">
+            <summary>
+            Represents a field declaration in a LightSpeed entity class, independent of any
+            particular entity.
+            </summary>
+        </member>
+        <member name="M:Mindscape.LightSpeed.MetaData.FieldInfo.IsDefined(Mindscape.LightSpeed.Entity)">
+            <summary>
+            Gets whether the field is defined on a specific entity.
+            </summary>
+            <param name="entity">The entity to check.</param>
+            <returns>true if the field is defined in the entity; otherwise false.</returns>
+        </member>
+        <member name="M:Mindscape.LightSpeed.MetaData.FieldInfo.IsDefined(Mindscape.LightSpeed.MetaData.EntityInfo)">
+            <summary>
+            Gets whether the field is defined on a specific entity type.
+            </summary>
+            <param name="entityType">The entity type to check.</param>
+            <returns>true if the field is defined on entities of this type; otherwise false.</returns>
+        </member>
+        <member name="M:Mindscape.LightSpeed.MetaData.FieldInfo.TryGetValue(Mindscape.LightSpeed.Entity,System.Object@)">
+            <summary>
+            Gets the value of the field on a specific entity.
+            </summary>
+            <param name="entity">The entity on which to get the field.</param>
+            <param name="value">Receives the field value, or null if the field is
+            not defined on the entity.</param>
+            <returns>true if the field is defined on the entity; otherwise false.</returns>
+        </member>
+        <member name="M:Mindscape.LightSpeed.MetaData.FieldInfo.TrySetValue(Mindscape.LightSpeed.Entity,System.Object)">
+            <summary>
+            Sets the value of the field on a specific entity.
+            </summary>
+            <param name="entity">The entity on which to set the field.</param>
+            <param name="value">The value to be assigned.</param>
+            <returns>true if the field is defined on the entity and the value has been set; otherwise false.</returns>
+        </member>
+        <member name="M:Mindscape.LightSpeed.MetaData.FieldInfo.GetValue(Mindscape.LightSpeed.Entity)">
+            <summary>
+            Gets the value of the field on a specific entity.
+            </summary>
+            <param name="entity">The entity on which to get the field.</param>
+            <returns>The field value on the entity.  Throws a LightSpeedException if the
+            field is not defined on the entity.</returns>
+            <exception cref="T:Mindscape.LightSpeed.LightSpeedException">Thrown if the field is not defined on the entity</exception>
+        </member>
+        <member name="M:Mindscape.LightSpeed.MetaData.FieldInfo.SetValue(Mindscape.LightSpeed.Entity,System.Object)">
+            <summary>
+            Sets the value of the field on a specific entity.
+            </summary>
+            <param name="entity">The entity on which to set the field.</param>
+            <param name="value">The value to be assigned</param>
+            <exception cref="T:Mindscape.LightSpeed.LightSpeedException">Thrown if the field is not defined on the entity</exception>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.FieldInfo.IsReadOnly">
+            <summary>
+            Indicates if this field is read-only and will not be persisted back to the database.
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.FieldInfo.IsNullable">
+            <summary>
+            Indicates if this field is nullable
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.FieldInfo.IsIdentityField">
+            <summary>
+            Indicates if this field is the identity field
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.FieldInfo.IsManagedField">
+            <summary>
+            Indicates if this is a specially managed field which will have its value managed by LightSpeed.
+            </summary>
+            <remarks>
+            An example of a managed field is the CreatedOn (Track Create Time) field. Managed fields
+            are typically generated as read-only unless running in medium trust mode or when targetting
+            serialization.
+            </remarks>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.FieldInfo.IsTransient">
+            <summary>
+            Indicates if this field is transient and is not managed by LightSpeed.
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.FieldInfo.Field">
+            <summary>
+            Gets the Reflection <see cref="T:System.Reflection.FieldInfo"/> which represents the field.
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.FieldInfo.FieldName">
+            <summary>
+            Specifies the name of the underlying field.
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.FieldInfo.PropertyName">
+            <summary>
+            The name of the property which this field is associated with.
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.FieldInfo.FieldType">
+            <summary>
+            Specifies the type of the field.
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.FieldInfo.HumanName">
+            <summary>
+            The humanized version of the field name.
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.FieldInfo.QueryProperties">
+            <summary>
+            This list of any query properties which have been specified for this field using
+            QueryPropertyAttribute instances.
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.FieldInfo.Validations">
+            <summary>
+            Returns a list of the validations defined on entities of this type.
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.AssociationInfo.AssociationType">
+            <summary>
+            Indicates what type of relationship this is.
+            </summary>
+            <remarks>
+            LightSpeed associations are bi-directional so ensure you inspect the <see cref="P:Mindscape.LightSpeed.MetaData.AssociationInfo.ReverseAssociation">ReverseAssociationInfo</see>
+            property for details on the association from the position of the other entity in the relationship.
+            </remarks>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.AssociationInfo.Cascade">
+            <summary>
+            Indicates if this association will cascade when participating in a cascading
+            delete scenario
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.AssociationInfo.ForeignKeyField">
+            <summary>
+            Returns the field which holds the foreign key for this relationship.
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.AssociationInfo.ReverseAssociation">
+            <summary>
+            Returns the association as held by the entity on the other side of this relationship.
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.AssociationInfo.ParentType">
+            <summary>
+            Gets the type information for the parent entity type (typically the entity type containing
+            the EntityCollection).
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.AssociationInfo.ChildType">
+            <summary>
+            Gets the type information for the parent entity type (the entity type containing
+            the foreign key).
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.AssociationInfo.ChildField">
+            <summary>
+            Gets the field information for the child field (typically an EntityCollection).
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.AssociationInfo.ParentField">
+            <summary>
+            Gets the field information for the parent field (an entity reference).
+            </summary>
+        </member>
+        <member name="T:Mindscape.LightSpeed.MetaData.AssociationType">
+            <summary>
+            Indicates the type of the association.
+            </summary>
+            <remarks>
+            LightSpeed does not indicate the direction of the association, so a child to parent association
+            will be returned as a OneToMany. Similarly Many to Many associations are handled using a Through entity
+            which will have a corresponding OneToMany relations against the two entities using the ThroughAssociation.
+            </remarks>
+        </member>
+        <member name="F:Mindscape.LightSpeed.MetaData.AssociationType.OneToOne">
+            <summary>
+            This is a One to One association between the two entities involved.
+            </summary>
+        </member>
+        <member name="F:Mindscape.LightSpeed.MetaData.AssociationType.OneToMany">
+            <summary>
+            This is a One to Many association between the two entities involved.
+            </summary>
+        </member>
+        <member name="T:Mindscape.LightSpeed.MetaData.EntityInfo">
+            <summary>
+            Provides information about a LightSpeed entity. Information is provided on the fields which
+            are held, <see cref="P:Mindscape.LightSpeed.MetaData.EntityInfo.ValueFields">the fields which have values stored against them</see>,
+            the <see cref="P:Mindscape.LightSpeed.MetaData.EntityInfo.Associations">assocations which this entity has with other entities</see>
+            and the special properties of this entity.
+            </summary>
+        </member>
+        <member name="M:Mindscape.LightSpeed.MetaData.EntityInfo.FromType(System.Type)">
+            <summary>
+            Gets the LightSpeed metadata for an entity type.
+            </summary>
+            <param name="type">The entity type fpr which to get the metadata.</param>
+            <returns>The LightSpeed metadata for the specified type.</returns>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.EntityInfo.CascadeDeletes">
+            <summary>
+            Indicates if this entity will cascade a delete to its children when removed.
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.EntityInfo.IdentityMethod">
+            <summary>
+            Returns the IdentityMethod which this entity uses to assign new identifiers.
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.EntityInfo.IsIndexed">
+            <summary>
+            Indicates if this entity will be indexed by the SearchBroker if present in a UnitOfWork.
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.EntityInfo.IsSoftDelete">
+            <summary>
+            Indicates if this entity will be SoftDeleted rather than physically deleted when removed.
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.EntityInfo.IsTransient">
+            <summary>
+            Indicates if this entity is read-only.
+            </summary>
+            <remarks>
+            A transient entity will not have any changes persisted when calling SaveChanges() from a
+            UnitOfWork and will not participate in any cascade delete operations if related to a non
+            transient entity which is being removed.
+            </remarks>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.EntityInfo.IsVersioned">
+            <summary>
+            Indicates if this entity is versioned for optimistic concurrency.
+            </summary>
+            <remarks>
+            A versioned entity holds a LockVersion value in the database which is checked when the 
+            entity is saved. A mismatch between version numbers will throw an OptimisticConcurrencyException.
+            </remarks>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.EntityInfo.Fields">
+            <summary>
+            Returns a list of the fields defined on entities of this type.
+            </summary>
+            <remarks>
+            A field in LightSpeed refers to all fields held on the entity which includes 
+            value holders, transient fields and all associations
+            </remarks>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.EntityInfo.ValueFields">
+            <summary>
+            Returns a list of the value holder fields defined on entities of this type.
+            </summary>
+            <remarks>
+            A value holder field in LightSpeed is a field which is not transient and not an association
+            and holds a value which is persisted to a database backed column.
+            </remarks>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.EntityInfo.FlattenedFields">
+            <summary>
+            Returns a list of all fields which are held by the inheritance chain that this entity
+            participates in.
+            </summary>
+            <remarks>This differs from the Fields collection in that it includes fields from derived
+            and sibling classes.  Because these fields are not defined on the entity at hand,
+            they cannot necessarily be used to obtain field values.</remarks>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.EntityInfo.FlattenedValueFields">
+            <summary>
+            Returns a list of all value holder fields which are held by the inheritance chain that this entity
+            participates in.
+            </summary>
+            <remarks>This differs from the ValueFields collection in that it includes fields from derived
+            and sibling classes.  Because these fields are not defined on the entity at hand,
+            they cannot necessarily be used to obtain field values.</remarks>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.EntityInfo.Associations">
+            <summary>
+            Returns a list of all associations defined on entities of this type.
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.EntityInfo.FlattenedAssociations">
+            <summary>
+            Returns a list of all associations which are held by the inheritance chain that this entity
+            participates in.
+            </summary>
+            <remarks>This differs from the Associations collection in that it includes associations from derived
+            and sibling classes.  Because these associations are not defined on the entity at hand,
+            they cannot necessarily be used to obtain field values.</remarks>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.EntityInfo.InheritanceHierarchy">
+            <summary>
+            Returns a list of the entity types in this entity type's inheritance hierarchy
+            (base types, derived types and sibling types).
+            </summary>
+            <remarks>This property considers only discriminated inheritance, not concrete
+            table inheritance.</remarks>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.EntityInfo.EntityType">
+            <summary>
+            Gets the <see cref="T:System.Type"/> of the entity represented by this <see cref="T:Mindscape.LightSpeed.MetaData.EntityInfo"/>.
+            </summary>
+        </member>
+        <member name="T:Mindscape.LightSpeed.MetaData.Model.ValidationInfo">
+            <summary>
+            Provides information about a LightSpeed validation rule that has been applied to a field on an entity.
+            The details associated with this are specific to the field on the entity to which it has been applied.
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.Model.ValidationInfo.RuleName">
+            <summary>
+            The name of the validation rule which is applied to this instance
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.Model.ValidationInfo.RuleType">
+            <summary>
+            The underlying type of the validation rule which is applied to this instance
+            </summary>
+        </member>
+        <member name="P:Mindscape.LightSpeed.MetaData.Model.ValidationInfo.Details">
+            <summary>
+            The key/value pairs of the values that have been applied to this validation rule instance
+            </summary>
+            <remarks>
+            The key represents the property name as represented on the validation rule class so these will not exactly
+            correlate with descriptions listed in the LightSpeed Designer
+            </remarks>
+        </member>
+    </members>
+</doc>

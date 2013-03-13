@@ -8,10 +8,8 @@ namespace Roadkill.Core.Database
 	/// <summary>
 	/// The SitePreferences XML stored in the database, and the Roadkill version.
 	/// </summary>
-	public class SitePreferencesEntity : DataStoreEntity
+	public class SitePreferencesEntity : IDataStoreEntity
 	{
-		internal static readonly Guid ConfigurationId = new Guid("b960e8e5-529f-4f7c-aee4-28eb23e13dbd");
-
 		/// <summary>
 		/// The unique ID for the instance (this doesn't change).
 		/// </summary>
@@ -30,7 +28,7 @@ namespace Roadkill.Core.Database
 		/// <summary>
 		/// The same as the ID property.
 		/// </summary>
-		public override Guid ObjectId
+		public Guid ObjectId
 		{
 			get { return Id; }
 			set { Id = value; }
@@ -38,7 +36,7 @@ namespace Roadkill.Core.Database
 
 		public SitePreferencesEntity()
 		{
-			Id = ConfigurationId;
+			Id = SitePreferences.SitePreferencesId;
 		}
 	}
 }
