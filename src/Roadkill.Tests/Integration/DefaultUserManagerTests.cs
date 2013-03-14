@@ -30,18 +30,8 @@ namespace Roadkill.Tests.Integration
 			summary.AllowedExtensions = "jpg, gif";
 			summary.MarkupType = "Creole";
 
-			string connectionstring = "server=localhost;uid=root;pwd=Passw0rd;database=roadkill;";
-			//connectionstring = summary.ConnectionString
-			DataStoreType storeType = DataStoreType.MySQL;
-			summary.ConnectionString = connectionstring;
-			summary.DataStoreType = storeType;
-			config.ApplicationSettings.DataStoreType = storeType;
-			config.ApplicationSettings.ConnectionString = connectionstring;
-
 			IRepository repository = new LightSpeedRepository();
-			repository.Startup(storeType, connectionstring, false);
 			_defaultUserManager = new DefaultUserManager(config, repository);
-
 			IoCSetup iocSetup = new IoCSetup(config, repository, new RoadkillContext(_defaultUserManager));
 			iocSetup.Run();
 

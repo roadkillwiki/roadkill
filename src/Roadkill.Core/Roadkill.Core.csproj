@@ -279,6 +279,7 @@
     <Compile Include="Common\Logging\Log.cs" />
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
+    <Compile Include="Controllers\Attributes\CacheAttribute.cs" />
     <Compile Include="Controllers\RoadkillViewPage.cs" />
     <Compile Include="Database\Repositories\IUserRepository.cs" />
     <Compile Include="Database\Repositories\IPageRepository.cs" />
