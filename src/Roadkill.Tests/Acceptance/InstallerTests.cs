@@ -491,6 +491,135 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
 			LoginAsAdmin();
 		}
+
+		[Test]
+		[Explicit]
+		public void All_Steps_With_Minimum_Required_MySQL_Should_Complete()
+		{
+			// Arrange
+			Driver.Navigate().GoToUrl(BaseUrl);
+
+			//
+			// ***Act***
+			//
+
+			// step 1
+			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
+
+			// step 2
+			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
+			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreType_Name")));
+			select.SelectByValue(DataStoreType.MySQL.Name);
+
+			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"server=localhost;database=roadkill;uid=root;pwd=Passw0rd;");
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 3
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 3b
+			Driver.FindElement(By.Id("AdminEmail")).SendKeys("admin@localhost");
+			Driver.FindElement(By.Id("AdminPassword")).SendKeys("password");
+			Driver.FindElement(By.Id("password2")).SendKeys("password");
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 4
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			//
+			// ***Assert***
+			//
+			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"));
+			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
+			LoginAsAdmin();
+		}
+
+		[Test]
+		[Explicit]
+		public void All_Steps_With_Minimum_Required_Postgres_Should_Complete()
+		{
+			// Arrange
+			Driver.Navigate().GoToUrl(BaseUrl);
+
+			//
+			// ***Act***
+			//
+
+			// step 1
+			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
+
+			// step 2
+			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
+			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreType_Name")));
+			select.SelectByValue(DataStoreType.Postgres.Name);
+
+			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"server=localhost;database=roadkill;uid=postgres;pwd=Passw0rd;");
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 3
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 3b
+			Driver.FindElement(By.Id("AdminEmail")).SendKeys("admin@localhost");
+			Driver.FindElement(By.Id("AdminPassword")).SendKeys("password");
+			Driver.FindElement(By.Id("password2")).SendKeys("password");
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 4
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			//
+			// ***Assert***
+			//
+			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"));
+			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
+			LoginAsAdmin();
+		}
+
+		[Test]
+		[Explicit]
+		public void All_Steps_With_Minimum_Required_SQLServer_Should_Complete()
+		{
+			// Arrange
+			Driver.Navigate().GoToUrl(BaseUrl);
+
+			//
+			// ***Act***
+			//
+
+			// step 1
+			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
+
+			// step 2
+			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
+			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreType_Name")));
+			select.SelectByValue(DataStoreType.SqlServer2008.Name);
+
+			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"server=.\SQLEXPRESS;database=roadkill;uid=sa;pwd=Passw0rd;");
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 3
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 3b
+			Driver.FindElement(By.Id("AdminEmail")).SendKeys("admin@localhost");
+			Driver.FindElement(By.Id("AdminPassword")).SendKeys("password");
+			Driver.FindElement(By.Id("password2")).SendKeys("password");
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 4
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			//
+			// ***Assert***
+			//
+			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"));
+			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
+			LoginAsAdmin();
+		}
 	}
 	
 	public static class WebDriverExtensions

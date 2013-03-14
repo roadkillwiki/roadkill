@@ -143,7 +143,7 @@ namespace Roadkill.Core.Controllers
 
 					// Create the roadkill schema and save the configuration settings
 					_settingsManager.CreateTables(summary);
-					_settingsManager.SaveSiteConfiguration(summary, true);	
+					_settingsManager.SaveSitePreferences(summary, true);	
 
 					// Add a user if we're not using AD.
 					if (!summary.UseWindowsAuth)
@@ -232,6 +232,8 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		private void CopySqliteBinaries()
 		{
+			return;
+
 			//
 			// Copy the SQLite files over
 			//

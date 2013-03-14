@@ -51,7 +51,7 @@ namespace Roadkill.Core.Controllers
 			if (ModelState.IsValid)
 			{
 				_settingsManager.SaveWebConfigSettings(summary);
-				_settingsManager.SaveSiteConfiguration(summary, false);
+				_settingsManager.SaveSitePreferences(summary, false);
 			}
 			return View(summary);
 		}

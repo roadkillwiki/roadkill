@@ -30,8 +30,16 @@ namespace Roadkill.Tests.Integration
 			summary.AllowedExtensions = "jpg, gif";
 			summary.MarkupType = "Creole";
 
+			string connectionstring = "server=localhost;uid=root;pwd=Passw0rd;database=roadkill;";
+			//connectionstring = summary.ConnectionString
+			DataStoreType storeType = DataStoreType.MySQL;
+			summary.ConnectionString = connectionstring;
+			summary.DataStoreType = storeType;
+			config.ApplicationSettings.DataStoreType = storeType;
+			config.ApplicationSettings.ConnectionString = connectionstring;
+
 			IRepository repository = new LightSpeedRepository();
-			repository.Startup(DataStoreType.Sqlite, summary.ConnectionString, false);
+			repository.Startup(storeType, connectionstring, false);
 			_defaultUserManager = new DefaultUserManager(config, repository);
 
 			IoCSetup iocSetup = new IoCSetup(config, repository, new RoadkillContext(_defaultUserManager));
@@ -40,7 +48,7 @@ namespace Roadkill.Tests.Integration
 			// Use the SettingsManager to install, so the site settings are saved 
 			SettingsManager settingsManager = new SettingsManager(config, repository);
 			settingsManager.CreateTables(summary);
-			settingsManager.SaveSiteConfiguration(summary, true);
+			settingsManager.SaveSitePreferences(summary, true);
 		}
 
 		[Test]

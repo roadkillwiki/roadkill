@@ -11,20 +11,20 @@ namespace Roadkill.Core.Database
 	{
 		private static List<DataStoreType> _allTypes;
 
-		public string Name { get; set; }
-		public string Description { get; set; }
-		public bool RequiresCustomRepository { get; set; }
-		public string CustomRepositoryType { get; set; }
-		public DataProvider LightSpeedDbType { get; set; }
-		public SchemaBase Schema { get; set; }
-
-		public static readonly DataStoreType MySQL = new DataStoreType("MySQL", "A MySQL database using store.", DataProvider.MySql5, new PostgresSchema());
+		public static readonly DataStoreType MySQL = new DataStoreType("MySQL", "A MySQL database using store.", DataProvider.MySql5, new MySqlSchema());
 		public static readonly DataStoreType Postgres = new DataStoreType("Postgres", "A Postgres database store.", DataProvider.PostgreSql8, new PostgresSchema());
 		public static readonly DataStoreType Sqlite = new DataStoreType("Sqlite", "A Sqlite database using store.", DataProvider.SQLite3, new SqliteSchema());
 		public static readonly DataStoreType SqlServer2005 = new DataStoreType("SqlServer2005", "A SqlServer 2005 (or above) database using store.", DataProvider.SqlServer2005, new SqlServerSchema());
 		public static readonly DataStoreType SqlServer2008 = new DataStoreType("SqlServer2008", "A SqlServer 2008 database using store.", DataProvider.SqlServer2008, new SqlServerSchema());
 		public static readonly DataStoreType SqlServerCe = new DataStoreType("SqlServerCe", "A SqlServer Ce database using store.", DataProvider.SqlServerCE4, new SqlServerCESchema());
 		public static readonly DataStoreType MongoDB = new DataStoreType("MongoDB", "A MongoDB server, using the official MongoDB driver.", typeof(MongoDBRepository).FullName);
+
+		public string Name { get; set; }
+		public string Description { get; set; }
+		public bool RequiresCustomRepository { get; set; }
+		public string CustomRepositoryType { get; set; }
+		public DataProvider LightSpeedDbType { get; set; }
+		public SchemaBase Schema { get; set; }
 
 		public static IEnumerable<DataStoreType> AllTypes
 		{

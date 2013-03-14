@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Security;
-using NHibernate;
 using System.Web;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
@@ -52,7 +51,7 @@ namespace Roadkill.Core
 					return false;
 				}
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new SecurityException(ex, "An error occurred while activating the user with key {0}", activationKey);
 			}
@@ -92,7 +91,7 @@ namespace Roadkill.Core
 					return false;
 				}
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new SecurityException(ex, "An error occurred while adding the new user {0}", email);
 			}
@@ -125,7 +124,7 @@ namespace Roadkill.Core
 
 				return false;
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new SecurityException(ex, "An error occurred authentication user {0}", email);
 			}
@@ -152,7 +151,7 @@ namespace Roadkill.Core
 					Repository.SaveOrUpdateUser(user);
 				}
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new SecurityException(ex, "An error occurred changing the password for {0}", email);
 			}
@@ -194,7 +193,7 @@ namespace Roadkill.Core
 					return false;
 				}
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new SecurityException(ex, "An error occurred changing the password for {0}", email);
 			}
@@ -223,7 +222,7 @@ namespace Roadkill.Core
 					return false;
 				}
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new SecurityException(ex, "An error occurred deleting the user with the email {0}", email);
 			}
@@ -308,7 +307,7 @@ namespace Roadkill.Core
 					throw new SecurityException("The user's cookie value does not contain a Guid when checking for editor rights.", null);
 				}
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new SecurityException(ex, "An error occurred checking if {0} is an editor", cookieValue);
 			}
@@ -328,7 +327,7 @@ namespace Roadkill.Core
 				var users = Repository.FindAllAdmins().Select(u => u.ToSummary());
 				return users;
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new SecurityException(ex, "An error occurred listing all the admins");
 			}
@@ -348,7 +347,7 @@ namespace Roadkill.Core
 				var users = Repository.FindAllEditors().Select(u => u.ToSummary());
 				return users;
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new SecurityException(ex, "An error occurred listing all the editor");
 			}
@@ -391,7 +390,7 @@ namespace Roadkill.Core
 					return "";
 				}
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new SecurityException(ex, "An error occurred with resetting the password of {0}", email);
 			}
@@ -431,7 +430,7 @@ namespace Roadkill.Core
 
 				return user.ActivationKey;
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new SecurityException(ex, "An error occurred with the signup of {0}", summary.NewEmail);
 			}
@@ -453,7 +452,7 @@ namespace Roadkill.Core
 					Repository.SaveOrUpdateUser(user);
 				}
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new SecurityException(ex, "An error occurred adding the editor {0}", email);
 			}
@@ -475,7 +474,7 @@ namespace Roadkill.Core
 					Repository.SaveOrUpdateUser(user);
 				}
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new SecurityException(ex, "An error occurred adding the admin {0}", email);
 			}
@@ -578,7 +577,7 @@ namespace Roadkill.Core
 
 				return true;
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new SecurityException(ex, "An error occurred updating the user {0} ", summary.ExistingEmail);
 			}
@@ -599,7 +598,7 @@ namespace Roadkill.Core
 				User user = Repository.GetUserByEmail(email);
 				return (user != null);
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new SecurityException(ex, "An error occurred checking if user email {0} exists", email);
 			}
@@ -620,7 +619,7 @@ namespace Roadkill.Core
 				User user = Repository.GetUserByUsername(username);
 				return (user != null);
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new SecurityException(ex, "An error occurred checking if username {0} exists", username);
 			}

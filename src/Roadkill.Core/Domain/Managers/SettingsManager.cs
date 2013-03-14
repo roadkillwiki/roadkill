@@ -9,7 +9,6 @@ using System.Web.Management;
 using System.Data.SqlClient;
 using System.IO;
 using System.Web;
-using NHibernate;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 
@@ -36,7 +35,7 @@ namespace Roadkill.Core
 				Repository.DeleteAllPageContent();
 				Repository.DeleteAllPages();
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An exception occurred while clearing all page tables.");
 			}
@@ -52,7 +51,7 @@ namespace Roadkill.Core
 			{
 				Repository.DeleteAllUsers();
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An exception occurred while clearing the user tables.");
 			}
@@ -69,7 +68,7 @@ namespace Roadkill.Core
 			{
 				Repository.Install(summary.DataStoreType, summary.ConnectionString, summary.CacheEnabled);
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An exception occurred while creating the site schema tables.");
 			}
@@ -81,7 +80,7 @@ namespace Roadkill.Core
 		/// <param name="summary">Summary data containing the settings.</param>
 		/// <param name="isInstalling">If true, a new <see cref="SitePreferences"/> is created, otherwise the current one is updated.</param>
 		/// <exception cref="DatabaseException">An datastore error occurred while saving the configuration.</exception>
-		public void SaveSiteConfiguration(SettingsSummary summary, bool isInstalling)
+		public void SaveSitePreferences(SettingsSummary summary, bool isInstalling)
 		{
 			try
 			{
@@ -98,7 +97,7 @@ namespace Roadkill.Core
 
 				Repository.SaveSitePreferences(config);
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An exception occurred while saving the site configuration.");
 			}

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NHibernate;
 using Lucene.Net.Documents;
 using System.IO;
 using Lucene.Net.Index;

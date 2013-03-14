@@ -6,8 +6,7 @@ using System.Text;
 namespace Roadkill.Core.Configuration
 {
 	/// <summary>
-	/// A marker interface for classes to say "Hey, I'm not using DI right and letting consumers get to
-	/// me by using the IoC service locator directly".
+	/// A marker interface for classes that bypass constructor injection.
 	/// </summary>
 	public interface IInjectionLaunderer
 	{

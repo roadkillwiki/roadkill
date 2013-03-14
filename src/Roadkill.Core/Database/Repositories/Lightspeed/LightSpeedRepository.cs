@@ -38,12 +38,6 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			get
 			{
-				if (UnitOfWork.Count() > 0)
-				{
-					Log.Information("Items: {0}", UnitOfWork.Count());
-					Log.Information("Items: {0}", UnitOfWork.Query<UserEntity>().Count());
-				}
-
 				return UnitOfWork.Query<UserEntity>();
 			}
 		}
@@ -157,8 +151,8 @@ namespace Roadkill.Core.Database.LightSpeed
 				context.DataProvider = dataStoreType.LightSpeedDbType;
 				context.IdentityMethod = IdentityMethod.GuidComb;
 				context.CascadeDeletes = false;
-				context.VerboseLogging = true;
-				context.Logger = new TraceLogger();
+				//context.VerboseLogging = true;
+				//context.Logger = new TraceLogger();
 				//context.Cache = new Mindscape.LightSpeed.Caching.CacheBroker(new DefaultCache());
 
 				ObjectFactory.Configure(x =>
@@ -171,12 +165,7 @@ namespace Roadkill.Core.Database.LightSpeed
 
 		public void Install(DataStoreType dataStoreType, string connectionString, bool enableCache)
 		{
-			LightSpeedContext context = new LightSpeedContext();
-			context.ConnectionString = connectionString;
-			context.DataProvider = dataStoreType.LightSpeedDbType;
-			context.IdentityMethod = IdentityMethod.GuidComb;
-			context.CascadeDeletes = false;
-			context.Logger = new TraceLogger();
+			LightSpeedContext context = ObjectFactory.GetInstance<LightSpeedContext>();
 
 			using (IDbConnection connection = context.DataProviderObjectFactory.CreateConnection())
 			{
@@ -193,13 +182,7 @@ namespace Roadkill.Core.Database.LightSpeed
 
 		public void Test(DataStoreType dataStoreType, string connectionString)
 		{
-			LightSpeedContext context = new LightSpeedContext();
-			context.ConnectionString = connectionString;
-			context.DataProvider = dataStoreType.LightSpeedDbType;
-			context.IdentityMethod = IdentityMethod.GuidComb;
-			context.CascadeDeletes = false;
-			//context.VerboseLogging = true;
-			//context.Logger = new ConsoleLogger();
+			LightSpeedContext context = ObjectFactory.GetInstance<LightSpeedContext>();
 
 			using (IDbConnection connection = context.DataProviderObjectFactory.CreateConnection())
 			{
@@ -357,9 +340,6 @@ namespace Roadkill.Core.Database.LightSpeed
 			UnitOfWork.Dispose();
 		}
 
-		#region IRepository Members
-
-
 		public void SaveOrUpdatePage(Page page)
 		{
 			PageEntity entity = UnitOfWork.FindById<PageEntity>(page.Id);
@@ -451,6 +431,5 @@ namespace Roadkill.Core.Database.LightSpeed
 
 			UnitOfWork.SaveChanges();
 		}
-		#endregion
 	}
 }

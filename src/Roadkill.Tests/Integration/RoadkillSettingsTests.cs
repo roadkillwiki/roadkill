@@ -145,7 +145,7 @@ namespace Roadkill.Tests.Unit
 			SettingsManager settingsManager = new SettingsManager(_config, mockRepository.Object);
 
 			// Act
-			settingsManager.SaveSiteConfiguration(validConfigSettings, true);
+			settingsManager.SaveSitePreferences(validConfigSettings, true);
 
 			// Assert
 			mockRepository.Verify(x => x.SaveSitePreferences(

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NHibernate;
-using NHibernate.Linq;
 using System.Xml.Serialization;
 using System.IO;
 using Roadkill.Core.Search;
@@ -72,7 +70,7 @@ namespace Roadkill.Core
 
 				return savedSummary;
 			}
-			catch (HibernateException e)
+			catch (DatabaseException e)
 			{
 				throw new DatabaseException(e, "An error occurred while adding page '{0}' to the database", summary.Title);
 			}
@@ -103,7 +101,7 @@ namespace Roadkill.Core
 
 				return summaries;
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred while retrieving all pages from the database");
 			}
@@ -125,7 +123,7 @@ namespace Roadkill.Core
 
 				return summaries;
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred while retrieving all pages created by {0} from the database", userName);
 			}
@@ -166,7 +164,7 @@ namespace Roadkill.Core
 
 				return tags;
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred while retrieving all tags from the database");
 			}
@@ -204,7 +202,7 @@ namespace Roadkill.Core
 
 				Repository.DeleteAllPages();
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred while deleting the page id {0} from the database", pageId);
 			}
@@ -231,7 +229,7 @@ namespace Roadkill.Core
 					return builder.ToString();
 				}
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "A database error occurred while exporting the pages to XML");
 			}
@@ -253,7 +251,7 @@ namespace Roadkill.Core
 
 				return summaries;
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred finding the tag '{0}' in the database", tag);
 			}
@@ -279,7 +277,7 @@ namespace Roadkill.Core
 				else
 					return Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred finding the page with title '{0}' in the database", title);
 			}
@@ -302,7 +300,7 @@ namespace Roadkill.Core
 				else
 					return Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred getting the page with id '{0}' from the database", id);
 			}
@@ -344,7 +342,7 @@ namespace Roadkill.Core
 				// Update the lucene index
 				_searchManager.Update(Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter));
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred updating the page with title '{0}' in the database", summary.Title);
 			}
@@ -380,7 +378,7 @@ namespace Roadkill.Core
 					UpdatePage(summary);
 				}
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred while changing the tagname {0} to {1}", oldTagName, newTagName);
 			}

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NHibernate;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
@@ -53,9 +52,9 @@ namespace Roadkill.Core
 			{
 				throw new HistoryException(ex, "An ArgumentNullException occurred getting the history for page id {0}", pageId);
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
-				throw new HistoryException(ex, "A HibernateException occurred getting the history for page id {0}", pageId);
+				throw new HistoryException(ex, "A DatabaseException occurred getting the history for page id {0}", pageId);
 			}
 		}
 
@@ -99,7 +98,7 @@ namespace Roadkill.Core
 			{
 				throw new HistoryException(ex, "An ArgumentNullException occurred comparing the version history for version id {0}", mainVersionId);
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new HistoryException(ex, "A HibernateException occurred comparing the version history for version id {0}", mainVersionId);
 			}
@@ -126,9 +125,9 @@ namespace Roadkill.Core
 			{
 				throw new HistoryException(ex, "An ArgumentNullException occurred when reverting to version number {0} for page id {1}", versionNumber, pageId);
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
-				throw new HistoryException(ex, "A HibernateException occurred when reverting to version number {0} for page id {1}", versionNumber, pageId);
+				throw new HistoryException(ex, "A DatabaseException occurred when reverting to version number {0} for page id {1}", versionNumber, pageId);
 			}
 		}
 
@@ -157,9 +156,9 @@ namespace Roadkill.Core
 			{
 				throw new HistoryException(ex, "An ArgumentNullException occurred when reverting to version ID {0}", versionId);
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
-				throw new HistoryException(ex, "A HibernateException occurred when reverting to version ID {0}", versionId);
+				throw new HistoryException(ex, "A DatabaseException occurred when reverting to version ID {0}", versionId);
 			}
 		}
 
