@@ -113,7 +113,7 @@ namespace Roadkill.Core.Converters
 			CustomTokenParser tokenParser = new CustomTokenParser(_configuration);
 			html = tokenParser.ReplaceTokens(html);
 
-			if (html.IndexOf("{TOC}") > -1)
+			if (html.IndexOf(">{TOC}") > -1)
 			{
 				TocParser parser = new TocParser();
 				html = parser.InsertToc(html);
