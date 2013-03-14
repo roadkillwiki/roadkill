@@ -1,11 +1,10 @@
 ﻿Roadkill .NET Wiki engine
-www.roadkillwiki.org
-Version 1.11
+http://roadkill.codeplex.com
+Version 1.6
 
 Pre-requisites:
 ------------------------
 * .NET Framework 4.0
-* MVC 3 Razor (via the ASP.NET Web Installer: http://go.microsoft.com/fwlink/?LinkId=210269)
 * IIS7+ is preferred, the app has not been tested with IIS6
 
 Installation
@@ -15,5 +14,8 @@ Installation
 2) If using SQL Server: create a database and assign it a login (dbo is best)
 3) Copy the contents of this folder to the IIS directory you previously made.
 4) Point your browser to the URL - the installer will do the rest for you.
+5) If you want to use SQLite for your database, copy either App_Data\SQLiteBinaries\x64\SQLite.Interop.dll
+ or App_Data\SQLiteBinaries\x86\SQLite.Interop.dll to your bin folder, depending which architecture you're running
+Roadkill on.
 
 Please report any bugs, issues or suggestions at http://www.bitbucket.org/mrshrinkray/roadkill/issues
