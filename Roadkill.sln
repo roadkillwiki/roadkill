@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roadkill.Site", "src\Roadkill.Site\Roadkill.Site.csproj", "{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roadkill.Core", "src\Roadkill.Core\Roadkill.Core.csproj", "{9C86C475-F3BD-44D1-942A-78BF19158C3A}"
@@ -21,24 +21,24 @@ Global
 		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Download|Any CPU.ActiveCfg = Download|Any CPU
 		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Download|Any CPU.Build.0 = Download|Any CPU
-		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Plasma|Any CPU.ActiveCfg = Plasma|Any CPU
-		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Plasma|Any CPU.Build.0 = Plasma|Any CPU
+		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Plasma|Any CPU.ActiveCfg = DemoSite|Any CPU
+		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Plasma|Any CPU.Build.0 = DemoSite|Any CPU
 		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Download|Any CPU.ActiveCfg = Download|Any CPU
 		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Download|Any CPU.Build.0 = Download|Any CPU
-		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Plasma|Any CPU.ActiveCfg = Plasma|Any CPU
-		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Plasma|Any CPU.Build.0 = Plasma|Any CPU
+		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Plasma|Any CPU.ActiveCfg = DemoSite|Any CPU
+		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Plasma|Any CPU.Build.0 = DemoSite|Any CPU
 		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Download|Any CPU.ActiveCfg = Download|Any CPU
 		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Download|Any CPU.Build.0 = Download|Any CPU
-		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Plasma|Any CPU.ActiveCfg = Plasma|Any CPU
-		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Plasma|Any CPU.Build.0 = Plasma|Any CPU
+		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Plasma|Any CPU.ActiveCfg = DemoSite|Any CPU
+		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Plasma|Any CPU.Build.0 = DemoSite|Any CPU
 		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using FluentNHibernate.Mapping;
 using System.Web.Security;
 using System.Security.Cryptography;
 using Roadkill.Core.Database;
