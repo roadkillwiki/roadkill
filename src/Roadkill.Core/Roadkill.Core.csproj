@@ -434,6 +434,7 @@
     <EmbeddedResource Include="Database\Schema\SqlServerCE\Create1.sql" />
     <EmbeddedResource Include="Database\Schema\MySql\Create.sql" />
     <EmbeddedResource Include="Database\Schema\MySql\Drop.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServer\Upgrade16.sql" />
     <Content Include="Localization\Text\InstallStrings.cs-CZ.txt" />
     <Content Include="Localization\Text\InstallStrings.pl-PL.txt" />
     <Content Include="Localization\Text\InstallStrings.txt" />
