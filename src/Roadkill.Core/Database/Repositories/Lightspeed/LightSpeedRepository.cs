@@ -151,9 +151,12 @@ namespace Roadkill.Core.Database.LightSpeed
 				context.DataProvider = dataStoreType.LightSpeedDbType;
 				context.IdentityMethod = IdentityMethod.GuidComb;
 				context.CascadeDeletes = false;
-				//context.VerboseLogging = true;
-				//context.Logger = new TraceLogger();
-				//context.Cache = new Mindscape.LightSpeed.Caching.CacheBroker(new DefaultCache());
+				context.VerboseLogging = true;
+
+#if DEBUG
+				context.Logger = new TraceLogger();
+				context.Cache = new Mindscape.LightSpeed.Caching.CacheBroker(new DefaultCache());
+#endif
 
 				ObjectFactory.Configure(x =>
 				{
@@ -166,6 +169,8 @@ namespace Roadkill.Core.Database.LightSpeed
 		public void Install(DataStoreType dataStoreType, string connectionString, bool enableCache)
 		{
 			LightSpeedContext context = ObjectFactory.GetInstance<LightSpeedContext>();
+			if (context == null)
+				throw new InvalidOperationException("Repository.Install failed - LightSpeedContext was null from the ObjectFactory");
 
 			using (IDbConnection connection = context.DataProviderObjectFactory.CreateConnection())
 			{
@@ -183,6 +188,8 @@ namespace Roadkill.Core.Database.LightSpeed
 		public void Test(DataStoreType dataStoreType, string connectionString)
 		{
 			LightSpeedContext context = ObjectFactory.GetInstance<LightSpeedContext>();
+			if (context == null)
+				throw new InvalidOperationException("Repository.Test failed - LightSpeedContext was null from the ObjectFactory");
 
 			using (IDbConnection connection = context.DataProviderObjectFactory.CreateConnection())
 			{

@@ -222,6 +222,8 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestDatabaseConnection(string connectionString, string databaseType)
 		{
+			// System.IO.FileLoadException: Could not load file or assembly 
+
 			InstallHelper installHelper = new InstallHelper(UserManager, _repository);
 			string errors = installHelper.TestConnection(connectionString, databaseType);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);

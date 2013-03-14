@@ -9,7 +9,7 @@ using Roadkill.Core.Database;
 
 namespace Roadkill.Tests.Acceptance
 {
-	[TestFixture(Description="This class has a lot of ajax calls that rely on Thread.Sleeps to complete")]
+	[TestFixture]
 	[Category("Acceptance")]
 	public class InstallerTests : AcceptanceTestBase
 	{
@@ -451,7 +451,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void All_Steps_With_Minimum_Required_Should_Complete()
+		public void All_Steps_With_Minimum_Required_SqlServerCE_Should_Complete()
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
@@ -484,16 +484,24 @@ namespace Roadkill.Tests.Acceptance
 			// step 4
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
+			// step5
+			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"));
+			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
+
+			// login, create a page
+			LoginAsAdmin();
+			CreatePageWithTitleAndTags("Homepage", "homepage");
+
 			//
 			// ***Assert***
 			//
-			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"));
-			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
-			LoginAsAdmin();
+			Driver.Navigate().GoToUrl(BaseUrl);
+			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("Homepage"));
+			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
 		}
 
 		[Test]
-		[Explicit]
+		[Explicit("Requires MySQL 5 installed on the machine the acceptance tests are running first.")]
 		public void All_Steps_With_Minimum_Required_MySQL_Should_Complete()
 		{
 			// Arrange
@@ -527,16 +535,24 @@ namespace Roadkill.Tests.Acceptance
 			// step 4
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
+			// step5
+			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"), Driver.PageSource);
+			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
+
+			// login, create a page
+			LoginAsAdmin();
+			CreatePageWithTitleAndTags("Homepage", "homepage");
+
 			//
 			// ***Assert***
 			//
-			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"));
-			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
-			LoginAsAdmin();
+			Driver.Navigate().GoToUrl(BaseUrl);
+			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("Homepage"));
+			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
 		}
 
 		[Test]
-		[Explicit]
+		[Explicit("Requires Postgres 9 installed on the machine the acceptance tests are running first.")]
 		public void All_Steps_With_Minimum_Required_Postgres_Should_Complete()
 		{
 			// Arrange
@@ -570,16 +586,24 @@ namespace Roadkill.Tests.Acceptance
 			// step 4
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
+			// step5
+			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"));
+			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
+
+			// login, create a page
+			LoginAsAdmin();
+			CreatePageWithTitleAndTags("Homepage", "homepage");
+
 			//
 			// ***Assert***
 			//
-			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"));
-			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
-			LoginAsAdmin();
+			Driver.Navigate().GoToUrl(BaseUrl);
+			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("Homepage"));
+			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
 		}
 
 		[Test]
-		[Explicit]
+		[Explicit("Requires SQL Server Express installed on the machine the acceptance tests are running first, with .\\SQLEXPPRESS as the instance name")]
 		public void All_Steps_With_Minimum_Required_SQLServer_Should_Complete()
 		{
 			// Arrange
@@ -613,12 +637,20 @@ namespace Roadkill.Tests.Acceptance
 			// step 4
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
+			// step5
+			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"));
+			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
+
+			// login, create a page
+			LoginAsAdmin();
+			CreatePageWithTitleAndTags("Homepage", "homepage");
+
 			//
 			// ***Assert***
 			//
-			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"));
-			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
-			LoginAsAdmin();
+			Driver.Navigate().GoToUrl(BaseUrl);
+			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("Homepage"));
+			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
 		}
 	}
 	

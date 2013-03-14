@@ -297,7 +297,7 @@
     <Content Include="Assets\Scripts\roadkill.edit.js" />
     <Content Include="mimetypes.config" />
     <None Include="packages.config" />
-    <None Include="build-readme.txt" />
+    <Content Include="readme.txt" />
     <Content Include="Themes\BlackBar\Theme.print.css" />
     <Content Include="Themes\Mediawiki\border.png" />
     <Content Include="Themes\Mediawiki\Theme.cshtml" />
