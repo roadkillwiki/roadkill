@@ -26,11 +26,11 @@ namespace Roadkill.Tests.Integration
 
 			SettingsSummary summary = new SettingsSummary(config);
 			summary.ConnectionString = config.ApplicationSettings.ConnectionString;
-			summary.DataStoreType = DataStoreType.Sqlite;
+			summary.DataStoreTypeName = DataStoreType.Sqlite.Name;
 			summary.AllowedExtensions = "jpg, gif";
 			summary.MarkupType = "Creole";
 
-			IRepository repository = new LightSpeedRepository();
+			IRepository repository = new LightSpeedRepository(config);
 			_defaultUserManager = new DefaultUserManager(config, repository);
 			IoCSetup iocSetup = new IoCSetup(config, repository, new RoadkillContext(_defaultUserManager));
 			iocSetup.Run();

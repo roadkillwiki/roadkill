@@ -45,7 +45,6 @@ _ReSharper*/
 *ASPNET.MDF
 *ASPNET.ldf
 *desktop.ini
-*_PLASMAWEBSITE/
 *roadkillaspnet_log.ldf
 .git*/
 .DotSettings*
@@ -53,5 +52,7 @@ App_Data/roadkill-acceptancetests/
 App_Data/roadkill-dev/
 App_Data/TempSmtp/
 discountasp.config*/
-
+_WEBSITE*/
+deploytemp*/
+Roadkill.*.zip
 

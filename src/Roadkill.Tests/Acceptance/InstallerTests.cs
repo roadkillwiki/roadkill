@@ -136,7 +136,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
 			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
 
-			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreType_Name")));
+			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
 			select.SelectByValue(DataStoreType.SqlServerCe.Name);
 
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"Data Source=|DataDirectory|\roadkill-acceptancetests.sdf");
@@ -157,7 +157,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
 			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
 
-			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreType_Name")));
+			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
 			select.SelectByValue(DataStoreType.SqlServerCe.Name);
 
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"Data Source=|DataDirectory|\madeupfilename.sdf");
@@ -432,7 +432,7 @@ namespace Roadkill.Tests.Acceptance
 
 			Driver.FindElement(By.Id("ConnectionString")).Clear();
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys("Connection String");
-			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreType_Name")));
+			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
 			select.SelectByValue(DataStoreType.MySQL.Name);
 
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
@@ -446,7 +446,7 @@ namespace Roadkill.Tests.Acceptance
 			Assert.That(Driver.FindElement(By.Id("SiteUrl")).GetAttribute("value"), Is.EqualTo("Site Url"));
 			Assert.That(Driver.FindElement(By.Id("ConnectionString")).GetAttribute("value"), Is.EqualTo("Connection String"));
 
-			select = new SelectElement(Driver.FindElement(By.Id("DataStoreType_Name")));
+			select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
 			Assert.That(select.SelectedOption.GetAttribute("value"), Is.EqualTo(DataStoreType.MySQL.Name));
 		}
 
@@ -466,7 +466,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// step 2
 			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
-			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreType_Name")));
+			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
 			select.SelectByValue(DataStoreType.SqlServerCe.Name);
 
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"Data Source=|DataDirectory|\roadkill-acceptancetests.sdf");
@@ -485,7 +485,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step5
-			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"));
+			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"), Driver.PageSource);
 			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
 
 			// login, create a page
@@ -517,7 +517,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// step 2
 			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
-			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreType_Name")));
+			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
 			select.SelectByValue(DataStoreType.MySQL.Name);
 
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"server=localhost;database=roadkill;uid=root;pwd=Passw0rd;");
@@ -552,7 +552,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		[Explicit("Requires Postgres 9 installed on the machine the acceptance tests are running first.")]
+		[Explicit("Requires Postgres 9 server installed on the machine the acceptance tests are running first.")]
 		public void All_Steps_With_Minimum_Required_Postgres_Should_Complete()
 		{
 			// Arrange
@@ -568,7 +568,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// step 2
 			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
-			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreType_Name")));
+			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
 			select.SelectByValue(DataStoreType.Postgres.Name);
 
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"server=localhost;database=roadkill;uid=postgres;pwd=Passw0rd;");
@@ -587,7 +587,57 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step5
-			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"));
+			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"), Driver.PageSource);
+			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
+
+			// login, create a page
+			LoginAsAdmin();
+			CreatePageWithTitleAndTags("Homepage", "homepage");
+
+			//
+			// ***Assert***
+			//
+			Driver.Navigate().GoToUrl(BaseUrl);
+			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("Homepage"));
+			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
+		}
+		[Test]
+		[Explicit("Requires SQL Server Express 2005 installed on the machine the acceptance tests are running first, with .\\SQLEXPPRESS as the instance name")]
+		public void All_Steps_With_Minimum_Required_SQLServer2005_Should_Complete()
+		{
+			// Arrange
+			Driver.Navigate().GoToUrl(BaseUrl);
+
+			//
+			// ***Act***
+			//
+
+			// step 1
+			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
+
+			// step 2
+			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
+			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
+			select.SelectByValue(DataStoreType.SqlServer2005.Name);
+
+			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"server=.\SQLEXPRESS;database=roadkill;uid=sa;pwd=Passw0rd;");
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 3
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 3b
+			Driver.FindElement(By.Id("AdminEmail")).SendKeys("admin@localhost");
+			Driver.FindElement(By.Id("AdminPassword")).SendKeys("password");
+			Driver.FindElement(By.Id("password2")).SendKeys("password");
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 4
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step5
+			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"), Driver.PageSource);
 			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
 
 			// login, create a page
@@ -603,8 +653,8 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		[Explicit("Requires SQL Server Express installed on the machine the acceptance tests are running first, with .\\SQLEXPPRESS as the instance name")]
-		public void All_Steps_With_Minimum_Required_SQLServer_Should_Complete()
+		[Explicit("Requires SQL Server Express 2005 installed on the machine the acceptance tests are running first, with .\\SQLEXPPRESS as the instance name")]
+		public void All_Steps_With_Minimum_Required_SQLServer2008_Should_Complete()
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
@@ -619,7 +669,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// step 2
 			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
-			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreType_Name")));
+			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
 			select.SelectByValue(DataStoreType.SqlServer2008.Name);
 
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"server=.\SQLEXPRESS;database=roadkill;uid=sa;pwd=Passw0rd;");
@@ -638,7 +688,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step5
-			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"));
+			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"), Driver.PageSource);
 			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
 
 			// login, create a page
@@ -652,27 +702,56 @@ namespace Roadkill.Tests.Acceptance
 			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("Homepage"));
 			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
 		}
-	}
-	
-	public static class WebDriverExtensions
-	{
-		public static IWebElement WaitForElementDisplayed(this IWebDriver driver, By by, int timeoutInSeconds = 10)
-		{
-			WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
-			if (wait.Until<bool>(x => x.FindElement(by).Displayed))
-			{
-				return driver.FindElement(by);
-			}
-			else
-			{
-				return null;
-			}
-		}
 
-	    public static bool IsElementDisplayed(this IWebDriver driver, By by, int timeoutInSeconds = 10)
-	    {
-			WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
-	        return wait.Until<bool>(x => x.FindElement(by).Displayed);
-	    }
+		[Test]
+		[Explicit("Requires SQL Server Express 2005 installed on the machine the acceptance tests are running first, with .\\SQLEXPPRESS as the instance name")]
+		public void All_Steps_With_Minimum_Required_SQLServer2012_Should_Complete()
+		{
+			// Arrange
+			Driver.Navigate().GoToUrl(BaseUrl);
+
+			//
+			// ***Act***
+			//
+
+			// step 1
+			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
+
+			// step 2
+			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
+			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
+			select.SelectByValue(DataStoreType.SqlServer2012.Name);
+
+			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"server=.\SQLEXPRESS;database=roadkill;uid=sa;pwd=Passw0rd;");
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 3
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 3b
+			Driver.FindElement(By.Id("AdminEmail")).SendKeys("admin@localhost");
+			Driver.FindElement(By.Id("AdminPassword")).SendKeys("password");
+			Driver.FindElement(By.Id("password2")).SendKeys("password");
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 4
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step5
+			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"), Driver.PageSource);
+			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
+
+			// login, create a page
+			LoginAsAdmin();
+			CreatePageWithTitleAndTags("Homepage", "homepage");
+
+			//
+			// ***Assert***
+			//
+			Driver.Navigate().GoToUrl(BaseUrl);
+			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("Homepage"));
+			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
+		}
 	}
 }

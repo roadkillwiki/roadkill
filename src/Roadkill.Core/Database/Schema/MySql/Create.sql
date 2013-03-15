@@ -17,7 +17,7 @@ CREATE TABLE roadkill_pagecontent
 	EditedBy NVARCHAR(255) NOT NULL,
 	EditedOn DATETIME NOT NULL,
 	VersionNumber INT NOT NULL,
-	Text NVARCHAR(255) NULL,
+	Text MEDIUMTEXT NULL,
 	PageId INT NOT NULL,
 	PRIMARY KEY (Id)
 );
@@ -44,6 +44,6 @@ CREATE TABLE roadkill_users
 CREATE TABLE roadkill_siteconfiguration(
 	Id VARCHAR(36) NOT NULL,
 	Version NVARCHAR(255) NOT NULL,
-	Xml NVARCHAR(255) NOT NULL,
+	Xml MEDIUMTEXT NOT NULL,
 	PRIMARY KEY (Id)
 );

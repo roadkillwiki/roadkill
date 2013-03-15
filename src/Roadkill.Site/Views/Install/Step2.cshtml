@@ -21,7 +21,7 @@ $(document).ready(function()
 		$.get("@(Url.Action("TestDatabaseConnection"))",
 				{ 
 					"connectionString" : $("#ConnectionString").val(),
-					"databaseType": $("#DataStoreType_Name").val()
+					"databaseType": $("#DataStoreTypeName").val()
 				 },
 				function(data)
 				{
@@ -98,7 +98,7 @@ $(document).ready(function()
 			</ol>
 			
 			<h3>@InstallStrings.Page2_Group3_Label3</h3>
-			@Html.DropDownListFor(x => x.DataStoreType.Name, Html.DatabaseTypesAvailable(Model))
+			@Html.DropDownListFor(x => x.DataStoreTypeName, Html.DatabaseTypesAvailable(Model))
 
 			<div class="textbox">@Html.TextBoxFor(s => s.ConnectionString, new { @class = "validate[required]", size="60" })</div>
 			<input id="testdbconnection" class="button" type="button" value="@InstallStrings.Shared_TestButton" />

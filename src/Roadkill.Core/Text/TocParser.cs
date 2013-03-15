@@ -26,11 +26,11 @@ namespace Roadkill.Core
 
 			// Parse the HTML document for all Hx elements
 			List<Header> rootHeaders = new List<Header>();
-			ParseHtmlAddAnchors(document.DocumentNode, rootHeaders, "h1");
+			ParseHTagsAndAddAnchors(document.DocumentNode, rootHeaders, "h1");
 
 			// If no H1 headers are found (as H1 is technically the page title) try parsing all H2 headers
 			if (rootHeaders.Count == 0)
-				ParseHtmlAddAnchors(document.DocumentNode, rootHeaders, "h2");
+				ParseHTagsAndAddAnchors(document.DocumentNode, rootHeaders, "h2");
 
 			// Add a fake root for the tree
 			Header rootHeader = new Header("","h0");
@@ -79,7 +79,7 @@ namespace Roadkill.Core
 		/// Parses the HTML for H1,H2, H3 etc. elements, and adds them as Header trees, where
 		/// rootHeaders contains the H1 root nodes.
 		/// </summary>
-		private void ParseHtmlAddAnchors(HtmlNode parentNode, List<Header> rootHeaders, string rootTag)
+		private void ParseHTagsAndAddAnchors(HtmlNode parentNode, List<Header> rootHeaders, string rootTag)
 		{
 			foreach (HtmlNode node in parentNode.ChildNodes)
 			{
@@ -118,7 +118,7 @@ namespace Roadkill.Core
 				}
 				else if (node.HasChildNodes)
 				{
-					ParseHtmlAddAnchors(node, rootHeaders, rootTag);
+					ParseHTagsAndAddAnchors(node, rootHeaders, rootTag);
 				}
 			}
 		}
