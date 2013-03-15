@@ -16,9 +16,9 @@ namespace Roadkill.Core.Database
 		public virtual Guid Id { get; set; }
 
 		/// <summary>
-		/// The Serialized version of the <see cref="SitePreferences"/> class.
+		/// The jsonified version of the <see cref="SitePreferences"/> class.
 		/// </summary>
-		public virtual string Xml { get; set; }
+		public virtual string Content { get; set; }
 
 		/// <summary>
 		/// The current version of Roadkill. This is used for upgrades.

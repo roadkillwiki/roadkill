@@ -45,6 +45,6 @@ CREATE TABLE [dbo].[roadkill_siteconfiguration]
 (
 	[Id] [uniqueidentifier] NOT NULL,
 	[Version] [nvarchar](255) NOT NULL,
-	[Xml] [nvarchar](MAX) NOT NULL,
+	[Content] [nvarchar](MAX) NOT NULL,
 	PRIMARY KEY NONCLUSTERED (Id)
 );

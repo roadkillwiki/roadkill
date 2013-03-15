@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Roadkill.Core
 {
@@ -84,7 +85,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// An asp.net relativate path e.g. ~/Themes/ to the current theme directory. Does not include a trailing slash.
 		/// </summary>
-		[XmlIgnore]
+		[JsonIgnore]
 		public string ThemePath
 		{
 			get
@@ -96,7 +97,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Retrieves a list of the file extensions that are permitted for upload.
 		/// </summary>
-		[XmlIgnore]
+		[JsonIgnore]
 		public List<string> AllowedFileTypesList
 		{
 			get
@@ -113,28 +114,20 @@ namespace Roadkill.Core
 			SiteUrl = "";
 		}
 
-		public string GetXml()
+		public string GetJson()
 		{
-			XmlSerializer serializer = new XmlSerializer(typeof(SitePreferences));
-			StringBuilder builder = new StringBuilder();
-			using (StringWriter writer = new StringWriter(builder))
-			{
-				serializer.Serialize(writer, this);
-				return builder.ToString();
-			}
+			return JsonConvert.SerializeObject(this, Formatting.Indented);
 		}
 
-		public static SitePreferences LoadFromXml(string xml)
+		public static SitePreferences LoadFromJson(string json)
 		{
-			if (string.IsNullOrEmpty(xml))
-				return new SitePreferences();
-
-			XmlSerializer serializer = new XmlSerializer(typeof(SitePreferences));
-			
-			using (StringReader reader = new StringReader(xml))
+			if (string.IsNullOrEmpty(json))
 			{
-				return (SitePreferences) serializer.Deserialize(reader);
+				Log.Warn("SitePreferences.LoadFromJson - json string was empty (returning a default SitePreferences object)");
+				return new SitePreferences();
 			}
+
+			return JsonConvert.DeserializeObject<SitePreferences>(json);
 		}
 	}
 }

@@ -128,7 +128,7 @@ namespace Roadkill.Core.Database.LightSpeed
 
 			if (entity != null)
 			{
-				preferences = SitePreferences.LoadFromXml(entity.Xml);
+				preferences = SitePreferences.LoadFromJson(entity.Content);
 			}
 			else
 			{
@@ -146,13 +146,13 @@ namespace Roadkill.Core.Database.LightSpeed
 			{
 				entity = new SitePreferencesEntity();
 				entity.Version = ApplicationSettings.Version.ToString();
-				entity.Xml = preferences.GetXml();
+				entity.Content = preferences.GetJson();
 				UnitOfWork.Add(entity);
 			}
 			else
 			{
 				entity.Version = ApplicationSettings.Version.ToString();
-				entity.Xml = preferences.GetXml();
+				entity.Content = preferences.GetJson();
 				UnitOfWork.Import<SitePreferencesEntity>(entity);
 			}
 

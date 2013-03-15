@@ -352,5 +352,15 @@ namespace Roadkill.Core.Controllers
 
 			return RedirectToAction("Tools");
 		}
+
+		/// <summary>
+		/// The default settings page that displays the current Roadkill settings.
+		/// </summary>
+		/// <returns>A <see cref="SettingsSummary"/> as the model.</returns>
+		public ActionResult SitePreferences()
+		{
+			Configuration.SitePreferences.GetJson();
+			return Content(Configuration.SitePreferences.GetJson(), "text/json");
+		}
 	}
 }

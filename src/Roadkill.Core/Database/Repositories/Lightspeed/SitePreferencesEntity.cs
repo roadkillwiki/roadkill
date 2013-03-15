@@ -7,7 +7,7 @@ namespace Roadkill.Core.Database.LightSpeed
 	[Cached(ExpiryMinutes = 15)]
 	internal class SitePreferencesEntity : Entity<Guid>
 	{
-		private string _xml;
+		private string _content;
 		private string _version;
 
 		public Guid Id
@@ -19,15 +19,15 @@ namespace Roadkill.Core.Database.LightSpeed
 		}
 
 
-		public string Xml
+		public string Content
 		{
 			get
 			{
-				return _xml;
+				return _content;
 			}
 			set
 			{
-				Set<string>(ref _xml, value);
+				Set<string>(ref _content, value);
 			}
 		}
 
