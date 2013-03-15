@@ -210,6 +210,9 @@
     <Reference Include="MySql.Data">
       <HintPath>..\..\lib\LightSpeed\Providers\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Npgsql">
       <HintPath>..\..\lib\LightSpeed\Providers\Npgsql.dll</HintPath>
     </Reference>

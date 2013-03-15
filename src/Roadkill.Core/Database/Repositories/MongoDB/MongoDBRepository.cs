@@ -113,11 +113,11 @@ namespace Roadkill.Core.Database.MongoDB
 
 			if (entity != null)
 			{
-				preferences = SitePreferences.LoadFromXml(entity.Xml);
+				preferences = SitePreferences.LoadFromJson(entity.Content);
 			}
 			else
 			{
-				Log.Warn("No configuration settings could be found in the database, using a default instance");
+				Log.Warn("MongoDB: No configuration settings could be found in the database, using a default SitePreferences");
 			}
 
 			return preferences;
@@ -131,7 +131,7 @@ namespace Roadkill.Core.Database.MongoDB
 				entity = new SitePreferencesEntity();
 
 			entity.Version = ApplicationSettings.Version.ToString();
-			entity.Xml = preferences.GetXml();
+			entity.Content = preferences.GetJson();
 			SaveOrUpdate<SitePreferencesEntity>(entity);
 		}
 

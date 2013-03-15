@@ -47,6 +47,6 @@ CREATE TABLE [roadkill_siteconfiguration]
 (
   [id] UNIQUEIDENTIFIER NOT NULL, 
   [version] TEXT, 
-  [xml] NTEXT, 
+  [content] NTEXT, 
   PRIMARY KEY (Id)
 );

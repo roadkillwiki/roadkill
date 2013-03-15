@@ -41,9 +41,10 @@ CREATE TABLE roadkill_users
 	PRIMARY KEY (Id)
 );
 
-CREATE TABLE roadkill_siteconfiguration(
+CREATE TABLE roadkill_siteconfiguration
+(
 	Id VARCHAR(36) NOT NULL,
 	Version NVARCHAR(255) NOT NULL,
-	Xml MEDIUMTEXT NOT NULL,
+	Content MEDIUMTEXT NOT NULL,
 	PRIMARY KEY (Id)
 );

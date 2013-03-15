@@ -39,6 +39,6 @@ CREATE TABLE roadkill_users (
 CREATE TABLE roadkill_siteconfiguration (
   "id" UUID NOT NULL, 
   "version" TEXT NOT NULL, 
-  "xml" TEXT NOT NULL UNIQUE, 
+  "content" TEXT NOT NULL UNIQUE, 
   PRIMARY KEY("id")
 ) ;
