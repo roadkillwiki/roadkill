@@ -1,7 +1,7 @@
 ﻿=====BUILD README=====
+The steps below are also in the create-zip-package.bat file, minus the upgrade.txt step.
 
 These are the steps to create a new download version:
-
 Firstly for the version being released: commit to Hg, *and then use hg tag v1.x.x* the version.
 
 1) Update the version in AssemblyInfo.cs in Core and Site
@@ -18,8 +18,14 @@ Firstly for the version being released: commit to Hg, *and then use hg tag v1.x.
 9) Copy /lib/Empty-databases/roadkill.mdf to the publish /App_Data folder
 10) Zip up using the name 'Roadkill_v{number}.zip' e.g. Roadkill_v1.3.zip, add to the downloads on bitbucket/codeplex.
 
+=====DEV WEB.CONFIG====
+The web.config for the site is unlikely to work when you pull the latest from Bitbucket, it could
+be in any state from the previous commit. Copy the web.dev.config from the \lib\Configs directory 
+and overwrite the web.config in the site folder with this.
 
-=====Testing Windows Authentication=====
+Don't worry about committing your web.config, the Web.Download.config file is used for release packages.
+
+=====TESTING WINDOWS AUTH=====
 
 This can be done by creating a new Windows 2008 server and running into inside VirtualBox.
 

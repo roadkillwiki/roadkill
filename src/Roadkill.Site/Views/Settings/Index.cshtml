@@ -28,7 +28,7 @@
 			$.get("@(Url.Action("TestDatabaseConnection","Install"))",
 					{ 
 						"connectionString" : $("#ConnectionString").val(),
-						"databaseType": $("#DataStoreType_Name").val()
+						"databaseType": $("#DataStoreTypeName").val()
 					 },
 					function(data)
 					{
@@ -93,7 +93,7 @@
 		<legend>@SiteStrings.SiteSettings_Configuration_Database</legend>
 
 		<label for="DatabaseType">@SiteStrings.SiteSettings_Configuration_DatabaseType</label>
-		@Html.DropDownListFor(x => x.DataStoreType.Name, Html.DatabaseTypesAvailable(Model), new { rel = "popover", data_content = SiteStrings.SiteSettings_Configuration_DatabaseType_Help })
+		@Html.DropDownListFor(x => x.DataStoreTypeName, Html.DatabaseTypesAvailable(Model), new { rel = "popover", data_content = SiteStrings.SiteSettings_Configuration_DatabaseType_Help })
 		&nbsp;&nbsp;<input id="testdbconnection" class="btn test-button" type="button" value="@InstallStrings.Shared_TestButton" />
 		<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" alt="loading" /></span>
 

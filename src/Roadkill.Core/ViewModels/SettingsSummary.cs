@@ -25,7 +25,7 @@ namespace Roadkill.Core
 		public SettingsSummary(IConfigurationContainer config)
 		{
 			Config = config;
-			DataStoreType = DataStoreType.SqlServer2005;
+			//DataStoreType = DataStoreType.SqlServer2005;
 
 			if (HttpContext.Current != null)
 			{
@@ -59,10 +59,7 @@ namespace Roadkill.Core
 		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_ConnectionEmpty")]
 		public string ConnectionString { get; set; }
 
-		/// <summary>
-		/// Used in the intial configuration/installation.
-		/// </summary>
-		public DataStoreType DataStoreType { get; set; }
+		public string DataStoreTypeName { get; set; }
 		public IEnumerable<string> DatabaseTypesAvailable
 		{
 			get
@@ -141,7 +138,7 @@ namespace Roadkill.Core
 			summary.CacheEnabled = config.ApplicationSettings.CacheEnabled;
 			summary.CacheText = config.ApplicationSettings.CacheText;
 			summary.ConnectionString = config.ApplicationSettings.ConnectionString;
-			summary.DataStoreType = config.ApplicationSettings.DataStoreType;
+			summary.DataStoreTypeName = config.ApplicationSettings.DataStoreType.Name;
 			summary.EditorRoleName = config.ApplicationSettings.EditorRoleName;
 			summary.EnableRecaptcha = config.SitePreferences.IsRecaptchaEnabled;
 			summary.LdapConnectionString = config.ApplicationSettings.LdapConnectionString;

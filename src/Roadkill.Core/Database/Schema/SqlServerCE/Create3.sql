@@ -4,7 +4,7 @@ CREATE TABLE [roadkill_pagecontent]
 	[EditedBy] [nvarchar](255) NOT NULL,
 	[EditedOn] [datetime] NOT NULL,
 	[VersionNumber] [int] NOT NULL,
-	[Text] [nvarchar](255) NULL,
+	[Text] NTEXT NULL,
 	[PageId] [int] NOT NULL,
 	PRIMARY KEY NONCLUSTERED (Id)
 );

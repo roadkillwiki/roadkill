@@ -233,7 +233,7 @@ namespace Roadkill.Core
 				item.Text = name;
 				item.Value = name;
 
-				if (name == summary.DataStoreType.Name)
+				if (name == summary.DataStoreTypeName)
 					item.Selected = true;
 
 				items.Add(item);

@@ -66,7 +66,8 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				Repository.Install(summary.DataStoreType, summary.ConnectionString, summary.CacheEnabled);
+				DataStoreType dataStoreType = DataStoreType.ByName(summary.DataStoreTypeName);
+				Repository.Install(dataStoreType, summary.ConnectionString, summary.CacheEnabled);
 			}
 			catch (DatabaseException ex)
 			{
@@ -132,18 +133,19 @@ namespace Roadkill.Core
 					config.ConnectionStrings.ConnectionStrings["Roadkill"].ConnectionString = summary.ConnectionString;
 
 				// The roadkill section
+				DataStoreType dataStoreType = DataStoreType.ByName(summary.DataStoreTypeName);
 				RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
 				section.AdminRoleName = summary.AdminRoleName;
 				section.AttachmentsFolder = summary.AttachmentsFolder;
 				section.CacheEnabled = summary.CacheEnabled;
 				section.CacheText = summary.CacheText;
 				section.ConnectionStringName = "Roadkill";
-				section.DataStoreType = summary.DataStoreType.Name;
+				section.DataStoreType = dataStoreType.Name;
 				section.EditorRoleName = summary.EditorRoleName;
 				section.LdapConnectionString = summary.LdapConnectionString;
 				section.LdapUsername = summary.LdapUsername;
 				section.LdapPassword = summary.LdapPassword;
-				section.RepositoryType = summary.DataStoreType.CustomRepositoryType;
+				section.RepositoryType = dataStoreType.CustomRepositoryType;
 				section.UseWindowsAuthentication = summary.UseWindowsAuth;
 				
 				// Optional "tweak" settings - these need to be explicit as DefaultValue="" in the attribute doesn't determine the value when saving.

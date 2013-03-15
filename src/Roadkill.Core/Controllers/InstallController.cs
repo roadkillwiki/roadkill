@@ -129,11 +129,12 @@ namespace Roadkill.Core.Controllers
 				if (ModelState.IsValid)
 				{
 					// The name is passed through each step, so parse it
-					summary.DataStoreType = DataStoreType.ByName(summary.DataStoreType.Name);
+					DataStoreType dataStoreType = DataStoreType.ByName(summary.DataStoreTypeName);
+					summary.DataStoreTypeName = dataStoreType.Name;
 
 					// Update all repository references for the dependencies of this class
 					// (changing the For() in StructureMap won't do this as the references have already been created).
-					_repository = IoCSetup.ChangeRepository(summary.DataStoreType, summary.ConnectionString, summary.CacheEnabled);
+					_repository = IoCSetup.ChangeRepository(dataStoreType, summary.ConnectionString, summary.CacheEnabled);
 					UserManager.UpdateRepository(_repository);
 					_settingsManager.UpdateRepository(_repository);
 					_searchManager.UpdateRepository(_repository);

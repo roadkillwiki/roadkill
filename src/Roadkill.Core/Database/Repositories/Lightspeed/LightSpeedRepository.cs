@@ -18,6 +18,8 @@ namespace Roadkill.Core.Database.LightSpeed
 {
 	public class LightSpeedRepository : Roadkill.Core.Database.IRepository
 	{
+		private IConfigurationContainer _configuration;
+
 		internal IQueryable<PageEntity> Pages
 		{
 			get
@@ -73,6 +75,11 @@ namespace Roadkill.Core.Database.LightSpeed
 			Mapper.CreateMap<PageContentEntity, PageContent>().ReverseMap();
 			Mapper.CreateMap<UserEntity, User>().ReverseMap();
 			Mapper.CreateMap<SitePreferencesEntity, LSSitePreferencesEntity>().ReverseMap();
+		}
+
+		public LightSpeedRepository(IConfigurationContainer configuration)
+		{
+			_configuration = configuration;
 		}
 
 		public void DeletePage(Page page)
@@ -133,13 +140,23 @@ namespace Roadkill.Core.Database.LightSpeed
 
 		public void SaveSitePreferences(SitePreferences preferences)
 		{
-			// Get the fresh db entity first
 			SitePreferencesEntity entity = UnitOfWork.Find<SitePreferencesEntity>().FirstOrDefault();
-			if (entity == null)
-				entity = new SitePreferencesEntity();
 
-			entity.Version = ApplicationSettings.Version.ToString();
-			entity.Xml = preferences.GetXml();
+			if (entity == null || entity.Id == Guid.Empty)
+			{
+				entity = new SitePreferencesEntity();
+				entity.Version = ApplicationSettings.Version.ToString();
+				entity.Xml = preferences.GetXml();
+				UnitOfWork.Add(entity);
+			}
+			else
+			{
+				entity.Version = ApplicationSettings.Version.ToString();
+				entity.Xml = preferences.GetXml();
+				UnitOfWork.Import<SitePreferencesEntity>(entity);
+			}
+
+			UnitOfWork.SaveChanges();
 		}
 
 		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)
@@ -224,7 +241,26 @@ namespace Roadkill.Core.Database.LightSpeed
 
 		public IEnumerable<Page> FindPagesContainingTag(string tag)
 		{
-			var source = Pages.Where(p => p.Tags.ToLower().Contains(tag.ToLower()));
+			IEnumerable<PageEntity> source = new List<PageEntity>();
+
+			if (_configuration.ApplicationSettings.DataStoreType != DataStoreType.Postgres)
+			{
+				source = Pages.Where(p => p.Tags.ToLower().Contains(tag.ToLower()));
+			}
+			else
+			{
+				// Temporary Lightspeed Postgres LIKE bug work around
+				IDbCommand command = UnitOfWork.Context.DataProviderObjectFactory.CreateCommand();
+				command.CommandText = "SELECT * FROM roadkill_pages WHERE tags LIKE @Tag"; // case sensitive column name
+				IDbDataParameter parameter = command.CreateParameter();
+				parameter.DbType = DbType.String;
+				parameter.ParameterName = "@Tag";
+				parameter.Value = "%" +tag+ "%";
+				command.Parameters.Add(parameter);
+
+				source = UnitOfWork.FindBySql<PageEntity>(command);
+			}
+
 			return Mapper.Map<IEnumerable<Page>>(source);
 		}
 

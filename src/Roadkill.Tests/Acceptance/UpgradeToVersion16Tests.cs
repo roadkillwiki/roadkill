@@ -72,9 +72,9 @@ namespace Roadkill.Tests.Acceptance
 			Assert.True(Driver.IsCheckboxChecked("CacheText"));
 
 			DataStoreType sqlCeType = DataStoreType.ByName("SqlServerCe");
-			Assert.That(Driver.FindElements(By.CssSelector("#DataStoreType_Name option")).Count, Is.EqualTo(DataStoreType.AllTypes.Count()));
+			Assert.That(Driver.FindElements(By.CssSelector("#DataStoreTypeName option")).Count, Is.EqualTo(DataStoreType.AllTypes.Count()));
 
-			SelectElement element = new SelectElement(Driver.FindElement(By.CssSelector("#DataStoreType_Name")));
+			SelectElement element = new SelectElement(Driver.FindElement(By.CssSelector("#DataStoreTypeName")));
 			Assert.That(element.SelectedOption.GetAttribute("value"), Is.EqualTo(DataStoreType.ByName("SqlServerCe").Name));
 			Assert.That(Driver.SelectedIndex("#MarkupType"), Is.EqualTo(0));
 			Assert.That(Driver.SelectedIndex("#Theme"), Is.EqualTo(1));
