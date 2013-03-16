@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>combinedfile</title>
+<title>help</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad */
@@ -274,7 +274,9 @@ table tr:nth-child(2n) {
 
 </head>
 <body>
-<h1>Contents</h1>
+<h1>Roadkill .NET Wiki Engine</h1>
+<p>Last updated 3/16/2013 (documentation needs updating for 1.6)</p>
+<h2>Contents</h2>
 <ul>
 <li><a href="">Installation</a></li>
 <li><a href="">Hosting on a web garden/web farm</a></li>
@@ -289,6 +291,7 @@ table tr:nth-child(2n) {
 <li><a href="">Themes</a></li>
 <li><a href="">Theme style reference</a></li>
 </ul>
+<div style="page-break-after:always"></div>
 <h1>1. Installation</h1>
 <h2>Pre-requisites</h2>
 <p>Before downloading and installing Roadkill, make sure you have the following requirements installed/enabled:</p>
@@ -314,6 +317,7 @@ table tr:nth-child(2n) {
 <p>If you are running Roadkill on your home/development machine then the simplest solution to the problem is to run the application pool as LOCALSYSTEM or LOCALSERVICE.</p>
 <h3>NHibernate exceptions at Finished stage</h3>
 <p>These are almost always caused by your connection string login details or a missing dependency (if you're using something other than SQL Server or SQLite). The stack trace you will see on the Finished page will give you full information of the problem, if you scroll down. You can also look at the event log if you have access to it.</p>
+<div style="page-break-after:always"></div>
 <h1>2. Hosting on a web garden/web farm</h1>
 <p>Roadkill has a couple of issues that you should be aware of if you are hosting it in a web garden/farm (load balanced multi-server) environment.</p>
 <h2>Files uploads</h2>
@@ -321,6 +325,7 @@ table tr:nth-child(2n) {
 <h2>Caching</h2>
 <p>Roadkill uses the NHibernate second level cache for its caching strategy. This saves trips to the database and is important for text content for high traffic websites. By default Roadkill uses NHibernate hashtable cache, which is similar to ASP.NET's cache. This <em>doesn't</em> scale across web servers, so should be turned off if you are using multiple servers.</p>
 <p>You can manually tweak the web.config to use a caching provider that scales across multiple servers, which requires some knowledge of NHibernate's configuration settings. Couchbase - [url:http://www.couchbase.com/couchbase-server/overview] - is a good free caching server that works across multiple servers, this can be configured to work with the Enyim memcached provider (Couchbase is memcacheD compatible) : [url:https://github.com/enyim/EnyimMemcached/]</p>
+<div style="page-break-after:always"></div>
 <h1>3. Roadkill web.config</h1>
 <p>This page contains reference information about the web.config settings for Roadkill, and expects you to have some knowledge of .NET XML configuration files/web.config files.</p>
 <h2>Roadkill section</h2>
@@ -421,6 +426,7 @@ This can be done via the system.net section which is included in the Roadkill we
 &lt;/system.net&gt;
 </code></pre>
 
+<div style="page-break-after:always"></div>
 <h1>4. Users and permissions</h1>
 <h2>Permissions and roles</h2>
 <h3>Basics</h3>
@@ -445,6 +451,7 @@ This can be done via the system.net section which is included in the Roadkill we
 <h2>Editing users</h2>
 <p>As with adding new users, editing users is also done via the &quot;site settings&quot; page. You can use this interface to change people's passwords if needed, which can also be used to de-activate users if needed. </p>
 <p>If you are using Active Directory for authentication then you cannot edit users to the system.</p>
+<div style="page-break-after:always"></div>
 <h1>5. Creating and editing pages, using tags as categories</h1>
 <h2>Creating a new page</h2>
 <p>To create a page in Roadkill, you need to have an editor or administrator login - you cannot edit or create pages anonymously. There are various ways of setting up user rights on your site, which can be found on <a href="">Users and permissions page</a>.</p>
@@ -462,6 +469,7 @@ This can be done via the system.net section which is included in the Roadkill we
 <h2>Tags (aka categories)</h2>
 <p>Roadkill differs slightly from other wiki engines in that it approaches categorizing pages from a blog engine perspective, by using tags rather than categories. Obviously the difference can be seen as just semantics, but tagging allows you use as many tags as you like for each page, giving a page multiple categories. These tags are also searchable in the Roadkill search interface, more on this on [Searching with the inbuilt Lucene.net search engine] page.</p>
 <p>There is one special tag built into Roadkill which is the &quot;homepage&quot; tag. This can be used on one page only (the first page is always used), and tells Roadkill that this page should be used for the homepage on the site.</p>
+<div style="page-break-after:always"></div>
 <h1>6. Adding images and media</h1>
 <p>Roadkill allows you to upload images and other files which you can reference in your pages, or in the case of images, show on the page.</p>
 <p>To upload files, click on the image button when adding or editing a page. This will display the file manager in a new dialogue which lets you upload new files and create folders. Deleting files is not currently supported in the file manager.</p>
@@ -478,6 +486,7 @@ This is my Excel file: [[attachment:/Spreadsheets/Sheet1.xls|excel file]]
 <p>The files you can upload are limited by their extensions, which is configurable through the admin site (Site settings-&gt;configuration). You may find that some file extensions will still return &quot;403.1&quot; errors - this is caused by the file extension having no mimetype mapping in IIS. If you map the file type then the file will then display correctly in the browser.</p>
 <h2>Web farms/garden support</h2>
 <p>The uploads in Roadkill are not currently synced across servers. Version 1.5 of Roadkill will allow you to use a shared folder for uploads, but for now you will need to manually copy and sync files between the multiple upload folders.</p>
+<div style="page-break-after:always"></div>
 <h1>7. Multi-language support</h1>
 <p>Roadkill supports multiple languages, also known as localization, but currently only contains an English (British/American) word and phrase set for the installer and site-wide labels/help. The validation <em>bold</em> is multi-lingual however.</p>
 <p><em>Any help with translations to other languages would be a great help</em> :it involves translating around 400 very basic words or short phrases in a text file - please contact us via Google groups (details on the main page) or issue tracker if you help.</p>
@@ -487,6 +496,7 @@ This is my Excel file: [[attachment:/Spreadsheets/Sheet1.xls|excel file]]
 
 <p>The uiCulture attribute should be a value from the &quot;culture name&quot; column from this page [url:http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo(v=vs.71).aspx]</p>
 <p>Multi-language support for the pages you create will still remain a manual process. The engine has no way of switching languages, but it is possible to use tags to distinguish between page languages.</p>
+<div style="page-break-after:always"></div>
 <h1>8. Markup types and parsers</h1>
 <p>Roadkill enables you to edit your Wiki in three different flavours of markup language:</p>
 <ul>
@@ -518,6 +528,7 @@ This is my Excel file: [[attachment:/Spreadsheets/Sheet1.xls|excel file]]
 </code></pre>
 
 <p>These display your text in a red and yellow box respectively. The XML also contains a section to enter some help text for the tag. Every token is displayed in the help dialog when you click on the &quot;?&quot; help button on the edit/create page along with this help text.</p>
+<div style="page-break-after:always"></div>
 <h1>9. Importing and exporting with Roadkill</h1>
 <h2>Importing</h2>
 <p>Roadkill currently has one option for importing existing content, which is from a Screwturn 2 installation. Future versions of Roadkill will include a REST API for importing data, but for now this is the only import option.</p>
@@ -530,6 +541,7 @@ This is my Excel file: [[attachment:/Spreadsheets/Sheet1.xls|excel file]]
 <li>Exporting each page as text (.wiki) file.</li>
 </ul>
 <p>You need to login as an administrator and head to the site settings-&gt;tools page to export. All three export types will supply you with the content in .zip format, the .wiki text file export will include the page tags at the top of the file and then the content itself. </p>
+<div style="page-break-after:always"></div>
 <h1>10. Searching with the inbuilt Lucene.net search engine</h1>
 <h2>Introduction</h2>
 <p>The Roadkill search engine is powered by Lucene.net : [url:http://incubator.apache.org/lucene.net/] . The index is updated each time a page is created or edited. Roadkill indexes the full content of the page along with the following fields:</p>
@@ -553,6 +565,20 @@ This is my Excel file: [[attachment:/Spreadsheets/Sheet1.xls|excel file]]
 <h3>Issues when a page is updated or created</h3>
 <p>Occasionally the Lucene index gets out of sync with the site from an error or other reason. This can also happen when a page is deleted - the whole index is updated when a page is created or deleted. If this happens you should login as the administrator for the site and head to Site settings-&gt;Tools and use the &quot;Rebuild search index&quot; option.</p>
 <p>This is the best thing to do for any search related problems, as it 99% of the time it will resolve the issue you're having.</p>
+<div style="page-break-after:always"></div>
+<h1>12. Themes</h1>
+<p>Roadkill supports a fairly comprehensive theming framework that allows you to completely reskin your wiki if needed. The Roadkill installation comes with two themes:</p>
+<h3>Blackbar</h3>
+<p>This is the default theme with a black navigation bar across the top of the page. This theme and some roadkill UI elements in general has been designed for a page with a while background. The theme has a very small ego and has no Roadkill logo on the screen.</p>
+<h3>Media wiki</h3>
+<p>This theme emulates the website style you see with media wiki installations. It contains a navigation bar on the left side of the screen and the logo in the top left.</p>
+<h2>Creating a theme in 3 steps</h2>
+<h4>1. Create the theme folder</h4>
+<p>The first step for theme creation is to create a new folder under the &quot;Themes&quot; folder. Name this folder with the name of your theme, without spaces.</p>
+<h4>2. Copy an existing theme across</h4>
+<p>It's easiest to get started by simply copying the &quot;Theme.cshtml&quot; and &quot;Theme.css&quot; files from the &quot;Blackbar&quot; theme folder to your new theme folder. This way you a skeleton to work with, and can just strip out the parts you don't want.</p>
+<h4>3. Edit the theme.css</h4>
+<p>Roadkill has a set of global CSS classes and IDs that you can use in your theme, which are listed below. Theme specific styles are declared inside the theme's &quot;Theme.css&quot; file. This includes font styles, heading styles, anchor styles and tag cloud styles.</p>
 <h1>11. Theme style reference</h1>
 <p>When creating a theme, you get the following CSS classes available to you so the site adheres to the DRY principle:</p>
 <ul>
@@ -586,19 +612,7 @@ This is my Excel file: [[attachment:/Spreadsheets/Sheet1.xls|excel file]]
 <li>Print style sheet</li>
 </ul>
 <p>Your theme should include a print style sheet. You don't normally need to create this, copying the Theme.Print.css file from the Mediawiki theme will be enough as the style sheet simply turns off all navigation and headers.</p>
-<h1>12. Themes</h1>
-<p>Roadkill supports a fairly comprehensive theming framework that allows you to completely reskin your wiki if needed. The Roadkill installation comes with two themes:</p>
-<h3>Blackbar</h3>
-<p>This is the default theme with a black navigation bar across the top of the page. This theme and some roadkill UI elements in general has been designed for a page with a while background. The theme has a very small ego and has no Roadkill logo on the screen.</p>
-<h3>Media wiki</h3>
-<p>This theme emulates the website style you see with media wiki installations. It contains a navigation bar on the left side of the screen and the logo in the top left.</p>
-<h2>Creating a theme in 3 steps</h2>
-<h4>1. Create the theme folder</h4>
-<p>The first step for theme creation is to create a new folder under the &quot;Themes&quot; folder. Name this folder with the name of your theme, without spaces.</p>
-<h4>2. Copy an existing theme across</h4>
-<p>It's easiest to get started by simply copying the &quot;Theme.cshtml&quot; and &quot;Theme.css&quot; files from the &quot;Blackbar&quot; theme folder to your new theme folder. This way you a skeleton to work with, and can just strip out the parts you don't want.</p>
-<h4>3. Edit the theme.css</h4>
-<p>Roadkill has a set of global CSS classes and IDs that you can use in your theme, which are listed below. Theme specific styles are declared inside the theme's &quot;Theme.css&quot; file. This includes font styles, heading styles, anchor styles and tag cloud styles.</p>
+<div style="page-break-after:always"></div>
 
 </body>
 </html>
