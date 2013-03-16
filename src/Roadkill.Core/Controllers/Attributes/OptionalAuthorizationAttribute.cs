@@ -6,7 +6,7 @@ using Roadkill.Core.Configuration;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// Represents an attribute that is used to restrict access by callers to users that are in Editor role group.
+	/// Represents an attribute that is used to restrict access to people who are in the Editor role group (or above).
 	/// </summary>
 	public class OptionalAuthorizationAttribute : AuthorizeAttribute
 	{
@@ -35,7 +35,7 @@ namespace Roadkill.Core
 		/// <exception cref="T:System.ArgumentNullException">The <paramref name="httpContext"/> parameter is null.</exception>
 		protected override bool AuthorizeCore(HttpContextBase httpContext)
 		{
-			if (!_config.ApplicationSettings.Installed)
+			if (!_config.ApplicationSettings.Installed || _config.ApplicationSettings.UpgradeRequired)
 			{
 				return true;
 			}

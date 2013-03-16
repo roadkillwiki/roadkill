@@ -48,6 +48,7 @@ namespace Roadkill.Tests.Unit
 
 			_config = new RoadkillSettings();
 			_config.ApplicationSettings = new ApplicationSettings();
+			_config.ApplicationSettings.Installed = true;
 			_config.SitePreferences = new SitePreferences() { AllowedFileTypes = "png, jpg" };
 			_config.ApplicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
 

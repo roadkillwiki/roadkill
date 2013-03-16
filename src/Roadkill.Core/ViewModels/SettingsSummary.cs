@@ -120,7 +120,7 @@ namespace Roadkill.Core
 		{
 			get
 			{
-				return ApplicationSettings.Version.ToString();
+				return ApplicationSettings.AssemblyVersion.ToString();
 			}
 		}
 

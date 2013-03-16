@@ -11,34 +11,35 @@ namespace Roadkill.Core
 	/// </summary>
 	public class User : IDataStoreEntity
 	{
+		public virtual string ActivationKey { get; set; }
 		public virtual Guid Id { get; set; }
-
-		/// <summary>
-		/// This field is for page modifiedby/created by, and is a 'friendly' name. For windows auth the email field is used instead.
-		/// </summary>
-		public virtual string Username { get; set; }
 
 		/// <summary>
 		/// This is used as the username or identifier for the user. If using windows auth, this will
 		/// be the user name from active directory.
 		/// </summary>
 		public virtual string Email { get; set; }
-
 		public virtual string Firstname { get; set; }
+		public virtual bool IsEditor { get; set; }
+		public virtual bool IsAdmin { get; set; }
+		public virtual bool IsActivated { get; set; }
 		public virtual string Lastname { get; set; }
 		/// <summary>
 		/// Do not use this property - use <see cref="SetPassword"/> instead
 		/// </summary>
 		public virtual string Password { get; protected set; }
+
+		public virtual string PasswordResetKey { get; set; }
+
 		/// <summary>
 		/// Do not use this property - use <see cref="SetPassword"/> instead
 		/// </summary>
 		public virtual string Salt { get; set; }
-		public virtual bool IsEditor { get; set; }
-		public virtual bool IsAdmin { get; set; }
-		public virtual bool IsActivated { get; set; }
-		public virtual string ActivationKey { get; set; }
-		public virtual string PasswordResetKey { get; set; }
+
+		/// <summary>
+		/// This field is for page modifiedby/created by, and is a 'friendly' name. For windows auth the email field is used instead.
+		/// </summary>
+		public virtual string Username { get; set; }
 
 		public Guid ObjectId
 		{

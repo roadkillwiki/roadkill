@@ -152,6 +152,7 @@ namespace Roadkill.Core
 				section.IsPublicSite = true;
 				section.IgnoreSearchIndexErrors = true;
 				section.ResizeImages = true;
+				section.Version = ApplicationSettings.AssemblyVersion.ToString();
 
 				section.Installed = true;
 
@@ -191,6 +192,26 @@ namespace Roadkill.Core
 			// Turn on anonymous auth
 			AnonymousIdentificationSection anonSection = config.GetSection("system.web/anonymousIdentification") as AnonymousIdentificationSection;
 			anonSection.Enabled = true;
+		}
+
+		/// <summary>
+		/// Updates the 'version' attribute in the web.config to the current assembly version (for post-upgrades).
+		/// </summary>
+		public void SaveCurrentVersionToWebConfig()
+		{
+			try
+			{
+				System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+
+				RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
+				section.Version = ApplicationSettings.AssemblyVersion.ToString();
+
+				config.Save(ConfigurationSaveMode.Minimal);
+			}
+			catch (ConfigurationErrorsException ex)
+			{
+				throw new UpgradeException("An exception occurred while updating the version to the web.config", ex);
+			}
 		}
 	}
 }

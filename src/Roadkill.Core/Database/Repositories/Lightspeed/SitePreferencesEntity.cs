@@ -18,7 +18,6 @@ namespace Roadkill.Core.Database.LightSpeed
 			}
 		}
 
-
 		public string Content
 		{
 			get

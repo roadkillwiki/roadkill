@@ -75,10 +75,23 @@ namespace Roadkill.Core.Converters
 			_repository = repository;
 			_configuration = configuration;
 
-			string markupType = "creole";
+			string markupType = "";
+	
+			if (!_configuration.ApplicationSettings.Installed || _configuration.ApplicationSettings.UpgradeRequired)
+			{
+				string warnMessage = "Roadkill is not installed, or an upgrade is pending (ApplicationSettings.UpgradeRequired = false)." +
+									"Skipping initialization of MarkupConverter (MarkupConverter.Parser will now be null)";
 
-			if (_configuration.SitePreferences != null && !string.IsNullOrEmpty(_configuration.SitePreferences.MarkupType))
+				Console.WriteLine(warnMessage);
+				Log.Warn(warnMessage);
+
+				// Skip the chain of creation, as the markup converter isn't needed
+				return;
+			}
+			else if (_configuration.SitePreferences != null && !string.IsNullOrEmpty(_configuration.SitePreferences.MarkupType))
+			{
 				markupType = _configuration.SitePreferences.MarkupType.ToLower();
+			}
 
 			switch (markupType)
 			{

@@ -1,0 +1,24 @@
+﻿@model Exception
+@{
+	Layout = "~/Views/Upgrade/Layout.cshtml";
+}
+
+<h1>Upgrade required</h1>
+<p>
+	Roadkill needs to perform a one time upgrade. Click below to upgrade now.
+</p>
+<p class="italic">
+	Note: Your site preferences - site name, url, markup type - will be reset after this upgrade.
+	Please go to the admin settings page to update them once you've upgraded (sorry!).
+</p>
+
+@if (Model != null)
+{
+	<h4>An error occurred:</h4>
+	<pre class="alert alert-error" style="width:100%;overflow:scroll;">@Model.ToString()</pre>
+}
+
+@using (Html.BeginForm("Run", "Upgrade"))
+{
+	<input type="submit" class="btn btn-primary" value="Upgrade" />
+}

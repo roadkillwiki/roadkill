@@ -145,15 +145,14 @@ namespace Roadkill.Core.Database.LightSpeed
 			if (entity == null || entity.Id == Guid.Empty)
 			{
 				entity = new SitePreferencesEntity();
-				entity.Version = ApplicationSettings.Version.ToString();
+				entity.Version = ApplicationSettings.AssemblyVersion.ToString();
 				entity.Content = preferences.GetJson();
 				UnitOfWork.Add(entity);
 			}
 			else
 			{
-				entity.Version = ApplicationSettings.Version.ToString();
+				entity.Version = ApplicationSettings.AssemblyVersion.ToString();
 				entity.Content = preferences.GetJson();
-				UnitOfWork.Import<SitePreferencesEntity>(entity);
 			}
 
 			UnitOfWork.SaveChanges();
@@ -171,7 +170,7 @@ namespace Roadkill.Core.Database.LightSpeed
 				context.VerboseLogging = true;
 
 #if DEBUG
-				context.Logger = new TraceLogger();
+				//context.Logger = new TraceLogger();
 				context.Cache = new Mindscape.LightSpeed.Caching.CacheBroker(new DefaultCache());
 #endif
 
@@ -212,6 +211,38 @@ namespace Roadkill.Core.Database.LightSpeed
 			{
 				connection.ConnectionString = connectionString;
 				connection.Open();
+			}
+		}
+
+		public void Upgrade(IConfigurationContainer configuration)
+		{
+			try
+			{
+				using (IDbConnection connection = Context.DataProviderObjectFactory.CreateConnection())
+				{
+					connection.ConnectionString = configuration.ApplicationSettings.ConnectionString;
+					connection.Open();
+
+					IDbCommand command = Context.DataProviderObjectFactory.CreateCommand();
+					command.Connection = connection;
+
+					configuration.ApplicationSettings.DataStoreType.Schema.Upgrade(command);
+				}
+			}
+			catch (Exception ex)
+			{
+				Log.Error("Upgrade failed: {0}", ex);
+				throw new UpgradeException("A problem occurred upgrading the database schema.\n\n", ex);
+			}
+
+			try
+			{
+				SaveSitePreferences(new SitePreferences());
+			}
+			catch (Exception ex)
+			{
+				Log.Error("Upgrade failed: {0}", ex);
+				throw new UpgradeException("A problem occurred saving the site preferences.\n\n", ex);
 			}
 		}
 
@@ -393,8 +424,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			}
 			else
 			{
-				entity = Mapper.Map<Page, PageEntity>(page);
-				UnitOfWork.Import<PageEntity>(entity);
+				MapPageToEntity(page, entity);
 			}
 
 			UnitOfWork.SaveChanges();
@@ -406,7 +436,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			pageEntity.Id = 0;
 			UnitOfWork.Add(pageEntity);
 
-			PageContentEntity pageContent = new PageContentEntity()
+			PageContentEntity pageContentEntity = new PageContentEntity()
 			{
 				Id = Guid.NewGuid(),
 				Page = pageEntity,
@@ -416,10 +446,14 @@ namespace Roadkill.Core.Database.LightSpeed
 				VersionNumber = 1,
 			};
 
-			UnitOfWork.Add(pageContent);
+			UnitOfWork.Add(pageContentEntity);
 			UnitOfWork.SaveChanges();
 
-			return Mapper.Map<PageContentEntity, PageContent>(pageContent);
+			PageContent pageContent = new PageContent();
+			pageContent.Page = page;
+			MapEntityToPageContent(pageContentEntity, pageContent);
+
+			return pageContent;
 		}
 
 		public PageContent AddNewPageContentVersion(Page page, string text, string editedBy, DateTime editedOn, int version)
@@ -427,7 +461,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			PageEntity pageEntity = UnitOfWork.FindById<PageEntity>(page.Id);
 			if (pageEntity != null)
 			{
-				PageContentEntity pageContent = new PageContentEntity()
+				PageContentEntity pageContentEntity = new PageContentEntity()
 				{
 					Id = Guid.NewGuid(),
 					Page = pageEntity,
@@ -437,9 +471,13 @@ namespace Roadkill.Core.Database.LightSpeed
 					VersionNumber = version,
 				};
 
-				UnitOfWork.Add(pageContent);
+				UnitOfWork.Add(pageContentEntity);
 				UnitOfWork.SaveChanges();
-				return Mapper.Map<PageContentEntity, PageContent>(pageContent);
+
+				PageContent pageContent= new PageContent();
+				pageContent.Page = page;
+				MapEntityToPageContent(pageContentEntity, pageContent);
+				return pageContent;
 			}
 
 			Log.Error("Unable to update page content for page id {0} (not found)", page.Id);
@@ -456,8 +494,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			}
 			else
 			{
-				entity = Mapper.Map<User, UserEntity>(user);
-				UnitOfWork.Import<UserEntity>(entity);
+				MapUserToEntity(user, entity);
 			}
 
 			UnitOfWork.SaveChanges();
@@ -468,11 +505,51 @@ namespace Roadkill.Core.Database.LightSpeed
 			PageContentEntity entity = UnitOfWork.FindById<PageContentEntity>(content.Id);
 			if (entity != null)
 			{
-				entity = Mapper.Map<PageContent, PageContentEntity>(content);
-				UnitOfWork.Import<PageContentEntity>(entity);
+				MapPageContentToEntity(content, entity);
+				UnitOfWork.SaveChanges();
 			}
+		}
 
-			UnitOfWork.SaveChanges();
+		private void MapUserToEntity(User user, UserEntity entity)
+		{
+			entity.ActivationKey = user.ActivationKey;
+			entity.Email = user.Email;
+			entity.Firstname = user.Firstname;
+			entity.IsActivated = user.IsActivated;
+			entity.IsAdmin = user.IsAdmin;
+			entity.IsEditor = user.IsEditor;
+			entity.Lastname = user.Lastname;
+			entity.Password = user.Password;
+			entity.PasswordResetKey = user.PasswordResetKey;
+			entity.Salt = user.Salt;
+			entity.Username = user.Username;
+		}
+
+		private void MapPageToEntity(Page page, PageEntity entity)
+		{
+			entity.CreatedBy = page.CreatedBy;
+			entity.CreatedOn = page.CreatedOn;
+			entity.ModifiedBy = page.ModifiedBy;
+			entity.ModifiedBy = page.ModifiedBy;
+			entity.Tags = page.Tags;
+			entity.Title = page.Title;
+		}
+
+		private void MapPageContentToEntity(PageContent pageContent, PageContentEntity entity)
+		{
+			entity.EditedOn = pageContent.EditedOn;
+			entity.EditedBy = pageContent.EditedBy;
+			entity.Text = pageContent.Text;
+			entity.VersionNumber = pageContent.VersionNumber;
+		}
+
+		private void MapEntityToPageContent(PageContentEntity entity, PageContent pageContent)
+		{
+			pageContent.Id = entity.Id;
+			pageContent.EditedOn = entity.EditedOn;
+			pageContent.EditedBy = entity.EditedBy;
+			pageContent.Text = entity.Text;
+			pageContent.VersionNumber = entity.VersionNumber;
 		}
 	}
 }

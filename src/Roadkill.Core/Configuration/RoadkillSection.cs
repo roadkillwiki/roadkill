@@ -66,6 +66,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// The database type for Roadkill. This defaults to SQLServer2005 if empty - see DatabaseType enum for all options.
 		/// </summary>
+		/// <remarks>Added (renamed) in 1.6</remarks>
 		[ConfigurationProperty("databaseType", IsRequired = false)]
 		public string DataStoreType
 		{
@@ -201,6 +202,18 @@ namespace Roadkill.Core
 		{
 			get { return (string)this["userManagerType"]; }
 			set { this["userManagerType"] = value; }
+		}
+
+		/// <summary>
+		/// The version of the roadkill application running. If this is less than the current assembly version,
+		/// then it's assumed that an upgrade is required at startup.
+		/// </summary>
+		/// <remarks>Added in 1.6</remarks>
+		[ConfigurationProperty("version", IsRequired = false, DefaultValue = "")]
+		public string Version
+		{
+			get { return (string)this["version"]; }
+			set { this["version"] = value; }
 		}
 
 		/// <summary>

@@ -130,7 +130,7 @@ namespace Roadkill.Core.Database.MongoDB
 			if (entity == null)
 				entity = new SitePreferencesEntity();
 
-			entity.Version = ApplicationSettings.Version.ToString();
+			entity.Version = ApplicationSettings.AssemblyVersion.ToString();
 			entity.Content = preferences.GetJson();
 			SaveOrUpdate<SitePreferencesEntity>(entity);
 		}
@@ -159,6 +159,11 @@ namespace Roadkill.Core.Database.MongoDB
 			MongoServer server = client.GetServer();
 			MongoDatabase database = server.GetDatabase(databaseName);
 			database.GetCollectionNames();
+		}
+
+		public void Upgrade(IConfigurationContainer configuration)
+		{
+			// Delete the SitePreferences instance
 		}
 
 		public IEnumerable<Page> AllPages()

@@ -284,6 +284,7 @@
     <Compile Include="Configuration\ApplicationSettings.cs" />
     <Compile Include="Controllers\Attributes\CacheAttribute.cs" />
     <Compile Include="Controllers\RoadkillViewPage.cs" />
+    <Compile Include="Controllers\UpgradeController.cs" />
     <Compile Include="Database\Repositories\IUserRepository.cs" />
     <Compile Include="Database\Repositories\IPageRepository.cs" />
     <Compile Include="Database\DataStoreType.cs" />
@@ -303,6 +304,7 @@
     <Compile Include="Database\Schema\SqlServer\SqlServerSchema.cs" />
     <Compile Include="Domain\Managers\IPageManager.cs" />
     <Compile Include="Database\Repositories\MongoDB\MongoDBRepository.cs" />
+    <Compile Include="Exceptions\UpgradeException.cs" />
     <Compile Include="Files\MimeMapping.cs" />
     <Compile Include="IoC\IocSetup.cs" />
     <Compile Include="IoC\IInjectionLaunderer.cs" />
@@ -437,7 +439,12 @@
     <EmbeddedResource Include="Database\Schema\SqlServerCE\Create1.sql" />
     <EmbeddedResource Include="Database\Schema\MySql\Create.sql" />
     <EmbeddedResource Include="Database\Schema\MySql\Drop.sql" />
-    <EmbeddedResource Include="Database\Schema\SqlServer\Upgrade16.sql" />
+    <EmbeddedResource Include="Database\Schema\MySql\Upgrade.sql" />
+    <EmbeddedResource Include="Database\Schema\Postgres\Upgrade.sql" />
+    <EmbeddedResource Include="Database\Schema\Sqlite\Upgrade.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServer\Upgrade.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Upgrade1.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Upgrade2.sql" />
     <Content Include="Localization\Text\InstallStrings.cs-CZ.txt" />
     <Content Include="Localization\Text\InstallStrings.pl-PL.txt" />
     <Content Include="Localization\Text\InstallStrings.txt" />
