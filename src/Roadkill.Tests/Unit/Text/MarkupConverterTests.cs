@@ -18,6 +18,7 @@ namespace Roadkill.Tests.Unit
 		public void Setup()
 		{
 			_config = new ConfigurationContainerStub();
+			_config.ApplicationSettings.Installed = true;
 			_config.ApplicationSettings.UseHtmlWhiteList = true;
 			_converter = new MarkupConverter(_config, null);
 		}

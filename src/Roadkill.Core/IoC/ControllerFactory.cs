@@ -31,6 +31,7 @@ namespace Roadkill.Core.Configuration
 			}
 			catch (StructureMapException e)
 			{
+				Log.Error("An error occured with the ControllerFactory: {0}", e);
 				throw new IoCException(e,"An error occured with the ControllerFactory: {0}", ObjectFactory.WhatDoIHave());
 			}
 		}

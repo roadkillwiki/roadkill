@@ -21,7 +21,8 @@ namespace Roadkill.Core.Database.Schema
 
 		protected override IEnumerable<string> GetUpgradeStatements()
 		{
-			return new string[] { };
+			string sql = LoadFromResource("Roadkill.Core.Database.Schema.SqlServer.Upgrade.sql");
+			return new string[] { sql };
 		}
 	}
 }

@@ -30,6 +30,8 @@ namespace Roadkill.Tests.Integration
 			_config = new RoadkillSettings();
 			_config.ApplicationSettings = new ApplicationSettings();
 			_config.ApplicationSettings.Load(null); // load from the app.config
+			_config.ApplicationSettings.Installed = true;
+			_config.ApplicationSettings.UpgradeRequired = false;
 			_config.SitePreferences = new SitePreferences();
 		}
 

@@ -23,6 +23,8 @@ namespace Roadkill.Tests.Integration
 			IConfigurationContainer config = new RoadkillSettings();
 			config.ApplicationSettings = new ApplicationSettings();
 			config.ApplicationSettings.Load(null); // from app.config
+			config.ApplicationSettings.Installed = true;
+			config.ApplicationSettings.UpgradeRequired = false;
 
 			SettingsSummary summary = new SettingsSummary(config);
 			summary.ConnectionString = config.ApplicationSettings.ConnectionString;

@@ -29,5 +29,12 @@ namespace Roadkill.Core.Database
 		void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache);
 		void Install(DataStoreType dataStoreType, string connectionString, bool enableCache);
 		void Test(DataStoreType dataStoreType, string connectionString);
+		
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="configuration"></param>
+		/// <exception cref="UpgradeException">Thrown if there is a problem with the upgrade. This contains the details of the failure.</exception>
+		void Upgrade(IConfigurationContainer configuration);
 	}
 }

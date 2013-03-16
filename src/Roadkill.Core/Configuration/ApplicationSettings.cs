@@ -132,6 +132,11 @@ namespace Roadkill.Core.Configuration
 		public bool ResizeImages { get; set; }
 
 		/// <summary>
+		/// True if the version number in the web.config does not match the current assembly version.
+		/// </summary>
+		public bool UpgradeRequired { get; internal set; }
+
+		/// <summary>
 		/// Gets a value indicating whether the html that is converted from the markup is 
 		/// cleaned for tags, using the App_Data/htmlwhitelist.xml file.
 		/// </summary>
@@ -151,9 +156,9 @@ namespace Roadkill.Core.Configuration
 		public bool UseWindowsAuthentication { get; set; }
 
 		/// <summary>
-		/// The current Roadkill version.
+		/// The current Roadkill assembly version.
 		/// </summary>
-		public static Version Version
+		public static Version AssemblyVersion
 		{
 			get
 			{
@@ -231,6 +236,24 @@ namespace Roadkill.Core.Configuration
 			UseHtmlWhiteList = section.UseHtmlWhiteList;
 			UserManagerType = section.UserManagerType;
 			UseWindowsAuthentication = section.UseWindowsAuthentication;
+
+			if (string.IsNullOrEmpty(section.Version))
+			{
+				UpgradeRequired = true;
+			}
+			else
+			{
+				Version configVersion = null;
+				if (Version.TryParse(section.Version, out configVersion))
+				{
+					UpgradeRequired = (configVersion != AssemblyVersion);
+				}
+				else
+				{
+					Log.Warn("Invalid Version found ({0}) in the web.config, assuming it's the same as the assembly version ({1})", section.Version, AssemblyVersion);
+					UpgradeRequired = false;
+				}
+			}
 		}
 
 		/// <summary>

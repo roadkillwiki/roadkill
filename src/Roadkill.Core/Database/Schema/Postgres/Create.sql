@@ -1,4 +1,5 @@
-﻿CREATE TABLE roadkill_pages (
+﻿CREATE TABLE roadkill_pages
+(
   "id" SERIAL NOT NULL, 
   "title" TEXT NOT NULL, 
   "tags" TEXT NOT NULL, 
@@ -8,9 +9,10 @@
   "modifiedby" TEXT, 
   "modifiedon" TIMESTAMP(20) WITHOUT TIME ZONE, 
   PRIMARY KEY("id")
-) ;
+);
 
-CREATE TABLE roadkill_pagecontent (
+CREATE TABLE roadkill_pagecontent
+(
   "id" UUID NOT NULL, 
   "editedby" TEXT NOT NULL, 
   "editedon" TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
@@ -18,9 +20,10 @@ CREATE TABLE roadkill_pagecontent (
   "text" TEXT, 
   "pageid" INTEGER NOT NULL, 
   PRIMARY KEY("id")
-) ;
+);
 
-CREATE TABLE roadkill_users (
+CREATE TABLE roadkill_users
+(
   "id" UUID NOT NULL, 
   "activationkey" TEXT, 
   "email" TEXT NOT NULL, 
@@ -34,11 +37,12 @@ CREATE TABLE roadkill_users (
   "salt" TEXT NOT NULL, 
   "username" TEXT NOT NULL, 
   PRIMARY KEY("id")
-) ;
+);
 
-CREATE TABLE roadkill_siteconfiguration (
+CREATE TABLE roadkill_siteconfiguration 
+(
   "id" UUID NOT NULL, 
   "version" TEXT NOT NULL, 
   "content" TEXT NOT NULL UNIQUE, 
   PRIMARY KEY("id")
-) ;
+);

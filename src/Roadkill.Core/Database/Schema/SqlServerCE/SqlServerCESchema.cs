@@ -51,7 +51,11 @@ namespace Roadkill.Core.Database.Schema
 
 		protected override IEnumerable<string> GetUpgradeStatements()
 		{
-			return new string[] { };
+			List<string> scripts = new List<string>();
+			scripts.Add(LoadFromResource("Roadkill.Core.Database.Schema.SqlServerCE.Upgrade1.sql"));
+			scripts.Add(LoadFromResource("Roadkill.Core.Database.Schema.SqlServerCE.Upgrade2.sql"));
+
+			return scripts.ToArray();
 		}
 	}
 }

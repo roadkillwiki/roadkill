@@ -29,7 +29,10 @@ namespace Roadkill.Tests.Unit
 			mockRepository.Setup(x => x.GetPageByTitle(page.Title)).Returns<string>(p => { return page; });
 
 			IConfigurationContainer config = new RoadkillSettings();
+			config.ApplicationSettings.Installed = true;
+			config.ApplicationSettings.UpgradeRequired = false;
 			config.SitePreferences = new SitePreferences() { MarkupType = "Markdown" };
+
 			MarkupConverter converter = new MarkupConverter(config, mockRepository.Object);
 			converter.InternalUrlForTitle = (id, title) => { return "blah"; };
 			
@@ -59,6 +62,8 @@ namespace Roadkill.Tests.Unit
 			mockRepository.Setup(x => x.GetPageByTitle(page.Title)).Returns<string>(p => { return page; });
 
 			IConfigurationContainer config = new RoadkillSettings();
+			config.ApplicationSettings.Installed = true;
+			config.ApplicationSettings.UpgradeRequired = false;
 			config.SitePreferences = new SitePreferences() { MarkupType = "Markdown" };
 			MarkupConverter converter = new MarkupConverter(config, mockRepository.Object);
 

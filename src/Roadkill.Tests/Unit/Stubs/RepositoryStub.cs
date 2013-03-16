@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Roadkill.Core;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 
 namespace Roadkill.Tests.Unit
@@ -98,6 +99,11 @@ namespace Roadkill.Tests.Unit
 		public void Test(DataStoreType dataStoreType, string connectionString)
 		{
 			
+		}
+
+		public void Upgrade(IConfigurationContainer configuration)
+		{
+
 		}
 
 		#endregion

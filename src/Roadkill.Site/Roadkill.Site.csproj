@@ -384,6 +384,8 @@
     </Content>
     <None Include="Properties\PublishProfiles\Demosite.pubxml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
+    <Content Include="Views\Upgrade\Index.cshtml" />
+    <Content Include="Views\Upgrade\Layout.cshtml" />
     <None Include="Web.DemoSite.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

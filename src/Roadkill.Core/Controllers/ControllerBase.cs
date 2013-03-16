@@ -25,7 +25,7 @@ namespace Roadkill.Core.Controllers
 
 		protected override void OnException(ExceptionContext filterContext)
 		{
-			Log.Error("{0}\n{1}", filterContext.Exception.Message, filterContext.Exception.ToString());
+			Log.Error("Error caught on controller: {0}\n{1}", filterContext.Exception.Message, filterContext.Exception.ToString());
 			base.OnException(filterContext);
 		}
 
@@ -41,6 +41,13 @@ namespace Roadkill.Core.Controllers
 			{
 				if (!(filterContext.Controller is InstallController))
 					filterContext.Result = new RedirectResult(this.Url.Action("Index","Install"));
+
+				return;
+			}
+			else if (Configuration.ApplicationSettings.UpgradeRequired)
+			{
+				if (!(filterContext.Controller is UpgradeController))
+					filterContext.Result = new RedirectResult(this.Url.Action("Index", "Upgrade"));
 
 				return;
 			}
