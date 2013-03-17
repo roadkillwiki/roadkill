@@ -13,19 +13,19 @@ namespace Roadkill.Core
 	/// </summary>
 	public class PageContent : IDataStoreEntity
 	{
-		public virtual Guid Id { get; set; }
-		public virtual Page Page { get; set; }
-		public virtual string Text { get; set; }
-		public virtual string EditedBy { get; set; }
-		public virtual DateTime EditedOn { get; set; }
-		public virtual int VersionNumber { get; set; }
+		public Guid Id { get; set; }
+		public Page Page { get; set; }
+		public string Text { get; set; }
+		public string EditedBy { get; set; }
+		public DateTime EditedOn { get; set; }
+		public int VersionNumber { get; set; }
 		public Guid ObjectId
 		{
 			get { return Id; }
 			set { Id = value; }
 		}
 
-		public virtual PageSummary ToSummary(MarkupConverter markupConverter)
+		public PageSummary ToSummary(MarkupConverter markupConverter)
 		{
 			return new PageSummary()
 			{

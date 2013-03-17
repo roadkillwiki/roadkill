@@ -158,9 +158,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper">
-      <HintPath>..\..\packages\AutoMapper.2.2.1\lib\net40\AutoMapper.dll</HintPath>
-    </Reference>
     <Reference Include="FluentMigrator.Runner, Version=1.0.6.0, Culture=neutral, PublicKeyToken=aacfc7de5acabf05, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\FluentMigrator.Tools.1.0.6.0\tools\AnyCPU\40\FluentMigrator.Runner.dll</HintPath>
@@ -289,7 +286,9 @@
     <Compile Include="Database\Repositories\IPageRepository.cs" />
     <Compile Include="Database\DataStoreType.cs" />
     <Compile Include="Database\IDataStoreEntity.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\Conversion\ToEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\LightSpeedRepository.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\Conversion\FromEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\PageEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\PageContentEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\SitePreferencesEntity.cs" />
@@ -368,6 +367,9 @@
     <Compile Include="Database\Entities\User.cs" />
     <Compile Include="Domain\Managers\InstallHelper.cs" />
     <Compile Include="Domain\Managers\ServiceBase.cs" />
+    <Compile Include="Text\ToC\StringTemplate.cs" />
+    <Compile Include="Text\ToC\Item.cs" />
+    <Compile Include="Text\ToC\Tree.cs" />
     <Compile Include="ViewModels\UserSummary.cs" />
     <Compile Include="Exceptions\HistoryException.cs" />
     <Compile Include="Exceptions\ExceptionBase.cs" />
@@ -401,7 +403,7 @@
     <Compile Include="ViewModels\PageSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoadkillApplication.cs" />
-    <Compile Include="Text\TocParser.cs" />
+    <Compile Include="Text\ToC\TocParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

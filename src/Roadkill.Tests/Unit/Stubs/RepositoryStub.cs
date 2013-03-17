@@ -10,80 +10,150 @@ namespace Roadkill.Tests.Unit
 {
 	internal class RepositoryStub : IRepository
 	{
-		private List<Page> _pages;
-		private List<PageContent> _pagesContent;
+		internal List<Page> Pages { get; private set; }
+		internal List<PageContent> PageContents { get; private set; }
+		internal List<User> Users { get; private set; }
+		internal SitePreferences SitePreferences { get; private set; }
 
 		public RepositoryStub()
 		{
-			_pages = new List<Page>();
-			_pagesContent = new List<PageContent>();
+			Pages = new List<Page>();
+			PageContents = new List<PageContent>();
+			Users = new List<User>();
+			SitePreferences = new SitePreferences();
 		}
 
 		#region IRepository Members
 
 		public void DeletePage(Page page)
 		{
-			throw new NotImplementedException();
+			Pages.Remove(page);
 		}
 
 		public void DeletePageContent(PageContent pageContent)
 		{
-			throw new NotImplementedException();
+			PageContents.Remove(pageContent);
 		}
 
 		public void DeleteUser(User user)
 		{
-			throw new NotImplementedException();
+			Users.Remove(user);
 		}
 
 		public void DeleteAllPages()
 		{
-			throw new NotImplementedException();
+			Pages = new List<Page>();
 		}
 
 		public void DeleteAllPageContent()
 		{
-			throw new NotImplementedException();
+			PageContents = new List<PageContent>();
 		}
 
 		public void DeleteAllUsers()
 		{
-			throw new NotImplementedException();
+			Users = new List<User>();
 		}
 
 		public void SaveOrUpdatePage(Page page)
 		{
-			throw new NotImplementedException();
+			Page existingPage = Pages.FirstOrDefault(x => x.Id == page.Id);
+
+			if (existingPage == null)
+			{
+				Pages.Add(page);
+			}
+			else
+			{
+				existingPage.CreatedBy = page.CreatedBy;
+				existingPage.CreatedOn = page.CreatedOn;
+				existingPage.IsLocked = page.IsLocked;
+				existingPage.ModifiedBy = page.ModifiedBy;
+				existingPage.ModifiedOn = page.ModifiedOn;
+				existingPage.Tags = page.Tags;
+				existingPage.Title = page.Title;
+			}
 		}
 
 		public PageContent AddNewPage(Page page, string text, string editedBy, DateTime editedOn)
 		{
-			throw new NotImplementedException();
+			Pages.Add(page);
+
+			PageContent content = new PageContent();
+			content.Id = Guid.NewGuid();
+			content.EditedBy = editedBy;
+			content.EditedOn = editedOn;
+			content.Page = page;
+			content.Text = text;
+			content.VersionNumber = 1;
+			PageContents.Add(content);
+
+			return content;
 		}
 
 		public PageContent AddNewPageContentVersion(Page page, string text, string editedBy, DateTime editedOn, int version)
 		{
-			throw new NotImplementedException();
+			PageContent content = new PageContent();
+			content.Id = Guid.NewGuid();
+			content.EditedBy = editedBy;
+			content.EditedOn = editedOn;
+			content.Page = page;
+			content.Text = text;
+			content.VersionNumber = FindPageContentsByPageId(page.Id).Max(x => x.VersionNumber) +1;
+			PageContents.Add(content);
+
+			return content;
 		}
 
 		public void UpdatePageContent(PageContent content)
 		{
-			throw new NotImplementedException();
+			PageContent existingContent = PageContents.FirstOrDefault(x => x.Id == content.Id);
+
+			if (existingContent == null)
+			{
+				PageContents.Add(content);
+			}
+			else
+			{
+				existingContent.EditedOn = content.EditedOn;
+				existingContent.EditedBy = content.EditedBy;
+				existingContent.Text = content.Text;
+				existingContent.VersionNumber = content.VersionNumber;
+			}
 		}
 
 		public void SaveOrUpdateUser(User user)
 		{
-			throw new NotImplementedException();
+			User existingUser = Users.FirstOrDefault(x => x.Id == user.Id);
+
+			if (existingUser == null)
+			{
+				Users.Add(user);
+			}
+			else
+			{
+				user.ActivationKey = user.ActivationKey;
+				user.Email = user.Email;
+				user.Firstname = user.Firstname;
+				user.IsActivated = user.IsActivated;
+				user.IsAdmin = user.IsAdmin;
+				user.IsEditor = user.IsEditor;
+				user.Lastname = user.Lastname;
+				user.Password = user.Password;
+				user.PasswordResetKey = user.PasswordResetKey;
+				user.Username = user.Username;
+				user.Salt = user.Salt;
+			}
 		}
 
 		public void SaveSitePreferences(SitePreferences preferences)
 		{
-			
+			SitePreferences = preferences;
 		}
 
 		public SitePreferences GetSitePreferences()
 		{
-			return new SitePreferences();
+			return SitePreferences;
 		}
 
 		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)
@@ -112,17 +182,17 @@ namespace Roadkill.Tests.Unit
 
 		public IEnumerable<Page> AllPages()
 		{
-			throw new NotImplementedException();
+			return Pages;
 		}
 
 		public Page GetPageById(int id)
 		{
-			throw new NotImplementedException();
+			return Pages.FirstOrDefault(p => p.Id == id);
 		}
 
 		public IEnumerable<Page> FindPagesByCreatedBy(string username)
 		{
-			throw new NotImplementedException();
+			return Pages.Where(p => p.CreatedBy == username);
 		}
 
 		public IEnumerable<Page> FindPagesByModifiedBy(string username)
@@ -132,57 +202,57 @@ namespace Roadkill.Tests.Unit
 
 		public IEnumerable<Page> FindPagesContainingTag(string tag)
 		{
-			throw new NotImplementedException();
+			return Pages.Where(p => p.Tags.ToLower().Contains(tag.ToLower()));
 		}
 
 		public IEnumerable<string> AllTags()
 		{
-			throw new NotImplementedException();
+			return Pages.Select(x => x.Tags);
 		}
 
 		public Page GetPageByTitle(string title)
 		{
-			throw new NotImplementedException();
+			return Pages.FirstOrDefault(p => p.Title == title);
 		}
 
 		public PageContent GetLatestPageContent(int pageId)
 		{
-			throw new NotImplementedException();
+			return PageContents.Where(p => p.Page.Id == pageId).OrderByDescending(x => x.EditedOn).FirstOrDefault();
 		}
 
 		public PageContent GetPageContentById(Guid id)
 		{
-			throw new NotImplementedException();
+			return PageContents.FirstOrDefault(p => p.Id == id);
 		}
 
 		public PageContent GetPageContentByPageIdAndVersionNumber(int id, int versionNumber)
 		{
-			throw new NotImplementedException();
+			return PageContents.FirstOrDefault(p => p.Page.Id == id && p.VersionNumber == versionNumber);
 		}
 
 		public PageContent GetPageContentByVersionId(Guid versionId)
 		{
-			throw new NotImplementedException();
+			return PageContents.FirstOrDefault(p => p.Id == versionId);
 		}
 
 		public PageContent GetPageContentByEditedBy(string username)
 		{
-			throw new NotImplementedException();
+			return PageContents.FirstOrDefault(p => p.EditedBy == username);
 		}
 
 		public IEnumerable<PageContent> FindPageContentsByPageId(int pageId)
 		{
-			throw new NotImplementedException();
+			return PageContents.Where(p => p.Page.Id == pageId).ToList();
 		}
 
 		public IEnumerable<PageContent> FindPageContentsEditedBy(string username)
 		{
-			throw new NotImplementedException();
+			return PageContents.Where(p => p.EditedBy == username);
 		}
 
 		public IEnumerable<PageContent> AllPageContents()
 		{
-			throw new NotImplementedException();
+			return PageContents;
 		}
 
 		#endregion
@@ -191,52 +261,52 @@ namespace Roadkill.Tests.Unit
 
 		public User GetAdminById(Guid id)
 		{
-			throw new NotImplementedException();
+			return Users.FirstOrDefault(x => x.Id == id && x.IsAdmin);
 		}
 
 		public User GetUserByActivationKey(string key)
 		{
-			throw new NotImplementedException();
+			return Users.FirstOrDefault(x => x.ActivationKey == key && x.IsActivated == false);
 		}
 
 		public User GetEditorById(Guid id)
 		{
-			throw new NotImplementedException();
+			return Users.FirstOrDefault(x => x.Id == id && x.IsEditor);
 		}
 
-		public User GetUserByEmail(string email, bool IsActivated = true)
+		public User GetUserByEmail(string email, bool isActivated = true)
 		{
-			throw new NotImplementedException();
+			return Users.FirstOrDefault(x => x.Email == email && x.IsActivated == isActivated);
 		}
 
-		public User GetUserById(Guid id, bool IsActivated = true)
+		public User GetUserById(Guid id, bool isActivated = true)
 		{
-			throw new NotImplementedException();
+			return Users.FirstOrDefault(x => x.Id == id && x.IsActivated == isActivated);
 		}
 
 		public User GetUserByPasswordResetKey(string key)
 		{
-			throw new NotImplementedException();
+			return Users.FirstOrDefault(x => x.PasswordResetKey == key);
 		}
 
 		public User GetUserByUsername(string username)
 		{
-			throw new NotImplementedException();
+			return Users.FirstOrDefault(x => x.Username == username);
 		}
 
 		public User GetUserByUsernameOrEmail(string username, string email)
 		{
-			throw new NotImplementedException();
+			return Users.FirstOrDefault(x => x.Username == username || x.Email == email);
 		}
 
 		public IEnumerable<User> FindAllEditors()
 		{
-			throw new NotImplementedException();
+			return Users.Where(x => x.IsEditor).ToList();
 		}
 
 		public IEnumerable<User> FindAllAdmins()
 		{
-			throw new NotImplementedException();
+			return Users.Where(x => x.IsAdmin).ToList();
 		}
 
 		#endregion
@@ -245,7 +315,7 @@ namespace Roadkill.Tests.Unit
 
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			
 		}
 
 		#endregion

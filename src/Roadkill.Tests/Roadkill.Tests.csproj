@@ -164,6 +164,10 @@
       <HintPath>..\..\lib\Microsoft.Web.Administration.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Mindscape.LightSpeed, Version=5.0.2302.0, Culture=neutral, PublicKeyToken=360c8f37b466ebb2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\LightSpeed\Mindscape.LightSpeed.dll</HintPath>
+    </Reference>
     <Reference Include="Mindscape.LightSpeed.Providers.SqlServerCe4">
       <HintPath>..\..\lib\LightSpeed\Providers\Mindscape.LightSpeed.Providers.SqlServerCe4.dll</HintPath>
     </Reference>
@@ -240,6 +244,8 @@
     <Compile Include="Smoke\DemoSiteTests.cs" />
     <Compile Include="Unit\DataStore\DataStoreTypeTests.cs" />
     <Compile Include="Unit\IoCSetupTests.cs" />
+    <Compile Include="Unit\LightSpeed\ToEntityTests.cs" />
+    <Compile Include="Unit\LightSpeed\FromEntityTests.cs" />
     <Compile Include="Unit\Stubs\ConfigurationContainerStub.cs" />
     <Compile Include="Unit\Controllers\PagesControllerTests.cs" />
     <Compile Include="Unit\Controllers\WikiControllerTests.cs" />
@@ -256,7 +262,7 @@
     <Compile Include="Unit\Text\MarkdownTests.cs" />
     <Compile Include="Integration\RoadkillSettingsTests.cs" />
     <Compile Include="GlobalSetup.cs" />
-    <None Include="Unit\Managers\PageManagerTests.cs" />
+    <Compile Include="Unit\Managers\PageManagerTests.cs" />
     <Compile Include="Unit\Managers\ActiveDirectoryUserManagerTests.cs" />
     <Compile Include="Unit\ViewModels\UserSummaryEmailValidationTests.cs" />
     <Compile Include="Unit\Text\MarkupConverterTests.cs" />

@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Web;
-using System.Web.Mvc;
 using Moq;
-using NHibernate;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Controllers;
 using Roadkill.Core.Converters;
-using Roadkill.Core.Database;
 using Roadkill.Core.Search;
 
 namespace Roadkill.Tests.Unit
@@ -29,10 +24,8 @@ namespace Roadkill.Tests.Unit
 		public static string AdminPassword = "password";
 
 		private User _testUser;
-		private List<Page> _pages;
-		private List<PageContent> _pagesContent;
 
-		private Mock<IRepository> _mockRepository;
+		private RepositoryStub _repositoryStub;
 		private Mock<SearchManager> _mockSearchManager;
 		private Mock<UserManager> _mockUserManager;
 		private IConfigurationContainer _config;
@@ -43,43 +36,30 @@ namespace Roadkill.Tests.Unit
 		[SetUp]
 		public void SearchSetup()
 		{
-			// All pages and content
-			_pages = new List<Page>();
-			_pagesContent = new List<PageContent>();
-
 			// Repository stub
-			_mockRepository = new Mock<IRepository>();
-			_mockRepository.Setup(x => x.GetPageById(It.IsAny<int>())).Returns<int>(x => _pages.FirstOrDefault(p => p.Id == x));
-			_mockRepository.Setup(x => x.FindPagesContainingTag(It.IsAny<string>())).Returns<string>(x => _pages.Where(p => p.Tags.ToLower().Contains(x.ToLower())));
-			_mockRepository.Setup(x => x.FindPagesByCreatedBy(It.IsAny<string>())).Returns<string>(x => _pages.Where(p => p.CreatedBy == x));
-			_mockRepository.Setup(x => x.AllPages()).Returns(_pages);
-			_mockRepository.Setup(x => x.DeletePage(It.IsAny<Page>())).Callback<Page>(x => _pages.Remove(x));
-			_mockRepository.Setup(x => x.DeletePageContent(It.IsAny<PageContent>())).Callback<PageContent>(x => _pagesContent.Remove(x));
-			_mockRepository.Setup(x => x.DeleteAllPages()).Callback(() => _pages = new List<Page>());
-			_mockRepository.Setup(x => x.AllTags()).Returns(_pages.Select(x => x.Tags));
-			_mockRepository.Setup(x => x.GetLatestPageContent(It.IsAny<int>())).Returns<int>((id) => _pagesContent.FirstOrDefault(p => p.Page.Id == id));
+			_repositoryStub = new RepositoryStub();
 
 			// Config stub
 			_config = new RoadkillSettings();
 			_config.ApplicationSettings = new ApplicationSettings();
+			_config.ApplicationSettings.Installed = true;
 			_config.SitePreferences = new SitePreferences() { MarkupType = "Creole" };
 
-			// Managers needed by  the PageManager
-			_markupConverter = new MarkupConverter(_config, _mockRepository.Object);
-			_mockSearchManager = new Mock<SearchManager>(_config, _mockRepository.Object);
-			_historyManager = new HistoryManager(_config, _mockRepository.Object, _context);
+			// Managers needed by the PageManager
+			_markupConverter = new MarkupConverter(_config, _repositoryStub);
+			_mockSearchManager = new Mock<SearchManager>(_config, _repositoryStub);
+			_historyManager = new HistoryManager(_config, _repositoryStub, _context);
 
 			// Usermanager stub
-			Mock<User> mockAdminUser = new Mock<User>();
-			mockAdminUser.SetupProperty<Guid>(x => x.Id, Guid.NewGuid());
-			mockAdminUser.SetupProperty<string>(x => x.Email, AdminEmail);
-			mockAdminUser.SetupProperty<string>(x => x.Username, AdminUsername);
-			_testUser = mockAdminUser.Object;
-			Guid userId = mockAdminUser.Object.Id;
+			_testUser = new User();
+			_testUser.Id = Guid.NewGuid();
+			_testUser.Email = AdminEmail;
+			_testUser.Username = AdminUsername;
+			Guid userId = _testUser.Id;
 
-			_mockUserManager = new Mock<UserManager>(_config, _mockRepository.Object);
-			_mockUserManager.Setup(x => x.GetUser(_testUser.Email, It.IsAny<bool>())).Returns(mockAdminUser.Object);//GetUserById
-			_mockUserManager.Setup(x => x.GetUserById(userId, It.IsAny<bool>())).Returns(mockAdminUser.Object);
+			_mockUserManager = new Mock<UserManager>(_config, _repositoryStub);
+			_mockUserManager.Setup(x => x.GetUser(_testUser.Email, It.IsAny<bool>())).Returns(_testUser);//GetUserById
+			_mockUserManager.Setup(x => x.GetUserById(userId, It.IsAny<bool>())).Returns(_testUser);
 			_mockUserManager.Setup(x => x.Authenticate(_testUser.Email, "")).Returns(true);
 			_mockUserManager.Setup(x => x.GetLoggedInUserName(It.IsAny<HttpContextBase>())).Returns(_testUser.Username);
 
@@ -87,68 +67,32 @@ namespace Roadkill.Tests.Unit
 			_context = new RoadkillContext(_mockUserManager.Object);
 			_context.CurrentUser = userId.ToString();
 
-			// And finally the IoC objects
-			IoCSetup iocSetup = new IoCSetup(_config, _mockRepository.Object, _context);
+			// And finally the IoC setup
+			IoCSetup iocSetup = new IoCSetup(_config, _repositoryStub, _context);
 			iocSetup.Run();
 		}
 
-		public PageSummary AddToMockRepository(int id, string createdBy, string title, string tags, string textContent = "")
+		public PageSummary AddToStubbedRepository(int id, string createdBy, string title, string tags, string textContent = "")
 		{
-			return AddToMockRepository(id, createdBy, title, tags, DateTime.Today, textContent);
+			return AddToStubbedRepository(id, createdBy, title, tags, DateTime.Today, textContent);
 		}
 
 		/// <summary>
 		/// Adds a page to the mock repository (which is just a list of Page and PageContent objects in memory).
 		/// </summary>
-		public PageSummary AddToMockRepository(int id, string createdBy, string title, string tags, DateTime createdOn, string textContent = "")
+		public PageSummary AddToStubbedRepository(int id, string createdBy, string title, string tags, DateTime createdOn, string textContent = "")
 		{
-			var pageMock = new Mock<Page>() { CallBase = true };
-			pageMock.SetupProperty(x => x.Id, id);
-			pageMock.SetupProperty(x => x.CreatedBy, createdBy);
-			pageMock.SetupProperty(x => x.Title, title);
-			pageMock.SetupProperty(x => x.Tags, tags);
-			pageMock.SetupProperty(x => x.CreatedOn, createdOn);
-
-			PageContent pageContent = new PageContent();
-			pageContent.Page = pageMock.Object;
-			pageContent.Id = Guid.NewGuid();
-			pageContent.VersionNumber = 1;
-			pageContent.EditedBy = createdBy;
-			pageContent.EditedOn = DateTime.Now;
+			Page page = new Page();
+			page.Id = id;
+			page.CreatedBy = createdBy;
+			page.Title = title;
+			page.Tags = tags;
+			page.CreatedOn = createdOn;
 
 			if (string.IsNullOrEmpty(textContent))
-				pageContent.Text = title + "'s text";
-			else
-				pageContent.Text = textContent;
+				textContent = title + "'s text";
 
-			_mockRepository.Setup(x => x.DeletePage(pageMock.Object)).Callback(() => _pages.Remove(pageMock.Object));
-			_mockRepository.Setup(x => x.DeletePageContent(pageContent)).Callback(() => _pagesContent.Remove(pageContent));
-			_mockRepository.Setup(x => x.SaveOrUpdate<Page>(It.Is<Page>(p => p.Id == id))).Callback<Page>(p => 
-				{
-					Page page = _pages.Single(item => item.Id == p.Id);
-					page.Title = p.Title;
-					page.Tags = p.Tags;
-					page.CreatedBy = p.CreatedBy;
-					page.ModifiedBy = p.ModifiedBy;
-					page.ModifiedOn = p.ModifiedOn;
-				}
-			);
-			_mockRepository.Setup(x => x.SaveOrUpdate<PageContent>(It.Is<PageContent>(p => p.Page.Id == id))).Callback<PageContent>(p =>
-				{
-					PageContent page = _pagesContent.Single(item => item.Page.Id == p.Page.Id);
-					page.Text = p.Text;
-					page.EditedBy = p.EditedBy;
-					page.EditedOn = p.EditedOn;
-				}
-			);
-
-			_mockRepository.Setup(r => r.GetPageByTitle(title)).Returns(pageMock.Object);
-			_mockRepository.Setup(x => x.SaveOrUpdate<PageContent>(pageContent));
-			_mockRepository.Setup(x => x.GetLatestPageContent(id)).Returns(pageContent);
-
-			_pagesContent.Add(pageContent);
-			_pages.Add(pageMock.Object);
-
+			PageContent content = _repositoryStub.AddNewPage(page, textContent, createdBy, createdOn);
 			PageSummary summary = new PageSummary()
 			{
 				Id = id,
@@ -162,42 +106,43 @@ namespace Roadkill.Tests.Unit
 			return summary;
 		}
 
-		// -------- End stub setups
-
 		[Test]
 		public void AddPage_Should_Save_To_Repository()
 		{
 			// Arrange
-			// - Track the repository save events
-			PageSummary summary = AddToMockRepository(1,AdminUsername, "Homepage", "1;2;3;",DateTime.Now, "**Homepage**");
+			PageSummary summary = new PageSummary()
+			{
+				Id = 1,
+				Title = "Homepage",
+				Content = "**Homepage**",
+				RawTags = "1;2;3;",
+				CreatedBy = AdminUsername,
+				CreatedOn = DateTime.Now
+			};
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _repositoryStub, _mockSearchManager.Object, _historyManager, _context);
 			PageSummary newSummary = manager.AddPage(summary);
 
 			// Assert
 			Assert.That(newSummary, Is.Not.Null);
 			Assert.That(newSummary.Content, Is.EqualTo(summary.Content));
-			_mockRepository.Verify
-			(
-				x => x.SaveOrUpdate<Page>(It.Is<Page>(p => p.Title == summary.Title && p.CreatedBy == AdminUsername && p.Tags == summary.CommaDelimitedTags()))
-			);
-
-			_mockRepository.Verify(x => x.SaveOrUpdate<PageContent>(It.Is<PageContent>(p => p.Text == summary.Content)));
+			Assert.That(_repositoryStub.Pages.Count, Is.EqualTo(1));
+			Assert.That(_repositoryStub.PageContents.Count, Is.EqualTo(1));
 		}
 
 		[Test]
 		public void AllTags_Should_Return_Correct_Items()
 		{
 			// Arrange
-			PageSummary page1 = AddToMockRepository(1, "admin", "Homepage", "homepage;");
-			PageSummary page2 = AddToMockRepository(2, "admin", "page 2", "page2;");
-			PageSummary page3 = AddToMockRepository(3, "admin", "page 3", "page3;");
-			PageSummary page4 = AddToMockRepository(4, "admin", "page 4", "animals;");
-			PageSummary page5 = AddToMockRepository(5, "admin", "page 5", "animals;");
+			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
+			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
+			PageSummary page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
+			PageSummary page4 = AddToStubbedRepository(4, "admin", "page 4", "animals;");
+			PageSummary page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _repositoryStub, _mockSearchManager.Object, _historyManager, _context);
 			List<TagSummary> summaries = manager.AllTags().OrderBy(t => t.Name).ToList();
 
 			// Assert
@@ -212,14 +157,14 @@ namespace Roadkill.Tests.Unit
 		public void DeletePage_Should_Remove_Correct_Page()
 		{
 			// Arrange
-			PageSummary page1 = AddToMockRepository(1, "admin", "Homepage", "homepage;");
-			PageSummary page2 = AddToMockRepository(2, "admin", "page 2", "page2;");
-			PageSummary page3 = AddToMockRepository(3, "admin", "page 3", "page3;");
-			PageSummary page4 = AddToMockRepository(4, "admin", "page 4", "animals;");
-			PageSummary page5 = AddToMockRepository(5, "admin", "page 5", "animals;");
+			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
+			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
+			PageSummary page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
+			PageSummary page4 = AddToStubbedRepository(4, "admin", "page 4", "animals;");
+			PageSummary page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _repositoryStub, _mockSearchManager.Object, _historyManager, _context);
 			manager.DeletePage(page1.Id);
 			manager.DeletePage(page2.Id);
 			List<PageSummary> summaries = manager.AllPages().ToList();
@@ -234,14 +179,14 @@ namespace Roadkill.Tests.Unit
 		public void AllPages_CreatedBy_Should_Have_Correct_Authors()
 		{
 			// Arrange
-			PageSummary page1 = AddToMockRepository(1, "admin", "Homepage", "homepage;");
-			PageSummary page2 = AddToMockRepository(2, "admin", "page 2", "page2;");
-			PageSummary page3 = AddToMockRepository(3, "bob", "page 3", "page3;");
-			PageSummary page4 = AddToMockRepository(4, "bob", "page 4", "animals;");
-			PageSummary page5 = AddToMockRepository(5, "bob", "page 5", "animals;");
+			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
+			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
+			PageSummary page3 = AddToStubbedRepository(3, "bob", "page 3", "page3;");
+			PageSummary page4 = AddToStubbedRepository(4, "bob", "page 4", "animals;");
+			PageSummary page5 = AddToStubbedRepository(5, "bob", "page 5", "animals;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _repositoryStub, _mockSearchManager.Object, _historyManager, _context);
 			List<PageSummary> summaries = manager.AllPagesCreatedBy("bob").ToList();
 
 			// Assert
@@ -253,14 +198,14 @@ namespace Roadkill.Tests.Unit
 		public void AllPages_Should_Have_Correct_Items()
 		{
 			// Arrange
-			PageSummary page1 = AddToMockRepository(1, "admin", "Homepage", "homepage;");
-			PageSummary page2 = AddToMockRepository(2, "admin", "page 2", "page2;");
-			PageSummary page3 = AddToMockRepository(3, "bob", "page 3", "page3;");
-			PageSummary page4 = AddToMockRepository(4, "bob", "page 4", "animals;");
-			PageSummary page5 = AddToMockRepository(5, "bob", "page 5", "animals;");
+			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
+			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
+			PageSummary page3 = AddToStubbedRepository(3, "bob", "page 3", "page3;");
+			PageSummary page4 = AddToStubbedRepository(4, "bob", "page 4", "animals;");
+			PageSummary page5 = AddToStubbedRepository(5, "bob", "page 5", "animals;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _repositoryStub, _mockSearchManager.Object, _historyManager, _context);
 			List<PageSummary> summaries = manager.AllPages().ToList();
 
 			// Assert
@@ -271,12 +216,12 @@ namespace Roadkill.Tests.Unit
 		public void FindByTags_For_Single_Tag_Returns_Single_Result()
 		{
 			// Arrange
-			PageSummary page1 = AddToMockRepository(1, "admin", "Homepage", "homepage;");
-			PageSummary page2 = AddToMockRepository(2, "admin", "page 2", "page2;");
-			PageSummary page3 = AddToMockRepository(3, "admin", "page 3", "page3;");
+			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
+			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
+			PageSummary page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _repositoryStub, _mockSearchManager.Object, _historyManager, _context);
 			List<PageSummary> summaries = manager.FindByTag("homepage").ToList();
 
 			// Assert
@@ -289,14 +234,14 @@ namespace Roadkill.Tests.Unit
 		public void FindByTags_For_Multiple_Tags_Returns_Many_Results()
 		{
 			// Arrange
-			PageSummary page1 = AddToMockRepository(1, "admin", "Homepage", "homepage;");
-			PageSummary page2 = AddToMockRepository(2, "admin", "page 2", "page2;");
-			PageSummary page3 = AddToMockRepository(3, "admin", "page 3", "page3;");
-			PageSummary page4 = AddToMockRepository(4, "admin", "page 4", "animals;");
-			PageSummary page5 = AddToMockRepository(5, "admin", "page 5", "animals;");
+			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
+			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
+			PageSummary page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
+			PageSummary page4 = AddToStubbedRepository(4, "admin", "page 4", "animals;");
+			PageSummary page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _repositoryStub, _mockSearchManager.Object, _historyManager, _context);
 			List<PageSummary> summaries = manager.FindByTag("animals").ToList();
 
 			// Assert
@@ -307,14 +252,14 @@ namespace Roadkill.Tests.Unit
 		public void FindByTitle_Should_Return_Correct_Page()
 		{
 			// Arrange
-			PageSummary page1 = AddToMockRepository(1, "admin", "Homepage", "homepage;");
-			PageSummary page2 = AddToMockRepository(2, "admin", "page 2", "page2;");
-			PageSummary page3 = AddToMockRepository(3, "admin", "page 3", "page3;");
-			PageSummary page4 = AddToMockRepository(4, "admin", "page 4", "animals;");
-			PageSummary page5 = AddToMockRepository(5, "admin", "page 5", "animals;");
+			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
+			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
+			PageSummary page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
+			PageSummary page4 = AddToStubbedRepository(4, "admin", "page 4", "animals;");
+			PageSummary page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _repositoryStub, _mockSearchManager.Object, _historyManager, _context);
 			PageSummary summary = manager.FindByTitle("page 3");
 
 			// Assert
@@ -325,14 +270,14 @@ namespace Roadkill.Tests.Unit
 		public void GetById_Should_Return_Correct_Page()
 		{
 			// Arrange
-			PageSummary page1 = AddToMockRepository(1, "admin", "Homepage", "homepage;");
-			PageSummary page2 = AddToMockRepository(2, "admin", "page 2", "page2;");
-			PageSummary page3 = AddToMockRepository(3, "admin", "page 3", "page3;");
-			PageSummary page4 = AddToMockRepository(4, "admin", "page 4", "animals;");
-			PageSummary page5 = AddToMockRepository(5, "admin", "page 5", "animals;");
+			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
+			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
+			PageSummary page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
+			PageSummary page4 = AddToStubbedRepository(4, "admin", "page 4", "animals;");
+			PageSummary page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _repositoryStub, _mockSearchManager.Object, _historyManager, _context);
 			PageSummary summary = manager.GetById(page3.Id);
 
 			// Assert
@@ -344,11 +289,11 @@ namespace Roadkill.Tests.Unit
 		public void ExportToXml_Should_Contain_Xml()
 		{
 			// Arrange
-			PageSummary page1 = AddToMockRepository(1, "admin", "Homepage", "homepage;");
-			PageSummary page2 = AddToMockRepository(2, "admin", "page 2", "page2;");
+			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
+			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _repositoryStub, _mockSearchManager.Object, _historyManager, _context);
 			string xml = manager.ExportToXml();
 
 			// Assert
@@ -362,11 +307,11 @@ namespace Roadkill.Tests.Unit
 		public void RenameTags_For_Multiple_Tags_Returns_Multiple_Results()
 		{
 			// Arrange
-			PageSummary page1 = AddToMockRepository(1, "admin", "Homepage", "animal;");
-			PageSummary page2 = AddToMockRepository(2, "admin", "page 2", "animal;");
+			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "animal;");
+			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "animal;");
 
 			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
+			PageManager manager = new PageManager(_config, _repositoryStub, _mockSearchManager.Object, _historyManager, _context);
 			manager.RenameTag("animal", "vegetable");
 			List<PageSummary> animalTagList = manager.FindByTag("animal").ToList();
 			List<PageSummary> vegetableTagList = manager.FindByTag("vegetable").ToList();
@@ -380,27 +325,24 @@ namespace Roadkill.Tests.Unit
 		public void UpdatePage_Should_Persist_To_Repository()
 		{
 			// Arrange
-			PageSummary summary = AddToMockRepository(1, "admin", "Homepage", "animal;");
+			PageSummary summary = AddToStubbedRepository(1, "admin", "Homepage", "animal;");
+
+			// Act
 			summary.RawTags = "new,tags,";
 			summary.Title = "New title";
 			summary.Content = "**New content**";
 
-			// Act
-			PageManager manager = new PageManager(_config, _mockRepository.Object, _mockSearchManager.Object, _historyManager, _context);
-			manager.UpdatePage(summary); // assumes it's already in the repository
+			PageManager manager = new PageManager(_config, _repositoryStub, _mockSearchManager.Object, _historyManager, _context);
+			manager.UpdatePage(summary);
 			PageSummary actual = manager.GetById(1);
 
 			// Assert
 			Assert.That(actual.Title, Is.EqualTo(summary.Title), "Title");
 			Assert.That(actual.Tags, Is.EqualTo(summary.Tags), "Tags");
-			_mockRepository.Verify
-			(
-				x => x.SaveOrUpdate<Page>(It.Is<Page>(p => p.Id == summary.Id && p.Title == summary.Title && p.CreatedBy == AdminUsername && p.Tags == summary.CommaDelimitedTags()))
-			);
-			_mockRepository.Verify
-			(
-				x => x.SaveOrUpdate<PageContent>(It.Is<PageContent>(p => p.Page.Id == summary.Id && p.Text == summary.Content))
-			);
+
+			Assert.That(_repositoryStub.Pages[0].Tags, Is.EqualTo(summary.RawTags));
+			Assert.That(_repositoryStub.Pages[0].Title, Is.EqualTo(summary.Title));
+			Assert.That(_repositoryStub.PageContents[1].Text, Is.EqualTo(summary.Content)); // smells
 		}
 	}
 }

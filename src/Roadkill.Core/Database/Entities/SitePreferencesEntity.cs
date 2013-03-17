@@ -13,17 +13,17 @@ namespace Roadkill.Core.Database
 		/// <summary>
 		/// The unique ID for the instance (this doesn't change).
 		/// </summary>
-		public virtual Guid Id { get; set; }
+		public Guid Id { get; set; }
 
 		/// <summary>
 		/// The jsonified version of the <see cref="SitePreferences"/> class.
 		/// </summary>
-		public virtual string Content { get; set; }
+		public string Content { get; set; }
 
 		/// <summary>
 		/// The current version of Roadkill. This is used for upgrades.
 		/// </summary>
-		public virtual string Version { get; set; }
+		public string Version { get; set; }
 
 		/// <summary>
 		/// The same as the ID property.
