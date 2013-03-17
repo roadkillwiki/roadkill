@@ -67,7 +67,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			}
 		}
 
-		public string Password
+		internal string Password
 		{
 			get
 			{
@@ -79,7 +79,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			}
 		}
 
-		public string Salt
+		internal string Salt
 		{
 			get
 			{

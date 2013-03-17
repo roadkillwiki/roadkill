@@ -10,6 +10,7 @@ using Roadkill.Core.Database.MongoDB;
 namespace Roadkill.Tests.Unit
 {
 	[TestFixture]
+	[Category("Unit")]
 	public class DataStoreTypeTests
 	{
 		[Test]

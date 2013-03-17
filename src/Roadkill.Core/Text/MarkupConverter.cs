@@ -12,6 +12,8 @@ using System.IO;
 using Roadkill.Core.Files;
 using Roadkill.Core.Text.Sanitizer;
 using Roadkill.Core.Database;
+using Roadkill.Core.Text;
+using Roadkill.Core.Text.ToC;
 
 namespace Roadkill.Core.Converters
 {

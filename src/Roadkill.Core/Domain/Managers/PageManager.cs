@@ -179,8 +179,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				// This isn't the "right" way to do it, but to avoid the pagecontent coming back
-				// each time a page is requested, it has no inverse relationship.
+				// Avoiding grabbing all the pagecontents coming back each time a page is requested, it has no inverse relationship.
 				Page page = Repository.GetPageById(pageId);
 
 				// Update the lucene index before we actually delete the page.
@@ -200,7 +199,7 @@ namespace Roadkill.Core
 					Repository.DeletePageContent(children[i]);
 				}
 
-				Repository.DeleteAllPages();
+				Repository.DeletePage(page);
 			}
 			catch (DatabaseException ex)
 			{

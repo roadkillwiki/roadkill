@@ -63,7 +63,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			get
 			{
-				return _title;
+				return _modifiedBy;
 			}
 			set
 			{

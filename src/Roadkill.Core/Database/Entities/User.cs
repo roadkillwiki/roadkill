@@ -11,35 +11,37 @@ namespace Roadkill.Core
 	/// </summary>
 	public class User : IDataStoreEntity
 	{
-		public virtual string ActivationKey { get; set; }
-		public virtual Guid Id { get; set; }
+		public string ActivationKey { get; set; }
+		public Guid Id { get; set; }
 
 		/// <summary>
 		/// This is used as the username or identifier for the user. If using windows auth, this will
 		/// be the user name from active directory.
 		/// </summary>
-		public virtual string Email { get; set; }
-		public virtual string Firstname { get; set; }
-		public virtual bool IsEditor { get; set; }
-		public virtual bool IsAdmin { get; set; }
-		public virtual bool IsActivated { get; set; }
-		public virtual string Lastname { get; set; }
+		public string Email { get; set; }
+		public string Firstname { get; set; }
+		public bool IsEditor { get; set; }
+		public bool IsAdmin { get; set; }
+		public bool IsActivated { get; set; }
+		public string Lastname { get; set; }
 		/// <summary>
-		/// Do not use this property - use <see cref="SetPassword"/> instead
+		/// Do not set the password using this property - use <see cref="SetPassword"/> instead.
+		/// <see cref="HashPassword"/> for authentication with the salt and password.
 		/// </summary>
-		public virtual string Password { get; protected set; }
+		public string Password { get; internal set; }
 
-		public virtual string PasswordResetKey { get; set; }
+		public string PasswordResetKey { get; set; }
 
 		/// <summary>
-		/// Do not use this property - use <see cref="SetPassword"/> instead
+		/// Do not use this property to set the password - use <see cref="SetPassword"/> instead. Use
+		/// <see cref="HashPassword"/> for authentication with the salt and password.
 		/// </summary>
-		public virtual string Salt { get; set; }
+		public string Salt { get; set; }
 
 		/// <summary>
 		/// This field is for page modifiedby/created by, and is a 'friendly' name. For windows auth the email field is used instead.
 		/// </summary>
-		public virtual string Username { get; set; }
+		public string Username { get; set; }
 
 		public Guid ObjectId
 		{
@@ -47,7 +49,7 @@ namespace Roadkill.Core
 			set { Id = value; }
 		}
 
-		public virtual void SetPassword(string password)
+		public void SetPassword(string password)
 		{
 			Salt = new Salt();
 			Password = HashPassword(password,Salt);
@@ -77,7 +79,7 @@ namespace Roadkill.Core
 			}
 		}
 
-		public virtual UserSummary ToSummary()
+		public UserSummary ToSummary()
 		{
 			return new UserSummary()
 			{
