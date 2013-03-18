@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Controllers
@@ -32,6 +33,12 @@ namespace Roadkill.Core.Controllers
 		public ActionResult MarkdownReference()
 		{
 			return View(_customTokenParser.Tokens);
+		}
+
+		[AdminRequired]
+		public ActionResult ShowError()
+		{
+			throw new Exception("foo");
 		}
 	}
 }

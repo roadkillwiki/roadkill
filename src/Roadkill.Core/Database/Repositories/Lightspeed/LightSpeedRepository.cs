@@ -84,7 +84,7 @@ namespace Roadkill.Core.Database.LightSpeed
 				context.CascadeDeletes = false;
 				context.VerboseLogging = true;
 
-#if DEBUG
+#if DEBUG || DemoSite
 				//context.Logger = new TraceLogger();
 				context.Cache = new Mindscape.LightSpeed.Caching.CacheBroker(new DefaultCache());
 #endif

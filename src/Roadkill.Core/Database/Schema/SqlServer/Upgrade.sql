@@ -1,4 +1,6 @@
 ﻿IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[roadkill_siteconfiguration]') AND type in (N'U'))
+DROP TABLE [dbo].[roadkill_siteconfiguration];
+
 CREATE TABLE [dbo].[roadkill_siteconfiguration]
 (
 	[Id] [uniqueidentifier] NOT NULL,
