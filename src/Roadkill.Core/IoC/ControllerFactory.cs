@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Roadkill.Core.Controllers;
 using StructureMap;
 
 namespace Roadkill.Core.Configuration
@@ -25,15 +26,34 @@ namespace Roadkill.Core.Configuration
 			try
 			{
 				if (requestContext == null || controllerType == null)
-					return null;
+				{
+					return base.GetControllerInstance(requestContext, controllerType);
+				}
 
-				return (Controller)ObjectFactory.GetInstance(controllerType);
+				Controller controller = ObjectFactory.GetInstance(controllerType) as Controller;
+				if (controller != null)
+				{
+					return controller;
+				}
+				else
+				{
+					return base.GetControllerInstance(requestContext, controllerType);
+				}
 			}
 			catch (StructureMapException e)
 			{
 				Log.Error("An error occured with the ControllerFactory: {0}", e);
-				throw new IoCException(e,"An error occured with the ControllerFactory: {0}", ObjectFactory.WhatDoIHave());
+
+				return new ErrorController();
 			}
+		}
+	}
+
+	public class ErrorController : Controller
+	{
+		public ActionResult Index()
+		{
+			return Content("Your Roadkill installation has unrecoverable errors. View your log file or turn customErrors off to view the errors.");
 		}
 	}
 }

@@ -16,7 +16,10 @@ namespace Roadkill.Core
 	{
 		protected void Application_Start()
 		{
+#if DEBUG
 			Log.UseUdpLogging();
+			Log.UseXmlLogging();
+#endif
 
 			// Configure StructureMap dependencies
 			IoCSetup iocSetup = new IoCSetup();
@@ -26,11 +29,15 @@ namespace Roadkill.Core
 			// All other routes
 			AreaRegistration.RegisterAllAreas();
 			RegisterRoutes(RouteTable.Routes);
+
+			// Filters
+			GlobalFilters.Filters.Add(new HandleErrorAttribute());
 		}
 
 		public static void RegisterRoutes(RouteCollection routes)
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+			routes.IgnoreRoute("favicon.ico");
 
 			// For the jQuery ajax file manager
 			routes.MapLowercaseRoute(
@@ -63,7 +70,14 @@ namespace Roadkill.Core
 
 		protected void Application_EndRequest(object sender, EventArgs e)
 		{
-			IoCSetup.DisposeRepository();
+			try
+			{
+				IoCSetup.DisposeRepository();
+			}
+			catch (Exception ex)
+			{
+				Log.Error("Error calling IoCSetup.DisposeRepository: {0}", ex.ToString());
+			}
 		}
 	}
 }

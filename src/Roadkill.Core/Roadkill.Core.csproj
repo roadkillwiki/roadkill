@@ -275,6 +275,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Logging\Log4jEvent.cs" />
+    <Compile Include="Common\Logging\Log4jXmlTraceListener.cs" />
     <Compile Include="Common\Logging\UdpTraceListener.cs" />
     <Compile Include="Common\Logging\Log.cs" />
     <Compile Include="Common\ShortGuid.cs" />

@@ -1,13 +1,10 @@
 ﻿@inherits RoadkillViewPage<System.Web.Mvc.HandleErrorInfo>
-
 @{
 	if (Configuration.ApplicationSettings.Installed)
 	{
 		Layout = Configuration.SitePreferences.ThemePath + "/Theme.cshtml";
 	}
 }
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,10 +15,14 @@
 		Sorry, an error occurred while processing your request.
 	</h2>
 
-	@if (RoadkillContext.IsAdmin)
+@if (RoadkillContext.IsAdmin)
+{
+	<p>An error occured on @(Model.ControllerName).@Model.ActionName</p> 
+	if (Model.Exception != null)
 	{
-	<p>@Model.Exception.Message</p>
-	<pre>@Model.Exception.ToString()</pre>
-	 }
+	<p class="lead">@(Model.Exception.Message).</p>
+	<pre class="alert alert-error">@Model.Exception.ToString()</pre>
+	}
+}
 </body>
 </html>

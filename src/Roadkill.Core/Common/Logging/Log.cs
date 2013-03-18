@@ -22,6 +22,11 @@ namespace Roadkill.Core
 			Trace.Listeners.Add(new UdpTraceListener());
 		}
 
+		public static void UseXmlLogging()
+		{
+			Trace.Listeners.Add(new Log4jXmlTraceListener("test.log"));
+		}
+
 		public static void UseTextFileLogging()
 		{
 			Trace.Listeners.Add(new TextWriterTraceListener(@".\roadkill.log", "roadkill-textfile"));
