@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Roadkill.Core.Common
@@ -21,18 +22,41 @@ namespace Roadkill.Core.Common
 			}
 		}
 
-		public Log4jXmlTraceListener(string fileName) : this(fileName, "Log4jXmlWriter")
+		public Log4jXmlTraceListener(string fileName)
+			: this(fileName, "Log4jXmlWriter")
 		{
 		}
 
 		public Log4jXmlTraceListener(string fileName, string loggerName)
 		{
 			_loggerName = loggerName;
-			_filename = fileName;
+			_filename = GetRollingFilename(fileName);
+		}
 
+		public static string GetRollingFilename(string filename)
+		{
 			// Assume the current bin directory if it starts with .\ or no \
-			if (_filename.StartsWith(@".\") || !_filename.StartsWith(@"\"))
-				_filename = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _filename);
+			if (filename.StartsWith(@".\") || !filename.StartsWith(@"\"))
+				filename = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filename);
+
+			FileInfo info = new FileInfo(filename);
+			if (info.Exists && info.Length > 1024 * 1024)
+			{
+				string basename = Path.GetFileNameWithoutExtension(filename);
+				string extension = Path.GetExtension(filename);
+
+				string dir = Path.GetDirectoryName(filename);
+				string[] files = Directory.GetFiles(dir, basename + ".*" + extension);
+				int count = files.Length + 1;
+
+				string fullName = string.Format("{0}{1}{2}{3}", basename, DateTime.Now.ToString(".yyyyMMdd."), count.ToString(), extension);
+
+				return Path.Combine(dir, fullName);
+			}
+			else
+			{
+				return filename;
+			}
 		}
 
 		public override void Write(string message)
@@ -75,6 +99,8 @@ namespace Roadkill.Core.Common
 				Level = Log4jEvent.GetLevelFromCategory(category),
 				Timestamp = DateTime.Now,
 				Message = message,
+				MachineName = Environment.MachineName,
+				AppName = Assembly.GetCallingAssembly().FullName
 			};
 
 			return log.Serialize();

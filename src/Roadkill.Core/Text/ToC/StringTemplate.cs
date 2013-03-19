@@ -38,15 +38,16 @@ namespace Roadkill.Core.Text.ToC
 
 		private string GetLevelText(Item item)
 		{
+			// Anything at level 1 should use the counter for its number, for example
+			// 1. H1, 2. H2 (and Level 0 is just a holder level, not used except to balance the tree)
 			if (item.Level > 1)
 			{
-
 				// Traverse back to the root, getting the index position of each parent amongst its siblings
 				List<int> positions = new List<int>();
 				Item itemParent = item.Parent;
 
 				positions.Add(itemParent.GetPositionAmongSiblings());
-				while (itemParent != null && itemParent.Parent != null)
+				while (itemParent != null && itemParent.Parent != null && itemParent.Level > 1)
 				{
 					itemParent = itemParent.Parent;
 					positions.Add(itemParent.GetPositionAmongSiblings());

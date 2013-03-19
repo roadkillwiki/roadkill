@@ -1,0 +1,92 @@
+﻿@model List<Log4jEvent>
+<style>
+.entry-container	{ margin:0px;}
+.entrytype			{ width: 50px; }
+.entrytime			{ width: 100px; }
+.entrycategory		{ min-width: 200px; }
+.entryshow			{ margin-left:50px;min-width: 150px; }
+.entrymessage		{ background-color:#EEE;padding:10px;border-bottom:1px solid black;width:95%;overflow:scroll; }
+
+.entryERROR			{ background-image:url(/Assets/Images/log_error.png);width:16px;height:16px;float:left; }
+.entryWARN			{ background-image:url(/Assets/Images/log_warning.png);width:16px;height:16px;float:left; }
+.entryINFO,.entry	{ background-image:url(/Assets/Images/log_information.png);width:16px;height:16px;float:left; }
+
+#content		{ padding: 10px; }
+
+#simplemodal-overlay    { background-color:#000; }
+#simplemodal-container  { background-color:#333; border:2px solid #ABABAB; padding:12px;color:#FFF;width:150px;height:45px;border-radius:5px;font-weight:bold;text-align:center; }
+#simplemodal-container a.modalCloseImg { width:25px;height:29px;display:inline;z-index:3200;position:absolute;top:-15px;right:-18px;cursor:pointer;}
+</style>
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		$(".toggle").each(function ()
+		{
+			//
+			// Load the message text from the server when the 'show/hide' link is clicked.
+			//
+			$(this).click(function ()
+			{
+				$(this).parent().parent().removeClass("highlight");
+				var id = $(this).attr("rel");
+				var eventDiv = $("#" +id);
+
+				if (eventDiv.html().length === 0)
+				{
+					$.get("@Url.Action("GetMessageText")/"+id,function(data){
+							eventDiv.html(data);
+							eventDiv.show();
+						});
+				}
+				else
+				{
+					eventDiv.toggle();
+				}
+			});
+		});
+	});
+	
+</script>
+
+<h2>Logs</h2>
+
+<div id="filter">
+	<div class="left">
+	@using (Html.BeginForm("Index","LogViewer", FormMethod.Get))
+	{
+		<span title="Filter the types of event shown.">&nbsp;Type:&nbsp;</span> @Html.DropDownBox("logLevel", new Dictionary<string, string>() { { "All", "All" }, { "Error", "Error" }, { "Warn", "Warning" }, { "Info", "Information" } }, ViewData["logLevel"].ToString())
+		<span title="The number of event items to display on the page.">&nbsp;Max items per page:</span> @Html.TextBox("maxItems", ViewData["maxItems"], new { style = "width:50px" })
+		<span title="Filter the body text for each event.">&nbsp;Message text filter:</span>@Html.TextBox("messageFilter", ViewData["messageFilter"])
+		<span title="This can be a date in the US or UK format e.g., dd-mm-yyyy or mm/dd/yyyy. Some constants also available: today, yesterday, thisweek, lastweek, thismonth, lastmonth." style="cursor:help">
+			&nbsp;Date range:</span>@Html.TextBox("startDate", ViewData["startDate"], new { style = "width:50px;" }) <span>&nbsp;-&nbsp;</span>@Html.TextBox("endDate", ViewData["endDate"], new { style = "width:50px;" })
+		<input type="submit" value="Apply" class="btn btn-primary" />
+	}
+	</div>
+</div>
+<br style="clear:both" />
+
+<div id="content">
+@{
+	DateTime currentDate = DateTime.MinValue;  
+}
+
+@foreach (Log4jEvent entry in Model)
+{
+	if (entry.Timestamp.Date != currentDate.Date)
+	{
+		currentDate = entry.Timestamp;
+		<h3 class="day">@entry.Timestamp.Date.ToString("MMMM dd, yyyy")</h3>
+	}
+	
+	<div class="entry-container">
+		<div class="left entrytype">
+			<div class="entry@(entry.Level)"></div>
+		</div>
+		<div class="left entrytime">@entry.Timestamp.ToShortTimeString()</div>
+		<div class="left entrycategory">@entry.Level</div>
+		<div class="left entryshow"><a href="javascript:;" rel="@entry.Id" class="toggle">Show/hide</a></div>
+		<div id="@entry.Id" style="display:none"></div>
+		<br style="clear:both;" />
+	</div>
+}
+</div>

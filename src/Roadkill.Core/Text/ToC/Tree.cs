@@ -53,7 +53,8 @@ namespace Roadkill.Core.Text.ToC
 					parent = parent.Parent;
 				}
 
-				parent.Parent.AddChild(item);
+				if (parent != null && parent.Parent != null)
+					parent.Parent.AddChild(item);
 			}
 
 			_currentItem = item;

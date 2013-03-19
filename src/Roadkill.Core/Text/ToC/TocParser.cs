@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 
 namespace Roadkill.Core.Text.ToC
@@ -47,7 +48,10 @@ namespace Roadkill.Core.Text.ToC
 			ParseHTagsAndAddAnchors(document.DocumentNode);
 
 			string outputHtml = GenerateHtml();
-			return document.DocumentNode.InnerHtml.Replace("{TOC}", outputHtml);
+			string innerHtml = document.DocumentNode.InnerHtml;
+			Regex regex = new Regex(@"(?<!{)(?:\{TOC\})(?!})"); // make sure {{TOC}} or {{{{TOC}}}} aren't matched
+			innerHtml = regex.Replace(innerHtml, outputHtml);
+			return document.DocumentNode.InnerHtml = innerHtml;
 		}
 
 		private string GenerateHtml()

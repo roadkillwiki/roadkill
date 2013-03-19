@@ -16,8 +16,11 @@ namespace Roadkill.Core
 	{
 		protected void Application_Start()
 		{
-#if DEBUG
+#if DEBUG 
 			Log.UseUdpLogging();
+#endif
+
+#if DEBUG || DemoSite
 			Log.UseXmlLogging();
 #endif
 

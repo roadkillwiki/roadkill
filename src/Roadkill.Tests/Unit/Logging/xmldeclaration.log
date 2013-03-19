@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<log4j:events xmlns:log4j="http://jakarta.apache.org/log4j/">
+<log4j:event timestamp="1363721763155" logger="Log4jXmlWriter" level="ERROR" xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <log4j:message><![CDATA[Error caught on logviewer.Index: Could not find file 'c:\Projects\roadkill\src\Roadkill.Site\test.log'.
+System.IO.FileNotFoundException: Could not find file 'c:\Projects\roadkill\src\Roadkill.Site\test.log'.
+File name: 'c:\Projects\roadkill\src\Roadkill.Site\test.log'
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+   at System.IO.File.InternalReadAllText(String path, Encoding encoding, Boolean checkHost)
+   at Roadkill.Core.Common.LogReader.Load(String filename) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\LogReader.cs:line 19
+   at Roadkill.Core.Controllers.LogViewerController.Index(String logLevel, Nullable`1 maxItems, String messageFilter, String startDate, String endDate) in c:\Projects\roadkill\src\Roadkill.Core\Controllers\LogViewerController.cs:line 27
+   at lambda_method(Closure , ControllerBase , Object[] )
+   at System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)]]></log4j:message>
+  <log4j:properties>
+    <log4j:data name="log4jmachinename" value="CORSAIR" />
+    <log4j:data name="log4japp" value="Roadkill.Core, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null" />
+  </log4j:properties>
+</log4j:event>
+<log4j:event timestamp="1363721773173" logger="Log4jXmlWriter" level="ERROR" xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <log4j:message><![CDATA[Error caught on help.showerror: foo
+System.Exception: foo
+   at Roadkill.Core.Controllers.HelpController.ShowError() in c:\Projects\roadkill\src\Roadkill.Core\Controllers\HelpController.cs:line 41
+   at lambda_method(Closure , ControllerBase , Object[] )
+   at System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)]]></log4j:message>
+  <log4j:properties>
+    <log4j:data name="log4jmachinename" value="CORSAIR" />
+    <log4j:data name="log4japp" value="Roadkill.Core, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null" />
+  </log4j:properties>
+</log4j:event>
+<log4j:event timestamp="1363721775519" logger="Log4jXmlWriter" level="ERROR" xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <log4j:message><![CDATA[Error caught on help.showerror: foo
+System.Exception: foo
+   at Roadkill.Core.Controllers.HelpController.ShowError() in c:\Projects\roadkill\src\Roadkill.Core\Controllers\HelpController.cs:line 41
+   at lambda_method(Closure , ControllerBase , Object[] )
+   at System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)]]></log4j:message>
+  <log4j:properties>
+    <log4j:data name="log4jmachinename" value="CORSAIR" />
+    <log4j:data name="log4japp" value="Roadkill.Core, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null" />
+  </log4j:properties>
+</log4j:event>
+<log4j:event timestamp="1363721776095" logger="Log4jXmlWriter" level="ERROR" xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <log4j:message><![CDATA[Error caught on help.showerror: foo
+System.Exception: foo
+   at Roadkill.Core.Controllers.HelpController.ShowError() in c:\Projects\roadkill\src\Roadkill.Core\Controllers\HelpController.cs:line 41
+   at lambda_method(Closure , ControllerBase , Object[] )
+   at System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)]]></log4j:message>
+  <log4j:properties>
+    <log4j:data name="log4jmachinename" value="CORSAIR" />
+    <log4j:data name="log4japp" value="Roadkill.Core, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null" />
+  </log4j:properties>
+</log4j:event>
+<log4j:event timestamp="1363721777688" logger="Log4jXmlWriter" level="ERROR" xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <log4j:message><![CDATA[Error caught on logviewer.Index: There is an error in XML document (1, 2).
+System.InvalidOperationException: There is an error in XML document (1, 2). ---> System.InvalidOperationException: <event xmlns='http://jakarta.apache.org/log4j/'> was not expected.
+   at Microsoft.Xml.Serialization.GeneratedAssembly.XmlSerializationReaderList1.Read3_ArrayOfTextToken()
+   --- End of inner exception stack trace ---
+   at System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader, String encodingStyle, XmlDeserializationEvents events)
+   at System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader, String encodingStyle)
+   at Roadkill.Core.Common.Log4jEvent.Deserialize(String text) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\Log4jEvent.cs:line 152
+   at Roadkill.Core.Common.LogReader.Load(String filename) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\LogReader.cs:line 19
+   at Roadkill.Core.Controllers.LogViewerController.Index(String logLevel, Nullable`1 maxItems, String messageFilter, String startDate, String endDate) in c:\Projects\roadkill\src\Roadkill.Core\Controllers\LogViewerController.cs:line 27
+   at lambda_method(Closure , ControllerBase , Object[] )
+   at System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)]]></log4j:message>
+  <log4j:properties>
+    <log4j:data name="log4jmachinename" value="CORSAIR" />
+    <log4j:data name="log4japp" value="Roadkill.Core, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null" />
+  </log4j:properties>
+</log4j:event>
+<log4j:event timestamp="1363721887469" logger="Log4jXmlWriter" level="ERROR" xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <log4j:message><![CDATA[Error caught on logviewer.Index: There is an error in XML document (1, 2).
+System.InvalidOperationException: There is an error in XML document (1, 2). ---> System.InvalidOperationException: <event xmlns='http://jakarta.apache.org/log4j/'> was not expected.
+   at Microsoft.Xml.Serialization.GeneratedAssembly.XmlSerializationReaderList1.Read3_ArrayOfTextToken()
+   --- End of inner exception stack trace ---
+   at System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader, String encodingStyle, XmlDeserializationEvents events)
+   at System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader, String encodingStyle)
+   at Roadkill.Core.Common.Log4jEvent.Deserialize(String text) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\Log4jEvent.cs:line 152
+   at Roadkill.Core.Common.LogReader.Load(String filename) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\LogReader.cs:line 19
+   at Roadkill.Core.Controllers.LogViewerController.Index(String logLevel, Nullable`1 maxItems, String messageFilter, String startDate, String endDate) in c:\Projects\roadkill\src\Roadkill.Core\Controllers\LogViewerController.cs:line 27
+   at lambda_method(Closure , ControllerBase , Object[] )
+   at System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)]]></log4j:message>
+  <log4j:properties>
+    <log4j:data name="log4jmachinename" value="CORSAIR" />
+    <log4j:data name="log4japp" value="Roadkill.Core, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null" />
+  </log4j:properties>
+</log4j:event>
+<log4j:event timestamp="1363722000254" logger="Log4jXmlWriter" level="ERROR" xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <log4j:message><![CDATA[Error caught on logviewer.Index: There is an error in XML document (1, 40).
+System.InvalidOperationException: There is an error in XML document (1, 40). ---> System.InvalidOperationException: <ArrayOfLog4jEvents xmlns=''> was not expected.
+   at Microsoft.Xml.Serialization.GeneratedAssembly.XmlSerializationReaderList1.Read3_ArrayOfTextToken()
+   --- End of inner exception stack trace ---
+   at System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader, String encodingStyle, XmlDeserializationEvents events)
+   at System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader, String encodingStyle)
+   at Roadkill.Core.Common.Log4jEvent.Deserialize(String text) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\Log4jEvent.cs:line 152
+   at Roadkill.Core.Common.LogReader.Load(String filename) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\LogReader.cs:line 19
+   at Roadkill.Core.Controllers.LogViewerController.Index(String logLevel, Nullable`1 maxItems, String messageFilter, String startDate, String endDate) in c:\Projects\roadkill\src\Roadkill.Core\Controllers\LogViewerController.cs:line 27
+   at lambda_method(Closure , ControllerBase , Object[] )
+   at System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)]]></log4j:message>
+  <log4j:properties>
+    <log4j:data name="log4jmachinename" value="CORSAIR" />
+    <log4j:data name="log4japp" value="Roadkill.Core, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null" />
+  </log4j:properties>
+</log4j:event>
+<log4j:event timestamp="1363722121324" logger="Log4jXmlWriter" level="ERROR" xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <log4j:message><![CDATA[Error caught on logviewer.Index: There is an error in XML document (1, 40).
+System.InvalidOperationException: There is an error in XML document (1, 40). ---> System.InvalidOperationException: <ArrayOfLog4jEvents xmlns=''> was not expected.
+   at Microsoft.Xml.Serialization.GeneratedAssembly.XmlSerializationReaderList1.Read3_ArrayOfTextToken()
+   --- End of inner exception stack trace ---
+   at System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader, String encodingStyle, XmlDeserializationEvents events)
+   at System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader, String encodingStyle)
+   at Roadkill.Core.Common.Log4jEvent.Deserialize(String text) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\Log4jEvent.cs:line 153
+   at Roadkill.Core.Common.LogReader.Load(String filename) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\LogReader.cs:line 19
+   at Roadkill.Core.Controllers.LogViewerController.Index(String logLevel, Nullable`1 maxItems, String messageFilter, String startDate, String endDate) in c:\Projects\roadkill\src\Roadkill.Core\Controllers\LogViewerController.cs:line 27
+   at lambda_method(Closure , ControllerBase , Object[] )
+   at System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)]]></log4j:message>
+  <log4j:properties>
+    <log4j:data name="log4jmachinename" value="CORSAIR" />
+    <log4j:data name="log4japp" value="Roadkill.Core, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null" />
+  </log4j:properties>
+</log4j:event>
+<log4j:event timestamp="1363722169480" logger="Log4jXmlWriter" level="ERROR" xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <log4j:message><![CDATA[Error caught on logviewer.Index: There is an error in XML document (1, 40).
+System.InvalidOperationException: There is an error in XML document (1, 40). ---> System.InvalidOperationException: <ArrayOfLog4jEvents xmlns=''> was not expected.
+   at Microsoft.Xml.Serialization.GeneratedAssembly.XmlSerializationReaderList1.Read4_ArrayOfLog4jEvent()
+   --- End of inner exception stack trace ---
+   at System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader, String encodingStyle, XmlDeserializationEvents events)
+   at System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader, String encodingStyle)
+   at Roadkill.Core.Common.Log4jEvent.Deserialize(String text) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\Log4jEvent.cs:line 153
+   at Roadkill.Core.Common.LogReader.Load(String filename) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\LogReader.cs:line 19
+   at Roadkill.Core.Controllers.LogViewerController.Index(String logLevel, Nullable`1 maxItems, String messageFilter, String startDate, String endDate) in c:\Projects\roadkill\src\Roadkill.Core\Controllers\LogViewerController.cs:line 27
+   at lambda_method(Closure , ControllerBase , Object[] )
+   at System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)]]></log4j:message>
+  <log4j:properties>
+    <log4j:data name="log4jmachinename" value="CORSAIR" />
+    <log4j:data name="log4japp" value="Roadkill.Core, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null" />
+  </log4j:properties>
+</log4j:event>
+<log4j:event timestamp="1363722327408" logger="Log4jXmlWriter" level="ERROR" xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <log4j:message><![CDATA[Error caught on logviewer.Index: There was an error generating the XML document.
+System.InvalidOperationException: There was an error generating the XML document. ---> System.ArgumentNullException: Value cannot be null.
+Parameter name: source
+   at System.Linq.Enumerable.Where[TSource](IEnumerable`1 source, Func`2 predicate)
+   at Roadkill.Core.Common.Log4jEvent.RemoveInvalidXmlChars(String text) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\Log4jEvent.cs:line 234
+   at Roadkill.Core.Common.Log4jEvent.get_CDataMessage() in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\Log4jEvent.cs:line 40
+   at Microsoft.Xml.Serialization.GeneratedAssembly.XmlSerializationWriterList1.Write3_Log4jEvent(String n, String ns, Log4jEvent o, Boolean isNullable, Boolean needType)
+   at Microsoft.Xml.Serialization.GeneratedAssembly.XmlSerializationWriterList1.Write4_ArrayOfLog4jEvent(Object o)
+   --- End of inner exception stack trace ---
+   at System.Xml.Serialization.XmlSerializer.Serialize(XmlWriter xmlWriter, Object o, XmlSerializerNamespaces namespaces, String encodingStyle, String id)
+   at System.Xml.Serialization.XmlSerializer.Serialize(XmlWriter xmlWriter, Object o, XmlSerializerNamespaces namespaces, String encodingStyle)
+   at System.Xml.Serialization.XmlSerializer.Serialize(XmlWriter xmlWriter, Object o, XmlSerializerNamespaces namespaces)
+   at Roadkill.Core.Common.Log4jEvent.Serialize2() in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\Log4jEvent.cs:line 167
+   at Roadkill.Core.Controllers.LogViewerController.Index(String logLevel, Nullable`1 maxItems, String messageFilter, String startDate, String endDate) in c:\Projects\roadkill\src\Roadkill.Core\Controllers\LogViewerController.cs:line 27
+   at lambda_method(Closure , ControllerBase , Object[] )
+   at System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)]]></log4j:message>
+  <log4j:properties>
+    <log4j:data name="log4jmachinename" value="CORSAIR" />
+    <log4j:data name="log4japp" value="Roadkill.Core, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null" />
+  </log4j:properties>
+</log4j:event>
+<log4j:event timestamp="1363722356865" logger="Log4jXmlWriter" level="ERROR" xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <log4j:message><![CDATA[Error caught on logviewer.Index: There was an error generating the XML document.
+System.InvalidOperationException: There was an error generating the XML document. ---> System.ArgumentNullException: Value cannot be null.
+Parameter name: source
+   at System.Linq.Enumerable.Where[TSource](IEnumerable`1 source, Func`2 predicate)
+   at Roadkill.Core.Common.Log4jEvent.RemoveInvalidXmlChars(String text) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\Log4jEvent.cs:line 234
+   at Roadkill.Core.Common.Log4jEvent.get_CDataMessage() in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\Log4jEvent.cs:line 40
+   at Microsoft.Xml.Serialization.GeneratedAssembly.XmlSerializationWriterList1.Write3_Log4jEvent(String n, String ns, Log4jEvent o, Boolean isNullable, Boolean needType)
+   at Microsoft.Xml.Serialization.GeneratedAssembly.XmlSerializationWriterList1.Write4_ArrayOfLog4jEvent(Object o)
+   --- End of inner exception stack trace ---
+   at System.Xml.Serialization.XmlSerializer.Serialize(XmlWriter xmlWriter, Object o, XmlSerializerNamespaces namespaces, String encodingStyle, String id)
+   at System.Xml.Serialization.XmlSerializer.Serialize(XmlWriter xmlWriter, Object o, XmlSerializerNamespaces namespaces, String encodingStyle)
+   at System.Xml.Serialization.XmlSerializer.Serialize(XmlWriter xmlWriter, Object o, XmlSerializerNamespaces namespaces)
+   at Roadkill.Core.Common.Log4jEvent.Serialize2() in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\Log4jEvent.cs:line 167
+   at Roadkill.Core.Controllers.LogViewerController.Index(String logLevel, Nullable`1 maxItems, String messageFilter, String startDate, String endDate) in c:\Projects\roadkill\src\Roadkill.Core\Controllers\LogViewerController.cs:line 27
+   at lambda_method(Closure , ControllerBase , Object[] )
+   at System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)]]></log4j:message>
+  <log4j:properties>
+    <log4j:data name="log4jmachinename" value="CORSAIR" />
+    <log4j:data name="log4japp" value="Roadkill.Core, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null" />
+  </log4j:properties>
+</log4j:event>
+<log4j:event timestamp="1363722442330" logger="Log4jXmlWriter" level="ERROR" xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <log4j:message><![CDATA[Error caught on logviewer.Index: There is an error in XML document (1, 2).
+System.InvalidOperationException: There is an error in XML document (1, 2). ---> System.InvalidOperationException: <event xmlns='http://jakarta.apache.org/log4j/'> was not expected.
+   at Microsoft.Xml.Serialization.GeneratedAssembly.XmlSerializationReaderList1.Read4_ArrayOfLog4jEvent()
+   --- End of inner exception stack trace ---
+   at System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader, String encodingStyle, XmlDeserializationEvents events)
+   at System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader, String encodingStyle)
+   at Roadkill.Core.Common.Log4jEvent.Deserialize(String text) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\Log4jEvent.cs:line 182
+   at Roadkill.Core.Common.LogReader.Load(String filename) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\LogReader.cs:line 19
+   at Roadkill.Core.Controllers.LogViewerController.Index(String logLevel, Nullable`1 maxItems, String messageFilter, String startDate, String endDate) in c:\Projects\roadkill\src\Roadkill.Core\Controllers\LogViewerController.cs:line 28
+   at lambda_method(Closure , ControllerBase , Object[] )
+   at System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)]]></log4j:message>
+  <log4j:properties>
+    <log4j:data name="log4jmachinename" value="CORSAIR" />
+    <log4j:data name="log4japp" value="Roadkill.Core, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null" />
+  </log4j:properties>
+</log4j:event>
+<log4j:event timestamp="1363722725562" logger="Log4jXmlWriter" level="ERROR" xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <log4j:message><![CDATA[Error caught on logviewer.Index: There are multiple root elements. Line 24, position 2.
+System.Xml.XmlException: There are multiple root elements. Line 24, position 2.
+   at System.Xml.XmlTextReaderImpl.Throw(String res, String arg)
+   at System.Xml.XmlTextReaderImpl.ParseDocumentContent()
+   at System.Xml.Linq.XContainer.ReadContentFrom(XmlReader r)
+   at System.Xml.Linq.XContainer.ReadContentFrom(XmlReader r, LoadOptions o)
+   at System.Xml.Linq.XDocument.Load(XmlReader reader, LoadOptions options)
+   at System.Xml.Linq.XDocument.Load(TextReader textReader, LoadOptions options)
+   at Roadkill.Core.Common.Log4jEvent.Deserialize(String text) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\Log4jEvent.cs:line 179
+   at Roadkill.Core.Common.LogReader.Load(String filename) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\LogReader.cs:line 19
+   at Roadkill.Core.Controllers.LogViewerController.Index(String logLevel, Nullable`1 maxItems, String messageFilter, String startDate, String endDate) in c:\Projects\roadkill\src\Roadkill.Core\Controllers\LogViewerController.cs:line 28
+   at lambda_method(Closure , ControllerBase , Object[] )
+   at System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)]]></log4j:message>
+  <log4j:properties>
+    <log4j:data name="log4jmachinename" value="CORSAIR" />
+    <log4j:data name="log4japp" value="Roadkill.Core, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null" />
+  </log4j:properties>
+</log4j:event>
+<log4j:event timestamp="1363722771312" logger="Log4jXmlWriter" level="ERROR" xmlns:log4j="http://jakarta.apache.org/log4j/">
+  <log4j:message><![CDATA[Error caught on logviewer.Index: There are multiple root elements. Line 24, position 2.
+System.Xml.XmlException: There are multiple root elements. Line 24, position 2.
+   at System.Xml.XmlTextReaderImpl.Throw(String res, String arg)
+   at System.Xml.XmlTextReaderImpl.ParseDocumentContent()
+   at System.Xml.Linq.XContainer.ReadContentFrom(XmlReader r)
+   at System.Xml.Linq.XContainer.ReadContentFrom(XmlReader r, LoadOptions o)
+   at System.Xml.Linq.XDocument.Load(XmlReader reader, LoadOptions options)
+   at System.Xml.Linq.XDocument.Load(TextReader textReader, LoadOptions options)
+   at Roadkill.Core.Common.Log4jEvent.Deserialize(String text) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\Log4jEvent.cs:line 150
+   at Roadkill.Core.Common.LogReader.Load(String filename) in c:\Projects\roadkill\src\Roadkill.Core\Common\Logging\LogReader.cs:line 19
+   at Roadkill.Core.Controllers.LogViewerController.Index(String logLevel, Nullable`1 maxItems, String messageFilter, String startDate, String endDate) in c:\Projects\roadkill\src\Roadkill.Core\Controllers\LogViewerController.cs:line 27
+   at lambda_method(Closure , ControllerBase , Object[] )
+   at System.Web.Mvc.ReflectedActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)]]></log4j:message>
+  <log4j:properties>
+    <log4j:data name="log4jmachinename" value="CORSAIR" />
+    <log4j:data name="log4japp" value="Roadkill.Core, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null" />
+  </log4j:properties>
+</log4j:event>
+</log4j:events>
