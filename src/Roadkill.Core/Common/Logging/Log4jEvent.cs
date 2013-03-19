@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace Roadkill.Core.Common
@@ -15,6 +16,15 @@ namespace Roadkill.Core.Common
 	{
 		private DateTime _timestamp;
 		private string _message;
+
+		[XmlIgnore]
+		public long Id
+		{
+			get
+			{
+				return Timestamp.Ticks;
+			}
+		}
 
 		[XmlAttribute("timestamp")]
 		public string _xmlTimeStamp;
@@ -53,11 +63,17 @@ namespace Roadkill.Core.Common
 		{
 			get
 			{
+				if (Properties.FirstOrDefault(x => x.Name == "log4jmachinename") == null)
+					Properties.Add(new Log4jProperty() { Name = "log4jmachinename", Value = "" });
+
 				return Properties.First(x => x.Name == "log4jmachinename").Value;
 			}
 			set
 			{
-				Properties.First(x => x.Name == "log4jmachinename").Value = value;
+				if (Properties.FirstOrDefault(x => x.Name == "log4jmachinename") == null)
+					Properties.Add(new Log4jProperty() { Name = "log4jmachinename", Value = value });
+				else
+					Properties.First(x => x.Name == "log4jmachinename").Value = value;
 			}
 		}
 
@@ -66,11 +82,17 @@ namespace Roadkill.Core.Common
 		{
 			get
 			{
-				return Properties.First(x => x.Name == "log4jmachinename").Value;
+				if (Properties.FirstOrDefault(x => x.Name == "log4japp") == null)
+					Properties.Add(new Log4jProperty() { Name = "log4japp", Value = "" });
+
+				return Properties.First(x => x.Name == "log4japp").Value;
 			}
 			set
 			{
-				Properties.First(x => x.Name == "log4jmachinename").Value = value;
+				if (Properties.FirstOrDefault(x => x.Name == "log4japp") == null)
+					Properties.Add(new Log4jProperty() { Name = "log4japp", Value = value });
+				else
+					Properties.First(x => x.Name == "log4japp").Value = value;
 			}
 		}
 
@@ -79,7 +101,10 @@ namespace Roadkill.Core.Common
 		{
 			get
 			{
-				return _timestamp;
+				if (string.IsNullOrEmpty(_xmlTimeStamp))
+					return DateTime.MinValue;
+				else
+					return ConvertFromUnixTimestamp(Double.Parse(_xmlTimeStamp));
 			}
 			set
 			{
@@ -104,8 +129,15 @@ namespace Roadkill.Core.Common
 		public Log4jEvent()
 		{
 			Properties = new List<Log4jProperty>();
-			Properties.Add(new Log4jProperty() { Name = "log4jmachinename", Value = Environment.MachineName });
-			Properties.Add(new Log4jProperty() { Name = "log4japp", Value = Assembly.GetCallingAssembly().FullName });
+		}
+
+		public override bool Equals(object obj)
+		{
+			Log4jEvent other = obj as Log4jEvent;
+			if (other == null)
+				return false;
+
+			return (other.Timestamp == Timestamp && other.Message == Message);
 		}
 
 		public string Serialize()
@@ -128,6 +160,39 @@ namespace Roadkill.Core.Common
 
 					return builder.ToString();
 				}
+			}
+		}
+
+		public static IEnumerable<Log4jEvent> Deserialize(string text)
+		{
+			// Work around for the log (deliberately for files?) missing the xml declaration
+			if (!text.Contains("<?xml version") && !text.Contains("<log4j:events"))
+			{
+				text = "<?xml version=\"1.0\" encoding=\"utf-8\"?><log4j:events xmlns:log4j=\"http://jakarta.apache.org/log4j/\">" + text + "</log4j:events>";
+
+			}
+
+			XDocument doc = XDocument.Load(new StringReader(text));
+			// Feed/Entry
+			var entries = from item in doc.Root.Elements().Where(i => i.Name.LocalName == "event")
+						  select Log4jEvent.DeserializeElement(item.ToString());
+
+
+			return entries.ToList();
+		}
+
+		private static XmlSerializer _serializer = new XmlSerializer(typeof(Log4jEvent));
+
+		public static Log4jEvent DeserializeElement(string text)
+		{
+			using (StringReader reader = new StringReader(text))
+			{
+				Log4jEvent log4jEvent = _serializer.Deserialize(reader) as Log4jEvent;
+
+				if (log4jEvent == null)
+					return new Log4jEvent() { Message = "" };
+				else
+					return log4jEvent;
 			}
 		}
 
@@ -172,6 +237,12 @@ namespace Roadkill.Core.Common
 			DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0);
 			TimeSpan sinceEpoch = date.ToUniversalTime() - epoch;
 			return Math.Floor(sinceEpoch.TotalMilliseconds);
+		}
+
+		private DateTime ConvertFromUnixTimestamp(double milliseconds)
+		{
+			DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0);;	
+			return epoch.AddMilliseconds(milliseconds);
 		}
 
 		private string RemoveInvalidXmlChars(string text)

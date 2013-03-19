@@ -20,7 +20,7 @@
 	<p>An error occured on @(Model.ControllerName).@Model.ActionName</p> 
 	if (Model.Exception != null)
 	{
-	<p class="lead">@(Model.Exception.Message).</p>
+	<p class="lead">@(Model.Exception.Message)</p>
 	<pre class="alert alert-error">@Model.Exception.ToString()</pre>
 	}
 }

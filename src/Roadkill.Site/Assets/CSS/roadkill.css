@@ -73,7 +73,7 @@
 .toc			{ border:1px solid #AAA; background-color:#F9F9F9; padding:5px 0px;display:table;margin-bottom:15px; }
 .toc-title		{ font-weight:bold;text-align:center;min-width:100px; }
 .toc-showhide	{ font-weight:normal;font-size:0.8em; }
-.toc ul			{ list-style-type:none;padding:2px 5px;margin: 0px 0px 0px 2em;line-height:1.5em; }
+.toc ul			{ list-style-type:none;padding:2px 5px;margin: 0px 0px 0px 1em;line-height:1.5em; }
 .toc-list>ul	{ margin:0px; }
 
 /* Left side menu */

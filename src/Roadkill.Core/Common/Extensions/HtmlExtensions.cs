@@ -241,5 +241,29 @@ namespace Roadkill.Core
 
 			return items;
 		}
+
+		/// <summary>
+		/// Creates a drop down list from an <c>IDictionary</c> and selects the item.
+		/// </summary>
+		public static MvcHtmlString DropDownBox(this HtmlHelper helper, string name, IDictionary<string, string> items, string selectedValue)
+		{
+			List<SelectListItem> selectList = new List<SelectListItem>();
+
+			foreach (string key in items.Keys)
+			{
+				SelectListItem selectListItem = new SelectListItem
+				{
+					Text = items[key],
+					Value = key
+				};
+
+				if (key == selectedValue)
+					selectListItem.Selected = true;
+
+				selectList.Add(selectListItem);
+			}
+
+			return helper.DropDownList(name, selectList);
+		}
 	}
 }
