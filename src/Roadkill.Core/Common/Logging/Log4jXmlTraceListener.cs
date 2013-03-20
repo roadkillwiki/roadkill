@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Roadkill.Core.Common
 {
@@ -31,6 +33,7 @@ namespace Roadkill.Core.Common
 		{
 			_loggerName = loggerName;
 			_filename = GetRollingFilename(fileName);
+			WriteXmlDeclaration();
 		}
 
 		public static string GetRollingFilename(string filename)
@@ -59,6 +62,27 @@ namespace Roadkill.Core.Common
 			}
 		}
 
+		private void WriteXmlDeclaration()
+		{
+			if (!File.Exists(_filename))
+			{
+				lock (_writerLock)
+				{
+					using (StreamWriter streamWriter = new StreamWriter(new FileStream(_filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write), Encoding.UTF8))
+					{
+						XmlWriterSettings settings = new XmlWriterSettings();
+						settings.Indent = true;
+						using (XmlWriter xmlWriter = XmlWriter.Create(streamWriter, settings))
+						{
+							xmlWriter.WriteStartElement("log4j", "events", "http://jakarta.apache.org/log4j/");
+							xmlWriter.WriteString("\n");
+							xmlWriter.WriteEndElement();
+						}
+					}
+				}
+			}
+		}
+
 		public override void Write(string message)
 		{
 			Write(message, "info");
@@ -68,9 +92,9 @@ namespace Roadkill.Core.Common
 		{
 			lock (_writerLock)
 			{
-				using (StreamWriter streamWriter = new StreamWriter(new FileStream(_filename, FileMode.Append, FileAccess.Write, FileShare.Write), Encoding.UTF8))
+				using (StreamWriter streamWriter = new StreamWriter(new FileStream(_filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write), Encoding.UTF8))
 				{
-					streamWriter.WriteLine(CreateEventXml(message, category));
+					AppendEventXml(streamWriter, message, category);
 				}
 			}
 		}
@@ -84,16 +108,17 @@ namespace Roadkill.Core.Common
 		{
 			lock (_writerLock)
 			{
-				using (StreamWriter streamWriter = new StreamWriter(new FileStream(_filename, FileMode.Append, FileAccess.Write, FileShare.Write), Encoding.UTF8))
+				using (StreamWriter streamWriter = new StreamWriter(new FileStream(_filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write), Encoding.UTF8))
 				{
-					streamWriter.WriteLine(CreateEventXml(message, category));
+					AppendEventXml(streamWriter, message, category);
 				}
 			}
 		}
 
-		private string CreateEventXml(string message, string category)
+		private void AppendEventXml(StreamWriter streamWriter, string message, string category)
 		{
-			Log4jEvent log = new Log4jEvent()
+			int endElementLength = "</log4j:events>".Length;
+			Log4jEvent logEvent = new Log4jEvent()
 			{
 				Logger = _loggerName,
 				Level = Log4jEvent.GetLevelFromCategory(category),
@@ -103,7 +128,37 @@ namespace Roadkill.Core.Common
 				AppName = Assembly.GetCallingAssembly().FullName
 			};
 
-			return log.Serialize();
+			XmlWriterSettings settings = new XmlWriterSettings();
+			settings.Indent = true;
+			settings.OmitXmlDeclaration = true;
+
+			// The following is a faster way to append to the XML document, but keeping it valid XML.
+			// The alternative is to load the entire document into an XMLDocument which will consume
+			// a lot of RAM once the log gets big.
+
+			// Move the writer back to before the </events> elements
+			if (streamWriter.BaseStream.Length > 0)
+			{
+				streamWriter.BaseStream.Position = streamWriter.BaseStream.Length;
+				streamWriter.BaseStream.Position -= endElementLength +2; // add 2 for the extra line break.
+			}
+			else
+			{
+				// Invalid state, but try to recover
+				WriteXmlDeclaration();
+			}
+
+			XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
+			namespaces.Add("log4j", "http://jakarta.apache.org/log4j/");
+			
+			using (XmlWriter xmlWriter = XmlWriter.Create(streamWriter, settings))
+			{
+				XmlSerializer serializer = new XmlSerializer(typeof(Log4jEvent));
+				serializer.Serialize(xmlWriter, logEvent, namespaces);
+			}
+
+			streamWriter.WriteLine("");
+			streamWriter.WriteLine("</log4j:events>");
 		}
 
 		public override void TraceEvent(TraceEventCache eventCache, string source, TraceEventType eventType, int id, string format, params object[] args)
@@ -130,7 +185,7 @@ namespace Roadkill.Core.Common
 				case TraceEventType.Suspend:
 				case TraceEventType.Transfer:
 				default:
-					WriteLine(string.Format(format, args), "error");
+					WriteLine(string.Format(format, args), "info");
 					break;
 			}
 		}

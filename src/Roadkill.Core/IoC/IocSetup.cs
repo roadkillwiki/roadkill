@@ -65,6 +65,7 @@ namespace Roadkill.Core
 		public void Run()
 		{
 			string pluginPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Plugins");
+			Log.Information("Starting Roadkill initialization");
 
 			ObjectFactory.Initialize(x =>
 			{
@@ -157,6 +158,7 @@ namespace Roadkill.Core
 								_config.ApplicationSettings.CacheEnabled);
 
 			_hasRunInitialization = true;
+			Log.Information("Finished Roadkill initialization");
 		}
 
 		private void RegisterCustomInstances(ConfigurationExpression x)

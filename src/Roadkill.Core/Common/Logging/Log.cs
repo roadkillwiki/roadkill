@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Diagnostics;
 using Roadkill.Core.Common;
 
 namespace Roadkill.Core
@@ -24,7 +25,8 @@ namespace Roadkill.Core
 
 		public static void UseXmlLogging()
 		{
-			Trace.Listeners.Add(new Log4jXmlTraceListener("test.log"));
+			string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "roadkill.log");
+			Trace.Listeners.Add(new Log4jXmlTraceListener(logFile));
 		}
 
 		public static void UseTextFileLogging()
@@ -106,21 +108,5 @@ namespace Roadkill.Core
 					break;
 			}
 		}
-	}
-
-	public enum ErrorType
-	{
-		/// <summary>
-		/// Information error message, a debug message.
-		/// </summary>
-		Information,
-		/// <summary>
-		/// A warning log message for when something has failed unexpectedly.
-		/// </summary>
-		Warning,
-		/// <summary>
-		/// An error log message, for an unexpected message.
-		/// </summary>
-		Error
 	}
 }

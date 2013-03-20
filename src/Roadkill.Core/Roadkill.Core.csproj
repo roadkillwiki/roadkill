@@ -273,6 +273,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Common\Logging\ErrorType.cs" />
     <Compile Include="Common\Logging\Log4jEvent.cs" />
     <Compile Include="Common\Logging\Log4jXmlTraceListener.cs" />
     <Compile Include="Common\Logging\LogReader.cs" />
