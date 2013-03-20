@@ -449,7 +449,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			UnitOfWork.SaveChanges();
 
 			PageContent pageContent = FromEntity.ToPageContent(pageContentEntity);
-			pageContent.Page = page;
+			pageContent.Page = FromEntity.ToPage(pageEntity);
 			return pageContent;
 		}
 
@@ -472,7 +472,7 @@ namespace Roadkill.Core.Database.LightSpeed
 				UnitOfWork.SaveChanges();
 
 				PageContent pageContent = FromEntity.ToPageContent(pageContentEntity);
-				pageContent.Page = page;
+				pageContent.Page = FromEntity.ToPage(pageEntity);
 				return pageContent;
 			}
 
