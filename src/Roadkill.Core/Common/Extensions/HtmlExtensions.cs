@@ -265,5 +265,19 @@ namespace Roadkill.Core
 
 			return helper.DropDownList(name, selectList);
 		}
+
+		/// <summary>
+		/// Creates a button for the items per page in the logviewer.
+		/// </summary>
+		public static MvcHtmlString ItemsPerPageButtonForLog(this HtmlHelper helper, int value)
+		{
+			int maxItems = Convert.ToInt32(helper.ViewData["maxItems"]);
+			string extraCss = (maxItems == value) ? " btn-primary" : "";
+
+			if (value > 0)
+				return MvcHtmlString.Create("<input type=\"submit\"class=\"btn-mini" +extraCss+ "\" name=\"maxItems\" value=\"" +value+ "\" />");
+			else
+				return MvcHtmlString.Create("<input type=\"submit\"class=\"btn-mini" + extraCss + "\" name=\"maxItems\" value=\"All\" />");
+		}
 	}
 }

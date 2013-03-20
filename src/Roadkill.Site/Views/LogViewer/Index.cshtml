@@ -11,7 +11,9 @@
 .entryWARN			{ background-image:url(/Assets/Images/log_warning.png);width:16px;height:16px;float:left; }
 .entryINFO,.entry	{ background-image:url(/Assets/Images/log_information.png);width:16px;height:16px;float:left; }
 
-#content		{ padding: 10px; }
+#content			{ padding: 10px; }
+select				{ width: 120px; }
+input[type=text]	{ width: 50px;  }
 
 #simplemodal-overlay    { background-color:#000; }
 #simplemodal-container  { background-color:#333; border:2px solid #ABABAB; padding:12px;color:#FFF;width:150px;height:45px;border-radius:5px;font-weight:bold;text-align:center; }
@@ -50,24 +52,23 @@
 
 <h2>Logs</h2>
 
+@using (Html.BeginForm("Index","LogViewer", FormMethod.Get))
+{
 <div id="filter">
 	<div class="left">
-	@using (Html.BeginForm("Index","LogViewer", FormMethod.Get))
-	{
 		<span title="Filter the types of event shown.">&nbsp;Type:&nbsp;</span> @Html.DropDownBox("logLevel", new Dictionary<string, string>() { { "All", "All" }, { "Error", "Error" }, { "Warn", "Warning" }, { "Info", "Information" } }, ViewData["logLevel"].ToString())
-		<span title="The number of event items to display on the page.">&nbsp;Max items per page:</span> @Html.TextBox("maxItems", ViewData["maxItems"], new { style = "width:50px" })
 		<span title="Filter the body text for each event.">&nbsp;Message text filter:</span>@Html.TextBox("messageFilter", ViewData["messageFilter"])
 		<span title="This can be a date in the US or UK format e.g., dd-mm-yyyy or mm/dd/yyyy. Some constants also available: today, yesterday, thisweek, lastweek, thismonth, lastmonth." style="cursor:help">
 			&nbsp;Date range:</span>@Html.TextBox("startDate", ViewData["startDate"], new { style = "width:50px;" }) <span>&nbsp;-&nbsp;</span>@Html.TextBox("endDate", ViewData["endDate"], new { style = "width:50px;" })
 		<input type="submit" value="Apply" class="btn btn-primary" />
-	}
 	</div>
 </div>
 <br style="clear:both" />
 
 <div id="content">
 @{
-	DateTime currentDate = DateTime.MinValue;  
+	DateTime currentDate = DateTime.MinValue;
+	int currentMaxItems = Convert.ToInt32(ViewData["page"]);
 }
 
 @foreach (Log4jEvent entry in Model)
@@ -84,9 +85,18 @@
 		</div>
 		<div class="left entrytime">@entry.Timestamp.ToShortTimeString()</div>
 		<div class="left entrycategory">@entry.Level</div>
-		<div class="left entryshow"><a href="javascript:;" rel="@entry.Id" class="toggle">Show/hide</a></div>
+		<div class="left entryshow"><a href="javascript:;" rel="@entry.Id" class="toggle">Details</a></div>
 		<div id="@entry.Id" style="display:none"></div>
 		<br style="clear:both;" />
 	</div>
 }
+	<div class="right">
+		@Html.ItemsPerPageButtonForLog(10)
+		@Html.ItemsPerPageButtonForLog(20)
+		@Html.ItemsPerPageButtonForLog(50)
+		@Html.ItemsPerPageButtonForLog(100)
+		@Html.ItemsPerPageButtonForLog(0)
+	</div>
+
 </div>
+}

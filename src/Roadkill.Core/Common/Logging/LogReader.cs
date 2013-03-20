@@ -39,8 +39,12 @@ namespace Roadkill.Core.Common
 			if (string.IsNullOrEmpty(filename))
 				filename = Log4jXmlTraceListener.GetRollingFilename(LOGFILE);
 
-			List<Log4jEvent> items = Log4jEvent.Deserialize(File.ReadAllText(filename)).ToList();
-			_entityCache.Add("key", items, DateTimeOffset.Now.AddMinutes(1));
+			List<Log4jEvent> items = new List<Log4jEvent>();
+			if (File.Exists(filename))
+			{
+				items = Log4jEvent.Deserialize(File.ReadAllText(filename)).ToList();
+				_entityCache.Add("key", items, DateTimeOffset.Now.AddSeconds(10));
+			}
 
 			return items;
 		}

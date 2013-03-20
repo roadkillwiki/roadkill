@@ -26,10 +26,6 @@ namespace Roadkill.Core.Controllers
 			IEnumerable<Log4jEvent> eventList = LogReader.Load();
 			IEnumerable<Log4jEvent> filteredList = eventList;
 
-			maxItems = maxItems.GetValueOrDefault();
-			if (maxItems < 1)
-				maxItems = 100;
-
 			//
 			// Log level type filter
 			//
@@ -88,18 +84,25 @@ namespace Roadkill.Core.Controllers
 				}
 			}
 
+			//
+			// Paging
+			//
+			int maxItemsToTake = maxItems.GetValueOrDefault();
+			if (maxItemsToTake < 1)
+				maxItemsToTake = int.MaxValue;
+
 			if (string.IsNullOrEmpty(logLevel))
 				logLevel = "All";
 
 			ViewData["logLevel"] = logLevel;
-			ViewData["maxItems"] = maxItems.Value;
+			ViewData["maxItems"] = maxItems.GetValueOrDefault();
 			ViewData["messageFilter"] = messageFilter;
 			ViewData["startDate"] = startDate;
 			ViewData["endDate"] = endDate;
 			ViewData["lastUpdate"] = DateTime.Now;
 
 			// Sort by the time generated and only take N items
-			list = (from e in list orderby e.Timestamp descending select e).Take(maxItems.Value).ToList<Log4jEvent>();
+			list = (from e in list orderby e.Timestamp descending select e).Take(maxItemsToTake).ToList<Log4jEvent>();
 
 			return View(list);
 		}

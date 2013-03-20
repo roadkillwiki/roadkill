@@ -20,9 +20,7 @@ namespace Roadkill.Core
 			Log.UseUdpLogging();
 #endif
 
-#if DEBUG || DemoSite
 			Log.UseXmlLogging();
-#endif
 
 			// Configure StructureMap dependencies
 			IoCSetup iocSetup = new IoCSetup();

@@ -140,7 +140,7 @@ namespace Roadkill.Core.Common
 			return (other.Timestamp == Timestamp && other.Message == Message);
 		}
 
-		public string Serialize()
+		public string Serialize(string existingXml = "")
 		{
 			XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
 			namespaces.Add("log4j", "http://jakarta.apache.org/log4j/");
@@ -150,10 +150,11 @@ namespace Roadkill.Core.Common
 			settings.Indent = true;
 
 			StringBuilder builder = new StringBuilder();
+			builder.Append(existingXml);
 
-			using (StringWriter writer = new StringWriter(builder))
+			using (StringWriter stringWriter = new StringWriter(builder))
 			{
-				using (XmlWriter xmlWriter = XmlWriter.Create(writer, settings))
+				using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, settings))
 				{
 					XmlSerializer serializer = new XmlSerializer(typeof(Log4jEvent));
 					serializer.Serialize(xmlWriter, this, namespaces);

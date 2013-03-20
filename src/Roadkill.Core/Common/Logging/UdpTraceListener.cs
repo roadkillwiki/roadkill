@@ -111,7 +111,7 @@ namespace Roadkill.Core.Common
 				case TraceEventType.Suspend:
 				case TraceEventType.Transfer:
 				default:
-					WriteLine(string.Format(format, args), "error");
+					WriteLine(string.Format(format, args), "info");
 					break;
 			}
 		}
