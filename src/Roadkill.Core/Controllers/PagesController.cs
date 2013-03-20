@@ -47,7 +47,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>An <see cref="IEnumerable{TagSummary}"/> as the model.</returns>
 		public ActionResult AllTags()
 		{
-			return View(_pageManager.AllTags());
+			return View(_pageManager.AllTags().OrderBy(x => x.Name));
 		}
 
 		/// <summary>
@@ -204,7 +204,7 @@ namespace Roadkill.Core.Controllers
 
 			summary = _pageManager.AddPage(summary);
 
-			return RedirectToAction("Index", "Wiki", new { id = summary.Id, nocache = DateTime.Now.Ticks });
+			return RedirectToAction("Index", "Wiki", new { id = summary.Id });
 		}
 
 		/// <summary>
