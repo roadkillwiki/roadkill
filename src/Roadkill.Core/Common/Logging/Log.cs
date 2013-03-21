@@ -25,13 +25,14 @@ namespace Roadkill.Core
 
 		public static void UseXmlLogging()
 		{
-			string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "roadkill.log");
+			string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Logs", "roadkill.xml.log");
 			Trace.Listeners.Add(new Log4jXmlTraceListener(logFile));
 		}
 
 		public static void UseTextFileLogging()
 		{
-			Trace.Listeners.Add(new TextWriterTraceListener(@".\roadkill.log", "roadkill-textfile"));
+			string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Logs", "roadkill.txt");
+			Trace.Listeners.Add(new TextWriterTraceListener(logFile, "roadkill-textfile"));
 		}
 
 		/// <summary>
@@ -90,6 +91,13 @@ namespace Roadkill.Core
 		{
 			if (ex != null)
 				message += "\n" + ex;
+
+#if !DEBUG
+			//if (errorType == ErrorType.Warning)
+			//	Trace.TraceError(message, args);
+
+			//return;
+#endif
 
 			// Trace should catch FormatException
 			switch (errorType)

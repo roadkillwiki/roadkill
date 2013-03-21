@@ -128,9 +128,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DemoSite|AnyCPU'">
     <OutputPath>bin\DemoSite\</OutputPath>
-    <DefineConstants>TRACE;RELEASE DEMOSITE</DefineConstants>
+    <DefineConstants>TRACE;DEMOSITE</DefineConstants>
     <DocumentationFile>bin\Release\Roadkill.Core.XML</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -285,6 +285,8 @@
     <Compile Include="Controllers\LogViewerController.cs" />
     <Compile Include="Controllers\RoadkillViewPage.cs" />
     <Compile Include="Controllers\UpgradeController.cs" />
+    <Compile Include="Domain\Cache\PageSummaryCache.cs" />
+    <Compile Include="Domain\Cache\ListCache.cs" />
     <Compile Include="Database\Repositories\IUserRepository.cs" />
     <Compile Include="Database\Repositories\IPageRepository.cs" />
     <Compile Include="Database\DataStoreType.cs" />
@@ -296,7 +298,6 @@
     <Compile Include="Database\Repositories\LightSpeed\PageContentEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\SitePreferencesEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\UserEntity.cs" />
-    <Compile Include="Database\Cache\ObjectCache.cs" />
     <Compile Include="Database\Entities\SitePreferencesEntity.cs" />
     <Compile Include="Database\Schema\MySql\MySqlSchema.cs" />
     <Compile Include="Database\Schema\Postgres\PostgresSchema.cs" />

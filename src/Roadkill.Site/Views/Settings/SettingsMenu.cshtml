@@ -3,18 +3,28 @@
 	MvcHtmlString nav1Active = activeCss;
 	MvcHtmlString nav2Active = MvcHtmlString.Empty;
 	MvcHtmlString nav3Active = MvcHtmlString.Empty;
+	MvcHtmlString nav4Active = MvcHtmlString.Empty;
 	
 	if (ViewData["UsersActive"] !=  null)
 	{
 		nav1Active = MvcHtmlString.Empty;
 		nav2Active = activeCss;
 		nav3Active = MvcHtmlString.Empty;
+		nav4Active = MvcHtmlString.Empty;
 	}
 	else if (ViewData["ToolsActive"] != null)
 	{
 		nav1Active = MvcHtmlString.Empty;
 		nav2Active = MvcHtmlString.Empty;
 		nav3Active = activeCss;
+		nav4Active = MvcHtmlString.Empty;
+	}
+	else if (ViewData["CacheActive"] != null)
+	{
+		nav1Active = MvcHtmlString.Empty;
+		nav2Active = MvcHtmlString.Empty;
+		nav3Active = MvcHtmlString.Empty;
+		nav4Active = activeCss;
 	}
 }
 
@@ -24,7 +34,8 @@
 			<li@(nav1Active)>@Html.ActionLink(SiteStrings.SiteSettings_Configuration, "Index")</li>
 			<li@(nav2Active)>@Html.ActionLink(SiteStrings.SiteSettings_Users, "Users")</li>
 			<li@(nav3Active)>@Html.ActionLink(SiteStrings.SiteSettings_Tools, "Tools")</li>
-			<li>@Html.ActionLink("View the logs", "Index", "LogViewer")</li>
+			<li@(nav4Active)>@Html.ActionLink("Cache", "Cache")</li>
+			<li>@Html.ActionLink("Logs", "Index", "LogViewer")</li>
 		</ul>
 	</div>
 </div>

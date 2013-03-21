@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
@@ -15,12 +16,14 @@ namespace Roadkill.Core
 	{
 		private MarkupConverter _markupConverter;
 		private IRoadkillContext _context;
+		private PageSummaryCache _pageSummaryCache;
 
-		public HistoryManager(IConfigurationContainer configuration, IRepository repository, IRoadkillContext context)
+		public HistoryManager(IConfigurationContainer configuration, IRepository repository, IRoadkillContext context, PageSummaryCache pageSummaryCache)
 			: base(configuration, repository)
 		{
 			_markupConverter = new MarkupConverter(configuration, repository);
 			_context = context;
+			_pageSummaryCache = pageSummaryCache;
 		}
 
 		/// <summary>
@@ -80,16 +83,23 @@ namespace Roadkill.Core
 				}
 				else
 				{
-					PageContent previousContent = Repository.GetPageContentByPageIdAndVersionNumber(mainContent.Page.Id, mainContent.VersionNumber - 1);
+					PageSummary summary = _pageSummaryCache.Get(mainContent.Page.Id, mainContent.VersionNumber - 1);
 
-					if (previousContent == null)
+					if (summary == null)
 					{
-						versions.Add(null);
+						PageContent previousContent = Repository.GetPageContentByPageIdAndVersionNumber(mainContent.Page.Id, mainContent.VersionNumber - 1);
+						if (previousContent == null)
+						{
+							summary = null;
+						}
+						else
+						{
+							summary = previousContent.ToSummary(_markupConverter);
+							_pageSummaryCache.Add(mainContent.Page.Id, mainContent.VersionNumber - 1, summary);
+						}
 					}
-					else
-					{
-						versions.Add(previousContent.ToSummary(_markupConverter));
-					}
+
+					versions.Add(summary);
 				}
 
 				return versions;

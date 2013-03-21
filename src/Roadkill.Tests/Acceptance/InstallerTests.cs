@@ -482,6 +482,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step 4
+			Driver.FindElement(By.CssSelector("input[id=CacheEnabled]")).Click();
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step5
@@ -533,6 +534,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step 4
+			Driver.FindElement(By.CssSelector("input[id=CacheEnabled]")).Click();
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step5
@@ -584,6 +586,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step 4
+			Driver.FindElement(By.CssSelector("input[id=CacheEnabled]")).Click();
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step5
@@ -634,6 +637,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step 4
+			Driver.FindElement(By.CssSelector("input[id=CacheEnabled]")).Click();
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step5
@@ -676,6 +680,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step 3
+			Driver.FindElement(By.CssSelector("input[id=CacheEnabled]")).Click();
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step 3b
@@ -685,6 +690,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step 4
+			Driver.FindElement(By.CssSelector("input[id=CacheEnabled]")).Click();
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step5
@@ -736,6 +742,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step 4
+			Driver.FindElement(By.CssSelector("input[id=CacheEnabled]")).Click();
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step5

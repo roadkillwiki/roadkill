@@ -4,7 +4,7 @@ using Mindscape.LightSpeed;
 namespace Roadkill.Core.Database.LightSpeed
 {
 	[Table("roadkill_siteconfiguration")]
-	[Cached(ExpiryMinutes = 15)]
+	[Cached(ExpiryMinutes = 10)]
 	internal class SitePreferencesEntity : Entity<Guid>
 	{
 		private string _content;
@@ -41,6 +41,11 @@ namespace Roadkill.Core.Database.LightSpeed
 			{
 				Set<string>(ref _version, value);
 			}
+		}
+
+		protected override object GeneratedId()
+		{
+			return SitePreferences.SitePreferencesId;
 		}
 	}
 }

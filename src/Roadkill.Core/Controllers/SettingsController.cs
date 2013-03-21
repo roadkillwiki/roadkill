@@ -7,6 +7,7 @@ using Ionic.Zip;
 using Roadkill.Core.Search;
 using Roadkill.Core.Localization.Resx;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Cache;
 
 namespace Roadkill.Core.Controllers
 {
@@ -20,14 +21,19 @@ namespace Roadkill.Core.Controllers
 		private SettingsManager _settingsManager;
 		private PageManager _pageManager;
 		private SearchManager _searchManager;
+		private ListCache _listCache;
+		private PageSummaryCache _pageSummaryCache;
 
 		public SettingsController(IConfigurationContainer configuration, UserManager userManager,
-			SettingsManager settingsManager, PageManager pageManager, SearchManager searchManager, IRoadkillContext context)
+			SettingsManager settingsManager, PageManager pageManager, SearchManager searchManager, IRoadkillContext context,
+			ListCache listCache, PageSummaryCache pageSummaryCache)
 			: base(configuration, userManager, context) 
 		{
 			_settingsManager = settingsManager;
 			_pageManager = pageManager;
 			_searchManager = searchManager;
+			_listCache = listCache;
+			_pageSummaryCache = pageSummaryCache;
 		}
 
 		/// <summary>
@@ -326,6 +332,7 @@ namespace Roadkill.Core.Controllers
 		{
 			TempData["Message"] = SiteStrings.SiteSettings_Tools_RebuildSearch_Message;
 			_searchManager.CreateIndex();
+
 			return RedirectToAction("Tools");
 		}
 
@@ -337,6 +344,7 @@ namespace Roadkill.Core.Controllers
 		{
 			TempData["Message"] = SiteStrings.SiteSettings_Tools_ClearDatabase_Message;
 			_settingsManager.ClearPageTables();
+
 			return RedirectToAction("Tools");
 		}
 
@@ -347,7 +355,6 @@ namespace Roadkill.Core.Controllers
 		public ActionResult RenameTag(string oldTagName, string newTagName)
 		{
 			TempData["Message"] = SiteStrings.SiteSettings_Tools_RenameTag_Message;
-
 			_pageManager.RenameTag(oldTagName, newTagName);
 
 			return RedirectToAction("Tools");
@@ -361,6 +368,29 @@ namespace Roadkill.Core.Controllers
 		{
 			Configuration.SitePreferences.GetJson();
 			return Content(Configuration.SitePreferences.GetJson(), "text/json");
+		}
+
+		/// <summary>
+		/// Displays all items in the cache
+		/// </summary>
+		/// <param name="clear">If not empty, then signals the action to clear the cache</param>
+		/// <returns></returns>
+		public ActionResult Cache(string clear)
+		{
+			if (!string.IsNullOrEmpty(clear))
+			{
+				_pageSummaryCache.RemoveAll();
+				_listCache.RemoveAll();
+				ViewData["CacheCleared"] = true;
+			}
+
+			List<IEnumerable<string>> cacheKeys = new List<IEnumerable<string>>()
+			{
+				_pageSummaryCache.GetAllKeys(),
+				_listCache.GetAllKeys()
+			};
+
+			return View(cacheKeys);
 		}
 	}
 }

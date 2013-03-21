@@ -23,7 +23,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			get
 			{
-				return UnitOfWork.Query<PageEntity>();
+				return UnitOfWork.Query<PageEntity>().ToList().AsQueryable();
 			}
 		}
 
@@ -31,7 +31,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			get
 			{
-				return UnitOfWork.Query<PageContentEntity>();
+				return UnitOfWork.Query<PageContentEntity>().ToList().AsQueryable();
 			}
 		}
 
@@ -39,7 +39,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			get
 			{
-				return UnitOfWork.Query<UserEntity>();
+				return UnitOfWork.Query<UserEntity>().ToList().AsQueryable();
 			}
 		}
 
@@ -83,11 +83,12 @@ namespace Roadkill.Core.Database.LightSpeed
 				context.IdentityMethod = IdentityMethod.GuidComb;
 				context.CascadeDeletes = false;
 				context.VerboseLogging = true;
+				context.Cache = new CacheBroker(new DefaultCache());
 
-#if DEBUG || DemoSite
-				//context.Logger = new TraceLogger();
-				context.Cache = new Mindscape.LightSpeed.Caching.CacheBroker(new DefaultCache());
+#if DEBUG
+				context.Logger = new TraceLogger();
 #endif
+				
 
 				ObjectFactory.Configure(x =>
 				{
@@ -163,8 +164,8 @@ namespace Roadkill.Core.Database.LightSpeed
 
 		public SitePreferences GetSitePreferences()
 		{
-			SitePreferencesEntity entity = UnitOfWork.Find<SitePreferencesEntity>().FirstOrDefault();
 			SitePreferences preferences = new SitePreferences();
+			SitePreferencesEntity entity = UnitOfWork.FindById<SitePreferencesEntity>(SitePreferences.SitePreferencesId);
 
 			if (entity != null)
 			{
@@ -405,12 +406,6 @@ namespace Roadkill.Core.Database.LightSpeed
 			return FromEntity.ToPageContentList(entities);
 		}
 
-		public void Dispose()
-		{
-			UnitOfWork.SaveChanges();
-			UnitOfWork.Dispose();
-		}
-
 		public void SaveOrUpdatePage(Page page)
 		{
 			PageEntity entity = UnitOfWork.FindById<PageEntity>(page.Id);
@@ -505,6 +500,11 @@ namespace Roadkill.Core.Database.LightSpeed
 				ToEntity.FromPageContent(content, entity);
 				UnitOfWork.SaveChanges();
 			}
+		}
+		public void Dispose()
+		{
+			UnitOfWork.SaveChanges();
+			UnitOfWork.Dispose();
 		}
 	}
 }

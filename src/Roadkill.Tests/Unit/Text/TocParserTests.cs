@@ -144,5 +144,19 @@ namespace Roadkill.Tests.Unit
 			Assert.That(actual, Is.StringContaining("1.2.52&nbsp;Yet Another h3"));
 			Assert.That(actual, Is.StringContaining("1.2.52.1&nbsp;Lonely h4"));
 		}
+
+		[Test]
+		public void Should_Ignore_Multiple_Curlies()
+		{
+			TocParser tocParser = new TocParser();
+			string html = "Give me a {{TOC}} and a {{{{TOC}}}} - the should not render a TOC";
+			string expected = html;
+
+			// Act
+			string actual = tocParser.InsertToc(html);
+
+			// Assert
+			Assert.That(actual, Is.EqualTo(expected));
+		}
 	}
 }

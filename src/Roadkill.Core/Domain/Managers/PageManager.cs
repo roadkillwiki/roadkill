@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using Roadkill.Core.Configuration;
 using StructureMap;
 using Roadkill.Core.Database;
+using Roadkill.Core.Cache;
 
 namespace Roadkill.Core
 {
@@ -24,15 +25,19 @@ namespace Roadkill.Core
 		private MarkupConverter _markupConverter;
 		private HistoryManager _historyManager;
 		private IRoadkillContext _context;
+		private ListCache _listCache;
+		private PageSummaryCache _pageSummaryCache;
 
 		public PageManager(IConfigurationContainer configuration, IRepository repository, SearchManager searchManager, 
-			HistoryManager historyManager, IRoadkillContext context)
+			HistoryManager historyManager, IRoadkillContext context, ListCache listCache, PageSummaryCache pageSummaryCache)
 			: base(configuration, repository)
 		{
 			_searchManager = searchManager;
 			_markupConverter = new MarkupConverter(configuration, repository);
 			_historyManager = historyManager;
 			_context = context;
+			_listCache = listCache;
+			_pageSummaryCache = pageSummaryCache;
 		}
 
 		/// <summary>
@@ -56,6 +61,8 @@ namespace Roadkill.Core
 				page.ModifiedOn = DateTime.Now;
 				page.ModifiedBy = AppendIpForDemoSite(currentUser);
 				PageContent pageContent = Repository.AddNewPage(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.Now);
+
+				_listCache.RemoveAll();
 
 				// Update the lucene index
 				PageSummary savedSummary = pageContent.ToSummary(_markupConverter);
@@ -85,18 +92,36 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				IEnumerable<Page> pages = Repository.AllPages().OrderBy(p => p.Title);
+				string cacheKey = "";
 				IEnumerable<PageSummary> summaries;
 
 				if (loadPageContent)
 				{
-					summaries = from page in pages
-								select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+					cacheKey = "allpages.with.content";
+					summaries = _listCache.Get<PageSummary>(cacheKey);
+
+					if (summaries == null)
+					{
+						IEnumerable<Page> pages = Repository.AllPages().OrderBy(p => p.Title);
+						summaries = from page in pages
+									select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+
+						_listCache.Add<PageSummary>("allpages.with.content", summaries);
+					}
 				}
 				else
 				{
-					summaries = from page in pages
-								select new PageSummary() { Id = page.Id, Title = page.Title };
+					cacheKey = "allpages";
+					summaries = _listCache.Get<PageSummary>(cacheKey);
+
+					if (summaries == null)
+					{
+						IEnumerable<Page> pages = Repository.AllPages().OrderBy(p => p.Title);
+						summaries = from page in pages
+									select new PageSummary() { Id = page.Id, Title = page.Title };
+
+						_listCache.Add<PageSummary>(cacheKey, summaries);
+					}
 				}
 
 				return summaries;
@@ -117,9 +142,17 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				IEnumerable<Page> pages = Repository.FindPagesByCreatedBy(userName);
-				IEnumerable<PageSummary> summaries = from page in pages
-													 select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+				string cacheKey = string.Format("allpages.createdby.{0}", userName);
+
+				IEnumerable<PageSummary> summaries = _listCache.Get<PageSummary>(cacheKey);
+				if (summaries == null)
+				{
+					IEnumerable<Page> pages = Repository.FindPagesByCreatedBy(userName);
+					summaries = from page in pages
+								select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+
+					_listCache.Add<PageSummary>(cacheKey, summaries);
+				}
 
 				return summaries;
 			}
@@ -138,28 +171,36 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				IEnumerable<string> tagList = Repository.AllTags();
-				List<TagSummary> tags = new List<TagSummary>();
+				string cacheKey = "alltags";
 
-				foreach (string item in tagList)
+				List<TagSummary> tags = _listCache.Get<TagSummary>(cacheKey);
+				if (tags == null)
 				{
-					foreach (string tagName in item.ParseTags())
-					{
-						if (!string.IsNullOrEmpty(tagName))
-						{
-							TagSummary summary = new TagSummary(tagName);
-							int index = tags.IndexOf(summary);
+					IEnumerable<string> tagList = Repository.AllTags();
+					tags = new List<TagSummary>();
 
-							if (index < 0)
+					foreach (string item in tagList)
+					{
+						foreach (string tagName in item.ParseTags())
+						{
+							if (!string.IsNullOrEmpty(tagName))
 							{
-								tags.Add(summary);
-							}
-							else
-							{
-								tags[index].Count++;
+								TagSummary summary = new TagSummary(tagName);
+								int index = tags.IndexOf(summary);
+
+								if (index < 0)
+								{
+									tags.Add(summary);
+								}
+								else
+								{
+									tags[index].Count++;
+								}
 							}
 						}
 					}
+
+					_listCache.Add<TagSummary>(cacheKey, tags);
 				}
 
 				return tags;
@@ -244,9 +285,18 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				IEnumerable<Page> pages = Repository.FindPagesContainingTag(tag).OrderBy(p => p.Title);
-				IEnumerable<PageSummary> summaries = from page in pages
-													 select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+				string cacheKey = string.Format("pagesbytag.{0}", tag);
+
+				IEnumerable<PageSummary> summaries = _listCache.Get<PageSummary>(cacheKey);
+				if (summaries == null)
+				{
+
+					IEnumerable<Page> pages = Repository.FindPagesContainingTag(tag).OrderBy(p => p.Title);
+					summaries = from page in pages
+								select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+
+					_listCache.Add<PageSummary>(cacheKey, summaries);
+				}
 
 				return summaries;
 			}
@@ -292,12 +342,27 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				Page page = Repository.GetPageById(id);
-
-				if (page == null)
-					return null;
+				PageSummary summary = _pageSummaryCache.Get(id);
+				if (summary != null)
+				{
+					return summary;
+				}
 				else
-					return Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+				{
+					Page page = Repository.GetPageById(id);
+
+					if (page == null)
+					{
+						return null;
+					}
+					else
+					{
+						summary = Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+						_pageSummaryCache.Add(id, summary);
+
+						return summary;
+					}
+				}
 			}
 			catch (DatabaseException ex)
 			{
@@ -328,6 +393,7 @@ namespace Roadkill.Core
 					page.IsLocked = summary.IsLocked;
 
 				Repository.SaveOrUpdatePage(page);
+				_pageSummaryCache.Remove(summary.Id);
 
 				int newVersion = _historyManager.MaxVersion(summary.Id) + 1;
 				PageContent pageContent = Repository.AddNewPageContentVersion(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.Now, newVersion); 
@@ -376,6 +442,9 @@ namespace Roadkill.Core
 					summary.RawTags = tags;
 					UpdatePage(summary);
 				}
+
+				string cacheKey = string.Format("findbytag.{0}", oldTagName);
+				_listCache.Remove(cacheKey);
 			}
 			catch (DatabaseException ex)
 			{
@@ -422,13 +491,23 @@ namespace Roadkill.Core
 		/// <param name="newTitle">The new page title.</param>
 		public void UpdateLinksToPage(string oldTitle, string newTitle)
 		{
+			bool shouldClearCache = false;
+
 			foreach (PageContent content in Repository.AllPageContents())
 			{
 				if (_markupConverter.ContainsPageLink(content.Text, oldTitle))
 				{
 					content.Text = _markupConverter.ReplacePageLinks(content.Text, oldTitle, newTitle);
 					Repository.UpdatePageContent(content);
+					
+					shouldClearCache = true;
 				}
+			}
+
+			if (shouldClearCache)
+			{
+				_pageSummaryCache.RemoveAll();
+				_listCache.RemoveAll();
 			}
 		}
 

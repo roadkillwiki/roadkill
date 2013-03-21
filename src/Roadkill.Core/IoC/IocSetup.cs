@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Web.Mvc;
+using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Controllers;
 using Roadkill.Core.Converters;
@@ -99,12 +100,20 @@ namespace Roadkill.Core
 					scanner.AddAllTypesOf<UserSummary>();
 					scanner.AddAllTypesOf<SettingsSummary>();
 					scanner.AddAllTypesOf<AttachmentRouteHandler>();
+
+					// Cache
+					scanner.AddAllTypesOf<ListCache>();
+					scanner.AddAllTypesOf<PageSummaryCache>();
 				});
 
 				// Set the 3 core types to use HTTP/Thread-based lifetimes
 				x.For<IConfigurationContainer>().HybridHttpOrThreadLocalScoped();
 				x.For<IRepository>().HybridHttpOrThreadLocalScoped();
 				x.For<IRoadkillContext>().HybridHttpOrThreadLocalScoped();
+
+				// Cache
+				x.For<ListCache>().Singleton();
+				x.For<PageSummaryCache>().Singleton();
 			});
 
 			ObjectFactory.Configure(x =>

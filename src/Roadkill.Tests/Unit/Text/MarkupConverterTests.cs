@@ -21,6 +21,9 @@ namespace Roadkill.Tests.Unit
 			_config.ApplicationSettings.Installed = true;
 			_config.ApplicationSettings.UseHtmlWhiteList = true;
 			_converter = new MarkupConverter(_config, null);
+			_converter.AbsolutePathConverter = (path) => { return path; };
+			_converter.InternalUrlForTitle = (id, title) => { return title; };
+			_converter.NewPageUrlForTitle = (title) => { return title; };
 		}
 
 		[Test]
@@ -191,6 +194,21 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			string expectedHtml = "<p>" +htmlFragment+ "\n</p>";
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		public void Should_Not_Render_ToC_With_Multiple_Curlies()
+		{
+			// Arrange
+			string htmlFragment = "Give me a {{TOC}} and a {{{TOC}}} - the should not render a TOC";
+			string expected = @"<p>Give me a <div class=""floatnone""><div class=""image&#x5F;frame""><img src=""&#x2F;TOC""></div></div> and a TOC - the should not render a TOC"
+				+"\n</p>";
+
+			// Act
+			string actualHtml = _converter.ToHtml(htmlFragment);
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expected));
 		}
 
 		// ContainsPageLink

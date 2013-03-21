@@ -125,15 +125,12 @@ namespace Roadkill.Core.Converters
 			string html = _parser.Transform(text);
 			html = RemoveHarmfulTags(html);
 
+			TocParser parser = new TocParser();
+			html = parser.InsertToc(html);
+
 			CustomTokenParser tokenParser = new CustomTokenParser(_configuration);
 			html = tokenParser.ReplaceTokens(html);
 
-			if (html.IndexOf(">{TOC}") > -1)
-			{
-				TocParser parser = new TocParser();
-				html = parser.InsertToc(html);
-			}
-			
 			return html;
 		}
 
