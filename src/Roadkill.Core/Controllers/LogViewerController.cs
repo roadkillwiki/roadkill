@@ -11,8 +11,6 @@ namespace Roadkill.Core.Controllers
 	[AdminRequired]
 	public class LogViewerController : ControllerBase
 	{
-		private LogReader _logReader;
-
 		public LogViewerController(IConfigurationContainer configuration, UserManager userManager, IRoadkillContext context) 
 			: base(configuration, userManager, context)
 		{
@@ -29,8 +27,10 @@ namespace Roadkill.Core.Controllers
 			//
 			// Log level type filter
 			//
+			if (string.IsNullOrEmpty(logLevel))
+				logLevel = "Error";
 
-			if (!string.IsNullOrEmpty(logLevel) && logLevel != "All")
+			if (logLevel != "All")
 			{
 				filteredList =
 					from e in filteredList
@@ -105,16 +105,6 @@ namespace Roadkill.Core.Controllers
 			list = (from e in list orderby e.Timestamp descending select e).Take(maxItemsToTake).ToList<Log4jEvent>();
 
 			return View(list);
-		}
-
-		/// <summary>
-		/// Clears the current cache of events and gets all aggregated events.
-		/// </summary>
-		/// <returns></returns>
-		public ActionResult Refresh()
-		{
-			//LogWorker.Current.ClearCache();
-			return RedirectToAction("Index");
 		}
 
 		/// <summary>

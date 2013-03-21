@@ -69,7 +69,10 @@ namespace Roadkill.Core.Configuration
 		public virtual void LoadSitePreferences()
 		{
 			if (!ApplicationSettings.Installed)
+			{
+				Log.Information("Application not installed, not loading SitePreferences from LoadSitePreferences");
 				return;
+			}
 
 			IRepository repository;
 

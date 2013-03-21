@@ -217,6 +217,7 @@
     <Content Include="App_Data\EmailTemplates\ResetPassword.html" />
     <Content Include="App_Data\EmailTemplates\Signup.html" />
     <Content Include="App_Data\EmailTemplates\Signup.txt" />
+    <Content Include="App_Data\Logs\roadkill.txt" />
     <Content Include="App_Data\roadkill.mdf" />
     <Content Include="App_Data\htmlwhitelist.xml" />
     <Content Include="App_Data\SQLiteBinaries\x64\SQLite.Interop.dll" />
@@ -390,6 +391,8 @@
     <Content Include="Views\Upgrade\Index.cshtml" />
     <Content Include="Views\Upgrade\Layout.cshtml" />
     <Content Include="Views\LogViewer\Index.cshtml" />
+    <Content Include="Views\Settings\Cache.cshtml" />
+    <Content Include="Views\LogViewer\Menu.cshtml" />
     <None Include="Web.DemoSite.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -470,8 +473,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DemoSite|AnyCPU'">
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE;DEMOSITE</DefineConstants>
-    <Optimize>true</Optimize>
+    <DefineConstants>DEBUG;TRACE;DEMOSITE</DefineConstants>
+    <Optimize>false</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>

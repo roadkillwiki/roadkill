@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
+using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Controllers;
 using Roadkill.Core.Converters;
@@ -42,6 +43,10 @@ namespace Roadkill.Tests.Unit
 			_config.SitePreferences = new SitePreferences() { AllowedFileTypes = "png, jpg" };
 			_config.ApplicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
 
+			// Cache
+			ListCache listCache = new ListCache(_config);
+			PageSummaryCache pageSummaryCache = new PageSummaryCache(_config);
+
 			// Dependencies for PageManager
 			Mock<IRepository> repositoryMock = new Mock<IRepository>();
 			repositoryMock.Setup(x => x.GetPageById(It.IsAny<int>())).Returns<int>(x => _pages.FirstOrDefault(p => p.Id == x));
@@ -51,8 +56,8 @@ namespace Roadkill.Tests.Unit
 
 			_repository = repositoryMock.Object;
 			_userManager = new Mock<UserManager>(_config, null).Object;
-			_historyManager = new HistoryManager(_config, _repository, _context);
-			_pageManager = new PageManager(_config, _repository, null, _historyManager, _context);
+			_historyManager = new HistoryManager(_config, _repository, _context, pageSummaryCache);
+			_pageManager = new PageManager(_config, _repository, null, _historyManager, _context, listCache, pageSummaryCache);
 		}
 
 		[Test]

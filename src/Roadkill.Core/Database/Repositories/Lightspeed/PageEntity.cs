@@ -4,7 +4,6 @@ using Mindscape.LightSpeed;
 namespace Roadkill.Core.Database.LightSpeed
 {
 	[Table("roadkill_pages", IdentityMethod=IdentityMethod.IdentityColumn)]
-	[Cached(ExpiryMinutes = 15)]
 	internal class PageEntity : Entity<int>
 	{
 		private string _title;

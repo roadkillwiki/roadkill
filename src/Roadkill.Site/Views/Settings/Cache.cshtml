@@ -1,0 +1,62 @@
+﻿@model List<IEnumerable<string>>
+@{ 
+	ViewBag.Title = "View cache";
+	ViewData["CacheActive"] = true;
+}
+@Html.Partial("SettingsMenu")
+
+@if (ViewData["CacheCleared"] != null)
+{
+	<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		if ($(".alert").text().trim().length > 0)
+		{
+			$(".alert").show().delay(2500).fadeOut(1000);
+		}
+	});
+	</script>
+	<div class="alert alert-success">
+		All caches were successfully cleared.
+	</div>
+}
+
+@using (Html.BeginForm("Cache", "Settings", FormMethod.Get))
+{
+	<input name="clear" type="submit" class="btn btn-primary" value="Clear cache" />
+}
+
+<div>
+	<h2>Page cache (@Model[0].Count())</h2>
+	<p>The keys are in the format "page ID.version"</p>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Key</th>
+			</tr>
+		</thead>
+		@foreach (string cacheKey in Model[0])
+		{
+		<tr>
+			<td class="title">@cacheKey</td>
+		</tr>
+		}
+	</table>
+	<br class="clear" />
+
+	<h2>Items cache (@Model[1].Count())</h2>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Key</th>
+			</tr>
+		</thead>
+	@foreach (string cacheKey in Model[1])
+	{
+		<tr>
+			<td class="title">@cacheKey</td>
+		</tr>
+	}
+	</table>
+	<br class="clear" />
+</div>

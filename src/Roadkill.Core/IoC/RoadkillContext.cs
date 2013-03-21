@@ -7,6 +7,9 @@ namespace Roadkill.Core
 	/// </summary>
 	public class RoadkillContext : IRoadkillContext
 	{
+		private bool? _isAdmin;
+		private bool? _isEditor;
+		private User _user;
 		private UserManager _userManager;
 
 		/// <summary>
@@ -35,25 +38,32 @@ namespace Roadkill.Core
 			{
 				if (IsLoggedIn)
 				{
-					Guid userId;
-					if (Guid.TryParse(CurrentUser, out userId) && userId != Guid.Empty)
+					if (_user != null)
 					{
-						// Guids are now used for cookie auth
-						User user = _userManager.GetUserById(userId); // handle old logins by ignoring them
-						if (user != null)
+						return _user.Username;
+					}
+					else
+					{
+						Guid userId;
+						if (Guid.TryParse(CurrentUser, out userId) && userId != Guid.Empty)
 						{
-							return user.Username;
+							// Guids are now used for cookie auth
+							_user = _userManager.GetUserById(userId); // handle old logins by ignoring them
+							if (_user != null)
+							{
+								return _user.Username;
+							}
+							else
+							{
+								_userManager.Logout();
+								return "(User id no longer exists)";
+							}
 						}
 						else
 						{
 							_userManager.Logout();
-							return "(User id no longer exists)";
+							return CurrentUser;
 						}
-					}
-					else
-					{
-						_userManager.Logout();
-						return CurrentUser;
 					}
 				}
 				else
@@ -69,9 +79,18 @@ namespace Roadkill.Core
 			get
 			{
 				if (IsLoggedIn)
-					return _userManager.IsAdmin(CurrentUser);
+				{
+					if (_isAdmin == null)
+					{
+						_isAdmin = _userManager.IsAdmin(CurrentUser);
+					}
+
+					return _isAdmin.Value;
+				}
 				else
+				{
 					return false;
+				}
 			}
 		}
 
@@ -83,9 +102,18 @@ namespace Roadkill.Core
 			get
 			{
 				if (IsLoggedIn)
-					return _userManager.IsEditor(CurrentUser);
+				{
+					if (_isEditor == null)
+					{
+						_isEditor = _userManager.IsEditor(CurrentUser);
+					}
+
+					return _isEditor.Value;
+				}
 				else
+				{
 					return false;
+				}
 			}
 		}
 

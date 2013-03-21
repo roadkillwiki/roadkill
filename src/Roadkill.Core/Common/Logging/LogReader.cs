@@ -10,17 +10,18 @@ namespace Roadkill.Core.Common
 	public class LogReader
 	{
 		public static readonly string LOGFILE;
+		internal static MemoryCache _logCache = new MemoryCache("LogCache");
 
 		static LogReader()
 		{
-			LOGFILE = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "roadkill.log");
+			LOGFILE = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "logs", "roadkill.xml.log");
 		}
 
 		public static IEnumerable<Log4jEvent> CachedItems
 		{
 			get
 			{
-				List<Log4jEvent> items = _entityCache.Get("key") as List<Log4jEvent>;
+				List<Log4jEvent> items = _logCache.Get("key") as List<Log4jEvent>;
 				if (items == null)
 				{
 					Log.Information("Refreshing the log cache...it's logs all the way down.");
@@ -32,7 +33,6 @@ namespace Roadkill.Core.Common
 				}
 			}
 		}
-		internal static MemoryCache _entityCache = new MemoryCache("EntityCache");
 
 		public static IEnumerable<Log4jEvent> Load(string filename = "")
 		{
@@ -43,7 +43,7 @@ namespace Roadkill.Core.Common
 			if (File.Exists(filename))
 			{
 				items = Log4jEvent.Deserialize(File.ReadAllText(filename)).ToList();
-				_entityCache.Add("key", items, DateTimeOffset.Now.AddSeconds(10));
+				_logCache.Add("key", items, DateTimeOffset.Now.AddSeconds(10));
 			}
 
 			return items;
