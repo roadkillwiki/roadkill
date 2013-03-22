@@ -14,6 +14,8 @@ namespace Roadkill.Core.Common
 	[XmlRoot("event", Namespace = "http://jakarta.apache.org/log4j/")]
 	public class Log4jEvent
 	{
+		private static XmlSerializer _serializer = new XmlSerializer(typeof(Log4jEvent));
+
 		private DateTime _timestamp;
 		private string _message;
 
@@ -142,47 +144,59 @@ namespace Roadkill.Core.Common
 
 		public string Serialize(string existingXml = "")
 		{
-			XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
-			namespaces.Add("log4j", "http://jakarta.apache.org/log4j/");
-
-			XmlWriterSettings settings = new XmlWriterSettings();
-			settings.OmitXmlDeclaration = true;
-			settings.Indent = true;
-
-			StringBuilder builder = new StringBuilder();
-			builder.Append(existingXml);
-
-			using (StringWriter stringWriter = new StringWriter(builder))
+			try
 			{
-				using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, settings))
-				{
-					XmlSerializer serializer = new XmlSerializer(typeof(Log4jEvent));
-					serializer.Serialize(xmlWriter, this, namespaces);
+				XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
+				namespaces.Add("log4j", "http://jakarta.apache.org/log4j/");
 
-					return builder.ToString();
+				XmlWriterSettings settings = new XmlWriterSettings();
+				settings.OmitXmlDeclaration = true;
+				settings.Indent = true;
+
+				StringBuilder builder = new StringBuilder();
+				builder.Append(existingXml);
+
+				using (StringWriter stringWriter = new StringWriter(builder))
+				{
+					using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, settings))
+					{
+						XmlSerializer serializer = new XmlSerializer(typeof(Log4jEvent));
+						serializer.Serialize(xmlWriter, this, namespaces);
+
+						return builder.ToString();
+					}
 				}
+			}
+			catch (Exception e)
+			{
+				return "";
 			}
 		}
 
 		public static IEnumerable<Log4jEvent> Deserialize(string text)
 		{
-			// Work around for the log (deliberately for files?) missing the xml declaration
-			if (!text.Contains("<?xml version") && !text.Contains("<log4j:events"))
+			try
 			{
-				text = "<?xml version=\"1.0\" encoding=\"utf-8\"?><log4j:events xmlns:log4j=\"http://jakarta.apache.org/log4j/\">" + text + "</log4j:events>";
+				// Work around for the log (deliberately for files?) missing the xml declaration
+				if (!text.Contains("<?xml version") && !text.Contains("<log4j:events"))
+				{
+					text = "<?xml version=\"1.0\" encoding=\"utf-8\"?><log4j:events xmlns:log4j=\"http://jakarta.apache.org/log4j/\">" + text + "</log4j:events>";
 
+				}
+
+				XDocument doc = XDocument.Load(new StringReader(text));
+				// Feed/Entry
+				var entries = from item in doc.Root.Elements().Where(i => i.Name.LocalName == "event")
+							  select Log4jEvent.DeserializeElement(item.ToString());
+
+
+				return entries.ToList();
 			}
-
-			XDocument doc = XDocument.Load(new StringReader(text));
-			// Feed/Entry
-			var entries = from item in doc.Root.Elements().Where(i => i.Name.LocalName == "event")
-						  select Log4jEvent.DeserializeElement(item.ToString());
-
-
-			return entries.ToList();
+			catch (Exception)
+			{
+				return new List<Log4jEvent>();
+			}
 		}
-
-		private static XmlSerializer _serializer = new XmlSerializer(typeof(Log4jEvent));
 
 		public static Log4jEvent DeserializeElement(string text)
 		{
