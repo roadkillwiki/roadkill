@@ -63,10 +63,23 @@ namespace Roadkill.Core.Files
 					FileInfo info = new FileInfo(fullPath);
 					TimeSpan expires = TimeSpan.FromDays(28);
 					context.Response.Cache.SetLastModifiedFromFileDependencies();
-					context.Response.Cache.SetETag(info.LastWriteTimeUtc.GetHashCode().ToString());
+					context.Response.Cache.SetETagFromFileDependencies();
 					context.Response.Cache.SetExpires(DateTime.UtcNow.Add(expires));
 					context.Response.Cache.SetMaxAge(expires);
 					context.Response.Cache.SetCacheability(HttpCacheability.Public);
+
+					int status = 304;
+					if (context.Request.Headers["If-Modified-Since"] != null)
+					{
+						DateTime modifiedSince = DateTime.Now;
+						if (DateTime.TryParse(context.Request.Headers["If-Modified-Since"], out modifiedSince))
+						{
+							if (info.LastWriteTime >= modifiedSince)
+								status = 200;
+						}
+					}
+
+					context.Response.StatusCode = status;
 
 					// Serve the file
 					buffer = File.ReadAllBytes(fullPath);

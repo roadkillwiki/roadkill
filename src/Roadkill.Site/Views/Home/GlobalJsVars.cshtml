@@ -62,7 +62,7 @@ var ROADKILL_EDIT_IMAGE_TITLE       = "@Html.Raw(SiteStrings.EditPage_Image_Titl
 	// Resize all images
 	@:$("#pagecontent img").each(function()
 	@:{
-		@:resizeImage($(this));
+		@:resizeImage($(this), 400, 400);
 		@:$(this).fadeIn();
 	@:});
 @:});
