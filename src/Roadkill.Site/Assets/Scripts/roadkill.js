@@ -94,10 +94,14 @@ function closeModal()
 	$.fancybox.close(true);
 }
 
-function resizeImage(img)
+function resizeImage(img, maxWidth, maxHeight)
 {
-	var maxWidth = 400;
-	var maxHeight = maxWidth;
+	if (maxWidth < 1)
+		maxWidth = 400;
+
+	if (maxHeight < 1)
+		maxHeight = 400;
+
 	var ratio = 0;
 	var width = $(img).width();
 	var height = $(img).height();
