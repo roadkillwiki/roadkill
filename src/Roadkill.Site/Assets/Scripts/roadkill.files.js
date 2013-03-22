@@ -15,7 +15,7 @@ Binds all buttons with event handlers.
 function initFileManager()
 {
 	// Limit the bottom right image preview to 40x40px
-	$("#previewimage").aeImageResize({ height: 40, width: 40 });
+	resizeImage($("#previewimage"), 40, 40);
 	$("#previewimage").hide();
 
 	// Choose button calls the 'addImage' function from wyswyg.js
