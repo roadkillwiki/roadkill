@@ -42,8 +42,8 @@ namespace Roadkill.Core
 		{
 			get
 			{
-				// Use IS8601 plus the time offset (inject the Z)
-				return string.Format("{0}Z{1:%zzz}", EditedOn.ToString("s"), EditedOn);
+				// Use IS8601 plus the time offset (inject the Z for timeago)
+				return string.Format("{0}Z{1:zzz}", EditedOn.ToString("s"), EditedOn);
 			}
 		}
 

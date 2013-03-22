@@ -110,7 +110,7 @@ namespace Roadkill.Core.Files
 			catch (UnauthorizedAccessException)
 			{
 				// Shared hosting won't have access to the applicationhost.config file
-				return MimeMapping.GetMimeMapping("." +fileExtension);
+				return MimeMapping.GetMimeMapping(fileExtension);
 			}
 		}
 

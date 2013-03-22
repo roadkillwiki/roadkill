@@ -326,7 +326,6 @@
     <Content Include="Themes\Mediawiki\Theme.print.css" />
     <Content Include="Themes\Plain\Theme.css" />
     <Content Include="Themes\Plain\Theme.print.css" />
-    <Content Include="Themes\Roadkillwiki.org\Theme.print.css" />
     <Content Include="Views\Help\MediaWikiReference.cshtml" />
     <Content Include="Views\Help\MarkdownReference.cshtml" />
     <Content Include="Views\Help\CreoleReference.cshtml" />
@@ -352,9 +351,6 @@
     <Content Include="Assets\Scripts\jquery.timeago.js" />
     <Content Include="Assets\Images\loading.gif" />
     <Content Include="Themes\BlackBar\Theme.css" />
-    <Content Include="Themes\Roadkillwiki.org\roadkill-large.png" />
-    <Content Include="Themes\Roadkillwiki.org\roadkill.png" />
-    <Content Include="Themes\Roadkillwiki.org\Theme.css" />
     <Content Include="Views\Pages\History.cshtml" />
     <Content Include="Views\Pages\Version.cshtml" />
     <Content Include="Views\Pages\ByUser.cshtml" />
@@ -364,7 +360,6 @@
     <Content Include="Views\Shared\_Blank.cshtml" />
     <Content Include="Views\Shared\PageToolbar.cshtml" />
     <Content Include="Views\Shared\HeadContent.cshtml" />
-    <Content Include="Themes\Roadkillwiki.org\Theme.cshtml" />
     <Content Include="Views\Settings\SettingsMenu.cshtml" />
     <Content Include="Views\Settings\Users.cshtml" />
     <Content Include="Views\Settings\UsersReadOnly.cshtml" />
@@ -399,7 +394,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Scripts\jquery.ae.image.resize.min.js" />
     <Content Include="Assets\Scripts\jquery.extensions.min.js" />
     <Content Include="Assets\Scripts\jquery.form-extensions.min.js" />
     <Content Include="Assets\Scripts\roadkill.js" />

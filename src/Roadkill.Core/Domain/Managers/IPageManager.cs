@@ -60,6 +60,12 @@ namespace Roadkill.Core
 		IEnumerable<PageSummary> FindByTag(string tag);
 
 		/// <summary>
+		/// Finds the first page with the tag 'homepage'. Any pages that are locked by an administrator take precedence.
+		/// </summary>
+		/// <returns>The homepage.</returns>
+		PageSummary FindHomePage();
+
+		/// <summary>
 		/// Finds a page by its title
 		/// </summary>
 		/// <param name="title">The page title</param>

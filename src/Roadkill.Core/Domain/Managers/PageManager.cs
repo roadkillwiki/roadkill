@@ -276,6 +276,39 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// Finds the first page with the tag 'homepage'. Any pages that are locked by an administrator take precedence.
+		/// </summary>
+		/// <returns>The homepage.</returns>
+		public PageSummary FindHomePage()
+		{
+			try
+			{
+				PageSummary summary = _pageSummaryCache.GetHomePage();
+				if (summary == null)
+				{
+
+					Page page = Repository.FindPagesContainingTag("homepage").FirstOrDefault(x => x.IsLocked == true);
+					if (page == null)
+					{
+						page = Repository.FindPagesContainingTag("homepage").FirstOrDefault();
+					}
+					
+					if (page != null)
+					{
+						summary = Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+						_pageSummaryCache.UpdateHomePage(summary);
+					}
+				}
+
+				return summary;
+			}
+			catch (DatabaseException ex)
+			{
+				throw new DatabaseException(ex, "An error occurred finding the tag 'homepage' in the database");
+			}
+		}
+
+		/// <summary>
 		/// Finds all pages with the given tag.
 		/// </summary>
 		/// <param name="tag">The tag to search for.</param>
@@ -393,7 +426,12 @@ namespace Roadkill.Core
 					page.IsLocked = summary.IsLocked;
 
 				Repository.SaveOrUpdatePage(page);
-				_pageSummaryCache.Remove(summary.Id);
+
+				// Remove the latest version (0) from cache
+				_pageSummaryCache.Remove(summary.Id , 0);
+
+				if (summary.Tags.Contains("homepage"))
+					_pageSummaryCache.RemoveHomePage();
 
 				int newVersion = _historyManager.MaxVersion(summary.Id) + 1;
 				PageContent pageContent = Repository.AddNewPageContentVersion(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.Now, newVersion); 
