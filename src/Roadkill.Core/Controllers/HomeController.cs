@@ -35,12 +35,7 @@ namespace Roadkill.Core.Controllers
 		public ActionResult Index()
 		{
 			// Get the first locked homepage
-			PageSummary summary = _pageManager.FindByTag("homepage").FirstOrDefault(h => h.IsLocked);
-			if (summary == null)
-			{
-				// Look for a none-locked page as a fallback
-				summary = _pageManager.FindByTag("homepage").FirstOrDefault();
-			}
+			PageSummary summary = _pageManager.FindHomePage();
 
 			if (summary == null)
 			{

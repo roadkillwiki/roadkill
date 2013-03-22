@@ -200,8 +200,11 @@ namespace Roadkill.Core
 				return MvcHtmlString.Create(@"<script type=""text/javascript"">
 			$(document).ready(function ()
 			{
-				// Resize all images to a maximum of 400x400
-				$(""#pagecontent img"").aeImageResize({ height: 400, width: 400 });
+				// Resize all images
+				$(""#pagecontent img"").each(function()
+				{
+					resizeImage($(this));
+				});
 			});
 		</script>");
 			}

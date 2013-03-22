@@ -93,3 +93,30 @@ function closeModal()
 {
 	$.fancybox.close(true);
 }
+
+function resizeImage(img)
+{
+	var maxWidth = 400;
+	var maxHeight = maxWidth;
+	var ratio = 0;
+	var width = $(img).width();
+	var height = $(img).height();
+
+	if (width > maxWidth)
+	{
+		// Use the width ratio to start with
+		ratio = maxWidth / width;
+		$(img).css("width", width * ratio);
+		$(img).css("height", height * ratio); console.log(ratio);
+
+		height = $(img).height();
+	}
+
+	if (height > maxHeight)
+	{
+		// Scale down to the height ratio
+		ratio = maxHeight / height;
+		$(img).css("width", width * ratio);
+		$(img).css("height", height * ratio)
+	}
+}

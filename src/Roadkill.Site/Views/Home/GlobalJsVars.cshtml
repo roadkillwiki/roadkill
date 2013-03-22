@@ -45,3 +45,25 @@ var ROADKILL_EDIT_IMAGE_TITLE       = "@Html.Raw(SiteStrings.EditPage_Image_Titl
 @:var ROADKILL_ADDEDITOR_TITLE = "@SiteStrings.SiteSettings_Users_AddEditorDialog_Title";
 @:var ROADKILL_EDITUSER_TITLE = "@SiteStrings.SiteSettings_Users_EditUserDialog_Title";
 }
+
+@if (Configuration.ApplicationSettings.ResizeImages)
+{
+@:$(document).ready(function ()
+@:{
+	@:$("#pagecontent img").each(function()
+	@:{
+		@:$(this).hide();
+	@:});
+@:});
+	
+// Use Window load for images
+@:$(window).load(function ()
+@:{
+	// Resize all images
+	@:$("#pagecontent img").each(function()
+	@:{
+		@:resizeImage($(this));
+		@:$(this).fadeIn();
+	@:});
+@:});
+}

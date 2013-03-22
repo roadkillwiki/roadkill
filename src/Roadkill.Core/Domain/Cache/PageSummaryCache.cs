@@ -34,6 +34,27 @@ namespace Roadkill.Core.Cache
 			Log.Information("PageSummaryCache: Added key {0} to cache [Id={1}, Version{2}]", key, id, version);
 		}
 
+		public void UpdateHomePage(PageSummary item)
+		{
+			if (!_config.ApplicationSettings.CacheEnabled)
+				return;
+
+			string key = "latesthomepage";
+			_cache.Remove(key);
+			_cache.Add(key, item, new CacheItemPolicy());
+		}
+
+		public PageSummary GetHomePage()
+		{
+			if (!_config.ApplicationSettings.CacheEnabled)
+				return null;
+
+			string key = "latesthomepage";
+			Log.Information("PageSummaryCache: Get latest homepage");
+
+			return _cache.Get(key) as PageSummary;
+		}
+
 		public PageSummary Get(int id)
 		{
 			return Get(id, _latestVersionNumber);
@@ -48,6 +69,17 @@ namespace Roadkill.Core.Cache
 			Log.Information("PageSummaryCache: Get key {0} in cache [Id={1}, Version{2}]", key, id, version);
 
 			return _cache.Get(key) as PageSummary;
+		}
+
+		public void RemoveHomePage()
+		{
+			if (!_config.ApplicationSettings.CacheEnabled)
+				return;
+
+			string key = "latesthomepage";
+			_cache.Remove(key);
+
+			Log.Information("PageSummaryCache: Removed homepage from cache", key);
 		}
 
 		public void Remove(int id)
