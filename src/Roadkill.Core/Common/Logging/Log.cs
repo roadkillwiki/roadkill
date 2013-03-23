@@ -15,24 +15,24 @@ namespace Roadkill.Core
 	{
 		public static void UseConsoleLogging()
 		{
-			Trace.Listeners.Add(new ConsoleTraceListener());
+			//Trace.Listeners.Add(new ConsoleTraceListener());
 		}
 
 		public static void UseUdpLogging()
 		{
-			Trace.Listeners.Add(new UdpTraceListener());
+			//Trace.Listeners.Add(new UdpTraceListener());
 		}
 
 		public static void UseXmlLogging()
 		{
 			string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Logs", "roadkill.xml.log");
-			Trace.Listeners.Add(new Log4jXmlTraceListener(logFile));
+			//Trace.Listeners.Add(new Log4jXmlTraceListener(logFile));
 		}
 
 		public static void UseTextFileLogging()
 		{
 			string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Logs", "roadkill.txt");
-			Trace.Listeners.Add(new TextWriterTraceListener(logFile, "roadkill-textfile"));
+			//Trace.Listeners.Add(new TextWriterTraceListener(logFile, "roadkill-textfile"));
 		}
 
 		/// <summary>
