@@ -54,34 +54,11 @@ namespace Roadkill.Core.Files
 					// Ignoring Path.AltDirectorySeparatorChar, Path.VolumeSeparatorChar for now.
 					string fullPath = attachmentFolder + Path.DirectorySeparatorChar + filePath;
 
+					// Should this return a 404?
 					if (!File.Exists(fullPath))
 						throw new FileNotFoundException(string.Format("The url {0} (translated to {1}) does not exist on the server", context.Request.Url.LocalPath, fullPath));
-
-					// Caching: Google recommend an Expires of 1 month, ETag over Last-Modified
-					context.Response.AddFileDependency(fullPath);
-
-					FileInfo info = new FileInfo(fullPath);
-					TimeSpan expires = TimeSpan.FromDays(28);
-					context.Response.Cache.SetLastModifiedFromFileDependencies();
-					context.Response.Cache.SetETagFromFileDependencies();
-					context.Response.Cache.SetCacheability(HttpCacheability.Public);
-
-					int status = 200;
-					if (context.Request.Headers["If-Modified-Since"] != null)
-					{
-						status = 304;
-						DateTime modifiedSinceDate = DateTime.UtcNow;
-						if (DateTime.TryParse(context.Request.Headers["If-Modified-Since"], out modifiedSinceDate))
-						{
-							modifiedSinceDate = modifiedSinceDate.ToUniversalTime();
-							DateTime fileDate = info.LastWriteTimeUtc;
-							DateTime lastWriteTime = new DateTime(fileDate.Year, fileDate.Month, fileDate.Day, fileDate.Hour, fileDate.Minute, fileDate.Second, 0, DateTimeKind.Utc);
-							if (lastWriteTime != modifiedSinceDate)
-								status = 200;
-						}
-					}
-
-					context.Response.StatusCode = status;
+					
+					AddStatusCodeForCache(context, fullPath);
 
 					// Serve the file
 					buffer = File.ReadAllBytes(fullPath);
@@ -103,6 +80,37 @@ namespace Roadkill.Core.Files
 					context.Response.End();
 				}
 			}
+		}
+
+		private void AddStatusCodeForCache(HttpContext context, string fullPath)
+		{
+			// Caching: Google recommend an Expires of 1 month, ETag over Last-Modified
+			context.Response.AddFileDependency(fullPath);
+
+			FileInfo info = new FileInfo(fullPath);
+			context.Response.Cache.SetLastModifiedFromFileDependencies();
+			context.Response.Cache.SetETagFromFileDependencies();
+			context.Response.Cache.SetCacheability(HttpCacheability.Public);
+
+			int status = 200;
+			if (context.Request.Headers["If-Modified-Since"] != null)
+			{
+				// When If-modified is sent (never when it's incognito mode), it matches the 
+				// the write time you send back for the file. So 1st Jan 2001, it will send back
+				// 1st Jan 2001 for If-Modified.
+				status = 304;
+				DateTime modifiedSinceDate = DateTime.UtcNow;
+				if (DateTime.TryParse(context.Request.Headers["If-Modified-Since"], out modifiedSinceDate))
+				{
+					modifiedSinceDate = modifiedSinceDate.ToUniversalTime();
+					DateTime fileDate = info.LastWriteTimeUtc;
+					DateTime lastWriteTime = new DateTime(fileDate.Year, fileDate.Month, fileDate.Day, fileDate.Hour, fileDate.Minute, fileDate.Second, 0, DateTimeKind.Utc);
+					if (lastWriteTime != modifiedSinceDate)
+						status = 200;
+				}
+			}
+
+			context.Response.StatusCode = status;
 		}
 
 		private string GetMimeType(string fileExtension, ServerManager serverManager)
