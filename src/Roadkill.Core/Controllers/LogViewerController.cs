@@ -21,7 +21,7 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		public ActionResult Index(string logLevel, int? maxItems, string messageFilter, string startDate, string endDate)
 		{
-			IEnumerable<Log4jEvent> eventList = LogReader.Load();
+			IEnumerable<Log4jEvent> eventList = LogReader.LoadAll();
 			IEnumerable<Log4jEvent> filteredList = eventList;
 
 			//
@@ -117,7 +117,8 @@ namespace Roadkill.Core.Controllers
 			StringBuilder builder = new StringBuilder();
 			long entryId;
 			long.TryParse(id, out entryId);
-			Log4jEvent entry = LogReader.CachedItems.FirstOrDefault(e => e.Id == entryId);
+			Log4jEvent entry = LogReader.CachedItems.FirstOrDefault(e => e.Id == entryId); // use a cached list instead of loading mbs of log files each time
+
 			if (entry != null)
 			{
 				builder.Append("<br />");

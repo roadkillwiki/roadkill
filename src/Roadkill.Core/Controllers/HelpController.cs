@@ -35,10 +35,13 @@ namespace Roadkill.Core.Controllers
 			return View(_customTokenParser.Tokens);
 		}
 
+#if DEBUG
 		[AdminRequired]
 		public ActionResult ShowError()
 		{
-			throw new Exception("foo");
+			// There is definitely a more intelligent approach than this, I just need to think of it first.
+			throw new Exception("Woops an error occurred");
 		}
+#endif
 	}
 }

@@ -9,12 +9,16 @@ namespace Roadkill.Core.Common
 {
 	public class LogReader
 	{
-		public static readonly string LOGFILE;
+		public static readonly string LOG_FILE;
+		public static readonly string LOG_DIRECTORY;
+		public static readonly string LOG_FILE_SEARCHPATH;
 		internal static MemoryCache _logCache = new MemoryCache("LogCache");
 
 		static LogReader()
 		{
-			LOGFILE = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "logs", "roadkill.xml.log");
+			LOG_DIRECTORY = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Logs");
+			LOG_FILE = Path.Combine(LOG_DIRECTORY, "roadkill.xml.log");
+			LOG_FILE_SEARCHPATH = "roadkill.xml.*";
 		}
 
 		public static IEnumerable<Log4jEvent> CachedItems
@@ -25,7 +29,7 @@ namespace Roadkill.Core.Common
 				if (items == null)
 				{
 					Log.Information("Refreshing the log cache...it's logs all the way down.");
-					return Load();
+					return LoadAll();
 				}
 				else
 				{
@@ -34,10 +38,21 @@ namespace Roadkill.Core.Common
 			}
 		}
 
+		public static IEnumerable<Log4jEvent> LoadAll()
+		{
+			List<Log4jEvent> items = new List<Log4jEvent>();
+			foreach (string file in Directory.EnumerateFiles(LOG_DIRECTORY, LOG_FILE_SEARCHPATH, SearchOption.TopDirectoryOnly))
+			{
+				items.AddRange(Load(file));
+			}
+
+			return items;
+		}
+
 		public static IEnumerable<Log4jEvent> Load(string filename = "")
 		{
 			if (string.IsNullOrEmpty(filename))
-				filename = Log4jXmlTraceListener.GetRollingFilename(LOGFILE);
+				filename = Log4jXmlTraceListener.GetRollingFilename(LOG_FILE);
 
 			List<Log4jEvent> items = new List<Log4jEvent>();
 			if (File.Exists(filename))

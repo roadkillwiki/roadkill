@@ -216,6 +216,10 @@
     <Reference Include="Recaptcha, Version=1.0.5.0, Culture=neutral, PublicKeyToken=9afc4d65b28c38c2, processorArchitecture=MSIL">
       <HintPath>..\..\packages\recaptcha.1.0.5.0\lib\.NetFramework 4.0\Recaptcha.dll</HintPath>
     </Reference>
+    <Reference Include="Roadkill.Core.XmlSerializers, Version=1.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Roadkill.Core.XmlSerializers.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
     </Reference>
@@ -282,12 +286,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Extensions\DateTimeExtensions.cs" />
-    <Compile Include="Common\Logging\ErrorType.cs" />
-    <Compile Include="Common\Logging\Log4jEvent.cs" />
-    <Compile Include="Common\Logging\Log4jXmlTraceListener.cs" />
-    <Compile Include="Common\Logging\LogReader.cs" />
-    <Compile Include="Common\Logging\UdpTraceListener.cs" />
-    <Compile Include="Common\Logging\Log.cs" />
+    <Compile Include="Logging\ErrorType.cs" />
+    <Compile Include="Logging\Log4jEvent.cs" />
+    <Compile Include="Logging\Log4jXmlTraceListener.cs" />
+    <Compile Include="Logging\LogType.cs" />
+    <Compile Include="Logging\LogReader.cs" />
+    <Compile Include="Logging\UdpTraceListener.cs" />
+    <Compile Include="Logging\Log.cs" />
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
     <Compile Include="Controllers\Attributes\CacheAttribute.cs" />

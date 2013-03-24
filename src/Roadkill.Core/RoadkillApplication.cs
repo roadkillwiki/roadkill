@@ -19,9 +19,6 @@ namespace Roadkill.Core
 
 		protected void Application_Start()
 		{
-			Log.UseUdpLogging();
-			Log.UseXmlLogging();
-
 			// Configure StructureMap dependencies
 			IoCSetup iocSetup = new IoCSetup();
 			iocSetup.Run();

@@ -84,11 +84,7 @@ namespace Roadkill.Core.Database.LightSpeed
 				context.CascadeDeletes = false;
 				context.VerboseLogging = true;
 				context.Cache = new CacheBroker(new DefaultCache());
-
-#if DEBUG
-				context.Logger = new TraceLogger();
-#endif
-				
+				context.Logger = new TraceLogger();				
 
 				ObjectFactory.Configure(x =>
 				{

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Roadkill.Core.Common;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core
 {
@@ -13,26 +14,80 @@ namespace Roadkill.Core
 	/// </summary>
 	public class Log
 	{
-		public static void UseConsoleLogging()
+		public static bool LogErrorsOnly { get; set; }
+
+		/// <summary>
+		/// Configures the type of log file to use based on the configuration, and 
+		/// whether to all messages or just errors.
+		/// </summary>
+		/// <param name="configuration"></param>
+		public static void ConfigureLogging(IConfigurationContainer configuration)
 		{
-			//Trace.Listeners.Add(new ConsoleTraceListener());
+			LogErrorsOnly = configuration.ApplicationSettings.LogErrorsOnly;
+
+			switch (configuration.ApplicationSettings.LoggingType)
+			{
+				case LogType.None:
+					break;
+
+				case LogType.TextFile:
+					UseTextFileLogging();
+					break;
+
+				case LogType.XmlFile:
+					UseXmlLogging();
+					break;
+
+				case LogType.All:
+					UseTextFileLogging();
+					UseXmlLogging();
+					break;
+
+				default:
+					break;
+			}
+
+#if DEBUG
+			UseConsoleLogging();
+			UseUdpLogging();
+#endif
 		}
 
+		/// <summary>
+		/// Adds ConsoleTraceListener logging to the logging listeners.
+		/// </summary>
+		public static void UseConsoleLogging()
+		{
+			Trace.Listeners.Add(new ConsoleTraceListener());
+		}
+
+		/// <summary>
+		/// Adds UdpTraceListener logging to the logging listeners.
+		/// </summary>
 		public static void UseUdpLogging()
 		{
 			Trace.Listeners.Add(new UdpTraceListener());
 		}
 
+		/// <summary>
+		/// Adds Log4jXmlTraceListener (log4j format XML file logging) to the logging listeners.
+		/// The XML files are written to the App_Data/Logs file as roadkill.xml.log and a new file is created 
+		/// when the log file reaches 1mb.
+		/// </summary>
 		public static void UseXmlLogging()
 		{
 			string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Logs", "roadkill.xml.log");
-			//Trace.Listeners.Add(new Log4jXmlTraceListener(logFile));
+			Trace.Listeners.Add(new Log4jXmlTraceListener(logFile));
 		}
 
+		/// <summary>
+		/// Adds TextWriterTraceListener logging to the logging listeners. The text files are written to
+		/// the App_Data/Logs file as roadkill.txt and are not rolling logs.
+		/// </summary>
 		public static void UseTextFileLogging()
 		{
 			string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Logs", "roadkill.txt");
-			//Trace.Listeners.Add(new TextWriterTraceListener(logFile, "roadkill-textfile"));
+			Trace.Listeners.Add(new TextWriterTraceListener(logFile, "roadkill-textfile"));
 		}
 
 		/// <summary>
@@ -92,28 +147,28 @@ namespace Roadkill.Core
 			if (ex != null)
 				message += "\n" + ex;
 
-#if !DEBUG
-			//if (errorType == ErrorType.Warning)
-			//	Trace.TraceError(message, args);
-
-			//return;
-#endif
-
-			// Trace should catch FormatException
-			switch (errorType)
+			if (LogErrorsOnly && errorType == ErrorType.Warning)
 			{
-				case ErrorType.Information:
-					Trace.TraceInformation(message, args);
-					break;
+				Trace.TraceError(message, args);
+			}
+			else
+			{
+				// Trace should catch FormatException
+				switch (errorType)
+				{
+					case ErrorType.Information:
+						Trace.TraceInformation(message, args);
+						break;
 
-				case ErrorType.Error:
-					Trace.TraceError(message, args);
-					break;
+					case ErrorType.Error:
+						Trace.TraceError(message, args);
+						break;
 
-				case ErrorType.Warning:
-				default:
-					Trace.TraceWarning(message, args);
-					break;
+					case ErrorType.Warning:
+					default:
+						Trace.TraceWarning(message, args);
+						break;
+				}
 			}
 		}
 	}

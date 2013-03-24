@@ -60,18 +60,43 @@ namespace Roadkill.Core.Common
 
 		public override void WriteLine(string message, string category)
 		{
-			_messageBuffer.Push(CreateEventXml(message, category));
+			if (ShouldLogMessage(category))
+			{
+				_messageBuffer.Push(CreateEventXml(message, category));
 
-			if (_messageBuffer.Count >= BufferSize)
-				Flush();
+				if (_messageBuffer.Count >= BufferSize)
+					Flush();
+			}
 		}
 
 		public override void Write(string message, string category)
 		{
-			_messageBuffer.Push(CreateEventXml(message, category));
+			if (ShouldLogMessage(category))
+			{
+				_messageBuffer.Push(CreateEventXml(message, category));
 
-			if (_messageBuffer.Count >= BufferSize)
-				Flush();
+				if (_messageBuffer.Count >= BufferSize)
+					Flush();
+			}
+		}
+
+		private bool ShouldLogMessage(string category)
+		{
+			if (!string.IsNullOrEmpty(category))
+				category = category.ToLower();
+
+			if (Log.LogErrorsOnly && category == "error")
+			{
+				return true;
+			}
+			else if (!Log.LogErrorsOnly)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		private string CreateEventXml(string message, string category)
@@ -89,30 +114,37 @@ namespace Roadkill.Core.Common
 
 		public override void TraceEvent(TraceEventCache eventCache, string source, TraceEventType eventType, int id, string format, params object[] args)
 		{
-			switch (eventType)
+			if (!Log.LogErrorsOnly)
 			{
-				case TraceEventType.Critical:
-				case TraceEventType.Error:
-					WriteLine(string.Format(format, args), "error");
-					break;
+				switch (eventType)
+				{
+					case TraceEventType.Critical:
+					case TraceEventType.Error:
+						WriteLine(string.Format(format, args), "error");
+						break;
 
-				case TraceEventType.Verbose:
-					WriteLine(string.Format(format, args), "debug");
-					break;
+					case TraceEventType.Verbose:
+						WriteLine(string.Format(format, args), "debug");
+						break;
 
-				case TraceEventType.Warning:
-					WriteLine(string.Format(format, args), "warn");
-					break;
+					case TraceEventType.Warning:
+						WriteLine(string.Format(format, args), "warn");
+						break;
 
-				case TraceEventType.Information:
-				case TraceEventType.Resume:
-				case TraceEventType.Start:
-				case TraceEventType.Stop:
-				case TraceEventType.Suspend:
-				case TraceEventType.Transfer:
-				default:
-					WriteLine(string.Format(format, args), "info");
-					break;
+					case TraceEventType.Information:
+					case TraceEventType.Resume:
+					case TraceEventType.Start:
+					case TraceEventType.Stop:
+					case TraceEventType.Suspend:
+					case TraceEventType.Transfer:
+					default:
+						WriteLine(string.Format(format, args), "info");
+						break;
+				}
+			}
+			else if (Log.LogErrorsOnly && eventType == TraceEventType.Error)
+			{
+				WriteLine(string.Format(format, args), "error");
 			}
 		}
 

@@ -72,7 +72,7 @@ namespace Roadkill.Core
 		internal bool CacheText
 		{
 			get;
-			set; 
+			set;
 		}
 
 		/// <summary>
@@ -81,7 +81,7 @@ namespace Roadkill.Core
 		[ConfigurationProperty("connectionStringName", IsRequired = true)]
 		public string ConnectionStringName
 		{
-			get { return (string) this["connectionStringName"]; }
+			get { return (string)this["connectionStringName"]; }
 			set { this["connectionStringName"] = value; }
 		}
 
@@ -178,6 +178,26 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// The type of logging to do, "XmlFile" by default.
+		/// </summary>
+		[ConfigurationProperty("logging", IsRequired = false, DefaultValue = "XmlFile")]
+		public string Logging
+		{
+			get { return (string)this["logging"]; }
+			set { this["logging"] = value; }
+		}
+
+		/// <summary>
+		/// The level of logging to perform (true by default).
+		/// </summary>
+		[ConfigurationProperty("logErrorsOnly", IsRequired = false, DefaultValue = true)]
+		public bool LogErrorsOnly
+		{
+			get { return (bool)this["logErrorsOnly"]; }
+			set { this["logErrorsOnly"] = value; }
+		}
+
+		/// <summary>
 		/// The repository type used for all datastore queries.
 		/// </summary>
 		[ConfigurationProperty("repositoryType", IsRequired = false, DefaultValue = "")]
@@ -190,15 +210,15 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Whether to scale images dynamically on the page, using Javascript, so they fit inside the main page container (400x400px).
 		/// </summary>
-		[ConfigurationProperty("resizeImages", IsRequired = false, DefaultValue=true)]
+		[ConfigurationProperty("resizeImages", IsRequired = false, DefaultValue = true)]
 		public bool ResizeImages
 		{
-			get 
+			get
 			{
 				if (this["resizeImages"] == null)
 					return true;
 				else
-					return (bool)this["resizeImages"]; 
+					return (bool)this["resizeImages"];
 			}
 			set { this["resizeImages"] = value; }
 		}
@@ -207,7 +227,7 @@ namespace Roadkill.Core
 		/// Whether to remove all HTML tags from the markup except those found in the whitelist.xml file,
 		/// inside the App_Data folder.
 		/// </summary>
-		[ConfigurationProperty("useHtmlWhiteList", IsRequired = false, DefaultValue=true)]
+		[ConfigurationProperty("useHtmlWhiteList", IsRequired = false, DefaultValue = true)]
 		public bool UseHtmlWhiteList
 		{
 			get { return (bool)this["useHtmlWhiteList"]; }
