@@ -12,6 +12,8 @@ namespace Roadkill.Core.Common
 {
 	public class Log4jXmlTraceListener : TraceListener
 	{
+		private static readonly int ROLLOVER_FILE_SIZE = 1024 * 1024;
+
 		private string _loggerName;
 		private string _filename;
 		private object _writerLock = new object();
@@ -42,8 +44,9 @@ namespace Roadkill.Core.Common
 			if (filename.StartsWith(@".\") || !filename.StartsWith(@"\"))
 				filename = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filename);
 
+			// New log file every ~1mb
 			FileInfo info = new FileInfo(filename);
-			if (info.Exists && info.Length > 1024 * 1024)
+			if (info.Exists && info.Length > ROLLOVER_FILE_SIZE)
 			{
 				string basename = Path.GetFileNameWithoutExtension(filename);
 				string extension = Path.GetExtension(filename);
@@ -90,11 +93,14 @@ namespace Roadkill.Core.Common
 
 		public override void Write(string message, string category)
 		{
-			lock (_writerLock)
+			if (ShouldLogMessage(category))
 			{
-				using (StreamWriter streamWriter = new StreamWriter(new FileStream(_filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write), Encoding.UTF8))
+				lock (_writerLock)
 				{
-					AppendEventXml(streamWriter, message, category);
+					using (StreamWriter streamWriter = new StreamWriter(new FileStream(_filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write), Encoding.UTF8))
+					{
+						AppendEventXml(streamWriter, message, category);
+					}
 				}
 			}
 		}
@@ -106,12 +112,34 @@ namespace Roadkill.Core.Common
 
 		public override void WriteLine(string message, string category)
 		{
-			lock (_writerLock)
+			if (ShouldLogMessage(category))
 			{
-				using (StreamWriter streamWriter = new StreamWriter(new FileStream(_filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write), Encoding.UTF8))
+				lock (_writerLock)
 				{
-					AppendEventXml(streamWriter, message, category);
+					using (StreamWriter streamWriter = new StreamWriter(new FileStream(_filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write), Encoding.UTF8))
+					{
+						AppendEventXml(streamWriter, message, category);
+					}
 				}
+			}
+		}
+
+		private bool ShouldLogMessage(string category)
+		{
+			if (!string.IsNullOrEmpty(category))
+				category = category.ToLower();
+
+			if (Log.LogErrorsOnly && category == "error")
+			{
+				return true;
+			}
+			else if (!Log.LogErrorsOnly)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
 			}
 		}
 
@@ -163,30 +191,37 @@ namespace Roadkill.Core.Common
 
 		public override void TraceEvent(TraceEventCache eventCache, string source, TraceEventType eventType, int id, string format, params object[] args)
 		{
-			switch (eventType)
+			if (!Log.LogErrorsOnly)
 			{
-				case TraceEventType.Critical:
-				case TraceEventType.Error:
-					WriteLine(string.Format(format, args), "error");
-					break;
+				switch (eventType)
+				{
+					case TraceEventType.Critical:
+					case TraceEventType.Error:
+						WriteLine(string.Format(format, args), "error");
+						break;
 
-				case TraceEventType.Verbose:
-					WriteLine(string.Format(format, args), "debug");
-					break;
+					case TraceEventType.Verbose:
+						WriteLine(string.Format(format, args), "debug");
+						break;
 
-				case TraceEventType.Warning:
-					WriteLine(string.Format(format, args), "warn");
-					break;
+					case TraceEventType.Warning:
+						WriteLine(string.Format(format, args), "warn");
+						break;
 
-				case TraceEventType.Information:
-				case TraceEventType.Resume:
-				case TraceEventType.Start:
-				case TraceEventType.Stop:
-				case TraceEventType.Suspend:
-				case TraceEventType.Transfer:
-				default:
-					WriteLine(string.Format(format, args), "info");
-					break;
+					case TraceEventType.Information:
+					case TraceEventType.Resume:
+					case TraceEventType.Start:
+					case TraceEventType.Stop:
+					case TraceEventType.Suspend:
+					case TraceEventType.Transfer:
+					default:
+						WriteLine(string.Format(format, args), "info");
+						break;
+				}
+			}
+			else if (Log.LogErrorsOnly && eventType == TraceEventType.Error)
+			{
+				WriteLine(string.Format(format, args), "error");
 			}
 		}
 	}

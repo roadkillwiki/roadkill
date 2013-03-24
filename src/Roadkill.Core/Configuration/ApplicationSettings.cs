@@ -107,6 +107,16 @@ namespace Roadkill.Core.Configuration
 		public string LdapPassword { get; set; }
 
 		/// <summary>
+		/// The type of logging to perform. When in debug mode, UDP logging is also added to this.
+		/// </summary>
+		public LogType LoggingType { get; set; }
+
+		/// <summary>
+		/// Whether to just error messages are logged, or all information (warnings, information).
+		/// </summary>
+		public bool LogErrorsOnly { get; set; }
+
+		/// <summary>
 		/// The number of characters each password should be.
 		/// </summary>
 		public int MinimumPasswordLength { get; set; }
@@ -227,6 +237,13 @@ namespace Roadkill.Core.Configuration
 			string dataStoreType = section.DataStoreType;
 			if (string.IsNullOrEmpty(dataStoreType) && !string.IsNullOrEmpty(section.DatabaseType))
 				dataStoreType = section.DatabaseType;
+
+			LogType loggingType;
+			if (!Enum.TryParse<LogType>(section.Logging, true, out loggingType))
+				loggingType = LogType.None;
+
+			LoggingType = loggingType;
+			LogErrorsOnly = section.LogErrorsOnly;
 
 			DataStoreType = DataStoreType.ByName(dataStoreType);
 			ConnectionStringName = section.ConnectionStringName;

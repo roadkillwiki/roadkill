@@ -11,6 +11,8 @@ using System.Xml.Serialization;
 
 namespace Roadkill.Core.Common
 {
+	// When this class changes, run sgen.exe on the assembly again (to improve startup time of the application, and avoid sgen.exe errors):
+	// C:\Program Files (x86)\Microsoft Visual Studio 11.0>sgen C:\Projects\roadkill\src\Roadkill.Core\bin\Debug\Roadkill.Core.dll /t:Roadkill.Core.Common.Log4jEvent
 	[XmlRoot("event", Namespace = "http://jakarta.apache.org/log4j/")]
 	public class Log4jEvent
 	{
@@ -58,7 +60,7 @@ namespace Roadkill.Core.Common
 		public string Exception { get; set; }
 
 		[XmlArray("properties")]
-		public List<Log4jProperty> Properties { get; private set; }
+		public List<Log4jProperty> Properties { get; set; }
 
 		[XmlIgnore]
 		public string MachineName
@@ -177,7 +179,7 @@ namespace Roadkill.Core.Common
 		{
 			try
 			{
-				// Work around for the log (deliberately for files?) missing the xml declaration
+				// If the log is missing an XML declaration, add it
 				if (!text.Contains("<?xml version") && !text.Contains("<log4j:events"))
 				{
 					text = "<?xml version=\"1.0\" encoding=\"utf-8\"?><log4j:events xmlns:log4j=\"http://jakarta.apache.org/log4j/\">" + text + "</log4j:events>";
@@ -185,7 +187,6 @@ namespace Roadkill.Core.Common
 				}
 
 				XDocument doc = XDocument.Load(new StringReader(text));
-				// Feed/Entry
 				var entries = from item in doc.Root.Elements().Where(i => i.Name.LocalName == "event")
 							  select Log4jEvent.DeserializeElement(item.ToString());
 

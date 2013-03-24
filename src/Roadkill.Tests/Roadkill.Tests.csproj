@@ -230,6 +230,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Acceptance\LogViewerTests.cs" />
     <Compile Include="Acceptance\WebDriverExtensions.cs" />
     <Compile Include="Acceptance\UpgradeToVersion16Tests.cs" />
     <Compile Include="Acceptance\InstallerTests.cs" />
