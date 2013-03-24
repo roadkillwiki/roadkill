@@ -164,7 +164,7 @@ namespace Roadkill.Core
 			_repository = ObjectFactory.GetInstance<IRepository>();
 			_repository.Startup(_config.ApplicationSettings.DataStoreType,
 								_config.ApplicationSettings.ConnectionString,
-								_config.ApplicationSettings.CacheEnabled);
+								_config.ApplicationSettings.UseObjectCache);
 
 			_hasRunInitialization = true;
 			Log.Information("Finished Roadkill initialization");

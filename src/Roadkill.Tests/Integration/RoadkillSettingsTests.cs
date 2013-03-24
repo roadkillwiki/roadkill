@@ -36,8 +36,8 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(appSettings.AdminRoleName, Is.EqualTo("Admin-test"), "AdminRoleName");
 			Assert.That(appSettings.AttachmentsFolder, Is.EqualTo("/Attachments-test"), "AttachmentsFolder");
-			Assert.That(appSettings.CacheEnabled, Is.True, "CacheEnabled");
-			Assert.That(appSettings.CacheText, Is.True, "CacheText");
+			Assert.That(appSettings.UseObjectCache, Is.True, "UseObjectCache");
+			Assert.That(appSettings.UseBrowserCache, Is.True, "UseBrowserCache");
 			Assert.That(appSettings.ConnectionStringName, Is.EqualTo("Roadkill-test"), "ConnectionStringName");
 			Assert.That(appSettings.DataStoreType, Is.EqualTo(DataStoreType.Sqlite), "DatabaseType");
 			Assert.That(appSettings.EditorRoleName, Is.EqualTo("Editor-test"), "EditorRoleName");
@@ -105,6 +105,35 @@ namespace Roadkill.Tests.Unit
 				//var x = appSettings.ConnectionStringName; 
 				appSettings.LoadCustomConfigFile(configFilePath);
 			});
+		}
+
+		[Test]
+		public void RoadkillSection_Legacy_CacheValues_Are_Ignored()
+		{
+			// Arrange
+			string configFilePath = GetConfigPath("test-legacy-values.config");
+
+			// Act
+			ApplicationSettings appSettings = new ApplicationSettings();
+			appSettings.LoadCustomConfigFile(configFilePath);
+
+			// Assert
+			Assert.That(appSettings.UseObjectCache, Is.True, "UseObjectCache [legacy test for cacheEnabled]");
+			Assert.That(appSettings.UseBrowserCache, Is.False, "UseBrowserCache [legacy test for cacheText]");
+		}
+
+		[Test]
+		public void RoadkillSection_Legacy_DatabaseType_Is_Used()
+		{
+			// Arrange
+			string configFilePath = GetConfigPath("test-legacy-values.config");
+
+			// Act
+			ApplicationSettings appSettings = new ApplicationSettings();
+			appSettings.LoadCustomConfigFile(configFilePath);
+
+			// Assert
+			Assert.That(appSettings.DataStoreType, Is.EqualTo(DataStoreType.Sqlite), "DataStoreType [legacy test for databaseType]");
 		}
 
 		[Test]

@@ -48,14 +48,6 @@ var ROADKILL_EDIT_IMAGE_TITLE       = "@Html.Raw(SiteStrings.EditPage_Image_Titl
 
 @if (Configuration.ApplicationSettings.ResizeImages)
 {
-@:$(document).ready(function ()
-@:{
-	@:$("#pagecontent img").each(function()
-	@:{
-		@:$(this).hide();
-	@:});
-@:});
-	
 // Use Window load for images
 @:$(window).load(function ()
 @:{
@@ -63,7 +55,6 @@ var ROADKILL_EDIT_IMAGE_TITLE       = "@Html.Raw(SiteStrings.EditPage_Image_Titl
 	@:$("#pagecontent img").each(function()
 	@:{
 		@:resizeImage($(this), 400, 400);
-		@:$(this).fadeIn();
 	@:});
 @:});
 }

@@ -44,7 +44,10 @@ namespace Roadkill.Core.Configuration
 			{
 				Log.Error("An error occured with the ControllerFactory: {0}", e);
 
-				return new ErrorController();
+				if (requestContext.HttpContext.IsCustomErrorEnabled)
+					return new ErrorController();
+				else
+					throw e;
 			}
 		}
 	}

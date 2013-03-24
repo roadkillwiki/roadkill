@@ -21,7 +21,7 @@ namespace Roadkill.Core.Cache
 
 		public void Add<T>(string key, IEnumerable<T> items)
 		{
-			if (!_config.ApplicationSettings.CacheEnabled)
+			if (!_config.ApplicationSettings.UseObjectCache)
 				return;
 
 			Log.Information("ListCache: Added {0} to cache", key);
@@ -36,7 +36,7 @@ namespace Roadkill.Core.Cache
 
 		public void Remove(string key)
 		{
-			if (!_config.ApplicationSettings.CacheEnabled)
+			if (!_config.ApplicationSettings.UseObjectCache)
 				return;
 
 			Log.Information("ListCache: Removed {0} from cache", key);
@@ -45,7 +45,7 @@ namespace Roadkill.Core.Cache
 
 		public void RemoveAll()
 		{
-			if (!_config.ApplicationSettings.CacheEnabled)
+			if (!_config.ApplicationSettings.UseObjectCache)
 				return;
 
 			Log.Information("ListCache: RemoveAll from cache");

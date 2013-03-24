@@ -18,7 +18,7 @@ namespace Roadkill.Core
 		{
 			Location = OutputCacheLocation.ServerAndClient;
 			_config = ObjectFactory.GetInstance<IConfigurationContainer>();
-			if (!_config.ApplicationSettings.CacheEnabled)
+			if (!_config.ApplicationSettings.UseObjectCache)
 			{
 				Duration = 0;
 			}
