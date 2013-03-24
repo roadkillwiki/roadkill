@@ -63,6 +63,8 @@ namespace Roadkill.Core
 				PageContent pageContent = Repository.AddNewPage(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.Now);
 
 				_listCache.RemoveAll();
+				if (summary.Tags.Contains("homepage"))
+					_pageSummaryCache.RemoveHomePage();
 
 				// Update the lucene index
 				PageSummary savedSummary = pageContent.ToSummary(_markupConverter);
@@ -427,11 +429,17 @@ namespace Roadkill.Core
 
 				Repository.SaveOrUpdatePage(page);
 
-				// Remove the latest version (0) from cache
+				// Update the cache - updating a page is expensive for the cache right now
+				// this could be improved by updating the item in the listcache instead of invalidating it
 				_pageSummaryCache.Remove(summary.Id , 0);
 
 				if (summary.Tags.Contains("homepage"))
 					_pageSummaryCache.RemoveHomePage();
+
+				_listCache.Remove("alltags");
+				_listCache.Remove("allpages");
+				_listCache.Remove("allpages.with.content");
+				_listCache.Remove("allpages.created.by" + page.CreatedBy);
 
 				int newVersion = _historyManager.MaxVersion(summary.Id) + 1;
 				PageContent pageContent = Repository.AddNewPageContentVersion(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.Now, newVersion); 
