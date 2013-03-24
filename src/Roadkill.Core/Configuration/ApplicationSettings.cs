@@ -46,16 +46,6 @@ namespace Roadkill.Core.Configuration
 		public string AttachmentsRoutePath { get; set; }
 
 		/// <summary>
-		///  Indicates whether caching (currently NHibernate level 2 caching, and Http headers) is enabled.
-		/// </summary>
-		public bool CacheEnabled { get; set; }
-
-		/// <summary>
-		/// Indicates whether textual content for pages is cached.
-		/// </summary>
-		public bool CacheText { get; set; }
-
-		/// <summary>
 		/// The connection string to the Roadkill database.
 		/// </summary>
 		public string ConnectionString { get; set; }
@@ -137,6 +127,16 @@ namespace Roadkill.Core.Configuration
 		public bool UpgradeRequired { get; internal set; }
 
 		/// <summary>
+		/// Indicates whether server-based page object caching is enabled.
+		/// </summary>
+		public bool UseObjectCache { get; set; }
+
+		/// <summary>
+		/// Indicates whether to send HTTP cache headers to the browser (304 not modified)
+		/// </summary>
+		public bool UseBrowserCache { get; set; }
+
+		/// <summary>
 		/// Gets a value indicating whether the html that is converted from the markup is 
 		/// cleaned for tags, using the App_Data/htmlwhitelist.xml file.
 		/// </summary>
@@ -205,9 +205,6 @@ namespace Roadkill.Core.Configuration
 
 			AttachmentsUrlPath = "/Attachments";
 			AttachmentsRoutePath = "Attachments";
-			CacheEnabled = section.CacheEnabled;
-			CacheText = section.CacheText;
-
 			ConnectionStringName = section.ConnectionStringName;
 
 			if (config == null)
@@ -222,8 +219,17 @@ namespace Roadkill.Core.Configuration
 			if (string.IsNullOrEmpty(ConnectionString))
 				Log.Warn("ConnectionString property is null/empty.");
 
+			// Ignore the legacy useCache and cacheText section keys, as the behaviour has changed.
+			UseObjectCache = section.UseObjectCache;
+			UseBrowserCache = section.UseBrowserCache;
+
+			// Look for the legacy database type key
+			string dataStoreType = section.DataStoreType;
+			if (string.IsNullOrEmpty(dataStoreType) && !string.IsNullOrEmpty(section.DatabaseType))
+				dataStoreType = section.DatabaseType;
+
+			DataStoreType = DataStoreType.ByName(dataStoreType);
 			ConnectionStringName = section.ConnectionStringName;
-			DataStoreType = DataStoreType.ByName(section.DataStoreType);
 			EditorRoleName = section.EditorRoleName;
 			IgnoreSearchIndexErrors = section.IgnoreSearchIndexErrors;
 			IsPublicSite = section.IsPublicSite;

@@ -137,8 +137,8 @@ namespace Roadkill.Core
 				RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
 				section.AdminRoleName = summary.AdminRoleName;
 				section.AttachmentsFolder = summary.AttachmentsFolder;
-				section.CacheEnabled = summary.CacheEnabled;
-				section.CacheText = summary.CacheText;
+				section.UseObjectCache = summary.CacheEnabled;
+				section.UseBrowserCache = summary.CacheText;
 				section.ConnectionStringName = "Roadkill";
 				section.DataStoreType = dataStoreType.Name;
 				section.EditorRoleName = summary.EditorRoleName;

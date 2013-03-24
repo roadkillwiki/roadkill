@@ -1,3 +1,4 @@
+"use strict";
 /// <reference path="jquery.require.js" />
 /// <reference path="jquery-1.8.0-vsdoc.js" />
 

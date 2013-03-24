@@ -39,7 +39,7 @@ namespace Roadkill.Core.Controllers
 
 			Context.Page = summary;
 
-			if (!Context.IsLoggedIn)
+			if (Configuration.ApplicationSettings.UseBrowserCache && !Context.IsLoggedIn)
 			{
 				Response.Cache.SetCacheability(HttpCacheability.Public);
 				Response.Cache.SetExpires(DateTime.Now.AddSeconds(2));

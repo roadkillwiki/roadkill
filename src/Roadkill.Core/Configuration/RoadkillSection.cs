@@ -34,23 +34,45 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Indicates whether NHibernate 2nd level caching is enabled.
+		/// Indicates whether server-based page object caching is enabled.
 		/// </summary>
-		[ConfigurationProperty("cacheEnabled", IsRequired = true)]
-		public bool CacheEnabled
+		/// <remarks>legacy, now ignored</remarks>
+		[ConfigurationProperty("cacheEnabled", IsRequired = false, DefaultValue = true)]
+		internal bool CacheEnabled
 		{
-			get { return (bool)this["cacheEnabled"]; }
-			set { this["cacheEnabled"] = value; }
+			get;
+			set;
 		}
 
 		/// <summary>
-		/// Indicates whether page content should be cached, if <see cref="CacheEnabled"/> is true.
+		/// Legacy property, this is now "useObjectCache"
 		/// </summary>
-		[ConfigurationProperty("cacheText", IsRequired = true)]
-		public bool CacheText
+		[ConfigurationProperty("useObjectCache", IsRequired = false, DefaultValue = true)]
+		public bool UseObjectCache
 		{
-			get { return (bool)this["cacheText"]; }
-			set { this["cacheText"] = value; }
+			get { return (bool)this["useObjectCache"]; }
+			set { this["useObjectCache"] = value; }
+		}
+
+		/// <summary>
+		/// Indicates whether page content should be cached, if <see cref="UseObjectCache"/> is true.
+		/// </summary>
+		[ConfigurationProperty("useBrowserCache", IsRequired = false, DefaultValue = false)]
+		public bool UseBrowserCache
+		{
+			get { return (bool)this["useBrowserCache"]; }
+			set { this["useBrowserCache"] = value; }
+		}
+
+		/// <summary>
+		/// Legacy property, this is now "useBrowserCache"
+		/// </summary>
+		/// <remarks>legacy, now ignored</remarks>
+		[ConfigurationProperty("cacheText", IsRequired = false, DefaultValue = false)]
+		internal bool CacheText
+		{
+			get;
+			set; 
 		}
 
 		/// <summary>
@@ -64,15 +86,24 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The database type for Roadkill. This defaults to SQLServer2005 if empty - see DatabaseType enum for all options.
+		/// Legacy property, this is now "dataStoreType"
 		/// </summary>
-		/// <remarks>Added (renamed) in 1.6</remarks>
+		/// <remarks>Renamed in 1.6</remarks>
 		[ConfigurationProperty("databaseType", IsRequired = false)]
-		public string DataStoreType
+		internal string DatabaseType
 		{
-			// TODO: update the key to be "dataStoreType", plus make it backward compatible
 			get { return (string)this["databaseType"]; }
 			set { this["databaseType"] = value; }
+		}
+
+		/// <summary>
+		/// The database type for Roadkill. This defaults to SQLServer2005 if empty - see DatabaseType enum for all options.
+		/// </summary>
+		[ConfigurationProperty("dataStoreType", IsRequired = false)]
+		public string DataStoreType
+		{
+			get { return (string)this["dataStoreType"]; }
+			set { this["dataStoreType"] = value; }
 		}
 
 		/// <summary>
@@ -224,6 +255,19 @@ namespace Roadkill.Core
 		public override bool IsReadOnly()
 		{
 			return false;
+		}
+
+		/// <summary>
+		/// Checks for a legacy key value, if the new key isn't present.
+		/// </summary>
+		private T CheckForLegacyValue<T>(string oldKeyName, string newKeyname)
+		{
+			T keyValue = (T)this[newKeyname];
+
+			if (this.Properties[newKeyname] == null && this.Properties[oldKeyName] != null)
+				keyValue = (T)this[oldKeyName];
+
+			return keyValue;
 		}
 	}
 }
