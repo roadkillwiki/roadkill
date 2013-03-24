@@ -117,7 +117,7 @@ namespace Roadkill.Core.Controllers
 				if (!string.IsNullOrWhiteSpace(fromUrl))
 					return Redirect(fromUrl);
 				else
-					return RedirectToAction("Index","Home", new { nocache = DateTime.Now.Ticks });
+					return RedirectToAction("Index","Home");
 			}
 			else
 			{
@@ -132,7 +132,7 @@ namespace Roadkill.Core.Controllers
 		public ActionResult Logout()
 		{
 			UserManager.Logout();
-			return RedirectToAction("Index", "Home", new { nocache = DateTime.Now.Ticks });
+			return RedirectToAction("Index", "Home");
 		}
 
 		/// <summary>

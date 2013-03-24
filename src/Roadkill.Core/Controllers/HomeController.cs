@@ -6,6 +6,8 @@ using Roadkill.Core.Converters;
 using Roadkill.Core.Search;
 using Roadkill.Core.Localization.Resx;
 using Roadkill.Core.Configuration;
+using System.Diagnostics;
+using System.Web;
 
 namespace Roadkill.Core.Controllers
 {
@@ -51,6 +53,18 @@ namespace Roadkill.Core.Controllers
 			}
 
 			Context.Page = summary;
+
+			if (!Context.IsLoggedIn)
+			{
+				Response.Cache.SetCacheability(HttpCacheability.Public);
+				Response.Cache.SetExpires(DateTime.Now.AddSeconds(2));
+				Response.Cache.SetLastModified(summary.ModifiedOn.ToUniversalTime());
+				Response.StatusCode = HttpContext.ApplicationInstance.Context.GetStatusCodeForCache(summary.ModifiedOn.ToUniversalTime());
+
+				if (Response.StatusCode == 304)
+					return new HttpStatusCodeResult(304, "Not Modified");
+			}
+
 			return View(summary);
 		}
 

@@ -59,12 +59,14 @@ namespace Roadkill.Core.Files
 						throw new FileNotFoundException(string.Format("The url {0} (translated to {1}) does not exist on the server", context.Request.Url.LocalPath, fullPath));
 					
 					AddStatusCodeForCache(context, fullPath);
-
-					// Serve the file
-					buffer = File.ReadAllBytes(fullPath);
-					context.Response.ContentType = mimeType;
-					context.Response.BinaryWrite(buffer);
-					context.Response.End();
+					if (context.Response.StatusCode != 304)
+					{
+						// Serve the file
+						buffer = File.ReadAllBytes(fullPath);
+						context.Response.ContentType = mimeType;
+						context.Response.BinaryWrite(buffer);
+						context.Response.End();
+					}
 				}
 				catch (FileNotFoundException ex)
 				{
@@ -84,33 +86,14 @@ namespace Roadkill.Core.Files
 
 		private void AddStatusCodeForCache(HttpContext context, string fullPath)
 		{
-			// Caching: Google recommend an Expires of 1 month, ETag over Last-Modified
+			// https://developers.google.com/speed/docs/best-practices/caching
 			context.Response.AddFileDependency(fullPath);
 
 			FileInfo info = new FileInfo(fullPath);
-			context.Response.Cache.SetLastModifiedFromFileDependencies();
-			context.Response.Cache.SetETagFromFileDependencies();
 			context.Response.Cache.SetCacheability(HttpCacheability.Public);
-
-			int status = 200;
-			if (context.Request.Headers["If-Modified-Since"] != null)
-			{
-				// When If-modified is sent (never when it's incognito mode), it matches the 
-				// the write time you send back for the file. So 1st Jan 2001, it will send back
-				// 1st Jan 2001 for If-Modified.
-				status = 304;
-				DateTime modifiedSinceDate = DateTime.UtcNow;
-				if (DateTime.TryParse(context.Request.Headers["If-Modified-Since"], out modifiedSinceDate))
-				{
-					modifiedSinceDate = modifiedSinceDate.ToUniversalTime();
-					DateTime fileDate = info.LastWriteTimeUtc;
-					DateTime lastWriteTime = new DateTime(fileDate.Year, fileDate.Month, fileDate.Day, fileDate.Hour, fileDate.Minute, fileDate.Second, 0, DateTimeKind.Utc);
-					if (lastWriteTime != modifiedSinceDate)
-						status = 200;
-				}
-			}
-
-			context.Response.StatusCode = status;
+			context.Response.Headers.Add("Expires", "-1"); // always followed by the browser
+			context.Response.Cache.SetLastModifiedFromFileDependencies(); // sometimes followed by the browser
+			context.Response.StatusCode = context.GetStatusCodeForCache(info.LastWriteTimeUtc);
 		}
 
 		private string GetMimeType(string fileExtension, ServerManager serverManager)

@@ -110,15 +110,16 @@ function resizeImage(img, maxWidth, maxHeight)
 	{
 		// Use the width ratio to start with
 		ratio = maxWidth / width;
-		$(img).css("width", width * ratio);
-		$(img).css("height", height * ratio); console.log(ratio);
+		width = width * ratio;
+		height = height * ratio;
 
-		height = $(img).height();
+		$(img).css("width", width);
+		$(img).css("height", height);
 	}
 
 	if (height > maxHeight)
 	{
-		// Scale down to the height ratio
+		// Scale down to the height ratio if it's still too large
 		ratio = maxHeight / height;
 		$(img).css("width", width * ratio);
 		$(img).css("height", height * ratio)

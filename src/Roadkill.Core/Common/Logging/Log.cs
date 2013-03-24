@@ -20,7 +20,7 @@ namespace Roadkill.Core
 
 		public static void UseUdpLogging()
 		{
-			//Trace.Listeners.Add(new UdpTraceListener());
+			Trace.Listeners.Add(new UdpTraceListener());
 		}
 
 		public static void UseXmlLogging()

@@ -984,9 +984,15 @@ namespace Roadkill.Core.Converters
 		/// <returns></returns>
 		protected virtual string _processImageCreole(string markup)
 		{
+			int sanityCheckMax = 5000;
+			int sanityCheckCount = 0;
+
 			int iPos = _indexOfWithSkip(markup, "{{", 0);
 			while (iPos >= 0)
 			{
+				if (++sanityCheckCount > sanityCheckMax)
+					break;
+
 				int iEnd = _indexOfWithSkip(markup, "}}", iPos);
 				if (iEnd > iPos)
 				{
