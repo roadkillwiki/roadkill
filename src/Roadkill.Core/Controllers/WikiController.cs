@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Web.Mvc;
 using Roadkill.Core.Configuration;
 
@@ -38,18 +39,15 @@ namespace Roadkill.Core.Controllers
 
 			Context.Page = summary;
 
-			if (Configuration.ApplicationSettings.CacheEnabled)
+			if (!Context.IsLoggedIn)
 			{
-				// This is using RFC 1123, the header needs RFC 2822 but this gives the same date output
-				if (!Context.IsLoggedIn)
-				{
-					Response.AddHeader("Last-Modified", summary.ModifiedOn.ToString("r"));
-				}
-				else
-				{
-					// Don't cache for logged in users
-					Response.AddHeader("Last-Modified", DateTime.Now.ToString("r"));
-				}
+				Response.Cache.SetCacheability(HttpCacheability.Public);
+				Response.Cache.SetExpires(DateTime.Now.AddSeconds(2));
+				Response.Cache.SetLastModified(summary.ModifiedOn.ToUniversalTime());
+				Response.StatusCode = HttpContext.ApplicationInstance.Context.GetStatusCodeForCache(summary.ModifiedOn.ToUniversalTime());
+
+				if (Response.StatusCode == 304)
+					return new HttpStatusCodeResult(304, "Not Modified");
 			}
 
 			return View(summary);

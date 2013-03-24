@@ -141,7 +141,7 @@ namespace Roadkill.Core.Controllers
 
 			_pageManager.UpdatePage(summary);
 
-			return RedirectToAction("Index", "Wiki", new { id = summary.Id, nocache = DateTime.Now.Ticks });
+			return RedirectToAction("Index", "Wiki", new { id = summary.Id });
 		}
 
 		/// <summary>

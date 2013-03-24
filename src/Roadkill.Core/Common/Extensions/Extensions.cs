@@ -95,5 +95,36 @@ namespace Roadkill.Core
 
 			return tagList;
 		}
+
+		/// <summary>
+		/// Gets a 304 HTTP response if there is a "If-Modified-Since" header and it matches 
+		/// the fileDate. Otherwise a 200 OK is given.
+		/// </summary>
+		/// <param name="context"></param>
+		public static int GetStatusCodeForCache(this HttpContext context, DateTime fileDate)
+		{
+			if (context == null)
+				return 200;
+
+			int status = 200;
+			if (context.Request.Headers["If-Modified-Since"] != null)
+			{
+				// When If-modified is sent (never when it's incognito mode), it matches the 
+				// the write time you send back for the file. So 1st Jan 2001, it will send back
+				// 1st Jan 2001 for If-Modified.
+				status = 304;
+				DateTime modifiedSinceDate = DateTime.UtcNow;
+				if (DateTime.TryParse(context.Request.Headers["If-Modified-Since"], out modifiedSinceDate))
+				{
+					modifiedSinceDate = modifiedSinceDate.ToUniversalTime();
+
+					DateTime lastWriteTime = new DateTime(fileDate.Year, fileDate.Month, fileDate.Day, fileDate.Hour, fileDate.Minute, fileDate.Second, 0, DateTimeKind.Utc);
+					if (lastWriteTime != modifiedSinceDate)
+						status = 200;
+				}
+			}
+
+			return status;
+		}
 	}
 }

@@ -15,6 +15,7 @@ namespace Roadkill.Core.Text.ToC
 	{
 		private Tree _tree;
 		private StringTemplate _template;
+		private static Regex _regex = new Regex(@"(?<!{)(?:\{TOC\})(?!})", RegexOptions.Compiled);
 
 		internal Tree Tree
 		{
@@ -39,6 +40,9 @@ namespace Roadkill.Core.Text.ToC
 		/// </summary>
 		public string InsertToc(string html)
 		{
+			if (!html.Contains("{TOC}"))
+				return html;
+
 			_tree = new Tree(_template);
 
 			// Parse the HTML for H tags
@@ -49,8 +53,9 @@ namespace Roadkill.Core.Text.ToC
 
 			string outputHtml = GenerateHtml();
 			string innerHtml = document.DocumentNode.InnerHtml;
-			Regex regex = new Regex(@"(?<!{)(?:\{TOC\})(?!})"); // make sure {{TOC}} or {{{{TOC}}}} aren't matched
-			innerHtml = regex.Replace(innerHtml, outputHtml);
+
+			// make sure {{TOC}} or {{{{TOC}}}} aren't matched
+			innerHtml = _regex.Replace(innerHtml, outputHtml);
 			return document.DocumentNode.InnerHtml = innerHtml;
 		}
 

@@ -38,8 +38,8 @@ namespace Roadkill.Tests.Acceptance
 			Assert.False(Driver.IsCheckboxChecked("UseWindowsAuth"));
 			Assert.True(Driver.IsCheckboxChecked("AllowUserSignup"));
 			Assert.False(Driver.IsCheckboxChecked("EnableRecaptcha"));
-			Assert.True(Driver.IsCheckboxChecked("CacheEnabled"));
-			Assert.True(Driver.IsCheckboxChecked("CacheText"));
+			Assert.False(Driver.IsCheckboxChecked("CacheEnabled"));
+			Assert.False(Driver.IsCheckboxChecked("CacheText"));
 
 			Assert.That(Driver.FindElements(By.CssSelector("#DataStoreTypeName option")).Count, Is.EqualTo(DataStoreType.AllTypes.Count()));
 			SelectElement element = new SelectElement(Driver.FindElement(By.CssSelector("#DataStoreTypeName")));
