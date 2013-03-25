@@ -24,7 +24,7 @@
 		</div>
 	</div>
 }
-	@RenderSection("PageToolbar", false)
+	@Html.Action("PageToolbar", "Wiki", new { id = Model.Id }, true)
 
 	<div id="container">
 		@RenderBody()

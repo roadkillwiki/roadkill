@@ -3,6 +3,8 @@ using System.Diagnostics;
 using Roadkill.Core.Configuration;
 using System;
 using StructureMap;
+using DevTrends.MvcDonutCaching;
+using System.Web;
 
 namespace Roadkill.Core.Controllers
 {
@@ -39,10 +41,11 @@ namespace Roadkill.Core.Controllers
 		/// <param name="filterContext">Information about the current request and action.</param>
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
+			// Redirect if Roadkill isn't installed or an upgrade is needed.
 			if (!Configuration.ApplicationSettings.Installed)
 			{
 				if (!(filterContext.Controller is InstallController))
-					filterContext.Result = new RedirectResult(this.Url.Action("Index","Install"));
+					filterContext.Result = new RedirectResult(this.Url.Action("Index", "Install"));
 
 				return;
 			}
@@ -67,6 +70,51 @@ namespace Roadkill.Core.Controllers
 					UserManager.Logout();
 				}
 			}
+		}
+
+		/// <summary>
+		/// Removes a cached view from the DonutOutputCache's cache.
+		/// </summary>
+		protected void ClearOutputCache(string controller, string action, object routes = null)
+		{
+			OutputCacheManager cacheManager = new OutputCacheManager();
+
+			if (routes == null)
+				cacheManager.RemoveItem(controller, action);
+			else
+				cacheManager.RemoveItem(controller, action, routes);
+		}
+
+		protected override void OnResultExecuted(ResultExecutedContext filterContext)
+		{
+			WikiController controller = this as WikiController;
+			if (controller != null)
+			{
+				IConfigurationContainer config = controller.Configuration;
+				IRoadkillContext context = controller.Context;
+
+				if (config.ApplicationSettings.UseBrowserCache && !context.IsLoggedIn)
+				{
+					int id = 0;
+					if (int.TryParse(filterContext.RouteData.Values["id"].ToString(), out id))
+					{
+						PageSummary summary = controller.PageManager.GetById(id);
+
+						filterContext.HttpContext.Response.Cache.SetCacheability(HttpCacheability.Public);
+						filterContext.HttpContext.Response.Cache.SetExpires(DateTime.Now.AddSeconds(2));
+						filterContext.HttpContext.Response.Cache.SetMaxAge(TimeSpan.FromSeconds(0));
+						filterContext.HttpContext.Response.Cache.SetLastModified(summary.ModifiedOn.ToUniversalTime());
+						filterContext.HttpContext.Response.StatusCode = filterContext.HttpContext.ApplicationInstance.Context.GetStatusCodeForCache(summary.ModifiedOn.ToUniversalTime());
+
+						if (filterContext.HttpContext.Response.StatusCode == 304)
+						{
+							filterContext.Result = new HttpStatusCodeResult(304, "Not Modified");
+						}
+					}
+				}
+			}
+
+			base.OnResultExecuted(filterContext);
 		}
 	}
 }

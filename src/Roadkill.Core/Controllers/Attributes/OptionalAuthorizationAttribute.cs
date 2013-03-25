@@ -6,7 +6,7 @@ using Roadkill.Core.Configuration;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// Represents an attribute that is used to restrict access to people who are in the Editor role group (or above).
+	/// Describes a page that doesn't require a login to view, unless Roadkill has IsPublicSite=false. 
 	/// </summary>
 	public class OptionalAuthorizationAttribute : AuthorizeAttribute
 	{

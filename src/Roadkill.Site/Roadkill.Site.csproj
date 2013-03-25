@@ -367,7 +367,7 @@
     <Content Include="Themes\Plain\Theme.cshtml" />
     <Content Include="Themes\Web.config" />
     <Content Include="Views\Shared\_Blank.cshtml" />
-    <Content Include="Views\Shared\PageToolbar.cshtml" />
+    <Content Include="Views\Wiki\PageToolbar.cshtml" />
     <Content Include="Views\Shared\HeadContent.cshtml" />
     <Content Include="Views\Settings\SettingsMenu.cshtml" />
     <Content Include="Views\Settings\Users.cshtml" />
@@ -397,6 +397,8 @@
     <Content Include="Views\LogViewer\Index.cshtml" />
     <Content Include="Views\Settings\Cache.cshtml" />
     <Content Include="Views\LogViewer\Menu.cshtml" />
+    <Content Include="Views\User\LoggedInAs.cshtml" />
+    <Content Include="Views\User\LeftMenu.cshtml" />
     <None Include="Web.DemoSite.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

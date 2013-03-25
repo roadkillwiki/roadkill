@@ -339,5 +339,21 @@ namespace Roadkill.Core.Controllers
 
 			return View();
 		}
+
+		/// <summary>
+		/// Displays the "Logged in As" view (top right for the media wiki theme)
+		/// </summary>
+		public ActionResult LoggedInAs()
+		{
+			return PartialView();
+		}
+
+		/// <summary>
+		/// Displays the left side menu view, including new page/settings if logged in.
+		/// </summary>
+		public ActionResult LeftMenu()
+		{
+			return PartialView();
+		}
 	}
 }
