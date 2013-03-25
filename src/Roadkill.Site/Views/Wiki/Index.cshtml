@@ -4,7 +4,7 @@
 }
 @section PageToolbar
 {  
-@Html.Partial("PageToolbar",Model)
+	@Html.Action("PageToolBar", "Wiki", new { id = Model.Id }, true)
 }
 
 <h1 class="pagetitle">@Model.Title</h1>

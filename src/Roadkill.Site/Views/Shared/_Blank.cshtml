@@ -7,7 +7,7 @@
 </head>
 
 <body>
-@RenderSection("PageToolbar", false)
+@Html.Action("PageToolbar", "Wiki", new { id = Model.Id }, true)
 @RenderBody()
 </body>
 </html>

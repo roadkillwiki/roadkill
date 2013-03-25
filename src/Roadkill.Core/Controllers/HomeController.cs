@@ -8,6 +8,7 @@ using Roadkill.Core.Localization.Resx;
 using Roadkill.Core.Configuration;
 using System.Diagnostics;
 using System.Web;
+using DevTrends.MvcDonutCaching;
 
 namespace Roadkill.Core.Controllers
 {
@@ -17,7 +18,7 @@ namespace Roadkill.Core.Controllers
 	[OptionalAuthorization]
 	public class HomeController : ControllerBase
 	{
-		private PageManager _pageManager;
+		public PageManager PageManager { get; private set; }
 		private SearchManager _searchManager;
 		private MarkupConverter _markupConverter;
 
@@ -26,7 +27,7 @@ namespace Roadkill.Core.Controllers
 			: base(configuration, userManager, context) 
 		{
 			_markupConverter = markupConverter;
-			_pageManager = pageManager;
+			PageManager = pageManager;
 			_searchManager = searchManager;
 		}
 
@@ -34,10 +35,11 @@ namespace Roadkill.Core.Controllers
 		/// Display the homepage/mainpage. If no page has been tagged with the 'homepage' tag,
 		/// then a dummy PageSummary is put in its place.
 		/// </summary>
+		[ExtendedDonutOutputCacheAttribute(Duration = int.MaxValue)]
 		public ActionResult Index()
 		{
 			// Get the first locked homepage
-			PageSummary summary = _pageManager.FindHomePage();
+			PageSummary summary = PageManager.FindHomePage();
 
 			if (summary == null)
 			{
@@ -53,18 +55,6 @@ namespace Roadkill.Core.Controllers
 			}
 
 			Context.Page = summary;
-
-			if (Configuration.ApplicationSettings.UseBrowserCache && !Context.IsLoggedIn)
-			{
-				Response.Cache.SetCacheability(HttpCacheability.Public);
-				Response.Cache.SetExpires(DateTime.Now.AddSeconds(2));
-				Response.Cache.SetLastModified(summary.ModifiedOn.ToUniversalTime());
-				Response.StatusCode = HttpContext.ApplicationInstance.Context.GetStatusCodeForCache(summary.ModifiedOn.ToUniversalTime());
-
-				if (Response.StatusCode == 304)
-					return new HttpStatusCodeResult(304, "Not Modified");
-			}
-
 			return View(summary);
 		}
 
