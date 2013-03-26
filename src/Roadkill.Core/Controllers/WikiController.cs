@@ -2,7 +2,6 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
-using DevTrends.MvcDonutCaching;
 using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Controllers
@@ -29,7 +28,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>A <see cref="PageSummary"/> to the Index view.</returns>
 		/// <remarks>This action adds a "Last-Modified" header using the page's last modified date, if no user is currently logged in.</remarks>
 		/// <exception cref="HttpNotFoundResult">Thrown if the page with the id cannot be found.</exception>
-		[ExtendedDonutOutputCacheAttribute(Duration = int.MaxValue)]
+		[BrowserCache]
 		public ActionResult Index(int? id, string title)
 		{
 			if (id == null || id < 1)

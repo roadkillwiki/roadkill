@@ -8,7 +8,7 @@ using Roadkill.Core.Localization.Resx;
 using Roadkill.Core.Configuration;
 using System.Diagnostics;
 using System.Web;
-using DevTrends.MvcDonutCaching;
+using System.Web.UI;
 
 namespace Roadkill.Core.Controllers
 {
@@ -35,7 +35,7 @@ namespace Roadkill.Core.Controllers
 		/// Display the homepage/mainpage. If no page has been tagged with the 'homepage' tag,
 		/// then a dummy PageSummary is put in its place.
 		/// </summary>
-		[ExtendedDonutOutputCacheAttribute(Duration = int.MaxValue)]
+		[BrowserCache]
 		public ActionResult Index()
 		{
 			// Get the first locked homepage

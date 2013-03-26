@@ -6,7 +6,6 @@ using Roadkill.Core.Diff;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Search;
 using Roadkill.Core.Configuration;
-using DevTrends.MvcDonutCaching;
 
 namespace Roadkill.Core.Controllers
 {
@@ -37,7 +36,7 @@ namespace Roadkill.Core.Controllers
 		/// Displays a list of all page titles and ids in Roadkill.
 		/// </summary>
 		/// <returns>An <see cref="IEnumerable{PageSummary}"/> as the model.</returns>
-		[DonutOutputCache(Duration = int.MaxValue)]
+		[BrowserCache]
 		public ActionResult AllPages()
 		{
 			return View(_pageManager.AllPages());
@@ -47,7 +46,7 @@ namespace Roadkill.Core.Controllers
 		/// Displays all tags (categories if you prefer that term) in Roadkill.
 		/// </summary>
 		/// <returns>An <see cref="IEnumerable{TagSummary}"/> as the model.</returns>
-		[DonutOutputCache(Duration = int.MaxValue)]
+		[BrowserCache]
 		public ActionResult AllTags()
 		{
 			return View(_pageManager.AllTags().OrderBy(x => x.Name));
@@ -143,7 +142,6 @@ namespace Roadkill.Core.Controllers
 				return View("Edit", summary);
 
 			_pageManager.UpdatePage(summary);
-			ClearOutputCacheForPage(summary.Id);
 
 			return RedirectToAction("Index", "Wiki", new { id = summary.Id });
 		}
@@ -176,7 +174,7 @@ namespace Roadkill.Core.Controllers
 		/// </summary>
 		/// <param name="id">The ID of the page.</param>
 		/// <returns>An <see cref="IList{HistorySummary}"/> as the model.</returns>
-		[DonutOutputCache(Duration = int.MaxValue)]
+		[BrowserCache]
 		public ActionResult History(int id)
 		{
 			return View(_historyManager.GetHistory(id).ToList());
@@ -208,7 +206,6 @@ namespace Roadkill.Core.Controllers
 				return View("Edit", summary);
 
 			summary = _pageManager.AddPage(summary);
-			ClearOutputCacheForPage(summary.Id);
 
 			return RedirectToAction("Index", "Wiki", new { id = summary.Id });
 		}
@@ -272,15 +269,6 @@ namespace Roadkill.Core.Controllers
 			PageSummary summary = bothVersions[0];
 			summary.Content = diffHtml;
 			return View(summary);
-		}
-
-		private void ClearOutputCacheForPage(int id)
-		{
-			ClearOutputCache("Pages", "AllPages");
-			ClearOutputCache("Pages", "AllTags");
-			ClearOutputCache("Home", "Index");
-			ClearOutputCache("Wiki", "Index", new { id = id });
-			ClearOutputCache("Pages", "History", new { id = id });
 		}
 	}
 }
