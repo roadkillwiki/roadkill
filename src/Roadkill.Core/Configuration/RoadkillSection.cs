@@ -36,22 +36,23 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Indicates whether server-based page object caching is enabled.
 		/// </summary>
-		/// <remarks>legacy, now ignored</remarks>
-		[ConfigurationProperty("cacheEnabled", IsRequired = false, DefaultValue = true)]
-		internal bool CacheEnabled
-		{
-			get;
-			set;
-		}
-
-		/// <summary>
-		/// Legacy property, this is now "useObjectCache"
-		/// </summary>
 		[ConfigurationProperty("useObjectCache", IsRequired = false, DefaultValue = true)]
 		public bool UseObjectCache
 		{
 			get { return (bool)this["useObjectCache"]; }
 			set { this["useObjectCache"] = value; }
+		}
+
+		/// <summary>
+		/// Legacy property, this is now "useObjectCache"
+		/// </summary>
+		/// <remarks>legacy, now ignored</remarks>
+		[ConfigurationProperty("cacheEnabled", IsRequired = false, DefaultValue = true)]
+		[Obsolete("Legacy property, this is now useObjectCache")]
+		internal bool CacheEnabled
+		{
+			get;
+			set;
 		}
 
 		/// <summary>
@@ -69,6 +70,7 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <remarks>legacy, now ignored</remarks>
 		[ConfigurationProperty("cacheText", IsRequired = false, DefaultValue = false)]
+		[Obsolete("Legacy property, this is now useBrowserCache")]
 		internal bool CacheText
 		{
 			get;

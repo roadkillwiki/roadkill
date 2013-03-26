@@ -112,29 +112,28 @@
 	
 	<fieldset>
 		<legend>@InstallStrings.Page4_Group5_Title</legend>
-		<label>
-		@InstallStrings.Page4_Group5_Label1
-		<br /><br />
+		<div>
+			<div class="left">
+				@Html.CheckBoxFor(s => s.UseObjectCache)
+				@InstallStrings.Page4_Group5_Label1
+			</div>
+		</div>
+		<br class="clear" />
+		<label class="translationtodo">
 		@InstallStrings.Page4_Group5_Label2
 		</label>
-		<br />
 
 		<div>
 			<div class="left">
-				@Html.CheckBoxFor(s => s.CacheEnabled)
+				@Html.CheckBoxFor(s => s.UseBrowserCache)
 				@InstallStrings.Page4_Group5_Label3
 			</div>
 		</div>
 		<br class="clear" />
-
-		<div>
-			<div class="left">
-				@Html.CheckBoxFor(s => s.CacheText)
-				@InstallStrings.Page4_Group5_Label4
-			</div>
-			<br /> <br /> 
-			<span class="italic">@InstallStrings.Page4_Group5_Label5</span>
-		</div>
+		<label class="translationtodo">
+		@InstallStrings.Page4_Group5_Label4
+		</label>
+		<br class="clear" />
 	</fieldset>
 
 	<div>

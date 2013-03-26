@@ -160,12 +160,12 @@
 		<label for="AllowedExtensions">@SiteStrings.SiteSettings_Configuration_Extensions</label>
 		@Html.TextBoxFor(s => s.AllowedExtensions, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Extensions_Help })
 
-		<label for="CacheEnabled" class="checkbox">@SiteStrings.SiteSettings_Configuration_Caching
-		@Html.CheckBoxFor(s => s.CacheEnabled, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Caching_Help })
+		<label for="UseObjectCache" class="checkbox translationtodo">@SiteStrings.SiteSettings_Configuration_ObjectCaching
+		@Html.CheckBoxFor(s => s.UseObjectCache, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_ObjectCaching_Help })
 		</label>
 
-		<label for="CacheText" class="checkbox">@SiteStrings.SiteSettings_Configuration_CachePageText
-		@Html.CheckBoxFor(s => s.CacheText, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_CachePageText_Help })
+		<label for="UseBrowserCache" class="checkbox translationtodo">@SiteStrings.SiteSettings_Configuration_BrowserCacheing
+		@Html.CheckBoxFor(s => s.UseBrowserCache, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_BrowserCaching_Help })
 		</label>
 	</fieldset>
 	

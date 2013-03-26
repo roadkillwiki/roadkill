@@ -12,6 +12,12 @@
 ; - The build properties for the file should be "Embedded resource" and the custom tool "PublicResXFileCodeGenerator"
 ; - Delete the .resx file from the "Text" folder once you've copied it over.
 
+; Pending translation updates:
+; SiteStrings.SiteSettings_Configuration_Caching
+; SiteStrings.SiteSettings_Configuration_Caching_Help
+; SiteStrings.SiteSettings_Configuration_CachePageText
+; SiteStrings.SiteSettings_Configuration_CachePageText_Help
+
 Navigation_Login=Login
 Navigation_Logout=Logout
 Navigation_Register=Register
@@ -197,9 +203,11 @@ SiteSettings_Configuration_MarkupType=Markup type
 SiteSettings_Configuration_Theme=Theme
 SiteSettings_Configuration_Attachments=Attachments folder
 SiteSettings_Configuration_Extensions=Allowed extensions
-SiteSettings_Configuration_Caching=Caching
-SiteSettings_Configuration_CachePageText=Cache page text
+SiteSettings_Configuration_ObjectCaching=Object caching
+SiteSettings_Configuration_BrowserCaching=Browser caching
 SiteSettings_Configuration_Error=Unable to save the settings
+SiteSettings_Configuration_Caching=(This key is no longer used. To be removed in 2.0)
+SiteSettings_Configuration_CachePageText=(This key is no longer used. To be removed in 2.0)
 
 ; Help labels for configuration
 SiteSettings_Configuration_SiteName_Help=The name of the site, which is used in certain themes.
@@ -221,8 +229,10 @@ SiteSettings_Configuration_MarkupType_Help=This is the markup format that is use
 SiteSettings_Configuration_Theme_Help=This is the theme that the site uses. This should match a folder name in the Themes directory.
 SiteSettings_Configuration_Attachments_Help=This is the directory where all files are uploaded to. This setting should start with ~/ to indicate the site root folder.
 SiteSettings_Configuration_Extensions_Help=These are the file extensions that can be uploaded, comma separated.
-SiteSettings_Configuration_Caching_Help=Enable NHibernate caching. Roadkill uses NHibernate caching along with ASP.NET's output caching. It's recommended that you enable caching to increase the responsiveness of the site. Database caching is not currently supported for for web gardens or web farms.
-SiteSettings_Configuration_CachePageText_Help=Cache text content. Unchecking this will mean each page's textual content is loaded from the database each time.
+SiteSettings_Configuration_ObjectCaching_Help=Enables Object caching. Roadkill caches all pages and content in memory after retrieving it from the database. The cache is automatically updated when a page changes. Recommended to increase the responsiveness of the site. Object caching is not currently supported for web gardens or web farms.
+SiteSettings_Configuration_BrowserCaching_Help=Enables caching on the browser. This will tell the browser to cache Roadkill pages, and check for updates (If-Modified-Since) each time the page is loaded. If no update is found, no content is returned from the server. Recommended to increase the responsiveness of the site.
+SiteSettings_Configuration_Caching_Help=(This key is no longer used. To be removed in 2.0)
+SiteSettings_Configuration_CachePageText_Help=(This key is no longer used. To be removed in 2.0)
 
 ; Site Settings users
 SiteSettings_Users_Title=Site users

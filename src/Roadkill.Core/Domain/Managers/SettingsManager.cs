@@ -67,7 +67,7 @@ namespace Roadkill.Core
 			try
 			{
 				DataStoreType dataStoreType = DataStoreType.ByName(summary.DataStoreTypeName);
-				Repository.Install(dataStoreType, summary.ConnectionString, summary.CacheEnabled);
+				Repository.Install(dataStoreType, summary.ConnectionString, summary.UseObjectCache);
 			}
 			catch (DatabaseException ex)
 			{
@@ -137,8 +137,8 @@ namespace Roadkill.Core
 				RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
 				section.AdminRoleName = summary.AdminRoleName;
 				section.AttachmentsFolder = summary.AttachmentsFolder;
-				section.UseObjectCache = summary.CacheEnabled;
-				section.UseBrowserCache = summary.CacheText;
+				section.UseObjectCache = summary.UseObjectCache;
+				section.UseBrowserCache = summary.UseBrowserCache;
 				section.ConnectionStringName = "Roadkill";
 				section.DataStoreType = dataStoreType.Name;
 				section.EditorRoleName = summary.EditorRoleName;
