@@ -68,8 +68,8 @@ namespace Roadkill.Tests.Acceptance
 			Assert.False(Driver.IsCheckboxChecked("UseWindowsAuth"));
 			Assert.True(Driver.IsCheckboxChecked("AllowUserSignup"));
 			Assert.False(Driver.IsCheckboxChecked("EnableRecaptcha"));
-			Assert.True(Driver.IsCheckboxChecked("CacheEnabled"));
-			Assert.True(Driver.IsCheckboxChecked("CacheText"));
+			Assert.True(Driver.IsCheckboxChecked("UseObjectCache"));
+			Assert.True(Driver.IsCheckboxChecked("UseBrowserCache"));
 
 			DataStoreType sqlCeType = DataStoreType.ByName("SqlServerCe");
 			Assert.That(Driver.FindElements(By.CssSelector("#DataStoreTypeName option")).Count, Is.EqualTo(DataStoreType.AllTypes.Count()));

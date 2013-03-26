@@ -12,6 +12,13 @@
 ; - The build properties for the file should be "Embedded resource" and the custom tool "PublicResXFileCodeGenerator"
 ; - Delete the .resx file from the "Text" folder once you've copied it over.
 
+; Pending translation updates:
+; InstallStrings.Page4_Group5_Label1
+; InstallStrings.Page4_Group5_Label2
+; InstallStrings.Page4_Group5_Label3
+; InstallStrings.Page4_Group5_Label4
+; InstallStrings.Page4_Group5_Label5
+
 ; Shared buttons and labels
 Shared_Stage1=Welcome
 Shared_Stage2=Database
@@ -112,11 +119,11 @@ Page4_Group4_Label1=This is the markup format that is used. Roadkill currently s
 Page4_Group4_Label2=Creole is the recommended format. 
 
 Page4_Group5_Title=Cache
-Page4_Group5_Label1=Roadkill uses NHibernate caching along with ASP.NET's output caching. It's recommended that you enable caching to increase the responsiveness of the site. Database caching is not currently supported for for web gardens or web farms. 
-Page4_Group5_Label2=This setting only affects database caching, you will need to manually disable output caching in the web.config.
-Page4_Group5_Label3=Enable cache 
-Page4_Group5_Label4=Cache text content
-Page4_Group5_Label5=Unchecking "Cache text content" will mean each page's textual content is loaded from the database.
+Page4_Group5_Label1=Enable Object caching
+Page4_Group5_Label2=Roadkill caches all pages and content in memory after retrieving it from the database. The cache is automatically updated when a page changes. Recommended to increase the responsiveness of the site. Object caching is not currently supported for web gardens or web farms.
+Page4_Group5_Label3=Enable browser cache
+Page4_Group5_Label4=This will tell the browser to cache Roadkill pages, and check for updates (If-Modified-Since) each time the page is loaded. If no update is found, no content is returned from the server. Recommended to increase the responsiveness of the site.
+Page4_Group5_Label5=(Now unused, can be removed in 2.0)
 
 ; Page 5
 Page5_Success_Title=Installation successful

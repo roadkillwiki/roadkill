@@ -609,14 +609,20 @@
   <data name="SiteSettings_Configuration_Extensions" xml:space="preserve">
     <value>Allowed extensions</value>
   </data>
-  <data name="SiteSettings_Configuration_Caching" xml:space="preserve">
-    <value>Caching</value>
+  <data name="SiteSettings_Configuration_ObjectCaching" xml:space="preserve">
+    <value>Object caching</value>
   </data>
-  <data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
-    <value>Cache page text</value>
+  <data name="SiteSettings_Configuration_BrowserCaching" xml:space="preserve">
+    <value>Browser caching</value>
   </data>
   <data name="SiteSettings_Configuration_Error" xml:space="preserve">
     <value>Unable to save the settings</value>
+  </data>
+  <data name="SiteSettings_Configuration_Caching" xml:space="preserve">
+    <value>(This key is no longer used. To be removed in 2.0)</value>
+  </data>
+  <data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
+    <value>(This key is no longer used. To be removed in 2.0)</value>
   </data>
   <data name="SiteSettings_Configuration_SiteName_Help" xml:space="preserve">
     <value>The name of the site, which is used in certain themes.</value>
@@ -675,11 +681,17 @@
   <data name="SiteSettings_Configuration_Extensions_Help" xml:space="preserve">
     <value>These are the file extensions that can be uploaded, comma separated.</value>
   </data>
+  <data name="SiteSettings_Configuration_ObjectCaching_Help" xml:space="preserve">
+    <value>Enables Object caching. Roadkill caches all pages and content in memory after retrieving it from the database. The cache is automatically updated when a page changes. Recommended to increase the responsiveness of the site. Object caching is not currently supported for web gardens or web farms.</value>
+  </data>
+  <data name="SiteSettings_Configuration_BrowserCaching_Help" xml:space="preserve">
+    <value>Enables caching on the browser. This will tell the browser to cache Roadkill pages, and check for updates (If-Modified-Since) each time the page is loaded. If no update is found, no content is returned from the server. Recommended to increase the responsiveness of the site.</value>
+  </data>
   <data name="SiteSettings_Configuration_Caching_Help" xml:space="preserve">
-    <value>Enable NHibernate caching. Roadkill uses NHibernate caching along with ASP.NET's output caching. It's recommended that you enable caching to increase the responsiveness of the site. Database caching is not currently supported for for web gardens or web farms.</value>
+    <value>(This key is no longer used. To be removed in 2.0)</value>
   </data>
   <data name="SiteSettings_Configuration_CachePageText_Help" xml:space="preserve">
-    <value>Cache text content. Unchecking this will mean each page's textual content is loaded from the database each time.</value>
+    <value>(This key is no longer used. To be removed in 2.0)</value>
   </data>
   <data name="SiteSettings_Users_Title" xml:space="preserve">
     <value>Site users</value>

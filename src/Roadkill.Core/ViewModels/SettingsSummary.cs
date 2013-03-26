@@ -53,8 +53,8 @@ namespace Roadkill.Core
 		[RegularExpression(@"^[^/Files].*", ErrorMessage = "'~/Files' is a reserved path, please choose another attachments folder.")]
 		public string AttachmentsFolder { get; set; }
 
-		public bool CacheEnabled { get; set; }
-		public bool CacheText { get; set; }
+		public bool UseObjectCache { get; set; }
+		public bool UseBrowserCache { get; set; }
 
 		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_ConnectionEmpty")]
 		public string ConnectionString { get; set; }
@@ -135,8 +135,8 @@ namespace Roadkill.Core
 			summary.AllowedExtensions = string.Join(",", config.SitePreferences.AllowedFileTypes);
 			summary.AllowUserSignup = config.SitePreferences.AllowUserSignup;
 			summary.AttachmentsFolder = config.ApplicationSettings.AttachmentsFolder;
-			summary.CacheEnabled = config.ApplicationSettings.UseObjectCache;
-			summary.CacheText = config.ApplicationSettings.UseBrowserCache;
+			summary.UseObjectCache = config.ApplicationSettings.UseObjectCache;
+			summary.UseBrowserCache = config.ApplicationSettings.UseBrowserCache;
 			summary.ConnectionString = config.ApplicationSettings.ConnectionString;
 			summary.DataStoreTypeName = config.ApplicationSettings.DataStoreType.Name;
 			summary.EditorRoleName = config.ApplicationSettings.EditorRoleName;

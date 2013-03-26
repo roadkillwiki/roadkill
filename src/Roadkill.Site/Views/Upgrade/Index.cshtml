@@ -3,12 +3,15 @@
 	Layout = "~/Views/Upgrade/Layout.cshtml";
 }
 
-<h1>Upgrade required</h1>
+<h1 class="translationtodo">Database upgrade required</h1>
+<p class="label label-warning">
+	Please backup your database and site before continuing.
+</p>
 <p>
 	Roadkill needs to perform a one time upgrade. Click below to upgrade now.
 </p>
-<p class="italic">
-	Note: Your site preferences - site name, url, markup type - will be reset after this upgrade.
+<p class="label">
+	Note: Your cache settings and site preferences - site name, url, markup type - will be reset after this upgrade.<br />
 	Please go to the admin settings page to update them once you've upgraded (sorry!).
 </p>
 

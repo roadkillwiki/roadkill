@@ -36,6 +36,24 @@ $(document).ready(function()
 					}
 				});
 	});
+
+	$("#sqlitecopy").click(function ()
+	{
+		hideAlerts();
+		$.get("@(Url.Action("CopySqlite"))", {},
+		function (data)
+		{
+			$("#db-loading").hide();
+			if (data.Success)
+			{
+				showSuccess("#sqlitesuccess");
+			}
+			else
+			{
+				showFailure("#sqlitefailure", data.ErrorMessage);
+			}
+		});
+	});
 });
 </script>
 
@@ -70,18 +88,42 @@ $(document).ready(function()
 		<label>
 			@InstallStrings.Page2_Group3_Label
 		</label>
+
 		<br />
 		<h2>@InstallStrings.Page2_Group3_Label2</h2>
 		<div class="medium">
+
+			<!-- SQLite dependencies -->
+			<p>
+				<b class="translationtodo">SQLite: please read</b><br />
+				Note: to use SQLite you need to add another file to the /bin folder, as SQLite is
+				distributed for both x86 and x64. <a href="javascript:;" id="sqlitecopy">Click here to copy the file</a>.
+				If you experience any issues after this, delete "SQLite.Interop.dll" from your bin folder.
+			</p>
+			<div id="sqlitesuccess" class="success alert hidden translationtodo">
+				<h2>SQLite file copy success</h2>
+				<p>SQLite should now be ready to use.</p>
+			</div>
+			<div id="sqlitefailure" class="failure alert hidden translationtodo">
+				<h2>SQLite file copy failed</h2>
+				<p>Failure - try copying the SQLite.Interop.dll file from \App_Data\SQLiteBinaries to your bin folder.
+				<pre class="errormessage" style="width:100%;overflow:scroll;"></pre>
+				</p>
+			</div>
+
 			<ol>
 				<li>
 					<b>SQL Server Express:</b><br />
-					<span class="example">Database=roadkill;Server=.\SQLEXPRESS;User Id=?; Password=?;</span>
+					<span class="example">Database=roadkill;Server=.\SQLEXPRESS;uid=youusername;pwd=yourpassword;</span>
 					<span class="example">Database=roadkill;Server=.\SQLEXPRESS;Integrated Security=SSPI</span>
 				</li>
 				<li>
 					<b>SQL Server App_Data file-based:</b><br />
 					<span class="example">Server=.\SQLExpress;AttachDbFilename=|DataDirectory|\roadkill.mdf;Integrated Security=True;User Instance=True</span>
+				</li>
+				<li style="margin-top:10px">
+					<b>SQL Server Compact:</b><br />
+					<span class="example">Data Source=|DataDirectory|\roadkill.sdf;</span>
 				</li>
 				<li>
 					<b>SQLite (stored in the App_Data folder):</b><br />

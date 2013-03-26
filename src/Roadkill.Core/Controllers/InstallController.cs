@@ -37,8 +37,6 @@ namespace Roadkill.Core.Controllers
 			if (Configuration.ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
-			CopySqliteBinaries();
-
 			return View("Step1");
 		}
 
@@ -101,8 +99,8 @@ namespace Roadkill.Core.Controllers
 			summary.AttachmentsFolder = "~/Attachments";
 			summary.MarkupType = "Creole";
 			summary.Theme = "Mediawiki";
-			summary.CacheEnabled = true;
-			summary.CacheText = true;
+			summary.UseObjectCache = true;
+			summary.UseBrowserCache = true;
 
 			return View(summary);
 		}
@@ -134,7 +132,7 @@ namespace Roadkill.Core.Controllers
 
 					// Update all repository references for the dependencies of this class
 					// (changing the For() in StructureMap won't do this as the references have already been created).
-					_repository = IoCSetup.ChangeRepository(dataStoreType, summary.ConnectionString, summary.CacheEnabled);
+					_repository = IoCSetup.ChangeRepository(dataStoreType, summary.ConnectionString, summary.UseObjectCache);
 					UserManager.UpdateRepository(_repository);
 					_settingsManager.UpdateRepository(_repository);
 					_searchManager.UpdateRepository(_repository);
@@ -233,23 +231,28 @@ namespace Roadkill.Core.Controllers
 		/// <summary>
 		/// Attempts to copy the correct SQL binaries to the bin folder for the architecture the app pool is running under.
 		/// </summary>
-		private void CopySqliteBinaries()
+		public ActionResult CopySqlite()
 		{
-			return;
+			string errors = "";
 
-			//
-			// Copy the SQLite files over
-			//
-			string sqliteInteropFileSource = Server.MapPath("~/App_Data/SQLiteBinaries/x86/SQLite.Interop.dll");
-			string sqliteInteropFileDest = Server.MapPath("~/bin/SQLite.Interop.dll");
-
-			if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
+			try
 			{
-				sqliteInteropFileSource = Server.MapPath("~/App_Data/SQLiteBinaries/x64/SQLite.Interop.dll");
+				string sqliteInteropFileSource = Server.MapPath("~/App_Data/SQLiteBinaries/x86/SQLite.Interop.dll");
+				string sqliteInteropFileDest = Server.MapPath("~/bin/SQLite.Interop.dll");
+
+				if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
+				{
+					sqliteInteropFileSource = Server.MapPath("~/App_Data/SQLiteBinaries/x64/SQLite.Interop.dll");
+				}
+
+				System.IO.File.Copy(sqliteInteropFileSource, sqliteInteropFileDest, true);
+			}
+			catch (Exception e)
+			{
+				errors = e.ToString();
 			}
 
-			if (!System.IO.File.Exists(sqliteInteropFileDest))
-				System.IO.File.Copy(sqliteInteropFileSource, sqliteInteropFileDest);
+			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 	}
 
