@@ -9,7 +9,7 @@
 @using (Html.BeginForm("Search", "Home", FormMethod.Get))
 {
 	<div id="headfade">
-		@Html.Action("LoggedInAs", "User", true)
+		@Html.Action("LoggedInAs", "User")
 		<br class="clear" />
 		<div id="search">
 			<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" />
@@ -24,7 +24,7 @@
 		<a href="@(Url.Action("Index", "Home"))"><img src="@Url.ThemeContent("logo.png", Configuration)" alt="logo" border="0" /></a>
 	</div>
 	<div id="panel">
-		@Html.Action("LeftMenu", "User", true)
+		@Html.Action("LeftMenu", "User")
 	</div>
 
 	<div id="container">

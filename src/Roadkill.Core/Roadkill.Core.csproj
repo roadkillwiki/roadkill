@@ -286,31 +286,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="3rdParty\DonutCaching\ActionSettings.cs" />
-    <Compile Include="3rdParty\DonutCaching\ActionSettingsSerialiser.cs" />
-    <Compile Include="3rdParty\DonutCaching\CacheHeadersHelper.cs" />
-    <Compile Include="3rdParty\DonutCaching\CacheItem.cs" />
-    <Compile Include="3rdParty\DonutCaching\CacheSettings.cs" />
-    <Compile Include="3rdParty\DonutCaching\CacheSettingsManager.cs" />
-    <Compile Include="3rdParty\DonutCaching\DonutHoleFiller.cs" />
-    <Compile Include="3rdParty\DonutCaching\DonutOutputCacheAttribute.cs" />
-    <Compile Include="3rdParty\DonutCaching\EncryptingActionSettingsSerialiser.cs" />
-    <Compile Include="3rdParty\DonutCaching\Encryptor.cs" />
-    <Compile Include="3rdParty\DonutCaching\HtmlHelperExtensions.cs" />
-    <Compile Include="3rdParty\DonutCaching\IActionSettingsSerialiser.cs" />
-    <Compile Include="3rdParty\DonutCaching\ICacheHeadersHelper.cs" />
-    <Compile Include="3rdParty\DonutCaching\ICacheSettingsManager.cs" />
-    <Compile Include="3rdParty\DonutCaching\IDonutHoleFiller.cs" />
-    <Compile Include="3rdParty\DonutCaching\IEncryptor.cs" />
-    <Compile Include="3rdParty\DonutCaching\IExtendedOutputCacheManager.cs" />
-    <Compile Include="3rdParty\DonutCaching\IKeyBuilder.cs" />
-    <Compile Include="3rdParty\DonutCaching\IKeyGenerator.cs" />
-    <Compile Include="3rdParty\DonutCaching\IOutputCacheManager.cs" />
-    <Compile Include="3rdParty\DonutCaching\KeyBuilder.cs" />
-    <Compile Include="3rdParty\DonutCaching\KeyGenerator.cs" />
-    <Compile Include="3rdParty\DonutCaching\MemoryCacheProvider.cs" />
-    <Compile Include="3rdParty\DonutCaching\OutputCache.cs" />
-    <Compile Include="3rdParty\DonutCaching\OutputCacheManager.cs" />
     <Compile Include="Common\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Logging\ErrorType.cs" />
     <Compile Include="Logging\Log4jEvent.cs" />
@@ -321,7 +296,7 @@
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
-    <Compile Include="Controllers\Attributes\ExtendedDonutOutputCacheAttribute.cs" />
+    <Compile Include="Controllers\Attributes\BrowserCacheAttribute.cs" />
     <Compile Include="Controllers\LogViewerController.cs" />
     <Compile Include="Controllers\RoadkillViewPage.cs" />
     <Compile Include="Controllers\UpgradeController.cs" />

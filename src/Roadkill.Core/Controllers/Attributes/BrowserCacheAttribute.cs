@@ -5,7 +5,6 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
-using DevTrends.MvcDonutCaching;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Controllers;
 using StructureMap;
@@ -13,15 +12,10 @@ using StructureMap;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// Extends the DonutOutputCache to include 304 modified header support on the client.
+	/// Includes 304 modified header support on the client.
 	/// </summary>
-	public class ExtendedDonutOutputCacheAttribute : DonutOutputCacheAttribute
+	public class BrowserCacheAttribute : ActionFilterAttribute
 	{
-		public ExtendedDonutOutputCacheAttribute() : base()
-		{
-			CacheHeadersHelper = new DummyCacheHeadersHelper();
-		}
-
 		public override void OnResultExecuted(ResultExecutedContext filterContext)
 		{
 			// TODO: add IPageController interface implementation for both controllers
@@ -37,7 +31,7 @@ namespace Roadkill.Core
 				config = wikiController.Configuration;
 				context = wikiController.Context;
 
-				if (!config.ApplicationSettings.Installed)
+				if (!config.ApplicationSettings.Installed || !config.ApplicationSettings.UseBrowserCache)
 					return;
 
 				int id = 0;
@@ -54,16 +48,13 @@ namespace Roadkill.Core
 					manager = homeController.PageManager;
 					config = homeController.Configuration;
 
-					if (!config.ApplicationSettings.Installed)
+					if (!config.ApplicationSettings.Installed || !config.ApplicationSettings.UseBrowserCache)
 						return;
 
 					context = homeController.Context;
 					summary = manager.FindHomePage();
 				}
 			}
-
-			// Nuts
-			base.OnResultExecuted(filterContext);
 
 			if (manager != null)
 			{
@@ -77,15 +68,10 @@ namespace Roadkill.Core
 
 					if (filterContext.HttpContext.Response.StatusCode == 304)
 					{
-						filterContext.Result = new HttpStatusCodeResult(304, "Not Modified");
+						//filterContext.Result = new HttpStatusCodeResult(304, "Not Modified");
 					}
 				}
 			}
-		}
-
-		private class DummyCacheHeadersHelper : ICacheHeadersHelper
-		{
-			public void SetCacheHeaders(HttpResponseBase response, CacheSettings settings) { }
 		}
 	}
 }

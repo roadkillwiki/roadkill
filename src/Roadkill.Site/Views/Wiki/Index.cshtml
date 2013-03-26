@@ -2,9 +2,11 @@
 @{ 
 	ViewBag.Title = Model.Title;
 }
+
 @section PageToolbar
 {  
-	@Html.Action("PageToolBar", "Wiki", new { id = Model.Id }, true)
+	@* This is rendered by an action (and not a partial/extension method) for future donut caching *@
+	@Html.Action("PageToolBar", "Wiki", new { id = Model.Id })
 }
 
 <h1 class="pagetitle">@Model.Title</h1>
