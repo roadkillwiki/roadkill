@@ -29,11 +29,29 @@ namespace Roadkill.Core.Configuration
 		public string AppDataPath { get; set; }
 
 		/// <summary>
-		/// The folder where all uploads (typically image files) are saved to. This is taken from the web.config,
-		/// if the setting uses "~/" then the path is translated into one that is relative to the site root, 
-		/// otherwise it is assumed to be an absolute file path.
+		/// The folder where all uploads (typically image files) are saved to. This is taken from the web.config.
+		/// Use AttachmentsDirectoryPath for the absolute directory path.
 		/// </summary>
 		public string AttachmentsFolder { get; set; }
+
+		/// <summary>
+		/// The absolute file path for the attachments folder. If the AttachmentsFolder uses "~/" then the path is 
+		/// translated into one that is relative to the site root, otherwise it is assumed to be an absolute file path
+		/// </summary>
+		public string AttachmentsDirectoryPath
+		{
+			get
+			{
+				if (AttachmentsFolder.StartsWith("~") && HttpContext.Current != null)
+				{
+					return HttpContext.Current.Server.MapPath(AttachmentsFolder);
+				}
+				else
+				{
+					return AttachmentsFolder; ;
+				}
+			}
+		}
 
 		/// <summary>
 		/// The route used for all attachment HTTP requests (currently non-user configurable). Should not contain a trailing slash.
@@ -202,17 +220,7 @@ namespace Roadkill.Core.Configuration
 			}
 
 			AdminRoleName = section.AdminRoleName;		
-			
-
-			if (section.AttachmentsFolder.StartsWith("~") && HttpContext.Current != null)
-			{
-				AttachmentsFolder = HttpContext.Current.Server.MapPath(section.AttachmentsFolder);
-			}
-			else
-			{
-				AttachmentsFolder = section.AttachmentsFolder;
-			}
-
+			AttachmentsFolder = section.AttachmentsFolder;
 			AttachmentsUrlPath = "/Attachments";
 			AttachmentsRoutePath = "Attachments";
 			ConnectionStringName = section.ConnectionStringName;

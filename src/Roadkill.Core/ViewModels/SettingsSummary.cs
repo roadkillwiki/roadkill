@@ -25,7 +25,6 @@ namespace Roadkill.Core
 		public SettingsSummary(IConfigurationContainer config)
 		{
 			Config = config;
-			//DataStoreType = DataStoreType.SqlServer2005;
 
 			if (HttpContext.Current != null)
 			{
@@ -50,8 +49,10 @@ namespace Roadkill.Core
 		public bool AllowUserSignup { get; set; }
 
 		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_AttachmentsEmpty")]
-		[RegularExpression(@"^[^/Files].*", ErrorMessage = "'~/Files' is a reserved path, please choose another attachments folder.")]
+		[RegularExpression(@"^[^/Files].*",ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_AttachmentsReservedName")]
 		public string AttachmentsFolder { get; set; }
+
+		public string AttachmentsDirectoryPath { get; set; }
 
 		public bool UseObjectCache { get; set; }
 		public bool UseBrowserCache { get; set; }
@@ -135,6 +136,7 @@ namespace Roadkill.Core
 			summary.AllowedExtensions = string.Join(",", config.SitePreferences.AllowedFileTypes);
 			summary.AllowUserSignup = config.SitePreferences.AllowUserSignup;
 			summary.AttachmentsFolder = config.ApplicationSettings.AttachmentsFolder;
+			summary.AttachmentsDirectoryPath = config.ApplicationSettings.AttachmentsDirectoryPath;
 			summary.UseObjectCache = config.ApplicationSettings.UseObjectCache;
 			summary.UseBrowserCache = config.ApplicationSettings.UseBrowserCache;
 			summary.ConnectionString = config.ApplicationSettings.ConnectionString;

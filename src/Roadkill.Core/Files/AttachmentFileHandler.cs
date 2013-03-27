@@ -31,7 +31,7 @@ namespace Roadkill.Core.Files
 		public void ProcessRequest(HttpContext context)
 		{
 			string fileExtension = Path.GetExtension(context.Request.Url.LocalPath);
-			string attachmentFolder = _config.ApplicationSettings.AttachmentsFolder;
+			string attachmentFolder = _config.ApplicationSettings.AttachmentsDirectoryPath;
 
 			using (ServerManager serverManager = new ServerManager())
 			{

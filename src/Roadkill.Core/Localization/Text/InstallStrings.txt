@@ -11,6 +11,9 @@
 ; - The output resx file should then be copied + pasted into the core's Localization/Resx folder inside VS2010, 
 ; - The build properties for the file should be "Embedded resource" and the custom tool "PublicResXFileCodeGenerator"
 ; - Delete the .resx file from the "Text" folder once you've copied it over.
+;
+; - To recompile this file, use the lib\tools\CompileInstallStrings.bat file. If any new keys are added, delete the resx file, re-add it
+; - and then set its custom tool to PublicResXFileCodeGenerator.
 
 ; Pending translation updates:
 ; InstallStrings.Page4_Group5_Label1

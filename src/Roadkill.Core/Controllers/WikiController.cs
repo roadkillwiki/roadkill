@@ -46,7 +46,7 @@ namespace Roadkill.Core.Controllers
 		public ActionResult PageToolbar(int? id)
 		{
 			if (id == null || id < 1)
-				return Content("Error - no id passed");
+				return Content("");
 
 			PageSummary summary = PageManager.GetById(id.Value);
 

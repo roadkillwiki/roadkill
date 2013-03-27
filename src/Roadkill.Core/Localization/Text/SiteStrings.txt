@@ -11,6 +11,9 @@
 ; - The output resx file should then be copied + pasted into the core's Localization/Resx folder inside VS2010, 
 ; - The build properties for the file should be "Embedded resource" and the custom tool "PublicResXFileCodeGenerator"
 ; - Delete the .resx file from the "Text" folder once you've copied it over.
+;
+; - To recompile this file, use the lib\tools\CompileSiteStrings.bat file. If any new keys are added, delete the resx file, re-add it
+; - and then set its custom tool to PublicResXFileCodeGenerator.
 
 ; Pending translation updates:
 ; SiteStrings.SiteSettings_Configuration_Caching
@@ -281,6 +284,7 @@ SiteSettings_Tools_RenameTag_New=New tag name:
 SiteSettings_Tools_RenameTag_Message=Tag rename successful
 
 SiteSettings_Validation_AttachmentsEmpty=The attachments folder is empty.
+SiteSettings_Validation_AttachmentsReservedName='~/Files' is a reserved path, please choose another attachments folder.
 SiteSettings_Validation_ConnectionEmpty=The connection string is empty.
 SiteSettings_Validation_MarkupTypeEmpty=The markup type is empty.
 SiteSettings_Validation_ThemeEmpty=The theme is empty.

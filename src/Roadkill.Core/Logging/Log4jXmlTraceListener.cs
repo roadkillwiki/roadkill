@@ -45,21 +45,28 @@ namespace Roadkill.Core.Common
 				filename = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filename);
 
 			// New log file every ~1mb
-			FileInfo info = new FileInfo(filename);
-			if (info.Exists && info.Length > ROLLOVER_FILE_SIZE)
+			try
 			{
-				string basename = Path.GetFileNameWithoutExtension(filename);
-				string extension = Path.GetExtension(filename);
+				FileInfo info = new FileInfo(filename);
+				if (info.Exists && info.Length > ROLLOVER_FILE_SIZE)
+				{
+					string basename = Path.GetFileNameWithoutExtension(filename);
+					string extension = Path.GetExtension(filename);
 
-				string dir = Path.GetDirectoryName(filename);
-				string[] files = Directory.GetFiles(dir, basename + ".*" + extension);
-				int count = files.Length + 1;
+					string dir = Path.GetDirectoryName(filename);
+					string[] files = Directory.GetFiles(dir, basename + ".*" + extension);
+					int count = files.Length + 1;
 
-				string fullName = string.Format("{0}{1}{2}{3}", basename, DateTime.Now.ToString(".yyyyMMdd."), count.ToString(), extension);
+					string fullName = string.Format("{0}{1}{2}{3}", basename, DateTime.Now.ToString(".yyyyMMdd."), count.ToString(), extension);
 
-				return Path.Combine(dir, fullName);
+					return Path.Combine(dir, fullName);
+				}
+				else
+				{
+					return filename;
+				}
 			}
-			else
+			catch (IOException)
 			{
 				return filename;
 			}
@@ -71,16 +78,22 @@ namespace Roadkill.Core.Common
 			{
 				lock (_writerLock)
 				{
-					using (StreamWriter streamWriter = new StreamWriter(new FileStream(_filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write), Encoding.UTF8))
+					try
 					{
-						XmlWriterSettings settings = new XmlWriterSettings();
-						settings.Indent = true;
-						using (XmlWriter xmlWriter = XmlWriter.Create(streamWriter, settings))
+						using (StreamWriter streamWriter = new StreamWriter(new FileStream(_filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write), Encoding.UTF8))
 						{
-							xmlWriter.WriteStartElement("log4j", "events", "http://jakarta.apache.org/log4j/");
-							xmlWriter.WriteString("\n");
-							xmlWriter.WriteEndElement();
+							XmlWriterSettings settings = new XmlWriterSettings();
+							settings.Indent = true;
+							using (XmlWriter xmlWriter = XmlWriter.Create(streamWriter, settings))
+							{
+								xmlWriter.WriteStartElement("log4j", "events", "http://jakarta.apache.org/log4j/");
+								xmlWriter.WriteString("\n");
+								xmlWriter.WriteEndElement();
+							}
 						}
+					}
+					catch (IOException)
+					{
 					}
 				}
 			}
@@ -93,16 +106,7 @@ namespace Roadkill.Core.Common
 
 		public override void Write(string message, string category)
 		{
-			if (ShouldLogMessage(category))
-			{
-				lock (_writerLock)
-				{
-					using (StreamWriter streamWriter = new StreamWriter(new FileStream(_filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write), Encoding.UTF8))
-					{
-						AppendEventXml(streamWriter, message, category);
-					}
-				}
-			}
+			WriteLine(message, category);
 		}
 
 		public override void WriteLine(string message)
@@ -116,9 +120,15 @@ namespace Roadkill.Core.Common
 			{
 				lock (_writerLock)
 				{
-					using (StreamWriter streamWriter = new StreamWriter(new FileStream(_filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write), Encoding.UTF8))
+					try
 					{
-						AppendEventXml(streamWriter, message, category);
+						using (StreamWriter streamWriter = new StreamWriter(new FileStream(_filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write), Encoding.UTF8))
+						{
+							AppendEventXml(streamWriter, message, category);
+						}
+					}
+					catch (IOException)
+					{
 					}
 				}
 			}

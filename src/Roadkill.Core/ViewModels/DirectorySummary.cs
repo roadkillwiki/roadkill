@@ -58,7 +58,7 @@ namespace Roadkill.Core
 		{
 			Name = Path.GetFileName(diskPath);
 			DiskPath = diskPath;
-			UrlPath = DiskPath.Replace(config.ApplicationSettings.AttachmentsFolder, "");
+			UrlPath = DiskPath.Replace(config.ApplicationSettings.AttachmentsDirectoryPath, "");
 			UrlPath = UrlPath.Replace(@"\", "/");
 
 			Files = new List<FileSummary>();
@@ -72,57 +72,9 @@ namespace Roadkill.Core
 			if (!string.IsNullOrEmpty(base64Path))
 				path = base64Path.FromBase64();
 
-			path = config.ApplicationSettings.AttachmentsFolder + path;
+			path = config.ApplicationSettings.AttachmentsDirectoryPath + path;
 
 			DirectorySummary summary = new DirectorySummary(config, path);
-			return summary;
-		}
-	}
-
-	/// <summary>
-	/// A single file in a folder in the attachments folder.
-	/// </summary>
-	public class FileSummary
-	{
-		public string Name { get; set; }
-		public string DiskPath { get; set; }
-		public string UrlPath { get; set; }
-		public string Extension { get; set; }
-
-		/// <summary>
-		/// Base64'd version of the path
-		/// </summary>
-		public string SafePath
-		{
-			get
-			{
-				return UrlPath.ToBase64();
-			}
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="FileSummary"/> class.
-		/// </summary>
-		/// <param name="diskPath">A full disk path, including the attachments folder.</param>
-		public FileSummary(string diskPath, IConfigurationContainer config)
-		{
-			Name = Path.GetFileName(diskPath);
-			DiskPath = diskPath;
-			UrlPath = diskPath.Replace(config.ApplicationSettings.AttachmentsFolder, "");
-			UrlPath = UrlPath.Replace(@"\", "/");
-			Extension = Path.GetExtension(diskPath).Replace(".", "");
-		}
-
-		public static FileSummary FromBase64UrlPath(string base64Path, IConfigurationContainer config)
-		{
-			string path = "";
-
-			if (!string.IsNullOrEmpty(base64Path))
-				path = base64Path.FromBase64();
-
-			path = config.ApplicationSettings.AttachmentsFolder + path;
-
-			FileSummary summary = new FileSummary(path, config);
 			return summary;
 		}
 	}
