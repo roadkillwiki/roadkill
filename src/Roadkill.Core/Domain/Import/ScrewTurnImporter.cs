@@ -40,7 +40,7 @@ namespace Roadkill.Core
 		public void ImportFromSql(string connectionString)
 		{
 			_connectionString = connectionString;
-			_attachmentsFolder = Configuration.ApplicationSettings.AttachmentsFolder;
+			_attachmentsFolder = Configuration.ApplicationSettings.AttachmentsDirectoryPath;
 
 			using (SqlConnection connection = new SqlConnection(_connectionString))
 			{

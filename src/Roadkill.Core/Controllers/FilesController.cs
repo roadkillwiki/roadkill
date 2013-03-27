@@ -39,7 +39,7 @@ namespace Roadkill.Core.Controllers
 		{
 			try
 			{
-				string folder = Configuration.ApplicationSettings.AttachmentsFolder;
+				string folder = Configuration.ApplicationSettings.AttachmentsDirectoryPath;
 				string path = string.Format(@"{0}\{1}", folder, filePath);
 
 				if (System.IO.File.Exists(path))
@@ -158,8 +158,8 @@ namespace Roadkill.Core.Controllers
 				{
 					DirectorySummary summary = DirectorySummary.FromBase64UrlPath(Configuration, currentUploadFolderPath);
 
-					if (!Directory.Exists(Configuration.ApplicationSettings.AttachmentsFolder))
-						Directory.CreateDirectory(Configuration.ApplicationSettings.AttachmentsFolder);
+					if (!Directory.Exists(Configuration.ApplicationSettings.AttachmentsDirectoryPath))
+						Directory.CreateDirectory(Configuration.ApplicationSettings.AttachmentsDirectoryPath);
 
 					string filePath = Path.Combine(summary.DiskPath, Path.GetFileName(filename));
 					HttpPostedFileBase postedFile = Request.Files["uploadFile"] as HttpPostedFileBase;

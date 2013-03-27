@@ -287,6 +287,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Localization\Resx\InstallStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InstallStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Localization\Resx\SiteStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SiteStrings.resx</DependentUpon>
+    </Compile>
     <Compile Include="Logging\ErrorType.cs" />
     <Compile Include="Logging\Log4jEvent.cs" />
     <Compile Include="Logging\Log4jXmlTraceListener.cs" />
@@ -354,16 +364,6 @@
     <Compile Include="Files\AttachmentRouteHandler.cs" />
     <Compile Include="IoC\IRoadkillContext.cs" />
     <Compile Include="IoC\ModelBinders.cs" />
-    <Compile Include="Localization\Resx\InstallStrings.Designer.cs">
-      <DependentUpon>InstallStrings.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Localization\Resx\SiteStrings.Designer.cs">
-      <DependentUpon>SiteStrings.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="Configuration\RoadkillSection.cs" />
     <Compile Include="Controllers\InstallController.cs" />
     <Compile Include="Controllers\FilesController.cs" />
@@ -389,6 +389,7 @@
     <Compile Include="Text\ToC\StringTemplate.cs" />
     <Compile Include="Text\ToC\Item.cs" />
     <Compile Include="Text\ToC\Tree.cs" />
+    <Compile Include="ViewModels\FileSummary.cs" />
     <Compile Include="ViewModels\UserSummary.cs" />
     <Compile Include="Exceptions\HistoryException.cs" />
     <Compile Include="Exceptions\ExceptionBase.cs" />
