@@ -161,6 +161,9 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Essential.Diagnostics">
+      <HintPath>..\..\packages\Essential.Diagnostics.1.1.20103.0\lib\Essential.Diagnostics.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\HtmlAgilityPack.1.4.6\lib\Net40\HtmlAgilityPack.dll</HintPath>
@@ -298,8 +301,6 @@
       <DependentUpon>SiteStrings.resx</DependentUpon>
     </Compile>
     <Compile Include="Logging\ErrorType.cs" />
-    <Compile Include="Logging\Log4jEvent.cs" />
-    <Compile Include="Logging\Log4jXmlTraceListener.cs" />
     <Compile Include="Logging\LogType.cs" />
     <Compile Include="Logging\LogReader.cs" />
     <Compile Include="Logging\UdpTraceListener.cs" />

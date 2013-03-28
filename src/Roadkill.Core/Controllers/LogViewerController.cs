@@ -8,6 +8,7 @@ using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Controllers
 {
+	// Unfinished (started, then pulled)...coming in version 1.8
 	[AdminRequired]
 	public class LogViewerController : ControllerBase
 	{

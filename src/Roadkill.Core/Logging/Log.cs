@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Essential.Diagnostics;
 using Roadkill.Core.Common;
 using Roadkill.Core.Configuration;
 
@@ -48,7 +49,6 @@ namespace Roadkill.Core
 			}
 
 #if DEBUG
-			UseConsoleLogging();
 			UseUdpLogging();
 #endif
 		}
@@ -76,8 +76,8 @@ namespace Roadkill.Core
 		/// </summary>
 		public static void UseXmlLogging()
 		{
-			string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Logs", "roadkill.xml.log");
-			Trace.Listeners.Add(new Log4jXmlTraceListener(logFile));
+			string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Logs", "roadkill.log-{DateTime:yyyy-MM-dd}.xml");
+			Trace.Listeners.Add(new RollingXmlTraceListener(logFile));
 		}
 
 		/// <summary>
@@ -86,8 +86,8 @@ namespace Roadkill.Core
 		/// </summary>
 		public static void UseTextFileLogging()
 		{
-			string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Logs", "roadkill.txt");
-			Trace.Listeners.Add(new TextWriterTraceListener(logFile, "roadkill-textfile"));
+			string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Logs", "roadkill-{DateTime:yyyy-MM-dd}.log");
+			Trace.Listeners.Add(new RollingFileTraceListener(logFile));
 		}
 
 		/// <summary>
