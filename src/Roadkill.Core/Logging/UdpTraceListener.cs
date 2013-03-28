@@ -13,17 +13,15 @@ namespace Roadkill.Core.Common
 {
 	public class UdpTraceListener : TraceListener
 	{
-		private static readonly string _xmlPrefix = "log4j";
-		private static readonly string _xmlNamespace = "http://jakarta.apache.org/log4j/";
-
 		// For 3.5/2 you can use a List but the class is no longer thread safe.
 		//private Stack<string> _messageBuffer;
-		private ConcurrentStack<string> _messageBuffer;
 
 		private UdpClient _udpClient;
+		private ConcurrentStack<string> _messageBuffer;
 		private string _loggerName;
 
-		public int BufferSize { get; set; }
+		private static readonly string _xmlPrefix = "log4j";
+		private static readonly string _xmlNamespace = "http://jakarta.apache.org/log4j/";
 
 		public override bool IsThreadSafe
 		{
@@ -45,7 +43,6 @@ namespace Roadkill.Core.Common
 			_messageBuffer = new ConcurrentStack<string>();
 			_udpClient = new UdpClient();
 			_udpClient.Connect(host, port);
-			BufferSize = 1;
 		}
 
 		public override void Write(string message)
@@ -56,96 +53,129 @@ namespace Roadkill.Core.Common
 		public override void WriteLine(string message)
 		{
 			Write(message, "info");
+			Flush();
 		}
 
 		public override void WriteLine(string message, string category)
 		{
-			if (ShouldLogMessage(category))
-			{
-				_messageBuffer.Push(CreateEventXml(message, category));
-
-				if (_messageBuffer.Count >= BufferSize)
-					Flush();
-			}
+			_messageBuffer.Push(GetEventXml(message, category));
+			Flush();
 		}
 
 		public override void Write(string message, string category)
 		{
-			if (ShouldLogMessage(category))
-			{
-				_messageBuffer.Push(CreateEventXml(message, category));
-
-				if (_messageBuffer.Count >= BufferSize)
-					Flush();
-			}
+			_messageBuffer.Push(GetEventXml(message, category));
 		}
 
-		private bool ShouldLogMessage(string category)
+		private string GetEventXml(string message, string category)
 		{
-			if (!string.IsNullOrEmpty(category))
-				category = category.ToLower();
+			// The format:
+			//<log4j:event logger="{LOGGER}" level="{LEVEL}" thread="{THREAD}" timestamp="{TIMESTAMP}">
+			//  <log4j:message><![CDATA[{ERROR}]]></log4j:message>
+			//  <log4j:NDC><![CDATA[{MESSAGE}]]></log4j:NDC>
+			//  <log4j:throwable><![CDATA[{EXCEPTION}]]></log4j:throwable>
+			//  <log4j:locationInfo class="org.apache.log4j.chainsaw.Generator" method="run" file="Generator.java" line="94"/>
+			//  <log4j:properties>
+			//	<log4j:data name="log4jmachinename" value="{SOURCE}"/>
+			//	<log4j:data name="log4japp" value="{APP}"/>
+			//  </log4j:properties>
+			//</log4j:event>
 
-			if (Log.LogErrorsOnly && category == "error")
+			string level = "INFO";
+			if (string.IsNullOrEmpty(category))
+				category = "info";
+
+			switch (category.ToLower())
 			{
-				return true;
+				case "fatal":
+					level = "FATAL";
+					break;
+
+				case "warning":
+				case "warn":
+					level = "WARN";
+					break;
+
+				case "error":
+					level = "ERROR";
+					break;
+
+				case "debug":
+					level = "DEBUG";
+					break;
+
+				case "trace":
+					level = "TRACE";
+					break;
+
+				default:
+					break;
 			}
-			else if (!Log.LogErrorsOnly)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+
+			StringBuilder builder = new StringBuilder();
+
+			XmlWriterSettings settings = new XmlWriterSettings();
+			settings.OmitXmlDeclaration = true;
+
+			XmlWriter writer = XmlWriter.Create(builder, settings);
+			WriteLog4jElement(writer, "event");
+			writer.WriteAttributeString("logger", _loggerName);
+			writer.WriteAttributeString("level", level);
+			writer.WriteAttributeString("thread", Thread.CurrentThread.ManagedThreadId.ToString());
+			writer.WriteAttributeString("timestamp", XmlConvert.ToString(ConvertToUnixTimestamp(DateTime.Now)));
+
+			WriteLog4jElement(writer, "message");
+			writer.WriteCData(RemoveInvalidXmlChars(message));
+			writer.WriteEndElement();
+			WriteLog4jElementString(writer, "NDC", "");
+			WriteLog4jElementString(writer, "throwable", "");
+
+			WriteLog4jElement(writer, "locationInfo");
+			writer.WriteAttributeString("class", "");
+			writer.WriteAttributeString("run", "");
+			writer.WriteAttributeString("file", "");
+			writer.WriteAttributeString("line", "1");
+			writer.WriteEndElement();
+
+			WriteLog4jElement(writer, "properties");
+			WriteLog4jElement(writer, "data");
+			writer.WriteAttributeString("name", "log4jmachinename");
+			writer.WriteAttributeString("value", Environment.MachineName);
+			writer.WriteEndElement();
+
+			WriteLog4jElement(writer, "data");
+			writer.WriteAttributeString("name", "log4japp");
+			writer.WriteAttributeString("value", Assembly.GetCallingAssembly().FullName);
+			writer.WriteEndElement();
+			writer.WriteEndElement();
+
+			writer.WriteEndElement();
+
+			writer.Flush();
+			return builder.ToString();
 		}
 
-		private string CreateEventXml(string message, string category)
+		private string RemoveInvalidXmlChars(string text)
 		{
-			Log4jEvent log = new Log4jEvent()
-			{
-				Logger = _loggerName,
-				Level = Log4jEvent.GetLevelFromCategory(category),
-				Timestamp = DateTime.Now,
-				Message = message,
-			};
-
-			return log.Serialize();
+			var validXmlChars = text.Where(x => XmlConvert.IsXmlChar(x)).ToArray();
+			return new string(validXmlChars);
 		}
 
-		public override void TraceEvent(TraceEventCache eventCache, string source, TraceEventType eventType, int id, string format, params object[] args)
+		private void WriteLog4jElement(XmlWriter writer, string name)
 		{
-			if (!Log.LogErrorsOnly)
-			{
-				switch (eventType)
-				{
-					case TraceEventType.Critical:
-					case TraceEventType.Error:
-						WriteLine(string.Format(format, args), "error");
-						break;
+			writer.WriteStartElement(_xmlPrefix, name, _xmlNamespace);
+		}
 
-					case TraceEventType.Verbose:
-						WriteLine(string.Format(format, args), "debug");
-						break;
+		private void WriteLog4jElementString(XmlWriter writer, string name, string value)
+		{
+			writer.WriteElementString(_xmlPrefix, name, _xmlNamespace, value);
+		}
 
-					case TraceEventType.Warning:
-						WriteLine(string.Format(format, args), "warn");
-						break;
-
-					case TraceEventType.Information:
-					case TraceEventType.Resume:
-					case TraceEventType.Start:
-					case TraceEventType.Stop:
-					case TraceEventType.Suspend:
-					case TraceEventType.Transfer:
-					default:
-						WriteLine(string.Format(format, args), "info");
-						break;
-				}
-			}
-			else if (Log.LogErrorsOnly && eventType == TraceEventType.Error)
-			{
-				WriteLine(string.Format(format, args), "error");
-			}
+		private double ConvertToUnixTimestamp(DateTime date)
+		{
+			DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+			TimeSpan sinceEpoch = date.ToUniversalTime() - epoch;
+			return Math.Floor(sinceEpoch.TotalMilliseconds);
 		}
 
 		public override void Flush()
@@ -157,6 +187,7 @@ namespace Roadkill.Core.Common
 			}
 
 			_messageBuffer.Clear();
+			base.Flush();
 		}
 
 		protected override void Dispose(bool disposing)
@@ -165,6 +196,35 @@ namespace Roadkill.Core.Common
 			_udpClient.Close();
 
 			base.Dispose(disposing);
+		}
+
+		public override void TraceEvent(TraceEventCache eventCache, string source, TraceEventType eventType, int id, string format, params object[] args)
+		{
+			switch (eventType)
+			{
+				case TraceEventType.Critical:
+				case TraceEventType.Error:
+					WriteLine(string.Format(format, args), "error");
+					break;
+
+				case TraceEventType.Verbose:
+					WriteLine(string.Format(format, args), "debug");
+					break;
+
+				case TraceEventType.Warning:
+					WriteLine(string.Format(format, args), "warn");
+					break;
+
+				case TraceEventType.Information:
+				case TraceEventType.Resume:
+				case TraceEventType.Start:
+				case TraceEventType.Stop:
+				case TraceEventType.Suspend:
+				case TraceEventType.Transfer:
+				default:
+					WriteLine(string.Format(format, args), "error");
+					break;
+			}
 		}
 	}
 }
