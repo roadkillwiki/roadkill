@@ -20,7 +20,7 @@ namespace Roadkill.Tests.Integration
 		[SetUp]
 		public void Initialize()
 		{
-			IConfigurationContainer config = new RoadkillSettings();
+			IConfigurationContainer config = new ConfigurationContainer();
 			config.ApplicationSettings = new ApplicationSettings();
 			config.ApplicationSettings.Load(null); // from app.config
 			config.ApplicationSettings.Installed = true;

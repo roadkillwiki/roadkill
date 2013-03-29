@@ -248,6 +248,7 @@
     <Compile Include="Unit\LightSpeed\ToEntityTests.cs" />
     <Compile Include="Unit\LightSpeed\FromEntityTests.cs" />
     <Compile Include="Unit\Logging\LoggingTests.cs" />
+    <Compile Include="Unit\Managers\SettingsManagerTests.cs" />
     <Compile Include="Unit\Stubs\ConfigurationContainerStub.cs" />
     <Compile Include="Unit\Controllers\PagesControllerTests.cs" />
     <Compile Include="Unit\Controllers\WikiControllerTests.cs" />

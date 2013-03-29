@@ -41,7 +41,7 @@ namespace Roadkill.Core.Search
 		/// <param name="searchText">The text to search with.</param>
 		/// <remarks>Syntax reference: http://lucene.apache.org/java/2_3_2/queryparsersyntax.html#Wildcard</remarks>
 		/// <exception cref="SearchException">An error occured searching the lucene.net index.</exception>
-		public virtual IEnumerable<SearchResult> SearchIndex(string searchText)
+		public virtual IEnumerable<SearchResult> Search(string searchText)
 		{
 			// This check is for the benefit of the CI builds
 			if (!Directory.Exists(IndexPath))

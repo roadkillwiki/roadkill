@@ -10,17 +10,17 @@ namespace Roadkill.Tests.Unit
 {
 	internal class RepositoryStub : IRepository
 	{
-		internal List<Page> Pages { get; private set; }
-		internal List<PageContent> PageContents { get; private set; }
-		internal List<User> Users { get; private set; }
-		internal SitePreferences SitePreferences { get; private set; }
+		public List<Page> Pages { get; private set; }
+		public List<PageContent> PageContents { get; private set; }
+		public List<User> Users { get; private set; }
+		public SiteSettings SitePreferences { get; private set; }
 
 		public RepositoryStub()
 		{
 			Pages = new List<Page>();
 			PageContents = new List<PageContent>();
 			Users = new List<User>();
-			SitePreferences = new SitePreferences();
+			SitePreferences = new SiteSettings();
 		}
 
 		#region IRepository Members
@@ -146,12 +146,12 @@ namespace Roadkill.Tests.Unit
 			}
 		}
 
-		public void SaveSitePreferences(SitePreferences preferences)
+		public void SaveSitePreferences(SiteSettings preferences)
 		{
 			SitePreferences = preferences;
 		}
 
-		public SitePreferences GetSitePreferences()
+		public SiteSettings GetSitePreferences()
 		{
 			return SitePreferences;
 		}

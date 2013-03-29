@@ -16,7 +16,7 @@ namespace Roadkill.Core.Database
 		public Guid Id { get; set; }
 
 		/// <summary>
-		/// The jsonified version of the <see cref="SitePreferences"/> class.
+		/// The jsonified version of the <see cref="SiteSettings"/> class.
 		/// </summary>
 		public string Content { get; set; }
 
@@ -36,7 +36,7 @@ namespace Roadkill.Core.Database
 
 		public SitePreferencesEntity()
 		{
-			Id = SitePreferences.SitePreferencesId;
+			Id = SiteSettings.SitePreferencesId;
 		}
 	}
 }

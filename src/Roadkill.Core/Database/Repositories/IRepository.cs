@@ -23,8 +23,8 @@ namespace Roadkill.Core.Database
 		PageContent AddNewPageContentVersion(Page page, string text, string editedBy, DateTime editedOn, int version);
 		void UpdatePageContent(PageContent content); // no new version
 		void SaveOrUpdateUser(User user);
-		void SaveSitePreferences(SitePreferences preferences);
-		SitePreferences GetSitePreferences();
+		void SaveSitePreferences(SiteSettings preferences);
+		SiteSettings GetSitePreferences();
 
 		void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache);
 		void Install(DataStoreType dataStoreType, string connectionString, bool enableCache);

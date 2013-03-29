@@ -13,7 +13,7 @@ namespace Roadkill.Core.Configuration
 		/// <summary>
 		/// The site preferences, which are usually stored in the database or on disk.
 		/// </summary>
-		SitePreferences SitePreferences { get; set; }
+		SiteSettings SitePreferences { get; set; }
 
 		/// <summary>
 		/// The application settings, which are usually stored in a app.config or web.config file.

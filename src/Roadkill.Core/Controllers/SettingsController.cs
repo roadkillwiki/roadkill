@@ -318,7 +318,9 @@ namespace Roadkill.Core.Controllers
 		public ActionResult ImportFromScrewTurn(string screwturnConnectionString)
 		{
 			ScrewTurnImporter importer = new ScrewTurnImporter(Configuration);
-			importer.ImportFromSql(screwturnConnectionString);
+			importer.ImportFromSqlServer(screwturnConnectionString);
+			importer.UpdateSearchIndex(_searchManager);
+
 			TempData["Message"] = SiteStrings.SiteSettings_Tools_ScrewTurnImport_Message;
 
 			return RedirectToAction("Tools");

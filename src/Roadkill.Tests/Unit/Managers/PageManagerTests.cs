@@ -42,10 +42,10 @@ namespace Roadkill.Tests.Unit
 			_repositoryStub = new RepositoryStub();
 
 			// Config stub
-			_config = new RoadkillSettings();
+			_config = new ConfigurationContainer();
 			_config.ApplicationSettings = new ApplicationSettings();
 			_config.ApplicationSettings.Installed = true;
-			_config.SitePreferences = new SitePreferences() { MarkupType = "Creole" };
+			_config.SitePreferences = new SiteSettings() { MarkupType = "Creole" };
 
 			// Cache
 			ListCache listCache = new ListCache(_config);

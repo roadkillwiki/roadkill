@@ -290,6 +290,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Configuration\ConfigFileManager.cs" />
     <Compile Include="Localization\Resx\InstallStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -335,7 +336,7 @@
     <Compile Include="Database\Repositories\MongoDB\MongoDBRepository.cs" />
     <Compile Include="Exceptions\UpgradeException.cs" />
     <Compile Include="Files\MimeMapping.cs" />
-    <Compile Include="IoC\IocSetup.cs" />
+    <Compile Include="IoC\IoCSetup.cs" />
     <Compile Include="IoC\IInjectionLaunderer.cs" />
     <Compile Include="IoC\ControllerFactory.cs" />
     <Compile Include="Controllers\Attributes\OptionalAuthorizationAttribute.cs" />
@@ -385,7 +386,6 @@
     <Compile Include="Domain\Managers\Security\UserManager.cs" />
     <Compile Include="Domain\Managers\SettingsManager.cs" />
     <Compile Include="Database\Entities\User.cs" />
-    <Compile Include="Domain\Managers\InstallHelper.cs" />
     <Compile Include="Domain\Managers\ServiceBase.cs" />
     <Compile Include="Text\ToC\StringTemplate.cs" />
     <Compile Include="Text\ToC\Item.cs" />
@@ -395,7 +395,7 @@
     <Compile Include="Exceptions\HistoryException.cs" />
     <Compile Include="Exceptions\ExceptionBase.cs" />
     <Compile Include="Exceptions\SecurityException.cs" />
-    <Compile Include="Domain\SitePreferences.cs" />
+    <Compile Include="Configuration\SiteSettings.cs" />
     <Compile Include="ViewModels\SearchResult.cs" />
     <Compile Include="ViewModels\DirectorySummary.cs" />
     <Compile Include="ViewModels\SettingsSummary.cs" />
@@ -410,7 +410,7 @@
     <Compile Include="Text\Parsers\Markdown.cs" />
     <Compile Include="Text\MarkupConverter.cs" />
     <Compile Include="Exceptions\InstallerException.cs" />
-    <Compile Include="Configuration\RoadkillSettings.cs" />
+    <Compile Include="Configuration\ConfigurationContainer.cs" />
     <Compile Include="IoC\RoadkillContext.cs" />
     <Compile Include="Common\Extensions\Extensions.cs" />
     <Compile Include="Common\Extensions\HtmlExtensions.cs" />

@@ -261,5 +261,34 @@ namespace Roadkill.Core
 				}
 			}
 		}
+
+		/// <summary>
+		/// Tests the database connection.
+		/// </summary>
+		/// <param name="connectionString">The connection string.</param>
+		/// <returns>Any error messages or an empty string if no errors occurred.</returns>
+		public static string TestDbConnection(string connectionString, string databaseType)
+		{
+			try
+			{
+				DataStoreType dataStoreType = DataStoreType.ByName(databaseType);
+				if (dataStoreType == null)
+					dataStoreType = DataStoreType.ByName("SQLServer2005");
+
+				IRepository repository = IoCSetup.ChangeRepository(dataStoreType, connectionString, false);
+
+				System.Configuration.Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+				RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
+
+				// Only create the Schema if not already installed otherwise just a straight TestConnection
+				bool createSchema = !section.Installed;
+				repository.Test(dataStoreType, connectionString);
+				return "";
+			}
+			catch (Exception e)
+			{
+				return e.ToString();
+			}
+		}
 	}
 }

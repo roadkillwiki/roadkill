@@ -27,9 +27,9 @@ namespace Roadkill.Tests.Unit
 		[TestFixtureSetUp]
 		public void Setup()
 		{
-			_config = new RoadkillSettings();
+			_config = new ConfigurationContainer();
 			_config.ApplicationSettings = new ApplicationSettings();
-			_config.SitePreferences = new SitePreferences();
+			_config.SitePreferences = new SiteSettings();
 			_repository = null;
 
 			User dummyUser = new User() 
