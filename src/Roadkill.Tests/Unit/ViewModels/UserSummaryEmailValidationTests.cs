@@ -24,7 +24,7 @@ namespace Roadkill.Tests.Unit
 		public void TestsSetup()
 		{
 			_context = new Mock<IRoadkillContext>().Object;
-			_config = new RoadkillSettings();
+			_config = new ConfigurationContainer();
 			_repository = null;
 			_userManagerMock = new Mock<UserManager>(_config, _repository);
 			_userManagerMock.Setup(u => u.UserExists("emailexists@test.com")).Returns(true);

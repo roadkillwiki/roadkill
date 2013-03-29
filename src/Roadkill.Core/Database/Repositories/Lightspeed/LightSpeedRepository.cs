@@ -149,7 +149,7 @@ namespace Roadkill.Core.Database.LightSpeed
 
 			try
 			{
-				SaveSitePreferences(new SitePreferences());
+				SaveSitePreferences(new SiteSettings());
 			}
 			catch (Exception ex)
 			{
@@ -158,14 +158,14 @@ namespace Roadkill.Core.Database.LightSpeed
 			}
 		}
 
-		public SitePreferences GetSitePreferences()
+		public SiteSettings GetSitePreferences()
 		{
-			SitePreferences preferences = new SitePreferences();
-			SitePreferencesEntity entity = UnitOfWork.FindById<SitePreferencesEntity>(SitePreferences.SitePreferencesId);
+			SiteSettings preferences = new SiteSettings();
+			SitePreferencesEntity entity = UnitOfWork.FindById<SitePreferencesEntity>(SiteSettings.SitePreferencesId);
 
 			if (entity != null)
 			{
-				preferences = SitePreferences.LoadFromJson(entity.Content);
+				preferences = SiteSettings.LoadFromJson(entity.Content);
 			}
 			else
 			{
@@ -175,7 +175,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			return preferences;
 		}
 
-		public void SaveSitePreferences(SitePreferences preferences)
+		public void SaveSitePreferences(SiteSettings preferences)
 		{
 			SitePreferencesEntity entity = UnitOfWork.Find<SitePreferencesEntity>().FirstOrDefault();
 

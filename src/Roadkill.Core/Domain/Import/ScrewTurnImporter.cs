@@ -9,6 +9,7 @@ using System.Web;
 using StructureMap;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Search;
 
 namespace Roadkill.Core
 {
@@ -37,7 +38,7 @@ namespace Roadkill.Core
 		/// Imports page data from a Screwturn database using the provided connection string.
 		/// </summary>
 		/// <param name="connectionString">The database connection string.</param>
-		public void ImportFromSql(string connectionString)
+		public void ImportFromSqlServer(string connectionString)
 		{
 			_connectionString = connectionString;
 			_attachmentsFolder = Configuration.ApplicationSettings.AttachmentsDirectoryPath;
@@ -218,6 +219,14 @@ namespace Roadkill.Core
 			}
 
 			return text;
+		}
+
+		/// <summary>
+		/// Updates the search index after a successful import.
+		/// </summary>
+		public void UpdateSearchIndex(SearchManager searchManager)
+		{
+			searchManager.CreateIndex();
 		}
 	}
 }

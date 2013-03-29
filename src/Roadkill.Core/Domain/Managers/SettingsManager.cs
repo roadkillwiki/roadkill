@@ -79,24 +79,24 @@ namespace Roadkill.Core
 		/// Saves all settings that are stored in the database, to the configuration table.
 		/// </summary>
 		/// <param name="summary">Summary data containing the settings.</param>
-		/// <param name="isInstalling">If true, a new <see cref="SitePreferences"/> is created, otherwise the current one is updated.</param>
+		/// <param name="isInstalling">If true, a new <see cref="SiteSettings"/> is created, otherwise the current one is updated.</param>
 		/// <exception cref="DatabaseException">An datastore error occurred while saving the configuration.</exception>
 		public void SaveSitePreferences(SettingsSummary summary, bool isInstalling)
 		{
 			try
 			{
-				SitePreferences config = new SitePreferences();
-				config.AllowedFileTypes = summary.AllowedExtensions;
-				config.AllowUserSignup = summary.AllowUserSignup;
-				config.IsRecaptchaEnabled = summary.EnableRecaptcha;
-				config.MarkupType = summary.MarkupType;
-				config.RecaptchaPrivateKey = summary.RecaptchaPrivateKey;
-				config.RecaptchaPublicKey = summary.RecaptchaPublicKey;
-				config.SiteUrl = summary.SiteUrl;
-				config.SiteName = summary.SiteName;
-				config.Theme = summary.Theme;
+				SiteSettings preferences = new SiteSettings();
+				preferences.AllowedFileTypes = summary.AllowedExtensions;
+				preferences.AllowUserSignup = summary.AllowUserSignup;
+				preferences.IsRecaptchaEnabled = summary.EnableRecaptcha;
+				preferences.MarkupType = summary.MarkupType;
+				preferences.RecaptchaPrivateKey = summary.RecaptchaPrivateKey;
+				preferences.RecaptchaPublicKey = summary.RecaptchaPublicKey;
+				preferences.SiteUrl = summary.SiteUrl;
+				preferences.SiteName = summary.SiteName;
+				preferences.Theme = summary.Theme;
 
-				Repository.SaveSitePreferences(config);
+				Repository.SaveSitePreferences(preferences);
 			}
 			catch (DatabaseException ex)
 			{

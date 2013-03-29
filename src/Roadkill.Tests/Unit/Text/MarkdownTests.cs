@@ -28,10 +28,10 @@ namespace Roadkill.Tests.Unit
 			Mock<IRepository> mockRepository = new Mock<IRepository>();
 			mockRepository.Setup(x => x.GetPageByTitle(page.Title)).Returns<string>(p => { return page; });
 
-			IConfigurationContainer config = new RoadkillSettings();
+			IConfigurationContainer config = new ConfigurationContainer();
 			config.ApplicationSettings.Installed = true;
 			config.ApplicationSettings.UpgradeRequired = false;
-			config.SitePreferences = new SitePreferences() { MarkupType = "Markdown" };
+			config.SitePreferences = new SiteSettings() { MarkupType = "Markdown" };
 
 			MarkupConverter converter = new MarkupConverter(config, mockRepository.Object);
 			converter.InternalUrlForTitle = (id, title) => { return "blah"; };
@@ -61,10 +61,10 @@ namespace Roadkill.Tests.Unit
 			Mock<IRepository> mockRepository = new Mock<IRepository>();
 			mockRepository.Setup(x => x.GetPageByTitle(page.Title)).Returns<string>(p => { return page; });
 
-			IConfigurationContainer config = new RoadkillSettings();
+			IConfigurationContainer config = new ConfigurationContainer();
 			config.ApplicationSettings.Installed = true;
 			config.ApplicationSettings.UpgradeRequired = false;
-			config.SitePreferences = new SitePreferences() { MarkupType = "Markdown" };
+			config.SitePreferences = new SiteSettings() { MarkupType = "Markdown" };
 			MarkupConverter converter = new MarkupConverter(config, mockRepository.Object);
 
 			string markdownText = "Here is some `// code with a 'quote' in it and another \"quote\"`\n\n" +

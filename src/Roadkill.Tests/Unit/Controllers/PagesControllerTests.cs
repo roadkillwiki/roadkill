@@ -47,10 +47,10 @@ namespace Roadkill.Tests.Unit
 			_pagesContent = new List<PageContent>();
 			_contextStub = new RoadkillContextStub();
 
-			_config = new RoadkillSettings();
+			_config = new ConfigurationContainer();
 			_config.ApplicationSettings = new ApplicationSettings();
 			_config.ApplicationSettings.Installed = true;
-			_config.SitePreferences = new SitePreferences() { AllowedFileTypes = "png, jpg" };
+			_config.SitePreferences = new SiteSettings() { AllowedFileTypes = "png, jpg" };
 			_config.ApplicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
 
 			// Cache

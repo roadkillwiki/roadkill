@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Text;
@@ -75,5 +76,63 @@ namespace Roadkill.Core
                 }
             }
         }
+
+		/// <summary>
+		/// Tests a LDAP (Active Directory) connection.
+		/// </summary>
+		/// <param name="connectionString">The LDAP connection string (requires LDAP:// at the start).</param>
+		/// <param name="username">The ldap username.</param>
+		/// <param name="password">The ldap password.</param>
+		/// <param name="groupName">The Active Directory group name to test against. Defaults to "Users" if empty</param>
+		/// <returns>Any error messages or an empty string if no errors occurred.</returns>
+		public static string TestLdapConnection(string connectionString, string username, string password, string groupName)
+		{
+			if (string.IsNullOrEmpty(connectionString))
+				return "The connection string is empty";
+
+			try
+			{
+				int length = "ldap://".Length;
+				if (!connectionString.StartsWith("LDAP://") || connectionString.Length < length)
+					throw new Exception(string.Format("The LDAP connection string: '{0}' does not appear to be a valid (make sure it's uppercase LDAP).", connectionString));
+
+				DirectoryEntry entry = new DirectoryEntry(connectionString);
+
+				if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
+				{
+					entry.Username = username;
+					entry.Password = password;
+				}
+				else
+				{
+					// Use built-in ones for querying
+					username = "administrator"; // may need to use Guest here.
+					groupName = "Users";
+				}
+
+				string accountName = username;
+				string filter = "(&(objectCategory=user)(samAccountName=" + username + "))";
+
+				if (!string.IsNullOrEmpty(groupName))
+				{
+					filter = "(&(objectCategory=group)(samAccountName=" + groupName + "))";
+					accountName = groupName;
+				}
+
+				DirectorySearcher searcher = new DirectorySearcher(entry);
+				searcher.Filter = filter;
+				searcher.SearchScope = SearchScope.Subtree;
+
+				SearchResult searchResult = searcher.FindOne();
+				if (searchResult == null)
+					return "Warning only: Unable to find " + accountName + " in the AD";
+				else
+					return "";
+			}
+			catch (Exception e)
+			{
+				return e.ToString();
+			}
+		}
 	}
 }

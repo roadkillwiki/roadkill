@@ -137,5 +137,44 @@ namespace Roadkill.Core.Files
 
 			return attachmentsPath;
 		}
+
+		/// <summary>
+		/// Tests if the attachments folder provided can be written to, by writing a file to the folder.
+		/// </summary>
+		/// <param name="folder">The folder path which should include "~/" at the start.</param>
+		/// <returns>Any error messages or an empty string if no errors occurred.</returns>
+		public static string TestAttachmentsFolder(string folder)
+		{
+			string errors = "";
+			if (string.IsNullOrEmpty(folder))
+			{
+				errors = "The folder name is empty";
+			}
+			else
+			{
+				try
+				{
+					string directory = folder;
+					if (folder.StartsWith("~") && HttpContext.Current != null)
+						directory = HttpContext.Current.Server.MapPath(folder);
+
+					if (Directory.Exists(directory))
+					{
+						string path = Path.Combine(directory, "_installtest.txt");
+						System.IO.File.WriteAllText(path, "created by the installer to test the attachments folder");
+					}
+					else
+					{
+						errors = "The directory does not exist, please create it first";
+					}
+				}
+				catch (Exception e)
+				{
+					errors = e.ToString();
+				}
+			}
+
+			return errors;
+		}
 	}
 }

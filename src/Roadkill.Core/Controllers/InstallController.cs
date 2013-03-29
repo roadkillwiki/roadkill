@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using Roadkill.Core.Search;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Files;
 
 namespace Roadkill.Core.Controllers
 {
@@ -117,8 +118,6 @@ namespace Roadkill.Core.Controllers
 			if (Configuration.ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
-			InstallHelper installHelper = new InstallHelper(UserManager, _repository);
-
 			try
 			{
 				// Any missing values are handled by data annotations. Those that are missed
@@ -147,7 +146,7 @@ namespace Roadkill.Core.Controllers
 					// Add a user if we're not using AD.
 					if (!summary.UseWindowsAuth)
 					{
-						installHelper.AddAdminUser(summary);
+						UserManager.AddUser(summary.AdminEmail, "admin", summary.AdminPassword, true, false);
 					}					
 	
 					// Create a blank search index
@@ -158,7 +157,7 @@ namespace Roadkill.Core.Controllers
 			{
 				try
 				{
-					installHelper.ResetInstalledState();
+					ApplicationSettings.ResetInstalledState();
 				}
 				catch (Exception ex)
 				{
@@ -185,8 +184,7 @@ namespace Roadkill.Core.Controllers
 			if (Configuration.ApplicationSettings.Installed)
 				return Content("");
 
-			InstallHelper installHelper = new InstallHelper(UserManager, _repository);
-			string errors = installHelper.TestLdapConnection(connectionString, username, password, groupName);
+			string errors = ActiveDirectoryService.TestLdapConnection(connectionString, username, password, groupName);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 
@@ -199,8 +197,7 @@ namespace Roadkill.Core.Controllers
 			if (Configuration.ApplicationSettings.Installed)
 				return Content("");
 
-			InstallHelper installHelper = new InstallHelper(UserManager, _repository);
-			string errors = installHelper.TestSaveWebConfig();
+			string errors = ApplicationSettings.TestSaveWebConfig();
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 
@@ -211,7 +208,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestAttachments(string folder)
 		{
-			string errors = InstallHelper.TestAttachments(folder);
+			string errors = AttachmentFileHandler.TestAttachmentsFolder(folder);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 
@@ -221,10 +218,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestDatabaseConnection(string connectionString, string databaseType)
 		{
-			// System.IO.FileLoadException: Could not load file or assembly 
-
-			InstallHelper installHelper = new InstallHelper(UserManager, _repository);
-			string errors = installHelper.TestConnection(connectionString, databaseType);
+			string errors = IoCSetup.TestDbConnection(connectionString, databaseType);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 

@@ -49,7 +49,7 @@ namespace Roadkill.Tests.Unit
 			UserManager userManager = ObjectFactory.GetInstance<UserManager>();
 
 			// Assert
-			Assert.That(config, Is.TypeOf<RoadkillSettings>());
+			Assert.That(config, Is.TypeOf<ConfigurationContainer>());
 			Assert.That(repository, Is.TypeOf<LightSpeedRepository>());
 			Assert.That(context, Is.TypeOf<RoadkillContext>());
 			Assert.That(pageManager, Is.TypeOf<PageManager>());			

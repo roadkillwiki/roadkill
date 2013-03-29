@@ -190,7 +190,7 @@ namespace Roadkill.Core.Configuration
 		{
 			get
 			{
-				return typeof(RoadkillSettings).Assembly.GetName().Version;
+				return typeof(ConfigurationContainer).Assembly.GetName().Version;
 			}
 		}
 
@@ -298,6 +298,55 @@ namespace Roadkill.Core.Configuration
 			System.Configuration.Configuration cfg = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
 
 			Load(cfg);
+		}
+
+		/// <summary>
+		/// Resets the roadkill "installed" property in the web.config for when the installation fails.
+		/// </summary>
+		/// <exception cref="InstallerException">An web.config related error occurred while reseting the install state.</exception>
+		public static void ResetInstalledState(string configFile = "")
+		{
+			try
+			{
+				System.Configuration.Configuration config;
+
+				if (!string.IsNullOrEmpty(configFile))
+				{
+					ExeConfigurationFileMap fileMap = new ExeConfigurationFileMap();
+					fileMap.ExeConfigFilename = configFile;
+					config = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
+				}
+				else
+				{
+					config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+				}
+
+				RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
+				section.Installed = false;
+
+				config.Save();
+			}
+			catch (ConfigurationErrorsException ex)
+			{
+				throw new InstallerException(ex, "An exception occurred while resetting web.config install state to false.");
+			}
+		}
+
+		/// <summary>
+		/// Tests the web.config can be saved to by changing the "installed" to false.
+		/// </summary>
+		/// <returns>Any error messages or an empty string if no errors occurred.</returns>
+		public static string TestSaveWebConfig()
+		{
+			try
+			{
+				ResetInstalledState();
+				return "";
+			}
+			catch (Exception e)
+			{
+				return e.ToString();
+			}
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace Roadkill.Core
 	/// Contains all configuration data stored with NHibernate/the database, for settings that do not require an application restart when changed.
 	/// </summary>
 	[Serializable]
-	public class SitePreferences
+	public class SiteSettings
 	{
 		internal static readonly Guid SitePreferencesId = new Guid("b960e8e5-529f-4f7c-aee4-28eb23e13dbd");
 
@@ -106,7 +106,7 @@ namespace Roadkill.Core
 			}
 		}
 
-		public SitePreferences()
+		public SiteSettings()
 		{
 			Theme = "Mediawiki";
 			MarkupType = "Creole";
@@ -119,15 +119,15 @@ namespace Roadkill.Core
 			return JsonConvert.SerializeObject(this, Formatting.Indented);
 		}
 
-		public static SitePreferences LoadFromJson(string json)
+		public static SiteSettings LoadFromJson(string json)
 		{
 			if (string.IsNullOrEmpty(json))
 			{
 				Log.Warn("SitePreferences.LoadFromJson - json string was empty (returning a default SitePreferences object)");
-				return new SitePreferences();
+				return new SiteSettings();
 			}
 
-			return JsonConvert.DeserializeObject<SitePreferences>(json);
+			return JsonConvert.DeserializeObject<SiteSettings>(json);
 		}
 	}
 }

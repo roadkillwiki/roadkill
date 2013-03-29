@@ -106,14 +106,14 @@ namespace Roadkill.Core.Database.MongoDB
 				.FirstOrDefault();
 		}
 
-		public SitePreferences GetSitePreferences()
+		public SiteSettings GetSitePreferences()
 		{
 			SitePreferencesEntity entity = Queryable<SitePreferencesEntity>().FirstOrDefault();
-			SitePreferences preferences = new SitePreferences();
+			SiteSettings preferences = new SiteSettings();
 
 			if (entity != null)
 			{
-				preferences = SitePreferences.LoadFromJson(entity.Content);
+				preferences = SiteSettings.LoadFromJson(entity.Content);
 			}
 			else
 			{
@@ -123,7 +123,7 @@ namespace Roadkill.Core.Database.MongoDB
 			return preferences;
 		}
 
-		public void SaveSitePreferences(SitePreferences preferences)
+		public void SaveSitePreferences(SiteSettings preferences)
 		{
 			// Get the fresh db entity first
 			SitePreferencesEntity entity = Queryable<SitePreferencesEntity>().FirstOrDefault();

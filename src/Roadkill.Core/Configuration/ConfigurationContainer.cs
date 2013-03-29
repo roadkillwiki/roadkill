@@ -19,16 +19,16 @@ namespace Roadkill.Core.Configuration
 	/// this property is called. This same behaviour is used for the <see cref="ApplicationSettings"/>, 
 	/// but with the configuration being loaded from a config file.
 	/// </summary>
-	public class RoadkillSettings : IConfigurationContainer, IInjectionLaunderer
+	public class ConfigurationContainer : IConfigurationContainer, IInjectionLaunderer
 	{
-		private SitePreferences _sitePreferences;
+		private SiteSettings _sitePreferences;
 		private ApplicationSettings _applicationSettings;
 
 		/// <summary>
 		/// Retrieves the configuration settings that are stored in the database.
 		/// </summary>
 		/// <returns>A <see cref="SitePreferences"/></returns>
-		public SitePreferences SitePreferences
+		public SiteSettings SitePreferences
 		{
 			get 
 			{
@@ -86,7 +86,7 @@ namespace Roadkill.Core.Configuration
 					+ ObjectFactory.WhatDoIHave(), e);
 			}
 			
-			SitePreferences preferences = repository.GetSitePreferences();
+			SiteSettings preferences = repository.GetSitePreferences();
 
 			if (string.IsNullOrEmpty(preferences.AllowedFileTypes))
 				throw new InvalidOperationException("The allowed file types setting is empty");

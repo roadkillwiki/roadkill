@@ -20,7 +20,7 @@ namespace Roadkill.Tests.Unit
 		[SetUp]
 		public void Setup()
 		{
-			_config = new RoadkillSettings();
+			_config = new ConfigurationContainer();
 		}
 
 		[Test]
@@ -144,7 +144,7 @@ namespace Roadkill.Tests.Unit
 		public void SettingsManager_Should_Save_Settings()
 		{
 			// Arrange
-			SitePreferences preferences = new SitePreferences()
+			SiteSettings preferences = new SiteSettings()
 			{
 				AllowedFileTypes = "jpg, png, gif",
 				AllowUserSignup = true,
@@ -182,10 +182,10 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			mockRepository.Verify(x => x.SaveSitePreferences(
-				It.Is<SitePreferences>(s => s.MarkupType == preferences.MarkupType)
+				It.Is<SiteSettings>(s => s.MarkupType == preferences.MarkupType)
 			));
 
-			IConfigurationContainer config = RoadkillSettings.GetInstance();
+			IConfigurationContainer config = ConfigurationContainer.GetInstance();
 
 			Assert.That(config.SitePreferences.AllowedFileTypes.Contains("jpg"), "AllowedFileTypes jpg");
 			Assert.That(config.SitePreferences.AllowedFileTypes.Contains("gif"), "AllowedFileTypes gif");
@@ -210,8 +210,8 @@ namespace Roadkill.Tests.Unit
 			Mock<IRepository> mockRepository = new Mock<IRepository>();
 			Mock<IRoadkillContext> mockContext = new Mock<IRoadkillContext>();
 
-			IConfigurationContainer config = new RoadkillSettings();
-			config.SitePreferences = new SitePreferences();
+			IConfigurationContainer config = new ConfigurationContainer();
+			config.SitePreferences = new SiteSettings();
 			config.ApplicationSettings = new ApplicationSettings();
 			config.ApplicationSettings.UseWindowsAuthentication = true;
 			config.ApplicationSettings.LdapConnectionString = "LDAP://dc=roadkill.org";
@@ -233,8 +233,8 @@ namespace Roadkill.Tests.Unit
 			Mock<IRepository> mockRepository = new Mock<IRepository>();
 			Mock<IRoadkillContext> mockContext = new Mock<IRoadkillContext>();
 
-			IConfigurationContainer config = new RoadkillSettings();
-			config.SitePreferences = new SitePreferences();
+			IConfigurationContainer config = new ConfigurationContainer();
+			config.SitePreferences = new SiteSettings();
 			config.ApplicationSettings = new ApplicationSettings();
 
 			// Act
@@ -252,8 +252,8 @@ namespace Roadkill.Tests.Unit
 			Mock<IRepository> mockRepository = new Mock<IRepository>();
 			Mock<IRoadkillContext> mockContext = new Mock<IRoadkillContext>();
 
-			IConfigurationContainer config = new RoadkillSettings();
-			config.SitePreferences = new SitePreferences();
+			IConfigurationContainer config = new ConfigurationContainer();
+			config.SitePreferences = new SiteSettings();
 			config.ApplicationSettings = new ApplicationSettings();
 
 			// Act

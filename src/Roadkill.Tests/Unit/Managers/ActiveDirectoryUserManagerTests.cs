@@ -52,8 +52,8 @@ namespace Roadkill.Tests.Unit
 			_serviceMock.Setup(x => x.GetMembers(_domainPath, _username, _password, _adminsGroupName)).Returns(adminUsers);
 			_serviceMock.Setup(x => x.GetMembers(_domainPath, _username, _password, _editorsGroupName)).Returns(editorUsers);
 
-			_config = new RoadkillSettings();
-			_config.SitePreferences = new SitePreferences();
+			_config = new ConfigurationContainer();
+			_config.SitePreferences = new SiteSettings();
 			_config.ApplicationSettings = new ApplicationSettings();
 			_config.ApplicationSettings.LdapConnectionString = _ldapString;
 			_config.ApplicationSettings.LdapUsername = _username;
