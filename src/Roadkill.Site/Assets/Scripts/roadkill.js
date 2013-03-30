@@ -93,3 +93,24 @@ function closeModal()
 {
 	$.fancybox.close(true);
 }
+
+String.prototype.format = function () {
+
+    var s = this, exp = null;
+
+    if (arguments.length == 1 && arguments[0] && typeof (arguments[0]) == 'object') {
+        for (var item in arguments[0]) {
+            if (arguments[0].hasOwnProperty(item)) {
+                exp = new RegExp('\\{' + (item) + '\\}', 'gm');
+                s = s.replace(exp, arguments[0][item]);
+            }
+        }
+    } else {
+        for (var i = 0; i < arguments.length; i++) {
+            exp = new RegExp('\\{' + (i) + '\\}', 'gm');
+            s = s.replace(exp, arguments[i]);
+        }
+    }
+
+    return s;
+}

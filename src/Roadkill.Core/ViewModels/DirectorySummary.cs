@@ -88,17 +88,14 @@ namespace Roadkill.Core
 		public string DiskPath { get; set; }
 		public string UrlPath { get; set; }
 		public string Extension { get; set; }
+        public long Size { get; set; }
+        public string CreateDate { get; set; }
+        public string Folder { get; set; }
 
 		/// <summary>
 		/// Base64'd version of the path
 		/// </summary>
-		public string SafePath
-		{
-			get
-			{
-				return UrlPath.ToBase64();
-			}
-		}
+		public string SafePath { get { return UrlPath.ToBase64(); } }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FileSummary"/> class.
@@ -111,6 +108,10 @@ namespace Roadkill.Core
 			UrlPath = diskPath.Replace(config.ApplicationSettings.AttachmentsFolder, "");
 			UrlPath = UrlPath.Replace(@"\", "/");
 			Extension = Path.GetExtension(diskPath).Replace(".", "");
+            var f = new FileInfo(diskPath);
+            Size = f.Length;
+            CreateDate = f.CreationTime.ToShortDateString();
+            Folder = f.Directory.Name;
 		}
 
 		public static FileSummary FromBase64UrlPath(string base64Path, IConfigurationContainer config)

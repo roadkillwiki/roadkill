@@ -822,4 +822,34 @@
   <data name="SiteSettings_Validation_SiteUrlEmpty" xml:space="preserve">
     <value>The site url is empty.</value>
   </data>
+  <data name="FileManager_Add_Folder" xml:space="preserve">
+    <value>Add Folder</value>
+  </data>
+  <data name="FileManager_Delete_File" xml:space="preserve">
+    <value>Delete File</value>
+  </data>
+  <data name="FileManager_Delete_Folder" xml:space="preserve">
+    <value>Delete Folder</value>
+  </data>
+  <data name="FileManager_ManageFiles" xml:space="preserve">
+    <value>Manage Files</value>
+  </data>
+  <data name="Navigation_ManageFiles" xml:space="preserve">
+    <value>Manage files</value>
+  </data>
+  <data name="FileManager_Error_BaseFolderDelete" xml:space="preserve">
+    <value>Base attachments folder cannot be deleted.</value>
+  </data>
+  <data name="Delete_BaseFolder_Error" xml:space="preserve">
+    <value>Base folder not allowed to be deleted.</value>
+  </data>
+  <data name="Delete_Confirm" xml:space="preserve">
+    <value>Are you sure to delete: {0}?</value>
+  </data>
+  <data name="FileManager_Error_AddFolder" xml:space="preserve">
+    <value>Folder {0} already exists.</value>
+  </data>
+  <data name="FileManager_Error_FolderDelete" xml:space="preserve">
+    <value>Folder must exist and must be empty.</value>
+  </data>
 </root>

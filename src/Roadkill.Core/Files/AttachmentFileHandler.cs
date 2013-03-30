@@ -125,5 +125,29 @@ namespace Roadkill.Core.Files
 
 			return attachmentsPath;
 		}
+
+
+        internal static string GetAbsoluteAttachmentsFolder(IConfigurationContainer configuration)
+        {
+            string attachmentsPath = configuration.ApplicationSettings.AttachmentsFolder;
+
+            if (attachmentsPath.StartsWith(@"~/"))
+            {
+                attachmentsPath = HttpContext.Current.Server.MapPath(attachmentsPath);
+            }
+
+            return attachmentsPath;
+        }
+
+        internal static string CombineAbsoluteAttachmentsFolder(IConfigurationContainer configuration, string relativePath)
+        {
+            string attachmentsPath = GetAbsoluteAttachmentsFolder(configuration);
+
+            relativePath = relativePath.Replace("/Attachments/", "");
+            relativePath = relativePath.Replace("/", @"\");
+            relativePath = Path.Combine(attachmentsPath, relativePath);
+
+            return relativePath;
+        }
 	}
 }
