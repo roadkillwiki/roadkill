@@ -2,30 +2,26 @@
 using System.Web;
 using System.Web.Mvc;
 using Roadkill.Core.Configuration;
+using StructureMap.Attributes;
 
 namespace Roadkill.Core
 {
 	/// <summary>
 	/// Represents an attribute that is used to restrict access by callers to users that are in Admin role group.
 	/// </summary>
-	public class AdminRequiredAttribute : AuthorizeAttribute
+	public class AdminRequiredAttribute : AuthorizeAttribute, IInjectedAttribute
 	{
-		private IConfigurationContainer _config;
-		private UserManager _userManager;
+		[SetterProperty]
+		public IConfigurationContainer Configuration { get; set; }
 
-		public override void OnAuthorization(AuthorizationContext filterContext)
-		{
-			// Should refactor this so its in the IFilterProvider
+		[SetterProperty]
+		public IRoadkillContext Context { get; set; }
 
-			Roadkill.Core.Controllers.ControllerBase controller = filterContext.Controller as Roadkill.Core.Controllers.ControllerBase;
-			if (controller != null)
-			{
-				_config = controller.Configuration;
-				_userManager = controller.UserManager;
-			}
+		[SetterProperty]
+		public UserManager UserManager { get; set; }
 
-			base.OnAuthorization(filterContext);
-		}
+		[SetterProperty]
+		public PageManager PageManager { get; set; }
 
 		/// <summary>
 		/// Provides an entry point for custom authorization checks.
@@ -45,10 +41,10 @@ namespace Roadkill.Core
 				return false;
 			}
 
-			if (string.IsNullOrEmpty(_config.ApplicationSettings.AdminRoleName))
+			if (string.IsNullOrEmpty(Configuration.ApplicationSettings.AdminRoleName))
 				return true;
 
-			if (_userManager.IsAdmin(identity.Name))
+			if (UserManager.IsAdmin(identity.Name))
 				return true;
 			else
 				return false;

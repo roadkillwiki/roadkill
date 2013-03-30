@@ -291,6 +291,9 @@
   <ItemGroup>
     <Compile Include="Common\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Configuration\ConfigFileManager.cs" />
+    <Compile Include="Controllers\Attributes\IInjectedAttribute.cs" />
+    <Compile Include="IoC\FilterProvider.cs" />
+    <Compile Include="IoC\MvcDependencyResolver.cs" />
     <Compile Include="Localization\Resx\InstallStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

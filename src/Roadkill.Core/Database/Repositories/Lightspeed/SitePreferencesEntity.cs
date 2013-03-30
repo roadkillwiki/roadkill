@@ -14,7 +14,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			get
 			{
-				return SiteSettings.SitePreferencesId;
+				return SiteSettings.SiteSettingsId;
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace Roadkill.Core.Database.LightSpeed
 
 		protected override object GeneratedId()
 		{
-			return SiteSettings.SitePreferencesId;
+			return SiteSettings.SiteSettingsId;
 		}
 	}
 }

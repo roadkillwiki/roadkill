@@ -2,30 +2,26 @@
 using System.Web;
 using System.Web.Mvc;
 using Roadkill.Core.Configuration;
+using StructureMap.Attributes;
 
 namespace Roadkill.Core
 {
 	/// <summary>
 	/// Represents an attribute that is used to restrict access by callers to users that are in Editor role group.
 	/// </summary>
-	public class EditorRequiredAttribute : AuthorizeAttribute
+	public class EditorRequiredAttribute : AuthorizeAttribute, IInjectedAttribute
 	{
-		private IConfigurationContainer _config;
-		private UserManager _userManager;
+		[SetterProperty]
+		public IConfigurationContainer Configuration { get; set; }
 
-		public override void OnAuthorization(AuthorizationContext filterContext)
-		{
-			// Should refactor this to use IFilterProvider
+		[SetterProperty]
+		public IRoadkillContext Context { get; set; }
 
-			Roadkill.Core.Controllers.ControllerBase controller = filterContext.Controller as Roadkill.Core.Controllers.ControllerBase;
-			if (controller != null)
-			{
-				_config = controller.Configuration;
-				_userManager = controller.UserManager;
-			}
+		[SetterProperty]
+		public UserManager UserManager { get; set; }
 
-			base.OnAuthorization(filterContext);
-		}
+		[SetterProperty]
+		public PageManager PageManager { get; set; }
 
 		/// <summary>
 		/// Provides an entry point for custom authorization checks.
@@ -46,10 +42,10 @@ namespace Roadkill.Core
 			}
 
 			// An empty editor role name implies everyone is an editor - there's no page security.
-			if (string.IsNullOrEmpty(_config.ApplicationSettings.EditorRoleName))
+			if (string.IsNullOrEmpty(Configuration.ApplicationSettings.EditorRoleName))
 				return true;
 
-			if (UserManager.GetInstance().IsAdmin(identity.Name) || UserManager.GetInstance().IsEditor(identity.Name))
+			if (UserManager.IsAdmin(identity.Name) || UserManager.IsEditor(identity.Name))
 			{
 				return true;
 			}

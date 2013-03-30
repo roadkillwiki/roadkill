@@ -101,7 +101,7 @@ namespace Roadkill.Core.Controllers
 			summary.MarkupType = "Creole";
 			summary.Theme = "Mediawiki";
 			summary.UseObjectCache = true;
-			summary.UseBrowserCache = true;
+			summary.UseBrowserCache = false;
 
 			return View(summary);
 		}

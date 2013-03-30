@@ -2,28 +2,26 @@
 using System.Web;
 using System.Web.Mvc;
 using Roadkill.Core.Configuration;
+using StructureMap.Attributes;
 
 namespace Roadkill.Core
 {
 	/// <summary>
 	/// Describes a page that doesn't require a login to view, unless Roadkill has IsPublicSite=false. 
 	/// </summary>
-	public class OptionalAuthorizationAttribute : AuthorizeAttribute
+	public class OptionalAuthorizationAttribute : AuthorizeAttribute, IInjectedAttribute
 	{
-		private IConfigurationContainer _config;
-		private UserManager _userManager;
+		[SetterProperty]
+		public IConfigurationContainer Configuration { get; set; }
 
-		public override void OnAuthorization(AuthorizationContext filterContext)
-		{
-			Roadkill.Core.Controllers.ControllerBase controller = filterContext.Controller as Roadkill.Core.Controllers.ControllerBase;
-			if (controller != null)
-			{
-				_config = controller.Configuration;
-				_userManager = controller.UserManager;
-			}
+		[SetterProperty]
+		public IRoadkillContext Context { get; set; }
 
-			base.OnAuthorization(filterContext);
-		}
+		[SetterProperty]
+		public UserManager UserManager { get; set; }
+
+		[SetterProperty]
+		public PageManager PageManager { get; set; }
 
 		/// <summary>
 		/// Provides an entry point for custom authorization checks.
@@ -35,7 +33,7 @@ namespace Roadkill.Core
 		/// <exception cref="T:System.ArgumentNullException">The <paramref name="httpContext"/> parameter is null.</exception>
 		protected override bool AuthorizeCore(HttpContextBase httpContext)
 		{
-			if (!_config.ApplicationSettings.Installed || _config.ApplicationSettings.UpgradeRequired)
+			if (!Configuration.ApplicationSettings.Installed || Configuration.ApplicationSettings.UpgradeRequired)
 			{
 				return true;
 			}
@@ -44,7 +42,7 @@ namespace Roadkill.Core
 			IIdentity identity = user.Identity;
 
 			// If the site is private then check for a login
-			if (!_config.ApplicationSettings.IsPublicSite)
+			if (!Configuration.ApplicationSettings.IsPublicSite)
 			{
 				if (!identity.IsAuthenticated)
 				{
@@ -52,7 +50,7 @@ namespace Roadkill.Core
 				}
 				else
 				{
-					if (_userManager.IsAdmin(identity.Name) || _userManager.IsEditor(identity.Name))
+					if (UserManager.IsAdmin(identity.Name) || UserManager.IsEditor(identity.Name))
 					{
 						return true;
 					}
