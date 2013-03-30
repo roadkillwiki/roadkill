@@ -235,11 +235,13 @@ namespace Roadkill.Core
 				// Attributes are injected using setter injection
 				// All views use RoadkillViewPage which is setter injected.
 
-				DependencyResolver.SetResolver(new MvcDependencyResolver());
-				FilterProviders.Providers.Add(new FilterProvider());
+				DependencyResolver.SetResolver(new MvcDependencyResolver()); // views and controllers
+				FilterProviders.Providers.Add(new FilterProvider()); // attributes
+				ModelBinders.Binders.Add(typeof(UserSummary), new UserSummaryModelBinder());
+				ModelBinders.Binders.Add(typeof(SettingsSummary), new SettingsSummaryModelBinder());
 
 				// Attachments path
-				AttachmentRouteHandler.Register(_config);
+				AttachmentRouteHandler.RegisterRoute(_config);
 			}
 			else
 			{
