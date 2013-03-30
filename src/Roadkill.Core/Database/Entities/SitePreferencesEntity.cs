@@ -36,7 +36,7 @@ namespace Roadkill.Core.Database
 
 		public SitePreferencesEntity()
 		{
-			Id = SiteSettings.SitePreferencesId;
+			Id = SiteSettings.SiteSettingsId;
 		}
 	}
 }

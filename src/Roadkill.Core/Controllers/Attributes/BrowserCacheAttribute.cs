@@ -8,68 +8,68 @@ using System.Web.UI;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Controllers;
 using StructureMap;
+using StructureMap.Attributes;
 
 namespace Roadkill.Core
 {
 	/// <summary>
 	/// Includes 304 modified header support on the client.
 	/// </summary>
-	public class BrowserCacheAttribute : ActionFilterAttribute
+	public class BrowserCacheAttribute : ActionFilterAttribute, IInjectedAttribute
 	{
+		[SetterProperty]
+		public IConfigurationContainer Configuration { get; set; }
+
+		[SetterProperty]
+		public IRoadkillContext Context { get; set; }
+
+		[SetterProperty]
+		public UserManager UserManager { get; set; }
+
+		[SetterProperty]
+		public PageManager PageManager { get; set; }
+
 		public override void OnResultExecuted(ResultExecutedContext filterContext)
 		{
-			// TODO: add IPageController interface implementation for both controllers
-			PageManager manager = null;
-			IConfigurationContainer config = null;
-			IRoadkillContext context = null;
-			PageSummary summary = null;
+			if (!Configuration.ApplicationSettings.Installed || !Configuration.ApplicationSettings.UseBrowserCache)
+				return;
+
+			if (Configuration.ApplicationSettings.UseBrowserCache || Context.IsLoggedIn)
+				return;
 
 			WikiController wikiController = filterContext.Controller as WikiController;
+			HomeController homeController = filterContext.Controller as HomeController;
+
+			if (wikiController == null && homeController == null)
+				return;
+
+			PageSummary summary = null;
+
+			// Find the page for the action we're on
 			if (wikiController != null)
 			{
-				manager = wikiController.PageManager;
-				config = wikiController.Configuration;
-				context = wikiController.Context;
-
-				if (!config.ApplicationSettings.Installed || !config.ApplicationSettings.UseBrowserCache)
-					return;
-
 				int id = 0;
 				if (int.TryParse(filterContext.RouteData.Values["id"].ToString(), out id))
 				{
-					summary = manager.GetById(id);
+					summary = PageManager.GetById(id);
 				}
 			}
 			else
 			{
-				HomeController homeController = filterContext.Controller as HomeController;
-				if (homeController != null)
-				{
-					manager = homeController.PageManager;
-					config = homeController.Configuration;
-
-					if (!config.ApplicationSettings.Installed || !config.ApplicationSettings.UseBrowserCache)
-						return;
-
-					context = homeController.Context;
-					summary = manager.FindHomePage();
-				}
+				summary = PageManager.FindHomePage();
 			}
 
-			if (manager != null)
+			if (summary != null)
 			{
-				if (config.ApplicationSettings.UseBrowserCache && !context.IsLoggedIn)
-				{
-					filterContext.HttpContext.Response.Cache.SetCacheability(HttpCacheability.Public);
-					filterContext.HttpContext.Response.Cache.SetExpires(DateTime.Now.AddSeconds(2));
-					filterContext.HttpContext.Response.Cache.SetMaxAge(TimeSpan.FromSeconds(0));
-					filterContext.HttpContext.Response.Cache.SetLastModified(summary.ModifiedOn.ToUniversalTime());
-					filterContext.HttpContext.Response.StatusCode = filterContext.HttpContext.ApplicationInstance.Context.GetStatusCodeForCache(summary.ModifiedOn.ToUniversalTime());
+				filterContext.HttpContext.Response.Cache.SetCacheability(HttpCacheability.Public);
+				filterContext.HttpContext.Response.Cache.SetExpires(DateTime.Now.AddSeconds(2));
+				filterContext.HttpContext.Response.Cache.SetMaxAge(TimeSpan.FromSeconds(0));
+				filterContext.HttpContext.Response.Cache.SetLastModified(summary.ModifiedOn.ToUniversalTime());
+				filterContext.HttpContext.Response.StatusCode = filterContext.HttpContext.ApplicationInstance.Context.GetStatusCodeForCache(summary.ModifiedOn.ToUniversalTime());
 
-					if (filterContext.HttpContext.Response.StatusCode == 304)
-					{
-						//filterContext.Result = new HttpStatusCodeResult(304, "Not Modified");
-					}
+				if (filterContext.HttpContext.Response.StatusCode == 304)
+				{
+					filterContext.Result = new HttpStatusCodeResult(304, "Not Modified");
 				}
 			}
 		}

@@ -99,6 +99,11 @@ namespace Roadkill.Core
 					scanner.AddAllTypesOf<UserSummary>();
 					scanner.AddAllTypesOf<SettingsSummary>();
 					scanner.AddAllTypesOf<AttachmentRouteHandler>();
+					scanner.AddAllTypesOf<IInjectedAttribute>();
+					scanner.AddAllTypesOf<ControllerFactory>();
+					scanner.AddAllTypesOf(typeof(RoadkillViewPage<>));
+					scanner.AddAllTypesOf(typeof(RoadkillViewPage<dynamic>));
+					scanner.ConnectImplementationsToTypesClosing(typeof(RoadkillViewPage<>));
 
 					// Cache
 					scanner.AddAllTypesOf<ListCache>();
@@ -157,9 +162,11 @@ namespace Roadkill.Core
 					x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<DefaultUserManager>();
 				}
 
+				x.SetAllProperties(y => y.OfType<IInjectedAttribute>());
+				x.SetAllProperties(y => y.TypeMatches(t => t == typeof(RoadkillViewPage<>)));
+				x.SetAllProperties(y => y.TypeMatches(t => t == typeof(RoadkillViewPage<dynamic>)));
 			});
 
-			// Let the repositories perform any startup tasks (I'm looking at you, NHibernate)
 			_repository = ObjectFactory.GetInstance<IRepository>();
 			_repository.Startup(_config.ApplicationSettings.DataStoreType,
 								_config.ApplicationSettings.ConnectionString,
@@ -223,15 +230,13 @@ namespace Roadkill.Core
 		{
 			if (_hasRunInitialization)
 			{
-				// Some view models are new'd up by a custom object factory so dependencies are injected into them
-				if (!ModelBinders.Binders.ContainsKey(typeof(UserSummary)))
-					ModelBinders.Binders.Add(typeof(UserSummary), new UserSummaryModelBinder());
-
-				if (!ModelBinders.Binders.ContainsKey(typeof(SettingsSummary)))
-					ModelBinders.Binders.Add(typeof(SettingsSummary), new SettingsSummaryModelBinder());
-
 				// *All* Roadkill MVC controllers are new'd up by a controller factory so dependencies are injected into them
-				ControllerBuilder.Current.SetControllerFactory(new ControllerFactory());
+				// Some view models are new'd up by a custom object factory so dependencies are injected into them
+				// Attributes are injected using setter injection
+				// All views use RoadkillViewPage which is setter injected.
+
+				DependencyResolver.SetResolver(new MvcDependencyResolver());
+				FilterProviders.Providers.Add(new FilterProvider());
 
 				// Attachments path
 				AttachmentRouteHandler.Register(_config);

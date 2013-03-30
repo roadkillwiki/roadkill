@@ -53,6 +53,7 @@ namespace Roadkill.Core.Converters
 			get { return _parser; }
 		}
 
+		//[SetterProperty]
 		/// <summary>
 		/// Creates a new markdown parser which handles the image and link parsing by the various different 
 		/// markdown format parsers.

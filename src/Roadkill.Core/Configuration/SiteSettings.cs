@@ -14,7 +14,7 @@ namespace Roadkill.Core
 	[Serializable]
 	public class SiteSettings
 	{
-		internal static readonly Guid SitePreferencesId = new Guid("b960e8e5-529f-4f7c-aee4-28eb23e13dbd");
+		internal static readonly Guid SiteSettingsId = new Guid("b960e8e5-529f-4f7c-aee4-28eb23e13dbd");
 
 		private string _allowedFileTypes;
 
