@@ -20,7 +20,7 @@ namespace Roadkill.Core.Files
 			_config = config;
 		}
 
-		public static void Register(IConfigurationContainer config)
+		public static void RegisterRoute(IConfigurationContainer config)
 		{
 			Route route = new Route(config.ApplicationSettings.AttachmentsRoutePath + "/{*filename}", new AttachmentRouteHandler(config));
 			route.Constraints = new RouteValueDictionary();
