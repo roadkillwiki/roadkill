@@ -18,10 +18,10 @@ namespace Roadkill.Core
 		private IRoadkillContext _context;
 		private PageSummaryCache _pageSummaryCache;
 
-		public HistoryManager(IConfigurationContainer configuration, IRepository repository, IRoadkillContext context, PageSummaryCache pageSummaryCache)
-			: base(configuration, repository)
+		public HistoryManager(ApplicationSettings settings, IRepository repository, IRoadkillContext context, PageSummaryCache pageSummaryCache)
+			: base(settings, repository)
 		{
-			_markupConverter = new MarkupConverter(configuration, repository);
+			_markupConverter = new MarkupConverter(settings, repository);
 			_context = context;
 			_pageSummaryCache = pageSummaryCache;
 		}

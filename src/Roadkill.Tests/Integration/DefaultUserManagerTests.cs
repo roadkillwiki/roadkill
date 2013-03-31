@@ -40,7 +40,7 @@ namespace Roadkill.Tests.Integration
 			// Use the SettingsManager to install, so the site settings are saved 
 			SettingsManager settingsManager = new SettingsManager(config, repository);
 			settingsManager.CreateTables(summary);
-			settingsManager.SaveSitePreferences(summary, true);
+			settingsManager.SaveSiteettings(summary, true);
 		}
 
 		[Test]

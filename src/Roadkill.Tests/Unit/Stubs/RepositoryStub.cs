@@ -146,12 +146,12 @@ namespace Roadkill.Tests.Unit
 			}
 		}
 
-		public void SaveSitePreferences(SiteSettings preferences)
+		public void SaveSiteSettings(SiteSettings preferences)
 		{
 			SitePreferences = preferences;
 		}
 
-		public SiteSettings GetSitePreferences()
+		public SiteSettings GetSiteSettings()
 		{
 			return SitePreferences;
 		}
@@ -171,7 +171,7 @@ namespace Roadkill.Tests.Unit
 			
 		}
 
-		public void Upgrade(IConfigurationContainer configuration)
+		public void Upgrade(ApplicationSettings settings)
 		{
 
 		}

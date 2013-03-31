@@ -9,13 +9,13 @@ namespace Roadkill.Core.Cache
 {
 	public class PageSummaryCache
 	{
-		internal static MemoryCache _cache = new MemoryCache("PageSummaryCache");
+		internal static MemoryCache _cache = MemoryCache.Default;
 		private static readonly int _latestVersionNumber = 0;
-		private IConfigurationContainer _config;
+		private ApplicationSettings _settings;
 
-		public PageSummaryCache(IConfigurationContainer config)
+		public PageSummaryCache(ApplicationSettings settings)
 		{
-			_config = config;
+			_settings = settings;
 		}
 
 		public void Add(int id, PageSummary item)
@@ -25,7 +25,7 @@ namespace Roadkill.Core.Cache
 
 		public void Add(int id, int version, PageSummary item)
 		{
-			if (!_config.ApplicationSettings.UseObjectCache)
+			if (!_settings.UseObjectCache)
 				return;
 
 			string key = string.Format("{0}.{1}", id, version);
@@ -36,7 +36,7 @@ namespace Roadkill.Core.Cache
 
 		public void UpdateHomePage(PageSummary item)
 		{
-			if (!_config.ApplicationSettings.UseObjectCache)
+			if (!_settings.UseObjectCache)
 				return;
 
 			string key = "latesthomepage";
@@ -46,7 +46,7 @@ namespace Roadkill.Core.Cache
 
 		public PageSummary GetHomePage()
 		{
-			if (!_config.ApplicationSettings.UseObjectCache)
+			if (!_settings.UseObjectCache)
 				return null;
 
 			string key = "latesthomepage";
@@ -62,7 +62,7 @@ namespace Roadkill.Core.Cache
 
 		public PageSummary Get(int id, int version)
 		{
-			if (!_config.ApplicationSettings.UseObjectCache)
+			if (!_settings.UseObjectCache)
 				return null;
 
 			string key = string.Format("{0}.{1}", id, version);
@@ -73,7 +73,7 @@ namespace Roadkill.Core.Cache
 
 		public void RemoveHomePage()
 		{
-			if (!_config.ApplicationSettings.UseObjectCache)
+			if (!_settings.UseObjectCache)
 				return;
 
 			string key = "latesthomepage";
@@ -89,7 +89,7 @@ namespace Roadkill.Core.Cache
 
 		public void Remove(int id, int version)
 		{
-			if (!_config.ApplicationSettings.UseObjectCache)
+			if (!_settings.UseObjectCache)
 				return;
 
 			string key = string.Format("{0}.{1}", id, version);
@@ -100,7 +100,7 @@ namespace Roadkill.Core.Cache
 
 		public void RemoveAll()
 		{
-			if (!_config.ApplicationSettings.UseObjectCache)
+			if (!_settings.UseObjectCache)
 				return;
 
 			Log.Information("PageSummaryCache: RemoveAll from cache");

@@ -14,11 +14,11 @@ namespace Roadkill.Core
 	public class ServiceBase
 	{
 		protected IRepository Repository;
-		protected IConfigurationContainer Configuration;
+		protected ApplicationSettings ApplicationSettings;
 
-		public ServiceBase(IConfigurationContainer configuration, IRepository repository)
+		public ServiceBase(ApplicationSettings settings, IRepository repository)
 		{
-			Configuration = configuration;
+			ApplicationSettings = settings;
 			Repository = repository;
 		}
 

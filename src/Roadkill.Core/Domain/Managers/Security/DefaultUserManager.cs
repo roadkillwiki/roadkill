@@ -13,8 +13,8 @@ namespace Roadkill.Core
 	/// </summary>
 	public class DefaultUserManager : UserManager
 	{
-		public DefaultUserManager(IConfigurationContainer configuration, IRepository repository)
-			: base(configuration, repository)
+		public DefaultUserManager(ApplicationSettings settings, IRepository repository)
+			: base(settings, repository)
 		{
 		}
 

@@ -15,7 +15,7 @@ namespace Roadkill.Tests.Unit
 	[Category("Unit")]
 	public class UserSummaryEmailValidationTests
 	{
-		private IConfigurationContainer _config;
+		private ApplicationSettings _settings;
 		private IRepository _repository;
 		private Mock<UserManager> _userManagerMock;
 		private IRoadkillContext _context;
@@ -24,9 +24,9 @@ namespace Roadkill.Tests.Unit
 		public void TestsSetup()
 		{
 			_context = new Mock<IRoadkillContext>().Object;
-			_config = new ConfigurationContainer();
+			_settings = new ConfigurationContainer();
 			_repository = null;
-			_userManagerMock = new Mock<UserManager>(_config, _repository);
+			_userManagerMock = new Mock<UserManager>(_settings, _repository);
 			_userManagerMock.Setup(u => u.UserExists("emailexists@test.com")).Returns(true);
 		}
 
@@ -34,7 +34,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmail_For_New_User_With_Empty_Email_Should_Fail()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = null;
 			summary.NewEmail = "";
 			summary.ExistingEmail = "";
@@ -51,7 +51,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmail_For_New_User_With_Valid_Email_Should_Succeed()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = null;
 			summary.NewEmail = "test@test.com";
 			summary.IsBeingCreatedByAdmin = false;
@@ -67,7 +67,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmail_For_Existing_User_With_Empty_Email_Should_Fail()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = Guid.NewGuid();
 			summary.NewEmail = "";
 			summary.ExistingEmail = "";
@@ -84,7 +84,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmail_For_Existing_User_With_Valid_Email_Should_Succeed()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = Guid.NewGuid();
 			summary.NewEmail = "newemail@test.com";
 			summary.ExistingEmail = "";
@@ -101,7 +101,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmailIsNotInUse_For_New_User_With_Email_That_Exists_Should_Fail()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = null;
 			summary.NewEmail = "emailexists@test.com";
 			summary.ExistingEmail = "";
@@ -118,7 +118,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmailIsNotInUse_For_New_User_With_Unique_Email_Should_Succeed()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = null;
 			summary.NewEmail = "test@test.com";
 			summary.ExistingEmail = "";
@@ -135,7 +135,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmailIsNotInUse_When_New_User_Created_In_Admin_Tools_With_Unique_Email_Should_Succeed()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.NewEmail = "test@test.com";
 			summary.ExistingEmail = "";
 			summary.IsBeingCreatedByAdmin = true;
@@ -151,7 +151,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmailIsNotInUse_For_Existing_User_With_Email_That_Exists_Should_Fail()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = Guid.NewGuid();
 			summary.NewEmail = "emailexists@test.com";
 			summary.ExistingEmail = "";
@@ -168,7 +168,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmailIsNotInUse_For_Existing_User_With_Unique_Email_Should_Succeed()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = Guid.NewGuid();
 			summary.NewEmail = "newemail@test.com";
 			summary.ExistingEmail = "";
@@ -185,7 +185,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmailIsNotInUse_For_Existing_User_With_Unchanged_Email_Should_Succeed()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = Guid.NewGuid();
 			summary.ExistingEmail = "newemail@test.com";
 			summary.NewEmail = "newemail@test.com";

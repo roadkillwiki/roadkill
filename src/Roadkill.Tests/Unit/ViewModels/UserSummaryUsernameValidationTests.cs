@@ -15,7 +15,7 @@ namespace Roadkill.Tests.Unit
 	[Category("Unit")]
 	public class UserSummaryUsernameValidationTests
 	{
-		private IConfigurationContainer _config;
+		private ApplicationSettings _settings;
 		private IRepository _repository;
 		private Mock<UserManager> _userManagerMock;
 		private IRoadkillContext _context;
@@ -24,9 +24,9 @@ namespace Roadkill.Tests.Unit
 		public void TestsSetup()
 		{
 			_context = new Mock<IRoadkillContext>().Object;
-			_config = new ConfigurationContainer();
+			_settings = new ApplicationSettings();
 			_repository = null;
-			_userManagerMock = new Mock<UserManager>(_config, _repository);
+			_userManagerMock = new Mock<UserManager>(_settings, _repository);
 			_userManagerMock.Setup(u => u.UserNameExists("username-exists")).Returns(true);
 		}
 
@@ -34,7 +34,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsername_For_New_User_With_Blank_Username_Should_Fail()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = null;
 			summary.NewUsername = "			\n";
 			summary.IsBeingCreatedByAdmin = false;
@@ -50,7 +50,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsername_For_New_User_With_Valid_Username_Should_Succeed()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = null;
 			summary.NewUsername = "fred1234";
 			summary.IsBeingCreatedByAdmin = false;
@@ -66,7 +66,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsername_For_Existing_User_With_Blank_Username_Should_Fail()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = Guid.NewGuid();
 			summary.ExistingUsername = "hansblix";
 			summary.NewUsername = "			\n";
@@ -83,7 +83,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsername_For_Existing_User_With_Valid_Username_Should_Succeed()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = Guid.NewGuid();
 			summary.ExistingUsername = "hansblix";
 			summary.NewUsername = "fred1234";
@@ -100,7 +100,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsernameIsNotInUse_For_New_User_With_Username_That_Exists_Should_Fail()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = null;
 			summary.ExistingUsername = "hansblix";
 			summary.NewUsername = "username-exists";
@@ -117,7 +117,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsernameIsNotInUse_For_New_User_With_Unique_Username_Should_Succeed()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = null;
 			summary.ExistingUsername = "hansblix";
 			summary.NewUsername = "a_unique_name";
@@ -134,7 +134,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsernameIsNotInUse_When_New_User_Created_In_Admin_Tools_With_Unique_Username_Should_Succeed()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = null;
 			summary.ExistingUsername = "hansblix";
 			summary.NewUsername = "a_unique_name";
@@ -151,7 +151,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsernameIsNotInUse_For_Existing_User_With_username_That_Exists_Should_Fail()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = Guid.NewGuid();
 			summary.ExistingUsername = "hansblix";
 			summary.NewUsername = "username-exists";
@@ -168,7 +168,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsernameIsNotInUse_For_Existing_User_With_Unique_Username_Should_Succeed()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = Guid.NewGuid();
 			summary.ExistingUsername = "hansblix";
 			summary.NewUsername = "hansblix2";
@@ -185,7 +185,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmailIsNotInUse_For_Existing_User_With_Unchanged_Username_Should_Succeed()
 		{
 			// Arrange
-			UserSummary summary = new UserSummary(_config, _userManagerMock.Object);
+			UserSummary summary = new UserSummary(_settings, _userManagerMock.Object);
 			summary.Id = Guid.NewGuid();
 			summary.ExistingUsername = "hansblix";
 			summary.NewUsername = "hansblix";
