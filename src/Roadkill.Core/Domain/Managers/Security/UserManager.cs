@@ -14,8 +14,8 @@ namespace Roadkill.Core
 	{
 		protected PageManager PageManager;
 
-		public UserManager(IConfigurationContainer configuration, IRepository repository)
-			: base(configuration, repository)
+		public UserManager(ApplicationSettings settings, IRepository repository)
+			: base(settings, repository)
 		{
 
 		}

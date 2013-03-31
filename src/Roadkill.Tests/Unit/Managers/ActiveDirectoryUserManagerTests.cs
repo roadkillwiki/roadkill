@@ -29,7 +29,7 @@ namespace Roadkill.Tests.Unit
 
 		private Mock<IActiveDirectoryService> _serviceMock;
 		private IRepository _repository;
-		private IConfigurationContainer _config;
+		private ApplicationSettings _config;
 		private ActiveDirectoryUserManager _manager;
 
 		private class MockPrincipal : IRoadKillPrincipal
@@ -52,14 +52,12 @@ namespace Roadkill.Tests.Unit
 			_serviceMock.Setup(x => x.GetMembers(_domainPath, _username, _password, _adminsGroupName)).Returns(adminUsers);
 			_serviceMock.Setup(x => x.GetMembers(_domainPath, _username, _password, _editorsGroupName)).Returns(editorUsers);
 
-			_config = new ConfigurationContainer();
-			_config.SitePreferences = new SiteSettings();
-			_config.ApplicationSettings = new ApplicationSettings();
-			_config.ApplicationSettings.LdapConnectionString = _ldapString;
-			_config.ApplicationSettings.LdapUsername = _username;
-			_config.ApplicationSettings.LdapPassword = _password;
-			_config.ApplicationSettings.AdminRoleName = _adminsGroupName;
-			_config.ApplicationSettings.EditorRoleName = _editorsGroupName;
+			_config = new ApplicationSettings();
+			_config.LdapConnectionString = _ldapString;
+			_config.LdapUsername = _username;
+			_config.LdapPassword = _password;
+			_config.AdminRoleName = _adminsGroupName;
+			_config.EditorRoleName = _editorsGroupName;
 			_repository = new Mock<IRepository>().Object;
 
 			_manager = new ActiveDirectoryUserManager(_config, _repository, _serviceMock.Object);

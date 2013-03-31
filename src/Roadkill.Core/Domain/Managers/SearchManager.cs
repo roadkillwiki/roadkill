@@ -28,10 +28,10 @@ namespace Roadkill.Core.Search
 		protected virtual string IndexPath { get; set; }
 		private static readonly LuceneVersion LUCENEVERSION = LuceneVersion.LUCENE_29;
 
-		public SearchManager(IConfigurationContainer configuration, IRepository repository)
-			: base(configuration, repository)
+		public SearchManager(ApplicationSettings settings, IRepository repository)
+			: base(settings, repository)
 		{
-			_markupConverter = new MarkupConverter(configuration, repository);
+			_markupConverter = new MarkupConverter(settings, repository);
 			IndexPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\search";
 		}
 
@@ -138,7 +138,7 @@ namespace Roadkill.Core.Search
 			}
 			catch (Exception ex)
 			{
-				if (!Configuration.ApplicationSettings.IgnoreSearchIndexErrors)
+				if (!ApplicationSettings.IgnoreSearchIndexErrors)
 					throw new SearchException(ex, "An error occured while adding page '{0}' to the search index", summary.Title);
 			}
 		}
@@ -163,7 +163,7 @@ namespace Roadkill.Core.Search
 			}
 			catch (Exception ex)
 			{
-				if (!Configuration.ApplicationSettings.IgnoreSearchIndexErrors)
+				if (!ApplicationSettings.IgnoreSearchIndexErrors)
 					throw new SearchException(ex, "An error occured while deleting page '{0}' from the search index", summary.Title);
 				else
 					return 0;

@@ -170,18 +170,18 @@ namespace Roadkill.Tests.Unit
 			};
 
 			Mock<IRepository> mockRepository = new Mock<IRepository>();
-			mockRepository.Setup(x => x.SaveSitePreferences(preferences));
-			mockRepository.Setup(x => x.GetSitePreferences()).Returns(preferences);
+			mockRepository.Setup(x => x.SaveSiteSettings(preferences));
+			mockRepository.Setup(x => x.GetSiteSettings()).Returns(preferences);
 
 			IoCSetup iocSetup = new IoCSetup(_config, mockRepository.Object, new RoadkillContext(null)); // context isn't used
 			iocSetup.Run();
 			SettingsManager settingsManager = new SettingsManager(_config, mockRepository.Object);
 
 			// Act
-			settingsManager.SaveSitePreferences(validConfigSettings, true);
+			settingsManager.SaveSiteettings(validConfigSettings, true);
 
 			// Assert
-			mockRepository.Verify(x => x.SaveSitePreferences(
+			mockRepository.Verify(x => x.SaveSiteSettings(
 				It.Is<SiteSettings>(s => s.MarkupType == preferences.MarkupType)
 			));
 

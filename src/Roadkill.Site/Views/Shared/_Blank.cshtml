@@ -1,4 +1,4 @@
-﻿@inherits RoadkillLayoutPage<dynamic>
+﻿@inherits RoadkillLayoutPage
 @using Roadkill.Core
 <!DOCTYPE html>
 <html>
@@ -8,7 +8,6 @@
 </head>
 
 <body>
-@Html.Action("PageToolbar", "Wiki", new { id = Model.Id }, true)
 @RenderBody()
 </body>
 </html>

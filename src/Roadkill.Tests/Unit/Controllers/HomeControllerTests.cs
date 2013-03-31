@@ -20,7 +20,7 @@ namespace Roadkill.Tests.Unit
 	[Category("Unit")]
 	public class HomeControllerTests
 	{
-		private IConfigurationContainer _config;
+		private ApplicationSettings _config;
 		private IRoadkillContext _context;
 		private IRepository _repository;
 		private Mock<IRepository> _mockRepository;
@@ -39,11 +39,10 @@ namespace Roadkill.Tests.Unit
 			_pagesContent = new List<PageContent>();
 
 			_context = new Mock<IRoadkillContext>().Object;
-			_config = new ConfigurationContainer();
-			_config.ApplicationSettings = new ApplicationSettings();
-			_config.ApplicationSettings.Installed = true;
+			_config = new ApplicationSettings();
+			_config.Installed = true;
 			_config.SitePreferences = new SiteSettings() { AllowedFileTypes = "png, jpg" };
-			_config.ApplicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
+			_config.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
 
 			// Cache
 			ListCache listCache = new ListCache(_config);

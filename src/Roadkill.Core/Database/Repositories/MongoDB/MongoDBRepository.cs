@@ -15,7 +15,7 @@ namespace Roadkill.Core.Database.MongoDB
 {
 	public class MongoDBRepository : IRepository
 	{
-		private IConfigurationContainer _configuration;
+		private ApplicationSettings _settings;
 
 		public IQueryable<Page> Pages
 		{
@@ -42,14 +42,14 @@ namespace Roadkill.Core.Database.MongoDB
 		}
 
 
-		public MongoDBRepository(IConfigurationContainer config)
+		public MongoDBRepository(ApplicationSettings settings)
 		{
-			_configuration = config;
+			_settings = settings;
 		}
 
 		private MongoCollection<T> GetCollection<T>()
 		{
-			string connectionString = _configuration.ApplicationSettings.ConnectionString;
+			string connectionString = _settings.ConnectionString;
 
 			string databaseName = MongoUrl.Create(connectionString).DatabaseName;
 			MongoClient client = new MongoClient(connectionString);
@@ -106,7 +106,7 @@ namespace Roadkill.Core.Database.MongoDB
 				.FirstOrDefault();
 		}
 
-		public SiteSettings GetSitePreferences()
+		public SiteSettings GetSiteSettings()
 		{
 			SitePreferencesEntity entity = Queryable<SitePreferencesEntity>().FirstOrDefault();
 			SiteSettings preferences = new SiteSettings();
@@ -123,7 +123,7 @@ namespace Roadkill.Core.Database.MongoDB
 			return preferences;
 		}
 
-		public void SaveSitePreferences(SiteSettings preferences)
+		public void SaveSiteSettings(SiteSettings preferences)
 		{
 			// Get the fresh db entity first
 			SitePreferencesEntity entity = Queryable<SitePreferencesEntity>().FirstOrDefault();
@@ -161,9 +161,9 @@ namespace Roadkill.Core.Database.MongoDB
 			database.GetCollectionNames();
 		}
 
-		public void Upgrade(IConfigurationContainer configuration)
+		public void Upgrade(ApplicationSettings settings)
 		{
-			// Delete the SitePreferences instance
+			// TODO
 		}
 
 		public IEnumerable<Page> AllPages()

@@ -23,8 +23,8 @@ namespace Roadkill.Core.Database
 		PageContent AddNewPageContentVersion(Page page, string text, string editedBy, DateTime editedOn, int version);
 		void UpdatePageContent(PageContent content); // no new version
 		void SaveOrUpdateUser(User user);
-		void SaveSitePreferences(SiteSettings preferences);
-		SiteSettings GetSitePreferences();
+		void SaveSiteSettings(SiteSettings siteSettings);
+		SiteSettings GetSiteSettings();
 
 		void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache);
 		void Install(DataStoreType dataStoreType, string connectionString, bool enableCache);
@@ -33,8 +33,8 @@ namespace Roadkill.Core.Database
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="configuration"></param>
+		/// <param name="applicationSettings"></param>
 		/// <exception cref="UpgradeException">Thrown if there is a problem with the upgrade. This contains the details of the failure.</exception>
-		void Upgrade(IConfigurationContainer configuration);
+		void Upgrade(ApplicationSettings applicationSettings);
 	}
 }

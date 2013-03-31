@@ -16,22 +16,22 @@ namespace Roadkill.Core.Files
 	/// </summary>
 	public class AttachmentFileHandler : IHttpHandler
 	{
-		private IConfigurationContainer _config;
+		private ApplicationSettings _settings;
 
 		public bool IsReusable
 		{
 			get { return true; }
 		}
 
-		public AttachmentFileHandler(IConfigurationContainer config)
+		public AttachmentFileHandler(ApplicationSettings settings)
 		{
-			_config = config;
+			_settings = settings;
 		}
 
 		public void ProcessRequest(HttpContext context)
 		{
 			string fileExtension = Path.GetExtension(context.Request.Url.LocalPath);
-			string attachmentFolder = _config.ApplicationSettings.AttachmentsDirectoryPath;
+			string attachmentFolder = _settings.AttachmentsDirectoryPath;
 
 			using (ServerManager serverManager = new ServerManager())
 			{
@@ -42,7 +42,7 @@ namespace Roadkill.Core.Files
 				try
 				{
 					// LocalPath uses "/" and a Windows filepath is \
-					string filePath = context.Request.Url.LocalPath.Replace(string.Format("/{0}", _config.ApplicationSettings.AttachmentsRoutePath), "");
+					string filePath = context.Request.Url.LocalPath.Replace(string.Format("/{0}", _settings.AttachmentsRoutePath), "");
 					filePath = filePath.Replace('/', Path.DirectorySeparatorChar);
 
 					if (attachmentFolder.EndsWith(Path.DirectorySeparatorChar.ToString()))
@@ -120,9 +120,9 @@ namespace Roadkill.Core.Files
 			}
 		}
 
-		internal static string GetAttachmentsPath(IConfigurationContainer configuration)
+		internal static string GetAttachmentsPath(ApplicationSettings settings)
 		{
-			string attachmentsPath = configuration.ApplicationSettings.AttachmentsUrlPath;
+			string attachmentsPath = settings.AttachmentsUrlPath;
 			if (HttpContext.Current != null)
 			{
 				string applicationPath = HttpContext.Current.Request.ApplicationPath;

@@ -12,16 +12,16 @@ namespace Roadkill.Core.Cache
 	public class ListCache
 	{
 		internal static MemoryCache _cache = new MemoryCache("ListCache");
-		private IConfigurationContainer _config;
+		private ApplicationSettings _applicationSettings;
 
-		public ListCache(IConfigurationContainer config)
+		public ListCache(ApplicationSettings settings)
 		{
-			_config = config;
+			_applicationSettings = settings;
 		}
 
 		public void Add<T>(string key, IEnumerable<T> items)
 		{
-			if (!_config.ApplicationSettings.UseObjectCache)
+			if (!_applicationSettings.UseObjectCache)
 				return;
 
 			Log.Information("ListCache: Added {0} to cache", key);
@@ -36,7 +36,7 @@ namespace Roadkill.Core.Cache
 
 		public void Remove(string key)
 		{
-			if (!_config.ApplicationSettings.UseObjectCache)
+			if (!_applicationSettings.UseObjectCache)
 				return;
 
 			Log.Information("ListCache: Removed {0} from cache", key);
@@ -45,7 +45,7 @@ namespace Roadkill.Core.Cache
 
 		public void RemoveAll()
 		{
-			if (!_config.ApplicationSettings.UseObjectCache)
+			if (!_applicationSettings.UseObjectCache)
 				return;
 
 			Log.Information("ListCache: RemoveAll from cache");

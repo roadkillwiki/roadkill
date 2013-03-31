@@ -101,7 +101,7 @@ namespace Roadkill.Core.Converters
 			return _processBracketingCreole("''", _getStartTag("<em>"), "</em>", markup);
 		}
 
-		public MediaWikiParser(IConfigurationContainer config) : base(config) { }
+		public MediaWikiParser(ApplicationSettings applicationSettings, SiteSettings siteSettings) : base(applicationSettings, siteSettings) { }
 
 		/// <summary>
 		/// Convert Media Wiki markup to HTML.

@@ -38,30 +38,30 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ActiveDirectoryUserManager"/> class.
 		/// </summary>
-		public ActiveDirectoryUserManager(IConfigurationContainer configuration, IRepository repository, IActiveDirectoryService service)
-			: base(configuration, repository)
+		public ActiveDirectoryUserManager(ApplicationSettings settings, IRepository repository, IActiveDirectoryService service)
+			: base(settings, repository)
 		{
 			// Some guards
-			if (configuration == null)
+			if (settings == null)
 				throw new SecurityException("The configuration is null", null);
 
-			if (configuration.ApplicationSettings == null)
+			if (settings == null)
 				throw new SecurityException("The configuration ApplicationSettings is null", null);
 
-			if (string.IsNullOrEmpty(configuration.ApplicationSettings.LdapConnectionString))
+			if (string.IsNullOrEmpty(settings.LdapConnectionString))
 				throw new SecurityException("The LDAP connection string is empty", null);
 
-			if (string.IsNullOrEmpty(configuration.ApplicationSettings.EditorRoleName))
+			if (string.IsNullOrEmpty(settings.EditorRoleName))
 				throw new SecurityException("The LDAP editor group name is empty", null);
 
-			if (string.IsNullOrEmpty(configuration.ApplicationSettings.AdminRoleName))
+			if (string.IsNullOrEmpty(settings.AdminRoleName))
 				throw new SecurityException("The LDAP admin group name is empty", null);
 
-			string ldapConnectionString = configuration.ApplicationSettings.LdapConnectionString;
-			string username = configuration.ApplicationSettings.LdapUsername;
-			string password = configuration.ApplicationSettings.LdapPassword;
-			string editorGroupName = configuration.ApplicationSettings.EditorRoleName;
-			string adminGroupName = configuration.ApplicationSettings.AdminRoleName;
+			string ldapConnectionString = settings.LdapConnectionString;
+			string username = settings.LdapUsername;
+			string password = settings.LdapPassword;
+			string editorGroupName = settings.EditorRoleName;
+			string adminGroupName = settings.AdminRoleName;
 
 			_service = service;
 			_connectionString = ldapConnectionString;
