@@ -13,34 +13,34 @@ namespace Roadkill.Core.Files
 	/// </summary>
 	public class AttachmentRouteHandler : IRouteHandler
 	{
-		private IConfigurationContainer _config;
+		private ApplicationSettings _settings;
 
-		public AttachmentRouteHandler(IConfigurationContainer config)
+		public AttachmentRouteHandler(ApplicationSettings settings)
 		{
-			_config = config;
+			_settings = settings;
 		}
 
-		public static void RegisterRoute(IConfigurationContainer config)
+		public static void RegisterRoute(ApplicationSettings settings)
 		{
-			Route route = new Route(config.ApplicationSettings.AttachmentsRoutePath + "/{*filename}", new AttachmentRouteHandler(config));
+			Route route = new Route(settings.AttachmentsRoutePath + "/{*filename}", new AttachmentRouteHandler(settings));
 			route.Constraints = new RouteValueDictionary();
-			route.Constraints.Add("MvcContraint", new IgnoreMvcConstraint(config));
+			route.Constraints.Add("MvcContraint", new IgnoreMvcConstraint(settings));
 
 			RouteTable.Routes.Add(route);
 		}
 
 		public IHttpHandler GetHttpHandler(RequestContext requestContext)
 		{
-			return new AttachmentFileHandler(_config);
+			return new AttachmentFileHandler(_settings);
 		}
 
 		internal class IgnoreMvcConstraint : IRouteConstraint
 		{
-			private IConfigurationContainer _config;
+			private ApplicationSettings _settings;
 
-			public IgnoreMvcConstraint(IConfigurationContainer config)
+			public IgnoreMvcConstraint(ApplicationSettings settings)
 			{
-				_config = config;
+				_settings = settings;
 			}
 
 			public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
@@ -51,7 +51,7 @@ namespace Roadkill.Core.Files
 					return false;
 
 				// Remove the starting "/" for the route table
-				if (route.Url.StartsWith(_config.ApplicationSettings.AttachmentsRoutePath + "/"))
+				if (route.Url.StartsWith(_settings.AttachmentsRoutePath + "/"))
 					return true;
 				else
 					return false;

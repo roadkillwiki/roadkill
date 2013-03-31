@@ -21,12 +21,12 @@ namespace Roadkill.Core
 		private string _connectionString;
 		private string _attachmentsFolder;
 		protected IRepository Repository;
-		protected IConfigurationContainer Configuration;
+		protected ApplicationSettings ApplicationSettings;
 
-		public ScrewTurnImporter(IConfigurationContainer configuration)
+		public ScrewTurnImporter(ApplicationSettings settings, IRepository repository)
 		{
-			Repository = ObjectFactory.GetInstance<IRepository>();
-			Configuration = configuration;
+			Repository = repository;
+			ApplicationSettings = settings;
 		}
 
 		/// <summary>
@@ -41,7 +41,7 @@ namespace Roadkill.Core
 		public void ImportFromSqlServer(string connectionString)
 		{
 			_connectionString = connectionString;
-			_attachmentsFolder = Configuration.ApplicationSettings.AttachmentsDirectoryPath;
+			_attachmentsFolder = ApplicationSettings.AttachmentsDirectoryPath;
 
 			using (SqlConnection connection = new SqlConnection(_connectionString))
 			{

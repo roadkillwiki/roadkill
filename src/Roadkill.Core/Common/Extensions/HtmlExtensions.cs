@@ -138,9 +138,9 @@ namespace Roadkill.Core
 		/// <param name="helper">The helper.</param>
 		/// <param name="relativePath">The filename or path inside the current theme directory.</param>
 		/// <returns>A url path to the item, e.g. '/MySite/Themes/Mediawiki/logo.png'</returns>
-		public static string ThemeContent(this UrlHelper helper, string relativePath, IConfigurationContainer config)
+		public static string ThemeContent(this UrlHelper helper, string relativePath, SiteSettings settings)
 		{
-			return helper.Content(config.SitePreferences.ThemePath + "/" + relativePath);
+			return helper.Content(settings.ThemePath + "/" + relativePath);
 		}
 
 		/// <summary>
@@ -160,16 +160,16 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Renders the Recaptcha control as HTML, if recaptcha is enabled.
 		/// </summary>
-		public static MvcHtmlString RenderCaptcha(this HtmlHelper helper, IConfigurationContainer config)
+		public static MvcHtmlString RenderCaptcha(this HtmlHelper helper, SiteSettings siteSettings)
 		{
 			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
-			if (controller != null && controller.Configuration.SitePreferences.IsRecaptchaEnabled)
+			if (controller != null && siteSettings.IsRecaptchaEnabled)
 			{
 				RecaptchaControl control = new RecaptchaControl();
 				control.ID = "recaptcha";
 				control.Theme = "clean";
-				control.PublicKey = config.SitePreferences.RecaptchaPublicKey;
-				control.PrivateKey = config.SitePreferences.RecaptchaPrivateKey;
+				control.PublicKey = siteSettings.RecaptchaPublicKey;
+				control.PrivateKey = siteSettings.RecaptchaPrivateKey;
 
 				using (StringWriter stringWriter = new StringWriter())
 				{
@@ -195,7 +195,7 @@ namespace Roadkill.Core
 		public static MvcHtmlString ResizeImagesScript(this HtmlHelper helper)
 		{
 			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
-			if (controller != null && controller.Configuration.ApplicationSettings.ResizeImages)
+			if (controller != null && controller.ApplicationSettings.ResizeImages)
 			{
 				return MvcHtmlString.Create(@"<script type=""text/javascript"">
 			$(document).ready(function ()
@@ -217,9 +217,9 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Gets the full path for the attachments folder, including any extra application paths from the url.
 		/// </summary>
-		public static MvcHtmlString GetAttachmentsPath(this UrlHelper helper, IConfigurationContainer config)
+		public static MvcHtmlString GetAttachmentsPath(this UrlHelper helper, ApplicationSettings settings)
 		{
-			return MvcHtmlString.Create(AttachmentFileHandler.GetAttachmentsPath(config));
+			return MvcHtmlString.Create(AttachmentFileHandler.GetAttachmentsPath(settings));
 		}
 
 		/// <summary>
