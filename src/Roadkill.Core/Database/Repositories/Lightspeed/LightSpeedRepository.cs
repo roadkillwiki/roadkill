@@ -17,7 +17,7 @@ namespace Roadkill.Core.Database.LightSpeed
 {
 	public class LightSpeedRepository : Roadkill.Core.Database.IRepository
 	{
-		private IConfigurationContainer _configuration;
+		private ApplicationSettings _applicationSettings;
 
 		internal IQueryable<PageEntity> Pages
 		{
@@ -68,9 +68,9 @@ namespace Roadkill.Core.Database.LightSpeed
 			}
 		}
 
-		public LightSpeedRepository(IConfigurationContainer configuration)
+		public LightSpeedRepository(ApplicationSettings settings)
 		{
-			_configuration = configuration;
+			_applicationSettings = settings;
 		}
 
 		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)
@@ -126,19 +126,19 @@ namespace Roadkill.Core.Database.LightSpeed
 			}
 		}
 
-		public void Upgrade(IConfigurationContainer configuration)
+		public void Upgrade(ApplicationSettings settings)
 		{
 			try
 			{
 				using (IDbConnection connection = Context.DataProviderObjectFactory.CreateConnection())
 				{
-					connection.ConnectionString = configuration.ApplicationSettings.ConnectionString;
+					connection.ConnectionString = settings.ConnectionString;
 					connection.Open();
 
 					IDbCommand command = Context.DataProviderObjectFactory.CreateCommand();
 					command.Connection = connection;
 
-					configuration.ApplicationSettings.DataStoreType.Schema.Upgrade(command);
+					settings.DataStoreType.Schema.Upgrade(command);
 				}
 			}
 			catch (Exception ex)
@@ -149,7 +149,7 @@ namespace Roadkill.Core.Database.LightSpeed
 
 			try
 			{
-				SaveSitePreferences(new SiteSettings());
+				SaveSiteSettings(new SiteSettings());
 			}
 			catch (Exception ex)
 			{
@@ -158,7 +158,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			}
 		}
 
-		public SiteSettings GetSitePreferences()
+		public SiteSettings GetSiteSettings()
 		{
 			SiteSettings preferences = new SiteSettings();
 			SitePreferencesEntity entity = UnitOfWork.FindById<SitePreferencesEntity>(SiteSettings.SiteSettingsId);
@@ -175,7 +175,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			return preferences;
 		}
 
-		public void SaveSitePreferences(SiteSettings preferences)
+		public void SaveSiteSettings(SiteSettings preferences)
 		{
 			SitePreferencesEntity entity = UnitOfWork.Find<SitePreferencesEntity>().FirstOrDefault();
 
@@ -262,7 +262,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			IEnumerable<PageEntity> entities = new List<PageEntity>();
 
-			if (_configuration.ApplicationSettings.DataStoreType != DataStoreType.Postgres)
+			if (_applicationSettings.DataStoreType != DataStoreType.Postgres)
 			{
 				entities = Pages.Where(p => p.Tags.ToLower().Contains(tag.ToLower()));
 			}

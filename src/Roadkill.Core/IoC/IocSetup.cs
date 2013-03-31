@@ -32,7 +32,7 @@ namespace Roadkill.Core
 		// - The others can rely on everything above.
 		//
 
-		private IConfigurationContainer _config;
+		private ApplicationSettings _applicationSettings;
 		private IRepository _repository;
 		private IRoadkillContext _context;
 		private bool _useCustomInstances;
@@ -43,10 +43,10 @@ namespace Roadkill.Core
 			_useCustomInstances = false;
 		}
 
-		public IoCSetup(IConfigurationContainer configurationContainer, IRepository repository, IRoadkillContext context)
+		public IoCSetup(ApplicationSettings applicationSettings, IRepository repository, IRoadkillContext context)
 		{
-			if (configurationContainer == null)
-				throw new IoCException("The IConfigurationContainer parameter is null", null);
+			if (applicationSettings == null)
+				throw new IoCException("The ApplicationSettings parameter is null", null);
 
 			if (repository == null)
 				throw new IoCException("The IRepository parameter is null", null);
@@ -54,10 +54,7 @@ namespace Roadkill.Core
 			if (context == null)
 				throw new IoCException("The IRoadkillContext parameter is null", null);
 
-			if (configurationContainer.ApplicationSettings == null)
-				throw new IoCException("The IConfigurationContainer.ApplicationSettings of the config parameter is null - " + ObjectFactory.WhatDoIHave(), null);
-
-			_config = configurationContainer;
+			_applicationSettings = applicationSettings;
 			_repository = repository;
 			_context = context;
 			_useCustomInstances = true;
@@ -80,7 +77,7 @@ namespace Roadkill.Core
 						scanner.AssembliesFromPath(pluginPath);
 
 					// Config, repository, context
-					scanner.AddAllTypesOf<IConfigurationContainer>();
+					scanner.AddAllTypesOf<ApplicationSettings>();
 					scanner.AddAllTypesOf<IRepository>();
 					scanner.AddAllTypesOf<IRoadkillContext>();
 
@@ -110,8 +107,10 @@ namespace Roadkill.Core
 					scanner.AddAllTypesOf<PageSummaryCache>();
 				});
 
-				// Set the 3 core types to use HTTP/Thread-based lifetimes
-				x.For<IConfigurationContainer>().HybridHttpOrThreadLocalScoped();
+				// Web.config settings
+				x.For<ApplicationSettings>().Singleton();
+
+				// Set the 2 core types to use HTTP/Thread-based lifetimes
 				x.For<IRepository>().HybridHttpOrThreadLocalScoped();
 				x.For<IRoadkillContext>().HybridHttpOrThreadLocalScoped();
 
@@ -128,17 +127,18 @@ namespace Roadkill.Core
 				}
 				else
 				{
-					_config = ObjectFactory.GetInstance<IConfigurationContainer>();
+					ConfigFileManager configFileManager = new ConfigFileManager();
+					_applicationSettings = configFileManager.GetApplicationSettings();
+					x.For<ApplicationSettings>().Use(_applicationSettings);
 
 					//
 					// Default repository, or get it from the DataStoreType
 					//
 					x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use<LightSpeedRepository>();
 
-					_config.ApplicationSettings.Load();
-					if (_config.ApplicationSettings.DataStoreType.RequiresCustomRepository)
+					if (_applicationSettings.DataStoreType.RequiresCustomRepository)
 					{
-						IRepository customRepository = LoadRepositoryFromType(_config.ApplicationSettings.DataStoreType.CustomRepositoryType);
+						IRepository customRepository = LoadRepositoryFromType(_applicationSettings.DataStoreType.CustomRepositoryType);
 						x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use(customRepository);
 					}
 				}
@@ -146,9 +146,9 @@ namespace Roadkill.Core
 				//
 				// UserManager : Windows authentication, custom or the default
 				//
-				string userManagerTypeName = _config.ApplicationSettings.UserManagerType;
+				string userManagerTypeName = _applicationSettings.UserManagerType;
 
-				if (_config.ApplicationSettings.UseWindowsAuthentication)
+				if (_applicationSettings.UseWindowsAuthentication)
 				{
 					x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<ActiveDirectoryUserManager>();
 				}
@@ -168,18 +168,18 @@ namespace Roadkill.Core
 			});
 
 			_repository = ObjectFactory.GetInstance<IRepository>();
-			_repository.Startup(_config.ApplicationSettings.DataStoreType,
-								_config.ApplicationSettings.ConnectionString,
-								_config.ApplicationSettings.UseObjectCache);
+			_repository.Startup(_applicationSettings.DataStoreType,
+								_applicationSettings.ConnectionString,
+								_applicationSettings.UseObjectCache);
 
-			Log.ConfigureLogging(_config);
+			Log.ConfigureLogging(_applicationSettings);
 			_hasRunInitialization = true;
 		}
 
 		private void RegisterCustomInstances(ConfigurationExpression x)
 		{
 			// Config
-			x.For<IConfigurationContainer>().HybridHttpOrThreadLocalScoped().Use(_config);
+			x.For<ApplicationSettings>().Singleton().Use(_applicationSettings);
 
 			// Repository
 			x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use(_repository);
@@ -241,7 +241,7 @@ namespace Roadkill.Core
 				ModelBinders.Binders.Add(typeof(SettingsSummary), new SettingsSummaryModelBinder());
 
 				// Attachments path
-				AttachmentRouteHandler.RegisterRoute(_config);
+				AttachmentRouteHandler.RegisterRoute(_applicationSettings);
 			}
 			else
 			{
@@ -253,16 +253,16 @@ namespace Roadkill.Core
 		/// This method could be removed and then a refactor into an IUnitOfWork with StructureMap
 		/// </summary>
 		public static void DisposeRepository()
-		{	
-			IConfigurationContainer config = ObjectFactory.GetInstance<IConfigurationContainer>();
+		{
+			ApplicationSettings settings = ObjectFactory.GetInstance<ApplicationSettings>();
 
 			// Don't try to dispose a repository if the app isn't installed, as it the repository won't be correctly configured.
 			// (as no connection string is set, the Startup doesn't complete and the IUnitOfWork isn't registered with StructureMap)
-			if (config.ApplicationSettings.Installed)
+			if (settings.Installed)
 			{
 				IRepository repository = ObjectFactory.GetInstance<IRepository>();
 
-				if (config.ApplicationSettings.Installed)
+				if (settings.Installed)
 				{
 					ObjectFactory.GetInstance<IRepository>().Dispose();
 				}

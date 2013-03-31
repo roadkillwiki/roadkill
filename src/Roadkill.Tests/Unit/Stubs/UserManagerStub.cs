@@ -18,8 +18,8 @@ namespace Roadkill.Tests
 
 		}
 
-		public UserManagerStub(IConfigurationContainer configuration, IRepository repository)
-			: base(configuration, repository)
+		public UserManagerStub(ApplicationSettings settings, IRepository repository)
+			: base(settings, repository)
 		{
 
 		}

@@ -20,7 +20,7 @@ namespace Roadkill.Tests.Unit
 	[Category("Unit")]
 	public class WikiControllerTests
 	{
-		private IConfigurationContainer _config;
+		private ApplicationSettings _settings;
 		private IRoadkillContext _context;
 		private IRepository _repository;
 
@@ -37,15 +37,14 @@ namespace Roadkill.Tests.Unit
 			_pagesContent = new List<PageContent>();
 
 			_context = new Mock<IRoadkillContext>().Object;
-			_config = new ConfigurationContainer();
-			_config.ApplicationSettings = new ApplicationSettings();
-			_config.ApplicationSettings.Installed = true;
-			_config.SitePreferences = new SiteSettings() { AllowedFileTypes = "png, jpg" };
-			_config.ApplicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
+			_settings = new ApplicationSettings();
+			_settings.Installed = true;
+			_settings.SitePreferences = new SiteSettings() { AllowedFileTypes = "png, jpg" };
+			_settings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
 
 			// Cache
-			ListCache listCache = new ListCache(_config);
-			PageSummaryCache pageSummaryCache = new PageSummaryCache(_config);
+			ListCache listCache = new ListCache(_settings);
+			PageSummaryCache pageSummaryCache = new PageSummaryCache(_settings);
 
 			// Dependencies for PageManager
 			Mock<IRepository> repositoryMock = new Mock<IRepository>();
@@ -55,16 +54,16 @@ namespace Roadkill.Tests.Unit
 			Mock<SearchManager> searchMock = new Mock<SearchManager>();
 
 			_repository = repositoryMock.Object;
-			_userManager = new Mock<UserManager>(_config, null).Object;
-			_historyManager = new HistoryManager(_config, _repository, _context, pageSummaryCache);
-			_pageManager = new PageManager(_config, _repository, null, _historyManager, _context, listCache, pageSummaryCache);
+			_userManager = new Mock<UserManager>(_settings, null).Object;
+			_historyManager = new HistoryManager(_settings, _repository, _context, pageSummaryCache);
+			_pageManager = new PageManager(_settings, _repository, null, _historyManager, _context, listCache, pageSummaryCache);
 		}
 
 		[Test]
 		public void Index_Should_Return_Page()
 		{
 			// Arrange
-			WikiController wikiController = new WikiController(_config, _userManager, _pageManager, _context);
+			WikiController wikiController = new WikiController(_settings, _userManager, _pageManager, _context);
 			MvcMockContainer mocksContainer = wikiController.SetFakeControllerContext();
 			Page page1 = new Page()
 			{
@@ -97,7 +96,7 @@ namespace Roadkill.Tests.Unit
 		public void Index_With_Bad_Page_Id_Should_Redirect()
 		{
 			// Arrange
-			WikiController wikiController = new WikiController(_config, _userManager, _pageManager, _context);
+			WikiController wikiController = new WikiController(_settings, _userManager, _pageManager, _context);
 			MvcMockContainer mocksContainer = wikiController.SetFakeControllerContext();
 
 			// Act

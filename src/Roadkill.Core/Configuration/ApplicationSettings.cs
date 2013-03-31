@@ -190,163 +190,16 @@ namespace Roadkill.Core.Configuration
 		{
 			get
 			{
-				return typeof(ConfigurationContainer).Assembly.GetName().Version;
+				return typeof(ApplicationSettings).Assembly.GetName().Version;
 			}
 		}
 
-		/// <summary>
-		/// Loads the settings from the configuration file.
-		/// </summary>
-		/// <param name="config">The configuration to load the settings from. If this is null, the <see cref="ConfigurationManager"/> 
-		/// is used to load the settings.</param>
-		public virtual void Load(System.Configuration.Configuration config = null)
+		public ApplicationSettings()
 		{
-			// Configuration options that aren't configured from web.config
 			AppDataPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\";
 			CustomTokensPath = Path.Combine(AppDataPath, "tokens.xml");
 			HtmlElementWhiteListPath = Path.Combine(AppDataPath, "htmlwhitelist.xml");
 			MinimumPasswordLength = 6;
-
-			// Web/app.config settings
-			RoadkillSection section;
-
-			if (config == null)
-			{
-				section = ConfigurationManager.GetSection("roadkill") as RoadkillSection;
-			}
-			else
-			{
-				section = config.GetSection("roadkill") as RoadkillSection;
-			}
-
-			AdminRoleName = section.AdminRoleName;		
-			AttachmentsFolder = section.AttachmentsFolder;
-			AttachmentsUrlPath = "/Attachments";
-			AttachmentsRoutePath = "Attachments";
-			ConnectionStringName = section.ConnectionStringName;
-
-			if (config == null)
-			{
-				ConnectionString = ConfigurationManager.ConnectionStrings[section.ConnectionStringName].ConnectionString;
-			}
-			else
-			{
-				ConnectionString = config.ConnectionStrings.ConnectionStrings[section.ConnectionStringName].ConnectionString;
-			}
-
-			if (string.IsNullOrEmpty(ConnectionString))
-				Log.Warn("ConnectionString property is null/empty.");
-
-			// Ignore the legacy useCache and cacheText section keys, as the behaviour has changed.
-			UseObjectCache = section.UseObjectCache;
-			UseBrowserCache = section.UseBrowserCache;
-
-			// Look for the legacy database type key
-			string dataStoreType = section.DataStoreType;
-			if (string.IsNullOrEmpty(dataStoreType) && !string.IsNullOrEmpty(section.DatabaseType))
-				dataStoreType = section.DatabaseType;
-
-			LogType loggingType;
-			if (!Enum.TryParse<LogType>(section.Logging, true, out loggingType))
-				loggingType = LogType.None;
-
-			LoggingType = loggingType;
-			LogErrorsOnly = section.LogErrorsOnly;
-
-			DataStoreType = DataStoreType.ByName(dataStoreType);
-			ConnectionStringName = section.ConnectionStringName;
-			EditorRoleName = section.EditorRoleName;
-			IgnoreSearchIndexErrors = section.IgnoreSearchIndexErrors;
-			IsPublicSite = section.IsPublicSite;
-			Installed = section.Installed;		
-			LdapConnectionString = section.LdapConnectionString;
-			LdapUsername = section.LdapUsername;
-			LdapPassword = section.LdapPassword;
-			RepositoryType = section.RepositoryType;
-			ResizeImages = section.ResizeImages;
-			UseHtmlWhiteList = section.UseHtmlWhiteList;
-			UserManagerType = section.UserManagerType;
-			UseWindowsAuthentication = section.UseWindowsAuthentication;
-
-			if (string.IsNullOrEmpty(section.Version))
-			{
-				UpgradeRequired = true;
-			}
-			else
-			{
-				Version configVersion = null;
-				if (Version.TryParse(section.Version, out configVersion))
-				{
-					UpgradeRequired = (configVersion != AssemblyVersion);
-				}
-				else
-				{
-					Log.Warn("Invalid Version found ({0}) in the web.config, assuming it's the same as the assembly version ({1})", section.Version, AssemblyVersion);
-					UpgradeRequired = false;
-				}
-			}
-		}
-
-		/// <summary>
-		/// Loads a custom app.config file for the settings, overriding the default application config file.
-		/// </summary>
-		/// <param name="filePath">A full path to the config file.</param>
-		public void LoadCustomConfigFile(string filePath)
-		{
-			ExeConfigurationFileMap fileMap = new ExeConfigurationFileMap();
-			fileMap.ExeConfigFilename = filePath;
-			System.Configuration.Configuration cfg = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
-
-			Load(cfg);
-		}
-
-		/// <summary>
-		/// Resets the roadkill "installed" property in the web.config for when the installation fails.
-		/// </summary>
-		/// <exception cref="InstallerException">An web.config related error occurred while reseting the install state.</exception>
-		public static void ResetInstalledState(string configFile = "")
-		{
-			try
-			{
-				System.Configuration.Configuration config;
-
-				if (!string.IsNullOrEmpty(configFile))
-				{
-					ExeConfigurationFileMap fileMap = new ExeConfigurationFileMap();
-					fileMap.ExeConfigFilename = configFile;
-					config = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
-				}
-				else
-				{
-					config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
-				}
-
-				RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
-				section.Installed = false;
-
-				config.Save();
-			}
-			catch (ConfigurationErrorsException ex)
-			{
-				throw new InstallerException(ex, "An exception occurred while resetting web.config install state to false.");
-			}
-		}
-
-		/// <summary>
-		/// Tests the web.config can be saved to by changing the "installed" to false.
-		/// </summary>
-		/// <returns>Any error messages or an empty string if no errors occurred.</returns>
-		public static string TestSaveWebConfig()
-		{
-			try
-			{
-				ResetInstalledState();
-				return "";
-			}
-			catch (Exception e)
-			{
-				return e.ToString();
-			}
 		}
 	}
 }

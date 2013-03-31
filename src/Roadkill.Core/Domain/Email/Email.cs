@@ -25,7 +25,8 @@ namespace Roadkill.Core
 	/// </remarks>
 	public abstract class Email
 	{
-		protected IConfigurationContainer Config;
+		protected ApplicationSettings ApplicationSettings;
+		protected SiteSettings SiteSettings;
 
 		/// <summary>
 		/// The HTML template for the email.
@@ -48,7 +49,7 @@ namespace Roadkill.Core
 		/// <param name="summary">The summary.</param>
 		/// <param name="plainTextView">The plain text view.</param>
 		/// <param name="htmlView">The HTML view.</param>
-		public Email(UserSummary summary,string plainTextView,string htmlView, IConfigurationContainer config)
+		public Email(UserSummary summary, string plainTextView, string htmlView, ApplicationSettings applicationSettings, SiteSettings siteSettings)
 		{
 			if (summary == null || (string.IsNullOrEmpty(summary.ExistingEmail) && string.IsNullOrEmpty(summary.NewEmail)))
 				throw new EmailException(null, "The UserSummary for the email is null or has an empty email");
@@ -62,7 +63,8 @@ namespace Roadkill.Core
 			UserSummary = summary;
 			PlainTextView = plainTextView;
 			HtmlView = htmlView;
-			Config = config;
+			ApplicationSettings = applicationSettings;
+			SiteSettings = siteSettings;
 
 			ReplaceTokens(summary);	
 		}
@@ -77,22 +79,22 @@ namespace Roadkill.Core
 			HtmlView = HtmlView.Replace("{LASTNAME}", summary.Lastname);
 			HtmlView = HtmlView.Replace("{EMAIL}", summary.NewEmail);
 			HtmlView = HtmlView.Replace("{USERNAME}", summary.NewUsername);
-			HtmlView = HtmlView.Replace("{SITEURL}", Config.SitePreferences.SiteUrl);
+			HtmlView = HtmlView.Replace("{SITEURL}", SiteSettings.SiteUrl);
 			HtmlView = HtmlView.Replace("{ACTIVATIONKEY}", summary.ActivationKey);
 			HtmlView = HtmlView.Replace("{RESETKEY}", summary.PasswordResetKey);
 			HtmlView = HtmlView.Replace("{USERID}", summary.Id.ToString());
-			HtmlView = HtmlView.Replace("{SITENAME}", Config.SitePreferences.SiteName);
+			HtmlView = HtmlView.Replace("{SITENAME}", SiteSettings.SiteName);
 			HtmlView = HtmlView.Replace("{REQUEST_IP}", HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"]);
 
 			PlainTextView = PlainTextView.Replace("{FIRSTNAME}", summary.Firstname);
 			PlainTextView = PlainTextView.Replace("{LASTNAME}", summary.Lastname);
 			PlainTextView = PlainTextView.Replace("{EMAIL}", summary.NewEmail);
 			PlainTextView = PlainTextView.Replace("{USERNAME}", summary.NewUsername);
-			PlainTextView = PlainTextView.Replace("{SITEURL}", Config.SitePreferences.SiteUrl);
+			PlainTextView = PlainTextView.Replace("{SITEURL}", SiteSettings.SiteUrl);
 			PlainTextView = PlainTextView.Replace("{ACTIVATIONKEY}", summary.ActivationKey);
 			PlainTextView = PlainTextView.Replace("{RESETKEY}", summary.PasswordResetKey);
 			PlainTextView = PlainTextView.Replace("{USERID}", summary.Id.ToString());
-			PlainTextView = PlainTextView.Replace("{SITENAME}", Config.SitePreferences.SiteName);
+			PlainTextView = PlainTextView.Replace("{SITENAME}", SiteSettings.SiteName);
 			PlainTextView = PlainTextView.Replace("{REQUEST_IP}", HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"]);
 		}
 
