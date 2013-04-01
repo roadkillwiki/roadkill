@@ -5,21 +5,26 @@ using System.Web.Mvc;
 using System.Collections.Generic;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Localization.Resx;
-using Roadkill.Core.Files;
+using Roadkill.Core.Mvc.Attributes;
+using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Security;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Attachments;
 
-namespace Roadkill.Core.Controllers
+namespace Roadkill.Core.Mvc.Controllers
 {
     /// <summary>
     /// Provides file manager functionality for wiki page editing.
     /// </summary>
+    [AdminRequired]
     public class FileManagerController : ControllerBase
     {
         /// <summary>
         /// Constructor for the file manager.
         /// </summary>
         /// <remarks>This action requires editor rights.</remarks>
-        public FileManagerController(IConfigurationContainer configuration, UserManager userManager, IRoadkillContext context)
-			: base(configuration, userManager, context) 
+        public FileManagerController(ApplicationSettings settings, UserManagerBase userManager, IUserContext context, SettingsManager siteSettingsManager)
+            : base(settings, userManager, context, siteSettingsManager) 
 		{
 		}
 
@@ -44,7 +49,7 @@ namespace Roadkill.Core.Controllers
         {
             try
             {
-                string path = Path.Combine(AttachmentFileHandler.CombineAbsoluteAttachmentsFolder(Configuration, filePath), fileName);
+                string path = Path.Combine(AttachmentFileHandler.CombineAbsoluteAttachmentsFolder(ApplicationSettings, filePath), fileName);
 
                 if (System.IO.File.Exists(path))
                     System.IO.File.Delete(path);
@@ -74,7 +79,7 @@ namespace Roadkill.Core.Controllers
                     return Json(new { status = "error", message = SiteStrings.FileManager_Error_BaseFolderDelete });
                 }
 
-                string fullPath = AttachmentFileHandler.CombineAbsoluteAttachmentsFolder(Configuration, folder);
+                string fullPath = AttachmentFileHandler.CombineAbsoluteAttachmentsFolder(ApplicationSettings, folder);
 
                 var info = new DirectoryInfo(fullPath);
 
@@ -158,18 +163,18 @@ namespace Roadkill.Core.Controllers
         /// </summary>
         private DirectorySummary GetFilesAndFolders(string folder)
         {
-            DirectorySummary summary = DirectorySummary.FromBase64UrlPath(Configuration, folder);
+            DirectorySummary summary = DirectorySummary.FromBase64UrlPath(ApplicationSettings, folder);
             string fullPath = summary.DiskPath;
 
             if (Directory.Exists(fullPath))
             {
                 foreach (string item in Directory.GetDirectories(fullPath))
                 {
-                    summary.ChildFolders.Add(new DirectorySummary(Configuration, item));
+                    summary.ChildFolders.Add(new DirectorySummary(ApplicationSettings, item));
                 }
                 foreach (string item in Directory.GetFiles(fullPath))
                 {
-                    summary.Files.Add(new FileSummary(item, Configuration));
+                    summary.Files.Add(new FileSummary(item, ApplicationSettings));
                 }
             }
 
@@ -195,7 +200,7 @@ namespace Roadkill.Core.Controllers
                     currentFolderPath = currentFolderPath.Replace("/Attachments", "");
                 }
                 currentFolderPath = currentFolderPath.ToBase64();
-                DirectorySummary summary = DirectorySummary.FromBase64UrlPath(Configuration, currentFolderPath);
+                DirectorySummary summary = DirectorySummary.FromBase64UrlPath(ApplicationSettings, currentFolderPath);
                 string newPath = string.Format("{0}\\{1}", summary.DiskPath, newFolderName);
                 if (!Directory.Exists(newPath))
                     Directory.CreateDirectory(newPath);
@@ -232,13 +237,13 @@ namespace Roadkill.Core.Controllers
 
                 if (destinationFolder == "/Attachments")
                 {
-                    physicalPath = Configuration.ApplicationSettings.AttachmentsFolder;
+                    physicalPath = ApplicationSettings.AttachmentsFolder;
                 }
                 else
                 {
                     destinationFolder = destinationFolder.Replace("/Attachments/", "");
                     destinationFolder = destinationFolder.Replace("/", @"\");
-                    physicalPath = Path.GetFullPath(Path.Combine(Configuration.ApplicationSettings.AttachmentsFolder, destinationFolder));
+                    physicalPath = Path.GetFullPath(Path.Combine(ApplicationSettings.AttachmentsFolder, destinationFolder));
                 }
 
                 for (int i = 0; i < Request.Files.Count; i++)
@@ -247,7 +252,7 @@ namespace Roadkill.Core.Controllers
                     fullFilePath = Path.Combine(physicalPath, SourceFile.FileName);
                     SourceFile.SaveAs(fullFilePath);
 
-                    filesList.Add(new FileSummary(fullFilePath, Configuration));
+                    filesList.Add(new FileSummary(fullFilePath, ApplicationSettings));
 
                 }
 

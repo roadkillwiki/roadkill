@@ -311,7 +311,7 @@
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
-    <Compile Include="Controllers\FileManagerController.cs" />
+    <Compile Include="MVC\Controllers\FileManagerController.cs" />
     <Compile Include="MVC\Attributes\BrowserCacheAttribute.cs" />
     <Compile Include="MVC\Controllers\LogViewerController.cs" />
     <Compile Include="MVC\WebViewPages\RoadkillLayoutPage.cs" />
