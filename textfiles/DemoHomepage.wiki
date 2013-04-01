@@ -1,0 +1,35 @@
+=Welcome=
+This is the demo site for Roadkillwiki - [[http://roadkill.codeplex.com|roadkill.codeplex.com]]. The demo site will usually have the bleeding edge version, rather than the current stable version, which you can see at the bottom of the page.
+
+**A big thank you to [[http://www.discountasp.net|DiscountASP]] for providing the hosting for the demo site.**
+
+=====Login details=====
+* email: editor@roadkillwiki.net
+* password: password
+
+//Note:// your **IP** is logged when you create and edit pages.
+
+The images/uploads are wiped for each new commit to Bitbucket, but the pages remain.
+
+=A generated TOC=
+You can add a table of contents by adding {{{{TOC}}}} to your page.
+
+{TOC}
+
+=Custom tokens=
+You can create your own custom tokens for your install of Roadkill by editing the tokens.xml file in the App_Data folder. This requires some knowledge of regular expressions and HTML/CSS. Below are the built in tokens, which you can add to the page with (nameoftoken:text) - the built in token names are alertbox, warningbox, infobox.
+
+(alertbox:This is an alertbox, which is one of the 3 defaults in the custom tokens file, allowing you to define your own markup tokens and some equivalent HTML they are turned into)
+(warningbox:This is a warning box, which is one of the 3 defaults in the custom tokens file, allowing you to define your own markup tokens and some equivalent HTML they are turned into)
+(infobox:This is an info box, which is one of the 3 defaults in the custom tokens file, allowing you to define your own markup tokens and some equivalent HTML they are turned into)
+
+=Filler text=
+**Bacon** ipsum //dolor// sit __amet__ [[enter url or page name|biltong]] pork shank, salami pancetta ground round turkey beef brisket chicken jowl t-bone boudin. Short loin shankle kielbasa tongue t-bone ham hock brisket turkey chuck fatback venison shoulder sausage ball tip. Fatback ribeye beef ribs, pork loin boudin pork belly tri-tip ham chicken shank turkey. Tenderloin tail cow chicken turducken ham.
+
+Sausage ball tip beef salami. Corned beef sausage tenderloin beef ribs brisket cow turducken pork belly meatball frankfurter pastrami rump salami pork chop. Strip steak tri-tip pork belly pastrami pancetta shoulder. Ball tip boudin short loin andouille tenderloin. Meatball jerky ham, t-bone pig prosciutto shank chicken beef turducken tongue sirloin short loin. Ribeye venison bresaola, bacon chuck boudin pork belly turkey frankfurter prosciutto. Pork loin turkey ball tip brisket bresaola cow, bacon tenderloin pastrami turducken shank.
+
+Turducken turkey tri-tip, venison shankle short ribs shoulder tongue pork loin. T-bone ham bresaola sausage, shank tongue leberkas andouille flank boudin ham hock shoulder. Ribeye corned beef spare ribs sausage kielbasa beef venison brisket shankle bacon chicken. Pig sirloin turkey short ribs shankle pork belly spare ribs leberkas jowl bacon. Chuck meatloaf cow short loin strip steak pork belly hamburger filet mignon bacon bresaola. Flank tail filet mignon, tongue meatloaf turducken bacon pig andouille bresaola sirloin ham hock tri-tip sausage.
+
+Strip steak short ribs ball tip, brisket [[DC test|kielbasa]] corned beef tri-tip shoulder pork loin jerky. Pork belly bacon prosciutto sirloin strip steak capicola ball tip. Turkey tenderloin pork, jerky pastrami chuck pork chop drumstick flank pancetta beef ribs spare ribs t-bone short loin. Flank capicola shankle, pork prosciutto bresaola ham tenderloin swine drumstick biltong pastrami. Sirloin venison meatball brisket biltong tongue chicken leberkas shoulder shank strip steak filet mignon ribeye. Prosciutto hamburger ball tip shank ground round, ham turducken leberkas pig shoulder. Short loin bresaola kielbasa jerky bacon, leberkas brisket jowl pork pig ham ribeye meatball pancetta.
+
+Beef brisket jowl capicola. Sausage venison pork belly, meatball boudin shoulder filet mignon pastrami corned beef. Venison biltong pork beef flank prosciutto. Chicken tenderloin ham hock meatloaf pork belly boudin spare ribs short loin strip steak bresaola cow.

@@ -1,0 +1,37 @@
+﻿@model SettingsSummary
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		setPage(3);
+		$("form").validationEngine();
+	});
+</script>
+
+<p>
+@InstallStrings.Page3_Label1
+</p>
+
+@using (Html.BeginForm("Step3b","Install"))
+{
+	@Html.HiddenFor(h => h.ConnectionString)
+	@Html.HiddenFor(h => h.SiteName)
+	@Html.HiddenFor(h => h.SiteUrl)
+	@Html.HiddenFor(h => h.DataStoreTypeName)
+	<fieldset>
+		<legend>@InstallStrings.Page3_Group1_Title</legend>
+		<br />
+		@(Html.CheckBoxFor(s => s.UseWindowsAuth)) @InstallStrings.Page3_Group1_Label
+		<br /><br />
+	</fieldset>
+
+	<div>
+		<div class="previous"><a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a></div>
+	
+		<div class="continue">
+			<input type="submit" value="@InstallStrings.Shared_NextButton" class="button" />
+		</div>
+	</div>
+}

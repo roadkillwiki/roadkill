@@ -1,0 +1,112 @@
+﻿@model IList<IEnumerable<UserSummary>>
+@{ 
+	ViewBag.Title = SiteStrings.SiteSettings_Users_Title;
+	ViewData["UsersActive"] = true;
+}
+
+@Url.ScriptLink("roadkill.settings.js")
+@Html.Partial("SettingsMenu")
+
+@if (TempData["action"] != null)
+{
+	<script type="text/javascript">
+		$(window).load(function ()
+		{
+			if ($.browser.msie === true)
+			{
+				var ie9Fix = 'showUserModal("@(TempData["action"])")';
+				setTimeout(ie9Fix, 500);
+			}
+			else
+			{
+				showUserModal("@(TempData["action"])")
+			}
+		});
+	</script>
+}
+
+<div>
+	<h1>@SiteStrings.SiteSettings_Users_Admins</h1>
+	<p>
+		<button id="addadmin" class="btn btn-primary btn-success">@SiteStrings.SiteSettings_Users_NewAdmin</button>
+	</p>
+	<table class="table table-striped" id="admins-table">
+		<thead>
+			<tr>
+				<th>@SiteStrings.SiteSettings_Users_ColumnHeader_Username</th>
+				<th>@SiteStrings.SiteSettings_Users_ColumnHeader_Email</th>
+				<th colspan="2"></th>
+			</tr>
+		</thead>
+	@foreach (UserSummary user in Model[0])
+	{
+		<tr>
+			<td style="width:30%;">@user.ExistingUsername</td>
+			<td class="stretch">@user.ExistingEmail</td>
+			<td class="edit"><a href="javascript:;" class="btn btn-primary btn-mini" rel="var user = {id : '@user.Id', email :'@user.ExistingEmail',username:'@user.ExistingUsername'}">@SiteStrings.Navigation_Edit</a></td>
+		@if (Model[0].Count() > 0 && user.Id.ToString() != RoadkillContext.CurrentUser)
+		{
+			<td class="delete">@Html.ActionLink(SiteStrings.Navigation_Delete, "DeleteUser", new { id = user.ExistingEmail }, new { @class = "confirm btn btn-mini" })</td>
+		}
+		else
+		{
+			<td></td>
+		}
+		</tr>
+	}
+	</table>
+	<br class="clear" />
+
+	<h1>@SiteStrings.SiteSettings_Users_Editors</h1>
+	<p>
+		<button id="addeditor" class="btn btn-primary btn-success">@SiteStrings.SiteSettings_Users_NewEditor</button>
+	</p>
+	<table class="table table-striped" id="editors-table">
+		<thead>
+			<tr>
+				<th>@SiteStrings.SiteSettings_Users_ColumnHeader_Username</th>
+				<th>@SiteStrings.SiteSettings_Users_ColumnHeader_Email</th>
+				<th colspan="2"></th>
+			</tr>
+		</thead>
+	@foreach (UserSummary user in Model[1])
+	{
+		<tr>
+			<td style="width:30%;">@user.ExistingUsername</td>
+			<td class="stretch">@user.ExistingEmail</td>
+			<td class="edit"><a href="javascript:;" class="btn btn-primary btn-mini" rel="var user = {id : '@user.Id', email :'@user.ExistingEmail',username:'@user.ExistingUsername'}">@SiteStrings.Navigation_Edit</a></td>
+			<td class="delete">@Html.ActionLink(SiteStrings.Navigation_Delete, "DeleteUser", new { id = user.ExistingEmail }, new { @class = "confirm btn btn-mini" })</td>
+		</tr>
+	}
+	</table>
+	<br class="clear" />
+
+	<div id="userdialogContainer">
+		<h1 style="margin-top:0">@SiteStrings.SiteSettings_Users_EditUserDialog_Title</h1>
+		@Html.ValidationSummary(SiteStrings.SiteSettings_Users_AddUserDialog_Error, new { @class = "alert alert-block alert-error fade in", data_dismiss = "alert" })
+		<!-- The postback URL is changed dynamically in bindUserButtons in roadkill.settings.js -->
+		@using (Html.BeginForm("AddAdmin", "Settings", FormMethod.Post, new { id = "userform" }))
+		{
+			@Html.Hidden("Id")
+			@Html.Hidden("IsBeingCreatedByAdmin")
+			@Html.Hidden("ExistingEmail")
+			@Html.Hidden("ExistingUsername")
+
+			<p class="smallest">@SiteStrings.SiteSettings_Users_AddUserDialog_Help</p>
+			<label for="NewUsername">@SiteStrings.Shared_Username</label>
+			@Html.TextBox("NewUsername", null, new { @autocomplete = "off" })
+
+			<label for="NewEmail">@SiteStrings.Shared_Email_Label</label>
+			@Html.TextBox("NewEmail", null, new { @autocomplete = "off" })
+
+			<label for="Password">@SiteStrings.Shared_Password_Label</label>
+			@Html.Password("Password", null, new { @autocomplete = "off" })
+	
+			<label for="PasswordConfirmation">@SiteStrings.Shared_PasswordConfirm_Label</label>
+			@Html.Password("PasswordConfirmation", null, new { @autocomplete = "off" })
+
+			<br />
+			<input type="submit" value="@SiteStrings.Button_Save" class="btn btn-primary right" />
+		}
+	</div>
+</div>

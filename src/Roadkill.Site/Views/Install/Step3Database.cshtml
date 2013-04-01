@@ -1,0 +1,93 @@
+﻿@model SettingsSummary
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		setPage(3);
+		$("form").validationEngine();
+	});
+</script>
+
+<p>
+@InstallStrings.Page3_DB_Label
+</p>
+
+@using (Html.BeginForm("Step4","Install"))
+{
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.ConnectionString))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.DataStoreTypeName))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteName))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteUrl))
+	@(Html.HiddenFor<SettingsSummary, bool>(h => h.UseWindowsAuth))
+	
+	<fieldset>
+		<legend>@InstallStrings.Page3_DB_Group1_Title</legend>
+		<label>@InstallStrings.Page3_DB_Group1_Label1</label>
+
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.EditorRoleName, new { @class = "validate[required]" }))</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>@InstallStrings.Page3_DB_Group2_Title</legend>
+		<label>@InstallStrings.Page3_DB_Group2_Label1</label>
+
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminRoleName, new { @class = "validate[required]" }))</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>@InstallStrings.Page3_DB_Group3_Title</legend>
+		<label>@InstallStrings.Page3_DB_Group3_Label1</label>
+		<br />
+
+		<div>
+			<div class="left">
+				@(Html.CheckBoxFor<SettingsSummary>(s => s.AllowUserSignup))
+				@InstallStrings.Page3_DB_Group3_Label2
+			</div>
+		</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>@InstallStrings.Page3_DB_Group4_Title</legend>
+		<label>@Html.Raw(InstallStrings.Page3_DB_Group4_Label1)</label>
+
+		<div>
+			<div class="left">
+				@(Html.CheckBoxFor<SettingsSummary>(s => s.EnableRecaptcha))
+				@InstallStrings.Page3_DB_Group4_Label2
+			</div>
+		</div>
+		<br class="clear" />
+
+		<label>@InstallStrings.Page3_DB_Group4_Label3</label>
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.RecaptchaPublicKey))</div>
+		
+		<label>@InstallStrings.Page3_DB_Group4_Label4</label>
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.RecaptchaPrivateKey))</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>@InstallStrings.Page3_DB_Group5_Title</legend>
+		<label>@InstallStrings.Page3_DB_Group5_Label1</label>
+
+		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminEmail, new { autocomplete = "off", @class = "validate[required]" }))</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>@InstallStrings.Page3_DB_Group6_Title</legend>
+		<label>@InstallStrings.Page3_DB_Group6_Label1</label>
+
+		<div class="textbox">@(Html.PasswordFor<SettingsSummary, string>(s => s.AdminPassword, new { autocomplete = "off", @class = "validate[required,minSize[6]]" }))</div>
+		<div class="textbox">@(Html.Password("password2", null, new { autocomplete = "off", @class = "validate[equals[AdminPassword]]" }))</div>
+	</fieldset>
+
+	<div>
+		<div class="previous"><a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a></div>
+	
+		<div class="continue">
+			<input type="submit" class="button" value="@InstallStrings.Shared_NextButton" />
+		</div>
+	</div>
+}

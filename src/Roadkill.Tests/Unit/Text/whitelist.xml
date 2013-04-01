@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<HtmlWhiteList xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ElementWhiteList>
+		<HtmlElement Name="blah">
+			<AllowedAttributes>
+				<HtmlAttribute Name="id" />
+				<HtmlAttribute Name="class" />
+			</AllowedAttributes>
+		</HtmlElement>
+		<HtmlElement Name="test">
+			<AllowedAttributes>
+				<HtmlAttribute Name="href" />
+			</AllowedAttributes>
+		</HtmlElement>
+	</ElementWhiteList>
+</HtmlWhiteList>
