@@ -3,13 +3,12 @@
 var ROADKILL_BASEPATH = "@Url.Action("Index", "Home")";
 var ROADKILL_CORESCRIPTPATH = "@Url.Content("~/Assets/Scripts/")";
 var ROADKILL_COREASSETPATH = "@Url.Content("~/Assets/")";
-var ROADKILL_THEMEPATH =  "@Url.Content(Configuration.SitePreferences.ThemePath)/";
 
 // Edit page constants
 var ROADKILL_TAGAJAXURL = "@Url.Action("AllTagsAsJson", "Pages")/";
 var ROADKILL_PREVIEWURL = "@Url.Action("GetPreview", "Pages")/";
-var ROADKILL_MARKUPTYPE = "@Configuration.SitePreferences.MarkupType";
-var ROADKILL_WIKIMARKUPHELP = "@Url.Action(Configuration.SitePreferences.MarkupType + "Reference", "Help")";
+var ROADKILL_MARKUPTYPE = "@SiteSettings.MarkupType";
+var ROADKILL_WIKIMARKUPHELP = "@Url.Action(SiteSettings.MarkupType + "Reference", "Help")";
 
 // File manager constants
 //var ROADKILL_FILEMANAGERURL = "@Url.Action("Index", "Files")";
@@ -17,7 +16,7 @@ var ROADKILL_FILEMANAGERURL = "@Url.Action("Index", "FileManager")";
 var ROADKILL_FILETREE_URL =  "@Url.Action("Folder", "Files")/";
 var ROADKILL_FILESELECTURL = "@Url.Action("Select", "Files")";
 var ROADKILL_FILETREE_PATHNAME_URL =  "@Url.Action("GetPath", "Files")/";
-var ROADKILL_ATTACHMENTSPATH = "@Url.GetAttachmentsPath(Configuration)";
+var ROADKILL_ATTACHMENTSPATH = "@Url.GetAttachmentsPath(ApplicationSettings)";
 
 // Tokens for the edit toolbar
 @{
@@ -51,4 +50,17 @@ var ROADKILL_EDIT_IMAGE_TITLE       = "@Html.Raw(SiteStrings.EditPage_Image_Titl
 
 @:var ROADKILL_DELETE_CONFIRM = "@SiteStrings.Delete_Confirm";
 @:var ROADKILL_DELETE_BASEFOLDER_ERROR = "@SiteStrings.Delete_BaseFolder_Error";
+}
+
+@if (ApplicationSettings.ResizeImages)
+{
+// Use Window load for images
+@:$(window).load(function ()
+@:{
+	// Resize all images
+	@:$("#pagecontent img").each(function()
+	@:{
+		@:resizeImage($(this), 400, 400);
+	@:});
+@:});
 }

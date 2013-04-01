@@ -9,8 +9,12 @@ using HtmlAgilityPack;
 using Roadkill.Core.Configuration;
 using StructureMap;
 using System.IO;
-using Roadkill.Core.Files;
+using Roadkill.Core.Attachments;
 using Roadkill.Core.Text.Sanitizer;
+using Roadkill.Core.Database;
+using Roadkill.Core.Text;
+using Roadkill.Core.Text.ToC;
+using Roadkill.Core.Logging;
 
 namespace Roadkill.Core.Converters
 {
@@ -19,7 +23,7 @@ namespace Roadkill.Core.Converters
 	/// </summary>
 	public class MarkupConverter
 	{
-		private IConfigurationContainer _configuration;
+		private ApplicationSettings _applicationSettings;
 		private IRepository _repository;
 		private IMarkupParser _parser;
 		private UrlHelper _urlHelper;
@@ -50,12 +54,13 @@ namespace Roadkill.Core.Converters
 			get { return _parser; }
 		}
 
+		//[SetterProperty]
 		/// <summary>
 		/// Creates a new markdown parser which handles the image and link parsing by the various different 
 		/// markdown format parsers.
 		/// </summary>
 		/// <returns>An <see cref="IMarkupParser"/> for Creole,Markdown or Media wiki formats.</returns>
-		public MarkupConverter(IConfigurationContainer configuration, IRepository repository)
+		public MarkupConverter(ApplicationSettings settings, IRepository repository)
 		{
 			AbsolutePathConverter = ConvertToAbsolutePath;
 			InternalUrlForTitle = GetUrlForTitle;
@@ -72,12 +77,27 @@ namespace Roadkill.Core.Converters
 			};
 
 			_repository = repository;
-			_configuration = configuration;
+			_applicationSettings = settings;
 
-			string markupType = "creole";
+			string markupType = "";
+	
+			if (!_applicationSettings.Installed || _applicationSettings.UpgradeRequired)
+			{
+				string warnMessage = "Roadkill is not installed, or an upgrade is pending (ApplicationSettings.UpgradeRequired = false)." +
+									"Skipping initialization of MarkupConverter (MarkupConverter.Parser will now be null)";
 
-			if (_configuration.SitePreferences != null && !string.IsNullOrEmpty(_configuration.SitePreferences.MarkupType))
-				markupType = _configuration.SitePreferences.MarkupType.ToLower();
+				Console.WriteLine(warnMessage);
+				Log.Warn(warnMessage);
+
+				// Skip the chain of creation, as the markup converter isn't needed
+				return;
+			}
+
+			SiteSettings siteSettings = repository.GetSiteSettings();
+			if (siteSettings != null && !string.IsNullOrEmpty(siteSettings.MarkupType))
+			{
+				markupType = siteSettings.MarkupType.ToLower();
+			}
 
 			switch (markupType)
 			{
@@ -86,12 +106,12 @@ namespace Roadkill.Core.Converters
 					break;
 
 				case "mediawiki":
-					_parser = new MediaWikiParser(_configuration);
+					_parser = new MediaWikiParser(_applicationSettings, siteSettings);
 					break;
 
 				case "creole":
 				default:
-					_parser = new CreoleParser(_configuration);
+					_parser = new CreoleParser(_applicationSettings, siteSettings);
 					break;
 			}
 
@@ -106,17 +126,15 @@ namespace Roadkill.Core.Converters
 		/// <returns>The wiki markup converted to HTML.</returns>
 		public string ToHtml(string text)
 		{
-			CustomTokenParser tokenParser = new CustomTokenParser(_configuration);
-			string html = tokenParser.ReplaceTokens(text);
-			html = _parser.Transform(html);
+			string html = _parser.Transform(text);
 			html = RemoveHarmfulTags(html);
 
-			if (html.IndexOf("{TOC}") > -1)
-			{
-				TocParser parser = new TocParser();
-				html = parser.InsertToc(html);
-			}
-			
+			TocParser parser = new TocParser();
+			html = parser.InsertToc(html);
+
+			CustomTokenParser tokenParser = new CustomTokenParser(_applicationSettings);
+			html = tokenParser.ReplaceTokens(html);
+
 			return html;
 		}
 
@@ -130,7 +148,7 @@ namespace Roadkill.Core.Converters
 				string src = e.OriginalSrc;
 				src = _imgFileRegex.Replace(src, "");
 
-				string attachmentsPath = AttachmentFileHandler.GetAttachmentsPath(_configuration);
+				string attachmentsPath = AttachmentFileHandler.GetAttachmentsPath(_applicationSettings);
 				string urlPath = attachmentsPath + (src.StartsWith("/") ? "" : "/") + src;
 				e.Src = AbsolutePathConverter(urlPath);
 			}
@@ -161,7 +179,7 @@ namespace Roadkill.Core.Converters
 						href = href.Remove(0, 1);
 					}
 
-					string attachmentsPath = AttachmentFileHandler.GetAttachmentsPath(_configuration);
+					string attachmentsPath = AttachmentFileHandler.GetAttachmentsPath(_applicationSettings);
 					href = AbsolutePathConverter(attachmentsPath) + href;
 				}
 				else
@@ -176,7 +194,7 @@ namespace Roadkill.Core.Converters
 						title = title.Replace("-", " ");
 					}
 
-					Page page = _repository.FindPageByTitle(title);
+					Page page = _repository.GetPageByTitle(title);
 					if (page != null)
 					{
 						href = InternalUrlForTitle(page.Id, page.Title);
@@ -199,9 +217,9 @@ namespace Roadkill.Core.Converters
 		/// </summary>
 		private string RemoveHarmfulTags(string html)
 		{
-			if (_configuration.ApplicationSettings.UseHtmlWhiteList)
+			if (_applicationSettings.UseHtmlWhiteList)
 			{
-				MarkupSanitizer sanitizer = new MarkupSanitizer(_configuration);
+				MarkupSanitizer sanitizer = new MarkupSanitizer(_applicationSettings);
 				return sanitizer.SanitizeHtml(html);
 			}
 			else

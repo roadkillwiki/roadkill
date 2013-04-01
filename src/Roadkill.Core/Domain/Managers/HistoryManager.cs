@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NHibernate;
+using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
+using Roadkill.Core.Database;
+using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Managers
 {
 	/// <summary>
 	/// Provides a way of viewing, and comparing the version history of page content, and reverting to previous versions.
@@ -14,13 +16,15 @@ namespace Roadkill.Core
 	public class HistoryManager : ServiceBase
 	{
 		private MarkupConverter _markupConverter;
-		private IRoadkillContext _context;
+		private IUserContext _context;
+		private PageSummaryCache _pageSummaryCache;
 
-		public HistoryManager(IConfigurationContainer configuration, IRepository repository, IRoadkillContext context)
-			: base(configuration, repository)
+		public HistoryManager(ApplicationSettings settings, IRepository repository, IUserContext context, PageSummaryCache pageSummaryCache)
+			: base(settings, repository)
 		{
-			_markupConverter = new MarkupConverter(configuration, repository);
+			_markupConverter = new MarkupConverter(settings, repository);
 			_context = context;
+			_pageSummaryCache = pageSummaryCache;
 		}
 
 		/// <summary>
@@ -33,7 +37,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				IEnumerable<PageContent> contentList = Repository.PageContents.Where(p => p.Page.Id == pageId);
+				IEnumerable<PageContent> contentList = Repository.FindPageContentsByPageId(pageId);
 				IEnumerable<HistorySummary> historyList = from p in contentList
 														  select
 															  new HistorySummary()
@@ -52,9 +56,9 @@ namespace Roadkill.Core
 			{
 				throw new HistoryException(ex, "An ArgumentNullException occurred getting the history for page id {0}", pageId);
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
-				throw new HistoryException(ex, "A HibernateException occurred getting the history for page id {0}", pageId);
+				throw new HistoryException(ex, "A DatabaseException occurred getting the history for page id {0}", pageId);
 			}
 		}
 
@@ -71,7 +75,7 @@ namespace Roadkill.Core
 			{
 				List<PageSummary> versions = new List<PageSummary>();
 
-				PageContent mainContent = Repository.PageContents.FirstOrDefault(p => p.Id == mainVersionId);
+				PageContent mainContent = Repository.GetPageContentByVersionId(mainVersionId);
 				versions.Add(mainContent.ToSummary(_markupConverter));
 
 				if (mainContent.VersionNumber == 1)
@@ -80,16 +84,23 @@ namespace Roadkill.Core
 				}
 				else
 				{
-					PageContent previousContent = Repository.PageContents.FirstOrDefault(p => p.Page.Id == mainContent.Page.Id && p.VersionNumber == mainContent.VersionNumber - 1);
+					PageSummary summary = _pageSummaryCache.Get(mainContent.Page.Id, mainContent.VersionNumber - 1);
 
-					if (previousContent == null)
+					if (summary == null)
 					{
-						versions.Add(null);
+						PageContent previousContent = Repository.GetPageContentByPageIdAndVersionNumber(mainContent.Page.Id, mainContent.VersionNumber - 1);
+						if (previousContent == null)
+						{
+							summary = null;
+						}
+						else
+						{
+							summary = previousContent.ToSummary(_markupConverter);
+							_pageSummaryCache.Add(mainContent.Page.Id, mainContent.VersionNumber - 1, summary);
+						}
 					}
-					else
-					{
-						versions.Add(previousContent.ToSummary(_markupConverter));
-					}
+
+					versions.Add(summary);
 				}
 
 				return versions;
@@ -98,7 +109,7 @@ namespace Roadkill.Core
 			{
 				throw new HistoryException(ex, "An ArgumentNullException occurred comparing the version history for version id {0}", mainVersionId);
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new HistoryException(ex, "A HibernateException occurred comparing the version history for version id {0}", mainVersionId);
 			}
@@ -114,7 +125,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				PageContent pageContent = Repository.PageContents.FirstOrDefault(p => p.Page.Id == pageId && p.VersionNumber == versionNumber);
+				PageContent pageContent = Repository.GetPageContentByPageIdAndVersionNumber(pageId, versionNumber);
 
 				if (pageContent != null)
 				{
@@ -125,9 +136,9 @@ namespace Roadkill.Core
 			{
 				throw new HistoryException(ex, "An ArgumentNullException occurred when reverting to version number {0} for page id {1}", versionNumber, pageId);
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
-				throw new HistoryException(ex, "A HibernateException occurred when reverting to version number {0} for page id {1}", versionNumber, pageId);
+				throw new HistoryException(ex, "A DatabaseException occurred when reverting to version number {0} for page id {1}", versionNumber, pageId);
 			}
 		}
 
@@ -137,30 +148,28 @@ namespace Roadkill.Core
 		/// <param name="versionId">The version ID to revert to.</param>
 		/// <param name="context">The current logged in user's context.</param>
 		/// <exception cref="HistoryException">An NHibernate (database) error occurred while reverting to the version.</exception>
-		public void RevertTo(Guid versionId, IRoadkillContext context)
+		public void RevertTo(Guid versionId, IUserContext context)
 		{
 			try
 			{
 				string currentUser = context.CurrentUsername;
 
-				PageContent versionContent = Repository.PageContents.FirstOrDefault(p => p.Id == versionId);
-				Page page = Repository.Pages.FirstOrDefault(p => p.Id == versionContent.Page.Id);
+				PageContent versionContent = Repository.GetPageContentByVersionId(versionId);
+				Page page = Repository.GetPageById(versionContent.Page.Id);
 
-				PageContent pageContent = new PageContent();
-				pageContent.VersionNumber = MaxVersion(page.Id) + 1;
-				pageContent.Text = versionContent.Text;
-				pageContent.EditedBy = currentUser;
-				pageContent.EditedOn = DateTime.Now;
-				pageContent.Page = page;
-				Repository.SaveOrUpdate<PageContent>(pageContent);
+				int versionNumber = MaxVersion(page.Id) + 1;
+				string text = versionContent.Text;
+				string editedBy = currentUser;
+				DateTime editedOn = DateTime.Now;
+				Repository.AddNewPageContentVersion(page, text, editedBy, editedOn, versionNumber);
 			}
 			catch (ArgumentNullException ex)
 			{
 				throw new HistoryException(ex, "An ArgumentNullException occurred when reverting to version ID {0}", versionId);
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
-				throw new HistoryException(ex, "A HibernateException occurred when reverting to version ID {0}", versionId);
+				throw new HistoryException(ex, "A DatabaseException occurred when reverting to version ID {0}", versionId);
 			}
 		}
 
@@ -171,7 +180,7 @@ namespace Roadkill.Core
 		/// <returns>The latest version number.</returns>
 		public int MaxVersion(int pageId)
 		{
-			return Repository.PageContents.Where(p => p.Page.Id == pageId).Max(p => p.VersionNumber);
+			return Repository.GetLatestPageContent(pageId).VersionNumber;
 		}
 	}
 }

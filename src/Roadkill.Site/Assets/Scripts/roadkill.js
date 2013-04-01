@@ -1,3 +1,4 @@
+"use strict";
 /// <reference path="jquery.require.js" />
 /// <reference path="jquery-1.8.0-vsdoc.js" />
 
@@ -92,6 +93,38 @@ function openIframeModal(html)
 function closeModal()
 {
 	$.fancybox.close(true);
+}
+
+function resizeImage(img, maxWidth, maxHeight)
+{
+	if (maxWidth < 1)
+		maxWidth = 400;
+
+	if (maxHeight < 1)
+		maxHeight = 400;
+
+	var ratio = 0;
+	var width = $(img).width();
+	var height = $(img).height();
+
+	if (width > maxWidth)
+	{
+		// Use the width ratio to start with
+		ratio = maxWidth / width;
+		width = width * ratio;
+		height = height * ratio;
+
+		$(img).css("width", width);
+		$(img).css("height", height);
+	}
+
+	if (height > maxHeight)
+	{
+		// Scale down to the height ratio if it's still too large
+		ratio = maxHeight / height;
+		$(img).css("width", width * ratio);
+		$(img).css("height", height * ratio)
+	}
 }
 
 String.prototype.format = function () {

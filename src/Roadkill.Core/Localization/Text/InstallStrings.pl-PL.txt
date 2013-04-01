@@ -1,0 +1,127 @@
+﻿; Note: any line starting with ; is a comment!
+; This file contains Roadkill Install page localization strings.
+; 
+; Notes for translators:
+; - Please make a copy of this file before editing. A list of cultures/languages can be found here:
+; - http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo(v=vs.71).aspx
+; 
+; Notes for developers:
+; - This file should be turned into a resx file by running resgen /compile InstallStrings.txt,InstallStrings.resx in a VS command prompt.
+; - The name of this file should be in the format "InstallStrings.(culture-name).txt", e.g. "InstallStrings.en-GB.txt"
+; - The output resx file should then be copied + pasted into the core's Localization/Resx folder inside VS2010, 
+; - The build properties for the file should be "Embedded resource" and the custom tool "PublicResXFileCodeGenerator"
+; - Delete the .resx file from the "Text" folder once you've copied it over.
+
+; Shared buttons and labels
+Shared_Stage1=Witamy
+Shared_Stage2=Baza danych
+Shared_Stage3=Logowanie
+Shared_Stage4=Dodatkowe
+Shared_Stage5=Koniec
+
+Shared_Continue=Dalej
+Shared_Back=Wstecz
+Shared_TestButton=Sprawdź
+Shared_BackButton=Wstecz
+Shared_NextButton=Dalej
+Shared_Success=Udało się !
+Shared_Failure=Błąd !
+
+; Page 1
+Page1_Label1=Dziękujemy za zainstalowanie platformy Roadkill .NET Wiki. Instalator zapisze wprowadzone przez Ciebie ustawienia do pliku web.config oraz skonfiguruje bazę danych.
+Page1_Label2=Aby kontynuować, najpierw sprawdź, czy masz prawa zapisu do pliku web.config.
+Page1_WebConfig_Success_Message=Można zapisywać do pliku  web.config
+Page1_WebConfig_Failure_Message=Nie można zapisywać do pliku  web.config
+
+; Page 2
+Page2_Label1=Poniżej znajdują się ustawienia niezbędne do poprawnej pracy Roadkill. Możesz je później zmienić na stronie ustawień, logując si jako administrator.
+Page2_Success=Połączenie z bazą danych poprawne
+Page2_Error=Nie można uzyskać połączenia:
+
+Page2_Group1_Title=Nazwa wirtyny
+Page2_Group1_Label=Nazwa witryny wiki, która jest używana w niektórych motywach i w email-ach rejestracyjnych.
+
+Page2_Group2_Title=URL witryny
+Page2_Group2_Label=Pełny URL witryny, który jest używany w email-ach rejestracyjnych i przy odzyskiwaniu hasła. Nie zawiera końcowego ukośnika.
+
+Page2_Group3_Title=Połączenie z bazą danych
+Page2_Group3_Label=Najpierw musisz utworzyć bazę danych. Następnie wprowadź connection string do bazy. Poniżej znajduje się kilka przykładów.
+Page2_Group3_Label2=Przykłady connection string
+Page2_Group3_Label3=Rodzaj bazy danych
+
+; Page 3 security
+Page3_Label1=Czy chcesz, żeby użytkownicy logowali się z wykorzystaniem autentykacji systemu Windows (Active Directory) ?
+Page3_Group1_Title=Logowanie zintegrowane
+Page3_Group1_Label=Użyj autentykacji Windows
+
+; Active Directory security
+Page3_AD_Group1_Title=Połączenie LDAP (connection string) do usługi Active Directory
+Page3_AD_Connection_Success=Połączenie i autentykacja z użyciem Active Directory zakończona powodzeniem
+Page3_AD_Connection_Error=Nie można połączyć się z serwerem Active Directory
+Page3_AD_Success=Grupa została zweryfikowana poprawnie
+Page3_AD_Error=Nie można zweryfikować:
+
+Page3_AD_Group1_Label1=Należy wpisać connection string w postaci LDAP://mydc01.company.internal, gdzie mydc01 jest nazwą kontrolera domeny, a 'company' i 'internal' są sufiksami dns w sieci. Można również podać adres IP. Zwykle można uzyskać tą informację przez uruchomienie "ipconfig".
+Page3_AD_Group1_Label2=Connection string pozwala na użycie atrybutu OU, jednakże może to powodować niespodziewane problemy. Jeśli nie jesteś pewien co do tych ustawień, zapoznaj się z artykułem <a href="http://technet.microsoft.com/en-us/sysinternals/bb963907">AD Explorer</a>.
+Page3_AD_Group1_Label3=Jeżeli konto na jakim pracuje pula aplikacji nie ma dostępu do Active Directory, wprowadź nazwę i hasło użytkownika.
+
+Page3_AD_Group2_Label1=Nazwa użytkownika:
+Page3_AD_Group2_Label2=Hasło:
+
+Page3_AD_Group3_Title=Nazwa grupy Redaktorzy
+Page3_AD_Group3_Label=Nazwa grupy, której członkowie będą redaktorami (osoby mogące tworzyć i edytować strony). Przycisk Sprawdź używa połączenia wprowadzonego powyżej.
+
+Page3_AD_Group4_Title=Nazwa grupy Administratorzy
+Page3_AD_Group4_Label=Nazwa grupy, której członkowie będą administratorami. Administratorzy mają takie same prawa jak redaktorzy, ponadto mają dostęp do konfiguracji oraz narzędzi. Przycisk Sprawdź używa połączenia wprowadzonego powyżej.
+
+; Database security
+Page3_DB_Label=Wszystkie hasła są szyfrowane jednokierunkowo za pomocą SHA128. Oznacza to, że zapomniane hasło nie może być odzyskane i tylko administrator może je zresetować (nie ma jeszcze funkcjonalności przywracania hasła). Minimalna długość hasła: 6 znaków.
+Page3_DB_Group1_Title=Nazwa roli Redaktor
+Page3_DB_Group1_Label1=Nazwa roli Redaktor - osób, które mogą tworzyć i edytować strony.
+Page3_DB_Group2_Title=Nazwa roli Administrator
+Page3_DB_Group2_Label1=Nazwa roli Administrator. Administratorzy mają takie same prawa jak redaktorzy, ponadto mają dostęp do konfiguracji oraz narzędzi.
+Page3_DB_Group3_Title=Pozwól na rejestrację użytkowników
+Page3_DB_Group3_Label1=Zaznacz tą opcję, aby umożliwić rejestrację nowym użytkownikom. Jeśli niezaznaczona, tylko administratorzy będą mogli tworzyć nowych użytkowników.
+Page3_DB_Group3_Label2=Pozwól na samodzielną rejestrację nowych użytkowników.
+Page3_DB_Group4_Title=Włącz weryfikację Recaptcha
+Page3_DB_Group4_Label1=Jeśli zezwolono na rejestrację nowych użytkowników, zalecamy włączyć weryfikację Recaptcha. Jest to darmowy serwis anty-spamowy dostarczany przez Google. Musisz się zarejestrować i skopiować do poniższych pól swój prywatny i publiczny klucz. Najpierw musisz się <a href="https://www.google.com/recaptcha/admin/create" target="_blank">zarejestrować</a>.
+Page3_DB_Group4_Label2=Włącz weryfikację anty-spamową Recaptcha.
+Page3_DB_Group4_Label3=Klucz publiczny
+Page3_DB_Group4_Label4=Klucz prywatny
+Page3_DB_Group5_Title=Email administratora
+Page3_DB_Group5_Label1=Adres email administratora strony. Możesz dodać wielu administratorów na stronie Ustawienia.
+Page3_DB_Group6_Title=Hasło administratora
+Page3_DB_Group6_Label1=Hasło użytkownika Administrator
+
+; Page 4
+Page4_Label1=Prawie gotowe... Na koniec kilka dodatkowych ustawień.
+Page4_Group1_Title=Katalog załączników
+Page4_Group1_Success=Katalog istnieje i można do niego zapisywać
+Page4_Group1_Error=Nie można zapisywać do katalogu:
+Page4_Group1_Label1=Nazwa katalogu, do któreo będą przesyłane załączniki. Konto na jakim pracuje pula aplikacji musi mieć prawa zapisu w tym katalogu.
+Page4_Group1_Label2=Upewnij się, że ścieżka zaczyna się od "~/". Należy sprawdzić prawa do odczytu i zapisu w tym folderze.
+
+Page4_Group2_Title=Rozszerzenia załączników
+Page4_Group2_Label1=Lista rozszerzeń plików (oddzielonych przecinkiem), które mogą być przesyłane jako załączniki.
+
+Page4_Group3_Title=Motyw
+Page4_Group3_Label1=Motyw używany dla witryny. Należy wskazać nazwę folderu w katalogu Themes.
+
+Page4_Group4_Title=Typ znaczników tekstu
+Page4_Group4_Label1=Używany format znaczników. Obecnie Roadkill wspiera formaty: Creole, Markdown, Mediawiki.
+Page4_Group4_Label2=Zalecanym formatem jest Creole.
+
+Page4_Group5_Title=Buforowanie
+Page4_Group5_Label1=Roadkill używa buforowania NHibernate wraz z buforowaniem wyjścia ASP.NET. Zaleca się włączenie buforowania w celu poprawienia szybkości działania witryny. Buforowanie danych nie jest obecnie obsługiwane w farmach serwerów web.
+Page4_Group5_Label2=To ustawienie dotyczy tylko buforowania bazy danych. Buforowanie wyjścia ASP.NET należy wyłączyć ręcznie w pliku web.config.
+Page4_Group5_Label3=Włącz buforowanie
+Page4_Group5_Label4=Buforowanie zawartości stron
+Page4_Group5_Label5=Wyłączenie oznacza, że treść każdej strony będzie za każdym razem pobierana z bazy danych.
+
+; Page 5
+Page5_Success_Title=Instalacja zakończona powodzeniem
+Page5_Success_AD_Title=Autentykacja Windows - proszę przecztać
+Page5_Success_AD_Label=Jeśli używasz IIS7+, może być potrzeba ręcznego skonfigurowania zabezpieczeń w pliku web.config. Poniżej znajdują się wymagane elementy. Jeśli po wprowadzeniu tych zmian otrzymasz 500 błędów, to sekcja zostanie zablokowana i trzeba będzie dokonać zmian za pomocą Menedżera usług IIS.
+Page5_Success_Label1=Kontynuuj
+Page5_Error_Title=Podczas instalacji wystąpił błąd
+Page5_Error_Label1=Przejdź ponownie przez kolejne kroki instalacji i sprawdź ustawienia. Wystąpił błąd:

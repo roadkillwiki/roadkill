@@ -143,9 +143,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core">
-      <HintPath>..\..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Fizzler, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Fizzler.0.9.3\lib\net35\Fizzler.dll</HintPath>
@@ -162,16 +159,24 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\HtmlAgilityPack.1.4.6\lib\Net40\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Iesi.Collections.3.3.1.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+      <HintPath>..\..\lib\Microsoft.Web.Administration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mindscape.LightSpeed, Version=5.0.2302.0, Culture=neutral, PublicKeyToken=360c8f37b466ebb2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\LightSpeed\Mindscape.LightSpeed.dll</HintPath>
+    </Reference>
+    <Reference Include="Mindscape.LightSpeed.Providers.SqlServerCe4">
+      <HintPath>..\..\lib\LightSpeed\Providers\Mindscape.LightSpeed.Providers.SqlServerCe4.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
       <HintPath>..\..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+    <Reference Include="MySql.Data, Version=6.6.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NHibernate.3.3.2.4000\lib\Net35\NHibernate.dll</HintPath>
+      <HintPath>..\..\packages\MySql.Data.6.6.4\lib\net40\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -190,22 +195,33 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\..\packages\System.Data.SQLite.1.0.84.0\lib\net40\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq">
+      <HintPath>..\..\packages\System.Data.SQLite.1.0.84.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\System.Data.SqlServerCe.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
-    <Reference Include="ThoughtWorks.Selenium.Core, Version=2.29.1.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
+    <Reference Include="ThoughtWorks.Selenium.Core, Version=2.31.2.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Selenium.RC.2.29.1\lib\net40\ThoughtWorks.Selenium.Core.dll</HintPath>
+      <HintPath>..\..\packages\Selenium.RC.2.31.2\lib\net40\ThoughtWorks.Selenium.Core.dll</HintPath>
     </Reference>
-    <Reference Include="WebDriver, Version=2.29.1.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
+    <Reference Include="WebDriver, Version=2.31.2.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Selenium.WebDriver.2.29.1\lib\net40\WebDriver.dll</HintPath>
+      <HintPath>..\..\packages\Selenium.WebDriver.2.31.2\lib\net40\WebDriver.dll</HintPath>
     </Reference>
-    <Reference Include="WebDriver.Support, Version=2.29.1.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
+    <Reference Include="WebDriver.Support, Version=2.31.2.0, Culture=neutral, PublicKeyToken=1c2bd1631853048f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Selenium.Support.2.29.1\lib\net40\WebDriver.Support.dll</HintPath>
+      <HintPath>..\..\packages\Selenium.Support.2.31.2\lib\net40\WebDriver.Support.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -214,39 +230,46 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Acceptance\LogViewerTests.cs" />
+    <Compile Include="Acceptance\WebDriverExtensions.cs" />
+    <Compile Include="Acceptance\UpgradeToVersion16Tests.cs" />
+    <Compile Include="Acceptance\InstallerTests.cs" />
     <Compile Include="Acceptance\SearchTests.cs" />
     <Compile Include="Acceptance\SettingsTests.cs" />
     <Compile Include="Acceptance\Setup\AcceptanceTestBase.cs" />
     <Compile Include="Acceptance\Setup\AcceptanceTestsSetup.cs" />
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
-    <Compile Include="Unit\Stubs\ConfigurationContainerStub.cs" />
-    <Compile Include="Unit\Controllers\PagesControllerTests.cs" />
-    <Compile Include="Unit\Controllers\WikiControllerTests.cs" />
-    <Compile Include="Unit\Models\UserSummaryUsernameValidationTests.cs" />
-    <Compile Include="Unit\Models\UserSummaryPasswordValidationTests.cs" />
-    <Compile Include="Unit\Controllers\HomeControllerTests.cs" />
-    <Compile Include="Unit\Controllers\Setup\MvcMockContainer.cs" />
-    <Compile Include="Unit\Controllers\FilesControllerTests.cs" />
+    <Compile Include="Integration\SchemaGeneratorTests.cs" />
+    <Compile Include="Smoke\CanaryTests.cs" />
+    <Compile Include="Smoke\DemoSiteTests.cs" />
+    <Compile Include="Unit\Database\DataStore\DataStoreTypeTests.cs" />
+    <Compile Include="Unit\DependencyContainerTests.cs" />
+    <Compile Include="Unit\Database\LightSpeed\ToEntityTests.cs" />
+    <Compile Include="Unit\Database\LightSpeed\FromEntityTests.cs" />
+    <Compile Include="Unit\Managers\SettingsManagerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\PagesControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\WikiControllerTests.cs" />
+    <Compile Include="Unit\Stubs\SearchManagerMock.cs" />
+    <Compile Include="Unit\Stubs\RepositoryMock.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\UserSummaryUsernameValidationTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\UserSummaryPasswordValidationTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\HomeControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\Setup\MvcMockContainer.cs" />
+    <Compile Include="Unit\Mvc\Controllers\FilesControllerTests.cs" />
     <Compile Include="Unit\Stubs\RoadkillContextStub.cs" />
     <Compile Include="Unit\Stubs\UserManagerStub.cs" />
     <Compile Include="Unit\Text\TocParserTests.cs" />
     <Compile Include="Unit\Text\MarkupSanitizerTests.cs" />
     <Compile Include="Unit\Text\MarkdownTests.cs" />
-    <Compile Include="Integration\RoadkillSettingsTests.cs" />
+    <Compile Include="Integration\ConfigFileTests.cs" />
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="Unit\Managers\PageManagerTests.cs" />
     <Compile Include="Unit\Managers\ActiveDirectoryUserManagerTests.cs" />
-    <Compile Include="Unit\Models\UserSummaryEmailValidationTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\UserSummaryEmailValidationTests.cs" />
     <Compile Include="Unit\Text\MarkupConverterTests.cs" />
     <Content Include="chromedriver.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="phantomjs.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqliteSetup\roadkill.sqlite">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Unit\Text\whitelist.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -262,17 +285,23 @@
     <Content Include="Integration\TestConfigs\test-missing-values.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Integration\TestConfigs\test-mongodb.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Integration\TestConfigs\test-legacy-values.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
     <Compile Include="Unit\Text\CreoleParserTests.cs" />
     <Compile Include="Acceptance\LoginTests.cs" />
-    <Compile Include="Acceptance\DemoSiteTests.cs" />
-    <Compile Include="Unit\Controllers\Setup\MvcMockHelpers.cs" />
-    <Compile Include="Unit\Controllers\UserControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\Setup\MvcMockHelpers.cs" />
+    <Compile Include="Unit\Mvc\Controllers\UserControllerTests.cs" />
     <Compile Include="Integration\SearchManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Integration\SqlUserManagerTests.cs" />
+    <Compile Include="Integration\DefaultUserManagerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Roadkill.Core\Roadkill.Core.csproj">
@@ -281,20 +310,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Content Include="SqliteSetup\SQLiteBinaries\x64\System.Data.SQLite.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqliteSetup\SQLiteBinaries\x64\System.Data.SQLite.Linq.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqliteSetup\SQLiteBinaries\x86\System.Data.SQLite.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqliteSetup\SQLiteBinaries\x86\System.Data.SQLite.Linq.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

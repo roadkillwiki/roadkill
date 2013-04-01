@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Roadkill.Core.Database;
+using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Managers
 {
 	public interface IPageManager
 	{
@@ -19,7 +21,7 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <returns>An <see cref="IEnumerable`PageSummary"/> of the pages.</returns>
 		/// <exception cref="DatabaseException">An database error occurred while retrieving the list.</exception>
-		IEnumerable<PageSummary> AllPages();
+		IEnumerable<PageSummary> AllPages(bool loadPageContent = false);
 
 		/// <summary>
 		/// Gets alls the pages created by a user.
@@ -58,6 +60,12 @@ namespace Roadkill.Core
 		/// <returns>A <see cref="IEnumerable{PageSummary}"/> of pages tagged with the provided tag.</returns>
 		/// <exception cref="DatabaseException">An database error occurred while getting the list.</exception>
 		IEnumerable<PageSummary> FindByTag(string tag);
+
+		/// <summary>
+		/// Finds the first page with the tag 'homepage'. Any pages that are locked by an administrator take precedence.
+		/// </summary>
+		/// <returns>The homepage.</returns>
+		PageSummary FindHomePage();
 
 		/// <summary>
 		/// Finds a page by its title

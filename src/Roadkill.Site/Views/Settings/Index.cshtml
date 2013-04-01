@@ -28,7 +28,7 @@
 			$.get("@(Url.Action("TestDatabaseConnection","Install"))",
 					{ 
 						"connectionString" : $("#ConnectionString").val(),
-						"databaseType" : $("#DatabaseType").val()
+						"databaseType": $("#DataStoreTypeName").val()
 					 },
 					function(data)
 					{
@@ -93,7 +93,7 @@
 		<legend>@SiteStrings.SiteSettings_Configuration_Database</legend>
 
 		<label for="DatabaseType">@SiteStrings.SiteSettings_Configuration_DatabaseType</label>
-		@Html.DropDownListFor(x => x.DatabaseType, new SelectList(Model.DatabaseTypesAvailable, Model.DatabaseType), new { rel = "popover", data_content = SiteStrings.SiteSettings_Configuration_DatabaseType_Help })
+		@Html.DropDownListFor(x => x.DataStoreTypeName, Html.DatabaseTypesAvailable(Model), new { rel = "popover", data_content = SiteStrings.SiteSettings_Configuration_DatabaseType_Help })
 		&nbsp;&nbsp;<input id="testdbconnection" class="btn test-button" type="button" value="@InstallStrings.Shared_TestButton" />
 		<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" alt="loading" /></span>
 
@@ -156,16 +156,19 @@
 		<label for="AttachmentsFolder">@SiteStrings.SiteSettings_Configuration_Attachments</label>
 		@Html.TextBoxFor(s => s.AttachmentsFolder, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Attachments_Help })
 		&nbsp;&nbsp;<input id="testattachments" class="btn test-button" type="button" value="@InstallStrings.Shared_TestButton" />
+		<br /><span class="label label-info">This directory maps to @Model.AttachmentsDirectoryPath</span>
+		<br /><br />
 
 		<label for="AllowedExtensions">@SiteStrings.SiteSettings_Configuration_Extensions</label>
 		@Html.TextBoxFor(s => s.AllowedExtensions, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Extensions_Help })
 
-		<label for="CacheEnabled" class="checkbox">@SiteStrings.SiteSettings_Configuration_Caching
-		@Html.CheckBoxFor(s => s.CacheEnabled, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Caching_Help })
+		<div class="translationtodo bold">Caching</div>
+		<label for="UseObjectCache" class="checkbox translationtodo">@SiteStrings.SiteSettings_Configuration_ObjectCaching
+		@Html.CheckBoxFor(s => s.UseObjectCache, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_ObjectCaching_Help })
 		</label>
 
-		<label for="CacheText" class="checkbox">@SiteStrings.SiteSettings_Configuration_CachePageText
-		@Html.CheckBoxFor(s => s.CacheText, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_CachePageText_Help })
+		<label for="UseBrowserCache" class="checkbox translationtodo">@SiteStrings.SiteSettings_Configuration_BrowserCaching
+		@Html.CheckBoxFor(s => s.UseBrowserCache, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_BrowserCaching_Help })
 		</label>
 	</fieldset>
 	

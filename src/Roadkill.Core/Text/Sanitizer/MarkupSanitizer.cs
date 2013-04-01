@@ -22,17 +22,17 @@ namespace Roadkill.Core.Text.Sanitizer
     public class MarkupSanitizer
     {
 		private string[] _encodedCharacters = new string[256];
-		private IConfigurationContainer _config;
+		private ApplicationSettings _applicationSettings;
 		private string _cacheKey;
 		internal static MemoryCache _memoryCache = new MemoryCache("MarkupSanitizer");
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="config"></param>
-		public MarkupSanitizer(IConfigurationContainer config) 
+		/// <param name="settings"></param>
+		public MarkupSanitizer(ApplicationSettings settings) 
 		{
-			_config = config;
+			_applicationSettings = settings;
 			_cacheKey = "whitelist";
 
 			// Intialize an array to mark which characters are to be encoded.
@@ -68,7 +68,7 @@ namespace Roadkill.Core.Text.Sanitizer
 
 			if (whiteList == null)
 			{
-				whiteList = HtmlWhiteList.Deserialize(_config);
+				whiteList = HtmlWhiteList.Deserialize(_applicationSettings);
 				_memoryCache.Add(_cacheKey, whiteList, new CacheItemPolicy());
 			}
 

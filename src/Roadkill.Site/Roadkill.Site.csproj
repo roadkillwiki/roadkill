@@ -21,6 +21,11 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -127,28 +132,44 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentNHibernate, Version=1.3.0.733, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\FluentNHibernate.1.3.0.733\lib\FluentNHibernate.dll</HintPath>
-    </Reference>
-    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Iesi.Collections.3.3.1.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Microsoft.Web.Administration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data">
-      <HintPath>..\..\packages\MySql.Data.6.5.4\lib\net40\MySql.Data.dll</HintPath>
+    <Reference Include="Mindscape.LightSpeed.Providers.SqlServerCe4">
+      <HintPath>..\..\lib\LightSpeed\Providers\Mindscape.LightSpeed.Providers.SqlServerCe4.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+    <Reference Include="Mono.Security, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NHibernate.3.3.1.4000\lib\Net35\NHibernate.dll</HintPath>
+      <HintPath>..\..\lib\LightSpeed\Providers\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.6.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\MySql.Data.6.6.4\lib\net40\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\..\packages\System.Data.SQLite.1.0.84.0\lib\net40\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq">
+      <HintPath>..\..\packages\System.Data.SQLite.1.0.84.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\System.Data.SqlServerCe.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
@@ -166,6 +187,9 @@
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.AspNet.Mvc.3.0.20105.1\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -189,6 +213,9 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease">
+      <HintPath>..\..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\EmailTemplates\fi-FI\ResetPassword.html" />
@@ -199,8 +226,11 @@
     <Content Include="App_Data\EmailTemplates\ResetPassword.html" />
     <Content Include="App_Data\EmailTemplates\Signup.html" />
     <Content Include="App_Data\EmailTemplates\Signup.txt" />
+    <Content Include="App_Data\Logs\emptyfile.txt" />
     <Content Include="App_Data\roadkill.mdf" />
     <Content Include="App_Data\htmlwhitelist.xml" />
+    <Content Include="App_Data\SQLiteBinaries\x64\SQLite.Interop.dll" />
+    <Content Include="App_Data\SQLiteBinaries\x86\SQLite.Interop.dll" />
     <Content Include="App_Data\tokens.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -245,16 +275,19 @@
     <Content Include="Assets\CSS\images\xls.png" />
     <Content Include="Assets\CSS\images\zip.png" />
     <Content Include="Assets\CSS\validationEngine.jquery.css" />
+    <Content Include="Assets\Images\log_error.png" />
     <Content Include="Assets\Images\gradientbutton-green.png" />
     <Content Include="Assets\Images\gradientbutton.png" />
     <Content Include="Assets\Images\favicon.png" />
     <Content Include="Assets\Images\help.png" />
+    <Content Include="Assets\Images\log_information.png" />
     <Content Include="Assets\Images\installer-ex-chicken.png" />
     <Content Include="Assets\Images\loadinglarge.gif" />
     <Content Include="Assets\bootstrap\img\Thumbs.db" />
     <None Include="Assets\Scripts\jquery-1.8.0-vsdoc.js" />
     <Content Include="Assets\CSS\bootstrap-tagmanager.css" />
     <Content Include="Assets\Images\roadkill.png" />
+    <Content Include="Assets\Images\log_warning.png" />
     <Content Include="Assets\Scripts\bootstrap-tagmanager.js" />
     <Content Include="Assets\Scripts\jquery-1.8.0.min.js" />
     <Content Include="Assets\Scripts\jquery.fancybox.pack.js" />
@@ -292,13 +325,9 @@
     <Content Include="Assets\CSS\jqueryFileTree.css" />
     <Content Include="Assets\Scripts\jqueryFileTree.js" />
     <Content Include="Assets\Scripts\roadkill.edit.js" />
-    <Content Include="App_Data\SQLiteBinaries\x64\System.Data.SQLite.dll" />
-    <Content Include="App_Data\SQLiteBinaries\x64\System.Data.SQLite.Linq.dll" />
-    <Content Include="App_Data\SQLiteBinaries\x86\System.Data.SQLite.dll" />
-    <Content Include="App_Data\SQLiteBinaries\x86\System.Data.SQLite.Linq.dll" />
     <Content Include="mimetypes.config" />
     <None Include="packages.config" />
-    <None Include="build-readme.txt" />
+    <None Include="readme.txt" />
     <Content Include="Themes\BlackBar\Theme.print.css" />
     <Content Include="Themes\Mediawiki\border.png" />
     <Content Include="Themes\Mediawiki\Theme.cshtml" />
@@ -310,7 +339,6 @@
     <Content Include="Themes\Mediawiki\Theme.print.css" />
     <Content Include="Themes\Plain\Theme.css" />
     <Content Include="Themes\Plain\Theme.print.css" />
-    <Content Include="Themes\Roadkillwiki.org\Theme.print.css" />
     <Content Include="Views\Help\MediaWikiReference.cshtml" />
     <Content Include="Views\Help\MarkdownReference.cshtml" />
     <Content Include="Views\Help\CreoleReference.cshtml" />
@@ -336,9 +364,6 @@
     <Content Include="Assets\Scripts\jquery.timeago.js" />
     <Content Include="Assets\Images\loading.gif" />
     <Content Include="Themes\BlackBar\Theme.css" />
-    <Content Include="Themes\Roadkillwiki.org\roadkill-large.png" />
-    <Content Include="Themes\Roadkillwiki.org\roadkill.png" />
-    <Content Include="Themes\Roadkillwiki.org\Theme.css" />
     <Content Include="Views\Pages\History.cshtml" />
     <Content Include="Views\Pages\Version.cshtml" />
     <Content Include="Views\Pages\ByUser.cshtml" />
@@ -346,9 +371,8 @@
     <Content Include="Themes\Plain\Theme.cshtml" />
     <Content Include="Themes\Web.config" />
     <Content Include="Views\Shared\_Blank.cshtml" />
-    <Content Include="Views\Shared\PageToolbar.cshtml" />
+    <Content Include="Views\Wiki\PageToolbar.cshtml" />
     <Content Include="Views\Shared\HeadContent.cshtml" />
-    <Content Include="Themes\Roadkillwiki.org\Theme.cshtml" />
     <Content Include="Views\Settings\SettingsMenu.cshtml" />
     <Content Include="Views\Settings\Users.cshtml" />
     <Content Include="Views\Settings\UsersReadOnly.cshtml" />
@@ -374,15 +398,21 @@
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <Content Include="Views\FileManager\Index.cshtml" />
     <Content Include="Views\FileManager\_Navigator.cshtml" />
+    <Content Include="Views\Upgrade\Index.cshtml" />
+    <Content Include="Views\Upgrade\Layout.cshtml" />
+    <Content Include="Views\LogViewer\Index.cshtml" />
+    <Content Include="Views\Settings\Cache.cshtml" />
+    <Content Include="Views\LogViewer\Menu.cshtml" />
+    <Content Include="Views\User\LoggedInAs.cshtml" />
+    <Content Include="Views\User\LeftMenu.cshtml" />
     <None Include="Web.DemoSite.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Scripts\jquery.ae.image.resize.min.js" />
-    <Content Include="Assets\Scripts\jquery.extensions.min.js" />
-    <Content Include="Assets\Scripts\jquery.form-extensions.min.js" />
+    <Content Include="Assets\Scripts\jquery.extensions.js" />
+    <Content Include="Assets\Scripts\jquery.form-extensions.js" />
     <Content Include="Assets\Scripts\roadkill.js" />
     <Content Include="Global.asax" />
     <Content Include="Views\Pages\Edit.cshtml" />
@@ -445,15 +475,17 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\Plugins\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DemoSite|AnyCPU'">
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE;DEMOSITE</DefineConstants>
-    <Optimize>true</Optimize>
+    <DefineConstants>DEBUG;TRACE;DEMOSITE</DefineConstants>
+    <Optimize>false</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -495,14 +527,22 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>3588</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:3588/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>xcopy $(SolutionDir)lib\Microsoft.Web.Administration.dll $(TargetDir) /Y
-xcopy $(SolutionDir)lib\System.Data.SqlServerCe.dll $(TargetDir) /Y
-xcopy $(SolutionDir)lib\SQLite\x64\*.* $(TargetDir) /Y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

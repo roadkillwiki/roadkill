@@ -12,6 +12,10 @@
     <AssemblyName>Roadkill.Core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SccProjectName>&lt;Project Location In Database&gt;</SccProjectName>
+    <SccLocalPath>&lt;Local Binding Root of Project&gt;</SccLocalPath>
+    <SccAuxPath>&lt;Source Control Database&gt;</SccAuxPath>
+    <SccProvider>Mercurial Source Control Package</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -124,9 +128,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DemoSite|AnyCPU'">
     <OutputPath>bin\DemoSite\</OutputPath>
-    <DefineConstants>TRACE;RELEASE DEMOSITE</DefineConstants>
+    <DefineConstants>TRACE;DEMOSITE</DefineConstants>
     <DocumentationFile>bin\Release\Roadkill.Core.XML</DocumentationFile>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -154,9 +158,11 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentNHibernate, Version=1.3.0.733, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\FluentNHibernate.1.3.0.733\lib\FluentNHibernate.dll</HintPath>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Essential.Diagnostics">
+      <HintPath>..\..\packages\Essential.Diagnostics.1.1.20103.0\lib\Essential.Diagnostics.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -164,9 +170,6 @@
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Iesi.Collections.3.3.1.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -180,12 +183,45 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Microsoft.Web.Administration.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+    <Reference Include="Mindscape.LightSpeed">
+      <HintPath>..\..\lib\Lightspeed\Mindscape.LightSpeed.dll</HintPath>
+    </Reference>
+    <Reference Include="Mindscape.LightSpeed.Linq">
+      <HintPath>..\..\lib\Lightspeed\Mindscape.LightSpeed.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Mindscape.LightSpeed.MetaData">
+      <HintPath>..\..\lib\Lightspeed\Mindscape.LightSpeed.MetaData.dll</HintPath>
+    </Reference>
+    <Reference Include="Mindscape.LightSpeed.Providers.SqlServerCe4">
+      <HintPath>..\..\lib\LightSpeed\Providers\Mindscape.LightSpeed.Providers.SqlServerCe4.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Bson, Version=1.7.1.4791, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NHibernate.3.3.2.4000\lib\Net35\NHibernate.dll</HintPath>
+      <HintPath>..\..\packages\mongocsharpdriver.1.7.1\lib\net35\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=1.7.1.4791, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\mongocsharpdriver.1.7.1\lib\net35\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Security">
+      <HintPath>..\..\lib\LightSpeed\Providers\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.6.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\MySql.Data.6.6.4\lib\net40\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>..\..\lib\LightSpeed\Providers\Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="Recaptcha, Version=1.0.5.0, Culture=neutral, PublicKeyToken=9afc4d65b28c38c2, processorArchitecture=MSIL">
       <HintPath>..\..\packages\recaptcha.1.0.5.0\lib\.NetFramework 4.0\Recaptcha.dll</HintPath>
+    </Reference>
+    <Reference Include="Roadkill.Core.XmlSerializers, Version=1.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Roadkill.Core.XmlSerializers.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
@@ -194,9 +230,22 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.SQLite, Version=1.0.84.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\System.Data.SQLite.1.0.84.0\lib\net40\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq">
+      <HintPath>..\..\packages\System.Data.SQLite.1.0.84.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -209,6 +258,9 @@
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.AspNet.Mvc.3.0.20105.1\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -232,74 +284,95 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebGrease">
+      <HintPath>..\..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\Log.cs" />
+    <Compile Include="Common\Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Configuration\ConfigFileManager.cs" />
+    <Compile Include="MVC\Attributes\IControllerAttribute.cs" />
+    <Compile Include="DI\MvcAttributeProvider.cs" />
+    <Compile Include="DI\MvcDependencyResolver.cs" />
+    <Compile Include="Localization\Resx\InstallStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InstallStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Localization\Resx\SiteStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SiteStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Logging\ErrorType.cs" />
+    <Compile Include="Logging\LogType.cs" />
+    <Compile Include="Logging\LogReader.cs" />
+    <Compile Include="Logging\UdpTraceListener.cs" />
+    <Compile Include="Logging\Log.cs" />
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
     <Compile Include="Controllers\FileManagerController.cs" />
-    <Compile Include="Controllers\RoadkillViewPage.cs" />
+    <Compile Include="MVC\Attributes\BrowserCacheAttribute.cs" />
+    <Compile Include="MVC\Controllers\LogViewerController.cs" />
+    <Compile Include="MVC\WebViewPages\RoadkillLayoutPage.cs" />
+    <Compile Include="MVC\WebViewPages\RoadkillViewPage.cs" />
+    <Compile Include="MVC\Controllers\UpgradeController.cs" />
+    <Compile Include="Domain\Cache\PageSummaryCache.cs" />
+    <Compile Include="Domain\Cache\ListCache.cs" />
+    <Compile Include="Database\Repositories\IUserRepository.cs" />
+    <Compile Include="Database\Repositories\IPageRepository.cs" />
+    <Compile Include="Database\DataStoreType.cs" />
+    <Compile Include="Database\IDataStoreEntity.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\Conversion\ToEntity.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\LightSpeedRepository.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\Conversion\FromEntity.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\PageEntity.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\PageContentEntity.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\SiteSettingsEntity.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\UserEntity.cs" />
+    <Compile Include="Database\Entities\SiteSettingsEntity.cs" />
+    <Compile Include="Database\Schema\MySql\MySqlSchema.cs" />
+    <Compile Include="Database\Schema\Postgres\PostgresSchema.cs" />
+    <Compile Include="Database\Schema\SchemaBase.cs" />
+    <Compile Include="Database\Schema\Sqlite\SqliteSchema.cs" />
+    <Compile Include="Database\Schema\SqlServerCE\SqlServerCESchema.cs" />
+    <Compile Include="Database\Schema\SqlServer\SqlServerSchema.cs" />
     <Compile Include="Domain\Managers\IPageManager.cs" />
-    <Compile Include="Domain\NHibernate\PageMap.cs" />
-    <Compile Include="Domain\NHibernate\PageContentMap.cs" />
-    <Compile Include="Domain\NHibernate\SitePreferencesMap.cs" />
-    <Compile Include="Domain\NHibernate\UserMap.cs" />
-    <Compile Include="Files\MimeMapping.cs" />
-    <Compile Include="IoC\IInjectionLaunderer.cs" />
-    <Compile Include="IoC\StructureMapControllerFactory.cs" />
-    <Compile Include="Controllers\Attributes\OptionalAuthorizationAttribute.cs" />
-    <Compile Include="Controllers\Attributes\RecaptchaRequiredAttribute.cs" />
-    <Compile Include="Controllers\Attributes\ImportModelStateAttribute.cs" />
-    <Compile Include="Controllers\Attributes\ExportModelStateAttribute.cs" />
+    <Compile Include="Database\Repositories\MongoDB\MongoDBRepository.cs" />
+    <Compile Include="Exceptions\UpgradeException.cs" />
+    <Compile Include="Attachments\MimeMapping.cs" />
+    <Compile Include="DI\DependencyContainer.cs" />
+    <Compile Include="MVC\Attributes\OptionalAuthorizationAttribute.cs" />
+    <Compile Include="MVC\Attributes\RecaptchaRequiredAttribute.cs" />
+    <Compile Include="MVC\Attributes\ImportModelStateAttribute.cs" />
+    <Compile Include="MVC\Attributes\ExportModelStateAttribute.cs" />
     <Compile Include="Common\Extensions\HtmlLinkExtensions.cs" />
     <Compile Include="Common\LowercaseRoute.cs" />
-    <Compile Include="Controllers\Attributes\AdminRequiredAttribute.cs" />
-    <Compile Include="Controllers\Attributes\EditorRequiredAttribute.cs" />
+    <Compile Include="MVC\Attributes\AdminRequiredAttribute.cs" />
+    <Compile Include="MVC\Attributes\EditorRequiredAttribute.cs" />
     <Compile Include="Common\Salt.cs" />
-    <Compile Include="Configuration\IConfigurationContainer.cs" />
-    <Compile Include="Domain\Managers\Security\Windows\PrincipalWrapper.cs" />
-    <Compile Include="Domain\Managers\Security\Windows\IRoadKillPrincipal.cs" />
-    <Compile Include="Domain\Managers\Security\Windows\IActiveDirectoryService.cs" />
-    <Compile Include="Domain\Managers\Security\Windows\DefaultActiveDirectoryService.cs" />
-    <Compile Include="Domain\IRepository.cs" />
+    <Compile Include="Domain\Security\Windows\PrincipalDetails.cs" />
+    <Compile Include="Domain\Security\Windows\IPrincipalDetails.cs" />
+    <Compile Include="Domain\Security\Windows\IActiveDirectoryService.cs" />
+    <Compile Include="Domain\Security\Windows\ActiveDirectoryService.cs" />
+    <Compile Include="Database\Repositories\IRepository.cs" />
     <Compile Include="Exceptions\IoCException.cs" />
-    <Compile Include="Files\AttachmentFileHandler.cs" />
-    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Attachments\AttachmentFileHandler.cs" />
+    <Compile Include="MVC\Controllers\UserController.cs" />
     <Compile Include="Domain\Email\ResetPasswordEmail.cs" />
     <Compile Include="Domain\Email\SignupEmail.cs" />
     <Compile Include="Domain\Email\Email.cs" />
-    <Compile Include="Domain\DatabaseType.cs" />
     <Compile Include="Exceptions\EmailException.cs" />
     <Compile Include="Exceptions\SearchException.cs" />
     <Compile Include="Exceptions\DatabaseException.cs" />
-    <Compile Include="Files\AttachmentRouteHandler.cs" />
-    <Compile Include="IoC\IRoadkillContext.cs" />
-    <Compile Include="IoC\ModelBinders.cs" />
-    <Compile Include="Localization\Resx\InstallStrings.Designer.cs">
-      <DependentUpon>InstallStrings.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Localization\Resx\InstallStrings.fi-FI.designer.cs">
-      <DependentUpon>InstallStrings.fi-FI.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Localization\Resx\SiteStrings.Designer.cs">
-      <DependentUpon>SiteStrings.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Localization\Resx\SiteStrings.fi-FI.designer.cs">
-      <DependentUpon>SiteStrings.fi-FI.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
+    <Compile Include="Attachments\AttachmentRouteHandler.cs" />
+    <Compile Include="Domain\Security\IUserContext.cs" />
+    <Compile Include="DI\MvcModelBinders.cs" />
     <Compile Include="Configuration\RoadkillSection.cs" />
-    <Compile Include="Controllers\InstallController.cs" />
-    <Compile Include="Controllers\FilesController.cs" />
-    <Compile Include="Controllers\WikiController.cs" />
-    <Compile Include="Controllers\HelpController.cs" />
+    <Compile Include="MVC\Controllers\InstallController.cs" />
+    <Compile Include="MVC\Controllers\FilesController.cs" />
+    <Compile Include="MVC\Controllers\WikiController.cs" />
+    <Compile Include="MVC\Controllers\HelpController.cs" />
     <Compile Include="Text\CustomToken.cs" />
     <Compile Include="Text\CustomTokenParser.cs" />
     <Compile Include="Text\Sanitizer\HtmlWhiteList.cs" />
@@ -310,76 +383,96 @@
     <Compile Include="Text\IMarkupParser.cs" />
     <Compile Include="Text\LinkEventArgs.cs" />
     <Compile Include="Text\Parsers\MediaWikiParser.cs" />
-    <Compile Include="Domain\Managers\Security\Windows\ActiveDirectoryUserManager.cs" />
-    <Compile Include="Domain\Managers\Security\SqlUserManager.cs" />
-    <Compile Include="Domain\Managers\Security\UserManager.cs" />
+    <Compile Include="Domain\Security\Windows\ActiveDirectoryUserManager.cs" />
+    <Compile Include="Domain\Security\FormsAuthenticationUserManager.cs" />
+    <Compile Include="Domain\Security\UserManagerBase.cs" />
     <Compile Include="Domain\Managers\SettingsManager.cs" />
-    <Compile Include="Domain\User.cs" />
-    <Compile Include="Domain\NHibernate\NHibernateRepository.cs" />
-    <Compile Include="Domain\Managers\InstallHelper.cs" />
+    <Compile Include="Database\Entities\User.cs" />
     <Compile Include="Domain\Managers\ServiceBase.cs" />
-    <Compile Include="ViewModels\UserSummary.cs" />
+    <Compile Include="Text\ToC\StringTemplate.cs" />
+    <Compile Include="Text\ToC\Item.cs" />
+    <Compile Include="Text\ToC\Tree.cs" />
+    <Compile Include="MVC\ViewModels\FileSummary.cs" />
+    <Compile Include="MVC\ViewModels\UserSummary.cs" />
     <Compile Include="Exceptions\HistoryException.cs" />
     <Compile Include="Exceptions\ExceptionBase.cs" />
     <Compile Include="Exceptions\SecurityException.cs" />
-    <Compile Include="Domain\SitePreferences.cs" />
-    <Compile Include="ViewModels\SearchResult.cs" />
-    <Compile Include="ViewModels\DirectorySummary.cs" />
-    <Compile Include="ViewModels\SettingsSummary.cs" />
+    <Compile Include="Configuration\SiteSettings.cs" />
+    <Compile Include="MVC\ViewModels\SearchResult.cs" />
+    <Compile Include="MVC\ViewModels\DirectorySummary.cs" />
+    <Compile Include="MVC\ViewModels\SettingsSummary.cs" />
     <Compile Include="Domain\Import\ScrewTurnImporter.cs" />
     <Compile Include="Domain\Import\IWikiImporter.cs" />
     <Compile Include="Domain\Managers\SearchManager.cs" />
-    <Compile Include="Controllers\SettingsController.cs" />
-    <Compile Include="ViewModels\HistorySummary.cs" />
-    <Compile Include="ViewModels\TagSummary.cs" />
+    <Compile Include="MVC\Controllers\SettingsController.cs" />
+    <Compile Include="MVC\ViewModels\HistorySummary.cs" />
+    <Compile Include="MVC\ViewModels\TagSummary.cs" />
     <Compile Include="Text\Parsers\CreoleParser.cs" />
     <Compile Include="Common\HtmlDiff.cs" />
     <Compile Include="Text\Parsers\Markdown.cs" />
     <Compile Include="Text\MarkupConverter.cs" />
     <Compile Include="Exceptions\InstallerException.cs" />
-    <Compile Include="Configuration\RoadkillSettings.cs" />
-    <Compile Include="IoC\RoadkillContext.cs" />
+    <Compile Include="Domain\Security\UserContext.cs" />
     <Compile Include="Common\Extensions\Extensions.cs" />
     <Compile Include="Common\Extensions\HtmlExtensions.cs" />
-    <Compile Include="Controllers\ControllerBase.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\PagesController.cs" />
-    <Compile Include="Domain\PageContent.cs" />
+    <Compile Include="MVC\Controllers\ControllerBase.cs" />
+    <Compile Include="MVC\Controllers\HomeController.cs" />
+    <Compile Include="MVC\Controllers\PagesController.cs" />
+    <Compile Include="Database\Entities\PageContent.cs" />
     <Compile Include="Domain\Managers\HistoryManager.cs" />
     <Compile Include="Domain\Managers\PageManager.cs" />
-    <Compile Include="Domain\Page.cs" />
-    <Compile Include="ViewModels\PageSummary.cs" />
+    <Compile Include="Database\Entities\Page.cs" />
+    <Compile Include="MVC\ViewModels\PageSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoadkillApplication.cs" />
-    <Compile Include="Text\TocParser.cs" />
+    <Compile Include="Text\ToC\TocParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Localization\Resx\InstallStrings.cs-CZ.resx" />
-    <EmbeddedResource Include="Localization\Resx\InstallStrings.fi-FI.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>InstallStrings.fi-FI.designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Localization\Resx\InstallStrings.pl-PL.resx" />
     <EmbeddedResource Include="Localization\Resx\InstallStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>InstallStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Localization\Resx\SiteStrings.cs-CZ.resx" />
-    <EmbeddedResource Include="Localization\Resx\SiteStrings.fi-FI.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SiteStrings.fi-FI.designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Localization\Resx\SiteStrings.pl-PL.resx" />
     <EmbeddedResource Include="Localization\Resx\SiteStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SiteStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Database\Schema\Postgres\Create.sql" />
+    <EmbeddedResource Include="Database\Schema\Postgres\Drop.sql" />
+    <EmbeddedResource Include="Database\Schema\Sqlite\Create.sql" />
+    <EmbeddedResource Include="Database\Schema\Sqlite\Drop.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServer\Create.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServer\Drop.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create2.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create3.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create4.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create5.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Drop1.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Drop4.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Drop3.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Drop2.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create1.sql" />
+    <EmbeddedResource Include="Database\Schema\MySql\Create.sql" />
+    <EmbeddedResource Include="Database\Schema\MySql\Drop.sql" />
+    <EmbeddedResource Include="Database\Schema\MySql\Upgrade.sql" />
+    <EmbeddedResource Include="Database\Schema\Postgres\Upgrade.sql" />
+    <EmbeddedResource Include="Database\Schema\Sqlite\Upgrade.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServer\Upgrade.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Upgrade1.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Upgrade2.sql" />
     <Content Include="Localization\Text\InstallStrings.cs-CZ.txt" />
+    <Content Include="Localization\Text\InstallStrings.pl-PL.txt" />
     <Content Include="Localization\Text\InstallStrings.txt" />
     <Content Include="Localization\Text\SiteStrings.cs-CZ.txt" />
+    <Content Include="Localization\Text\SiteStrings.pl-PL.txt" />
     <Content Include="Localization\Text\SiteStrings.txt" />
   </ItemGroup>
   <ItemGroup />

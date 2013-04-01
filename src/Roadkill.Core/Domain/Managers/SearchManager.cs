@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NHibernate;
 using Lucene.Net.Documents;
 using System.IO;
 using Lucene.Net.Index;
@@ -15,8 +14,10 @@ using Directory = System.IO.Directory;
 using LuceneVersion = Lucene.Net.Util.Version;
 using Lucene.Net.Store;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
+using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Core.Search
+namespace Roadkill.Core.Managers
 {
 	/// <summary>
 	/// Provides searching tasks using a Lucene.net search index.
@@ -28,10 +29,10 @@ namespace Roadkill.Core.Search
 		protected virtual string IndexPath { get; set; }
 		private static readonly LuceneVersion LUCENEVERSION = LuceneVersion.LUCENE_29;
 
-		public SearchManager(IConfigurationContainer configuration, IRepository repository)
-			: base(configuration, repository)
+		public SearchManager(ApplicationSettings settings, IRepository repository)
+			: base(settings, repository)
 		{
-			_markupConverter = new MarkupConverter(configuration, repository);
+			_markupConverter = new MarkupConverter(settings, repository);
 			IndexPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\search";
 		}
 
@@ -41,7 +42,7 @@ namespace Roadkill.Core.Search
 		/// <param name="searchText">The text to search with.</param>
 		/// <remarks>Syntax reference: http://lucene.apache.org/java/2_3_2/queryparsersyntax.html#Wildcard</remarks>
 		/// <exception cref="SearchException">An error occured searching the lucene.net index.</exception>
-		public virtual IEnumerable<SearchResult> SearchIndex(string searchText)
+		public virtual IEnumerable<SearchResult> Search(string searchText)
 		{
 			// This check is for the benefit of the CI builds
 			if (!Directory.Exists(IndexPath))
@@ -138,7 +139,7 @@ namespace Roadkill.Core.Search
 			}
 			catch (Exception ex)
 			{
-				if (!Configuration.ApplicationSettings.IgnoreSearchIndexErrors)
+				if (!ApplicationSettings.IgnoreSearchIndexErrors)
 					throw new SearchException(ex, "An error occured while adding page '{0}' to the search index", summary.Title);
 			}
 		}
@@ -163,7 +164,7 @@ namespace Roadkill.Core.Search
 			}
 			catch (Exception ex)
 			{
-				if (!Configuration.ApplicationSettings.IgnoreSearchIndexErrors)
+				if (!ApplicationSettings.IgnoreSearchIndexErrors)
 					throw new SearchException(ex, "An error occured while deleting page '{0}' from the search index", summary.Title);
 				else
 					return 0;
@@ -195,7 +196,7 @@ namespace Roadkill.Core.Search
 				StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
 				using (IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(IndexPath)), analyzer, true,IndexWriter.MaxFieldLength.UNLIMITED))
 				{
-					foreach (Page page in Repository.Pages.ToList())
+					foreach (Page page in Repository.AllPages().ToList())
 					{
 						PageSummary summary = Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
 

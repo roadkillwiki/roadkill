@@ -3,13 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Roadkill.Core;
+using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
+using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Security;
+using StructureMap;
 
 namespace Roadkill.Tests
 {
-	public class UserManagerStub : UserManager
+	[Pluggable("x")]
+	public class UserManagerStub : UserManagerBase
 	{
 		public UserManagerStub()
 			: base(null, null)
+		{
+
+		}
+
+		public UserManagerStub(ApplicationSettings settings, IRepository repository)
+			: base(settings, repository)
 		{
 
 		}
@@ -49,12 +61,12 @@ namespace Roadkill.Tests
 			throw new NotImplementedException();
 		}
 
-		public override User GetUserById(Guid id)
+		public override User GetUserById(Guid id, bool isActivated = true)
 		{
 			throw new NotImplementedException();
 		}
 
-		public override User GetUser(string email)
+		public override User GetUser(string email, bool isActivated = true)
 		{
 			throw new NotImplementedException();
 		}

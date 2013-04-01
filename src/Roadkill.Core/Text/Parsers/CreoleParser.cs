@@ -77,7 +77,7 @@ namespace Roadkill.Core.Converters
 	{
 		private string _tabStop;
 		private int _nTabSpaces;
-		private IConfigurationContainer _configuration;
+		private ApplicationSettings _applicationSettings;
 
 		/// <summary>
 		/// The start and end tokens to indicate bold text.
@@ -220,9 +220,9 @@ namespace Roadkill.Core.Converters
 			}
 		}
 
-		public CreoleParser(IConfigurationContainer configuration)
+		public CreoleParser(ApplicationSettings applicationSettings, SiteSettings siteSettings)
 		{
-			_configuration = configuration;
+			_applicationSettings = applicationSettings;
 			AddIdToParagraphTags = false;
 			HTMLAttributes = new Dictionary<string, string>();
 			InterWiki = new Dictionary<string, string>();
@@ -230,7 +230,8 @@ namespace Roadkill.Core.Converters
 			NoWikiEscapeStart = "{{{";
 			NoWikiEscapeEnd = "}}}";
 
-			InterWiki.Add("tag", configuration.SitePreferences.SiteUrl + "/pages/tag/");
+			if (siteSettings != null)
+				InterWiki.Add("tag", siteSettings.SiteUrl + "/pages/tag/");
 		}
 
 
@@ -983,9 +984,15 @@ namespace Roadkill.Core.Converters
 		/// <returns></returns>
 		protected virtual string _processImageCreole(string markup)
 		{
+			int sanityCheckMax = 5000;
+			int sanityCheckCount = 0;
+
 			int iPos = _indexOfWithSkip(markup, "{{", 0);
 			while (iPos >= 0)
 			{
+				if (++sanityCheckCount > sanityCheckMax)
+					break;
+
 				int iEnd = _indexOfWithSkip(markup, "}}", iPos);
 				if (iEnd > iPos)
 				{

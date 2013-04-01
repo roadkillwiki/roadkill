@@ -8,6 +8,8 @@ using System.Web.Configuration;
 using System.Reflection;
 using System.IO;
 using StructureMap;
+using Roadkill.Core.Database;
+using Roadkill.Core.Logging;
 
 namespace Roadkill.Core.Configuration
 {
@@ -28,11 +30,29 @@ namespace Roadkill.Core.Configuration
 		public string AppDataPath { get; set; }
 
 		/// <summary>
-		/// The folder where all uploads (typically image files) are saved to. This is taken from the web.config,
-		/// if the setting uses "~/" then the path is translated into one that is relative to the site root, 
-		/// otherwise it is assumed to be an absolute file path.
+		/// The folder where all uploads (typically image files) are saved to. This is taken from the web.config.
+		/// Use AttachmentsDirectoryPath for the absolute directory path.
 		/// </summary>
 		public string AttachmentsFolder { get; set; }
+
+		/// <summary>
+		/// The absolute file path for the attachments folder. If the AttachmentsFolder uses "~/" then the path is 
+		/// translated into one that is relative to the site root, otherwise it is assumed to be an absolute file path
+		/// </summary>
+		public string AttachmentsDirectoryPath
+		{
+			get
+			{
+				if (AttachmentsFolder.StartsWith("~") && HttpContext.Current != null)
+				{
+					return HttpContext.Current.Server.MapPath(AttachmentsFolder);
+				}
+				else
+				{
+					return AttachmentsFolder; ;
+				}
+			}
+		}
 
 		/// <summary>
 		/// The route used for all attachment HTTP requests (currently non-user configurable). Should not contain a trailing slash.
@@ -43,16 +63,6 @@ namespace Roadkill.Core.Configuration
 		/// The route used for all attachment HTTP requests (currently non-user configurable), minus any starting "/".
 		/// </summary>
 		public string AttachmentsRoutePath { get; set; }
-
-		/// <summary>
-		///  Indicates whether caching (currently NHibernate level 2 caching, and Http headers) is enabled.
-		/// </summary>
-		public bool CacheEnabled { get; set; }
-
-		/// <summary>
-		/// Indicates whether textual content for pages is cached.
-		/// </summary>
-		public bool CacheText { get; set; }
 
 		/// <summary>
 		/// The connection string to the Roadkill database.
@@ -72,7 +82,7 @@ namespace Roadkill.Core.Configuration
 		/// <summary>
 		/// The database type used as the backing store.
 		/// </summary>
-		public DatabaseType DatabaseType { get; set; }
+		public DataStoreType DataStoreType { get; set; }
 
 		/// <summary>
 		/// The name of the role or Active Directory security group that users should belong to in order to create and edit pages.
@@ -116,14 +126,44 @@ namespace Roadkill.Core.Configuration
 		public string LdapPassword { get; set; }
 
 		/// <summary>
+		/// The type of logging to perform. When in debug mode, UDP logging is also added to this.
+		/// </summary>
+		public LogType LoggingType { get; set; }
+
+		/// <summary>
+		/// Whether to just error messages are logged, or all information (warnings, information).
+		/// </summary>
+		public bool LogErrorsOnly { get; set; }
+
+		/// <summary>
 		/// The number of characters each password should be.
 		/// </summary>
 		public int MinimumPasswordLength { get; set; }
 
 		/// <summary>
+		/// The fully qualified assembly and classname for the repository.
+		/// </summary>
+		public string RepositoryType { get; set; }
+
+		/// <summary>
 		/// Whether to scale images dynamically on the page, using Javascript, so they fit inside the main page container (400x400px).
 		/// </summary>
 		public bool ResizeImages { get; set; }
+
+		/// <summary>
+		/// True if the version number in the web.config does not match the current assembly version.
+		/// </summary>
+		public bool UpgradeRequired { get; internal set; }
+
+		/// <summary>
+		/// Indicates whether server-based page object caching is enabled.
+		/// </summary>
+		public bool UseObjectCache { get; set; }
+
+		/// <summary>
+		/// Indicates whether to send HTTP cache headers to the browser (304 not modified)
+		/// </summary>
+		public bool UseBrowserCache { get; set; }
 
 		/// <summary>
 		/// Gets a value indicating whether the html that is converted from the markup is 
@@ -134,7 +174,7 @@ namespace Roadkill.Core.Configuration
 		/// <summary>
 		/// The type for the <see cref="UserManager"/>. If the setting for this is blank
 		/// in the web.config, then the <see cref="UseWindowsAuthentication"/> is checked and if false
-		/// a <see cref="SqlUserManager"/> is created. The format of this setting can be retrieved by
+		/// a <see cref="DefaultUserManager"/> is created. The format of this setting can be retrieved by
 		/// using <code>typeof(YourUserManager).AssemblyQualifiedName.</code>
 		/// </summary>
 		public string UserManagerType { get; set; }
@@ -145,98 +185,24 @@ namespace Roadkill.Core.Configuration
 		public bool UseWindowsAuthentication { get; set; }
 
 		/// <summary>
-		/// The current Roadkill version.
+		/// The current Roadkill assembly version.
 		/// </summary>
-		public string Version { get; set; }
-
-		/// <summary>
-		/// Loads the settings from the configuration file.
-		/// </summary>
-		/// <param name="config">The configuration to load the settings from. If this is null, the <see cref="ConfigurationManager"/> 
-		/// is used to load the settings.</param>
-		public virtual void Load(System.Configuration.Configuration config = null)
+		public static Version AssemblyVersion
 		{
-			// Configuration options that aren't configured from web.config
+			get
+			{
+				return typeof(ApplicationSettings).Assembly.GetName().Version;
+			}
+		}
+
+		public ApplicationSettings()
+		{
 			AppDataPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\";
 			CustomTokensPath = Path.Combine(AppDataPath, "tokens.xml");
 			HtmlElementWhiteListPath = Path.Combine(AppDataPath, "htmlwhitelist.xml");
 			MinimumPasswordLength = 6;
-			Version = typeof(RoadkillSettings).Assembly.GetName().Version.ToString();
-
-			// Web/app.config settings
-			RoadkillSection section;
-
-			if (config == null)
-			{
-				section = ConfigurationManager.GetSection("roadkill") as RoadkillSection;
-			}
-			else
-			{
-				section = config.GetSection("roadkill") as RoadkillSection;
-			}
-
-			AdminRoleName = section.AdminRoleName;		
-			
-
-			if (section.AttachmentsFolder.StartsWith("~") && HttpContext.Current != null)
-			{
-				AttachmentsFolder = HttpContext.Current.Server.MapPath(section.AttachmentsFolder);
-			}
-			else
-			{
-				AttachmentsFolder = section.AttachmentsFolder;
-			}
-
-			AttachmentsUrlPath = "/Attachments";
+			DataStoreType = DataStoreType.SqlServer2008;
 			AttachmentsRoutePath = "Attachments";
-			CacheEnabled = section.CacheEnabled;
-			CacheText = section.CacheText;
-
-			if (config == null)
-			{
-				ConnectionString = ConfigurationManager.ConnectionStrings[section.ConnectionStringName].ConnectionString;
-			}
-			else
-			{
-				ConnectionString = config.ConnectionStrings.ConnectionStrings[section.ConnectionStringName].ConnectionString;
-			}
-
-			ConnectionStringName = section.ConnectionStringName;		
-
-			DatabaseType dbType;
-			if (Enum.TryParse<DatabaseType>(section.DatabaseType, true, out dbType))
-			{
-				DatabaseType = dbType;
-			}
-			else
-			{
-				DatabaseType = DatabaseType.SqlServer2005;
-			}
-
-			EditorRoleName = section.EditorRoleName;
-			IgnoreSearchIndexErrors = section.IgnoreSearchIndexErrors;
-			IsPublicSite = section.IsPublicSite;
-			Installed = section.Installed;		
-			LdapConnectionString = section.LdapConnectionString;
-			LdapUsername = section.LdapUsername;
-			LdapPassword = section.LdapPassword;
-			ResizeImages = section.ResizeImages;
-			UseHtmlWhiteList = section.UseHtmlWhiteList;
-			UserManagerType = section.UserManagerType;
-			UseWindowsAuthentication = section.UseWindowsAuthentication;
-		}
-
-		/// <summary>
-		/// Loads a custom app.config file for the settings, overriding the default application config file.
-		/// </summary>
-		/// <param name="filePath">A full path to the config file.</param>
-		public void LoadCustomConfigFile(string filePath)
-		{
-			ExeConfigurationFileMap fileMap = new ExeConfigurationFileMap();
-			fileMap.ExeConfigFilename = filePath;
-			System.Configuration.Configuration cfg = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
-
-			Load(cfg);
 		}
 	}
 }

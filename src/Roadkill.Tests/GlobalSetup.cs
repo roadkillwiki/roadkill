@@ -1,6 +1,8 @@
 using System;
 using NUnit.Framework;
 using System.IO;
+using Roadkill.Core;
+using Roadkill.Core.Logging;
 
 // NB no namespace, so this fixture setup is used for every class
 
@@ -9,6 +11,7 @@ public class GlobalSetup
 {
 	private static string _rootFolder;
 	private static string _libFolder;
+	private static string _packagesFolder;
 
 	public static string ROOT_FOLDER
 	{
@@ -38,28 +41,42 @@ public class GlobalSetup
 		}
 	}
 
+	public static string PACKAGES_FOLDER
+	{
+		get
+		{
+			if (string.IsNullOrEmpty(_packagesFolder))
+			{
+				_packagesFolder = Path.Combine(ROOT_FOLDER, "Packages");
+			}
+
+			return _packagesFolder;
+		}
+	}
+
     /// <summary>
 	/// Attempts to copy the correct SQL binaries to the bin folder for the architecture the tests are running under.
 	/// </summary>
 	[SetUp]
 	public void BeforeAllTests()
 	{
+		Log.UseConsoleLogging();
+
 		//
-		// Copy the SQLite files over
+		// Copy the SQLite interop file
 		//
 		string binFolder = AppDomain.CurrentDomain.BaseDirectory;
-		string sqliteFileSource = Path.Combine(binFolder, "SqliteSetup", "SQLiteBinaries", "x86", "System.Data.SQLite.dll");
-		string sqliteFileDest = Path.Combine(binFolder, "System.Data.SQLite.dll");
-		string sqliteLinqFileSource = Path.Combine(binFolder, "SqliteSetup", "SQLiteBinaries", "x86", "System.Data.SQLite.Linq.dll");
-		string sqliteFileLinqDest = Path.Combine(binFolder, "System.Data.SQLite.Linq.dll");
+		string sqlInteropFileSource = Path.Combine(PACKAGES_FOLDER, "System.Data.SQLite.1.0.84.0", "content", "net40", "x86", "SQLite.Interop.dll");
+		string sqlInteropFileDest = Path.Combine(binFolder, "SQLite.Interop.dll");
 
-		if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
+		if (!File.Exists(sqlInteropFileDest))
 		{
-			sqliteFileSource = Path.Combine(binFolder, "SqliteSetup", "SQLiteBinaries", "x64", "System.Data.SQLite.dll");
-			sqliteLinqFileSource = Path.Combine(binFolder, "SqliteSetup", "SQLiteBinaries", "x64", "System.Data.SQLite.Linq.dll");
-		}
+			if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
+			{
+				sqlInteropFileSource = Path.Combine(PACKAGES_FOLDER, "System.Data.SQLite.1.0.84.0", "content", "net40", "x64", "SQLite.Interop.dll");
+			}
 
-		System.IO.File.Copy(sqliteFileSource, sqliteFileDest, true);
-		System.IO.File.Copy(sqliteLinqFileSource, sqliteFileLinqDest, true);
+			System.IO.File.Copy(sqlInteropFileSource, sqlInteropFileDest, true);
+		}
 	}
 }

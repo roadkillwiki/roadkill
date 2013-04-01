@@ -34,23 +34,47 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Indicates whether NHibernate 2nd level caching is enabled.
+		/// Indicates whether server-based page object caching is enabled.
 		/// </summary>
-		[ConfigurationProperty("cacheEnabled", IsRequired = true)]
-		public bool CacheEnabled
+		[ConfigurationProperty("useObjectCache", IsRequired = false, DefaultValue = true)]
+		public bool UseObjectCache
 		{
-			get { return (bool)this["cacheEnabled"]; }
-			set { this["cacheEnabled"] = value; }
+			get { return (bool)this["useObjectCache"]; }
+			set { this["useObjectCache"] = value; }
 		}
 
 		/// <summary>
-		/// Indicates whether page content should be cached, if <see cref="CacheEnabled"/> is true.
+		/// Legacy property, this is now "useObjectCache"
 		/// </summary>
-		[ConfigurationProperty("cacheText", IsRequired = true)]
-		public bool CacheText
+		/// <remarks>legacy, now ignored</remarks>
+		[ConfigurationProperty("cacheEnabled", IsRequired = false, DefaultValue = true)]
+		[Obsolete("Legacy property, this is now useObjectCache")]
+		internal bool CacheEnabled
 		{
-			get { return (bool)this["cacheText"]; }
-			set { this["cacheText"] = value; }
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// Indicates whether page content should be cached, if <see cref="UseObjectCache"/> is true.
+		/// </summary>
+		[ConfigurationProperty("useBrowserCache", IsRequired = false, DefaultValue = false)]
+		public bool UseBrowserCache
+		{
+			get { return (bool)this["useBrowserCache"]; }
+			set { this["useBrowserCache"] = value; }
+		}
+
+		/// <summary>
+		/// Legacy property, this is now "useBrowserCache"
+		/// </summary>
+		/// <remarks>legacy, now ignored</remarks>
+		[ConfigurationProperty("cacheText", IsRequired = false, DefaultValue = false)]
+		[Obsolete("Legacy property, this is now useBrowserCache")]
+		internal bool CacheText
+		{
+			get;
+			set;
 		}
 
 		/// <summary>
@@ -59,18 +83,29 @@ namespace Roadkill.Core
 		[ConfigurationProperty("connectionStringName", IsRequired = true)]
 		public string ConnectionStringName
 		{
-			get { return (string) this["connectionStringName"]; }
+			get { return (string)this["connectionStringName"]; }
 			set { this["connectionStringName"] = value; }
+		}
+
+		/// <summary>
+		/// Legacy property, this is now "dataStoreType"
+		/// </summary>
+		/// <remarks>Renamed in 1.6</remarks>
+		[ConfigurationProperty("databaseType", IsRequired = false)]
+		internal string DatabaseType
+		{
+			get { return (string)this["databaseType"]; }
+			set { this["databaseType"] = value; }
 		}
 
 		/// <summary>
 		/// The database type for Roadkill. This defaults to SQLServer2005 if empty - see DatabaseType enum for all options.
 		/// </summary>
-		[ConfigurationProperty("databaseType", IsRequired = false)]
-		public string DatabaseType
+		[ConfigurationProperty("dataStoreType", IsRequired = false)]
+		public string DataStoreType
 		{
-			get { return (string)this["databaseType"]; }
-			set { this["databaseType"] = value; }
+			get { return (string)this["dataStoreType"]; }
+			set { this["dataStoreType"] = value; }
 		}
 
 		/// <summary>
@@ -145,17 +180,47 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// The type of logging to do, "XmlFile" by default.
+		/// </summary>
+		[ConfigurationProperty("logging", IsRequired = false, DefaultValue = "XmlFile")]
+		public string Logging
+		{
+			get { return (string)this["logging"]; }
+			set { this["logging"] = value; }
+		}
+
+		/// <summary>
+		/// The level of logging to perform (true by default).
+		/// </summary>
+		[ConfigurationProperty("logErrorsOnly", IsRequired = false, DefaultValue = true)]
+		public bool LogErrorsOnly
+		{
+			get { return (bool)this["logErrorsOnly"]; }
+			set { this["logErrorsOnly"] = value; }
+		}
+
+		/// <summary>
+		/// The repository type used for all datastore queries.
+		/// </summary>
+		[ConfigurationProperty("repositoryType", IsRequired = false, DefaultValue = "")]
+		public string RepositoryType
+		{
+			get { return (string)this["repositoryType"]; }
+			set { this["repositoryType"] = value; }
+		}
+
+		/// <summary>
 		/// Whether to scale images dynamically on the page, using Javascript, so they fit inside the main page container (400x400px).
 		/// </summary>
-		[ConfigurationProperty("resizeImages", IsRequired = false, DefaultValue=true)]
+		[ConfigurationProperty("resizeImages", IsRequired = false, DefaultValue = true)]
 		public bool ResizeImages
 		{
-			get 
+			get
 			{
 				if (this["resizeImages"] == null)
 					return true;
 				else
-					return (bool)this["resizeImages"]; 
+					return (bool)this["resizeImages"];
 			}
 			set { this["resizeImages"] = value; }
 		}
@@ -164,7 +229,7 @@ namespace Roadkill.Core
 		/// Whether to remove all HTML tags from the markup except those found in the whitelist.xml file,
 		/// inside the App_Data folder.
 		/// </summary>
-		[ConfigurationProperty("useHtmlWhiteList", IsRequired = false, DefaultValue=true)]
+		[ConfigurationProperty("useHtmlWhiteList", IsRequired = false, DefaultValue = true)]
 		public bool UseHtmlWhiteList
 		{
 			get { return (bool)this["useHtmlWhiteList"]; }
@@ -193,6 +258,18 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// The version of the roadkill application running. If this is less than the current assembly version,
+		/// then it's assumed that an upgrade is required at startup.
+		/// </summary>
+		/// <remarks>Added in 1.6</remarks>
+		[ConfigurationProperty("version", IsRequired = false, DefaultValue = "")]
+		public string Version
+		{
+			get { return (string)this["version"]; }
+			set { this["version"] = value; }
+		}
+
+		/// <summary>
 		/// Gets a value indicating whether the <see cref="T:System.Configuration.ConfigurationElement"/> object is read-only,
 		/// and can therefore be saved back to disk.
 		/// </summary>
@@ -200,6 +277,19 @@ namespace Roadkill.Core
 		public override bool IsReadOnly()
 		{
 			return false;
+		}
+
+		/// <summary>
+		/// Checks for a legacy key value, if the new key isn't present.
+		/// </summary>
+		private T CheckForLegacyValue<T>(string oldKeyName, string newKeyname)
+		{
+			T keyValue = (T)this[newKeyname];
+
+			if (this.Properties[newKeyname] == null && this.Properties[oldKeyName] != null)
+				keyValue = (T)this[oldKeyName];
+
+			return keyValue;
 		}
 	}
 }

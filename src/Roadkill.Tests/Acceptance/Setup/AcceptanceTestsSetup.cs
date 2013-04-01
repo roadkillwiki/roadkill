@@ -4,12 +4,13 @@ using System.IO;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.PhantomJS;
 
 namespace Roadkill.Tests.Acceptance
 {
 	/// <summary>
-	/// Separate from the TestBase so it isn't run by nunit as a test.
+	/// Separate from the AcceptanceTestBase so it isn't run by nunit as a test.
 	/// </summary>
 	[SetUpFixture]
 	public class AcceptanceTestsSetup
@@ -25,8 +26,7 @@ namespace Roadkill.Tests.Acceptance
 			LaunchIisExpress();
 
 			//Driver = new FirefoxDriver();
-			//Driver = new ChromeDriver();
-			Driver = new PhantomJSDriver();
+			Driver = new ChromeDriver();
 
 			try
 			{
@@ -56,7 +56,7 @@ namespace Roadkill.Tests.Acceptance
 			return sitePath;
 		}
 
-		private void CopyWebConfig()
+		public static void CopyWebConfig()
 		{
 			try
 			{
@@ -68,8 +68,19 @@ namespace Roadkill.Tests.Acceptance
 				Console.WriteLine("Acceptance tests web.config path: {0}", testsWebConfigPath);
 
 				// Be a good neighbour and backup the web.config
-				File.Copy(siteWebConfig, siteWebConfig + ".bak", true);
-				Console.WriteLine("Backed up web.config to {0}.bak", siteWebConfig);
+				try
+				{
+					string backupFile = siteWebConfig + ".bak";
+					if (File.Exists(backupFile))
+						File.Delete(backupFile);
+
+					File.Copy(siteWebConfig, siteWebConfig + ".bak", true);
+					Console.WriteLine("Backed up web.config to {0}.bak", siteWebConfig);
+				}
+				catch
+				{
+					// Doesn't matter as the lib folder contains the dev web.config template
+				}
 
 				File.Copy(testsWebConfigPath, siteWebConfig, true);
 				Console.WriteLine("Copied web.config from '{0}' to '{1}'", testsWebConfigPath, siteWebConfig);
@@ -84,25 +95,16 @@ namespace Roadkill.Tests.Acceptance
 		{
 			string sitePath = GetSitePath();
 
-			string sqliteFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x86/System.Data.SQLite.dll", sitePath);
-			string sqliteFileDest = string.Format("{0}/bin/System.Data.SQLite.dll", sitePath);
-			string sqliteLinqFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x86/System.Data.SQLite.Linq.dll", sitePath);
-			string sqliteFileLinqDest = string.Format("{0}/bin/System.Data.SQLite.Linq.dll", sitePath);
-
-			string sqlCeLinqFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x86/System.Data.SQLite.Linq.dll", sitePath);
-			string sqlCeFileLinqDest = string.Format("{0}/bin/System.Data.SQLite.Linq.dll", sitePath);
+			string sqliteInteropFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x86/SQLite.Interop.dll", sitePath);
+			string sqliteInteropFileDest = string.Format("{0}/bin/SQLite.Interop.dll", sitePath);
 
 			if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
 			{
-				sqliteFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x64/System.Data.SQLite.dll", sitePath);
-				sqliteLinqFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x64/System.Data.SQLite.Linq.dll", sitePath);
+				sqliteInteropFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x64/SQLite.Interop.dll", sitePath);
 			}
 
-			if (!System.IO.File.Exists(sqliteFileDest))
-				System.IO.File.Copy(sqliteFileSource, sqliteFileDest);
-
-			if (!System.IO.File.Exists(sqliteFileLinqDest))
-				System.IO.File.Copy(sqliteLinqFileSource, sqliteFileLinqDest);
+			if (!System.IO.File.Exists(sqliteInteropFileDest))
+				System.IO.File.Copy(sqliteInteropFileSource, sqliteInteropFileDest);
 		}
 
 		private void LaunchIisExpress()

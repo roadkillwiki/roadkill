@@ -8,23 +8,25 @@ using System.IO;
 using System.Web;
 using StructureMap;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
+using Roadkill.Core.Managers;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Import
 {
 	/// <summary>
 	/// Retrieves page data from a ScrewTurn wiki database, and attempts to import the data into Roadkill.
 	/// </summary>
-	public class ScrewTurnImporter : IWikiImporter, IInjectionLaunderer
+	public class ScrewTurnImporter : IWikiImporter
 	{
 		private string _connectionString;
 		private string _attachmentsFolder;
 		protected IRepository Repository;
-		protected IConfigurationContainer Configuration;
+		protected ApplicationSettings ApplicationSettings;
 
-		public ScrewTurnImporter(IConfigurationContainer configuration)
+		public ScrewTurnImporter(ApplicationSettings settings, IRepository repository)
 		{
-			Repository = ObjectFactory.GetInstance<IRepository>();
-			Configuration = configuration;
+			Repository = repository;
+			ApplicationSettings = settings;
 		}
 
 		/// <summary>
@@ -36,10 +38,10 @@ namespace Roadkill.Core
 		/// Imports page data from a Screwturn database using the provided connection string.
 		/// </summary>
 		/// <param name="connectionString">The database connection string.</param>
-		public void ImportFromSql(string connectionString)
+		public void ImportFromSqlServer(string connectionString)
 		{
 			_connectionString = connectionString;
-			_attachmentsFolder = Configuration.ApplicationSettings.AttachmentsFolder;
+			_attachmentsFolder = ApplicationSettings.AttachmentsDirectoryPath;
 
 			using (SqlConnection connection = new SqlConnection(_connectionString))
 			{
@@ -66,7 +68,7 @@ namespace Roadkill.Core
 								categories += ";";
 							page.Tags = categories;
 
-							Repository.SaveOrUpdate<Page>(page);
+							Repository.SaveOrUpdatePage(page);
 							AddContent(page);
 						}
 					}
@@ -180,14 +182,13 @@ namespace Roadkill.Core
 						while (reader.Read())
 						{
 							PageContent content = new PageContent();
-							content.EditedBy = reader["User"].ToString();
-							content.EditedOn = (DateTime)reader["LastModified"];
-							content.Text = reader["Content"].ToString();
-							content.Text = CleanContent(content.Text);
-							content.VersionNumber = (int.Parse(reader["Revision"].ToString())) + 1;
-							content.Page = page;
+							string editedBy = reader["User"].ToString();
+							DateTime EditedOn = (DateTime)reader["LastModified"];
+							string text = reader["Content"].ToString();
+							text = CleanContent(content.Text);
+							int versionNumber = (int.Parse(reader["Revision"].ToString())) + 1;
 
-							Repository.SaveOrUpdate<PageContent>(content);
+							Repository.AddNewPageContentVersion(page, text, editedBy, EditedOn, versionNumber);
 							hasContent = true;
 						}
 					}
@@ -195,14 +196,7 @@ namespace Roadkill.Core
 					// For broken content, make sure the page has something
 					if (!hasContent)
 					{
-						PageContent content = new PageContent();
-						content.EditedBy = "unknown";
-						content.EditedOn = DateTime.Now;
-						content.Text = "";
-						content.VersionNumber = 1;
-						content.Page = page;
-
-						Repository.SaveOrUpdate<PageContent>(content);
+						Repository.AddNewPage(page, "", "unknown", DateTime.Now);
 					}
 				}
 			}
@@ -225,6 +219,14 @@ namespace Roadkill.Core
 			}
 
 			return text;
+		}
+
+		/// <summary>
+		/// Updates the search index after a successful import.
+		/// </summary>
+		public void UpdateSearchIndex(SearchManager searchManager)
+		{
+			searchManager.CreateIndex();
 		}
 	}
 }

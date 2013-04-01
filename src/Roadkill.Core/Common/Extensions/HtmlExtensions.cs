@@ -11,8 +11,9 @@ using Recaptcha;
 using System.Web.UI;
 using System.IO;
 using Roadkill.Core.Configuration;
-using ControllerBase = Roadkill.Core.Controllers.ControllerBase;
-using Roadkill.Core.Files;
+using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
+using Roadkill.Core.Attachments;
+using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core
 {
@@ -138,9 +139,9 @@ namespace Roadkill.Core
 		/// <param name="helper">The helper.</param>
 		/// <param name="relativePath">The filename or path inside the current theme directory.</param>
 		/// <returns>A url path to the item, e.g. '/MySite/Themes/Mediawiki/logo.png'</returns>
-		public static string ThemeContent(this UrlHelper helper, string relativePath, IConfigurationContainer config)
+		public static string ThemeContent(this UrlHelper helper, string relativePath, SiteSettings settings)
 		{
-			return helper.Content(config.SitePreferences.ThemePath + "/" + relativePath);
+			return helper.Content(settings.ThemePath + "/" + relativePath);
 		}
 
 		/// <summary>
@@ -160,16 +161,16 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Renders the Recaptcha control as HTML, if recaptcha is enabled.
 		/// </summary>
-		public static MvcHtmlString RenderCaptcha(this HtmlHelper helper, IConfigurationContainer config)
+		public static MvcHtmlString RenderCaptcha(this HtmlHelper helper, SiteSettings siteSettings)
 		{
 			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
-			if (controller != null && controller.Configuration.SitePreferences.IsRecaptchaEnabled)
+			if (controller != null && siteSettings.IsRecaptchaEnabled)
 			{
 				RecaptchaControl control = new RecaptchaControl();
 				control.ID = "recaptcha";
 				control.Theme = "clean";
-				control.PublicKey = config.SitePreferences.RecaptchaPublicKey;
-				control.PrivateKey = config.SitePreferences.RecaptchaPrivateKey;
+				control.PublicKey = siteSettings.RecaptchaPublicKey;
+				control.PrivateKey = siteSettings.RecaptchaPrivateKey;
 
 				using (StringWriter stringWriter = new StringWriter())
 				{
@@ -195,13 +196,16 @@ namespace Roadkill.Core
 		public static MvcHtmlString ResizeImagesScript(this HtmlHelper helper)
 		{
 			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
-			if (controller != null && controller.Configuration.ApplicationSettings.ResizeImages)
+			if (controller != null && controller.ApplicationSettings.ResizeImages)
 			{
 				return MvcHtmlString.Create(@"<script type=""text/javascript"">
 			$(document).ready(function ()
 			{
-				// Resize all images to a maximum of 400x400
-				$(""#pagecontent img"").aeImageResize({ height: 400, width: 400 });
+				// Resize all images
+				$(""#pagecontent img"").each(function()
+				{
+					resizeImage($(this));
+				});
 			});
 		</script>");
 			}
@@ -214,9 +218,70 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Gets the full path for the attachments folder, including any extra application paths from the url.
 		/// </summary>
-		public static MvcHtmlString GetAttachmentsPath(this UrlHelper helper, IConfigurationContainer config)
+		public static MvcHtmlString GetAttachmentsPath(this UrlHelper helper, ApplicationSettings settings)
 		{
-			return MvcHtmlString.Create(AttachmentFileHandler.GetAttachmentsPath(config));
+			return MvcHtmlString.Create(AttachmentFileHandler.GetAttachmentsPath(settings));
+		}
+
+		/// <summary>
+		/// Gets a IEnumerable{SelectListItem} from a the SettingsSummary.DatabaseTypesAvailable, as a default
+		/// SelectList doesn't add option value attributes.
+		/// </summary>
+		public static IEnumerable<SelectListItem> DatabaseTypesAvailable(this HtmlHelper helper, SettingsSummary summary)
+		{
+			List<SelectListItem> items =  new List<SelectListItem>();
+
+			foreach (string name in summary.DatabaseTypesAvailable)
+			{
+				SelectListItem item =  new SelectListItem();
+				item.Text = name;
+				item.Value = name;
+
+				if (name == summary.DataStoreTypeName)
+					item.Selected = true;
+
+				items.Add(item);
+			}
+
+			return items;
+		}
+
+		/// <summary>
+		/// Creates a drop down list from an <c>IDictionary</c> and selects the item.
+		/// </summary>
+		public static MvcHtmlString DropDownBox(this HtmlHelper helper, string name, IDictionary<string, string> items, string selectedValue)
+		{
+			List<SelectListItem> selectList = new List<SelectListItem>();
+
+			foreach (string key in items.Keys)
+			{
+				SelectListItem selectListItem = new SelectListItem
+				{
+					Text = items[key],
+					Value = key
+				};
+
+				if (key == selectedValue)
+					selectListItem.Selected = true;
+
+				selectList.Add(selectListItem);
+			}
+
+			return helper.DropDownList(name, selectList);
+		}
+
+		/// <summary>
+		/// Creates a button for the items per page in the logviewer.
+		/// </summary>
+		public static MvcHtmlString ItemsPerPageButtonForLog(this HtmlHelper helper, int value)
+		{
+			int maxItems = Convert.ToInt32(helper.ViewData["maxItems"]);
+			string extraCss = (maxItems == value) ? " btn-primary" : "";
+
+			if (value > 0)
+				return MvcHtmlString.Create("<input type=\"submit\"class=\"btn-mini" +extraCss+ "\" name=\"maxItems\" value=\"" +value+ "\" />");
+			else
+				return MvcHtmlString.Create("<input type=\"submit\"class=\"btn-mini" + extraCss + "\" name=\"maxItems\" value=\"All\" />");
 		}
 	}
 }

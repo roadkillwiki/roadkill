@@ -2,10 +2,12 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System;
-using Roadkill.Core.Files;
+using Roadkill.Core.Attachments;
 using StructureMap;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
+using System.Web.Optimization;
+using Roadkill.Core.Logging;
 
 namespace Roadkill.Core
 {
@@ -14,23 +16,50 @@ namespace Roadkill.Core
 	/// </summary>
 	public class RoadkillApplication : HttpApplication
 	{
+		public static DateTime StartTime { get; private set; }
+
 		protected void Application_Start()
 		{
-			SetupIoC();
-			AttachmentRouteHandler.Register(ObjectFactory.GetInstance<IConfigurationContainer>());
+			// Get the settings from the web.config
+			ConfigFileManager configManager = new ConfigFileManager();
+			ApplicationSettings applicationSettings = configManager.GetApplicationSettings();
 
+			// Configure StructureMap dependencies
+			DependencyContainer iocSetup = new DependencyContainer(applicationSettings);
+			iocSetup.RegisterTypes();
+			iocSetup.RegisterMvcFactoriesAndRouteHandlers();
+
+			// All other routes
 			AreaRegistration.RegisterAllAreas();
 			RegisterRoutes(RouteTable.Routes);
 
-			// MVC Object factories for view models that require IOC, and all controllers
-			ModelBinders.Binders.Add(typeof(UserSummary),new UserSummaryModelBinder());
-			ModelBinders.Binders.Add(typeof(SettingsSummary),new SettingsSummaryModelBinder());
-			ControllerBuilder.Current.SetControllerFactory(new StructureMapControllerFactory());
+			// Filters
+			GlobalFilters.Filters.Add(new HandleErrorAttribute());
+
+			// Used for caching of views, when needed
+			StartTime = DateTime.UtcNow;
+
+			// Bundle all CSS/JS files into a single file
+			StyleBundle cssBundle = new StyleBundle("~/Assets/CSS/bundle.css");
+			cssBundle.IncludeDirectory("~/Assets/CSS/","*.css");
+
+			// Ignore scripts that require a login
+			BundleTable.Bundles.IgnoreList.Ignore("roadkill.edit.js");
+			BundleTable.Bundles.IgnoreList.Ignore("roadkill.settings.js");
+			BundleTable.Bundles.IgnoreList.Ignore("roadkill.files.js");
+			BundleTable.Bundles.IgnoreList.Ignore("roadkill.wysiwyg.js");
+
+			ScriptBundle jsBundle = new ScriptBundle("~/Assets/Scripts/bundle.js");
+			jsBundle.Include("~/Assets/Scripts/*.js");
+			
+			BundleTable.Bundles.Add(cssBundle);
+			BundleTable.Bundles.Add(jsBundle);
 		}
 
 		public static void RegisterRoutes(RouteCollection routes)
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+			routes.IgnoreRoute("favicon.ico");
 
 			// For the jQuery ajax file manager
 			routes.MapLowercaseRoute(
@@ -61,114 +90,15 @@ namespace Roadkill.Core
 			);
 		}
 
-		/// <summary>
-		/// Initializes the Structuremap IoC containers for the Services, Configuration and IRepository,
-		/// and registering the defaults for each.
-		/// No settings are loaded from the database in this method, or config file settings loaded, except the
-		/// <see cref="ApplicationSettings.UserManagerType"/> setting.
-		/// </summary>
-		/// <param name="config">If null, then a new per-thread/http request <see cref="RoadkillSettings"/> class is used for the configuration.</param>
-		/// <param name="context">If null, then a new per-thread/http request <see cref="RoadkillContext"/> is used.</param>
-		/// <param name="repository">If null, then a new per-thread/http request <see cref="NHibernateRepository"/> is used.</param>
-		public static void SetupIoC(IConfigurationContainer config = null, IRepository repository = null, IRoadkillContext context = null)
+		protected void Application_EndRequest(object sender, EventArgs e)
 		{
-			if (config != null && config.ApplicationSettings == null)
-				throw new IoCException("The ApplicationSettings of the configuration settings is null - " + ObjectFactory.WhatDoIHave(), null);
-
-			ObjectFactory.Initialize(x =>
+			try
 			{
-				x.Scan(scanner =>
-				{
-					scanner.AddAllTypesOf<IConfigurationContainer>();
-					scanner.AddAllTypesOf<ControllerBase>();
-					scanner.AddAllTypesOf<ServiceBase>();
-					scanner.AddAllTypesOf<IRoadkillContext>();
-					scanner.AddAllTypesOf<IRepository>();
-					scanner.AddAllTypesOf<MarkupConverter>();
-					scanner.AddAllTypesOf<CustomTokenParser>();
-					scanner.WithDefaultConventions();
-				});
-
-				// Models that require IConfigurationContainer or IRoadkillContext in their constructors
-				x.For<UserSummary>().Use<UserSummary>();
-				x.For<SettingsSummary>().Use<SettingsSummary>();
-
-				// The order of the calls is important as the default concrete types have a dependency order:
-				// - IRepository relies on IConfigurationContainer
-				// - IRoadkillContext relies on UserManager, which relies on IRepository
-
-				if (config == null)
-				{
-					x.For<IConfigurationContainer>().HybridHttpOrThreadLocalScoped().Use<RoadkillSettings>();
-				}
-				else
-				{
-					x.For<IConfigurationContainer>().HybridHttpOrThreadLocalScoped().Use(config);
-				}
-
-				if (repository == null)
-				{
-					x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use<NHibernateRepository>();
-				}
-				else
-				{
-					x.For<IRepository>().HybridHttpOrThreadLocalScoped().Use(repository);
-				}
-
-				if (context == null)
-				{
-					x.For<IRoadkillContext>().HybridHttpOrThreadLocalScoped().Use<RoadkillContext>();
-				}
-				else
-				{
-					x.For<IRoadkillContext>().HybridHttpOrThreadLocalScoped().Use(context);
-				}
-
-				x.For<IActiveDirectoryService>().HybridHttpOrThreadLocalScoped().Use<DefaultActiveDirectoryService>();
-				x.For<IPageManager>().HybridHttpOrThreadLocalScoped().Use<PageManager>();	
-			});
-
-			ObjectFactory.Configure(x =>
-			{
-				x.IncludeConfigurationFromConfigFile = true;
-
-				if (config == null)
-				{
-					config = ObjectFactory.GetInstance<IConfigurationContainer>();
-				}
-
-				string userManagerTypeName = config.ApplicationSettings.UserManagerType;
-				if (string.IsNullOrEmpty(userManagerTypeName))
-				{
-					if (config.ApplicationSettings.UseWindowsAuthentication)
-					{
-						x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<ActiveDirectoryUserManager>();
-					}
-					else
-					{
-						x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use<SqlUserManager>();
-					}
-				}
-				else
-				{
-					// Load UserManager type from config
-					x.For<UserManager>().HybridHttpOrThreadLocalScoped().Use(LoadUserManagerFromType(userManagerTypeName));
-				}
-			});
-		}
-		
-		private static UserManager LoadUserManagerFromType(string typeName)
-		{
-			Type userManagerType = typeof(UserManager);
-			Type reflectedType = Type.GetType(typeName);
-			
-			if (reflectedType.IsSubclassOf(userManagerType))
-			{
-				return (UserManager)reflectedType.Assembly.CreateInstance(reflectedType.FullName);
+				DependencyContainer.DisposeRepository();
 			}
-			else
+			catch (Exception ex)
 			{
-				throw new SecurityException(null, "The type {0} specified in the userManagerType web.config setting is not an instance of a UserManager class", typeName);
+				Log.Error("Error calling IoCSetup.DisposeRepository: {0}", ex.ToString());
 			}
 		}
 	}

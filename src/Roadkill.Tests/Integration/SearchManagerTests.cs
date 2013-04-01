@@ -7,7 +7,10 @@ using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Search;
+using Roadkill.Core.Database;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Tests.Unit;
 
 namespace Roadkill.Tests.Integration
 {
@@ -16,7 +19,7 @@ namespace Roadkill.Tests.Integration
 	public class SearchManagerTests
 	{
 		private IRepository _repository;
-		private IConfigurationContainer _config;
+		private ApplicationSettings _config;
 
 		[SetUp]
 		public void Initialize()
@@ -25,11 +28,9 @@ namespace Roadkill.Tests.Integration
 			if (Directory.Exists(indexPath))
 				Directory.Delete(indexPath, true);
 
-			_repository = new Mock<IRepository>().Object;
-			_config = new RoadkillSettings();
-			_config.ApplicationSettings = new ApplicationSettings();
-			_config.ApplicationSettings.Load(null); // load from the app.config
-			_config.SitePreferences = new SitePreferences();
+			_repository = new RepositoryMock();
+			_config = new ApplicationSettings();
+			_config.Installed = true;
 		}
 
 		[Test]
@@ -46,7 +47,7 @@ namespace Roadkill.Tests.Integration
 			searchManager.Add(page2);
 
 			// Act
-			List<SearchResult> results = searchManager.SearchIndex("title content").ToList();
+			List<SearchResult> results = searchManager.Search("title content").ToList();
 
 			// Assert
 			Assert.That(results.Count, Is.EqualTo(2)); // Lucene will ignore the 1 and 2 in the content
@@ -70,7 +71,7 @@ namespace Roadkill.Tests.Integration
 			searchManager.Add(page4);
 
 			// Act
-			List<SearchResult> results = searchManager.SearchIndex("title:\"the title\"").ToList();
+			List<SearchResult> results = searchManager.Search("title:\"the title\"").ToList();
 
 			// Assert
 			Assert.That(results.Count, Is.EqualTo(1));
@@ -94,7 +95,7 @@ namespace Roadkill.Tests.Integration
 			searchManager.Add(page4);
 
 			// Act
-			List<SearchResult> results = searchManager.SearchIndex("tags:\"tag1\"").ToList();
+			List<SearchResult> results = searchManager.Search("tags:\"tag1\"").ToList();
 
 			// Assert
 			Assert.That(results.Count, Is.EqualTo(2));
@@ -118,7 +119,7 @@ namespace Roadkill.Tests.Integration
 			searchManager.Add(page4);
 
 			// Act
-			List<SearchResult> results = searchManager.SearchIndex("id:1").ToList();
+			List<SearchResult> results = searchManager.Search("id:1").ToList();
 
 			// Assert
 			Assert.That(results.Count, Is.EqualTo(1));
@@ -138,8 +139,8 @@ namespace Roadkill.Tests.Integration
 			searchManager.Add(page2);
 
 			// Act
-			List<SearchResult> results = searchManager.SearchIndex("admin").ToList();
-			List<SearchResult> createdByResults = searchManager.SearchIndex("createdby: admin").ToList();
+			List<SearchResult> results = searchManager.Search("admin").ToList();
+			List<SearchResult> createdByResults = searchManager.Search("createdby: admin").ToList();
 
 			// Assert
 			Assert.That(results.Count, Is.EqualTo(0), "admin title count");
@@ -165,7 +166,7 @@ namespace Roadkill.Tests.Integration
 			searchManager.Add(page4);
 
 			// Act
-			List<SearchResult> createdOnResults = searchManager.SearchIndex("createdon:" +todaysDate).ToList();
+			List<SearchResult> createdOnResults = searchManager.Search("createdon:" +todaysDate).ToList();
 
 			// Assert
 			Assert.That(createdOnResults.Count, Is.EqualTo(2), "createdon count");
@@ -186,7 +187,7 @@ namespace Roadkill.Tests.Integration
 
 			// Act
 			searchManager.Delete(page1);
-			List<SearchResult> results = searchManager.SearchIndex("homepage title").ToList();
+			List<SearchResult> results = searchManager.Search("homepage title").ToList();
 
 			// Assert
 			Assert.That(results.Count, Is.EqualTo(0), "homepage title still appears after deletion");
@@ -213,8 +214,8 @@ namespace Roadkill.Tests.Integration
 			{
 				// Perform the test in a new thread, so that the add + delete commit is picked up
 				// which is periodically done by Lucene.
-				List<SearchResult> oldResults = searchManager.SearchIndex("homepage title").ToList();
-				List<SearchResult> newResults = searchManager.SearchIndex("A new hope").ToList();
+				List<SearchResult> oldResults = searchManager.Search("homepage title").ToList();
+				List<SearchResult> newResults = searchManager.Search("A new hope").ToList();
 
 				// Assert
 				Assert.That(oldResults.Count, Is.EqualTo(0), "old results");
@@ -237,7 +238,7 @@ namespace Roadkill.Tests.Integration
 			searchManager.Add(page1);
 
 			// Act
-			List<SearchResult> results = searchManager.SearchIndex("ОШИБКА").ToList();
+			List<SearchResult> results = searchManager.Search("ОШИБКА").ToList();
 
 			// Assert
 			Assert.That(results[0].ContentSummary, Contains.Substring("БД сервера событий была перенесена из"));

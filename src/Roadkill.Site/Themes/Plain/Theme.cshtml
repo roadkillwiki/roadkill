@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@inherits RoadkillLayoutPage
+<!DOCTYPE html>
 <html>
 <head>
 	<title>@ViewBag.Title</title>
@@ -44,19 +45,15 @@
 }
     <br /><br />
     <div id="container">
-        @RenderSection("PageToolbar", false)
+		@RenderSection("PageToolbar", false)
         <div id="content">
 	        @RenderBody()
         </div>
     </div>
 	<div id="footer">
-		@if (RoadkillContext.IsContentPage)
-		{
-		<p>@SiteStrings.Shared_LastModified @RoadkillContext.Page.ModifiedOn.ToString("dd MMM yyyy") 
-		at @RoadkillContext.Page.ModifiedOn.ToShortTimeString().</p>
-		}
+		@RenderSection("PageDetailsFooter", false)
 		<p>
-			@SiteStrings.Shared_PoweredBy (@Configuration.ApplicationSettings.Version).
+			@SiteStrings.Shared_PoweredBy (@ApplicationSettings.AssemblyVersion.ToString()).
 		</p>
 	</div>
 </body>

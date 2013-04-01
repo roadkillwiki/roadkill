@@ -31,5 +31,10 @@ namespace Roadkill.Core
 		/// The HTML replacement for the search regex.
 		/// </summary>
 		public string HtmlReplacement { get; set; }
+
+		/// <summary>
+		/// Whether to strip the contents of the token for any unsafe HTML (defaults to false).
+		/// </summary>
+		public bool SanitizeContent { get; set; }
 	}
 }

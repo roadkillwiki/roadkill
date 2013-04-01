@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using Roadkill.Core;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Tests.Acceptance
 {
@@ -16,16 +19,17 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			LoginAsAdmin();
+			DataStoreType sqlCeType = DataStoreType.ByName("SqlServerCe");
 
 			// Act
 			Driver.FindElement(By.CssSelector("a[href='/settings']")).Click();
 
 			// Assert
 			Assert.That(Driver.ElementValue("#SiteName"), Is.EqualTo("Acceptance Tests"));
-			Assert.That(Driver.ElementValue("#SiteUrl"), Is.EqualTo("http://localhost:57025"));
-			Assert.That(Driver.ElementValue("#ConnectionString"), Is.EqualTo(@"Data Source=|DataDirectory|\roadkill-acceptancetests.sdf;"));
-			Assert.That(Driver.ElementValue("#RecaptchaPrivateKey"), Is.EqualTo("Recaptcha Private Key"));
-			Assert.That(Driver.ElementValue("#RecaptchaPublicKey"), Is.EqualTo("Recaptcha Public Key"));
+			Assert.That(Driver.ElementValue("#SiteUrl"), Is.EqualTo("http://localhost:9876"));
+			Assert.That(Driver.ElementValue("#ConnectionString"), Is.StringStarting(@"Data Source=|DataDirectory|\roadkill-acceptancetests.sdf"));
+			Assert.That(Driver.ElementValue("#RecaptchaPrivateKey"), Is.EqualTo("recaptcha-private-key"));
+			Assert.That(Driver.ElementValue("#RecaptchaPublicKey"), Is.EqualTo("recaptcha-public-key"));
 			Assert.That(Driver.ElementValue("#EditorRoleName"), Is.EqualTo("Editor"));
 			Assert.That(Driver.ElementValue("#AdminRoleName"), Is.EqualTo("Admin"));
 			Assert.That(Driver.ElementValue("#AttachmentsFolder"), Is.EqualTo(@"C:\temp\roadkillattachments"));
@@ -34,10 +38,12 @@ namespace Roadkill.Tests.Acceptance
 			Assert.False(Driver.IsCheckboxChecked("UseWindowsAuth"));
 			Assert.True(Driver.IsCheckboxChecked("AllowUserSignup"));
 			Assert.False(Driver.IsCheckboxChecked("EnableRecaptcha"));
-			Assert.True(Driver.IsCheckboxChecked("CacheEnabled"));
-			Assert.True(Driver.IsCheckboxChecked("CacheText"));
+			Assert.False(Driver.IsCheckboxChecked("UseObjectCache"));
+			Assert.False(Driver.IsCheckboxChecked("UseBrowserCache"));
 
-			Assert.That(Driver.SelectedIndex("#DatabaseType"), Is.EqualTo(7));
+			Assert.That(Driver.FindElements(By.CssSelector("#DataStoreTypeName option")).Count, Is.EqualTo(DataStoreType.AllTypes.Count()));
+			SelectElement element = new SelectElement(Driver.FindElement(By.CssSelector("#DataStoreTypeName")));
+			Assert.That(element.SelectedOption.GetAttribute("value"), Is.EqualTo(DataStoreType.ByName("SqlServerCe").Name));
 			Assert.That(Driver.SelectedIndex("#MarkupType"), Is.EqualTo(0));
 			Assert.That(Driver.SelectedIndex("#Theme"), Is.EqualTo(1));
 		}

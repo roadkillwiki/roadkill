@@ -21,7 +21,7 @@ namespace Roadkill.Tests.Acceptance
 		protected string LogoutUrl;
 
 		[SetUp]
-		public void BeforeEachTextFixture()
+		public void Setup()
 		{
 			CopyDb();
 			BaseUrl = "http://localhost:9876";
@@ -30,11 +30,11 @@ namespace Roadkill.Tests.Acceptance
 			Driver = AcceptanceTestsSetup.Driver;
 		}
 
-		private void CopyDb()
+		protected void CopyDb()
 		{
 			SitePath = AcceptanceTestsSetup.GetSitePath();
 
-			string testsDBPath = Path.Combine(GlobalSetup.LIB_FOLDER, "Empty-databases", "roadkill-acceptancetests.sdf");
+			string testsDBPath = Path.Combine(GlobalSetup.LIB_FOLDER, "Test-databases", "roadkill-acceptancetests.sdf");
 			File.Copy(testsDBPath, Path.Combine(SitePath, "App_Data", "roadkill-acceptancetests.sdf"), true);
 		}
 

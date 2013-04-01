@@ -2,19 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NHibernate;
-using NHibernate.Linq;
 using System.Xml.Serialization;
 using System.IO;
-using Roadkill.Core.Search;
-using System.Web;
 using Roadkill.Core.Converters;
-using Lucene.Net.Documents;
-using System.Text.RegularExpressions;
+using Roadkill.Core.Database;
+using Roadkill.Core.Cache;
+using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Configuration;
-using StructureMap;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Managers
 {
 	/// <summary>
 	/// Provides a set of tasks for wiki page management.
@@ -24,16 +20,20 @@ namespace Roadkill.Core
 		private SearchManager _searchManager;
 		private MarkupConverter _markupConverter;
 		private HistoryManager _historyManager;
-		private IRoadkillContext _context;
+		private IUserContext _context;
+		private ListCache _listCache;
+		private PageSummaryCache _pageSummaryCache;
 
-		public PageManager(IConfigurationContainer configuration, IRepository repository, SearchManager searchManager, 
-			HistoryManager historyManager, IRoadkillContext context)
-			: base(configuration, repository)
+		public PageManager(ApplicationSettings settings, IRepository repository, SearchManager searchManager, 
+			HistoryManager historyManager, IUserContext context, ListCache listCache, PageSummaryCache pageSummaryCache)
+			: base(settings, repository)
 		{
 			_searchManager = searchManager;
-			_markupConverter = new MarkupConverter(configuration, repository);
+			_markupConverter = new MarkupConverter(settings, repository);
 			_historyManager = historyManager;
 			_context = context;
+			_listCache = listCache;
+			_pageSummaryCache = pageSummaryCache;
 		}
 
 		/// <summary>
@@ -56,15 +56,11 @@ namespace Roadkill.Core
 				page.CreatedOn = DateTime.Now;
 				page.ModifiedOn = DateTime.Now;
 				page.ModifiedBy = AppendIpForDemoSite(currentUser);
-				Repository.SaveOrUpdate<Page>(page);
+				PageContent pageContent = Repository.AddNewPage(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.Now);
 
-				PageContent pageContent = new PageContent();
-				pageContent.VersionNumber = 1;
-				pageContent.Text = summary.Content;
-				pageContent.EditedBy = AppendIpForDemoSite(currentUser);
-				pageContent.EditedOn = DateTime.Now;
-				pageContent.Page = page;
-				Repository.SaveOrUpdate<PageContent>(pageContent);
+				_listCache.RemoveAll();
+				if (summary.Tags.Contains("homepage"))
+					_pageSummaryCache.RemoveHomePage();
 
 				// Update the lucene index
 				PageSummary savedSummary = pageContent.ToSummary(_markupConverter);
@@ -79,7 +75,7 @@ namespace Roadkill.Core
 
 				return savedSummary;
 			}
-			catch (HibernateException e)
+			catch (DatabaseException e)
 			{
 				throw new DatabaseException(e, "An error occurred while adding page '{0}' to the database", summary.Title);
 			}
@@ -90,17 +86,45 @@ namespace Roadkill.Core
 		/// </summary>
 		/// <returns>An <see cref="IEnumerable`PageSummary"/> of the pages.</returns>
 		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while retrieving the list.</exception>
-		public IEnumerable<PageSummary> AllPages()
+		public IEnumerable<PageSummary> AllPages(bool loadPageContent = false)
 		{
 			try
 			{
-				IEnumerable<Page> pages = Repository.Pages.OrderBy(p => p.Title);
-				IEnumerable<PageSummary> summaries = from page in pages
-													 select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+				string cacheKey = "";
+				IEnumerable<PageSummary> summaries;
+
+				if (loadPageContent)
+				{
+					cacheKey = "allpages.with.content";
+					summaries = _listCache.Get<PageSummary>(cacheKey);
+
+					if (summaries == null)
+					{
+						IEnumerable<Page> pages = Repository.AllPages().OrderBy(p => p.Title);
+						summaries = from page in pages
+									select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+
+						_listCache.Add<PageSummary>("allpages.with.content", summaries);
+					}
+				}
+				else
+				{
+					cacheKey = "allpages";
+					summaries = _listCache.Get<PageSummary>(cacheKey);
+
+					if (summaries == null)
+					{
+						IEnumerable<Page> pages = Repository.AllPages().OrderBy(p => p.Title);
+						summaries = from page in pages
+									select new PageSummary() { Id = page.Id, Title = page.Title };
+
+						_listCache.Add<PageSummary>(cacheKey, summaries);
+					}
+				}
 
 				return summaries;
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred while retrieving all pages from the database");
 			}
@@ -116,13 +140,21 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				IEnumerable<Page> pages = Repository.Pages.Where(p => p.CreatedBy == userName);
-				IEnumerable<PageSummary> summaries = from page in pages
-													 select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+				string cacheKey = string.Format("allpages.createdby.{0}", userName);
+
+				IEnumerable<PageSummary> summaries = _listCache.Get<PageSummary>(cacheKey);
+				if (summaries == null)
+				{
+					IEnumerable<Page> pages = Repository.FindPagesByCreatedBy(userName);
+					summaries = from page in pages
+								select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+
+					_listCache.Add<PageSummary>(cacheKey, summaries);
+				}
 
 				return summaries;
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred while retrieving all pages created by {0} from the database", userName);
 			}
@@ -137,32 +169,41 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				var tagList = from p in Repository.Pages select new { Tag = p.Tags };
-				List<TagSummary> tags = new List<TagSummary>();
-				foreach (var item in tagList)
-				{
-					foreach (string tagName in item.Tag.ParseTags())
-					{
-						if (!string.IsNullOrEmpty(tagName))
-						{
-							TagSummary summary = new TagSummary(tagName);
-							int index = tags.IndexOf(summary);
+				string cacheKey = "alltags";
 
-							if (index < 0)
+				List<TagSummary> tags = _listCache.Get<TagSummary>(cacheKey);
+				if (tags == null)
+				{
+					IEnumerable<string> tagList = Repository.AllTags();
+					tags = new List<TagSummary>();
+
+					foreach (string item in tagList)
+					{
+						foreach (string tagName in item.ParseTags())
+						{
+							if (!string.IsNullOrEmpty(tagName))
 							{
-								tags.Add(summary);
-							}
-							else
-							{
-								tags[index].Count++;
+								TagSummary summary = new TagSummary(tagName);
+								int index = tags.IndexOf(summary);
+
+								if (index < 0)
+								{
+									tags.Add(summary);
+								}
+								else
+								{
+									tags[index].Count++;
+								}
 							}
 						}
 					}
+
+					_listCache.Add<TagSummary>(cacheKey, tags);
 				}
 
 				return tags;
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred while retrieving all tags from the database");
 			}
@@ -177,9 +218,8 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				// This isn't the "right" way to do it, but to avoid the pagecontent coming back
-				// each time a page is requested, it has no inverse relationship.
-				Page page = Repository.Pages.First(p => p.Id == pageId);
+				// Avoiding grabbing all the pagecontents coming back each time a page is requested, it has no inverse relationship.
+				Page page = Repository.GetPageById(pageId);
 
 				// Update the lucene index before we actually delete the page.
 				// We cannot call the ToSummary() method on an object that no longer exists.
@@ -192,16 +232,15 @@ namespace Roadkill.Core
 					// TODO: log.
 				}
 
-				IList<PageContent> children = Repository.PageContents.Where(p => p.Page.Id == pageId).ToList();
+				IList<PageContent> children = Repository.FindPageContentsByPageId(pageId).ToList();
 				for (int i = 0; i < children.Count; i++)
 				{
-					NHibernateUtil.Initialize(children[i].Page); // force the proxy to hydrate
-					Repository.Delete<PageContent>(children[i]);
+					Repository.DeletePageContent(children[i]);
 				}
 
-				Repository.Delete<Page>(page);
+				Repository.DeletePage(page);
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred while deleting the page id {0} from the database", pageId);
 			}
@@ -228,9 +267,42 @@ namespace Roadkill.Core
 					return builder.ToString();
 				}
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "A database error occurred while exporting the pages to XML");
+			}
+		}
+
+		/// <summary>
+		/// Finds the first page with the tag 'homepage'. Any pages that are locked by an administrator take precedence.
+		/// </summary>
+		/// <returns>The homepage.</returns>
+		public PageSummary FindHomePage()
+		{
+			try
+			{
+				PageSummary summary = _pageSummaryCache.GetHomePage();
+				if (summary == null)
+				{
+
+					Page page = Repository.FindPagesContainingTag("homepage").FirstOrDefault(x => x.IsLocked == true);
+					if (page == null)
+					{
+						page = Repository.FindPagesContainingTag("homepage").FirstOrDefault();
+					}
+					
+					if (page != null)
+					{
+						summary = Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+						_pageSummaryCache.UpdateHomePage(summary);
+					}
+				}
+
+				return summary;
+			}
+			catch (DatabaseException ex)
+			{
+				throw new DatabaseException(ex, "An error occurred finding the tag 'homepage' in the database");
 			}
 		}
 
@@ -244,13 +316,22 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				IEnumerable<Page> pages = Repository.Pages.Where(p => p.Tags.Contains(tag)).OrderBy(p => p.Title);
-				IEnumerable<PageSummary> summaries = from page in pages
-													 select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+				string cacheKey = string.Format("pagesbytag.{0}", tag);
+
+				IEnumerable<PageSummary> summaries = _listCache.Get<PageSummary>(cacheKey);
+				if (summaries == null)
+				{
+
+					IEnumerable<Page> pages = Repository.FindPagesContainingTag(tag).OrderBy(p => p.Title);
+					summaries = from page in pages
+								select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+
+					_listCache.Add<PageSummary>(cacheKey, summaries);
+				}
 
 				return summaries;
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred finding the tag '{0}' in the database", tag);
 			}
@@ -269,14 +350,14 @@ namespace Roadkill.Core
 				if (string.IsNullOrEmpty(title))
 					return null;
 
-				Page page = Repository.FindPageByTitle(title);
+				Page page = Repository.GetPageByTitle(title);
 
 				if (page == null)
 					return null;
 				else
 					return Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred finding the page with title '{0}' in the database", title);
 			}
@@ -292,14 +373,29 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				Page page = Repository.Pages.FirstOrDefault(p => p.Id == id);
-
-				if (page == null)
-					return null;
+				PageSummary summary = _pageSummaryCache.Get(id);
+				if (summary != null)
+				{
+					return summary;
+				}
 				else
-					return Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+				{
+					Page page = Repository.GetPageById(id);
+
+					if (page == null)
+					{
+						return null;
+					}
+					else
+					{
+						summary = Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+						_pageSummaryCache.Add(id, summary);
+
+						return summary;
+					}
+				}
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred getting the page with id '{0}' from the database", id);
 			}
@@ -317,7 +413,7 @@ namespace Roadkill.Core
 			{
 				string currentUser = _context.CurrentUsername;
 
-				Page page = Repository.Pages.FirstOrDefault(p => p.Id == summary.Id);
+				Page page = Repository.GetPageById(summary.Id);
 				page.Title = summary.Title;
 				page.Tags = summary.CommaDelimitedTags();
 				page.ModifiedOn = DateTime.Now;
@@ -327,15 +423,22 @@ namespace Roadkill.Core
 				if (_context.IsAdmin)
 					page.IsLocked = summary.IsLocked;
 
-				Repository.SaveOrUpdate<Page>(page);
+				Repository.SaveOrUpdatePage(page);
 
-				PageContent pageContent = new PageContent();
-				pageContent.VersionNumber = _historyManager.MaxVersion(summary.Id) + 1;
-				pageContent.Text = summary.Content;
-				pageContent.EditedBy = AppendIpForDemoSite(currentUser);
-				pageContent.EditedOn = DateTime.Now;
-				pageContent.Page = page;
-				Repository.SaveOrUpdate<PageContent>(pageContent);
+				// Update the cache - updating a page is expensive for the cache right now
+				// this could be improved by updating the item in the listcache instead of invalidating it
+				_pageSummaryCache.Remove(summary.Id , 0);
+
+				if (summary.Tags.Contains("homepage"))
+					_pageSummaryCache.RemoveHomePage();
+
+				_listCache.Remove("alltags");
+				_listCache.Remove("allpages");
+				_listCache.Remove("allpages.with.content");
+				_listCache.Remove("allpages.created.by" + page.CreatedBy);
+
+				int newVersion = _historyManager.MaxVersion(summary.Id) + 1;
+				PageContent pageContent = Repository.AddNewPageContentVersion(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.Now, newVersion); 
 
 				// Update all links to this page (if it has had its title renamed). Case changes don't need any updates.
 				if (summary.PreviousTitle != null && summary.PreviousTitle.ToLower() != summary.Title.ToLower())
@@ -346,7 +449,7 @@ namespace Roadkill.Core
 				// Update the lucene index
 				_searchManager.Update(Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter));
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred updating the page with title '{0}' in the database", summary.Title);
 			}
@@ -381,8 +484,11 @@ namespace Roadkill.Core
 					summary.RawTags = tags;
 					UpdatePage(summary);
 				}
+
+				string cacheKey = string.Format("findbytag.{0}", oldTagName);
+				_listCache.Remove(cacheKey);
 			}
-			catch (HibernateException ex)
+			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An error occurred while changing the tagname {0} to {1}", oldTagName, newTagName);
 			}
@@ -427,16 +533,23 @@ namespace Roadkill.Core
 		/// <param name="newTitle">The new page title.</param>
 		public void UpdateLinksToPage(string oldTitle, string newTitle)
 		{
-			foreach (PageContent content in Repository.PageContents)
+			bool shouldClearCache = false;
+
+			foreach (PageContent content in Repository.AllPageContents())
 			{
 				if (_markupConverter.ContainsPageLink(content.Text, oldTitle))
 				{
-					// force the proxy to hydrate, for "Illegally attempted to associate a proxy with two open Sessions" errors
-					NHibernateUtil.Initialize(content.Page);
-
 					content.Text = _markupConverter.ReplacePageLinks(content.Text, oldTitle, newTitle);
-					Repository.SaveOrUpdate<PageContent>(content);
+					Repository.UpdatePageContent(content);
+					
+					shouldClearCache = true;
 				}
+			}
+
+			if (shouldClearCache)
+			{
+				_pageSummaryCache.RemoveAll();
+				_listCache.RemoveAll();
 			}
 		}
 
@@ -446,7 +559,7 @@ namespace Roadkill.Core
 		/// <returns></returns>
 		public MarkupConverter GetMarkupConverter()
 		{
-			return new MarkupConverter(Configuration, Repository);
+			return new MarkupConverter(ApplicationSettings, Repository);
 		}
 	}
 }
