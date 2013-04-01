@@ -1,0 +1,141 @@
+﻿@model SettingsSummary
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		setPage(3);
+		$("form").validationEngine();
+
+		$("#testldap").click(function()
+		{	
+			testActiveDirectory("#ldapconnectionsuccess","#ldapconnectionfailure","#ldap-loading","");
+		});
+
+		$("#testeditor").click(function(){	
+			testActiveDirectory("#editor-connectionsuccess","#editor-connectionfailure","#editor-loading",$("#EditorRoleName").val());
+		});
+
+		$("#testadmin").click(function(){	
+			testActiveDirectory("#admin-connectionsuccess","#admin-connectionfailure","#admin-loading",$("#AdminRoleName").val());
+		});
+	});
+
+	function testActiveDirectory(successId,failureId,loadingId,groupName)
+	{
+		$(loadingId).show();
+		hideAlerts();
+		$.get("@(Url.Action("TestLdap"))",
+				{ 
+					"connectionstring" : $("#LdapConnectionString").val(),
+					"username" : $("#LdapUsername").val(),
+					"password" : $("#LdapPassword").val(),
+					"groupName" : groupName					
+				},
+				function(data)
+				{
+					$(loadingId).hide();
+					if (data.Success)
+					{
+						showSuccess(successId);
+					}
+					else
+					{
+						showFailure(failureId,data.ErrorMessage);
+					}
+				});
+	}
+</script>
+
+@using (Html.BeginForm("Step4","Install"))
+{
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.ConnectionString))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.DataStoreTypeName))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteName))
+	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteUrl))
+	@(Html.HiddenFor<SettingsSummary, bool>(h => h.UseWindowsAuth))
+	
+	<fieldset>
+		<legend>@InstallStrings.Page3_AD_Group1_Title</legend>
+		<label>
+			@InstallStrings.Page3_AD_Group1_Label1
+			<br /><br />
+			@Html.Raw(InstallStrings.Page3_AD_Group1_Label2)
+			<br /><br />
+			@InstallStrings.Page3_AD_Group1_Label3
+		</label>
+
+		<div class="small">
+			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.LdapConnectionString, new { @class = "validate[required]" }))</div>
+			<div class="textbox">
+				@InstallStrings.Page3_AD_Group2_Label1<br />
+				@(Html.TextBoxFor<SettingsSummary, string>(s => s.LdapUsername, new { autocomplete = "off" }))
+			</div>
+			<div class="textbox">
+				@InstallStrings.Page3_AD_Group2_Label2<br />
+				@(Html.PasswordFor<SettingsSummary, string>(s => s.LdapPassword, new { autocomplete = "off" }))
+			</div>
+
+			<input id="testldap" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
+			<div id="ldap-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
+			<div id="ldapconnectionsuccess" class="success alert hidden">
+				<h2>@InstallStrings.Shared_Success</h2>
+				<p>@InstallStrings.Page3_AD_Connection_Success</p>
+			</div>
+
+			<div id="ldapconnectionfailure" class="failure alert hidden">
+				<h2>@InstallStrings.Shared_Failure</h2>
+				<p>@InstallStrings.Page3_AD_Connection_Error&nbsp;<span class="errormessage"></span></p>
+			</div>
+		</div>
+	</fieldset>
+
+	<fieldset>
+		<legend>@InstallStrings.Page3_AD_Group3_Title</legend>
+		<label>@InstallStrings.Page3_AD_Group3_Label</label>
+
+		<div class="small">
+			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.EditorRoleName, new { @class = "validate[required]" }))</div>
+			<input id="testeditor" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
+			<div id="editor-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
+			<div id="editor-connectionsuccess" class="success alert hidden">
+				<h2>@InstallStrings.Shared_Success</h2>
+				<p>@InstallStrings.Page3_AD_Success</p>
+			</div>
+
+			<div id="editor-connectionfailure" class="failure alert hidden">
+				<h2>@InstallStrings.Shared_Failure</h2>
+				<p>@InstallStrings.Page3_AD_Error&nbsp;<span class="errormessage"></span></p>
+			</div>
+		</div>
+	</fieldset>
+	
+	<fieldset>
+		<legend>@InstallStrings.Page3_AD_Group4_Title</legend>
+		<label>@InstallStrings.Page3_AD_Group4_Label</label>
+
+		<div class="small">
+			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminRoleName, new { @class = "validate[required]" }))</div>
+			<input id="testadmin" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
+			<div id="admin-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
+			<div id="admin-connectionsuccess" class="success alert hidden">
+				<h2>@InstallStrings.Shared_Success</h2>
+				<p>@InstallStrings.Page3_AD_Success</p>
+			</div>
+
+			<div id="admin-connectionfailure" class="failure alert hidden">
+				<h2>@InstallStrings.Shared_Failure</h2>
+				<p>@InstallStrings.Page3_AD_Error&nbsp;<span class="errormessage"></span></p>
+			</div>
+		</div>
+	</fieldset>
+
+	<div>
+		<div class="previous"><a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a></div>
+	
+		<div class="continue">
+			<input type="submit" class="button" value="@InstallStrings.Shared_NextButton" />
+		</div>
+	</div>
+}
