@@ -4,17 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using System.IO;
-using Roadkill.Core.Search;
-using System.Web;
 using Roadkill.Core.Converters;
-using Lucene.Net.Documents;
-using System.Text.RegularExpressions;
-using Roadkill.Core.Configuration;
-using StructureMap;
 using Roadkill.Core.Database;
 using Roadkill.Core.Cache;
+using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Configuration;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Managers
 {
 	/// <summary>
 	/// Provides a set of tasks for wiki page management.
@@ -24,16 +20,16 @@ namespace Roadkill.Core
 		private SearchManager _searchManager;
 		private MarkupConverter _markupConverter;
 		private HistoryManager _historyManager;
-		private IRoadkillContext _context;
+		private IUserContext _context;
 		private ListCache _listCache;
 		private PageSummaryCache _pageSummaryCache;
 
-		public PageManager(IConfigurationContainer configuration, IRepository repository, SearchManager searchManager, 
-			HistoryManager historyManager, IRoadkillContext context, ListCache listCache, PageSummaryCache pageSummaryCache)
-			: base(configuration, repository)
+		public PageManager(ApplicationSettings settings, IRepository repository, SearchManager searchManager, 
+			HistoryManager historyManager, IUserContext context, ListCache listCache, PageSummaryCache pageSummaryCache)
+			: base(settings, repository)
 		{
 			_searchManager = searchManager;
-			_markupConverter = new MarkupConverter(configuration, repository);
+			_markupConverter = new MarkupConverter(settings, repository);
 			_historyManager = historyManager;
 			_context = context;
 			_listCache = listCache;
@@ -563,7 +559,7 @@ namespace Roadkill.Core
 		/// <returns></returns>
 		public MarkupConverter GetMarkupConverter()
 		{
-			return new MarkupConverter(Configuration, Repository);
+			return new MarkupConverter(ApplicationSettings, Repository);
 		}
 	}
 }

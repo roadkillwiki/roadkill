@@ -2,6 +2,7 @@ using System;
 using NUnit.Framework;
 using System.IO;
 using Roadkill.Core;
+using Roadkill.Core.Logging;
 
 // NB no namespace, so this fixture setup is used for every class
 

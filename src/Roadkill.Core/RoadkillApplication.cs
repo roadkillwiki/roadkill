@@ -2,11 +2,12 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System;
-using Roadkill.Core.Files;
+using Roadkill.Core.Attachments;
 using StructureMap;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using System.Web.Optimization;
+using Roadkill.Core.Logging;
 
 namespace Roadkill.Core
 {
@@ -19,9 +20,13 @@ namespace Roadkill.Core
 
 		protected void Application_Start()
 		{
+			// Get the settings from the web.config
+			ConfigFileManager configManager = new ConfigFileManager();
+			ApplicationSettings applicationSettings = configManager.GetApplicationSettings();
+
 			// Configure StructureMap dependencies
-			IoCSetup iocSetup = new IoCSetup();
-			iocSetup.Run();
+			DependencyContainer iocSetup = new DependencyContainer(applicationSettings);
+			iocSetup.RegisterTypes();
 			iocSetup.RegisterMvcFactoriesAndRouteHandlers();
 
 			// All other routes
@@ -89,7 +94,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				IoCSetup.DisposeRepository();
+				DependencyContainer.DisposeRepository();
 			}
 			catch (Exception ex)
 			{

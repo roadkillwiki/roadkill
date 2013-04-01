@@ -7,22 +7,25 @@ using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 
+// Reference:
+// http://www.wikicreole.org/attach/Creole1.0TestCases/creole1.0test.txt
+// http://www.wikicreole.org/wiki/JSPWikiTestCases
 namespace Roadkill.Tests.Unit
 {
 	[TestFixture]
 	[Category("Unit")]
-	//http://www.wikicreole.org/attach/Creole1.0TestCases/creole1.0test.txt
-	//http://www.wikicreole.org/wiki/JSPWikiTestCases
 	public class CreoleParserTests
 	{
-		private ConfigurationContainerStub _config;
+		private ApplicationSettings _applicationSettings;
+		private SiteSettings _siteSettings;
 		private CreoleParser _parser;
 
 		[SetUp]
 		public void Setup()
 		{
-			_config = new ConfigurationContainerStub();
-			_parser = new CreoleParser(_config);
+			_applicationSettings = new ApplicationSettings();
+			_siteSettings = new SiteSettings();
+			_parser = new CreoleParser(_applicationSettings, _siteSettings);
 		}
 
 		[Test]

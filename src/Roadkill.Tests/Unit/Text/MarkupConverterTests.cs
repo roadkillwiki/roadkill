@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using Roadkill.Core;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Tests.Unit
 {
@@ -11,16 +14,22 @@ namespace Roadkill.Tests.Unit
 	[Category("Unit")]
 	public class MarkupConverterTests
 	{
-		private ConfigurationContainerStub _config;
+		private ApplicationSettings _settings;
 		private MarkupConverter _converter;
+		private RepositoryMock _repository;
 
 		[SetUp]
 		public void Setup()
 		{
-			_config = new ConfigurationContainerStub();
-			_config.ApplicationSettings.Installed = true;
-			_config.ApplicationSettings.UseHtmlWhiteList = true;
-			_converter = new MarkupConverter(_config, null);
+			_settings = new ApplicationSettings();
+			_settings.Installed = true;
+			_settings.UseHtmlWhiteList = true;
+
+			_repository = new RepositoryMock();
+			_repository.SiteSettings = new SiteSettings();
+			_repository.SiteSettings.MarkupType = "Creole";
+
+			_converter = new MarkupConverter(_settings, _repository);
 			_converter.AbsolutePathConverter = (path) => { return path; };
 			_converter.InternalUrlForTitle = (id, title) => { return title; };
 			_converter.NewPageUrlForTitle = (title) => { return title; };
@@ -30,18 +39,18 @@ namespace Roadkill.Tests.Unit
 		public void Parser_Should_Not_Be_Null_For_MarkupTypes()
 		{
 			// Arrange, act
-			_config.SitePreferences.MarkupType = "Creole";
-			_converter = new MarkupConverter(_config, null);
+			_repository.SiteSettings.MarkupType = "Creole";
+			_converter = new MarkupConverter(_settings, _repository);
 
 			// Assert
 			Assert.NotNull(_converter.Parser);
 
-			_config.SitePreferences.MarkupType = "Markdown";
-			_converter = new MarkupConverter(_config, null);
+			_repository.SiteSettings.MarkupType = "Markdown";
+			_converter = new MarkupConverter(_settings, _repository);
 			Assert.NotNull(_converter.Parser);
 
-			_config.SitePreferences.MarkupType = "Mediawiki";
-			_converter = new MarkupConverter(_config, null);
+			_repository.SiteSettings.MarkupType = "Mediawiki";
+			_converter = new MarkupConverter(_settings, _repository);
 			Assert.NotNull(_converter.Parser);
 		}
 
@@ -49,9 +58,8 @@ namespace Roadkill.Tests.Unit
 		public void ImageParsed_Should_Convert_To_Absolute_Path()
 		{
 			// Arrange
-			
-			_config.SitePreferences.MarkupType = "Markdown";
-			_converter = new MarkupConverter(_config, null);
+			_repository.SiteSettings.MarkupType = "Markdown";
+			_converter = new MarkupConverter(_settings, _repository);
 
 			_converter.AbsolutePathConverter = (string path) => 
 			{ 
@@ -78,8 +86,8 @@ namespace Roadkill.Tests.Unit
 		public void ImageParsed_Should_Not_Rewrite_Images_Starting_With_Http_As_Internal()
 		{
 			// Arrange
-			_config.SitePreferences.MarkupType = "Markdown";
-			_converter = new MarkupConverter(_config, null);
+			_repository.SiteSettings.MarkupType = "Markdown";
+			_converter = new MarkupConverter(_settings, _repository);
 
 			_converter.AbsolutePathConverter = (string path) =>
 			{
@@ -105,8 +113,8 @@ namespace Roadkill.Tests.Unit
 		public void ImageParsed_Should_Not_Rewrite_Images_Starting_With_Www_As_Internal()
 		{
 			// Arrange
-			_config.SitePreferences.MarkupType = "Markdown";
-			_converter = new MarkupConverter(_config, null);
+			_repository.SiteSettings.MarkupType = "Markdown";
+			_converter = new MarkupConverter(_settings, _repository);
 
 			_converter.AbsolutePathConverter = (string path) =>
 			{
@@ -132,7 +140,8 @@ namespace Roadkill.Tests.Unit
 		public void Should_Remove_Script_Link_Iframe_Frameset_Frame_Applet_Tags_From_Text()
 		{
 			// Arrange
-			_config.SitePreferences.MarkupType = "Markdown";
+			_repository.SiteSettings.MarkupType = "Creole";
+			_converter = new MarkupConverter(_settings, _repository);
 			string markdown = " some text <script type=\"text/html\">while(true)alert('lolz');</script>" +
 				"<iframe src=\"google.com\"></iframe><frame>blah</frame> <applet code=\"MyApplet.class\" width=100 height=140></applet>" +
 				"<frameset src='new.html'></frameset>";
@@ -150,13 +159,13 @@ namespace Roadkill.Tests.Unit
 		public void Links_Starting_With_Https_Or_Hash_Are_Not_Rewritten_As_Internal()
 		{
 			// Arrange
-			_config.SitePreferences.MarkupType = "Creole";
+			_repository.SiteSettings.MarkupType = "Creole";
+			_converter = new MarkupConverter(_settings, _repository);
 
 			string expectedHtml = "<p><a href=\"&#x23;myanchortag\">hello world</a> <a href=\"https&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com\">google</a>\n</p>";
-			MarkupConverter converter = new MarkupConverter(_config, null);
 
 			// Act
-			string actualHtml = converter.ToHtml("[[#myanchortag|hello world]] [[https://www.google.com|google]]");
+			string actualHtml = _converter.ToHtml("[[#myanchortag|hello world]] [[https://www.google.com|google]]");
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
@@ -166,13 +175,13 @@ namespace Roadkill.Tests.Unit
 		public void Links_Starting_With_Http_Www_Mailto_Tag_Are_No_Rewritten_As_Internal()
 		{
 			// Arrange
-			_config.SitePreferences.MarkupType = "Creole";
+			_repository.SiteSettings.MarkupType = "Creole";
+			_converter = new MarkupConverter(_settings, _repository);
 
 			string expectedHtml = "<p><a href=\"http&#x3A;&#x2F;&#x2F;www&#x2E;blah&#x2E;com\">link1</a> <a href=\"www&#x2E;blah&#x2E;com\">link2</a> <a href=\"mailto&#x3A;spam&#x40;gmail&#x2E;com\">spam</a>\n</p>";
-			MarkupConverter converter = new MarkupConverter(_config, null);
 
 			// Act
-			string actualHtml = converter.ToHtml("[[http://www.blah.com|link1]] [[www.blah.com|link2]] [[mailto:spam@gmail.com|spam]]");
+			string actualHtml = _converter.ToHtml("[[http://www.blah.com|link1]] [[www.blah.com|link2]] [[mailto:spam@gmail.com|spam]]");
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
@@ -182,11 +191,12 @@ namespace Roadkill.Tests.Unit
 		public void Html_Should_Not_Be_Sanitized_If_UseHtmlWhiteList_Setting_Is_False()
 		{
 			// Arrange
-			_config.SitePreferences.MarkupType = "Creole";
-			_config.ApplicationSettings.UseHtmlWhiteList = false;
+			_settings.UseHtmlWhiteList = false;
+			_repository.SiteSettings.MarkupType = "Creole";
+			_converter = new MarkupConverter(_settings, _repository);
 
 			string htmlFragment = "<div onclick=\"javascript:alert('ouch');\">test</div>";
-			MarkupConverter converter = new MarkupConverter(_config, null);
+			MarkupConverter converter = new MarkupConverter(_settings, _repository);
 
 			// Act
 			string actualHtml = converter.ToHtml(htmlFragment);
@@ -200,6 +210,9 @@ namespace Roadkill.Tests.Unit
 		public void Should_Not_Render_ToC_With_Multiple_Curlies()
 		{
 			// Arrange
+			_repository.SiteSettings.MarkupType = "Creole";
+			_converter = new MarkupConverter(_settings, _repository);
+			_converter.AbsolutePathConverter = (string s) => { return s; };
 			string htmlFragment = "Give me a {{TOC}} and a {{{TOC}}} - the should not render a TOC";
 			string expected = @"<p>Give me a <div class=""floatnone""><div class=""image&#x5F;frame""><img src=""&#x2F;TOC""></div></div> and a TOC - the should not render a TOC"
 				+"\n</p>";

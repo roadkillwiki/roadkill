@@ -9,11 +9,12 @@ using HtmlAgilityPack;
 using Roadkill.Core.Configuration;
 using StructureMap;
 using System.IO;
-using Roadkill.Core.Files;
+using Roadkill.Core.Attachments;
 using Roadkill.Core.Text.Sanitizer;
 using Roadkill.Core.Database;
 using Roadkill.Core.Text;
 using Roadkill.Core.Text.ToC;
+using Roadkill.Core.Logging;
 
 namespace Roadkill.Core.Converters
 {
@@ -22,7 +23,7 @@ namespace Roadkill.Core.Converters
 	/// </summary>
 	public class MarkupConverter
 	{
-		private IConfigurationContainer _configuration;
+		private ApplicationSettings _applicationSettings;
 		private IRepository _repository;
 		private IMarkupParser _parser;
 		private UrlHelper _urlHelper;
@@ -59,7 +60,7 @@ namespace Roadkill.Core.Converters
 		/// markdown format parsers.
 		/// </summary>
 		/// <returns>An <see cref="IMarkupParser"/> for Creole,Markdown or Media wiki formats.</returns>
-		public MarkupConverter(IConfigurationContainer configuration, IRepository repository)
+		public MarkupConverter(ApplicationSettings settings, IRepository repository)
 		{
 			AbsolutePathConverter = ConvertToAbsolutePath;
 			InternalUrlForTitle = GetUrlForTitle;
@@ -76,11 +77,11 @@ namespace Roadkill.Core.Converters
 			};
 
 			_repository = repository;
-			_configuration = configuration;
+			_applicationSettings = settings;
 
 			string markupType = "";
 	
-			if (!_configuration.ApplicationSettings.Installed || _configuration.ApplicationSettings.UpgradeRequired)
+			if (!_applicationSettings.Installed || _applicationSettings.UpgradeRequired)
 			{
 				string warnMessage = "Roadkill is not installed, or an upgrade is pending (ApplicationSettings.UpgradeRequired = false)." +
 									"Skipping initialization of MarkupConverter (MarkupConverter.Parser will now be null)";
@@ -91,9 +92,11 @@ namespace Roadkill.Core.Converters
 				// Skip the chain of creation, as the markup converter isn't needed
 				return;
 			}
-			else if (_configuration.SitePreferences != null && !string.IsNullOrEmpty(_configuration.SitePreferences.MarkupType))
+
+			SiteSettings siteSettings = repository.GetSiteSettings();
+			if (siteSettings != null && !string.IsNullOrEmpty(siteSettings.MarkupType))
 			{
-				markupType = _configuration.SitePreferences.MarkupType.ToLower();
+				markupType = siteSettings.MarkupType.ToLower();
 			}
 
 			switch (markupType)
@@ -103,12 +106,12 @@ namespace Roadkill.Core.Converters
 					break;
 
 				case "mediawiki":
-					_parser = new MediaWikiParser(_configuration);
+					_parser = new MediaWikiParser(_applicationSettings, siteSettings);
 					break;
 
 				case "creole":
 				default:
-					_parser = new CreoleParser(_configuration);
+					_parser = new CreoleParser(_applicationSettings, siteSettings);
 					break;
 			}
 
@@ -129,7 +132,7 @@ namespace Roadkill.Core.Converters
 			TocParser parser = new TocParser();
 			html = parser.InsertToc(html);
 
-			CustomTokenParser tokenParser = new CustomTokenParser(_configuration);
+			CustomTokenParser tokenParser = new CustomTokenParser(_applicationSettings);
 			html = tokenParser.ReplaceTokens(html);
 
 			return html;
@@ -145,7 +148,7 @@ namespace Roadkill.Core.Converters
 				string src = e.OriginalSrc;
 				src = _imgFileRegex.Replace(src, "");
 
-				string attachmentsPath = AttachmentFileHandler.GetAttachmentsPath(_configuration);
+				string attachmentsPath = AttachmentFileHandler.GetAttachmentsPath(_applicationSettings);
 				string urlPath = attachmentsPath + (src.StartsWith("/") ? "" : "/") + src;
 				e.Src = AbsolutePathConverter(urlPath);
 			}
@@ -176,7 +179,7 @@ namespace Roadkill.Core.Converters
 						href = href.Remove(0, 1);
 					}
 
-					string attachmentsPath = AttachmentFileHandler.GetAttachmentsPath(_configuration);
+					string attachmentsPath = AttachmentFileHandler.GetAttachmentsPath(_applicationSettings);
 					href = AbsolutePathConverter(attachmentsPath) + href;
 				}
 				else
@@ -214,9 +217,9 @@ namespace Roadkill.Core.Converters
 		/// </summary>
 		private string RemoveHarmfulTags(string html)
 		{
-			if (_configuration.ApplicationSettings.UseHtmlWhiteList)
+			if (_applicationSettings.UseHtmlWhiteList)
 			{
-				MarkupSanitizer sanitizer = new MarkupSanitizer(_configuration);
+				MarkupSanitizer sanitizer = new MarkupSanitizer(_applicationSettings);
 				return sanitizer.SanitizeHtml(html);
 			}
 			else

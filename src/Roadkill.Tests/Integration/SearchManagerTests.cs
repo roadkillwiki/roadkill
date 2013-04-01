@@ -8,7 +8,9 @@ using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Search;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Tests.Unit;
 
 namespace Roadkill.Tests.Integration
 {
@@ -17,7 +19,7 @@ namespace Roadkill.Tests.Integration
 	public class SearchManagerTests
 	{
 		private IRepository _repository;
-		private IConfigurationContainer _config;
+		private ApplicationSettings _config;
 
 		[SetUp]
 		public void Initialize()
@@ -26,13 +28,9 @@ namespace Roadkill.Tests.Integration
 			if (Directory.Exists(indexPath))
 				Directory.Delete(indexPath, true);
 
-			_repository = new Mock<IRepository>().Object;
-			_config = new ConfigurationContainer();
-			_config.ApplicationSettings = new ApplicationSettings();
-			_config.ApplicationSettings.Load(null); // load from the app.config
-			_config.ApplicationSettings.Installed = true;
-			_config.ApplicationSettings.UpgradeRequired = false;
-			_config.SitePreferences = new SiteSettings();
+			_repository = new RepositoryMock();
+			_config = new ApplicationSettings();
+			_config.Installed = true;
 		}
 
 		[Test]

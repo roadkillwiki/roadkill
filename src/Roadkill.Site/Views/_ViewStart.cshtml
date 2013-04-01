@@ -1,8 +1,11 @@
 ﻿@using Roadkill.Core.Configuration;
 @{
-	IConfigurationContainer config = ((Roadkill.Core.Controllers.ControllerBase)ViewContext.Controller).Configuration;
-	if (config.ApplicationSettings.Installed && !config.ApplicationSettings.UpgradeRequired)
+	Roadkill.Core.Mvc.Controllers.ControllerBase controller = this.ViewContext.Controller as Roadkill.Core.Mvc.Controllers.ControllerBase;
+	ApplicationSettings applicationSettings = controller.ApplicationSettings;
+
+	if (applicationSettings.Installed && !applicationSettings.UpgradeRequired)
 	{
-		Layout = config.SitePreferences.ThemePath + "/Theme.cshtml";
+		SiteSettings siteSettings = controller.SiteSettingsManager.GetSiteSettings();
+		Layout = siteSettings.ThemePath + "/Theme.cshtml";
 	}
 }

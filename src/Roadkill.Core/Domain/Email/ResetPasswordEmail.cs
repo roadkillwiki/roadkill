@@ -6,6 +6,7 @@ using System.IO;
 using System.Web;
 using System.Globalization;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core
 {
@@ -41,8 +42,8 @@ namespace Roadkill.Core
 			_plainTextContent = File.ReadAllText(plainTextFile);
 		}
 
-		public ResetPasswordEmail(UserSummary summary, IConfigurationContainer config)
-			: base(summary, _plainTextContent, _htmlContent, config)
+		public ResetPasswordEmail(UserSummary summary, ApplicationSettings applicationSettings, SiteSettings siteSettings)
+			: base(summary, _plainTextContent, _htmlContent, applicationSettings, siteSettings)
 		{
 		}
 	}

@@ -5,12 +5,14 @@ using System.Text;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Security;
 using StructureMap;
 
 namespace Roadkill.Tests
 {
 	[Pluggable("x")]
-	public class UserManagerStub : UserManager
+	public class UserManagerStub : UserManagerBase
 	{
 		public UserManagerStub()
 			: base(null, null)
@@ -18,8 +20,8 @@ namespace Roadkill.Tests
 
 		}
 
-		public UserManagerStub(IConfigurationContainer configuration, IRepository repository)
-			: base(configuration, repository)
+		public UserManagerStub(ApplicationSettings settings, IRepository repository)
+			: base(settings, repository)
 		{
 
 		}

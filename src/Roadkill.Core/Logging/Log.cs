@@ -5,10 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Essential.Diagnostics;
-using Roadkill.Core.Common;
 using Roadkill.Core.Configuration;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Logging
 {
 	/// <summary>
 	/// Manages logging in Roadkill. All logging is done via the standard TraceListeners.
@@ -21,12 +20,12 @@ namespace Roadkill.Core
 		/// Configures the type of log file to use based on the configuration, and 
 		/// whether to all messages or just errors.
 		/// </summary>
-		/// <param name="configuration"></param>
-		public static void ConfigureLogging(IConfigurationContainer configuration)
+		/// <param name="settings"></param>
+		public static void ConfigureLogging(ApplicationSettings settings)
 		{
-			LogErrorsOnly = configuration.ApplicationSettings.LogErrorsOnly;
+			LogErrorsOnly = settings.LogErrorsOnly;
 
-			switch (configuration.ApplicationSettings.LoggingType)
+			switch (settings.LoggingType)
 			{
 				case LogType.None:
 					break;

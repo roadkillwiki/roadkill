@@ -8,7 +8,9 @@ using Roadkill.Core.Localization.Resx;
 using System.Globalization;
 using StructureMap;
 using Roadkill.Core.Configuration;
-using ControllerBase = Roadkill.Core.Controllers.ControllerBase;
+using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core
 {
@@ -62,7 +64,7 @@ namespace Roadkill.Core
 		{
 			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
 
-			if (controller == null || controller.Configuration.ApplicationSettings.UseWindowsAuthentication)
+			if (controller == null || controller.ApplicationSettings.UseWindowsAuthentication)
 				return MvcHtmlString.Empty;
 
 			string link = "";
@@ -75,7 +77,7 @@ namespace Roadkill.Core
 			{
 				link = helper.ActionLink(SiteStrings.Navigation_Login, "Login", "User").ToString();
 
-				if (controller.Configuration.SitePreferences.AllowUserSignup)
+				if (controller.SiteSettingsManager.GetSiteSettings().AllowUserSignup)
 					link += "&nbsp;/&nbsp;" + helper.ActionLink(SiteStrings.Navigation_Register, "Signup", "User").ToString();
 			}
 

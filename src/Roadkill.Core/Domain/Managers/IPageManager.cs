@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Roadkill.Core.Database;
+using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Managers
 {
 	public interface IPageManager
 	{

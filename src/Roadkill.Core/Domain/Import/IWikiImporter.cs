@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Roadkill.Core.Search;
+using Roadkill.Core.Managers;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Import
 {
 	/// <summary>
 	/// Represents a class that can import page data from a database source.

@@ -7,17 +7,16 @@ using Mindscape.LightSpeed.Caching;
 using Mindscape.LightSpeed.Linq;
 using Mindscape.LightSpeed.Logging;
 using Mindscape.LightSpeed.Querying;
-using Roadkill.Core.Common;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database.Schema;
+using Roadkill.Core.Logging;
 using StructureMap;
-using LSSitePreferencesEntity = Roadkill.Core.Database.LightSpeed.SitePreferencesEntity;
 
 namespace Roadkill.Core.Database.LightSpeed
 {
 	public class LightSpeedRepository : Roadkill.Core.Database.IRepository
 	{
-		private IConfigurationContainer _configuration;
+		private ApplicationSettings _applicationSettings;
 
 		internal IQueryable<PageEntity> Pages
 		{
@@ -68,9 +67,9 @@ namespace Roadkill.Core.Database.LightSpeed
 			}
 		}
 
-		public LightSpeedRepository(IConfigurationContainer configuration)
+		public LightSpeedRepository(ApplicationSettings settings)
 		{
-			_configuration = configuration;
+			_applicationSettings = settings;
 		}
 
 		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)
@@ -84,13 +83,17 @@ namespace Roadkill.Core.Database.LightSpeed
 				context.CascadeDeletes = false;
 				context.VerboseLogging = true;
 				context.Cache = new CacheBroker(new DefaultCache());
-				context.Logger = new TraceLogger();				
+				context.Logger = new TraceLogger();
 
 				ObjectFactory.Configure(x =>
 				{
 					x.For<LightSpeedContext>().Singleton().Use(context);
 					x.For<IUnitOfWork>().HybridHttpOrThreadLocalScoped().Use(ctx => ctx.GetInstance<LightSpeedContext>().CreateUnitOfWork());
 				});
+			}
+			else
+			{
+				Log.Warn("LightSpeedRepository.Startup skipped as no connection string was provided");
 			}
 		}
 
@@ -126,19 +129,19 @@ namespace Roadkill.Core.Database.LightSpeed
 			}
 		}
 
-		public void Upgrade(IConfigurationContainer configuration)
+		public void Upgrade(ApplicationSettings settings)
 		{
 			try
 			{
 				using (IDbConnection connection = Context.DataProviderObjectFactory.CreateConnection())
 				{
-					connection.ConnectionString = configuration.ApplicationSettings.ConnectionString;
+					connection.ConnectionString = settings.ConnectionString;
 					connection.Open();
 
 					IDbCommand command = Context.DataProviderObjectFactory.CreateCommand();
 					command.Connection = connection;
 
-					configuration.ApplicationSettings.DataStoreType.Schema.Upgrade(command);
+					settings.DataStoreType.Schema.Upgrade(command);
 				}
 			}
 			catch (Exception ex)
@@ -149,7 +152,7 @@ namespace Roadkill.Core.Database.LightSpeed
 
 			try
 			{
-				SaveSitePreferences(new SiteSettings());
+				SaveSiteSettings(new SiteSettings());
 			}
 			catch (Exception ex)
 			{
@@ -158,10 +161,10 @@ namespace Roadkill.Core.Database.LightSpeed
 			}
 		}
 
-		public SiteSettings GetSitePreferences()
+		public SiteSettings GetSiteSettings()
 		{
 			SiteSettings preferences = new SiteSettings();
-			SitePreferencesEntity entity = UnitOfWork.FindById<SitePreferencesEntity>(SiteSettings.SiteSettingsId);
+			SiteSettingsEntity entity = UnitOfWork.FindById<SiteSettingsEntity>(SiteSettings.SiteSettingsId);
 
 			if (entity != null)
 			{
@@ -175,13 +178,13 @@ namespace Roadkill.Core.Database.LightSpeed
 			return preferences;
 		}
 
-		public void SaveSitePreferences(SiteSettings preferences)
+		public void SaveSiteSettings(SiteSettings preferences)
 		{
-			SitePreferencesEntity entity = UnitOfWork.Find<SitePreferencesEntity>().FirstOrDefault();
+			SiteSettingsEntity entity = UnitOfWork.Find<SiteSettingsEntity>().FirstOrDefault();
 
 			if (entity == null || entity.Id == Guid.Empty)
 			{
-				entity = new SitePreferencesEntity();
+				entity = new SiteSettingsEntity();
 				entity.Version = ApplicationSettings.AssemblyVersion.ToString();
 				entity.Content = preferences.GetJson();
 				UnitOfWork.Add(entity);
@@ -262,7 +265,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			IEnumerable<PageEntity> entities = new List<PageEntity>();
 
-			if (_configuration.ApplicationSettings.DataStoreType != DataStoreType.Postgres)
+			if (_applicationSettings.DataStoreType != DataStoreType.Postgres)
 			{
 				entities = Pages.Where(p => p.Tags.ToLower().Contains(tag.ToLower()));
 			}

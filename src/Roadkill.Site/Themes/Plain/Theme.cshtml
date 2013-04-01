@@ -1,4 +1,4 @@
-﻿@inherits RoadkillLayoutPage<dynamic>
+﻿@inherits RoadkillLayoutPage
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,17 +45,13 @@
 }
     <br /><br />
     <div id="container">
-		@Html.Action("PageToolbar", "Wiki", new { id = Model.Id }, true)
+		@RenderSection("PageToolbar", false)
         <div id="content">
 	        @RenderBody()
         </div>
     </div>
 	<div id="footer">
-		@if (RoadkillContext.IsContentPage)
-		{
-		<p>@SiteStrings.Shared_LastModified @RoadkillContext.Page.ModifiedOn.ToString("dd MMM yyyy") 
-		at @RoadkillContext.Page.ModifiedOn.ToShortTimeString().</p>
-		}
+		@RenderSection("PageDetailsFooter", false)
 		<p>
 			@SiteStrings.Shared_PoweredBy (@ApplicationSettings.AssemblyVersion.ToString()).
 		</p>

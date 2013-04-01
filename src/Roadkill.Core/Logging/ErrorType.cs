@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Roadkill.Core.Common
+namespace Roadkill.Core.Logging
 {
 	public enum ErrorType
 	{

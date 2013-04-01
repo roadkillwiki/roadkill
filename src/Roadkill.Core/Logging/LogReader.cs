@@ -8,7 +8,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace Roadkill.Core.Common
+namespace Roadkill.Core.Logging
 {
 	public class LogReader
 	{

@@ -5,6 +5,9 @@ using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
+using Roadkill.Core.Security;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Tests.Integration
 {
@@ -15,32 +18,30 @@ namespace Roadkill.Tests.Integration
 	[Category("Integration")]
 	public class DefaultUserManagerTests
 	{
-		private DefaultUserManager _defaultUserManager;
+		private FormsAuthenticationUserManager _defaultUserManager;
 
 		[SetUp]
 		public void Initialize()
 		{
-			IConfigurationContainer config = new ConfigurationContainer();
-			config.ApplicationSettings = new ApplicationSettings();
-			config.ApplicationSettings.Load(null); // from app.config
-			config.ApplicationSettings.Installed = true;
-			config.ApplicationSettings.UpgradeRequired = false;
+			ConfigFileManager configManager = new ConfigFileManager("roadkill.tests.dll.config");
+			ApplicationSettings settings = configManager.GetApplicationSettings();
 
-			SettingsSummary summary = new SettingsSummary(config);
-			summary.ConnectionString = config.ApplicationSettings.ConnectionString;
+			IRepository repository = new LightSpeedRepository(settings);
+			_defaultUserManager = new FormsAuthenticationUserManager(settings, repository);
+			IUserContext context = new UserContext(_defaultUserManager);
+			DependencyContainer iocSetup = new DependencyContainer(settings, repository, context);
+			iocSetup.RegisterTypes();
+
+			// Use the SettingsManager to install, so the site settings are saved 
+			SettingsSummary summary = new SettingsSummary();
+			summary.ConnectionString = settings.ConnectionString;
 			summary.DataStoreTypeName = DataStoreType.Sqlite.Name;
 			summary.AllowedExtensions = "jpg, gif";
 			summary.MarkupType = "Creole";
 
-			IRepository repository = new LightSpeedRepository(config);
-			_defaultUserManager = new DefaultUserManager(config, repository);
-			IoCSetup iocSetup = new IoCSetup(config, repository, new RoadkillContext(_defaultUserManager));
-			iocSetup.Run();
-
-			// Use the SettingsManager to install, so the site settings are saved 
-			SettingsManager settingsManager = new SettingsManager(config, repository);
+			SettingsManager settingsManager = new SettingsManager(settings, repository);
 			settingsManager.CreateTables(summary);
-			settingsManager.SaveSitePreferences(summary, true);
+			settingsManager.SaveSiteSettings(summary, true);
 		}
 
 		[Test]

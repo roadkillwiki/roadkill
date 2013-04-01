@@ -1,4 +1,4 @@
-@inherits RoadkillLayoutPage<dynamic>
+@inherits RoadkillLayoutPage
 <!DOCTYPE html>
 <html>
 	<head>
@@ -15,14 +15,14 @@
 		<div id="search">
 			<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" />
 			<button id="searchbutton">
-				<img src="@Url.ThemeContent("search.png", Configuration)" alt="Search" />
+				<img src="@Url.ThemeContent("search.png", SiteSettings)" alt="Search" />
 			</button>
 		</div>	
 	</div>
 }
 
 	<div id="logo">
-		<a href="@(Url.Action("Index", "Home"))"><img src="@Url.ThemeContent("logo.png", Configuration)" alt="logo" border="0" /></a>
+		<a href="@(Url.Action("Index", "Home"))"><img src="@Url.ThemeContent("logo.png", SiteSettings)" alt="logo" border="0" /></a>
 	</div>
 	<div id="panel">
 		@Html.Action("LeftMenu", "User")
@@ -30,21 +30,14 @@
 
 	<div id="container">
 		@RenderSection("PageToolbar", false)
-		@if (RoadkillContext.IsContentPage)
-		{
-			<div id="viewhistory">@Html.ActionLink(SiteStrings.Navigation_ViewHistory, "History", "Pages", new { id = RoadkillContext.Page.Id }, null)</div>
-		}
+		@RenderSection("ViewHistoryLink", false)
 		<div id="content">
 			@RenderBody()
 		</div>
 	</div>
 
 	<div id="footer">
-		@if (RoadkillContext.IsContentPage)
-		{
-		<p>@SiteStrings.Shared_LastModified @RoadkillContext.Page.ModifiedOn.ToString("dd MMM yyyy") 
-		at @RoadkillContext.Page.ModifiedOn.ToShortTimeString().</p>
-		}
+		@RenderSection("PageDetailsFooter", false)
 		<p>
 			@SiteStrings.Shared_PoweredBy (@ApplicationSettings.AssemblyVersion.ToString()). This theme contains portions of its design from <a href="http://www.mediawiki.org" target="_blank">Mediawiki.org</a>.
 		</p>

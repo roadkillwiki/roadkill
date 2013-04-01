@@ -6,7 +6,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using StructureMap;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Managers
 {
 	/// <summary>
 	/// Provides all inheriting classes with queryable objects for the system pages and text content.
@@ -14,11 +14,11 @@ namespace Roadkill.Core
 	public class ServiceBase
 	{
 		protected IRepository Repository;
-		protected IConfigurationContainer Configuration;
+		protected ApplicationSettings ApplicationSettings;
 
-		public ServiceBase(IConfigurationContainer configuration, IRepository repository)
+		public ServiceBase(ApplicationSettings settings, IRepository repository)
 		{
-			Configuration = configuration;
+			ApplicationSettings = settings;
 			Repository = repository;
 		}
 

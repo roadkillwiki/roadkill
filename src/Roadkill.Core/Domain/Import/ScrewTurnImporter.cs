@@ -9,24 +9,24 @@ using System.Web;
 using StructureMap;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Search;
+using Roadkill.Core.Managers;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Import
 {
 	/// <summary>
 	/// Retrieves page data from a ScrewTurn wiki database, and attempts to import the data into Roadkill.
 	/// </summary>
-	public class ScrewTurnImporter : IWikiImporter, IInjectionLaunderer
+	public class ScrewTurnImporter : IWikiImporter
 	{
 		private string _connectionString;
 		private string _attachmentsFolder;
 		protected IRepository Repository;
-		protected IConfigurationContainer Configuration;
+		protected ApplicationSettings ApplicationSettings;
 
-		public ScrewTurnImporter(IConfigurationContainer configuration)
+		public ScrewTurnImporter(ApplicationSettings settings, IRepository repository)
 		{
-			Repository = ObjectFactory.GetInstance<IRepository>();
-			Configuration = configuration;
+			Repository = repository;
+			ApplicationSettings = settings;
 		}
 
 		/// <summary>
@@ -41,7 +41,7 @@ namespace Roadkill.Core
 		public void ImportFromSqlServer(string connectionString)
 		{
 			_connectionString = connectionString;
-			_attachmentsFolder = Configuration.ApplicationSettings.AttachmentsDirectoryPath;
+			_attachmentsFolder = ApplicationSettings.AttachmentsDirectoryPath;
 
 			using (SqlConnection connection = new SqlConnection(_connectionString))
 			{

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Roadkill.Core;
+using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Tests.Unit
 {
-	internal class RoadkillContextStub : IRoadkillContext
+	internal class RoadkillContextStub : IUserContext
 	{
 		public string CurrentUser { get; set; }
 		public string CurrentUsername { get; set; }

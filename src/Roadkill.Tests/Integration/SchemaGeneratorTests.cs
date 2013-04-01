@@ -15,6 +15,7 @@ namespace Roadkill.Tests.Integration
 	public class SchemaGeneratorTests
 	{
 		[Test]
+		[Ignore]
 		public void Create()
 		{
 			// Arrange
@@ -33,6 +34,7 @@ namespace Roadkill.Tests.Integration
 		}
 
 		[Test]
+		[Ignore]
 		public void Drop()
 		{
 			// Arrange
@@ -47,12 +49,14 @@ namespace Roadkill.Tests.Integration
 		}
 
 		[Test]
+		[Ignore]
 		public void Version16_Upgrade()
 		{
 			
 		}
 
 		[Test]
+		[Ignore]
 		public void Version16_To_Version1_Downgrade()
 		{
 			

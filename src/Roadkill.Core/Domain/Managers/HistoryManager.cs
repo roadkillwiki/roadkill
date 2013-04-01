@@ -6,8 +6,9 @@ using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
+using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Managers
 {
 	/// <summary>
 	/// Provides a way of viewing, and comparing the version history of page content, and reverting to previous versions.
@@ -15,13 +16,13 @@ namespace Roadkill.Core
 	public class HistoryManager : ServiceBase
 	{
 		private MarkupConverter _markupConverter;
-		private IRoadkillContext _context;
+		private IUserContext _context;
 		private PageSummaryCache _pageSummaryCache;
 
-		public HistoryManager(IConfigurationContainer configuration, IRepository repository, IRoadkillContext context, PageSummaryCache pageSummaryCache)
-			: base(configuration, repository)
+		public HistoryManager(ApplicationSettings settings, IRepository repository, IUserContext context, PageSummaryCache pageSummaryCache)
+			: base(settings, repository)
 		{
-			_markupConverter = new MarkupConverter(configuration, repository);
+			_markupConverter = new MarkupConverter(settings, repository);
 			_context = context;
 			_pageSummaryCache = pageSummaryCache;
 		}
@@ -147,7 +148,7 @@ namespace Roadkill.Core
 		/// <param name="versionId">The version ID to revert to.</param>
 		/// <param name="context">The current logged in user's context.</param>
 		/// <exception cref="HistoryException">An NHibernate (database) error occurred while reverting to the version.</exception>
-		public void RevertTo(Guid versionId, IRoadkillContext context)
+		public void RevertTo(Guid versionId, IUserContext context)
 		{
 			try
 			{
