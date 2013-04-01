@@ -15,8 +15,9 @@ using LuceneVersion = Lucene.Net.Util.Version;
 using Lucene.Net.Store;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Core.Search
+namespace Roadkill.Core.Managers
 {
 	/// <summary>
 	/// Provides searching tasks using a Lucene.net search index.

@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using System.IO;
 using Roadkill.Core.Configuration;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Mvc.ViewModels
 {
 	/// <summary>
 	/// Provides directory information for a folder in the attachments folder.

@@ -291,9 +291,9 @@
   <ItemGroup>
     <Compile Include="Common\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Configuration\ConfigFileManager.cs" />
-    <Compile Include="MVC\Attributes\IInjectedAttribute.cs" />
-    <Compile Include="IoC\FilterProvider.cs" />
-    <Compile Include="IoC\MvcDependencyResolver.cs" />
+    <Compile Include="MVC\Attributes\IControllerAttribute.cs" />
+    <Compile Include="DI\MvcAttributeProvider.cs" />
+    <Compile Include="DI\MvcDependencyResolver.cs" />
     <Compile Include="Localization\Resx\InstallStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -327,9 +327,9 @@
     <Compile Include="Database\Repositories\LightSpeed\Conversion\FromEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\PageEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\PageContentEntity.cs" />
-    <Compile Include="Database\Repositories\LightSpeed\SitePreferencesEntity.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\SiteSettingsEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\UserEntity.cs" />
-    <Compile Include="Database\Entities\SitePreferencesEntity.cs" />
+    <Compile Include="Database\Entities\SiteSettingsEntity.cs" />
     <Compile Include="Database\Schema\MySql\MySqlSchema.cs" />
     <Compile Include="Database\Schema\Postgres\PostgresSchema.cs" />
     <Compile Include="Database\Schema\SchemaBase.cs" />
@@ -339,10 +339,8 @@
     <Compile Include="Domain\Managers\IPageManager.cs" />
     <Compile Include="Database\Repositories\MongoDB\MongoDBRepository.cs" />
     <Compile Include="Exceptions\UpgradeException.cs" />
-    <Compile Include="Files\MimeMapping.cs" />
-    <Compile Include="IoC\IoCSetup.cs" />
-    <Compile Include="IoC\IInjectionLaunderer.cs" />
-    <Compile Include="IoC\ControllerFactory.cs" />
+    <Compile Include="Attachments\MimeMapping.cs" />
+    <Compile Include="DI\DependencyContainer.cs" />
     <Compile Include="MVC\Attributes\OptionalAuthorizationAttribute.cs" />
     <Compile Include="MVC\Attributes\RecaptchaRequiredAttribute.cs" />
     <Compile Include="MVC\Attributes\ImportModelStateAttribute.cs" />
@@ -352,13 +350,13 @@
     <Compile Include="MVC\Attributes\AdminRequiredAttribute.cs" />
     <Compile Include="MVC\Attributes\EditorRequiredAttribute.cs" />
     <Compile Include="Common\Salt.cs" />
-    <Compile Include="Domain\Managers\Security\Windows\PrincipalWrapper.cs" />
-    <Compile Include="Domain\Managers\Security\Windows\IRoadKillPrincipal.cs" />
-    <Compile Include="Domain\Managers\Security\Windows\IActiveDirectoryService.cs" />
-    <Compile Include="Domain\Managers\Security\Windows\ActiveDirectoryService.cs" />
+    <Compile Include="Domain\Security\Windows\PrincipalDetails.cs" />
+    <Compile Include="Domain\Security\Windows\IPrincipalDetails.cs" />
+    <Compile Include="Domain\Security\Windows\IActiveDirectoryService.cs" />
+    <Compile Include="Domain\Security\Windows\ActiveDirectoryService.cs" />
     <Compile Include="Database\Repositories\IRepository.cs" />
     <Compile Include="Exceptions\IoCException.cs" />
-    <Compile Include="Files\AttachmentFileHandler.cs" />
+    <Compile Include="Attachments\AttachmentFileHandler.cs" />
     <Compile Include="MVC\Controllers\UserController.cs" />
     <Compile Include="Domain\Email\ResetPasswordEmail.cs" />
     <Compile Include="Domain\Email\SignupEmail.cs" />
@@ -366,9 +364,9 @@
     <Compile Include="Exceptions\EmailException.cs" />
     <Compile Include="Exceptions\SearchException.cs" />
     <Compile Include="Exceptions\DatabaseException.cs" />
-    <Compile Include="Files\AttachmentRouteHandler.cs" />
-    <Compile Include="IoC\IRoadkillContext.cs" />
-    <Compile Include="IoC\ModelBinders.cs" />
+    <Compile Include="Attachments\AttachmentRouteHandler.cs" />
+    <Compile Include="Domain\Security\IUserContext.cs" />
+    <Compile Include="DI\MvcModelBinders.cs" />
     <Compile Include="Configuration\RoadkillSection.cs" />
     <Compile Include="MVC\Controllers\InstallController.cs" />
     <Compile Include="MVC\Controllers\FilesController.cs" />
@@ -384,9 +382,9 @@
     <Compile Include="Text\IMarkupParser.cs" />
     <Compile Include="Text\LinkEventArgs.cs" />
     <Compile Include="Text\Parsers\MediaWikiParser.cs" />
-    <Compile Include="Domain\Managers\Security\Windows\ActiveDirectoryUserManager.cs" />
-    <Compile Include="Domain\Managers\Security\DefaultUserManager.cs" />
-    <Compile Include="Domain\Managers\Security\UserManager.cs" />
+    <Compile Include="Domain\Security\Windows\ActiveDirectoryUserManager.cs" />
+    <Compile Include="Domain\Security\FormsAuthenticationUserManager.cs" />
+    <Compile Include="Domain\Security\UserManagerBase.cs" />
     <Compile Include="Domain\Managers\SettingsManager.cs" />
     <Compile Include="Database\Entities\User.cs" />
     <Compile Include="Domain\Managers\ServiceBase.cs" />
@@ -413,7 +411,7 @@
     <Compile Include="Text\Parsers\Markdown.cs" />
     <Compile Include="Text\MarkupConverter.cs" />
     <Compile Include="Exceptions\InstallerException.cs" />
-    <Compile Include="IoC\RoadkillContext.cs" />
+    <Compile Include="Domain\Security\UserContext.cs" />
     <Compile Include="Common\Extensions\Extensions.cs" />
     <Compile Include="Common\Extensions\HtmlExtensions.cs" />
     <Compile Include="MVC\Controllers\ControllerBase.cs" />
@@ -429,7 +427,6 @@
     <Compile Include="Text\ToC\TocParser.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

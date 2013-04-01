@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Web.Mvc;
-using Roadkill.Core.Search;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Files;
+using Roadkill.Core.Attachments;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Security;
+using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Security.Windows;
 
-namespace Roadkill.Core.Controllers
+namespace Roadkill.Core.Mvc.Controllers
 {
 	/// <summary>
 	/// Provides functionality for the installation wizard.
@@ -19,9 +22,9 @@ namespace Roadkill.Core.Controllers
 		private SearchManager _searchManager;
 		private SettingsManager _settingsManager;
 
-		public InstallController(ApplicationSettings settings, UserManager userManager,
+		public InstallController(ApplicationSettings settings, UserManagerBase userManager,
 			PageManager pageManager, SearchManager searchManager, IRepository respository,
-			SettingsManager settingsManager, IRoadkillContext context, SettingsManager siteSettingsManager)
+			SettingsManager settingsManager, IUserContext context, SettingsManager siteSettingsManager)
 			: base(settings, userManager, context, siteSettingsManager) 
 		{
 			_pageManager = pageManager;
@@ -131,7 +134,7 @@ namespace Roadkill.Core.Controllers
 
 					// Update all repository references for the dependencies of this class
 					// (changing the For() in StructureMap won't do this as the references have already been created).
-					_repository = IoCSetup.ChangeRepository(dataStoreType, summary.ConnectionString, summary.UseObjectCache);
+					_repository = DependencyContainer.ChangeRepository(dataStoreType, summary.ConnectionString, summary.UseObjectCache);
 					UserManager.UpdateRepository(_repository);
 					_settingsManager.UpdateRepository(_repository);
 					_searchManager.UpdateRepository(_repository);
@@ -143,7 +146,7 @@ namespace Roadkill.Core.Controllers
 
 					// Create the roadkill schema and save the configuration settings
 					_settingsManager.CreateTables(summary);
-					_settingsManager.SaveSiteettings(summary, true);	
+					_settingsManager.SaveSiteSettings(summary, true);	
 
 					// Add a user if we're not using AD.
 					if (!summary.UseWindowsAuth)
@@ -222,7 +225,7 @@ namespace Roadkill.Core.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestDatabaseConnection(string connectionString, string databaseType)
 		{
-			string errors = IoCSetup.TestDbConnection(connectionString, databaseType);
+			string errors = DependencyContainer.TestDbConnection(connectionString, databaseType);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 

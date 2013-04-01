@@ -6,6 +6,7 @@ using System.IO;
 using System.Web;
 using System.Globalization;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core
 {

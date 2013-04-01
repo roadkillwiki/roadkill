@@ -4,8 +4,11 @@ using Roadkill.Core.Configuration;
 using System;
 using StructureMap;
 using System.Web;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Security;
+using Roadkill.Core.Logging;
 
-namespace Roadkill.Core.Controllers
+namespace Roadkill.Core.Mvc.Controllers
 {
 	/// <summary>
 	/// A base controller for all Roadkill controller classes which require services 
@@ -14,11 +17,11 @@ namespace Roadkill.Core.Controllers
 	public class ControllerBase : Controller
 	{
 		public ApplicationSettings ApplicationSettings { get; private set; }
-		public UserManager UserManager { get; private set; }
-		public IRoadkillContext Context { get; private set; }
+		public UserManagerBase UserManager { get; private set; }
+		public IUserContext Context { get; private set; }
 		public SettingsManager SiteSettingsManager { get; private set; }
 
-		public ControllerBase(ApplicationSettings settings, UserManager userManager, IRoadkillContext context, 
+		public ControllerBase(ApplicationSettings settings, UserManagerBase userManager, IUserContext context, 
 			SettingsManager siteSettingsManager)
 		{
 			ApplicationSettings = settings;

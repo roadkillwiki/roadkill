@@ -5,8 +5,9 @@ using System.Text;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
+using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Database
 {
 	/// <summary>
 	/// Contains versioned text data for a page for use with the NHibernate data store. This object is intended for internal use only.

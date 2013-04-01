@@ -4,12 +4,14 @@ using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Logging;
+using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core.Cache
 {
 	public class PageSummaryCache
 	{
-		internal static MemoryCache _cache = MemoryCache.Default;
+		internal static MemoryCache _cache = new MemoryCache("PageSummaryCache");
 		private static readonly int _latestVersionNumber = 0;
 		private ApplicationSettings _settings;
 

@@ -8,7 +8,10 @@ using Roadkill.Core;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
-using Roadkill.Core.Search;
+using Roadkill.Core.Database;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Security;
 
 namespace Roadkill.Tests.Unit
 {
@@ -26,35 +29,37 @@ namespace Roadkill.Tests.Unit
 
 		private User _testUser;
 
-		private RepositoryStub _repositoryStub;
+		private RepositoryMock _repositoryMock;
 		private Mock<SearchManager> _mockSearchManager;
-		private Mock<UserManager> _mockUserManager;
-		private IConfigurationContainer _config;
+		private Mock<UserManagerBase> _mockUserManager;
+		private ApplicationSettings _config;
 		private MarkupConverter _markupConverter;
 		private HistoryManager _historyManager;
-		private RoadkillContext _context;
+		private UserContext _context;
 		private PageManager _pageManager;
 
 		[SetUp]
 		public void SearchSetup()
 		{
 			// Repository stub
-			_repositoryStub = new RepositoryStub();
+			_repositoryMock = new RepositoryMock();
 
 			// Config stub
-			_config = new ConfigurationContainer();
-			_config.ApplicationSettings = new ApplicationSettings();
-			_config.ApplicationSettings.Installed = true;
-			_config.SitePreferences = new SiteSettings() { MarkupType = "Creole" };
+			_config = new ApplicationSettings();
+			_config.Installed = true;
+
+			_repositoryMock = new RepositoryMock();
+			_repositoryMock.SiteSettings = new SiteSettings();
+			_repositoryMock.SiteSettings.MarkupType = "Creole";
 
 			// Cache
 			ListCache listCache = new ListCache(_config);
 			PageSummaryCache pageSummaryCache = new PageSummaryCache(_config);
 
 			// Managers needed by the PageManager
-			_markupConverter = new MarkupConverter(_config, _repositoryStub);
-			_mockSearchManager = new Mock<SearchManager>(_config, _repositoryStub);
-			_historyManager = new HistoryManager(_config, _repositoryStub, _context, pageSummaryCache);
+			_markupConverter = new MarkupConverter(_config, _repositoryMock);
+			_mockSearchManager = new Mock<SearchManager>(_config, _repositoryMock);
+			_historyManager = new HistoryManager(_config, _repositoryMock, _context, pageSummaryCache);
 
 			// Usermanager stub
 			_testUser = new User();
@@ -63,32 +68,32 @@ namespace Roadkill.Tests.Unit
 			_testUser.Username = AdminUsername;
 			Guid userId = _testUser.Id;
 
-			_mockUserManager = new Mock<UserManager>(_config, _repositoryStub);
+			_mockUserManager = new Mock<UserManagerBase>(_config, _repositoryMock);
 			_mockUserManager.Setup(x => x.GetUser(_testUser.Email, It.IsAny<bool>())).Returns(_testUser);//GetUserById
 			_mockUserManager.Setup(x => x.GetUserById(userId, It.IsAny<bool>())).Returns(_testUser);
 			_mockUserManager.Setup(x => x.Authenticate(_testUser.Email, "")).Returns(true);
 			_mockUserManager.Setup(x => x.GetLoggedInUserName(It.IsAny<HttpContextBase>())).Returns(_testUser.Username);
 
 			// Context stub
-			_context = new RoadkillContext(_mockUserManager.Object);
+			_context = new UserContext(_mockUserManager.Object);
 			_context.CurrentUser = userId.ToString();
 
 			// And finally the IoC setup
-			IoCSetup iocSetup = new IoCSetup(_config, _repositoryStub, _context);
-			iocSetup.Run();
+			DependencyContainer iocSetup = new DependencyContainer(_config, _repositoryMock, _context);
+			iocSetup.RegisterTypes();
 
-			_pageManager = new PageManager(_config, _repositoryStub, _mockSearchManager.Object, _historyManager, _context, listCache, pageSummaryCache);
+			_pageManager = new PageManager(_config, _repositoryMock, _mockSearchManager.Object, _historyManager, _context, listCache, pageSummaryCache);
 		}
 
 		public PageSummary AddToStubbedRepository(int id, string createdBy, string title, string tags, string textContent = "")
 		{
-			return AddToStubbedRepository(id, createdBy, title, tags, DateTime.Today, textContent);
+			return AddToMockedRepository(id, createdBy, title, tags, DateTime.Today, textContent);
 		}
 
 		/// <summary>
 		/// Adds a page to the mock repository (which is just a list of Page and PageContent objects in memory).
 		/// </summary>
-		public PageSummary AddToStubbedRepository(int id, string createdBy, string title, string tags, DateTime createdOn, string textContent = "")
+		public PageSummary AddToMockedRepository(int id, string createdBy, string title, string tags, DateTime createdOn, string textContent = "")
 		{
 			Page page = new Page();
 			page.Id = id;
@@ -100,7 +105,7 @@ namespace Roadkill.Tests.Unit
 			if (string.IsNullOrEmpty(textContent))
 				textContent = title + "'s text";
 
-			PageContent content = _repositoryStub.AddNewPage(page, textContent, createdBy, createdOn);
+			PageContent content = _repositoryMock.AddNewPage(page, textContent, createdBy, createdOn);
 			PageSummary summary = new PageSummary()
 			{
 				Id = id,
@@ -134,8 +139,8 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(newSummary, Is.Not.Null);
 			Assert.That(newSummary.Content, Is.EqualTo(summary.Content));
-			Assert.That(_repositoryStub.Pages.Count, Is.EqualTo(1));
-			Assert.That(_repositoryStub.PageContents.Count, Is.EqualTo(1));
+			Assert.That(_repositoryMock.Pages.Count, Is.EqualTo(1));
+			Assert.That(_repositoryMock.PageContents.Count, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -336,9 +341,9 @@ namespace Roadkill.Tests.Unit
 			Assert.That(actual.Title, Is.EqualTo(summary.Title), "Title");
 			Assert.That(actual.Tags, Is.EqualTo(summary.Tags), "Tags");
 
-			Assert.That(_repositoryStub.Pages[0].Tags, Is.EqualTo(summary.RawTags));
-			Assert.That(_repositoryStub.Pages[0].Title, Is.EqualTo(summary.Title));
-			Assert.That(_repositoryStub.PageContents[1].Text, Is.EqualTo(summary.Content)); // smells
+			Assert.That(_repositoryMock.Pages[0].Tags, Is.EqualTo(summary.RawTags));
+			Assert.That(_repositoryMock.Pages[0].Title, Is.EqualTo(summary.Title));
+			Assert.That(_repositoryMock.PageContents[1].Text, Is.EqualTo(summary.Content)); // smells
 		}
 	}
 }

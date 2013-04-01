@@ -4,10 +4,13 @@ using System.Linq;
 using System.Web.Mvc;
 using Roadkill.Core.Diff;
 using Roadkill.Core.Converters;
-using Roadkill.Core.Search;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Security;
+using Roadkill.Core.Mvc.Attributes;
+using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Core.Controllers
+namespace Roadkill.Core.Mvc.Controllers
 {
 	/// <summary>
 	/// Provides all page related functionality, including editing and viewing pages.
@@ -21,9 +24,9 @@ namespace Roadkill.Core.Controllers
 		private SearchManager _searchManager;
 		private HistoryManager _historyManager;
 
-		public PagesController(ApplicationSettings settings, UserManager userManager,
+		public PagesController(ApplicationSettings settings, UserManagerBase userManager,
 			SettingsManager settingsManager, IPageManager pageManager, SearchManager searchManager,
-			HistoryManager historyManager, IRoadkillContext context, SettingsManager siteSettingsManager)
+			HistoryManager historyManager, IUserContext context, SettingsManager siteSettingsManager)
 			: base(settings, userManager, context, siteSettingsManager)
 		{
 			_settingsManager = settingsManager;

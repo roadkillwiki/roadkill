@@ -9,6 +9,11 @@
 	@Html.Action("PageToolBar", "Wiki", new { id = Model.Id })
 }
 
+@section ViewHistoryLink
+{
+	<div id="viewhistory">@Html.ActionLink(SiteStrings.Navigation_ViewHistory, "History", "Pages", new { id = Model.Id }, null)</div>
+}
+
 <h1 class="pagetitle">@Model.Title</h1>
 
 <div id="pagecontent" itemscope itemtype="http://schema.org/Article">
@@ -18,3 +23,8 @@
 	<meta itemprop="keywords" content="@Model.SpaceDelimitedTags()"/>
 	@MvcHtmlString.Create(Model.ContentAsHtml)
 </div>
+
+@section PageDetailsFooter
+{
+<p>@SiteStrings.Shared_LastModified @Model.ModifiedOn.ToString("dd MMM yyyy") at @Model.ModifiedOn.ToShortTimeString().</p>
+}

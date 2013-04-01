@@ -9,7 +9,7 @@ using System.Xml;
 using System.Linq;
 using System.IO;
 
-namespace Roadkill.Core.Common
+namespace Roadkill.Core.Logging
 {
 	public class UdpTraceListener : TraceListener
 	{

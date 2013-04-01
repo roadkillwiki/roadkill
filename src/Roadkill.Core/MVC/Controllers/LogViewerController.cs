@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
-using Roadkill.Core.Common;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Logging;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Mvc.Attributes;
+using Roadkill.Core.Security;
 
-namespace Roadkill.Core.Controllers
+namespace Roadkill.Core.Mvc.Controllers
 {
 	// Unfinished (started, then pulled)...coming in version 1.8
 	[AdminRequired]
 	public class LogViewerController : ControllerBase
 	{
-		public LogViewerController(ApplicationSettings settings, UserManager userManager, 
-			IRoadkillContext context, SettingsManager siteSettingsManager) 
+		public LogViewerController(ApplicationSettings settings, UserManagerBase userManager, 
+			IUserContext context, SettingsManager siteSettingsManager) 
 			: base(settings, userManager, context, siteSettingsManager)
 		{
 		}

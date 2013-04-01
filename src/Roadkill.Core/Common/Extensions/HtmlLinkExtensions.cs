@@ -8,7 +8,9 @@ using Roadkill.Core.Localization.Resx;
 using System.Globalization;
 using StructureMap;
 using Roadkill.Core.Configuration;
-using ControllerBase = Roadkill.Core.Controllers.ControllerBase;
+using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core
 {

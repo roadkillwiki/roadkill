@@ -5,8 +5,10 @@ using System.Text;
 using System.Web.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Security;
 
-namespace Roadkill.Core.Controllers
+namespace Roadkill.Core.Mvc.Controllers
 {
 	/// <summary>
 	/// Provides an automated way of upgrading from a previous version of Roadkill.
@@ -15,8 +17,8 @@ namespace Roadkill.Core.Controllers
 	{
 		private IRepository _repository;
 
-		public UpgradeController(ApplicationSettings settings, IRepository repository, UserManager userManager,
-			IRoadkillContext context, SettingsManager siteSettingsManager)
+		public UpgradeController(ApplicationSettings settings, IRepository repository, UserManagerBase userManager,
+			IUserContext context, SettingsManager siteSettingsManager)
 			: base (settings, userManager, context, siteSettingsManager)
 		{
 			_repository = repository;

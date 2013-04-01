@@ -6,7 +6,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using StructureMap;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Managers
 {
 	/// <summary>
 	/// Provides all inheriting classes with queryable objects for the system pages and text content.

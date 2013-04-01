@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using Roadkill.Core.Localization.Resx;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Mvc.ViewModels
 {
 	/// <summary>
 	/// Provides summary data for a page.

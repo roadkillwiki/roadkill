@@ -25,15 +25,15 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			Page page = new Page() { Id = 1, Title = "My first page"};
 
-			Mock<IRepository> mockRepository = new Mock<IRepository>();
-			mockRepository.Setup(x => x.GetPageByTitle(page.Title)).Returns<string>(p => { return page; });
+			RepositoryMock repositoryStub = new RepositoryMock();
+			repositoryStub.AddNewPage(page, "My first page", "admin", DateTime.Now);
+			repositoryStub.SiteSettings = new SiteSettings() { MarkupType = "Markdown" };
 
-			IConfigurationContainer config = new ConfigurationContainer();
-			config.ApplicationSettings.Installed = true;
-			config.ApplicationSettings.UpgradeRequired = false;
-			config.SitePreferences = new SiteSettings() { MarkupType = "Markdown" };
+			ApplicationSettings settings = new ApplicationSettings();
+			settings.Installed = true;
+			settings.UpgradeRequired = false;
 
-			MarkupConverter converter = new MarkupConverter(config, mockRepository.Object);
+			MarkupConverter converter = new MarkupConverter(settings, repositoryStub);
 			converter.InternalUrlForTitle = (id, title) => { return "blah"; };
 			
 			string markdownText = "[Link](My-first-page)";
@@ -58,14 +58,15 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			Page page = new Page() { Id = 1, Title = "My first page" };
 
-			Mock<IRepository> mockRepository = new Mock<IRepository>();
-			mockRepository.Setup(x => x.GetPageByTitle(page.Title)).Returns<string>(p => { return page; });
+			RepositoryMock repositoryStub = new RepositoryMock();
+			repositoryStub.AddNewPage(page, "My first page", "admin", DateTime.Now);
+			repositoryStub.SiteSettings = new SiteSettings() { MarkupType = "Markdown" };
 
-			IConfigurationContainer config = new ConfigurationContainer();
-			config.ApplicationSettings.Installed = true;
-			config.ApplicationSettings.UpgradeRequired = false;
-			config.SitePreferences = new SiteSettings() { MarkupType = "Markdown" };
-			MarkupConverter converter = new MarkupConverter(config, mockRepository.Object);
+			ApplicationSettings settings = new ApplicationSettings();
+			settings.Installed = true;
+			settings.UpgradeRequired = false;
+
+			MarkupConverter converter = new MarkupConverter(settings, repositoryStub);
 
 			string markdownText = "Here is some `// code with a 'quote' in it and another \"quote\"`\n\n" +
 				"    var x = \"some tabbed code\";\n\n"; // 2 line breaks followed by 4 spaces (tab stop) at the start indicates a code block

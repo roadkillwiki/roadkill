@@ -6,24 +6,25 @@ using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Managers;
 
 namespace Roadkill.Tests.Unit
 {
 	[TestFixture]
 	public class SettingsManagerTests
 	{
-		private RepositoryStub _repository;
-		private IConfigurationContainer _config;
+		private RepositoryMock _repository;
+		private ApplicationSettings _settings;
 		private SettingsManager _settingsManager;
 
 		[SetUp]
 		public void Setup()
 		{
-			_config = new ConfigurationContainerStub();
-			_config.ApplicationSettings.Installed = true;
+			_settings = new ApplicationSettings();
+			_settings.Installed = true;
 
-			_repository = new RepositoryStub();
-			_settingsManager = new SettingsManager(_config, _repository);
+			_repository = new RepositoryMock();
+			_settingsManager = new SettingsManager(_settings, _repository);
 		}
 
 		[Test]

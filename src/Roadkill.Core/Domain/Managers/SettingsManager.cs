@@ -11,8 +11,9 @@ using System.IO;
 using System.Web;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Managers
 {
 	/// <summary>
 	/// Provides common tasks for changing the Roadkill application settings.
@@ -86,7 +87,7 @@ namespace Roadkill.Core
 		/// <param name="summary">Summary data containing the settings.</param>
 		/// <param name="isInstalling">If true, a new <see cref="SiteSettings"/> is created, otherwise the current one is updated.</param>
 		/// <exception cref="DatabaseException">An datastore error occurred while saving the configuration.</exception>
-		public void SaveSiteettings(SettingsSummary summary, bool isInstalling)
+		public void SaveSiteSettings(SettingsSummary summary, bool isInstalling)
 		{
 			try
 			{

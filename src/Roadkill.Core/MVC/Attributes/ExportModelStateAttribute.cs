@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Mvc.Attributes
 {
 	/// <summary>
 	/// Represents an attribute that is used to maintain the ModelState when performing a RedirectToAction().

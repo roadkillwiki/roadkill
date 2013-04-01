@@ -243,31 +243,30 @@
     <Compile Include="Integration\SchemaGeneratorTests.cs" />
     <Compile Include="Smoke\CanaryTests.cs" />
     <Compile Include="Smoke\DemoSiteTests.cs" />
-    <Compile Include="Unit\DataStore\DataStoreTypeTests.cs" />
-    <Compile Include="Unit\IoCSetupTests.cs" />
-    <Compile Include="Unit\LightSpeed\ToEntityTests.cs" />
-    <Compile Include="Unit\LightSpeed\FromEntityTests.cs" />
-    <Compile Include="Unit\Logging\LoggingTests.cs" />
+    <Compile Include="Unit\Database\DataStore\DataStoreTypeTests.cs" />
+    <Compile Include="Unit\DependencyContainerTests.cs" />
+    <Compile Include="Unit\Database\LightSpeed\ToEntityTests.cs" />
+    <Compile Include="Unit\Database\LightSpeed\FromEntityTests.cs" />
     <Compile Include="Unit\Managers\SettingsManagerTests.cs" />
-    <Compile Include="Unit\Stubs\ConfigurationContainerStub.cs" />
-    <Compile Include="Unit\Controllers\PagesControllerTests.cs" />
-    <Compile Include="Unit\Controllers\WikiControllerTests.cs" />
-    <Compile Include="Unit\Stubs\RepositoryStub.cs" />
-    <Compile Include="Unit\ViewModels\UserSummaryUsernameValidationTests.cs" />
-    <Compile Include="Unit\ViewModels\UserSummaryPasswordValidationTests.cs" />
-    <Compile Include="Unit\Controllers\HomeControllerTests.cs" />
-    <Compile Include="Unit\Controllers\Setup\MvcMockContainer.cs" />
-    <Compile Include="Unit\Controllers\FilesControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\PagesControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\WikiControllerTests.cs" />
+    <Compile Include="Unit\Stubs\SearchManagerMock.cs" />
+    <Compile Include="Unit\Stubs\RepositoryMock.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\UserSummaryUsernameValidationTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\UserSummaryPasswordValidationTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\HomeControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\Setup\MvcMockContainer.cs" />
+    <Compile Include="Unit\Mvc\Controllers\FilesControllerTests.cs" />
     <Compile Include="Unit\Stubs\RoadkillContextStub.cs" />
     <Compile Include="Unit\Stubs\UserManagerStub.cs" />
     <Compile Include="Unit\Text\TocParserTests.cs" />
     <Compile Include="Unit\Text\MarkupSanitizerTests.cs" />
     <Compile Include="Unit\Text\MarkdownTests.cs" />
-    <Compile Include="Integration\RoadkillSettingsTests.cs" />
+    <Compile Include="Integration\ConfigFileTests.cs" />
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="Unit\Managers\PageManagerTests.cs" />
     <Compile Include="Unit\Managers\ActiveDirectoryUserManagerTests.cs" />
-    <Compile Include="Unit\ViewModels\UserSummaryEmailValidationTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\UserSummaryEmailValidationTests.cs" />
     <Compile Include="Unit\Text\MarkupConverterTests.cs" />
     <Content Include="chromedriver.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -298,20 +297,11 @@
     </None>
     <Compile Include="Unit\Text\CreoleParserTests.cs" />
     <Compile Include="Acceptance\LoginTests.cs" />
-    <Compile Include="Unit\Controllers\Setup\MvcMockHelpers.cs" />
-    <Compile Include="Unit\Controllers\UserControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\Setup\MvcMockHelpers.cs" />
+    <Compile Include="Unit\Mvc\Controllers\UserControllerTests.cs" />
     <Compile Include="Integration\SearchManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Integration\DefaultUserManagerTests.cs" />
-    <Content Include="Unit\Logging\default.log">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Unit\Logging\xmldeclaration.log">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Unit\Logging\singlevent.log">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Roadkill.Core\Roadkill.Core.csproj">

@@ -6,6 +6,7 @@ using System.Text;
 using Mindscape.LightSpeed;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Logging;
 
 namespace Roadkill.Core.Cache
 {

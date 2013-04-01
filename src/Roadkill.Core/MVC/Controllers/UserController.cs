@@ -3,16 +3,21 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Roadkill.Core.Localization.Resx;
 using Roadkill.Core.Configuration;
+using RoadkillUser = Roadkill.Core.Database.User;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Security;
+using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Mvc.Attributes;
 
-namespace Roadkill.Core.Controllers
+namespace Roadkill.Core.Mvc.Controllers
 {
 	/// <summary>
 	/// All actions related to user based tasks.
 	/// </summary>
 	public class UserController : ControllerBase
 	{
-		public UserController(ApplicationSettings settings, UserManager userManager,
-			IRoadkillContext context, SettingsManager siteSettingsManager)
+		public UserController(ApplicationSettings settings, UserManagerBase userManager,
+			IUserContext context, SettingsManager siteSettingsManager)
 			: base(settings, userManager, context, siteSettingsManager) 
 		{
 
@@ -43,7 +48,7 @@ namespace Roadkill.Core.Controllers
 			if (ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
-			User user = UserManager.GetUserByResetKey(id);
+			RoadkillUser user = UserManager.GetUserByResetKey(id);
 			
 			if (user == null)
 			{
@@ -75,7 +80,7 @@ namespace Roadkill.Core.Controllers
 			}
 			else
 			{
-				User user = UserManager.GetUserByResetKey(id);
+				RoadkillUser user = UserManager.GetUserByResetKey(id);
 				if (user != null)
 				{
 					UserManager.ChangePassword(user.Email, summary.Password);
@@ -231,7 +236,7 @@ namespace Roadkill.Core.Controllers
 			}
 			else
 			{
-				User user = UserManager.GetUser(email);
+				RoadkillUser user = UserManager.GetUser(email);
 				if (user == null)
 				{
 					ModelState.AddModelError("General", SiteStrings.ResetPassword_Error_EmailNotFound);

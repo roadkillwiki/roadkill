@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using Roadkill.Core.Common;
+using Roadkill.Core.Logging;
 
 namespace Roadkill.Tests.Acceptance
 {

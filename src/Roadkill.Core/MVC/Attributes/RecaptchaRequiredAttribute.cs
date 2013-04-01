@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Recaptcha;
 using Roadkill.Core.Configuration;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Mvc.Attributes
 {
 	/// <summary>
 	/// Represents an attribute that is added to indicate that the action requires a
@@ -19,7 +19,7 @@ namespace Roadkill.Core
 
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			Roadkill.Core.Controllers.ControllerBase controller = filterContext.Controller as Roadkill.Core.Controllers.ControllerBase;
+			Roadkill.Core.Mvc.Controllers.ControllerBase controller = filterContext.Controller as Roadkill.Core.Mvc.Controllers.ControllerBase;
 			if (controller != null)
 			{
 				SiteSettings siteSettings = controller.SiteSettingsManager.GetSiteSettings();

@@ -2,23 +2,25 @@
 using System.Web;
 using System.Web.Mvc;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Security;
 using StructureMap.Attributes;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Mvc.Attributes
 {
 	/// <summary>
 	/// Represents an attribute that is used to restrict access by callers to users that are in Admin role group.
 	/// </summary>
-	public class AdminRequiredAttribute : AuthorizeAttribute, IInjectedAttribute
+	public class AdminRequiredAttribute : AuthorizeAttribute, IControllerAttribute
 	{
 		[SetterProperty]
 		public ApplicationSettings ApplicationSettings { get; set; }
 
 		[SetterProperty]
-		public IRoadkillContext Context { get; set; }
+		public IUserContext Context { get; set; }
 
 		[SetterProperty]
-		public UserManager UserManager { get; set; }
+		public UserManagerBase UserManager { get; set; }
 
 		[SetterProperty]
 		public PageManager PageManager { get; set; }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Roadkill.Core.Configuration;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Mvc.ViewModels
 {
 	/// <summary>
 	/// A single file in a folder in the attachments folder.

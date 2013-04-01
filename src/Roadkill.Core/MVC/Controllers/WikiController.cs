@@ -3,8 +3,12 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Mvc.Attributes;
+using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Security;
 
-namespace Roadkill.Core.Controllers
+namespace Roadkill.Core.Mvc.Controllers
 {
 	/// <summary>
 	/// Provides functionality for the /wiki/{id}/{title} route, which all pages are displayed via.
@@ -14,8 +18,8 @@ namespace Roadkill.Core.Controllers
 	{
 		public PageManager PageManager { get; private set; }
 
-		public WikiController(ApplicationSettings settings, UserManager userManager, PageManager pageManager,
-			IRoadkillContext context, SettingsManager siteSettingsManager)
+		public WikiController(ApplicationSettings settings, UserManagerBase userManager, PageManager pageManager,
+			IUserContext context, SettingsManager siteSettingsManager)
 			: base(settings, userManager, context, siteSettingsManager) 
 		{
 			PageManager = pageManager;
@@ -40,7 +44,6 @@ namespace Roadkill.Core.Controllers
 			if (summary == null)
 				return new HttpNotFoundResult(string.Format("The page with id '{0}' could not be found", id));
 
-			Context.Page = summary;
 			return View(summary);
 		}
 

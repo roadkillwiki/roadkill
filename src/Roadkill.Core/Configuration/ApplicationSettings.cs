@@ -9,6 +9,7 @@ using System.Reflection;
 using System.IO;
 using StructureMap;
 using Roadkill.Core.Database;
+using Roadkill.Core.Logging;
 
 namespace Roadkill.Core.Configuration
 {
@@ -200,6 +201,8 @@ namespace Roadkill.Core.Configuration
 			CustomTokensPath = Path.Combine(AppDataPath, "tokens.xml");
 			HtmlElementWhiteListPath = Path.Combine(AppDataPath, "htmlwhitelist.xml");
 			MinimumPasswordLength = 6;
+			DataStoreType = DataStoreType.SqlServer2008;
+			AttachmentsRoutePath = "Attachments";
 		}
 	}
 }

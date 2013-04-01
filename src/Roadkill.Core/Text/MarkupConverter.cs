@@ -9,11 +9,12 @@ using HtmlAgilityPack;
 using Roadkill.Core.Configuration;
 using StructureMap;
 using System.IO;
-using Roadkill.Core.Files;
+using Roadkill.Core.Attachments;
 using Roadkill.Core.Text.Sanitizer;
 using Roadkill.Core.Database;
 using Roadkill.Core.Text;
 using Roadkill.Core.Text.ToC;
+using Roadkill.Core.Logging;
 
 namespace Roadkill.Core.Converters
 {

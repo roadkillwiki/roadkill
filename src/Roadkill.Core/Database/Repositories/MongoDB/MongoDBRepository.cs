@@ -9,6 +9,7 @@ using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Logging;
 using StructureMap.Attributes;
 
 namespace Roadkill.Core.Database.MongoDB
@@ -108,7 +109,7 @@ namespace Roadkill.Core.Database.MongoDB
 
 		public SiteSettings GetSiteSettings()
 		{
-			SitePreferencesEntity entity = Queryable<SitePreferencesEntity>().FirstOrDefault();
+			SiteSettingsEntity entity = Queryable<SiteSettingsEntity>().FirstOrDefault();
 			SiteSettings preferences = new SiteSettings();
 
 			if (entity != null)
@@ -126,13 +127,13 @@ namespace Roadkill.Core.Database.MongoDB
 		public void SaveSiteSettings(SiteSettings preferences)
 		{
 			// Get the fresh db entity first
-			SitePreferencesEntity entity = Queryable<SitePreferencesEntity>().FirstOrDefault();
+			SiteSettingsEntity entity = Queryable<SiteSettingsEntity>().FirstOrDefault();
 			if (entity == null)
-				entity = new SitePreferencesEntity();
+				entity = new SiteSettingsEntity();
 
 			entity.Version = ApplicationSettings.AssemblyVersion.ToString();
 			entity.Content = preferences.GetJson();
-			SaveOrUpdate<SitePreferencesEntity>(entity);
+			SaveOrUpdate<SiteSettingsEntity>(entity);
 		}
 
 		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)

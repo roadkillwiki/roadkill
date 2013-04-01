@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Mvc.ViewModels
 {
 	/// <summary>
 	/// Provides summary data for tag (cloud) information.

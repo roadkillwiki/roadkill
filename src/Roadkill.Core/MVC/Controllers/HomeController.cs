@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Roadkill.Core.Converters;
-using Roadkill.Core.Search;
 using Roadkill.Core.Localization.Resx;
 using Roadkill.Core.Configuration;
 using System.Diagnostics;
 using System.Web;
 using System.Web.UI;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Security;
+using Roadkill.Core.Mvc.Attributes;
+using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Core.Controllers
+namespace Roadkill.Core.Mvc.Controllers
 {
 	/// <summary>
 	/// Provides functionality that is common through the site.
@@ -22,8 +25,8 @@ namespace Roadkill.Core.Controllers
 		private SearchManager _searchManager;
 		private MarkupConverter _markupConverter;
 
-		public HomeController(ApplicationSettings settings, UserManager userManager, MarkupConverter markupConverter,
-			PageManager pageManager, SearchManager searchManager, IRoadkillContext context, SettingsManager siteSettingsManager)
+		public HomeController(ApplicationSettings settings, UserManagerBase userManager, MarkupConverter markupConverter,
+			PageManager pageManager, SearchManager searchManager, IUserContext context, SettingsManager siteSettingsManager)
 			: base(settings, userManager, context, siteSettingsManager) 
 		{
 			_markupConverter = markupConverter;
@@ -54,7 +57,6 @@ namespace Roadkill.Core.Controllers
 				summary.ModifiedBy = "";
 			}
 
-			Context.Page = summary;
 			return View(summary);
 		}
 

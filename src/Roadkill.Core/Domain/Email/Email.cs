@@ -7,6 +7,7 @@ using System.Net.Mime;
 using System.Web;
 using Roadkill.Core.Configuration;
 using System.Configuration;
+using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core
 {

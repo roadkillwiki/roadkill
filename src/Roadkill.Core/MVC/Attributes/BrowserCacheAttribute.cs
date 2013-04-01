@@ -6,25 +6,28 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Controllers;
+using Roadkill.Core.Mvc.Controllers;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Security;
 using StructureMap;
 using StructureMap.Attributes;
+using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Mvc.Attributes
 {
 	/// <summary>
 	/// Includes 304 modified header support on the client.
 	/// </summary>
-	public class BrowserCacheAttribute : ActionFilterAttribute, IInjectedAttribute
+	public class BrowserCacheAttribute : ActionFilterAttribute, IControllerAttribute
 	{
 		[SetterProperty]
 		public ApplicationSettings ApplicationSettings { get; set; }
 
 		[SetterProperty]
-		public IRoadkillContext Context { get; set; }
+		public IUserContext Context { get; set; }
 
 		[SetterProperty]
-		public UserManager UserManager { get; set; }
+		public UserManagerBase UserManager { get; set; }
 
 		[SetterProperty]
 		public PageManager PageManager { get; set; }

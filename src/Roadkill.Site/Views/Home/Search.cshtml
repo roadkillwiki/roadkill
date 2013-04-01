@@ -1,5 +1,4 @@
-﻿@using Roadkill.Core.Search
-@model IEnumerable<SearchResult>
+﻿@model IEnumerable<SearchResult>
 @{ 
 	string title = string.Format(SiteStrings.Search_Results, ViewData["search"]);
 	if (Model.Count() == 0)

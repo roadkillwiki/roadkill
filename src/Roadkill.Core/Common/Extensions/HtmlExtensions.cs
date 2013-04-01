@@ -11,8 +11,9 @@ using Recaptcha;
 using System.Web.UI;
 using System.IO;
 using Roadkill.Core.Configuration;
-using ControllerBase = Roadkill.Core.Controllers.ControllerBase;
-using Roadkill.Core.Files;
+using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
+using Roadkill.Core.Attachments;
+using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core
 {

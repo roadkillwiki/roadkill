@@ -2,9 +2,9 @@
 using System.Text;
 using System.Web.Security;
 using System.Security.Cryptography;
-using Roadkill.Core.Database;
+using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Database
 {
 	/// <summary>
 	/// A user object for use with the NHibernate data store. This object is intended for internal use only.

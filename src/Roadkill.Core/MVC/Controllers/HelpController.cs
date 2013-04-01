@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Web.Mvc;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Mvc.Attributes;
+using Roadkill.Core.Security;
 
-namespace Roadkill.Core.Controllers
+namespace Roadkill.Core.Mvc.Controllers
 {
 	/// <summary>
 	/// Provides help for the 3 supported markup syntax.
@@ -11,7 +14,7 @@ namespace Roadkill.Core.Controllers
 	{
 		private CustomTokenParser _customTokenParser;
 
-		public HelpController(ApplicationSettings settings, UserManager userManager, IRoadkillContext context, SettingsManager siteSettingsManager)
+		public HelpController(ApplicationSettings settings, UserManagerBase userManager, IUserContext context, SettingsManager siteSettingsManager)
 			: base(settings, userManager, context, siteSettingsManager) 
 		{
 			_customTokenParser = new CustomTokenParser(settings);

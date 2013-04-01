@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Logging;
+using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core.Configuration
 {
@@ -19,14 +22,31 @@ namespace Roadkill.Core.Configuration
 		{
 			if (string.IsNullOrEmpty(configFilename))
 			{
-				_config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+				_config = WebConfigurationManager.OpenWebConfiguration("~");
 			}
 			else
 			{
-				ExeConfigurationFileMap fileMap = new ExeConfigurationFileMap();
-				fileMap.ExeConfigFilename = configFilename;
-				_config = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
+				if (configFilename.ToLower() == "app.config")
+				{
+					_config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+				}
+				else
+				{
+					if (!File.Exists(configFilename))
+						throw new FileNotFoundException(string.Format("The config file {0} could not be found", configFilename));
+
+					ExeConfigurationFileMap fileMap = new ExeConfigurationFileMap();
+					fileMap.ExeConfigFilename = configFilename;
+					_config = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
+				}
 			}
+
+			// If there's no Roadkill section, ConfigFileManager is in an invalid state
+			RoadkillSection section = _config.GetSection("roadkill") as RoadkillSection;
+			if (section == null)
+				throw new InvalidOperationException(string.Format("The {0}config file{1} does not contain a Roadkill section",
+													string.IsNullOrEmpty(configFilename) ? " web" : "",
+													string.IsNullOrEmpty(configFilename) ? "" : " :" +configFilename));
 		}
 
 		/// <summary>
@@ -188,6 +208,8 @@ namespace Roadkill.Core.Configuration
 			settings.AttachmentsRoutePath = "Attachments";
 			settings.ConnectionStringName = section.ConnectionStringName;
 			settings.ConnectionString = _config.ConnectionStrings.ConnectionStrings[section.ConnectionStringName].ConnectionString;
+			if (string.IsNullOrEmpty(settings.ConnectionString))
+				settings.ConnectionString = ConfigurationManager.ConnectionStrings[section.ConnectionStringName].ConnectionString;
 
 			if (string.IsNullOrEmpty(settings.ConnectionString))
 				Log.Warn("ConnectionString property is null/empty.");

@@ -5,8 +5,12 @@ using System.Web.Mvc;
 using System.IO;
 using Roadkill.Core.Localization.Resx;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Security;
+using Roadkill.Core.Mvc.Attributes;
+using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Core.Controllers
+namespace Roadkill.Core.Mvc.Controllers
 {
 	/// <summary>
 	/// Provides file manager functionality for wiki page editing.
@@ -15,8 +19,8 @@ namespace Roadkill.Core.Controllers
 	{
 		private SettingsManager _settingManager;
 
-		public FilesController(ApplicationSettings settings, SettingsManager siteSettingsManager,
-			UserManager userManager, IRoadkillContext context)
+		public FilesController(ApplicationSettings settings, UserManagerBase userManager, 
+			IUserContext context, SettingsManager siteSettingsManager)
 			: base(settings, userManager, context, siteSettingsManager) 
 		{
 			_settingManager = siteSettingsManager;

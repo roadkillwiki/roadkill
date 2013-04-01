@@ -4,12 +4,17 @@ using System.Linq;
 using System.Web.Mvc;
 using System.IO;
 using Ionic.Zip;
-using Roadkill.Core.Search;
 using Roadkill.Core.Localization.Resx;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Cache;
+using Roadkill.Core.Managers;
+using Roadkill.Core.Import;
+using Roadkill.Core.Security;
+using Roadkill.Core.Mvc.Attributes;
+using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Logging;
 
-namespace Roadkill.Core.Controllers
+namespace Roadkill.Core.Mvc.Controllers
 {
 	/// <summary>
 	/// Provides functionality for the settings page including tools and user management.
@@ -25,8 +30,8 @@ namespace Roadkill.Core.Controllers
 		private ListCache _listCache;
 		private PageSummaryCache _pageSummaryCache;
 
-		public SettingsController(ApplicationSettings settings, UserManager userManager,
-			SettingsManager settingsManager, PageManager pageManager, SearchManager searchManager, IRoadkillContext context,
+		public SettingsController(ApplicationSettings settings, UserManagerBase userManager,
+			SettingsManager settingsManager, PageManager pageManager, SearchManager searchManager, IUserContext context,
 			ListCache listCache, PageSummaryCache pageSummaryCache, SettingsManager siteSettingsManager, ScrewTurnImporter screwTurnImporter)
 			: base(settings, userManager, context, siteSettingsManager) 
 		{
@@ -66,7 +71,7 @@ namespace Roadkill.Core.Controllers
 				configManager.WriteSettings(summary);
 				configManager.Save();
 				
-				_settingsManager.SaveSiteettings(summary, false);
+				_settingsManager.SaveSiteSettings(summary, false);
 			}
 			return View(summary);
 		}

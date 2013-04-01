@@ -11,7 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using Roadkill.Core.Database;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Mvc.ViewModels
 {
 	/// <summary>
 	/// Represents settings for the site, some of which are stored in the web.config.

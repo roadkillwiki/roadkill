@@ -2,8 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using Roadkill.Core.Localization.Resx;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Security;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Mvc.ViewModels
 {
 	/// <summary>
 	/// Provides a data summary class for creating and saving user details.
@@ -17,14 +18,14 @@ namespace Roadkill.Core
 	public class UserSummary
 	{
 		protected ApplicationSettings Settings;
-		protected UserManager UserManager;
+		protected UserManagerBase UserManager;
 
 		public UserSummary()
 		{
 			// Used for non-controllers
 		}
 
-		public UserSummary(ApplicationSettings settings, UserManager userManager)
+		public UserSummary(ApplicationSettings settings, UserManagerBase userManager)
 		{
 			Settings = settings;
 			UserManager = userManager;

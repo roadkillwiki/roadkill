@@ -9,14 +9,14 @@ using System.Web;
 using StructureMap;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Search;
+using Roadkill.Core.Managers;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Import
 {
 	/// <summary>
 	/// Retrieves page data from a ScrewTurn wiki database, and attempts to import the data into Roadkill.
 	/// </summary>
-	public class ScrewTurnImporter : IWikiImporter, IInjectionLaunderer
+	public class ScrewTurnImporter : IWikiImporter
 	{
 		private string _connectionString;
 		private string _attachmentsFolder;

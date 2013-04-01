@@ -4,6 +4,7 @@ using System.Linq;
 using Mindscape.LightSpeed;
 using Roadkill.Core.Database.MongoDB;
 using Roadkill.Core.Database.Schema;
+using Roadkill.Core.Logging;
 
 namespace Roadkill.Core.Database
 {

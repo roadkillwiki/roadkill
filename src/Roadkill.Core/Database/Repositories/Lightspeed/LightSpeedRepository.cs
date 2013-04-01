@@ -7,11 +7,10 @@ using Mindscape.LightSpeed.Caching;
 using Mindscape.LightSpeed.Linq;
 using Mindscape.LightSpeed.Logging;
 using Mindscape.LightSpeed.Querying;
-using Roadkill.Core.Common;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database.Schema;
+using Roadkill.Core.Logging;
 using StructureMap;
-using LSSitePreferencesEntity = Roadkill.Core.Database.LightSpeed.SitePreferencesEntity;
 
 namespace Roadkill.Core.Database.LightSpeed
 {
@@ -84,13 +83,17 @@ namespace Roadkill.Core.Database.LightSpeed
 				context.CascadeDeletes = false;
 				context.VerboseLogging = true;
 				context.Cache = new CacheBroker(new DefaultCache());
-				context.Logger = new TraceLogger();				
+				context.Logger = new TraceLogger();
 
 				ObjectFactory.Configure(x =>
 				{
 					x.For<LightSpeedContext>().Singleton().Use(context);
 					x.For<IUnitOfWork>().HybridHttpOrThreadLocalScoped().Use(ctx => ctx.GetInstance<LightSpeedContext>().CreateUnitOfWork());
 				});
+			}
+			else
+			{
+				Log.Warn("LightSpeedRepository.Startup skipped as no connection string was provided");
 			}
 		}
 
@@ -161,7 +164,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		public SiteSettings GetSiteSettings()
 		{
 			SiteSettings preferences = new SiteSettings();
-			SitePreferencesEntity entity = UnitOfWork.FindById<SitePreferencesEntity>(SiteSettings.SiteSettingsId);
+			SiteSettingsEntity entity = UnitOfWork.FindById<SiteSettingsEntity>(SiteSettings.SiteSettingsId);
 
 			if (entity != null)
 			{
@@ -177,11 +180,11 @@ namespace Roadkill.Core.Database.LightSpeed
 
 		public void SaveSiteSettings(SiteSettings preferences)
 		{
-			SitePreferencesEntity entity = UnitOfWork.Find<SitePreferencesEntity>().FirstOrDefault();
+			SiteSettingsEntity entity = UnitOfWork.Find<SiteSettingsEntity>().FirstOrDefault();
 
 			if (entity == null || entity.Id == Guid.Empty)
 			{
-				entity = new SitePreferencesEntity();
+				entity = new SiteSettingsEntity();
 				entity.Version = ApplicationSettings.AssemblyVersion.ToString();
 				entity.Content = preferences.GetJson();
 				UnitOfWork.Add(entity);

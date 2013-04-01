@@ -5,10 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Essential.Diagnostics;
-using Roadkill.Core.Common;
 using Roadkill.Core.Configuration;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Logging
 {
 	/// <summary>
 	/// Manages logging in Roadkill. All logging is done via the standard TraceListeners.
