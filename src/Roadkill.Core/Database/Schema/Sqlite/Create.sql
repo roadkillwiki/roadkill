@@ -19,7 +19,7 @@ CREATE TABLE roadkill_pagecontent
 	[text] NTEXT, 
 	[pageid] INT, 
 	PRIMARY KEY (Id)
-	constraint fk_roadkillpageid foreign key (pageid) references roadkill_pages
+	/*,constraint fk_roadkillpageid foreign key (pageid) references roadkill_pages*/
 );
 
 CREATE INDEX pageid on roadkill_pagecontent (pageid);

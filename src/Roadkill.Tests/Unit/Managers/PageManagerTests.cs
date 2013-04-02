@@ -16,8 +16,7 @@ using Roadkill.Core.Security;
 namespace Roadkill.Tests.Unit
 {
 	/// <summary>
-	/// Tests that the PageManager methods call the repository and return the data in a 
-	/// correct state.
+	/// Tests that the PageManager methods call the repository and return the data in a correct state.
 	/// </summary>
 	[TestFixture]
 	[Category("Unit")]

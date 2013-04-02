@@ -21,9 +21,9 @@ namespace Roadkill.Tests.Integration
 		private FormsAuthenticationUserManager _defaultUserManager;
 
 		[SetUp]
-		public void Initialize()
+		public void Setup()
 		{
-			ConfigFileManager configManager = new ConfigFileManager("roadkill.tests.dll.config");
+			ConfigFileManager configManager = new ConfigFileManager("app.config");
 			ApplicationSettings settings = configManager.GetApplicationSettings();
 
 			IRepository repository = new LightSpeedRepository(settings);

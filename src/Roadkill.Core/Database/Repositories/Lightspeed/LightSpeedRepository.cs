@@ -22,7 +22,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			get
 			{
-				return UnitOfWork.Query<PageEntity>().ToList().AsQueryable();
+				return UnitOfWork.Query<PageEntity>();
 			}
 		}
 
@@ -30,7 +30,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			get
 			{
-				return UnitOfWork.Query<PageContentEntity>().ToList().AsQueryable();
+				return UnitOfWork.Query<PageContentEntity>();
 			}
 		}
 
@@ -38,7 +38,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			get
 			{
-				return UnitOfWork.Query<UserEntity>().ToList().AsQueryable();
+				return UnitOfWork.Query<UserEntity>();
 			}
 		}
 
@@ -72,6 +72,11 @@ namespace Roadkill.Core.Database.LightSpeed
 			_applicationSettings = settings;
 		}
 
+		public void EnableSqlLogging()
+		{
+			Context.Logger = new TraceLogger();
+		}
+
 		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)
 		{
 			if (!string.IsNullOrEmpty(connectionString))
@@ -83,7 +88,6 @@ namespace Roadkill.Core.Database.LightSpeed
 				context.CascadeDeletes = false;
 				context.VerboseLogging = true;
 				context.Cache = new CacheBroker(new DefaultCache());
-				context.Logger = new TraceLogger();
 
 				ObjectFactory.Configure(x =>
 				{

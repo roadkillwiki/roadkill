@@ -12,6 +12,10 @@ namespace Roadkill.Core.Database
 	public interface IRepository : IPageRepository, IUserRepository, IDisposable
 	{
 		void DeletePage(Page page);
+		/// <summary>
+		/// Removes a single version of page contents by its id.
+		/// </summary>
+		/// <param name="pageContent"></param>
 		void DeletePageContent(PageContent pageContent);
 		void DeleteUser(User user);
 		void DeleteAllPages();
