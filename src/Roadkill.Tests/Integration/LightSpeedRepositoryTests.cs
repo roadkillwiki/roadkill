@@ -14,26 +14,30 @@ namespace Roadkill.Tests.Integration
 	{
 		private ApplicationSettings _applicationSettings;
 		private LightSpeedRepository _repository;
+		private string _connectionString = @"server=.\SQLEXPRESS;uid=sa;pwd=Passw0rd;database=roadkill;";
+		private DataStoreType _dataStoreType = DataStoreType.SqlServer2008;
+		private User _adminUser;
+		private Guid _editorId;
+		private Page _page1;
+		private PageContent _pageContent1;
 
-		[Test]
-		[Ignore]
+		[SetUp]
 		public void CreateDummyDatabase()
 		{
-			// Disable [Setup] before running this
-			// Database is created when it's installed
-			ApplicationSettings settings = new ApplicationSettings();
-			//settings.ConnectionString = "Data Source=roadkill-repository-tests.sqlite;";
-			settings.ConnectionString = "server=localhost;uid=root;pwd=Passw0rd;database=roadkill;";
-			settings.DataStoreType = DataStoreType.MySQL;
+			// Using the repository (4 methods) to test the repository isn't great, but it beats lots of
+			// SQL scripts that are flakey for cross-database tests, and don't work for MongoDB or SimpleDB
+			_applicationSettings = new ApplicationSettings();
+			_applicationSettings.ConnectionString = _connectionString;
+			_applicationSettings.DataStoreType = _dataStoreType;
 
-			_repository = new LightSpeedRepository(settings);
-			_repository.Startup(settings.DataStoreType,
-								settings.ConnectionString,
+			_repository = new LightSpeedRepository(_applicationSettings);
+			_repository.Startup(_applicationSettings.DataStoreType,
+								_applicationSettings.ConnectionString,
 								false);
 
 			// Clear the database
-			_repository.Install(settings.DataStoreType,
-								settings.ConnectionString,
+			_repository.Install(_applicationSettings.DataStoreType,
+								_applicationSettings.ConnectionString,
 								false);
 
 			// Site settings
@@ -46,16 +50,22 @@ namespace Roadkill.Tests.Integration
 			});
 
 			// 5 Users
-			_repository.SaveOrUpdateUser(new User() { Email = "admin@localhost", Username = "admin", Password = "password", Salt="123", IsAdmin = true });
-			_repository.SaveOrUpdateUser(new User() { Email = "editor1@localhost", Username = "editor1", Password = "password", Salt = "123", IsEditor = true, });
+			_adminUser = new User() { Email = "admin@localhost", Username = "admin", Password = "password", Salt = "123", IsAdmin = true };
+			_adminUser = _repository.SaveOrUpdateUser(_adminUser);
+
+			User editorUser = new User() { Email = "editor1@localhost", Username = "editor1", Password = "password", Salt = "123", IsEditor = true };
+			editorUser = _repository.SaveOrUpdateUser(editorUser);
+			_editorId = editorUser.Id;
+
 			_repository.SaveOrUpdateUser(new User() { Email = "editor2@localhost", Username = "editor2", Password = "password", Salt = "123", IsEditor = true });
 			_repository.SaveOrUpdateUser(new User() { Email = "editor3@localhost", Username = "editor3", Password = "password", Salt = "123", IsEditor = true });
 			_repository.SaveOrUpdateUser(new User() { Email = "editor4@localhost", Username = "editor4", Password = "password", Salt = "123", IsEditor = true });
 
-			// 5 Pages and their content
-			Page page1 = CreatePage("admin", "homepage, newpage");
-			PageContent pageContent1 = _repository.AddNewPage(page1, "text", "admin", DateTime.Now);
-			_repository.AddNewPageContentVersion(pageContent1.Page, "v2", "admin", DateTime.Now, 1);
+			// 5 Pages with 2 versions of content each
+			_page1 = CreatePage("admin", "homepage, newpage");
+			_pageContent1 = _repository.AddNewPage(_page1, "text", "admin", DateTime.Now);
+			_page1 = _pageContent1.Page;
+			_repository.AddNewPageContentVersion(_page1, "v2", "admin", DateTime.Now, 1);
 
 			Page page2 = CreatePage("editor1");
 			PageContent pageContent2 = _repository.AddNewPage(page2, "text", "editor1", DateTime.Now);
@@ -79,39 +89,18 @@ namespace Roadkill.Tests.Integration
 			Page page = new Page()
 			{
 				Title = "Title",
-				CreatedOn = DateTime.Now,
+				CreatedOn = DateTime.Today,
 				CreatedBy = author,
 				ModifiedBy = author,
-				ModifiedOn = DateTime.Now,
+				ModifiedOn = DateTime.Today,
 				Tags = tags
 			};
 
 			return page;
 		}
 
-		//[SetUp]
-		public void Setup()
-		{
-			// Copy the data-filled database file for each test
-			string sourceFile = Path.Combine(GlobalSetup.LIB_FOLDER, "Test-databases", "roadkill-repository-tests.sqlite");
-			string destFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "roadkill-repository-tests.sqlite");
-			//File.Copy(sourceFile, destFile, true);
-
-			_applicationSettings = new ApplicationSettings();
-			_applicationSettings.ConnectionString = "server=localhost;uid=root;pwd=Passw0rd;database=roadkill;";
-			_applicationSettings.DataStoreType = DataStoreType.MySQL;
-
-			_repository = new LightSpeedRepository(_applicationSettings);
-			_repository.Startup(_applicationSettings.DataStoreType,
-								_applicationSettings.ConnectionString,
-								false);
-
-			//_repository.EnableSqlLogging();
-		}
-
 		#region IRepository Members
 		[Test]
-		[Ignore]
 		public void DeletePage_Test()
 		{
 			// Arrange
@@ -126,7 +115,6 @@ namespace Roadkill.Tests.Integration
 		}
 
 		[Test]
-		[Ignore]
 		public void DeletePageContent()
 		{
 			// Arrange
@@ -140,74 +128,261 @@ namespace Roadkill.Tests.Integration
 			Assert.That(_repository.GetPageContentById(id), Is.Null);
 		}
 
-		public void DeleteUser(User user)
+		[Test]
+		public void DeleteUser()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			User user = _repository.GetUserByUsername("admin");
+			Guid id = user.Id;
+
+			// Act
+			_repository.DeleteUser(user);
+
+			// Assert
+			Assert.That(_repository.GetUserById(user.Id), Is.Null);
 		}
 
+		[Test]
 		public void DeleteAllPages()
 		{
-			throw new NotImplementedException();
+			// Arrange
+
+
+			// Act
+			_repository.DeleteAllPages();
+
+			// Assert
+			Assert.That(_repository.AllPages().Count(), Is.EqualTo(0));
+			Assert.That(_repository.AllPageContents().Count(), Is.EqualTo(0));
 		}
 
+		[Test]
 		public void DeleteAllPageContent()
 		{
-			throw new NotImplementedException();
+			// Arrange
+
+
+			// Act
+			// TODO: should remove the pages too?
+			_repository.DeleteAllPageContent();
+
+			// Assert
+			Assert.That(_repository.AllPages().Count(), Is.EqualTo(5));
+			Assert.That(_repository.AllPageContents().Count(), Is.EqualTo(0));
 		}
 
+		[Test]
 		public void DeleteAllUsers()
 		{
-			throw new NotImplementedException();
+			// Arrange
+
+
+			// Act
+			_repository.DeleteAllUsers();
+
+			// Assert
+			Assert.That(_repository.FindAllAdmins().Count(), Is.EqualTo(0));
+			Assert.That(_repository.FindAllEditors().Count(), Is.EqualTo(0));
 		}
 
-		public void SaveOrUpdatePage(Page page)
+		[Test]
+		public void SaveOrUpdatePage()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			Page newPage = CreatePage("admin", "tag1, 3, 4");
+			DateTime modifiedDate = DateTime.Today.AddMinutes(1);
+
+			Page existingPage = _page1;
+			existingPage.Title = "new title";
+			existingPage.ModifiedBy = "editor1";
+			existingPage.ModifiedOn = modifiedDate;
+
+			// Act
+			_repository.SaveOrUpdatePage(newPage);
+			_repository.SaveOrUpdatePage(existingPage);
+
+			// Assert
+			Assert.That(_repository.AllPages().Count(), Is.EqualTo(6));
+
+			Page actualPage = _repository.GetPageById(existingPage.Id);
+			Assert.That(actualPage.Title, Is.EqualTo("new title"));
+			Assert.That(actualPage.ModifiedBy, Is.EqualTo("editor1"));
+			Assert.That(actualPage.ModifiedOn, Is.EqualTo(modifiedDate));
 		}
 
-		public PageContent AddNewPage(Page page, string text, string editedBy, DateTime editedOn)
+		[Test]
+		public void AddNewPage()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			DateTime createdDate = DateTime.Today;
+			DateTime editedDate = DateTime.Today.AddMinutes(1);
+			Page newPage = CreatePage("admin", "tag1,3,4");
+			newPage.ModifiedOn = editedDate;
+
+			// Act
+			PageContent pageContent = _repository.AddNewPage(newPage, "my text", "admin", editedDate);
+
+			// Assert
+			Assert.That(_repository.AllPages().Count(), Is.EqualTo(6));
+			Assert.That(pageContent, Is.Not.Null);
+			Assert.That(pageContent.Id, Is.Not.EqualTo(Guid.Empty));
+			Assert.That(pageContent.Text, Is.EqualTo("my text"));
+			Assert.That(pageContent.EditedOn, Is.EqualTo(editedDate));
+			Assert.That(pageContent.VersionNumber, Is.EqualTo(1));
+
+			Page actualPage = _repository.GetPageById(pageContent.Page.Id);
+			Assert.That(actualPage.Title, Is.EqualTo("Title"));
+			Assert.That(actualPage.Tags, Is.EqualTo("tag1,3,4"));
+			Assert.That(actualPage.CreatedOn, Is.EqualTo(createdDate));
+			Assert.That(actualPage.CreatedBy, Is.EqualTo("admin"));
+			Assert.That(actualPage.ModifiedBy, Is.EqualTo("admin"));
+			Assert.That(actualPage.ModifiedOn, Is.EqualTo(editedDate));
 		}
 
-		public PageContent AddNewPageContentVersion(Page page, string text, string editedBy, DateTime editedOn, int version)
+		[Test]
+		public void AddNewPageContentVersion()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			Page existingPage = _page1;
+			DateTime createdDate = DateTime.Today.AddMinutes(1);
+
+			// Act
+			PageContent newContent = _repository.AddNewPageContentVersion(existingPage, "new text", "admin", createdDate, 2);
+
+			// Assert
+			Assert.That(_repository.AllPageContents().Count(), Is.EqualTo(11));
+			Assert.That(newContent, Is.Not.Null);
+			Assert.That(newContent.Id, Is.Not.EqualTo(Guid.Empty));
+			Assert.That(newContent.Text, Is.EqualTo("new text"));
+			Assert.That(newContent.EditedOn, Is.EqualTo(createdDate));
+			Assert.That(newContent.VersionNumber, Is.EqualTo(2));
+
+			PageContent latestContent = _repository.GetPageContentByVersionId(newContent.Id);
+			Assert.That(latestContent.Id, Is.EqualTo(newContent.Id));
+			Assert.That(latestContent.Text, Is.EqualTo(newContent.Text));
+			Assert.That(latestContent.EditedOn, Is.EqualTo(newContent.EditedOn));
+			Assert.That(latestContent.VersionNumber, Is.EqualTo(newContent.VersionNumber));
 		}
 
-		public void UpdatePageContent(PageContent content)
+		[Test]
+		public void UpdatePageContent()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			DateTime editedDate = DateTime.Today.AddMinutes(10);
+
+			PageContent existingContent = _pageContent1;
+			int versionNumber = 2;
+			int pageId = existingContent.Page.Id;
+
+			existingContent.Text = "new text";
+			existingContent.EditedBy = "editor1";
+			existingContent.EditedOn = editedDate;
+			existingContent.VersionNumber = versionNumber;
+
+			// Act
+			_repository.UpdatePageContent(existingContent);
+			PageContent actualContent = _repository.GetPageContentById(existingContent.Id);
+
+			// Assert
+			Assert.That(actualContent, Is.Not.Null);
+			Assert.That(actualContent.Text, Is.EqualTo("new text"));
+			Assert.That(actualContent.EditedBy, Is.EqualTo("editor1"));
+			Assert.That(actualContent.EditedOn, Is.EqualTo(editedDate));
+			Assert.That(actualContent.VersionNumber, Is.EqualTo(versionNumber));
 		}
 
-		public void SaveOrUpdateUser(User user)
+		[Test]
+		public void SaveOrUpdateUser()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			User user = _adminUser;
+			user.ActivationKey = "2key";
+			user.Email = "2email@email.com";
+			user.Firstname = "2firstname";
+			user.IsActivated = true;
+			user.IsEditor = true;
+			user.Lastname = "2lastname";
+			user.Password = "2password";
+			user.PasswordResetKey = "2passwordkey";
+			user.Salt = "2salt";
+			user.Username = "2username";
+
+			// Act
+			_repository.SaveOrUpdateUser(user);
+			User actualUser = _repository.GetUserById(user.Id);
+
+			// Assert
+			Assert.That(actualUser.Id, Is.EqualTo(user.Id));
+			Assert.That(actualUser.ActivationKey, Is.EqualTo(user.ActivationKey));
+			Assert.That(actualUser.Firstname, Is.EqualTo(user.Firstname));
+			Assert.That(actualUser.IsActivated, Is.EqualTo(user.IsActivated));
+			Assert.That(actualUser.IsEditor, Is.EqualTo(user.IsEditor));
+			Assert.That(actualUser.Lastname, Is.EqualTo(user.Lastname));
+			Assert.That(actualUser.Password, Is.EqualTo(user.Password));
+			Assert.That(actualUser.PasswordResetKey, Is.EqualTo(user.PasswordResetKey));
+			Assert.That(actualUser.Salt, Is.EqualTo(user.Salt));
+			Assert.That(actualUser.Username, Is.EqualTo(user.Username));
 		}
 
-		public void SaveSiteSettings(Core.Configuration.SiteSettings siteSettings)
+		[Test]
+		public void Get_And_SaveSiteSettings()
 		{
-			throw new NotImplementedException();
-		}
+			// Arrange
+			SiteSettings expectedSettings = new SiteSettings()
+			{
+				AllowedFileTypes = "exe, virus, trojan",
+				AllowUserSignup = true,
+				IsRecaptchaEnabled = true,
+				MarkupType = "Test",
+				RecaptchaPrivateKey = "RecaptchaPrivateKey",
+				RecaptchaPublicKey = "RecaptchaPublicKey",
+				SiteName = "NewSiteName",
+				SiteUrl = "http://sitename",
+				Theme = "newtheme"
+			};
 
-		public Core.Configuration.SiteSettings GetSiteSettings()
-		{
-			throw new NotImplementedException();
+			// Act
+			_repository.SaveSiteSettings(expectedSettings);
+			SiteSettings actualSettings = _repository.GetSiteSettings();
+
+			// Assert
+			Assert.That(actualSettings.AllowedFileTypes, Is.EqualTo(expectedSettings.AllowedFileTypes));
+			Assert.That(actualSettings.AllowUserSignup, Is.EqualTo(expectedSettings.AllowUserSignup));
+			Assert.That(actualSettings.IsRecaptchaEnabled, Is.EqualTo(expectedSettings.IsRecaptchaEnabled));
+			Assert.That(actualSettings.MarkupType, Is.EqualTo(expectedSettings.MarkupType));
+			Assert.That(actualSettings.RecaptchaPrivateKey, Is.EqualTo(expectedSettings.RecaptchaPrivateKey));
+			Assert.That(actualSettings.RecaptchaPublicKey, Is.EqualTo(expectedSettings.RecaptchaPublicKey));
+			Assert.That(actualSettings.SiteName, Is.EqualTo(expectedSettings.SiteName));
+			Assert.That(actualSettings.SiteUrl, Is.EqualTo(expectedSettings.SiteUrl));
+			Assert.That(actualSettings.Theme, Is.EqualTo(expectedSettings.Theme));
+
 		}
 
 		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)
 		{
-			throw new NotImplementedException();
+			
 		}
 
-		public void Install(DataStoreType dataStoreType, string connectionString, bool enableCache)
+		[Test]
+		public void Install()
 		{
-			throw new NotImplementedException();
+			// Arrange
+
+
+			// Act
+			_repository.Install(_dataStoreType, _connectionString, false);
+
+			// Assert
+			Assert.That(_repository.AllPages().Count(), Is.EqualTo(0));
+			Assert.That(_repository.AllPageContents().Count(), Is.EqualTo(0));
+			Assert.That(_repository.FindAllAdmins().Count(), Is.EqualTo(0));
+			Assert.That(_repository.FindAllEditors().Count(), Is.EqualTo(0));
+			Assert.That(_repository.GetSiteSettings(), Is.EqualTo(default(SiteSettings)));
 		}
 
 		public void Test(DataStoreType dataStoreType, string connectionString)
 		{
-			throw new NotImplementedException();
+			
 		}
 
 		public void Upgrade(Core.Configuration.ApplicationSettings applicationSettings)
@@ -298,9 +473,17 @@ namespace Roadkill.Tests.Integration
 
 		#region IUserRepository Members
 
-		public User GetAdminById(Guid id)
+		[Test]
+		public void GetAdminById()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			Guid adminId = _adminUser.Id;
+
+			// Act
+			User actualUser = _repository.GetAdminById(adminId);
+
+			// Assert
+			Assert.That(actualUser.Id, Is.EqualTo(adminId));
 		}
 
 		public User GetUserByActivationKey(string key)
@@ -344,15 +527,6 @@ namespace Roadkill.Tests.Integration
 		}
 
 		public IEnumerable<User> FindAllAdmins()
-		{
-			throw new NotImplementedException();
-		}
-
-		#endregion
-
-		#region IDisposable Members
-
-		public void Dispose()
 		{
 			throw new NotImplementedException();
 		}

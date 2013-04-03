@@ -26,7 +26,7 @@ namespace Roadkill.Core.Database
 		PageContent AddNewPage(Page page, string text, string editedBy, DateTime editedOn);
 		PageContent AddNewPageContentVersion(Page page, string text, string editedBy, DateTime editedOn, int version);
 		void UpdatePageContent(PageContent content); // no new version
-		void SaveOrUpdateUser(User user);
+		User SaveOrUpdateUser(User user);
 		void SaveSiteSettings(SiteSettings siteSettings);
 		SiteSettings GetSiteSettings();
 

@@ -122,7 +122,7 @@ namespace Roadkill.Tests.Unit
 			}
 		}
 
-		public void SaveOrUpdateUser(User user)
+		public User SaveOrUpdateUser(User user)
 		{
 			User existingUser = Users.FirstOrDefault(x => x.Id == user.Id);
 
@@ -144,6 +144,8 @@ namespace Roadkill.Tests.Unit
 				user.Username = user.Username;
 				user.Salt = user.Salt;
 			}
+
+			return user;
 		}
 
 		public void SaveSiteSettings(SiteSettings settings)

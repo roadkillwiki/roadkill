@@ -85,7 +85,7 @@ namespace Roadkill.Core.Database.LightSpeed
 				context.ConnectionString = connectionString;
 				context.DataProvider = dataStoreType.LightSpeedDbType;
 				context.IdentityMethod = IdentityMethod.GuidComb;
-				context.CascadeDeletes = false;
+				context.CascadeDeletes = true;
 				context.VerboseLogging = true;
 				context.Cache = new CacheBroker(new DefaultCache());
 
@@ -182,7 +182,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			return preferences;
 		}
 
-		public void SaveSiteSettings(SiteSettings preferences)
+		public void SaveSiteSettings(SiteSettings siteSettings)
 		{
 			SiteSettingsEntity entity = UnitOfWork.Find<SiteSettingsEntity>().FirstOrDefault();
 
@@ -190,13 +190,13 @@ namespace Roadkill.Core.Database.LightSpeed
 			{
 				entity = new SiteSettingsEntity();
 				entity.Version = ApplicationSettings.AssemblyVersion.ToString();
-				entity.Content = preferences.GetJson();
+				entity.Content = siteSettings.GetJson();
 				UnitOfWork.Add(entity);
 			}
 			else
 			{
 				entity.Version = ApplicationSettings.AssemblyVersion.ToString();
-				entity.Content = preferences.GetJson();
+				entity.Content = siteSettings.GetJson();
 			}
 
 			UnitOfWork.SaveChanges();
@@ -417,13 +417,15 @@ namespace Roadkill.Core.Database.LightSpeed
 				entity = new PageEntity();
 				ToEntity.FromPage(page, entity);
 				UnitOfWork.Add(entity);
+				UnitOfWork.SaveChanges();
+				page = FromEntity.ToPage(entity);
 			}
 			else
 			{
 				ToEntity.FromPage(page, entity);
+				UnitOfWork.SaveChanges();
+				page = FromEntity.ToPage(entity);
 			}
-
-			UnitOfWork.SaveChanges();
 		}
 
 		public PageContent AddNewPage(Page page, string text, string editedBy, DateTime editedOn)
@@ -432,6 +434,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			ToEntity.FromPage(page, pageEntity);
 			pageEntity.Id = 0;
 			UnitOfWork.Add(pageEntity);
+			UnitOfWork.SaveChanges();
 
 			PageContentEntity pageContentEntity = new PageContentEntity()
 			{
@@ -478,7 +481,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			return null;
 		}
 
-		public void SaveOrUpdateUser(User user)
+		public User SaveOrUpdateUser(User user)
 		{
 			UserEntity entity = UnitOfWork.FindById<UserEntity>(user.Id);
 			if (entity == null)
@@ -486,13 +489,17 @@ namespace Roadkill.Core.Database.LightSpeed
 				entity = new UserEntity();
 				ToEntity.FromUser(user, entity);
 				UnitOfWork.Add(entity);
+				UnitOfWork.SaveChanges();
+
+				user = FromEntity.ToUser(entity);
 			}
 			else
 			{
 				ToEntity.FromUser(user, entity);
+				UnitOfWork.SaveChanges();
 			}
 
-			UnitOfWork.SaveChanges();
+			return user;
 		}
 
 		public void UpdatePageContent(PageContent content)
@@ -502,8 +509,10 @@ namespace Roadkill.Core.Database.LightSpeed
 			{
 				ToEntity.FromPageContent(content, entity);
 				UnitOfWork.SaveChanges();
+				content = FromEntity.ToPageContent(entity);
 			}
 		}
+
 		public void Dispose()
 		{
 			UnitOfWork.SaveChanges();
