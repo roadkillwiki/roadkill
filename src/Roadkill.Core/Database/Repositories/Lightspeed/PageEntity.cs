@@ -6,12 +6,25 @@ namespace Roadkill.Core.Database.LightSpeed
 	[Table("roadkill_pages", IdentityMethod=IdentityMethod.IdentityColumn)]
 	internal class PageEntity : Entity<int>
 	{
+		[Column("title")]
 		private string _title;
+
+		[Column("createdby")]
 		private string _createdBy;
-		private DateTime _createdOn;
+
+		[Column("createdon")]
+		private DateTime _createdOnColumn;
+
+		[Column("modifiedby")]
 		private string _modifiedBy;
+
+		[Column("modifiedon")]
 		private DateTime _modifiedOn;
+
+		[Column("tags")]
 		private string _tags;
+
+		[Column("islocked")]
 		private bool _isLocked;
 
 		[ReverseAssociation("PageContents")]
@@ -50,11 +63,11 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			get
 			{
-				return _createdOn;
+				return _createdOnColumn;
 			}
 			set
 			{
-				Set<DateTime>(ref _createdOn, value);
+				Set<DateTime>(ref _createdOnColumn, value);
 			}
 		}
 

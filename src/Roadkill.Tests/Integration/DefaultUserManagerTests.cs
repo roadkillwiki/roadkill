@@ -8,6 +8,7 @@ using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Security;
 using Roadkill.Core.Managers;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Tests.Unit;
 
 namespace Roadkill.Tests.Integration
 {
@@ -27,10 +28,11 @@ namespace Roadkill.Tests.Integration
 			ApplicationSettings settings = configManager.GetApplicationSettings();
 
 			IRepository repository = new LightSpeedRepository(settings);
+			repository = new RepositoryMock();
 			_defaultUserManager = new FormsAuthenticationUserManager(settings, repository);
-			IUserContext context = new UserContext(_defaultUserManager);
-			DependencyContainer iocSetup = new DependencyContainer(settings, repository, context);
-			iocSetup.RegisterTypes();
+//			IUserContext context = new UserContext(_defaultUserManager);
+//			DependencyContainer iocSetup = new DependencyContainer(settings, repository, context);
+//			iocSetup.RegisterTypes();
 
 			// Use the SettingsManager to install, so the site settings are saved 
 			SettingsSummary summary = new SettingsSummary();

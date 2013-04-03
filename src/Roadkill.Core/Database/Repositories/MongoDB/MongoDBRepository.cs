@@ -367,9 +367,10 @@ namespace Roadkill.Core.Database.MongoDB
 			return pageContent;
 		}
 
-		public void SaveOrUpdateUser(User user)
+		public User SaveOrUpdateUser(User user)
 		{
 			SaveOrUpdate<User>(user);
+			return user;
 		}
 
 		public void UpdatePageContent(PageContent content)
