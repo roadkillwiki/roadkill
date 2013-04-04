@@ -11,6 +11,7 @@ using Roadkill.Core.Managers;
 namespace Roadkill.Tests.Unit
 {
 	[TestFixture]
+	[Category("Unit")]
 	public class SettingsManagerTests
 	{
 		private RepositoryMock _repository;
