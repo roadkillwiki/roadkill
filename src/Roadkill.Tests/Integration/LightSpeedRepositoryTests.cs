@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,6 +12,8 @@ using Roadkill.Core.Database.LightSpeed;
 
 namespace Roadkill.Tests.Integration
 {
+	[TestFixture]
+	[Category("Integration")]
 	public class LightSpeedRepositoryTests
 	{
 		private ApplicationSettings _applicationSettings;
@@ -20,6 +24,7 @@ namespace Roadkill.Tests.Integration
 		private Guid _editorId;
 		private Page _page1;
 		private PageContent _pageContent1;
+		private PageContent _pageContent2;
 
 		[SetUp]
 		public void CreateDummyDatabase()
@@ -65,7 +70,8 @@ namespace Roadkill.Tests.Integration
 			_page1 = CreatePage("admin", "homepage, newpage");
 			_pageContent1 = _repository.AddNewPage(_page1, "text", "admin", DateTime.Now);
 			_page1 = _pageContent1.Page;
-			_repository.AddNewPageContentVersion(_page1, "v2", "admin", DateTime.Now, 1);
+			_pageContent2 = _repository.AddNewPageContentVersion(_page1, "v2", "admin", DateTime.Now, 1);
+			_page1 = _pageContent2.Page; // modified date
 
 			Page page2 = CreatePage("editor1");
 			PageContent pageContent2 = _repository.AddNewPage(page2, "text", "editor1", DateTime.Now);
@@ -358,11 +364,6 @@ namespace Roadkill.Tests.Integration
 
 		}
 
-		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)
-		{
-			
-		}
-
 		[Test]
 		public void Install()
 		{
@@ -377,41 +378,125 @@ namespace Roadkill.Tests.Integration
 			Assert.That(_repository.AllPageContents().Count(), Is.EqualTo(0));
 			Assert.That(_repository.FindAllAdmins().Count(), Is.EqualTo(0));
 			Assert.That(_repository.FindAllEditors().Count(), Is.EqualTo(0));
-			Assert.That(_repository.GetSiteSettings(), Is.EqualTo(default(SiteSettings)));
+			Assert.That(_repository.GetSiteSettings(), Is.Not.Null);
 		}
 
-		public void Test(DataStoreType dataStoreType, string connectionString)
+		[Test]
+		public void TestConnection_With_Valid_Connection_String()
 		{
-			
+			// Arrange
+
+
+			// Act
+			_repository.TestConnection(_dataStoreType, _connectionString);
+
+			// Assert (no exception)
 		}
 
-		public void Upgrade(Core.Configuration.ApplicationSettings applicationSettings)
+		[Test]
+		public void TestConnection_With_Invalid_Connection_String()
 		{
-			throw new NotImplementedException();
-		}
+			// Arrange
 
+			try
+			{
+				// Act
+				_repository.TestConnection(_dataStoreType, "server=(local);uid=none;pwd=none;database=doesntexist;Connect Timeout=5");
+			}
+			catch (DbException) // expectedexception can't handle exception heirachies
+			{
+				// Assert
+				Assert.Pass();
+			}
+			catch (Exception)
+			{
+				Assert.Fail();
+			}
+		}
 		#endregion
 
 		#region IPageRepository Members
 
-		public IEnumerable<Page> AllPages()
+		[Test]
+		public void AllPages()
 		{
-			throw new NotImplementedException();
+			// Arrange
+
+
+			// Act
+			List<Page> actualList = _repository.AllPages().ToList();
+
+			// Assert
+			Assert.That(actualList.Count, Is.EqualTo(5));
+			Assert.That(actualList[0], Is.Not.Null);
+			Assert.That(actualList[1], Is.Not.Null);
+			Assert.That(actualList[2], Is.Not.Null);
+			Assert.That(actualList[3], Is.Not.Null);
+			Assert.That(actualList[4], Is.Not.Null);
 		}
 
-		public Page GetPageById(int id)
+		[Test]
+		public void GetPageById()
 		{
-			throw new NotImplementedException();
+			// Arrange
+
+
+			// Act
+			Page actualPage = _repository.GetPageById(_page1.Id);
+
+			// Assert
+			Assert.That(actualPage, Is.Not.Null);
+			Assert.That(actualPage.Id, Is.EqualTo(_page1.Id));
+			Assert.That(actualPage.CreatedBy, Is.EqualTo(_page1.CreatedBy));
+			Assert.That(actualPage.CreatedOn, Is.EqualTo(_page1.CreatedOn));
+			Assert.That(actualPage.IsLocked, Is.EqualTo(_page1.IsLocked));
+			Assert.That(actualPage.ModifiedBy, Is.EqualTo(_page1.ModifiedBy));
+			Assert.That(actualPage.ModifiedOn, Is.EqualTo(_page1.ModifiedOn));
+			Assert.That(actualPage.Tags, Is.EqualTo(_page1.Tags));
+			Assert.That(actualPage.Title, Is.EqualTo(_page1.Title));
 		}
 
-		public IEnumerable<Page> FindPagesByCreatedBy(string username)
+		[Test]
+		public void FindPagesCreatedBy()
 		{
-			throw new NotImplementedException();
+			// Arrange
+
+
+			// Act
+			List<Page> actualPages = _repository.FindPagesCreatedBy("admin").ToList();
+
+			// Assert
+			Assert.That(actualPages.Count, Is.EqualTo(1));
+			Assert.That(actualPages[0].Id, Is.EqualTo(_page1.Id));
+			Assert.That(actualPages[0].CreatedBy, Is.EqualTo(_page1.CreatedBy));
+			Assert.That(actualPages[0].CreatedOn, Is.EqualTo(_page1.CreatedOn));
+			Assert.That(actualPages[0].IsLocked, Is.EqualTo(_page1.IsLocked));
+			Assert.That(actualPages[0].ModifiedBy, Is.EqualTo(_page1.ModifiedBy));
+			Assert.That(actualPages[0].ModifiedOn, Is.EqualTo(_page1.ModifiedOn));
+			Assert.That(actualPages[0].Tags, Is.EqualTo(_page1.Tags));
+			Assert.That(actualPages[0].Title, Is.EqualTo(_page1.Title));
 		}
 
-		public IEnumerable<Page> FindPagesByModifiedBy(string username)
+		[Test]
+		public void FindPagesByModifiedBy()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			PageContent newContent = _repository.AddNewPageContentVersion(_page1, "new text", "bob", DateTime.Now, 3);
+			Page expectedPage = newContent.Page;
+
+			// Act
+			List<Page> actualPages = _repository.FindPagesModifiedBy("bob").ToList();
+
+			// Assert
+			Assert.That(actualPages.Count, Is.EqualTo(1));
+			Assert.That(actualPages[0].Id, Is.EqualTo(expectedPage.Id));
+			Assert.That(actualPages[0].CreatedBy, Is.EqualTo(expectedPage.CreatedBy));
+			Assert.That(actualPages[0].CreatedOn, Is.EqualTo(expectedPage.CreatedOn));
+			Assert.That(actualPages[0].IsLocked, Is.EqualTo(expectedPage.IsLocked));
+			Assert.That(actualPages[0].ModifiedBy, Is.EqualTo("bob"));
+			Assert.That(actualPages[0].ModifiedOn, Is.EqualTo(expectedPage.ModifiedOn));
+			Assert.That(actualPages[0].Tags, Is.EqualTo(expectedPage.Tags));
+			Assert.That(actualPages[0].Title, Is.EqualTo(expectedPage.Title));
 		}
 
 		public IEnumerable<Page> FindPagesContainingTag(string tag)

@@ -145,7 +145,7 @@ namespace Roadkill.Core.Managers
 				IEnumerable<PageSummary> summaries = _listCache.Get<PageSummary>(cacheKey);
 				if (summaries == null)
 				{
-					IEnumerable<Page> pages = Repository.FindPagesByCreatedBy(userName);
+					IEnumerable<Page> pages = Repository.FindPagesCreatedBy(userName);
 					summaries = from page in pages
 								select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
 

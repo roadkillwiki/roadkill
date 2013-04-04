@@ -9,8 +9,8 @@ namespace Roadkill.Core.Database
 	{
 		IEnumerable<Page> AllPages();
 		Page GetPageById(int id);
-		IEnumerable<Page> FindPagesByCreatedBy(string username);
-		IEnumerable<Page> FindPagesByModifiedBy(string username);
+		IEnumerable<Page> FindPagesCreatedBy(string username);
+		IEnumerable<Page> FindPagesModifiedBy(string username);
 		IEnumerable<Page> FindPagesContainingTag(string tag);
 
 		/// <summary>

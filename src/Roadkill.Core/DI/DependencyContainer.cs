@@ -290,7 +290,7 @@ namespace Roadkill.Core
 
 				// Only create the Schema if not already installed otherwise just a straight TestConnection
 				bool createSchema = !section.Installed;
-				repository.Test(dataStoreType, connectionString);
+				repository.TestConnection(dataStoreType, connectionString);
 				return "";
 			}
 			catch (Exception e)

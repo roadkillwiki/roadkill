@@ -556,14 +556,14 @@ namespace Roadkill.Core.Security
 						//
 						// Update all Page.CreatedBy and Page.ModifiedBy
 						//
-						IList<Page> pages = Repository.FindPagesByCreatedBy(summary.ExistingUsername).ToList();
+						IList<Page> pages = Repository.FindPagesCreatedBy(summary.ExistingUsername).ToList();
 						for (int i = 0; i < pages.Count; i++)
 						{
 							pages[i].CreatedBy = summary.NewUsername;
 							Repository.SaveOrUpdatePage(pages[i]);
 						}
 
-						pages = Repository.FindPagesByModifiedBy(summary.ExistingUsername).ToList();
+						pages = Repository.FindPagesModifiedBy(summary.ExistingUsername).ToList();
 						for (int i = 0; i < pages.Count; i++)
 						{
 							pages[i].ModifiedBy = summary.NewUsername;

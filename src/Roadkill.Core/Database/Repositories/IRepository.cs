@@ -32,7 +32,7 @@ namespace Roadkill.Core.Database
 
 		void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache);
 		void Install(DataStoreType dataStoreType, string connectionString, bool enableCache);
-		void Test(DataStoreType dataStoreType, string connectionString);
+		void TestConnection(DataStoreType dataStoreType, string connectionString);
 		
 		/// <summary>
 		/// 
