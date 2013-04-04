@@ -24,6 +24,7 @@ using Roadkill.Core.Security.Windows;
 namespace Roadkill.Tests.Unit
 {
 	[TestFixture]
+	[Category("Unit")]
 	public class DependencyContainerTests
 	{
 		[SetUp]
