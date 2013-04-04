@@ -61,6 +61,7 @@ namespace Roadkill.Tests.Unit
 
 			if (existingPage == null)
 			{
+				page.Id = Pages.Count + 1;
 				Pages.Add(page);
 			}
 			else
@@ -95,8 +96,8 @@ namespace Roadkill.Tests.Unit
 		{
 			PageContent content = new PageContent();
 			content.Id = Guid.NewGuid();
-			content.EditedBy = editedBy;
-			content.EditedOn = editedOn;
+			page.ModifiedBy = content.EditedBy = editedBy;
+			page.ModifiedOn = content.EditedOn = editedOn;
 			content.Page = page;
 			content.Text = text;
 			content.VersionNumber = FindPageContentsByPageId(page.Id).Max(x => x.VersionNumber) +1;
@@ -111,7 +112,7 @@ namespace Roadkill.Tests.Unit
 
 			if (existingContent == null)
 			{
-				PageContents.Add(content);
+				// Do nothing
 			}
 			else
 			{
@@ -128,6 +129,7 @@ namespace Roadkill.Tests.Unit
 
 			if (existingUser == null)
 			{
+				user.Id = Guid.NewGuid();
 				Users.Add(user);
 			}
 			else
@@ -168,7 +170,7 @@ namespace Roadkill.Tests.Unit
 			
 		}
 
-		public void Test(DataStoreType dataStoreType, string connectionString)
+		public void TestConnection(DataStoreType dataStoreType, string connectionString)
 		{
 			
 		}
@@ -192,14 +194,14 @@ namespace Roadkill.Tests.Unit
 			return Pages.FirstOrDefault(p => p.Id == id);
 		}
 
-		public IEnumerable<Page> FindPagesByCreatedBy(string username)
+		public IEnumerable<Page> FindPagesCreatedBy(string username)
 		{
 			return Pages.Where(p => p.CreatedBy == username);
 		}
 
-		public IEnumerable<Page> FindPagesByModifiedBy(string username)
+		public IEnumerable<Page> FindPagesModifiedBy(string username)
 		{
-			throw new NotImplementedException();
+			return Pages.Where(p => p.ModifiedBy == username);
 		}
 
 		public IEnumerable<Page> FindPagesContainingTag(string tag)

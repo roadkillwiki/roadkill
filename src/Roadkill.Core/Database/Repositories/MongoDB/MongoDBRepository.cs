@@ -153,7 +153,7 @@ namespace Roadkill.Core.Database.MongoDB
 			database.DropCollection("SitePreferences");
 		}
 
-		public void Test(DataStoreType dataStoreType, string connectionString)
+		public void TestConnection(DataStoreType dataStoreType, string connectionString)
 		{
 			string databaseName = MongoUrl.Create(connectionString).DatabaseName;
 			MongoClient client = new MongoClient(connectionString);
@@ -177,12 +177,12 @@ namespace Roadkill.Core.Database.MongoDB
 			return Pages.FirstOrDefault(p => p.Id == id);
 		}
 
-		public IEnumerable<Page> FindPagesByCreatedBy(string username)
+		public IEnumerable<Page> FindPagesCreatedBy(string username)
 		{
 			return Pages.Where(p => p.CreatedBy == username);
 		}
 
-		public IEnumerable<Page> FindPagesByModifiedBy(string username)
+		public IEnumerable<Page> FindPagesModifiedBy(string username)
 		{
 			return Pages.Where(p => p.ModifiedBy == username);
 		}

@@ -10,13 +10,13 @@ using Roadkill.Core.Managers;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Tests.Unit;
 
-namespace Roadkill.Tests.Integration
+namespace Roadkill.Tests.Unit
 {
 	/// <summary>
 	/// Tests the SQL User manager class (the default auth mechanism in Roadkill)
 	/// </summary>
 	[TestFixture]
-	[Category("Integration")]
+	[Category("Unit")]
 	public class DefaultUserManagerTests
 	{
 		private FormsAuthenticationUserManager _defaultUserManager;
@@ -24,26 +24,13 @@ namespace Roadkill.Tests.Integration
 		[SetUp]
 		public void Setup()
 		{
-			ConfigFileManager configManager = new ConfigFileManager("app.config");
-			ApplicationSettings settings = configManager.GetApplicationSettings();
+			ApplicationSettings settings = new ApplicationSettings();
+			settings.Installed = true;
 
 			IRepository repository = new LightSpeedRepository(settings);
 			repository = new RepositoryMock();
+
 			_defaultUserManager = new FormsAuthenticationUserManager(settings, repository);
-//			IUserContext context = new UserContext(_defaultUserManager);
-//			DependencyContainer iocSetup = new DependencyContainer(settings, repository, context);
-//			iocSetup.RegisterTypes();
-
-			// Use the SettingsManager to install, so the site settings are saved 
-			SettingsSummary summary = new SettingsSummary();
-			summary.ConnectionString = settings.ConnectionString;
-			summary.DataStoreTypeName = DataStoreType.Sqlite.Name;
-			summary.AllowedExtensions = "jpg, gif";
-			summary.MarkupType = "Creole";
-
-			SettingsManager settingsManager = new SettingsManager(settings, repository);
-			settingsManager.CreateTables(summary);
-			settingsManager.SaveSiteSettings(summary, true);
 		}
 
 		[Test]
@@ -178,7 +165,7 @@ namespace Roadkill.Tests.Integration
 			Assert.AreEqual(expected.Id, actual.Id);
 			Assert.AreEqual("editor@localhost", actual.Email);
 
-			Assert.IsNull(_defaultUserManager.GetUserById(new Guid()));
+			Assert.IsNull(_defaultUserManager.GetUserById(Guid.NewGuid()));
 		}
 
 		[Test]
