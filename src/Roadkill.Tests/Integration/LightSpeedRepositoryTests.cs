@@ -16,10 +16,14 @@ namespace Roadkill.Tests.Integration
 	[Category("Integration")]
 	public class LightSpeedRepositoryTests
 	{
+		//private string _connectionString = @"server=.\SQLEXPRESS;uid=sa;pwd=Passw0rd;database=roadkill;";
+		//private DataStoreType _dataStoreType = DataStoreType.SqlServer2008;
+
+		private string _connectionString = @"Data Source=roadkill-integrationtests.sqlite;";
+		private DataStoreType _dataStoreType = DataStoreType.Sqlite;
+
 		private ApplicationSettings _applicationSettings;
 		private LightSpeedRepository _repository;
-		private string _connectionString = @"server=.\SQLEXPRESS;uid=sa;pwd=Passw0rd;database=roadkill;";
-		private DataStoreType _dataStoreType = DataStoreType.SqlServer2008;
 		private User _adminUser;
 		private Guid _editorId;
 		private Page _page1;
@@ -27,9 +31,11 @@ namespace Roadkill.Tests.Integration
 		private PageContent _pageContent2;
 
 		[SetUp]
-		public void CreateDummyDatabase()
+		public void Setup()
 		{
-			// Using the repository (4 methods) to test the repository isn't great, but it beats lots of
+			// Create dummy data.
+
+			// Using the repository (just 4 methods) to test the repository isn't great, but it beats lots of
 			// SQL scripts that are flakey for cross-database tests, and don't work for MongoDB or SimpleDB
 			_applicationSettings = new ApplicationSettings();
 			_applicationSettings.ConnectionString = _connectionString;
@@ -396,6 +402,8 @@ namespace Roadkill.Tests.Integration
 		[Test]
 		public void TestConnection_With_Invalid_Connection_String()
 		{
+			// [expectedexception] can't handle exception heirachies
+
 			// Arrange
 
 			try
@@ -403,9 +411,13 @@ namespace Roadkill.Tests.Integration
 				// Act
 				_repository.TestConnection(_dataStoreType, "server=(local);uid=none;pwd=none;database=doesntexist;Connect Timeout=5");
 			}
-			catch (DbException) // expectedexception can't handle exception heirachies
+			catch (DbException) 
 			{
 				// Assert
+				Assert.Pass();
+			}
+			catch (ArgumentException)
+			{
 				Assert.Pass();
 			}
 			catch (Exception)
