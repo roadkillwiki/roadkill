@@ -17,9 +17,9 @@ namespace Roadkill.Tests.Unit
 	/// </summary>
 	[TestFixture]
 	[Category("Unit")]
-	public class DefaultUserManagerTests
+	public class FormsAuthUserManagerTests
 	{
-		private FormsAuthenticationUserManager _defaultUserManager;
+		private FormsAuthUserManager _defaultUserManager;
 
 		[SetUp]
 		public void Setup()
@@ -30,7 +30,7 @@ namespace Roadkill.Tests.Unit
 			IRepository repository = new LightSpeedRepository(settings);
 			repository = new RepositoryMock();
 
-			_defaultUserManager = new FormsAuthenticationUserManager(settings, repository);
+			_defaultUserManager = new FormsAuthUserManager(settings, repository);
 		}
 
 		[Test]

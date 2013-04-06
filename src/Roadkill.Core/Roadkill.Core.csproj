@@ -385,7 +385,7 @@
     <Compile Include="Text\LinkEventArgs.cs" />
     <Compile Include="Text\Parsers\MediaWikiParser.cs" />
     <Compile Include="Domain\Security\Windows\ActiveDirectoryUserManager.cs" />
-    <Compile Include="Domain\Security\FormsAuthenticationUserManager.cs" />
+    <Compile Include="Domain\Security\FormsAuthUserManager.cs" />
     <Compile Include="Domain\Security\UserManagerBase.cs" />
     <Compile Include="Domain\Managers\SettingsManager.cs" />
     <Compile Include="Database\Entities\User.cs" />

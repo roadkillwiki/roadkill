@@ -50,7 +50,7 @@ namespace Roadkill.Tests.Acceptance
 
 		public static string GetSitePath()
 		{
-			string sitePath = Path.Combine(GlobalSetup.ROOT_FOLDER, "src", "Roadkill.Site");
+			string sitePath = Path.Combine(Settings.ROOT_FOLDER, "src", "Roadkill.Site");
 			sitePath = new DirectoryInfo(sitePath).FullName;
 
 			return sitePath;
@@ -63,7 +63,7 @@ namespace Roadkill.Tests.Acceptance
 				string sitePath = GetSitePath();
 				string siteWebConfig = Path.Combine(sitePath, "web.config");
 
-				string testsWebConfigPath = Path.Combine(GlobalSetup.LIB_FOLDER, "Configs", "web.acceptancetests.config");
+				string testsWebConfigPath = Path.Combine(Settings.LIB_FOLDER, "Configs", "web.acceptancetests.config");
 				Console.WriteLine("Original web.config path: {0}", siteWebConfig);
 				Console.WriteLine("Acceptance tests web.config path: {0}", testsWebConfigPath);
 

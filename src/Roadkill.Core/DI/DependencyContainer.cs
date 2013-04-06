@@ -160,7 +160,7 @@ namespace Roadkill.Core
 				}
 				else
 				{
-					x.For<UserManagerBase>().HybridHttpOrThreadLocalScoped().Use<FormsAuthenticationUserManager>();
+					x.For<UserManagerBase>().HybridHttpOrThreadLocalScoped().Use<FormsAuthUserManager>();
 				}
 
 				x.SetAllProperties(y => y.OfType<IControllerAttribute>());

@@ -248,6 +248,7 @@
     <Compile Include="Unit\DependencyContainerTests.cs" />
     <Compile Include="Unit\Database\LightSpeed\ToEntityTests.cs" />
     <Compile Include="Unit\Database\LightSpeed\FromEntityTests.cs" />
+    <Compile Include="Unit\Managers\HistoryManagerTests.cs" />
     <Compile Include="Unit\Managers\SettingsManagerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\PagesControllerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\WikiControllerTests.cs" />
@@ -264,7 +265,7 @@
     <Compile Include="Unit\Text\MarkupSanitizerTests.cs" />
     <Compile Include="Unit\Text\MarkdownTests.cs" />
     <Compile Include="Integration\ConfigFileTests.cs" />
-    <Compile Include="GlobalSetup.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Unit\Managers\PageManagerTests.cs" />
     <Compile Include="Unit\Managers\ActiveDirectoryUserManagerTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\UserSummaryEmailValidationTests.cs" />
@@ -275,7 +276,9 @@
     <Content Include="Unit\Text\whitelist.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Integration\TestConfigs\test.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -302,7 +305,7 @@
     <Compile Include="Unit\Mvc\Controllers\UserControllerTests.cs" />
     <Compile Include="Integration\SearchManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Unit\Managers\DefaultUserManagerTests.cs" />
+    <Compile Include="Unit\Managers\FormsAuthUserManagerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Roadkill.Core\Roadkill.Core.csproj">

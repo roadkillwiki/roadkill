@@ -18,7 +18,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Copy the legacy database
 			string sitePath = AcceptanceTestsSetup.GetSitePath();
-			string version16DbFileSource = Path.Combine(GlobalSetup.LIB_FOLDER, "Test-databases", "roadkill-pre16-acceptancetests.sdf");
+			string version16DbFileSource = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill-pre16-acceptancetests.sdf");
 			string version16DbFileDest = string.Format("{0}/App_Data/roadkill-pre16-acceptancetests.sdf", sitePath);
 			System.IO.File.Copy(version16DbFileSource, version16DbFileDest, true);
 

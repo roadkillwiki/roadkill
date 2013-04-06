@@ -78,6 +78,7 @@ namespace Roadkill.Tests.Unit
 
 		public PageContent AddNewPage(Page page, string text, string editedBy, DateTime editedOn)
 		{
+			page.Id = Pages.Count + 1;
 			Pages.Add(page);
 
 			PageContent content = new PageContent();

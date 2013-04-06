@@ -231,7 +231,7 @@ namespace Roadkill.Tests.Unit
 			iocSetup.RegisterTypes();
 
 			// Assert
-			Assert.That(DependencyContainer.GetInstance<UserManagerBase>(), Is.TypeOf(typeof(FormsAuthenticationUserManager)));
+			Assert.That(DependencyContainer.GetInstance<UserManagerBase>(), Is.TypeOf(typeof(FormsAuthUserManager)));
 		}
 
 		[Test]
@@ -249,7 +249,7 @@ namespace Roadkill.Tests.Unit
 			iocSetup.RegisterTypes();
 
 			// Assert
-			Assert.That(DependencyContainer.GetInstance<UserManagerBase>(), Is.TypeOf(typeof(FormsAuthenticationUserManager)));
+			Assert.That(DependencyContainer.GetInstance<UserManagerBase>(), Is.TypeOf(typeof(FormsAuthUserManager)));
 		}
 
 		private string GetConfigPath(string filename)
