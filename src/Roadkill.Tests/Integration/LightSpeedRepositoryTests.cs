@@ -78,8 +78,8 @@ namespace Roadkill.Tests.Integration
 			_repository.SaveOrUpdateUser(NewUser("editor4@localhost", "editor4", false, true, false));
 
 			// 5 Pages with 2 versions of content each
-			DateTime createdDate = DateTime.Today;
-			DateTime editedDate = DateTime.Today.AddHours(1);
+			DateTime createdDate = DateTime.Today.AddDays(-1);
+			DateTime editedDate = DateTime.Today.AddDays(-1).AddHours(1);
 
 			_page1 = NewPage("admin", "homepage, newpage");
 			_pageContent1 = _repository.AddNewPage(_page1, "text", "admin", createdDate);
