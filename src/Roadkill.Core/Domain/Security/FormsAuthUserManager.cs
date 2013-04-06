@@ -12,9 +12,9 @@ namespace Roadkill.Core.Security
 	/// <summary>
 	/// Provides user management using the Roadkill datastore and the current repository.
 	/// </summary>
-	public class FormsAuthenticationUserManager : UserManagerBase
+	public class FormsAuthUserManager : UserManagerBase
 	{
-		public FormsAuthenticationUserManager(ApplicationSettings settings, IRepository repository)
+		public FormsAuthUserManager(ApplicationSettings settings, IRepository repository)
 			: base(settings, repository)
 		{
 		}

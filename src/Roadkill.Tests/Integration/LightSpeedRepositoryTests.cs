@@ -104,6 +104,27 @@ namespace Roadkill.Tests.Integration
 			_repository.AddNewPageContentVersion(pageContent5.Page, "v2", "editor4", editedDate, 1);
 		}
 
+
+		public void CopySqlLiteBinaries()
+		{
+			//
+			// Copy the SQLite interop file for x64
+			//
+			string binFolder = AppDomain.CurrentDomain.BaseDirectory;
+			string sqlInteropFileSource = Path.Combine(Settings.PACKAGES_FOLDER, "System.Data.SQLite.1.0.84.0", "content", "net40", "x86", "SQLite.Interop.dll");
+			string sqlInteropFileDest = Path.Combine(binFolder, "SQLite.Interop.dll");
+
+			if (!File.Exists(sqlInteropFileDest))
+			{
+				if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
+				{
+					sqlInteropFileSource = Path.Combine(Settings.PACKAGES_FOLDER, "System.Data.SQLite.1.0.84.0", "content", "net40", "x64", "SQLite.Interop.dll");
+				}
+
+				System.IO.File.Copy(sqlInteropFileSource, sqlInteropFileDest, true);
+			}
+		}
+
 		private Page NewPage(string author, string tags = "tag1,tag2,tag3", string title="Title")
 		{
 			Page page = new Page()

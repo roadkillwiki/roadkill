@@ -62,7 +62,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(tokenParser, Is.TypeOf<CustomTokenParser>());
 			Assert.That(userSummary, Is.TypeOf<UserSummary>());
 			Assert.That(settingsSummary, Is.TypeOf<SettingsSummary>());
-			Assert.That(userManager, Is.TypeOf<FormsAuthenticationUserManager>());
+			Assert.That(userManager, Is.TypeOf<FormsAuthUserManager>());
 		}
 
 		[Test]
