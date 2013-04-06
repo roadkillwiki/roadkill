@@ -25,7 +25,8 @@ namespace Roadkill.Tests.Integration
 		private ApplicationSettings _applicationSettings;
 		private LightSpeedRepository _repository;
 		private User _adminUser;
-		private Guid _editorId;
+		private User _editor;
+		private User _inactiveUser;
 		private Page _page1;
 		private PageContent _pageContent1;
 		private PageContent _pageContent2;
@@ -35,8 +36,11 @@ namespace Roadkill.Tests.Integration
 		{
 			// Create dummy data.
 
+			// ############################
 			// Using the repository (just 4 methods) to test the repository isn't great, but it beats lots of
 			// SQL scripts that are flakey for cross-database tests, and don't work for MongoDB or SimpleDB
+			// ############################
+
 			_applicationSettings = new ApplicationSettings();
 			_applicationSettings.ConnectionString = _connectionString;
 			_applicationSettings.DataStoreType = _dataStoreType;
@@ -61,46 +65,50 @@ namespace Roadkill.Tests.Integration
 			});
 
 			// 5 Users
-			_adminUser = new User() { Email = "admin@localhost", Username = "admin", Password = "password", Salt = "123", IsAdmin = true };
+			_adminUser = NewUser("admin@localhost", "admin", true, true);
 			_adminUser = _repository.SaveOrUpdateUser(_adminUser);
 
-			User editorUser = new User() { Email = "editor1@localhost", Username = "editor1", Password = "password", Salt = "123", IsEditor = true };
-			editorUser = _repository.SaveOrUpdateUser(editorUser);
-			_editorId = editorUser.Id;
+			_editor = NewUser("editor1@localhost", "editor1", false, true);
+			_editor = _repository.SaveOrUpdateUser(_editor);
 
-			_repository.SaveOrUpdateUser(new User() { Email = "editor2@localhost", Username = "editor2", Password = "password", Salt = "123", IsEditor = true });
-			_repository.SaveOrUpdateUser(new User() { Email = "editor3@localhost", Username = "editor3", Password = "password", Salt = "123", IsEditor = true });
-			_repository.SaveOrUpdateUser(new User() { Email = "editor4@localhost", Username = "editor4", Password = "password", Salt = "123", IsEditor = true });
+			_inactiveUser = NewUser("editor2@localhost", "editor2", false, true, false);
+			_inactiveUser = _repository.SaveOrUpdateUser(_inactiveUser);
+			
+			_repository.SaveOrUpdateUser(NewUser("editor3@localhost", "editor3", false, true));
+			_repository.SaveOrUpdateUser(NewUser("editor4@localhost", "editor4", false, true, false));
 
 			// 5 Pages with 2 versions of content each
-			_page1 = CreatePage("admin", "homepage, newpage");
-			_pageContent1 = _repository.AddNewPage(_page1, "text", "admin", DateTime.Now);
+			DateTime createdDate = DateTime.Today;
+			DateTime editedDate = DateTime.Today.AddHours(1);
+
+			_page1 = NewPage("admin", "homepage, newpage");
+			_pageContent1 = _repository.AddNewPage(_page1, "text", "admin", createdDate);
 			_page1 = _pageContent1.Page;
-			_pageContent2 = _repository.AddNewPageContentVersion(_page1, "v2", "admin", DateTime.Now, 1);
-			_page1 = _pageContent2.Page; // modified date
+			_pageContent2 = _repository.AddNewPageContentVersion(_page1, "v2", "admin", editedDate, 2);
+			_page1 = _pageContent2.Page; // update the modified date
 
-			Page page2 = CreatePage("editor1");
-			PageContent pageContent2 = _repository.AddNewPage(page2, "text", "editor1", DateTime.Now);
-			_repository.AddNewPageContentVersion(pageContent2.Page, "v2", "editor1", DateTime.Now, 1);
+			Page page2 = NewPage("editor1");
+			PageContent pageContent2 = _repository.AddNewPage(page2, "text", "editor1", createdDate);
+			_repository.AddNewPageContentVersion(pageContent2.Page, "v2", "editor1", editedDate, 1);
 
-			Page page3 = CreatePage("editor2");
-			PageContent pageContent3 = _repository.AddNewPage(page3, "text", "editor2", DateTime.Now);
-			_repository.AddNewPageContentVersion(pageContent3.Page, "v2", "editor2", DateTime.Now, 1);
+			Page page3 = NewPage("editor2");
+			PageContent pageContent3 = _repository.AddNewPage(page3, "text", "editor2", createdDate);
+			_repository.AddNewPageContentVersion(pageContent3.Page, "v2", "editor2", editedDate, 1);
 
-			Page page4 = CreatePage("editor3");
-			PageContent pageContent4 = _repository.AddNewPage(page4, "text", "editor3", DateTime.Now);
-			_repository.AddNewPageContentVersion(pageContent4.Page, "v2", "editor3", DateTime.Now, 1);
+			Page page4 = NewPage("editor3");
+			PageContent pageContent4 = _repository.AddNewPage(page4, "text", "editor3", createdDate);
+			_repository.AddNewPageContentVersion(pageContent4.Page, "v2", "editor3", editedDate, 1);
 
-			Page page5 = CreatePage("editor4");
-			PageContent pageContent5 = _repository.AddNewPage(page5, "text", "editor4", DateTime.Now);
-			_repository.AddNewPageContentVersion(pageContent5.Page, "v2", "editor4", DateTime.Now, 1);
+			Page page5 = NewPage("editor4");
+			PageContent pageContent5 = _repository.AddNewPage(page5, "text", "editor4", createdDate);
+			_repository.AddNewPageContentVersion(pageContent5.Page, "v2", "editor4", editedDate, 1);
 		}
 
-		private Page CreatePage(string author, string tags = "tag1,tag2,tag3")
+		private Page NewPage(string author, string tags = "tag1,tag2,tag3", string title="Title")
 		{
 			Page page = new Page()
 			{
-				Title = "Title",
+				Title = title,
 				CreatedOn = DateTime.Today,
 				CreatedBy = author,
 				ModifiedBy = author,
@@ -109,6 +117,24 @@ namespace Roadkill.Tests.Integration
 			};
 
 			return page;
+		}
+
+		private User NewUser(string email, string username, bool isAdmin, bool isEditor, bool isActive = true)
+		{
+			return new User()
+			{
+				Email = email,
+				Username = username,
+				Password = "password",
+				Salt = "123",
+				IsActivated = isActive,
+				IsAdmin = isAdmin,
+				IsEditor = isEditor,
+				ActivationKey = Guid.NewGuid().ToString(),
+				Firstname = "Firstname",
+				Lastname = "Lastname",
+				PasswordResetKey = Guid.NewGuid().ToString()
+			};
 		}
 
 		#region IRepository Members
@@ -201,7 +227,7 @@ namespace Roadkill.Tests.Integration
 		public void SaveOrUpdatePage()
 		{
 			// Arrange
-			Page newPage = CreatePage("admin", "tag1, 3, 4");
+			Page newPage = NewPage("admin", "tag1, 3, 4");
 			DateTime modifiedDate = DateTime.Today.AddMinutes(1);
 
 			Page existingPage = _page1;
@@ -228,7 +254,7 @@ namespace Roadkill.Tests.Integration
 			// Arrange
 			DateTime createdDate = DateTime.Today;
 			DateTime editedDate = DateTime.Today.AddMinutes(1);
-			Page newPage = CreatePage("admin", "tag1,3,4");
+			Page newPage = NewPage("admin", "tag1,3,4");
 			newPage.ModifiedOn = editedDate;
 
 			// Act
@@ -269,7 +295,7 @@ namespace Roadkill.Tests.Integration
 			Assert.That(newContent.EditedOn, Is.EqualTo(createdDate));
 			Assert.That(newContent.VersionNumber, Is.EqualTo(2));
 
-			PageContent latestContent = _repository.GetPageContentByVersionId(newContent.Id);
+			PageContent latestContent = _repository.GetPageContentById(newContent.Id);
 			Assert.That(latestContent.Id, Is.EqualTo(newContent.Id));
 			Assert.That(latestContent.Text, Is.EqualTo(newContent.Text));
 			Assert.That(latestContent.EditedOn, Is.EqualTo(newContent.EditedOn));
@@ -511,59 +537,201 @@ namespace Roadkill.Tests.Integration
 			Assert.That(actualPages[0].Title, Is.EqualTo(expectedPage.Title));
 		}
 
-		public IEnumerable<Page> FindPagesContainingTag(string tag)
+		[Test]
+		public void FindPagesContainingTag()
 		{
-			throw new NotImplementedException();
+			// Arrange
+
+
+			// Act
+			List<Page> actualPages = _repository.FindPagesContainingTag("tag1").ToList();
+
+
+			// Assert
+			Assert.That(actualPages.Count, Is.EqualTo(4));
 		}
 
-		public IEnumerable<string> AllTags()
+		[Test]
+		public void AllTags()
 		{
-			throw new NotImplementedException();
+			// Arrange
+
+
+			// Act
+			List<string> actual = _repository.AllTags().ToList();
+
+			// Assert
+			Assert.That(actual.Count, Is.EqualTo(5)); // homepage, newpage, tag1, tag2, tag3
 		}
 
-		public Page GetPageByTitle(string title)
+		[Test]
+		public void GetPageByTitle()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			string title = "page title";
+			Page expectedPage = NewPage("admin", "tag1", title);
+			PageContent newContent = _repository.AddNewPage(expectedPage, "sometext", "admin", DateTime.Today);
+			expectedPage.Id = newContent.Page.Id; // get the new identity
+
+			// Act
+			Page actualPage = _repository.GetPageByTitle(title);
+
+			// Assert
+			Assert.That(actualPage.Id, Is.EqualTo(expectedPage.Id));
+			Assert.That(actualPage.CreatedBy, Is.EqualTo(expectedPage.CreatedBy));
+			Assert.That(actualPage.CreatedOn, Is.EqualTo(expectedPage.CreatedOn));
+			Assert.That(actualPage.IsLocked, Is.EqualTo(expectedPage.IsLocked));
+			Assert.That(actualPage.ModifiedBy, Is.EqualTo(expectedPage.ModifiedBy));
+			Assert.That(actualPage.ModifiedOn, Is.EqualTo(expectedPage.ModifiedOn));
+			Assert.That(actualPage.Tags, Is.EqualTo(expectedPage.Tags));
+			Assert.That(actualPage.Title, Is.EqualTo(expectedPage.Title));
 		}
 
-		public PageContent GetLatestPageContent(int pageId)
+		[Test]
+		public void GetLatestPageContent()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			PageContent expectedContent = _pageContent2;
+			Page expectedPage = _pageContent2.Page;
+
+			// Act
+			PageContent actualContent = _repository.GetLatestPageContent(_pageContent2.Page.Id);
+			Page actualPage = actualContent.Page;
+
+			// Assert
+			Assert.That(actualContent.EditedBy, Is.EqualTo(expectedContent.EditedBy));
+			Assert.That(actualContent.EditedOn, Is.EqualTo(expectedContent.EditedOn));
+			Assert.That(actualContent.Id, Is.EqualTo(expectedContent.Id));
+			Assert.That(actualContent.Text, Is.EqualTo(expectedContent.Text));
+			Assert.That(actualContent.VersionNumber, Is.EqualTo(expectedContent.VersionNumber));
+
+			Assert.That(actualPage.Id, Is.EqualTo(expectedPage.Id));
+			Assert.That(actualPage.CreatedBy, Is.EqualTo(expectedPage.CreatedBy));
+			Assert.That(actualPage.CreatedOn, Is.EqualTo(expectedPage.CreatedOn));
+			Assert.That(actualPage.IsLocked, Is.EqualTo(expectedPage.IsLocked));
+			Assert.That(actualPage.ModifiedBy, Is.EqualTo(expectedPage.ModifiedBy));
+			Assert.That(actualPage.ModifiedOn, Is.EqualTo(expectedPage.ModifiedOn));
+			Assert.That(actualPage.Tags, Is.EqualTo(expectedPage.Tags));
+			Assert.That(actualPage.Title, Is.EqualTo(expectedPage.Title));
 		}
 
-		public PageContent GetPageContentById(Guid id)
+		[Test]
+		public void GetPageContentById()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			PageContent expectedContent = _pageContent2;
+			Page expectedPage = _pageContent2.Page;
+
+			// Act
+			PageContent actualContent = _repository.GetPageContentById(expectedContent.Id);
+			Page actualPage = actualContent.Page;
+
+			// Assert
+			Assert.That(actualContent.EditedBy, Is.EqualTo(expectedContent.EditedBy));
+			Assert.That(actualContent.EditedOn, Is.EqualTo(expectedContent.EditedOn));
+			Assert.That(actualContent.Id, Is.EqualTo(expectedContent.Id));
+			Assert.That(actualContent.Text, Is.EqualTo(expectedContent.Text));
+			Assert.That(actualContent.VersionNumber, Is.EqualTo(expectedContent.VersionNumber));
+
+			Assert.That(actualPage.Id, Is.EqualTo(expectedPage.Id));
+			Assert.That(actualPage.CreatedBy, Is.EqualTo(expectedPage.CreatedBy));
+			Assert.That(actualPage.CreatedOn, Is.EqualTo(expectedPage.CreatedOn));
+			Assert.That(actualPage.IsLocked, Is.EqualTo(expectedPage.IsLocked));
+			Assert.That(actualPage.ModifiedBy, Is.EqualTo(expectedPage.ModifiedBy));
+			Assert.That(actualPage.ModifiedOn, Is.EqualTo(expectedPage.ModifiedOn));
+			Assert.That(actualPage.Tags, Is.EqualTo(expectedPage.Tags));
+			Assert.That(actualPage.Title, Is.EqualTo(expectedPage.Title));
 		}
 
-		public PageContent GetPageContentByPageIdAndVersionNumber(int id, int versionNumber)
+		[Test]
+		public void GetPageContentByPageIdAndVersionNumber()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			PageContent expectedContent = _pageContent2;
+			Page expectedPage = _pageContent2.Page;
+
+			// Act
+			PageContent actualContent = _repository.GetPageContentByPageIdAndVersionNumber(expectedPage.Id, expectedContent.VersionNumber);
+			Page actualPage = actualContent.Page;
+
+			// Assert
+			Assert.That(actualContent.EditedBy, Is.EqualTo(expectedContent.EditedBy));
+			Assert.That(actualContent.EditedOn, Is.EqualTo(expectedContent.EditedOn));
+			Assert.That(actualContent.Id, Is.EqualTo(expectedContent.Id));
+			Assert.That(actualContent.Text, Is.EqualTo(expectedContent.Text));
+			Assert.That(actualContent.VersionNumber, Is.EqualTo(expectedContent.VersionNumber));
+
+			Assert.That(actualPage.Id, Is.EqualTo(expectedPage.Id));
+			Assert.That(actualPage.CreatedBy, Is.EqualTo(expectedPage.CreatedBy));
+			Assert.That(actualPage.CreatedOn, Is.EqualTo(expectedPage.CreatedOn));
+			Assert.That(actualPage.IsLocked, Is.EqualTo(expectedPage.IsLocked));
+			Assert.That(actualPage.ModifiedBy, Is.EqualTo(expectedPage.ModifiedBy));
+			Assert.That(actualPage.ModifiedOn, Is.EqualTo(expectedPage.ModifiedOn));
+			Assert.That(actualPage.Tags, Is.EqualTo(expectedPage.Tags));
+			Assert.That(actualPage.Title, Is.EqualTo(expectedPage.Title));
 		}
 
-		public PageContent GetPageContentByVersionId(Guid versionId)
+		[Test]
+		public void GetPageContentByEditedBy()
 		{
-			throw new NotImplementedException();
+			// Arrange
+
+			// Act
+			List<PageContent> allContent = _repository.GetPageContentByEditedBy("admin").ToList();
+
+			// Assert
+			Assert.That(allContent.Count, Is.EqualTo(2));
 		}
 
-		public PageContent GetPageContentByEditedBy(string username)
+		[Test]
+		public void FindPageContentsByPageId()
 		{
-			throw new NotImplementedException();
+			// Arrange
+
+
+			// Act
+			List<PageContent> pagesContents = _repository.FindPageContentsByPageId(_page1.Id).ToList();
+
+			// Assert
+			Assert.That(pagesContents.Count, Is.EqualTo(2));
+			Assert.That(pagesContents[0], Is.Not.Null);
+
+			PageContent expectedPageContent = pagesContents.FirstOrDefault(x => x.Id == _pageContent1.Id);
+			Assert.That(expectedPageContent, Is.Not.Null);
 		}
 
-		public IEnumerable<PageContent> FindPageContentsByPageId(int pageId)
+		[Test]
+		public void FindPageContentsEditedBy()
 		{
-			throw new NotImplementedException();
+			// Arrange
+
+
+			// Act
+			List<PageContent> pagesContents = _repository.FindPageContentsEditedBy("admin").ToList();
+
+			// Assert
+			Assert.That(pagesContents.Count, Is.EqualTo(2));
+			Assert.That(pagesContents[0], Is.Not.Null);
+
+			PageContent expectedPageContent = pagesContents.FirstOrDefault(x => x.Id == _pageContent1.Id);
+			Assert.That(expectedPageContent, Is.Not.Null);
 		}
 
-		public IEnumerable<PageContent> FindPageContentsEditedBy(string username)
+		[Test]
+		public void AllPageContents()
 		{
-			throw new NotImplementedException();
-		}
+			// Arrange
 
-		public IEnumerable<PageContent> AllPageContents()
-		{
-			throw new NotImplementedException();
+
+			// Act
+			List<PageContent> pagesContents = _repository.AllPageContents().ToList();
+
+			// Assert
+			Assert.That(pagesContents.Count, Is.EqualTo(10)); // five pages with 2 versions
+			Assert.That(pagesContents[0], Is.Not.Null);
+
+			PageContent expectedPageContent = pagesContents.FirstOrDefault(x => x.Id == _pageContent1.Id);
+			Assert.That(expectedPageContent, Is.Not.Null);
 		}
 
 		#endregion
@@ -574,58 +742,328 @@ namespace Roadkill.Tests.Integration
 		public void GetAdminById()
 		{
 			// Arrange
-			Guid adminId = _adminUser.Id;
+			User expectedUser = _adminUser;
 
 			// Act
-			User actualUser = _repository.GetAdminById(adminId);
+			User noUser = _repository.GetAdminById(_editor.Id);
+			User actualUser = _repository.GetAdminById(expectedUser.Id);
 
 			// Assert
-			Assert.That(actualUser.Id, Is.EqualTo(adminId));
+			Assert.That(noUser, Is.Null);
+
+			Assert.That(actualUser.Id, Is.EqualTo(expectedUser.Id));
+			Assert.That(actualUser.ActivationKey, Is.EqualTo(expectedUser.ActivationKey));
+			Assert.That(actualUser.Email, Is.EqualTo(expectedUser.Email));
+			Assert.That(actualUser.Firstname, Is.EqualTo(expectedUser.Firstname));
+			Assert.That(actualUser.IsActivated, Is.EqualTo(expectedUser.IsActivated));
+			Assert.That(actualUser.IsAdmin, Is.EqualTo(expectedUser.IsAdmin));
+			Assert.That(actualUser.IsEditor, Is.EqualTo(expectedUser.IsEditor));
+			Assert.That(actualUser.Lastname, Is.EqualTo(expectedUser.Lastname));
+			Assert.That(actualUser.Password, Is.EqualTo(expectedUser.Password));
+			Assert.That(actualUser.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
+			Assert.That(actualUser.Salt, Is.EqualTo(expectedUser.Salt));
 		}
 
-		public User GetUserByActivationKey(string key)
+		[Test]
+		public void GetUserByActivationKey_With_InactiveUser()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			User expectedUser = _inactiveUser;
+
+			// Act
+			User noUser = _repository.GetUserByActivationKey("badkey");
+			User actualUser = _repository.GetUserByActivationKey(expectedUser.ActivationKey);
+
+			// Assert
+			Assert.That(noUser, Is.Null);
+
+			Assert.That(actualUser.Id, Is.EqualTo(expectedUser.Id));
+			Assert.That(actualUser.ActivationKey, Is.EqualTo(expectedUser.ActivationKey));
+			Assert.That(actualUser.Email, Is.EqualTo(expectedUser.Email));
+			Assert.That(actualUser.Firstname, Is.EqualTo(expectedUser.Firstname));
+			Assert.That(actualUser.IsActivated, Is.EqualTo(expectedUser.IsActivated));
+			Assert.That(actualUser.IsAdmin, Is.EqualTo(expectedUser.IsAdmin));
+			Assert.That(actualUser.IsEditor, Is.EqualTo(expectedUser.IsEditor));
+			Assert.That(actualUser.Lastname, Is.EqualTo(expectedUser.Lastname));
+			Assert.That(actualUser.Password, Is.EqualTo(expectedUser.Password));
+			Assert.That(actualUser.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
+			Assert.That(actualUser.Salt, Is.EqualTo(expectedUser.Salt));
 		}
 
-		public User GetEditorById(Guid id)
+		[Test]
+		public void GetUserByActivationKey_With_ActiveUser()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			User expectedUser = _adminUser;
+
+			// Act
+			User actualUser = _repository.GetUserByActivationKey(expectedUser.ActivationKey);
+
+			// Assert
+			Assert.That(actualUser, Is.Null);
 		}
 
-		public User GetUserByEmail(string email, bool isActivated = true)
+		[Test]
+		public void GetEditorById()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			User expectedUser = _editor;
+
+			// Act
+			User noUser = _repository.GetEditorById(Guid.Empty);
+			User actualUser = _repository.GetEditorById(_editor.Id);
+			User adminUser = _repository.GetEditorById(_adminUser.Id);
+
+			// Assert
+			Assert.That(noUser, Is.Null);
+			Assert.That(adminUser, Is.Not.Null);
+
+			Assert.That(actualUser.Id, Is.EqualTo(expectedUser.Id));
+			Assert.That(actualUser.ActivationKey, Is.EqualTo(expectedUser.ActivationKey));
+			Assert.That(actualUser.Email, Is.EqualTo(expectedUser.Email));
+			Assert.That(actualUser.Firstname, Is.EqualTo(expectedUser.Firstname));
+			Assert.That(actualUser.IsActivated, Is.EqualTo(expectedUser.IsActivated));
+			Assert.That(actualUser.IsAdmin, Is.EqualTo(expectedUser.IsAdmin));
+			Assert.That(actualUser.IsEditor, Is.EqualTo(expectedUser.IsEditor));
+			Assert.That(actualUser.Lastname, Is.EqualTo(expectedUser.Lastname));
+			Assert.That(actualUser.Password, Is.EqualTo(expectedUser.Password));
+			Assert.That(actualUser.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
+			Assert.That(actualUser.Salt, Is.EqualTo(expectedUser.Salt));
 		}
 
-		public User GetUserById(Guid id, bool isActivated = true)
+		[Test]
+		public void GetUserByEmail()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			User expectedUser = _editor;
+
+			// Act
+			User noUser = _repository.GetUserByEmail("invalid@email.com");
+			User actualUser = _repository.GetUserByEmail(_editor.Email);
+
+			// Assert
+			Assert.That(noUser, Is.Null);
+
+			Assert.That(actualUser.Id, Is.EqualTo(expectedUser.Id));
+			Assert.That(actualUser.ActivationKey, Is.EqualTo(expectedUser.ActivationKey));
+			Assert.That(actualUser.Email, Is.EqualTo(expectedUser.Email));
+			Assert.That(actualUser.Firstname, Is.EqualTo(expectedUser.Firstname));
+			Assert.That(actualUser.IsActivated, Is.EqualTo(expectedUser.IsActivated));
+			Assert.That(actualUser.IsAdmin, Is.EqualTo(expectedUser.IsAdmin));
+			Assert.That(actualUser.IsEditor, Is.EqualTo(expectedUser.IsEditor));
+			Assert.That(actualUser.Lastname, Is.EqualTo(expectedUser.Lastname));
+			Assert.That(actualUser.Password, Is.EqualTo(expectedUser.Password));
+			Assert.That(actualUser.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
+			Assert.That(actualUser.Salt, Is.EqualTo(expectedUser.Salt));
 		}
 
-		public User GetUserByPasswordResetKey(string key)
+		[Test]
+		public void GetUserByEmail_With_Inactive_User()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			User expectedUser = null;
+
+			// Act
+			User noUser = _repository.GetUserByUsername("nobody");
+			User actualUser = _repository.GetUserByEmail(_inactiveUser.Email);
+
+			// Assert
+			Assert.That(noUser, Is.Null);
+			Assert.That(actualUser, Is.EqualTo(expectedUser));
 		}
 
-		public User GetUserByUsername(string username)
+		[Test]
+		public void GetUserByEmail_Not_Activated_With_Inactive_User()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			User expectedUser = _inactiveUser;
+
+			// Act
+			User actualUser = _repository.GetUserByEmail(_inactiveUser.Email, false);
+
+			// Assert
+			Assert.That(actualUser.Id, Is.EqualTo(expectedUser.Id));
+			Assert.That(actualUser.ActivationKey, Is.EqualTo(expectedUser.ActivationKey));
+			Assert.That(actualUser.Email, Is.EqualTo(expectedUser.Email));
+			Assert.That(actualUser.Firstname, Is.EqualTo(expectedUser.Firstname));
+			Assert.That(actualUser.IsActivated, Is.EqualTo(expectedUser.IsActivated));
+			Assert.That(actualUser.IsAdmin, Is.EqualTo(expectedUser.IsAdmin));
+			Assert.That(actualUser.IsEditor, Is.EqualTo(expectedUser.IsEditor));
+			Assert.That(actualUser.Lastname, Is.EqualTo(expectedUser.Lastname));
+			Assert.That(actualUser.Password, Is.EqualTo(expectedUser.Password));
+			Assert.That(actualUser.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
+			Assert.That(actualUser.Salt, Is.EqualTo(expectedUser.Salt));
+		}
+		
+		[Test]
+		public void GetUserById()
+		{
+			// Arrange
+			User expectedUser = _editor;
+
+			// Act
+			User noUser = _repository.GetUserById(Guid.Empty);
+			User actualUser = _repository.GetUserById(_editor.Id);
+
+			// Assert
+			Assert.That(noUser, Is.Null);
+
+			Assert.That(actualUser.Id, Is.EqualTo(expectedUser.Id));
+			Assert.That(actualUser.ActivationKey, Is.EqualTo(expectedUser.ActivationKey));
+			Assert.That(actualUser.Email, Is.EqualTo(expectedUser.Email));
+			Assert.That(actualUser.Firstname, Is.EqualTo(expectedUser.Firstname));
+			Assert.That(actualUser.IsActivated, Is.EqualTo(expectedUser.IsActivated));
+			Assert.That(actualUser.IsAdmin, Is.EqualTo(expectedUser.IsAdmin));
+			Assert.That(actualUser.IsEditor, Is.EqualTo(expectedUser.IsEditor));
+			Assert.That(actualUser.Lastname, Is.EqualTo(expectedUser.Lastname));
+			Assert.That(actualUser.Password, Is.EqualTo(expectedUser.Password));
+			Assert.That(actualUser.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
+			Assert.That(actualUser.Salt, Is.EqualTo(expectedUser.Salt));
 		}
 
-		public User GetUserByUsernameOrEmail(string username, string email)
+		[Test]
+		public void GetUserById_With_Inactive_User()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			User expectedUser = null;
+
+			// Act
+			User actualUser = _repository.GetUserById(_inactiveUser.Id);
+
+			// Assert
+			Assert.That(actualUser, Is.EqualTo(expectedUser));
 		}
 
-		public IEnumerable<User> FindAllEditors()
+		[Test]
+		public void GetUserById_NotActivated_With_Inactive_User()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			User expectedUser = _inactiveUser;
+
+			// Act
+			User noUser = _repository.GetUserById(_editor.Id, false);
+			User actualUser = _repository.GetUserById(_inactiveUser.Id, false);
+
+			// Assert
+			Assert.That(noUser, Is.Null);
+
+			Assert.That(actualUser.Id, Is.EqualTo(expectedUser.Id));
+			Assert.That(actualUser.ActivationKey, Is.EqualTo(expectedUser.ActivationKey));
+			Assert.That(actualUser.Email, Is.EqualTo(expectedUser.Email));
+			Assert.That(actualUser.Firstname, Is.EqualTo(expectedUser.Firstname));
+			Assert.That(actualUser.IsActivated, Is.EqualTo(expectedUser.IsActivated));
+			Assert.That(actualUser.IsAdmin, Is.EqualTo(expectedUser.IsAdmin));
+			Assert.That(actualUser.IsEditor, Is.EqualTo(expectedUser.IsEditor));
+			Assert.That(actualUser.Lastname, Is.EqualTo(expectedUser.Lastname));
+			Assert.That(actualUser.Password, Is.EqualTo(expectedUser.Password));
+			Assert.That(actualUser.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
+			Assert.That(actualUser.Salt, Is.EqualTo(expectedUser.Salt));
 		}
 
-		public IEnumerable<User> FindAllAdmins()
+		[Test]
+		public void GetUserByPasswordResetKey()
 		{
-			throw new NotImplementedException();
+			// Arrange
+			User expectedUser = _editor;
+
+			// Act
+			User noUser = _repository.GetUserByUsername("badkey");
+			User actualUser = _repository.GetUserByPasswordResetKey(_editor.PasswordResetKey);
+
+			// Assert
+			Assert.That(noUser, Is.Null);
+
+			Assert.That(actualUser.Id, Is.EqualTo(expectedUser.Id));
+			Assert.That(actualUser.ActivationKey, Is.EqualTo(expectedUser.ActivationKey));
+			Assert.That(actualUser.Email, Is.EqualTo(expectedUser.Email));
+			Assert.That(actualUser.Firstname, Is.EqualTo(expectedUser.Firstname));
+			Assert.That(actualUser.IsActivated, Is.EqualTo(expectedUser.IsActivated));
+			Assert.That(actualUser.IsAdmin, Is.EqualTo(expectedUser.IsAdmin));
+			Assert.That(actualUser.IsEditor, Is.EqualTo(expectedUser.IsEditor));
+			Assert.That(actualUser.Lastname, Is.EqualTo(expectedUser.Lastname));
+			Assert.That(actualUser.Password, Is.EqualTo(expectedUser.Password));
+			Assert.That(actualUser.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
+			Assert.That(actualUser.Salt, Is.EqualTo(expectedUser.Salt));
+		}
+
+		[Test]
+		public void GetUserByUsername()
+		{
+			// Arrange
+			User expectedUser = _editor;
+
+			// Act
+			User noUser = _repository.GetUserByUsername("nobody");
+			User actualUser = _repository.GetUserByUsername(_editor.Username);
+
+			// Assert
+			Assert.That(noUser, Is.Null);
+
+			Assert.That(actualUser.Id, Is.EqualTo(expectedUser.Id));
+			Assert.That(actualUser.ActivationKey, Is.EqualTo(expectedUser.ActivationKey));
+			Assert.That(actualUser.Email, Is.EqualTo(expectedUser.Email));
+			Assert.That(actualUser.Firstname, Is.EqualTo(expectedUser.Firstname));
+			Assert.That(actualUser.IsActivated, Is.EqualTo(expectedUser.IsActivated));
+			Assert.That(actualUser.IsAdmin, Is.EqualTo(expectedUser.IsAdmin));
+			Assert.That(actualUser.IsEditor, Is.EqualTo(expectedUser.IsEditor));
+			Assert.That(actualUser.Lastname, Is.EqualTo(expectedUser.Lastname));
+			Assert.That(actualUser.Password, Is.EqualTo(expectedUser.Password));
+			Assert.That(actualUser.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
+			Assert.That(actualUser.Salt, Is.EqualTo(expectedUser.Salt));
+		}
+
+		[Test]
+		public void GetUserByUsernameOrEmail()
+		{
+			// Arrange
+			User expectedUser = _editor;
+
+			// Act
+			User noUser = _repository.GetUserByUsernameOrEmail("nobody", "nobody@nobody.com");
+			User emailUser = _repository.GetUserByUsernameOrEmail("nousername", _editor.Email);
+			User actualUser = _repository.GetUserByUsernameOrEmail(_editor.Username, "doesntexist@email.com");
+
+			// Assert
+			Assert.That(noUser, Is.Null);
+			Assert.That(emailUser, Is.Not.Null);
+
+			Assert.That(actualUser.Id, Is.EqualTo(expectedUser.Id));
+			Assert.That(actualUser.ActivationKey, Is.EqualTo(expectedUser.ActivationKey));
+			Assert.That(actualUser.Email, Is.EqualTo(expectedUser.Email));
+			Assert.That(actualUser.Firstname, Is.EqualTo(expectedUser.Firstname));
+			Assert.That(actualUser.IsActivated, Is.EqualTo(expectedUser.IsActivated));
+			Assert.That(actualUser.IsAdmin, Is.EqualTo(expectedUser.IsAdmin));
+			Assert.That(actualUser.IsEditor, Is.EqualTo(expectedUser.IsEditor));
+			Assert.That(actualUser.Lastname, Is.EqualTo(expectedUser.Lastname));
+			Assert.That(actualUser.Password, Is.EqualTo(expectedUser.Password));
+			Assert.That(actualUser.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
+			Assert.That(actualUser.Salt, Is.EqualTo(expectedUser.Salt));
+		}
+
+		[Test]
+		public void FindAllEditors()
+		{
+			// Arrange
+
+
+			// Act
+			List<User> allEditors = _repository.FindAllEditors().ToList();
+
+			// Assert
+			Assert.That(allEditors.Count, Is.EqualTo(5)); // includes the admin
+		}
+
+		[Test]
+		public void FindAllAdmins()
+		{
+			// Arrange
+
+
+			// Act
+			List<User> allEditors = _repository.FindAllAdmins().ToList();
+
+			// Assert
+			Assert.That(allEditors.Count, Is.EqualTo(1));
 		}
 
 		#endregion

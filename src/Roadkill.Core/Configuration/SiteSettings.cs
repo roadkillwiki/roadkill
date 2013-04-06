@@ -113,6 +113,7 @@ namespace Roadkill.Core.Configuration
 			MarkupType = "Creole";
 			SiteName = "Your site";
 			SiteUrl = "";
+			AllowedFileTypes = "jpg, png, gif";
 		}
 
 		public string GetJson()

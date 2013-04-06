@@ -30,8 +30,7 @@ namespace Roadkill.Core.Database
 		PageContent GetLatestPageContent(int pageId);
 		PageContent GetPageContentById(Guid id);
 		PageContent GetPageContentByPageIdAndVersionNumber(int id, int versionNumber);
-		PageContent GetPageContentByVersionId(Guid versionId);
-		PageContent GetPageContentByEditedBy(string username);
+		IEnumerable<PageContent> GetPageContentByEditedBy(string username);
 		IEnumerable<PageContent> FindPageContentsByPageId(int pageId);
 		IEnumerable<PageContent> FindPageContentsEditedBy(string username);
 		IEnumerable<PageContent> AllPageContents();
