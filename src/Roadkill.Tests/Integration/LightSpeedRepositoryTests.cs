@@ -16,11 +16,11 @@ namespace Roadkill.Tests.Integration
 	[Category("Integration")]
 	public class LightSpeedRepositoryTests
 	{
-		//private string _connectionString = @"server=.\SQLEXPRESS;uid=sa;pwd=Passw0rd;database=roadkill;";
-		//private DataStoreType _dataStoreType = DataStoreType.SqlServer2008;
+		private string _connectionString = @"Server=(LocalDB)\v11.0;Integrated Security=true;";
+		private DataStoreType _dataStoreType = DataStoreType.SqlServer2008;
 
-		private string _connectionString = @"Data Source=roadkill-integrationtests.sqlite;";
-		private DataStoreType _dataStoreType = DataStoreType.Sqlite;
+		//private string _connectionString = @"Data Source=roadkill-integrationtests.sqlite;";
+		//private DataStoreType _dataStoreType = DataStoreType.Sqlite;
 
 		private ApplicationSettings _applicationSettings;
 		private LightSpeedRepository _repository;
