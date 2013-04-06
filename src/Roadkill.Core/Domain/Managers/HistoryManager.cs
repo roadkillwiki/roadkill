@@ -75,7 +75,7 @@ namespace Roadkill.Core.Managers
 			{
 				List<PageSummary> versions = new List<PageSummary>();
 
-				PageContent mainContent = Repository.GetPageContentByVersionId(mainVersionId);
+				PageContent mainContent = Repository.GetPageContentById(mainVersionId);
 				versions.Add(mainContent.ToSummary(_markupConverter));
 
 				if (mainContent.VersionNumber == 1)
@@ -154,7 +154,7 @@ namespace Roadkill.Core.Managers
 			{
 				string currentUser = context.CurrentUsername;
 
-				PageContent versionContent = Repository.GetPageContentByVersionId(versionId);
+				PageContent versionContent = Repository.GetPageContentById(versionId);
 				Page page = Repository.GetPageById(versionContent.Page.Id);
 
 				int versionNumber = MaxVersion(page.Id) + 1;

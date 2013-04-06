@@ -215,9 +215,9 @@ namespace Roadkill.Core.Database.MongoDB
 			return PageContents.FirstOrDefault(p => p.Page.Id == id && p.VersionNumber == versionNumber);
 		}
 
-		public PageContent GetPageContentByEditedBy(string username)
+		public IEnumerable<PageContent> GetPageContentByEditedBy(string username)
 		{
-			return PageContents.FirstOrDefault(p => p.EditedBy == username);
+			return PageContents.Where(p => p.EditedBy == username);
 		}
 
 		public IEnumerable<PageContent> FindPageContentsByPageId(int pageId)
@@ -280,17 +280,10 @@ namespace Roadkill.Core.Database.MongoDB
 			return Users.Where(x => x.IsAdmin);
 		}
 
-		public PageContent GetPageContentByVersionId(Guid versionId)
-		{
-			return PageContents.FirstOrDefault(p => p.Id == versionId);
-		}
-
 		public IEnumerable<PageContent> FindPageContentsEditedBy(string username)
 		{
 			return PageContents.Where(p => p.EditedBy == username);
 		}
-
-		//-------------
 
 		public void Dispose()
 		{

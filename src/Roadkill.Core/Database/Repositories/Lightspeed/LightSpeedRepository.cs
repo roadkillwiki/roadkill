@@ -313,22 +313,16 @@ namespace Roadkill.Core.Database.LightSpeed
 			return FromEntity.ToPageContent(entity);
 		}
 
-		public PageContent GetPageContentByVersionId(Guid versionId)
-		{
-			PageContentEntity entity = PageContents.FirstOrDefault(p => p.Id == versionId);
-			return FromEntity.ToPageContent(entity);
-		}
-
 		public PageContent GetPageContentByPageIdAndVersionNumber(int id, int versionNumber)
 		{
 			PageContentEntity entity = PageContents.FirstOrDefault(p => p.Page.Id == id && p.VersionNumber == versionNumber);
 			return FromEntity.ToPageContent(entity);
 		}
 
-		public PageContent GetPageContentByEditedBy(string username)
+		public IEnumerable<PageContent> GetPageContentByEditedBy(string username)
 		{
-			PageContentEntity entity = PageContents.FirstOrDefault(p => p.EditedBy == username);
-			return FromEntity.ToPageContent(entity);
+			List<PageContentEntity> entities = PageContents.Where(p => p.EditedBy == username).ToList();
+			return FromEntity.ToPageContentList(entities);
 		}
 
 		public IEnumerable<PageContent> FindPageContentsByPageId(int pageId)
