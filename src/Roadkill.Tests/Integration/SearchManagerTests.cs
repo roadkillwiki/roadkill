@@ -247,7 +247,7 @@ namespace Roadkill.Tests.Integration
 		protected PageSummary CreatePage(int id, string createdBy, string title, string tags, string textContent = "", DateTime? createdOn = null)
 		{
 			if (createdOn == null)
-				createdOn = DateTime.Now;
+				createdOn = DateTime.UtcNow;
 
 			return new PageSummary()
 			{

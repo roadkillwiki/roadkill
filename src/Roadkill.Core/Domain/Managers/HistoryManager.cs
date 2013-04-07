@@ -160,7 +160,7 @@ namespace Roadkill.Core.Managers
 				int versionNumber = MaxVersion(page.Id) + 1;
 				string text = versionContent.Text;
 				string editedBy = currentUser;
-				DateTime editedOn = DateTime.Now;
+				DateTime editedOn = DateTime.UtcNow;
 				Repository.AddNewPageContentVersion(page, text, editedBy, editedOn, versionNumber);
 			}
 			catch (ArgumentNullException ex)

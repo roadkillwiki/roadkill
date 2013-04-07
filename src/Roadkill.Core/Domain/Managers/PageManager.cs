@@ -53,10 +53,10 @@ namespace Roadkill.Core.Managers
 				page.Title = summary.Title;
 				page.Tags = summary.CommaDelimitedTags();
 				page.CreatedBy = AppendIpForDemoSite(currentUser);
-				page.CreatedOn = DateTime.Now;
-				page.ModifiedOn = DateTime.Now;
+				page.CreatedOn = DateTime.UtcNow;
+				page.ModifiedOn = DateTime.UtcNow;
 				page.ModifiedBy = AppendIpForDemoSite(currentUser);
-				PageContent pageContent = Repository.AddNewPage(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.Now);
+				PageContent pageContent = Repository.AddNewPage(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.UtcNow);
 
 				_listCache.RemoveAll();
 				if (summary.Tags.Contains("homepage"))
@@ -416,7 +416,7 @@ namespace Roadkill.Core.Managers
 				Page page = Repository.GetPageById(summary.Id);
 				page.Title = summary.Title;
 				page.Tags = summary.CommaDelimitedTags();
-				page.ModifiedOn = DateTime.Now;
+				page.ModifiedOn = DateTime.UtcNow;
 				page.ModifiedBy = AppendIpForDemoSite(currentUser);
 
 				// A second check to ensure a fake IsLocked POST doesn't work.
@@ -438,7 +438,7 @@ namespace Roadkill.Core.Managers
 				_listCache.Remove("allpages.created.by" + page.CreatedBy);
 
 				int newVersion = _historyManager.MaxVersion(summary.Id) + 1;
-				PageContent pageContent = Repository.AddNewPageContentVersion(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.Now, newVersion); 
+				PageContent pageContent = Repository.AddNewPageContentVersion(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.UtcNow, newVersion); 
 
 				// Update all links to this page (if it has had its title renamed). Case changes don't need any updates.
 				if (summary.PreviousTitle != null && summary.PreviousTitle.ToLower() != summary.Title.ToLower())

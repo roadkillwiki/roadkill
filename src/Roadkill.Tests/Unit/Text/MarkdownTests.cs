@@ -26,7 +26,7 @@ namespace Roadkill.Tests.Unit
 			Page page = new Page() { Id = 1, Title = "My first page"};
 
 			RepositoryMock repositoryStub = new RepositoryMock();
-			repositoryStub.AddNewPage(page, "My first page", "admin", DateTime.Now);
+			repositoryStub.AddNewPage(page, "My first page", "admin", DateTime.UtcNow);
 			repositoryStub.SiteSettings = new SiteSettings() { MarkupType = "Markdown" };
 
 			ApplicationSettings settings = new ApplicationSettings();
@@ -59,7 +59,7 @@ namespace Roadkill.Tests.Unit
 			Page page = new Page() { Id = 1, Title = "My first page" };
 
 			RepositoryMock repositoryStub = new RepositoryMock();
-			repositoryStub.AddNewPage(page, "My first page", "admin", DateTime.Now);
+			repositoryStub.AddNewPage(page, "My first page", "admin", DateTime.UtcNow);
 			repositoryStub.SiteSettings = new SiteSettings() { MarkupType = "Markdown" };
 
 			ApplicationSettings settings = new ApplicationSettings();

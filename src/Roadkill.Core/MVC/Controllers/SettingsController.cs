@@ -249,7 +249,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				string exportFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"\App_Data", "export");
 				Directory.CreateDirectory(exportFolder);
 
-				string zipFilename = string.Format("export-{0}.zip", DateTime.Now.ToString("yyyy-MM-dd-HHmm"));
+				string zipFilename = string.Format("export-{0}.zip", DateTime.UtcNow.ToString("yyyy-MM-dd-HHmm"));
 				string zipFullPath = Path.Combine(exportFolder, zipFilename);
 				using (ZipFile zip = new ZipFile(zipFullPath))
 				{
@@ -304,7 +304,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				string exportFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"\App_Data", "export");
 				Directory.CreateDirectory(exportFolder);
 
-				string zipFilename = string.Format("attachments-export-{0}.zip", DateTime.Now.ToString("yyy-MM-dd-HHss"));
+				string zipFilename = string.Format("attachments-export-{0}.zip", DateTime.UtcNow.ToString("yyy-MM-dd-HHss"));
 				string zipFullPath = Path.Combine(exportFolder, zipFilename);
 				using (ZipFile zip = new ZipFile(zipFullPath))
 				{

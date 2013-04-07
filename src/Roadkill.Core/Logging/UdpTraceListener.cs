@@ -122,7 +122,7 @@ namespace Roadkill.Core.Logging
 			writer.WriteAttributeString("logger", _loggerName);
 			writer.WriteAttributeString("level", level);
 			writer.WriteAttributeString("thread", Thread.CurrentThread.ManagedThreadId.ToString());
-			writer.WriteAttributeString("timestamp", XmlConvert.ToString(ConvertToUnixTimestamp(DateTime.Now)));
+			writer.WriteAttributeString("timestamp", XmlConvert.ToString(ConvertToUnixTimestamp(DateTime.UtcNow)));
 
 			WriteLog4jElement(writer, "message");
 			writer.WriteCData(RemoveInvalidXmlChars(message));

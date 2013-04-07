@@ -43,10 +43,6 @@ namespace Roadkill.Tests.Unit
 		public void DeleteAllPages()
 		{
 			Pages = new List<Page>();
-		}
-
-		public void DeleteAllPageContent()
-		{
 			PageContents = new List<PageContent>();
 		}
 

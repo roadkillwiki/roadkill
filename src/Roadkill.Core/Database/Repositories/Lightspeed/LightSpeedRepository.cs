@@ -227,10 +227,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			UnitOfWork.Remove(new Query(typeof(PageEntity)));
 			UnitOfWork.SaveChanges();
-		}
 
-		public void DeleteAllPageContent()
-		{
 			UnitOfWork.Remove(new Query(typeof(PageContentEntity)));
 			UnitOfWork.SaveChanges();
 		}

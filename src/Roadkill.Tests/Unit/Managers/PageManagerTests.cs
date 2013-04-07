@@ -129,7 +129,7 @@ namespace Roadkill.Tests.Unit
 				Content = "**Homepage**",
 				RawTags = "1;2;3;",
 				CreatedBy = AdminUsername,
-				CreatedOn = DateTime.Now
+				CreatedOn = DateTime.UtcNow
 			};
 
 			// Act
