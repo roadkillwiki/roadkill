@@ -147,12 +147,18 @@ namespace Roadkill.Core.Database.MongoDB
 			MongoClient client = new MongoClient(connectionString);
 			MongoServer server = client.GetServer();
 			MongoDatabase database = server.GetDatabase(databaseName);
-			database.DropCollection("Pages");
-			database.DropCollection("PageContents");
-			database.DropCollection("Users");
-			database.DropCollection("SitePreferences");
+			database.DropCollection("Page");
+			database.DropCollection("PageContent");
+			database.DropCollection("User");
+			database.DropCollection("SiteSettingsEntity");
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="dataStoreType"></param>
+		/// <param name="connectionString"></param>
+		/// <exception cref="MongoConnectionException">Can't connect to the MongoDB server (but it's a valid connection string)</exception>
 		public void TestConnection(DataStoreType dataStoreType, string connectionString)
 		{
 			string databaseName = MongoUrl.Create(connectionString).DatabaseName;
@@ -308,16 +314,12 @@ namespace Roadkill.Core.Database.MongoDB
 		public void DeleteAllPages()
 		{
 			DeleteAll<Page>();
+			DeleteAll<PageContent>();
 		}
 
 		public void DeleteAllUsers()
 		{
 			DeleteAll<User>();
-		}
-
-		public void DeleteAllPageContent()
-		{
-			DeleteAll<PageContent>();
 		}
 
 		#region IRepository Members
@@ -346,6 +348,10 @@ namespace Roadkill.Core.Database.MongoDB
 
 		public PageContent AddNewPageContentVersion(Page page, string text, string editedBy, DateTime editedOn, int version)
 		{
+			page.ModifiedOn = editedOn;
+			page.ModifiedBy = editedBy;
+			SaveOrUpdate<Page>(page);
+
 			PageContent pageContent = new PageContent()
 			{
 				Id = Guid.NewGuid(),
@@ -357,6 +363,7 @@ namespace Roadkill.Core.Database.MongoDB
 			};
 
 			SaveOrUpdate<PageContent>(pageContent);
+
 			return pageContent;
 		}
 

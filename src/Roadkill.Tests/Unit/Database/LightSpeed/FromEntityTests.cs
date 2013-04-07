@@ -19,10 +19,10 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			PageEntity entity = new PageEntity();
 			entity.CreatedBy = "createdtest";
-			entity.CreatedOn = DateTime.Now;
+			entity.CreatedOn = DateTime.UtcNow;
 			entity.IsLocked = true;
 			entity.ModifiedBy = "modtest";
-			entity.ModifiedOn = DateTime.Now.AddYears(1);
+			entity.ModifiedOn = DateTime.UtcNow.AddYears(1);
 			entity.Tags = "tag1,tag2";
 			entity.Title = "title1";
 			
@@ -47,7 +47,7 @@ namespace Roadkill.Tests.Unit
 			entity.Page = new PageEntity() { Title = "Page title" };
 			//entity.Id = Guid.NewGuid(); // can't be tested
 			entity.EditedBy = "editedtest";
-			entity.EditedOn = DateTime.Now;
+			entity.EditedOn = DateTime.UtcNow;
 			entity.Text = "text";
 			entity.VersionNumber = 99;
 
@@ -103,19 +103,19 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			PageContentEntity entity1 = new PageContentEntity();
 			entity1.EditedBy = "editedtest1";
-			entity1.EditedOn = DateTime.Now;
+			entity1.EditedOn = DateTime.UtcNow;
 			entity1.Text = "text";
 			entity1.VersionNumber = 90;		
 
 			PageContentEntity entity2 = new PageContentEntity();
 			entity2.EditedBy = "editedtest2";
-			entity2.EditedOn = DateTime.Now;
+			entity2.EditedOn = DateTime.UtcNow;
 			entity2.Text = "text";
 			entity2.VersionNumber = 91;		
 
 			PageContentEntity entity3 = new PageContentEntity();
 			entity3.EditedBy = "editedtest3";
-			entity3.EditedOn = DateTime.Now;
+			entity3.EditedOn = DateTime.UtcNow;
 			entity3.Text = "text";
 			entity3.VersionNumber = 92;
 
@@ -140,28 +140,28 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			PageEntity entity1 = new PageEntity();
 			entity1.CreatedBy = "createdtest1";
-			entity1.CreatedOn = DateTime.Now;
+			entity1.CreatedOn = DateTime.UtcNow;
 			entity1.IsLocked = true;
 			entity1.ModifiedBy = "modtest1";
-			entity1.ModifiedOn = DateTime.Now.AddYears(1);
+			entity1.ModifiedOn = DateTime.UtcNow.AddYears(1);
 			entity1.Tags = "tag1,tag2";
 			entity1.Title = "title1";
 
 			PageEntity entity2 = new PageEntity();
 			entity2.CreatedBy = "createdtest2";
-			entity2.CreatedOn = DateTime.Now;
+			entity2.CreatedOn = DateTime.UtcNow;
 			entity2.IsLocked = true;
 			entity2.ModifiedBy = "modtest2";
-			entity2.ModifiedOn = DateTime.Now.AddYears(2);
+			entity2.ModifiedOn = DateTime.UtcNow.AddYears(2);
 			entity2.Tags = "tag2";
 			entity2.Title = "title2";
 
 			PageEntity entity3 = new PageEntity();
 			entity3.CreatedBy = "createdtest3";
-			entity3.CreatedOn = DateTime.Now;
+			entity3.CreatedOn = DateTime.UtcNow;
 			entity3.IsLocked = true;
 			entity3.ModifiedBy = "modtest3";
-			entity3.ModifiedOn = DateTime.Now.AddYears(3);
+			entity3.ModifiedOn = DateTime.UtcNow.AddYears(3);
 			entity3.Tags = "tagtag3";
 			entity3.Title = "title3";
 

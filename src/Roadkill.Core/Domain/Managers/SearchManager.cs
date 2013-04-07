@@ -80,9 +80,9 @@ namespace Roadkill.Core.Managers
 						{
 							Document document = searcher.Doc(scoreDoc.Doc);
 
-							DateTime createdOn = DateTime.Now;
+							DateTime createdOn = DateTime.UtcNow;
 							if (!DateTime.TryParse(document.GetField("createdon").StringValue, out createdOn))
-								createdOn = DateTime.Now;
+								createdOn = DateTime.UtcNow;
 
 							SearchResult result = new SearchResult()
 							{

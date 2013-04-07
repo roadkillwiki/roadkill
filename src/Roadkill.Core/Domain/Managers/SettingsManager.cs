@@ -33,7 +33,6 @@ namespace Roadkill.Core.Managers
 		{
 			try
 			{
-				Repository.DeleteAllPageContent();
 				Repository.DeleteAllPages();
 			}
 			catch (DatabaseException ex)

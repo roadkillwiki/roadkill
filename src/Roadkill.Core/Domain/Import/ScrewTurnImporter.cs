@@ -196,7 +196,7 @@ namespace Roadkill.Core.Import
 					// For broken content, make sure the page has something
 					if (!hasContent)
 					{
-						Repository.AddNewPage(page, "", "unknown", DateTime.Now);
+						Repository.AddNewPage(page, "", "unknown", DateTime.UtcNow);
 					}
 				}
 			}

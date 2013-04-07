@@ -240,6 +240,7 @@
     <Compile Include="Acceptance\Setup\AcceptanceTestsSetup.cs" />
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
+    <Compile Include="Integration\MongoDBRepositoryTests.cs" />
     <Compile Include="Integration\LightSpeedRepositoryTests.cs" />
     <Compile Include="Integration\SchemaGeneratorTests.cs" />
     <Compile Include="Smoke\CanaryTests.cs" />

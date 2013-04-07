@@ -13,16 +13,15 @@ using Roadkill.Core.Database.MongoDB;
 
 namespace Roadkill.Tests.Integration
 {
+	/// <summary>
+	/// This is pretty much an exact duplicate of LightSpeedRepositoryTests but using the MongoDB repository
+	/// - so it could be folded into the LightSpeedRepositoryTests and a switch added.
+	/// </summary>
 	[TestFixture]
 	[Category("Integration")]
-	public class LightSpeedRepositoryTests
+	[Description("For an easy install of MongoDB on Windows : http://chocolatey.org/packages?q=mongodb")]
+	public class MongoDBRepositoryTests
 	{
-		private string _connectionString = @"Server=(LocalDB)\v11.0;Integrated Security=true;";
-		private DataStoreType _dataStoreType = DataStoreType.SqlServer2008;
-
-		//private string _connectionString = @"Data Source=roadkill-integrationtests.sqlite;";
-		//private DataStoreType _dataStoreType = DataStoreType.Sqlite;
-		private LightSpeedRepository _repository;
 		private ApplicationSettings _applicationSettings;
 		
 		private User _adminUser;
@@ -34,24 +33,9 @@ namespace Roadkill.Tests.Integration
 		private DateTime _createdDate;
 		private DateTime _editedDate;
 
-		[TestFixtureSetUp]
-		public void TestFixtureSetup()
-		{
-			// Copy the SQLite interop file for x64
-			string binFolder = AppDomain.CurrentDomain.BaseDirectory;
-			string sqlInteropFileSource = Path.Combine(Settings.PACKAGES_FOLDER, "System.Data.SQLite.1.0.84.0", "content", "net40", "x86", "SQLite.Interop.dll");
-			string sqlInteropFileDest = Path.Combine(binFolder, "SQLite.Interop.dll");
-
-			if (!File.Exists(sqlInteropFileDest))
-			{
-				if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
-				{
-					sqlInteropFileSource = Path.Combine(Settings.PACKAGES_FOLDER, "System.Data.SQLite.1.0.84.0", "content", "net40", "x64", "SQLite.Interop.dll");
-				}
-
-				System.IO.File.Copy(sqlInteropFileSource, sqlInteropFileDest, true);
-			}
-		}
+		private string _connectionString = @"mongodb://localhost:27017/local";
+		private DataStoreType _dataStoreType = DataStoreType.MongoDB;
+		private MongoDBRepository _repository;
 
 		[SetUp]
 		public void Setup()
@@ -68,7 +52,7 @@ namespace Roadkill.Tests.Integration
 			_applicationSettings.DataStoreType = _dataStoreType;
 
 			//_repository = new LightSpeedRepository(_applicationSettings);
-			_repository = new LightSpeedRepository(_applicationSettings);
+			_repository = new MongoDBRepository(_applicationSettings);
 			_repository.Startup(_applicationSettings.DataStoreType,
 								_applicationSettings.ConnectionString,
 								false);
@@ -439,17 +423,16 @@ namespace Roadkill.Tests.Integration
 
 			try
 			{
-				// Act
-				_repository.TestConnection(_dataStoreType, "server=(local);uid=none;pwd=none;database=doesntexist;Connect Timeout=5");
-			}
-			catch (DbException) 
-			{
-				// Assert
-				Assert.Pass();
+				// Act (MongoConnectionException is also thrown here)
+				_repository.TestConnection(_dataStoreType, "mongodb://invalidformat");
 			}
 			catch (ArgumentException)
 			{
-				Assert.Pass();
+				Assert.Pass("ArgumentException caught");
+			}
+			catch (FormatException)
+			{
+				Assert.Pass("FormatException caught");
 			}
 			catch (Exception)
 			{

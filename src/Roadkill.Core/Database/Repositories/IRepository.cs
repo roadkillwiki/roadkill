@@ -19,7 +19,6 @@ namespace Roadkill.Core.Database
 		void DeletePageContent(PageContent pageContent);
 		void DeleteUser(User user);
 		void DeleteAllPages();
-		void DeleteAllPageContent();
 		void DeleteAllUsers();
 
 		void SaveOrUpdatePage(Page page);

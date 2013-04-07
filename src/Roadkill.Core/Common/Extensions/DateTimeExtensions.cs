@@ -28,7 +28,7 @@ namespace Roadkill.Core
 			//Thanks to: http://stackoverflow.com/questions/38039/how-can-i-get-the-datetime-for-the-start-of-the-week/38064#38064
 			System.Globalization.CultureInfo ci = System.Threading.Thread.CurrentThread.CurrentCulture;
 			DayOfWeek startOfWeek = ci.DateTimeFormat.FirstDayOfWeek;
-			DayOfWeek today = DateTime.Now.DayOfWeek;
+			DayOfWeek today = DateTime.UtcNow.DayOfWeek;
 
 			int diff = today - startOfWeek;
 			if (diff < 0)
