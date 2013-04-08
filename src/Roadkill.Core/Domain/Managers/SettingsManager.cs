@@ -75,6 +75,10 @@ namespace Roadkill.Core.Managers
 			}
 		}
 
+		/// <summary>
+		/// Retrieves the current site settings.
+		/// </summary>
+		/// <returns></returns>
 		public SiteSettings GetSiteSettings()
 		{
 			return Repository.GetSiteSettings();
@@ -84,16 +88,15 @@ namespace Roadkill.Core.Managers
 		/// Saves all settings that are stored in the database, to the configuration table.
 		/// </summary>
 		/// <param name="summary">Summary data containing the settings.</param>
-		/// <param name="isInstalling">If true, a new <see cref="SiteSettings"/> is created, otherwise the current one is updated.</param>
 		/// <exception cref="DatabaseException">An datastore error occurred while saving the configuration.</exception>
-		public void SaveSiteSettings(SettingsSummary summary, bool isInstalling)
+		public void SaveSiteSettings(SettingsSummary summary)
 		{
 			try
 			{
 				SiteSettings siteSettings = new SiteSettings();
-				siteSettings.AllowedFileTypes = summary.AllowedExtensions;
+				siteSettings.AllowedFileTypes = summary.AllowedFileTypes;
 				siteSettings.AllowUserSignup = summary.AllowUserSignup;
-				siteSettings.IsRecaptchaEnabled = summary.EnableRecaptcha;
+				siteSettings.IsRecaptchaEnabled = summary.IsRecaptchaEnabled;
 				siteSettings.MarkupType = summary.MarkupType;
 				siteSettings.RecaptchaPrivateKey = summary.RecaptchaPrivateKey;
 				siteSettings.RecaptchaPublicKey = summary.RecaptchaPublicKey;

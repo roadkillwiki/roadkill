@@ -42,7 +42,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public string AdminEmail { get; set; }
 		public string AdminPassword { get; set; }
 		public string AdminRoleName { get; set; }
-		public string AllowedExtensions { get; set; }
+		public string AllowedFileTypes { get; set; }
 		public bool AllowUserSignup { get; set; }
 
 		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_AttachmentsEmpty")]
@@ -67,7 +67,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		}
 
 		public string EditorRoleName { get; set; }
-		public bool EnableRecaptcha { get; set; }
+		public bool IsRecaptchaEnabled { get; set; }
 		
 		public string LdapConnectionString { get; set; }
 		public string LdapUsername { get; set; }
@@ -140,9 +140,9 @@ namespace Roadkill.Core.Mvc.ViewModels
 
 		public void FillFromSiteSettings(SiteSettings siteSettings)
 		{
-			AllowedExtensions = string.Join(",", siteSettings.AllowedFileTypesList);
+			AllowedFileTypes = string.Join(",", siteSettings.AllowedFileTypesList);
 			AllowUserSignup = siteSettings.AllowUserSignup;
-			EnableRecaptcha = siteSettings.IsRecaptchaEnabled;
+			IsRecaptchaEnabled = siteSettings.IsRecaptchaEnabled;
 			MarkupType = siteSettings.MarkupType;
 			RecaptchaPrivateKey = siteSettings.RecaptchaPrivateKey;
 			RecaptchaPublicKey = siteSettings.RecaptchaPublicKey;

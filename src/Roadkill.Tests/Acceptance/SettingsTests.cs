@@ -33,11 +33,11 @@ namespace Roadkill.Tests.Acceptance
 			Assert.That(Driver.ElementValue("#EditorRoleName"), Is.EqualTo("Editor"));
 			Assert.That(Driver.ElementValue("#AdminRoleName"), Is.EqualTo("Admin"));
 			Assert.That(Driver.ElementValue("#AttachmentsFolder"), Is.EqualTo(@"C:\temp\roadkillattachments"));
-			Assert.That(Driver.ElementValue("#AllowedExtensions"), Is.EqualTo("jpg,png,gif,zip,xml,pdf"));
+			Assert.That(Driver.ElementValue("#AllowedFileTypes"), Is.EqualTo("jpg,png,gif,zip,xml,pdf"));
 
 			Assert.False(Driver.IsCheckboxChecked("UseWindowsAuth"));
 			Assert.True(Driver.IsCheckboxChecked("AllowUserSignup"));
-			Assert.False(Driver.IsCheckboxChecked("EnableRecaptcha"));
+			Assert.False(Driver.IsCheckboxChecked("IsRecaptchaEnabled"));
 			Assert.False(Driver.IsCheckboxChecked("UseObjectCache"));
 			Assert.False(Driver.IsCheckboxChecked("UseBrowserCache"));
 

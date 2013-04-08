@@ -15,6 +15,10 @@ namespace Roadkill.Tests.Unit
 		public List<User> Users { get; set; }
 		public SiteSettings SiteSettings { get; set; }
 
+		public DataStoreType InstalledDataStoreType { get; private set; }
+		public string InstalledConnectionString { get; private set; }
+		public bool InstalledEnableCache { get; private set; }
+
 		public RepositoryMock()
 		{
 			Pages = new List<Page>();
@@ -164,7 +168,9 @@ namespace Roadkill.Tests.Unit
 
 		public void Install(DataStoreType dataStoreType, string connectionString, bool enableCache)
 		{
-			
+			InstalledDataStoreType = dataStoreType;
+			InstalledConnectionString = connectionString;
+			InstalledEnableCache = enableCache;
 		}
 
 		public void TestConnection(DataStoreType dataStoreType, string connectionString)

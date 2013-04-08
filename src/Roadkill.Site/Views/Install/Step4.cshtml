@@ -49,7 +49,7 @@
 	@Html.HiddenFor(h => h.ConnectionString)
 	@Html.HiddenFor(h => h.DataStoreTypeName)
 	@Html.HiddenFor(h => h.EditorRoleName)
-	@Html.HiddenFor(h => h.EnableRecaptcha)
+	@Html.HiddenFor(h => h.IsRecaptchaEnabled)
 	@Html.HiddenFor(h => h.LdapConnectionString)
 	@Html.HiddenFor(h => h.LdapUsername)
 	@Html.HiddenFor(h => h.LdapPassword)
@@ -86,7 +86,7 @@
 		<legend>@InstallStrings.Page4_Group2_Title</legend>
 		<label>@InstallStrings.Page4_Group2_Label1</label>
 
-		<div class="textbox">@Html.TextBoxFor(s => s.AllowedExtensions, new { @class = "validate[required]" })</div>
+		<div class="textbox">@Html.TextBoxFor(s => s.AllowedFileTypes, new { @class = "validate[required]" })</div>
 	</fieldset>
 	
 	<fieldset>

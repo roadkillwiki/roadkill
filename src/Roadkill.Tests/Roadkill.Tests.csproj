@@ -159,6 +159,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\HtmlAgilityPack.1.4.6\lib\Net40\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Microsoft.Web.Administration.dll</HintPath>
@@ -245,6 +246,7 @@
     <Compile Include="Integration\SchemaGeneratorTests.cs" />
     <Compile Include="Smoke\CanaryTests.cs" />
     <Compile Include="Smoke\DemoSiteTests.cs" />
+    <Compile Include="Unit\Attachments\MimeMappingTests.cs" />
     <Compile Include="Unit\Database\DataStore\DataStoreTypeTests.cs" />
     <Compile Include="Unit\DependencyContainerTests.cs" />
     <Compile Include="Unit\Database\LightSpeed\ToEntityTests.cs" />
@@ -252,6 +254,7 @@
     <Compile Include="Unit\Managers\HistoryManagerTests.cs" />
     <Compile Include="Unit\Managers\SettingsManagerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\PagesControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\RoutingTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\WikiControllerTests.cs" />
     <Compile Include="Unit\StubsAndMocks\SearchManagerMock.cs" />
     <Compile Include="Unit\StubsAndMocks\RepositoryMock.cs" />
