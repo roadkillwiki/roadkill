@@ -71,7 +71,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				configManager.WriteSettings(summary);
 				configManager.Save();
 				
-				_settingsManager.SaveSiteSettings(summary, false);
+				_settingsManager.SaveSiteSettings(summary);
 			}
 			return View(summary);
 		}

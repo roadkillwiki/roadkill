@@ -7,6 +7,7 @@ using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Managers;
+using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Tests.Unit
 {
@@ -61,21 +62,81 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void MyTest()
+		public void CreateTables_Calls_Repository_Install()
 		{
 			// Arrange
+			SettingsSummary summary = new SettingsSummary();
+			summary.DataStoreTypeName = "SQLite";
+			summary.ConnectionString = "Data Source=somefile.sqlite;";
+			summary.UseObjectCache = true;
 
 
 			// Act
-			
+			_settingsManager.CreateTables(summary);
+
 
 			// Assert
+			Assert.That(_repository.InstalledConnectionString, Is.EqualTo(summary.ConnectionString));
+			Assert.That(_repository.InstalledDataStoreType, Is.EqualTo(DataStoreType.Sqlite));
+			Assert.That(_repository.InstalledEnableCache, Is.EqualTo(summary.UseObjectCache));
 		}
 
-		//_settingsManager.CreateTables();
-		//_settingsManager.SaveCurrentVersionToWebConfig();
-		//_settingsManager.SaveSitePreferences();
-		//_settingsManager.SaveWebConfigSettings();
-		//_settingsManager.UpdateRepository();
+		[Test]
+		public void GetSiteSettings_Should_Return_Correct_Settings()
+		{
+			// Arrange
+			SiteSettings expectedSettings = new SiteSettings();
+			expectedSettings.Theme = "Mytheme";
+			expectedSettings.SiteName = "Mysitename";
+			expectedSettings.SiteUrl = "SiteUrl";
+			expectedSettings.RecaptchaPrivateKey = "RecaptchaPrivateKey";
+			expectedSettings.RecaptchaPublicKey = "RecaptchaPublicKey";
+			expectedSettings.MarkupType = "MarkupType";
+			expectedSettings.IsRecaptchaEnabled = true;
+			expectedSettings.AllowedFileTypes = "AllowedFileTypes";
+			_repository.SiteSettings = expectedSettings;
+
+			// Act
+			SiteSettings actualSettings = _settingsManager.GetSiteSettings();
+
+			// Assert
+			Assert.That(actualSettings.Theme, Is.EqualTo(expectedSettings.Theme));
+			Assert.That(actualSettings.SiteName, Is.EqualTo(expectedSettings.SiteName));
+			Assert.That(actualSettings.SiteUrl, Is.EqualTo(expectedSettings.SiteUrl));
+			Assert.That(actualSettings.RecaptchaPrivateKey, Is.EqualTo(expectedSettings.RecaptchaPrivateKey));
+			Assert.That(actualSettings.RecaptchaPublicKey, Is.EqualTo(expectedSettings.RecaptchaPublicKey));
+			Assert.That(actualSettings.MarkupType, Is.EqualTo(expectedSettings.MarkupType));
+			Assert.That(actualSettings.IsRecaptchaEnabled, Is.EqualTo(expectedSettings.IsRecaptchaEnabled));
+			Assert.That(actualSettings.AllowedFileTypes, Is.EqualTo(expectedSettings.AllowedFileTypes));
+		}
+
+		[Test]
+		public void SaveSiteSettings_Should_Save_All_Values()
+		{
+			// Arrange
+			SettingsSummary expectedSettings = new SettingsSummary();
+			expectedSettings.Theme = "Mytheme";
+			expectedSettings.SiteName = "Mysitename";
+			expectedSettings.SiteUrl = "SiteUrl";
+			expectedSettings.RecaptchaPrivateKey = "RecaptchaPrivateKey";
+			expectedSettings.RecaptchaPublicKey = "RecaptchaPublicKey";
+			expectedSettings.MarkupType = "MarkupType";
+			expectedSettings.IsRecaptchaEnabled = true;
+			expectedSettings.AllowedFileTypes = "AllowedFileTypes";
+
+			// Act
+			_settingsManager.SaveSiteSettings(expectedSettings);
+			SiteSettings actualSettings = _settingsManager.GetSiteSettings();
+
+			// Assert
+			Assert.That(actualSettings.Theme, Is.EqualTo(expectedSettings.Theme));
+			Assert.That(actualSettings.SiteName, Is.EqualTo(expectedSettings.SiteName));
+			Assert.That(actualSettings.SiteUrl, Is.EqualTo(expectedSettings.SiteUrl));
+			Assert.That(actualSettings.RecaptchaPrivateKey, Is.EqualTo(expectedSettings.RecaptchaPrivateKey));
+			Assert.That(actualSettings.RecaptchaPublicKey, Is.EqualTo(expectedSettings.RecaptchaPublicKey));
+			Assert.That(actualSettings.MarkupType, Is.EqualTo(expectedSettings.MarkupType));
+			Assert.That(actualSettings.IsRecaptchaEnabled, Is.EqualTo(expectedSettings.IsRecaptchaEnabled));
+			Assert.That(actualSettings.AllowedFileTypes, Is.EqualTo(expectedSettings.AllowedFileTypes));
+		}
 	}
 }

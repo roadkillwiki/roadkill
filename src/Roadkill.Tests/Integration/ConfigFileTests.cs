@@ -158,9 +158,9 @@ namespace Roadkill.Tests.Unit
 			};
 			SettingsSummary validConfigSettings = new SettingsSummary()
 			{
-				AllowedExtensions = "jpg, png, gif",
+				AllowedFileTypes = "jpg, png, gif",
 				AllowUserSignup = true,
-				EnableRecaptcha = true,
+				IsRecaptchaEnabled = true,
 				MarkupType = "markuptype",
 				RecaptchaPrivateKey = "privatekey",
 				RecaptchaPublicKey = "publickey",
@@ -176,7 +176,7 @@ namespace Roadkill.Tests.Unit
 			SettingsManager settingsManager = new SettingsManager(_settings, repository);
 
 			// Act
-			settingsManager.SaveSiteSettings(validConfigSettings, true);
+			settingsManager.SaveSiteSettings(validConfigSettings);
 
 			// Assert
 			SiteSettings actualSettings = settingsManager.GetSiteSettings();

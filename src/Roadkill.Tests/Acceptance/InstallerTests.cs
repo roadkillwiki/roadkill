@@ -605,7 +605,7 @@ namespace Roadkill.Tests.Acceptance
 			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
 		}
 		[Test]
-		[Explicit("Requires SQL Server Express 2005 installed on the machine the acceptance tests are running first, with .\\SQLEXPPRESS as the instance name")]
+		[Explicit("Requires SQL Server Express 2012 installed on the machine the acceptance tests are running first, using LocalDB.")]
 		public void All_Steps_With_Minimum_Required_SQLServer2005_Should_Complete()
 		{
 			// Arrange
@@ -624,7 +624,7 @@ namespace Roadkill.Tests.Acceptance
 			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
 			select.SelectByValue(DataStoreType.SqlServer2005.Name);
 
-			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"server=.\SQLEXPRESS;database=roadkill;uid=sa;pwd=Passw0rd;");
+			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"Server=(LocalDB)\v11.0;Integrated Security=true;");
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step 3
@@ -657,7 +657,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		[Explicit("Requires SQL Server Express 2005 installed on the machine the acceptance tests are running first, with .\\SQLEXPPRESS as the instance name")]
+		[Explicit("Requires SQL Server Express 2012 installed on the machine the acceptance tests are running first, using LocalDB.")]
 		public void All_Steps_With_Minimum_Required_SQLServer2008_Should_Complete()
 		{
 			// Arrange
@@ -676,7 +676,7 @@ namespace Roadkill.Tests.Acceptance
 			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
 			select.SelectByValue(DataStoreType.SqlServer2008.Name);
 
-			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"server=.\SQLEXPRESS;database=roadkill;uid=sa;pwd=Passw0rd;");
+			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"Server=(LocalDB)\v11.0;Integrated Security=true;");
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step 3
@@ -709,7 +709,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		[Explicit("Requires SQL Server Express 2005 installed on the machine the acceptance tests are running first, with .\\SQLEXPPRESS as the instance name")]
+		[Explicit("Requires SQL Server Express 2012 installed on the machine the acceptance tests are running first, using LocalDB.")]
 		public void All_Steps_With_Minimum_Required_SQLServer2012_Should_Complete()
 		{
 			// Arrange
@@ -728,7 +728,7 @@ namespace Roadkill.Tests.Acceptance
 			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
 			select.SelectByValue(DataStoreType.SqlServer2012.Name);
 
-			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"server=.\SQLEXPRESS;database=roadkill;uid=sa;pwd=Passw0rd;");
+			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"Server=(LocalDB)\v11.0;Integrated Security=true;");
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();
 
 			// step 3

@@ -114,8 +114,8 @@
 			@(Html.CheckBoxFor(s => s.AllowUserSignup, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_AllowUserSignups_Help }))
 			</label>
 
-			<label for="EnableRecaptcha" class="checkbox">@SiteStrings.SiteSettings_Configuration_EnableRecaptcha
-			@Html.CheckBoxFor(s => s.EnableRecaptcha, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_EnableRecaptcha_Help })
+			<label for="IsRecaptchaEnabled" class="checkbox">@SiteStrings.SiteSettings_Configuration_EnableRecaptcha
+			@Html.CheckBoxFor(s => s.IsRecaptchaEnabled, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_EnableRecaptcha_Help })
 			</label>
 
 			<label for="RecaptchaPrivateKey">@SiteStrings.SiteSettings_Configuration_RecaptchaPrivateKey</label>
@@ -159,8 +159,8 @@
 		<br /><span class="label label-info">This directory maps to @Model.AttachmentsDirectoryPath</span>
 		<br /><br />
 
-		<label for="AllowedExtensions">@SiteStrings.SiteSettings_Configuration_Extensions</label>
-		@Html.TextBoxFor(s => s.AllowedExtensions, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Extensions_Help })
+		<label for="AllowedFileTypes">@SiteStrings.SiteSettings_Configuration_Extensions</label>
+		@Html.TextBoxFor(s => s.AllowedFileTypes, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Extensions_Help })
 
 		<div class="translationtodo bold">Caching</div>
 		<label for="UseObjectCache" class="checkbox translationtodo">@SiteStrings.SiteSettings_Configuration_ObjectCaching
