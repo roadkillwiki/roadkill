@@ -20,13 +20,19 @@ namespace Roadkill.Core.Attachments
 			_settings = settings;
 		}
 
-		public static void RegisterRoute(ApplicationSettings settings)
+		public static void RegisterRoute(ApplicationSettings settings, RouteCollection routes)
 		{
+			if (string.IsNullOrEmpty(settings.AttachmentsRoutePath))
+				throw new ConfigurationException("The configuration is missing an attachments route path, please enter one using attachmentsRoutePath=\"Attachments\"", null);
+
+			if (settings.AttachmentsRoutePath.ToLower() == "files")
+				throw new ConfigurationException("The attachmentsRoutePath in the config is set to 'files' which is not an allowed route path. Please change it to something else.", null);
+
 			Route route = new Route(settings.AttachmentsRoutePath + "/{*filename}", new AttachmentRouteHandler(settings));
 			route.Constraints = new RouteValueDictionary();
 			route.Constraints.Add("MvcContraint", new IgnoreMvcConstraint(settings));
 
-			RouteTable.Routes.Add(route);
+			routes.Add(route);
 		}
 
 		public IHttpHandler GetHttpHandler(RequestContext requestContext)
