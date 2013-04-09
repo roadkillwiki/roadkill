@@ -8,6 +8,7 @@ using Roadkill.Core.Attachments;
 namespace Roadkill.Tests.Unit.Attachments
 {
 	[TestFixture]
+	[Category("Unit")]
 	public class MimeMappingTests
 	{
 		[Test]

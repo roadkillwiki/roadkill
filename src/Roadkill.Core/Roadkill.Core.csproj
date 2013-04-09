@@ -293,6 +293,7 @@
   <ItemGroup>
     <Compile Include="Common\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Configuration\ConfigFileManager.cs" />
+    <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="MVC\Attributes\IControllerAttribute.cs" />
     <Compile Include="DI\MvcAttributeProvider.cs" />
     <Compile Include="DI\MvcDependencyResolver.cs" />

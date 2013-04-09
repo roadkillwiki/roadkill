@@ -18,6 +18,7 @@ using Roadkill.Core.Security;
 using Roadkill.Core.Security.Windows;
 using StructureMap;
 using StructureMap.Query;
+using System.Web.Routing;
 
 namespace Roadkill.Core
 {
@@ -242,7 +243,7 @@ namespace Roadkill.Core
 				ModelBinders.Binders.Add(typeof(SettingsSummary), new SettingsSummaryModelBinder());
 
 				// Attachments path
-				AttachmentRouteHandler.RegisterRoute(_applicationSettings);
+				AttachmentRouteHandler.RegisterRoute(_applicationSettings, RouteTable.Routes);
 			}
 			else
 			{

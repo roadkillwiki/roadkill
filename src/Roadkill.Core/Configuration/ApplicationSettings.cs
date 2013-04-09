@@ -55,12 +55,19 @@ namespace Roadkill.Core.Configuration
 		}
 
 		/// <summary>
-		/// The route used for all attachment HTTP requests (currently non-user configurable). Should not contain a trailing slash.
+		/// The route used for all attachment HTTP requests (currently non-user configurable), e.g. "/Attachments" - contains a slash 
+		/// at the start and does not contain a trailing slash.
 		/// </summary>
-		public string AttachmentsUrlPath { get; set; }
+		public string AttachmentsUrlPath
+		{
+			get
+			{
+				return "/" +AttachmentsRoutePath;
+			}
+		}
 
 		/// <summary>
-		/// The route used for all attachment HTTP requests (currently non-user configurable), minus any starting "/".
+		/// The route used for all attachment HTTP requests (currently non-user configurable). This contains no starting or ending "/".
 		/// </summary>
 		public string AttachmentsRoutePath { get; set; }
 
