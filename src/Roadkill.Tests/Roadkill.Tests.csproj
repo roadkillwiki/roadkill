@@ -254,6 +254,7 @@
     <Compile Include="Smoke\DemoSiteTests.cs" />
     <Compile Include="Unit\Attachments\MimeMappingTests.cs" />
     <Compile Include="Unit\Database\DataStore\DataStoreTypeTests.cs" />
+    <Compile Include="Unit\Database\SiteSettingsTests.cs" />
     <Compile Include="Unit\DependencyContainerTests.cs" />
     <Compile Include="Unit\Database\LightSpeed\ToEntityTests.cs" />
     <Compile Include="Unit\Database\LightSpeed\FromEntityTests.cs" />

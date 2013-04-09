@@ -109,11 +109,15 @@ namespace Roadkill.Core.Configuration
 
 		public SiteSettings()
 		{
+			AllowedFileTypes = "jpg, png, gif";
+			AllowUserSignup = false;
+			IsRecaptchaEnabled = false;
 			Theme = "Mediawiki";
 			MarkupType = "Creole";
 			SiteName = "Your site";
 			SiteUrl = "";
-			AllowedFileTypes = "jpg, png, gif";
+			RecaptchaPrivateKey = "";
+			RecaptchaPublicKey = "";
 		}
 
 		public string GetJson()
@@ -129,7 +133,15 @@ namespace Roadkill.Core.Configuration
 				return new SiteSettings();
 			}
 
-			return JsonConvert.DeserializeObject<SiteSettings>(json);
+			try
+			{
+				return JsonConvert.DeserializeObject<SiteSettings>(json);
+			}
+			catch (JsonReaderException e)
+			{
+				Log.Error("SitePreferences.LoadFromJson - an exception occurred deserializing the JSON - {0}", e.ToString());
+				return new SiteSettings();
+			}
 		}
 	}
 }
