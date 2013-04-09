@@ -164,6 +164,7 @@ namespace Roadkill.Core
 					x.For<UserManagerBase>().HybridHttpOrThreadLocalScoped().Use<FormsAuthUserManager>();
 				}
 
+				// Setter inject the various MVC objects that can't have constructors
 				x.SetAllProperties(y => y.OfType<IControllerAttribute>());
 				x.SetAllProperties(y => y.TypeMatches(t => t == typeof(RoadkillViewPage<>)));
 				x.SetAllProperties(y => y.TypeMatches(t => t == typeof(RoadkillLayoutPage)));
@@ -232,10 +233,13 @@ namespace Roadkill.Core
 		{
 			if (_hasRunInitialization)
 			{
-				// *All* Roadkill MVC controllers are new'd up by a controller factory so dependencies are injected into them
-				// Some view models are new'd up by a custom object factory so dependencies are injected into them
-				// Attributes are injected using setter injection
-				// All views use RoadkillViewPage which is setter injected.
+				//
+				// * _All_ Roadkill MVC controllers are new'd up MvcDependencyResolver so dependencies are injected into them
+				// * Some view models are new'd up by a custom object factory so dependencies are injected into them
+				// * Attributes are injected using setter injection
+				// * All views use RoadkillViewPage which is setter injected.
+				// * All layout views use RoadkillLayoutPage which is uses bastard injection (as master pages are part of ASP.NET and not MVC) 
+				//
 
 				DependencyResolver.SetResolver(new MvcDependencyResolver()); // views and controllers
 				FilterProviders.Providers.Add(new MvcAttributeProvider()); // attributes
@@ -310,8 +314,7 @@ namespace Roadkill.Core
 
 		public static object GetInstance(Type instanceType)
 		{
-			// See:
-			// http://codebetter.com/jeremymiller/2011/01/23/if-you-are-using-structuremap-with-mvc3-please-read-this/
+			// This workaround is from http://codebetter.com/jeremymiller/2011/01/23/if-you-are-using-structuremap-with-mvc3-please-read-this/
 			if (instanceType.IsAbstract || instanceType.IsInterface)
 			{
 				var x = ObjectFactory.TryGetInstance(instanceType);
