@@ -70,7 +70,6 @@ namespace Roadkill.Tests.Unit
 			summary.ConnectionString = "Data Source=somefile.sqlite;";
 			summary.UseObjectCache = true;
 
-
 			// Act
 			_settingsManager.CreateTables(summary);
 
