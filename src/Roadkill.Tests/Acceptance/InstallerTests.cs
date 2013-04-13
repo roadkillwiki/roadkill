@@ -31,7 +31,7 @@ namespace Roadkill.Tests.Acceptance
 		public void TearDown()
 		{
 			string sitePath = AcceptanceTestsSetup.GetSitePath();
-			string webConfigPath = Path.Combine(sitePath, "web.config");
+
 			try
 			{
 				// Remove any attachment folders used by the installer tests

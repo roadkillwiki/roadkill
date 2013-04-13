@@ -17,5 +17,8 @@ namespace Roadkill.Core.Database
 		User GetUserByUsernameOrEmail(string username, string email);
 		IEnumerable<User> FindAllEditors();
 		IEnumerable<User> FindAllAdmins();
+		void DeleteAllUsers();
+		void DeleteUser(User user);
+		User SaveOrUpdateUser(User user);
 	}
 }

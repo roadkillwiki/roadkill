@@ -19,7 +19,6 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			LoginAsAdmin();
-			DataStoreType sqlCeType = DataStoreType.ByName("SqlServerCe");
 
 			// Act
 			Driver.FindElement(By.CssSelector("a[href='/settings']")).Click();

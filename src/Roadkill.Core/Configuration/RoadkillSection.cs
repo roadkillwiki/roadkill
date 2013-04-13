@@ -98,7 +98,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Legacy property, this is now "dataStoreType"
+		/// Don't use this property - it's a leegacy one, use "dataStoreType"
 		/// </summary>
 		/// <remarks>Renamed in 1.6</remarks>
 		[ConfigurationProperty("databaseType", IsRequired = false)]
