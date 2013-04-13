@@ -10,6 +10,7 @@ using Roadkill.Core.Configuration;
 using System.Web;
 using System.Web.Mvc;
 using Roadkill.Core.Database;
+using Roadkill.Core.Attachments;
 
 namespace Roadkill.Core.Mvc.ViewModels
 {
@@ -47,6 +48,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 
 		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_AttachmentsEmpty")]
         //[RegularExpression(@"^[^/Files].*",ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_AttachmentsReservedName")]
+        [AttachmentFolderValidator]
 		public string AttachmentsFolder { get; set; }
 
 		public string AttachmentsDirectoryPath { get; set; }

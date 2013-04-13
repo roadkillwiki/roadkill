@@ -1,3 +1,8 @@
 ﻿div.search { float:right; }
 div.search span { color: navy; font-weight:bold }
 div#footer { background-color: whitesmoke; }
+
+ul.navigator li { background-color: whitesmoke; border: 1px solid gray; border-radius: 0; }
+ul.navigator li a { color:black; text-decoration: none; }
+
+#folder-container { border:1px solid gray; }

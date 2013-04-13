@@ -9,6 +9,7 @@
 <body>
 @{
 	var settingsLink = Html.SettingsLink("", "");
+    var manageFilesLink = Html.ManageFilesLink("", "");
 	var loginLink = Html.LoginLink("", "");
 	var newPageLink = Html.NewPageLink("", "");
 }
@@ -20,6 +21,11 @@
 					<li>@settingsLink</li>
 					<li>|</li>
 				}
+                @if (manageFilesLink.ToString().Length > 0)
+                {
+                    <li>@manageFilesLink</li>
+				    <li>|</li>
+                }
 				@if (newPageLink.ToString().Length > 0)
 				{ 
 					<li>@newPageLink</li>
@@ -31,7 +37,7 @@
 				<li>|</li>
 				<li>@Html.ActionLink(SiteStrings.Navigation_AllPages, "AllPages", "Pages")</li>
                 <li>|</li>
-				<li>@Html.LoginStatus()</li>
+                <li>@Html.LoginStatus()</li>
 				@if (loginLink.ToString().Length > 0)
 				{ 
         			<li>|</li>

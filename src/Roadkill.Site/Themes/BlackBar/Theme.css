@@ -33,3 +33,12 @@ div.floatright, table.floatright { clear: right; float: right; }
 
 .center * { margin-left: auto; margin-right: auto; }
 .center { text-align: center; width: 100%; }
+
+/* File Manager/Navigator styling */
+ul.navigator li { background-color: whitesmoke; border: 1px solid black; border-radius: 6px; }
+ul.navigator li a { color:black; }
+
+#folder-container {border:1px solid black;}
+
+table#files tr.focus { background-color: whitesmoke; }
+table#files tr.select { background-color: whitesmoke; font-weight:bold;  border:1px solid silver; }

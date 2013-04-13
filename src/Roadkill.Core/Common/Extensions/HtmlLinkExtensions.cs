@@ -55,6 +55,24 @@ namespace Roadkill.Core
 			}
 		}
 
+        /// <summary>
+        /// Provides a link to the Manage Files page, with optional prefix and suffix tags or seperators.
+        /// </summary>
+        /// <returns>If the user is not logged in and not an admin, an empty string is returned.</returns>
+        public static MvcHtmlString ManageFilesLink(this HtmlHelper helper, string prefix, string suffix)
+        {
+            ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
+            if (controller != null && controller.Context.IsEditor)
+            {
+                string link = helper.ActionLink(SiteStrings.Navigation_ManageFiles, "Index", "FileManager").ToString();
+                return MvcHtmlString.Create(prefix + link + suffix);
+            }
+            else
+            {
+                return MvcHtmlString.Empty;
+            }
+        }
+
 		/// <summary>
 		/// Provides a link to the login page, or if the user is logged in, the logout page.
 		/// Optional prefix and suffix tags or seperators and also included.

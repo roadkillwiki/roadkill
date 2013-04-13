@@ -867,4 +867,7 @@
   <data name="FileManager_Error_FolderDelete" xml:space="preserve">
     <value>Folder must exist and must be empty.</value>
   </data>
+  <data name="SiteSettings_Configuration_Attachments_Error" xml:space="preserve">
+    <value>The path specified for the Attachments folder is invalid.</value>
+  </data>
 </root>
