@@ -26,9 +26,18 @@
 	</div>
 }
 	@RenderSection("PageToolbar", false)
+    @RenderSection("ViewHistoryLink", false)
 
 	<div id="container">
 		@RenderBody()
 	</div>
+
+    <div id="footer">
+		@RenderSection("PageDetailsFooter", false)
+		<p>
+			@SiteStrings.Shared_PoweredBy (@ApplicationSettings.AssemblyVersion.ToString()).
+		</p>
+	</div>
+
 </body>
 </html>
