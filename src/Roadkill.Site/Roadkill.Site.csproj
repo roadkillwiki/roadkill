@@ -21,7 +21,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -405,6 +405,7 @@
     <Content Include="Views\LogViewer\Menu.cshtml" />
     <Content Include="Views\User\LoggedInAs.cshtml" />
     <Content Include="Views\User\LeftMenu.cshtml" />
+    <Content Include="Views\FileManager\Select.cshtml" />
     <None Include="Web.DemoSite.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

@@ -19,13 +19,15 @@ namespace Roadkill.Core.Mvc.Controllers
     [AdminRequired]
     public class FileManagerController : ControllerBase
     {
+        private AttachmentFileHandler _attachment;
         /// <summary>
         /// Constructor for the file manager.
         /// </summary>
         /// <remarks>This action requires editor rights.</remarks>
-        public FileManagerController(ApplicationSettings settings, UserManagerBase userManager, IUserContext context, SettingsManager siteSettingsManager)
+        public FileManagerController(ApplicationSettings settings, UserManagerBase userManager, IUserContext context, SettingsManager siteSettingsManager, AttachmentFileHandler attachment)
             : base(settings, userManager, context, siteSettingsManager) 
 		{
+            _attachment = attachment;
 		}
 
         /// <summary>
@@ -41,7 +43,8 @@ namespace Roadkill.Core.Mvc.Controllers
         /// <summary>
         /// Attempts to delete a file in the attachments folder.
         /// </summary>
-        /// <param name="filePath">A file path including the filename, which is a relative URL.</param>
+        /// <param name="filePath">A relative file path that contains the file to be deleted.</param>
+        /// <param name="fileName">The name of the file to be deleted.</param>
         /// <remarks>This action requires editor rights.</remarks>
         [EditorRequired]
         [HttpPost]
@@ -49,7 +52,7 @@ namespace Roadkill.Core.Mvc.Controllers
         {
             try
             {
-                string path = Path.Combine(AttachmentFileHandler.CombineAbsoluteAttachmentsFolder(ApplicationSettings, filePath), fileName);
+                string path = Path.Combine(_attachment.CombineAbsoluteAttachmentsFolder(filePath), fileName);
 
                 if (System.IO.File.Exists(path))
                     System.IO.File.Delete(path);
@@ -79,7 +82,7 @@ namespace Roadkill.Core.Mvc.Controllers
                     return Json(new { status = "error", message = SiteStrings.FileManager_Error_BaseFolderDelete });
                 }
 
-                string fullPath = AttachmentFileHandler.CombineAbsoluteAttachmentsFolder(ApplicationSettings, folder);
+                string fullPath = _attachment.CombineAbsoluteAttachmentsFolder(folder);
 
                 var info = new DirectoryInfo(fullPath);
 
@@ -102,28 +105,6 @@ namespace Roadkill.Core.Mvc.Controllers
         }
 
         /// <summary>
-        /// Displays a HTML representation of a folder, including files that
-        /// can be used with the jQuery File Tree plugin.
-        /// </summary>
-        /// <param name="dir">The current directory to display</param>
-        /// <remarks>This action requires editor rights.</remarks>
-        //[EditorRequired]
-        //public ActionResult Folder(string dir)
-        //{
-        //    string folder = dir;
-        //    folder = Server.UrlDecode(folder);
-
-        //    if (string.IsNullOrEmpty(folder) || folder == "/")
-        //    {
-        //        // GetFilesAndFolders expects a base64 encoded folder, so as wacky as it looks
-        //        // we base64 the attachments folder, so it can decode it correctly
-        //        folder = folder.ToBase64();
-        //    }
-
-        //    return PartialView(GetFilesAndFolders(folder));
-        //}
-
-        /// <summary>
         /// Returns a JSON representation of a DirectorySummary object, including files that
         /// can be used with the jQuery to display in one or more formats, i.e. list or detail views.
         /// </summary>
@@ -144,19 +125,6 @@ namespace Roadkill.Core.Mvc.Controllers
 
             return Json(GetFilesAndFolders(folder));
         }
-
-
-        /// <summary>
-        /// Returns a plain text string containing the full attachments URL path.
-        /// </summary>
-        /// <param name="id">A Base64 representation of a path relative to the Attachments folder.</param>
-        /// <remarks>This action requires editor rights.</remarks>
-        //[EditorRequired]
-        //public ActionResult GetPath(string id)
-        //{
-        //    FileSummary summary = FileSummary.FromBase64UrlPath(id, Configuration);
-        //    return Content(summary.UrlPath);
-        //}
 
         /// <summary>
         /// Gets a lists of all files and folders (as a <see cref="DirectorySummary"/> for the relative path provided.
@@ -199,6 +167,7 @@ namespace Roadkill.Core.Mvc.Controllers
                 {
                     currentFolderPath = currentFolderPath.Replace("/Attachments", "");
                 }
+
                 currentFolderPath = currentFolderPath.ToBase64();
                 DirectorySummary summary = DirectorySummary.FromBase64UrlPath(ApplicationSettings, currentFolderPath);
                 string newPath = string.Format("{0}\\{1}", summary.DiskPath, newFolderName);
@@ -218,8 +187,8 @@ namespace Roadkill.Core.Mvc.Controllers
         /// <summary>
         /// Attempts to upload a file provided by the 'uploadFile' POST var.
         /// </summary>
-        /// <param name="currentUploadFolderPath">The current path relative to the attachments folder to save to.</param>
-        /// <returns>Redirects to the Index action. If an error occurred the TempData["Error"] object contains the message.</returns>
+        /// <param name="destination_folder">The related path to the attachments folder to save to.</param>
+        /// <returns>Returns Json object containing status and either message or fileList.</returns>
         /// <remarks>This action requires editor rights.</remarks>
         [EditorRequired]
         [HttpPost]
@@ -235,15 +204,11 @@ namespace Roadkill.Core.Mvc.Controllers
             {
                 destinationFolder = Request.Form["destination_folder"];
 
-                if (destinationFolder == "/Attachments")
+                physicalPath = _attachment.CombineAbsoluteAttachmentsFolder(destinationFolder);
+
+                if (!_attachment.IsPhysicalPathValid(physicalPath))
                 {
-                    physicalPath = ApplicationSettings.AttachmentsFolder;
-                }
-                else
-                {
-                    destinationFolder = destinationFolder.Replace("/Attachments/", "");
-                    destinationFolder = destinationFolder.Replace("/", @"\");
-                    physicalPath = Path.GetFullPath(Path.Combine(ApplicationSettings.AttachmentsFolder, destinationFolder));
+                    throw new Exception("Attachment Path invalid");
                 }
 
                 for (int i = 0; i < Request.Files.Count; i++)
@@ -253,7 +218,6 @@ namespace Roadkill.Core.Mvc.Controllers
                     SourceFile.SaveAs(fullFilePath);
 
                     filesList.Add(new FileSummary(fullFilePath, ApplicationSettings));
-
                 }
 
                 return Json(new { status = "ok", files = filesList }, "text/plain");
@@ -264,11 +228,15 @@ namespace Roadkill.Core.Mvc.Controllers
             }
         }
 
-        //[EditorRequired]
-        //public ActionResult Select()
-        //{
-        //    return View();
-        //}
+        /// <summary>
+        /// Provides a File Navigator view in order to select a file.
+        /// </summary>
+        /// <remarks>This action requires editor rights.</remarks>
+        [EditorRequired]
+        public ActionResult Select()
+        {
+            return View();
+        }
 
     }
 }

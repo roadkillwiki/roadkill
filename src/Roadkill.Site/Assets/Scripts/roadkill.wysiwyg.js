@@ -50,9 +50,8 @@ function initWYSIWYG()
 	{
 		addListItem(ROADKILL_EDIT_NUMBERLIST_TOKEN);
 	});
-	$(".wysiwyg-picture").click(function ()
-	{
-		openIframeModal("<iframe src='" + ROADKILL_FILEMANAGERURL + "' id='filechooser-iframe' width='700' height='400' scrolling='auto'></iframe>");
+	$(".wysiwyg-picture").click(function () {
+	    openIframeModal("<iframe src='" + ROADKILL_FILESELECTURL + "' id='filechooser-iframe' width='700' height='400' scrolling='auto'></iframe>");
 	});
 	$(".wysiwyg-link").click(function ()
 	{
@@ -112,8 +111,11 @@ function addImage(image)
 {
 	var range = $("#Content").getSelection();
 
-	if(range !== null)
-	{
+	if(range !== null) {
+
+	    var s_attachment_path = ROADKILL_ATTACHMENTSPATH.replace(ROADKILL_BASEPATH, "");
+	    image = image.replace(s_attachment_path, "").replace("//", "");
+
 		var text = range.text;
 		if(range.text === "")
 			text = ROADKILL_EDIT_IMAGE_TITLE;

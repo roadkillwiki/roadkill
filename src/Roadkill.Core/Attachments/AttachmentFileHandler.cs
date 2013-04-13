@@ -122,7 +122,7 @@ namespace Roadkill.Core.Attachments
 			}
 		}
 
-		internal static string GetAttachmentsPath(ApplicationSettings settings)
+		public static string GetAttachmentsPath(ApplicationSettings settings)
 		{
 			string attachmentsPath = settings.AttachmentsUrlPath;
 			if (HttpContext.Current != null)
@@ -179,9 +179,13 @@ namespace Roadkill.Core.Attachments
 			return errors;
 		}
 
-        public static string GetAbsoluteAttachmentsFolder(ApplicationSettings settings)
+        /// <summary>
+        /// Returns the physical path of the Attachments folder.
+        /// </summary>
+        /// <returns>Returns the physical path of the Attachments folder.</returns>
+        public string GetAbsoluteAttachmentsFolder()
         {
-            string attachmentsPath = settings.AttachmentsFolder;
+            string attachmentsPath = _settings.AttachmentsFolder;
 
             if (attachmentsPath.StartsWith(@"~/"))
             {
@@ -191,15 +195,35 @@ namespace Roadkill.Core.Attachments
             return attachmentsPath;
         }
 
-        public static string CombineAbsoluteAttachmentsFolder(ApplicationSettings settings, string relativePath)
+        /// <summary>
+        /// Returns the physical path of the Attachments folder plus the parsed relative file path.
+        /// </summary>
+        /// <param name="folder">relativePath</param>
+        /// <returns>Returns the physical path of the Attachments folder plus the parsed relative path parameter joined.</returns>
+        public string CombineAbsoluteAttachmentsFolder(string relativePath)
         {
-            string attachmentsPath = GetAbsoluteAttachmentsFolder(settings);
+            string attachmentsPath = GetAbsoluteAttachmentsFolder();
 
             relativePath = relativePath.Replace("/Attachments/", "");
             relativePath = relativePath.Replace("/", @"\");
             relativePath = Path.Combine(attachmentsPath, relativePath);
 
             return relativePath;
+        }
+
+        /// <summary>
+        /// Validates that the passed physical path is a valid attachments path.
+        /// </summary>
+        /// <param name="folder">physicalPath</param>
+        /// <returns>Returns the physical path of the Attachments folder plus the parsed relative path parameter joined.</returns>
+        public bool IsPhysicalPathValid(string physicalPath)
+        {
+            if (!physicalPath.StartsWith(_settings.AttachmentsFolder) || physicalPath.Contains("..") || !Directory.Exists(physicalPath))
+            {
+                return false;
+            }
+
+            return true;
         }
 
 	}

@@ -46,7 +46,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public bool AllowUserSignup { get; set; }
 
 		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_AttachmentsEmpty")]
-		[RegularExpression(@"^[^/Files].*",ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_AttachmentsReservedName")]
+        //[RegularExpression(@"^[^/Files].*",ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_AttachmentsReservedName")]
 		public string AttachmentsFolder { get; set; }
 
 		public string AttachmentsDirectoryPath { get; set; }
