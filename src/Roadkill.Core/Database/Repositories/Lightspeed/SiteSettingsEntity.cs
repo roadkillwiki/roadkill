@@ -14,14 +14,6 @@ namespace Roadkill.Core.Database.LightSpeed
 		[Column("version")]
 		private string _version;
 
-		public Guid Id
-		{
-			get
-			{
-				return SiteSettings.SiteSettingsId;
-			}
-		}
-
 		public string Content
 		{
 			get

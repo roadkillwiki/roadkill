@@ -12,7 +12,7 @@ CREATE TABLE roadkill_pages
 
 CREATE TABLE roadkill_pagecontent 
 (
-	[id] UNIQUEIDENTIFIER not null, 
+	[id] CHAR(36) not null, 
 	[editedby] TEXT, 
 	[editedon] DATETIME, 
 	[versionnumber] INT, 
@@ -26,7 +26,7 @@ CREATE INDEX pageid on roadkill_pagecontent (pageid);
 
 CREATE TABLE roadkill_users 
 (
-	[id] UNIQUEIDENTIFIER not null, 
+	[id] CHAR(36) not null, 
 	[activationkey] TEXT, 
 	[email] NTEXT, 
 	[firstname] NTEXT, 
@@ -45,7 +45,7 @@ CREATE INDEX email on roadkill_users (email);
 
 CREATE TABLE [roadkill_siteconfiguration] 
 (
-  [id] UNIQUEIDENTIFIER NOT NULL, 
+  [id] CHAR(36) NOT NULL, 
   [version] TEXT, 
   [content] NTEXT, 
   PRIMARY KEY (Id)

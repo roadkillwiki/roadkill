@@ -237,9 +237,9 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Acceptance\UpgradeTests.cs" />
     <Compile Include="Acceptance\LogViewerTests.cs" />
     <Compile Include="Acceptance\WebDriverExtensions.cs" />
-    <Compile Include="Acceptance\UpgradeToVersion16Tests.cs" />
     <Compile Include="Acceptance\InstallerTests.cs" />
     <Compile Include="Acceptance\SearchTests.cs" />
     <Compile Include="Acceptance\SettingsTests.cs" />
@@ -260,6 +260,7 @@
     <Compile Include="Unit\Database\LightSpeed\FromEntityTests.cs" />
     <Compile Include="Unit\Managers\HistoryManagerTests.cs" />
     <Compile Include="Unit\Managers\SettingsManagerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\UpgradeControllerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\PagesControllerTests.cs" />
     <Compile Include="Unit\Mvc\RoutingTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\WikiControllerTests.cs" />

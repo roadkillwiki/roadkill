@@ -72,12 +72,6 @@ namespace Roadkill.Core.Database.LightSpeed
 			_applicationSettings = settings;
 		}
 
-		public void EnableSqlLogging()
-		{
-			Context.VerboseLogging = true;
-			Context.Logger = new TraceLogger();
-		}
-
 		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)
 		{
 			if (!string.IsNullOrEmpty(connectionString))
@@ -88,6 +82,11 @@ namespace Roadkill.Core.Database.LightSpeed
 				context.IdentityMethod = IdentityMethod.GuidComb;
 				context.CascadeDeletes = true;
 				context.Cache = new CacheBroker(new DefaultCache());
+
+#if DEBUG
+				context.VerboseLogging = true;
+				context.Logger = new TraceLogger();
+#endif
 
 				ObjectFactory.Configure(x =>
 				{
