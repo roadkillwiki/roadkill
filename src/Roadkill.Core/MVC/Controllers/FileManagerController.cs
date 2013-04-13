@@ -52,7 +52,7 @@ namespace Roadkill.Core.Mvc.Controllers
         {
             try
             {
-                string path = Path.Combine(_attachment.CombineAbsoluteAttachmentsFolder(filePath), fileName);
+                string path = Path.Combine(_attachment.CombineRelativeFolder(filePath), fileName);
 
                 if (System.IO.File.Exists(path))
                     System.IO.File.Delete(path);
@@ -82,7 +82,7 @@ namespace Roadkill.Core.Mvc.Controllers
                     return Json(new { status = "error", message = SiteStrings.FileManager_Error_BaseFolderDelete });
                 }
 
-                string fullPath = _attachment.CombineAbsoluteAttachmentsFolder(folder);
+                string fullPath = _attachment.CombineRelativeFolder(folder);
 
                 var info = new DirectoryInfo(fullPath);
 
@@ -204,9 +204,9 @@ namespace Roadkill.Core.Mvc.Controllers
             {
                 destinationFolder = Request.Form["destination_folder"];
 
-                physicalPath = _attachment.CombineAbsoluteAttachmentsFolder(destinationFolder);
-
-                if (!_attachment.IsPhysicalPathValid(physicalPath))
+                physicalPath = _attachment.CombineRelativeFolder(destinationFolder);
+                
+                if (!_attachment.IsAttachmentPathValid(physicalPath))
                 {
                     throw new Exception("Attachment Path invalid");
                 }

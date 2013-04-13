@@ -183,7 +183,7 @@ namespace Roadkill.Core.Attachments
         /// Returns the physical path of the Attachments folder.
         /// </summary>
         /// <returns>Returns the physical path of the Attachments folder.</returns>
-        public string GetAbsoluteAttachmentsFolder()
+        public string GetAttachmentsFolder()
         {
             string attachmentsPath = _settings.AttachmentsFolder;
 
@@ -198,11 +198,11 @@ namespace Roadkill.Core.Attachments
         /// <summary>
         /// Returns the physical path of the Attachments folder plus the parsed relative file path.
         /// </summary>
-        /// <param name="folder">relativePath</param>
+        /// <param name="relativePath">relativePath</param>
         /// <returns>Returns the physical path of the Attachments folder plus the parsed relative path parameter joined.</returns>
-        public string CombineAbsoluteAttachmentsFolder(string relativePath)
+        public string CombineRelativeFolder(string relativePath)
         {
-            string attachmentsPath = GetAbsoluteAttachmentsFolder();
+            string attachmentsPath = GetAttachmentsFolder();
 
             relativePath = relativePath.Replace("/Attachments/", "");
             relativePath = relativePath.Replace("/", @"\");
@@ -212,19 +212,27 @@ namespace Roadkill.Core.Attachments
         }
 
         /// <summary>
-        /// Validates that the passed physical path is a valid attachments path.
+        /// Validates that the passed physical path is a valid sub folder of the base attachments path.
         /// </summary>
-        /// <param name="folder">physicalPath</param>
+        /// <param name="attachmentPath">sub folder of base Attachments folder</param>
         /// <returns>Returns the physical path of the Attachments folder plus the parsed relative path parameter joined.</returns>
-        public bool IsPhysicalPathValid(string physicalPath)
+        public bool IsAttachmentPathValid(string attachmentPath)
         {
-            if (!physicalPath.StartsWith(_settings.AttachmentsFolder) || physicalPath.Contains("..") || !Directory.Exists(physicalPath))
+            DirectoryInfo dir1 = new DirectoryInfo(_settings.AttachmentsFolder);
+            DirectoryInfo dir2 = new DirectoryInfo(attachmentPath);
+            bool isParent = false;
+
+            while (dir2.Parent != null)
             {
-                return false;
+                if (dir2.Parent.FullName == dir1.FullName)
+                {
+                    isParent = true;
+                    break;
+                }
+                else dir2 = dir2.Parent;
             }
 
-            return true;
+            return isParent;
         }
-
 	}
 }
