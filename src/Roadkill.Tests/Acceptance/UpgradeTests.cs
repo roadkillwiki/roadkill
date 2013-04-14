@@ -21,22 +21,25 @@ namespace Roadkill.Tests.Acceptance
 		private string _sqlServerMasterConnection = @"Server=.\SQLExpress;uid=sa;pwd=Passw0rd;database=master;";
 		private string _sqlServerConnection = @"Server=.\SQLExpress;Initial Catalog=roadkill152;AttachDbFilename=|DataDirectory|\roadkill152.mdf;Integrated Security=True;User Instance=True";
 		private string _sqliteConnection = @"Data Source=|DataDirectory|\roadkill152.sqlite;";
+		private string _sqlServerCeConnection = @"Data Source=|DataDirectory|\roadkill152.sdf;";
 
 		[TestFixtureSetUp]
-		public void Setup()
+		public void TestFixtureSetUp()
 		{
-			DetachSqlServerUserInstance();
-
 			SitePath = AcceptanceTestsSetup.GetSitePath();
+			
+			// SQL Server 1.5.2 user instance database
+			DetachSqlServerUserInstance();
 			string sqlServerDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill152.mdf");
 			File.Copy(sqlServerDBPath, Path.Combine(SitePath, "App_Data", "roadkill152.mdf"), true);
 
+			// SQL Server CE 1.5.2. database
+			string sqlServerCEDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill152.sdf");
+			File.Copy(sqlServerCEDBPath, Path.Combine(SitePath, "App_Data", "roadkill152.sdf"), true);
+
+			// SQLite 1.5.2 database
 			string sqliteDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill152.sqlite");
 			string destSqlitePath = Path.Combine(SitePath, "App_Data", "roadkill152.sqlite");
-			
-			if (File.Exists(destSqlitePath))
-				File.Delete(destSqlitePath);
-
 			File.Copy(sqliteDBPath, destSqlitePath, true);
 		}
 
@@ -70,6 +73,29 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
+		public void SqlServerCE_Should_Upgrade_Then_Login_View_Existing_Page_And_Successfully_Create_New_Page()
+		{
+			// Arrange
+			UpdateWebConfig(_sqlServerCeConnection, DataStoreType.SqlServerCe);
+			Driver.Navigate().GoToUrl(BaseUrl);
+
+			// Act
+			Driver.FindElement(By.CssSelector("input[value=Upgrade]")).Click();
+			LoginAsAdmin();
+			CreatePageWithTitleAndTags("New page", "new page");
+			Driver.Navigate().GoToUrl(BaseUrl);
+
+			// Assert
+			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("homepage"));
+			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("This is 1.5.2 homepage"));
+
+			Driver.Navigate().GoToUrl(BaseUrl + "/wiki/2/new-page");
+			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("New page"));
+			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
+		}
+
+		[Test]
+		[Ignore("SQLite upgrades don't work")]
 		public void Sqlite_Should_Upgrade_Then_Login_View_Existing_Page_And_Successfully_Create_New_Page()
 		{
 			// Arrange
@@ -90,6 +116,8 @@ namespace Roadkill.Tests.Acceptance
 			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("New page"));
 			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
 		}
+
+		// No MySQL/Postgres upgrades as they didn't work in 1.5.2
 
 		private void UpdateWebConfig(string connectionstring, DataStoreType databaseType)
 		{
