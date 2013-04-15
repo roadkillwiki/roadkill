@@ -275,7 +275,7 @@ table tr:nth-child(2n) {
 </head>
 <body>
 <h1>Roadkill .NET Wiki Engine</h1>
-<p>Last updated 3/16/2013 (documentation needs updating for 1.6)</p>
+<p>Last updated 04/15/2013 (the documentation is pending an update for version 1.6)</p>
 <h2>Contents</h2>
 <ul>
 <li><a href="">Installation</a></li>
@@ -290,6 +290,7 @@ table tr:nth-child(2n) {
 <li><a href="">Searching with the inbuilt Lucene.net search engine</a></li>
 <li><a href="">Themes</a></li>
 <li><a href="">Theme style reference</a></li>
+<li><a href="">Contributing</a></li>
 </ul>
 <div style="page-break-after:always"></div>
 <h1>1. Installation</h1>
@@ -566,7 +567,7 @@ This is my Excel file: [[attachment:/Spreadsheets/Sheet1.xls|excel file]]
 <p>Occasionally the Lucene index gets out of sync with the site from an error or other reason. This can also happen when a page is deleted - the whole index is updated when a page is created or deleted. If this happens you should login as the administrator for the site and head to Site settings-&gt;Tools and use the &quot;Rebuild search index&quot; option.</p>
 <p>This is the best thing to do for any search related problems, as it 99% of the time it will resolve the issue you're having.</p>
 <div style="page-break-after:always"></div>
-<h1>12. Themes</h1>
+<h1>11. Themes</h1>
 <p>Roadkill supports a fairly comprehensive theming framework that allows you to completely reskin your wiki if needed. The Roadkill installation comes with two themes:</p>
 <h3>Blackbar</h3>
 <p>This is the default theme with a black navigation bar across the top of the page. This theme and some roadkill UI elements in general has been designed for a page with a while background. The theme has a very small ego and has no Roadkill logo on the screen.</p>
@@ -579,7 +580,7 @@ This is my Excel file: [[attachment:/Spreadsheets/Sheet1.xls|excel file]]
 <p>It's easiest to get started by simply copying the &quot;Theme.cshtml&quot; and &quot;Theme.css&quot; files from the &quot;Blackbar&quot; theme folder to your new theme folder. This way you a skeleton to work with, and can just strip out the parts you don't want.</p>
 <h4>3. Edit the theme.css</h4>
 <p>Roadkill has a set of global CSS classes and IDs that you can use in your theme, which are listed below. Theme specific styles are declared inside the theme's &quot;Theme.css&quot; file. This includes font styles, heading styles, anchor styles and tag cloud styles.</p>
-<h1>11. Theme style reference</h1>
+<h1>12. Theme style reference</h1>
 <p>When creating a theme, you get the following CSS classes available to you so the site adheres to the DRY principle:</p>
 <ul>
 <li><strong>.biggest</strong>	An font size for long sighted.</li>
@@ -612,6 +613,31 @@ This is my Excel file: [[attachment:/Spreadsheets/Sheet1.xls|excel file]]
 <li>Print style sheet</li>
 </ul>
 <p>Your theme should include a print style sheet. You don't normally need to create this, copying the Theme.Print.css file from the Mediawiki theme will be enough as the style sheet simply turns off all navigation and headers.</p>
+<div style="page-break-after:always"></div>
+<h1>13. Contributing</h1>
+<p>There's various ways you can contribute to Roadkill:</p>
+<h4>Improve the documentation</h4>
+<p>You'll need to be familiar with <a href="https://help.github.com/articles/github-flavored-markdown">Markdown</a> to do this, the documentation is held as a set of .md files in source control, under /docs/source. MarkdownPad is a great free tool for editing the files.</p>
+<h4>Create a new theme</h4>
+<p>See the previous Themes sections on how to do this. </p>
+<h4>Find bugs</h4>
+<p>..and report them via Bitbucket. But bare in mind the project has some fairly comprehensive automated test coverage (over 500 tests), so a bug hunt is only likely to discover a few unknown issues.</p>
+<h4>Suggest new features</h4>
+<p>Please do do this via the Google groups forum.</p>
+<h4>Write some code</h4>
+<p>Contribute a patch or have a chat on the Google groups about adding a new feature. </p>
+<p>The project doesn't use Codeplex team memberships for commits - we use the brave new world of DCVS where you can clone the repository, make some changes, and then push your changes to our repository (a 'pull request'). We can then diff the changes, and accept or deny them. </p>
+<p>If you want to write some code, please stick to the following guidelines for your contributions:</p>
+<ul>
+<li>Use the existing style of code found in the source base - new lines for curlies, '_' prefix for private members, plus the standard .NET framework guidelines on naming.</li>
+<li>Tabs for indentation (4 spaces per tab).</li>
+<li>If you do have a different coding style to this don't worry, the code is likely to be auto-reformated anyway (using Visual Studio's built in shortcut key). Don't take this personally if it happens - it's about consistency rather than my-style-is-better-than-yours.</li>
+<li>Use XML documentation for public classes, properties and methods, and where needed private methods too.</li>
+<li><strong>No vars</strong>! I get religious about var abuse, as in my view it makes code harder to read and unless used for <a href="http://blogs.msdn.com/b/ericlippert/archive/2011/04/20/uses-and-misuses-of-implicit-typing.aspx" title="var abuse">its intended purpose</a> - where the left side is redundant, dynamic LINQ or complex generic declarations (Dictionary of T for example), then please don't pepper the code with them.</li>
+<li>Add unit tests for the code where possible, which can be a unit test, integration test or acceptance (Selenium-based) test.</li>
+<li>Use constructor injection for dependencies, and add these into the DependencyContainer class (this makes testing and mocking a lot easier).</li>
+<li>Uncle Bob's approach to coding and KISS is the most important factor for the project, it should be easy to read instantly.</li>
+</ul>
 <div style="page-break-after:always"></div>
 
 </body>
