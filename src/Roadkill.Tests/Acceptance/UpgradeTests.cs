@@ -117,6 +117,7 @@ namespace Roadkill.Tests.Acceptance
 			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
 		}
 
+		// ...2 other database tests:
 		// No MySQL/Postgres upgrades as they didn't work in 1.5.2
 
 		private void UpdateWebConfig(string connectionstring, DataStoreType databaseType)

@@ -227,7 +227,6 @@
     <Content Include="App_Data\EmailTemplates\Signup.html" />
     <Content Include="App_Data\EmailTemplates\Signup.txt" />
     <Content Include="App_Data\Logs\emptyfile.txt" />
-    <Content Include="App_Data\roadkill.mdf" />
     <Content Include="App_Data\htmlwhitelist.xml" />
     <Content Include="App_Data\SQLiteBinaries\x64\SQLite.Interop.dll" />
     <Content Include="App_Data\SQLiteBinaries\x86\SQLite.Interop.dll" />

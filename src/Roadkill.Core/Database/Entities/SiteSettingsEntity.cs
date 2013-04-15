@@ -7,7 +7,7 @@ using Roadkill.Core.Configuration;
 namespace Roadkill.Core.Database
 {
 	/// <summary>
-	/// The SitePreferences XML stored in the database, and the Roadkill version.
+	/// The SiteSettings JSON stored in the database, and the Roadkill version.
 	/// </summary>
 	public class SiteSettingsEntity : IDataStoreEntity
 	{

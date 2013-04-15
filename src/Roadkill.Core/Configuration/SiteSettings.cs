@@ -129,7 +129,7 @@ namespace Roadkill.Core.Configuration
 		{
 			if (string.IsNullOrEmpty(json))
 			{
-				Log.Warn("SitePreferences.LoadFromJson - json string was empty (returning a default SitePreferences object)");
+				Log.Warn("SiteSettings.LoadFromJson - json string was empty (returning a default SiteSettings object)");
 				return new SiteSettings();
 			}
 
@@ -139,7 +139,7 @@ namespace Roadkill.Core.Configuration
 			}
 			catch (JsonReaderException e)
 			{
-				Log.Error("SitePreferences.LoadFromJson - an exception occurred deserializing the JSON - {0}", e.ToString());
+				Log.Error("SiteSettings.LoadFromJson - an exception occurred deserializing the JSON - {0}", e.ToString());
 				return new SiteSettings();
 			}
 		}

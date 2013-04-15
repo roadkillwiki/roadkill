@@ -118,7 +118,7 @@ namespace Roadkill.Core.Database.MongoDB
 			}
 			else
 			{
-				Log.Warn("MongoDB: No configuration settings could be found in the database, using a default SitePreferences");
+				Log.Warn("MongoDB: No configuration settings could be found in the database, using a default SiteSettings");
 			}
 
 			return preferences;
