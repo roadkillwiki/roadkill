@@ -56,5 +56,16 @@ namespace Roadkill.Tests
 				return _packagesFolder;
 			}
 		}
+
+		public static string SITE_PATH
+		{
+			get
+			{
+				string sitePath = Path.Combine(Settings.ROOT_FOLDER, "src", "Roadkill.Site");
+				sitePath = new DirectoryInfo(sitePath).FullName;
+
+				return sitePath;
+			}
+		}
 	}
 }

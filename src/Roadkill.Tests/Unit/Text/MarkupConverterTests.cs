@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
@@ -24,6 +25,7 @@ namespace Roadkill.Tests.Unit
 			_settings = new ApplicationSettings();
 			_settings.Installed = true;
 			_settings.UseHtmlWhiteList = true;
+			_settings.CustomTokensPath = Path.Combine(Settings.SITE_PATH, "App_Data", "Tokens.xml");
 
 			_repository = new RepositoryMock();
 			_repository.SiteSettings = new SiteSettings();
@@ -223,6 +225,30 @@ namespace Roadkill.Tests.Unit
 			Assert.That(actualHtml, Is.EqualTo(expected));
 		}
 
+		[Test]
+		public void Custom_Token_With_NoWiki_Adds_Pre_And_Renders_Token_HTML()
+		{
+			// Arrange
+			string expectedHtml = @"<p><div class=""alert"">ENTER YOUR CONTENT HERE 
+<pre>here is my C#code
+</pre>
+</p>
+<p></div><br style=""clear:both""/>
+</p>";
+
+			// Act
+			string actualHtml = _converter.ToHtml(@"@@warningbox:ENTER YOUR CONTENT HERE 
+{{{
+here is my C#code
+}}} 
+
+@@");
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
+		}
+
+		// TODO:
 		// ContainsPageLink
 		// ReplacePageLinks
 		// TOCParser

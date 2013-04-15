@@ -15,9 +15,11 @@ namespace Roadkill.Core.Text.Sanitizer
 
 		public static HtmlWhiteList Deserialize(ApplicationSettings settings)
 		{
-			if (!File.Exists(settings.HtmlElementWhiteListPath))
+			if (string.IsNullOrEmpty(settings.HtmlElementWhiteListPath) || !File.Exists(settings.HtmlElementWhiteListPath))
 			{
-				Log.Warn("Warning: The custom HTML white list tokens file does not exist in path '{0}' - using Default white list.", settings.HtmlElementWhiteListPath);
+				if (!string.IsNullOrEmpty(settings.HtmlElementWhiteListPath))
+					Log.Warn("Warning: The custom HTML white list tokens file does not exist in path '{0}' - using Default white list.", settings.HtmlElementWhiteListPath);
+				
 				return CreateDefaultWhiteList();
 			}
 
