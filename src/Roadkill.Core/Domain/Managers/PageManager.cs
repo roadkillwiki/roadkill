@@ -9,6 +9,7 @@ using Roadkill.Core.Database;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Configuration;
+using System.Web;
 
 namespace Roadkill.Core.Managers
 {
