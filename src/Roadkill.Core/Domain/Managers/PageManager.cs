@@ -60,8 +60,7 @@ namespace Roadkill.Core.Managers
 				PageContent pageContent = Repository.AddNewPage(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.UtcNow);
 
 				_listCache.RemoveAll();
-				if (summary.Tags.Contains("homepage"))
-					_pageSummaryCache.RemoveHomePage();
+				_pageSummaryCache.RemoveAll(); // completely clear the cache to update any reciprocal links.
 
 				// Update the lucene index
 				PageSummary savedSummary = pageContent.ToSummary(_markupConverter);

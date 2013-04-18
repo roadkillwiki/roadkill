@@ -78,7 +78,7 @@
 			</div>
 
 			<input id="testldap" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
-			<div id="ldap-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
+			<div id="ldap-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/loading.gif"))" border="0" /></div>
 			<div id="ldapconnectionsuccess" class="success alert hidden">
 				<h2>@InstallStrings.Shared_Success</h2>
 				<p>@InstallStrings.Page3_AD_Connection_Success</p>
@@ -98,7 +98,7 @@
 		<div class="small">
 			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.EditorRoleName, new { @class = "validate[required]" }))</div>
 			<input id="testeditor" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
-			<div id="editor-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
+			<div id="editor-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/loading.gif"))" border="0" /></div>
 			<div id="editor-connectionsuccess" class="success alert hidden">
 				<h2>@InstallStrings.Shared_Success</h2>
 				<p>@InstallStrings.Page3_AD_Success</p>
@@ -118,7 +118,7 @@
 		<div class="small">
 			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminRoleName, new { @class = "validate[required]" }))</div>
 			<input id="testadmin" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
-			<div id="admin-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" /></div>
+			<div id="admin-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/loading.gif"))" border="0" /></div>
 			<div id="admin-connectionsuccess" class="success alert hidden">
 				<h2>@InstallStrings.Shared_Success</h2>
 				<p>@InstallStrings.Page3_AD_Success</p>

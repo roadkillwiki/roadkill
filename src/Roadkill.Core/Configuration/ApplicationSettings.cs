@@ -204,7 +204,7 @@ namespace Roadkill.Core.Configuration
 
 		public ApplicationSettings()
 		{
-			AppDataPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\";
+			AppDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data");
 			CustomTokensPath = Path.Combine(AppDataPath, "tokens.xml");
 			HtmlElementWhiteListPath = Path.Combine(AppDataPath, "htmlwhitelist.xml");
 			MinimumPasswordLength = 6;

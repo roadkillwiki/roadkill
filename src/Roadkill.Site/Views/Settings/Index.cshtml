@@ -95,7 +95,7 @@
 		<label for="DatabaseType">@SiteStrings.SiteSettings_Configuration_DatabaseType</label>
 		@Html.DropDownListFor(x => x.DataStoreTypeName, Html.DatabaseTypesAvailable(Model), new { rel = "popover", data_content = SiteStrings.SiteSettings_Configuration_DatabaseType_Help })
 		&nbsp;&nbsp;<input id="testdbconnection" class="btn test-button" type="button" value="@InstallStrings.Shared_TestButton" />
-		<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" alt="loading" /></span>
+		<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/loading.gif"))" border="0" alt="loading" /></span>
 
 		<label for="ConnectionString">@SiteStrings.SiteSettings_Configuration_DatabaseConnectionString</label>
 		@(Html.TextBoxFor(s => s.ConnectionString, new { @class = "longtextbox validate[required]", rel="popover", data_content=SiteStrings.SiteSettings_Configuration_DatabaseConnectionString_Help }))	
