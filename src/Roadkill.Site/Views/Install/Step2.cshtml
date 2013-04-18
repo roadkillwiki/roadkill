@@ -145,7 +145,7 @@ $(document).ready(function()
 			<div class="textbox">@Html.TextBoxFor(s => s.ConnectionString, new { @class = "validate[required]", size="60" })</div>
 			<input id="testdbconnection" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
 
-			<div id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/images/loading.gif"))" border="0" alt="loading" /></div>
+			<div id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/loading.gif"))" border="0" alt="loading" /></div>
 			<div id="connectionsuccess" class="success alert hidden">
 				<h2>@InstallStrings.Shared_Success</h2>
 				<p>@InstallStrings.Page2_Success</p>

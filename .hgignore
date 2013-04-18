@@ -56,4 +56,4 @@ _WEBSITE*/
 deploytemp*/
 Roadkill.*.zip
 roadkill.log.*
-roadkill.log-.*
+roadkill.log-*

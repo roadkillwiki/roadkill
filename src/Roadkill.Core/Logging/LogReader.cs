@@ -319,8 +319,12 @@ namespace Roadkill.Core.Logging
 
 		private string RemoveInvalidXmlChars(string text)
 		{
+#if MONO
+			return text; // Mono doesn't implement IsXmlChar, it uses XmlChar
+#else
 			var validXmlChars = text.Where(x => XmlConvert.IsXmlChar(x)).ToArray();
 			return new string(validXmlChars);
+#endif
 		}
 
 		[XmlType("data", Namespace = "http://jakarta.apache.org/log4j/")]

@@ -116,8 +116,11 @@ namespace Roadkill.Core.Security
 				{
 					if (user.Password == User.HashPassword(password, user.Salt))
 					{
-						if (FormsAuthentication.IsEnabled)
+						bool isFormsAuthEnabled = FormsAuthenticationWrapper.IsEnabled();
+						if (isFormsAuthEnabled)
+						{
 							FormsAuthentication.SetAuthCookie(user.Id.ToString(), true);
+						}
 
 						return true;
 					}
@@ -276,7 +279,7 @@ namespace Roadkill.Core.Security
 			}
 			else
 			{
-				// Temporary work-around for 1.5's breaking change that changed the cookie to store the ID instead of username.
+				// Work-around for 1.5's breaking change that changed the cookie to store the ID instead of username.
 				Logout();
 				return false;
 
@@ -359,8 +362,11 @@ namespace Roadkill.Core.Security
 		/// </summary>
 		public override void Logout()
 		{
-			if (FormsAuthentication.IsEnabled)
+			bool isFormsAuthEnabled = FormsAuthenticationWrapper.IsEnabled();
+			if (isFormsAuthEnabled)
+			{
 				FormsAuthentication.SignOut();
+			}
 		}
 
 		/// <summary>
@@ -632,15 +638,22 @@ namespace Roadkill.Core.Security
 		/// </summary>
 		public override string GetLoggedInUserName(HttpContextBase context)
 		{
-			if (FormsAuthentication.IsEnabled)
+			if (context == null || context.Request == null || context.Request.Cookies == null)
+				return "";
+
+			bool isFormsAuthEnabled = FormsAuthenticationWrapper.IsEnabled();
+
+			if (isFormsAuthEnabled)
 			{
-				if (context.Request.Cookies[FormsAuthentication.FormsCookieName] != null)
+				string cookieName = FormsAuthenticationWrapper.CookieName();
+				if (!string.IsNullOrEmpty(cookieName) && context.Request.Cookies[cookieName] != null)
 				{
-					string cookie = context.Request.Cookies[FormsAuthentication.FormsCookieName].Value;
+					string cookie = context.Request.Cookies[cookieName].Value;
 					if (!string.IsNullOrEmpty(cookie))
 					{
 						FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie);
-						return ticket.Name;
+						if (ticket != null)
+							return ticket.Name;
 					}
 				}
 			}

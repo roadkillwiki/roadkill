@@ -33,7 +33,7 @@ namespace Roadkill.Core.Managers
 			: base(settings, repository)
 		{
 			_markupConverter = new MarkupConverter(settings, repository);
-			IndexPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\search";
+			IndexPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Search");
 		}
 
 		/// <summary>
@@ -194,7 +194,7 @@ namespace Roadkill.Core.Managers
 			try
 			{
 				StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
-				using (IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(IndexPath)), analyzer, true,IndexWriter.MaxFieldLength.UNLIMITED))
+				using (IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(IndexPath)), analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED))
 				{
 					foreach (Page page in Repository.AllPages().ToList())
 					{

@@ -246,7 +246,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			try
 			{
-				string exportFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"\App_Data", "export");
+				string exportFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Export");
 				Directory.CreateDirectory(exportFolder);
 
 				string zipFilename = string.Format("export-{0}.zip", DateTime.UtcNow.ToString("yyyy-MM-dd-HHmm"));
@@ -301,7 +301,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			try
 			{
-				string exportFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"\App_Data", "export");
+				string exportFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Export");
 				Directory.CreateDirectory(exportFolder);
 
 				string zipFilename = string.Format("attachments-export-{0}.zip", DateTime.UtcNow.ToString("yyy-MM-dd-HHss"));
@@ -359,6 +359,8 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			TempData["Message"] = SiteStrings.SiteSettings_Tools_ClearDatabase_Message;
 			_settingsManager.ClearPageTables();
+			_listCache.RemoveAll();
+			_pageSummaryCache.RemoveAll();
 
 			return RedirectToAction("Tools");
 		}

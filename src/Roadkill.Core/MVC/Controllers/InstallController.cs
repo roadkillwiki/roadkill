@@ -100,7 +100,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				return RedirectToAction("Index", "Home");
 
 			summary.AllowedFileTypes = "jpg,png,gif,zip,xml,pdf";
-			summary.AttachmentsFolder = "~/Attachments";
+			summary.AttachmentsFolder = "~/App_Data/Attachments";
 			summary.MarkupType = "Creole";
 			summary.Theme = "Mediawiki";
 			summary.UseObjectCache = true;
