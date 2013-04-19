@@ -371,7 +371,6 @@
     <Compile Include="DI\MvcModelBinders.cs" />
     <Compile Include="Configuration\RoadkillSection.cs" />
     <Compile Include="MVC\Controllers\InstallController.cs" />
-    <Compile Include="MVC\Controllers\FilesController.cs" />
     <Compile Include="MVC\Controllers\WikiController.cs" />
     <Compile Include="MVC\Controllers\HelpController.cs" />
     <Compile Include="Text\CustomToken.cs" />

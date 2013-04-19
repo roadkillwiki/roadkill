@@ -37,7 +37,7 @@ function deleteFolder() {
 
     var s_folder = getCurrentPath();
 
-    if (s_folder.search(/^\/Attachments$/) != -1) {
+    if (s_folder == "") {
         alert(ROADKILL_DELETE_BASEFOLDER_ERROR);
         return;
     }
@@ -129,7 +129,7 @@ function processNewFolder(data) {
     }
 
     var item = $("ul.navigator li:last-child");
-    navigateBreadcrumb(item.attr("data-level"), item.attr("data-safepath"));
+    navigateBreadcrumb(item.attr("data-level"), item.attr("data-urlpath"));
     $("tr#newfolderrow").remove();
 
 }
@@ -167,19 +167,12 @@ function setCurrentPath() {
 }
 
 function getCurrentPath() {
-    var a_path = [];
-    $("ul.navigator li").each(
-        function () {
-            a_path.push($(this).attr("data-urlpath"));
-        }
-    );
-
-    return "/" + a_path.join("/");
+    return $("ul.navigator li:last").attr("data-urlpath");
 }
 
 function addBreadcrumb(folderinfo) {
     var n_count = $("ul.navigator li").length;
-    $("ul.navigator").append("<li data-level=\"" + n_count + "\" data-safepath=\"" + folderinfo.SafePath + "\" data-urlpath=\"" + folderinfo.Name + "\"><a href=\"javascript:navigateBreadcrumb(" + n_count + ",&quot;" + folderinfo.SafePath + "&quot;)\">" + folderinfo.Name + "</a></li>");
+    $("ul.navigator").append("<li data-level=\"" + n_count + "\" data-urlpath=\"" + folderinfo.UrlPath + "\"><a href=\"javascript:navigateBreadcrumb(" + n_count + ",&quot;" + escape(folderinfo.UrlPath) + "&quot;)\">" + folderinfo.Name + "</a></li>");
 }
 
 function navigateBreadcrumb(level, s_folder) {
@@ -190,7 +183,6 @@ function navigateBreadcrumb(level, s_folder) {
         $("ul.navigator li:gt(" + (level - 1) + ")").remove();
 
     navigatePath(s_folder);
-
 }
 
 function navigatePriorBreadcrumb() {
@@ -201,7 +193,7 @@ function navigatePriorBreadcrumb() {
 
     var li = $("ul.navigator li:last-child").prev("li");
     var n_level = li.attr("data-level");
-    var s_folder = li.attr("data-safepath");
+    var s_folder = li.attr("data-urlpath");
 
     navigateBreadcrumb(n_level, s_folder);
 
@@ -224,7 +216,7 @@ function buildTableFolderView(data) {
     var a_html = ["<table id=\"files\"><thead><tr><th colspan=2>Name</th><th>Date Uploaded</th><th>Type</th><th>Size</th></tr></thead>"];
 
     for (var i = 0; i < data.ChildFolders.length; i++) {
-        a_html.push("<tr class=\"listrow\" data-itemtype=\"folder\" data-itemid=\"" + data.ChildFolders[i].SafePath + "\"><td width='1%'><img src='" + ROADKILL_COREASSETPATH + "CSS/images/directory.png'></td><td nowrap width=\"20%\">" + data.ChildFolders[i].Name + "</td><td></td><td></td><td></td></tr>");
+        a_html.push("<tr class=\"listrow\" data-itemtype=\"folder\" data-itemid=\"" + data.ChildFolders[i].UrlPath + "\"><td width='1%'><img src='" + ROADKILL_COREASSETPATH + "CSS/images/directory.png'></td><td nowrap width=\"20%\">" + data.ChildFolders[i].Name + "</td><td></td><td></td><td></td></tr>");
     }
     for (var i = 0; i < data.Files.length; i++) {
         a_html.push(getFileRowHtml(data.Files[i]));
@@ -253,7 +245,7 @@ function imagePreviewInit() {
 		        var s_file_type = $("td.filetype", this).text();
 		        if (s_file_type.search(/^(jpg|png|gif)$/i) == -1)
 		            return;
-		        var s_img_url = (ROADKILL_BASEPATH + getCurrentPath() + "/").replace("//", "/") + $("td.file", this).text();
+		        var s_img_url = (ROADKILL_ATTACHMENTSPATH + getCurrentPath() + "/").replace("//", "/") + $("td.file", this).text();
 		        $("body").append("<p id='image-preview'><img src='" + s_img_url + "' alt='Image Preview' /></p>");
 		        $("#image-preview")
 				    .css("top", (e.pageY - xOffset) + "px")
@@ -272,25 +264,26 @@ function imagePreviewInit() {
     		});
 };
 
+if (typeof String.prototype.format !== 'function') {
 
-String.prototype.format = function () {
+    String.prototype.format = function () {
 
-    var s = this, exp = null;
+        var s = this, exp = null;
 
-    if (arguments.length == 1 && arguments[0] && typeof (arguments[0]) == 'object') {
-        for (var item in arguments[0]) {
-            if (arguments[0].hasOwnProperty(item)) {
-                exp = new RegExp('\\{' + (item) + '\\}', 'gm');
-                s = s.replace(exp, arguments[0][item]);
+        if (arguments.length == 1 && arguments[0] && typeof (arguments[0]) == 'object') {
+            for (var item in arguments[0]) {
+                if (arguments[0].hasOwnProperty(item)) {
+                    exp = new RegExp('\\{' + (item) + '\\}', 'gm');
+                    s = s.replace(exp, arguments[0][item]);
+                }
+            }
+        } else {
+            for (var i = 0; i < arguments.length; i++) {
+                exp = new RegExp('\\{' + (i) + '\\}', 'gm');
+                s = s.replace(exp, arguments[i]);
             }
         }
-    } else {
-        for (var i = 0; i < arguments.length; i++) {
-            exp = new RegExp('\\{' + (i) + '\\}', 'gm');
-            s = s.replace(exp, arguments[i]);
-        }
+
+        return s;
     }
-
-    return s;
 }
-

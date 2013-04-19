@@ -185,14 +185,7 @@ namespace Roadkill.Core.Attachments
         /// <returns>Returns the physical path of the Attachments folder.</returns>
         public string GetAttachmentsFolder()
         {
-            string attachmentsPath = _settings.AttachmentsFolder;
-
-            if (attachmentsPath.StartsWith(@"~/"))
-            {
-                attachmentsPath = HttpContext.Current.Server.MapPath(attachmentsPath);
-            }
-
-            return attachmentsPath;
+           return _settings.AttachmentsFolder;
         }
 
         /// <summary>
@@ -204,8 +197,12 @@ namespace Roadkill.Core.Attachments
         {
             string attachmentsPath = GetAttachmentsFolder();
 
-            relativePath = relativePath.Replace("/Attachments/", "");
+            relativePath = relativePath.Replace("/Attachments", "");
             relativePath = relativePath.Replace("/", @"\");
+
+            if (relativePath.StartsWith(@"\"))
+                relativePath = relativePath.Substring(1);
+
             relativePath = Path.Combine(attachmentsPath, relativePath);
 
             return relativePath;
@@ -218,9 +215,13 @@ namespace Roadkill.Core.Attachments
         /// <returns>Returns the physical path of the Attachments folder plus the parsed relative path parameter joined.</returns>
         public bool IsAttachmentPathValid(string attachmentPath)
         {
+
             DirectoryInfo dir1 = new DirectoryInfo(_settings.AttachmentsFolder);
             DirectoryInfo dir2 = new DirectoryInfo(attachmentPath);
             bool isParent = false;
+
+            if (dir1.FullName == dir2.FullName)
+                return true;
 
             while (dir2.Parent != null)
             {

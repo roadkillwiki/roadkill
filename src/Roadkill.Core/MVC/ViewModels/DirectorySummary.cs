@@ -39,43 +39,29 @@ namespace Roadkill.Core.Mvc.ViewModels
 		/// </summary>
 		public string DiskPath { get; set; }
 
-		/// <summary>
-		/// Base64'd version of the path
-		/// </summary>
-		public string SafePath
-		{
-			get
-			{
-				return UrlPath.ToBase64();
-			}
-		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DirectorySummary"/> class.
 		/// </summary>
+        /// <param name="settings">ApplicationSettings reference.</param>
 		/// <param name="diskPath">A full disk path, including the attachments folder.</param>
 		public DirectorySummary(ApplicationSettings settings, string diskPath)
 		{
 			Name = Path.GetFileName(diskPath);
 			DiskPath = diskPath;
 			UrlPath = DiskPath.Replace(settings.AttachmentsDirectoryPath, "");
+
 			UrlPath = UrlPath.Replace(@"\", "/");
 
 			Files = new List<FileSummary>();
 			ChildFolders = new List<DirectorySummary>();
 		}
 
-		public static DirectorySummary FromBase64UrlPath(ApplicationSettings settings, string base64Path)
+		public static DirectorySummary FromUrlPath(ApplicationSettings settings, string basePath)
 		{
-			string path = "";
+            var path = settings.AttachmentsDirectoryPath + basePath;
 
-			if (!string.IsNullOrEmpty(base64Path))
-				path = base64Path.FromBase64();
-
-			path = settings.AttachmentsDirectoryPath + path;
-
-			DirectorySummary summary = new DirectorySummary(settings, path);
-			return summary;
+			return new DirectorySummary(settings, path);
 		}
 	}
 }
