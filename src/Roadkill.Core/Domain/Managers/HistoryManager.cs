@@ -32,7 +32,7 @@ namespace Roadkill.Core.Managers
 		/// </summary>
 		/// <param name="pageId">The id of the page to get the history for.</param>
 		/// <returns>An <see cref="IEnumerable{HistorySummary}"/> ordered by the most recent version number.</returns>
-		/// <exception cref="HistoryException">An NHibernate (database) error occurred while retrieving the list.</exception>
+		/// <exception cref="HistoryException">An database error occurred while retrieving the list.</exception>
 		public IEnumerable<HistorySummary> GetHistory(int pageId)
 		{
 			try
@@ -68,14 +68,14 @@ namespace Roadkill.Core.Managers
 		/// <param name="mainVersionId">The id of the version to compare</param>
 		/// <returns>Returns a IEnumerable of two versions, where the 2nd item is the previous version.
 		/// If the current version is 1, or a previous version cannot be found, then the 2nd item will be null.</returns>
-		/// <exception cref="HistoryException">An NHibernate (database) error occurred while comparing the two versions.</exception>
+		/// <exception cref="HistoryException">An database error occurred while comparing the two versions.</exception>
 		public IEnumerable<PageSummary> CompareVersions(Guid mainVersionId)
 		{
 			try
 			{
 				List<PageSummary> versions = new List<PageSummary>();
 
-				PageContent mainContent = Repository.GetPageContentByVersionId(mainVersionId);
+				PageContent mainContent = Repository.GetPageContentById(mainVersionId);
 				versions.Add(mainContent.ToSummary(_markupConverter));
 
 				if (mainContent.VersionNumber == 1)
@@ -154,13 +154,13 @@ namespace Roadkill.Core.Managers
 			{
 				string currentUser = context.CurrentUsername;
 
-				PageContent versionContent = Repository.GetPageContentByVersionId(versionId);
+				PageContent versionContent = Repository.GetPageContentById(versionId);
 				Page page = Repository.GetPageById(versionContent.Page.Id);
 
 				int versionNumber = MaxVersion(page.Id) + 1;
 				string text = versionContent.Text;
 				string editedBy = currentUser;
-				DateTime editedOn = DateTime.Now;
+				DateTime editedOn = DateTime.UtcNow;
 				Repository.AddNewPageContentVersion(page, text, editedBy, editedOn, versionNumber);
 			}
 			catch (ArgumentNullException ex)

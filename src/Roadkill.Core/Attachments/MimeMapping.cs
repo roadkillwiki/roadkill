@@ -121,6 +121,7 @@ namespace Roadkill.Core.Attachments
 			ExtensionMap.Add(".ps", "application/postscript");
 			ExtensionMap.Add(".p7c", "application/pkcs7-mime");
 			ExtensionMap.Add(".pbm", "image/x-portable-bitmap");
+			ExtensionMap.Add(".png", "image/png");
 			ExtensionMap.Add(".ppm", "image/x-portable-pixmap");
 			ExtensionMap.Add(".pub", "application/x-mspublisher");
 			ExtensionMap.Add(".pnm", "image/x-portable-anymap");
@@ -163,6 +164,7 @@ namespace Roadkill.Core.Attachments
 			ExtensionMap.Add(".sst", "application/vndms-pkicertstore");
 			ExtensionMap.Add(".src", "application/x-wais-source");
 			ExtensionMap.Add(".sv4cpio", "application/x-sv4cpio");
+			ExtensionMap.Add(".swf", "application/x-shockwave-flash");
 			ExtensionMap.Add(".tex", "application/x-tex");
 			ExtensionMap.Add(".tgz", "application/x-compressed");
 			ExtensionMap.Add(".t", "application/x-troff");
@@ -210,6 +212,11 @@ namespace Roadkill.Core.Attachments
 
 		public static string GetMimeMapping(string fileExtension)
 		{
+			if (string.IsNullOrEmpty(fileExtension))
+				return ExtensionMap[".*"];
+
+			fileExtension = fileExtension.ToLower();
+
 			if (ExtensionMap.ContainsKey(fileExtension))
 				return ExtensionMap[fileExtension];
 			else

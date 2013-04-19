@@ -57,10 +57,10 @@ namespace Roadkill.Tests.Unit
 			Page page = new Page();
 			page.Id = 123;
 			page.CreatedBy = "createdby";
-			page.CreatedOn = DateTime.Now;
+			page.CreatedOn = DateTime.UtcNow;
 			page.IsLocked = true;
 			page.ModifiedBy = "modifiedby";
-			page.ModifiedOn = DateTime.Now;
+			page.ModifiedOn = DateTime.UtcNow;
 			page.Tags = "tag1,tag2";
 			page.Title = "title";
 
@@ -87,7 +87,7 @@ namespace Roadkill.Tests.Unit
 			PageContent pageContent = new PageContent();
 			pageContent.Id = Guid.NewGuid();
 			pageContent.EditedBy = "editedby";
-			pageContent.EditedOn = DateTime.Now;
+			pageContent.EditedOn = DateTime.UtcNow;
 			pageContent.Text = "text";
 
 			PageContentEntity entity = new PageContentEntity();

@@ -34,6 +34,16 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// Gets or sets the attachments folder, which should begin with "~/".
+		/// </summary>
+		[ConfigurationProperty("attachmentsRoutePath", IsRequired = false, DefaultValue = "Attachments")]
+		public string AttachmentsRoutePath
+		{
+			get { return (string)this["attachmentsRoutePath"]; }
+			set { this["attachmentsRoutePath"] = value; }
+		}
+
+		/// <summary>
 		/// Indicates whether server-based page object caching is enabled.
 		/// </summary>
 		[ConfigurationProperty("useObjectCache", IsRequired = false, DefaultValue = true)]
@@ -88,7 +98,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Legacy property, this is now "dataStoreType"
+		/// Don't use this property - it's a leegacy one, use "dataStoreType"
 		/// </summary>
 		/// <remarks>Renamed in 1.6</remarks>
 		[ConfigurationProperty("databaseType", IsRequired = false)]

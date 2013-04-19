@@ -104,7 +104,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			ViewData["messageFilter"] = messageFilter;
 			ViewData["startDate"] = startDate;
 			ViewData["endDate"] = endDate;
-			ViewData["lastUpdate"] = DateTime.Now;
+			ViewData["lastUpdate"] = DateTime.UtcNow;
 
 			// Sort by the time generated and only take N items
 			list = (from e in list orderby e.Timestamp descending select e).Take(maxItemsToTake).ToList<Log4jEvent>();

@@ -16,8 +16,7 @@ using Roadkill.Core.Security;
 namespace Roadkill.Tests.Unit
 {
 	/// <summary>
-	/// Tests that the PageManager methods call the repository and return the data in a 
-	/// correct state.
+	/// Tests that the PageManager methods call the repository and return the data in a correct state.
 	/// </summary>
 	[TestFixture]
 	[Category("Unit")]
@@ -32,7 +31,7 @@ namespace Roadkill.Tests.Unit
 		private RepositoryMock _repositoryMock;
 		private Mock<SearchManager> _mockSearchManager;
 		private Mock<UserManagerBase> _mockUserManager;
-		private ApplicationSettings _config;
+		private ApplicationSettings _settings;
 		private MarkupConverter _markupConverter;
 		private HistoryManager _historyManager;
 		private UserContext _context;
@@ -45,21 +44,21 @@ namespace Roadkill.Tests.Unit
 			_repositoryMock = new RepositoryMock();
 
 			// Config stub
-			_config = new ApplicationSettings();
-			_config.Installed = true;
+			_settings = new ApplicationSettings();
+			_settings.Installed = true;
 
 			_repositoryMock = new RepositoryMock();
 			_repositoryMock.SiteSettings = new SiteSettings();
 			_repositoryMock.SiteSettings.MarkupType = "Creole";
 
 			// Cache
-			ListCache listCache = new ListCache(_config);
-			PageSummaryCache pageSummaryCache = new PageSummaryCache(_config);
+			ListCache listCache = new ListCache(_settings);
+			PageSummaryCache pageSummaryCache = new PageSummaryCache(_settings);
 
 			// Managers needed by the PageManager
-			_markupConverter = new MarkupConverter(_config, _repositoryMock);
-			_mockSearchManager = new Mock<SearchManager>(_config, _repositoryMock);
-			_historyManager = new HistoryManager(_config, _repositoryMock, _context, pageSummaryCache);
+			_markupConverter = new MarkupConverter(_settings, _repositoryMock);
+			_mockSearchManager = new Mock<SearchManager>(_settings, _repositoryMock);
+			_historyManager = new HistoryManager(_settings, _repositoryMock, _context, pageSummaryCache);
 
 			// Usermanager stub
 			_testUser = new User();
@@ -68,7 +67,7 @@ namespace Roadkill.Tests.Unit
 			_testUser.Username = AdminUsername;
 			Guid userId = _testUser.Id;
 
-			_mockUserManager = new Mock<UserManagerBase>(_config, _repositoryMock);
+			_mockUserManager = new Mock<UserManagerBase>(_settings, _repositoryMock);
 			_mockUserManager.Setup(x => x.GetUser(_testUser.Email, It.IsAny<bool>())).Returns(_testUser);//GetUserById
 			_mockUserManager.Setup(x => x.GetUserById(userId, It.IsAny<bool>())).Returns(_testUser);
 			_mockUserManager.Setup(x => x.Authenticate(_testUser.Email, "")).Returns(true);
@@ -79,10 +78,10 @@ namespace Roadkill.Tests.Unit
 			_context.CurrentUser = userId.ToString();
 
 			// And finally the IoC setup
-			DependencyContainer iocSetup = new DependencyContainer(_config, _repositoryMock, _context);
+			DependencyContainer iocSetup = new DependencyContainer(_settings, _repositoryMock, _context);
 			iocSetup.RegisterTypes();
 
-			_pageManager = new PageManager(_config, _repositoryMock, _mockSearchManager.Object, _historyManager, _context, listCache, pageSummaryCache);
+			_pageManager = new PageManager(_settings, _repositoryMock, _mockSearchManager.Object, _historyManager, _context, listCache, pageSummaryCache);
 		}
 
 		public PageSummary AddToStubbedRepository(int id, string createdBy, string title, string tags, string textContent = "")
@@ -130,7 +129,7 @@ namespace Roadkill.Tests.Unit
 				Content = "**Homepage**",
 				RawTags = "1;2;3;",
 				CreatedBy = AdminUsername,
-				CreatedOn = DateTime.Now
+				CreatedOn = DateTime.UtcNow
 			};
 
 			// Act

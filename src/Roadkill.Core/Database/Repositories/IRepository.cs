@@ -11,25 +11,11 @@ namespace Roadkill.Core.Database
 	/// </summary>
 	public interface IRepository : IPageRepository, IUserRepository, IDisposable
 	{
-		void DeletePage(Page page);
-		void DeletePageContent(PageContent pageContent);
-		void DeleteUser(User user);
-		void DeleteAllPages();
-		void DeleteAllPageContent();
-		void DeleteAllUsers();
-
-		void SaveOrUpdatePage(Page page);
-		PageContent AddNewPage(Page page, string text, string editedBy, DateTime editedOn);
-		PageContent AddNewPageContentVersion(Page page, string text, string editedBy, DateTime editedOn, int version);
-		void UpdatePageContent(PageContent content); // no new version
-		void SaveOrUpdateUser(User user);
 		void SaveSiteSettings(SiteSettings siteSettings);
 		SiteSettings GetSiteSettings();
-
 		void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache);
 		void Install(DataStoreType dataStoreType, string connectionString, bool enableCache);
-		void Test(DataStoreType dataStoreType, string connectionString);
-		
+		void TestConnection(DataStoreType dataStoreType, string connectionString);		
 		/// <summary>
 		/// 
 		/// </summary>

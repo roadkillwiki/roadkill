@@ -22,7 +22,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			get
 			{
-				return UnitOfWork.Query<PageEntity>().ToList().AsQueryable();
+				return UnitOfWork.Query<PageEntity>();
 			}
 		}
 
@@ -30,7 +30,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			get
 			{
-				return UnitOfWork.Query<PageContentEntity>().ToList().AsQueryable();
+				return UnitOfWork.Query<PageContentEntity>();
 			}
 		}
 
@@ -38,7 +38,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			get
 			{
-				return UnitOfWork.Query<UserEntity>().ToList().AsQueryable();
+				return UnitOfWork.Query<UserEntity>();
 			}
 		}
 
@@ -80,10 +80,13 @@ namespace Roadkill.Core.Database.LightSpeed
 				context.ConnectionString = connectionString;
 				context.DataProvider = dataStoreType.LightSpeedDbType;
 				context.IdentityMethod = IdentityMethod.GuidComb;
-				context.CascadeDeletes = false;
-				context.VerboseLogging = true;
+				context.CascadeDeletes = true;
 				context.Cache = new CacheBroker(new DefaultCache());
+
+#if DEBUG
+				context.VerboseLogging = true;
 				context.Logger = new TraceLogger();
+#endif
 
 				ObjectFactory.Configure(x =>
 				{
@@ -116,7 +119,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			}
 		}
 
-		public void Test(DataStoreType dataStoreType, string connectionString)
+		public void TestConnection(DataStoreType dataStoreType, string connectionString)
 		{
 			LightSpeedContext context = ObjectFactory.GetInstance<LightSpeedContext>();
 			if (context == null)
@@ -178,7 +181,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			return preferences;
 		}
 
-		public void SaveSiteSettings(SiteSettings preferences)
+		public void SaveSiteSettings(SiteSettings siteSettings)
 		{
 			SiteSettingsEntity entity = UnitOfWork.Find<SiteSettingsEntity>().FirstOrDefault();
 
@@ -186,13 +189,13 @@ namespace Roadkill.Core.Database.LightSpeed
 			{
 				entity = new SiteSettingsEntity();
 				entity.Version = ApplicationSettings.AssemblyVersion.ToString();
-				entity.Content = preferences.GetJson();
+				entity.Content = siteSettings.GetJson();
 				UnitOfWork.Add(entity);
 			}
 			else
 			{
 				entity.Version = ApplicationSettings.AssemblyVersion.ToString();
-				entity.Content = preferences.GetJson();
+				entity.Content = siteSettings.GetJson();
 			}
 
 			UnitOfWork.SaveChanges();
@@ -223,10 +226,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			UnitOfWork.Remove(new Query(typeof(PageEntity)));
 			UnitOfWork.SaveChanges();
-		}
 
-		public void DeleteAllPageContent()
-		{
 			UnitOfWork.Remove(new Query(typeof(PageContentEntity)));
 			UnitOfWork.SaveChanges();
 		}
@@ -249,13 +249,13 @@ namespace Roadkill.Core.Database.LightSpeed
 			return FromEntity.ToPage(entity);
 		}
 
-		public IEnumerable<Page> FindPagesByCreatedBy(string username)
+		public IEnumerable<Page> FindPagesCreatedBy(string username)
 		{
 			List<PageEntity> entities = Pages.Where(p => p.CreatedBy == username).ToList();
 			return FromEntity.ToPageList(entities);
 		}
 
-		public IEnumerable<Page> FindPagesByModifiedBy(string username)
+		public IEnumerable<Page> FindPagesModifiedBy(string username)
 		{
 			List<PageEntity> entities = Pages.Where(p => p.ModifiedBy == username).ToList();
 			return FromEntity.ToPageList(entities);
@@ -309,22 +309,16 @@ namespace Roadkill.Core.Database.LightSpeed
 			return FromEntity.ToPageContent(entity);
 		}
 
-		public PageContent GetPageContentByVersionId(Guid versionId)
-		{
-			PageContentEntity entity = PageContents.FirstOrDefault(p => p.Id == versionId);
-			return FromEntity.ToPageContent(entity);
-		}
-
 		public PageContent GetPageContentByPageIdAndVersionNumber(int id, int versionNumber)
 		{
 			PageContentEntity entity = PageContents.FirstOrDefault(p => p.Page.Id == id && p.VersionNumber == versionNumber);
 			return FromEntity.ToPageContent(entity);
 		}
 
-		public PageContent GetPageContentByEditedBy(string username)
+		public IEnumerable<PageContent> GetPageContentByEditedBy(string username)
 		{
-			PageContentEntity entity = PageContents.FirstOrDefault(p => p.EditedBy == username);
-			return FromEntity.ToPageContent(entity);
+			List<PageContentEntity> entities = PageContents.Where(p => p.EditedBy == username).ToList();
+			return FromEntity.ToPageContentList(entities);
 		}
 
 		public IEnumerable<PageContent> FindPageContentsByPageId(int pageId)
@@ -413,13 +407,15 @@ namespace Roadkill.Core.Database.LightSpeed
 				entity = new PageEntity();
 				ToEntity.FromPage(page, entity);
 				UnitOfWork.Add(entity);
+				UnitOfWork.SaveChanges();
+				page = FromEntity.ToPage(entity);
 			}
 			else
 			{
 				ToEntity.FromPage(page, entity);
+				UnitOfWork.SaveChanges();
+				page = FromEntity.ToPage(entity);
 			}
-
-			UnitOfWork.SaveChanges();
 		}
 
 		public PageContent AddNewPage(Page page, string text, string editedBy, DateTime editedOn)
@@ -428,6 +424,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			ToEntity.FromPage(page, pageEntity);
 			pageEntity.Id = 0;
 			UnitOfWork.Add(pageEntity);
+			UnitOfWork.SaveChanges();
 
 			PageContentEntity pageContentEntity = new PageContentEntity()
 			{
@@ -452,6 +449,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			PageEntity pageEntity = UnitOfWork.FindById<PageEntity>(page.Id);
 			if (pageEntity != null)
 			{
+				// Update the content
 				PageContentEntity pageContentEntity = new PageContentEntity()
 				{
 					Id = Guid.NewGuid(),
@@ -465,6 +463,12 @@ namespace Roadkill.Core.Database.LightSpeed
 				UnitOfWork.Add(pageContentEntity);
 				UnitOfWork.SaveChanges();
 
+				// The page modified fields
+				pageEntity.ModifiedOn = editedOn;
+				pageEntity.ModifiedBy = editedBy;
+				UnitOfWork.SaveChanges();
+
+				// Turn the content database entity back into a domain object
 				PageContent pageContent = FromEntity.ToPageContent(pageContentEntity);
 				pageContent.Page = FromEntity.ToPage(pageEntity);
 				return pageContent;
@@ -474,23 +478,33 @@ namespace Roadkill.Core.Database.LightSpeed
 			return null;
 		}
 
-		public void SaveOrUpdateUser(User user)
+		public User SaveOrUpdateUser(User user)
 		{
 			UserEntity entity = UnitOfWork.FindById<UserEntity>(user.Id);
 			if (entity == null)
 			{
+				// Turn the domain object into a database entity
 				entity = new UserEntity();
 				ToEntity.FromUser(user, entity);
 				UnitOfWork.Add(entity);
+				UnitOfWork.SaveChanges();
+
+				user = FromEntity.ToUser(entity);
 			}
 			else
 			{
 				ToEntity.FromUser(user, entity);
+				UnitOfWork.SaveChanges();
 			}
 
-			UnitOfWork.SaveChanges();
+			return user;
 		}
 
+		/// <summary>
+		/// This updates an existing set of text and is used for page rename updates.
+		/// To add a new version of a page, use AddNewPageContentVersion
+		/// </summary>
+		/// <param name="content"></param>
 		public void UpdatePageContent(PageContent content)
 		{
 			PageContentEntity entity = UnitOfWork.FindById<PageContentEntity>(content.Id);
@@ -498,8 +512,10 @@ namespace Roadkill.Core.Database.LightSpeed
 			{
 				ToEntity.FromPageContent(content, entity);
 				UnitOfWork.SaveChanges();
+				content = FromEntity.ToPageContent(entity);
 			}
 		}
+
 		public void Dispose()
 		{
 			UnitOfWork.SaveChanges();

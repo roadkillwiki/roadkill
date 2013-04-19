@@ -6,9 +6,16 @@ namespace Roadkill.Core.Database.LightSpeed
 	[Table("roadkill_pagecontent")]
 	internal class PageContentEntity : Entity<Guid>
 	{
+		[Column("text")]
 		private string _text;
+
+		[Column("editedby")]
 		private string _editedBy;
+
+		[Column("editedon")]
 		private DateTime _editedOn;
+
+		[Column("versionnumber")]
 		private int _versionNumber;
 
 		[ReverseAssociation("PageId")]

@@ -13,7 +13,7 @@ namespace Roadkill.Core.Database
 		private static List<DataStoreType> _allTypes;
 
 		public static readonly DataStoreType MySQL = new DataStoreType("MySQL", "A MySQL database.", DataProvider.MySql5, new MySqlSchema());
-		public static readonly DataStoreType Postgres = new DataStoreType("Postgres", "A Postgres database.", DataProvider.PostgreSql8, new PostgresSchema());
+		public static readonly DataStoreType Postgres = new DataStoreType("Postgres", "A Postgres database.", DataProvider.PostgreSql9, new PostgresSchema());
 		public static readonly DataStoreType Sqlite = new DataStoreType("Sqlite", "A Sqlite database.", DataProvider.SQLite3, new SqliteSchema());
 		public static readonly DataStoreType SqlServer2005 = new DataStoreType("SqlServer2005", "A SqlServer 2005 (or 2000) database.", DataProvider.SqlServer2005, new SqlServerSchema());
 		public static readonly DataStoreType SqlServer2008 = new DataStoreType("SqlServer2008", "A SqlServer 2008 database.", DataProvider.SqlServer2008, new SqlServerSchema());

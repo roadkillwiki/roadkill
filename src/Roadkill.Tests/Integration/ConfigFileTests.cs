@@ -40,6 +40,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			Assert.That(appSettings.AdminRoleName, Is.EqualTo("Admin-test"), "AdminRoleName");
+			Assert.That(appSettings.AttachmentsRoutePath, Is.EqualTo("AttachmentsRoutePathTest"), "AttachmentsRoutePath"); 
 			Assert.That(appSettings.AttachmentsFolder, Is.EqualTo("/Attachments-test"), "AttachmentsFolder");
 			Assert.That(appSettings.UseObjectCache, Is.True, "UseObjectCache");
 			Assert.That(appSettings.UseBrowserCache, Is.True, "UseBrowserCache");
@@ -71,6 +72,7 @@ namespace Roadkill.Tests.Unit
 			ApplicationSettings appSettings = configManager.GetApplicationSettings();
 
 			// Assert
+			Assert.That(appSettings.AttachmentsRoutePath, Is.EqualTo("Attachments"), "AttachmentsRoutePath");
 			Assert.That(appSettings.DataStoreType, Is.EqualTo(DataStoreType.SqlServer2005), "DatabaseType");
 			Assert.That(appSettings.IgnoreSearchIndexErrors, Is.False, "IgnoreSearchIndexErrors");
 			Assert.That(appSettings.IsPublicSite, Is.True, "IsPublicSite");
@@ -158,9 +160,9 @@ namespace Roadkill.Tests.Unit
 			};
 			SettingsSummary validConfigSettings = new SettingsSummary()
 			{
-				AllowedExtensions = "jpg, png, gif",
+				AllowedFileTypes = "jpg, png, gif",
 				AllowUserSignup = true,
-				EnableRecaptcha = true,
+				IsRecaptchaEnabled = true,
 				MarkupType = "markuptype",
 				RecaptchaPrivateKey = "privatekey",
 				RecaptchaPublicKey = "publickey",
@@ -176,7 +178,7 @@ namespace Roadkill.Tests.Unit
 			SettingsManager settingsManager = new SettingsManager(_settings, repository);
 
 			// Act
-			settingsManager.SaveSiteSettings(validConfigSettings, true);
+			settingsManager.SaveSiteSettings(validConfigSettings);
 
 			// Assert
 			SiteSettings actualSettings = settingsManager.GetSiteSettings();
@@ -231,7 +233,7 @@ namespace Roadkill.Tests.Unit
 			iocSetup.RegisterTypes();
 
 			// Assert
-			Assert.That(DependencyContainer.GetInstance<UserManagerBase>(), Is.TypeOf(typeof(FormsAuthenticationUserManager)));
+			Assert.That(DependencyContainer.GetInstance<UserManagerBase>(), Is.TypeOf(typeof(FormsAuthUserManager)));
 		}
 
 		[Test]
@@ -245,11 +247,11 @@ namespace Roadkill.Tests.Unit
 			settings.DataStoreType = DataStoreType.MongoDB;
 
 			// Act
-			DependencyContainer iocSetup = new DependencyContainer(settings, mockRepository.Object, mockContext.Object);
-			iocSetup.RegisterTypes();
+			DependencyContainer iocContainer = new DependencyContainer(settings, mockRepository.Object, mockContext.Object);
+			iocContainer.RegisterTypes();
 
 			// Assert
-			Assert.That(DependencyContainer.GetInstance<UserManagerBase>(), Is.TypeOf(typeof(FormsAuthenticationUserManager)));
+			Assert.That(DependencyContainer.GetInstance<UserManagerBase>(), Is.TypeOf(typeof(FormsAuthUserManager)));
 		}
 
 		private string GetConfigPath(string filename)

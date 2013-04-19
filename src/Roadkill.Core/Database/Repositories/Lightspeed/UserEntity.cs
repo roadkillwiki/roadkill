@@ -7,16 +7,37 @@ namespace Roadkill.Core.Database.LightSpeed
 	[Cached(ExpiryMinutes = 1)]
 	internal class UserEntity : Entity<Guid>
 	{
+		[Column("username")]
 		private string _username;
+
+		[Column("email")]
 		private string _email;
+
+		[Column("firstname")]
 		private string _firstname;
+
+		[Column("lastname")]
 		private string _lastname;
+
+		[Column("password")]
 		private string _password;
+
+		[Column("salt")]
 		private string _salt;
+
+		[Column("iseditor")]
 		private bool _isEditor;
+
+		[Column("isadmin")]
 		private bool _isAdmin;
+
+		[Column("isactivated")]
 		private bool _isActivated;
+
+		[Column("activationkey")]
 		private string _activationKey;
+
+		[Column("passwordresetkey")]
 		private string _passwordResetKey;
 
 		public string Username

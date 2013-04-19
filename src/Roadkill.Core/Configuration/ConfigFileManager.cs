@@ -204,8 +204,7 @@ namespace Roadkill.Core.Configuration
 			RoadkillSection section = _config.GetSection("roadkill") as RoadkillSection;
 			settings.AdminRoleName = section.AdminRoleName;
 			settings.AttachmentsFolder = section.AttachmentsFolder;
-			settings.AttachmentsUrlPath = "/Attachments";
-			settings.AttachmentsRoutePath = "Attachments";
+			settings.AttachmentsRoutePath = section.AttachmentsRoutePath;
 			settings.ConnectionStringName = section.ConnectionStringName;
 			settings.ConnectionString = _config.ConnectionStrings.ConnectionStrings[section.ConnectionStringName].ConnectionString;
 			if (string.IsNullOrEmpty(settings.ConnectionString))

@@ -118,7 +118,7 @@ namespace Roadkill.Core.Database.MongoDB
 			}
 			else
 			{
-				Log.Warn("MongoDB: No configuration settings could be found in the database, using a default SitePreferences");
+				Log.Warn("MongoDB: No configuration settings could be found in the database, using a default SiteSettings");
 			}
 
 			return preferences;
@@ -147,13 +147,19 @@ namespace Roadkill.Core.Database.MongoDB
 			MongoClient client = new MongoClient(connectionString);
 			MongoServer server = client.GetServer();
 			MongoDatabase database = server.GetDatabase(databaseName);
-			database.DropCollection("Pages");
-			database.DropCollection("PageContents");
-			database.DropCollection("Users");
-			database.DropCollection("SitePreferences");
+			database.DropCollection("Page");
+			database.DropCollection("PageContent");
+			database.DropCollection("User");
+			database.DropCollection("SiteSettingsEntity");
 		}
 
-		public void Test(DataStoreType dataStoreType, string connectionString)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="dataStoreType"></param>
+		/// <param name="connectionString"></param>
+		/// <exception cref="MongoConnectionException">Can't connect to the MongoDB server (but it's a valid connection string)</exception>
+		public void TestConnection(DataStoreType dataStoreType, string connectionString)
 		{
 			string databaseName = MongoUrl.Create(connectionString).DatabaseName;
 			MongoClient client = new MongoClient(connectionString);
@@ -177,12 +183,12 @@ namespace Roadkill.Core.Database.MongoDB
 			return Pages.FirstOrDefault(p => p.Id == id);
 		}
 
-		public IEnumerable<Page> FindPagesByCreatedBy(string username)
+		public IEnumerable<Page> FindPagesCreatedBy(string username)
 		{
 			return Pages.Where(p => p.CreatedBy == username);
 		}
 
-		public IEnumerable<Page> FindPagesByModifiedBy(string username)
+		public IEnumerable<Page> FindPagesModifiedBy(string username)
 		{
 			return Pages.Where(p => p.ModifiedBy == username);
 		}
@@ -215,9 +221,9 @@ namespace Roadkill.Core.Database.MongoDB
 			return PageContents.FirstOrDefault(p => p.Page.Id == id && p.VersionNumber == versionNumber);
 		}
 
-		public PageContent GetPageContentByEditedBy(string username)
+		public IEnumerable<PageContent> GetPageContentByEditedBy(string username)
 		{
-			return PageContents.FirstOrDefault(p => p.EditedBy == username);
+			return PageContents.Where(p => p.EditedBy == username);
 		}
 
 		public IEnumerable<PageContent> FindPageContentsByPageId(int pageId)
@@ -280,17 +286,10 @@ namespace Roadkill.Core.Database.MongoDB
 			return Users.Where(x => x.IsAdmin);
 		}
 
-		public PageContent GetPageContentByVersionId(Guid versionId)
-		{
-			return PageContents.FirstOrDefault(p => p.Id == versionId);
-		}
-
 		public IEnumerable<PageContent> FindPageContentsEditedBy(string username)
 		{
 			return PageContents.Where(p => p.EditedBy == username);
 		}
-
-		//-------------
 
 		public void Dispose()
 		{
@@ -315,16 +314,12 @@ namespace Roadkill.Core.Database.MongoDB
 		public void DeleteAllPages()
 		{
 			DeleteAll<Page>();
+			DeleteAll<PageContent>();
 		}
 
 		public void DeleteAllUsers()
 		{
 			DeleteAll<User>();
-		}
-
-		public void DeleteAllPageContent()
-		{
-			DeleteAll<PageContent>();
 		}
 
 		#region IRepository Members
@@ -353,6 +348,10 @@ namespace Roadkill.Core.Database.MongoDB
 
 		public PageContent AddNewPageContentVersion(Page page, string text, string editedBy, DateTime editedOn, int version)
 		{
+			page.ModifiedOn = editedOn;
+			page.ModifiedBy = editedBy;
+			SaveOrUpdate<Page>(page);
+
 			PageContent pageContent = new PageContent()
 			{
 				Id = Guid.NewGuid(),
@@ -364,12 +363,14 @@ namespace Roadkill.Core.Database.MongoDB
 			};
 
 			SaveOrUpdate<PageContent>(pageContent);
+
 			return pageContent;
 		}
 
-		public void SaveOrUpdateUser(User user)
+		public User SaveOrUpdateUser(User user)
 		{
 			SaveOrUpdate<User>(user);
+			return user;
 		}
 
 		public void UpdatePageContent(PageContent content)

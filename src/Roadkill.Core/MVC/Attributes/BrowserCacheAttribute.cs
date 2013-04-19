@@ -65,7 +65,7 @@ namespace Roadkill.Core.Mvc.Attributes
 			if (summary != null)
 			{
 				filterContext.HttpContext.Response.Cache.SetCacheability(HttpCacheability.Public);
-				filterContext.HttpContext.Response.Cache.SetExpires(DateTime.Now.AddSeconds(2));
+				filterContext.HttpContext.Response.Cache.SetExpires(DateTime.UtcNow.AddSeconds(2));
 				filterContext.HttpContext.Response.Cache.SetMaxAge(TimeSpan.FromSeconds(0));
 				filterContext.HttpContext.Response.Cache.SetLastModified(summary.ModifiedOn.ToUniversalTime());
 				filterContext.HttpContext.Response.StatusCode = filterContext.HttpContext.ApplicationInstance.Context.GetStatusCodeForCache(summary.ModifiedOn.ToUniversalTime());

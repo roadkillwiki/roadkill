@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
@@ -24,6 +25,7 @@ namespace Roadkill.Tests.Unit
 			_settings = new ApplicationSettings();
 			_settings.Installed = true;
 			_settings.UseHtmlWhiteList = true;
+			_settings.CustomTokensPath = Path.Combine(Settings.SITE_PATH, "App_Data", "Tokens.xml");
 
 			_repository = new RepositoryMock();
 			_repository.SiteSettings = new SiteSettings();
@@ -68,18 +70,17 @@ namespace Roadkill.Tests.Unit
 			_converter.InternalUrlForTitle = (int pageId, string path) => { return path; };
 			_converter.NewPageUrlForTitle = (string path) => { return path; };
 
+			// Act
 			bool wasCalled = false;
 			_converter.Parser.ImageParsed += (object sender, ImageEventArgs e) =>
 			{
-				wasCalled = (e.Src == "/DSC001.jpg123");
+				wasCalled = (e.Src == "/Attachments/DSC001.jpg123");
 			};
 
-			// Act
 			_converter.ToHtml("![Image title](/DSC001.jpg)");
 			
-
 			// Assert
-			Assert.True(wasCalled);
+			Assert.True(wasCalled, "ImageParsed.ImageEventArgs.Src did not match.");
 		}
 
 		[Test]
@@ -214,7 +215,7 @@ namespace Roadkill.Tests.Unit
 			_converter = new MarkupConverter(_settings, _repository);
 			_converter.AbsolutePathConverter = (string s) => { return s; };
 			string htmlFragment = "Give me a {{TOC}} and a {{{TOC}}} - the should not render a TOC";
-			string expected = @"<p>Give me a <div class=""floatnone""><div class=""image&#x5F;frame""><img src=""&#x2F;TOC""></div></div> and a TOC - the should not render a TOC"
+			string expected = @"<p>Give me a <div class=""floatnone""><div class=""image&#x5F;frame""><img src=""&#x2F;Attachments&#x2F;TOC""></div></div> and a TOC - the should not render a TOC"
 				+"\n</p>";
 
 			// Act
@@ -224,6 +225,30 @@ namespace Roadkill.Tests.Unit
 			Assert.That(actualHtml, Is.EqualTo(expected));
 		}
 
+		[Test]
+		public void Custom_Token_With_NoWiki_Adds_Pre_And_Renders_Token_HTML()
+		{
+			// Arrange
+			string expectedHtml = @"<p><div class=""alert"">ENTER YOUR CONTENT HERE 
+<pre>here is my C#code
+</pre>
+</p>
+<p></div><br style=""clear:both""/>
+</p>";
+
+			// Act
+			string actualHtml = _converter.ToHtml(@"@@warningbox:ENTER YOUR CONTENT HERE 
+{{{
+here is my C#code
+}}} 
+
+@@");
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
+		}
+
+		// TODO:
 		// ContainsPageLink
 		// ReplacePageLinks
 		// TOCParser

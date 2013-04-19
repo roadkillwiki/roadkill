@@ -15,6 +15,10 @@ namespace Roadkill.Tests.Unit
 		public List<User> Users { get; set; }
 		public SiteSettings SiteSettings { get; set; }
 
+		public DataStoreType InstalledDataStoreType { get; private set; }
+		public string InstalledConnectionString { get; private set; }
+		public bool InstalledEnableCache { get; private set; }
+
 		public RepositoryMock()
 		{
 			Pages = new List<Page>();
@@ -43,10 +47,6 @@ namespace Roadkill.Tests.Unit
 		public void DeleteAllPages()
 		{
 			Pages = new List<Page>();
-		}
-
-		public void DeleteAllPageContent()
-		{
 			PageContents = new List<PageContent>();
 		}
 
@@ -61,6 +61,7 @@ namespace Roadkill.Tests.Unit
 
 			if (existingPage == null)
 			{
+				page.Id = Pages.Count + 1;
 				Pages.Add(page);
 			}
 			else
@@ -77,6 +78,7 @@ namespace Roadkill.Tests.Unit
 
 		public PageContent AddNewPage(Page page, string text, string editedBy, DateTime editedOn)
 		{
+			page.Id = Pages.Count + 1;
 			Pages.Add(page);
 
 			PageContent content = new PageContent();
@@ -95,8 +97,8 @@ namespace Roadkill.Tests.Unit
 		{
 			PageContent content = new PageContent();
 			content.Id = Guid.NewGuid();
-			content.EditedBy = editedBy;
-			content.EditedOn = editedOn;
+			page.ModifiedBy = content.EditedBy = editedBy;
+			page.ModifiedOn = content.EditedOn = editedOn;
 			content.Page = page;
 			content.Text = text;
 			content.VersionNumber = FindPageContentsByPageId(page.Id).Max(x => x.VersionNumber) +1;
@@ -111,7 +113,7 @@ namespace Roadkill.Tests.Unit
 
 			if (existingContent == null)
 			{
-				PageContents.Add(content);
+				// Do nothing
 			}
 			else
 			{
@@ -122,12 +124,13 @@ namespace Roadkill.Tests.Unit
 			}
 		}
 
-		public void SaveOrUpdateUser(User user)
+		public User SaveOrUpdateUser(User user)
 		{
 			User existingUser = Users.FirstOrDefault(x => x.Id == user.Id);
 
 			if (existingUser == null)
 			{
+				user.Id = Guid.NewGuid();
 				Users.Add(user);
 			}
 			else
@@ -144,6 +147,8 @@ namespace Roadkill.Tests.Unit
 				user.Username = user.Username;
 				user.Salt = user.Salt;
 			}
+
+			return user;
 		}
 
 		public void SaveSiteSettings(SiteSettings settings)
@@ -163,10 +168,12 @@ namespace Roadkill.Tests.Unit
 
 		public void Install(DataStoreType dataStoreType, string connectionString, bool enableCache)
 		{
-			
+			InstalledDataStoreType = dataStoreType;
+			InstalledConnectionString = connectionString;
+			InstalledEnableCache = enableCache;
 		}
 
-		public void Test(DataStoreType dataStoreType, string connectionString)
+		public void TestConnection(DataStoreType dataStoreType, string connectionString)
 		{
 			
 		}
@@ -190,14 +197,14 @@ namespace Roadkill.Tests.Unit
 			return Pages.FirstOrDefault(p => p.Id == id);
 		}
 
-		public IEnumerable<Page> FindPagesByCreatedBy(string username)
+		public IEnumerable<Page> FindPagesCreatedBy(string username)
 		{
 			return Pages.Where(p => p.CreatedBy == username);
 		}
 
-		public IEnumerable<Page> FindPagesByModifiedBy(string username)
+		public IEnumerable<Page> FindPagesModifiedBy(string username)
 		{
-			throw new NotImplementedException();
+			return Pages.Where(p => p.ModifiedBy == username);
 		}
 
 		public IEnumerable<Page> FindPagesContainingTag(string tag)
@@ -235,9 +242,9 @@ namespace Roadkill.Tests.Unit
 			return PageContents.FirstOrDefault(p => p.Id == versionId);
 		}
 
-		public PageContent GetPageContentByEditedBy(string username)
+		public IEnumerable<PageContent> GetPageContentByEditedBy(string username)
 		{
-			return PageContents.FirstOrDefault(p => p.EditedBy == username);
+			return PageContents.Where(p => p.EditedBy == username);
 		}
 
 		public IEnumerable<PageContent> FindPageContentsByPageId(int pageId)

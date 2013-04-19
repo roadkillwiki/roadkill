@@ -3,6 +3,7 @@ using System.Text;
 using System.Web.Security;
 using System.Security.Cryptography;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Security;
 
 namespace Roadkill.Core.Database
 {
@@ -60,7 +61,9 @@ namespace Roadkill.Core.Database
 		/// </summary>
 		public static string HashPassword(string password, string salt)
 		{
-			if (FormsAuthentication.IsEnabled)
+			bool isFormsAuthEnabled = FormsAuthenticationWrapper.IsEnabled();
+
+			if (isFormsAuthEnabled)
 			{
 				return FormsAuthentication.HashPasswordForStoringInConfigFile(password + salt, "SHA1");
 			}

@@ -22,7 +22,7 @@ CREATE TABLE roadkill_pagecontent
 	PRIMARY KEY (Id)
 );
 
-ALTER TABLE roadkill_pagecontent ADD CONSTRAINT FK_roadkill_pageid FOREIGN KEY(pageid) REFERENCES roadkill_pages (id);
+/*ALTER TABLE roadkill_pagecontent ADD CONSTRAINT FK_roadkill_pageid FOREIGN KEY(pageid) REFERENCES roadkill_pages (id);*/
 
 CREATE TABLE roadkill_users
 (

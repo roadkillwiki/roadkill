@@ -12,9 +12,9 @@ namespace Roadkill.Core.Security
 	/// <summary>
 	/// Provides user management using the Roadkill datastore and the current repository.
 	/// </summary>
-	public class FormsAuthenticationUserManager : UserManagerBase
+	public class FormsAuthUserManager : UserManagerBase
 	{
-		public FormsAuthenticationUserManager(ApplicationSettings settings, IRepository repository)
+		public FormsAuthUserManager(ApplicationSettings settings, IRepository repository)
 			: base(settings, repository)
 		{
 		}
@@ -116,8 +116,11 @@ namespace Roadkill.Core.Security
 				{
 					if (user.Password == User.HashPassword(password, user.Salt))
 					{
-						if (FormsAuthentication.IsEnabled)
+						bool isFormsAuthEnabled = FormsAuthenticationWrapper.IsEnabled();
+						if (isFormsAuthEnabled)
+						{
 							FormsAuthentication.SetAuthCookie(user.Id.ToString(), true);
+						}
 
 						return true;
 					}
@@ -276,7 +279,7 @@ namespace Roadkill.Core.Security
 			}
 			else
 			{
-				// Temporary work-around for 1.5's breaking change that changed the cookie to store the ID instead of username.
+				// Work-around for 1.5's breaking change that changed the cookie to store the ID instead of username.
 				Logout();
 				return false;
 
@@ -359,8 +362,11 @@ namespace Roadkill.Core.Security
 		/// </summary>
 		public override void Logout()
 		{
-			if (FormsAuthentication.IsEnabled)
+			bool isFormsAuthEnabled = FormsAuthenticationWrapper.IsEnabled();
+			if (isFormsAuthEnabled)
+			{
 				FormsAuthentication.SignOut();
+			}
 		}
 
 		/// <summary>
@@ -556,14 +562,14 @@ namespace Roadkill.Core.Security
 						//
 						// Update all Page.CreatedBy and Page.ModifiedBy
 						//
-						IList<Page> pages = Repository.FindPagesByCreatedBy(summary.ExistingUsername).ToList();
+						IList<Page> pages = Repository.FindPagesCreatedBy(summary.ExistingUsername).ToList();
 						for (int i = 0; i < pages.Count; i++)
 						{
 							pages[i].CreatedBy = summary.NewUsername;
 							Repository.SaveOrUpdatePage(pages[i]);
 						}
 
-						pages = Repository.FindPagesByModifiedBy(summary.ExistingUsername).ToList();
+						pages = Repository.FindPagesModifiedBy(summary.ExistingUsername).ToList();
 						for (int i = 0; i < pages.Count; i++)
 						{
 							pages[i].ModifiedBy = summary.NewUsername;
@@ -632,15 +638,22 @@ namespace Roadkill.Core.Security
 		/// </summary>
 		public override string GetLoggedInUserName(HttpContextBase context)
 		{
-			if (FormsAuthentication.IsEnabled)
+			if (context == null || context.Request == null || context.Request.Cookies == null)
+				return "";
+
+			bool isFormsAuthEnabled = FormsAuthenticationWrapper.IsEnabled();
+
+			if (isFormsAuthEnabled)
 			{
-				if (context.Request.Cookies[FormsAuthentication.FormsCookieName] != null)
+				string cookieName = FormsAuthenticationWrapper.CookieName();
+				if (!string.IsNullOrEmpty(cookieName) && context.Request.Cookies[cookieName] != null)
 				{
-					string cookie = context.Request.Cookies[FormsAuthentication.FormsCookieName].Value;
+					string cookie = context.Request.Cookies[cookieName].Value;
 					if (!string.IsNullOrEmpty(cookie))
 					{
 						FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie);
-						return ticket.Name;
+						if (ticket != null)
+							return ticket.Name;
 					}
 				}
 			}

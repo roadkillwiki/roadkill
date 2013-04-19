@@ -99,8 +99,8 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
-			summary.AllowedExtensions = "jpg,png,gif,zip,xml,pdf";
-			summary.AttachmentsFolder = "~/Attachments";
+			summary.AllowedFileTypes = "jpg,png,gif,zip,xml,pdf";
+			summary.AttachmentsFolder = "~/App_Data/Attachments";
 			summary.MarkupType = "Creole";
 			summary.Theme = "Mediawiki";
 			summary.UseObjectCache = true;
@@ -146,7 +146,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 					// Create the roadkill schema and save the configuration settings
 					_settingsManager.CreateTables(summary);
-					_settingsManager.SaveSiteSettings(summary, true);	
+					_settingsManager.SaveSiteSettings(summary);	
 
 					// Add a user if we're not using AD.
 					if (!summary.UseWindowsAuth)

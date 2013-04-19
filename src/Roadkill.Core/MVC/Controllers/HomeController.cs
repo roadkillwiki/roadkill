@@ -51,9 +51,9 @@ namespace Roadkill.Core.Mvc.Controllers
 				summary.Content = SiteStrings.NoMainPage_Label;
 				summary.ContentAsHtml = _markupConverter.ToHtml(SiteStrings.NoMainPage_Label);
 				summary.CreatedBy = "";
-				summary.CreatedOn = DateTime.Now;
+				summary.CreatedOn = DateTime.UtcNow;
 				summary.RawTags = "homepage";
-				summary.ModifiedOn = DateTime.Now;
+				summary.ModifiedOn = DateTime.UtcNow;
 				summary.ModifiedBy = "";
 			}
 

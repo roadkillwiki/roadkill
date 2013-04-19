@@ -9,8 +9,8 @@ namespace Roadkill.Core.Database
 	{
 		IEnumerable<Page> AllPages();
 		Page GetPageById(int id);
-		IEnumerable<Page> FindPagesByCreatedBy(string username);
-		IEnumerable<Page> FindPagesByModifiedBy(string username);
+		IEnumerable<Page> FindPagesCreatedBy(string username);
+		IEnumerable<Page> FindPagesModifiedBy(string username);
 		IEnumerable<Page> FindPagesContainingTag(string tag);
 
 		/// <summary>
@@ -30,10 +30,21 @@ namespace Roadkill.Core.Database
 		PageContent GetLatestPageContent(int pageId);
 		PageContent GetPageContentById(Guid id);
 		PageContent GetPageContentByPageIdAndVersionNumber(int id, int versionNumber);
-		PageContent GetPageContentByVersionId(Guid versionId);
-		PageContent GetPageContentByEditedBy(string username);
+		IEnumerable<PageContent> GetPageContentByEditedBy(string username);
 		IEnumerable<PageContent> FindPageContentsByPageId(int pageId);
 		IEnumerable<PageContent> FindPageContentsEditedBy(string username);
 		IEnumerable<PageContent> AllPageContents();
+
+		void DeletePage(Page page);
+		/// <summary>
+		/// Removes a single version of page contents by its id.
+		/// </summary>
+		/// <param name="pageContent"></param>
+		void DeletePageContent(PageContent pageContent);
+		void DeleteAllPages();
+		void SaveOrUpdatePage(Page page);
+		PageContent AddNewPage(Page page, string text, string editedBy, DateTime editedOn);
+		PageContent AddNewPageContentVersion(Page page, string text, string editedBy, DateTime editedOn, int version);
+		void UpdatePageContent(PageContent content); // no new version
 	}
 }

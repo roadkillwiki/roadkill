@@ -122,7 +122,7 @@ namespace Roadkill.Core.Logging
 			writer.WriteAttributeString("logger", _loggerName);
 			writer.WriteAttributeString("level", level);
 			writer.WriteAttributeString("thread", Thread.CurrentThread.ManagedThreadId.ToString());
-			writer.WriteAttributeString("timestamp", XmlConvert.ToString(ConvertToUnixTimestamp(DateTime.Now)));
+			writer.WriteAttributeString("timestamp", XmlConvert.ToString(ConvertToUnixTimestamp(DateTime.UtcNow)));
 
 			WriteLog4jElement(writer, "message");
 			writer.WriteCData(RemoveInvalidXmlChars(message));
@@ -157,8 +157,12 @@ namespace Roadkill.Core.Logging
 
 		private string RemoveInvalidXmlChars(string text)
 		{
+#if MONO
+			return text; // Mono doesn't implement IsXmlChar, it uses XmlChar
+#else
 			var validXmlChars = text.Where(x => XmlConvert.IsXmlChar(x)).ToArray();
 			return new string(validXmlChars);
+#endif
 		}
 
 		private void WriteLog4jElement(XmlWriter writer, string name)

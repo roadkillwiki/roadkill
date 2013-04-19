@@ -8,16 +8,11 @@ namespace Roadkill.Core.Database.LightSpeed
 	[Cached(ExpiryMinutes = 10)]
 	internal class SiteSettingsEntity : Entity<Guid>
 	{
+		[Column("content")]
 		private string _content;
-		private string _version;
 
-		public Guid Id
-		{
-			get
-			{
-				return SiteSettings.SiteSettingsId;
-			}
-		}
+		[Column("version")]
+		private string _version;
 
 		public string Content
 		{
