@@ -48,11 +48,11 @@ namespace Roadkill.Tests.Unit
 			"~/Pages/byuser/ZWRpdG9yICg5Ni4yNTIuMTQwLjE3OSk%3d/True".ShouldMapTo<PagesController>(action => action.ByUser("ZWRpdG9yICg5Ni4yNTIuMTQwLjE3OSk%3d", true));
 		}
 
-		[Test]
-		public void FilesController_Folder_Is_Registered()
-		{
-			"~/files/folder/some+great+folder".ShouldMapTo<FilesController>(action => action.Folder("some+great+folder"));
-		}
+        //[Test]
+        //public void FilesController_Folder_Is_Registered()
+        //{
+        //    "~/files/folder/some+great+folder".ShouldMapTo<FilesController>(action => action.Folder("some+great+folder"));
+        //}
 
 		[Test]
 		public void Attachments_Should_Have_Correct_Handler_And_Contain_Route_Values()
