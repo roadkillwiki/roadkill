@@ -21,7 +21,7 @@ See the mono.sh bash script in the root folder for installing - the bash script 
 
 To run the bash script automatically on your server use the following:
 
-sudo wget --no-check-certificate --no-cache https://gist.github.com/yetanotherchris/5426167/raw/bd961563314748e4a9c2cdb876a9114347a45df1/monoinstall.sh
+sudo wget --no-check-certificate --no-cache https://gist.github.com/yetanotherchris/5426167/raw
 sudo sh monoinstall.sh
 
 You will need to run "sudo sh monoinstall.sh" twice (close SSH, and log back in), as the first time the script will hang when installing mod_mono with this message:
@@ -48,7 +48,7 @@ If you are building the solution, there are a couple of things you will need to 
 - Copy lib/LightSpeed/Mindscape.LightSpeed.MetaData.dll to the bin folder
 - Copy lib/LightSpeed/Providers/log4net.dll to the bin folder
 - Copy lib/LightSpeed/Providers/Memcached.ClientLibrary.dll to the bin folder
-- Copy lib/Configs/default to site root
+- Copy lib/Configs/default.txt to site root
 
 ### Known issues
 
