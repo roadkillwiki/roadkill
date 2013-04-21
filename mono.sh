@@ -1,5 +1,5 @@
 # To install this script:
-#sudo wget --no-check-certificate --no-cache https://gist.github.com/yetanotherchris/5426167/raw/bd961563314748e4a9c2cdb876a9114347a45df1/monoinstall.sh
+#sudo wget --no-check-certificate --no-cache https://gist.github.com/yetanotherchris/5426167/raw
 #sudo sh monoinstall.sh
 
 # Update
