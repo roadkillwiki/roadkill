@@ -62,7 +62,11 @@ namespace Roadkill.Core.Mvc.ViewModels
 		{
 			get
 			{
+#if MONO
+				return DataStoreType.AllMonoTypes.Select(x => x.Name);
+#else
 				return DataStoreType.AllTypes.Select(x => x.Name);
+#endif
 			}
 		}
 

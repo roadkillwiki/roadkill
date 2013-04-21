@@ -34,6 +34,49 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
+		/// Installs Roadkill with default settings and the provided datastory type 
+		/// and connection string.
+		/// </summary>
+		public ActionResult Unattended(string datastoreType, string connectionString)
+		{
+			if (ApplicationSettings.Installed)
+				return RedirectToAction("Index", "Home");
+
+			SettingsSummary summary = new SettingsSummary();
+			summary.DataStoreTypeName = datastoreType;
+			summary.ConnectionString = connectionString;
+			summary.AllowedFileTypes = "jpg,png,gif,zip,xml,pdf";
+			summary.AttachmentsFolder = "~/App_Data/Attachments";
+			summary.MarkupType = "Creole";
+			summary.Theme = "Mediawiki";
+			summary.UseObjectCache = true;
+			summary.UseBrowserCache = true;
+			summary.AdminEmail = "admin@localhost";
+			summary.AdminPassword = "Password1";
+			summary.AdminRoleName = "admins";
+			summary.EditorRoleName = "editors";
+			summary.SiteName = "my site";
+			summary.SiteUrl = "http://localhost";
+
+			FinalizeInstall(summary);
+
+			return Content("Unattended installation complete");
+		}
+
+		/// <summary>
+		/// Performs a default Mono installation (MongoDB and the default collection). This
+		/// is used at the end of the mono.sh bash script in the root Roadkill directory.
+		/// </summary>
+		/// <returns></returns>
+		public ActionResult MonoInstall()
+		{
+			return RedirectToAction("Unattended", new { 
+				datastoreType = "MongoDB", 
+				connectionString = "mongodb://roadkill:password@localhost/local" 
+			});
+		}
+
+		/// <summary>
 		/// Displays the start page for the installer (step1).
 		/// </summary>
 		public ActionResult Index()
@@ -128,34 +171,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 				if (ModelState.IsValid)
 				{
-					// The name is passed through each step, so parse it
-					DataStoreType dataStoreType = DataStoreType.ByName(summary.DataStoreTypeName);
-					summary.DataStoreTypeName = dataStoreType.Name;
-
-					// Update all repository references for the dependencies of this class
-					// (changing the For() in StructureMap won't do this as the references have already been created).
-					_repository = DependencyContainer.ChangeRepository(dataStoreType, summary.ConnectionString, summary.UseObjectCache);
-					UserManager.UpdateRepository(_repository);
-					_settingsManager.UpdateRepository(_repository);
-					_searchManager.UpdateRepository(_repository);
-
-					// Update the web.config first, so all connections can be referenced.
-					ConfigFileManager configManager = new ConfigFileManager();
-					configManager.WriteSettings(summary);
-					configManager.Save();
-
-					// Create the roadkill schema and save the configuration settings
-					_settingsManager.CreateTables(summary);
-					_settingsManager.SaveSiteSettings(summary);	
-
-					// Add a user if we're not using AD.
-					if (!summary.UseWindowsAuth)
-					{
-						UserManager.AddUser(summary.AdminEmail, "admin", summary.AdminPassword, true, false);
-					}					
-	
-					// Create a blank search index
-					_searchManager.CreateIndex();
+					FinalizeInstall(summary);
 				}
 			}
 			catch (Exception e)
@@ -174,6 +190,38 @@ namespace Roadkill.Core.Mvc.Controllers
 			}
 
 			return View(summary);
+		}
+
+		private void FinalizeInstall(SettingsSummary summary)
+		{
+			// The name is passed through each step, so parse it
+			DataStoreType dataStoreType = DataStoreType.ByName(summary.DataStoreTypeName);
+			summary.DataStoreTypeName = dataStoreType.Name;
+
+			// Update all repository references for the dependencies of this class
+			// (changing the For() in StructureMap won't do this as the references have already been created).
+			_repository = DependencyContainer.ChangeRepository(dataStoreType, summary.ConnectionString, summary.UseObjectCache);
+			UserManager.UpdateRepository(_repository);
+			_settingsManager.UpdateRepository(_repository);
+			_searchManager.UpdateRepository(_repository);
+
+			// Update the web.config first, so all connections can be referenced.
+			ConfigFileManager configManager = new ConfigFileManager();
+			configManager.WriteSettings(summary);
+			configManager.Save();
+
+			// Create the roadkill schema and save the configuration settings
+			_settingsManager.CreateTables(summary);
+			_settingsManager.SaveSiteSettings(summary);
+
+			// Add a user if we're not using AD.
+			if (!summary.UseWindowsAuth)
+			{
+				UserManager.AddUser(summary.AdminEmail, "admin", summary.AdminPassword, true, false);
+			}
+
+			// Create a blank search index
+			_searchManager.CreateIndex();
 		}
 
 		//

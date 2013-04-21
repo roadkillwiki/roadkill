@@ -100,6 +100,10 @@ namespace Roadkill.Core.Attachments
 
 		private string GetMimeType(string fileExtension, ServerManager serverManager)
 		{
+#if MONO
+			return MimeMapping.GetMimeMapping(fileExtension);
+#endif
+
 			try
 			{
 				string mimeType = "text/plain";

@@ -109,7 +109,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The database type for Roadkill. This defaults to SQLServer2005 if empty - see DatabaseType enum for all options.
+		/// The database type for Roadkill. This defaults to SQLServer2005 (MongoDB on Mono) if empty - see DatabaseType enum for all options.
 		/// </summary>
 		[ConfigurationProperty("dataStoreType", IsRequired = false)]
 		public string DataStoreType
