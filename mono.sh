@@ -1,18 +1,17 @@
 # To install this script:
 #sudo wget --no-check-certificate --no-cache https://gist.github.com/yetanotherchris/5426167/raw
-#sudo sh monoinstall.sh
+#sudo sh raw
 
 # Update
 sudo apt-get -y update
 
 # Install Apache, Mono and mod_mono. 
-# THIS SECTION WILL FREEZE (from a libapache2 package issue.)
-# CLOSE YOUR SSH SESSION, LOG BACK IN AND RUN THE SCRIPT AGAIN.
+# THIS SECTION MAY FREEZE (from a libapache2 package issue.) - IF THIS HAPPENS CLOSE YOUR SSH SESSION, LOG BACK IN AND RUN THE SCRIPT AGAIN.
 sudo apt-get -y install apache2
 sudo /etc/init.d/apache2 stop
 sudo apt-get -y install mono-devel mono-runtime
-sudo timeout 30s apt-get -y install mono-apache-server4
-sudo timeout 30s apt-get -y install libapache2-mod-mono
+sudo apt-get -y install mono-apache-server4
+sudo apt-get -y install libapache2-mod-mono
 sudo rm /var/www/index.html
 
 # Get Roadkill and unzip it
@@ -34,10 +33,6 @@ sudo /etc/init.d/apache2 restart
 # Install MongoDB, add a user to the default collection
 sudo apt-get -y install mongodb
 sudo mongo local --eval "db.addUser('roadkill','password');"
-
-# Set Roadkill as installed (web.config needs touching or apache restarting)
-sudo wget --no-cache http://localhost/Install/MonoInstall
-touch /var/www/Web.config
 
 # Install UFW (uncomplicated firewall)
 sudo apt-get -y install ufw
