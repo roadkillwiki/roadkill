@@ -263,26 +263,7 @@ namespace Roadkill.Core.Database.LightSpeed
 
 		public IEnumerable<Page> FindPagesContainingTag(string tag)
 		{
-			IEnumerable<PageEntity> entities = new List<PageEntity>();
-
-			if (_applicationSettings.DataStoreType != DataStoreType.Postgres)
-			{
-				entities = Pages.Where(p => p.Tags.ToLower().Contains(tag.ToLower()));
-			}
-			else
-			{
-				// Temporary Lightspeed Postgres LIKE bug work around
-				IDbCommand command = UnitOfWork.Context.DataProviderObjectFactory.CreateCommand();
-				command.CommandText = "SELECT * FROM roadkill_pages WHERE tags LIKE @Tag"; // case sensitive column name
-				IDbDataParameter parameter = command.CreateParameter();
-				parameter.DbType = DbType.String;
-				parameter.ParameterName = "@Tag";
-				parameter.Value = "%" +tag+ "%";
-				command.Parameters.Add(parameter);
-
-				entities = UnitOfWork.FindBySql<PageEntity>(command);
-			}
-
+			IEnumerable<PageEntity> entities = Pages.Where(p => p.Tags.ToLower().Contains(tag.ToLower()));
 			return FromEntity.ToPageList(entities);
 		}
 

@@ -47,7 +47,7 @@ namespace Roadkill.Tests.Acceptance
 		public void TearDown()
 		{
 			// Reset the web.config back for all other acceptance tests
-			AcceptanceTestsSetup.CopyWebConfig();
+			//AcceptanceTestsSetup.CopyWebConfig();
 		}
 
 		[Test]
@@ -95,7 +95,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		[Ignore("SQLite upgrades don't work")]
+		[Ignore("SQLite upgrades don't work, as uniqueidentifier was used to store Guids in versions < 1.6")]
 		public void Sqlite_Should_Upgrade_Then_Login_View_Existing_Page_And_Successfully_Create_New_Page()
 		{
 			// Arrange

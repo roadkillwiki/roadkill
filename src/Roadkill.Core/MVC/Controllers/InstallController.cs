@@ -64,19 +64,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
-		/// Performs a default Mono installation (MongoDB and the default collection). This
-		/// is used at the end of the mono.sh bash script in the root Roadkill directory.
-		/// </summary>
-		/// <returns></returns>
-		public ActionResult MonoInstall()
-		{
-			return RedirectToAction("Unattended", new { 
-				datastoreType = "MongoDB", 
-				connectionString = "mongodb://roadkill:password@localhost/local" 
-			});
-		}
-
-		/// <summary>
 		/// Displays the start page for the installer (step1).
 		/// </summary>
 		public ActionResult Index()
