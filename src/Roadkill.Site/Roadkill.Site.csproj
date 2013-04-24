@@ -233,7 +233,6 @@
     <Content Include="App_Data\Logs\emptyfile.txt" />
     <Content Include="App_Data\htmlwhitelist.xml" />
     <Content Include="App_Data\Plugins\emptyfile.txt" />
-    <Content Include="App_Data\Search\emptyfile.txt" />
     <Content Include="App_Data\SQLiteBinaries\x64\SQLite.Interop.dll" />
     <Content Include="App_Data\SQLiteBinaries\x86\SQLite.Interop.dll" />
     <Content Include="App_Data\tokens.xml">
@@ -481,7 +480,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\Search\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
