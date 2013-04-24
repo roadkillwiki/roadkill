@@ -14,17 +14,29 @@ namespace Roadkill.Core.Text.ToC
 		private Item _currentItem;
 		private int _currentLevel;
 		private StringTemplate _stringTemplate;
+		private List<string> _titleIdLookup;
+		private static Random _random = new Random();
 
 		public Tree(StringTemplate stringTemplate)
 		{
-			Root = new Item("Not used");
+			Root = new Item("Not used", "");
 			_currentItem = Root;
 			_stringTemplate = stringTemplate;
+			_titleIdLookup = new List<string>();
 		}
 
 		public Item AddItemAtLevel(int level, string title)
 		{
-			Item item = new Item(title);
+			// Generate a unique id for the A tag
+			string titleId = title.EncodeTitle();
+			if (_titleIdLookup.Contains(titleId))
+			{
+				int uniqueSuffix = _titleIdLookup.Count(x => x.StartsWith(titleId)) + 1;
+				titleId += "-"+uniqueSuffix;
+			}
+			_titleIdLookup.Add(titleId);
+
+			Item item = new Item(title, titleId);
 			if (level == _currentLevel)
 			{
 				if (_currentItem.Parent != null)
