@@ -28,7 +28,7 @@ namespace Roadkill.Core.Database
 
 		public PageSummary ToSummary(MarkupConverter markupConverter)
 		{
-			return new PageSummary()
+			PageSummary pageSummary = new PageSummary()
 			{
 				Id = Page.Id,
 				Title = Page.Title,
@@ -43,6 +43,11 @@ namespace Roadkill.Core.Database
 				ContentAsHtml = markupConverter.ToHtml(Text),
 				VersionNumber = VersionNumber,
 			};
+
+			pageSummary.CreatedOn = DateTime.SpecifyKind(pageSummary.CreatedOn, DateTimeKind.Utc);
+			pageSummary.ModifiedOn = DateTime.SpecifyKind(pageSummary.ModifiedOn, DateTimeKind.Utc);
+
+			return pageSummary;
 		}
 	}
 }
