@@ -24,7 +24,7 @@ namespace Roadkill.Tests.Integration
 		[SetUp]
 		public void Initialize()
 		{
-			string indexPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\search";
+			string indexPath = AppDomain.CurrentDomain.BaseDirectory + @"\App_Data\SearchTests";
 			if (Directory.Exists(indexPath))
 				Directory.Delete(indexPath, true);
 

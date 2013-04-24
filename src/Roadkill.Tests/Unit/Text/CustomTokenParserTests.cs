@@ -8,6 +8,7 @@ using Roadkill.Core.Configuration;
 namespace Roadkill.Tests.Unit.Text
 {
 	[TestFixture]
+	[Category("Unit")]
 	public class CustomTokenParserTests
 	{
 		[TestFixtureSetUp]

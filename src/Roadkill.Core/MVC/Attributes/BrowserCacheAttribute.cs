@@ -34,10 +34,7 @@ namespace Roadkill.Core.Mvc.Attributes
 
 		public override void OnResultExecuted(ResultExecutedContext filterContext)
 		{
-			if (!ApplicationSettings.Installed || !ApplicationSettings.UseBrowserCache)
-				return;
-
-			if (ApplicationSettings.UseBrowserCache || Context.IsLoggedIn)
+			if (!ApplicationSettings.Installed || !ApplicationSettings.UseBrowserCache || Context.IsLoggedIn)
 				return;
 
 			WikiController wikiController = filterContext.Controller as WikiController;
