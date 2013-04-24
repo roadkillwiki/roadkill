@@ -11,6 +11,7 @@ namespace Roadkill.Core.Text.ToC
 	internal class Item
 	{
 		private List<Item> _children;
+		
 
 		public string Id { get; private set; }
 		public string Title { get; set; }
@@ -21,11 +22,11 @@ namespace Roadkill.Core.Text.ToC
 			get { return _children; }
 		}
 
-		public Item(string title)
+		public Item(string title, string id)
 		{
-			Id = string.Format("{0}{1}", Title.EncodeTitle(), ShortGuid.NewGuid());
-			_children = new List<Item>();
 			Title = title;
+			Id = id;
+			_children = new List<Item>();
 		}
 
 		public void AddChild(Item item)

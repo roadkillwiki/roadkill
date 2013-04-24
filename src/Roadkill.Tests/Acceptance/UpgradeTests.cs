@@ -47,7 +47,7 @@ namespace Roadkill.Tests.Acceptance
 		public void TearDown()
 		{
 			// Reset the web.config back for all other acceptance tests
-			//AcceptanceTestsSetup.CopyWebConfig();
+			AcceptanceTestsSetup.CopyWebConfig();
 		}
 
 		[Test]
@@ -95,26 +95,19 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		[Ignore("SQLite upgrades don't work, as uniqueidentifier was used to store Guids in versions < 1.6")]
-		public void Sqlite_Should_Upgrade_Then_Login_View_Existing_Page_And_Successfully_Create_New_Page()
+		public void Sqlite_Should_Show_Cant_Upgrade_Text()
 		{
 			// Arrange
 			UpdateWebConfig(_sqliteConnection, DataStoreType.Sqlite);
 			Driver.Navigate().GoToUrl(BaseUrl);
 
 			// Act
-			Driver.FindElement(By.CssSelector("input[value=Upgrade]")).Click();
-			LoginAsAdmin();
-			CreatePageWithTitleAndTags("New page", "new page");
-			Driver.Navigate().GoToUrl(BaseUrl);
+			string actualText = Driver.FindElement(By.CssSelector("#notsupported")).Text;
+			int upgradeButtonCount = Driver.FindElements(By.CssSelector("input[value=Upgrade]")).Count;
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("homepage"));
-			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("This is 1.5.2 homepage"));
-
-			Driver.Navigate().GoToUrl(BaseUrl + "/wiki/2/new-page");
-			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("New page"));
-			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
+			Assert.That(actualText, Contains.Substring("Automatic SQLite upgrades are not supported in Roadkill 1.6"));
+			Assert.That(upgradeButtonCount, Is.EqualTo(0));
 		}
 
 		// ...2 other database tests:

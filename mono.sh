@@ -27,7 +27,7 @@ sudo chown -R www-data /var/www
 sudo chmod -R 755 /var/www
 
 # Replace the default apache site settings
-sudo mv /var/www/default.txt /etc/apache2/sites-available/default
+sudo mv /var/www/apache.txt /etc/apache2/sites-available/default
 sudo /etc/init.d/apache2 restart
 
 # Install MongoDB, add a user to the default collection

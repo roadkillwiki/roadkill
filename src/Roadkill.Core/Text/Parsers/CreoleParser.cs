@@ -350,7 +350,7 @@ namespace Roadkill.Core.Converters
 						_closeLists(ref htmlMarkup, ref iBullet, ref iNumber, lineTrimmed);
 
 						// start a new table
-						htmlMarkup.Append(_getStartTag("<table>"));
+						htmlMarkup.Append(_getStartTag("<table class=\"wikitable\">"));
 						InTable = true;
 						htmlMarkup.Append(_processTableHeaderRow(lineTrimmed));
 					}
@@ -361,7 +361,7 @@ namespace Roadkill.Core.Converters
 						_closeLists(ref htmlMarkup, ref iBullet, ref iNumber, lineTrimmed);
 
 						// start a new table
-						htmlMarkup.Append(_getStartTag("<table>"));
+						htmlMarkup.Append(_getStartTag("<table class=\"wikitable\">"));
 						InTable = true;
 						htmlMarkup.Append(_processTableRow(lineTrimmed));
 					}
@@ -574,7 +574,7 @@ namespace Roadkill.Core.Converters
 					cell = "&nbsp;";
 
 				// create cell entry
-				markup += String.Format("{0}{1}</td>", _getStartTag("<td>"), _processCreoleFragment(cell));
+				markup += String.Format("{0}{1}</th>", _getStartTag("<th>"), _processCreoleFragment(cell));
 			}
 			// close up row and header
 			markup += "</tr>\n</thead>\n";

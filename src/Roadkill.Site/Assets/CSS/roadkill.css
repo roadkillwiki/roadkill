@@ -79,12 +79,11 @@ ul.mainmenu li	 { float:left;padding-right:15px; }
 ul.mainmenu li a { font-weight:bold; }
 ul.mainmenu li a:hover { text-decoration:underline; }
 
-/* Wiki page tables */
-#pagecontent table,
-	#pagecontent tr,
-	#pagecontent td { border: 1px solid black;padding:2px; }
-#userpagetable	{ border:1px solid #d3d2d2;background-color:#f1f0f0; }
-.table .stretch	{ width:99%; }
+/* Wiki page tables (see http://en.wikipedia.org/wiki/Help:Table) */
+.wikitable			{ margin: 1em 0; background-color: #f9f9f9; border: 1px #aaa solid;border-collapse: collapse; color: black; }
+.wikitable tr>th	{ background-color: #f2f2f2;text-align: center;border: 1px #aaa solid;padding: 0.2em; }
+.wikitable tr>td	{ border: 1px #aaa solid;padding: 0.2em;}
+.table .stretch		{ width:99%; }
 
 /* Edit page [editors] */
 #previewLoading		{ display:none; }
