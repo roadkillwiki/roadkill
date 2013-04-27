@@ -166,8 +166,8 @@ namespace Roadkill.Core.Text.Sanitizer
         private void CleanAttributeValues(HapHtmlAttribute attribute)
         {
             attribute.Value = HttpUtility.HtmlEncode(attribute.Value);
-            
-            attribute.Value = Regex.Replace(attribute.Value, @"\s*j\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*", "", RegexOptions.IgnoreCase);
+
+			attribute.Value = Regex.Replace(attribute.Value, @"\s*j\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*", "", RegexOptions.IgnoreCase);
             attribute.Value = Regex.Replace(attribute.Value, @"\s*s\s*c\s*r\s*i\s*p\s*t\s*", "", RegexOptions.IgnoreCase);
 
             if (attribute.Name.ToLower() == "style")

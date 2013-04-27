@@ -103,7 +103,7 @@ namespace Roadkill.Tests.Unit
 
 			// Arrange
 			string creoleText = @"|Cell 1.1 | Cell 1.2 |";
-			string expectedHtml = "<table><tr><td>Cell 1.1</td><td>Cell 1.2</td></tr>";
+			string expectedHtml = "<table class=\"wikitable\"><tr><td>Cell 1.1</td><td>Cell 1.2</td></tr>";
 
 			// Act
 			string actualHtml = _parser.Transform(creoleText);
