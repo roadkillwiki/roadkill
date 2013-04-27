@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>help</title>
+<title>readme</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad */
@@ -271,11 +271,10 @@ table tr:nth-child(2n) {
   max-width: 100%
 }
 </style>
-
 </head>
 <body>
 <h1>Roadkill .NET Wiki Engine</h1>
-<p>Last updated 04/15/2013 (the documentation is pending an update for version 1.6)</p>
+<p>Last updated 04/27/2013 - version 1.6.</p>
 <h2>Contents</h2>
 <ul>
 <li><a href="">Installation</a></li>
@@ -300,45 +299,42 @@ table tr:nth-child(2n) {
 <li>Some basic technical knowledge of Windows</li>
 <li>ASP.NET MVC 3 (from http://www.asp.net/downloads)</li>
 <li>IIS 7+ (although it will work with IIS Express and Cassini)</li>
-<li>64bit Windows for SQLite (see the note below for 32 bit)</li>
 </ul>
-<p>You do not need a database server - you can use SQLite if you choose. SQL Server Compact is also supported, however a bug in NHibernate 3.2 means the current (1.3) version of Roadkill will not operate correctly.</p>
+<p>You do not need a database server - you can use SQLite if you choose. SQL Server Compact (SQL Server CE) is also supported.</p>
+<p>Roadkill hasn't been tested with Mono, but we'd be keen to find out how to get it working - please use the Google groups forum for any help with this.</p>
 <h2>Installing</h2>
-<p>Download the current version which is a ZIP file, and unzip it to a new folder.  If you are planning to use Roadkill on your development machine or remote access to another machine, you will need to create an IIS site before installing - <em>Roadkill does not do this for you in the wizard</em>. There is a howto on this Microsoft page: http://support.microsoft.com/kb/323972.</p>
-<p>Once that step is complete, copy/FTP the unzipped Roadkill files to your website root folder. Now open your site in your browser, for example: http://localhost/roadkill/</p>
+<p>Download the current version which is a ZIP file, and unzip it to a new folder.  If you are planning to use Roadkill on your development machine or remote access to another machine, you will need to create an IIS site before installing - <strong>Roadkill does not do this for you in the wizard</strong>. </p>
+<p>There is a howto for this on this Microsoft page: <a href="http://support.microsoft.com/kb/323972">http://support.microsoft.com/kb/323972</a>.</p>
+<p>Once your site is created and the file is unzipped, copy/FTP the unzipped Roadkill files to your website root folder. Now open your site in your browser, for example: http://localhost/roadkill/</p>
 <p>Roadkill has been designed to work from any virtual path, provided the path is configured as an application.</p>
-<p>The installation wizard will then guide you through the installation step by step, and write your web.config settings at the end of the wizard. You can manually tweak your web.config settings if you prefer, guidance on the Roadkill settings can be found on the <a href="">web.config</a> page.</p>
+<p>The installation wizard will then guide you through the installation step by step, and write your web.config settings at the end of the wizard. You can manually tweak your web.config settings if you prefer, guidance on the Roadkill settings can be found on the <a href="#webconfig">web.config</a> page.</p>
 <p>If your installation fails at any point, simply change the &quot;installed=true&quot; in the roadkill section of your web.config to &quot;installed=false&quot; to reset the installation.</p>
-<p>[image:installer.png]</p>
-<h3>Using SQLite on Windows 32 bit</h3>
-<p>From Roadkill 1.4 onwards, the correct SQLite version is now copied to your /bin folder for you (64 bit or 32 bit binaries). This is done at the beginning of each installation, if you choose to switch to 32/64 bit mode for your website, you will need to copy the correct binary files (two .dll files), which can be found in the App_Data\SQLiteBinaries folder.</p>
 <h2>Common Issues</h2>
 <h3>Web.config can't be written to</h3>
-<p>This is probably the commonest problem with the installer. If you hosting Roadkill on shared hosting, your control panel should be able to change these permissions to the web.config. However the application pool that Roadkill is running as <em>should</em> have enough permissions to write to the web.config.</p>
+<p>This is probably the commonest problem with the installer. If you're hosting Roadkill on shared hosting, your control panel should be able to change the permissions for the web.config. However the application pool that Roadkill is running as <em>should</em> have enough permissions to write to the web.config.</p>
 <p>If you are running Roadkill on your home/development machine then the simplest solution to the problem is to run the application pool as LOCALSYSTEM or LOCALSERVICE.</p>
-<h3>NHibernate exceptions at Finished stage</h3>
-<p>These are almost always caused by your connection string login details or a missing dependency (if you're using something other than SQL Server or SQLite). The stack trace you will see on the Finished page will give you full information of the problem, if you scroll down. You can also look at the event log if you have access to it.</p>
+<h3>Database exceptions at Finished stage</h3>
+<p>These are almost always caused by your connection string login details or a missing dependency. The stack trace you will see on the Finished page will give you full information of the problem, if you scroll down. You can also look at the event log if you have access to it.</p>
 <div style="page-break-after:always"></div>
 <h1>2. Hosting on a web garden/web farm</h1>
 <p>Roadkill has a couple of issues that you should be aware of if you are hosting it in a web garden/farm (load balanced multi-server) environment.</p>
 <h2>Files uploads</h2>
 <p>As of Version 1.5, Roadkill supports attachment uploads to file paths outside of the web root directory - which can include UNC paths if needed. All files are served via a HttpHandler.</p>
 <h2>Caching</h2>
-<p>Roadkill uses the NHibernate second level cache for its caching strategy. This saves trips to the database and is important for text content for high traffic websites. By default Roadkill uses NHibernate hashtable cache, which is similar to ASP.NET's cache. This <em>doesn't</em> scale across web servers, so should be turned off if you are using multiple servers.</p>
-<p>You can manually tweak the web.config to use a caching provider that scales across multiple servers, which requires some knowledge of NHibernate's configuration settings. Couchbase - [url:http://www.couchbase.com/couchbase-server/overview] - is a good free caching server that works across multiple servers, this can be configured to work with the Enyim memcached provider (Couchbase is memcacheD compatible) : [url:https://github.com/enyim/EnyimMemcached/]</p>
+<p>Roadkill uses basic object caching for its caching strategy, along side browser caching. This saves trips to the database and is important for text content for mid-high traffic websites. By default Roadkill uses System.Runtime.Caching's default cache, which is similar to ASP.NET's cache. This <em>doesn't</em> scale across web servers, so should be turned off if you are using multiple servers.</p>
+<p>If you wish to scale to more than one server please contact us via Bitbucket, and a new version can be released fairly quickly to support scaleable cache such as Azure or Couchbase. The object cache is based off the plugable System.Runtime.Caching architecture making this a simple change to make. </p>
 <div style="page-break-after:always"></div>
 <h1>3. Roadkill web.config</h1>
 <p>This page contains reference information about the web.config settings for Roadkill, and expects you to have some knowledge of .NET XML configuration files/web.config files.</p>
 <h2>Roadkill section</h2>
-<p>Roadkill stores almost all of its configuration settings in the web.config file. This is written to during the installation, based on the settings you provide. 
-The web.config file contains a custom roadkill section which contains the bulk of the settings, below is an example:</p>
+<p>Roadkill stores almost all of its configuration settings in the web.config file. This is written to during the installation, based on the settings you provide.</p>
+<p>The web.config file contains a custom roadkill section which contains the bulk of the settings, below is an example:</p>
 <pre><code>&lt;roadkill 
     adminRoleName=&quot;Admin&quot;
+    attachmentsRoutePath=&quot;Attachments&quot;
     attachmentsFolder=&quot;~/Attachments&quot;
-    cacheEnabled=&quot;true&quot;
-    cacheText=&quot;true&quot;
     connectionStringName=&quot;Roadkill&quot;
-    databaseType=&quot;SqlServer2005&quot;
+    dataStoreType=&quot;SqlServer2005&quot;
     editorRoleName=&quot;Editor&quot;
     installed=&quot;true&quot;
     isPublicSite=&quot;true&quot;
@@ -346,26 +342,40 @@ The web.config file contains a custom roadkill section which contains the bulk o
     ldapConnectionString=&quot;&quot;
     ldapUsername=&quot;&quot;
     ldapPassword=&quot;&quot;
+    logging=&quot;none&quot;
+    logErrorsOnly=&quot;false&quot;
     ignoreSearchIndexErrors=&quot;true&quot;
     resizeImages=&quot;true&quot;
     userManagerType=&quot;&quot;
     useHtmlWhiteList=&quot;true&quot;
     useWindowsAuthentication=&quot;false&quot; 
+    useBrowserCache=&quot;true&quot;
+    useObjectCache=&quot;true&quot;
+    version=&quot;1.6.0.0&quot;
 /&gt;
 </code></pre>
 
 <p><strong>adminRoleName</strong>
 the role name for editors. This can also contain one, or a comma separated list of Active Directory groups that are editors if Windows authentication is enabled.</p>
+<p><strong>attachmentsRoutePath</strong></p>
+<p>This is the virtual path used to serve attachments, which by default is &quot;Attachments&quot;. Do not include any trailing or beginning slash, for example for the url /myfiles/uploads/&quot; use &quot;myfiles/uploads&quot;.</p>
 <p><strong>attachmentsFolder</strong>
-the folder images and files are uploaded to. This can be an absolute file path (including a UNC path), or if the value starts with &quot;~/&quot; then the website root is used.</p>
-<p><strong>cacheEnabled</strong>
-true/false. If enabled, the NHibernate database cache is turned on. You can over-ride this setting using the NHibernate section shown below.</p>
-<p><strong>cacheText</strong>
-true/false. If true, the text content for each page is cached until the page is edited.</p>
+This is the directory that images and files are uploaded to. This can be an absolute file path (including a UNC path), or if the value starts with &quot;~/&quot; then the website root is used.</p>
 <p><strong>connectionStringName</strong>
 the name of the connection string from the connectionStrings section, defaults to &quot;Roadkill&quot;.</p>
-<p><strong>databaseType</strong>
-the database server type used to store the roadkill data. Valid values include db2, firebird, mysql, postgres, sqlite, sqlserver2005, sqlserver2008, sqlserverce. Note Roadkill doesn't ship with the .NET drivers for all of these database types, just SQL Server, SQL Server CE and SQLite. If you want to use another database that isn't listed here but NHibernate supports, you can over-ride this in the NHibernate section.</p>
+<p><strong>dataStoreType</strong></p>
+<p>The kind of database to use. This defaults to SQLServer2008, valid values are:</p>
+<ul>
+<li>MySQL</li>
+<li>Postgres</li>
+<li>MongoDB</li>
+<li>Sqlite</li>
+<li>SqlServer2005</li>
+<li>SqlServer2008</li>
+<li>SqlServer2012</li>
+<li>SqlServerCe</li>
+</ul>
+<p>These are not case sensitive. If you are using a custom repository (one you've written yourself), this should equal the full type name of the repository. This feature will be supported in future versions.</p>
 <p><strong>editorRoleName</strong>
 the role name for editors. This can also contain one, or a comma separated list of Active Directory groups that are editors if Windows authentication is enabled.</p>
 <p><strong>installed</strong> 
@@ -385,9 +395,16 @@ If windows authentication is enabled, this is the password for the username used
 <p><strong>userManagerType</strong>
 <em>(optional)</em> if set, this class (which should inherit from Roadkill.Core.UserManager) will be used for authenticating users. The format of this setting should be &quot;Namespace.Type, Assemblyname&quot; or a similar valid type string. See the Users and Permissions page for details on creating your own implementation.</p>
 <p><strong>useHtmlWhiteList</strong>
-<em>(optional)</em> if set, this will strip all HTML tags/attributes from the markup of each page (not the Theme HTML, just the markup) which don't exist in the App_Data/htmlwhitelist.xml file. True by default.</p>
+<em>(optional)</em> if set, this will strip all HTML tags/attributes from the markup of each page (not the Theme HTML, just the markup converted from the Wiki markdown). Tags which exist inside App_Data/htmlwhitelist.xml file will be ignored. True by default.</p>
 <p><strong>useWindowsAuthentication</strong>
 Whether Windows Active Directory authentication should be used.</p>
+<p><strong>useBrowserCache</strong>
+Enables caching on the browser. This will tell the browser to cache Roadkill pages, and check for updates (If-Modified-Since) each time the page is loaded. If no update is found, no content is returned from the server. Recommended to increase the responsiveness of the site.</p>
+<p><strong>useObjectCache</strong></p>
+<p>Enables Object caching. Roadkill caches all pages and content in memory after retrieving it from the database. The cache is automatically updated when a page changes. Recommended to increase the responsiveness of the site. Object caching is not currently supported for web gardens or web farms.</p>
+<p><strong>version</strong>  </p>
+<p>The current version installed. If this version is less than the current build version, then an upgrade is assumed and the upgrade screen appears. This value takes the format major.minor.0.0 (build numbers are not included in Roadkill), for example &quot;1.6.0.0&quot;.</p>
+<hr />
 <p>The connection string section will look this for a default roadkill installation:</p>
 <pre><code>&lt;connectionStrings&gt;
     &lt;add name=&quot;Roadkill&quot; connectionString=&quot;(your connection string)&quot; /&gt;
@@ -431,17 +448,15 @@ This can be done via the system.net section which is included in the Roadkill we
 <h1>4. Users and permissions</h1>
 <h2>Permissions and roles</h2>
 <h3>Basics</h3>
-<p>Roadkill has just two types of user roles: editors (or standard users) and admins. The only difference between the two is that users who belong to the admin role can access the admin &quot;site settings&quot; page, and delete pages.</p>
+<p>Roadkill has just two types of user roles: editors (or standard users) and admins. The only difference between the two is that admin users who belong to the admin role can access the &quot;site settings&quot; page, delete and lock pages.</p>
 <h3>Authentication</h3>
 <p>By default, Roadkill uses the database to store its users and passwords. For various reasons it does not use the ASP.NET AuthenticationProviders, but its own security system. The system uses the username field for the page history, however the login always uses the email address, and the minimum password length is 6 characters. You can enable or disable user signups as an admin under the &quot;site settings&quot; page. If you disable user signups, then all users will need to be created via the &quot;site settings&quot; page, where you can also set their password. There is no notion of an anonymous user in Roadkill, all edits and new pages need a user login to do so.</p>
-<p>If you enable user signups then anybody can create a user (editor) account on the wiki and create and edit pages. You can restrict pages to so they are only editable by admins however, more details on this can be found on the [Creating and editing pages, using tags as categories] pages.</p>
+<p>If you enable user signups then anybody can create a user (editor) account on the wiki and create and edit pages. You can restrict pages to so they are only editable by admins however, more details on this can be found on the <a href="">Creating and editing pages, using tags as categories</a> pages.</p>
 <p>If your wiki is available to the public via the internet, it's recommended that you enable the Recaptcha option. Recaptcha (http://www.google.com/recaptcha) will go someway to stop spam bots from creating new logins on your wiki. To enable this, you will need to create an account on the Google Recaptcha page, and copy the API key from there into the Roadkill wizard or site settings page.</p>
-<p>Roadkill <em>does</em> require new user accounts (if user signups are enabled) to confirm their account via an email address as an extra security measure, so you will need to configure an email server that emails are sent via, in your web.config (see the [Web.config] page for details), if you decide to allow user signups.</p>
+<p>Roadkill <em>does</em> require new user accounts (if user signups are enabled) to confirm their account via an email address as an extra security measure, so you will need to configure an email server that emails are sent via, in your web.config (see the <a href="">Web.config</a> page for details), if you decide to allow user signups.</p>
 <h3>Active Directory authentication</h3>
 <p>If you want to run Roadkill inside a Windows based network that uses Active Directory for user logins, Roadkill supports this out-of-the-box. The install wizard will guide you on how configure the various options available and does include fairly detailed instructions.</p>
-<p>[image:ad-1.png]</p>
-<p>[image:ad-2.png]</p>
-<p>It's worth downloading AD Explorer ([url:http://technet.microsoft.com/en-us/sysinternals/bb963907.aspx]) first before configuring the Active Directory options in Roadkill, as it makes it easier to discover the groups and LDAP:// settings required. You are able to set multiple AD groups for the editor and admin roles by separating each group with a comma.</p>
+<p>It's worth downloading AD Explorer (<a href="">url:http://technet.microsoft.com/en-us/sysinternals/bb963907.aspx</a>) first before configuring the Active Directory options in Roadkill, as it makes it easier to discover the groups and LDAP:// settings required. You are able to set multiple AD groups for the editor and admin roles by separating each group with a comma.</p>
 <p>You will need a login that can read from the Active Directory in order for Roadkill to authenticate correctly. This login should ideally be one that does not have a password expiry, but at the same time is not able to login as a desktop user, sometimes known as a service user. Roadkill does not use the application pool login for AD authentication via pass-through auth.</p>
 <h3>Writing your own user manager</h3>
 <p>If you want to use an external data source for authenticating your users, this is fairly straight forward to do by implementing the Roadkill.Core.UserManager class. This is an abstract class found in the \Domain\Managers\Security folder in the source tree. The default SqlUserManager is a good place to start for seeing how the database user authentication is implemented.</p>
@@ -490,20 +505,20 @@ This is my Excel file: [[attachment:/Spreadsheets/Sheet1.xls|excel file]]
 <div style="page-break-after:always"></div>
 <h1>7. Multi-language support</h1>
 <p>Roadkill supports multiple languages, also known as localization, but currently only contains an English (British/American) word and phrase set for the installer and site-wide labels/help. The validation <em>bold</em> is multi-lingual however.</p>
-<p><em>Any help with translations to other languages would be a great help</em> :it involves translating around 400 very basic words or short phrases in a text file - please contact us via Google groups (details on the main page) or issue tracker if you help.</p>
+<p><em>Any help with translations to other languages would be a great help</em>, it involves translating around 400 very basic words or short phrases in a text file - please contact us via Google groups (details on the main page) or issue tracker if you help.</p>
 <p>By default the language is automatically taken from the server or machine you have installed Roadkill on. You can change this web.config by changing the culture:</p>
 <pre><code>&lt;globalization uiCulture=&quot;auto&quot; culture=&quot;auto&quot; /&gt;
 </code></pre>
 
-<p>The uiCulture attribute should be a value from the &quot;culture name&quot; column from this page [url:http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo(v=vs.71).aspx]</p>
+<p>The uiCulture attribute should be a value from the &quot;culture name&quot; column from this page <a href="">url:http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo(v=vs.71)</a>.aspx]</p>
 <p>Multi-language support for the pages you create will still remain a manual process. The engine has no way of switching languages, but it is possible to use tags to distinguish between page languages.</p>
 <div style="page-break-after:always"></div>
 <h1>8. Markup types and parsers</h1>
 <p>Roadkill enables you to edit your Wiki in three different flavours of markup language:</p>
 <ul>
-<li>Creole Wiki (used on with Codeplex.com) - [url:http://wikicreole.org/]</li>
-<li>Markdown (used on Stackoverflow.com) - [url:http://en.wikipedia.org/wiki/Markdown#Syntax_examples]</li>
-<li>Media Wiki format (used on Wikipedia) - [url:http://www.mediawiki.org/wiki/Help:Formatting]</li>
+<li><a href="http://wikicreole.org/">Creole Wiki (used on with Codeplex.com))</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Markdown#Syntax_examples">Markdown (used on Stackoverflow.com)</a></li>
+<li><a href="http://www.mediawiki.org/wiki/Help:Formatting">Media Wiki format (used on Wikipedia)</a> </li>
 </ul>
 <p>It is recommended that you keep with Creole Wiki format as this is best supported by the platform. Only a subset of the Media Wiki features are supported, however the Markdown support is fairly comprehensive as it uses the same parser as the one used by Stackoverflow. </p>
 <h2>Unsafe HTML removal</h2>
@@ -519,13 +534,13 @@ This is my Excel file: [[attachment:/Spreadsheets/Sheet1.xls|excel file]]
 </ul>
 <p>Object tags <em>are</em> supported, allowing people to embed flash movies or other plugins if needed.</p>
 <h2>Tags that aren't supported</h2>
-<p>There are several media wiki tags that aren't supported, notably macros and advanced table support.</p>
+<p>There are several media wiki tags that aren't supported, notably macros, namespaces and advanced table support.</p>
 <h2>Extra tags</h2>
 <p>The {TOC} tag is supported by Roadkill, which allows you to insert a table of contents anywhere in your page. The table of contents is generated from all the headings on the page, and automatically adds anchors to the page.</p>
 <p>You can define your own custom tags to Roadkill by editing the AppData/Tokens.xml file. This XML file lets you define a tag to search for, and the HTML to replace it with. The file uses regular expressions to search and replace the page content for the tags your define.</p>
 <p>Roadkill comes with two tags by default:</p>
-<pre><code>{'(alertbox:your text)'}
-{'(warningbox:your text)'}
+<pre><code>@@alertbox:your text@@
+@@warningbox:your text@@
 </code></pre>
 
 <p>These display your text in a red and yellow box respectively. The XML also contains a section to enter some help text for the tag. Every token is displayed in the help dialog when you click on the &quot;?&quot; help button on the edit/create page along with this help text.</p>
@@ -569,10 +584,10 @@ This is my Excel file: [[attachment:/Spreadsheets/Sheet1.xls|excel file]]
 <div style="page-break-after:always"></div>
 <h1>11. Themes</h1>
 <p>Roadkill supports a fairly comprehensive theming framework that allows you to completely reskin your wiki if needed. The Roadkill installation comes with two themes:</p>
-<h3>Blackbar</h3>
-<p>This is the default theme with a black navigation bar across the top of the page. This theme and some roadkill UI elements in general has been designed for a page with a while background. The theme has a very small ego and has no Roadkill logo on the screen.</p>
 <h3>Media wiki</h3>
 <p>This theme emulates the website style you see with media wiki installations. It contains a navigation bar on the left side of the screen and the logo in the top left.</p>
+<h3>Blackbar</h3>
+<p>This is the default theme with a black navigation bar across the top of the page. This theme and some roadkill UI elements in general has been designed for a page with a while background. The theme has a very small ego and has no Roadkill logo on the screen.</p>
 <h2>Creating a theme in 3 steps</h2>
 <h4>1. Create the theme folder</h4>
 <p>The first step for theme creation is to create a new folder under the &quot;Themes&quot; folder. Name this folder with the name of your theme, without spaces.</p>
@@ -601,6 +616,7 @@ This is my Excel file: [[attachment:/Spreadsheets/Sheet1.xls|excel file]]
 <li><strong>.blueborder</strong>	Gives the element a blue border</li>
 <li><strong>.lightborder</strong>	Gives the element a light grey border like the borders found on the edit and history buttons.</li>
 <li><strong>.clear</strong>	Clears both left and right floating elements (clear:both)</li>
+<li><strong>.wikitable</strong> All user tables are assigned the .wikitable class.</li>
 </ul>
 <p>There are also a number of IDs declared globally, so when creating a theme you may need to check the roadkill.css file to ensure there are no name clashes. If in doubt, it is best to use &quot;#yourtheme-idname&quot;.</p>
 <p>Roadkill uses Twitter Bootstrap to define the following styles globally, rather than on a per-theme basis:</p>
@@ -633,7 +649,7 @@ This is my Excel file: [[attachment:/Spreadsheets/Sheet1.xls|excel file]]
 <li>Tabs for indentation (4 spaces per tab).</li>
 <li>If you do have a different coding style to this don't worry, the code is likely to be auto-reformated anyway (using Visual Studio's built in shortcut key). Don't take this personally if it happens - it's about consistency rather than my-style-is-better-than-yours.</li>
 <li>Use XML documentation for public classes, properties and methods, and where needed private methods too.</li>
-<li><strong>No vars</strong>! I get religious about var abuse, as in my view it makes code harder to read and unless used for <a href="http://blogs.msdn.com/b/ericlippert/archive/2011/04/20/uses-and-misuses-of-implicit-typing.aspx" title="var abuse">its intended purpose</a> - where the left side is redundant, dynamic LINQ or complex generic declarations (Dictionary of T for example), then please don't pepper the code with them.</li>
+<li><strong>No vars</strong>! I get religious about var abuse, in my view it makes code harder to read and unless used for <a href="http://blogs.msdn.com/b/ericlippert/archive/2011/04/20/uses-and-misuses-of-implicit-typing.aspx" title="var abuse">its intended purpose</a> - where the left side is redundant, dynamic LINQ or complex generic declarations (Dictionary of T for example), then please don't pepper the code with them.</li>
 <li>Add unit tests for the code where possible, which can be a unit test, integration test or acceptance (Selenium-based) test.</li>
 <li>Use constructor injection for dependencies, and add these into the DependencyContainer class (this makes testing and mocking a lot easier).</li>
 <li>Uncle Bob's approach to coding and KISS is the most important factor for the project, it should be easy to read instantly.</li>
