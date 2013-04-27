@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.PhantomJS;
+using OpenQA.Selenium.Support.UI;
+using Roadkill.Core.Database;
 using Roadkill.Tests.Acceptance;
 
 namespace Roadkill.Tests.Acceptance.Smoke
@@ -52,6 +54,81 @@ namespace Roadkill.Tests.Acceptance.Smoke
 			IWebElement loggedInElement = Driver.FindElements(By.CssSelector("#loggedinas a")).FirstOrDefault();
 			Assert.IsNotNull(loggedInElement, "FAILED: \n" + Driver.PageSource);
 			Assert.That(loggedInElement.Text, Is.EqualTo("Logged in as admin"), "FAILED: \n" + Driver.PageSource);
+		}
+
+		[Test]
+		[Description("Used to verify the release zip file before Creating a new Codeplex release")]
+		[Explicit]
+		public void Can_Install_SqlServer_Ce_From_Release_Zip_File()
+		{
+			// Arrange
+			string installUrl = "http://roadkill16.local/";
+			LoginUrl = string.Format("{0}/user/login", installUrl);
+			Driver.Navigate().GoToUrl(installUrl);
+			
+			// Act
+			// step 1
+			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
+
+			// step 2
+			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
+			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
+			select.SelectByValue(DataStoreType.SqlServerCe.Name);
+
+			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"Data Source=|DataDirectory|\roadkill.sdf");
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 3
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 3b
+			Driver.FindElement(By.Id("AdminEmail")).SendKeys("admin@localhost");
+			Driver.FindElement(By.Id("AdminPassword")).SendKeys("password");
+			Driver.FindElement(By.Id("password2")).SendKeys("password");
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 4
+			Driver.FindElement(By.CssSelector("input[id=UseObjectCache]")).Click();
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step5
+			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"), Driver.PageSource);
+			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
+
+			// login, create a page
+			LoginAsAdmin();
+			CreatePageWithTitleAndTags("Homepage", "homepage");
+
+			// Assert
+			Driver.Navigate().GoToUrl(installUrl);
+			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("Homepage"));
+			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
+		}
+
+		[Test]
+		[Description("Used to verify the release zip file before Creating a new Codeplex release")]
+		[Explicit]
+		public void Can_Upgrade_SqlServerCe_From_152_From_Release_Zip_File()
+		{
+			// Arrange
+			string upgradeUrl = "http://roadkillupgrade.local/";
+			LoginUrl = string.Format("{0}/user/login", upgradeUrl);
+			Driver.Navigate().GoToUrl(upgradeUrl);
+
+			// Act
+			Driver.FindElement(By.CssSelector("input[value=Upgrade]")).Click();
+			LoginAsAdmin();
+			CreatePageWithTitleAndTags("New page", "new page");
+			Driver.Navigate().GoToUrl(upgradeUrl);
+
+			// Assert
+			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("homepage"));
+			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("This is 1.5.2 homepage"));
+
+			Driver.Navigate().GoToUrl(upgradeUrl + "wiki/2/new-page");
+			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("New page"));
+			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
 		}
 	}
 }
