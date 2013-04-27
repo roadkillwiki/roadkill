@@ -1,8 +1,10 @@
 ﻿=====BUILD README=====
-The steps below are also in the create-zip-package.bat file, minus the upgrade.txt step.
-
+The steps below are also in the releasebuild.ps1 file.
 These are the steps to create a new download version:
-Firstly for the version being released: commit to Hg, *and then use hg tag v1.x.x* the version.
+
+Firstly for the version being released: 
+	Commit to Hg 
+	Use hg tag v1.x.x for the version.
 
 1) Update the version in AssemblyInfo.cs in Core and Site
 2) Compile using the 'Download' configuration

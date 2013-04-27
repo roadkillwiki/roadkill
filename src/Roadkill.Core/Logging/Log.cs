@@ -15,6 +15,7 @@ namespace Roadkill.Core.Logging
 	public class Log
 	{
 		public static bool LogErrorsOnly { get; set; }
+		public static string LogsDirectory { get;set; }
 
 		/// <summary>
 		/// Configures the type of log file to use based on the configuration, and 
@@ -24,6 +25,9 @@ namespace Roadkill.Core.Logging
 		public static void ConfigureLogging(ApplicationSettings settings)
 		{
 			LogErrorsOnly = settings.LogErrorsOnly;
+			LogsDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Logs");
+			if (!Directory.Exists(LogsDirectory))
+				Directory.CreateDirectory(LogsDirectory);
 
 			switch (settings.LoggingType)
 			{
@@ -75,7 +79,7 @@ namespace Roadkill.Core.Logging
 		/// </summary>
 		public static void UseXmlLogging()
 		{
-			string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Logs", "roadkill.log-{DateTime:yyyy-MM-dd}.xml");
+			string logFile = Path.Combine(LogsDirectory, "roadkill.log-{DateTime:yyyy-MM-dd}.xml");
 			Trace.Listeners.Add(new RollingXmlTraceListener(logFile));
 		}
 
@@ -85,7 +89,7 @@ namespace Roadkill.Core.Logging
 		/// </summary>
 		public static void UseTextFileLogging()
 		{
-			string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Logs", "roadkill-{DateTime:yyyy-MM-dd}.log");
+			string logFile = Path.Combine(LogsDirectory, "roadkill-{DateTime:yyyy-MM-dd}.log");
 			Trace.Listeners.Add(new RollingFileTraceListener(logFile));
 		}
 

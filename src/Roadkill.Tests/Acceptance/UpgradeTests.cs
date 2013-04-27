@@ -95,7 +95,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Sqlite_Should_Show_Cant_Upgrade_Text()
+		public void Sqlite_Should_Show_Cannot_Upgrade_Text()
 		{
 			// Arrange
 			UpdateWebConfig(_sqliteConnection, DataStoreType.Sqlite);

@@ -1,9 +1,0 @@
-Upgrading from previous releases
-==================================
-
-To upgrade from a previous version of Roadkill, copy all the files **EXCEPT**:
-
-App_Data
-Web.config
-
-Into your installation directory.
