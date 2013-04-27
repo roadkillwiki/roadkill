@@ -2320,6 +2320,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		[Test]
 		public void HtmlEncode()
 		{
+			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
 
 			// Act
@@ -2329,6 +2330,23 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 			// Assert
 			string expected = "<div style=\"background&#x2D;color&#x3A;&#x20;test\"></div>";
 			Assert.That(actual, Is.EqualTo(expected).IgnoreCase);
+		}
+
+		[Test(Description="To be fixed post 1.6")]
+		[Ignore]
+		public void UrlWithScriptInHref()
+		{
+			// Arrange
+			//issue #159
+			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
+
+			// Act
+			string htmlFragment = "<a href=\"http://msdn.microsoft.com/en-us/library/system.componentmodel.descriptionattribute.aspx\">ComponentModel.Description</a>";
+			string actual = sanitizer.SanitizeHtml(htmlFragment);
+
+			// Assert
+			string expected = "<a href=\"http&#x3A;&#x2F;&#x2F;msdn&#x2E;microsoft&#x2E;com&#x2F;en&#x2D;us&#x2F;library&#x2F;system&#x2E;componentmodel&#x2E;descriptionattribute&#x2E;aspx\">ComponentModel.Description</a>";
+			Assert.That(actual, Is.EqualTo(expected).IgnoreCase, actual);
 		}
 	}
 }
