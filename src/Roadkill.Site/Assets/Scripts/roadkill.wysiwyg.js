@@ -52,7 +52,7 @@ function initWYSIWYG()
 	});
 	$(".wysiwyg-picture").click(function ()
 	{
-		openIframeModal("<iframe src='" + ROADKILL_FILEMANAGERURL + "' id='filechooser-iframe' width='700' height='400' scrolling='auto'></iframe>");
+		openIframeModal("<iframe src='" + ROADKILL_FILESELECTURL + "' id='filechooser-iframe' width='700' height='400' scrolling='auto'></iframe>");
 	});
 	$(".wysiwyg-link").click(function ()
 	{

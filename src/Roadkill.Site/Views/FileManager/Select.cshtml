@@ -1,0 +1,36 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    @Url.CssLink("roadkill.css")
+    <link href="@Url.Content(SiteSettings.ThemePath + "/Theme.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content(SiteSettings.ThemePath + "/Theme.print.css")" rel="stylesheet" type="text/css" media="print" />
+    @Url.ScriptLink("jquery-1.8.0.min.js")
+    <script type="text/javascript" src="@Url.Action("GlobalJsVars", "Home")"></script>
+    @Url.ScriptLink("roadkill.files.js")
+</head>
+<body>
+    <style>
+        body {
+            background-color: whitesmoke;
+        }
+    </style>
+    @Html.Partial("Navigator")
+    <script type="text/javascript">
+
+    	$(function ()
+    	{
+    		navigatorInit();
+    		$("table#files").live("fileselected",
+                function (e, data)
+                {
+                	window.top.addImage(data.file);
+                });
+    	});
+
+    </script>
+</body>
+</html>

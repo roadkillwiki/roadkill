@@ -77,5 +77,11 @@ namespace Roadkill.Core.Mvc.ViewModels
 			DirectorySummary summary = new DirectorySummary(settings, path);
 			return summary;
 		}
+
+		public static DirectorySummary FromUrlPath(ApplicationSettings settings, string basePath)
+		{
+			var path = settings.AttachmentsDirectoryPath + basePath;
+			return new DirectorySummary(settings, path);
+		}
 	}
 }

@@ -107,7 +107,7 @@ ul.mainmenu li a:hover { text-decoration:underline; }
 #helptable th	{ text-align:left;font-size:13px;padding:5px; }
 #helptable td	{ border-right:1px solid #C1DAD7;border-bottom:1px solid #C1DAD7;background:#fff;padding:6px 6px 6px 12px;color:#4f6b72;vertical-align:top; }
 
-/* File manager [editors] */
+/* File dialog [editors] */
 #files-container	{ background-color:#FFF;min-height:400px; }
 .selectedfolder		{ background-color:#e3e2e2;padding:5px;margin-bottom:5px; }
 #filetree-container	{ width:500px; }
@@ -123,3 +123,26 @@ ul.mainmenu li a:hover { text-decoration:underline; }
 /* Users page [admins] */
 #userdialogContainer	{ display:none;color:White;width:360px; }
 #userdialogContainer h2	{ border-bottom:1px solid white !important; }
+
+/* File Manager  [editors] */
+ul.navigator			{ list-style-type: none; padding-left: 0px; }
+ul.navigator li			{ margin-right:2px; float:left;padding:5px; height: 20px; border: 1px solid lightskyblue; border-radius:8px; }
+ul.navigator li a		{ font-weight:bold; }
+ul.navigator li a:hover	{ text-decoration:underline; }
+
+#folder-container		{ background-color:White; border:1px solid lightskyblue; height:300px; width:auto; margin-top:5px; margin-bottom:5px; padding:5px; overflow:auto; }
+table#files				{ width:100%;border-collapse:collapse; }
+table#files thead tr	{ background-color:whitesmoke; }
+table#files thead tr th { text-align:left; }
+table#files tr.focus	{ background-color: aliceblue; }
+table#files tr.select	{ background-color: azure; font-weight:bold;  border:1px solid lightskyblue; }
+table#files tr.listrow	{ cursor:pointer; }
+
+#progress div.bar		{ opacity: 0.2; height: 2px; background-color: purple; margin-bottom:4px;}
+ 
+#image-preview			{ position:absolute;border:1px solid #ccc;background:#fff;padding:5px;display:none;color:#000; }
+#image-preview img		{ height:60px; width:80px; }
+
+.fileupload-button			{ float: left; position: relative; cursor: pointer; overflow: hidden; margin-right:5px; padding: 3px 10px; text-align: center; font-weight:bold; }
+.fileupload-buttonbar input { cursor: pointer; direction: ltr; margin: 0; opacity: 0; position: absolute; right: 0; top: 0;    filter: alpha(opacity=0); -o-transform: translate(250px, -50px) scale(1); -moz-transform: translate(-300px, 0) scale(4); transform: translate(-300px, 0px) scale(4); }
+span.fileupload-button span { padding: 4px; }

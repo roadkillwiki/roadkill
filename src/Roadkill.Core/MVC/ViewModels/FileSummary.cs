@@ -17,6 +17,10 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public string UrlPath { get; set; }
 		public string Extension { get; set; }
 
+		public long Size { get; set; }
+		public string CreateDate { get; set; }
+		public string Folder { get; set; }
+
 		/// <summary>
 		/// Base64'd version of the path
 		/// </summary>
@@ -39,6 +43,11 @@ namespace Roadkill.Core.Mvc.ViewModels
 			UrlPath = diskPath.Replace(settings.AttachmentsDirectoryPath, "");
 			UrlPath = UrlPath.Replace(@"\", "/");
 			Extension = Path.GetExtension(diskPath).Replace(".", "");
+
+			FileInfo fileInfo = new FileInfo(diskPath);
+			Size = fileInfo.Length;
+			CreateDate = fileInfo.CreationTime.ToShortDateString();
+			Folder = fileInfo.Directory.Name;
 		}
 
 		public static FileSummary FromBase64UrlPath(string base64Path, ApplicationSettings settings)

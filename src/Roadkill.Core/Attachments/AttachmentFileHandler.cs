@@ -58,7 +58,7 @@ namespace Roadkill.Core.Attachments
 					// Should this return a 404?
 					if (!File.Exists(fullPath))
 						throw new FileNotFoundException(string.Format("The url {0} (translated to {1}) does not exist on the server", context.Request.Url.LocalPath, fullPath));
-					
+
 					AddStatusCodeForCache(context, fullPath);
 					if (context.Response.StatusCode != 304)
 					{
@@ -181,6 +181,53 @@ namespace Roadkill.Core.Attachments
 			}
 
 			return errors;
+		}
+
+		/// <summary>
+		/// Returns the physical path of the Attachments folder plus the parsed relative file path.
+		/// </summary>
+		/// <param name="relativePath">relativePath</param>
+		/// <returns>Returns the physical path of the Attachments folder plus the parsed relative path parameter joined.</returns>
+		public string CombineRelativeFolder(string relativePath)
+		{
+			string attachmentsPath = _settings.AttachmentsDirectoryPath;
+
+			relativePath = relativePath.Replace(_settings.AttachmentsUrlPath, "");
+			relativePath = relativePath.Replace("/", @"\");
+
+			if (relativePath.StartsWith(@"\"))
+				relativePath = relativePath.Substring(1);
+
+			relativePath = Path.Combine(attachmentsPath, relativePath);
+
+			return relativePath;
+		}
+
+		/// <summary>
+		/// Validates that the passed physical path is a valid sub folder of the base attachments path.
+		/// </summary>
+		/// <param name="path">sub folder of base Attachments folder</param>
+		/// <returns>Returns the physical path of the Attachments folder plus the parsed relative path parameter joined.</returns>
+		public bool IsAttachmentPathValid(string path)
+		{
+			DirectoryInfo attachmentsDir = new DirectoryInfo(_settings.AttachmentsFolder);
+			DirectoryInfo subDirPath = new DirectoryInfo(path);
+			bool isParent = false;
+
+			if (attachmentsDir.FullName == subDirPath.FullName)
+				return true;
+
+			while (subDirPath.Parent != null)
+			{
+				if (subDirPath.Parent.FullName == attachmentsDir.FullName)
+				{
+					isParent = true;
+					break;
+				}
+				else subDirPath = subDirPath.Parent;
+			}
+
+			return isParent;
 		}
 	}
 }

@@ -1,0 +1,39 @@
+﻿@model IList<IList<string>>
+@{
+	ViewBag.Title = SiteStrings.FileExplorer_Title;
+}
+@Url.ScriptLink("roadkill.files.js")
+
+<h2>"SiteStrings.FileManager_ManageFiles"</h2>
+
+@Html.Partial("Navigator")
+
+<div id="progress">
+    <div class="bar" style="width: 0%;"></div>
+</div>
+
+<form action="FileManager/FileUpload" enctype="multipart/form-data" method="post">
+    <input type="hidden" id="destination_folder" name="destination_folder" value="" />
+    <span class="fileupload-buttonbar ">
+        <span class="fileupload-button btn">
+            <span>@SiteStrings.FileExplorer_Upload</span>
+            <input id="fileupload" type="file" name="files[]" data-url="FileManager/FileUpload" multiple>
+        </span>
+        <button id="deletefilebtn" type="button" class="btn">SiteStrings.FileManager_Delete_File</button>
+        <button id="addfolderbtn" type="button" class="btn">SiteStrings.FileManager_Add_Folder</button>
+        <button id="deletefolderbtn" type="button" class="btn">SiteStrings.FileManager_Delete_Folder</button>
+    </span>
+</form>
+
+<script src="@Url.Content("~/Assets/Scripts/filemanager/jquery.ui.widget.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Assets/Scripts/filemanager/jquery.iframe-transport.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Assets/Scripts/filemanager/jquery.fileupload.js")" type="text/javascript"></script>
+<script type="text/javascript">
+
+	$(function ()
+	{
+		fileManagerInit();
+		navigatorInit();
+	});
+
+</script>

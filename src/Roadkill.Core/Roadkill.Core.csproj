@@ -353,6 +353,7 @@
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
     <Compile Include="MVC\Attributes\BrowserCacheAttribute.cs" />
+    <Compile Include="MVC\Controllers\FileManagerController.cs" />
     <Compile Include="MVC\Controllers\LogViewerController.cs" />
     <Compile Include="MVC\WebViewPages\RoadkillLayoutPage.cs" />
     <Compile Include="MVC\WebViewPages\RoadkillViewPage.cs" />

@@ -248,6 +248,7 @@
     <Content Include="Assets\bootstrap\js\bootstrap.min.js" />
     <Content Include="Assets\CSS\htmldiff.css" />
     <Content Include="Assets\CSS\images\blank.gif" />
+    <Content Include="Assets\CSS\images\cancel.png" />
     <Content Include="Assets\CSS\images\fancybox_loading.gif" />
     <Content Include="Assets\CSS\images\fancybox_overlay.png" />
     <Content Include="Assets\CSS\images\fancybox_sprite.png" />
@@ -292,6 +293,9 @@
     <Content Include="Assets\Images\roadkill.png" />
     <Content Include="Assets\Images\log_warning.png" />
     <Content Include="Assets\Scripts\bootstrap-tagmanager.js" />
+    <Content Include="Assets\Scripts\filemanager\jquery.ui.widget.js" />
+    <Content Include="Assets\Scripts\filemanager\jquery.iframe-transport.js" />
+    <Content Include="Assets\Scripts\filemanager\jquery.fileupload.js" />
     <Content Include="Assets\Scripts\jquery-1.8.0.min.js" />
     <Content Include="Assets\Scripts\jquery.fancybox.pack.js" />
     <Content Include="Assets\Scripts\jquery.validate.js" />
@@ -405,6 +409,9 @@
     <Content Include="Views\LogViewer\Menu.cshtml" />
     <Content Include="Views\User\LoggedInAs.cshtml" />
     <Content Include="Views\User\LeftMenu.cshtml" />
+    <Content Include="Views\FileManager\Index.cshtml" />
+    <Content Include="Views\FileManager\Select.cshtml" />
+    <Content Include="Views\FileManager\Navigator.cshtml" />
     <None Include="Web.DemoSite.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

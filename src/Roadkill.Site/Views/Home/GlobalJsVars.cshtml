@@ -1,6 +1,7 @@
 ﻿@using Roadkill.Core.Converters;
 @using Roadkill.Core.Configuration;
 var ROADKILL_CORESCRIPTPATH = "@Url.Content("~/Assets/Scripts/")";
+var ROADKILL_COREASSETPATH = "@Url.Content("~/Assets/")";
 var ROADKILL_THEMEPATH =  "@Url.Content(SiteSettings.ThemePath)/";
 
 // Edit page constants
@@ -10,7 +11,7 @@ var ROADKILL_MARKUPTYPE = "@SiteSettings.MarkupType";
 var ROADKILL_WIKIMARKUPHELP = "@Url.Action(SiteSettings.MarkupType + "Reference", "Help")";
 
 // File manager constants
-var ROADKILL_FILEMANAGERURL = "@Url.Action("Index", "Files")";
+var ROADKILL_FILEMANAGERURL = "@Url.Action("Index", "FileManager")";
 var ROADKILL_FILETREE_URL =  "@Url.Action("Folder", "Files")/";
 var ROADKILL_FILETREE_PATHNAME_URL =  "@Url.Action("GetPath", "Files")/";
 var ROADKILL_ATTACHMENTSPATH = "@Url.GetAttachmentsPath(ApplicationSettings)";
@@ -44,7 +45,17 @@ var ROADKILL_EDIT_IMAGE_TITLE       = "@Html.Raw(SiteStrings.EditPage_Image_Titl
 @:var ROADKILL_ADDADMIN_TITLE = "@SiteStrings.SiteSettings_Users_AddAdminDialog_Title";
 @:var ROADKILL_ADDEDITOR_TITLE = "@SiteStrings.SiteSettings_Users_AddEditorDialog_Title";
 @:var ROADKILL_EDITUSER_TITLE = "@SiteStrings.SiteSettings_Users_EditUserDialog_Title";
+
+@:var ROADKILL_DELETE_CONFIRM = "SiteStrings.Delete_Confirm";
+@:var ROADKILL_DELETE_BASEFOLDER_ERROR = "SiteStrings.Delete_BaseFolder_Error";
 }
+
+// File manager constants
+var ROADKILL_FILEMANAGERURL = "@Url.Action("Index", "FileManager")";
+var ROADKILL_FILETREE_URL =  "@Url.Action("Folder", "Files")/";
+var ROADKILL_FILESELECTURL = "@Url.Action("Select", "FileManager")";
+var ROADKILL_FILETREE_PATHNAME_URL =  "@Url.Action("GetPath", "Files")/";
+var ROADKILL_ATTACHMENTSPATH = "@Url.GetAttachmentsPath(ApplicationSettings)";
 
 @if (ApplicationSettings.ResizeImages)
 {
