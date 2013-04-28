@@ -1,0 +1,1151 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Mannex</name>
+    </assembly>
+    <members>
+        <member name="T:Mannex.ArrayExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Array"/> sub-types.
+            </summary>
+        </member>
+        <member name="M:Mannex.ArrayExtensions.ToHex(System.Byte[])">
+            <summary>
+            Formats bytes in hexadecimal format, appending to the 
+            supplied <see cref="T:System.Text.StringBuilder"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.ArrayExtensions.ToHex(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Formats bytes in hexadecimal format, appending to the 
+            supplied <see cref="T:System.Text.StringBuilder"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.ArrayExtensions.ToHex(System.Byte[],System.Int32,System.Int32,System.Text.StringBuilder)">
+            <summary>
+            Formats bytes in hexadecimal format, appending to the 
+            supplied <see cref="T:System.Text.StringBuilder"/>.
+            </summary>
+        </member>
+        <member name="T:Mannex.BooleanExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Boolean"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.BooleanExtensions.To``1(System.Boolean,``0,``0)">
+            <summary>
+            Converts a <see cref="T:System.Boolean"/> to a value of type <typeparamref name="T"/> 
+            with a values for true and false states.
+            </summary>
+        </member>
+        <member name="T:Mannex.Collections.Generic.ListExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Collections.Generic.List`1"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Collections.Generic.ListExtensions.LastIndex``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Returns the index of the last item in the list or -1 if the
+            list is empty.
+            </summary>
+        </member>
+        <member name="M:Mannex.Collections.Generic.ListExtensions.Push``1(System.Collections.Generic.IList{``0},``0)">
+            <summary>
+            Treats list like a stack, pushing <paramref name="value"/>
+            on to the list; in other words adding it to the end of 
+            the list.
+            </summary>
+        </member>
+        <member name="M:Mannex.Collections.Generic.ListExtensions.Pop``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Treats list like a stack, popping (removing and returning)
+            the last value on the list.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if list is empty.
+            </exception>
+        </member>
+        <member name="M:Mannex.Collections.Generic.ListExtensions.TryPop``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Treats list like a stack, popping (removing and returning)
+            the last value on the list. If the list is empty, then
+            the default value for <typeparamref name="T"/> is returned.
+            </summary>
+        </member>
+        <member name="M:Mannex.Collections.Generic.ListExtensions.TryPop``1(System.Collections.Generic.IList{``0},``0)">
+            <summary>
+            Treats list like a stack, popping (removing and returning)
+            the last value on the list. If the list is empty, then
+            <paramref name="emptyValue"/> is returned instead.
+            </summary>
+        </member>
+        <member name="M:Mannex.Collections.Generic.ListExtensions.Peek``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Treats list like a stack, peeking and return the first
+            value on the list.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if list is empty.
+            </exception>
+        </member>
+        <member name="M:Mannex.Collections.Generic.ListExtensions.TryPeek``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Treats list like a stack, peeking and return the first
+            value on the list. If the list is empty, then
+            the default value for <typeparamref name="T"/> is returned.
+            </summary>
+        </member>
+        <member name="M:Mannex.Collections.Generic.ListExtensions.TryPeek``1(System.Collections.Generic.IList{``0},``0)">
+            <summary>
+            Treats list like a stack, peeking and return the first
+            value on the list. If the list is empty, then
+            <paramref name="emptyValue"/> is returned instead.
+            </summary>
+        </member>
+        <member name="M:Mannex.Collections.Generic.ListExtensions.Unshift``1(System.Collections.Generic.IList{``0},``0)">
+            <summary>
+            Adds <paramref name="value"/> to beginning of the list.
+            </summary>
+        </member>
+        <member name="M:Mannex.Collections.Generic.ListExtensions.Shift``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Removes and returns the first value of the list.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if list is empty.
+            </exception>
+        </member>
+        <member name="M:Mannex.Collections.Generic.ListExtensions.TryShift``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Removes and returns the first value of the list, returning
+            the default value for <typeparamref name="T"/> if the
+            list is empty.
+            </summary>
+        </member>
+        <member name="M:Mannex.Collections.Generic.ListExtensions.TryShift``1(System.Collections.Generic.IList{``0},``0)">
+            <summary>
+            Removes and returns the first value of the list, returning
+            <paramref name="emptyValue"/> if the list is empty.
+            </summary>
+        </member>
+        <member name="M:Mannex.Collections.Generic.ListExtensions.Enqueue``1(System.Collections.Generic.IList{``0},``0)">
+            <summary>
+            Treats list like a queue, appending <paramref name="value"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Collections.Generic.ListExtensions.Dequeue``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Treats list like a queue, removing and returning the
+            first value.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if list is empty.
+            </exception>
+        </member>
+        <member name="M:Mannex.Collections.Generic.ListExtensions.TryDequeue``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Treats list like a queue, removing and returning the
+            first value or the default value for <typeparamref name="T"/>
+            if the list is empty.
+            </summary>
+        </member>
+        <member name="M:Mannex.Collections.Generic.ListExtensions.TryDequeue``1(System.Collections.Generic.IList{``0},``0)">
+            <summary>
+            Treats list like a queue, removing and returning the
+            first value or <paramref name="emptyValue"/> if the 
+            list is empty.
+            </summary>
+        </member>
+        <member name="M:Mannex.Collections.Generic.ListExtensions.Slice``1(System.Collections.Generic.IList{``0},System.Int32)">
+            <summary>
+            Returns elements from the list, starting at the index
+            specified by <paramref name="start"/> index.
+            </summary>
+            <remarks>
+            <para>
+            If <paramref name="start"/> is negative, it is treated as 
+            <see cref="P:System.Collections.Generic.List`1.Count"/> + <paramref name="start"/>.</para>
+            <para>
+            This method uses defered semantics.</para>
+            </remarks>
+        </member>
+        <member name="M:Mannex.Collections.Generic.ListExtensions.Slice``1(System.Collections.Generic.IList{``0},System.Int32,System.Int32)">
+            <summary>
+            Returns elements from the specified portion of the list, 
+            identified by <paramref name="start"/> index and 
+            <paramref name="end"/> (exclusive) index.
+            </summary>
+            <remarks>
+            <para>
+            This method copies up to, but not including, the element indicated by 
+            <paramref name="end"/>. If <paramref name="start"/> is negative, it 
+            is treated as <see cref="P:System.Collections.Generic.List`1.Count"/> + <paramref name="start"/>.
+            If <paramref name="end"/> is negative, it is treated as 
+            <see cref="P:System.Collections.Generic.List`1.Count"/> + <paramref name="end"/>. 
+            If <paramref name="end"/> occurs before <paramref name="start"/>, no 
+            elements returned.</para>
+            <para>
+            This method uses defered semantics.</para>
+            </remarks>
+        </member>
+        <member name="T:Mannex.Collections.Generic.DictionaryExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Collections.Generic.Dictionary`2"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Collections.Generic.DictionaryExtensions.Find``2(System.Collections.Generic.IDictionary{``0,``1},``0)">
+            <summary>
+            Finds the value for a key, returning the default value for 
+            <typeparamref name="TKey"/> if the key is not present.
+            </summary>
+        </member>
+        <member name="M:Mannex.Collections.Generic.DictionaryExtensions.Find``2(System.Collections.Generic.IDictionary{``0,``1},``0,``1)">
+            <summary>
+            Finds the value for a key, returning a given default value for 
+            <typeparamref name="TKey"/> if the key is not present.
+            </summary>
+        </member>
+        <member name="T:Mannex.ComponentModel.Design.IServiceContainerExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.ComponentModel.Design.IServiceContainer"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.ComponentModel.Design.IServiceContainerExtensions.AddService``1(System.ComponentModel.Design.IServiceContainer,``0)">
+            <summary>
+            Adds the specified service to the service container.
+            </summary>
+        </member>
+        <member name="T:Mannex.ComponentModel.INotifyPropertyChangedExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.ComponentModel.INotifyPropertyChangedExtensions.OnPropertyChanged``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.ComponentModel.PropertyChangedEventHandler)">
+            <summary>
+            Subscribes to <see cref="E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged"/> 
+            event of the soure object and calls <paramref name="handler"/> only
+            when the property identified by <paramref name="expression"/>
+            has changed.
+            </summary>
+            <returns>
+            Returns the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/> object that
+            can be used for unsubscribing.
+            </returns>
+            <exception cref="T:System.ArgumentException">
+            Thrown if <paramref name="expression"/> does not represent a simple
+            property/field access type of expression (see <see cref="T:System.Linq.Expressions.MemberExpression"/>).
+            </exception>
+            <remarks>
+            If <paramref name="expression"/> is <c>null</c> or empty then 
+            <paramref name="handler"/> is called when any property changes.
+            </remarks>
+        </member>
+        <member name="M:Mannex.ComponentModel.INotifyPropertyChangedExtensions.OnPropertyChanged(System.ComponentModel.INotifyPropertyChanged,System.String,System.ComponentModel.PropertyChangedEventHandler)">
+            <summary>
+            Subscribes to <see cref="E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged"/> 
+            event of the soure object and calls <paramref name="handler"/> only
+            when the property identified by <paramref name="propertyName"/>
+            (case-insensitive) has changed.
+            </summary>
+            <returns>
+            Returns the <see cref="T:System.ComponentModel.PropertyChangedEventHandler"/> object that
+            can be used for unsubscribing.
+            </returns>
+            <remarks>
+            If <paramref name="propertyName"/> is <c>null</c> or empty then 
+            <paramref name="handler"/> is called when any property changes.
+            </remarks>
+        </member>
+        <member name="T:Mannex.Collections.Generic.IComparerExtensions">
+            <summary>
+            Extension methods for types implementing <see cref="T:System.IComparable`1"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Collections.Generic.IComparerExtensions.Invert``1(System.Collections.Generic.IComparer{``0})">
+            <summary>
+            Creates an <see cref="T:System.Collections.Generic.IComparer`1"/> implementation
+            that inverts the results of comparing values through
+            another comparer such that the sort order is inverted.
+            </summary>
+        </member>
+        <member name="T:Mannex.Data.IDataReaderExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Data.IDataReader"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Data.IDataReaderExtensions.Select``1(System.Data.IDataReader,System.Func{System.Data.IDataRecord,``0})">
+            <summary>
+            Projects each record of the reader into a new form.
+            </summary>
+        </member>
+        <member name="T:Mannex.DateTimeExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.DateTime"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.DateTimeExtensions.ToUnixTime(System.DateTime)">
+            <summary>
+            Returns number of milliseconds (including fractions) in UTC between the 
+            specified date and midnight January 1, 1970.
+            </summary>
+        </member>
+        <member name="M:Mannex.DateTimeExtensions.TrimToSecond(System.DateTime)">
+            <summary>
+            Trims millisecond component so that the precision of the 
+            resulting time is to the second.
+            </summary>
+        </member>
+        <member name="M:Mannex.DateTimeExtensions.TrimToMinute(System.DateTime)">
+            <summary>
+            Trims the second and millisecond components so that the 
+            precision of the resulting time is to the minute.
+            </summary>
+        </member>
+        <member name="M:Mannex.DateTimeExtensions.TrimToHour(System.DateTime)">
+            <summary>
+            Trims the minute, second and millisecond components so that the 
+            precision of the resulting time is to the hour.
+            </summary>
+        </member>
+        <member name="M:Mannex.DateTimeExtensions.TrimToDay(System.DateTime)">
+            <summary>
+            Trims the time components so that the precision of the resulting 
+            time is to the day.
+            </summary>
+        </member>
+        <member name="M:Mannex.DateTimeExtensions.IsMidnight(System.DateTime)">
+            <summary>
+            Determines if the time component is midnight exactly.
+            </summary>
+        </member>
+        <member name="T:Mannex.Diagnostics.ProcessExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Diagnostics.Process"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Diagnostics.ProcessExtensions.TryKill(System.Diagnostics.Process)">
+            <summary>
+            Attempts to kill the process identified by the <see cref="T:System.Diagnostics.Process"/>
+            object and returns <c>null</c> on success otherwise the error
+            that occurred in the attempt.
+            </summary>
+        </member>
+        <member name="M:Mannex.Diagnostics.ProcessExtensions.WaitForExit(System.Diagnostics.Process,System.Nullable{System.TimeSpan})">
+            <summary>
+            Instructs the <see cref="T:System.Diagnostics.Process"/> component to wait the specified 
+            amount of time for the associated process to exit. If the specified
+            time-out period is <c>null</c> then the wait is indefinite.
+            </summary>
+        </member>
+        <member name="M:Mannex.Diagnostics.ProcessExtensions.BeginReadLine(System.Diagnostics.Process,System.IO.TextWriter)">
+            <summary>
+            Begins asynchronous read operations on the re-directed <see cref="P:System.Diagnostics.Process.StandardOutput"/> 
+            and <see cref="P:System.Diagnostics.Process.StandardError"/> of the application. 
+            Each line on the standard output is written to a <see cref="T:System.IO.TextWriter"/>.
+            </summary>
+            <returns>
+            Returns an action that can be used to wait on outputs to drain.
+            </returns>
+        </member>
+        <member name="M:Mannex.Diagnostics.ProcessExtensions.BeginReadLine(System.Diagnostics.Process,System.IO.TextWriter,System.IO.TextWriter)">
+            <summary>
+            Begins asynchronous read operations on the re-directed <see cref="P:System.Diagnostics.Process.StandardOutput"/> 
+            and <see cref="P:System.Diagnostics.Process.StandardError"/> of the application.
+            Each line on either is written to a respective <see cref="T:System.IO.TextWriter"/>.
+            </summary>
+            <returns>
+            Returns an action that can be used to wait on outputs to drain.
+            </returns>
+        </member>
+        <member name="M:Mannex.Diagnostics.ProcessExtensions.BeginReadLine(System.Diagnostics.Process,System.Action{System.String})">
+            <summary>
+            Begins asynchronous read operations on the re-directed <see cref="P:System.Diagnostics.Process.StandardOutput"/> 
+            and <see cref="P:System.Diagnostics.Process.StandardError"/> of the application. Each line on the standard output
+            is sent to a callback.
+            </summary>
+            <returns>
+            Returns an action that can be used to wait on outputs to drain.
+            </returns>
+        </member>
+        <member name="M:Mannex.Diagnostics.ProcessExtensions.BeginReadLine(System.Diagnostics.Process,System.Action{System.String},System.Action{System.String})">
+            <summary>
+            Begins asynchronous read operations on the re-directed <see cref="P:System.Diagnostics.Process.StandardOutput"/> 
+            and <see cref="P:System.Diagnostics.Process.StandardError"/> of the application. Each line on either is
+            sent to a respective callback.
+            </summary>
+            <returns>
+            Returns an action that can be used to wait on outputs to drain.
+            </returns>
+        </member>
+        <member name="T:Mannex.IO.ArrayExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Array"/> sub-types.
+            </summary>
+        </member>
+        <member name="M:Mannex.IO.ArrayExtensions.OpenRead(System.Byte[])">
+            <summary>
+            Creates a read-only stream on top of the supplied byte array.
+            </summary>
+        </member>
+        <member name="M:Mannex.IO.ArrayExtensions.OpenRead(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Creates a read-only stream on top of a section of supplied 
+            byte array.
+            </summary>
+        </member>
+        <member name="M:Mannex.IO.ArrayExtensions.OpenReadWrite(System.Byte[])">
+            <summary>
+            Creates a read-write stream on top of the supplied byte array.
+            </summary>
+        </member>
+        <member name="M:Mannex.IO.ArrayExtensions.OpenReadWrite(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Creates a read-write stream on top of a section of supplied 
+            byte array.
+            </summary>
+        </member>
+        <member name="T:Mannex.IO.ArraySegmentExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.ArraySegment`1"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.IO.ArraySegmentExtensions.OpenRead(System.ArraySegment{System.Byte})">
+            <summary>
+            Creates a read-only stream on top of the supplied buffer.
+            </summary>
+        </member>
+        <member name="M:Mannex.IO.ArraySegmentExtensions.OpenReadWrite(System.ArraySegment{System.Byte})">
+            <summary>
+            Creates a read-write stream on top of the supplied buffer.
+            </summary>
+        </member>
+        <member name="T:Mannex.IO.StreamExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.IO.Stream"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.IO.StreamExtensions.Copy(System.IO.Stream,System.IO.Stream)">
+            <summary>
+            Copies one stream into another using a transfer buffer size of 4K.
+            </summary>
+        </member>
+        <member name="M:Mannex.IO.StreamExtensions.Copy(System.IO.Stream,System.IO.Stream,System.Int32)">
+            <summary>
+            Copies one stream into another using a caller-specified transfer 
+            buffer size.
+            </summary>
+        </member>
+        <member name="M:Mannex.IO.StreamExtensions.Copy(System.IO.Stream,System.IO.Stream,System.Byte[])">
+            <summary>
+            Copies one stream into another using a caller-specified transfer 
+            buffer. If the buffer is null then a default one of 4K is used.
+            </summary>
+        </member>
+        <member name="M:Mannex.IO.StreamExtensions.SaveTo(System.IO.Stream,System.Byte[])">
+            <summary>
+            Copies content of the stream to fill the given buffer.
+            </summary>
+        </member>
+        <member name="M:Mannex.IO.StreamExtensions.SaveTo(System.IO.Stream,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Copies content of the stream to fill the given buffer.
+            </summary>
+        </member>
+        <member name="M:Mannex.IO.StreamExtensions.SaveToFile(System.IO.Stream,System.String)">
+            <summary>
+            Saves the content of the input stream from its current position
+            to the given file path using a default transfer buffer size of 
+            4K.
+            </summary>
+        </member>
+        <member name="M:Mannex.IO.StreamExtensions.SaveToFile(System.IO.Stream,System.String,System.Int32)">
+            <summary>
+            Saves the content of the input stream from its current position
+            to the given file path using a caller-specified transfer 
+            buffer size.
+            </summary>
+        </member>
+        <member name="M:Mannex.IO.StreamExtensions.Memorize(System.IO.Stream)">
+            <summary>
+            Copies the content of the input stream from its current position
+            to a memory-based stream.
+            </summary>
+        </member>
+        <member name="M:Mannex.IO.StreamExtensions.ToArray(System.IO.Stream)">
+            <summary>
+            Returns the remaining contents of the input as an array of 
+            unsigned bytes.
+            </summary>
+        </member>
+        <member name="T:Mannex.IO.StringExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.String"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.IO.StringExtensions.ToFileNameSafe(System.String)">
+            <summary>
+            Makes the content of the string safe for use as a file name
+            by replacing all invalid characters, those returned by
+            <see cref="M:System.IO.Path.GetInvalidFileNameChars"/>, with an underscore.
+            </summary>
+            <remarks>
+            This method is not guaranteed to replace the complete set of 
+            characters that are invalid in file and directory names.
+            The full set of invalid characters can vary by file system.
+            </remarks>
+        </member>
+        <member name="M:Mannex.IO.StringExtensions.ToFileNameSafe(System.String,System.String)">
+            <summary>
+            Makes the content of the string safe for use as a file name
+            by replacing all invalid characters, those returned by
+            <see cref="M:System.IO.Path.GetInvalidFileNameChars"/>, with 
+            <paramref name="replacement"/>.
+            </summary>
+            <remarks>
+            <para>
+            The <paramref name="replacement"/> string itself cannot 
+            carry any invalid file name characters. If 
+            <paramref name="replacement"/> is <c>null</c> or empty
+            then it assumes the value of an underscore.</para>
+            <para>
+            This method is not guaranteed to replace the complete set of 
+            characters that are invalid in file and directory names.
+            The full set of invalid characters can vary by file system.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Mannex.IO.StringExtensions.ToPathNameSafe(System.String)">
+            <summary>
+            Makes the content of the string safe for use as a file name
+            by replacing all invalid characters, those returned by
+            <see cref="M:System.IO.Path.GetInvalidPathChars"/>, with an underscore.
+            </summary>
+            <remarks>
+            This method is not guaranteed to replace the complete set of 
+            characters that are invalid in file and directory names.
+            The full set of invalid characters can vary by file system.
+            </remarks>
+        </member>
+        <member name="M:Mannex.IO.StringExtensions.ToPathNameSafe(System.String,System.String)">
+            <summary>
+            Makes the content of the string safe for use as a file name
+            by replacing all invalid characters, those returned by
+            <see cref="M:System.IO.Path.GetInvalidPathChars"/>, with 
+            <paramref name="replacement"/>.
+            </summary>
+            <remarks>
+            The <paramref name="replacement"/> string itself cannot 
+            carry any invalid file name characters. If 
+            <paramref name="replacement"/> is <c>null</c> or empty
+            then it assumes the value of an underscore.
+            <para>
+            This method is not guaranteed to replace the complete set of 
+            characters that are invalid in file and directory names.
+            The full set of invalid characters can vary by file system.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Mannex.IO.StringExtensions.Read(System.String)">
+            <summary>
+            Returns a <see cref="T:System.IO.TextReader"/> for reading string.
+            </summary>
+        </member>
+        <member name="T:Mannex.IO.TextReaderExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.IO.TextReader"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.IO.TextReaderExtensions.ReadLines(System.IO.TextReader)">
+            <summary>
+            Reads all lines from reader using deferred semantics.
+            </summary>
+        </member>
+        <member name="T:Mannex.Json.NameValueCollectionExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Collections.Specialized.NameValueCollection"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Json.NameValueCollectionExtensions.ToJsonString(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Formats collection as JSON text.
+            </summary>
+        </member>
+        <member name="M:Mannex.Json.NameValueCollectionExtensions.WriteJsonStringTo(System.Collections.Specialized.NameValueCollection,System.IO.TextWriter)">
+            <summary>
+            Formats collection as JSON text, sending output to <paramref name="writer"/>.
+            </summary>
+        </member>
+        <member name="T:Mannex.Json.StringExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.String"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Json.StringExtensions.ToJsonString(System.String)">
+            <summary>
+            Formats string as JSON text string.
+            </summary>
+            <remarks>
+            String may be <c>null</c>, in which case <c>"null"</c> is 
+            returned.
+            </remarks>
+        </member>
+        <member name="M:Mannex.Json.StringExtensions.WriteJsonStringTo(System.String,System.IO.TextWriter)">
+            <summary>
+            Formats string as JSON text string, sending output to 
+            <paramref name="writer"/>.
+            </summary>
+            <remarks>
+            String may be <c>null</c>, in which case <c>"null"</c> is 
+            returned.
+            </remarks>
+        </member>
+        <member name="T:Mannex.Net.Mime.ContentTypeExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Net.Mime.ContentType"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Net.Mime.ContentTypeExtensions.IsPlainText(System.Net.Mime.ContentType)">
+            <summary>
+            Determines whether content type is plain text.
+            </summary>
+        </member>
+        <member name="M:Mannex.Net.Mime.ContentTypeExtensions.IsText(System.Net.Mime.ContentType)">
+            <summary>
+            Determines whether content media type is text.
+            </summary>
+        </member>
+        <member name="M:Mannex.Net.Mime.ContentTypeExtensions.IsHtml(System.Net.Mime.ContentType)">
+            <summary>
+            Determines whether content type identifies an HTML document.
+            </summary>
+        </member>
+        <member name="M:Mannex.Net.Mime.ContentTypeExtensions.IsImage(System.Net.Mime.ContentType)">
+            <summary>
+            Determines whether content media type identifies an image.
+            </summary>
+        </member>
+        <member name="M:Mannex.Net.Mime.ContentTypeExtensions.GetMediaBaseType(System.Net.Mime.ContentType)">
+            <summary>
+            Gets the base media of the content type, e.g. text from text/plain.
+            </summary>
+        </member>
+        <member name="M:Mannex.Net.Mime.ContentTypeExtensions.GetMediaSubType(System.Net.Mime.ContentType)">
+            <summary>
+            Gets the media sub-type of the content type, e.g. plain from text/plain.
+            </summary>
+        </member>
+        <member name="T:Mannex.Net.WebClientExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Net.WebClient"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Net.WebClientExtensions.GetResponseContentType(System.Net.WebClient)">
+            <summary>
+            Gets the values of the HTTP 
+            <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a>
+            response header as an instance of the <see cref="T:System.Net.Mime.ContentType"/> object.
+            </summary>
+        </member>
+        <member name="M:Mannex.Net.WebClientExtensions.DownloadStringUsingResponseEncoding(System.Net.WebClient,System.String)">
+            <summary>
+            Same as <see cref="M:System.Net.WebClient.DownloadString(System.String)"/> except it
+            correctly use the character set indicated in the response to decode
+            the string. Otherwise it uses <see cref="P:System.Net.WebClient.Encoding"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Net.WebClientExtensions.DownloadStringUsingResponseEncoding(System.Net.WebClient,System.Uri)">
+            <summary>
+            Same as <see cref="M:System.Net.WebClient.DownloadString(System.Uri)"/> except it
+            correctly use the character set indicated in the response to decode
+            the string. Otherwise it uses <see cref="P:System.Net.WebClient.Encoding"/>.
+            </summary>
+        </member>
+        <member name="T:Mannex.Reflection.AssemblyExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Reflection.Assembly"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Reflection.AssemblyExtensions.GetManifestResourceReader(System.Reflection.Assembly,System.Type,System.String)">
+            <summary>
+            Loads the specified manifest resource, scoped by the namespace 
+            of the specified type, from this assembly and returns
+            it ready for reading as <see cref="T:System.IO.TextReader"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Reflection.AssemblyExtensions.GetManifestResourceReader(System.Reflection.Assembly,System.Type,System.String,System.Text.Encoding)">
+            <summary>
+            Loads the specified manifest resource, scoped by the namespace 
+            of the specified type, from this assembly and returns
+            it ready for reading as <see cref="T:System.IO.TextReader"/>. A parameter
+            specifies the text encoding to be used for reading.
+            </summary>
+        </member>
+        <member name="M:Mannex.Reflection.AssemblyExtensions.GetManifestResourceString(System.Reflection.Assembly,System.Type,System.String)">
+            <summary>
+            Loads the specified manifest resource and returns it as a string, 
+            scoped by the namespace  of the specified type, from this assembly. 
+            </summary>
+        </member>
+        <member name="M:Mannex.Reflection.AssemblyExtensions.GetManifestResourceString(System.Reflection.Assembly,System.Type,System.String,System.Text.Encoding)">
+            <summary>
+            Loads the specified manifest resource and returns it as a string, 
+            scoped by the namespace  of the specified type, from this assembly. 
+            A parameter specifies the text encoding to be decode the resource
+            bytes into text.
+            </summary>
+        </member>
+        <member name="T:Mannex.Reflection.ICustomAttributeProviderExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Reflection.ICustomAttributeProvider"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Reflection.ICustomAttributeProviderExtensions.IsDefined``1(System.Reflection.ICustomAttributeProvider,System.Boolean)">
+            <summary>
+            Indicates whether one or more instance of <typeparamref name="T"/> 
+            is defined on this member.
+            </summary>
+        </member>
+        <member name="M:Mannex.Reflection.ICustomAttributeProviderExtensions.GetCustomAttributes``1(System.Reflection.ICustomAttributeProvider,System.Boolean)">
+            <summary>
+            Returns <typeparamref name="T"/> custom attributes defined on 
+            this member.
+            </summary>
+        </member>
+        <member name="M:Mannex.Reflection.ICustomAttributeProviderExtensions.GetCustomAttribute``1(System.Reflection.ICustomAttributeProvider,System.Boolean)">
+            <summary>
+            Returns a specific custom attribute defined on this member.
+            </summary>
+        </member>
+        <member name="T:Mannex.StringExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.String"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.StringExtensions.MaskEmpty(System.String,System.String)">
+            <summary>
+            Masks an empty string with a given mask such that the result
+            is never an empty string. If the input string is null or
+            empty then it is masked, otherwise the original is returned.
+            </summary>
+            <remarks>
+            Use this method to guarantee that you never get an empty
+            string. Bear in mind, however, that if the mask itself is an 
+            empty string then this method could yield an empty string!
+            </remarks>
+        </member>
+        <member name="M:Mannex.StringExtensions.Slice(System.String,System.Int32)">
+            <summary>
+            Returns a section of a string from a give starting point on.
+            </summary>
+            <remarks>
+            If <paramref name="start"/> is negative, it is  treated as 
+            <c>length</c> + <paramref name="start" /> where <c>length</c> 
+            is the length of the string. If <paramref name="start"/>
+            is greater or equal to the length of the string then 
+            no characters are copied to the new string.
+            </remarks>
+        </member>
+        <member name="M:Mannex.StringExtensions.Slice(System.String,System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            Returns a section of a string.
+            </summary>
+            <remarks>
+            This method copies up to, but not including, the element
+            indicated by <paramref name="end"/>. If <paramref name="start"/> 
+            is negative, it is  treated as <c>length</c> + <paramref name="start" /> 
+            where <c>length</c> is the length of the string. If 
+            <paramref name="end"/> is negative, it is treated as <c>length</c> + 
+            <paramref name="end"/> where <c>length</c> is the length of the
+            string. If <paramref name="end"/> occurs before <paramref name="start"/>, 
+            no characters are copied to the new string.
+            </remarks>
+        </member>
+        <member name="M:Mannex.StringExtensions.Embed(System.String,System.String)">
+            <summary>
+            Embeds string into <paramref name="target"/>, using {0} 
+            within <paramref name="target"/> as the point of embedding.
+            </summary>
+        </member>
+        <member name="M:Mannex.StringExtensions.Wrap(System.String,System.String,System.String)">
+            <summary>
+            Wraps string between two other string where the first
+            indicates the left side and the second indicates the
+            right side.
+            </summary>
+        </member>
+        <member name="M:Mannex.StringExtensions.Quote(System.String,System.String,System.String)">
+            <summary>
+            Enquotes string with <paramref name="quote"/>, escaping occurences
+            of <paramref name="quote"/> itself with <paramref name="escape"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.StringExtensions.FormatWith(System.String,System.Func{System.String,System.Object[],System.IFormatProvider,System.String},System.Object[])">
+            <summary>
+            Format string using <paramref name="args"/> as sources for
+            replacements and a function, <paramref name="binder"/>, that
+            determines how to bind and resolve replacement tokens.
+            </summary>
+        </member>
+        <member name="M:Mannex.StringExtensions.FormatWith(System.String,System.IFormatProvider,System.Func{System.String,System.Object[],System.IFormatProvider,System.String},System.Object[])">
+            <summary>
+            Format string using <paramref name="args"/> as sources for
+            replacements and a function, <paramref name="binder"/>, that
+            determines how to bind and resolve replacement tokens. In 
+            addition, <paramref name="provider"/> is used for cultural
+            formatting.
+            </summary>
+        </member>
+        <member name="M:Mannex.StringExtensions.Split``1(System.String,System.Char,System.Func{System.String,System.String,``0})">
+            <summary>
+            Splits a string into a pair using a specified character to 
+            separate the two.
+            </summary>
+            <remarks>
+            Neither half in the resulting pair is ever <c>null</c>.
+            </remarks>
+        </member>
+        <member name="M:Mannex.StringExtensions.Split``1(System.String,System.Char,System.Func{System.String,System.String,System.String,``0})">
+            <summary>
+            Splits a string into three parts using any of a specified set of 
+            characters to separate the three.
+            </summary>
+            <remarks>
+            None of the resulting parts is ever <c>null</c>.
+            </remarks>
+        </member>
+        <member name="M:Mannex.StringExtensions.Split``1(System.String,System.Char,System.Func{System.String,System.String,System.String,System.String,``0})">
+            <summary>
+            Splits a string into four parts using any of a specified set of 
+            characters to separate the four.
+            </summary>
+            <remarks>
+            None of the resulting parts is ever <c>null</c>.
+            </remarks>
+        </member>
+        <member name="M:Mannex.StringExtensions.Split``1(System.String,System.Char[],System.Func{System.String,System.String,``0})">
+            <summary>
+            Splits a string into a pair using any of a specified set of 
+            characters to separate the two.
+            </summary>
+            <remarks>
+            Neither half in the resulting pair is ever <c>null</c>.
+            </remarks>
+        </member>
+        <member name="M:Mannex.StringExtensions.Split``1(System.String,System.Char[],System.Func{System.String,System.String,System.String,``0})">
+            <summary>
+            Splits a string into three parts using any of a specified set of 
+            characters to separate the three.
+            </summary>
+            <remarks>
+            None of the resulting parts is ever <c>null</c>.
+            </remarks>
+        </member>
+        <member name="M:Mannex.StringExtensions.Split``1(System.String,System.Char[],System.Func{System.String,System.String,System.String,System.String,``0})">
+            <summary>
+            Splits a string into four parts using any of a specified set of 
+            characters to separate the four.
+            </summary>
+            <remarks>
+            None of the resulting parts is ever <c>null</c>.
+            </remarks>
+        </member>
+        <member name="M:Mannex.StringExtensions.SplitRemoving``1(System.String,System.Int32,System.Int32,System.Func{System.String,System.String,``0})">
+            <summary>
+            Splits a string into a pair by removing a portion of the string.
+            </summary>
+            <remarks>
+            Neither half in the resulting pair is ever <c>null</c>.
+            </remarks>
+        </member>
+        <member name="T:Mannex.EventHandlerExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.EventHandler"/> and
+            <see cref="T:System.EventHandler`1"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.EventHandlerExtensions.Fire``1(System.EventHandler{``0},System.Object,``0)">
+            <summary>
+            Fires an event given its arguments.
+            </summary>
+            <returns>
+            Boolean value indicating whether the event was fired or not. The
+            only event under which the event is not fired is there are no
+            handlers attached.
+            </returns>
+        </member>
+        <member name="T:Mannex.Int32Extensions">
+            <summary>
+            Extension methods for <see cref="T:System.Int32"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Int32Extensions.ToInvariantString(System.Int32)">
+            <summary>
+            Converts <see cref="T:System.Int32"/> to its string representation in the
+            invariant culture.
+            </summary>
+        </member>
+        <member name="T:Mannex.PredicateExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Predicate`1"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.PredicateExtensions.And``1(System.Predicate{``0},System.Predicate{``0})">
+            <summary>
+            Combines two <see cref="T:System.Predicate`1"/> to form a logical AND.
+            </summary>
+        </member>
+        <member name="M:Mannex.PredicateExtensions.Or``1(System.Predicate{``0},System.Predicate{``0})">
+            <summary>
+            Combines two <see cref="T:System.Predicate`1"/> to form a logical OR.
+            </summary>
+        </member>
+        <member name="T:Mannex.Text.RegularExpressions.StringExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.String"/> that help with regular 
+            expression matching.
+            </summary>
+        </member>
+        <member name="M:Mannex.Text.RegularExpressions.StringExtensions.IsMatch(System.String,System.String)">
+            <summary>
+            Indicates whether the string contains a match for the regular 
+            expression pattern specified as an argument.
+            </summary>
+        </member>
+        <member name="M:Mannex.Text.RegularExpressions.StringExtensions.IsMatch(System.String,System.String,System.Text.RegularExpressions.RegexOptions)">
+            <summary>
+            Indicates whether the string contains a match for the regular 
+            expression pattern specified as an argument  along with 
+            matching options.
+            </summary>
+        </member>
+        <member name="M:Mannex.Text.RegularExpressions.StringExtensions.Match(System.String,System.String)">
+            <summary>
+            Searches string for an occurrence of the regular expression 
+            specified as an argument.
+            </summary>
+        </member>
+        <member name="M:Mannex.Text.RegularExpressions.StringExtensions.Match(System.String,System.String,System.Text.RegularExpressions.RegexOptions)">
+            <summary>
+            Searches string for an occurrence of the regular expression 
+            specified as an argument along with matching options.
+            </summary>
+        </member>
+        <member name="M:Mannex.Text.RegularExpressions.StringExtensions.Matches(System.String,System.String)">
+            <summary>
+            Searches the specified input string for all occurrences of the 
+            regular expression specified as an argument.
+            </summary>
+            <remarks>
+            This method uses deferred execution semantics.
+            </remarks>
+        </member>
+        <member name="M:Mannex.Text.RegularExpressions.StringExtensions.Matches(System.String,System.String,System.Text.RegularExpressions.RegexOptions)">
+            <summary>
+            Searches the specified input string for all occurrences of the 
+            regular expression specified as an argument along with matching
+            options.
+            </summary>
+            <remarks>
+            This method uses deferred execution semantics.
+            </remarks>
+        </member>
+        <member name="T:Mannex.Threading.TimeSpanExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.TimeSpan"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Threading.TimeSpanExtensions.ToTimeout(System.TimeSpan)">
+            <summary>
+            Converts <see cref="T:System.TimeSpan"/> to milliseconds as expected by
+            most of the <see cref="N:System.Threading"/> API.
+            </summary>
+        </member>
+        <member name="M:Mannex.Threading.TimeSpanExtensions.ToTimeout(System.Nullable{System.TimeSpan})">
+            <summary>
+            Converts <see cref="T:System.TimeSpan"/> to milliseconds as expected by
+            most of the <see cref="N:System.Threading"/> API. If the the 
+            <see cref="T:System.TimeSpan"/> value is <c>null</c> then the result is 
+            same as <see cref="F:System.Threading.Timeout.Infinite"/>.
+            </summary>
+        </member>
+        <member name="T:Mannex.Web.HtmlStringExtensions">
+            <summary>
+            HTML utility methods for <see cref="T:System.String"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Web.HtmlStringExtensions.HtmlEncode(System.String)">
+            <summary>
+            Converts a string into an HTML-encoded string.
+            </summary>
+        </member>
+        <member name="T:Mannex.Web.NameValueCollectionExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Collections.Specialized.NameValueCollection"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Web.NameValueCollectionExtensions.ToQueryString(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Creates a query string from the key and value pairs found
+            in the collection.
+            </summary>
+            <remarks>
+            A question mark (?) is prepended if the resulting query string
+            is not empty.
+            </remarks>
+        </member>
+        <member name="T:Mannex.Web.UriExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Uri"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Web.UriExtensions.Randomize(System.Uri)">
+            <summary>
+            Randomizes the URL by adding a query string parameter
+            named <c>__rnd</c> and whose value is a newly generated GUID.
+            </summary>
+        </member>
+        <member name="M:Mannex.Web.UriExtensions.Randomize(System.Uri,System.Object)">
+            <summary>
+            Randomizes the URL by adding a query string parameter
+            named <c>__rnd</c> and whose random value component
+            is the string representation of <paramref name="value"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Web.UriExtensions.Randomize(System.Uri,System.String,System.Object)">
+            <summary>
+            Randomizes the URL by adding a query string parameter
+            named as <paramref name="key"/> and whose random value 
+            component is the string representation of 
+            <paramref name="value"/>.
+            </summary>
+        </member>
+        <member name="T:Mannex.Web.Script.Serialization.ObjectExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Object"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Web.Script.Serialization.ObjectExtensions.ToJsonString(System.Object)">
+            <summary>
+            Formats object as JSON text using <see cref="T:System.Web.Script.Serialization.JavaScriptSerializer"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Web.Script.Serialization.ObjectExtensions.BuildJsonStringTo(System.Object,System.Text.StringBuilder)">
+            <summary>
+            Formats object as JSON text using <see cref="T:System.Web.Script.Serialization.JavaScriptSerializer"/>,
+            sending result to <paramref name="output"/> cref="output"/&gt;.
+            </summary>
+        </member>
+        <member name="T:Mannex.Web.UI.ControlExtensions">
+            <summary>
+            Extension methods for <see cref="T:System.Web.UI.Control"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Web.UI.ControlExtensions.GetDataItem``1(System.Web.UI.Control)">
+            <summary>
+            Similar to <see cref="M:System.Web.UI.Page.GetDataItem"/> but provides strong-typed result.
+            </summary>
+        </member>
+        <member name="M:Mannex.Web.UI.ControlExtensions.GetDataItem(System.Web.UI.Control)">
+            <summary>
+            Similar to <see cref="M:System.Web.UI.Page.GetDataItem"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Web.UI.ControlExtensions.Eval``1(System.Web.UI.Control,System.String)">
+            <summary>
+            Similar to <see cref="M:System.Web.UI.TemplateControl.Eval(System.String)"/> but 
+            provides strong-typed result.
+            </summary>
+        </member>
+        <member name="M:Mannex.Web.UI.ControlExtensions.Eval(System.Web.UI.Control,System.String)">
+            <summary>
+            Similar to <see cref="M:System.Web.UI.TemplateControl.Eval(System.String)"/>.
+            </summary>
+        </member>
+        <member name="M:Mannex.Web.UI.ControlExtensions.EvalText(System.Web.UI.Control,System.String)">
+            <summary>
+            Similar to <see cref="M:System.Web.UI.TemplateControl.Eval(System.String)"/> but 
+            returns HTML-encoded text.
+            </summary>
+        </member>
+        <member name="M:Mannex.Web.UI.ControlExtensions.EvalText(System.Web.UI.Control,System.String,System.String)">
+            <summary>
+            Similar to <see cref="M:System.Web.UI.TemplateControl.Eval(System.String,System.String)"/> but 
+            formats the expression and returns it as HTML-encode text.
+            </summary>
+        </member>
+        <member name="M:Mannex.Web.UI.ControlExtensions.EvalMany(System.Web.UI.Control,System.String,System.String[])">
+            <summary>
+            Evaluates a series of data-binding expressions (like
+            <see cref="M:System.Web.UI.TemplateControl.Eval(System.String)"/> and formats them into a single
+            string (similar to <see cref="M:System.String.Format(System.String,System.Object[])"/>).
+            </summary>
+            <remarks>
+            The returned string is <em>not</em> HTML-encoded.
+            </remarks>
+        </member>
+        <member name="T:Mannex.Web.UI.DataBindingExtensions">
+            <summary>
+            Provides data expression evaluation facilites similar to 
+            <see cref="T:System.Web.UI.DataBinder"/> in ASP.NET.
+            </summary>
+        </member>
+        <member name="M:Mannex.Web.UI.DataBindingExtensions.DataBind``1(System.Object,System.String)">
+            <summary>
+            Evaluates data-binding expressions at run time using an expression
+            syntax that is similar to C# and Visual Basic for accessing
+            properties or indexing into collections.
+            </summary>
+            <remarks>
+            <para>
+            This method performs late-bound evaluation, using run-time reflection
+            and therefore can cause performance less than optimal.</para>
+            <para>
+            In addition to <see cref="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)"/>, this
+            method converts <see cref="T:System.DBNull"/> values to a null reference.</para>
+            </remarks>
+        </member>
+        <member name="M:Mannex.Web.UI.DataBindingExtensions.DataBind(System.Object,System.String)">
+            <summary>
+            Evaluates data-binding expressions at run time using an expression
+            syntax that is similar to C# and Visual Basic for accessing
+            properties or indexing into collections.
+            </summary>
+            <remarks>
+            <para>
+            This method performs late-bound evaluation, using run-time reflection
+            and therefore can cause performance less than optimal.</para>
+            <para>
+            Unlike <see cref="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)"/>, this method
+            allows <paramref name="expression"/> to be <c>null</c> or an
+            empty string and in which case it simply returns the value of
+            <paramref name="obj"/>.</para>
+            <para>
+            In addition to <see cref="M:System.Web.UI.DataBinder.Eval(System.Object,System.String)"/>, this
+            method converts <see cref="T:System.DBNull"/> values to a null reference.</para>
+            </remarks>
+        </member>
+        <member name="M:Mannex.Web.UI.DataBindingExtensions.FormatWith(System.String,System.Object[])">
+            <summary>
+            Format string using <paramref name="args"/> as sources for
+            data-binding replacements.
+            </summary>
+            <remarks>
+            This method implements most of what is described in
+            <a href="http://www.python.org/dev/peps/pep-3101/">PEP 3101 (Advanced String Formatting)</a> 
+            from Python.
+            </remarks>
+        </member>
+        <member name="M:Mannex.Web.UI.DataBindingExtensions.FormatWith(System.String,System.IFormatProvider,System.Object[])">
+            <summary>
+            Format string using <paramref name="args"/> as sources for
+            data-binding replacements and <paramref name="provider"/> 
+            for cultural formatting.
+            </summary>
+            <remarks>
+            This method implements most of what is described in
+            <a href="http://www.python.org/dev/peps/pep-3101/">PEP 3101 (Advanced String Formatting)</a> 
+            from Python.
+            </remarks>
+        </member>
+    </members>
+</doc>

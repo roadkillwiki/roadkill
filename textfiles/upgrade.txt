@@ -1,0 +1,22 @@
+Upgrading from previous releases
+==================================
+
+Before upgrading, please make a back up of your database and site directory.
+
+In version 1.6 Roadkill has moved away from using NHibernate. In order to experience a smooth upgrade, please follow these steps:
+
+* Delete the bin folder in your Roadkill website root.
+* Delete the Views folder in your Roadkill website root.
+* Delete the Themes folder in your Roadkill website root.
+* Delete the Assets folder in your Roadkill website root.
+* Copy your <roadkill..> section and <connectionStrings> section from your Web.config into Notepad.
+
+* Unzip the Roadkill_v1.6.zip file.
+* Copy the Web.config file to your Roadkill website root, replacing the existing one. 
+* Replace the <roadkill..> section and <connectionStrings> section from the ones you have in Notepad.
+* Copy the bin folder to your Roadkill website root. 
+* Copy the Views folder to your Roadkill website root. 
+* Copy the Themes folder to your Roadkill website root. 
+* Copy the Assets folder to your Roadkill website root. 
+
+Now navigate to your Roadkill site in a browser - you should be prompted to upgrade your database installation.
