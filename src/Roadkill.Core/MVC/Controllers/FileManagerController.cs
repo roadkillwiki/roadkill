@@ -159,7 +159,6 @@ namespace Roadkill.Core.Mvc.Controllers
             return summary;
         }
 
-
         /// <summary>
         /// Attempts to create a new folder in the attachments folder, using the relative path provided.
         /// </summary>

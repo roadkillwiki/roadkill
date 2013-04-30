@@ -1,4 +1,5 @@
 ﻿/// <reference path="jquery-1.8.0-vsdoc.js" />
+/// <reference path="filemanager/jquery.fileupload.js" />
 
 /**
  Event bindings and handlers for the file manager.
@@ -6,7 +7,6 @@
 
 function fileManagerInit()
 {
-
 	$('#fileupload').fileupload({
 		dropZone: $("#folder-container"),
 		dataType: 'json',
@@ -40,7 +40,6 @@ function fileManagerInit()
 
 function deleteFolder()
 {
-
 	var s_folder = getCurrentPath();
 
 	if (s_folder == "")
@@ -86,7 +85,6 @@ function deleteFile()
 
 function addFolderInput()
 {
-
 	if ($("tr#newfolderrow").length > 0)
 	{
 		$("#newfolderinput").focus();
@@ -255,11 +253,9 @@ function buildTableFolderView(data)
 
 function getFileRowHtml(file)
 {
-
 	var s_html = "<tr class=\"listrow\" data-itemtype=\"file\"><td width='1%'><img src='" + ROADKILL_COREASSETPATH + "CSS/images/file.png'></td><td class=\"file\">{0}</td><td>{1}</td><td class=filetype>{2}</td><td class=filesize>{3}</td></tr>";
 
 	return s_html.format(file.Name, file.CreateDate, file.Extension, file.Size);
-
 }
 
 function imagePreviewInit()
@@ -268,8 +264,7 @@ function imagePreviewInit()
 	var yOffset = 20;
 
 	$("table#files tr[data-itemtype=file]")
-        .live("mouseenter",
-		    function (e)
+        .live("mouseenter",function (e)
 		    {
 		    	var s_file_type = $("td.filetype", this).text();
 		    	if (s_file_type.search(/^(jpg|png|gif)$/i) == -1)
@@ -281,13 +276,11 @@ function imagePreviewInit()
 				    .css("left", (e.pageX + yOffset) + "px")
 				    .fadeIn("fast");
 		    })
-        .live("mouseleave",
-		    function ()
+        .live("mouseleave",function ()
 		    {
 		    	$("#image-preview").remove();
 		    })
-        .live("mousemove",
-    		function (e)
+        .live("mousemove",function (e)
     		{
     			$("#preview")
 	    			.css("top", (e.pageY - xOffset) + "px")

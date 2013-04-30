@@ -286,6 +286,7 @@
     <Compile Include="Unit\Database\LightSpeed\FromEntityTests.cs" />
     <Compile Include="Unit\Managers\HistoryManagerTests.cs" />
     <Compile Include="Unit\Managers\SettingsManagerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\FileManagerControllerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\UpgradeControllerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\PagesControllerTests.cs" />
     <Compile Include="Unit\Mvc\RoutingTests.cs" />
