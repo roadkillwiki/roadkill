@@ -29,16 +29,20 @@ Don't worry about committing your web.config, the Web.Download.config file is us
 
 =====TESTING WINDOWS AUTH=====
 
-This can be done by creating a new Windows 2008 server and running into inside VirtualBox.
+This can be done by creating a new Windows 2012 server and running into inside VirtualBox.
 
-Install ActiveDirectory, call your domain Contoso.com.
+Install IIS (including application support)
+Install Active Directory Domain Services, call your domain Contoso.com.
 The two user groups are RoadkillEditors, RoadkillAdmins. I then setup two users to belong to each:
 BobAdmin - RoadkillAdmins
 EricEditor - RoadkillEditors
 
-Logout and login as both of these users to test they add pages and administer the site.
+Logout and login as both of these users to test they add pages and administer the site. If using a remote server, add
+these two users to the Administrators group to enable remote desktop access.
 
 The Roadkill ldap settings are then:
 -	ldapConnectionString: LDAP://contoso.com
 -	ldapUsername: administrator
 -	ldapPassword: Passw0rd
+
+Use SQLite for the database.
