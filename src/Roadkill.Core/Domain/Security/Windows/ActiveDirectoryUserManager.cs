@@ -324,10 +324,12 @@ namespace Roadkill.Core.Security.Windows
 			throw new NotImplementedException();
 		}
 
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		/// <summary>
+		/// This method performs no action with the <see cref="ActiveDirectoryUserManager"/>.
+		/// </summary>
 		public override void Logout()
 		{
-			throw new NotImplementedException();
+			
 		}
 
 		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
