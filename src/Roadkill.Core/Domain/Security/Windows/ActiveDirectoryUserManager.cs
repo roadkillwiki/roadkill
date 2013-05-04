@@ -269,6 +269,13 @@ namespace Roadkill.Core.Security.Windows
 			return _usersInGroupCache[groupName];
 		}
 
+		/// <summary>
+		/// This method performs no action with the <see cref="ActiveDirectoryUserManager"/>.
+		/// </summary>
+		public override void Logout()
+		{
+		}
+
 		#region Not implemented methods
 		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
 		public override bool ActivateUser(string activationKey)
@@ -322,14 +329,6 @@ namespace Roadkill.Core.Security.Windows
 		public override User GetUserByResetKey(string resetKey)
 		{
 			throw new NotImplementedException();
-		}
-
-		/// <summary>
-		/// This method performs no action with the <see cref="ActiveDirectoryUserManager"/>.
-		/// </summary>
-		public override void Logout()
-		{
-			
 		}
 
 		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
