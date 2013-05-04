@@ -58,7 +58,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
                 if (!_attachmentHandler.IsAttachmentPathValid(physicalPath))
                 {
-                    throw new Exception("Attachment Path invalid");
+                    throw new SecurityException("Attachment Path invalid for DeleteFile", null);
                 }
 
                 if (System.IO.File.Exists(physicalFilePath))

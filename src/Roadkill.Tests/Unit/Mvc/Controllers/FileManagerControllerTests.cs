@@ -49,6 +49,8 @@ namespace Roadkill.Tests.Unit
 					directoryInfo.Attributes = FileAttributes.Normal;
 					directoryInfo.Delete(true);
 				}
+
+				Directory.CreateDirectory(_settings.AttachmentsFolder);
 			}
 			catch (IOException e)
 			{
@@ -86,7 +88,56 @@ namespace Roadkill.Tests.Unit
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 		}
 
-		// DeleteFile
+		[Test]
+		public void DeleteFile()
+		{
+			// Arrange
+			string fullPath = Path.Combine(_settings.AttachmentsDirectoryPath + Path.DirectorySeparatorChar.ToString(), "test.txt");
+			CreateTestFileInAttachments("test.txt");
+			_filesController.SetFakeControllerContext();
+
+			// Act
+			JsonResult result = _filesController.DeleteFile("/", "test.txt") as JsonResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			string json = result.Data.ToString();
+			Assert.That(json, Is.EqualTo("{ status = ok, message =  }"));
+			Assert.That(File.Exists(fullPath), Is.False);
+		}
+
+		[Test]
+		public void DeleteFile_Missing_File_Returns_Ok()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+
+			// Act
+			JsonResult result = _filesController.DeleteFile("/", "doesntexist.txt") as JsonResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+
+			string json = result.Data.ToString();
+			Assert.That(json, Is.EqualTo("{ status = ok, message =  }"));
+		}
+
+		[Test]
+		[ExpectedException(typeof(SecurityException))]
+		public void DeleteFile_Bad_Paths_Throws_Exception()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+
+			// Act
+			JsonResult result = _filesController.DeleteFile("/.././", "hacker.txt") as JsonResult;
+
+			// Assert
+		}
+
+		// [X] DeleteFile
 		// DeleteFolder
 		// FolderInfo
 		// NewFolder
@@ -103,6 +154,12 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
+		}
+
+		private void CreateTestFileInAttachments(string filename)
+		{
+			string fullPath = Path.Combine(_settings.AttachmentsDirectoryPath + Path.DirectorySeparatorChar.ToString(), filename);
+			File.WriteAllText(fullPath, "test");
 		}
 	}
 }

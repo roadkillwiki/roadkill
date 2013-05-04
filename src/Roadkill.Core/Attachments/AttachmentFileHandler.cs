@@ -193,9 +193,9 @@ namespace Roadkill.Core.Attachments
 			string attachmentsPath = _settings.AttachmentsDirectoryPath;
 
 			relativePath = relativePath.Replace(_settings.AttachmentsUrlPath, "");
-			relativePath = relativePath.Replace("/", @"\");
+			relativePath = relativePath.Replace("/", Path.DirectorySeparatorChar.ToString());
 
-			if (relativePath.StartsWith(@"\"))
+			if (relativePath.StartsWith(Path.DirectorySeparatorChar.ToString()))
 				relativePath = relativePath.Substring(1);
 
 			relativePath = Path.Combine(attachmentsPath, relativePath);
@@ -206,28 +206,40 @@ namespace Roadkill.Core.Attachments
 		/// <summary>
 		/// Validates that the passed physical path is a valid sub folder of the base attachments path.
 		/// </summary>
-		/// <param name="path">sub folder of base Attachments folder</param>
-		/// <returns>Returns the physical path of the Attachments folder plus the parsed relative path parameter joined.</returns>
-		public bool IsAttachmentPathValid(string path)
+		/// <param name="absoluteDirectoryPath">sub folder of base Attachments folder</param>
+		/// <returns>True if it's a valid subdirectory, false otherwise.</returns>
+		public bool IsAttachmentPathValid(string absoluteDirectoryPath)
 		{
-			DirectoryInfo attachmentsDir = new DirectoryInfo(_settings.AttachmentsFolder);
-			DirectoryInfo subDirPath = new DirectoryInfo(path);
-			bool isParent = false;
-
-			if (attachmentsDir.FullName == subDirPath.FullName)
+			if (string.IsNullOrEmpty(absoluteDirectoryPath) || absoluteDirectoryPath == _settings.AttachmentsFolder)
 				return true;
 
-			while (subDirPath.Parent != null)
-			{
-				if (subDirPath.Parent.FullName == attachmentsDir.FullName)
-				{
-					isParent = true;
-					break;
-				}
-				else subDirPath = subDirPath.Parent;
-			}
+			if (absoluteDirectoryPath.Contains(".") || absoluteDirectoryPath.Contains("..") || absoluteDirectoryPath.IndexOfAny(Path.GetInvalidPathChars()) > -1 || absoluteDirectoryPath.IndexOfAny(Path.GetInvalidFileNameChars()) > -1)
+				return false;
 
-			return isParent;
+			DirectoryInfo attachmentsDir = new DirectoryInfo(_settings.AttachmentsFolder);
+
+			DirectoryInfo[] searchSubDirs = attachmentsDir.GetDirectories(absoluteDirectoryPath + "*");
+			if (searchSubDirs != null && searchSubDirs.Length > 0)
+				return true;
+
+			return false;
+
+			//bool isParent = false;
+
+			//if (attachmentsDir.FullName == subDirPath.FullName)
+			//	return true;
+
+			//while (subDirPath.Parent != null)
+			//{
+			//	if (subDirPath.Parent.FullName == attachmentsDir.FullName)
+			//	{
+			//		isParent = true;
+			//		break;
+			//	}
+			//	else subDirPath = subDirPath.Parent;
+			//}
+
+			//return isParent;
 		}
 	}
 }
