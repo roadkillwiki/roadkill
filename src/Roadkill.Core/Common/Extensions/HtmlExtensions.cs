@@ -220,7 +220,7 @@ namespace Roadkill.Core
 		/// </summary>
 		public static MvcHtmlString GetAttachmentsPath(this UrlHelper helper, ApplicationSettings settings)
 		{
-			return MvcHtmlString.Create(AttachmentFileHandler.GetAttachmentsPath(settings));
+			return MvcHtmlString.Create(settings.AttachmentsUrlPath);
 		}
 
 		/// <summary>

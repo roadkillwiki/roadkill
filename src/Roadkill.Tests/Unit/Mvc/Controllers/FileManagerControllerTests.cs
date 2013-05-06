@@ -34,7 +34,7 @@ namespace Roadkill.Tests.Unit
 			// File-specific settings
 			_context = new Mock<IUserContext>().Object;
 			_settings = new ApplicationSettings();
-			_settings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
+			_settings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Attachments");
 			_repository = new RepositoryMock();
 			_attachmentFileHandler = new AttachmentFileHandler(_settings);
 			_settingsManager = new SettingsManager(_settings, _repository);

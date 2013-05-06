@@ -52,5 +52,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "RedirectToAction");
 		}
+
+		// Testing the actual upgrade action is easier via Selenium.
 	}
 }

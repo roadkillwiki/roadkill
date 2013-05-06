@@ -27,6 +27,7 @@ namespace Roadkill.Core.Import
 		{
 			Repository = repository;
 			ApplicationSettings = settings;
+			_attachmentsFolder = ApplicationSettings.AttachmentsDirectoryPath;
 		}
 
 		/// <summary>
@@ -41,7 +42,6 @@ namespace Roadkill.Core.Import
 		public void ImportFromSqlServer(string connectionString)
 		{
 			_connectionString = connectionString;
-			_attachmentsFolder = ApplicationSettings.AttachmentsDirectoryPath;
 
 			using (SqlConnection connection = new SqlConnection(_connectionString))
 			{
@@ -108,7 +108,7 @@ namespace Roadkill.Core.Import
 		{
 			try
 			{
-				string filePath = string.Format("{0}{1}",_attachmentsFolder, filename);
+				string filePath = Path.Combine(_attachmentsFolder, filename);
 				FileInfo info = new FileInfo(filePath);
 				if (!info.Exists)
 				{

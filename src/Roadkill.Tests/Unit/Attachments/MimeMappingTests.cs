@@ -5,7 +5,7 @@ using System.Text;
 using NUnit.Framework;
 using Roadkill.Core.Attachments;
 
-namespace Roadkill.Tests.Unit.Attachments
+namespace Roadkill.Tests.Unit
 {
 	[TestFixture]
 	[Category("Unit")]

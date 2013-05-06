@@ -126,24 +126,6 @@ namespace Roadkill.Core.Attachments
 			}
 		}
 
-		internal static string GetAttachmentsPath(ApplicationSettings settings)
-		{
-			string attachmentsPath = settings.AttachmentsUrlPath;
-			if (HttpContext.Current != null)
-			{
-				string applicationPath = HttpContext.Current.Request.ApplicationPath;
-				if (!applicationPath.EndsWith("/"))
-					applicationPath += "/";
-
-				if (attachmentsPath.StartsWith("/"))
-					attachmentsPath = attachmentsPath.Remove(0, 1);
-
-				attachmentsPath = applicationPath + attachmentsPath;
-			}
-
-			return attachmentsPath;
-		}
-
 		/// <summary>
 		/// Tests if the attachments folder provided can be written to, by writing a file to the folder.
 		/// </summary>
@@ -186,19 +168,24 @@ namespace Roadkill.Core.Attachments
 		/// <summary>
 		/// Returns the physical path of the Attachments folder plus the parsed relative file path.
 		/// </summary>
-		/// <param name="relativePath">relativePath</param>
-		/// <returns>Returns the physical path of the Attachments folder plus the parsed relative path parameter joined.</returns>
-		public string CombineRelativeFolder(string relativePath)
+		/// <param name="relativePath">A url style path, e.g. /folder1/folder2/</param>
+		/// <returns>Returns the physical path of the Attachments folder plus the parsed 
+		/// relative path parameter joined. This path always contains a trailing slash (or / on Unix based systems).</returns>
+		public string ConvertUrlPathToPhysicalPath(string relativePath)
 		{
+			string dirSeperator = Path.DirectorySeparatorChar.ToString();
 			string attachmentsPath = _settings.AttachmentsDirectoryPath;
 
 			relativePath = relativePath.Replace(_settings.AttachmentsUrlPath, "");
-			relativePath = relativePath.Replace("/", Path.DirectorySeparatorChar.ToString());
+			relativePath = relativePath.Replace("/", dirSeperator);
 
-			if (relativePath.StartsWith(Path.DirectorySeparatorChar.ToString()))
-				relativePath = relativePath.Substring(1);
+			// Remove all '\' ('/' on unix) from the start of the path.
+			relativePath = relativePath.TrimStart(Path.DirectorySeparatorChar);
 
 			relativePath = Path.Combine(attachmentsPath, relativePath);
+
+			if (!relativePath.EndsWith(dirSeperator))
+				relativePath += dirSeperator;
 
 			return relativePath;
 		}
@@ -206,40 +193,72 @@ namespace Roadkill.Core.Attachments
 		/// <summary>
 		/// Validates that the passed physical path is a valid sub folder of the base attachments path.
 		/// </summary>
-		/// <param name="absoluteDirectoryPath">sub folder of base Attachments folder</param>
-		/// <returns>True if it's a valid subdirectory, false otherwise.</returns>
-		public bool IsAttachmentPathValid(string absoluteDirectoryPath)
+		/// <param name="physicalDirectoryPath">An absolute path which is a subdirectory of the route 
+		/// attachments directory, e.g. c:\temp\attachments\folder1\folder2\</param>
+		/// <returns>True if it's a valid subdirectory, false otherwise. If the path contains invalid path 
+		/// characters (except for a directory seperator), a . or .. then false is returned.
+		/// If <c>absoluteDirectoryPath</c> is an empty string, true is returned.</returns>
+		public bool IsAttachmentPathValid(string physicalDirectoryPath)
 		{
-			if (string.IsNullOrEmpty(absoluteDirectoryPath) || absoluteDirectoryPath == _settings.AttachmentsFolder)
+			if (string.IsNullOrEmpty(physicalDirectoryPath))
 				return true;
 
-			if (absoluteDirectoryPath.Contains(".") || absoluteDirectoryPath.Contains("..") || absoluteDirectoryPath.IndexOfAny(Path.GetInvalidPathChars()) > -1 || absoluteDirectoryPath.IndexOfAny(Path.GetInvalidFileNameChars()) > -1)
+			physicalDirectoryPath = physicalDirectoryPath.Replace("/", Path.DirectorySeparatorChar.ToString());
+
+			// "..\", "\..", ".\", "\." are bad and just get returned false
+			List<string> slashDots = new List<string>()
+			{
+				".." +Path.DirectorySeparatorChar,
+				Path.DirectorySeparatorChar + "..",
+				"."  +Path.DirectorySeparatorChar,
+				Path.DirectorySeparatorChar + ".."
+			};
+
+			if (slashDots.Any(x => physicalDirectoryPath.Contains(x)))
 				return false;
 
-			DirectoryInfo attachmentsDir = new DirectoryInfo(_settings.AttachmentsFolder);
+			// Ignore '\' (or '/' on unix) from the invalid char list as we have a full path
+			List<char> invalidChars = Path.GetInvalidPathChars().ToList();
+			invalidChars.Remove(Path.DirectorySeparatorChar);
 
-			DirectoryInfo[] searchSubDirs = attachmentsDir.GetDirectories(absoluteDirectoryPath + "*");
-			if (searchSubDirs != null && searchSubDirs.Length > 0)
-				return true;
+			if (physicalDirectoryPath.IndexOfAny(invalidChars.ToArray()) > -1)
+				return false;
+
+			// Use the end directory name
+			if (Directory.Exists(physicalDirectoryPath))
+			{
+				try
+				{
+					// Check the path passed isn't simply the attachments path with extra slashes etc.
+					DirectoryInfo attachmentsDir = new DirectoryInfo(_settings.AttachmentsFolder);
+					DirectoryInfo searchDir = new DirectoryInfo(physicalDirectoryPath);
+
+					string attachmentsFullPath = attachmentsDir.FullName.TrimEnd('\\');
+					string physicalFullPath = searchDir.FullName.TrimEnd('\\');
+
+					if (attachmentsFullPath == physicalFullPath)
+						return true;
+
+					string directoryName = searchDir.Name;
+
+					// Search for the subdirectory (it should exist) *under* the attachments directory.
+					// This is safer (but slightly less performant) than doing a startswith
+					DirectoryInfo[] searchSubDirs = attachmentsDir.GetDirectories(directoryName, SearchOption.AllDirectories);
+					if (searchSubDirs.Length > 0)
+						return true;
+				}
+				catch (ArgumentException)
+				{
+					// bad paths, e.g. if it's just a "\"
+					return false;
+				}
+				catch (IOException)
+				{
+					return false;
+				}
+			}
 
 			return false;
-
-			//bool isParent = false;
-
-			//if (attachmentsDir.FullName == subDirPath.FullName)
-			//	return true;
-
-			//while (subDirPath.Parent != null)
-			//{
-			//	if (subDirPath.Parent.FullName == attachmentsDir.FullName)
-			//	{
-			//		isParent = true;
-			//		break;
-			//	}
-			//	else subDirPath = subDirPath.Parent;
-			//}
-
-			//return isParent;
 		}
 	}
 }

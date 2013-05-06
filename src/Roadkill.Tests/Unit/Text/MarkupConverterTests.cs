@@ -173,6 +173,38 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
+		public void Links_Starting_With_Tilde_Should_Resolve_As_Attachment_Paths()
+		{
+			// Arrange
+			_repository.SiteSettings.MarkupType = "Creole";
+			_converter = new MarkupConverter(_settings, _repository);
+
+			string expectedHtml = "<p><a href=\"&#x2F;Attachments&#x2F;my&#x2F;folder&#x2F;image1&#x2E;jpg\">hello world</a>\n</p>";
+
+			// Act
+			string actualHtml = _converter.ToHtml("[[~/my/folder/image1.jpg|hello world]]");
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
+		}
+
+		[Test]
+		public void Links_Starting_With_AttachmentColon_Should_Resolve_As_Attachment_Paths()
+		{
+			// Arrange
+			_repository.SiteSettings.MarkupType = "Creole";
+			_converter = new MarkupConverter(_settings, _repository);
+
+			string expectedHtml = "<p><a href=\"&#x2F;Attachments&#x2F;my&#x2F;folder&#x2F;image1&#x2E;jpg\">hello world</a>\n</p>";
+
+			// Act
+			string actualHtml = _converter.ToHtml("[[attachment:/my/folder/image1.jpg|hello world]]");
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
+		}
+
+		[Test]
 		public void Links_Starting_With_Http_Www_Mailto_Tag_Are_No_Rewritten_As_Internal()
 		{
 			// Arrange
