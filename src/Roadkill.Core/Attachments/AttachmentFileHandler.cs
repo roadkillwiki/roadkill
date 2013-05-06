@@ -205,13 +205,13 @@ namespace Roadkill.Core.Attachments
 
 			physicalDirectoryPath = physicalDirectoryPath.Replace("/", Path.DirectorySeparatorChar.ToString());
 
-			// "..\", "\..", ".\", "\." are bad and just get returned false
+			// .\, ..\, \., \\. are bad and should return false
 			List<string> slashDots = new List<string>()
 			{
-				".." +Path.DirectorySeparatorChar,
-				Path.DirectorySeparatorChar + "..",
 				"."  +Path.DirectorySeparatorChar,
-				Path.DirectorySeparatorChar + ".."
+				".." +Path.DirectorySeparatorChar,
+				Path.DirectorySeparatorChar + ".",
+				Path.DirectorySeparatorChar + "..",
 			};
 
 			if (slashDots.Any(x => physicalDirectoryPath.Contains(x)))

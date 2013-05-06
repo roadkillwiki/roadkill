@@ -43,7 +43,7 @@ namespace Roadkill.Tests.Acceptance
 			IEnumerable<IWebElement> leftmenuItems = Driver.FindElements(By.CssSelector("div#leftmenu li"));
 
 			// Assert
-			Assert.That(leftmenuItems.Count(), Is.EqualTo(5));
+			Assert.That(leftmenuItems.Count(), Is.EqualTo(6));
 		}
 
 		[Test]
@@ -56,7 +56,7 @@ namespace Roadkill.Tests.Acceptance
 			IEnumerable<IWebElement> leftmenuItems = Driver.FindElements(By.CssSelector("div#leftmenu li"));
 
 			// Assert
-			Assert.That(leftmenuItems.Count(), Is.EqualTo(4));
+			Assert.That(leftmenuItems.Count(), Is.EqualTo(5));
 		}
 
 		[Test]
