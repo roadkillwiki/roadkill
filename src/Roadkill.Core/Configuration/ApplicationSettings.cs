@@ -18,6 +18,11 @@ namespace Roadkill.Core.Configuration
 	/// </summary>
 	public class ApplicationSettings
 	{
+		private string _attachmentsFolder;
+		private string _attachmentsDirectoryPath;
+		private string _attachmentsUrlPath;
+		private string _attachmentsRoutePath;
+
 		/// <summary>
 		/// The name of the role or Active Directory security group that users should belong to in order to create,edit,delete pages,
 		/// manage users, manage site settings and use the admin tools.
@@ -33,43 +38,80 @@ namespace Roadkill.Core.Configuration
 		/// The folder where all uploads (typically image files) are saved to. This is taken from the web.config.
 		/// Use AttachmentsDirectoryPath for the absolute directory path.
 		/// </summary>
-		public string AttachmentsFolder { get; set; }
+		public string AttachmentsFolder
+		{
+			get
+			{
+				return _attachmentsFolder;
+			}
+			set
+			{
+				_attachmentsFolder = value;
+				_attachmentsDirectoryPath = "";
+			}
+		}
 
 		/// <summary>
 		/// The absolute file path for the attachments folder. If the AttachmentsFolder uses "~/" then the path is 
-		/// translated into one that is relative to the site root, otherwise it is assumed to be an absolute file path
+		/// translated into one that is relative to the site root, otherwise it is assumed to be an absolute file path.
+		/// This property always contains a trailing slash (or / on Unix based systems).
 		/// </summary>
 		public string AttachmentsDirectoryPath
 		{
 			get
 			{
-				if (AttachmentsFolder.StartsWith("~") && HttpContext.Current != null)
+				if (string.IsNullOrEmpty(_attachmentsDirectoryPath))
 				{
-					return HttpContext.Current.Server.MapPath(AttachmentsFolder);
+					if (AttachmentsFolder.StartsWith("~") && HttpContext.Current != null)
+					{
+						_attachmentsDirectoryPath = HttpContext.Current.Server.MapPath(AttachmentsFolder);
+					}
+					else
+					{
+						_attachmentsDirectoryPath = AttachmentsFolder;
+					}
 				}
-				else
-				{
-					return AttachmentsFolder; ;
-				}
+
+				if (!_attachmentsDirectoryPath.EndsWith(Path.DirectorySeparatorChar.ToString()))
+					_attachmentsDirectoryPath += Path.DirectorySeparatorChar.ToString();
+
+				return _attachmentsDirectoryPath;
 			}
 		}
 
 		/// <summary>
-		/// The route used for all attachment HTTP requests (currently non-user configurable), e.g. "/Attachments" - contains a slash 
-		/// at the start and does not contain a trailing slash.
+		/// Gets the full path for the attachments folder, including any extra application paths from the url.
+		/// Contains a "/" the start and does not contain a trailing "/".
 		/// </summary>
 		public string AttachmentsUrlPath
 		{
 			get
 			{
-				return "/" +AttachmentsRoutePath;
+				if (string.IsNullOrEmpty(_attachmentsUrlPath))
+				{
+					_attachmentsUrlPath = ParseAttachmentsPath();
+				}
+
+				return _attachmentsUrlPath;
 			}
 		}
 
 		/// <summary>
-		/// The route used for all attachment HTTP requests (currently non-user configurable). This contains no starting or ending "/".
+		/// The route used for all attachment HTTP requests (currently non-user configurable). 
+		/// This contains no starting or ending "/".
 		/// </summary>
-		public string AttachmentsRoutePath { get; set; }
+		public string AttachmentsRoutePath
+		{
+			get
+			{
+				return _attachmentsRoutePath;
+			}
+			set
+			{
+				_attachmentsRoutePath = value;
+				_attachmentsUrlPath = "";
+			}
+		}
 
 		/// <summary>
 		/// The connection string to the Roadkill database.
@@ -210,6 +252,25 @@ namespace Roadkill.Core.Configuration
 			MinimumPasswordLength = 6;
 			DataStoreType = DataStoreType.SqlServer2008;
 			AttachmentsRoutePath = "Attachments";
+			AttachmentsFolder = "~/App_Data/Attachments";
+		}
+
+		private string ParseAttachmentsPath()
+		{
+			string attachmentsPath = "/" + AttachmentsRoutePath;
+			if (HttpContext.Current != null)
+			{
+				string applicationPath = HttpContext.Current.Request.ApplicationPath;
+				if (!applicationPath.EndsWith("/"))
+					applicationPath += "/";
+
+				if (attachmentsPath.StartsWith("/"))
+					attachmentsPath = attachmentsPath.Remove(0, 1);
+
+				attachmentsPath = applicationPath + attachmentsPath;
+			}
+
+			return attachmentsPath;
 		}
 	}
 }

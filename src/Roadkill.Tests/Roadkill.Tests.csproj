@@ -278,6 +278,7 @@
     <Compile Include="Integration\SchemaGeneratorTests.cs" />
     <Compile Include="Smoke\CanaryTests.cs" />
     <Compile Include="Smoke\DemoSiteTests.cs" />
+    <Compile Include="Unit\Attachments\AttachmentFileHandlerTests.cs" />
     <Compile Include="Unit\Attachments\MimeMappingTests.cs" />
     <Compile Include="Unit\Database\DataStore\DataStoreTypeTests.cs" />
     <Compile Include="Unit\Database\SiteSettingsTests.cs" />

@@ -148,7 +148,7 @@ namespace Roadkill.Core.Converters
 				string src = e.OriginalSrc;
 				src = _imgFileRegex.Replace(src, "");
 
-				string attachmentsPath = AttachmentFileHandler.GetAttachmentsPath(_applicationSettings);
+				string attachmentsPath = _applicationSettings.AttachmentsUrlPath;
 				string urlPath = attachmentsPath + (src.StartsWith("/") ? "" : "/") + src;
 				e.Src = AbsolutePathConverter(urlPath);
 			}
@@ -179,7 +179,7 @@ namespace Roadkill.Core.Converters
 						href = href.Remove(0, 1);
 					}
 
-					string attachmentsPath = AttachmentFileHandler.GetAttachmentsPath(_applicationSettings);
+					string attachmentsPath = _applicationSettings.AttachmentsUrlPath;
 					href = AbsolutePathConverter(attachmentsPath) + href;
 				}
 				else
@@ -278,20 +278,41 @@ namespace Roadkill.Core.Converters
 
 		private string ConvertToAbsolutePath(string relativeUrl)
 		{
-			UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-			return helper.Content(relativeUrl);
+			if (HttpContext.Current != null)
+			{
+				UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+				return helper.Content(relativeUrl);
+			}
+			else
+			{
+				return relativeUrl;
+			}
 		}
 
 		private string GetUrlForTitle(int id, string title)
 		{
-			UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-			return helper.Action("Index", "Wiki", new { id = id, title = title.EncodeTitle() });
+			if (HttpContext.Current != null)
+			{
+				UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+				return helper.Action("Index", "Wiki", new { id = id, title = title.EncodeTitle() });
+			}
+			else
+			{
+				return string.Format("/index/wiki/{0}/{1}", id, title);
+			}
 		}
 
 		private string GetNewPageUrlForTitle(string title)
 		{
-			UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-			return helper.Action("New", "Pages", new { title = title });
+			if (HttpContext.Current != null)
+			{
+				UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+				return helper.Action("New", "Pages", new { title = title });
+			}
+			else
+			{
+				return string.Format("/pages/new/?title={0}", title);
+			}
 		}
 	}
 }

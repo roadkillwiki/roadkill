@@ -9,6 +9,7 @@ function fileManagerInit()
 {
 	$('#fileupload').fileupload({
 		dropZone: $("#folder-container"),
+		pasteZone: $("body"),
 		dataType: 'json',
 		progressall: function (e, data)
 		{

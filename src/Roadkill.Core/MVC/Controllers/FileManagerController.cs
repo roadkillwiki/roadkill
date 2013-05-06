@@ -53,7 +53,7 @@ namespace Roadkill.Core.Mvc.Controllers
         {
             try
             {
-                string physicalPath = _attachmentHandler.CombineRelativeFolder(filePath);
+                string physicalPath = _attachmentHandler.ConvertUrlPathToPhysicalPath(filePath);
                 string physicalFilePath = Path.Combine(physicalPath, fileName);
 
                 if (!_attachmentHandler.IsAttachmentPathValid(physicalPath))
@@ -89,7 +89,7 @@ namespace Roadkill.Core.Mvc.Controllers
                     return Json(new { status = "error", message = "SiteStrings.FileManager_Error_BaseFolderDelete" });
                 }
 
-                string physicalPath = _attachmentHandler.CombineRelativeFolder(folder);
+                string physicalPath = _attachmentHandler.ConvertUrlPathToPhysicalPath(folder);
 
                 if (!_attachmentHandler.IsAttachmentPathValid(physicalPath))
                 {
@@ -172,7 +172,7 @@ namespace Roadkill.Core.Mvc.Controllers
         {
             try
             {
-                var physicalPath = _attachmentHandler.CombineRelativeFolder(currentFolderPath);
+                var physicalPath = _attachmentHandler.ConvertUrlPathToPhysicalPath(currentFolderPath);
 
                 if (!_attachmentHandler.IsAttachmentPathValid(physicalPath))
                 {
@@ -213,7 +213,7 @@ namespace Roadkill.Core.Mvc.Controllers
             {
                 destinationFolder = Request.Form["destination_folder"];
 
-                physicalPath = _attachmentHandler.CombineRelativeFolder(destinationFolder);
+                physicalPath = _attachmentHandler.ConvertUrlPathToPhysicalPath(destinationFolder);
                 
                 if (!_attachmentHandler.IsAttachmentPathValid(physicalPath))
                 {
