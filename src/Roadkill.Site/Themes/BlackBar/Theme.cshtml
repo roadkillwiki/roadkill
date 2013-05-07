@@ -21,14 +21,18 @@
 			@Html.MainPageLink(SiteStrings.Navigation_MainPage, "", "")
 			&nbsp;|&nbsp;@Html.ActionLink(SiteStrings.Navigation_Categories, "AllTags", "Pages")
 			&nbsp;|&nbsp;@Html.ActionLink(SiteStrings.Navigation_AllPages, "AllPages", "Pages")
-			&nbsp;|&nbsp;Search: <input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" />
+			<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" class="minisearchbox" />
 		</div>
 	</div>
 }
-	@RenderSection("PageToolbar", false)
-
+	@RenderSection("PageToolbar", false)	
 	<div id="container">
+		@RenderSection("ViewHistoryLink", false)
 		@RenderBody()
+
+		<div id="footer">
+			@RenderSection("PageDetailsFooter", false)
+		</div>
 	</div>
 </body>
 </html>
