@@ -34,6 +34,7 @@ namespace Roadkill.Tests.Acceptance.Smoke
 		}
 
 		[Test]
+		[Explicit]
 		public void Can_Login_As_Admin()
 		{
 			// Arrange
