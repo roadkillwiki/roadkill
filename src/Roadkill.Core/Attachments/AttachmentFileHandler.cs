@@ -198,7 +198,7 @@ namespace Roadkill.Core.Attachments
 		/// <returns>True if it's a valid subdirectory, false otherwise. If the path contains invalid path 
 		/// characters (except for a directory seperator), a . or .. then false is returned.
 		/// If <c>absoluteDirectoryPath</c> is an empty string, true is returned.</returns>
-		public bool IsAttachmentPathValid(string physicalDirectoryPath)
+		public bool IsAttachmentPathValid(string physicalDirectoryPath, bool checkPathExists = true)
 		{
 			if (string.IsNullOrEmpty(physicalDirectoryPath))
 				return true;
@@ -224,7 +224,10 @@ namespace Roadkill.Core.Attachments
 			if (physicalDirectoryPath.IndexOfAny(invalidChars.ToArray()) > -1)
 				return false;
 
-			// Use the end directory name
+			// Checks have passed
+			if (!checkPathExists)
+				return true;
+
 			if (Directory.Exists(physicalDirectoryPath))
 			{
 				try

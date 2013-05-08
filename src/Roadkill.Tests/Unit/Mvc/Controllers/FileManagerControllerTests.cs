@@ -89,11 +89,33 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void DeleteFile()
+		public void DeleteFile_Should_Return_Ok_Json_Status_And_Delete_File()
 		{
 			// Arrange
-			string fullPath = Path.Combine(_settings.AttachmentsDirectoryPath + Path.DirectorySeparatorChar.ToString(), "test.txt");
-			CreateTestFileInAttachments("test.txt");
+			string testFile1Path = CreateTestFileInAttachments("test.txt");
+			string dirPath = CreateTestDirectoryInAttachments("test");
+			string testFile2Path = Path.Combine(dirPath, "test.txt");
+			File.WriteAllText(testFile2Path, "test");
+			_filesController.SetFakeControllerContext();
+
+			// Act
+			JsonResult result = _filesController.DeleteFile("/test/", "test.txt") as JsonResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			string json = result.Data.ToString();
+			Assert.That(json, Is.EqualTo("{ status = ok, message =  }"));
+			Assert.That(File.Exists(testFile2Path), Is.False);
+			Assert.That(File.Exists(testFile1Path), Is.True);
+		}
+
+		[Test]
+		public void DeleteFile_In_Subfolder_Should_Return_Ok_Json_Status_And_Delete_File()
+		{
+			// Arrange
+			string fullPath = CreateTestFileInAttachments("test.txt");
 			_filesController.SetFakeControllerContext();
 
 			// Act
@@ -137,8 +159,135 @@ namespace Roadkill.Tests.Unit
 			// Assert
 		}
 
+		[Test]
+		public void DeleteFolder_Should_Return_Ok_Json_Status_And_Delete_Folder()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+			string fullPath = CreateTestDirectoryInAttachments("folder1");
+
+			// Act
+			JsonResult result = _filesController.DeleteFolder("folder1");
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			string json = result.Data.ToString();
+			Assert.That(json, Is.EqualTo("{ status = ok, message =  }"));
+			Assert.That(Directory.Exists(fullPath), Is.False);
+		}
+
+		[Test]
+		public void DeleteFolder_With_SubDirectory_Should_Return_Ok_Json_Status_And_Delete_Folder()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+			string fullPath = CreateTestDirectoryInAttachments("folder1");
+			string subPath = Path.Combine(fullPath, "subfolder1");
+			string subsubPath = Path.Combine(subPath, "subsubfolder");
+			Directory.CreateDirectory(subPath);
+			Directory.CreateDirectory(subsubPath);
+
+			// Act
+			JsonResult result = _filesController.DeleteFolder("folder1/subfolder1/subsubfolder");
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+
+			string json = result.Data.ToString();
+			Assert.That(json, Is.EqualTo("{ status = ok, message =  }"));
+			Assert.That(Directory.Exists(subsubPath), Is.False);
+			Assert.That(Directory.Exists(subPath), Is.True);
+			Assert.That(Directory.Exists(fullPath), Is.True);
+		}
+
+		[Test]
+		public void DeleteFolder_Missing_Folder_Should_Return_Error()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+
+			// Act
+			JsonResult result = _filesController.DeleteFolder("folder1");
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			string json = result.Data.ToString();
+			Assert.That(json, Is.StringStarting("{ status = error, message ="));
+		}
+
+		[Test]
+		[ExpectedException(typeof(SecurityException))]
+		public void DeleteFolder_Hacky_Path()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+
+			// Act/Assert
+			JsonResult result = _filesController.DeleteFolder(@".\..\");
+		}
+
+		[Test]
+		public void DeleteFolder_Empty_Folder_Argument_Returns_Error()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+
+			// Act
+			JsonResult result = _filesController.DeleteFolder("");
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			string json = result.Data.ToString();
+			Assert.That(json, Is.StringStarting("{ status = error, message ="));
+		}
+
+		[Test]
+		public void DeleteFolder_Containing_Files_Should_Return_Error()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+			CreateTestDirectoryInAttachments("folder1");
+			string fullPath = Path.Combine(_settings.AttachmentsDirectoryPath, "folder1", "test.txt");
+			File.WriteAllText(fullPath, "test");
+
+			// Act
+			JsonResult result = _filesController.DeleteFolder("folder1");
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			string json = result.Data.ToString();
+			Assert.That(json, Is.StringStarting("{ status = error, message ="));
+		}
+
+		[Test]
+		public void DeleteFolder_Has_Subdirectories_Should_Return_Error()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+			string fullpath = CreateTestDirectoryInAttachments("folder1");
+			Directory.CreateDirectory(Path.Combine(fullpath, "subfolder1"));
+
+			// Act
+			JsonResult result = _filesController.DeleteFolder("folder1");
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			string json = result.Data.ToString();
+			Assert.That(json, Is.StringStarting("{ status = error, message ="));
+		}
+
 		// [X] DeleteFile
-		// DeleteFolder
+		// [X] DeleteFolder
 		// FolderInfo
 		// NewFolder
 		// FileUpload
@@ -156,10 +305,20 @@ namespace Roadkill.Tests.Unit
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 		}
 
-		private void CreateTestFileInAttachments(string filename)
+		private string CreateTestFileInAttachments(string filename)
 		{
-			string fullPath = Path.Combine(_settings.AttachmentsDirectoryPath + Path.DirectorySeparatorChar.ToString(), filename);
+			string fullPath = Path.Combine(_settings.AttachmentsDirectoryPath, filename);
 			File.WriteAllText(fullPath, "test");
+
+			return fullPath;
+		}
+
+		private string CreateTestDirectoryInAttachments(string directoryName)
+		{
+			string fullPath = Path.Combine(_settings.AttachmentsDirectoryPath, directoryName);
+			Directory.CreateDirectory(fullPath);
+
+			return fullPath;
 		}
 	}
 }
