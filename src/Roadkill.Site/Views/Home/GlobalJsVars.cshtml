@@ -13,6 +13,7 @@ var ROADKILL_WIKIMARKUPHELP = "@Url.Action(SiteSettings.MarkupType + "Reference"
 // File manager constants
 var ROADKILL_FILEMANAGERURL = "@Url.Action("Index", "FileManager")";
 var ROADKILL_FILETREE_URL =  "@Url.Action("Folder", "Files")/";
+var ROADKILL_FILESELECTURL = "@Url.Action("Select", "FileManager")";
 var ROADKILL_FILETREE_PATHNAME_URL =  "@Url.Action("GetPath", "Files")/";
 var ROADKILL_ATTACHMENTSPATH = "@Url.GetAttachmentsPath(ApplicationSettings)";
 
@@ -49,13 +50,6 @@ var ROADKILL_EDIT_IMAGE_TITLE       = "@Html.Raw(SiteStrings.EditPage_Image_Titl
 @:var ROADKILL_DELETE_CONFIRM = "SiteStrings.Delete_Confirm";
 @:var ROADKILL_DELETE_BASEFOLDER_ERROR = "SiteStrings.Delete_BaseFolder_Error";
 }
-
-// File manager constants
-var ROADKILL_FILEMANAGERURL = "@Url.Action("Index", "FileManager")";
-var ROADKILL_FILETREE_URL =  "@Url.Action("Folder", "Files")/";
-var ROADKILL_FILESELECTURL = "@Url.Action("Select", "FileManager")";
-var ROADKILL_FILETREE_PATHNAME_URL =  "@Url.Action("GetPath", "Files")/";
-var ROADKILL_ATTACHMENTSPATH = "@Url.GetAttachmentsPath(ApplicationSettings)";
 
 @if (ApplicationSettings.ResizeImages)
 {

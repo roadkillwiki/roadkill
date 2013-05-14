@@ -126,35 +126,34 @@ namespace Roadkill.Core.Mvc.Controllers
 			string folder = dir;
 			folder = Server.UrlDecode(folder);
 
-			return Json(GetFilesAndFolders(folder));
-		}
-
-		/// <summary>
-		/// Gets a lists of all files and folders (as a <see cref="DirectorySummary"/> for the relative path provided.
-		/// </summary>
-		private DirectorySummary GetFilesAndFolders(string folder)
-		{
-			var summary = DirectorySummary.FromUrlPath(ApplicationSettings, folder);
-			string physicalPath = summary.DiskPath;
+			string physicalPath = _attachmentHandler.ConvertUrlPathToPhysicalPath(folder);
 
 			if (!_attachmentHandler.IsAttachmentPathValid(physicalPath))
 			{
 				throw new Exception("Attachment Path invalid");
 			}
 
+			DirectorySummary summary = new DirectorySummary(Path.GetDirectoryName(folder));
 			if (Directory.Exists(physicalPath))
 			{
-				foreach (string item in Directory.GetDirectories(physicalPath))
+				foreach (string directory in Directory.GetDirectories(physicalPath))
 				{
-					summary.ChildFolders.Add(new DirectorySummary(ApplicationSettings, item));
+					DirectoryInfo info = new DirectoryInfo(directory);
+					DirectorySummary dirSummary = new DirectorySummary(info.Name);
+					summary.ChildFolders.Add(dirSummary);
 				}
-				foreach (string item in Directory.GetFiles(physicalPath))
+
+				foreach (string file in Directory.GetFiles(physicalPath))
 				{
-					summary.Files.Add(new FileSummary(item, ApplicationSettings));
+					FileInfo info = new FileInfo(file);
+					string name = info.Name;
+					string urlPath = "";
+					FileSummary fileSummary = new FileSummary(info.Name, info.FullName);
+					summary.Files.Add(fileSummary);
 				}
 			}
 
-			return summary;
+			return Json(summary);
 		}
 
 		/// <summary>
@@ -224,7 +223,7 @@ namespace Roadkill.Core.Mvc.Controllers
 					fullFilePath = Path.Combine(physicalPath, SourceFile.FileName);
 					SourceFile.SaveAs(fullFilePath);
 
-					filesList.Add(new FileSummary(fullFilePath, ApplicationSettings));
+					//filesList.Add(new FileSummary(fullFilePath, ApplicationSettings));
 				}
 
 				return Json(new { status = "ok", files = filesList }, "text/plain");

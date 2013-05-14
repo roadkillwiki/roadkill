@@ -5,14 +5,15 @@
 @Url.CssLink("validationEngine.jquery.css")
 @Url.ScriptLinkForValidationLocalization()
 @Url.ScriptLink("jquery.validationEngine.js")
+@Url.ScriptLink("jquery.fieldSelection.js")
 @Url.ScriptLink("bootstrap-tagmanager.js")
 @Url.CssLink("bootstrap-tagmanager.css")
-@Url.ScriptLink("roadkill.edit.js")
-@Url.ScriptLink("roadkill.wysiwyg.js")
+@Url.ScriptLink("roadkill/editpage.js")
+@Url.ScriptLink("roadkill/wysiwygeditor.js")
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
-		initTagsManager("@Model.CommaDelimitedTags()");
+		Roadkill.Site.EditPage.initializeTagManager("@Model.CommaDelimitedTags()");
 		$("form").validationEngine();
 		$("#wysiwyg-toolbar a").popover({ placement: "top", trigger: "hover", html: true, delay: { show: 500, hide: 100 } });
 	});
