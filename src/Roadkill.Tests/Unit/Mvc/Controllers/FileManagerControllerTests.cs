@@ -293,6 +293,19 @@ namespace Roadkill.Tests.Unit
 		// FileUpload
 
 		[Test]
+		public void FolderInfo()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+
+			// Act
+			ActionResult result = _filesController.FolderInfo("test");
+
+			// Assert
+			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
+		}
+
+		[Test]
 		public void Select()
 		{
 			// Arrange

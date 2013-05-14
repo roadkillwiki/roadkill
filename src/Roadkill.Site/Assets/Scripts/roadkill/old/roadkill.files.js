@@ -167,7 +167,6 @@ function navigatorInit()
         .live("click", function () { handleRowSelection(this); });
 
 	imagePreviewInit();
-
 	navigatePath("");
 }
 
@@ -196,7 +195,13 @@ function getCurrentPath()
 function addBreadcrumb(folderinfo)
 {
 	var n_count = $("ul.navigator li").length;
-	$("ul.navigator").append("<li data-level=\"" + n_count + "\" data-urlpath=\"" + folderinfo.UrlPath + "\"><a href=\"javascript:navigateBreadcrumb(" + n_count + ",&quot;" + escape(folderinfo.UrlPath) + "&quot;)\">" + folderinfo.Name + "</a></li>");
+
+	var s_html = "<li data-level=\"" + n_count + "\" data-urlpath=\"" + folderinfo.UrlPath + "\">";
+	s_html += "<a href=\"javascript:navigateBreadcrumb(" + n_count + ",&quot;" + escape(folderinfo.UrlPath) + "&quot;)\">";
+	s_html += folderinfo.Name + "</a>";
+	s_html += "</li>";
+	
+	$("ul.navigator").append(s_html);
 }
 
 function navigateBreadcrumb(level, s_folder)

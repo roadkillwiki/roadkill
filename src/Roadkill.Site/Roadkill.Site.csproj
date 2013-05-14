@@ -293,9 +293,13 @@
     <Content Include="Assets\Images\roadkill.png" />
     <Content Include="Assets\Images\log_warning.png" />
     <Content Include="Assets\Scripts\bootstrap-tagmanager.js" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\fileManager.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\dialogs.ts" />
+    <Content Include="Assets\Scripts\jquery.fieldSelection.js" />
     <Content Include="Assets\Scripts\filemanager\jquery.ui.widget.js" />
     <Content Include="Assets\Scripts\filemanager\jquery.iframe-transport.js" />
     <Content Include="Assets\Scripts\filemanager\jquery.fileupload.js" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\constants.ts" />
     <Content Include="Assets\Scripts\jquery-1.8.0.min.js" />
     <Content Include="Assets\Scripts\jquery.fancybox.pack.js" />
     <Content Include="Assets\Scripts\jquery.validate.js" />
@@ -324,11 +328,64 @@
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-vi.js" />
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-zh_CN.js" />
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-zh_TW.js" />
-    <Content Include="Assets\Scripts\roadkill.settings.js" />
-    <Content Include="Assets\Scripts\roadkill.files.js" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\references.ts" />
+    <Content Include="Assets\Scripts\roadkill\adminsetup.js">
+      <DependentUpon>adminsetup.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\adminsetup.min.js">
+      <DependentUpon>adminsetup.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\constants.js">
+      <DependentUpon>constants.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\constants.min.js">
+      <DependentUpon>constants.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\editpage.js">
+      <DependentUpon>editpage.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\editpage.min.js">
+      <DependentUpon>editpage.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\fileManager.js">
+      <DependentUpon>fileManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\fileManager.min.js">
+      <DependentUpon>fileManager.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\references.js">
+      <DependentUpon>references.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\references.min.js">
+      <DependentUpon>references.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\roadkill.dialogs.js">
+      <DependentUpon>dialogs.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\roadkill.dialogs.min.js">
+      <DependentUpon>dialogs.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\old\roadkill.settings.js" />
+    <Content Include="Assets\Scripts\roadkill\old\roadkill.files.js" />
     <Content Include="Assets\CSS\jqueryFileTree.css" />
     <Content Include="Assets\Scripts\jqueryFileTree.js" />
-    <Content Include="Assets\Scripts\roadkill.edit.js" />
+    <Content Include="Assets\Scripts\roadkill\old\roadkill.edit.js" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\setup.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\adminsetup.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\editpage.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\wysiwygeditor.ts" />
+    <Content Include="Assets\Scripts\roadkill\setup.js">
+      <DependentUpon>setup.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\setup.min.js">
+      <DependentUpon>setup.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\wysiwygeditor.js">
+      <DependentUpon>wysiwygeditor.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\wysiwygeditor.min.js">
+      <DependentUpon>wysiwygeditor.ts</DependentUpon>
+    </Content>
     <Content Include="mimetypes.config" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\Mono.pubxml" />
@@ -365,7 +422,7 @@
     <Content Include="Assets\Images\wysiwyg\underline.png" />
     <Content Include="Assets\Images\wysiwyg\link.png" />
     <Content Include="Assets\CSS\close-x.png" />
-    <Content Include="Assets\Scripts\roadkill.wysiwyg.js" />
+    <Content Include="Assets\Scripts\roadkill\old\roadkill.wysiwyg.js" />
     <Content Include="Assets\CSS\roadkill.css" />
     <Content Include="Assets\Scripts\jquery.timeago.js" />
     <Content Include="Assets\Images\loading.gif" />
@@ -423,7 +480,7 @@
   <ItemGroup>
     <Content Include="Assets\Scripts\jquery.extensions.js" />
     <Content Include="Assets\Scripts\jquery.form-extensions.js" />
-    <Content Include="Assets\Scripts\roadkill.js" />
+    <Content Include="Assets\Scripts\roadkill\old\roadkill.js" />
     <Content Include="Global.asax" />
     <Content Include="Views\Pages\Edit.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
@@ -558,6 +615,7 @@
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
+	<Exec Command="&quot;$(PROGRAMFILES)Microsoft SDKsTypeScript\0.8.0.0tsc&quot; @(TypeScriptCompile ->'&quot;%(fullpath)&quot;', ' ')" />
   </Target>
   <Target Name="AfterBuild">
   </Target> -->

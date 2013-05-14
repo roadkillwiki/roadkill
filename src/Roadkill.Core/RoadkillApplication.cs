@@ -36,7 +36,7 @@ namespace Roadkill.Core
 			// Filters
 			GlobalFilters.Filters.Add(new HandleErrorAttribute());
 
-			// Used for caching of views, when needed
+			// Used for caching of views (not currently implemented, can be removed)
 			StartTime = DateTime.UtcNow;
 
 			// Bundle all CSS/JS files into a single file
@@ -44,13 +44,15 @@ namespace Roadkill.Core
 			cssBundle.IncludeDirectory("~/Assets/CSS/","*.css");
 
 			// Ignore scripts that require a login
-			BundleTable.Bundles.IgnoreList.Ignore("roadkill.edit.js");
-			BundleTable.Bundles.IgnoreList.Ignore("roadkill.settings.js");
-			BundleTable.Bundles.IgnoreList.Ignore("roadkill.files.js");
-			BundleTable.Bundles.IgnoreList.Ignore("roadkill.wysiwyg.js");
+			BundleTable.Bundles.IgnoreList.Ignore("adminsetup.js");
+			BundleTable.Bundles.IgnoreList.Ignore("editpage.js");
+			BundleTable.Bundles.IgnoreList.Ignore("wysiwygeditor.js");
+			BundleTable.Bundles.IgnoreList.Ignore("fileManager.js");
+			BundleTable.Bundles.IgnoreList.Ignore("constants.js"); // a dummy for Typescript
 
 			ScriptBundle jsBundle = new ScriptBundle("~/Assets/Scripts/bundle.js");
 			jsBundle.Include("~/Assets/Scripts/*.js");
+			jsBundle.Include("~/Assets/Scripts/roadkill/*.js");
 			
 			BundleTable.Bundles.Add(cssBundle);
 			BundleTable.Bundles.Add(jsBundle);

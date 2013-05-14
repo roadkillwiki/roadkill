@@ -13,54 +13,29 @@ namespace Roadkill.Core.Mvc.ViewModels
 	public class FileSummary
 	{
 		public string Name { get; set; }
-		public string DiskPath { get; set; }
-		public string UrlPath { get; set; }
+		public string Path { get; set; }
 		public string Extension { get; set; }
-
 		public long Size { get; set; }
 		public string CreateDate { get; set; }
 		public string Folder { get; set; }
 
 		/// <summary>
-		/// Base64'd version of the path
+		/// The full url path, e.g. /Attachments/Folder1/mypic.png.
 		/// </summary>
-		public string SafePath
-		{
-			get
-			{
-				return UrlPath.ToBase64();
-			}
-		}
+		public string FullPath { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FileSummary"/> class.
 		/// </summary>
-		/// <param name="diskPath">A full disk path, including the attachments folder.</param>
-		public FileSummary(string diskPath, ApplicationSettings settings)
+		/// <param name="relativePath">The relative path of the filename</param>
+		public FileSummary(string name, string directoryPath)
 		{
-			Name = Path.GetFileName(diskPath);
-			DiskPath = diskPath;
-			UrlPath = diskPath.Replace(settings.AttachmentsDirectoryPath, "");
-			UrlPath = UrlPath.Replace(@"\", "/");
-			Extension = Path.GetExtension(diskPath).Replace(".", "");
+			Name = name;
 
-			FileInfo fileInfo = new FileInfo(diskPath);
-			Size = fileInfo.Length;
-			CreateDate = fileInfo.CreationTime.ToShortDateString();
-			Folder = fileInfo.Directory.Name;
-		}
-
-		public static FileSummary FromBase64UrlPath(string base64Path, ApplicationSettings settings)
-		{
-			string path = "";
-
-			if (!string.IsNullOrEmpty(base64Path))
-				path = base64Path.FromBase64();
-
-			path = settings.AttachmentsDirectoryPath + path;
-
-			FileSummary summary = new FileSummary(path, settings);
-			return summary;
+			//FileInfo fileInfo = new FileInfo(relativePath);
+			//Size = fileInfo.Length;
+			//CreateDate = fileInfo.CreationTime.ToShortDateString();
+			//Folder = fileInfo.Directory.Name;
 		}
 	}
 }

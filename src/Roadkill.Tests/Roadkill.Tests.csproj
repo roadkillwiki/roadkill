@@ -279,6 +279,7 @@
     <Compile Include="Smoke\CanaryTests.cs" />
     <Compile Include="Smoke\DemoSiteTests.cs" />
     <Compile Include="Unit\Attachments\AttachmentFileHandlerTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\DirectorySummaryTests.cs" />
     <Compile Include="Unit\Attachments\MimeMappingTests.cs" />
     <Compile Include="Unit\Database\DataStore\DataStoreTypeTests.cs" />
     <Compile Include="Unit\Database\SiteSettingsTests.cs" />
@@ -298,7 +299,7 @@
     <Compile Include="Unit\Mvc\ViewModels\UserSummaryPasswordValidationTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\HomeControllerTests.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\MvcMockContainer.cs" />
-    <Compile Include="Unit\Mvc\Controllers\FilesControllerTests.cs" />
+    <None Include="Unit\Mvc\Controllers\FilesControllerTests.cs" />
     <Compile Include="Unit\StubsAndMocks\RoadkillContextStub.cs" />
     <Compile Include="Unit\StubsAndMocks\UserManagerStub.cs" />
     <Compile Include="Unit\Text\TocParserTests.cs" />

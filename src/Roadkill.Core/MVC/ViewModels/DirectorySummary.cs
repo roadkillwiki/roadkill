@@ -30,58 +30,20 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public string Name { get; set; }
 
 		/// <summary>
-		/// The url path, e.g. /Attachments/Folder1/ab.jpg
+		/// The virtual path of the directory, e.g. /folder1/folder2
 		/// </summary>
-		public string UrlPath { get; set; }
-
-		/// <summary>
-		/// A full filesystem path to the directory, including the attachments portion of the filepath.
-		/// </summary>
-		public string DiskPath { get; set; }
-
-		/// <summary>
-		/// Base64'd version of the path
-		/// </summary>
-		public string SafePath
-		{
-			get
-			{
-				return UrlPath.ToBase64();
-			}
-		}
+		public string Path { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DirectorySummary"/> class.
 		/// </summary>
-		/// <param name="diskPath">A full disk path, including the attachments folder.</param>
-		public DirectorySummary(ApplicationSettings settings, string diskPath)
+		/// <param name="name">The directory name.</param>
+		public DirectorySummary(string name)
 		{
-			Name = Path.GetFileName(diskPath);
-			DiskPath = diskPath;
-			UrlPath = DiskPath.Replace(settings.AttachmentsDirectoryPath, "");
-			UrlPath = UrlPath.Replace(@"\", "/");
-
+			Name = name;
+			Path = "";
 			Files = new List<FileSummary>();
 			ChildFolders = new List<DirectorySummary>();
-		}
-
-		public static DirectorySummary FromBase64UrlPath(ApplicationSettings settings, string base64Path)
-		{
-			string path = "";
-
-			if (!string.IsNullOrEmpty(base64Path))
-				path = base64Path.FromBase64();
-
-			path = settings.AttachmentsDirectoryPath + path;
-
-			DirectorySummary summary = new DirectorySummary(settings, path);
-			return summary;
-		}
-
-		public static DirectorySummary FromUrlPath(ApplicationSettings settings, string basePath)
-		{
-			var path = settings.AttachmentsDirectoryPath + basePath;
-			return new DirectorySummary(settings, path);
 		}
 	}
 }
