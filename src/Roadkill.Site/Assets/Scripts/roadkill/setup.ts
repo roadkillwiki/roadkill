@@ -1,11 +1,9 @@
-/// <reference path="references.ts" />
+/// <reference path="typescript-ref/references.ts" />
 module Roadkill.Site
 {
 	$(document).ready(function ()
 	{
-		Setup.bindInfoButton();
-		Setup.bindTimeAgo();
-		Setup.bindTocLinks();
+		Setup.configureBinds();
 	});
 
 	/**
@@ -13,6 +11,13 @@ module Roadkill.Site
 	*/
 	export class Setup 
 	{
+		public static configureBinds()
+		{
+			this.bindInfoButton();
+			this.bindTimeAgo();
+			this.bindTocLinks();
+		}
+
 		public static bindTimeAgo()
 		{
 			// Friendly times for the history tables

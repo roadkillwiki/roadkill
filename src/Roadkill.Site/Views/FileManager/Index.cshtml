@@ -2,18 +2,11 @@
 @{
 	ViewBag.Title = SiteStrings.FileExplorer_Title;
 }
-@Url.ScriptLink("roadkill/fileManager.js")
-@Url.ScriptLink("~/Assets/Scripts/filemanager/jquery.ui.widget.js")
-@Url.ScriptLink("~/Assets/Scripts/filemanager/jquery.ui.widget.js")
-@Url.ScriptLink("~/Assets/Scripts/filemanager/jquery.iframe-transport.js")
-@Url.ScriptLink("~/Assets/Scripts/filemanager/jquery.fileupload.js")
 <script type="text/javascript">
-
 	$(function ()
 	{
-		var manager = new Roadkill.Site.FileManager();
+		Roadkill.Site.FileManager.Setup.configure();
 	});
-
 </script>
 
 <h2>SiteStrings.FileManager_ManageFiles</h2>

@@ -43,19 +43,14 @@ namespace Roadkill.Core
 			StyleBundle cssBundle = new StyleBundle("~/Assets/CSS/bundle.css");
 			cssBundle.IncludeDirectory("~/Assets/CSS/","*.css");
 
-			// Ignore scripts that require a login
-			BundleTable.Bundles.IgnoreList.Ignore("adminsetup.js");
-			BundleTable.Bundles.IgnoreList.Ignore("editpage.js");
-			BundleTable.Bundles.IgnoreList.Ignore("wysiwygeditor.js");
-			BundleTable.Bundles.IgnoreList.Ignore("fileManager.js");
-			BundleTable.Bundles.IgnoreList.Ignore("constants.js"); // a dummy for Typescript
-
-			ScriptBundle jsBundle = new ScriptBundle("~/Assets/Scripts/bundle.js");
-			jsBundle.Include("~/Assets/Scripts/*.js");
-			jsBundle.Include("~/Assets/Scripts/roadkill/*.js");
+			ScriptBundle defaultJsBundle = new ScriptBundle("~/Assets/Scripts/roadkill.js");
+			defaultJsBundle.Include("~/Assets/Scripts/*.js");
+			defaultJsBundle.Include("~/Assets/Scripts/jquery/*.js");
+			defaultJsBundle.Include("~/Assets/Scripts/roadkill/*.js");
+			defaultJsBundle.Include("~/Assets/Scripts/roadkill/filemanager/*.js");
 			
 			BundleTable.Bundles.Add(cssBundle);
-			BundleTable.Bundles.Add(jsBundle);
+			BundleTable.Bundles.Add(defaultJsBundle);
 		}
 
 		public static void RegisterRoutes(RouteCollection routes)

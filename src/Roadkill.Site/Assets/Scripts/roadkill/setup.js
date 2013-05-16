@@ -2,12 +2,15 @@ var Roadkill;
 (function (Roadkill) {
     (function (Site) {
         $(document).ready(function () {
-            Setup.bindInfoButton();
-            Setup.bindTimeAgo();
-            Setup.bindTocLinks();
+            Setup.configureBinds();
         });
         var Setup = (function () {
             function Setup() { }
+            Setup.configureBinds = function configureBinds() {
+                this.bindInfoButton();
+                this.bindTimeAgo();
+                this.bindTocLinks();
+            };
             Setup.bindTimeAgo = function bindTimeAgo() {
                 $("#historytable .editedon").timeago();
             };

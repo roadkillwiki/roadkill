@@ -11,6 +11,7 @@ using Roadkill.Core.Configuration;
 using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
 using Roadkill.Core.Managers;
 using Roadkill.Core.Mvc.ViewModels;
+using System.Web.Optimization;
 
 namespace Roadkill.Core
 {
@@ -186,8 +187,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Provides a Javascript script tag for the Javascript file provided. If the relative path does not begin with ~ then
-		/// the Assets/Scripts folder is assumed.
+		/// Provides a Javascript and CSS tags for the Bootstrap framework.
 		/// </summary>
 		public static MvcHtmlString BootStrap(this UrlHelper helper)
 		{
@@ -195,6 +195,23 @@ namespace Roadkill.Core
 			resources += "\n<link href=\"" + helper.Content("~/Assets/bootstrap/css/bootstrap.min.css") + "\" rel=\"stylesheet\" media=\"screen\" />";
 
 			return MvcHtmlString.Create(resources);
+		}
+
+		/// <summary>
+		/// Sometime in the future, the JS bundle will be split out into seperate files, this is for that.
+		/// </summary>
+		public static MvcHtmlString EditorScriptLink(this HtmlHelper helper)
+		{
+			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
+
+			if (controller != null && controller.Context.IsLoggedIn)
+			{
+				return MvcHtmlString.Create(Scripts.Render("~/Assets/Scripts/roadkilleditor.js").ToHtmlString());
+			}
+			else
+			{
+				return MvcHtmlString.Empty;
+			}
 		}
 	}
 }

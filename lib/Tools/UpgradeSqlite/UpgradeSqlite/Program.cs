@@ -10,15 +10,15 @@ namespace UpgradeSqlite
 {
 	class Program
 	{
-		static string _connectionString = @"Data Source=C:\Users\Chris\Documents\Visual Studio 2012\Projects\UpgradeSqlite\UpgradeSqlite\roadkill152.sqlite";
+		static string _connectionString = @"Data Source=C:\Projects\roadkill\lib\Tools\UpgradeSqlite\UpgradeSqlite\temp.sqlite";
 
 		static void Main(string[] args)
 		{
-			if (args.Length == 0)
-			{
-				Console.WriteLine("Usage: upgradesqlite.exe connectionstring");
-				return;
-			}
+			//if (args.Length == 0)
+			//{
+			//	Console.WriteLine("Usage: upgradesqlite.exe connectionstring");
+			//	return;
+			//}
 
 			try
 			{
@@ -61,12 +61,12 @@ namespace UpgradeSqlite
 		{
 			string sql = "INSERT INTO roadkill_pages (id, title, createdby, createdon, modifiedby, modifiedon, tags, islocked) VALUES (";
 			sql += string.Format("'{0}',", Id);
-			sql += string.Format("'{0}',", Title.Replace("'", @"''"));
-			sql += string.Format("'{0}',", CreatedBy);
-			sql += string.Format("'{0}',", CreatedOn);
-			sql += string.Format("'{0}',", ModifiedBy);
+			sql += string.Format("'{0}',", Title.ReplaceSingleQuotes());
+			sql += string.Format("'{0}',", CreatedBy.ReplaceSingleQuotes());
+			sql += string.Format("'{0}',", CreatedOn.ToString("yyyy-MM-dd HH:mm:ss"));
+			sql += string.Format("'{0}',", ModifiedBy.ReplaceSingleQuotes());
 			sql += string.Format("'{0}',", ModifiedOn.ToString("yyyy-MM-dd HH:mm:ss"));
-			sql += string.Format("'{0}',", Tags.Replace("'", @"\'"));
+			sql += string.Format("'{0}',", Tags.ReplaceSingleQuotes());
 			sql += string.Format("'{0}'", IsLocked ? "1" : "0");
 
 			sql += ");";
@@ -89,8 +89,8 @@ namespace UpgradeSqlite
 			string sql = "INSERT INTO roadkill_pagecontent (id, pageid, text, editedby, editedon, versionnumber) VALUES (";
 			sql += string.Format("'{0}',", Id);
 			sql += string.Format("'{0}',", PageId);
-			sql += string.Format("'{0}',", Text.Replace("'", @"''"));
-			sql += string.Format("'{0}',", EditedBy);
+			sql += string.Format("'{0}',", Text.ReplaceSingleQuotes());
+			sql += string.Format("'{0}',", EditedBy.ReplaceSingleQuotes());
 			sql += string.Format("'{0}',", EditedOn.ToString("yyyy-MM-dd HH:mm:ss"));
 			sql += string.Format("'{0}'", VersionNumber);
 
@@ -121,20 +121,31 @@ namespace UpgradeSqlite
 			string sql = "INSERT INTO roadkill_users (id, activationkey, email, firstname, iseditor, isadmin, isactivated, lastname, password, passwordresetkey, salt, username) VALUES (";
 			sql += string.Format("'{0}',", Id);
 			sql += string.Format("'{0}',", ActivationKey);
-			sql += string.Format("'{0}',", Email);
-			sql += string.Format("'{0}',", Firstname);
-			sql += string.Format("'{0}'", IsEditor ? "1" : "0");
-			sql += string.Format("'{0}'", IsAdmin ? "1" : "0");
-			sql += string.Format("'{0}'", IsActivated ? "1" : "0");
-			sql += string.Format("'{0}',", Lastname);
-			sql += string.Format("'{0}',", Password);
+			sql += string.Format("'{0}',", Email.ReplaceSingleQuotes());
+			sql += string.Format("'{0}',", Firstname.ReplaceSingleQuotes());
+			sql += string.Format("'{0}',", IsEditor ? "1" : "0");
+			sql += string.Format("'{0}',", IsAdmin ? "1" : "0");
+			sql += string.Format("'{0}',", IsActivated ? "1" : "0");
+			sql += string.Format("'{0}',", Lastname.ReplaceSingleQuotes());
+			sql += string.Format("'{0}',", Password.ReplaceSingleQuotes());
 			sql += string.Format("'{0}',", PasswordResetKey);
-			sql += string.Format("'{0}',", Salt);
-			sql += string.Format("'{0}'", Username);
+			sql += string.Format("'{0}',", Salt.ReplaceSingleQuotes());
+			sql += string.Format("'{0}'", Username.ReplaceSingleQuotes());
 
 			sql += ");";
 
 			return sql;
+		}
+	}
+
+	public static class Extensions
+	{
+		public static string ReplaceSingleQuotes(this string text)
+		{
+			if (string.IsNullOrEmpty(text))
+				return text;
+
+			return text.Replace("'", "''");
 		}
 	}
 }

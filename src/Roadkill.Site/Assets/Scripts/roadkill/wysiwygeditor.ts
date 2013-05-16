@@ -1,4 +1,4 @@
-/// <reference path="references.ts" />
+/// <reference path="typescript-ref/references.ts" />
 module Roadkill.Site
 {
 	/**

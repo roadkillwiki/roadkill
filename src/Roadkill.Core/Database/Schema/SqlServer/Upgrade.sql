@@ -8,3 +8,7 @@ CREATE TABLE [dbo].[roadkill_siteconfiguration]
 	[Content] [nvarchar](MAX) NOT NULL,
 	PRIMARY KEY NONCLUSTERED (Id)
 );
+
+CREATE CLUSTERED INDEX [roadkill_pagecontent_idx] ON [dbo].[roadkill_pagecontent] (PageId, VersionNumber);
+CREATE CLUSTERED INDEX [roadkill_users_idx] ON [dbo].[roadkill_users] (Email);
+CREATE CLUSTERED INDEX [roadkill_siteconfiguration_idx] ON [dbo].[roadkill_siteconfiguration] ([Version]);
