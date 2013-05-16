@@ -2,6 +2,7 @@ declare var $;
 
 //
 // All variables below are declared in GlobalJSdeclare vars
+// and defined here to help Typescript out.
 //
 
 declare var ROADKILL_CORESCRIPTPATH;

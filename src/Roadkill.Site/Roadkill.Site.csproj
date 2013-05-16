@@ -288,22 +288,21 @@
     <Content Include="Assets\Images\installer-ex-chicken.png" />
     <Content Include="Assets\Images\loadinglarge.gif" />
     <Content Include="Assets\bootstrap\img\Thumbs.db" />
-    <None Include="Assets\Scripts\jquery-1.8.0-vsdoc.js" />
+    <None Include="Assets\Scripts\jquery\jquery-1.8.0-vsdoc.js" />
     <Content Include="Assets\CSS\bootstrap-tagmanager.css" />
     <Content Include="Assets\Images\roadkill.png" />
     <Content Include="Assets\Images\log_warning.png" />
     <Content Include="Assets\Scripts\bootstrap-tagmanager.js" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\fileManager.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\dialogs.ts" />
-    <Content Include="Assets\Scripts\jquery.fieldSelection.js" />
-    <Content Include="Assets\Scripts\filemanager\jquery.ui.widget.js" />
-    <Content Include="Assets\Scripts\filemanager\jquery.iframe-transport.js" />
-    <Content Include="Assets\Scripts\filemanager\jquery.fileupload.js" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\constants.ts" />
-    <Content Include="Assets\Scripts\jquery-1.8.0.min.js" />
-    <Content Include="Assets\Scripts\jquery.fancybox.pack.js" />
-    <Content Include="Assets\Scripts\jquery.validate.js" />
-    <Content Include="Assets\Scripts\jquery.validationEngine.js" />
+    <Content Include="Assets\Scripts\jquery\jquery.fileupload.js" />
+    <Content Include="Assets\Scripts\jquery\jquery.iframe-transport.js" />
+    <Content Include="Assets\Scripts\jquery\jquery.ui.widget.js" />
+    <Content Include="Assets\Scripts\jquery\jquery.fieldSelection.js" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\typescript-ref\constants.ts" />
+    <Content Include="Assets\Scripts\jquery\jquery-1.8.0.js" />
+    <Content Include="Assets\Scripts\jquery\jquery.fancybox.pack.js" />
+    <Content Include="Assets\Scripts\jquery\jquery.validate.js" />
+    <Content Include="Assets\Scripts\jquery\jquery.validationEngine.js" />
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-cz.js" />
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-da.js" />
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-de.js" />
@@ -328,18 +327,18 @@
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-vi.js" />
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-zh_CN.js" />
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-zh_TW.js" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\references.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\typescript-ref\references.ts" />
     <Content Include="Assets\Scripts\roadkill\adminsetup.js">
       <DependentUpon>adminsetup.ts</DependentUpon>
     </Content>
     <Content Include="Assets\Scripts\roadkill\adminsetup.min.js">
       <DependentUpon>adminsetup.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\constants.js">
-      <DependentUpon>constants.ts</DependentUpon>
+    <Content Include="Assets\Scripts\roadkill\dialogs.js">
+      <DependentUpon>dialogs.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\constants.min.js">
-      <DependentUpon>constants.ts</DependentUpon>
+    <Content Include="Assets\Scripts\roadkill\dialogs.min.js">
+      <DependentUpon>dialogs.ts</DependentUpon>
     </Content>
     <Content Include="Assets\Scripts\roadkill\editpage.js">
       <DependentUpon>editpage.ts</DependentUpon>
@@ -347,33 +346,88 @@
     <Content Include="Assets\Scripts\roadkill\editpage.min.js">
       <DependentUpon>editpage.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\fileManager.js">
-      <DependentUpon>fileManager.ts</DependentUpon>
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\setup.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.ts" />
+    <None Include="Assets\Scripts\roadkill\typescript-ref\directorysummary.ts" />
+    <None Include="Assets\Scripts\roadkill\typescript-ref\filesummary.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\ajaxrequest.ts" />
+    <Content Include="Assets\Scripts\roadkill\filemanager\ajaxrequest.js">
+      <DependentUpon>ajaxrequest.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\fileManager.min.js">
-      <DependentUpon>fileManager.ts</DependentUpon>
+    <Content Include="Assets\Scripts\roadkill\filemanager\ajaxrequest.min.js">
+      <DependentUpon>ajaxrequest.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\references.js">
-      <DependentUpon>references.ts</DependentUpon>
+    <Content Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.js">
+      <DependentUpon>breadcrumbtrail.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\references.min.js">
-      <DependentUpon>references.ts</DependentUpon>
+    <Content Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.min.js">
+      <DependentUpon>breadcrumbtrail.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\roadkill.dialogs.js">
-      <DependentUpon>dialogs.ts</DependentUpon>
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\buttonevents.ts" />
+    <Content Include="Assets\Scripts\roadkill\filemanager\buttonevents.js">
+      <DependentUpon>buttonevents.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\roadkill.dialogs.min.js">
-      <DependentUpon>dialogs.ts</DependentUpon>
+    <Content Include="Assets\Scripts\roadkill\filemanager\buttonevents.min.js">
+      <DependentUpon>buttonevents.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\old\roadkill.settings.js" />
-    <Content Include="Assets\Scripts\roadkill\old\roadkill.files.js" />
+    <Content Include="Assets\Scripts\roadkill\typescript-ref\directorysummary.js">
+      <DependentUpon>directorysummary.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\typescript-ref\directorysummary.min.js">
+      <DependentUpon>directorysummary.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\typescript-ref\filemanager.references.js">
+      <DependentUpon>filemanager.references.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\typescript-ref\filemanager.references.min.js">
+      <DependentUpon>filemanager.references.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\typescript-ref\filesummary.js">
+      <DependentUpon>filesummary.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\typescript-ref\filesummary.min.js">
+      <DependentUpon>filesummary.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.js">
+      <DependentUpon>htmlbuilder.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.min.js">
+      <DependentUpon>htmlbuilder.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.ts" />
+    <None Include="Assets\Scripts\roadkill\typescript-ref\filemanager.references.ts" />
+    <Content Include="Assets\Scripts\roadkill\filemanager\setup.js">
+      <DependentUpon>setup.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\filemanager\setup.min.js">
+      <DependentUpon>setup.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\util.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\tableevents.ts" />
+    <Content Include="Assets\Scripts\roadkill\filemanager\tableevents.js">
+      <DependentUpon>tableevents.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\filemanager\tableevents.min.js">
+      <DependentUpon>tableevents.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\filemanager\util.js">
+      <DependentUpon>util.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\filemanager\util.min.js">
+      <DependentUpon>util.ts</DependentUpon>
+    </Content>
     <Content Include="Assets\CSS\jqueryFileTree.css" />
-    <Content Include="Assets\Scripts\jqueryFileTree.js" />
-    <Content Include="Assets\Scripts\roadkill\old\roadkill.edit.js" />
+    <Content Include="Assets\Scripts\jquery\jqueryFileTree.js" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\setup.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\adminsetup.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\editpage.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\wysiwygeditor.ts" />
+    <Content Include="Assets\Scripts\roadkill\typescript-ref\references.js">
+      <DependentUpon>references.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\typescript-ref\references.min.js">
+      <DependentUpon>references.ts</DependentUpon>
+    </Content>
     <Content Include="Assets\Scripts\roadkill\setup.js">
       <DependentUpon>setup.ts</DependentUpon>
     </Content>
@@ -422,9 +476,8 @@
     <Content Include="Assets\Images\wysiwyg\underline.png" />
     <Content Include="Assets\Images\wysiwyg\link.png" />
     <Content Include="Assets\CSS\close-x.png" />
-    <Content Include="Assets\Scripts\roadkill\old\roadkill.wysiwyg.js" />
     <Content Include="Assets\CSS\roadkill.css" />
-    <Content Include="Assets\Scripts\jquery.timeago.js" />
+    <Content Include="Assets\Scripts\jquery\jquery.timeago.js" />
     <Content Include="Assets\Images\loading.gif" />
     <Content Include="Themes\BlackBar\Theme.css" />
     <Content Include="Views\Pages\History.cshtml" />
@@ -478,9 +531,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Scripts\jquery.extensions.js" />
-    <Content Include="Assets\Scripts\jquery.form-extensions.js" />
-    <Content Include="Assets\Scripts\roadkill\old\roadkill.js" />
+    <Content Include="Assets\Scripts\jquery\jquery.extensions.js" />
+    <Content Include="Assets\Scripts\jquery\jquery.form-extensions.js" />
     <Content Include="Global.asax" />
     <Content Include="Views\Pages\Edit.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
