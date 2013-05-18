@@ -31,7 +31,7 @@ module Roadkill.Site.FileManager
 
 			if (folder == "")
 			{
-				alert(ROADKILL_DELETE_BASEFOLDER_ERROR);
+				toastr.error(ROADKILL_DELETE_BASEFOLDER_ERROR);
 				return;
 			}
 
@@ -52,7 +52,7 @@ module Roadkill.Site.FileManager
 				}
 				else
 				{
-					alert(data.message);
+					toastr.error("Unable to delete the folder: <br/>" +data.message);
 				}
 			};
 
@@ -80,7 +80,7 @@ module Roadkill.Site.FileManager
 					if (data.status == "ok")
 						$(tr).remove();
 					else
-						alert(data.message);
+						toastr.error("Unable to delete the file: <br/>" +data.message);
 				};
 
 				that._ajaxRequest.deleteFile(filename, currentPath, success);
@@ -134,7 +134,7 @@ module Roadkill.Site.FileManager
 				{
 					if (data.status == "error")
 					{
-						alert(data.message);
+						toastr.error("Unable to create the folder: <br/>" +data.message);
 						return;
 					}
 

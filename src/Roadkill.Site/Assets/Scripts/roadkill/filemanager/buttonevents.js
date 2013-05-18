@@ -30,7 +30,7 @@ var Roadkill;
                     var tr = $("tr.select");
                     var folder = tr.attr("data-urlpath");
                     if(folder == "") {
-                        alert(ROADKILL_DELETE_BASEFOLDER_ERROR);
+                        toastr.error(ROADKILL_DELETE_BASEFOLDER_ERROR);
                         return;
                     }
                     var message = FileManager.Util.FormatString(ROADKILL_DELETE_CONFIRM, folder);
@@ -44,7 +44,7 @@ var Roadkill;
                             var folder = li.attr("data-urlpath");
                             FileManager.TableEvents.update(folder);
                         } else {
-                            alert(data.message);
+                            toastr.error("Unable to delete the folder: <br/>" + data.message);
                         }
                     };
                     that._ajaxRequest.deleteFolder(folder, success);
@@ -63,7 +63,7 @@ var Roadkill;
                             if(data.status == "ok") {
                                 $(tr).remove();
                             } else {
-                                alert(data.message);
+                                toastr.error("Unable to delete the file: <br/>" + data.message);
                             }
                         };
                         that._ajaxRequest.deleteFile(filename, currentPath, success);
@@ -89,23 +89,25 @@ var Roadkill;
                     var that = event.data.instance;
                     if(event.which == 0 || event.which == 27) {
                         that.cancelNewFolder();
-                    } else if(event.which == 13) {
-                        var newFolder = $("#newfolderinput").val();
-                        if(newFolder.replace(/\s/g, "").length == 0) {
-                            that.cancelNewFolder();
-                            return;
-                        }
-                        var success = function (data) {
-                            if(data.status == "error") {
-                                alert(data.message);
+                    } else {
+                        if(event.which == 13) {
+                            var newFolder = $("#newfolderinput").val();
+                            if(newFolder.replace(/\s/g, "").length == 0) {
+                                that.cancelNewFolder();
                                 return;
                             }
-                            var item = $("ul.navigator li:last-child");
-                            FileManager.TableEvents.update(item.attr("data-urlpath"));
-                            FileManager.BreadCrumbTrail.removeLastItem();
-                            $("tr#newfolderrow").remove();
-                        };
-                        that._ajaxRequest.newFolder(FileManager.TableEvents.getCurrentPath(), newFolder, success);
+                            var success = function (data) {
+                                if(data.status == "error") {
+                                    toastr.error("Unable to create the folder: <br/>" + data.message);
+                                    return;
+                                }
+                                var item = $("ul.navigator li:last-child");
+                                FileManager.TableEvents.update(item.attr("data-urlpath"));
+                                FileManager.BreadCrumbTrail.removeLastItem();
+                                $("tr#newfolderrow").remove();
+                            };
+                            that._ajaxRequest.newFolder(FileManager.TableEvents.getCurrentPath(), newFolder, success);
+                        }
                     }
                 };
                 ButtonEvents.prototype.cancelNewFolder = function () {
@@ -116,6 +118,9 @@ var Roadkill;
             FileManager.ButtonEvents = ButtonEvents;            
         })(Site.FileManager || (Site.FileManager = {}));
         var FileManager = Site.FileManager;
+
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
+
 })(Roadkill || (Roadkill = {}));
+

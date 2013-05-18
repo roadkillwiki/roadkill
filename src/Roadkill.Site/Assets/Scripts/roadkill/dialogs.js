@@ -14,19 +14,21 @@ var Roadkill;
                     };
                 }
                 $.fancybox($(selector), params);
-            };
+            }
             Dialogs.openIFrameModal = function openIFrameModal(html) {
                 $.fancybox(html, {
                     openSpeed: "fast",
                     openEffect: "none"
                 });
-            };
+            }
             Dialogs.closeModal = function closeModal() {
                 $.fancybox.close(true);
-            };
+            }
             return Dialogs;
         })();
         Site.Dialogs = Dialogs;        
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
+
 })(Roadkill || (Roadkill = {}));
+

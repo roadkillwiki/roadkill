@@ -71,11 +71,13 @@ module Roadkill.Site.FileManager
 				{
 					if (data.result.status == "error")
 					{
-						alert(data.result.message);
+						toastr.error(data.result.message);
 						return;
 					}
 					else
 					{
+						toastr.success(data.result.filename + " uploaded successfully.");
+
 						TableEvents.update("", false);
 						setTimeout(function () { $("#progress div.bar").css("width", "0%"); }, 2000);
 					}

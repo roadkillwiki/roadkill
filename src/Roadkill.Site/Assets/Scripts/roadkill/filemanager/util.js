@@ -15,12 +15,15 @@ var Roadkill;
                         result = result.replace(regex, args[i]);
                     }
                     return result;
-                };
+                }
                 return Util;
             })();
             FileManager.Util = Util;            
         })(Site.FileManager || (Site.FileManager = {}));
         var FileManager = Site.FileManager;
+
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
+
 })(Roadkill || (Roadkill = {}));
+

@@ -5,7 +5,6 @@
 }
 @Url.CssLink("validationEngine.jquery.css")
 @Url.ScriptLinkForValidationLocalization()
-@Url.ScriptLink("jquery.validationEngine.js")
 
 <script type="text/javascript">
 	$(document).ready(function ()
@@ -14,6 +13,7 @@
 		$("input[type=checkbox][rel=popover],select[rel=popover]").popover({ placement: "right", trigger: "hover", html: true });
 
 		toggleUserSettings();
+		//toastr.options  = { "positionClass": "toast-top-full-width" };
 
 		$("form").validationEngine();
 		$("#UseWindowsAuth").click(function ()
@@ -35,11 +35,11 @@
                         $("#db-loading").hide();
 						if (data.Success)
 						{
-							alert("OK");
+							toastr.success("Database connection was successful.");
 						}
 						else
 						{
-							alert(data.ErrorMessage);
+							toastr.error("Database connection failed: <br/>" + data.ErrorMessage);
 						}
 					});
 		});
@@ -49,11 +49,11 @@
 					function(data) {
 						if (data.Success)
 						{
-							alert("OK");
+							toastr.success("Success! The directory exists and can be written to.");
 						}
 						else
 						{
-							alert(data.ErrorMessage);
+							toastr.error("Attachments directory failed: <br/>" + data.ErrorMessage);
 						}
 					});
 		 });
