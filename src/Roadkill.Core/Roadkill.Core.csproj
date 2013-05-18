@@ -486,6 +486,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Localization\Text\history.txt" />
     <EmbeddedResource Include="Database\Schema\Postgres\Create.sql" />
     <EmbeddedResource Include="Database\Schema\Postgres\Drop.sql" />
     <EmbeddedResource Include="Database\Schema\Sqlite\Create.sql" />
