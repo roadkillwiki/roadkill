@@ -3,7 +3,7 @@ module Roadkill.Site.FileManager
 {
 	export class HtmlBuilder
 	{
-		public getNewFolder()
+		public getNewFolder() : string
 		{
 			var html: string = "";
 
@@ -19,16 +19,21 @@ module Roadkill.Site.FileManager
 
 		public getFolderTable(directorySummary: DirectorySummary) : string[]
 		{
-			var html: string[] =
-			[
-				"<table id=\"files\"><thead><tr><th colspan=2>Name</th><th>Date Uploaded</th><th>Type</th><th>Size</th></tr></thead>"
-			];
+			var html: string[] = [];
 
+			var header = "<table id=\"files\"><thead><tr>"+
+					"<th colspan=2>Name</th>" +
+					"<th>Date Uploaded</th>" +
+					"<th>Type</th>" +
+					"<th>Size</th>" +
+					"</tr></thead>";
+			html.push(header);
+			
 			for (var i = 0; i < directorySummary.ChildFolders.length; i++)
 			{
-				var htmlRow: string;
+				var htmlRow: string = "";
 
-				htmlRow += "<tr class=\"listrow\" data-itemtype=\"folder\" data-itemid=\"" + directorySummary.ChildFolders[i].UrlPath + "\">";
+				htmlRow += "<tr class=\"listrow\" data-itemtype=\"folder\" data-urlpath=\"" + directorySummary.ChildFolders[i].UrlPath + "\">";
 				htmlRow += "<td width='1%'>";
 				htmlRow += "<img src='" + ROADKILL_COREASSETPATH + "CSS/images/directory.png'></td>";
 				htmlRow += "<td nowrap width=\"20%\">" + directorySummary.ChildFolders[i].Name + "</td>";
@@ -54,16 +59,15 @@ module Roadkill.Site.FileManager
 			var html: string = "";
 
 			html += "<li data-level=\"" + count + "\" data-urlpath=\"" + directorySummary.UrlPath + "\">";
-			html += "<a href=\"javascript:navigateBreadcrumb(" + count + ",&quot;" + encodeURI(directorySummary.UrlPath) + "&quot;)\">";
-			html += directorySummary.Name + "</a>";
+			html += "<a href=\"javascript:;\">" +directorySummary.Name+ "</a>";
 			html += "</li>";
 
 			return html;
 		}
 
-		private getFileRowHtml(fileSummary: FileSummary): string
+		public getFileRowHtml(fileSummary: FileSummary): string
 		{
-			var html: string;
+			var html: string = "";
 
 			html += "<tr class=\"listrow\" data-itemtype=\"file\">";
 			html += "<td width=\"1%\">";

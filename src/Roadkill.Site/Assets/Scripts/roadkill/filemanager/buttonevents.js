@@ -8,14 +8,27 @@ var Roadkill;
                     this._ajaxRequest = new FileManager.AjaxRequest();
                 }
                 ButtonEvents.prototype.bind = function () {
-                    $("#addfolderbtn").on("click", this.addFolderInput);
-                    $("#deletefolderbtn").bind("click", this.deleteFolder);
-                    $("#deletefilebtn").bind("click", this.deleteFile);
-                    $("#newfolderinput").live("keyup", this.addNewFolder);
-                    $("#newfoldercancel").live("click", this.cancelNewFolder);
+                    var that = this;
+                    $(document).on("click", "#addfolderbtn", {
+                        instance: that
+                    }, this.addFolderInput);
+                    $(document).on("click", "#deletefolderbtn", {
+                        instance: that
+                    }, this.deleteFolder);
+                    $(document).on("click", "#deletefilebtn", {
+                        instance: that
+                    }, this.deleteFile);
+                    $(document).on("keyup", "#newfolderinput", {
+                        instance: that
+                    }, this.addNewFolder);
+                    $(document).on("click", "#newfoldercancel", {
+                        instance: that
+                    }, this.cancelNewFolder);
                 };
-                ButtonEvents.prototype.deleteFolder = function () {
-                    var folder = FileManager.TableEvents.getCurrentPath();
+                ButtonEvents.prototype.deleteFolder = function (event) {
+                    var that = event.data.instance;
+                    var tr = $("tr.select");
+                    var folder = tr.attr("data-urlpath");
                     if(folder == "") {
                         alert(ROADKILL_DELETE_BASEFOLDER_ERROR);
                         return;
@@ -34,9 +47,10 @@ var Roadkill;
                             alert(data.message);
                         }
                     };
-                    this._ajaxRequest.deleteFolder(folder, success);
+                    that._ajaxRequest.deleteFolder(folder, success);
                 };
-                ButtonEvents.prototype.deleteFile = function () {
+                ButtonEvents.prototype.deleteFile = function (event) {
+                    var that = event.data.instance;
                     var tr = $("tr.select");
                     if(tr.length > 0 && tr.attr("data-itemtype") == "file") {
                         var currentPath = FileManager.TableEvents.getCurrentPath();
@@ -52,16 +66,17 @@ var Roadkill;
                                 alert(data.message);
                             }
                         };
-                        this._ajaxRequest.deleteFile(filename, currentPath, success);
+                        that._ajaxRequest.deleteFile(filename, currentPath, success);
                     }
                 };
-                ButtonEvents.prototype.addFolderInput = function () {
+                ButtonEvents.prototype.addFolderInput = function (event) {
+                    var that = event.data.instance;
                     if($("tr#newfolderrow").length > 0) {
                         $("#newfolderinput").focus();
                         return;
                     }
                     var tr = $("table#files tr[data-itemtype=folder]");
-                    var newfolderHtml = this._htmlBuilder.getNewFolder();
+                    var newfolderHtml = that._htmlBuilder.getNewFolder();
                     if(tr.length > 0) {
                         tr = tr.last();
                         $(newfolderHtml).insertAfter(tr);
@@ -71,12 +86,13 @@ var Roadkill;
                     $("#newfolderinput").focus();
                 };
                 ButtonEvents.prototype.addNewFolder = function (event) {
+                    var that = event.data.instance;
                     if(event.which == 0 || event.which == 27) {
-                        this.cancelNewFolder();
+                        that.cancelNewFolder();
                     } else if(event.which == 13) {
                         var newFolder = $("#newfolderinput").val();
                         if(newFolder.replace(/\s/g, "").length == 0) {
-                            this.cancelNewFolder();
+                            that.cancelNewFolder();
                             return;
                         }
                         var success = function (data) {
@@ -85,11 +101,11 @@ var Roadkill;
                                 return;
                             }
                             var item = $("ul.navigator li:last-child");
-                            this.getFolderInfo(item.attr("data-urlpath"));
+                            FileManager.TableEvents.update(item.attr("data-urlpath"));
                             FileManager.BreadCrumbTrail.removeLastItem();
                             $("tr#newfolderrow").remove();
                         };
-                        this._ajaxRequest.newFolder(FileManager.TableEvents.getCurrentPath(), newFolder, success);
+                        that._ajaxRequest.newFolder(FileManager.TableEvents.getCurrentPath(), newFolder, success);
                     }
                 };
                 ButtonEvents.prototype.cancelNewFolder = function () {

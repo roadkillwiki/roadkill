@@ -14,16 +14,20 @@ module Roadkill.Site.FileManager
 
 		bind()
 		{
-			$("#addfolderbtn").on("click", this.addFolderInput);
-			$("#deletefolderbtn").bind("click", this.deleteFolder);
-			$("#deletefilebtn").bind("click", this.deleteFile);
-			$("#newfolderinput").live("keyup", this.addNewFolder);
-			$("#newfoldercancel").live("click", this.cancelNewFolder);
+			var that = this;
+
+			$(document).on("click", "#addfolderbtn",    { instance: that }, this.addFolderInput);
+			$(document).on("click", "#deletefolderbtn", { instance: that }, this.deleteFolder);
+			$(document).on("click", "#deletefilebtn",   { instance: that }, this.deleteFile);
+			$(document).on("keyup", "#newfolderinput",  { instance: that }, this.addNewFolder);
+			$(document).on("click", "#newfoldercancel", { instance: that }, this.cancelNewFolder);
 		}
 
-		deleteFolder()
+		deleteFolder(event)
 		{
-			var folder: string = TableEvents.getCurrentPath();
+			var that = event.data.instance;  // this instance of the ButtonEvents class
+			var tr = $("tr.select");
+			var folder: string = tr.attr("data-urlpath");
 
 			if (folder == "")
 			{
@@ -51,11 +55,13 @@ module Roadkill.Site.FileManager
 					alert(data.message);
 				}
 			};
-			this._ajaxRequest.deleteFolder(folder, success);
+
+			that._ajaxRequest.deleteFolder(folder, success);
 		}
 
-		deleteFile()
+		deleteFile(event)
 		{
+			var that = event.data.instance;
 			var tr = $("tr.select");
 
 			if (tr.length > 0 && tr.attr("data-itemtype") == "file")
@@ -76,12 +82,15 @@ module Roadkill.Site.FileManager
 					else
 						alert(data.message);
 				};
-				this._ajaxRequest.deleteFile(filename, currentPath, success);
+
+				that._ajaxRequest.deleteFile(filename, currentPath, success);
 			}
 		}
 
-		addFolderInput()
+		addFolderInput(event)
 		{
+			var that = event.data.instance;
+
 			if ($("tr#newfolderrow").length > 0)
 			{
 				$("#newfolderinput").focus();
@@ -89,7 +98,7 @@ module Roadkill.Site.FileManager
 			}
 
 			var tr = $("table#files tr[data-itemtype=folder]");
-			var newfolderHtml = this._htmlBuilder.getNewFolder();
+			var newfolderHtml = that._htmlBuilder.getNewFolder();
 
 			if (tr.length > 0)
 			{
@@ -105,17 +114,19 @@ module Roadkill.Site.FileManager
 
 		addNewFolder(event)
 		{
+			var that = event.data.instance;
+
 			if (event.which == 0 || event.which == 27)
 			{
-				this.cancelNewFolder();
+				that.cancelNewFolder();
 			}
 			else if (event.which == 13)
-				{
+			{
 				var newFolder: string = $("#newfolderinput").val();
 
 				if (newFolder.replace(/\s/g, "").length == 0)
 				{
-					this.cancelNewFolder();
+					that.cancelNewFolder();
 					return;
 				}
 
@@ -128,13 +139,14 @@ module Roadkill.Site.FileManager
 					}
 
 					var item = $("ul.navigator li:last-child");
-					this.getFolderInfo(item.attr("data-urlpath"));
+					TableEvents.update(item.attr("data-urlpath"));
 
 					BreadCrumbTrail.removeLastItem();
 
 					$("tr#newfolderrow").remove();
 				};
-				this._ajaxRequest.newFolder(TableEvents.getCurrentPath(), newFolder, success);
+
+				that._ajaxRequest.newFolder(TableEvents.getCurrentPath(), newFolder, success);
 			}
 		}
 

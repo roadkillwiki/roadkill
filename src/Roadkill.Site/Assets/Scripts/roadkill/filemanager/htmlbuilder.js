@@ -15,12 +15,12 @@ var Roadkill;
                     return html;
                 };
                 HtmlBuilder.prototype.getFolderTable = function (directorySummary) {
-                    var html = [
-                        "<table id=\"files\"><thead><tr><th colspan=2>Name</th><th>Date Uploaded</th><th>Type</th><th>Size</th></tr></thead>"
-                    ];
+                    var html = [];
+                    var header = "<table id=\"files\"><thead><tr>" + "<th colspan=2>Name</th>" + "<th>Date Uploaded</th>" + "<th>Type</th>" + "<th>Size</th>" + "</tr></thead>";
+                    html.push(header);
                     for(var i = 0; i < directorySummary.ChildFolders.length; i++) {
-                        var htmlRow;
-                        htmlRow += "<tr class=\"listrow\" data-itemtype=\"folder\" data-itemid=\"" + directorySummary.ChildFolders[i].UrlPath + "\">";
+                        var htmlRow = "";
+                        htmlRow += "<tr class=\"listrow\" data-itemtype=\"folder\" data-urlpath=\"" + directorySummary.ChildFolders[i].UrlPath + "\">";
                         htmlRow += "<td width='1%'>";
                         htmlRow += "<img src='" + ROADKILL_COREASSETPATH + "CSS/images/directory.png'></td>";
                         htmlRow += "<td nowrap width=\"20%\">" + directorySummary.ChildFolders[i].Name + "</td>";
@@ -39,13 +39,12 @@ var Roadkill;
                 HtmlBuilder.prototype.getBreadCrumb = function (directorySummary, count) {
                     var html = "";
                     html += "<li data-level=\"" + count + "\" data-urlpath=\"" + directorySummary.UrlPath + "\">";
-                    html += "<a href=\"javascript:navigateBreadcrumb(" + count + ",&quot;" + encodeURI(directorySummary.UrlPath) + "&quot;)\">";
-                    html += directorySummary.Name + "</a>";
+                    html += "<a href=\"javascript:;\">" + directorySummary.Name + "</a>";
                     html += "</li>";
                     return html;
                 };
                 HtmlBuilder.prototype.getFileRowHtml = function (fileSummary) {
-                    var html;
+                    var html = "";
                     html += "<tr class=\"listrow\" data-itemtype=\"file\">";
                     html += "<td width=\"1%\">";
                     html += "<img src=\"" + ROADKILL_COREASSETPATH + "CSS/images/file.png\" >";

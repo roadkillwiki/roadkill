@@ -47,7 +47,7 @@ namespace Roadkill.Core.Attachments
 					filePath = filePath.Replace('/', Path.DirectorySeparatorChar);
 
 					if (attachmentFolder.EndsWith(Path.DirectorySeparatorChar.ToString()))
-						attachmentFolder = attachmentFolder.Remove(attachmentFolder.Length, 1);
+						attachmentFolder = attachmentFolder.Remove(attachmentFolder.Length -1, 1);
 
 					if (filePath.StartsWith(Path.DirectorySeparatorChar.ToString()))
 						filePath = filePath.Remove(0, 1);

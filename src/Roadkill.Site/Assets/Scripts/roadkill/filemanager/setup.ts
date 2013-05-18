@@ -17,7 +17,7 @@ module Roadkill.Site.FileManager
 			var tableEvents = new TableEvents();
 			tableEvents.bind();
 
-			TableEvents.update("");
+			TableEvents.update("/");
 		}
 
 		private static initializeImagePreview()
@@ -34,7 +34,7 @@ module Roadkill.Site.FileManager
 						return;
 
 					var imgUrl: string;
-					imgUrl = (ROADKILL_ATTACHMENTSPATH + this.getCurrentPath() + "/");
+					imgUrl = (ROADKILL_ATTACHMENTSPATH + TableEvents.getCurrentPath() + "/");
 					imgUrl = imgUrl.replace("//", "/") + $("td.file", this).text();
 
 					$("body").append("<p id='image-preview'><img src='" + imgUrl + "' alt='Image Preview' /></p>");
@@ -60,12 +60,12 @@ module Roadkill.Site.FileManager
 			$("#fileupload").fileupload({
 				dropZone: $("#folder-container"),
 				pasteZone: $("body"),
-				dataType: 'json',
+				dataType: "json",
 				progressall: function (e, data)
 				{
 					var percentage = (data.loaded / data.total * 100) + "";
 					var progress = parseInt(percentage, 10);
-					$('#progress .bar').css('width', progress + '%');
+					$("#progress .bar").css("width", progress + "%");
 				},
 				done: function (e, data)
 				{
@@ -74,16 +74,16 @@ module Roadkill.Site.FileManager
 						alert(data.result.message);
 						return;
 					}
-					$.each(data.result.files, function (index, file)
+					else
 					{
-						$('#files').append(this._navigator.getFileRowHtml(file));
-					});
-					setTimeout(function () { $("#progress div.bar").css("width", "0%"); }, 2000);
+						TableEvents.update("", false);
+						setTimeout(function () { $("#progress div.bar").css("width", "0%"); }, 2000);
+					}
 				}
 			})
-			.bind('fileuploaddrop', function (e, data)
+			.bind("fileuploaddrop", function (e, data)
 			{
-				this._navigator.setCurrentPath();
+				TableEvents.update("", false);
 			});
 		}
 	}

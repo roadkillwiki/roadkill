@@ -28,14 +28,14 @@ namespace Roadkill.Core.Mvc.ViewModels
 		/// Initializes a new instance of the <see cref="FileSummary"/> class.
 		/// </summary>
 		/// <param name="relativePath">The relative path of the filename</param>
-		public FileSummary(string name, string directoryPath)
+		public FileSummary(string name, string extension, long size, DateTime createDate, string folder, string fullPath)
 		{
 			Name = name;
-
-			//FileInfo fileInfo = new FileInfo(relativePath);
-			//Size = fileInfo.Length;
-			//CreateDate = fileInfo.CreationTime.ToShortDateString();
-			//Folder = fileInfo.Directory.Name;
+			Extension = extension;
+			Size = size;
+			CreateDate = createDate.ToShortDateString();
+			Folder = folder;
+			FullPath = fullPath;
 		}
 	}
 }

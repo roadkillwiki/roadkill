@@ -33,6 +33,12 @@ module Roadkill.Site.FileManager
 			var breadCrumbHtml = htmlBuilder.getBreadCrumb(data, count);
 
 			$("ul.navigator").append(breadCrumbHtml);
+			$("li[data-urlpath='" + data.UrlPath + "'] a").on("click", function ()
+			{
+				var li = $(this).parent();
+				li.nextAll().remove();
+				TableEvents.update(li.attr("data-urlpath"), false);
+			});
 		}
 	}
 }

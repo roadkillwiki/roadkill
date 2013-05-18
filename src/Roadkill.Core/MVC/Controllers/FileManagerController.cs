@@ -133,22 +133,31 @@ namespace Roadkill.Core.Mvc.Controllers
 				throw new Exception("Attachment Path invalid");
 			}
 
-			DirectorySummary summary = new DirectorySummary(Path.GetDirectoryName(folder));
+			string currentFolderName = dir;
+			if (currentFolderName != "/")
+				currentFolderName = Path.GetFileName(dir);
+
+			DirectorySummary summary = new DirectorySummary(currentFolderName, dir);
 			if (Directory.Exists(physicalPath))
 			{
 				foreach (string directory in Directory.GetDirectories(physicalPath))
 				{
 					DirectoryInfo info = new DirectoryInfo(directory);
-					DirectorySummary dirSummary = new DirectorySummary(info.Name);
-					summary.ChildFolders.Add(dirSummary);
+					string fullPath = info.FullName;
+					fullPath = fullPath.Replace(ApplicationSettings.AttachmentsDirectoryPath, "");
+					fullPath = fullPath.Replace(Path.DirectorySeparatorChar.ToString(), "/");
+					fullPath = "/" + fullPath; // removed in the 1st replace
+
+					DirectorySummary childSummary = new DirectorySummary(info.Name, fullPath);
+					summary.ChildFolders.Add(childSummary);
 				}
 
 				foreach (string file in Directory.GetFiles(physicalPath))
 				{
 					FileInfo info = new FileInfo(file);
-					string name = info.Name;
-					string urlPath = "";
-					FileSummary fileSummary = new FileSummary(info.Name, info.FullName);
+					string filename = info.Name;
+					string urlPath = Path.Combine(dir, filename);
+					FileSummary fileSummary = new FileSummary(info.Name, info.Extension.Replace(".",""), info.Length, info.CreationTime, dir, "");
 					summary.Files.Add(fileSummary);
 				}
 			}
