@@ -32,16 +32,16 @@ namespace Roadkill.Core.Mvc.ViewModels
 		/// <summary>
 		/// The virtual path of the directory, e.g. /folder1/folder2
 		/// </summary>
-		public string Path { get; set; }
+		public string UrlPath { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DirectorySummary"/> class.
 		/// </summary>
 		/// <param name="name">The directory name.</param>
-		public DirectorySummary(string name)
+		public DirectorySummary(string name, string urlPath)
 		{
 			Name = name;
-			Path = "";
+			UrlPath = urlPath;
 			Files = new List<FileSummary>();
 			ChildFolders = new List<DirectorySummary>();
 		}

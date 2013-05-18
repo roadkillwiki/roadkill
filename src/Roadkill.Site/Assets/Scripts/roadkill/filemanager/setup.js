@@ -11,7 +11,7 @@ var Roadkill;
                     buttonEvents.bind();
                     var tableEvents = new FileManager.TableEvents();
                     tableEvents.bind();
-                    FileManager.TableEvents.update("");
+                    FileManager.TableEvents.update("/");
                 };
                 Setup.initializeImagePreview = function initializeImagePreview() {
                     var xOffset = 20;
@@ -23,7 +23,7 @@ var Roadkill;
                             return;
                         }
                         var imgUrl;
-                        imgUrl = (ROADKILL_ATTACHMENTSPATH + this.getCurrentPath() + "/");
+                        imgUrl = (ROADKILL_ATTACHMENTSPATH + FileManager.TableEvents.getCurrentPath() + "/");
                         imgUrl = imgUrl.replace("//", "/") + $("td.file", this).text();
                         $("body").append("<p id='image-preview'><img src='" + imgUrl + "' alt='Image Preview' /></p>");
                         $("#image-preview").css("top", (e.pageY - xOffset) + "px").css("left", (e.pageX + yOffset) + "px").fadeIn("fast");
@@ -37,26 +37,25 @@ var Roadkill;
                     $("#fileupload").fileupload({
                         dropZone: $("#folder-container"),
                         pasteZone: $("body"),
-                        dataType: 'json',
+                        dataType: "json",
                         progressall: function (e, data) {
                             var percentage = (data.loaded / data.total * 100) + "";
                             var progress = parseInt(percentage, 10);
-                            $('#progress .bar').css('width', progress + '%');
+                            $("#progress .bar").css("width", progress + "%");
                         },
                         done: function (e, data) {
                             if(data.result.status == "error") {
                                 alert(data.result.message);
                                 return;
+                            } else {
+                                FileManager.TableEvents.update("", false);
+                                setTimeout(function () {
+                                    $("#progress div.bar").css("width", "0%");
+                                }, 2000);
                             }
-                            $.each(data.result.files, function (index, file) {
-                                $('#files').append(this._navigator.getFileRowHtml(file));
-                            });
-                            setTimeout(function () {
-                                $("#progress div.bar").css("width", "0%");
-                            }, 2000);
                         }
-                    }).bind('fileuploaddrop', function (e, data) {
-                        this._navigator.setCurrentPath();
+                    }).bind("fileuploaddrop", function (e, data) {
+                        FileManager.TableEvents.update("", false);
                     });
                 };
                 return Setup;

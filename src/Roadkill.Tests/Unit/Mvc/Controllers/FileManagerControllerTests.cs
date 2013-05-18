@@ -299,10 +299,10 @@ namespace Roadkill.Tests.Unit
 			_filesController.SetFakeControllerContext();
 
 			// Act
-			ActionResult result = _filesController.FolderInfo("test");
+			ActionResult result = _filesController.FolderInfo("");
 
 			// Assert
-			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
+			Assert.That(result, Is.TypeOf<JsonResult>(), "JsonResult");
 		}
 
 		[Test]
