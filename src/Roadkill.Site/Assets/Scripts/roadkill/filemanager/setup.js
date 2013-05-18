@@ -12,7 +12,7 @@ var Roadkill;
                     var tableEvents = new FileManager.TableEvents();
                     tableEvents.bind();
                     FileManager.TableEvents.update("/");
-                };
+                }
                 Setup.initializeImagePreview = function initializeImagePreview() {
                     var xOffset = 20;
                     var yOffset = 20;
@@ -32,7 +32,7 @@ var Roadkill;
                     }).live("mousemove", function (e) {
                         $("#preview").css("top", (e.pageY - xOffset) + "px").css("left", (e.pageX + yOffset) + "px");
                     });
-                };
+                }
                 Setup.initializeFileUpload = function initializeFileUpload() {
                     $("#fileupload").fileupload({
                         dropZone: $("#folder-container"),
@@ -45,9 +45,10 @@ var Roadkill;
                         },
                         done: function (e, data) {
                             if(data.result.status == "error") {
-                                alert(data.result.message);
+                                toastr.error(data.result.message);
                                 return;
                             } else {
+                                toastr.success(data.result.filename + " uploaded successfully.");
                                 FileManager.TableEvents.update("", false);
                                 setTimeout(function () {
                                     $("#progress div.bar").css("width", "0%");
@@ -57,12 +58,15 @@ var Roadkill;
                     }).bind("fileuploaddrop", function (e, data) {
                         FileManager.TableEvents.update("", false);
                     });
-                };
+                }
                 return Setup;
             })();
             FileManager.Setup = Setup;            
         })(Site.FileManager || (Site.FileManager = {}));
         var FileManager = Site.FileManager;
+
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
+
 })(Roadkill || (Roadkill = {}));
+

@@ -88,7 +88,6 @@ namespace Roadkill.Tests.Unit
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 		}
 
-		[Test]
 		public void DeleteFile_Should_Return_Ok_Json_Status_And_Delete_File()
 		{
 			// Arrange
@@ -131,7 +130,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void DeleteFile_Missing_File_Returns_Ok()
+		public void DeleteFile_Missing_File_Should_Return_Json_Status_Ok()
 		{
 			// Arrange
 			_filesController.SetFakeControllerContext();
@@ -148,7 +147,7 @@ namespace Roadkill.Tests.Unit
 
 		[Test]
 		[ExpectedException(typeof(SecurityException))]
-		public void DeleteFile_Bad_Paths_Throws_Exception()
+		public void DeleteFile_With_Bad_Paths_Throws_Exception()
 		{
 			// Arrange
 			_filesController.SetFakeControllerContext();

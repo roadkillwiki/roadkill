@@ -173,6 +173,9 @@ namespace Roadkill.Core.Attachments
 		/// relative path parameter joined. This path always contains a trailing slash (or / on Unix based systems).</returns>
 		public string ConvertUrlPathToPhysicalPath(string relativePath)
 		{
+			if (string.IsNullOrEmpty(relativePath))
+				return "";
+
 			string dirSeperator = Path.DirectorySeparatorChar.ToString();
 			string attachmentsPath = _settings.AttachmentsDirectoryPath;
 
@@ -259,6 +262,10 @@ namespace Roadkill.Core.Attachments
 				{
 					return false;
 				}
+			}
+			else
+			{
+				Log.Warn("The path {0} does not exist", physicalDirectoryPath);
 			}
 
 			return false;

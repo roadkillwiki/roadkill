@@ -134,7 +134,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			}
 
 			string currentFolderName = dir;
-			if (currentFolderName != "/")
+			if (!string.IsNullOrEmpty(currentFolderName) && currentFolderName != "/")
 				currentFolderName = Path.GetFileName(dir);
 
 			DirectorySummary summary = new DirectorySummary(currentFolderName, dir);
@@ -209,33 +209,27 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public JsonResult FileUpload()
 		{
-			List<object> filesList = new List<object>();
-			HttpPostedFileBase SourceFile;
-			string destinationFolder;
-			string physicalPath;
-			string fullFilePath;
-
 			try
 			{
-				destinationFolder = Request.Form["destination_folder"];
-
-				physicalPath = _attachmentHandler.ConvertUrlPathToPhysicalPath(destinationFolder);
+				string destinationFolder = Request.Form["destination_folder"];
+				string physicalPath = _attachmentHandler.ConvertUrlPathToPhysicalPath(destinationFolder);
 
 				if (!_attachmentHandler.IsAttachmentPathValid(physicalPath))
 				{
 					throw new Exception("Attachment Path invalid");
 				}
 
+				string fileName = "";
 				for (int i = 0; i < Request.Files.Count; i++)
 				{
-					SourceFile = Request.Files[i];
-					fullFilePath = Path.Combine(physicalPath, SourceFile.FileName);
-					SourceFile.SaveAs(fullFilePath);
+					HttpPostedFileBase sourceFile = Request.Files[i];
+					string fullFilePath = Path.Combine(physicalPath, sourceFile.FileName);
+					sourceFile.SaveAs(fullFilePath);
 
-					//filesList.Add(new FileSummary(fullFilePath, ApplicationSettings));
+					fileName = sourceFile.FileName;
 				}
 
-				return Json(new { status = "ok", files = filesList }, "text/plain");
+				return Json(new { status = "ok", filename = fileName }, "text/plain");
 			}
 			catch (Exception e)
 			{

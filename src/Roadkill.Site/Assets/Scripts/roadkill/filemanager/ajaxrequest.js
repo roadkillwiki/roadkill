@@ -9,7 +9,7 @@ var Roadkill;
                     var data = {
                         dir: path
                     };
-                    var errorMessage = "folderInfo failed";
+                    var errorMessage = "An expected error occurred getting the directory listing: <br/>";
                     this.makeAjaxRequest(url, data, errorMessage, successFunction);
                 };
                 AjaxRequest.prototype.deleteFolder = function (folder, successFunction) {
@@ -17,7 +17,7 @@ var Roadkill;
                     var data = {
                         folder: folder
                     };
-                    var errorMessage = "deleteFolder failed";
+                    var errorMessage = "An expected error occurred deleting the folder: <br/>";
                     this.makeAjaxRequest(url, data, errorMessage, successFunction);
                 };
                 AjaxRequest.prototype.deleteFile = function (fileName, filePath, successFunction) {
@@ -26,7 +26,7 @@ var Roadkill;
                         filename: fileName,
                         filepath: filePath
                     };
-                    var errorMessage = "deleteFile failed";
+                    var errorMessage = "An expected error occurred deleting the file: <br/>";
                     this.makeAjaxRequest(url, data, errorMessage, successFunction);
                 };
                 AjaxRequest.prototype.newFolder = function (currentPath, newFolder, successFunction) {
@@ -35,7 +35,7 @@ var Roadkill;
                         currentFolderPath: currentPath,
                         newFolderName: newFolder
                     };
-                    var errorMessage = "newFolder failed";
+                    var errorMessage = "An expected error occurred creating the folder: <br/>";
                     this.makeAjaxRequest(url, data, errorMessage, successFunction);
                 };
                 AjaxRequest.prototype.makeAjaxRequest = function (url, data, errorMessage, successFunction) {
@@ -47,7 +47,7 @@ var Roadkill;
                     });
                     request.done(successFunction);
                     request.fail(function (jqXHR, textStatus, errorThrown) {
-                        alert(errorMessage);
+                        toastr.error(errorMessage + errorThrown);
                     });
                     request.always(function () {
                     });
@@ -57,6 +57,9 @@ var Roadkill;
             FileManager.AjaxRequest = AjaxRequest;            
         })(Site.FileManager || (Site.FileManager = {}));
         var FileManager = Site.FileManager;
+
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
+
 })(Roadkill || (Roadkill = {}));
+
