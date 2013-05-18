@@ -1,12 +1,13 @@
 ﻿@model PageSummary
  
-@if (RoadkillContext.IsLoggedIn)
-{
-if (Model.Id != 0)
+
+@if (Model.Id != 0)
 {
 <div id="toolbar" class="btn-toolbar">
-	<div class="btn-group">	
-		@if (Model.IsLocked && !RoadkillContext.IsAdmin)
+	<div class="btn-group">
+	@if (RoadkillContext.IsLoggedIn)
+	{
+		if (Model.IsLocked && !RoadkillContext.IsAdmin)
 		{
 			<a id="pageedit-button" class="btn btn-mini disabled" href="#" title="@SiteStrings.Shared_EditLink - this page can only be edited by administrators."><i class="icon-pencil"></i></a>
 		}
@@ -14,7 +15,7 @@ if (Model.Id != 0)
 		{
 			<a id="pageedit-button" class="btn btn-mini" href="@Url.Action("Edit", "Pages", new { id = Model.Id})" title="@SiteStrings.Shared_EditLink"><i class="icon-pencil"></i></a>
 		}		
-	
+	}
 		<a id="pageinfo-button" class="btn btn-mini" href="javascript:;" title="Page information"><i class="icon-book"></i></a>
 	</div>
 </div>
@@ -43,5 +44,4 @@ if (Model.Id != 0)
 		@Model.ModifiedBy
 	</div>
 </div> 
-}
 }
