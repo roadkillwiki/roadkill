@@ -15,12 +15,6 @@
 ; - To recompile this file, use the lib\tools\CompileSiteStrings.bat file. If any new keys are added, delete the resx file, re-add it
 ; - and then set its custom tool to PublicResXFileCodeGenerator.
 
-; Pending translation updates:
-; SiteStrings.SiteSettings_Configuration_Caching
-; SiteStrings.SiteSettings_Configuration_Caching_Help
-; SiteStrings.SiteSettings_Configuration_CachePageText
-; SiteStrings.SiteSettings_Configuration_CachePageText_Help
-
 Navigation_Login=Login
 Navigation_Logout=Logout
 Navigation_Register=Register
@@ -141,19 +135,6 @@ Page_Info_CreatedBy=Created by:
 Page_Info_ModifiedOn=Last modified on:
 Page_Info_ModifiedBy=Last modified by:
 Page_Validation_Title=The title field is required.
-
-FileExplorer_Title=File explorer
-FileExplorer_Upload=Upload a file
-FileExplorer_NewDirectory=New directory
-FileExplorer_FolderName=Folder name:
-FileExplorer_ChooseFile=Choose a file
-FileExplorer_Button_Upload=Upload
-FileExplorer_Button_Create=Create
-FileExplorer_Button_Select=select
-FileExplorer_Error_BadExtension=Files with the extension '{0}' are not allowed to be uploaded
-FileExplorer_Error_FileUpload=An error occurred uploading the file: {0}
-FileExplorer_Error_NewDirectory=An error occurred creating the directory: {0}
-FileExplorer_Error_DeleteFile=An error occurred deleting the file: {0}
 
 EditPage_Title=Add/edit page
 EditPage_Title_Label=Title
@@ -290,3 +271,18 @@ SiteSettings_Validation_MarkupTypeEmpty=The markup type is empty.
 SiteSettings_Validation_ThemeEmpty=The theme is empty.
 SiteSettings_Validation_SiteNameEmpty=The sitename is empty.
 SiteSettings_Validation_SiteUrlEmpty=The site url is empty.
+
+FileManager_Title=File explorer
+FileManager_Upload=Upload a file
+FileManager_AddFolder_PlaceHolder=New folder
+FileManager_AddFolder_Cancel=Cancel new folder
+FileManager_Delete_File=Delete File
+FileManager_Add_Folder=Add Folder
+FileManager_Select=Select
+FileManager_Delete_Folder=Delete Folder
+FileManager_Delete_Confirm=Are you sure you want to delete {0}?
+FileManager_Delete_Error=An error occurred deleting {0}
+FileManager_Error_DirectoryListing=An expected error occurred getting the directory listing: 
+FileManager_Error_DeleteFolder=An expected error occurred deleting the folder: 
+FileManager_Error_DeleteFile=An expected error occurred deleting the file: 
+FileManager_Error_CreateFolder=An expected error occurred creating the folder: 

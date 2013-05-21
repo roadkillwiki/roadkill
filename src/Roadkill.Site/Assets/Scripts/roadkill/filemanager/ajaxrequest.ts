@@ -7,7 +7,7 @@ module Roadkill.Site.FileManager
 		{
 			var url = ROADKILL_FILEMANAGERURL + "/folderinfo";
 			var data = { dir: path };
-			var errorMessage = "An expected error occurred getting the directory listing: <br/>";
+			var errorMessage = ROADKILL_FILEMANAGER_ERROR_DIRECTORYLISTING +" <br/>";
 
 			this.makeAjaxRequest(url, data, errorMessage, successFunction);
 		}
@@ -16,7 +16,7 @@ module Roadkill.Site.FileManager
 		{
 			var url = ROADKILL_FILEMANAGERURL + "/deletefolder";
 			var data = { folder: folder };
-			var errorMessage = "An expected error occurred deleting the folder: <br/>";
+			var errorMessage = ROADKILL_FILEMANAGER_ERROR_DELETEFOLDER +" <br/>";
 
 			this.makeAjaxRequest(url, data, errorMessage, successFunction);
 		}
@@ -25,7 +25,7 @@ module Roadkill.Site.FileManager
 		{
 			var url = ROADKILL_FILEMANAGERURL + "/deletefile";
 			var data = { filename: fileName, filepath: filePath };
-			var errorMessage = "An expected error occurred deleting the file: <br/>";
+			var errorMessage = ROADKILL_FILEMANAGER_ERROR_DELETEFILE +" <br/>";
 
 			this.makeAjaxRequest(url, data, errorMessage, successFunction);
 		}
@@ -34,7 +34,7 @@ module Roadkill.Site.FileManager
 		{
 			var url = ROADKILL_FILEMANAGERURL + "/newFolder";
 			var data = { currentFolderPath: currentPath, newFolderName: newFolder };
-			var errorMessage = "An expected error occurred creating the folder: <br/>";
+			var errorMessage = ROADKILL_FILEMANAGER_ERROR_CREATEFOLDER +" <br/>";
 
 			this.makeAjaxRequest(url, data, errorMessage, successFunction);
 		}
@@ -53,11 +53,6 @@ module Roadkill.Site.FileManager
 			request.fail(function (jqXHR, textStatus, errorThrown)
 			{
 				toastr.error(errorMessage + errorThrown);
-			});
-
-			request.always(function ()
-			{
-				//...
 			});
 		}
 	}

@@ -35,6 +35,15 @@ var ROADKILL_EDIT_LINK_URLPLACEHOLDER  = "@Html.Raw(SiteStrings.EditPage_LinkUrl
 var ROADKILL_EDIT_LINK_TEXTPLACEHOLDER  = "@Html.Raw(SiteStrings.EditPage_LinkText_PlaceHolder)";
 var ROADKILL_EDIT_IMAGE_TITLE       = "@Html.Raw(SiteStrings.EditPage_Image_Title)";
 
+var ROADKILL_FILEMANAGER_ADDFOLDER_PLACEHOLDER = "@SiteStrings.FileManager_AddFolder_PlaceHolder";
+var ROADKILL_FILEMANAGER_ADDFOLDER_CANCEL = "@SiteStrings.FileManager_AddFolder_Cancel";
+var ROADKILL_FILEMANAGER_ERROR_DIRECTORYLISTING = "@SiteStrings.FileManager_Error_DirectoryListing";
+var ROADKILL_FILEMANAGER_ERROR_DELETEFOLDER = "@SiteStrings.FileManager_Error_DeleteFolder";
+var ROADKILL_FILEMANAGER_ERROR_DELETEFILE = "@SiteStrings.FileManager_Error_DeleteFile";
+var ROADKILL_FILEMANAGER_ERROR_CREATEFOLDER = "@SiteStrings.FileManager_Error_CreateFolder";
+var ROADKILL_FILEMANAGER_DELETE_CONFIRM = "@SiteStrings.FileManager_Delete_Confirm";
+var ROADKILL_FILEMANAGER_DELETE_ERROR = "@SiteStrings.FileManager_Delete_Error";
+
 @if (RoadkillContext.IsAdmin)
 {
 // User management constants for the settings->user page
@@ -46,9 +55,6 @@ var ROADKILL_EDIT_IMAGE_TITLE       = "@Html.Raw(SiteStrings.EditPage_Image_Titl
 @:var ROADKILL_ADDADMIN_TITLE = "@SiteStrings.SiteSettings_Users_AddAdminDialog_Title";
 @:var ROADKILL_ADDEDITOR_TITLE = "@SiteStrings.SiteSettings_Users_AddEditorDialog_Title";
 @:var ROADKILL_EDITUSER_TITLE = "@SiteStrings.SiteSettings_Users_EditUserDialog_Title";
-
-@:var ROADKILL_DELETE_CONFIRM = "SiteStrings.Delete_Confirm";
-@:var ROADKILL_DELETE_BASEFOLDER_ERROR = "SiteStrings.Delete_BaseFolder_Error";
 }
 
 @if (ApplicationSettings.ResizeImages)

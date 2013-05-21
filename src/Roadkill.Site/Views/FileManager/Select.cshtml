@@ -5,7 +5,7 @@
 <html>
 <head>
     <title></title>
-		@Scripts.Render("~/Assets/Scripts/bundle.js")
+		@Scripts.Render("~/Assets/Scripts/roadkill.js")
 		@Styles.Render("~/Assets/CSS/bundle.css")
 		@Url.BootStrap()
 		<link href="@Url.Content(SiteSettings.ThemePath + "/Theme.css")" rel="stylesheet" type="text/css" />
@@ -19,7 +19,7 @@
     <script type="text/javascript">
     	$(function ()
     	{
-    		navigatorInit();
+    		Roadkill.Site.FileManager.Setup.configure();
     		$("table#files").live("fileselected",
                 function (e, data)
                 {

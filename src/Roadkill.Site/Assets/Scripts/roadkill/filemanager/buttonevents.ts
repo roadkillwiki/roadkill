@@ -29,13 +29,12 @@ module Roadkill.Site.FileManager
 			var tr = $("tr.select");
 			var folder: string = tr.attr("data-urlpath");
 
-			if (folder == "")
+			if (Util.IsStringNullOrEmpty(folder))
 			{
-				toastr.error(ROADKILL_DELETE_BASEFOLDER_ERROR);
 				return;
 			}
 
-			var message: string = Util.FormatString(ROADKILL_DELETE_CONFIRM, folder);
+			var message: string = Util.FormatString(ROADKILL_FILEMANAGER_DELETE_CONFIRM, folder);
 			if (!confirm(message))
 				return;
 
@@ -49,10 +48,12 @@ module Roadkill.Site.FileManager
 					var li = $("ul.navigator li:last-child").prev("li");
 					var folder: string = li.attr("data-urlpath");
 					TableEvents.update(folder);
+
+					toastr.info("ROADKILL_FILEMANAGER_FOLDER_DELETED_SUCCESS");
 				}
 				else
 				{
-					toastr.error("Unable to delete the folder: <br/>" +data.message);
+					toastr.error(ROADKILL_FILEMANAGER_DELETE_ERROR + " :<br/>" + data.message);
 				}
 			};
 
@@ -69,8 +70,7 @@ module Roadkill.Site.FileManager
 				var currentPath: string = TableEvents.getCurrentPath();
 				var filename: string = $("td.file", tr).text();
 
-				var message = Util.FormatString(ROADKILL_DELETE_CONFIRM,
-												currentPath + "/" + filename);
+				var message = Util.FormatString(ROADKILL_FILEMANAGER_DELETE_CONFIRM, filename);
 				if (!confirm(message))
 					return;
 
@@ -78,9 +78,14 @@ module Roadkill.Site.FileManager
 				var success = function (data)
 				{
 					if (data.status == "ok")
+					{
 						$(tr).remove();
+						toastr.info("ROADKILL_FILEMANAGER_FILE_DELETED_SUCCESS");
+					}
 					else
-						toastr.error("Unable to delete the file: <br/>" +data.message);
+					{
+						toastr.error(ROADKILL_FILEMANAGER_DELETE_ERROR + " :<br/>" + data.message);
+					}
 				};
 
 				that._ajaxRequest.deleteFile(filename, currentPath, success);
@@ -134,7 +139,7 @@ module Roadkill.Site.FileManager
 				{
 					if (data.status == "error")
 					{
-						toastr.error("Unable to create the folder: <br/>" +data.message);
+						toastr.error(ROADKILL_FILEMANAGER_ERROR_CREATEFOLDER + ":<br/>" +data.message);
 						return;
 					}
 

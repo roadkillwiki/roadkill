@@ -38,7 +38,7 @@ module Roadkill.Site.FileManager
 
 		public static update(path: string = "", addBreadCrumb: bool = true)
 		{
-			if (path == "")
+			if (path === "")
 				path = TableEvents.getCurrentPath();
 
 			var that = this;

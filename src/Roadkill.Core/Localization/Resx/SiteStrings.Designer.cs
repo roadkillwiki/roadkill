@@ -430,110 +430,128 @@ namespace Roadkill.Core.Localization.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create.
+        ///   Looks up a localized string similar to Add Folder.
         /// </summary>
-        public static string FileExplorer_Button_Create {
+        public static string FileManager_Add_Folder {
             get {
-                return ResourceManager.GetString("FileExplorer_Button_Create", resourceCulture);
+                return ResourceManager.GetString("FileManager_Add_Folder", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to select.
+        ///   Looks up a localized string similar to Cancel new folder.
         /// </summary>
-        public static string FileExplorer_Button_Select {
+        public static string FileManager_AddFolder_Cancel {
             get {
-                return ResourceManager.GetString("FileExplorer_Button_Select", resourceCulture);
+                return ResourceManager.GetString("FileManager_AddFolder_Cancel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upload.
+        ///   Looks up a localized string similar to New folder.
         /// </summary>
-        public static string FileExplorer_Button_Upload {
+        public static string FileManager_AddFolder_PlaceHolder {
             get {
-                return ResourceManager.GetString("FileExplorer_Button_Upload", resourceCulture);
+                return ResourceManager.GetString("FileManager_AddFolder_PlaceHolder", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Choose a file.
+        ///   Looks up a localized string similar to Are you sure you want to delete {0}?.
         /// </summary>
-        public static string FileExplorer_ChooseFile {
+        public static string FileManager_Delete_Confirm {
             get {
-                return ResourceManager.GetString("FileExplorer_ChooseFile", resourceCulture);
+                return ResourceManager.GetString("FileManager_Delete_Confirm", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Files with the extension &apos;{0}&apos; are not allowed to be uploaded.
+        ///   Looks up a localized string similar to An error occurred deleting {0}.
         /// </summary>
-        public static string FileExplorer_Error_BadExtension {
+        public static string FileManager_Delete_Error {
             get {
-                return ResourceManager.GetString("FileExplorer_Error_BadExtension", resourceCulture);
+                return ResourceManager.GetString("FileManager_Delete_Error", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred deleting the file: {0}.
+        ///   Looks up a localized string similar to Delete File.
         /// </summary>
-        public static string FileExplorer_Error_DeleteFile {
+        public static string FileManager_Delete_File {
             get {
-                return ResourceManager.GetString("FileExplorer_Error_DeleteFile", resourceCulture);
+                return ResourceManager.GetString("FileManager_Delete_File", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred uploading the file: {0}.
+        ///   Looks up a localized string similar to Delete Folder.
         /// </summary>
-        public static string FileExplorer_Error_FileUpload {
+        public static string FileManager_Delete_Folder {
             get {
-                return ResourceManager.GetString("FileExplorer_Error_FileUpload", resourceCulture);
+                return ResourceManager.GetString("FileManager_Delete_Folder", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred creating the directory: {0}.
+        ///   Looks up a localized string similar to An expected error occurred creating the folder: .
         /// </summary>
-        public static string FileExplorer_Error_NewDirectory {
+        public static string FileManager_Error_CreateFolder {
             get {
-                return ResourceManager.GetString("FileExplorer_Error_NewDirectory", resourceCulture);
+                return ResourceManager.GetString("FileManager_Error_CreateFolder", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Folder name:.
+        ///   Looks up a localized string similar to An expected error occurred deleting the file: .
         /// </summary>
-        public static string FileExplorer_FolderName {
+        public static string FileManager_Error_DeleteFile {
             get {
-                return ResourceManager.GetString("FileExplorer_FolderName", resourceCulture);
+                return ResourceManager.GetString("FileManager_Error_DeleteFile", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New directory.
+        ///   Looks up a localized string similar to An expected error occurred deleting the folder: .
         /// </summary>
-        public static string FileExplorer_NewDirectory {
+        public static string FileManager_Error_DeleteFolder {
             get {
-                return ResourceManager.GetString("FileExplorer_NewDirectory", resourceCulture);
+                return ResourceManager.GetString("FileManager_Error_DeleteFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An expected error occurred getting the directory listing: .
+        /// </summary>
+        public static string FileManager_Error_DirectoryListing {
+            get {
+                return ResourceManager.GetString("FileManager_Error_DirectoryListing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select.
+        /// </summary>
+        public static string FileManager_Select {
+            get {
+                return ResourceManager.GetString("FileManager_Select", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to File explorer.
         /// </summary>
-        public static string FileExplorer_Title {
+        public static string FileManager_Title {
             get {
-                return ResourceManager.GetString("FileExplorer_Title", resourceCulture);
+                return ResourceManager.GetString("FileManager_Title", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Upload a file.
         /// </summary>
-        public static string FileExplorer_Upload {
+        public static string FileManager_Upload {
             get {
-                return ResourceManager.GetString("FileExplorer_Upload", resourceCulture);
+                return ResourceManager.GetString("FileManager_Upload", resourceCulture);
             }
         }
         

@@ -30,11 +30,11 @@ var Roadkill;
                 };
                 TableEvents.getCurrentPath = function getCurrentPath() {
                     return $("ul.navigator li:last").attr("data-urlpath");
-                }
+                };
                 TableEvents.update = function update(path, addBreadCrumb) {
                     if (typeof path === "undefined") { path = ""; }
                     if (typeof addBreadCrumb === "undefined") { addBreadCrumb = true; }
-                    if(path == "") {
+                    if(path === "") {
                         path = TableEvents.getCurrentPath();
                     }
                     var that = this;
@@ -50,15 +50,12 @@ var Roadkill;
                     };
                     var ajaxRequest = new FileManager.AjaxRequest();
                     ajaxRequest.getFolderInfo(path, success);
-                }
+                };
                 return TableEvents;
             })();
             FileManager.TableEvents = TableEvents;            
         })(Site.FileManager || (Site.FileManager = {}));
         var FileManager = Site.FileManager;
-
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
-
 })(Roadkill || (Roadkill = {}));
-
