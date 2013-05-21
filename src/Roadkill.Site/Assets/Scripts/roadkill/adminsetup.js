@@ -47,29 +47,23 @@ var Roadkill;
                     $(".validation-summary-errors").hide();
                     Site.Dialogs.openModal("#userdialogContainer");
                 });
-            }
+            };
             AdminSetup.showUserModal = function showUserModal(action) {
                 if(action == "addadmin") {
                     $("form#userform").attr("action", ROADKILL_ADDADMIN_FORMACTION);
                     $("#userdialogContainer h1").html(ROADKILL_ADDADMIN_TITLE);
-                } else {
-                    if(action == "addeditor") {
-                        $("form#userform").attr("action", ROADKILL_ADDEDITOR_FORMACTION);
-                        $("#userdialogContainer h1").html(ROADKILL_ADDEDITOR_TITLE);
-                    } else {
-                        if(action == "edituser") {
-                            $("form#userform").attr("action", ROADKILL_EDITUSER_FORMACTION);
-                            $("#userdialogContainer h1").html(ROADKILL_EDITUSER_TITLE);
-                        }
-                    }
+                } else if(action == "addeditor") {
+                    $("form#userform").attr("action", ROADKILL_ADDEDITOR_FORMACTION);
+                    $("#userdialogContainer h1").html(ROADKILL_ADDEDITOR_TITLE);
+                } else if(action == "edituser") {
+                    $("form#userform").attr("action", ROADKILL_EDITUSER_FORMACTION);
+                    $("#userdialogContainer h1").html(ROADKILL_EDITUSER_TITLE);
                 }
                 Site.Dialogs.openModal("#userdialogContainer");
-            }
+            };
             return AdminSetup;
         })();
         Site.AdminSetup = AdminSetup;        
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
-
 })(Roadkill || (Roadkill = {}));
-

@@ -429,42 +429,6 @@
   <data name="Page_Validation_Title" xml:space="preserve">
     <value>The title field is required.</value>
   </data>
-  <data name="FileExplorer_Title" xml:space="preserve">
-    <value>File explorer</value>
-  </data>
-  <data name="FileExplorer_Upload" xml:space="preserve">
-    <value>Upload a file</value>
-  </data>
-  <data name="FileExplorer_NewDirectory" xml:space="preserve">
-    <value>New directory</value>
-  </data>
-  <data name="FileExplorer_FolderName" xml:space="preserve">
-    <value>Folder name:</value>
-  </data>
-  <data name="FileExplorer_ChooseFile" xml:space="preserve">
-    <value>Choose a file</value>
-  </data>
-  <data name="FileExplorer_Button_Upload" xml:space="preserve">
-    <value>Upload</value>
-  </data>
-  <data name="FileExplorer_Button_Create" xml:space="preserve">
-    <value>Create</value>
-  </data>
-  <data name="FileExplorer_Button_Select" xml:space="preserve">
-    <value>select</value>
-  </data>
-  <data name="FileExplorer_Error_BadExtension" xml:space="preserve">
-    <value>Files with the extension '{0}' are not allowed to be uploaded</value>
-  </data>
-  <data name="FileExplorer_Error_FileUpload" xml:space="preserve">
-    <value>An error occurred uploading the file: {0}</value>
-  </data>
-  <data name="FileExplorer_Error_NewDirectory" xml:space="preserve">
-    <value>An error occurred creating the directory: {0}</value>
-  </data>
-  <data name="FileExplorer_Error_DeleteFile" xml:space="preserve">
-    <value>An error occurred deleting the file: {0}</value>
-  </data>
   <data name="EditPage_Title" xml:space="preserve">
     <value>Add/edit page</value>
   </data>
@@ -836,5 +800,47 @@
   </data>
   <data name="SiteSettings_Validation_SiteUrlEmpty" xml:space="preserve">
     <value>The site url is empty.</value>
+  </data>
+  <data name="FileManager_Title" xml:space="preserve">
+    <value>File explorer</value>
+  </data>
+  <data name="FileManager_Upload" xml:space="preserve">
+    <value>Upload a file</value>
+  </data>
+  <data name="FileManager_AddFolder_PlaceHolder" xml:space="preserve">
+    <value>New folder</value>
+  </data>
+  <data name="FileManager_AddFolder_Cancel" xml:space="preserve">
+    <value>Cancel new folder</value>
+  </data>
+  <data name="FileManager_Delete_File" xml:space="preserve">
+    <value>Delete File</value>
+  </data>
+  <data name="FileManager_Add_Folder" xml:space="preserve">
+    <value>Add Folder</value>
+  </data>
+  <data name="FileManager_Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="FileManager_Delete_Folder" xml:space="preserve">
+    <value>Delete Folder</value>
+  </data>
+  <data name="FileManager_Delete_Confirm" xml:space="preserve">
+    <value>Are you sure you want to delete {0}?</value>
+  </data>
+  <data name="FileManager_Delete_Error" xml:space="preserve">
+    <value>An error occurred deleting {0}</value>
+  </data>
+  <data name="FileManager_Error_DirectoryListing" xml:space="preserve">
+    <value>An expected error occurred getting the directory listing: </value>
+  </data>
+  <data name="FileManager_Error_DeleteFolder" xml:space="preserve">
+    <value>An expected error occurred deleting the folder: </value>
+  </data>
+  <data name="FileManager_Error_DeleteFile" xml:space="preserve">
+    <value>An expected error occurred deleting the file: </value>
+  </data>
+  <data name="FileManager_Error_CreateFolder" xml:space="preserve">
+    <value>An expected error occurred creating the folder: </value>
   </data>
 </root>

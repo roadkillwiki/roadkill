@@ -1,6 +1,6 @@
 ﻿@model IList<IList<string>>
 @{
-	ViewBag.Title = SiteStrings.FileExplorer_Title;
+	ViewBag.Title = SiteStrings.FileManager_Title;
 }
 <script type="text/javascript">
 	$(function ()
@@ -9,7 +9,7 @@
 	});
 </script>
 
-<h2>SiteStrings.FileManager_ManageFiles</h2>
+<h2>@SiteStrings.FileManager_Title</h2>
 
 @Html.Partial("Navigator")
 
@@ -22,11 +22,11 @@
 	@Html.Hidden("destination_folder", "")
     <span class="fileupload-buttonbar ">
         <span class="fileupload-button btn">
-            <span>@SiteStrings.FileExplorer_Upload</span>
+            <span>@SiteStrings.FileManager_Upload</span>
             <input id="fileupload" type="file" name="files[]" data-url="FileManager/FileUpload" multiple>
         </span>
-        <button id="deletefilebtn" type="button" class="btn">SiteStrings.FileManager_Delete_File</button>
-        <button id="addfolderbtn" type="button" class="btn">SiteStrings.FileManager_Add_Folder</button>
-        <button id="deletefolderbtn" type="button" class="btn">SiteStrings.FileManager_Delete_Folder</button>
+        <button id="deletefilebtn" type="button" class="btn">@SiteStrings.FileManager_Delete_File</button>
+        <button id="addfolderbtn" type="button" class="btn">@SiteStrings.FileManager_Add_Folder</button>
+        <button id="deletefolderbtn" type="button" class="btn">@SiteStrings.FileManager_Delete_Folder</button>
     </span>
 }

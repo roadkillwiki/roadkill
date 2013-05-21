@@ -9,7 +9,7 @@ var Roadkill;
                     var data = {
                         dir: path
                     };
-                    var errorMessage = "An expected error occurred getting the directory listing: <br/>";
+                    var errorMessage = ROADKILL_FILEMANAGER_ERROR_DIRECTORYLISTING + " <br/>";
                     this.makeAjaxRequest(url, data, errorMessage, successFunction);
                 };
                 AjaxRequest.prototype.deleteFolder = function (folder, successFunction) {
@@ -17,7 +17,7 @@ var Roadkill;
                     var data = {
                         folder: folder
                     };
-                    var errorMessage = "An expected error occurred deleting the folder: <br/>";
+                    var errorMessage = ROADKILL_FILEMANAGER_ERROR_DELETEFOLDER + " <br/>";
                     this.makeAjaxRequest(url, data, errorMessage, successFunction);
                 };
                 AjaxRequest.prototype.deleteFile = function (fileName, filePath, successFunction) {
@@ -26,7 +26,7 @@ var Roadkill;
                         filename: fileName,
                         filepath: filePath
                     };
-                    var errorMessage = "An expected error occurred deleting the file: <br/>";
+                    var errorMessage = ROADKILL_FILEMANAGER_ERROR_DELETEFILE + " <br/>";
                     this.makeAjaxRequest(url, data, errorMessage, successFunction);
                 };
                 AjaxRequest.prototype.newFolder = function (currentPath, newFolder, successFunction) {
@@ -35,7 +35,7 @@ var Roadkill;
                         currentFolderPath: currentPath,
                         newFolderName: newFolder
                     };
-                    var errorMessage = "An expected error occurred creating the folder: <br/>";
+                    var errorMessage = ROADKILL_FILEMANAGER_ERROR_CREATEFOLDER + " <br/>";
                     this.makeAjaxRequest(url, data, errorMessage, successFunction);
                 };
                 AjaxRequest.prototype.makeAjaxRequest = function (url, data, errorMessage, successFunction) {
@@ -49,17 +49,12 @@ var Roadkill;
                     request.fail(function (jqXHR, textStatus, errorThrown) {
                         toastr.error(errorMessage + errorThrown);
                     });
-                    request.always(function () {
-                    });
                 };
                 return AjaxRequest;
             })();
             FileManager.AjaxRequest = AjaxRequest;            
         })(Site.FileManager || (Site.FileManager = {}));
         var FileManager = Site.FileManager;
-
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
-
 })(Roadkill || (Roadkill = {}));
-

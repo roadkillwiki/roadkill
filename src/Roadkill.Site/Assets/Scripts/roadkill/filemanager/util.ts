@@ -3,6 +3,11 @@ module Roadkill.Site.FileManager
 {
 	export class Util
 	{
+		public static IsStringNullOrEmpty(text: string): bool
+		{
+			return (text === null || text === "" || typeof text === "undefined");
+		}
+
 		public static FormatString(format: string, ...args: any[]): string
 		{
 			var result = format;

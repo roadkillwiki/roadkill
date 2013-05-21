@@ -10,15 +10,15 @@ var Roadkill;
                 this.bindInfoButton();
                 this.bindTimeAgo();
                 this.bindTocLinks();
-            }
+            };
             Setup.bindTimeAgo = function bindTimeAgo() {
                 $("#historytable .editedon").timeago();
-            }
+            };
             Setup.bindInfoButton = function bindInfoButton() {
                 $("#pageinfo-button").click(function () {
                     Site.Dialogs.openModal("#pageinformation");
                 });
-            }
+            };
             Setup.bindTocLinks = function bindTocLinks() {
                 $("a.toc-showhide").click(function () {
                     if($(this).text() == "hide") {
@@ -28,7 +28,7 @@ var Roadkill;
                     }
                     $(this).parent().next().toggle();
                 });
-            }
+            };
             Setup.resizeImage = function resizeImage(img, maxWidth, maxHeight) {
                 if(maxWidth < 1) {
                     maxWidth = 400;
@@ -51,7 +51,7 @@ var Roadkill;
                     $(img).css("width", width * ratio);
                     $(img).css("height", height * ratio);
                 }
-            }
+            };
             Setup.bindConfirmDelete = function bindConfirmDelete() {
                 $("a.confirm").click(function () {
                     var button;
@@ -78,12 +78,10 @@ var Roadkill;
                         return false;
                     }
                 });
-            }
+            };
             return Setup;
         })();
         Site.Setup = Setup;        
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
-
 })(Roadkill || (Roadkill = {}));
-

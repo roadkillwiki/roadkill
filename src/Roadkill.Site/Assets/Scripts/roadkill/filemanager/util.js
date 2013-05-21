@@ -4,6 +4,9 @@ var Roadkill;
         (function (FileManager) {
             var Util = (function () {
                 function Util() { }
+                Util.IsStringNullOrEmpty = function IsStringNullOrEmpty(text) {
+                    return (text === null || text === "" || typeof text === "undefined");
+                };
                 Util.FormatString = function FormatString(format) {
                     var args = [];
                     for (var _i = 0; _i < (arguments.length - 1); _i++) {
@@ -15,15 +18,12 @@ var Roadkill;
                         result = result.replace(regex, args[i]);
                     }
                     return result;
-                }
+                };
                 return Util;
             })();
             FileManager.Util = Util;            
         })(Site.FileManager || (Site.FileManager = {}));
         var FileManager = Site.FileManager;
-
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
-
 })(Roadkill || (Roadkill = {}));
-
