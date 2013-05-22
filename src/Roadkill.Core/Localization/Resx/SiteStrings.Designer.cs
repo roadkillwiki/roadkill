@@ -1402,6 +1402,15 @@ namespace Roadkill.Core.Localization.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Caching.
+        /// </summary>
+        public static string SiteSettings_Configuration_CachingTitle {
+            get {
+                return ResourceManager.GetString("SiteSettings_Configuration_CachingTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Changes your database type - you will need to recreate the schema in the tools for this to work correctly..
         /// </summary>
         public static string SiteSettings_Configuration_ConnectionStrings_Help {

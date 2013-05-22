@@ -169,6 +169,60 @@ namespace Roadkill.Core.Localization.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failure - try copying the SQLite.Interop.dll file from ~/App_Data/SQLiteBinaries to your bin folder..
+        /// </summary>
+        public static string Page2_Group3_SQLiteFailureMessage {
+            get {
+                return ResourceManager.GetString("Page2_Group3_SQLiteFailureMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SQLite file copy failed.
+        /// </summary>
+        public static string Page2_Group3_SQLiteFailureTitle {
+            get {
+                return ResourceManager.GetString("Page2_Group3_SQLiteFailureTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note: to use SQLite you need to add another file to the /bin folder, as SQLite is distributed for both x86 and x64. &lt;a href=&quot;javascript:;&quot; id=&quot;sqlitecopy&quot;&gt;Click here to copy the file&lt;/a&gt;. If you experience any issues after this, delete &quot;SQLite.Interop.dll&quot; from your bin folder..
+        /// </summary>
+        public static string Page2_Group3_SQLiteInstructionsMessage {
+            get {
+                return ResourceManager.GetString("Page2_Group3_SQLiteInstructionsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SQLite: please read.
+        /// </summary>
+        public static string Page2_Group3_SQLiteInstructionsTitle {
+            get {
+                return ResourceManager.GetString("Page2_Group3_SQLiteInstructionsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SQLite should now be ready to use..
+        /// </summary>
+        public static string Page2_Group3_SQLiteSuccessMessage {
+            get {
+                return ResourceManager.GetString("Page2_Group3_SQLiteSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SQLite file copy success.
+        /// </summary>
+        public static string Page2_Group3_SQLiteSuccessTitle {
+            get {
+                return ResourceManager.GetString("Page2_Group3_SQLiteSuccessTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Database connection string.
         /// </summary>
         public static string Page2_Group3_Title {

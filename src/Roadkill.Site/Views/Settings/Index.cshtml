@@ -162,7 +162,7 @@
 		<label for="AllowedFileTypes">@SiteStrings.SiteSettings_Configuration_Extensions</label>
 		@Html.TextBoxFor(s => s.AllowedFileTypes, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Extensions_Help })
 
-		<div class="translationtodo bold">Caching</div>
+		<div class="bold">@SiteStrings.SiteSettings_Configuration_CachingTitle</div>
 		<label for="UseObjectCache" class="checkbox translationtodo">@SiteStrings.SiteSettings_Configuration_ObjectCaching
 		@Html.CheckBoxFor(s => s.UseObjectCache, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_ObjectCaching_Help })
 		</label>

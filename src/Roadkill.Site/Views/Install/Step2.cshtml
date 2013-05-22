@@ -95,18 +95,16 @@ $(document).ready(function()
 
 			<!-- SQLite dependencies -->
 			<p>
-				<b class="translationtodo">SQLite: please read</b><br />
-				Note: to use SQLite you need to add another file to the /bin folder, as SQLite is
-				distributed for both x86 and x64. <a href="javascript:;" id="sqlitecopy">Click here to copy the file</a>.
-				If you experience any issues after this, delete "SQLite.Interop.dll" from your bin folder.
+				<b>@InstallStrings.Page2_Group3_SQLiteInstructionsTitle</b><br />
+				@InstallStrings.Page2_Group3_SQLiteInstructionsMessage
 			</p>
-			<div id="sqlitesuccess" class="success alert hidden translationtodo">
-				<h2>SQLite file copy success</h2>
-				<p>SQLite should now be ready to use.</p>
+			<div id="sqlitesuccess" class="success alert hidden">
+				<h2>@InstallStrings.Page2_Group3_SQLiteSuccessTitle</h2>
+				<p>@InstallStrings.Page2_Group3_SQLiteSuccessMessage</p>
 			</div>
-			<div id="sqlitefailure" class="failure alert hidden translationtodo">
-				<h2>SQLite file copy failed</h2>
-				<p>Failure - try copying the SQLite.Interop.dll file from \App_Data\SQLiteBinaries to your bin folder.
+			<div id="sqlitefailure" class="failure alert hidden">
+				<h2>@InstallStrings.Page2_Group3_SQLiteFailureTitle</h2>
+				<p>@InstallStrings.Page2_Group3_SQLiteFailureMessage
 				<pre class="errormessage" style="width:100%;overflow:scroll;"></pre>
 				</p>
 			</div>

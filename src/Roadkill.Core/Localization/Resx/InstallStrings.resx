@@ -198,6 +198,24 @@
   <data name="Page2_Group3_Label3" xml:space="preserve">
     <value>Database type</value>
   </data>
+  <data name="Page2_Group3_SQLiteInstructionsTitle" xml:space="preserve">
+    <value>SQLite: please read</value>
+  </data>
+  <data name="Page2_Group3_SQLiteInstructionsMessage" xml:space="preserve">
+    <value>Note: to use SQLite you need to add another file to the /bin folder, as SQLite is distributed for both x86 and x64. &lt;a href="javascript:;" id="sqlitecopy"&gt;Click here to copy the file&lt;/a&gt;. If you experience any issues after this, delete "SQLite.Interop.dll" from your bin folder.</value>
+  </data>
+  <data name="Page2_Group3_SQLiteSuccessTitle" xml:space="preserve">
+    <value>SQLite file copy success</value>
+  </data>
+  <data name="Page2_Group3_SQLiteSuccessMessage" xml:space="preserve">
+    <value>SQLite should now be ready to use.</value>
+  </data>
+  <data name="Page2_Group3_SQLiteFailureTitle" xml:space="preserve">
+    <value>SQLite file copy failed</value>
+  </data>
+  <data name="Page2_Group3_SQLiteFailureMessage" xml:space="preserve">
+    <value>Failure - try copying the SQLite.Interop.dll file from ~/App_Data/SQLiteBinaries to your bin folder.</value>
+  </data>
   <data name="Page3_Label1" xml:space="preserve">
     <value>Do you want to users to be authenticated against an Active Directory using Windows authentication?</value>
   </data>
