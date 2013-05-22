@@ -163,11 +163,11 @@
 		@Html.TextBoxFor(s => s.AllowedFileTypes, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Extensions_Help })
 
 		<div class="bold">@SiteStrings.SiteSettings_Configuration_CachingTitle</div>
-		<label for="UseObjectCache" class="checkbox translationtodo">@SiteStrings.SiteSettings_Configuration_ObjectCaching
+		<label for="UseObjectCache" class="checkbox">@SiteStrings.SiteSettings_Configuration_ObjectCaching
 		@Html.CheckBoxFor(s => s.UseObjectCache, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_ObjectCaching_Help })
 		</label>
 
-		<label for="UseBrowserCache" class="checkbox translationtodo">@SiteStrings.SiteSettings_Configuration_BrowserCaching
+		<label for="UseBrowserCache" class="checkbox">@SiteStrings.SiteSettings_Configuration_BrowserCaching
 		@Html.CheckBoxFor(s => s.UseBrowserCache, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_BrowserCaching_Help })
 		</label>
 	</fieldset>
