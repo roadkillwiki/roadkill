@@ -76,7 +76,8 @@ namespace Roadkill.Core
 			}
 			else
 			{
-				link = helper.ActionLink(SiteStrings.Navigation_Login, "Login", "User").ToString();
+				string redirectPath = helper.ViewContext.HttpContext.Request.Path;
+				link = helper.ActionLink(SiteStrings.Navigation_Login, "Login", "User", new { ReturnUrl = redirectPath }, null ).ToString();
 
 				if (controller.SiteSettingsManager.GetSiteSettings().AllowUserSignup)
 					link += "&nbsp;/&nbsp;" + helper.ActionLink(SiteStrings.Navigation_Register, "Signup", "User").ToString();
