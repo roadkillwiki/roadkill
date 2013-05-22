@@ -3,12 +3,12 @@
 Additions
 
 [InstallStrings]
-InstallStrings.SQLiteInstructionsTitle=SQLite: please read
-InstallStrings.SQLiteInstructionsMessage=Note: to use SQLite you need to add another file to the /bin folder, as SQLite is distributed for both x86 and x64. <a href="javascript:;" id="sqlitecopy">Click here to copy the file</a>. If you experience any issues after this, delete "SQLite.Interop.dll" from your bin folder.
-InstallStrings.SQLiteSuccessTitle=SQLite file copy success
-InstallStrings.SQLiteSuccessMessage=SQLite should now be ready to use.
-InstallStrings.SQLiteFailureTitle=SQLite file copy failed
-InstallStrings.SQLiteFailureMessage=Failure - try copying the SQLite.Interop.dll file from \App_Data\SQLiteBinaries to your bin folder.
+Page2_Group3_SQLiteInstructionsTitle
+Page2_Group3_SQLiteInstructionsMessage
+Page2_Group3_SQLiteSuccessTitle
+Page2_Group3_SQLiteSuccessMessage
+Page2_Group3_SQLiteFailureTitle
+Page2_Group3_SQLiteFailureMessage
 
 - Pending translation updates -
 InstallStrings.Page4_Group5_Label1

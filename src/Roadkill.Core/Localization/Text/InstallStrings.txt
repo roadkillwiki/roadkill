@@ -14,13 +14,10 @@
 ;
 ; - To recompile this file, use the lib\tools\CompileInstallStrings.bat file. If any new keys are added, delete the resx file, re-add it
 ; - and then set its custom tool to PublicResXFileCodeGenerator.
-
-; Pending translation updates:
-; InstallStrings.Page4_Group5_Label1
-; InstallStrings.Page4_Group5_Label2
-; InstallStrings.Page4_Group5_Label3
-; InstallStrings.Page4_Group5_Label4
-; InstallStrings.Page4_Group5_Label5
+;
+; - More info: http://msdn.microsoft.com/en-us/library/s9eey0h7(v=vs.71).aspx
+; - To re-generate the resx file after running compileinstallstrings.bat, open the .resx.designer file
+; - and then right click, and "run external tool"
 
 ; Shared buttons and labels
 Shared_Stage1=Welcome
@@ -58,6 +55,13 @@ Page2_Group3_Title=Database connection string
 Page2_Group3_Label=You will need to create the database first if you are using a named instance. Below are a few examples, use the second option is you are using shared hosting without any SQL Server hosting.
 Page2_Group3_Label2=Example connection strings
 Page2_Group3_Label3=Database type
+
+Page2_Group3_SQLiteInstructionsTitle=SQLite: please read
+Page2_Group3_SQLiteInstructionsMessage=Note: to use SQLite you need to add another file to the /bin folder, as SQLite is distributed for both x86 and x64. <a href="javascript:;" id="sqlitecopy">Click here to copy the file</a>. If you experience any issues after this, delete "SQLite.Interop.dll" from your bin folder.
+Page2_Group3_SQLiteSuccessTitle=SQLite file copy success
+Page2_Group3_SQLiteSuccessMessage=SQLite should now be ready to use.
+Page2_Group3_SQLiteFailureTitle=SQLite file copy failed
+Page2_Group3_SQLiteFailureMessage=Failure - try copying the SQLite.Interop.dll file from ~/App_Data/SQLiteBinaries to your bin folder.
 
 ; Page 3 security
 Page3_Label1=Do you want to users to be authenticated against an Active Directory using Windows authentication?

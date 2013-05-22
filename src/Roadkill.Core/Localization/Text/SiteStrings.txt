@@ -14,6 +14,10 @@
 ;
 ; - To recompile this file, use the lib\tools\CompileSiteStrings.bat file. If any new keys are added, delete the resx file, re-add it
 ; - and then set its custom tool to PublicResXFileCodeGenerator.
+;
+; - More info: http://msdn.microsoft.com/en-us/library/s9eey0h7(v=vs.71).aspx
+; - To re-generate the resx file after running compileinstallstrings.bat, open the .resx.designer file
+; - and then right click, and "run external tool"
 
 Navigation_Login=Login
 Navigation_Logout=Logout
@@ -187,6 +191,7 @@ SiteSettings_Configuration_MarkupType=Markup type
 SiteSettings_Configuration_Theme=Theme
 SiteSettings_Configuration_Attachments=Attachments folder
 SiteSettings_Configuration_Extensions=Allowed extensions
+SiteSettings_Configuration_CachingTitle=Caching
 SiteSettings_Configuration_ObjectCaching=Object caching
 SiteSettings_Configuration_BrowserCaching=Browser caching
 SiteSettings_Configuration_Error=Unable to save the settings

@@ -573,6 +573,9 @@
   <data name="SiteSettings_Configuration_Extensions" xml:space="preserve">
     <value>Allowed extensions</value>
   </data>
+  <data name="SiteSettings_Configuration_CachingTitle" xml:space="preserve">
+    <value>Caching</value>
+  </data>
   <data name="SiteSettings_Configuration_ObjectCaching" xml:space="preserve">
     <value>Object caching</value>
   </data>
