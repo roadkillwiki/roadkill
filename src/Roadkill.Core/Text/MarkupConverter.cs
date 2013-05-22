@@ -143,7 +143,7 @@ namespace Roadkill.Core.Converters
 		/// </summary>
 		private void ImageParsed(object sender, ImageEventArgs e)
 		{
-			if (!e.OriginalSrc.StartsWith("http://") && !e.OriginalSrc.StartsWith("www."))
+			if (!e.OriginalSrc.StartsWith("http://") && !e.OriginalSrc.StartsWith("https://") && !e.OriginalSrc.StartsWith("www."))
 			{
 				string src = e.OriginalSrc;
 				src = _imgFileRegex.Replace(src, "");
