@@ -10,13 +10,6 @@ Page2_Group3_SQLiteSuccessMessage
 Page2_Group3_SQLiteFailureTitle
 Page2_Group3_SQLiteFailureMessage
 
-- Pending translation updates -
-InstallStrings.Page4_Group5_Label1
-InstallStrings.Page4_Group5_Label2
-InstallStrings.Page4_Group5_Label3
-InstallStrings.Page4_Group5_Label4
-InstallStrings.Page4_Group5_Label5
-
 [SiteStrings]
 SiteStrings.FileManager_AddFolder_PlaceHolder
 SiteStrings.FileManager_AddFolder_Cancel
@@ -31,14 +24,14 @@ SiteStrings.FileManager_Error_DeleteFolder
 SiteStrings.FileManager_Error_DeleteFile
 SiteStrings.FileManager_Error_CreateFolder
 
--TODO
-Caching (translationtodo)
-Database upgrade required
+- Plus these pending translation updates for existing locales -
+InstallStrings.Page4_Group5_Label1
+InstallStrings.Page4_Group5_Label2
+InstallStrings.Page4_Group5_Label3
+InstallStrings.Page4_Group5_Label4
+InstallStrings.Page4_Group5_Label5
 
-- Pending translation updates -
 SiteStrings.SiteSettings_Configuration_Caching
 SiteStrings.SiteSettings_Configuration_Caching_Help
 SiteStrings.SiteSettings_Configuration_CachePageText
 SiteStrings.SiteSettings_Configuration_CachePageText_Help
-
-UI bug deleting folder in root
