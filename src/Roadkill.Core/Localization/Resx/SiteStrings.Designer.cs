@@ -340,7 +340,7 @@ namespace Roadkill.Core.Localization.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Insert Heading 1 level markup characters..
+        ///   Looks up a localized string similar to Insert Heading 2 level markup characters..
         /// </summary>
         public static string EditPage_Toolbar_Heading2 {
             get {
@@ -349,7 +349,7 @@ namespace Roadkill.Core.Localization.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Insert Heading 1 level markup characters..
+        ///   Looks up a localized string similar to Insert Heading 3 level markup characters..
         /// </summary>
         public static string EditPage_Toolbar_Heading3 {
             get {

@@ -12,12 +12,11 @@
 ; - The build properties for the file should be "Embedded resource" and the custom tool "PublicResXFileCodeGenerator"
 ; - Delete the .resx file from the "Text" folder once you've copied it over.
 ;
-; - To recompile this file, use the lib\tools\CompileSiteStrings.bat file. If any new keys are added, delete the resx file, re-add it
-; - and then set its custom tool to PublicResXFileCodeGenerator.
+; - To recompile this file, use the lib\tools\CompileSiteStrings.bat file. 
+; - To re-generate the resx file after running compilesitestrings.bat, open the .resx.designer file
+; - and then right click, and "run external tool"
 ;
 ; - More info: http://msdn.microsoft.com/en-us/library/s9eey0h7(v=vs.71).aspx
-; - To re-generate the resx file after running compileinstallstrings.bat, open the .resx.designer file
-; - and then right click, and "run external tool"
 
 Navigation_Login=Login
 Navigation_Logout=Logout
@@ -152,8 +151,8 @@ EditPage_Error=Unable to save the page:
 EditPage_Toolbar_Bold=Insert Bold text markup characters.
 EditPage_Toolbar_BulletList=Insert Bullet List markup characters.
 EditPage_Toolbar_Heading1=Insert Heading 1 level markup characters.
-EditPage_Toolbar_Heading2=Insert Heading 1 level markup characters.
-EditPage_Toolbar_Heading3=Insert Heading 1 level markup characters.
+EditPage_Toolbar_Heading2=Insert Heading 2 level markup characters.
+EditPage_Toolbar_Heading3=Insert Heading 3 level markup characters.
 EditPage_Toolbar_Heading4=Insert Heading 4 level markup characters.
 EditPage_Toolbar_Heading5=Insert Heading 5 level markup characters.
 EditPage_Toolbar_Help=View Help reference for the markup syntax.
