@@ -84,7 +84,10 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ImageParsed_Should_Not_Rewrite_Images_Starting_With_Http_As_Internal()
+		[TestCase("http://i223.photobucket.com/albums/dd45/wally2603/91e7840f.jpg")]
+		[TestCase("https://i223.photobucket.com/albums/dd45/wally2603/91e7840f.jpg")]
+		[TestCase("www.photobucket.com/albums/dd45/wally2603/91e7840f.jpg")]
+		public void ImageParsed_Should_Not_Rewrite_Images_As_Internal_That_Start_With_Known_Prefixes(string imageUrl)
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Markdown";
@@ -100,38 +103,11 @@ namespace Roadkill.Tests.Unit
 			bool wasCalled = false;
 			_converter.Parser.ImageParsed += (object sender, ImageEventArgs e) =>
 			{
-				wasCalled = (e.Src == "http://i223.photobucket.com/albums/dd45/wally2603/91e7840f.jpg");
+				wasCalled = (e.Src == imageUrl);
 			};
 
 			// Act
-			_converter.ToHtml("![Image title](http://i223.photobucket.com/albums/dd45/wally2603/91e7840f.jpg)");
-
-			// Assert
-			Assert.True(wasCalled);
-		}
-
-		[Test]
-		public void ImageParsed_Should_Not_Rewrite_Images_Starting_With_Www_As_Internal()
-		{
-			// Arrange
-			_repository.SiteSettings.MarkupType = "Markdown";
-			_converter = new MarkupConverter(_settings, _repository);
-
-			_converter.AbsolutePathConverter = (string path) =>
-			{
-				return path + "123";
-			};
-			_converter.InternalUrlForTitle = (int pageId, string path) => { return path; };
-			_converter.NewPageUrlForTitle = (string path) => { return path; };
-
-			bool wasCalled = false;
-			_converter.Parser.ImageParsed += (object sender, ImageEventArgs e) =>
-			{
-				wasCalled = (e.Src == "www.photobucket.com/albums/dd45/wally2603/91e7840f.jpg");
-			};
-
-			// Act
-			_converter.ToHtml("![Image title](www.photobucket.com/albums/dd45/wally2603/91e7840f.jpg)");
+			_converter.ToHtml("![Image title](" +imageUrl+ ")");
 
 			// Assert
 			Assert.True(wasCalled);
