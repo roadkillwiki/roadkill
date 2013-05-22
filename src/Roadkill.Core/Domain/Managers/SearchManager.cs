@@ -112,7 +112,7 @@ namespace Roadkill.Core.Managers
 		/// <summary>
 		/// Adds the specified page to the search index.
 		/// </summary>
-		/// <param name="page">The page to add.</param>
+		/// <param name="summary">The page to add.</param>
 		/// <exception cref="SearchException">An error occured with the lucene.net IndexWriter while adding the page to the index.</exception>
 		public virtual void Add(PageSummary summary)
 		{
@@ -240,12 +240,9 @@ namespace Roadkill.Core.Managers
 		/// </summary>
 		private string GetContentSummary(PageSummary summary)
 		{
-			// Get a summary by parsing the contents
-			IMarkupParser markupParser = _markupConverter.Parser;
-
 			// Turn the contents into HTML, then strip the tags for the mini summary. This needs some works
 			string contentSummary = summary.Content;
-			contentSummary = markupParser.Transform(contentSummary);
+			contentSummary = _markupConverter.ToHtml(contentSummary);
 			contentSummary = _removeTagsRegex.Replace(contentSummary, "");
 
 			if (contentSummary.Length > 150)
