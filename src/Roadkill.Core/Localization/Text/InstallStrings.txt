@@ -12,12 +12,11 @@
 ; - The build properties for the file should be "Embedded resource" and the custom tool "PublicResXFileCodeGenerator"
 ; - Delete the .resx file from the "Text" folder once you've copied it over.
 ;
-; - To recompile this file, use the lib\tools\CompileInstallStrings.bat file. If any new keys are added, delete the resx file, re-add it
-; - and then set its custom tool to PublicResXFileCodeGenerator.
+; - To recompile this file, use the lib\tools\CompileInstallStrings.bat file.
+; - To re-generate the resx file after running compilesitestrings.bat, open the .resx.designer file
+; - and then right click, and "run external tool"
 ;
 ; - More info: http://msdn.microsoft.com/en-us/library/s9eey0h7(v=vs.71).aspx
-; - To re-generate the resx file after running compileinstallstrings.bat, open the .resx.designer file
-; - and then right click, and "run external tool"
 
 ; Shared buttons and labels
 Shared_Stage1=Welcome

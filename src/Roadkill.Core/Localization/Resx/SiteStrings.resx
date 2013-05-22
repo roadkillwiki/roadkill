@@ -466,10 +466,10 @@
     <value>Insert Heading 1 level markup characters.</value>
   </data>
   <data name="EditPage_Toolbar_Heading2" xml:space="preserve">
-    <value>Insert Heading 1 level markup characters.</value>
+    <value>Insert Heading 2 level markup characters.</value>
   </data>
   <data name="EditPage_Toolbar_Heading3" xml:space="preserve">
-    <value>Insert Heading 1 level markup characters.</value>
+    <value>Insert Heading 3 level markup characters.</value>
   </data>
   <data name="EditPage_Toolbar_Heading4" xml:space="preserve">
     <value>Insert Heading 4 level markup characters.</value>
