@@ -370,7 +370,7 @@
     <Content Include="Assets\Scripts\roadkill\filemanager\buttonevents.min.js">
       <DependentUpon>buttonevents.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\readme.txt" />
+    <None Include="Assets\Scripts\roadkill\readme.txt" />
     <Content Include="Assets\Scripts\roadkill\typescript-ref\directorysummary.js">
       <DependentUpon>directorysummary.ts</DependentUpon>
     </Content>

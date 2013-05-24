@@ -68,7 +68,7 @@ var Roadkill;
                     $("#Content").setSelection(range.end, range.end);
                 }
             };
-            WysiwygEditor.prototype.addImage = function (image) {
+            WysiwygEditor.addImage = function addImage(image) {
                 var range = $("#Content").getSelection();
                 if(range !== null) {
                     var text = range.text;
@@ -85,7 +85,7 @@ var Roadkill;
                     $("#Content").setSelection(range.start + prefix.length, range.start + prefix.length);
                     Site.Dialogs.closeModal();
                 }
-            };
+            }
             WysiwygEditor.prototype.addLink = function () {
                 var range = $("#Content").getSelection();
                 if(range !== null) {
@@ -134,4 +134,6 @@ var Roadkill;
         Site.WysiwygEditor = WysiwygEditor;        
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
+
 })(Roadkill || (Roadkill = {}));
+

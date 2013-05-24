@@ -90,23 +90,25 @@ var Roadkill;
                     var that = event.data.instance;
                     if(event.which == 0 || event.which == 27) {
                         that.cancelNewFolder();
-                    } else if(event.which == 13) {
-                        var newFolder = $("#newfolderinput").val();
-                        if(newFolder.replace(/\s/g, "").length == 0) {
-                            that.cancelNewFolder();
-                            return;
-                        }
-                        var success = function (data) {
-                            if(data.status == "error") {
-                                toastr.error(ROADKILL_FILEMANAGER_ERROR_CREATEFOLDER + ":<br/>" + data.message);
+                    } else {
+                        if(event.which == 13) {
+                            var newFolder = $("#newfolderinput").val();
+                            if(newFolder.replace(/\s/g, "").length == 0) {
+                                that.cancelNewFolder();
                                 return;
                             }
-                            var item = $("ul.navigator li:last-child");
-                            FileManager.TableEvents.update(item.attr("data-urlpath"));
-                            FileManager.BreadCrumbTrail.removeLastItem();
-                            $("tr#newfolderrow").remove();
-                        };
-                        that._ajaxRequest.newFolder(FileManager.TableEvents.getCurrentPath(), newFolder, success);
+                            var success = function (data) {
+                                if(data.status == "error") {
+                                    toastr.error(ROADKILL_FILEMANAGER_ERROR_CREATEFOLDER + ":<br/>" + data.message);
+                                    return;
+                                }
+                                var item = $("ul.navigator li:last-child");
+                                FileManager.TableEvents.update(item.attr("data-urlpath"));
+                                FileManager.BreadCrumbTrail.removeLastItem();
+                                $("tr#newfolderrow").remove();
+                            };
+                            that._ajaxRequest.newFolder(FileManager.TableEvents.getCurrentPath(), newFolder, success);
+                        }
                     }
                 };
                 ButtonEvents.prototype.cancelNewFolder = function () {
@@ -117,6 +119,9 @@ var Roadkill;
             FileManager.ButtonEvents = ButtonEvents;            
         })(Site.FileManager || (Site.FileManager = {}));
         var FileManager = Site.FileManager;
+
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
+
 })(Roadkill || (Roadkill = {}));
+

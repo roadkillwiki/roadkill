@@ -21,10 +21,10 @@
     	{
     		Roadkill.Site.FileManager.Setup.configure();
     		$("table#files").live("fileselected",
-                function (e, data)
-                {
-                	window.top.addImage(data.file);
-                });
+            function (e, data)
+            {
+                window.top.Roadkill.Site.WysiwygEditor.addImage(data.file);
+            });
     	});
     </script>
 </body>

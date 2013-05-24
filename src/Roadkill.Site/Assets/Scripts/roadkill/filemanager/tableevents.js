@@ -19,18 +19,20 @@ var Roadkill;
                 TableEvents.prototype.handleRowSelection = function (tr) {
                     $("table#files tr.select").removeClass("select");
                     $(tr).addClass("select");
-                    $("table#files").trigger("fileselected", {
-                        file: TableEvents.getCurrentPath() + "/" + $("td.file", tr).text()
-                    });
+                    if($(tr).attr("data-itemtype") !== "folder") {
+                        $("table#files").trigger("fileselected", {
+                            file: TableEvents.getCurrentPath() + "/" + $("td.file", tr).text()
+                        });
+                    }
                 };
                 TableEvents.prototype.handleDoubleClickForRow = function (tr) {
-                    if($(tr).attr("data-itemtype") == "folder") {
+                    if($(tr).attr("data-itemtype") === "folder") {
                         TableEvents.update($(tr).attr("data-urlpath"));
                     }
                 };
                 TableEvents.getCurrentPath = function getCurrentPath() {
                     return $("ul.navigator li:last").attr("data-urlpath");
-                };
+                }
                 TableEvents.update = function update(path, addBreadCrumb) {
                     if (typeof path === "undefined") { path = ""; }
                     if (typeof addBreadCrumb === "undefined") { addBreadCrumb = true; }
@@ -50,12 +52,15 @@ var Roadkill;
                     };
                     var ajaxRequest = new FileManager.AjaxRequest();
                     ajaxRequest.getFolderInfo(path, success);
-                };
+                }
                 return TableEvents;
             })();
             FileManager.TableEvents = TableEvents;            
         })(Site.FileManager || (Site.FileManager = {}));
         var FileManager = Site.FileManager;
+
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
+
 })(Roadkill || (Roadkill = {}));
+
