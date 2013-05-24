@@ -18,14 +18,17 @@ module Roadkill.Site.FileManager
 			$("table#files tr.select").removeClass("select");
 			$(tr).addClass("select");
 
-			$("table#files").trigger("fileselected", {
-				file: TableEvents.getCurrentPath() + "/" + $("td.file", tr).text()
-			});
+			if ($(tr).attr("data-itemtype") !== "folder")
+			{
+				$("table#files").trigger("fileselected", {
+					file: TableEvents.getCurrentPath() + "/" + $("td.file", tr).text()
+				});
+			}
 		}
 
 		handleDoubleClickForRow(tr)
 		{
-			if ($(tr).attr("data-itemtype") == "folder")
+			if ($(tr).attr("data-itemtype") === "folder")
 			{
 				TableEvents.update($(tr).attr("data-urlpath"));
 			}

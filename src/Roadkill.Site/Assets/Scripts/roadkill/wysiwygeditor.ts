@@ -109,7 +109,7 @@ module Roadkill.Site
 		/**
 		Adds an image tag to the current caret location.
 		*/
-		addImage(image)
+		public static addImage(image: string)
 		{
 			var range = $("#Content").getSelection();
 

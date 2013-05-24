@@ -85,7 +85,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			{
 				if (string.IsNullOrEmpty(folder))
 				{
-					return Json(new { status = "error", message = "SiteStrings.FileManager_Error_BaseFolderDelete" });
+					return Json(new { status = "error", message = SiteStrings.FileManager_Error_DeleteFolder });
 				}
 
 				string physicalPath = _attachmentHandler.ConvertUrlPathToPhysicalPath(folder);
@@ -103,7 +103,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				}
 				else
 				{
-					return Json(new { status = "error", message = "SiteStrings.FileManager_Error_FolderDelete" });
+					return Json(new { status = "error", message = SiteStrings.FileManager_Error_DeleteFolder });
 				}
 
 				return Json(new { status = "ok", message = "" });
@@ -190,14 +190,14 @@ namespace Roadkill.Core.Mvc.Controllers
 				if (!Directory.Exists(newPath))
 					Directory.CreateDirectory(newPath);
 				else
-					return Json(new { status = "error", message = String.Format("SiteStrings.FileManager_Error_AddFolder", newFolderName) });
+					return Json(new { status = "error", message = SiteStrings.FileManager_Error_CreateFolder +" "+newFolderName });
 			}
 			catch (Exception e)
 			{
 				return Json(new { status = "error", message = e.Message });
 			}
 
-			return Json(new { status = "ok", FolderName = newFolderName, SafePath = newFolderName.ToBase64() });
+			return Json(new { status = "ok", FolderName = newFolderName });
 		}
 
 		/// <summary>

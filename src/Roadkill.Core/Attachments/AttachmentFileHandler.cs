@@ -236,7 +236,7 @@ namespace Roadkill.Core.Attachments
 				try
 				{
 					// Check the path passed isn't simply the attachments path with extra slashes etc.
-					DirectoryInfo attachmentsDir = new DirectoryInfo(_settings.AttachmentsFolder);
+					DirectoryInfo attachmentsDir = new DirectoryInfo(_settings.AttachmentsDirectoryPath);
 					DirectoryInfo searchDir = new DirectoryInfo(physicalDirectoryPath);
 
 					string attachmentsFullPath = attachmentsDir.FullName.TrimEnd('\\');
