@@ -47,7 +47,11 @@ var Roadkill;
                     });
                     request.done(successFunction);
                     request.fail(function (jqXHR, textStatus, errorThrown) {
-                        toastr.error(errorMessage + errorThrown);
+                        if(errorThrown.message.indexOf("unexpected character") !== -1) {
+                            window.location = window.location;
+                        } else {
+                            toastr.error(errorMessage + errorThrown);
+                        }
                     });
                 };
                 return AjaxRequest;

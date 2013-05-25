@@ -2,6 +2,7 @@
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
+using System.Linq;
 using System.Collections.Generic;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Localization.Resx;
@@ -16,16 +17,18 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// <summary>
 	/// Provides file manager functionality for wiki page editing.
 	/// </summary>
-	[AdminRequired]
+	[EditorRequired]
 	public class FileManagerController : ControllerBase
 	{
 		private AttachmentFileHandler _attachmentHandler;
+		private static string[] _filesToExclude = new string[] { "emptyfile.txt", "_installtest.txt" }; // installer/publish files
 
 		/// <summary>
 		/// Constructor for the file manager.
 		/// </summary>
 		/// <remarks>This action requires editor rights.</remarks>
-		public FileManagerController(ApplicationSettings settings, UserManagerBase userManager, IUserContext context, SettingsManager siteSettingsManager, AttachmentFileHandler attachment)
+		public FileManagerController(ApplicationSettings settings, UserManagerBase userManager, IUserContext context,
+			SettingsManager siteSettingsManager, AttachmentFileHandler attachment)
 			: base(settings, userManager, context, siteSettingsManager)
 		{
 			_attachmentHandler = attachment;
@@ -47,7 +50,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <param name="filePath">A relative file path that contains the file to be deleted.</param>
 		/// <param name="fileName">The name of the file to be deleted.</param>
 		/// <remarks>This action requires editor rights.</remarks>
-		[EditorRequired]
+		[AdminRequired]
 		[HttpPost]
 		public JsonResult DeleteFile(string filePath, string fileName)
 		{
@@ -77,7 +80,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		/// <param name="folder">A Folder name, which is a relative URL and contains full path from Attachments folder.</param>
 		/// <remarks>This action requires editor rights.</remarks>
-		[EditorRequired]
+		[AdminRequired]
 		[HttpPost]
 		public JsonResult DeleteFolder(string folder)
 		{
@@ -154,11 +157,16 @@ namespace Roadkill.Core.Mvc.Controllers
 
 				foreach (string file in Directory.GetFiles(physicalPath))
 				{
+					
 					FileInfo info = new FileInfo(file);
 					string filename = info.Name;
-					string urlPath = Path.Combine(dir, filename);
-					FileSummary fileSummary = new FileSummary(info.Name, info.Extension.Replace(".",""), info.Length, info.CreationTime, dir, "");
-					summary.Files.Add(fileSummary);
+
+					if (!_filesToExclude.Contains(info.Name))
+					{
+						string urlPath = Path.Combine(dir, filename);
+						FileSummary fileSummary = new FileSummary(info.Name, info.Extension.Replace(".", ""), info.Length, info.CreationTime, dir, "");
+						summary.Files.Add(fileSummary);
+					}
 				}
 			}
 
@@ -190,7 +198,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				if (!Directory.Exists(newPath))
 					Directory.CreateDirectory(newPath);
 				else
-					return Json(new { status = "error", message = SiteStrings.FileManager_Error_CreateFolder +" "+newFolderName });
+					return Json(new { status = "error", message = SiteStrings.FileManager_Error_CreateFolder + " " + newFolderName });
 			}
 			catch (Exception e)
 			{

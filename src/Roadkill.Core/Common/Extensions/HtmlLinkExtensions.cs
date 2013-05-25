@@ -57,6 +57,24 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// Provides a link to the filemanager page, with optional prefix and suffix tags or seperators.
+		/// </summary>
+		/// <returns>If the user is not logged in, an empty string is returned.</returns>
+		public static MvcHtmlString FileManagerLink(this HtmlHelper helper, string prefix, string suffix)
+		{
+			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
+			if (controller != null)
+			{
+				string link = helper.ActionLink(SiteStrings.FileManager_Title, "Index", "FileManager").ToString();
+				return MvcHtmlString.Create(prefix + link + suffix);
+			}
+			else
+			{
+				return MvcHtmlString.Empty;
+			}
+		}
+
+		/// <summary>
 		/// Provides a link to the login page, or if the user is logged in, the logout page.
 		/// Optional prefix and suffix tags or seperators and also included.
 		/// </summary>

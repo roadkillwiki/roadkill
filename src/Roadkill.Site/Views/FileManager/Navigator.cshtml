@@ -1,5 +1,13 @@
-﻿<div id="path-navigator">
+﻿@* The bool for the Model indicates whether to show the watermark or not *@
+@model bool
+<div id="path-navigator">
     <ul class="navigator"></ul>
 </div>
 <br class="clear" />
 <div id="folder-container"></div>
+
+@if (Model)
+{
+	<!-- SiteStrings.FileManager_Watermark: Drag files here to upload. Double click to navigate folders. (UPLOAD FILES, Manage Files) -->
+	<div class="folder-watermark">Drag files here to upload. Double click to navigate folders</div>
+}

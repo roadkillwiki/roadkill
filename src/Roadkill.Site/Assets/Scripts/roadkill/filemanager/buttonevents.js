@@ -42,7 +42,7 @@ var Roadkill;
                             var li = $("ul.navigator li:last-child").prev("li");
                             var folder = li.attr("data-urlpath");
                             FileManager.TableEvents.update(folder);
-                            toastr.info("ROADKILL_FILEMANAGER_FOLDER_DELETED_SUCCESS");
+                            toastr.info(ROADKILL_FILEMANAGER_FOLDER_DELETED_SUCCESS);
                         } else {
                             toastr.error(ROADKILL_FILEMANAGER_DELETE_ERROR + " :<br/>" + data.message);
                         }
