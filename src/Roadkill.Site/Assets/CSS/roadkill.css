@@ -125,8 +125,8 @@ ul.mainmenu li a:hover { text-decoration:underline; }
 #userdialogContainer h2	{ border-bottom:1px solid white !important; }
 
 /* File Manager  [editors] */
-ul.navigator			{ list-style-type: none; padding-left: 0px; }
-ul.navigator li			{ margin-right:2px; float:left;padding:5px; height: 20px; border: 1px solid lightskyblue; border-radius:8px; }
+ul.navigator			{ list-style-type: none; padding-left: 0px;margin:0px !important; }
+ul.navigator li			{ margin-right:2px; float:left;padding:5px; height: 20px; border: 1px solid lightskyblue; border-radius:5px; }
 ul.navigator li a		{ font-weight:bold; }
 ul.navigator li a:hover	{ text-decoration:underline; }
 
@@ -137,6 +137,10 @@ table#files thead tr th { text-align:left; }
 table#files tr.focus	{ background-color: aliceblue; }
 table#files tr.select	{ background-color: azure; font-weight:bold;  border:1px solid lightskyblue; }
 table#files tr.listrow	{ cursor:pointer; }
+#files img				{ max-width: 16px; } /* fix for Bootstrap in Chrome making images too small*/
+
+.folder-watermark		{ position: absolute; margin-top: -50px; margin-left: 10px; opacity: 0.09; font-size: 2em; z-index: 1000; }
+#newfolderinput			{ width: 150px; }
 
 #progress div.bar		{ opacity: 0.2; height: 2px; background-color: purple; margin-bottom:4px;}
  

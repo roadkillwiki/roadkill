@@ -11,7 +11,7 @@
 
 <h2>@SiteStrings.FileManager_Title</h2>
 
-@Html.Partial("Navigator")
+@Html.Partial("Navigator", true)
 
 <div id="progress">
     <div class="bar" style="width: 0%;"></div>
@@ -25,8 +25,14 @@
             <span>@SiteStrings.FileManager_Upload</span>
             <input id="fileupload" type="file" name="files[]" data-url="FileManager/FileUpload" multiple>
         </span>
+	@if (RoadkillContext.IsAdmin)
+	{
         <button id="deletefilebtn" type="button" class="btn">@SiteStrings.FileManager_Delete_File</button>
+	}
         <button id="addfolderbtn" type="button" class="btn">@SiteStrings.FileManager_Add_Folder</button>
+	@if (RoadkillContext.IsAdmin)
+	{
         <button id="deletefolderbtn" type="button" class="btn">@SiteStrings.FileManager_Delete_Folder</button>
+	}
     </span>
 }

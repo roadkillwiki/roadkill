@@ -49,10 +49,18 @@ module Roadkill.Site.FileManager
 			});
 
 			request.done(successFunction);
-
-			request.fail(function (jqXHR, textStatus, errorThrown)
+			
+			request.fail(function (jqXHR, textStatus, errorThrown : SyntaxError)
 			{
-				toastr.error(errorMessage + errorThrown);
+				// Logged out since the call was made
+				if (errorThrown.message.indexOf("unexpected character") !== -1)
+				{
+					window.location = window.location;
+				}
+				else
+				{
+					toastr.error(errorMessage + errorThrown);
+				}
 			});
 		}
 	}

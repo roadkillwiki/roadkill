@@ -12,10 +12,12 @@
 		<link href="@Url.Content(SiteSettings.ThemePath + "/Theme.print.css")" rel="stylesheet" type="text/css" media="print" />
 		<script type="text/javascript" src="@Url.Action("GlobalJsVars","Home")"></script>
 		<link rel="shortcut icon" href="@Url.Content("~/Assets/Images/favicon.png")" />
+		<style> body { background-color: whitesmoke; } </style>
 </head>
 <body>
-    <style> body { background-color: whitesmoke; } </style>
-    @Html.Partial("Navigator")
+	<div style="padding:3px">
+    @Html.Partial("Navigator", false)
+	</div>
     <script type="text/javascript">
     	$(function ()
     	{

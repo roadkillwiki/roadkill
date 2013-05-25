@@ -242,24 +242,7 @@ namespace Roadkill.Core.Configuration
 			settings.UseHtmlWhiteList = section.UseHtmlWhiteList;
 			settings.UserManagerType = section.UserManagerType;
 			settings.UseWindowsAuthentication = section.UseWindowsAuthentication;
-
-			if (string.IsNullOrEmpty(section.Version))
-			{
-				settings.UpgradeRequired = true;
-			}
-			else
-			{
-				Version configVersion = null;
-				if (Version.TryParse(section.Version, out configVersion))
-				{
-					settings.UpgradeRequired = (configVersion != ApplicationSettings.AssemblyVersion);
-				}
-				else
-				{
-					Log.Warn("Invalid Version found ({0}) in the web.config, assuming it's the same as the assembly version ({1})", section.Version, ApplicationSettings.AssemblyVersion);
-					settings.UpgradeRequired = false;
-				}
-			}
+			settings.UpgradeRequired = UpgradeChecker.IsUpgradeRequired(section.Version);
 
 			return settings;
 		}

@@ -49,7 +49,7 @@ module Roadkill.Site.FileManager
 					var folder: string = li.attr("data-urlpath");
 					TableEvents.update(folder);
 
-					toastr.info("ROADKILL_FILEMANAGER_FOLDER_DELETED_SUCCESS");
+					toastr.info(ROADKILL_FILEMANAGER_FOLDER_DELETED_SUCCESS);
 				}
 				else
 				{

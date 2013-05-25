@@ -330,6 +330,7 @@
   <ItemGroup>
     <Compile Include="Common\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Configuration\ConfigFileManager.cs" />
+    <Compile Include="Configuration\UpgradeChecker.cs" />
     <Compile Include="Domain\Security\FormsAuthenticationWrapper.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="MVC\Attributes\IControllerAttribute.cs" />
