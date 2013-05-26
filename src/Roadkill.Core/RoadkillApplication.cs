@@ -40,10 +40,10 @@ namespace Roadkill.Core
 			StartTime = DateTime.UtcNow;
 
 			// Bundle all CSS/JS files into a single file
-			StyleBundle cssBundle = new StyleBundle("~/Assets/CSS/bundle.css");
+			StyleBundle cssBundle = new StyleBundle("~/Assets/CSS/roadkill17.css");
 			cssBundle.IncludeDirectory("~/Assets/CSS/","*.css");
 
-			ScriptBundle defaultJsBundle = new ScriptBundle("~/Assets/Scripts/roadkill.js");
+			ScriptBundle defaultJsBundle = new ScriptBundle("~/Assets/Scripts/roadkill17.js");
 			defaultJsBundle.Include("~/Assets/Scripts/*.js");
 			defaultJsBundle.Include("~/Assets/Scripts/jquery/*.js");
 			defaultJsBundle.Include("~/Assets/Scripts/roadkill/*.js");
