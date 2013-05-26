@@ -54,7 +54,7 @@ namespace Roadkill.Tests.Acceptance.Smoke
 		{
 			IWebElement title = Driver.FindElement(By.CssSelector("span#loggedinas a"));
 			Assert.That(title.Text, Is.EqualTo("Login"));
-			Assert.That(title.GetAttribute("href"), Is.StringEnding("/user/login"));
+			Assert.That(title.GetAttribute("href"), Is.StringEnding("/user/login?returnurl=%2f"));
 		}
 	}
 }

@@ -49,12 +49,6 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void FilesController_Folder_Is_Registered()
-		{
-			"~/files/folder/some+great+folder".ShouldMapTo<FileManagerController>(action => action.FolderInfo("some+great+folder"));
-		}
-
-		[Test]
 		public void Attachments_Should_Have_Correct_Handler_And_Contain_Route_Values()
 		{
 			// Arrange

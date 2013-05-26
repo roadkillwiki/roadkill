@@ -39,11 +39,13 @@ var Roadkill;
                         pasteZone: $("body"),
                         dataType: "json",
                         progressall: function (e, data) {
+                            $("#progress").show();
                             var percentage = (data.loaded / data.total * 100) + "";
                             var progress = parseInt(percentage, 10);
                             $("#progress .bar").css("width", progress + "%");
                         },
                         done: function (e, data) {
+                            $("#progress").hide();
                             if(data.result.status == "error") {
                                 toastr.error(data.result.message);
                                 return;

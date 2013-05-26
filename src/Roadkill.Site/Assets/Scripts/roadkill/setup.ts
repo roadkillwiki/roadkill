@@ -4,6 +4,16 @@ module Roadkill.Site
 	$(document).ready(function ()
 	{
 		Setup.configureBinds();
+
+		toastr.options = {
+		  "debug": false,
+		  "positionClass": "toast-top-right",
+		  "onclick": null,
+		  "fadeIn": 300,
+		  "fadeOut": 1000,
+		  "timeOut": 5000,
+		  "extendedTimeOut": 1000
+		}
 	});
 
 	/**
@@ -49,38 +59,6 @@ module Roadkill.Site
 
 				$(this).parent().next().toggle();
 			});
-		}
-
-		public static resizeImage(img, maxWidth:number, maxHeight:number)
-		{
-			if (maxWidth < 1)
-				maxWidth = 400;
-
-			if (maxHeight < 1)
-				maxHeight = 400;
-
-			var ratio = 0;
-			var width = $(img).width();
-			var height = $(img).height();
-
-			if (width > maxWidth)
-			{
-				// Use the width ratio to start with
-				ratio = maxWidth / width;
-				width = width * ratio;
-				height = height * ratio;
-
-				$(img).css("width", width);
-				$(img).css("height", height);
-			}
-
-			if (height > maxHeight)
-			{
-				// Scale down to the height ratio if it's still too large
-				ratio = maxHeight / height;
-				$(img).css("width", width * ratio);
-				$(img).css("height", height * ratio)
-			}
 		}
 
 		/**

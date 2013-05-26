@@ -107,13 +107,6 @@ ul.mainmenu li a:hover { text-decoration:underline; }
 #helptable th	{ text-align:left;font-size:13px;padding:5px; }
 #helptable td	{ border-right:1px solid #C1DAD7;border-bottom:1px solid #C1DAD7;background:#fff;padding:6px 6px 6px 12px;color:#4f6b72;vertical-align:top; }
 
-/* File dialog [editors] */
-#files-container	{ background-color:#FFF;min-height:400px; }
-.selectedfolder		{ background-color:#e3e2e2;padding:5px;margin-bottom:5px; }
-#filetree-container	{ width:500px; }
-#file-preview		{ position:fixed;margin-left:5px;width:90px;bottom:0px;right:0px; }
-#file-preview img	{ max-height:50px;max-width:50px; }
-
 /* Tools/config page [admins] */
 .test-button	{ margin-bottom:15px !important; }
 #configuration-container legend		{ font-size:2em; font-weight:bold; }
@@ -142,7 +135,8 @@ table#files tr.listrow	{ cursor:pointer; }
 .folder-watermark		{ position: absolute; margin-top: -50px; margin-left: 10px; opacity: 0.09; font-size: 2em; z-index: 1000; }
 #newfolderinput			{ width: 150px; }
 
-#progress div.bar		{ opacity: 0.2; height: 2px; background-color: purple; margin-bottom:4px;}
+#progress				{ display:none; }
+#progress-message		{ position:absolute;font-weight:bold;margin-left:5px; }
  
 #image-preview			{ position:absolute;border:1px solid #ccc;background:#fff;padding:5px;display:none;color:#000; }
 #image-preview img		{ height:60px; width:80px; }

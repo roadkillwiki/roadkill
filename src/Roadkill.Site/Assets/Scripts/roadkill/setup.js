@@ -3,6 +3,15 @@ var Roadkill;
     (function (Site) {
         $(document).ready(function () {
             Setup.configureBinds();
+            toastr.options = {
+                "debug": false,
+                "positionClass": "toast-top-right",
+                "onclick": null,
+                "fadeIn": 300,
+                "fadeOut": 1000,
+                "timeOut": 5000,
+                "extendedTimeOut": 1000
+            };
         });
         var Setup = (function () {
             function Setup() { }
@@ -28,29 +37,6 @@ var Roadkill;
                     }
                     $(this).parent().next().toggle();
                 });
-            }
-            Setup.resizeImage = function resizeImage(img, maxWidth, maxHeight) {
-                if(maxWidth < 1) {
-                    maxWidth = 400;
-                }
-                if(maxHeight < 1) {
-                    maxHeight = 400;
-                }
-                var ratio = 0;
-                var width = $(img).width();
-                var height = $(img).height();
-                if(width > maxWidth) {
-                    ratio = maxWidth / width;
-                    width = width * ratio;
-                    height = height * ratio;
-                    $(img).css("width", width);
-                    $(img).css("height", height);
-                }
-                if(height > maxHeight) {
-                    ratio = maxHeight / height;
-                    $(img).css("width", width * ratio);
-                    $(img).css("height", height * ratio);
-                }
             }
             Setup.bindConfirmDelete = function bindConfirmDelete() {
                 $("a.confirm").click(function () {
