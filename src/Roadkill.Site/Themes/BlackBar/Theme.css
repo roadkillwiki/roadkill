@@ -5,7 +5,7 @@ a:visited		{ color:#339999; }
 a:hover			{ color:#babfb5; }
 p				{ margin-top: 20px; }
 
-#header			{ background-color:#38381D;width:100%;height:32px;padding:5px;color:#FFF;font-family:"Myriad Web Pro",helvetica;font-size:0.8em; }
+#header			{ background-color:#38381D;width:100%;height:32px;padding:5px;color:#999;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;text-shadow: 0 -1px 0 rgba(0,0,0,0.25); }
 #header div		{ margin:0 10px;color:White;height:32px;line-height:33px;margin-right:20px; }
 #header	a		{ color:White;text-decoration:none; }
 #header	a:hover { text-decoration:underline; }
@@ -22,7 +22,7 @@ p				{ margin-top: 20px; }
 
 .searchresults	{ color:Green;font-size:1.1em; }
 .searchbox		{ width:400px; }
-.minisearchbox	{ width:100px; font-size:0.8em; margin-left:20px;}
+.minisearchbox	{ width:130px; font-size:0.8em; margin-left:20px;height:12px !important;margin-top:6px !important; }
 
 div.image_frame { border: 1px solid gray; display: inline-block; padding: 4px; }
 div.image_frame .caption { border: 1px solid #E0E0E0; padding: 4px; }

@@ -167,7 +167,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		public SiteSettings GetSiteSettings()
 		{
 			SiteSettings preferences = new SiteSettings();
-			SiteSettingsEntity entity = UnitOfWork.FindById<SiteSettingsEntity>(SiteSettings.SiteSettingsId);
+			SiteSettingsEntity entity = UnitOfWork.Find<SiteSettingsEntity>().FirstOrDefault();
 
 			if (entity != null)
 			{
