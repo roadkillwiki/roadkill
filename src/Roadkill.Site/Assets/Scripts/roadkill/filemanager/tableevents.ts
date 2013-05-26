@@ -47,15 +47,22 @@ module Roadkill.Site.FileManager
 			var that = this;
 			var success = function (data: DirectorySummary)
 			{
-				if (addBreadCrumb)
-					BreadCrumbTrail.addNewItem(data);
+				if (data.status === "error")
+				{
+					toastr.error(data.message);
+				}
+				else
+				{
+					if (addBreadCrumb)
+						BreadCrumbTrail.addNewItem(data);
 
-				var htmlBuilder = new HtmlBuilder();
-				var tableHtml: string[] = htmlBuilder.getFolderTable(data);
-				$("#folder-container").html(tableHtml.join(""));
+					var htmlBuilder = new HtmlBuilder();
+					var tableHtml: string[] = htmlBuilder.getFolderTable(data);
+					$("#folder-container").html(tableHtml.join(""));
 
-				var currentPath = TableEvents.getCurrentPath();
-				$("#destination_folder").val(currentPath);
+					var currentPath = TableEvents.getCurrentPath();
+					$("#destination_folder").val(currentPath);
+				}
 			};
 
 			var ajaxRequest = new AjaxRequest();

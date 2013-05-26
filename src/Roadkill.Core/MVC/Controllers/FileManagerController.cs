@@ -126,51 +126,61 @@ namespace Roadkill.Core.Mvc.Controllers
 		[EditorRequired]
 		public ActionResult FolderInfo(string dir)
 		{
-			string folder = dir;
-			folder = Server.UrlDecode(folder);
+			if (!Directory.Exists(ApplicationSettings.AttachmentsDirectoryPath))
+				return Json(new { status = "error", message = "The attachments directory does not exist - please create it." });
 
-			string physicalPath = _attachmentHandler.ConvertUrlPathToPhysicalPath(folder);
-
-			if (!_attachmentHandler.IsAttachmentPathValid(physicalPath))
+			try
 			{
-				throw new Exception("Attachment Path invalid");
-			}
+				string folder = dir;
+				folder = Server.UrlDecode(folder);
 
-			string currentFolderName = dir;
-			if (!string.IsNullOrEmpty(currentFolderName) && currentFolderName != "/")
-				currentFolderName = Path.GetFileName(dir);
+				string physicalPath = _attachmentHandler.ConvertUrlPathToPhysicalPath(folder);
 
-			DirectorySummary summary = new DirectorySummary(currentFolderName, dir);
-			if (Directory.Exists(physicalPath))
-			{
-				foreach (string directory in Directory.GetDirectories(physicalPath))
+				if (!_attachmentHandler.IsAttachmentPathValid(physicalPath))
 				{
-					DirectoryInfo info = new DirectoryInfo(directory);
-					string fullPath = info.FullName;
-					fullPath = fullPath.Replace(ApplicationSettings.AttachmentsDirectoryPath, "");
-					fullPath = fullPath.Replace(Path.DirectorySeparatorChar.ToString(), "/");
-					fullPath = "/" + fullPath; // removed in the 1st replace
-
-					DirectorySummary childSummary = new DirectorySummary(info.Name, fullPath);
-					summary.ChildFolders.Add(childSummary);
+					throw new Exception("Attachment Path invalid");
 				}
 
-				foreach (string file in Directory.GetFiles(physicalPath))
-				{
-					
-					FileInfo info = new FileInfo(file);
-					string filename = info.Name;
+				string currentFolderName = dir;
+				if (!string.IsNullOrEmpty(currentFolderName) && currentFolderName != "/")
+					currentFolderName = Path.GetFileName(dir);
 
-					if (!_filesToExclude.Contains(info.Name))
+				DirectorySummary summary = new DirectorySummary(currentFolderName, dir);
+				if (Directory.Exists(physicalPath))
+				{
+					foreach (string directory in Directory.GetDirectories(physicalPath))
 					{
-						string urlPath = Path.Combine(dir, filename);
-						FileSummary fileSummary = new FileSummary(info.Name, info.Extension.Replace(".", ""), info.Length, info.CreationTime, dir, "");
-						summary.Files.Add(fileSummary);
+						DirectoryInfo info = new DirectoryInfo(directory);
+						string fullPath = info.FullName;
+						fullPath = fullPath.Replace(ApplicationSettings.AttachmentsDirectoryPath, "");
+						fullPath = fullPath.Replace(Path.DirectorySeparatorChar.ToString(), "/");
+						fullPath = "/" + fullPath; // removed in the 1st replace
+
+						DirectorySummary childSummary = new DirectorySummary(info.Name, fullPath);
+						summary.ChildFolders.Add(childSummary);
+					}
+
+					foreach (string file in Directory.GetFiles(physicalPath))
+					{
+
+						FileInfo info = new FileInfo(file);
+						string filename = info.Name;
+
+						if (!_filesToExclude.Contains(info.Name))
+						{
+							string urlPath = Path.Combine(dir, filename);
+							FileSummary fileSummary = new FileSummary(info.Name, info.Extension.Replace(".", ""), info.Length, info.CreationTime, dir, "");
+							summary.Files.Add(fileSummary);
+						}
 					}
 				}
-			}
 
-			return Json(summary);
+				return Json(summary);
+			}
+			catch (IOException e)
+			{
+				return Json(new { status = "error", message = "An unhandled error occurred: "+e.Message });
+			}
 		}
 
 		/// <summary>

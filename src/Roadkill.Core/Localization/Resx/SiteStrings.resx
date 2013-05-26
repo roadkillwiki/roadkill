@@ -805,10 +805,10 @@
     <value>The site url is empty.</value>
   </data>
   <data name="FileManager_Title" xml:space="preserve">
-    <value>File explorer</value>
+    <value>Manage files</value>
   </data>
   <data name="FileManager_Upload" xml:space="preserve">
-    <value>Upload a file</value>
+    <value>Upload files</value>
   </data>
   <data name="FileManager_AddFolder_PlaceHolder" xml:space="preserve">
     <value>New folder</value>
@@ -845,5 +845,11 @@
   </data>
   <data name="FileManager_Error_CreateFolder" xml:space="preserve">
     <value>An expected error occurred creating the folder: </value>
+  </data>
+  <data name="FileManager_UploadingProgress" xml:space="preserve">
+    <value>Uploading...</value>
+  </data>
+  <data name="FileManager_Watermark" xml:space="preserve">
+    <value>Drag files here to upload. Double click to navigate folders</value>
   </data>
 </root>

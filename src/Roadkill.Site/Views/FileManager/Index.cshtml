@@ -9,13 +9,13 @@
 	});
 </script>
 
-<h2>@SiteStrings.FileManager_Title</h2>
+<h1>@SiteStrings.FileManager_Title</h1>
 
 @Html.Partial("Navigator", true)
 
 <!-- Upload progress bar -->
 <div id="progress" class="progress progress-striped">
-	<div id="progress-message">Uploading...</div>
+	<div id="progress-message">@SiteStrings.FileManager_UploadingProgress</div>
     <div class="bar" style="width: 0%;"></div>
 </div>
 
