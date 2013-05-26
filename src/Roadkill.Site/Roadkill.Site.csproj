@@ -253,31 +253,9 @@
     <Content Include="Assets\CSS\images\fancybox_overlay.png" />
     <Content Include="Assets\CSS\images\fancybox_sprite.png" />
     <Content Include="Assets\CSS\jquery.fancybox.css" />
-    <Content Include="Assets\CSS\images\application.png" />
-    <Content Include="Assets\CSS\images\code.png" />
-    <Content Include="Assets\CSS\images\css.png" />
-    <Content Include="Assets\CSS\images\db.png" />
     <Content Include="Assets\CSS\images\directory.png" />
-    <Content Include="Assets\CSS\images\doc.png" />
     <Content Include="Assets\CSS\images\file.png" />
-    <Content Include="Assets\CSS\images\film.png" />
-    <Content Include="Assets\CSS\images\flash.png" />
-    <Content Include="Assets\CSS\images\folder_open.png" />
-    <Content Include="Assets\CSS\images\html.png" />
-    <Content Include="Assets\CSS\images\java.png" />
-    <Content Include="Assets\CSS\images\linux.png" />
-    <Content Include="Assets\CSS\images\music.png" />
-    <Content Include="Assets\CSS\images\pdf.png" />
-    <Content Include="Assets\CSS\images\php.png" />
-    <Content Include="Assets\CSS\images\picture.png" />
-    <Content Include="Assets\CSS\images\ppt.png" />
-    <Content Include="Assets\CSS\images\psd.png" />
-    <Content Include="Assets\CSS\images\ruby.png" />
-    <Content Include="Assets\CSS\images\script.png" />
     <Content Include="Assets\CSS\images\spinner.gif" />
-    <Content Include="Assets\CSS\images\txt.png" />
-    <Content Include="Assets\CSS\images\xls.png" />
-    <Content Include="Assets\CSS\images\zip.png" />
     <Content Include="Assets\CSS\validationEngine.jquery.css" />
     <Content Include="Assets\Images\log_error.png" />
     <Content Include="Assets\Images\gradientbutton-green.png" />
@@ -287,7 +265,6 @@
     <Content Include="Assets\Images\log_information.png" />
     <Content Include="Assets\Images\installer-ex-chicken.png" />
     <Content Include="Assets\Images\loadinglarge.gif" />
-    <Content Include="Assets\bootstrap\img\Thumbs.db" />
     <None Include="Assets\Scripts\jquery\jquery-1.8.0-vsdoc.js" />
     <Content Include="Assets\CSS\bootstrap-tagmanager.css" />
     <Content Include="Assets\Images\roadkill.png" />
@@ -417,8 +394,6 @@
     <Content Include="Assets\Scripts\roadkill\filemanager\util.min.js">
       <DependentUpon>util.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\CSS\jqueryFileTree.css" />
-    <Content Include="Assets\Scripts\jquery\jqueryFileTree.js" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\setup.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\adminsetup.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\editpage.ts" />
@@ -495,7 +470,6 @@
     <Content Include="Views\Settings\SettingsMenu.cshtml" />
     <Content Include="Views\Settings\Users.cshtml" />
     <Content Include="Views\Settings\UsersReadOnly.cshtml" />
-    <Content Include="Views\Files\Folder.cshtml" />
     <Content Include="Views\User\BlankLogin.cshtml" />
     <Content Include="Views\Settings\Tools.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
@@ -546,7 +520,6 @@
     <Content Include="Views\Pages\AllPages.cshtml" />
     <Content Include="Views\Pages\AllTags.cshtml" />
     <Content Include="Views\Pages\Tag.cshtml" />
-    <Content Include="Views\Files\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config">

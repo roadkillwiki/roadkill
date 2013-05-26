@@ -59,16 +59,3 @@ var ROADKILL_FILEMANAGER_DELETE_ERROR = "@SiteStrings.FileManager_Delete_Error";
 @:var ROADKILL_ADDEDITOR_TITLE = "@SiteStrings.SiteSettings_Users_AddEditorDialog_Title";
 @:var ROADKILL_EDITUSER_TITLE = "@SiteStrings.SiteSettings_Users_EditUserDialog_Title";
 }
-
-@if (ApplicationSettings.ResizeImages)
-{
-// Use Window load for images
-@:$(window).load(function ()
-@:{
-	// Resize all images
-	@:$("#pagecontent img").each(function()
-	@:{
-		@:resizeImage($(this), 400, 400);
-	@:});
-@:});
-}

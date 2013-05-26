@@ -173,19 +173,23 @@ namespace Roadkill.Core.Attachments
 		/// relative path parameter joined. This path always contains a trailing slash (or / on Unix based systems).</returns>
 		public string ConvertUrlPathToPhysicalPath(string relativePath)
 		{
-			if (string.IsNullOrEmpty(relativePath))
-				return "";
-
 			string dirSeperator = Path.DirectorySeparatorChar.ToString();
 			string attachmentsPath = _settings.AttachmentsDirectoryPath;
 
+			if (string.IsNullOrEmpty(relativePath))
+				return attachmentsPath;
+
+			// Strip out the /Attachments/ part of the path
 			relativePath = relativePath.Replace(_settings.AttachmentsUrlPath, "");
 			relativePath = relativePath.Replace("/", dirSeperator);
 
 			// Remove all '\' ('/' on unix) from the start of the path.
 			relativePath = relativePath.TrimStart(Path.DirectorySeparatorChar);
 
-			relativePath = Path.Combine(attachmentsPath, relativePath);
+			if (!string.IsNullOrEmpty(relativePath))
+				relativePath = Path.Combine(attachmentsPath, relativePath);
+			else
+				relativePath = attachmentsPath;
 
 			if (!relativePath.EndsWith(dirSeperator))
 				relativePath += dirSeperator;

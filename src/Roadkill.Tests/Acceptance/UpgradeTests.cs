@@ -18,6 +18,17 @@ namespace Roadkill.Tests.Acceptance
 	[Category("Acceptance")]
 	public class UpgradeTests : AcceptanceTestBase
 	{
+		/*
+		 To view the MDF in SQL Management studio, copy it to %TEMP% and then run:
+			USE [master]
+			GO
+
+			CREATE DATABASE TestDb ON
+			(FILENAME = N'C:\temp\roadkill152.mdf')
+			FOR ATTACH_REBUILD_LOG
+			GO
+		 */
+
 		private string _sqlServerMasterConnection = @"Server=.\SQLExpress;uid=sa;pwd=Passw0rd;database=master;";
 		private string _sqlServerConnection = @"Server=.\SQLExpress;Initial Catalog=roadkill152;AttachDbFilename=|DataDirectory|\roadkill152.mdf;Integrated Security=True;User Instance=True";
 		private string _sqliteConnection = @"Data Source=|DataDirectory|\roadkill152.sqlite;";
