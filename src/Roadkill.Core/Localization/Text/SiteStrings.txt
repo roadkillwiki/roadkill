@@ -276,8 +276,8 @@ SiteSettings_Validation_ThemeEmpty=The theme is empty.
 SiteSettings_Validation_SiteNameEmpty=The sitename is empty.
 SiteSettings_Validation_SiteUrlEmpty=The site url is empty.
 
-FileManager_Title=File explorer
-FileManager_Upload=Upload a file
+FileManager_Title=Manage files
+FileManager_Upload=Upload files
 FileManager_AddFolder_PlaceHolder=New folder
 FileManager_AddFolder_Cancel=Cancel new folder
 FileManager_Delete_File=Delete File
@@ -290,3 +290,5 @@ FileManager_Error_DirectoryListing=An expected error occurred getting the direct
 FileManager_Error_DeleteFolder=An expected error occurred deleting the folder: 
 FileManager_Error_DeleteFile=An expected error occurred deleting the file: 
 FileManager_Error_CreateFolder=An expected error occurred creating the folder: 
+FileManager_UploadingProgress=Uploading...
+FileManager_Watermark=Drag files here to upload. Double click to navigate folders

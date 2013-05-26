@@ -23,14 +23,16 @@ SiteStrings.FileManager_Error_DirectoryListing
 SiteStrings.FileManager_Error_DeleteFolder
 SiteStrings.FileManager_Error_DeleteFile
 SiteStrings.FileManager_Error_CreateFolder
+SiteStrings.FileManager_UploadingProgress
+SiteStrings.FileManager_Watermark
 
-- Plus these pending translation updates for existing locales -
+[Pending translations for existing locales]
+(the list above plus...)
 InstallStrings.Page4_Group5_Label1
 InstallStrings.Page4_Group5_Label2
 InstallStrings.Page4_Group5_Label3
 InstallStrings.Page4_Group5_Label4
 InstallStrings.Page4_Group5_Label5
-
 SiteStrings.SiteSettings_Configuration_Caching
 SiteStrings.SiteSettings_Configuration_Caching_Help
 SiteStrings.SiteSettings_Configuration_CachePageText

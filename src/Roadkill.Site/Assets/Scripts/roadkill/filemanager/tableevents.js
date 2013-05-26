@@ -41,14 +41,18 @@ var Roadkill;
                     }
                     var that = this;
                     var success = function (data) {
-                        if(addBreadCrumb) {
-                            FileManager.BreadCrumbTrail.addNewItem(data);
+                        if(data.status === "error") {
+                            toastr.error(data.message);
+                        } else {
+                            if(addBreadCrumb) {
+                                FileManager.BreadCrumbTrail.addNewItem(data);
+                            }
+                            var htmlBuilder = new FileManager.HtmlBuilder();
+                            var tableHtml = htmlBuilder.getFolderTable(data);
+                            $("#folder-container").html(tableHtml.join(""));
+                            var currentPath = TableEvents.getCurrentPath();
+                            $("#destination_folder").val(currentPath);
                         }
-                        var htmlBuilder = new FileManager.HtmlBuilder();
-                        var tableHtml = htmlBuilder.getFolderTable(data);
-                        $("#folder-container").html(tableHtml.join(""));
-                        var currentPath = TableEvents.getCurrentPath();
-                        $("#destination_folder").val(currentPath);
                     };
                     var ajaxRequest = new FileManager.AjaxRequest();
                     ajaxRequest.getFolderInfo(path, success);

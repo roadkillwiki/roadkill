@@ -538,7 +538,7 @@ namespace Roadkill.Core.Localization.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File explorer.
+        ///   Looks up a localized string similar to Manage files.
         /// </summary>
         public static string FileManager_Title {
             get {
@@ -547,11 +547,29 @@ namespace Roadkill.Core.Localization.Resx {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upload a file.
+        ///   Looks up a localized string similar to Upload files.
         /// </summary>
         public static string FileManager_Upload {
             get {
                 return ResourceManager.GetString("FileManager_Upload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uploading....
+        /// </summary>
+        public static string FileManager_UploadingProgress {
+            get {
+                return ResourceManager.GetString("FileManager_UploadingProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drag files here to upload. Double click to navigate folders.
+        /// </summary>
+        public static string FileManager_Watermark {
+            get {
+                return ResourceManager.GetString("FileManager_Watermark", resourceCulture);
             }
         }
         
