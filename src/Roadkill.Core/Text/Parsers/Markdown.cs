@@ -931,7 +931,7 @@ namespace Roadkill.Core.Converters
 				LinkEventArgs args = new LinkEventArgs(url, url, linkText, "");
 				OnLinkParsed(args);
 
-				result = "<a href=\"" + args.Href + "\"";
+				result = "<a rel=\"nofollow\" href=\"" + args.Href + "\"";
 
 				if (_titles.ContainsKey(linkID))
 				{

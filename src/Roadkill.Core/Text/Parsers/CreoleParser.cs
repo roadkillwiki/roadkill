@@ -934,7 +934,7 @@ namespace Roadkill.Core.Converters
 					OnLinkParsed(linkEventArgs);
 
 					markup = markup.Substring(0, iPos - 2)
-						+ String.Format("<a href=\"{0}\"{2}{3}>{1}</a>",
+						+ String.Format("<a rel=\"nofollow\" href=\"{0}\"{2}{3}>{1}</a>",
 											linkEventArgs.Href,
 											linkEventArgs.Text,
 											(string.IsNullOrWhiteSpace(linkEventArgs.Target)) ? "" : " target=\"" + linkEventArgs.Target + "\"",

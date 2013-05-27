@@ -210,9 +210,9 @@ namespace Roadkill.Core
 		/// </summary>
 		public static MvcHtmlString BootStrap(this UrlHelper helper)
 		{
-			string resources = "<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content("~/Assets/bootstrap/js/bootstrap.min.js") + "\"></script>";
-			resources += "\n<link href=\"" + helper.Content("~/Assets/bootstrap/css/bootstrap.min.css") + "\" rel=\"stylesheet\" media=\"screen\" />";
-
+			string resources = "\n<link href=\"" + helper.Content("~/Assets/bootstrap/css/bootstrap.min.css") + "\" rel=\"stylesheet\" media=\"screen\" />";
+			resources += "<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content("~/Assets/bootstrap/js/bootstrap.min.js") + "\"></script>";
+			
 			return MvcHtmlString.Create(resources);
 		}
 
