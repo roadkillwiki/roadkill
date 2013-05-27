@@ -1,5 +1,6 @@
 declare var $;
 declare var toastr;
+declare var bootbox;
 
 //
 // All variables below are declared in GlobalJSdeclare vars

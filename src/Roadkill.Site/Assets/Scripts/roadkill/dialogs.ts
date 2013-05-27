@@ -3,7 +3,7 @@ module Roadkill.Site
 {
 	export class Dialogs
 	{
-		public static openModal(selector:string, params?:any)
+		public static openModal(selector: string, params?: any)
 		{
 			if (typeof params !== "undefined")
 			{
@@ -18,7 +18,7 @@ module Roadkill.Site
 			$.fancybox($(selector), params);
 		}
 
-		public static openIFrameModal(html:string)
+		public static openIFrameModal(html: string)
 		{
 			$.fancybox(html, { openSpeed: "fast", openEffect: "none" });
 		}

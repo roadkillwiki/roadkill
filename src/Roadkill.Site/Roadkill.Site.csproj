@@ -269,6 +269,7 @@
     <Content Include="Assets\CSS\bootstrap-tagmanager.css" />
     <Content Include="Assets\Images\roadkill.png" />
     <Content Include="Assets\Images\log_warning.png" />
+    <Content Include="Assets\Scripts\bootbox.js" />
     <Content Include="Assets\Scripts\bootstrap-tagmanager.js" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\dialogs.ts" />
     <Content Include="Assets\Scripts\jquery\jquery.fileupload.js" />
