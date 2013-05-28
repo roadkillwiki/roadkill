@@ -43,7 +43,7 @@ namespace Roadkill.Core.Converters
 		/// A method used by the converter to get the url for adding a new page.
 		/// </summary>
 		public Func<string, string> NewPageUrlForTitle { get; set; }
-		private List<string> _linkIgnorePrefixes;
+		private List<string> _externalLinkPrefixes;
 		
 		/// <summary>
 		/// The current <see cref="IMarkupParser"/> being used by this instance, which is taken from 
@@ -66,7 +66,7 @@ namespace Roadkill.Core.Converters
 			InternalUrlForTitle = GetUrlForTitle;
 			NewPageUrlForTitle = GetNewPageUrlForTitle;
 
-			_linkIgnorePrefixes = new List<string>()
+			_externalLinkPrefixes = new List<string>()
 			{
 				"http://",
 				"https://",
@@ -159,7 +159,7 @@ namespace Roadkill.Core.Converters
 		/// </summary>
 		private void LinkParsed(object sender, LinkEventArgs e)
 		{
-			if (!_linkIgnorePrefixes.Any(x =>  e.OriginalHref.StartsWith(x)))
+			if (!_externalLinkPrefixes.Any(x => e.OriginalHref.StartsWith(x)))
 			{
 				string href = e.OriginalHref;
 				string lowerHref = href.ToLower();
@@ -170,7 +170,7 @@ namespace Roadkill.Core.Converters
 					// Parse "attachments:" to add the attachments path to the front of the href
 					if (lowerHref.StartsWith("attachment:"))
 					{
-						href = href.Remove(0,11);
+						href = href.Remove(0, 11);
 						if (!href.StartsWith("/"))
 							href = "/" + href;
 					}
@@ -209,6 +209,10 @@ namespace Roadkill.Core.Converters
 				e.Href = href;
 				e.Target = "";
 				e.CssClass = cssClass;
+			}
+			else
+			{
+				e.CssClass = "external-link";
 			}
 		}
 
