@@ -25,6 +25,9 @@ namespace Roadkill.Core.Text.Sanitizer
 		private ApplicationSettings _applicationSettings;
 		private string _cacheKey;
 		internal static MemoryCache _memoryCache = new MemoryCache("MarkupSanitizer");
+		public bool UseWhiteList { get; set; }
+		public bool CleanAttributes { get; set; }
+		public bool EncodeHtmlEntities { get; set; }
 
 		/// <summary>
 		/// 
@@ -34,6 +37,9 @@ namespace Roadkill.Core.Text.Sanitizer
 		{
 			_applicationSettings = settings;
 			_cacheKey = "whitelist";
+			UseWhiteList = true;
+			CleanAttributes = false;
+			EncodeHtmlEntities = false;
 
 			// Intialize an array to mark which characters are to be encoded.
             for (int i = 0; i < 0xFF; i++)
@@ -93,37 +99,64 @@ namespace Roadkill.Core.Text.Sanitizer
                 return string.Empty;
 
             HtmlNode allNodes = html.DocumentNode;
-			string[] tagNames = GetCachedWhiteList().ElementWhiteList.Select(x => x.Name).ToArray();
-			CleanNodes(allNodes, tagNames);
 
-            // Filter the attributes of the remaining
-			foreach (HtmlElement whiteListTag in GetCachedWhiteList().ElementWhiteList)
-            {
-                IEnumerable<HtmlNode> nodes = (from n in allNodes.DescendantsAndSelf()
-                                               where n.Name == whiteListTag.Name
-                                               select n);
+			if (UseWhiteList)
+			{
+				string[] tagNames = GetCachedWhiteList().ElementWhiteList.Select(x => x.Name).ToArray();
+				CleanNodes(allNodes, tagNames);
+			}
+       
+			// TODO: make this neater
+			if (UseWhiteList)
+			{
+				// Filter the attributes of the remaining
+				foreach (HtmlElement whiteListTag in GetCachedWhiteList().ElementWhiteList)
+				{
+					IEnumerable<HtmlNode> nodes = (from n in allNodes.DescendantsAndSelf()
+												   where n.Name == whiteListTag.Name
+												   select n);
 
-                if (nodes == null) continue;
+					if (nodes == null)
+						continue;
 
-                foreach (HtmlNode node in nodes)
-                {
-                    if (!node.HasAttributes) continue;
+					foreach (HtmlNode node in nodes)
+					{
+						if (!node.HasAttributes) continue;
 
-                    // Get all the allowed attributes for this tag
-                    HapHtmlAttribute[] attributes = node.Attributes.ToArray();
+						// Get all the allowed attributes for this tag
+						HapHtmlAttribute[] attributes = node.Attributes.ToArray();
+						foreach (HapHtmlAttribute attribute in attributes)
+						{
+							if (!whiteListTag.ContainsAttribute(attribute.Name))
+							{
+								attribute.Remove(); // Wasn't in the list
+							}
+							else
+							{
+								if (CleanAttributes)
+									CleanAttributeValues(attribute);
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				IEnumerable<HtmlNode> nodes = allNodes.DescendantsAndSelf();
+
+				foreach (HtmlNode node in nodes)
+				{
+					if (!node.HasAttributes) continue;
+
+					// Get all the allowed attributes for this tag
+					HapHtmlAttribute[] attributes = node.Attributes.ToArray();
 					foreach (HapHtmlAttribute attribute in attributes)
-                    {
-                        if (!whiteListTag.ContainsAttribute(attribute.Name))
-                        {
-                            attribute.Remove(); // Wasn't in the list
-                        }
-                        else
-                        {
-                            CleanAttributeValues(attribute);
-                        }
-                    }
-                }
-            }
+					{
+						if (CleanAttributes)
+							CleanAttributeValues(attribute);
+					}
+				}
+			}
 
             return allNodes.InnerHtml;
         }
@@ -184,14 +217,16 @@ namespace Roadkill.Core.Text.Sanitizer
             }
 
             // HtmlEntity Escape
-            StringBuilder sbAttributeValue = new StringBuilder();
-            foreach (char c in attribute.Value.ToCharArray())
-            {
-                sbAttributeValue.Append(EncodeCharacterToHtmlEntityEscape(c));
-            }
+			if (EncodeHtmlEntities)
+			{
+				StringBuilder sbAttributeValue = new StringBuilder();
+				foreach (char c in attribute.Value.ToCharArray())
+				{
+					sbAttributeValue.Append(EncodeCharacterToHtmlEntityEscape(c));
+				}
 
-            attribute.Value = sbAttributeValue.ToString();
-
+				attribute.Value = sbAttributeValue.ToString();
+			}            
         }
 
         /// <summary>

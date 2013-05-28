@@ -150,6 +150,8 @@
 		<HtmlElement Name="a">
 			<AllowedAttributes>
 				<HtmlAttribute Name="href" />
+				<HtmlAttribute Name="class" />
+				<HtmlAttribute Name="rel" />
 			</AllowedAttributes>
 		</HtmlElement>
 		<HtmlElement Name="pre">
