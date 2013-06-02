@@ -50,8 +50,8 @@ var Roadkill;
                     $("#preview").html("<span style='color:red'>An error occurred with the preview: " + errorThrown + "</span>");
                 });
                 request.always(function () {
-                    $("#preview").show();
-                    Site.Dialogs.openModal("#previewContainer");
+                    $("#previewLoading").show();
+                    Site.Dialogs.openFullScreenModal("#previewContainer");
                     $("#previewLoading").hide();
                 });
             }

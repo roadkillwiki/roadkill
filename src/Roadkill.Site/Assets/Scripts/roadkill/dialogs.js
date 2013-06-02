@@ -15,14 +15,24 @@ var Roadkill;
                 }
                 $.fancybox($(selector), params);
             }
-            Dialogs.openIFrameModal = function openIFrameModal(html) {
-                $.fancybox(html, {
-                    openSpeed: "fast",
-                    openEffect: "none"
+            Dialogs.openFullScreenModal = function openFullScreenModal(selector) {
+                $(selector).modal("show");
+                $(selector).css("width", $(window).width() - 110);
+                $(selector).css("height", $(window).height() - 110);
+                $(window).on("resize", function () {
+                    $(selector).css("width", $(window).width() - 110);
+                    $(selector).css("height", $(window).height() - 110);
                 });
+            }
+            Dialogs.openIFrameModal = function openIFrameModal(html) {
+                $("#iframe-dialog .modal-body").html(html);
+                $("#iframe-dialog").modal("show");
             }
             Dialogs.closeModal = function closeModal() {
                 $.fancybox.close(true);
+            }
+            Dialogs.closeModal2 = function closeModal2(selector) {
+                $(selector).modal("hide");
             }
             return Dialogs;
         })();
