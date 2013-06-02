@@ -8,28 +8,36 @@ using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Tests.Unit
 {
+	// Slightly lame property tests
 	[TestFixture]
 	public class DirectorySummaryTests
 	{
-		private ApplicationSettings _settings;
-
-		[SetUp]
-		public void TestsSetup()
+		[Test]
+		public void Constructor_Should_Fill_Properties()
 		{
-			_settings = new ApplicationSettings();
+			// Arrange
+			string name = "MyDirectory";
+			string urlPath = "/Home/MyDirectory";
+
+			// Act
+			DirectorySummary summary = new DirectorySummary(name, urlPath);			
+
+			// Assert
+			Assert.That(summary.Name, Is.EqualTo(name));
+			Assert.That(summary.UrlPath, Is.EqualTo(urlPath));
 		}
 
 		[Test]
-		public void ATest()
+		public void Constructor_Should_Create_Empty_Files_And_ChildFolders()
 		{
 			// Arrange
-			//DirectorySummary summary = new DirectorySummary(_settings, "");
 
 			// Act
-			
+			DirectorySummary summary = new DirectorySummary("", "");
 
 			// Assert
-			
+			Assert.That(summary.Files.Count, Is.EqualTo(0));
+			Assert.That(summary.ChildFolders.Count, Is.EqualTo(0));
 		}
 	}
 }

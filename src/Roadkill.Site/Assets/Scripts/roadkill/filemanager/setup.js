@@ -23,7 +23,7 @@ var Roadkill;
                             return;
                         }
                         var imgUrl;
-                        imgUrl = (ROADKILL_ATTACHMENTSPATH + FileManager.TableEvents.getCurrentPath() + "/");
+                        imgUrl = ROADKILL_ATTACHMENTSPATH + FileManager.TableEvents.getCurrentPath() + "/";
                         imgUrl = imgUrl.replace("//", "/") + $("td.file", this).text();
                         $("body").append("<p id='image-preview'><img src='" + imgUrl + "' alt='Image Preview' /></p>");
                         $("#image-preview").css("top", (e.pageY - xOffset) + "px").css("left", (e.pageX + yOffset) + "px").fadeIn("fast");
