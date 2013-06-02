@@ -1,0 +1,2290 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Essential.Diagnostics</name>
+    </assembly>
+    <members>
+        <member name="T:Essential.Data.DbProviderFactoryExtensions">
+            <summary>
+            Extensions to the DbProvideFactory class with factory methods that create
+            database objects and set basic properties.
+            </summary>
+        </member>
+        <member name="M:Essential.Data.DbProviderFactoryExtensions.CreateCommand(System.Data.Common.DbProviderFactory,System.String,System.Data.Common.DbConnection)">
+            <summary>
+            Create a DbCommand for the specified command text, with the specified connection set.
+            </summary>
+        </member>
+        <member name="M:Essential.Data.DbProviderFactoryExtensions.CreateConnection(System.Data.Common.DbProviderFactory,System.String)">
+            <summary>
+            Create a DbConnection with the specified connection string set.
+            </summary>
+        </member>
+        <member name="M:Essential.Data.DbProviderFactoryExtensions.CreateParameter(System.Data.Common.DbProviderFactory,System.String,System.Object)">
+            <summary>
+            Create a DbParameter with the specified name and value.
+            </summary>
+        </member>
+        <member name="T:Essential.Diagnostics.Abstractions.AssemblyTraceSource`1">
+            <summary>
+            Enable applications to trace the execution of code and associate trace 
+            messages with a source named after the assembly the generic type
+            is from.
+            </summary>
+            <remarks>
+            <para>
+            This class provides a way to automatically configure trace sources 
+            based on the target class (specifically naming the source after the 
+            assembly the class is from),which works well with dependency 
+            injection frameworks.
+            </para>
+            <para>
+            If using a dependency injection framework, by simply declaring
+            a dependency of type ITraceSource`T and registering AssemblyTraceSource`T
+            with the dependency injection container, classes will automatically
+            get an ITraceSource based on their assembly name.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Essential.Diagnostics.Abstractions.ITraceSource`1">
+            <summary>
+            Defines a set of methods and properties that enable applications to trace the 
+            execution of code and associate trace messages with a source related to
+            a specific class.
+            </summary>
+            <remarks>
+            <para>
+            The source is usually related to the specified class based on the class
+            name or other properties, such as the assembly the class is from.
+            </para>
+            <para>
+            For a suitable default implementation, which bases the source on the
+            assembly the class is from see AssemblyTraceSource.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Essential.Diagnostics.Abstractions.ITraceSource">
+            <summary>
+            Defines a set of methods and properties that enable applications to trace the 
+            execution of code and associate trace messages with their source. 
+            </summary>
+            <remarks>
+            <para>
+            Using ITraceSource and TraceSourceWrapper, instead of directly using 
+            System.Diagnostics.TraceSource, may make testing easier in some cases by
+            allowing the entire tracing infrastructure to by bypassed by using
+            a stub or mock implementation.
+            </para>
+            <para>
+            Configuration using InMemoryTraceListener could achieve many of the
+            same goals for testing, however using an interface may provide greater
+            flexibility in some scenarios.
+            </para>
+            <para>
+            Using the derived generic interface also provides a way to 
+            automatically configure trace sources based on the target class
+            (specifically naming the source after the assembly the class is from),
+            which works well with dependency injection frameworks.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.ITraceSource.Close">
+            <summary>
+            Closes all the trace listeners in the trace listener collection. 
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.ITraceSource.Flush">
+            <summary>
+            Flushes all the trace listeners in the trace listener collection. 
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.ITraceSource.TraceData(System.Diagnostics.TraceEventType,System.Int32,System.Object)">
+            <summary>
+            Writes trace data to the trace listeners in the Listeners collection using the 
+            specified event type, event identifier, and trace data. 
+            </summary>
+            <param name="eventType">One of the enumeration values that specifies the event type 
+            of the trace data.</param>
+            <param name="id">A numeric identifier for the event.</param>
+            <param name="data">The trace data.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.ITraceSource.TraceData(System.Diagnostics.TraceEventType,System.Int32,System.Object[])">
+            <summary>
+            Writes trace data to the trace listeners in the Listeners collection using the specified event type, event identifier, and trace data array.
+            </summary>
+            <param name="eventType">One of the enumeration values that specifies the event type 
+            of the trace data.</param>
+            <param name="id">A numeric identifier for the event.</param>
+            <param name="data">An object array containing the trace data.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.ITraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32)">
+            <summary>
+            Writes a trace event message to the trace listeners in the Listeners collection using the specified event type and event identifier. 
+            </summary>
+            <param name="eventType">One of the enumeration values that specifies the event type of the trace data.</param>
+            <param name="id">A numeric identifier for the event.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.ITraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String)">
+            <summary>
+            Writes a trace event message to the trace listeners in the Listeners collection using the specified event type, event identifier, and message. 
+            </summary>
+            <param name="eventType">One of the enumeration values that specifies the event type of the trace data.</param>
+            <param name="id">A numeric identifier for the event.</param>
+            <param name="message">The trace message to write.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.ITraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String,System.Object[])">
+            <summary>
+            Writes a trace event to the trace listeners in the Listeners collection using the specified event type, event identifier, and argument array and format. 
+            </summary>
+            <param name="eventType">One of the enumeration values that specifies the event type of the trace data.</param>
+            <param name="id">A numeric identifier for the event.</param>
+            <param name="format">A composite format string (see Remarks) that contains text intermixed with zero or more format items, which correspond to objects in the args array.</param>
+            <param name="args">An object array containing zero or more objects to format.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.ITraceSource.TraceInformation(System.String)">
+            <summary>
+            Writes an informational message to the trace listeners in the Listeners collection using the specified message.
+            </summary>
+            <param name="message">The informative message to write.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.ITraceSource.TraceInformation(System.String,System.Object[])">
+            <summary>
+            Writes an informational message to the trace listeners in the Listeners collection using the specified object array and formatting information. 
+            </summary>
+            <param name="format">A composite format string (see Remarks) that contains text intermixed with zero or more format items, which correspond to objects in the args array.</param>
+            <param name="args">An object array containing zero or more objects to format.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.ITraceSource.TraceTransfer(System.Int32,System.String,System.Guid)">
+            <summary>
+            Writes a trace transfer message to the trace listeners in the Listeners collection using the specified numeric identifier, message, and related activity identifier. 
+            </summary>
+            <param name="id">A numeric identifier for the event.</param>
+            <param name="message">The trace message to write.</param>
+            <param name="relatedActivityId">A structure that identifies the related activity.</param>
+        </member>
+        <member name="P:Essential.Diagnostics.Abstractions.ITraceSource.Attributes">
+            <summary>
+            Gets the custom switch attributes defined in the application configuration file. 
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.Abstractions.ITraceSource.Listeners">
+            <summary>
+            Gets the collection of trace listeners for the trace source. 
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.Abstractions.ITraceSource.Name">
+            <summary>
+            Gets the name of the trace source. 
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.Abstractions.ITraceSource.Switch">
+            <summary>
+            Gets or sets the source switch value. 
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.AssemblyTraceSource`1.#ctor">
+            <summary>
+            Initializes a new instance of the AssemblyTraceSource class. 
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.AssemblyTraceSource`1.#ctor(System.Diagnostics.SourceLevels)">
+            <summary>
+            Initializes a new instance of the AssemblyTraceSource class, using the specified default source level at which tracing is to occur. 
+            </summary>
+            <param name="defaultLevel"></param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.AssemblyTraceSource`1.Close">
+            <summary>
+            Closes all the trace listeners in the trace listener collection. 
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.AssemblyTraceSource`1.Flush">
+            <summary>
+            Flushes all the trace listeners in the trace listener collection. 
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.AssemblyTraceSource`1.TraceData(System.Diagnostics.TraceEventType,System.Int32,System.Object)">
+            <summary>
+            Writes trace data to the trace listeners in the Listeners collection using the 
+            specified event type, event identifier, and trace data. 
+            </summary>
+            <param name="eventType">One of the enumeration values that specifies the event type 
+            of the trace data.</param>
+            <param name="id">A numeric identifier for the event.</param>
+            <param name="data">The trace data.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.AssemblyTraceSource`1.TraceData(System.Diagnostics.TraceEventType,System.Int32,System.Object[])">
+            <summary>
+            Writes trace data to the trace listeners in the Listeners collection using the specified event type, event identifier, and trace data array.
+            </summary>
+            <param name="eventType">One of the enumeration values that specifies the event type 
+            of the trace data.</param>
+            <param name="id">A numeric identifier for the event.</param>
+            <param name="data">An object array containing the trace data.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.AssemblyTraceSource`1.TraceEvent(System.Diagnostics.TraceEventType,System.Int32)">
+            <summary>
+            Writes a trace event message to the trace listeners in the Listeners collection using the specified event type and event identifier. 
+            </summary>
+            <param name="eventType">One of the enumeration values that specifies the event type of the trace data.</param>
+            <param name="id">A numeric identifier for the event.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.AssemblyTraceSource`1.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String)">
+            <summary>
+            Writes a trace event message to the trace listeners in the Listeners collection using the specified event type, event identifier, and message. 
+            </summary>
+            <param name="eventType">One of the enumeration values that specifies the event type of the trace data.</param>
+            <param name="id">A numeric identifier for the event.</param>
+            <param name="message">The trace message to write.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.AssemblyTraceSource`1.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String,System.Object[])">
+            <summary>
+            Writes a trace event to the trace listeners in the Listeners collection using the specified event type, event identifier, and argument array and format. 
+            </summary>
+            <param name="eventType">One of the enumeration values that specifies the event type of the trace data.</param>
+            <param name="id">A numeric identifier for the event.</param>
+            <param name="format">A composite format string (see Remarks) that contains text intermixed with zero or more format items, which correspond to objects in the args array.</param>
+            <param name="args">An object array containing zero or more objects to format.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.AssemblyTraceSource`1.TraceInformation(System.String)">
+            <summary>
+            Writes an informational message to the trace listeners in the Listeners collection using the specified message.
+            </summary>
+            <param name="message">The informative message to write.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.AssemblyTraceSource`1.TraceInformation(System.String,System.Object[])">
+            <summary>
+            Writes an informational message to the trace listeners in the Listeners collection using the specified object array and formatting information. 
+            </summary>
+            <param name="format">A composite format string (see Remarks) that contains text intermixed with zero or more format items, which correspond to objects in the args array.</param>
+            <param name="args">An object array containing zero or more objects to format.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.AssemblyTraceSource`1.TraceTransfer(System.Int32,System.String,System.Guid)">
+            <summary>
+            Writes a trace transfer message to the trace listeners in the Listeners collection using the specified numeric identifier, message, and related activity identifier. 
+            </summary>
+            <param name="id">A numeric identifier for the event.</param>
+            <param name="message">The trace message to write.</param>
+            <param name="relatedActivityId">A structure that identifies the related activity.</param>
+        </member>
+        <member name="P:Essential.Diagnostics.Abstractions.AssemblyTraceSource`1.Attributes">
+            <summary>
+            Gets the custom switch attributes defined in the application configuration file. 
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.Abstractions.AssemblyTraceSource`1.Listeners">
+            <summary>
+            Gets the collection of trace listeners for the trace source. 
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.Abstractions.AssemblyTraceSource`1.Name">
+            <summary>
+            Gets the name of the trace source. 
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.Abstractions.AssemblyTraceSource`1.Switch">
+            <summary>
+            Gets or sets the source switch value. 
+            </summary>
+        </member>
+        <member name="T:Essential.Diagnostics.Abstractions.TraceSourceWrapper">
+            <summary>
+            Provides a wrapper around TraceSource that implements the ITraceSource interface, 
+            enable applications to trace the execution of code and associate trace messages 
+            with their source in a decoupled manner. 
+            </summary>
+            <remarks>
+            <para>
+            Using ITraceSource and TraceSourceWrapper, instead of directly using 
+            System.Diagnostics.TraceSource, may make testing easier in some cases by
+            allowing the entire tracing infrastructure to by bypassed by using
+            a stub or mock implementation.
+            </para>
+            <para>
+            Configuration using InMemoryTraceListener could achieve many of the
+            same goals for testing, however using an interface may provide greater
+            flexibility in some scenarios.
+            </para>
+            <para>
+            Using the derived generic interface also provides a way to 
+            automatically configure trace sources based on the target class
+            (specifically naming the source after the assembly the class is from),
+            which works well with dependency injection frameworks.
+            </para>
+            </remarks>
+            
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.TraceSourceWrapper.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the TraceSourceWrapper class, using the specified name for the source. 
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.TraceSourceWrapper.#ctor(System.String,System.Diagnostics.SourceLevels)">
+            <summary>
+            Initializes a new instance of the TraceSource class, using the specified name for the source 
+            and the default source level at which tracing is to occur. 
+            </summary>
+            <param name="name"></param>
+            <param name="defaultLevel"></param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.TraceSourceWrapper.#ctor(System.Diagnostics.TraceSource)">
+            <summary>
+            Initializes a new instance of the TraceSourceWrapper class, using the specified TraceSource for the source. 
+            </summary>
+            <param name="traceSource"></param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.TraceSourceWrapper.Close">
+            <summary>
+            Closes all the trace listeners in the trace listener collection. 
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.TraceSourceWrapper.Flush">
+            <summary>
+            Flushes all the trace listeners in the trace listener collection. 
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.TraceSourceWrapper.TraceData(System.Diagnostics.TraceEventType,System.Int32,System.Object)">
+            <summary>
+            Writes trace data to the trace listeners in the Listeners collection using the 
+            specified event type, event identifier, and trace data. 
+            </summary>
+            <param name="eventType">One of the enumeration values that specifies the event type 
+            of the trace data.</param>
+            <param name="id">A numeric identifier for the event.</param>
+            <param name="data">The trace data.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.TraceSourceWrapper.TraceData(System.Diagnostics.TraceEventType,System.Int32,System.Object[])">
+            <summary>
+            Writes trace data to the trace listeners in the Listeners collection using the specified event type, event identifier, and trace data array.
+            </summary>
+            <param name="eventType">One of the enumeration values that specifies the event type 
+            of the trace data.</param>
+            <param name="id">A numeric identifier for the event.</param>
+            <param name="data">An object array containing the trace data.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.TraceSourceWrapper.TraceEvent(System.Diagnostics.TraceEventType,System.Int32)">
+            <summary>
+            Writes a trace event message to the trace listeners in the Listeners collection using the specified event type and event identifier. 
+            </summary>
+            <param name="eventType">One of the enumeration values that specifies the event type of the trace data.</param>
+            <param name="id">A numeric identifier for the event.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.TraceSourceWrapper.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String)">
+            <summary>
+            Writes a trace event message to the trace listeners in the Listeners collection using the specified event type, event identifier, and message. 
+            </summary>
+            <param name="eventType">One of the enumeration values that specifies the event type of the trace data.</param>
+            <param name="id">A numeric identifier for the event.</param>
+            <param name="message">The trace message to write.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.TraceSourceWrapper.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String,System.Object[])">
+            <summary>
+            Writes a trace event to the trace listeners in the Listeners collection using the specified event type, event identifier, and argument array and format. 
+            </summary>
+            <param name="eventType">One of the enumeration values that specifies the event type of the trace data.</param>
+            <param name="id">A numeric identifier for the event.</param>
+            <param name="format">A composite format string (see Remarks) that contains text intermixed with zero or more format items, which correspond to objects in the args array.</param>
+            <param name="args">An object array containing zero or more objects to format.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.TraceSourceWrapper.TraceInformation(System.String)">
+            <summary>
+            Writes an informational message to the trace listeners in the Listeners collection using the specified message.
+            </summary>
+            <param name="message">The informative message to write.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.TraceSourceWrapper.TraceInformation(System.String,System.Object[])">
+            <summary>
+            Writes an informational message to the trace listeners in the Listeners collection using the specified object array and formatting information. 
+            </summary>
+            <param name="format">A composite format string (see Remarks) that contains text intermixed with zero or more format items, which correspond to objects in the args array.</param>
+            <param name="args">An object array containing zero or more objects to format.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.Abstractions.TraceSourceWrapper.TraceTransfer(System.Int32,System.String,System.Guid)">
+            <summary>
+            Writes a trace transfer message to the trace listeners in the Listeners collection using the specified numeric identifier, message, and related activity identifier. 
+            </summary>
+            <param name="id">A numeric identifier for the event.</param>
+            <param name="message">The trace message to write.</param>
+            <param name="relatedActivityId">A structure that identifies the related activity.</param>
+        </member>
+        <member name="P:Essential.Diagnostics.Abstractions.TraceSourceWrapper.Attributes">
+            <summary>
+            Gets the custom switch attributes defined in the application configuration file. 
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.Abstractions.TraceSourceWrapper.Listeners">
+            <summary>
+            Gets the collection of trace listeners for the trace source. 
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.Abstractions.TraceSourceWrapper.Name">
+            <summary>
+            Gets the name of the trace source. 
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.Abstractions.TraceSourceWrapper.Switch">
+            <summary>
+            Gets or sets the source switch value. 
+            </summary>
+        </member>
+        <member name="T:Essential.Diagnostics.ActivityScope">
+            <summary>
+            Sets the correlation manager ActivityId for the life of the object,
+            resetting it when disposed, and optionally logging activity messages.
+            </summary>
+            <remarks>
+            <para>
+            The sequence of events follows the convention used in WCF logging.
+            </para>
+            <para>
+            When created, the object logs a Transfer event, changes the ActivityId,
+            and then logs a Start event.
+            </para>
+            <para>
+            When disposed, the object logs a Transfer event (back to the original),
+            a Stop event, and then changes the ActivityId (back to the original).
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.ActivityScope.#ctor">
+            <summary>
+            Constructor. Sets the ActivityId for the life of the object without logging any events.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.ActivityScope.#ctor(System.Diagnostics.TraceSource)">
+            <summary>
+            Constructor. Sets the ActivityId for the life of the object, logging events but without specific event ID's.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.ActivityScope.#ctor(System.Diagnostics.TraceSource,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor. Sets the ActivityId for the life of the object, logging events with the specified event ID's.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.ActivityScope.#ctor(Essential.Diagnostics.Abstractions.ITraceSource)">
+            <summary>
+            Constructor. Sets the ActivityId for the life of the object, logging events but without specific event ID's.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.ActivityScope.#ctor(Essential.Diagnostics.Abstractions.ITraceSource,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Constructor. Sets the ActivityId for the life of the object, logging events with the specified event ID's.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.ActivityScope.Dispose">
+            <summary>
+            Disposes of the object, resetting the ActivityId.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.ActivityScope.Dispose(System.Boolean)">
+            <summary>
+            Dispose of the object, resetting the ActivityId.
+            </summary>
+        </member>
+        <member name="T:Essential.Diagnostics.ColoredConsoleTraceListener">
+            <summary>
+            Trace listener that outputs to the console in color, optionally using a custom
+            formatting template. 
+            </summary>
+            <remarks>
+            <para>
+            The initializeData for the ColoredConsoleTraceListener should contain a boolean
+            (true/false) value indicating whether to use the Console.Error stream. The default is
+            false, that is to use the normal Console.Out stream.
+            </para>
+            <para>
+            Note that colored output is only used in the normal stream; it is not used
+            in the error stream.
+            </para>
+            <para>
+            The following attributes can be set when adding the trace listener
+            entry in the configuration file.
+            </para>
+            <para>
+            <list type="table">
+            <listheader>
+                <term>Attribute</term>
+                <value>Description</value>
+            </listheader>
+            <item>
+            <term>initializeData</term>
+            <value>false (default) to use the Console.Out stream; 
+            true to use Console.Error</value>
+            </item>
+            <item>
+            <term>template</term>
+            <value>Template to use to format trace messages.
+            The default format is "{Source} {EventType}: {Id} : {Message}".
+            For more information on the template tokens available, <see cref="T:Essential.Diagnostics.TraceFormatter"/>.</value>
+            </item>
+            <item>
+            <term>convertWriteToEvent</term>
+            <value>If false (default), then calls to <see cref="M:Essential.Diagnostics.ColoredConsoleTraceListener.Write(System.String,System.String,System.Object)"/>,<see cref="M:Essential.Diagnostics.ColoredConsoleTraceListener.WriteLine(System.String,System.String,System.Object)"/> 
+            and similar methods are output directly to the output stream (using the Verbose color).
+            If true, then calls to these methods are instead converted to Verbose trace events and then 
+            output using the same format as calls to Trace methods.</value>
+            </item>
+            <item>
+            <term>criticalColor</term>
+            <value>Color to use for <see cref="F:System.Diagnostics.TraceEventType.Critical"/> events.
+            The default color for fatal events is <see cref="F:System.ConsoleColor.Red"/>.</value>
+            </item>
+            <item>
+            <term>errorColor</term>
+            <value>Color to use for <see cref="F:System.Diagnostics.TraceEventType.Error"/> events.
+            The default color for errors is <see cref="F:System.ConsoleColor.DarkRed"/>.</value>
+            </item>
+            <item>
+            <term>warningColor</term>
+            <value>Color to use for <see cref="F:System.Diagnostics.TraceEventType.Warning"/> events.
+            The default color for warnings is <see cref="F:System.ConsoleColor.Yellow"/>.</value>
+            </item>
+            <item>
+            <term>informationColor</term>
+            <value>Color to use for <see cref="F:System.Diagnostics.TraceEventType.Information"/> events.
+            The default color for information events is <see cref="F:System.ConsoleColor.Gray"/>.</value>
+            </item>
+            <item>
+            <term>verboseColor</term>
+            <value>Color to use for <see cref="F:System.Diagnostics.TraceEventType.Verbose"/> events.
+            The default color for verbose messages is <see cref="F:System.ConsoleColor.DarkCyan"/>.</value>
+            </item>
+            <item>
+            <term>activityTracingColor</term>
+            <value>Color to use for activity tracing (start, stop, transfer, etc) events, 
+            unless overridden by a particular color for the specific activity event.
+            The default color for activity tracing events is <see cref="F:System.ConsoleColor.Gray"/>,
+            the same as information events.</value>
+            </item>
+            <item>
+            <term>startColor</term>
+            <value>Color to use for <see cref="F:System.Diagnostics.TraceEventType.Start"/> events.</value>
+            </item>
+            <item>
+            <term>stopColor</term>
+            <value>Color to use for <see cref="F:System.Diagnostics.TraceEventType.Stop"/> events.</value>
+            </item>
+            <item>
+            <term>suspendColor</term>
+            <value>Color to use for <see cref="F:System.Diagnostics.TraceEventType.Suspend"/> events.</value>
+            </item>
+            <item>
+            <term>resumeColor</term>
+            <value>Color to use for <see cref="F:System.Diagnostics.TraceEventType.Resume"/> events.</value>
+            </item>
+            <item>
+            <term>transferColor</term>
+            <value>Color to use for <see cref="F:System.Diagnostics.TraceEventType.Transfer"/> events.</value>
+            </item>
+            </list>
+            </para>
+            <para>
+            Valid color values are those from the <see cref="T:System.ConsoleColor"/> enumeration.
+            </para>
+            <para>
+            When selecting colors note that PowerShell redefines DarkYellow and DarkMagenta and uses them
+            as default colors, so best to to avoid those two colors because result is not consistent.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Essential.Diagnostics.TraceListenerBase">
+            <summary>
+            Trace listener that forwards all calls to a single template method,
+            allowing easy implementation of custom trace listeners.
+            </summary>
+            <remarks>
+            <para>
+            This trace listener is designed to allow easy creation of custom
+            trace listeners by inheriting from this class and implementing
+            a single template method, WriteTrace.
+            </para>
+            <para>
+            The WriteTrace method combines all the various combinations
+            of trace methods from the base TraceListener class, passing
+            the full details to the template method allowing structured
+            logging.
+            </para>
+            <para>
+            By default the write methods are also converted to Verbose trace
+            events, allowing them to also be logged in a structured manner.
+            </para>
+            <para>
+            If implementing a stream-based listener, then the default
+            template methods for Write and WriteLine can also be overridden
+            to provide behaviour similar to stream-based listeners in
+            the .NET Framework.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.#ctor">
+            <summary>
+            Constructor used when creating from config file. 
+            (The Name property is set after the TraceListener is created.)
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.#ctor(System.String)">
+            <summary>
+            Constructor used when creating dynamically in code. The name should be set in the constructor.
+            </summary>
+            <param name="name">Name of the trace listener.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.Close">
+            <summary>
+            Closes the listener so it no longer receives tracing or debugging output.
+            </summary>
+            <remarks>
+            <para>
+            The default implementation calls Flush().
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.TraceData(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.Object)">
+            <summary>
+            Writes the trace data to the listener output, if allowed by the configured filter.
+            The data is forwarded to the WriteTrace template method.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.TraceData(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.Object[])">
+            <summary>
+            Writes the trace data to the listener output, if allowed by the configured filter.
+            The data is forwarded to the WriteTrace template method.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.TraceEvent(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String)">
+            <summary>
+            Writes the event to the listener, if allowed by the configured filter.
+            The event is forwarded to the WriteTrace template method.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.TraceEvent(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String,System.Object[])">
+            <summary>
+            Writes the event to the listener, formatting the message with the provided arguments, 
+            but only if allowed by the configured filter.
+            The event is forwarded to the WriteTrace template method.
+            </summary>
+            <remarks>
+            <para>
+            For performance reasons the message is not formatted, 
+            and the args not converted to strings, 
+            unless the filter is first passed.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.TraceTransfer(System.Diagnostics.TraceEventCache,System.String,System.Int32,System.String,System.Guid)">
+            <summary>
+            Writes the transfer to the listener, if allowed by the configured filter.
+            The transfer is forwarded to the WriteTrace template method.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.Write(System.Object)">
+            <summary>
+            Writes the object to the listener.
+            The object is forwared to the Write template method as data,
+            which by default is then forwarded to the WriteTrace template method.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.Write(System.Object,System.String)">
+            <summary>
+            Writes the object to the listener with the specified category.
+            The object is forwared to the Write template method as data,
+            which by default is then forwarded to the WriteTrace template method.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.Write(System.String)">
+            <summary>
+            Writes the message to the listener.
+            The message is forwared to the Write template method,
+            which by default is then forwarded to the WriteTrace template method.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.Write(System.String,System.String)">
+            <summary>
+            Writes the message to the listener with the specified category.
+            The message is forwared to the Write template method,
+            which by default is then forwarded to the WriteTrace template method.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.WriteLine(System.Object)">
+            <summary>
+            Writes the object to the listener.
+            The object is forwared to the Write template method as data,
+            which by default is then forwarded to the WriteTrace template method.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.WriteLine(System.Object,System.String)">
+            <summary>
+            Writes the object to the listener with the specified category.
+            The object is forwared to the Write template method as data,
+            which by default is then forwarded to the WriteTrace template method.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.WriteLine(System.String)">
+            <summary>
+            Writes the message to the listener.
+            The message is forwared to the Write template method,
+            which by default is then forwarded to the WriteTrace template method.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.WriteLine(System.String,System.String)">
+            <summary>
+            Writes the message to the listener with the specified category.
+            The message is forwared to the Write template method,
+            which by default is then forwarded to the WriteTrace template method.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.Write(System.String,System.String,System.Object)">
+            <summary>
+            Template method that by default forwards the written details 
+            to WriteTrace as a Verbose event
+            this should be overridden to write direct to the output if using a stream.
+            </summary>
+            <remarks>
+            <para>
+            The default implementation converts the writen details to a Verbose event
+            which is forwarded to WriteTrace for output.
+            </para>
+            <para>
+            The category is prepended to any message with a separating colon (:),
+            which is similar to the format used by framework listeners.
+            The data object is traced as data, which usually means it is
+            also eventually output as text, but usually in a different field. 
+            If category is specified when tracing a data object, the category
+            is treated as the message (without any colon).
+            </para>
+            <para>
+            If the listener is using a stream based output, then usually the
+            Write and WriteLine methods should be overridden to output directly to
+            the stream (with a following newline in the case of WriteLine).
+            </para>
+            <para>
+            Listeners should also consider supporting a ConvertWriteToEvent property,
+            which if set calls this base implemention, allowing the user to choose
+            if Write and WriteLine should be output directly or treated as events
+            (and formatted accordingly).
+            </para>
+            <para>
+            Listeners that do not use a continuous stream based output, but use
+            specifically formatted output, should leave this default implementation
+            and simply override WriteTrace.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.WriteLine(System.String,System.String,System.Object)">
+            <summary>
+            Template method that by default forwards the written details 
+            to WriteTrace as a Verbose event
+            this should be overridden to write direct to the output as a complete line 
+            (with a newline at the end) if using a stream.
+            </summary>
+            <remarks>
+            <para>
+            The default implementation converts the writen details to a Verbose event
+            which is forwarded to WriteTrace for output.
+            </para>
+            <para>
+            The category is prepended to any message with a separating colon (:),
+            which is similar to the format used by framework listeners.
+            The data object is traced as data, which usually means it is
+            also eventually output as text, but usually in a different field. 
+            If category is specified when tracing a data object, the category
+            is treated as the message (without any colon).
+            </para>
+            <para>
+            If the listener is using a stream based output, then usually the
+            Write and WriteLine methods should be overridden to output directly to
+            the stream (with a following newline in the case of WriteLine).
+            </para>
+            <para>
+            Listeners should also consider supporting a ConvertWriteToEvent property,
+            which if set calls this base implemention, allowing the user to choose
+            if Write and WriteLine should be output directly or treated as events
+            (and formatted accordingly).
+            </para>
+            <para>
+            Listeners that do not use a continuous stream based output, but use
+            specifically formatted output, should leave this default implementation
+            and simply override WriteTrace.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceListenerBase.WriteTrace(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String,System.Nullable{System.Guid},System.Object[])">
+            <summary>
+            Template method that must be overridden to write trace to the listener output.
+            </summary>
+            <remarks>
+            <para>
+            All of the parent interface of TraceListener is forwarded to this single
+            template method including, by default, calls to Write and WriteLine methods.
+            </para>
+            <para>
+            This means when inheriting from TraceListenerBase only this single
+            method needs to be overridden to implement a complete listener.
+            </para>
+            <para>
+            Listeners that use a continuous stream based output may also consider
+            overridding the two Write and WriteLine template methods to provide
+            direct writing behaviour, although this is not required.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.ColoredConsoleTraceListener.#ctor">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.ColoredConsoleTraceListener.#ctor(System.Boolean)">
+            <summary>
+            Constructor with initializeData.
+            </summary>
+            <param name="useErrorStream">false to use standard output (default); true to use standard error.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.ColoredConsoleTraceListener.GetConsoleColor(System.Diagnostics.TraceEventType)">
+            <summary>
+            Gets the console color set for the specified event type, or the default color.
+            </summary>
+            <param name="eventType">TraceEventType to get the ConsoleColor for.</param>
+            <returns>The ConsoleColor used to display the specified TraceEventType.</returns>
+        </member>
+        <member name="M:Essential.Diagnostics.ColoredConsoleTraceListener.SetConsoleColor(System.Diagnostics.TraceEventType,System.ConsoleColor)">
+            <summary>
+            Sets the console color to use for the specified event type.
+            </summary>
+            <param name="eventType">The TraceEventType to set the color for.</param>
+            <param name="color">The ConsoleColor to use for outputing trace messages of the specified type.</param>
+            <remarks>
+            <para>
+            When selecting colors note that PowerShell redefines DarkYellow and DarkMagenta and uses them
+            as default colors, so best to to avoid those two colors because result is not consistent.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.ColoredConsoleTraceListener.GetSupportedAttributes">
+            <summary>
+            Allowed attributes for this trace listener.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.ColoredConsoleTraceListener.Write(System.String,System.String,System.Object)">
+            <summary>
+            Handles trace Write calls - either output directly to console or convert to verbose event
+            based on the ConvertWriteToEvent setting.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.ColoredConsoleTraceListener.WriteLine(System.String,System.String,System.Object)">
+            <summary>
+            Handles trace Write calls - either output directly to console or convert to verbose event
+            based on the ConvertWriteToEvent setting.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.ColoredConsoleTraceListener.WriteTrace(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String,System.Nullable{System.Guid},System.Object[])">
+            <summary>
+            Write trace event with data.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.ColoredConsoleTraceListener.Console">
+            <summary>
+            Gets or sets the console to use; this defaults to an adapter for System.Console.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.ColoredConsoleTraceListener.ConvertWriteToEvent">
+            <summary>
+            Gets or sets whether calls to the Trace class static Write and WriteLine methods should be converted to Verbose events,
+            and then filtered and formatted (otherwise they are output directly to the console).
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.ColoredConsoleTraceListener.IsThreadSafe">
+            <summary>
+            Gets whether the listener internally handles thread safety
+            (or if the System.Diagnostics framework needs to co-ordinate threading).
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.ColoredConsoleTraceListener.Template">
+            <summary>
+            Gets or sets the token format string to use to display trace output.
+            </summary>
+            <remarks>
+            <para>
+            See TraceFormatter for details of the supported formats.
+            </para>
+            <para>
+            The default value is "{Source} {EventType}: {Id} : {Message}", which matches ConsoleTraceListener.
+            </para>
+            <para>
+            It is recommended, however, to include the time and thread values, for example by
+            using something similar to the format of RollingFileTraceListener:
+            "{DateTime:HH':'mm':'ssZ} [{Thread}] {EventType} {Source} {Id}: {Message}{Data}".
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Essential.Diagnostics.ColoredConsoleTraceListener.UseErrorStream">
+            <summary>
+            Gets whether to use the error stream or the standard out stream.
+            </summary>
+            <remarks>
+            <para>
+            This value is part of initializeData; if the value changes the
+            listener is recreated.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Essential.ConsoleAdapter">
+            <summary>
+            Adapter that wraps System.Console in an interface, allowing it to be substituted.
+            </summary>
+        </member>
+        <member name="T:Essential.IConsole">
+            <summary>
+            Interface representing the standard console.
+            </summary>
+        </member>
+        <member name="M:Essential.IConsole.ResetColor">
+            <summary>
+            Sets the foreground and background console colors to their defaults.
+            </summary>
+        </member>
+        <member name="P:Essential.IConsole.Error">
+            <summary>
+            Gets the standard error output stream.
+            </summary>
+        </member>
+        <member name="P:Essential.IConsole.ForegroundColor">
+            <summary>
+            Gets or sets the foreground color of the console.
+            </summary>
+        </member>
+        <member name="P:Essential.IConsole.Out">
+            <summary>
+            Gets the standard output stream.
+            </summary>
+        </member>
+        <member name="M:Essential.ConsoleAdapter.ResetColor">
+            <summary>
+            Sets the foreground and background console colors to their defaults.
+            </summary>
+        </member>
+        <member name="P:Essential.ConsoleAdapter.Error">
+            <summary>
+            Gets the standard error output stream.
+            </summary>
+        </member>
+        <member name="P:Essential.ConsoleAdapter.ForegroundColor">
+            <summary>
+            Gets or sets the foreground color of the console.
+            </summary>
+        </member>
+        <member name="P:Essential.ConsoleAdapter.Out">
+            <summary>
+            Gets the standard output stream.
+            </summary>
+        </member>
+        <member name="T:Essential.Diagnostics.EmailTraceListener">
+            <summary>
+            Sends a formatted email containing the contents of the trace.
+            </summary>
+            <remarks>
+            <para>
+            Sends each trace message received in an email, using the specified subject 
+            and body templates.
+            </para>
+            <para>
+            It is strongly recommended to set a filter to only accept Warning and above errors,
+            or otherwise reduce the number of trace events that are processed by this listener
+            to avoid flooding.
+            </para>
+            <para>
+            Sending an email is an expensive operation, so messages are queued and sent on
+            a separate thread. If there is a flood of messages exceeding the queue size then
+            messages will be dropped.
+            </para>
+            <para>
+            The SMTP host settings are defined in MailSettings of app.config, as documented 
+            at http://msdn.microsoft.com/en-us/library/w355a94k.aspx.  
+            </para>
+            <para>
+            The following attributes can be set when adding the trace listener
+            entry in the configuration file.
+            </para>
+            <para>
+            <list type="table">
+            <listheader>
+                <term>Attribute</term>
+                <value>Description</value>
+            </listheader>
+            <item>
+            <term>initializeData</term>
+            <value>Email address of the recipient. Multiple recipients may be separated by commas.</value>
+            </item>
+            <item>
+            <term>traceOutputOptions</term>
+            <value>Ignored.</value>
+            </item>
+            <item>
+            <term>bodyTemplate</term>
+            <value>Template used to construct the email body.</value>
+            </item>
+            <item>
+            <term>fromAddress</term>
+            <value>Optional alternate from address, instead of the one configured in system.net mailSettings.</value>
+            </item>
+            <item>
+            <term>maxConnections</term>
+            <value>Maximum concurrent SMTP connections. Default is 2 connections.</value>
+            </item>
+            <item>
+            <term>maxTracesPerHour</term>
+            <value>Maximum number of emails per hour that will be sent, to prevent flooding. Default is 50.</value>
+            </item>
+            <item>
+            <term>subjectTemplate</term>
+            <value>Template used to construct the email subject.
+            For more information on the template tokens available, <see cref="T:Essential.Diagnostics.TraceFormatter"/>.</value>
+            </item>
+            </list>
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.EmailTraceListener.#ctor(System.String)">
+            <summary>
+            Constructor. Sends each trace event in an email to the specified address.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.EmailTraceListener.GetSupportedAttributes">
+            <summary>
+            Allowed attributes for this trace listener.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.EmailTraceListener.WriteTrace(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String,System.Nullable{System.Guid},System.Object[])">
+            <summary>
+            Write trace event with data.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.EmailTraceListener.BodyTemplate">
+            <summary>
+            Gets or sets the template used to construct the email body.
+            </summary>
+            <remarks>
+            <para>
+            See TraceFormatter for details of the supported formats.
+            </para>
+            <para>
+            The default template includes the Source, Date (UTC and Local), Event ID, Level, 
+            Activity, User, Computer, AppDomain, Process ID, Process Name, Thread ID, 
+            Message (full) and Data.
+            </para>
+            <para>
+            Note if configuring in XML to use the entity escape sequence to encode new
+            lines, "&#xD;&#xA;" (if setting in code, encode new lines with '\n' as normal).
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Essential.Diagnostics.EmailTraceListener.FromAddress">
+            <summary>
+            Gets or sets an alternate from address, instead of the one configured in system.net mailSettings.
+            </summary>
+            <remarks>
+            <para>
+            Generally the value set in system.net mailSettings is used as the From address field in any email
+            sent, however this attribute may be set to override the value.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Essential.Diagnostics.EmailTraceListener.IsThreadSafe">
+            <summary>
+            Gets a value indicating the trace listener is thread safe.
+            </summary>
+            <value>true</value>
+        </member>
+        <member name="P:Essential.Diagnostics.EmailTraceListener.MaxConnections">
+            <summary>
+            Gets or sets the maximum concurrent SMTP connections.
+            </summary>
+            <remarks>
+            <para>
+            The default value is 2.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Essential.Diagnostics.EmailTraceListener.MaxTracesPerHour">
+            <summary>
+            Gets or sets the maximum number of emails per hour that will be sent, to prevent flooding.
+            </summary>
+            <remarks>
+            <para>
+            The default value is 50.
+            </para>
+            <para>
+            To prevent flooding with emails this listener has a maximum number of email messages it
+            will send per hour. Normally the frequency of emails should be controlled by adding
+            an appropriate filter, for example add an EventTypeFilter that only send messages of
+            Warning level and above.
+            </para>
+            <para>
+            However there could still be an issue that causes repeated error events to be generated,
+            which would result in a flood of emails. To prevent this the component drops any further
+            traces once the limit is reached.
+            </para>
+            <para>
+            Note that restarting the process clears the counter and will send additional messages.
+            </para>
+            <para>
+            Setting the value to "0" will put no limit on the number of messages sent.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Essential.Diagnostics.EmailTraceListener.SubjectTemplate">
+            <summary>
+            Gets or sets the template used to construct the email subject.
+            </summary>
+            <remarks>
+            <para>
+            See TraceFormatter for details of the supported formats.
+            </para>
+            <para>
+            The default value is "{EventType} {Id}: {MessagePrefix}; {MachineName}; {User}; {Process}".
+            </para>
+            <para>
+            Note that the {MessagePrefix} inserts the trace message up to the first punctuation
+            character with a maximum length of 40 characters. This keeps the email subject header
+            short; the full message is included in the email body.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Essential.Diagnostics.EmailTraceListener.ToAddress">
+            <summary>
+            Gets the email address the trace messages will be sent to.
+            </summary>
+            <remarks>
+            <para>
+            This value is part of initializeData; if the value changes the
+            listener is recreated. See the constructor parameter for details
+            of the supported formats.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Essential.Diagnostics.BufferedEmailTraceListener">
+            <summary>
+            Adds formatted trace messages to a buffer and sends an email when the process exits, or on request.
+            </summary>
+            <remarks>
+            <para>
+            Intended to be used in console apps which will send all warning/error traces via email at the end 
+            of the process.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.BufferedEmailTraceListener.#ctor(System.String)">
+            <summary>
+            Constructor. Adds each trace to a buffer and then sends an email to the specified 
+            address with all buffered messages when the process exits, or on request.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.BufferedEmailTraceListener.Clear">
+            <summary>
+            Clears all buffered messages.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.BufferedEmailTraceListener.ClearAll">
+            <summary>
+            Clears the buffer for all BufferedEmailTraceListener attached to Trace.
+            </summary>
+            <remarks>
+            <para>
+            Note that this does not clear listeners that are only attached to a TraceSource,
+            they must be attached to the main Trace entry as well.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.BufferedEmailTraceListener.Send">
+            <summary>
+            Send all trace messages in buffer in a single email message. If the buffer is empty, no email is sent.
+            </summary>
+            <remarks>
+            <para>
+            The buffer is then cleared.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.BufferedEmailTraceListener.SendAll">
+            <summary>
+            Send all buffered messages for all listeners attached to Trace.
+            </summary>
+            <remarks>
+            <para>
+            While the listener will send an email message at the end of the hosting process, this function 
+            will allow your application code to send the email message earlier. For example, you might want 
+            to send one message at the end of each loop. 
+            </para>
+            <para>
+            Note that this does not clear listeners that are only attached to a TraceSource,
+            they must be attached to the main Trace entry as well.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.BufferedEmailTraceListener.GetSupportedAttributes">
+            <summary>
+            Allowed attributes for this trace listener.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.BufferedEmailTraceListener.WriteTrace(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String,System.Nullable{System.Guid},System.Object[])">
+            <summary>
+            Write trace event with data.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.BufferedEmailTraceListener.FromAddress">
+            <summary>
+            Gets or sets an alternate from address, instead of the one configured in system.net mailSettings.
+            </summary>
+            <remarks>
+            <para>
+            Generally the value set in system.net mailSettings is used as the From address field in any email
+            sent, however this attribute may be set to override the value.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Essential.Diagnostics.BufferedEmailTraceListener.HeaderTemplate">
+            <summary>
+            Gets or sets the template used to construct the header of the email body.
+            </summary>
+            <remarks>
+            <para>
+            See TraceFormatter for details of the supported formats.
+            </para>
+            <para>
+            The default template includes the Date (UTC and Local), User, Computer, 
+            AppDomain, Process ID, and Process Name. The details used are based on
+            the first trace received, so should be used for information that will 
+            be consistent or meaningful for all traces.
+            </para>
+            <para>
+            The rest of the body of the email then contains the buffered messages 
+            using TraceTemplate (including the buffered first message in the 
+            TraceTemplate format).
+            </para>
+            <para>
+            Note if configuring in XML to use the entity escape sequence to encode new
+            lines, "&#xD;&#xA;" (if setting in code, encode new lines with '\n' as normal).
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Essential.Diagnostics.BufferedEmailTraceListener.IsThreadSafe">
+            <summary>
+            Gets a value indicating the trace listener is thread safe. 
+            </summary>
+            <value>true</value>
+        </member>
+        <member name="P:Essential.Diagnostics.BufferedEmailTraceListener.MaxConnections">
+            <summary>
+            Gets or sets the maximum concurrent SMTP connections.
+            </summary>
+            <remarks>
+            <para>
+            The default value is 2.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Essential.Diagnostics.BufferedEmailTraceListener.SubjectTemplate">
+            <summary>
+            Gets or sets the template used to construct the email subject.
+            </summary>
+            <remarks>
+            <para>
+            See TraceFormatter for details of the supported formats.
+            </para>
+            <para>
+            The default value is "{Listener} {DateTime:u}; {MachineName}; {User}; {Process}", 
+            and uses details from the first trace received, so should contain information that will 
+            be consistent or meaningful for all traces.        
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Essential.Diagnostics.BufferedEmailTraceListener.ToAddress">
+            <summary>
+            Gets the email address the trace messages will be sent to.
+            </summary>
+            <remarks>
+            <para>
+            This value is part of initializeData; if the value changes the
+            listener is recreated. See the constructor parameter for details
+            of the supported formats.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Essential.Diagnostics.BufferedEmailTraceListener.TraceTemplate">
+            <summary>
+            Gets or sets the template for a single trace message.
+            </summary>
+            <remarks>
+            <para>
+            See TraceFormatter for details of the supported formats.
+            </para>
+            <para>
+            The default value is "{DateTime:u} [{Thread}] {EventType} {Source} {Id}: {Message}{Data}",
+            which is also the format used in RollingFileTraceListener.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Essential.Diagnostics.ExpressionFilter">
+            <summary>
+            Trace filter that evaluates a user-supplied boolean expression.
+            </summary>
+            <remarks>
+            <para>
+            The initalizeData for the filter contains the C# expression that
+            is evaluated. The expression must return a boolean result and
+            can use any of the parameters: Source, EventType, Id, Format,
+            Callstack, DateTime, LogicalOperationStack, ProcessId, ThreadId, 
+            Timestamp.
+            </para>
+            <para>
+            You can also use an C# expression, including accessing environment
+            details. Note that expressions are case sensitive; the parameter names
+            above must be cased correctly.
+            </para>
+            <para>
+            Note that Format is the format template or message (if there are no
+            format parameters).
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.ExpressionFilter.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="expression">A C# expression that is evaluated to determine if the event should be traced or not.</param>
+        </member>
+        <member name="M:Essential.Diagnostics.ExpressionFilter.ShouldTrace(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String,System.Object[],System.Object,System.Object[])">
+            <summary>
+            Determines whether the event should be traced by the listener or not.
+            </summary>
+        </member>
+        <member name="T:Essential.Diagnostics.ExpressionFilter.ExpressionBase">
+            <summary>
+            Base class used internally by ExpressionFilter to compile dynamic methods.
+            This class is not intended to be used outside this filter.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.ExpressionFilter.ExpressionBase.ShouldTrace(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String,System.String,System.DateTimeOffset,System.Collections.Stack,System.Int32,System.String,System.Int64)">
+            <summary>
+            Evaluates the filter expression to determine if an event should be traced.
+            </summary>
+        </member>
+        <member name="T:Essential.Diagnostics.PropertyFilter">
+            <summary>
+            Trace filter that filters based on the value of a property.
+            </summary>
+            <remarks>
+            <para>
+            The initializeData for this filter contains a single property
+            comparison, e.g. initializeData="Id == 1".
+            </para>
+            <para>
+            Currently only equality is supported, using C# syntax (double
+            equals signs). The property must come first and must be
+            one of the values: 
+            Data, Data0, EventType, Id, Message, ActivityId, RelatedActivityId, 
+            Source, Callstack, DateTime, LogicalOperationStack, 
+            ProcessId, ThreadId, Timestamp, MachineName, ProcessName, ThreadName.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.PropertyFilter.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.PropertyFilter.ShouldTrace(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String,System.Object[],System.Object,System.Object[])">
+            <summary>
+            Determines whether the event should be traced by the listener or not.
+            </summary>
+        </member>
+        <member name="T:Essential.Diagnostics.RollingFileTraceListener">
+            <summary>
+            Trace listener that writes to a text file, rolling to a new file based on a filename template (usually including the date).
+            </summary>
+            <remarks>
+            <para>
+            A rolling log file is achieved by including the date in the filename, so that when the date changes
+            a different file is used.
+            </para>
+            <para>
+            Available tokens are DateTime (a UTC DateTimeOffset) and LocalDateTime (a local DateTimeOffset), 
+            as well as ApplicationName, ProcessId, ProcessName and MachineName. These use standard .NET 
+            format strings, e.g. "Trace{DateTime:yyyyMMddTHH}.log" would generate a different log name
+            each hour.
+            </para>
+            <para>
+            The default filePathTemplate is "{ApplicationName}-{DateTime:yyyy-MM-dd}.log", which matches
+            the format used by Microsoft.VisualBasic.Logging.FileLogTraceListener (except that it uses
+            UTC time instead of local time).
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.RollingFileTraceListener.#ctor">
+            <summary>
+            Constructor. Writes to a rolling text file using the default name.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.RollingFileTraceListener.#ctor(System.String)">
+            <summary>
+            Constructor with initializeData.
+            </summary>
+            <param name="filePathTemplate">Template filename to log to; may use replacement parameters.</param>
+            <remarks>
+            <para>
+            A rolling log file is achieved by including the date in the filename, so that when the date changes
+            a different file is used.
+            </para>
+            <para>
+            Available tokens are DateTime (a UTC DateTimeOffset) and LocalDateTime (a local DateTimeOffset), 
+            as well as ApplicationName, ProcessId, ProcessName and MachineName. These use standard .NET 
+            format strings, e.g. "Trace{DateTime:yyyyMMddTHH}.log" would generate a different log name
+            each hour.
+            </para>
+            <para>
+            The default filePathTemplate is "{ApplicationName}-{DateTime:yyyy-MM-dd}.log", which matches
+            the format used by Microsoft.VisualBasic.Logging.FileLogTraceListener (except that it uses
+            UTC time instead of local time).
+            </para>
+            <para>
+            To get behaviour that exactly matches FileLogTraceListener, 
+            use "{ApplicationName}-{LocalDateTime:yyyy-MM-dd}.log".
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.RollingFileTraceListener.Flush">
+            <summary>
+            Flushes the output buffer.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.RollingFileTraceListener.GetSupportedAttributes">
+            <summary>
+            Allowed attributes for this trace listener.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.RollingFileTraceListener.Write(System.String,System.String,System.Object)">
+            <summary>
+            Handles trace Write calls - either output directly to console or convert to verbose event
+            based on the ConvertWriteToEvent setting.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.RollingFileTraceListener.WriteLine(System.String,System.String,System.Object)">
+            <summary>
+            Handles trace Write calls - either output directly to console or convert to verbose event
+            based on the ConvertWriteToEvent setting.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.RollingFileTraceListener.WriteTrace(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String,System.Nullable{System.Guid},System.Object[])">
+            <summary>
+            Write trace event with data.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.RollingFileTraceListener.ConvertWriteToEvent">
+            <summary>
+            Gets or sets whether calls to the Trace class static Write and WriteLine methods should be converted to Verbose events,
+            and then filtered and formatted (otherwise they are output directly to the file).
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.RollingFileTraceListener.FileSystem">
+            <summary>
+            Gets or sets the file system to use; this defaults to an adapter for System.IO.File.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.RollingFileTraceListener.IsThreadSafe">
+            <summary>
+            Gets whether the listener internally handles thread safety
+            (or if the System.Diagnostics framework needs to co-ordinate threading).
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.RollingFileTraceListener.Template">
+            <summary>
+            Gets or sets the token format string to use to display trace output.
+            </summary>
+            <remarks>
+            <para>
+            See TraceFormatter for details of the supported formats.
+            </para>
+            <para>
+            The default value is "{DateTime:u} [{Thread}] {EventType} {Source} {Id}: {Message}{Data}".
+            </para>
+            <para>
+            To get a format that matches Microsoft.VisualBasic.Logging.FileLogTraceListener, 
+            use the tab delimited format "{Source}&#x9;{EventType}&#x9;{Id}&#x9;{Message}{Data}". 
+            (Note: In the config XML file the TAB characters are XML encoded; if specifying 
+            in C# code the delimiters  would be '\t'.)
+            </para>
+            <para>
+            To get a format matching FileLogTraceListener with all TraceOutputOptions enabled, use
+            "{Source}&#x9;{EventType}&#x9;{Id}&#x9;{Message}&#x9;{Callstack}&#x9;{LogicalOperationStack}&#x9;{DateTime:u}&#x9;{ProcessId}&#x9;{ThreadId}&#x9;{Timestamp}&#x9;{MachineName}".
+            </para>
+            <para>
+            To get a format simliar to that produced by System.Diagnostics.TextWriterTraceListener,
+            use "{Source} {EventType}: {Id} : {Message}{Data}".
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Essential.Diagnostics.RollingFileTraceListener.FilePathTemplate">
+            <summary>
+            Gets the template for the rolling file name.
+            </summary>
+            <remarks>
+            <para>
+            This value is part of initializeData; if the value changes the
+            listener is recreated. See the constructor parameter for details
+            of the supported formats.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Essential.Diagnostics.RollingXmlTraceListener">
+            <summary>
+            Trace listener that writes E2ETraceEvent XML fragments to a text file, rolling to a new file based on a filename template (usually including the date).
+            </summary>
+            <remarks>
+            <para>
+            The E2ETraceEvent XML fragment format can be read by the Service Trace Viewer tool.
+            </para>
+            <para>
+            A rolling log file is achieved by including the date in the filename, so that when the date changes
+            a different file is used.
+            </para>
+            <para>
+            Available tokens are DateTime (a UTC DateTimeOffset) and LocalDateTime (a local DateTimeOffset), 
+            as well as ApplicationName, ProcessId, ProcessName and MachineName. These use standard .NET 
+            format strings, e.g. "Trace{DateTime:yyyyMMddTHH}.svclog" would generate a different log name
+            each hour.
+            </para>
+            <para>
+            The default filePathTemplate is "{ApplicationName}-{DateTime:yyyy-MM-dd}.svclog", which matches
+            the format used by Microsoft.VisualBasic.Logging.FileLogTraceListener (except that it uses
+            UTC time instead of local time).
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.RollingXmlTraceListener.#ctor">
+            <summary>
+            Constructor. Writes to a rolling text file using the default name.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.RollingXmlTraceListener.#ctor(System.String)">
+            <summary>
+            Constructor with initializeData.
+            </summary>
+            <param name="filePathTemplate">Template filename to log to; may use replacement parameters.</param>
+            <remarks>
+            <para>
+            A rolling log file is achieved by including the date in the filename, so that when the date changes
+            a different file is used.
+            </para>
+            <para>
+            Available tokens are DateTime (a UTC DateTimeOffset) and LocalDateTime (a local DateTimeOffset), 
+            as well as ApplicationName, ProcessId, ProcessName and MachineName. These use standard .NET 
+            format strings, e.g. "Trace{DateTime:yyyyMMddTHH}.svclog" would generate a different log name
+            each hour.
+            </para>
+            <para>
+            The default filePathTemplate is "{ApplicationName}-{DateTime:yyyy-MM-dd}.svclog", which matches
+            the format used by Microsoft.VisualBasic.Logging.FileLogTraceListener (except that it uses
+            UTC time instead of local time).
+            </para>
+            <para>
+            To get behaviour that exactly matches FileLogTraceListener, 
+            use "{ApplicationName}-{LocalDateTime:yyyy-MM-dd}.svclog".
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.RollingXmlTraceListener.Flush">
+            <summary>
+            Flushes the output buffer.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.RollingXmlTraceListener.GetSupportedAttributes">
+            <summary>
+            Allowed attributes for this trace listener.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.RollingXmlTraceListener.WriteTrace(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String,System.Nullable{System.Guid},System.Object[])">
+            <summary>
+            Write trace event with data.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.RollingXmlTraceListener.FileSystem">
+            <summary>
+            Gets or sets the file system to use; this defaults to an adapter for System.IO.File.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.RollingXmlTraceListener.IsThreadSafe">
+            <summary>
+            Gets whether the listener internally handles thread safety
+            (or if the System.Diagnostics framework needs to co-ordinate threading).
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.RollingXmlTraceListener.FilePathTemplate">
+            <summary>
+            Gets the template for the rolling file name.
+            </summary>
+            <remarks>
+            <para>
+            This value is part of initializeData; if the value changes the
+            listener is recreated. See the constructor parameter for details
+            of the supported formats.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Essential.Diagnostics.TraceConfigurationMonitor">
+            <summary>
+            Monitors the application configuration file and refreshes the
+            tracing configuration when the file is changed.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceConfigurationMonitor.#ctor">
+            <summary>
+            Constructor. Monitors the configuration file based on the entry assembly.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceConfigurationMonitor.#ctor(System.String)">
+            <summary>
+            Constructor. Monitors the specified file (monitoring enabled).
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceConfigurationMonitor.#ctor(System.String,System.Boolean)">
+            <summary>
+            Constructor. Configured to monitors the specified file,
+            enabled or not as specified.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceConfigurationMonitor.Start">
+            <summary>
+            Start monitoring changes.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceConfigurationMonitor.Stop">
+            <summary>
+            Stop monitoring changes.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceConfigurationMonitor.Dispose">
+            <summary>
+            Disposes of the object.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceConfigurationMonitor.Dispose(System.Boolean)">
+            <summary>
+            Dispose of the object.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.TraceConfigurationMonitor.Enabled">
+            <summary>
+            Gets or sets whether changes should be monitored.
+            </summary>
+        </member>
+        <member name="T:Essential.Diagnostics.InMemoryTraceListener">
+            <summary>
+            Records trace events in memory, within a circular buffer. 
+            The buffer limit can be set by the initialization data.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.InMemoryTraceListener.#ctor">
+            <summary>
+            Constructor. Creates a listener with the default buffer size (20).
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.InMemoryTraceListener.#ctor(System.Int32)">
+            <summary>
+            Constructor. Creates a listener with the specified buffer size.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.InMemoryTraceListener.Clear">
+            <summary>
+            Clears the buffer.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.InMemoryTraceListener.GetEvents">
+            <summary>
+            Gets an array of the current events in the buffer.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.InMemoryTraceListener.WriteTrace(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String,System.Nullable{System.Guid},System.Object[])">
+            <summary>
+            Records the trace event in the in-memory buffer, converting mutable properties to string arrays to preserve their value at the time of the trace.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.InMemoryTraceListener.Limit">
+            <summary>
+            Gets the current buffer size.
+            </summary>
+            <remarks>
+            <para>
+            Note that the size of the buffer cannot be changed once the listener
+            has been created. If the initialization data is changed, a new instance
+            of the listener is created, i.e. existing data will be lost.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Essential.Diagnostics.InMemoryTraceListener.IsThreadSafe">
+            <summary>
+            Gets whether the listener internally handles thread safety
+            (or if the System.Diagnostics framework needs to co-ordinate threading).
+            </summary>
+        </member>
+        <member name="T:Essential.Diagnostics.InMemoryTraceListener.TraceDetails">
+            <summary>
+            Details of a single trace event.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.InMemoryTraceListener.TraceDetails.GetLogicalOperationStack">
+            <summary>
+            Gets the logical operation stack at the time of the event.
+            </summary>
+            <remarks>
+            <para>
+            Note that the most recent item (the top of the stack) is
+            listed first.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.InMemoryTraceListener.TraceDetails.Data">
+            <summary>
+            Gets additional data items for the event.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.InMemoryTraceListener.TraceDetails.DateTime">
+            <summary>
+            Gets the point in time the trace event was recorded.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.InMemoryTraceListener.TraceDetails.Source">
+            <summary>
+            Gets the source used to write the trace event.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.InMemoryTraceListener.TraceDetails.ActivityId">
+            <summary>
+            Gets the current activity the time of the event.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.InMemoryTraceListener.TraceDetails.EventType">
+            <summary>
+            Gets the type of the event.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.InMemoryTraceListener.TraceDetails.Id">
+            <summary>
+            Gets the numeric id of the event.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.InMemoryTraceListener.TraceDetails.Message">
+            <summary>
+            Gets the formatted message for the event.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.InMemoryTraceListener.TraceDetails.RelatedActivityId">
+            <summary>
+            Gets the related activity being transferred to (for transfer events).
+            </summary>
+        </member>
+        <member name="T:Essential.Diagnostics.LogicalOperationScope">
+            <summary>
+            Encompases a logical operation using the diagnostics correlation manager,
+            starting the operation when the object is created and ending the
+            operation when the object is disposed.
+            </summary>
+            <remarks>
+            <para>
+            The scope can optionally log start and stop trace events for
+            the operation.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.LogicalOperationScope.#ctor">
+            <summary>
+            Constructor. 
+            Encompases an unnamed logical operation.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.LogicalOperationScope.#ctor(System.Object)">
+            <summary>
+            Constructor. 
+            Encompases a logical operation using the specified object.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.LogicalOperationScope.#ctor(System.Diagnostics.TraceSource,System.Object)">
+            <summary>
+            Constructor. 
+            Encompass a logical operation using the specified object, 
+            and writing start and stop events to the specified source.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.LogicalOperationScope.#ctor(System.Diagnostics.TraceSource,System.Object,System.Int32,System.Int32)">
+            <summary>
+            Constructor. 
+            Encompases a logical operation using the specified object,
+            and writing start and stop events to the specified source,
+            with the specified event IDs.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.LogicalOperationScope.#ctor(Essential.Diagnostics.Abstractions.ITraceSource,System.Object)">
+            <summary>
+            Constructor. 
+            Encompass a logical operation using the specified object, 
+            and writing start and stop events to the specified source.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.LogicalOperationScope.#ctor(Essential.Diagnostics.Abstractions.ITraceSource,System.Object,System.Int32,System.Int32)">
+            <summary>
+            Constructor. 
+            Encompases a logical operation using the specified object,
+            and writing start and stop events to the specified source,
+            with the specified event IDs.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.LogicalOperationScope.Dispose">
+            <summary>
+            Dispose.
+            Ends the logical operation.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.LogicalOperationScope.Dispose(System.Boolean)">
+            <summary>
+            Dispose.
+            Ends the logical operation.
+            </summary>
+        </member>
+        <member name="T:Essential.IO.FileSystem">
+            <summary>
+            Adapter that wraps System.IO.File and System.IO.Directory, allowing them to be substituted.
+            </summary>
+        </member>
+        <member name="T:Essential.IO.IFileSystem">
+            <summary>
+            Interface facade representing the file system and the operations of System.IO.File and System.IO.Directory.
+            </summary>
+        </member>
+        <member name="M:Essential.IO.IFileSystem.Open(System.String,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare)">
+            <summary>
+            Opens a System.IO.FileStream on the specified path, 
+            having the specified mode with read, write, or read/write access
+            and the specified sharing option.
+            </summary>
+            <param name="path">The file to open.</param>
+            <param name="mode">A value that specifies whether a file is created if one does not exist, and determines whether the contents of existing files are retained or overwritten.</param>
+            <param name="access">A value that specifies the operations that can be performed on the file.</param>
+            <param name="share">A value specifying the type of access other threads have to the file.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Essential.IO.FileSystem.Open(System.String,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare)">
+            <summary>
+            Opens a System.IO.FileStream on the specified path, 
+            having the specified mode with read, write, or read/write access
+            and the specified sharing option.
+            </summary>
+            <param name="path">The file to open.</param>
+            <param name="mode">A value that specifies whether a file is created if one does not exist, and determines whether the contents of existing files are retained or overwritten.</param>
+            <param name="access">A value that specifies the operations that can be performed on the file.</param>
+            <param name="share">A value specifying the type of access other threads have to the file.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Essential.Resource">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Essential.Resource.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Essential.Resource.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Essential.Resource.ActivityScope_Start">
+            <summary>
+              Looks up a localized string similar to Start.
+            </summary>
+        </member>
+        <member name="P:Essential.Resource.ActivityScope_Stop">
+            <summary>
+              Looks up a localized string similar to Stop.
+            </summary>
+        </member>
+        <member name="P:Essential.Resource.ActivityScope_Transfer">
+            <summary>
+              Looks up a localized string similar to Transfer.
+            </summary>
+        </member>
+        <member name="P:Essential.Resource.InvalidConsoleColor">
+            <summary>
+              Looks up a localized string similar to Console color specified is invalid..
+            </summary>
+        </member>
+        <member name="P:Essential.Resource.RollingTextWriter_ExhaustedLogfileNames">
+            <summary>
+              Looks up a localized string similar to &quot;Exhausted possible logfile names&quot;.
+            </summary>
+        </member>
+        <member name="P:Essential.Resource.StringTemplate_ArgumentNotFound">
+            <summary>
+              Looks up a localized string similar to Invalid argument name used..
+            </summary>
+        </member>
+        <member name="P:Essential.Resource.StringTemplate_InvalidString">
+            <summary>
+              Looks up a localized string similar to Input string was not a correct template..
+            </summary>
+        </member>
+        <member name="P:Essential.Resource.TraceListenerBase_TraceMessageFormat">
+            <summary>
+              Looks up a localized string similar to {0}, relatedActivityId={1}.
+            </summary>
+        </member>
+        <member name="T:Essential.Diagnostics.SqlDatabaseTraceListener">
+            <summary>
+            Trace listener that writes to a database.
+            </summary>
+            <remarks>
+            <para>
+            This listener writes to the database table created by
+            the diagnostics_regsql tool (via the stored procedure
+            created by the tool).
+            </para>
+            <para>
+            The following attributes can be set when adding the trace listener
+            entry in the configuration file.
+            </para>
+            <para>
+            <list type="table">
+            <listheader>
+                <term>Attribute</term>
+                <value>Description</value>
+            </listheader>
+            <item>
+            <term>initializeData</term>
+            <value>Name of the connection string of the database to write to.</value>
+            </item>
+            <item>
+            <term>applicationName</term>
+            <value>Application name to use when writing to the database; set this
+            value when the database is shared between multiple applications. The 
+            default value is an empty string.</value>
+            </item>
+            <item>
+            <term>commandText</term>
+            <value>Command to use when calling the database. The default is
+            the diagnostics_Trace_AddEntry stored procedure created by
+            the diagnostics_regsql tool.</value>
+            </item>
+            <item>
+            <term>maxMessageLength</term>
+            <value>Maximum length of the message text to write to the database,
+            where the database column has limited size. Messages (after inserting
+            format parameters) are trimmed to this length, with the last three
+            characters replaced by "..." if the original message was longer.</value>
+            </item>
+            </list>
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.SqlDatabaseTraceListener.#ctor(System.String)">
+            <summary>
+            Constructor with initializeData.
+            </summary>
+            <param name="connectionName">name of the connection string of the database to write to</param>
+        </member>
+        <member name="M:Essential.Diagnostics.SqlDatabaseTraceListener.GetSupportedAttributes">
+            <summary>
+            Allowed attributes for this trace listener.
+            </summary>
+        </member>
+        <member name="M:Essential.Diagnostics.SqlDatabaseTraceListener.WriteTrace(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String,System.Nullable{System.Guid},System.Object[])">
+            <summary>
+            Write trace event with data.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.SqlDatabaseTraceListener.ApplicationName">
+            <summary>
+            Gets or sets the name of the application used when logging to the database.
+            </summary>
+        </member>
+        <member name="P:Essential.Diagnostics.SqlDatabaseTraceListener.CommandText">
+            <summary>
+            Gets or sets the command, with parameters, sent to the database.
+            </summary>
+            <remarks>
+            <para>
+            The default command text calls the diagnostics_Trace_AddEntry stored
+            procedure, created by the diagnostics_regsql tool.
+            </para>
+            <para>
+            To bypass the stored procedure, you can directly insert by setting
+            the command text to something like
+            "INSERT INTO dbo.diagnostics_Trace ( ApplicationName, Source, Id, EventType, UtcDateTime, MachineName, AppDomainFriendlyName, ProcessId, ThreadName, Message, ActivityId, RelatedActivityId, LogicalOperationStack, Data ) VALUES ( @ApplicationName, @Source, @Id, @EventType, @UtcDateTime, @MachineName, @AppDomainFriendlyName, @ProcessId, @ThreadName, @Message, @ActivityId, @RelatedActivityId, @LogicalOperationStack, @Data )".
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Essential.Diagnostics.SqlDatabaseTraceListener.MaxMessageLength">
+            <summary>
+            Gets or sets the length to trim any message text to.
+            </summary>
+            <remarks>
+            <para>
+            This is the maximum length of the message text to write to the database,
+            where the database column has limited size. Messages (after inserting
+            format parameters) are trimmed to this length, with the last three
+            characters replaced by "..." if the original message was longer.
+            </para>
+            <para>
+            A value of zero (0) can be used to remove the message limit length,
+            for example where the column has no limit on length (e.g. a
+            column of type ntext).
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Essential.Diagnostics.SqlDatabaseTraceListener.ConnectionName">
+            <summary>
+            Gets the name of the connection string that identifies the database to use.
+            </summary>
+        </member>
+        <member name="T:Essential.Diagnostics.TraceFormatter">
+            <summary>
+            Formats trace output using a template.
+            </summary>
+            <remarks>
+            <para>
+            Uses the StringTemplate.Format function to format trace output using a supplied template
+            and trace information. The formatted event can then be written to the console, a
+            file, or other text-based output.
+            </para>
+            <para>
+            The following parameters are available in the template string:
+            Data, Data0, EventType, Id, Message, ActivityId, RelatedActivityId, Source, 
+            Callstack, DateTime (or UtcDateTime), LocalDateTime, LogicalOperationStack, 
+            ProcessId, ThreadId, Timestamp, MachineName, ProcessName, ThreadName,
+            ApplicationName, MessagePrefix, AppDomain.
+            </para>
+            <para>
+            An example template that generates the same output as the ConsoleListener is:
+            "{Source} {EventType}: {Id} : {Message}".
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceFormatter.Format(System.String,System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String,System.Nullable{System.Guid},System.Object[])">
+            <summary>
+            Formats a trace event, inserted the provided values into the provided template.
+            </summary>
+            <returns>A string containing the values formatted using the provided template.</returns>
+            <remarks>
+            <para>
+            Obsolete. Should use the overload that includes listener instead.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.Diagnostics.TraceFormatter.Format(System.String,System.Diagnostics.TraceListener,System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String,System.Nullable{System.Guid},System.Object[])">
+            <summary>
+            Formats a trace event, inserted the provided values into the provided template.
+            </summary>
+            <returns>A string containing the values formatted using the provided template.</returns>
+            <remarks>
+            <para>
+            Uses the StringTemplate.Format function to format trace output using a supplied template
+            and trace information. The formatted event can then be written to the console, a
+            file, or other text-based output.
+            </para>
+            <para>
+            The following parameters are available in the template string:
+            Data, Data0, EventType, Id, Message, ActivityId, RelatedActivityId, Source, 
+            Callstack, DateTime (or UtcDateTime), LocalDateTime, LogicalOperationStack, 
+            ProcessId, ThreadId, Timestamp, MachineName, ProcessName, ThreadName,
+            ApplicationName, PrincipalName, WindowsIdentityName.
+            </para>
+            <para>
+            An example template that generates the same output as the ConsoleListener is:
+            "{Source} {EventType}: {Id} : {Message}".
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Essential.Diagnostics.TraceFormatter.HttpTraceContext">
+            <summary>
+            Gets or sets the context for ASP.NET web trace information.
+            </summary>
+        </member>
+        <member name="T:Essential.StringTemplate">
+            <summary>
+            Formats structured strings similar to a composite format string 
+            but using a template with named, rather than positional, arguments.
+            </summary>
+        </member>
+        <member name="M:Essential.StringTemplate.Format(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Replaces named template items in a specified string 
+            with the string representation of a corresponding named object 
+            from the specified dictionary. 
+            A specified parameter supplies culture-specific formatting information.
+            </summary>
+            <param name="template">A template string (see Remarks).</param>
+            <param name="arguments">A dictionary that contains named objects to format.</param>
+            <returns>A copy of template in which the template items have been replaced 
+            by the string representation of the corresponding objects from arguments.</returns>
+            <exception cref="T:System.ArgumentNullException">template or arguments is null.</exception>
+            <exception cref="T:System.FormatException">template is invalid, 
+            or one of the named template items cannot be provided
+            (when the named key does not exist in the arguments IDictionary).</exception>
+            <remarks>
+            <para>
+            Note that argument names may or may not be case-sensitive depending on the
+            comparer used by the dictionary. To get case-insensitive behaviour, use
+            a dictionary that has a case-insensitive comparer.
+            </para>
+            <para>
+            For implementations where a user-supplied template is used to format 
+            arguments provided by the system it is recommended that arguments
+            are case-insensitive.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.StringTemplate.Format(System.String,Essential.StringTemplate.GetValue)">
+            <summary>
+            Replaces named template items in a specified string 
+            with the string representation of a corresponding named object 
+            provided by the passed function. 
+            A specified parameter supplies culture-specific formatting information.
+            </summary>
+            <param name="template">A template string (see Remarks).</param>
+            <param name="getValue">An function that supplies named objects to format.</param>
+            <returns>A copy of template in which the template items have been replaced 
+            by the string representation of the corresponding objects supplied by getValue.</returns>
+            <exception cref="T:System.ArgumentNullException">template or the getValue callback is null.</exception>
+            <exception cref="T:System.FormatException">template is invalid, 
+            or one of the named template items cannot be provided
+            (getValue returns false when that item is requested).</exception>
+            <remarks>
+            <para>
+            Note that argument names may or may not be case-sensitive depending on the
+            comparer used by the dictionary. To get case-insensitive behaviour, use
+            a dictionary that has a case-insensitive comparer.
+            </para>
+            <para>
+            For implementations where a user-supplied template is used to format 
+            arguments provided by the system it is recommended that arguments
+            are case-insensitive.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.StringTemplate.Format(System.IFormatProvider,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Replaces named template items in a specified string 
+            with the string representation of a corresponding named object 
+            from the specified dictionary. 
+            A specified parameter supplies culture-specific formatting information.
+            </summary>
+            <param name="provider">An object that supplies culture-specific formatting information.</param>
+            <param name="template">A template string (see Remarks).</param>
+            <param name="arguments">A dictionary that contains named objects to format.</param>
+            <returns>A copy of template in which the template items have been replaced 
+            by the string representation of the corresponding objects from arguments.</returns>
+            <exception cref="T:System.ArgumentNullException">template or arguments is null.</exception>
+            <exception cref="T:System.FormatException">template is invalid, 
+            or one of the named template items cannot be provided
+            (when the named key does not exist in the arguments IDictionary).</exception>
+            <remarks>
+            <para>
+            Note that argument names may or may not be case-sensitive depending on the
+            comparer used by the dictionary. To get case-insensitive behaviour, use
+            a dictionary that has a case-insensitive comparer.
+            </para>
+            <para>
+            For implementations where a user-supplied template is used to format 
+            arguments provided by the system it is recommended that arguments
+            are case-insensitive.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Essential.StringTemplate.Format(System.IFormatProvider,System.String,Essential.StringTemplate.GetValue)">
+            <summary>
+            Replaces named template items in a specified string 
+            with the string representation of a corresponding named object 
+            provided by the passed function. 
+            A specified parameter supplies culture-specific formatting information.
+            </summary>
+            <param name="provider">An object that supplies culture-specific formatting information.</param>
+            <param name="template">A template string (see Remarks).</param>
+            <param name="getValue">An function that supplies named objects to format.</param>
+            <returns>A copy of template in which the template items have been replaced 
+            by the string representation of the corresponding objects supplied by getValue.</returns>
+            <exception cref="T:System.ArgumentNullException">template or the getValue callback is null.</exception>
+            <exception cref="T:System.FormatException">template is invalid, 
+            or one of the named template items cannot be provided
+            (getValue returns false when that item is requested).</exception>
+            <remarks>
+            <para>
+            Note that argument names may or may not be case-sensitive depending on the
+            comparer used by the dictionary. To get case-insensitive behaviour, use
+            a dictionary that has a case-insensitive comparer.
+            </para>
+            <para>
+            For implementations where a user-supplied template is used to format 
+            arguments provided by the system it is recommended that arguments
+            are case-insensitive.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:Essential.StringTemplate.GetValue">
+            <summary>
+            Provides named argument values for the StringTemplate.
+            </summary>
+            <param name="name">Name of the argument required.</param>
+            <param name="value">Value of the argument, if it exists.</param>
+            <returns>true if the argument name is valid, i.e. the value can be supplied; false if the argument name is invalid (usually treated as an error)</returns>
+        </member>
+        <member name="T:Essential.Web.HttpContextCurrentAdapter">
+            <summary>
+            Adapter that wraps HttpContext.Current.
+            </summary>
+        </member>
+        <member name="T:Essential.Web.IHttpTraceContext">
+            <summary>
+            Interface representing information available to tracing from HttpContext.Current.
+            </summary>
+        </member>
+        <member name="P:Essential.Web.IHttpTraceContext.AppDataPath">
+            <summary>
+            Gets the physical file path that corresponds to the App_Data directory, if in the context of a web request.
+            </summary>
+        </member>
+        <member name="P:Essential.Web.IHttpTraceContext.RequestPath">
+            <summary>
+            Gets the virtual path of the current request, if in the context of a web request. 
+            </summary>
+        </member>
+        <member name="P:Essential.Web.IHttpTraceContext.RequestUrl">
+            <summary>
+            Gets information about the URL of the current request, if in the context of a web request. 
+            </summary>
+        </member>
+        <member name="P:Essential.Web.IHttpTraceContext.UserHostAddress">
+            <summary>
+            Gets the IP host address of the remote client, if in the context of a web request. 
+            </summary>
+        </member>
+        <member name="P:Essential.Web.HttpContextCurrentAdapter.AppDataPath">
+            <summary>
+            Gets the physical file path that corresponds to the App_Data directory, if in the context of a web request.
+            </summary>
+        </member>
+        <member name="P:Essential.Web.HttpContextCurrentAdapter.RequestPath">
+            <summary>
+            Gets the virtual path of the current request, if in the context of a web request. 
+            </summary>
+        </member>
+        <member name="P:Essential.Web.HttpContextCurrentAdapter.RequestUrl">
+            <summary>
+            Gets information about the URL of the current request, if in the context of a web request. 
+            </summary>
+        </member>
+        <member name="P:Essential.Web.HttpContextCurrentAdapter.UserHostAddress">
+            <summary>
+            Gets the IP host address of the remote client, if in the context of a web request. 
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -298,10 +298,11 @@ namespace Roadkill.Tests.Unit
 			_filesController.SetFakeControllerContext();
 
 			// Act
-			ActionResult result = _filesController.FolderInfo("");
+			JsonResult result = _filesController.FolderInfo("") as JsonResult;
 
 			// Assert
-			Assert.That(result, Is.TypeOf<JsonResult>(), "JsonResult");
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			string json = result.Data.ToString();
 		}
 
 		[Test]

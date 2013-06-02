@@ -20,22 +20,16 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public string Folder { get; set; }
 
 		/// <summary>
-		/// The full url path, e.g. /Attachments/Folder1/mypic.png.
-		/// </summary>
-		public string FullPath { get; set; }
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="FileSummary"/> class.
 		/// </summary>
 		/// <param name="relativePath">The relative path of the filename</param>
-		public FileSummary(string name, string extension, long size, DateTime createDate, string folder, string fullPath)
+		public FileSummary(string name, string extension, long size, DateTime createDate, string folder)
 		{
 			Name = name;
 			Extension = extension;
 			Size = size;
 			CreateDate = createDate.ToShortDateString();
 			Folder = folder;
-			FullPath = fullPath;
 		}
 	}
 }

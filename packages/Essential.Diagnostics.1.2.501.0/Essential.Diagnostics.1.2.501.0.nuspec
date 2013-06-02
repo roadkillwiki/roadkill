@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Essential.Diagnostics</id>
+    <version>1.2.501.0</version>
+    <title>Essential.Diagnostics</title>
+    <authors>Sly Gryphon</authors>
+    <owners>Sly Gryphon</owners>
+    <licenseUrl>http://essentialdiagnostics.codeplex.com/license</licenseUrl>
+    <projectUrl>http://essentialdiagnostics.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>You probably want the Essential.Diagnostics Configuration package, which includes this plus sample config sections.
+	
+Essential.Diagnostics contains additional trace listeners, filters and utility classes for the .NET Framework System.Diagnostics trace logging. Included are colored console (that allows custom formats), SQL database (including a tool to create tables), rolling file (with custom formats), rolling XML, email (per trace or batched), and in-memory trace listeners, simple property and expression filters, activity and logical operation scopes, and configuration file monitoring. 
+	
+The library also includes Diagnostics.Abstractions interfaces and classes for better support of dependency injection frameworks. See the project site on CodePlex for examples and documentation.</description>
+    <summary>Additional trace listeners, filters and utility classes for System.Diagnostics logging including colored console, formatted rolling file, email and database listeners.</summary>
+    <tags>Logging Tracing Diagnostics Log Trace TraceListener</tags>
+  </metadata>
+</package>

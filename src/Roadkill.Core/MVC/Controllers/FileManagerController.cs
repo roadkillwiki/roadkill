@@ -169,7 +169,7 @@ namespace Roadkill.Core.Mvc.Controllers
 						if (!_filesToExclude.Contains(info.Name))
 						{
 							string urlPath = Path.Combine(dir, filename);
-							FileSummary fileSummary = new FileSummary(info.Name, info.Extension.Replace(".", ""), info.Length, info.CreationTime, dir, "");
+							FileSummary fileSummary = new FileSummary(info.Name, info.Extension.Replace(".", ""), info.Length, info.CreationTime, dir);
 							summary.Files.Add(fileSummary);
 						}
 					}
