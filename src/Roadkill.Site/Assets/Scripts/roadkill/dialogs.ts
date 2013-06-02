@@ -18,14 +18,32 @@ module Roadkill.Site
 			$.fancybox($(selector), params);
 		}
 
+		public static openFullScreenModal(selector: string)
+		{
+			$(selector).modal("show");
+			$(selector).css("width", $(window).width() - 110);
+			$(selector).css("height", $(window).height() - 110);
+			$(window).on("resize", function ()
+			{
+				$(selector).css("width", $(window).width() - 110);
+				$(selector).css("height", $(window).height() - 110);
+			});
+		}
+
 		public static openIFrameModal(html: string)
 		{
-			$.fancybox(html, { openSpeed: "fast", openEffect: "none" });
+			$("#iframe-dialog .modal-body").html(html);
+			$("#iframe-dialog").modal("show");
 		}
 
 		public static closeModal()
 		{
 			$.fancybox.close(true);
+		}
+
+		public static closeModal2(selector: string)
+		{
+			$(selector).modal("hide");
 		}
 	}
 }

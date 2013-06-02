@@ -69,8 +69,8 @@ module Roadkill.Site
 
 			request.always(function ()
 			{
-				$("#preview").show();
-				Dialogs.openModal("#previewContainer");
+				$("#previewLoading").show();
+				Dialogs.openFullScreenModal("#previewContainer");
 				$("#previewLoading").hide();
 			});
 		}

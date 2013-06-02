@@ -36,13 +36,13 @@ var Roadkill;
                     parent.addListItem(ROADKILL_EDIT_NUMBERLIST_TOKEN);
                 });
                 $(".wysiwyg-picture").click(function () {
-                    Site.Dialogs.openIFrameModal("<iframe src='" + ROADKILL_FILESELECTURL + "' id='filechooser-iframe' width='700' height='400' scrolling='auto'></iframe>");
+                    Site.Dialogs.openIFrameModal("<iframe src='" + ROADKILL_FILESELECTURL + "' id='filechooser-iframe'></iframe>");
                 });
                 $(".wysiwyg-link").click(function () {
                     parent.addLink();
                 });
                 $(".wysiwyg-help").click(function () {
-                    Site.Dialogs.openIFrameModal("<iframe src='" + ROADKILL_WIKIMARKUPHELP + "' id='help-iframe' scrolling='auto'></iframe>");
+                    Site.Dialogs.openIFrameModal("<iframe src='" + ROADKILL_WIKIMARKUPHELP + "' id='help-iframe'></iframe>");
                 });
             };
             WysiwygEditor.prototype.addStyling = function (styleCode) {
@@ -83,7 +83,7 @@ var Roadkill;
                     suffix = suffix.replace("%FILENAME%", image);
                     $("#Content").replaceSelection(prefix + suffix);
                     $("#Content").setSelection(range.start + prefix.length, range.start + prefix.length);
-                    Site.Dialogs.closeModal();
+                    Site.Dialogs.closeModal2("#iframe-dialog");
                 }
             }
             WysiwygEditor.prototype.addLink = function () {

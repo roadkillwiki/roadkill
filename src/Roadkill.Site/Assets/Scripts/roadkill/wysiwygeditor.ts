@@ -53,7 +53,7 @@ module Roadkill.Site
 			});
 			$(".wysiwyg-picture").click(function ()
 			{
-				Dialogs.openIFrameModal("<iframe src='" + ROADKILL_FILESELECTURL + "' id='filechooser-iframe' width='700' height='400' scrolling='auto'></iframe>");
+				Dialogs.openIFrameModal("<iframe src='" + ROADKILL_FILESELECTURL + "' id='filechooser-iframe'></iframe>");
 			});
 			$(".wysiwyg-link").click(function ()
 			{
@@ -61,7 +61,7 @@ module Roadkill.Site
 			});
 			$(".wysiwyg-help").click(function ()
 			{
-				Dialogs.openIFrameModal("<iframe src='" + ROADKILL_WIKIMARKUPHELP + "' id='help-iframe' scrolling='auto'></iframe>");
+				Dialogs.openIFrameModal("<iframe src='" + ROADKILL_WIKIMARKUPHELP + "' id='help-iframe'></iframe>");
 			});
 		}
 
@@ -129,7 +129,7 @@ module Roadkill.Site
 
 				$("#Content").replaceSelection(prefix + suffix);
 				$("#Content").setSelection(range.start + prefix.length, range.start + prefix.length);
-				Dialogs.closeModal();
+				Dialogs.closeModal2("#iframe-dialog");
 			}
 		}
 
