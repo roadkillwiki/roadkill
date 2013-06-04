@@ -165,6 +165,74 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
+		public void External_Links_With_Anchor_Tag_Should_Retain_The_Anchor()
+		{
+			// Arrange
+			_repository.SiteSettings.MarkupType = "Creole";
+			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
+			_converter = new MarkupConverter(_settings, _repository);
+
+			string expectedHtml = "<p><a href=\"http&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2F;&#x3F;blah&#x3D;xyz&#x23;myanchor\">Some link text</a>\n</p>";
+
+			// Act
+			string actualHtml = _converter.ToHtml("[[http://www.google.com/?blah=xyz#myanchor|Some link text]]");
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
+		}
+
+		[Test]
+		public void Internal_Links_With_Anchor_Tag_Should_Retain_The_Anchor()
+		{
+			// Arrange
+			_repository.SiteSettings.MarkupType = "Creole";
+			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
+			_converter = new MarkupConverter(_settings, _repository);
+
+			string expectedHtml = "<p><a href=\"&#x2F;index&#x2F;wiki&#x2F;1&#x2F;foo&#x23;myanchor\">Some link text</a>\n</p>"; // use /index/ as no routing exists
+
+			// Act
+			string actualHtml = _converter.ToHtml("[[foo#myanchor|Some link text]]");
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
+		}
+
+		[Test]
+		public void Internal_Links_With_UrlEncoded_Anchor_Tag_Should_Retain_The_Anchor()
+		{
+			// Arrange
+			_repository.SiteSettings.MarkupType = "Creole";
+			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
+			_converter = new MarkupConverter(_settings, _repository);
+
+			string expectedHtml = "<p><a href=\"&#x2F;index&#x2F;wiki&#x2F;1&#x2F;foo&#x25;23myanchor\">Some link text</a>\n</p>";
+
+			// Act
+			string actualHtml = _converter.ToHtml("[[foo%23myanchor|Some link text]]");
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
+		}
+
+		[Test]
+		public void Internal_Links_With_Anchor_Tag_Should_Retain_The_Anchor_With_Markdown()
+		{
+			// Arrange
+			_repository.SiteSettings.MarkupType = "Markdown";
+			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
+			_converter = new MarkupConverter(_settings, _repository);
+
+			string expectedHtml = "<p><a href=\"&#x2F;index&#x2F;wiki&#x2F;1&#x2F;foo&#x23;myanchor\">Some link text</a></p>\n"; // use /index/ as no routing exists
+
+			// Act
+			string actualHtml = _converter.ToHtml("[Some link text](foo#myanchor)");
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
+		}
+
+		[Test]
 		public void Links_Starting_With_AttachmentColon_Should_Resolve_As_Attachment_Paths()
 		{
 			// Arrange

@@ -87,7 +87,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			string creoleText = "Here are all the tags for animals: [[tag:animal|Animals]]";
-			string expectedHtml = "<p>Here are all the tags for animals: <a href=\"/pages/tag/animal\">Animals</a>\n</p>";
+			string expectedHtml = "<p>Here are all the tags for animals: <a rel=\"nofollow\" href=\"/pages/tag/animal\">Animals</a>\n</p>";
 
 			// Act
 			string actualHtml = _parser.Transform(creoleText);
@@ -294,7 +294,7 @@ Not bold. Character formatting does not cross paragraph boundaries.";
 		{
 			// Arrange
 			string creoleText = "You can use [[internal links]] or [[http://www.wikicreole.org|external links]], give the link a [[internal links|different]] name.";
-			string expectedHtml = "<p>You can use <a href=\"internal links\">internal links</a> or <a href=\"http://www.wikicreole.org\">external links</a>, give the link a <a href=\"internal links\">different</a> name.\n</p>";
+			string expectedHtml = "<p>You can use <a rel=\"nofollow\" href=\"internal links\">internal links</a> or <a rel=\"nofollow\" href=\"http://www.wikicreole.org\">external links</a>, give the link a <a rel=\"nofollow\" href=\"internal links\">different</a> name.\n</p>";
 
 			// Act
 			string actualHtml = _parser.Transform(creoleText);
@@ -308,7 +308,7 @@ Not bold. Character formatting does not cross paragraph boundaries.";
 		{
 			// Arrange
 			string creoleText = "Here's another sentence: This wisdom is taken from [[Ward Cunningham's]] [[http://www.c2.com/doc/wikisym/WikiSym2006.pdf|Presentation at the Wikisym 06]].";
-			string expectedHtml = "<p>Here's another sentence: This wisdom is taken from <a href=\"Ward Cunningham's\">Ward Cunningham's</a> <a href=\"http://www.c2.com/doc/wikisym/WikiSym2006.pdf\">Presentation at the Wikisym 06</a>.\n</p>";
+			string expectedHtml = "<p>Here's another sentence: This wisdom is taken from <a rel=\"nofollow\" href=\"Ward Cunningham's\">Ward Cunningham's</a> <a rel=\"nofollow\" href=\"http://www.c2.com/doc/wikisym/WikiSym2006.pdf\">Presentation at the Wikisym 06</a>.\n</p>";
 
 			// Act
 			string actualHtml = _parser.Transform(creoleText);
@@ -322,7 +322,7 @@ Not bold. Character formatting does not cross paragraph boundaries.";
 		{
 			// Arrange
 			string creoleText = "Here's a external link without a description: [[http://www.wikicreole.org]]";
-			string expectedHtml = "<p>Here's a external link without a description: <a href=\"http://www.wikicreole.org\">http://www.wikicreole.org</a>\n</p>";
+			string expectedHtml = "<p>Here's a external link without a description: <a rel=\"nofollow\" href=\"http://www.wikicreole.org\">http://www.wikicreole.org</a>\n</p>";
 
 			// Act
 			string actualHtml = _parser.Transform(creoleText);
@@ -336,7 +336,7 @@ Not bold. Character formatting does not cross paragraph boundaries.";
 		{
 			// Arrange
 			string creoleText = "Be careful that italic links are rendered properly:  //[[http://my.book.example/|My Book Title]]//";
-			string expectedHtml = "<p>Be careful that italic links are rendered properly:  <em><a href=\"http://my.book.example/\">My Book Title</a></em>\n</p>";
+			string expectedHtml = "<p>Be careful that italic links are rendered properly:  <em><a rel=\"nofollow\" href=\"http://my.book.example/\">My Book Title</a></em>\n</p>";
 
 			// Act
 			string actualHtml = _parser.Transform(creoleText);

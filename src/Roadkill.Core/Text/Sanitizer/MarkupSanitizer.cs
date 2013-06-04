@@ -30,16 +30,25 @@ namespace Roadkill.Core.Text.Sanitizer
 		public bool EncodeHtmlEntities { get; set; }
 
 		/// <summary>
-		/// 
+		/// The strict version of the cleaner - uses the whitelist, cleans all attributes, encodes 
+		/// all HTML entities in attributes.
 		/// </summary>
-		/// <param name="settings"></param>
-		public MarkupSanitizer(ApplicationSettings settings) 
+		public MarkupSanitizer(ApplicationSettings settings) : this(settings, true, true, true)
+		{
+
+		}
+
+		/// <summary>
+		/// The customisable/looser version of the cleaner, allows you to customise how strict it is with 
+		/// additional checks like the whitelist, attribute removal, html entity encoding in attributes.
+		/// </summary>
+		public MarkupSanitizer(ApplicationSettings settings, bool useWhiteList, bool cleanAttributes, bool encodeHtmlEntities) 
 		{
 			_applicationSettings = settings;
 			_cacheKey = "whitelist";
-			UseWhiteList = true;
-			CleanAttributes = false;
-			EncodeHtmlEntities = false;
+			UseWhiteList = useWhiteList;
+			CleanAttributes = cleanAttributes;
+			EncodeHtmlEntities = encodeHtmlEntities;
 
 			// Intialize an array to mark which characters are to be encoded.
             for (int i = 0; i < 0xFF; i++)
@@ -133,8 +142,7 @@ namespace Roadkill.Core.Text.Sanitizer
 							}
 							else
 							{
-								if (CleanAttributes)
-									CleanAttributeValues(attribute);
+								CleanAttributeValues(attribute);
 							}
 						}
 					}
@@ -152,8 +160,7 @@ namespace Roadkill.Core.Text.Sanitizer
 					HapHtmlAttribute[] attributes = node.Attributes.ToArray();
 					foreach (HapHtmlAttribute attribute in attributes)
 					{
-						if (CleanAttributes)
-							CleanAttributeValues(attribute);
+						CleanAttributeValues(attribute);
 					}
 				}
 			}
@@ -198,23 +205,24 @@ namespace Roadkill.Core.Text.Sanitizer
         /// <param name="attribute">Attribute that contain values that need to check and clean.</param>
         private void CleanAttributeValues(HapHtmlAttribute attribute)
         {
-            attribute.Value = HttpUtility.HtmlEncode(attribute.Value);
+			if (CleanAttributes)
+			{
+				attribute.Value = HttpUtility.HtmlEncode(attribute.Value);
 
-			attribute.Value = Regex.Replace(attribute.Value, @"\s*j\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*", "", RegexOptions.IgnoreCase);
-            attribute.Value = Regex.Replace(attribute.Value, @"\s*s\s*c\s*r\s*i\s*p\s*t\s*", "", RegexOptions.IgnoreCase);
+				attribute.Value = Regex.Replace(attribute.Value, @"\s*j\s*a\s*v\s*a\s*s\s*c\s*r\s*i\s*p\s*t\s*", "", RegexOptions.IgnoreCase);
+				attribute.Value = Regex.Replace(attribute.Value, @"\s*s\s*c\s*r\s*i\s*p\s*t\s*", "", RegexOptions.IgnoreCase);
 
-            if (attribute.Name.ToLower() == "style")
-            {
-                attribute.Value = Regex.Replace(attribute.Value, @"\s*e\s*x\s*p\s*r\s*e\s*s\s*s\s*i\s*o\s*n\s*", "", RegexOptions.IgnoreCase);
-                attribute.Value = Regex.Replace(attribute.Value, @"\s*b\s*e\s*h\s*a\s*v\s*i\s*o\s*r\s*", "", RegexOptions.IgnoreCase);             
-            }
+				if (attribute.Name.ToLower() == "style")
+				{
+					attribute.Value = Regex.Replace(attribute.Value, @"\s*e\s*x\s*p\s*r\s*e\s*s\s*s\s*i\s*o\s*n\s*", "", RegexOptions.IgnoreCase);
+					attribute.Value = Regex.Replace(attribute.Value, @"\s*b\s*e\s*h\s*a\s*v\s*i\s*o\s*r\s*", "", RegexOptions.IgnoreCase);
+				}
 
-            if (attribute.Name.ToLower() == "href" || attribute.Name.ToLower() == "src")
-            {
-                //if (!attribute.Value.StartsWith("http://") || attribute.Value.StartsWith("/"))
-                //    attribute.Value = "";
-                attribute.Value = Regex.Replace(attribute.Value, @"\s*m\s*o\s*c\s*h\s*a\s*", "", RegexOptions.IgnoreCase);
-            }
+				if (attribute.Name.ToLower() == "href" || attribute.Name.ToLower() == "src")
+				{
+					attribute.Value = Regex.Replace(attribute.Value, @"\s*m\s*o\s*c\s*h\s*a\s*", "", RegexOptions.IgnoreCase);
+				}
+			}
 
             // HtmlEntity Escape
 			if (EncodeHtmlEntities)
