@@ -136,6 +136,9 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 		}
+
+		// TODO: test with subapplications e.g. /mywiki/
+		// TODO: filemanager tests
 	}
 
 	public class StubHttpContextForRouting : HttpContextBase

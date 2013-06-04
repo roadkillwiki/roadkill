@@ -44,6 +44,7 @@ namespace Roadkill.Core.Attachments
 				{
 					// LocalPath uses "/" and a Windows filepath is \
 					string filePath = context.Request.Url.LocalPath.Replace(string.Format("/{0}", _settings.AttachmentsRoutePath), "");
+					filePath = filePath.Replace(context.Request.ApplicationPath, "");
 					filePath = filePath.Replace('/', Path.DirectorySeparatorChar);
 
 					if (attachmentFolder.EndsWith(Path.DirectorySeparatorChar.ToString()))

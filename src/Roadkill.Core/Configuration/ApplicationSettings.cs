@@ -97,8 +97,7 @@ namespace Roadkill.Core.Configuration
 		}
 
 		/// <summary>
-		/// The route used for all attachment HTTP requests (currently non-user configurable). 
-		/// This contains no starting or ending "/".
+		/// The route used for all attachment HTTP requests. This contains no starting or ending "/".
 		/// </summary>
 		public string AttachmentsRoutePath
 		{

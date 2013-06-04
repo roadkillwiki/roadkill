@@ -162,6 +162,9 @@ namespace Roadkill.Core.Managers
 				string editedBy = currentUser;
 				DateTime editedOn = DateTime.UtcNow;
 				Repository.AddNewPageContentVersion(page, text, editedBy, editedOn, versionNumber);
+
+				// Clear the cache
+				_pageSummaryCache.Remove(page.Id);
 			}
 			catch (ArgumentNullException ex)
 			{

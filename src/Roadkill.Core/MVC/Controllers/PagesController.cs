@@ -180,6 +180,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		[BrowserCache]
 		public ActionResult History(int id)
 		{
+			ViewData["PageId"] = id;
 			return View(_historyManager.GetHistory(id).ToList());
 		}
 
