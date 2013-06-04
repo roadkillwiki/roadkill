@@ -929,6 +929,14 @@ namespace Roadkill.Core.Converters
 							href = InterWiki[scheme] + href.Substring(iSplit + 1);
 						}
 					}
+
+					// Remove any attribute enders: ", <, >, &, '
+					href = href.Replace("&", "&#x26;");
+					href = href.Replace("\"", "&#x32;");
+					href = href.Replace("<", "&#x3C;");
+					href = href.Replace(">", "&#x3E;");				
+					href = href.Replace("'", "&#x27;");
+
 					// default to external
 					LinkEventArgs linkEventArgs = new LinkEventArgs(link, href, text, "");
 					OnLinkParsed(linkEventArgs);

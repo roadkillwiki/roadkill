@@ -28,6 +28,7 @@ namespace Roadkill.Core.Attachments
 			if (settings.AttachmentsRoutePath.ToLower() == "files")
 				throw new ConfigurationException("The attachmentsRoutePath in the config is set to 'files' which is not an allowed route path. Please change it to something else.", null);
 
+
 			Route route = new Route(settings.AttachmentsRoutePath + "/{*filename}", new AttachmentRouteHandler(settings));
 			route.Constraints = new RouteValueDictionary();
 			route.Constraints.Add("MvcContraint", new IgnoreMvcConstraint(settings));
@@ -56,8 +57,7 @@ namespace Roadkill.Core.Attachments
 				if (values.ContainsKey("controller") || values.ContainsKey("action"))
 					return false;
 
-				// Remove the starting "/" for the route table
-				if (route.Url.StartsWith(_settings.AttachmentsRoutePath + "/"))
+				if (route.Url.StartsWith(_settings.AttachmentsRoutePath +"/{*filename}"))
 					return true;
 				else
 					return false;

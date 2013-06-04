@@ -308,7 +308,7 @@ Not bold. Character formatting does not cross paragraph boundaries.";
 		{
 			// Arrange
 			string creoleText = "Here's another sentence: This wisdom is taken from [[Ward Cunningham's]] [[http://www.c2.com/doc/wikisym/WikiSym2006.pdf|Presentation at the Wikisym 06]].";
-			string expectedHtml = "<p>Here's another sentence: This wisdom is taken from <a rel=\"nofollow\" href=\"Ward Cunningham's\">Ward Cunningham's</a> <a rel=\"nofollow\" href=\"http://www.c2.com/doc/wikisym/WikiSym2006.pdf\">Presentation at the Wikisym 06</a>.\n</p>";
+			string expectedHtml = "<p>Here's another sentence: This wisdom is taken from <a rel=\"nofollow\" href=\"Ward Cunningham&#x27;s\">Ward Cunningham's</a> <a rel=\"nofollow\" href=\"http://www.c2.com/doc/wikisym/WikiSym2006.pdf\">Presentation at the Wikisym 06</a>.\n</p>";
 
 			// Act
 			string actualHtml = _parser.Transform(creoleText);

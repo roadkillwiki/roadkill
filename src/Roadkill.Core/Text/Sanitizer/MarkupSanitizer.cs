@@ -227,6 +227,15 @@ namespace Roadkill.Core.Text.Sanitizer
             // HtmlEntity Escape
 			if (EncodeHtmlEntities)
 			{
+				// Ensure no double encoding goes on - reverse the ones done by the CreoleParser
+				string value = attribute.Value;
+				value = value.Replace("&#x32;", "\"");
+				value = value.Replace("&#x3C;", "<");
+				value = value.Replace("&#x3E;", ">");
+				value = value.Replace("&#x26;", "&");
+				value = value.Replace("&#x27;", "'");
+				attribute.Value = value;
+
 				StringBuilder sbAttributeValue = new StringBuilder();
 				foreach (char c in attribute.Value.ToCharArray())
 				{
@@ -245,7 +254,7 @@ namespace Roadkill.Core.Text.Sanitizer
         private string EncodeCharacterToHtmlEntityEscape(char c)
         {   
             string hex; 
-            // check for alphnumeric characters
+            // check for alphanumeric characters
             if (c < 0xFF)
             {
                 hex = _encodedCharacters[c];

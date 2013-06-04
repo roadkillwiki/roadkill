@@ -167,6 +167,7 @@ namespace Roadkill.Tests.Unit
 		[Test]
 		public void External_Links_With_Anchor_Tag_Should_Retain_The_Anchor()
 		{
+			// Issue #172
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
 			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
@@ -184,6 +185,7 @@ namespace Roadkill.Tests.Unit
 		[Test]
 		public void Internal_Links_With_Anchor_Tag_Should_Retain_The_Anchor()
 		{
+			// Issue #172
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
 			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
@@ -201,6 +203,7 @@ namespace Roadkill.Tests.Unit
 		[Test]
 		public void Internal_Links_With_UrlEncoded_Anchor_Tag_Should_Retain_The_Anchor()
 		{
+			// Issue #172
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
 			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
@@ -218,6 +221,7 @@ namespace Roadkill.Tests.Unit
 		[Test]
 		public void Internal_Links_With_Anchor_Tag_Should_Retain_The_Anchor_With_Markdown()
 		{
+			// Issue #172
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Markdown";
 			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
@@ -231,6 +235,41 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
 		}
+
+		[Test]
+		public void Links_With_The_Word_Script_In_Url_Should_Not_Be_Cleaned()
+		{
+			// Issue #159
+			// Arrange
+			_repository.SiteSettings.MarkupType = "Creole";
+			_converter = new MarkupConverter(_settings, _repository);
+
+			string expectedHtml = "<p><a href=\"http&#x3A;&#x2F;&#x2F;msdn&#x2E;microsoft&#x2E;com&#x2F;en&#x2D;us&#x2F;library&#x2F;system&#x2E;componentmodel&#x2E;descriptionattribute&#x2E;aspx\">ComponentModel.Description</a>\n</p>";
+
+			// Act
+			string actualHtml = _converter.ToHtml("[[http://msdn.microsoft.com/en-us/library/system.componentmodel.descriptionattribute.aspx|ComponentModel.Description]]");
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
+		}
+
+		[Test]
+		public void Links_With_Angle_Brackets_And_Quotes_Should_Be_Encoded()
+		{
+			// Issue #159
+			// Arrange
+			_repository.SiteSettings.MarkupType = "Creole";
+			_converter = new MarkupConverter(_settings, _repository);
+
+			string expectedHtml = "<p><a href=\"http&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2F;&#x22;&#x3E;javascript&#x3A;alert&#x28;&#x27;hello&#x27;&#x29;\">ComponentModel</a>\n</p>";
+
+			// Act
+			string actualHtml = _converter.ToHtml("[[http://www.google.com/\">javascript:alert('hello')|ComponentModel]]");
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
+		}
+	
 
 		[Test]
 		public void Links_Starting_With_AttachmentColon_Should_Resolve_As_Attachment_Paths()
