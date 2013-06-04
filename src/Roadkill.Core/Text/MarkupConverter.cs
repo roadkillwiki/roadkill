@@ -28,6 +28,7 @@ namespace Roadkill.Core.Converters
 		private IMarkupParser _parser;
 		private UrlHelper _urlHelper;
 		private static Regex _imgFileRegex = new Regex("^File:", RegexOptions.IgnoreCase);
+		private static Regex _anchorRegex = new Regex("(?<hash>[#|%23].+)", RegexOptions.IgnoreCase);
 
 		/// <summary>
 		/// A method used by the converter to convert absolute paths to relative paths.
@@ -185,19 +186,33 @@ namespace Roadkill.Core.Converters
 				else
 				{
 					// Parse internal links
-
-					// For markdown, only urls with "-" in them are valid, spaces are ignored.
-					// So remove these, so a match is made. No url has a "-" in, so replacing them is ok.
 					string title = href;
+					string anchorHash = "";
+
+					// Parse anchors for other pages
+					if (_anchorRegex.IsMatch(href))
+					{
+						// Grab the hash contents
+						Match match = _anchorRegex.Match(href);
+						anchorHash = match.Groups["hash"].Value;
+
+						// Grab the url
+						title = href.Replace(anchorHash, "");
+					}
+
 					if (Parser is MarkdownParser)
 					{
+						// For markdown, only urls with "-" in them are valid, spaces are ignored.
+						// So remove these, so a match is made. No url has a "-" in, so replacing them is ok.
 						title = title.Replace("-", " ");
 					}
+					
 
 					Page page = _repository.GetPageByTitle(title);
 					if (page != null)
 					{
 						href = InternalUrlForTitle(page.Id, page.Title);
+						href += anchorHash;
 					}
 					else
 					{
@@ -223,7 +238,7 @@ namespace Roadkill.Core.Converters
 		{
 			if (_applicationSettings.UseHtmlWhiteList)
 			{
-				MarkupSanitizer sanitizer = new MarkupSanitizer(_applicationSettings);
+				MarkupSanitizer sanitizer = new MarkupSanitizer(_applicationSettings, true, false, true);
 				return sanitizer.SanitizeHtml(html);
 			}
 			else
