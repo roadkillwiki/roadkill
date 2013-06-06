@@ -10,6 +10,7 @@ namespace Roadkill.Tests.Unit
 {
 	// Not much to see here - lame property tests
 	[TestFixture]
+	[Category("Unit")]
 	public class FileSummaryTests
 	{
 		[Test]

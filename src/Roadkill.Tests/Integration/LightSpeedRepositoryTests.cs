@@ -46,7 +46,7 @@ namespace Roadkill.Tests.Integration
 			{
 				if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
 				{
-					sqlInteropFileSource = Path.Combine(Settings.PACKAGES_FOLDER, "System.Data.SQLite.1.0.84.0", "content", "net40", "x64", "SQLite.Interop.dll");
+					sqlInteropFileSource = Path.Combine(Settings.PACKAGES_FOLDER, "System.Data.SQLite.1.0.86.0", "content", "net40", "x64", "SQLite.Interop.dll");
 				}
 
 				System.IO.File.Copy(sqlInteropFileSource, sqlInteropFileDest, true);
