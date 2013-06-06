@@ -90,6 +90,19 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
+		public void Select_Should_Return_View()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+
+			// Act
+			ActionResult result = _filesController.Select();
+
+			// Assert
+			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
+		}
+
+		[Test]
 		public void DeleteFile_Should_Return_Ok_Json_Status_And_Delete_File()
 		{
 			// Arrange
@@ -252,7 +265,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void DeleteFolder_Has_Subdirectories_Should_Return_Error()
+		public void DeleteFolder_With_Folder_That_Has_Subdirectories_Should_Return_Error()
 		{
 			// Arrange
 			_filesController.SetFakeControllerContext();
@@ -291,7 +304,7 @@ namespace Roadkill.Tests.Unit
 
 		[Test]
 		[ExpectedException(typeof(SecurityException))]
-		public void DeleteFolder_With_Hacky_Path_Should_Throw_Exception()
+		public void DeleteFolder_With_Bad_Paths_Should_Throw_Exception()
 		{
 			// Arrange
 			_filesController.SetFakeControllerContext();
@@ -386,7 +399,7 @@ namespace Roadkill.Tests.Unit
 
 		[Test]
 		[ExpectedException(typeof(SecurityException))]
-		public void FolderInfo_With_Hacky_Url_Should_Throw_Exception()
+		public void FolderInfo_With_Bad_Folder_Path_Should_Throw_Exception()
 		{
 			// Arrange
 			_filesController.SetFakeControllerContext();
@@ -395,19 +408,6 @@ namespace Roadkill.Tests.Unit
 			JsonResult result = _filesController.FolderInfo(".././") as JsonResult;
 
 			// Assert
-		}
-
-		[Test]
-		public void Select_Should_Return_View()
-		{
-			// Arrange
-			_filesController.SetFakeControllerContext();
-
-			// Act
-			ActionResult result = _filesController.Select();
-
-			// Assert
-			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 		}
 
 		[Test]
@@ -473,6 +473,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
+		[ExpectedException(typeof(SecurityException))]
 		public void NewFolder_With_Missing_Directory_Should_Return_Error()
 		{
 			// Arrange
@@ -482,16 +483,11 @@ namespace Roadkill.Tests.Unit
 			JsonResult result = _filesController.NewFolder("folder1/folder2", "newfolder");
 
 			// Assert
-			Assert.That(result, Is.Not.Null, "JsonResult");
-			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
-
-			dynamic jsonObject = result.Data;
-			Assert.That(jsonObject.status, Is.EqualTo("error"));
-			Assert.That(jsonObject.message, Is.Not.Null.Or.Empty);
 		}
 
 		[Test]
-		public void NewFolder_With_Hacky_Path_Should_Return_Exception()
+		[ExpectedException(typeof(SecurityException))]
+		public void NewFolder_With_Bad_Folder_Path_Should_Throw_Exception()
 		{
 			// Arrange
 			_filesController.SetFakeControllerContext();
@@ -500,22 +496,10 @@ namespace Roadkill.Tests.Unit
 			JsonResult result = _filesController.NewFolder("/../../folder1","../cheeky/path") as JsonResult;
 
 			// Assert
-			Assert.That(result, Is.Not.Null, "JsonResult");
-			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
-
-			dynamic jsonObject = result.Data;
-			Assert.That(jsonObject.status, Is.EqualTo("error"));
-			Assert.That(jsonObject.message, Is.Not.Null.Or.Empty);
 		}
 
-		// [X] DeleteFile
-		// [X] DeleteFolder
-		// [X] FolderInfo
-		// [X] NewFolder
-		// FileUpload
-
 		[Test]
-		public void FileUpload_with_Multiple_Files_To_Root_Should_Upload_And_Return_Ok_Json_Status()
+		public void FileUpload_With_Multiple_Files_To_Root_Should_Save_Files_To_Disk_And_Return_Ok_Json_Status()
 		{
 			// Arrange
 			MvcMockContainer container = _filesController.SetFakeControllerContext();
@@ -537,6 +521,84 @@ namespace Roadkill.Tests.Unit
 			Assert.That(File.Exists(file1FullPath), Is.True);
 			Assert.That(File.Exists(file2FullPath), Is.True);
 		}
+
+		[Test]
+		public void FileUpload_With_Multiple_Files_To_SubFolder_Should_Save_Files_To_Disk_And_Return_Ok_Json_Status()
+		{
+			// Arrange
+			MvcMockContainer container = _filesController.SetFakeControllerContext();
+			SetupMockPostedFiles(container, "/folder1/folder2", "file1.png", "file2.png");
+
+			string fullPath = CreateTestDirectoryInAttachments("folder1");
+			string subPath = Path.Combine(fullPath, "folder2");
+			Directory.CreateDirectory(subPath);
+
+			string file1FullPath = Path.Combine(subPath, "file1.png");
+			string file2FullPath = Path.Combine(subPath, "file2.png");
+
+			// Act
+			JsonResult result = _filesController.FileUpload();
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("ok"));
+			Assert.That(jsonObject.filename, Is.EqualTo("file2.png"));
+
+			Assert.That(File.Exists(file1FullPath), Is.True);
+			Assert.That(File.Exists(file2FullPath), Is.True);
+		}
+
+		[Test]
+		public void FileUpload_With_No_Files_To_Root_Should_Return_Ok_Json_Status()
+		{
+			// Arrange
+			MvcMockContainer container = _filesController.SetFakeControllerContext();
+			SetupMockPostedFiles(container, "/");
+
+			// Act
+			JsonResult result = _filesController.FileUpload();
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("ok"));
+			Assert.That(jsonObject.filename, Is.EqualTo(""));
+		}
+
+		[Test]
+		[ExpectedException(typeof(SecurityException))]
+		public void FileUpload_With_Bad_Folder_Path_Should_Throw_Exception()
+		{
+			// Arrange
+			MvcMockContainer container = _filesController.SetFakeControllerContext();
+			SetupMockPostedFiles(container, "/../../bad/path");
+
+			// Act
+			JsonResult result = _filesController.FileUpload();
+
+			// Assert
+		}
+
+		[Test]
+		[ExpectedException(typeof(SecurityException))]
+		public void FileUpload_With_Missing_Folder_Should_Throw_Exception()
+		{
+			// Arrange
+			MvcMockContainer container = _filesController.SetFakeControllerContext();
+			SetupMockPostedFiles(container, "/missingfolder");
+
+			// Act
+			JsonResult result = _filesController.FileUpload();
+
+			// Assert
+		}
+
+		// Helpers
 
 		private string CreateTestFileInAttachments(string filename)
 		{
@@ -566,15 +628,18 @@ namespace Roadkill.Tests.Unit
 			Mock<HttpFileCollectionBase> postedfilesKeyCollection = new Mock<HttpFileCollectionBase>();
 			container.Request.Setup(req => req.Files).Returns(postedfilesKeyCollection.Object);
 
-			List<HttpPostedFileBase> files = new List<HttpPostedFileBase>();
-			container.Request.Setup(x => x.Files.Count).Returns(fileNames.Length);
-			for (int i = 0; i < fileNames.Length; i++)
+			if (fileNames != null)
 			{
-				Mock<HttpPostedFileBase> postedfile = new Mock<HttpPostedFileBase>();
-				postedfile.Setup(f => f.ContentLength).Returns(8192);
-				postedfile.Setup(f => f.FileName).Returns(fileNames[i]);
-				postedfile.Setup(f => f.SaveAs(It.IsAny<string>())).Callback<string>(filename => File.WriteAllText(Path.Combine(_settings.AttachmentsDirectoryPath, filename), "test contents"));
-				container.Request.Setup(x => x.Files[i]).Returns(postedfile.Object);
+				List<HttpPostedFileBase> files = new List<HttpPostedFileBase>();
+				container.Request.Setup(x => x.Files.Count).Returns(fileNames.Length);
+				for (int i = 0; i < fileNames.Length; i++)
+				{
+					Mock<HttpPostedFileBase> postedfile = new Mock<HttpPostedFileBase>();
+					postedfile.Setup(f => f.ContentLength).Returns(8192);
+					postedfile.Setup(f => f.FileName).Returns(fileNames[i]);
+					postedfile.Setup(f => f.SaveAs(It.IsAny<string>())).Callback<string>(filename => File.WriteAllText(Path.Combine(_settings.AttachmentsDirectoryPath, filename), "test contents"));
+					container.Request.Setup(x => x.Files[i]).Returns(postedfile.Object);
+				}
 			}
 		}
 	}
