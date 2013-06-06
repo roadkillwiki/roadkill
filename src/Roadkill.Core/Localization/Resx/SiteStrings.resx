@@ -835,16 +835,16 @@
     <value>An error occurred deleting {0}</value>
   </data>
   <data name="FileManager_Error_DirectoryListing" xml:space="preserve">
-    <value>An expected error occurred getting the directory listing: </value>
+    <value>An error occurred getting the directory listing: </value>
   </data>
   <data name="FileManager_Error_DeleteFolder" xml:space="preserve">
-    <value>An expected error occurred deleting the folder: </value>
+    <value>An error occurred deleting the folder: </value>
   </data>
   <data name="FileManager_Error_DeleteFile" xml:space="preserve">
-    <value>An expected error occurred deleting the file: </value>
+    <value>An error occurred deleting the file: </value>
   </data>
   <data name="FileManager_Error_CreateFolder" xml:space="preserve">
-    <value>An expected error occurred creating the folder: </value>
+    <value>An error occurred creating the folder: </value>
   </data>
   <data name="FileManager_UploadingProgress" xml:space="preserve">
     <value>Uploading...</value>
