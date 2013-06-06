@@ -61,7 +61,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 				if (!_attachmentHandler.IsAttachmentPathValid(physicalPath))
 				{
-					throw new SecurityException("Attachment Path invalid for DeleteFile", null);
+					throw new SecurityException(null, "Attachment path was invalid when deleting {0}", fileName);
 				}
 
 				if (System.IO.File.Exists(physicalFilePath))
@@ -95,7 +95,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 				if (!_attachmentHandler.IsAttachmentPathValid(physicalPath, false))
 				{
-					throw new SecurityException("Attachment Path invalid", null);
+					throw new SecurityException(null, "Attachment path was invalid when deleting the folder {0}", folder);
 				}
 
 				var info = new DirectoryInfo(physicalPath);
@@ -138,7 +138,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 				if (!_attachmentHandler.IsAttachmentPathValid(physicalPath))
 				{
-					throw new Exception("Attachment Path invalid");
+					throw new SecurityException(null, "Attachment path was invalid when getting the folder {0}", dir);
 				}
 
 				string currentFolderName = dir;
@@ -200,7 +200,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 				if (!_attachmentHandler.IsAttachmentPathValid(physicalPath))
 				{
-					throw new Exception("Attachment Path invalid");
+					throw new SecurityException(null, "Attachment path was invalid when creating folder {0}", newFolderName);
 				}
 
 				var newPath = Path.Combine(physicalPath, newFolderName);
@@ -234,7 +234,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 				if (!_attachmentHandler.IsAttachmentPathValid(physicalPath))
 				{
-					throw new Exception("Attachment Path invalid");
+					throw new SecurityException("Attachment path was invalid when uploading.", null);
 				}
 
 				string fileName = "";

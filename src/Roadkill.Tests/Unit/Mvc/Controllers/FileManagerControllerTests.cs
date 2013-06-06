@@ -13,6 +13,7 @@ using Roadkill.Core.Managers;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Attachments;
+using System.Collections.Specialized;
 
 namespace Roadkill.Tests.Unit
 {
@@ -54,7 +55,7 @@ namespace Roadkill.Tests.Unit
 			}
 			catch (IOException e)
 			{
-				Assert.Fail("Unable to delete the attachments folder "+_settings.AttachmentsFolder+", does it have a lock?" + e.ToString());
+				Assert.Fail("Unable to delete the attachments folder "+_settings.AttachmentsFolder+", does it have a lock/explorer window open?" + e.ToString());
 			}
 
 			_userManager = new Mock<UserManagerBase>(_settings, null).Object;
@@ -76,7 +77,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Index()
+		public void Index_Should_Return_View()
 		{
 			// Arrange
 			_filesController.SetFakeControllerContext();
@@ -88,6 +89,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 		}
 
+		[Test]
 		public void DeleteFile_Should_Return_Ok_Json_Status_And_Delete_File()
 		{
 			// Arrange
@@ -104,8 +106,10 @@ namespace Roadkill.Tests.Unit
 			Assert.That(result, Is.Not.Null, "JsonResult");
 			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
 
-			string json = result.Data.ToString();
-			Assert.That(json, Is.EqualTo("{ status = ok, message =  }"));
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("ok"));
+			Assert.That(jsonObject.message, Is.EqualTo(""));
+
 			Assert.That(File.Exists(testFile2Path), Is.False);
 			Assert.That(File.Exists(testFile1Path), Is.True);
 		}
@@ -124,8 +128,10 @@ namespace Roadkill.Tests.Unit
 			Assert.That(result, Is.Not.Null, "JsonResult");
 			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
 
-			string json = result.Data.ToString();
-			Assert.That(json, Is.EqualTo("{ status = ok, message =  }"));
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("ok"));
+			Assert.That(jsonObject.message, Is.EqualTo(""));
+
 			Assert.That(File.Exists(fullPath), Is.False);
 		}
 
@@ -141,8 +147,9 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.Not.Null, "JsonResult");
 
-			string json = result.Data.ToString();
-			Assert.That(json, Is.EqualTo("{ status = ok, message =  }"));
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("ok"));
+			Assert.That(jsonObject.message, Is.EqualTo(""));
 		}
 
 		[Test]
@@ -172,8 +179,10 @@ namespace Roadkill.Tests.Unit
 			Assert.That(result, Is.Not.Null, "JsonResult");
 			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
 
-			string json = result.Data.ToString();
-			Assert.That(json, Is.EqualTo("{ status = ok, message =  }"));
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("ok"));
+			Assert.That(jsonObject.message, Is.EqualTo(""));
+
 			Assert.That(Directory.Exists(fullPath), Is.False);
 		}
 
@@ -194,39 +203,13 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.Not.Null, "JsonResult");
 
-			string json = result.Data.ToString();
-			Assert.That(json, Is.EqualTo("{ status = ok, message =  }"));
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("ok"));
+			Assert.That(jsonObject.message, Is.EqualTo(""));
+
 			Assert.That(Directory.Exists(subsubPath), Is.False);
 			Assert.That(Directory.Exists(subPath), Is.True);
 			Assert.That(Directory.Exists(fullPath), Is.True);
-		}
-
-		[Test]
-		public void DeleteFolder_Missing_Folder_Should_Return_Error()
-		{
-			// Arrange
-			_filesController.SetFakeControllerContext();
-
-			// Act
-			JsonResult result = _filesController.DeleteFolder("folder1");
-
-			// Assert
-			Assert.That(result, Is.Not.Null, "JsonResult");
-			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
-
-			string json = result.Data.ToString();
-			Assert.That(json, Is.StringStarting("{ status = error, message ="));
-		}
-
-		[Test]
-		[ExpectedException(typeof(SecurityException))]
-		public void DeleteFolder_Hacky_Path()
-		{
-			// Arrange
-			_filesController.SetFakeControllerContext();
-
-			// Act/Assert
-			JsonResult result = _filesController.DeleteFolder(@".\..\");
 		}
 
 		[Test]
@@ -242,8 +225,9 @@ namespace Roadkill.Tests.Unit
 			Assert.That(result, Is.Not.Null, "JsonResult");
 			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
 
-			string json = result.Data.ToString();
-			Assert.That(json, Is.StringStarting("{ status = error, message ="));
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("error"));
+			Assert.That(jsonObject.message, Is.Not.Null.Or.Empty);
 		}
 
 		[Test]
@@ -262,8 +246,9 @@ namespace Roadkill.Tests.Unit
 			Assert.That(result, Is.Not.Null, "JsonResult");
 			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
 
-			string json = result.Data.ToString();
-			Assert.That(json, Is.StringStarting("{ status = error, message ="));
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("error"));
+			Assert.That(jsonObject.message, Is.Not.Null.Or.Empty);
 		}
 
 		[Test]
@@ -281,32 +266,139 @@ namespace Roadkill.Tests.Unit
 			Assert.That(result, Is.Not.Null, "JsonResult");
 			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
 
-			string json = result.Data.ToString();
-			Assert.That(json, Is.StringStarting("{ status = error, message ="));
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("error"));
+			Assert.That(jsonObject.message, Is.Not.Null.Or.Empty);
 		}
 
-		// [X] DeleteFile
-		// [X] DeleteFolder
-		// FolderInfo
-		// NewFolder
-		// FileUpload
-
 		[Test]
-		public void FolderInfo()
+		public void DeleteFolder_With_Missing_Directory_Should_Return_Error()
 		{
 			// Arrange
 			_filesController.SetFakeControllerContext();
 
 			// Act
-			JsonResult result = _filesController.FolderInfo("") as JsonResult;
+			JsonResult result = _filesController.DeleteFolder("folder1/folder2");
 
 			// Assert
 			Assert.That(result, Is.Not.Null, "JsonResult");
-			string json = result.Data.ToString();
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("error"));
+			Assert.That(jsonObject.message, Is.Not.Null.Or.Empty);
 		}
 
 		[Test]
-		public void Select()
+		[ExpectedException(typeof(SecurityException))]
+		public void DeleteFolder_With_Hacky_Path_Should_Throw_Exception()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+
+			// Act
+			JsonResult result = _filesController.DeleteFolder("/../../folder1") as JsonResult;
+
+			// Assert
+		}
+
+		[Test]
+		public void FolderInfo_With_Empty_Path_Should_Contain_Model_With_Root()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+			CreateTestDirectoryInAttachments("blah");
+			CreateTestFileInAttachments("blah.png");
+
+			// Act
+			JsonResult result = _filesController.FolderInfo("") as JsonResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult was not returned");
+
+			DirectorySummary summary = result.Data as DirectorySummary;
+			Assert.That(summary, Is.Not.Null, "DirectorySummary is null");
+			Assert.That(summary.ChildFolders.Count, Is.EqualTo(1));
+			Assert.That(summary.Files.Count, Is.EqualTo(1));
+			Assert.That(summary.Name, Is.EqualTo(""));
+			Assert.That(summary.UrlPath, Is.EqualTo(""));
+		}
+
+		[Test]
+		public void FolderInfo_With_Root_Should_Contain_Model()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+			CreateTestDirectoryInAttachments("blah");
+			CreateTestFileInAttachments("blah.png");
+
+			// Act
+			JsonResult result = _filesController.FolderInfo("") as JsonResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult was not returned");
+
+			DirectorySummary summary = result.Data as DirectorySummary;
+			Assert.That(summary, Is.Not.Null, "DirectorySummary is null");
+			Assert.That(summary.ChildFolders.Count, Is.EqualTo(1));
+			Assert.That(summary.Files.Count, Is.EqualTo(1));
+			Assert.That(summary.Name, Is.EqualTo(""));
+			Assert.That(summary.UrlPath, Is.EqualTo(""));
+		}
+
+		[Test]
+		public void FolderInfo_With_SubFolder_Should_Contain_Model()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+			CreateTestDirectoryInAttachments(@"blah\blah2\blah3");
+			CreateTestDirectoryInAttachments(@"blah\blah2\blah3\blah4");
+			CreateTestFileInAttachments(@"blah\blah2\blah3\something.png");
+			CreateTestFileInAttachments(@"blah\blah2\blah3\something2.png");
+			CreateTestFileInAttachments(@"blah\blah2\blah3\something3.png");
+
+			// Act
+			JsonResult result = _filesController.FolderInfo("/blah/blah2/blah3") as JsonResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult was not returned");
+
+			DirectorySummary summary = result.Data as DirectorySummary;
+			Assert.That(summary, Is.Not.Null, "DirectorySummary is null");
+			Assert.That(summary.ChildFolders.Count, Is.EqualTo(1));
+			Assert.That(summary.Files.Count, Is.EqualTo(3));
+			Assert.That(summary.Name, Is.EqualTo("blah3"));
+			Assert.That(summary.UrlPath, Is.EqualTo("/blah/blah2/blah3"));
+		}
+
+		[Test]
+		[ExpectedException(typeof(SecurityException))]
+		public void FolderInfo_With_Missing_Directory_Should_Throw_Exception()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+
+			// Act
+			JsonResult result = _filesController.FolderInfo("/missingfolder") as JsonResult;
+
+			// Assert
+		}
+
+		[Test]
+		[ExpectedException(typeof(SecurityException))]
+		public void FolderInfo_With_Hacky_Url_Should_Throw_Exception()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+
+			// Act
+			JsonResult result = _filesController.FolderInfo(".././") as JsonResult;
+
+			// Assert
+		}
+
+		[Test]
+		public void Select_Should_Return_View()
 		{
 			// Arrange
 			_filesController.SetFakeControllerContext();
@@ -316,6 +408,134 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
+		}
+
+		[Test]
+		public void NewFolder_In_Root_Folder_Should_Create_Folder_And_Return_Ok_Json_Status()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+			string folderName = "newfolder with spaces in it";
+			string fullPath = Path.Combine(_settings.AttachmentsDirectoryPath, folderName);
+
+			// Act
+			JsonResult result = _filesController.NewFolder("/", folderName);
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("ok"));
+			Assert.That(jsonObject.FolderName, Is.EqualTo(folderName));
+			Assert.That(Directory.Exists(fullPath), Is.True);
+		}
+
+		[Test]
+		public void NewFolder_With_SubDirectory_Should_Create_Folder_And_Return_Ok_Json_Status()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+			string fullPath = CreateTestDirectoryInAttachments("folder1");
+			string subPath = Path.Combine(fullPath, "subfolder1");
+			string subsubPath = Path.Combine(subPath, "subsubfolder");
+			Directory.CreateDirectory(subPath);
+
+
+			// Act
+			JsonResult result = _filesController.NewFolder("/folder1/subfolder1/", "subsubfolder");
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("ok"));
+			Assert.That(jsonObject.FolderName, Is.EqualTo("subsubfolder"));
+			Assert.That(Directory.Exists(subsubPath), Is.True);
+		}
+
+		[Test]
+		public void NewFolder_With_Empty_FolderName_Argument_Should_Return_Error()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+
+			// Act
+			JsonResult result = _filesController.NewFolder("/","");
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("error"));
+			Assert.That(jsonObject.message, Is.Not.Null.Or.Empty);
+		}
+
+		[Test]
+		public void NewFolder_With_Missing_Directory_Should_Return_Error()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+
+			// Act
+			JsonResult result = _filesController.NewFolder("folder1/folder2", "newfolder");
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("error"));
+			Assert.That(jsonObject.message, Is.Not.Null.Or.Empty);
+		}
+
+		[Test]
+		public void NewFolder_With_Hacky_Path_Should_Return_Exception()
+		{
+			// Arrange
+			_filesController.SetFakeControllerContext();
+
+			// Act
+			JsonResult result = _filesController.NewFolder("/../../folder1","../cheeky/path") as JsonResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("error"));
+			Assert.That(jsonObject.message, Is.Not.Null.Or.Empty);
+		}
+
+		// [X] DeleteFile
+		// [X] DeleteFolder
+		// [X] FolderInfo
+		// [X] NewFolder
+		// FileUpload
+
+		[Test]
+		public void FileUpload_with_Multiple_Files_To_Root_Should_Upload_And_Return_Ok_Json_Status()
+		{
+			// Arrange
+			MvcMockContainer container = _filesController.SetFakeControllerContext();
+			SetupMockPostedFiles(container, "/", "file1.png", "file2.png");
+			string file1FullPath = Path.Combine(_settings.AttachmentsDirectoryPath, "file1.png");
+			string file2FullPath = Path.Combine(_settings.AttachmentsDirectoryPath, "file2.png");
+
+			// Act
+			JsonResult result = _filesController.FileUpload();
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("ok"));
+			Assert.That(jsonObject.filename, Is.EqualTo("file2.png"));
+
+			Assert.That(File.Exists(file1FullPath), Is.True);
+			Assert.That(File.Exists(file2FullPath), Is.True);
 		}
 
 		private string CreateTestFileInAttachments(string filename)
@@ -332,6 +552,30 @@ namespace Roadkill.Tests.Unit
 			Directory.CreateDirectory(fullPath);
 
 			return fullPath;
+		}
+
+		private void SetupMockPostedFiles(MvcMockContainer container, string destinationFolder, params string[] fileNames)
+		{
+			container.Request.Setup(x => x.Form).Returns(delegate()
+			{
+				var values = new NameValueCollection();
+				values.Add("destination_folder", destinationFolder);
+				return values;
+			});
+
+			Mock<HttpFileCollectionBase> postedfilesKeyCollection = new Mock<HttpFileCollectionBase>();
+			container.Request.Setup(req => req.Files).Returns(postedfilesKeyCollection.Object);
+
+			List<HttpPostedFileBase> files = new List<HttpPostedFileBase>();
+			container.Request.Setup(x => x.Files.Count).Returns(fileNames.Length);
+			for (int i = 0; i < fileNames.Length; i++)
+			{
+				Mock<HttpPostedFileBase> postedfile = new Mock<HttpPostedFileBase>();
+				postedfile.Setup(f => f.ContentLength).Returns(8192);
+				postedfile.Setup(f => f.FileName).Returns(fileNames[i]);
+				postedfile.Setup(f => f.SaveAs(It.IsAny<string>())).Callback<string>(filename => File.WriteAllText(Path.Combine(_settings.AttachmentsDirectoryPath, filename), "test contents"));
+				container.Request.Setup(x => x.Files[i]).Returns(postedfile.Object);
+			}
 		}
 	}
 }
