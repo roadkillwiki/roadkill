@@ -238,14 +238,24 @@ namespace Roadkill.Core.Mvc.Controllers
 			try
 			{
 				string fileName = "";
+				List<string> allowedExtensions = SiteSettingsManager.GetSiteSettings().AllowedFileTypesList;
 
 				for (int i = 0; i < Request.Files.Count; i++)
 				{
 					HttpPostedFileBase sourceFile = Request.Files[i];
-					string fullFilePath = Path.Combine(physicalPath, sourceFile.FileName);
-					sourceFile.SaveAs(fullFilePath);
+					string extension = Path.GetExtension(sourceFile.FileName).Replace(".", "");
 
-					fileName = sourceFile.FileName;
+					if (allowedExtensions.Contains(extension))
+					{
+						string fullFilePath = Path.Combine(physicalPath, sourceFile.FileName);
+						sourceFile.SaveAs(fullFilePath);
+
+						fileName = sourceFile.FileName;
+					}
+					else
+					{
+						return Json(new { status = "error", message = string.Format(".{0} files are not allowed to be uploaded.", extension) }, "text/plain");
+					}
 				}
 
 				return Json(new { status = "ok", filename = fileName }, "text/plain");
