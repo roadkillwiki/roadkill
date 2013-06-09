@@ -22,10 +22,10 @@
 @using (Html.BeginForm("FileUpload", "FileManager", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 	@Html.Hidden("destination_folder", "")
-    <span class="fileupload-buttonbar ">
+    <span class="fileupload-buttonbar">
         <span class="fileupload-button btn">
             <span>@SiteStrings.FileManager_Upload</span>
-            <input id="fileupload" type="file" name="files[]" data-url="FileManager/FileUpload" multiple>
+            <input id="fileupload" type="file" name="files[]" data-url="FileManager/FileUpload" multiple />
         </span>
 	@if (RoadkillContext.IsAdmin)
 	{
