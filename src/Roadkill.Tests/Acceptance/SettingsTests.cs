@@ -31,7 +31,7 @@ namespace Roadkill.Tests.Acceptance
 			Assert.That(Driver.ElementValue("#RecaptchaPublicKey"), Is.EqualTo("recaptcha-public-key"));
 			Assert.That(Driver.ElementValue("#EditorRoleName"), Is.EqualTo("Editor"));
 			Assert.That(Driver.ElementValue("#AdminRoleName"), Is.EqualTo("Admin"));
-			Assert.That(Driver.ElementValue("#AttachmentsFolder"), Is.EqualTo(@"C:\temp\roadkillattachments"));
+			Assert.That(Driver.ElementValue("#AttachmentsFolder"), Is.EqualTo(@"~/App_Data/Attachments"));
 			Assert.That(Driver.ElementValue("#AllowedFileTypes"), Is.EqualTo("jpg,png,gif,zip,xml,pdf"));
 
 			Assert.False(Driver.IsCheckboxChecked("UseWindowsAuth"));
