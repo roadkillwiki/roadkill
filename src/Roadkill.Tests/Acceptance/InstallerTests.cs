@@ -512,7 +512,6 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		[Explicit("Requires MySQL 5 installed on the machine the acceptance tests are running first.")]
 		public void All_Steps_With_Minimum_Required_SQLite_Should_Complete()
 		{
 			// Arrange
