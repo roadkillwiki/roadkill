@@ -19,6 +19,7 @@ namespace Roadkill.Tests.Integration
 	/// </summary>
 	[TestFixture]
 	[Category("Integration")]
+	[Explicit("Requires MongoDB installed on the machine running the tests")]
 	[Description("For an easy install of MongoDB on Windows : http://chocolatey.org/packages?q=mongodb")]
 	public class MongoDBRepositoryTests
 	{
