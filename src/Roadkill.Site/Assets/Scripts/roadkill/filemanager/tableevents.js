@@ -20,8 +20,12 @@ var Roadkill;
                     $("table#files tr.select").removeClass("select");
                     $(tr).addClass("select");
                     if($(tr).attr("data-itemtype") !== "folder") {
+                        var path = TableEvents.getCurrentPath();
+                        if(path !== "/") {
+                            path += "/";
+                        }
                         $("table#files").trigger("fileselected", {
-                            file: TableEvents.getCurrentPath() + "/" + $("td.file", tr).text()
+                            file: path + $("td.file", tr).text()
                         });
                     }
                 };
@@ -32,7 +36,7 @@ var Roadkill;
                 };
                 TableEvents.getCurrentPath = function getCurrentPath() {
                     return $("ul.navigator li:last").attr("data-urlpath");
-                }
+                };
                 TableEvents.update = function update(path, addBreadCrumb) {
                     if (typeof path === "undefined") { path = ""; }
                     if (typeof addBreadCrumb === "undefined") { addBreadCrumb = true; }
@@ -56,15 +60,12 @@ var Roadkill;
                     };
                     var ajaxRequest = new FileManager.AjaxRequest();
                     ajaxRequest.getFolderInfo(path, success);
-                }
+                };
                 return TableEvents;
             })();
             FileManager.TableEvents = TableEvents;            
         })(Site.FileManager || (Site.FileManager = {}));
         var FileManager = Site.FileManager;
-
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
-
 })(Roadkill || (Roadkill = {}));
-

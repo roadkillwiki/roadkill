@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
 
 namespace Roadkill.Tests.Acceptance
@@ -41,6 +43,33 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
+		public void File_Table_Should_List_Folders_Then_Files()
+		{
+			// Arrange
+			string sitePath = AcceptanceTestsSetup.GetSitePath();
+			string fileSource = Path.Combine(sitePath, "Themes", "Mediawiki", "logo.png");
+			string fileDest = Path.Combine(sitePath, "App_Data", "Attachments", "logo.png");
+			File.Copy(fileSource, fileDest);
+
+			string folder1Path = Path.Combine(sitePath, "App_Data", "Attachments", "folder1");
+			Directory.CreateDirectory(folder1Path);
+
+			string folder2Path = Path.Combine(sitePath, "App_Data", "Attachments", "folder2");
+			Directory.CreateDirectory(folder2Path);
+
+			LoginAsEditor();
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/filemanager']")).Click();
+
+			// Assert
+			Assert.That(Driver.FindElements(By.CssSelector("table#files tbody tr")).Count(), Is.EqualTo(3));
+			Assert.That(Driver.FindElement(By.CssSelector("table#files tbody tr td+td")).Text, Is.EqualTo("folder1"));
+			Assert.That(Driver.FindElement(By.CssSelector("table#files tbody tr+tr td+td")).Text, Is.EqualTo("folder2"));
+			Assert.That(Driver.FindElement(By.CssSelector("table#files tbody tr+tr+tr td+td")).Text, Is.EqualTo("logo.png"));
+		}
+
+		[Test]
 		public void Editor_Login_Should_Only_Show_Upload_And_New_Folder_Buttons()
 		{
 			// Arrange
@@ -73,7 +102,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void NewFolder_Displays_In_Table()
+		public void NewFolder_Should_Display_In_Table()
 		{
 			// Arrange
 			LoginAsEditor();
@@ -84,6 +113,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("#addfolderbtn")).Click();
 			Driver.FindElement(By.CssSelector("#newfolderinput")).SendKeys(folderName);
 			Driver.FindElement(By.CssSelector("#newfolderinput")).SendKeys(Keys.Return);
+			WaitForAjaxToComplete();
 
 			// Assert
 			Assert.That(Driver.FindElements(By.CssSelector("table#files tr")).Count(), Is.EqualTo(2));
@@ -91,7 +121,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Upload_File_Shows_Toast_And_Displays_In_Table()
+		public void Upload_File_Should_Show_Toast_And_Displays_In_Table()
 		{
 			// Arrange
 			LoginAsEditor();
@@ -102,6 +132,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("a[href='/filemanager']")).Click();
 			MakeFileInputVisible();
 			Driver.FindElement(By.CssSelector("#fileupload")).SendKeys(file);
+			WaitForAjaxToComplete();
 
 			// Assert
 			Assert.That(Driver.FindElement(By.CssSelector(".toast-success")).Displayed, Is.True, ".toast-success");
@@ -109,11 +140,163 @@ namespace Roadkill.Tests.Acceptance
 			Assert.That(Driver.FindElement(By.CssSelector("table#files td.file")).Text, Is.EqualTo("logo.png"));
 		}
 
-		// [X] Delete file
-		// [X] Delete folder
-		// [X] Navigate 2 deep folders
-		// [X] Navigate 2 deep folders + use nav bar
-		// [X] Upload + select in page editor
+		[Test]
+		public void Delete_File_Should_Show_Toast_And_Not_Show_File_In_Table()
+		{
+			// Arrange
+			string sitePath = AcceptanceTestsSetup.GetSitePath();
+			string fileSource = Path.Combine(sitePath, "Themes", "Mediawiki", "logo.png");
+			string fileDest = Path.Combine(sitePath, "App_Data", "Attachments", "logo.png");
+			File.Copy(fileSource, fileDest);
+
+			LoginAsAdmin();
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/filemanager']")).Click();
+			Driver.FindElement(By.CssSelector("td.file")).Click();
+			Driver.FindElement(By.CssSelector("#deletefilebtn")).Click();
+			Driver.SwitchTo().Alert().Accept();
+			WaitForAjaxToComplete();
+
+			// Assert
+			Assert.That(Driver.FindElement(By.CssSelector(".toast-info")).Displayed, Is.True, ".toast-info");
+			Assert.That(Driver.FindElements(By.CssSelector("table#files td.file")).Count(), Is.EqualTo(0));
+		}
+
+		[Test]
+		public void Delete_Folder_Should_Show_Toast_And_Not_Show_Folder_In_Table()
+		{
+			// Arrange
+			string sitePath = AcceptanceTestsSetup.GetSitePath();
+			string folderPath = Path.Combine(sitePath, "App_Data", "Attachments", "RandomFolder");
+			Directory.CreateDirectory(folderPath);
+
+			LoginAsAdmin();
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/filemanager']")).Click();
+			Driver.FindElement(By.CssSelector("table#files tbody tr td+td")).Click();
+			Driver.FindElement(By.CssSelector("#deletefolderbtn")).Click();
+			Driver.SwitchTo().Alert().Accept();
+			WaitForAjaxToComplete();
+
+			// Assert
+			Driver.WaitForElementDisplayed(By.CssSelector(".toast-info"));
+			Assert.That(Driver.FindElement(By.CssSelector(".toast-info")).Displayed, Is.True, ".toast-info");
+			Assert.That(Driver.FindElements(By.CssSelector("table#files tbody tr")).Count(), Is.EqualTo(0));
+		}
+
+		[Test]
+		public void Navigate_SubFolders_Should_Work_With_Double_Click()
+		{
+			// Arrange
+			string sitePath = AcceptanceTestsSetup.GetSitePath();
+			string folderPath = Path.Combine(sitePath, "App_Data", "Attachments", "folder");
+			Directory.CreateDirectory(folderPath);
+			
+			string subfolderPath = Path.Combine(folderPath, "subfolder");
+			Directory.CreateDirectory(subfolderPath);
+
+			LoginAsEditor();
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/filemanager']")).Click();
+
+			IWebElement td = Driver.FindElement(By.CssSelector("table#files tbody tr td+td"));
+			Actions action = new Actions(Driver);
+			action.DoubleClick(td).Perform();
+			WaitForAjaxToComplete();
+
+			td = Driver.FindElement(By.CssSelector("table#files tbody tr td+td"));
+			action = new Actions(Driver);
+			action.DoubleClick(td).Perform();
+			WaitForAjaxToComplete();
+
+			// Assert
+			Assert.That(Driver.FindElements(By.CssSelector("table#files tbody tr")).Count(), Is.EqualTo(0));
+			Assert.That(Driver.FindElements(By.CssSelector("#path-navigator li"))[0].Text, Is.EqualTo("/"));
+			Assert.That(Driver.FindElements(By.CssSelector("#path-navigator li"))[1].Text, Is.EqualTo("folder"));
+			Assert.That(Driver.FindElements(By.CssSelector("#path-navigator li"))[2].Text, Is.EqualTo("subfolder"));
+		}
+
+		[Test]
+		public void Navigate_Folders_With_Crumb_Trail_Should_Update_Table_And_Crumb_Trail()
+		{
+			// Arrange
+			string sitePath = AcceptanceTestsSetup.GetSitePath();
+			string folderPath = Path.Combine(sitePath, "App_Data", "Attachments", "folder");
+			Directory.CreateDirectory(folderPath);
+
+			string subfolderPath = Path.Combine(folderPath, "subfolder");
+			Directory.CreateDirectory(subfolderPath);
+
+			LoginAsEditor();
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/filemanager']")).Click();
+
+			IWebElement td = Driver.FindElement(By.CssSelector("table#files tbody tr td+td"));
+			Actions action = new Actions(Driver);
+			action.DoubleClick(td).Perform();
+			WaitForAjaxToComplete();
+
+			td = Driver.FindElement(By.CssSelector("table#files tbody tr td+td"));
+			action = new Actions(Driver);
+			action.DoubleClick(td).Perform();
+			WaitForAjaxToComplete();
+
+			Driver.FindElements(By.CssSelector("#path-navigator li"))[1].Click();
+			WaitForAjaxToComplete();
+
+			// Assert
+			Assert.That(Driver.FindElements(By.CssSelector("table#files tbody tr")).Count(), Is.EqualTo(1));
+			Assert.That(Driver.FindElement(By.CssSelector("table#files tbody tr td+td")).Text, Is.EqualTo("subfolder"));
+
+			Driver.FindElements(By.CssSelector("#path-navigator li"))[1].Click(); // use the current node, just to be sure it does nothing
+			Driver.FindElements(By.CssSelector("#path-navigator li"))[0].Click();
+			WaitForAjaxToComplete();
+
+			Assert.That(Driver.FindElements(By.CssSelector("table#files tbody tr")).Count(), Is.EqualTo(1));
+			Assert.That(Driver.FindElement(By.CssSelector("table#files tbody tr td+td")).Text, Is.EqualTo("folder"));
+		}
+
+		[Test]
+		public void Select_File_In_Page_Editor_Should_Add_Markup()
+		{
+			// Arrange
+			string sitePath = AcceptanceTestsSetup.GetSitePath();
+			string fileSource = Path.Combine(sitePath, "Themes", "Mediawiki", "logo.png");
+			string fileDest = Path.Combine(sitePath, "App_Data", "Attachments", "logo.png");
+			File.Copy(fileSource, fileDest);
+
+			LoginAsEditor();
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/pages/new']")).Click();
+			Driver.FindElement(By.CssSelector(".wysiwyg-picture")).Click();
+			Driver.SwitchTo().Frame(0); // the iframe modal
+			Driver.FindElement(By.CssSelector("table#files tbody tr td+td")).Click();
+			Driver.SwitchTo().DefaultContent();
+
+			// Assert
+			Assert.That(Driver.FindElement(By.CssSelector("textarea#Content")).GetAttribute("value"),
+						Is.EqualTo("{{/logo.png|Image title}}"));
+		}
+
+		public void WaitForAjaxToComplete()
+		{
+			// Borrowed from http://stackoverflow.com/a/7203819/21574
+			int tries = 0;
+			while (tries < 5)
+			{
+				var ajaxIsComplete = (bool)(Driver as IJavaScriptExecutor).ExecuteScript("return jQuery.active == 0");
+				if (ajaxIsComplete)
+					break;
+				
+				Thread.Sleep(100);
+				tries++;
+			}
+		}
 
 		private void MakeFileInputVisible()
 		{

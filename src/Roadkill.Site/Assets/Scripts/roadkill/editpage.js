@@ -25,12 +25,12 @@ var Roadkill;
                     ],
                     hiddenTagListName: "RawTags"
                 });
-            }
+            };
             EditPage.bindPreviewButton = function bindPreviewButton() {
                 $(".previewButton").click(function () {
                     EditPage.showPreview();
                 });
-            }
+            };
             EditPage.showPreview = function showPreview() {
                 $("#previewLoading").show();
                 var text = $("#Content").val();
@@ -54,12 +54,10 @@ var Roadkill;
                     Site.Dialogs.openFullScreenModal("#previewContainer");
                     $("#previewLoading").hide();
                 });
-            }
+            };
             return EditPage;
         })();
         Site.EditPage = EditPage;        
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
-
 })(Roadkill || (Roadkill = {}));
-
