@@ -12,7 +12,7 @@ var Roadkill;
                     var tableEvents = new FileManager.TableEvents();
                     tableEvents.bind();
                     FileManager.TableEvents.update("/");
-                }
+                };
                 Setup.initializeImagePreview = function initializeImagePreview() {
                     var xOffset = 20;
                     var yOffset = 20;
@@ -32,7 +32,7 @@ var Roadkill;
                     }).live("mousemove", function (e) {
                         $("#preview").css("top", (e.pageY - xOffset) + "px").css("left", (e.pageX + yOffset) + "px");
                     });
-                }
+                };
                 Setup.initializeFileUpload = function initializeFileUpload() {
                     $("#fileupload").fileupload({
                         dropZone: $("#folder-container"),
@@ -60,15 +60,12 @@ var Roadkill;
                     }).bind("fileuploaddrop", function (e, data) {
                         FileManager.TableEvents.update("", false);
                     });
-                }
+                };
                 return Setup;
             })();
             FileManager.Setup = Setup;            
         })(Site.FileManager || (Site.FileManager = {}));
         var FileManager = Site.FileManager;
-
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
-
 })(Roadkill || (Roadkill = {}));
-

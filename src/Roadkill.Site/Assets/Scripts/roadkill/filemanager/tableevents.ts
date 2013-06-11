@@ -20,8 +20,12 @@ module Roadkill.Site.FileManager
 
 			if ($(tr).attr("data-itemtype") !== "folder")
 			{
+				var path = TableEvents.getCurrentPath();
+				if (path !== "/")
+					path += "/";
+
 				$("table#files").trigger("fileselected", {
-					file: TableEvents.getCurrentPath() + "/" + $("td.file", tr).text()
+					file: path + $("td.file", tr).text()
 				});
 			}
 		}
