@@ -33,21 +33,23 @@ var Roadkill;
                         return;
                     }
                     var message = FileManager.Util.FormatString(ROADKILL_FILEMANAGER_DELETE_CONFIRM, folder);
-                    if(!confirm(message)) {
-                        return;
-                    }
-                    var success = function (data) {
-                        if(data.status == "ok") {
-                            FileManager.BreadCrumbTrail.removePriorBreadcrumb();
-                            var li = $("ul.navigator li:last-child").prev("li");
-                            var folder = li.attr("data-urlpath");
-                            FileManager.TableEvents.update(folder);
-                            toastr.info(ROADKILL_FILEMANAGER_FOLDER_DELETED_SUCCESS);
-                        } else {
-                            toastr.error(ROADKILL_FILEMANAGER_DELETE_ERROR + " :<br/>" + data.message);
+                    Site.Dialogs.confirm(message, function (result) {
+                        if(!result) {
+                            return;
                         }
-                    };
-                    that._ajaxRequest.deleteFolder(folder, success);
+                        var success = function (data) {
+                            if(data.status == "ok") {
+                                var li = $("ul.navigator li:last-child");
+                                var currentFolder = li.attr("data-urlpath");
+                                FileManager.TableEvents.update(currentFolder, false);
+                                toastr.info(ROADKILL_FILEMANAGER_FOLDER_DELETED_SUCCESS);
+                            } else {
+                                var errorMessage = FileManager.Util.FormatString(ROADKILL_FILEMANAGER_DELETE_ERROR, folder);
+                                toastr.error(errorMessage + " :<br/>" + data.message);
+                            }
+                        };
+                        that._ajaxRequest.deleteFolder(folder, success);
+                    });
                 };
                 ButtonEvents.prototype.deleteFile = function (event) {
                     var that = event.data.instance;
@@ -56,18 +58,21 @@ var Roadkill;
                         var currentPath = FileManager.TableEvents.getCurrentPath();
                         var filename = $("td.file", tr).text();
                         var message = FileManager.Util.FormatString(ROADKILL_FILEMANAGER_DELETE_CONFIRM, filename);
-                        if(!confirm(message)) {
-                            return;
-                        }
-                        var success = function (data) {
-                            if(data.status == "ok") {
-                                $(tr).remove();
-                                toastr.info("ROADKILL_FILEMANAGER_FILE_DELETED_SUCCESS");
-                            } else {
-                                toastr.error(ROADKILL_FILEMANAGER_DELETE_ERROR + " :<br/>" + data.message);
+                        Site.Dialogs.confirm(message, function (result) {
+                            if(!result) {
+                                return;
                             }
-                        };
-                        that._ajaxRequest.deleteFile(filename, currentPath, success);
+                            var success = function (data) {
+                                if(data.status == "ok") {
+                                    $(tr).remove();
+                                    toastr.info("ROADKILL_FILEMANAGER_FILE_DELETED_SUCCESS");
+                                } else {
+                                    var errorMessage = FileManager.Util.FormatString(ROADKILL_FILEMANAGER_DELETE_ERROR, filename);
+                                    toastr.error(errorMessage + " :<br/>" + data.message);
+                                }
+                            };
+                            that._ajaxRequest.deleteFile(filename, currentPath, success);
+                        });
                     }
                 };
                 ButtonEvents.prototype.addFolderInput = function (event) {

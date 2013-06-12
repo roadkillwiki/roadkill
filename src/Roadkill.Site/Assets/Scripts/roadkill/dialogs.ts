@@ -3,6 +3,18 @@ module Roadkill.Site
 {
 	export class Dialogs
 	{
+		public static alert(message: string)
+		{
+			bootbox.animate(false);
+			bootbox.alert(message);
+		}
+
+		public static confirm(title: string, resultFunction: (result: bool) => void )
+		{
+			bootbox.animate(false);
+			bootbox.confirm("<b>" +title+ "</b>", resultFunction);
+		}
+
 		public static openModal(selector: string, params?: any)
 		{
 			if (typeof params !== "undefined")
