@@ -3,6 +3,14 @@ var Roadkill;
     (function (Site) {
         var Dialogs = (function () {
             function Dialogs() { }
+            Dialogs.alert = function alert(message) {
+                bootbox.animate(false);
+                bootbox.alert(message);
+            };
+            Dialogs.confirm = function confirm(title, resultFunction) {
+                bootbox.animate(false);
+                bootbox.confirm("<b>" + title + "</b>", resultFunction);
+            };
             Dialogs.openModal = function openModal(selector, params) {
                 if(typeof params !== "undefined") {
                     params.openSpeed = 150;

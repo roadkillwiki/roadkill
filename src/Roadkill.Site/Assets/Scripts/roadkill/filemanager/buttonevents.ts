@@ -25,7 +25,7 @@ module Roadkill.Site.FileManager
 
 		deleteFolder(event)
 		{
-			var that = event.data.instance;  // this instance of the ButtonEvents class
+			var that = event.data.instance;  // this instance
 			var tr = $("tr.select");
 			var folder: string = tr.attr("data-urlpath");
 
@@ -35,29 +35,34 @@ module Roadkill.Site.FileManager
 			}
 
 			var message: string = Util.FormatString(ROADKILL_FILEMANAGER_DELETE_CONFIRM, folder);
-			if (!confirm(message))
-				return;
-
-			// Ajax request
-			var success = function (data)
+			Dialogs.confirm(message, function (result)
 			{
-				if (data.status == "ok")
+				if (!result)
+					return;
+
+				//var folderName = folder; // redefined below so save its value so it's not lost from scope
+
+				// Ajax request
+				var success = function (data)
 				{
-					BreadCrumbTrail.removePriorBreadcrumb();
+					if (data.status == "ok")
+					{
+						// Update the current folder's listing
+						var li = $("ul.navigator li:last-child");
+						var currentFolder: string = li.attr("data-urlpath");
+						TableEvents.update(currentFolder, false);
 
-					var li = $("ul.navigator li:last-child").prev("li");
-					var folder: string = li.attr("data-urlpath");
-					TableEvents.update(folder);
+						toastr.info(ROADKILL_FILEMANAGER_FOLDER_DELETED_SUCCESS);
+					}
+					else
+					{
+						var errorMessage: string = Util.FormatString(ROADKILL_FILEMANAGER_DELETE_ERROR, folder);
+						toastr.error(errorMessage + " :<br/>" + data.message);
+					}
+				};
 
-					toastr.info(ROADKILL_FILEMANAGER_FOLDER_DELETED_SUCCESS);
-				}
-				else
-				{
-					toastr.error(ROADKILL_FILEMANAGER_DELETE_ERROR + " :<br/>" + data.message);
-				}
-			};
-
-			that._ajaxRequest.deleteFolder(folder, success);
+				that._ajaxRequest.deleteFolder(folder, success);
+			});
 		}
 
 		deleteFile(event)
@@ -71,24 +76,28 @@ module Roadkill.Site.FileManager
 				var filename: string = $("td.file", tr).text();
 
 				var message = Util.FormatString(ROADKILL_FILEMANAGER_DELETE_CONFIRM, filename);
-				if (!confirm(message))
-					return;
-
-				// Ajax request
-				var success = function (data)
+				Dialogs.confirm(message, function (result)
 				{
-					if (data.status == "ok")
-					{
-						$(tr).remove();
-						toastr.info("ROADKILL_FILEMANAGER_FILE_DELETED_SUCCESS");
-					}
-					else
-					{
-						toastr.error(ROADKILL_FILEMANAGER_DELETE_ERROR + " :<br/>" + data.message);
-					}
-				};
+					if (!result)
+						return;
 
-				that._ajaxRequest.deleteFile(filename, currentPath, success);
+					// Ajax request
+					var success = function (data)
+					{
+						if (data.status == "ok")
+						{
+							$(tr).remove();
+							toastr.info("ROADKILL_FILEMANAGER_FILE_DELETED_SUCCESS");
+						}
+						else
+						{
+							var errorMessage: string = Util.FormatString(ROADKILL_FILEMANAGER_DELETE_ERROR, filename);
+							toastr.error(errorMessage + " :<br/>" + data.message);
+						}
+					};
+
+					that._ajaxRequest.deleteFile(filename, currentPath, success);
+				});
 			}
 		}
 

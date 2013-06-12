@@ -106,7 +106,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				}
 				else
 				{
-					return Json(new { status = "error", message = SiteStrings.FileManager_Error_DeleteFolder });
+					return Json(new { status = "error", message = "The folder is not empty." });
 				}
 
 				return Json(new { status = "ok", message = "" });
