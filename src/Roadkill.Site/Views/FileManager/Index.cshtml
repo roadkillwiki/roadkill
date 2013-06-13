@@ -19,7 +19,7 @@
     <div class="bar" style="width: 0%;"></div>
 </div>
 
-@using (Html.BeginForm("FileUpload", "FileManager", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Upload", "FileManager", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 	@Html.Hidden("destination_folder", "")
     <span class="fileupload-buttonbar">

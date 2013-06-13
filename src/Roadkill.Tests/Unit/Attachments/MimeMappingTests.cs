@@ -18,7 +18,7 @@ namespace Roadkill.Tests.Unit
 			string expected = "application/octet-stream";
 
 			// Act
-			string actual = MimeMapping.GetMimeMapping("");
+			string actual = MimeTypes.GetMimeType("", null);
 
 			// Assert
 			Assert.That(actual, Is.EqualTo(expected));
@@ -31,7 +31,7 @@ namespace Roadkill.Tests.Unit
 			string expected = "application/octet-stream";
 
 			// Act
-			string actual = MimeMapping.GetMimeMapping(".blah");
+			string actual = MimeTypes.GetMimeType(".blah", null);
 
 			// Assert
 			Assert.That(actual, Is.EqualTo(expected));
@@ -44,7 +44,7 @@ namespace Roadkill.Tests.Unit
 			string expected = "image/jpeg";
 
 			// Act
-			string actual = MimeMapping.GetMimeMapping(".JPEG");
+			string actual = MimeTypes.GetMimeType(".JPEG", null);
 
 			// Assert
 			Assert.That(actual, Is.EqualTo(expected));
@@ -61,7 +61,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 
 			// Act
-			string actual = MimeMapping.GetMimeMapping(extension);
+			string actual = MimeTypes.GetMimeType(extension, null);
 
 			// Assert
 			Assert.That(actual, Is.EqualTo(expectedMimeType));

@@ -21,6 +21,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	public class FileManagerController : ControllerBase
 	{
 		private AttachmentFileHandler _attachmentHandler;
+		private AttachmentPathUtil _attachmentPathUtil;
 		private static string[] _filesToExclude = new string[] { "emptyfile.txt", "_installtest.txt" }; // installer/publish files
 
 		/// <summary>
@@ -32,6 +33,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			: base(settings, userManager, context, siteSettingsManager)
 		{
 			_attachmentHandler = attachment;
+			_attachmentPathUtil = new AttachmentPathUtil(settings);
 		}
 
 		/// <summary>
@@ -54,10 +56,10 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public JsonResult DeleteFile(string filePath, string fileName)
 		{
-			string physicalPath = _attachmentHandler.ConvertUrlPathToPhysicalPath(filePath);
+			string physicalPath = _attachmentPathUtil.ConvertUrlPathToPhysicalPath(filePath);
 			string physicalFilePath = Path.Combine(physicalPath, fileName);
 
-			if (!_attachmentHandler.IsAttachmentPathValid(physicalPath))
+			if (!_attachmentPathUtil.IsAttachmentPathValid(physicalPath))
 			{
 				throw new SecurityException(null, "Attachment path was invalid when deleting {0}", fileName);
 			}
@@ -89,9 +91,9 @@ namespace Roadkill.Core.Mvc.Controllers
 				return Json(new { status = "error", message = SiteStrings.FileManager_Error_DeleteFolder });
 			}
 
-			string physicalPath = _attachmentHandler.ConvertUrlPathToPhysicalPath(folder);
+			string physicalPath = _attachmentPathUtil.ConvertUrlPathToPhysicalPath(folder);
 
-			if (!_attachmentHandler.IsAttachmentPathValid(physicalPath, false))
+			if (!_attachmentPathUtil.IsAttachmentPathValid(physicalPath, false))
 			{
 				throw new SecurityException(null, "Attachment path was invalid when deleting the folder {0}", folder);
 			}
@@ -124,6 +126,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <param name="dir">The current directory to display</param>
 		/// <remarks>This action requires editor rights.</remarks>
 		[EditorRequired]
+		[HttpPost]
 		public ActionResult FolderInfo(string dir)
 		{
 			if (!Directory.Exists(ApplicationSettings.AttachmentsDirectoryPath))
@@ -132,9 +135,9 @@ namespace Roadkill.Core.Mvc.Controllers
 			string folder = dir;
 			folder = Server.UrlDecode(folder);
 
-			string physicalPath = _attachmentHandler.ConvertUrlPathToPhysicalPath(folder);
+			string physicalPath = _attachmentPathUtil.ConvertUrlPathToPhysicalPath(folder);
 
-			if (!_attachmentHandler.IsAttachmentPathValid(physicalPath))
+			if (!_attachmentPathUtil.IsAttachmentPathValid(physicalPath))
 			{
 				throw new SecurityException(null, "Attachment path was invalid when getting the folder {0}", dir);
 			}
@@ -194,9 +197,9 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public JsonResult NewFolder(string currentFolderPath, string newFolderName)
 		{
-			var physicalPath = _attachmentHandler.ConvertUrlPathToPhysicalPath(currentFolderPath);
+			var physicalPath = _attachmentPathUtil.ConvertUrlPathToPhysicalPath(currentFolderPath);
 
-			if (!_attachmentHandler.IsAttachmentPathValid(physicalPath))
+			if (!_attachmentPathUtil.IsAttachmentPathValid(physicalPath))
 			{
 				throw new SecurityException(null, "Attachment path was invalid when creating folder {0}", newFolderName);
 			}
@@ -225,12 +228,12 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <remarks>This action requires editor rights.</remarks>
 		[EditorRequired]
 		[HttpPost]
-		public JsonResult FileUpload()
+		public JsonResult Upload()
 		{
 			string destinationFolder = Request.Form["destination_folder"];
-			string physicalPath = _attachmentHandler.ConvertUrlPathToPhysicalPath(destinationFolder);
+			string physicalPath = _attachmentPathUtil.ConvertUrlPathToPhysicalPath(destinationFolder);
 
-			if (!_attachmentHandler.IsAttachmentPathValid(physicalPath))
+			if (!_attachmentPathUtil.IsAttachmentPathValid(physicalPath))
 			{
 				throw new SecurityException("Attachment path was invalid when uploading.", null);
 			}

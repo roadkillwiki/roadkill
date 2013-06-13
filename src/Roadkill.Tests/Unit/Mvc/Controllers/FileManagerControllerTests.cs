@@ -14,6 +14,8 @@ using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Attachments;
 using System.Collections.Specialized;
+using System.Reflection;
+using Roadkill.Core.Mvc.Attributes;
 
 namespace Roadkill.Tests.Unit
 {
@@ -508,7 +510,7 @@ namespace Roadkill.Tests.Unit
 			string file2FullPath = Path.Combine(_settings.AttachmentsDirectoryPath, "file2.png");
 
 			// Act
-			JsonResult result = _filesController.FileUpload();
+			JsonResult result = _filesController.Upload();
 
 			// Assert
 			Assert.That(result, Is.Not.Null, "JsonResult");
@@ -537,7 +539,7 @@ namespace Roadkill.Tests.Unit
 			string file2FullPath = Path.Combine(subPath, "file2.png");
 
 			// Act
-			JsonResult result = _filesController.FileUpload();
+			JsonResult result = _filesController.Upload();
 
 			// Assert
 			Assert.That(result, Is.Not.Null, "JsonResult");
@@ -559,7 +561,7 @@ namespace Roadkill.Tests.Unit
 			SetupMockPostedFiles(container, "/");
 
 			// Act
-			JsonResult result = _filesController.FileUpload();
+			JsonResult result = _filesController.Upload();
 
 			// Assert
 			Assert.That(result, Is.Not.Null, "JsonResult");
@@ -579,7 +581,7 @@ namespace Roadkill.Tests.Unit
 			SetupMockPostedFiles(container, "/../../bad/path");
 
 			// Act
-			JsonResult result = _filesController.FileUpload();
+			JsonResult result = _filesController.Upload();
 
 			// Assert
 		}
@@ -593,9 +595,86 @@ namespace Roadkill.Tests.Unit
 			SetupMockPostedFiles(container, "/missingfolder");
 
 			// Act
-			JsonResult result = _filesController.FileUpload();
+			JsonResult result = _filesController.Upload();
 
 			// Assert
+		}
+
+		[Test]
+		[TestCase("Upload")]
+		[TestCase("DeleteFile")]
+		[TestCase("DeleteFolder")]
+		[TestCase("FolderInfo")]
+		[TestCase("NewFolder")]
+		public void Actions_Should_Be_HttpPost(string actionName)
+		{
+			// Arrange
+			MvcMockContainer container = _filesController.SetFakeControllerContext();
+			MethodInfo actionMethod = typeof(FileManagerController).GetMethod(actionName);
+
+			// Act
+			HttpPostAttribute postAttribute = actionMethod.GetCustomAttributes(typeof(HttpPostAttribute), false)
+							 .Cast<HttpPostAttribute>()
+							 .SingleOrDefault();
+
+			HttpGetAttribute getAttribute = actionMethod.GetCustomAttributes(typeof(HttpGetAttribute), false)
+							 .Cast<HttpGetAttribute>()
+							 .SingleOrDefault();
+
+			// Assert
+			Assert.That(postAttribute, Is.Not.Null, "Couldn't find the HttpPostAttribute");
+			Assert.That(getAttribute, Is.Null, "The HttpGetAttribute was not null (and should be)");
+		}
+
+		[Test]
+		public void Controller_Should_Have_EditorRequired_Attribute()
+		{
+			// Arrange
+
+
+			// Act
+			EditorRequiredAttribute editorAttribute = Attribute.GetCustomAttribute(typeof(FileManagerController), typeof(EditorRequiredAttribute))
+												as EditorRequiredAttribute;
+
+			// Assert
+			Assert.That(editorAttribute, Is.Not.Null, "Couldn't find the EditorRequiredAttribute");
+		}
+
+		[Test]
+		[TestCase("Index")]
+		[TestCase("Select")]
+		[TestCase("FolderInfo")]
+		[TestCase("NewFolder")]
+		[TestCase("Upload")]
+		public void Actions_Should_Have_EditorRequired_Attribute(string actionName)
+		{
+			// Arrange
+			MethodInfo actionMethod = typeof(FileManagerController).GetMethod(actionName);
+
+			// Act
+			EditorRequiredAttribute editorAttribute = actionMethod.GetCustomAttributes(typeof(EditorRequiredAttribute), false)
+							 .Cast<EditorRequiredAttribute>()
+							 .SingleOrDefault();
+
+			// Assert
+			Assert.That(editorAttribute, Is.Not.Null, "Couldn't find the EditorRequiredAttribute");
+		}
+
+		[Test]
+		[TestCase("DeleteFolder")]
+		[TestCase("DeleteFile")]
+		public void Actions_Should_Have_AdminRequired_Attribute(string actionName)
+		{
+			// Arrange
+			MethodInfo actionMethod = typeof(FileManagerController).GetMethod(actionName);
+
+			// Act
+			AdminRequiredAttribute adminAttribute = actionMethod.GetCustomAttributes(typeof(AdminRequiredAttribute), false)
+							 .Cast<AdminRequiredAttribute>()
+							 .SingleOrDefault();
+
+			// Assert
+			Assert.That(adminAttribute, Is.Not.Null, "Couldn't find the AdminRequiredAttribute");
 		}
 
 		// Helpers

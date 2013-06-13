@@ -250,7 +250,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestAttachments(string folder)
 		{
-			string errors = AttachmentFileHandler.TestAttachmentsFolder(folder);
+			string errors = AttachmentPathUtil.AttachmentFolderExistsAndWriteable(folder, HttpContext);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 
