@@ -334,6 +334,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attachments\AttachmentPathUtil.cs" />
     <Compile Include="Common\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Configuration\ConfigFileManager.cs" />
     <Compile Include="Configuration\UpgradeChecker.cs" />
@@ -388,7 +389,7 @@
     <Compile Include="Domain\Managers\IPageManager.cs" />
     <Compile Include="Database\Repositories\MongoDB\MongoDBRepository.cs" />
     <Compile Include="Exceptions\UpgradeException.cs" />
-    <Compile Include="Attachments\MimeMapping.cs" />
+    <Compile Include="Attachments\MimeTypes.cs" />
     <Compile Include="DI\DependencyContainer.cs" />
     <Compile Include="MVC\Attributes\OptionalAuthorizationAttribute.cs" />
     <Compile Include="MVC\Attributes\RecaptchaRequiredAttribute.cs" />

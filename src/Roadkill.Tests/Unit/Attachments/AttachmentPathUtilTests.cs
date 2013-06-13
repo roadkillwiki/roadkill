@@ -11,17 +11,17 @@ namespace Roadkill.Tests.Unit
 {
 	[TestFixture]
 	[Category("Unit")]
-	public class AttachmentFileHandlerTests
+	public class AttachmentPathUtilTests
 	{
 		private ApplicationSettings _settings;
-		private AttachmentFileHandler _fileHandler;
+		private AttachmentPathUtil _attachmentPathUtil;
 
 		[SetUp]
 		public void Setup()
 		{
 			_settings = new ApplicationSettings();
 			_settings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Attachments");
-			_fileHandler = new AttachmentFileHandler(_settings);
+			_attachmentPathUtil = new AttachmentPathUtil(_settings);
 
 			try
 			{
@@ -51,7 +51,7 @@ namespace Roadkill.Tests.Unit
 			string expectedPath = _settings.AttachmentsDirectoryPath;
 
 			// Act
-			string actualPath = _fileHandler.ConvertUrlPathToPhysicalPath(relativePath);
+			string actualPath = _attachmentPathUtil.ConvertUrlPathToPhysicalPath(relativePath);
 
 			// Assert
 			Assert.That(actualPath, Is.EqualTo(expectedPath));
@@ -68,7 +68,7 @@ namespace Roadkill.Tests.Unit
 			Directory.CreateDirectory(expectedPath);
 
 			// Act
-			string actualPath = _fileHandler.ConvertUrlPathToPhysicalPath(relativePath);
+			string actualPath = _attachmentPathUtil.ConvertUrlPathToPhysicalPath(relativePath);
 
 			// Assert
 			Assert.That(actualPath, Is.EqualTo(expectedPath));
@@ -83,7 +83,7 @@ namespace Roadkill.Tests.Unit
 			bool expectedResult = true;
 
 			// Act
-			bool actualResult = _fileHandler.IsAttachmentPathValid(physicalPath);
+			bool actualResult = _attachmentPathUtil.IsAttachmentPathValid(physicalPath);
 
 			// Assert
 			Assert.That(actualResult, Is.EqualTo(expectedResult));
@@ -97,7 +97,7 @@ namespace Roadkill.Tests.Unit
 			bool expectedResult = false;
 
 			// Act
-			bool actualResult = _fileHandler.IsAttachmentPathValid(physicalPath);
+			bool actualResult = _attachmentPathUtil.IsAttachmentPathValid(physicalPath);
 
 			// Assert
 			Assert.That(actualResult, Is.EqualTo(expectedResult));
@@ -114,7 +114,7 @@ namespace Roadkill.Tests.Unit
 			bool expectedResult = true;
 
 			// Act
-			bool actualResult = _fileHandler.IsAttachmentPathValid(physicalPath);
+			bool actualResult = _attachmentPathUtil.IsAttachmentPathValid(physicalPath);
 
 			// Assert
 			Assert.That(actualResult, Is.EqualTo(expectedResult));
@@ -131,7 +131,7 @@ namespace Roadkill.Tests.Unit
 			Directory.CreateDirectory(physicalPath);
 
 			// Act
-			bool actualResult = _fileHandler.IsAttachmentPathValid(physicalPath);
+			bool actualResult = _attachmentPathUtil.IsAttachmentPathValid(physicalPath);
 
 			// Assert
 			Assert.That(actualResult, Is.EqualTo(expectedResult));
@@ -144,7 +144,7 @@ namespace Roadkill.Tests.Unit
 			bool expectedResult = true;
 
 			// Act
-			bool actualResult = _fileHandler.IsAttachmentPathValid("");
+			bool actualResult = _attachmentPathUtil.IsAttachmentPathValid("");
 
 			// Assert
 			Assert.That(actualResult, Is.EqualTo(expectedResult));
@@ -171,7 +171,7 @@ namespace Roadkill.Tests.Unit
 			physicalPath = physicalPath.Replace("{attachmentsfolder}", _settings.AttachmentsDirectoryPath);
 
 			// Act
-			bool actualResult = _fileHandler.IsAttachmentPathValid(physicalPath);
+			bool actualResult = _attachmentPathUtil.IsAttachmentPathValid(physicalPath);
 
 			// Assert
 			Assert.That(actualResult, Is.EqualTo(expectedResult));

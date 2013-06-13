@@ -49,6 +49,12 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
+		public void FileManagerController_Should_Have_Index()
+		{
+			"~/filemanager".ShouldMapTo<FileManagerController>(action => action.Index());
+		}
+
+		[Test]
 		public void Attachments_Should_Have_Correct_Handler_And_Contain_Route_Values()
 		{
 			// Arrange
@@ -93,30 +99,6 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Attachments_With_Custom_Route_Should_Have_Correct_Handler_And_Contain_Route_Values()
-		{
-			// Arrange
-			ApplicationSettings settings = new ApplicationSettings();
-			settings.AttachmentsRoutePath = "mywiki/Attachments";
-			string filename = "somefile.png";
-			string url = string.Format("~/{0}/{1}", settings.AttachmentsRoutePath, filename);
-			var mockContext = new StubHttpContextForRouting("", url);
-
-			RouteTable.Routes.Clear();
-			RouteCollection routes = new RouteCollection();
-			AttachmentRouteHandler.RegisterRoute(settings, routes);
-			RoadkillApplication.RegisterRoutes(routes);
-
-			// Act
-			RouteData routeData = routes.GetRouteData(mockContext);
-
-			// Assert
-			Assert.IsNotNull(routeData);
-			Assert.That(routeData.RouteHandler, Is.TypeOf<AttachmentRouteHandler>());
-			Assert.That(routeData.Values["filename"].ToString(), Is.EqualTo(filename));
-		}
-
-		[Test]
 		[ExpectedException(typeof(ConfigurationException))]
 		public void AttachmentsRoute_Using_Files_Route_Should_Throw_Exception()
 		{
@@ -137,8 +119,29 @@ namespace Roadkill.Tests.Unit
 			// Assert
 		}
 
-		// TODO: test with subapplications e.g. /mywiki/
-		// TODO: filemanager tests
+		[Test]
+		[Description("Needs some work to get it to check it works without the virtual path modifier")]
+		public void Attachments_With_SubApplication_Should_Have_Correct_Handler_And_Contain_Route_Values()
+		{
+			// Arrange
+			ApplicationSettings settings = new ApplicationSettings();
+			settings.AttachmentsRoutePath = "Attachments";
+			string filename = "somefile.png";
+			string url = string.Format("~/{0}/{1}", settings.AttachmentsRoutePath, filename); // doesn't work without the ~
+			var mockContext = new StubHttpContextForRouting("/mywiki/", url);
+
+			RouteTable.Routes.Clear();
+			RouteCollection routes = new RouteCollection();
+			AttachmentRouteHandler.RegisterRoute(settings, routes);
+
+			// Act
+			RouteData routeData = routes.GetRouteData(mockContext);
+
+			// Assert
+			Assert.IsNotNull(routeData);
+			Assert.That(routeData.RouteHandler, Is.TypeOf<AttachmentRouteHandler>());
+			Assert.That(routeData.Values["filename"].ToString(), Is.EqualTo(filename));
+		}
 	}
 
 	public class StubHttpContextForRouting : HttpContextBase
