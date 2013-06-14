@@ -188,13 +188,13 @@ namespace Roadkill.Core.Database.LightSpeed
 			if (entity == null || entity.Id == Guid.Empty)
 			{
 				entity = new SiteSettingsEntity();
-				entity.Version = ApplicationSettings.AssemblyVersion.ToString();
+				entity.Version = ApplicationSettings.ProductVersion.ToString();
 				entity.Content = siteSettings.GetJson();
 				UnitOfWork.Add(entity);
 			}
 			else
 			{
-				entity.Version = ApplicationSettings.AssemblyVersion.ToString();
+				entity.Version = ApplicationSettings.ProductVersion.ToString();
 				entity.Content = siteSettings.GetJson();
 			}
 

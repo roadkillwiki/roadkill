@@ -12,6 +12,7 @@ using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
 using Roadkill.Core.Managers;
 using Roadkill.Core.Mvc.ViewModels;
 using System.Web.Optimization;
+using System.Web;
 
 namespace Roadkill.Core
 {
@@ -214,6 +215,22 @@ namespace Roadkill.Core
 			resources += "<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content("~/Assets/bootstrap/js/bootstrap.min.js") + "\"></script>";
 			
 			return MvcHtmlString.Create(resources);
+		}
+
+		/// <summary>
+		/// Returns the script link for the JS bundle
+		/// </summary>
+		public static MvcHtmlString JsBundle(this UrlHelper helper)
+		{
+			return MvcHtmlString.Create(Scripts.Render("~/Assets/Scripts/" + RoadkillApplication.BundleJsFilename).ToHtmlString());
+		}
+
+		/// <summary>
+		/// Returns the script link for the CSS bundle
+		/// </summary>
+		public static MvcHtmlString CssBundle(this UrlHelper helper)
+		{
+			return MvcHtmlString.Create(Styles.Render("~/Assets/CSS/" + RoadkillApplication.BundleCssFilename).ToHtmlString());
 		}
 
 		/// <summary>

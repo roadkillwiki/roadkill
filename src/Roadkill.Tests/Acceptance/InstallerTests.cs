@@ -532,6 +532,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// install sqlite
 			Driver.FindElement(By.CssSelector("#sqlite-details a")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector("#sqlitesuccess"), 5);
 			Assert.That(Driver.FindElement(By.CssSelector("#sqlitesuccess")).Displayed, Is.True);
 				
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"Data Source=|DataDirectory|\roadkill.sqlite;");

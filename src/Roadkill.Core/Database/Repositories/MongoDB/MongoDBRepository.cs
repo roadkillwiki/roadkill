@@ -131,7 +131,7 @@ namespace Roadkill.Core.Database.MongoDB
 			if (entity == null)
 				entity = new SiteSettingsEntity();
 
-			entity.Version = ApplicationSettings.AssemblyVersion.ToString();
+			entity.Version = ApplicationSettings.ProductVersion.ToString();
 			entity.Content = preferences.GetJson();
 			SaveOrUpdate<SiteSettingsEntity>(entity);
 		}

@@ -122,7 +122,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		{
 			get
 			{
-				return ApplicationSettings.AssemblyVersion.ToString();
+				return ApplicationSettings.ProductVersion;
 			}
 		}
 

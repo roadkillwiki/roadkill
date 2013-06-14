@@ -10,6 +10,7 @@ using System.IO;
 using StructureMap;
 using Roadkill.Core.Database;
 using Roadkill.Core.Logging;
+using System.Diagnostics;
 
 namespace Roadkill.Core.Configuration
 {
@@ -233,13 +234,13 @@ namespace Roadkill.Core.Configuration
 		public bool UseWindowsAuthentication { get; set; }
 
 		/// <summary>
-		/// The current Roadkill assembly version.
+		/// The current Roadkill product version, e.g. "1.7.0-Beta3".
 		/// </summary>
-		public static Version AssemblyVersion
+		public static string ProductVersion
 		{
 			get
 			{
-				return typeof(ApplicationSettings).Assembly.GetName().Version;
+				return FileVersionInfo.GetVersionInfo(typeof(ApplicationSettings).Assembly.Location).ProductVersion;
 			}
 		}
 
