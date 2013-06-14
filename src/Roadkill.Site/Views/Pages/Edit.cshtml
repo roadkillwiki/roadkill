@@ -6,7 +6,7 @@
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
-		Roadkill.Site.EditPage.initializeTagManager("@Model.CommaDelimitedTags()");
+		Roadkill.Site.EditPage.initializeTagManager("@Html.Raw(Model.CommaDelimitedTags())");
 		$("form").validationEngine();
 		$("#wysiwyg-toolbar a").popover({ placement: "top", trigger: "hover", html: true, delay: { show: 500, hide: 100 } });
 	});

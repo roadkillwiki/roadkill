@@ -1,4 +1,4 @@
-/// <reference path="typescript-ref/references.ts" />
+﻿/// <reference path="typescript-ref/references.ts" />
 module Roadkill.Site
 {
 	$(document).ready(function ()
@@ -13,21 +13,46 @@ module Roadkill.Site
 
 	export class EditPage
 	{
+		private static _tagBlackList: string[] = 
+		[
+			";", "/", "?", ":", "@", "&", "=", "{", "}", "|", "\\", "^", "[", "]", "`"	
+		];
+
 		/**
 		Sets up the tags
 		*/
 		public static initializeTagManager(tags)
 		{
 			$("#TagsEntry").typeahead({});
-			$("#TagsEntry").tagsManager({
+			$("#TagsEntry").tagsManager(
+			{
+				tagClass: "tm-tag-success",
 				prefilled: tags,
 				preventSubmitOnEnter: true,
 				typeahead: true,
+				typeaheadAjaxMethod: "POST",
 				typeaheadAjaxSource: ROADKILL_TAGAJAXURL,
 				blinkBGColor_1: "#FFFF9C",
 				blinkBGColor_2: "#CDE69C",
-				delimeters: [59, 186, 32],
-				hiddenTagListName: "RawTags"
+				delimeters: [44, 186, 32], // ',' space
+				hiddenTagListName: "RawTags",
+				tagCloseIcon: "×", // ˣ or ×
+				preventSubmitOnEnter : false,
+				validator: function(input: string)
+				{
+					// Make sure the tag has no invalid chars that breaks urls:
+					// ; / ? : @ & = { } | \ ^ [ ] `	
+					for (var i: number = 0; i < input.length; i++)
+					{
+						if ($.inArray(input[i], _tagBlackList) > -1)
+						{
+							toastr.error("The following characters are not valid for tags: <br/>" + _tagBlackList.join(" "));
+							return false;
+						}
+					}
+
+					return true;
+				}
 			});
 		}
 

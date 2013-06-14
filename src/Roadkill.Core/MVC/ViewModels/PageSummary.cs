@@ -10,8 +10,14 @@ namespace Roadkill.Core.Mvc.ViewModels
 	/// <summary>
 	/// Provides summary data for a page.
 	/// </summary>
+	[CustomValidation(typeof(PageSummary), "VerifyRawTags")]
 	public class PageSummary
 	{
+		private static string[] _tagBlackList = 
+		{
+			";", "/", "?", ":", "@", "&", "=", "{", "}", "|", "\\", "^", "[", "]", "`"		
+		};
+
 		private List<string> _tags;
 		private string _rawTags;
 		private string _content;
@@ -141,6 +147,26 @@ namespace Roadkill.Core.Mvc.ViewModels
 		private void ParseRawTags()
 		{
 			_tags = _rawTags.ParseTags().ToList();
+		}
+
+		/// <summary>
+		/// Returns false if the tag contains ; / ? : @ & = { } | \ ^ [ ] `		
+		/// </summary>
+		/// <param name="tag">The tag</param>
+		/// <returns></returns>
+		public static ValidationResult VerifyRawTags(PageSummary pageSummary, ValidationContext context)
+		{
+			if (string.IsNullOrEmpty(pageSummary.RawTags))
+				return ValidationResult.Success;
+
+			if (_tagBlackList.Any(x => pageSummary.RawTags.Contains(x)))
+			{
+				return new ValidationResult("Invalid characters in tag"); // doesn't need to be localized as there's a javascript check
+			}
+			else
+			{
+				return ValidationResult.Success;
+			}
 		}
 	}
 }

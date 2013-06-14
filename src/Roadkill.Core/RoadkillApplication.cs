@@ -58,7 +58,6 @@ namespace Roadkill.Core
 
 			BundleTable.Bundles.Add(cssBundle);
 			BundleTable.Bundles.Add(defaultJsBundle);
-			BundleTable.EnableOptimizations = true;
 		}
 
 		public static void RegisterRoutes(RouteCollection routes)

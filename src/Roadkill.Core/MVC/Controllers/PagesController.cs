@@ -9,6 +9,7 @@ using Roadkill.Core.Managers;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
+using System.Web;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -61,6 +62,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns>A string array of tags.</returns>
 		/// <remarks>This action requires editor rights.</remarks>
 		[EditorRequired]
+		[HttpPost]
 		public ActionResult AllTagsAsJson()
 		{
 			IEnumerable<TagSummary> tags = _pageManager.AllTags();
@@ -241,6 +243,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns>An <see cref="IEnumerable{PageSummary}"/> as the model.</returns>
 		public ActionResult Tag(string id)
 		{
+			id = HttpUtility.UrlDecode(id);
 			ViewData["Tagname"] = id;
 
 			return View(_pageManager.FindByTag(id));
