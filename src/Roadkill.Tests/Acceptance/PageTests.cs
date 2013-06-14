@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -79,7 +79,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			LoginAsAdmin();
-			CreatePageWithTags("Tag1", "Tag2");
+			CreatePageWithTags("Tag1-áéíóöőüű++#", "Tag2-ÁÉÍÓÖÜŰÚ$");
 
 			// Act	
 			Driver.Navigate().GoToUrl(LogoutUrl);
@@ -87,8 +87,8 @@ namespace Roadkill.Tests.Acceptance
 			
 			// Assert
 			Assert.That(Driver.FindElements(By.CssSelector("#tagcloud a")).Count, Is.EqualTo(2));
-			Assert.That(Driver.FindElements(By.CssSelector("#tagcloud a"))[0].Text, Is.EqualTo("Tag1"));
-			Assert.That(Driver.FindElements(By.CssSelector("#tagcloud a"))[1].Text, Is.EqualTo("Tag2"));
+			Assert.That(Driver.FindElements(By.CssSelector("#tagcloud a"))[0].Text, Is.EqualTo("Tag1-áéíóöőüű++#"));
+			Assert.That(Driver.FindElements(By.CssSelector("#tagcloud a"))[1].Text, Is.EqualTo("Tag2-ÁÉÍÓÖÜŰÚ$"));
 		}
 
 		[Test]

@@ -42,7 +42,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		[AdminRequired]
 		public ActionResult ShowError()
 		{
-			// There is definitely a more intelligent approach than this, I just need to think of it first.
+			// Test action for errors
 			throw new Exception("Woops an error occurred");
 		}
 #endif

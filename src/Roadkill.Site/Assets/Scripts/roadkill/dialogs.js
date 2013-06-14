@@ -6,11 +6,11 @@ var Roadkill;
             Dialogs.alert = function alert(message) {
                 bootbox.animate(false);
                 bootbox.alert(message);
-            };
+            }
             Dialogs.confirm = function confirm(title, resultFunction) {
                 bootbox.animate(false);
                 bootbox.confirm("<b>" + title + "</b>", resultFunction);
-            };
+            }
             Dialogs.openModal = function openModal(selector, params) {
                 if(typeof params !== "undefined") {
                     params.openSpeed = 150;
@@ -22,7 +22,7 @@ var Roadkill;
                     };
                 }
                 $.fancybox($(selector), params);
-            };
+            }
             Dialogs.openFullScreenModal = function openFullScreenModal(selector) {
                 $(selector).modal("show");
                 $(selector).css("width", $(window).width() - 110);
@@ -31,20 +31,22 @@ var Roadkill;
                     $(selector).css("width", $(window).width() - 110);
                     $(selector).css("height", $(window).height() - 110);
                 });
-            };
+            }
             Dialogs.openIFrameModal = function openIFrameModal(html) {
                 $("#iframe-dialog .modal-body").html(html);
                 $("#iframe-dialog").modal("show");
-            };
+            }
             Dialogs.closeModal = function closeModal() {
                 $.fancybox.close(true);
-            };
+            }
             Dialogs.closeModal2 = function closeModal2(selector) {
                 $(selector).modal("hide");
-            };
+            }
             return Dialogs;
         })();
         Site.Dialogs = Dialogs;        
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
+
 })(Roadkill || (Roadkill = {}));
+
