@@ -70,9 +70,15 @@ namespace Roadkill.Core.Mvc.Controllers
 				ConfigFileManager configManager = new ConfigFileManager();
 				configManager.WriteSettings(summary);
 				configManager.Save();
-				
+			
 				_settingsManager.SaveSiteSettings(summary);
+
+				// Refresh the AttachmentsDirectoryPath using the absolute attachments path, as it's calculated in the constructor
+				ApplicationSettings appSettings = configManager.GetApplicationSettings();
+				summary.FillFromApplicationSettings(appSettings);
 			}
+
+
 			return View(summary);
 		}
 
