@@ -16,7 +16,8 @@ namespace Roadkill.Core
 	/// </summary>
 	public class RoadkillApplication : HttpApplication
 	{
-		public static DateTime StartTime { get; private set; }
+		public static string BundleCssFilename { get; private set; }
+		public static string BundleJsFilename { get; private set; }
 
 		protected void Application_Start()
 		{
@@ -36,21 +37,28 @@ namespace Roadkill.Core
 			// Filters
 			GlobalFilters.Filters.Add(new HandleErrorAttribute());
 
-			// Used for caching of views (not currently implemented, can be removed)
-			StartTime = DateTime.UtcNow;
+			// CSS/JS Bundles
+			RegisterBundles();
+		}
 
-			// Bundle all CSS/JS files into a single file
-			StyleBundle cssBundle = new StyleBundle("~/Assets/CSS/roadkill17.css");
-			cssBundle.IncludeDirectory("~/Assets/CSS/","*.css");
+		private void RegisterBundles()
+		{
+			BundleCssFilename = string.Format("roadkill{0}.css", ApplicationSettings.ProductVersion);
+			BundleJsFilename = string.Format("roadkill{0}.js", ApplicationSettings.ProductVersion);
 
-			ScriptBundle defaultJsBundle = new ScriptBundle("~/Assets/Scripts/roadkill17.js");
+			// Bundle all CSS/JS files into a single file		
+			StyleBundle cssBundle = new StyleBundle("~/Assets/CSS/" + BundleCssFilename);
+			cssBundle.IncludeDirectory("~/Assets/CSS/", "*.css");
+
+			ScriptBundle defaultJsBundle = new ScriptBundle("~/Assets/Scripts/" + BundleJsFilename);
 			defaultJsBundle.Include("~/Assets/Scripts/*.js");
 			defaultJsBundle.Include("~/Assets/Scripts/jquery/*.js");
 			defaultJsBundle.Include("~/Assets/Scripts/roadkill/*.js");
 			defaultJsBundle.Include("~/Assets/Scripts/roadkill/filemanager/*.js");
-			
+
 			BundleTable.Bundles.Add(cssBundle);
 			BundleTable.Bundles.Add(defaultJsBundle);
+			BundleTable.EnableOptimizations = true;
 		}
 
 		public static void RegisterRoutes(RouteCollection routes)

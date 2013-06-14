@@ -28,7 +28,7 @@ namespace Roadkill.Core.Configuration
 				}
 				else
 				{
-					Log.Warn("Invalid Version found ({0}) in the web.config, assuming it's the same as the assembly version ({1})", version, ApplicationSettings.AssemblyVersion);
+					Log.Warn("Invalid Version found ({0}) in the web.config, assuming it's the same as the assembly version ({1})", version, ApplicationSettings.ProductVersion);
 					return false;
 				}
 			}

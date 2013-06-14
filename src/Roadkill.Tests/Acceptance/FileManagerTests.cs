@@ -110,6 +110,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("a[href='/filemanager']")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector("#addfolderbtn"), 5);
 			Driver.FindElement(By.CssSelector("#addfolderbtn")).Click();
 			Driver.FindElement(By.CssSelector("#newfolderinput")).SendKeys(folderName);
 			Driver.FindElement(By.CssSelector("#newfolderinput")).SendKeys(Keys.Return);
@@ -155,7 +156,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("a[href='/filemanager']")).Click();
 			Driver.FindElement(By.CssSelector("td.file")).Click();
 			Driver.FindElement(By.CssSelector("#deletefilebtn")).Click();
-			Driver.SwitchTo().Alert().Accept();
+			Driver.FindElement(By.CssSelector(".bootbox a.btn-primary")).Click();
 			WaitForAjaxToComplete();
 
 			// Assert
@@ -177,7 +178,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("a[href='/filemanager']")).Click();
 			Driver.FindElement(By.CssSelector("table#files tbody tr td+td")).Click();
 			Driver.FindElement(By.CssSelector("#deletefolderbtn")).Click();
-			Driver.SwitchTo().Alert().Accept();
+			Driver.FindElement(By.CssSelector(".bootbox a.btn-primary")).Click();
 			WaitForAjaxToComplete();
 
 			// Assert
@@ -237,12 +238,12 @@ namespace Roadkill.Tests.Acceptance
 
 			IWebElement td = Driver.FindElement(By.CssSelector("table#files tbody tr td+td"));
 			Actions action = new Actions(Driver);
-			action.DoubleClick(td).Perform();
+			action.DoubleClick(td).Perform(); // go to 1st folder
 			WaitForAjaxToComplete();
 
 			td = Driver.FindElement(By.CssSelector("table#files tbody tr td+td"));
 			action = new Actions(Driver);
-			action.DoubleClick(td).Perform();
+			action.DoubleClick(td).Perform(); // go to 2nd folder
 			WaitForAjaxToComplete();
 
 			Driver.FindElements(By.CssSelector("#path-navigator li"))[1].Click();

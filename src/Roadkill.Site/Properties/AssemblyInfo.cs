@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("C.Small")]
 [assembly: AssemblyProduct("Roadkill.Site")]
-[assembly: AssemblyCopyright("Copyright © C.Small 2012")]
+[assembly: AssemblyCopyright("Copyright © C.Small 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,3 +33,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("1.7.0.0")]
 [assembly: AssemblyFileVersion("1.7.0.0")]
+[assembly: AssemblyInformationalVersion("1.7.0-Beta3")]

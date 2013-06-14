@@ -57,7 +57,7 @@ namespace Roadkill.Core.Configuration
 			try
 			{
 				RoadkillSection section = _config.GetSection("roadkill") as RoadkillSection;
-				section.Version = ApplicationSettings.AssemblyVersion.ToString();
+				section.Version = ApplicationSettings.ProductVersion.ToString();
 			}
 			catch (ConfigurationErrorsException ex)
 			{
@@ -112,7 +112,7 @@ namespace Roadkill.Core.Configuration
 				section.IsPublicSite = true;
 				section.IgnoreSearchIndexErrors = true;
 				section.ResizeImages = true;
-				section.Version = ApplicationSettings.AssemblyVersion.ToString();
+				section.Version = ApplicationSettings.ProductVersion.ToString();
 
 				section.Installed = true;
 			}
