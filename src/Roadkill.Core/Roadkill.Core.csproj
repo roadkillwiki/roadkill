@@ -421,6 +421,7 @@
     <Compile Include="MVC\Controllers\InstallController.cs" />
     <Compile Include="MVC\Controllers\WikiController.cs" />
     <Compile Include="MVC\Controllers\HelpController.cs" />
+    <Compile Include="Plugins\Tokens\SyntaxHighlighter.cs" />
     <Compile Include="Text\TextToken.cs" />
     <Compile Include="Text\CustomTokenParser.cs" />
     <Compile Include="Text\Sanitizer\HtmlWhiteList.cs" />

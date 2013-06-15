@@ -7,6 +7,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Logging;
+using Roadkill.Core.Plugins.Tokens;
 
 namespace Roadkill.Core
 {
@@ -16,7 +17,6 @@ namespace Roadkill.Core
 	internal class CustomTokenParser
 	{
 		private static IEnumerable<TextToken> _tokens;
-		private static Dictionary<Regex,string> _regexReplacements;
 		private static bool _isTokensFileCached;
 
 		public static bool CacheTokensFile { get; set; }
@@ -48,9 +48,27 @@ namespace Roadkill.Core
 
 		public string ReplaceTokens(string html)
 		{
-			foreach (Regex regex in _regexReplacements.Keys)
+			SyntaxHighlighter highlighter = new SyntaxHighlighter();
+
+			foreach (TextToken token in _tokens)
 			{
-				html = regex.Replace(html, _regexReplacements[regex]);
+				try
+				{
+					if (!string.IsNullOrEmpty(token.Plugin))
+					{
+						// Only one plugin for now
+						html = highlighter.ReplaceContent(token, html);
+					}
+					else
+					{
+						html = token.CachedRegex.Replace(html, token.HtmlReplacement);
+					}
+				}
+				catch (Exception e)
+				{
+					// Make sure no plugins bring down the parsing
+					Log.Error(e, "There was an error in replacing the html for the token {0} - {1}", token.Name, e);
+				}
 			}
 
 			return html;
@@ -58,15 +76,13 @@ namespace Roadkill.Core
 
 		private static void ParseTokenRegexes()
 		{
-			_regexReplacements = new Dictionary<Regex,string>();
-
 			foreach (TextToken token in _tokens)
 			{
 				// Catch bad regexes
 				try
 				{
 					Regex regex = new Regex(token.SearchRegex,RegexOptions.Compiled | RegexOptions.Singleline);
-					_regexReplacements.Add(regex, token.HtmlReplacement);
+					token.CachedRegex = regex;
 				}
 				catch (ArgumentException e)
 				{

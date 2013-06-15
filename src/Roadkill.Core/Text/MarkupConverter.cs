@@ -127,14 +127,14 @@ namespace Roadkill.Core.Converters
 		/// <returns>The wiki markup converted to HTML.</returns>
 		public string ToHtml(string text)
 		{
+			CustomTokenParser tokenParser = new CustomTokenParser(_applicationSettings);
+			text = tokenParser.ReplaceTokens(text);
+
 			string html = _parser.Transform(text);
 			html = RemoveHarmfulTags(html);
 
 			TocParser parser = new TocParser();
 			html = parser.InsertToc(html);
-
-			CustomTokenParser tokenParser = new CustomTokenParser(_applicationSettings);
-			html = tokenParser.ReplaceTokens(html);
 
 			return html;
 		}
