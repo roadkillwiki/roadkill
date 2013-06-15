@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using System.Xml;
+using System.Text.RegularExpressions;
 
 namespace Roadkill.Core
 {
@@ -36,5 +37,17 @@ namespace Roadkill.Core
 		/// Whether to strip the contents of the token for any unsafe HTML (defaults to false).
 		/// </summary>
 		public bool SanitizeContent { get; set; }
+
+		/// <summary>
+		/// The fully namespace and class name for the token's plugin (or empty for no plugin).
+		/// The plugin assembly (DLL) should be stored in the App_Data/Plugins directory.
+		/// </summary>
+		public string Plugin { get; set; }
+
+		/// <summary>
+		/// The cache regex for the token
+		/// </summary>
+		[XmlIgnore]
+		public Regex CachedRegex { get; set; }
 	}
 }
