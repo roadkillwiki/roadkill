@@ -8,26 +8,31 @@ namespace Roadkill.Core.Plugins.Tokens
 {
 	public class SyntaxHighlighter
 	{
-		private string _replacePattern;
+		internal static string _noParseStartToken = "\t\t\t\t{{{roadkillinternal";
+		internal static string _noParseEndToken = "roadkillinternal}}}";
+		internal static string _replacePattern = _noParseStartToken + "\n<pre class=\"${lang}\">${code}</pre>\n" + _noParseEndToken;
 
-		public SyntaxHighlighter()
+		public string BeforeParse(TextToken token, string text)
 		{
-			_replacePattern = "{{{<pre class=\"${lang}\">${code}</pre>}}}";
-		}
-
-		public string ReplaceContent(TextToken token, string html)
-		{
-			if (token.CachedRegex.IsMatch(html))
+			if (token.CachedRegex.IsMatch(text))
 			{
-				MatchCollection matches = token.CachedRegex.Matches(html);
+				MatchCollection matches = token.CachedRegex.Matches(text);
 				foreach (Match match in matches)
 				{
 					string language = match.Groups["lang"].Value;
 					string code = match.Groups["code"].Value;
 
-					html = Regex.Replace(html, token.SearchRegex, _replacePattern, token.CachedRegex.Options);
+					text = Regex.Replace(text, token.SearchRegex, _replacePattern, token.CachedRegex.Options);
 				}
 			}
+
+			return text;
+		}
+
+		public string AfterParse(TextToken token, string html)
+		{
+			html = html.Replace(_noParseStartToken, "");
+			html = html.Replace(_noParseEndToken, "");
 
 			return html;
 		}

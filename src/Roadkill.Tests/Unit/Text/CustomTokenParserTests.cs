@@ -28,7 +28,7 @@ namespace Roadkill.Tests.Unit.Text
 			string expectedHtml = "@@warningbox:ENTER YOUR CONTENT HERE {{some link}}@@";
 
 			// Act
-			string actualHtml = parser.ReplaceTokens("@@warningbox:ENTER YOUR CONTENT HERE {{some link}}@@");
+			string actualHtml = parser.ReplaceTokensAfterParse("@@warningbox:ENTER YOUR CONTENT HERE {{some link}}@@");
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
@@ -44,7 +44,7 @@ namespace Roadkill.Tests.Unit.Text
 
 			// Act
 			CustomTokenParser parser = new CustomTokenParser(settings);
-			string actualHtml = parser.ReplaceTokens("@@warningbox:ENTER YOUR CONTENT HERE {{some link}}@@");
+			string actualHtml = parser.ReplaceTokensAfterParse("@@warningbox:ENTER YOUR CONTENT HERE {{some link}}@@");
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
@@ -61,7 +61,7 @@ namespace Roadkill.Tests.Unit.Text
 			string expectedHtml = @"<div class=""alert"">ENTER YOUR CONTENT HERE {{some link}}</div><br style=""clear:both""/>";
 
 			// Act
-			string actualHtml = parser.ReplaceTokens("@@warningbox:ENTER YOUR CONTENT HERE {{some link}}@@");
+			string actualHtml = parser.ReplaceTokensAfterParse("@@warningbox:ENTER YOUR CONTENT HERE {{some link}}@@");
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));

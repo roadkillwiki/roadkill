@@ -46,7 +46,28 @@ namespace Roadkill.Core
 			}
 		}
 
-		public string ReplaceTokens(string html)
+		public string ReplaceTokensBeforeParse(string text)
+		{
+			SyntaxHighlighter highlighter = new SyntaxHighlighter();
+
+			foreach (TextToken token in _tokens.Where(t => string.IsNullOrEmpty(t.Plugin) == false))
+			{
+				try
+				{
+					// Only one plugin for now
+					text = highlighter.BeforeParse(token, text);
+				}
+				catch (Exception e)
+				{
+					// Make sure no plugins bring down the parsing
+					Log.Error(e, "There was an error in replacing the html for the token {0} - {1}", token.Name, e);
+				}
+			}
+
+			return text;
+		}
+
+		public string ReplaceTokensAfterParse(string html)
 		{
 			SyntaxHighlighter highlighter = new SyntaxHighlighter();
 
@@ -56,8 +77,7 @@ namespace Roadkill.Core
 				{
 					if (!string.IsNullOrEmpty(token.Plugin))
 					{
-						// Only one plugin for now
-						html = highlighter.ReplaceContent(token, html);
+						html = highlighter.AfterParse(token, html);
 					}
 					else
 					{
