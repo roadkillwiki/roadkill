@@ -50,6 +50,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Roadkill.Core.Configuration;
 using System.Web;
+using Roadkill.Core.Plugins.Tokens;
 
 namespace Roadkill.Core.Converters
 {
@@ -377,6 +378,10 @@ namespace Roadkill.Core.Converters
 						// we are already processing table so this must be a new row
 						htmlMarkup.Append(_processTableRow(lineTrimmed));
 					}
+					else if (lineTrimmed.Contains(SyntaxHighlighter._noParseStartToken))
+					{
+						InEscape = true;
+					}
 					// --- process {{{ }}} <pre>
 					else if (lineTrimmed.StartsWith(NoWikiEscapeStart) && (lineTrimmed.Length == NoWikiEscapeStart.Length))
 					{
@@ -395,14 +400,20 @@ namespace Roadkill.Core.Converters
 				}
 				else
 				{
-					// we are looking for a line which starts with }}} to close off the preformated
-					if (lineTrimmed.StartsWith(NoWikiEscapeEnd))
+					if (lineTrimmed.Contains(SyntaxHighlighter._noParseEndToken))
 					{
+						InEscape = false;
+					}
+					else if (lineTrimmed.StartsWith(NoWikiEscapeEnd))
+					{
+						// we are looking for a line which starts with }}} to close off the preformated
 						htmlMarkup.Append("</pre>\n");
 						InEscape = false;
 					}
 					else
+					{
 						htmlMarkup.Append(System.Web.HttpUtility.HtmlEncode(line) + "\n"); // just pass it straight through unparsed
+					}
 				}
 				idParagraph++;
 			}

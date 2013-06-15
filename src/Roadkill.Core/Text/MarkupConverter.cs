@@ -128,10 +128,12 @@ namespace Roadkill.Core.Converters
 		public string ToHtml(string text)
 		{
 			CustomTokenParser tokenParser = new CustomTokenParser(_applicationSettings);
-			text = tokenParser.ReplaceTokens(text);
+			text = tokenParser.ReplaceTokensBeforeParse(text);
 
 			string html = _parser.Transform(text);
 			html = RemoveHarmfulTags(html);
+
+			html = tokenParser.ReplaceTokensAfterParse(html);
 
 			TocParser parser = new TocParser();
 			html = parser.InsertToc(html);
