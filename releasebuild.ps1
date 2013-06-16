@@ -17,7 +17,7 @@
 # 	You have a ..\roadkillbuilds directory (from https://bitbucket.org/mrshrinkray/roadkillbuilds)
 # ====================================================================================================
 
-$zipFileName = "Roadkill_v1.6.zip"
+$zipFileName = "Roadkill_v1.7.zip"
 
 # ---- Add the tool paths to our path
 $runtimeDir = [System.Runtime.InteropServices.RuntimeEnvironment]::GetRuntimeDirectory()
