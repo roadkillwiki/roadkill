@@ -285,6 +285,7 @@
     </Reference>
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web">
@@ -323,6 +324,7 @@
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -421,7 +423,10 @@
     <Compile Include="MVC\Controllers\InstallController.cs" />
     <Compile Include="MVC\Controllers\WikiController.cs" />
     <Compile Include="MVC\Controllers\HelpController.cs" />
-    <Compile Include="Plugins\Tokens\SyntaxHighlighter.cs" />
+    <Compile Include="Plugins\CustomVariablePlugin.cs" />
+    <Compile Include="Plugins\PluginSetting.cs" />
+    <Compile Include="Plugins\SettingUIType.cs" />
+    <Compile Include="Plugins\BuiltIn\SyntaxHighlighter.cs" />
     <Compile Include="Text\TextToken.cs" />
     <Compile Include="Text\CustomTokenParser.cs" />
     <Compile Include="Text\Sanitizer\HtmlWhiteList.cs" />

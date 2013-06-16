@@ -7,6 +7,14 @@
 		<link href="@Url.Content(SiteSettings.ThemePath + "/Theme.print.css")" rel="stylesheet" type="text/css" media="print" />
 		<script type="text/javascript" src="@Url.Action("GlobalJsVars","Home")"></script>
 
+		<link href="@Url.Content("~/Assets/CSS/plugins/syntaxhighlighter/shCore.css")" rel="stylesheet" type="text/css" />
+		<link href="@Url.Content("~/Assets/CSS/plugins/syntaxhighlighter/shThemeDefault.css")" rel="stylesheet" type="text/css" />
+		<script src="@Url.Content("~/Assets/Scripts/plugins/syntaxhighlighter/shCore.js")" type="text/javascript"></script>
+		<script src="@Url.Content("~/Assets/Scripts/plugins/syntaxhighlighter/shBrushJScript.js")" type="text/javascript"></script>
+		<script type="text/javascript">
+			 SyntaxHighlighter.all()
+		</script>
+
 		@if (!ApplicationSettings.ResizeImages)
 		{
 		<!-- Overwrite the bootstrap max image width -->

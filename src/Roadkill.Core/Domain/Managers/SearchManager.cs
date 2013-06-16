@@ -33,7 +33,7 @@ namespace Roadkill.Core.Managers
 			: base(settings, repository)
 		{
 			_markupConverter = new MarkupConverter(settings, repository);
-			IndexPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Search");
+			IndexPath = settings.SearchIndexPath;
 		}
 
 		/// <summary>

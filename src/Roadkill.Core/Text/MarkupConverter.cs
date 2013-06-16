@@ -15,6 +15,7 @@ using Roadkill.Core.Database;
 using Roadkill.Core.Text;
 using Roadkill.Core.Text.ToC;
 using Roadkill.Core.Logging;
+using Roadkill.Core.Plugins.BuiltIn;
 
 namespace Roadkill.Core.Converters
 {
@@ -128,13 +129,24 @@ namespace Roadkill.Core.Converters
 		public string ToHtml(string text)
 		{
 			CustomTokenParser tokenParser = new CustomTokenParser(_applicationSettings);
-			text = tokenParser.ReplaceTokensBeforeParse(text);
 
+			// Custom variables before parse
+			SyntaxHighlighter highlighter = new SyntaxHighlighter();
+			text = highlighter.BeforeParse(text);
+
+			// Markup parser
 			string html = _parser.Transform(text);
+			
+			// Remove bad tags
 			html = RemoveHarmfulTags(html);
 
+			// Tokens.xml file
 			html = tokenParser.ReplaceTokensAfterParse(html);
 
+			// Custom variables after parse
+			html = highlighter.AfterParse(html);
+
+			// The TOC (should be a plugin now)
 			TocParser parser = new TocParser();
 			html = parser.InsertToc(html);
 

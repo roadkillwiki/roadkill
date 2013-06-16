@@ -234,12 +234,12 @@
     <Content Include="App_Data\EmailTemplates\ResetPassword.html" />
     <Content Include="App_Data\EmailTemplates\Signup.html" />
     <Content Include="App_Data\EmailTemplates\Signup.txt" />
-    <Content Include="App_Data\Export\emptyfile.txt" />
+    <Content Include="App_Data\Internal\Export\emptyfile.txt" />
     <Content Include="App_Data\Logs\emptyfile.txt" />
-    <Content Include="App_Data\htmlwhitelist.xml" />
+    <Content Include="App_Data\Internal\htmlwhitelist.xml" />
     <Content Include="App_Data\Plugins\emptyfile.txt" />
-    <Content Include="App_Data\SQLiteBinaries\x64\SQLite.Interop.dll" />
-    <Content Include="App_Data\SQLiteBinaries\x86\SQLite.Interop.dll" />
+    <Content Include="App_Data\Internal\SQLiteBinaries\x64\SQLite.Interop.dll" />
+    <Content Include="App_Data\Internal\SQLiteBinaries\x86\SQLite.Interop.dll" />
     <Content Include="App_Data\tokens.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -311,6 +311,51 @@
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-zh_CN.js" />
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-zh_TW.js" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\typescript-ref\references.ts" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shAutoloader.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushAppleScript.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushAS3.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushBash.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushColdFusion.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushCpp.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushCSharp.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushCss.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushDelphi.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushDiff.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushErlang.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushGroovy.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushJava.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushJavaFX.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushJScript.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushPerl.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushPhp.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushPlain.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushPowerShell.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushPython.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushRuby.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushSass.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushScala.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushSql.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushVb.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shBrushXml.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shCore.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\syntaxhighlighter\shLegacy.js" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\javascript\shCore.css" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\javascript\shCoreDefault.css" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\javascript\shCoreDjango.css" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\javascript\shCoreEclipse.css" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\javascript\shCoreEmacs.css" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\javascript\shCoreFadeToGrey.css" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\javascript\shCoreMDUltra.css" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\javascript\shCoreMidnight.css" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\javascript\shCoreRDark.css" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\javascript\shThemeDefault.css" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\javascript\shThemeDjango.css" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\javascript\shThemeEclipse.css" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\javascript\shThemeEmacs.css" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\javascript\shThemeFadeToGrey.css" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\javascript\shThemeMDUltra.css" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\javascript\shThemeMidnight.css" />
+    <Content Include="App_Data\Plugins\SyntaxHighlighter\javascript\shThemeRDark.css" />
     <Content Include="Assets\Scripts\roadkill\adminsetup.js">
       <DependentUpon>adminsetup.ts</DependentUpon>
     </Content>
@@ -579,7 +624,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\Search\" />
+    <Folder Include="App_Data\Internal\Search\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -50,7 +50,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Roadkill.Core.Configuration;
 using System.Web;
-using Roadkill.Core.Plugins.Tokens;
+using Roadkill.Core.Plugins;
 
 namespace Roadkill.Core.Converters
 {
@@ -269,6 +269,7 @@ namespace Roadkill.Core.Converters
 			bool InTable = false;  // are in a table definition
 			bool InEscape = false; // we are in an escaped section
 			int idParagraph = 1;  // id for paragraphs
+			bool inRoadkillEscape = false;
 
 			// process each line of the markup, since bullets, numbers and tables depend on start of line
 			foreach (string l in lines)
@@ -278,7 +279,7 @@ namespace Roadkill.Core.Converters
 				string lineTrimmed = line.TrimStart(' ');
 
 				// if we aren't in an escaped section
-				if (!InEscape)
+				if (!InEscape && !inRoadkillEscape)
 				{
 					// if we were in a table definition and this isn't another row 
 					if ((InTable) && (lineTrimmed.Length > 0) && lineTrimmed[0] != '|')
@@ -378,9 +379,9 @@ namespace Roadkill.Core.Converters
 						// we are already processing table so this must be a new row
 						htmlMarkup.Append(_processTableRow(lineTrimmed));
 					}
-					else if (lineTrimmed.Contains(SyntaxHighlighter._noParseStartToken))
+					else if (lineTrimmed.Contains(CustomVariablePlugin.PARSER_IGNORE_STARTTOKEN))
 					{
-						InEscape = true;
+						inRoadkillEscape = true;
 					}
 					// --- process {{{ }}} <pre>
 					else if (lineTrimmed.StartsWith(NoWikiEscapeStart) && (lineTrimmed.Length == NoWikiEscapeStart.Length))
@@ -400,9 +401,9 @@ namespace Roadkill.Core.Converters
 				}
 				else
 				{
-					if (lineTrimmed.Contains(SyntaxHighlighter._noParseEndToken))
+					if (lineTrimmed.Contains(CustomVariablePlugin.PARSER_IGNORE_ENDTOKEN))
 					{
-						InEscape = false;
+						inRoadkillEscape = false;
 					}
 					else if (lineTrimmed.StartsWith(NoWikiEscapeEnd))
 					{
@@ -412,7 +413,14 @@ namespace Roadkill.Core.Converters
 					}
 					else
 					{
-						htmlMarkup.Append(System.Web.HttpUtility.HtmlEncode(line) + "\n"); // just pass it straight through unparsed
+						if (!inRoadkillEscape)
+						{
+							htmlMarkup.Append(System.Web.HttpUtility.HtmlEncode(line) + "\n"); // just pass it straight through unparsed
+						}
+						else
+						{
+							htmlMarkup.Append(line + "\n"); // no html encoding
+						}
 					}
 				}
 				idParagraph++;
@@ -468,6 +476,7 @@ namespace Roadkill.Core.Converters
 									trimmedLine[0] == '\r' ||
 									trimmedLine[0] == '#' ||
 									trimmedLine[0] == '*' ||
+									trimmedLine.StartsWith(CustomVariablePlugin.PARSER_IGNORE_STARTTOKEN) ||
 									trimmedLine.StartsWith(NoWikiEscapeStart) ||
 									trimmedLine[0] == '=' ||
 									trimmedLine.StartsWith("----") ||

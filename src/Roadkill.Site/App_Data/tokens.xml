@@ -122,18 +122,4 @@
 			<![CDATA[<div class="alert alert-success">${successbox}</div><br style="clear:both"/>]]>
 		</HtmlReplacement>
 	</TextToken>
-	<TextToken>
-		<Name>Syntax highlighting</Name>
-		<Plugin>Roadkill.Core.Plugins.Tokens.SyntaxHighlighter</Plugin>
-		<Description>
-			<![CDATA[
-		Syntax highlights the content, using the language you specify. Example:<br/>
-		[[[code lang=sql|ENTER YOUR CONTENT HERE]]]
-		]]>
-		</Description>
-		<SearchRegex>\[\[\[code lang=(?'lang'.*?)\|(?'code'.*?)\]\]\]</SearchRegex>
-		<HtmlReplacement>
-			<![CDATA[<div class="alert alert-success">${successbox}</div><br style="clear:both"/>]]>
-		</HtmlReplacement>
-	</TextToken>
 </ArrayOfTextToken>

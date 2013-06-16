@@ -13,6 +13,7 @@ using Roadkill.Core.Managers;
 using Roadkill.Core.Mvc.ViewModels;
 using System.Web.Optimization;
 using System.Web;
+using Roadkill.Core.Plugins.BuiltIn;
 
 namespace Roadkill.Core
 {
@@ -226,11 +227,21 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Returns the script link for the CSS bundle
+		/// Returns the script link for the CSS bundle.
 		/// </summary>
 		public static MvcHtmlString CssBundle(this UrlHelper helper)
 		{
-			return MvcHtmlString.Create(Styles.Render("~/Assets/CSS/" + RoadkillApplication.BundleCssFilename).ToHtmlString());
+			string html = Styles.Render("~/Assets/CSS/" + RoadkillApplication.BundleCssFilename).ToHtmlString();
+			return MvcHtmlString.Create(html);
+		}
+
+		/// <summary>
+		/// Returns the head content for all the custom variable plugins.
+		/// </summary>
+		public static MvcHtmlString PluginHeadContent(this UrlHelper helper)
+		{
+			SyntaxHighlighter highlighter = new SyntaxHighlighter();
+			return MvcHtmlString.Create(highlighter.GetHeadContent(helper));
 		}
 
 		/// <summary>
