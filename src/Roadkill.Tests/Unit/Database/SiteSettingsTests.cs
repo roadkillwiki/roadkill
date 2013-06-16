@@ -184,7 +184,7 @@ namespace Roadkill.Tests.Unit
 			string actualJson = settings.GetJson();
 
 			// Assert
-			Assert.That(actualJson, Is.EqualTo(expectedJson));
+			Assert.That(actualJson, Is.EqualTo(expectedJson), actualJson);
 		}
 	}
 }

@@ -25,7 +25,7 @@ namespace Roadkill.Tests.Unit
 			_settings = new ApplicationSettings();
 			_settings.Installed = true;
 			_settings.UseHtmlWhiteList = true;
-			_settings.CustomTokensPath = Path.Combine(Settings.SITE_PATH, "App_Data", "Tokens.xml");
+			_settings.CustomTokensPath = Path.Combine(Settings.SITE_PATH, "App_Data", "customvariables.xml");
 
 			_repository = new RepositoryMock();
 			_repository.SiteSettings = new SiteSettings();

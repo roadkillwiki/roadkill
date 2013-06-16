@@ -275,14 +275,12 @@ namespace Roadkill.Core.Mvc.Controllers
 			try
 			{
 				string sqliteInteropFileSource = Path.Combine(ApplicationSettings.SQLiteBinariesPath, "x86", "SQLite.Interop.dll");
-				sqliteInteropFileSource = Server.MapPath(sqliteInteropFileSource);
 
 				string sqliteInteropFileDest = Server.MapPath("~/bin/SQLite.Interop.dll");
 
 				if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
 				{
 					sqliteInteropFileSource = Path.Combine(ApplicationSettings.SQLiteBinariesPath, "x64", "SQLite.Interop.dll");
-					sqliteInteropFileSource = Server.MapPath(sqliteInteropFileSource);
 				}
 
 				System.IO.File.Copy(sqliteInteropFileSource, sqliteInteropFileDest, true);

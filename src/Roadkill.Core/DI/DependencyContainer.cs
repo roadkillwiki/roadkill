@@ -19,6 +19,8 @@ using Roadkill.Core.Security.Windows;
 using StructureMap;
 using StructureMap.Query;
 using System.Web.Routing;
+using Roadkill.Core.Plugins.BuiltIn;
+using Roadkill.Core.Plugins;
 
 namespace Roadkill.Core
 {
@@ -108,6 +110,9 @@ namespace Roadkill.Core
 					scanner.AddAllTypesOf(typeof(RoadkillViewPage<>));
 					scanner.ConnectImplementationsToTypesClosing(typeof(RoadkillViewPage<>));
 
+					// Custom variable plugins
+					scanner.AddAllTypesOf<MathJax>();
+
 					// Cache
 					scanner.AddAllTypesOf<ListCache>();
 					scanner.AddAllTypesOf<PageSummaryCache>();
@@ -119,6 +124,9 @@ namespace Roadkill.Core
 				// Set the 2 core types to use HTTP/Thread-based lifetimes
 				x.For<IRepository>().HybridHttpOrThreadLocalScoped();
 				x.For<IUserContext>().HybridHttpOrThreadLocalScoped();
+
+				// Temp for custom variable plugins
+				x.For<MathJax>().HybridHttpOrThreadLocalScoped();
 
 				// Cache
 				x.For<ListCache>().Singleton();
@@ -163,6 +171,9 @@ namespace Roadkill.Core
 				{
 					x.For<UserManagerBase>().HybridHttpOrThreadLocalScoped().Use<FormsAuthUserManager>();
 				}
+
+				// Setter injection for custom variable plugins
+				x.SetAllProperties(y => y.OfType<MathJax>());
 
 				// Setter inject the various MVC objects that can't have constructors
 				x.SetAllProperties(y => y.OfType<IControllerAttribute>());

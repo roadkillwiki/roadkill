@@ -132,7 +132,9 @@ namespace Roadkill.Core.Converters
 
 			// Custom variables before parse
 			SyntaxHighlighter highlighter = new SyntaxHighlighter();
+			MathJax mathJax = ObjectFactory.GetInstance<MathJax>();
 			text = highlighter.BeforeParse(text);
+			text = mathJax.BeforeParse(text);
 
 			// Markup parser
 			string html = _parser.Transform(text);
@@ -140,11 +142,12 @@ namespace Roadkill.Core.Converters
 			// Remove bad tags
 			html = RemoveHarmfulTags(html);
 
-			// Tokens.xml file
+			// Customvariables.xml file
 			html = tokenParser.ReplaceTokensAfterParse(html);
 
 			// Custom variables after parse
 			html = highlighter.AfterParse(html);
+			html = mathJax.AfterParse(html);
 
 			// The TOC (should be a plugin now)
 			TocParser parser = new TocParser();

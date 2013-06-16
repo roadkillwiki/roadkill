@@ -14,11 +14,19 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		internal static readonly Regex _variableRegex = new Regex(_regexString, RegexOptions.Singleline | RegexOptions.Compiled);
 		internal static readonly string _replacePattern = "<pre class=\"brush: ${lang}\">${code}</pre>";
 
+		public override string Id
+		{
+			get 
+			{ 
+				return "SyntaxHighlighter";	
+			}
+		}
+
 		public override string Name
 		{
 			get
 			{
-				return "Syntax highlighting";
+				return "Syntax Highlighter";
 			}
 		}
 
@@ -26,8 +34,8 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		{
 			get
 			{
-				return "Syntax highlights the content, using the language you specify. Example:<br/>" +
-						"[[[code lang=sql|ENTER YOUR CONTENT HERE]]]";
+				return "Syntax highlights a code block, using the language you specify. Example:<br/>" +
+						"[[[code lang=sql|ENTER YOUR CODE HERE]]]";
 			}
 		}
 
@@ -55,21 +63,19 @@ namespace Roadkill.Core.Plugins.BuiltIn
 
 		public override string GetHeadContent(UrlHelper urlHelper)
 		{
-			string cssLink = "<link href=\"~/Assets/CSS/plugins/syntaxhighlighter/{0}\" rel=\"stylesheet\" type=\"text/css\" />\n";
-			string jsScript = "<script src=\"~/Assets/Scripts/plugins/syntaxhighlighter/{0}\" type=\"text/javascript\"></script>\n";
 			string html = "";
 
 			foreach (string file in HeadContent.CssFiles)
 			{
-				html += string.Format(cssLink, urlHelper.Content(file));
+				html += GetCssLink(urlHelper, file);
 			}
 
 			foreach (string file in HeadContent.JsFiles)
 			{
-				html += string.Format(jsScript, urlHelper.Content(file));
+				html += GetScriptLink(urlHelper, file);
 			}
 
-			html += "<script type=\"text/javascript\">SyntaxHighlighter.all()</script>";
+			html += "\t\t<script type=\"text/javascript\">SyntaxHighlighter.all()</script>\n";
 
 			return html;
 		}
@@ -84,8 +90,32 @@ namespace Roadkill.Core.Plugins.BuiltIn
 
 			public static string[] JsFiles = 
 			{
-				"shCore.js",
-				"shBrushJScript.js"
+				"shCore.js", // needs to be 1st
+				"shBrushAppleScript.js",
+				"shBrushAS3.js",
+				"shBrushBash.js",
+				"shBrushColdFusion.js",
+				"shBrushCpp.js",
+				"shBrushCSharp.js",
+				"shBrushCss.js",
+				"shBrushDelphi.js",
+				"shBrushDiff.js",
+				"shBrushErlang.js",
+				"shBrushGroovy.js",
+				"shBrushJava.js",
+				"shBrushJavaFX.js",
+				"shBrushJScript.js",
+				"shBrushPerl.js",
+				"shBrushPhp.js",
+				"shBrushPlain.js",
+				"shBrushPowerShell.js",
+				"shBrushPython.js",
+				"shBrushRuby.js",
+				"shBrushSass.js",
+				"shBrushScala.js",
+				"shBrushSql.js",
+				"shBrushVb.js",
+				"shBrushXml.js",
 			};
 		}
 	}

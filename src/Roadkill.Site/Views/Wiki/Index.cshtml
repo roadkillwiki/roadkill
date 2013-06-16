@@ -22,6 +22,8 @@
 
 @section PageDetailsFooter
 {
+@Url.FooterContentForPlugins()
+
 @* Not donut caching-friendly *@
 <p>@SiteStrings.Shared_LastModified @Model.ModifiedOn.ToString("dd MMM yyyy") at @Model.ModifiedOn.ToShortTimeString().</p>
 }

@@ -55,7 +55,7 @@ namespace Roadkill.Tests.Unit.Text
 		{
 			// Arrange
 			ApplicationSettings settings = new ApplicationSettings();
-			settings.CustomTokensPath = Path.Combine(Settings.SITE_PATH, "App_Data", "Tokens.xml");
+			settings.CustomTokensPath = Path.Combine(Settings.SITE_PATH, "App_Data", "customvariables.xml");
 			CustomTokenParser parser = new CustomTokenParser(settings);
 
 			string expectedHtml = @"<div class=""alert"">ENTER YOUR CONTENT HERE {{some link}}</div><br style=""clear:both""/>";

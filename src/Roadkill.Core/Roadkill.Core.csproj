@@ -423,6 +423,7 @@
     <Compile Include="MVC\Controllers\InstallController.cs" />
     <Compile Include="MVC\Controllers\WikiController.cs" />
     <Compile Include="MVC\Controllers\HelpController.cs" />
+    <Compile Include="Plugins\BuiltIn\MathJax.cs" />
     <Compile Include="Plugins\CustomVariablePlugin.cs" />
     <Compile Include="Plugins\PluginSetting.cs" />
     <Compile Include="Plugins\SettingUIType.cs" />
