@@ -53,6 +53,7 @@ namespace Roadkill.Core.Plugins.BuiltIn
 				{
 					string language = match.Groups["lang"].Value;
 					string code = HttpUtility.HtmlEncode(match.Groups["code"].Value);
+					text = text.Replace(match.Groups["code"].Value, code);
 
 					text = Regex.Replace(text, _regexString, _replacePattern, _variableRegex.Options);
 				}
