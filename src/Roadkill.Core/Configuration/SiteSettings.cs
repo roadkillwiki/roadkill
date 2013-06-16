@@ -107,8 +107,6 @@ namespace Roadkill.Core.Configuration
 			}
 		}
 
-		public Dictionary<string,Dictionary<string,string>> Plugins { get; set; }
-
 		public SiteSettings()
 		{
 			AllowedFileTypes = "jpg, png, gif";
@@ -120,9 +118,6 @@ namespace Roadkill.Core.Configuration
 			SiteUrl = "";
 			RecaptchaPrivateKey = "";
 			RecaptchaPublicKey = "";
-			Plugins = new Dictionary<string, Dictionary<string, string>>();
-			Plugins.Add("Test", new Dictionary<string, string>());
-			Plugins["Test"]["Setting1"] = "foo";
 		}
 
 		public string GetJson()

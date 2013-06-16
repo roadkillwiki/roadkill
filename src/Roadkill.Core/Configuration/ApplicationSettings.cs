@@ -41,12 +41,12 @@ namespace Roadkill.Core.Configuration
 		public string AppDataInternalPath { get; private set; }
 
 		/// <summary>
-		/// The path to the folder that contains the Lucene index.
+		/// The path to the folder that contains the Lucene index - ~/App_Data/Internal/Search.
 		/// </summary>
 		public string SearchIndexPath { get; set; }
 
 		/// <summary>
-		/// The path to the folder that contains x86 and x64 SQLite binary file.
+		/// The path to the folder that contains x86 and x64 SQLite binary file - ~/App_Data/Internal/SQLiteBinaries.
 		/// </summary>
 		public string SQLiteBinariesPath { get; set; }
 
@@ -263,7 +263,7 @@ namespace Roadkill.Core.Configuration
 		{
 			AppDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data");
 			AppDataInternalPath = Path.Combine(AppDataPath, "Internal");
-			CustomTokensPath = Path.Combine(AppDataPath, "tokens.xml");
+			CustomTokensPath = Path.Combine(AppDataPath, "customvariables.xml");
 			HtmlElementWhiteListPath = Path.Combine(AppDataInternalPath, "htmlwhitelist.xml");
 			MinimumPasswordLength = 6;
 			DataStoreType = DataStoreType.SqlServer2008;

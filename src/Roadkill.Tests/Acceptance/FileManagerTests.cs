@@ -221,7 +221,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		[Description("Flakey")]
+		[Description("This test has timing issues")]
 		public void Navigate_Folders_With_Crumb_Trail_Should_Update_Table_And_Crumb_Trail()
 		{
 			// Arrange
@@ -246,6 +246,7 @@ namespace Roadkill.Tests.Acceptance
 			action = new Actions(Driver);
 			action.DoubleClick(td).Perform(); // go to 2nd folder
 			WaitForAjaxToComplete();
+			Thread.Sleep(500);
 
 			Driver.FindElements(By.CssSelector("#path-navigator li"))[1].Click();
 			WaitForAjaxToComplete();

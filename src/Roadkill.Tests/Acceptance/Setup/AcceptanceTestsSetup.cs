@@ -95,12 +95,12 @@ namespace Roadkill.Tests.Acceptance
 		{
 			string sitePath = GetSitePath();
 
-			string sqliteInteropFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x86/SQLite.Interop.dll", sitePath);
+			string sqliteInteropFileSource = string.Format("{0}/App_Data/Internal/SQLiteBinaries/x86/SQLite.Interop.dll", sitePath);
 			string sqliteInteropFileDest = string.Format("{0}/bin/SQLite.Interop.dll", sitePath);
 
 			if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
 			{
-				sqliteInteropFileSource = string.Format("{0}/App_Data/SQLiteBinaries/x64/SQLite.Interop.dll", sitePath);
+				sqliteInteropFileSource = string.Format("{0}/App_Data/Internal/SQLiteBinaries/x64/SQLite.Interop.dll", sitePath);
 			}
 
 			if (!System.IO.File.Exists(sqliteInteropFileDest))

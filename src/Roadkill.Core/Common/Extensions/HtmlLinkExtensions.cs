@@ -238,10 +238,33 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Returns the head content for all the custom variable plugins.
 		/// </summary>
-		public static MvcHtmlString PluginHeadContent(this UrlHelper helper)
+		public static MvcHtmlString HeadContentForPlugins(this UrlHelper helper)
 		{
+			string html = "";
+			
 			SyntaxHighlighter highlighter = new SyntaxHighlighter();
-			return MvcHtmlString.Create(highlighter.GetHeadContent(helper));
+			MathJax mathjax = ObjectFactory.GetInstance<MathJax>();
+
+			html  = highlighter.GetHeadContent(helper);
+			html += mathjax.GetHeadContent(helper);
+
+			return MvcHtmlString.Create(html);
+		}
+
+		/// <summary>
+		/// Returns the footer content for all the custom variable plugins.
+		/// </summary>
+		public static MvcHtmlString FooterContentForPlugins(this UrlHelper helper)
+		{
+			string html = "";
+
+			SyntaxHighlighter highlighter = new SyntaxHighlighter();
+			MathJax mathjax = ObjectFactory.GetInstance<MathJax>();
+
+			html = highlighter.GetFooterContent(helper);
+			html += mathjax.GetFooterContent(helper);
+
+			return MvcHtmlString.Create(html);
 		}
 
 		/// <summary>

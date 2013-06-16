@@ -100,6 +100,11 @@ namespace Roadkill.Core.Managers
 						}
 					}
 				}
+				catch (FileNotFoundException)
+				{
+					// For 1.7's change to the Lucene search path.
+					CreateIndex();
+				}
 				catch (Exception ex)
 				{
 					throw new SearchException(ex, "An error occured while searching the index, try rebuilding the search index via the admin tools to fix this.");
