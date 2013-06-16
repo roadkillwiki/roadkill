@@ -17,6 +17,8 @@
 # 	You have a ..\roadkillbuilds directory (from https://bitbucket.org/mrshrinkray/roadkillbuilds)
 # ====================================================================================================
 
+$zipFilename = "Roadkill.devbuild.zip"
+
 # ---- Add the tool paths to our path
 $runtimeDir = [System.Runtime.InteropServices.RuntimeEnvironment]::GetRuntimeDirectory()
 $env:Path = $env:Path + $runtimeDir
@@ -51,8 +53,8 @@ copy -Force lib\Empty-databases\roadkill.mdf _WEBSITE\App_Data
 
 # ---- Zip up the folder (requires 7zip)
 CD _WEBSITE
-7z a Roadkill.devbuild.zip
-copy -Force Roadkill.devbuild.zip ..\..\roadkillbuilds\
+7z a $zipFileName
+copy -Force $zipFileName ..\..\roadkillbuilds\
 CD ..
 
 # ---- Clean up the temporary deploy folders
