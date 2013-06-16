@@ -7,6 +7,7 @@ using Roadkill.Core.Managers;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security.Windows;
+using System.IO;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -273,12 +274,15 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			try
 			{
-				string sqliteInteropFileSource = Server.MapPath("~/App_Data/SQLiteBinaries/x86/SQLite.Interop.dll");
+				string sqliteInteropFileSource = Path.Combine(ApplicationSettings.SQLiteBinariesPath, "x86", "SQLite.Interop.dll");
+				sqliteInteropFileSource = Server.MapPath(sqliteInteropFileSource);
+
 				string sqliteInteropFileDest = Server.MapPath("~/bin/SQLite.Interop.dll");
 
 				if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
 				{
-					sqliteInteropFileSource = Server.MapPath("~/App_Data/SQLiteBinaries/x64/SQLite.Interop.dll");
+					sqliteInteropFileSource = Path.Combine(ApplicationSettings.SQLiteBinariesPath, "x64", "SQLite.Interop.dll");
+					sqliteInteropFileSource = Server.MapPath(sqliteInteropFileSource);
 				}
 
 				System.IO.File.Copy(sqliteInteropFileSource, sqliteInteropFileDest, true);

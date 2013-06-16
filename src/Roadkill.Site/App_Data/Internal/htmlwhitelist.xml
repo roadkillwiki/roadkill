@@ -157,6 +157,7 @@
 		<HtmlElement Name="pre">
 			<AllowedAttributes>
 				<HtmlAttribute Name="id" />
+				<HtmlAttribute Name="class" />
 			</AllowedAttributes>
 		</HtmlElement>
 		<HtmlElement Name="code">
