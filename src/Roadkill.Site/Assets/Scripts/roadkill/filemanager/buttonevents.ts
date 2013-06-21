@@ -12,7 +12,7 @@ module Roadkill.Site.FileManager
 			this._ajaxRequest = new AjaxRequest();
 		}
 
-		bind()
+		public bind()
 		{
 			var that = this;
 
@@ -23,7 +23,7 @@ module Roadkill.Site.FileManager
 			$(document).on("click", "#newfoldercancel", { instance: that }, this.cancelNewFolder);
 		}
 
-		deleteFolder(event)
+		private deleteFolder(event)
 		{
 			var that = event.data.instance;  // this instance
 			var tr = $("tr.select");
@@ -34,13 +34,11 @@ module Roadkill.Site.FileManager
 				return;
 			}
 
-			var message: string = Util.FormatString(ROADKILL_FILEMANAGER_DELETE_CONFIRM, folder);
-			Dialogs.confirm(message, function (result)
+			var confirmMessage: string = Util.FormatString(ROADKILL_FILEMANAGER_DELETE_CONFIRM, folder);
+			Dialogs.confirm(confirmMessage, function (result)
 			{
 				if (!result)
 					return;
-
-				//var folderName = folder; // redefined below so save its value so it's not lost from scope
 
 				// Ajax request
 				var success = function (data)
@@ -52,7 +50,8 @@ module Roadkill.Site.FileManager
 						var currentFolder: string = li.attr("data-urlpath");
 						TableEvents.update(currentFolder, false);
 
-						toastr.info(ROADKILL_FILEMANAGER_FOLDER_DELETED_SUCCESS);
+                        var message: string = Util.FormatString(ROADKILL_FILEMANAGER_DELETE_SUCCESS, folder);
+						toastr.info(message);
 					}
 					else
 					{
@@ -65,10 +64,10 @@ module Roadkill.Site.FileManager
 			});
 		}
 
-		deleteFile(event)
+		private deleteFile(event)
 		{
 			var that = event.data.instance;
-			var tr = $("tr.select");
+			var tr:any = $("tr.select");
 
 			if (tr.length > 0 && tr.attr("data-itemtype") == "file")
 			{
@@ -86,8 +85,10 @@ module Roadkill.Site.FileManager
 					{
 						if (data.status == "ok")
 						{
-							$(tr).remove();
-							toastr.info("ROADKILL_FILEMANAGER_FILE_DELETED_SUCCESS");
+                            $(tr).remove();
+
+                            var message: string = Util.FormatString(ROADKILL_FILEMANAGER_DELETE_SUCCESS, filename);
+                            toastr.info(message);
 						}
 						else
 						{
@@ -101,7 +102,7 @@ module Roadkill.Site.FileManager
 			}
 		}
 
-		addFolderInput(event)
+		private addFolderInput(event)
 		{
 			var that = event.data.instance;
 
@@ -122,11 +123,13 @@ module Roadkill.Site.FileManager
 			else
 			{
 				$("table#files").append(newfolderHtml);
-			}
+            }
+
+          
 			$("#newfolderinput").focus();
 		}
 
-		addNewFolder(event)
+		private addNewFolder(event : any)
 		{
 			var that = event.data.instance;
 
@@ -164,7 +167,7 @@ module Roadkill.Site.FileManager
 			}
 		}
 
-		cancelNewFolder()
+		private cancelNewFolder()
 		{
 			$("tr#newfolderrow").remove();
 		}

@@ -2,28 +2,30 @@ var Roadkill;
 (function (Roadkill) {
     (function (Site) {
         var Dialogs = (function () {
-            function Dialogs() { }
-            Dialogs.alert = function alert(message) {
+            function Dialogs() {
+            }
+            Dialogs.alert = function (message) {
                 bootbox.animate(false);
                 bootbox.alert(message);
-            }
-            Dialogs.confirm = function confirm(title, resultFunction) {
+            };
+
+            Dialogs.confirm = function (title, resultFunction) {
                 bootbox.animate(false);
                 bootbox.confirm("<b>" + title + "</b>", resultFunction);
-            }
-            Dialogs.openModal = function openModal(selector, params) {
-                if(typeof params !== "undefined") {
+            };
+
+            Dialogs.openModal = function (selector, params) {
+                if (typeof params !== "undefined") {
                     params.openSpeed = 150;
                     params.closeSpeed = 150;
                 } else {
-                    params = {
-                        openSpeed: 150,
-                        closeSpeed: 150
-                    };
+                    params = { openSpeed: 150, closeSpeed: 150 };
                 }
+
                 $.fancybox($(selector), params);
-            }
-            Dialogs.openFullScreenModal = function openFullScreenModal(selector) {
+            };
+
+            Dialogs.openFullScreenModal = function (selector) {
                 $(selector).modal("show");
                 $(selector).css("width", $(window).width() - 110);
                 $(selector).css("height", $(window).height() - 110);
@@ -31,22 +33,23 @@ var Roadkill;
                     $(selector).css("width", $(window).width() - 110);
                     $(selector).css("height", $(window).height() - 110);
                 });
-            }
-            Dialogs.openIFrameModal = function openIFrameModal(html) {
+            };
+
+            Dialogs.openIFrameModal = function (html) {
                 $("#iframe-dialog .modal-body").html(html);
                 $("#iframe-dialog").modal("show");
-            }
-            Dialogs.closeModal = function closeModal() {
+            };
+
+            Dialogs.closeModal = function () {
                 $.fancybox.close(true);
-            }
-            Dialogs.closeModal2 = function closeModal2(selector) {
+            };
+
+            Dialogs.closeModal2 = function (selector) {
                 $(selector).modal("hide");
-            }
+            };
             return Dialogs;
         })();
-        Site.Dialogs = Dialogs;        
+        Site.Dialogs = Dialogs;
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
-
 })(Roadkill || (Roadkill = {}));
-

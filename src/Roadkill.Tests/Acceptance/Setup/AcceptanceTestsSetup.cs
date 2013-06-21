@@ -25,8 +25,12 @@ namespace Roadkill.Tests.Acceptance
 			CopyWebConfig();
 			LaunchIisExpress();
 
-			//Driver = new FirefoxDriver();
-			Driver = new ChromeDriver();
+			// Disable the remember password popups
+			ChromeOptions options = new ChromeOptions();
+			options.AddArgument("--incognito");
+			ChromeDriver chromeDriver = new ChromeDriver(options);
+
+			Driver = chromeDriver;
 
 			try
 			{

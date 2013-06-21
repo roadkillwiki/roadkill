@@ -16,7 +16,7 @@ namespace Roadkill.Tests.Acceptance
 		public void BeforeEachTest()
 		{
 			// Recreate the lucene index as it will be out of sync with the db
-			foreach (string file in Directory.GetFiles(Path.Combine(SitePath, "App_Data", "search")))
+			foreach (string file in Directory.GetFiles(Path.Combine(SitePath, "App_Data", "Internal", "search")))
 			{
 				File.Delete(file);
 			}

@@ -11,23 +11,25 @@ Page2_Group3_SQLiteFailureTitle
 Page2_Group3_SQLiteFailureMessage
 
 [SiteStrings]
-SiteStrings.FileManager_AddFolder_PlaceHolder
-SiteStrings.FileManager_AddFolder_Cancel
-SiteStrings.FileManager_Delete_File
-SiteStrings.FileManager_Add_Folder
-SiteStrings.FileManager_Select
-SiteStrings.FileManager_Delete_Folder
-SiteStrings.FileManager_Delete_Confirm
-SiteStrings.FileManager_Delete_Error
-SiteStrings.FileManager_Error_DirectoryListing
-SiteStrings.FileManager_Error_DeleteFolder
-SiteStrings.FileManager_Error_DeleteFile
-SiteStrings.FileManager_Error_CreateFolder
-SiteStrings.FileManager_UploadingProgress
-SiteStrings.FileManager_Watermark
+FileManager_AddFolder_PlaceHolder
+FileManager_AddFolder_Cancel
+FileManager_Delete_File
+FileManager_Add_Folder
+FileManager_Select
+FileManager_Delete_Folder
+FileManager_Delete_Confirm
+FileManager_Delete_Success
+FileManager_Delete_Error
+FileManager_Error_DirectoryListing
+FileManager_Error_DeleteFolder
+FileManager_Error_DeleteFile
+FileManager_Error_CreateFolder
+FileManager_UploadingProgress
+FileManager_Watermark
+FileManager_Extension_Not_Supported
 
 [Pending translations for existing locales]
-(the list above plus...)
+(everything in the list above plus...)
 InstallStrings.Page4_Group5_Label1
 InstallStrings.Page4_Group5_Label2
 InstallStrings.Page4_Group5_Label3

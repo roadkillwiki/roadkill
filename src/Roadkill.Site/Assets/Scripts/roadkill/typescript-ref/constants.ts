@@ -1,6 +1,6 @@
-declare var $;
-declare var toastr;
-declare var bootbox;
+declare var $ : any;
+declare var toastr : any;
+declare var bootbox : any;
 
 //
 // All variables below are declared in GlobalJSdeclare vars
@@ -52,7 +52,7 @@ declare var ROADKILL_FILEMANAGER_ADDFOLDER_PLACEHOLDER;
 declare var ROADKILL_FILEMANAGER_ADDFOLDER_CANCEL;
 declare var ROADKILL_FILEMANAGER_DELETE_ERROR;
 declare var ROADKILL_FILEMANAGER_DELETE_CONFIRM;
-declare var ROADKILL_FILEMANAGER_FOLDER_DELETED_SUCCESS;
+declare var ROADKILL_FILEMANAGER_DELETE_SUCCESS;
 declare var ROADKILL_FILEMANAGER_ERROR_DIRECTORYLISTING;
 declare var ROADKILL_FILEMANAGER_ERROR_DELETEFOLDER;
 declare var ROADKILL_FILEMANAGER_ERROR_DELETEFILE;

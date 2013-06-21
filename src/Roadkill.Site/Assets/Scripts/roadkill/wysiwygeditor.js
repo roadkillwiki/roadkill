@@ -2,9 +2,11 @@ var Roadkill;
 (function (Roadkill) {
     (function (Site) {
         var WysiwygEditor = (function () {
-            function WysiwygEditor() { }
+            function WysiwygEditor() {
+            }
             WysiwygEditor.prototype.bindEvents = function () {
                 var parent = this;
+
                 $(".wysiwyg-bold").click(function () {
                     parent.addStyling(ROADKILL_EDIT_BOLD_TOKEN);
                 });
@@ -45,11 +47,13 @@ var Roadkill;
                     Site.Dialogs.openIFrameModal("<iframe src='" + ROADKILL_WIKIMARKUPHELP + "' id='help-iframe'></iframe>");
                 });
             };
+
             WysiwygEditor.prototype.addStyling = function (styleCode) {
                 var range = $("#Content").getSelection();
-                if(range !== null) {
+
+                if (range !== null) {
                     var text = $("#Content").val();
-                    if(text.substr(range.start - 2, 2) !== styleCode && range.text.substr(0, 2) !== styleCode) {
+                    if (text.substr(range.start - 2, 2) !== styleCode && range.text.substr(0, 2) !== styleCode) {
                         $("#Content").replaceSelection(styleCode + range.text + styleCode);
                         $("#Content").setSelection(range.end + 2, range.end + 2);
                     } else {
@@ -57,67 +61,81 @@ var Roadkill;
                     }
                 }
             };
+
             WysiwygEditor.prototype.addHeading = function (styleCode) {
                 var range = $("#Content").getSelection();
-                if(range !== null) {
+
+                if (range !== null) {
                     var text = range.text;
-                    if(range.text === "") {
+                    if (range.text === "")
                         text = "Your heading";
-                    }
+
                     $("#Content").replaceSelection("\n" + styleCode + text + styleCode + "\n");
                     $("#Content").setSelection(range.end, range.end);
                 }
             };
-            WysiwygEditor.addImage = function addImage(image) {
+
+            WysiwygEditor.addImage = function (image) {
                 var range = $("#Content").getSelection();
-                if(range !== null) {
+
+                if (range !== null) {
                     var text = range.text;
-                    if(range.text === "") {
+                    if (range.text === "")
                         text = ROADKILL_EDIT_IMAGE_TITLE;
-                    }
+
                     var prefix = ROADKILL_EDIT_IMAGE_STARTTOKEN.toString();
                     prefix = prefix.replace("%ALT%", text);
                     prefix = prefix.replace("%FILENAME%", image);
+
                     var suffix = ROADKILL_EDIT_IMAGE_ENDTOKEN.toString();
                     suffix = suffix.replace("%ALT%", text);
                     suffix = suffix.replace("%FILENAME%", image);
+
                     $("#Content").replaceSelection(prefix + suffix);
                     $("#Content").setSelection(range.start + prefix.length, range.start + prefix.length);
                     Site.Dialogs.closeModal2("#iframe-dialog");
                 }
-            }
+            };
+
             WysiwygEditor.prototype.addLink = function () {
                 var range = $("#Content").getSelection();
-                if(range !== null) {
+
+                if (range !== null) {
                     var text = range.text;
-                    if(range.text === "") {
+                    if (range.text === "")
                         text = ROADKILL_EDIT_LINK_TEXTPLACEHOLDER;
-                    }
+
                     var prefix = ROADKILL_EDIT_LINK_STARTTOKEN.toString();
                     prefix = prefix.replace("%URL%", ROADKILL_EDIT_LINK_URLPLACEHOLDER);
                     prefix = prefix.replace("%LINKTEXT%", text);
+
                     var suffix = ROADKILL_EDIT_LINK_ENDTOKEN.toString();
                     suffix = suffix.replace("%URL%", ROADKILL_EDIT_LINK_URLPLACEHOLDER);
                     suffix = suffix.replace("%LINKTEXT%", text);
+
                     $("#Content").replaceSelection(prefix + suffix);
                     $("#Content").setSelection(range.start + prefix.length, range.start + prefix.length);
                 }
             };
+
             WysiwygEditor.prototype.addListItem = function (styleCode) {
                 var range = $("#Content").getSelection();
-                if(range !== null) {
+
+                if (range !== null) {
                     var val = $("#Content").val();
                     var start = range.start;
-                    if(start > 0) {
+                    if (start > 0)
                         start -= 1;
-                    }
+
                     var lastChar = val.substr(start, 1);
                     var nextChar = val.substr(range.start, 1);
-                    if(nextChar === styleCode) {
+
+                    if (nextChar === styleCode) {
                         $("#Content").setSelection(range.end + 2, range.end + 2);
                         return;
                     }
-                    if(lastChar == "\n" || lastChar == "") {
+
+                    if (lastChar == "\n" || lastChar == "") {
                         $("#Content").replaceSelection(range.text + styleCode + " ");
                         $("#Content").setSelection(range.end + 2, range.end + 2);
                     } else {
@@ -126,14 +144,13 @@ var Roadkill;
                     }
                 }
             };
+
             WysiwygEditor.prototype.repeat = function (text, count) {
                 return new Array(count + 1).join(text);
             };
             return WysiwygEditor;
         })();
-        Site.WysiwygEditor = WysiwygEditor;        
+        Site.WysiwygEditor = WysiwygEditor;
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
-
 })(Roadkill || (Roadkill = {}));
-
