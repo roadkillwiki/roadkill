@@ -257,7 +257,10 @@ namespace Roadkill.Core.Mvc.Controllers
 					}
 					else
 					{
-						return Json(new { status = "error", message = string.Format(".{0} files are not allowed to be uploaded.", extension) }, "text/plain");
+						string allowedExtensionsCsv = string.Join(",", allowedExtensions);
+						string errorMessage = string.Format(SiteStrings.FileManager_Extension_Not_Supported, allowedExtensionsCsv);
+						
+						return Json(new { status = "error", message = errorMessage }, "text/plain");
 					}
 				}
 

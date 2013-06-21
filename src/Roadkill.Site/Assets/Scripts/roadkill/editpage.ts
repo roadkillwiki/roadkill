@@ -44,9 +44,9 @@ module Roadkill.Site
 					// ; / ? : @ & = { } | \ ^ [ ] `	
 					for (var i: number = 0; i < input.length; i++)
 					{
-						if ($.inArray(input[i], _tagBlackList) > -1)
+						if ($.inArray(input[i], EditPage._tagBlackList) > -1)
 						{
-							toastr.error("The following characters are not valid for tags: <br/>" + _tagBlackList.join(" "));
+							toastr.error("The following characters are not valid for tags: <br/>" + EditPage._tagBlackList.join(" "));
 							return false;
 						}
 					}

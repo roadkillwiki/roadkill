@@ -310,6 +310,12 @@
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-zh_CN.js" />
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-zh_TW.js" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\typescript-ref\references.ts" />
+    <Content Include="Assets\Scripts\roadkill\typescript-ref\constants.js">
+      <DependentUpon>constants.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\typescript-ref\constants.min.js">
+      <DependentUpon>constants.ts</DependentUpon>
+    </Content>
     <Content Include="Plugins\SyntaxHighlighter\javascript\shAutoloader.js" />
     <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushAppleScript.js" />
     <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushAS3.js" />
