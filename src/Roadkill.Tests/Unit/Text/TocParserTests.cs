@@ -133,6 +133,7 @@ namespace Roadkill.Tests.Unit
 		[Test]
 		public void Should_Have_Correct_Section_Numbering_For_Large_Lists()
 		{
+			// Arrnage
 			TocParser tocParser = new TocParser();
 			string html = GetBigHeaderList();
 
@@ -148,6 +149,7 @@ namespace Roadkill.Tests.Unit
 		[Test]
 		public void Should_Ignore_Multiple_Curlies()
 		{
+			// Arrange
 			TocParser tocParser = new TocParser();
 			string html = "Give me a {{TOC}} and a {{{{TOC}}}} - the should not render a TOC";
 			string expected = html;
@@ -157,6 +159,42 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			Assert.That(actual, Is.EqualTo(expected));
+		}
+
+		[Test]
+		public void Should_Have_Correct_Html_Nesting_And_Warning_Titles_When_Missing_Levels()
+		{
+			// From issue #177
+			// Arrange
+			TocParser tocParser = new TocParser();
+			string html = "{TOC} <p>some text</p>";
+			//html += "<h1>h1</h1>";
+			html += "	<h2>h2</h2>";
+			html += "		<h3>h3a</h3>";
+			html += "			<h4>h4a</h4>";
+			html += "			<h4>h4b</h4>";
+			html += "		<h3>h3b</h3>";
+			html += "			<h4>h4c</h4>";
+			html += "				<h5>h5a</h5>";
+			html += "				<h5>h5b</h5>";
+			html += "		<h3>h3c</h3>";
+			html += "			<h4>h4d</h4>";
+			html += "	<h2>h2b</h2>";
+			//html += "		<h3>h3</h3>";
+			//html += "			<h4>h4</h4>";
+			html += "				<h5>h5c</h5>";
+
+			// Act
+			string actual = tocParser.InsertToc(html);
+
+			// Assert
+			Assert.That(actual, Is.StringContaining("(Missing level 1 header)"));
+			Assert.That(actual, Is.StringContaining("(Missing level 3 header)"));
+			Assert.That(actual, Is.StringContaining("(Missing level 4 header)"));
+
+
+			Assert.That(actual, Is.StringContaining("1.3&nbsp;h3c"));
+			Assert.That(actual, Is.StringContaining("1.3.1&nbsp;h4d"));
 		}
 	}
 }

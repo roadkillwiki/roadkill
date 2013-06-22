@@ -50,6 +50,20 @@ namespace Roadkill.Core.Text.ToC
 			}
 			else if (level > _currentLevel)
 			{
+				while (_currentLevel + 1 < level)
+				{
+					// e.g. current level 1
+					// level of new item is 4
+					//
+					// Fix the levels by putting items to warn about missing levels in,
+					// and move the current level/item forward to that level.
+					string warningTitle = string.Format("(Missing level {0} header)", _currentLevel + 1); // zero based
+					Item dummyItem = new Item(warningTitle, Guid.NewGuid().ToString());
+					_currentItem.AddChild(dummyItem);
+					_currentItem = dummyItem;
+					_currentLevel++;
+				}
+
 				_currentItem.AddChild(item);
 			}
 			else if (level < _currentLevel)
