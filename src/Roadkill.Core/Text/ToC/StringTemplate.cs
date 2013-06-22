@@ -19,6 +19,7 @@ namespace Roadkill.Core.Text.ToC
 		{
 			///<li><a href=""#{id}"">{level}.{itemnumber}&nbsp;{title}</a></li>
 			string result = ItemFormat;
+
 			result = result.Replace("{id}", item.Id);
 			result = result.Replace("{levels}", GetLevelText(item));
 

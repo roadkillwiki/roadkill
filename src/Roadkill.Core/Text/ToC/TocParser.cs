@@ -89,6 +89,10 @@ namespace Roadkill.Core.Text.ToC
 					int level = 0;
 					int.TryParse(tagName.ToLower().Replace("h", ""), out level);
 
+					// Sanity check for bad markup
+					if (level < 1)
+						level = 1;
+
 					Item item = _tree.AddItemAtLevel(level, title);
 
 					// Insert an achor tag after the header as a reference

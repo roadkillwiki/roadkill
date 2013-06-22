@@ -63,21 +63,6 @@ namespace Roadkill.Tests.Unit
 			_userManager = new Mock<UserManagerBase>(_settings, null).Object;
 		}
 
-		private void SetupMockPostedFile(MvcMockContainer container)
-		{
-			Mock<HttpFileCollectionBase> postedfilesKeyCollection = new Mock<HttpFileCollectionBase>();
-			List<string> fakeFileKeys = new List<string>() { "uploadFile" };
-			Mock<HttpPostedFileBase> postedfile = new Mock<HttpPostedFileBase>();
-
-			container.Request.Setup(req => req.Files).Returns(postedfilesKeyCollection.Object);
-			postedfilesKeyCollection.Setup(keys => keys.GetEnumerator()).Returns(fakeFileKeys.GetEnumerator());
-			postedfilesKeyCollection.Setup(keys => keys["uploadFile"]).Returns(postedfile.Object);
-
-			postedfile.Setup(f => f.ContentLength).Returns(8192);
-			postedfile.Setup(f => f.FileName).Returns("test.png");
-			postedfile.Setup(f => f.SaveAs(It.IsAny<string>())).Callback<string>(filename => File.WriteAllText(filename, "test contents"));
-		}
-
 		[Test]
 		public void Index_Should_Return_View()
 		{
@@ -501,6 +486,28 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
+		public void FileUpload_With_Single_File_To_Root_Should_Save_File_To_Disk_And_Return_Ok_Json_Status()
+		{
+			// Arrange
+			MvcMockContainer container = _filesController.SetFakeControllerContext();
+			SetupMockPostedFiles(container, "/", "file1.png");
+			string file1FullPath = Path.Combine(_settings.AttachmentsDirectoryPath, "file1.png");
+
+			// Act
+			JsonResult result = _filesController.Upload();
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("ok"));
+			Assert.That(jsonObject.filename, Is.EqualTo("file1.png"));
+
+			Assert.That(File.Exists(file1FullPath), Is.True);
+		}
+
+		[Test]
 		public void FileUpload_With_Multiple_Files_To_Root_Should_Save_Files_To_Disk_And_Return_Ok_Json_Status()
 		{
 			// Arrange
@@ -601,6 +608,28 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
+		public void FileUpload_With_Bad_Extensions_Should_Return_Error_Json_Status()
+		{
+			// Arrange
+			MvcMockContainer container = _filesController.SetFakeControllerContext();
+			SetupMockPostedFiles(container, "/", "file1.exe");
+			string file1FullPath = Path.Combine(_settings.AttachmentsDirectoryPath, "file1.exe");
+
+			// Act
+			JsonResult result = _filesController.Upload();
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("error"));
+			Assert.That(jsonObject.message, Is.Not.Null.Or.Empty);
+
+			Assert.That(File.Exists(file1FullPath), Is.False);
+		}
+
+		[Test]
 		[TestCase("Upload")]
 		[TestCase("DeleteFile")]
 		[TestCase("DeleteFolder")]
@@ -697,6 +726,7 @@ namespace Roadkill.Tests.Unit
 
 		private void SetupMockPostedFiles(MvcMockContainer container, string destinationFolder, params string[] fileNames)
 		{
+			// Mock the folder the files are saved to
 			container.Request.Setup(x => x.Form).Returns(delegate()
 			{
 				var values = new NameValueCollection();
@@ -704,6 +734,7 @@ namespace Roadkill.Tests.Unit
 				return values;
 			});
 
+			// Add all the files provided so they save as an empty file to the file path
 			Mock<HttpFileCollectionBase> postedfilesKeyCollection = new Mock<HttpFileCollectionBase>();
 			container.Request.Setup(req => req.Files).Returns(postedfilesKeyCollection.Object);
 

@@ -12,11 +12,11 @@ namespace Roadkill.Core.Text.ToC
 	{
 		private List<Item> _children;
 		
-
 		public string Id { get; private set; }
 		public string Title { get; set; }
 		public Item Parent { get; private set; }
 		public int Level { get; set; }
+		
 		public IEnumerable<Item> Children
 		{
 			get { return _children; }
