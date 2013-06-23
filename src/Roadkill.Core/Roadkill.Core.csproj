@@ -365,7 +365,6 @@
     <Compile Include="MVC\Attributes\BrowserCacheAttribute.cs" />
     <Compile Include="MVC\ExtendedRazorViewEngine.cs" />
     <Compile Include="MVC\Controllers\FileManagerController.cs" />
-    <Compile Include="MVC\Controllers\LogViewerController.cs" />
     <Compile Include="MVC\WebViewPages\RoadkillLayoutPage.cs" />
     <Compile Include="MVC\WebViewPages\RoadkillViewPage.cs" />
     <Compile Include="MVC\Controllers\UpgradeController.cs" />
