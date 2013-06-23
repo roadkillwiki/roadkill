@@ -17,7 +17,7 @@ module Roadkill.Site
 			// Add admin link
 			$("#addadmin").click(function ()
 			{
-				$("#userdialogContainer h1").html(ROADKILL_ADDADMIN_TITLE);
+				$("#userdialog .title").html(ROADKILL_ADDADMIN_TITLE);
 				$("form#userform").attr("action", ROADKILL_ADDADMIN_FORMACTION);
 
 				$("#Id").val("{10000000-0000-0000-0000-000000000000}"); // data annotations workaround
@@ -28,13 +28,13 @@ module Roadkill.Site
 				$("#IsBeingCreatedByAdmin").val("True");
 
 				$(".validation-summary-errors").hide();
-				Dialogs.openModal("#userdialogContainer");
+				Dialogs.openModal("#userdialog");
 			});
 
 			// Add editor link
 			$("#addeditor").click(function ()
 			{
-				$("#userdialogContainer h1").html(ROADKILL_ADDEDITOR_TITLE);
+				$("#userdialog .title").html(ROADKILL_ADDEDITOR_TITLE);
 				$("form#userform").attr("action", ROADKILL_ADDEDITOR_FORMACTION);
 
 				$("#Id").val("{10000000-0000-0000-0000-000000000000}"); // data annotations workaround
@@ -45,13 +45,13 @@ module Roadkill.Site
 				$("#IsBeingCreatedByAdmin").val("True");
 
 				$(".validation-summary-errors").hide();
-				Dialogs.openModal("#userdialogContainer");
+				Dialogs.openModal("#userdialog");
 			});
 
 			// Edit link for each user
 			$(".edit a").click(function ()
 			{
-				$("#userdialogContainer h1").html(ROADKILL_EDITUSER_TITLE);
+				$("#userdialog .title").html(ROADKILL_EDITUSER_TITLE);
 				$("form#userform").attr("action", ROADKILL_EDITUSER_FORMACTION);
 
 				var user; // filled from the eval statement
@@ -66,7 +66,7 @@ module Roadkill.Site
 				$("#IsBeingCreatedByAdmin").val("False");
 
 				$(".validation-summary-errors").hide();
-				Dialogs.openModal("#userdialogContainer");
+				Dialogs.openModal("#userdialog");
 			});
 		}
 
@@ -75,20 +75,20 @@ module Roadkill.Site
 			if (action == "addadmin")
 			{
 				$("form#userform").attr("action", ROADKILL_ADDADMIN_FORMACTION);
-				$("#userdialogContainer h1").html(ROADKILL_ADDADMIN_TITLE);
+				$("#userdialog .title").html(ROADKILL_ADDADMIN_TITLE);
 			}
 			else if (action == "addeditor")
-				{
+			{
 				$("form#userform").attr("action", ROADKILL_ADDEDITOR_FORMACTION);
-				$("#userdialogContainer h1").html(ROADKILL_ADDEDITOR_TITLE);
+				$("#userdialog .title").html(ROADKILL_ADDEDITOR_TITLE);
 			}
 			else if (action == "edituser")
-				{
+			{
 				$("form#userform").attr("action", ROADKILL_EDITUSER_FORMACTION);
-				$("#userdialogContainer h1").html(ROADKILL_EDITUSER_TITLE);
+				$("#userdialog .title").html(ROADKILL_EDITUSER_TITLE);
 			}
 
-			Dialogs.openModal("#userdialogContainer");
+			Dialogs.openModal("#userdialog");
 		}
 	}
 }

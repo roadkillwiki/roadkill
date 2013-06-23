@@ -1,5 +1,4 @@
 ﻿@model PageSummary
- 
 
 @if (Model.Id != 0)
 {
@@ -20,28 +19,5 @@
 	</div>
 </div>
 
-<div id="pageinformation">
-	<h4>@Model.Title</h4>
-
-	<div class="tags">
-		@Html.TagBlocks(Model.Tags)
-	</div>
-	<br class="clear" />
-
-	<div class="left">
-		<b>@SiteStrings.Page_Info_CreatedOn</b><br />
-		@Model.CreatedOn<br /><br />
-
-		<b>@SiteStrings.Page_Info_CreatedBy</b><br />
-		@Model.CreatedBy
-	</div>
-
-	<div class="right">
-		<b>@SiteStrings.Page_Info_ModifiedOn</b><br />
-		@Model.ModifiedOn<br /><br />
-
-		<b>@SiteStrings.Page_Info_ModifiedBy</b><br />
-		@Model.ModifiedBy
-	</div>
-</div> 
+@Html.DialogPartial("PageInformation", Model)
 }

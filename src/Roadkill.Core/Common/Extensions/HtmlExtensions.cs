@@ -283,5 +283,21 @@ namespace Roadkill.Core
 			else
 				return MvcHtmlString.Create("<input type=\"submit\"class=\"btn-mini" + extraCss + "\" name=\"maxItems\" value=\"All\" />");
 		}
+
+		/// <summary>
+		/// An alias for Partial() to indicate a dialog's HTML is being rendered.
+		/// </summary>
+		public static MvcHtmlString DialogPartial(this HtmlHelper helper, string viewName)
+		{
+			return helper.Partial(viewName);
+		}
+
+		/// <summary>
+		/// An alias for Partial() to indicate a dialog's HTML is being rendered.
+		/// </summary>
+		public static MvcHtmlString DialogPartial(this HtmlHelper helper, string viewName, object model)
+		{
+			return helper.Partial(viewName, model);
+		}
 	}
 }

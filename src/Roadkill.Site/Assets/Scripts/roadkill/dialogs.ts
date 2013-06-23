@@ -15,19 +15,9 @@ module Roadkill.Site
 			bootbox.confirm("<b>" +title+ "</b>", resultFunction);
 		}
 
-		public static openModal(selector: string, params?: any)
+		public static openModal(selector: string)
 		{
-			if (typeof params !== "undefined")
-			{
-				params.openSpeed = 150;
-				params.closeSpeed = 150;
-			}
-			else
-			{
-				params = { openSpeed: 150, closeSpeed: 150 };
-			}
-
-			$.fancybox($(selector), params);
+			$(selector).modal("show");
 		}
 
 		public static openFullScreenModal(selector: string)
@@ -42,18 +32,24 @@ module Roadkill.Site
 			});
 		}
 
-		public static openIFrameModal(html: string)
+		public static openMarkupHelpModal(html: string)
 		{
-			$("#iframe-dialog .modal-body").html(html);
-			$("#iframe-dialog").modal("show");
+			$("#markup-help-dialog .modal-body-container").html(html);
+			$("#markup-help-dialog").modal("show");
 		}
 
-		public static closeModal()
+		public static openImageChooserModal(html: string)
 		{
-			$.fancybox.close(true);
+			$("#choose-image-dialog .modal-body-container").html(html);
+			$("#choose-image-dialog").modal("show");
 		}
 
-		public static closeModal2(selector: string)
+		public static closeImageChooserModal()
+		{
+			$("#choose-image-dialog").modal("hide");
+		}
+
+		public static closeModal(selector: string)
 		{
 			$(selector).modal("hide");
 		}

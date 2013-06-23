@@ -256,7 +256,6 @@
     <Content Include="Assets\CSS\images\fancybox_loading.gif" />
     <Content Include="Assets\CSS\images\fancybox_overlay.png" />
     <Content Include="Assets\CSS\images\fancybox_sprite.png" />
-    <Content Include="Assets\CSS\jquery.fancybox.css" />
     <Content Include="Assets\CSS\images\directory.png" />
     <Content Include="Assets\CSS\images\file.png" />
     <Content Include="Assets\CSS\images\spinner.gif" />
@@ -510,7 +509,6 @@
     <Content Include="Assets\Images\wysiwyg\numbers.png" />
     <Content Include="Assets\Images\wysiwyg\underline.png" />
     <Content Include="Assets\Images\wysiwyg\link.png" />
-    <Content Include="Assets\CSS\close-x.png" />
     <Content Include="Assets\CSS\roadkill.css" />
     <Content Include="Assets\Scripts\jquery\jquery.timeago.js" />
     <Content Include="Assets\Images\loading.gif" />
@@ -556,6 +554,11 @@
     <Content Include="Views\FileManager\Index.cshtml" />
     <Content Include="Views\FileManager\Select.cshtml" />
     <Content Include="Views\FileManager\Navigator.cshtml" />
+    <Content Include="Views\Shared\Dialogs\PageInformation.cshtml" />
+    <Content Include="Views\Shared\Dialogs\MarkupHelp.cshtml" />
+    <Content Include="Views\Shared\Dialogs\ChooseImage.cshtml" />
+    <Content Include="Views\Shared\Dialogs\AddEditUser.cshtml" />
+    <Content Include="Views\Shared\Dialogs\PreviewPage.cshtml" />
     <None Include="Web.DemoSite.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
