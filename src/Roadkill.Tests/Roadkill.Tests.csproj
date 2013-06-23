@@ -263,7 +263,6 @@
   <ItemGroup>
     <Compile Include="Acceptance\FileManagerTests.cs" />
     <Compile Include="Acceptance\UpgradeTests.cs" />
-    <Compile Include="Acceptance\LogViewerTests.cs" />
     <Compile Include="Acceptance\WebDriverExtensions.cs" />
     <Compile Include="Acceptance\InstallerTests.cs" />
     <Compile Include="Acceptance\SearchTests.cs" />

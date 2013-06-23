@@ -546,9 +546,7 @@
     <None Include="Properties\PublishProfiles\Download.pubxml" />
     <Content Include="Views\Upgrade\Index.cshtml" />
     <Content Include="Views\Upgrade\Layout.cshtml" />
-    <Content Include="Views\LogViewer\Index.cshtml" />
     <Content Include="Views\Settings\Cache.cshtml" />
-    <Content Include="Views\LogViewer\Menu.cshtml" />
     <Content Include="Views\User\LoggedInAs.cshtml" />
     <Content Include="Views\User\LeftMenu.cshtml" />
     <Content Include="Views\FileManager\Index.cshtml" />
