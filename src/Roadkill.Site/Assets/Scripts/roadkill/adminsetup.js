@@ -11,7 +11,7 @@ var Roadkill;
             }
             AdminSetup.bindUserButtons = function () {
                 $("#addadmin").click(function () {
-                    $("#userdialogContainer h1").html(ROADKILL_ADDADMIN_TITLE);
+                    $("#userdialog .title").html(ROADKILL_ADDADMIN_TITLE);
                     $("form#userform").attr("action", ROADKILL_ADDADMIN_FORMACTION);
 
                     $("#Id").val("{10000000-0000-0000-0000-000000000000}");
@@ -22,11 +22,11 @@ var Roadkill;
                     $("#IsBeingCreatedByAdmin").val("True");
 
                     $(".validation-summary-errors").hide();
-                    Site.Dialogs.openModal("#userdialogContainer");
+                    Site.Dialogs.openModal("#userdialog");
                 });
 
                 $("#addeditor").click(function () {
-                    $("#userdialogContainer h1").html(ROADKILL_ADDEDITOR_TITLE);
+                    $("#userdialog .title").html(ROADKILL_ADDEDITOR_TITLE);
                     $("form#userform").attr("action", ROADKILL_ADDEDITOR_FORMACTION);
 
                     $("#Id").val("{10000000-0000-0000-0000-000000000000}");
@@ -37,11 +37,11 @@ var Roadkill;
                     $("#IsBeingCreatedByAdmin").val("True");
 
                     $(".validation-summary-errors").hide();
-                    Site.Dialogs.openModal("#userdialogContainer");
+                    Site.Dialogs.openModal("#userdialog");
                 });
 
                 $(".edit a").click(function () {
-                    $("#userdialogContainer h1").html(ROADKILL_EDITUSER_TITLE);
+                    $("#userdialog .title").html(ROADKILL_EDITUSER_TITLE);
                     $("form#userform").attr("action", ROADKILL_EDITUSER_FORMACTION);
 
                     var user;
@@ -56,23 +56,23 @@ var Roadkill;
                     $("#IsBeingCreatedByAdmin").val("False");
 
                     $(".validation-summary-errors").hide();
-                    Site.Dialogs.openModal("#userdialogContainer");
+                    Site.Dialogs.openModal("#userdialog");
                 });
             };
 
             AdminSetup.showUserModal = function (action) {
                 if (action == "addadmin") {
                     $("form#userform").attr("action", ROADKILL_ADDADMIN_FORMACTION);
-                    $("#userdialogContainer h1").html(ROADKILL_ADDADMIN_TITLE);
+                    $("#userdialog .title").html(ROADKILL_ADDADMIN_TITLE);
                 } else if (action == "addeditor") {
                     $("form#userform").attr("action", ROADKILL_ADDEDITOR_FORMACTION);
-                    $("#userdialogContainer h1").html(ROADKILL_ADDEDITOR_TITLE);
+                    $("#userdialog .title").html(ROADKILL_ADDEDITOR_TITLE);
                 } else if (action == "edituser") {
                     $("form#userform").attr("action", ROADKILL_EDITUSER_FORMACTION);
-                    $("#userdialogContainer h1").html(ROADKILL_EDITUSER_TITLE);
+                    $("#userdialog .title").html(ROADKILL_EDITUSER_TITLE);
                 }
 
-                Site.Dialogs.openModal("#userdialogContainer");
+                Site.Dialogs.openModal("#userdialog");
             };
             return AdminSetup;
         })();

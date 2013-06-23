@@ -74,17 +74,8 @@
 		</div>
 		<br class="clear" /><br />
 	
-		<div id="previewLoading"><img src="@(Url.Content("~/Assets/Images/loading.gif"))" border="0" alt="loading" /></div>
-		<div id="previewContainer" class="modal hide">	
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h3 id="myModalLabel">@SiteStrings.EditPage_Preview</h3>
-			  </div>
-			<div class="modal-body" id="preview"></div>
-		</div>
-		
-		<div id="iframe-dialog" class="modal hide">	
-			<div class="modal-body"></div>
-		</div>
+		@Html.DialogPartial("PreviewPage")
+		@Html.DialogPartial("ChooseImage")
+		@Html.DialogPartial("MarkupHelp")
 	}
 </div>

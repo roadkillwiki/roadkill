@@ -8,6 +8,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using System.Web.Optimization;
 using Roadkill.Core.Logging;
+using Roadkill.Core.MVC;
 
 namespace Roadkill.Core
 {
@@ -39,6 +40,9 @@ namespace Roadkill.Core
 
 			// CSS/JS Bundles
 			RegisterBundles();
+
+			// Custom view engine registration (to add new search paths)
+			RegisterViewEngine();
 		}
 
 		private void RegisterBundles()
@@ -58,6 +62,16 @@ namespace Roadkill.Core
 
 			BundleTable.Bundles.Add(cssBundle);
 			BundleTable.Bundles.Add(defaultJsBundle);
+		}
+
+		private void RegisterViewEngine()
+		{
+			ViewEngines.Engines.Clear();
+
+			ExtendedRazorViewEngine engine = new ExtendedRazorViewEngine();
+			engine.AddPartialViewLocationFormat("~/Views/Shared/Dialogs/{0}.cshtml");
+
+			ViewEngines.Engines.Add(engine);
 		}
 
 		public static void RegisterRoutes(RouteCollection routes)

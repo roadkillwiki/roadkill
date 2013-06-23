@@ -14,15 +14,8 @@ var Roadkill;
                 bootbox.confirm("<b>" + title + "</b>", resultFunction);
             };
 
-            Dialogs.openModal = function (selector, params) {
-                if (typeof params !== "undefined") {
-                    params.openSpeed = 150;
-                    params.closeSpeed = 150;
-                } else {
-                    params = { openSpeed: 150, closeSpeed: 150 };
-                }
-
-                $.fancybox($(selector), params);
+            Dialogs.openModal = function (selector) {
+                $(selector).modal("show");
             };
 
             Dialogs.openFullScreenModal = function (selector) {
@@ -35,16 +28,21 @@ var Roadkill;
                 });
             };
 
-            Dialogs.openIFrameModal = function (html) {
-                $("#iframe-dialog .modal-body").html(html);
-                $("#iframe-dialog").modal("show");
+            Dialogs.openMarkupHelpModal = function (html) {
+                $("#markup-help-dialog .modal-body-container").html(html);
+                $("#markup-help-dialog").modal("show");
             };
 
-            Dialogs.closeModal = function () {
-                $.fancybox.close(true);
+            Dialogs.openImageChooserModal = function (html) {
+                $("#choose-image-dialog .modal-body-container").html(html);
+                $("#choose-image-dialog").modal("show");
             };
 
-            Dialogs.closeModal2 = function (selector) {
+            Dialogs.closeImageChooserModal = function () {
+                $("#choose-image-dialog").modal("hide");
+            };
+
+            Dialogs.closeModal = function (selector) {
                 $(selector).modal("hide");
             };
             return Dialogs;

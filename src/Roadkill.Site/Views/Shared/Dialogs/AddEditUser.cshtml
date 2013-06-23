@@ -1,0 +1,38 @@
+﻿@model IList<IEnumerable<UserSummary>>
+
+<div id="userdialog" class="modal hide">
+@* The postback URL is changed dynamically in bindUserButtons in adminsetup.js *@
+@using (Html.BeginForm("AddAdmin", "Settings", FormMethod.Post, new { id = "userform" }))
+{
+	@Html.Hidden("Id")
+	@Html.Hidden("IsBeingCreatedByAdmin")
+	@Html.Hidden("ExistingEmail")
+	@Html.Hidden("ExistingUsername")
+
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h2 class="title default-header">@SiteStrings.SiteSettings_Users_EditUserDialog_Title</h2>
+	</div>
+	<div class="modal-body">
+		@Html.ValidationSummary(SiteStrings.SiteSettings_Users_AddUserDialog_Error, new { @class = "alert alert-block alert-error fade in", data_dismiss = "alert" })
+			
+		<p class="smallest">@SiteStrings.SiteSettings_Users_AddUserDialog_Help</p>
+		<label for="NewUsername">@SiteStrings.Shared_Username</label>
+		@Html.TextBox("NewUsername", null, new { @autocomplete = "off" })
+
+		<label for="NewEmail">@SiteStrings.Shared_Email_Label</label>
+		@Html.TextBox("NewEmail", null, new { @autocomplete = "off" })
+
+		<label for="Password">@SiteStrings.Shared_Password_Label</label>
+		@Html.Password("Password", null, new { @autocomplete = "off" })
+	
+		<label for="PasswordConfirmation">@SiteStrings.Shared_PasswordConfirm_Label</label>
+		@Html.Password("PasswordConfirmation", null, new { @autocomplete = "off" })
+
+	</div>
+	<div class="modal-footer">
+		<a href="#" data-dismiss="modal" class="btn">Cancel</a>
+		<input type="submit" value="@SiteStrings.Button_Save" class="btn btn-primary right" />
+	</div>
+}
+</div>

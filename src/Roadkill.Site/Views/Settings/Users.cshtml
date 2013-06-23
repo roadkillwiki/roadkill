@@ -4,7 +4,6 @@
 	ViewData["UsersActive"] = true;
 }
 
-@Url.ScriptLink("roadkill/adminsettings.js")
 @Html.Partial("SettingsMenu")
 
 @if (TempData["action"] != null)
@@ -14,12 +13,12 @@
 		{
 			if ($.browser.msie === true)
 			{
-				var ie9Fix = 'showUserModal("@(TempData["action"])")';
+				var ie9Fix = 'Roadkill.Site.AdminSetup.showUserModal("@(TempData["action"])")';
 				setTimeout(ie9Fix, 500);
 			}
 			else
 			{
-				showUserModal("@(TempData["action"])")
+				Roadkill.Site.AdminSetup.showUserModal("@(TempData["action"])")
 			}
 		});
 	</script>
@@ -81,32 +80,5 @@
 	</table>
 	<br class="clear" />
 
-	<div id="userdialogContainer">
-		<h1 style="margin-top:0">@SiteStrings.SiteSettings_Users_EditUserDialog_Title</h1>
-		@Html.ValidationSummary(SiteStrings.SiteSettings_Users_AddUserDialog_Error, new { @class = "alert alert-block alert-error fade in", data_dismiss = "alert" })
-		<!-- The postback URL is changed dynamically in bindUserButtons in roadkill.settings.js -->
-		@using (Html.BeginForm("AddAdmin", "Settings", FormMethod.Post, new { id = "userform" }))
-		{
-			@Html.Hidden("Id")
-			@Html.Hidden("IsBeingCreatedByAdmin")
-			@Html.Hidden("ExistingEmail")
-			@Html.Hidden("ExistingUsername")
-
-			<p class="smallest">@SiteStrings.SiteSettings_Users_AddUserDialog_Help</p>
-			<label for="NewUsername">@SiteStrings.Shared_Username</label>
-			@Html.TextBox("NewUsername", null, new { @autocomplete = "off" })
-
-			<label for="NewEmail">@SiteStrings.Shared_Email_Label</label>
-			@Html.TextBox("NewEmail", null, new { @autocomplete = "off" })
-
-			<label for="Password">@SiteStrings.Shared_Password_Label</label>
-			@Html.Password("Password", null, new { @autocomplete = "off" })
-	
-			<label for="PasswordConfirmation">@SiteStrings.Shared_PasswordConfirm_Label</label>
-			@Html.Password("PasswordConfirmation", null, new { @autocomplete = "off" })
-
-			<br />
-			<input type="submit" value="@SiteStrings.Button_Save" class="btn btn-primary right" />
-		}
-	</div>
+	@Html.DialogPartial("AddEditUser", Model)
 </div>

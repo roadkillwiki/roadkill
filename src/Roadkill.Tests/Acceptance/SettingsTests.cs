@@ -98,7 +98,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("#admins-table tbody tr>td+td+td a")).Click();
 
 			// Assert
-			Assert.True(Driver.FindElement(By.CssSelector("#userdialogContainer")).Displayed);
+			Assert.True(Driver.FindElement(By.CssSelector("#userdialog")).Displayed);
 			Assert.That(Driver.ElementValue("#NewUsername"), Is.EqualTo("admin"));
 			Assert.That(Driver.ElementValue("#NewEmail"), Is.EqualTo("admin@localhost"));
 			Assert.That(Driver.ElementValue("#Password"), Is.EqualTo(""));
@@ -119,7 +119,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("#NewUsername")).SendKeys("admin2");
 			Driver.FindElement(By.CssSelector("#NewEmail")).Clear();
 			Driver.FindElement(By.CssSelector("#NewEmail")).SendKeys("admin2@localhost");
-			Driver.FindElement(By.CssSelector("#userdialogContainer input[value='Save']")).Click();
+			Driver.FindElement(By.CssSelector("#userdialog input[value='Save']")).Click();
 
 			// Assert
 			Assert.That(Driver.FindElements(By.CssSelector("#admins-table tbody tr")).Count, Is.EqualTo(1));
@@ -142,7 +142,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("#Password")).SendKeys("newpassword");
 			Driver.FindElement(By.CssSelector("#PasswordConfirmation")).Clear();
 			Driver.FindElement(By.CssSelector("#PasswordConfirmation")).SendKeys("newpassword");
-			Driver.FindElement(By.CssSelector("#userdialogContainer input[value='Save']")).Click();
+			Driver.FindElement(By.CssSelector("#userdialog input[value='Save']")).Click();
 
 			Logout();
 
@@ -173,7 +173,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("#Password")).SendKeys("password");
 			Driver.FindElement(By.CssSelector("#PasswordConfirmation")).Clear();
 			Driver.FindElement(By.CssSelector("#PasswordConfirmation")).SendKeys("password");
-			Driver.FindElement(By.CssSelector("#userdialogContainer input[value='Save']")).Click();
+			Driver.FindElement(By.CssSelector("#userdialog input[value='Save']")).Click();
 
 			// Assert
 			Assert.That(Driver.FindElements(By.CssSelector("#admins-table tbody tr")).Count, Is.EqualTo(2));
@@ -201,7 +201,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("#Password")).SendKeys("password");
 			Driver.FindElement(By.CssSelector("#PasswordConfirmation")).Clear();
 			Driver.FindElement(By.CssSelector("#PasswordConfirmation")).SendKeys("password");
-			Driver.FindElement(By.CssSelector("#userdialogContainer input[value='Save']")).Click();
+			Driver.FindElement(By.CssSelector("#userdialog input[value='Save']")).Click();
 
 			// Assert
 			Assert.That(Driver.FindElements(By.CssSelector("#editors-table tbody tr")).Count, Is.EqualTo(2));

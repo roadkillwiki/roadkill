@@ -38,13 +38,13 @@ var Roadkill;
                     parent.addListItem(ROADKILL_EDIT_NUMBERLIST_TOKEN);
                 });
                 $(".wysiwyg-picture").click(function () {
-                    Site.Dialogs.openIFrameModal("<iframe src='" + ROADKILL_FILESELECTURL + "' id='filechooser-iframe'></iframe>");
+                    Site.Dialogs.openImageChooserModal("<iframe src='" + ROADKILL_FILESELECTURL + "' id='filechooser-iframe'></iframe>");
                 });
                 $(".wysiwyg-link").click(function () {
                     parent.addLink();
                 });
                 $(".wysiwyg-help").click(function () {
-                    Site.Dialogs.openIFrameModal("<iframe src='" + ROADKILL_WIKIMARKUPHELP + "' id='help-iframe'></iframe>");
+                    Site.Dialogs.openMarkupHelpModal("<iframe src='" + ROADKILL_WIKIMARKUPHELP + "' id='help-iframe'></iframe>");
                 });
             };
 
@@ -93,7 +93,7 @@ var Roadkill;
 
                     $("#Content").replaceSelection(prefix + suffix);
                     $("#Content").setSelection(range.start + prefix.length, range.start + prefix.length);
-                    Site.Dialogs.closeModal2("#iframe-dialog");
+                    Site.Dialogs.closeImageChooserModal();
                 }
             };
 

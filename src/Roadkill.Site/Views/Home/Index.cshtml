@@ -5,7 +5,7 @@
 
 @section PageToolbar
 {  
-	@* This is rendered by an action (and not a partial/extension method) for future donut caching *@
+	@* The toolbar is rendered by an action (and not a partial/extension method) (to make it compatible for future donut caching)*@
 	@Html.Action("PageToolBar", "Wiki", new { id = Model.Id })
 }
 

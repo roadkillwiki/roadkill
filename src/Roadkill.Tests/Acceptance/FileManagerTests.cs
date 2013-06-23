@@ -221,7 +221,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		[Description("This test has timing issues")]
+		[Explicit("This test has timing issues")]
 		public void Navigate_Folders_With_Crumb_Trail_Should_Update_Table_And_Crumb_Trail()
 		{
 			// Arrange
