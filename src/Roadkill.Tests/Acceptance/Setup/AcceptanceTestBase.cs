@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Configuration;
+using System.IO;
 using System.Net.Mail;
 using System.Reflection;
 using NUnit.Framework;
@@ -19,15 +20,22 @@ namespace Roadkill.Tests.Acceptance
 		protected string LoginUrl;
 		protected string BaseUrl;
 		protected string LogoutUrl;
+		protected bool IsWindowsAuthTests;
 
 		[SetUp]
 		public void Setup()
 		{
+			string url = ConfigurationManager.AppSettings["url"];
+			if (string.IsNullOrEmpty(url))
+				url = "http://localhost:9876";
+
 			CopyDb();
-			BaseUrl = Settings.BASEURL;
+			BaseUrl = url;
 			LoginUrl = BaseUrl + "/user/login";
 			LogoutUrl = BaseUrl + "/user/logout";
 			Driver = AcceptanceTestsSetup.Driver;
+
+			IsWindowsAuthTests = (ConfigurationManager.AppSettings["useWindowsAuth"] == "true");
 		}
 
 		protected void CopyDb()
@@ -60,6 +68,9 @@ namespace Roadkill.Tests.Acceptance
 
 		protected void LoginAsAdmin()
 		{
+			if (IsWindowsAuthTests)
+				return;
+
 			Driver.Navigate().GoToUrl(LoginUrl);
 			Driver.FindElement(By.Name("email")).SendKeys(ADMIN_EMAIL);
 			Driver.FindElement(By.Name("password")).SendKeys(ADMIN_PASSWORD);
@@ -68,6 +79,9 @@ namespace Roadkill.Tests.Acceptance
 
 		protected void LoginAsEditor()
 		{
+			if (IsWindowsAuthTests)
+				return;
+
 			Driver.Navigate().GoToUrl(LoginUrl);
 			Driver.FindElement(By.Name("email")).SendKeys(EDITOR_EMAIL);
 			Driver.FindElement(By.Name("password")).SendKeys(EDITOR_PASSWORD);
@@ -76,6 +90,9 @@ namespace Roadkill.Tests.Acceptance
 
 		protected void Logout()
 		{
+			if (IsWindowsAuthTests)
+				return;
+
 			Driver.Navigate().GoToUrl(LogoutUrl);
 		}
 	}
