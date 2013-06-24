@@ -29,7 +29,11 @@ Don't worry about committing your web.config, the Web.Download.config file is us
 
 =====TESTING WINDOWS AUTH=====
 
-This can be done by creating a new Windows 2012 server and running into inside VirtualBox.
+This can be done by creating a new Windows 2012 server and running into inside VirtualBox or on EC2.
+There is an image on EC2 to do this, which runs some of the Acceptance tests as a set of basic smoke 
+tests to ensure you can create a page, edit etc. These are run as the bobadmin user.
+
+To setup the box from fresh and perform manual tests:
 
 Install IIS (including application support)
 Install Active Directory Domain Services, call your domain Contoso.com.
