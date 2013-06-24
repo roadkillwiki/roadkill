@@ -69,7 +69,10 @@ namespace Roadkill.Tests.Acceptance
 		protected void LoginAsAdmin()
 		{
 			if (IsWindowsAuthTests)
+			{
+				Driver.Navigate().GoToUrl(BaseUrl);
 				return;
+			}
 
 			Driver.Navigate().GoToUrl(LoginUrl);
 			Driver.FindElement(By.Name("email")).SendKeys(ADMIN_EMAIL);
@@ -80,7 +83,10 @@ namespace Roadkill.Tests.Acceptance
 		protected void LoginAsEditor()
 		{
 			if (IsWindowsAuthTests)
+			{
+				Driver.Navigate().GoToUrl(BaseUrl);
 				return;
+			}
 
 			Driver.Navigate().GoToUrl(LoginUrl);
 			Driver.FindElement(By.Name("email")).SendKeys(EDITOR_EMAIL);
@@ -91,7 +97,10 @@ namespace Roadkill.Tests.Acceptance
 		protected void Logout()
 		{
 			if (IsWindowsAuthTests)
+			{
+				Driver.Navigate().GoToUrl(BaseUrl);
 				return;
+			}
 
 			Driver.Navigate().GoToUrl(LogoutUrl);
 		}
