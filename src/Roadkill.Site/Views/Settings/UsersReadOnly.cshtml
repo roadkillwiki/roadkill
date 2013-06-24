@@ -2,6 +2,7 @@
 @model IList<IEnumerable<UserSummary>>
 @{ 
 	ViewBag.Title = SiteStrings.SiteSettings_Users_Title;
+	ViewData["UsersActive"] = true;
 }
 
 @Html.Partial("SettingsMenu")

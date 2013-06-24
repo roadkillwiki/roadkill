@@ -24,7 +24,7 @@ namespace Roadkill.Tests.Acceptance
 		public void Setup()
 		{
 			CopyDb();
-			BaseUrl = "http://localhost:9876";
+			BaseUrl = Settings.BASEURL;
 			LoginUrl = BaseUrl + "/user/login";
 			LogoutUrl = BaseUrl + "/user/logout";
 			Driver = AcceptanceTestsSetup.Driver;

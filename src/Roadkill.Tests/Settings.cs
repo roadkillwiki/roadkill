@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System.IO;
 using Roadkill.Core;
 using Roadkill.Core.Logging;
+using System.Configuration;
 
 // To turn this into a global setup class, add [SetupFixture] and
 // add a [SetUp] method.
@@ -15,6 +16,18 @@ namespace Roadkill.Tests
 		private static string _rootFolder;
 		private static string _libFolder;
 		private static string _packagesFolder;
+
+		public static string BASEURL
+		{
+			get
+			{
+				string url = ConfigurationManager.AppSettings["url"];
+				if (string.IsNullOrEmpty(url))
+					url = "http://localhost:9876";
+
+				return url;
+			}
+		}
 
 		public static string ROOT_FOLDER
 		{
