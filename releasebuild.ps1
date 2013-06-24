@@ -54,7 +54,7 @@ copy -Force lib\Empty-databases\roadkill.mdf _WEBSITE\App_Data
 # ---- Zip up the folder (requires 7zip)
 CD _WEBSITE
 7z a $zipFileName
-copy -Force $zipFileName ..\..\roadkillbuilds\
+copy $zipFileName ..\$zipFileName
 CD ..
 
 # ---- Clean up the temporary deploy folders
