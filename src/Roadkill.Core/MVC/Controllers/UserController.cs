@@ -29,6 +29,9 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns></returns>
 		public ActionResult Activate(string id)
 		{
+			if (ApplicationSettings.UseWindowsAuthentication)
+				return RedirectToAction("Index", "Home");
+
 			if (string.IsNullOrEmpty(id))
 				return RedirectToAction("Index", "Home");
 
@@ -100,6 +103,9 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// login view with no theme is displayed.</remarks>
 		public ActionResult Login()
 		{
+			if (ApplicationSettings.UseWindowsAuthentication)
+				return RedirectToAction("Index", "Home");
+
 			// Show a plain login page if the session has ended inside the file explorer dialog
 			if (Request.QueryString["ReturnUrl"] != null && Request.QueryString["ReturnUrl"].ToLower().Contains("files"))
 				return View("BlankLogin");
@@ -114,6 +120,9 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public ActionResult Login(string email, string password, string fromUrl)
 		{
+			if (ApplicationSettings.UseWindowsAuthentication)
+				return RedirectToAction("Index", "Home");
+
 			string viewName = "Login";
 			if (Request.QueryString["ReturnUrl"] != null && Request.QueryString["ReturnUrl"].ToLower().Contains("files"))
 				viewName = "BlankLogin";
