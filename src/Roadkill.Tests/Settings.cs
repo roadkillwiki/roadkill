@@ -17,18 +17,6 @@ namespace Roadkill.Tests
 		private static string _libFolder;
 		private static string _packagesFolder;
 
-		public static string BASEURL
-		{
-			get
-			{
-				string url = ConfigurationManager.AppSettings["url"];
-				if (string.IsNullOrEmpty(url))
-					url = "http://localhost:9876";
-
-				return url;
-			}
-		}
-
 		public static string ROOT_FOLDER
 		{
 			get
