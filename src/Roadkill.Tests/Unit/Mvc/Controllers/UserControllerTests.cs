@@ -151,6 +151,7 @@ namespace Roadkill.Tests.Unit
 		public void Login_Should_Call_Authenticate_And_Redirect()
 		{
 			// Arrange
+			_settings.UseWindowsAuthentication = false;
 			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager);
 			userController.SetFakeControllerContext();
 
@@ -167,6 +168,7 @@ namespace Roadkill.Tests.Unit
 		public void Login_With_Wrong_Email_And_Password_Should_Have_Model_Error()
 		{
 			// Arrange
+			_settings.UseWindowsAuthentication = false;
 			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager);
 			userController.SetFakeControllerContext();
 

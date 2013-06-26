@@ -35,4 +35,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.7.0.0")] 
 [assembly: AssemblyFileVersion("1.7.0.0")]
 [assembly: AssemblyInformationalVersion("1.7.0-rc")] // Do not include spaces (used by the Bundles)
-[assembly:InternalsVisibleTo("Roadkill.Tests")]
+[assembly: InternalsVisibleTo("Roadkill.Tests")]

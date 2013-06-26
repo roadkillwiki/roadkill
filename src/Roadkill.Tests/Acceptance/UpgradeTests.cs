@@ -30,7 +30,10 @@ namespace Roadkill.Tests.Acceptance
 		 */
 
 		private string _sqlServerMasterConnection = @"Server=.\SQLExpress;uid=sa;pwd=Passw0rd;database=master;";
+
+		// the connection must be integrated to launch a user instance
 		private string _sqlServerConnection = @"Server=.\SQLExpress;Initial Catalog=roadkill152;AttachDbFilename=|DataDirectory|\roadkill152.mdf;Integrated Security=True;User Instance=True";
+
 		private string _sqliteConnection = @"Data Source=|DataDirectory|\roadkill152.sqlite;";
 		private string _sqlServerCeConnection = @"Data Source=|DataDirectory|\roadkill152.sdf;";
 
@@ -38,20 +41,27 @@ namespace Roadkill.Tests.Acceptance
 		public void TestFixtureSetUp()
 		{
 			SitePath = AcceptanceTestsSetup.GetSitePath();
-			
-			// SQL Server 1.5.2 user instance database
-			DetachSqlServerUserInstance();
-			string sqlServerDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill152.mdf");
-			File.Copy(sqlServerDBPath, Path.Combine(SitePath, "App_Data", "roadkill152.mdf"), true);
 
-			// SQL Server CE 1.5.2. database
-			string sqlServerCEDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill152.sdf");
-			File.Copy(sqlServerCEDBPath, Path.Combine(SitePath, "App_Data", "roadkill152.sdf"), true);
+			try
+			{
+				// SQL Server 1.5.2 user instance database
+				DetachSqlServerUserInstance();
+				string sqlServerDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill152.mdf");
+				File.Copy(sqlServerDBPath, Path.Combine(SitePath, "App_Data", "roadkill152.mdf"), true);
 
-			// SQLite 1.5.2 database
-			string sqliteDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill152.sqlite");
-			string destSqlitePath = Path.Combine(SitePath, "App_Data", "roadkill152.sqlite");
-			File.Copy(sqliteDBPath, destSqlitePath, true);
+				// SQL Server CE 1.5.2. database
+				string sqlServerCEDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill152.sdf");
+				File.Copy(sqlServerCEDBPath, Path.Combine(SitePath, "App_Data", "roadkill152.sdf"), true);
+
+				// SQLite 1.5.2 database
+				string sqliteDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill152.sqlite");
+				string destSqlitePath = Path.Combine(SitePath, "App_Data", "roadkill152.sqlite");
+				File.Copy(sqliteDBPath, destSqlitePath, true);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("An exception occurred during the setup: {0} \n {1}", e.Message, e );
+			}
 		}
 
 		[TestFixtureTearDown]
@@ -62,6 +72,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
+		[Description("SQL Server's user instancing makes this very flakey and locks the .mdf. A data dump would be better")]
 		public void SqlServer_Should_Upgrade_Then_Login_View_Existing_Page_And_Successfully_Create_New_Page()
 		{
 			// Arrange
