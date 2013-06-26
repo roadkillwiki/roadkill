@@ -156,9 +156,10 @@ table#files thead tr th { text-align:left; }
 table#files tr.focus	{ background-color: aliceblue; }
 table#files tr.select	{ background-color: azure; font-weight:bold;  border:1px solid lightskyblue; }
 table#files tr.listrow	{ cursor:pointer; }
+.newfolder-icon			{ width:1%; }
 #files img				{ max-width: 16px; } /* fix for Bootstrap in Chrome making images too small*/
 
-.folder-watermark		{ position: absolute; margin-top: -50px; margin-left: 10px; opacity: 0.09; font-size: 2em; z-index: 1000; }
+.folder-watermark		{ text-align:right; position: absolute; margin-top: -50px; margin-left: 250px; opacity: 0.09; font-size: 2em; z-index: 1000; }
 #newfolderinput			{ width: 150px; }
 
 #progress				{ display:none; }

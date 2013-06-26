@@ -8,7 +8,7 @@ module Roadkill.Site.FileManager
 			var html: string = "";
 
 			html += "<tr id=\"newfolderrow\">";
-			html += "<td><img src=\"" + ROADKILL_COREASSETPATH + "CSS/images/directory.png\"></td>";
+			html += "<td class=\"newfolder-icon\"><img src=\"" + ROADKILL_COREASSETPATH + "CSS/images/directory.png\"></td>";
 			html += "<td><span><input id=\"newfolderinput\" placeholder=\"" +ROADKILL_FILEMANAGER_ADDFOLDER_PLACEHOLDER+ "\" /></span>";
 			html += "<img id=\"newfoldercancel\" title=\"" +ROADKILL_FILEMANAGER_ADDFOLDER_CANCEL+ "\" src=\"" + ROADKILL_COREASSETPATH + "CSS/images/cancel.png\"></span>";
 			html += "<span style=\"vertical-align:bottom;\"></td>";
