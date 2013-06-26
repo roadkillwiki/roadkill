@@ -17,6 +17,7 @@
 # 	You have a ..\roadkillbuilds directory (from https://bitbucket.org/mrshrinkray/roadkillbuilds)
 # ====================================================================================================
 
+$ErrorActionPreference = "Stop"
 $zipFilename = "Roadkill.devbuild.zip"
 
 # ---- Add the tool paths to our path
