@@ -11,7 +11,9 @@ namespace Roadkill.Core.Plugins.BuiltIn
 	public class MathJax : CustomVariablePlugin
 	{
 		internal static readonly Regex _variableRegex = new Regex(@"\[\[\[mathjax]\]\]", RegexOptions.Singleline | RegexOptions.Compiled);
-		private bool _hasMathJaxTag = false;
+		
+		// Set it site wide for now, until the plugin architecture is finished.
+		private static bool _hasMathJaxTag = false;
 
 		public override string Id
 		{
