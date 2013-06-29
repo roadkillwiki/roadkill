@@ -19,7 +19,7 @@ namespace Roadkill.Core.Logging
 	{
 		// NLog specific
 		private static Logger _logger;
-		private static readonly string DEFAULT_LAYOUT = "[${longdate}] [${level}] ${message}";
+		private static readonly string DEFAULT_LAYOUT = "[${longdate:universalTime=True}] [${level}] ${message}";
 		private static readonly string LOGGER_NAME = "Roadkill";
 
 		static Log()
