@@ -33,7 +33,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		protected override void OnException(ExceptionContext filterContext)
 		{
 			string actionName = string.Format("{0}.{1}", filterContext.RouteData.Values["controller"].ToString(), filterContext.RouteData.Values["action"].ToString());
-			Log.Error("Error caught on {0}: {1}\n{2}", actionName, filterContext.Exception.Message, filterContext.Exception.ToString());
+			Log.Error("MVC error caught on {0}: {1}\n{2}", actionName, filterContext.Exception.Message, filterContext.Exception.ToString());
 
 			base.OnException(filterContext);
 		}

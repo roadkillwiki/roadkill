@@ -20,6 +20,10 @@ namespace Roadkill.Core.Logging
 		/// </summary>
 		XmlFile,
 		/// <summary>
+		/// Logentries.com logging - see https://logentries.com/doc/dotnet/.
+		/// </summary>
+		LogEntries,
+		/// <summary>
 		/// Log using all types of logging outputs.
 		/// </summary>
 		All

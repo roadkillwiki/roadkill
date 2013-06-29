@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Essential.Diagnostics;
+using NLog;
+using NLog.Config;
+using NLog.Targets;
 using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Logging
@@ -14,46 +17,90 @@ namespace Roadkill.Core.Logging
 	/// </summary>
 	public class Log
 	{
-		public static bool LogErrorsOnly { get; set; }
-		public static string LogsDirectory { get;set; }
+		// NLog specific
+		private static Logger _logger;
+		private static readonly string DEFAULT_LAYOUT = "[${longdate}] [${level}] ${message}";
+		private static readonly string LOGGER_NAME = "Roadkill";
+
+		static Log()
+		{
+			_logger = LogManager.GetLogger("Roadkill");
+		}
 
 		/// <summary>
-		/// Configures the type of log file to use based on the configuration, and 
-		/// whether to all messages or just errors.
+		/// Configures the type of logging to use based on the setting's logging types.
 		/// </summary>
-		/// <param name="settings"></param>
 		public static void ConfigureLogging(ApplicationSettings settings)
 		{
-			LogErrorsOnly = settings.LogErrorsOnly;
-			LogsDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Logs");
-			if (!Directory.Exists(LogsDirectory))
-				Directory.CreateDirectory(LogsDirectory);
-
-			switch (settings.LoggingType)
+			if (string.IsNullOrEmpty(settings.LoggingTypes) || settings.LoggingTypes.Trim().ToLower() == "none")
 			{
-				case LogType.None:
-					break;
-
-				case LogType.TextFile:
-					UseTextFileLogging();
-					break;
-
-				case LogType.XmlFile:
-					UseXmlLogging();
-					break;
-
-				case LogType.All:
-					UseTextFileLogging();
-					UseXmlLogging();
-					break;
-
-				default:
-					break;
+				LogManager.DisableLogging();
 			}
+			else
+			{
+				LogManager.EnableLogging();
+				
+				// Get the comma separted list of types (or it could be a single value)
+				bool debugEnabled = false;
+				List<string> logTypes = new List<string>();
 
-#if DEBUG
-			UseUdpLogging();
-#endif
+				foreach (string value in settings.LoggingTypes.Split(','))
+				{
+					logTypes.Add(value.Trim().ToLower());
+				}
+
+				foreach (string type in logTypes)
+				{
+					switch (type)
+					{
+						case "textfile":
+							UseTextFileLogging();
+							break;
+
+						case "logentries":
+							UseLogEntriesLogging();
+							break;
+
+						case "log2console":
+							UseLog2ConsoleLogging();
+							break;
+
+						case "debug":
+							debugEnabled = true;
+							break;
+
+						case "all":
+							UseTextFileLogging();
+							UseLogEntriesLogging();
+							UseLog2ConsoleLogging();
+							debugEnabled = true;
+							break;
+
+						default:
+							break;
+					}
+				}
+
+				// Set the logging levels for all the targets
+				foreach (LoggingRule rule in _logger.Factory.Configuration.LoggingRules.Where(x => x.LoggerNamePattern == LOGGER_NAME))
+				{
+					rule.EnableLoggingForLevel(LogLevel.Error);
+
+					if (!settings.LogErrorsOnly)
+					{
+						rule.EnableLoggingForLevel(LogLevel.Info);
+						rule.EnableLoggingForLevel(LogLevel.Warn);
+						rule.EnableLoggingForLevel(LogLevel.Fatal);
+					}
+
+					if (debugEnabled)
+					{
+						rule.EnableLoggingForLevel(LogLevel.Debug);
+					}
+				}
+
+				LogManager.Configuration.Reload();
+			}
 		}
 
 		/// <summary>
@@ -61,36 +108,59 @@ namespace Roadkill.Core.Logging
 		/// </summary>
 		public static void UseConsoleLogging()
 		{
-			Trace.Listeners.Add(new ConsoleTraceListener());
+			ConsoleTarget target = new ConsoleTarget();
+			AddNLogTarget(target, "RoadkillConsole");
 		}
 
 		/// <summary>
-		/// Adds UdpTraceListener logging to the logging listeners.
+		/// Adds network logging.
 		/// </summary>
-		public static void UseUdpLogging()
+		public static void UseLog2ConsoleLogging()
 		{
-			Trace.Listeners.Add(new UdpTraceListener());
+			ChainsawTarget target = new ChainsawTarget();
+			target.AppInfo = "Roadkill";
+			target.Address = "udp://127.0.0.1:7071";
+
+			AddNLogTarget(target, "RoadkillLog2Console");
 		}
 
 		/// <summary>
-		/// Adds Log4jXmlTraceListener (log4j format XML file logging) to the logging listeners.
-		/// The XML files are written to the App_Data/Logs file as roadkill.xml.log and a new file is created 
-		/// when the log file reaches 1mb.
+		/// Adds rolling file logging.
 		/// </summary>
-		public static void UseXmlLogging()
+		public static void UseTextFileLogging()
 		{
-			string logFile = Path.Combine(LogsDirectory, "roadkill.log-{DateTime:yyyy-MM-dd}.xml");
-			Trace.Listeners.Add(new RollingXmlTraceListener(logFile));
+			FileTarget target = new FileTarget();
+			target.FileName = @"${basedir}\App_Data\Logs\${shortdate}.log";
+			target.KeepFileOpen = false;
+			target.ArchiveNumbering = ArchiveNumberingMode.Rolling;
+
+			AddNLogTarget(target, "RoadkillFile");
 		}
 
 		/// <summary>
 		/// Adds TextWriterTraceListener logging to the logging listeners. The text files are written to
 		/// the App_Data/Logs file as roadkill.txt and are not rolling logs.
 		/// </summary>
-		public static void UseTextFileLogging()
+		public static void UseLogEntriesLogging()
 		{
-			string logFile = Path.Combine(LogsDirectory, "roadkill-{DateTime:yyyy-MM-dd}.log");
-			Trace.Listeners.Add(new RollingFileTraceListener(logFile));
+			// See https://logentries.com/doc/dotnet/
+			LogentriesTarget target = new LogentriesTarget();
+			target.Key = ConfigurationManager.AppSettings["LOGENTRIES_ACCOUNT_KEY"];
+			target.Location = ConfigurationManager.AppSettings["LOGENTRIES_LOCATION"];
+			target.Token = ConfigurationManager.AppSettings["LOGENTRIES_TOKEN"];
+			target.HttpPut = false;
+			target.Ssl = false;
+			target.Debug = true;
+
+			AddNLogTarget(target, "RoadkillLogEntries");
+		}
+
+		/// <summary>
+		/// Creates an information log message.
+		/// </summary>
+		public static void Debug(string message, params object[] args)
+		{
+			Write(Level.Debug, null, message, args);
 		}
 
 		/// <summary>
@@ -98,7 +168,7 @@ namespace Roadkill.Core.Logging
 		/// </summary>
 		public static void Information(string message, params object[] args)
 		{
-			Write(ErrorType.Information, null, message, args);
+			Write(Level.Information, null, message, args);
 		}
 
 		/// <summary>
@@ -106,7 +176,7 @@ namespace Roadkill.Core.Logging
 		/// </summary>
 		public static void Information(Exception ex, string message, params object[] args)
 		{
-			Write(ErrorType.Information, ex, message, args);
+			Write(Level.Information, ex, message, args);
 		}
 
 		/// <summary>
@@ -114,7 +184,7 @@ namespace Roadkill.Core.Logging
 		/// </summary>
 		public static void Warn(string message, params object[] args)
 		{
-			Write(ErrorType.Warning, null, message, args);
+			Write(Level.Warning, null, message, args);
 		}
 
 		/// <summary>
@@ -122,7 +192,7 @@ namespace Roadkill.Core.Logging
 		/// </summary>
 		public static void Warn(Exception ex, string message, params object[] args)
 		{
-			Write(ErrorType.Warning, ex, message, args);
+			Write(Level.Warning, ex, message, args);
 		}
 
 		/// <summary>
@@ -130,7 +200,7 @@ namespace Roadkill.Core.Logging
 		/// </summary>
 		public static void Error(string message, params object[] args)
 		{
-			Write(ErrorType.Error, null, message, args);
+			Write(Level.Error, null, message, args);
 		}
 
 		/// <summary>
@@ -138,39 +208,56 @@ namespace Roadkill.Core.Logging
 		/// </summary>
 		public static void Error(Exception ex, string message, params object[] args)
 		{
-			Write(ErrorType.Error, ex, message, args);
+			Write(Level.Error, ex, message, args);
 		}
 
 		/// <summary>
-		/// Writes a log message for the <see cref="ErrorType"/>, and if the provided Exception is not null,
+		/// Writes a log message for the <see cref="Level"/>, and if the provided Exception is not null,
 		/// appends this exception to the message.
 		/// </summary>
-		public static void Write(ErrorType errorType, Exception ex, string message, params object[] args)
+		public static void Write(Level errorType, Exception ex, string message, params object[] args)
 		{
 			if (ex != null)
 				message += "\n" + ex;
 
-			if (LogErrorsOnly && errorType == ErrorType.Warning)
+			switch (errorType)
 			{
-				Trace.TraceError(message, args);
+				case Level.Warning:
+					_logger.Warn(message, args);
+					break;
+
+				case Level.Error:
+					_logger.Error(message, args);
+					break;
+
+				case Level.Information:
+					_logger.Info(message, args);
+					break;
+
+				case Level.Debug:
+				default:
+					_logger.Debug(message, args);
+					break;
 			}
-			else
+		}
+
+		/// <summary>
+		/// Assigns the target to the Roadkill rule and sets its layout to [date] [level] [message]
+		/// </summary>
+		private static void AddNLogTarget(TargetWithLayout target, string name)
+		{
+			target.Layout = DEFAULT_LAYOUT;
+			target.Name = name;
+
+			if (!LogManager.Configuration.AllTargets.Contains(target))
 			{
-				// Trace should catch FormatException
-				switch (errorType)
+				LogManager.Configuration.AddTarget(name, target);
+
+				LoggingRule rule = new LoggingRule(LOGGER_NAME, target);
+
+				if (!LogManager.Configuration.LoggingRules.Contains(rule))
 				{
-					case ErrorType.Information:
-						Trace.TraceInformation(message, args);
-						break;
-
-					case ErrorType.Error:
-						Trace.TraceError(message, args);
-						break;
-
-					case ErrorType.Warning:
-					default:
-						Trace.TraceWarning(message, args);
-						break;
+					LogManager.Configuration.LoggingRules.Add(rule);
 				}
 			}
 		}
