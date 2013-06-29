@@ -18,22 +18,8 @@ namespace Roadkill.Tests.Acceptance
 	[Category("Acceptance")]
 	public class UpgradeTests : AcceptanceTestBase
 	{
-		/*
-		 To view the MDF in SQL Management studio, copy it to %TEMP% and then run:
-			USE [master]
-			GO
-
-			CREATE DATABASE TestDb ON
-			(FILENAME = N'C:\temp\roadkill152.mdf')
-			FOR ATTACH_REBUILD_LOG
-			GO
-		 */
-
 		private string _sqlServerMasterConnection = @"Server=.\SQLExpress;uid=sa;pwd=Passw0rd;database=master;";
-
-		// the connection must be integrated to launch a user instance
-		private string _sqlServerConnection = @"Server=.\SQLExpress;Initial Catalog=roadkill152;AttachDbFilename=|DataDirectory|\roadkill152.mdf;Integrated Security=True;User Instance=True";
-
+		private string _sqlServerConnection = @"Server=.\SQLExpress;uid=sa;pwd=Passw0rd;database=roadkill152;";
 		private string _sqliteConnection = @"Data Source=|DataDirectory|\roadkill152.sqlite;";
 		private string _sqlServerCeConnection = @"Data Source=|DataDirectory|\roadkill152.sdf;";
 
@@ -42,26 +28,18 @@ namespace Roadkill.Tests.Acceptance
 		{
 			SitePath = AcceptanceTestsSetup.GetSitePath();
 
-			try
-			{
-				// SQL Server 1.5.2 user instance database
-				DetachSqlServerUserInstance();
-				string sqlServerDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill152.mdf");
-				File.Copy(sqlServerDBPath, Path.Combine(SitePath, "App_Data", "roadkill152.mdf"), true);
+			// SQL Server 1.5.2 script
+			CreateSqlServer152Database();
+			InstallSqlServer152Tables();
 
-				// SQL Server CE 1.5.2. database
-				string sqlServerCEDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill152.sdf");
-				File.Copy(sqlServerCEDBPath, Path.Combine(SitePath, "App_Data", "roadkill152.sdf"), true);
+			// SQL Server CE 1.5.2. database
+			string sqlServerCEDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill152.sdf");
+			File.Copy(sqlServerCEDBPath, Path.Combine(SitePath, "App_Data", "roadkill152.sdf"), true);
 
-				// SQLite 1.5.2 database
-				string sqliteDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill152.sqlite");
-				string destSqlitePath = Path.Combine(SitePath, "App_Data", "roadkill152.sqlite");
-				File.Copy(sqliteDBPath, destSqlitePath, true);
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine("An exception occurred during the setup: {0} \n {1}", e.Message, e );
-			}
+			// SQLite 1.5.2 database
+			string sqliteDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill152.sqlite");
+			string destSqlitePath = Path.Combine(SitePath, "App_Data", "roadkill152.sqlite");
+			File.Copy(sqliteDBPath, destSqlitePath, true);
 		}
 
 		[TestFixtureTearDown]
@@ -72,7 +50,6 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		[Description("SQL Server's user instancing makes this very flakey and locks the .mdf. A data dump would be better")]
 		public void SqlServer_Should_Upgrade_Then_Login_View_Existing_Page_And_Successfully_Create_New_Page()
 		{
 			// Arrange
@@ -159,21 +136,54 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		/// <summary>
-		/// Jump through the usual number of hoops for SQL Server - detach any user instance.
+		/// Creates a v1.5.2 database
 		/// </summary>
-		private void DetachSqlServerUserInstance()
+		private void CreateSqlServer152Database()
 		{
+			string sql = @"USE [master];
+						IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'Roadkill152')
+						BEGIN
+							DROP DATABASE [Roadkill152]
+						END;
+
+						CREATE DATABASE [Roadkill152];";
+
 			using (SqlConnection connection = new SqlConnection(_sqlServerMasterConnection))
 			{
 				SqlConnection.ClearAllPools();
-
-				string sql = string.Format("USE master\nIF EXISTS (SELECT * FROM sysdatabases WHERE name = N'{0}')\nBEGIN\n\tALTER DATABASE [{1}] "+
-											"SET OFFLINE WITH ROLLBACK IMMEDIATE\n\tEXEC sp_detach_db [{1}]\nEND", "roadkill152", "roadkill152");
-
 				connection.Open();
+
 				SqlCommand command = connection.CreateCommand();
 				command.CommandText = sql;
 				command.ExecuteNonQuery();
+			}
+		}
+
+		/// <summary>
+		/// The tables and data.
+		/// </summary>
+		private void InstallSqlServer152Tables()
+		{
+			string scriptPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill152.sqlserver.sql");
+			string sql = File.ReadAllText(scriptPath);
+
+			string[] sqlCommands = sql.Split(';');
+
+			using (SqlConnection connection = new SqlConnection(_sqlServerConnection))
+			{
+				SqlConnection.ClearAllPools();
+				connection.Open();
+
+				SqlCommand command = connection.CreateCommand();
+
+				foreach (string statement in sqlCommands)
+				{
+					if (!string.IsNullOrEmpty(statement))
+					{
+						command.CommandText = statement;
+						command.ExecuteNonQuery();
+					}
+				}
 			}
 		}
 	}

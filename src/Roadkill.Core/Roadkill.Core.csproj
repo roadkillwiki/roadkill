@@ -355,7 +355,6 @@
       <DependentUpon>SiteStrings.resx</DependentUpon>
     </Compile>
     <Compile Include="Logging\Level.cs" />
-    <Compile Include="Logging\LogType.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
