@@ -66,6 +66,7 @@ namespace Roadkill.Core
 
 		private void RegisterViewEngine()
 		{
+			// Add a search path for /Dialogs, via a custom view engine.
 			ViewEngines.Engines.Clear();
 
 			ExtendedRazorViewEngine engine = new ExtendedRazorViewEngine();

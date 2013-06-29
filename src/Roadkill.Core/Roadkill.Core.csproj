@@ -193,10 +193,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Essential.Diagnostics, Version=1.2.0.0, Culture=neutral, PublicKeyToken=9d041bca93991466, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Essential.Diagnostics.1.2.501.0\lib\Essential.Diagnostics.dll</HintPath>
-    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\HtmlAgilityPack.1.4.6\lib\Net40\HtmlAgilityPack.dll</HintPath>
@@ -207,6 +203,9 @@
     <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="le_nlog">
+      <HintPath>..\..\packages\le_nlog.2.1.8\lib\Net40\le_nlog.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\lib\LightSpeed\Providers\log4net.dll</HintPath>
@@ -252,6 +251,9 @@
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.5.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\..\packages\NLog.2.0.1.2\lib\net40\NLog.dll</HintPath>
     </Reference>
     <Reference Include="Npgsql">
       <HintPath>..\..\lib\LightSpeed\Providers\Npgsql.dll</HintPath>
@@ -340,6 +342,7 @@
     <Compile Include="Common\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Configuration\ConfigFileManager.cs" />
     <Compile Include="Configuration\UpgradeChecker.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\DatabaseLogger.cs" />
     <Compile Include="Domain\Security\FormsAuthenticationWrapper.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="MVC\Attributes\IControllerAttribute.cs" />
@@ -355,10 +358,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SiteStrings.resx</DependentUpon>
     </Compile>
-    <Compile Include="Logging\ErrorType.cs" />
+    <Compile Include="Logging\Level.cs" />
     <Compile Include="Logging\LogType.cs" />
-    <Compile Include="Logging\LogReader.cs" />
-    <Compile Include="Logging\UdpTraceListener.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />

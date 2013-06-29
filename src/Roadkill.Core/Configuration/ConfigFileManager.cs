@@ -222,11 +222,7 @@ namespace Roadkill.Core.Configuration
 			if (string.IsNullOrEmpty(dataStoreType) && !string.IsNullOrEmpty(section.DatabaseType))
 				dataStoreType = section.DatabaseType;
 
-			LogType loggingType;
-			if (!Enum.TryParse<LogType>(section.Logging, true, out loggingType))
-				loggingType = LogType.None;
-
-			settings.LoggingType = loggingType;
+			settings.LoggingTypes = section.Logging;
 			settings.LogErrorsOnly = section.LogErrorsOnly;
 			settings.DataStoreType = DataStoreType.ByName(dataStoreType);
 			settings.ConnectionStringName = section.ConnectionStringName;

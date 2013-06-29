@@ -190,9 +190,9 @@ namespace Roadkill.Core.Configuration
 		public string LdapPassword { get; set; }
 
 		/// <summary>
-		/// The type of logging to perform. When in debug mode, UDP logging is also added to this.
+		/// The type of logging to perform, which can be a comma seperated list of values or just a single value.
 		/// </summary>
-		public LogType LoggingType { get; set; }
+		public string LoggingTypes { get; set; }
 
 		/// <summary>
 		/// Whether to just error messages are logged, or all information (warnings, information).
