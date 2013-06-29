@@ -671,7 +671,7 @@ namespace Roadkill.Tests.Acceptance
 			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
 		}
 		[Test]
-		[Explicit("Requires SQL Server Express 2012 installed on the machine the acceptance tests are running first, using LocalDB.")]
+		[Explicit("Requires SQL Server Express 2012 (but it uses the Lightspeed SQL Server 2005 driver) installed on the machine the acceptance tests are running first, using LocalDB.")]
 		public void All_Steps_With_Minimum_Required_SQLServer2005_Should_Complete()
 		{
 			// Arrange
@@ -723,7 +723,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		[Explicit("Requires SQL Server Express 2012 installed on the machine the acceptance tests are running first, using LocalDB.")]
+		[Explicit("Requires SQL Server Express 2012 (but it uses the Lightspeed SQL Server 2008 driver) installed on the machine the acceptance tests are running first, using LocalDB.")]
 		public void All_Steps_With_Minimum_Required_SQLServer2008_Should_Complete()
 		{
 			// Arrange

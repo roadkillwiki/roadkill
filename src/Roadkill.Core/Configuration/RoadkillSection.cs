@@ -192,7 +192,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// The type of logging to do, "XmlFile" by default.
 		/// </summary>
-		[ConfigurationProperty("logging", IsRequired = false, DefaultValue = "XmlFile")]
+		[ConfigurationProperty("logging", IsRequired = false, DefaultValue = "None")]
 		public string Logging
 		{
 			get { return (string)this["logging"]; }
