@@ -7,6 +7,7 @@ using System.Web;
 using Roadkill.Core.Managers;
 using Roadkill.Core.Security;
 using Roadkill.Core.Logging;
+using System.Collections.Generic;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -32,8 +33,15 @@ namespace Roadkill.Core.Mvc.Controllers
 
 		protected override void OnException(ExceptionContext filterContext)
 		{
-			string actionName = string.Format("{0}.{1}", filterContext.RouteData.Values["controller"].ToString(), filterContext.RouteData.Values["action"].ToString());
-			Log.Error("MVC error caught on {0}: {1}\n{2}", actionName, filterContext.Exception.Message, filterContext.Exception.ToString());
+			// Route data values
+			List<string> routeData = new List<string>();
+			foreach (string key in filterContext.RouteData.Values.Keys)
+			{
+				routeData.Add(string.Format("'{0}' : '{1}'", key, filterContext.RouteData.Values[key]));
+			}
+
+			string routeInfo = string.Join(", ", routeData);
+			Log.Error("MVC error caught. Route data: [{0}] - {1}\n{2}", routeInfo, filterContext.Exception.Message, filterContext.Exception.ToString());
 
 			base.OnException(filterContext);
 		}
