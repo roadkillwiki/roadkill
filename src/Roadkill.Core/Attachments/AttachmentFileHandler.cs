@@ -76,7 +76,7 @@ namespace Roadkill.Core.Attachments
 				}
 				catch (FileNotFoundException ex)
 				{
-					Log.Error(ex, "Unable to find the attachment file");
+					Log.Warn(ex, "Unable to find the attachment file");
 					context.Response.StatusCode = 404;
 					context.Response.End();
 				}
