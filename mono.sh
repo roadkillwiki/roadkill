@@ -16,7 +16,7 @@ sudo rm /var/www/index.html
 
 # Get Roadkill and unzip it
 sudo rm -R /var/www/roadkill/
-sudo wget --no-check-certificate --no-cache https://bitbucket.org/mrshrinkray/roadkill/downloads/Roadkill.mono.1.6.zip
+sudo wget --no-check-certificate --no-cache https://bitbucket.org/mrshrinkray/roadkill/downloads/Roadkill.mono.1.7.zip
 sudo apt-get -y install unzip
 sudo unzip Roadkill.mono.1.6.zip -d /var/www
 

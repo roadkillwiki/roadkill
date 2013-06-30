@@ -505,7 +505,7 @@ namespace Roadkill.Core.Managers
 		}
 
 		/// <summary>
-		/// Adds an IP address after the username for any Appharbor vandalism.
+		/// Adds an IP address after the username for any demo site vandalism.
 		/// </summary>
 		private string AppendIpForDemoSite(string username)
 		{
