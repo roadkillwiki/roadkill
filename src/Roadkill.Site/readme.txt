@@ -5,7 +5,10 @@ These are the steps to create a new download version:
 Firstly for the version being released: 
 	Commit to Hg 
 	Use hg tag v1.x.x for the version.
+	Use hg push
 	Use hg branch v1.x.x for the version (as a branch is far easier to apply fixes to later)
+	Use hg commit
+	Use hg push
 
 1) Update the version in AssemblyInfo.cs in Core and Site
 2) Compile using the 'Download' configuration
