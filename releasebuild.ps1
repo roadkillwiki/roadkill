@@ -41,7 +41,7 @@ msdeploy -verb:sync -source:contentPath=$packageSource -dest:contentPath=$packag
 # ---- Copy licence + text files
 copy -Force textfiles\licence.txt _WEBSITE\
 copy -Force textfiles\install.txt _WEBSITE\
-copy -Force textfiles\upgrade.txt _WEBSITE\
+copy -Force textfiles\upgrading.txt _WEBSITE\
 
 # ---- Copy missing DLL dependencies that the publish doesn't add
 copy -Force lib\Microsoft.Web.Administration.dll _WEBSITE\bin
