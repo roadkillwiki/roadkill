@@ -1,0 +1,10 @@
+Upgrading to version 1.7
+==================================
+
+Before upgrading, please make a back up of your database and website. To upgrade, simply copy all the files except the web.config file.
+
+The custom tokens filename has changed, and is now known as "customvariables.xml" in the App_Data folder.
+If you have changed your tokens.xml, you will need to rename this to "customvariables.xml".
+
+Once everything is complete, you should update your web.config so the roadkill section's
+version="1.6.0.0" is set to version="1.7.0.0".

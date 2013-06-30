@@ -1,21 +1,20 @@
 ﻿Roadkill .NET Wiki engine
 http://roadkill.codeplex.com
-Version 1.6
+Version 1.7
 
 Pre-requisites:
 ------------------------
-* .NET Framework 4.0
-* IIS7+ is preferred, the app has not been tested with IIS6
+* Microsoft .NET Framework 4.0
+* Microsoft IIS7/IIS 7.5 Express or later (there is also limited Mono on Linux with Apache support).
 
 Installation
 ------------------------
+1) Create your website or virtual directory in IIS.
+2) If using SQL Server: create a database and assign it a login.
+3) Copy the contents of the roadkill folder to the IIS directory you previously made.
+4) Point your browser to the URL you are using - the installer will do the rest for you.
 
-1) Create your website or virtual directory in IIS
-2) If using SQL Server: create a database and assign it a login (dbo is best)
-3) Copy the contents of this folder to the IIS directory you previously made.
-4) Point your browser to the URL - the installer will do the rest for you.
-5) If you want to use SQLite for your database, copy either App_Data\SQLiteBinaries\x64\SQLite.Interop.dll
- or App_Data\SQLiteBinaries\x86\SQLite.Interop.dll to your bin folder, depending which architecture you're running
-Roadkill on.
+Your application pool should be run as a user who has permission to write to the site directory.
+This is usually done for you already by IIS with the IUSR user.
 
 Please report any bugs, issues or suggestions at http://www.bitbucket.org/mrshrinkray/roadkill/issues
