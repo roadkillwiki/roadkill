@@ -265,7 +265,14 @@ namespace Roadkill.Core.Mvc.Controllers
 					foreach (PageSummary summary in pages.OrderBy(p => p.Title))
 					{
 						// Ensure the filename is unique as its title based.
-						string filePath = summary.Title.AsValidFilename();
+						// Simply replace invalid path characters with a '-'
+						string filePath = summary.Title;
+						char[] invalidChars = Path.GetInvalidFileNameChars();
+						foreach (char item in invalidChars)
+						{
+							filePath = filePath.Replace(item, '-');
+						}
+
 						if (filenames.Contains(filePath))
 							filePath += (++index) + "";
 						else

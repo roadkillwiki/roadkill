@@ -276,6 +276,9 @@
     <Compile Include="Smoke\CanaryTests.cs" />
     <Compile Include="Smoke\DemoSiteTests.cs" />
     <Compile Include="Unit\Attachments\AttachmentPathUtilTests.cs" />
+    <Compile Include="Unit\Attachments\AttachmentFileHandlerTests.cs" />
+    <Compile Include="Unit\Attachments\ResponseWrapperMock.cs" />
+    <Compile Include="Unit\Extensions\ExtensionsTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\HelpControllerTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\PageSummaryValidationTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\FileSummaryTests.cs" />

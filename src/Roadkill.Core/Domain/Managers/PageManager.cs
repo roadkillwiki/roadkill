@@ -179,7 +179,7 @@ namespace Roadkill.Core.Managers
 
 					foreach (string item in tagList)
 					{
-						foreach (string tagName in item.ParseTags())
+						foreach (string tagName in PageSummary.ParseTags(item))
 						{
 							if (!string.IsNullOrEmpty(tagName))
 							{
