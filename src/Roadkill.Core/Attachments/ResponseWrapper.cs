@@ -92,7 +92,7 @@ namespace Roadkill.Core.Attachments
 					modifiedSinceDate = modifiedSinceDate.ToUniversalTime();
 
 					DateTime lastWriteTime = new DateTime(fileDate.Year, fileDate.Month, fileDate.Day, fileDate.Hour, fileDate.Minute, fileDate.Second, 0, DateTimeKind.Utc);
-					if (lastWriteTime >= modifiedSinceDate)
+					if (lastWriteTime != modifiedSinceDate)
 						status = 200;
 				}
 			}

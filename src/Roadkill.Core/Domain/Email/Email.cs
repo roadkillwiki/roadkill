@@ -8,6 +8,8 @@ using System.Web;
 using Roadkill.Core.Configuration;
 using System.Configuration;
 using Roadkill.Core.Mvc.ViewModels;
+using System.IO;
+using System.Globalization;
 
 namespace Roadkill.Core
 {
@@ -48,22 +50,14 @@ namespace Roadkill.Core
 		/// Initializes a new instance of the <see cref="Email"/> class.
 		/// </summary>
 		/// <param name="summary">The summary.</param>
-		/// <param name="plainTextView">The plain text view.</param>
-		/// <param name="htmlView">The HTML view.</param>
-		public Email(UserSummary summary, string plainTextView, string htmlView, ApplicationSettings applicationSettings, SiteSettings siteSettings)
+		/// <param name="applicationSettings"></param>
+		/// <param name="siteSettings"></param>
+		public Email(UserSummary summary, ApplicationSettings applicationSettings, SiteSettings siteSettings)
 		{
 			if (summary == null || (string.IsNullOrEmpty(summary.ExistingEmail) && string.IsNullOrEmpty(summary.NewEmail)))
 				throw new EmailException(null, "The UserSummary for the email is null or has an empty email");
 
-			if (string.IsNullOrEmpty(plainTextView))
-				throw new EmailException(null, "No plain text view can be found for {0}", GetType().Name);
-
-			if (string.IsNullOrEmpty(htmlView))
-				throw new EmailException(null, "No HTML view can be found for {0}", GetType().Name);
-
 			UserSummary = summary;
-			PlainTextView = plainTextView;
-			HtmlView = htmlView;
 			ApplicationSettings = applicationSettings;
 			SiteSettings = siteSettings;
 
@@ -102,14 +96,18 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Sends a notification email to the provided address, using the template provided.
 		/// </summary>
-		/// <param name="toAddress"></param>
-		/// <param name="summary"></param>
 		/// <param name="emailTemplate"></param>
-		public static void Send(Email emailTemplate)
+		public virtual void Send()
 		{
-			string emailTo = emailTemplate.UserSummary.ExistingEmail;
+			if (string.IsNullOrEmpty(PlainTextView))
+				throw new EmailException(null, "No plain text view can be found for {0}", GetType().Name);
+
+			if (string.IsNullOrEmpty(HtmlView))
+				throw new EmailException(null, "No HTML view can be found for {0}", GetType().Name);
+
+			string emailTo = UserSummary.ExistingEmail;
 			if (string.IsNullOrEmpty(emailTo))
-				emailTo = emailTemplate.UserSummary.NewEmail;
+				emailTo = UserSummary.NewEmail;
 
 			if (string.IsNullOrEmpty(emailTo))
 				throw new EmailException(null, "The UserSummary has an empty current or new email address");
@@ -119,8 +117,8 @@ namespace Roadkill.Core
 			message.To.Add(emailTo);
 			message.Subject = "Please confirm your email address";
 			
-			AlternateView htmlView = AlternateView.CreateAlternateViewFromString(emailTemplate.HtmlView, new ContentType("text/html"));
-			AlternateView plainTextView = AlternateView.CreateAlternateViewFromString(emailTemplate.PlainTextView, new ContentType("text/plain"));		
+			AlternateView htmlView = AlternateView.CreateAlternateViewFromString(HtmlView, new ContentType("text/html"));
+			AlternateView plainTextView = AlternateView.CreateAlternateViewFromString(PlainTextView, new ContentType("text/plain"));		
 			message.AlternateViews.Add(htmlView);
 			message.AlternateViews.Add(plainTextView);
 
@@ -136,6 +134,27 @@ namespace Roadkill.Core
 				client.PickupDirectoryLocation = pickupRoot;
 			}
 			client.Send(message);
+		}
+
+		/// <summary>
+		/// Reads the text file provided from the email templates directory.
+		/// If a culture-specific version of the file exists, e.g. /fr/signup.txt then this is used instead.
+		/// </summary>
+		protected string ReadTemplateFile(string filename)
+		{
+			string templatePath = ApplicationSettings.EmailTemplateFolder;
+			string textfilePath = Path.Combine(templatePath, filename);
+			string culturePath = Path.Combine(templatePath, CultureInfo.CurrentUICulture.Name);
+
+			// If there's templates for the current culture, then use those instead
+			if (Directory.Exists(culturePath))
+			{
+				string culturePlainTextFile = Path.Combine(culturePath, filename);
+				if (File.Exists(culturePlainTextFile))
+					textfilePath = culturePlainTextFile;
+			}
+
+			return File.ReadAllText(textfilePath);
 		}
 	}
 }

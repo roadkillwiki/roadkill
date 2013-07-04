@@ -18,33 +18,18 @@ namespace Roadkill.Core
 		private static string _htmlContent;
 		private static string _plainTextContent;
 
-		static ResetPasswordEmail()
-		{
-			string templatePath = HttpContext.Current.Server.MapPath("~/App_Data/EmailTemplates/");
-			string culturePath = Path.Combine(templatePath, CultureInfo.CurrentUICulture.Name);
-
-			string htmlFile = Path.Combine(templatePath, "ResetPassword.html");
-			string plainTextFile = Path.Combine(templatePath, "ResetPassword.txt");
-
-			// If there's templates for the current culture, then use those instead
-			if (Directory.Exists(culturePath))
-			{
-				string cultureHtmlFile = Path.Combine(culturePath, "ResetPassword.html");
-				if (File.Exists(cultureHtmlFile))
-					htmlFile = cultureHtmlFile;
-
-				string culturePlainTextFile = Path.Combine(culturePath, "ResetPassword.txt");
-				if (File.Exists(culturePlainTextFile))
-					plainTextFile = culturePlainTextFile;
-			}
-
-			_htmlContent = File.ReadAllText(htmlFile);
-			_plainTextContent = File.ReadAllText(plainTextFile);
-		}
-
 		public ResetPasswordEmail(UserSummary summary, ApplicationSettings applicationSettings, SiteSettings siteSettings)
-			: base(summary, _plainTextContent, _htmlContent, applicationSettings, siteSettings)
+			: base(summary, applicationSettings, siteSettings)
 		{
+			// Thread safety should not be an issue here
+			if (string.IsNullOrEmpty(_plainTextContent))
+				_plainTextContent = ReadTemplateFile("ResetPassword.txt");
+
+			if (string.IsNullOrEmpty(_htmlContent))
+				_htmlContent = ReadTemplateFile("ResetPassword.html");
+
+			PlainTextView = _plainTextContent;
+			HtmlView = _htmlContent;
 		}
 	}
 }
