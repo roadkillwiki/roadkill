@@ -18,8 +18,8 @@ namespace Roadkill.Core
 		private static string _htmlContent;
 		private static string _plainTextContent;
 
-		public ResetPasswordEmail(UserSummary summary, ApplicationSettings applicationSettings, SiteSettings siteSettings)
-			: base(summary, applicationSettings, siteSettings)
+		public ResetPasswordEmail(ApplicationSettings applicationSettings, SiteSettings siteSettings)
+			: base(applicationSettings, siteSettings)
 		{
 			// Thread safety should not be an issue here
 			if (string.IsNullOrEmpty(_plainTextContent))

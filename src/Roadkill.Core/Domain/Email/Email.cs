@@ -52,58 +52,53 @@ namespace Roadkill.Core
 		/// <param name="summary">The summary.</param>
 		/// <param name="applicationSettings"></param>
 		/// <param name="siteSettings"></param>
-		public Email(UserSummary summary, ApplicationSettings applicationSettings, SiteSettings siteSettings)
+		public Email(ApplicationSettings applicationSettings, SiteSettings siteSettings)
 		{
-			if (summary == null || (string.IsNullOrEmpty(summary.ExistingEmail) && string.IsNullOrEmpty(summary.NewEmail)))
-				throw new EmailException(null, "The UserSummary for the email is null or has an empty email");
-
-			UserSummary = summary;
 			ApplicationSettings = applicationSettings;
 			SiteSettings = siteSettings;
-
-			ReplaceTokens(summary);	
 		}
 
 		/// <summary>
 		/// Replaces all tokens in the html and plain text views.
 		/// </summary>
 		/// <param name="summary"></param>
-		protected virtual void ReplaceTokens(UserSummary summary)
+		protected virtual string ReplaceTokens(UserSummary summary, string template)
 		{
-			HtmlView = HtmlView.Replace("{FIRSTNAME}", summary.Firstname);
-			HtmlView = HtmlView.Replace("{LASTNAME}", summary.Lastname);
-			HtmlView = HtmlView.Replace("{EMAIL}", summary.NewEmail);
-			HtmlView = HtmlView.Replace("{USERNAME}", summary.NewUsername);
-			HtmlView = HtmlView.Replace("{SITEURL}", SiteSettings.SiteUrl);
-			HtmlView = HtmlView.Replace("{ACTIVATIONKEY}", summary.ActivationKey);
-			HtmlView = HtmlView.Replace("{RESETKEY}", summary.PasswordResetKey);
-			HtmlView = HtmlView.Replace("{USERID}", summary.Id.ToString());
-			HtmlView = HtmlView.Replace("{SITENAME}", SiteSettings.SiteName);
-			HtmlView = HtmlView.Replace("{REQUEST_IP}", HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"]);
+			string result = template;
 
-			PlainTextView = PlainTextView.Replace("{FIRSTNAME}", summary.Firstname);
-			PlainTextView = PlainTextView.Replace("{LASTNAME}", summary.Lastname);
-			PlainTextView = PlainTextView.Replace("{EMAIL}", summary.NewEmail);
-			PlainTextView = PlainTextView.Replace("{USERNAME}", summary.NewUsername);
-			PlainTextView = PlainTextView.Replace("{SITEURL}", SiteSettings.SiteUrl);
-			PlainTextView = PlainTextView.Replace("{ACTIVATIONKEY}", summary.ActivationKey);
-			PlainTextView = PlainTextView.Replace("{RESETKEY}", summary.PasswordResetKey);
-			PlainTextView = PlainTextView.Replace("{USERID}", summary.Id.ToString());
-			PlainTextView = PlainTextView.Replace("{SITENAME}", SiteSettings.SiteName);
-			PlainTextView = PlainTextView.Replace("{REQUEST_IP}", HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"]);
+			result = result.Replace("{FIRSTNAME}", summary.Firstname);
+			result = result.Replace("{LASTNAME}", summary.Lastname);
+			result = result.Replace("{EMAIL}", summary.NewEmail);
+			result = result.Replace("{USERNAME}", summary.NewUsername);
+			result = result.Replace("{SITEURL}", SiteSettings.SiteUrl);
+			result = result.Replace("{ACTIVATIONKEY}", summary.ActivationKey);
+			result = result.Replace("{RESETKEY}", summary.PasswordResetKey);
+			result = result.Replace("{USERID}", summary.Id.ToString());
+			result = result.Replace("{SITENAME}", SiteSettings.SiteName);
+
+			if (HttpContext.Current != null)
+				result = result.Replace("{REQUEST_IP}", HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"]);
+
+			return result;
 		}
 
 		/// <summary>
 		/// Sends a notification email to the provided address, using the template provided.
 		/// </summary>
 		/// <param name="emailTemplate"></param>
-		public virtual void Send()
+		public virtual void Send(UserSummary summary)
 		{
+			if (summary == null || (string.IsNullOrEmpty(summary.ExistingEmail) && string.IsNullOrEmpty(summary.NewEmail)))
+				throw new EmailException(null, "The UserSummary for the email is null or has an empty email");
+
 			if (string.IsNullOrEmpty(PlainTextView))
 				throw new EmailException(null, "No plain text view can be found for {0}", GetType().Name);
 
 			if (string.IsNullOrEmpty(HtmlView))
 				throw new EmailException(null, "No HTML view can be found for {0}", GetType().Name);
+
+			string plainTextContent = ReplaceTokens(summary, PlainTextView);
+			string htmlContent = ReplaceTokens(summary, HtmlView);
 
 			string emailTo = UserSummary.ExistingEmail;
 			if (string.IsNullOrEmpty(emailTo))
@@ -117,8 +112,8 @@ namespace Roadkill.Core
 			message.To.Add(emailTo);
 			message.Subject = "Please confirm your email address";
 			
-			AlternateView htmlView = AlternateView.CreateAlternateViewFromString(HtmlView, new ContentType("text/html"));
-			AlternateView plainTextView = AlternateView.CreateAlternateViewFromString(PlainTextView, new ContentType("text/plain"));		
+			AlternateView plainTextView = AlternateView.CreateAlternateViewFromString(plainTextContent, new ContentType("text/plain"));
+			AlternateView htmlView = AlternateView.CreateAlternateViewFromString(htmlContent, new ContentType("text/html"));
 			message.AlternateViews.Add(htmlView);
 			message.AlternateViews.Add(plainTextView);
 
@@ -137,7 +132,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Reads the text file provided from the email templates directory.
+		/// Reads the text file prowvided from the email templates directory.
 		/// If a culture-specific version of the file exists, e.g. /fr/signup.txt then this is used instead.
 		/// </summary>
 		protected string ReadTemplateFile(string filename)
