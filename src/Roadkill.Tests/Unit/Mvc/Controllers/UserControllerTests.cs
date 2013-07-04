@@ -62,7 +62,7 @@ namespace Roadkill.Tests.Unit
 		public void Activate_With_Valid_Key_Returns_View()
 		{
 			// Arrange
-			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager);
+			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager, null, null);
 			userController.SetFakeControllerContext();
 
 			// Act	
@@ -76,7 +76,7 @@ namespace Roadkill.Tests.Unit
 		public void Activate_With_Invalid_Key_Should_Have_Model_Error()
 		{
 			// Arrange
-			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager);
+			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager, null, null);
 			userController.SetFakeControllerContext();
 
 			// Act	
@@ -91,7 +91,7 @@ namespace Roadkill.Tests.Unit
 		public void Activate_With_Empty_Key_Returns_RedirectResult()
 		{
 			// Arrange
-			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager);
+			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager, null, null);
 			userController.SetFakeControllerContext();
 
 			// Act	
@@ -109,7 +109,7 @@ namespace Roadkill.Tests.Unit
 		public void CompleteResetPassword_Has_Correct_Model_And_ActionResult()
 		{
 			// Arrange
-			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager);
+			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager, null, null);
 			userController.SetFakeControllerContext();
 
 			// Act	
@@ -133,7 +133,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_settings.UseWindowsAuthentication = true;
-			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager);
+			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager, null, null);
 			userController.SetFakeControllerContext();
 
 			// Act	
@@ -152,7 +152,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_settings.UseWindowsAuthentication = false;
-			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager);
+			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager, null, null);
 			userController.SetFakeControllerContext();
 
 			// Act	
@@ -169,7 +169,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_settings.UseWindowsAuthentication = false;
-			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager);
+			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager, null, null);
 			userController.SetFakeControllerContext();
 
 			// Act	
@@ -184,7 +184,7 @@ namespace Roadkill.Tests.Unit
 		public void Logout_Should_Have_RedirectResult()
 		{
 			// Arrange
-			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager);
+			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager, null, null);
 			userController.SetFakeControllerContext();
 
 			// Act	
@@ -203,7 +203,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_settings.UseWindowsAuthentication = false;
-			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager);
+			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager, null, null);
 			userController.SetFakeControllerContext();
 
 			// Act
@@ -242,7 +242,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_settings.UseWindowsAuthentication = true;
-			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager);
+			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager, null, null);
 			userController.SetFakeControllerContext();
 
 			// Act	
@@ -274,7 +274,7 @@ namespace Roadkill.Tests.Unit
 		public void Signup_When_LoggedIn_Should_Return_RedirectResult()
 		{
 			// Arrange
-			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager);
+			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager, null, null);
 			userController.SetFakeControllerContext();
 
 			// Act	
@@ -295,7 +295,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_repository.SiteSettings.AllowUserSignup = true;
 			_settings.UseWindowsAuthentication = true;
-			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager);
+			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager, null, null);
 			userController.SetFakeControllerContext();
 
 			// Act	
@@ -314,7 +314,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.AllowUserSignup = false;
-			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager);
+			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager, null, null);
 			userController.SetFakeControllerContext();
 
 			// Act	
@@ -329,11 +329,55 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		[Ignore]
 		public void Signup_Should_Send_Email()
 		{
-			// Needs a refactor of the Email class, so it's turtles all the way down
+			// Arrange
+			SiteSettings siteSettings = _settingsManager.GetSiteSettings();
+			siteSettings.AllowUserSignup = true;
+
+			_userManager.Setup(x => x.Signup(It.IsAny<UserSummary>(), null)).Returns(Guid.NewGuid().ToString());
 			
+			FakeEmail signupEmail = new FakeEmail(_settings, siteSettings);
+			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager, signupEmail, null);
+			userController.SetFakeControllerContext();
+
+			UserSummary summary = new UserSummary();
+			summary.NewEmail = "blah@localhost";
+			summary.Password = "password";
+			summary.PasswordConfirmation = "password";
+
+			// Act	
+			ViewResult result = userController.Signup(summary, null) as ViewResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result.ViewName, Is.EqualTo("SignupComplete"));
+			Assert.That(signupEmail.IsSent, Is.True);
+			Assert.That(signupEmail.Summary, Is.EqualTo(summary));
+		}
+
+		[Test]
+		public void Signup_Should_Not_Send_Email_With_Invalid_ModelState()
+		{
+			// Arrange
+			SiteSettings siteSettings = _settingsManager.GetSiteSettings();
+			siteSettings.AllowUserSignup = true;
+
+			FakeEmail signupEmail = new FakeEmail(_settings, siteSettings);
+			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager, signupEmail, null);
+			userController.SetFakeControllerContext();
+			userController.ModelState.AddModelError("key", "this is used to force ModelState.IsValid to false");
+
+			UserSummary summary = new UserSummary();
+
+			// Act	
+			ViewResult result = userController.Signup(summary, null) as ViewResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result.ViewName, Is.Not.EqualTo("Signup"));
+			Assert.That(userController.ModelState.Count, Is.EqualTo(1));
+			Assert.That(signupEmail.IsSent, Is.False);
 		}
 	}
 }
