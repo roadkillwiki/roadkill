@@ -129,7 +129,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			DateTime fileLastWritten = DateTime.Today.AddDays(-1);
-			string ifModifiedSince = DateTime.Today.ToString("r"); // last time it was checked
+			string ifModifiedSince = fileLastWritten.ToString("r"); // last modified stores the modified/write time of the file, i.e. it's exact
 
 			// Act
 			int status = ResponseWrapper.GetStatusCodeForCache(fileLastWritten, ifModifiedSince);

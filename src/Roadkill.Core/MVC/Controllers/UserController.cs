@@ -106,9 +106,15 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
-			// Show a plain login page if the session has ended inside the file explorer dialog
-			if (Request.QueryString["ReturnUrl"] != null && Request.QueryString["ReturnUrl"].ToLower().Contains("files"))
-				return View("BlankLogin");
+			// Show a plain login page if the session has ended inside the file explorer/help dialogs
+			if (Request.QueryString["ReturnUrl"] != null)
+			{
+				if (Request.QueryString["ReturnUrl"].ToLower().Contains("/filemanager/select") ||
+					Request.QueryString["ReturnUrl"].ToLower().Contains("/help"))
+				{
+					return View("BlankLogin");
+				}
+			}
 
 			return View();
 		}
@@ -258,7 +264,8 @@ namespace Roadkill.Core.Mvc.Controllers
 						// Everything worked, send the email
 						user.PasswordResetKey = key;
 						SiteSettings siteSettings = SiteSettingsManager.GetSiteSettings();
-						Email.Send(new ResetPasswordEmail(user.ToSummary(), ApplicationSettings, siteSettings));
+						ResetPasswordEmail resetEmail = new ResetPasswordEmail(user.ToSummary(), ApplicationSettings, siteSettings);
+						resetEmail.Send();
 
 						return View("ResetPasswordSent",(object) email);
 					}
@@ -286,7 +293,8 @@ namespace Roadkill.Core.Mvc.Controllers
 			}
 
 			SiteSettings siteSettings = SiteSettingsManager.GetSiteSettings();
-			Email.Send(new SignupEmail(summary, ApplicationSettings, siteSettings));
+			SignupEmail signupEmail = new SignupEmail(summary, ApplicationSettings, siteSettings);
+			signupEmail.Send();
 
 			TempData["resend"] = true;
 			return View("SignupComplete", summary);
@@ -342,7 +350,8 @@ namespace Roadkill.Core.Mvc.Controllers
 							else
 							{
 								// Send the confirm email
-								Email.Send(new SignupEmail(summary, ApplicationSettings, siteSettings));
+								SignupEmail signupEmail = new SignupEmail(summary, ApplicationSettings, siteSettings);
+								signupEmail.Send();
 								return View("SignupComplete", summary);
 							}
 						}

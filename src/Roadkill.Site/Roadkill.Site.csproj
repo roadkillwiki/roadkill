@@ -640,7 +640,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Internal\Search\" />
-    <Folder Include="Config\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

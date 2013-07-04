@@ -333,6 +333,7 @@ namespace Roadkill.Tests.Unit
 		public void Signup_Should_Send_Email()
 		{
 			// Needs a refactor of the Email class, so it's turtles all the way down
+			
 		}
 	}
 }
