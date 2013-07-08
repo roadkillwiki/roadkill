@@ -239,6 +239,10 @@ namespace Roadkill.Core.Managers
 				}
 
 				Repository.DeletePage(page);
+
+				// Remove everything for now, to avoid reciprocal link issues
+				_listCache.RemoveAll();
+				_pageSummaryCache.RemoveAll();
 			}
 			catch (DatabaseException ex)
 			{
