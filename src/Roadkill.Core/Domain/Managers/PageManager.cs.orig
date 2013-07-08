@@ -102,7 +102,7 @@ namespace Roadkill.Core.Managers
 					{
 						IEnumerable<Page> pages = Repository.AllPages().OrderBy(p => p.Title);
 						summaries = from page in pages
-									select Repository.GetLatestPageContent(page.Id).ToSummary();
+									select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
 
 						_listCache.Add<PageSummary>("allpages.with.content", summaries);
 					}
@@ -239,6 +239,10 @@ namespace Roadkill.Core.Managers
 				}
 
 				Repository.DeletePage(page);
+
+				// Remove everything for now, to avoid reciprocal link issues
+				_listCache.RemoveAll();
+				_pageSummaryCache.RemoveAll();
 			}
 			catch (DatabaseException ex)
 			{
@@ -355,12 +359,7 @@ namespace Roadkill.Core.Managers
 				if (page == null)
 					return null;
 				else
-				{
-					PageSummary summary = Repository.GetLatestPageContent(page.Id).ToSummary();
-					summary.ContentAsHtml = _markupConverter.ToHtml(summary.Content);
-
-					return summary;
-				}
+					return Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
 			}
 			catch (DatabaseException ex)
 			{
