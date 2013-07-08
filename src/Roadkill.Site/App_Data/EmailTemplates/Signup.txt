@@ -1,0 +1,5 @@
+﻿Dear {FIRSTNAME} {LASTNAME},
+
+Thank you for registering with {SITENAME}. Your username is {USERNAME}.  To complete the signup process, please enter the link below into your browser to activate your account.
+
+{SITEURL}/user/activate/{ACTIVATIONKEY}

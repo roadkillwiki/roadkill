@@ -1,0 +1,17 @@
+﻿<div id="leftmenu">
+	<ul>
+		<li>@Html.MainPageLink(SiteStrings.Navigation_MainPage,"","")</li>
+		<li>@Html.ActionLink(SiteStrings.Navigation_Categories, "AllTags", "Pages")</li>
+		<li>@Html.ActionLink(SiteStrings.Navigation_AllPages, "AllPages", "Pages")</li>
+	</ul>
+
+			
+	@if (RoadkillContext.IsLoggedIn)
+	{
+	<ul>
+		<li>@Html.NewPageLink("", "")</li>
+		<li>@Html.FileManagerLink("","")</li>
+		@Html.SettingsLink("<li>", "</li>")
+	</ul>
+	}
+</div>
