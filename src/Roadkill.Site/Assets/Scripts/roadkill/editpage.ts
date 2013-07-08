@@ -34,7 +34,7 @@ module Roadkill.Site
 				typeaheadAjaxSource: ROADKILL_TAGAJAXURL,
 				blinkBGColor_1: "#FFFF9C",
 				blinkBGColor_2: "#CDE69C",
-				delimeters: [44, 186, 32], // ',' space
+				delimeters: [44, 186, 32, 9], // ',' space, tab
 				hiddenTagListName: "RawTags",
 				tagCloseIcon: "×", // ˣ or ×
 				preventSubmitOnEnter : false,
@@ -53,6 +53,19 @@ module Roadkill.Site
 
 					return true;
 				}
+			});
+
+			$("#TagsEntry").keydown(function (e)
+			{
+				// Tab adds the tag, but then focuses the textarea
+				var code = e.keyCode || e.which;
+				if (code == "9")
+				{
+					$("#Content").focus();
+					return false;
+				}
+
+				return true;
 			});
 		}
 
