@@ -154,6 +154,11 @@ namespace Roadkill.Core.Configuration
 		public string EditorRoleName { get; set; }
 
 		/// <summary>
+		/// The path to the email templates folder, ~/App_Data/EmailTemplates/ by default.
+		/// </summary>
+		public string EmailTemplateFolder { get; set; }
+
+		/// <summary>
 		/// The file path for the html element white list file.
 		/// </summary>
 		public string HtmlElementWhiteListPath { get; set; }
@@ -264,6 +269,7 @@ namespace Roadkill.Core.Configuration
 			AppDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data");
 			AppDataInternalPath = Path.Combine(AppDataPath, "Internal");
 			CustomTokensPath = Path.Combine(AppDataPath, "customvariables.xml");
+			EmailTemplateFolder = Path.Combine(AppDataPath, "EmailTemplates");
 			HtmlElementWhiteListPath = Path.Combine(AppDataInternalPath, "htmlwhitelist.xml");
 			MinimumPasswordLength = 6;
 			DataStoreType = DataStoreType.SqlServer2008;

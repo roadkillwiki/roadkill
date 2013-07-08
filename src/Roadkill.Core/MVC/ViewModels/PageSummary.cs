@@ -146,7 +146,41 @@ namespace Roadkill.Core.Mvc.ViewModels
 
 		private void ParseRawTags()
 		{
-			_tags = _rawTags.ParseTags().ToList();
+			_tags = ParseTags(_rawTags).ToList();
+		}
+
+		/// <summary>
+		/// Takes a string of tags: "tagone,tagtwo,tag3 " and returns a list.
+		/// </summary>
+		/// <param name="tags"></param>
+		/// <returns></returns>
+		public static IEnumerable<string> ParseTags(string tags)
+		{
+			List<string> tagList = new List<string>();
+			char delimiter = ',';
+
+			if (!string.IsNullOrEmpty(tags))
+			{
+				// For the legacy tag seperator format
+				if (tags.IndexOf(";") != -1)
+					delimiter = ';';
+
+				if (tags.IndexOf(delimiter) != -1)
+				{
+					string[] parts = tags.Split(delimiter);
+					foreach (string item in parts)
+					{
+						if (item != ",")
+							tagList.Add(item);
+					}
+				}
+				else
+				{
+					tagList.Add(tags.TrimEnd());
+				}
+			}
+
+			return tagList;
 		}
 
 		/// <summary>

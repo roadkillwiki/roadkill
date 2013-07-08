@@ -165,7 +165,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ByUser_Should_Contains_ViewData_And_Return_Model_And_Pages()
+		public void ByUser_Should_Contain_ViewData_And_Return_Model_And_Pages()
 		{
 			// Arrange
 			string username = "amazinguser";
@@ -179,6 +179,32 @@ namespace Roadkill.Tests.Unit
 
 			// Act
 			ActionResult result = _pagesController.ByUser(username, false);
+
+			// Assert
+			Assert.That(_pagesController.ViewData.Keys.Count, Is.GreaterThanOrEqualTo(1));
+
+			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
+			IEnumerable<PageSummary> model = result.ModelFromActionResult<IEnumerable<PageSummary>>();
+			Assert.NotNull(model, "Null model");
+			_pageManagerMock.Verify(x => x.AllPagesCreatedBy(username));
+		}
+
+		[Test]
+		public void ByUser_With_Base64_Username_Should_Contain_ViewData_And_Return_Model_And_Pages()
+		{
+			// Arrange
+			string username = @"mydomain\Das ádmin``";
+			string base64Username = "bXlkb21haW5cRGFzIOFkbWluYGA=";
+
+			Page page1 = AddDummyPage1();
+			page1.CreatedBy = username;
+			PageContent page1Content = _repository.PageContents.First(p => p.Page.Id == page1.Id);
+
+			Page page2 = AddDummyPage2();
+			page2.CreatedBy = username;
+
+			// Act
+			ActionResult result = _pagesController.ByUser(base64Username, true);
 
 			// Assert
 			Assert.That(_pagesController.ViewData.Keys.Count, Is.GreaterThanOrEqualTo(1));
