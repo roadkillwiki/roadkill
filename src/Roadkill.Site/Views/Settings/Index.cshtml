@@ -1,0 +1,178 @@
+﻿@model SettingsSummary
+
+@{ 
+	ViewBag.Title = SiteStrings.SiteSettings_Configuration_Title;
+}
+@Url.CssLink("validationEngine.jquery.css")
+@Url.ScriptLinkForValidationLocalization()
+
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		$("input[rel=popover][type!=checkbox]").popover({ placement: "right", trigger: "hover", html: true });
+		$("input[type=checkbox][rel=popover],select[rel=popover]").popover({ placement: "right", trigger: "hover", html: true });
+
+		toggleUserSettings();
+		//toastr.options  = { "positionClass": "toast-top-full-width" };
+
+		$("form").validationEngine();
+		$("#UseWindowsAuth").click(function ()
+		{
+			toggleUserSettings();
+		});
+
+
+		$("#testdbconnection").click(function()
+		{
+            $("#db-loading").show();
+			$.get("@(Url.Action("TestDatabaseConnection","Install"))",
+					{ 
+						"connectionString" : $("#ConnectionString").val(),
+						"databaseType": $("#DataStoreTypeName").val()
+					 },
+					function(data)
+					{
+                        $("#db-loading").hide();
+						if (data.Success)
+						{
+							toastr.success("Database connection was successful.");
+						}
+						else
+						{
+							toastr.error("Database connection failed: <br/>" + data.ErrorMessage);
+						}
+					});
+		});
+		$("#testattachments").click(function() {
+			$.get("@(Url.Action("TestAttachments","Install"))",
+				{ "folder" : $("#AttachmentsFolder").val() },
+					function(data) {
+						if (data.Success)
+						{
+							toastr.success("Success! The directory exists and can be written to.");
+						}
+						else
+						{
+							toastr.error("Attachments directory failed: <br/>" + data.ErrorMessage);
+						}
+					});
+		 });
+	});
+
+	function toggleUserSettings()
+	{
+		if($("#UseWindowsAuth").is(":checked"))
+		{
+			$("#aspnetuser-settings").hide();
+			$("#ldapsettings").show();
+		}
+		else
+		{
+			$("#ldapsettings").hide();
+			$("#aspnetuser-settings").show();
+		}
+	}
+</script>
+@Html.Partial("SettingsMenu", ViewData)
+
+@Html.ValidationSummary("Unable to save the settings:", new { @class = "alert alert-block alert-error fade in", data_dismiss = "alert" })
+
+@using (Html.BeginForm())
+{
+<div id="configuration-container">
+	<fieldset>
+		<legend>@SiteStrings.SiteSettings_Configuration_Site</legend>
+		<label for="SiteName">@SiteStrings.SiteSettings_Configuration_SiteName</label>
+		@(Html.TextBoxFor(s => s.SiteName, new { @class = "validate[required]", rel="popover", data_content=SiteStrings.SiteSettings_Configuration_SiteName_Help }))
+
+		<label for="SiteUrl">@SiteStrings.SiteSettings_Configuration_SiteUrl</label>
+		@(Html.TextBoxFor(s => s.SiteUrl, new { @class = "longtextbox validate[required]", rel="popover", data_content=SiteStrings.SiteSettings_Configuration_SiteUrl_Help }))
+	</fieldset>
+
+	<fieldset>
+		<legend>@SiteStrings.SiteSettings_Configuration_Database</legend>
+
+		<label for="DatabaseType">@SiteStrings.SiteSettings_Configuration_DatabaseType</label>
+		@Html.DropDownListFor(x => x.DataStoreTypeName, Html.DatabaseTypesAvailable(Model), new { rel = "popover", data_content = SiteStrings.SiteSettings_Configuration_DatabaseType_Help })
+		&nbsp;&nbsp;<input id="testdbconnection" class="btn test-button" type="button" value="@InstallStrings.Shared_TestButton" />
+		<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/loading.gif"))" border="0" alt="loading" /></span>
+
+		<label for="ConnectionString">@SiteStrings.SiteSettings_Configuration_DatabaseConnectionString</label>
+		@(Html.TextBoxFor(s => s.ConnectionString, new { @class = "longtextbox validate[required]", rel="popover", data_content=SiteStrings.SiteSettings_Configuration_DatabaseConnectionString_Help }))	
+	</fieldset>
+
+	<fieldset>
+		<legend>@SiteStrings.SiteSettings_Configuration_Security</legend>
+
+		<label for="UseWindowsAuth" class="checkbox">@SiteStrings.SiteSettings_Configuration_UseWindowsAuth
+		@(Html.CheckBoxFor(s => s.UseWindowsAuth, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_UseWindowsAuth_Help }))
+		</label>
+
+		<!-- SQL users -->
+		<div id="aspnetuser-settings" class="hidden">
+			<label for="AllowUserSignup" class="checkbox">@SiteStrings.SiteSettings_Configuration_AllowUserSignups
+			@(Html.CheckBoxFor(s => s.AllowUserSignup, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_AllowUserSignups_Help }))
+			</label>
+
+			<label for="IsRecaptchaEnabled" class="checkbox">@SiteStrings.SiteSettings_Configuration_EnableRecaptcha
+			@Html.CheckBoxFor(s => s.IsRecaptchaEnabled, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_EnableRecaptcha_Help })
+			</label>
+
+			<label for="RecaptchaPrivateKey">@SiteStrings.SiteSettings_Configuration_RecaptchaPrivateKey</label>
+			@Html.TextBoxFor(s => s.RecaptchaPrivateKey, new { @class="longtextbox", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_RecaptchaPrivateKey_Help })
+
+			<label for="RecaptchaPrivateKey">@SiteStrings.SiteSettings_Configuration_RecaptchaPublicKey</label>
+			@Html.TextBoxFor(s => s.RecaptchaPublicKey, new { @class="longtextbox", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_RecaptchaPublicKey_Help })
+		</div>
+
+		<!-- LDAP users -->
+		<div id="ldapsettings" class="hidden">
+			<label for="LdapConnectionString">@SiteStrings.SiteSettings_Configuration_AD_Connection</label>
+			@Html.TextBoxFor(s => s.LdapConnectionString, new { @class = "longtextbox validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_AD_Connection_Help })
+
+			<label for="LdapUsername">@SiteStrings.SiteSettings_Configuration_AD_Username</label>
+			@Html.TextBoxFor(s => s.LdapUsername, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_AD_Username_Help })
+
+			<label for="LdapPassword">@SiteStrings.SiteSettings_Configuration_AD_Password</label>
+			@Html.TextBoxFor(s => s.LdapPassword, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_AD_Password_Help })
+		</div>
+		
+		<label for="EditorRoleName">@SiteStrings.SiteSettings_Configuration_EditorRole</label>
+		@Html.TextBoxFor(s => s.EditorRoleName, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_EditorRole_Help })
+
+		<label for="AdminRoleName">@SiteStrings.SiteSettings_Configuration_AdminRole</label>
+		@Html.TextBoxFor(s => s.AdminRoleName, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_AdminRole_Help })
+	</fieldset>
+	
+	<fieldset>
+		<legend>@SiteStrings.SiteSettings_Configuration_General</legend>
+
+		<label for="MarkupType">@SiteStrings.SiteSettings_Configuration_MarkupType</label>
+		@Html.DropDownListFor(x => x.MarkupType, new SelectList(Model.MarkupTypesAvailable, Model.MarkupType), new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_MarkupType_Help })
+	
+		<label for="Theme">@SiteStrings.SiteSettings_Configuration_Theme</label>
+		@Html.DropDownListFor(x => x.Theme, new SelectList(Model.ThemesAvailable, Model.Theme), new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Theme_Help })
+
+		<label for="AttachmentsFolder">@SiteStrings.SiteSettings_Configuration_Attachments</label>
+		@Html.TextBoxFor(s => s.AttachmentsFolder, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Attachments_Help })
+		&nbsp;&nbsp;<input id="testattachments" class="btn test-button" type="button" value="@InstallStrings.Shared_TestButton" />
+		<br /><span class="label label-info">This directory maps to @Model.AttachmentsDirectoryPath</span>
+		<br /><br />
+
+		<label for="AllowedFileTypes">@SiteStrings.SiteSettings_Configuration_Extensions</label>
+		@Html.TextBoxFor(s => s.AllowedFileTypes, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Extensions_Help })
+
+		<div class="bold">@SiteStrings.SiteSettings_Configuration_CachingTitle</div>
+		<label for="UseObjectCache" class="checkbox">@SiteStrings.SiteSettings_Configuration_ObjectCaching
+		@Html.CheckBoxFor(s => s.UseObjectCache, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_ObjectCaching_Help })
+		</label>
+
+		<label for="UseBrowserCache" class="checkbox">@SiteStrings.SiteSettings_Configuration_BrowserCaching
+		@Html.CheckBoxFor(s => s.UseBrowserCache, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_BrowserCaching_Help })
+		</label>
+	</fieldset>
+	
+	<br />
+	<input type="submit" class="btn btn-primary btn-large" value="@SiteStrings.Button_Save" />
+</div>
+}
