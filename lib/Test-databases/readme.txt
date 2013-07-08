@@ -1,0 +1,1 @@
+The database files in this folder all have schema and data in them, used for testing.

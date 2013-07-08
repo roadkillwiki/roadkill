@@ -1,0 +1,127 @@
+﻿; Note: any line starting with ; is a comment!
+; This file contains Roadkill Install page localization strings.
+; 
+; Notes for translators:
+; - Please make a copy of this file before editing. A list of cultures/languages can be found here:
+; - http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo(v=vs.71).aspx
+; 
+; Notes for developers:
+; - This file should be turned into a resx file by running resgen /compile InstallStrings.txt,InstallStrings.resx in a VS command prompt.
+; - The name of this file should be in the format "InstallStrings.(culture-name).txt", e.g. "InstallStrings.en-GB.txt"
+; - The output resx file should then be copied + pasted into the core's Localization/Resx folder inside VS2010, 
+; - The build properties for the file should be "Embedded resource" and the custom tool "PublicResXFileCodeGenerator"
+; - Delete the .resx file from the "Text" folder once you've copied it over.
+
+; Shared buttons and labels
+Shared_Stage1=Vítejte
+Shared_Stage2=Databáze
+Shared_Stage3=Zabezpečení
+Shared_Stage4=Něco navíc
+Shared_Stage5=Dokončeno
+
+Shared_Continue=Pokračovat
+Shared_Back=Zpět
+Shared_TestButton=Test
+Shared_BackButton=Zpět
+Shared_NextButton=Další
+Shared_Success=Úspěch!
+Shared_Failure=Chyba!
+
+; Page 1
+Page1_Label1=Děkujeme že jste si stáhli Roadkill .NET Wiki. Instalátor zapíše Vái zadané hodnoty do souboru web.config (a také do databáze). 
+Page1_Label2=Aby instalace mohla pokračovat, potřebujeme ověřit jestli je možné zapisovat do souboru web.config. 
+Page1_WebConfig_Success_Message=Do web.config je možné zapisovat.
+Page1_WebConfig_Failure_Message=Do web.config nelze zapisovat.
+
+; Page 2
+Page2_Label1=Níže je uvedeno několik důležitých nastavení. Změnit je můžete i pozdějí v menu Nastavení.
+Page2_Success=Připojní do databáze bylo úspěšné.
+Page2_Error=Nebylo možné se připojit:
+
+Page2_Group1_Title=Název wiki stránek
+Page2_Group1_Label=Název wiki stránek který se bude zobrazovat v některých tématech a registračních emailech (budou-li povoleny). 
+
+Page2_Group2_Title=Adresa stránek
+Page2_Group2_Label=Adresa použitá v emailech zasílaných při registraci a změnách hesla. Pište bez zpětného lomítka na konci. 
+
+Page2_Group3_Title=Připojovací řetězec k databázi
+Page2_Group3_Label=Je třeba nejprve vytvořit databázi. Níže je uvedeno několik příkladů, zvolte druhou volbu používáte-i sdílený hosting bez SQL serveru.
+Page2_Group3_Label2=Příklad připojovacího řetězce
+Page2_Group3_Label3=Typ databáze
+
+; Page 3 security
+Page3_Label1=Chcete uživatele ověřovat v Active Directory?
+Page3_Group1_Title=Ověřování Windows
+Page3_Group1_Label=Používat Windows ověřování
+
+; Active Directory security
+Page3_AD_Group1_Title=Připojovací řetezec k LDAP Active Directory
+Page3_AD_Connection_Success=Připojení a ověření v Active Directory bylo úspěšné.
+Page3_AD_Connection_Error=Nebylo možné se k Active Directory připojit:
+Page3_AD_Success=Dotaz na skupinu byl úspěšný.
+Page3_AD_Error=Chyba dotazu na skupinu:
+
+Page3_AD_Group1_Label1=Použite formát LDAP://mydc01.company.internal (LDAP pište velkými znaky) kde mydc01 je řadič domény a 'company' s 'internal' jsou DNS přípony sítě. Můžete také použít IP adresu (zjistíte ji příkazem ipconfig na řadiči domény).
+Page3_AD_Group1_Label2=Připojovací řetězec podporuje objekty (OU) avšak jejich použití může způsobil problémy. Pokud si nejste jistí, nejprve si stáhněte <a href="http://technet.microsoft.com/en-us/sysinternals/bb963907">AD Explorer</a>.
+Page3_AD_Group1_Label3=Uživatelské jméno pro ověření v Active Directory. Nechte prázdné pokud uživatel po kterým beží aplikační pool již oprávnění má. Používá se to obvykle pokud Vaše doména je v jiném lese (forest) než je hlavní doména.
+
+Page3_AD_Group2_Label1=Uživatelské jméno:
+Page3_AD_Group2_Label2=Heslo:
+
+Page3_AD_Group3_Title=Název skupiny role redaktora
+Page3_AD_Group3_Label=Doménová skupina jejíž uživatelé busou mít oprávnění redaktora (lidé kteří mohou vytvářet a měnit stránky). Testovací tlačítko používá uvedený připojovací řetězec. 
+
+Page3_AD_Group4_Title=Název skupiny role správce
+Page3_AD_Group4_Label=Má práva jako redaktor ale navíc má přísup k nastavení stránek. Správci mají práva jako redaktor, ale navíc mají přísup k nastavení stránek. Testovací tlačítko používá uvedený připojovací řetězec.
+
+; Database security
+Page3_DB_Label=Všechna hesla jsou jednocestně zašifrována šifrou SHA128 a náhodným klíčem. To znamená že hesla není možné obnovit nýbrž pouze znovu nastavit. Heslo musí být alespoň 6 znaků dlouhé.
+Page3_DB_Group1_Title=Název role redaktora
+Page3_DB_Group1_Label1=Název role redaktora - lidé kteří mohou vytvářet a měnit stránky.
+Page3_DB_Group2_Title=Název role správce
+Page3_DB_Group2_Label1=Název role správce - má práva jako redaktor, ale navíc má přísup k nastavení stránek.
+Page3_DB_Group3_Title=Povolit registrace
+Page3_DB_Group3_Label1=Zaškrtněte pokud chcete aby se lidé mohli sami registrovat. Pokud není zaškrtnuto, nové uživatele bude moci přidávat pouze správce. 
+Page3_DB_Group3_Label2=Povolit registrace nových uživatelů. 
+Page3_DB_Group4_Title=Povolit Recaptcha
+Page3_DB_Group4_Label1=Zapíná podporu Recaptcha - anti spamová služba zdarma. Je nutné se zaregistrovat a veřejný a soukromý klíč zkopírovat do níže uvedených polí. <a href="https://www.google.com/recaptcha/admin/create" target="_blank">Zde se přihlašte</a> - je nutný účet google.
+Page3_DB_Group4_Label2=Zapnout Recaptcha anti-spam službu. 
+Page3_DB_Group4_Label3=Veřejný klíč
+Page3_DB_Group4_Label4=Soukromý klíč
+Page3_DB_Group5_Title=Email správce
+Page3_DB_Group5_Label1=Toto je emailová adresa správce. Další správce můžete přidat v menu Nastavení.
+Page3_DB_Group6_Title=Heslo správce
+Page3_DB_Group6_Label1=Toto je heslo správce.
+
+; Page 4
+Page4_Label1=Téměř hotovo...Nakonec několik extra nastavení. 
+Page4_Group1_Title=Adresář příloh
+Page4_Group1_Success=Adresář existuje a lze do něj zapisovat.
+Page4_Group1_Error=Do adresáře není možné zapisovat:
+Page4_Group1_Label1=Adresář do kterého budou nahrávány veškeré soubory. Do tohoto adresáře musí mít uživatel pod nímž běží IIS pool právo zápisu. Oprávnění obvykle není nutné měnit poněvadž ho zdědí od nadřazeného adresáře. 
+Page4_Group1_Label2=Cesta by měla začínat ~/ což znamená kořenový adresář. Možnost přístupu můžete ověřit webovým prohlížečem. Ověřte také že do něj lze zapisovat (stejně jako do App_Data a bin - do nich však nic nahráváno nebude. 
+
+Page4_Group2_Title=Povolené přípony
+Page4_Group2_Label1=Soubory s těmito příponami mohou být nahrávány. Oddělujte je čárkou.
+
+Page4_Group3_Title=Téma
+Page4_Group3_Label1=Použité téma stránek. Název tématu musí být stejný jako název adresáře ve složce Themes.
+
+Page4_Group4_Title=Značkovací jazyk
+Page4_Group4_Label1=Použitý značkovací jazyk. Roadkill nyní podporuje tyto hodnoty: Creole, Markdown, Mediawiki.
+Page4_Group4_Label2=Doporučený je Creole. 
+
+Page4_Group5_Title=Vyrovnávací paměť
+Page4_Group5_Label1=Roadkill používá vyrovnávací pamět NHibernate společně s výstupná vyrovnávací pamětí v ASP.NET. Pro zlepšení odezev aplikace je doporučeno ukládání do vyrovnávací paměti povolit. Databáová vyrovnávací paměť není pro webové zahrady či farmy podporována. 
+Page4_Group5_Label2=Toto nastavení ovlivňuje pouze vyrovnávací paměť databáze, výstupní vyrovnávací paměť je třeba zakázat přímo ve web.config.
+Page4_Group5_Label3=Povolit vyrovnávací paměť 
+Page4_Group5_Label4=Ukládat do vyrovnávací paměti textový obsah stránek. 
+Page4_Group5_Label5=Není-li povoleno, bude při každém zobrazení stránka načítána znovu z databáze.
+
+; Page 5
+Page5_Success_Title=Instalace byla úspěšná
+Page5_Success_AD_Title=Ověřeřování Windows - prosím čtěte
+Page5_Success_AD_Label=Používáte-li IIS7+, je třeba upravit web.config pro nastavení zabezpečení, viz. níže uvedené povinné elementy. Pokud se Vám po provedené těchto změn zobrazuje chyba HTTP 500, je sekce blokovaná nadřazenou úrovní. Změny ve web.config v takovém případě proveďte přes administrační konzoli IIS.
+Page5_Success_Label1=Pokračovat na stránky
+Page5_Error_Title=Při instalaci se vyskytla chyba
+Page5_Error_Label1=Vraťte se prosím v instalaci zpět a ověřte zadané hodnoty a nastavení. Chybové hlášení:

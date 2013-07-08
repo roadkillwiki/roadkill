@@ -1,0 +1,819 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Navigation_Login" xml:space="preserve">
+    <value>Přihlásit se</value>
+  </data>
+  <data name="Navigation_Logout" xml:space="preserve">
+    <value>Odhlásit se</value>
+  </data>
+  <data name="Navigation_Register" xml:space="preserve">
+    <value>Zaregistrovat se</value>
+  </data>
+  <data name="Navigation_MainPage" xml:space="preserve">
+    <value>Hlavní stránka</value>
+  </data>
+  <data name="Navigation_Categories" xml:space="preserve">
+    <value>Kategorie</value>
+  </data>
+  <data name="Navigation_AllPages" xml:space="preserve">
+    <value>Všechny stránky</value>
+  </data>
+  <data name="Navigation_NewPage" xml:space="preserve">
+    <value>Nová stránka</value>
+  </data>
+  <data name="Navigation_SiteSettings" xml:space="preserve">
+    <value>Nastavení</value>
+  </data>
+  <data name="Navigation_Edit" xml:space="preserve">
+    <value>Upravit</value>
+  </data>
+  <data name="Navigation_Delete" xml:space="preserve">
+    <value>Smazat</value>
+  </data>
+  <data name="Navigation_History" xml:space="preserve">
+    <value>Historie</value>
+  </data>
+  <data name="Navigation_ViewHistory" xml:space="preserve">
+    <value>Zobrazit historii</value>
+  </data>
+  <data name="Button_Login" xml:space="preserve">
+    <value>Přihlásit se</value>
+  </data>
+  <data name="Button_Cancel" xml:space="preserve">
+    <value>Storno</value>
+  </data>
+  <data name="Button_Save" xml:space="preserve">
+    <value>Uložit</value>
+  </data>
+  <data name="Button_Preview" xml:space="preserve">
+    <value>Náhled</value>
+  </data>
+  <data name="Button_Import" xml:space="preserve">
+    <value>Importovat</value>
+  </data>
+  <data name="Button_Rename" xml:space="preserve">
+    <value>Přejmenovat</value>
+  </data>
+  <data name="Button_Upload" xml:space="preserve">
+    <value>Nahrát</value>
+  </data>
+  <data name="Button_Search" xml:space="preserve">
+    <value>Hledat</value>
+  </data>
+  <data name="Shared_EditLink" xml:space="preserve">
+    <value>Upravit</value>
+  </data>
+  <data name="Shared_DeleteLink" xml:space="preserve">
+    <value>Smazat</value>
+  </data>
+  <data name="Shared_ConfirmLink" xml:space="preserve">
+    <value>Potvrdit</value>
+  </data>
+  <data name="Shared_NotLoggedIn" xml:space="preserve">
+    <value>Nepřihlášen</value>
+  </data>
+  <data name="Shared_LoggedInAs" xml:space="preserve">
+    <value>Přihlášen jako</value>
+  </data>
+  <data name="Shared_LastModified" xml:space="preserve">
+    <value>Tato stránka byla naposledy upravena</value>
+  </data>
+  <data name="Shared_PoweredBy" xml:space="preserve">
+    <value>Beží na Roadkill .NET</value>
+  </data>
+  <data name="Shared_Firstname" xml:space="preserve">
+    <value>Jméno:</value>
+  </data>
+  <data name="Shared_Lastname" xml:space="preserve">
+    <value>Příjmení:</value>
+  </data>
+  <data name="Shared_Username" xml:space="preserve">
+    <value>Uživatelské jméno:</value>
+  </data>
+  <data name="Shared_Email_Label" xml:space="preserve">
+    <value>Email:</value>
+  </data>
+  <data name="Shared_Password_Label" xml:space="preserve">
+    <value>Heslo:</value>
+  </data>
+  <data name="Shared_PasswordConfirm_Label" xml:space="preserve">
+    <value>Potvrzení hesla:</value>
+  </data>
+  <data name="Shared_Error" xml:space="preserve">
+    <value>Vyskytla se chyba:</value>
+  </data>
+  <data name="User_Validation_Username" xml:space="preserve">
+    <value>Uživatelské jméno je povinné.</value>
+  </data>
+  <data name="User_Validation_Email" xml:space="preserve">
+    <value>Email je povinný.</value>
+  </data>
+  <data name="User_Validation_Email_Check" xml:space="preserve">
+    <value>Pole email neobsahuje platnou emailovou adresu.</value>
+  </data>
+  <data name="User_Validation_UsernameExists" xml:space="preserve">
+    <value>Uživatelské jméno {0} již existuje.</value>
+  </data>
+  <data name="User_Validation_UsernameEmpty" xml:space="preserve">
+    <value>Uživatelské jméno není vyplněno.</value>
+  </data>
+  <data name="User_Validation_EmailExists" xml:space="preserve">
+    <value>Emailová adresa {0} již existuje.</value>
+  </data>
+  <data name="User_Validation_PasswordsDontMatch" xml:space="preserve">
+    <value>Hesla nesouhlasí.</value>
+  </data>
+  <data name="User_Validation_PasswordTooShort" xml:space="preserve">
+    <value>Heslo obsahuje méně než {0} znaků</value>
+  </data>
+  <data name="Login_Title" xml:space="preserve">
+    <value>Přihlášení</value>
+  </data>
+  <data name="Login_ForgottenPassword" xml:space="preserve">
+    <value>Zapoměli jste své heslo?</value>
+  </data>
+  <data name="Login_Unsuccessful_Title" xml:space="preserve">
+    <value>Přihlášení nebylo úspešné</value>
+  </data>
+  <data name="Login_Error" xml:space="preserve">
+    <value>Chybné jméno nebo heslo</value>
+  </data>
+  <data name="Signup_Title" xml:space="preserve">
+    <value>Zaregistrovat se</value>
+  </data>
+  <data name="Signup_Label" xml:space="preserve">
+    <value>Vyplňte níže uvedené prosím.</value>
+  </data>
+  <data name="Signup_Button" xml:space="preserve">
+    <value>Registrace nového uživatele</value>
+  </data>
+  <data name="Signup_Complete_Title" xml:space="preserve">
+    <value>Registrace byla úspěšná.</value>
+  </data>
+  <data name="Signup_Complete_Label" xml:space="preserve">
+    <value>Děkujeme Vám, email s pokyny pro dokončení registrace Vám byl odeslán na adresu {0}.</value>
+  </data>
+  <data name="Signup_Complete_NoEmail" xml:space="preserve">
+    <value>Neobržel jste email?</value>
+  </data>
+  <data name="Signup_Complete_EmailResent" xml:space="preserve">
+    <value>Potvrzovací email byl znovu odeslán.</value>
+  </data>
+  <data name="Signup_Complete_EmailResend_Button" xml:space="preserve">
+    <value>Znovu odeslat potvrzovací email</value>
+  </data>
+  <data name="Signup_Error_General" xml:space="preserve">
+    <value>Při registraci se vyskytla chyba.</value>
+  </data>
+  <data name="Signup_Error_Recaptcha" xml:space="preserve">
+    <value>Dvě slova byla pro antispamový filtr nesprávná.</value>
+  </data>
+  <data name="Activate_Title" xml:space="preserve">
+    <value>Aktivace účtu</value>
+  </data>
+  <data name="Activate_Success_Title" xml:space="preserve">
+    <value>Aktivace byla úspěšná</value>
+  </data>
+  <data name="Activate_Error_Title" xml:space="preserve">
+    <value>Při aktivaci se vyskytla chyba</value>
+  </data>
+  <data name="Activate_Label" xml:space="preserve">
+    <value>Váš účt byl úspěšně aktivován.</value>
+  </data>
+  <data name="Activate_Link" xml:space="preserve">
+    <value>Klikněte zde pro přihlášení</value>
+  </data>
+  <data name="Activate_Error" xml:space="preserve">
+    <value>Došlo k chybě při aktivaci Vašeho účtu. Je pravděpodobně již aktivován.</value>
+  </data>
+  <data name="ResetPassword_Title" xml:space="preserve">
+    <value>Změnit heslo.</value>
+  </data>
+  <data name="ResetPassword_Label" xml:space="preserve">
+    <value>Pro změnu hesla zadejte svou emailovou adresu. Obdržíte email s odkazem na změnu hesla.</value>
+  </data>
+  <data name="ResetPassword_Complete_Label" xml:space="preserve">
+    <value>Zadejte své nové heslo.</value>
+  </data>
+  <data name="ResetPassword_Button" xml:space="preserve">
+    <value>Změnit heslo</value>
+  </data>
+  <data name="ResetPassword_Successful_Title" xml:space="preserve">
+    <value>Změna hesla byla úspěšná.</value>
+  </data>
+  <data name="ResetPassword_Successful_Label" xml:space="preserve">
+    <value>Vaše heslo bylo úspešně nastaveno.</value>
+  </data>
+  <data name="ResetPassword_Invalid_Title" xml:space="preserve">
+    <value>Neplatná změna hesla.</value>
+  </data>
+  <data name="ResetPassword_Invalid_Label" xml:space="preserve">
+    <value>Klíč pro změnu hesla již není platný.</value>
+  </data>
+  <data name="ResetPassword_EmailSent_Title" xml:space="preserve">
+    <value>Váš požadavek na změnu hesla byl odeslán.</value>
+  </data>
+  <data name="ResetPassword_EmailSent_Label" xml:space="preserve">
+    <value>Dobrý den, na adresu {0} Vám byl poslán email s pokyny pro změnu hesla.</value>
+  </data>
+  <data name="ResetPassword_Error" xml:space="preserve">
+    <value>Hesla nesouhlasí nebo jsou příliš krátká</value>
+  </data>
+  <data name="ResetPassword_Error_ServerError" xml:space="preserve">
+    <value>Z důvodu chyby serveru nebylo heslo změněno</value>
+  </data>
+  <data name="ResetPassword_Error_EmailNotFound" xml:space="preserve">
+    <value>Emailová adresa nebyla nalezena</value>
+  </data>
+  <data name="ResetPassword_Error_MissingEmail" xml:space="preserve">
+    <value>zadejte prosím emailovou adresu</value>
+  </data>
+  <data name="Profile_Title" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="Profile_Error" xml:space="preserve">
+    <value>Vyskytla se chyba při aktualizaci Vašeho profilu</value>
+  </data>
+  <data name="NoMainPage_Title" xml:space="preserve">
+    <value>Nemáte nastavenou žádnou hlavní stránku</value>
+  </data>
+  <data name="NoMainPage_Label" xml:space="preserve">
+    <value>Hlavní stránku nastavíte přiřazením štítku 'homepage' na jakoukoliv stránku.</value>
+  </data>
+  <data name="Search_PlaceHolder" xml:space="preserve">
+    <value>Zadejte text</value>
+  </data>
+  <data name="Search_Results" xml:space="preserve">
+    <value>Výsledky hledání '{0}'</value>
+  </data>
+  <data name="Search_NoResults" xml:space="preserve">
+    <value>Váš dotaz '{0}' nic nenašel.</value>
+  </data>
+  <data name="AllPages_Title" xml:space="preserve">
+    <value>Všechny stránky</value>
+  </data>
+  <data name="AllPages_NoPages" xml:space="preserve">
+    <value>Žádné stránky nenalezeny.</value>
+  </data>
+  <data name="AllTags_Title" xml:space="preserve">
+    <value>Všechny štítky</value>
+  </data>
+  <data name="AllTags_NoResults" xml:space="preserve">
+    <value>Žádné štítky nenalezeny.</value>
+  </data>
+  <data name="Pages_ForUser" xml:space="preserve">
+    <value>Všechny stránky vytvořil {0}</value>
+  </data>
+  <data name="Pages_ForUser_NoPages" xml:space="preserve">
+    <value>{0} zatím žádnou stránku nevytvořil.</value>
+  </data>
+  <data name="Pages_ForTag" xml:space="preserve">
+    <value>Všechny stránky pro štítek {0}</value>
+  </data>
+  <data name="Pages_ForTag_NoPages" xml:space="preserve">
+    <value>Žádné stránky pro štítek {0}</value>
+  </data>
+  <data name="History_Title" xml:space="preserve">
+    <value>Historie stránky</value>
+  </data>
+  <data name="History_Version" xml:space="preserve">
+    <value>Verze</value>
+  </data>
+  <data name="History_EditedOn" xml:space="preserve">
+    <value>Upraveno</value>
+  </data>
+  <data name="History_EditedBy" xml:space="preserve">
+    <value>Upravil</value>
+  </data>
+  <data name="History_RevertLink" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
+  <data name="Version_Title" xml:space="preserve">
+    <value>Verze {0}</value>
+  </data>
+  <data name="Version_BackLink" xml:space="preserve">
+    <value>zpět</value>
+  </data>
+  <data name="Page_Info_CreatedOn" xml:space="preserve">
+    <value>Vytvořeno:</value>
+  </data>
+  <data name="Page_Info_CreatedBy" xml:space="preserve">
+    <value>Vytvořil:</value>
+  </data>
+  <data name="Page_Info_ModifiedOn" xml:space="preserve">
+    <value>Upraveno:</value>
+  </data>
+  <data name="Page_Info_ModifiedBy" xml:space="preserve">
+    <value>Upravil:</value>
+  </data>
+  <data name="Page_Validation_Title" xml:space="preserve">
+    <value>Vyplnění popisu je povinné.</value>
+  </data>
+  <data name="FileExplorer_Title" xml:space="preserve">
+    <value>Správce souborů</value>
+  </data>
+  <data name="FileExplorer_Upload" xml:space="preserve">
+    <value>Nahrát soubor</value>
+  </data>
+  <data name="FileExplorer_NewDirectory" xml:space="preserve">
+    <value>Nový adresář</value>
+  </data>
+  <data name="FileExplorer_FolderName" xml:space="preserve">
+    <value>Název adresáře:</value>
+  </data>
+  <data name="FileExplorer_ChooseFile" xml:space="preserve">
+    <value>Vyber soubor</value>
+  </data>
+  <data name="FileExplorer_Button_Upload" xml:space="preserve">
+    <value>Nahrát</value>
+  </data>
+  <data name="FileExplorer_Button_Create" xml:space="preserve">
+    <value>vytvořit</value>
+  </data>
+  <data name="FileExplorer_Button_Select" xml:space="preserve">
+    <value>výběr</value>
+  </data>
+  <data name="FileExplorer_Error_BadExtension" xml:space="preserve">
+    <value>Soubory s přípovou '{0}' není povoleno nahrávat</value>
+  </data>
+  <data name="FileExplorer_Error_FileUpload" xml:space="preserve">
+    <value>Vyskytla se chyba při nahrávání souboru: {0}</value>
+  </data>
+  <data name="FileExplorer_Error_NewDirectory" xml:space="preserve">
+    <value>Vyskytla se chyba při vytváření adresáře: {0}</value>
+  </data>
+  <data name="FileExplorer_Error_DeleteFile" xml:space="preserve">
+    <value>Vyskytla se chyba při výmazu souboru: {0}</value>
+  </data>
+  <data name="EditPage_Title" xml:space="preserve">
+    <value>Přidat/upravit stránku</value>
+  </data>
+  <data name="EditPage_Title_Label" xml:space="preserve">
+    <value>Název</value>
+  </data>
+  <data name="EditPage_Tags_Label" xml:space="preserve">
+    <value>Štítky</value>
+  </data>
+  <data name="EditPage_AdminOnly" xml:space="preserve">
+    <value>Tuto stránku mohou upravovat pouze správci.</value>
+  </data>
+  <data name="EditPage_Preview" xml:space="preserve">
+    <value>Náhled</value>
+  </data>
+  <data name="EditPage_LinkUrl_PlaceHolder" xml:space="preserve">
+    <value>zadejte url nebo název stránky</value>
+  </data>
+  <data name="EditPage_LinkText_PlaceHolder" xml:space="preserve">
+    <value>Text odkazu</value>
+  </data>
+  <data name="EditPage_Image_Title" xml:space="preserve">
+    <value>Název obrázku</value>
+  </data>
+  <data name="EditPage_Error" xml:space="preserve">
+    <value>Chyba při ukládání stránky:</value>
+  </data>
+  <data name="EditPage_Toolbar_Bold" xml:space="preserve">
+    <value>Vložit značky pro tučný text.</value>
+  </data>
+  <data name="EditPage_Toolbar_BulletList" xml:space="preserve">
+    <value>Vložit značky pro nečíslovaný seznam.</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading1" xml:space="preserve">
+    <value>Vložit značky pro Nadpis 1.</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading2" xml:space="preserve">
+    <value>Vložit značky pro Nadpis 2.</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading3" xml:space="preserve">
+    <value>Vložit značky pro Nadpis 3.</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading4" xml:space="preserve">
+    <value>Vložit značky pro Nadpis 4.</value>
+  </data>
+  <data name="EditPage_Toolbar_Heading5" xml:space="preserve">
+    <value>Vložit značky pro Nadpis 5.</value>
+  </data>
+  <data name="EditPage_Toolbar_Help" xml:space="preserve">
+    <value>Zobrazit nápovědu k syntaxi značkovacího jazyka.</value>
+  </data>
+  <data name="EditPage_Toolbar_Image" xml:space="preserve">
+    <value>Vložit značky pro obrázek.</value>
+  </data>
+  <data name="EditPage_Toolbar_Italic" xml:space="preserve">
+    <value>Vložit značky pro kurzívu.</value>
+  </data>
+  <data name="EditPage_Toolbar_Link" xml:space="preserve">
+    <value>Vložit značky pro URL odkaz.</value>
+  </data>
+  <data name="EditPage_Toolbar_NumberList" xml:space="preserve">
+    <value>Vložit značky pro číslovaný seznam.</value>
+  </data>
+  <data name="EditPage_Toolbar_Underline" xml:space="preserve">
+    <value>Vložit značky pro podtržení.</value>
+  </data>
+  <data name="SiteSettings_Configuration" xml:space="preserve">
+    <value>Nastavení</value>
+  </data>
+  <data name="SiteSettings_Users" xml:space="preserve">
+    <value>Uživatelé</value>
+  </data>
+  <data name="SiteSettings_Tools" xml:space="preserve">
+    <value>Nástroje</value>
+  </data>
+  <data name="SiteSettings_Configuration_Title" xml:space="preserve">
+    <value>Nastavení</value>
+  </data>
+  <data name="SiteSettings_Configuration_SiteName" xml:space="preserve">
+    <value>Název stránek:</value>
+  </data>
+  <data name="SiteSettings_Configuration_SiteUrl" xml:space="preserve">
+    <value>URL adresa:</value>
+  </data>
+  <data name="SiteSettings_Configuration_ConnectionStrings" xml:space="preserve">
+    <value>Připojovací údaje</value>
+  </data>
+  <data name="SiteSettings_Configuration_DatabaseType" xml:space="preserve">
+    <value>Typ databáze:</value>
+  </data>
+  <data name="SiteSettings_Configuration_DatabaseConnectionString" xml:space="preserve">
+    <value>Připojovací řetězec databáze:</value>
+  </data>
+  <data name="SiteSettings_Configuration_Security" xml:space="preserve">
+    <value>Zabezpečení</value>
+  </data>
+  <data name="SiteSettings_Configuration_UseWindowsAuth" xml:space="preserve">
+    <value>Použít ověřování Windows:</value>
+  </data>
+  <data name="SiteSettings_Configuration_AllowUserSignups" xml:space="preserve">
+    <value>Povolot registraci uživatelů:</value>
+  </data>
+  <data name="SiteSettings_Configuration_EnableRecaptcha" xml:space="preserve">
+    <value>Povolit recaptcha:</value>
+  </data>
+  <data name="SiteSettings_Configuration_RecaptchaPrivateKey" xml:space="preserve">
+    <value>Recaptcha soukromý klíč:</value>
+  </data>
+  <data name="SiteSettings_Configuration_RecaptchaPublicKey" xml:space="preserve">
+    <value>Recaptcha veřejný klíč:</value>
+  </data>
+  <data name="SiteSettings_Configuration_AD_Connection" xml:space="preserve">
+    <value>Připojovací řetězec k LDAP:</value>
+  </data>
+  <data name="SiteSettings_Configuration_AD_Username" xml:space="preserve">
+    <value>Uživatelské jméno v LDAP:</value>
+  </data>
+  <data name="SiteSettings_Configuration_AD_Password" xml:space="preserve">
+    <value>Heslo LDAP:</value>
+  </data>
+  <data name="SiteSettings_Configuration_EditorRole" xml:space="preserve">
+    <value>Název role redaktora/název skupiny:</value>
+  </data>
+  <data name="SiteSettings_Configuration_AdminRole" xml:space="preserve">
+    <value>Název role správce/název skupiny:</value>
+  </data>
+  <data name="SiteSettings_Configuration_General" xml:space="preserve">
+    <value>Obecné</value>
+  </data>
+  <data name="SiteSettings_Configuration_MarkupType" xml:space="preserve">
+    <value>Značkovací jazyk:</value>
+  </data>
+  <data name="SiteSettings_Configuration_Theme" xml:space="preserve">
+    <value>Téma:</value>
+  </data>
+  <data name="SiteSettings_Configuration_Attachments" xml:space="preserve">
+    <value>Složka příloh:</value>
+  </data>
+  <data name="SiteSettings_Configuration_Extensions" xml:space="preserve">
+    <value>Povolené přípony:</value>
+  </data>
+  <data name="SiteSettings_Configuration_Caching" xml:space="preserve">
+    <value>Ukládání do vyrovnávací paměti:</value>
+  </data>
+  <data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
+    <value>Ukládat do vyr. paměti i text stránek:</value>
+  </data>
+  <data name="SiteSettings_Configuration_Error" xml:space="preserve">
+    <value>Chyba při ukládání nastavení:</value>
+  </data>
+  <data name="SiteSettings_Configuration_SiteName_Help" xml:space="preserve">
+    <value>Název stránek.</value>
+  </data>
+  <data name="SiteSettings_Configuration_SiteUrl_Help" xml:space="preserve">
+    <value>Adresa použitá v emailech zasílaných při registraci a změnách hesla.  Uvádějte bez zpětného lomítka na konci.</value>
+  </data>
+  <data name="SiteSettings_Configuration_ConnectionStrings_Help" xml:space="preserve">
+    <value>Mění typ databáze - v menu Nástroje znovu vytvořte schéma.</value>
+  </data>
+  <data name="SiteSettings_Configuration_DatabaseType_Help" xml:space="preserve">
+    <value>Mění typ databáze - v menu Nástroje znovu vytvořte schéma.</value>
+  </data>
+  <data name="SiteSettings_Configuration_DatabaseConnectionString_Help" xml:space="preserve">
+    <value>Připojovací řetězec k databázi.</value>
+  </data>
+  <data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
+    <value>&lt;b&gt;POZOR&lt;/b&gt; změnou si můžete uzamknout Váš účet v síti. Před změnou si zazálohujte web.config.&lt;br/&gt;&lt;br/&gt; Nastavte zda pro přihlašování použít Windows a Active Directory.</value>
+  </data>
+  <data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
+    <value>Zaškrtněte pokud chcete aby se lidé mohli sami registrovat.</value>
+  </data>
+  <data name="SiteSettings_Configuration_EnableRecaptcha_Help" xml:space="preserve">
+    <value>Zapíná podporu Recaptcha - anti spamová služba zdarma. Je nutné se zaregistrovat a veřejný a soukromý klíč zkopírovat do níže uvedených polí.</value>
+  </data>
+  <data name="SiteSettings_Configuration_RecaptchaPrivateKey_Help" xml:space="preserve">
+    <value>Soukromý klíč pro Recaptcha. Je poskytnut při registraci.</value>
+  </data>
+  <data name="SiteSettings_Configuration_RecaptchaPublicKey_Help" xml:space="preserve">
+    <value>Veřejný klíč pro Recaptcha. Je poskytnut při registraci.</value>
+  </data>
+  <data name="SiteSettings_Configuration_AD_Connection_Help" xml:space="preserve">
+    <value>Připojení k LDAP Active Directory.Použite formát LDAP://mydc01.company.internal (LDAP pište velkými znaky).</value>
+  </data>
+  <data name="SiteSettings_Configuration_AD_Username_Help" xml:space="preserve">
+    <value>Uživatelské jméno pro ověření v Active Directory. Nechte prázdné pokud uživatel po kterým beží aplikační pool již oprávnění má.</value>
+  </data>
+  <data name="SiteSettings_Configuration_AD_Password_Help" xml:space="preserve">
+    <value>Heslo pro ověření uživatele v AD.</value>
+  </data>
+  <data name="SiteSettings_Configuration_EditorRole_Help" xml:space="preserve">
+    <value>Název role redaktora - lidé kteří mohou vytvářet a měnit stránky.</value>
+  </data>
+  <data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
+    <value>Název role správce - má práva jako redaktor ale navíc má přísup k nastavení stránek.</value>
+  </data>
+  <data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
+    <value>Použitý značkovací jazyk. Roadkill nyní podporuje tyto hodnoty: Creole, Markdown, Mediawiki.</value>
+  </data>
+  <data name="SiteSettings_Configuration_Theme_Help" xml:space="preserve">
+    <value>Použité téma stránek. Název tématu musí být stejný jako název adresáře ve složce Themes.</value>
+  </data>
+  <data name="SiteSettings_Configuration_Attachments_Help" xml:space="preserve">
+    <value>Do tohoto adresáře jsou nahrávány všechny soubory. Cesta by měla začínat ~/ což znamená kořenový adresář.</value>
+  </data>
+  <data name="SiteSettings_Configuration_Extensions_Help" xml:space="preserve">
+    <value>Soubory s těmito příponami mohou být nahrávány. Oddělujte je čárkou.</value>
+  </data>
+  <data name="SiteSettings_Configuration_Caching_Help" xml:space="preserve">
+    <value>Zapíná používání vyrovnávací paměti vNHibernate. Roadkill používá vyrovnávací pamět NHibernate společně s výstupná vyrovnávací pamětí v ASP.NET. Pro zlepšení odezev aplikace je doporučeno ukládání do vyrovnávací paměti povolit. Databáová vyrovnávací paměť není pro webové zahrady či farmy podporována.</value>
+  </data>
+  <data name="SiteSettings_Configuration_CachePageText_Help" xml:space="preserve">
+    <value>Ukládat do vyrovnávací paměti textový obsah stránek. Není-li povoleno, bude při každém zobrazení stránka načítána znovu z databáze.</value>
+  </data>
+  <data name="SiteSettings_Users_Title" xml:space="preserve">
+    <value>Uživatelé</value>
+  </data>
+  <data name="SiteSettings_Users_ColumnHeader_Username" xml:space="preserve">
+    <value>Uživatelské jméno</value>
+  </data>
+  <data name="SiteSettings_Users_ColumnHeader_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="SiteSettings_Users_Admins" xml:space="preserve">
+    <value>Správci</value>
+  </data>
+  <data name="SiteSettings_Users_NewAdmin" xml:space="preserve">
+    <value>Nový správce</value>
+  </data>
+  <data name="SiteSettings_Users_Editors" xml:space="preserve">
+    <value>Redaktoři</value>
+  </data>
+  <data name="SiteSettings_Users_NewEditor" xml:space="preserve">
+    <value>Nový redaktor</value>
+  </data>
+  <data name="SiteSettings_Users_AddAdminDialog_Title" xml:space="preserve">
+    <value>Přidat správce</value>
+  </data>
+  <data name="SiteSettings_Users_AddEditorDialog_Title" xml:space="preserve">
+    <value>Přidat redaktora</value>
+  </data>
+  <data name="SiteSettings_Users_EditUserDialog_Title" xml:space="preserve">
+    <value>Upravit uživatele</value>
+  </data>
+  <data name="SiteSettings_Users_AddUserDialog_Help" xml:space="preserve">
+    <value>Při změně uživatelského jména nebo emailu stávajícím uživatelům ponechte pole hesla prázdné.</value>
+  </data>
+  <data name="SiteSettings_Users_AddUserDialog_Error" xml:space="preserve">
+    <value>Nebylo možné uložit údaje uživatele:</value>
+  </data>
+  <data name="SiteSettings_Users_EditUser_Error" xml:space="preserve">
+    <value>Chyba při aktualizaci údajů uživatele.</value>
+  </data>
+  <data name="SiteSettings_Users_AD_Title" xml:space="preserve">
+    <value>Ověření Windows/Active Directory je povoleno</value>
+  </data>
+  <data name="SiteSettings_Users_AD_Label1" xml:space="preserve">
+    <value>Uživatelská jména a hesla nelze upravovat při použití ověření Windows - poveďte to přímo v Active Directory.</value>
+  </data>
+  <data name="SiteSettings_Users_AD_Label2" xml:space="preserve">
+    <value>Jako správce nebo redaktora přidáte uživatele jeho zařazením do skupiny nastavené ve web.config u "AdminRolename" a "EditorRolename".</value>
+  </data>
+  <data name="SiteSettings_Tools_Title" xml:space="preserve">
+    <value>Nástroje</value>
+  </data>
+  <data name="SiteSettings_Tools_ClearDatabase" xml:space="preserve">
+    <value>Vyčistit databázi</value>
+  </data>
+  <data name="SiteSettings_Tools_ClearDatabase_Label" xml:space="preserve">
+    <value>Smaže všechny stránky a text z databáze. Uživatelé zůstanou zachováni.</value>
+  </data>
+  <data name="SiteSettings_Tools_ClearDatabase_Message" xml:space="preserve">
+    <value>Databáze vyčištěna</value>
+  </data>
+  <data name="SiteSettings_Tools_RebuildSearch" xml:space="preserve">
+    <value>Znovu vytvořit index hledání</value>
+  </data>
+  <data name="SiteSettings_Tools_RebuildSearch_Label" xml:space="preserve">
+    <value>Vynutí znovu vytvoření indexu hledání. Používá se pokud hledání z různých důvodů nefunguje správně.</value>
+  </data>
+  <data name="SiteSettings_Tools_RebuildSearch_Message" xml:space="preserve">
+    <value>Index úspešně znovu vytvořen.</value>
+  </data>
+  <data name="SiteSettings_Tools_ExportXml" xml:space="preserve">
+    <value>Exportovat do XML</value>
+  </data>
+  <data name="SiteSettings_Tools_ExportXml_Label" xml:space="preserve">
+    <value>Veškerý obsah včetně historie exportuje do jednoho XML souboru.</value>
+  </data>
+  <data name="SiteSettings_Tools_ExportXml_Error" xml:space="preserve">
+    <value>Chyba při exportu do XML: {0}</value>
+  </data>
+  <data name="SiteSettings_Tools_ExportContent" xml:space="preserve">
+    <value>Exportovat veškerý obsah jako zip</value>
+  </data>
+  <data name="SiteSettings_Tools_ExportContent_Label" xml:space="preserve">
+    <value>Všechny stránky včetně textového obsahu exportuje jako soubory ".wiki". Zahnut je pouze aktuální obsah a štítky - bez historie a příloh.</value>
+  </data>
+  <data name="SiteSettings_Tools_ExportContent_Error" xml:space="preserve">
+    <value>Chyba při exportu obsahu Wiki: {0}</value>
+  </data>
+  <data name="SiteSettings_Tools_ExportAttachments" xml:space="preserve">
+    <value>Exportovat přílohy jako zip</value>
+  </data>
+  <data name="SiteSettings_Tools_ExportAttachments_Label" xml:space="preserve">
+    <value>Exportuje veškerý obsah adresáře příloh (včetně podadresářů) jako zip soubor.</value>
+  </data>
+  <data name="SiteSettings_Tools_ExportAttachments_Error" xml:space="preserve">
+    <value>Chyba pri exportu příloh: {0}</value>
+  </data>
+  <data name="SiteSettings_Tools_ScrewTurnImport" xml:space="preserve">
+    <value>Importovat ze Screwturn</value>
+  </data>
+  <data name="SiteSettings_Tools_ScrewTurnImport_Label" xml:space="preserve">
+    <value>Naimportuje veškerý obsah Screwturn 2 databáze. Kvůli kompatibilitě nastavte v souboru v settings/web.config značkovací jazyk na MediaWiki. Jelikož Screwturn nepoužívá přesnou syntaxi Mediawiki, nemusí se všechen obsah zobrazovat bezchybně. Týká se to zejména obrázků a odkazů.</value>
+  </data>
+  <data name="SiteSettings_Tools_ScrewTurnImport_Connection" xml:space="preserve">
+    <value>Připojovají řetězec ke Screwturn:</value>
+  </data>
+  <data name="SiteSettings_Tools_ScrewTurnImport_Message" xml:space="preserve">
+    <value>Import byl úspěšný</value>
+  </data>
+  <data name="SiteSettings_Tools_RenameTag" xml:space="preserve">
+    <value>Změnit název štítku</value>
+  </data>
+  <data name="SiteSettings_Tools_RenameTag_Label" xml:space="preserve">
+    <value>Přejmenuje štítek a aktualizuje jeho výskyty na všech stránkách. Název štítku je citlivý na velikost písmen.</value>
+  </data>
+  <data name="SiteSettings_Tools_RenameTag_Existing" xml:space="preserve">
+    <value>Stávající jméno štítku:</value>
+  </data>
+  <data name="SiteSettings_Tools_RenameTag_New" xml:space="preserve">
+    <value>Nový název štítku:</value>
+  </data>
+  <data name="SiteSettings_Tools_RenameTag_Message" xml:space="preserve">
+    <value>Štítek byl úspěšně přejmenován.</value>
+  </data>
+  <data name="SiteSettings_Validation_AttachmentsEmpty" xml:space="preserve">
+    <value>Adresář příloh je prázdný.</value>
+  </data>
+  <data name="SiteSettings_Validation_ConnectionEmpty" xml:space="preserve">
+    <value>Připojovací řetězec není vyplněn.</value>
+  </data>
+  <data name="SiteSettings_Validation_MarkupTypeEmpty" xml:space="preserve">
+    <value>Není vybrán značkovací jazyk.</value>
+  </data>
+  <data name="SiteSettings_Validation_ThemeEmpty" xml:space="preserve">
+    <value>Téma není vyplněno.</value>
+  </data>
+  <data name="SiteSettings_Validation_SiteNameEmpty" xml:space="preserve">
+    <value>Název stránek</value>
+  </data>
+  <data name="SiteSettings_Validation_SiteUrlEmpty" xml:space="preserve">
+    <value>Adresa stránek</value>
+  </data>
+</root>

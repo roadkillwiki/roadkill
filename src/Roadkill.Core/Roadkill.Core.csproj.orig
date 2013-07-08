@@ -1,0 +1,548 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9C86C475-F3BD-44D1-942A-78BF19158C3A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Roadkill.Core</RootNamespace>
+    <AssemblyName>Roadkill.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>&lt;Project Location In Database&gt;</SccProjectName>
+    <SccLocalPath>&lt;Local Binding Root of Project&gt;</SccLocalPath>
+    <SccAuxPath>&lt;Source Control Database&gt;</SccAuxPath>
+    <SccProvider>Mercurial Source Control Package</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Roadkill.Core.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Roadkill.Core.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\Roadkill.Core.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\Roadkill.Core.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Download|AnyCPU'">
+    <OutputPath>bin\Download\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\Roadkill.Core.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\Roadkill.Core.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Download|x64'">
+    <OutputPath>bin\x64\Download\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\Roadkill.Core.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\x64\Release\Roadkill.Core.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Download|x86'">
+    <OutputPath>bin\x86\Download\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\Roadkill.Core.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\x86\Release\Roadkill.Core.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DemoSite|AnyCPU'">
+    <OutputPath>bin\DemoSite\</OutputPath>
+    <DefineConstants>TRACE;DEMOSITE</DefineConstants>
+    <DocumentationFile>bin\Release\Roadkill.Core.XML</DocumentationFile>
+    <Optimize>false</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DemoSite|x64'">
+    <OutputPath>bin\x64\DemoSite\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\Roadkill.Core.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DemoSite|x86'">
+    <OutputPath>bin\x86\DemoSite\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\Roadkill.Core.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono|AnyCPU'">
+    <OutputPath>bin\Mono\</OutputPath>
+    <DefineConstants>TRACE;RELEASE MONO</DefineConstants>
+    <DocumentationFile>bin\Release\Roadkill.Core.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono|x64'">
+    <OutputPath>bin\x64\Mono\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\Roadkill.Core.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono|x86'">
+    <OutputPath>bin\x86\Mono\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\Roadkill.Core.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.3.1.7705, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Essential.Diagnostics, Version=1.2.0.0, Culture=neutral, PublicKeyToken=9d041bca93991466, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Essential.Diagnostics.1.2.501.0\lib\Essential.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\HtmlAgilityPack.1.4.6\lib\Net40\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net, Version=3.0.3.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Memcached.ClientLibrary">
+      <HintPath>..\..\lib\LightSpeed\Providers\Memcached.ClientLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Microsoft.Web.Administration.dll</HintPath>
+    </Reference>
+    <Reference Include="Mindscape.LightSpeed">
+      <HintPath>..\..\lib\Lightspeed\Mindscape.LightSpeed.dll</HintPath>
+    </Reference>
+    <Reference Include="Mindscape.LightSpeed.Linq">
+      <HintPath>..\..\lib\Lightspeed\Mindscape.LightSpeed.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Mindscape.LightSpeed.MetaData">
+      <HintPath>..\..\lib\Lightspeed\Mindscape.LightSpeed.MetaData.dll</HintPath>
+    </Reference>
+    <Reference Include="Mindscape.LightSpeed.Providers.SqlServerCe4">
+      <HintPath>..\..\lib\LightSpeed\Providers\Mindscape.LightSpeed.Providers.SqlServerCe4.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Bson, Version=1.8.1.20, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=1.8.1.20, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\mongocsharpdriver.1.8.1\lib\net35\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Security">
+      <HintPath>..\..\lib\LightSpeed\Providers\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.6.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\MySql.Data.6.6.5\lib\net40\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.5.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>..\..\lib\LightSpeed\Providers\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="Recaptcha, Version=1.0.5.0, Culture=neutral, PublicKeyToken=9afc4d65b28c38c2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\recaptcha.1.0.5.0\lib\.NetFramework 4.0\Recaptcha.dll</HintPath>
+    </Reference>
+    <Reference Include="Roadkill.Core.XmlSerializers, Version=1.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Roadkill.Core.XmlSerializers.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap">
+      <HintPath>..\..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.SQLite, Version=1.0.86.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\System.Data.SQLite.1.0.86.0\lib\net40\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.86.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\System.Data.SQLite.1.0.86.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.3.0.20105.1\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.1.0.20105.408\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.1.0.20105.408\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WebGrease, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\WebGrease.1.3.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attachments\AttachmentPathUtil.cs" />
+    <Compile Include="Common\Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Configuration\ConfigFileManager.cs" />
+    <Compile Include="Configuration\UpgradeChecker.cs" />
+    <Compile Include="Domain\Security\FormsAuthenticationWrapper.cs" />
+    <Compile Include="Exceptions\ConfigurationException.cs" />
+    <Compile Include="MVC\Attributes\IControllerAttribute.cs" />
+    <Compile Include="DI\MvcAttributeProvider.cs" />
+    <Compile Include="DI\MvcDependencyResolver.cs" />
+    <Compile Include="Localization\Resx\InstallStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InstallStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Localization\Resx\SiteStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SiteStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Logging\ErrorType.cs" />
+    <Compile Include="Logging\LogType.cs" />
+    <Compile Include="Logging\LogReader.cs" />
+    <Compile Include="Logging\UdpTraceListener.cs" />
+    <Compile Include="Logging\Log.cs" />
+    <Compile Include="Common\ShortGuid.cs" />
+    <Compile Include="Configuration\ApplicationSettings.cs" />
+    <Compile Include="MVC\Attributes\BrowserCacheAttribute.cs" />
+    <Compile Include="MVC\ExtendedRazorViewEngine.cs" />
+    <Compile Include="MVC\Controllers\FileManagerController.cs" />
+    <Compile Include="MVC\WebViewPages\RoadkillLayoutPage.cs" />
+    <Compile Include="MVC\WebViewPages\RoadkillViewPage.cs" />
+    <Compile Include="MVC\Controllers\UpgradeController.cs" />
+    <Compile Include="Domain\Cache\PageSummaryCache.cs" />
+    <Compile Include="Domain\Cache\ListCache.cs" />
+    <Compile Include="Database\Repositories\IUserRepository.cs" />
+    <Compile Include="Database\Repositories\IPageRepository.cs" />
+    <Compile Include="Database\DataStoreType.cs" />
+    <Compile Include="Database\IDataStoreEntity.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\Conversion\ToEntity.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\LightSpeedRepository.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\Conversion\FromEntity.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\PageEntity.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\PageContentEntity.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\SiteSettingsEntity.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\UserEntity.cs" />
+    <Compile Include="Database\Entities\SiteSettingsEntity.cs" />
+    <Compile Include="Database\Schema\MySql\MySqlSchema.cs" />
+    <Compile Include="Database\Schema\Postgres\PostgresSchema.cs" />
+    <Compile Include="Database\Schema\SchemaBase.cs" />
+    <Compile Include="Database\Schema\Sqlite\SqliteSchema.cs" />
+    <Compile Include="Database\Schema\SqlServerCE\SqlServerCESchema.cs" />
+    <Compile Include="Database\Schema\SqlServer\SqlServerSchema.cs" />
+    <Compile Include="Domain\Managers\IPageManager.cs" />
+    <Compile Include="Database\Repositories\MongoDB\MongoDBRepository.cs" />
+    <Compile Include="Exceptions\UpgradeException.cs" />
+    <Compile Include="Attachments\MimeTypes.cs" />
+    <Compile Include="DI\DependencyContainer.cs" />
+    <Compile Include="MVC\Attributes\OptionalAuthorizationAttribute.cs" />
+    <Compile Include="MVC\Attributes\RecaptchaRequiredAttribute.cs" />
+    <Compile Include="MVC\Attributes\ImportModelStateAttribute.cs" />
+    <Compile Include="MVC\Attributes\ExportModelStateAttribute.cs" />
+    <Compile Include="Common\Extensions\HtmlLinkExtensions.cs" />
+    <Compile Include="Common\LowercaseRoute.cs" />
+    <Compile Include="MVC\Attributes\AdminRequiredAttribute.cs" />
+    <Compile Include="MVC\Attributes\EditorRequiredAttribute.cs" />
+    <Compile Include="Common\Salt.cs" />
+    <Compile Include="Domain\Security\Windows\PrincipalDetails.cs" />
+    <Compile Include="Domain\Security\Windows\IPrincipalDetails.cs" />
+    <Compile Include="Domain\Security\Windows\IActiveDirectoryService.cs" />
+    <Compile Include="Domain\Security\Windows\ActiveDirectoryService.cs" />
+    <Compile Include="Database\Repositories\IRepository.cs" />
+    <Compile Include="Exceptions\IoCException.cs" />
+    <Compile Include="Attachments\AttachmentFileHandler.cs" />
+    <Compile Include="MVC\Controllers\UserController.cs" />
+    <Compile Include="Domain\Email\ResetPasswordEmail.cs" />
+    <Compile Include="Domain\Email\SignupEmail.cs" />
+    <Compile Include="Domain\Email\Email.cs" />
+    <Compile Include="Exceptions\EmailException.cs" />
+    <Compile Include="Exceptions\SearchException.cs" />
+    <Compile Include="Exceptions\DatabaseException.cs" />
+    <Compile Include="Attachments\AttachmentRouteHandler.cs" />
+    <Compile Include="Domain\Security\IUserContext.cs" />
+    <Compile Include="DI\MvcModelBinders.cs" />
+    <Compile Include="Configuration\RoadkillSection.cs" />
+    <Compile Include="MVC\Controllers\InstallController.cs" />
+    <Compile Include="MVC\Controllers\WikiController.cs" />
+    <Compile Include="MVC\Controllers\HelpController.cs" />
+    <Compile Include="Plugins\BuiltIn\MathJax.cs" />
+    <Compile Include="Plugins\CustomVariablePlugin.cs" />
+    <Compile Include="Plugins\PluginSetting.cs" />
+    <Compile Include="Plugins\SettingUIType.cs" />
+    <Compile Include="Plugins\BuiltIn\SyntaxHighlighter.cs" />
+    <Compile Include="Text\TextToken.cs" />
+    <Compile Include="Text\CustomTokenParser.cs" />
+    <Compile Include="Text\Sanitizer\HtmlWhiteList.cs" />
+    <Compile Include="Text\Sanitizer\HtmlAttribute.cs" />
+    <Compile Include="Text\Sanitizer\HtmlElement.cs" />
+    <Compile Include="Text\Sanitizer\MarkupSanitizer.cs" />
+    <Compile Include="Text\ImageEventArgs.cs" />
+    <Compile Include="Text\IMarkupParser.cs" />
+    <Compile Include="Text\LinkEventArgs.cs" />
+    <Compile Include="Text\Parsers\MediaWikiParser.cs" />
+    <Compile Include="Domain\Security\Windows\ActiveDirectoryUserManager.cs" />
+    <Compile Include="Domain\Security\FormsAuthUserManager.cs" />
+    <Compile Include="Domain\Security\UserManagerBase.cs" />
+    <Compile Include="Domain\Managers\SettingsManager.cs" />
+    <Compile Include="Database\Entities\User.cs" />
+    <Compile Include="Domain\Managers\ServiceBase.cs" />
+    <Compile Include="Text\ToC\StringTemplate.cs" />
+    <Compile Include="Text\ToC\Item.cs" />
+    <Compile Include="Text\ToC\Tree.cs" />
+    <Compile Include="MVC\ViewModels\FileSummary.cs" />
+    <Compile Include="MVC\ViewModels\UserSummary.cs" />
+    <Compile Include="Exceptions\HistoryException.cs" />
+    <Compile Include="Exceptions\ExceptionBase.cs" />
+    <Compile Include="Exceptions\SecurityException.cs" />
+    <Compile Include="Configuration\SiteSettings.cs" />
+    <Compile Include="MVC\ViewModels\SearchResult.cs" />
+    <Compile Include="MVC\ViewModels\DirectorySummary.cs" />
+    <Compile Include="MVC\ViewModels\SettingsSummary.cs" />
+    <Compile Include="Domain\Import\ScrewTurnImporter.cs" />
+    <Compile Include="Domain\Import\IWikiImporter.cs" />
+    <Compile Include="Domain\Managers\SearchManager.cs" />
+    <Compile Include="MVC\Controllers\SettingsController.cs" />
+    <Compile Include="MVC\ViewModels\HistorySummary.cs" />
+    <Compile Include="MVC\ViewModels\TagSummary.cs" />
+    <Compile Include="Text\Parsers\CreoleParser.cs" />
+    <Compile Include="Common\HtmlDiff.cs" />
+    <Compile Include="Text\Parsers\Markdown.cs" />
+    <Compile Include="Text\MarkupConverter.cs" />
+    <Compile Include="Exceptions\InstallerException.cs" />
+    <Compile Include="Domain\Security\UserContext.cs" />
+    <Compile Include="Common\Extensions\Extensions.cs" />
+    <Compile Include="Common\Extensions\HtmlExtensions.cs" />
+    <Compile Include="MVC\Controllers\ControllerBase.cs" />
+    <Compile Include="MVC\Controllers\HomeController.cs" />
+    <Compile Include="MVC\Controllers\PagesController.cs" />
+    <Compile Include="Database\Entities\PageContent.cs" />
+    <Compile Include="Domain\Managers\HistoryManager.cs" />
+    <Compile Include="Domain\Managers\PageManager.cs" />
+    <Compile Include="Database\Entities\Page.cs" />
+    <Compile Include="MVC\ViewModels\PageSummary.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoadkillApplication.cs" />
+    <Compile Include="Text\ToC\TocParser.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\Resx\InstallStrings.cs-CZ.resx" />
+    <EmbeddedResource Include="Localization\Resx\InstallStrings.pl-PL.resx" />
+    <EmbeddedResource Include="Localization\Resx\InstallStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>InstallStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localization\Resx\SiteStrings.cs-CZ.resx" />
+    <EmbeddedResource Include="Localization\Resx\SiteStrings.pl-PL.resx" />
+    <EmbeddedResource Include="Localization\Resx\SiteStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SiteStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Localization\Text\history.txt" />
+    <EmbeddedResource Include="Database\Schema\Postgres\Create.sql" />
+    <EmbeddedResource Include="Database\Schema\Postgres\Drop.sql" />
+    <EmbeddedResource Include="Database\Schema\Sqlite\Create.sql" />
+    <EmbeddedResource Include="Database\Schema\Sqlite\Drop.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServer\Create.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServer\Drop.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create2.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create3.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create4.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create5.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Drop1.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Drop4.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Drop3.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Drop2.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create1.sql" />
+    <EmbeddedResource Include="Database\Schema\MySql\Create.sql" />
+    <EmbeddedResource Include="Database\Schema\MySql\Drop.sql" />
+    <EmbeddedResource Include="Database\Schema\MySql\Upgrade.sql" />
+    <EmbeddedResource Include="Database\Schema\Postgres\Upgrade.sql" />
+    <EmbeddedResource Include="Database\Schema\Sqlite\Upgrade.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServer\Upgrade.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Upgrade1.sql" />
+    <EmbeddedResource Include="Database\Schema\SqlServerCE\Upgrade2.sql" />
+    <Content Include="Localization\Text\InstallStrings.cs-CZ.txt" />
+    <Content Include="Localization\Text\InstallStrings.pl-PL.txt" />
+    <Content Include="Localization\Text\InstallStrings.txt" />
+    <Content Include="Localization\Text\SiteStrings.cs-CZ.txt" />
+    <Content Include="Localization\Text\SiteStrings.pl-PL.txt" />
+    <Content Include="Localization\Text\SiteStrings.txt" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
