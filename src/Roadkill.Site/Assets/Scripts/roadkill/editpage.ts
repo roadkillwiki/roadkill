@@ -54,6 +54,19 @@ module Roadkill.Site
 					return true;
 				}
 			});
+
+			$("#TagsEntry").keydown(function (e)
+            {
+                    // Tab adds the tag, but then focuses the textarea
+                    var code = e.keyCode || e.which;
+                    if (code == "9")
+                    {
+                            $("#Content").focus();
+                            return false;
+                    }
+
+                    return true;
+            });
 		}
 
 		public static bindPreviewButton()
