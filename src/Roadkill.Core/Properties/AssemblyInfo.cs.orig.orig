@@ -1,16 +1,15 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using log4net.Config;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Roadkill.Site")]
-[assembly: AssemblyDescription("The MVC site for Roadkill Wiki")]
+[assembly: AssemblyTitle("Roadkill.Core")]
+[assembly: AssemblyDescription("Roadkill Wiki core library")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("C.Small")]
-[assembly: AssemblyProduct("Roadkill.Site")]
+[assembly: AssemblyProduct("Roadkill.Core")]
 [assembly: AssemblyCopyright("Copyright © C.Small 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -21,7 +20,7 @@ using log4net.Config;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8c360ac3-9dd8-490a-bb27-da3fa48eeca7")]
+[assembly: Guid("d6905a09-c298-4195-a8e6-76a299edb75c")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -30,9 +29,10 @@ using log4net.Config;
 //      Build Number
 //      Revision
 //
-// You can specify all the values or you can default the Revision and Build Numbers 
+// You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.7.0.0")]
-[assembly: AssemblyFileVersion("1.7.0.0")]
-[assembly: AssemblyInformationalVersion("1.7.0-beta7")]
-[assembly: XmlConfigurator(Watch = true, ConfigFile = "log4net.config")]
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.7.1.0")] 
+[assembly: AssemblyFileVersion("1.7.1.0")]
+[assembly: AssemblyInformationalVersion("1.7.1")] // Do not include spaces (used by the Bundles)
+[assembly: InternalsVisibleTo("Roadkill.Tests")]

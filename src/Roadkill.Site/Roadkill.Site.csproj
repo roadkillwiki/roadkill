@@ -549,6 +549,7 @@
     <Content Include="Views\Home\GlobalJsVars.cshtml" />
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <None Include="Properties\PublishProfiles\Demosite.pubxml" />
     <None Include="Properties\PublishProfiles\Download.pubxml" />
@@ -571,6 +572,7 @@
     </None>
     <None Include="Web.Mono.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -593,6 +595,7 @@
     </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -636,6 +639,7 @@
   <ItemGroup>
     <Content Include="Web.Download.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
