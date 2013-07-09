@@ -21,6 +21,10 @@ namespace Roadkill.Core
 		public SignupEmail(ApplicationSettings applicationSettings, SiteSettings siteSettings)
 			: base(applicationSettings, siteSettings)
 		{
+		}
+
+		public override void Send(UserSummary summary)
+		{
 			// Thread safety should not be an issue here
 			if (string.IsNullOrEmpty(_plainTextContent))
 				_plainTextContent = ReadTemplateFile("Signup.txt");
@@ -30,6 +34,8 @@ namespace Roadkill.Core
 
 			PlainTextView = _plainTextContent;
 			HtmlView = _htmlContent;
+
+			base.Send(summary);
 		}
 	}
 }
