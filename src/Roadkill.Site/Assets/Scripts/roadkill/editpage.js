@@ -40,8 +40,7 @@ var Roadkill;
                     delimeters: [
                         44, 
                         186, 
-                        32, 
-                        9
+                        32
                     ],
                     hiddenTagListName: "RawTags",
                     tagCloseIcon: "×",

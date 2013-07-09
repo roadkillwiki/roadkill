@@ -23,6 +23,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			CopyDbBinaries();
 			CopyWebConfig();
+			CopyRoadkillConfig();
 			LaunchIisExpress();
 
 			// Disable the remember password popups
@@ -88,6 +89,26 @@ namespace Roadkill.Tests.Acceptance
 
 				File.Copy(testsWebConfigPath, siteWebConfig, true);
 				Console.WriteLine("Copied web.config from '{0}' to '{1}'", testsWebConfigPath, siteWebConfig);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+			}
+		}
+
+		public static void CopyRoadkillConfig()
+		{
+			try
+			{
+				string sitePath = GetSitePath();
+				string roadkillConfig = Path.Combine(sitePath, "Roadkill.config");
+
+				string testsRoadkillConfigPath = Path.Combine(Settings.LIB_FOLDER, "Configs", "Roadkill.dev.config");
+				Console.WriteLine("Original roadkill.config path: {0}", roadkillConfig);
+				Console.WriteLine("Acceptance tests roadkill.config path: {0}", testsRoadkillConfigPath);
+
+				File.Copy(testsRoadkillConfigPath, roadkillConfig, true);
+				Console.WriteLine("Copied roadkill.config from '{0}' to '{1}'", testsRoadkillConfigPath, roadkillConfig);
 			}
 			catch (Exception e)
 			{

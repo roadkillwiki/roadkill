@@ -12,6 +12,7 @@ using Roadkill.Core.Security;
 using StructureMap;
 using StructureMap.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Attachments;
 
 namespace Roadkill.Core.Mvc.Attributes
 {
@@ -65,7 +66,7 @@ namespace Roadkill.Core.Mvc.Attributes
 				filterContext.HttpContext.Response.Cache.SetExpires(DateTime.UtcNow.AddSeconds(2));
 				filterContext.HttpContext.Response.Cache.SetMaxAge(TimeSpan.FromSeconds(0));
 				filterContext.HttpContext.Response.Cache.SetLastModified(summary.ModifiedOn.ToUniversalTime());
-				filterContext.HttpContext.Response.StatusCode = filterContext.HttpContext.ApplicationInstance.Context.GetStatusCodeForCache(summary.ModifiedOn.ToUniversalTime());
+				filterContext.HttpContext.Response.StatusCode = ResponseWrapper.GetStatusCodeForCache(summary.ModifiedOn.ToUniversalTime(), filterContext.HttpContext.Request.Headers["If-Modified-Since"]);
 
 				if (filterContext.HttpContext.Response.StatusCode == 304)
 				{
