@@ -28,7 +28,7 @@ namespace Roadkill.Tests.Unit
 		private List<User> _users = new List<User>();
 		private SettingsManager _settingsManager;
 
-		[TestFixtureSetUp]
+		[SetUp]
 		public void Setup()
 		{
 			_settings = new ApplicationSettings();
@@ -337,7 +337,7 @@ namespace Roadkill.Tests.Unit
 
 			_userManager.Setup(x => x.Signup(It.IsAny<UserSummary>(), null)).Returns(Guid.NewGuid().ToString());
 			
-			FakeEmail signupEmail = new FakeEmail(_settings, siteSettings);
+			FakeSignupEmail signupEmail = new FakeSignupEmail(_settings, siteSettings);
 			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager, signupEmail, null);
 			userController.SetFakeControllerContext();
 
@@ -363,7 +363,7 @@ namespace Roadkill.Tests.Unit
 			SiteSettings siteSettings = _settingsManager.GetSiteSettings();
 			siteSettings.AllowUserSignup = true;
 
-			FakeEmail signupEmail = new FakeEmail(_settings, siteSettings);
+			FakeSignupEmail signupEmail = new FakeSignupEmail(_settings, siteSettings);
 			UserController userController = new UserController(_settings, _userManager.Object, _context, _settingsManager, signupEmail, null);
 			userController.SetFakeControllerContext();
 			userController.ModelState.AddModelError("key", "this is used to force ModelState.IsValid to false");

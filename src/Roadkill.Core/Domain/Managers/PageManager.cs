@@ -238,6 +238,7 @@ namespace Roadkill.Core.Managers
 					Repository.DeletePageContent(children[i]);
 				}
 
+				_listCache.RemoveAll();
 				Repository.DeletePage(page);
 
 				// Remove everything for now, to avoid reciprocal link issues

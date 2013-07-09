@@ -8,12 +8,12 @@ using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Tests.Unit
 {
-	public class FakeEmail : Email
+	public class FakeSignupEmail : SignupEmail
 	{
 		public bool IsSent { get; set; }
 		public UserSummary Summary { get; set; }
 
-		public FakeEmail(ApplicationSettings applicationSettings, SiteSettings siteSettings)
+		public FakeSignupEmail(ApplicationSettings applicationSettings, SiteSettings siteSettings)
 			: base(applicationSettings, siteSettings)
 		{
 		}
