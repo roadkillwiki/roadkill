@@ -58,7 +58,7 @@ If you are building the solution, there are a couple of things you will need to 
 - Copy lib/LightSpeed/Mindscape.LightSpeed.MetaData.dll to the bin folder
 - Copy lib/LightSpeed/Providers/log4net.dll to the bin folder
 - Copy lib/LightSpeed/Providers/Memcached.ClientLibrary.dll to the bin folder
-- Copy lib/Configs/default.txt to site root
+- Copy lib/Configs/apache.txt to site root
 
 ### References
 A lot of help came from:

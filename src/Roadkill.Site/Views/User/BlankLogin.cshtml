@@ -2,32 +2,25 @@
 	ViewBag.Title = SiteStrings.Login_Title;
 	Layout = "~/Views/Shared/_Blank.cshtml";
 }
-<div class="padded" style="background-color:White;min-height:380px;">
-	<h1 style="margin-top:0px;">@SiteStrings.Login_Title</h1>
-	@Html.ValidationSummary(SiteStrings.Login_Unsuccessful_Title)
+<div class="padded" style="background-color:#FFF; min-height:280px;">
+<h1>@SiteStrings.Login_Title</h1>
+@Html.ValidationSummary(SiteStrings.Login_Unsuccessful_Title, new { @class = "alert alert-block alert-error fade in", data_dismiss = "alert" })
 
+@using (Html.BeginForm())
+{
+	@Html.Hidden("fromUrl",Request.QueryString["ReturnUrl"])
+	<fieldset id="login" class="rounded10 lightborder">
+		<label for="email" class="userlabel">@SiteStrings.Shared_Email_Label</label>
+		@Html.TextBox("email", null, new { @class = "usertextbox" })
+		<br class="clear" />	
 
-	<div id="login" class="rounded10 lightborder">
-	@using (Html.BeginForm())
-	{
-		@Html.Hidden("fromUrl",Request.QueryString["ReturnUrl"])
-
-		<div class="email">
-			<label for="email">@SiteStrings.Shared_Username</label>
-			@Html.TextBox("email")
-		</div>
-		<br />	
-
-		<div class="password">
-			<label for="password">@SiteStrings.Shared_Password_Label</label>
-			@Html.Password("password")
-		</div>
-		<br />
-	
-		<div class="buttonContainer">
-			<input type="submit" class="button saveButton" value="@SiteStrings.Button_Login" />
-		</div>
+		<label for="password" class="userlabel">@SiteStrings.Shared_Password_Label</label>
+		<div>@Html.Password("password", null, new { @class = "usertextbox" })</div>
 		<br class="clear" />
-	}
-	</div>
+
+		@Html.ActionLink(@SiteStrings.Login_ForgottenPassword, "ResetPassword", null, new { @class = "smaller" })
+	
+		<input type="submit" id="userbutton" class="btn btn-primary" value="@SiteStrings.Button_Login" />
+	</fieldset>
+}
 </div>
