@@ -220,7 +220,7 @@ namespace Roadkill.Core.Attachments
 		/// <returns>The mimetype for the extension, or "application/octet-stream" if the mimetype cannot be found.</returns>
 		public static string GetMimeType(string fileExtension, ServerManager serverManager)
 		{
-#if MONO
+#if MONO || DEBUG
 			return MimeTypes.GetMimeMapping(fileExtension);
 #endif
 

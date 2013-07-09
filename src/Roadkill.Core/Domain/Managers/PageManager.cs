@@ -179,7 +179,7 @@ namespace Roadkill.Core.Managers
 
 					foreach (string item in tagList)
 					{
-						foreach (string tagName in item.ParseTags())
+						foreach (string tagName in PageSummary.ParseTags(item))
 						{
 							if (!string.IsNullOrEmpty(tagName))
 							{
@@ -509,7 +509,7 @@ namespace Roadkill.Core.Managers
 		}
 
 		/// <summary>
-		/// Adds an IP address after the username for any Appharbor vandalism.
+		/// Adds an IP address after the username for any demo site vandalism.
 		/// </summary>
 		private string AppendIpForDemoSite(string username)
 		{
