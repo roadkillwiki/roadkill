@@ -9,6 +9,7 @@ using System.Web.Routing;
 using System.Reflection;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Logging;
+using System.Collections.Specialized;
 
 namespace Roadkill.Core.Attachments
 {
@@ -29,77 +30,113 @@ namespace Roadkill.Core.Attachments
 			_settings = settings;
 		}
 
+		/// <summary>
+		/// IHttpHandler implementation.
+		/// </summary>
+		/// <param name="context"></param>
 		public void ProcessRequest(HttpContext context)
 		{
-			string fileExtension = Path.GetExtension(context.Request.Url.LocalPath);
-			string attachmentFolder = _settings.AttachmentsDirectoryPath;
+			ResponseWrapper wrapper = new ResponseWrapper(context.Response);
 
+			WriteResponse(context.Request.Url.LocalPath, 
+							context.Request.ApplicationPath, 
+							context.Request.Headers["If-Modified-Since"], 
+							wrapper);
+		}
+
+		/// <summary>
+		/// Writes out a status code, cache response and response (binary or text) for the 
+		/// localpath file request.
+		/// </summary>
+		/// <param name="localPath">The request's local path, which is a url such as /Attachments/foo.jpg</param>
+		/// <param name="applicationPath">The application path e.g. /wiki/, if the app is running under one.
+		/// If the app is running from the root then this will be "/".</param>
+		/// <param name="url">The url for the request</param>
+		/// <param name="modifiedSinceHeader">The modified since header (or null if there isn't one) - this is a date in ISO format.</param>
+		/// <param name="responseWrapper">A wrapper for the HttpResponse object, to cater for ASP.NET being untestable.</param>
+		public void WriteResponse(string localPath, string applicationPath, string modifiedSinceHeader, 
+									IResponseWrapper responseWrapper)
+		{
+			// Get the mimetype from the IIS settings (configurable in the mimetypes.xml file in the site)
+			// n.b. debug mode skips using IIS to avoid complications with testing.
+			string fileExtension = Path.GetExtension(localPath);
+			string mimeType = "";
 			using (ServerManager serverManager = new ServerManager())
 			{
-				// Get the mimetype from the IIS settings (configurable in the mimetypes.xml file in the site)
-				string mimeType = MimeTypes.GetMimeType(fileExtension, serverManager);
+				mimeType = MimeTypes.GetMimeType(fileExtension, serverManager);
+			}
 
-				byte[] buffer = null;
-				try
+			try
+			{
+				string fullPath = TranslateUrlPathToFilePath(localPath, applicationPath);
+
+				if (File.Exists(fullPath))
 				{
-					// LocalPath uses "/" and a Windows filepath is \
-					string filePath = context.Request.Url.LocalPath.Replace(string.Format("/{0}", _settings.AttachmentsRoutePath), "");
-					
-					if (context.Request.ApplicationPath != "/" && filePath.StartsWith(context.Request.ApplicationPath))
-						filePath = filePath.Replace(context.Request.ApplicationPath, "");
-
-					filePath = filePath.Replace('/', Path.DirectorySeparatorChar);
-
-					if (attachmentFolder.EndsWith(Path.DirectorySeparatorChar.ToString()))
-						attachmentFolder = attachmentFolder.Remove(attachmentFolder.Length -1, 1);
-
-					if (filePath.StartsWith(Path.DirectorySeparatorChar.ToString()))
-						filePath = filePath.Remove(0, 1);
-
-					// Ignoring Path.AltDirectorySeparatorChar, Path.VolumeSeparatorChar for now.
-					string fullPath = attachmentFolder + Path.DirectorySeparatorChar + filePath;
-
-					// Should this return a 404?
-					if (!File.Exists(fullPath))
-						throw new FileNotFoundException(string.Format("The url {0} (translated to {1}) does not exist on the server", context.Request.Url.LocalPath, fullPath));
-
-					AddStatusCodeForCache(context, fullPath);
-					if (context.Response.StatusCode != 304)
+					responseWrapper.AddStatusCodeForCache(fullPath, modifiedSinceHeader);
+					if (responseWrapper.StatusCode != 304)
 					{
-						// Serve the file
-						buffer = File.ReadAllBytes(fullPath);
-						context.Response.ContentType = mimeType;
-						context.Response.BinaryWrite(buffer);
+						// Serve the file in the body
+						byte[] buffer = File.ReadAllBytes(fullPath);
+						responseWrapper.ContentType = mimeType;
+						responseWrapper.BinaryWrite(buffer);
 					}
 
-					context.Response.End();
+					responseWrapper.End();
 				}
-				catch (FileNotFoundException ex)
+				else
 				{
-					Log.Warn(ex, "Unable to find the attachment file");
-					context.Response.StatusCode = 404;
-					context.Response.End();
+					// 404
+					Log.Warn("The url {0} (translated to {1}) does not exist on the server.", localPath, fullPath);
+					responseWrapper.StatusCode = 404;
+					responseWrapper.End();
+
+					return;
 				}
-				catch (IOException ex)
-				{
-					Log.Error(ex, "There was a problem opening the file {0}", context.Request.Url);
-					context.Response.Write("There was a problem opening the file (see the error logs)");
-					context.Response.StatusCode = 500;
-					context.Response.End();
-				}
+			}
+			catch (IOException ex)
+			{
+				Log.Error(ex, "There was a problem opening the file {0}.", localPath);
+				responseWrapper.Write("There was a problem opening the file (see the error logs)");
+				responseWrapper.StatusCode = 500;
+				responseWrapper.End();
 			}
 		}
 
-		private void AddStatusCodeForCache(HttpContext context, string fullPath)
+		/// <summary>
+		/// Takes a request's local file path (e.g. /attachments/a.jpg 
+		/// and translates it into the correct attachment file path.
+		/// </summary>
+		/// <param name="urlPath">The request's url/local path, which is a url such as /Attachments/foo.jpg.
+		/// This should always begin with "/".</param>
+		/// <param name="applicationPath">The application path e.g. /wiki/, if the app is running under one.
+		/// If the app is running from the root then this will just be "/".</param>
+		/// <returns>A full operating system file path.</returns>
+		public string TranslateUrlPathToFilePath(string urlPath, string applicationPath)
 		{
-			// https://developers.google.com/speed/docs/best-practices/caching
-			context.Response.AddFileDependency(fullPath);
+			if (string.IsNullOrEmpty(urlPath))
+				return "";
 
-			FileInfo info = new FileInfo(fullPath);
-			context.Response.Cache.SetCacheability(HttpCacheability.Public);
-			context.Response.Headers.Add("Expires", "-1"); // always followed by the browser
-			context.Response.Cache.SetLastModifiedFromFileDependencies(); // sometimes followed by the browser
-			context.Response.StatusCode = context.GetStatusCodeForCache(info.LastWriteTimeUtc);
+			if (!urlPath.StartsWith("/"))
+				urlPath = "/" + urlPath;
+
+			// Get rid of the route from the path
+			// This replacement assumes the url is case sensitive (e.g. '/Attachments' is replaced, '/attachments' isn't)
+			string filePath = urlPath.Replace(string.Format("/{0}", _settings.AttachmentsRoutePath), "");
+					
+			if (!string.IsNullOrEmpty(applicationPath) && applicationPath != "/" && filePath.StartsWith(applicationPath))
+				filePath = filePath.Replace(applicationPath, "");
+
+			// urlPath/LocalPath uses "/" and a Windows filepath is "\"
+			// ignoring Path.AltDirectorySeparatorChar, Path.VolumeSeparatorChar for now.
+			filePath = filePath.Replace('/', Path.DirectorySeparatorChar);
+
+			// Get rid of the \ at the start of the file path
+			if (filePath.StartsWith(Path.DirectorySeparatorChar.ToString()))
+				filePath = filePath.Remove(0, 1);
+
+			// THe attachmentFolder has a trailing slash
+			string fullPath = _settings.AttachmentsDirectoryPath + filePath;
+			return fullPath;
 		}
 	}
 }

@@ -140,7 +140,7 @@ namespace Roadkill.Core.Security
 		/// </summary>
 		/// <param name="user">The user details to signup.</param>
 		/// <param name="completed">Called once the signup (e.g. email is sent) is complete. Pass Null for no action.</param>
-		/// <returns>The activation key for the signup.</returns>
+		/// <returns>The activation key for the signup, or an empty string if the user details are invalid.</returns>
 		public abstract string Signup(UserSummary summary, Action completed);
 
 		/// <summary>

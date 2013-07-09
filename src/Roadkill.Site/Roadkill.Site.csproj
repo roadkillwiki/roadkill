@@ -44,7 +44,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE;APPHARBOR</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -280,9 +280,6 @@
     <Content Include="Assets\Images\log_warning.png" />
     <Content Include="Assets\Scripts\bootbox.js" />
     <Content Include="Assets\Scripts\bootstrap-tagmanager.js" />
-    <Content Include="NLog.config">
-      <SubType>Designer</SubType>
-    </Content>
     <TypeScriptCompile Include="Assets\Scripts\roadkill\dialogs.ts" />
     <Content Include="Assets\Scripts\jquery\jquery.fileupload.js" />
     <Content Include="Assets\Scripts\jquery\jquery.iframe-transport.js" />
@@ -481,7 +478,9 @@
       <DependentUpon>wysiwygeditor.ts</DependentUpon>
     </Content>
     <Content Include="Assets\CSS\toastr.css" />
-    <Content Include="mimetypes.config" />
+    <Content Include="Roadkill.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="packages.config" />
     <Content Include="Plugins\Web.config" />
     <None Include="Properties\PublishProfiles\Mono.pubxml" />
@@ -681,7 +680,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono|AnyCPU'">
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE;APPHARBOR</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>

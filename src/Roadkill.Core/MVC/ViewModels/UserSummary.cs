@@ -20,11 +20,18 @@ namespace Roadkill.Core.Mvc.ViewModels
 		protected ApplicationSettings Settings;
 		protected UserManagerBase UserManager;
 
+		/// <summary>
+		/// Constructor used by none-controllers
+		/// </summary>
 		public UserSummary()
 		{
-			// Used for non-controllers
 		}
 
+		/// <summary>
+		/// Use this constructor when inside a controller, or you have ApplicationSettings.
+		/// </summary>
+		/// <param name="settings"></param>
+		/// <param name="userManager"></param>
 		public UserSummary(ApplicationSettings settings, UserManagerBase userManager)
 		{
 			Settings = settings;
