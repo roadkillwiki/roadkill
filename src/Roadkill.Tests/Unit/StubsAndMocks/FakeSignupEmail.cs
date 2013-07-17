@@ -17,7 +17,7 @@ namespace Roadkill.Tests.Unit
 			: base(applicationSettings, siteSettings)
 		{
 		}
-
+		
 		public override void Send(UserSummary summary)
 		{
 			ReplaceTokens(summary, "{EMAIL}");

@@ -113,6 +113,10 @@ namespace Roadkill.Core
 					// Custom variable plugins
 					scanner.AddAllTypesOf<MathJax>();
 
+					// Emails
+					scanner.AddAllTypesOf<SignupEmail>();
+					scanner.AddAllTypesOf<ResetPasswordEmail>();
+
 					// Cache
 					scanner.AddAllTypesOf<ListCache>();
 					scanner.AddAllTypesOf<PageSummaryCache>();
@@ -126,7 +130,7 @@ namespace Roadkill.Core
 				x.For<IUserContext>().HybridHttpOrThreadLocalScoped();
 
 				// Temp for custom variable plugins
-				x.For<MathJax>();
+				x.For<MathJax>().HybridHttpOrThreadLocalScoped();
 
 				// Cache
 				x.For<ListCache>().Singleton();
