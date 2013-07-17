@@ -244,6 +244,48 @@ namespace Roadkill.Tests.Integration
 			Assert.That(results[0].ContentSummary, Contains.Substring("БД сервера событий была перенесена из"));
 		}
 
+		[Test]
+		[Description("Not an integration test, but grouped here for convenience.")]
+		public void GetContentSummary_Should_Only_Contain_First_150_Characters_For_Summary()
+		{
+			
+
+			// Arrange
+			SearchManager searchManager = new SearchManager(_config, _repository);
+			searchManager.CreateIndex();
+
+			PageSummary page1 = CreatePage(1, "admin", "A page title", "tag1", "Lorizzle ipsizzle dolor sit amizzle, (pre character 150 boundary) rizzle adipiscing tellivizzle. Nullizzle sapizzle velizzle, yo mamma volutpat, suscipizzle bow wow wow, gravida vizzle, (post 150 character boundary) shizznit. Pellentesque da bomb tortizzle. Hizzle erizzle. Its fo rizzle izzle sheezy dapibizzle mofo tempizzle tempizzle. Maurizzle away nibh izzle turpis. Phat izzle hizzle. Pellentesque eleifend rhoncus rizzle. Da bomb things dang platea dictumst. Fo shizzle my nizzle dapibizzle. Shiz tellus owned, pretizzle eu, mattizzle ac, bow wow wow its fo rizzle, nunc. Shiz suscipit. Integizzle own yo' we gonna chung sed go to hizzle.");
+			searchManager.Add(page1);
+
+			// Act
+			List<SearchResult> results = searchManager.Search("rizzle").ToList();
+
+			// Assert
+			Assert.That(results[0].ContentSummary, Contains.Substring("(pre character 150 boundary)"));
+			Assert.That(results[0].ContentSummary, Is.Not.StringContaining("(post character 150 boundary)"));
+
+		}
+
+		[Test]
+		[Description("Not an integration test, but grouped here for convenience.")]
+		public void GetContentSummary_Should_Remove_Html_From_Summary()
+		{
+			// Arrange
+			SearchManager searchManager = new SearchManager(_config, _repository);
+			searchManager.CreateIndex();
+
+			PageSummary page1 = CreatePage(1, "admin", "A page title", "tag1", "**some bold** \n\n=my header=");
+			searchManager.Add(page1);
+
+			// Act
+			List<SearchResult> results = searchManager.Search("my header").ToList();
+
+			// Assert
+			Assert.That(results[0].ContentSummary, Is.Not.StringContaining("<b>some bold</b>"));
+			Assert.That(results[0].ContentSummary, Is.Not.StringContaining("<h1>my header</h1>"));
+
+		}
+
 		protected PageSummary CreatePage(int id, string createdBy, string title, string tags, string textContent = "", DateTime? createdOn = null)
 		{
 			if (createdOn == null)
