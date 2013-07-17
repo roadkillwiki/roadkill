@@ -386,5 +386,10 @@ namespace Roadkill.Tests.Unit
 			Assert.That(userController.ModelState.Count, Is.EqualTo(1));
 			Assert.That(signupEmail.IsSent, Is.False);
 		}
+
+		// TODO:
+		// Reset password POST (should send email)
+		// Resend password confirm POST
+		// Profile POST
 	}
 }

@@ -60,11 +60,7 @@ namespace Roadkill.Core.Attachments
 			// Get the mimetype from the IIS settings (configurable in the mimetypes.xml file in the site)
 			// n.b. debug mode skips using IIS to avoid complications with testing.
 			string fileExtension = Path.GetExtension(localPath);
-			string mimeType = "";
-			using (ServerManager serverManager = new ServerManager())
-			{
-				mimeType = MimeTypes.GetMimeType(fileExtension, serverManager);
-			}
+			string mimeType = MimeTypes.GetMimeType(fileExtension);
 
 			try
 			{

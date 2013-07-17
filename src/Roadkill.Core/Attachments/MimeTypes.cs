@@ -212,35 +212,33 @@ namespace Roadkill.Core.Attachments
 		}
 
 		/// <summary>
-		/// Gets the mimetype for the extension provided, using IIS to lookup the mimetype, or if 
-		/// null, a dictionary lookup of common extensions to mimetypes.
+		/// Gets the mimetype for the extension provided, using IIS to lookup the mimetype, or this fails,
+		/// a dictionary lookup of common extensions to mimetypes.
 		/// </summary>
 		/// <param name="fileExtension">The file extension to lookup, which should include the "." e.g. ".jpg"</param>
-		/// <param name="serverManager">The IIS server manager to use for querying the mimetype. Use null to use the dictionary lookup.</param>
 		/// <returns>The mimetype for the extension, or "application/octet-stream" if the mimetype cannot be found.</returns>
-		public static string GetMimeType(string fileExtension, ServerManager serverManager)
+		public static string GetMimeType(string fileExtension)
 		{
 #if MONO || DEBUG
 			return MimeTypes.GetMimeMapping(fileExtension);
 #endif
-
-			if (serverManager == null)
-				return MimeTypes.GetMimeMapping(fileExtension);
-
 			try
 			{
-				string mimeType = "application/octet-stream";
+				using (ServerManager serverManager = new ServerManager())
+				{
+					string mimeType = "application/octet-stream";
 
-				Microsoft.Web.Administration.Configuration config = serverManager.GetApplicationHostConfiguration();
-				ConfigurationSection staticContentSection = config.GetSection("system.webServer/staticContent");
-				ConfigurationElementCollection mimemaps = staticContentSection.GetCollection();
+					Microsoft.Web.Administration.Configuration config = serverManager.GetApplicationHostConfiguration();
+					ConfigurationSection staticContentSection = config.GetSection("system.webServer/staticContent");
+					ConfigurationElementCollection mimemaps = staticContentSection.GetCollection();
 
-				ConfigurationElement element = mimemaps.FirstOrDefault(m => m.Attributes["fileExtension"].Value.ToString() == fileExtension);
+					ConfigurationElement element = mimemaps.FirstOrDefault(m => m.Attributes["fileExtension"].Value.ToString() == fileExtension);
 
-				if (element != null)
-					mimeType = element.Attributes["mimeType"].Value.ToString();
+					if (element != null)
+						mimeType = element.Attributes["mimeType"].Value.ToString();
 
-				return mimeType;
+					return mimeType;
+				}
 			}
 			catch (UnauthorizedAccessException)
 			{
