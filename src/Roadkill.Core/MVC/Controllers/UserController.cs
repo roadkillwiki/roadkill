@@ -18,7 +18,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	{
 		private SignupEmail _signupEmail;
 		private ResetPasswordEmail _resetPasswordEmail;
-
+		
 		public UserController(ApplicationSettings settings, UserManagerBase userManager,
 			IUserContext context, SettingsManager siteSettingsManager, 
 			SignupEmail signupEmail, ResetPasswordEmail resetPasswordEmail)
@@ -140,6 +140,8 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			if (UserManager.Authenticate(email, password))
 			{
+				Context.CurrentUser = UserManager.GetLoggedInUserName(HttpContext);
+
 				if (!string.IsNullOrWhiteSpace(fromUrl))
 					return Redirect(fromUrl);
 				else
