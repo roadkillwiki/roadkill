@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<roadkill adminRoleName="Admin" attachmentsFolder="~/App_Data/Attachments"
- connectionStringName="Roadkill" dataStoreType="Sqlite" editorRoleName="Editor"
- ignoreSearchIndexErrors="true" installed="true" logging="log2console"
- useWindowsAuthentication="false" version="1.7.0" />
