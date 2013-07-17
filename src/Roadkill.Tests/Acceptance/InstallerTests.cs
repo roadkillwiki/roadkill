@@ -62,11 +62,13 @@ namespace Roadkill.Tests.Acceptance
 		{
 			string sitePath = AcceptanceTestsSetup.GetSitePath();
 			string webConfigPath = Path.Combine(sitePath, "web.config");
+			string roadkillConfigPath = Path.Combine(sitePath, "roadkill.config");
 
 			// Remove the readonly flag from one of the installer tests (this could be fired in any order)
 			File.SetAttributes(webConfigPath, FileAttributes.Normal);
+			File.SetAttributes(roadkillConfigPath, FileAttributes.Normal);
 
-			// Switch installed=false in the web.config
+			// Switch installed=false in the web.config (roadkill.config)
 			ExeConfigurationFileMap fileMap = new ExeConfigurationFileMap();
 			fileMap.ExeConfigFilename = webConfigPath;
 			System.Configuration.Configuration config = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
@@ -126,6 +128,11 @@ namespace Roadkill.Tests.Acceptance
 			string sitePath = AcceptanceTestsSetup.GetSitePath();
 			string webConfigPath = Path.Combine(sitePath, "web.config");
 			File.SetAttributes(webConfigPath, FileAttributes.ReadOnly);
+
+			// Cascades down
+			string roadkillConfigPath = Path.Combine(sitePath, "roadkill.config");
+			File.SetAttributes(roadkillConfigPath, FileAttributes.ReadOnly);
+
 			Driver.Navigate().GoToUrl(BaseUrl);
 
 			// Act
