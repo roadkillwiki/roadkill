@@ -287,7 +287,6 @@
     <Content Include="Assets\Scripts\jquery\jquery.fieldSelection.js" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\typescript-ref\constants.ts" />
     <Content Include="Assets\Scripts\jquery\jquery-1.8.0.js" />
-    <Content Include="Assets\Scripts\jquery\jquery.fancybox.pack.js" />
     <Content Include="Assets\Scripts\jquery\jquery.validate.js" />
     <Content Include="Assets\Scripts\jquery\jquery.validationEngine.js" />
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-cz.js" />
