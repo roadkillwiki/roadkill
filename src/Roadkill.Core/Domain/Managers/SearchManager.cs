@@ -243,7 +243,7 @@ namespace Roadkill.Core.Managers
 		/// <summary>
 		/// Converts the page summary to a lucene Document with the relevant searchable fields.
 		/// </summary>
-		private string GetContentSummary(PageSummary summary)
+		internal string GetContentSummary(PageSummary summary)
 		{
 			// Turn the contents into HTML, then strip the tags for the mini summary. This needs some works
 			string contentSummary = summary.Content;
