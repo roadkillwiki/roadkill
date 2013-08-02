@@ -190,6 +190,7 @@ namespace Roadkill.Tests.Unit
 		public void Should_Load_Custom_UserManager()
 		{
 			// Arrange
+			string tempFilename = Path.GetFileName(Path.GetTempFileName()) + ".dll";
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.UserManagerType = "Roadkill.Tests.UserManagerStub";
 			DependencyContainer iocSetup = new DependencyContainer(applicationSettings);
@@ -197,7 +198,7 @@ namespace Roadkill.Tests.Unit
 			// Put the UserManagerStub in a new assembly so we can test it's loaded
 			string sourcePlugin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Roadkill.Tests.dll");
 			string pluginDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Plugins");
-			string destPlugin = Path.Combine(pluginDir, "Roadkill.Tests2.dll");
+			string destPlugin = Path.Combine(pluginDir, tempFilename);
 
 			if (!Directory.Exists(pluginDir))
 				Directory.CreateDirectory(pluginDir);
