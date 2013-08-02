@@ -42,15 +42,15 @@ namespace Roadkill.Tests.Integration
 			string sqlInteropFileSource = Path.Combine(Settings.PACKAGES_FOLDER, "System.Data.SQLite.1.0.86.0", "content", "net40", "x86", "SQLite.Interop.dll");
 			string sqlInteropFileDest = Path.Combine(binFolder, "SQLite.Interop.dll");
 
-			if (!File.Exists(sqlInteropFileDest))
-			{
-				if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
-				{
-					sqlInteropFileSource = Path.Combine(Settings.PACKAGES_FOLDER, "System.Data.SQLite.1.0.86.0", "content", "net40", "x64", "SQLite.Interop.dll");
-				}
+			if (File.Exists(sqlInteropFileDest))
+				File.Delete(sqlInteropFileDest);
 
-				System.IO.File.Copy(sqlInteropFileSource, sqlInteropFileDest, true);
+			if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
+			{
+				sqlInteropFileSource = Path.Combine(Settings.PACKAGES_FOLDER, "System.Data.SQLite.1.0.86.0", "content", "net40", "x64", "SQLite.Interop.dll");
 			}
+
+			System.IO.File.Copy(sqlInteropFileSource, sqlInteropFileDest, true);
 		}
 
 		[SetUp]
