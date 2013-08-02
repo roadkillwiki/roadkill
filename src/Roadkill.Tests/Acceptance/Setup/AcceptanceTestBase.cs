@@ -38,6 +38,12 @@ namespace Roadkill.Tests.Acceptance
 			IsWindowsAuthTests = (ConfigurationManager.AppSettings["useWindowsAuth"] == "true");
 		}
 
+		[TestFixtureSetUp]
+		public void TestFixtureSetUp()
+		{
+			AcceptanceTestsSetup.CopyRoadkillConfig();
+		}
+
 		protected void CopyDb()
 		{
 			SitePath = AcceptanceTestsSetup.GetSitePath();
