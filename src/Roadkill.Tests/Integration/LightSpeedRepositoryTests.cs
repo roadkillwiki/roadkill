@@ -39,7 +39,7 @@ namespace Roadkill.Tests.Integration
 		{
 			// Copy the SQLite interop file for x64
 			string binFolder = AppDomain.CurrentDomain.BaseDirectory;
-			string sqlInteropFileSource = Path.Combine(Settings.PACKAGES_FOLDER, "System.Data.SQLite.1.0.84.0", "content", "net40", "x86", "SQLite.Interop.dll");
+			string sqlInteropFileSource = Path.Combine(Settings.PACKAGES_FOLDER, "System.Data.SQLite.1.0.86.0", "content", "net40", "x86", "SQLite.Interop.dll");
 			string sqlInteropFileDest = Path.Combine(binFolder, "SQLite.Interop.dll");
 
 			if (!File.Exists(sqlInteropFileDest))
