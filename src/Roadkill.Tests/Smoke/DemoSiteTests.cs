@@ -31,7 +31,7 @@ namespace Roadkill.Tests.Acceptance.Smoke
 		[Test]
 		public void ShouldHave_Title()
 		{
-			IWebElement title = Driver.FindElement(By.CssSelector("pagetitle"));
+			IWebElement title = Driver.FindElement(By.CssSelector(".pagetitle"));
 			Assert.That(title.Text, Is.EqualTo("Welcome to the Roadkill .NET Wiki demo site"));
 		}
 
