@@ -245,9 +245,10 @@ namespace Roadkill.Core.Attachments
 					return mimeType;
 				}
 			}
-			catch (UnauthorizedAccessException)
+			catch (Exception)
 			{
-				// Shared hosting won't have access to the applicationhost.config file
+				// Shared hosting won't have access to the applicationhost.config file (UnauthorizedAccessException)
+				// also IIS Express doesn't have ServerManager registered as a COM type (COMException)
 				return MimeTypes.GetMimeMapping(fileExtension);
 			}
 		}
