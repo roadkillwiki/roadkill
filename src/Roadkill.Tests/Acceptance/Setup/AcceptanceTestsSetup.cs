@@ -19,7 +19,7 @@ namespace Roadkill.Tests.Acceptance
 		public static Process IisProcess { get; private set; }
 
 		[SetUp]
-		public void BeforeAllTests()
+		public void Setup()
 		{
 			CopyDbBinaries();
 			CopyWebConfig();
