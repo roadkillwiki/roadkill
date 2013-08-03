@@ -30,18 +30,13 @@ namespace Roadkill.Tests.Acceptance
 				url = "http://localhost:9876";
 
 			CopyDb();
+			AcceptanceTestsSetup.CopyRoadkillConfig();
 			BaseUrl = url;
 			LoginUrl = BaseUrl + "/user/login";
 			LogoutUrl = BaseUrl + "/user/logout";
 			Driver = AcceptanceTestsSetup.Driver;
 
 			IsWindowsAuthTests = (ConfigurationManager.AppSettings["useWindowsAuth"] == "true");
-		}
-
-		[TestFixtureSetUp]
-		public void TestFixtureSetUp()
-		{
-			AcceptanceTestsSetup.CopyRoadkillConfig();
 		}
 
 		protected void CopyDb()
