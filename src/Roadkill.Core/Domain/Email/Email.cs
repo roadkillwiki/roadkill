@@ -41,10 +41,6 @@ namespace Roadkill.Core
 		/// </summary>
 		public string PlainTextView { get; set; }
 
-		/// <summary>
-		/// The user this email should be sent to.
-		/// </summary>
-		public UserSummary UserSummary { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Email"/> class.
@@ -100,9 +96,9 @@ namespace Roadkill.Core
 			string plainTextContent = ReplaceTokens(summary, PlainTextView);
 			string htmlContent = ReplaceTokens(summary, HtmlView);
 
-			string emailTo = UserSummary.ExistingEmail;
+			string emailTo = summary.ExistingEmail;
 			if (string.IsNullOrEmpty(emailTo))
-				emailTo = UserSummary.NewEmail;
+				emailTo = summary.NewEmail;
 
 			if (string.IsNullOrEmpty(emailTo))
 				throw new EmailException(null, "The UserSummary has an empty current or new email address");
