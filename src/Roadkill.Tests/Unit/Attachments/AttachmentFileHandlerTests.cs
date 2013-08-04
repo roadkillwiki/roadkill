@@ -23,7 +23,7 @@ namespace Roadkill.Tests.Unit
 		public void Setup()
 		{
 			_applicationSettings = new ApplicationSettings();
-			_applicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Attachments");
+			_applicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Unit", "Attachments");
 			_applicationSettings.AttachmentsRoutePath = "Attachments";
 		}
 
@@ -33,7 +33,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			AttachmentFileHandler handler = new AttachmentFileHandler(_applicationSettings);
 
-			string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Attachments", "afile.jpg");
+			string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Unit", "Attachments", "afile.jpg");
 			File.WriteAllText(fullPath, "fake content");
 			byte[] expectedBytes = File.ReadAllBytes(fullPath);
 			string expectedMimeType = "image/jpeg";
@@ -59,7 +59,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			AttachmentFileHandler handler = new AttachmentFileHandler(_applicationSettings);
 
-			string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Attachments", "afile.jpg");
+			string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Unit", "Attachments", "afile.jpg");
 			File.WriteAllText(fullPath, "fake content");
 
 			string localPath = "/wiki/Attachments/afile.jpg";
