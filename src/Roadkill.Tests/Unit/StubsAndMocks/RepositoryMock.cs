@@ -55,7 +55,7 @@ namespace Roadkill.Tests.Unit
 			Users = new List<User>();
 		}
 
-		public void SaveOrUpdatePage(Page page)
+		public Page SaveOrUpdatePage(Page page)
 		{
 			Page existingPage = Pages.FirstOrDefault(x => x.Id == page.Id);
 
@@ -63,6 +63,7 @@ namespace Roadkill.Tests.Unit
 			{
 				page.Id = Pages.Count + 1;
 				Pages.Add(page);
+				existingPage = page;
 			}
 			else
 			{
@@ -74,6 +75,8 @@ namespace Roadkill.Tests.Unit
 				existingPage.Tags = page.Tags;
 				existingPage.Title = page.Title;
 			}
+
+			return existingPage;
 		}
 
 		public PageContent AddNewPage(Page page, string text, string editedBy, DateTime editedOn)

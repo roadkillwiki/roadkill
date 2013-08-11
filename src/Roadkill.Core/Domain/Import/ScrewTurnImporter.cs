@@ -31,11 +31,6 @@ namespace Roadkill.Core.Import
 		}
 
 		/// <summary>
-		/// Indicates whether the class should convert the page sources to Creole wiki format. This is not implemented.
-		/// </summary>
-		public bool ConvertToCreole { get; set; }
-
-		/// <summary>
 		/// Imports page data from a Screwturn database using the provided connection string.
 		/// </summary>
 		/// <param name="connectionString">The database connection string.</param>
@@ -43,39 +38,95 @@ namespace Roadkill.Core.Import
 		{
 			_connectionString = connectionString;
 
+			ImportUsers();
+			ImportPages();
+			ImportFiles();
+		}
+
+		/// <summary>
+		/// Imports all users from the users table.
+		/// </summary>
+		private void ImportUsers()
+		{
 			using (SqlConnection connection = new SqlConnection(_connectionString))
 			{
 				using (SqlCommand command = connection.CreateCommand())
 				{
 					connection.Open();
-					command.CommandText = "SELECT p.*,pc.[User] as [User],pc.Revision,pc.LastModified FROM Page p " +
-											"INNER JOIN PageContent pc ON pc.Page = p.Name " +
-											"WHERE pc.Revision = (SELECT MAX(Revision) FROM PageContent WHERE Page=p.Name)";
+					command.CommandText = "SELECT * FROM [User]";
 
 					using (SqlDataReader reader = command.ExecuteReader())
 					{
 						while (reader.Read())
 						{
+							string username = reader["Username"].ToString();
+							if (!string.IsNullOrEmpty(username) && !string.Equals(username, "admin", StringComparison.OrdinalIgnoreCase))
+							{
+								string email = reader["Email"].ToString();
+
+								User user = new User();
+								user.Id = Guid.NewGuid();
+								user.IsEditor = true;
+								user.IsAdmin = false;
+								user.Email = email;
+								user.Username = username;
+								user.IsActivated = false;
+								user.SetPassword("password");
+
+								Repository.SaveOrUpdateUser(user);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		/// <summary>
+		/// Adds all pages and their content from screwturn.
+		/// </summary>
+		private void ImportPages()
+		{
+			using (SqlConnection connection = new SqlConnection(_connectionString))
+			{
+				using (SqlCommand command = connection.CreateCommand())
+				{
+					connection.Open();
+					command.CommandText = @"SELECT 
+												p.CreationDateTime,
+												p.Name,
+												pc.[User] as [User],
+												pc.Title,
+												pc.Revision,
+												pc.LastModified 
+											FROM [Page] p
+												INNER JOIN [PageContent] pc ON pc.[Page] = p.Name
+											WHERE 
+												pc.Revision = (SELECT MAX(Revision) FROM PageContent WHERE [Page]=p.Name)";
+
+					using (SqlDataReader reader = command.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							string pageName = reader["Name"].ToString();
+
 							Page page = new Page();
-							page.Title = reader["Name"].ToString();
+							page.Title = reader["Title"].ToString();
 							page.CreatedBy = reader["User"].ToString();
 							page.CreatedOn = (DateTime)reader["CreationDateTime"];
 							page.ModifiedBy = reader["User"].ToString();
 							page.ModifiedOn = (DateTime)reader["LastModified"];
 
-							string categories = GetCategories(page.Title);
+							string categories = GetCategories(pageName);
 							if (!string.IsNullOrWhiteSpace(categories))
 								categories += ";";
 							page.Tags = categories;
 
-							Repository.SaveOrUpdatePage(page);
-							AddContent(page);
+							page = Repository.SaveOrUpdatePage(page);
+							AddContent(pageName, page);
 						}
 					}
 				}
 			}
-
-			ImportFiles();
 		}
 
 		/// <summary>
@@ -127,19 +178,19 @@ namespace Roadkill.Core.Import
 		/// <summary>
 		/// Returns all categories in the Screwturn database as a ";" delimited string.
 		/// </summary>
-		private string GetCategories(string page)
+		private string GetCategories(string pageName)
 		{
 			using (SqlConnection connection = new SqlConnection(_connectionString))
 			{
 				using (SqlCommand command = connection.CreateCommand())
 				{
 					connection.Open();
-					command.CommandText = "SELECT Category from CategoryBinding WHERE Page=@Page";
+					command.CommandText = "SELECT Category from CategoryBinding WHERE [Page]=@Page";
 
 					SqlParameter parameter = new SqlParameter();
 					parameter.ParameterName = "@Page";
 					parameter.SqlDbType = System.Data.SqlDbType.VarChar;
-					parameter.Value = page;
+					parameter.Value = pageName;
 					command.Parameters.Add(parameter);
 
 					List<string> categories = new List<string>();
@@ -160,19 +211,19 @@ namespace Roadkill.Core.Import
 		/// Extracts and saves all textual content for a page.
 		/// </summary>
 		/// <param name="page">The page the content belongs to.</param>
-		private void AddContent(Page page)
+		private void AddContent(string pageName, Page page)
 		{
 			using (SqlConnection connection = new SqlConnection(_connectionString))
 			{
 				using (SqlCommand command = connection.CreateCommand())
 				{
 					connection.Open();
-					command.CommandText = "SELECT * FROM PageContent WHERE Page = @Page";
+					command.CommandText = "SELECT * FROM PageContent WHERE [Page]=@Page";
 					
 					SqlParameter parameter = new SqlParameter();
 					parameter.ParameterName = "@Page";
 					parameter.SqlDbType = System.Data.SqlDbType.VarChar;
-					parameter.Value = page.Title;
+					parameter.Value = pageName;
 					command.Parameters.Add(parameter);
 
 					List<PageContent> categories = new List<PageContent>();
@@ -185,7 +236,7 @@ namespace Roadkill.Core.Import
 							string editedBy = reader["User"].ToString();
 							DateTime EditedOn = (DateTime)reader["LastModified"];
 							string text = reader["Content"].ToString();
-							text = CleanContent(content.Text);
+							text = CleanContent(text);
 							int versionNumber = (int.Parse(reader["Revision"].ToString())) + 1;
 
 							Repository.AddNewPageContentVersion(page, text, editedBy, EditedOn, versionNumber);
@@ -207,6 +258,9 @@ namespace Roadkill.Core.Import
 		/// </summary>
 		private string CleanContent(string text)
 		{
+			if (string.IsNullOrEmpty(text))
+				return text;
+
 			// Screwturn uses "[" for links instead of "[[", so do a crude replace.
 			// Needs more coverage for @@ blocks, variables, toc.
 			text = text.Replace("[", "[[").Replace("]", "]]").Replace("{BR}", "\n").Replace("{UP}","");

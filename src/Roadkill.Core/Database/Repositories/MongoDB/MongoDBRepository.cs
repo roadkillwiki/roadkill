@@ -323,9 +323,10 @@ namespace Roadkill.Core.Database.MongoDB
 		}
 
 		#region IRepository Members
-		public void SaveOrUpdatePage(Page page)
+		public Page SaveOrUpdatePage(Page page)
 		{
 			SaveOrUpdate<Page>(page);
+			return page;
 		}
 
 		public PageContent AddNewPage(Page page, string text, string editedBy, DateTime editedOn)
