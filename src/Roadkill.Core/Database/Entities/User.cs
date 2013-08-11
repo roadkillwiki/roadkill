@@ -27,7 +27,7 @@ namespace Roadkill.Core.Database
 		public string Lastname { get; set; }
 		/// <summary>
 		/// Do not set the password using this property - use <see cref="SetPassword"/> instead.
-		/// <see cref="HashPassword"/> for authentication with the salt and password.
+		/// Use <see cref="User.HashPassword"/> to encrypt a plain text password for authentication with the salt and password.
 		/// </summary>
 		public string Password { get; internal set; }
 

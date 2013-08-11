@@ -11,6 +11,8 @@ using Roadkill.Core.Managers;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using System.IO;
+using System.Linq;
+using MvcContrib.TestHelper;
 
 namespace Roadkill.Tests.Unit
 {
@@ -52,7 +54,7 @@ namespace Roadkill.Tests.Unit
 			userController.SetFakeControllerContext();
 
 			// Act	
-			ActionResult result = userController.Activate("activatekey");
+			ActionResult result = userController.Activate(UserManagerMock.ACTIVATIONKEY);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>());
@@ -82,49 +84,6 @@ namespace Roadkill.Tests.Unit
 
 			// Act	
 			ActionResult result = userController.Activate("");
-
-			// Assert
-			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
-
-			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
-			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Index"));
-			Assert.That(redirectResult.RouteValues["controller"], Is.EqualTo("Home"));
-		}
-
-		[Test]
-		public void CompleteResetPassword_Has_Correct_Model_And_ActionResult()
-		{
-			// Arrange
-			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsManager, null, null);
-			userController.SetFakeControllerContext();
-			_userManager.ResetPassword(AdminEmail);
-
-			// Act	
-			ActionResult result = userController.CompleteResetPassword("resetkey");
-
-			// Assert
-			Assert.That(result, Is.TypeOf<ViewResult>());
-
-			UserSummary summary = result.ModelFromActionResult<UserSummary>();
-			User expectedUser = _userManager.Users[0];
-
-			Assert.That(summary.Id, Is.EqualTo(expectedUser.Id));
-			Assert.That(summary.NewEmail, Is.EqualTo(expectedUser.Email));
-			Assert.That(summary.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
-			Assert.That(summary.Firstname, Is.EqualTo(expectedUser.Firstname));
-			Assert.That(summary.Lastname, Is.EqualTo(expectedUser.Lastname));
-		}
-
-		[Test]
-		public void CompleteResetPassword_With_WindowsAuth_Enabled_Redirects()
-		{
-			// Arrange
-			_applicationSettings.UseWindowsAuthentication = true;
-			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsManager, null, null);
-			userController.SetFakeControllerContext();
-
-			// Act	
-			ActionResult result = userController.CompleteResetPassword("resetkey");
 
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
@@ -182,89 +141,6 @@ namespace Roadkill.Tests.Unit
 			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
 			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Index"));
 			Assert.That(redirectResult.RouteValues["controller"], Is.EqualTo("Home"));
-		}
-
-		[Test]
-		public void Profile_Should_Return_Correct_ActionResult_And_Model()
-		{
-			// Arrange
-			_applicationSettings.UseWindowsAuthentication = false;
-			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsManager, null, null);
-			userController.SetFakeControllerContext();
-
-			// Act
-			userController.Login(AdminEmail, AdminPassword, "");
-			//_userContext.CurrentUser = _userManager.Users[0].Id.ToString(); // base controller's OnActionExecuted normally sets this.
-			ActionResult result = userController.Profile();
-
-			// Assert
-			Assert.That(result, Is.TypeOf<ViewResult>());
-
-			UserSummary summary = result.ModelFromActionResult<UserSummary>();
-			User expectedUser = _userManager.Users[0];
-
-			Assert.That(summary.Id, Is.EqualTo(expectedUser.Id));
-			Assert.That(summary.NewEmail, Is.EqualTo(expectedUser.Email));
-			Assert.That(summary.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
-			Assert.That(summary.Firstname, Is.EqualTo(expectedUser.Firstname));
-			Assert.That(summary.Lastname, Is.EqualTo(expectedUser.Lastname));
-		}
-
-		[Test]
-		public void Profile_Post_Should_Update_User()
-		{
-
-			_applicationSettings.UseWindowsAuthentication = false;
-			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsManager, null, null);
-			userController.SetFakeControllerContext();
-
-			//UserSummary summary = _userManager.get
-
-
-			// Act
-			userController.Login(AdminEmail, AdminPassword, "");
-			//ActionResult result = userController.Profile(
-
-		}
-
-		[Test]
-		[Ignore]
-		public void ResetPassword_Should_Return_ViewResult()
-		{
-
-		}
-
-		[Test]
-		public void ResetPassword_WithWindows_Auth_Enabled_Should_Return_RedirectResult()
-		{
-			// Arrange
-			_applicationSettings.UseWindowsAuthentication = true;
-			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsManager, null, null);
-			userController.SetFakeControllerContext();
-
-			// Act	
-			ActionResult result = userController.Logout();
-
-			// Assert
-			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
-
-			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
-			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Index"));
-			Assert.That(redirectResult.RouteValues["controller"], Is.EqualTo("Home"));
-		}
-
-		[Test]
-		[Ignore]
-		public void ResetPassword_Post_Should_()
-		{
-
-		}
-
-		[Test]
-		[Ignore]
-		public void ResendConfirmation_Post()
-		{
-
 		}
 
 		[Test]
@@ -387,9 +263,334 @@ namespace Roadkill.Tests.Unit
 			Assert.That(signupEmail.IsSent, Is.False);
 		}
 
-		// TODO:
-		// Reset password POST (should send email)
-		// Resend password confirm POST
-		// Profile POST
+		[Test]
+		public void ResetPassword_Get_Should_Return_ViewResult_And_ViewName()
+		{
+			// Arrange
+			_applicationSettings.UseWindowsAuthentication = false;
+			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsManager, null, null);
+			userController.SetFakeControllerContext();
+
+			// Act	
+			ViewResult result = userController.ResetPassword() as ViewResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			result.AssertViewRendered(); // this checks the view name matches the method
+		}
+
+		[Test]
+		public void ResetPassword_WithWindows_Auth_Enabled_Should_Return_RedirectResult()
+		{
+			// Arrange
+			_applicationSettings.UseWindowsAuthentication = true;
+			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsManager, null, null);
+			userController.SetFakeControllerContext();
+
+			// Act	
+			ActionResult result = userController.Logout();
+
+			// Assert
+			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
+
+			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
+			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Index"));
+			Assert.That(redirectResult.RouteValues["controller"], Is.EqualTo("Home"));
+		}
+
+		[Test]
+		public void ResetPassword_Should_Not_Send_Email_With_Invalid_ModelState()
+		{
+			// Arrange
+			_applicationSettings.UseWindowsAuthentication = false;
+			SiteSettings siteSettings = _settingsManager.GetSiteSettings();
+
+			FakeResetPasswordEmail resetEmail = new FakeResetPasswordEmail(_applicationSettings, siteSettings);
+			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsManager, null, resetEmail);
+			userController.SetFakeControllerContext();
+
+			// Act	
+			ViewResult result = userController.ResetPassword("fake email") as ViewResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			result.AssertViewRendered();
+			Assert.That(userController.ModelState.Count, Is.EqualTo(1));
+			Assert.That(resetEmail.IsSent, Is.EqualTo(false));
+		}
+
+		[Test]
+		public void ResetPassword_Post_Should_Have_ResetPasswordSent_View_And_Should_Send_ResetPassword_Email()
+		{
+			// Arrange
+			string binFolder = AppDomain.CurrentDomain.BaseDirectory;
+			File.WriteAllText(Path.Combine(binFolder, "ResetPassowrd.txt"), "{EMAIL}");
+			File.WriteAllText(Path.Combine(binFolder, "ResetPassword.html"), "{EMAIL}");
+			_applicationSettings.EmailTemplateFolder = binFolder;
+			_applicationSettings.UseWindowsAuthentication = false;
+			SiteSettings siteSettings = _settingsManager.GetSiteSettings();
+			
+			string email = "test@test.com";
+			_userManager.AddUser(email, "test", "test", false, true);
+			_userManager.Users.First(x => x.Email == email).IsActivated = true;
+
+			FakeResetPasswordEmail resetEmail = new FakeResetPasswordEmail(_applicationSettings, siteSettings);
+			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsManager, null, resetEmail);
+			userController.SetFakeControllerContext();
+
+			// Act	
+			ViewResult result = userController.ResetPassword(email) as ViewResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result.ViewName, Is.EqualTo("ResetPasswordSent"));
+			Assert.That(resetEmail.IsSent, Is.True);
+			Assert.That(resetEmail.Summary.ExistingEmail, Is.EqualTo(email));
+			Assert.That(resetEmail.Summary.PasswordResetKey, Is.EqualTo(UserManagerMock.RESETKEY));
+		}
+
+		[Test]
+		public void CompleteResetPassword_Should_Have_Correct_Model_And_ActionResult()
+		{
+			// Arrange
+			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsManager, null, null);
+			userController.SetFakeControllerContext();
+			_userManager.ResetPassword(AdminEmail);
+
+			// Act	
+			ActionResult result = userController.CompleteResetPassword("resetkey");
+
+			// Assert
+			Assert.That(result, Is.TypeOf<ViewResult>());
+
+			UserSummary summary = result.ModelFromActionResult<UserSummary>();
+			User expectedUser = _userManager.Users[0];
+
+			Assert.That(summary.Id, Is.EqualTo(expectedUser.Id));
+			Assert.That(summary.NewEmail, Is.EqualTo(expectedUser.Email));
+			Assert.That(summary.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
+			Assert.That(summary.Firstname, Is.EqualTo(expectedUser.Firstname));
+			Assert.That(summary.Lastname, Is.EqualTo(expectedUser.Lastname));
+		}
+
+		[Test]
+		public void CompleteResetPassword_With_WindowsAuth_Enabled_Should_Redirect()
+		{
+			// Arrange
+			_applicationSettings.UseWindowsAuthentication = true;
+			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsManager, null, null);
+			userController.SetFakeControllerContext();
+
+			// Act	
+			ActionResult result = userController.CompleteResetPassword("resetkey");
+
+			// Assert
+			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
+
+			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
+			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Index"));
+			Assert.That(redirectResult.RouteValues["controller"], Is.EqualTo("Home"));
+		}
+
+		[Test]
+		public void ResendConfirmation_With_Invalid_Email_Should_Show_Signup_View()
+		{
+			// Arrange
+			_applicationSettings.UseWindowsAuthentication = false;
+			SiteSettings siteSettings = _settingsManager.GetSiteSettings();
+
+			FakeResetPasswordEmail resetEmail = new FakeResetPasswordEmail(_applicationSettings, siteSettings);
+			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsManager, null, resetEmail);
+			userController.SetFakeControllerContext();
+
+			// Act	
+			ViewResult result = userController.ResendConfirmation("doesnt exist") as ViewResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result.ViewName, Is.EqualTo("Signup"));
+		}
+
+		[Test]
+		public void ResendConfirmation_Should_SendEmail_And_Show_SignupComplete_View_And_Set_TempData()
+		{
+			// Arrange
+			string binFolder = AppDomain.CurrentDomain.BaseDirectory;
+			File.WriteAllText(Path.Combine(binFolder, "Signup.txt"), "{EMAIL}");
+			File.WriteAllText(Path.Combine(binFolder, "Signup.html"), "{EMAIL}");
+			_applicationSettings.EmailTemplateFolder = binFolder;
+			_applicationSettings.UseWindowsAuthentication = false;
+			SiteSettings siteSettings = _settingsManager.GetSiteSettings();
+
+			string email = "test@test.com";
+			_userManager.AddUser(email, "test", "password", false, true);
+			UserSummary summary = _userManager.GetUser("test@test.com", false).ToSummary();
+
+			FakeSignupEmail signupEmail = new FakeSignupEmail(_applicationSettings, siteSettings);
+			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsManager, signupEmail, null);
+			userController.SetFakeControllerContext();
+
+			// Act	
+			ViewResult result = userController.ResendConfirmation(email) as ViewResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result.ViewName, Is.EqualTo("SignupComplete"));
+			Assert.That(result.TempData["resend"], Is.EqualTo(true));
+			Assert.That(signupEmail.IsSent, Is.EqualTo(true));
+		}
+
+		[Test]
+		public void Profile_Get_Should_Return_Correct_ActionResult_And_Model()
+		{
+			// Arrange
+			_applicationSettings.UseWindowsAuthentication = false;
+			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsManager, null, null);
+			userController.SetFakeControllerContext();
+
+			// Act
+			userController.Login(AdminEmail, AdminPassword, "");
+			//_userContext.CurrentUser = _userManager.Users[0].Id.ToString(); // base controller's OnActionExecuted normally sets this.
+			ActionResult result = userController.Profile();
+
+			// Assert
+			Assert.That(result, Is.TypeOf<ViewResult>());
+
+			UserSummary summary = result.ModelFromActionResult<UserSummary>();
+			User expectedUser = _userManager.Users[0];
+
+			Assert.That(summary.Id, Is.EqualTo(expectedUser.Id));
+			Assert.That(summary.NewEmail, Is.EqualTo(expectedUser.Email));
+			Assert.That(summary.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
+			Assert.That(summary.Firstname, Is.EqualTo(expectedUser.Firstname));
+			Assert.That(summary.Lastname, Is.EqualTo(expectedUser.Lastname));
+		}
+
+		[Test]
+		public void Profile_Post_Should_Redirect_If_Summary_Has_No_Id()
+		{
+			// Arrange
+			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsManager, null, null);
+			userController.SetFakeControllerContext();
+
+			UserSummary summary = new UserSummary();
+			
+			// Act	
+			ActionResult result = userController.Profile(summary);
+
+			// Assert
+			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
+
+			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
+			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Login"));
+		}
+
+		[Test]
+		public void Profile_Post_Should_Return_403_When_Updated_Id_Is_Not_Logged_In_User()
+		{
+			// Arrange
+			string loggedInEmail = "profiletest.new@test.com";
+			string secondUserEmail = "seconduser@test.com";
+			string secondUserNewEmail = "seconduser.new@test.com";
+
+			_userManager.AddUser(loggedInEmail, "profiletest", "password", false, true);
+			_userManager.Users.First(x => x.Email == loggedInEmail).IsActivated = true;
+			Guid firstUserId = _userManager.GetUser(loggedInEmail).Id;
+
+			_userManager.AddUser(secondUserEmail, "seconduser", "password", false, true);
+			_userManager.Users.First(x => x.Email == secondUserEmail).IsActivated = true;
+			Guid secondUserId = _userManager.GetUser(secondUserEmail).Id;
+
+			_userContext.CurrentUser = firstUserId.ToString();
+
+			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsManager, null, null);
+			userController.SetFakeControllerContext();
+
+			UserSummary summary = new UserSummary(); // try to change the other user's email
+			summary.Id = secondUserId;
+			summary.ExistingEmail = secondUserEmail;
+			summary.NewEmail = secondUserNewEmail;
+			summary.Firstname = "test";
+			summary.Lastname = "user";
+			summary.ExistingUsername = "profiletest";
+			summary.NewUsername = "newprofiletest";
+
+			// Act	
+			ActionResult result = userController.Profile(summary);
+
+			// Assert
+			Assert.That(result, Is.TypeOf<HttpStatusCodeResult>());
+
+			HttpStatusCodeResult redirectResult = result as HttpStatusCodeResult;
+			Assert.That(redirectResult.StatusCode, Is.EqualTo(403));
+		}
+
+		[Test]
+		public void Profile_Post_Should_Update_User()
+		{
+			// Arrange
+			string email = "profiletest@test.com";
+			string newEmail = "profiletest.new@test.com";
+			_userManager.AddUser(email, "profiletest", "password", false, true);
+			_userManager.Users.First(x => x.Email == email).IsActivated = true;
+			Guid userId = _userManager.GetUser(email).Id;
+
+			_userContext.CurrentUser = userId.ToString();
+
+			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsManager, null, null);
+			userController.SetFakeControllerContext();
+
+			UserSummary summary = new UserSummary();
+			summary.Id = userId;
+			summary.ExistingEmail = email;
+			summary.NewEmail = newEmail;
+			summary.Firstname = "test";
+			summary.Lastname = "user";
+			summary.ExistingUsername = "profiletest";
+			summary.NewUsername = "newprofiletest";
+
+			// Act	
+			ViewResult result = userController.Profile(summary) as ViewResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			result.AssertViewRendered();
+
+			User user = _userManager.GetUser(newEmail);
+			Assert.That(user.Email, Is.EqualTo(summary.NewEmail));
+			Assert.That(user.Username, Is.EqualTo(summary.NewUsername));
+			Assert.That(user.Firstname, Is.EqualTo(summary.Firstname));
+			Assert.That(user.Lastname, Is.EqualTo(summary.Lastname));
+		}
+
+		[Test]
+		public void Profile_Post_Should_Update_Password_If_Changed()
+		{
+			// Arrange
+			string email = "profiletest@test.com";
+			string newPassword = "newpassword";
+			string hashedPassword = User.HashPassword(newPassword, "");
+
+			_userManager.AddUser(email, "profiletest", "password", false, true);
+			_userManager.Users.First(x => x.Email == "profiletest@test.com").IsActivated = true;
+			Guid userId = _userManager.GetUser(email).Id;
+			_userContext.CurrentUser = userId.ToString();
+
+			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsManager, null, null);
+			userController.SetFakeControllerContext();
+
+			UserSummary summary = _userManager.GetUser(email).ToSummary(); // use the same summary, as profile() updates everything.
+			summary.Password = newPassword;
+
+			// Act	
+			ViewResult result = userController.Profile(summary) as ViewResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			result.AssertViewRendered();
+
+			User user = _userManager.GetUser(email);
+			Assert.That(user.Password, Is.EqualTo(hashedPassword));
+		}
 	}
 }

@@ -13,6 +13,8 @@ namespace Roadkill.Tests
 {
 	public class UserManagerMock : UserManagerBase
 	{
+		public static readonly string RESETKEY = "resetkey";
+		public static readonly string ACTIVATIONKEY = "activationkey";
 		public List<User> Users { get; set; }
 		private string _loggedInUserId;
 
@@ -35,7 +37,7 @@ namespace Roadkill.Tests
 
 		public override bool ActivateUser(string activationKey)
 		{
-			return (activationKey == "activatekey");
+			return (activationKey == ACTIVATIONKEY);
 		}
 
 		public override bool AddUser(string email, string username, string password, bool isAdmin, bool isEditor)
@@ -153,8 +155,8 @@ namespace Roadkill.Tests
 			User user = GetUser(email);
 			if (user != null)
 			{
-				user.PasswordResetKey = "resetkey";
-				return "resetkey";
+				user.PasswordResetKey = RESETKEY;
+				return RESETKEY;
 			}
 
 			return "user with email " +email+ "not found";
