@@ -344,11 +344,20 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public ActionResult ImportFromScrewTurn(string screwturnConnectionString)
 		{
-			_importer.ImportFromSqlServer(screwturnConnectionString);
-			_importer.UpdateSearchIndex(_searchManager);
+			string message = "";
 
-			TempData["Message"] = SiteStrings.SiteSettings_Tools_ScrewTurnImport_Message;
+			if (string.IsNullOrEmpty(screwturnConnectionString))
+			{
+				message = "Please enter a Screwturn connection string";
+			}
+			else
+			{
+				_importer.ImportFromSqlServer(screwturnConnectionString);
+				_importer.UpdateSearchIndex(_searchManager);
+				message = SiteStrings.SiteSettings_Tools_ScrewTurnImport_Message;
+			}
 
+			TempData["Message"] = message;
 			return RedirectToAction("Tools");
 		}
 

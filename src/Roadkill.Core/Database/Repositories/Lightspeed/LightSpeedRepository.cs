@@ -377,7 +377,7 @@ namespace Roadkill.Core.Database.LightSpeed
 			return FromEntity.ToPageContentList(entities);
 		}
 
-		public void SaveOrUpdatePage(Page page)
+		public Page SaveOrUpdatePage(Page page)
 		{
 			PageEntity entity = UnitOfWork.FindById<PageEntity>(page.Id);
 			if (entity == null)
@@ -394,6 +394,8 @@ namespace Roadkill.Core.Database.LightSpeed
 				UnitOfWork.SaveChanges();
 				page = FromEntity.ToPage(entity);
 			}
+
+			return page;
 		}
 
 		public PageContent AddNewPage(Page page, string text, string editedBy, DateTime editedOn)
@@ -424,6 +426,9 @@ namespace Roadkill.Core.Database.LightSpeed
 
 		public PageContent AddNewPageContentVersion(Page page, string text, string editedBy, DateTime editedOn, int version)
 		{
+			if (version < 1)
+				version = 1;
+
 			PageEntity pageEntity = UnitOfWork.FindById<PageEntity>(page.Id);
 			if (pageEntity != null)
 			{
@@ -449,6 +454,7 @@ namespace Roadkill.Core.Database.LightSpeed
 				// Turn the content database entity back into a domain object
 				PageContent pageContent = FromEntity.ToPageContent(pageContentEntity);
 				pageContent.Page = FromEntity.ToPage(pageEntity);
+
 				return pageContent;
 			}
 

@@ -22,10 +22,5 @@ namespace Roadkill.Core.Import
 		/// </summary>
 		/// <param name="searchManager">The search manager to use for the update.</param>
 		void UpdateSearchIndex(SearchManager searchManager);
-
-		/// <summary>
-		/// Indicates whether the implementing class should convert the page sources to Creole wiki format.
-		/// </summary>
-		bool ConvertToCreole { get; set; }
 	}
 }

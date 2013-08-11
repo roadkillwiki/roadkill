@@ -42,7 +42,7 @@ namespace Roadkill.Core.Database
 		/// <param name="pageContent"></param>
 		void DeletePageContent(PageContent pageContent);
 		void DeleteAllPages();
-		void SaveOrUpdatePage(Page page);
+		Page SaveOrUpdatePage(Page page);
 		PageContent AddNewPage(Page page, string text, string editedBy, DateTime editedOn);
 		PageContent AddNewPageContentVersion(Page page, string text, string editedBy, DateTime editedOn, int version);
 		void UpdatePageContent(PageContent content); // no new version
