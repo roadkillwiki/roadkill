@@ -15,7 +15,7 @@ namespace Roadkill.Core
 		string CurrentUser { get; set; }
 		
 		/// <summary>
-		/// The username for the logged in user, retrieved by looking up the CurrentUser property.
+		/// The username for the logged in user, retrieved by looking up the ID stored by the CurrentUser property.
 		/// </summary>
 		string CurrentUsername { get; }
 

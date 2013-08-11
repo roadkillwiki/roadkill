@@ -25,4 +25,22 @@ namespace Roadkill.Tests.Unit
 			Summary = summary;
 		}
 	}
+
+	public class FakeResetPasswordEmail : ResetPasswordEmail
+	{
+		public bool IsSent { get; set; }
+		public UserSummary Summary { get; set; }
+
+		public FakeResetPasswordEmail(ApplicationSettings applicationSettings, SiteSettings siteSettings)
+			: base(applicationSettings, siteSettings)
+		{
+		}
+
+		public override void Send(UserSummary summary)
+		{
+			ReplaceTokens(summary, "{EMAIL}");
+			IsSent = true;
+			Summary = summary;
+		}
+	}
 }

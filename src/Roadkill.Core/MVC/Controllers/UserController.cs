@@ -198,6 +198,11 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (summary.Id == null || summary.Id == Guid.Empty)
 				return RedirectToAction("Login");
 
+			// Don't allow the logged in user to change someone else's email - throw 403
+			// so that it's logged in the server logs.
+			if (summary.Id.ToString() != Context.CurrentUser)
+				return new HttpStatusCodeResult(403, "You cannot change the profile of another user");
+
 #if DEMOSITE
 			ModelState.AddModelError("General", "The demo site login cannot be changed.");
 #endif
@@ -271,8 +276,7 @@ namespace Roadkill.Core.Mvc.Controllers
 						// Everything worked, send the email
 						user.PasswordResetKey = key;
 						SiteSettings siteSettings = SiteSettingsManager.GetSiteSettings();
-						ResetPasswordEmail resetEmail = new ResetPasswordEmail(ApplicationSettings, siteSettings);
-						resetEmail.Send(user.ToSummary());
+						_resetPasswordEmail.Send(user.ToSummary());
 
 						return View("ResetPasswordSent",(object) email);
 					}
@@ -292,16 +296,18 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public ActionResult ResendConfirmation(string email)
 		{
-			UserSummary summary = UserManager.GetUser(email, false).ToSummary();
-			if (summary == null)
+			RoadkillUser user = UserManager.GetUser(email, false);
+
+			if (user == null)
 			{
 				// Something went wrong with the signup, redirect to the first step of the signup.
 				return View("Signup");
 			}
 
+			UserSummary summary = user.ToSummary();
+
 			SiteSettings siteSettings = SiteSettingsManager.GetSiteSettings();
-			SignupEmail signupEmail = new SignupEmail(ApplicationSettings, siteSettings);
-			signupEmail.Send(summary);
+			_signupEmail.Send(summary);
 
 			TempData["resend"] = true;
 			return View("SignupComplete", summary);
