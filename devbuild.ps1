@@ -60,9 +60,9 @@ CD ..
 
 # ---- Clean up the temporary deploy folders
 Remove-Item -Force -Recurse _WEBSITE
-Remove-Item -Force -Recurse src\Roadkill.Core\deploytemp
-Remove-Item -Force -Recurse src\Roadkill.Site\deploytemp
-Remove-Item -Force -Recurse src\Roadkill.Tests\deploytemp
+#Remove-Item -Force -Recurse src\Roadkill.Core\deploytemp
+#Remove-Item -Force -Recurse src\Roadkill.Site\deploytemp
+#Remove-Item -Force -Recurse src\Roadkill.Tests\deploytemp
 
 # ---- Commit to builds repository
 CD ..\roadkillbuilds
