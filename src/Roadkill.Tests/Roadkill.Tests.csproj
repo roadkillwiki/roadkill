@@ -307,6 +307,7 @@
     <Compile Include="Unit\Attachments\AttachmentFileHandlerTests.cs" />
     <Compile Include="Unit\Attachments\ResponseWrapperMock.cs" />
     <Compile Include="Unit\Extensions\ExtensionsTests.cs" />
+    <Compile Include="Unit\Mvc\Attributes\AdminRequiredAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\HelpControllerTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\PageSummaryValidationTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\FileSummaryTests.cs" />
