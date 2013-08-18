@@ -18,17 +18,17 @@ using System.Security.Principal;
 namespace Roadkill.Tests.Unit
 {
 	/// <summary>
-	/// Setup-heavy tests for the AdminRequired attribute.
+	/// Setup-heavy tests for the EditorAdminRequired attribute.
 	/// </summary>
 	[TestFixture]
 	[Category("Unit")]
-	public class AdminRequiredAttributeTests : AuthorizeAttributeBase
+	public class EditorRequiredAttributeTests : AuthorizeAttributeBase
 	{
 		[Test]
 		public void Should_Not_Authorize_When_User_Is_Not_Authenticated()
 		{
 			// Arrange
-			AdminRequiredCaller attribute = GetAdminRequiredCaller();
+			EditorRequiredCaller attribute = GetEditorRequiredCaller();
 			PrincipalMock principal = GetPrincipal();
 			principal.Identity.IsAuthenticated = false;
 
@@ -42,11 +42,11 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Authorize_When_No_Admin_Group_Name()
+		public void Should_Authorize_When_No_Editor_Group_Name()
 		{
 			// Arrange
-			AdminRequiredCaller attribute = GetAdminRequiredCaller();
-			attribute.ApplicationSettings.AdminRoleName = "";
+			EditorRequiredCaller attribute = GetEditorRequiredCaller();
+			attribute.ApplicationSettings.EditorRoleName = "";
 
 			PrincipalMock principal = GetPrincipal();
 			HttpContextBase context = GetHttpContext(principal);
@@ -62,7 +62,7 @@ namespace Roadkill.Tests.Unit
 		public void Should_Authorize_When_Admin()
 		{
 			// Arrange
-			AdminRequiredCaller attribute = GetAdminRequiredCaller();
+			EditorRequiredCaller attribute = GetEditorRequiredCaller();
 			attribute.UserManager.AddUser("admin@localhost", "admin", "password", true, true);
 
 			PrincipalMock principal = GetPrincipal();
@@ -77,12 +77,29 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Not_Authorize_When_Editor()
+		public void Should_Authorize_When_Editor()
 		{
 			// Arrange
-			AdminRequiredCaller attribute = GetAdminRequiredCaller();
-			attribute.UserManager.AddUser("admin@localhost", "admin", "password", true, true);
+			EditorRequiredCaller attribute = GetEditorRequiredCaller();
 			attribute.UserManager.AddUser("editor@localhost", "editor", "password", false, true);
+
+			PrincipalMock principal = GetPrincipal();
+			principal.Identity.Name = "editor@localhost";
+			HttpContextBase context = GetHttpContext(principal);
+
+			// Act
+			bool isAuthorized = attribute.CallAuthorize(context);
+
+			// Assert
+			Assert.That(isAuthorized, Is.True);
+		}
+
+		[Test]
+		public void Should_Not_Authorize_When_Not_Editor_Or_Admin()
+		{
+			// Arrange
+			EditorRequiredCaller attribute = GetEditorRequiredCaller();
+			attribute.UserManager.AddUser("weirdlogin@localhost", "editor", "password", false, false);
 
 			PrincipalMock principal = GetPrincipal();
 			principal.Identity.Name = "editor@localhost";
@@ -95,9 +112,9 @@ namespace Roadkill.Tests.Unit
 			Assert.That(isAuthorized, Is.False);
 		}
 
-		private AdminRequiredCaller GetAdminRequiredCaller()
+		private EditorRequiredCaller GetEditorRequiredCaller()
 		{
-			AdminRequiredCaller attribute = new AdminRequiredCaller();
+			EditorRequiredCaller attribute = new EditorRequiredCaller();
 			attribute.ApplicationSettings = new ApplicationSettings();
 			attribute.ApplicationSettings.AdminRoleName = "admin";
 			attribute.ApplicationSettings.EditorRoleName = "editor";

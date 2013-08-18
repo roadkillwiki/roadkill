@@ -13,6 +13,7 @@ using Roadkill.Core.Import;
 namespace Roadkill.Tests.Integration
 {
 	[TestFixture]
+	[Category("Integration")]
 	[Explicit("Required localdb (SQL Server 2012)")]
 	public class ScrewturnImporterTests
 	{

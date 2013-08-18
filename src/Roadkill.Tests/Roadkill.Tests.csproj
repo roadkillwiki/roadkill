@@ -308,6 +308,9 @@
     <Compile Include="Unit\Attachments\ResponseWrapperMock.cs" />
     <Compile Include="Unit\Extensions\ExtensionsTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\AdminRequiredAttributeTests.cs" />
+    <Compile Include="Unit\Mvc\Attributes\AuthorizeAttributeBase.cs" />
+    <Compile Include="Unit\Mvc\Attributes\OptionalAuthorizationTests.cs" />
+    <Compile Include="Unit\Mvc\Attributes\EditorRequiredAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\HelpControllerTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\PageSummaryValidationTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\FileSummaryTests.cs" />
@@ -325,6 +328,8 @@
     <Compile Include="Unit\Mvc\Controllers\PagesControllerTests.cs" />
     <Compile Include="Unit\Mvc\RoutingTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\WikiControllerTests.cs" />
+    <Compile Include="Unit\StubsAndMocks\Mvc\Attributes\IdentityStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\Mvc\Attributes\PrincipalMock.cs" />
     <Compile Include="Unit\StubsAndMocks\UserManagerMock.cs" />
     <Compile Include="Unit\StubsAndMocks\FakeSignupEmail.cs" />
     <Compile Include="Unit\StubsAndMocks\SearchManagerMock.cs" />
