@@ -112,10 +112,11 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("a[href='/filemanager']")).Click();
 			Driver.WaitForElementDisplayed(By.CssSelector("#addfolderbtn"), 5);
 			Driver.FindElement(By.CssSelector("#addfolderbtn")).Click();
-			
-			Driver.WaitForElementDisplayed(By.CssSelector("#newfolderinput"));
-			Driver.FindElement(By.CssSelector("#newfolderinput")).SendKeys(folderName);
-			Driver.FindElement(By.CssSelector("#newfolderinput")).SendKeys(Keys.Return);
+
+			// #newfolderinput
+			IWebElement inputBox = Driver.FindElement(By.CssSelector("table#files input"));
+			inputBox.SendKeys(folderName);
+			inputBox.SendKeys(Keys.Return);
 			WaitForAjaxToComplete();
 
 			// Assert
