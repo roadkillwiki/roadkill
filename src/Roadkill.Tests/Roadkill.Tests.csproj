@@ -298,6 +298,7 @@
     <Compile Include="Acceptance\Setup\AcceptanceTestsSetup.cs" />
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
+    <Compile Include="Integration\XmlConfigReaderTests.cs" />
     <Compile Include="Integration\MongoDBRepositoryTests.cs" />
     <Compile Include="Integration\LightSpeedRepositoryTests.cs" />
     <Compile Include="Integration\ScrewturnImporterTests.cs" />
@@ -380,6 +381,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Integration\TestConfigs\test-legacy-values.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Integration\TestConfigs\test-no-roadkillsection.config">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config">

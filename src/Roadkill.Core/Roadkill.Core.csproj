@@ -340,6 +340,7 @@
     <Compile Include="Common\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Configuration\ConfigFileManager.cs" />
     <Compile Include="Configuration\UpgradeChecker.cs" />
+    <Compile Include="Configuration\XmlConfigReader.cs" />
     <Compile Include="Database\Repositories\LightSpeed\DatabaseLogger.cs" />
     <Compile Include="Domain\Security\FormsAuthenticationWrapper.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />

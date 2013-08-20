@@ -8,7 +8,7 @@ namespace Roadkill.Core.Mvc.Attributes
 {
 	/// <summary>
 	/// Represents an attribute that is used to import a ModelState from an action that has performed a RedirectToAction().
-	/// That action should be descorated with the <see cref="ExportModelStateAttribute"/>.
+	/// That action should be decorated with the <see cref="ExportModelStateAttribute"/>.
 	/// </summary>
 	public class ImportModelStateAttribute : ActionFilterAttribute
 	{
