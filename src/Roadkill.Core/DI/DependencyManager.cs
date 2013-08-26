@@ -140,7 +140,7 @@ namespace Roadkill.Core
 
 			// User manager plugins
 			string userManagerPluginPath = _applicationSettings.UserManagerPluginsPath;
-			if (Directory.Exists(userManagerPluginPath))
+			if (!Directory.Exists(userManagerPluginPath))
 				Directory.CreateDirectory(userManagerPluginPath);
 
 			scanner.AssembliesFromPath(userManagerPluginPath);
