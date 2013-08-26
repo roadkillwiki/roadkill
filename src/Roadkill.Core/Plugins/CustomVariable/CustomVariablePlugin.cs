@@ -24,7 +24,7 @@ namespace Roadkill.Core.Plugins
 		public abstract string Description { get; }
 		public ApplicationSettings ApplicationSettings { get; set; }
 		public SiteSettings SiteSettings { get; set; }
-		protected List<PluginSetting> Settings { get; set; }
+		protected List<Setting> Settings { get; set; }
 
 		/// <summary>
 		/// The virtual path for the plugin, e.g. ~/Plugins/MyPlugin/. Contains a trailing slash.
@@ -91,6 +91,11 @@ namespace Roadkill.Core.Plugins
 			return html;
 		}
 
+		public virtual void SaveSettings(IEnumerable<Setting> settings)
+		{
+
+		}
+
 		public virtual string RemoveParserIgnoreTokens(string html)
 		{
 			html = html.Replace(PARSER_IGNORE_STARTTOKEN, "");
@@ -99,10 +104,16 @@ namespace Roadkill.Core.Plugins
 			return html;
 		}
 
-		public static string AddParserIgnoreTokens(string replacementRegex)
+		/// <summary>
+		/// Adds a token to the start and end of the the provided token, so it'll be ignored 
+		/// by the parser. This is necessary for tokens such as [[ and {{ which the parser will 
+		/// try to parse.
+		/// </summary>
+		/// <param name="token">The token the plugin uses. This can be a regex.</param>
+		public static string ParserSafeToken(string token)
 		{
 			// The new lines are important for the current Creole parser to recognise the ignore token.
-			return "\n" + PARSER_IGNORE_STARTTOKEN + " \n" + replacementRegex + "\n" + PARSER_IGNORE_ENDTOKEN + "\n";
+			return "\n" + PARSER_IGNORE_STARTTOKEN + " \n" + token + "\n" + PARSER_IGNORE_ENDTOKEN + "\n";
 		}
 	}
 }

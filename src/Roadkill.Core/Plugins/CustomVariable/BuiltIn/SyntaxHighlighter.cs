@@ -12,7 +12,7 @@ namespace Roadkill.Core.Plugins.BuiltIn
 	{
 		internal static readonly string _regexString = @"\[\[\[code lang=(?'lang'.*?)\|(?'code'.*?)\]\]\]";
 		internal static readonly Regex _variableRegex = new Regex(_regexString, RegexOptions.Singleline | RegexOptions.Compiled);
-		internal static readonly string _replacePattern = "<pre class=\"brush: ${lang}\">${code}</pre>";
+		internal static string _replacePattern = "<pre class=\"brush: ${lang}\">${code}</pre>";
 
 		public override string Id
 		{
@@ -41,7 +41,7 @@ namespace Roadkill.Core.Plugins.BuiltIn
 
 		static SyntaxHighlighter()
 		{
-			_replacePattern = CustomVariablePlugin.AddParserIgnoreTokens(_replacePattern);
+			_replacePattern = ParserSafeToken(_replacePattern);
 		}
 
 		public override string BeforeParse(string text)

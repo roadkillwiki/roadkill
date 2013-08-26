@@ -25,7 +25,7 @@ namespace Roadkill.Tests.Unit
 {
 	[TestFixture]
 	[Category("Unit")]
-	public class DependencyContainerTests
+	public class DependencyManagerTests
 	{
 		[SetUp]
 		public void Setup()
@@ -38,10 +38,10 @@ namespace Roadkill.Tests.Unit
 		public void Single_Constructor_Argument_Should_Register_Default_Instances()
 		{
 			// Arrange
-			DependencyContainer container = new DependencyContainer(new ApplicationSettings());
+			DependencyManager container = new DependencyManager(new ApplicationSettings());
 
 			// Act
-			container.RegisterTypes();
+			container.Configure();
 			ApplicationSettings settings = ObjectFactory.TryGetInstance<ApplicationSettings>();
 			IRepository repository = ObjectFactory.GetInstance<IRepository>();
 			IUserContext context = ObjectFactory.GetInstance<IUserContext>();
@@ -69,10 +69,10 @@ namespace Roadkill.Tests.Unit
 		public void Should_Register_Controller_Instances()
 		{
 			// Arrange
-			DependencyContainer container = new DependencyContainer(new ApplicationSettings());
+			DependencyManager container = new DependencyManager(new ApplicationSettings());
 
 			// Act
-			container.RegisterTypes();
+			container.Configure();
 			IList<Roadkill.Core.Mvc.Controllers.ControllerBase> controllers = ObjectFactory.GetAllInstances<Roadkill.Core.Mvc.Controllers.ControllerBase>();
 
 			// Assert
@@ -89,10 +89,10 @@ namespace Roadkill.Tests.Unit
 			settings.EditorRoleName = "editor;";
 			settings.AdminRoleName = "admins";
 
-			DependencyContainer container = new DependencyContainer(new ApplicationSettings());
+			DependencyManager container = new DependencyManager(new ApplicationSettings());
 
 			// Act
-			container.RegisterTypes();
+			container.Configure();
 
 			// fake some AD settings for the AD service
 			ObjectFactory.Inject<ApplicationSettings>(settings);
@@ -108,10 +108,10 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			ApplicationSettings settings = new ApplicationSettings();
-			DependencyContainer container = new DependencyContainer(settings, new RepositoryMock(), new RoadkillContextStub());
+			DependencyManager container = new DependencyManager(settings, new RepositoryMock(), new RoadkillContextStub());
 
 			// Act
-			container.RegisterTypes();
+			container.Configure();
 			IRepository repository = ObjectFactory.GetInstance<IRepository>();
 			IUserContext context = ObjectFactory.GetInstance<IUserContext>();
 
@@ -130,10 +130,10 @@ namespace Roadkill.Tests.Unit
 			settings.EditorRoleName = "editor;";
 			settings.AdminRoleName = "admins";
 
-			DependencyContainer container = new DependencyContainer(settings, new RepositoryMock(), new RoadkillContextStub());
+			DependencyManager container = new DependencyManager(settings, new RepositoryMock(), new RoadkillContextStub());
 
 			// Act
-			container.RegisterTypes();
+			container.Configure();
 			UserManagerBase usermanager = ObjectFactory.GetInstance<UserManagerBase>();
 
 			// Assert
@@ -144,11 +144,11 @@ namespace Roadkill.Tests.Unit
 		public void RegisterMvcFactoriesAndRouteHandlers_Should_Register_Instances()
 		{
 			// Arrange
-			DependencyContainer iocSetup = new DependencyContainer(new ApplicationSettings());
+			DependencyManager iocSetup = new DependencyManager(new ApplicationSettings());
 
 			// Act
-			iocSetup.RegisterTypes();
-			iocSetup.RegisterMvcFactoriesAndRouteHandlers();
+			iocSetup.Configure();
+			iocSetup.ConfigureMvc();
 
 			// Assert
 			Assert.That(RouteTable.Routes.Count, Is.EqualTo(1));
@@ -162,10 +162,10 @@ namespace Roadkill.Tests.Unit
 		public void RegisterMvcFactoriesAndRouteHandlers_Requires_Run_First()
 		{
 			// Arrange
-			DependencyContainer container = new DependencyContainer(new ApplicationSettings());
+			DependencyManager container = new DependencyManager(new ApplicationSettings());
 
 			// Act
-			container.RegisterMvcFactoriesAndRouteHandlers();
+			container.ConfigureMvc();
 
 			// Assert
 		}
@@ -176,10 +176,10 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.DataStoreType = DataStoreType.MongoDB;
-			DependencyContainer container = new DependencyContainer(applicationSettings);
+			DependencyManager container = new DependencyManager(applicationSettings);
 
 			// Act
-			container.RegisterTypes();
+			container.Configure();
 
 			// Assert
 			IRepository respository = ObjectFactory.GetInstance<IRepository>();
@@ -193,7 +193,7 @@ namespace Roadkill.Tests.Unit
 			string tempFilename = Path.GetFileName(Path.GetTempFileName()) + ".dll";
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.UserManagerType = "Roadkill.Tests.UserManagerStub";
-			DependencyContainer iocSetup = new DependencyContainer(applicationSettings);
+			DependencyManager iocSetup = new DependencyManager(applicationSettings);
 
 			// Put the UserManagerStub in a new assembly so we can test it's loaded
 			string sourcePlugin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Roadkill.Tests.dll");
@@ -206,7 +206,7 @@ namespace Roadkill.Tests.Unit
 			File.Copy(sourcePlugin, destPlugin, true);
 
 			// Act
-			iocSetup.RegisterTypes();
+			iocSetup.Configure();
 
 			// Assert
 			UserManagerBase userManager = ObjectFactory.GetInstance<UserManagerBase>();

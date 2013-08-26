@@ -7,6 +7,7 @@ using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.DI;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Managers;
 using Roadkill.Core.Mvc.ViewModels;
@@ -173,8 +174,8 @@ namespace Roadkill.Tests.Unit
 
 			RepositoryMock repository = new RepositoryMock();
 
-			DependencyContainer iocSetup = new DependencyContainer(_settings, repository, new UserContext(null)); // context isn't used
-			iocSetup.RegisterTypes();
+			DependencyManager iocSetup = new DependencyManager(_settings, repository, new UserContext(null)); // context isn't used
+			iocSetup.Configure();
 			SettingsManager settingsManager = new SettingsManager(_settings, repository);
 
 			// Act
@@ -213,11 +214,11 @@ namespace Roadkill.Tests.Unit
 			settings.EditorRoleName = "editors";
 
 			// Act
-			DependencyContainer iocSetup = new DependencyContainer(settings, mockRepository.Object, mockContext.Object);
-			iocSetup.RegisterTypes();
+			DependencyManager iocSetup = new DependencyManager(settings, mockRepository.Object, mockContext.Object);
+			iocSetup.Configure();
 
 			// Assert
-			Assert.That(DependencyContainer.GetInstance<UserManagerBase>(), Is.TypeOf(typeof(ActiveDirectoryUserManager)));
+			Assert.That(ServiceLocator.GetInstance<UserManagerBase>(), Is.TypeOf(typeof(ActiveDirectoryUserManager)));
 		}
 		
 		[Test]
@@ -229,11 +230,11 @@ namespace Roadkill.Tests.Unit
 			ApplicationSettings settings = new ApplicationSettings();
 
 			// Act
-			DependencyContainer iocSetup = new DependencyContainer(settings, mockRepository.Object, mockContext.Object);
-			iocSetup.RegisterTypes();
+			DependencyManager iocSetup = new DependencyManager(settings, mockRepository.Object, mockContext.Object);
+			iocSetup.Configure();
 
 			// Assert
-			Assert.That(DependencyContainer.GetInstance<UserManagerBase>(), Is.TypeOf(typeof(FormsAuthUserManager)));
+			Assert.That(ServiceLocator.GetInstance<UserManagerBase>(), Is.TypeOf(typeof(FormsAuthUserManager)));
 		}
 
 		[Test]
@@ -247,11 +248,11 @@ namespace Roadkill.Tests.Unit
 			settings.DataStoreType = DataStoreType.MongoDB;
 
 			// Act
-			DependencyContainer iocContainer = new DependencyContainer(settings, mockRepository.Object, mockContext.Object);
-			iocContainer.RegisterTypes();
+			DependencyManager iocContainer = new DependencyManager(settings, mockRepository.Object, mockContext.Object);
+			iocContainer.Configure();
 
 			// Assert
-			Assert.That(DependencyContainer.GetInstance<UserManagerBase>(), Is.TypeOf(typeof(FormsAuthUserManager)));
+			Assert.That(ServiceLocator.GetInstance<UserManagerBase>(), Is.TypeOf(typeof(FormsAuthUserManager)));
 		}
 
 		private string GetConfigPath(string filename)

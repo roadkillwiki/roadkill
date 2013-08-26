@@ -144,6 +144,20 @@ namespace Roadkill.Core.Configuration
 		public string CustomTokensPath { get; set; }
 
 		/// <summary>
+		/// The full path to the custom variable plugins directory. This is where plugins are stored after 
+		/// download (including their nupackage files), and are copied to the bin folder.
+		/// </summary>
+		public string CustomVariablePluginsPath { get; set; }
+
+		/// <summary>
+		/// The directory within the bin folder that the custom variable plugins are stored. The plugins are 
+		/// copied here on application start, so they can be loaded into the application domain with shadow 
+		/// copy support (and supported in medium trust environments), and also monitored by the ASP.NET 
+		/// file watcher.
+		/// </summary>
+		public string CustomVariablePluginsBinPath { get; set; }
+
+		/// <summary>
 		/// The database type used as the backing store.
 		/// </summary>
 		public DataStoreType DataStoreType { get; set; }
@@ -269,6 +283,8 @@ namespace Roadkill.Core.Configuration
 			AppDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data");
 			AppDataInternalPath = Path.Combine(AppDataPath, "Internal");
 			CustomTokensPath = Path.Combine(AppDataPath, "customvariables.xml");
+			CustomVariablePluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins", "CustomVariable");
+			CustomVariablePluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "Plugins", "CustomVariable");
 			EmailTemplateFolder = Path.Combine(AppDataPath, "EmailTemplates");
 			HtmlElementWhiteListPath = Path.Combine(AppDataInternalPath, "htmlwhitelist.xml");
 			MinimumPasswordLength = 6;

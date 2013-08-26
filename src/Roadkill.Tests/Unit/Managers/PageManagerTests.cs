@@ -78,8 +78,8 @@ namespace Roadkill.Tests.Unit
 			_context.CurrentUser = userId.ToString();
 
 			// And finally the IoC setup
-			DependencyContainer iocSetup = new DependencyContainer(_settings, _repositoryMock, _context);
-			iocSetup.RegisterTypes();
+			DependencyManager iocSetup = new DependencyManager(_settings, _repositoryMock, _context);
+			iocSetup.Configure();
 
 			_pageManager = new PageManager(_settings, _repositoryMock, _mockSearchManager.Object, _historyManager, _context, listCache, pageSummaryCache);
 		}

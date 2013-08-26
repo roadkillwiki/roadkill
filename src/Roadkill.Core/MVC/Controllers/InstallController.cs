@@ -8,6 +8,7 @@ using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security.Windows;
 using System.IO;
+using Roadkill.Core.DI;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -188,7 +189,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			// Update all repository references for the dependencies of this class
 			// (changing the For() in StructureMap won't do this as the references have already been created).
-			_repository = DependencyContainer.ChangeRepository(dataStoreType, summary.ConnectionString, summary.UseObjectCache);
+			_repository = RepositoryManager.ChangeRepository(dataStoreType, summary.ConnectionString, summary.UseObjectCache);
 			UserManager.UpdateRepository(_repository);
 			_settingsManager.UpdateRepository(_repository);
 			_searchManager.UpdateRepository(_repository);
@@ -261,7 +262,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestDatabaseConnection(string connectionString, string databaseType)
 		{
-			string errors = DependencyContainer.TestDbConnection(connectionString, databaseType);
+			string errors = RepositoryManager.TestDbConnection(connectionString, databaseType);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 

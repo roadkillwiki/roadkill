@@ -9,6 +9,8 @@ using Roadkill.Core.Converters;
 using System.Web.Optimization;
 using Roadkill.Core.Logging;
 using Roadkill.Core.MVC;
+using System.IO;
+using Roadkill.Core.DI;
 
 namespace Roadkill.Core
 {
@@ -27,9 +29,12 @@ namespace Roadkill.Core
 			ApplicationSettings applicationSettings = configManager.GetApplicationSettings();
 
 			// Configure StructureMap dependencies
-			DependencyContainer iocSetup = new DependencyContainer(applicationSettings);
-			iocSetup.RegisterTypes();
-			iocSetup.RegisterMvcFactoriesAndRouteHandlers();
+			DependencyManager iocSetup = new DependencyManager(applicationSettings);
+			iocSetup.Configure();
+			iocSetup.ConfigureMvc();
+
+			// Logging
+			Log.ConfigureLogging(applicationSettings);
 
 			// All other routes
 			AreaRegistration.RegisterAllAreas();
@@ -113,7 +118,7 @@ namespace Roadkill.Core
 		{
 			try
 			{
-				DependencyContainer.DisposeRepository();
+				RepositoryManager.DisposeRepository();
 			}
 			catch (Exception ex)
 			{

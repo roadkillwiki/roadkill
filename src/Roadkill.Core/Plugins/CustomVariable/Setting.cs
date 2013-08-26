@@ -5,10 +5,9 @@ using System.Text;
 
 namespace Roadkill.Core.Plugins
 {
-	public class PluginSetting
+	public class Setting
 	{
 		public string Name { get; set; }
 		public string Value { get; set; }
-		public SettingUIType UIType { get; set; }
 	}
 }

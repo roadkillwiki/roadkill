@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Roadkill.Core.Text.ToC
+namespace Roadkill.Core.Plugins.BuiltIn.ToC
 {
 	internal class StringTemplate
 	{

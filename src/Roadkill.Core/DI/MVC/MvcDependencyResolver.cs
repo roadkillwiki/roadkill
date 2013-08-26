@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using Roadkill.Core.DI;
 using StructureMap;
 
 namespace Roadkill.Core
@@ -11,12 +12,12 @@ namespace Roadkill.Core
 	{
 		public object GetService(Type serviceType)
 		{
-			return DependencyContainer.GetInstance(serviceType);
+			return ServiceLocator.GetInstance(serviceType);
 		}
 
 		public IEnumerable<object> GetServices(Type serviceType)
 		{
-			return DependencyContainer.GetAllInstances(serviceType);
+			return ServiceLocator.GetAllInstances(serviceType);
 		}
 	}
 }

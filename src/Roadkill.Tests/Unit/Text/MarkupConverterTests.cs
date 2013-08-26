@@ -8,6 +8,8 @@ using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
+using Roadkill.Core.Plugins;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit
 {
@@ -361,6 +363,38 @@ here is my C#code
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
+		}
+
+		[Test]
+		public void Should_Fire_BeforeParse_In_Custom_Variable_Plugin()
+		{
+			// Arrange
+			string markupFragment = "This is my ~~~usertoken~~~";
+			string expectedHtml = "<p>This is my <span>usertoken</span>\n</p>";
+			CustomVariablePluginStub plugin = new CustomVariablePluginStub();
+			PluginFactory.RegisterCustomVariablePlugin(plugin);
+
+			// Act
+			string actualHtml = _converter.ToHtml(markupFragment);
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		public void Should_Fire_AfterParse_In_Custom_Variable_Plugin_And_Output_Should_Not_Be_Cleaned()
+		{
+			// Arrange
+			string markupFragment = "Here is some markup **some bold**";
+			string expectedHtml = "<p>Here is some markup <strong style='color:green'><iframe src='javascript:alert(test)'>some bold</strong>\n</p>";
+			CustomVariablePluginStub plugin = new CustomVariablePluginStub();
+			PluginFactory.RegisterCustomVariablePlugin(plugin);
+
+			// Act
+			string actualHtml = _converter.ToHtml(markupFragment);
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
 		}
 
 		// TODO:

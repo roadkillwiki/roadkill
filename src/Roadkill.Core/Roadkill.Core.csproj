@@ -342,11 +342,13 @@
     <Compile Include="Configuration\UpgradeChecker.cs" />
     <Compile Include="Configuration\XmlConfigReader.cs" />
     <Compile Include="Database\Repositories\LightSpeed\DatabaseLogger.cs" />
+    <Compile Include="DI\RepositoryManager.cs" />
+    <Compile Include="DI\ServiceLocator.cs" />
     <Compile Include="Domain\Security\FormsAuthenticationWrapper.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="MVC\Attributes\IControllerAttribute.cs" />
-    <Compile Include="DI\MvcAttributeProvider.cs" />
-    <Compile Include="DI\MvcDependencyResolver.cs" />
+    <Compile Include="DI\MVC\MvcAttributeProvider.cs" />
+    <Compile Include="DI\MVC\MvcDependencyResolver.cs" />
     <Compile Include="Localization\Resx\InstallStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -391,7 +393,7 @@
     <Compile Include="Database\Repositories\MongoDB\MongoDBRepository.cs" />
     <Compile Include="Exceptions\UpgradeException.cs" />
     <Compile Include="Attachments\MimeTypes.cs" />
-    <Compile Include="DI\DependencyContainer.cs" />
+    <Compile Include="DI\DependencyManager.cs" />
     <Compile Include="MVC\Attributes\OptionalAuthorizationAttribute.cs" />
     <Compile Include="MVC\Attributes\RecaptchaRequiredAttribute.cs" />
     <Compile Include="MVC\Attributes\ImportModelStateAttribute.cs" />
@@ -417,16 +419,17 @@
     <Compile Include="Exceptions\DatabaseException.cs" />
     <Compile Include="Attachments\AttachmentRouteHandler.cs" />
     <Compile Include="Domain\Security\IUserContext.cs" />
-    <Compile Include="DI\MvcModelBinders.cs" />
+    <Compile Include="DI\MVC\MvcModelBinders.cs" />
     <Compile Include="Configuration\RoadkillSection.cs" />
     <Compile Include="MVC\Controllers\InstallController.cs" />
     <Compile Include="MVC\Controllers\WikiController.cs" />
     <Compile Include="MVC\Controllers\HelpController.cs" />
-    <Compile Include="Plugins\BuiltIn\MathJax.cs" />
-    <Compile Include="Plugins\CustomVariablePlugin.cs" />
-    <Compile Include="Plugins\PluginSetting.cs" />
-    <Compile Include="Plugins\SettingUIType.cs" />
-    <Compile Include="Plugins\BuiltIn\SyntaxHighlighter.cs" />
+    <Compile Include="Plugins\CustomVariable\BuiltIn\MathJax.cs" />
+    <Compile Include="Plugins\CustomVariable\BuiltIn\ToC\TocPlugin.cs" />
+    <Compile Include="Plugins\CustomVariable\CustomVariablePlugin.cs" />
+    <Compile Include="Plugins\PluginFactory.cs" />
+    <Compile Include="Plugins\CustomVariable\Setting.cs" />
+    <Compile Include="Plugins\CustomVariable\BuiltIn\SyntaxHighlighter.cs" />
     <Compile Include="Text\TextToken.cs" />
     <Compile Include="Text\CustomTokenParser.cs" />
     <Compile Include="Text\Sanitizer\HtmlWhiteList.cs" />
@@ -443,9 +446,9 @@
     <Compile Include="Domain\Managers\SettingsManager.cs" />
     <Compile Include="Database\Entities\User.cs" />
     <Compile Include="Domain\Managers\ServiceBase.cs" />
-    <Compile Include="Text\ToC\StringTemplate.cs" />
-    <Compile Include="Text\ToC\Item.cs" />
-    <Compile Include="Text\ToC\Tree.cs" />
+    <Compile Include="Plugins\CustomVariable\BuiltIn\ToC\StringTemplate.cs" />
+    <Compile Include="Plugins\CustomVariable\BuiltIn\ToC\Item.cs" />
+    <Compile Include="Plugins\CustomVariable\BuiltIn\ToC\Tree.cs" />
     <Compile Include="MVC\ViewModels\FileSummary.cs" />
     <Compile Include="MVC\ViewModels\UserSummary.cs" />
     <Compile Include="Exceptions\HistoryException.cs" />
@@ -479,7 +482,7 @@
     <Compile Include="MVC\ViewModels\PageSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoadkillApplication.cs" />
-    <Compile Include="Text\ToC\TocParser.cs" />
+    <Compile Include="Plugins\CustomVariable\BuiltIn\ToC\TocParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
