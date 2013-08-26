@@ -139,17 +139,21 @@ namespace Roadkill.Core
 			scanner.WithDefaultConventions();
 
 			// User manager plugins
-			scanner.AssembliesFromPath(_applicationSettings.UserManagerPluginsPath);
+			string userManagerPluginPath = _applicationSettings.UserManagerPluginsPath;
+			if (Directory.Exists(userManagerPluginPath))
+				Directory.CreateDirectory(userManagerPluginPath);
+
+			scanner.AssembliesFromPath(userManagerPluginPath);
 
 			// Custom variable plugins
 			string customVariablePluginPath = _applicationSettings.CustomVariablePluginsBinPath;
 			PluginFactory.CopyCustomVariablePlugins(_applicationSettings);
-			if (Directory.Exists(customVariablePluginPath))
+			if (!Directory.Exists(customVariablePluginPath))
+				Directory.CreateDirectory(customVariablePluginPath);
+
+			foreach (string subDirectory in Directory.GetDirectories(customVariablePluginPath))
 			{
-				foreach (string subDirectory in Directory.GetDirectories(customVariablePluginPath))
-				{
-					scanner.AssembliesFromPath(subDirectory);
-				}
+				scanner.AssembliesFromPath(subDirectory);
 			}
 			scanner.AddAllTypesOf<CustomVariablePlugin>();
 
