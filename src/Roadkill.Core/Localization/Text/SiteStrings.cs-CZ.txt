@@ -219,7 +219,7 @@ SiteSettings_Configuration_MarkupType_Help=Použitý značkovací jazyk. Roadkil
 SiteSettings_Configuration_Theme_Help=Použité téma stránek. Název tématu musí být stejný jako název adresáře ve složce Themes.
 SiteSettings_Configuration_Attachments_Help=Do tohoto adresáře jsou nahrávány všechny soubory. Cesta by měla začínat ~/ což znamená kořenový adresář.
 SiteSettings_Configuration_Extensions_Help=Soubory s těmito příponami mohou být nahrávány. Oddělujte je čárkou.
-SiteSettings_Configuration_Caching_Help=Zapíná používání vyrovnávací paměti vNHibernate. Roadkill používá vyrovnávací pamět NHibernate společně s výstupná vyrovnávací pamětí v ASP.NET. Pro zlepšení odezev aplikace je doporučeno ukládání do vyrovnávací paměti povolit. Databáová vyrovnávací paměť není pro webové zahrady či farmy podporována.
+SiteSettings_Configuration_Caching_Help=Zapíná používání vyrovnávací paměti. Roadkill používá vyrovnávací pamět společně s výstupná vyrovnávací pamětí v ASP.NET. Pro zlepšení odezev aplikace je doporučeno ukládání do vyrovnávací paměti povolit. Databáová vyrovnávací paměť není pro webové zahrady či farmy podporována.
 SiteSettings_Configuration_CachePageText_Help=Ukládat do vyrovnávací paměti textový obsah stránek. Není-li povoleno, bude při každém zobrazení stránka načítána znovu z databáze.
 
 ; Site Settings users

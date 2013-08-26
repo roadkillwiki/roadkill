@@ -343,7 +343,7 @@
     <value>Vyrovnávací paměť</value>
   </data>
   <data name="Page4_Group5_Label1" xml:space="preserve">
-    <value>Roadkill používá vyrovnávací pamět NHibernate společně s výstupná vyrovnávací pamětí v ASP.NET. Pro zlepšení odezev aplikace je doporučeno ukládání do vyrovnávací paměti povolit. Databáová vyrovnávací paměť není pro webové zahrady či farmy podporována. </value>
+    <value>Roadkill používá vyrovnávací pamět společně s výstupná vyrovnávací pamětí v ASP.NET. Pro zlepšení odezev aplikace je doporučeno ukládání do vyrovnávací paměti povolit. Databáová vyrovnávací paměť není pro webové zahrady či farmy podporována. </value>
   </data>
   <data name="Page4_Group5_Label2" xml:space="preserve">
     <value>Toto nastavení ovlivňuje pouze vyrovnávací paměť databáze, výstupní vyrovnávací paměť je třeba zakázat přímo ve web.config.</value>

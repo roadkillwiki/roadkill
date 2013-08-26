@@ -670,7 +670,7 @@
     <value>Lista rozszerzeń plików (oddzielonych przecinkiem), które mogą być przesyłane jako załączniki.</value>
   </data>
   <data name="SiteSettings_Configuration_Caching_Help" xml:space="preserve">
-    <value>Włącz buforowanie NHibernate. Roadkill używa buforowania NHibernate wraz z buforowaniem wyjścia ASP.NET. Zaleca się włączenie buforowania w celu poprawienia szybkości działania witryny. Buforowanie danych nie jest obecnie obsługiwane w farmach serwerów web.</value>
+    <value>Włącz buforowanie. Roadkill używa buforowania wraz z buforowaniem wyjścia ASP.NET. Zaleca się włączenie buforowania w celu poprawienia szybkości działania witryny. Buforowanie danych nie jest obecnie obsługiwane w farmach serwerów web.</value>
   </data>
   <data name="SiteSettings_Configuration_CachePageText_Help" xml:space="preserve">
     <value>Buforowanie zawartości stron. Wyłączenie oznacza, że treść każdej strony będzie za każdym razem pobierana z bazy danych.</value>

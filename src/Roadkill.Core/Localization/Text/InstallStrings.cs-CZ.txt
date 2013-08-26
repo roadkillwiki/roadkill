@@ -112,7 +112,7 @@ Page4_Group4_Label1=Použitý značkovací jazyk. Roadkill nyní podporuje tyto 
 Page4_Group4_Label2=Doporučený je Creole. 
 
 Page4_Group5_Title=Vyrovnávací paměť
-Page4_Group5_Label1=Roadkill používá vyrovnávací pamět NHibernate společně s výstupná vyrovnávací pamětí v ASP.NET. Pro zlepšení odezev aplikace je doporučeno ukládání do vyrovnávací paměti povolit. Databáová vyrovnávací paměť není pro webové zahrady či farmy podporována. 
+Page4_Group5_Label1=Roadkill používá vyrovnávací pamět společně s výstupná vyrovnávací pamětí v ASP.NET. Pro zlepšení odezev aplikace je doporučeno ukládání do vyrovnávací paměti povolit. Databáová vyrovnávací paměť není pro webové zahrady či farmy podporována. 
 Page4_Group5_Label2=Toto nastavení ovlivňuje pouze vyrovnávací paměť databáze, výstupní vyrovnávací paměť je třeba zakázat přímo ve web.config.
 Page4_Group5_Label3=Povolit vyrovnávací paměť 
 Page4_Group5_Label4=Ukládat do vyrovnávací paměti textový obsah stránek. 

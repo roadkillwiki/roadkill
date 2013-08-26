@@ -219,7 +219,7 @@ SiteSettings_Configuration_MarkupType_Help=Używany format znaczników. Obecnie 
 SiteSettings_Configuration_Theme_Help=Motyw używany dla witryny. Należy wskazać nazwę folderu w katalogu Themes.
 SiteSettings_Configuration_Attachments_Help=Nazwa katalogu do którego są przesyłane wszystkie załączniki. Ścieżka powinna zaczynać się od ~/ co wskazuje na katalog główny.
 SiteSettings_Configuration_Extensions_Help=Lista rozszerzeń plików (oddzielonych przecinkiem), które mogą być przesyłane jako załączniki.
-SiteSettings_Configuration_Caching_Help=Włącz buforowanie NHibernate. Roadkill używa buforowania NHibernate wraz z buforowaniem wyjścia ASP.NET. Zaleca się włączenie buforowania w celu poprawienia szybkości działania witryny. Buforowanie danych nie jest obecnie obsługiwane w farmach serwerów web.
+SiteSettings_Configuration_Caching_Help=Włącz buforowanie. Roadkill używa buforowania wraz z buforowaniem wyjścia ASP.NET. Zaleca się włączenie buforowania w celu poprawienia szybkości działania witryny. Buforowanie danych nie jest obecnie obsługiwane w farmach serwerów web.
 SiteSettings_Configuration_CachePageText_Help=Buforowanie zawartości stron. Wyłączenie oznacza, że treść każdej strony będzie za każdym razem pobierana z bazy danych.
 
 ; Site Settings users

@@ -49,7 +49,7 @@ namespace Roadkill.Core.Managers
 		/// Exports all pages in the database, including content, to an XML format.
 		/// </summary>
 		/// <returns>An XML string.</returns>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while getting the list.</exception>
+		/// <exception cref="DatabaseException">An database error occurred while getting the list.</exception>
 		/// <exception cref="InvalidOperationException">An XML serialiation occurred exporting the page content.</exception>
 		string ExportToXml();
 
@@ -72,7 +72,7 @@ namespace Roadkill.Core.Managers
 		/// </summary>
 		/// <param name="title">The page title</param>
 		/// <returns>A <see cref="PageSummary"/> for the page.</returns>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while getting the page.</exception>
+		/// <exception cref="DatabaseException">An databaseerror occurred while getting the page.</exception>
 		PageSummary FindByTitle(string title);
 
 		/// <summary>

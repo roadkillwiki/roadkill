@@ -10,7 +10,7 @@ using Roadkill.Core.Logging;
 namespace Roadkill.Core.Configuration
 {
 	/// <summary>
-	/// Contains all configuration data stored with NHibernate/the database, for settings that do not require an application restart when changed.
+	/// Contains all configuration data stored in the database, for settings that do not require an application restart when changed.
 	/// </summary>
 	[Serializable]
 	public class SiteSettings

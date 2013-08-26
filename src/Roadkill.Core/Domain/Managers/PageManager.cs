@@ -42,7 +42,7 @@ namespace Roadkill.Core.Managers
 		/// </summary>
 		/// <param name="summary">The summary details for the page.</param>
 		/// <returns>A <see cref="PageSummary"/> for the newly added page.</returns>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while saving.</exception>
+		/// <exception cref="DatabaseException">An databaseerror occurred while saving.</exception>
 		/// <exception cref="SearchException">An error occurred adding the page to the search index.</exception>
 		public PageSummary AddPage(PageSummary summary)
 		{
@@ -85,7 +85,7 @@ namespace Roadkill.Core.Managers
 		/// Retrieves a list of all pages in the system.
 		/// </summary>
 		/// <returns>An <see cref="IEnumerable`PageSummary"/> of the pages.</returns>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while retrieving the list.</exception>
+		/// <exception cref="DatabaseException">An databaseerror occurred while retrieving the list.</exception>
 		public IEnumerable<PageSummary> AllPages(bool loadPageContent = false)
 		{
 			try
@@ -135,7 +135,7 @@ namespace Roadkill.Core.Managers
 		/// </summary>
 		/// <param name="userName">Name of the user.</param>
 		/// <returns>All pages created by the provided user, or an empty list if none are found.</returns>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while retrieving the list.</exception>
+		/// <exception cref="DatabaseException">An databaseerror occurred while retrieving the list.</exception>
 		public IEnumerable<PageSummary> AllPagesCreatedBy(string userName)
 		{
 			try
@@ -164,7 +164,7 @@ namespace Roadkill.Core.Managers
 		/// Retrieves a list of all tags in the system.
 		/// </summary>
 		/// <returns>A <see cref="IEnumerable{TagSummary}"/> for the tags.</returns>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while getting the tags.</exception>
+		/// <exception cref="DatabaseException">An databaseerror occurred while getting the tags.</exception>
 		public IEnumerable<TagSummary> AllTags()
 		{
 			try
@@ -213,7 +213,7 @@ namespace Roadkill.Core.Managers
 		/// Deletes a page from the database.
 		/// </summary>
 		/// <param name="pageId">The id of the page to remove.</param>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while deleting the page.</exception>
+		/// <exception cref="DatabaseException">An databaseerror occurred while deleting the page.</exception>
 		public void DeletePage(int pageId)
 		{
 			try
@@ -255,7 +255,7 @@ namespace Roadkill.Core.Managers
 		/// Exports all pages in the database, including content, to an XML format.
 		/// </summary>
 		/// <returns>An XML string.</returns>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while getting the list.</exception>
+		/// <exception cref="DatabaseException">An databaseerror occurred while getting the list.</exception>
 		/// <exception cref="InvalidOperationException">An XML serialiation occurred exporting the page content.</exception>
 		public string ExportToXml()
 		{
@@ -316,7 +316,7 @@ namespace Roadkill.Core.Managers
 		/// </summary>
 		/// <param name="tag">The tag to search for.</param>
 		/// <returns>A <see cref="IEnumerable{PageSummary}"/> of pages tagged with the provided tag.</returns>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while getting the list.</exception>
+		/// <exception cref="DatabaseException">An databaseerror occurred while getting the list.</exception>
 		public IEnumerable<PageSummary> FindByTag(string tag)
 		{
 			try
@@ -347,7 +347,7 @@ namespace Roadkill.Core.Managers
 		/// </summary>
 		/// <param name="title">The page title</param>
 		/// <returns>A <see cref="PageSummary"/> for the page.</returns>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while getting the page.</exception>
+		/// <exception cref="DatabaseException">An databaseerror occurred while getting the page.</exception>
 		public PageSummary FindByTitle(string title)
 		{
 			try
@@ -373,7 +373,7 @@ namespace Roadkill.Core.Managers
 		/// </summary>
 		/// <param name="id">The id of the page</param>
 		/// <returns>A <see cref="PageSummary"/> for the page.</returns>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while getting the page.</exception>
+		/// <exception cref="DatabaseException">An databaseerror occurred while getting the page.</exception>
 		public PageSummary GetById(int id)
 		{
 			try
@@ -410,7 +410,7 @@ namespace Roadkill.Core.Managers
 		/// Updates the provided page.
 		/// </summary>
 		/// <param name="summary">The summary.</param>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while updating.</exception>
+		/// <exception cref="DatabaseException">An databaseerror occurred while updating.</exception>
 		/// <exception cref="SearchException">An error occurred adding the page to the search index.</exception>
 		public void UpdatePage(PageSummary summary)
 		{
@@ -463,7 +463,7 @@ namespace Roadkill.Core.Managers
 		/// <summary>
 		/// Renames a tag by changing all pages that reference the tag to use the new tag name.
 		/// </summary>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while saving one of the pages.</exception>
+		/// <exception cref="DatabaseException">An databaseerror occurred while saving one of the pages.</exception>
 		/// <exception cref="SearchException">An error occurred updating the search index.</exception>
 		public void RenameTag(string oldTagName, string newTagName)
 		{

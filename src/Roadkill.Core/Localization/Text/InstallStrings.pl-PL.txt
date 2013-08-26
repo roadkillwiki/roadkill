@@ -112,7 +112,7 @@ Page4_Group4_Label1=Używany format znaczników. Obecnie Roadkill wspiera format
 Page4_Group4_Label2=Zalecanym formatem jest Creole.
 
 Page4_Group5_Title=Buforowanie
-Page4_Group5_Label1=Roadkill używa buforowania NHibernate wraz z buforowaniem wyjścia ASP.NET. Zaleca się włączenie buforowania w celu poprawienia szybkości działania witryny. Buforowanie danych nie jest obecnie obsługiwane w farmach serwerów web.
+Page4_Group5_Label1=Roadkill używa buforowania wraz z buforowaniem wyjścia ASP.NET. Zaleca się włączenie buforowania w celu poprawienia szybkości działania witryny. Buforowanie danych nie jest obecnie obsługiwane w farmach serwerów web.
 Page4_Group5_Label2=To ustawienie dotyczy tylko buforowania bazy danych. Buforowanie wyjścia ASP.NET należy wyłączyć ręcznie w pliku web.config.
 Page4_Group5_Label3=Włącz buforowanie
 Page4_Group5_Label4=Buforowanie zawartości stron

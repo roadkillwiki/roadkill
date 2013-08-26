@@ -11,7 +11,7 @@ namespace Roadkill.Core.Database
 	public interface IDataStoreEntity
 	{
 		/// <summary>
-		/// The unique id for this object - for use with document stores or custom databases that NHibernate doesn't support.
+		/// The unique id for this object - for use with document stores that require a unique id for storage.
 		/// </summary>
 		Guid ObjectId { get; set; }
 	}
