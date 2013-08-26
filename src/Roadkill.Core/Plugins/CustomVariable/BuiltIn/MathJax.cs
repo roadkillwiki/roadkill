@@ -5,12 +5,15 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Core.Plugins.BuiltIn
 {
 	public class MathJax : CustomVariablePlugin
 	{
-		internal static readonly Regex _variableRegex = new Regex(@"\[\[\[mathjax]\]\]", RegexOptions.Singleline | RegexOptions.Compiled);
+		private static readonly string _token = "[[[mathjax]]]";
+		private static readonly string _parserSafeToken;
 		
 		// Set it site wide for now, until the plugin architecture is finished.
 		private static bool _hasMathJaxTag = false;
@@ -35,31 +38,40 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		{
 			get
 			{
-				return "Enables MathJax (www.mathjax.org) support on the page. Any $$ content will then be converted, e.g. $$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}.$$";
+				return "Enables MathJax (www.mathjax.org) support on the page. Any content inside $$ $$ will then be converted, e.g. $$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}.$$";
 			}
 		}
 
-		public override string BeforeParse(string text)
+		static MathJax()
 		{
-			if (_variableRegex.IsMatch(text))
+			_parserSafeToken = ParserSafeToken(_token);
+		}
+
+		public MathJax(ApplicationSettings applicationSettings, IRepository repository)
+			: base(applicationSettings, repository)
+		{
+		}
+
+		public override string BeforeParse(string markupText)
+		{
+			return markupText.Replace(_token, _parserSafeToken);
+		}
+
+		public override string AfterParse(string html)
+		{
+			if (html.Contains(_token))
 			{
-				MatchCollection matches = _variableRegex.Matches(text);
-				foreach (Match match in matches)
-				{
-					text = _variableRegex.Replace(text, "");
-					_hasMathJaxTag = true;
-				}
+				return html.Replace(_token, "");
 			}
-
-			return text;
+			else
+			{
+				return html;
+			}
 		}
 
-		public override string GetHeadContent(UrlHelper urlHelper)
+		public override string GetHeadContent()
 		{
-			if (_hasMathJaxTag)
-				return "\t\t<script type=\"text/javascript\" src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\"></script>\n";
-			else
-				return "";
+			return "\t\t<script type=\"text/javascript\" src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\"></script>\n";
 		}
 	}
 }

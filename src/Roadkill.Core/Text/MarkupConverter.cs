@@ -25,12 +25,13 @@ namespace Roadkill.Core.Converters
 	/// </summary>
 	public class MarkupConverter
 	{
+		private static Regex _imgFileRegex = new Regex("^File:", RegexOptions.IgnoreCase);
+		private static Regex _anchorRegex = new Regex("(?<hash>[#|%23].+)", RegexOptions.IgnoreCase);
+
 		private ApplicationSettings _applicationSettings;
 		private IRepository _repository;
 		private IMarkupParser _parser;
-		private UrlHelper _urlHelper;
-		private static Regex _imgFileRegex = new Regex("^File:", RegexOptions.IgnoreCase);
-		private static Regex _anchorRegex = new Regex("(?<hash>[#|%23].+)", RegexOptions.IgnoreCase);
+		private List<string> _externalLinkPrefixes;
 
 		/// <summary>
 		/// A method used by the converter to convert absolute paths to relative paths.
@@ -46,7 +47,6 @@ namespace Roadkill.Core.Converters
 		/// A method used by the converter to get the url for adding a new page.
 		/// </summary>
 		public Func<string, string> NewPageUrlForTitle { get; set; }
-		private List<string> _externalLinkPrefixes;
 		
 		/// <summary>
 		/// The current <see cref="IMarkupParser"/> being used by this instance, which is taken from 
@@ -57,7 +57,6 @@ namespace Roadkill.Core.Converters
 			get { return _parser; }
 		}
 
-		//[SetterProperty]
 		/// <summary>
 		/// Creates a new markdown parser which handles the image and link parsing by the various different 
 		/// markdown format parsers.
@@ -127,9 +126,11 @@ namespace Roadkill.Core.Converters
 		/// </summary>
 		/// <param name="text">A wiki markup string, e.g. creole markup.</param>
 		/// <returns>The wiki markup converted to HTML.</returns>
-		public string ToHtml(string text)
+		public PageHtml ToHtml(string text)
 		{
 			CustomTokenParser tokenParser = new CustomTokenParser(_applicationSettings);
+			PageHtml pageHtml = new PageHtml();
+			bool isCacheable = true;
 
 			// Custom variables before parse
 			IEnumerable<CustomVariablePlugin> plugins = new List<CustomVariablePlugin>();
@@ -146,7 +147,22 @@ namespace Roadkill.Core.Converters
 			{
 				try
 				{
+					string previousText = text;
 					text = plugin.BeforeParse(text);
+
+					if (previousText != text)
+					{
+						// Determine if the plugin thinks the page is still cacheable (provided the plugin has changed the HTML).
+						// Cacheable is true by default, so make sure if one plugin marks it as false the false value is kept.
+						// TODO: if there are performance issues here, the plugin should report if it ran a transformation or not.
+						if (isCacheable == true)
+						{
+							isCacheable = plugin.IsCacheable;
+						}
+
+						pageHtml.HeadHtml += plugin.GetHeadContent();
+						pageHtml.FooterHtml += plugin.GetFooterContent();
+					}
 				}
 				catch (Exception e)
 				{
@@ -168,7 +184,11 @@ namespace Roadkill.Core.Converters
 			{
 				try
 				{
+					string previousHtml = html;
 					html = plugin.AfterParse(html);
+
+					if (html != previousHtml && isCacheable == true)
+						isCacheable = plugin.IsCacheable;
 				}
 				catch (Exception e)
 				{
@@ -176,7 +196,9 @@ namespace Roadkill.Core.Converters
 				}
 			}
 
-			return html;
+			pageHtml.IsCacheable = isCacheable;
+			pageHtml.Html = html;
+			return pageHtml;
 		}
 
 		/// <summary>
@@ -303,7 +325,7 @@ namespace Roadkill.Core.Converters
 		/// Replaces all links with an old page title in the provided page text, with links with a new page name.
 		/// </summary>
 		/// <param name="text">The page's text contents.</param>
-		/// <param name="pageName">The previous name (title) of the page.</param>
+		/// <param name="oldPageName">The previous name (title) of the page.</param>
 		/// <param name="newPageName">The new name (title) of the page.</param>
 		/// <returns>The text with link title names replaced.</returns>
 		public string ReplacePageLinks(string text, string oldPageName, string newPageName)

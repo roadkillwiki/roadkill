@@ -6,6 +6,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Text;
 
 namespace Roadkill.Core.Database
 {
@@ -28,6 +29,8 @@ namespace Roadkill.Core.Database
 
 		public PageSummary ToSummary(MarkupConverter markupConverter)
 		{
+			PageHtml pageHtml = markupConverter.ToHtml(Text);
+
 			PageSummary pageSummary = new PageSummary()
 			{
 				Id = Page.Id,
@@ -40,8 +43,11 @@ namespace Roadkill.Core.Database
 				ModifiedOn = Page.ModifiedOn,
 				RawTags = Page.Tags,
 				Content = Text,
-				ContentAsHtml = markupConverter.ToHtml(Text),
+				ContentAsHtml = pageHtml.Html,
 				VersionNumber = VersionNumber,
+				IsCacheable = pageHtml.IsCacheable,
+				PluginHeadHtml = pageHtml.HeadHtml,
+				PluginFooterHtml = pageHtml.FooterHtml,
 			};
 
 			pageSummary.CreatedOn = DateTime.SpecifyKind(pageSummary.CreatedOn, DateTimeKind.Utc);

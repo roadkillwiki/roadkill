@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 using StructureMap;
 
 namespace Roadkill.Core.Plugins
@@ -16,15 +18,18 @@ namespace Roadkill.Core.Plugins
 		public static readonly string PARSER_IGNORE_STARTTOKEN = "{{{roadkillinternal";
 		public static readonly string PARSER_IGNORE_ENDTOKEN = "roadkillinternal}}}";
 
+		protected List<Setting> Settings { get; set; }
+
 		/// <summary>
 		/// The unique ID for the plugin, which is also the directory it's stored in inside the /Plugins/ directory.
 		/// </summary>
 		public abstract string Id { get; }
 		public abstract string Name { get; }
 		public abstract string Description { get; }
+
 		public ApplicationSettings ApplicationSettings { get; set; }
 		public SiteSettings SiteSettings { get; set; }
-		protected List<Setting> Settings { get; set; }
+		public virtual bool IsCacheable { get; set; }
 
 		/// <summary>
 		/// The virtual path for the plugin, e.g. ~/Plugins/MyPlugin/. Contains a trailing slash.
@@ -37,43 +42,12 @@ namespace Roadkill.Core.Plugins
 			}
 		}
 
-		public CustomVariablePlugin()
+		public CustomVariablePlugin(ApplicationSettings applicationSettings, IRepository repository)
 		{
-			// TODO: setter injection
-			ApplicationSettings = ObjectFactory.GetInstance<ApplicationSettings>();
-		}
-
-		public virtual string GetHeadContent(UrlHelper urlHelper)
-		{
-			return "";
-		}
-
-		public virtual string GetFooterContent(UrlHelper urlHelper)
-		{
-			return "";
-		}
-
-		/// <summary>
-		/// Gets the HTML for a javascript link for the plugin, assuming the javascript is stored in the /Plugins/pluginID/javascript/ folder.
-		/// </summary>
-		public string GetScriptLink(UrlHelper urlHelper, string filename)
-		{
-			// Two tab stops to match HeadContent.cshtml
-			string jsScript = "\t\t<script src=\"{0}/javascript/{1}\" type=\"text/javascript\"></script>\n";
-			string html = string.Format(jsScript, urlHelper.Content(PluginVirtualPath), filename);
-
-			return html;
-		}
-
-		/// <summary>
-		/// Gets the HTML for a CSS link for the plugin, assuming the CSS is stored in the /Plugins/pluginID/css/ folder.
-		/// </summary>
-		public string GetCssLink(UrlHelper urlHelper, string filename)
-		{
-			string cssLink = "\t\t<link href=\"{0}/css/{1}\" rel=\"stylesheet\" type=\"text/css\" />\n";
-			string html = string.Format(cssLink, urlHelper.Content(PluginVirtualPath), filename);
-
-			return html;
+			ApplicationSettings = applicationSettings;
+			SiteSettings = repository.GetSiteSettings();
+			IsCacheable = true;
+			Settings = new List<Setting>();
 		}
 
 		public virtual string BeforeParse(string markupText)
@@ -83,11 +57,6 @@ namespace Roadkill.Core.Plugins
 
 		public virtual string AfterParse(string html)
 		{
-			html = RemoveParserIgnoreTokens(html);
-
-			// Undo the HTML sanitizer's attribute cleaning.
-			html = html.Replace("<pre class=\"brush&#x3A;&#x20;c&#x23;", "<pre class=\"brush: c#");
-			html = html.Replace("<pre class=\"brush&#x3A;&#x20;", "<pre class=\"brush: ");
 			return html;
 		}
 
@@ -100,6 +69,59 @@ namespace Roadkill.Core.Plugins
 		{
 			html = html.Replace(PARSER_IGNORE_STARTTOKEN, "");
 			html = html.Replace(PARSER_IGNORE_ENDTOKEN, "");
+
+			return html;
+		}
+
+		public virtual string GetHeadContent()
+		{
+			return "";
+		}
+
+		public virtual string GetFooterContent()
+		{
+			return "";
+		}
+
+		/// <summary>
+		/// Gets the HTML for a javascript link for the plugin, assuming the javascript is stored in the /Plugins/pluginID/javascript/ folder.
+		/// </summary>
+		public string GetScriptLink(string filename)
+		{
+			// Two tab stops to match HeadContent.cshtml
+			string jsScript = "\t\t<script src=\"{0}/javascript/{1}\" type=\"text/javascript\"></script>\n";
+			string html = "";
+
+			if (HttpContext.Current != null)
+			{
+				UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+				html = string.Format(jsScript, urlHelper.Content(PluginVirtualPath), filename);
+			}
+			else
+			{
+				html = string.Format(jsScript, PluginVirtualPath, filename);
+			}
+
+			return html;
+		}
+
+		/// <summary>
+		/// Gets the HTML for a CSS link for the plugin, assuming the CSS is stored in the /Plugins/pluginID/css/ folder.
+		/// </summary>
+		public string GetCssLink(string filename)
+		{
+			string cssLink = "\t\t<link href=\"{0}/css/{1}\" rel=\"stylesheet\" type=\"text/css\" />\n";
+			string html = "";
+
+			if (HttpContext.Current != null)
+			{
+				UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+				html = string.Format(cssLink, urlHelper.Content(PluginVirtualPath), filename);
+			}
+			else
+			{
+				html = string.Format(cssLink, PluginVirtualPath, filename);
+			}
 
 			return html;
 		}

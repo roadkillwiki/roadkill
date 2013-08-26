@@ -14,7 +14,7 @@ namespace ClassLibrary1
 		[Test]
 		public void Test()
 		{
-			RssPlugin plugin = new RssPlugin();
+			RssPlugin plugin = new RssPlugin(null,null);
 			string html = plugin.AfterParse("[[[rss]]]");
 
 			Console.WriteLine(html);

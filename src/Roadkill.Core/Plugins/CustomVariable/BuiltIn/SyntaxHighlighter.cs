@@ -5,6 +5,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Core.Plugins.BuiltIn
 {
@@ -44,10 +46,17 @@ namespace Roadkill.Core.Plugins.BuiltIn
 			_replacePattern = ParserSafeToken(_replacePattern);
 		}
 
+		public SyntaxHighlighter(ApplicationSettings applicationSettings, IRepository repository)
+			: base(applicationSettings, repository)
+		{
+		}
+
 		public override string BeforeParse(string text)
 		{
 			if (_variableRegex.IsMatch(text))
 			{
+				// Replaces the {{{roadkillinternal[[[code lang=sql|xxx]]]roadkillinternal}}}
+				// with the HTML pre tags. As the code is HTML encoded, it doesn't get butchered by the HTML cleaner.
 				MatchCollection matches = _variableRegex.Matches(text);
 				foreach (Match match in matches)
 				{
@@ -62,18 +71,29 @@ namespace Roadkill.Core.Plugins.BuiltIn
 			return text;
 		}
 
-		public override string GetHeadContent(UrlHelper urlHelper)
+		public override string AfterParse(string html)
+		{
+			html = RemoveParserIgnoreTokens(html);
+
+			// Undo the HTML sanitizer's attribute cleaning on the pre's.
+			html = html.Replace("<pre class=\"brush&#x3A;&#x20;c&#x23;", "<pre class=\"brush: c#");
+			html = html.Replace("<pre class=\"brush&#x3A;&#x20;", "<pre class=\"brush: ");
+
+			return html;
+		}
+
+		public override string GetHeadContent()
 		{
 			string html = "";
 
 			foreach (string file in HeadContent.CssFiles)
 			{
-				html += GetCssLink(urlHelper, file);
+				html += GetCssLink(file);
 			}
 
 			foreach (string file in HeadContent.JsFiles)
 			{
-				html += GetScriptLink(urlHelper, file);
+				html += GetScriptLink(file);
 			}
 
 			html += "\t\t<script type=\"text/javascript\">SyntaxHighlighter.all()</script>\n";

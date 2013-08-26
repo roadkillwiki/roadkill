@@ -10,6 +10,7 @@ using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
 using System.Web;
+using Roadkill.Core.Text;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -163,15 +164,15 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public ActionResult GetPreview(string id)
 		{
-			string html = "";
+			PageHtml pagehtml = "";
 
 			if (!string.IsNullOrEmpty(id))
 			{
 				MarkupConverter converter = _pageManager.GetMarkupConverter();
-				html = converter.ToHtml(id);
+				pagehtml = converter.ToHtml(id);
 			}
 
-			return JavaScript(html);
+			return JavaScript(pagehtml.Html);
 		}
 
 		/// <summary>
@@ -263,14 +264,14 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			if (bothVersions[1] != null)
 			{
-				string oldVersion = converter.ToHtml(bothVersions[1].Content);
-				string newVersion = converter.ToHtml(bothVersions[0].Content);
+				string oldVersion = converter.ToHtml(bothVersions[1].Content).Html;
+				string newVersion = converter.ToHtml(bothVersions[0].Content).Html;
 				HtmlDiff diff = new HtmlDiff(oldVersion, newVersion);
 				diffHtml = diff.Build();
 			}
 			else
 			{
-				diffHtml = converter.ToHtml(bothVersions[0].Content);
+				diffHtml = converter.ToHtml(bothVersions[0].Content).Html;
 			}
 
 			PageSummary summary = bothVersions[0];

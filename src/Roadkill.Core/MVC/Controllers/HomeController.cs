@@ -49,7 +49,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				summary = new PageSummary();
 				summary.Title = SiteStrings.NoMainPage_Title;
 				summary.Content = SiteStrings.NoMainPage_Label;
-				summary.ContentAsHtml = _markupConverter.ToHtml(SiteStrings.NoMainPage_Label);
+				summary.ContentAsHtml = _markupConverter.ToHtml(SiteStrings.NoMainPage_Label).Html;
 				summary.CreatedBy = "";
 				summary.CreatedOn = DateTime.UtcNow;
 				summary.RawTags = "homepage";

@@ -6,7 +6,6 @@
 		<link href="@Url.Content(SiteSettings.ThemePath + "/Theme.css")" rel="stylesheet" type="text/css" />
 		<link href="@Url.Content(SiteSettings.ThemePath + "/Theme.print.css")" rel="stylesheet" type="text/css" media="print" />
 		<script type="text/javascript" src="@Url.Action("GlobalJsVars","Home")"></script>
-		@Url.HeadContentForPlugins()
 		@if (!ApplicationSettings.ResizeImages)
 		{
 		<!-- Overwrite the bootstrap max image width -->

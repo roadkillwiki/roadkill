@@ -48,6 +48,8 @@ namespace Roadkill.Core
 
 			// Custom view engine registration (to add new search paths)
 			RegisterViewEngine();
+
+			Log.Information("Application started");
 		}
 
 		private void RegisterBundles()

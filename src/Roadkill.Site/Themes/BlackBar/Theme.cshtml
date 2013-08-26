@@ -4,6 +4,7 @@
 <head>
 	<title>@ViewBag.Title</title>
 	@Html.Partial("HeadContent")
+	@RenderSection("PluginHead", false)
 </head>
 
 <body>
@@ -36,5 +37,7 @@
 			@RenderSection("PageDetailsFooter", false)
 		</div>
 	</div>
+
+	@RenderSection("PluginFooter", false)
 </body>
 </html>

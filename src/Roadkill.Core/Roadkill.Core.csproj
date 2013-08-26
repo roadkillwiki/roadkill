@@ -430,6 +430,7 @@
     <Compile Include="Plugins\PluginFactory.cs" />
     <Compile Include="Plugins\CustomVariable\Setting.cs" />
     <Compile Include="Plugins\CustomVariable\BuiltIn\SyntaxHighlighter.cs" />
+    <Compile Include="Text\PageHtml.cs" />
     <Compile Include="Text\TextToken.cs" />
     <Compile Include="Text\CustomTokenParser.cs" />
     <Compile Include="Text\Sanitizer\HtmlWhiteList.cs" />
@@ -488,14 +489,22 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Localization\Resx\InstallStrings.cs-CZ.resx" />
-    <EmbeddedResource Include="Localization\Resx\InstallStrings.pl-PL.resx" />
+    <EmbeddedResource Include="Localization\Resx\InstallStrings.cs-CZ.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localization\Resx\InstallStrings.pl-PL.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Localization\Resx\InstallStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>InstallStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Resx\SiteStrings.cs-CZ.resx" />
-    <EmbeddedResource Include="Localization\Resx\SiteStrings.pl-PL.resx" />
+    <EmbeddedResource Include="Localization\Resx\SiteStrings.cs-CZ.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localization\Resx\SiteStrings.pl-PL.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Localization\Resx\SiteStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SiteStrings.Designer.cs</LastGenOutput>
