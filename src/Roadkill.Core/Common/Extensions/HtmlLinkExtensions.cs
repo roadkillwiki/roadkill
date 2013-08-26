@@ -236,38 +236,6 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Returns the head content for all the custom variable plugins.
-		/// </summary>
-		public static MvcHtmlString HeadContentForPlugins(this UrlHelper helper)
-		{
-			string html = "";
-			
-			SyntaxHighlighter highlighter = new SyntaxHighlighter();
-			MathJax mathjax = ObjectFactory.GetInstance<MathJax>();
-
-			html  = highlighter.GetHeadContent(helper);
-			html += mathjax.GetHeadContent(helper);
-
-			return MvcHtmlString.Create(html);
-		}
-
-		/// <summary>
-		/// Returns the footer content for all the custom variable plugins.
-		/// </summary>
-		public static MvcHtmlString FooterContentForPlugins(this UrlHelper helper)
-		{
-			string html = "";
-
-			SyntaxHighlighter highlighter = new SyntaxHighlighter();
-			MathJax mathjax = ObjectFactory.GetInstance<MathJax>();
-
-			html = highlighter.GetFooterContent(helper);
-			html += mathjax.GetFooterContent(helper);
-
-			return MvcHtmlString.Create(html);
-		}
-
-		/// <summary>
 		/// Sometime in the future, the JS bundle will be split out into seperate files, this is for that.
 		/// </summary>
 		public static MvcHtmlString EditorScriptLink(this HtmlHelper helper)

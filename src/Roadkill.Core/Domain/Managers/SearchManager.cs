@@ -246,14 +246,14 @@ namespace Roadkill.Core.Managers
 		internal string GetContentSummary(PageSummary summary)
 		{
 			// Turn the contents into HTML, then strip the tags for the mini summary. This needs some works
-			string contentSummary = summary.Content;
-			contentSummary = _markupConverter.ToHtml(contentSummary);
-			contentSummary = _removeTagsRegex.Replace(contentSummary, "");
+			string summaryHtml = summary.Content;
+			summaryHtml = _markupConverter.ToHtml(summaryHtml);
+			summaryHtml = _removeTagsRegex.Replace(summaryHtml, "");
 
-			if (contentSummary.Length > 150)
-				contentSummary = contentSummary.Substring(0, 149);
+			if (summaryHtml.Length > 150)
+				summaryHtml = summaryHtml.Substring(0, 149);
 
-			return contentSummary;
+			return summaryHtml;
 		}
 	}
 }

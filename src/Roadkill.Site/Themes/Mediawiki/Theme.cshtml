@@ -4,6 +4,7 @@
 	<head>
 		<title>@ViewBag.Title</title>
 		@Html.Partial("HeadContent")
+		@RenderSection("PluginHead", false)
 	</head>
 <body>
 
@@ -42,5 +43,7 @@
 			@SiteStrings.Shared_PoweredBy (@ApplicationSettings.ProductVersion). This theme contains portions of its design from <a href="http://www.mediawiki.org" target="_blank">Mediawiki.org</a>.
 		</p>
 	</div>
+
+	@RenderSection("PluginFooter", false)
 </body>
 </html>

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 using Roadkill.Core.Plugins;
 
 namespace Roadkill.Tests.Unit.StubsAndMocks
@@ -21,6 +23,13 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 		public override string Description
 		{
 			get { return "Description"; }
+		}
+
+		public CustomVariablePluginStub() : this(null, null) { }
+
+		public CustomVariablePluginStub(ApplicationSettings applicationSettings, IRepository repository)
+			: base(applicationSettings, repository)
+		{
 		}
 
 		public override string BeforeParse(string markupText)

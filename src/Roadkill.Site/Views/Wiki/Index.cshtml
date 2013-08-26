@@ -3,6 +3,11 @@
 	ViewBag.Title = Model.Title;
 }
 
+@section PluginHead
+{
+	@MvcHtmlString.Create(Model.PluginHeadHtml)
+}
+
 @section PageToolbar
 {  
 	@* This is rendered by an action (and not a partial/extension method) for future donut caching *@
@@ -22,8 +27,10 @@
 
 @section PageDetailsFooter
 {
-@Url.FooterContentForPlugins()
-
-@* Not donut caching-friendly *@
 <p>@SiteStrings.Shared_LastModified @Model.ModifiedOn.ToString("dd MMM yyyy") at @Model.ModifiedOn.ToShortTimeString().</p>
+}
+
+@section PluginFooter
+{
+	@MvcHtmlString.Create(Model.PluginFooterHtml)
 }

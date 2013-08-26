@@ -30,16 +30,31 @@ namespace Roadkill.Core.Plugins
 
 					foreach (string subdirectory in Directory.GetDirectories(pluginsourcePath))
 					{
+						// Create the irectory in the /bin/Plugins/CustomVariables folder,
+						// e.g. /bin/Plugins/CustomVariables/MyPlugin
 						DirectoryInfo dirInfo = new DirectoryInfo(subdirectory);
 						string destination = Path.Combine(pluginDestinationPath, dirInfo.Name);
 						if (!Directory.Exists(destination))
-							Directory.CreateDirectory(destination);
-
-						foreach (string file in Directory.EnumerateFiles(subdirectory, "*.dll"))
 						{
-							FileInfo fileInfo = new FileInfo(file);
-							string destPath = Path.Combine(destination, fileInfo.Name);
-							File.Copy(file, destPath, true);
+							Directory.CreateDirectory(destination);
+							Log.Information("Created directory {0} for plugin", destination);
+						}
+
+						foreach (string sourceFile in Directory.EnumerateFiles(subdirectory, "*.dll"))
+						{
+							// Copy the plugin's dlls only - but only if the file write time is more recent.
+							// If this check is removed, a looping app restart occurs (as the bin folder
+							// changes, so an app start occurs, and this method is called on app start, which then triggers another restart).
+							FileInfo sourceInfo = new FileInfo(sourceFile);
+							string destPath = Path.Combine(destination, sourceInfo.Name);
+							FileInfo destInfo = new FileInfo(destPath);
+
+							if (sourceInfo.LastWriteTimeUtc > destInfo.LastWriteTimeUtc)
+							{
+								File.Copy(sourceFile, destPath, true);
+								Log.Information("Copied plugin file '{0}' to '{1}' as it's newer ({2} > {3})", sourceInfo.FullName, destInfo.FullName,
+																											 sourceInfo.LastWriteTimeUtc, destInfo.LastWriteTimeUtc);
+							}
 						}
 					}
 				}

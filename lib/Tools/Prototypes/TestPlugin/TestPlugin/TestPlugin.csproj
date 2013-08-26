@@ -31,10 +31,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Roadkill.Core">
-      <HintPath>..\..\..\..\..\..\..\projects\roadkill\src\Roadkill.Core\bin\Debug\Roadkill.Core.dll</HintPath>
+      <HintPath>..\..\..\..\..\src\Roadkill.Core\bin\Debug\Roadkill.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />

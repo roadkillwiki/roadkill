@@ -30,6 +30,9 @@ namespace Roadkill.Core.Cache
 			if (!_settings.UseObjectCache)
 				return;
 
+			if (!item.IsCacheable)
+				return;
+
 			string key = string.Format("{0}.{1}", id, version);
 			_cache.Add(key, item, new CacheItemPolicy());
 

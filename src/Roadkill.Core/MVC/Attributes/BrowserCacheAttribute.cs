@@ -60,7 +60,7 @@ namespace Roadkill.Core.Mvc.Attributes
 				summary = PageManager.FindHomePage();
 			}
 
-			if (summary != null)
+			if (summary != null && summary.IsCacheable)
 			{
 				filterContext.HttpContext.Response.Cache.SetCacheability(HttpCacheability.Public);
 				filterContext.HttpContext.Response.Cache.SetExpires(DateTime.UtcNow.AddSeconds(2));
