@@ -13,9 +13,10 @@ using Roadkill.Core.Attachments;
 using Roadkill.Core.Text.Sanitizer;
 using Roadkill.Core.Database;
 using Roadkill.Core.Text;
-using Roadkill.Core.Text.ToC;
+using Roadkill.Core.Plugins.BuiltIn.ToC;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Plugins.BuiltIn;
+using Roadkill.Core.Plugins;
 
 namespace Roadkill.Core.Converters
 {
@@ -131,10 +132,27 @@ namespace Roadkill.Core.Converters
 			CustomTokenParser tokenParser = new CustomTokenParser(_applicationSettings);
 
 			// Custom variables before parse
-			SyntaxHighlighter highlighter = new SyntaxHighlighter();
-			MathJax mathJax = ObjectFactory.GetInstance<MathJax>();
-			text = highlighter.BeforeParse(text);
-			text = mathJax.BeforeParse(text);
+			IEnumerable<CustomVariablePlugin> plugins = new List<CustomVariablePlugin>();
+			try
+			{
+				plugins = PluginFactory.GetCustomVariablePlugins();
+			}
+			catch (Exception e)
+			{
+				Log.Error(e, "An exception occurred with getting the custom variable plugins from the plugin factory.");
+			}
+
+			foreach (CustomVariablePlugin plugin in plugins)
+			{
+				try
+				{
+					text = plugin.BeforeParse(text);
+				}
+				catch (Exception e)
+				{
+					Log.Error(e, "An exception occurred with the plugin {0} when calling BeforeParse()", plugin.Id);
+				}
+			}	
 
 			// Markup parser
 			string html = _parser.Transform(text);
@@ -146,12 +164,17 @@ namespace Roadkill.Core.Converters
 			html = tokenParser.ReplaceTokensAfterParse(html);
 
 			// Custom variables after parse
-			html = highlighter.AfterParse(html);
-			html = mathJax.AfterParse(html);
-
-			// The TOC (should be a plugin now)
-			TocParser parser = new TocParser();
-			html = parser.InsertToc(html);
+			foreach (CustomVariablePlugin plugin in plugins)
+			{
+				try
+				{
+					html = plugin.AfterParse(html);
+				}
+				catch (Exception e)
+				{
+					Log.Error(e, "An exception occurred with the plugin {0} when calling AfterParse()", plugin.Id);
+				}
+			}
 
 			return html;
 		}
