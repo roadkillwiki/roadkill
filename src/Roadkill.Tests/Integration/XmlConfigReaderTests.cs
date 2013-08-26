@@ -10,6 +10,7 @@ using Roadkill.Core.Configuration;
 namespace Roadkill.Tests.Integration
 {
 	[TestFixture]
+	[Category("Integration")]
 	public class XmlConfigReaderTests
 	{
 		[Test]

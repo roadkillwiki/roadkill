@@ -144,6 +144,11 @@ namespace Roadkill.Core.Configuration
 		public string CustomTokensPath { get; set; }
 
 		/// <summary>
+		/// The full path to the custom user managers directory.
+		/// </summary>
+		public string UserManagerPluginsPath { get; set; }
+
+		/// <summary>
 		/// The full path to the custom variable plugins directory. This is where plugins are stored after 
 		/// download (including their nupackage files), and are copied to the bin folder.
 		/// </summary>
@@ -293,6 +298,7 @@ namespace Roadkill.Core.Configuration
 			AttachmentsFolder = "~/App_Data/Attachments";
 			SearchIndexPath = Path.Combine(AppDataInternalPath, "Search");
 			SQLiteBinariesPath = Path.Combine(AppDataInternalPath, "SQLiteBinaries");
+			UserManagerPluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins", "UserManager");
 		}
 
 		private string ParseAttachmentsPath()
