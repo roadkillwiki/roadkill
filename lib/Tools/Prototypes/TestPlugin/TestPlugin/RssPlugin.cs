@@ -54,7 +54,7 @@ namespace TestPlugin
 
 		/// <summary>
 		/// This constructor is required as the two parameters are filled in at runtime. You can safely create 
-		/// an instance of your plugin by passing in two nulls values, there are no side effects from this.
+		/// an instance of your plugin by passing null for both parameters, there are no side effects from this.
 		/// </summary>
 		public RssPlugin(ApplicationSettings applicationSettings, IRepository repository)
 			: base(applicationSettings, repository)
@@ -64,7 +64,7 @@ namespace TestPlugin
 		public override string BeforeParse(string markupText)
 		{
 			// This ensures that our token [[[rss]]] isn't parsed by the Creole parser.
-			// The "_parserSafeToken" is something like '~~~roadkillinternal [[[rss]]] roadkillinternal~~~',
+			// The "_parserSafeToken" is something like '{{{roadkillinternal [[[rss]]] roadkillinternal}}}',
 			// and gets turned back into the [[[rss]]] token after the parser has finished doing its thing.
 			return markupText.Replace(_token, _parserSafeToken);
 		}

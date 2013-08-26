@@ -320,51 +320,52 @@
     <Content Include="Assets\Scripts\roadkill\typescript-ref\constants.min.js">
       <DependentUpon>constants.ts</DependentUpon>
     </Content>
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shAutoloader.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushAppleScript.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushAS3.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushBash.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushColdFusion.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushCpp.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushCSharp.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushCss.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushDelphi.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushDiff.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushErlang.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushGroovy.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushJava.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushJavaFX.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushJScript.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushPerl.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushPhp.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushPlain.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushPowerShell.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushPython.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushRuby.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushSass.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushScala.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushSql.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushVb.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushXml.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shCore.js" />
-    <Content Include="Plugins\SyntaxHighlighter\javascript\shLegacy.js" />
-    <Content Include="Plugins\SyntaxHighlighter\css\shCore.css" />
-    <Content Include="Plugins\SyntaxHighlighter\css\shCoreDefault.css" />
-    <Content Include="Plugins\SyntaxHighlighter\css\shCoreDjango.css" />
-    <Content Include="Plugins\SyntaxHighlighter\css\shCoreEclipse.css" />
-    <Content Include="Plugins\SyntaxHighlighter\css\shCoreEmacs.css" />
-    <Content Include="Plugins\SyntaxHighlighter\css\shCoreFadeToGrey.css" />
-    <Content Include="Plugins\SyntaxHighlighter\css\shCoreMDUltra.css" />
-    <Content Include="Plugins\SyntaxHighlighter\css\shCoreMidnight.css" />
-    <Content Include="Plugins\SyntaxHighlighter\css\shCoreRDark.css" />
-    <Content Include="Plugins\SyntaxHighlighter\css\shThemeDefault.css" />
-    <Content Include="Plugins\SyntaxHighlighter\css\shThemeDjango.css" />
-    <Content Include="Plugins\SyntaxHighlighter\css\shThemeEclipse.css" />
-    <Content Include="Plugins\SyntaxHighlighter\css\shThemeEmacs.css" />
-    <Content Include="Plugins\SyntaxHighlighter\css\shThemeFadeToGrey.css" />
-    <Content Include="Plugins\SyntaxHighlighter\css\shThemeMDUltra.css" />
-    <Content Include="Plugins\SyntaxHighlighter\css\shThemeMidnight.css" />
-    <Content Include="Plugins\SyntaxHighlighter\css\shThemeRDark.css" />
+    <Content Include="Plugins\CustomVariable\Test\TestPlugin.dll" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shAutoloader.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushAppleScript.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushAS3.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushBash.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushColdFusion.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushCpp.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushCSharp.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushCss.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushDelphi.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushDiff.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushErlang.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushGroovy.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushJava.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushJavaFX.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushJScript.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushPerl.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushPhp.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushPlain.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushPowerShell.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushPython.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushRuby.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushSass.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushScala.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushSql.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushVb.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shBrushXml.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shCore.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\javascript\shLegacy.js" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\css\shCore.css" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\css\shCoreDefault.css" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\css\shCoreDjango.css" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\css\shCoreEclipse.css" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\css\shCoreEmacs.css" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\css\shCoreFadeToGrey.css" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\css\shCoreMDUltra.css" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\css\shCoreMidnight.css" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\css\shCoreRDark.css" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\css\shThemeDefault.css" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\css\shThemeDjango.css" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\css\shThemeEclipse.css" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\css\shThemeEmacs.css" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\css\shThemeFadeToGrey.css" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\css\shThemeMDUltra.css" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\css\shThemeMidnight.css" />
+    <Content Include="Plugins\CustomVariable\SyntaxHighlighter\css\shThemeRDark.css" />
     <Content Include="Assets\Scripts\roadkill\adminsetup.js">
       <DependentUpon>adminsetup.ts</DependentUpon>
     </Content>
@@ -643,6 +644,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Internal\Search\" />
+    <Folder Include="Plugins\UserManager\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

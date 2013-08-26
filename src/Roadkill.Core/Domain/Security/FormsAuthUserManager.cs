@@ -235,7 +235,7 @@ namespace Roadkill.Core.Security
 		/// <summary>
 		/// Retrieves a full <see cref="User"/> object using the unique ID provided.
 		/// </summary>
-		/// <param name="email">The ID of the user.</param>
+		/// <param name="id">The ID of the user.</param>
 		/// <returns>A <see cref="User"/> object</returns>
 		public override User GetUserById(Guid id, bool isActivated = true)
 		{

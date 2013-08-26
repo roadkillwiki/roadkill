@@ -197,7 +197,7 @@ namespace Roadkill.Tests.Unit
 
 			// Put the UserManagerStub in a new assembly so we can test it's loaded
 			string sourcePlugin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Roadkill.Tests.dll");
-			string pluginDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Plugins");
+			string pluginDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins", "UserManager");
 			string destPlugin = Path.Combine(pluginDir, tempFilename);
 
 			if (!Directory.Exists(pluginDir))

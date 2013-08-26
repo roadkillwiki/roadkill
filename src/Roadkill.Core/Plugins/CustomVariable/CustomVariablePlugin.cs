@@ -45,9 +45,11 @@ namespace Roadkill.Core.Plugins
 		public CustomVariablePlugin(ApplicationSettings applicationSettings, IRepository repository)
 		{
 			ApplicationSettings = applicationSettings;
-			SiteSettings = repository.GetSiteSettings();
 			IsCacheable = true;
 			Settings = new List<Setting>();
+
+			if (repository != null)
+				SiteSettings = repository.GetSiteSettings();
 		}
 
 		public virtual string BeforeParse(string markupText)

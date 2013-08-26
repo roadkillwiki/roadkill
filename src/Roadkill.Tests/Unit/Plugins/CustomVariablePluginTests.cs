@@ -10,15 +10,6 @@ namespace Roadkill.Tests.Unit.Plugins
 	[TestFixture]
 	public class CustomVariablePluginTests
 	{
-		[Test]
-		public void Should_x()
-		{
-			// Arrange
-			
-
-			// Act
-
-			// Assert
-		}
+		
 	}
 }
