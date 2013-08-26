@@ -670,7 +670,7 @@
     <value>Soubory s těmito příponami mohou být nahrávány. Oddělujte je čárkou.</value>
   </data>
   <data name="SiteSettings_Configuration_Caching_Help" xml:space="preserve">
-    <value>Zapíná používání vyrovnávací paměti vNHibernate. Roadkill používá vyrovnávací pamět NHibernate společně s výstupná vyrovnávací pamětí v ASP.NET. Pro zlepšení odezev aplikace je doporučeno ukládání do vyrovnávací paměti povolit. Databáová vyrovnávací paměť není pro webové zahrady či farmy podporována.</value>
+    <value>Zapíná používání vyrovnávací paměti. Roadkill používá vyrovnávací pamět společně s výstupná vyrovnávací pamětí v ASP.NET. Pro zlepšení odezev aplikace je doporučeno ukládání do vyrovnávací paměti povolit. Databáová vyrovnávací paměť není pro webové zahrady či farmy podporována.</value>
   </data>
   <data name="SiteSettings_Configuration_CachePageText_Help" xml:space="preserve">
     <value>Ukládat do vyrovnávací paměti textový obsah stránek. Není-li povoleno, bude při každém zobrazení stránka načítána znovu z databáze.</value>

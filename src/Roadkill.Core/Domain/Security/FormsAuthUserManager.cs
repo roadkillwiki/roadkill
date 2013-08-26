@@ -68,7 +68,7 @@ namespace Roadkill.Core.Security
 		/// <returns>
 		/// true if the user was added; false if the user already exists.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occurred while adding the new user.</exception>
+		/// <exception cref="SecurityException">An databaseerror occurred while adding the new user.</exception>
 		public override bool AddUser(string email, string username, string password, bool isAdmin, bool isEditor)
 		{
 			try
@@ -106,7 +106,7 @@ namespace Roadkill.Core.Security
 		/// <returns>
 		/// true if the authentication was sucessful;false otherwise.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occurred while authenticating the user.</exception>
+		/// <exception cref="SecurityException">An databaseerror occurred while authenticating the user.</exception>
 		public override bool Authenticate(string email, string password)
 		{
 			try
@@ -139,7 +139,7 @@ namespace Roadkill.Core.Security
 		/// </summary>
 		/// <param name="email">The email address of the user.</param>
 		/// <param name="newPassword">The new password.</param>
-		/// <exception cref="SecurityException">An NHibernate (database) error occurred while changing the password OR the password is empty.</exception>
+		/// <exception cref="SecurityException">An databaseerror occurred while changing the password OR the password is empty.</exception>
 		public override void ChangePassword(string email, string newPassword)
 		{
 			try
@@ -170,7 +170,7 @@ namespace Roadkill.Core.Security
 		/// <returns>
 		/// true if the password change was successful;false if the previous password was incorrect.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occurred while changing the password OR the new password is empty.</exception>
+		/// <exception cref="SecurityException">An databaseerror occurred while changing the password OR the new password is empty.</exception>
 		public override bool ChangePassword(string email, string oldPassword, string newPassword)
 		{
 			try
@@ -210,7 +210,7 @@ namespace Roadkill.Core.Security
 		/// <returns>
 		/// true if the deletion was successful;false if the user could not be found.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occurred while deleting the user.</exception>
+		/// <exception cref="SecurityException">An databaseerror occurred while deleting the user.</exception>
 		public override bool DeleteUser(string email)
 		{
 			try
@@ -269,7 +269,7 @@ namespace Roadkill.Core.Security
 		/// <returns>
 		/// true if the user is an admin; false otherwise.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occurred while email/username.</exception>
+		/// <exception cref="SecurityException">An databaseerror occurred while email/username.</exception>
 		public override bool IsAdmin(string cookieValue)
 		{
 			Guid id;
@@ -294,7 +294,7 @@ namespace Roadkill.Core.Security
 		/// <returns>
 		/// true if the user is an editor; false otherwise.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occurred while checking email/username.</exception>
+		/// <exception cref="SecurityException">An databaseerror occurred while checking email/username.</exception>
 		public override bool IsEditor(string cookieValue)
 		{
 			try
@@ -323,7 +323,7 @@ namespace Roadkill.Core.Security
 		/// <returns>
 		/// A list of email/usernames who are admins.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occurred while getting the admins.</exception>
+		/// <exception cref="SecurityException">An databaseerror occurred while getting the admins.</exception>
 		public override IEnumerable<UserSummary> ListAdmins()
 		{
 			try
@@ -343,7 +343,7 @@ namespace Roadkill.Core.Security
 		/// <returns>
 		/// A list of email/usernames who are editors.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occurred while getting the editors.</exception>
+		/// <exception cref="SecurityException">An databaseerror occurred while getting the editors.</exception>
 		public override IEnumerable<UserSummary> ListEditors()
 		{
 			try
@@ -447,7 +447,7 @@ namespace Roadkill.Core.Security
 		/// Adds or remove the user with the email address as an editor.
 		/// </summary>
 		/// <param name="email">The email address or username of the user.</param>
-		/// <exception cref="SecurityException">An NHibernate (database) error occurred while setting the user to an editor.</exception>
+		/// <exception cref="SecurityException">An databaseerror occurred while setting the user to an editor.</exception>
 		public override void ToggleEditor(string email)
 		{
 			try
@@ -469,7 +469,7 @@ namespace Roadkill.Core.Security
 		/// Adds or remove the user with the email address as an admin.
 		/// </summary>
 		/// <param name="email">The email address or username of the user.</param>
-		/// <exception cref="SecurityException">An NHibernate (database) error occurred while setting the user to an admin.</exception>
+		/// <exception cref="SecurityException">An databaseerror occurred while setting the user to an admin.</exception>
 		public override void ToggleAdmin(string email)
 		{
 			try
@@ -494,7 +494,7 @@ namespace Roadkill.Core.Security
 		/// <returns>
 		/// true if the change was successful;false if the new username already exists in the system.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occurred while changing the email/username.</exception>
+		/// <exception cref="SecurityException">An databaseerror occurred while changing the email/username.</exception>
 		public override bool UpdateUser(UserSummary summary)
 		{
 			try
@@ -597,7 +597,7 @@ namespace Roadkill.Core.Security
 		/// <returns>
 		/// true if the user exists;false otherwise.
 		/// </returns>
-		/// <exception cref="SecurityException">An NHibernate (database) error occurred while checking the email/user.</exception>
+		/// <exception cref="SecurityException">An databaseerror occurred while checking the email/user.</exception>
 		public override bool UserExists(string email)
 		{
 			try

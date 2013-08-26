@@ -343,7 +343,7 @@
     <value>Buforowanie</value>
   </data>
   <data name="Page4_Group5_Label1" xml:space="preserve">
-    <value>Roadkill używa buforowania NHibernate wraz z buforowaniem wyjścia ASP.NET. Zaleca się włączenie buforowania w celu poprawienia szybkości działania witryny. Buforowanie danych nie jest obecnie obsługiwane w farmach serwerów web.</value>
+    <value>Roadkill używa buforowania wraz z buforowaniem wyjścia ASP.NET. Zaleca się włączenie buforowania w celu poprawienia szybkości działania witryny. Buforowanie danych nie jest obecnie obsługiwane w farmach serwerów web.</value>
   </data>
   <data name="Page4_Group5_Label2" xml:space="preserve">
     <value>To ustawienie dotyczy tylko buforowania bazy danych. Buforowanie wyjścia ASP.NET należy wyłączyć ręcznie w pliku web.config.</value>

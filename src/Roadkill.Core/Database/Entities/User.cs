@@ -8,7 +8,7 @@ using Roadkill.Core.Security;
 namespace Roadkill.Core.Database
 {
 	/// <summary>
-	/// A user object for use with the NHibernate data store. This object is intended for internal use only.
+	/// A user object for use with the data store. This object is intended for internal use only.
 	/// </summary>
 	public class User : IDataStoreEntity
 	{

@@ -10,7 +10,7 @@ using Roadkill.Core.Mvc.ViewModels;
 namespace Roadkill.Core.Database
 {
 	/// <summary>
-	/// Contains versioned text data for a page for use with the NHibernate data store. This object is intended for internal use only.
+	/// Contains versioned text data for a page for use with the data store. This object is intended for internal use only.
 	/// </summary>
 	public class PageContent : IDataStoreEntity
 	{

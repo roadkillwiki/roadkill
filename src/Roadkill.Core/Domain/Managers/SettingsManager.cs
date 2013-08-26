@@ -44,7 +44,7 @@ namespace Roadkill.Core.Managers
 		/// <summary>
 		/// Clears all users from the system.
 		/// </summary>
-		/// <exception cref="DatabaseException">An NHibernate (database) error occurred while clearing the user table.</exception>
+		/// <exception cref="DatabaseException">An databaseerror occurred while clearing the user table.</exception>
 		public void ClearUserTable()
 		{
 			try

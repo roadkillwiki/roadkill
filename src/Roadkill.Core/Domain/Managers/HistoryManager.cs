@@ -120,7 +120,7 @@ namespace Roadkill.Core.Managers
 		/// </summary>
 		/// <param name="pageId">The id of the page</param>
 		/// <param name="versionNumber">The version number to revert to.</param>
-		/// <exception cref="HistoryException">An NHibernate (database) error occurred while reverting to the version.</exception>
+		/// <exception cref="HistoryException">An databaseerror occurred while reverting to the version.</exception>
 		public void RevertTo(int pageId, int versionNumber)
 		{
 			try
@@ -147,7 +147,7 @@ namespace Roadkill.Core.Managers
 		/// </summary>
 		/// <param name="versionId">The version ID to revert to.</param>
 		/// <param name="context">The current logged in user's context.</param>
-		/// <exception cref="HistoryException">An NHibernate (database) error occurred while reverting to the version.</exception>
+		/// <exception cref="HistoryException">An databaseerror occurred while reverting to the version.</exception>
 		public void RevertTo(Guid versionId, IUserContext context)
 		{
 			try
