@@ -49,7 +49,7 @@ module Roadkill.Site
 			});
 
 			// Edit link for each user
-			$(".edit a").click(function ()
+			$("#manage-users .edit a").click(function ()
 			{
 				$("#userdialog .title").html(ROADKILL_EDITUSER_TITLE);
 				$("form#userform").attr("action", ROADKILL_EDITUSER_FORMACTION);
