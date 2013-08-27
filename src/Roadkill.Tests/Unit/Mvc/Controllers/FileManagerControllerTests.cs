@@ -508,6 +508,29 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
+		public void FileUpload_Should_Be_Case_Insensitive()
+		{
+			// Arrange
+			MvcMockContainer container = _filesController.SetFakeControllerContext();
+			SetupMockPostedFiles(container, "/", "file1.PNG");
+			string file1FullPath = Path.Combine(_settings.AttachmentsDirectoryPath, "file1.PNG");
+
+			// Act
+			JsonResult result = _filesController.Upload();
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("ok"));
+			Assert.That(jsonObject.filename, Is.EqualTo("file1.PNG"));
+
+			Assert.That(File.Exists(file1FullPath), Is.True);
+		}
+
+
+		[Test]
 		public void FileUpload_With_Multiple_Files_To_Root_Should_Save_Files_To_Disk_And_Return_Ok_Json_Status()
 		{
 			// Arrange

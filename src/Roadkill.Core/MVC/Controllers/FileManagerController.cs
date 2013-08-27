@@ -241,12 +241,16 @@ namespace Roadkill.Core.Mvc.Controllers
 			try
 			{
 				string fileName = "";
-				List<string> allowedExtensions = SiteSettingsManager.GetSiteSettings().AllowedFileTypesList;
+				IEnumerable<string> allowedExtensions = SiteSettingsManager.GetSiteSettings().AllowedFileTypesList
+													.Select(x => x.ToLower());
 
 				for (int i = 0; i < Request.Files.Count; i++)
 				{
 					HttpPostedFileBase sourceFile = Request.Files[i];
 					string extension = Path.GetExtension(sourceFile.FileName).Replace(".", "");
+
+					if (!string.IsNullOrEmpty(extension))
+						extension = extension.ToLower();
 
 					if (allowedExtensions.Contains(extension))
 					{
