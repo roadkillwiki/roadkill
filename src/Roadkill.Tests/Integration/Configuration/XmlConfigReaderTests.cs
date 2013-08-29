@@ -75,7 +75,7 @@ namespace Roadkill.Tests.Integration
 
 		private string GetConfigPath(string filename)
 		{
-			return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "TestConfigs", filename);
+			return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "Configuration", "TestConfigs", filename);
 		}
 	}
 }

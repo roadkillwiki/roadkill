@@ -298,10 +298,10 @@
     <Compile Include="Acceptance\Setup\AcceptanceTestsSetup.cs" />
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
-    <Compile Include="Integration\XmlConfigReaderTests.cs" />
-    <Compile Include="Integration\MongoDBRepositoryTests.cs" />
-    <Compile Include="Integration\LightSpeedRepositoryTests.cs" />
-    <Compile Include="Integration\ScrewturnImporterTests.cs" />
+    <Compile Include="Integration\Configuration\XmlConfigReaderTests.cs" />
+    <Compile Include="Integration\Repository\MongoDBRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\LightSpeedRepositoryTests.cs" />
+    <Compile Include="Integration\Import\ScrewturnImporterTests.cs" />
     <Compile Include="Smoke\CanaryTests.cs" />
     <Compile Include="Smoke\DemoSiteTests.cs" />
     <Compile Include="Unit\Attachments\AttachmentPathUtilTests.cs" />
@@ -349,7 +349,7 @@
     <Compile Include="Unit\Text\TocParserTests.cs" />
     <Compile Include="Unit\Text\MarkupSanitizerTests.cs" />
     <Compile Include="Unit\Text\MarkdownTests.cs" />
-    <Compile Include="Integration\ConfigFileTests.cs" />
+    <Compile Include="Integration\Configuration\ConfigFileTests.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Unit\Managers\PageManagerTests.cs" />
     <Compile Include="Unit\Managers\ActiveDirectoryUserManagerTests.cs" />
@@ -359,7 +359,7 @@
     <Content Include="chromedriver.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Integration\screwturn3.sql">
+    <Content Include="Integration\Import\screwturn3.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Unit\Attachments\afile.jpg">
@@ -371,24 +371,24 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Integration\TestConfigs\test.config">
+    <Content Include="Integration\Configuration\TestConfigs\test.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Integration\TestConfigs\test-optional-values.config">
+    <Content Include="Integration\Configuration\TestConfigs\test-optional-values.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Integration\TestConfigs\test-missing-values.config">
+    <Content Include="Integration\Configuration\TestConfigs\test-missing-values.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Integration\TestConfigs\test-mongodb.config">
+    <Content Include="Integration\Configuration\TestConfigs\test-mongodb.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Integration\TestConfigs\test-legacy-values.config">
+    <Content Include="Integration\Configuration\TestConfigs\test-legacy-values.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Integration\TestConfigs\test-no-roadkillsection.config">
+    <Content Include="Integration\Configuration\TestConfigs\test-no-roadkillsection.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -399,7 +399,7 @@
     <Compile Include="Acceptance\LoginTests.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\MvcMockHelpers.cs" />
     <Compile Include="Unit\Mvc\Controllers\UserControllerTests.cs" />
-    <Compile Include="Integration\SearchManagerTests.cs" />
+    <Compile Include="Integration\Search\SearchManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\Managers\FormsAuthUserManagerTests.cs" />
   </ItemGroup>
