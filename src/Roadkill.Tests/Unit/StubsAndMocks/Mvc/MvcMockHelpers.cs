@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Moq;
+using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
 namespace Roadkill.Tests.Unit
 {
@@ -19,6 +20,7 @@ namespace Roadkill.Tests.Unit
 		public static HttpContextBase FakeHttpContext(MvcMockContainer container)
 		{
 			var context = new Mock<HttpContextBase>();
+			var cache = new Mock<HttpCachePolicyBase>();
 			var request = new Mock<HttpRequestBase>();
 			var response = new Mock<HttpResponseBase>();
 			var session = new Mock<HttpSessionStateBase>();
@@ -28,6 +30,9 @@ namespace Roadkill.Tests.Unit
 			request.Setup(r => r.Headers).Returns(new NameValueCollection());
 			request.Setup(r => r.Form).Returns(new NameValueCollection());
 			request.Setup(r => r.QueryString).Returns(new NameValueCollection());
+
+			response.Setup(r => r.Cache).Returns(new HttpCachePolicyMock());
+			response.SetupProperty(r => r.StatusCode);
 
 			server.Setup(s => s.UrlDecode(It.IsAny<string>())).Returns<string>(s => s);
 
