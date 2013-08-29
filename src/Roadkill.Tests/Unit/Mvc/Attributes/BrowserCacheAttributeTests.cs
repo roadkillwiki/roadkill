@@ -16,6 +16,7 @@ using Roadkill.Core.Mvc.Controllers;
 namespace Roadkill.Tests.Unit.Mvc.Attributes
 {
 	[TestFixture]
+	[Category("Unit")]
 	public class BrowserCacheAttributeTests
 	{
 		[Test]

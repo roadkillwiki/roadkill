@@ -157,9 +157,12 @@ namespace Roadkill.Core.Import
 		/// </summary>
 		private void SaveFile(string filename, byte[] data)
 		{
+			if (string.IsNullOrEmpty(filename))
+				return;
+
 			try
 			{
-				string filePath = Path.Combine(_attachmentsFolder, filename);
+				string filePath = Path.GetFullPath(_attachmentsFolder + filename);
 				FileInfo info = new FileInfo(filePath);
 				if (!info.Exists)
 				{
