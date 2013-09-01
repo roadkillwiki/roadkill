@@ -245,6 +245,7 @@
     </Reference>
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -307,6 +308,8 @@
     <Compile Include="Unit\Attachments\AttachmentPathUtilTests.cs" />
     <Compile Include="Unit\Attachments\AttachmentFileHandlerTests.cs" />
     <Compile Include="Unit\Attachments\ResponseWrapperMock.cs" />
+    <Compile Include="Unit\Cache\PageManagerCacheTests.cs" />
+    <Compile Include="Unit\Cache\ListCacheTests.cs" />
     <Compile Include="Unit\Extensions\ExtensionsTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\AdminRequiredAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\AuthorizeAttributeBase.cs" />
@@ -332,6 +335,7 @@
     <Compile Include="Unit\Mvc\RoutingTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\WikiControllerTests.cs" />
     <Compile Include="Unit\Plugins\CustomVariablePluginTests.cs" />
+    <Compile Include="Unit\StubsAndMocks\CacheMock.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\Attributes\IdentityStub.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\Attributes\PrincipalMock.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\HttpCachePolicyMock.cs" />

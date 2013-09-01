@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Web;
 using Moq;
 using NUnit.Framework;
@@ -53,7 +54,7 @@ namespace Roadkill.Tests.Unit
 			_context = new UserContext(_mockUserManager.Object);
 			_context.CurrentUser = userId.ToString();
 
-			_historyManager = new HistoryManager(_settings, _repositoryMock, _context, new PageSummaryCache(_settings));
+			_historyManager = new HistoryManager(_settings, _repositoryMock, _context, new PageSummaryCache(_settings, MemoryCache.Default));
 		}
 
 		[Test]

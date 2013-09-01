@@ -12,12 +12,13 @@ namespace Roadkill.Core.Cache
 {
 	public class ListCache
 	{
-		internal static MemoryCache _cache = new MemoryCache("ListCache");
+		private ObjectCache _cache; 
 		private ApplicationSettings _applicationSettings;
 
-		public ListCache(ApplicationSettings settings)
+		public ListCache(ApplicationSettings settings, ObjectCache cache)
 		{
 			_applicationSettings = settings;
+			_cache = cache;
 		}
 
 		public void Add<T>(string key, IEnumerable<T> items)
@@ -51,9 +52,11 @@ namespace Roadkill.Core.Cache
 
 			Log.Information("ListCache: RemoveAll from cache");
 
-			foreach (var item in _cache)
+			// No need to lock the cache as Remove doesn't throw an exception if the key doesn't exist
+			IEnumerable<string> keys = _cache.Select(x => x.Key).ToList();
+			foreach (string key in keys)
 			{
-				_cache.Remove(item.Key);
+				_cache.Remove(key);
 			}
 		}
 

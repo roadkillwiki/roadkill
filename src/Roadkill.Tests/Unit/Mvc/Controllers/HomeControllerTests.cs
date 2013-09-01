@@ -15,6 +15,7 @@ using Roadkill.Core.Localization.Resx;
 using Roadkill.Core.Managers;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
+using System.Runtime.Caching;
 
 namespace Roadkill.Tests.Unit
 {
@@ -41,8 +42,8 @@ namespace Roadkill.Tests.Unit
 			_settings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
 
 			// Cache
-			ListCache listCache = new ListCache(_settings);
-			PageSummaryCache pageSummaryCache = new PageSummaryCache(_settings);
+			ListCache listCache = new ListCache(_settings, MemoryCache.Default);
+			PageSummaryCache pageSummaryCache = new PageSummaryCache(_settings, MemoryCache.Default);
 
 			// Dependencies for PageManager
 			Mock<SearchManager> searchMock = new Mock<SearchManager>();

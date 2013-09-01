@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -115,9 +116,9 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 
 			// PageManager
 			RepositoryMock repository = new RepositoryMock();
-			PageSummaryCache pageSummaryCache = new PageSummaryCache(appSettings);
-			ListCache listCache = new ListCache(appSettings);
-			SearchManager searchManager = new SearchManager(appSettings, repository);
+			PageSummaryCache pageSummaryCache = new PageSummaryCache(appSettings, MemoryCache.Default);
+			ListCache listCache = new ListCache(appSettings, MemoryCache.Default);
+			SearchManagerMock searchManager = new SearchManagerMock(appSettings, repository);
 			HistoryManager historyManager = new HistoryManager(appSettings, repository, userContext, pageSummaryCache);
 			PageManager pageManager = new PageManager(appSettings, repository, searchManager, historyManager, userContext, listCache, pageSummaryCache);
 

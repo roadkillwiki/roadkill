@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Web;
 using Moq;
 using NUnit.Framework;
@@ -52,8 +53,8 @@ namespace Roadkill.Tests.Unit
 			_repositoryMock.SiteSettings.MarkupType = "Creole";
 
 			// Cache
-			ListCache listCache = new ListCache(_settings);
-			PageSummaryCache pageSummaryCache = new PageSummaryCache(_settings);
+			ListCache listCache = new ListCache(_settings, MemoryCache.Default);
+			PageSummaryCache pageSummaryCache = new PageSummaryCache(_settings, MemoryCache.Default);
 
 			// Managers needed by the PageManager
 			_markupConverter = new MarkupConverter(_settings, _repositoryMock);

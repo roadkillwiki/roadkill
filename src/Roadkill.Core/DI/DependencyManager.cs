@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Roadkill.Core.Attachments;
@@ -128,6 +129,7 @@ namespace Roadkill.Core
 			x.For<MathJax>().HybridHttpOrThreadLocalScoped();
 
 			// Cache
+			x.For<ObjectCache>().Use(MemoryCache.Default);
 			x.For<ListCache>().Singleton();
 			x.For<PageSummaryCache>().Singleton();
 		}
