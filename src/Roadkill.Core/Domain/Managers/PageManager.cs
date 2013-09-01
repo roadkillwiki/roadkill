@@ -95,7 +95,7 @@ namespace Roadkill.Core.Managers
 
 				if (loadPageContent)
 				{
-					cacheKey = "allpages.with.content";
+					cacheKey = CacheKeys.ALLPAGES_CONTENT;
 					summaries = _listCache.Get<PageSummary>(cacheKey);
 
 					if (summaries == null)
@@ -104,12 +104,12 @@ namespace Roadkill.Core.Managers
 						summaries = from page in pages
 									select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
 
-						_listCache.Add<PageSummary>("allpages.with.content", summaries);
+						_listCache.Add<PageSummary>(cacheKey, summaries);
 					}
 				}
 				else
 				{
-					cacheKey = "allpages";
+					cacheKey = CacheKeys.ALLPAGES;
 					summaries = _listCache.Get<PageSummary>(cacheKey);
 
 					if (summaries == null)

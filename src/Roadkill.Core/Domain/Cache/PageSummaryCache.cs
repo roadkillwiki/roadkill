@@ -11,29 +11,34 @@ namespace Roadkill.Core.Cache
 {
 	public class PageSummaryCache
 	{
-		internal static MemoryCache _cache = new MemoryCache("PageSummaryCache");
-		private static readonly int _latestVersionNumber = 0;
-		private ApplicationSettings _settings;
+		/// <summary>
+		/// The version number used for cache keys to indicate it's the latest version - currently 0.
+		/// </summary>
+		internal static readonly int LATEST_VERSION_NUMBER = 0;
 
-		public PageSummaryCache(ApplicationSettings settings)
+		private ObjectCache _cache; 
+		private ApplicationSettings _applicationSettings;
+
+		public PageSummaryCache(ApplicationSettings settings, ObjectCache cache)
 		{
-			_settings = settings;
+			_applicationSettings = settings;
+			_cache = cache;
 		}
 
 		public void Add(int id, PageSummary item)
 		{
-			Add(id, _latestVersionNumber, item);
+			Add(id, LATEST_VERSION_NUMBER, item);
 		}
 
 		public void Add(int id, int version, PageSummary item)
 		{
-			if (!_settings.UseObjectCache)
+			if (!_applicationSettings.UseObjectCache)
 				return;
 
 			if (!item.IsCacheable)
 				return;
 
-			string key = string.Format("{0}.{1}", id, version);
+			string key = CacheKeys.PageSummaryKey(id, version);
 			_cache.Add(key, item, new CacheItemPolicy());
 
 			Log.Information("PageSummaryCache: Added key {0} to cache [Id={1}, Version{2}]", key, id, version);
@@ -41,36 +46,34 @@ namespace Roadkill.Core.Cache
 
 		public void UpdateHomePage(PageSummary item)
 		{
-			if (!_settings.UseObjectCache)
+			if (!_applicationSettings.UseObjectCache)
 				return;
 
-			string key = "latesthomepage";
-			_cache.Remove(key);
-			_cache.Add(key, item, new CacheItemPolicy());
+			_cache.Remove(CacheKeys.HOMEPAGE);
+			_cache.Add(CacheKeys.HOMEPAGE, item, new CacheItemPolicy());
 		}
 
 		public PageSummary GetHomePage()
 		{
-			if (!_settings.UseObjectCache)
+			if (!_applicationSettings.UseObjectCache)
 				return null;
 
-			string key = "latesthomepage";
 			Log.Information("PageSummaryCache: Get latest homepage");
 
-			return _cache.Get(key) as PageSummary;
+			return _cache.Get(CacheKeys.HOMEPAGE) as PageSummary;
 		}
 
 		public PageSummary Get(int id)
 		{
-			return Get(id, _latestVersionNumber);
+			return Get(id, LATEST_VERSION_NUMBER);
 		}
 
 		public PageSummary Get(int id, int version)
 		{
-			if (!_settings.UseObjectCache)
+			if (!_applicationSettings.UseObjectCache)
 				return null;
 
-			string key = string.Format("{0}.{1}", id, version);
+			string key = CacheKeys.PageSummaryKey(id, version);
 			Log.Information("PageSummaryCache: Get key {0} in cache [Id={1}, Version{2}]", key, id, version);
 
 			return _cache.Get(key) as PageSummary;
@@ -78,26 +81,25 @@ namespace Roadkill.Core.Cache
 
 		public void RemoveHomePage()
 		{
-			if (!_settings.UseObjectCache)
+			if (!_applicationSettings.UseObjectCache)
 				return;
 
-			string key = "latesthomepage";
-			_cache.Remove(key);
+			_cache.Remove(CacheKeys.HOMEPAGE);
 
-			Log.Information("PageSummaryCache: Removed homepage from cache", key);
+			Log.Information("PageSummaryCache: Removed homepage from cache", CacheKeys.HOMEPAGE);
 		}
 
 		public void Remove(int id)
 		{
-			Remove(id, _latestVersionNumber);
+			Remove(id, LATEST_VERSION_NUMBER);
 		}
 
 		public void Remove(int id, int version)
 		{
-			if (!_settings.UseObjectCache)
+			if (!_applicationSettings.UseObjectCache)
 				return;
 
-			string key = string.Format("{0}.{1}", id, version);
+			string key = CacheKeys.PageSummaryKey(id, version);
 			_cache.Remove(key);
 
 			Log.Information("PageSummaryCache: Removed key '{0}' from cache", key);
@@ -105,14 +107,16 @@ namespace Roadkill.Core.Cache
 
 		public void RemoveAll()
 		{
-			if (!_settings.UseObjectCache)
+			if (!_applicationSettings.UseObjectCache)
 				return;
 
 			Log.Information("PageSummaryCache: RemoveAll from cache");
 
-			foreach (var item in _cache)
+			// No need to lock the cache as Remove doesn't throw an exception if the key doesn't exist
+			IEnumerable<string> keys = _cache.Select(x => x.Key).ToList();
+			foreach (string key in keys)
 			{
-				_cache.Remove(item.Key);
+				_cache.Remove(key);
 			}
 		}
 
