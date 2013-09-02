@@ -77,10 +77,13 @@ namespace Roadkill.Core.Mvc.Controllers
 			// This is a fix for versions before 1.5 storing the username instead of a guid in the login cookie
 			if (!ApplicationSettings.UseWindowsAuthentication)
 			{
-				Guid userId;
-				if (!Guid.TryParse(Context.CurrentUser, out userId))
+				if (!string.IsNullOrEmpty(Context.CurrentUser))
 				{
-					UserManager.Logout();
+					Guid userId;
+					if (!Guid.TryParse(Context.CurrentUser, out userId))
+					{
+						UserManager.Logout();
+					}
 				}
 			}
 		}
