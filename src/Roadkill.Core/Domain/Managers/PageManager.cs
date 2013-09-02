@@ -10,6 +10,7 @@ using Roadkill.Core.Cache;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Configuration;
 using System.Web;
+using Roadkill.Core.Logging;
 
 namespace Roadkill.Core.Managers
 {
@@ -218,7 +219,7 @@ namespace Roadkill.Core.Managers
 		{
 			try
 			{
-				// Avoiding grabbing all the pagecontents coming back each time a page is requested, it has no inverse relationship.
+				// Avoid grabbing all the pagecontents coming back each time a page is requested, it has no inverse relationship.
 				Page page = Repository.GetPageById(pageId);
 
 				// Update the lucene index before we actually delete the page.
@@ -227,9 +228,9 @@ namespace Roadkill.Core.Managers
 				{
 					_searchManager.Delete(Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter));
 				}
-				catch (SearchException)
+				catch (SearchException ex)
 				{
-					// TODO: log.
+					Log.Error(ex, "Unable to delete page with id {0} from the lucene index", pageId);
 				}
 
 				IList<PageContent> children = Repository.FindPageContentsByPageId(pageId).ToList();
@@ -238,7 +239,6 @@ namespace Roadkill.Core.Managers
 					Repository.DeletePageContent(children[i]);
 				}
 
-				_listCache.RemoveAll();
 				Repository.DeletePage(page);
 
 				// Remove everything for now, to avoid reciprocal link issues
@@ -430,17 +430,16 @@ namespace Roadkill.Core.Managers
 
 				Repository.SaveOrUpdatePage(page);
 
+				//
 				// Update the cache - updating a page is expensive for the cache right now
 				// this could be improved by updating the item in the listcache instead of invalidating it
+				//
 				_pageSummaryCache.Remove(summary.Id , 0);
 
 				if (summary.Tags.Contains("homepage"))
 					_pageSummaryCache.RemoveHomePage();
 
-				_listCache.Remove("alltags");
-				_listCache.Remove("allpages");
-				_listCache.Remove("allpages.with.content");
-				_listCache.Remove("allpages.created.by" + page.CreatedBy);
+				_listCache.RemoveAll();
 
 				int newVersion = _historyManager.MaxVersion(summary.Id) + 1;
 				PageContent pageContent = Repository.AddNewPageContentVersion(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.UtcNow, newVersion); 
@@ -490,7 +489,7 @@ namespace Roadkill.Core.Managers
 					UpdatePage(summary);
 				}
 
-				string cacheKey = string.Format("findbytag.{0}", oldTagName);
+				string cacheKey = CacheKeys.PagesByTagKey(oldTagName);
 				_listCache.Remove(cacheKey);
 			}
 			catch (DatabaseException ex)

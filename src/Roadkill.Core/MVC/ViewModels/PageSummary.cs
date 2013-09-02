@@ -87,7 +87,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		}
 
 		/// <summary>
-		/// The tags for the page - these are given by the page in command separated format.
+		/// The tags for the page - these are given by the page in comman separated format.
 		/// </summary>
 		public string RawTags
 		{

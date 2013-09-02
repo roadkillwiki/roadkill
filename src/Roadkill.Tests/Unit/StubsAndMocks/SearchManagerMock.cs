@@ -22,6 +22,23 @@ namespace Roadkill.Tests.Unit
 			PageContents = new List<PageContent>();
 		}
 
+		public override void Add(PageSummary summary)
+		{	
+		}
+
+		public override void Update(PageSummary summary)
+		{	
+		}
+
+		public override void CreateIndex()
+		{
+		}
+
+		public override int Delete(PageSummary summary)
+		{
+			return 1;
+		}
+
 		public override IEnumerable<SearchResult> Search(string searchText)
 		{
 			List<SearchResult> results = new List<SearchResult>();
