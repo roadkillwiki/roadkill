@@ -18,10 +18,15 @@ namespace Roadkill.Core.Cache
 
 		/// <summary>"allpages"</summary>
 		public static readonly string ALLPAGES = "allpages";
+
+		/// <summary>"allpages.createdby.{username}"</summary>
 		public static readonly string ALLPAGES_CREATEDBY = "allpages.createdby.{username}";
+
+		/// <summary>"alltags"</summary>
 		public static readonly string ALLTAGS = "alltags";
+
+		/// <summary>"pagesbytag.{tag}"</summary>
 		public static readonly string PAGES_BY_TAG = "pagesbytag.{tag}";
-		//findbytag.{0} - rename me
 
 		public static string PageSummaryKey(int id, int version)
 		{
