@@ -52,6 +52,28 @@ namespace Roadkill.Core
 			Log.Information("Application started");
 		}
 
+		protected void Application_Error()
+		{
+			// Log ASP.NET errors (404, 500)
+			HttpException exception = new HttpException(null, HttpContext.Current.Server.GetLastError());
+			Log.Error("An ASP.NET based error occurred - ({0}) - {1}", 
+						exception.GetHttpCode(),
+						exception.ToString());
+		}
+
+		protected void Application_EndRequest(object sender, EventArgs e)
+		{
+			try
+			{
+				// Finish the current Unit of Work
+				RepositoryManager.DisposeRepository();
+			}
+			catch (Exception ex)
+			{
+				Log.Error("Error calling IoCSetup.DisposeRepository: {0}", ex.ToString());
+			}
+		}
+
 		private void RegisterBundles()
 		{
 			BundleCssFilename = string.Format("roadkill{0}.css", ApplicationSettings.ProductVersion);
@@ -94,6 +116,20 @@ namespace Roadkill.Core
 				new { controller = "Files", action = "Folder", dir = UrlParameter.Optional }
 			);
 
+			// 404 error
+			routes.MapLowercaseRoute(
+				"NotFound",
+				"wiki/notfound",
+				new { controller = "Wiki", action = "NotFound", id = UrlParameter.Optional }
+			);
+
+			// 500 error
+			routes.MapLowercaseRoute(
+				"ServerError",
+				"wiki/servererror",
+				new { controller = "Wiki", action = "ServerError", id = UrlParameter.Optional }
+			);
+
 			// The default way of getting to a page: "/wiki/123/page-title"
 			routes.MapLowercaseRoute(
 				"Wiki",
@@ -114,18 +150,6 @@ namespace Roadkill.Core
 				"{controller}/{action}/{id}", // URL with parameters
 				new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
 			);
-		}
-
-		protected void Application_EndRequest(object sender, EventArgs e)
-		{
-			try
-			{
-				RepositoryManager.DisposeRepository();
-			}
-			catch (Exception ex)
-			{
-				Log.Error("Error calling IoCSetup.DisposeRepository: {0}", ex.ToString());
-			}
 		}
 	}
 }

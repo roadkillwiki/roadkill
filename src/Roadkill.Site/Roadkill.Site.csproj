@@ -566,6 +566,8 @@
     <Content Include="Views\Shared\Dialogs\ChooseImage.cshtml" />
     <Content Include="Views\Shared\Dialogs\AddEditUser.cshtml" />
     <Content Include="Views\Shared\Dialogs\PreviewPage.cshtml" />
+    <Content Include="Views\Wiki\500.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
     <None Include="Web.DemoSite.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -610,7 +612,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Wiki\404.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\_ViewStart.cshtml" />

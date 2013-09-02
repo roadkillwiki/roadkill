@@ -54,7 +54,32 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void WriteResponse_Should_Set_404_Status_For_Bad_Application_Path()
+		public void WriteResponse_Should_Throw_404_Exception_For_Missing_File()
+		{
+			// Arrange
+			AttachmentFileHandler handler = new AttachmentFileHandler(_applicationSettings);
+
+			string localPath = "/wiki/Attachments/doesntexist404.jpg";
+			string applicationPath = "/wiki";
+			string modifiedSince = "";
+
+			ResponseWrapperMock wrapper = new ResponseWrapperMock();
+
+			try
+			{
+				// Act + Assert
+				handler.WriteResponse(localPath, applicationPath, modifiedSince, wrapper);
+
+				Assert.Fail("No 404 HttpException thrown");
+			}
+			catch (HttpException e)
+			{
+				Assert.That(e.GetHttpCode(), Is.EqualTo(404));
+			}
+		}
+
+		[Test]
+		public void WriteResponse_Should_Throw_500_Exception_For_Bad_Application_Path()
 		{
 			// Arrange
 			AttachmentFileHandler handler = new AttachmentFileHandler(_applicationSettings);
@@ -68,11 +93,17 @@ namespace Roadkill.Tests.Unit
 
 			ResponseWrapperMock wrapper = new ResponseWrapperMock();
 
-			// Act
-			handler.WriteResponse(localPath, applicationPath, modifiedSince, wrapper);
+			try
+			{
+				// Act + Assert
+				handler.WriteResponse(localPath, applicationPath, modifiedSince, wrapper);
 
-			// Assert
-			Assert.That(wrapper.StatusCode, Is.EqualTo(404));
+				Assert.Fail("No 500 HttpException thrown");
+			}
+			catch (HttpException e)
+			{
+				Assert.That(e.GetHttpCode(), Is.EqualTo(500));
+			}
 		}
 
 		[Test]

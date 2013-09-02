@@ -42,7 +42,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			PageSummary summary = PageManager.GetById(id.Value);
 
 			if (summary == null)
-				return new HttpNotFoundResult(string.Format("The page with id '{0}' could not be found", id));
+				throw new HttpException(404, string.Format("The page with id '{0}' could not be found", id));
 
 			return View(summary);
 		}
@@ -58,6 +58,22 @@ namespace Roadkill.Core.Mvc.Controllers
 				return Content(string.Format("The page with id '{0}' could not be found", id));
 
 			return PartialView(summary);
+		}
+
+		/// <summary>
+		/// 404 not found page - configured in the web.config
+		/// </summary>
+		public ActionResult NotFound()
+		{
+			return View("404");
+		}
+
+		/// <summary>
+		/// 500 internal error - configured in the web.config
+		/// </summary>
+		public ActionResult ServerError()
+		{
+			return View("500");
 		}
 	}
 }
