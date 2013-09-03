@@ -25,8 +25,8 @@ namespace Roadkill.Core
 		protected void Application_Start()
 		{
 			// Get the settings from the web.config
-			ConfigFileManager configManager = new ConfigFileManager();
-			ApplicationSettings applicationSettings = configManager.GetApplicationSettings();
+			ConfigReader configReader = ConfigReaderFactory.GetConfigReader();
+			ApplicationSettings applicationSettings = configReader.GetApplicationSettings();
 
 			// Configure StructureMap dependencies
 			DependencyManager iocSetup = new DependencyManager(applicationSettings);

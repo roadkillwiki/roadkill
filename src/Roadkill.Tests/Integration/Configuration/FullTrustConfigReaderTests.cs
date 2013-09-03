@@ -19,7 +19,7 @@ namespace Roadkill.Tests.Unit
 	[TestFixture]
 	[Description("Tests for both database and .config file settings.")]
 	[Category("Integration")]
-	public class ConfigFileTests
+	public class FullTrustConfigReaderTests
 	{
 		private ApplicationSettings _settings;
 
@@ -36,7 +36,7 @@ namespace Roadkill.Tests.Unit
 			string configFilePath = GetConfigPath("test.config");
 
 			// Act
-			ConfigFileManager configManager = new ConfigFileManager(configFilePath);
+			FullTrustConfigReader configManager = new FullTrustConfigReader(configFilePath);
 			ApplicationSettings appSettings = configManager.GetApplicationSettings();
 
 			// Assert
@@ -69,7 +69,7 @@ namespace Roadkill.Tests.Unit
 			string configFilePath = GetConfigPath("test-optional-values.config");
 
 			// Act
-			ConfigFileManager configManager = new ConfigFileManager(configFilePath);
+			FullTrustConfigReader configManager = new FullTrustConfigReader(configFilePath);
 			ApplicationSettings appSettings = configManager.GetApplicationSettings();
 
 			// Assert
@@ -94,7 +94,7 @@ namespace Roadkill.Tests.Unit
 			string configFilePath = GetConfigPath("test.config");
 
 			// Act
-			ConfigFileManager configManager = new ConfigFileManager(configFilePath);
+			FullTrustConfigReader configManager = new FullTrustConfigReader(configFilePath);
 			ApplicationSettings appSettings = configManager.GetApplicationSettings();
 
 			// Assert
@@ -109,7 +109,7 @@ namespace Roadkill.Tests.Unit
 			string configFilePath = GetConfigPath("test-missing-values.config");
 
 			// Act
-			ConfigFileManager configManager = new ConfigFileManager(configFilePath);
+			FullTrustConfigReader configManager = new FullTrustConfigReader(configFilePath);
 			
 			// Assert
 		}
@@ -121,7 +121,7 @@ namespace Roadkill.Tests.Unit
 			string configFilePath = GetConfigPath("test-legacy-values.config");
 
 			// Act
-			ConfigFileManager configManager = new ConfigFileManager(configFilePath);
+			FullTrustConfigReader configManager = new FullTrustConfigReader(configFilePath);
 			ApplicationSettings appSettings = configManager.GetApplicationSettings();
 
 			// Assert
@@ -136,7 +136,7 @@ namespace Roadkill.Tests.Unit
 			string configFilePath = GetConfigPath("test-legacy-values.config");
 
 			// Act
-			ConfigFileManager configManager = new ConfigFileManager(configFilePath);
+			FullTrustConfigReader configManager = new FullTrustConfigReader(configFilePath);
 			ApplicationSettings appSettings = configManager.GetApplicationSettings();
 
 			// Assert
@@ -195,9 +195,6 @@ namespace Roadkill.Tests.Unit
 			Assert.That(actualSettings.SiteName, Is.EqualTo("sitename"), "SiteName");
 			Assert.That(actualSettings.SiteUrl, Is.EqualTo("siteurl"), "SiteUrl");
 			Assert.That(actualSettings.Theme, Is.EqualTo("theme"), "Theme");
-
-			// How can ~/ for Attachments be tested?
-			// AppDataPath etc.?
 		}
 		
 		[Test]

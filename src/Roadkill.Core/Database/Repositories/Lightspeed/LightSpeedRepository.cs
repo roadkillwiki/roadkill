@@ -78,7 +78,6 @@ namespace Roadkill.Core.Database.LightSpeed
 			{
 				LightSpeedContext context = new LightSpeedContext();
 				context.ConnectionString = connectionString;
-				context.DataProvider = dataStoreType.LightSpeedDbType;
 				context.IdentityMethod = IdentityMethod.GuidComb;
 				context.CascadeDeletes = true;
 				context.Cache = new CacheBroker(new DefaultCache());

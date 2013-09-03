@@ -41,9 +41,8 @@ namespace Roadkill.Core.Mvc.Controllers
 			try
 			{
 				_repository.Upgrade(ApplicationSettings);
-				ConfigFileManager manager = new ConfigFileManager();
-				manager.WriteCurrentVersionToWebConfig();
-				manager.Save();
+				ConfigReader configReader = ConfigReaderFactory.GetConfigReader();
+				configReader.UpdateCurrentVersion(ApplicationSettings.ProductVersion.ToString());
 
 				return RedirectToAction("Index", "Home");
 			}

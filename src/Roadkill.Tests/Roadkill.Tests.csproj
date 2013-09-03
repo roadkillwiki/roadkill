@@ -299,7 +299,7 @@
     <Compile Include="Acceptance\Setup\AcceptanceTestsSetup.cs" />
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
-    <Compile Include="Integration\Configuration\XmlConfigReaderTests.cs" />
+    <Compile Include="Integration\Configuration\MediumTrustConfigReader.cs" />
     <Compile Include="Integration\Repository\MongoDBRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeedRepositoryTests.cs" />
     <Compile Include="Integration\Import\ScrewturnImporterTests.cs" />
@@ -353,7 +353,7 @@
     <Compile Include="Unit\Text\TocParserTests.cs" />
     <Compile Include="Unit\Text\MarkupSanitizerTests.cs" />
     <Compile Include="Unit\Text\MarkdownTests.cs" />
-    <Compile Include="Integration\Configuration\ConfigFileTests.cs" />
+    <Compile Include="Integration\Configuration\FullTrustConfigReaderTests.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Unit\Managers\PageManagerTests.cs" />
     <Compile Include="Unit\Managers\ActiveDirectoryUserManagerTests.cs" />

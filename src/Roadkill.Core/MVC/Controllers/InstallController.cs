@@ -167,8 +167,8 @@ namespace Roadkill.Core.Mvc.Controllers
 			{
 				try
 				{
-					ConfigFileManager configManager = new ConfigFileManager();
-					configManager.ResetInstalledState();
+					ConfigReader configReader = ConfigReaderFactory.GetConfigReader();
+					configReader.ResetInstalledState();
 				}
 				catch (Exception ex)
 				{
@@ -195,9 +195,8 @@ namespace Roadkill.Core.Mvc.Controllers
 			_searchManager.UpdateRepository(_repository);
 
 			// Update the web.config first, so all connections can be referenced.
-			ConfigFileManager configManager = new ConfigFileManager();
-			configManager.WriteSettings(summary);
-			configManager.Save();
+			ConfigReader configReader = ConfigReaderFactory.GetConfigReader();
+			configReader.Save(summary);
 
 			// Create the roadkill schema and save the configuration settings
 			_settingsManager.CreateTables(summary);
@@ -240,8 +239,8 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (ApplicationSettings.Installed)
 				return Content("");
 
-			ConfigFileManager configManager = new ConfigFileManager();
-			string errors = configManager.TestSaveWebConfig();
+			ConfigReader configReader = ConfigReaderFactory.GetConfigReader();
+			string errors = configReader.TestSaveWebConfig();
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 

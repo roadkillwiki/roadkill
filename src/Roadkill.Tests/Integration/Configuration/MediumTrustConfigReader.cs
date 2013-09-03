@@ -11,7 +11,7 @@ namespace Roadkill.Tests.Integration
 {
 	[TestFixture]
 	[Category("Integration")]
-	public class XmlConfigReaderTests
+	public class MediumTrustConfigReaderTests
 	{
 		[Test]
 		[ExpectedException(typeof(ConfigurationException))]
@@ -21,19 +21,19 @@ namespace Roadkill.Tests.Integration
 			string configFile = GetConfigPath("doesntexist.config");
 
 			// Act + Assert
-			XmlConfigReader reader = new XmlConfigReader(configFile);
+			MediumTrustConfigReader reader = new MediumTrustConfigReader(configFile);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ConfigurationException))]
-		public void Read_Should_Throw_Exception_If_No_Roadkill_Section_Exists()
+		public void Load_Should_Throw_Exception_If_No_Roadkill_Section_Exists()
 		{
 			// Arrange
 			string configFile = GetConfigPath("test-no-roadkillsection.config");
-			XmlConfigReader reader = new XmlConfigReader(configFile);
+			MediumTrustConfigReader reader = new MediumTrustConfigReader(configFile);
 
 			// Act
-			RoadkillSection section = reader.ReadSection();
+			RoadkillSection section = reader.Load();
 
 			// Assert
 		}
@@ -43,10 +43,10 @@ namespace Roadkill.Tests.Integration
 		{
 			// Arrange
 			string configFile = GetConfigPath("test.config");
-			XmlConfigReader reader = new XmlConfigReader(configFile);
+			MediumTrustConfigReader reader = new MediumTrustConfigReader(configFile);
 
 			// Act
-			RoadkillSection section = reader.ReadSection();
+			RoadkillSection section = reader.Load();
 
 			// Assert
 			Assert.That(section.AdminRoleName, Is.EqualTo("Admin-test"));
