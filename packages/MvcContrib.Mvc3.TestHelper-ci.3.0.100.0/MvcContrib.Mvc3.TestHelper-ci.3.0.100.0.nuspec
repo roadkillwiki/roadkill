@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>MvcContrib.Mvc3.TestHelper-ci</id>
+    <version>3.0.100.0</version>
+    <title>MvcContrib.Mvc3.TestHelper-ci</title>
+    <authors>Outercurve Foundation</authors>
+    <owners>Outercurve Foundation</owners>
+    <projectUrl>http://mvccontrib.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>MvcContrib was designed to add functionality and ease-of-use to Microsoft's ASP.NET MVC Framework, MVC Contrib is useful for developers looking to develop and test UI elements on top of the ASP.NET MVC framework. The TestHelper component provides additional utilities that aid in unit testing ASP.NET MVC projects.</description>
+    <summary>MvcContrib was designed to add functionality and ease-of-use to Microsoft's ASP.NET MVC Framework, MVC Contrib is useful for developers looking to develop and test UI elements on top of the ASP.NET MVC framework. The TestHelper component provides additional utilities that aid in unit testing ASP.NET MVC projects.</summary>
+    <releaseNotes />
+    <copyright />
+    <language />
+    <tags>mvc</tags>
+    <dependencies>
+      <dependency id="RhinoMocks" version="3.6" />
+    </dependencies>
+    <references>
+      <reference file="MvcContrib.TestHelper.dll" />
+    </references>
+  </metadata>
+</package>

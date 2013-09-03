@@ -1,0 +1,24 @@
+﻿@{
+	if (ApplicationSettings.Installed)
+	{
+		Layout = SiteSettings.ThemePath + "/Theme.cshtml";
+	}
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>500 server error</title>
+</head>
+<body>
+	<h2>
+		500 server error
+	</h2>
+
+	<p>An error occurred on the server, and has been logged.</p>
+
+@if (RoadkillContext.IsAdmin)
+{
+	<p>Check the log files for the full error details</p>
+}
+</body>
+</html>
