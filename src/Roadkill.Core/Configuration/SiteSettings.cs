@@ -11,6 +11,7 @@ namespace Roadkill.Core.Configuration
 {
 	/// <summary>
 	/// Contains all configuration data stored in the database, for settings that do not require an application restart when changed.
+	/// This class is stored in the database as JSON.
 	/// </summary>
 	[Serializable]
 	public class SiteSettings
@@ -19,6 +20,7 @@ namespace Roadkill.Core.Configuration
 
 		private string _allowedFileTypes;
 
+		#region Version 1.7
 		/// <summary>
 		/// The files types allowed for uploading.
 		/// </summary>
@@ -106,9 +108,33 @@ namespace Roadkill.Core.Configuration
 				return new List<string>(AllowedFileTypes.Replace(" ", "").Split(','));
 			}
 		}
+		#endregion
+
+		#region Version 1.8
+		/// <summary>
+		/// Whether files with the same name overwrite the existing file, or throw an error.
+		/// </summary>
+		public bool OverwriteExistingFiles { get; set; }
+
+		/// <summary>
+		/// Extra HTML/Javascript that is added to the HTML head, for example Google analytics, web fonts.
+		/// </summary>
+		public string HeadContent { get; set; }
+
+		/// <summary>
+		/// Whether to eable clicking on images to display them in a modal lightbox.
+		/// </summary>
+		public bool EnableImageLightBoxes { get; set; }
+
+		/// <summary>
+		/// Whether to scale images dynamically on the page, using Javascript, so they fit inside the main page container (400x400px).
+		/// </summary>
+		public bool ResizeImages { get; set; }
+		#endregion
 
 		public SiteSettings()
 		{
+			// v1.7
 			AllowedFileTypes = "jpg, png, gif";
 			AllowUserSignup = false;
 			IsRecaptchaEnabled = false;
@@ -118,6 +144,12 @@ namespace Roadkill.Core.Configuration
 			SiteUrl = "";
 			RecaptchaPrivateKey = "";
 			RecaptchaPublicKey = "";
+
+			// v1.8
+			OverwriteExistingFiles = false;
+			HeadContent = "";
+			EnableImageLightBoxes = false;
+			ResizeImages = true;
 		}
 
 		public string GetJson()
