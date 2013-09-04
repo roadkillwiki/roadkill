@@ -11,6 +11,7 @@ namespace Roadkill.Tests.Integration
 {
 	[TestFixture]
 	[Category("Integration")]
+	[Ignore("For future medium trust support")]
 	public class MediumTrustConfigReaderTests
 	{
 		[Test]
