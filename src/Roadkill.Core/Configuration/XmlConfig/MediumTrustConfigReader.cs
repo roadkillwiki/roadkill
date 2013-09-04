@@ -88,8 +88,8 @@ namespace Roadkill.Core.Configuration
 			if (element.Attribute("logErrorsOnly") != null)
 				section.LogErrorsOnly = Convert.ToBoolean(element.Attribute("logErrorsOnly").Value);
 
-			if (element.Attribute("attachmentsRoutePath") != null)
-				section.ResizeImages = Convert.ToBoolean(element.Attribute("attachmentsRoutePath").Value);
+			if (element.Attribute("resizeImages") != null)
+				section.ResizeImages = Convert.ToBoolean(element.Attribute("resizeImages").Value);
 
 			if (element.Attribute("useHtmlWhiteList") != null)
 				section.UseHtmlWhiteList = Convert.ToBoolean(element.Attribute("useHtmlWhiteList").Value);
