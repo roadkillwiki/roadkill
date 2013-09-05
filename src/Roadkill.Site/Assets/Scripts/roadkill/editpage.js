@@ -27,26 +27,49 @@
                     tagCloseIcon: "×",
                     preventSubmitOnEnter: false,
                     validator: function (input) {
-                        for (var i = 0; i < input.length; i++) {
-                            if ($.inArray(input[i], EditPage._tagBlackList) > -1) {
-                                toastr.error("The following characters are not valid for tags: <br/>" + EditPage._tagBlackList.join(" "));
-                                return false;
-                            }
+                        var isValid = EditPage.isValidTag(input);
+                        if (isValid === false) {
+                            toastr.error("The following characters are not valid for tags: <br/>" + EditPage._tagBlackList.join(" "));
                         }
 
-                        return true;
+                        return isValid;
                     }
                 });
 
                 $("#TagsEntry").keydown(function (e) {
                     var code = e.keyCode || e.which;
                     if (code == "9") {
-                        $("#Content").focus();
+                        var tag = $("#TagsEntry").val();
+                        if (EditPage.isValidTag(tag)) {
+                            $("#Content").focus();
+                        }
                         return false;
                     }
 
                     return true;
                 });
+
+                $("#TagsEntry").blur(function (e) {
+                    $("#TagsEntry").tagsManager("pushTag", $("#TagsEntry").val());
+
+                    $(".tm-tag-remove").each(function () {
+                        $(this).text("×");
+                    });
+                    $(".tm-tag").each(function () {
+                        $(this).addClass("tm-tag-success");
+                        $(this).addClass("tm-success");
+                    });
+                });
+            };
+
+            EditPage.isValidTag = function (tag) {
+                for (var i = 0; i < tag.length; i++) {
+                    if ($.inArray(tag[i], EditPage._tagBlackList) > -1) {
+                        return false;
+                    }
+                }
+
+                return true;
             };
 
             EditPage.bindPreviewButton = function () {
