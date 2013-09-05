@@ -151,6 +151,22 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
+		public void Links_With_Dashes_Or_23_Are_Rewritten_And_Not_Parsed_As_Encoded_Hashes()
+		{
+			// Arrange
+			_repository.SiteSettings.MarkupType = "Creole";
+			_converter = new MarkupConverter(_settings, _repository);
+
+			string expectedHtml = "<p><a href=\"&#x23;myanchortag\">hello world</a> <a href=\"https&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2F;some&#x2D;page&#x2D;23\">google</a>\n</p>";
+
+			// Act
+			string actualHtml = _converter.ToHtml("[[#myanchortag|hello world]] [[https://www.google.com/some-page-23|google]]");
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
 		public void Links_Starting_With_Tilde_Should_Resolve_As_Attachment_Paths()
 		{
 			// Arrange

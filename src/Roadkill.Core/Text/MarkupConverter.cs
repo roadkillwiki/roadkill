@@ -26,7 +26,7 @@ namespace Roadkill.Core.Converters
 	public class MarkupConverter
 	{
 		private static Regex _imgFileRegex = new Regex("^File:", RegexOptions.IgnoreCase);
-		private static Regex _anchorRegex = new Regex("(?<hash>[#|%23].+)", RegexOptions.IgnoreCase);
+		private static Regex _anchorRegex = new Regex("(?<hash>(#|%23).+)", RegexOptions.IgnoreCase);
 
 		private ApplicationSettings _applicationSettings;
 		private IRepository _repository;
