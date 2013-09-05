@@ -260,7 +260,7 @@ namespace Roadkill.Core.Database.LightSpeed
 
 		public IEnumerable<Page> FindPagesContainingTag(string tag)
 		{
-			IEnumerable<PageEntity> entities = Pages.Where(p => p.Tags.ToLower().Contains(tag.ToLower()));
+			IEnumerable<PageEntity> entities = Pages.Where(p => p.Tags.ToLower().Contains(tag.ToLower())); // Lightspeed doesn't support ToLowerInvariant
 			return FromEntity.ToPageList(entities);
 		}
 
@@ -271,7 +271,7 @@ namespace Roadkill.Core.Database.LightSpeed
 
 		public Page GetPageByTitle(string title)
 		{
-			PageEntity entity = Pages.FirstOrDefault(p => p.Title == title);
+			PageEntity entity = Pages.FirstOrDefault(p => p.Title.ToLower() == title.ToLower());
 			return FromEntity.ToPage(entity);
 		}
 
