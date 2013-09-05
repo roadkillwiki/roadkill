@@ -19,7 +19,7 @@ module Roadkill.Site
 		];
 
 		/**
-		Sets up the tags
+		Sets up the Bootstrap tag manager
 		*/
 		public static initializeTagManager(tags)
 		{
@@ -40,18 +40,13 @@ module Roadkill.Site
 				preventSubmitOnEnter : false,
 				validator: function(input: string)
 				{
-					// Make sure the tag has no invalid chars that breaks urls:
-					// ; / ? : @ & = { } | \ ^ [ ] `	
-					for (var i: number = 0; i < input.length; i++)
+					var isValid: boolean = EditPage.isValidTag(input);
+					if (isValid === false)
 					{
-						if ($.inArray(input[i], EditPage._tagBlackList) > -1)
-						{
-							toastr.error("The following characters are not valid for tags: <br/>" + EditPage._tagBlackList.join(" "));
-							return false;
-						}
+						toastr.error("The following characters are not valid for tags: <br/>" + EditPage._tagBlackList.join(" "));
 					}
 
-					return true;
+					return isValid;
 				}
 			});
 
@@ -61,12 +56,49 @@ module Roadkill.Site
 				var code = e.keyCode || e.which;
 				if (code == "9")
 				{
-					$("#Content").focus();
+					var tag: string = $("#TagsEntry").val();
+					if (EditPage.isValidTag(tag))
+					{
+						$("#Content").focus();
+					}
 					return false;
 				}
 
 				return true;
 			});
+
+			$("#TagsEntry").blur(function (e)
+			{
+				// Push the tag when focus is lost, e.g. Save is pressed
+				$("#TagsEntry").tagsManager("pushTag", $("#TagsEntry").val());
+
+				// Fix the tag's styles from being blank
+				$(".tm-tag-remove").each(function ()
+				{
+					$(this).text("×");
+				});
+				$(".tm-tag").each(function ()
+				{
+					$(this).addClass("tm-tag-success");
+					$(this).addClass("tm-success");
+				});
+			});
+		}
+
+		/**
+		 Returns false if the tag contains any characters that are blacklisted.
+		*/
+		public static isValidTag(tag: string) : boolean
+		{
+			for (var i: number = 0; i < tag.length; i++)
+			{
+				if ($.inArray(tag[i], EditPage._tagBlackList) > -1)
+				{
+					return false;
+				}
+			}
+
+			return true;
 		}
 
 		public static bindPreviewButton()
