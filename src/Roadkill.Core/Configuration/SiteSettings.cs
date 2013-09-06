@@ -122,11 +122,6 @@ namespace Roadkill.Core.Configuration
 		public string HeadContent { get; set; }
 
 		/// <summary>
-		/// Whether to eable clicking on images to display them in a modal lightbox.
-		/// </summary>
-		public bool EnableImageLightBoxes { get; set; }
-
-		/// <summary>
 		/// Whether to scale images dynamically on the page, using Javascript, so they fit inside the main page container (400x400px).
 		/// </summary>
 		public bool ResizeImages { get; set; }
@@ -148,7 +143,6 @@ namespace Roadkill.Core.Configuration
 			// v1.8
 			OverwriteExistingFiles = false;
 			HeadContent = "";
-			EnableImageLightBoxes = false;
 			ResizeImages = true;
 		}
 

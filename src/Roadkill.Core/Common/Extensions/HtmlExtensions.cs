@@ -191,31 +191,6 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Returns the Javascript to dynamically resize images, if the setting is enabled.
-		/// </summary>
-		public static MvcHtmlString ResizeImagesScript(this HtmlHelper helper)
-		{
-			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
-			if (controller != null && controller.ApplicationSettings.ResizeImages)
-			{
-				return MvcHtmlString.Create(@"<script type=""text/javascript"">
-			$(document).ready(function ()
-			{
-				// Resize all images
-				$(""#pagecontent img"").each(function()
-				{
-					resizeImage($(this));
-				});
-			});
-		</script>");
-			}
-			else
-			{
-				return MvcHtmlString.Empty;
-			}
-		}
-
-		/// <summary>
 		/// Gets the full path for the attachments folder, including any extra application paths from the url.
 		/// </summary>
 		public static MvcHtmlString GetAttachmentsPath(this UrlHelper helper, ApplicationSettings settings)

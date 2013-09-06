@@ -56,7 +56,6 @@ namespace Roadkill.Tests.Unit
 			Assert.That(appSettings.LdapUsername, Is.EqualTo("ldapusername-test"), "LdapUsername");
 			Assert.That(appSettings.LoggingTypes, Is.EqualTo("All"), "LoggingType");
 			Assert.That(appSettings.LogErrorsOnly, Is.False, "LogErrorsOnly");
-			Assert.That(appSettings.ResizeImages, Is.True, "ResizeImages");
 			Assert.That(appSettings.UseHtmlWhiteList, Is.EqualTo(false), "UseHtmlWhiteList");
 			Assert.That(appSettings.UserManagerType, Is.EqualTo("DefaultUserManager-test"), "DefaultUserManager");
 			Assert.That(appSettings.UseWindowsAuthentication, Is.False, "UseWindowsAuthentication");
@@ -82,7 +81,6 @@ namespace Roadkill.Tests.Unit
 			Assert.That(appSettings.LdapUsername, Is.EqualTo(""), "LdapUsername");
 			Assert.That(appSettings.LoggingTypes, Is.EqualTo("None"), "LoggingType");
 			Assert.That(appSettings.LogErrorsOnly, Is.True, "LoggingType");
-			Assert.That(appSettings.ResizeImages, Is.True, "ResizeImages");
 			Assert.That(appSettings.UseHtmlWhiteList, Is.EqualTo(true), "UseHtmlWhiteList");
 			Assert.That(appSettings.UserManagerType, Is.EqualTo(""), "DefaultUserManager");
 		}
