@@ -62,7 +62,9 @@ namespace Roadkill.Core.Cache
 
 		public IEnumerable<string> GetAllKeys()
 		{
-			return _cache.Select(x => x.Key);
+			return _cache.Where(x => !x.Key.StartsWith(CacheKeys.PageSummaryKeyPrefix()))
+					.OrderBy(x => x.Key)
+					.Select(x => x.Key);
 		}
 	}
 }

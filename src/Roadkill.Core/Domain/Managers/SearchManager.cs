@@ -135,7 +135,7 @@ namespace Roadkill.Core.Managers
 					document.Add(new Field("title", summary.Title, Field.Store.YES, Field.Index.ANALYZED));
 					document.Add(new Field("tags", summary.SpaceDelimitedTags(), Field.Store.YES, Field.Index.ANALYZED));
 					document.Add(new Field("createdby", summary.CreatedBy, Field.Store.YES, Field.Index.NOT_ANALYZED));
-					document.Add(new Field("createdon", summary.CreatedOn.ToShortDateString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+					document.Add(new Field("createdon", summary.CreatedOn.ToString("r"), Field.Store.YES, Field.Index.NOT_ANALYZED));
 					document.Add(new Field("contentlength", summary.Content.Length.ToString(), Field.Store.YES, Field.Index.NO));
 
 					writer.AddDocument(document);
@@ -212,7 +212,7 @@ namespace Roadkill.Core.Managers
 						document.Add(new Field("title", summary.Title, Field.Store.YES, Field.Index.ANALYZED));
 						document.Add(new Field("tags", summary.SpaceDelimitedTags(), Field.Store.YES, Field.Index.ANALYZED));
 						document.Add(new Field("createdby", summary.CreatedBy, Field.Store.YES, Field.Index.NOT_ANALYZED));
-						document.Add(new Field("createdon", summary.CreatedOn.ToShortDateString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+						document.Add(new Field("createdon", summary.CreatedOn.ToString("r"), Field.Store.YES, Field.Index.NOT_ANALYZED));
 						document.Add(new Field("contentlength", summary.Content.Length.ToString(), Field.Store.YES, Field.Index.NO));
 
 						writer.AddDocument(document);

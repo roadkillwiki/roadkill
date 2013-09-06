@@ -152,6 +152,10 @@
 	
 		<label for="Theme">@SiteStrings.SiteSettings_Configuration_Theme</label>
 		@Html.DropDownListFor(x => x.Theme, new SelectList(Model.ThemesAvailable, Model.Theme), new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Theme_Help })
+	</fieldset>
+
+	<fieldset>
+		<legend>File manager (TODO TRANSLATION)</legend>
 
 		<label for="AttachmentsFolder">@SiteStrings.SiteSettings_Configuration_Attachments</label>
 		@Html.TextBoxFor(s => s.AttachmentsFolder, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Attachments_Help })
@@ -161,8 +165,12 @@
 
 		<label for="AllowedFileTypes">@SiteStrings.SiteSettings_Configuration_Extensions</label>
 		@Html.TextBoxFor(s => s.AllowedFileTypes, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Extensions_Help })
+	</fieldset>
+	
 
-		<div class="bold">@SiteStrings.SiteSettings_Configuration_CachingTitle</div>
+	<fieldset>
+		<legend>@SiteStrings.SiteSettings_Configuration_CachingTitle</legend>
+
 		<label for="UseObjectCache" class="checkbox">@SiteStrings.SiteSettings_Configuration_ObjectCaching
 		@Html.CheckBoxFor(s => s.UseObjectCache, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_ObjectCaching_Help })
 		</label>
@@ -171,7 +179,7 @@
 		@Html.CheckBoxFor(s => s.UseBrowserCache, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_BrowserCaching_Help })
 		</label>
 	</fieldset>
-	
+
 	<br />
 	<input type="submit" class="btn btn-primary btn-large" value="@SiteStrings.Button_Save" />
 </div>

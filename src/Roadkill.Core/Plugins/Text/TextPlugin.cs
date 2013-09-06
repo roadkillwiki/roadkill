@@ -13,7 +13,7 @@ namespace Roadkill.Core.Plugins
 	/// <summary>
 	/// Work in progress
 	/// </summary>
-	public abstract class CustomVariablePlugin
+	public abstract class TextPlugin
 	{
 		public static readonly string PARSER_IGNORE_STARTTOKEN = "{{{roadkillinternal";
 		public static readonly string PARSER_IGNORE_ENDTOKEN = "roadkillinternal}}}";
@@ -32,17 +32,17 @@ namespace Roadkill.Core.Plugins
 		public virtual bool IsCacheable { get; set; }
 
 		/// <summary>
-		/// The virtual path for the plugin, e.g. ~/Plugins/MyPlugin/. Contains a trailing slash.
+		/// The virtual path for the plugin, e.g. ~/Plugins/Text/MyPlugin/. Does not contain a trailing slash.
 		/// </summary>
 		protected string PluginVirtualPath
 		{
 			get
 			{
-				return "~/Plugins/" + Id;
+				return "~/Plugins/Text/" +Id;
 			}
 		}
 
-		public CustomVariablePlugin(ApplicationSettings applicationSettings, IRepository repository)
+		public TextPlugin(ApplicationSettings applicationSettings, IRepository repository)
 		{
 			ApplicationSettings = applicationSettings;
 			IsCacheable = true;
@@ -91,7 +91,7 @@ namespace Roadkill.Core.Plugins
 		public string GetScriptLink(string filename)
 		{
 			// Two tab stops to match HeadContent.cshtml
-			string jsScript = "\t\t<script src=\"{0}/javascript/{1}\" type=\"text/javascript\"></script>\n";
+			string jsScript = "\t\t<script src=\"{0}/{1}\" type=\"text/javascript\"></script>\n";
 			string html = "";
 
 			if (HttpContext.Current != null)
@@ -112,7 +112,7 @@ namespace Roadkill.Core.Plugins
 		/// </summary>
 		public string GetCssLink(string filename)
 		{
-			string cssLink = "\t\t<link href=\"{0}/css/{1}\" rel=\"stylesheet\" type=\"text/css\" />\n";
+			string cssLink = "\t\t<link href=\"{0}/{1}\" rel=\"stylesheet\" type=\"text/css\" />\n";
 			string html = "";
 
 			if (HttpContext.Current != null)

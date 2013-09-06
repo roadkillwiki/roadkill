@@ -8,7 +8,7 @@ using Roadkill.Core.Converters;
 namespace Roadkill.Tests.Unit.Plugins
 {
 	[TestFixture]
-	public class CustomVariablePluginTests
+	public class TextPluginTests
 	{
 		
 	}

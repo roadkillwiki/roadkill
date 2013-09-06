@@ -427,12 +427,14 @@
     <Compile Include="MVC\Controllers\InstallController.cs" />
     <Compile Include="MVC\Controllers\WikiController.cs" />
     <Compile Include="MVC\Controllers\HelpController.cs" />
-    <Compile Include="Plugins\CustomVariable\BuiltIn\MathJax.cs" />
-    <Compile Include="Plugins\CustomVariable\BuiltIn\ToC\TocPlugin.cs" />
-    <Compile Include="Plugins\CustomVariable\CustomVariablePlugin.cs" />
+    <Compile Include="Plugins\Text\BuiltIn\ResizeImages.cs" />
+    <Compile Include="Plugins\Text\BuiltIn\ExternalLinksInNewWindow.cs" />
+    <Compile Include="Plugins\Text\BuiltIn\MathJax.cs" />
+    <Compile Include="Plugins\Text\BuiltIn\ToC\TocPlugin.cs" />
+    <Compile Include="Plugins\Text\TextPlugin.cs" />
     <Compile Include="Plugins\PluginFactory.cs" />
-    <Compile Include="Plugins\CustomVariable\Setting.cs" />
-    <Compile Include="Plugins\CustomVariable\BuiltIn\SyntaxHighlighter.cs" />
+    <Compile Include="Plugins\Text\Setting.cs" />
+    <Compile Include="Plugins\Text\BuiltIn\SyntaxHighlighter.cs" />
     <Compile Include="Text\PageHtml.cs" />
     <Compile Include="Text\TextToken.cs" />
     <Compile Include="Text\CustomTokenParser.cs" />
@@ -450,9 +452,9 @@
     <Compile Include="Domain\Managers\SettingsManager.cs" />
     <Compile Include="Database\Entities\User.cs" />
     <Compile Include="Domain\Managers\ServiceBase.cs" />
-    <Compile Include="Plugins\CustomVariable\BuiltIn\ToC\StringTemplate.cs" />
-    <Compile Include="Plugins\CustomVariable\BuiltIn\ToC\Item.cs" />
-    <Compile Include="Plugins\CustomVariable\BuiltIn\ToC\Tree.cs" />
+    <Compile Include="Plugins\Text\BuiltIn\ToC\StringTemplate.cs" />
+    <Compile Include="Plugins\Text\BuiltIn\ToC\Item.cs" />
+    <Compile Include="Plugins\Text\BuiltIn\ToC\Tree.cs" />
     <Compile Include="MVC\ViewModels\FileSummary.cs" />
     <Compile Include="MVC\ViewModels\UserSummary.cs" />
     <Compile Include="Exceptions\HistoryException.cs" />
@@ -486,7 +488,7 @@
     <Compile Include="MVC\ViewModels\PageSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoadkillApplication.cs" />
-    <Compile Include="Plugins\CustomVariable\BuiltIn\ToC\TocParser.cs" />
+    <Compile Include="Plugins\Text\BuiltIn\ToC\TocParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

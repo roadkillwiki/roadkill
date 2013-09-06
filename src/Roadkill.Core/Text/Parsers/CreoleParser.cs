@@ -379,7 +379,7 @@ namespace Roadkill.Core.Converters
 						// we are already processing table so this must be a new row
 						htmlMarkup.Append(_processTableRow(lineTrimmed));
 					}
-					else if (lineTrimmed.Contains(CustomVariablePlugin.PARSER_IGNORE_STARTTOKEN))
+					else if (lineTrimmed.Contains(TextPlugin.PARSER_IGNORE_STARTTOKEN))
 					{
 						inRoadkillEscape = true;
 					}
@@ -401,7 +401,7 @@ namespace Roadkill.Core.Converters
 				}
 				else
 				{
-					if (lineTrimmed.Contains(CustomVariablePlugin.PARSER_IGNORE_ENDTOKEN))
+					if (lineTrimmed.Contains(TextPlugin.PARSER_IGNORE_ENDTOKEN))
 					{
 						inRoadkillEscape = false;
 					}
@@ -476,7 +476,7 @@ namespace Roadkill.Core.Converters
 									trimmedLine[0] == '\r' ||
 									trimmedLine[0] == '#' ||
 									trimmedLine[0] == '*' ||
-									trimmedLine.StartsWith(CustomVariablePlugin.PARSER_IGNORE_STARTTOKEN) ||
+									trimmedLine.StartsWith(TextPlugin.PARSER_IGNORE_STARTTOKEN) ||
 									trimmedLine.StartsWith(NoWikiEscapeStart) ||
 									trimmedLine[0] == '=' ||
 									trimmedLine.StartsWith("----") ||

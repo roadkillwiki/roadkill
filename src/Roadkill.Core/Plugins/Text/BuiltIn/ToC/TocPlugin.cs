@@ -7,7 +7,7 @@ using Roadkill.Core.Database;
 
 namespace Roadkill.Core.Plugins.BuiltIn.ToC
 {
-	public class TocPlugin : CustomVariablePlugin
+	public class TocPlugin : TextPlugin
 	{
 		public override string Id
 		{

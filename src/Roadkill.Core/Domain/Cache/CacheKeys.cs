@@ -11,7 +11,7 @@ namespace Roadkill.Core.Cache
 		public static readonly string HOMEPAGE = "latesthomepage";
 
 		/// <summary>'{id}.{version}'</summary>
-		public static readonly string PAGESUMMARY = "{id}.{version}";
+		public static readonly string PAGESUMMARY = "pagesummary.{id}.{version}";
 
 		/// <summary>"allpages.with.content"</summary>
 		public static readonly string ALLPAGES_CONTENT = "allpages.with.content";
@@ -27,6 +27,16 @@ namespace Roadkill.Core.Cache
 
 		/// <summary>"pagesbytag.{tag}"</summary>
 		public static readonly string PAGES_BY_TAG = "pagesbytag.{tag}";
+
+		public static string PageSummaryKeyPrefix()
+		{
+			string key = PAGESUMMARY;
+			key = key.Replace("{id}", "");
+			key = key.Replace("{version}", "");
+			key = key.Replace(".", "");
+
+			return key;
+		}
 
 		public static string PageSummaryKey(int id, int version)
 		{

@@ -120,11 +120,6 @@ namespace Roadkill.Core.Configuration
 		/// Extra HTML/Javascript that is added to the HTML head, for example Google analytics, web fonts.
 		/// </summary>
 		public string HeadContent { get; set; }
-
-		/// <summary>
-		/// Whether to scale images dynamically on the page, using Javascript, so they fit inside the main page container (400x400px).
-		/// </summary>
-		public bool ResizeImages { get; set; }
 		#endregion
 
 		public SiteSettings()
@@ -143,7 +138,6 @@ namespace Roadkill.Core.Configuration
 			// v1.8
 			OverwriteExistingFiles = false;
 			HeadContent = "";
-			ResizeImages = true;
 		}
 
 		public string GetJson()
