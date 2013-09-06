@@ -79,7 +79,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void WriteResponse_Should_Throw_500_Exception_For_Bad_Application_Path()
+		public void WriteResponse_Should_Throw_404_Exception_For_Bad_Application_Path()
 		{
 			// Arrange
 			AttachmentFileHandler handler = new AttachmentFileHandler(_applicationSettings);
@@ -102,7 +102,7 @@ namespace Roadkill.Tests.Unit
 			}
 			catch (HttpException e)
 			{
-				Assert.That(e.GetHttpCode(), Is.EqualTo(500));
+				Assert.That(e.GetHttpCode(), Is.EqualTo(404));
 			}
 		}
 

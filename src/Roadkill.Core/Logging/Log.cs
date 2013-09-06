@@ -239,6 +239,12 @@ namespace Roadkill.Core.Logging
 					_logger.Debug(message, args);
 					break;
 			}
+
+			try
+			{
+				Console.WriteLine("[" + errorType.ToString() + "] " + message, args);
+			}
+			catch (FormatException) { }
 		}
 
 		/// <summary>

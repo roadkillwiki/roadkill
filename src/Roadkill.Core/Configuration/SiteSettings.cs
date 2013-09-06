@@ -169,9 +169,9 @@ namespace Roadkill.Core.Configuration
 			{
 				return JsonConvert.DeserializeObject<SiteSettings>(json);
 			}
-			catch (JsonReaderException e)
+			catch (JsonReaderException ex)
 			{
-				Log.Error("SiteSettings.LoadFromJson - an exception occurred deserializing the JSON - {0}", e.ToString());
+				Log.Error(ex, "SiteSettings.LoadFromJson - an exception occurred deserializing the JSON");
 				return new SiteSettings();
 			}
 		}
