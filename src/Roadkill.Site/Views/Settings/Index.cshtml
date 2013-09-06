@@ -152,6 +152,9 @@
 	
 		<label for="Theme">@SiteStrings.SiteSettings_Configuration_Theme</label>
 		@Html.DropDownListFor(x => x.Theme, new SelectList(Model.ThemesAvailable, Model.Theme), new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Theme_Help })
+
+		<label for="HeadContent">Additional head tag content TODO TRANSLATE</label>
+		@Html.TextAreaFor(s => s.HeadContent, new { rel="popover", data_content = "TODO translate"})
 	</fieldset>
 
 	<fieldset>
@@ -165,6 +168,10 @@
 
 		<label for="AllowedFileTypes">@SiteStrings.SiteSettings_Configuration_Extensions</label>
 		@Html.TextBoxFor(s => s.AllowedFileTypes, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Extensions_Help })
+
+		<label for="OverwriteExistingFiles" class="checkbox">Automatically overwrite existing files on upload TODO TRANSLATE
+		@Html.CheckBoxFor(s => s.OverwriteExistingFiles, new { rel="popover", data_content = "TODO translate" })
+		</label>
 	</fieldset>
 	
 

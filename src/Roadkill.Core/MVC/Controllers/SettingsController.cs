@@ -63,6 +63,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <param name="summary">The settings to save to the web.config/database.</param>
 		/// <returns>A <see cref="SettingsSummary"/> as the model.</returns>
 		[HttpPost]
+		[ValidateInput(false)]
 		public ActionResult Index(SettingsSummary summary)
 		{
 			if (ModelState.IsValid)
