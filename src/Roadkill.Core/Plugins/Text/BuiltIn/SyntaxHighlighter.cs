@@ -10,7 +10,7 @@ using Roadkill.Core.Database;
 
 namespace Roadkill.Core.Plugins.BuiltIn
 {
-	public class SyntaxHighlighter : CustomVariablePlugin
+	public class SyntaxHighlighter : TextPlugin
 	{
 		internal static readonly string _regexString = @"\[\[\[code lang=(?'lang'.*?)\|(?'code'.*?)\]\]\]";
 		internal static readonly Regex _variableRegex = new Regex(_regexString, RegexOptions.Singleline | RegexOptions.Compiled);
@@ -88,12 +88,12 @@ namespace Roadkill.Core.Plugins.BuiltIn
 
 			foreach (string file in HeadContent.CssFiles)
 			{
-				html += GetCssLink(file);
+				html += GetCssLink("css/" +file);
 			}
 
 			foreach (string file in HeadContent.JsFiles)
 			{
-				html += GetScriptLink(file);
+				html += GetScriptLink("javascript/" + file);
 			}
 
 			html += "\t\t<script type=\"text/javascript\">SyntaxHighlighter.all()</script>\n";

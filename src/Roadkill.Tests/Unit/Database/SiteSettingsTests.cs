@@ -26,8 +26,7 @@ namespace Roadkill.Tests.Unit
 							  ""SiteName"": ""my sitename"",
 							  ""Theme"": ""Mytheme"",
 							  ""OverwriteExistingFiles"": true,
-							  ""HeadContent"": ""<script type=\""text/javascript\"">alert('foo');</script>"",
-							  ""ResizeImages"": false
+							  ""HeadContent"": ""<script type=\""text/javascript\"">alert('foo');</script>""
 							}";
 
 			// Act
@@ -50,7 +49,6 @@ namespace Roadkill.Tests.Unit
 			// 1.8
 			Assert.That(settings.OverwriteExistingFiles, Is.EqualTo(true));
 			Assert.That(settings.HeadContent, Is.EqualTo("<script type=\"text/javascript\">alert('foo');</script>"));
-			Assert.That(settings.ResizeImages, Is.EqualTo(false));
 		}
 
 		[Test]
@@ -176,8 +174,7 @@ namespace Roadkill.Tests.Unit
   ""SiteName"": ""my sitename"",
   ""Theme"": ""Mytheme"",
   ""OverwriteExistingFiles"": false,
-  ""HeadContent"": """",
-  ""ResizeImages"": true
+  ""HeadContent"": """"
 }";
 
 			SiteSettings settings = new SiteSettings();
@@ -220,7 +217,6 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(settings.OverwriteExistingFiles, Is.EqualTo(false));
 			Assert.That(settings.HeadContent, Is.Empty);
-			Assert.That(settings.ResizeImages, Is.EqualTo(true));
 		}
 	}
 }

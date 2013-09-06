@@ -10,13 +10,10 @@ using Roadkill.Core.Database;
 
 namespace Roadkill.Core.Plugins.BuiltIn
 {
-	public class MathJax : CustomVariablePlugin
+	public class MathJax : TextPlugin
 	{
 		private static readonly string _token = "[[[mathjax]]]";
 		private static readonly string _parserSafeToken;
-		
-		// Set it site wide for now, until the plugin architecture is finished.
-		private static bool _hasMathJaxTag = false;
 
 		public override string Id
 		{

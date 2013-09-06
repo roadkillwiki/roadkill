@@ -387,8 +387,8 @@ here is my C#code
 			// Arrange
 			string markupFragment = "This is my ~~~usertoken~~~";
 			string expectedHtml = "<p>This is my <span>usertoken</span>\n</p>";
-			CustomVariablePluginStub plugin = new CustomVariablePluginStub();
-			PluginFactory.RegisterCustomVariablePlugin(plugin);
+			TextPluginStub plugin = new TextPluginStub();
+			PluginFactory.RegisterTextPlugin(plugin);
 
 			// Act
 			string actualHtml = _converter.ToHtml(markupFragment);
@@ -403,8 +403,8 @@ here is my C#code
 			// Arrange
 			string markupFragment = "Here is some markup **some bold**";
 			string expectedHtml = "<p>Here is some markup <strong style='color:green'><iframe src='javascript:alert(test)'>some bold</strong>\n</p>";
-			CustomVariablePluginStub plugin = new CustomVariablePluginStub();
-			PluginFactory.RegisterCustomVariablePlugin(plugin);
+			TextPluginStub plugin = new TextPluginStub();
+			PluginFactory.RegisterTextPlugin(plugin);
 
 			// Act
 			string actualHtml = _converter.ToHtml(markupFragment);

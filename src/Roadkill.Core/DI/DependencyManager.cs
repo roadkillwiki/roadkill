@@ -129,7 +129,7 @@ namespace Roadkill.Core
 			x.For<MathJax>().HybridHttpOrThreadLocalScoped();
 
 			// Cache
-			x.For<ObjectCache>().Use(MemoryCache.Default);
+			x.For<ObjectCache>().Use(new MemoryCache("Roadkill"));
 			x.For<ListCache>().Singleton();
 			x.For<PageSummaryCache>().Singleton();
 		}
@@ -148,16 +148,16 @@ namespace Roadkill.Core
 			scanner.AssembliesFromPath(userManagerPluginPath);
 
 			// Custom variable plugins
-			string customVariablePluginPath = _applicationSettings.CustomVariablePluginsBinPath;
-			PluginFactory.CopyCustomVariablePlugins(_applicationSettings);
-			if (!Directory.Exists(customVariablePluginPath))
-				Directory.CreateDirectory(customVariablePluginPath);
+			string textPluginsPath = _applicationSettings.TextPluginsBinPath;
+			PluginFactory.CopyTextPlugins(_applicationSettings);
+			if (!Directory.Exists(textPluginsPath))
+				Directory.CreateDirectory(textPluginsPath);
 
-			foreach (string subDirectory in Directory.GetDirectories(customVariablePluginPath))
+			foreach (string subDirectory in Directory.GetDirectories(textPluginsPath))
 			{
 				scanner.AssembliesFromPath(subDirectory);
 			}
-			scanner.AddAllTypesOf<CustomVariablePlugin>();
+			scanner.AddAllTypesOf<TextPlugin>();
 
 			// Config, repository, context
 			scanner.AddAllTypesOf<ApplicationSettings>();

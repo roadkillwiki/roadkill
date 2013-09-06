@@ -16,12 +16,12 @@ namespace Roadkill.Core.Plugins
 		/// <summary>
 		/// Copies the custom variable plugins from their storage location to the bin folder.
 		/// </summary>
-		public static void CopyCustomVariablePlugins(ApplicationSettings applicationSettings)
+		public static void CopyTextPlugins(ApplicationSettings applicationSettings)
 		{
 			try
 			{
-				string pluginsourcePath = applicationSettings.CustomVariablePluginsPath;
-				string pluginDestinationPath = applicationSettings.CustomVariablePluginsBinPath;
+				string pluginsourcePath = applicationSettings.TextPluginsPath;
+				string pluginDestinationPath = applicationSettings.TextPluginsBinPath;
 
 				if (Directory.Exists(pluginsourcePath))
 				{
@@ -52,7 +52,7 @@ namespace Roadkill.Core.Plugins
 							if (sourceInfo.LastWriteTimeUtc > destInfo.LastWriteTimeUtc)
 							{
 								File.Copy(sourceFile, destPath, true);
-								Log.Information("Copied plugin file '{0}' to '{1}' as it's newer ({2} > {3})", sourceInfo.FullName, destInfo.FullName,
+								Log.Information("Copied text plugin file '{0}' to '{1}' as it's newer ({2} > {3})", sourceInfo.FullName, destInfo.FullName,
 																											 sourceInfo.LastWriteTimeUtc, destInfo.LastWriteTimeUtc);
 							}
 						}
@@ -72,17 +72,17 @@ namespace Roadkill.Core.Plugins
 		/// <summary>
 		/// Allows additional custom variable plugins to be registered at runtime.
 		/// </summary>
-		public static void RegisterCustomVariablePlugin(CustomVariablePlugin plugin)
+		public static void RegisterTextPlugin(TextPlugin plugin)
 		{
-			ServiceLocator.RegisterType<CustomVariablePlugin>(plugin);
+			ServiceLocator.RegisterType<TextPlugin>(plugin);
 		}
 
 		/// <summary>
 		/// Retrieves all custom variable plugins from the IoC container.
 		/// </summary>
-		public static IEnumerable<CustomVariablePlugin> GetCustomVariablePlugins()
+		public static IEnumerable<TextPlugin> GetTextPlugins()
 		{
-			return ServiceLocator.GetAllInstances<CustomVariablePlugin>();
+			return ServiceLocator.GetAllInstances<TextPlugin>();
 		}
 	}
 }

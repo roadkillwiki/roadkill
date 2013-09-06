@@ -8,7 +8,7 @@ using Roadkill.Core.Plugins;
 
 namespace Roadkill.Tests.Unit.StubsAndMocks
 {
-	public class CustomVariablePluginStub : CustomVariablePlugin
+	public class TextPluginStub : TextPlugin
 	{
 		public override string Id
 		{
@@ -25,9 +25,9 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 			get { return "Description"; }
 		}
 
-		public CustomVariablePluginStub() : this(null, null) { }
+		public TextPluginStub() : this(null, null) { }
 
-		public CustomVariablePluginStub(ApplicationSettings applicationSettings, IRepository repository)
+		public TextPluginStub(ApplicationSettings applicationSettings, IRepository repository)
 			: base(applicationSettings, repository)
 		{
 		}

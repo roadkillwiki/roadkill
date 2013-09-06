@@ -133,17 +133,17 @@ namespace Roadkill.Core.Converters
 			bool isCacheable = true;
 
 			// Custom variables before parse
-			IEnumerable<CustomVariablePlugin> plugins = new List<CustomVariablePlugin>();
+			IEnumerable<TextPlugin> plugins = new List<TextPlugin>();
 			try
 			{
-				plugins = PluginFactory.GetCustomVariablePlugins();
+				plugins = PluginFactory.GetTextPlugins();
 			}
 			catch (Exception e)
 			{
 				Log.Error(e, "An exception occurred with getting the custom variable plugins from the plugin factory.");
 			}
 
-			foreach (CustomVariablePlugin plugin in plugins)
+			foreach (TextPlugin plugin in plugins)
 			{
 				try
 				{
@@ -159,10 +159,10 @@ namespace Roadkill.Core.Converters
 						{
 							isCacheable = plugin.IsCacheable;
 						}
-
-						pageHtml.HeadHtml += plugin.GetHeadContent();
-						pageHtml.FooterHtml += plugin.GetFooterContent();
 					}
+
+					pageHtml.HeadHtml += plugin.GetHeadContent();
+					pageHtml.FooterHtml += plugin.GetFooterContent();
 				}
 				catch (Exception e)
 				{
@@ -180,7 +180,7 @@ namespace Roadkill.Core.Converters
 			html = tokenParser.ReplaceTokensAfterParse(html);
 
 			// Custom variables after parse
-			foreach (CustomVariablePlugin plugin in plugins)
+			foreach (TextPlugin plugin in plugins)
 			{
 				try
 				{
