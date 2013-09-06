@@ -24,7 +24,11 @@ namespace Roadkill.Tests.Unit
 							  ""RecaptchaPublicKey"": ""captchapublickey"",
 							  ""SiteUrl"": ""http://siteurl"",
 							  ""SiteName"": ""my sitename"",
-							  ""Theme"": ""Mytheme""
+							  ""Theme"": ""Mytheme"",
+							  ""OverwriteExistingFiles"": true,
+							  ""HeadContent"": ""<script type=\""text/javascript\"">alert('foo');</script>"",
+							  ""EnableImageLightBoxes"": true,
+							  ""ResizeImages"": false
 							}";
 
 			// Act
@@ -43,6 +47,12 @@ namespace Roadkill.Tests.Unit
 			Assert.That(settings.SiteUrl, Is.EqualTo("http://siteurl"));
 			Assert.That(settings.SiteName, Is.EqualTo("my sitename"));
 			Assert.That(settings.Theme, Is.EqualTo("Mytheme"));
+
+			// 1.8
+			Assert.That(settings.OverwriteExistingFiles, Is.EqualTo(true));
+			Assert.That(settings.HeadContent, Is.EqualTo("<script type=\"text/javascript\">alert('foo');</script>"));
+			Assert.That(settings.EnableImageLightBoxes, Is.EqualTo(true));
+			Assert.That(settings.ResizeImages, Is.EqualTo(false));
 		}
 
 		[Test]
@@ -166,7 +176,11 @@ namespace Roadkill.Tests.Unit
   ""RecaptchaPublicKey"": ""captchapublickey"",
   ""SiteUrl"": ""http://siteurl"",
   ""SiteName"": ""my sitename"",
-  ""Theme"": ""Mytheme""
+  ""Theme"": ""Mytheme"",
+  ""OverwriteExistingFiles"": false,
+  ""HeadContent"": """",
+  ""EnableImageLightBoxes"": false,
+  ""ResizeImages"": true
 }";
 
 			SiteSettings settings = new SiteSettings();
@@ -185,6 +199,32 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			Assert.That(actualJson, Is.EqualTo(expectedJson), actualJson);
+		}
+
+		[Test]
+		public void Deserialize_Should_Have_Default_Values_For_New_v1_8_Settings()
+		{
+			// Arrange
+			string json = @"{
+							  ""AllowedFileTypes"": ""pdf, swf, avi"",
+							  ""AllowUserSignup"": true,
+							  ""IsRecaptchaEnabled"": true,
+							  ""MarkupType"": ""Markdown"",
+							  ""RecaptchaPrivateKey"": ""captchaprivatekey"",
+							  ""RecaptchaPublicKey"": ""captchapublickey"",
+							  ""SiteUrl"": ""http://siteurl"",
+							  ""SiteName"": ""my sitename"",
+							  ""Theme"": ""Mytheme""
+							}";
+
+			// Act
+			SiteSettings settings = SiteSettings.LoadFromJson(json);
+
+			// Assert
+			Assert.That(settings.OverwriteExistingFiles, Is.EqualTo(false));
+			Assert.That(settings.HeadContent, Is.Empty);
+			Assert.That(settings.EnableImageLightBoxes, Is.EqualTo(false));
+			Assert.That(settings.ResizeImages, Is.EqualTo(true));
 		}
 	}
 }
