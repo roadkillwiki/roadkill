@@ -6,11 +6,14 @@
 		<link href="@Url.Content(SiteSettings.ThemePath + "/Theme.css")" rel="stylesheet" type="text/css" />
 		<link href="@Url.Content(SiteSettings.ThemePath + "/Theme.print.css")" rel="stylesheet" type="text/css" media="print" />
 		<script type="text/javascript" src="@Url.Action("GlobalJsVars","Home")"></script>
-		@if (!ApplicationSettings.ResizeImages)
+		@if (!SiteSettings.ResizeImages)
 		{
 		<!-- Overwrite the bootstrap max image width -->
 		<style type="text/css">
-		img { max-width: none !important; }
+		#container img { max-width: none !important; }
 		</style>
 		}
 		<!-- End Roadkill required -->
+		<!-- Custom head -->
+		@MvcHtmlString.Create(SiteSettings.HeadContent)
+		<!-- End custom head -->

@@ -234,11 +234,6 @@ namespace Roadkill.Core.Configuration
 		public string RepositoryType { get; set; }
 
 		/// <summary>
-		/// Whether to scale images dynamically on the page, using Javascript, so they fit inside the main page container (400x400px).
-		/// </summary>
-		public bool ResizeImages { get; set; }
-
-		/// <summary>
 		/// True if the version number in the web.config does not match the current assembly version.
 		/// </summary>
 		public bool UpgradeRequired { get; internal set; }

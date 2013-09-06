@@ -208,47 +208,46 @@ namespace Roadkill.Core.Configuration
 		/// is used to load the settings.</param>
 		public override ApplicationSettings GetApplicationSettings()
 		{
-			ApplicationSettings settings = new ApplicationSettings();
+			ApplicationSettings appSettings = new ApplicationSettings();
 
-			settings.AdminRoleName = _section.AdminRoleName;
-			settings.AttachmentsFolder = _section.AttachmentsFolder;
-			settings.AttachmentsRoutePath = _section.AttachmentsRoutePath;
-			settings.ConnectionStringName = _section.ConnectionStringName;
-			settings.ConnectionString = _config.ConnectionStrings.ConnectionStrings[_section.ConnectionStringName].ConnectionString;
-			if (string.IsNullOrEmpty(settings.ConnectionString))
-				settings.ConnectionString = ConfigurationManager.ConnectionStrings[_section.ConnectionStringName].ConnectionString;
+			appSettings.AdminRoleName = _section.AdminRoleName;
+			appSettings.AttachmentsFolder = _section.AttachmentsFolder;
+			appSettings.AttachmentsRoutePath = _section.AttachmentsRoutePath;
+			appSettings.ConnectionStringName = _section.ConnectionStringName;
+			appSettings.ConnectionString = _config.ConnectionStrings.ConnectionStrings[_section.ConnectionStringName].ConnectionString;
+			if (string.IsNullOrEmpty(appSettings.ConnectionString))
+				appSettings.ConnectionString = ConfigurationManager.ConnectionStrings[_section.ConnectionStringName].ConnectionString;
 
-			if (string.IsNullOrEmpty(settings.ConnectionString))
+			if (string.IsNullOrEmpty(appSettings.ConnectionString))
 				Log.Warn("ConnectionString property is null/empty.");
 
 			// Ignore the legacy useCache and cacheText section keys, as the behaviour has changed.
-			settings.UseObjectCache = _section.UseObjectCache;
-			settings.UseBrowserCache = _section.UseBrowserCache;
+			appSettings.UseObjectCache = _section.UseObjectCache;
+			appSettings.UseBrowserCache = _section.UseBrowserCache;
 
 			// Look for the legacy database type key
 			string dataStoreType = _section.DataStoreType;
 			if (string.IsNullOrEmpty(dataStoreType) && !string.IsNullOrEmpty(_section.DatabaseType))
 				dataStoreType = _section.DatabaseType;
 
-			settings.LoggingTypes = _section.Logging;
-			settings.LogErrorsOnly = _section.LogErrorsOnly;
-			settings.DataStoreType = DataStoreType.ByName(dataStoreType);
-			settings.ConnectionStringName = _section.ConnectionStringName;
-			settings.EditorRoleName = _section.EditorRoleName;
-			settings.IgnoreSearchIndexErrors = _section.IgnoreSearchIndexErrors;
-			settings.IsPublicSite = _section.IsPublicSite;
-			settings.Installed = _section.Installed;
-			settings.LdapConnectionString = _section.LdapConnectionString;
-			settings.LdapUsername = _section.LdapUsername;
-			settings.LdapPassword = _section.LdapPassword;
-			settings.RepositoryType = _section.RepositoryType;
-			settings.ResizeImages = _section.ResizeImages;
-			settings.UseHtmlWhiteList = _section.UseHtmlWhiteList;
-			settings.UserManagerType = _section.UserManagerType;
-			settings.UseWindowsAuthentication = _section.UseWindowsAuthentication;
-			settings.UpgradeRequired = UpgradeChecker.IsUpgradeRequired(_section.Version);
+			appSettings.LoggingTypes = _section.Logging;
+			appSettings.LogErrorsOnly = _section.LogErrorsOnly;
+			appSettings.DataStoreType = DataStoreType.ByName(dataStoreType);
+			appSettings.ConnectionStringName = _section.ConnectionStringName;
+			appSettings.EditorRoleName = _section.EditorRoleName;
+			appSettings.IgnoreSearchIndexErrors = _section.IgnoreSearchIndexErrors;
+			appSettings.IsPublicSite = _section.IsPublicSite;
+			appSettings.Installed = _section.Installed;
+			appSettings.LdapConnectionString = _section.LdapConnectionString;
+			appSettings.LdapUsername = _section.LdapUsername;
+			appSettings.LdapPassword = _section.LdapPassword;
+			appSettings.RepositoryType = _section.RepositoryType;
+			appSettings.UseHtmlWhiteList = _section.UseHtmlWhiteList;
+			appSettings.UserManagerType = _section.UserManagerType;
+			appSettings.UseWindowsAuthentication = _section.UseWindowsAuthentication;
+			appSettings.UpgradeRequired = UpgradeChecker.IsUpgradeRequired(_section.Version);
 
-			return settings;
+			return appSettings;
 		}
 
 		public System.Configuration.Configuration GetConfiguration()
