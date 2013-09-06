@@ -25,6 +25,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		{
 			if (HttpContext.Current != null)
 			{
+				// Default the site's url using the current request
 				Uri uri = HttpContext.Current.Request.Url;
 
 				string port = "";
@@ -118,6 +119,10 @@ namespace Roadkill.Core.Mvc.ViewModels
 	
 		public bool UseWindowsAuth { get; set; }
 
+		// v1.8
+		public bool OverwriteExistingFiles { get; set; }
+		public string HeadContent { get; set; }
+
 		public string Version
 		{
 			get
@@ -153,6 +158,8 @@ namespace Roadkill.Core.Mvc.ViewModels
 			SiteName = siteSettings.SiteName;
 			SiteUrl = siteSettings.SiteUrl;
 			Theme = siteSettings.Theme;
+			OverwriteExistingFiles = siteSettings.OverwriteExistingFiles;
+			HeadContent = siteSettings.HeadContent;
 		}
 	}
 }

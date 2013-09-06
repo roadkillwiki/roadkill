@@ -151,7 +151,7 @@ namespace Roadkill.Tests.Integration
 		public void Search_By_CreatedOnField_Returns_Results()
 		{
 			// Arrange
-			string todaysDate = DateTime.Today.ToShortDateString(); // (CreatePage uses Today date, SearchManager uses 's'/ISO8601)
+			string todaysDate = DateTime.Today.ToShortDateString(); // (SearchManager stores dates, not times)
 			SearchManager searchManager = new SearchManager(_config, _repository);
 			searchManager.CreateIndex();
 

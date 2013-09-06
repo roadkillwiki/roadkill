@@ -104,6 +104,10 @@ namespace Roadkill.Core.Managers
 				siteSettings.SiteName = summary.SiteName;
 				siteSettings.Theme = summary.Theme;
 
+				// v1.8
+				siteSettings.HeadContent = summary.HeadContent;
+				siteSettings.OverwriteExistingFiles = summary.OverwriteExistingFiles;
+
 				Repository.SaveSiteSettings(siteSettings);
 			}
 			catch (DatabaseException ex)
