@@ -7,9 +7,10 @@ using Roadkill.Core.Configuration;
 namespace Roadkill.Core.Database
 {
 	/// <summary>
-	/// The SiteSettings JSON stored in the database, and the Roadkill version.
+	/// Settings that are stored as JSON in the database. This is used by the SiteSettings and by 
+	/// plugin settings.
 	/// </summary>
-	public class SiteSettingsEntity : IDataStoreEntity
+	public class SiteConfigurationEntity : IDataStoreEntity
 	{
 		/// <summary>
 		/// The unique ID for the instance (this doesn't change).
@@ -17,12 +18,12 @@ namespace Roadkill.Core.Database
 		public Guid Id { get; set; }
 
 		/// <summary>
-		/// The jsonified version of the <see cref="SiteSettings"/> class.
+		/// The jsonified version of the settings.
 		/// </summary>
 		public string Content { get; set; }
 
 		/// <summary>
-		/// The current version of Roadkill. This is used for upgrades.
+		/// A version for the settings, e.g. the Roadkill version.
 		/// </summary>
 		public string Version { get; set; }
 
@@ -33,11 +34,6 @@ namespace Roadkill.Core.Database
 		{
 			get { return Id; }
 			set { Id = value; }
-		}
-
-		public SiteSettingsEntity()
-		{
-			Id = SiteSettings.SiteSettingsId;
 		}
 	}
 }

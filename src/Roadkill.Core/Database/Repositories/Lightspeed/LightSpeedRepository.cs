@@ -10,7 +10,9 @@ using Mindscape.LightSpeed.Querying;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database.Schema;
 using Roadkill.Core.Logging;
+using Roadkill.Core.Plugins;
 using StructureMap;
+using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Core.Database.LightSpeed
 {
@@ -163,28 +165,49 @@ namespace Roadkill.Core.Database.LightSpeed
 
 		public SiteSettings GetSiteSettings()
 		{
-			SiteSettings preferences = new SiteSettings();
-			SiteSettingsEntity entity = UnitOfWork.Find<SiteSettingsEntity>().FirstOrDefault();
+			SiteSettings siteSettings = new SiteSettings();
+			SiteConfigurationEntity entity = UnitOfWork.Find<SiteConfigurationEntity>()
+												.FirstOrDefault(x => x.Id == SiteSettings.SiteSettingsId);
 
 			if (entity != null)
 			{
-				preferences = SiteSettings.LoadFromJson(entity.Content);
+				siteSettings = SiteSettings.LoadFromJson(entity.Content);
 			}
 			else
 			{
-				Log.Warn("No configuration settings could be found in the database, using a default instance");
+				Log.Warn("No site settings could be found in the database, using a default instance");
 			}
 
-			return preferences;
+			return siteSettings;
+		}
+
+		public PluginSettings GetTextPluginSettings(TextPlugin plugin)
+		{
+			PluginSettings pluginSettings = new PluginSettings();
+			SiteConfigurationEntity entity = UnitOfWork.Find<SiteConfigurationEntity>()
+												.FirstOrDefault(x => x.Id == plugin.DatabaseId);
+
+			if (entity != null)
+			{
+				pluginSettings = PluginSettings.LoadFromJson(entity.Content);
+			}
+			else
+			{
+				Log.Warn("No site settings could be found in the database, using a default instance");
+			}
+
+			return pluginSettings;
 		}
 
 		public void SaveSiteSettings(SiteSettings siteSettings)
 		{
-			SiteSettingsEntity entity = UnitOfWork.Find<SiteSettingsEntity>().FirstOrDefault();
+			SiteConfigurationEntity entity = UnitOfWork.Find<SiteConfigurationEntity>()
+												.FirstOrDefault(x => x.Id == SiteSettings.SiteSettingsId);
 
 			if (entity == null || entity.Id == Guid.Empty)
 			{
-				entity = new SiteSettingsEntity();
+				entity = new SiteConfigurationEntity();
+				entity.Id = SiteSettings.SiteSettingsId;
 				entity.Version = ApplicationSettings.ProductVersion.ToString();
 				entity.Content = siteSettings.GetJson();
 				UnitOfWork.Add(entity);
@@ -193,6 +216,28 @@ namespace Roadkill.Core.Database.LightSpeed
 			{
 				entity.Version = ApplicationSettings.ProductVersion.ToString();
 				entity.Content = siteSettings.GetJson();
+			}
+
+			UnitOfWork.SaveChanges();
+		}
+
+		public void SaveTextPluginSettings(TextPlugin plugin)
+		{
+			SiteConfigurationEntity entity = UnitOfWork.Find<SiteConfigurationEntity>()
+												.FirstOrDefault(x => x.Id == plugin.DatabaseId);
+
+			if (entity == null || entity.Id == Guid.Empty)
+			{
+				entity = new SiteConfigurationEntity();
+				entity.Id = plugin.DatabaseId;
+				entity.Version = plugin.Version;
+				entity.Content = plugin.Settings.GetJson();
+				UnitOfWork.Add(entity);
+			}
+			else
+			{
+				entity.Version = plugin.Version;
+				entity.Content = plugin.Settings.GetJson();
 			}
 
 			UnitOfWork.SaveChanges();

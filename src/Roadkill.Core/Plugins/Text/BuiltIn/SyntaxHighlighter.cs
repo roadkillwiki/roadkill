@@ -41,6 +41,15 @@ namespace Roadkill.Core.Plugins.BuiltIn
 			}
 		}
 
+		public override string Version
+		{
+
+			get
+			{
+				return "1.0";
+			}
+		}
+
 		static SyntaxHighlighter()
 		{
 			_replacePattern = ParserSafeToken(_replacePattern);

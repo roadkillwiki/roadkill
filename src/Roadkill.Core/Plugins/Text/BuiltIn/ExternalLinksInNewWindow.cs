@@ -36,6 +36,15 @@ namespace Roadkill.Core.Plugins.BuiltIn
 			}
 		}
 
+		public override string Version
+		{
+
+			get
+			{
+				return "1.0";
+			}
+		}
+
 		public ExternalLinksInNewWindow(ApplicationSettings applicationSettings, IRepository repository)
 			: base(applicationSettings, repository)
 		{

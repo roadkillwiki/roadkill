@@ -25,6 +25,15 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 			get { return "Description"; }
 		}
 
+		public override string Version
+		{
+
+			get
+			{
+				return "1.0";
+			}
+		}
+
 		public TextPluginStub() : this(null, null) { }
 
 		public TextPluginStub(ApplicationSettings applicationSettings, IRepository repository)

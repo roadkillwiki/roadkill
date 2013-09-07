@@ -39,6 +39,15 @@ namespace Roadkill.Core.Plugins.BuiltIn
 			}
 		}
 
+		public override string Version
+		{
+
+			get
+			{
+				return "1.0";
+			}
+		}
+
 		public ResizeImages(ApplicationSettings applicationSettings, IRepository repository)
 			: base(applicationSettings, repository)
 		{

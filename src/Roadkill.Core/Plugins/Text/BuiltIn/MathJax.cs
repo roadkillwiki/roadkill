@@ -39,6 +39,15 @@ namespace Roadkill.Core.Plugins.BuiltIn
 			}
 		}
 
+		public override string Version
+		{
+
+			get
+			{
+				return "1.0";
+			}
+		}
+
 		static MathJax()
 		{
 			_parserSafeToken = ParserSafeToken(_token);

@@ -6,7 +6,7 @@ namespace Roadkill.Core.Database.LightSpeed
 {
 	[Table("roadkill_siteconfiguration")]
 	[Cached(ExpiryMinutes = 10)]
-	internal class SiteSettingsEntity : Entity<Guid>
+	internal class SiteConfigurationEntity : Entity<Guid>
 	{
 		[Column("content")]
 		private string _content;
@@ -37,11 +37,6 @@ namespace Roadkill.Core.Database.LightSpeed
 			{
 				Set<string>(ref _version, value);
 			}
-		}
-
-		protected override object GeneratedId()
-		{
-			return SiteSettings.SiteSettingsId;
 		}
 	}
 }
