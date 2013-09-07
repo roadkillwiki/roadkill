@@ -10,7 +10,9 @@ using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Logging;
+using Roadkill.Core.Plugins;
 using StructureMap.Attributes;
+using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Core.Database.MongoDB
 {
@@ -109,31 +111,67 @@ namespace Roadkill.Core.Database.MongoDB
 
 		public SiteSettings GetSiteSettings()
 		{
-			SiteSettingsEntity entity = Queryable<SiteSettingsEntity>().FirstOrDefault();
-			SiteSettings preferences = new SiteSettings();
+			SiteConfigurationEntity entity = Queryable<SiteConfigurationEntity>()
+												.FirstOrDefault(x => x.Id == SiteSettings.SiteSettingsId);
+			SiteSettings siteSettings = new SiteSettings();
 
 			if (entity != null)
 			{
-				preferences = SiteSettings.LoadFromJson(entity.Content);
+				siteSettings = SiteSettings.LoadFromJson(entity.Content);
 			}
 			else
 			{
-				Log.Warn("MongoDB: No configuration settings could be found in the database, using a default SiteSettings");
+				Log.Warn("MongoDB: No site settings could be found in the database, using a default SiteSettings");
 			}
 
-			return preferences;
+			return siteSettings;
+		}
+
+		public PluginSettings GetTextPluginSettings(TextPlugin plugin)
+		{
+			SiteConfigurationEntity entity = Queryable<SiteConfigurationEntity>()
+												.FirstOrDefault(x => x.Id == plugin.DatabaseId);
+
+			PluginSettings pluginSettings = new PluginSettings();
+
+			if (entity != null)
+			{
+				pluginSettings = PluginSettings.LoadFromJson(entity.Content);
+			}
+			else
+			{
+				Log.Warn("MongoDB: No plugin settings could be found in the database for {0}, using a default Settings", plugin.Id);
+			}
+
+			return pluginSettings;
+		}
+
+		public void SaveTextPluginSettings(TextPlugin plugin)
+		{
+			SiteConfigurationEntity entity = Queryable<SiteConfigurationEntity>()
+												.FirstOrDefault(x => x.Id == plugin.DatabaseId);
+
+			if (entity == null)
+				entity = new SiteConfigurationEntity();
+
+			entity.Id = plugin.DatabaseId;
+			entity.Version = plugin.Version;
+			entity.Content = plugin.Settings.GetJson();
+			SaveOrUpdate<SiteConfigurationEntity>(entity);
 		}
 
 		public void SaveSiteSettings(SiteSettings preferences)
 		{
 			// Get the fresh db entity first
-			SiteSettingsEntity entity = Queryable<SiteSettingsEntity>().FirstOrDefault();
+			SiteConfigurationEntity entity = Queryable<SiteConfigurationEntity>()
+												.FirstOrDefault(x => x.Id == SiteSettings.SiteSettingsId);
 			if (entity == null)
-				entity = new SiteSettingsEntity();
+				entity = new SiteConfigurationEntity();
 
+			entity.Id = SiteSettings.SiteSettingsId;
 			entity.Version = ApplicationSettings.ProductVersion.ToString();
 			entity.Content = preferences.GetJson();
-			SaveOrUpdate<SiteSettingsEntity>(entity);
+			SaveOrUpdate<SiteConfigurationEntity>(entity);
 		}
 
 		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)
@@ -150,7 +188,7 @@ namespace Roadkill.Core.Database.MongoDB
 			database.DropCollection("Page");
 			database.DropCollection("PageContent");
 			database.DropCollection("User");
-			database.DropCollection("SiteSettingsEntity");
+			database.DropCollection("SiteConfiguration");
 		}
 
 		/// <summary>

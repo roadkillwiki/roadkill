@@ -5,6 +5,8 @@ using System.Text;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Plugins;
+using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Tests.Unit
 {
@@ -14,6 +16,7 @@ namespace Roadkill.Tests.Unit
 		public List<PageContent> PageContents { get; set; }
 		public List<User> Users { get; set; }
 		public SiteSettings SiteSettings { get; set; }
+		public List<TextPlugin> TextPlugins { get; set; }
 
 		public DataStoreType InstalledDataStoreType { get; private set; }
 		public string InstalledConnectionString { get; private set; }
@@ -162,6 +165,21 @@ namespace Roadkill.Tests.Unit
 		public SiteSettings GetSiteSettings()
 		{
 			return SiteSettings;
+		}
+
+		public void SaveTextPluginSettings(TextPlugin plugin)
+		{
+			int index = TextPlugins.IndexOf(plugin);
+
+			if (index == 1)
+				TextPlugins.Add(plugin);
+			else
+				TextPlugins[index] = plugin;
+		}
+
+		public PluginSettings GetTextPluginSettings(TextPlugin plugin)
+		{
+			return TextPlugins.FirstOrDefault(x => x.DatabaseId == plugin.DatabaseId).Settings;
 		}
 
 		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)

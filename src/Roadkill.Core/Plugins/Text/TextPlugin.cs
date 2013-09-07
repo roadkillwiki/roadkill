@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using StructureMap;
@@ -18,7 +20,8 @@ namespace Roadkill.Core.Plugins
 		public static readonly string PARSER_IGNORE_STARTTOKEN = "{{{roadkillinternal";
 		public static readonly string PARSER_IGNORE_ENDTOKEN = "roadkillinternal}}}";
 
-		protected List<Setting> Settings { get; set; }
+		private Guid _objectId;
+		public Settings Settings { get; set; }
 
 		/// <summary>
 		/// The unique ID for the plugin, which is also the directory it's stored in inside the /Plugins/ directory.
@@ -26,6 +29,7 @@ namespace Roadkill.Core.Plugins
 		public abstract string Id { get; }
 		public abstract string Name { get; }
 		public abstract string Description { get; }
+		public abstract string Version { get; }
 
 		public ApplicationSettings ApplicationSettings { get; set; }
 		public SiteSettings SiteSettings { get; set; }
@@ -42,11 +46,37 @@ namespace Roadkill.Core.Plugins
 			}
 		}
 
+		public Guid DatabaseId
+		{
+			get
+			{
+				// Generate an ID for use in the database, that's tied to this object,
+				// in other words not globally unique, but it doesn't matter.
+				if (_objectId == Guid.Empty)
+				{
+					int firstPart = Id.GetHashCode();
+
+					// Next 2 sequence of numbers
+					int hashCode = this.GetHashCode();
+					short shortHashCode = (short)hashCode;
+
+					// Final 8 numbers
+					byte[] shortBytes = BitConverter.GetBytes(hashCode);
+					byte[] lastPart = new byte[8];
+					lastPart = shortBytes.Concat(shortBytes).ToArray();
+
+					_objectId = new Guid(firstPart, shortHashCode, shortHashCode, lastPart);
+				}
+
+				return _objectId;
+			}
+		}
+
 		public TextPlugin(ApplicationSettings applicationSettings, IRepository repository)
 		{
 			ApplicationSettings = applicationSettings;
 			IsCacheable = true;
-			Settings = new List<Setting>();
+			Settings = new Settings();
 
 			if (repository != null)
 				SiteSettings = repository.GetSiteSettings();
@@ -62,9 +92,27 @@ namespace Roadkill.Core.Plugins
 			return html;
 		}
 
-		public virtual void SaveSettings(IEnumerable<Setting> settings)
+		public virtual void SaveSettings(string filePath = "")
 		{
+			if (string.IsNullOrEmpty(filePath))
+			{
+				if (HttpContext.Current != null)
+				{
+					filePath = HttpContext.Current.Server.MapPath(PluginVirtualPath);
+				}
+				else
+				{
+					throw new ArgumentNullException(filePath);
+				}
+			}
 
+			string json = GetSettingsJson();
+			File.WriteAllText(filePath, json);
+		}
+
+		public string GetSettingsJson()
+		{
+			return JsonConvert.SerializeObject(this.Settings, Formatting.Indented);
 		}
 
 		public virtual string RemoveParserIgnoreTokens(string html)
@@ -86,7 +134,7 @@ namespace Roadkill.Core.Plugins
 		}
 
 		/// <summary>
-		/// Gets the HTML for a javascript link for the plugin, assuming the javascript is stored in the /Plugins/pluginID/javascript/ folder.
+		/// Gets the HTML for a javascript link for the plugin, assuming the javascript is stored in the /Plugins/ID/ folder.
 		/// </summary>
 		public string GetScriptLink(string filename)
 		{
@@ -108,7 +156,7 @@ namespace Roadkill.Core.Plugins
 		}
 
 		/// <summary>
-		/// Gets the HTML for a CSS link for the plugin, assuming the CSS is stored in the /Plugins/pluginID/css/ folder.
+		/// Gets the HTML for a CSS link for the plugin, assuming the CSS is stored in the /Plugins/ID/ folder.
 		/// </summary>
 		public string GetCssLink(string filename)
 		{

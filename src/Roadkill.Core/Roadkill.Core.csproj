@@ -383,9 +383,9 @@
     <Compile Include="Database\Repositories\LightSpeed\Conversion\FromEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\PageEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\PageContentEntity.cs" />
-    <Compile Include="Database\Repositories\LightSpeed\SiteSettingsEntity.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\SiteConfigurationEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\UserEntity.cs" />
-    <Compile Include="Database\Entities\SiteSettingsEntity.cs" />
+    <Compile Include="Database\Entities\SiteConfigurationEntity.cs" />
     <Compile Include="Database\Schema\MySql\MySqlSchema.cs" />
     <Compile Include="Database\Schema\Postgres\PostgresSchema.cs" />
     <Compile Include="Database\Schema\SchemaBase.cs" />
@@ -431,9 +431,10 @@
     <Compile Include="Plugins\Text\BuiltIn\ExternalLinksInNewWindow.cs" />
     <Compile Include="Plugins\Text\BuiltIn\MathJax.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ToC\TocPlugin.cs" />
+    <Compile Include="Plugins\Text\Settings.cs" />
     <Compile Include="Plugins\Text\TextPlugin.cs" />
     <Compile Include="Plugins\PluginFactory.cs" />
-    <Compile Include="Plugins\Text\Setting.cs" />
+    <Compile Include="Plugins\Text\SettingValue.cs" />
     <Compile Include="Plugins\Text\BuiltIn\SyntaxHighlighter.cs" />
     <Compile Include="Text\PageHtml.cs" />
     <Compile Include="Text\TextToken.cs" />

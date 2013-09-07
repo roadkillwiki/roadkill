@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Roadkill.Core.Plugins
 {
-	public class Setting
+	public class SettingValue
 	{
 		public string Name { get; set; }
 		public string Value { get; set; }
