@@ -9,8 +9,46 @@ namespace Roadkill.Core.Plugins
 {
 	public class Settings
 	{
+		private List<SettingValue> _values;
+
 		public bool IsEnabled { get; set; }
-		public List<SettingValue> Values { get; set; }
+		public IEnumerable<SettingValue> Values
+		{
+			get
+			{
+				return _values;
+			}
+		}
+
+		public Settings()
+		{
+			_values = new List<SettingValue>();
+		}
+
+		public void SetValue(string name, string value)
+		{
+			SettingValue settingValue = _values.FirstOrDefault(x => !string.IsNullOrEmpty(x.Name) &&
+																	x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+
+			if (settingValue == null)
+			{
+				settingValue = new SettingValue();
+				settingValue.Name = name;
+			}
+			
+			settingValue.Value = value;
+			_values.Add(settingValue);
+		}
+
+		public string GetValue(string name)
+		{
+			SettingValue settingValue = _values.FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+
+			if (settingValue != null)
+				return settingValue.Value;
+
+			return "";
+		}
 
 		public string GetJson()
 		{

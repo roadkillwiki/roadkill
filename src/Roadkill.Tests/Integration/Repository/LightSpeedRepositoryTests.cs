@@ -10,6 +10,8 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Database.MongoDB;
+using Roadkill.Tests.Unit.StubsAndMocks;
+using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Tests.Integration
 {
@@ -399,6 +401,26 @@ namespace Roadkill.Tests.Integration
 			Assert.That(actualSettings.SiteUrl, Is.EqualTo(expectedSettings.SiteUrl));
 			Assert.That(actualSettings.Theme, Is.EqualTo(expectedSettings.Theme));
 
+		}
+
+		[Test]
+		public void Should_Get_And_SavePluginSettings()
+		{
+			// Arrange
+			PluginSettings expectedSettings = new PluginSettings();
+			expectedSettings.SetValue("somekey1", "thevalue1");
+			expectedSettings.SetValue("somekey2", "thevalue2");
+
+			TextPluginStub plugin = new TextPluginStub();
+			plugin.Settings = expectedSettings;
+
+			// Act
+			_repository.SaveTextPluginSettings(plugin);
+			PluginSettings actualSettings = _repository.GetTextPluginSettings(plugin);
+
+			// Assert
+			Assert.That(actualSettings.GetValue("somekey1"), Is.EqualTo("thevalue1"));
+			Assert.That(actualSettings.GetValue("somekey2"), Is.EqualTo("thevalue2"));
 		}
 
 		[Test]
