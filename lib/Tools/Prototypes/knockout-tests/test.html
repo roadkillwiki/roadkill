@@ -1,0 +1,52 @@
+<html>
+<head>
+	<title>KnockoutJS test</title>
+	<script src="jquery.js" type="text/javascript"></script>
+	<script src="knockout.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(document).ready(function ()
+		{
+			var initialData =
+			[
+				{ "name" : "name", "value" : "chris"},
+				{ "name" : "age", "value" : "35"}
+			];
+
+			var SettingsModel = function (settings)
+			{
+				var self = this;
+				self.settings = ko.observableArray(ko.utils.arrayMap(settings, function (setting)
+				{
+					return { name: setting.name, value: setting.value };
+				}));
+
+				self.save = function ()
+				{
+					//self.lastSavedJson(JSON.stringify(ko.toJS(self.settings), null, 2));
+					console.log(JSON.stringify(ko.toJS(self.settings)));
+				};
+
+				self.lastSavedJson = ko.observable("")
+			};
+
+			ko.applyBindings(new SettingsModel(initialData));
+		});
+	</script>
+</head>
+
+<body>
+	<table>
+		<tr>
+			<th>Setting</th>
+			<th></th>
+		</tr>
+		<tbody data-bind="foreach: settings">
+			<tr>
+				<td><span data-bind="text: name"></span></td>
+				<td><input type="text" data-bind="value: value" /></td>
+			</tr>
+		</tbody>
+	</table>
+	<button data-bind='click: save'>Save</button>
+</body>
+</html>

@@ -1,0 +1,40 @@
+﻿@model IList<IList<string>>
+@{
+	ViewBag.Title = SiteStrings.FileManager_Title;
+}
+<script type="text/javascript">
+	$(function ()
+	{
+		Roadkill.Site.FileManager.Setup.configure();
+	});
+</script>
+
+<h1>@SiteStrings.FileManager_Title</h1>
+
+@Html.Partial("Navigator", true)
+
+<!-- Upload progress bar -->
+<div id="progress" class="progress progress-striped">
+	<div id="progress-message">@SiteStrings.FileManager_UploadingProgress</div>
+    <div class="bar" style="width: 0%;"></div>
+</div>
+
+@using (Html.BeginForm("Upload", "FileManager", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	@Html.Hidden("destination_folder", "")
+    <span class="fileupload-buttonbar">
+        <span class="fileupload-button btn">
+            <span>@SiteStrings.FileManager_Upload</span>
+            <input id="fileupload" type="file" name="files[]" data-url="FileManager/Upload" multiple />
+        </span>
+	@if (RoadkillContext.IsAdmin)
+	{
+        <button id="deletefilebtn" type="button" class="btn">@SiteStrings.FileManager_Delete_File</button>
+	}
+        <button id="addfolderbtn" type="button" class="btn">@SiteStrings.FileManager_Add_Folder</button>
+	@if (RoadkillContext.IsAdmin)
+	{
+        <button id="deletefolderbtn" type="button" class="btn">@SiteStrings.FileManager_Delete_Folder</button>
+	}
+    </span>
+}
