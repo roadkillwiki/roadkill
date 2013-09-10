@@ -1,0 +1,56 @@
+@inherits RoadkillLayoutPage
+<!DOCTYPE html>
+<html>
+<head>
+	<title>@ViewBag.Title</title>
+	@Html.Partial("HeadContent")
+	@RenderSection("PluginHead", false)
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="theme.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<style>
+		p, h1, li, a { font-family: 'Ubuntu', sans-serif !important; }
+	</style>
+</head>
+<body>
+	<div style="position: fixed;">@Html.Action("LoggedInAs", "User")</div>
+	<br style="clear: both" />
+	<div class="wrapper">
+		<header>
+			<img src="@Url.ThemeContent("logo.png", SiteSettings)" width="262" height="100" />
+			<p>.NET Wiki engine</p>
+@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+{
+				<div id="search">
+					<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" />
+				</div>
+}
+			@Html.Action("LeftMenu", "User")
+			<ul>
+				<li>Download</li>
+			</ul>
+		</header>
+		<section>
+			<div>
+				@RenderSection("PageToolbar", false)
+				@RenderSection("ViewHistoryLink", false)
+			</div>
+			<div id="container">
+				<div id="content">
+					@RenderBody()
+				</div>
+			</div>
+			@RenderSection("PluginFooter", false)
+			@RenderSection("PageDetailsFooter", false)
+		</section>
+		<footer>
+			<p>@SiteStrings.Shared_PoweredBy (@ApplicationSettings.ProductVersion).</p>
+		</footer>
+	</div>
+</body>
+</html>
+
