@@ -66,6 +66,9 @@ namespace Roadkill.Core
 			if (context == null)
 				throw new IoCException("The IRoadkillContext parameter is null", null);
 
+			if (applicationSettings.Installed && string.IsNullOrEmpty(applicationSettings.ConnectionString))
+				throw new DatabaseException("The configuration file's connection string is empty (and installed=true).", null);
+
 			_applicationSettings = applicationSettings;
 			_repository = repository;
 			_context = context;
