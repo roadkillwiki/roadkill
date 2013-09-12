@@ -1,11 +1,12 @@
-@import url(http://fonts.googleapis.com/css?family=Ubuntu);
+@import url(http://fonts.googleapis.com/css?family=Noticia+Text);
 
 #container { margin-top:30px; }
 #lastmodified { font-size: xx-small; }
+p, h1, h2, h3, h4, h5, ul, li, a { font-family: 'Noticia Text', sans-serif !important; }
+#pagecontent ul { padding-left: 50px; }
 
 body {
   padding: 10px;
-  font:14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
   color:#777;
   font-weight:300;
 }
@@ -17,14 +18,6 @@ h1, h2, h3, h4, h5, h6 {
 
 p, ul, ol, table, pre, dl {
   margin:0 0 20px;
-}
-
-h1, h2, h3 {
-  line-height:1.1;
-}
-
-h1 {
-  font-size:28px;
 }
 
 h2 {

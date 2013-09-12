@@ -32,7 +32,7 @@ namespace Roadkill.Tests.Unit
 		private RepositoryMock _repositoryMock;
 		private Mock<SearchManager> _mockSearchManager;
 		private Mock<UserManagerBase> _mockUserManager;
-		private ApplicationSettings _settings;
+		private ApplicationSettings _applicationSettings;
 		private MarkupConverter _markupConverter;
 		private HistoryManager _historyManager;
 		private UserContext _context;
@@ -45,21 +45,22 @@ namespace Roadkill.Tests.Unit
 			_repositoryMock = new RepositoryMock();
 
 			// Config stub
-			_settings = new ApplicationSettings();
-			_settings.Installed = true;
+			_applicationSettings = new ApplicationSettings();
+			_applicationSettings.ConnectionString = "connstring";
+			_applicationSettings.Installed = true;
 
 			_repositoryMock = new RepositoryMock();
 			_repositoryMock.SiteSettings = new SiteSettings();
 			_repositoryMock.SiteSettings.MarkupType = "Creole";
 
 			// Cache
-			ListCache listCache = new ListCache(_settings, MemoryCache.Default);
-			PageSummaryCache pageSummaryCache = new PageSummaryCache(_settings, MemoryCache.Default);
+			ListCache listCache = new ListCache(_applicationSettings, MemoryCache.Default);
+			PageSummaryCache pageSummaryCache = new PageSummaryCache(_applicationSettings, MemoryCache.Default);
 
 			// Managers needed by the PageManager
-			_markupConverter = new MarkupConverter(_settings, _repositoryMock);
-			_mockSearchManager = new Mock<SearchManager>(_settings, _repositoryMock);
-			_historyManager = new HistoryManager(_settings, _repositoryMock, _context, pageSummaryCache);
+			_markupConverter = new MarkupConverter(_applicationSettings, _repositoryMock);
+			_mockSearchManager = new Mock<SearchManager>(_applicationSettings, _repositoryMock);
+			_historyManager = new HistoryManager(_applicationSettings, _repositoryMock, _context, pageSummaryCache);
 
 			// Usermanager stub
 			_testUser = new User();
@@ -68,7 +69,7 @@ namespace Roadkill.Tests.Unit
 			_testUser.Username = AdminUsername;
 			Guid userId = _testUser.Id;
 
-			_mockUserManager = new Mock<UserManagerBase>(_settings, _repositoryMock);
+			_mockUserManager = new Mock<UserManagerBase>(_applicationSettings, _repositoryMock);
 			_mockUserManager.Setup(x => x.GetUser(_testUser.Email, It.IsAny<bool>())).Returns(_testUser);//GetUserById
 			_mockUserManager.Setup(x => x.GetUserById(userId, It.IsAny<bool>())).Returns(_testUser);
 			_mockUserManager.Setup(x => x.Authenticate(_testUser.Email, "")).Returns(true);
@@ -79,10 +80,10 @@ namespace Roadkill.Tests.Unit
 			_context.CurrentUser = userId.ToString();
 
 			// And finally the IoC setup
-			DependencyManager iocSetup = new DependencyManager(_settings, _repositoryMock, _context);
+			DependencyManager iocSetup = new DependencyManager(_applicationSettings, _repositoryMock, _context);
 			iocSetup.Configure();
 
-			_pageManager = new PageManager(_settings, _repositoryMock, _mockSearchManager.Object, _historyManager, _context, listCache, pageSummaryCache);
+			_pageManager = new PageManager(_applicationSettings, _repositoryMock, _mockSearchManager.Object, _historyManager, _context, listCache, pageSummaryCache);
 		}
 
 		public PageSummary AddToStubbedRepository(int id, string createdBy, string title, string tags, string textContent = "")

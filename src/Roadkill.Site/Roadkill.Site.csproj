@@ -323,6 +323,7 @@
     <Content Include="Assets\Scripts\roadkill\typescript-ref\constants.min.js">
       <DependentUpon>constants.ts</DependentUpon>
     </Content>
+    <Content Include="Assets\Scripts\head.js" />
     <Content Include="Plugins\Text\ExternalLinksInNewWindow\externallinksinnewwindow.js" />
     <Content Include="Plugins\Text\ResizeImages\resizeimages.css" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shAutoloader.js" />

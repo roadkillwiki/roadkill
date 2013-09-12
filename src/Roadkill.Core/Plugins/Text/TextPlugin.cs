@@ -20,6 +20,8 @@ namespace Roadkill.Core.Plugins
 		public static readonly string PARSER_IGNORE_STARTTOKEN = "{{{roadkillinternal";
 		public static readonly string PARSER_IGNORE_ENDTOKEN = "roadkillinternal}}}";
 
+		private List<string> _scriptFiles;
+		private string _onLoadFunction;
 		private Guid _objectId;
 		public Settings Settings { get; set; }
 
@@ -74,6 +76,8 @@ namespace Roadkill.Core.Plugins
 
 		public TextPlugin(ApplicationSettings applicationSettings, IRepository repository)
 		{
+			_scriptFiles = new List<string>();
+
 			ApplicationSettings = applicationSettings;
 			IsCacheable = true;
 			Settings = new Settings();
@@ -136,23 +140,39 @@ namespace Roadkill.Core.Plugins
 		/// <summary>
 		/// Gets the HTML for a javascript link for the plugin, assuming the javascript is stored in the /Plugins/ID/ folder.
 		/// </summary>
-		public string GetScriptLink(string filename)
+		public string GetScriptHtml()
 		{
-			// Two tab stops to match HeadContent.cshtml
-			string jsScript = "\t\t<script src=\"{0}/{1}\" type=\"text/javascript\"></script>\n";
-			string html = "";
+			string headScript = "<script type=\"text/javascript\">";
+			headScript += "head.js(";
+			headScript += string.Join(",\n", _scriptFiles);
+			headScript += ",function() { " +_onLoadFunction+ " })";
+			headScript += "</script>\n";
+
+			return headScript;
+		}
+
+		public void AddOnLoadedFunction(string functionBody)
+		{
+			_onLoadFunction = functionBody;
+		}
+
+		public void AddScript(string filename, string name = "")
+		{
+			string fileLink = "{ \"[name]\", \"[filename]\" }";
+			if (string.IsNullOrEmpty(name))
+			{
+				fileLink = "\"[filename]\"";
+			}
 
 			if (HttpContext.Current != null)
 			{
 				UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-				html = string.Format(jsScript, urlHelper.Content(PluginVirtualPath), filename);
-			}
-			else
-			{
-				html = string.Format(jsScript, PluginVirtualPath, filename);
+				filename = string.Concat(urlHelper.Content(PluginVirtualPath), "/", filename);
 			}
 
-			return html;
+			fileLink = fileLink.Replace("[name]", name);
+			fileLink = fileLink.Replace("[filename]", filename);
+			_scriptFiles.Add(fileLink);
 		}
 
 		/// <summary>

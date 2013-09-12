@@ -35,6 +35,17 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
+		[ExpectedException(typeof(DatabaseException))]
+		public void Three_Constructor_Argument_Should_Throw_If_Installed_With_No_Connection_String()
+		{
+			// Arrange, act, assert
+			ApplicationSettings settings = new ApplicationSettings();
+			settings.Installed = true;
+
+			DependencyManager container = new DependencyManager(settings, new RepositoryMock(), new UserContext(null));
+		}
+
+		[Test]
 		public void Single_Constructor_Argument_Should_Register_Default_Instances()
 		{
 			// Arrange
