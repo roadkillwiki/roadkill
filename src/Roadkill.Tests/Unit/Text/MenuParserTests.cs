@@ -12,6 +12,8 @@ using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit
 {
+	[TestFixture]
+	[Category("Unit")]
 	public class MenuParserTests
 	{
 		[Test]
@@ -58,7 +60,7 @@ namespace Roadkill.Tests.Unit
 			string expectedHtml = "<ul>\n<li><a href=\"/pages/alltags\">Categories</a></li>\n</ul>\n\n" +
 								  "<p><a href=\"/pages/allpages\">All pages</a>\n" +
 								  "<a href=\"/\">Main Page</a>\n" +
-								  "<a href=\"/pages/new\">New page</a>\n\n</p>\n";
+								  "<a href=\"/pages/new\">New page</a>\n<a href=\"/filemanager\">Manage files</a>\n</p>\n";
 
 			RepositoryMock repository = new RepositoryMock();
 			repository.SiteSettings = new SiteSettings();

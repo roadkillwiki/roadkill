@@ -119,11 +119,11 @@ namespace Roadkill.Core.Text
 			if (!_userContext.IsLoggedIn)
 			{
 				newpage = "";
+				manageFiles = "";
 			}
 
 			if (!_userContext.IsAdmin)
 			{
-				manageFiles = "";
 				siteSettings = "";
 			}
 
