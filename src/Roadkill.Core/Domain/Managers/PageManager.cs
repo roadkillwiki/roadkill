@@ -558,10 +558,19 @@ namespace Roadkill.Core.Managers
 			}
 		}
 
+		/// <summary>
+		/// Retrieves the (usually left) menu containing the new page, settings etc. options
+		/// </summary>
 		public string GetMenu(IUserContext userContext)
 		{
 			MenuParser parser = new MenuParser(_markupConverter, Repository, _listCache, userContext);
-			return parser.GetMenu();
+
+			StringBuilder builder = new StringBuilder();
+			builder.AppendLine("<div id=\"leftmenu\">");
+			builder.AppendLine(parser.GetMenu());
+			builder.AppendLine("</div>");
+
+			return builder.ToString();
 		}
 
 		/// <summary>
