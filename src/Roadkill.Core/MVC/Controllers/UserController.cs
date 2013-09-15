@@ -389,13 +389,5 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			return PartialView();
 		}
-
-		/// <summary>
-		/// Displays the left side menu view, including new page/settings if logged in.
-		/// </summary>
-		public ActionResult LeftMenu()
-		{
-			return PartialView();
-		}
 	}
 }

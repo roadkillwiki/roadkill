@@ -28,6 +28,15 @@ namespace Roadkill.Core.Cache
 		/// <summary>"pagesbytag.{tag}"</summary>
 		public static readonly string PAGES_BY_TAG = "pagesbytag.{tag}";
 
+		/// <summary>"menu"</summary>
+		public static readonly string MENU = "menu";
+
+		/// <summary>"loggedinmenu"</summary>
+		public static readonly string LOGGEDINMENU = "loggedinmenu";
+
+		/// <summary>"adminmenu"</summary>
+		public static readonly string ADMINMENU = "adminmenu";
+
 		public static string PageSummaryKeyPrefix()
 		{
 			string key = PAGESUMMARY;

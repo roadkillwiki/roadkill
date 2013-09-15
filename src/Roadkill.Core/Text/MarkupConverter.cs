@@ -88,7 +88,6 @@ namespace Roadkill.Core.Converters
 				string warnMessage = "Roadkill is not installed, or an upgrade is pending (ApplicationSettings.UpgradeRequired = false)." +
 									"Skipping initialization of MarkupConverter (MarkupConverter.Parser will now be null)";
 
-				Console.WriteLine(warnMessage);
 				Log.Warn(warnMessage);
 
 				// Skip the chain of creation, as the markup converter isn't needed
@@ -119,6 +118,11 @@ namespace Roadkill.Core.Converters
 
 			_parser.LinkParsed += LinkParsed;
 			_parser.ImageParsed += ImageParsed;
+		}
+
+		public string ParseMenuHtml(string markup)
+		{
+			return _parser.Transform(markup);
 		}
 
 		/// <summary>
@@ -265,10 +269,9 @@ namespace Roadkill.Core.Converters
 					if (Parser is MarkdownParser)
 					{
 						// For markdown, only urls with "-" in them are valid, spaces are ignored.
-						// So remove these, so a match is made. No url has a "-" in, so replacing them is ok.
+						// Remove these, so a match is made. No url has a "-" in, so replacing them is ok.
 						title = title.Replace("-", " ");
 					}
-					
 
 					Page page = _repository.GetPageByTitle(title);
 					if (page != null)
@@ -379,7 +382,8 @@ namespace Roadkill.Core.Converters
 			}
 			else
 			{
-				return string.Format("/index/wiki/{0}/{1}", id, title);
+				// This is really here as a fallback, for tests
+				return string.Format("/wiki/{0}/{1}", id, title.EncodeTitle());
 			}
 		}
 

@@ -119,6 +119,11 @@ namespace Roadkill.Core.Configuration
 		/// Extra HTML/Javascript that is added to the HTML head, for example Google analytics, web fonts.
 		/// </summary>
 		public string HeadContent { get; set; }
+
+		/// <summary>
+		/// The left menu markup which is parsed and rendered.
+		/// </summary>
+		public string MenuMarkup { get; set; }
 		#endregion
 
 		public SiteSettings()
@@ -137,6 +142,12 @@ namespace Roadkill.Core.Configuration
 			// v1.8
 			OverwriteExistingFiles = false;
 			HeadContent = "";
+			MenuMarkup = "* %mainpage%\r\n" +
+						 "* %categories%\r\n" +
+						 "* %allpages%\r\n" +
+						 "* %newpage%\r\n" +
+						 "* %managefiles%\r\n" +
+						 "* %sitesettings%\r\n\r\n";
 		}
 
 		public string GetJson()

@@ -117,5 +117,10 @@ namespace Roadkill.Core.Managers
 		/// <exception cref="DatabaseException">An database error occurred while updating.</exception>
 		/// <exception cref="SearchException">An error occurred adding the page to the search index.</exception>
 		void UpdatePage(PageSummary summary);
+
+		/// <summary>
+		/// Gets the menu HTML, which is stored in the database.
+		/// </summary>
+		string GetMenu(IUserContext userContext);
 	}
 }

@@ -350,6 +350,7 @@
     <Compile Include="Unit\StubsAndMocks\RoadkillContextStub.cs" />
     <Compile Include="Unit\StubsAndMocks\UserManagerStub.cs" />
     <Compile Include="Unit\StubsAndMocks\TextPluginStub.cs" />
+    <Compile Include="Unit\Text\MenuParserTests.cs" />
     <Compile Include="Unit\Text\TocParserTests.cs" />
     <Compile Include="Unit\Text\MarkupSanitizerTests.cs" />
     <Compile Include="Unit\Text\MarkdownTests.cs" />
