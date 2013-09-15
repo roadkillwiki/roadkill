@@ -12,6 +12,7 @@ using Roadkill.Core.Managers;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Text;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -79,6 +80,14 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			Response.ContentType = "text/javascript";
 			return PartialView();
+		}
+
+		/// <summary>
+		/// Displays the left side menu view, including new page/settings if logged in.
+		/// </summary>
+		public ActionResult LeftMenu()
+		{
+			return Content(PageManager.GetMenu(Context));
 		}
 	}
 }

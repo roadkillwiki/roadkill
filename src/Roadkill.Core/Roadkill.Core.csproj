@@ -436,6 +436,7 @@
     <Compile Include="Plugins\PluginFactory.cs" />
     <Compile Include="Plugins\Text\SettingValue.cs" />
     <Compile Include="Plugins\Text\BuiltIn\SyntaxHighlighter.cs" />
+    <Compile Include="Text\MenuParser.cs" />
     <Compile Include="Text\PageHtml.cs" />
     <Compile Include="Text\TextToken.cs" />
     <Compile Include="Text\CustomTokenParser.cs" />

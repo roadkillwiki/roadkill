@@ -26,7 +26,8 @@ namespace Roadkill.Tests.Unit
 							  ""SiteName"": ""my sitename"",
 							  ""Theme"": ""Mytheme"",
 							  ""OverwriteExistingFiles"": true,
-							  ""HeadContent"": ""<script type=\""text/javascript\"">alert('foo');</script>""
+							  ""HeadContent"": ""<script type=\""text/javascript\"">alert('foo');</script>"",
+							  ""MenuMarkup"": ""* %allpages*""
 							}";
 
 			// Act
@@ -49,6 +50,7 @@ namespace Roadkill.Tests.Unit
 			// 1.8
 			Assert.That(settings.OverwriteExistingFiles, Is.EqualTo(true));
 			Assert.That(settings.HeadContent, Is.EqualTo("<script type=\"text/javascript\">alert('foo');</script>"));
+			Assert.That(settings.MenuMarkup, Is.EqualTo("* %allpages*"));
 		}
 
 		[Test]
@@ -68,6 +70,9 @@ namespace Roadkill.Tests.Unit
 							  ""Theme"": ""Mytheme"",
 							  ""Youswipe"": ""Youstay"",
 							  ""YouGo"": ""Youstay"",
+							  ""YouGo"": ""Youstay"",
+							  ""HeadContent"": ""head content"",
+							  ""MenuMarkup"": ""menu markup""
 							}";
 
 			// Act
@@ -86,6 +91,8 @@ namespace Roadkill.Tests.Unit
 			Assert.That(settings.SiteUrl, Is.EqualTo("http://siteurl"));
 			Assert.That(settings.SiteName, Is.EqualTo("my sitename"));
 			Assert.That(settings.Theme, Is.EqualTo("Mytheme"));
+			Assert.That(settings.HeadContent, Is.EqualTo("head content"));
+			Assert.That(settings.MenuMarkup, Is.EqualTo("menu markup"));
 		}
 
 		[Test]
@@ -133,6 +140,11 @@ namespace Roadkill.Tests.Unit
 			Assert.That(settings.SiteUrl, Is.EqualTo(""));
 			Assert.That(settings.SiteName, Is.EqualTo("Your site"));
 			Assert.That(settings.Theme, Is.EqualTo("Mediawiki"));
+
+			// v1.8
+			Assert.That(settings.OverwriteExistingFiles, Is.EqualTo(false));
+			Assert.That(settings.HeadContent, Is.EqualTo(""));
+			Assert.That(settings.MenuMarkup, Is.EqualTo("* %mainpage%\r\n* %categories%\r\n* %allpages%\r\n* %newpage%\r\n* %managefiles%\r\n* %sitesettings%\r\n\r\n"));
 		}
 
 		[Test]
@@ -157,6 +169,11 @@ namespace Roadkill.Tests.Unit
 			Assert.That(settings.SiteUrl, Is.EqualTo(""));
 			Assert.That(settings.SiteName, Is.EqualTo("Your site"));
 			Assert.That(settings.Theme, Is.EqualTo("Mediawiki"));
+
+			// 1.8
+			Assert.That(settings.OverwriteExistingFiles, Is.EqualTo(false));
+			Assert.That(settings.HeadContent, Is.EqualTo(""));
+			Assert.That(settings.MenuMarkup, Is.EqualTo("* %mainpage%\r\n* %categories%\r\n* %allpages%\r\n* %newpage%\r\n* %managefiles%\r\n* %sitesettings%\r\n\r\n"));
 		}
 
 		[Test]
@@ -174,7 +191,8 @@ namespace Roadkill.Tests.Unit
   ""SiteName"": ""my sitename"",
   ""Theme"": ""Mytheme"",
   ""OverwriteExistingFiles"": false,
-  ""HeadContent"": """"
+  ""HeadContent"": """",
+  ""MenuMarkup"": ""* %mainpage%\r\n* %categories%\r\n* %allpages%\r\n* %newpage%\r\n* %managefiles%\r\n* %sitesettings%\r\n\r\n""
 }";
 
 			SiteSettings settings = new SiteSettings();
@@ -195,6 +213,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(actualJson, Is.EqualTo(expectedJson), actualJson);
 		}
 
+		// The two previous default value tests might make this test redundant
 		[Test]
 		public void Deserialize_Should_Have_Default_Values_For_New_v1_8_Settings()
 		{
@@ -217,6 +236,7 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(settings.OverwriteExistingFiles, Is.EqualTo(false));
 			Assert.That(settings.HeadContent, Is.Empty);
+			Assert.That(settings.MenuMarkup, Is.EqualTo("* %mainpage%\r\n* %categories%\r\n* %allpages%\r\n* %newpage%\r\n* %managefiles%\r\n* %sitesettings%\r\n\r\n"));
 		}
 	}
 }

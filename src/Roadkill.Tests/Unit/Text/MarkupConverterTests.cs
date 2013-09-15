@@ -209,7 +209,7 @@ namespace Roadkill.Tests.Unit
 			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
 			_converter = new MarkupConverter(_settings, _repository);
 
-			string expectedHtml = "<p><a href=\"&#x2F;index&#x2F;wiki&#x2F;1&#x2F;foo&#x23;myanchor\">Some link text</a>\n</p>"; // use /index/ as no routing exists
+			string expectedHtml = "<p><a href=\"&#x2F;wiki&#x2F;1&#x2F;foo&#x23;myanchor\">Some link text</a>\n</p>"; // use /index/ as no routing exists
 
 			// Act
 			string actualHtml = _converter.ToHtml("[[foo#myanchor|Some link text]]");
@@ -227,7 +227,7 @@ namespace Roadkill.Tests.Unit
 			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
 			_converter = new MarkupConverter(_settings, _repository);
 
-			string expectedHtml = "<p><a href=\"&#x2F;index&#x2F;wiki&#x2F;1&#x2F;foo&#x25;23myanchor\">Some link text</a>\n</p>";
+			string expectedHtml = "<p><a href=\"&#x2F;wiki&#x2F;1&#x2F;foo&#x25;23myanchor\">Some link text</a>\n</p>";
 
 			// Act
 			string actualHtml = _converter.ToHtml("[[foo%23myanchor|Some link text]]");
@@ -245,7 +245,7 @@ namespace Roadkill.Tests.Unit
 			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
 			_converter = new MarkupConverter(_settings, _repository);
 
-			string expectedHtml = "<p><a href=\"&#x2F;index&#x2F;wiki&#x2F;1&#x2F;foo&#x23;myanchor\">Some link text</a></p>\n"; // use /index/ as no routing exists
+			string expectedHtml = "<p><a href=\"&#x2F;wiki&#x2F;1&#x2F;foo&#x23;myanchor\">Some link text</a></p>\n"; // use /index/ as no routing exists
 
 			// Act
 			string actualHtml = _converter.ToHtml("[Some link text](foo#myanchor)");

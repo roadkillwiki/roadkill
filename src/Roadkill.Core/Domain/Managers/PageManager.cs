@@ -11,6 +11,7 @@ using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Configuration;
 using System.Web;
 using Roadkill.Core.Logging;
+using Roadkill.Core.Text;
 
 namespace Roadkill.Core.Managers
 {
@@ -555,6 +556,12 @@ namespace Roadkill.Core.Managers
 				_pageSummaryCache.RemoveAll();
 				_listCache.RemoveAll();
 			}
+		}
+
+		public string GetMenu(IUserContext userContext)
+		{
+			MenuParser parser = new MenuParser(_markupConverter, Repository, _listCache, userContext);
+			return parser.GetMenu();
 		}
 
 		/// <summary>
