@@ -17,13 +17,13 @@ namespace Roadkill.Core.Plugins.BuiltIn.ToC
 
 		public string ReplaceTokensWithValues(Item item)
 		{
-			///<li><a href=""#{id}"">{level}.{itemnumber}&nbsp;{title}</a></li>
+			// <li><a href=""#{id}"">{level}.{itemnumber}&nbsp;{title}</a></li>
 			string result = ItemFormat;
 
 			result = result.Replace("{id}", item.Id);
 			result = result.Replace("{levels}", GetLevelText(item));
 
-			if (item.Level > 1)
+			if (item.Level > Tree.GetRootLevel())
 			{
 				result = result.Replace("{itemnumber}", item.GetPositionAmongSiblings().ToString());
 			}
@@ -39,16 +39,16 @@ namespace Roadkill.Core.Plugins.BuiltIn.ToC
 
 		private string GetLevelText(Item item)
 		{
-			// Anything at level 1 should use the counter for its number, for example
-			// 1. H1, 2. H2 (and Level 0 is just a holder level, not used except to balance the tree)
-			if (item.Level > 1)
+			// Anything at level 2 should use the counter for its number, for example
+			// 1. H2, 2. H3 (and Level 1 is just a holder level, not used except to balance the tree)
+			if (item.Level > Tree.GetRootLevel())
 			{
 				// Traverse back to the root, getting the index position of each parent amongst its siblings
 				List<int> positions = new List<int>();
 				Item itemParent = item.Parent;
 
 				positions.Add(itemParent.GetPositionAmongSiblings());
-				while (itemParent != null && itemParent.Parent != null && itemParent.Level > 1)
+				while (itemParent != null && itemParent.Parent != null && itemParent.Level > Tree.GetRootLevel())
 				{
 					itemParent = itemParent.Parent;
 					positions.Add(itemParent.GetPositionAmongSiblings());
@@ -59,7 +59,7 @@ namespace Roadkill.Core.Plugins.BuiltIn.ToC
 			}
 			else
 			{
-				// H1s are the root items, so use their position
+				// H2s are the root items, so use their position
 				return "";
 			}
 		}

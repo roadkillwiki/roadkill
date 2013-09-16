@@ -23,10 +23,6 @@ module Roadkill.Site
 			{
 				parent.addStyling(ROADKILL_EDIT_UNDERLINE_TOKEN);
 			});
-			$(".wysiwyg-h1").click(function ()
-			{
-				parent.addHeading(ROADKILL_EDIT_HEADING_TOKEN);
-			});
 			$(".wysiwyg-h2").click(function ()
 			{
 				parent.addHeading(parent.repeat(ROADKILL_EDIT_HEADING_TOKEN, 2));

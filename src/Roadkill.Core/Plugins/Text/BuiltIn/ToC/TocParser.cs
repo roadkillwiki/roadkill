@@ -90,14 +90,14 @@ namespace Roadkill.Core.Plugins.BuiltIn.ToC
 					int.TryParse(tagName.ToLower().Replace("h", ""), out level);
 
 					// Sanity check for bad markup
-					if (level < 1)
-						level = 1;
+					if (level > 1)
+					{
+						Item item = _tree.AddItemAtLevel(level, title);
 
-					Item item = _tree.AddItemAtLevel(level, title);
-
-					// Insert an achor tag after the header as a reference
-					HtmlNode anchor = HtmlNode.CreateNode(string.Format(@"<a name=""{0}""></a>", item.Id));
-					node.PrependChild(anchor);
+						// Insert an achor tag after the header as a reference
+						HtmlNode anchor = HtmlNode.CreateNode(string.Format(@"<a name=""{0}""></a>", item.Id));
+						node.PrependChild(anchor);
+					}
 				}
 				else if (node.HasChildNodes)
 				{

@@ -10,6 +10,11 @@ namespace Roadkill.Core.Plugins.BuiltIn.ToC
 	/// </summary>
 	internal class Tree
 	{
+		/// <summary>
+		/// Zero-based level that all Tocs start from. This is currently H2.
+		/// </summary>
+		public static int DEFAULT_LEVEL_ZERO_BASED = 1;
+
 		public Item Root { get; set; }
 		private Item _currentItem;
 		private int _currentLevel;
@@ -20,6 +25,7 @@ namespace Roadkill.Core.Plugins.BuiltIn.ToC
 		public Tree(StringTemplate stringTemplate)
 		{
 			Root = new Item("Not used", "");
+			_currentLevel = DEFAULT_LEVEL_ZERO_BASED;
 			_currentItem = Root;
 			_stringTemplate = stringTemplate;
 			_titleIdLookup = new List<string>();
@@ -27,7 +33,8 @@ namespace Roadkill.Core.Plugins.BuiltIn.ToC
 
 		public Item AddItemAtLevel(int level, string title)
 		{
-			// Generate a unique id for the A tag
+			// Generate a unique id for the A tag, using the title name
+			// If the title already exists, add a guid after it
 			string titleId = title.EncodeTitle();
 			if (_titleIdLookup.Contains(titleId))
 			{
@@ -92,6 +99,14 @@ namespace Roadkill.Core.Plugins.BuiltIn.ToC
 		public string CreateHtmlForItems()
 		{
 			return _stringTemplate.CreateHtml(Root);
+		}
+
+		/// <summary>
+		/// Gets the root level, e.g 2 for H2.
+		/// </summary>
+		public static int GetRootLevel()
+		{
+			return DEFAULT_LEVEL_ZERO_BASED + 1;
 		}
 	}
 }
