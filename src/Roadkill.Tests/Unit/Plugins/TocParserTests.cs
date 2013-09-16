@@ -30,7 +30,7 @@ namespace Roadkill.Tests.Unit
 			return html;
 		}
 
-		private string GetBigHeaderList()
+		private string GetLotsOfHeaders()
 		{
 			string html = "{TOC} <p>some text</p>";
 			html += "<h1>First h1</h1>";
@@ -53,7 +53,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Have_Correct_Tree_Structure()
+		public void Should_Have_Correct_Tree_Structure_From_Basic_Html()
 		{
 			// Arrange
 			TocParser tocParser = new TocParser();
@@ -65,29 +65,29 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Item root = tocParser.Tree.Root;
 			Assert.That(root, Is.Not.Null);
-			Assert.That(root.Level, Is.EqualTo(0));
+			Assert.That(root.Level, Is.EqualTo(Tree.DEFAULT_LEVEL_ZERO_BASED));
 
-			List<Item> allH1s = root.Children.ToList();
-			Assert.That(allH1s.Count, Is.EqualTo(2));
+			List<Item> allH2s = root.Children.ToList();
+			Assert.That(allH2s.Count, Is.EqualTo(2));
 
-			Item firstH1 = allH1s[0];
-			Item firstH2 = firstH1.GetChild(0);
-			Item secondH2 = firstH1.GetChild(1);	
-			
+			// <h2>First h2</h2>
+			Item firstH2 = allH2s[0];
 			Assert.That(firstH2.Children.Count(), Is.EqualTo(1));
-			Assert.That(secondH2.Children.Count(), Is.EqualTo(2));
-
 			Item firstH3 = firstH2.GetChild(0);
-			Item secondH3 = secondH2.GetChild(0);
-			Item thirdH3 = secondH2.GetChild(1);
-
 			Assert.That(firstH3.Children.Count(), Is.EqualTo(0));
-			Assert.That(secondH2.Children.Count(), Is.EqualTo(2));
 
+			// <h2>Second h2</h2>
+			Item secondH2 = allH2s[1];
+			Assert.That(secondH2.Children.Count(), Is.EqualTo(2));
+			
+			Item secondH3 = secondH2.GetChild(0);
+			Assert.That(secondH3.Children.Count(), Is.EqualTo(0));
+			
+			Item thirdH3 = secondH2.GetChild(1);
 			Assert.That(thirdH3.Children.Count(), Is.EqualTo(1));
 
-			Item secondH1 = allH1s[1];
-			Assert.That(secondH1.Children.Count(), Is.EqualTo(0));
+			Item firstH4 = thirdH3.GetChild(0);
+			Assert.That(firstH4.Children.Count(), Is.EqualTo(0));			
 		}
 
 		[Test]
@@ -102,18 +102,19 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			Item root = tocParser.Tree.Root;
-			List<Item> allH1s = root.Children.ToList();
+			List<Item> allH2s = root.Children.ToList();
 
-			Item firstH1 = allH1s[0];
-			Item firstH2 = firstH1.GetChild(0);
+			Item firstH2 = allH2s[0];
 			Item firstH3 = firstH2.GetChild(0);
-			Item thirdH3 = allH1s[0].GetChild(1).GetChild(1);
-			Item H4 = thirdH3.GetChild(0);
+			Item secondH2 = allH2s[1];
+			Item thirdH3 = secondH2.GetChild(1);
+			Item firstH4 = thirdH3.GetChild(0);
 
-			Assert.That(firstH1.Title, Is.EqualTo("First h1"));
 			Assert.That(firstH2.Title, Is.EqualTo("First h2"));
 			Assert.That(firstH3.Title, Is.EqualTo("First h3"));
-			Assert.That(H4.Title, Is.EqualTo("Lonely h4"));
+			Assert.That(secondH2.Title, Is.EqualTo("Second h2"));
+			Assert.That(thirdH3.Title, Is.EqualTo("Third h3"));
+			Assert.That(firstH4.Title, Is.EqualTo("Lonely h4"));
 		}
 
 		[Test]
@@ -135,15 +136,20 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrnage
 			TocParser tocParser = new TocParser();
-			string html = GetBigHeaderList();
+			string html = GetLotsOfHeaders();
 
 			// Act
 			string actual = tocParser.InsertToc(html);
 
 			// Assert
 			// (really basic asserts, as the alternative is to just copy the HTML)
-			Assert.That(actual, Is.StringContaining("1.2.52&nbsp;Yet Another h3"));
-			Assert.That(actual, Is.StringContaining("1.2.52.1&nbsp;Lonely h4"));
+			Assert.That(actual, Is.Not.StringContaining("1&nbsp;First h1"));
+			Assert.That(actual, Is.StringContaining("1.&nbsp;First h2"));
+			Assert.That(actual, Is.StringContaining("2.&nbsp;Second h2"));
+			Assert.That(actual, Is.StringContaining("2.1&nbsp;h3 number #0"));
+			Assert.That(actual, Is.StringContaining("2.47&nbsp;h3 number #46"));
+			Assert.That(actual, Is.StringContaining("2.52&nbsp;Yet Another h3"));
+			Assert.That(actual, Is.StringContaining("2.52.1&nbsp;Lonely h4"));
 		}
 
 		[Test]
@@ -168,8 +174,8 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			TocParser tocParser = new TocParser();
 			string html = "{TOC} <p>some text</p>";
-			//html += "<h1>h1</h1>";
-			html += "	<h2>h2</h2>";
+			html += "<h1>h1</h1>"; // deliberately removed
+			//html += "	<h2>h2</h2>"; // deliberately removed
 			html += "		<h3>h3a</h3>";
 			html += "			<h4>h4a</h4>";
 			html += "			<h4>h4b</h4>";
@@ -180,15 +186,15 @@ namespace Roadkill.Tests.Unit
 			html += "		<h3>h3c</h3>";
 			html += "			<h4>h4d</h4>";
 			html += "	<h2>h2b</h2>";
-			//html += "		<h3>h3</h3>";
-			//html += "			<h4>h4</h4>";
+			//html += "		<h3>h3</h3>"; // deliberately removed
+			//html += "			<h4>h4</h4>"; // deliberately removed
 			html += "				<h5>h5c</h5>";
 
 			// Act
 			string actual = tocParser.InsertToc(html);
 
 			// Assert
-			Assert.That(actual, Is.StringContaining("(Missing level 1 header)"));
+			Assert.That(actual, Is.StringContaining("(Missing level 2 header)"));
 			Assert.That(actual, Is.StringContaining("(Missing level 3 header)"));
 			Assert.That(actual, Is.StringContaining("(Missing level 4 header)"));
 
