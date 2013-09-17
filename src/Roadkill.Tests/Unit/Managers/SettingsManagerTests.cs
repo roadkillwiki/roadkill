@@ -93,6 +93,9 @@ namespace Roadkill.Tests.Unit
 			expectedSettings.MarkupType = "MarkupType";
 			expectedSettings.IsRecaptchaEnabled = true;
 			expectedSettings.AllowedFileTypes = "AllowedFileTypes";
+			expectedSettings.OverwriteExistingFiles = true;
+			expectedSettings.HeadContent = "some head content";
+			expectedSettings.MenuMarkup = "some menu markup";
 			_repository.SiteSettings = expectedSettings;
 
 			// Act
@@ -107,6 +110,9 @@ namespace Roadkill.Tests.Unit
 			Assert.That(actualSettings.MarkupType, Is.EqualTo(expectedSettings.MarkupType));
 			Assert.That(actualSettings.IsRecaptchaEnabled, Is.EqualTo(expectedSettings.IsRecaptchaEnabled));
 			Assert.That(actualSettings.AllowedFileTypes, Is.EqualTo(expectedSettings.AllowedFileTypes));
+			Assert.That(actualSettings.OverwriteExistingFiles, Is.EqualTo(expectedSettings.OverwriteExistingFiles));
+			Assert.That(actualSettings.HeadContent, Is.EqualTo(expectedSettings.HeadContent));
+			Assert.That(actualSettings.MenuMarkup, Is.EqualTo(expectedSettings.MenuMarkup));
 		}
 
 		[Test]
@@ -114,6 +120,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			SettingsSummary expectedSettings = new SettingsSummary();
+			expectedSettings.AllowedFileTypes = "AllowedFileTypes";
 			expectedSettings.Theme = "Mytheme";
 			expectedSettings.SiteName = "Mysitename";
 			expectedSettings.SiteUrl = "SiteUrl";
@@ -121,13 +128,16 @@ namespace Roadkill.Tests.Unit
 			expectedSettings.RecaptchaPublicKey = "RecaptchaPublicKey";
 			expectedSettings.MarkupType = "MarkupType";
 			expectedSettings.IsRecaptchaEnabled = true;
-			expectedSettings.AllowedFileTypes = "AllowedFileTypes";
+			expectedSettings.OverwriteExistingFiles = true;
+			expectedSettings.HeadContent = "some head content";
+			expectedSettings.MenuMarkup = "some menu markup";
 
 			// Act
 			_settingsManager.SaveSiteSettings(expectedSettings);
 			SiteSettings actualSettings = _settingsManager.GetSiteSettings();
 
 			// Assert
+			Assert.That(actualSettings.AllowedFileTypes, Is.EqualTo(expectedSettings.AllowedFileTypes));
 			Assert.That(actualSettings.Theme, Is.EqualTo(expectedSettings.Theme));
 			Assert.That(actualSettings.SiteName, Is.EqualTo(expectedSettings.SiteName));
 			Assert.That(actualSettings.SiteUrl, Is.EqualTo(expectedSettings.SiteUrl));
@@ -135,7 +145,9 @@ namespace Roadkill.Tests.Unit
 			Assert.That(actualSettings.RecaptchaPublicKey, Is.EqualTo(expectedSettings.RecaptchaPublicKey));
 			Assert.That(actualSettings.MarkupType, Is.EqualTo(expectedSettings.MarkupType));
 			Assert.That(actualSettings.IsRecaptchaEnabled, Is.EqualTo(expectedSettings.IsRecaptchaEnabled));
-			Assert.That(actualSettings.AllowedFileTypes, Is.EqualTo(expectedSettings.AllowedFileTypes));
+			Assert.That(actualSettings.OverwriteExistingFiles, Is.EqualTo(expectedSettings.OverwriteExistingFiles));
+			Assert.That(actualSettings.HeadContent, Is.EqualTo(expectedSettings.HeadContent));
+			Assert.That(actualSettings.MenuMarkup, Is.EqualTo(expectedSettings.MenuMarkup));
 		}
 	}
 }

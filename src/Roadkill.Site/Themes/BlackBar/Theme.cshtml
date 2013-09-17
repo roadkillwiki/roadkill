@@ -14,15 +14,8 @@
 		<div id="loggedinas" class="left">
 			@Html.LoginStatus()
 		</div>
-		<div class="right">
-			@Html.SettingsLink("","&nbsp;|&nbsp;")
-			@Html.FileManagerLink("","&nbsp;|&nbsp;")
-			@Html.LoginLink("","&nbsp;|&nbsp;")
-			@Html.NewPageLink("","&nbsp;|&nbsp;")
-
-			@Html.MainPageLink(SiteStrings.Navigation_MainPage, "", "")
-			&nbsp;|&nbsp;@Html.ActionLink(SiteStrings.Navigation_Categories, "AllTags", "Pages")
-			&nbsp;|&nbsp;@Html.ActionLink(SiteStrings.Navigation_AllPages, "AllPages", "Pages")
+		<div id="panel" class="right">
+			@Html.Action("LeftMenu", "Home")
 			<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" class="minisearchbox" />
 		</div>
 	</div>
