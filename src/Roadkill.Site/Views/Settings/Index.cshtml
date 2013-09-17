@@ -10,10 +10,9 @@
 	$(document).ready(function ()
 	{
 		$("input[rel=popover][type!=checkbox]").popover({ placement: "right", trigger: "hover", html: true });
-		$("input[type=checkbox][rel=popover],select[rel=popover]").popover({ placement: "right", trigger: "hover", html: true });
+		$("input[type=checkbox][rel=popover],textarea[rel=popover],select[rel=popover]").popover({ placement: "right", trigger: "hover", html: true });
 
 		toggleUserSettings();
-		//toastr.options  = { "positionClass": "toast-top-full-width" };
 
 		$("form").validationEngine();
 		$("#UseWindowsAuth").click(function ()
@@ -155,6 +154,9 @@
 
 		<label for="HeadContent">Additional head tag content TODO TRANSLATE</label>
 		@Html.TextAreaFor(s => s.HeadContent, new { rel="popover", data_content = "TODO translate"})
+
+		<label for="MenuMarkup">Left menu markup TODO TRANSLATE</label>
+		@Html.TextAreaFor(s => s.MenuMarkup, new { rel="popover", data_content = "TODO translate. The navigation menu (typically on the left hand side). This is the markdown format your wiki uses, and also accepts the following keywords which are replaced with links some of which may be empty if you are not logged in: <br/>%mainpage%<br/>%categories%<br/>%allpages%<br/>%newpage%<br/>%managefiles%<br/>%sitesettings%."})
 	</fieldset>
 
 	<fieldset>

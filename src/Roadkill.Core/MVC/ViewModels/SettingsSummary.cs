@@ -122,6 +122,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		// v1.8
 		public bool OverwriteExistingFiles { get; set; }
 		public string HeadContent { get; set; }
+		public string MenuMarkup { get; set; }
 
 		public string Version
 		{
@@ -160,6 +161,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 			Theme = siteSettings.Theme;
 			OverwriteExistingFiles = siteSettings.OverwriteExistingFiles;
 			HeadContent = siteSettings.HeadContent;
+			MenuMarkup = siteSettings.MenuMarkup;
 		}
 	}
 }

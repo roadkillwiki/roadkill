@@ -45,6 +45,9 @@ namespace Roadkill.Tests.Acceptance
 			Assert.That(element.SelectedOption.GetAttribute("value"), Is.EqualTo(DataStoreType.ByName("SqlServerCe").Name));
 			Assert.That(Driver.SelectedIndex("#MarkupType"), Is.EqualTo(0));
 			Assert.That(Driver.SelectedIndex("#Theme"), Is.EqualTo(1));
+			Assert.False(Driver.IsCheckboxChecked("OverwriteExistingFiles"));
+			Assert.That(Driver.ElementValue("#HeadContent"), Is.EqualTo(""));
+			Assert.That(Driver.ElementValue("#MenuMarkup"), Is.EqualTo("* %mainpage%\r\n* %categories%\r\n* %allpages%\r\n* %newpage%\r\n* %managefiles%\r\n* %sitesettings%\r\n\r\n"));
 		}
 
 		[Test]

@@ -140,10 +140,12 @@ namespace Roadkill.Core.Text
 			html = html.Replace("<ul>\n</ul>\n", "");	
 
 			// - (creole)
+			html = html.Replace("<p><ul>", "<ul>");
 			html = html.Replace("<li> </li>\n", "");
 			html = html.Replace("<ul>\n</ul>\n", "");
 			html = html.Replace("<p></p>\n", "");
 			html = html.Replace("<p></p>", "");
+			html = html.Replace("</ul></p>", "</ul>"); // the shitty parser adds this
 
 			return html;
 		}

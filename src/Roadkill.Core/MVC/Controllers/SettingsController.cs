@@ -72,6 +72,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				configReader.Save(summary);
 			
 				_settingsManager.SaveSiteSettings(summary);
+				_listCache.RemoveMenuCacheItems();
 
 				// Refresh the AttachmentsDirectoryPath using the absolute attachments path, as it's calculated in the constructor
 				ApplicationSettings appSettings = configReader.GetApplicationSettings();

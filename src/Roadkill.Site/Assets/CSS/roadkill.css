@@ -138,8 +138,8 @@ ul.mainmenu li a:hover { text-decoration:underline; }
 .test-button	{ margin-bottom:15px !important; }
 #configuration-container legend		{ font-size:2em; font-weight:bold; }
 #configuration-container fieldset	{ padding-bottom:10px; }
-#settings-container p	{ padding-top: 10px; }
-#HeadContent	{ width:400px;height:100px; }
+#settings-container p		{ padding-top: 10px; }
+#HeadContent,#MenuMarkup	{ width:400px;height:100px; }
 
 /* Users page [admins] */
 #userform	{ padding:0px; margin:0px; }

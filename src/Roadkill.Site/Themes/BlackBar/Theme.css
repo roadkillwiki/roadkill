@@ -24,6 +24,12 @@ p				{ margin-top: 20px; }
 .searchbox		{ width:400px; }
 .minisearchbox	{ width:130px; font-size:0.8em; margin-left:20px;height:12px !important;margin-top:6px !important; }
 
+#pagecontent input	{ display:inline;margin:0px;padding:0px; }
+
+#leftmenu			  { float:left; }
+#leftmenu ul li		  { display:inline; }
+#leftmenu ul li:after { content: " | " }
+
 div.image_frame { border: 1px solid gray; display: inline-block; padding: 4px; }
 div.image_frame .caption { border: 1px solid #E0E0E0; padding: 4px; }
 
