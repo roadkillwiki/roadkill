@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using HtmlAgilityPack;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
@@ -93,9 +94,10 @@ namespace Roadkill.Core.Text
 		/// [ManageFiles]
 		/// [SiteSettings]
 		/// </summary>
-		private string ReplaceKnownTokens(string markup)
+		private string ReplaceKnownTokens(string html)
 		{
-			string html = markup;
+			if (string.IsNullOrEmpty(html))
+				return "";
 
 			string categories = CreateAnchorTag("/pages/alltags", SiteStrings.Navigation_Categories);
 			string allPages = CreateAnchorTag("/pages/allpages", SiteStrings.Navigation_AllPages);
@@ -134,18 +136,56 @@ namespace Roadkill.Core.Text
 			html = html.Replace(MANAGEFILES_TOKEN, manageFiles);
 			html = html.Replace(SITESETTINGS_TOKEN, siteSettings);
 
-			// Very basic empty tag cleanup:
-			// - (markdown)
-			html = html.Replace("<li></li>\n", "");
-			html = html.Replace("<ul>\n</ul>\n", "");	
+			HtmlDocument document = new HtmlDocument();
+			document.LoadHtml(html);
 
-			// - (creole)
-			html = html.Replace("<p><ul>", "<ul>");
-			html = html.Replace("<li> </li>\n", "");
-			html = html.Replace("<ul>\n</ul>\n", "");
-			html = html.Replace("<p></p>\n", "");
-			html = html.Replace("<p></p>", "");
-			html = html.Replace("</ul></p>", "</ul>"); // the shitty parser adds this
+			//
+			// Remove P tags, and empty ul and li tags
+			//
+			HtmlNodeCollection paragraphNodes = document.DocumentNode.SelectNodes("//p");
+			if (paragraphNodes != null)
+			{
+				foreach (HtmlNode node in paragraphNodes)
+				{
+					var parentNode = node.ParentNode;
+					var childNodes = node.ChildNodes;
+
+					node.Remove();
+					parentNode.AppendChildren(childNodes);
+				}
+			}
+
+			HtmlNodeCollection liNodes = document.DocumentNode.SelectNodes("//li");
+			if (liNodes != null)
+			{
+				foreach (HtmlNode node in liNodes)
+				{
+					if (string.IsNullOrEmpty(node.InnerText) || string.IsNullOrEmpty(node.InnerText.Trim()) ||
+						string.IsNullOrEmpty(node.InnerHtml) || string.IsNullOrEmpty(node.InnerHtml.Trim()))
+					{
+						node.Remove();
+					}
+				}
+			}
+
+			HtmlNodeCollection ulNodes = document.DocumentNode.SelectNodes("//ul");
+			if (ulNodes != null)
+			{
+				foreach (HtmlNode node in ulNodes)
+				{
+					if (string.IsNullOrEmpty(node.InnerText) || string.IsNullOrEmpty(node.InnerText.Trim()) ||
+						string.IsNullOrEmpty(node.InnerHtml) || string.IsNullOrEmpty(node.InnerHtml.Trim()))
+					{
+						node.Remove();
+					}
+				}
+			}
+
+			// Clean up newlines
+			html = document.DocumentNode.InnerHtml;
+			html = html.Trim();
+			html = html.Replace("\n", "");
+			html = html.Replace("\r", "");
 
 			return html;
 		}

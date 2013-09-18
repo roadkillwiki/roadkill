@@ -21,12 +21,12 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			string menuMarkup = "* %categories%\r\n\r\n%allpages%\r\n%mainpage%\r\n%newpage%\r\n%managefiles%\r\n%sitesettings%\r\n";
-			string expectedHtml = "<ul>\n<li><a href=\"/pages/alltags\">Categories</a></li>\n</ul>\n\n" +
-								  "<p><a href=\"/pages/allpages\">All pages</a>\n" +
-								  "<a href=\"/\">Main Page</a>\n" +
-								  "<a href=\"/pages/new\">New page</a>\n" +
-								  "<a href=\"/filemanager\">Manage files</a>\n" +
-								  "<a href=\"/settings\">Site settings</a></p>\n";
+			string expectedHtml = "<ul><li><a href=\"/pages/alltags\">Categories</a></li></ul>" +
+								  "<a href=\"/pages/allpages\">All pages</a>" +
+								  "<a href=\"/\">Main Page</a>" +
+								  "<a href=\"/pages/new\">New page</a>" +
+								  "<a href=\"/filemanager\">Manage files</a>" +
+								  "<a href=\"/settings\">Site settings</a>";
 
 			RepositoryMock repository = new RepositoryMock();
 			repository.SiteSettings = new SiteSettings();
@@ -57,10 +57,10 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			string menuMarkup = "* %categories%\r\n\r\n%allpages%\r\n%mainpage%\r\n%newpage%\r\n%managefiles%\r\n%sitesettings%\r\n";
-			string expectedHtml = "<ul>\n<li><a href=\"/pages/alltags\">Categories</a></li>\n</ul>\n\n" +
-								  "<p><a href=\"/pages/allpages\">All pages</a>\n" +
-								  "<a href=\"/\">Main Page</a>\n" +
-								  "<a href=\"/pages/new\">New page</a>\n<a href=\"/filemanager\">Manage files</a>\n</p>\n";
+			string expectedHtml = "<ul><li><a href=\"/pages/alltags\">Categories</a></li></ul>" +
+								  "<a href=\"/pages/allpages\">All pages</a>" +
+								  "<a href=\"/\">Main Page</a>" +
+								  "<a href=\"/pages/new\">New page</a><a href=\"/filemanager\">Manage files</a>";
 
 			RepositoryMock repository = new RepositoryMock();
 			repository.SiteSettings = new SiteSettings();
@@ -91,9 +91,9 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			string menuMarkup = "* %categories%\r\n\r\n%allpages%\r\n%mainpage%\r\n%newpage%\r\n%managefiles%\r\n%sitesettings%\r\n";
-			string expectedHtml = "<ul>\n<li><a href=\"/pages/alltags\">Categories</a></li>\n</ul>\n\n" +
-								  "<p><a href=\"/pages/allpages\">All pages</a>\n" +
-								  "<a href=\"/\">Main Page</a>\n\n\n</p>\n";
+			string expectedHtml = "<ul><li><a href=\"/pages/alltags\">Categories</a></li></ul>" +
+								  "<a href=\"/pages/allpages\">All pages</a>" +
+								  "<a href=\"/\">Main Page</a>";
 
 			RepositoryMock repository = new RepositoryMock();
 			repository.SiteSettings = new SiteSettings();
@@ -119,8 +119,8 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		[TestCase("Creole", "<p><a href=\"/\">Main Page</a>\n</p>\n")]
-		[TestCase("Markdown", "<p><a href=\"/\">Main Page</a></p>\n\n")]
+		[TestCase("Creole", "<a href=\"/\">Main Page</a>")]
+		[TestCase("Markdown", "<a href=\"/\">Main Page</a>")]
 		public void Should_Remove_Empty_UL_Tags_For_Logged_In_Tokens_When_Not_Logged_In(string markupType, string expectedHtml)
 		{
 			// Arrange - \r\n is important so the markdown is valid
@@ -222,9 +222,9 @@ namespace Roadkill.Tests.Unit
 			string adminHtml = parser.GetMenu();
 
 			// Assert
-			Assert.That(guestHtml, Is.EqualTo("<p>My menu  </p>\n"));
-			Assert.That(editorHtml, Is.EqualTo("<p>My menu <a href=\"/pages/new\">New page</a> </p>\n"));
-			Assert.That(adminHtml, Is.EqualTo("<p>My menu <a href=\"/pages/new\">New page</a> <a href=\"/settings\">Site settings</a></p>\n"));
+			Assert.That(guestHtml, Is.EqualTo("My menu"));
+			Assert.That(editorHtml, Is.EqualTo("My menu <a href=\"/pages/new\">New page</a>"));
+			Assert.That(adminHtml, Is.EqualTo("My menu <a href=\"/pages/new\">New page</a> <a href=\"/settings\">Site settings</a>"));
 		}
 		
 		[Test]
@@ -232,7 +232,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			string menuMarkup = "* [First link](http://www.google.com)\r\n";
-			string expectedHtml = "<ul>\n<li><a href=\"http://www.google.com\">First link</a></li>\n</ul>\n";
+			string expectedHtml = "<ul><li><a href=\"http://www.google.com\">First link</a></li></ul>";
 
 			RepositoryMock repository = new RepositoryMock();
 			repository.SiteSettings = new SiteSettings();
@@ -261,7 +261,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			string menuMarkup = "* [First link](my-page)\r\n";
-			string expectedHtml = "<ul>\n<li><a href=\"/wiki/1/my-page\">First link</a></li>\n</ul>\n";
+			string expectedHtml = "<ul><li><a href=\"/wiki/1/my-page\">First link</a></li></ul>";
 
 			RepositoryMock repository = new RepositoryMock();
 			repository.AddNewPage(new Page() { Title = "my page", Id = 1 }, "text", "user", DateTime.Now);
