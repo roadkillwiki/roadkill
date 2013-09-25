@@ -347,6 +347,7 @@
     <Compile Include="DI\RepositoryManager.cs" />
     <Compile Include="DI\ServiceLocator.cs" />
     <Compile Include="Domain\Cache\CacheKeys.cs" />
+    <Compile Include="Domain\Cache\SiteCache.cs" />
     <Compile Include="Domain\Security\FormsAuthenticationWrapper.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="MVC\Attributes\IControllerAttribute.cs" />

@@ -429,9 +429,10 @@ namespace Roadkill.Tests.Unit.Cache
 			// PageManager
 			PageSummaryCache pageSummaryCache = new PageSummaryCache(appSettings, summaryObjectCache);
 			ListCache listCache = new ListCache(appSettings, listObjectCache);
+			SiteCache siteCache = new SiteCache(appSettings, MemoryCache.Default);
 			SearchManagerMock searchManager = new SearchManagerMock(appSettings, repository);
 			HistoryManager historyManager = new HistoryManager(appSettings, repository, userContext, pageSummaryCache);
-			PageManager pageManager = new PageManager(appSettings, repository, searchManager, historyManager, userContext, listCache, pageSummaryCache);
+			PageManager pageManager = new PageManager(appSettings, repository, searchManager, historyManager, userContext, listCache, pageSummaryCache, siteCache);
 
 			return pageManager;
 		}
