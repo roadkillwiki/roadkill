@@ -325,6 +325,7 @@
     </Content>
     <Content Include="Assets\Scripts\head.js" />
     <Content Include="Plugins\Text\ExternalLinksInNewWindow\externallinksinnewwindow.js" />
+    <Content Include="Plugins\Text\ImagesInNewWindow\imagesinnewwindow.js" />
     <Content Include="Plugins\Text\ResizeImages\resizeimages.css" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shAutoloader.js" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushAppleScript.js" />

@@ -14,7 +14,7 @@ namespace Roadkill.Core.Attachments
 	public class ResponseWrapper : IResponseWrapper
 	{
 		private NameValueCollection _headers;
-		private HttpResponse _context;
+		private HttpResponseBase _context;
 
 		public int StatusCode { get; set; }
 		public string ContentType { get; set; }
@@ -23,7 +23,7 @@ namespace Roadkill.Core.Attachments
 		{
 		}
 
-		public ResponseWrapper(HttpResponse context)
+		public ResponseWrapper(HttpResponseBase context)
 		{
 			_context = context;
 		}
@@ -31,13 +31,19 @@ namespace Roadkill.Core.Attachments
 		public void Write(string text)
 		{
 			if (_context != null)
+			{
+				_context.ContentType = ContentType;
 				_context.Write(text);
+			}
 		}
 
 		public void BinaryWrite(byte[] buffer)
 		{
 			if (_context != null)
+			{
+				_context.ContentType = ContentType;
 				_context.BinaryWrite(buffer);
+			}
 		}
 
 		public void End()
