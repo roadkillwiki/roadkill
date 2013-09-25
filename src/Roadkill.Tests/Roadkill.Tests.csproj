@@ -308,6 +308,7 @@
     <Compile Include="Unit\Attachments\AttachmentPathUtilTests.cs" />
     <Compile Include="Unit\Attachments\AttachmentFileHandlerTests.cs" />
     <Compile Include="Unit\Attachments\ResponseWrapperMock.cs" />
+    <Compile Include="Unit\Cache\SiteCacheTests.cs" />
     <Compile Include="Unit\Cache\PageManagerCacheTests.cs" />
     <Compile Include="Unit\Cache\ListCacheTests.cs" />
     <Compile Include="Unit\Extensions\ExtensionsTests.cs" />

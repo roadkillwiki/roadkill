@@ -26,9 +26,11 @@ namespace Roadkill.Core.Managers
 		private IUserContext _context;
 		private ListCache _listCache;
 		private PageSummaryCache _pageSummaryCache;
+		private SiteCache _siteCache;
 
 		public PageManager(ApplicationSettings settings, IRepository repository, SearchManager searchManager, 
-			HistoryManager historyManager, IUserContext context, ListCache listCache, PageSummaryCache pageSummaryCache)
+			HistoryManager historyManager, IUserContext context, 
+			ListCache listCache, PageSummaryCache pageSummaryCache, SiteCache sitecache)
 			: base(settings, repository)
 		{
 			_searchManager = searchManager;
@@ -37,6 +39,7 @@ namespace Roadkill.Core.Managers
 			_context = context;
 			_listCache = listCache;
 			_pageSummaryCache = pageSummaryCache;
+			_siteCache = sitecache;
 		}
 
 		/// <summary>
@@ -563,7 +566,7 @@ namespace Roadkill.Core.Managers
 		/// </summary>
 		public string GetMenu(IUserContext userContext)
 		{
-			MenuParser parser = new MenuParser(_markupConverter, Repository, _listCache, userContext);
+			MenuParser parser = new MenuParser(_markupConverter, Repository, _siteCache, userContext);
 
 			StringBuilder builder = new StringBuilder();
 			builder.AppendLine("<div id=\"leftmenu\">");

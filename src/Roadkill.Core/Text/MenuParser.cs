@@ -23,15 +23,15 @@ namespace Roadkill.Core.Text
 		private static readonly string SITESETTINGS_TOKEN = "%sitesettings%";
 
 		private IRepository _repository;
-		private ListCache _listCache;
+		private SiteCache _siteCache;
 		private MarkupConverter _markupConverter;
 		private IUserContext _userContext;
 
-		public MenuParser(MarkupConverter markupConverter, IRepository repository, ListCache listCache, IUserContext userContext)
+		public MenuParser(MarkupConverter markupConverter, IRepository repository, SiteCache siteCache, IUserContext userContext)
 		{
 			_markupConverter = markupConverter;
 			_repository = repository;
-			_listCache = listCache;
+			_siteCache = siteCache;
 			_userContext = userContext;
 		}
 
@@ -43,16 +43,16 @@ namespace Roadkill.Core.Text
 			{
 				if (_userContext.IsAdmin)
 				{
-					html = _listCache.GetAdminMenu();
+					html = _siteCache.GetAdminMenu();
 				}
 				else
 				{
-					html = _listCache.GetLoggedInMenu();
+					html = _siteCache.GetLoggedInMenu();
 				}
 			}
 			else
 			{
-				html = _listCache.GetMenu();
+				html = _siteCache.GetMenu();
 			}
 
 			// If the cache is empty, populate the right menu option
@@ -68,16 +68,16 @@ namespace Roadkill.Core.Text
 				{
 					if (_userContext.IsAdmin)
 					{
-						_listCache.AddAdminMenu(html);
+						_siteCache.AddAdminMenu(html);
 					}
 					else
 					{
-						_listCache.AddLoggedInMenu(html);
+						_siteCache.AddLoggedInMenu(html);
 					}
 				}
 				else
 				{
-					_listCache.AddMenu(html);
+					_siteCache.AddMenu(html);
 				}
 			}
 

@@ -118,9 +118,10 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 			RepositoryMock repository = new RepositoryMock();
 			PageSummaryCache pageSummaryCache = new PageSummaryCache(appSettings, MemoryCache.Default);
 			ListCache listCache = new ListCache(appSettings, MemoryCache.Default);
+			SiteCache siteCache = new SiteCache(appSettings, MemoryCache.Default);
 			SearchManagerMock searchManager = new SearchManagerMock(appSettings, repository);
 			HistoryManager historyManager = new HistoryManager(appSettings, repository, userContext, pageSummaryCache);
-			PageManager pageManager = new PageManager(appSettings, repository, searchManager, historyManager, userContext, listCache, pageSummaryCache);
+			PageManager pageManager = new PageManager(appSettings, repository, searchManager, historyManager, userContext, listCache, pageSummaryCache, siteCache);
 
 			// WikiController
 			SettingsManager settingsManager = new SettingsManager(appSettings, repository);
