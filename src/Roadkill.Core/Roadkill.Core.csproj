@@ -428,6 +428,7 @@
     <Compile Include="MVC\Controllers\InstallController.cs" />
     <Compile Include="MVC\Controllers\WikiController.cs" />
     <Compile Include="MVC\Controllers\HelpController.cs" />
+    <Compile Include="Plugins\Text\BuiltIn\ImagesInNewWindow.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ResizeImages.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ExternalLinksInNewWindow.cs" />
     <Compile Include="Plugins\Text\BuiltIn\MathJax.cs" />

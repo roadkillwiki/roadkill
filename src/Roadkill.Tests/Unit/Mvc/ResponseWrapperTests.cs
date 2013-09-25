@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web;
+using Moq;
 using NUnit.Framework;
 using Roadkill.Core.Attachments;
 
@@ -37,6 +40,24 @@ namespace Roadkill.Tests.Unit.Mvc
 
 			// Assert
 			Assert.That(status, Is.EqualTo(304));
+		}
+
+		[Test]
+		public void BinaryWrite_Should_Add_Content_Type()
+		{
+			// Arrange
+			Mock<HttpResponseBase> responseMock = new Mock<HttpResponseBase>();
+			responseMock.SetupAllProperties();
+			
+			HttpResponseBase response = responseMock.Object;
+			ResponseWrapper wrapper = new ResponseWrapper(response);
+			wrapper.ContentType = "image/jpeg";
+
+			// Act
+			wrapper.BinaryWrite(new byte[] { });
+
+			// Assert
+			Assert.That(response.ContentType, Is.EqualTo("image/jpeg"));
 		}
 	}
 }

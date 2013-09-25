@@ -10,13 +10,13 @@ using Roadkill.Core.Database;
 
 namespace Roadkill.Core.Plugins.BuiltIn
 {
-	public class ExternalLinksInNewWindow : TextPlugin
+	public class ImagesInNewWindow : TextPlugin
 	{
 		public override string Id
 		{
 			get 
 			{ 
-				return "ExternalLinksInNewWindow";	
+				return "ImagesInNewWindow";	
 			}
 		}
 
@@ -24,7 +24,7 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		{
 			get
 			{
-				return "ExternalLinksInNewWindow page";
+				return "ImagesInNewWindow name";
 			}
 		}
 
@@ -32,7 +32,7 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		{
 			get
 			{
-				return "ExternalLinksInNewWindow";
+				return "ImagesInNewWindow";
 			}
 		}
 
@@ -45,14 +45,14 @@ namespace Roadkill.Core.Plugins.BuiltIn
 			}
 		}
 
-		public ExternalLinksInNewWindow(ApplicationSettings applicationSettings, IRepository repository)
+		public ImagesInNewWindow(ApplicationSettings applicationSettings, IRepository repository)
 			: base(applicationSettings, repository)
 		{
 		}
 
 		public override string GetHeadContent()
 		{
-			AddScriptWithHeadJS("externallinksinnewwindow.js");
+			AddScriptWithHeadJS("imagesinnewwindow.js");
 			return GetScriptHtmlWithHeadJS();
 		}
 	}

@@ -78,10 +78,10 @@ namespace Roadkill.Core.Attachments
 			ExtensionMap.Add(".ivf", "video/x-ivf");
 			ExtensionMap.Add(".ins", "application/x-internet-signup");
 			ExtensionMap.Add(".ico", "image/x-icon");
-			ExtensionMap.Add(".jpg", "image/jpeg");
 			ExtensionMap.Add(".jfif", "image/pjpeg");
 			ExtensionMap.Add(".jpe", "image/jpeg");
 			ExtensionMap.Add(".jpeg", "image/jpeg");
+			ExtensionMap.Add(".jpg", "image/jpeg");
 			ExtensionMap.Add(".js", "application/x-javascript");
 			ExtensionMap.Add(".lsx", "video/x-la-asf");
 			ExtensionMap.Add(".latex", "application/x-latex");
