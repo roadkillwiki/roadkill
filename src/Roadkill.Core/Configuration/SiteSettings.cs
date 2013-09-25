@@ -18,6 +18,7 @@ namespace Roadkill.Core.Configuration
 	{
 		internal static readonly Guid SiteSettingsId = new Guid("b960e8e5-529f-4f7c-aee4-28eb23e13dbd");
 		private string _allowedFileTypes;
+		private string _menuMarkup;
 
 		#region Version 1.7
 		/// <summary>
@@ -123,7 +124,22 @@ namespace Roadkill.Core.Configuration
 		/// <summary>
 		/// The left menu markup which is parsed and rendered.
 		/// </summary>
-		public string MenuMarkup { get; set; }
+		public string MenuMarkup
+		{
+			get
+			{
+				// If there's no menu markup (from an upgrade) default it.
+				// Empty markup is valid, but null isn't.
+				if (_menuMarkup == null)
+					_menuMarkup = GetDefaultMenuMarkup();
+
+				return _menuMarkup;
+			}
+			set
+			{
+				_menuMarkup = value;
+			}
+		}
 		#endregion
 
 		public SiteSettings()
@@ -142,17 +158,22 @@ namespace Roadkill.Core.Configuration
 			// v1.8
 			OverwriteExistingFiles = false;
 			HeadContent = "";
-			MenuMarkup = "* %mainpage%\r\n" +
-						 "* %categories%\r\n" +
-						 "* %allpages%\r\n" +
-						 "* %newpage%\r\n" +
-						 "* %managefiles%\r\n" +
-						 "* %sitesettings%\r\n\r\n";
+			MenuMarkup = GetDefaultMenuMarkup();
 		}
 
 		public string GetJson()
 		{
 			return JsonConvert.SerializeObject(this, Formatting.Indented);
+		}
+
+		internal string GetDefaultMenuMarkup()
+		{
+			return "* %mainpage%\r\n" +
+					"* %categories%\r\n" +
+					"* %allpages%\r\n" +
+					"* %newpage%\r\n" +
+					"* %managefiles%\r\n" +
+					"* %sitesettings%\r\n\r\n";
 		}
 
 		public static SiteSettings LoadFromJson(string json)
