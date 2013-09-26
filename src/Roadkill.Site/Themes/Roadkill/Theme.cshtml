@@ -1,0 +1,51 @@
+@inherits RoadkillLayoutPage
+<!DOCTYPE html>
+<html>
+<head>
+	<title>@ViewBag.Title</title>
+	@Html.Partial("HeadContent")
+	@RenderSection("PluginHead", false)
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+	<div class="wrapper">
+		<header>
+			<img src="@Url.ThemeContent("logo.png", SiteSettings)" width="262" height="100" />
+				@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+				{
+				<div id="search">
+					<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" />
+				</div>
+				}
+			@Html.Action("LeftMenu", "Home")
+		</header>
+		<section>
+			@if (Model is PageSummary)
+			{
+			<header id="pageheader">
+				<div style="float:left;">@RenderSection("PageToolbar", false)</div>
+				<div style="float:right;margin-top:10px;">@RenderSection("ViewHistoryLink", false)</div>
+			</header>
+			}
+			<div id="container">
+				<div id="lastmodified">
+					@RenderSection("PageDetailsFooter", false)
+				</div>
+				<div id="content">
+					@RenderBody()
+				</div>
+			</div>
+		</section>
+		<footer>
+			<div>@Html.Action("LoggedInAs", "User")</div><br /><br />
+			<div style="font-size:xx-small">@SiteStrings.Shared_PoweredBy (@ApplicationSettings.ProductVersion).</div>
+		</footer>
+		@RenderSection("PluginFooter", false)
+	</div>
+</body>
+</html>
+

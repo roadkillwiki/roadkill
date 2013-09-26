@@ -1,0 +1,12 @@
+﻿@* The bool for the Model indicates whether to show the watermark or not *@
+@model bool
+<div id="path-navigator">
+    <ul class="navigator"></ul>
+</div>
+<br class="clear" />
+<div id="folder-container"></div>
+
+@if (Model)
+{
+	<p class="folder-watermark">Drag files here to upload. Double click to navigate folders</p>
+}
