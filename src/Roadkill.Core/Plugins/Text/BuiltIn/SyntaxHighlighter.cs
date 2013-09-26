@@ -102,11 +102,11 @@ namespace Roadkill.Core.Plugins.BuiltIn
 
 			foreach (string file in HeadContent.JsFiles)
 			{
-				AddScript("javascript/" + file);
+				AddScriptWithHeadJS("javascript/" + file);
 			}
 
 			AddOnLoadedFunction("SyntaxHighlighter.all()");
-			html += GetScriptHtml();
+			html += GetScriptHtmlWithHeadJS();
 
 			return html;
 		}

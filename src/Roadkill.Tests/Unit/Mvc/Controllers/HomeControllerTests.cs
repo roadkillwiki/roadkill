@@ -23,7 +23,7 @@ namespace Roadkill.Tests.Unit
 	[Category("Unit")]
 	public class HomeControllerTests
 	{
-		private ApplicationSettings _settings;
+		private ApplicationSettings _applicationSettings;
 		private IUserContext _context;
 		private RepositoryMock _repository;
 
@@ -37,32 +37,33 @@ namespace Roadkill.Tests.Unit
 		public void Init()
 		{
 			_context = new Mock<IUserContext>().Object;
-			_settings = new ApplicationSettings();
-			_settings.Installed = true;
-			_settings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
+			_applicationSettings = new ApplicationSettings();
+			_applicationSettings.Installed = true;
+			_applicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
 
 			// Cache
-			ListCache listCache = new ListCache(_settings, MemoryCache.Default);
-			PageSummaryCache pageSummaryCache = new PageSummaryCache(_settings, MemoryCache.Default);
+			ListCache listCache = new ListCache(_applicationSettings, MemoryCache.Default);
+			SiteCache siteCache = new SiteCache(_applicationSettings, MemoryCache.Default);
+			PageSummaryCache pageSummaryCache = new PageSummaryCache(_applicationSettings, MemoryCache.Default);
 
 			// Dependencies for PageManager
 			Mock<SearchManager> searchMock = new Mock<SearchManager>();
 
 			_repository = new RepositoryMock();
-			_settingsManager = new SettingsManager(_settings, _repository);
-			_userManager = new Mock<UserManagerBase>(_settings, null).Object;
-			_searchManager = new SearchManagerMock(_settings, _repository);
+			_settingsManager = new SettingsManager(_applicationSettings, _repository);
+			_userManager = new Mock<UserManagerBase>(_applicationSettings, null).Object;
+			_searchManager = new SearchManagerMock(_applicationSettings, _repository);
 			_searchManager.PageContents = _repository.PageContents;
 			_searchManager.Pages = _repository.Pages;
-			_historyManager = new HistoryManager(_settings, _repository, _context, pageSummaryCache);
-			_pageManager = new PageManager(_settings, _repository, _searchManager, _historyManager, _context, listCache, pageSummaryCache);
+			_historyManager = new HistoryManager(_applicationSettings, _repository, _context, pageSummaryCache);
+			_pageManager = new PageManager(_applicationSettings, _repository, _searchManager, _historyManager, _context, listCache, pageSummaryCache, siteCache);
 		}
 
 		[Test]
 		public void Index_Should_Return_Default_Message_When_No_Homepage_Tag_Exists()
 		{
 			// Arrange
-			HomeController homeController = new HomeController(_settings, _userManager, new MarkupConverter(_settings, _repository), _pageManager, _searchManager, _context, _settingsManager);
+			HomeController homeController = new HomeController(_applicationSettings, _userManager, new MarkupConverter(_applicationSettings, _repository), _pageManager, _searchManager, _context, _settingsManager);
 			homeController.SetFakeControllerContext();
 
 			// Act
@@ -81,7 +82,7 @@ namespace Roadkill.Tests.Unit
 		public void Index_Should_Return_Homepage_When_Tag_Exists()
 		{
 			// Arrange
-			HomeController homeController = new HomeController(_settings, _userManager, new MarkupConverter(_settings, _repository), _pageManager, _searchManager, _context, _settingsManager);
+			HomeController homeController = new HomeController(_applicationSettings, _userManager, new MarkupConverter(_applicationSettings, _repository), _pageManager, _searchManager, _context, _settingsManager);
 			homeController.SetFakeControllerContext();
 			Page page1 = new Page() 
 			{ 
@@ -114,7 +115,7 @@ namespace Roadkill.Tests.Unit
 		public void Search_Should_Return_Some_Results_With_Unicode_Content()
 		{
 			// Arrange
-			HomeController homeController = new HomeController(_settings, _userManager, new MarkupConverter(_settings, _repository), _pageManager, _searchManager, _context, _settingsManager);
+			HomeController homeController = new HomeController(_applicationSettings, _userManager, new MarkupConverter(_applicationSettings, _repository), _pageManager, _searchManager, _context, _settingsManager);
 			homeController.SetFakeControllerContext();
 			Page page1 = new Page()
 			{
