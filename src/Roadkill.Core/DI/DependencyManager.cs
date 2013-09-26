@@ -134,6 +134,7 @@ namespace Roadkill.Core
 			// Cache
 			x.For<ObjectCache>().Use(new MemoryCache("Roadkill"));
 			x.For<ListCache>().Singleton();
+			x.For<SiteCache>().Singleton();
 			x.For<PageSummaryCache>().Singleton();
 		}
 

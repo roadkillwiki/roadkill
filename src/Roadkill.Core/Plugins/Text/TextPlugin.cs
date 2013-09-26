@@ -140,7 +140,7 @@ namespace Roadkill.Core.Plugins
 		/// <summary>
 		/// Gets the HTML for a javascript link for the plugin, assuming the javascript is stored in the /Plugins/ID/ folder.
 		/// </summary>
-		public string GetScriptHtml()
+		public string GetScriptHtmlWithHeadJS()
 		{
 			string headScript = "<script type=\"text/javascript\">";
 			headScript += "head.js(";
@@ -156,7 +156,7 @@ namespace Roadkill.Core.Plugins
 			_onLoadFunction = functionBody;
 		}
 
-		public void AddScript(string filename, string name = "")
+		public void AddScriptWithHeadJS(string filename, string name = "")
 		{
 			string fileLink = "{ \"[name]\", \"[filename]\" }";
 			if (string.IsNullOrEmpty(name))

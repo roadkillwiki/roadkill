@@ -29,10 +29,12 @@ namespace Roadkill.Core.Mvc.Controllers
 		private ScrewTurnImporter _importer;
 		private ListCache _listCache;
 		private PageSummaryCache _pageSummaryCache;
+		private SiteCache _siteCache;
 
 		public SettingsController(ApplicationSettings settings, UserManagerBase userManager,
 			SettingsManager settingsManager, PageManager pageManager, SearchManager searchManager, IUserContext context,
-			ListCache listCache, PageSummaryCache pageSummaryCache, SettingsManager siteSettingsManager, ScrewTurnImporter screwTurnImporter)
+			ListCache listCache, PageSummaryCache pageSummaryCache, SiteCache siteCache,
+			SettingsManager siteSettingsManager, ScrewTurnImporter screwTurnImporter)
 			: base(settings, userManager, context, siteSettingsManager) 
 		{
 			_settingsManager = settingsManager;
@@ -40,6 +42,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			_searchManager = searchManager;
 			_listCache = listCache;
 			_pageSummaryCache = pageSummaryCache;
+			_siteCache = siteCache;
 		}
 
 		/// <summary>
@@ -72,7 +75,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				configReader.Save(summary);
 			
 				_settingsManager.SaveSiteSettings(summary);
-				_listCache.RemoveMenuCacheItems();
+				_siteCache.RemoveMenuCacheItems();
 
 				// Refresh the AttachmentsDirectoryPath using the absolute attachments path, as it's calculated in the constructor
 				ApplicationSettings appSettings = configReader.GetApplicationSettings();

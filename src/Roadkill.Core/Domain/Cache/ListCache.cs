@@ -21,31 +21,6 @@ namespace Roadkill.Core.Cache
 			_cache = cache;
 		}
 
-		// These menu methods should probably live in their own separate cache, or refactor this cache to
-		// be a generalised cache.
-
-		public void AddMenu(string html)
-		{
-			_cache.Add(CacheKeys.MENU, html, new CacheItemPolicy());
-		}
-
-		public void AddLoggedInMenu(string html)
-		{
-			_cache.Add(CacheKeys.LOGGEDINMENU, html, new CacheItemPolicy());
-		}
-
-		public void AddAdminMenu(string html)
-		{
-			_cache.Add(CacheKeys.ADMINMENU, html, new CacheItemPolicy());
-		}
-
-		public void RemoveMenuCacheItems()
-		{
-			_cache.Remove(CacheKeys.MENU);
-			_cache.Remove(CacheKeys.LOGGEDINMENU);
-			_cache.Remove(CacheKeys.ADMINMENU);
-		}
-
 		public void Add<T>(string key, IEnumerable<T> items)
 		{
 			if (!_applicationSettings.UseObjectCache)
@@ -59,21 +34,6 @@ namespace Roadkill.Core.Cache
 		{
 			Log.Information("ListCache: Retrieved {0} from cache", key);
 			return _cache.Get(key) as List<T>;
-		}
-
-		public string GetMenu()
-		{
-			return _cache.Get(CacheKeys.MENU) as string;
-		}
-
-		public string GetLoggedInMenu()
-		{
-			return _cache.Get(CacheKeys.LOGGEDINMENU) as string;
-		}
-
-		public string GetAdminMenu()
-		{
-			return _cache.Get(CacheKeys.ADMINMENU) as string;
 		}
 
 		public void Remove(string key)

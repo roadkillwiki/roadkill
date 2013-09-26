@@ -36,7 +36,7 @@ namespace Roadkill.Core.Attachments
 		/// <param name="context"></param>
 		public void ProcessRequest(HttpContext context)
 		{
-			ResponseWrapper wrapper = new ResponseWrapper(context.Response);
+			ResponseWrapper wrapper = new ResponseWrapper(new HttpResponseWrapper(context.Response));
 
 			WriteResponse(context.Request.Url.LocalPath, 
 							context.Request.ApplicationPath, 

@@ -144,7 +144,7 @@ namespace Roadkill.Tests.Unit
 			// v1.8
 			Assert.That(settings.OverwriteExistingFiles, Is.EqualTo(false));
 			Assert.That(settings.HeadContent, Is.EqualTo(""));
-			Assert.That(settings.MenuMarkup, Is.EqualTo("* %mainpage%\r\n* %categories%\r\n* %allpages%\r\n* %newpage%\r\n* %managefiles%\r\n* %sitesettings%\r\n\r\n"));
+			Assert.That(settings.MenuMarkup, Is.EqualTo(settings.GetDefaultMenuMarkup()));
 		}
 
 		[Test]
@@ -173,7 +173,30 @@ namespace Roadkill.Tests.Unit
 			// 1.8
 			Assert.That(settings.OverwriteExistingFiles, Is.EqualTo(false));
 			Assert.That(settings.HeadContent, Is.EqualTo(""));
-			Assert.That(settings.MenuMarkup, Is.EqualTo("* %mainpage%\r\n* %categories%\r\n* %allpages%\r\n* %newpage%\r\n* %managefiles%\r\n* %sitesettings%\r\n\r\n"));
+			Assert.That(settings.MenuMarkup, Is.EqualTo(settings.GetDefaultMenuMarkup()));
+		}
+
+		[Test]
+		public void Deserialize_Should_Have_Default_MenuMarkup_When_Json_Value_Is_Null()
+		{
+			// Arrange
+			string json = @"{
+							  ""AllowedFileTypes"": ""pdf, swf, avi"",
+							  ""AllowUserSignup"": true,
+							  ""IsRecaptchaEnabled"": true,
+							  ""MarkupType"": ""Markdown"",
+							  ""RecaptchaPrivateKey"": ""captchaprivatekey"",
+							  ""RecaptchaPublicKey"": ""captchapublickey"",
+							  ""SiteUrl"": ""http://siteurl"",
+							  ""SiteName"": ""my sitename"",
+							  ""Theme"": ""Mytheme"",
+							}";
+
+			// Act
+			SiteSettings settings = SiteSettings.LoadFromJson(json);
+
+			// Assert
+			Assert.That(settings.MenuMarkup, Is.EqualTo(settings.GetDefaultMenuMarkup()));
 		}
 
 		[Test]
@@ -236,7 +259,7 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(settings.OverwriteExistingFiles, Is.EqualTo(false));
 			Assert.That(settings.HeadContent, Is.Empty);
-			Assert.That(settings.MenuMarkup, Is.EqualTo("* %mainpage%\r\n* %categories%\r\n* %allpages%\r\n* %newpage%\r\n* %managefiles%\r\n* %sitesettings%\r\n\r\n"));
+			Assert.That(settings.MenuMarkup, Is.EqualTo(settings.GetDefaultMenuMarkup()));
 		}
 	}
 }

@@ -40,10 +40,10 @@ namespace Roadkill.Tests.Unit
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.Installed = true;
 			CacheMock cache = new CacheMock();
-			ListCache listCache = new ListCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(applicationSettings, cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository);
-			MenuParser parser = new MenuParser(converter, repository, listCache, userContext);
+			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
 
 			// Act
 			string actualHtml = parser.GetMenu();
@@ -74,10 +74,10 @@ namespace Roadkill.Tests.Unit
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.Installed = true;
 			CacheMock cache = new CacheMock();
-			ListCache listCache = new ListCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(applicationSettings, cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository);
-			MenuParser parser = new MenuParser(converter, repository, listCache, userContext);
+			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
 
 			// Act
 			string actualHtml = parser.GetMenu();
@@ -106,10 +106,10 @@ namespace Roadkill.Tests.Unit
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.Installed = true;
 			CacheMock cache = new CacheMock();
-			ListCache listCache = new ListCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(applicationSettings, cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository);
-			MenuParser parser = new MenuParser(converter, repository, listCache, userContext);
+			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
 
 			// Act
 			string actualHtml = parser.GetMenu();
@@ -137,10 +137,10 @@ namespace Roadkill.Tests.Unit
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.Installed = true;
 			CacheMock cache = new CacheMock();
-			ListCache listCache = new ListCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(applicationSettings, cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository);
-			MenuParser parser = new MenuParser(converter, repository, listCache, userContext);
+			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
 
 			// Act
 			string actualHtml = parser.GetMenu();
@@ -165,10 +165,10 @@ namespace Roadkill.Tests.Unit
 			applicationSettings.Installed = true;
 
 			CacheMock cache = new CacheMock();
-			ListCache listCache = new ListCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(applicationSettings, cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository);
-			MenuParser parser = new MenuParser(converter, repository, listCache, userContext);
+			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
 
 			// Act
 			userContext.IsLoggedIn = false;
@@ -203,10 +203,10 @@ namespace Roadkill.Tests.Unit
 			applicationSettings.Installed = true;
 
 			CacheMock cache = new CacheMock();
-			ListCache listCache = new ListCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(applicationSettings, cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository);
-			MenuParser parser = new MenuParser(converter, repository, listCache, userContext);
+			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
 
 			// Act
 			userContext.IsLoggedIn = false;
@@ -244,10 +244,10 @@ namespace Roadkill.Tests.Unit
 			applicationSettings.Installed = true;
 
 			CacheMock cache = new CacheMock();
-			ListCache listCache = new ListCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(applicationSettings, cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository);
-			MenuParser parser = new MenuParser(converter, repository, listCache, userContext);
+			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
 
 			// Act
 			string actualHtml = parser.GetMenu();
@@ -275,10 +275,10 @@ namespace Roadkill.Tests.Unit
 			applicationSettings.Installed = true;
 
 			CacheMock cache = new CacheMock();
-			ListCache listCache = new ListCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(applicationSettings, cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository);
-			MenuParser parser = new MenuParser(converter, repository, listCache, userContext);
+			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
 
 			// Act
 			string actualHtml = parser.GetMenu();

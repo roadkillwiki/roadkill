@@ -56,6 +56,7 @@ namespace Roadkill.Tests.Unit
 			// Cache
 			ListCache listCache = new ListCache(_applicationSettings, MemoryCache.Default);
 			PageSummaryCache pageSummaryCache = new PageSummaryCache(_applicationSettings, MemoryCache.Default);
+			SiteCache siteCache = new SiteCache(_applicationSettings, MemoryCache.Default);
 
 			// Managers needed by the PageManager
 			_markupConverter = new MarkupConverter(_applicationSettings, _repositoryMock);
@@ -83,7 +84,7 @@ namespace Roadkill.Tests.Unit
 			DependencyManager iocSetup = new DependencyManager(_applicationSettings, _repositoryMock, _context);
 			iocSetup.Configure();
 
-			_pageManager = new PageManager(_applicationSettings, _repositoryMock, _mockSearchManager.Object, _historyManager, _context, listCache, pageSummaryCache);
+			_pageManager = new PageManager(_applicationSettings, _repositoryMock, _mockSearchManager.Object, _historyManager, _context, listCache, pageSummaryCache, siteCache);
 		}
 
 		public PageSummary AddToStubbedRepository(int id, string createdBy, string title, string tags, string textContent = "")
