@@ -1,0 +1,174 @@
+﻿/* 
+This contains the shared Roadkill CSS definitions, used on all pages.
+
+The formatting style of this CSS file is:
+	* Single line definitions.
+	* Tab aligned, grouped definitions.
+	* Space before + after curlies. 
+	* No space after ":". 
+*/
+
+/* General classes */
+.biggest		{ font-size:1.5em; }
+.bigger			{ font-size:1.2em; }
+.big			{ font-size:1.1em; }
+.bold			{ font-weight:bold; }
+.blueborder		{ border:1px solid #032451; }
+.borderbottom	{ border-bottom:1px solid #032451; }
+.clear			{ clear:both; }
+.center			{ display:block;margin-left:auto; margin-right:auto; }
+.dimmed			{ opacity:0.5; }
+.hidden			{ display:none; }
+.italic			{ font-style:italic; }
+.left			{ float:left; }
+.lightborder	{ border:1px solid #e3e2e2; }
+.longtextbox	{ width: 60%; }
+.midpadded		{ padding:5px; }
+.missing-page-link	{ color:#BA0000; }
+.default-header		{ border-bottom: none !important; }
+.padded			{ padding:10px; }
+.right			{ float:right; }
+.rounded		{ border-radius:2px; }
+.rounded5		{ border-radius:5px; }
+.rounded10		{ border-radius:10px; }
+.small			{ font-size:0.9em; }
+.smaller		{ font-size:0.8em; }
+.smallest		{ font-size:0.7em; }
+.jqConfirm		{ font-weight:bold !important; }
+
+/* Glyph for external links */
+a.external-link	{ background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAVklEQVR4Xn3PgQkAMQhDUXfqTu7kTtkpd5RA8AInfArtQ2iRXFWT2QedAfttj2FsPIOE1eCOlEuoWWjgzYaB/IkeGOrxXhqB+uA9Bfcm0lAZuh+YIeAD+cAqSz4kCMUAAAAASUVORK5CYII=) center right no-repeat;padding-right:13px; }
+
+/* Page information dialog */
+#pageinformation .tags		{  }
+#pageinformation .tagblock	{ border:1px solid #c2c2c2;background-color:#dcdcdc;margin-right:3px;padding:5px;border-radius: 4px; }
+#pageinformation .tags a	{ color:#000 !important; }
+#pageinformation .tags a:hover	{ color:#7c7c7c !important; }
+
+/* Login,profile,reset password pages */
+#profile		{ background-color:#fbfafa;width:35em;padding:1em; }
+#login			{ background-color:#fbfafa;width:25em;padding:1em; }
+#resetpassword	{ background-color:#fbfafa;width:30em;padding:1em; }
+.userlabel		{ float:left;margin:0 5px 0 0;padding:5px 0 0 0; }
+.usertextbox	{ float:right;width:15em;display:block; padding:0.25em; margin:0 0 10px 0;color:#3A3A3A; }
+#userbutton		{ float:right; }
+
+/* Search result page */
+.searchresult			{}
+.searchresult-title		{ color:Black; }
+.searchresult-summary	{ font-size:95%; }
+.searchresult-date		{ color:green;font-size:97%; }
+.searchresult-tags span	{ margin-left:5px; }
+.searchresult-tags span a	{ color:#4e6fa3 !important;text-decoration:none; }
+.searchresult-tags span a:hover	{ color:#000 !important;text-decoration:underline; }
+.searchbox				{ width:20em; margin-right:10px; }
+
+/* History table */
+#historytable .version	{ width:10%; }
+#historytable .editedon	{ width:20%; }
+#historytable .editedby	{ width:60%; }
+#historytable .revert	{ text-align:right; }
+
+/* All tags(categories) page */
+#tagcloud		{ margin:0px;padding:2px;line-height:3em;border:1px solid #e3e2e2;padding:10px; }
+#tagcloud li	{ display:inline; }
+#tagcloud a		{ padding:0px;padding:10px; }
+.tagblock a		{ text-decoration:none;color:#FFFFFF; }
+.tagblock a:hover { text-decoration:none;color:#AAA; }
+.tagcloud1		{ font-size:1em; }
+.tagcloud2		{ font-size:1.2em; }
+.tagcloud3		{ font-size:1.3em; }
+.tagcloud4		{ font-size:1.5em; }
+.tagcloud5		{ font-size:2em; }
+
+/* Table of contents {TOC} */
+.toc			{ border:1px solid #AAA; background-color:#F9F9F9; padding:5px 0px;display:table;margin-bottom:15px; }
+.toc-title		{ font-weight:bold;text-align:center;min-width:100px; }
+.toc-showhide	{ font-weight:normal;font-size:0.8em; }
+.toc ul			{ list-style-type:none;padding:2px 5px;margin: 0px 0px 0px 1em;line-height:1.5em; }
+.toc-list>ul	{ margin:0px; }
+
+/* Left side menu */
+ul.mainmenu		 { list-style-type:none; padding-left:0px; }
+ul.mainmenu li	 { float:left;padding-right:15px; }
+ul.mainmenu li a { font-weight:bold; }
+ul.mainmenu li a:hover { text-decoration:underline; }
+
+/* Wiki page tables (see http://en.wikipedia.org/wiki/Help:Table) */
+.wikitable			{ margin: 1em 0; background-color: #f9f9f9; border: 1px #aaa solid;border-collapse: collapse; color: black; }
+.wikitable tr>th	{ background-color: #f2f2f2;text-align: center;border: 1px #aaa solid;padding: 0.2em; }
+.wikitable tr>td	{ border: 1px #aaa solid;padding: 0.2em;}
+.table .stretch		{ width:99%; }
+
+/* Edit page [editors] */
+#editpage					{ width:700px; }
+#editpage label				{ float:left;width:50px;padding:5px 5px 0 0;font-weight:bold; }
+#editpage .lockpage			{ margin-left:50px; }
+#editpage .lockpage input	{ margin-top:0px; }
+#TagsEntry					{ width:100px; }
+.tm-tag						{ margin-bottom: 10px; } /* minor adjustment for tag manager alignment */
+#editpage textarea			{ width:100%;height:300px; }
+#editpage .buttonContainer	{ float:right;padding-top:10px;text-align:right; }
+#wysiwyg-toolbar			{ padding-bottom: 5px; }
+
+/* The preview dialog is resized to fit the window width/height in the Dialogs javascript file */
+#previewLoading		{ display:none; }
+#previewContainer	{ display:none;background-color:#FFF;height:500px;width:800px;overflow:hidden;margin:50px;top:0;left:0; }
+#previewContainer .modal-header h3 { border:0px; }
+#preview			{ padding:10px;border:1px solid #d3d2d2;overflow:scroll;color:#000;min-height:91%; }
+
+#filechooser-iframe  { width:100%; height:100%; }
+#choose-image-dialog { width: 750px; height: 400px;}
+#choose-image-dialog .modal-body, 
+	#choose-image-dialog .modal-body-container { width:720px; max-width:720px; height:300px; max-height: 300px; }
+#choose-image-dialog iframe { border: 1px solid #AAA; }
+
+/* Help iFrame for edit page [editors] */
+#markup-help-dialog { width: 650px; height: 400px;}
+#markup-help-dialog .modal-body, 
+	#markup-help-dialog .modal-body-container { width:620px; max-width:620px; height: 300px; max-height: 300px; }
+#markup-help-dialog iframe { border: 1px solid #AAA; }
+
+#help-iframe	{ width:100%; height:100%; }
+#helptable		{ padding:5px; width:99%;font:normal 11px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;background:#E6EAE9; }
+#helptable th	{ text-align:left;font-size:13px;padding:5px; }
+#helptable td	{ border-right:1px solid #C1DAD7;border-bottom:1px solid #C1DAD7;background:#fff;padding:6px 6px 6px 12px;color:#4f6b72;vertical-align:top; }
+
+/* Tools/config page [admins] */
+.test-button	{ margin-bottom:15px !important; }
+#configuration-container legend		{ font-size:2em; font-weight:bold; }
+#configuration-container fieldset	{ padding-bottom:10px; }
+#settings-container p		{ padding-top: 10px; }
+#HeadContent,#MenuMarkup	{ width:400px;height:100px; }
+
+/* Users page [admins] */
+#userform	{ padding:0px; margin:0px; }
+
+/* File Manager  [editors] */
+ul.navigator			{ list-style-type: none; padding-left: 0px;margin:0px !important; }
+ul.navigator li			{ margin-right:2px; float:left;padding:5px; height: 20px; border: 1px solid lightskyblue; border-radius:5px; }
+ul.navigator li a		{ font-weight:bold; }
+ul.navigator li a:hover	{ text-decoration:underline; }
+
+#folder-container		{ background-color:White; border:1px solid lightskyblue; height:300px; width:auto; margin-top:5px; margin-bottom:5px; padding:5px; overflow:auto; }
+table#files				{ width:100%;border-collapse:collapse; }
+table#files thead tr	{ background-color:whitesmoke; }
+table#files thead tr th { text-align:left; }
+table#files tr.focus	{ background-color: aliceblue; }
+table#files tr.select	{ background-color: azure; font-weight:bold;  border:1px solid lightskyblue; }
+table#files tr.listrow	{ cursor:pointer; }
+.newfolder-icon			{ width:1%; }
+#files img				{ max-width: 16px; } /* fix for Bootstrap in Chrome making images too small*/
+
+.folder-watermark		{ text-align:right; position: absolute; margin-top: -50px; margin-left: 250px; opacity: 0.09; font-size: 2em; z-index: 1000; }
+#newfolderinput			{ width: 150px; }
+
+#progress				{ display:none; }
+#progress-message		{ position:absolute;font-weight:bold;margin-left:5px; }
+ 
+#image-preview			{ position:absolute;border:1px solid #ccc;background:#fff;padding:5px;display:none;color:#000; }
+#image-preview img		{ height:60px; width:80px; }
+
+.fileupload-button			{ float: left; position: relative; cursor: pointer; overflow: hidden; margin-right:5px; padding: 3px 10px; text-align: center; font-weight:bold; }
+.fileupload-buttonbar input { cursor: pointer; direction: ltr; margin: 0; opacity: 0; position: absolute; right: 0; top: 0;    filter: alpha(opacity=0); -o-transform: translate(250px, -50px) scale(1); -moz-transform: translate(-300px, 0) scale(4); transform: translate(-300px, 0px) scale(4); }
+span.fileupload-button span { padding: 4px; }

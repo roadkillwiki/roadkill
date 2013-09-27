@@ -1,0 +1,44 @@
+﻿@using Roadkill.Core.Configuration;
+@model IList<IEnumerable<UserSummary>>
+@{ 
+	ViewBag.Title = SiteStrings.SiteSettings_Users_Title;
+	ViewData["UsersActive"] = true;
+}
+
+@Html.Partial("SettingsMenu")
+
+<div>
+	<p class="label label-info">
+		@SiteStrings.SiteSettings_Users_AD_Title
+	</p>
+
+	<p>
+		@SiteStrings.SiteSettings_Users_AD_Label1
+	</p>
+	
+	<p>
+		@SiteStrings.SiteSettings_Users_AD_Label2
+	</p>
+	
+	<h2>@SiteStrings.SiteSettings_Users_Admins (using group '@ApplicationSettings.AdminRoleName')</h2>
+	<table class="table table-striped">
+		@foreach (UserSummary user in Model[0])
+		{
+		<tr>
+			<td class="title">@user.ExistingEmail</td>
+		</tr>
+		}
+	</table>
+	<br class="clear" />
+
+	<h2>@SiteStrings.SiteSettings_Users_Editors (using group '@ApplicationSettings.EditorRoleName')</h2>
+	<table class="table table-striped">
+	@foreach (UserSummary user in Model[1])
+	{
+		<tr>
+			<td class="title">@user.ExistingEmail</td>
+		</tr>
+	}
+	</table>
+	<br class="clear" />
+</div>
