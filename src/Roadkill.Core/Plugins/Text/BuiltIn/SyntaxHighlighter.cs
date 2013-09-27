@@ -16,6 +16,14 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		internal static readonly Regex _variableRegex = new Regex(_regexString, RegexOptions.Singleline | RegexOptions.Compiled);
 		internal static string _replacePattern = "<pre class=\"brush: ${lang}\">${code}</pre>";
 
+		public override bool IsEnabled
+		{
+			get
+			{
+				return false;
+			}
+		}
+
 		public override string Id
 		{
 			get 
