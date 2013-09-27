@@ -36,6 +36,7 @@ namespace Roadkill.Core.Plugins
 		public ApplicationSettings ApplicationSettings { get; set; }
 		public SiteSettings SiteSettings { get; set; }
 		public virtual bool IsCacheable { get; set; }
+		public virtual bool IsEnabled { get; set; }
 
 		/// <summary>
 		/// The virtual path for the plugin, e.g. ~/Plugins/Text/MyPlugin/. Does not contain a trailing slash.
