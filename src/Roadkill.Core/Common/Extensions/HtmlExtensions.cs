@@ -260,5 +260,29 @@ namespace Roadkill.Core
 		{
 			return helper.Partial(viewName, model);
 		}
+
+		/// <summary>
+		/// Creates a HTML string without the \r\n in them
+		/// </summary>
+		public static IHtmlString RawWithoutNewlines(this HtmlHelper helper, string value)
+		{
+			return new SingleLineHtmlString(value);
+		}
+	}
+
+	public class SingleLineHtmlString : IHtmlString
+	{
+		private string _value;
+
+		public SingleLineHtmlString(string value)
+		{
+			_value = value;
+		}
+
+		public string ToHtmlString()
+		{
+			string html = new HtmlString(_value).ToHtmlString();
+			return html.Replace("\r\n", "");
+		}
 	}
 }

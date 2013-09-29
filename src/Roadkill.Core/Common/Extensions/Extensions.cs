@@ -40,5 +40,33 @@ namespace Roadkill.Core
 			else
 				return Encoding.Default.GetString(Convert.FromBase64String(base64Text));
 		}
+
+		/// <summary>
+		/// Appends text with the number of tabs before the text.
+		/// </summary>
+		public static void Append(this StringBuilder builder, string value, int tabCount)
+		{
+			string tabs = "";
+			for (int i = 0; i < tabCount; i++)
+			{
+				tabs += "\t";
+			}
+
+			builder.Append(tabs + value);
+		}
+
+		/// <summary>
+		/// Appends a line with the number of tabs before the text.
+		/// </summary>
+		public static void AppendLine(this StringBuilder builder, string value, int tabCount)
+		{
+			string tabs = "";
+			for (int i = 0; i < tabCount; i++)
+			{
+				tabs += "\t";
+			}
+
+			builder.AppendLine(tabs + value);
+		}
 	}
 }
