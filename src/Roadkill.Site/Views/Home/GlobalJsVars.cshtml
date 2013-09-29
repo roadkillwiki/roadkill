@@ -1,5 +1,9 @@
-﻿@using Roadkill.Core.Converters;
+﻿@{
+	Layout = null;
+}
+@using Roadkill.Core.Converters;
 @using Roadkill.Core.Configuration;
+// @DateTime.UtcNow.ToString()
 var ROADKILL_CORESCRIPTPATH = "@Url.Content("~/Assets/Scripts/")";
 var ROADKILL_COREASSETPATH = "@Url.Content("~/Assets/")";
 var ROADKILL_THEMEPATH =  "@Url.Content(SiteSettings.ThemePath)/";
@@ -47,15 +51,12 @@ var ROADKILL_FILEMANAGER_DELETE_CONFIRM = "@SiteStrings.FileManager_Delete_Confi
 var ROADKILL_FILEMANAGER_DELETE_SUCCESS = "@SiteStrings.FileManager_Delete_Success";
 var ROADKILL_FILEMANAGER_DELETE_ERROR = "@SiteStrings.FileManager_Delete_Error";
 
-@if (RoadkillContext.IsAdmin)
-{
 // User management constants for the settings->user page
-@:var ROADKILL_ADDADMIN_FORMACTION = "@Url.Action("AddAdmin", "Settings")";
-@:var ROADKILL_ADDEDITOR_FORMACTION = "@Url.Action("AddEditor", "Settings")";
-@:var ROADKILL_EDITUSER_FORMACTION = "@Url.Action("EditUser", "Settings")";
+var ROADKILL_ADDADMIN_FORMACTION = "@Url.Action("AddAdmin", "Settings")";
+var ROADKILL_ADDEDITOR_FORMACTION = "@Url.Action("AddEditor", "Settings")";
+var ROADKILL_EDITUSER_FORMACTION = "@Url.Action("EditUser", "Settings")";
 
-@:var ROADKILL_LINK_CONFIRM = "@SiteStrings.Shared_ConfirmLink";
-@:var ROADKILL_ADDADMIN_TITLE = "@SiteStrings.SiteSettings_Users_AddAdminDialog_Title";
-@:var ROADKILL_ADDEDITOR_TITLE = "@SiteStrings.SiteSettings_Users_AddEditorDialog_Title";
-@:var ROADKILL_EDITUSER_TITLE = "@SiteStrings.SiteSettings_Users_EditUserDialog_Title";
-}
+var ROADKILL_LINK_CONFIRM = "@SiteStrings.Shared_ConfirmLink";
+var ROADKILL_ADDADMIN_TITLE = "@SiteStrings.SiteSettings_Users_AddAdminDialog_Title";
+var ROADKILL_ADDEDITOR_TITLE = "@SiteStrings.SiteSettings_Users_AddEditorDialog_Title";
+var ROADKILL_EDITUSER_TITLE = "@SiteStrings.SiteSettings_Users_EditUserDialog_Title";
