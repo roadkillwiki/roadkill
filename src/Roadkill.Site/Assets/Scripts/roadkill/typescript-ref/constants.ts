@@ -19,9 +19,7 @@ declare var ROADKILL_WIKIMARKUPHELP;
 
 // File manager constants
 declare var ROADKILL_FILEMANAGERURL;
-declare var ROADKILL_FILETREE_URL;
 declare var ROADKILL_FILESELECTURL;
-declare var ROADKILL_FILETREE_PATHNAME_URL;
 declare var ROADKILL_ATTACHMENTSPATH;
 
 // Tokens for the edit toolbar

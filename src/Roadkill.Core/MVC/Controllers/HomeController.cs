@@ -73,14 +73,12 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
-		/// Returns Javascript 'constants' for the site. If the user is logged in,  additional variables are returned that are used by the edit page.
+		/// Returns Javascript 'constants' for the site.
 		/// </summary>
 		/// <param name="version">This is sent by the views to ensure new versions of Roadkill have this JS file cleared from the cache.</param>
-		[OutputCache(Duration = 86400 * 28)]
+		[CacheContentType(Duration = 86400 * 30, ContentType = "application/javascript")] // 30 days
 		public ActionResult GlobalJsVars(string version)
 		{
-			// Cache for 28 days. Outputcache only works with views, not partials.
-			Response.ContentType = "text/javascript";
 			return View();
 		}
 

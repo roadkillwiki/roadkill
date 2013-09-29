@@ -350,6 +350,7 @@
     <Compile Include="Domain\Cache\SiteCache.cs" />
     <Compile Include="Domain\Security\FormsAuthenticationWrapper.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
+    <Compile Include="MVC\Attributes\CacheContentTypeAttribute.cs" />
     <Compile Include="MVC\Attributes\IControllerAttribute.cs" />
     <Compile Include="DI\MVC\MvcAttributeProvider.cs" />
     <Compile Include="DI\MVC\MvcDependencyResolver.cs" />
