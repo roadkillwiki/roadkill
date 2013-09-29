@@ -30,7 +30,7 @@ namespace Roadkill.Tests.Unit
 		public void HomeController_Routes_Are_Mapped()
 		{
 			"~/".ShouldMapTo<HomeController>(action => action.Index());
-			"~/home/globaljsvars".ShouldMapTo<HomeController>(action => action.GlobalJsVars());
+			"~/home/globaljsvars".ShouldMapTo<HomeController>(action => action.GlobalJsVars("notused"));
 			// Search isn't supported as it uses 'q' for its id parameter
 		}
 
