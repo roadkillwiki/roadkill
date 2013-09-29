@@ -1,0 +1,37 @@
+﻿<parameters>
+	<!-- Path for the install -->
+	<parameter name="Application Path" description="It is recommended that Roadkill be installed as a web site root. Leave this parameter empty." tags="iisapp">
+		<parameterValidation type="AllowEmpty" />
+		<parameterEntry type="ProviderPath" scope="iisapp" match="^roadkill" />
+	</parameter>
+
+	<!-- ACL for root (why?) -->
+	<parameter name="SetAclParameter1" description="Sets the permissions on the root site folder" defaultValue="{Application Path}" tags="Hidden">
+		<parameterEntry type="ProviderPath" scope="setAcl" match="^roadkill" />
+	</parameter>
+	
+	<!-- ACL for app_data folder (for database, logging) -->
+	<parameter name="SetAclParameter2" description="Sets the permissions on the app_data folder" defaultValue="{Application Path}/app_data" tags="Hidden">
+		<parameterEntry type="ProviderPath" scope="setAcl" match="^roadkill/app_data$" />
+	</parameter>
+
+	<!-- ACL for bin folder (for plugins) -->
+	<parameter name="SetAclParameter3" description="Sets the permissions on the bin folder" defaultValue="{Application Path}/bin" tags="Hidden">
+		<parameterEntry type="ProviderPath" scope="setAcl" match="^roadkill/bin$" />
+	</parameter>
+
+	<!-- ACL for the plugins folder -->
+	<parameter name="SetAclParameter4" description="Sets the permissions on the plugins folder" defaultValue="{Application Path}/plugins" tags="Hidden">
+		<parameterEntry type="ProviderPath" scope="setAcl" match="^roadkill/plugins" />
+	</parameter>
+
+	<!-- ACL for web.config -->
+	<parameter name="SetAclParameter5" description="Sets the permissions on the web.config file" defaultValue="{Application Path}/web.config" tags="Hidden">
+		<parameterEntry type="ProviderPath" scope="setAcl" match="^roadkill/web.config$" />
+	</parameter>
+	
+	<!-- ACL for roadkill.config -->
+	<parameter name="SetAclParameter6" description="Sets the permissions on the roadkill.config file" defaultValue="{Application Path}/web.config" tags="Hidden">
+		<parameterEntry type="ProviderPath" scope="setAcl" match="^roadkill/roadkill.config$" />
+	</parameter>
+</parameters>

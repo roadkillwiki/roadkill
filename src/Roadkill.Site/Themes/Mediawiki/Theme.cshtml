@@ -3,8 +3,6 @@
 <html>
 	<head>
 		<title>@ViewBag.Title</title>
-		@Html.Partial("HeadContent")
-		@RenderSection("PluginHead", false)
 	</head>
 <body>
 
@@ -45,5 +43,7 @@
 	</div>
 
 	@RenderSection("PluginFooter", false)
+	@Html.Partial("HeadContent")
+	@RenderSection("PluginHead", false)
 </body>
 </html>
