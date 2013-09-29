@@ -487,6 +487,7 @@
     <Content Include="Roadkill.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Assets\web.config" />
     <None Include="packages.config" />
     <Content Include="Plugins\Web.config" />
     <None Include="Properties\PublishProfiles\Mono.pubxml" />

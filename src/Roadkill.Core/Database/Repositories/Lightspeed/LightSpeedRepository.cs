@@ -61,6 +61,8 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			get
 			{
+				EnsureConectionString();
+
 				IUnitOfWork unitOfWork = ObjectFactory.GetInstance<IUnitOfWork>();
 				if (unitOfWork == null)
 					throw new DatabaseException("The IUnitOfWork for Lightspeed is null - has Startup() been called?", null);
@@ -549,6 +551,12 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			UnitOfWork.SaveChanges();
 			UnitOfWork.Dispose();
+		}
+
+		private void EnsureConectionString()
+		{
+			if (_applicationSettings.Installed && string.IsNullOrEmpty(_applicationSettings.ConnectionString))
+				throw new DatabaseException("The connection string is empty in the web.config file (and the roadkill.config's installed=true).", null);
 		}
 	}
 }
