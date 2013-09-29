@@ -5,9 +5,8 @@
 
 @section PluginHead
 {
-	<!-- Plugins -->
-	@MvcHtmlString.Create(Model.PluginHeadHtml)
-	<!-- End plugins -->
+		<!-- Plugins -->
+		@Html.Raw(Model.PluginHeadHtml)<!-- End plugins -->
 }
 
 @section PageToolbar
