@@ -223,7 +223,9 @@ namespace Roadkill.Core
 		/// </summary>
 		public static MvcHtmlString JsBundle(this UrlHelper helper)
 		{
-			return MvcHtmlString.Create(Scripts.Render("~/Assets/Scripts/" + RoadkillApplication.BundleJsFilename).ToHtmlString());
+			string html = Scripts.Render("~/Assets/Scripts/" + RoadkillApplication.BundleJsFilename).ToHtmlString();
+			html += ScriptLink(helper, "~/home/globaljsvars?version=" + ApplicationSettings.ProductVersion); 
+			return MvcHtmlString.Create(html);
 		}
 
 		/// <summary>

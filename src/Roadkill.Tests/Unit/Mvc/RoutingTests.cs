@@ -30,8 +30,14 @@ namespace Roadkill.Tests.Unit
 		public void HomeController_Routes_Are_Mapped()
 		{
 			"~/".ShouldMapTo<HomeController>(action => action.Index());
-			"~/home/globaljsvars".ShouldMapTo<HomeController>(action => action.GlobalJsVars("notused"));
-			// Search isn't supported as it uses 'q' for its id parameter
+
+			RouteData routeData = "~/home/globaljsvars".WithMethod(HttpVerbs.Get);
+			routeData.Values["version"] = "xyz";
+			routeData.ShouldMapTo<HomeController>(action => action.GlobalJsVars("xyz"));
+
+			routeData = "~/home/search".WithMethod(HttpVerbs.Get);
+			routeData.Values["q"] = "searchquery";
+			routeData.ShouldMapTo<HomeController>(action => action.Search("searchquery"));
 		}
 
 		[Test]
