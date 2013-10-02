@@ -368,6 +368,12 @@
     <Content Include="Integration\Import\screwturn3.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <TypeScriptCompile Include="Javascript\editpage-tests.ts" />
+    <Content Include="Javascript\editpage-tests.js">
+      <DependentUpon>editpage-tests.ts</DependentUpon>
+    </Content>
+    <Content Include="Javascript\qunit.d.ts" />
+    <Content Include="Scripts\typings\qunit\qunit.d.ts" />
     <Content Include="Unit\Attachments\afile.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
