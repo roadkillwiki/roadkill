@@ -369,8 +369,10 @@
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
     <Compile Include="MVC\Attributes\BrowserCacheAttribute.cs" />
+    <Compile Include="MVC\Controllers\PluginSettingsController.cs" />
     <Compile Include="MVC\ExtendedRazorViewEngine.cs" />
     <Compile Include="MVC\Controllers\FileManagerController.cs" />
+    <Compile Include="MVC\ViewModels\PluginSettingsSummary.cs" />
     <Compile Include="MVC\WebViewPages\RoadkillLayoutPage.cs" />
     <Compile Include="MVC\WebViewPages\RoadkillViewPage.cs" />
     <Compile Include="MVC\Controllers\UpgradeController.cs" />
@@ -429,6 +431,7 @@
     <Compile Include="MVC\Controllers\InstallController.cs" />
     <Compile Include="MVC\Controllers\WikiController.cs" />
     <Compile Include="MVC\Controllers\HelpController.cs" />
+    <Compile Include="Plugins\IPluginFactory.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ImagesInNewWindow.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ResizeImages.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ExternalLinksInNewWindow.cs" />

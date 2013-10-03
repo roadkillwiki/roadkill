@@ -22,6 +22,14 @@ namespace Roadkill.Tests.Unit.Cache
 	[Category("Unit")]
 	public class PageManagerCacheTests
 	{
+		private PluginFactoryMock _pluginFactory;
+
+		[SetUp]
+		public void Setup()
+		{
+			_pluginFactory = new PluginFactoryMock();
+		}
+
 		[Test]
 		public void GetById_Should_Add_To_Cache_When_PageSummary_Does_Not_Exist_In_Cache()
 		{
@@ -430,9 +438,9 @@ namespace Roadkill.Tests.Unit.Cache
 			PageSummaryCache pageSummaryCache = new PageSummaryCache(appSettings, summaryObjectCache);
 			ListCache listCache = new ListCache(appSettings, listObjectCache);
 			SiteCache siteCache = new SiteCache(appSettings, MemoryCache.Default);
-			SearchManagerMock searchManager = new SearchManagerMock(appSettings, repository);
-			HistoryManager historyManager = new HistoryManager(appSettings, repository, userContext, pageSummaryCache);
-			PageManager pageManager = new PageManager(appSettings, repository, searchManager, historyManager, userContext, listCache, pageSummaryCache, siteCache);
+			SearchManagerMock searchManager = new SearchManagerMock(appSettings, repository, _pluginFactory);
+			HistoryManager historyManager = new HistoryManager(appSettings, repository, userContext, pageSummaryCache, _pluginFactory);
+			PageManager pageManager = new PageManager(appSettings, repository, searchManager, historyManager, userContext, listCache, pageSummaryCache, siteCache, _pluginFactory);
 
 			return pageManager;
 		}

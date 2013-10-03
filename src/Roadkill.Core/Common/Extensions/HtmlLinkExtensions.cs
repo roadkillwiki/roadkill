@@ -212,10 +212,11 @@ namespace Roadkill.Core
 		/// </summary>
 		public static MvcHtmlString BootStrap(this UrlHelper helper)
 		{
-			string resources = "\n<link href=\"" + helper.Content("~/Assets/bootstrap/css/bootstrap.min.css") + "\" rel=\"stylesheet\" media=\"screen\" />";
-			resources += "<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content("~/Assets/bootstrap/js/bootstrap.min.js") + "\"></script>";
+			StringBuilder builder = new StringBuilder();
+			builder.AppendLine("<link href=\"" + helper.Content("~/Assets/bootstrap/css/bootstrap.min.css") + "\" rel=\"stylesheet\" media=\"screen\" />");
+			builder.Append("<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content("~/Assets/bootstrap/js/bootstrap.min.js") + "\"></script>", 2);
 			
-			return MvcHtmlString.Create(resources);
+			return MvcHtmlString.Create(builder.ToString());
 		}
 
 		/// <summary>
@@ -223,9 +224,16 @@ namespace Roadkill.Core
 		/// </summary>
 		public static MvcHtmlString JsBundle(this UrlHelper helper)
 		{
-			string html = Scripts.Render("~/Assets/Scripts/" + RoadkillApplication.BundleJsFilename).ToHtmlString();
-			html += ScriptLink(helper, "~/home/globaljsvars?version=" + ApplicationSettings.ProductVersion); 
-			return MvcHtmlString.Create(html);
+			StringBuilder builder = new StringBuilder();
+			string mainJs = Scripts.Render("~/Assets/Scripts/" + RoadkillApplication.BundleJsFilename).ToHtmlString();
+			mainJs = mainJs.Replace("\r\n", ""); // remove them, the lines are done in the view
+			builder.AppendLine(mainJs);
+
+			string jsVars = "";
+			jsVars = ScriptLink(helper, "~/home/globaljsvars?version=" + ApplicationSettings.ProductVersion).ToHtmlString();
+			jsVars = jsVars.Replace("\r\n", "");
+			builder.Append(jsVars, 2); 
+			return MvcHtmlString.Create(builder.ToString());
 		}
 
 		/// <summary>
@@ -234,6 +242,7 @@ namespace Roadkill.Core
 		public static MvcHtmlString CssBundle(this UrlHelper helper)
 		{
 			string html = Styles.Render("~/Assets/CSS/" + RoadkillApplication.BundleCssFilename).ToHtmlString();
+			html = html.Replace("\r\n", ""); // done in the view
 			return MvcHtmlString.Create(html);
 		}
 

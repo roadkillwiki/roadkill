@@ -20,6 +20,7 @@ using Roadkill.Core.Security;
 using StructureMap;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security.Windows;
+using Roadkill.Core.Plugins;
 
 namespace Roadkill.Tests.Unit
 {
@@ -63,6 +64,7 @@ namespace Roadkill.Tests.Unit
 			SettingsSummary settingsSummary = ObjectFactory.GetInstance<SettingsSummary>();
 			AttachmentRouteHandler routerHandler = ObjectFactory.GetInstance<AttachmentRouteHandler>();
 			UserManagerBase userManager = ObjectFactory.GetInstance<UserManagerBase>();
+			IPluginFactory pluginFactory = ObjectFactory.GetInstance<IPluginFactory>();
 
 			// Assert
 			Assert.That(settings, Is.Not.Null);
@@ -74,6 +76,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(userSummary, Is.TypeOf<UserSummary>());
 			Assert.That(settingsSummary, Is.TypeOf<SettingsSummary>());
 			Assert.That(userManager, Is.TypeOf<FormsAuthUserManager>());
+			Assert.That(pluginFactory, Is.TypeOf<PluginFactory>());
 		}
 
 		[Test]
@@ -91,7 +94,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Register_Service_Instances()
+		public void Should_Register_Service_Instances_When_Windows_Auth_Enabled()
 		{
 			// Arrange
 			ApplicationSettings settings = new ApplicationSettings();
@@ -107,7 +110,7 @@ namespace Roadkill.Tests.Unit
 
 			// fake some AD settings for the AD service
 			ObjectFactory.Inject<ApplicationSettings>(settings);
-
+	
 			IList<ServiceBase> services = ObjectFactory.GetAllInstances<ServiceBase>();
 
 			// Assert

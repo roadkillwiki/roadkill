@@ -30,6 +30,7 @@ namespace Roadkill.Tests.Unit
 		private Mock<UserManagerBase> _mockUserManager;
 		private UserContext _context;
 		private HistoryManager _historyManager;
+		private PluginFactoryMock _pluginFactory;
 
 		[SetUp]
 		public void Setup()
@@ -54,7 +55,8 @@ namespace Roadkill.Tests.Unit
 			_context = new UserContext(_mockUserManager.Object);
 			_context.CurrentUser = userId.ToString();
 
-			_historyManager = new HistoryManager(_settings, _repositoryMock, _context, new PageSummaryCache(_settings, MemoryCache.Default));
+			_pluginFactory = new PluginFactoryMock();
+			_historyManager = new HistoryManager(_settings, _repositoryMock, _context, new PageSummaryCache(_settings, MemoryCache.Default), _pluginFactory);
 		}
 
 		[Test]

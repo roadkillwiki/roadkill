@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 
-namespace Roadkill.Core.MVC
+namespace Roadkill.Core.Mvc
 {
 	public class ExtendedRazorViewEngine : RazorViewEngine
 	{

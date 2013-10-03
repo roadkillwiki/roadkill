@@ -20,6 +20,14 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 	[Category("Unit")]
 	public class BrowserCacheAttributeTests
 	{
+		private PluginFactoryMock _pluginFactory;
+
+		[SetUp]
+		public void Setup()
+		{
+			_pluginFactory = new PluginFactoryMock();
+		}
+
 		[Test]
 		public void Should_Not_Set_ViewResult_If_Not_Installed()
 		{
@@ -119,9 +127,9 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 			PageSummaryCache pageSummaryCache = new PageSummaryCache(appSettings, MemoryCache.Default);
 			ListCache listCache = new ListCache(appSettings, MemoryCache.Default);
 			SiteCache siteCache = new SiteCache(appSettings, MemoryCache.Default);
-			SearchManagerMock searchManager = new SearchManagerMock(appSettings, repository);
-			HistoryManager historyManager = new HistoryManager(appSettings, repository, userContext, pageSummaryCache);
-			PageManager pageManager = new PageManager(appSettings, repository, searchManager, historyManager, userContext, listCache, pageSummaryCache, siteCache);
+			SearchManagerMock searchManager = new SearchManagerMock(appSettings, repository, _pluginFactory);
+			HistoryManager historyManager = new HistoryManager(appSettings, repository, userContext, pageSummaryCache, _pluginFactory);
+			PageManager pageManager = new PageManager(appSettings, repository, searchManager, historyManager, userContext, listCache, pageSummaryCache, siteCache, _pluginFactory);
 
 			// WikiController
 			SettingsManager settingsManager = new SettingsManager(appSettings, repository);

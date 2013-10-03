@@ -8,7 +8,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using System.Web.Optimization;
 using Roadkill.Core.Logging;
-using Roadkill.Core.MVC;
+using Roadkill.Core.Mvc;
 using System.IO;
 using Roadkill.Core.DI;
 

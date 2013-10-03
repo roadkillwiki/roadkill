@@ -1,0 +1,25 @@
+﻿@model IEnumerable<PluginSettingsSummary>
+
+@{ 
+	ViewBag.Title = "Plugins TODO TRANSLATION";
+	ViewData["PluginSettingsActive"] = true;
+}
+
+@Html.Partial("SettingsMenu", ViewData)
+
+
+<div>
+@foreach (PluginSettingsSummary summary in Model)
+{
+	<div class="thumbnail" style="float:left; margin:10px; width:200px;">
+		<a href="#">
+			<img src="@Url.Content("~/Assets/Images/plugin.png")" alt="plugin"/>
+		</a>
+		<div class="caption">
+			<h3>@summary.Name</h3>
+			<p>@summary.Description</p>
+		</div>
+	</div>
+}
+</div>
+<br style="clear:both;" />

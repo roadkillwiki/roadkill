@@ -7,6 +7,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Plugins;
 
 namespace Roadkill.Core.Managers
 {
@@ -19,10 +20,11 @@ namespace Roadkill.Core.Managers
 		private IUserContext _context;
 		private PageSummaryCache _pageSummaryCache;
 
-		public HistoryManager(ApplicationSettings settings, IRepository repository, IUserContext context, PageSummaryCache pageSummaryCache)
+		public HistoryManager(ApplicationSettings settings, IRepository repository, IUserContext context,
+			PageSummaryCache pageSummaryCache, IPluginFactory pluginFactory)
 			: base(settings, repository)
 		{
-			_markupConverter = new MarkupConverter(settings, repository);
+			_markupConverter = new MarkupConverter(settings, repository, pluginFactory);
 			_context = context;
 			_pageSummaryCache = pageSummaryCache;
 		}

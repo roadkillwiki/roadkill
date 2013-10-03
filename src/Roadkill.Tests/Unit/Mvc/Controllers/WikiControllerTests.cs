@@ -31,6 +31,7 @@ namespace Roadkill.Tests.Unit
 		private PageManager _pageManager;
 		private HistoryManager _historyManager;
 		private SettingsManager _settingsManager;
+		private PluginFactoryMock _pluginFactory;
 
 		[SetUp]
 		public void Setup()
@@ -50,12 +51,13 @@ namespace Roadkill.Tests.Unit
 			SiteCache siteCache = new SiteCache(_applicationSettings, MemoryCache.Default);
 
 			// Dependencies for PageManager
+			_pluginFactory = new PluginFactoryMock();
 			Mock<SearchManager> searchMock = new Mock<SearchManager>();
 
 			_settingsManager = new SettingsManager(_applicationSettings, _repository);
 			_userManager = new Mock<UserManagerBase>(_applicationSettings, null).Object;
-			_historyManager = new HistoryManager(_applicationSettings, _repository, _context, pageSummaryCache);
-			_pageManager = new PageManager(_applicationSettings, _repository, null, _historyManager, _context, listCache, pageSummaryCache, siteCache);
+			_historyManager = new HistoryManager(_applicationSettings, _repository, _context, pageSummaryCache, _pluginFactory);
+			_pageManager = new PageManager(_applicationSettings, _repository, null, _historyManager, _context, listCache, pageSummaryCache, siteCache, _pluginFactory);
 		}
 
 		[Test]

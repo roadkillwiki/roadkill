@@ -12,6 +12,7 @@ using Roadkill.Core.Configuration;
 using System.Web;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Text;
+using Roadkill.Core.Plugins;
 
 namespace Roadkill.Core.Managers
 {
@@ -27,19 +28,21 @@ namespace Roadkill.Core.Managers
 		private ListCache _listCache;
 		private PageSummaryCache _pageSummaryCache;
 		private SiteCache _siteCache;
+		private IPluginFactory _pluginFactory;
 
 		public PageManager(ApplicationSettings settings, IRepository repository, SearchManager searchManager, 
 			HistoryManager historyManager, IUserContext context, 
-			ListCache listCache, PageSummaryCache pageSummaryCache, SiteCache sitecache)
+			ListCache listCache, PageSummaryCache pageSummaryCache, SiteCache sitecache, IPluginFactory pluginFactory)
 			: base(settings, repository)
 		{
 			_searchManager = searchManager;
-			_markupConverter = new MarkupConverter(settings, repository);
+			_markupConverter = new MarkupConverter(settings, repository, pluginFactory);
 			_historyManager = historyManager;
 			_context = context;
 			_listCache = listCache;
 			_pageSummaryCache = pageSummaryCache;
 			_siteCache = sitecache;
+			_pluginFactory = pluginFactory;
 		}
 
 		/// <summary>
@@ -582,7 +585,7 @@ namespace Roadkill.Core.Managers
 		/// <returns></returns>
 		public MarkupConverter GetMarkupConverter()
 		{
-			return new MarkupConverter(ApplicationSettings, Repository);
+			return new MarkupConverter(ApplicationSettings, Repository, _pluginFactory);
 		}
 	}
 }

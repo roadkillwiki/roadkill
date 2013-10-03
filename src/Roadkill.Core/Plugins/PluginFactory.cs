@@ -11,12 +11,12 @@ using StructureMap;
 
 namespace Roadkill.Core.Plugins
 {
-	public class PluginFactory
+	public class PluginFactory : IPluginFactory
 	{
 		/// <summary>
 		/// Copies the custom variable plugins from their storage location to the bin folder.
 		/// </summary>
-		public static void CopyTextPlugins(ApplicationSettings applicationSettings)
+		public void CopyTextPlugins(ApplicationSettings applicationSettings)
 		{
 			try
 			{
@@ -72,7 +72,7 @@ namespace Roadkill.Core.Plugins
 		/// <summary>
 		/// Allows additional custom variable plugins to be registered at runtime.
 		/// </summary>
-		public static void RegisterTextPlugin(TextPlugin plugin)
+		public void RegisterTextPlugin(TextPlugin plugin)
 		{
 			ServiceLocator.RegisterType<TextPlugin>(plugin);
 		}
@@ -80,7 +80,7 @@ namespace Roadkill.Core.Plugins
 		/// <summary>
 		/// Retrieves all custom variable plugins from the IoC container.
 		/// </summary>
-		public static IEnumerable<TextPlugin> GetTextPlugins()
+		public IEnumerable<TextPlugin> GetTextPlugins()
 		{
 			return ServiceLocator.GetAllInstances<TextPlugin>();
 		}
