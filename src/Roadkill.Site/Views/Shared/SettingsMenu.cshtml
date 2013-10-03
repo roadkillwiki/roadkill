@@ -4,6 +4,8 @@
 	MvcHtmlString nav2Active = MvcHtmlString.Empty;
 	MvcHtmlString nav3Active = MvcHtmlString.Empty;
 	MvcHtmlString nav4Active = MvcHtmlString.Empty;
+	MvcHtmlString nav5Active = MvcHtmlString.Empty;
+	
 	
 	if (ViewData["UsersActive"] !=  null)
 	{
@@ -11,6 +13,7 @@
 		nav2Active = activeCss;
 		nav3Active = MvcHtmlString.Empty;
 		nav4Active = MvcHtmlString.Empty;
+		nav5Active = MvcHtmlString.Empty;		
 	}
 	else if (ViewData["ToolsActive"] != null)
 	{
@@ -18,6 +21,7 @@
 		nav2Active = MvcHtmlString.Empty;
 		nav3Active = activeCss;
 		nav4Active = MvcHtmlString.Empty;
+		nav5Active = MvcHtmlString.Empty;		
 	}
 	else if (ViewData["CacheActive"] != null)
 	{
@@ -25,16 +29,26 @@
 		nav2Active = MvcHtmlString.Empty;
 		nav3Active = MvcHtmlString.Empty;
 		nav4Active = activeCss;
+		nav5Active = MvcHtmlString.Empty;
+	}
+	else if (ViewData["PluginSettingsActive"] != null)
+	{
+		nav1Active = MvcHtmlString.Empty;
+		nav2Active = MvcHtmlString.Empty;
+		nav3Active = MvcHtmlString.Empty;
+		nav4Active = MvcHtmlString.Empty;
+		nav5Active = activeCss;
 	}
 }
 
 <div class="navbar">
 	<div class="navbar-inner">
 		<ul class="nav">
-			<li@(nav1Active)>@Html.ActionLink(SiteStrings.SiteSettings_Configuration, "Index")</li>
-			<li@(nav2Active)>@Html.ActionLink(SiteStrings.SiteSettings_Users, "Users")</li>
-			<li@(nav3Active)>@Html.ActionLink(SiteStrings.SiteSettings_Tools, "Tools")</li>
-			<li@(nav4Active)>@Html.ActionLink(SiteStrings.SiteSettings_Configuration_ObjectCaching, "Cache")</li>
+			<li@(nav1Active)>@Html.ActionLink(SiteStrings.SiteSettings_Configuration, "Index", "Settings")</li>
+			<li@(nav2Active)>@Html.ActionLink(SiteStrings.SiteSettings_Users, "Users", "Settings")</li>
+			<li@(nav3Active)>@Html.ActionLink(SiteStrings.SiteSettings_Tools, "Tools", "Settings")</li>
+			<li@(nav4Active)>@Html.ActionLink(SiteStrings.SiteSettings_Configuration_ObjectCaching, "Cache", "Settings")</li>
+			<li@(nav5Active)>@Html.ActionLink("Plugins [TRANSLATION TODO]", "Index", "PluginSettings")</li>
 		</ul>
 	</div>
 </div>

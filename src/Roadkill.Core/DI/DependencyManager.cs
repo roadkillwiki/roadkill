@@ -128,8 +128,8 @@ namespace Roadkill.Core
 			x.For<IRepository>().HybridHttpOrThreadLocalScoped();
 			x.For<IUserContext>().HybridHttpOrThreadLocalScoped();
 
-			// Temp for custom variable plugins
-			x.For<MathJax>().HybridHttpOrThreadLocalScoped();
+			// Plugins
+			x.For<IPluginFactory>().Singleton().Use<PluginFactory>();
 
 			// Cache
 			x.For<ObjectCache>().Use(new MemoryCache("Roadkill"));
@@ -151,9 +151,10 @@ namespace Roadkill.Core
 
 			scanner.AssembliesFromPath(userManagerPluginPath);
 
-			// Custom variable plugins
+			// Copy text plugins to the bin folder
 			string textPluginsPath = _applicationSettings.TextPluginsBinPath;
-			PluginFactory.CopyTextPlugins(_applicationSettings);
+			PluginFactory pluginFactory = new PluginFactory(); // registered as a singleton later
+			pluginFactory.CopyTextPlugins(_applicationSettings);
 			if (!Directory.Exists(textPluginsPath))
 				Directory.CreateDirectory(textPluginsPath);
 
@@ -162,6 +163,7 @@ namespace Roadkill.Core
 				scanner.AssembliesFromPath(subDirectory);
 			}
 			scanner.AddAllTypesOf<TextPlugin>();
+			scanner.AddAllTypesOf<IPluginFactory>();
 
 			// Config, repository, context
 			scanner.AddAllTypesOf<ApplicationSettings>();

@@ -37,6 +37,7 @@ namespace Roadkill.Tests.Unit
 		private MvcMockContainer _mocksContainer;
 		private RoadkillContextStub _contextStub;
 		private MarkupConverter _markupConverter;
+		private PluginFactoryMock _pluginFactory;
 
 		[SetUp]
 		public void Setup()
@@ -52,16 +53,17 @@ namespace Roadkill.Tests.Unit
 			PageSummaryCache pageSummaryCache = new PageSummaryCache(_settings, MemoryCache.Default);
 
 			// Dependencies for PageManager
+			_pluginFactory = new PluginFactoryMock();
 			_repository = new RepositoryMock();
 
 			_userManager = new Mock<UserManagerBase>(_settings, _repository).Object;
-			_historyManager = new HistoryManager(_settings, _repository, _contextStub, pageSummaryCache);
+			_historyManager = new HistoryManager(_settings, _repository, _contextStub, pageSummaryCache, _pluginFactory);
 			_settingsManager = new SettingsManager(_settings, _repository);
-			_searchManager = new SearchManager(_settings, _repository);
+			_searchManager = new SearchManager(_settings, _repository, _pluginFactory);
 
-			_markupConverter = new MarkupConverter(_settings, _repository);
+			_markupConverter = new MarkupConverter(_settings, _repository, _pluginFactory);
 			_pageManagerMock = new Mock<IPageManager>();
-			_pageManagerMock.Setup(x => x.GetMarkupConverter()).Returns(new MarkupConverter(_settings, _repository));
+			_pageManagerMock.Setup(x => x.GetMarkupConverter()).Returns(new MarkupConverter(_settings, _repository, _pluginFactory));
 			_pageManagerMock.Setup(x => x.GetById(It.IsAny<int>())).Returns<int>(x =>
 				{
 					PageContent content = _repository.GetLatestPageContent(x);
