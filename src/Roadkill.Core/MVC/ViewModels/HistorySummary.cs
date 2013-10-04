@@ -42,8 +42,8 @@ namespace Roadkill.Core.Mvc.ViewModels
 		{
 			get
 			{
-				// Use IS8601 plus the time offset (inject the Z for timeago)
-				return string.Format("{0}Z{1:zzz}", EditedOn.ToString("s"), EditedOn);
+				// EditedOn (ModifiedOn in the domain) is stored in UTC time, so just add a Z to indicate this.
+				return string.Format("{0}Z", EditedOn.ToString("s"));
 			}
 		}
 
