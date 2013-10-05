@@ -350,20 +350,20 @@
     <Compile Include="Domain\Cache\SiteCache.cs" />
     <Compile Include="Domain\Security\FormsAuthenticationWrapper.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
-    <Compile Include="MVC\Attributes\CacheContentTypeAttribute.cs" />
-    <Compile Include="MVC\Attributes\IControllerAttribute.cs" />
-    <Compile Include="DI\MVC\MvcAttributeProvider.cs" />
-    <Compile Include="DI\MVC\MvcDependencyResolver.cs" />
-    <Compile Include="Localization\Resx\InstallStrings.Designer.cs">
+    <Compile Include="Localization\InstallStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>InstallStrings.resx</DependentUpon>
     </Compile>
-    <Compile Include="Localization\Resx\SiteStrings.Designer.cs">
+    <Compile Include="Localization\SiteStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SiteStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="MVC\Attributes\CacheContentTypeAttribute.cs" />
+    <Compile Include="MVC\Attributes\IControllerAttribute.cs" />
+    <Compile Include="DI\MVC\MvcAttributeProvider.cs" />
+    <Compile Include="DI\MVC\MvcDependencyResolver.cs" />
     <Compile Include="Logging\Level.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Common\ShortGuid.cs" />
@@ -502,29 +502,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Localization\Resx\InstallStrings.cs-CZ.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Resx\InstallStrings.pl-PL.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Resx\InstallStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>InstallStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Resx\SiteStrings.cs-CZ.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Resx\SiteStrings.pl-PL.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Localization\Resx\SiteStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>SiteStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Localization\Text\history.txt" />
     <EmbeddedResource Include="Database\Schema\Postgres\Create.sql" />
     <EmbeddedResource Include="Database\Schema\Postgres\Drop.sql" />
     <EmbeddedResource Include="Database\Schema\Sqlite\Create.sql" />
@@ -548,12 +525,19 @@
     <EmbeddedResource Include="Database\Schema\SqlServer\Upgrade.sql" />
     <EmbeddedResource Include="Database\Schema\SqlServerCE\Upgrade1.sql" />
     <EmbeddedResource Include="Database\Schema\SqlServerCE\Upgrade2.sql" />
-    <Content Include="Localization\Text\InstallStrings.cs-CZ.txt" />
-    <Content Include="Localization\Text\InstallStrings.pl-PL.txt" />
-    <Content Include="Localization\Text\InstallStrings.txt" />
-    <Content Include="Localization\Text\SiteStrings.cs-CZ.txt" />
-    <Content Include="Localization\Text\SiteStrings.pl-PL.txt" />
-    <Content Include="Localization\Text\SiteStrings.txt" />
+    <EmbeddedResource Include="Localization\InstallStrings.hi-IN.resx" />
+    <EmbeddedResource Include="Localization\InstallStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>InstallStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localization\SiteStrings.hi-IN.resx" />
+    <EmbeddedResource Include="Localization\SiteStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SiteStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Localization\readme.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

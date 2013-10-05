@@ -11,7 +11,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
-using Roadkill.Core.Localization.Resx;
+using Roadkill.Core.Localization;
 using Roadkill.Core.Managers;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;

@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-using Roadkill.Core.Localization.Resx;
+using Roadkill.Core.Localization;
 using Roadkill.Core.Configuration;
 using System.Web;
 using System.Web.Mvc;

@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using System.Linq;
 using System.Collections.Generic;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Localization.Resx;
+using Roadkill.Core.Localization;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security;
