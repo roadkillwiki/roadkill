@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using System.Web.Security;
-using Roadkill.Core.Localization.Resx;
+using Roadkill.Core.Localization;
 using Roadkill.Core.Configuration;
 using RoadkillUser = Roadkill.Core.Database.User;
 using Roadkill.Core.Managers;

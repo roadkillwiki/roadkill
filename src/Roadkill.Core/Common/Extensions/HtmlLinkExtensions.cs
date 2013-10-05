@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
-using Roadkill.Core.Localization.Resx;
+using Roadkill.Core.Localization;
 using System.Globalization;
 using StructureMap;
 using Roadkill.Core.Configuration;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Roadkill.Core.Converters;
-using Roadkill.Core.Localization.Resx;
+using Roadkill.Core.Localization;
 using Roadkill.Core.Configuration;
 using System.Diagnostics;
 using System.Web;

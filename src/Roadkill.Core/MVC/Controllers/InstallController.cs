@@ -36,8 +36,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
-		/// Installs Roadkill with default settings and the provided datastory type 
-		/// and connection string.
+		/// Installs Roadkill with default settings and the provided datastory type and connection string.
 		/// </summary>
 		public ActionResult Unattended(string datastoreType, string connectionString)
 		{

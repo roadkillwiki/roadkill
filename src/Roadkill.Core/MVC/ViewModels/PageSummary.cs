@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
-using Roadkill.Core.Localization.Resx;
+using Roadkill.Core.Localization;
 
 namespace Roadkill.Core.Mvc.ViewModels
 {
@@ -15,7 +15,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 	{
 		private static string[] _tagBlackList = 
 		{
-			";", "/", "?", ":", "@", "&", "=", "{", "}", "|", "\\", "^", "[", "]", "`"		
+			",", "#", ";", "/", "?", ":", "@", "&", "=", "{", "}", "|", "\\", "^", "[", "]", "`"		
 		};
 
 		private List<string> _tags;

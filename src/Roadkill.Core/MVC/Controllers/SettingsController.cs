@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.IO;
 using Ionic.Zip;
-using Roadkill.Core.Localization.Resx;
+using Roadkill.Core.Localization;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Managers;
