@@ -16,7 +16,7 @@ namespace Roadkill.Tests.Unit
 	public class PluginSettingsControllerTests
 	{
 		[Test]
-		public void Index_Should_Return_ViewResult_And_Model_With_Plugins()
+		public void Index_Should_Return_ViewResult_And_Model_With_2_PluginSummaries()
 		{
 			// Arrange
 			PluginFactoryMock pluginFactory = new PluginFactoryMock();

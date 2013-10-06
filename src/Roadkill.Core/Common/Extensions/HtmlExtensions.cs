@@ -246,6 +246,27 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// Creates a drop down list from an <c>IList</c> of strings.
+		/// </summary>
+		public static MvcHtmlString DropDownBox(this HtmlHelper helper, string name, IEnumerable<string> items)
+		{
+			List<SelectListItem> selectList = new List<SelectListItem>();
+
+			foreach (string item in items)
+			{
+				SelectListItem selectListItem = new SelectListItem
+				{
+					Text = item,
+					Value = item
+				};
+
+				selectList.Add(selectListItem);
+			}
+
+			return helper.DropDownList(name, selectList, new { id = name });
+		}
+
+		/// <summary>
 		/// An alias for Partial() to indicate a dialog's HTML is being rendered.
 		/// </summary>
 		public static MvcHtmlString DialogPartial(this HtmlHelper helper, string viewName)

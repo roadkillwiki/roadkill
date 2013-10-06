@@ -35,7 +35,7 @@ namespace Roadkill.Tests.Unit
 		private PluginFactoryMock _pluginFactory;
 
 		[SetUp]
-		public void Init()
+		public void Setup()
 		{
 			_context = new Mock<IUserContext>().Object;
 			_applicationSettings = new ApplicationSettings();

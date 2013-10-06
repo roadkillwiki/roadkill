@@ -21,6 +21,7 @@ namespace Roadkill.Core.Configuration
 		}
 
 		public abstract void UpdateCurrentVersion(string currentVersion);
+		public abstract void UpdateLanguage(string uiLanguageCode);
 		public abstract void Save(SettingsSummary settings);
 		public abstract RoadkillSection Load();
 		public abstract ApplicationSettings GetApplicationSettings();

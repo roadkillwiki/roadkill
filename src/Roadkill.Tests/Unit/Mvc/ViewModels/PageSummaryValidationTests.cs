@@ -22,7 +22,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			PageSummary summary = new PageSummary();
-			summary.RawTags = "tagone, #anothertag, tag-2, code, c++";
+			summary.RawTags = "tagone, anothertag, tag-2, code, c++";
 
 			// Act
 			ValidationResult result = PageSummary.VerifyRawTags(summary, null);
@@ -50,7 +50,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			PageSummary summary = new PageSummary();
-			summary.RawTags = "&&amp+some,tags,only,^^,!??malicious,monkey,would,use";
+			summary.RawTags = "&&amp+some,tags,only,^^,!??malicious,#monkey,would,use";
 
 			// Act
 			ValidationResult result = PageSummary.VerifyRawTags(summary, null);

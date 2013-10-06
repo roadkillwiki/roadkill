@@ -581,6 +581,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Themes\Roadkill\Theme.cshtml" />
     <Content Include="Views\PluginSettings\Index.cshtml" />
+    <Content Include="Views\Install\Index.cshtml" />
     <None Include="Web.DemoSite.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

@@ -9,6 +9,10 @@ using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security.Windows;
 using System.IO;
 using Roadkill.Core.DI;
+using System.Collections.Generic;
+using System.Threading;
+using System.Globalization;
+using System.Linq;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -23,11 +27,12 @@ namespace Roadkill.Core.Mvc.Controllers
 		private PageManager _pageManager;
 		private SearchManager _searchManager;
 		private SettingsManager _settingsManager;
+		private static string _uiLanguageCode = "en";
 
 		public InstallController(ApplicationSettings settings, UserManagerBase userManager,
 			PageManager pageManager, SearchManager searchManager, IRepository respository,
-			SettingsManager settingsManager, IUserContext context, SettingsManager siteSettingsManager)
-			: base(settings, userManager, context, siteSettingsManager) 
+			SettingsManager settingsManager, IUserContext context)
+			: base(settings, userManager, context, settingsManager) 
 		{
 			_pageManager = pageManager;
 			_searchManager = searchManager;
@@ -65,23 +70,44 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
-		/// Displays the start page for the installer (step1).
+		/// Displays the language choice page.
 		/// </summary>
 		public ActionResult Index()
 		{
 			if (ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
-			return View("Step1");
+			Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
+
+			return View("Index", LanguageSummary.SupportedLocales());
+		}
+
+		/// <summary>
+		/// Displays the start page for the installer (step1).
+		/// </summary>
+		public ActionResult Step1(string language)
+		{
+			if (ApplicationSettings.Installed)
+				return RedirectToAction("Index", "Home");
+
+			Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
+			LanguageSummary languageSummary = LanguageSummary.SupportedLocales().First(x => x.Code == language);
+
+			return View(languageSummary);
 		}
 
 		/// <summary>
 		/// Displays the second step in the installation wizard.
 		/// </summary>
-		public ActionResult Step2()
+		public ActionResult Step2(string language)
 		{
 			if (ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
+
+			// Persist the language change now that we know the web.config can be written to.
+			Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
+			ConfigReader configReader = ConfigReaderFactory.GetConfigReader();
+			configReader.UpdateLanguage(language);
 
 			return View(new SettingsSummary());
 		}

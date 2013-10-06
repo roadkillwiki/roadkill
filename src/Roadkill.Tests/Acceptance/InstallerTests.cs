@@ -108,12 +108,26 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
+		public void Language_Selection_Should_Display_For_First_Page()
+		{
+			// Arrange
+
+			// Act
+			Driver.Navigate().GoToUrl(BaseUrl);
+
+			// Assert
+			Assert.That(Driver.FindElements(By.CssSelector("ul#language li")).Count, Is.GreaterThanOrEqualTo(1));
+			Assert.That(Driver.FindElements(By.CssSelector("ul#language li"))[0].Text, Is.EqualTo("English"));
+		}
+
+		[Test]
 		public void Step1_Web_Config_Test_Button_Should_Display_Success_Box_And_Continue_Link()
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
 
 			// Act
+			ClickEnglishLanguageLink();
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
 
 			// Assert
@@ -134,6 +148,7 @@ namespace Roadkill.Tests.Acceptance
 			File.SetAttributes(roadkillConfigPath, FileAttributes.ReadOnly);
 
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
@@ -148,6 +163,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
@@ -169,6 +185,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
@@ -190,6 +207,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
@@ -210,6 +228,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
@@ -230,6 +249,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
@@ -250,6 +270,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
@@ -277,6 +298,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
@@ -304,6 +326,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
@@ -331,6 +354,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
@@ -363,6 +387,7 @@ namespace Roadkill.Tests.Acceptance
 			Directory.CreateDirectory(attachmentsFolder);
 
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
@@ -403,6 +428,7 @@ namespace Roadkill.Tests.Acceptance
 			string sitePath = AcceptanceTestsSetup.GetSitePath();
 			Guid folderGuid = Guid.NewGuid();
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
@@ -436,6 +462,7 @@ namespace Roadkill.Tests.Acceptance
 			string sitePath = AcceptanceTestsSetup.GetSitePath();
 			Guid folderGuid = Guid.NewGuid();
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			// Act
 			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
@@ -472,6 +499,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			//
 			// ***Act***
@@ -523,6 +551,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			//
 			// ***Act***
@@ -580,6 +609,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			//
 			// ***Act***
@@ -632,6 +662,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			//
 			// ***Act***
@@ -683,6 +714,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			//
 			// ***Act***
@@ -735,6 +767,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			//
 			// ***Act***
@@ -787,6 +820,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickEnglishLanguageLink();
 
 			//
 			// ***Act***
@@ -831,6 +865,11 @@ namespace Roadkill.Tests.Acceptance
 			Driver.Navigate().GoToUrl(BaseUrl);
 			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("Homepage"));
 			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
+		}
+
+		private void ClickEnglishLanguageLink()
+		{
+			Driver.FindElements(By.CssSelector("ul#language a"))[0].Click();
 		}
 	}
 }
