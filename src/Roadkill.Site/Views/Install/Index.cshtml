@@ -1,0 +1,11 @@
+﻿@model IEnumerable<LanguageSummary>
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+
+<ul id="language">
+@foreach (LanguageSummary languageSummary in Model)
+{
+	<li>@Html.ActionLink(languageSummary.Name, "Step1", new { language = languageSummary.Code } )</li>
+}
+</ul>

@@ -154,6 +154,20 @@ namespace Roadkill.Core.Configuration
 			}
 		}
 
+		public override void UpdateLanguage(string uiLanguageCode)
+		{
+			try
+			{
+				GlobalizationSection globalizationSection = _config.GetSection("system.web/globalization") as GlobalizationSection;
+				globalizationSection.UICulture = uiLanguageCode;
+				_config.Save(ConfigurationSaveMode.Minimal);
+			}
+			catch (ConfigurationErrorsException ex)
+			{
+				throw new ConfigurationException("An exception occurred while updating the UI language in the web.config", ex);
+			}
+		}
+
 		/// <summary>
 		/// Adds config settings for forms authentication.
 		/// </summary>

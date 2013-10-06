@@ -37,6 +37,11 @@ namespace Roadkill.Core.Configuration
 			throw new NotImplementedException();
 		}
 
+		public override void UpdateLanguage(string uiLanguageCode)
+		{
+			throw new NotImplementedException();
+		}
+
 		public override RoadkillSection Load()
 		{
 			XDocument document = XDocument.Load(ConfigFilePath);

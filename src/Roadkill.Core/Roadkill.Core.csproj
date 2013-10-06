@@ -372,6 +372,7 @@
     <Compile Include="MVC\Controllers\PluginSettingsController.cs" />
     <Compile Include="MVC\ExtendedRazorViewEngine.cs" />
     <Compile Include="MVC\Controllers\FileManagerController.cs" />
+    <Compile Include="MVC\ViewModels\LanguageSummary.cs" />
     <Compile Include="MVC\ViewModels\PluginSettingsSummary.cs" />
     <Compile Include="MVC\WebViewPages\RoadkillLayoutPage.cs" />
     <Compile Include="MVC\WebViewPages\RoadkillViewPage.cs" />
@@ -525,12 +526,12 @@
     <EmbeddedResource Include="Database\Schema\SqlServer\Upgrade.sql" />
     <EmbeddedResource Include="Database\Schema\SqlServerCE\Upgrade1.sql" />
     <EmbeddedResource Include="Database\Schema\SqlServerCE\Upgrade2.sql" />
-    <EmbeddedResource Include="Localization\InstallStrings.hi-IN.resx" />
+    <EmbeddedResource Include="Localization\InstallStrings.hi.resx" />
     <EmbeddedResource Include="Localization\InstallStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>InstallStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Localization\SiteStrings.hi-IN.resx" />
+    <EmbeddedResource Include="Localization\SiteStrings.hi.resx" />
     <EmbeddedResource Include="Localization\SiteStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SiteStrings.Designer.cs</LastGenOutput>

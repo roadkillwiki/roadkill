@@ -233,7 +233,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		[Ignore]
+		[Explicit]
 		public void MongoDB_databaseType_Should_Load_Repository()
 		{
 			// Arrange

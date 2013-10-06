@@ -1,4 +1,4 @@
-﻿@model SettingsSummary
+﻿@model LanguageSummary
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
@@ -50,4 +50,4 @@ $(document).ready(function()
 	<p>@InstallStrings.Page1_WebConfig_Failure_Message: <pre class="errormessage" style="width:100%;overflow:scroll;"></pre></p>
 </div>
 
-<div class="continue hidden">@Html.ActionLink(InstallStrings.Shared_Continue +" >","Step2")</div>
+<div class="continue hidden">@Html.ActionLink(InstallStrings.Shared_Continue + " >", "Step2", new { language = Model.Code })</div>
