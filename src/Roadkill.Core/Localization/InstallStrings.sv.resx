@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="data">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" minOccurs="0"                     msdata:Ordinal="2" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="type" type="xsd:string" />
+        <xsd:attribute name="mimetype" type="xsd:string" />
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="Shared_Stage1" xml:space="preserve">
+	<value>Välkommen</value>
+</data>
+<data name="Shared_Stage2" xml:space="preserve">
+	<value>Databas</value>
+</data>
+<data name="Shared_Stage3" xml:space="preserve">
+	<value>Säkerhet</value>
+</data>
+<data name="Shared_Stage4" xml:space="preserve">
+	<value>Extra</value>
+</data>
+<data name="Shared_Stage5" xml:space="preserve">
+	<value>Klar</value>
+</data>
+<data name="Shared_Continue" xml:space="preserve">
+	<value>Fortsätt</value>
+</data>
+<data name="Shared_Back" xml:space="preserve">
+	<value>Tillbaka</value>
+</data>
+<data name="Shared_TestButton" xml:space="preserve">
+	<value>Testa</value>
+</data>
+<data name="Shared_BackButton" xml:space="preserve">
+	<value>Tillbaka</value>
+</data>
+<data name="Shared_NextButton" xml:space="preserve">
+	<value>Nästa</value>
+</data>
+<data name="Shared_Success" xml:space="preserve">
+	<value>Lyckades!</value>
+</data>
+<data name="Shared_Failure" xml:space="preserve">
+	<value>Misslyckande!</value>
+</data>
+<data name="Page1_Label1" xml:space="preserve">
+	<value>Tack för att du laddat ned Roadkill .NET Wiki. Installationsprogrammet sparar inställningarna du anger här till filen web.config, samt till databasen.</value>
+</data>
+<data name="Page1_Label2" xml:space="preserve">
+	<value>Innan vi kan gå vidare, måste vi först säkerställa att du har skrivbehörighet till filen web.config.</value>
+</data>
+<data name="Page1_WebConfig_Success_Message" xml:space="preserve">
+	<value>Web.config kan skrivas till.</value>
+</data>
+<data name="Page1_WebConfig_Failure_Message" xml:space="preserve">
+	<value>Det går inte att skriva till filen web.config.</value>
+</data>
+<data name="Page2_Label1" xml:space="preserve">
+	<value>Nedan finns några inställningar för att Roadkill ska fungera korrekt. Du kan ändra dessa senare via inställningssidan när du är inloggad som en administratör.</value>
+</data>
+<data name="Page2_Success" xml:space="preserve">
+	<value>Databasanslutningen lyckades.</value>
+</data>
+<data name="Page2_Error" xml:space="preserve">
+	<value>Kan inte ansluta:</value>
+</data>
+<data name="Page2_Group1_Title" xml:space="preserve">
+	<value>Webbplatsens namn</value>
+</data>
+<data name="Page2_Group1_Label" xml:space="preserve">
+	<value>Namnet på den här wikin, som visas i vissa teman och i registreringsmail (om det är aktiverat).</value>
+</data>
+<data name="Page2_Group2_Title" xml:space="preserve">
+	<value>Webbplats-url</value>
+</data>
+<data name="Page2_Group2_Label" xml:space="preserve">
+	<value>Den fullständiga webbadressen för wikin, som visas i registrerings- och återställningsmail (om det är aktiverat). Ange inte det avslutande snedstrecket.</value>
+</data>
+<data name="Page2_Group3_Title" xml:space="preserve">
+	<value>Databasens anslutningssträng</value>
+</data>
+<data name="Page2_Group3_Label" xml:space="preserve">
+	<value>Du måste skapa databasen först om du använder en namngiven instans. Nedan visas några exempel, använd det andra alternativet om du använder delad hosting utan någon SQL Server hosting.</value>
+</data>
+<data name="Page2_Group3_Label2" xml:space="preserve">
+	<value>Exempel på anslutningssträngar</value>
+</data>
+<data name="Page2_Group3_Label3" xml:space="preserve">
+	<value>Databastyp</value>
+</data>
+<data name="Page2_Group3_SQLiteInstructionsTitle" xml:space="preserve">
+	<value>SQLite: observera</value>
+</data>
+<data name="Page2_Group3_SQLiteInstructionsMessage" xml:space="preserve">
+	<value>Obs: För att använda SQLite måste du lägga till en annan fil i mappen /bin eftersom SQLite distribueras för både x86 och x64. &lt;a href=&quot;javascript:;&quot; id=&quot;sqlitecopy&quot;&gt;Klicka här för att kopiera filen&lt;/a&gt;. Om du upplever några problem efter detta, ta bort &quot;SQLite.Interop.dll&quot; från bin-mappen.</value>
+</data>
+<data name="Page2_Group3_SQLiteSuccessTitle" xml:space="preserve">
+	<value>SQLite-filen kopierades</value>
+</data>
+<data name="Page2_Group3_SQLiteSuccessMessage" xml:space="preserve">
+	<value>SQLite bör nu vara redo att använda.</value>
+</data>
+<data name="Page2_Group3_SQLiteFailureTitle" xml:space="preserve">
+	<value>SQLite-filen gick inte att kopiera</value>
+</data>
+<data name="Page2_Group3_SQLiteFailureMessage" xml:space="preserve">
+	<value>Ett fel uppstod - försök att manuellt kopiera filen SQLite.Interop.dll från ~/App_Data/SQLiteBinaries till bin-mappen.</value>
+</data>
+<data name="Page3_Label1" xml:space="preserve">
+	<value>Vill du att användarna skall autentiseras mot en Active Directory-domän via Windows-autentisering?</value>
+</data>
+<data name="Page3_Group1_Title" xml:space="preserve">
+	<value>Windows-autentisering</value>
+</data>
+<data name="Page3_Group1_Label" xml:space="preserve">
+	<value>Använd Windows-autentisering</value>
+</data>
+<data name="Page3_AD_Group1_Title" xml:space="preserve">
+	<value>Active Directory LDAP-anslutningssträng</value>
+</data>
+<data name="Page3_AD_Connection_Success" xml:space="preserve">
+	<value>Anslutning och autentisering mot Active Directory-servern lyckades.</value>
+</data>
+<data name="Page3_AD_Connection_Error" xml:space="preserve">
+	<value>Det gick inte att ansluta till Active Directory-servern:</value>
+</data>
+<data name="Page3_AD_Success" xml:space="preserve">
+	<value>Förfrågan mot AD-gruppen lyckades.</value>
+</data>
+<data name="Page3_AD_Error" xml:space="preserve">
+	<value>Förfrågan misslyckades:</value>
+</data>
+<data name="Page3_AD_Group1_Label1" xml:space="preserve">
+	<value>Ange detta i formatet LDAP://mydc01.company.internal (obs: ange LDAP i versaler) där mydc01 är din domänkontrollant och &quot;company&quot; och &quot;internal&quot; är dns suffix för nätverket. Du kan även ange en IP-adress istället. Du kan oftast få denna information genom att köra kommandot &quot;ipconfig&quot;.</value>
+</data>
+<data name="Page3_AD_Group1_Label2" xml:space="preserve">
+	<value>Anslutningssträngen stöder att du anger specifika OU:n, men detta kan eventuellt orsaka problem. Om du är osäker på den här inställningen, bör du ladda ned &lt;a href=&quot;http://technet.microsoft.com/en-us/sysinternals/bb963907&quot;&gt;AD Explorer&lt;/a&gt; först.</value>
+</data>
+<data name="Page3_AD_Group1_Label3" xml:space="preserve">
+	<value>Om användaren som applikationspoolen körs som inte har läsbehörighet till Active Directory måste du ange användarnamn och lösenord for en användare som har det. Använd detta om din domän är en annan skog än huvuddomänen (tex en annan branch office).</value>
+	<comment>This is a bit iffy; I need to check on a Swedish AD-domain controller how MS translates &apos;forest&apos; and &apos;branch office&apos;. I&apos;ll revisit this.</comment>
+</data>
+<data name="Page3_AD_Group2_Label1" xml:space="preserve">
+	<value>Användarnamn:</value>
+</data>
+<data name="Page3_AD_Group2_Label2" xml:space="preserve">
+	<value>Lösenord:</value>
+</data>
+<data name="Page3_AD_Group3_Title" xml:space="preserve">
+	<value>Gruppnamn för redaktörer</value>
+</data>
+<data name="Page3_AD_Group3_Label" xml:space="preserve">
+	<value>Den säkerhetsgrupp som användare skall tillhöra för att vara redaktörer (personer som kan redigera och skapa sidor). Testknappen använder anslutningsinställningarna ovan.</value>
+</data>
+<data name="Page3_AD_Group4_Title" xml:space="preserve">
+	<value>Gruppnamn för administratörer</value>
+</data>
+<data name="Page3_AD_Group4_Label" xml:space="preserve">
+	<value>Den säkerhetsgrupp som användare skall tillhöra för att vara administratörer. Administratörer har samma rättigheter som redaktörer, men har även tillgång till konfigurationsinställningar och verktyg för webbplatsen.Testknappen använder anslutningsinställningarna ovan.</value>
+</data>
+<data name="Page3_DB_Label" xml:space="preserve">
+	<value>Alla lösenord är envägskrypterade med SHA128 och ett sk saltvärde. Detta innebär att lösenord inte går att återskapa, och att en administratör därför måste återställa dom manuellt (det finns ingen &quot;Återställ lösenord&quot;-funktion ännu). Minimilängden för lösenord är 6 tecken.</value>
+	<comment>&quot;and admin&quot; should probably be &quot;an admin&quot;</comment>
+</data>
+<data name="Page3_DB_Group1_Title" xml:space="preserve">
+	<value>Rollnamn för redaktörer</value>
+</data>
+<data name="Page3_DB_Group1_Label1" xml:space="preserve">
+	<value>Namnet på rollen redaktör - användare som kan redigera och skapa sidor.</value>
+</data>
+<data name="Page3_DB_Group2_Title" xml:space="preserve">
+	<value>Rollnamn för administratörer</value>
+</data>
+<data name="Page3_DB_Group2_Label1" xml:space="preserve">
+	<value>Namnet på rollen administratör. Administratörer har samma rättigheter som redaktörer, men har även tillgång till konfigurationsinställningar och verktyg för webbplatsen.</value>
+</data>
+<data name="Page3_DB_Group3_Title" xml:space="preserve">
+	<value>Tillåt användare att registrera sig</value>
+</data>
+<data name="Page3_DB_Group3_Label1" xml:space="preserve">
+	<value>Markera detta alternativ om du vill tillåta personer att registrera sig som nya användare. Om du inte tillåter detta, kommer endast administratörer att kunna skapa nya användare.</value>
+</data>
+<data name="Page3_DB_Group3_Label2" xml:space="preserve">
+	<value>Tillåt nya användare att registrera sig.</value>
+</data>
+<data name="Page3_DB_Group4_Title" xml:space="preserve">
+	<value>Aktivera Recaptcha</value>
+</data>
+<data name="Page3_DB_Group4_Label1" xml:space="preserve">
+	<value>Om du tillåter att användare registrerar sig själva, så rekommenderar vi att du även aktiverar stöd för Recaptcha. Detta är en gratis anti-spam / anti-bot tjänst som tillhandahålls av Google. Du måste i så fall registrera dig och kopiera din publika och privata nyckel i fälten nedan. &lt;a href=&quot;https://www.google.com/recaptcha/admin/create&quot; target=&quot;_blank&quot;&gt;Registrera dig här&lt;/a&gt; - du kommer att behöva skapa ett Google-konto först.</value>
+</data>
+<data name="Page3_DB_Group4_Label2" xml:space="preserve">
+	<value>Aktivera Recaptcha antispam-tjänst.</value>
+</data>
+<data name="Page3_DB_Group4_Label3" xml:space="preserve">
+	<value>Publik nyckel</value>
+</data>
+<data name="Page3_DB_Group4_Label4" xml:space="preserve">
+	<value>Privat nyckel</value>
+</data>
+<data name="Page3_DB_Group5_Title" xml:space="preserve">
+	<value>Administratörens e-post</value>
+</data>
+<data name="Page3_DB_Group5_Label1" xml:space="preserve">
+	<value>Administatörens e-postadress. Du kan lägga till fler administratörer under Inställningar, så att den här användaren inte &quot;äger&quot; webbplatsen</value>
+</data>
+<data name="Page3_DB_Group6_Title" xml:space="preserve">
+	<value>Administratörslösenord</value>
+</data>
+<data name="Page3_DB_Group6_Label1" xml:space="preserve">
+	<value>Administratörens lösenord</value>
+</data>
+<data name="Page4_Label1" xml:space="preserve">
+	<value>Nästan klar...bara några ytterligare inställningar.</value>
+</data>
+<data name="Page4_Group1_Title" xml:space="preserve">
+	<value>Mapp för bilagor</value>
+</data>
+<data name="Page4_Group1_Success" xml:space="preserve">
+	<value>Mappen finns och kan skrivas till.</value>
+</data>
+<data name="Page4_Group1_Error" xml:space="preserve">
+	<value>Kan inte skriva till mappen:</value>
+</data>
+<data name="Page4_Group1_Label1" xml:space="preserve">
+	<value>Det här är katalogen dit alla uppladdade filer sparas. Användaren som applikationspoolen körs som måste ha skrivrättigheter till denna katalog. I dom flesta fall behöver du inte tänka på att ändra rättigheterna, eftersom dom ärvs från den överordnade mappen. </value>
+</data>
+<data name="Page4_Group1_Label2" xml:space="preserve">
+	<value>Säkerställ att mappens sökväg antingen börjar med &quot;~/&quot; vilket indikerar webbplatsens rotkatalog, eller är en vanlig sökväg (t ex &apos;c:\bilagor&apos;).</value>
+	<comment>The english version of this label is a bit confusing?</comment>
+</data>
+<data name="Page4_Group2_Title" xml:space="preserve">
+	<value>Tillåtna filändelser</value>
+</data>
+<data name="Page4_Group2_Label1" xml:space="preserve">
+	<value>Detta är de filändelser som får laddas upp.</value>
+</data>
+<data name="Page4_Group3_Title" xml:space="preserve">
+	<value>Tema</value>
+</data>
+<data name="Page4_Group3_Label1" xml:space="preserve">
+	<value>Detta är det tema som används för webbplatsen. Detta måste motsvara ett mappnamn i katalogen Themes.</value>
+</data>
+<data name="Page4_Group4_Title" xml:space="preserve">
+	<value>Markupkodformat</value>
+</data>
+<data name="Page4_Group4_Label1" xml:space="preserve">
+	<value>Det markupkodformat som används. Roadkill stöder för närvarande följande format: Creole, Markdown, Mediawiki.</value>
+</data>
+<data name="Page4_Group4_Label2" xml:space="preserve">
+	<value>Creole är det rekommenderade formatet.</value>
+</data>
+<data name="Page4_Group5_Title" xml:space="preserve">
+	<value>Cache</value>
+</data>
+<data name="Page4_Group5_Label1" xml:space="preserve">
+	<value>Aktivera cachelagring av objekt</value>
+</data>
+<data name="Page4_Group5_Label2" xml:space="preserve">
+	<value>Roadkill cachelagrar alla sidor och allt innehåll i minnet efter att det hämtats från databasen. Cachen uppdateras automatiskt när en sida ändras. Rekommenderar för att snabba upp webbplatsen. Cachelagring av objekt stöds för närvarande inte för sk webgardens eller webbservergrupper.</value>
+</data>
+<data name="Page4_Group5_Label3" xml:space="preserve">
+	<value>Aktivera webbläsarens cache</value>
+</data>
+<data name="Page4_Group5_Label4" xml:space="preserve">
+	<value>Detta kommer att instruera webbläsaren att cache Roadkillsidor, och att fråga efter uppdateringar (If-Modified-Since) varje gång en sida laddas. Om ingen uppdatering finns så returneras inget innehåll från servern. Rekommenderas för att snabba upp webbplatsen.</value>
+</data>
+<data name="Page4_Group5_Label5" xml:space="preserve">
+	<value>(Nu oanvända, kan tas bort på 2.0)</value>
+</data>
+<data name="Page5_Success_Title" xml:space="preserve">
+	<value>Installationen lyckades</value>
+</data>
+<data name="Page5_Success_AD_Title" xml:space="preserve">
+	<value>Windows-autentisering - observera</value>
+</data>
+<data name="Page5_Success_AD_Label" xml:space="preserve">
+	<value>Om du använder IIS7 + kan du behöva konfigurera web.config-filen för dina säkerhetsinställningar; se nedan för de element som behövs. Om du får HTTP 500-fel efter att dessa förändringar utförts, så är sektionen låst på en överordnad nivå, och då måste förändringarna utföras med hjälp av IIS-managern.</value>
+	<comment>&quot;thechanges&quot;=&quot;the changes&quot;</comment>
+</data>
+<data name="Page5_Success_Label1" xml:space="preserve">
+	<value>Fortsätt till webbplatsen</value>
+</data>
+<data name="Page5_Error_Title" xml:space="preserve">
+	<value>Ett fel uppstod under installationen</value>
+</data>
+<data name="Page5_Error_Label1" xml:space="preserve">
+	<value>Gå tillbaka genom installationsstegen och kontrollera dina inställningar. Felmeddelandet var:</value>
+</data>
+
+</root>

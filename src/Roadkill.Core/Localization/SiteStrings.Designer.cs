@@ -637,6 +637,15 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to homepage.
+        /// </summary>
+        public static string Homepage_Tagname {
+            get {
+                return ResourceManager.GetString("Homepage_Tagname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The username/password is incorrect.
         /// </summary>
         public static string Login_Error {
@@ -781,7 +790,7 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To set a main page, create a page and assign the tag &apos;homepage&apos; to it. .
+        ///   Looks up a localized string similar to To set a main page, create a page and assign the tag &apos;homepage&apos; to it..
         /// </summary>
         public static string NoMainPage_Label {
             get {
@@ -1447,7 +1456,7 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Changes your database type - you will need to recreate the schema in the tools for this to work correctly..
+        ///   Looks up a localized string similar to Changes your connection string - you will need to recreate the schema in the tools for this to work correctly..
         /// </summary>
         public static string SiteSettings_Configuration_ConnectionStrings_Help {
             get {
@@ -1564,11 +1573,74 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File manager.
+        /// </summary>
+        public static string SiteSettings_Configuration_FileManager {
+            get {
+                return ResourceManager.GetString("SiteSettings_Configuration_FileManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatically overwrite existing files on upload.
+        /// </summary>
+        public static string SiteSettings_Configuration_FileManager_OverwriteExisting {
+            get {
+                return ResourceManager.GetString("SiteSettings_Configuration_FileManager_OverwriteExisting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check this if you want file names that already exist in the attachments folder to be automatically overwritten..
+        /// </summary>
+        public static string SiteSettings_Configuration_FileManager_OverwriteExisting_Help {
+            get {
+                return ResourceManager.GetString("SiteSettings_Configuration_FileManager_OverwriteExisting_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to General.
         /// </summary>
         public static string SiteSettings_Configuration_General {
             get {
                 return ResourceManager.GetString("SiteSettings_Configuration_General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Additional head tag content.
+        /// </summary>
+        public static string SiteSettings_Configuration_HeadContent {
+            get {
+                return ResourceManager.GetString("SiteSettings_Configuration_HeadContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Any additional HTML or scripts you enter here will be added to the &lt;head&gt; tag of the page..
+        /// </summary>
+        public static string SiteSettings_Configuration_HeadContent_Help {
+            get {
+                return ResourceManager.GetString("SiteSettings_Configuration_HeadContent_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Left menu markup.
+        /// </summary>
+        public static string SiteSettings_Configuration_LeftMenu {
+            get {
+                return ResourceManager.GetString("SiteSettings_Configuration_LeftMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The navigation menu, which is typically on the left hand side but varies according to the theme. Markup is accepted and should be done in the markdown format your wiki uses. You can also use the following tokens which are replaced with links (some of which may be empty if you are not logged in): &lt;br/&gt;%mainpage%&lt;br/&gt;%categories%&lt;br/&gt;%allpages%&lt;br/&gt;%newpage%&lt;br/&gt;%managefiles%&lt;br/&gt;%sitesettings%..
+        /// </summary>
+        public static string SiteSettings_Configuration_LeftMenu_Help {
+            get {
+                return ResourceManager.GetString("SiteSettings_Configuration_LeftMenu_Help", resourceCulture);
             }
         }
         
@@ -1740,6 +1812,15 @@ namespace Roadkill.Core.Localization {
         public static string SiteSettings_Configuration_UseWindowsAuth_Help {
             get {
                 return ResourceManager.GetString("SiteSettings_Configuration_UseWindowsAuth_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plugins.
+        /// </summary>
+        public static string SiteSettings_Plugins_Title {
+            get {
+                return ResourceManager.GetString("SiteSettings_Plugins_Title", resourceCulture);
             }
         }
         

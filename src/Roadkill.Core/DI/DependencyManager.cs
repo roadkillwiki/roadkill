@@ -12,6 +12,7 @@ using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.DI;
+using Roadkill.Core.Import;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Managers;
 using Roadkill.Core.Mvc.Attributes;
@@ -130,6 +131,9 @@ namespace Roadkill.Core
 
 			// Plugins
 			x.For<IPluginFactory>().Singleton().Use<PluginFactory>();
+
+			// Screwturn importer
+			x.For<IWikiImporter>().Use<ScrewTurnImporter>();
 
 			// Cache
 			x.For<ObjectCache>().Use(new MemoryCache("Roadkill"));

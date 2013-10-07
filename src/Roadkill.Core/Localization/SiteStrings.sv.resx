@@ -25,772 +25,775 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 <data name="Navigation_Login" xml:space="preserve">
-	<value>Login</value>
+	<value>Inloggning</value>
 </data>
 <data name="Navigation_Logout" xml:space="preserve">
-	<value>Logout</value>
+	<value>Logga ut</value>
 </data>
 <data name="Navigation_Register" xml:space="preserve">
-	<value>Register</value>
+	<value>Registrera</value>
 </data>
 <data name="Navigation_MainPage" xml:space="preserve">
-	<value>Main Page</value>
+	<value>Huvudsida</value>
 </data>
 <data name="Navigation_Categories" xml:space="preserve">
-	<value>Categories</value>
+	<value>Kategorier</value>
 </data>
 <data name="Navigation_AllPages" xml:space="preserve">
-	<value>All pages</value>
+	<value>Alla sidor</value>
 </data>
 <data name="Navigation_NewPage" xml:space="preserve">
-	<value>New page</value>
+	<value>Ny sida</value>
 </data>
 <data name="Navigation_SiteSettings" xml:space="preserve">
-	<value>Site settings</value>
+	<value>Webbplatsinställningar</value>
 </data>
 <data name="Navigation_Edit" xml:space="preserve">
-	<value>Edit</value>
+	<value>Redigera</value>
 </data>
 <data name="Navigation_Delete" xml:space="preserve">
-	<value>Delete</value>
+	<value>Radera</value>
 </data>
 <data name="Navigation_History" xml:space="preserve">
-	<value>History</value>
+	<value>Historik</value>
 </data>
 <data name="Navigation_ViewHistory" xml:space="preserve">
-	<value>View History</value>
+	<value>Visa historik</value>
 </data>
 <data name="Button_Login" xml:space="preserve">
-	<value>Login</value>
+	<value>Logga in</value>
 </data>
 <data name="Button_Cancel" xml:space="preserve">
-	<value>Cancel</value>
+	<value>Avbryt</value>
 </data>
 <data name="Button_Save" xml:space="preserve">
-	<value>Save</value>
+	<value>Spara</value>
 </data>
 <data name="Button_Preview" xml:space="preserve">
-	<value>Preview</value>
+	<value>Förhandsgranska</value>
 </data>
 <data name="Button_Import" xml:space="preserve">
-	<value>Import</value>
+	<value>Importera</value>
 </data>
 <data name="Button_Rename" xml:space="preserve">
-	<value>Rename</value>
+	<value>Döp om</value>
 </data>
 <data name="Button_Upload" xml:space="preserve">
-	<value>Upload</value>
+	<value>Ladda upp</value>
 </data>
 <data name="Button_Search" xml:space="preserve">
-	<value>Search</value>
+	<value>Sök</value>
 </data>
 <data name="Shared_EditLink" xml:space="preserve">
-	<value>Edit</value>
+	<value>Redigera</value>
 </data>
 <data name="Shared_DeleteLink" xml:space="preserve">
-	<value>Delete</value>
+	<value>Radera</value>
 </data>
 <data name="Shared_ConfirmLink" xml:space="preserve">
-	<value>Confirm</value>
+	<value>Bekräfta</value>
 </data>
 <data name="Shared_NotLoggedIn" xml:space="preserve">
-	<value>Not logged in</value>
+	<value>Ej inloggad</value>
 </data>
 <data name="Shared_LoggedInAs" xml:space="preserve">
-	<value>Logged in as</value>
+	<value>Inloggad som</value>
 </data>
 <data name="Shared_LastModified" xml:space="preserve">
-	<value>This page was last modified on</value>
+	<value>Sidan ändrades senast den</value>
 </data>
 <data name="Shared_PoweredBy" xml:space="preserve">
 	<value>Powered by Roadkill Wiki</value>
 </data>
 <data name="Shared_Firstname" xml:space="preserve">
-	<value>First name:</value>
+	<value>Förnamn:</value>
 </data>
 <data name="Shared_Lastname" xml:space="preserve">
-	<value>Last name:</value>
+	<value>Efternamn:</value>
 </data>
 <data name="Shared_Username" xml:space="preserve">
-	<value>Username:</value>
+	<value>Användarnamn:</value>
 </data>
 <data name="Shared_Email_Label" xml:space="preserve">
-	<value>Email:</value>
+	<value>Epost:</value>
 </data>
 <data name="Shared_Password_Label" xml:space="preserve">
-	<value>Password:</value>
+	<value>Lösenord:</value>
 </data>
 <data name="Shared_PasswordConfirm_Label" xml:space="preserve">
-	<value>Password confirm:</value>
+	<value>Bekräfta lösenord:</value>
 </data>
 <data name="Shared_Error" xml:space="preserve">
-	<value>An error occurred:</value>
+	<value>Ett fel inträffade:</value>
 </data>
 <data name="User_Validation_Username" xml:space="preserve">
-	<value>The username field is required.</value>
+	<value>Användarnamn är ett obligatoriskt fält.</value>
 </data>
 <data name="User_Validation_Email" xml:space="preserve">
-	<value>The email field is required.</value>
+	<value>Epost är ett obligatoriskt fält.</value>
 </data>
 <data name="User_Validation_Email_Check" xml:space="preserve">
-	<value>The email field does not contain a valid email.</value>
+	<value>Epostfältet innehåller inte en giltig e-postadress.</value>
 </data>
 <data name="User_Validation_UsernameExists" xml:space="preserve">
-	<value>The username {0} already exists.</value>
+	<value>Användarnamnet {0} finns redan.</value>
 </data>
 <data name="User_Validation_UsernameEmpty" xml:space="preserve">
-	<value>The The username is empty.</value>
+	<value>Fältet för användarnamn är tomt.</value>
 </data>
 <data name="User_Validation_EmailExists" xml:space="preserve">
-	<value>The email {0} already exists.</value>
+	<value>Epostadressen {0} finns redan.</value>
 </data>
 <data name="User_Validation_PasswordsDontMatch" xml:space="preserve">
-	<value>The passwords don&apos;t match.</value>
+	<value>Lösenorden stämmer inte överens.</value>
 </data>
 <data name="User_Validation_PasswordTooShort" xml:space="preserve">
-	<value>The password is less than {0} characters</value>
+	<value>Lösenordet är kortare än {0} tecken</value>
 </data>
 <data name="Login_Title" xml:space="preserve">
-	<value>Login</value>
+	<value>Inloggning</value>
 </data>
 <data name="Login_ForgottenPassword" xml:space="preserve">
-	<value>Forgotten your password?</value>
+	<value>Glömt lösenordet?</value>
 </data>
 <data name="Login_Unsuccessful_Title" xml:space="preserve">
-	<value>Login was unsuccessful</value>
+	<value>Inloggningen misslyckades</value>
 </data>
 <data name="Login_Error" xml:space="preserve">
-	<value>The username/password is incorrect</value>
+	<value>Användarnamnet / lösenordet är felaktigt</value>
 </data>
 <data name="Signup_Title" xml:space="preserve">
-	<value>Register / Signup</value>
+	<value>Registrering</value>
 </data>
 <data name="Signup_Label" xml:space="preserve">
-	<value>Please enter you details below.</value>
+	<value>Fyll i dina uppgifter nedan.</value>
 </data>
 <data name="Signup_Button" xml:space="preserve">
-	<value>Register new user</value>
+	<value>Registrera ny användare</value>
 </data>
 <data name="Signup_Complete_Title" xml:space="preserve">
-	<value>Signup complete.</value>
+	<value>Registrering klar.</value>
 </data>
 <data name="Signup_Complete_Label" xml:space="preserve">
-	<value>Thank you, an email has been sent to {0} with details on how to complete the signup.</value>
+	<value>Tack, ett mail har skickats till {0} med information om hur registreringsprocessen slutförs.</value>
 </data>
 <data name="Signup_Complete_NoEmail" xml:space="preserve">
-	<value>Not received your email?</value>
+	<value>Inte fått ditt mail?</value>
 </data>
 <data name="Signup_Complete_EmailResent" xml:space="preserve">
-	<value>The confirmation email was resent.</value>
+	<value>Bekräftelsemailet har skickats igen.</value>
 </data>
 <data name="Signup_Complete_EmailResend_Button" xml:space="preserve">
-	<value>Resend email confirmation</value>
+	<value>Skicka om bekräftelsemailet.</value>
 </data>
 <data name="Signup_Error_General" xml:space="preserve">
-	<value>An error occurred with the signup.</value>
+	<value>Ett fel uppstod med registreringen.</value>
 </data>
 <data name="Signup_Error_Recaptcha" xml:space="preserve">
-	<value>The two words for the anti-spam box were incorrect</value>
+	<value>De två anti-spam orden var felaktiga</value>
 </data>
 <data name="Activate_Title" xml:space="preserve">
-	<value>Account Activation</value>
+	<value>Kontoaktivering</value>
 </data>
 <data name="Activate_Success_Title" xml:space="preserve">
-	<value>Activation successful</value>
+	<value>Aktiveringen lyckades</value>
 </data>
 <data name="Activate_Error_Title" xml:space="preserve">
-	<value>Activation was unsuccessful</value>
+	<value>Aktiveringen misslyckades</value>
 </data>
 <data name="Activate_Label" xml:space="preserve">
-	<value>Your account has been sucessfully activated.</value>
+	<value>Ditt konto är nu aktiverat.</value>
 </data>
 <data name="Activate_Link" xml:space="preserve">
-	<value>Click here to login</value>
+	<value>Klicka här för att logga in</value>
 </data>
 <data name="Activate_Error" xml:space="preserve">
-	<value>There was a problem activating your account. It may have already been activated.</value>
+	<value>Ett problem uppstod när ditt konto skulle aktiveras. Det kanske redan har aktiverats.</value>
 </data>
 <data name="ResetPassword_Title" xml:space="preserve">
-	<value>Reset your password.</value>
+	<value>Återställ ditt lösenord.</value>
 </data>
 <data name="ResetPassword_Label" xml:space="preserve">
-	<value>Enter your email below to reset your password. You will then receive an email with a link to reset your password.</value>
+	<value>Ange din e-postadress nedan för att återställa ditt lösenord. Du kommer då att få ett mail med en länk för att återställa ditt lösenord.</value>
 </data>
 <data name="ResetPassword_Complete_Label" xml:space="preserve">
-	<value>Please enter your new password.</value>
+	<value>Ange ditt nya lösenord.</value>
 </data>
 <data name="ResetPassword_Button" xml:space="preserve">
-	<value>Reset password</value>
+	<value>Återställ lösenord</value>
 </data>
 <data name="ResetPassword_Successful_Title" xml:space="preserve">
-	<value>Reset password successful.</value>
+	<value>Återställing av lösenordet lyckades.</value>
 </data>
 <data name="ResetPassword_Successful_Label" xml:space="preserve">
-	<value>Your password was sucessfully reset.</value>
+	<value>Ditt lösenord är nu återställt.</value>
 </data>
 <data name="ResetPassword_Invalid_Title" xml:space="preserve">
-	<value>Reset password invalid.</value>
+	<value>Återställingslösenordet är ogiltigt.</value>
 </data>
 <data name="ResetPassword_Invalid_Label" xml:space="preserve">
-	<value>The password reset key is no longer valid.</value>
+	<value>Återställningsnyckeln är inte längre giltigt.</value>
 </data>
 <data name="ResetPassword_EmailSent_Title" xml:space="preserve">
-	<value>Your password reset request was sent.</value>
+	<value>Din begäran om att återställa lösenordet är skickad.</value>
 </data>
 <data name="ResetPassword_EmailSent_Label" xml:space="preserve">
-	<value>Thank you, an email has been sent to {0} with details on how to reset your password.</value>
+	<value>Tack, ett mail har skickats till {0} med information om hur lösenordet återställs.</value>
 </data>
 <data name="ResetPassword_Error" xml:space="preserve">
-	<value>The passwords do not match, or are too short</value>
+	<value>Lösenorden stämmer inte, eller är för korta</value>
 </data>
 <data name="ResetPassword_Error_ServerError" xml:space="preserve">
-	<value>The password reset failed from a server error.</value>
+	<value>Återställningen av lösenordet misslyckades på grund av ett serverfel.</value>
 </data>
 <data name="ResetPassword_Error_EmailNotFound" xml:space="preserve">
-	<value>The email address could not be found</value>
+	<value>E-postadressen kunde inte hittas</value>
 </data>
 <data name="ResetPassword_Error_MissingEmail" xml:space="preserve">
-	<value>Please enter an email address</value>
+	<value>Ange en e-postadress</value>
 </data>
 <data name="Profile_Title" xml:space="preserve">
-	<value>Profile</value>
+	<value>Profil</value>
 </data>
 <data name="Profile_Error" xml:space="preserve">
-	<value>An error occurred updating your profile</value>
+	<value>Ett fel uppstod när din profil uppdaterades</value>
 </data>
 <data name="NoMainPage_Title" xml:space="preserve">
-	<value>You have no mainpage set</value>
+	<value>Du har inte angett någon huvudsida</value>
 </data>
 <data name="NoMainPage_Label" xml:space="preserve">
-	<value>To set a main page, create a page and assign the tag &apos;homepage&apos; to it.</value>
+	<value>För att ställa in huvudsidan, skapa en sida och tilldela taggen &quot;hemsida&quot; till den.</value>
+	<comment>I&apos;m assuming you&apos;re not localizing tags with special meanings? (like &apos;hompage&apos;)</comment>
 </data>
 <data name="Search_PlaceHolder" xml:space="preserve">
-	<value>Enter text to search</value>
+	<value>Ange text att söka efter</value>
 </data>
 <data name="Search_Results" xml:space="preserve">
-	<value>Search results for &apos;{0}&apos;</value>
+	<value>Sökresultat för &apos;{0}&apos;</value>
 </data>
 <data name="Search_NoResults" xml:space="preserve">
-	<value>Your search &apos;{0}&apos; did not match any pages</value>
+	<value>Din sökning &quot;{0}&quot; genererade inga träffar</value>
 </data>
 <data name="AllPages_Title" xml:space="preserve">
-	<value>All Pages</value>
+	<value>Alla sidor</value>
 </data>
 <data name="AllPages_NoPages" xml:space="preserve">
-	<value>No pages found.</value>
+	<value>Inga sidor hittades.</value>
 </data>
 <data name="AllTags_Title" xml:space="preserve">
-	<value>All Tags</value>
+	<value>Alla Taggar</value>
 </data>
 <data name="AllTags_NoResults" xml:space="preserve">
-	<value>No tags found.</value>
+	<value>Inga taggar hittades.</value>
 </data>
 <data name="AllPages_TitleColumnHeading" xml:space="preserve">
-	<value>Title</value>
+	<value>Titel</value>
 </data>
 <data name="Pages_ForUser" xml:space="preserve">
-	<value>All pages created by {0}</value>
+	<value>Alla sidor som skapats av {0}</value>
 </data>
 <data name="Pages_ForUser_NoPages" xml:space="preserve">
-	<value>{0} hasn&apos;t created any pages yet.</value>
+	<value>{0} har inte skapat några sidor ännu.</value>
 </data>
 <data name="Pages_ForTag" xml:space="preserve">
-	<value>All pages for tag {0}</value>
+	<value>Alla sidor med taggen {0}</value>
 </data>
 <data name="Pages_ForTag_NoPages" xml:space="preserve">
-	<value>No pages for {0}</value>
+	<value>Inga sidor för {0}</value>
 </data>
 <data name="History_Title" xml:space="preserve">
-	<value>Page history</value>
+	<value>Sidhistorik</value>
 </data>
 <data name="History_Version" xml:space="preserve">
 	<value>Version</value>
 </data>
 <data name="History_EditedOn" xml:space="preserve">
-	<value>Edited on</value>
+	<value>Redigerad senast</value>
 </data>
 <data name="History_EditedBy" xml:space="preserve">
-	<value>Edited by</value>
+	<value>Redigerad av</value>
 </data>
 <data name="History_RevertLink" xml:space="preserve">
-	<value>Revert</value>
+	<value>Återställ</value>
 </data>
 <data name="Version_Title" xml:space="preserve">
 	<value>Version {0}</value>
 </data>
 <data name="Version_BackLink" xml:space="preserve">
-	<value>back</value>
+	<value>tillbaka</value>
 </data>
 <data name="Page_Info_CreatedOn" xml:space="preserve">
-	<value>Created on:</value>
+	<value>Skapad den:</value>
 </data>
 <data name="Page_Info_CreatedBy" xml:space="preserve">
-	<value>Created by:</value>
+	<value>Skapad av:</value>
 </data>
 <data name="Page_Info_ModifiedOn" xml:space="preserve">
-	<value>Last modified on:</value>
+	<value>Senast ändrad:</value>
 </data>
 <data name="Page_Info_ModifiedBy" xml:space="preserve">
-	<value>Last modified by:</value>
+	<value>Senast uppdaterad av:</value>
 </data>
 <data name="Page_Validation_Title" xml:space="preserve">
-	<value>The title field is required.</value>
+	<value>Titel är ett obligatoriskt fält.</value>
 </data>
 <data name="EditPage_Title" xml:space="preserve">
-	<value>Add/edit page</value>
+	<value>Lägg till / redigera sida</value>
 </data>
 <data name="EditPage_Title_Label" xml:space="preserve">
-	<value>Title</value>
+	<value>Titel</value>
 </data>
 <data name="EditPage_Tags_Label" xml:space="preserve">
-	<value>Tags</value>
+	<value>Taggar</value>
 </data>
 <data name="EditPage_AdminOnly" xml:space="preserve">
-	<value>This page can only be edited by administrators.</value>
+	<value>Denna sida kan endast redigeras av administratörer.</value>
 </data>
 <data name="EditPage_Preview" xml:space="preserve">
-	<value>Preview</value>
+	<value>Förhandsgranska</value>
 </data>
 <data name="EditPage_LinkUrl_PlaceHolder" xml:space="preserve">
-	<value>enter url or page name</value>
+	<value>Ange webbadress eller sidnamn</value>
 </data>
 <data name="EditPage_LinkText_PlaceHolder" xml:space="preserve">
-	<value>Link text</value>
+	<value>Länktext</value>
 </data>
 <data name="EditPage_Image_Title" xml:space="preserve">
-	<value>Image title</value>
+	<value>Bildtitel</value>
 </data>
 <data name="EditPage_Error" xml:space="preserve">
-	<value>Unable to save the page:</value>
+	<value>Kunde inte spara sidan:</value>
 </data>
 <data name="EditPage_Toolbar_Bold" xml:space="preserve">
-	<value>Insert Bold text markup characters.</value>
+	<value>Infoga kod för fet stil.</value>
 </data>
 <data name="EditPage_Toolbar_BulletList" xml:space="preserve">
-	<value>Insert Bullet List markup characters.</value>
+	<value>Infoga kod för punktlista.</value>
 </data>
 <data name="EditPage_Toolbar_Heading1" xml:space="preserve">
-	<value>Insert Heading 1 level markup characters.</value>
+	<value>Infoga kod för Rubrik Nivå 1.</value>
 </data>
 <data name="EditPage_Toolbar_Heading2" xml:space="preserve">
-	<value>Insert Heading 2 level markup characters.</value>
+	<value>Infoga kod för Rubrik Nivå 2.</value>
 </data>
 <data name="EditPage_Toolbar_Heading3" xml:space="preserve">
-	<value>Insert Heading 3 level markup characters.</value>
+	<value>Infoga kod för Rubrik Nivå 3.</value>
 </data>
 <data name="EditPage_Toolbar_Heading4" xml:space="preserve">
-	<value>Insert Heading 4 level markup characters.</value>
+	<value>Infoga kod för Rubrik Nivå 4.</value>
 </data>
 <data name="EditPage_Toolbar_Heading5" xml:space="preserve">
-	<value>Insert Heading 5 level markup characters.</value>
+	<value>Infoga kod för Rubrik Nivå 5.</value>
 </data>
 <data name="EditPage_Toolbar_Help" xml:space="preserve">
-	<value>View Help reference for the markup syntax.</value>
+	<value>Visa hjälp för kodsyntax.</value>
 </data>
 <data name="EditPage_Toolbar_Image" xml:space="preserve">
-	<value>Insert Image markup characters.</value>
+	<value>Infoga kod för att inkludera en bild.</value>
 </data>
 <data name="EditPage_Toolbar_Italic" xml:space="preserve">
-	<value>Insert Italic markup characters.</value>
+	<value>Infoga kod för kursiv stil.</value>
 </data>
 <data name="EditPage_Toolbar_Link" xml:space="preserve">
-	<value>Insert URL Link markup characters.</value>
+	<value>Infoga kod för att skapa en länk.</value>
 </data>
 <data name="EditPage_Toolbar_NumberList" xml:space="preserve">
-	<value>Insert Numbered List markup characters.</value>
+	<value>Infoga kod för numrerad lista.</value>
 </data>
 <data name="EditPage_Toolbar_Underline" xml:space="preserve">
-	<value>Insert Underline markup characters.</value>
+	<value>Infoga kod för understruken stil.</value>
 </data>
 <data name="SiteSettings_Configuration" xml:space="preserve">
-	<value>Configuration</value>
+	<value>Konfiguration</value>
 </data>
 <data name="SiteSettings_Users" xml:space="preserve">
-	<value>Users</value>
+	<value>Användare</value>
 </data>
 <data name="SiteSettings_Tools" xml:space="preserve">
-	<value>Tools</value>
+	<value>Verktyg</value>
 </data>
 <data name="SiteSettings_Configuration_Title" xml:space="preserve">
-	<value>Site Settings</value>
+	<value>Webbplatsinställningar</value>
 </data>
 <data name="SiteSettings_Configuration_Site" xml:space="preserve">
-	<value>Site</value>
+	<value>Webbplats</value>
 </data>
 <data name="SiteSettings_Configuration_SiteName" xml:space="preserve">
-	<value>Site name</value>
+	<value>Webbplatsens namn</value>
 </data>
 <data name="SiteSettings_Configuration_SiteUrl" xml:space="preserve">
-	<value>Site url</value>
+	<value>Webbplatsens adress</value>
 </data>
 <data name="SiteSettings_Configuration_Database" xml:space="preserve">
-	<value>Database</value>
+	<value>Databas</value>
 </data>
 <data name="SiteSettings_Configuration_DatabaseType" xml:space="preserve">
-	<value>Database type</value>
+	<value>Databastyp</value>
 </data>
 <data name="SiteSettings_Configuration_DatabaseConnectionString" xml:space="preserve">
-	<value>Database connection string</value>
+	<value>Databasens anslutningssträng</value>
 </data>
 <data name="SiteSettings_Configuration_Security" xml:space="preserve">
-	<value>Security</value>
+	<value>Säkerhet</value>
 </data>
 <data name="SiteSettings_Configuration_UseWindowsAuth" xml:space="preserve">
-	<value>Use Windows Authentication</value>
+	<value>Använd Windows-autentisering</value>
 </data>
 <data name="SiteSettings_Configuration_AllowUserSignups" xml:space="preserve">
-	<value>Allow user signups</value>
+	<value>Tillåt användare att registrera sig</value>
 </data>
 <data name="SiteSettings_Configuration_EnableRecaptcha" xml:space="preserve">
-	<value>Enable recaptcha</value>
+	<value>Aktivera recaptcha</value>
 </data>
 <data name="SiteSettings_Configuration_RecaptchaPrivateKey" xml:space="preserve">
-	<value>Recaptcha private key</value>
+	<value>Recaptcha privat nyckel</value>
 </data>
 <data name="SiteSettings_Configuration_RecaptchaPublicKey" xml:space="preserve">
-	<value>Recaptcha public key</value>
+	<value>Recaptcha offentlig nyckel</value>
 </data>
 <data name="SiteSettings_Configuration_AD_Connection" xml:space="preserve">
-	<value>Authentication/LDAP connection string</value>
+	<value>Autentisering / LDAP-anslutningssträng</value>
 </data>
 <data name="SiteSettings_Configuration_AD_Username" xml:space="preserve">
-	<value>LDAP username</value>
+	<value>LDAP användarnamn</value>
 </data>
 <data name="SiteSettings_Configuration_AD_Password" xml:space="preserve">
-	<value>LDAP password</value>
+	<value>LDAP lösenord</value>
 </data>
 <data name="SiteSettings_Configuration_EditorRole" xml:space="preserve">
-	<value>Editor role/security group name</value>
+	<value>Gruppnamn för redaktörer</value>
 </data>
 <data name="SiteSettings_Configuration_AdminRole" xml:space="preserve">
-	<value>Admin role/security group name</value>
+	<value>Gruppnamn för administratörer</value>
 </data>
 <data name="SiteSettings_Configuration_General" xml:space="preserve">
-	<value>General</value>
+	<value>Allmänt</value>
 </data>
 <data name="SiteSettings_Configuration_MarkupType" xml:space="preserve">
-	<value>Markup type</value>
+	<value>Markupkodformat</value>
 </data>
 <data name="SiteSettings_Configuration_Theme" xml:space="preserve">
-	<value>Theme</value>
+	<value>Tema</value>
 </data>
 <data name="SiteSettings_Configuration_Attachments" xml:space="preserve">
-	<value>Attachments folder</value>
+	<value>Mapp för bilagor</value>
 </data>
 <data name="SiteSettings_Configuration_Extensions" xml:space="preserve">
-	<value>Allowed extensions</value>
+	<value>Tillåtna filändelser</value>
 </data>
 <data name="SiteSettings_Configuration_CachingTitle" xml:space="preserve">
-	<value>Caching</value>
+	<value>Cachning</value>
 </data>
 <data name="SiteSettings_Configuration_ObjectCaching" xml:space="preserve">
-	<value>Object caching</value>
+	<value>Objektcachning</value>
 </data>
 <data name="SiteSettings_Configuration_BrowserCaching" xml:space="preserve">
-	<value>Browser caching</value>
+	<value>Webbläsarcachning</value>
 </data>
 <data name="SiteSettings_Configuration_Error" xml:space="preserve">
-	<value>Unable to save the settings</value>
+	<value>Det gick inte att spara inställningarna</value>
 </data>
 <data name="SiteSettings_Configuration_Caching" xml:space="preserve">
-	<value>(This key is no longer used. To be removed in 2.0)</value>
+	<value>(Denna knapp används inte längre. Att tas bort i 2.0)</value>
 </data>
 <data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
-	<value>(This key is no longer used. To be removed in 2.0)</value>
+	<value>(Denna knapp används inte längre. Att tas bort i 2.0)</value>
 </data>
 <data name="SiteSettings_Configuration_SiteName_Help" xml:space="preserve">
-	<value>The name of the site, which is used in certain themes.</value>
+	<value>Webbplatsens namn, som används av vissa teman.</value>
 </data>
 <data name="SiteSettings_Configuration_SiteUrl_Help" xml:space="preserve">
-	<value>The url of the site, which is used in signup and reset password emails.  Do not include the trailing slash.</value>
+	<value>Webbplatsens adress som används i registrerings- och återställningsmail. Ange ej det avslutande snedstrecket.</value>
 </data>
 <data name="SiteSettings_Configuration_ConnectionStrings_Help" xml:space="preserve">
-	<value>Changes your connection string - you will need to recreate the schema in the tools for this to work correctly.</value>
+	<value>Ändrar anslutningssträngen - du måste återskapa schemat via verktygssidan för att detta skall fungera korrekt.</value>
+	<comment>This is probably not correct, judging by the title what you want here is help for the connection string, not the database type?</comment>
 </data>
 <data name="SiteSettings_Configuration_DatabaseType_Help" xml:space="preserve">
-	<value>Changes your database type - you will need to recreate the schema in the tools for this to work correctly.</value>
+	<value>Ändrar databastypen - du måste återskapa schemat via verktygssidan för att detta skall fungera korrekt.</value>
 </data>
 <data name="SiteSettings_Configuration_DatabaseConnectionString_Help" xml:space="preserve">
-	<value>The database connection string.</value>
+	<value>Databasens anslutningssträng.</value>
 </data>
 <data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
-	<value>&lt;b&gt;WARNING&lt;/b&gt; changing this may lock you out of the site. Make a backup of your web.config first before saving.&lt;br/&gt;&lt;br/&gt; Sets whether to use Windows Authentication and Active Directory for authentication.</value>
+	<value>&lt;b&gt; VARNING &lt;/ b&gt; om du ändrar detta kan du bli utlåst från webbplatsen. Ta en backup av web.config innan du sparar. &lt;br/&gt; Anger om Windows-autentisering och Active Directory skall användas för autentisering.</value>
 </data>
 <data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
-	<value>Check this option if you want to allow people to signup as a new users.</value>
+	<value>Markera detta alternativ om du vill tillåta personer att registrera sig som nya användare</value>
 </data>
 <data name="SiteSettings_Configuration_EnableRecaptcha_Help" xml:space="preserve">
-	<value>Enable Recaptcha support - a free anti-spam bot service. You will need to signup and copy your public and private key into the fields below.</value>
+	<value>Aktivera Recaptcha stöd - en gratis anti-spam  /anti-bot tjänst. Du måste registrera dig och kopiera din publika och privata nyckel i fälten nedan.</value>
 </data>
 <data name="SiteSettings_Configuration_RecaptchaPrivateKey_Help" xml:space="preserve">
-	<value>The private key for Recaptcha, which is provided when you signup with recaptcha.</value>
+	<value>Den privata nyckeln för Recaptcha, som du får när du registrerar dig för recaptcha.</value>
 </data>
 <data name="SiteSettings_Configuration_RecaptchaPublicKey_Help" xml:space="preserve">
-	<value>The public key for Recaptcha, which is provided when you signup with recaptcha.</value>
+	<value>Den publika nyckeln för Recaptcha, som du får när du registrerar dig för recaptcha.</value>
 </data>
 <data name="SiteSettings_Configuration_AD_Connection_Help" xml:space="preserve">
-	<value>The LDAP connection string for the Active Directory connection.This should be in the format LDAP://mydc01.company.internal (it should be uppercase LDAP).</value>
+	<value>LDAP-anslutningssträngen för Active Directory kopplingen.Måste anges i formatet LDAP:/ /mydc01.company.internal (ange LDAP med versaler).</value>
 </data>
 <data name="SiteSettings_Configuration_AD_Username_Help" xml:space="preserve">
-	<value>The username to authenticate against the Active Directory with. Leave blank if the app pool is running under a user with this permission.</value>
+	<value>Användarnamnet som skall användas för autentiseringen mot Active Directory. Lämna fältet tomt om applikationspoolen körs som en användare med denna behörighet.</value>
 </data>
 <data name="SiteSettings_Configuration_AD_Password_Help" xml:space="preserve">
-	<value>The password to use for authentication.</value>
+	<value>Lösenordet som skall användas för autentiseringen.</value>
 </data>
 <data name="SiteSettings_Configuration_EditorRole_Help" xml:space="preserve">
-	<value>This is the name of the editor role - people who can edit and create pages. This is only used for Active Directory/Windows authentication - leave this blank to allow all users to be editors.</value>
+	<value>Gruppnamnet för rollen Redaktören - användare som kan redigera och skapa sidor. Detta fält används endast för Active Directory / Windows-autentisering - lämna fältet tomt för att tillåta alla användare att bli redaktörer.</value>
 </data>
 <data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
-	<value>&lt;b&gt;WARNING&lt;/b&gt; changing this may lock you out of the site when using Active Directory/Windows authentication. Make a backup of your web.config first before saving. &lt;br/&gt;&lt;br/&gt;This is the name of the admin role. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.</value>
+	<value>&lt;b&gt; VARNING &lt;/ b&gt; om du ändrar detta kan du bli utlåst från webbplatsen när du använder Active Directory / Windows-autentisering. Ta en backup av web.config innan du sparar. &lt;br/&gt; Gruppnamnet för rollen Administratörer. Administratörer har samma rättigheter som redaktörer, men har även tillgång till inställningar och verktyg för webbplatsen.</value>
 </data>
 <data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
-	<value>This is the markup format that is used. Roadkill currently supports the following values: Creole, Markdown, Mediawiki.</value>
+	<value>Det markupkodformat som används. Roadkill stöder för närvarande följande format: Creole, Markdown, Mediawiki.</value>
 </data>
 <data name="SiteSettings_Configuration_Theme_Help" xml:space="preserve">
-	<value>This is the theme that the site uses. This should match a folder name in the Themes directory.</value>
+	<value>Det tema som används för webbplatsen. Detta måste motsvara ett mappnamn i katalogen Themes.</value>
 </data>
 <data name="SiteSettings_Configuration_Attachments_Help" xml:space="preserve">
-	<value>This is the directory where all files are uploaded to. This setting should start with ~/ to indicate the site root folder.</value>
+	<value>Katalogen där alla uppladdade filer / bilagor sparas. Denna sökväg måste börja med ~ / som indikerar webbplatsens rotkatalog.</value>
 </data>
 <data name="SiteSettings_Configuration_Extensions_Help" xml:space="preserve">
-	<value>These are the file extensions that can be uploaded, comma separated.</value>
+	<value>Dessa är de filändelser som får laddas upp, separerade med kommatecken.</value>
 </data>
 <data name="SiteSettings_Configuration_ObjectCaching_Help" xml:space="preserve">
-	<value>Enables Object caching. Roadkill caches all pages and content in memory after retrieving it from the database. The cache is automatically updated when a page changes. Recommended to increase the responsiveness of the site. Object caching is not currently supported for web gardens or web farms.</value>
+	<value>Aktiverar cachelagring av objekt. Roadkill cachelagrar alla sidor och allt innehåll i minnet efter att det hämtats från databasen. Cachen uppdateras automatiskt när en sida ändras. Rekommenderar för att snabba upp webbplatsen. Cachelagring av objekt stöds för närvarande inte för sk webgardens eller webbservergrupper.</value>
 </data>
 <data name="SiteSettings_Configuration_BrowserCaching_Help" xml:space="preserve">
-	<value>Enables caching on the browser. This will tell the browser to cache Roadkill pages, and check for updates (If-Modified-Since) each time the page is loaded. If no update is found, no content is returned from the server. Recommended to increase the responsiveness of the site.</value>
+	<value>Aktiverar cachelagring i webbläsaren. Detta kommer att instruera webbläsaren att cache Roadkillsidor, och att fråga efter uppdateringar (If-Modified-Since) varje gång en sida laddas. Om ingen uppdatering finns så returneras inget innehåll från servern. Rekommenderas för att snabba upp webbplatsen.</value>
 </data>
 <data name="SiteSettings_Configuration_Caching_Help" xml:space="preserve">
-	<value>(This key is no longer used. To be removed in 2.0)</value>
+	<value>(Denna knapp används inte längre. Att tas bort i 2.0)</value>
 </data>
 <data name="SiteSettings_Configuration_CachePageText_Help" xml:space="preserve">
-	<value>(This key is no longer used. To be removed in 2.0)</value>
+	<value>(Denna knapp används inte längre. Att tas bort i 2.0)</value>
 </data>
 <data name="SiteSettings_Users_Title" xml:space="preserve">
-	<value>Site users</value>
+	<value>Användare</value>
 </data>
 <data name="SiteSettings_Users_ColumnHeader_Username" xml:space="preserve">
-	<value>Username</value>
+	<value>Användarnamn</value>
 </data>
 <data name="SiteSettings_Users_ColumnHeader_Email" xml:space="preserve">
-	<value>Email</value>
+	<value>Epostadress</value>
 </data>
 <data name="SiteSettings_Users_Admins" xml:space="preserve">
-	<value>Admins</value>
+	<value>Administratörer</value>
 </data>
 <data name="SiteSettings_Users_NewAdmin" xml:space="preserve">
-	<value>New admin user</value>
+	<value>Ny administratör</value>
 </data>
 <data name="SiteSettings_Users_Editors" xml:space="preserve">
-	<value>Editors</value>
+	<value>Redaktörer</value>
 </data>
 <data name="SiteSettings_Users_NewEditor" xml:space="preserve">
-	<value>New editor user</value>
+	<value>Ny redaktör</value>
 </data>
 <data name="SiteSettings_Users_AddAdminDialog_Title" xml:space="preserve">
-	<value>Add admin</value>
+	<value>Lägg till administratör</value>
 </data>
 <data name="SiteSettings_Users_AddEditorDialog_Title" xml:space="preserve">
-	<value>Add editor</value>
+	<value>Lägg till redaktör</value>
 </data>
 <data name="SiteSettings_Users_EditUserDialog_Title" xml:space="preserve">
-	<value>Edit user</value>
+	<value>Redigera användare</value>
 </data>
 <data name="SiteSettings_Users_AddUserDialog_Help" xml:space="preserve">
-	<value>For existing users, leave the password fields blank to change just the username.</value>
+	<value>För befintliga användare, lämna lösenordsfältet tomt för att endast ändra användarnamnet.</value>
 </data>
 <data name="SiteSettings_Users_AddUserDialog_Error" xml:space="preserve">
-	<value>Unable to save the user details:</value>
+	<value>Det gick inte att spara användaruppgifterna:</value>
 </data>
 <data name="SiteSettings_Users_EditUser_Error" xml:space="preserve">
-	<value>Updating the user failed.</value>
+	<value>Det gick inte att uppdatera användaruppgifterna.</value>
 </data>
 <data name="SiteSettings_Users_AD_Title" xml:space="preserve">
-	<value>Windows/Active Directory authentication is enabled</value>
+	<value>Windows / Active Directory-autentisering är aktiverat</value>
 </data>
 <data name="SiteSettings_Users_AD_Label1" xml:space="preserve">
-	<value>User names and passwords are not editable with Windows authentication - you should do this through Active Directory.</value>
+	<value>Användarnamn och lösenord kan inte redigeras när Windows-autentisering är aktiverat - detta måste göras genom Active Directory.</value>
 </data>
 <data name="SiteSettings_Users_AD_Label2" xml:space="preserve">
-	<value>To add a user as an admin or editor, make sure they are part of the Windows security group that you have specified for the &quot;AdminRolename&quot; and &quot;EditorRolename&quot; settings in the web.config.</value>
+	<value>För att lägga till en användare som administratör eller redaktör, se till att de är medlemmar i den säkerhetsgrupp som du har angett för &quot;AdminRolename&quot;- och &quot;EditorRolename&quot;fälten i web.config.</value>
 </data>
 <data name="SiteSettings_Tools_Title" xml:space="preserve">
-	<value>Site tools</value>
+	<value>Verktyg</value>
 </data>
 <data name="SiteSettings_Tools_ClearDatabase" xml:space="preserve">
-	<value>Clear the database</value>
+	<value>Rensa databasen</value>
 </data>
 <data name="SiteSettings_Tools_ClearDatabase_Label" xml:space="preserve">
-	<value>Clears all pages and text from the database. This does not remove any users.</value>
+	<value>Raderar alla sidor och all text från databasen. Detta tar inte bort några användare.</value>
 </data>
 <data name="SiteSettings_Tools_ClearDatabase_Message" xml:space="preserve">
-	<value>Database cleared</value>
+	<value>Databasen är rensad</value>
 </data>
 <data name="SiteSettings_Tools_RebuildSearch" xml:space="preserve">
-	<value>Rebuild search index</value>
+	<value>Bygg om sökindexet</value>
 </data>
 <data name="SiteSettings_Tools_RebuildSearch_Label" xml:space="preserve">
-	<value>Forces a re-build of the page search index, useful if the search begins to get out of sync for any reason.</value>
+	<value>Initierar en ombyggnation av sökindexet, använd denna funktion om sökningarna börjar att komma ur synk av någon anledning.</value>
 </data>
 <data name="SiteSettings_Tools_RebuildSearch_Message" xml:space="preserve">
-	<value>Rebuild of search index complete</value>
+	<value>Ombyggnaden av sökindexet slutförd</value>
 </data>
 <data name="SiteSettings_Tools_ExportXml" xml:space="preserve">
-	<value>Export to XML</value>
+	<value>Exportera till XML</value>
 </data>
 <data name="SiteSettings_Tools_ExportXml_Label" xml:space="preserve">
-	<value>Exports all page text content and all history as a single XML file.</value>
+	<value>Exportera allt innehåll och all historik som en enda XML-fil.</value>
 </data>
 <data name="SiteSettings_Tools_ExportXml_Error" xml:space="preserve">
-	<value>Exporting to XML failed: {0}</value>
+	<value>Exporten till XML misslyckades: {0}</value>
 </data>
 <data name="SiteSettings_Tools_ExportContent" xml:space="preserve">
-	<value>Export all content as a zip</value>
+	<value>Exportera allt innehåll som en zip-fil</value>
 </data>
 <data name="SiteSettings_Tools_ExportContent_Label" xml:space="preserve">
-	<value>Exports all pages, including text content as a series of &quot;.wiki&quot; files. Only the current content and tags are included, no history is provided. This zip file does not include the attachments folder.</value>
+	<value>Exportera alla sidor, inklusive textinnehåll, som ett antal &quot;. wiki&quot;-filer. Endast aktuellt innehåll och taggar exporteras, ingen historik bibehålls. Denna zip-fil innehåller inte heller några bilagor.</value>
 </data>
 <data name="SiteSettings_Tools_ExportContent_Error" xml:space="preserve">
-	<value>Wiki content export failed: {0}</value>
+	<value>Wiki exporten misslyckades: {0}</value>
 </data>
 <data name="SiteSettings_Tools_ExportAttachments" xml:space="preserve">
-	<value>Export attachments as a zip</value>
+	<value>Exportera bilagor som en zip-fil</value>
 </data>
 <data name="SiteSettings_Tools_ExportAttachments_Label" xml:space="preserve">
-	<value>Exports all the contents of attachments folder and subfolders as a zip file.</value>
+	<value>Exportera alla bifogade filer från mappen och dess undermappar som en zip-fil.</value>
 </data>
 <data name="SiteSettings_Tools_ExportAttachments_Error" xml:space="preserve">
-	<value>Exporting attachments failed: {0}</value>
+	<value>Exporten av bilagor misslyckades: {0}</value>
 </data>
 <data name="SiteSettings_Tools_ScrewTurnImport" xml:space="preserve">
-	<value>Import from screwturn</value>
+	<value>Importera från screwturn</value>
 </data>
 <data name="SiteSettings_Tools_ScrewTurnImport_Label" xml:space="preserve">
-	<value>Imports all content from a Screwturn 2 database. You will need to set the markuptype to MediaWiki in the settings/web.config file for the format to be compatible. As screwturn uses as variation on the mediawiki syntax, some content will not render perfectly. This includes some images and links.</value>
+	<value>Importera allt innehåll från en Screwturn 2 databas. Du måste ange markupkodformatet till MediaWiki i inställningarna / web.config filen. Eftersom screwturn använder en variatnt på MediaWiki-syntaxet så kommer en del innehåll inte att visas helt korrekt. Detta inkluderar några bilder och länkar.</value>
 </data>
 <data name="SiteSettings_Tools_ScrewTurnImport_Connection" xml:space="preserve">
-	<value>Screwturn connection string:</value>
+	<value>Screwturn anslutningssträng:</value>
 </data>
 <data name="SiteSettings_Tools_ScrewTurnImport_Message" xml:space="preserve">
-	<value>Import successful</value>
+	<value>Importen lyckades</value>
 </data>
 <data name="SiteSettings_Tools_RenameTag" xml:space="preserve">
-	<value>Rename a tag</value>
+	<value>Byt namn på en tagg</value>
 </data>
 <data name="SiteSettings_Tools_RenameTag_Label" xml:space="preserve">
-	<value>This will rename a tag, and update all pages that reference the tag to use the new tagname. The tagname is case sensitive.</value>
+	<value>Döp om en tagg, och uppdatera alla sidor som refererar till taggen så att dom använder det nya namnet. OBS: Taggnamnet är skiftlägeskänsligt.</value>
 </data>
 <data name="SiteSettings_Tools_RenameTag_Existing" xml:space="preserve">
-	<value>Existing tag:</value>
+	<value>Befintlig tagg:</value>
 </data>
 <data name="SiteSettings_Tools_RenameTag_New" xml:space="preserve">
-	<value>New tag name:</value>
+	<value>Ny tagg:</value>
 </data>
 <data name="SiteSettings_Tools_RenameTag_Message" xml:space="preserve">
-	<value>Tag rename successful</value>
+	<value>Omdöpningen lyckades</value>
 </data>
 <data name="SiteSettings_Validation_AttachmentsEmpty" xml:space="preserve">
-	<value>The attachments folder is empty.</value>
+	<value>Bilagorfältet är ej angivet.</value>
 </data>
 <data name="SiteSettings_Validation_AttachmentsReservedName" xml:space="preserve">
-	<value>&apos;~/Files&apos; is a reserved path, please choose another attachments folder.</value>
+	<value>&apos;~ / Files &quot;är en reserverad sökväg, välj en annan mapp för bilagorna</value>
 </data>
 <data name="SiteSettings_Validation_ConnectionEmpty" xml:space="preserve">
-	<value>The connection string is empty.</value>
+	<value>Anslutningssträngen är ej angiven.</value>
 </data>
 <data name="SiteSettings_Validation_MarkupTypeEmpty" xml:space="preserve">
-	<value>The markup type is empty.</value>
+	<value>Markupkodformatet är ej angivet</value>
 </data>
 <data name="SiteSettings_Validation_ThemeEmpty" xml:space="preserve">
-	<value>The theme is empty.</value>
+	<value>Temat är ej angivet.</value>
 </data>
 <data name="SiteSettings_Validation_SiteNameEmpty" xml:space="preserve">
-	<value>The sitename is empty.</value>
+	<value>Webbplatsens namn är ej angivet.</value>
 </data>
 <data name="SiteSettings_Validation_SiteUrlEmpty" xml:space="preserve">
-	<value>The site url is empty.</value>
+	<value>Webbplatsens adress är ej angiven.</value>
 </data>
 <data name="FileManager_Title" xml:space="preserve">
-	<value>Manage files</value>
+	<value>Hantera filer</value>
 </data>
 <data name="FileManager_Upload" xml:space="preserve">
-	<value>Upload files</value>
+	<value>Ladda upp filer</value>
 </data>
 <data name="FileManager_AddFolder_PlaceHolder" xml:space="preserve">
-	<value>New folder</value>
+	<value>Ny mapp</value>
 </data>
 <data name="FileManager_AddFolder_Cancel" xml:space="preserve">
-	<value>Cancel new folder</value>
+	<value>Ångra ny mapp</value>
 </data>
 <data name="FileManager_Delete_File" xml:space="preserve">
-	<value>Delete File</value>
+	<value>Ta bort fil</value>
 </data>
 <data name="FileManager_Add_Folder" xml:space="preserve">
-	<value>Add Folder</value>
+	<value>Lägg till mapp</value>
 </data>
 <data name="FileManager_Select" xml:space="preserve">
-	<value>Select</value>
+	<value>Välj</value>
 </data>
 <data name="FileManager_Delete_Folder" xml:space="preserve">
-	<value>Delete Folder</value>
+	<value>Ta bort mapp</value>
 </data>
 <data name="FileManager_Delete_Confirm" xml:space="preserve">
-	<value>Are you sure you want to delete {0}?</value>
+	<value>Är du säker på att du vill ta bort {0}?</value>
 </data>
 <data name="FileManager_Delete_Success" xml:space="preserve">
-	<value>{0} was sucessfully deleted.</value>
+	<value>{0} är borttagen.</value>
 </data>
 <data name="FileManager_Delete_Error" xml:space="preserve">
-	<value>An error occurred deleting {0}</value>
+	<value>Ett fel uppstod när {0} skulle tas bort</value>
 </data>
 <data name="FileManager_Error_DirectoryListing" xml:space="preserve">
-	<value>An error occurred getting the directory listing: </value>
+	<value>Ett fel uppstod när katalogen skulle läsas in:</value>
 </data>
 <data name="FileManager_Error_DeleteFolder" xml:space="preserve">
-	<value>An error occurred deleting the folder: </value>
+	<value>Ett fel uppstod när mappen skulle tas bort:</value>
 </data>
 <data name="FileManager_Error_DeleteFile" xml:space="preserve">
-	<value>An error occurred deleting the file: </value>
+	<value>Ett fel uppstod när filen skulle tas bort:</value>
 </data>
 <data name="FileManager_Error_CreateFolder" xml:space="preserve">
-	<value>An error occurred creating the folder: </value>
+	<value>Ett fel uppstod när mappen skulle skapas:</value>
 </data>
 <data name="FileManager_UploadingProgress" xml:space="preserve">
-	<value>Uploading...</value>
+	<value>Laddar upp ...</value>
 </data>
 <data name="FileManager_Watermark" xml:space="preserve">
-	<value>Drag files here to upload. Double click to navigate folders</value>
+	<value>Dra filer hit för att ladda upp dom. Dubbelklicka på mappar för att öppna dom</value>
 </data>
 <data name="FileManager_Extension_Not_Supported" xml:space="preserve">
-	<value>Only files with the extension {0} can be uploaded.</value>
+	<value>Endast filer med filändelsen {0} får laddas upp.</value>
 </data>
 <data name="Homepage_Tagname" xml:space="preserve">
-	<value>homepage</value>
+	<value>hemsida</value>
 </data>
 <data name="SiteSettings_Configuration_HeadContent" xml:space="preserve">
-	<value>Additional head tag content</value>
+	<value>Ytterligare tagg innehåll</value>
+	<comment>Can you decribe the context of this label a bit?</comment>
 </data>
 <data name="SiteSettings_Configuration_FileManager" xml:space="preserve">
-	<value>File manager</value>
+	<value>Filhanteraren</value>
 </data>
 <data name="SiteSettings_Configuration_HeadContent_Help" xml:space="preserve">
-	<value>Any additional HTML or scripts you enter here will be added to the &lt;head&gt; tag of the page.</value>
+	<value>All ytterligare HTML-kod eller skript du lägger till här kommer att läggas till sidans &lt;head&gt;-tagg.</value>
 </data>
 <data name="SiteSettings_Configuration_LeftMenu" xml:space="preserve">
-	<value>Left menu markup</value>
+	<value>Vänstra menyns markupkod</value>
 </data>
 <data name="SiteSettings_Configuration_LeftMenu_Help" xml:space="preserve">
-	<value>The navigation menu, which is typically on the left hand side but varies according to the theme. Markup is accepted and should be done in the markdown format your wiki uses. You can also use the following tokens which are replaced with links (some of which may be empty if you are not logged in): &lt;br/&gt;%mainpage%&lt;br/&gt;%categories%&lt;br/&gt;%allpages%&lt;br/&gt;%newpage%&lt;br/&gt;%managefiles%&lt;br/&gt;%sitesettings%.</value>
+	<value>Navigeringsmenyn. Den finns vanligen till vänster, men det kan variera beroende på temat du använder. Du kan använda markupkod, men den måste vara i samma format som du ställt in Wikin att använda. Du kan också använda följande mallar som automatiskt ersätts med länkar (om du inte är inloggad kan vissa vara tomma): &lt;br/&gt;%mainpage% &lt;br/&gt;%categories% &lt;br/&gt;% allpages% &lt;br /&gt;%newpage% &lt;br/&gt;%managefiles% &lt;br/&gt;%sitesettings%.</value>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
-	<value>Automatically overwrite existing files on upload</value>
+	<value>Skriv över befintliga filer</value>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting_Help" xml:space="preserve">
-	<value>Check this if you want file names that already exist in the attachments folder to be automatically overwritten.</value>
+	<value>Aktivera detta val om du vill att existerande filer skall skrivas över automatiskt.</value>
 </data>
 <data name="SiteSettings_Plugins_Title" xml:space="preserve">
-	<value>Plugins</value>
+	<value>Tillägg/plugins</value>
 </data>
 
 </root>

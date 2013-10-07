@@ -21,14 +21,15 @@ namespace Roadkill.Core.Mvc.ViewModels
 			List<LanguageSummary> languages = new List<LanguageSummary>()
 			{
 				new LanguageSummary("en", "English"),
-				new LanguageSummary("cz", "Čeština"),
+				new LanguageSummary("cs", "Čeština"),
 				new LanguageSummary("de", "Deutsch"),
 				new LanguageSummary("es", "Español"),
 				new LanguageSummary("hi", "हिंदी"),
 				new LanguageSummary("it", "Italiano"),
 				new LanguageSummary("pl", "Polski"),
+				new LanguageSummary("pt", "Português"),
 				new LanguageSummary("ru", "Pусский"),
-				new LanguageSummary("sw", "Svensk"),
+				new LanguageSummary("sv", "Svensk"),
 			};
 
 			return languages;

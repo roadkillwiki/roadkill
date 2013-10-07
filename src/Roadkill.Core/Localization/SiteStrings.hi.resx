@@ -765,5 +765,32 @@
 <data name="FileManager_Extension_Not_Supported" xml:space="preserve">
 	<value>विस्तार {0} के साथ ही फाइल अपलोड किया जा सकता है.</value>
 </data>
+<data name="Homepage_Tagname" xml:space="preserve">
+	<value>होमपेज</value>
+</data>
+<data name="SiteSettings_Configuration_HeadContent" xml:space="preserve">
+	<value>अतिरिक्त सिर टैग सामग्री</value>
+</data>
+<data name="SiteSettings_Configuration_FileManager" xml:space="preserve">
+	<value>फ़ाइल प्रबंधक</value>
+</data>
+<data name="SiteSettings_Configuration_HeadContent_Help" xml:space="preserve">
+	<value>आप यहाँ दर्ज कोई अतिरिक्त HTML या स्क्रिप्ट पृष्ठ की &lt;head&gt; टैग करने के लिए जोड़ दिया जाएगा.</value>
+</data>
+<data name="SiteSettings_Configuration_LeftMenu" xml:space="preserve">
+	<value>वाम मेनू मार्कअप</value>
+</data>
+<data name="SiteSettings_Configuration_LeftMenu_Help" xml:space="preserve">
+	<value>बाएं हाथ की ओर आम तौर पर है, लेकिन विषय के अनुसार बदलता रहता है जो नेविगेशन मेनू,. मार्कअप अपने विकि का उपयोग करता है markdown के प्रारूप में स्वीकार किया जाता है और किया जाना चाहिए. तुम भी लिंक (आप में लॉग इन नहीं कर रहे हैं, जिनमें से कुछ खाली हो सकता है) के साथ प्रतिस्थापित कर रहे हैं जो निम्न टोकन का उपयोग कर सकते हैं:% mainpage%% श्रेणियों% &lt;br/&gt; &lt;br/&gt;% allpages% &lt;br/&gt; br &lt; /&gt;% newpage%% managefiles%% sitesettings% &lt;br/&gt; &lt;br/&gt;.</value>
+</data>
+<data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
+	<value>स्वत: अपलोड करने पर मौजूदा फाइल के ऊपर लिख</value>
+</data>
+<data name="SiteSettings_Configuration_FileManager_OverwriteExisting_Help" xml:space="preserve">
+	<value>आप पहले से ही अनुलग्नकों में मौजूद फ़ाइल नाम स्वचालित रूप से अधिलेखित होना फ़ोल्डर चाहते हैं तो इस चेक करें.</value>
+</data>
+<data name="SiteSettings_Plugins_Title" xml:space="preserve">
+	<value>प्लगइन्स</value>
+</data>
 
 </root>
