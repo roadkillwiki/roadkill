@@ -36,7 +36,7 @@ module Roadkill.Site
 				blinkBGColor_2: "#CDE69C",
 				delimeters: [44, 186, 32, 9], // ',' space, tab
 				hiddenTagListName: "RawTags",
-				tagCloseIcon: "×", // ˣ or ×
+				tagCloseIcon: "×", //  ˣ or × (&times;)
 				preventSubmitOnEnter : false,
 				validator: function(input: string)
 				{
@@ -75,7 +75,7 @@ module Roadkill.Site
 				// Fix the tag's styles from being blank
 				$(".tm-tag-remove").each(function ()
 				{
-					$(this).text("×");
+					$(this).html("&times;");
 				});
 				$(".tm-tag").each(function ()
 				{

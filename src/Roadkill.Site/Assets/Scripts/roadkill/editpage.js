@@ -70,7 +70,7 @@ var Roadkill;
                 $("#TagsEntry").blur(function (e) {
                     $("#TagsEntry").tagsManager("pushTag", $("#TagsEntry").val());
                     $(".tm-tag-remove").each(function () {
-                        $(this).text("×");
+                        $(this).html("&times;");
                     });
                     $(".tm-tag").each(function () {
                         $(this).addClass("tm-tag-success");
