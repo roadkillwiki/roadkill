@@ -25,85 +25,85 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 <data name="Shared_Stage1" xml:space="preserve">
-	<value>Welcome</value>
+	<value>Vítejte</value>
 </data>
 <data name="Shared_Stage2" xml:space="preserve">
-	<value>Database</value>
+	<value>Databáze</value>
 </data>
 <data name="Shared_Stage3" xml:space="preserve">
-	<value>Security</value>
+	<value>Zabezpečení</value>
 </data>
 <data name="Shared_Stage4" xml:space="preserve">
-	<value>Extras</value>
+	<value>Něco navíc</value>
 </data>
 <data name="Shared_Stage5" xml:space="preserve">
-	<value>Finished</value>
+	<value>Dokončeno</value>
 </data>
 <data name="Shared_Continue" xml:space="preserve">
-	<value>Continue</value>
+	<value>Pokračovat</value>
 </data>
 <data name="Shared_Back" xml:space="preserve">
-	<value>Back</value>
+	<value>Zpět</value>
 </data>
 <data name="Shared_TestButton" xml:space="preserve">
 	<value>Test</value>
 </data>
 <data name="Shared_BackButton" xml:space="preserve">
-	<value>Back</value>
+	<value>Zpět</value>
 </data>
 <data name="Shared_NextButton" xml:space="preserve">
-	<value>Next</value>
+	<value>Další</value>
 </data>
 <data name="Shared_Success" xml:space="preserve">
-	<value>Success!</value>
+	<value>Úspěch!</value>
 </data>
 <data name="Shared_Failure" xml:space="preserve">
-	<value>Failure!</value>
+	<value>Chyba!</value>
 </data>
 <data name="Page1_Label1" xml:space="preserve">
-	<value>Thank for you downloading Roadkill .NET Wiki engine. The installer writes the settings you enter here to the web.config file (and also the database). </value>
+	<value>Děkujeme že jste si stáhli Roadkill .NET Wiki. Instalátor zapíše Vái zadané hodnoty do souboru web.config (a také do databáze). </value>
 </data>
 <data name="Page1_Label2" xml:space="preserve">
-	<value>In order to proceed, first we need to test if you have write access to the web.config file. </value>
+	<value>Aby instalace mohla pokračovat, potřebujeme ověřit jestli je možné zapisovat do souboru web.config. </value>
 </data>
 <data name="Page1_WebConfig_Success_Message" xml:space="preserve">
-	<value>The web.config can be written to.</value>
+	<value>Do web.config je možné zapisovat.</value>
 </data>
 <data name="Page1_WebConfig_Failure_Message" xml:space="preserve">
-	<value>Unable to write to the web.config file.</value>
+	<value>Do web.config nelze zapisovat.</value>
 </data>
 <data name="Page2_Label1" xml:space="preserve">
-	<value>Below are some required settings for Roadkill to work correctly. You can change these later via the settings page as an admin.</value>
+	<value>Níže je uvedeno několik důležitých nastavení. Změnit je můžete i pozdějí v menu Nastavení.</value>
 </data>
 <data name="Page2_Success" xml:space="preserve">
-	<value>The database connection is was successful.</value>
+	<value>Připojní do databáze bylo úspěšné.</value>
 </data>
 <data name="Page2_Error" xml:space="preserve">
-	<value>Unable to connect:</value>
+	<value>Nebylo možné se připojit:</value>
 </data>
 <data name="Page2_Group1_Title" xml:space="preserve">
-	<value>Site name</value>
+	<value>Název wiki stránek</value>
 </data>
 <data name="Page2_Group1_Label" xml:space="preserve">
-	<value>The name of the wiki, which appears on certain themes and in signup emails (if enabled). </value>
+	<value>Název wiki stránek který se bude zobrazovat v některých tématech a registračních emailech (budou-li povoleny). </value>
 </data>
 <data name="Page2_Group2_Title" xml:space="preserve">
-	<value>Site url</value>
+	<value>Adresa stránek</value>
 </data>
 <data name="Page2_Group2_Label" xml:space="preserve">
-	<value>The full url of the wiki, which appears in signup and reset passwords emails (if enabled). Do not include the trailing slash. </value>
+	<value>Adresa použitá v emailech zasílaných při registraci a změnách hesla. Pište bez zpětného lomítka na konci. </value>
 </data>
 <data name="Page2_Group3_Title" xml:space="preserve">
-	<value>Database connection string</value>
+	<value>Připojovací řetězec k databázi</value>
 </data>
 <data name="Page2_Group3_Label" xml:space="preserve">
-	<value>You will need to create the database first if you are using a named instance. Below are a few examples, use the second option is you are using shared hosting without any SQL Server hosting.</value>
+	<value>Je třeba nejprve vytvořit databázi. Níže je uvedeno několik příkladů, zvolte druhou volbu používáte-i sdílený hosting bez SQL serveru.</value>
 </data>
 <data name="Page2_Group3_Label2" xml:space="preserve">
-	<value>Example connection strings</value>
+	<value>Příklad připojovacího řetězce</value>
 </data>
 <data name="Page2_Group3_Label3" xml:space="preserve">
-	<value>Database type</value>
+	<value>Typ databáze</value>
 </data>
 <data name="Page2_Group3_SQLiteInstructionsTitle" xml:space="preserve">
 	<value>SQLite: please read</value>
@@ -124,181 +124,181 @@
 	<value>Failure - try copying the SQLite.Interop.dll file from ~/App_Data/SQLiteBinaries to your bin folder.</value>
 </data>
 <data name="Page3_Label1" xml:space="preserve">
-	<value>Do you want to users to be authenticated against an Active Directory using Windows authentication?</value>
+	<value>Chcete uživatele ověřovat v Active Directory?</value>
 </data>
 <data name="Page3_Group1_Title" xml:space="preserve">
-	<value>Windows authentication</value>
+	<value>Ověřování Windows</value>
 </data>
 <data name="Page3_Group1_Label" xml:space="preserve">
-	<value>Use windows authentication</value>
+	<value>Používat Windows ověřování</value>
 </data>
 <data name="Page3_AD_Group1_Title" xml:space="preserve">
-	<value>Active Directory LDAP connection string</value>
+	<value>Připojovací řetezec k LDAP Active Directory</value>
 </data>
 <data name="Page3_AD_Connection_Success" xml:space="preserve">
-	<value>The connection and authentication with the Active Directory server was successful.</value>
+	<value>Připojení a ověření v Active Directory bylo úspěšné.</value>
 </data>
 <data name="Page3_AD_Connection_Error" xml:space="preserve">
-	<value>Unable to connect to the Active Directory server:</value>
+	<value>Nebylo možné se k Active Directory připojit:</value>
 </data>
 <data name="Page3_AD_Success" xml:space="preserve">
-	<value>The group was queried sucessfully.</value>
+	<value>Dotaz na skupinu byl úspěšný.</value>
 </data>
 <data name="Page3_AD_Error" xml:space="preserve">
-	<value>Unable to query:</value>
+	<value>Chyba dotazu na skupinu:</value>
 </data>
 <data name="Page3_AD_Group1_Label1" xml:space="preserve">
-	<value>This should be in the format LDAP://mydc01.company.internal (it should be uppercase LDAP) where mydc01 is your domain controller and &apos;company&apos; and &apos;internal&apos; are the dns suffixes for your network. This can also be an IP address. You can usually get this information by running &quot;ipconfig&quot;.</value>
+	<value>Použite formát LDAP://mydc01.company.internal (LDAP pište velkými znaky) kde mydc01 je řadič domény a &apos;company&apos; s &apos;internal&apos; jsou DNS přípony sítě. Můžete také použít IP adresu (zjistíte ji příkazem ipconfig na řadiči domény).</value>
 </data>
 <data name="Page3_AD_Group1_Label2" xml:space="preserve">
-	<value>The connection string supports OU specifiers however doing it this way can cause issues. If you are unsure about this setting, it&apos;s recommended you download &lt;a href=&quot;http://technet.microsoft.com/en-us/sysinternals/bb963907&quot;&gt;AD Explorer&lt;/a&gt; first.</value>
+	<value>Připojovací řetězec podporuje objekty (OU) avšak jejich použití může způsobil problémy. Pokud si nejste jistí, nejprve si stáhněte &lt;a href=&quot;http://technet.microsoft.com/en-us/sysinternals/bb963907&quot;&gt;AD Explorer&lt;/a&gt;.</value>
 </data>
 <data name="Page3_AD_Group1_Label3" xml:space="preserve">
-	<value>Enter a username and password if the user that the app pool is running under does not have read access to Active Directory. This is useful if your Active Directory domain is a separate forest from the main domain (i.e. another branch office).</value>
+	<value>Uživatelské jméno pro ověření v Active Directory. Nechte prázdné pokud uživatel po kterým beží aplikační pool již oprávnění má. Používá se to obvykle pokud Vaše doména je v jiném lese (forest) než je hlavní doména.</value>
 </data>
 <data name="Page3_AD_Group2_Label1" xml:space="preserve">
-	<value>Username:</value>
+	<value>Uživatelské jméno:</value>
 </data>
 <data name="Page3_AD_Group2_Label2" xml:space="preserve">
-	<value>Password:</value>
+	<value>Heslo:</value>
 </data>
 <data name="Page3_AD_Group3_Title" xml:space="preserve">
-	<value>Editor group name</value>
+	<value>Název skupiny role redaktora</value>
 </data>
 <data name="Page3_AD_Group3_Label" xml:space="preserve">
-	<value>This is the security group that users should belong to in order to be editors (people who can edit and create pages). The test button uses the connection settings entered above. </value>
+	<value>Doménová skupina jejíž uživatelé busou mít oprávnění redaktora (lidé kteří mohou vytvářet a měnit stránky). Testovací tlačítko používá uvedený připojovací řetězec. </value>
 </data>
 <data name="Page3_AD_Group4_Title" xml:space="preserve">
-	<value>Admin group name</value>
+	<value>Název skupiny role správce</value>
 </data>
 <data name="Page3_AD_Group4_Label" xml:space="preserve">
-	<value>This is the security group that users should belong to in order to be admins. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.The test button uses the connection settings entered above.</value>
+	<value>Má práva jako redaktor ale navíc má přísup k nastavení stránek. Správci mají práva jako redaktor, ale navíc mají přísup k nastavení stránek. Testovací tlačítko používá uvedený připojovací řetězec.</value>
 </data>
 <data name="Page3_DB_Label" xml:space="preserve">
-	<value>All passwords are one-way encrypted using SHA128 and a salt. This means passwords are not recoverable and will require an admin to reset them (there is no reset password functionality yet). The minimum password length is 6 characters.</value>
+	<value>Všechna hesla jsou jednocestně zašifrována šifrou SHA128 a náhodným klíčem. To znamená že hesla není možné obnovit nýbrž pouze znovu nastavit. Heslo musí být alespoň 6 znaků dlouhé.</value>
 </data>
 <data name="Page3_DB_Group1_Title" xml:space="preserve">
-	<value>Editor role name</value>
+	<value>Název role redaktora</value>
 </data>
 <data name="Page3_DB_Group1_Label1" xml:space="preserve">
-	<value>This is the name of the editor role - people who can edit and create pages.</value>
+	<value>Název role redaktora - lidé kteří mohou vytvářet a měnit stránky.</value>
 </data>
 <data name="Page3_DB_Group2_Title" xml:space="preserve">
-	<value>Admin role name</value>
+	<value>Název role správce</value>
 </data>
 <data name="Page3_DB_Group2_Label1" xml:space="preserve">
-	<value>This is the name of the admin role. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.</value>
+	<value>Název role správce - má práva jako redaktor, ale navíc má přísup k nastavení stránek.</value>
 </data>
 <data name="Page3_DB_Group3_Title" xml:space="preserve">
-	<value>Allow user signups</value>
+	<value>Povolit registrace</value>
 </data>
 <data name="Page3_DB_Group3_Label1" xml:space="preserve">
-	<value>Check this option if you want to allow people to signup as a new users. If left unchecked, only admins will be able to create new users. </value>
+	<value>Zaškrtněte pokud chcete aby se lidé mohli sami registrovat. Pokud není zaškrtnuto, nové uživatele bude moci přidávat pouze správce. </value>
 </data>
 <data name="Page3_DB_Group3_Label2" xml:space="preserve">
-	<value>Allow new user signups. </value>
+	<value>Povolit registrace nových uživatelů. </value>
 </data>
 <data name="Page3_DB_Group4_Title" xml:space="preserve">
-	<value>Enable Recaptcha</value>
+	<value>Povolit Recaptcha</value>
 </data>
 <data name="Page3_DB_Group4_Label1" xml:space="preserve">
-	<value>If you are allowing user signups, it&apos;s recommended that you also enable Recaptcha support. This is a free anti-spam bot service provided by Google, you will need to signup and copy your public and private key into the fields below. &lt;a href=&quot;https://www.google.com/recaptcha/admin/create&quot; target=&quot;_blank&quot;&gt;Signup here&lt;/a&gt; - you will need to create a google account first.</value>
+	<value>Zapíná podporu Recaptcha - anti spamová služba zdarma. Je nutné se zaregistrovat a veřejný a soukromý klíč zkopírovat do níže uvedených polí. &lt;a href=&quot;https://www.google.com/recaptcha/admin/create&quot; target=&quot;_blank&quot;&gt;Zde se přihlašte&lt;/a&gt; - je nutný účet google.</value>
 </data>
 <data name="Page3_DB_Group4_Label2" xml:space="preserve">
-	<value>Enable Recaptcha anti-spam service. </value>
+	<value>Zapnout Recaptcha anti-spam službu. </value>
 </data>
 <data name="Page3_DB_Group4_Label3" xml:space="preserve">
-	<value>Public key</value>
+	<value>Veřejný klíč</value>
 </data>
 <data name="Page3_DB_Group4_Label4" xml:space="preserve">
-	<value>Private key</value>
+	<value>Soukromý klíč</value>
 </data>
 <data name="Page3_DB_Group5_Title" xml:space="preserve">
-	<value>Admin email</value>
+	<value>Email správce</value>
 </data>
 <data name="Page3_DB_Group5_Label1" xml:space="preserve">
-	<value>This is the email address for the admin user. You can add more admins in the settings page, so this user does not &apos;own&apos; the site</value>
+	<value>Toto je emailová adresa správce. Další správce můžete přidat v menu Nastavení.</value>
 </data>
 <data name="Page3_DB_Group6_Title" xml:space="preserve">
-	<value>Admin password</value>
+	<value>Heslo správce</value>
 </data>
 <data name="Page3_DB_Group6_Label1" xml:space="preserve">
-	<value>This is the password for the admin user.</value>
+	<value>Toto je heslo správce.</value>
 </data>
 <data name="Page4_Label1" xml:space="preserve">
-	<value>Almost done...Finally some extra tweakable settings. </value>
+	<value>Téměř hotovo...Nakonec několik extra nastavení. </value>
 </data>
 <data name="Page4_Group1_Title" xml:space="preserve">
-	<value>Attachments folder</value>
+	<value>Adresář příloh</value>
 </data>
 <data name="Page4_Group1_Success" xml:space="preserve">
-	<value>The folder exists and can be written to.</value>
+	<value>Adresář existuje a lze do něj zapisovat.</value>
 </data>
 <data name="Page4_Group1_Error" xml:space="preserve">
-	<value>Unable to write to the folder:</value>
+	<value>Do adresáře není možné zapisovat:</value>
 </data>
 <data name="Page4_Group1_Label1" xml:space="preserve">
-	<value>This is the directory where all files are uploaded to. This directory will need write permission by the user that the app pool runs under. Most of the time you shouldn&apos;t have to worry about changing the permissions for the folder, as they will be inherited from the parent folder. </value>
+	<value>Adresář do kterého budou nahrávány veškeré soubory. Do tohoto adresáře musí mít uživatel pod nímž běží IIS pool právo zápisu. Oprávnění obvykle není nutné měnit poněvadž ho zdědí od nadřazeného adresáře. </value>
 </data>
 <data name="Page4_Group1_Label2" xml:space="preserve">
-	<value>The folder path should start with &quot;~/&quot; for the website root, or be a file path (e.g. c:\myattachments).</value>
+	<value>Cesta by měla začínat ~/ což znamená kořenový adresář. Možnost přístupu můžete ověřit webovým prohlížečem. Ověřte také že do něj lze zapisovat (stejně jako do App_Data a bin - do nich však nic nahráváno nebude. </value>
 </data>
 <data name="Page4_Group2_Title" xml:space="preserve">
-	<value>Allowed extensions</value>
+	<value>Povolené přípony</value>
 </data>
 <data name="Page4_Group2_Label1" xml:space="preserve">
-	<value>These are the file extensions that can be uploaded.</value>
+	<value>Soubory s těmito příponami mohou být nahrávány. Oddělujte je čárkou.</value>
 </data>
 <data name="Page4_Group3_Title" xml:space="preserve">
-	<value>Theme</value>
+	<value>Téma</value>
 </data>
 <data name="Page4_Group3_Label1" xml:space="preserve">
-	<value>This is the theme that the site uses. This should match a folder name in the Themes directory.</value>
+	<value>Použité téma stránek. Název tématu musí být stejný jako název adresáře ve složce Themes.</value>
 </data>
 <data name="Page4_Group4_Title" xml:space="preserve">
-	<value>Markup type</value>
+	<value>Značkovací jazyk</value>
 </data>
 <data name="Page4_Group4_Label1" xml:space="preserve">
-	<value>This is the markup format that is used. Roadkill currently supports the following values: Creole, Markdown, Mediawiki.</value>
+	<value>Použitý značkovací jazyk. Roadkill nyní podporuje tyto hodnoty: Creole, Markdown, Mediawiki.</value>
 </data>
 <data name="Page4_Group4_Label2" xml:space="preserve">
-	<value>Creole is the recommended format. </value>
+	<value>Doporučený je Creole. </value>
 </data>
 <data name="Page4_Group5_Title" xml:space="preserve">
-	<value>Cache</value>
+	<value>Vyrovnávací paměť</value>
 </data>
 <data name="Page4_Group5_Label1" xml:space="preserve">
-	<value>Enable Object caching</value>
+	<value>Roadkill používá vyrovnávací pamět společně s výstupná vyrovnávací pamětí v ASP.NET. Pro zlepšení odezev aplikace je doporučeno ukládání do vyrovnávací paměti povolit. Databáová vyrovnávací paměť není pro webové zahrady či farmy podporována. </value>
 </data>
 <data name="Page4_Group5_Label2" xml:space="preserve">
-	<value>Roadkill caches all pages and content in memory after retrieving it from the database. The cache is automatically updated when a page changes. Recommended to increase the responsiveness of the site. Object caching is not currently supported for web gardens or web farms.</value>
+	<value>Toto nastavení ovlivňuje pouze vyrovnávací paměť databáze, výstupní vyrovnávací paměť je třeba zakázat přímo ve web.config.</value>
 </data>
 <data name="Page4_Group5_Label3" xml:space="preserve">
-	<value>Enable browser cache</value>
+	<value>Povolit vyrovnávací paměť </value>
 </data>
 <data name="Page4_Group5_Label4" xml:space="preserve">
-	<value>This will tell the browser to cache Roadkill pages, and check for updates (If-Modified-Since) each time the page is loaded. If no update is found, no content is returned from the server. Recommended to increase the responsiveness of the site.</value>
+	<value>Ukládat do vyrovnávací paměti textový obsah stránek. </value>
 </data>
 <data name="Page4_Group5_Label5" xml:space="preserve">
-	<value>(Now unused, can be removed in 2.0)</value>
+	<value>Není-li povoleno, bude při každém zobrazení stránka načítána znovu z databáze.</value>
 </data>
 <data name="Page5_Success_Title" xml:space="preserve">
-	<value>Installation successful</value>
+	<value>Instalace byla úspěšná</value>
 </data>
 <data name="Page5_Success_AD_Title" xml:space="preserve">
-	<value>Windows Authentication - please read</value>
+	<value>Ověřeřování Windows - prosím čtěte</value>
 </data>
 <data name="Page5_Success_AD_Label" xml:space="preserve">
-	<value>If you are using IIS7+ you may need to configure the web.config file for your security setup, below are the elements that are required.If you receive 500 errors after making these changes, then the section is locked at a parent level, and you will need to make the changes via the IIS manager.</value>
+	<value>Používáte-li IIS7+, je třeba upravit web.config pro nastavení zabezpečení, viz. níže uvedené povinné elementy. Pokud se Vám po provedené těchto změn zobrazuje chyba HTTP 500, je sekce blokovaná nadřazenou úrovní. Změny ve web.config v takovém případě proveďte přes administrační konzoli IIS.</value>
 </data>
 <data name="Page5_Success_Label1" xml:space="preserve">
-	<value>Continue to the site</value>
+	<value>Pokračovat na stránky</value>
 </data>
 <data name="Page5_Error_Title" xml:space="preserve">
-	<value>An error occurred during the install</value>
+	<value>Při instalaci se vyskytla chyba</value>
 </data>
 <data name="Page5_Error_Label1" xml:space="preserve">
-	<value>Please go back through the installation steps and check your settings. The error message was:</value>
+	<value>Vraťte se prosím v instalaci zpět a ověřte zadané hodnoty a nastavení. Chybové hlášení:</value>
 </data>
 
 </root>

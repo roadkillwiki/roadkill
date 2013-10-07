@@ -27,7 +27,7 @@ http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo(v=vs.80
 
 Current languages/codes supported are:
 
-	Czech - cz
+	Czech - cs
 	German - de
 	Hindi - hi
 	Italian - it
@@ -36,3 +36,27 @@ Current languages/codes supported are:
 	Portuguese - pt
 	Spanish - es
 	Swedish - sv
+
+The powershell script for performing the bulk renames:
+
+ren Roadkill_Installer_Czech.resx InstallStrings.cs.resx
+ren Roadkill_Installer_English.resx InstallStrings.resx
+ren Roadkill_Installer_German.resx InstallStrings.de.resx
+ren Roadkill_Installer_Hindi.resx InstallStrings.hi.resx
+ren Roadkill_Installer_Italian.resx InstallStrings.it.resx
+ren Roadkill_Installer_Polish.resx InstallStrings.pl.resx
+ren Roadkill_Installer_Portuguese.resx InstallStrings.pt.resx
+ren Roadkill_Installer_Russian.resx InstallStrings.ru.resx
+ren Roadkill_Installer_Spanish.resx InstallStrings.es.resx
+ren Roadkill_Installer_Swedish.resx InstallStrings.sv.resx
+
+ren Roadkill_Site_Czech.resx SiteStrings.cs.resx
+ren Roadkill_Site_English.resx SiteStrings.resx
+ren Roadkill_Site_German.resx SiteStrings.de.resx
+ren Roadkill_Site_Hindi.resx SiteStrings.hi.resx
+ren Roadkill_Site_Italian.resx SiteStrings.it.resx
+ren Roadkill_Site_Polish.resx SiteStrings.pl.resx
+ren Roadkill_Site_Portuguese.resx SiteStrings.pt.resx
+ren Roadkill_Site_Russian.resx SiteStrings.ru.resx
+ren Roadkill_Site_Spanish.resx SiteStrings.es.resx
+ren Roadkill_Site_Swedish.resx SiteStrings.sv.resx

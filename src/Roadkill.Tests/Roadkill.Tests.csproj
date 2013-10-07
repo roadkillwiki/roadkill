@@ -289,6 +289,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Acceptance\OtherDatabasesInstallerTests.cs" />
     <Compile Include="Acceptance\FileManagerTests.cs" />
     <Compile Include="Acceptance\UpgradeTests.cs" />
     <Compile Include="Acceptance\WebDriverExtensions.cs" />

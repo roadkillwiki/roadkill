@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="data">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" minOccurs="0"                     msdata:Ordinal="2" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="type" type="xsd:string" />
+        <xsd:attribute name="mimetype" type="xsd:string" />
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="Shared_Stage1" xml:space="preserve">
+	<value>Boas-vindas</value>
+</data>
+<data name="Shared_Stage2" xml:space="preserve">
+	<value>Banco de dados</value>
+</data>
+<data name="Shared_Stage3" xml:space="preserve">
+	<value>Segurança</value>
+</data>
+<data name="Shared_Stage4" xml:space="preserve">
+	<value>Extras</value>
+</data>
+<data name="Shared_Stage5" xml:space="preserve">
+	<value>Acabado</value>
+</data>
+<data name="Shared_Continue" xml:space="preserve">
+	<value>Continuar</value>
+</data>
+<data name="Shared_Back" xml:space="preserve">
+	<value>De volta</value>
+</data>
+<data name="Shared_TestButton" xml:space="preserve">
+	<value>Teste</value>
+</data>
+<data name="Shared_BackButton" xml:space="preserve">
+	<value>De volta</value>
+</data>
+<data name="Shared_NextButton" xml:space="preserve">
+	<value>Próximo</value>
+</data>
+<data name="Shared_Success" xml:space="preserve">
+	<value>Sucesso!</value>
+</data>
+<data name="Shared_Failure" xml:space="preserve">
+	<value>Fracasso!</value>
+</data>
+<data name="Page1_Label1" xml:space="preserve">
+	<value>Obrigado para você fazer o download Roadkill. Engine NET Wiki. O instalador grava as configurações que você inserir aqui para o arquivo web.config (e também o banco de dados).</value>
+</data>
+<data name="Page1_Label2" xml:space="preserve">
+	<value>A fim de proceder, em primeiro lugar, precisamos testar se você tem acesso ao arquivo web.config escrever.</value>
+</data>
+<data name="Page1_WebConfig_Success_Message" xml:space="preserve">
+	<value>O web.config pode ser gravado.</value>
+</data>
+<data name="Page1_WebConfig_Failure_Message" xml:space="preserve">
+	<value>Não foi possível gravar o arquivo web.config.</value>
+</data>
+<data name="Page2_Label1" xml:space="preserve">
+	<value>Abaixo estão algumas definições necessárias para Roadkill para funcionar corretamente. Você pode alterar isso mais tarde através da página de configurações como um administrador.</value>
+</data>
+<data name="Page2_Success" xml:space="preserve">
+	<value>A conexão com o banco é foi bem sucedida.</value>
+</data>
+<data name="Page2_Error" xml:space="preserve">
+	<value>Não foi possível conectar:</value>
+</data>
+<data name="Page2_Group1_Title" xml:space="preserve">
+	<value>Nome do site</value>
+</data>
+<data name="Page2_Group1_Label" xml:space="preserve">
+	<value>O nome do wiki, que aparece em certos temas e em e-mails de inscrição (se habilitado).</value>
+</data>
+<data name="Page2_Group2_Title" xml:space="preserve">
+	<value>URL do site</value>
+</data>
+<data name="Page2_Group2_Label" xml:space="preserve">
+	<value>A url completa do wiki, que aparece na inscrição e redefinir senhas e-mails (se habilitado). Não inclua a barra.</value>
+</data>
+<data name="Page2_Group3_Title" xml:space="preserve">
+	<value>String de conexão do banco de dados</value>
+</data>
+<data name="Page2_Group3_Label" xml:space="preserve">
+	<value>Você vai precisar para criar o primeiro banco de dados se você estiver usando uma instância nomeada. Abaixo estão alguns exemplos, use a segunda opção é que você está usando hospedagem compartilhada sem qualquer Servidor de hospedagem SQL.</value>
+</data>
+<data name="Page2_Group3_Label2" xml:space="preserve">
+	<value>Exemplos de seqüências de conexão</value>
+</data>
+<data name="Page2_Group3_Label3" xml:space="preserve">
+	<value>Tipo de banco de dados</value>
+</data>
+<data name="Page2_Group3_SQLiteInstructionsTitle" xml:space="preserve">
+	<value>SQLite: por favor leia</value>
+</data>
+<data name="Page2_Group3_SQLiteInstructionsMessage" xml:space="preserve">
+	<value>Nota: para usar o SQLite você precisa adicionar um outro arquivo para a pasta / bin, como SQLite é distribuído tanto para x86 e x64. &lt;a href=&quot;javascript:;&quot; id=&quot;sqlitecopy&quot;&gt; Clique aqui para copiar o arquivo &lt;/ a&gt;. Se você tiver problemas após isso, exclua &quot;SQLite.Interop.dll&quot; a partir da pasta bin.</value>
+</data>
+<data name="Page2_Group3_SQLiteSuccessTitle" xml:space="preserve">
+	<value>SQLite sucesso cópia de arquivo</value>
+</data>
+<data name="Page2_Group3_SQLiteSuccessMessage" xml:space="preserve">
+	<value>SQLite já deve estar pronto para uso.</value>
+</data>
+<data name="Page2_Group3_SQLiteFailureTitle" xml:space="preserve">
+	<value>Cópia do arquivo SQLite falhou</value>
+</data>
+<data name="Page2_Group3_SQLiteFailureMessage" xml:space="preserve">
+	<value>Falha - tente copiar o arquivo SQLite.Interop.dll em ~ / App_Data / SQLiteBinaries para a pasta bin.</value>
+</data>
+<data name="Page3_Label1" xml:space="preserve">
+	<value>Você quer que os usuários sejam autenticados contra um Active Directory usando autenticação do Windows?</value>
+</data>
+<data name="Page3_Group1_Title" xml:space="preserve">
+	<value>A autenticação do Windows</value>
+</data>
+<data name="Page3_Group1_Label" xml:space="preserve">
+	<value>Usar autenticação do Windows</value>
+</data>
+<data name="Page3_AD_Group1_Title" xml:space="preserve">
+	<value>String de conexão LDAP Active Directory</value>
+</data>
+<data name="Page3_AD_Connection_Success" xml:space="preserve">
+	<value>A conexão e autenticação com o servidor de Active Directory foi bem sucedida.</value>
+</data>
+<data name="Page3_AD_Connection_Error" xml:space="preserve">
+	<value>Não é possível conectar ao servidor de Active Directory:</value>
+</data>
+<data name="Page3_AD_Success" xml:space="preserve">
+	<value>O grupo foi consultado com sucesso.</value>
+</data>
+<data name="Page3_AD_Error" xml:space="preserve">
+	<value>Não é possível a consulta:</value>
+</data>
+<data name="Page3_AD_Group1_Label1" xml:space="preserve">
+	<value>Isso deve estar no formato LDAP :/ / mydc01.company.internal (deve ser maiúscula LDAP), onde mydc01 é o controlador de domínio e &apos;empresa&apos; e &apos;interno&apos; são os sufixos DNS para sua rede. Isto também pode ser um endereço IP. Você normalmente pode obter esta informação através do comando &quot;ipconfig&quot;.</value>
+</data>
+<data name="Page3_AD_Group1_Label2" xml:space="preserve">
+	<value>A seqüência de conexão suporta OU especificadores no entanto fazê-lo desta forma pode causar problemas. Se você está inseguro sobre essa configuração, é recomendado que você baixar &lt;a href=&quot;http://technet.microsoft.com/en-us/sysinternals/bb963907&quot;&gt; AD Explorador &lt;/ a&gt; em primeiro lugar.</value>
+</data>
+<data name="Page3_AD_Group1_Label3" xml:space="preserve">
+	<value>Digite um nome de usuário e senha, caso o usuário que o pool de aplicativos está sendo executado não ter acesso de leitura para o Active Directory. Isto é útil se o seu domínio é uma floresta separada do domínio principal (ou seja, uma outra filial).</value>
+</data>
+<data name="Page3_AD_Group2_Label1" xml:space="preserve">
+	<value>Usuário:</value>
+</data>
+<data name="Page3_AD_Group2_Label2" xml:space="preserve">
+	<value>Senha:</value>
+</data>
+<data name="Page3_AD_Group3_Title" xml:space="preserve">
+	<value>Nome do grupo editor</value>
+</data>
+<data name="Page3_AD_Group3_Label" xml:space="preserve">
+	<value>Este é o grupo de segurança que os usuários devem pertencer a fim de ser editores (pessoas que podem editar e criar páginas). O botão de teste usa as configurações de conexão de entrada acima.</value>
+</data>
+<data name="Page3_AD_Group4_Title" xml:space="preserve">
+	<value>Nome do grupo Administrador</value>
+</data>
+<data name="Page3_AD_Group4_Label" xml:space="preserve">
+	<value>Este é o grupo de segurança que os usuários devem pertencer a fim de ser administradores. Administradores têm os mesmos direitos que os editores, mas também ter acesso a configurações e ferramentas para o botão de teste site.The usa as configurações de conexão de entrada acima.</value>
+</data>
+<data name="Page3_DB_Label" xml:space="preserve">
+	<value>Todas as senhas são uma maneira criptografada usando SHA128 e um sal. Isso significa que as senhas não são reembolsáveis ​​e vai exigir e administrador para redefini-las (não há nenhuma funcionalidade de redefinição de senha ainda). O comprimento mínimo da senha é de 6 caracteres.</value>
+</data>
+<data name="Page3_DB_Group1_Title" xml:space="preserve">
+	<value>Editor do nome da função</value>
+</data>
+<data name="Page3_DB_Group1_Label1" xml:space="preserve">
+	<value>Este é o nome da função de editor - pessoas que podem editar e criar páginas.</value>
+</data>
+<data name="Page3_DB_Group2_Title" xml:space="preserve">
+	<value>Nome da função de administrador</value>
+</data>
+<data name="Page3_DB_Group2_Label1" xml:space="preserve">
+	<value>Este é o nome da função de administrador. Administradores têm os mesmos direitos que os editores, mas também ter acesso a configurações e ferramentas para o site.</value>
+</data>
+<data name="Page3_DB_Group3_Title" xml:space="preserve">
+	<value>Permitir cadastros de usuários</value>
+</data>
+<data name="Page3_DB_Group3_Label1" xml:space="preserve">
+	<value>Marque esta opção se você quiser permitir que as pessoas para se cadastrar como novos usuários. Se deixado sem controle, apenas os administradores serão capazes de criar novos usuários.</value>
+</data>
+<data name="Page3_DB_Group3_Label2" xml:space="preserve">
+	<value>Permitir novas inscrições de usuários.</value>
+</data>
+<data name="Page3_DB_Group4_Title" xml:space="preserve">
+	<value>Ativar Código</value>
+</data>
+<data name="Page3_DB_Group4_Label1" xml:space="preserve">
+	<value>Se você está permitindo inscrições de usuários, é recomendado que você também ativar o suporte ao Código. Este é um serviço bot anti-spam gratuito fornecido pelo Google, você precisa de inscrição e copiar a chave pública e privada nos campos abaixo. &lt;a href=&quot;https://www.google.com/recaptcha/admin/create&quot; target=&quot;_blank&quot;&gt; Registe-se aqui &lt;/ a&gt; - você vai precisar para criar uma conta do Google em primeiro lugar.</value>
+</data>
+<data name="Page3_DB_Group4_Label2" xml:space="preserve">
+	<value>Ativar Código de serviço anti-spam.</value>
+</data>
+<data name="Page3_DB_Group4_Label3" xml:space="preserve">
+	<value>Chave pública</value>
+</data>
+<data name="Page3_DB_Group4_Label4" xml:space="preserve">
+	<value>Chave privada</value>
+</data>
+<data name="Page3_DB_Group5_Title" xml:space="preserve">
+	<value>E-mail do administrador</value>
+</data>
+<data name="Page3_DB_Group5_Label1" xml:space="preserve">
+	<value>Este é o endereço de e-mail para o usuário admin. Você pode adicionar mais administradores na página de configurações, de modo que este usuário não &quot;próprio&quot; do site</value>
+</data>
+<data name="Page3_DB_Group6_Title" xml:space="preserve">
+	<value>Senha de administrador</value>
+</data>
+<data name="Page3_DB_Group6_Label1" xml:space="preserve">
+	<value>Esta é a senha para o usuário admin.</value>
+</data>
+<data name="Page4_Label1" xml:space="preserve">
+	<value>Quase pronto ... Finalmente algumas configurações extras tweakable.</value>
+</data>
+<data name="Page4_Group1_Title" xml:space="preserve">
+	<value>Pasta Anexos</value>
+</data>
+<data name="Page4_Group1_Success" xml:space="preserve">
+	<value>A pasta existe e pode ser gravado.</value>
+</data>
+<data name="Page4_Group1_Error" xml:space="preserve">
+	<value>Não foi possível escrever para a pasta:</value>
+</data>
+<data name="Page4_Group1_Label1" xml:space="preserve">
+	<value>Este é o diretório onde todos os arquivos são enviados para. Este diretório terá permissão de escrita pelo usuário que o pool de aplicativo é executado. Na maioria das vezes você não deveria ter que se preocupar em mudar as permissões para a pasta, como eles serão herdadas da pasta pai.</value>
+</data>
+<data name="Page4_Group1_Label2" xml:space="preserve">
+	<value>Certifique-se o caminho da pasta começa com &quot;~ /&quot; para a raiz do site. Você deve verificar a pasta pode ser acessado pelo navegador, bem como o ser gravável para, como pastas, como App_Data e bin pode ser escrito, mas não vai mostrar imagens armazenadas lá.</value>
+</data>
+<data name="Page4_Group2_Title" xml:space="preserve">
+	<value>Extensões permitidas</value>
+</data>
+<data name="Page4_Group2_Label1" xml:space="preserve">
+	<value>Estas são as extensões de arquivos que podem ser carregados.</value>
+</data>
+<data name="Page4_Group3_Title" xml:space="preserve">
+	<value>Tema</value>
+</data>
+<data name="Page4_Group3_Label1" xml:space="preserve">
+	<value>Este é o tema que o site usa. Isso deve corresponder a um nome da pasta no diretório Themes.</value>
+</data>
+<data name="Page4_Group4_Title" xml:space="preserve">
+	<value>Markup tipo</value>
+</data>
+<data name="Page4_Group4_Label1" xml:space="preserve">
+	<value>Este é o formato de marcação, que é utilizada. Roadkill atualmente suporta os seguintes valores: crioulo, Markdown, Mediawiki.</value>
+</data>
+<data name="Page4_Group4_Label2" xml:space="preserve">
+	<value>Crioulo é o formato recomendado.</value>
+</data>
+<data name="Page4_Group5_Title" xml:space="preserve">
+	<value>Esconderijo</value>
+</data>
+<data name="Page4_Group5_Label1" xml:space="preserve">
+	<value>Habilitar o cache de objetos</value>
+</data>
+<data name="Page4_Group5_Label2" xml:space="preserve">
+	<value>Roadkill armazena todas as páginas e conteúdo na memória após recuperá-lo a partir do banco de dados. O cache é atualizado automaticamente quando uma página mudanças. Recomendado para aumentar a capacidade de resposta do site. Cache de objetos não é suportado para jardins web ou fazendas web.</value>
+</data>
+<data name="Page4_Group5_Label3" xml:space="preserve">
+	<value>Ativar cache do navegador</value>
+</data>
+<data name="Page4_Group5_Label4" xml:space="preserve">
+	<value>Isto irá dizer ao navegador para páginas de cache Roadkill, e verificar se há atualizações (If-Modified-Since) cada vez que a página é carregada. Se nenhuma atualização for encontrada, nenhum conteúdo é retornado do servidor. Recomendado para aumentar a capacidade de resposta do site.</value>
+</data>
+<data name="Page4_Group5_Label5" xml:space="preserve">
+	<value>(Agora não utilizado, pode ser removido em 2.0)</value>
+</data>
+<data name="Page5_Success_Title" xml:space="preserve">
+	<value>Instalação bem-sucedida</value>
+</data>
+<data name="Page5_Success_AD_Title" xml:space="preserve">
+	<value>Autenticação do Windows - por favor leia</value>
+</data>
+<data name="Page5_Success_AD_Label" xml:space="preserve">
+	<value>Se você estiver usando IIS7 + pode ser necessário configurar o arquivo web.config para sua configuração de segurança, abaixo estão os elementos que são required.If recebe 500 erros depois de fazer essas alterações, a seção está bloqueada em um nível pai, e você vai precisar fazer thechanges através do gerenciador do IIS.</value>
+</data>
+<data name="Page5_Success_Label1" xml:space="preserve">
+	<value>Continue para o site</value>
+</data>
+<data name="Page5_Error_Title" xml:space="preserve">
+	<value>Ocorreu um erro durante a instalação</value>
+</data>
+<data name="Page5_Error_Label1" xml:space="preserve">
+	<value>Por favor, volte para as etapas de instalação e verificar suas configurações. A mensagem de erro foi:</value>
+</data>
+
+</root>

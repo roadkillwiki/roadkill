@@ -526,16 +526,32 @@
     <EmbeddedResource Include="Database\Schema\SqlServer\Upgrade.sql" />
     <EmbeddedResource Include="Database\Schema\SqlServerCE\Upgrade1.sql" />
     <EmbeddedResource Include="Database\Schema\SqlServerCE\Upgrade2.sql" />
+    <EmbeddedResource Include="Localization\InstallStrings.cs.resx" />
+    <EmbeddedResource Include="Localization\InstallStrings.de.resx" />
+    <EmbeddedResource Include="Localization\InstallStrings.es.resx" />
     <EmbeddedResource Include="Localization\InstallStrings.hi.resx" />
+    <EmbeddedResource Include="Localization\InstallStrings.it.resx" />
+    <EmbeddedResource Include="Localization\InstallStrings.pl.resx" />
+    <EmbeddedResource Include="Localization\InstallStrings.pt.resx" />
     <EmbeddedResource Include="Localization\InstallStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>InstallStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Localization\InstallStrings.ru.resx" />
+    <EmbeddedResource Include="Localization\InstallStrings.sv.resx" />
+    <EmbeddedResource Include="Localization\SiteStrings.cs.resx" />
+    <EmbeddedResource Include="Localization\SiteStrings.de.resx" />
+    <EmbeddedResource Include="Localization\SiteStrings.es.resx" />
     <EmbeddedResource Include="Localization\SiteStrings.hi.resx" />
+    <EmbeddedResource Include="Localization\SiteStrings.it.resx" />
+    <EmbeddedResource Include="Localization\SiteStrings.pl.resx" />
+    <EmbeddedResource Include="Localization\SiteStrings.pt.resx" />
     <EmbeddedResource Include="Localization\SiteStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SiteStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Localization\SiteStrings.ru.resx" />
+    <EmbeddedResource Include="Localization\SiteStrings.sv.resx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Localization\readme.txt" />

@@ -21,6 +21,7 @@ using StructureMap;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security.Windows;
 using Roadkill.Core.Plugins;
+using Roadkill.Core.Import;
 
 namespace Roadkill.Tests.Unit
 {
@@ -65,6 +66,7 @@ namespace Roadkill.Tests.Unit
 			AttachmentRouteHandler routerHandler = ObjectFactory.GetInstance<AttachmentRouteHandler>();
 			UserManagerBase userManager = ObjectFactory.GetInstance<UserManagerBase>();
 			IPluginFactory pluginFactory = ObjectFactory.GetInstance<IPluginFactory>();
+			IWikiImporter wikiImporter = ObjectFactory.GetInstance<IWikiImporter>();
 
 			// Assert
 			Assert.That(settings, Is.Not.Null);
@@ -77,6 +79,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(settingsSummary, Is.TypeOf<SettingsSummary>());
 			Assert.That(userManager, Is.TypeOf<FormsAuthUserManager>());
 			Assert.That(pluginFactory, Is.TypeOf<PluginFactory>());
+			Assert.That(wikiImporter, Is.TypeOf<ScrewTurnImporter>());
 		}
 
 		[Test]

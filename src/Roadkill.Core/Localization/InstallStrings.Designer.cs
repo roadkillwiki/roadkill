@@ -295,7 +295,7 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter a username and password if the user that the app pool is running under does not have read access to Active Directory. This is useful if your domain is a separate forest from the main domain (i.e. another branch office)..
+        ///   Looks up a localized string similar to Enter a username and password if the user that the app pool is running under does not have read access to Active Directory. This is useful if your Active Directory domain is a separate forest from the main domain (i.e. another branch office)..
         /// </summary>
         public static string Page3_AD_Group1_Label3 {
             get {
@@ -520,7 +520,7 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All passwords are one-way encrypted using SHA128 and a salt. This means passwords are not recoverable and will require and admin to reset them (there is no reset password functionality yet). The minimum password length is 6 characters..
+        ///   Looks up a localized string similar to All passwords are one-way encrypted using SHA128 and a salt. This means passwords are not recoverable and will require an admin to reset them (there is no reset password functionality yet). The minimum password length is 6 characters..
         /// </summary>
         public static string Page3_DB_Label {
             get {
@@ -574,7 +574,7 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Make sure the folder path begins with &quot;~/&quot; for the website root. You should check the folder can be accessed by the browser as well as the being writeable to, as folders such as App_Data and bin can be written to but will not show any images stored there. .
+        ///   Looks up a localized string similar to The folder path should start with &quot;~/&quot; for the website root, or be a file path (e.g. c:\myattachments)..
         /// </summary>
         public static string Page4_Group1_Label2 {
             get {
@@ -745,7 +745,7 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If you are using IIS7+ you may need to configure the web.config file for your security setup, below are the elements that are required.If you receive 500 errors after making these changes, then the section is locked at a parent level, and you will need to make thechanges via the IIS manager..
+        ///   Looks up a localized string similar to If you are using IIS7+ you may need to configure the web.config file for your security setup, below are the elements that are required.If you receive 500 errors after making these changes, then the section is locked at a parent level, and you will need to make the changes via the IIS manager..
         /// </summary>
         public static string Page5_Success_AD_Label {
             get {

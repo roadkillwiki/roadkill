@@ -6,7 +6,7 @@
 	MvcHtmlString nav4Active = MvcHtmlString.Empty;
 	MvcHtmlString nav5Active = MvcHtmlString.Empty;
 	
-	
+	// Highlight the currently selected page using the CSS class and some viewdata
 	if (ViewData["UsersActive"] !=  null)
 	{
 		nav1Active = MvcHtmlString.Empty;
@@ -48,7 +48,7 @@
 			<li@(nav2Active)>@Html.ActionLink(SiteStrings.SiteSettings_Users, "Users", "Settings")</li>
 			<li@(nav3Active)>@Html.ActionLink(SiteStrings.SiteSettings_Tools, "Tools", "Settings")</li>
 			<li@(nav4Active)>@Html.ActionLink(SiteStrings.SiteSettings_Configuration_ObjectCaching, "Cache", "Settings")</li>
-			<li@(nav5Active)>@Html.ActionLink("Plugins [TRANSLATION TODO]", "Index", "PluginSettings")</li>
+			<li@(nav5Active)>@Html.ActionLink(SiteStrings.SiteSettings_Plugins_Title, "Index", "PluginSettings")</li>
 		</ul>
 	</div>
 </div>
