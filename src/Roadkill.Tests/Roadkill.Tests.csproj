@@ -328,7 +328,7 @@
     <Compile Include="Unit\Attachments\MimeMappingTests.cs" />
     <Compile Include="Unit\Database\DataStore\DataStoreTypeTests.cs" />
     <Compile Include="Unit\Database\SiteSettingsTests.cs" />
-    <Compile Include="Unit\DependencyManagerTests.cs" />
+    <Compile Include="Unit\DI\DependencyManagerTests.cs" />
     <Compile Include="Unit\Database\LightSpeed\ToEntityTests.cs" />
     <Compile Include="Unit\Database\LightSpeed\FromEntityTests.cs" />
     <Compile Include="Unit\Managers\HistoryManagerTests.cs" />

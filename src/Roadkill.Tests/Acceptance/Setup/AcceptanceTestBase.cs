@@ -29,7 +29,7 @@ namespace Roadkill.Tests.Acceptance
 			if (string.IsNullOrEmpty(url))
 				url = "http://localhost:9876";
 
-			CopyDb();
+			CopySqlCeDb();
 			AcceptanceTestsSetup.CopyRoadkillConfig();
 			BaseUrl = url;
 			LoginUrl = BaseUrl + "/user/login";
@@ -39,7 +39,7 @@ namespace Roadkill.Tests.Acceptance
 			IsWindowsAuthTests = (ConfigurationManager.AppSettings["useWindowsAuth"] == "true");
 		}
 
-		protected void CopyDb()
+		protected void CopySqlCeDb()
 		{
 			SitePath = AcceptanceTestsSetup.GetSitePath();
 
