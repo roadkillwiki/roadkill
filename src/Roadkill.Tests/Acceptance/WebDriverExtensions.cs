@@ -347,7 +347,7 @@ namespace OpenQA.Selenium
 					Screenshot screenshot = screenshotDriver.GetScreenshot();
 					screenshot.SaveAsFile(fullPath, ImageFormat.Png);
 
-					Console.WriteLine("Took screenshot: ", fullPath);
+					Console.WriteLine("Took screenshot: {0} ", fullPath);
 				}
 
 				return null;
