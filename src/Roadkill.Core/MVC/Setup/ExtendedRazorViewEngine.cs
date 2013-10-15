@@ -8,6 +8,17 @@ namespace Roadkill.Core.Mvc
 {
 	public class ExtendedRazorViewEngine : RazorViewEngine
 	{
+		public static void Register()
+		{
+			// Add a search path for /Dialogs, via a custom view engine.
+			ViewEngines.Engines.Clear();
+
+			ExtendedRazorViewEngine engine = new ExtendedRazorViewEngine();
+			engine.AddPartialViewLocationFormat("~/Views/Shared/Dialogs/{0}.cshtml");
+
+			ViewEngines.Engines.Add(engine);
+		}
+
 		public void AddViewLocationFormat(string paths)
 		{
 			List<string> existingPaths = new List<string>(ViewLocationFormats);

@@ -9,5 +9,12 @@ namespace Roadkill.Core.Plugins
 		void CopyTextPlugins(ApplicationSettings applicationSettings);
 		IEnumerable<TextPlugin> GetTextPlugins();
 		void RegisterTextPlugin(TextPlugin plugin);
+
+		/// <summary>
+		/// Case insensitive search for a plugin.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		TextPlugin GetTextPlugin(string id);
 	}
 }

@@ -16,12 +16,12 @@ namespace Roadkill.Tests.Unit
 	public class PluginSettingsControllerTests
 	{
 		[Test]
-		public void Index_Should_Return_ViewResult_And_Model_With_2_PluginSummaries()
+		public void Index_Should_Return_ViewResult_And_Model_With_2_PluginSummaries_Ordered_By_Name()
 		{
 			// Arrange
 			PluginFactoryMock pluginFactory = new PluginFactoryMock();
-			pluginFactory.RegisterTextPlugin(new TextPluginStub());
-			pluginFactory.RegisterTextPlugin(new TextPluginStub());
+			pluginFactory.RegisterTextPlugin(new TextPluginStub("b id", "b name", "b desc"));
+			pluginFactory.RegisterTextPlugin(new TextPluginStub("a id", "a name", "a desc"));
 			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory);
 
 			// Act
@@ -29,9 +29,32 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
-			IEnumerable<PluginSettingsSummary> summaries = result.ModelFromActionResult<IEnumerable<PluginSettingsSummary>>();
+			IEnumerable<PluginSummary> summaries = result.ModelFromActionResult<IEnumerable<PluginSummary>>();
 			Assert.NotNull(summaries, "Null model");
-			Assert.That(summaries.Count(), Is.GreaterThanOrEqualTo(2));
+
+			List<PluginSummary> summaryList = summaries.ToList();
+
+			Assert.That(summaryList.Count(), Is.EqualTo(2));
+			Assert.That(summaryList[0].Name, Is.EqualTo("a name"));
+			Assert.That(summaryList[1].Name, Is.EqualTo("b name"));
+		}
+
+		[Test]
+		public void Edit()
+		{
+			// Arrange
+			PluginFactoryMock pluginFactory = new PluginFactoryMock();
+			TextPluginStub plugin = new TextPluginStub();
+			pluginFactory.RegisterTextPlugin(plugin);
+			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory);
+
+			// Act
+			JsonResult result = controller.Edit(plugin.Id) as JsonResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result.Data, Is.EqualTo(plugin.Settings));
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
 		}
 	}
 }

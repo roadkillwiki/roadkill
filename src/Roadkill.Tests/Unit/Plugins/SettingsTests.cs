@@ -16,8 +16,6 @@ namespace Roadkill.Tests.Unit.Plugins
 		{
 			// Arrange
 			PluginSettings expectedSettings = new PluginSettings();
-			expectedSettings.SetValue("somekey1", "thevalue1");
-			expectedSettings.SetValue("somekey2", "thevalue2");
 
 			// Act
 

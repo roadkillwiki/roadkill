@@ -1,0 +1,30 @@
+﻿@model PluginSummary
+
+@{ 
+	string title = "'" +Model.Name+ "' settings";
+	ViewBag.Title = title;
+	ViewData["PluginSettingsActive"] = true;
+}
+
+@Html.Partial("SettingsMenu", ViewData)
+
+@using (Html.BeginForm("Edit", "PluginSettings"))
+{
+@Html.Hidden("Id", Model.Id)
+
+<fieldset>
+	<legend>@title</legend>
+
+	<label for="IsEnabled">@Html.CheckBox("IsEnabled", Model.IsEnabled) Enabled</label>
+
+	@for (int i = 0; i < Model.SettingValues.Count(); i++)
+	{
+		<div>
+			<label for="SettingValues[@i].Value">@Model.SettingValues[i].Name</label>
+			<input type="hidden" name="SettingValues[@i].Name" value="@Model.SettingValues[i].Name" />
+			<input type="text" name="SettingValues[@i].Value" value="@Model.SettingValues[i].Value" />
+		</div>
+	}
+</fieldset>	
+<input type="submit" value="Save" />
+}

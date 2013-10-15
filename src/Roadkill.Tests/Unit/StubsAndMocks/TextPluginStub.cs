@@ -10,20 +10,13 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 {
 	public class TextPluginStub : TextPlugin
 	{
-		public override string Id
-		{
-			get { return "AmazingPlugin"; }
-		}
+		private string _id;
+		private string _name;
+		private string _description;
 
-		public override string Name
-		{
-			get { return "An Amazing Plugin"; }
-		}
-
-		public override string Description
-		{
-			get { return "Description"; }
-		}
+		public override string Id { get { return _id; } }
+		public override string Name { get { return _name; } }
+		public override string Description { get { return _description; } }
 
 		public override string Version
 		{
@@ -39,6 +32,16 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 		public TextPluginStub(ApplicationSettings applicationSettings, IRepository repository)
 			: base(applicationSettings, repository)
 		{
+			_id = "Amazing plugin";
+			_name = "An amazing plugin";
+			_description = "Amazing stubbed plugin";
+		}
+
+		public TextPluginStub(string id, string name, string description) : base(null, null)
+		{
+			_id = id;
+			_name = name;
+			_description = description;
 		}
 
 		public override string BeforeParse(string markupText)

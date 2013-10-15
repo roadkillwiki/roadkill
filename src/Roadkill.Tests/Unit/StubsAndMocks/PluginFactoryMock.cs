@@ -29,5 +29,10 @@ namespace Roadkill.Tests.Unit
 		{
 			TextPlugins.Add(plugin);
 		}
+
+		public TextPlugin GetTextPlugin(string id)
+		{
+			return TextPlugins.FirstOrDefault(x => x.Id == id);
+		}
 	}
 }

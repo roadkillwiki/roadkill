@@ -7,11 +7,16 @@ using Roadkill.Core.Logging;
 
 namespace Roadkill.Core.Plugins
 {
+	// don't use inheritence for settings as it makes serialization a pain (every plugin 
+	// would have to have its own over-ridden serialize method).
+	// It's also a lot easier to use like this, and more error tolerant.
+
 	public class Settings
 	{
 		private List<SettingValue> _values;
 
 		public bool IsEnabled { get; set; }
+		
 		public IEnumerable<SettingValue> Values
 		{
 			get

@@ -27,7 +27,7 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		{
 			get
 			{
-				return "Mathjax page";
+				return "Mathjax";
 			}
 		}
 
@@ -35,7 +35,8 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		{
 			get
 			{
-				return "Enables MathJax (www.mathjax.org) support on the page. Any content inside $$ $$ will then be converted, e.g. $$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}.$$";
+				return "Enables MathJax (www.mathjax.org) support on the page. Any content inside $$ $$ will then be converted, for example: \n\n"+
+						"$$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}.$$";
 			}
 		}
 
