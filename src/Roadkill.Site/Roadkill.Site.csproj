@@ -327,7 +327,7 @@
     <Content Include="Assets\Scripts\head.js" />
     <Content Include="Plugins\Text\ExternalLinksInNewWindow\externallinksinnewwindow.js" />
     <Content Include="Plugins\Text\ImagesInNewWindow\imagesinnewwindow.js" />
-    <Content Include="Plugins\Text\ResizeImages\resizeimages.css" />
+    <Content Include="Plugins\Text\ResizeLargeImages\resizelargeimages.css" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shAutoloader.js" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushAppleScript.js" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushAS3.js" />
@@ -582,6 +582,7 @@
     <Content Include="Themes\Roadkill\Theme.cshtml" />
     <Content Include="Views\PluginSettings\Index.cshtml" />
     <Content Include="Views\Install\Index.cshtml" />
+    <Content Include="Views\PluginSettings\Edit.cshtml" />
     <None Include="Web.DemoSite.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

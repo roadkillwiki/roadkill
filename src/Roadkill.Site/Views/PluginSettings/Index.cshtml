@@ -1,5 +1,4 @@
-﻿@model IEnumerable<PluginSettingsSummary>
-
+﻿@model IEnumerable<PluginSummary>
 @{ 
 	ViewBag.Title = @SiteStrings.SiteSettings_Plugins_Title;
 	ViewData["PluginSettingsActive"] = true;
@@ -7,19 +6,25 @@
 
 @Html.Partial("SettingsMenu", ViewData)
 
-
-<div>
-@foreach (PluginSettingsSummary summary in Model)
-{
-	<div class="thumbnail" style="float:left; margin:10px; width:200px;">
-		<a href="#">
-			<img src="@Url.Content("~/Assets/Images/plugin.png")" alt="plugin"/>
-		</a>
-		<div class="caption">
-			<h3>@summary.Name</h3>
-			<p>@summary.Description</p>
-		</div>
-	</div>
-}
+<div class="more-plugins right">
+	<a href="#">Get more plugins</a> (coming soon...)
 </div>
+
+<table class="table plugins">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+@foreach (PluginSummary summary in Model)
+{
+	<tr>
+		<td>@Html.ActionLink(summary.Name, "Edit", new { id = summary.Id})</td>
+		<td>@Html.Raw(summary.Description)</td>
+	</tr>
+}
+	</tbody>
+</table>
 <br style="clear:both;" />

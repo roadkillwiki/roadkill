@@ -14,6 +14,7 @@ using Roadkill.Core.Mvc.ViewModels;
 using System.Web.Optimization;
 using System.Web;
 using Roadkill.Core.Plugins.BuiltIn;
+using Roadkill.Core.Mvc;
 
 namespace Roadkill.Core
 {
@@ -225,7 +226,7 @@ namespace Roadkill.Core
 		public static MvcHtmlString JsBundle(this UrlHelper helper)
 		{
 			StringBuilder builder = new StringBuilder();
-			string mainJs = Scripts.Render("~/Assets/Scripts/" + RoadkillApplication.BundleJsFilename).ToHtmlString();
+			string mainJs = Scripts.Render("~/Assets/Scripts/" + Bundles.JsFilename).ToHtmlString();
 			mainJs = mainJs.Replace("\r\n", ""); // remove them, the lines are done in the view
 			builder.AppendLine(mainJs);
 
@@ -241,7 +242,7 @@ namespace Roadkill.Core
 		/// </summary>
 		public static MvcHtmlString CssBundle(this UrlHelper helper)
 		{
-			string html = Styles.Render("~/Assets/CSS/" + RoadkillApplication.BundleCssFilename).ToHtmlString();
+			string html = Styles.Render("~/Assets/CSS/" + Bundles.CssFilename).ToHtmlString();
 			html = html.Replace("\r\n", ""); // done in the view
 			return MvcHtmlString.Create(html);
 		}

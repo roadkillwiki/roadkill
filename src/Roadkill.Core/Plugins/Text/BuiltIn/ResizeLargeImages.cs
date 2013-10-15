@@ -13,13 +13,13 @@ namespace Roadkill.Core.Plugins.BuiltIn
 	/// <summary>
 	/// Whether to scale images dynamically on the page, using Javascript, so they fit inside the main page container (400x400px).
 	/// </summary>
-	public class ResizeImages : TextPlugin
+	public class ResizeLargeImages : TextPlugin
 	{
 		public override string Id
 		{
 			get 
 			{ 
-				return "ResizeImages";	
+				return "ResizeLargeImages";	
 			}
 		}
 
@@ -27,7 +27,7 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		{
 			get
 			{
-				return "ResizeImages page";
+				return "Resize large images";
 			}
 		}
 
@@ -35,7 +35,7 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		{
 			get
 			{
-				return "ResizeImages";
+				return "Resizes large images using CSS so they always fit the page width/height.";
 			}
 		}
 
@@ -48,14 +48,14 @@ namespace Roadkill.Core.Plugins.BuiltIn
 			}
 		}
 
-		public ResizeImages(ApplicationSettings applicationSettings, IRepository repository)
+		public ResizeLargeImages(ApplicationSettings applicationSettings, IRepository repository)
 			: base(applicationSettings, repository)
 		{
 		}
 		
 		public override string GetHeadContent()
 		{
-			return GetCssLink("resizeimages.css");
+			return GetCssLink("resizelargeimages.css");
 		}
 	}
 }

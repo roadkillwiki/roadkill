@@ -27,6 +27,7 @@ namespace Roadkill.Core.Plugins
 
 		/// <summary>
 		/// The unique ID for the plugin, which is also the directory it's stored in inside the /Plugins/ directory.
+		/// This should not be case sensitive.
 		/// </summary>
 		public abstract string Id { get; }
 		public abstract string Name { get; }

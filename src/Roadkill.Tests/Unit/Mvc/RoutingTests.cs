@@ -11,6 +11,7 @@ using Roadkill.Core.Mvc.Controllers;
 using MvcContrib.TestHelper;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Mvc;
 
 namespace Roadkill.Tests.Unit
 {
@@ -23,7 +24,7 @@ namespace Roadkill.Tests.Unit
 		{
 			RouteTable.Routes.Clear();
 			AttachmentRouteHandler.RegisterRoute(new ApplicationSettings(), RouteTable.Routes);
-			RoadkillApplication.RegisterRoutes(RouteTable.Routes);
+			Routing.Register(RouteTable.Routes);
 		}
 
 		[Test]
@@ -72,7 +73,7 @@ namespace Roadkill.Tests.Unit
 			RouteTable.Routes.Clear();
 			RouteCollection routes = new RouteCollection();
 			AttachmentRouteHandler.RegisterRoute(settings, routes); // has to be registered first
-			RoadkillApplication.RegisterRoutes(routes);		
+			Routing.Register(routes);
 
 			// Act
 			RouteData routeData = routes.GetRouteData(mockContext);
@@ -94,7 +95,7 @@ namespace Roadkill.Tests.Unit
 			RouteTable.Routes.Clear();
 			RouteCollection routes = new RouteCollection();
 			AttachmentRouteHandler.RegisterRoute(settings, routes);
-			RoadkillApplication.RegisterRoutes(routes);
+			Routing.Register(RouteTable.Routes);
 
 			// Act
 			RouteData routeData = routes.GetRouteData(mockContext);
@@ -119,7 +120,7 @@ namespace Roadkill.Tests.Unit
 			RouteCollection routes = new RouteCollection();
 
 			// Act
-			RoadkillApplication.RegisterRoutes(routes);
+			Routing.Register(RouteTable.Routes);
 			AttachmentRouteHandler.RegisterRoute(settings, routes);
 
 			// Assert

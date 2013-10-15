@@ -84,5 +84,10 @@ namespace Roadkill.Core.Plugins
 		{
 			return ServiceLocator.GetAllInstances<TextPlugin>();
 		}
+
+		public TextPlugin GetTextPlugin(string id)
+		{
+			return ServiceLocator.GetAllInstances<TextPlugin>().FirstOrDefault(x => x.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
+		}
 	}
 }

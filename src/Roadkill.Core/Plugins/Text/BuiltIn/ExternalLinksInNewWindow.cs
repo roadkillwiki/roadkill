@@ -24,7 +24,7 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		{
 			get
 			{
-				return "ExternalLinksInNewWindow page";
+				return "External links in new window";
 			}
 		}
 
@@ -32,7 +32,7 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		{
 			get
 			{
-				return "ExternalLinksInNewWindow";
+				return "Configures all external links to open in a new window/tab.";
 			}
 		}
 

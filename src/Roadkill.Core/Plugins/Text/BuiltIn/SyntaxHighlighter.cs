@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Core.Plugins.BuiltIn
 {
@@ -36,7 +37,7 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		{
 			get
 			{
-				return "Syntax highlights a code block, using the language you specify. Example:<br/>" +
+				return "Syntax highlights a code block, using the language you specify. Example:\n\n" +
 						"[[[code lang=sql|ENTER YOUR CODE HERE]]]";
 			}
 		}
@@ -58,6 +59,7 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		public SyntaxHighlighter(ApplicationSettings applicationSettings, IRepository repository)
 			: base(applicationSettings, repository)
 		{
+			Settings.SetValue("name", "value");
 		}
 
 		public override string BeforeParse(string text)
