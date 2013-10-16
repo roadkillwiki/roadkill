@@ -40,7 +40,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Edit()
+		public void Edit_GET_Should_Return_ViewResult_And_Model_With_Known_Values()
 		{
 			// Arrange
 			PluginFactoryMock pluginFactory = new PluginFactoryMock();
@@ -49,12 +49,16 @@ namespace Roadkill.Tests.Unit
 			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory);
 
 			// Act
-			JsonResult result = controller.Edit(plugin.Id) as JsonResult;
+			ViewResult result = controller.Edit(plugin.Id) as ViewResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
-			Assert.That(result.Data, Is.EqualTo(plugin.Settings));
-			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
+			PluginSummary summary = result.ModelFromActionResult<PluginSummary>();
+			Assert.NotNull(summary, "Null model");
+
+			Assert.That(summary.Id, Is.EqualTo(plugin.Id));
+			Assert.That(summary.Name, Is.EqualTo(plugin.Name));
+			Assert.That(summary.Description, Is.EqualTo(plugin.Description)); // ..full coverage in PluginSummary tests
 		}
 	}
 }

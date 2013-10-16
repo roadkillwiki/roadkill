@@ -95,7 +95,7 @@ namespace Roadkill.Tests.Unit
 			RouteTable.Routes.Clear();
 			RouteCollection routes = new RouteCollection();
 			AttachmentRouteHandler.RegisterRoute(settings, routes);
-			Routing.Register(RouteTable.Routes);
+			Routing.Register(routes);
 
 			// Act
 			RouteData routeData = routes.GetRouteData(mockContext);
