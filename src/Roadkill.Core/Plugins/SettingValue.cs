@@ -9,5 +9,6 @@ namespace Roadkill.Core.Plugins
 	{
 		public string Name { get; set; }
 		public string Value { get; set; }
+		public SettingFormType FormType { get; set; }
 	}
 }

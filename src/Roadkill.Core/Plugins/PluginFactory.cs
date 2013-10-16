@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 using Roadkill.Core.DI;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Plugins.BuiltIn;

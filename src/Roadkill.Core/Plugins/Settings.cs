@@ -30,7 +30,7 @@ namespace Roadkill.Core.Plugins
 			_values = new List<SettingValue>();
 		}
 
-		public void SetValue(string name, string value)
+		public void SetValue(string name, string value, SettingFormType formType = SettingFormType.Textbox)
 		{
 			SettingValue settingValue = _values.FirstOrDefault(x => !string.IsNullOrEmpty(x.Name) &&
 																	x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
@@ -42,6 +42,8 @@ namespace Roadkill.Core.Plugins
 			}
 			
 			settingValue.Value = value;
+			settingValue.FormType = formType;
+
 			_values.Add(settingValue);
 		}
 

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using NUnit.Framework;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Plugins;
 using Roadkill.Tests.Unit.Mvc.Controllers;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
@@ -22,7 +23,7 @@ namespace Roadkill.Tests.Unit
 			PluginFactoryMock pluginFactory = new PluginFactoryMock();
 			pluginFactory.RegisterTextPlugin(new TextPluginStub("b id", "b name", "b desc"));
 			pluginFactory.RegisterTextPlugin(new TextPluginStub("a id", "a name", "a desc"));
-			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory);
+			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, null);
 
 			// Act
 			ViewResult result = controller.Index() as ViewResult;
@@ -43,10 +44,15 @@ namespace Roadkill.Tests.Unit
 		public void Edit_GET_Should_Return_ViewResult_And_Model_With_Known_Values()
 		{
 			// Arrange
-			PluginFactoryMock pluginFactory = new PluginFactoryMock();
 			TextPluginStub plugin = new TextPluginStub();
+
+			RepositoryMock repositoryMock = new RepositoryMock();
+			repositoryMock.SaveTextPluginSettings(plugin);
+
+			PluginFactoryMock pluginFactory = new PluginFactoryMock();
 			pluginFactory.RegisterTextPlugin(plugin);
-			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory);
+
+			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, repositoryMock);
 
 			// Act
 			ViewResult result = controller.Edit(plugin.Id) as ViewResult;
@@ -59,6 +65,125 @@ namespace Roadkill.Tests.Unit
 			Assert.That(summary.Id, Is.EqualTo(plugin.Id));
 			Assert.That(summary.Name, Is.EqualTo(plugin.Name));
 			Assert.That(summary.Description, Is.EqualTo(plugin.Description)); // ..full coverage in PluginSummary tests
+		}
+
+		[Test]
+		public void Edit_GET_Should_Load_Settings_From_Repository()
+		{
+			// Arrange
+			TextPluginStub plugin = new TextPluginStub();
+			plugin.Settings.SetValue("name1", "default-value1");
+			plugin.Settings.SetValue("name2", "default-value2");
+
+			RepositoryMock repositoryMock = new RepositoryMock();
+			repositoryMock.SaveTextPluginSettings(plugin);
+			repositoryMock.TextPlugins[0].Settings.SetValue("name1", "value1");
+			repositoryMock.TextPlugins[0].Settings.SetValue("name2", "value2");
+
+			PluginFactoryMock pluginFactory = new PluginFactoryMock();
+			pluginFactory.RegisterTextPlugin(plugin);
+			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, repositoryMock);
+
+			// Act
+			ViewResult result = controller.Edit(plugin.Id) as ViewResult;
+
+			// Assert
+			PluginSummary summary = result.ModelFromActionResult<PluginSummary>();
+			Assert.That(summary.SettingValues[0].Value, Is.EqualTo("value1"));
+			Assert.That(summary.SettingValues[1].Value, Is.EqualTo("value2"));
+		}
+
+		[Test]
+		public void Edit_GET_Should_Use_Default_Plugin_Settings_When_Plugin_Doesnt_Exist_In_Repository()
+		{
+			// Arrange
+			TextPluginStub plugin = new TextPluginStub();
+			plugin.Settings.SetValue("name1", "default-value1");
+			plugin.Settings.SetValue("name2", "default-value2");
+
+			RepositoryMock repositoryMock = new RepositoryMock();
+
+			PluginFactoryMock pluginFactory = new PluginFactoryMock();
+			pluginFactory.RegisterTextPlugin(plugin);
+			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, repositoryMock);
+
+			// Act
+			ViewResult result = controller.Edit(plugin.Id) as ViewResult;
+
+			// Assert
+			PluginSummary summary = result.ModelFromActionResult<PluginSummary>();
+			Assert.That(summary.SettingValues[0].Value, Is.EqualTo("default-value1"));
+			Assert.That(summary.SettingValues[1].Value, Is.EqualTo("default-value2"));
+		}
+
+		[Test]
+		public void Edit_GET_Should_Redirect_When_Id_Is_Empty()
+		{
+			// Arrange
+			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, null, null);
+
+			// Act
+			RedirectToRouteResult result = controller.Edit("") as RedirectToRouteResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+		}
+
+		[Test]
+		public void Edit_GET_Should_Redirect_When_Plugin_Does_Not_Exist()
+		{
+			// Arrange
+			PluginFactoryMock pluginFactory = new PluginFactoryMock();
+			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, null);
+
+			// Act
+			RedirectToRouteResult result = controller.Edit("somepluginId") as RedirectToRouteResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+		}
+
+		[Test]
+		public void Edit_POST_Should_Set_Setting_Values_From_Summary()
+		{
+			// Arrange
+			TextPluginStub plugin = new TextPluginStub();
+			plugin.Settings.SetValue("name1", "default-value1");
+			plugin.Settings.SetValue("name2", "default-value2");
+
+			RepositoryMock repositoryMock = new RepositoryMock();
+
+			PluginFactoryMock pluginFactory = new PluginFactoryMock();
+			pluginFactory.RegisterTextPlugin(plugin);
+			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, repositoryMock);
+
+			PluginSummary summary = new PluginSummary();
+			summary.Id = plugin.Id;
+			summary.SettingValues = new List<SettingValue>();
+			summary.SettingValues.Add(new SettingValue() { Name = "name1", Value = "new-value1" });
+			summary.SettingValues.Add(new SettingValue() { Name = "name2", Value = "new-value2" });
+
+			// Act
+			ViewResult result = controller.Edit(summary) as ViewResult;
+
+			// Assert
+			List<SettingValue> values = repositoryMock.TextPlugins[0].Settings.Values.ToList();
+			Assert.That(values[0].Value, Is.EqualTo("new-value1"));
+			Assert.That(values[1].Value, Is.EqualTo("new-value2"));
+		}
+
+		[Test]
+		public void Edit_POST_Should_Redirect_When_Plugin_Does_Not_Exist()
+		{
+			// Arrange
+			PluginFactoryMock pluginFactory = new PluginFactoryMock();
+			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, null);
+
+			// Act
+			RedirectToRouteResult result = controller.Edit("somepluginId") as RedirectToRouteResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
 		}
 	}
 }
