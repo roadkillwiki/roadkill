@@ -28,6 +28,7 @@ namespace Roadkill.Tests.Unit
 			PageContents = new List<PageContent>();
 			Users = new List<User>();
 			SiteSettings = new SiteSettings();
+			TextPlugins = new List<TextPlugin>();
 		}
 
 		#region IRepository Members
@@ -171,7 +172,7 @@ namespace Roadkill.Tests.Unit
 		{
 			int index = TextPlugins.IndexOf(plugin);
 
-			if (index == 1)
+			if (index == -1)
 				TextPlugins.Add(plugin);
 			else
 				TextPlugins[index] = plugin;
@@ -179,7 +180,12 @@ namespace Roadkill.Tests.Unit
 
 		public PluginSettings GetTextPluginSettings(TextPlugin plugin)
 		{
-			return TextPlugins.FirstOrDefault(x => x.DatabaseId == plugin.DatabaseId).Settings;
+			TextPlugin savedPlugin = TextPlugins.FirstOrDefault(x => x.DatabaseId == plugin.DatabaseId);
+
+			if (savedPlugin != null)
+				return savedPlugin.Settings;
+			else
+				return null;
 		}
 
 		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)

@@ -23,6 +23,7 @@ namespace Roadkill.Core.Plugins
 		private List<string> _scriptFiles;
 		private string _onLoadFunction;
 		private Guid _objectId;
+
 		public Settings Settings { get; set; }
 
 		/// <summary>
@@ -95,24 +96,6 @@ namespace Roadkill.Core.Plugins
 		public virtual string AfterParse(string html)
 		{
 			return html;
-		}
-
-		public virtual void SaveSettings(string filePath = "")
-		{
-			if (string.IsNullOrEmpty(filePath))
-			{
-				if (HttpContext.Current != null)
-				{
-					filePath = HttpContext.Current.Server.MapPath(PluginVirtualPath);
-				}
-				else
-				{
-					throw new ArgumentNullException(filePath);
-				}
-			}
-
-			string json = GetSettingsJson();
-			File.WriteAllText(filePath, json);
 		}
 
 		public string GetSettingsJson()
