@@ -350,6 +350,7 @@
     <Compile Include="Domain\Cache\SiteCache.cs" />
     <Compile Include="Domain\Security\FormsAuthenticationWrapper.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
+    <Compile Include="Exceptions\PluginException.cs" />
     <Compile Include="Localization\InstallStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
