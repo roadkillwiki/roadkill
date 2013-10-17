@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Newtonsoft.Json;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Logging;
 using StructureMap;
 
 namespace Roadkill.Core.Plugins
@@ -22,9 +23,22 @@ namespace Roadkill.Core.Plugins
 
 		private List<string> _scriptFiles;
 		private string _onLoadFunction;
-		private Guid _objectId;
+		private Guid _databaseId;
+		private Settings _settings;
+		private string _pluginVirtualPath;
 
-		public Settings Settings { get; set; }
+		public Settings Settings
+		{
+			get
+			{
+				return _settings;
+			}
+			set
+			{
+				if (value != null)
+					_settings = value;
+			}
+		}
 
 		/// <summary>
 		/// The unique ID for the plugin, which is also the directory it's stored in inside the /Plugins/ directory.
@@ -42,37 +56,48 @@ namespace Roadkill.Core.Plugins
 		/// <summary>
 		/// The virtual path for the plugin, e.g. ~/Plugins/Text/MyPlugin/. Does not contain a trailing slash.
 		/// </summary>
-		protected string PluginVirtualPath
+		public string PluginVirtualPath
 		{
 			get
 			{
-				return "~/Plugins/Text/" +Id;
+				if (_pluginVirtualPath == null)
+				{
+					EnsureIdIsValid();
+					_pluginVirtualPath = "~/Plugins/Text/" + Id;
+				}
+
+				return _pluginVirtualPath;
 			}
 		}
 
+		/// <summary>
+		/// Used as the PK in the site_configuration table to store the plugin settings.
+		/// </summary>
 		public Guid DatabaseId
 		{
 			get
 			{
-				// Generate an ID for use in the database, that's tied to this object,
-				// in other words not globally unique, but it doesn't matter.
-				if (_objectId == Guid.Empty)
+				// Generate an ID for use in the database in the format:
+				// {aaaaaaaa-0000-0000-0000-000000000000}
+				// Where a = hashcode of the plugin id
+				// 
+				// It's not globally unique, but it doesn't matter as it's 
+				// being used for the site_configuration db table only. The only 
+				// way the Guid could clash is if two plugins have the same ID.
+				// This should never happen, as the IDs will be like nuget ids.
+				//
+				if (_databaseId == Guid.Empty)
 				{
+					EnsureIdIsValid();
 					int firstPart = Id.GetHashCode();
 
-					// Next 2 sequence of numbers
-					int hashCode = this.GetHashCode();
-					short shortHashCode = (short)hashCode;
+					short zero = (short)0;
+					byte[] lastChunk = new byte[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
 
-					// Final 8 numbers
-					byte[] shortBytes = BitConverter.GetBytes(hashCode);
-					byte[] lastPart = new byte[8];
-					lastPart = shortBytes.Concat(shortBytes).ToArray();
-
-					_objectId = new Guid(firstPart, shortHashCode, shortHashCode, lastPart);
+					_databaseId = new Guid(firstPart, zero, zero, lastChunk);
 				}
 
-				return _objectId;
+				return _databaseId;
 			}
 		}
 
@@ -124,7 +149,7 @@ namespace Roadkill.Core.Plugins
 		/// <summary>
 		/// Gets the HTML for a javascript link for the plugin, assuming the javascript is stored in the /Plugins/ID/ folder.
 		/// </summary>
-		public string GetScriptHtmlWithHeadJS()
+		public string GetJavascriptHtml()
 		{
 			string headScript = "<script type=\"text/javascript\">";
 			headScript += "head.js(";
@@ -135,28 +160,37 @@ namespace Roadkill.Core.Plugins
 			return headScript;
 		}
 
-		public void AddOnLoadedFunction(string functionBody)
+		public void SetHeadJsOnLoadedFunction(string functionBody)
 		{
 			_onLoadFunction = functionBody;
 		}
 
-		public void AddScriptWithHeadJS(string filename, string name = "")
+		public void AddScript(string filename, string name = "", bool useHeadJs = true)
 		{
-			string fileLink = "{ \"[name]\", \"[filename]\" }";
-			if (string.IsNullOrEmpty(name))
+			if (useHeadJs)
 			{
-				fileLink = "\"[filename]\"";
-			}
+				string fileLink = "{ \"[name]\", \"[filename]\" }";
+				if (string.IsNullOrEmpty(name))
+				{
+					fileLink = "\"[filename]\"";
+				}
 
-			if (HttpContext.Current != null)
+				// Get the server path
+				if (HttpContext.Current != null)
+				{
+					UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+					filename = string.Concat(urlHelper.Content(PluginVirtualPath), "/", filename);
+				}
+
+				fileLink = fileLink.Replace("[name]", name);
+				fileLink = fileLink.Replace("[filename]", filename);
+
+				_scriptFiles.Add(fileLink);
+			}
+			else
 			{
-				UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-				filename = string.Concat(urlHelper.Content(PluginVirtualPath), "/", filename);
+				Log.Error("Only Head JS is currently supported for plugin Javascript links");
 			}
-
-			fileLink = fileLink.Replace("[name]", name);
-			fileLink = fileLink.Replace("[filename]", filename);
-			_scriptFiles.Add(fileLink);
 		}
 
 		/// <summary>
@@ -190,6 +224,12 @@ namespace Roadkill.Core.Plugins
 		{
 			// The new lines are important for the current Creole parser to recognise the ignore token.
 			return "\n" + PARSER_IGNORE_STARTTOKEN + " \n" + token + "\n" + PARSER_IGNORE_ENDTOKEN + "\n";
+		}
+
+		private void EnsureIdIsValid()
+		{
+			if (string.IsNullOrEmpty(Id))
+				throw new PluginException(null, "The ID is empty or null for plugin {0}. Please remove this plugin from the bin and plugins folder.", this.GetType().Name);
 		}
 	}
 }

@@ -16,7 +16,10 @@ namespace Roadkill.Core.Plugins
 		private List<SettingValue> _values;
 
 		public bool IsEnabled { get; set; }
-		
+
+		/// <summary>
+		/// Gets all the setting values.
+		/// </summary>
 		public IEnumerable<SettingValue> Values
 		{
 			get
@@ -39,12 +42,11 @@ namespace Roadkill.Core.Plugins
 			{
 				settingValue = new SettingValue();
 				settingValue.Name = name;
+				_values.Add(settingValue);
 			}
 			
 			settingValue.Value = value;
 			settingValue.FormType = formType;
-
-			_values.Add(settingValue);
 		}
 
 		public string GetValue(string name)

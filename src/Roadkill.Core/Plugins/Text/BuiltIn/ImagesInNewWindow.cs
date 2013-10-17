@@ -52,8 +52,8 @@ namespace Roadkill.Core.Plugins.BuiltIn
 
 		public override string GetHeadContent()
 		{
-			AddScriptWithHeadJS("imagesinnewwindow.js");
-			return GetScriptHtmlWithHeadJS();
+			AddScript("imagesinnewwindow.js");
+			return GetJavascriptHtml();
 		}
 	}
 }
