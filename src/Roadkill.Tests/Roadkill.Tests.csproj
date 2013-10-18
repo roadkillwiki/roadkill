@@ -322,6 +322,7 @@
     <Compile Include="Unit\Mvc\Controllers\HelpControllerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\PluginSettingsControllerTests.cs" />
     <Compile Include="Unit\Mvc\ResponseWrapperTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\PluginSummaryTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\PageSummaryValidationTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\FileSummaryTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\DirectorySummaryTests.cs" />
@@ -338,6 +339,7 @@
     <Compile Include="Unit\Mvc\Controllers\PagesControllerTests.cs" />
     <Compile Include="Unit\Mvc\RoutingTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\WikiControllerTests.cs" />
+    <Compile Include="Unit\Plugins\PluginFactoryTests.cs" />
     <Compile Include="Unit\Plugins\SettingsTests.cs" />
     <Compile Include="Unit\Plugins\TextPluginTests.cs" />
     <Compile Include="Unit\StubsAndMocks\CacheMock.cs" />
