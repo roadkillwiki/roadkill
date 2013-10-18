@@ -18,5 +18,10 @@ namespace Roadkill.Core.Mvc.ViewModels
 		/// This property should be lazy loaded when then settings are loaded.
 		/// </summary>
 		public List<SettingValue> SettingValues { get; set; }
+
+		public PluginSummary()
+		{
+			SettingValues = new List<SettingValue>();
+		}
 	}
 }

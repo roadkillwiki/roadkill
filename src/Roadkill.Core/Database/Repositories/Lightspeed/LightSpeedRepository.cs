@@ -185,7 +185,7 @@ namespace Roadkill.Core.Database.LightSpeed
 
 		public PluginSettings GetTextPluginSettings(TextPlugin plugin)
 		{
-			PluginSettings pluginSettings = new PluginSettings();
+			PluginSettings pluginSettings = null;
 			SiteConfigurationEntity entity = UnitOfWork.Find<SiteConfigurationEntity>()
 												.FirstOrDefault(x => x.Id == plugin.DatabaseId);
 
