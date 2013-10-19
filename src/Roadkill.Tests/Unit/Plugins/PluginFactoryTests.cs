@@ -174,7 +174,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			IEnumerable<TextPlugin> allPlugins = factory.GetTextPlugins();
 
 			// Assert
-			Assert.That(allPlugins.Count(), Is.EqualTo(2));
+			Assert.That(allPlugins.Count(), Is.GreaterThanOrEqualTo(2));
 		}
 	}
 }
