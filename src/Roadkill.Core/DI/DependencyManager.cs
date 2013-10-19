@@ -37,7 +37,7 @@ namespace Roadkill.Core
 		//   - LightSpeedRepository creates its own instances of IUnitOfWork
  		// - UserManager relies on IRepository
 		// - RoadkillContext relies on UserManager
-		// - ActiveDirectoryManager relies on IActiveDirectoryService
+		// - ActiveDirectoryService relies on IActiveDirectoryProvider
 		// - The others can rely on everything above.
 		//
 
@@ -177,8 +177,8 @@ namespace Roadkill.Core
 			// Services and services
 			scanner.AddAllTypesOf<ServiceBase>();
 			scanner.AddAllTypesOf<IPageService>();
-			scanner.AddAllTypesOf<IActiveDirectoryService>();
-			scanner.AddAllTypesOf<UserManagerBase>();
+			scanner.AddAllTypesOf<IActiveDirectoryProvider>();
+			scanner.AddAllTypesOf<UserServiceBase>();
 
 			// Text parsers
 			scanner.AddAllTypesOf<MarkupConverter>();
@@ -237,16 +237,16 @@ namespace Roadkill.Core
 
 			if (_applicationSettings.UseWindowsAuthentication)
 			{
-				x.For<UserManagerBase>().HybridHttpOrThreadLocalScoped().Use<ActiveDirectoryUserManager>();
+				x.For<UserServiceBase>().HybridHttpOrThreadLocalScoped().Use<ActiveDirectoryUserService>();
 			}
 			else if (!string.IsNullOrEmpty(userManagerTypeName))
 			{
-				InstanceRef userManagerRef = ObjectFactory.Model.InstancesOf<UserManagerBase>().FirstOrDefault(t => t.ConcreteType.FullName == userManagerTypeName);
-				x.For<UserManagerBase>().HybridHttpOrThreadLocalScoped().TheDefault.Is.OfConcreteType(userManagerRef.ConcreteType);
+				InstanceRef userManagerRef = ObjectFactory.Model.InstancesOf<UserServiceBase>().FirstOrDefault(t => t.ConcreteType.FullName == userManagerTypeName);
+				x.For<UserServiceBase>().HybridHttpOrThreadLocalScoped().TheDefault.Is.OfConcreteType(userManagerRef.ConcreteType);
 			}
 			else
 			{
-				x.For<UserManagerBase>().HybridHttpOrThreadLocalScoped().Use<FormsAuthUserManager>();
+				x.For<UserServiceBase>().HybridHttpOrThreadLocalScoped().Use<FormsAuthUserService>();
 			}
 
 			// Setter inject the various MVC objects that can't have constructors

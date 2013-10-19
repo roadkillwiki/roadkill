@@ -11,7 +11,7 @@ using StructureMap;
 
 namespace Roadkill.Tests
 {
-	public class UserManagerMock : UserManagerBase
+	public class UserManagerMock : UserServiceBase
 	{
 		public static readonly string RESETKEY = "resetkey";
 		public static readonly string ACTIVATIONKEY = "activationkey";

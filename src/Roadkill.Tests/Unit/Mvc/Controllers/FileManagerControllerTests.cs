@@ -24,7 +24,7 @@ namespace Roadkill.Tests.Unit
 	public class FileManagerControllerTests
 	{
 		private ApplicationSettings _settings;
-		private UserManagerBase _userManager;
+		private UserServiceBase _userManager;
 		private IUserContext _context;
 		private RepositoryMock _repository;
 		private SettingsService _settingsService;
@@ -60,7 +60,7 @@ namespace Roadkill.Tests.Unit
 				Assert.Fail("Unable to delete the attachments folder "+_settings.AttachmentsFolder+", does it have a lock/explorer window open?" + e.ToString());
 			}
 
-			_userManager = new Mock<UserManagerBase>(_settings, null).Object;
+			_userManager = new Mock<UserServiceBase>(_settings, null).Object;
 		}
 
 		[Test]

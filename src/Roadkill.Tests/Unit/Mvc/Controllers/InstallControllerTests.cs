@@ -28,7 +28,7 @@ namespace Roadkill.Tests.Unit
 		private IUserContext _context;
 		private RepositoryMock _repository;
 
-		private UserManagerBase _userManager;
+		private UserServiceBase _userManager;
 		private PageService _pageService;
 		private SearchServiceMock _searchService;
 		private PageHistoryService _historyService;
@@ -53,7 +53,7 @@ namespace Roadkill.Tests.Unit
 
 			_repository = new RepositoryMock();
 			_settingsService = new SettingsService(_applicationSettings, _repository);
-			_userManager = new Mock<UserManagerBase>(_applicationSettings, null).Object;
+			_userManager = new Mock<UserServiceBase>(_applicationSettings, null).Object;
 			_searchService = new SearchServiceMock(_applicationSettings, _repository, _pluginFactory);
 			_searchService.PageContents = _repository.PageContents;
 			_searchService.Pages = _repository.Pages;

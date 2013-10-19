@@ -31,7 +31,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		private PageSummaryCache _pageSummaryCache;
 		private SiteCache _siteCache;
 
-		public SettingsController(ApplicationSettings settings, UserManagerBase userManager,
+		public SettingsController(ApplicationSettings settings, UserServiceBase userManager,
 			SettingsService settingsService, PageService pageService, SearchService searchService, IUserContext context,
 			ListCache listCache, PageSummaryCache pageSummaryCache, SiteCache siteCache, ScrewTurnImporter screwTurnImporter)
 			: base(settings, userManager, context, settingsService) 

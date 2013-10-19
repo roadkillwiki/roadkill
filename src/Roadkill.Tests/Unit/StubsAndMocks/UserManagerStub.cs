@@ -12,7 +12,7 @@ using StructureMap;
 namespace Roadkill.Tests
 {
 	[Pluggable("x")]
-	public class UserManagerStub : UserManagerBase
+	public class UserManagerStub : UserServiceBase
 	{
 		public UserManagerStub()
 			: base(null, null)

@@ -21,7 +21,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		private IPluginFactory _pluginFactory;
 		private IRepository _repository;
 
-		public PluginSettingsController(ApplicationSettings settings, UserManagerBase userManager, IUserContext context, 
+		public PluginSettingsController(ApplicationSettings settings, UserServiceBase userManager, IUserContext context, 
 			SettingsService settingsService, IPluginFactory pluginFactory, IRepository repository)
 			: base (settings, userManager, context, settingsService)
 		{

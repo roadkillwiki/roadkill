@@ -19,7 +19,7 @@ namespace Roadkill.Tests.Unit
 	{
 		private ApplicationSettings _settings;
 		private IRepository _repository;
-		private Mock<UserManagerBase> _userManagerMock;
+		private Mock<UserServiceBase> _userManagerMock;
 		private IUserContext _context;
 
 		[SetUp]
@@ -28,7 +28,7 @@ namespace Roadkill.Tests.Unit
 			_context = new Mock<IUserContext>().Object;
 			_settings = new ApplicationSettings();
 			_repository = null;
-			_userManagerMock = new Mock<UserManagerBase>(_settings, _repository);
+			_userManagerMock = new Mock<UserServiceBase>(_settings, _repository);
 			_userManagerMock.Setup(u => u.UserExists("emailexists@test.com")).Returns(true);
 		}
 

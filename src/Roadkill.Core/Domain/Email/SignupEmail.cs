@@ -13,7 +13,7 @@ namespace Roadkill.Core
 	/// <summary>
 	/// The template for signup emails.
 	/// </summary>
-	public class SignupEmail : Email
+	public class SignupEmail : EmailTemplate
 	{
 		private static string _htmlContent;
 		private static string _plainTextContent;

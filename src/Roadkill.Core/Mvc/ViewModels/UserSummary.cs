@@ -18,7 +18,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 	public class UserSummary
 	{
 		protected ApplicationSettings Settings;
-		protected UserManagerBase UserManager;
+		protected UserServiceBase UserManager;
 
 		/// <summary>
 		/// Constructor used by none-controllers
@@ -32,7 +32,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		/// </summary>
 		/// <param name="settings"></param>
 		/// <param name="userManager"></param>
-		public UserSummary(ApplicationSettings settings, UserManagerBase userManager)
+		public UserSummary(ApplicationSettings settings, UserServiceBase userManager)
 		{
 			Settings = settings;
 			UserManager = userManager;

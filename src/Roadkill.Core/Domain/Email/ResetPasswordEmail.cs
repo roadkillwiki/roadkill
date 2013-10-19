@@ -13,7 +13,7 @@ namespace Roadkill.Core
 	/// <summary>
 	/// The template for password reset emails.
 	/// </summary>
-	public class ResetPasswordEmail : Email
+	public class ResetPasswordEmail : EmailTemplate
 	{
 		private static string _htmlContent;
 		private static string _plainTextContent;

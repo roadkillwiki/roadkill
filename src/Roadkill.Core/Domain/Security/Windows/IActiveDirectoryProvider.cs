@@ -7,9 +7,9 @@ using System.Text;
 namespace Roadkill.Core.Security.Windows
 {
 	/// <summary>
-	/// Provides a service for group membership lookup for the <see cref="ActiveDirectoryUserManager"/>
+	/// Provides group membership lookup for the <see cref="ActiveDirectoryUserService"/>
 	/// </summary>
-	public interface IActiveDirectoryService
+	public interface IActiveDirectoryProvider
 	{
 		IEnumerable<IPrincipalDetails> GetMembers(string domainName, string username, string password, string groupName);
 	}

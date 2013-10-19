@@ -14,7 +14,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	{
 		private CustomTokenParser _customTokenParser;
 
-		public HelpController(ApplicationSettings settings, UserManagerBase userManager, IUserContext context, SettingsService settingsService)
+		public HelpController(ApplicationSettings settings, UserServiceBase userManager, IUserContext context, SettingsService settingsService)
 			: base(settings, userManager, context, settingsService) 
 		{
 			_customTokenParser = new CustomTokenParser(settings);

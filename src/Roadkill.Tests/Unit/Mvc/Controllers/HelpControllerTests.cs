@@ -23,7 +23,7 @@ namespace Roadkill.Tests.Unit
 		private IUserContext _context;
 		private RepositoryMock _repository;
 
-		private UserManagerBase _userManager;
+		private UserServiceBase _userManager;
 		private SettingsService _settingsService;
 		private HelpController _controller;
 
@@ -33,7 +33,7 @@ namespace Roadkill.Tests.Unit
 			_context = new Mock<IUserContext>().Object;
 			_settings = new ApplicationSettings();
 			_settings.Installed = true;
-			_userManager = new FormsAuthUserManager(_settings, _repository);
+			_userManager = new FormsAuthUserService(_settings, _repository);
 
 			_controller = new HelpController(_settings,  _userManager, _context, _settingsService);
 		}

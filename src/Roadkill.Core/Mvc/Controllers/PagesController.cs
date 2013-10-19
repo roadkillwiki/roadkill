@@ -26,7 +26,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		private SearchService _searchService;
 		private PageHistoryService _historyService;
 
-		public PagesController(ApplicationSettings settings, UserManagerBase userManager,
+		public PagesController(ApplicationSettings settings, UserServiceBase userManager,
 			SettingsService settingsService, IPageService pageService, SearchService searchService,
 			PageHistoryService historyService, IUserContext context)
 			: base(settings, userManager, context, settingsService)
