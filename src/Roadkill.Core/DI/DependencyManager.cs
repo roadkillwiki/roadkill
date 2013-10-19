@@ -14,7 +14,7 @@ using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.DI;
 using Roadkill.Core.Import;
 using Roadkill.Core.Logging;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Mvc.WebViewPages;
@@ -174,9 +174,9 @@ namespace Roadkill.Core
 			scanner.AddAllTypesOf<IRepository>();
 			scanner.AddAllTypesOf<IUserContext>();
 
-			// Managers and services
+			// Services and services
 			scanner.AddAllTypesOf<ServiceBase>();
-			scanner.AddAllTypesOf<IPageManager>();
+			scanner.AddAllTypesOf<IPageService>();
 			scanner.AddAllTypesOf<IActiveDirectoryService>();
 			scanner.AddAllTypesOf<UserManagerBase>();
 

@@ -12,7 +12,7 @@ using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
 using Roadkill.Core.Localization;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using System.Runtime.Caching;
@@ -28,10 +28,10 @@ namespace Roadkill.Tests.Unit
 		private RepositoryMock _repository;
 
 		private UserManagerBase _userManager;
-		private PageManager _pageManager;
-		private SearchManagerMock _searchManager;
-		private HistoryManager _historyManager;
-		private SettingsManager _settingsManager;
+		private PageService _pageService;
+		private SearchServiceMock _searchService;
+		private PageHistoryService _historyService;
+		private SettingsService _settingsService;
 		private PluginFactoryMock _pluginFactory;
 
 		[SetUp]
@@ -47,25 +47,25 @@ namespace Roadkill.Tests.Unit
 			SiteCache siteCache = new SiteCache(_applicationSettings, MemoryCache.Default);
 			PageSummaryCache pageSummaryCache = new PageSummaryCache(_applicationSettings, MemoryCache.Default);
 
-			// Dependencies for PageManager
-			Mock<SearchManager> searchMock = new Mock<SearchManager>();
+			// Dependencies for PageService
+			Mock<SearchService> searchMock = new Mock<SearchService>();
 			_pluginFactory = new PluginFactoryMock();
 
 			_repository = new RepositoryMock();
-			_settingsManager = new SettingsManager(_applicationSettings, _repository);
+			_settingsService = new SettingsService(_applicationSettings, _repository);
 			_userManager = new Mock<UserManagerBase>(_applicationSettings, null).Object;
-			_searchManager = new SearchManagerMock(_applicationSettings, _repository, _pluginFactory);
-			_searchManager.PageContents = _repository.PageContents;
-			_searchManager.Pages = _repository.Pages;
-			_historyManager = new HistoryManager(_applicationSettings, _repository, _context, pageSummaryCache, _pluginFactory);
-			_pageManager = new PageManager(_applicationSettings, _repository, _searchManager, _historyManager, _context, listCache, pageSummaryCache, siteCache, _pluginFactory);
+			_searchService = new SearchServiceMock(_applicationSettings, _repository, _pluginFactory);
+			_searchService.PageContents = _repository.PageContents;
+			_searchService.Pages = _repository.Pages;
+			_historyService = new PageHistoryService(_applicationSettings, _repository, _context, pageSummaryCache, _pluginFactory);
+			_pageService = new PageService(_applicationSettings, _repository, _searchService, _historyService, _context, listCache, pageSummaryCache, siteCache, _pluginFactory);
 		}
 
 		[Test]
 		public void Index_Should_Return_Default_Message_When_No_Homepage_Tag_Exists()
 		{
 			// Arrange
-			HomeController homeController = new HomeController(_applicationSettings, _userManager, new MarkupConverter(_applicationSettings, _repository, _pluginFactory), _pageManager, _searchManager, _context, _settingsManager);
+			HomeController homeController = new HomeController(_applicationSettings, _userManager, new MarkupConverter(_applicationSettings, _repository, _pluginFactory), _pageService, _searchService, _context, _settingsService);
 			homeController.SetFakeControllerContext();
 
 			// Act
@@ -84,7 +84,7 @@ namespace Roadkill.Tests.Unit
 		public void Index_Should_Return_Homepage_When_Tag_Exists()
 		{
 			// Arrange
-			HomeController homeController = new HomeController(_applicationSettings, _userManager, new MarkupConverter(_applicationSettings, _repository, _pluginFactory), _pageManager, _searchManager, _context, _settingsManager);
+			HomeController homeController = new HomeController(_applicationSettings, _userManager, new MarkupConverter(_applicationSettings, _repository, _pluginFactory), _pageService, _searchService, _context, _settingsService);
 			homeController.SetFakeControllerContext();
 			Page page1 = new Page() 
 			{ 
@@ -117,7 +117,7 @@ namespace Roadkill.Tests.Unit
 		public void Search_Should_Return_Some_Results_With_Unicode_Content()
 		{
 			// Arrange
-			HomeController homeController = new HomeController(_applicationSettings, _userManager, new MarkupConverter(_applicationSettings, _repository, _pluginFactory), _pageManager, _searchManager, _context, _settingsManager);
+			HomeController homeController = new HomeController(_applicationSettings, _userManager, new MarkupConverter(_applicationSettings, _repository, _pluginFactory), _pageService, _searchService, _context, _settingsService);
 			homeController.SetFakeControllerContext();
 			Page page1 = new Page()
 			{

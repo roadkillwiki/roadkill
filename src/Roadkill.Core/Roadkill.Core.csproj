@@ -400,7 +400,7 @@
     <Compile Include="Database\Schema\Sqlite\SqliteSchema.cs" />
     <Compile Include="Database\Schema\SqlServerCE\SqlServerCESchema.cs" />
     <Compile Include="Database\Schema\SqlServer\SqlServerSchema.cs" />
-    <Compile Include="Domain\Managers\IPageManager.cs" />
+    <Compile Include="Domain\Services\IPageService.cs" />
     <Compile Include="Database\Repositories\MongoDB\MongoDBRepository.cs" />
     <Compile Include="Exceptions\UpgradeException.cs" />
     <Compile Include="Attachments\MimeTypes.cs" />
@@ -462,9 +462,9 @@
     <Compile Include="Domain\Security\Windows\ActiveDirectoryUserManager.cs" />
     <Compile Include="Domain\Security\FormsAuthUserManager.cs" />
     <Compile Include="Domain\Security\UserManagerBase.cs" />
-    <Compile Include="Domain\Managers\SettingsManager.cs" />
+    <Compile Include="Domain\Services\SettingsService.cs" />
     <Compile Include="Database\Entities\User.cs" />
-    <Compile Include="Domain\Managers\ServiceBase.cs" />
+    <Compile Include="Domain\Services\ServiceBase.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ToC\StringTemplate.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ToC\Item.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ToC\Tree.cs" />
@@ -479,7 +479,7 @@
     <Compile Include="Mvc\ViewModels\SettingsSummary.cs" />
     <Compile Include="Domain\Import\ScrewTurnImporter.cs" />
     <Compile Include="Domain\Import\IWikiImporter.cs" />
-    <Compile Include="Domain\Managers\SearchManager.cs" />
+    <Compile Include="Domain\Services\SearchService.cs" />
     <Compile Include="Mvc\Controllers\SettingsController.cs" />
     <Compile Include="Mvc\ViewModels\HistorySummary.cs" />
     <Compile Include="Mvc\ViewModels\TagSummary.cs" />
@@ -495,8 +495,8 @@
     <Compile Include="Mvc\Controllers\HomeController.cs" />
     <Compile Include="Mvc\Controllers\PagesController.cs" />
     <Compile Include="Database\Entities\PageContent.cs" />
-    <Compile Include="Domain\Managers\HistoryManager.cs" />
-    <Compile Include="Domain\Managers\PageManager.cs" />
+    <Compile Include="Domain\Services\PageHistoryService.cs" />
+    <Compile Include="Domain\Services\PageService.cs" />
     <Compile Include="Database\Entities\Page.cs" />
     <Compile Include="Mvc\ViewModels\PageSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

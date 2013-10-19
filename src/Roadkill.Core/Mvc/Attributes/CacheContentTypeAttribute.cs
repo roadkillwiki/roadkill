@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using System.Web.UI;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using StructureMap;
 using StructureMap.Attributes;

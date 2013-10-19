@@ -5,18 +5,18 @@ using System.Text;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Plugins;
 
 namespace Roadkill.Tests.Unit
 {
-	public class SearchManagerMock : SearchManager
+	public class SearchServiceMock : SearchService
 	{
 		public List<Page> Pages { get; set; }
 		public List<PageContent> PageContents { get; set; }
 
-		public SearchManagerMock(ApplicationSettings settings, IRepository repository, IPluginFactory pluginFactory)
+		public SearchServiceMock(ApplicationSettings settings, IRepository repository, IPluginFactory pluginFactory)
 			: base(settings, repository, pluginFactory)
 		{
 			Pages = new List<Page>();

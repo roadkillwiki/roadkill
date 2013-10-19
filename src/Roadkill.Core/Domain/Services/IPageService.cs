@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Core.Managers
+namespace Roadkill.Core.Services
 {
-	public interface IPageManager
+	public interface IPageService
 	{
 		/// <summary>
 		/// Adds the page to the database.
@@ -91,7 +91,7 @@ namespace Roadkill.Core.Managers
 		PageContent GetCurrentContent(int pageId);
 
 		/// <summary>
-		/// Retrieves the <see cref="MarkupConverter"/> used by this pagemanager.
+		/// Retrieves the <see cref="MarkupConverter"/> used by this IPageService.
 		/// </summary>
 		/// <returns></returns>
 		Converters.MarkupConverter GetMarkupConverter();

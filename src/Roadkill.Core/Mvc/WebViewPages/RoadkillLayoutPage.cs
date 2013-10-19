@@ -5,7 +5,7 @@ using System.Text;
 using System.Web.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using StructureMap;
 using StructureMap.Attributes;
 
@@ -27,7 +27,7 @@ namespace Roadkill.Core.Mvc.WebViewPages
 			if (ApplicationSettings.Installed && !ApplicationSettings.UpgradeRequired)
 			{
 				MarkupConverter = ObjectFactory.GetInstance<MarkupConverter>();
-				SiteSettings = ObjectFactory.GetInstance<SettingsManager>().GetSiteSettings();
+				SiteSettings = ObjectFactory.GetInstance<SettingsService>().GetSiteSettings();
 			}
 		}
 	}

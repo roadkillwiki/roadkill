@@ -12,7 +12,7 @@ using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
 using Roadkill.Core.Localization;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using System.Runtime.Caching;
@@ -29,10 +29,10 @@ namespace Roadkill.Tests.Unit
 		private RepositoryMock _repository;
 
 		private UserManagerBase _userManager;
-		private PageManager _pageManager;
-		private SearchManagerMock _searchManager;
-		private HistoryManager _historyManager;
-		private SettingsManager _settingsManager;
+		private PageService _pageService;
+		private SearchServiceMock _searchService;
+		private PageHistoryService _historyService;
+		private SettingsService _settingsService;
 		private PluginFactoryMock _pluginFactory;
 
 		[SetUp]
@@ -47,26 +47,26 @@ namespace Roadkill.Tests.Unit
 			SiteCache siteCache = new SiteCache(_applicationSettings, MemoryCache.Default);
 			PageSummaryCache pageSummaryCache = new PageSummaryCache(_applicationSettings, MemoryCache.Default);
 
-			// Dependencies for PageManager
-			Mock<SearchManager> searchMock = new Mock<SearchManager>();
+			// Dependencies for PageService
+			Mock<SearchService> searchMock = new Mock<SearchService>();
 			_pluginFactory = new PluginFactoryMock();
 
 			_repository = new RepositoryMock();
-			_settingsManager = new SettingsManager(_applicationSettings, _repository);
+			_settingsService = new SettingsService(_applicationSettings, _repository);
 			_userManager = new Mock<UserManagerBase>(_applicationSettings, null).Object;
-			_searchManager = new SearchManagerMock(_applicationSettings, _repository, _pluginFactory);
-			_searchManager.PageContents = _repository.PageContents;
-			_searchManager.Pages = _repository.Pages;
-			_historyManager = new HistoryManager(_applicationSettings, _repository, _context, pageSummaryCache, _pluginFactory);
-			_pageManager = new PageManager(_applicationSettings, _repository, _searchManager, _historyManager, _context, listCache, pageSummaryCache, siteCache, _pluginFactory);
+			_searchService = new SearchServiceMock(_applicationSettings, _repository, _pluginFactory);
+			_searchService.PageContents = _repository.PageContents;
+			_searchService.Pages = _repository.Pages;
+			_historyService = new PageHistoryService(_applicationSettings, _repository, _context, pageSummaryCache, _pluginFactory);
+			_pageService = new PageService(_applicationSettings, _repository, _searchService, _historyService, _context, listCache, pageSummaryCache, siteCache, _pluginFactory);
 		}
 
 		[Test]
 		public void Index__Should_Return_ViewResult_And_Model_With_LanguageSummaries_And_Set_UILanguage_To_English()
 		{
 			// Arrange
-			InstallController controller = new InstallController(_applicationSettings, _userManager, _pageManager,
-													_searchManager, _repository, _settingsManager, _context);
+			InstallController controller = new InstallController(_applicationSettings, _userManager, _pageService,
+													_searchService, _repository, _settingsService, _context);
 
 			// Act
 			ViewResult result = controller.Index() as ViewResult;
@@ -83,8 +83,8 @@ namespace Roadkill.Tests.Unit
 		public void Step1_Should_Return_ViewResult_With_Language_Summary_And_Set_UICulture_From_Language()
 		{
 			// Arrange
-			InstallController controller = new InstallController(_applicationSettings, _userManager, _pageManager,
-													_searchManager, _repository, _settingsManager, _context);
+			InstallController controller = new InstallController(_applicationSettings, _userManager, _pageService,
+													_searchService, _repository, _settingsService, _context);
 
 			// Act
 			ViewResult result = controller.Step1("hi") as ViewResult;

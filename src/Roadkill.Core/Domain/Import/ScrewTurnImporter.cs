@@ -9,7 +9,7 @@ using System.Web;
 using StructureMap;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 
 namespace Roadkill.Core.Import
 {
@@ -281,9 +281,9 @@ namespace Roadkill.Core.Import
 		/// <summary>
 		/// Updates the search index after a successful import.
 		/// </summary>
-		public void UpdateSearchIndex(SearchManager searchManager)
+		public void UpdateSearchIndex(SearchService searchService)
 		{
-			searchManager.CreateIndex();
+			searchService.CreateIndex();
 		}
 	}
 }

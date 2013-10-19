@@ -9,7 +9,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.DI;
 using Roadkill.Core.Logging;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security;
 using Roadkill.Core.Security.Windows;
@@ -142,7 +142,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void SettingsManager_Should_Save_Settings()
+		public void SettingsService_Should_Save_Settings()
 		{
 			// Arrange
 			SiteSettings siteSettings = new SiteSettings()
@@ -174,13 +174,13 @@ namespace Roadkill.Tests.Unit
 
 			DependencyManager iocSetup = new DependencyManager(_settings, repository, new UserContext(null)); // context isn't used
 			iocSetup.Configure();
-			SettingsManager settingsManager = new SettingsManager(_settings, repository);
+			SettingsService settingsService = new SettingsService(_settings, repository);
 
 			// Act
-			settingsManager.SaveSiteSettings(validConfigSettings);
+			settingsService.SaveSiteSettings(validConfigSettings);
 
 			// Assert
-			SiteSettings actualSettings = settingsManager.GetSiteSettings();
+			SiteSettings actualSettings = settingsService.GetSiteSettings();
 
 			Assert.That(actualSettings.AllowedFileTypes.Contains("jpg"), "AllowedFileTypes jpg");
 			Assert.That(actualSettings.AllowedFileTypes.Contains("gif"), "AllowedFileTypes gif");

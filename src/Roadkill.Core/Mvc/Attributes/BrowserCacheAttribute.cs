@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using System.Web.UI;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using StructureMap;
 using StructureMap.Attributes;
@@ -31,7 +31,7 @@ namespace Roadkill.Core.Mvc.Attributes
 		public UserManagerBase UserManager { get; set; }
 
 		[SetterProperty]
-		public PageManager PageManager { get; set; }
+		public PageService PageService { get; set; }
 
 		public override void OnResultExecuted(ResultExecutedContext filterContext)
 		{
@@ -52,12 +52,12 @@ namespace Roadkill.Core.Mvc.Attributes
 				int id = 0;
 				if (int.TryParse(filterContext.RouteData.Values["id"].ToString(), out id))
 				{
-					summary = PageManager.GetById(id);
+					summary = PageService.GetById(id);
 				}
 			}
 			else
 			{
-				summary = PageManager.FindHomePage();
+				summary = PageService.FindHomePage();
 			}
 
 			if (summary != null && summary.IsCacheable)

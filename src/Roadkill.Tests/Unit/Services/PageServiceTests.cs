@@ -10,18 +10,18 @@ using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security;
 
 namespace Roadkill.Tests.Unit
 {
 	/// <summary>
-	/// Tests that the PageManager methods call the repository and return the data in a correct state.
+	/// Tests that the PageService methods correctly call the repository and return the data in a correct state.
 	/// </summary>
 	[TestFixture]
 	[Category("Unit")]
-	public class PageManagerTests
+	public class PageServiceTests
 	{
 		public static string AdminEmail = "admin@localhost";
 		public static string AdminUsername = "admin";
@@ -30,13 +30,13 @@ namespace Roadkill.Tests.Unit
 		private User _testUser;
 
 		private RepositoryMock _repositoryMock;
-		private Mock<SearchManager> _mockSearchManager;
+		private Mock<SearchService> _mockSearchService;
 		private Mock<UserManagerBase> _mockUserManager;
 		private ApplicationSettings _applicationSettings;
 		private MarkupConverter _markupConverter;
-		private HistoryManager _historyManager;
+		private PageHistoryService _historyService;
 		private UserContext _context;
-		private PageManager _pageManager;
+		private PageService _pageService;
 		private PluginFactoryMock _pluginFactory;
 
 		[SetUp]
@@ -59,12 +59,11 @@ namespace Roadkill.Tests.Unit
 			PageSummaryCache pageSummaryCache = new PageSummaryCache(_applicationSettings, MemoryCache.Default);
 			SiteCache siteCache = new SiteCache(_applicationSettings, MemoryCache.Default);
 
-			// Managers needed by the PageManager
+			// Services needed by the PageService
 			_pluginFactory = new PluginFactoryMock();
-
 			_markupConverter = new MarkupConverter(_applicationSettings, _repositoryMock, _pluginFactory);
-			_mockSearchManager = new Mock<SearchManager>(_applicationSettings, _repositoryMock, _pluginFactory);
-			_historyManager = new HistoryManager(_applicationSettings, _repositoryMock, _context, pageSummaryCache, _pluginFactory);
+			_mockSearchService = new Mock<SearchService>(_applicationSettings, _repositoryMock, _pluginFactory);
+			_historyService = new PageHistoryService(_applicationSettings, _repositoryMock, _context, pageSummaryCache, _pluginFactory);
 
 			// Usermanager stub
 			_testUser = new User();
@@ -83,7 +82,7 @@ namespace Roadkill.Tests.Unit
 			_context = new UserContext(_mockUserManager.Object);
 			_context.CurrentUser = userId.ToString();
 
-			_pageManager = new PageManager(_applicationSettings, _repositoryMock, _mockSearchManager.Object, _historyManager, _context, listCache, pageSummaryCache, siteCache, _pluginFactory);
+			_pageService = new PageService(_applicationSettings, _repositoryMock, _mockSearchService.Object, _historyService, _context, listCache, pageSummaryCache, siteCache, _pluginFactory);
 		}
 
 		public PageSummary AddToStubbedRepository(int id, string createdBy, string title, string tags, string textContent = "")
@@ -135,7 +134,7 @@ namespace Roadkill.Tests.Unit
 			};
 
 			// Act
-			PageSummary newSummary = _pageManager.AddPage(summary);
+			PageSummary newSummary = _pageService.AddPage(summary);
 
 			// Assert
 			Assert.That(newSummary, Is.Not.Null);
@@ -155,7 +154,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			List<TagSummary> summaries = _pageManager.AllTags().OrderBy(t => t.Name).ToList();
+			List<TagSummary> summaries = _pageService.AllTags().OrderBy(t => t.Name).ToList();
 
 			// Assert
 			Assert.That(summaries.Count, Is.EqualTo(4), "Tag summary count");
@@ -176,9 +175,9 @@ namespace Roadkill.Tests.Unit
 			PageSummary page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			_pageManager.DeletePage(page1.Id);
-			_pageManager.DeletePage(page2.Id);
-			List<PageSummary> summaries = _pageManager.AllPages().ToList();
+			_pageService.DeletePage(page1.Id);
+			_pageService.DeletePage(page2.Id);
+			List<PageSummary> summaries = _pageService.AllPages().ToList();
 
 			// Assert
 			Assert.That(summaries.Count, Is.EqualTo(3), "Page count");
@@ -197,7 +196,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary page5 = AddToStubbedRepository(5, "bob", "page 5", "animals;");
 
 			// Act
-			List<PageSummary> summaries = _pageManager.AllPagesCreatedBy("bob").ToList();
+			List<PageSummary> summaries = _pageService.AllPagesCreatedBy("bob").ToList();
 
 			// Assert
 			Assert.That(summaries.Count, Is.EqualTo(3), "Summary count");
@@ -215,7 +214,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary page5 = AddToStubbedRepository(5, "bob", "page 5", "animals;");
 
 			// Act
-			List<PageSummary> summaries = _pageManager.AllPages().ToList();
+			List<PageSummary> summaries = _pageService.AllPages().ToList();
 
 			// Assert
 			Assert.That(summaries.Count, Is.EqualTo(5), "Summary count");
@@ -230,7 +229,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
 
 			// Act
-			List<PageSummary> summaries = _pageManager.FindByTag("homepage").ToList();
+			List<PageSummary> summaries = _pageService.FindByTag("homepage").ToList();
 
 			// Assert
 			Assert.That(summaries.Count, Is.EqualTo(1), "Summary count");
@@ -249,7 +248,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			List<PageSummary> summaries = _pageManager.FindByTag("animals").ToList();
+			List<PageSummary> summaries = _pageService.FindByTag("animals").ToList();
 
 			// Assert
 			Assert.That(summaries.Count, Is.EqualTo(2), "Summary count");
@@ -266,7 +265,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			PageSummary summary = _pageManager.FindByTitle("page 3");
+			PageSummary summary = _pageService.FindByTitle("page 3");
 
 			// Assert
 			Assert.That(summary.Title, Is.EqualTo("page 3"), "Page title");
@@ -283,7 +282,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			PageSummary summary = _pageManager.GetById(page3.Id);
+			PageSummary summary = _pageService.GetById(page3.Id);
 
 			// Assert
 			Assert.That(summary.Id, Is.EqualTo(page3.Id), "Page id");
@@ -298,7 +297,7 @@ namespace Roadkill.Tests.Unit
 			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
 
 			// Act
-			string xml = _pageManager.ExportToXml();
+			string xml = _pageService.ExportToXml();
 
 			// Assert
 			Assert.That(xml, Is.StringContaining("<?xml"));
@@ -315,9 +314,9 @@ namespace Roadkill.Tests.Unit
 			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "animal;");
 
 			// Act
-			_pageManager.RenameTag("animal", "vegetable");
-			List<PageSummary> animalTagList = _pageManager.FindByTag("animal").ToList();
-			List<PageSummary> vegetableTagList = _pageManager.FindByTag("vegetable").ToList();
+			_pageService.RenameTag("animal", "vegetable");
+			List<PageSummary> animalTagList = _pageService.FindByTag("animal").ToList();
+			List<PageSummary> vegetableTagList = _pageService.FindByTag("vegetable").ToList();
 
 			// Assert
 			Assert.That(animalTagList.Count, Is.EqualTo(0), "Old tag summary count");
@@ -335,8 +334,8 @@ namespace Roadkill.Tests.Unit
 			summary.Title = "New title";
 			summary.Content = "**New content**";
 
-			_pageManager.UpdatePage(summary);
-			PageSummary actual = _pageManager.GetById(1);
+			_pageService.UpdatePage(summary);
+			PageSummary actual = _pageService.GetById(1);
 
 			// Assert
 			Assert.That(actual.Title, Is.EqualTo(summary.Title), "Title");

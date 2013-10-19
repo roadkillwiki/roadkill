@@ -7,7 +7,7 @@
 
 	if (applicationSettings.Installed && !applicationSettings.UpgradeRequired)
 	{
-		SiteSettings siteSettings = controller.SiteSettingsManager.GetSiteSettings();
+		SiteSettings siteSettings = controller.SettingsService.GetSiteSettings();
 		Layout = siteSettings.ThemePath + "/Theme.cshtml";
 	}
 }

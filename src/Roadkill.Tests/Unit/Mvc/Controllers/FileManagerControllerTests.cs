@@ -9,7 +9,7 @@ using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Attachments;
@@ -27,7 +27,7 @@ namespace Roadkill.Tests.Unit
 		private UserManagerBase _userManager;
 		private IUserContext _context;
 		private RepositoryMock _repository;
-		private SettingsManager _settingsManager;
+		private SettingsService _settingsService;
 		private AttachmentFileHandler _attachmentFileHandler;
 		private FileManagerController _filesController;
 
@@ -40,8 +40,8 @@ namespace Roadkill.Tests.Unit
 			_settings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Attachments");
 			_repository = new RepositoryMock();
 			_attachmentFileHandler = new AttachmentFileHandler(_settings);
-			_settingsManager = new SettingsManager(_settings, _repository);
-			_filesController = new FileManagerController(_settings, _userManager, _context, _settingsManager, _attachmentFileHandler);
+			_settingsService = new SettingsService(_settings, _repository);
+			_filesController = new FileManagerController(_settings, _userManager, _context, _settingsService, _attachmentFileHandler);
 
 			try
 			{

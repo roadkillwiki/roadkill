@@ -9,7 +9,7 @@ using System.Globalization;
 using StructureMap;
 using Roadkill.Core.Configuration;
 using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
 using System.Web.Optimization;
 using System.Web;
@@ -100,7 +100,7 @@ namespace Roadkill.Core
 				string redirectPath = helper.ViewContext.HttpContext.Request.Path;
 				link = helper.ActionLink(SiteStrings.Navigation_Login, "Login", "User", new { ReturnUrl = redirectPath }, null ).ToString();
 
-				if (controller.SiteSettingsManager.GetSiteSettings().AllowUserSignup)
+				if (controller.SettingsService.GetSiteSettings().AllowUserSignup)
 					link += "&nbsp;/&nbsp;" + helper.ActionLink(SiteStrings.Navigation_Register, "Signup", "User").ToString();
 			}
 
@@ -161,7 +161,7 @@ namespace Roadkill.Core
 		/// <returns>If the page is not found, the link text is returned.</returns>
 		public static MvcHtmlString PageLink(this HtmlHelper helper, string linkText, string pageTitle, object htmlAttributes,string prefix,string suffix)
 		{
-			PageManager manager = ObjectFactory.GetInstance<PageManager>();
+			PageService manager = ObjectFactory.GetInstance<PageService>();
 			PageSummary summary = manager.FindByTitle(pageTitle);
 			if (summary != null)
 			{

@@ -13,14 +13,14 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Core.Managers
+namespace Roadkill.Core.Services
 {
 	/// <summary>
 	/// Provides common tasks for changing the Roadkill application settings.
 	/// </summary>
-	public class SettingsManager : ServiceBase
+	public class SettingsService : ServiceBase
 	{
-		public SettingsManager(ApplicationSettings settings, IRepository repository)
+		public SettingsService(ApplicationSettings settings, IRepository repository)
 			: base(settings, repository)
 		{
 		}

@@ -7,7 +7,7 @@ using Ionic.Zip;
 using Roadkill.Core.Localization;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Cache;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Import;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.Attributes;
@@ -23,23 +23,22 @@ namespace Roadkill.Core.Mvc.Controllers
 	[AdminRequired]
 	public class SettingsController : ControllerBase
 	{
-		private SettingsManager _settingsManager;
-		private PageManager _pageManager;
-		private SearchManager _searchManager;
+		private SettingsService _settingsService;
+		private PageService _pageService;
+		private SearchService _searchService;
 		private ScrewTurnImporter _importer;
 		private ListCache _listCache;
 		private PageSummaryCache _pageSummaryCache;
 		private SiteCache _siteCache;
 
 		public SettingsController(ApplicationSettings settings, UserManagerBase userManager,
-			SettingsManager settingsManager, PageManager pageManager, SearchManager searchManager, IUserContext context,
-			ListCache listCache, PageSummaryCache pageSummaryCache, SiteCache siteCache,
-			SettingsManager siteSettingsManager, ScrewTurnImporter screwTurnImporter)
-			: base(settings, userManager, context, siteSettingsManager) 
+			SettingsService settingsService, PageService pageService, SearchService searchService, IUserContext context,
+			ListCache listCache, PageSummaryCache pageSummaryCache, SiteCache siteCache, ScrewTurnImporter screwTurnImporter)
+			: base(settings, userManager, context, settingsService) 
 		{
-			_settingsManager = settingsManager;
-			_pageManager = pageManager;
-			_searchManager = searchManager;
+			_settingsService = settingsService;
+			_pageService = pageService;
+			_searchService = searchService;
 			_listCache = listCache;
 			_pageSummaryCache = pageSummaryCache;
 			_siteCache = siteCache;
@@ -51,7 +50,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns>A <see cref="SettingsSummary"/> as the model.</returns>
 		public ActionResult Index()
 		{
-			SiteSettings siteSettings = SiteSettingsManager.GetSiteSettings();
+			SiteSettings siteSettings = SettingsService.GetSiteSettings();
 
 			SettingsSummary summary = new SettingsSummary();
 			summary.FillFromApplicationSettings(ApplicationSettings);
@@ -74,7 +73,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				ConfigReader configReader = ConfigReaderFactory.GetConfigReader();
 				configReader.Save(summary);
 			
-				_settingsManager.SaveSiteSettings(summary);
+				_settingsService.SaveSiteSettings(summary);
 				_siteCache.RemoveMenuCacheItems();
 
 				// Refresh the AttachmentsDirectoryPath using the absolute attachments path, as it's calculated in the constructor
@@ -221,7 +220,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			try
 			{
-				string xml = _pageManager.ExportToXml();
+				string xml = _pageService.ExportToXml();
 
 				// Let the FileStreamResult dispose the stream
 				MemoryStream stream = new MemoryStream();
@@ -252,7 +251,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </returns>
 		public ActionResult ExportAsWikiFiles()
 		{
-			IEnumerable<PageSummary> pages = _pageManager.AllPages();
+			IEnumerable<PageSummary> pages = _pageService.AllPages();
 
 			try
 			{
@@ -314,7 +313,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </returns>
 		public ActionResult ExportAttachments()
 		{
-			IEnumerable<PageSummary> pages = _pageManager.AllPages();
+			IEnumerable<PageSummary> pages = _pageService.AllPages();
 
 			try
 			{
@@ -357,7 +356,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			else
 			{
 				_importer.ImportFromSqlServer(screwturnConnectionString);
-				_importer.UpdateSearchIndex(_searchManager);
+				_importer.UpdateSearchIndex(_searchService);
 				message = SiteStrings.SiteSettings_Tools_ScrewTurnImport_Message;
 			}
 
@@ -372,7 +371,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ActionResult UpdateSearchIndex()
 		{
 			TempData["Message"] = SiteStrings.SiteSettings_Tools_RebuildSearch_Message;
-			_searchManager.CreateIndex();
+			_searchService.CreateIndex();
 
 			return RedirectToAction("Tools");
 		}
@@ -384,7 +383,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ActionResult ClearPages()
 		{
 			TempData["Message"] = SiteStrings.SiteSettings_Tools_ClearDatabase_Message;
-			_settingsManager.ClearPageTables();
+			_settingsService.ClearPageTables();
 			_listCache.RemoveAll();
 			_pageSummaryCache.RemoveAll();
 
@@ -398,7 +397,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ActionResult RenameTag(string oldTagName, string newTagName)
 		{
 			TempData["Message"] = SiteStrings.SiteSettings_Tools_RenameTag_Message;
-			_pageManager.RenameTag(oldTagName, newTagName);
+			_pageService.RenameTag(oldTagName, newTagName);
 
 			return RedirectToAction("Tools");
 		}
@@ -409,7 +408,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns></returns>
 		public ActionResult SiteSettings()
 		{
-			return Content(SiteSettingsManager.GetSiteSettings().GetJson(), "text/json");
+			return Content(SettingsService.GetSiteSettings().GetJson(), "text/json");
 		}
 
 		/// <summary>

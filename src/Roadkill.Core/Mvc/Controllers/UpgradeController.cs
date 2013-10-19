@@ -5,7 +5,7 @@ using System.Text;
 using System.Web.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 
 namespace Roadkill.Core.Mvc.Controllers
@@ -18,8 +18,8 @@ namespace Roadkill.Core.Mvc.Controllers
 		private IRepository _repository;
 
 		public UpgradeController(ApplicationSettings settings, IRepository repository, UserManagerBase userManager,
-			IUserContext context, SettingsManager siteSettingsManager)
-			: base (settings, userManager, context, siteSettingsManager)
+			IUserContext context, SettingsService settingsService)
+			: base (settings, userManager, context, settingsService)
 		{
 			_repository = repository;
 		}

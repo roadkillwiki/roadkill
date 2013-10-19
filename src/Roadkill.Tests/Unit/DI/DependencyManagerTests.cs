@@ -15,7 +15,7 @@ using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Database.MongoDB;
 using Roadkill.Core.Attachments;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using StructureMap;
 using Roadkill.Core.Mvc.ViewModels;
@@ -58,7 +58,7 @@ namespace Roadkill.Tests.Unit
 			ApplicationSettings settings = ObjectFactory.TryGetInstance<ApplicationSettings>();
 			IRepository repository = ObjectFactory.GetInstance<IRepository>();
 			IUserContext context = ObjectFactory.GetInstance<IUserContext>();
-			IPageManager pageManager = ObjectFactory.GetInstance<IPageManager>();			
+			IPageService pageService = ObjectFactory.GetInstance<IPageService>();			
 			MarkupConverter markupConverter = ObjectFactory.GetInstance<MarkupConverter>();
 			CustomTokenParser tokenParser = ObjectFactory.GetInstance<CustomTokenParser>();
 			UserSummary userSummary = ObjectFactory.GetInstance<UserSummary>();
@@ -72,7 +72,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(settings, Is.Not.Null);
 			Assert.That(repository, Is.TypeOf<LightSpeedRepository>());
 			Assert.That(context, Is.TypeOf<UserContext>());
-			Assert.That(pageManager, Is.TypeOf<PageManager>());			
+			Assert.That(pageService, Is.TypeOf<PageService>());			
 			Assert.That(markupConverter, Is.TypeOf<MarkupConverter>());
 			Assert.That(tokenParser, Is.TypeOf<CustomTokenParser>());
 			Assert.That(userSummary, Is.TypeOf<UserSummary>());

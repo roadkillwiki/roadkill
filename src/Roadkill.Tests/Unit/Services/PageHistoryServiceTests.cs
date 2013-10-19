@@ -9,7 +9,7 @@ using Roadkill.Core;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security;
 
@@ -17,7 +17,7 @@ namespace Roadkill.Tests.Unit
 {
 	[TestFixture]
 	[Category("Unit")]
-	public class HistoryManagerTests
+	public class PageHistoryServiceTests
 	{
 		public static string AdminEmail = "admin@localhost";
 		public static string AdminUsername = "admin";
@@ -29,7 +29,7 @@ namespace Roadkill.Tests.Unit
 		private ApplicationSettings _settings;
 		private Mock<UserManagerBase> _mockUserManager;
 		private UserContext _context;
-		private HistoryManager _historyManager;
+		private PageHistoryService _historyService;
 		private PluginFactoryMock _pluginFactory;
 
 		[SetUp]
@@ -56,7 +56,7 @@ namespace Roadkill.Tests.Unit
 			_context.CurrentUser = userId.ToString();
 
 			_pluginFactory = new PluginFactoryMock();
-			_historyManager = new HistoryManager(_settings, _repositoryMock, _context, new PageSummaryCache(_settings, MemoryCache.Default), _pluginFactory);
+			_historyService = new PageHistoryService(_settings, _repositoryMock, _context, new PageSummaryCache(_settings, MemoryCache.Default), _pluginFactory);
 		}
 
 		[Test]
@@ -71,7 +71,7 @@ namespace Roadkill.Tests.Unit
 			PageContent v4Content = _repositoryMock.AddNewPageContentVersion(page, "v4 text", "admin", createdDate.AddHours(3), 4);
 
 			// Act
-			List<PageSummary> versionList = _historyManager.CompareVersions(v4Content.Id).ToList();
+			List<PageSummary> versionList = _historyService.CompareVersions(v4Content.Id).ToList();
 
 			// Assert
 			Assert.That(versionList.Count, Is.EqualTo(2));
@@ -87,7 +87,7 @@ namespace Roadkill.Tests.Unit
 			PageContent v1Content = _repositoryMock.AddNewPage(page, "v1 text", "admin", DateTime.Today.AddDays(-1));
 
 			// Act
-			List<PageSummary> versionList = _historyManager.CompareVersions(v1Content.Id).ToList();
+			List<PageSummary> versionList = _historyService.CompareVersions(v1Content.Id).ToList();
 
 			// Assert
 			Assert.That(versionList.Count, Is.EqualTo(2));
@@ -107,7 +107,7 @@ namespace Roadkill.Tests.Unit
 			page.IsLocked = true;
 
 			// Act
-			List<HistorySummary> historyList = _historyManager.GetHistory(v1Content.Page.Id).ToList();
+			List<HistorySummary> historyList = _historyService.GetHistory(v1Content.Page.Id).ToList();
 
 			// Assert
 			Assert.That(historyList.Count, Is.EqualTo(2));
@@ -132,7 +132,7 @@ namespace Roadkill.Tests.Unit
 			PageContent v4Content = _repositoryMock.AddNewPageContentVersion(page, "v4 text", "admin", createdDate.AddHours(3), 4);
 
 			// Act
-			List<HistorySummary> historyList = _historyManager.GetHistory(v1Content.Page.Id).ToList();
+			List<HistorySummary> historyList = _historyService.GetHistory(v1Content.Page.Id).ToList();
 
 			// Assert
 			Assert.That(historyList.Count, Is.EqualTo(4));
@@ -157,7 +157,7 @@ namespace Roadkill.Tests.Unit
 			int expectedVersion = 4;
 
 			// Act
-			int actualVersion = _historyManager.MaxVersion(page.Id);
+			int actualVersion = _historyService.MaxVersion(page.Id);
 
 			// Assert
 			Assert.That(actualVersion, Is.EqualTo(expectedVersion));
@@ -175,7 +175,7 @@ namespace Roadkill.Tests.Unit
 			PageContent v2Content = _repositoryMock.AddNewPageContentVersion(page, "v2 text", "admin", createdDate.AddHours(1), 2);
 
 			// Act
-			_historyManager.RevertTo(v1Content.Id, _context);
+			_historyService.RevertTo(v1Content.Id, _context);
 			PageContent actualContent = _repositoryMock.GetLatestPageContent(page.Id);
 
 			// Assert
@@ -195,7 +195,7 @@ namespace Roadkill.Tests.Unit
 			PageContent v2Content = _repositoryMock.AddNewPageContentVersion(page, "v2 text", "admin", createdDate.AddHours(1), 2);
 
 			// Act
-			_historyManager.RevertTo(page.Id, 1);
+			_historyService.RevertTo(page.Id, 1);
 			PageContent actualContent = _repositoryMock.GetLatestPageContent(page.Id);
 
 			// Assert
