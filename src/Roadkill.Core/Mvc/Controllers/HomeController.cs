@@ -26,7 +26,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		private SearchService _searchService;
 		private MarkupConverter _markupConverter;
 
-		public HomeController(ApplicationSettings settings, UserManagerBase userManager, MarkupConverter markupConverter,
+		public HomeController(ApplicationSettings settings, UserServiceBase userManager, MarkupConverter markupConverter,
 			PageService pageService, SearchService searchService, IUserContext context, SettingsService settingsService)
 			: base(settings, userManager, context, settingsService) 
 		{

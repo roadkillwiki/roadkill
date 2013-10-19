@@ -26,7 +26,7 @@ namespace Roadkill.Core
 	/// - {USERID}
 	/// - {SITENAME}
 	/// </remarks>
-	public abstract class Email
+	public abstract class EmailTemplate
 	{
 		protected ApplicationSettings ApplicationSettings;
 		protected SiteSettings SiteSettings;
@@ -41,14 +41,13 @@ namespace Roadkill.Core
 		/// </summary>
 		public string PlainTextView { get; set; }
 
-
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Email"/> class.
+		/// Initializes a new instance of the <see cref="EmailTemplate"/> class.
 		/// </summary>
 		/// <param name="summary">The summary.</param>
 		/// <param name="applicationSettings"></param>
 		/// <param name="siteSettings"></param>
-		public Email(ApplicationSettings applicationSettings, SiteSettings siteSettings)
+		public EmailTemplate(ApplicationSettings applicationSettings, SiteSettings siteSettings)
 		{
 			ApplicationSettings = applicationSettings;
 			SiteSettings = siteSettings;
@@ -81,7 +80,6 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Sends a notification email to the provided address, using the template provided.
 		/// </summary>
-		/// <param name="emailTemplate"></param>
 		public virtual void Send(UserSummary summary)
 		{
 			if (summary == null || (string.IsNullOrEmpty(summary.ExistingEmail) && string.IsNullOrEmpty(summary.NewEmail)))

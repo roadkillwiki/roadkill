@@ -64,7 +64,7 @@ namespace Roadkill.Tests.Unit
 			UserSummary userSummary = ObjectFactory.GetInstance<UserSummary>();
 			SettingsSummary settingsSummary = ObjectFactory.GetInstance<SettingsSummary>();
 			AttachmentRouteHandler routerHandler = ObjectFactory.GetInstance<AttachmentRouteHandler>();
-			UserManagerBase userManager = ObjectFactory.GetInstance<UserManagerBase>();
+			UserServiceBase userManager = ObjectFactory.GetInstance<UserServiceBase>();
 			IPluginFactory pluginFactory = ObjectFactory.GetInstance<IPluginFactory>();
 			IWikiImporter wikiImporter = ObjectFactory.GetInstance<IWikiImporter>();
 
@@ -77,7 +77,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(tokenParser, Is.TypeOf<CustomTokenParser>());
 			Assert.That(userSummary, Is.TypeOf<UserSummary>());
 			Assert.That(settingsSummary, Is.TypeOf<SettingsSummary>());
-			Assert.That(userManager, Is.TypeOf<FormsAuthUserManager>());
+			Assert.That(userManager, Is.TypeOf<FormsAuthUserService>());
 			Assert.That(pluginFactory, Is.TypeOf<PluginFactory>());
 			Assert.That(wikiImporter, Is.TypeOf<ScrewTurnImporter>());
 		}
@@ -151,10 +151,10 @@ namespace Roadkill.Tests.Unit
 
 			// Act
 			container.Configure();
-			UserManagerBase usermanager = ObjectFactory.GetInstance<UserManagerBase>();
+			UserServiceBase usermanager = ObjectFactory.GetInstance<UserServiceBase>();
 
 			// Assert
-			Assert.That(usermanager, Is.TypeOf<ActiveDirectoryUserManager>());
+			Assert.That(usermanager, Is.TypeOf<ActiveDirectoryUserService>());
 		}
 
 		[Test]
@@ -226,7 +226,7 @@ namespace Roadkill.Tests.Unit
 			iocSetup.Configure();
 
 			// Assert
-			UserManagerBase userManager = ObjectFactory.GetInstance<UserManagerBase>();
+			UserServiceBase userManager = ObjectFactory.GetInstance<UserServiceBase>();
 			Assert.That(userManager.GetType().FullName, Is.EqualTo("Roadkill.Tests.UserManagerStub"));
 		}
 	}

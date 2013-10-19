@@ -19,7 +19,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		private SignupEmail _signupEmail;
 		private ResetPasswordEmail _resetPasswordEmail;
 		
-		public UserController(ApplicationSettings settings, UserManagerBase userManager,
+		public UserController(ApplicationSettings settings, UserServiceBase userManager,
 			IUserContext context, SettingsService settingsService, 
 			SignupEmail signupEmail, ResetPasswordEmail resetPasswordEmail)
 			: base(settings, userManager, context, settingsService) 

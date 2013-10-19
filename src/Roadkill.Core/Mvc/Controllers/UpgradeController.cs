@@ -17,7 +17,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	{
 		private IRepository _repository;
 
-		public UpgradeController(ApplicationSettings settings, IRepository repository, UserManagerBase userManager,
+		public UpgradeController(ApplicationSettings settings, IRepository repository, UserServiceBase userManager,
 			IUserContext context, SettingsService settingsService)
 			: base (settings, userManager, context, settingsService)
 		{

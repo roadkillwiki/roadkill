@@ -29,7 +29,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		private SettingsService _settingsService;
 		private static string _uiLanguageCode = "en";
 
-		public InstallController(ApplicationSettings settings, UserManagerBase userManager,
+		public InstallController(ApplicationSettings settings, UserServiceBase userManager,
 			PageService pageService, SearchService searchService, IRepository respository,
 			SettingsService settingsService, IUserContext context)
 			: base(settings, userManager, context, settingsService) 
@@ -251,7 +251,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (ApplicationSettings.Installed)
 				return Content("");
 
-			string errors = ActiveDirectoryService.TestLdapConnection(connectionString, username, password, groupName);
+			string errors = ActiveDirectoryProvider.TestLdapConnection(connectionString, username, password, groupName);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 

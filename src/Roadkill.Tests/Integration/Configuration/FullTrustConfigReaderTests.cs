@@ -213,7 +213,7 @@ namespace Roadkill.Tests.Unit
 			iocSetup.Configure();
 
 			// Assert
-			Assert.That(ServiceLocator.GetInstance<UserManagerBase>(), Is.TypeOf(typeof(ActiveDirectoryUserManager)));
+			Assert.That(ServiceLocator.GetInstance<UserServiceBase>(), Is.TypeOf(typeof(ActiveDirectoryUserService)));
 		}
 		
 		[Test]
@@ -229,7 +229,7 @@ namespace Roadkill.Tests.Unit
 			iocSetup.Configure();
 
 			// Assert
-			Assert.That(ServiceLocator.GetInstance<UserManagerBase>(), Is.TypeOf(typeof(FormsAuthUserManager)));
+			Assert.That(ServiceLocator.GetInstance<UserServiceBase>(), Is.TypeOf(typeof(FormsAuthUserService)));
 		}
 
 		[Test]
@@ -247,7 +247,7 @@ namespace Roadkill.Tests.Unit
 			iocContainer.Configure();
 
 			// Assert
-			Assert.That(ServiceLocator.GetInstance<UserManagerBase>(), Is.TypeOf(typeof(FormsAuthUserManager)));
+			Assert.That(ServiceLocator.GetInstance<UserServiceBase>(), Is.TypeOf(typeof(FormsAuthUserService)));
 		}
 
 		private string GetConfigPath(string filename)

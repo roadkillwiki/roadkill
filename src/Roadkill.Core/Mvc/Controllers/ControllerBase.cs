@@ -18,11 +18,11 @@ namespace Roadkill.Core.Mvc.Controllers
 	public class ControllerBase : Controller
 	{
 		public ApplicationSettings ApplicationSettings { get; private set; }
-		public UserManagerBase UserManager { get; private set; }
+		public UserServiceBase UserManager { get; private set; }
 		public IUserContext Context { get; private set; }
 		public SettingsService SettingsService { get; private set; }
 
-		public ControllerBase(ApplicationSettings settings, UserManagerBase userManager, IUserContext context, 
+		public ControllerBase(ApplicationSettings settings, UserServiceBase userManager, IUserContext context, 
 			SettingsService settingsService)
 		{
 			ApplicationSettings = settings;

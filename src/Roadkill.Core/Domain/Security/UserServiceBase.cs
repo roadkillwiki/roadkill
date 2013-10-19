@@ -13,11 +13,11 @@ namespace Roadkill.Core.Security
 	/// <summary>
 	/// The base class for user management tasks.
 	/// </summary>
-	public abstract class UserManagerBase : ServiceBase
+	public abstract class UserServiceBase : ServiceBase
 	{
 		protected PageService PageService;
 
-		public UserManagerBase(ApplicationSettings settings, IRepository repository)
+		public UserServiceBase(ApplicationSettings settings, IRepository repository)
 			: base(settings, repository)
 		{
 
@@ -38,7 +38,8 @@ namespace Roadkill.Core.Security
 		/// <summary>
 		/// Adds a user to the system, and sets the <see cref="User.IsActivated"/> to true.
 		/// </summary>
-		/// <param name="email">The email or username.</param>
+		/// <param name="email">The email for the user - this is typically used for log in checks.</param>
+		/// <param name="username">The username for the user.</param>
 		/// <param name="password">The password.</param>
 		/// <param name="isAdmin">if set to <c>true</c> the user is added as an admin.</param>
 		/// <param name="isEditor">if set to <c>true</c> the user is added as an editor.</param>

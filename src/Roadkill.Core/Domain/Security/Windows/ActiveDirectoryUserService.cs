@@ -13,7 +13,7 @@ namespace Roadkill.Core.Security.Windows
 	/// <summary>
 	/// Provides user management with Active Directory.
 	/// </summary>
-	public class ActiveDirectoryUserManager : UserManagerBase
+	public class ActiveDirectoryUserService : UserServiceBase
 	{
 		// Very simplistic caching.
 		private static Dictionary<string, List<string>> _usersInGroupCache = new Dictionary<string, List<string>>();
@@ -23,10 +23,10 @@ namespace Roadkill.Core.Security.Windows
 		private List<string> _editorGroupNames;
 		private List<string> _adminGroupNames;
 		private string _domainName;
-		private IActiveDirectoryService _service;
+		private IActiveDirectoryProvider _service;
 
 		/// <summary>
-		/// Returns false as <see cref="ActiveDirectoryUserManager"/> does not support user updates.
+		/// Returns false as <see cref="ActiveDirectoryUserService"/> does not support user updates.
 		/// </summary>
 		public override bool IsReadonly
 		{
@@ -37,9 +37,9 @@ namespace Roadkill.Core.Security.Windows
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ActiveDirectoryUserManager"/> class.
+		/// Initializes a new instance of the <see cref="ActiveDirectoryUserService"/> class.
 		/// </summary>
-		public ActiveDirectoryUserManager(ApplicationSettings settings, IRepository repository, IActiveDirectoryService service)
+		public ActiveDirectoryUserService(ApplicationSettings settings, IRepository repository, IActiveDirectoryProvider service)
 			: base(settings, repository)
 		{
 			// Some guards
@@ -270,98 +270,98 @@ namespace Roadkill.Core.Security.Windows
 		}
 
 		/// <summary>
-		/// This method performs no action with the <see cref="ActiveDirectoryUserManager"/>.
+		/// This method performs no action with the <see cref="ActiveDirectoryUserService"/>.
 		/// </summary>
 		public override void Logout()
 		{
 		}
 
 		#region Not implemented methods
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
 		public override bool ActivateUser(string activationKey)
 		{
 			throw new NotImplementedException();
 		}
 
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
 		public override bool AddUser(string email, string username, string password, bool isAdmin, bool isEditor)
 		{
 			throw new NotImplementedException();
 		}
 
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
 		public override bool Authenticate(string email, string password)
 		{
 			throw new NotImplementedException();
 		}
 
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
 		public override void ChangePassword(string email, string newPassword)
 		{
 			throw new NotImplementedException();
 		}
 
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
 		public override bool ChangePassword(string email, string oldPassword, string newPassword)
 		{
 			throw new NotImplementedException();
 		}
 
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
 		public override bool UpdateUser(UserSummary summary)
 		{
 			throw new NotImplementedException();
 		}
 
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
 		public override bool DeleteUser(string email)
 		{
 			throw new NotImplementedException();
 		}
 
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
 		public override User GetUserById(Guid id, bool isActivated = true)
 		{
 			throw new NotImplementedException();
 		}
 
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
 		public override User GetUserByResetKey(string resetKey)
 		{
 			throw new NotImplementedException();
 		}
 
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
 		public override string ResetPassword(string email)
 		{
 			throw new NotImplementedException();
 		}
 
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
 		public override void ToggleAdmin(string email)
 		{
 			throw new NotImplementedException();
 		}
 
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
 		public override void ToggleEditor(string email)
 		{
 			throw new NotImplementedException();
 		}
 
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
 		public override string Signup(UserSummary summary, Action completed)
 		{
 			throw new NotImplementedException();
 		}
 
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
 		public override bool UserExists(string email)
 		{
 			throw new NotImplementedException();
 		}
 
-		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserManager"/></exception>
+		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
 		public override bool UserNameExists(string username)
 		{
 			throw new NotImplementedException();

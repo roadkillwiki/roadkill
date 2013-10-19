@@ -28,7 +28,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// Constructor for the file manager.
 		/// </summary>
 		/// <remarks>This action requires editor rights.</remarks>
-		public FileManagerController(ApplicationSettings settings, UserManagerBase userManager, IUserContext context,
+		public FileManagerController(ApplicationSettings settings, UserServiceBase userManager, IUserContext context,
 			SettingsService settingsService, AttachmentFileHandler attachment)
 			: base(settings, userManager, context, settingsService)
 		{

@@ -16,7 +16,7 @@ namespace Roadkill.Core.Mvc.Attributes
 	{
 		ApplicationSettings ApplicationSettings { get; set; }
 		IUserContext Context { get; set; }
-		UserManagerBase UserManager { get; set; }
+		UserServiceBase UserManager { get; set; }
 		PageService PageService { get; set; }
 	}
 }

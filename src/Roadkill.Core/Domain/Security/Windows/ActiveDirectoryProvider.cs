@@ -8,9 +8,9 @@ using System.Text;
 namespace Roadkill.Core.Security.Windows
 {
 	/// <summary>
-	/// Default AD implentation of the service.
+	/// Default AD implentation of the provider.
 	/// </summary>
-	public class ActiveDirectoryService : IActiveDirectoryService
+	public class ActiveDirectoryProvider : IActiveDirectoryProvider
 	{
 		public IEnumerable<IPrincipalDetails> GetMembers(string domainName, string username, string password, string groupName)
 		{

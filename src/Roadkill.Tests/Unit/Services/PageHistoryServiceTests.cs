@@ -27,7 +27,7 @@ namespace Roadkill.Tests.Unit
 
 		private RepositoryMock _repositoryMock;
 		private ApplicationSettings _settings;
-		private Mock<UserManagerBase> _mockUserManager;
+		private Mock<UserServiceBase> _mockUserManager;
 		private UserContext _context;
 		private PageHistoryService _historyService;
 		private PluginFactoryMock _pluginFactory;
@@ -45,7 +45,7 @@ namespace Roadkill.Tests.Unit
 			_testUser.Username = AdminUsername;
 			Guid userId = _testUser.Id;
 
-			_mockUserManager = new Mock<UserManagerBase>(_settings, _repositoryMock);
+			_mockUserManager = new Mock<UserServiceBase>(_settings, _repositoryMock);
 			_mockUserManager.Setup(x => x.GetUser(_testUser.Email, It.IsAny<bool>())).Returns(_testUser);
 			_mockUserManager.Setup(x => x.GetUserById(userId, It.IsAny<bool>())).Returns(_testUser);
 			_mockUserManager.Setup(x => x.Authenticate(_testUser.Email, "")).Returns(true);
