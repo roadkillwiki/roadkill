@@ -3,7 +3,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security;
@@ -16,13 +16,13 @@ namespace Roadkill.Core.Mvc.Controllers
 	[OptionalAuthorization]
 	public class WikiController : ControllerBase
 	{
-		public PageManager PageManager { get; private set; }
+		public PageService PageService { get; private set; }
 
-		public WikiController(ApplicationSettings settings, UserManagerBase userManager, PageManager pageManager,
-			IUserContext context, SettingsManager siteSettingsManager)
-			: base(settings, userManager, context, siteSettingsManager) 
+		public WikiController(ApplicationSettings settings, UserManagerBase userManager, PageService pageService,
+			IUserContext context, SettingsService settingsService)
+			: base(settings, userManager, context, settingsService) 
 		{
-			PageManager = pageManager;
+			PageService = pageService;
 		}
 
 		/// <summary>
@@ -39,7 +39,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (id == null || id < 1)
 				return RedirectToAction("Index", "Home");
 
-			PageSummary summary = PageManager.GetById(id.Value);
+			PageSummary summary = PageService.GetById(id.Value);
 
 			if (summary == null)
 				throw new HttpException(404, string.Format("The page with id '{0}' could not be found", id));
@@ -52,7 +52,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (id == null || id < 1)
 				return Content("");
 
-			PageSummary summary = PageManager.GetById(id.Value);
+			PageSummary summary = PageService.GetById(id.Value);
 
 			if (summary == null)
 				return Content(string.Format("The page with id '{0}' could not be found", id));

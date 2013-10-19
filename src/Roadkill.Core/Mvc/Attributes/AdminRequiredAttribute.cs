@@ -2,7 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using StructureMap.Attributes;
 
@@ -23,7 +23,7 @@ namespace Roadkill.Core.Mvc.Attributes
 		public UserManagerBase UserManager { get; set; }
 
 		[SetterProperty]
-		public PageManager PageManager { get; set; }
+		public PageService PageService { get; set; }
 
 		/// <summary>
 		/// Provides an entry point for custom authorization checks.

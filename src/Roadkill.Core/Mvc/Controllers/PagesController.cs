@@ -5,7 +5,7 @@ using System.Web.Mvc;
 using Roadkill.Core.Diff;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
@@ -21,20 +21,20 @@ namespace Roadkill.Core.Mvc.Controllers
 	[OptionalAuthorization]
 	public class PagesController : ControllerBase
 	{
-		private SettingsManager _settingsManager;
-		private IPageManager _pageManager;
-		private SearchManager _searchManager;
-		private HistoryManager _historyManager;
+		private SettingsService _settingsService;
+		private IPageService _pageService;
+		private SearchService _searchService;
+		private PageHistoryService _historyService;
 
 		public PagesController(ApplicationSettings settings, UserManagerBase userManager,
-			SettingsManager settingsManager, IPageManager pageManager, SearchManager searchManager,
-			HistoryManager historyManager, IUserContext context, SettingsManager siteSettingsManager)
-			: base(settings, userManager, context, siteSettingsManager)
+			SettingsService settingsService, IPageService pageService, SearchService searchService,
+			PageHistoryService historyService, IUserContext context)
+			: base(settings, userManager, context, settingsService)
 		{
-			_settingsManager = settingsManager;
-			_pageManager = pageManager;
-			_searchManager = searchManager;
-			_historyManager = historyManager;
+			_settingsService = settingsService;
+			_pageService = pageService;
+			_searchService = searchService;
+			_historyService = historyService;
 		}
 
 		/// <summary>
@@ -44,7 +44,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		[BrowserCache]
 		public ActionResult AllPages()
 		{
-			return View(_pageManager.AllPages());
+			return View(_pageService.AllPages());
 		}
 
 		/// <summary>
@@ -54,7 +54,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		[BrowserCache]
 		public ActionResult AllTags()
 		{
-			return View(_pageManager.AllTags().OrderBy(x => x.Name));
+			return View(_pageService.AllTags().OrderBy(x => x.Name));
 		}
 
 		/// <summary>
@@ -66,7 +66,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public ActionResult AllTagsAsJson()
 		{
-			IEnumerable<TagSummary> tags = _pageManager.AllTags();
+			IEnumerable<TagSummary> tags = _pageService.AllTags();
 			var tagsJson = tags.Select(t => new { tag = t.Name });
 			Dictionary<string, object> result = new Dictionary<string, object>();
 			result.Add("tags", tagsJson);
@@ -91,7 +91,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			ViewData["Username"] = id;
 
-			return View(_pageManager.AllPagesCreatedBy(id));
+			return View(_pageService.AllPagesCreatedBy(id));
 		}
 
 		/// <summary>
@@ -103,7 +103,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		[AdminRequired]
 		public ActionResult Delete(int id)
 		{
-			_pageManager.DeletePage(id);
+			_pageService.DeletePage(id);
 
 			return RedirectToAction("AllPages");
 		}
@@ -118,7 +118,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		[EditorRequired]
 		public ActionResult Edit(int id)
 		{
-			PageSummary summary = _pageManager.GetById(id);
+			PageSummary summary = _pageService.GetById(id);
 
 			if (summary != null)
 			{
@@ -147,7 +147,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (!ModelState.IsValid)
 				return View("Edit", summary);
 
-			_pageManager.UpdatePage(summary);
+			_pageService.UpdatePage(summary);
 
 			return RedirectToAction("Index", "Wiki", new { id = summary.Id });
 		}
@@ -168,7 +168,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			if (!string.IsNullOrEmpty(id))
 			{
-				MarkupConverter converter = _pageManager.GetMarkupConverter();
+				MarkupConverter converter = _pageService.GetMarkupConverter();
 				pagehtml = converter.ToHtml(id);
 			}
 
@@ -184,7 +184,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ActionResult History(int id)
 		{
 			ViewData["PageId"] = id;
-			return View(_historyManager.GetHistory(id).ToList());
+			return View(_historyService.GetHistory(id).ToList());
 		}
 
 		/// <summary>
@@ -212,7 +212,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (!ModelState.IsValid)
 				return View("Edit", summary);
 
-			summary = _pageManager.AddPage(summary);
+			summary = _pageService.AddPage(summary);
 
 			return RedirectToAction("Index", "Wiki", new { id = summary.Id });
 		}
@@ -228,11 +228,11 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ActionResult Revert(Guid versionId, int pageId)
 		{
 			// Check if the page is locked to admin edits only before reverting.
-			PageSummary page = _pageManager.GetById(pageId);
+			PageSummary page = _pageService.GetById(pageId);
 			if (page == null || (page.IsLocked && !Context.IsAdmin))
 				return RedirectToAction("Index", "Home");
 
-			_historyManager.RevertTo(versionId, Context);
+			_historyService.RevertTo(versionId, Context);
 
 			return RedirectToAction("History", new { id = pageId });
 		}
@@ -247,7 +247,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			id = HttpUtility.UrlDecode(id);
 			ViewData["Tagname"] = id;
 
-			return View(_pageManager.FindByTag(id));
+			return View(_pageService.FindByTag(id));
 		}
 
 		/// <summary>
@@ -258,8 +258,8 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// output inside the <see cref="PageSummary.Content"/> property.</returns>
 		public ActionResult Version(Guid id)
 		{
-			MarkupConverter converter = _pageManager.GetMarkupConverter();
-			IList<PageSummary> bothVersions = _historyManager.CompareVersions(id).ToList();
+			MarkupConverter converter = _pageService.GetMarkupConverter();
+			IList<PageSummary> bothVersions = _historyService.CompareVersions(id).ToList();
 			string diffHtml = "";
 
 			if (bothVersions[1] != null)

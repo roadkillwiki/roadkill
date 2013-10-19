@@ -9,7 +9,7 @@ using Roadkill.Core.Localization;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Attachments;
 
 namespace Roadkill.Core.Mvc.Controllers
@@ -29,8 +29,8 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		/// <remarks>This action requires editor rights.</remarks>
 		public FileManagerController(ApplicationSettings settings, UserManagerBase userManager, IUserContext context,
-			SettingsManager siteSettingsManager, AttachmentFileHandler attachment)
-			: base(settings, userManager, context, siteSettingsManager)
+			SettingsService settingsService, AttachmentFileHandler attachment)
+			: base(settings, userManager, context, settingsService)
 		{
 			_attachmentHandler = attachment;
 			_attachmentPathUtil = new AttachmentPathUtil(settings);
@@ -241,7 +241,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			try
 			{
 				string fileName = "";
-				IEnumerable<string> allowedExtensions = SiteSettingsManager.GetSiteSettings().AllowedFileTypesList
+				IEnumerable<string> allowedExtensions = SettingsService.GetSiteSettings().AllowedFileTypesList
 													.Select(x => x.ToLower());
 
 				for (int i = 0; i < Request.Files.Count; i++)

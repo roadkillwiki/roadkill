@@ -5,7 +5,7 @@ using System.Text;
 using System.Web.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using StructureMap;
 using StructureMap.Attributes;
 
@@ -26,14 +26,14 @@ namespace Roadkill.Core.Mvc.WebViewPages
 		public MarkupConverter MarkupConverter { get; set; }
 
 		[SetterProperty]
-		public SettingsManager SiteSettingsManager { get; set; }
+		public SettingsService SettingsService { get; set; }
 
 		public SiteSettings SiteSettings
 		{
 			get
 			{
 				if (_siteSettings == null)
-					_siteSettings = SiteSettingsManager.GetSiteSettings();
+					_siteSettings = SettingsService.GetSiteSettings();
 
 				return _siteSettings;
 			}

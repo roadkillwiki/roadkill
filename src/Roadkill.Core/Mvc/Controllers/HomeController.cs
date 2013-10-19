@@ -8,7 +8,7 @@ using Roadkill.Core.Configuration;
 using System.Diagnostics;
 using System.Web;
 using System.Web.UI;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
@@ -22,17 +22,17 @@ namespace Roadkill.Core.Mvc.Controllers
 	[OptionalAuthorization]
 	public class HomeController : ControllerBase
 	{
-		public PageManager PageManager { get; private set; }
-		private SearchManager _searchManager;
+		public PageService PageService { get; private set; }
+		private SearchService _searchService;
 		private MarkupConverter _markupConverter;
 
 		public HomeController(ApplicationSettings settings, UserManagerBase userManager, MarkupConverter markupConverter,
-			PageManager pageManager, SearchManager searchManager, IUserContext context, SettingsManager siteSettingsManager)
-			: base(settings, userManager, context, siteSettingsManager) 
+			PageService pageService, SearchService searchService, IUserContext context, SettingsService settingsService)
+			: base(settings, userManager, context, settingsService) 
 		{
 			_markupConverter = markupConverter;
-			PageManager = pageManager;
-			_searchManager = searchManager;
+			_searchService = searchService;
+			PageService = pageService;
 		}
 
 		/// <summary>
@@ -43,7 +43,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ActionResult Index()
 		{
 			// Get the first locked homepage
-			PageSummary summary = PageManager.FindHomePage();
+			PageSummary summary = PageService.FindHomePage();
 
 			if (summary == null)
 			{
@@ -68,7 +68,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			ViewData["search"] = q;
 
-			List<SearchResult> results = _searchManager.Search(q).ToList();
+			List<SearchResult> results = _searchService.Search(q).ToList();
 			return View(results);
 		}
 
@@ -87,7 +87,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		public ActionResult LeftMenu()
 		{
-			return Content(PageManager.GetMenu(Context));
+			return Content(PageService.GetMenu(Context));
 		}
 	}
 }

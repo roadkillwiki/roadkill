@@ -6,10 +6,10 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using StructureMap;
 
-namespace Roadkill.Core.Managers
+namespace Roadkill.Core.Services
 {
 	/// <summary>
-	/// Provides all inheriting classes with queryable objects for the system pages and text content.
+	/// Provides all inheriting services classes with application settings and repository access.
 	/// </summary>
 	public class ServiceBase
 	{

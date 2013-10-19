@@ -9,7 +9,7 @@ using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
 using Roadkill.Core.Localization;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 
@@ -24,7 +24,7 @@ namespace Roadkill.Tests.Unit
 		private RepositoryMock _repository;
 
 		private UserManagerBase _userManager;
-		private SettingsManager _settingsManager;
+		private SettingsService _settingsService;
 		private HelpController _controller;
 
 		[SetUp]
@@ -35,7 +35,7 @@ namespace Roadkill.Tests.Unit
 			_settings.Installed = true;
 			_userManager = new FormsAuthUserManager(_settings, _repository);
 
-			_controller = new HelpController(_settings,  _userManager, _context, _settingsManager);
+			_controller = new HelpController(_settings,  _userManager, _context, _settingsService);
 		}
 
 		[Test]

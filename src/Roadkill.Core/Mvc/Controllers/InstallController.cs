@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Attachments;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security.Windows;
@@ -24,20 +24,20 @@ namespace Roadkill.Core.Mvc.Controllers
 	public class InstallController : ControllerBase
 	{
 		private IRepository _repository;
-		private PageManager _pageManager;
-		private SearchManager _searchManager;
-		private SettingsManager _settingsManager;
+		private PageService _pageService;
+		private SearchService _searchService;
+		private SettingsService _settingsService;
 		private static string _uiLanguageCode = "en";
 
 		public InstallController(ApplicationSettings settings, UserManagerBase userManager,
-			PageManager pageManager, SearchManager searchManager, IRepository respository,
-			SettingsManager settingsManager, IUserContext context)
-			: base(settings, userManager, context, settingsManager) 
+			PageService pageService, SearchService searchService, IRepository respository,
+			SettingsService settingsService, IUserContext context)
+			: base(settings, userManager, context, settingsService) 
 		{
-			_pageManager = pageManager;
-			_searchManager = searchManager;
+			_pageService = pageService;
+			_searchService = searchService;
 			_repository = respository;
-			_settingsManager = settingsManager;
+			_settingsService = settingsService;
 		}
 
 		/// <summary>
@@ -216,16 +216,16 @@ namespace Roadkill.Core.Mvc.Controllers
 			// (changing the For() in StructureMap won't do this as the references have already been created).
 			_repository = RepositoryManager.ChangeRepository(dataStoreType, summary.ConnectionString, summary.UseObjectCache);
 			UserManager.UpdateRepository(_repository);
-			_settingsManager.UpdateRepository(_repository);
-			_searchManager.UpdateRepository(_repository);
+			_settingsService.UpdateRepository(_repository);
+			_searchService.UpdateRepository(_repository);
 
 			// Update the web.config first, so all connections can be referenced.
 			ConfigReader configReader = ConfigReaderFactory.GetConfigReader();
 			configReader.Save(summary);
 
 			// Create the roadkill schema and save the configuration settings
-			_settingsManager.CreateTables(summary);
-			_settingsManager.SaveSiteSettings(summary);
+			_settingsService.CreateTables(summary);
+			_settingsService.SaveSiteSettings(summary);
 
 			// Add a user if we're not using AD.
 			if (!summary.UseWindowsAuth)
@@ -234,7 +234,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			}
 
 			// Create a blank search index
-			_searchManager.CreateIndex();
+			_searchService.CreateIndex();
 		}
 
 		//

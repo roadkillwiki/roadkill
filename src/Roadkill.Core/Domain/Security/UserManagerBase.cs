@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Web;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
 using StructureMap;
 
@@ -15,7 +15,7 @@ namespace Roadkill.Core.Security
 	/// </summary>
 	public abstract class UserManagerBase : ServiceBase
 	{
-		protected PageManager PageManager;
+		protected PageService PageService;
 
 		public UserManagerBase(ApplicationSettings settings, IRepository repository)
 			: base(settings, repository)

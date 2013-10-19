@@ -22,7 +22,7 @@ namespace Roadkill.Core.Mvc.Attributes
 			Roadkill.Core.Mvc.Controllers.ControllerBase controller = filterContext.Controller as Roadkill.Core.Mvc.Controllers.ControllerBase;
 			if (controller != null)
 			{
-				SiteSettings siteSettings = controller.SiteSettingsManager.GetSiteSettings();
+				SiteSettings siteSettings = controller.SettingsService.GetSiteSettings();
 				if (siteSettings.IsRecaptchaEnabled)
 				{
 					string challengeValue = filterContext.HttpContext.Request.Form[CHALLENGE_KEY];

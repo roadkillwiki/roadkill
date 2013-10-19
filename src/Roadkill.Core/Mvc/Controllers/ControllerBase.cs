@@ -4,7 +4,7 @@ using Roadkill.Core.Configuration;
 using System;
 using StructureMap;
 using System.Web;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Logging;
 using System.Collections.Generic;
@@ -20,15 +20,15 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ApplicationSettings ApplicationSettings { get; private set; }
 		public UserManagerBase UserManager { get; private set; }
 		public IUserContext Context { get; private set; }
-		public SettingsManager SiteSettingsManager { get; private set; }
+		public SettingsService SettingsService { get; private set; }
 
 		public ControllerBase(ApplicationSettings settings, UserManagerBase userManager, IUserContext context, 
-			SettingsManager siteSettingsManager)
+			SettingsService settingsService)
 		{
 			ApplicationSettings = settings;
 			UserManager = userManager;
 			Context = context;
-			SiteSettingsManager = siteSettingsManager;
+			SettingsService = settingsService;
 		}
 
 		protected override void OnException(ExceptionContext filterContext)

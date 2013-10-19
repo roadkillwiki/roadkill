@@ -6,7 +6,7 @@ using System.Text;
 using System.Web.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Plugins;
@@ -22,8 +22,8 @@ namespace Roadkill.Core.Mvc.Controllers
 		private IRepository _repository;
 
 		public PluginSettingsController(ApplicationSettings settings, UserManagerBase userManager, IUserContext context, 
-			SettingsManager siteSettingsManager, IPluginFactory pluginFactory, IRepository repository)
-			: base (settings, userManager, context, siteSettingsManager)
+			SettingsService settingsService, IPluginFactory pluginFactory, IRepository repository)
+			: base (settings, userManager, context, settingsService)
 		{
 			_pluginFactory = pluginFactory;
 			_repository = repository;

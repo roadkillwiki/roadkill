@@ -13,6 +13,7 @@ using Roadkill.Tests.Unit.StubsAndMocks;
 namespace Roadkill.Tests.Unit.Plugins
 {
 	[TestFixture]
+	[Category("Unit")]
 	public class TextPluginTests
 	{
 		[Test]

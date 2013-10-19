@@ -9,18 +9,18 @@ using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Plugins;
 
-namespace Roadkill.Core.Managers
+namespace Roadkill.Core.Services
 {
 	/// <summary>
 	/// Provides a way of viewing, and comparing the version history of page content, and reverting to previous versions.
 	/// </summary>
-	public class HistoryManager : ServiceBase
+	public class PageHistoryService : ServiceBase
 	{
 		private MarkupConverter _markupConverter;
 		private IUserContext _context;
 		private PageSummaryCache _pageSummaryCache;
 
-		public HistoryManager(ApplicationSettings settings, IRepository repository, IUserContext context,
+		public PageHistoryService(ApplicationSettings settings, IRepository repository, IUserContext context,
 			PageSummaryCache pageSummaryCache, IPluginFactory pluginFactory)
 			: base(settings, repository)
 		{

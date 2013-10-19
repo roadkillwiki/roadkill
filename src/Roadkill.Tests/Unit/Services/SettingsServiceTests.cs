@@ -6,18 +6,18 @@ using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Tests.Unit
 {
 	[TestFixture]
 	[Category("Unit")]
-	public class SettingsManagerTests
+	public class SettingsServiceTests
 	{
 		private RepositoryMock _repository;
 		private ApplicationSettings _settings;
-		private SettingsManager _settingsManager;
+		private SettingsService _settingsService;
 
 		[SetUp]
 		public void Setup()
@@ -26,7 +26,7 @@ namespace Roadkill.Tests.Unit
 			_settings.Installed = true;
 
 			_repository = new RepositoryMock();
-			_settingsManager = new SettingsManager(_settings, _repository);
+			_settingsService = new SettingsService(_settings, _repository);
 		}
 
 		[Test]
@@ -37,7 +37,7 @@ namespace Roadkill.Tests.Unit
 			_repository.AddNewPage(new Page(), "test2", "test2", DateTime.UtcNow);
 
 			// Act
-			_settingsManager.ClearPageTables();
+			_settingsService.ClearPageTables();
 
 			// Assert
 			Assert.That(_repository.AllPages().Count(), Is.EqualTo(0));
@@ -54,7 +54,7 @@ namespace Roadkill.Tests.Unit
 			_repository.Users.Add(new User() { IsEditor = true });
 
 			// Act
-			_settingsManager.ClearUserTable();
+			_settingsService.ClearUserTable();
 
 			// Assert
 			Assert.That(_repository.FindAllAdmins().Count(), Is.EqualTo(0)); // need an allusers method
@@ -71,7 +71,7 @@ namespace Roadkill.Tests.Unit
 			summary.UseObjectCache = true;
 
 			// Act
-			_settingsManager.CreateTables(summary);
+			_settingsService.CreateTables(summary);
 
 
 			// Assert
@@ -99,7 +99,7 @@ namespace Roadkill.Tests.Unit
 			_repository.SiteSettings = expectedSettings;
 
 			// Act
-			SiteSettings actualSettings = _settingsManager.GetSiteSettings();
+			SiteSettings actualSettings = _settingsService.GetSiteSettings();
 
 			// Assert
 			Assert.That(actualSettings.Theme, Is.EqualTo(expectedSettings.Theme));
@@ -133,8 +133,8 @@ namespace Roadkill.Tests.Unit
 			expectedSettings.MenuMarkup = "some menu markup";
 
 			// Act
-			_settingsManager.SaveSiteSettings(expectedSettings);
-			SiteSettings actualSettings = _settingsManager.GetSiteSettings();
+			_settingsService.SaveSiteSettings(expectedSettings);
+			SiteSettings actualSettings = _settingsService.GetSiteSettings();
 
 			// Assert
 			Assert.That(actualSettings.AllowedFileTypes, Is.EqualTo(expectedSettings.AllowedFileTypes));

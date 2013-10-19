@@ -14,30 +14,30 @@ using Roadkill.Core.Logging;
 using Roadkill.Core.Text;
 using Roadkill.Core.Plugins;
 
-namespace Roadkill.Core.Managers
+namespace Roadkill.Core.Services
 {
 	/// <summary>
 	/// Provides a set of tasks for wiki page management.
 	/// </summary>
-	public class PageManager : ServiceBase, IPageManager
+	public class PageService : ServiceBase, IPageService
 	{
-		private SearchManager _searchManager;
+		private SearchService _searchService;
 		private MarkupConverter _markupConverter;
-		private HistoryManager _historyManager;
+		private PageHistoryService _historyService;
 		private IUserContext _context;
 		private ListCache _listCache;
 		private PageSummaryCache _pageSummaryCache;
 		private SiteCache _siteCache;
 		private IPluginFactory _pluginFactory;
 
-		public PageManager(ApplicationSettings settings, IRepository repository, SearchManager searchManager, 
-			HistoryManager historyManager, IUserContext context, 
+		public PageService(ApplicationSettings settings, IRepository repository, SearchService searchService, 
+			PageHistoryService historyService, IUserContext context, 
 			ListCache listCache, PageSummaryCache pageSummaryCache, SiteCache sitecache, IPluginFactory pluginFactory)
 			: base(settings, repository)
 		{
-			_searchManager = searchManager;
+			_searchService = searchService;
 			_markupConverter = new MarkupConverter(settings, repository, pluginFactory);
-			_historyManager = historyManager;
+			_historyService = historyService;
 			_context = context;
 			_listCache = listCache;
 			_pageSummaryCache = pageSummaryCache;
@@ -74,7 +74,7 @@ namespace Roadkill.Core.Managers
 				PageSummary savedSummary = pageContent.ToSummary(_markupConverter);
 				try
 				{
-					_searchManager.Add(savedSummary);
+					_searchService.Add(savedSummary);
 				}
 				catch (SearchException)
 				{
@@ -233,7 +233,7 @@ namespace Roadkill.Core.Managers
 				// We cannot call the ToSummary() method on an object that no longer exists.
 				try
 				{
-					_searchManager.Delete(Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter));
+					_searchService.Delete(Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter));
 				}
 				catch (SearchException ex)
 				{
@@ -448,7 +448,7 @@ namespace Roadkill.Core.Managers
 
 				_listCache.RemoveAll();
 
-				int newVersion = _historyManager.MaxVersion(summary.Id) + 1;
+				int newVersion = _historyService.MaxVersion(summary.Id) + 1;
 				PageContent pageContent = Repository.AddNewPageContentVersion(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.UtcNow, newVersion); 
 
 				// Update all links to this page (if it has had its title renamed). Case changes don't need any updates.
@@ -458,7 +458,7 @@ namespace Roadkill.Core.Managers
 				}
 
 				// Update the lucene index
-				_searchManager.Update(Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter));
+				_searchService.Update(Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter));
 			}
 			catch (DatabaseException ex)
 			{
@@ -479,7 +479,7 @@ namespace Roadkill.Core.Managers
 
 				foreach (PageSummary summary in pageSummaries)
 				{
-					_searchManager.Delete(summary);
+					_searchService.Delete(summary);
 
 					string tags = summary.CommaDelimitedTags();
 
@@ -580,7 +580,7 @@ namespace Roadkill.Core.Managers
 		}
 
 		/// <summary>
-		/// Retrieves the <see cref="MarkupConverter"/> used by this pagemanager.
+		/// Retrieves the <see cref="MarkupConverter"/> used by this IPageService.
 		/// </summary>
 		/// <returns></returns>
 		public MarkupConverter GetMarkupConverter()

@@ -4,7 +4,7 @@ using System.Web.Security;
 using Roadkill.Core.Localization;
 using Roadkill.Core.Configuration;
 using RoadkillUser = Roadkill.Core.Database.User;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Mvc.Attributes;
@@ -20,9 +20,9 @@ namespace Roadkill.Core.Mvc.Controllers
 		private ResetPasswordEmail _resetPasswordEmail;
 		
 		public UserController(ApplicationSettings settings, UserManagerBase userManager,
-			IUserContext context, SettingsManager siteSettingsManager, 
+			IUserContext context, SettingsService settingsService, 
 			SignupEmail signupEmail, ResetPasswordEmail resetPasswordEmail)
-			: base(settings, userManager, context, siteSettingsManager) 
+			: base(settings, userManager, context, settingsService) 
 		{
 			_signupEmail = signupEmail;
 			_resetPasswordEmail = resetPasswordEmail;
@@ -275,7 +275,7 @@ namespace Roadkill.Core.Mvc.Controllers
 					{
 						// Everything worked, send the email
 						user.PasswordResetKey = key;
-						SiteSettings siteSettings = SiteSettingsManager.GetSiteSettings();
+						SiteSettings siteSettings = SettingsService.GetSiteSettings();
 						_resetPasswordEmail.Send(user.ToSummary());
 
 						return View("ResetPasswordSent",(object) email);
@@ -306,7 +306,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			UserSummary summary = user.ToSummary();
 
-			SiteSettings siteSettings = SiteSettingsManager.GetSiteSettings();
+			SiteSettings siteSettings = SettingsService.GetSiteSettings();
 			_signupEmail.Send(summary);
 
 			TempData["resend"] = true;
@@ -319,7 +319,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		public ActionResult Signup()
 		{
-			SiteSettings siteSettings = SiteSettingsManager.GetSiteSettings();
+			SiteSettings siteSettings = SettingsService.GetSiteSettings();
 			if (Context.IsLoggedIn || !siteSettings.AllowUserSignup || ApplicationSettings.UseWindowsAuthentication)
 			{
 				return RedirectToAction("Index","Home");
@@ -337,7 +337,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		[RecaptchaRequired]
 		public ActionResult Signup(UserSummary summary, bool? isCaptchaValid)
 		{
-			SiteSettings siteSettings = SiteSettingsManager.GetSiteSettings();
+			SiteSettings siteSettings = SettingsService.GetSiteSettings();
 			if (Context.IsLoggedIn || !siteSettings.AllowUserSignup || ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index","Home");
 

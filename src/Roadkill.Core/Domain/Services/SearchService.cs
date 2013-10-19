@@ -18,12 +18,12 @@ using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Plugins;
 
-namespace Roadkill.Core.Managers
+namespace Roadkill.Core.Services
 {
 	/// <summary>
 	/// Provides searching tasks using a Lucene.net search index.
 	/// </summary>
-	public class SearchManager : ServiceBase
+	public class SearchService : ServiceBase
 	{
 		private static Regex _removeTagsRegex = new Regex("<(.|\n)*?>");
 		private MarkupConverter _markupConverter;
@@ -31,7 +31,7 @@ namespace Roadkill.Core.Managers
 		private IPluginFactory _pluginFactory;
 		private static readonly LuceneVersion LUCENEVERSION = LuceneVersion.LUCENE_29;
 
-		public SearchManager(ApplicationSettings settings, IRepository repository, IPluginFactory pluginFactory)
+		public SearchService(ApplicationSettings settings, IRepository repository, IPluginFactory pluginFactory)
 			: base(settings, repository)
 		{
 			_markupConverter = new MarkupConverter(settings, repository, pluginFactory);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using StructureMap.Attributes;
 
@@ -17,6 +17,6 @@ namespace Roadkill.Core.Mvc.Attributes
 		ApplicationSettings ApplicationSettings { get; set; }
 		IUserContext Context { get; set; }
 		UserManagerBase UserManager { get; set; }
-		PageManager PageManager { get; set; }
+		PageService PageService { get; set; }
 	}
 }
