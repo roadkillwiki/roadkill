@@ -21,24 +21,22 @@ namespace Roadkill.Tests.Unit
 			string urlPath = "/Home/MyDirectory";
 
 			// Act
-			DirectoryViewModel summary = new DirectoryViewModel(name, urlPath);			
+			DirectoryViewModel model = new DirectoryViewModel(name, urlPath);			
 
 			// Assert
-			Assert.That(summary.Name, Is.EqualTo(name));
-			Assert.That(summary.UrlPath, Is.EqualTo(urlPath));
+			Assert.That(model.Name, Is.EqualTo(name));
+			Assert.That(model.UrlPath, Is.EqualTo(urlPath));
 		}
 
 		[Test]
 		public void Constructor_Should_Create_Empty_Files_And_ChildFolders()
 		{
-			// Arrange
-
-			// Act
-			DirectoryViewModel summary = new DirectoryViewModel("", "");
+			// Arrange + Act
+			DirectoryViewModel model = new DirectoryViewModel("", "");
 
 			// Assert
-			Assert.That(summary.Files.Count, Is.EqualTo(0));
-			Assert.That(summary.ChildFolders.Count, Is.EqualTo(0));
+			Assert.That(model.Files.Count, Is.EqualTo(0));
+			Assert.That(model.ChildFolders.Count, Is.EqualTo(0));
 		}
 	}
 }

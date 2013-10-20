@@ -58,6 +58,9 @@ deploytemp*/
 # Windows insists on desktop.ini files for picture folders
 *desktop.ini
 
+# .bak files created by the unit tests
+*.config.bak
+
 # Everything from the git repository please
 .git*/
 
