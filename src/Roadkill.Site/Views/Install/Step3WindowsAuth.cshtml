@@ -1,4 +1,4 @@
-﻿@model SettingsSummary
+﻿@model SettingsViewModel
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
@@ -50,11 +50,11 @@
 
 @using (Html.BeginForm("Step4","Install"))
 {
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.ConnectionString))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.DataStoreTypeName))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteName))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteUrl))
-	@(Html.HiddenFor<SettingsSummary, bool>(h => h.UseWindowsAuth))
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.ConnectionString))
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.DataStoreTypeName))
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.SiteName))
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.SiteUrl))
+	@(Html.HiddenFor<SettingsViewModel, bool>(h => h.UseWindowsAuth))
 	
 	<fieldset>
 		<legend>@InstallStrings.Page3_AD_Group1_Title</legend>
@@ -67,14 +67,14 @@
 		</label>
 
 		<div class="small">
-			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.LdapConnectionString, new { @class = "validate[required]" }))</div>
+			<div class="textbox">@(Html.TextBoxFor<SettingsViewModel, string>(s => s.LdapConnectionString, new { @class = "validate[required]" }))</div>
 			<div class="textbox">
 				@InstallStrings.Page3_AD_Group2_Label1<br />
-				@(Html.TextBoxFor<SettingsSummary, string>(s => s.LdapUsername, new { autocomplete = "off" }))
+				@(Html.TextBoxFor<SettingsViewModel, string>(s => s.LdapUsername, new { autocomplete = "off" }))
 			</div>
 			<div class="textbox">
 				@InstallStrings.Page3_AD_Group2_Label2<br />
-				@(Html.PasswordFor<SettingsSummary, string>(s => s.LdapPassword, new { autocomplete = "off" }))
+				@(Html.PasswordFor<SettingsViewModel, string>(s => s.LdapPassword, new { autocomplete = "off" }))
 			</div>
 
 			<input id="testldap" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
@@ -96,7 +96,7 @@
 		<label>@InstallStrings.Page3_AD_Group3_Label</label>
 
 		<div class="small">
-			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.EditorRoleName, new { @class = "validate[required]" }))</div>
+			<div class="textbox">@(Html.TextBoxFor<SettingsViewModel, string>(s => s.EditorRoleName, new { @class = "validate[required]" }))</div>
 			<input id="testeditor" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
 			<div id="editor-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/loading.gif"))" border="0" /></div>
 			<div id="editor-connectionsuccess" class="success alert hidden">
@@ -116,7 +116,7 @@
 		<label>@InstallStrings.Page3_AD_Group4_Label</label>
 
 		<div class="small">
-			<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminRoleName, new { @class = "validate[required]" }))</div>
+			<div class="textbox">@(Html.TextBoxFor<SettingsViewModel, string>(s => s.AdminRoleName, new { @class = "validate[required]" }))</div>
 			<input id="testadmin" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
 			<div id="admin-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/loading.gif"))" border="0" /></div>
 			<div id="admin-connectionsuccess" class="success alert hidden">

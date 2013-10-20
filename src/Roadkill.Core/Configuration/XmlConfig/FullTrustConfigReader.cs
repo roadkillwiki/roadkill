@@ -105,7 +105,7 @@ namespace Roadkill.Core.Configuration
 			return _section;
 		}
 
-		public override void Save(SettingsSummary settings)
+		public override void Save(SettingsViewModel settings)
 		{
 			try
 			{
@@ -171,7 +171,7 @@ namespace Roadkill.Core.Configuration
 		/// <summary>
 		/// Adds config settings for forms authentication.
 		/// </summary>
-		private void WriteConfigForFormsAuth(SettingsSummary summary)
+		private void WriteConfigForFormsAuth(SettingsViewModel summary)
 		{
 			// Turn on forms authentication
 			AuthenticationSection authSection = _config.GetSection("system.web/authentication") as AuthenticationSection;

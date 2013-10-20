@@ -11,17 +11,17 @@ namespace Roadkill.Core.Services
 		/// Adds the page to the database.
 		/// </summary>
 		/// <param name="summary">The summary details for the page.</param>
-		/// <returns>A <see cref="PageSummary"/> for the newly added page.</returns>
+		/// <returns>A <see cref="PageViewModel"/> for the newly added page.</returns>
 		/// <exception cref="DatabaseException">An database error occurred while saving.</exception>
 		/// <exception cref="SearchException">An error occurred adding the page to the search index.</exception>
-		PageSummary AddPage(PageSummary summary);
+		PageViewModel AddPage(PageViewModel summary);
 
 		/// <summary>
 		/// Retrieves a list of all pages in the system.
 		/// </summary>
-		/// <returns>An <see cref="IEnumerable`PageSummary"/> of the pages.</returns>
+		/// <returns>An <see cref="IEnumerable{PageViewModel}"/> of the pages.</returns>
 		/// <exception cref="DatabaseException">An database error occurred while retrieving the list.</exception>
-		IEnumerable<PageSummary> AllPages(bool loadPageContent = false);
+		IEnumerable<PageViewModel> AllPages(bool loadPageContent = false);
 
 		/// <summary>
 		/// Gets alls the pages created by a user.
@@ -29,14 +29,14 @@ namespace Roadkill.Core.Services
 		/// <param name="userName">Name of the user.</param>
 		/// <returns>All pages created by the provided user, or an empty list if none are found.</returns>
 		/// <exception cref="DatabaseException">An database error occurred while saving.</exception>
-		IEnumerable<PageSummary> AllPagesCreatedBy(string userName);
+		IEnumerable<PageViewModel> AllPagesCreatedBy(string userName);
 
 		/// <summary>
 		/// Retrieves a list of all tags in the system.
 		/// </summary>
-		/// <returns>A <see cref="IEnumerable{TagSummary}"/> for the tags.</returns>
+		/// <returns>A <see cref="IEnumerable{TagViewModel}"/> for the tags.</returns>
 		/// <exception cref="DatabaseException">An database error occurred while getting the tags.</exception>
-		IEnumerable<TagSummary> AllTags();
+		IEnumerable<TagViewModel> AllTags();
 
 		/// <summary>
 		/// Deletes a page from the database.
@@ -57,31 +57,31 @@ namespace Roadkill.Core.Services
 		/// Finds all pages with the given tag.
 		/// </summary>
 		/// <param name="tag">The tag to search for.</param>
-		/// <returns>A <see cref="IEnumerable{PageSummary}"/> of pages tagged with the provided tag.</returns>
+		/// <returns>A <see cref="IEnumerable{PageViewModel}"/> of pages tagged with the provided tag.</returns>
 		/// <exception cref="DatabaseException">An database error occurred while getting the list.</exception>
-		IEnumerable<PageSummary> FindByTag(string tag);
+		IEnumerable<PageViewModel> FindByTag(string tag);
 
 		/// <summary>
 		/// Finds the first page with the tag 'homepage'. Any pages that are locked by an administrator take precedence.
 		/// </summary>
 		/// <returns>The homepage.</returns>
-		PageSummary FindHomePage();
+		PageViewModel FindHomePage();
 
 		/// <summary>
 		/// Finds a page by its title
 		/// </summary>
 		/// <param name="title">The page title</param>
-		/// <returns>A <see cref="PageSummary"/> for the page.</returns>
+		/// <returns>A <see cref="PageViewModel"/> for the page.</returns>
 		/// <exception cref="DatabaseException">An databaseerror occurred while getting the page.</exception>
-		PageSummary FindByTitle(string title);
+		PageViewModel FindByTitle(string title);
 
 		/// <summary>
 		/// Retrieves the page by its id.
 		/// </summary>
 		/// <param name="id">The id of the page</param>
-		/// <returns>A <see cref="PageSummary"/> for the page.</returns>
+		/// <returns>A <see cref="PageViewModel"/> for the page.</returns>
 		/// <exception cref="DatabaseException">An database error occurred while getting the page.</exception>
-		PageSummary GetById(int id);
+		PageViewModel GetById(int id);
 
 		/// <summary>
 		/// Retrieves the current text content for a page.
@@ -116,7 +116,7 @@ namespace Roadkill.Core.Services
 		/// <param name="summary">The summary.</param>
 		/// <exception cref="DatabaseException">An database error occurred while updating.</exception>
 		/// <exception cref="SearchException">An error occurred adding the page to the search index.</exception>
-		void UpdatePage(PageSummary summary);
+		void UpdatePage(PageViewModel summary);
 
 		/// <summary>
 		/// Gets the menu HTML, which is stored in the database.

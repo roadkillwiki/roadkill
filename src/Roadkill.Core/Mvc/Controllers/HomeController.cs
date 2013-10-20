@@ -37,28 +37,28 @@ namespace Roadkill.Core.Mvc.Controllers
 
 		/// <summary>
 		/// Display the homepage/mainpage. If no page has been tagged with the 'homepage' tag,
-		/// then a dummy PageSummary is put in its place.
+		/// then a dummy PageViewModel is put in its place.
 		/// </summary>
 		[BrowserCache]
 		public ActionResult Index()
 		{
 			// Get the first locked homepage
-			PageSummary summary = PageService.FindHomePage();
+			PageViewModel model = PageService.FindHomePage();
 
-			if (summary == null)
+			if (model == null)
 			{
-				summary = new PageSummary();
-				summary.Title = SiteStrings.NoMainPage_Title;
-				summary.Content = SiteStrings.NoMainPage_Label;
-				summary.ContentAsHtml = _markupConverter.ToHtml(SiteStrings.NoMainPage_Label).Html;
-				summary.CreatedBy = "";
-				summary.CreatedOn = DateTime.UtcNow;
-				summary.RawTags = "homepage";
-				summary.ModifiedOn = DateTime.UtcNow;
-				summary.ModifiedBy = "";
+				model = new PageViewModel();
+				model.Title = SiteStrings.NoMainPage_Title;
+				model.Content = SiteStrings.NoMainPage_Label;
+				model.ContentAsHtml = _markupConverter.ToHtml(SiteStrings.NoMainPage_Label).Html;
+				model.CreatedBy = "";
+				model.CreatedOn = DateTime.UtcNow;
+				model.RawTags = "homepage";
+				model.ModifiedOn = DateTime.UtcNow;
+				model.ModifiedBy = "";
 			}
 
-			return View(summary);
+			return View(model);
 		}
 
 		/// <summary>
@@ -68,7 +68,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			ViewData["search"] = q;
 
-			List<SearchResult> results = _searchService.Search(q).ToList();
+			List<SearchResultViewModel> results = _searchService.Search(q).ToList();
 			return View(results);
 		}
 

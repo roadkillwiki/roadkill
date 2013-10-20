@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PluginSummary>
+﻿@model IEnumerable<PluginViewModel>
 @{ 
 	ViewBag.Title = @SiteStrings.SiteSettings_Plugins_Title;
 	ViewData["PluginSettingsActive"] = true;
@@ -18,11 +18,11 @@
 		</tr>
 	</thead>
 	<tbody>
-@foreach (PluginSummary summary in Model)
+@foreach (PluginViewModel pluginModel in Model)
 {
 	<tr>
-		<td>@Html.ActionLink(summary.Name, "Edit", new { id = summary.Id})</td>
-		<td>@Html.Raw(summary.Description)</td>
+		<td>@Html.ActionLink(pluginModel.Name, "Edit", new { id = pluginModel.Id})</td>
+		<td>@Html.Raw(pluginModel.Description)</td>
 	</tr>
 }
 	</tbody>

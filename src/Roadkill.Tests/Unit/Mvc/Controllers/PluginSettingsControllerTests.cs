@@ -30,10 +30,10 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
-			IEnumerable<PluginSummary> summaries = result.ModelFromActionResult<IEnumerable<PluginSummary>>();
-			Assert.NotNull(summaries, "Null model");
+			IEnumerable<PluginViewModel> pluginModels = result.ModelFromActionResult<IEnumerable<PluginViewModel>>();
+			Assert.NotNull(pluginModels, "Null model");
 
-			List<PluginSummary> summaryList = summaries.ToList();
+			List<PluginViewModel> summaryList = pluginModels.ToList();
 
 			Assert.That(summaryList.Count(), Is.EqualTo(2));
 			Assert.That(summaryList[0].Name, Is.EqualTo("a name"));
@@ -59,12 +59,12 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
-			PluginSummary summary = result.ModelFromActionResult<PluginSummary>();
-			Assert.NotNull(summary, "Null model");
+			PluginViewModel model = result.ModelFromActionResult<PluginViewModel>();
+			Assert.NotNull(model, "Null model");
 
-			Assert.That(summary.Id, Is.EqualTo(plugin.Id));
-			Assert.That(summary.Name, Is.EqualTo(plugin.Name));
-			Assert.That(summary.Description, Is.EqualTo(plugin.Description)); // ..full coverage in PluginSummary tests
+			Assert.That(model.Id, Is.EqualTo(plugin.Id));
+			Assert.That(model.Name, Is.EqualTo(plugin.Name));
+			Assert.That(model.Description, Is.EqualTo(plugin.Description)); // ..full coverage TODO in PluginViewModelTests
 		}
 
 		[Test]
@@ -88,9 +88,9 @@ namespace Roadkill.Tests.Unit
 			ViewResult result = controller.Edit(plugin.Id) as ViewResult;
 
 			// Assert
-			PluginSummary summary = result.ModelFromActionResult<PluginSummary>();
-			Assert.That(summary.SettingValues[0].Value, Is.EqualTo("value1"));
-			Assert.That(summary.SettingValues[1].Value, Is.EqualTo("value2"));
+			PluginViewModel model = result.ModelFromActionResult<PluginViewModel>();
+			Assert.That(model.SettingValues[0].Value, Is.EqualTo("value1"));
+			Assert.That(model.SettingValues[1].Value, Is.EqualTo("value2"));
 		}
 
 		[Test]
@@ -111,9 +111,9 @@ namespace Roadkill.Tests.Unit
 			ViewResult result = controller.Edit(plugin.Id) as ViewResult;
 
 			// Assert
-			PluginSummary summary = result.ModelFromActionResult<PluginSummary>();
-			Assert.That(summary.SettingValues[0].Value, Is.EqualTo("default-value1"));
-			Assert.That(summary.SettingValues[1].Value, Is.EqualTo("default-value2"));
+			PluginViewModel model = result.ModelFromActionResult<PluginViewModel>();
+			Assert.That(model.SettingValues[0].Value, Is.EqualTo("default-value1"));
+			Assert.That(model.SettingValues[1].Value, Is.EqualTo("default-value2"));
 		}
 
 		[Test]
@@ -157,7 +157,7 @@ namespace Roadkill.Tests.Unit
 			pluginFactory.RegisterTextPlugin(plugin);
 			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, repositoryMock);
 
-			PluginSummary summary = new PluginSummary();
+			PluginViewModel summary = new PluginViewModel();
 			summary.Id = plugin.Id;
 			summary.SettingValues = new List<SettingValue>();
 			summary.SettingValues.Add(new SettingValue() { Name = "name1", Value = "new-value1" });

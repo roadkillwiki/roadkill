@@ -325,6 +325,9 @@
       <DependentUpon>constants.ts</DependentUpon>
     </Content>
     <Content Include="Assets\Scripts\head.js" />
+    <Content Include="Assets\Scripts\roadkill\typescript-ref\directoryviewmodel.js">
+      <DependentUpon>directoryviewmodel.ts</DependentUpon>
+    </Content>
     <Content Include="Plugins\Text\ExternalLinksInNewWindow\externallinksinnewwindow.js" />
     <Content Include="Plugins\Text\ImagesInNewWindow\imagesinnewwindow.js" />
     <Content Include="Plugins\Text\ResizeLargeImages\resizelargeimages.css" />
@@ -393,8 +396,8 @@
     </Content>
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\setup.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.ts" />
-    <None Include="Assets\Scripts\roadkill\typescript-ref\directorysummary.ts" />
-    <None Include="Assets\Scripts\roadkill\typescript-ref\filesummary.ts" />
+    <None Include="Assets\Scripts\roadkill\typescript-ref\directoryviewmodel.ts" />
+    <None Include="Assets\Scripts\roadkill\typescript-ref\filemodel.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\ajaxrequest.ts" />
     <Content Include="Assets\Scripts\roadkill\filemanager\ajaxrequest.js">
       <DependentUpon>ajaxrequest.ts</DependentUpon>
@@ -416,12 +419,6 @@
       <DependentUpon>buttonevents.ts</DependentUpon>
     </Content>
     <None Include="Assets\Scripts\roadkill\readme.txt" />
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\directorysummary.js">
-      <DependentUpon>directorysummary.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\directorysummary.min.js">
-      <DependentUpon>directorysummary.ts</DependentUpon>
-    </Content>
     <Content Include="Assets\Scripts\roadkill\typescript-ref\filemanager.references.js">
       <DependentUpon>filemanager.references.ts</DependentUpon>
     </Content>
@@ -429,10 +426,10 @@
       <DependentUpon>filemanager.references.ts</DependentUpon>
     </Content>
     <Content Include="Assets\Scripts\roadkill\typescript-ref\filesummary.js">
-      <DependentUpon>filesummary.ts</DependentUpon>
+      <DependentUpon>filemodel.ts</DependentUpon>
     </Content>
     <Content Include="Assets\Scripts\roadkill\typescript-ref\filesummary.min.js">
-      <DependentUpon>filesummary.ts</DependentUpon>
+      <DependentUpon>filemodel.ts</DependentUpon>
     </Content>
     <Content Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.js">
       <DependentUpon>htmlbuilder.ts</DependentUpon>

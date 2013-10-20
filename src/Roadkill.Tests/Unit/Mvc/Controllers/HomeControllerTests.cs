@@ -74,7 +74,7 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 
-			PageSummary summary = result.ModelFromActionResult<PageSummary>();
+			PageViewModel summary = result.ModelFromActionResult<PageViewModel>();
 			Assert.NotNull(summary, "Null model");
 			Assert.That(summary.Title, Is.EqualTo(SiteStrings.NoMainPage_Title));
 			Assert.That(summary.Content, Is.EqualTo(SiteStrings.NoMainPage_Label));
@@ -107,7 +107,7 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 
-			PageSummary summary = result.ModelFromActionResult<PageSummary>();
+			PageViewModel summary = result.ModelFromActionResult<PageViewModel>();
 			Assert.NotNull(summary, "Null model");
 			Assert.That(summary.Title, Is.EqualTo(page1.Title));
 			Assert.That(summary.Content, Is.EqualTo(page1Content.Text));
@@ -140,7 +140,7 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 
-			List<SearchResult> searchResults = result.ModelFromActionResult<IEnumerable<SearchResult>>().ToList();
+			List<SearchResultViewModel> searchResults = result.ModelFromActionResult<IEnumerable<SearchResultViewModel>>().ToList();
 			Assert.NotNull(searchResults, "Null model");
 			Assert.That(searchResults.Count(), Is.EqualTo(1));
 			Assert.That(searchResults[0].Title, Is.EqualTo(page1.Title));

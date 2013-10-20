@@ -9,24 +9,24 @@ using StructureMap;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// Used by the MVC framework to create all instances of a <see cref="UserSummary"/> view model object.
+	/// Used by the MVC framework to create all instances of a <see cref="UserViewModel"/> view model object.
 	/// </summary>
-	public class UserSummaryModelBinder : DefaultModelBinder
+	public class UserViewModelModelBinder : DefaultModelBinder
 	{
 		protected override object CreateModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Type modelType)
 		{
-			return ObjectFactory.GetInstance<UserSummary>();
+			return ObjectFactory.GetInstance<UserViewModel>();
 		}
 	}
 
 	/// <summary>
-	/// Used by the MVC framework to create all instances of a <see cref="SettingsSummary"/> view model object.
+	/// Used by the MVC framework to create all instances of a <see cref="SettingsViewModel"/> view model object.
 	/// </summary>
-	public class SettingsSummaryModelBinder : DefaultModelBinder
+	public class SettingsViewModelBinder : DefaultModelBinder
 	{
 		protected override object CreateModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Type modelType)
 		{
-			return ObjectFactory.GetInstance<SettingsSummary>();
+			return ObjectFactory.GetInstance<SettingsViewModel>();
 		}
 	}
 }

@@ -48,7 +48,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
-			SettingsSummary summary = new SettingsSummary();
+			SettingsViewModel summary = new SettingsViewModel();
 			summary.DataStoreTypeName = datastoreType;
 			summary.ConnectionString = connectionString;
 			summary.AllowedFileTypes = "jpg,png,gif,zip,xml,pdf";
@@ -79,7 +79,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
 
-			return View("Index", LanguageSummary.SupportedLocales());
+			return View("Index", LanguageViewModel.SupportedLocales());
 		}
 
 		/// <summary>
@@ -91,9 +91,9 @@ namespace Roadkill.Core.Mvc.Controllers
 				return RedirectToAction("Index", "Home");
 
 			Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
-			LanguageSummary languageSummary = LanguageSummary.SupportedLocales().First(x => x.Code == language);
+			LanguageViewModel languageModel = LanguageViewModel.SupportedLocales().First(x => x.Code == language);
 
-			return View(languageSummary);
+			return View(languageModel);
 		}
 
 		/// <summary>
@@ -109,15 +109,15 @@ namespace Roadkill.Core.Mvc.Controllers
 			ConfigReader configReader = ConfigReaderFactory.GetConfigReader();
 			configReader.UpdateLanguage(language);
 
-			return View(new SettingsSummary());
+			return View(new SettingsViewModel());
 		}
 
 		/// <summary>
 		/// Displays the authentication choice step in the installation wizard.
 		/// </summary>
-		/// <remarks>The <see cref="SettingsSummary"/> object that is POST'd is passed to the next step.</remarks>
+		/// <remarks>The <see cref="SettingsViewModel"/> object that is POST'd is passed to the next step.</remarks>
 		[HttpPost]
-		public ActionResult Step3(SettingsSummary summary)
+		public ActionResult Step3(SettingsViewModel summary)
 		{
 			if (ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
@@ -129,9 +129,9 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// Displays either the Windows Authentication settings view, or the DB settings view depending on
 		/// the choice in Step3.
 		/// </summary>
-		/// <remarks>The <see cref="SettingsSummary"/> object that is POST'd is passed to the next step.</remarks>
+		/// <remarks>The <see cref="SettingsViewModel"/> object that is POST'd is passed to the next step.</remarks>
 		[HttpPost]
-		public ActionResult Step3b(SettingsSummary summary)
+		public ActionResult Step3b(SettingsViewModel summary)
 		{
 			if (ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
@@ -149,9 +149,9 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// Displays the final installation step, which provides choices for caching, themes etc.
 		/// </summary>
-		/// <remarks>The <see cref="SettingsSummary"/> object that is POST'd is passed to the next step.</remarks>
+		/// <remarks>The <see cref="SettingsViewModel"/> object that is POST'd is passed to the next step.</remarks>
 		[HttpPost]
-		public ActionResult Step4(SettingsSummary summary)
+		public ActionResult Step4(SettingsViewModel summary)
 		{
 			if (ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
@@ -167,13 +167,13 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
-		/// Validates the POST'd <see cref="SettingsSummary"/> object. If the settings are valid,
+		/// Validates the POST'd <see cref="SettingsViewModel"/> object. If the settings are valid,
 		/// an attempt is made to install using this.
 		/// </summary>
 		/// <returns>The Step5 view is displayed.</returns>
 		[HttpPost]
 		[ValidateInput(false)]
-		public ActionResult Step5(SettingsSummary summary)
+		public ActionResult Step5(SettingsViewModel summary)
 		{
 			if (ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
@@ -206,7 +206,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			return View(summary);
 		}
 
-		private void FinalizeInstall(SettingsSummary summary)
+		private void FinalizeInstall(SettingsViewModel summary)
 		{
 			// The name is passed through each step, so parse it
 			DataStoreType dataStoreType = DataStoreType.ByName(summary.DataStoreTypeName);

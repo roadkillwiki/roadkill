@@ -27,11 +27,11 @@ namespace Roadkill.Core.Database
 			set { Id = value; }
 		}
 
-		public PageSummary ToSummary(MarkupConverter markupConverter)
+		public PageViewModel ToModel(MarkupConverter markupConverter)
 		{
 			PageHtml pageHtml = markupConverter.ToHtml(Text);
 
-			PageSummary pageSummary = new PageSummary()
+			PageViewModel model = new PageViewModel()
 			{
 				Id = Page.Id,
 				Title = Page.Title,
@@ -50,10 +50,10 @@ namespace Roadkill.Core.Database
 				PluginFooterHtml = pageHtml.FooterHtml,
 			};
 
-			pageSummary.CreatedOn = DateTime.SpecifyKind(pageSummary.CreatedOn, DateTimeKind.Utc);
-			pageSummary.ModifiedOn = DateTime.SpecifyKind(pageSummary.ModifiedOn, DateTimeKind.Utc);
+			model.CreatedOn = DateTime.SpecifyKind(model.CreatedOn, DateTimeKind.Utc);
+			model.ModifiedOn = DateTime.SpecifyKind(model.ModifiedOn, DateTimeKind.Utc);
 
-			return pageSummary;
+			return model;
 		}
 	}
 }

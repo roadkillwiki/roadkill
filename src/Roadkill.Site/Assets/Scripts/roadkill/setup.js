@@ -3,7 +3,6 @@ var Roadkill;
     (function (Site) {
         $(document).ready(function () {
             Setup.configureBinds();
-
             toastr.options = {
                 "debug": false,
                 "positionClass": "toast-top-right",
@@ -14,53 +13,43 @@ var Roadkill;
                 "extendedTimeOut": 1000
             };
         });
-
         var Setup = (function () {
-            function Setup() {
-            }
-            Setup.configureBinds = function () {
+            function Setup() { }
+            Setup.configureBinds = function configureBinds() {
                 this.bindInfoButton();
                 this.bindTimeAgo();
                 this.bindTocLinks();
-            };
-
-            Setup.bindTimeAgo = function () {
+            }
+            Setup.bindTimeAgo = function bindTimeAgo() {
                 $("#historytable .editedon").timeago();
-            };
-
-            Setup.bindInfoButton = function () {
+            }
+            Setup.bindInfoButton = function bindInfoButton() {
                 $("#pageinfo-button").click(function () {
                     Site.Dialogs.openModal("#pageinformation");
                 });
-            };
-
-            Setup.bindTocLinks = function () {
+            }
+            Setup.bindTocLinks = function bindTocLinks() {
                 $("a.toc-showhide").click(function () {
-                    if ($(this).text() == "hide") {
+                    if($(this).text() == "hide") {
                         $(this).text("show");
                     } else {
                         $(this).text("hide");
                     }
-
                     $(this).parent().next().toggle();
                 });
-            };
-
-            Setup.bindConfirmDelete = function () {
+            }
+            Setup.bindConfirmDelete = function bindConfirmDelete() {
                 $("a.confirm").click(function () {
                     var button;
                     var value;
                     var text;
                     button = $(this);
-
-                    if (!button.hasClass("jqConfirm")) {
+                    if(!button.hasClass("jqConfirm")) {
                         value = button.val();
                         text = button.text();
-
                         button.val(ROADKILL_LINK_CONFIRM);
                         button.text(ROADKILL_LINK_CONFIRM);
                         button.addClass("jqConfirm");
-
                         var handler = function () {
                             button.removeClass("jqConfirm");
                             button.val(value);
@@ -69,18 +58,18 @@ var Roadkill;
                             return true;
                         };
                         button.bind("click.jqConfirmHandler", handler);
-
                         setTimeout(function () {
                             handler();
                         }, 3000);
-
                         return false;
                     }
                 });
-            };
+            }
             return Setup;
         })();
-        Site.Setup = Setup;
+        Site.Setup = Setup;        
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
+
 })(Roadkill || (Roadkill = {}));
+

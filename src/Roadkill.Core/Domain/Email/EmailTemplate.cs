@@ -57,7 +57,7 @@ namespace Roadkill.Core
 		/// Replaces all tokens in the html and plain text views.
 		/// </summary>
 		/// <param name="summary"></param>
-		protected virtual string ReplaceTokens(UserSummary summary, string template)
+		protected virtual string ReplaceTokens(UserViewModel summary, string template)
 		{
 			string result = template;
 
@@ -80,10 +80,10 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Sends a notification email to the provided address, using the template provided.
 		/// </summary>
-		public virtual void Send(UserSummary summary)
+		public virtual void Send(UserViewModel model)
 		{
-			if (summary == null || (string.IsNullOrEmpty(summary.ExistingEmail) && string.IsNullOrEmpty(summary.NewEmail)))
-				throw new EmailException(null, "The UserSummary for the email is null or has an empty email");
+			if (model == null || (string.IsNullOrEmpty(model.ExistingEmail) && string.IsNullOrEmpty(model.NewEmail)))
+				throw new EmailException(null, "The UserViewModel for the email is null or has an empty email");
 
 			if (string.IsNullOrEmpty(PlainTextView))
 				throw new EmailException(null, "No plain text view can be found for {0}", GetType().Name);
@@ -91,15 +91,15 @@ namespace Roadkill.Core
 			if (string.IsNullOrEmpty(HtmlView))
 				throw new EmailException(null, "No HTML view can be found for {0}", GetType().Name);
 
-			string plainTextContent = ReplaceTokens(summary, PlainTextView);
-			string htmlContent = ReplaceTokens(summary, HtmlView);
+			string plainTextContent = ReplaceTokens(model, PlainTextView);
+			string htmlContent = ReplaceTokens(model, HtmlView);
 
-			string emailTo = summary.ExistingEmail;
+			string emailTo = model.ExistingEmail;
 			if (string.IsNullOrEmpty(emailTo))
-				emailTo = summary.NewEmail;
+				emailTo = model.NewEmail;
 
 			if (string.IsNullOrEmpty(emailTo))
-				throw new EmailException(null, "The UserSummary has an empty current or new email address");
+				throw new EmailException(null, "The UserViewModel has an empty current or new email address");
 
 			// Construct the message and the two views
 			MailMessage message = new MailMessage();

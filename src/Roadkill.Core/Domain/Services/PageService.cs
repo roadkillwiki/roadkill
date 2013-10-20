@@ -49,10 +49,10 @@ namespace Roadkill.Core.Services
 		/// Adds the page to the database.
 		/// </summary>
 		/// <param name="summary">The summary details for the page.</param>
-		/// <returns>A <see cref="PageSummary"/> for the newly added page.</returns>
+		/// <returns>A <see cref="PageViewModel"/> for the newly added page.</returns>
 		/// <exception cref="DatabaseException">An databaseerror occurred while saving.</exception>
 		/// <exception cref="SearchException">An error occurred adding the page to the search index.</exception>
-		public PageSummary AddPage(PageSummary summary)
+		public PageViewModel AddPage(PageViewModel summary)
 		{
 			try
 			{
@@ -71,7 +71,7 @@ namespace Roadkill.Core.Services
 				_pageSummaryCache.RemoveAll(); // completely clear the cache to update any reciprocal links.
 
 				// Update the lucene index
-				PageSummary savedSummary = pageContent.ToSummary(_markupConverter);
+				PageViewModel savedSummary = pageContent.ToModel(_markupConverter);
 				try
 				{
 					_searchService.Add(savedSummary);
@@ -94,39 +94,39 @@ namespace Roadkill.Core.Services
 		/// </summary>
 		/// <returns>An <see cref="IEnumerable`PageSummary"/> of the pages.</returns>
 		/// <exception cref="DatabaseException">An databaseerror occurred while retrieving the list.</exception>
-		public IEnumerable<PageSummary> AllPages(bool loadPageContent = false)
+		public IEnumerable<PageViewModel> AllPages(bool loadPageContent = false)
 		{
 			try
 			{
 				string cacheKey = "";
-				IEnumerable<PageSummary> summaries;
+				IEnumerable<PageViewModel> summaries;
 
 				if (loadPageContent)
 				{
 					cacheKey = CacheKeys.ALLPAGES_CONTENT;
-					summaries = _listCache.Get<PageSummary>(cacheKey);
+					summaries = _listCache.Get<PageViewModel>(cacheKey);
 
 					if (summaries == null)
 					{
 						IEnumerable<Page> pages = Repository.AllPages().OrderBy(p => p.Title);
 						summaries = from page in pages
-									select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+									select Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
 
-						_listCache.Add<PageSummary>(cacheKey, summaries);
+						_listCache.Add<PageViewModel>(cacheKey, summaries);
 					}
 				}
 				else
 				{
 					cacheKey = CacheKeys.ALLPAGES;
-					summaries = _listCache.Get<PageSummary>(cacheKey);
+					summaries = _listCache.Get<PageViewModel>(cacheKey);
 
 					if (summaries == null)
 					{
 						IEnumerable<Page> pages = Repository.AllPages().OrderBy(p => p.Title);
 						summaries = from page in pages
-									select new PageSummary() { Id = page.Id, Title = page.Title };
+									select new PageViewModel() { Id = page.Id, Title = page.Title };
 
-						_listCache.Add<PageSummary>(cacheKey, summaries);
+						_listCache.Add<PageViewModel>(cacheKey, summaries);
 					}
 				}
 
@@ -144,20 +144,20 @@ namespace Roadkill.Core.Services
 		/// <param name="userName">Name of the user.</param>
 		/// <returns>All pages created by the provided user, or an empty list if none are found.</returns>
 		/// <exception cref="DatabaseException">An databaseerror occurred while retrieving the list.</exception>
-		public IEnumerable<PageSummary> AllPagesCreatedBy(string userName)
+		public IEnumerable<PageViewModel> AllPagesCreatedBy(string userName)
 		{
 			try
 			{
 				string cacheKey = string.Format("allpages.createdby.{0}", userName);
 
-				IEnumerable<PageSummary> summaries = _listCache.Get<PageSummary>(cacheKey);
+				IEnumerable<PageViewModel> summaries = _listCache.Get<PageViewModel>(cacheKey);
 				if (summaries == null)
 				{
 					IEnumerable<Page> pages = Repository.FindPagesCreatedBy(userName);
 					summaries = from page in pages
-								select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+								select Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
 
-					_listCache.Add<PageSummary>(cacheKey, summaries);
+					_listCache.Add<PageViewModel>(cacheKey, summaries);
 				}
 
 				return summaries;
@@ -171,27 +171,27 @@ namespace Roadkill.Core.Services
 		/// <summary>
 		/// Retrieves a list of all tags in the system.
 		/// </summary>
-		/// <returns>A <see cref="IEnumerable{TagSummary}"/> for the tags.</returns>
+		/// <returns>A <see cref="IEnumerable{TagViewModel}"/> for the tags.</returns>
 		/// <exception cref="DatabaseException">An databaseerror occurred while getting the tags.</exception>
-		public IEnumerable<TagSummary> AllTags()
+		public IEnumerable<TagViewModel> AllTags()
 		{
 			try
 			{
 				string cacheKey = "alltags";
 
-				List<TagSummary> tags = _listCache.Get<TagSummary>(cacheKey);
+				List<TagViewModel> tags = _listCache.Get<TagViewModel>(cacheKey);
 				if (tags == null)
 				{
 					IEnumerable<string> tagList = Repository.AllTags();
-					tags = new List<TagSummary>();
+					tags = new List<TagViewModel>();
 
 					foreach (string item in tagList)
 					{
-						foreach (string tagName in PageSummary.ParseTags(item))
+						foreach (string tagName in PageViewModel.ParseTags(item))
 						{
 							if (!string.IsNullOrEmpty(tagName))
 							{
-								TagSummary summary = new TagSummary(tagName);
+								TagViewModel summary = new TagViewModel(tagName);
 								int index = tags.IndexOf(summary);
 
 								if (index < 0)
@@ -206,7 +206,7 @@ namespace Roadkill.Core.Services
 						}
 					}
 
-					_listCache.Add<TagSummary>(cacheKey, tags);
+					_listCache.Add<TagViewModel>(cacheKey, tags);
 				}
 
 				return tags;
@@ -233,7 +233,7 @@ namespace Roadkill.Core.Services
 				// We cannot call the ToSummary() method on an object that no longer exists.
 				try
 				{
-					_searchService.Delete(Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter));
+					_searchService.Delete(Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter));
 				}
 				catch (SearchException ex)
 				{
@@ -268,9 +268,9 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
-				List<PageSummary> list = AllPages().ToList();
+				List<PageViewModel> list = AllPages().ToList();
 
-				XmlSerializer serializer = new XmlSerializer(typeof(List<PageSummary>));
+				XmlSerializer serializer = new XmlSerializer(typeof(List<PageViewModel>));
 
 				StringBuilder builder = new StringBuilder();
 				using (StringWriter writer = new StringWriter(builder))
@@ -289,11 +289,11 @@ namespace Roadkill.Core.Services
 		/// Finds the first page with the tag 'homepage'. Any pages that are locked by an administrator take precedence.
 		/// </summary>
 		/// <returns>The homepage.</returns>
-		public PageSummary FindHomePage()
+		public PageViewModel FindHomePage()
 		{
 			try
 			{
-				PageSummary summary = _pageSummaryCache.GetHomePage();
+				PageViewModel summary = _pageSummaryCache.GetHomePage();
 				if (summary == null)
 				{
 
@@ -305,7 +305,7 @@ namespace Roadkill.Core.Services
 					
 					if (page != null)
 					{
-						summary = Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+						summary = Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
 						_pageSummaryCache.UpdateHomePage(summary);
 					}
 				}
@@ -324,21 +324,21 @@ namespace Roadkill.Core.Services
 		/// <param name="tag">The tag to search for.</param>
 		/// <returns>A <see cref="IEnumerable{PageSummary}"/> of pages tagged with the provided tag.</returns>
 		/// <exception cref="DatabaseException">An databaseerror occurred while getting the list.</exception>
-		public IEnumerable<PageSummary> FindByTag(string tag)
+		public IEnumerable<PageViewModel> FindByTag(string tag)
 		{
 			try
 			{
 				string cacheKey = string.Format("pagesbytag.{0}", tag);
 
-				IEnumerable<PageSummary> summaries = _listCache.Get<PageSummary>(cacheKey);
+				IEnumerable<PageViewModel> summaries = _listCache.Get<PageViewModel>(cacheKey);
 				if (summaries == null)
 				{
 
 					IEnumerable<Page> pages = Repository.FindPagesContainingTag(tag).OrderBy(p => p.Title);
 					summaries = from page in pages
-								select Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+								select Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
 
-					_listCache.Add<PageSummary>(cacheKey, summaries);
+					_listCache.Add<PageViewModel>(cacheKey, summaries);
 				}
 
 				return summaries;
@@ -353,9 +353,9 @@ namespace Roadkill.Core.Services
 		/// Finds a page by its title
 		/// </summary>
 		/// <param name="title">The page title</param>
-		/// <returns>A <see cref="PageSummary"/> for the page.</returns>
+		/// <returns>A <see cref="PageViewModel"/> for the page.</returns>
 		/// <exception cref="DatabaseException">An databaseerror occurred while getting the page.</exception>
-		public PageSummary FindByTitle(string title)
+		public PageViewModel FindByTitle(string title)
 		{
 			try
 			{
@@ -367,7 +367,7 @@ namespace Roadkill.Core.Services
 				if (page == null)
 					return null;
 				else
-					return Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+					return Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
 			}
 			catch (DatabaseException ex)
 			{
@@ -379,13 +379,13 @@ namespace Roadkill.Core.Services
 		/// Retrieves the page by its id.
 		/// </summary>
 		/// <param name="id">The id of the page</param>
-		/// <returns>A <see cref="PageSummary"/> for the page.</returns>
+		/// <returns>A <see cref="PageViewModel"/> for the page.</returns>
 		/// <exception cref="DatabaseException">An databaseerror occurred while getting the page.</exception>
-		public PageSummary GetById(int id)
+		public PageViewModel GetById(int id)
 		{
 			try
 			{
-				PageSummary summary = _pageSummaryCache.Get(id);
+				PageViewModel summary = _pageSummaryCache.Get(id);
 				if (summary != null)
 				{
 					return summary;
@@ -400,7 +400,7 @@ namespace Roadkill.Core.Services
 					}
 					else
 					{
-						summary = Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+						summary = Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
 						_pageSummaryCache.Add(id, summary);
 
 						return summary;
@@ -419,7 +419,7 @@ namespace Roadkill.Core.Services
 		/// <param name="summary">The summary.</param>
 		/// <exception cref="DatabaseException">An databaseerror occurred while updating.</exception>
 		/// <exception cref="SearchException">An error occurred adding the page to the search index.</exception>
-		public void UpdatePage(PageSummary summary)
+		public void UpdatePage(PageViewModel summary)
 		{
 			try
 			{
@@ -458,7 +458,7 @@ namespace Roadkill.Core.Services
 				}
 
 				// Update the lucene index
-				_searchService.Update(Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter));
+				_searchService.Update(Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter));
 			}
 			catch (DatabaseException ex)
 			{
@@ -475,9 +475,9 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
-				IEnumerable<PageSummary> pageSummaries = FindByTag(oldTagName);
+				IEnumerable<PageViewModel> pageSummaries = FindByTag(oldTagName);
 
-				foreach (PageSummary summary in pageSummaries)
+				foreach (PageViewModel summary in pageSummaries)
 				{
 					_searchService.Delete(summary);
 

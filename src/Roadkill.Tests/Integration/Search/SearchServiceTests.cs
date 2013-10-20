@@ -42,14 +42,14 @@ namespace Roadkill.Tests.Integration
 			SearchService searchService = new SearchService(_config, _repository, _pluginFactory);
 			searchService.CreateIndex();
 
-			PageSummary page1 = CreatePage(1, "admin", "title content", "tag1", "title content1");
-			PageSummary page2 = CreatePage(2, "admin", "title content", "tag1", "title content2");
+			PageViewModel page1 = CreatePage(1, "admin", "title content", "tag1", "title content1");
+			PageViewModel page2 = CreatePage(2, "admin", "title content", "tag1", "title content2");
 
 			searchService.Add(page1);
 			searchService.Add(page2);
 
 			// Act
-			List<SearchResult> results = searchService.Search("title content").ToList();
+			List<SearchResultViewModel> results = searchService.Search("title content").ToList();
 
 			// Assert
 			Assert.That(results.Count, Is.EqualTo(2)); // Lucene will ignore the 1 and 2 in the content
@@ -62,10 +62,10 @@ namespace Roadkill.Tests.Integration
 			SearchService searchService = new SearchService(_config, _repository, _pluginFactory);
 			searchService.CreateIndex();
 
-			PageSummary page1 = CreatePage(1, "admin", "the title", "tag1", "title content");
-			PageSummary page2 = CreatePage(2, "admin", "random name1", "tag1", "title content");
-			PageSummary page3 = CreatePage(3, "admin", "random name2", "tag1", "title content");
-			PageSummary page4 = CreatePage(4, "admin", "random name3", "tag1", "title content");
+			PageViewModel page1 = CreatePage(1, "admin", "the title", "tag1", "title content");
+			PageViewModel page2 = CreatePage(2, "admin", "random name1", "tag1", "title content");
+			PageViewModel page3 = CreatePage(3, "admin", "random name2", "tag1", "title content");
+			PageViewModel page4 = CreatePage(4, "admin", "random name3", "tag1", "title content");
 
 			searchService.Add(page1);
 			searchService.Add(page2);
@@ -73,7 +73,7 @@ namespace Roadkill.Tests.Integration
 			searchService.Add(page4);
 
 			// Act
-			List<SearchResult> results = searchService.Search("title:\"the title\"").ToList();
+			List<SearchResultViewModel> results = searchService.Search("title:\"the title\"").ToList();
 
 			// Assert
 			Assert.That(results.Count, Is.EqualTo(1));
@@ -86,10 +86,10 @@ namespace Roadkill.Tests.Integration
 			SearchService searchService = new SearchService(_config, _repository, _pluginFactory);
 			searchService.CreateIndex();
 
-			PageSummary page1 = CreatePage(1, "admin", "random name1", "homepage1, tag1", "title content");
-			PageSummary page2 = CreatePage(2, "admin", "random name2", "tag1, tag", "title content");
-			PageSummary page3 = CreatePage(3, "admin", "random name3", "tag3, tag", "title content");
-			PageSummary page4 = CreatePage(4, "admin", "random name4", "tag4, tag", "title content");
+			PageViewModel page1 = CreatePage(1, "admin", "random name1", "homepage1, tag1", "title content");
+			PageViewModel page2 = CreatePage(2, "admin", "random name2", "tag1, tag", "title content");
+			PageViewModel page3 = CreatePage(3, "admin", "random name3", "tag3, tag", "title content");
+			PageViewModel page4 = CreatePage(4, "admin", "random name4", "tag4, tag", "title content");
 
 			searchService.Add(page1);
 			searchService.Add(page2);
@@ -97,7 +97,7 @@ namespace Roadkill.Tests.Integration
 			searchService.Add(page4);
 
 			// Act
-			List<SearchResult> results = searchService.Search("tags:\"tag1\"").ToList();
+			List<SearchResultViewModel> results = searchService.Search("tags:\"tag1\"").ToList();
 
 			// Assert
 			Assert.That(results.Count, Is.EqualTo(2));
@@ -110,10 +110,10 @@ namespace Roadkill.Tests.Integration
 			SearchService searchService = new SearchService(_config, _repository, _pluginFactory);
 			searchService.CreateIndex();
 
-			PageSummary page1 = CreatePage(1, "admin", "random name2", "tag1", "title content");
-			PageSummary page2 = CreatePage(2, "admin", "random name2", "1tag1", "title content");
-			PageSummary page3 = CreatePage(3, "admin", "random name3", "1tag1", "title content");
-			PageSummary page4 = CreatePage(4, "admin", "random name4", "1tag1", "title content");
+			PageViewModel page1 = CreatePage(1, "admin", "random name2", "tag1", "title content");
+			PageViewModel page2 = CreatePage(2, "admin", "random name2", "1tag1", "title content");
+			PageViewModel page3 = CreatePage(3, "admin", "random name3", "1tag1", "title content");
+			PageViewModel page4 = CreatePage(4, "admin", "random name4", "1tag1", "title content");
 
 			searchService.Add(page1);
 			searchService.Add(page2);
@@ -121,7 +121,7 @@ namespace Roadkill.Tests.Integration
 			searchService.Add(page4);
 
 			// Act
-			List<SearchResult> results = searchService.Search("id:1").ToList();
+			List<SearchResultViewModel> results = searchService.Search("id:1").ToList();
 
 			// Assert
 			Assert.That(results.Count, Is.EqualTo(1));
@@ -134,15 +134,15 @@ namespace Roadkill.Tests.Integration
 			SearchService searchService = new SearchService(_config, _repository, _pluginFactory);
 			searchService.CreateIndex();
 
-			PageSummary page1 = CreatePage(1, "admin", "random name2", "homepage, tag1", "title content 11");
-			PageSummary page2 = CreatePage(2, "admin", "random name2", "tag1, tag", "title content 2");
+			PageViewModel page1 = CreatePage(1, "admin", "random name2", "homepage, tag1", "title content 11");
+			PageViewModel page2 = CreatePage(2, "admin", "random name2", "tag1, tag", "title content 2");
 
 			searchService.Add(page1);
 			searchService.Add(page2);
 
 			// Act
-			List<SearchResult> results = searchService.Search("admin").ToList();
-			List<SearchResult> createdByResults = searchService.Search("createdby: admin").ToList();
+			List<SearchResultViewModel> results = searchService.Search("admin").ToList();
+			List<SearchResultViewModel> createdByResults = searchService.Search("createdby: admin").ToList();
 
 			// Assert
 			Assert.That(results.Count, Is.EqualTo(0), "admin title count");
@@ -157,10 +157,10 @@ namespace Roadkill.Tests.Integration
 			SearchService searchService = new SearchService(_config, _repository, _pluginFactory);
 			searchService.CreateIndex();
 
-			PageSummary page1 = CreatePage(1, "admin", "random name2", "homepage, tag1", "title content", DateTime.Today);
-			PageSummary page2 = CreatePage(2, "admin", "random name2", "tag1, tag", "title content", DateTime.Today);
-			PageSummary page3 = CreatePage(3, "admin", "random name3", "tag1, tag", "title content", DateTime.Today.AddDays(1));
-			PageSummary page4 = CreatePage(4, "admin", "random name4", "tag1, tag", "title content", DateTime.Today.AddDays(2));
+			PageViewModel page1 = CreatePage(1, "admin", "random name2", "homepage, tag1", "title content", DateTime.Today);
+			PageViewModel page2 = CreatePage(2, "admin", "random name2", "tag1, tag", "title content", DateTime.Today);
+			PageViewModel page3 = CreatePage(3, "admin", "random name3", "tag1, tag", "title content", DateTime.Today.AddDays(1));
+			PageViewModel page4 = CreatePage(4, "admin", "random name4", "tag1, tag", "title content", DateTime.Today.AddDays(2));
 
 			searchService.Add(page1);
 			searchService.Add(page2);
@@ -168,7 +168,7 @@ namespace Roadkill.Tests.Integration
 			searchService.Add(page4);
 
 			// Act
-			List<SearchResult> createdOnResults = searchService.Search("createdon:" +todaysDate).ToList();
+			List<SearchResultViewModel> createdOnResults = searchService.Search("createdon:" +todaysDate).ToList();
 
 			// Assert
 			Assert.That(createdOnResults.Count, Is.EqualTo(2), "createdon count");
@@ -181,15 +181,15 @@ namespace Roadkill.Tests.Integration
 			SearchService searchService = new SearchService(_config, _repository, _pluginFactory);
 			searchService.CreateIndex();
 
-			PageSummary page1 = CreatePage(1, "admin", "homepage title", "homepage1, tag1", "title content");
-			PageSummary page2 = CreatePage(2, "admin", "random name2", "tag1", "random name 2");
+			PageViewModel page1 = CreatePage(1, "admin", "homepage title", "homepage1, tag1", "title content");
+			PageViewModel page2 = CreatePage(2, "admin", "random name2", "tag1", "random name 2");
 
 			searchService.Add(page1);
 			searchService.Add(page2);
 
 			// Act
 			searchService.Delete(page1);
-			List<SearchResult> results = searchService.Search("homepage title").ToList();
+			List<SearchResultViewModel> results = searchService.Search("homepage title").ToList();
 
 			// Assert
 			Assert.That(results.Count, Is.EqualTo(0), "homepage title still appears after deletion");
@@ -202,8 +202,8 @@ namespace Roadkill.Tests.Integration
 			SearchService searchService = new SearchService(_config, _repository, _pluginFactory);
 			searchService.CreateIndex();
 
-			PageSummary page1 = CreatePage(1, "admin", "homepage title", "homepage1, tag1", "title content");
-			PageSummary page2 = CreatePage(2, "admin", "random name2", "tag1", "random name 2");
+			PageViewModel page1 = CreatePage(1, "admin", "homepage title", "homepage1, tag1", "title content");
+			PageViewModel page2 = CreatePage(2, "admin", "random name2", "tag1", "random name 2");
 
 			searchService.Add(page1);
 			searchService.Add(page2);
@@ -216,8 +216,8 @@ namespace Roadkill.Tests.Integration
 			{
 				// Perform the test in a new thread, so that the add + delete commit is picked up
 				// which is periodically done by Lucene.
-				List<SearchResult> oldResults = searchService.Search("homepage title").ToList();
-				List<SearchResult> newResults = searchService.Search("A new hope").ToList();
+				List<SearchResultViewModel> oldResults = searchService.Search("homepage title").ToList();
+				List<SearchResultViewModel> newResults = searchService.Search("A new hope").ToList();
 
 				// Assert
 				Assert.That(oldResults.Count, Is.EqualTo(0), "old results");
@@ -234,13 +234,13 @@ namespace Roadkill.Tests.Integration
 			SearchService searchService = new SearchService(_config, _repository, _pluginFactory);
 			searchService.CreateIndex();
 
-			PageSummary page1 = CreatePage(1, "admin", "ОШИБКА: неверная последовательность байт для кодировки", "tag1", 
+			PageViewModel page1 = CreatePage(1, "admin", "ОШИБКА: неверная последовательность байт для кодировки", "tag1", 
 				"БД сервера событий была перенесена из PostgreSQL 8.3 на PostgreSQL 9.1.4. Сервер, развернутый на Windows платформе, не мог с ней работать, т.к. установщик PostgreSQL 9.1.4 создает шаблон базы с использованием кодировки UTF8 и, сответственно, новая БД не могла быть создана с требуемой");
 
 			searchService.Add(page1);
 
 			// Act
-			List<SearchResult> results = searchService.Search("ОШИБКА").ToList();
+			List<SearchResultViewModel> results = searchService.Search("ОШИБКА").ToList();
 
 			// Assert
 			Assert.That(results[0].ContentSummary, Contains.Substring("БД сервера событий была перенесена из"));
@@ -254,11 +254,11 @@ namespace Roadkill.Tests.Integration
 			SearchService searchService = new SearchService(_config, _repository, _pluginFactory);
 			searchService.CreateIndex();
 
-			PageSummary page1 = CreatePage(1, "admin", "A page title", "tag1", "Lorizzle ipsizzle dolor sit amizzle, (pre character 150 boundary) rizzle adipiscing tellivizzle. Nullizzle sapizzle velizzle, yo mamma volutpat, suscipizzle bow wow wow, gravida vizzle, (post 150 character boundary) shizznit. Pellentesque da bomb tortizzle. Hizzle erizzle. Its fo rizzle izzle sheezy dapibizzle mofo tempizzle tempizzle. Maurizzle away nibh izzle turpis. Phat izzle hizzle. Pellentesque eleifend rhoncus rizzle. Da bomb things dang platea dictumst. Fo shizzle my nizzle dapibizzle. Shiz tellus owned, pretizzle eu, mattizzle ac, bow wow wow its fo rizzle, nunc. Shiz suscipit. Integizzle own yo' we gonna chung sed go to hizzle.");
+			PageViewModel page1 = CreatePage(1, "admin", "A page title", "tag1", "Lorizzle ipsizzle dolor sit amizzle, (pre character 150 boundary) rizzle adipiscing tellivizzle. Nullizzle sapizzle velizzle, yo mamma volutpat, suscipizzle bow wow wow, gravida vizzle, (post 150 character boundary) shizznit. Pellentesque da bomb tortizzle. Hizzle erizzle. Its fo rizzle izzle sheezy dapibizzle mofo tempizzle tempizzle. Maurizzle away nibh izzle turpis. Phat izzle hizzle. Pellentesque eleifend rhoncus rizzle. Da bomb things dang platea dictumst. Fo shizzle my nizzle dapibizzle. Shiz tellus owned, pretizzle eu, mattizzle ac, bow wow wow its fo rizzle, nunc. Shiz suscipit. Integizzle own yo' we gonna chung sed go to hizzle.");
 			searchService.Add(page1);
 
 			// Act
-			List<SearchResult> results = searchService.Search("rizzle").ToList();
+			List<SearchResultViewModel> results = searchService.Search("rizzle").ToList();
 
 			// Assert
 			Assert.That(results[0].ContentSummary, Contains.Substring("(pre character 150 boundary)"));
@@ -274,11 +274,11 @@ namespace Roadkill.Tests.Integration
 			SearchService searchService = new SearchService(_config, _repository, _pluginFactory);
 			searchService.CreateIndex();
 
-			PageSummary page1 = CreatePage(1, "admin", "A page title", "tag1", "**some bold** \n\n=my header=");
+			PageViewModel page1 = CreatePage(1, "admin", "A page title", "tag1", "**some bold** \n\n=my header=");
 			searchService.Add(page1);
 
 			// Act
-			List<SearchResult> results = searchService.Search("my header").ToList();
+			List<SearchResultViewModel> results = searchService.Search("my header").ToList();
 
 			// Assert
 			Assert.That(results[0].ContentSummary, Is.Not.StringContaining("<b>some bold</b>"));
@@ -286,12 +286,12 @@ namespace Roadkill.Tests.Integration
 
 		}
 
-		protected PageSummary CreatePage(int id, string createdBy, string title, string tags, string textContent = "", DateTime? createdOn = null)
+		protected PageViewModel CreatePage(int id, string createdBy, string title, string tags, string textContent = "", DateTime? createdOn = null)
 		{
 			if (createdOn == null)
 				createdOn = DateTime.UtcNow;
 
-			return new PageSummary()
+			return new PageViewModel()
 			{
 				Id = id,
 				CreatedBy = createdBy,

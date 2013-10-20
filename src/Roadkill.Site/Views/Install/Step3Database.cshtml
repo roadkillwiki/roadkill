@@ -1,4 +1,4 @@
-﻿@model SettingsSummary
+﻿@model SettingsViewModel
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
@@ -16,24 +16,24 @@
 
 @using (Html.BeginForm("Step4","Install"))
 {
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.ConnectionString))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.DataStoreTypeName))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteName))
-	@(Html.HiddenFor<SettingsSummary, string>(h => h.SiteUrl))
-	@(Html.HiddenFor<SettingsSummary, bool>(h => h.UseWindowsAuth))
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.ConnectionString))
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.DataStoreTypeName))
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.SiteName))
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.SiteUrl))
+	@(Html.HiddenFor<SettingsViewModel, bool>(h => h.UseWindowsAuth))
 	
 	<fieldset>
 		<legend>@InstallStrings.Page3_DB_Group1_Title</legend>
 		<label>@InstallStrings.Page3_DB_Group1_Label1</label>
 
-		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.EditorRoleName, new { @class = "validate[required]" }))</div>
+		<div class="textbox">@(Html.TextBoxFor<SettingsViewModel, string>(s => s.EditorRoleName, new { @class = "validate[required]" }))</div>
 	</fieldset>
 	
 	<fieldset>
 		<legend>@InstallStrings.Page3_DB_Group2_Title</legend>
 		<label>@InstallStrings.Page3_DB_Group2_Label1</label>
 
-		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminRoleName, new { @class = "validate[required]" }))</div>
+		<div class="textbox">@(Html.TextBoxFor<SettingsViewModel, string>(s => s.AdminRoleName, new { @class = "validate[required]" }))</div>
 	</fieldset>
 	
 	<fieldset>
@@ -43,7 +43,7 @@
 
 		<div>
 			<div class="left">
-				@(Html.CheckBoxFor<SettingsSummary>(s => s.AllowUserSignup))
+				@(Html.CheckBoxFor<SettingsViewModel>(s => s.AllowUserSignup))
 				@InstallStrings.Page3_DB_Group3_Label2
 			</div>
 		</div>
@@ -55,31 +55,31 @@
 
 		<div>
 			<div class="left">
-				@(Html.CheckBoxFor<SettingsSummary>(s => s.IsRecaptchaEnabled))
+				@(Html.CheckBoxFor<SettingsViewModel>(s => s.IsRecaptchaEnabled))
 				@InstallStrings.Page3_DB_Group4_Label2
 			</div>
 		</div>
 		<br class="clear" />
 
 		<label>@InstallStrings.Page3_DB_Group4_Label3</label>
-		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.RecaptchaPublicKey))</div>
+		<div class="textbox">@(Html.TextBoxFor<SettingsViewModel, string>(s => s.RecaptchaPublicKey))</div>
 		
 		<label>@InstallStrings.Page3_DB_Group4_Label4</label>
-		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.RecaptchaPrivateKey))</div>
+		<div class="textbox">@(Html.TextBoxFor<SettingsViewModel, string>(s => s.RecaptchaPrivateKey))</div>
 	</fieldset>
 	
 	<fieldset>
 		<legend>@InstallStrings.Page3_DB_Group5_Title</legend>
 		<label>@InstallStrings.Page3_DB_Group5_Label1</label>
 
-		<div class="textbox">@(Html.TextBoxFor<SettingsSummary, string>(s => s.AdminEmail, new { autocomplete = "off", @class = "validate[required]" }))</div>
+		<div class="textbox">@(Html.TextBoxFor<SettingsViewModel, string>(s => s.AdminEmail, new { autocomplete = "off", @class = "validate[required]" }))</div>
 	</fieldset>
 	
 	<fieldset>
 		<legend>@InstallStrings.Page3_DB_Group6_Title</legend>
 		<label>@InstallStrings.Page3_DB_Group6_Label1</label>
 
-		<div class="textbox">@(Html.PasswordFor<SettingsSummary, string>(s => s.AdminPassword, new { autocomplete = "off", @class = "validate[required,minSize[6]]" }))</div>
+		<div class="textbox">@(Html.PasswordFor<SettingsViewModel, string>(s => s.AdminPassword, new { autocomplete = "off", @class = "validate[required,minSize[6]]" }))</div>
 		<div class="textbox">@(Html.Password("password2", null, new { autocomplete = "off", @class = "validate[equals[AdminPassword]]" }))</div>
 	</fieldset>
 

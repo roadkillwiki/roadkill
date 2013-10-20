@@ -30,7 +30,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		/// <param name="id">The page id</param>
 		/// <param name="title">This parameter is passed in, but never used in queries.</param>
-		/// <returns>A <see cref="PageSummary"/> to the Index view.</returns>
+		/// <returns>A <see cref="PageViewModel"/> to the Index view.</returns>
 		/// <remarks>This action adds a "Last-Modified" header using the page's last modified date, if no user is currently logged in.</remarks>
 		/// <exception cref="HttpNotFoundResult">Thrown if the page with the id cannot be found.</exception>
 		[BrowserCache]
@@ -39,7 +39,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (id == null || id < 1)
 				return RedirectToAction("Index", "Home");
 
-			PageSummary summary = PageService.GetById(id.Value);
+			PageViewModel summary = PageService.GetById(id.Value);
 
 			if (summary == null)
 				throw new HttpException(404, string.Format("The page with id '{0}' could not be found", id));
@@ -52,7 +52,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (id == null || id < 1)
 				return Content("");
 
-			PageSummary summary = PageService.GetById(id.Value);
+			PageViewModel summary = PageService.GetById(id.Value);
 
 			if (summary == null)
 				return Content(string.Format("The page with id '{0}' could not be found", id));

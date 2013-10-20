@@ -32,26 +32,14 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ActionResult Index()
 		{
 			IEnumerable<TextPlugin> plugins = _pluginFactory.GetTextPlugins().OrderBy(x => x.Name);
-			List<PluginSummary> summaryList = new List<PluginSummary>();
+			List<PluginViewModel> modelList = new List<PluginViewModel>();
 
 			foreach (TextPlugin plugin in plugins)
 			{
-				PluginSummary summary = new PluginSummary()
-				{
-					Id = plugin.Id,
-					DatabaseId = plugin.DatabaseId,
-					Name = plugin.Name,
-					Description = plugin.Description,
-					IsEnabled = true, //plugin.Settings.IsEnabled
-				};
-
-				if (!string.IsNullOrEmpty(summary.Description))
-					summary.Description = summary.Description.Replace("\n", "<br/>");
-
-				summaryList.Add(summary);
+				modelList.Add(new PluginViewModel(plugin));
 			}
 
-			return View(summaryList);
+			return View(modelList);
 		}
 
 		public ActionResult Edit(string id)
@@ -64,7 +52,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (plugin == null)
 				return RedirectToAction("Index");
 
-			PluginSummary summary = new PluginSummary()
+			PluginViewModel summary = new PluginViewModel()
 			{
 				Id = plugin.Id,
 				DatabaseId = plugin.DatabaseId,
@@ -83,7 +71,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Edit(PluginSummary summary)
+		public ActionResult Edit(PluginViewModel summary)
 		{
 			TextPlugin plugin = _pluginFactory.GetTextPlugin(summary.Id);
 			if (plugin == null)

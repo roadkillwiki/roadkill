@@ -85,7 +85,7 @@ namespace Roadkill.Tests.Unit
 			_pageService = new PageService(_applicationSettings, _repositoryMock, _mockSearchService.Object, _historyService, _context, listCache, pageSummaryCache, siteCache, _pluginFactory);
 		}
 
-		public PageSummary AddToStubbedRepository(int id, string createdBy, string title, string tags, string textContent = "")
+		public PageViewModel AddToStubbedRepository(int id, string createdBy, string title, string tags, string textContent = "")
 		{
 			return AddToMockedRepository(id, createdBy, title, tags, DateTime.Today, textContent);
 		}
@@ -93,7 +93,7 @@ namespace Roadkill.Tests.Unit
 		/// <summary>
 		/// Adds a page to the mock repository (which is just a list of Page and PageContent objects in memory).
 		/// </summary>
-		public PageSummary AddToMockedRepository(int id, string createdBy, string title, string tags, DateTime createdOn, string textContent = "")
+		public PageViewModel AddToMockedRepository(int id, string createdBy, string title, string tags, DateTime createdOn, string textContent = "")
 		{
 			Page page = new Page();
 			page.Id = id;
@@ -106,7 +106,7 @@ namespace Roadkill.Tests.Unit
 				textContent = title + "'s text";
 
 			PageContent content = _repositoryMock.AddNewPage(page, textContent, createdBy, createdOn);
-			PageSummary summary = new PageSummary()
+			PageViewModel summary = new PageViewModel()
 			{
 				Id = id,
 				Title = title,
@@ -123,7 +123,7 @@ namespace Roadkill.Tests.Unit
 		public void AddPage_Should_Save_To_Repository()
 		{
 			// Arrange
-			PageSummary summary = new PageSummary()
+			PageViewModel summary = new PageViewModel()
 			{
 				Id = 1,
 				Title = "Homepage",
@@ -134,7 +134,7 @@ namespace Roadkill.Tests.Unit
 			};
 
 			// Act
-			PageSummary newSummary = _pageService.AddPage(summary);
+			PageViewModel newSummary = _pageService.AddPage(summary);
 
 			// Assert
 			Assert.That(newSummary, Is.Not.Null);
@@ -147,14 +147,14 @@ namespace Roadkill.Tests.Unit
 		public void AllTags_Should_Return_Correct_Items()
 		{
 			// Arrange
-			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
-			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
-			PageSummary page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
-			PageSummary page4 = AddToStubbedRepository(4, "admin", "page 4", "animals;");
-			PageSummary page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
+			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
+			PageViewModel page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
+			PageViewModel page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
+			PageViewModel page4 = AddToStubbedRepository(4, "admin", "page 4", "animals;");
+			PageViewModel page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			List<TagSummary> summaries = _pageService.AllTags().OrderBy(t => t.Name).ToList();
+			List<TagViewModel> summaries = _pageService.AllTags().OrderBy(t => t.Name).ToList();
 
 			// Assert
 			Assert.That(summaries.Count, Is.EqualTo(4), "Tag summary count");
@@ -168,16 +168,16 @@ namespace Roadkill.Tests.Unit
 		public void DeletePage_Should_Remove_Correct_Page()
 		{
 			// Arrange
-			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
-			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
-			PageSummary page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
-			PageSummary page4 = AddToStubbedRepository(4, "admin", "page 4", "animals;");
-			PageSummary page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
+			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
+			PageViewModel page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
+			PageViewModel page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
+			PageViewModel page4 = AddToStubbedRepository(4, "admin", "page 4", "animals;");
+			PageViewModel page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
 			_pageService.DeletePage(page1.Id);
 			_pageService.DeletePage(page2.Id);
-			List<PageSummary> summaries = _pageService.AllPages().ToList();
+			List<PageViewModel> summaries = _pageService.AllPages().ToList();
 
 			// Assert
 			Assert.That(summaries.Count, Is.EqualTo(3), "Page count");
@@ -189,14 +189,14 @@ namespace Roadkill.Tests.Unit
 		public void AllPages_CreatedBy_Should_Have_Correct_Authors()
 		{
 			// Arrange
-			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
-			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
-			PageSummary page3 = AddToStubbedRepository(3, "bob", "page 3", "page3;");
-			PageSummary page4 = AddToStubbedRepository(4, "bob", "page 4", "animals;");
-			PageSummary page5 = AddToStubbedRepository(5, "bob", "page 5", "animals;");
+			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
+			PageViewModel page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
+			PageViewModel page3 = AddToStubbedRepository(3, "bob", "page 3", "page3;");
+			PageViewModel page4 = AddToStubbedRepository(4, "bob", "page 4", "animals;");
+			PageViewModel page5 = AddToStubbedRepository(5, "bob", "page 5", "animals;");
 
 			// Act
-			List<PageSummary> summaries = _pageService.AllPagesCreatedBy("bob").ToList();
+			List<PageViewModel> summaries = _pageService.AllPagesCreatedBy("bob").ToList();
 
 			// Assert
 			Assert.That(summaries.Count, Is.EqualTo(3), "Summary count");
@@ -207,14 +207,14 @@ namespace Roadkill.Tests.Unit
 		public void AllPages_Should_Have_Correct_Items()
 		{
 			// Arrange
-			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
-			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
-			PageSummary page3 = AddToStubbedRepository(3, "bob", "page 3", "page3;");
-			PageSummary page4 = AddToStubbedRepository(4, "bob", "page 4", "animals;");
-			PageSummary page5 = AddToStubbedRepository(5, "bob", "page 5", "animals;");
+			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
+			PageViewModel page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
+			PageViewModel page3 = AddToStubbedRepository(3, "bob", "page 3", "page3;");
+			PageViewModel page4 = AddToStubbedRepository(4, "bob", "page 4", "animals;");
+			PageViewModel page5 = AddToStubbedRepository(5, "bob", "page 5", "animals;");
 
 			// Act
-			List<PageSummary> summaries = _pageService.AllPages().ToList();
+			List<PageViewModel> summaries = _pageService.AllPages().ToList();
 
 			// Assert
 			Assert.That(summaries.Count, Is.EqualTo(5), "Summary count");
@@ -224,12 +224,12 @@ namespace Roadkill.Tests.Unit
 		public void FindByTags_For_Single_Tag_Returns_Single_Result()
 		{
 			// Arrange
-			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
-			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
-			PageSummary page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
+			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
+			PageViewModel page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
+			PageViewModel page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
 
 			// Act
-			List<PageSummary> summaries = _pageService.FindByTag("homepage").ToList();
+			List<PageViewModel> summaries = _pageService.FindByTag("homepage").ToList();
 
 			// Assert
 			Assert.That(summaries.Count, Is.EqualTo(1), "Summary count");
@@ -241,14 +241,14 @@ namespace Roadkill.Tests.Unit
 		public void FindByTags_For_Multiple_Tags_Returns_Many_Results()
 		{
 			// Arrange
-			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
-			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
-			PageSummary page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
-			PageSummary page4 = AddToStubbedRepository(4, "admin", "page 4", "animals;");
-			PageSummary page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
+			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
+			PageViewModel page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
+			PageViewModel page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
+			PageViewModel page4 = AddToStubbedRepository(4, "admin", "page 4", "animals;");
+			PageViewModel page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			List<PageSummary> summaries = _pageService.FindByTag("animals").ToList();
+			List<PageViewModel> summaries = _pageService.FindByTag("animals").ToList();
 
 			// Assert
 			Assert.That(summaries.Count, Is.EqualTo(2), "Summary count");
@@ -258,14 +258,14 @@ namespace Roadkill.Tests.Unit
 		public void FindByTitle_Should_Return_Correct_Page()
 		{
 			// Arrange
-			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
-			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
-			PageSummary page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
-			PageSummary page4 = AddToStubbedRepository(4, "admin", "page 4", "animals;");
-			PageSummary page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
+			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
+			PageViewModel page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
+			PageViewModel page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
+			PageViewModel page4 = AddToStubbedRepository(4, "admin", "page 4", "animals;");
+			PageViewModel page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			PageSummary summary = _pageService.FindByTitle("page 3");
+			PageViewModel summary = _pageService.FindByTitle("page 3");
 
 			// Assert
 			Assert.That(summary.Title, Is.EqualTo("page 3"), "Page title");
@@ -275,14 +275,14 @@ namespace Roadkill.Tests.Unit
 		public void GetById_Should_Return_Correct_Page()
 		{
 			// Arrange
-			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
-			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
-			PageSummary page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
-			PageSummary page4 = AddToStubbedRepository(4, "admin", "page 4", "animals;");
-			PageSummary page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
+			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
+			PageViewModel page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
+			PageViewModel page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
+			PageViewModel page4 = AddToStubbedRepository(4, "admin", "page 4", "animals;");
+			PageViewModel page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			PageSummary summary = _pageService.GetById(page3.Id);
+			PageViewModel summary = _pageService.GetById(page3.Id);
 
 			// Assert
 			Assert.That(summary.Id, Is.EqualTo(page3.Id), "Page id");
@@ -293,15 +293,15 @@ namespace Roadkill.Tests.Unit
 		public void ExportToXml_Should_Contain_Xml()
 		{
 			// Arrange
-			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
-			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
+			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
+			PageViewModel page2 = AddToStubbedRepository(2, "admin", "page 2", "page2;");
 
 			// Act
 			string xml = _pageService.ExportToXml();
 
 			// Assert
 			Assert.That(xml, Is.StringContaining("<?xml"));
-			Assert.That(xml, Is.StringContaining("<ArrayOfPageSummary"));
+			Assert.That(xml, Is.StringContaining("<ArrayOfPageViewModel"));
 			Assert.That(xml, Is.StringContaining("<Id>1</Id>"));
 			Assert.That(xml, Is.StringContaining("<Id>2</Id>"));
 		}
@@ -310,13 +310,13 @@ namespace Roadkill.Tests.Unit
 		public void RenameTags_For_Multiple_Tags_Returns_Multiple_Results()
 		{
 			// Arrange
-			PageSummary page1 = AddToStubbedRepository(1, "admin", "Homepage", "animal;");
-			PageSummary page2 = AddToStubbedRepository(2, "admin", "page 2", "animal;");
+			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "animal;");
+			PageViewModel page2 = AddToStubbedRepository(2, "admin", "page 2", "animal;");
 
 			// Act
 			_pageService.RenameTag("animal", "vegetable");
-			List<PageSummary> animalTagList = _pageService.FindByTag("animal").ToList();
-			List<PageSummary> vegetableTagList = _pageService.FindByTag("vegetable").ToList();
+			List<PageViewModel> animalTagList = _pageService.FindByTag("animal").ToList();
+			List<PageViewModel> vegetableTagList = _pageService.FindByTag("vegetable").ToList();
 
 			// Assert
 			Assert.That(animalTagList.Count, Is.EqualTo(0), "Old tag summary count");
@@ -327,7 +327,7 @@ namespace Roadkill.Tests.Unit
 		public void UpdatePage_Should_Persist_To_Repository()
 		{
 			// Arrange
-			PageSummary summary = AddToStubbedRepository(1, "admin", "Homepage", "animal;");
+			PageViewModel summary = AddToStubbedRepository(1, "admin", "Homepage", "animal;");
 
 			// Act
 			summary.RawTags = "new,tags,";
@@ -335,7 +335,7 @@ namespace Roadkill.Tests.Unit
 			summary.Content = "**New content**";
 
 			_pageService.UpdatePage(summary);
-			PageSummary actual = _pageService.GetById(1);
+			PageViewModel actual = _pageService.GetById(1);
 
 			// Assert
 			Assert.That(actual.Title, Is.EqualTo(summary.Title), "Title");

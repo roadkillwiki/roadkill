@@ -62,7 +62,7 @@ namespace Roadkill.Core.Services
 		/// </summary>
 		/// <param name="summary">The settings data.</param>
 		/// <exception cref="DatabaseException">An datastore error occurred while creating the database tables.</exception>
-		public void CreateTables(SettingsSummary summary)
+		public void CreateTables(SettingsViewModel summary)
 		{
 			try
 			{
@@ -89,7 +89,7 @@ namespace Roadkill.Core.Services
 		/// </summary>
 		/// <param name="summary">Summary data containing the settings.</param>
 		/// <exception cref="DatabaseException">An datastore error occurred while saving the configuration.</exception>
-		public void SaveSiteSettings(SettingsSummary summary)
+		public void SaveSiteSettings(SettingsViewModel summary)
 		{
 			try
 			{

@@ -116,13 +116,13 @@ namespace Roadkill.Core.Security
 		/// Lists all admins in the system.
 		/// </summary>
 		/// <returns>A list of email/usernames who are admins.</returns>
-		public abstract IEnumerable<UserSummary> ListAdmins();
+		public abstract IEnumerable<UserViewModel> ListAdmins();
 
 		/// <summary>
 		/// Lists all editors in the system.
 		/// </summary>
 		/// <returns>A list of email/usernames who are editors.</returns>
-		public abstract IEnumerable<UserSummary> ListEditors();
+		public abstract IEnumerable<UserViewModel> ListEditors();
 
 		/// <summary>
 		/// Signs the user out with (typically with <see cref="FormsAuthentication"/>).
@@ -142,7 +142,7 @@ namespace Roadkill.Core.Security
 		/// <param name="user">The user details to signup.</param>
 		/// <param name="completed">Called once the signup (e.g. email is sent) is complete. Pass Null for no action.</param>
 		/// <returns>The activation key for the signup, or an empty string if the user details are invalid.</returns>
-		public abstract string Signup(UserSummary summary, Action completed);
+		public abstract string Signup(UserViewModel summary, Action completed);
 
 		/// <summary>
 		/// Adds or remove the user with the email address as an admin.
@@ -162,7 +162,7 @@ namespace Roadkill.Core.Security
 		/// <param name="email">The existing email address or username of the user.</param>
 		/// <param name="newEmail">The new email/username.</param>
 		/// <returns>true if the change was successful;false if the new email address already exists in the system.</returns>
-		public abstract bool UpdateUser(UserSummary summary);
+		public abstract bool UpdateUser(UserViewModel summary);
 
 		/// <summary>
 		/// Determines whether the user with the given email exists.

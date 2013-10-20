@@ -135,12 +135,12 @@ namespace Roadkill.Tests
 			return Users.Any(x => x.Email == email && x.IsEditor);
 		}
 
-		public override IEnumerable<UserSummary> ListAdmins()
+		public override IEnumerable<UserViewModel> ListAdmins()
 		{
 			return Users.Where(x => x.IsAdmin).Select(x => x.ToSummary());
 		}
 
-		public override IEnumerable<UserSummary> ListEditors()
+		public override IEnumerable<UserViewModel> ListEditors()
 		{
 			return Users.Where(x => x.IsEditor).Select(x => x.ToSummary());
 		}
@@ -162,7 +162,7 @@ namespace Roadkill.Tests
 			return "user with email " +email+ "not found";
 		}
 
-		public override string Signup(UserSummary summary, Action completed)
+		public override string Signup(UserViewModel summary, Action completed)
 		{
 			AddUser(summary.NewEmail, summary.NewUsername, summary.Password, false, true);
 
@@ -191,7 +191,7 @@ namespace Roadkill.Tests
 			}
 		}
 
-		public override bool UpdateUser(UserSummary summary)
+		public override bool UpdateUser(UserViewModel summary)
 		{
 			User user = GetUser(summary.ExistingEmail);
 			if (user != null)

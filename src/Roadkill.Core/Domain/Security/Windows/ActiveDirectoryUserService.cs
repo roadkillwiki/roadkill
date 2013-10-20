@@ -179,7 +179,7 @@ namespace Roadkill.Core.Security.Windows
 		/// <returns>
 		/// A list of email/usernames who belong to the admin group/security group.
 		/// </returns>
-		public override IEnumerable<UserSummary> ListAdmins()
+		public override IEnumerable<UserViewModel> ListAdmins()
 		{
 			List<string> usernames = new List<string>();
 			foreach (string group in _adminGroupNames)
@@ -187,10 +187,10 @@ namespace Roadkill.Core.Security.Windows
 				usernames.AddRange(GetUsersInGroup(group));
 			}
 
-			List<UserSummary> list = new List<UserSummary>();
+			List<UserViewModel> list = new List<UserViewModel>();
 			foreach (string editor in usernames)
 			{
-				list.Add(new UserSummary() { ExistingUsername = editor, ExistingEmail = editor });
+				list.Add(new UserViewModel() { ExistingUsername = editor, ExistingEmail = editor });
 			}
 
 			return list;
@@ -202,7 +202,7 @@ namespace Roadkill.Core.Security.Windows
 		/// <returns>
 		/// A list of email/usernames wwho belong to the editor group/security group.
 		/// </returns>
-		public override IEnumerable<UserSummary> ListEditors()
+		public override IEnumerable<UserViewModel> ListEditors()
 		{
 			List<string> usernames = new List<string>();
 			foreach (string group in _editorGroupNames)
@@ -210,10 +210,10 @@ namespace Roadkill.Core.Security.Windows
 				usernames.AddRange(GetUsersInGroup(group));
 			}
 
-			List<UserSummary> list = new List<UserSummary>();
+			List<UserViewModel> list = new List<UserViewModel>();
 			foreach (string editor in usernames)
 			{
-				list.Add(new UserSummary() { ExistingUsername = editor, ExistingEmail = editor });
+				list.Add(new UserViewModel() { ExistingUsername = editor, ExistingEmail = editor });
 			}
 
 			return list;
@@ -308,7 +308,7 @@ namespace Roadkill.Core.Security.Windows
 		}
 
 		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
-		public override bool UpdateUser(UserSummary summary)
+		public override bool UpdateUser(UserViewModel summary)
 		{
 			throw new NotImplementedException();
 		}
@@ -350,7 +350,7 @@ namespace Roadkill.Core.Security.Windows
 		}
 
 		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
-		public override string Signup(UserSummary summary, Action completed)
+		public override string Signup(UserViewModel summary, Action completed)
 		{
 			throw new NotImplementedException();
 		}

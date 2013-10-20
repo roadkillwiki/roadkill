@@ -186,6 +186,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\HtmlAgilityPack.1.4.6\lib\Net40\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net, Version=3.0.3.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -203,8 +210,9 @@
     <Reference Include="Mindscape.LightSpeed.Providers.SqlServerCe4">
       <HintPath>..\..\lib\LightSpeed\Providers\Mindscape.LightSpeed.Providers.SqlServerCe4.dll</HintPath>
     </Reference>
-    <Reference Include="Moq">
-      <HintPath>..\..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    <Reference Include="Moq, Version=4.1.1309.1617, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Moq.4.1.1309.1617\lib\net40\Moq.dll</HintPath>
     </Reference>
     <Reference Include="MvcContrib.TestHelper">
       <HintPath>..\..\packages\MvcContrib.Mvc3.TestHelper-ci.3.0.100.0\lib\MvcContrib.TestHelper.dll</HintPath>
@@ -213,9 +221,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\MySql.Data.6.6.5\lib\net40\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.Mocks">
       <HintPath>..\..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
@@ -272,15 +280,17 @@
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="ThoughtWorks.Selenium.Core, Version=2.33.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ThoughtWorks.Selenium.Core, Version=2.37.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Selenium.RC.2.33.0\lib\net40\ThoughtWorks.Selenium.Core.dll</HintPath>
+      <HintPath>..\..\packages\Selenium.RC.2.37.0\lib\net40\ThoughtWorks.Selenium.Core.dll</HintPath>
     </Reference>
-    <Reference Include="WebDriver">
-      <HintPath>..\..\packages\Selenium.WebDriver.2.33.0\lib\net40\WebDriver.dll</HintPath>
+    <Reference Include="WebDriver, Version=2.37.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Selenium.WebDriver.2.37.0\lib\net40\WebDriver.dll</HintPath>
     </Reference>
-    <Reference Include="WebDriver.Support">
-      <HintPath>..\..\packages\Selenium.Support.2.33.0\lib\net40\WebDriver.Support.dll</HintPath>
+    <Reference Include="WebDriver.Support, Version=2.37.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Selenium.Support.2.37.0\lib\net40\WebDriver.Support.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -322,10 +332,12 @@
     <Compile Include="Unit\Mvc\Controllers\HelpControllerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\PluginSettingsControllerTests.cs" />
     <Compile Include="Unit\Mvc\ResponseWrapperTests.cs" />
-    <Compile Include="Unit\Mvc\ViewModels\PluginSummaryTests.cs" />
-    <Compile Include="Unit\Mvc\ViewModels\PageSummaryValidationTests.cs" />
-    <Compile Include="Unit\Mvc\ViewModels\FileSummaryTests.cs" />
-    <Compile Include="Unit\Mvc\ViewModels\DirectorySummaryTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\SettingsViewModelTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\SearchResultViewModelTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\PluginViewModelTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\PageViewModelValidationTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\FileViewModelTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\DirectoryViewModelTests.cs" />
     <Compile Include="Unit\Attachments\MimeMappingTests.cs" />
     <Compile Include="Unit\Database\DataStore\DataStoreTypeTests.cs" />
     <Compile Include="Unit\Database\SiteSettingsTests.cs" />
@@ -351,8 +363,8 @@
     <Compile Include="Unit\StubsAndMocks\FakeSignupEmail.cs" />
     <Compile Include="Unit\StubsAndMocks\SearchServiceMock.cs" />
     <Compile Include="Unit\StubsAndMocks\RepositoryMock.cs" />
-    <Compile Include="Unit\Mvc\ViewModels\UserSummaryUsernameValidationTests.cs" />
-    <Compile Include="Unit\Mvc\ViewModels\UserSummaryPasswordValidationTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\UserViewModelUsernameValidationTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\UserViewModelPasswordValidationTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\HomeControllerTests.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\MvcMockContainer.cs" />
     <Compile Include="Unit\StubsAndMocks\RoadkillContextStub.cs" />
@@ -366,7 +378,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Unit\Services\PageServiceTests.cs" />
     <Compile Include="Unit\Services\ActiveDirectoryUserManagerTests.cs" />
-    <Compile Include="Unit\Mvc\ViewModels\UserSummaryEmailValidationTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\UserViewModelEmailValidationTests.cs" />
     <Compile Include="Unit\Text\MarkupConverterTests.cs" />
     <Compile Include="Unit\Text\CustomTokenParserTests.cs" />
     <Content Include="chromedriver.exe">

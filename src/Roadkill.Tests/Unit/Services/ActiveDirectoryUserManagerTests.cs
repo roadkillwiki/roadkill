@@ -120,7 +120,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 
 			// Act
-			List<UserSummary> users = _manager.ListAdmins().ToList();
+			List<UserViewModel> users = _manager.ListAdmins().ToList();
 
 			// Assert
 			Assert.That(users.Count, Is.EqualTo(2));
@@ -134,7 +134,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 
 			// Act
-			List<UserSummary> users = _manager.ListEditors().ToList();
+			List<UserViewModel> users = _manager.ListEditors().ToList();
 
 			// Assert
 			Assert.That(users.Count, Is.EqualTo(2));

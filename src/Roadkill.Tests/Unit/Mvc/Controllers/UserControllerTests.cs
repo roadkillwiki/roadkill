@@ -218,7 +218,7 @@ namespace Roadkill.Tests.Unit
 			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsService, signupEmail, null);
 			userController.SetFakeControllerContext();
 
-			UserSummary summary = new UserSummary();
+			UserViewModel summary = new UserViewModel();
 			summary.NewEmail = "blah@localhost";
 			summary.Password = "password";
 			summary.PasswordConfirmation = "password";
@@ -251,7 +251,7 @@ namespace Roadkill.Tests.Unit
 			userController.SetFakeControllerContext();
 			userController.ModelState.AddModelError("key", "this is used to force ModelState.IsValid to false");
 
-			UserSummary summary = new UserSummary();
+			UserViewModel summary = new UserViewModel();
 
 			// Act
 			ViewResult result = userController.Signup(summary, null) as ViewResult;
@@ -363,7 +363,7 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>());
 
-			UserSummary summary = result.ModelFromActionResult<UserSummary>();
+			UserViewModel summary = result.ModelFromActionResult<UserViewModel>();
 			User expectedUser = _userManager.Users[0];
 
 			Assert.That(summary.Id, Is.EqualTo(expectedUser.Id));
@@ -424,7 +424,7 @@ namespace Roadkill.Tests.Unit
 
 			string email = "test@test.com";
 			_userManager.AddUser(email, "test", "password", false, true);
-			UserSummary summary = _userManager.GetUser("test@test.com", false).ToSummary();
+			UserViewModel summary = _userManager.GetUser("test@test.com", false).ToSummary();
 
 			FakeSignupEmail signupEmail = new FakeSignupEmail(_applicationSettings, siteSettings);
 			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsService, signupEmail, null);
@@ -456,7 +456,7 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>());
 
-			UserSummary summary = result.ModelFromActionResult<UserSummary>();
+			UserViewModel summary = result.ModelFromActionResult<UserViewModel>();
 			User expectedUser = _userManager.Users[0];
 
 			Assert.That(summary.Id, Is.EqualTo(expectedUser.Id));
@@ -473,7 +473,7 @@ namespace Roadkill.Tests.Unit
 			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsService, null, null);
 			userController.SetFakeControllerContext();
 
-			UserSummary summary = new UserSummary();
+			UserViewModel summary = new UserViewModel();
 			
 			// Act	
 			ActionResult result = userController.Profile(summary);
@@ -506,7 +506,7 @@ namespace Roadkill.Tests.Unit
 			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsService, null, null);
 			userController.SetFakeControllerContext();
 
-			UserSummary summary = new UserSummary(); // try to change the other user's email
+			UserViewModel summary = new UserViewModel(); // try to change the other user's email
 			summary.Id = secondUserId;
 			summary.ExistingEmail = secondUserEmail;
 			summary.NewEmail = secondUserNewEmail;
@@ -540,7 +540,7 @@ namespace Roadkill.Tests.Unit
 			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsService, null, null);
 			userController.SetFakeControllerContext();
 
-			UserSummary summary = new UserSummary();
+			UserViewModel summary = new UserViewModel();
 			summary.Id = userId;
 			summary.ExistingEmail = email;
 			summary.NewEmail = newEmail;
@@ -579,7 +579,7 @@ namespace Roadkill.Tests.Unit
 			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsService, null, null);
 			userController.SetFakeControllerContext();
 
-			UserSummary summary = _userManager.GetUser(email).ToSummary(); // use the same summary, as profile() updates everything.
+			UserViewModel summary = _userManager.GetUser(email).ToSummary(); // use the same summary, as profile() updates everything.
 			summary.Password = newPassword;
 
 			// Act	

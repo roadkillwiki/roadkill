@@ -316,12 +316,12 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.Not.Null, "JsonResult was not returned");
 
-			DirectorySummary summary = result.Data as DirectorySummary;
-			Assert.That(summary, Is.Not.Null, "DirectorySummary is null");
-			Assert.That(summary.ChildFolders.Count, Is.EqualTo(1));
-			Assert.That(summary.Files.Count, Is.EqualTo(1));
-			Assert.That(summary.Name, Is.EqualTo(""));
-			Assert.That(summary.UrlPath, Is.EqualTo(""));
+			DirectoryViewModel model = result.Data as DirectoryViewModel;
+			Assert.That(model, Is.Not.Null, "DirectoryViewModel is null");
+			Assert.That(model.ChildFolders.Count, Is.EqualTo(1));
+			Assert.That(model.Files.Count, Is.EqualTo(1));
+			Assert.That(model.Name, Is.EqualTo(""));
+			Assert.That(model.UrlPath, Is.EqualTo(""));
 		}
 
 		[Test]
@@ -338,12 +338,12 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.Not.Null, "JsonResult was not returned");
 
-			DirectorySummary summary = result.Data as DirectorySummary;
-			Assert.That(summary, Is.Not.Null, "DirectorySummary is null");
-			Assert.That(summary.ChildFolders.Count, Is.EqualTo(1));
-			Assert.That(summary.Files.Count, Is.EqualTo(1));
-			Assert.That(summary.Name, Is.EqualTo(""));
-			Assert.That(summary.UrlPath, Is.EqualTo(""));
+			DirectoryViewModel model = result.Data as DirectoryViewModel;
+			Assert.That(model, Is.Not.Null, "DirectoryViewModel is null");
+			Assert.That(model.ChildFolders.Count, Is.EqualTo(1));
+			Assert.That(model.Files.Count, Is.EqualTo(1));
+			Assert.That(model.Name, Is.EqualTo(""));
+			Assert.That(model.UrlPath, Is.EqualTo(""));
 		}
 
 		[Test]
@@ -363,12 +363,12 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.Not.Null, "JsonResult was not returned");
 
-			DirectorySummary summary = result.Data as DirectorySummary;
-			Assert.That(summary, Is.Not.Null, "DirectorySummary is null");
-			Assert.That(summary.ChildFolders.Count, Is.EqualTo(1));
-			Assert.That(summary.Files.Count, Is.EqualTo(3));
-			Assert.That(summary.Name, Is.EqualTo("blah3"));
-			Assert.That(summary.UrlPath, Is.EqualTo("/blah/blah2/blah3"));
+			DirectoryViewModel model = result.Data as DirectoryViewModel;
+			Assert.That(model, Is.Not.Null, "DirectoryViewModel is null");
+			Assert.That(model.ChildFolders.Count, Is.EqualTo(1));
+			Assert.That(model.Files.Count, Is.EqualTo(3));
+			Assert.That(model.Name, Is.EqualTo("blah3"));
+			Assert.That(model.UrlPath, Is.EqualTo("/blah/blah2/blah3"));
 		}
 
 		[Test]

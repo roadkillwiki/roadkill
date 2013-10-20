@@ -44,13 +44,13 @@ namespace Roadkill.Core.Services
 		/// <param name="searchText">The text to search with.</param>
 		/// <remarks>Syntax reference: http://lucene.apache.org/java/2_3_2/queryparsersyntax.html#Wildcard</remarks>
 		/// <exception cref="SearchException">An error occured searching the lucene.net index.</exception>
-		public virtual IEnumerable<SearchResult> Search(string searchText)
+		public virtual IEnumerable<SearchResultViewModel> Search(string searchText)
 		{
 			// This check is for the benefit of the CI builds
 			if (!Directory.Exists(IndexPath))
 				CreateIndex();
 
-			List<SearchResult> list = new List<SearchResult>();
+			List<SearchResultViewModel> list = new List<SearchResultViewModel>();
 
 			if (string.IsNullOrWhiteSpace(searchText))
 				return list;
@@ -81,24 +81,7 @@ namespace Roadkill.Core.Services
 						foreach (ScoreDoc scoreDoc in topDocs.ScoreDocs)
 						{
 							Document document = searcher.Doc(scoreDoc.Doc);
-
-							DateTime createdOn = DateTime.UtcNow;
-							if (!DateTime.TryParse(document.GetField("createdon").StringValue, out createdOn))
-								createdOn = DateTime.UtcNow;
-
-							SearchResult result = new SearchResult()
-							{
-								Id = int.Parse(document.GetField("id").StringValue),
-								Title = document.GetField("title").StringValue,
-								ContentSummary = document.GetField("contentsummary").StringValue,
-								Tags = document.GetField("tags").StringValue,
-								CreatedBy = document.GetField("createdby").StringValue,
-								CreatedOn = createdOn,
-								ContentLength = int.Parse(document.GetField("contentlength").StringValue),
-								Score = scoreDoc.Score
-							};
-
-							list.Add(result);
+							list.Add(new SearchResultViewModel(document, scoreDoc));
 						}
 					}
 				}
@@ -121,7 +104,7 @@ namespace Roadkill.Core.Services
 		/// </summary>
 		/// <param name="summary">The page to add.</param>
 		/// <exception cref="SearchException">An error occured with the lucene.net IndexWriter while adding the page to the index.</exception>
-		public virtual void Add(PageSummary summary)
+		public virtual void Add(PageViewModel summary)
 		{
 			try
 			{
@@ -156,7 +139,7 @@ namespace Roadkill.Core.Services
 		/// </summary>
 		/// <param name="summary">The page to remove.</param>
 		/// <exception cref="SearchException">An error occured with the lucene.net IndexReader while deleting the page from the index.</exception>
-		public virtual int Delete(PageSummary summary)
+		public virtual int Delete(PageViewModel summary)
 		{
 			try
 			{
@@ -183,7 +166,7 @@ namespace Roadkill.Core.Services
 		/// </summary>
 		/// <param name="summary">The page to update</param>
 		/// <exception cref="SearchException">An error occured with lucene.net while deleting the page or inserting it back into the index.</exception>
-		public virtual void Update(PageSummary summary)
+		public virtual void Update(PageViewModel summary)
 		{
 			EnsureDirectoryExists();
 			Delete(summary);
@@ -205,7 +188,7 @@ namespace Roadkill.Core.Services
 				{
 					foreach (Page page in Repository.AllPages().ToList())
 					{
-						PageSummary summary = Repository.GetLatestPageContent(page.Id).ToSummary(_markupConverter);
+						PageViewModel summary = Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
 
 						Document document = new Document();
 						document.Add(new Field("id", summary.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
@@ -245,7 +228,7 @@ namespace Roadkill.Core.Services
 		/// <summary>
 		/// Converts the page summary to a lucene Document with the relevant searchable fields.
 		/// </summary>
-		internal string GetContentSummary(PageSummary summary)
+		internal string GetContentSummary(PageViewModel summary)
 		{
 			// Turn the contents into HTML, then strip the tags for the mini summary. This needs some works
 			string summaryHtml = summary.Content;

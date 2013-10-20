@@ -3,7 +3,7 @@ module Roadkill.Site.FileManager
 {
 	export class AjaxRequest 
 	{
-		public getFolderInfo(path: string, successFunction : (data: DirectorySummary) => void)
+		public getFolderInfo(path: string, successFunction : (data: DirectoryViewModel) => void)
 		{
 			var url = ROADKILL_FILEMANAGERURL + "/folderinfo";
 			var data = { dir: path };
