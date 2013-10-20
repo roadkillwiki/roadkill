@@ -162,7 +162,7 @@ namespace Roadkill.Core
 		public static MvcHtmlString PageLink(this HtmlHelper helper, string linkText, string pageTitle, object htmlAttributes,string prefix,string suffix)
 		{
 			PageService manager = ObjectFactory.GetInstance<PageService>();
-			PageSummary summary = manager.FindByTitle(pageTitle);
+			PageViewModel summary = manager.FindByTitle(pageTitle);
 			if (summary != null)
 			{
 				string link = helper.ActionLink(linkText, "Index", "Wiki", new { id = summary.Id, title = pageTitle }, htmlAttributes).ToString();

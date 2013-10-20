@@ -33,16 +33,16 @@ namespace Roadkill.Core.Services
 		/// Retrieves all history for a page.
 		/// </summary>
 		/// <param name="pageId">The id of the page to get the history for.</param>
-		/// <returns>An <see cref="IEnumerable{HistorySummary}"/> ordered by the most recent version number.</returns>
+		/// <returns>An <see cref="IEnumerable{HistoryViewModel}"/> ordered by the most recent version number.</returns>
 		/// <exception cref="HistoryException">An database error occurred while retrieving the list.</exception>
-		public IEnumerable<HistorySummary> GetHistory(int pageId)
+		public IEnumerable<HistoryViewModel> GetHistory(int pageId)
 		{
 			try
 			{
 				IEnumerable<PageContent> contentList = Repository.FindPageContentsByPageId(pageId);
-				IEnumerable<HistorySummary> historyList = from p in contentList
+				IEnumerable<HistoryViewModel> historyList = from p in contentList
 														  select
-															  new HistorySummary()
+															  new HistoryViewModel()
 															  {
 																  Id = p.Id,
 																  PageId = pageId,
@@ -71,14 +71,14 @@ namespace Roadkill.Core.Services
 		/// <returns>Returns a IEnumerable of two versions, where the 2nd item is the previous version.
 		/// If the current version is 1, or a previous version cannot be found, then the 2nd item will be null.</returns>
 		/// <exception cref="HistoryException">An database error occurred while comparing the two versions.</exception>
-		public IEnumerable<PageSummary> CompareVersions(Guid mainVersionId)
+		public IEnumerable<PageViewModel> CompareVersions(Guid mainVersionId)
 		{
 			try
 			{
-				List<PageSummary> versions = new List<PageSummary>();
+				List<PageViewModel> versions = new List<PageViewModel>();
 
 				PageContent mainContent = Repository.GetPageContentById(mainVersionId);
-				versions.Add(mainContent.ToSummary(_markupConverter));
+				versions.Add(mainContent.ToModel(_markupConverter));
 
 				if (mainContent.VersionNumber == 1)
 				{
@@ -86,23 +86,23 @@ namespace Roadkill.Core.Services
 				}
 				else
 				{
-					PageSummary summary = _pageSummaryCache.Get(mainContent.Page.Id, mainContent.VersionNumber - 1);
+					PageViewModel model = _pageSummaryCache.Get(mainContent.Page.Id, mainContent.VersionNumber - 1);
 
-					if (summary == null)
+					if (model == null)
 					{
 						PageContent previousContent = Repository.GetPageContentByPageIdAndVersionNumber(mainContent.Page.Id, mainContent.VersionNumber - 1);
 						if (previousContent == null)
 						{
-							summary = null;
+							model = null;
 						}
 						else
 						{
-							summary = previousContent.ToSummary(_markupConverter);
-							_pageSummaryCache.Add(mainContent.Page.Id, mainContent.VersionNumber - 1, summary);
+							model = previousContent.ToModel(_markupConverter);
+							_pageSummaryCache.Add(mainContent.Page.Id, mainContent.VersionNumber - 1, model);
 						}
 					}
 
-					versions.Add(summary);
+					versions.Add(model);
 				}
 
 				return versions;

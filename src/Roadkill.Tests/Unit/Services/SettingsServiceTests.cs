@@ -65,7 +65,7 @@ namespace Roadkill.Tests.Unit
 		public void CreateTables_Calls_Repository_Install()
 		{
 			// Arrange
-			SettingsSummary summary = new SettingsSummary();
+			SettingsViewModel summary = new SettingsViewModel();
 			summary.DataStoreTypeName = "SQLite";
 			summary.ConnectionString = "Data Source=somefile.sqlite;";
 			summary.UseObjectCache = true;
@@ -119,7 +119,7 @@ namespace Roadkill.Tests.Unit
 		public void SaveSiteSettings_Should_Save_All_Values()
 		{
 			// Arrange
-			SettingsSummary expectedSettings = new SettingsSummary();
+			SettingsViewModel expectedSettings = new SettingsViewModel();
 			expectedSettings.AllowedFileTypes = "AllowedFileTypes";
 			expectedSettings.Theme = "Mytheme";
 			expectedSettings.SiteName = "Mysitename";

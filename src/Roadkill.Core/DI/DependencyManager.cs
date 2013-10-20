@@ -106,8 +106,8 @@ namespace Roadkill.Core
 
 				DependencyResolver.SetResolver(new MvcDependencyResolver()); // views and controllers
 				FilterProviders.Providers.Add(new MvcAttributeProvider()); // attributes
-				ModelBinders.Binders.Add(typeof(UserSummary), new UserSummaryModelBinder()); // models needing DI
-				ModelBinders.Binders.Add(typeof(SettingsSummary), new SettingsSummaryModelBinder());
+				ModelBinders.Binders.Add(typeof(UserViewModel), new UserViewModelModelBinder()); // models needing DI
+				ModelBinders.Binders.Add(typeof(SettingsViewModel), new SettingsViewModelBinder());
 
 				// Attachments path
 				AttachmentRouteHandler.RegisterRoute(_applicationSettings, RouteTable.Routes);
@@ -186,8 +186,8 @@ namespace Roadkill.Core
 
 			// MVC Related
 			scanner.AddAllTypesOf<Roadkill.Core.Mvc.Controllers.ControllerBase>();
-			scanner.AddAllTypesOf<UserSummary>();
-			scanner.AddAllTypesOf<SettingsSummary>();
+			scanner.AddAllTypesOf<UserViewModel>();
+			scanner.AddAllTypesOf<SettingsViewModel>();
 			scanner.AddAllTypesOf<AttachmentRouteHandler>();
 			scanner.AddAllTypesOf<IControllerAttribute>();
 			scanner.AddAllTypesOf<RoadkillLayoutPage>();

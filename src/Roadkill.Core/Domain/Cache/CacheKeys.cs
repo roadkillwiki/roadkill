@@ -11,7 +11,7 @@ namespace Roadkill.Core.Cache
 		public static readonly string HOMEPAGE = "latesthomepage";
 
 		/// <summary>'{id}.{version}'</summary>
-		public static readonly string PAGESUMMARY = "pagesummary.{id}.{version}";
+		public static readonly string PAGEVIEWMODEL = "pageviewmodel.{id}.{version}";
 
 		/// <summary>"allpages.with.content"</summary>
 		public static readonly string ALLPAGES_CONTENT = "allpages.with.content";
@@ -37,9 +37,9 @@ namespace Roadkill.Core.Cache
 		/// <summary>"adminmenu"</summary>
 		public static readonly string ADMINMENU = "adminmenu";
 
-		public static string PageSummaryKeyPrefix()
+		public static string PageViewModelKeyPrefix()
 		{
-			string key = PAGESUMMARY;
+			string key = PAGEVIEWMODEL;
 			key = key.Replace("{id}", "");
 			key = key.Replace("{version}", "");
 			key = key.Replace(".", "");
@@ -47,9 +47,9 @@ namespace Roadkill.Core.Cache
 			return key;
 		}
 
-		public static string PageSummaryKey(int id, int version)
+		public static string PageViewModelKey(int id, int version)
 		{
-			string key = PAGESUMMARY;
+			string key = PAGEVIEWMODEL;
 			key = key.Replace("{id}", id.ToString());
 			key = key.Replace("{version}", version.ToString());
 

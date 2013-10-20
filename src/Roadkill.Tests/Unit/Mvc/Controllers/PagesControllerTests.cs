@@ -69,7 +69,7 @@ namespace Roadkill.Tests.Unit
 					PageContent content = _repository.GetLatestPageContent(x);
 
 					if (content != null)
-						return content.ToSummary(_markupConverter);
+						return content.ToModel(_markupConverter);
 					else
 						return null;
 				});
@@ -114,10 +114,10 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 
-			IEnumerable<PageSummary> model = result.ModelFromActionResult<IEnumerable<PageSummary>>();
+			IEnumerable<PageViewModel> model = result.ModelFromActionResult<IEnumerable<PageViewModel>>();
 			Assert.NotNull(model, "Null model");
 
-			List<PageSummary> summaryList = model.OrderBy(p => p.Id).ToList();
+			List<PageViewModel> summaryList = model.OrderBy(p => p.Id).ToList();
 			_pageServiceMock.Verify(x => x.AllPages(false));
 		}
 
@@ -137,7 +137,7 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 
-			IEnumerable<TagSummary> model = result.ModelFromActionResult<IEnumerable<TagSummary>>();
+			IEnumerable<TagViewModel> model = result.ModelFromActionResult<IEnumerable<TagViewModel>>();
 			Assert.NotNull(model, "Null model");
 			_pageServiceMock.Verify(x => x.AllTags());
 		}
@@ -186,7 +186,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(_pagesController.ViewData.Keys.Count, Is.GreaterThanOrEqualTo(1));
 
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
-			IEnumerable<PageSummary> model = result.ModelFromActionResult<IEnumerable<PageSummary>>();
+			IEnumerable<PageViewModel> model = result.ModelFromActionResult<IEnumerable<PageViewModel>>();
 			Assert.NotNull(model, "Null model");
 			_pageServiceMock.Verify(x => x.AllPagesCreatedBy(username));
 		}
@@ -212,7 +212,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(_pagesController.ViewData.Keys.Count, Is.GreaterThanOrEqualTo(1));
 
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
-			IEnumerable<PageSummary> model = result.ModelFromActionResult<IEnumerable<PageSummary>>();
+			IEnumerable<PageViewModel> model = result.ModelFromActionResult<IEnumerable<PageViewModel>>();
 			Assert.NotNull(model, "Null model");
 			_pageServiceMock.Verify(x => x.AllPagesCreatedBy(username));
 		}
@@ -259,7 +259,7 @@ namespace Roadkill.Tests.Unit
 			_contextStub.IsAdmin = false;
 			Page page = AddDummyPage1();
 			page.IsLocked = true;
-			_pageServiceMock.Setup(x => x.GetById(page.Id)).Returns(new PageSummary() { Id = page.Id, IsLocked = true });
+			_pageServiceMock.Setup(x => x.GetById(page.Id)).Returns(new PageViewModel() { Id = page.Id, IsLocked = true });
 
 			// Act
 			ActionResult result = _pagesController.Edit(page.Id);
@@ -278,7 +278,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			Page page = AddDummyPage1();
 			PageContent pageContent = _repository.PageContents.First(p => p.Page.Id == page.Id);
-			_pageServiceMock.Setup(x => x.GetById(page.Id)).Returns(new PageSummary() { Id = page.Id,});
+			_pageServiceMock.Setup(x => x.GetById(page.Id)).Returns(new PageViewModel() { Id = page.Id,});
 
 			// Act
 			ActionResult result = _pagesController.Edit(page.Id);
@@ -298,7 +298,7 @@ namespace Roadkill.Tests.Unit
 			Page page = AddDummyPage1();
 			PageContent pageContent = _repository.PageContents[0];
 
-			PageSummary summary = new PageSummary();
+			PageViewModel summary = new PageViewModel();
 			summary.Id = page.Id;
 			summary.RawTags = "newtag1,newtag2";
 			summary.Title = "New page title";
@@ -325,7 +325,7 @@ namespace Roadkill.Tests.Unit
 			_contextStub.CurrentUser = "Admin";
 			Page page = AddDummyPage1();
 
-			PageSummary summary = new PageSummary();
+			PageViewModel summary = new PageViewModel();
 			summary.Id = page.Id;
 
 			// Act
@@ -369,7 +369,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 			ViewResult viewResult = result as ViewResult;
 
-			List<HistorySummary> model = viewResult.ModelFromActionResult<IEnumerable<HistorySummary>>().ToList();
+			List<HistoryViewModel> model = viewResult.ModelFromActionResult<IEnumerable<HistoryViewModel>>().ToList();
 			Assert.That(model.Count, Is.EqualTo(2));
 			Assert.That(model[0].PageId, Is.EqualTo(page.Id));
 			Assert.That(model[1].PageId, Is.EqualTo(page.Id));
@@ -392,7 +392,7 @@ namespace Roadkill.Tests.Unit
 			Assert.NotNull(viewResult, "Null viewResult");
 			Assert.That(viewResult.ViewName, Is.EqualTo("Edit"));
 			
-			PageSummary summary = viewResult.ModelFromActionResult<PageSummary>();
+			PageViewModel summary = viewResult.ModelFromActionResult<PageViewModel>();
 			Assert.NotNull(summary, "Null model");
 			Assert.That(summary.Title, Is.EqualTo(title));
 		}
@@ -401,7 +401,7 @@ namespace Roadkill.Tests.Unit
 		public void New_POST_Should_Return_RedirectResult_And_Call_PageService()
 		{
 			// Arrange
-			PageSummary summary = new PageSummary();
+			PageViewModel summary = new PageViewModel();
 			summary.RawTags = "newtag1,newtag2";
 			summary.Title = "New page title";
 			summary.Content = "*Some new content here*";
@@ -433,7 +433,7 @@ namespace Roadkill.Tests.Unit
 		public void New_POST_With_Invalid_Data_Should_Return_View_And_Invalid_ModelState()
 		{
 			// Arrange
-			PageSummary summary = new PageSummary();
+			PageViewModel summary = new PageViewModel();
 			summary.Title = "";
 
 			// Act
@@ -534,7 +534,7 @@ namespace Roadkill.Tests.Unit
 			ViewResult viewResult = result as ViewResult;
 			Assert.NotNull(viewResult, "Null ViewResult");
 
-			PageSummary summary = viewResult.ModelFromActionResult<PageSummary>();
+			PageViewModel summary = viewResult.ModelFromActionResult<PageViewModel>();
 			Assert.That(summary.Content, Contains.Substring("version2 text"));
 		}
 	}

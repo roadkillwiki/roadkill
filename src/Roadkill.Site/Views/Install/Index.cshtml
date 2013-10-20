@@ -1,11 +1,11 @@
-﻿@model IEnumerable<LanguageSummary>
+﻿@model IEnumerable<LanguageViewModel>
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
 
 <ul id="language">
-@foreach (LanguageSummary languageSummary in Model)
+@foreach (LanguageViewModel languageModel in Model)
 {
-	<li>@Html.ActionLink(languageSummary.Name, "Step1", new { language = languageSummary.Code } )</li>
+	<li>@Html.ActionLink(languageModel.Name, "Step1", new { language = languageModel.Code } )</li>
 }
 </ul>

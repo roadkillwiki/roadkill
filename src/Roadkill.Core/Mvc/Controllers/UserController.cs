@@ -64,7 +64,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			}
 			else
 			{
-				UserSummary summary = user.ToSummary();
+				UserViewModel summary = user.ToSummary();
 				return View(summary);
 			}
 		}
@@ -73,7 +73,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// Updates the password for a user based for a reset key.
 		/// </summary>
 		[HttpPost]
-		public ActionResult CompleteResetPassword(string id, UserSummary summary)
+		public ActionResult CompleteResetPassword(string id, UserViewModel summary)
 		{
 			if (ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
@@ -170,7 +170,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			if (Context.IsLoggedIn)
 			{
-				UserSummary summary = null;
+				UserViewModel summary = null;
 				if (!ApplicationSettings.UseWindowsAuthentication)
 				{
 					summary = UserManager.GetUserById(new Guid(Context.CurrentUser)).ToSummary();
@@ -188,7 +188,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// Updates the POST'd user profile details.
 		/// </summary>
 		[HttpPost]
-		public ActionResult Profile(UserSummary summary)
+		public ActionResult Profile(UserViewModel summary)
 		{
 			if (!Context.IsLoggedIn)
 				return RedirectToAction("Login");
@@ -304,7 +304,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				return View("Signup");
 			}
 
-			UserSummary summary = user.ToSummary();
+			UserViewModel summary = user.ToSummary();
 
 			SiteSettings siteSettings = SettingsService.GetSiteSettings();
 			_signupEmail.Send(summary);
@@ -335,7 +335,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		[HttpPost]
 		[RecaptchaRequired]
-		public ActionResult Signup(UserSummary summary, bool? isCaptchaValid)
+		public ActionResult Signup(UserViewModel summary, bool? isCaptchaValid)
 		{
 			SiteSettings siteSettings = SettingsService.GetSiteSettings();
 			if (Context.IsLoggedIn || !siteSettings.AllowUserSignup || ApplicationSettings.UseWindowsAuthentication)

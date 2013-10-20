@@ -73,7 +73,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
-			IEnumerable<LanguageSummary> summaries = result.ModelFromActionResult<IEnumerable<LanguageSummary>>();
+			IEnumerable<LanguageViewModel> summaries = result.ModelFromActionResult<IEnumerable<LanguageViewModel>>();
 			Assert.NotNull(summaries, "Null model");
 			Assert.That(summaries.Count(), Is.GreaterThanOrEqualTo(1));
 			Assert.That(Thread.CurrentThread.CurrentUICulture.Name, Is.EqualTo("en"));
@@ -92,7 +92,7 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.Not.Null);
 
-			LanguageSummary summary = result.ModelFromActionResult<LanguageSummary>();
+			LanguageViewModel summary = result.ModelFromActionResult<LanguageViewModel>();
 			Assert.NotNull(summary, "Null model");
 			Assert.That(summary.Code, Is.EqualTo("hi"));
 

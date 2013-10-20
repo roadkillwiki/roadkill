@@ -38,7 +38,7 @@ namespace Roadkill.Tests.Unit.Cache
 			CacheMock summaryCache = new CacheMock();
 			PageService pageService = CreatePageService(summaryCache, null, repository);
 
-			PageSummary expectedSummary = CreatePageSummary();
+			PageViewModel expectedSummary = CreatePageViewModel();
 			expectedSummary = pageService.AddPage(expectedSummary); // get it back to update the version no.
 
 			// Act
@@ -46,10 +46,10 @@ namespace Roadkill.Tests.Unit.Cache
 
 			// Assert
 			CacheItem cacheItem = summaryCache.CacheItems.First();
-			string cacheKey = CacheKeys.PageSummaryKey(1, PageSummaryCache.LATEST_VERSION_NUMBER);
+			string cacheKey = CacheKeys.PageViewModelKey(1, PageSummaryCache.LATEST_VERSION_NUMBER);
 			Assert.That(cacheItem.Key, Is.EqualTo(cacheKey));
 
-			PageSummary actualSummary = (PageSummary) cacheItem.Value;
+			PageViewModel actualSummary = (PageViewModel) cacheItem.Value;
 			Assert.That(actualSummary.Id, Is.EqualTo(expectedSummary.Id));
 			Assert.That(actualSummary.VersionNumber, Is.EqualTo(expectedSummary.VersionNumber));
 			Assert.That(actualSummary.Title, Is.EqualTo(expectedSummary.Title));
@@ -63,12 +63,12 @@ namespace Roadkill.Tests.Unit.Cache
 			CacheMock summaryCache = new CacheMock();
 			PageService pageService = CreatePageService(summaryCache, null, repository);
 
-			PageSummary expectedSummary = CreatePageSummary();
-			string cacheKey = CacheKeys.PageSummaryKey(1, PageSummaryCache.LATEST_VERSION_NUMBER);
+			PageViewModel expectedSummary = CreatePageViewModel();
+			string cacheKey = CacheKeys.PageViewModelKey(1, PageSummaryCache.LATEST_VERSION_NUMBER);
 			summaryCache.Add(cacheKey, expectedSummary, new CacheItemPolicy());
 
 			// Act
-			PageSummary actualSummary = pageService.GetById(1);
+			PageViewModel actualSummary = pageService.GetById(1);
 
 			// Assert
 			Assert.That(actualSummary.Id, Is.EqualTo(expectedSummary.Id));
@@ -85,12 +85,12 @@ namespace Roadkill.Tests.Unit.Cache
 			CacheMock listCache = new CacheMock();
 
 			PageService pageService = CreatePageService(summaryCache, listCache, repository);
-			PageSummary expectedSummary = CreatePageSummary();
+			PageViewModel expectedSummary = CreatePageViewModel();
 			summaryCache.Add("key", expectedSummary, new CacheItemPolicy());
 			listCache.Add("key", new List<string>() { "tag1", "tag2" }, new CacheItemPolicy());
 
 			// Act
-			pageService.AddPage(new PageSummary() { Title = "totoro" });
+			pageService.AddPage(new PageViewModel() { Title = "totoro" });
 
 			// Assert
 			Assert.That(summaryCache.CacheItems.Count, Is.EqualTo(0));
@@ -109,11 +109,11 @@ namespace Roadkill.Tests.Unit.Cache
 			CacheMock listCache = new CacheMock();
 
 			PageService pageService = CreatePageService(null, listCache, repository);
-			PageSummary expectedSummary = CreatePageSummary();
-			listCache.Add(cacheKey, new List<PageSummary>() {expectedSummary}, new CacheItemPolicy());
+			PageViewModel expectedSummary = CreatePageViewModel();
+			listCache.Add(cacheKey, new List<PageViewModel>() {expectedSummary}, new CacheItemPolicy());
 
 			// Act
-			IEnumerable<PageSummary> actualList = pageService.AllPages(loadPageContent);
+			IEnumerable<PageViewModel> actualList = pageService.AllPages(loadPageContent);
 
 			// Assert
 			Assert.That(actualList, Contains.Item(expectedSummary));
@@ -153,13 +153,13 @@ namespace Roadkill.Tests.Unit.Cache
 			CacheMock listCache = new CacheMock();
 
 			PageService pageService = CreatePageService(null, listCache, repository);
-			PageSummary adminSummary = CreatePageSummary();
-			PageSummary editorSummary = CreatePageSummary("editor");
-			listCache.Add(adminCacheKey, new List<PageSummary>() { adminSummary }, new CacheItemPolicy());
-			listCache.Add(editorCacheKey, new List<PageSummary>() { editorSummary }, new CacheItemPolicy());
+			PageViewModel adminSummary = CreatePageViewModel();
+			PageViewModel editorSummary = CreatePageViewModel("editor");
+			listCache.Add(adminCacheKey, new List<PageViewModel>() { adminSummary }, new CacheItemPolicy());
+			listCache.Add(editorCacheKey, new List<PageViewModel>() { editorSummary }, new CacheItemPolicy());
 
 			// Act
-			IEnumerable<PageSummary> actualList = pageService.AllPagesCreatedBy("admin");
+			IEnumerable<PageViewModel> actualList = pageService.AllPagesCreatedBy("admin");
 
 			// Assert
 			Assert.That(actualList, Contains.Item(adminSummary));
@@ -236,7 +236,7 @@ namespace Roadkill.Tests.Unit.Cache
 			CacheMock listCache = new CacheMock();
 
 			PageService pageService = CreatePageService(summaryCache, listCache, repository);
-			PageSummary expectedSummary = CreatePageSummary();
+			PageViewModel expectedSummary = CreatePageViewModel();
 			summaryCache.Add("key", expectedSummary, new CacheItemPolicy());
 			listCache.Add("key", new List<string>() { "tag1", "tag2" }, new CacheItemPolicy());
 
@@ -256,12 +256,12 @@ namespace Roadkill.Tests.Unit.Cache
 			CacheMock summaryCache = new CacheMock();
 
 			PageService pageService = CreatePageService(summaryCache, null, repository);
-			PageSummary expectedSummary = CreatePageSummary();
+			PageViewModel expectedSummary = CreatePageViewModel();
 			expectedSummary.RawTags = "homepage";
 			summaryCache.Add(CacheKeys.HOMEPAGE, expectedSummary, new CacheItemPolicy());
 
 			// Act
-			PageSummary actualSummary = pageService.FindHomePage();
+			PageViewModel actualSummary = pageService.FindHomePage();
 
 			// Assert
 			Assert.That(actualSummary.Id, Is.EqualTo(expectedSummary.Id));
@@ -298,16 +298,16 @@ namespace Roadkill.Tests.Unit.Cache
 			CacheMock listCache = new CacheMock();
 
 			PageService pageService = CreatePageService(null, listCache, repository);
-			PageSummary tag1Summary = CreatePageSummary();
+			PageViewModel tag1Summary = CreatePageViewModel();
 			tag1Summary.RawTags = "tag1";
-			PageSummary tag2Summary = CreatePageSummary();
+			PageViewModel tag2Summary = CreatePageViewModel();
 			tag2Summary.RawTags = "tag2";
 
-			listCache.Add(tag1CacheKey, new List<PageSummary>() { tag1Summary }, new CacheItemPolicy());
-			listCache.Add(tag2CacheKey, new List<PageSummary>() { tag2Summary }, new CacheItemPolicy());
+			listCache.Add(tag1CacheKey, new List<PageViewModel>() { tag1Summary }, new CacheItemPolicy());
+			listCache.Add(tag2CacheKey, new List<PageViewModel>() { tag2Summary }, new CacheItemPolicy());
 
 			// Act
-			IEnumerable<PageSummary> actualList = pageService.FindByTag("tag1");
+			IEnumerable<PageViewModel> actualList = pageService.FindByTag("tag1");
 
 			// Assert
 			Assert.That(actualList, Contains.Item(tag1Summary));
@@ -349,13 +349,13 @@ namespace Roadkill.Tests.Unit.Cache
 			CacheMock listCache = new CacheMock();
 			PageService pageService = CreatePageService(summaryCache, listCache, repository);
 
-			PageSummary homepageSummary = CreatePageSummary();
+			PageViewModel homepageSummary = CreatePageViewModel();
 			homepageSummary.Id = 1;		
-			PageSummary page2Summary = CreatePageSummary();
+			PageViewModel page2Summary = CreatePageViewModel();
 			page2Summary.Id = 2;
 
 			summaryCache.Add(CacheKeys.HOMEPAGE, homepageSummary, new CacheItemPolicy());
-			summaryCache.Add(CacheKeys.PageSummaryKey(2,0), page2Summary, new CacheItemPolicy());
+			summaryCache.Add(CacheKeys.PageViewModelKey(2,0), page2Summary, new CacheItemPolicy());
 			listCache.Add(CacheKeys.ALLTAGS, new List<string>() { "tag1", "tag2" }, new CacheItemPolicy());
 
 			// Act
@@ -377,7 +377,7 @@ namespace Roadkill.Tests.Unit.Cache
 			CacheMock listCache = new CacheMock();
 			PageService pageService = CreatePageService(summaryCache, listCache, repository);
 
-			PageSummary homepageSummary = CreatePageSummary();
+			PageViewModel homepageSummary = CreatePageViewModel();
 			homepageSummary.RawTags = "homepage";
 			summaryCache.Add(CacheKeys.HOMEPAGE, homepageSummary, new CacheItemPolicy());
 
@@ -397,9 +397,9 @@ namespace Roadkill.Tests.Unit.Cache
 			repository.AddNewPage(new Page() { Tags = "homepage, tag1" }, "text1", "admin", DateTime.UtcNow);
 
 			CacheMock listCache = new CacheMock();
-			PageSummary homepageSummary = CreatePageSummary();
-			PageSummary page1Summary = CreatePageSummary();
-			listCache.Add(tag1CacheKey, new List<PageSummary>() { homepageSummary, page1Summary }, new CacheItemPolicy());
+			PageViewModel homepageSummary = CreatePageViewModel();
+			PageViewModel page1Summary = CreatePageViewModel();
+			listCache.Add(tag1CacheKey, new List<PageViewModel>() { homepageSummary, page1Summary }, new CacheItemPolicy());
 
 			PageService pageService = CreatePageService(null, listCache, repository);
 
@@ -410,9 +410,9 @@ namespace Roadkill.Tests.Unit.Cache
 			Assert.That(listCache.CacheItems.Count, Is.EqualTo(0));
 		}
 
-		private PageSummary CreatePageSummary(string createdBy = "admin")
+		private PageViewModel CreatePageViewModel(string createdBy = "admin")
 		{
-			PageSummary summary = new PageSummary();
+			PageViewModel summary = new PageViewModel();
 			summary.Title = "my title";
 			summary.Id = 1;
 			summary.CreatedBy = createdBy;

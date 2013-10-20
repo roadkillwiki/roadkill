@@ -17,7 +17,7 @@ module Roadkill.Site.FileManager
 			return html;
 		}
 
-		public getFolderTable(directorySummary: DirectorySummary) : string[]
+		public getFolderTable(directoryViewModel: DirectoryViewModel) : string[]
 		{
 			var html: string[] = [];
 
@@ -29,14 +29,14 @@ module Roadkill.Site.FileManager
 					"</tr></thead>";
 			html.push(header);
 			
-			for (var i = 0; i < directorySummary.ChildFolders.length; i++)
+			for (var i = 0; i < directoryViewModel.ChildFolders.length; i++)
 			{
 				var htmlRow: string = "";
 
-				htmlRow += "<tr class=\"listrow\" data-itemtype=\"folder\" data-urlpath=\"" + directorySummary.ChildFolders[i].UrlPath + "\">";
+				htmlRow += "<tr class=\"listrow\" data-itemtype=\"folder\" data-urlpath=\"" + directoryViewModel.ChildFolders[i].UrlPath + "\">";
 				htmlRow += "<td width='1%'>";
 				htmlRow += "<img src='" + ROADKILL_COREASSETPATH + "CSS/images/directory.png'></td>";
-				htmlRow += "<td nowrap width=\"20%\">" + directorySummary.ChildFolders[i].Name + "</td>";
+				htmlRow += "<td nowrap width=\"20%\">" + directoryViewModel.ChildFolders[i].Name + "</td>";
 				htmlRow += "<td></td>";
 				htmlRow += "<td></td>";
 				htmlRow += "<td></td>";
@@ -45,27 +45,27 @@ module Roadkill.Site.FileManager
 				html.push(htmlRow);
 			}
 
-			for (var i = 0; i < directorySummary.Files.length; i++)
+			for (var i = 0; i < directoryViewModel.Files.length; i++)
 			{
-				html.push(this.getFileRowHtml(directorySummary.Files[i]));
+				html.push(this.getFileRowHtml(directoryViewModel.Files[i]));
 			}
 
 			html.push("</table>");
 			return html;
 		}
 
-		public getBreadCrumb(directorySummary : DirectorySummary, count: number) : string
+		public getBreadCrumb(directoryViewModel : DirectoryViewModel, count: number) : string
 		{
 			var html: string = "";
 
-			html += "<li data-level=\"" + count + "\" data-urlpath=\"" + directorySummary.UrlPath + "\">";
-			html += "<a href=\"javascript:;\">" +directorySummary.Name+ "</a>";
+			html += "<li data-level=\"" + count + "\" data-urlpath=\"" + directoryViewModel.UrlPath + "\">";
+			html += "<a href=\"javascript:;\">" +directoryViewModel.Name+ "</a>";
 			html += "</li>";
 
 			return html;
 		}
 
-		public getFileRowHtml(fileSummary: FileSummary): string
+		public getFileRowHtml(fileModel: FileModel): string
 		{
 			var html: string = "";
 
@@ -79,7 +79,7 @@ module Roadkill.Site.FileManager
 			html += "<td class=\"filesize\">{3}</td>";
 			html += "</tr> ";
 
-			return Util.FormatString(html, fileSummary.Name, fileSummary.CreateDate, fileSummary.Extension, fileSummary.Size);
+			return Util.FormatString(html, fileModel.Name, fileModel.CreateDate, fileModel.Extension, fileModel.Size);
 		}
 	}
 }

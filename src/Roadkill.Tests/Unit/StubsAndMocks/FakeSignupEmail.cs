@@ -11,14 +11,14 @@ namespace Roadkill.Tests.Unit
 	public class FakeSignupEmail : SignupEmail
 	{
 		public bool IsSent { get; set; }
-		public UserSummary Summary { get; set; }
+		public UserViewModel Summary { get; set; }
 
 		public FakeSignupEmail(ApplicationSettings applicationSettings, SiteSettings siteSettings)
 			: base(applicationSettings, siteSettings)
 		{
 		}
 		
-		public override void Send(UserSummary summary)
+		public override void Send(UserViewModel summary)
 		{
 			ReplaceTokens(summary, "{EMAIL}");
 			IsSent = true;
@@ -29,14 +29,14 @@ namespace Roadkill.Tests.Unit
 	public class FakeResetPasswordEmail : ResetPasswordEmail
 	{
 		public bool IsSent { get; set; }
-		public UserSummary Summary { get; set; }
+		public UserViewModel Summary { get; set; }
 
 		public FakeResetPasswordEmail(ApplicationSettings applicationSettings, SiteSettings siteSettings)
 			: base(applicationSettings, siteSettings)
 		{
 		}
 
-		public override void Send(UserSummary summary)
+		public override void Send(UserViewModel summary)
 		{
 			ReplaceTokens(summary, "{EMAIL}");
 			IsSent = true;

@@ -26,7 +26,7 @@ module Roadkill.Site.FileManager
 			this.removeLastItem(level);
 		}
 
-		public static addNewItem(data : DirectorySummary)
+		public static addNewItem(data : DirectoryViewModel)
 		{
 			var htmlBuilder = new HtmlBuilder();
 			var count: number = $("ul.navigator li").length;

@@ -324,7 +324,7 @@ namespace Roadkill.Core.Security
 		/// A list of email/usernames who are admins.
 		/// </returns>
 		/// <exception cref="SecurityException">An databaseerror occurred while getting the admins.</exception>
-		public override IEnumerable<UserSummary> ListAdmins()
+		public override IEnumerable<UserViewModel> ListAdmins()
 		{
 			try
 			{
@@ -344,7 +344,7 @@ namespace Roadkill.Core.Security
 		/// A list of email/usernames who are editors.
 		/// </returns>
 		/// <exception cref="SecurityException">An databaseerror occurred while getting the editors.</exception>
-		public override IEnumerable<UserSummary> ListEditors()
+		public override IEnumerable<UserViewModel> ListEditors()
 		{
 			try
 			{
@@ -411,7 +411,7 @@ namespace Roadkill.Core.Security
 		/// <returns>
 		/// The activation key for the signup.
 		/// </returns>
-		public override string Signup(UserSummary summary, Action completed)
+		public override string Signup(UserViewModel summary, Action completed)
 		{
 			if (summary == null)
 				throw new SecurityException("The summary provided to Signup is null.", null);
@@ -495,13 +495,13 @@ namespace Roadkill.Core.Security
 		/// true if the change was successful;false if the new username already exists in the system.
 		/// </returns>
 		/// <exception cref="SecurityException">An databaseerror occurred while changing the email/username.</exception>
-		public override bool UpdateUser(UserSummary summary)
+		public override bool UpdateUser(UserViewModel summary)
 		{
 			try
 			{
 				User user;
 
-				// These checks is run in the UserSummary object by MVC - but doubled up in here for _when_ the API is used without MVC.
+				// These checks are run in the UserViewModel object by MVC - but doubled up in here for _when_ the API is used without MVC.
 				if (summary.ExistingEmail != summary.NewEmail)
 				{
 					user = Repository.GetUserByEmail(summary.NewEmail);

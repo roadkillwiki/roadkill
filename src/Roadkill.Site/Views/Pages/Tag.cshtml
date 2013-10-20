@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PageSummary>
+﻿@model IEnumerable<PageViewModel>
 @{ 
 	string title = string.Format(SiteStrings.Pages_ForTag, ViewData["Tagname"]);
 	ViewBag.Title = title;
@@ -8,13 +8,13 @@
 @if (Model.Count() > 0)
 {
 <table class="table table-striped">
-	@foreach (PageSummary summary in Model)
+	@foreach (PageViewModel pageModel in Model)
 	{
 		<tr>
-			<td class="stretch">@Html.ActionLink(summary.Title, "Index", "Wiki", new { id = summary.Id, title = summary.Title.EncodeTitle() }, null)</td>
+			<td class="stretch">@Html.ActionLink(pageModel.Title, "Index", "Wiki", new { id = pageModel.Id, title = pageModel.Title.EncodeTitle() }, null)</td>
 			@if (RoadkillContext.IsLoggedIn)
 			{
-			<td class="edit">@Html.ActionLink(SiteStrings.Shared_EditLink,"Edit",new { id = summary.Id}, new {@class = "btn btn-mini btn-primary" } )</td>
+			<td class="edit">@Html.ActionLink(SiteStrings.Shared_EditLink,"Edit",new { id = pageModel.Id}, new {@class = "btn btn-mini btn-primary" } )</td>
 			}
 			else
 			{

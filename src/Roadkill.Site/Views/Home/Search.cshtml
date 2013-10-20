@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SearchResult>
+﻿@model IEnumerable<SearchResultViewModel>
 @{ 
 	string title = string.Format(SiteStrings.Search_Results, ViewData["search"]);
 	if (Model.Count() == 0)
@@ -27,7 +27,7 @@ else
 	<br class="clear" />
 }
 
-@foreach (SearchResult result in Model)
+@foreach (SearchResultViewModel result in Model)
 {
 	<div class="searchresult">
 		<div class="searchresult-title">@Html.ActionLink(result.Title, "Index", "Wiki", new { id = result.Id, title = result.Title.EncodeTitle() }, null)</div>

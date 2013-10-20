@@ -120,7 +120,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
-		/// Returns a JSON representation of a DirectorySummary object, including files that
+		/// Returns a JSON representation of a DirectoryViewModel object, including files that
 		/// can be used with the jQuery to display in one or more formats, i.e. list or detail views.
 		/// </summary>
 		/// <param name="dir">The current directory to display</param>
@@ -148,7 +148,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				if (!string.IsNullOrEmpty(currentFolderName) && currentFolderName != "/")
 					currentFolderName = Path.GetFileName(dir);
 
-				DirectorySummary summary = new DirectorySummary(currentFolderName, dir);
+				DirectoryViewModel directoryModel = new DirectoryViewModel(currentFolderName, dir);
 				if (Directory.Exists(physicalPath))
 				{
 					foreach (string directory in Directory.GetDirectories(physicalPath))
@@ -159,8 +159,8 @@ namespace Roadkill.Core.Mvc.Controllers
 						fullPath = fullPath.Replace(Path.DirectorySeparatorChar.ToString(), "/");
 						fullPath = "/" + fullPath; // removed in the 1st replace
 
-						DirectorySummary childSummary = new DirectorySummary(info.Name, fullPath);
-						summary.ChildFolders.Add(childSummary);
+						DirectoryViewModel childModel = new DirectoryViewModel(info.Name, fullPath);
+						directoryModel.ChildFolders.Add(childModel);
 					}
 
 					foreach (string file in Directory.GetFiles(physicalPath))
@@ -172,13 +172,13 @@ namespace Roadkill.Core.Mvc.Controllers
 						if (!_filesToExclude.Contains(info.Name))
 						{
 							string urlPath = Path.Combine(dir, filename);
-							FileSummary fileSummary = new FileSummary(info.Name, info.Extension.Replace(".", ""), info.Length, info.CreationTime, dir);
-							summary.Files.Add(fileSummary);
+							FileViewModel fileModel = new FileViewModel(info.Name, info.Extension.Replace(".", ""), info.Length, info.CreationTime, dir);
+							directoryModel.Files.Add(fileModel);
 						}
 					}
 				}
 
-				return Json(summary);
+				return Json(directoryModel);
 			}
 			catch (IOException e)
 			{

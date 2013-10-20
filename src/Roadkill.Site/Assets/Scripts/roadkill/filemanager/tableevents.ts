@@ -49,7 +49,7 @@ module Roadkill.Site.FileManager
 				path = TableEvents.getCurrentPath();
 
 			var that = this;
-			var success = function (data: DirectorySummary)
+			var success = function (data: DirectoryViewModel)
 			{
 				if (data.status === "error")
 				{

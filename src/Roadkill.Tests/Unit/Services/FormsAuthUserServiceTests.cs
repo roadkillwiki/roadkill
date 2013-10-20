@@ -220,7 +220,7 @@ namespace Roadkill.Tests.Unit
 		public void Signup_And_Activate()
 		{
 			// Signup
-			UserSummary summary = new UserSummary();
+			UserViewModel summary = new UserViewModel();
 			summary.Firstname = "Harry";
 			summary.Lastname = "Houdini";
 			summary.NewEmail = "harry@localhost";
@@ -293,7 +293,7 @@ namespace Roadkill.Tests.Unit
 
 			// Update the user
 			User actual = _defaultUserService.GetUser("editor@localhost");
-			UserSummary summary = actual.ToSummary();
+			UserViewModel summary = actual.ToSummary();
 			summary.Firstname = "Harold";
 			summary.Lastname = "Bishop";
 			summary.NewEmail = "harold@localhost";
@@ -317,7 +317,7 @@ namespace Roadkill.Tests.Unit
 
 			// Update the user
 			User actual = _defaultUserService.GetUser("editor@localhost");
-			UserSummary summary = actual.ToSummary();
+			UserViewModel summary = actual.ToSummary();
 			summary.Firstname = "Harold";
 			summary.Lastname = "Bishop";
 			summary.NewEmail = "harold@localhost";
@@ -335,7 +335,7 @@ namespace Roadkill.Tests.Unit
 
 			// Update the user
 			User actual = _defaultUserService.GetUser("editor@localhost");
-			UserSummary summary = actual.ToSummary();
+			UserViewModel summary = actual.ToSummary();
 			summary.Firstname = "Harold";
 			summary.Lastname = "Bishop";
 			summary.NewEmail = "editor2@localhost";

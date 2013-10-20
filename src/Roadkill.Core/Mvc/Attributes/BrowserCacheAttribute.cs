@@ -44,7 +44,7 @@ namespace Roadkill.Core.Mvc.Attributes
 			if (wikiController == null && homeController == null)
 				return;
 
-			PageSummary summary = null;
+			PageViewModel summary = null;
 
 			// Find the page for the action we're on
 			if (wikiController != null)

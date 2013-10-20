@@ -15,6 +15,6 @@ namespace Roadkill.Tests.Unit
 		public bool IsContentPage { get; set; }
 		public bool IsEditor { get; set; }
 		public bool IsLoggedIn { get; set; }
-		public PageSummary Page { get; set; }
+		public PageViewModel Page { get; set; }
 	}
 }

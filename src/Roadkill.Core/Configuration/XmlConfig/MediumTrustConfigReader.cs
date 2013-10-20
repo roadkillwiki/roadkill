@@ -32,7 +32,7 @@ namespace Roadkill.Core.Configuration
 			throw new NotImplementedException();
 		}
 
-		public override void Save(SettingsSummary settings)
+		public override void Save(SettingsViewModel settings)
 		{
 			throw new NotImplementedException();
 		}

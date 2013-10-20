@@ -24,7 +24,7 @@
 			@Html.Action("LeftMenu", "Home")
 		</header>
 		<section>
-			@if (Model is PageSummary)
+			@if (Model is PageViewModel)
 			{
 			<header id="pageheader">
 				<div style="float:left;">@RenderSection("PageToolbar", false)</div>

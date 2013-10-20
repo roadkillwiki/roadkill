@@ -40,7 +40,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// Displays a list of all page titles and ids in Roadkill.
 		/// </summary>
-		/// <returns>An <see cref="IEnumerable{PageSummary}"/> as the model.</returns>
+		/// <returns>An <see cref="IEnumerable{PageViewModel}"/> as the model.</returns>
 		[BrowserCache]
 		public ActionResult AllPages()
 		{
@@ -50,7 +50,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// Displays all tags (categories if you prefer that term) in Roadkill.
 		/// </summary>
-		/// <returns>An <see cref="IEnumerable{TagSummary}"/> as the model.</returns>
+		/// <returns>An <see cref="IEnumerable{TagViewModel}"/> as the model.</returns>
 		[BrowserCache]
 		public ActionResult AllTags()
 		{
@@ -66,7 +66,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public ActionResult AllTagsAsJson()
 		{
-			IEnumerable<TagSummary> tags = _pageService.AllTags();
+			IEnumerable<TagViewModel> tags = _pageService.AllTags();
 			var tagsJson = tags.Select(t => new { tag = t.Name });
 			Dictionary<string, object> result = new Dictionary<string, object>();
 			result.Add("tags", tagsJson);
@@ -79,7 +79,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		/// <param name="id">The username</param>
 		/// <param name="encoded">Whether the username paramter is Base64 encoded.</param>
-		/// <returns>An <see cref="IEnumerable{PageSummary}"/> as the model.</returns>
+		/// <returns>An <see cref="IEnumerable{PageViewModel}"/> as the model.</returns>
 		public ActionResult ByUser(string id, bool? encoded)
 		{
 			// Usernames are base64 encoded by roadkill (to cater for usernames like domain\john).
@@ -112,13 +112,13 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// Displays the edit View for the page provided in the id.
 		/// </summary>
 		/// <param name="id">The ID of the page to edit.</param>
-		/// <returns>An filled <see cref="PageSummary"/> as the model. If the page id cannot be found, the action
+		/// <returns>An filled <see cref="PageViewModel"/> as the model. If the page id cannot be found, the action
 		/// redirects to the New page.</returns>
 		/// <remarks>This action requires editor rights.</remarks>
 		[EditorRequired]
 		public ActionResult Edit(int id)
 		{
-			PageSummary summary = _pageService.GetById(id);
+			PageViewModel summary = _pageService.GetById(id);
 
 			if (summary != null)
 			{
@@ -136,13 +136,13 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// Saves all POST'd data for a page edit to the database.
 		/// </summary>
-		/// <param name="summary">A filled <see cref="PageSummary"/> containing the new data.</param>
-		/// <returns>Redirects to /Wiki/{id} using the passed in <see cref="PageSummary.Id"/>.</returns>
+		/// <param name="summary">A filled <see cref="PageViewModel"/> containing the new data.</param>
+		/// <returns>Redirects to /Wiki/{id} using the passed in <see cref="PageViewModel.Id"/>.</returns>
 		/// <remarks>This action requires editor rights.</remarks>
 		[EditorRequired]
 		[HttpPost]
 		[ValidateInput(false)]
-		public ActionResult Edit(PageSummary summary)
+		public ActionResult Edit(PageViewModel summary)
 		{
 			if (!ModelState.IsValid)
 				return View("Edit", summary);
@@ -179,7 +179,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// Lists the history of edits for a page.
 		/// </summary>
 		/// <param name="id">The ID of the page.</param>
-		/// <returns>An <see cref="IList{HistorySummary}"/> as the model.</returns>
+		/// <returns>An <see cref="IList{HistoryViewModel}"/> as the model.</returns>
 		[BrowserCache]
 		public ActionResult History(int id)
 		{
@@ -190,16 +190,16 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// Displays the Edit view in new page mode.
 		/// </summary>
-		/// <returns>An empty <see cref="PageSummary"/> as the model.</returns>
+		/// <returns>An empty <see cref="PageViewModel"/> as the model.</returns>
 		/// <remarks>This action requires editor rights.</remarks>
 		[EditorRequired]
 		public ActionResult New(string title = "")
 		{
-			return View("Edit", new PageSummary() { Title = title });
+			return View("Edit", new PageViewModel() { Title = title });
 		}
 
 		/// <summary>
-		/// Saves a new page using the provided <see cref="PageSummary"/> object to the database.
+		/// Saves a new page using the provided <see cref="PageViewModel"/> object to the database.
 		/// </summary>
 		/// <param name="summary">The page details to save.</param>
 		/// <returns>Redirects to /Wiki/{id} using the newly created page's ID.</returns>
@@ -207,7 +207,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		[EditorRequired]
 		[HttpPost]
 		[ValidateInput(false)]
-		public ActionResult New(PageSummary summary)
+		public ActionResult New(PageViewModel summary)
 		{
 			if (!ModelState.IsValid)
 				return View("Edit", summary);
@@ -228,7 +228,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ActionResult Revert(Guid versionId, int pageId)
 		{
 			// Check if the page is locked to admin edits only before reverting.
-			PageSummary page = _pageService.GetById(pageId);
+			PageViewModel page = _pageService.GetById(pageId);
 			if (page == null || (page.IsLocked && !Context.IsAdmin))
 				return RedirectToAction("Index", "Home");
 
@@ -241,7 +241,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// Returns all pages for the given tag.
 		/// </summary>
 		/// <param name="id">The tag name</param>
-		/// <returns>An <see cref="IEnumerable{PageSummary}"/> as the model.</returns>
+		/// <returns>An <see cref="IEnumerable{PageViewModel}"/> as the model.</returns>
 		public ActionResult Tag(string id)
 		{
 			id = HttpUtility.UrlDecode(id);
@@ -254,12 +254,12 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// Gets a particular version of a page.
 		/// </summary>
 		/// <param name="id">The Guid ID for the version.</param>
-		/// <returns>A <see cref="PageSummary"/> as the model, which contains the HTML diff
-		/// output inside the <see cref="PageSummary.Content"/> property.</returns>
+		/// <returns>A <see cref="PageViewModel"/> as the model, which contains the HTML diff
+		/// output inside the <see cref="PageViewModel.Content"/> property.</returns>
 		public ActionResult Version(Guid id)
 		{
 			MarkupConverter converter = _pageService.GetMarkupConverter();
-			IList<PageSummary> bothVersions = _historyService.CompareVersions(id).ToList();
+			IList<PageViewModel> bothVersions = _historyService.CompareVersions(id).ToList();
 			string diffHtml = "";
 
 			if (bothVersions[1] != null)
@@ -274,7 +274,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				diffHtml = converter.ToHtml(bothVersions[0].Content).Html;
 			}
 
-			PageSummary summary = bothVersions[0];
+			PageViewModel summary = bothVersions[0];
 			summary.Content = diffHtml;
 			return View(summary);
 		}

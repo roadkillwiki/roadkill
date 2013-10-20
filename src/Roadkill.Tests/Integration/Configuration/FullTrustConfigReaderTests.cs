@@ -157,7 +157,7 @@ namespace Roadkill.Tests.Unit
 				SiteUrl = "siteurl",
 				Theme = "theme",
 			};
-			SettingsSummary validConfigSettings = new SettingsSummary()
+			SettingsViewModel validConfigSettings = new SettingsViewModel()
 			{
 				AllowedFileTypes = "jpg, png, gif",
 				AllowUserSignup = true,

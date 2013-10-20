@@ -47,54 +47,51 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// The default settings page that displays the current Roadkill settings.
 		/// </summary>
-		/// <returns>A <see cref="SettingsSummary"/> as the model.</returns>
+		/// <returns>A <see cref="SettingsViewModel"/> as the model.</returns>
 		public ActionResult Index()
 		{
 			SiteSettings siteSettings = SettingsService.GetSiteSettings();
+			SettingsViewModel model = new SettingsViewModel(ApplicationSettings, siteSettings);
 
-			SettingsSummary summary = new SettingsSummary();
-			summary.FillFromApplicationSettings(ApplicationSettings);
-			summary.FillFromSiteSettings(siteSettings);
-
-			return View(summary);
+			return View(model);
 		}
 
 		/// <summary>
-		/// Saves the <see cref="SettingsSummary"/> that is POST'd to the action.
+		/// Saves the <see cref="SettingsViewModel"/> that is POST'd to the action.
 		/// </summary>
-		/// <param name="summary">The settings to save to the web.config/database.</param>
-		/// <returns>A <see cref="SettingsSummary"/> as the model.</returns>
+		/// <param name="model">The settings to save to the web.config/database.</param>
+		/// <returns>A <see cref="SettingsViewModel"/> as the model.</returns>
 		[HttpPost]
 		[ValidateInput(false)]
-		public ActionResult Index(SettingsSummary summary)
+		public ActionResult Index(SettingsViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
 				ConfigReader configReader = ConfigReaderFactory.GetConfigReader();
-				configReader.Save(summary);
+				configReader.Save(model);
 			
-				_settingsService.SaveSiteSettings(summary);
+				_settingsService.SaveSiteSettings(model);
 				_siteCache.RemoveMenuCacheItems();
 
 				// Refresh the AttachmentsDirectoryPath using the absolute attachments path, as it's calculated in the constructor
 				ApplicationSettings appSettings = configReader.GetApplicationSettings();
-				summary.FillFromApplicationSettings(appSettings);
+				model.FillFromApplicationSettings(appSettings);
 			}
 
 
-			return View(summary);
+			return View(model);
 		}
 
 		/// <summary>
 		/// Displays the Users view.
 		/// </summary>
-		/// <returns>An <see cref="IList&lt;IEnumerable&lt;UserSummary&gt;&gt;"/> as the model. The first item contains a list of admin users,
+		/// <returns>An <see cref="IList{UserViewModel}"/> as the model. The first item contains a list of admin users,
 		/// the second item contains a list of editor users. If Windows authentication is being used, the action uses the 
 		/// UsersForWindows view.</returns>
 		[ImportModelState]
 		public ActionResult Users()
 		{
-			var list = new List<IEnumerable<UserSummary>>();
+			var list = new List<IEnumerable<UserViewModel>>();
 			list.Add(UserManager.ListAdmins());
 			list.Add(UserManager.ListEditors());
 
@@ -105,13 +102,13 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
-		/// Adds an admin user to the system, validating the <see cref="UserSummary"/> first.
+		/// Adds an admin user to the system, validating the <see cref="UserViewModel"/> first.
 		/// </summary>
 		/// <param name="summary">The user details to add.</param>
 		/// <returns>Redirects to the Users action. Additionally, if an error occurred, TempData["action"] contains the string "addadmin".</returns>
 		[HttpPost]
 		[ExportModelState]
-		public ActionResult AddAdmin(UserSummary summary)
+		public ActionResult AddAdmin(UserViewModel summary)
 		{
 			if (ModelState.IsValid)
 			{
@@ -130,13 +127,13 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
-		/// Adds an editor user to the system, validating the <see cref="UserSummary"/> first.
+		/// Adds an editor user to the system, validating the <see cref="UserViewModel"/> first.
 		/// </summary>
 		/// <param name="summary">The user details to add.</param>
 		/// <returns>Redirects to the Users action. Additionally, if an error occurred, TempData["action"] contains the string "addeditor".</returns>
 		[HttpPost]
 		[ExportModelState]
-		public ActionResult AddEditor(UserSummary summary)
+		public ActionResult AddEditor(UserViewModel summary)
 		{
 			if (ModelState.IsValid)
 			{
@@ -159,14 +156,14 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
-		/// Edits an existing user. If the <see cref="UserSummary.Password"/> property is not blank, the password
+		/// Edits an existing user. If the <see cref="UserViewModel.Password"/> property is not blank, the password
 		/// for the user is reset and then changed.
 		/// </summary>
 		/// <param name="summary">The user details to edit.</param>
 		/// <returns>Redirects to the Users action. Additionally, if an error occurred, TempData["edituser"] contains the string "addeditor".</returns>
 		[HttpPost]
 		[ExportModelState]
-		public ActionResult EditUser(UserSummary summary)
+		public ActionResult EditUser(UserViewModel summary)
 		{
 			if (ModelState.IsValid)
 			{
@@ -251,7 +248,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </returns>
 		public ActionResult ExportAsWikiFiles()
 		{
-			IEnumerable<PageSummary> pages = _pageService.AllPages();
+			IEnumerable<PageViewModel> pages = _pageService.AllPages();
 
 			try
 			{
@@ -265,7 +262,7 @@ namespace Roadkill.Core.Mvc.Controllers
 					int index = 0;
 					List<string> filenames = new List<string>();
 
-					foreach (PageSummary summary in pages.OrderBy(p => p.Title))
+					foreach (PageViewModel summary in pages.OrderBy(p => p.Title))
 					{
 						// Ensure the filename is unique as its title based.
 						// Simply replace invalid path characters with a '-'
@@ -313,7 +310,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </returns>
 		public ActionResult ExportAttachments()
 		{
-			IEnumerable<PageSummary> pages = _pageService.AllPages();
+			IEnumerable<PageViewModel> pages = _pageService.AllPages();
 
 			try
 			{

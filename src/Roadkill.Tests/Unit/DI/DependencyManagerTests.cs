@@ -61,8 +61,8 @@ namespace Roadkill.Tests.Unit
 			IPageService pageService = ObjectFactory.GetInstance<IPageService>();			
 			MarkupConverter markupConverter = ObjectFactory.GetInstance<MarkupConverter>();
 			CustomTokenParser tokenParser = ObjectFactory.GetInstance<CustomTokenParser>();
-			UserSummary userSummary = ObjectFactory.GetInstance<UserSummary>();
-			SettingsSummary settingsSummary = ObjectFactory.GetInstance<SettingsSummary>();
+			UserViewModel userModel = ObjectFactory.GetInstance<UserViewModel>();
+			SettingsViewModel settingsModel = ObjectFactory.GetInstance<SettingsViewModel>();
 			AttachmentRouteHandler routerHandler = ObjectFactory.GetInstance<AttachmentRouteHandler>();
 			UserServiceBase userManager = ObjectFactory.GetInstance<UserServiceBase>();
 			IPluginFactory pluginFactory = ObjectFactory.GetInstance<IPluginFactory>();
@@ -75,8 +75,8 @@ namespace Roadkill.Tests.Unit
 			Assert.That(pageService, Is.TypeOf<PageService>());			
 			Assert.That(markupConverter, Is.TypeOf<MarkupConverter>());
 			Assert.That(tokenParser, Is.TypeOf<CustomTokenParser>());
-			Assert.That(userSummary, Is.TypeOf<UserSummary>());
-			Assert.That(settingsSummary, Is.TypeOf<SettingsSummary>());
+			Assert.That(userModel, Is.TypeOf<UserViewModel>());
+			Assert.That(settingsModel, Is.TypeOf<SettingsViewModel>());
 			Assert.That(userManager, Is.TypeOf<FormsAuthUserService>());
 			Assert.That(pluginFactory, Is.TypeOf<PluginFactory>());
 			Assert.That(wikiImporter, Is.TypeOf<ScrewTurnImporter>());
@@ -170,8 +170,8 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(RouteTable.Routes.Count, Is.EqualTo(1));
 			Assert.That(((Route)RouteTable.Routes[0]).RouteHandler, Is.TypeOf<AttachmentRouteHandler>());
-			Assert.True(ModelBinders.Binders.ContainsKey(typeof(SettingsSummary)));
-			Assert.True(ModelBinders.Binders.ContainsKey(typeof(UserSummary)));
+			Assert.True(ModelBinders.Binders.ContainsKey(typeof(SettingsViewModel)));
+			Assert.True(ModelBinders.Binders.ContainsKey(typeof(UserViewModel)));
 		}
 
 		[Test]

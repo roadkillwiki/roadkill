@@ -23,11 +23,11 @@ namespace Roadkill.Tests.Unit
 			PageContents = new List<PageContent>();
 		}
 
-		public override void Add(PageSummary summary)
+		public override void Add(PageViewModel summary)
 		{	
 		}
 
-		public override void Update(PageSummary summary)
+		public override void Update(PageViewModel summary)
 		{	
 		}
 
@@ -35,18 +35,18 @@ namespace Roadkill.Tests.Unit
 		{
 		}
 
-		public override int Delete(PageSummary summary)
+		public override int Delete(PageViewModel summary)
 		{
 			return 1;
 		}
 
-		public override IEnumerable<SearchResult> Search(string searchText)
+		public override IEnumerable<SearchResultViewModel> Search(string searchText)
 		{
-			List<SearchResult> results = new List<SearchResult>();
+			List<SearchResultViewModel> results = new List<SearchResultViewModel>();
 
 			foreach (Page page in Pages.Where(p => p.Title.ToLowerInvariant().Contains(searchText.ToLowerInvariant())))
 			{
-				results.Add(new SearchResult()
+				results.Add(new SearchResultViewModel()
 				{
 					Id = page.Id,
 					Title = page.Title,
@@ -56,7 +56,7 @@ namespace Roadkill.Tests.Unit
 
 			foreach (PageContent pageContent in PageContents.Where(p => p.Text.ToLowerInvariant().Contains(searchText.ToLowerInvariant())))
 			{
-				results.Add(new SearchResult()
+				results.Add(new SearchResultViewModel()
 				{
 					Id = pageContent.Page.Id,
 					ContentSummary = pageContent.Text,
