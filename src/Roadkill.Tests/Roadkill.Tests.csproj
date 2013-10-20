@@ -332,6 +332,9 @@
     <Compile Include="Unit\Mvc\Controllers\HelpControllerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\PluginSettingsControllerTests.cs" />
     <Compile Include="Unit\Mvc\ResponseWrapperTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\TagViewModelTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\LanguageViewModelTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\PageHistoryViewModelTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\SettingsViewModelTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\SearchResultViewModelTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\PluginViewModelTests.cs" />
