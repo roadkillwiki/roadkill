@@ -179,7 +179,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// Lists the history of edits for a page.
 		/// </summary>
 		/// <param name="id">The ID of the page.</param>
-		/// <returns>An <see cref="IList{HistoryViewModel}"/> as the model.</returns>
+		/// <returns>An <see cref="IList{PageHistoryViewModel}"/> as the model.</returns>
 		[BrowserCache]
 		public ActionResult History(int id)
 		{

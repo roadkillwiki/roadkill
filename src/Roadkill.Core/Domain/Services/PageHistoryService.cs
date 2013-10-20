@@ -33,24 +33,15 @@ namespace Roadkill.Core.Services
 		/// Retrieves all history for a page.
 		/// </summary>
 		/// <param name="pageId">The id of the page to get the history for.</param>
-		/// <returns>An <see cref="IEnumerable{HistoryViewModel}"/> ordered by the most recent version number.</returns>
+		/// <returns>An <see cref="IEnumerable{PageHistoryViewModel}"/> ordered by the most recent version number.</returns>
 		/// <exception cref="HistoryException">An database error occurred while retrieving the list.</exception>
-		public IEnumerable<HistoryViewModel> GetHistory(int pageId)
+		public IEnumerable<PageHistoryViewModel> GetHistory(int pageId)
 		{
 			try
 			{
 				IEnumerable<PageContent> contentList = Repository.FindPageContentsByPageId(pageId);
-				IEnumerable<HistoryViewModel> historyList = from p in contentList
-														  select
-															  new HistoryViewModel()
-															  {
-																  Id = p.Id,
-																  PageId = pageId,
-																  EditedBy = p.EditedBy,
-																  EditedOn = p.EditedOn,
-																  VersionNumber = p.VersionNumber,
-																  IsPageAdminOnly = p.Page.IsLocked
-															  };
+				IEnumerable<PageHistoryViewModel> historyList = from p in contentList
+														  select new PageHistoryViewModel(p);
 
 				return historyList.OrderByDescending(h => h.VersionNumber);
 			}

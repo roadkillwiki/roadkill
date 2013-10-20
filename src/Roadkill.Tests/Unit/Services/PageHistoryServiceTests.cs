@@ -107,7 +107,7 @@ namespace Roadkill.Tests.Unit
 			page.IsLocked = true;
 
 			// Act
-			List<HistoryViewModel> historyList = _historyService.GetHistory(v1Content.Page.Id).ToList();
+			List<PageHistoryViewModel> historyList = _historyService.GetHistory(v1Content.Page.Id).ToList();
 
 			// Assert
 			Assert.That(historyList.Count, Is.EqualTo(2));
@@ -132,7 +132,7 @@ namespace Roadkill.Tests.Unit
 			PageContent v4Content = _repositoryMock.AddNewPageContentVersion(page, "v4 text", "admin", createdDate.AddHours(3), 4);
 
 			// Act
-			List<HistoryViewModel> historyList = _historyService.GetHistory(v1Content.Page.Id).ToList();
+			List<PageHistoryViewModel> historyList = _historyService.GetHistory(v1Content.Page.Id).ToList();
 
 			// Assert
 			Assert.That(historyList.Count, Is.EqualTo(4));

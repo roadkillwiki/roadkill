@@ -481,7 +481,7 @@
     <Compile Include="Domain\Import\IWikiImporter.cs" />
     <Compile Include="Domain\Services\SearchService.cs" />
     <Compile Include="Mvc\Controllers\SettingsController.cs" />
-    <Compile Include="Mvc\ViewModels\HistoryViewModel.cs" />
+    <Compile Include="Mvc\ViewModels\PageHistoryViewModel.cs" />
     <Compile Include="Mvc\ViewModels\TagViewModel.cs" />
     <Compile Include="Text\Parsers\CreoleParser.cs" />
     <Compile Include="Common\HtmlDiff.cs" />

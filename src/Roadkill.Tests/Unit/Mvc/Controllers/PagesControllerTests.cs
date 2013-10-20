@@ -369,7 +369,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 			ViewResult viewResult = result as ViewResult;
 
-			List<HistoryViewModel> model = viewResult.ModelFromActionResult<IEnumerable<HistoryViewModel>>().ToList();
+			List<PageHistoryViewModel> model = viewResult.ModelFromActionResult<IEnumerable<PageHistoryViewModel>>().ToList();
 			Assert.That(model.Count, Is.EqualTo(2));
 			Assert.That(model[0].PageId, Is.EqualTo(page.Id));
 			Assert.That(model[1].PageId, Is.EqualTo(page.Id));
