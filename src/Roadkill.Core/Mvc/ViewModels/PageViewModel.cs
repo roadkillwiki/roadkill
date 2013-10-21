@@ -87,7 +87,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		}
 
 		/// <summary>
-		/// The tags for the page - these are given by the page in comman separated format.
+		/// The tags for the page - these are given by the page in comma separated format.
 		/// </summary>
 		public string RawTags
 		{
@@ -189,8 +189,8 @@ namespace Roadkill.Core.Mvc.ViewModels
 					string[] parts = tags.Split(delimiter);
 					foreach (string item in parts)
 					{
-						if (item != ",")
-							tagList.Add(item);
+						if (item != "," && !string.IsNullOrWhiteSpace(item))
+							tagList.Add(item.Trim());
 					}
 				}
 				else
