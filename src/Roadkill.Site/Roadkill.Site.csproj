@@ -232,10 +232,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Attachments\emptyfile.txt" />
-    <Content Include="App_Data\EmailTemplates\fi-FI\ResetPassword.html" />
-    <Content Include="App_Data\EmailTemplates\fi-FI\ResetPassword.txt" />
-    <Content Include="App_Data\EmailTemplates\fi-FI\Signup.html" />
-    <Content Include="App_Data\EmailTemplates\fi-FI\Signup.txt" />
     <Content Include="App_Data\EmailTemplates\ResetPassword.txt" />
     <Content Include="App_Data\EmailTemplates\ResetPassword.html" />
     <Content Include="App_Data\EmailTemplates\Signup.html" />
