@@ -18,7 +18,7 @@
 # ====================================================================================================
 
 $ErrorActionPreference = "Stop"
-$zipFilename = "Roadkill.1.8.devbuild.zip"
+$zipFilename = "Roadkill.devbuild.zip"
 
 # ---- Add the tool paths to our path
 $runtimeDir = [System.Runtime.InteropServices.RuntimeEnvironment]::GetRuntimeDirectory()
