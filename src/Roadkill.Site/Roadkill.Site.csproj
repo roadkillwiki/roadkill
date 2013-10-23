@@ -482,6 +482,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Assets\web.config" />
+    <Content Include="connectionStrings.config" />
     <None Include="packages.config" />
     <Content Include="Plugins\Web.config" />
     <None Include="Properties\PublishProfiles\Mono.pubxml" />
