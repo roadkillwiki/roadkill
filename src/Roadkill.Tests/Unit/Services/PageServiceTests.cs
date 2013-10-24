@@ -56,14 +56,14 @@ namespace Roadkill.Tests.Unit
 
 			// Cache
 			ListCache listCache = new ListCache(_applicationSettings, MemoryCache.Default);
-			PageSummaryCache pageSummaryCache = new PageSummaryCache(_applicationSettings, MemoryCache.Default);
+			PageViewModelCache pageViewModelCache = new PageViewModelCache(_applicationSettings, MemoryCache.Default);
 			SiteCache siteCache = new SiteCache(_applicationSettings, MemoryCache.Default);
 
 			// Services needed by the PageService
 			_pluginFactory = new PluginFactoryMock();
 			_markupConverter = new MarkupConverter(_applicationSettings, _repositoryMock, _pluginFactory);
 			_mockSearchService = new Mock<SearchService>(_applicationSettings, _repositoryMock, _pluginFactory);
-			_historyService = new PageHistoryService(_applicationSettings, _repositoryMock, _context, pageSummaryCache, _pluginFactory);
+			_historyService = new PageHistoryService(_applicationSettings, _repositoryMock, _context, pageViewModelCache, _pluginFactory);
 
 			// Usermanager stub
 			_testUser = new User();
@@ -82,7 +82,7 @@ namespace Roadkill.Tests.Unit
 			_context = new UserContext(_mockUserManager.Object);
 			_context.CurrentUser = userId.ToString();
 
-			_pageService = new PageService(_applicationSettings, _repositoryMock, _mockSearchService.Object, _historyService, _context, listCache, pageSummaryCache, siteCache, _pluginFactory);
+			_pageService = new PageService(_applicationSettings, _repositoryMock, _mockSearchService.Object, _historyService, _context, listCache, pageViewModelCache, siteCache, _pluginFactory);
 		}
 
 		public PageViewModel AddToStubbedRepository(int id, string createdBy, string title, string tags, string textContent = "")
@@ -328,6 +328,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			PageViewModel summary = AddToStubbedRepository(1, "admin", "Homepage", "animal;");
+			string expectedTags = "new,tags";
 
 			// Act
 			summary.RawTags = "new,tags,";
@@ -341,9 +342,9 @@ namespace Roadkill.Tests.Unit
 			Assert.That(actual.Title, Is.EqualTo(summary.Title), "Title");
 			Assert.That(actual.Tags, Is.EqualTo(summary.Tags), "Tags");
 
-			Assert.That(_repositoryMock.Pages[0].Tags, Is.EqualTo(summary.RawTags));
+			Assert.That(_repositoryMock.Pages[0].Tags, Is.EqualTo(expectedTags));
 			Assert.That(_repositoryMock.Pages[0].Title, Is.EqualTo(summary.Title));
-			Assert.That(_repositoryMock.PageContents[1].Text, Is.EqualTo(summary.Content)); // smells
+			Assert.That(_repositoryMock.PageContents[1].Text, Is.EqualTo(summary.Content)); // "smells"
 		}
 	}
 }

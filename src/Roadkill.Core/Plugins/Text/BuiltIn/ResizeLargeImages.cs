@@ -48,11 +48,6 @@ namespace Roadkill.Core.Plugins.BuiltIn
 			}
 		}
 
-		public ResizeLargeImages(ApplicationSettings applicationSettings, IRepository repository)
-			: base(applicationSettings, repository)
-		{
-		}
-		
 		public override string GetHeadContent()
 		{
 			return GetCssLink("resizelargeimages.css");

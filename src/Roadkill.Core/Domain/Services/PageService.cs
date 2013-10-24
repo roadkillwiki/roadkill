@@ -26,13 +26,13 @@ namespace Roadkill.Core.Services
 		private PageHistoryService _historyService;
 		private IUserContext _context;
 		private ListCache _listCache;
-		private PageSummaryCache _pageSummaryCache;
+		private PageViewModelCache _pageViewModelCache;
 		private SiteCache _siteCache;
 		private IPluginFactory _pluginFactory;
 
 		public PageService(ApplicationSettings settings, IRepository repository, SearchService searchService, 
 			PageHistoryService historyService, IUserContext context, 
-			ListCache listCache, PageSummaryCache pageSummaryCache, SiteCache sitecache, IPluginFactory pluginFactory)
+			ListCache listCache, PageViewModelCache pageSummaryCache, SiteCache sitecache, IPluginFactory pluginFactory)
 			: base(settings, repository)
 		{
 			_searchService = searchService;
@@ -40,7 +40,7 @@ namespace Roadkill.Core.Services
 			_historyService = historyService;
 			_context = context;
 			_listCache = listCache;
-			_pageSummaryCache = pageSummaryCache;
+			_pageViewModelCache = pageSummaryCache;
 			_siteCache = sitecache;
 			_pluginFactory = pluginFactory;
 		}
@@ -68,7 +68,7 @@ namespace Roadkill.Core.Services
 				PageContent pageContent = Repository.AddNewPage(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.UtcNow);
 
 				_listCache.RemoveAll();
-				_pageSummaryCache.RemoveAll(); // completely clear the cache to update any reciprocal links.
+				_pageViewModelCache.RemoveAll(); // completely clear the cache to update any reciprocal links.
 
 				// Update the lucene index
 				PageViewModel savedSummary = pageContent.ToModel(_markupConverter);
@@ -250,7 +250,7 @@ namespace Roadkill.Core.Services
 
 				// Remove everything for now, to avoid reciprocal link issues
 				_listCache.RemoveAll();
-				_pageSummaryCache.RemoveAll();
+				_pageViewModelCache.RemoveAll();
 			}
 			catch (DatabaseException ex)
 			{
@@ -293,7 +293,7 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
-				PageViewModel summary = _pageSummaryCache.GetHomePage();
+				PageViewModel summary = _pageViewModelCache.GetHomePage();
 				if (summary == null)
 				{
 
@@ -306,7 +306,7 @@ namespace Roadkill.Core.Services
 					if (page != null)
 					{
 						summary = Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
-						_pageSummaryCache.UpdateHomePage(summary);
+						_pageViewModelCache.UpdateHomePage(summary);
 					}
 				}
 
@@ -385,7 +385,7 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
-				PageViewModel summary = _pageSummaryCache.Get(id);
+				PageViewModel summary = _pageViewModelCache.Get(id);
 				if (summary != null)
 				{
 					return summary;
@@ -401,7 +401,7 @@ namespace Roadkill.Core.Services
 					else
 					{
 						summary = Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
-						_pageSummaryCache.Add(id, summary);
+						_pageViewModelCache.Add(id, summary);
 
 						return summary;
 					}
@@ -441,10 +441,10 @@ namespace Roadkill.Core.Services
 				// Update the cache - updating a page is expensive for the cache right now
 				// this could be improved by updating the item in the listcache instead of invalidating it
 				//
-				_pageSummaryCache.Remove(summary.Id , 0);
+				_pageViewModelCache.Remove(summary.Id , 0);
 
 				if (summary.Tags.Contains("homepage"))
-					_pageSummaryCache.RemoveHomePage();
+					_pageViewModelCache.RemoveHomePage();
 
 				_listCache.RemoveAll();
 
@@ -483,13 +483,19 @@ namespace Roadkill.Core.Services
 
 					string tags = summary.CommaDelimitedTags();
 
-					if (tags.IndexOf(";") != -1)
-					{
-						tags = tags.Replace(oldTagName + ";", newTagName + ";");
-					}
-					else if (tags.IndexOf(",") != -1)
+					if (tags.IndexOf(",") != -1)
 					{
 						tags = tags.Replace(oldTagName + ",", newTagName + ",");
+					}
+					else if (tags.IndexOf(";") != -1)
+					{
+						// legacy
+						tags = tags.Replace(oldTagName + ";", newTagName + ";");
+					}
+					else
+					{
+						// Single tag
+						tags = tags.Replace(oldTagName, newTagName);
 					}
 
 					summary.RawTags = tags;
@@ -559,7 +565,7 @@ namespace Roadkill.Core.Services
 
 			if (shouldClearCache)
 			{
-				_pageSummaryCache.RemoveAll();
+				_pageViewModelCache.RemoveAll();
 				_listCache.RemoveAll();
 			}
 		}

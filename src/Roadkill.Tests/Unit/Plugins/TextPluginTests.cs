@@ -96,13 +96,10 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Settings_Should_Ignore_Null_Value_When_Set()
+		public void Settings_Should_Never_Be_Null()
 		{
-			// Arrange
+			// Arrange + act
 			TextPlugin plugin = new Mock<TextPlugin>(null, null).Object;
-
-			// Act
-			plugin.Settings = null;
 
 			// Assert
 			Assert.That(plugin.Settings, Is.Not.Null);

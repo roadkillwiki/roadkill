@@ -33,10 +33,6 @@ namespace Roadkill.Core.Plugins.BuiltIn.ToC
 			}
 		}
 
-		public TocPlugin(ApplicationSettings applicationSettings, IRepository repository) : base(applicationSettings, repository)
-		{
-		}
-
 		public override string AfterParse(string html)
 		{
 			TocParser parser = new TocParser();

@@ -54,11 +54,6 @@ namespace Roadkill.Core.Plugins.BuiltIn
 			_parserSafeToken = ParserSafeToken(_token);
 		}
 
-		public MathJax(ApplicationSettings applicationSettings, IRepository repository)
-			: base(applicationSettings, repository)
-		{
-		}
-
 		public override string BeforeParse(string markupText)
 		{
 			return markupText.Replace(_token, _parserSafeToken);

@@ -5,6 +5,8 @@ using Mindscape.LightSpeed;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Logging;
+using Roadkill.Core.Plugins;
+using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Core.Cache
 {
@@ -34,6 +36,11 @@ namespace Roadkill.Core.Cache
 			_cache.Add(CacheKeys.ADMINMENU, html, new CacheItemPolicy());
 		}
 
+		public void AddUpdatePluginSettings(TextPlugin plugin)
+		{
+			_cache.Add(CacheKeys.PluginSettingsKey(plugin), plugin.Settings, new CacheItemPolicy());
+		}
+
 		public void RemoveMenuCacheItems()
 		{
 			_cache.Remove(CacheKeys.MENU);
@@ -54,6 +61,11 @@ namespace Roadkill.Core.Cache
 		public string GetAdminMenu()
 		{
 			return _cache.Get(CacheKeys.ADMINMENU) as string;
+		}
+
+		public PluginSettings GetPluginSettings(TextPlugin plugin)
+		{
+			return _cache.Get(CacheKeys.PluginSettingsKey(plugin)) as PluginSettings;
 		}
 	}
 }

@@ -380,7 +380,7 @@
     <Compile Include="Mvc\WebViewPages\RoadkillLayoutPage.cs" />
     <Compile Include="Mvc\WebViewPages\RoadkillViewPage.cs" />
     <Compile Include="Mvc\Controllers\UpgradeController.cs" />
-    <Compile Include="Domain\Cache\PageSummaryCache.cs" />
+    <Compile Include="Domain\Cache\PageViewModelCache.cs" />
     <Compile Include="Domain\Cache\ListCache.cs" />
     <Compile Include="Database\Repositories\IUserRepository.cs" />
     <Compile Include="Database\Repositories\IPageRepository.cs" />

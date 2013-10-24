@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Roadkill.Core.Plugins;
 
 namespace Roadkill.Core.Cache
 {
@@ -37,6 +38,9 @@ namespace Roadkill.Core.Cache
 		/// <summary>"adminmenu"</summary>
 		public static readonly string ADMINMENU = "adminmenu";
 
+		/// <summary>"pluginsettings.{type}"</summary>
+		public static readonly string PLUGIN_SETTINGS = "pluginsettings.{type}";
+
 		public static string PageViewModelKeyPrefix()
 		{
 			string key = PAGEVIEWMODEL;
@@ -68,6 +72,14 @@ namespace Roadkill.Core.Cache
 		{
 			string key = PAGES_BY_TAG;
 			key = key.Replace("{tag}", tag);
+
+			return key;
+		}
+
+		public static string PluginSettingsKey(TextPlugin plugin)
+		{
+			string key = PLUGIN_SETTINGS;
+			key = key.Replace("{type}", plugin.GetType().Name);
 
 			return key;
 		}

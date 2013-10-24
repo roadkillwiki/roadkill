@@ -46,7 +46,7 @@ namespace Roadkill.Tests.Unit.Cache
 
 			// Assert
 			CacheItem cacheItem = summaryCache.CacheItems.First();
-			string cacheKey = CacheKeys.PageViewModelKey(1, PageSummaryCache.LATEST_VERSION_NUMBER);
+			string cacheKey = CacheKeys.PageViewModelKey(1, PageViewModelCache.LATEST_VERSION_NUMBER);
 			Assert.That(cacheItem.Key, Is.EqualTo(cacheKey));
 
 			PageViewModel actualSummary = (PageViewModel) cacheItem.Value;
@@ -64,7 +64,7 @@ namespace Roadkill.Tests.Unit.Cache
 			PageService pageService = CreatePageService(summaryCache, null, repository);
 
 			PageViewModel expectedSummary = CreatePageViewModel();
-			string cacheKey = CacheKeys.PageViewModelKey(1, PageSummaryCache.LATEST_VERSION_NUMBER);
+			string cacheKey = CacheKeys.PageViewModelKey(1, PageViewModelCache.LATEST_VERSION_NUMBER);
 			summaryCache.Add(cacheKey, expectedSummary, new CacheItemPolicy());
 
 			// Act
@@ -416,7 +416,7 @@ namespace Roadkill.Tests.Unit.Cache
 			summary.Title = "my title";
 			summary.Id = 1;
 			summary.CreatedBy = createdBy;
-			summary.VersionNumber = PageSummaryCache.LATEST_VERSION_NUMBER;
+			summary.VersionNumber = PageViewModelCache.LATEST_VERSION_NUMBER;
 
 			return summary;
 		}
@@ -435,12 +435,12 @@ namespace Roadkill.Tests.Unit.Cache
 			RoadkillContextStub userContext = new RoadkillContextStub() { IsLoggedIn = false };
 
 			// PageService
-			PageSummaryCache pageSummaryCache = new PageSummaryCache(appSettings, summaryObjectCache);
+			PageViewModelCache pageViewModelCache = new PageViewModelCache(appSettings, summaryObjectCache);
 			ListCache listCache = new ListCache(appSettings, listObjectCache);
 			SiteCache siteCache = new SiteCache(appSettings, MemoryCache.Default);
 			SearchServiceMock searchService = new SearchServiceMock(appSettings, repository, _pluginFactory);
-			PageHistoryService historyService = new PageHistoryService(appSettings, repository, userContext, pageSummaryCache, _pluginFactory);
-			PageService pageService = new PageService(appSettings, repository, searchService, historyService, userContext, listCache, pageSummaryCache, siteCache, _pluginFactory);
+			PageHistoryService historyService = new PageHistoryService(appSettings, repository, userContext, pageViewModelCache, _pluginFactory);
+			PageService pageService = new PageService(appSettings, repository, searchService, historyService, userContext, listCache, pageViewModelCache, siteCache, _pluginFactory);
 
 			return pageService;
 		}

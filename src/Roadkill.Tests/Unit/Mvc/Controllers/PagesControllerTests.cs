@@ -50,7 +50,7 @@ namespace Roadkill.Tests.Unit
 
 			// Cache
 			ListCache listCache = new ListCache(_settings, MemoryCache.Default);
-			PageSummaryCache pageSummaryCache = new PageSummaryCache(_settings, MemoryCache.Default);
+			PageViewModelCache pageSummaryCache = new PageViewModelCache(_settings, MemoryCache.Default);
 
 			// Dependencies for PageService
 			_pluginFactory = new PluginFactoryMock();
