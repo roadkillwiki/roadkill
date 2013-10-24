@@ -139,7 +139,7 @@ namespace Roadkill.Core
 			x.For<ObjectCache>().Use(new MemoryCache("Roadkill"));
 			x.For<ListCache>().Singleton();
 			x.For<SiteCache>().Singleton();
-			x.For<PageSummaryCache>().Singleton();
+			x.For<PageViewModelCache>().Singleton();
 		}
 
 		private void Scan(IAssemblyScanner scanner)
@@ -200,7 +200,7 @@ namespace Roadkill.Core
 
 			// Cache
 			scanner.AddAllTypesOf<ListCache>();
-			scanner.AddAllTypesOf<PageSummaryCache>();
+			scanner.AddAllTypesOf<PageViewModelCache>();
 		}
 
 		private void Configure(ConfigurationExpression x)
@@ -253,6 +253,10 @@ namespace Roadkill.Core
 			x.SetAllProperties(y => y.OfType<IControllerAttribute>());
 			x.SetAllProperties(y => y.TypeMatches(t => t == typeof(RoadkillViewPage<>)));
 			x.SetAllProperties(y => y.TypeMatches(t => t == typeof(RoadkillLayoutPage)));
+
+			// Setter inject the *internal* properties for the plugins
+			x.For<TextPlugin>().OnCreationForAll((ctx, plugin) => plugin.SiteCache = ctx.GetInstance<SiteCache>());
+			x.For<TextPlugin>().OnCreationForAll((ctx, plugin) => plugin.Repository = ctx.GetInstance<IRepository>());
 		}
 	}
 }

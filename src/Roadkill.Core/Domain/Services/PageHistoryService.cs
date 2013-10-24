@@ -18,15 +18,15 @@ namespace Roadkill.Core.Services
 	{
 		private MarkupConverter _markupConverter;
 		private IUserContext _context;
-		private PageSummaryCache _pageSummaryCache;
+		private PageViewModelCache _pageViewModelCache;
 
 		public PageHistoryService(ApplicationSettings settings, IRepository repository, IUserContext context,
-			PageSummaryCache pageSummaryCache, IPluginFactory pluginFactory)
+			PageViewModelCache pageSummaryCache, IPluginFactory pluginFactory)
 			: base(settings, repository)
 		{
 			_markupConverter = new MarkupConverter(settings, repository, pluginFactory);
 			_context = context;
-			_pageSummaryCache = pageSummaryCache;
+			_pageViewModelCache = pageSummaryCache;
 		}
 
 		/// <summary>
@@ -77,7 +77,7 @@ namespace Roadkill.Core.Services
 				}
 				else
 				{
-					PageViewModel model = _pageSummaryCache.Get(mainContent.Page.Id, mainContent.VersionNumber - 1);
+					PageViewModel model = _pageViewModelCache.Get(mainContent.Page.Id, mainContent.VersionNumber - 1);
 
 					if (model == null)
 					{
@@ -89,7 +89,7 @@ namespace Roadkill.Core.Services
 						else
 						{
 							model = previousContent.ToModel(_markupConverter);
-							_pageSummaryCache.Add(mainContent.Page.Id, mainContent.VersionNumber - 1, model);
+							_pageViewModelCache.Add(mainContent.Page.Id, mainContent.VersionNumber - 1, model);
 						}
 					}
 
@@ -157,7 +157,7 @@ namespace Roadkill.Core.Services
 				Repository.AddNewPageContentVersion(page, text, editedBy, editedOn, versionNumber);
 
 				// Clear the cache
-				_pageSummaryCache.Remove(page.Id);
+				_pageViewModelCache.Remove(page.Id);
 			}
 			catch (ArgumentNullException ex)
 			{

@@ -124,12 +124,12 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 
 			// PageService
 			RepositoryMock repository = new RepositoryMock();
-			PageSummaryCache pageSummaryCache = new PageSummaryCache(appSettings, MemoryCache.Default);
+			PageViewModelCache pageViewModelCache = new PageViewModelCache(appSettings, MemoryCache.Default);
 			ListCache listCache = new ListCache(appSettings, MemoryCache.Default);
 			SiteCache siteCache = new SiteCache(appSettings, MemoryCache.Default);
 			SearchServiceMock searchService = new SearchServiceMock(appSettings, repository, _pluginFactory);
-			PageHistoryService historyService = new PageHistoryService(appSettings, repository, userContext, pageSummaryCache, _pluginFactory);
-			PageService pageService = new PageService(appSettings, repository, searchService, historyService, userContext, listCache, pageSummaryCache, siteCache, _pluginFactory);
+			PageHistoryService historyService = new PageHistoryService(appSettings, repository, userContext, pageViewModelCache, _pluginFactory);
+			PageService pageService = new PageService(appSettings, repository, searchService, historyService, userContext, listCache, pageViewModelCache, siteCache, _pluginFactory);
 
 			// WikiController
 			SettingsService settingsService = new SettingsService(appSettings, repository);

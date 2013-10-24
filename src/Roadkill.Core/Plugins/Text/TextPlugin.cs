@@ -6,10 +6,13 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.DI;
 using Roadkill.Core.Logging;
 using StructureMap;
+using StructureMap.Attributes;
 
 namespace Roadkill.Core.Plugins
 {
@@ -27,19 +30,6 @@ namespace Roadkill.Core.Plugins
 		private Settings _settings;
 		private string _pluginVirtualPath;
 
-		public Settings Settings
-		{
-			get
-			{
-				return _settings;
-			}
-			set
-			{
-				if (value != null)
-					_settings = value;
-			}
-		}
-
 		/// <summary>
 		/// The unique ID for the plugin, which is also the directory it's stored in inside the /Plugins/ directory.
 		/// This should not be case sensitive.
@@ -48,10 +38,54 @@ namespace Roadkill.Core.Plugins
 		public abstract string Name { get; }
 		public abstract string Description { get; }
 		public abstract string Version { get; }
-
+		
+		[SetterProperty]
 		public ApplicationSettings ApplicationSettings { get; set; }
-		public SiteSettings SiteSettings { get; set; }
+
+		// Setter injected at creation time by the DI manager
+		internal SiteCache SiteCache { get; set; }
+		internal IRepository Repository { get; set; }
+
 		public virtual bool IsCacheable { get; set; }
+
+		public Settings Settings
+		{
+			get
+			{
+				if (_settings == null)
+				{
+					_settings = SiteCache.GetPluginSettings(this);
+					if (_settings == null)
+					{
+						_settings = Repository.GetTextPluginSettings(this);
+
+						if (_settings == null)
+							_settings = new Settings();
+					}
+
+					ConfigureSettingDefaults();
+					SiteCache.AddUpdatePluginSettings(this);
+				}
+
+				return _settings;
+			}
+		}
+
+		public virtual void ConfigureSettingDefaults()
+		{
+
+		}
+
+		public SiteSettings SiteSettings
+		{
+			get
+			{
+				if (Repository != null)
+					return Repository.GetSiteSettings();
+				else
+					return null;
+			}
+		}
 
 		/// <summary>
 		/// The virtual path for the plugin, e.g. ~/Plugins/Text/MyPlugin/. Does not contain a trailing slash.
@@ -101,16 +135,16 @@ namespace Roadkill.Core.Plugins
 			}
 		}
 
-		public TextPlugin(ApplicationSettings applicationSettings, IRepository repository)
+		public TextPlugin()
 		{
 			_scriptFiles = new List<string>();
-
-			ApplicationSettings = applicationSettings;
 			IsCacheable = true;
-			Settings = new Settings();
+		}
 
-			if (repository != null)
-				SiteSettings = repository.GetSiteSettings();
+		internal TextPlugin(IRepository repository, SiteCache siteCache) : this()
+		{
+			Repository = repository;
+			SiteCache = siteCache;
 		}
 
 		public virtual string BeforeParse(string markupText)

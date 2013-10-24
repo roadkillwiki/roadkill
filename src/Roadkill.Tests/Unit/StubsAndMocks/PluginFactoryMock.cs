@@ -34,5 +34,10 @@ namespace Roadkill.Tests.Unit
 		{
 			return TextPlugins.FirstOrDefault(x => x.Id == id);
 		}
+
+		public void UpdateInstance(TextPlugin plugin)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

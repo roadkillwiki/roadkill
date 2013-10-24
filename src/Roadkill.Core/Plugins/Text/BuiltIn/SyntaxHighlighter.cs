@@ -56,8 +56,7 @@ namespace Roadkill.Core.Plugins.BuiltIn
 			_replacePattern = ParserSafeToken(_replacePattern);
 		}
 
-		public SyntaxHighlighter(ApplicationSettings applicationSettings, IRepository repository)
-			: base(applicationSettings, repository)
+		public override void ConfigureSettingDefaults()
 		{
 			Settings.SetValue("name", "value");
 		}

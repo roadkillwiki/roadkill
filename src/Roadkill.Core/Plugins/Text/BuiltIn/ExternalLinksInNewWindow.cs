@@ -45,11 +45,6 @@ namespace Roadkill.Core.Plugins.BuiltIn
 			}
 		}
 
-		public ExternalLinksInNewWindow(ApplicationSettings applicationSettings, IRepository repository)
-			: base(applicationSettings, repository)
-		{
-		}
-
 		public override string GetHeadContent()
 		{
 			AddScript("externallinksinnewwindow.js");

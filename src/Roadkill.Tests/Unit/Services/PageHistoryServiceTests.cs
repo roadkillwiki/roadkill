@@ -56,7 +56,7 @@ namespace Roadkill.Tests.Unit
 			_context.CurrentUser = userId.ToString();
 
 			_pluginFactory = new PluginFactoryMock();
-			_historyService = new PageHistoryService(_settings, _repositoryMock, _context, new PageSummaryCache(_settings, MemoryCache.Default), _pluginFactory);
+			_historyService = new PageHistoryService(_settings, _repositoryMock, _context, new PageViewModelCache(_settings, MemoryCache.Default), _pluginFactory);
 		}
 
 		[Test]

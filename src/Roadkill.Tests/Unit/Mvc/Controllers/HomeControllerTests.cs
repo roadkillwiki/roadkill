@@ -45,7 +45,7 @@ namespace Roadkill.Tests.Unit
 			// Cache
 			ListCache listCache = new ListCache(_applicationSettings, MemoryCache.Default);
 			SiteCache siteCache = new SiteCache(_applicationSettings, MemoryCache.Default);
-			PageSummaryCache pageSummaryCache = new PageSummaryCache(_applicationSettings, MemoryCache.Default);
+			PageViewModelCache pageViewModelCache = new PageViewModelCache(_applicationSettings, MemoryCache.Default);
 
 			// Dependencies for PageService
 			Mock<SearchService> searchMock = new Mock<SearchService>();
@@ -57,8 +57,8 @@ namespace Roadkill.Tests.Unit
 			_searchService = new SearchServiceMock(_applicationSettings, _repository, _pluginFactory);
 			_searchService.PageContents = _repository.PageContents;
 			_searchService.Pages = _repository.Pages;
-			_historyService = new PageHistoryService(_applicationSettings, _repository, _context, pageSummaryCache, _pluginFactory);
-			_pageService = new PageService(_applicationSettings, _repository, _searchService, _historyService, _context, listCache, pageSummaryCache, siteCache, _pluginFactory);
+			_historyService = new PageHistoryService(_applicationSettings, _repository, _context, pageViewModelCache, _pluginFactory);
+			_pageService = new PageService(_applicationSettings, _repository, _searchService, _historyService, _context, listCache, pageViewModelCache, siteCache, _pluginFactory);
 		}
 
 		[Test]

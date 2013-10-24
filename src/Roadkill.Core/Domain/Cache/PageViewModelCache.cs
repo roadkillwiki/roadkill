@@ -6,10 +6,11 @@ using System.Text;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Mvc.ViewModels;
+using RoadkillLog = Roadkill.Core.Logging.Log;
 
 namespace Roadkill.Core.Cache
 {
-	public class PageSummaryCache
+	public class PageViewModelCache
 	{
 		/// <summary>
 		/// The version number used for cache keys to indicate it's the latest version - currently 0.
@@ -19,7 +20,7 @@ namespace Roadkill.Core.Cache
 		private ObjectCache _cache; 
 		private ApplicationSettings _applicationSettings;
 
-		public PageSummaryCache(ApplicationSettings settings, ObjectCache cache)
+		public PageViewModelCache(ApplicationSettings settings, ObjectCache cache)
 		{
 			_applicationSettings = settings;
 			_cache = cache;
@@ -41,7 +42,7 @@ namespace Roadkill.Core.Cache
 			string key = CacheKeys.PageViewModelKey(id, version);
 			_cache.Add(key, item, new CacheItemPolicy());
 
-			Log.Information("PageSummaryCache: Added key {0} to cache [Id={1}, Version{2}]", key, id, version);
+			Log("Added key {0} to cache [Id={1}, Version{2}]", key, id, version);
 		}
 
 		public void UpdateHomePage(PageViewModel item)
@@ -58,7 +59,7 @@ namespace Roadkill.Core.Cache
 			if (!_applicationSettings.UseObjectCache)
 				return null;
 
-			Log.Information("PageSummaryCache: Get latest homepage");
+			Log("Get latest homepage");
 
 			return _cache.Get(CacheKeys.HOMEPAGE) as PageViewModel;
 		}
@@ -74,7 +75,7 @@ namespace Roadkill.Core.Cache
 				return null;
 
 			string key = CacheKeys.PageViewModelKey(id, version);
-			Log.Information("PageSummaryCache: Get key {0} in cache [Id={1}, Version{2}]", key, id, version);
+			Log("Get key {0} in cache [Id={1}, Version{2}]", key, id, version);
 
 			return _cache.Get(key) as PageViewModel;
 		}
@@ -86,7 +87,7 @@ namespace Roadkill.Core.Cache
 
 			_cache.Remove(CacheKeys.HOMEPAGE);
 
-			Log.Information("PageSummaryCache: Removed homepage from cache", CacheKeys.HOMEPAGE);
+			Log("Removed homepage from cache", CacheKeys.HOMEPAGE);
 		}
 
 		public void Remove(int id)
@@ -102,7 +103,7 @@ namespace Roadkill.Core.Cache
 			string key = CacheKeys.PageViewModelKey(id, version);
 			_cache.Remove(key);
 
-			Log.Information("PageSummaryCache: Removed key '{0}' from cache", key);
+			Log("Removed key '{0}' from cache", key);
 		}
 
 		public void RemoveAll()
@@ -110,7 +111,7 @@ namespace Roadkill.Core.Cache
 			if (!_applicationSettings.UseObjectCache)
 				return;
 
-			Log.Information("PageSummaryCache: RemoveAll from cache");
+			Log("RemoveAll from cache");
 
 			// No need to lock the cache as Remove doesn't throw an exception if the key doesn't exist
 			IEnumerable<string> keys = _cache.Select(x => x.Key).ToList();
@@ -125,6 +126,11 @@ namespace Roadkill.Core.Cache
 			return _cache.Where(x => x.Key.StartsWith(CacheKeys.PageViewModelKeyPrefix()))
 				.OrderBy(x => x.Key)
 				.Select(x => x.Key);
+		}
+
+		private void Log(string format, params object[] args)
+		{
+			RoadkillLog.Information("PageViewModelCache: " + string.Format(format, args));
 		}
 	}
 }

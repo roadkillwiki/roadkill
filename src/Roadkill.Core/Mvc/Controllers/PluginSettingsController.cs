@@ -52,7 +52,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (plugin == null)
 				return RedirectToAction("Index");
 
-			PluginViewModel summary = new PluginViewModel()
+			PluginViewModel model = new PluginViewModel()
 			{
 				Id = plugin.Id,
 				DatabaseId = plugin.DatabaseId,
@@ -60,30 +60,38 @@ namespace Roadkill.Core.Mvc.Controllers
 				Description = plugin.Description,
 			};
 
-			// Try to load the settings from the database, or use the defaults
+			// Try to load the settings from the database, fall back to defaults
 			PluginSettings dbSettings = _repository.GetTextPluginSettings(plugin);
 			if (dbSettings != null)
-				summary.SettingValues = new List<SettingValue>(dbSettings.Values);
+			{
+				model.SettingValues = new List<SettingValue>(dbSettings.Values);
+				model.IsEnabled = dbSettings.IsEnabled;
+			}
 			else
-				summary.SettingValues = new List<SettingValue>(plugin.Settings.Values);
+			{
+				model.SettingValues = new List<SettingValue>(plugin.Settings.Values);
+				model.IsEnabled = plugin.Settings.IsEnabled;
+			}
 
-			return View(summary);
+			return View(model);
 		}
 
 		[HttpPost]
-		public ActionResult Edit(PluginViewModel summary)
+		public ActionResult Edit(PluginViewModel model)
 		{
-			TextPlugin plugin = _pluginFactory.GetTextPlugin(summary.Id);
+			TextPlugin plugin = _pluginFactory.GetTextPlugin(model.Id);
 			if (plugin == null)
 				return RedirectToAction("Index");
 
 			// Update the plugin settings with the values from the summary
-			foreach (SettingValue summaryValue in summary.SettingValues)
+			foreach (SettingValue summaryValue in model.SettingValues)
 			{
 				SettingValue pluginValue = plugin.Settings.Values.FirstOrDefault(x => x.Name == summaryValue.Name);
 				if (pluginValue != null)
 					pluginValue.Value = summaryValue.Value;
 			}
+
+			plugin.Settings.IsEnabled = model.IsEnabled;
 			_repository.SaveTextPluginSettings(plugin);
 
 			return RedirectToAction("Index");

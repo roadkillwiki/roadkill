@@ -28,19 +28,19 @@ namespace Roadkill.Core.Mvc.Controllers
 		private SearchService _searchService;
 		private ScrewTurnImporter _importer;
 		private ListCache _listCache;
-		private PageSummaryCache _pageSummaryCache;
+		private PageViewModelCache _pageViewModelCache;
 		private SiteCache _siteCache;
 
 		public SettingsController(ApplicationSettings settings, UserServiceBase userManager,
 			SettingsService settingsService, PageService pageService, SearchService searchService, IUserContext context,
-			ListCache listCache, PageSummaryCache pageSummaryCache, SiteCache siteCache, ScrewTurnImporter screwTurnImporter)
+			ListCache listCache, PageViewModelCache pageSummaryCache, SiteCache siteCache, ScrewTurnImporter screwTurnImporter)
 			: base(settings, userManager, context, settingsService) 
 		{
 			_settingsService = settingsService;
 			_pageService = pageService;
 			_searchService = searchService;
 			_listCache = listCache;
-			_pageSummaryCache = pageSummaryCache;
+			_pageViewModelCache = pageSummaryCache;
 			_siteCache = siteCache;
 		}
 
@@ -382,7 +382,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			TempData["Message"] = SiteStrings.SiteSettings_Tools_ClearDatabase_Message;
 			_settingsService.ClearPageTables();
 			_listCache.RemoveAll();
-			_pageSummaryCache.RemoveAll();
+			_pageViewModelCache.RemoveAll();
 
 			return RedirectToAction("Tools");
 		}
@@ -417,14 +417,14 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			if (!string.IsNullOrEmpty(clear))
 			{
-				_pageSummaryCache.RemoveAll();
+				_pageViewModelCache.RemoveAll();
 				_listCache.RemoveAll();
 				ViewData["CacheCleared"] = true;
 			}
 
 			List<IEnumerable<string>> cacheKeys = new List<IEnumerable<string>>()
 			{
-				_pageSummaryCache.GetAllKeys(),
+				_pageViewModelCache.GetAllKeys(),
 				_listCache.GetAllKeys()
 			};
 
