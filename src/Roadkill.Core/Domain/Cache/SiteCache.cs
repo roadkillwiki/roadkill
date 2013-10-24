@@ -36,8 +36,9 @@ namespace Roadkill.Core.Cache
 			_cache.Add(CacheKeys.ADMINMENU, html, new CacheItemPolicy());
 		}
 
-		public void AddUpdatePluginSettings(TextPlugin plugin)
+		public void UpdatePluginSettings(TextPlugin plugin)
 		{
+			_cache.Remove(CacheKeys.PluginSettingsKey(plugin));
 			_cache.Add(CacheKeys.PluginSettingsKey(plugin), plugin.Settings, new CacheItemPolicy());
 		}
 

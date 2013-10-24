@@ -27,8 +27,8 @@ namespace Roadkill.Core.Plugins
 		private List<string> _scriptFiles;
 		private string _onLoadFunction;
 		private Guid _databaseId;
-		private Settings _settings;
 		private string _pluginVirtualPath;
+		protected Settings _settings;
 
 		/// <summary>
 		/// The unique ID for the plugin, which is also the directory it's stored in inside the /Plugins/ directory.
@@ -54,9 +54,17 @@ namespace Roadkill.Core.Plugins
 			{
 				if (_settings == null)
 				{
+					// Guard for null SiteCache
+					if (SiteCache == null)
+						throw new PluginException(null, "The SiteCache property is null for {0} when it should be injected by the DI container", GetType().FullName);
+
 					_settings = SiteCache.GetPluginSettings(this);
 					if (_settings == null)
 					{
+						// Guard for null Repository
+						if (Repository == null)
+							throw new PluginException(null, "The Repository property is null for {0} when it should be injected by the DI container", GetType().FullName);
+
 						_settings = Repository.GetTextPluginSettings(this);
 
 						if (_settings == null)
@@ -64,7 +72,7 @@ namespace Roadkill.Core.Plugins
 					}
 
 					ConfigureSettingDefaults();
-					SiteCache.AddUpdatePluginSettings(this);
+					SiteCache.UpdatePluginSettings(this);
 				}
 
 				return _settings;

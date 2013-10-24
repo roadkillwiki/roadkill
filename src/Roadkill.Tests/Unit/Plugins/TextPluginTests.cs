@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Text;
 using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
+using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Plugins;
 using Roadkill.Tests.Unit.StubsAndMocks;
+using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Tests.Unit.Plugins
 {
@@ -156,7 +159,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void HeadJsLoadedFunction_Should_Be_Added_To_Javascript()
+		public void SetHeadJsOnLoadedFunction_Should_Be_Added_To_Javascript()
 		{
 			// Arrange
 			TextPlugin plugin = new Mock<TextPlugin>(null, null).Object;
@@ -175,7 +178,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void GetCss_Should_Contain_File_And_Expected_Html()
+		public void GetCssLink_Should_Contain_File_And_Expected_Html()
 		{
 			// Arrange
 			Mock<TextPlugin> plugin = new Mock<TextPlugin>(null, null);
@@ -189,6 +192,91 @@ namespace Roadkill.Tests.Unit.Plugins
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
+		}
+
+		[Test]
+		[Description("The SiteCache property should be injected at creation time by Structuremap")]
+		[ExpectedException(typeof(PluginException))]
+		public void Settings_Should_Throw_Exception_If_SiteCache_Is_Not_Set()
+		{
+			// Arrange
+			TextPluginStub plugin = new TextPluginStub();
+
+			// Act + Assert
+			PluginSettings settings = plugin.Settings;
+		}
+
+		[Test]
+		[Description("The Repository property should be injected at creation time by Structuremap")]
+		[ExpectedException(typeof(PluginException))]
+		public void Settings_Should_Throw_Exception_If_Repository_Is_Not_Set()
+		{
+			// Arrange
+			TextPluginStub plugin = new TextPluginStub();
+			plugin.SiteCache = new SiteCache(null, MemoryCache.Default);
+
+			// Act + Assert
+			PluginSettings settings = plugin.Settings;
+		}
+
+		[Test]
+		public void Settings_Should_Return_Instance_On_Second_Call()
+		{
+			// Arrange
+
+			// Act
+
+			// Assert
+		}
+
+		[Test]
+		public void Settings_Should_Return_From_Cache_When_Settings_Exist_In_Cache()
+		{
+			// Arrange
+
+			// Act
+
+			// Assert
+		}
+
+		[Test]
+		public void Settings_Should_Load_From_Repository_When_Cache_Is_Not_Set()
+		{
+			// Arrange
+
+			// Act
+
+			// Assert
+		}
+
+		[Test]
+		public void Settings_Should_Create_Instance_When_Repository_Settings_Are_Not_Set()
+		{
+			// Arrange
+
+			// Act
+
+			// Assert
+		}
+
+		[Test]
+		public void Settings_Should_Call_ConfigureSettingDefaults()
+		{
+			// Arrange
+
+			// Act
+
+			// Assert
+		}
+
+		[Test]
+		public void Settings_Should_Fill_Cache_After_Loading_From_Repository()
+		{
+			// Arrange
+
+			// Act
+
+			// Assert
 		}
 	}
 }
