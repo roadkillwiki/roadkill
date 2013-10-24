@@ -38,8 +38,8 @@ namespace Roadkill.Core.Cache
 		/// <summary>"adminmenu"</summary>
 		public static readonly string ADMINMENU = "adminmenu";
 
-		/// <summary>"pluginsettings.{type}"</summary>
-		public static readonly string PLUGIN_SETTINGS = "pluginsettings.{type}";
+		/// <summary>"pluginsettings.{type}.{id}"</summary>
+		public static readonly string PLUGIN_SETTINGS = "pluginsettings.{type}.{id}";
 
 		public static string PageViewModelKeyPrefix()
 		{
@@ -80,6 +80,7 @@ namespace Roadkill.Core.Cache
 		{
 			string key = PLUGIN_SETTINGS;
 			key = key.Replace("{type}", plugin.GetType().Name);
+			key = key.Replace("{id}", plugin.Id);
 
 			return key;
 		}
