@@ -10,7 +10,7 @@ using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Core.Cache
 {
-	public class SiteCache
+	public class SiteCache : IPluginCache
 	{
 		private ObjectCache _cache; 
 		private ApplicationSettings _applicationSettings;
@@ -40,6 +40,11 @@ namespace Roadkill.Core.Cache
 		{
 			_cache.Remove(CacheKeys.PluginSettingsKey(plugin));
 			_cache.Add(CacheKeys.PluginSettingsKey(plugin), plugin.Settings, new CacheItemPolicy());
+		}
+
+		public void RemovePluginSettings(TextPlugin plugin)
+		{
+			_cache.Remove(CacheKeys.PluginSettingsKey(plugin));
 		}
 
 		public void RemoveMenuCacheItems()

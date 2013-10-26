@@ -13,6 +13,7 @@ using Roadkill.Core.Database;
 using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.Controllers;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit.Mvc.Attributes
 {
@@ -124,9 +125,9 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 
 			// PageService
 			RepositoryMock repository = new RepositoryMock();
-			PageViewModelCache pageViewModelCache = new PageViewModelCache(appSettings, MemoryCache.Default);
-			ListCache listCache = new ListCache(appSettings, MemoryCache.Default);
-			SiteCache siteCache = new SiteCache(appSettings, MemoryCache.Default);
+			PageViewModelCache pageViewModelCache = new PageViewModelCache(appSettings, CacheMock.RoadkillCache);
+			ListCache listCache = new ListCache(appSettings, CacheMock.RoadkillCache);
+			SiteCache siteCache = new SiteCache(appSettings, CacheMock.RoadkillCache);
 			SearchServiceMock searchService = new SearchServiceMock(appSettings, repository, _pluginFactory);
 			PageHistoryService historyService = new PageHistoryService(appSettings, repository, userContext, pageViewModelCache, _pluginFactory);
 			PageService pageService = new PageService(appSettings, repository, searchService, historyService, userContext, listCache, pageViewModelCache, siteCache, _pluginFactory);

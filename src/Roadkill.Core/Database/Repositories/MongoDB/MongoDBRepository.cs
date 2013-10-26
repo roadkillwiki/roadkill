@@ -127,20 +127,16 @@ namespace Roadkill.Core.Database.MongoDB
 			return siteSettings;
 		}
 
-		public PluginSettings GetTextPluginSettings(TextPlugin plugin)
+		public PluginSettings GetTextPluginSettings(Guid databaseId)
 		{
 			SiteConfigurationEntity entity = Queryable<SiteConfigurationEntity>()
-												.FirstOrDefault(x => x.Id == plugin.DatabaseId);
+												.FirstOrDefault(x => x.Id == databaseId);
 
-			PluginSettings pluginSettings = new PluginSettings();
+			PluginSettings pluginSettings = null;
 
 			if (entity != null)
 			{
 				pluginSettings = PluginSettings.LoadFromJson(entity.Content);
-			}
-			else
-			{
-				Log.Warn("MongoDB: No plugin settings could be found in the database for {0}, using a default Settings", plugin.Id);
 			}
 
 			return pluginSettings;

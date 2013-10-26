@@ -148,7 +148,7 @@ namespace Roadkill.Tests.Unit.Cache
 			SiteCache siteCache = new SiteCache(settings, cache);
 
 			TextPluginStub plugin = new TextPluginStub();
-			plugin.SiteCache = siteCache;
+			plugin.PluginCache = siteCache;
 			plugin.Repository = new RepositoryMock();
 			plugin.Settings.SetValue("foo", "bar");
 
@@ -168,12 +168,12 @@ namespace Roadkill.Tests.Unit.Cache
 			SiteCache siteCache = new SiteCache(settings, cache);
 
 			TextPluginStub plugin = new TextPluginStub("id1", "", "");
-			plugin.SiteCache = siteCache;
+			plugin.PluginCache = siteCache;
 			plugin.Repository = new RepositoryMock();
 			plugin.Settings.SetValue("foo", "bar");
 
 			TextPluginStub plugin2 = new TextPluginStub("id2", "", "");
-			plugin2.SiteCache = siteCache;
+			plugin2.PluginCache = siteCache;
 			plugin2.Repository = new RepositoryMock();
 			plugin2.Settings.SetValue("foo", "bar2");
 
@@ -183,6 +183,26 @@ namespace Roadkill.Tests.Unit.Cache
 			// Assert
 			Assert.That(pluginSettings.Values.Count(), Is.EqualTo(1));
 			Assert.That(pluginSettings.GetValue("foo"), Is.EqualTo("bar"));
+		}
+
+		[Test]
+		public void RemovePluginSettings_Should_Remove_Plugin_Settings()
+		{
+			// Arrange
+			CacheMock cache = new CacheMock();
+			ApplicationSettings settings = new ApplicationSettings();
+			SiteCache siteCache = new SiteCache(settings, cache);
+
+			TextPluginStub plugin = new TextPluginStub();
+			plugin.PluginCache = siteCache;
+			plugin.Repository = new RepositoryMock();
+			plugin.Settings.SetValue("foo", "bar");
+
+			// Act
+			siteCache.RemovePluginSettings(plugin);
+
+			// Assert
+			Assert.That(cache.Count(), Is.EqualTo(0));
 		}
 	}
 }

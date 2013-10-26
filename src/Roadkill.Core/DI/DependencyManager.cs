@@ -25,6 +25,8 @@ using Roadkill.Core.Security.Windows;
 using StructureMap;
 using StructureMap.Graph;
 using StructureMap.Query;
+using System.Web.Http;
+using Roadkill.Core.Mvc;
 
 namespace Roadkill.Core
 {
@@ -97,14 +99,19 @@ namespace Roadkill.Core
 			if (_hasRunInitialization)
 			{
 				//
-				// * _All_ Roadkill MVC controllers are new'd up by MvcDependencyResolver so dependencies are injected into them
+				// * **All** Roadkill MVC controllers are new'd up by MvcDependencyResolver so dependencies are injected into them
 				// * Some view models are new'd up by custom MvcModelBinders so dependencies are injected into them
 				// * MVC Attributes are injected using setter injection
 				// * All views use RoadkillViewPage which is setter injected.
 				// * All layout views use RoadkillLayoutPage which uses bastard injection (as master pages are part of ASP.NET and not MVC) 
 				//
 
-				DependencyResolver.SetResolver(new MvcDependencyResolver()); // views and controllers
+				MvcDependencyResolver mvcResolver = new MvcDependencyResolver();
+
+				GlobalConfiguration.Configuration.DependencyResolver = mvcResolver; // web api
+				GlobalConfiguration.Configuration.Services.Add(typeof(System.Web.Http.Filters.IFilterProvider), new MvcAttributeProvider(GlobalConfiguration.Configuration.Services.GetFilterProviders()));// web api
+
+				DependencyResolver.SetResolver(mvcResolver); // views and controllers
 				FilterProviders.Providers.Add(new MvcAttributeProvider()); // attributes
 				ModelBinders.Binders.Add(typeof(UserViewModel), new UserViewModelModelBinder()); // models needing DI
 				ModelBinders.Binders.Add(typeof(SettingsViewModel), new SettingsViewModelBinder());
@@ -140,6 +147,7 @@ namespace Roadkill.Core
 			x.For<ListCache>().Singleton();
 			x.For<SiteCache>().Singleton();
 			x.For<PageViewModelCache>().Singleton();
+			x.For<IPluginCache>().Use<SiteCache>();
 		}
 
 		private void Scan(IAssemblyScanner scanner)
@@ -185,6 +193,7 @@ namespace Roadkill.Core
 			scanner.AddAllTypesOf<CustomTokenParser>();
 
 			// MVC Related
+			scanner.AddAllTypesOf<Roadkill.Core.Mvc.Controllers.Api.ApiControllerBase>();
 			scanner.AddAllTypesOf<Roadkill.Core.Mvc.Controllers.ControllerBase>();
 			scanner.AddAllTypesOf<UserViewModel>();
 			scanner.AddAllTypesOf<SettingsViewModel>();
@@ -255,7 +264,7 @@ namespace Roadkill.Core
 			x.SetAllProperties(y => y.TypeMatches(t => t == typeof(RoadkillLayoutPage)));
 
 			// Setter inject the *internal* properties for the plugins
-			x.For<TextPlugin>().OnCreationForAll((ctx, plugin) => plugin.SiteCache = ctx.GetInstance<SiteCache>());
+			x.For<TextPlugin>().OnCreationForAll((ctx, plugin) => plugin.PluginCache = ctx.GetInstance<IPluginCache>());
 			x.For<TextPlugin>().OnCreationForAll((ctx, plugin) => plugin.Repository = ctx.GetInstance<IRepository>());
 		}
 	}

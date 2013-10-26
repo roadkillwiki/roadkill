@@ -183,19 +183,15 @@ namespace Roadkill.Core.Database.LightSpeed
 			return siteSettings;
 		}
 
-		public PluginSettings GetTextPluginSettings(TextPlugin plugin)
+		public PluginSettings GetTextPluginSettings(Guid databaseId)
 		{
 			PluginSettings pluginSettings = null;
 			SiteConfigurationEntity entity = UnitOfWork.Find<SiteConfigurationEntity>()
-												.FirstOrDefault(x => x.Id == plugin.DatabaseId);
+												.FirstOrDefault(x => x.Id == databaseId);
 
 			if (entity != null)
 			{
 				pluginSettings = PluginSettings.LoadFromJson(entity.Content);
-			}
-			else
-			{
-				Log.Warn("No site settings could be found in the database, using a default instance");
 			}
 
 			return pluginSettings;

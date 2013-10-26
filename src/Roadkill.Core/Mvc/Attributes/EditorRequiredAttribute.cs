@@ -5,6 +5,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using StructureMap.Attributes;
+using System.Threading;
 
 namespace Roadkill.Core.Mvc.Attributes
 {

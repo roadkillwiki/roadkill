@@ -16,6 +16,7 @@ using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using System.Runtime.Caching;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit
 {
@@ -49,8 +50,8 @@ namespace Roadkill.Tests.Unit
 			_settings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
 
 			// Cache
-			ListCache listCache = new ListCache(_settings, MemoryCache.Default);
-			PageViewModelCache pageSummaryCache = new PageViewModelCache(_settings, MemoryCache.Default);
+			ListCache listCache = new ListCache(_settings, CacheMock.RoadkillCache);
+			PageViewModelCache pageSummaryCache = new PageViewModelCache(_settings, CacheMock.RoadkillCache);
 
 			// Dependencies for PageService
 			_pluginFactory = new PluginFactoryMock();

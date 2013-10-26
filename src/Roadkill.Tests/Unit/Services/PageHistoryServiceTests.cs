@@ -12,6 +12,7 @@ using Roadkill.Core.Database;
 using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit
 {
@@ -56,7 +57,7 @@ namespace Roadkill.Tests.Unit
 			_context.CurrentUser = userId.ToString();
 
 			_pluginFactory = new PluginFactoryMock();
-			_historyService = new PageHistoryService(_settings, _repositoryMock, _context, new PageViewModelCache(_settings, MemoryCache.Default), _pluginFactory);
+			_historyService = new PageHistoryService(_settings, _repositoryMock, _context, new PageViewModelCache(_settings, CacheMock.RoadkillCache), _pluginFactory);
 		}
 
 		[Test]

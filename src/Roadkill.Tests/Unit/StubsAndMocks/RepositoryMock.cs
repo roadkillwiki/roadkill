@@ -18,6 +18,9 @@ namespace Roadkill.Tests.Unit
 		public SiteSettings SiteSettings { get; set; }
 		public List<TextPlugin> TextPlugins { get; set; }
 
+		// If this is set, GetTextPluginSettings returns it instead of a lookup
+		public PluginSettings PluginSettings { get; set; }
+
 		public DataStoreType InstalledDataStoreType { get; private set; }
 		public string InstalledConnectionString { get; private set; }
 		public bool InstalledEnableCache { get; private set; }
@@ -178,12 +181,15 @@ namespace Roadkill.Tests.Unit
 				TextPlugins[index] = plugin;
 		}
 
-		public PluginSettings GetTextPluginSettings(TextPlugin plugin)
+		public PluginSettings GetTextPluginSettings(Guid databaseId)
 		{
-			TextPlugin savedPlugin = TextPlugins.FirstOrDefault(x => x.DatabaseId == plugin.DatabaseId);
+			if (PluginSettings != null)
+				return PluginSettings;
+
+			TextPlugin savedPlugin = TextPlugins.FirstOrDefault(x => x.DatabaseId == databaseId);
 
 			if (savedPlugin != null)
-				return savedPlugin.Settings;
+				return savedPlugin._settings; // DON'T CALL Settings - you'll get a StackOverflowException
 			else
 				return null;
 		}

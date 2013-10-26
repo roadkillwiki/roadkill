@@ -71,7 +71,7 @@ namespace Roadkill.Core.Plugins
 		}
 
 		/// <summary>
-		/// Allows additional custom variable plugins to be registered at runtime.
+		/// Allows additional text plugins to be registered at runtime.
 		/// </summary>
 		public void RegisterTextPlugin(TextPlugin plugin)
 		{
@@ -79,7 +79,7 @@ namespace Roadkill.Core.Plugins
 		}
 
 		/// <summary>
-		/// Retrieves all custom variable plugins from the IoC container.
+		/// Retrieves all text plugins from the IoC container.
 		/// </summary>
 		public IEnumerable<TextPlugin> GetTextPlugins()
 		{

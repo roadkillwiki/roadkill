@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Text;
 using NUnit.Framework;
 using Roadkill.Core;
+using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
@@ -384,12 +386,15 @@ here is my C#code
 		}
 
 		[Test]
-		public void Should_Fire_BeforeParse_In_Custom_Variable_Plugin()
+		public void Should_Ignore_TextPlugins_BeforeParse_When_IsEnabled_Is_False()
 		{
 			// Arrange
 			string markupFragment = "This is my ~~~usertoken~~~";
 			string expectedHtml = "<p>This is my <span>usertoken</span>\n</p>";
+
 			TextPluginStub plugin = new TextPluginStub();
+			plugin.Repository = new RepositoryMock();
+			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
 			_pluginFactory.RegisterTextPlugin(plugin);
 
 			// Act
@@ -400,12 +405,55 @@ here is my C#code
 		}
 
 		[Test]
-		public void Should_Fire_AfterParse_In_Custom_Variable_Plugin_And_Output_Should_Not_Be_Cleaned()
+		public void Should_Ignore_TextPlugins_AfterParse_When_IsEnabled_Is_False()
 		{
 			// Arrange
 			string markupFragment = "Here is some markup **some bold**";
 			string expectedHtml = "<p>Here is some markup <strong style='color:green'><iframe src='javascript:alert(test)'>some bold</strong>\n</p>";
+
 			TextPluginStub plugin = new TextPluginStub();
+			plugin.Repository = new RepositoryMock();
+			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			_pluginFactory.RegisterTextPlugin(plugin);
+
+			// Act
+			string actualHtml = _converter.ToHtml(markupFragment);
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		public void Should_Fire_BeforeParse_In_TextPlugin()
+		{
+			// Arrange
+			string markupFragment = "This is my ~~~usertoken~~~";
+			string expectedHtml = "<p>This is my <span>usertoken</span>\n</p>";
+			
+			TextPluginStub plugin = new TextPluginStub();
+			plugin.Repository = new RepositoryMock();
+			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			plugin.Settings.IsEnabled = true;
+			_pluginFactory.RegisterTextPlugin(plugin);
+
+			// Act
+			string actualHtml = _converter.ToHtml(markupFragment);
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		public void Should_Fire_AfterParse_In_TextPlugin_And_Output_Should_Not_Be_Cleaned()
+		{
+			// Arrange
+			string markupFragment = "Here is some markup **some bold**";
+			string expectedHtml = "<p>Here is some markup <strong style='color:green'><iframe src='javascript:alert(test)'>some bold</strong>\n</p>";
+			
+			TextPluginStub plugin = new TextPluginStub();
+			plugin.Repository = new RepositoryMock();
+			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			plugin.Settings.IsEnabled = true;
 			_pluginFactory.RegisterTextPlugin(plugin);
 
 			// Act

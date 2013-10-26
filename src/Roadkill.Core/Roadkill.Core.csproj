@@ -284,6 +284,15 @@
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web">
@@ -296,6 +305,12 @@
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.30506.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -347,6 +362,7 @@
     <Compile Include="DI\RepositoryManager.cs" />
     <Compile Include="DI\ServiceLocator.cs" />
     <Compile Include="Domain\Cache\CacheKeys.cs" />
+    <Compile Include="Domain\Cache\IPluginCache.cs" />
     <Compile Include="Domain\Cache\SiteCache.cs" />
     <Compile Include="Domain\Security\FormsAuthenticationWrapper.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
@@ -362,6 +378,8 @@
       <DependentUpon>SiteStrings.resx</DependentUpon>
     </Compile>
     <Compile Include="Mvc\Attributes\CacheContentTypeAttribute.cs" />
+    <Compile Include="Mvc\Attributes\WebApiEditorRequired.cs" />
+    <Compile Include="Mvc\Attributes\WebApiAdminRequiredAttribute.cs" />
     <Compile Include="Mvc\Attributes\IControllerAttribute.cs" />
     <Compile Include="DI\MVC\MvcAttributeProvider.cs" />
     <Compile Include="DI\MVC\MvcDependencyResolver.cs" />
@@ -370,6 +388,23 @@
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
     <Compile Include="Mvc\Attributes\BrowserCacheAttribute.cs" />
+    <Compile Include="Mvc\WebApi\ApiControllerBase.cs" />
+    <Compile Include="Mvc\WebApi\SearchController.cs" />
+    <Compile Include="Mvc\WebApi\Help\ApiDescriptionExtensions.cs" />
+    <Compile Include="Mvc\WebApi\Help\App_Start\HelpPageConfig.cs" />
+    <Compile Include="Mvc\WebApi\Help\Controllers\HelpController.cs" />
+    <Compile Include="Mvc\WebApi\Help\HelpPageAreaRegistration.cs" />
+    <Compile Include="Mvc\WebApi\Help\HelpPageConfigurationExtensions.cs" />
+    <Compile Include="Mvc\WebApi\Help\Models\HelpPageApiModel.cs" />
+    <Compile Include="Mvc\WebApi\Help\SampleGeneration\HelpPageSampleGenerator.cs" />
+    <Compile Include="Mvc\WebApi\Help\SampleGeneration\HelpPageSampleKey.cs" />
+    <Compile Include="Mvc\WebApi\Help\SampleGeneration\ImageSample.cs" />
+    <Compile Include="Mvc\WebApi\Help\SampleGeneration\InvalidSample.cs" />
+    <Compile Include="Mvc\WebApi\Help\SampleGeneration\ObjectGenerator.cs" />
+    <Compile Include="Mvc\WebApi\Help\SampleGeneration\SampleDirection.cs" />
+    <Compile Include="Mvc\WebApi\Help\SampleGeneration\TextSample.cs" />
+    <Compile Include="Mvc\WebApi\Help\XmlDocumentationProvider.cs" />
+    <Compile Include="Mvc\WebApi\PagesController.cs" />
     <Compile Include="Mvc\Controllers\PluginSettingsController.cs" />
     <Compile Include="Mvc\Setup\Bundles.cs" />
     <Compile Include="Mvc\Setup\ExtendedRazorViewEngine.cs" />

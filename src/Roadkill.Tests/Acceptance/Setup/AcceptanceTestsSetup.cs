@@ -13,6 +13,7 @@ namespace Roadkill.Tests.Acceptance
 	/// Separate from the AcceptanceTestBase so it isn't run by nunit as a test.
 	/// </summary>
 	[SetUpFixture]
+	[Category("SetUpFixture")]
 	public class AcceptanceTestsSetup
 	{
 		public static IWebDriver Driver { get; private set; }
