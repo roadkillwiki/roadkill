@@ -10,11 +10,11 @@ namespace Roadkill.Core.Services
 		/// <summary>
 		/// Adds the page to the database.
 		/// </summary>
-		/// <param name="summary">The summary details for the page.</param>
+		/// <param name="model">The summary details for the page.</param>
 		/// <returns>A <see cref="PageViewModel"/> for the newly added page.</returns>
 		/// <exception cref="DatabaseException">An database error occurred while saving.</exception>
 		/// <exception cref="SearchException">An error occurred adding the page to the search index.</exception>
-		PageViewModel AddPage(PageViewModel summary);
+		PageViewModel AddPage(PageViewModel model);
 
 		/// <summary>
 		/// Retrieves a list of all pages in the system.
@@ -113,10 +113,10 @@ namespace Roadkill.Core.Services
 		/// <summary>
 		/// Updates the provided page.
 		/// </summary>
-		/// <param name="summary">The summary.</param>
+		/// <param name="model">The summary.</param>
 		/// <exception cref="DatabaseException">An database error occurred while updating.</exception>
 		/// <exception cref="SearchException">An error occurred adding the page to the search index.</exception>
-		void UpdatePage(PageViewModel summary);
+		void UpdatePage(PageViewModel model);
 
 		/// <summary>
 		/// Gets the menu HTML, which is stored in the database.

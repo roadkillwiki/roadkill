@@ -345,8 +345,8 @@ namespace Roadkill.Tests.Unit
 			Assert.That(result, Is.Not.Null);
 			Assert.That(result.ViewName, Is.EqualTo("ResetPasswordSent"));
 			Assert.That(resetEmail.IsSent, Is.True);
-			Assert.That(resetEmail.Summary.ExistingEmail, Is.EqualTo(email));
-			Assert.That(resetEmail.Summary.PasswordResetKey, Is.EqualTo(UserManagerMock.RESETKEY));
+			Assert.That(resetEmail.Model.ExistingEmail, Is.EqualTo(email));
+			Assert.That(resetEmail.Model.PasswordResetKey, Is.EqualTo(UserManagerMock.RESETKEY));
 		}
 
 		[Test]

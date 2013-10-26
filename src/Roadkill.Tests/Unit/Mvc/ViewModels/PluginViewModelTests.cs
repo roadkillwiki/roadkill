@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Text;
 using NUnit.Framework;
+using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Plugins;
@@ -29,6 +31,8 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			TextPluginStub plugin = new TextPluginStub("myid", "my name", "my description\r\nsome new text");
+			plugin.Repository = new RepositoryMock();
+			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
 			plugin.Settings.IsEnabled = true;
 
 			// Act

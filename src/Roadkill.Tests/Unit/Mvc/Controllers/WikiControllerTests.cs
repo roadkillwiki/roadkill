@@ -16,6 +16,7 @@ using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using System.Runtime.Caching;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit
 {
@@ -46,9 +47,9 @@ namespace Roadkill.Tests.Unit
 			_repository.SiteSettings.MarkupType = "Creole";
 
 			// Cache
-			ListCache listCache = new ListCache(_applicationSettings, MemoryCache.Default);
-			PageViewModelCache pageViewModelCache = new PageViewModelCache(_applicationSettings, MemoryCache.Default);
-			SiteCache siteCache = new SiteCache(_applicationSettings, MemoryCache.Default);
+			ListCache listCache = new ListCache(_applicationSettings, CacheMock.RoadkillCache);
+			PageViewModelCache pageViewModelCache = new PageViewModelCache(_applicationSettings, CacheMock.RoadkillCache);
+			SiteCache siteCache = new SiteCache(_applicationSettings, CacheMock.RoadkillCache);
 
 			// Dependencies for PageService
 			_pluginFactory = new PluginFactoryMock();

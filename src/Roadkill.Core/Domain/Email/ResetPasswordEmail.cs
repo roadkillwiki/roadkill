@@ -23,7 +23,7 @@ namespace Roadkill.Core
 		{
 		}
 
-		public override void Send(UserViewModel summary)
+		public override void Send(UserViewModel model)
 		{
 			// Thread safety should not be an issue here
 			if (string.IsNullOrEmpty(_plainTextContent))
@@ -35,7 +35,7 @@ namespace Roadkill.Core
 			PlainTextView = _plainTextContent;
 			HtmlView = _htmlContent;
 
-			base.Send(summary);
+			base.Send(model);
 		}
 	}
 }

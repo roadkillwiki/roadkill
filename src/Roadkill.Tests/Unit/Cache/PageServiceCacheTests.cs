@@ -425,10 +425,10 @@ namespace Roadkill.Tests.Unit.Cache
 		{
 			// Stick to memorycache when each one isn't used
 			if (summaryObjectCache == null)
-				summaryObjectCache = MemoryCache.Default;
+				summaryObjectCache = CacheMock.RoadkillCache;
 
 			if (listObjectCache == null)
-				listObjectCache = MemoryCache.Default;
+				listObjectCache = CacheMock.RoadkillCache;
 
 			// Settings
 			ApplicationSettings appSettings = new ApplicationSettings() { Installed = true, UseObjectCache = true };
@@ -437,7 +437,7 @@ namespace Roadkill.Tests.Unit.Cache
 			// PageService
 			PageViewModelCache pageViewModelCache = new PageViewModelCache(appSettings, summaryObjectCache);
 			ListCache listCache = new ListCache(appSettings, listObjectCache);
-			SiteCache siteCache = new SiteCache(appSettings, MemoryCache.Default);
+			SiteCache siteCache = new SiteCache(appSettings, CacheMock.RoadkillCache);
 			SearchServiceMock searchService = new SearchServiceMock(appSettings, repository, _pluginFactory);
 			PageHistoryService historyService = new PageHistoryService(appSettings, repository, userContext, pageViewModelCache, _pluginFactory);
 			PageService pageService = new PageService(appSettings, repository, searchService, historyService, userContext, listCache, pageViewModelCache, siteCache, _pluginFactory);

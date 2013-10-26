@@ -28,7 +28,7 @@ namespace Roadkill.Core.Plugins
 		private string _onLoadFunction;
 		private Guid _databaseId;
 		private string _pluginVirtualPath;
-		protected Settings _settings;
+		protected internal Settings _settings;
 
 		/// <summary>
 		/// The unique ID for the plugin, which is also the directory it's stored in inside the /Plugins/ directory.
@@ -43,7 +43,7 @@ namespace Roadkill.Core.Plugins
 		public ApplicationSettings ApplicationSettings { get; set; }
 
 		// Setter injected at creation time by the DI manager
-		internal SiteCache SiteCache { get; set; }
+		internal IPluginCache PluginCache { get; set; }
 		internal IRepository Repository { get; set; }
 
 		public virtual bool IsCacheable { get; set; }
@@ -52,36 +52,9 @@ namespace Roadkill.Core.Plugins
 		{
 			get
 			{
-				if (_settings == null)
-				{
-					// Guard for null SiteCache
-					if (SiteCache == null)
-						throw new PluginException(null, "The SiteCache property is null for {0} when it should be injected by the DI container", GetType().FullName);
-
-					_settings = SiteCache.GetPluginSettings(this);
-					if (_settings == null)
-					{
-						// Guard for null Repository
-						if (Repository == null)
-							throw new PluginException(null, "The Repository property is null for {0} when it should be injected by the DI container", GetType().FullName);
-
-						_settings = Repository.GetTextPluginSettings(this);
-
-						if (_settings == null)
-							_settings = new Settings();
-					}
-
-					ConfigureSettingDefaults();
-					SiteCache.UpdatePluginSettings(this);
-				}
-
+				EnsureSettings();
 				return _settings;
 			}
-		}
-
-		public virtual void ConfigureSettingDefaults()
-		{
-
 		}
 
 		public SiteSettings SiteSettings
@@ -152,7 +125,53 @@ namespace Roadkill.Core.Plugins
 		internal TextPlugin(IRepository repository, SiteCache siteCache) : this()
 		{
 			Repository = repository;
-			SiteCache = siteCache;
+			PluginCache = siteCache;
+		}
+
+		private void EnsureSettings()
+		{
+			if (_settings == null)
+			{
+				// Guard for null SiteCache
+				if (PluginCache == null)
+				{
+					throw new PluginException(null, "The SiteCache property is null for {0} when it should be injected by the DI container. " +
+											  "If you're unit testing, set the SiteCache and Repository properties with stubs before calling the Settings properties.", GetType().FullName);
+				}
+
+				_settings = PluginCache.GetPluginSettings(this);
+				if (_settings == null)
+				{
+					// Guard for null Repository
+					if (Repository == null)
+					{
+						throw new PluginException(null, "The Repository property is null for {0} and it wasn't found in the cache - it should be injected by the DI container. " +
+											  "If you're unit testing, set the SiteCache and Repository properties with stubs before calling the Settings properties.", GetType().FullName);
+					}
+
+					// Load from the database
+					_settings = Repository.GetTextPluginSettings(this.DatabaseId);
+
+					// If this is the first time the plugin has been used, new up the settings
+					if (_settings == null)
+					{
+						_settings = new Settings();
+
+						// Allow derived classes to add custom setting values
+						OnInitializeSettings(_settings);
+
+						// Update the repository
+						Repository.SaveTextPluginSettings(this);
+					}
+
+					// Cache the settings
+					PluginCache.UpdatePluginSettings(this);
+				}
+			}
+		}
+		
+		public virtual void OnInitializeSettings(Settings settings)
+		{
 		}
 
 		public virtual string BeforeParse(string markupText)

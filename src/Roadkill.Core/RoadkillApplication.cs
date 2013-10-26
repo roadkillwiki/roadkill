@@ -12,6 +12,7 @@ using Roadkill.Core.Mvc;
 using System.IO;
 using Roadkill.Core.DI;
 using Roadkill.Core.Mvc;
+using System.Web.Http;
 
 namespace Roadkill.Core
 {
@@ -37,10 +38,11 @@ namespace Roadkill.Core
 			// Filters
 			GlobalFilters.Filters.Add(new HandleErrorAttribute());
 
-			// Areas aren't used but kept in for future usage
+			// Areas are used for the webapi help.
 			AreaRegistration.RegisterAllAreas();
 
 			// Register routers and JS/CSS bundles
+			Routing.RegisterApi(GlobalConfiguration.Configuration);
 			Routing.Register(RouteTable.Routes);
 			Bundles.Register();
 

@@ -6,6 +6,7 @@ using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Plugins;
+using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Tests.Unit.StubsAndMocks
 {
@@ -47,6 +48,11 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 			_id = id;
 			_name = name;
 			_description = description;
+		}
+
+		public override void OnInitializeSettings(PluginSettings settings)
+		{
+			
 		}
 
 		public override string BeforeParse(string markupText)

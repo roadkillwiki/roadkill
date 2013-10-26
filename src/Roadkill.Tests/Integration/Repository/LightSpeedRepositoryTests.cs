@@ -72,7 +72,7 @@ namespace Roadkill.Tests.Integration
 			_applicationSettings.ConnectionString = _connectionString;
 			_applicationSettings.DataStoreType = _dataStoreType;
 
-			_siteCache = new SiteCache(_applicationSettings, MemoryCache.Default);
+			_siteCache = new SiteCache(_applicationSettings, CacheMock.RoadkillCache);
 
 			//_repository = new LightSpeedRepository(_applicationSettings);
 			_repository = new LightSpeedRepository(_applicationSettings);
@@ -422,7 +422,7 @@ namespace Roadkill.Tests.Integration
 
 			// Act
 			_repository.SaveTextPluginSettings(plugin);
-			PluginSettings actualSettings = _repository.GetTextPluginSettings(plugin);
+			PluginSettings actualSettings = _repository.GetTextPluginSettings(plugin.DatabaseId);
 
 			// Assert
 			Assert.That(actualSettings.GetValue("somekey1"), Is.EqualTo("thevalue1"));
