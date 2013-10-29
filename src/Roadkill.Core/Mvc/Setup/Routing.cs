@@ -59,13 +59,17 @@ namespace Roadkill.Core.Mvc
 			);
 		}
 
-		public static void RegisterApi(HttpConfiguration config)
+		public static void RegisterApi(System.Web.Http.HttpConfiguration config)
 		{
+			config.MapHttpAttributeRoutes();
+
 			config.Routes.MapHttpRoute(
 				name: "DefaultApi",
 				routeTemplate: "api/{controller}/{id}",
 				defaults: new { id = RouteParameter.Optional }
 			);
+
+			config.EnsureInitialized();
 		}
 	}
 }
