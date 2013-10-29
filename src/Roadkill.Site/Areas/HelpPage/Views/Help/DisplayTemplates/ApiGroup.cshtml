@@ -10,7 +10,7 @@
         <tr><th>API</th><th>Description</th></tr>
     </thead>
     <tbody>
-    @foreach (var api in Model)
+    @foreach (var api in Model.OrderBy(x => x.HttpMethod.ToString()).ThenBy(x => x.Documentation))
     {
         <tr>
             <td class="api-name"><a href="@Url.Action("Api", "Help", new { apiId = api.GetFriendlyId() })">@api.HttpMethod.Method @api.RelativePath</a></td>

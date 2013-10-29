@@ -9,6 +9,7 @@ using Roadkill.Core.Services;
 
 namespace Roadkill.Core.Mvc.Controllers.Api
 {
+	[WebApiAdminRequired]
 	public class SearchController : ApiControllerBase
 	{
 		private SearchService _searchService;

@@ -9,6 +9,7 @@ using Roadkill.Core.Services;
 
 namespace Roadkill.Core.Mvc.Controllers.Api
 {
+	[WebApiAdminRequired]
 	public class PagesController : ApiControllerBase
 	{
 		private IPageService _pageService;
@@ -21,8 +22,7 @@ namespace Roadkill.Core.Mvc.Controllers.Api
 		/// <summary>
 		/// Retrieves all pages from the system, but without their text content.
 		/// </summary>
-		/// <returns></returns>
-		[WebApiAdminRequired]
+		/// <returns>An array of page details.</returns>
 		public IEnumerable<PageViewModel> Get()
 		{
 			return _pageService.AllPages();
@@ -32,14 +32,25 @@ namespace Roadkill.Core.Mvc.Controllers.Api
 		/// Retrieves a page by its id.
 		/// </summary>
 		/// <param name="id">The id of the page.</param>
-		/// <returns></returns>
-		[WebApiAdminRequired]
+		/// <returns>The page details</returns>
 		public PageViewModel Get(int id)
 		{
 			return _pageService.GetById(id);
 		}
 
-		[WebApiAdminRequired]
+		/// <summary>
+		/// Creates a new page in the database.
+		/// </summary>
+		/// <param name="model">The page details.</param>
+		public void Post(PageViewModel model)
+		{
+			_pageService.AddPage(model);
+		}
+
+		/// <summary>
+		/// Updates an existing page.
+		/// </summary>
+		/// <param name="model">The page details, which should contain a valid ID.</param>
 		public void Put(PageViewModel model)
 		{
 			_pageService.UpdatePage(model);
