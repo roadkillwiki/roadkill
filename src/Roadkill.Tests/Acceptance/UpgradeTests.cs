@@ -46,7 +46,7 @@ namespace Roadkill.Tests.Acceptance
 		public void TearDown()
 		{
 			// Reset the web.config back for all other acceptance tests
-			AcceptanceTestsSetup.CopyWebConfig();
+			AcceptanceTestsSetup.CopyConnectionStringsConfig();
 		}
 
 		[Test]
