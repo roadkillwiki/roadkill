@@ -24,6 +24,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			CopyDbBinaries();
 			CopyWebConfig();
+			CopyConnectionStringsConfig();
 			CopyRoadkillConfig();
 			LaunchIisExpress();
 
@@ -69,9 +70,9 @@ namespace Roadkill.Tests.Acceptance
 				string sitePath = GetSitePath();
 				string siteWebConfig = Path.Combine(sitePath, "web.config");
 
-				string testsWebConfigPath = Path.Combine(Settings.LIB_FOLDER, "Configs", "web.acceptancetests.config");
+				string testsWebConfigPath = Path.Combine(Settings.LIB_FOLDER, "Configs", "web.config");
 				Console.WriteLine("Original web.config path: {0}", siteWebConfig);
-				Console.WriteLine("Acceptance tests web.config path: {0}", testsWebConfigPath);
+				Console.WriteLine("Template web.config path: {0}", testsWebConfigPath);
 
 				// Be a good neighbour and backup the web.config
 				try
@@ -85,11 +86,46 @@ namespace Roadkill.Tests.Acceptance
 				}
 				catch
 				{
-					// Doesn't matter as the lib folder contains the dev web.config template
+					// Ignore
 				}
 
 				File.Copy(testsWebConfigPath, siteWebConfig, true);
 				Console.WriteLine("Copied web.config from '{0}' to '{1}'", testsWebConfigPath, siteWebConfig);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+			}
+		}
+
+		public static void CopyConnectionStringsConfig()
+		{
+			try
+			{
+				string sitePath = GetSitePath();
+				string siteConnStringsConfig = Path.Combine(sitePath, "connectionStrings.config");
+
+				string testsConnStringsPath = Path.Combine(Settings.LIB_FOLDER, "Configs", "connectionStrings.acceptancetests.config");
+				Console.WriteLine("Original connectionStrings.config path: {0}", siteConnStringsConfig);
+				Console.WriteLine("Acceptance tests connectionStrings.config path: {0}", testsConnStringsPath);
+
+				// Backup
+				try
+				{
+					string backupFile = siteConnStringsConfig + ".bak";
+					if (File.Exists(backupFile))
+						File.Delete(backupFile);
+
+					File.Copy(siteConnStringsConfig, siteConnStringsConfig + ".bak", true);
+					Console.WriteLine("Backed up connectionstrings.config to {0}.bak", siteConnStringsConfig);
+				}
+				catch
+				{
+					// Ignore the failures, it's only a connection string
+				}
+
+				File.Copy(testsConnStringsPath, siteConnStringsConfig, true);
+				Console.WriteLine("Copied connectionstrings.config from '{0}' to '{1}'", testsConnStringsPath, siteConnStringsConfig);
 			}
 			catch (Exception e)
 			{
