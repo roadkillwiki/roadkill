@@ -369,9 +369,6 @@
 <data name="EditPage_Toolbar_BulletList" xml:space="preserve">
 	<value>Legen Aufzählung Markup-Zeichen.</value>
 </data>
-<data name="EditPage_Toolbar_Heading1" xml:space="preserve">
-	<value>Legen Überschrift 1 Ebene Markup-Zeichen.</value>
-</data>
 <data name="EditPage_Toolbar_Heading2" xml:space="preserve">
 	<value>Legen Überschrift 2 Ebene Markup-Zeichen.</value>
 </data>
@@ -514,7 +511,7 @@
 	<value>Der Datenbank-Verbindungszeichenfolge.</value>
 </data>
 <data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
-	<value>&lt;b&gt; WARNUNG &lt;/ b&gt; Eine Änderung kann man aussperren der Website. Machen Sie ein Backup Ihrer web.config ersten vor dem Speichern. &lt;br/&gt; Legt fest, ob die Windows-Authentifizierung und Active Directory für die Authentifizierung verwenden.</value>
+	<value>{bold}WARNUNG{/bold} Eine Änderung kann man aussperren der Website. Machen Sie ein Backup Ihrer web.config ersten vor dem Speichern. {br} Legt fest, ob die Windows-Authentifizierung und Active Directory für die Authentifizierung verwenden.</value>
 </data>
 <data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
 	<value>Aktivieren Sie diese Option, wenn Sie, damit die Menschen als neue Benutzer anmelden wollen.</value>
@@ -541,7 +538,7 @@
 	<value>Dies ist der Name des Herausgebers Rolle - Menschen, die Seiten editieren und erzeugen können. Dies ist nur für Active Directory / Windows-Authentifizierung verwendet - dieses Feld leer lassen, damit alle Benutzer die Redaktion sein.</value>
 </data>
 <data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
-	<value>&lt;b&gt; WARNUNG &lt;/ b&gt; Eine Änderung kann man aussperren der Website bei der Verwendung von Active Directory / Windows-Authentifizierung. Machen Sie ein Backup Ihrer web.config ersten vor dem Speichern. &lt;br/&gt; Dies ist der Name des Admin-Rolle. Admins haben die gleichen Rechte wie Redakteure, sondern haben auch Zugriff auf die Konfigurations-Einstellungen und Werkzeuge für die Website.</value>
+	<value>{bold}WARNUNG{/bold} Eine Änderung kann man aussperren der Website bei der Verwendung von Active Directory / Windows-Authentifizierung. Machen Sie ein Backup Ihrer web.config ersten vor dem Speichern. &lt;br/&gt; Dies ist der Name des Admin-Rolle. Admins haben die gleichen Rechte wie Redakteure, sondern haben auch Zugriff auf die Konfigurations-Einstellungen und Werkzeuge für die Website.</value>
 </data>
 <data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
 	<value>Dies ist die Markup-Format verwendet wird. Roadkill unterstützt derzeit die folgenden Werte: Kreolisch, Markdown, Mediawiki.</value>
@@ -717,17 +714,15 @@
 <data name="FileManager_Upload" xml:space="preserve">
 	<value>Hochladen von Dateien</value>
 </data>
-<data name="FileManager_AddFolder_PlaceHolder" xml:space="preserve">
+<data name="FileManager_AddFolder" xml:space="preserve">
 	<value>Neuer Ordner</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="FileManager_AddFolder_Cancel" xml:space="preserve">
 	<value>Abbrechen neuen Ordner</value>
 </data>
 <data name="FileManager_Delete_File" xml:space="preserve">
 	<value>Datei löschen</value>
-</data>
-<data name="FileManager_Add_Folder" xml:space="preserve">
-	<value>Ordner hinzufügen</value>
 </data>
 <data name="FileManager_Select" xml:space="preserve">
 	<value>Wählen</value>
@@ -775,13 +770,15 @@
 	<value>Datei-Manager</value>
 </data>
 <data name="SiteSettings_Configuration_HeadContent_Help" xml:space="preserve">
-	<value>Jede zusätzliche HTML oder Skripts, die Sie hier eingeben, wird in den &lt;head&gt; Tag der Seite hinzugefügt werden.</value>
+	<value>Jede zusätzliche HTML oder Skripts, die Sie hier eingeben, wird in den {head} Tag der Seite hinzugefügt werden.</value>
 </data>
-<data name="SiteSettings_Configuration_LeftMenu" xml:space="preserve">
+<data name="SiteSettings_Configuration_NavMenu" xml:space="preserve">
 	<value>Linkes Menü Markup</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Configuration_LeftMenu_Help" xml:space="preserve">
-	<value>Das Navigationsmenü, das typischerweise auf der linken Seite, sondern variiert je nach Thema. Markup wird angenommen und getan werden sollte im Markdown-Format Ihres Wikis verwendet. Sie können auch die folgenden Marken, die mit Links (von denen einige möglicherweise leer sein, wenn Sie nicht eingeloggt sind) ersetzt werden: &lt;br/&gt;% Startseite &lt;br/&gt;%%% Kategorien &lt;br/&gt;% Allseiten% &lt;br /&gt;% newpage% &lt;br/&gt;% managefiles% &lt;br/&gt;% Sitesettings%.</value>
+<data name="SiteSettings_Configuration_NavMenu_Help" xml:space="preserve">
+	<value>Das Navigationsmenü, das typischerweise auf der linken Seite, sondern variiert je nach Thema. Markup wird angenommen und getan werden sollte im Markdown-Format Ihres Wikis verwendet. Sie können auch die folgenden Marken, die mit Links (von denen einige möglicherweise leer sein, wenn Sie nicht eingeloggt sind) ersetzt werden: {MENUTOKENS}</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
 	<value>Automatisch vorhandene Dateien überschreiben beim Upload</value>

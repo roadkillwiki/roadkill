@@ -369,9 +369,6 @@
 <data name="EditPage_Toolbar_BulletList" xml:space="preserve">
 	<value>बुलेट सूची मार्कअप वर्ण सम्मिलित करें.</value>
 </data>
-<data name="EditPage_Toolbar_Heading1" xml:space="preserve">
-	<value>1 स्तर मार्कअप वर्ण शीर्षक डालें.</value>
-</data>
 <data name="EditPage_Toolbar_Heading2" xml:space="preserve">
 	<value>2 स्तर मार्कअप वर्ण शीर्षक डालें.</value>
 </data>
@@ -514,7 +511,7 @@
 	<value>डेटाबेस कनेक्शन स्ट्रिंग.</value>
 </data>
 <data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
-	<value>&lt;b&gt; चेतावनी &lt;/ b&gt; के इस बदलते साइट से आप को लॉक कर सकते हैं. सहेजने से पहले अपने web.config का बैकअप पहले बनाओ. &lt;br/&gt; Windows प्रमाणीकरण और प्रमाणीकरण के लिए सक्रिय निर्देशिका का उपयोग करने के लिए सेट कि &lt;br/&gt;.</value>
+	<value>{bold}चेतावनी{/bold} के इस बदलते साइट से आप को लॉक कर सकते हैं. सहेजने से पहले अपने web.config का बैकअप पहले बनाओ. {br} Windows प्रमाणीकरण और प्रमाणीकरण के लिए सक्रिय निर्देशिका का उपयोग करने के लिए सेट कि.</value>
 </data>
 <data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
 	<value>आप लोगों को एक नया उपयोगकर्ता के रूप में पंजीकरण करने के लिए अनुमति देना चाहते हैं, तो इस विकल्प की जाँच करें.</value>
@@ -541,7 +538,7 @@
 	<value>पृष्ठों को संपादित करें और बना सकते हैं - जो लोग इस संपादक की भूमिका का नाम है. यह केवल सक्रिय निर्देशिका / Windows प्रमाणीकरण के लिए प्रयोग किया जाता है - सभी उपयोगकर्ताओं संपादकों होने की अनुमति देने के लिए इस खाली छोड़ दें.</value>
 </data>
 <data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
-	<value>&lt;b&gt; चेतावनी &lt;/ b&gt; को सक्रिय निर्देशिका / Windows प्रमाणीकरण का उपयोग करते समय इस बदलते साइट से आप को लॉक कर सकते हैं. बचत करने से पहले पहले अपने web.config के एक बैकअप बना. &lt;br/&gt; यह व्यवस्थापक भूमिका का नाम है &lt;br/&gt;. बनावें संपादक के रूप में एक ही अधिकार है, लेकिन यह भी साइट के लिए विन्यास सेटिंग्स और उपकरणों का उपयोग किया है.</value>
+	<value>{bold}चेतावनी{/bold} को सक्रिय निर्देशिका / Windows प्रमाणीकरण का उपयोग करते समय इस बदलते साइट से आप को लॉक कर सकते हैं. बचत करने से पहले पहले अपने web.config के एक बैकअप बना. {br} यह व्यवस्थापक भूमिका का नाम है {br}. बनावें संपादक के रूप में एक ही अधिकार है, लेकिन यह भी साइट के लिए विन्यास सेटिंग्स और उपकरणों का उपयोग किया है.</value>
 </data>
 <data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
 	<value>यह प्रयोग किया जाता है कि मार्कअप प्रारूप है. क्रियोल, markdown, साँचा: roadkill वर्तमान में निम्न मान का समर्थन करता है.</value>
@@ -717,17 +714,15 @@
 <data name="FileManager_Upload" xml:space="preserve">
 	<value>फाइलें अपलोड</value>
 </data>
-<data name="FileManager_AddFolder_PlaceHolder" xml:space="preserve">
+<data name="FileManager_AddFolder" xml:space="preserve">
 	<value>नई फ़ोल्डर</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="FileManager_AddFolder_Cancel" xml:space="preserve">
 	<value>नए फ़ोल्डर रद्द</value>
 </data>
 <data name="FileManager_Delete_File" xml:space="preserve">
 	<value>फ़ाइल हटाएँ</value>
-</data>
-<data name="FileManager_Add_Folder" xml:space="preserve">
-	<value>फ़ोल्डर जोड़ें</value>
 </data>
 <data name="FileManager_Select" xml:space="preserve">
 	<value>चयन</value>
@@ -775,13 +770,15 @@
 	<value>फ़ाइल प्रबंधक</value>
 </data>
 <data name="SiteSettings_Configuration_HeadContent_Help" xml:space="preserve">
-	<value>आप यहाँ दर्ज कोई अतिरिक्त HTML या स्क्रिप्ट पृष्ठ की &lt;head&gt; टैग करने के लिए जोड़ दिया जाएगा.</value>
+	<value>आप यहाँ दर्ज कोई अतिरिक्त HTML या स्क्रिप्ट पृष्ठ की {head} टैग करने के लिए जोड़ दिया जाएगा.</value>
 </data>
-<data name="SiteSettings_Configuration_LeftMenu" xml:space="preserve">
+<data name="SiteSettings_Configuration_NavMenu" xml:space="preserve">
 	<value>वाम मेनू मार्कअप</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Configuration_LeftMenu_Help" xml:space="preserve">
-	<value>बाएं हाथ की ओर आम तौर पर है, लेकिन विषय के अनुसार बदलता रहता है जो नेविगेशन मेनू,. मार्कअप अपने विकि का उपयोग करता है markdown के प्रारूप में स्वीकार किया जाता है और किया जाना चाहिए. तुम भी लिंक (आप में लॉग इन नहीं कर रहे हैं, जिनमें से कुछ खाली हो सकता है) के साथ प्रतिस्थापित कर रहे हैं जो निम्न टोकन का उपयोग कर सकते हैं:% mainpage%% श्रेणियों% &lt;br/&gt; &lt;br/&gt;% allpages% &lt;br/&gt; br &lt; /&gt;% newpage%% managefiles%% sitesettings% &lt;br/&gt; &lt;br/&gt;.</value>
+<data name="SiteSettings_Configuration_NavMenu_Help" xml:space="preserve">
+	<value>बाएं हाथ की ओर आम तौर पर है, लेकिन विषय के अनुसार बदलता रहता है जो नेविगेशन मेनू,. मार्कअप अपने विकि का उपयोग करता है markdown के प्रारूप में स्वीकार किया जाता है और किया जाना चाहिए. तुम भी लिंक (आप में लॉग इन नहीं कर रहे हैं, जिनमें से कुछ खाली हो सकता है) के साथ प्रतिस्थापित कर रहे हैं जो निम्न टोकन का उपयोग कर सकते हैं:{MENUTOKENS}</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
 	<value>स्वत: अपलोड करने पर मौजूदा फाइल के ऊपर लिख</value>

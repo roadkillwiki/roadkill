@@ -369,9 +369,6 @@
 <data name="EditPage_Toolbar_BulletList" xml:space="preserve">
 	<value>Inserte Bullet caracteres de marcado de lista.</value>
 </data>
-<data name="EditPage_Toolbar_Heading1" xml:space="preserve">
-	<value>Inserte la rúbrica 1 caracteres de marcado nivel.</value>
-</data>
 <data name="EditPage_Toolbar_Heading2" xml:space="preserve">
 	<value>Inserte la rúbrica 2 caracteres de marcado nivel.</value>
 </data>
@@ -514,7 +511,7 @@
 	<value>La cadena de conexión de base de datos.</value>
 </data>
 <data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
-	<value>&lt;b&gt; ADVERTENCIA &lt;/ b&gt; el cambio puede dejarlo fuera del sitio. Hacer una copia de seguridad de su web.config primero antes de guardar. &lt;br/&gt; Establece si se utilizan la autenticación de Windows y Active Directory para la autenticación.</value>
+	<value>{bold}ADVERTENCIA{/bold} el cambio puede dejarlo fuera del sitio. Hacer una copia de seguridad de su web.config primero antes de guardar. {br}{br} Establece si se utilizan la autenticación de Windows y Active Directory para la autenticación.</value>
 </data>
 <data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
 	<value>Marque esta opción si desea permitir que las personas para registrarse como nuevos usuarios.</value>
@@ -541,7 +538,7 @@
 	<value>Este es el nombre de la función de editor - gente que puede editar y crear páginas. Sólo se utiliza para Active Directory / autenticación de Windows - dejar en blanco para permitir que todos los usuarios sean editores.</value>
 </data>
 <data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
-	<value>&lt;b&gt; ADVERTENCIA &lt;/ b&gt; el cambio puede dejarlo fuera del sitio cuando se utiliza Active Directory / autenticación de Windows. Hacer una copia de seguridad de su web.config primero antes de guardar. &lt;br/&gt; Este es el nombre del rol de administrador. Administradores de tener los mismos derechos que los editores, sino que también tienen acceso a los ajustes de configuración y herramientas para el sitio.</value>
+	<value>{bold}ADVERTENCIA{/bold} el cambio puede dejarlo fuera del sitio cuando se utiliza Active Directory / autenticación de Windows. Hacer una copia de seguridad de su web.config primero antes de guardar. {br}{br} Este es el nombre del rol de administrador. Administradores de tener los mismos derechos que los editores, sino que también tienen acceso a los ajustes de configuración y herramientas para el sitio.</value>
 </data>
 <data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
 	<value>Este es el formato de marcado que se utiliza. Roadkill es compatible actualmente con los siguientes valores: criollos, Markdown, Mediawiki.</value>
@@ -717,17 +714,15 @@
 <data name="FileManager_Upload" xml:space="preserve">
 	<value>Subir archivos</value>
 </data>
-<data name="FileManager_AddFolder_PlaceHolder" xml:space="preserve">
+<data name="FileManager_AddFolder" xml:space="preserve">
 	<value>Nueva carpeta</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="FileManager_AddFolder_Cancel" xml:space="preserve">
 	<value>Cancelar nueva carpeta</value>
 </data>
 <data name="FileManager_Delete_File" xml:space="preserve">
 	<value>Eliminar archivo</value>
-</data>
-<data name="FileManager_Add_Folder" xml:space="preserve">
-	<value>Agregar carpeta</value>
 </data>
 <data name="FileManager_Select" xml:space="preserve">
 	<value>Seleccionar</value>
@@ -777,11 +772,13 @@
 <data name="SiteSettings_Configuration_HeadContent_Help" xml:space="preserve">
 	<value>Se añadirán Cualquier HTML adicional o guiones que introduzca aquí la etiqueta head de la página.</value>
 </data>
-<data name="SiteSettings_Configuration_LeftMenu" xml:space="preserve">
+<data name="SiteSettings_Configuration_NavMenu" xml:space="preserve">
 	<value>Menu izquierdo marcado</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Configuration_LeftMenu_Help" xml:space="preserve">
-	<value>El menú de navegación, que es típicamente en el lado de mano izquierda, pero varía de acuerdo con el tema. Marcado se acepta y se debe hacer en el formato Markdown utiliza su wiki. También puede utilizar las siguientes fichas que se sustituyen por enlaces (algunos de los cuales puede estar vacío si no está conectado): &lt;br/&gt;% mainpage &lt;br/&gt;%%% categorías &lt;br/&gt;% allpages% &lt;br /&gt;% newpage% &lt;br/&gt;% managefiles% &lt;br/&gt;% Sitesettings%.</value>
+<data name="SiteSettings_Configuration_NavMenu_Help" xml:space="preserve">
+	<value>El menú de navegación, que es típicamente en el lado de mano izquierda, pero varía de acuerdo con el tema. Marcado se acepta y se debe hacer en el formato Markdown utiliza su wiki. También puede utilizar las siguientes fichas que se sustituyen por enlaces (algunos de los cuales puede estar vacío si no está conectado): {MENUTOKENS}</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
 	<value>Sobrescribir automáticamente los archivos existentes en la carga</value>

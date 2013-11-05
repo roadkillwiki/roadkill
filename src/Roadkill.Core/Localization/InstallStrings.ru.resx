@@ -37,10 +37,10 @@
 	<value>Дополнительно</value>
 </data>
 <data name="Shared_Stage5" xml:space="preserve">
-	<value>Законченный</value>
+	<value>Завершение</value>
 </data>
 <data name="Shared_Continue" xml:space="preserve">
-	<value>Продолжать</value>
+	<value>Продолжить</value>
 </data>
 <data name="Shared_Back" xml:space="preserve">
 	<value>Назад</value>
@@ -52,31 +52,31 @@
 	<value>Назад</value>
 </data>
 <data name="Shared_NextButton" xml:space="preserve">
-	<value>Следующий</value>
+	<value>Далее</value>
 </data>
 <data name="Shared_Success" xml:space="preserve">
-	<value>Успеха!</value>
+	<value>Успешно!</value>
 </data>
 <data name="Shared_Failure" xml:space="preserve">
-	<value>Провал!</value>
+	<value>Неудачно!</value>
 </data>
 <data name="Page1_Label1" xml:space="preserve">
-	<value>Спасибо для вас загрузке Roadkill. NET вики-движок. Установщик пишет настройки, которые вы здесь, чтобы ввести файл web.config (а также базы данных).</value>
+	<value>Спасибо за загрузку вики-движка Roadkill .NET. Мастер установки сохранить настройки которые вы укажете в файл web.config (а также в базу данных).</value>
 </data>
 <data name="Page1_Label2" xml:space="preserve">
-	<value>Для того, чтобы продолжить, сначала мы должны проверить, если у вас есть доступ на запись в файле web.config.</value>
+	<value>Для того, чтобы продолжить, сначала необходимо проверить, если ли у вас доступ на запись в файл web.config.</value>
 </data>
 <data name="Page1_WebConfig_Success_Message" xml:space="preserve">
-	<value>Web.config могут быть записаны.</value>
+	<value>Web.config доступен для записи.</value>
 </data>
 <data name="Page1_WebConfig_Failure_Message" xml:space="preserve">
-	<value>Невозможно записать в файл web.config.</value>
+	<value>Запись в файл web.config невозможна.</value>
 </data>
 <data name="Page2_Label1" xml:space="preserve">
-	<value>Ниже приведены некоторые необходимые настройки для Roadkill чтобы работать правильно. Вы можете изменить их позже через страницу настроек в качестве администратора.</value>
+	<value>Ниже приведены некоторые необходимые настройки Roadkill необходимые для корректной работы. Вы можете изменить их позже на странице настроек в качестве администратора.</value>
 </data>
 <data name="Page2_Success" xml:space="preserve">
-	<value>Соединение с базой данных была успешной.</value>
+	<value>Соединение с базой данных было успешным.</value>
 </data>
 <data name="Page2_Error" xml:space="preserve">
 	<value>Невозможно подключиться:</value>
@@ -85,19 +85,19 @@
 	<value>Название сайта</value>
 </data>
 <data name="Page2_Group1_Label" xml:space="preserve">
-	<value>Имя Вики, которая появляется на определенные темы и регистрации сообщений электронной почты (если включен).</value>
+	<value>Имя Вики, которое появляется в определенных темах и в  сообщениях электронной почты о регистрации  (если они включены).</value>
 </data>
 <data name="Page2_Group2_Title" xml:space="preserve">
 	<value>URL сайта</value>
 </data>
 <data name="Page2_Group2_Label" xml:space="preserve">
-	<value>Полный адрес Вики, которая появляется в регистрации и сброса паролей электронной почты (если включен). Не включайте косой чертой.</value>
+	<value>Полный адрес Вики, который появляется в электронных сообщениях о регистрации и сброса паролей (если они включены). Не добавляйте завершающий слеш.</value>
 </data>
 <data name="Page2_Group3_Title" xml:space="preserve">
 	<value>Строка подключения к базе данных</value>
 </data>
 <data name="Page2_Group3_Label" xml:space="preserve">
-	<value>Вам нужно будет создать базу данных сначала, если вы используете именованный экземпляр. Ниже приведены несколько примеров, используйте второй вариант вы используете виртуальный хостинг без каких-либо данных SQL Server хостинг.</value>
+	<value>Если вы используете именованный экземпляр, то вам необходимо сначала создать базу данных. Ниже приведены несколько примеров, используйте второй вариант если вы используете виртуальный хостинг без SQL Сервера.</value>
 </data>
 <data name="Page2_Group3_Label2" xml:space="preserve">
 	<value>Пример строки соединения</value>
@@ -109,22 +109,22 @@
 	<value>SQLite: пожалуйста, прочитайте</value>
 </data>
 <data name="Page2_Group3_SQLiteInstructionsMessage" xml:space="preserve">
-	<value>Примечание: Для использования SQLite нужно добавить еще один файл в / BIN папки, а SQLite распространяется для x86 и x64. &lt;a href=&quot;javascript:;&quot; id=&quot;sqlitecopy&quot;&gt; Нажмите, чтобы скопировать файл &lt;/ A&gt;. Если у вас возникли вопросы, после этого исключить &quot;SQLite.Interop.dll&quot; с вашего бен папку.</value>
+	<value>Примечание: Для использования SQLite нужно добавить еще один файл в / BIN папки, а SQLite распространяется для x86 и x64. {BEGIN-SQLITE_LINK}Нажмите, чтобы скопировать файл{END-SQLITE_LINK}. Если у вас возникли вопросы, после этого удалите &quot;SQLite.Interop.dll&quot; из папки bin.</value>
 </data>
 <data name="Page2_Group3_SQLiteSuccessTitle" xml:space="preserve">
-	<value>SQLite копирования файлов успеха</value>
+	<value>SQLite файл успешно скопирован</value>
 </data>
 <data name="Page2_Group3_SQLiteSuccessMessage" xml:space="preserve">
-	<value>SQLite должны теперь быть готовы к использованию.</value>
+	<value>SQLite должен быть готов к использованию.</value>
 </data>
 <data name="Page2_Group3_SQLiteFailureTitle" xml:space="preserve">
-	<value>SQLite копирования файлов не удалось</value>
+	<value>SQLite копирование файлов не удалось</value>
 </data>
 <data name="Page2_Group3_SQLiteFailureMessage" xml:space="preserve">
-	<value>Failure - попробуйте скопировать файл из SQLite.Interop.dll ~ / App_Data / SQLiteBinaries вашего бен папку.</value>
+	<value>Failure - попробуйте скопировать файл из SQLite.Interop.dll ~/App_Data/SQLiteBinaries в вашу bin папку.</value>
 </data>
 <data name="Page3_Label1" xml:space="preserve">
-	<value>Хотите аутентификации пользователей с Active Directory Использование проверки подлинности Windows?</value>
+	<value>Хотите ли вы использовать аутентификацию пользователей с помощью Active Directory и проверки подлинности Windows?</value>
 </data>
 <data name="Page3_Group1_Title" xml:space="preserve">
 	<value>Проверка подлинности Windows</value>
@@ -133,28 +133,28 @@
 	<value>Использовать проверку подлинности Windows</value>
 </data>
 <data name="Page3_AD_Group1_Title" xml:space="preserve">
-	<value>Active Directory LDAP строку подключения</value>
+	<value>Active Directory LDAP строка подключения</value>
 </data>
 <data name="Page3_AD_Connection_Success" xml:space="preserve">
-	<value>Подключения и авторизации с активного сервера каталогов была успешной.</value>
+	<value>Подключение и авторизация с сервером Active Directory было успешным.</value>
 </data>
 <data name="Page3_AD_Connection_Error" xml:space="preserve">
-	<value>Не удается подключиться к активному серверу каталогов:</value>
+	<value>Не удается подключиться к серверу Active Directory:</value>
 </data>
 <data name="Page3_AD_Success" xml:space="preserve">
-	<value>Группе был задан вопрос успешно.</value>
+	<value>Группа была успешно опрошена.</value>
 </data>
 <data name="Page3_AD_Error" xml:space="preserve">
-	<value>Невозможно запрос:</value>
+	<value>Невозможно опросить:</value>
 </data>
 <data name="Page3_AD_Group1_Label1" xml:space="preserve">
-	<value>Это должно быть в формате LDAP :/ / mydc01.company.internal (она должна быть в верхнем регистре LDAP), где mydc01 ваш контроллер домена и «Компания» и «внутренних» являются DNS-суффиксы для вашей сети. Это также может быть IP-адресом. Обычно вы можете получить эту информацию, запустив &quot;IPCONFIG&quot;.</value>
+	<value>Должна быть в формате LDAP://mydc01.company.internal (LDAP - должен быть в верхнем регистре ), где mydc01 ваш контроллер домена и «company» и «internal » являются DNS-суффиксы для вашей сети. Это также может быть IP-адресом. Обычно вы можете получить эту информацию, запустив &quot;IPCONFIG&quot;.</value>
 </data>
 <data name="Page3_AD_Group1_Label2" xml:space="preserve">
-	<value>Строка подключения поддерживает спецификаторы OU однако делать это таким образом может вызвать проблемы. Если вы не знаете об этом параметре, рекомендуется вы загрузите &lt;a href=&quot;http://technet.microsoft.com/en-us/sysinternals/bb963907&quot;&gt; AD Проводник &lt;/ A&gt; в первую очередь.</value>
+	<value>Строка подключения поддерживает спецификаторы OU однако это может вызвать проблемы. Если вы не знаете об этом параметре, вам рекомендуется загрузить {BEGIN_ADEXPLORER_LINK}AD Explorer{END_ADEXPLORER_LINK} в первую очередь.</value>
 </data>
 <data name="Page3_AD_Group1_Label3" xml:space="preserve">
-	<value>Введите имя пользователя и пароль, если пользователь, что бассейн приложение работает под не имеет доступ на чтение к Active Directory. Это полезно, если ваш домен отдельный лес от главного домена (т.е. другой филиал).</value>
+	<value>Введите имя пользователя и пароль, если пользователь этого пула приложения не имеет доступ на чтение к Active Directory. Это полезно, если ваш домен Active Directory отдельный лес от главного домена (т.е. другой филиал).</value>
 </data>
 <data name="Page3_AD_Group2_Label1" xml:space="preserve">
 	<value>Имя пользователя:</value>
@@ -163,49 +163,49 @@
 	<value>Пароль:</value>
 </data>
 <data name="Page3_AD_Group3_Title" xml:space="preserve">
-	<value>Имя редактора групповой</value>
+	<value>Имя редактора группы</value>
 </data>
 <data name="Page3_AD_Group3_Label" xml:space="preserve">
-	<value>Это группа безопасности, что пользователи должны принадлежать, чтобы быть редакторы (люди, которые могут редактировать и создавать страницы). Кнопка Тест использует настройки подключения введенный выше.</value>
+	<value>Это группа безопасности к которой должны принадлежать пользователи чтобы быть редакторами (люди, которые могут редактировать и создавать страницы). Кнопка Тест использует настройки подключения введенные выше.</value>
 </data>
 <data name="Page3_AD_Group4_Title" xml:space="preserve">
 	<value>Имя администратора группы</value>
 </data>
 <data name="Page3_AD_Group4_Label" xml:space="preserve">
-	<value>Это группа безопасности, что пользователи должны принадлежать, чтобы быть администраторами. Администраторы имеют те же права, редакторов, но и иметь доступ к настройкам конфигурации и инструменты для site.The кнопки тест использует настройки подключения введенный выше.</value>
+	<value>Это группа безопасности к которой должны принадлежать пользователи чтобы быть администраторами. Администраторы имеют те же права, что и редакторы, но и имеют доступ к настройкам конфигурации и инструментам для сайта.Кнопка тест использует настройки подключения введенный выше.</value>
 </data>
 <data name="Page3_DB_Label" xml:space="preserve">
-	<value>Все пароли, зашифрованные односторонним образом использованием SHA128 и солью. Это означает, что пароли не восстанавливаются и потребует и администратора, чтобы сбросить их (нет сброса пароля функциональность еще нет). Минимальная длина пароля 6 символов.</value>
+	<value>Все пароли, зашифрованные односторонним образом использованием SHA128 и salt. Это означает, что пароли не восстанавливаются и потребует от администратора сбрасывать их вручную (функциональность нет сброса пароля еще не реализована). Минимальная длина пароля 6 символов.</value>
 </data>
 <data name="Page3_DB_Group1_Title" xml:space="preserve">
-	<value>Название роли редактора</value>
+	<value>Название роли Редакторов</value>
 </data>
 <data name="Page3_DB_Group1_Label1" xml:space="preserve">
-	<value>Это имя редактора роль - люди, которые могут редактировать и создавать страницы.</value>
+	<value>Это имя роли редактора  - люди, которые могут редактировать и создавать страницы.</value>
 </data>
 <data name="Page3_DB_Group2_Title" xml:space="preserve">
-	<value>Админ имя роли</value>
+	<value>Название роли Администраторов</value>
 </data>
 <data name="Page3_DB_Group2_Label1" xml:space="preserve">
-	<value>Это имя администратора роль. Администраторы имеют те же права, редакторов, но и иметь доступ к настройкам конфигурации и инструменты для сайта.</value>
+	<value>Это имя роли администратора. Администраторы имеют те же права, редакторов, но и имеют доступ к настройкам конфигурации и инструментам сайта.</value>
 </data>
 <data name="Page3_DB_Group3_Title" xml:space="preserve">
-	<value>Разрешить пользователю регистраций</value>
+	<value>Разрешить регистрацию</value>
 </data>
 <data name="Page3_DB_Group3_Label1" xml:space="preserve">
-	<value>Отметьте эту опцию, если вы хотите, чтобы люди, чтобы зарегистрироваться в качестве нового пользователя. Если их не остановить, только администраторы смогут создавать новых пользователей.</value>
+	<value>Отметьте эту опцию, если вы хотите, чтобы люди могли зарегистрироваться в качестве нового пользователя. Иначе, только администраторы смогут создавать новых пользователей.</value>
 </data>
 <data name="Page3_DB_Group3_Label2" xml:space="preserve">
-	<value>Разрешить новых регистраций пользователей.</value>
+	<value>Разрешить регистрацию новых пользователей.</value>
 </data>
 <data name="Page3_DB_Group4_Title" xml:space="preserve">
 	<value>Включить Recaptcha</value>
 </data>
 <data name="Page3_DB_Group4_Label1" xml:space="preserve">
-	<value>Если вы позволяете пользователю регистраций, рекомендуется, что вы также включите Recaptcha поддержки. Это бесплатный анти-спам бот услуга, предоставляемая Google, то вам нужно, чтобы зарегистрироваться и копировать открытых и закрытых ключей в поле ниже. &lt;a href=&quot;https://www.google.com/recaptcha/admin/create&quot; target=&quot;_blank&quot;&gt; Регистрация здесь &lt;/ A&gt; - вам необходимо создать учетную запись Google в первую очередь.</value>
+	<value>Если вы позволяете пользователями регистрироваться, рекомендуется также включить поддержку Recaptcha. Это бесплатный анти-спам бот сервис, предоставляемый Google. Вам  нужно, зарегистрироваться и скопировать открытый и закрытый ключи в поля ниже. {BEGIN_RECAPTCHA_LINK}Регистрация здесь{END_RECAPTCHA_LINK} - вам необходимо создать учетную запись Google в первую очередь.</value>
 </data>
 <data name="Page3_DB_Group4_Label2" xml:space="preserve">
-	<value>Включить Recaptcha анти-спам обслуживания.</value>
+	<value>Включить Recaptcha анти-спам сервис.</value>
 </data>
 <data name="Page3_DB_Group4_Label3" xml:space="preserve">
 	<value>Открытый ключ</value>
@@ -217,7 +217,7 @@
 	<value>Email администратора</value>
 </data>
 <data name="Page3_DB_Group5_Label1" xml:space="preserve">
-	<value>Это адрес электронной почты для пользователя с правами администратора. Вы можете добавить больше администраторов в настройках страницы, так что этот пользователь не «свой» сайт</value>
+	<value>Это адрес электронной почты для пользователя с правами администратора. Вы можете добавить больше администраторов на странице управления сайтом, так что этот пользователь не «владелец» сайта</value>
 </data>
 <data name="Page3_DB_Group6_Title" xml:space="preserve">
 	<value>Пароль администратора</value>
@@ -226,43 +226,43 @@
 	<value>Это пароль для пользователя с правами администратора.</value>
 </data>
 <data name="Page4_Label1" xml:space="preserve">
-	<value>Почти готово ... Наконец некоторых дополнительных настраиваемых параметров.</value>
+	<value>Почти готово ... Наконец осталось несколько дополнительных настраиваемых параметров.</value>
 </data>
 <data name="Page4_Group1_Title" xml:space="preserve">
-	<value>Вложения папку</value>
+	<value>Папка вложений</value>
 </data>
 <data name="Page4_Group1_Success" xml:space="preserve">
-	<value>Папка существует и может быть записан.</value>
+	<value>Папка существует и и запись может быть осуществлена.</value>
 </data>
 <data name="Page4_Group1_Error" xml:space="preserve">
 	<value>Невозможно записать в папку:</value>
 </data>
 <data name="Page4_Group1_Label1" xml:space="preserve">
-	<value>Это каталог, в котором все файлы загружаются. Этот каталог будет нужны права записи пользователем, что бассейн приложение работает под управлением. Большую часть времени вы не должны беспокоиться об изменении разрешения для папки, так как они будут унаследованы от родительской папки.</value>
+	<value>Это каталог, в который загружаются все файлы. Этому каталогу будет нужны права записи пользователя пула приложений под управлением которого работает приложение. Большую часть времени вы не должны беспокоиться об изменении разрешения для папки, так как они будут унаследованы от родительской папки.</value>
 </data>
 <data name="Page4_Group1_Label2" xml:space="preserve">
-	<value>Убедитесь, что папка пути начинается с &quot;~ /&quot; для корня сайта. Вы должны проверить папки могут быть доступны для браузера, а также существо, чтобы записываемые, так как такие папки, как и бен App_Data можно записать, но не будет показывать изображения, хранящиеся там.</value>
+	<value>Убедитесь, что путь папки начинается с &quot;~/&quot; для корня сайта или является абсолютным путем (например c:\myattachments).</value>
 </data>
 <data name="Page4_Group2_Title" xml:space="preserve">
 	<value>Допустимые расширения</value>
 </data>
 <data name="Page4_Group2_Label1" xml:space="preserve">
-	<value>Эти расширения файлов, которые могут быть загружены.</value>
+	<value>Это расширения файлов, с которыми могут быть загружены файлы.</value>
 </data>
 <data name="Page4_Group3_Title" xml:space="preserve">
 	<value>Тема</value>
 </data>
 <data name="Page4_Group3_Label1" xml:space="preserve">
-	<value>Это тема, что сайт использует. Он должен совпадать с именем папки в каталоге темы.</value>
+	<value>Это тема которую использует сайт. Она должна совпадать с именем папки в каталоге Themes.</value>
 </data>
 <data name="Page4_Group4_Title" xml:space="preserve">
-	<value>Разметка типа</value>
+	<value>Тип разметки</value>
 </data>
 <data name="Page4_Group4_Label1" xml:space="preserve">
-	<value>Это формат разметки, который используется. Roadkill в настоящее время поддерживает следующие значения: креольский, Markdown, MediaWiki.</value>
+	<value>Это формат разметки, который используется. Roadkill в настоящее время поддерживает следующие значения: Creole, Markdown, MediaWiki.</value>
 </data>
 <data name="Page4_Group4_Label2" xml:space="preserve">
-	<value>Креольский формат рекомендуется.</value>
+	<value>Creole - рекомендуемый формат.</value>
 </data>
 <data name="Page4_Group5_Title" xml:space="preserve">
 	<value>Кэш</value>
@@ -271,13 +271,13 @@
 	<value>Включить кэширование объектов</value>
 </data>
 <data name="Page4_Group5_Label2" xml:space="preserve">
-	<value>Roadkill кэширует все страницы и контент в памяти после извлечения его из базы данных. Кэш автоматически обновляется при изменении страницы. Рекомендуется повышение способности сайта. Кэширование объектов в настоящее время не поддерживается для веб-сады или веб-ферм.</value>
+	<value>Roadkill кэширует все страницы и контент в памяти после извлечения его из базы данных. Кэш автоматически обновляется при изменении страницы. Рекомендуется для повышения производительности сайта. Кэширование объектов в настоящее время не поддерживается для веб-садов или веб-ферм.</value>
 </data>
 <data name="Page4_Group5_Label3" xml:space="preserve">
 	<value>Включить кэш браузера</value>
 </data>
 <data name="Page4_Group5_Label4" xml:space="preserve">
-	<value>Это скажет кэш браузера, чтобы Roadkill страницы и проверять наличие обновлений (If-Modified-Since) каждый раз, когда страница загружена. Если обновление не будет найдено, содержимое не вернулся с сервера. Рекомендуется повышение способности сайта.</value>
+	<value>Это установка скажет браузеру кэшировать страницы Roadkill страницы и проверять наличие обновлений (If-Modified-Since) каждый раз, когда страница загружена. Если обновление не будет найдено, содержимое не вернется с сервера. Рекомендуется для повышения производительности сайта.</value>
 </data>
 <data name="Page4_Group5_Label5" xml:space="preserve">
 	<value>(Сейчас не используется, может быть удален в 2.0)</value>
@@ -289,16 +289,16 @@
 	<value>Проверка подлинности Windows - пожалуйста, прочитайте</value>
 </data>
 <data name="Page5_Success_AD_Label" xml:space="preserve">
-	<value>Если вы используете IIS7 + может потребоваться настроить файл web.config для вашей безопасности установки, ниже приведены те элементы, которые вы получаете required.If 500 ошибки после внесения этих изменений, то раздел заблокирован на родительском уровне, и вы нужно будет сделать thechanges через менеджер IIS.</value>
+	<value>Если вы используете IIS7+ вам может потребоваться настроить файл web.config для вашей безопасной установки, ниже приведены те элементы, которые необходимы. Если вы получаете  ошибку 500 после внесения этих изменений, значит раздел заблокирован на родительском уровне, и вам нужно будет сделать изменения через Диспетчер Служб IIS.</value>
 </data>
 <data name="Page5_Success_Label1" xml:space="preserve">
-	<value>Продолжить на сайт</value>
+	<value>Перейти на сайт</value>
 </data>
 <data name="Page5_Error_Title" xml:space="preserve">
 	<value>Произошла ошибка во время установки</value>
 </data>
 <data name="Page5_Error_Label1" xml:space="preserve">
-	<value>Пожалуйста вернитесь через шаги установки и проверьте настройки. Сообщение об ошибке было:</value>
+	<value>Пожалуйста вернитесь через шаги установки и проверьте ваши настройки. Сообщение об ошибке:</value>
 </data>
 
 </root>

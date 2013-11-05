@@ -369,9 +369,6 @@
 <data name="EditPage_Toolbar_BulletList" xml:space="preserve">
 	<value>Insira bala caracteres de marcação da lista.</value>
 </data>
-<data name="EditPage_Toolbar_Heading1" xml:space="preserve">
-	<value>Insira um título caracteres de marcação de nível.</value>
-</data>
 <data name="EditPage_Toolbar_Heading2" xml:space="preserve">
 	<value>Insira Rubrica 2 caracteres de marcação de nível.</value>
 </data>
@@ -514,7 +511,7 @@
 	<value>A seqüência de conexão de dados.</value>
 </data>
 <data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
-	<value>&lt;b&gt; AVISO &lt;/ b&gt; mudança pode bloqueá-lo do site. Faça um backup do seu web.config primeiro antes de salvar. &lt;br/&gt; Define se para usar a autenticação do Windows e Active Directory para autenticação.</value>
+	<value>{bold}AVISO{/bold} mudança pode bloqueá-lo do site. Faça um backup do seu web.config primeiro antes de salvar. {br} Define se para usar a autenticação do Windows e Active Directory para autenticação.</value>
 </data>
 <data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
 	<value>Marque esta opção se você quiser permitir que as pessoas para se cadastrar como novos usuários.</value>
@@ -541,7 +538,7 @@
 	<value>Este é o nome da função de editor - pessoas que podem editar e criar páginas. Isto é usado apenas para Active Directory / autenticação Windows - deixar em branco para permitir que todos os usuários sejam editores.</value>
 </data>
 <data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
-	<value>&lt;b&gt; AVISO &lt;/ b&gt; mudança pode bloqueá-lo do local, quando usando o Active Directory / autenticação do Windows. Faça um backup do seu web.config primeiro antes de salvar. &lt;br/&gt; Este é o nome da função de administrador. Administradores têm os mesmos direitos que os editores, mas também ter acesso a configurações e ferramentas para o site.</value>
+	<value>{bold}AVISO{/bold} mudança pode bloqueá-lo do local, quando usando o Active Directory / autenticação do Windows. Faça um backup do seu web.config primeiro antes de salvar. {br} Este é o nome da função de administrador. Administradores têm os mesmos direitos que os editores, mas também ter acesso a configurações e ferramentas para o site.</value>
 </data>
 <data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
 	<value>Este é o formato de marcação, que é utilizada. Roadkill atualmente suporta os seguintes valores: crioulo, Markdown, Mediawiki.</value>
@@ -717,17 +714,15 @@
 <data name="FileManager_Upload" xml:space="preserve">
 	<value>Fazer upload de arquivos</value>
 </data>
-<data name="FileManager_AddFolder_PlaceHolder" xml:space="preserve">
+<data name="FileManager_AddFolder" xml:space="preserve">
 	<value>Nova pasta</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="FileManager_AddFolder_Cancel" xml:space="preserve">
 	<value>Cancelar nova pasta</value>
 </data>
 <data name="FileManager_Delete_File" xml:space="preserve">
 	<value>Excluir arquivo</value>
-</data>
-<data name="FileManager_Add_Folder" xml:space="preserve">
-	<value>Adicionar pasta</value>
 </data>
 <data name="FileManager_Select" xml:space="preserve">
 	<value>Selecionar</value>
@@ -775,13 +770,15 @@
 	<value>Gerenciador de arquivos</value>
 </data>
 <data name="SiteSettings_Configuration_HeadContent_Help" xml:space="preserve">
-	<value>Qualquer HTML ou scripts adicionais que você inserir aqui será adicionado à tag &lt;head&gt; da página.</value>
+	<value>Qualquer HTML ou scripts adicionais que você inserir aqui será adicionado à tag {head} da página.</value>
 </data>
-<data name="SiteSettings_Configuration_LeftMenu" xml:space="preserve">
+<data name="SiteSettings_Configuration_NavMenu" xml:space="preserve">
 	<value>Menu à esquerda marcação</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Configuration_LeftMenu_Help" xml:space="preserve">
-	<value>O menu de navegação, que normalmente é no lado esquerdo, mas varia de acordo com o tema. Markup é aceito e deve ser feito no formato de remarcação seu wiki usa. Você também pode usar os seguintes símbolos que são substituídos por links (alguns dos quais podem estar vazio, se você não estiver logado): &lt;br/&gt;% mainpage% &lt;br/&gt;% categorias% &lt;br/&gt;% AllPages% &lt;br /&gt;% newpage% &lt;br/&gt;% managefiles% &lt;br/&gt;% Sitesettings%.</value>
+<data name="SiteSettings_Configuration_NavMenu_Help" xml:space="preserve">
+	<value>O menu de navegação, que normalmente é no lado esquerdo, mas varia de acordo com o tema. Markup é aceito e deve ser feito no formato de remarcação seu wiki usa. Você também pode usar os seguintes símbolos que são substituídos por links (alguns dos quais podem estar vazio, se você não estiver logado): {MENUTOKENS}</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
 	<value>Substituir automaticamente os arquivos existentes no carregamento</value>

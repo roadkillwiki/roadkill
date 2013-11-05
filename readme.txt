@@ -1,4 +1,13 @@
-﻿=====BUILD README=====
+﻿=====PRE-REQUISITES FOR VISUAL STUDIO=====
+You will need Typescript installed to open the Roadkill.Site project - http://www.microsoft.com/en-us/download/confirmation.aspx?id=34790
+The typescript files are setup to be compiled when you compile the project (Javascript compile-time checking, woohoo).
+
+To run all the integration tests, you should install Mongodb, http://chocolatey.org/packages?q=mongodb is the easiest way to do this.
+
+=====PROBLEMS WITH SQLITE=====
+If you get yellow screen of deaths with a SQLiteinterop.dll message, remove that file from bin folder.
+
+=====BUILD README=====
 The steps below are also in the releasebuild.ps1 file.
 These are the steps to create a new download version:
 

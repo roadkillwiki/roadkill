@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="data">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" minOccurs="0"                     msdata:Ordinal="2" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="type" type="xsd:string" />
+        <xsd:attribute name="mimetype" type="xsd:string" />
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="Shared_Stage1" xml:space="preserve">
+	<value>Welkom</value>
+</data>
+<data name="Shared_Stage2" xml:space="preserve">
+	<value>Database</value>
+</data>
+<data name="Shared_Stage3" xml:space="preserve">
+	<value>Beveiliging</value>
+</data>
+<data name="Shared_Stage4" xml:space="preserve">
+	<value>Extras</value>
+</data>
+<data name="Shared_Stage5" xml:space="preserve">
+	<value>Voltooid</value>
+</data>
+<data name="Shared_Continue" xml:space="preserve">
+	<value>Voortzetten</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Shared_Back" xml:space="preserve">
+	<value>Terug</value>
+</data>
+<data name="Shared_TestButton" xml:space="preserve">
+	<value>Test</value>
+</data>
+<data name="Shared_BackButton" xml:space="preserve">
+	<value>Terug</value>
+</data>
+<data name="Shared_NextButton" xml:space="preserve">
+	<value>Volgende</value>
+</data>
+<data name="Shared_Success" xml:space="preserve">
+	<value>Succesvol!</value>
+</data>
+<data name="Shared_Failure" xml:space="preserve">
+	<value>Mislukt!</value>
+</data>
+<data name="Page1_Label1" xml:space="preserve">
+	<value>Bedankt voor het downloaden van Roadkill. NET Wiki engine. De installatie schrijft de gemaakte instellingen naar de web.config en de database.</value>
+</data>
+<data name="Page1_Label2" xml:space="preserve">
+	<value>Om door te gaan, moet u eerst testen of u schrijftoegang heeft tot de web.config.</value>
+</data>
+<data name="Page1_WebConfig_Success_Message" xml:space="preserve">
+	<value>Het bijwerken van de web.config was succesvol.</value>
+</data>
+<data name="Page1_WebConfig_Failure_Message" xml:space="preserve">
+	<value>Het bijwerken van de web.config is mislukt..</value>
+</data>
+<data name="Page2_Label1" xml:space="preserve">
+	<value>Hieronder vindt u enkele gewenste instellingen voor Roadkill te kunnen werken. U kunt deze later wijzigen via de pagina-instellingen als een admin.</value>
+</data>
+<data name="Page2_Success" xml:space="preserve">
+	<value>De databaseverbinding kon succesvol worden opgezet..</value>
+</data>
+<data name="Page2_Error" xml:space="preserve">
+	<value>Kan geen verbinding maken:</value>
+</data>
+<data name="Page2_Group1_Title" xml:space="preserve">
+	<value>Website-naam</value>
+</data>
+<data name="Page2_Group1_Label" xml:space="preserve">
+	<value>De naam van de wiki, die over bepaalde thema&apos;s en in e-mails aanmelden verschijnt (indien ingeschakeld).</value>
+</data>
+<data name="Page2_Group2_Title" xml:space="preserve">
+	<value>Website-url</value>
+</data>
+<data name="Page2_Group2_Label" xml:space="preserve">
+	<value>De volledige url van de wiki, die in de aanmelding en wachtwoorden resetten emails verschijnt (indien ingeschakeld). Omvatten niet de slash.</value>
+</data>
+<data name="Page2_Group3_Title" xml:space="preserve">
+	<value>Database connectie string</value>
+</data>
+<data name="Page2_Group3_Label" xml:space="preserve">
+	<value>U moet de database eerst als u gebruik maakt van een benoemd exemplaar. Hieronder staan ​​een paar voorbeelden, gebruikt u de tweede optie is dat u gebruikt shared hosting zonder SQL Server hosting.</value>
+</data>
+<data name="Page2_Group3_Label2" xml:space="preserve">
+	<value>Voorbeeld verbindingsreeksen</value>
+</data>
+<data name="Page2_Group3_Label3" xml:space="preserve">
+	<value>Database type</value>
+</data>
+<data name="Page2_Group3_SQLiteInstructionsTitle" xml:space="preserve">
+	<value>SQLite: lees</value>
+</data>
+<data name="Page2_Group3_SQLiteInstructionsMessage" xml:space="preserve">
+	<value>Opmerking: om SQLite te gebruiken moet je een ander bestand toe te voegen aan de map / bin, als SQLite wordt verdeeld voor zowel x86 en x64. {BEGIN-SQLITE_LINK}Klik hier om het bestand te kopiëren{END-SQLITE_LINK}. Als u problemen ondervindt na deze, verwijderen &quot;SQLite.Interop.dll &apos;uit je bin map.</value>
+</data>
+<data name="Page2_Group3_SQLiteSuccessTitle" xml:space="preserve">
+	<value>SQLite-bestand kopiëren succes</value>
+</data>
+<data name="Page2_Group3_SQLiteSuccessMessage" xml:space="preserve">
+	<value>SQLite is nu klaar voor gebruik.</value>
+</data>
+<data name="Page2_Group3_SQLiteFailureTitle" xml:space="preserve">
+	<value>Mislukte SQLite-bestand kopiëren</value>
+</data>
+<data name="Page2_Group3_SQLiteFailureMessage" xml:space="preserve">
+	<value>Mislukking - probeer het SQLite.Interop.dll bestand uit ~ / App_Data / SQLiteBinaries kopiëren naar je bin map.</value>
+</data>
+<data name="Page3_Label1" xml:space="preserve">
+	<value>Wil je gebruikers worden geverifieerd op basis van een Active Directory met behulp van Windows-verificatie?</value>
+</data>
+<data name="Page3_Group1_Title" xml:space="preserve">
+	<value>Windows-verificatie</value>
+</data>
+<data name="Page3_Group1_Label" xml:space="preserve">
+	<value>Gebruik Windows-verificatie</value>
+</data>
+<data name="Page3_AD_Group1_Title" xml:space="preserve">
+	<value>Active Directory LDAP connectie string</value>
+</data>
+<data name="Page3_AD_Connection_Success" xml:space="preserve">
+	<value>De verbinding en authenticatie met de Active Directory-server is gelukt.</value>
+</data>
+<data name="Page3_AD_Connection_Error" xml:space="preserve">
+	<value>Niet in staat om verbinding te maken met de Active Directory-server:</value>
+</data>
+<data name="Page3_AD_Success" xml:space="preserve">
+	<value>De groep werd met succes opgevraagd.</value>
+</data>
+<data name="Page3_AD_Error" xml:space="preserve">
+	<value>Niet in staat op te vragen:</value>
+</data>
+<data name="Page3_AD_Group1_Label1" xml:space="preserve">
+	<value>Dit moet in het formaat LDAP :/ / mydc01.company.internal (het moet een hoofdletter zijn LDAP) waar mydc01 is uw domein controller en &apos;bedrijf&apos; en &apos;interne&apos; zijn de dns achtervoegsels voor uw netwerk. Dit kan ook een IP-adres te zijn. U kunt meestal deze informatie te krijgen door het draaien van &quot;ipconfig&quot;.</value>
+</data>
+<data name="Page3_AD_Group1_Label2" xml:space="preserve">
+	<value>De verbinding string ondersteunt OU bestekschrijvers maar doen het op deze manier kan problemen veroorzaken. Als je onzeker bent over deze instelling, is het aan te raden je downloaden {BEGIN_ADEXPLORER_LINK}AD Explorer{END_ADEXPLORER_LINK} eerste.</value>
+</data>
+<data name="Page3_AD_Group1_Label3" xml:space="preserve">
+	<value>Voer een gebruikersnaam en wachtwoord als de gebruiker die de app pool draait onder geen lees-toegang tot Active Directory. Dit is handig als uw Active Directory-domein is een aparte bos van het belangrijkste domein (dwz een ander filiaal).</value>
+</data>
+<data name="Page3_AD_Group2_Label1" xml:space="preserve">
+	<value>Gebruikersnaam:</value>
+</data>
+<data name="Page3_AD_Group2_Label2" xml:space="preserve">
+	<value>Wachtwoord:</value>
+</data>
+<data name="Page3_AD_Group3_Title" xml:space="preserve">
+	<value>Redacteur groepsnaam</value>
+</data>
+<data name="Page3_AD_Group3_Label" xml:space="preserve">
+	<value>Dit is de beveiligingsgroep die gebruikers moeten behoren om te redacteuren (mensen die pagina&apos;s kunnen bewerken en creëren). De testknop gebruikt de verbindingsinstellingen hierboven opgegeven.</value>
+</data>
+<data name="Page3_AD_Group4_Title" xml:space="preserve">
+	<value>Admin groepsnaam</value>
+</data>
+<data name="Page3_AD_Group4_Label" xml:space="preserve">
+	<value>Dit is de beveiligingsgroep die gebruikers moeten behoren om te admins. Admins hebben dezelfde rechten als de redactie, maar ook toegang tot configuratie-instellingen en instrumenten voor de site.The testknop gebruikt de verbindingsinstellingen hierboven opgegeven.</value>
+</data>
+<data name="Page3_DB_Label" xml:space="preserve">
+	<value>Alle wachtwoorden zijn eenrichtingsverkeer gecodeerd met behulp van SHA128 en een zout. Dit betekent wachtwoorden zijn niet voor vergoeding in aanmerking en zal een admin nodig hebben om ze te resetten (er is nog geen reset password functionaliteit). De minimale lengte van het wachtwoord is 6 tekens.</value>
+</data>
+<data name="Page3_DB_Group1_Title" xml:space="preserve">
+	<value>Redacteur rolnaam</value>
+</data>
+<data name="Page3_DB_Group1_Label1" xml:space="preserve">
+	<value>Dit is de naam van de redacteur rol - mensen die pagina&apos;s kunnen bewerken en maken.</value>
+</data>
+<data name="Page3_DB_Group2_Title" xml:space="preserve">
+	<value>Admin rolnaam</value>
+</data>
+<data name="Page3_DB_Group2_Label1" xml:space="preserve">
+	<value>Dit is de naam van de admin rol. Admins hebben dezelfde rechten als de redactie, maar ook toegang tot configuratie-instellingen en instrumenten voor de site.</value>
+</data>
+<data name="Page3_DB_Group3_Title" xml:space="preserve">
+	<value>Zodat de gebruiker aanmeldingen</value>
+</data>
+<data name="Page3_DB_Group3_Label1" xml:space="preserve">
+	<value>Selecteer deze optie als u wilt toestaan ​​dat mensen om aan te melden als een nieuwe gebruiker. Als er niet wordt opgetreden, zullen alleen admins kunnen nieuwe gebruikers aan te maken.</value>
+</data>
+<data name="Page3_DB_Group3_Label2" xml:space="preserve">
+	<value>Laat nieuwe gebruiker aanmeldingen.</value>
+</data>
+<data name="Page3_DB_Group4_Title" xml:space="preserve">
+	<value>Enable Recaptcha</value>
+</data>
+<data name="Page3_DB_Group4_Label1" xml:space="preserve">
+	<value>Als je toestaat dat de gebruiker aanmeldingen, is het aanbevolen dat u ook Recaptcha ondersteuning in te schakelen. Dit is een gratis anti-spam bot van Google, moet u uw publieke en private sleutel aanmelden en kopiëren in de onderstaande velden in. {BEGIN_RECAPTCHA_LINK}Hier aanmelden{END_RECAPTCHA_LINK} - moet u een Google-account eerst aanmaken.</value>
+</data>
+<data name="Page3_DB_Group4_Label2" xml:space="preserve">
+	<value>Enable Recaptcha anti-spam service.</value>
+</data>
+<data name="Page3_DB_Group4_Label3" xml:space="preserve">
+	<value>Publieke sleutel</value>
+</data>
+<data name="Page3_DB_Group4_Label4" xml:space="preserve">
+	<value>Private key</value>
+</data>
+<data name="Page3_DB_Group5_Title" xml:space="preserve">
+	<value>Admin e-mail</value>
+</data>
+<data name="Page3_DB_Group5_Label1" xml:space="preserve">
+	<value>Dit is het e-mailadres voor de admin gebruiker. U kunt meer admins in de pagina-instellingen toe te voegen, zodat deze gebruiker geen &apos;eigen&apos; de site</value>
+</data>
+<data name="Page3_DB_Group6_Title" xml:space="preserve">
+	<value>Admin wachtwoord</value>
+</data>
+<data name="Page3_DB_Group6_Label1" xml:space="preserve">
+	<value>Dit is het wachtwoord voor de admin gebruiker.</value>
+</data>
+<data name="Page4_Label1" xml:space="preserve">
+	<value>Bijna klaar ... Eindelijk wat extra tweakable instellingen.</value>
+</data>
+<data name="Page4_Group1_Title" xml:space="preserve">
+	<value>Map Bijlagen</value>
+</data>
+<data name="Page4_Group1_Success" xml:space="preserve">
+	<value>De map bestaat en kan worden geschreven.</value>
+</data>
+<data name="Page4_Group1_Error" xml:space="preserve">
+	<value>Kan niet schrijven naar de map:</value>
+</data>
+<data name="Page4_Group1_Label1" xml:space="preserve">
+	<value>Dit is de map waar alle bestanden worden geüpload naar. Deze map zal schrijfrechten nodig door de gebruiker die de app pool loopt onder. De meeste van de tijd moet je geen zorgen te maken over het veranderen van de machtigingen voor de map, omdat ze zullen worden overgenomen van de bovenliggende map.</value>
+</data>
+<data name="Page4_Group1_Label2" xml:space="preserve">
+	<value>Het pad moet beginnen met &quot;~ /&quot; voor de website wortel, of een bestand pad (bijv. c: \ myattachments).</value>
+</data>
+<data name="Page4_Group2_Title" xml:space="preserve">
+	<value>Toegestane extensies</value>
+</data>
+<data name="Page4_Group2_Label1" xml:space="preserve">
+	<value>Dit zijn de bestandsextensies die kunnen worden geüpload.</value>
+</data>
+<data name="Page4_Group3_Title" xml:space="preserve">
+	<value>Thema</value>
+</data>
+<data name="Page4_Group3_Label1" xml:space="preserve">
+	<value>Dit is het thema dat de site gebruikt. Dit zou overeenkomen met een mapnaam in de thema&apos;s directory.</value>
+</data>
+<data name="Page4_Group4_Title" xml:space="preserve">
+	<value>Markup soort</value>
+</data>
+<data name="Page4_Group4_Label1" xml:space="preserve">
+	<value>Dit is de markup formaat dat wordt gebruikt. Roadkill ondersteunt momenteel de volgende waarden: Creools, Markdown, Mediawiki.</value>
+</data>
+<data name="Page4_Group4_Label2" xml:space="preserve">
+	<value>Creole is het aanbevolen formaat.</value>
+</data>
+<data name="Page4_Group5_Title" xml:space="preserve">
+	<value>Cache</value>
+</data>
+<data name="Page4_Group5_Label1" xml:space="preserve">
+	<value>Enable Object caching</value>
+</data>
+<data name="Page4_Group5_Label2" xml:space="preserve">
+	<value>Roadkill slaat alle pagina&apos;s en inhoud in het geheugen na het ophalen uit de database. De cache wordt automatisch bijgewerkt wanneer een pagina verandert. Aanbevolen het reactievermogen van de site te verhogen. Object caching wordt momenteel niet ondersteund voor web tuinen of web boerderijen.</value>
+</data>
+<data name="Page4_Group5_Label3" xml:space="preserve">
+	<value>Enable browser cache</value>
+</data>
+<data name="Page4_Group5_Label4" xml:space="preserve">
+	<value>Dit zal de browser de cache Roadkill&apos;s te vertellen, en te controleren op updates (If-Modified-Since) telkens wanneer de pagina wordt geladen. Als geen update is gevonden, wordt geen inhoud terug van de server. Aanbevolen het reactievermogen van de site te verhogen.</value>
+</data>
+<data name="Page4_Group5_Label5" xml:space="preserve">
+	<value>(Nu ongebruikt, kan in 2,0 worden verwijderd)</value>
+</data>
+<data name="Page5_Success_Title" xml:space="preserve">
+	<value>Installatie succesvol</value>
+</data>
+<data name="Page5_Success_AD_Title" xml:space="preserve">
+	<value>Windows-verificatie - lees</value>
+</data>
+<data name="Page5_Success_AD_Label" xml:space="preserve">
+	<value>Als u gebruik maakt van IIS7 + je kan nodig zijn om het bestand web.config voor uw veiligheid setup configureren, hieronder zijn de elementen die zijn required.If u ontvangt 500 fouten na het maken van deze veranderingen, dan is de sectie is vergrendeld op een ouder niveau, en u moeten de wijzigingen via de IIS manager maken.</value>
+</data>
+<data name="Page5_Success_Label1" xml:space="preserve">
+	<value>Ga naar de website</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Page5_Error_Title" xml:space="preserve">
+	<value>De installatie is mislukt</value>
+</data>
+<data name="Page5_Error_Label1" xml:space="preserve">
+	<value>Controleer de instellingen. De foutmelding was:</value>
+	<comment>Fuzzy</comment>
+</data>
+
+</root>

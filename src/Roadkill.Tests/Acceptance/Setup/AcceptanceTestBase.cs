@@ -64,7 +64,7 @@ namespace Roadkill.Tests.Acceptance
 			}
 
 			Driver.FindElement(By.Name("Content")).SendKeys("Some content goes here");
-			Driver.FindElement(By.CssSelector("input[value=Save]")).Click();
+			Driver.FindElement(By.CssSelector("input[type=submit]")).Click();
 		}
 
 		protected void LoginAsAdmin()
@@ -78,7 +78,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.Navigate().GoToUrl(LoginUrl);
 			Driver.FindElement(By.Name("email")).SendKeys(ADMIN_EMAIL);
 			Driver.FindElement(By.Name("password")).SendKeys(ADMIN_PASSWORD);
-			Driver.FindElement(By.CssSelector("input[value=Login]")).Click();
+			Driver.FindElement(By.CssSelector("input[type=submit]")).Click();
 		}
 
 		protected void LoginAsEditor()
@@ -92,7 +92,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.Navigate().GoToUrl(LoginUrl);
 			Driver.FindElement(By.Name("email")).SendKeys(EDITOR_EMAIL);
 			Driver.FindElement(By.Name("password")).SendKeys(EDITOR_PASSWORD);
-			Driver.FindElement(By.CssSelector("input[value=Login]")).Click();
+			Driver.FindElement(By.CssSelector("input[type=submit]")).Click();
 		}
 
 		protected void Logout()

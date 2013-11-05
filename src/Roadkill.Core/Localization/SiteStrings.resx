@@ -364,43 +364,40 @@
 	<value>Unable to save the page:</value>
 </data>
 <data name="EditPage_Toolbar_Bold" xml:space="preserve">
-	<value>Insert Bold text markup characters.</value>
+	<value>Bold</value>
 </data>
 <data name="EditPage_Toolbar_BulletList" xml:space="preserve">
-	<value>Insert Bullet List markup characters.</value>
-</data>
-<data name="EditPage_Toolbar_Heading1" xml:space="preserve">
-	<value>Insert Heading 1 level markup characters.</value>
+	<value>Bullet list</value>
 </data>
 <data name="EditPage_Toolbar_Heading2" xml:space="preserve">
-	<value>Insert Heading 2 level markup characters.</value>
+	<value>Heading 2</value>
 </data>
 <data name="EditPage_Toolbar_Heading3" xml:space="preserve">
-	<value>Insert Heading 3 level markup characters.</value>
+	<value>Heading 3</value>
 </data>
 <data name="EditPage_Toolbar_Heading4" xml:space="preserve">
-	<value>Insert Heading 4 level markup characters.</value>
+	<value>Heading 4</value>
 </data>
 <data name="EditPage_Toolbar_Heading5" xml:space="preserve">
-	<value>Insert Heading 5 level markup characters.</value>
+	<value>Heading 5</value>
 </data>
 <data name="EditPage_Toolbar_Help" xml:space="preserve">
-	<value>View Help reference for the markup syntax.</value>
+	<value>View Help reference.</value>
 </data>
 <data name="EditPage_Toolbar_Image" xml:space="preserve">
-	<value>Insert Image markup characters.</value>
+	<value>Image</value>
 </data>
 <data name="EditPage_Toolbar_Italic" xml:space="preserve">
-	<value>Insert Italic markup characters.</value>
+	<value>Italic</value>
 </data>
 <data name="EditPage_Toolbar_Link" xml:space="preserve">
-	<value>Insert URL Link markup characters.</value>
+	<value>Link</value>
 </data>
 <data name="EditPage_Toolbar_NumberList" xml:space="preserve">
-	<value>Insert Numbered List markup characters.</value>
+	<value>Numbered list</value>
 </data>
 <data name="EditPage_Toolbar_Underline" xml:space="preserve">
-	<value>Insert Underline markup characters.</value>
+	<value>Underline</value>
 </data>
 <data name="SiteSettings_Configuration" xml:space="preserve">
 	<value>Configuration</value>
@@ -505,7 +502,7 @@
 	<value>The url of the site, which is used in signup and reset password emails.  Do not include the trailing slash.</value>
 </data>
 <data name="SiteSettings_Configuration_ConnectionStrings_Help" xml:space="preserve">
-	<value>Changes your connection string - you will need to recreate the schema in the tools for this to work correctly.</value>
+	<value>Changes your connection string - if your server or database has changed, you will need to manually create the database tables for this to work correctly.</value>
 </data>
 <data name="SiteSettings_Configuration_DatabaseType_Help" xml:space="preserve">
 	<value>Changes your database type - you will need to recreate the schema in the tools for this to work correctly.</value>
@@ -514,7 +511,7 @@
 	<value>The database connection string.</value>
 </data>
 <data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
-	<value>&lt;b&gt;WARNING&lt;/b&gt; changing this may lock you out of the site. Make a backup of your web.config first before saving.&lt;br/&gt;&lt;br/&gt; Sets whether to use Windows Authentication and Active Directory for authentication.</value>
+	<value>{bold}WARNING{/bold} changing this may lock you out of the site. Make a backup of your web.config first before saving.{br}{br} Sets whether to use Windows Authentication and Active Directory for authentication.</value>
 </data>
 <data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
 	<value>Check this option if you want to allow people to signup as a new users.</value>
@@ -541,7 +538,7 @@
 	<value>This is the name of the editor role - people who can edit and create pages. This is only used for Active Directory/Windows authentication - leave this blank to allow all users to be editors.</value>
 </data>
 <data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
-	<value>&lt;b&gt;WARNING&lt;/b&gt; changing this may lock you out of the site when using Active Directory/Windows authentication. Make a backup of your web.config first before saving. &lt;br/&gt;&lt;br/&gt;This is the name of the admin role. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.</value>
+	<value>{bold}WARNING{/bold} changing this may lock you out of the site when using Active Directory/Windows authentication. Make a backup of your web.config first before saving. {br}{br}This is the name of the admin role. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.</value>
 </data>
 <data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
 	<value>This is the markup format that is used. Roadkill currently supports the following values: Creole, Markdown, Mediawiki.</value>
@@ -667,7 +664,7 @@
 	<value>Import from screwturn</value>
 </data>
 <data name="SiteSettings_Tools_ScrewTurnImport_Label" xml:space="preserve">
-	<value>Imports all content from a Screwturn 2 database. You will need to set the markuptype to MediaWiki in the settings/web.config file for the format to be compatible. As screwturn uses as variation on the mediawiki syntax, some content will not render perfectly. This includes some images and links.</value>
+	<value>Imports all content from a Screwturn 2/3 database. You will need to set the markuptype to MediaWiki in the settings/web.config file for the format to be compatible. As screwturn uses as variation on the mediawiki syntax, some content will not render perfectly. This includes some images and links.</value>
 </data>
 <data name="SiteSettings_Tools_ScrewTurnImport_Connection" xml:space="preserve">
 	<value>Screwturn connection string:</value>
@@ -717,17 +714,15 @@
 <data name="FileManager_Upload" xml:space="preserve">
 	<value>Upload files</value>
 </data>
-<data name="FileManager_AddFolder_PlaceHolder" xml:space="preserve">
+<data name="FileManager_AddFolder" xml:space="preserve">
 	<value>New folder</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="FileManager_AddFolder_Cancel" xml:space="preserve">
 	<value>Cancel new folder</value>
 </data>
 <data name="FileManager_Delete_File" xml:space="preserve">
 	<value>Delete File</value>
-</data>
-<data name="FileManager_Add_Folder" xml:space="preserve">
-	<value>Add Folder</value>
 </data>
 <data name="FileManager_Select" xml:space="preserve">
 	<value>Select</value>
@@ -775,13 +770,15 @@
 	<value>File manager</value>
 </data>
 <data name="SiteSettings_Configuration_HeadContent_Help" xml:space="preserve">
-	<value>Any additional HTML or scripts you enter here will be added to the &lt;head&gt; tag of the page.</value>
+	<value>Any additional HTML or scripts you enter here will be added to the {head} tag of the page.</value>
 </data>
-<data name="SiteSettings_Configuration_LeftMenu" xml:space="preserve">
-	<value>Left menu markup</value>
+<data name="SiteSettings_Configuration_NavMenu" xml:space="preserve">
+	<value>Navigation menu markup</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Configuration_LeftMenu_Help" xml:space="preserve">
-	<value>The navigation menu, which is typically on the left hand side but varies according to the theme. Markup is accepted and should be done in the markdown format your wiki uses. You can also use the following tokens which are replaced with links (some of which may be empty if you are not logged in): &lt;br/&gt;%mainpage%&lt;br/&gt;%categories%&lt;br/&gt;%allpages%&lt;br/&gt;%newpage%&lt;br/&gt;%managefiles%&lt;br/&gt;%sitesettings%.</value>
+<data name="SiteSettings_Configuration_NavMenu_Help" xml:space="preserve">
+	<value>The navigation menu, which is typically on the left hand side but varies according to the theme. Markup is accepted and should be done in the markdown format your wiki uses. You can also use the following tokens which are replaced with links (some of which may be empty if you are not logged in): {MENUTOKENS}</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
 	<value>Automatically overwrite existing files on upload</value>

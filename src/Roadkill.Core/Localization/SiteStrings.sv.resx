@@ -370,9 +370,6 @@
 <data name="EditPage_Toolbar_BulletList" xml:space="preserve">
 	<value>Infoga kod för punktlista.</value>
 </data>
-<data name="EditPage_Toolbar_Heading1" xml:space="preserve">
-	<value>Infoga kod för Rubrik Nivå 1.</value>
-</data>
 <data name="EditPage_Toolbar_Heading2" xml:space="preserve">
 	<value>Infoga kod för Rubrik Nivå 2.</value>
 </data>
@@ -516,7 +513,7 @@
 	<value>Databasens anslutningssträng.</value>
 </data>
 <data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
-	<value>&lt;b&gt; VARNING &lt;/ b&gt; om du ändrar detta kan du bli utlåst från webbplatsen. Ta en backup av web.config innan du sparar. &lt;br/&gt; Anger om Windows-autentisering och Active Directory skall användas för autentisering.</value>
+	<value>{bold}VARNING{/bold} om du ändrar detta kan du bli utlåst från webbplatsen. Ta en backup av web.config innan du sparar. {br}{br} Anger om Windows-autentisering och Active Directory skall användas för autentisering.</value>
 </data>
 <data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
 	<value>Markera detta alternativ om du vill tillåta personer att registrera sig som nya användare</value>
@@ -543,7 +540,7 @@
 	<value>Gruppnamnet för rollen Redaktören - användare som kan redigera och skapa sidor. Detta fält används endast för Active Directory / Windows-autentisering - lämna fältet tomt för att tillåta alla användare att bli redaktörer.</value>
 </data>
 <data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
-	<value>&lt;b&gt; VARNING &lt;/ b&gt; om du ändrar detta kan du bli utlåst från webbplatsen när du använder Active Directory / Windows-autentisering. Ta en backup av web.config innan du sparar. &lt;br/&gt; Gruppnamnet för rollen Administratörer. Administratörer har samma rättigheter som redaktörer, men har även tillgång till inställningar och verktyg för webbplatsen.</value>
+	<value>{bold}VARNING{/bold} om du ändrar detta kan du bli utlåst från webbplatsen när du använder Active Directory / Windows-autentisering. Ta en backup av web.config innan du sparar. {br}{br} Gruppnamnet för rollen Administratörer. Administratörer har samma rättigheter som redaktörer, men har även tillgång till inställningar och verktyg för webbplatsen.</value>
 </data>
 <data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
 	<value>Det markupkodformat som används. Roadkill stöder för närvarande följande format: Creole, Markdown, Mediawiki.</value>
@@ -719,17 +716,15 @@
 <data name="FileManager_Upload" xml:space="preserve">
 	<value>Ladda upp filer</value>
 </data>
-<data name="FileManager_AddFolder_PlaceHolder" xml:space="preserve">
+<data name="FileManager_AddFolder" xml:space="preserve">
 	<value>Ny mapp</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="FileManager_AddFolder_Cancel" xml:space="preserve">
 	<value>Ångra ny mapp</value>
 </data>
 <data name="FileManager_Delete_File" xml:space="preserve">
 	<value>Ta bort fil</value>
-</data>
-<data name="FileManager_Add_Folder" xml:space="preserve">
-	<value>Lägg till mapp</value>
 </data>
 <data name="FileManager_Select" xml:space="preserve">
 	<value>Välj</value>
@@ -778,13 +773,15 @@
 	<value>Filhanteraren</value>
 </data>
 <data name="SiteSettings_Configuration_HeadContent_Help" xml:space="preserve">
-	<value>All ytterligare HTML-kod eller skript du lägger till här kommer att läggas till sidans &lt;head&gt;-tagg.</value>
+	<value>All ytterligare HTML-kod eller skript du lägger till här kommer att läggas till sidans {head}-tagg.</value>
 </data>
-<data name="SiteSettings_Configuration_LeftMenu" xml:space="preserve">
+<data name="SiteSettings_Configuration_NavMenu" xml:space="preserve">
 	<value>Vänstra menyns markupkod</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Configuration_LeftMenu_Help" xml:space="preserve">
-	<value>Navigeringsmenyn. Den finns vanligen till vänster, men det kan variera beroende på temat du använder. Du kan använda markupkod, men den måste vara i samma format som du ställt in Wikin att använda. Du kan också använda följande mallar som automatiskt ersätts med länkar (om du inte är inloggad kan vissa vara tomma): &lt;br/&gt;%mainpage% &lt;br/&gt;%categories% &lt;br/&gt;% allpages% &lt;br /&gt;%newpage% &lt;br/&gt;%managefiles% &lt;br/&gt;%sitesettings%.</value>
+<data name="SiteSettings_Configuration_NavMenu_Help" xml:space="preserve">
+	<value>Navigeringsmenyn. Den finns vanligen till vänster, men det kan variera beroende på temat du använder. Du kan använda markupkod, men den måste vara i samma format som du ställt in Wikin att använda. Du kan också använda följande mallar som automatiskt ersätts med länkar (om du inte är inloggad kan vissa vara tomma):{MENUTOKENS}</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
 	<value>Skriv över befintliga filer</value>

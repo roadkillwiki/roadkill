@@ -104,7 +104,7 @@
 		<legend>@SiteStrings.SiteSettings_Configuration_Security</legend>
 
 		<label for="UseWindowsAuth" class="checkbox">@SiteStrings.SiteSettings_Configuration_UseWindowsAuth
-		@(Html.CheckBoxFor(s => s.UseWindowsAuth, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_UseWindowsAuth_Help }))
+		@(Html.CheckBoxFor(s => s.UseWindowsAuth, new { rel = "popover", data_content = LocalizationTokens.ReplaceAdExplorer(SiteStrings.SiteSettings_Configuration_UseWindowsAuth_Help) }))
 		</label>
 
 		<!-- SQL users -->
@@ -140,7 +140,7 @@
 		@Html.TextBoxFor(s => s.EditorRoleName, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_EditorRole_Help })
 
 		<label for="AdminRoleName">@SiteStrings.SiteSettings_Configuration_AdminRole</label>
-		@Html.TextBoxFor(s => s.AdminRoleName, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_AdminRole_Help })
+		@Html.TextBoxFor(s => s.AdminRoleName, new { rel="popover", data_content = LocalizationTokens.ReplaceHtmlTokens(SiteStrings.SiteSettings_Configuration_AdminRole_Help) })
 	</fieldset>
 	
 	<fieldset>
@@ -153,10 +153,10 @@
 		@Html.DropDownListFor(x => x.Theme, new SelectList(Model.ThemesAvailable, Model.Theme), new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Theme_Help })
 
 		<label for="HeadContent">@SiteStrings.SiteSettings_Configuration_HeadContent</label>
-		@Html.TextAreaFor(s => s.HeadContent, new { rel="popover", data_content = @SiteStrings.SiteSettings_Configuration_HeadContent_Help})
+		@Html.TextAreaFor(s => s.HeadContent, new { rel = "popover", data_content = LocalizationTokens.ReplaceHeadToken(SiteStrings.SiteSettings_Configuration_HeadContent_Help) })
 
-		<label for="MenuMarkup">@SiteStrings.SiteSettings_Configuration_LeftMenu</label>
-		@Html.TextAreaFor(s => s.MenuMarkup, new { rel="popover", data_content = @SiteStrings.SiteSettings_Configuration_LeftMenu_Help})
+		<label for="MenuMarkup">@SiteStrings.SiteSettings_Configuration_NavMenu</label>
+		@Html.TextAreaFor(s => s.MenuMarkup, new { rel = "popover", data_content = LocalizationTokens.ReplaceMenuTokens(SiteStrings.SiteSettings_Configuration_NavMenu_Help) })
 	</fieldset>
 
 	<fieldset>

@@ -23,6 +23,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 				new LanguageViewModel("en", "English"),
 				new LanguageViewModel("cs", "Čeština"),
 				new LanguageViewModel("de", "Deutsch"),
+				new LanguageViewModel("nl", "Dutch"),
 				new LanguageViewModel("es", "Español"),
 				new LanguageViewModel("hi", "हिंदी"),
 				new LanguageViewModel("it", "Italiano"),
