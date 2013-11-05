@@ -233,51 +233,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		[Description("Test for the Save when it's called from an installation")]
-		public void Should_Save_All_ApplicationSettings_And_Default_PublicSite_And_SearchErrors_To_True()
-		{
-			// Arrange
-			string configFilePath = GetConfigPath("test-empty-defaults.config");
-			SettingsViewModel viewModel = new SettingsViewModel()
-			{
-				AdminRoleName = "admin role name",
-				AttachmentsFolder = @"c:\AttachmentsFolder",
-				UseObjectCache = true,
-				UseBrowserCache = true,
-				ConnectionString = "connection string",
-				DataStoreTypeName = "MongoDB",
-				EditorRoleName = "editor role name",
-				LdapConnectionString = "ldap connection string",
-				LdapUsername = "ldap username",
-				LdapPassword = "ldap password",
-				UseWindowsAuth = true,
-			};
-
-			// Act
-			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
-			configManager.Save(viewModel);
-
-			ApplicationSettings appSettings = configManager.GetApplicationSettings();
-
-			// Assert
-			Assert.That(appSettings.AdminRoleName, Is.EqualTo(viewModel.AdminRoleName), "AdminRoleName");
-			Assert.That(appSettings.AttachmentsFolder, Is.EqualTo(viewModel.AttachmentsFolder), "AttachmentsFolder");
-			Assert.That(appSettings.UseObjectCache, Is.EqualTo(viewModel.UseObjectCache), "UseObjectCache");
-			Assert.That(appSettings.UseBrowserCache, Is.EqualTo(viewModel.UseBrowserCache), "UseBrowserCache");
-			Assert.That(appSettings.ConnectionString, Is.EqualTo(viewModel.ConnectionString), "ConnectionStringName");
-			Assert.That(appSettings.DataStoreType, Is.EqualTo(DataStoreType.MongoDB), "DatabaseType");
-			Assert.That(appSettings.EditorRoleName, Is.EqualTo(viewModel.EditorRoleName), "EditorRoleName");
-			Assert.That(appSettings.IgnoreSearchIndexErrors, Is.True, "IgnoreSearchIndexErrors");
-			Assert.That(appSettings.IsPublicSite, Is.True, "IsPublicSite");
-			Assert.That(appSettings.LdapConnectionString, Is.EqualTo(viewModel.LdapConnectionString), "LdapConnectionString");
-			Assert.That(appSettings.LdapPassword, Is.EqualTo(viewModel.LdapPassword), "LdapPassword");
-			Assert.That(appSettings.LdapUsername, Is.EqualTo(viewModel.LdapUsername), "LdapUsername");
-			Assert.That(appSettings.UseWindowsAuthentication, Is.EqualTo(viewModel.UseWindowsAuth), "UseWindowsAuthentication");
-			Assert.That(appSettings.Installed, Is.True, "Installed");
-		}
-
-		[Test]
-		[Description("Test for the Save when it's called from the settings page")]
+		[Description("Test for the Save when it's called from the settings page, and installation")]
 		public void Should_Save_All_ApplicationSettings()
 		{
 			// Arrange

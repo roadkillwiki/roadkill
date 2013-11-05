@@ -35,6 +35,11 @@
 		<p>@SiteStrings.SiteSettings_Tools_RebuildSearch_Label</p>
 	</div>
 
+    <div>
+        @Html.ActionLink("Export as SQL", "ExportAsSQL", null, new { @class = "btn btn-success todo-translation" })<br />
+        <p>Export as SQL description TODO TRANSLATION</p>
+    </div>
+
 	<div>
 		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportXml, "ExportAsXml", null, new { @class = "btn btn-success" })<br />
 		<p>@SiteStrings.SiteSettings_Tools_ExportXml_Label</p>

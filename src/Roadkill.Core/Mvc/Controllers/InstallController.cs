@@ -219,6 +219,10 @@ namespace Roadkill.Core.Mvc.Controllers
 			_settingsService.UpdateRepository(_repository);
 			_searchService.UpdateRepository(_repository);
 
+			// Default these two properties for installations
+			summary.IgnoreSearchIndexErrors = true;
+			summary.IsPublicSite = true;
+
 			// Update the web.config first, so all connections can be referenced.
 			ConfigReaderWriter configReader = ConfigReaderWriterFactory.GetConfigReader();
 			configReader.Save(summary);

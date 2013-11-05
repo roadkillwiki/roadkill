@@ -62,8 +62,8 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public string HeadContent { get; set; }
 		public string MenuMarkup { get; set; }
 
-		public bool? IsPublicSite { get; set; }
-		public bool? IgnoreSearchIndexErrors { get; set; }
+		public bool IsPublicSite { get; set; }
+		public bool IgnoreSearchIndexErrors { get; set; }
 
 		public IEnumerable<string> DatabaseTypesAvailable
 		{

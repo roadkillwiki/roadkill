@@ -140,8 +140,8 @@ namespace Roadkill.Core.Configuration
 				section.Version = ApplicationSettings.FileVersion.ToString();
 
 				// For first time installs: these need to be explicit as the DefaultValue="" in the attribute doesn't determine the value when saving.
-				section.IsPublicSite = settings.IsPublicSite ?? true;
-				section.IgnoreSearchIndexErrors = settings.IgnoreSearchIndexErrors ?? true;	
+				section.IsPublicSite = settings.IsPublicSite;
+				section.IgnoreSearchIndexErrors = settings.IgnoreSearchIndexErrors;	
 				section.Installed = true;
 
 				_config.Save(ConfigurationSaveMode.Minimal);
