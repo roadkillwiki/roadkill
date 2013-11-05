@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Roadkill.Core.Logging;
 
 namespace Roadkill.Core.Database.Export
@@ -28,8 +26,12 @@ namespace Roadkill.Core.Database.Export
 				string sql2 = string.Join("\n", pages.Select(x => GetPagesInsertSql(x)).ToArray());
 				string sql3 = string.Join("\n", pageContent.Select(x => GetPageContentInsertSql(x)).ToArray());
 
-				Log.Debug("Sql successfully written: {0}\n{1}\n{2}", sql1, sql2, sql3);
-				return sql1 + sql2 + sql3;
+				Log.Debug("Sql successfully written: {0}\r\n{1}\r\n{2}", sql1, sql2, sql3);
+				return "-- You will need to enable identity inserts for your chosen db before running this Script, for example:" +
+					   "-- SET IDENTITY_INSERT roadkill_pages ON;\r\n" +
+					   sql1 +"\r\n" +
+					   sql2  +"\r\n" +
+					   sql3;
 
 			}
 			catch (Exception e)
