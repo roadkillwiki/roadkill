@@ -106,7 +106,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			// Persist the language change now that we know the web.config can be written to.
 			Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
-			ConfigReader configReader = ConfigReaderFactory.GetConfigReader();
+			ConfigReaderWriter configReader = ConfigReaderWriterFactory.GetConfigReader();
 			configReader.UpdateLanguage(language);
 
 			return View(new SettingsViewModel());
@@ -192,7 +192,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			{
 				try
 				{
-					ConfigReader configReader = ConfigReaderFactory.GetConfigReader();
+					ConfigReaderWriter configReader = ConfigReaderWriterFactory.GetConfigReader();
 					configReader.ResetInstalledState();
 				}
 				catch (Exception ex)
@@ -220,7 +220,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			_searchService.UpdateRepository(_repository);
 
 			// Update the web.config first, so all connections can be referenced.
-			ConfigReader configReader = ConfigReaderFactory.GetConfigReader();
+			ConfigReaderWriter configReader = ConfigReaderWriterFactory.GetConfigReader();
 			configReader.Save(summary);
 
 			// Create the roadkill schema and save the configuration settings
@@ -264,7 +264,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (ApplicationSettings.Installed)
 				return Content("");
 
-			ConfigReader configReader = ConfigReaderFactory.GetConfigReader();
+			ConfigReaderWriter configReader = ConfigReaderWriterFactory.GetConfigReader();
 			string errors = configReader.TestSaveWebConfig();
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}

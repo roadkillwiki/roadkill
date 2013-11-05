@@ -11,11 +11,11 @@ using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core.Configuration
 {
-	public abstract class ConfigReader
+	public abstract class ConfigReaderWriter
 	{
 		protected string ConfigFilePath;
 
-		public ConfigReader(string configFilePath)
+		public ConfigReaderWriter(string configFilePath)
 		{
 			ConfigFilePath = configFilePath;
 		}
