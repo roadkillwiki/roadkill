@@ -115,7 +115,9 @@ namespace Roadkill.Tests.Unit
 				LdapConnectionString = "ldap connection string",
 				LdapUsername = "ldap username",
 				LdapPassword = "ldap password",
-				UseWindowsAuthentication = true
+				UseWindowsAuthentication = true,
+				IsPublicSite = false,
+				IgnoreSearchIndexErrors = false
 			};
 
 			// Act
@@ -134,6 +136,8 @@ namespace Roadkill.Tests.Unit
 			Assert.That(model.LdapUsername, Is.EqualTo(appSettings.LdapUsername));
 			Assert.That(model.LdapPassword, Is.EqualTo(appSettings.LdapPassword));
 			Assert.That(model.UseWindowsAuth, Is.EqualTo(appSettings.UseWindowsAuthentication));
+			Assert.That(model.IsPublicSite, Is.EqualTo(appSettings.IsPublicSite));
+			Assert.That(model.IgnoreSearchIndexErrors, Is.EqualTo(appSettings.IgnoreSearchIndexErrors));
 		}
 	}
 }

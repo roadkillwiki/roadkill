@@ -26,7 +26,14 @@ namespace Roadkill.Tests.Unit
 			try
 			{
 				// Delete any existing attachments folder
+
+				// Remove the files 1st
 				DirectoryInfo directoryInfo = new DirectoryInfo(_settings.AttachmentsFolder);
+				foreach (FileInfo file in directoryInfo.GetFiles())
+				{
+					File.Delete(file.FullName);
+				}
+				
 				if (directoryInfo.Exists)
 				{
 					directoryInfo.Attributes = FileAttributes.Normal;

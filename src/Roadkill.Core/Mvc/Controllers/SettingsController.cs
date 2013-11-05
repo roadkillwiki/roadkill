@@ -13,6 +13,8 @@ using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Logging;
+using Roadkill.Core.Database.Export;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -30,10 +32,11 @@ namespace Roadkill.Core.Mvc.Controllers
 		private ListCache _listCache;
 		private PageViewModelCache _pageViewModelCache;
 		private SiteCache _siteCache;
+		private IRepository _repository;
 
 		public SettingsController(ApplicationSettings settings, UserServiceBase userManager,
 			SettingsService settingsService, PageService pageService, SearchService searchService, IUserContext context,
-			ListCache listCache, PageViewModelCache pageSummaryCache, SiteCache siteCache, ScrewTurnImporter screwTurnImporter)
+			ListCache listCache, PageViewModelCache pageSummaryCache, SiteCache siteCache, ScrewTurnImporter screwTurnImporter, IRepository repository)
 			: base(settings, userManager, context, settingsService) 
 		{
 			_settingsService = settingsService;
@@ -42,6 +45,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			_listCache = listCache;
 			_pageViewModelCache = pageSummaryCache;
 			_siteCache = siteCache;
+			_repository = repository;
 		}
 
 		/// <summary>
@@ -331,6 +335,39 @@ namespace Roadkill.Core.Mvc.Controllers
 			{
 				Log.Warn(e, "Unable to export attachments");
 				TempData["Message"] = string.Format(SiteStrings.SiteSettings_Tools_ExportAttachments_Error, e.Message);
+
+				return RedirectToAction("Tools");
+			}
+		}
+
+		/// <summary>
+		/// Exports the roadkill database (User, Page, PageContent) as a SQL script.
+		/// </summary>
+		/// <returns>A <see cref="FileStreamResult"/> called 'roadkill-export.sql' containing the SQL data.
+		/// If an error occurs, a <see cref="HttpNotFound"/> result is returned and the error message written to the trace.</returns>
+		public ActionResult ExportAsSql()
+		{
+			try
+			{
+				ScriptBuilder scriptBuilder = new ScriptBuilder(_repository);
+				string sql = scriptBuilder.Export();
+
+				// Let the FileStreamResult dispose the stream
+				MemoryStream stream = new MemoryStream();
+				StreamWriter writer = new StreamWriter(stream);
+				writer.Write(sql);
+				writer.Flush();
+				stream.Position = 0;
+
+				FileStreamResult result = new FileStreamResult(stream, "text/plain");
+				result.FileDownloadName = "roadkill-export.sql";
+
+				return result;
+			}
+			catch (IOException e)
+			{
+				Log.Warn(e, "Unable to export as SQL");
+				TempData["Message"] = string.Format(SiteStrings.SiteSettings_Tools_ExportXml_Error, e.Message);
 
 				return RedirectToAction("Tools");
 			}
