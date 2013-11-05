@@ -13,11 +13,11 @@ using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core.Configuration
 {
-	internal class MediumTrustConfigReader : ConfigReader
+	internal class MediumTrustConfigReaderWriter : ConfigReaderWriter
 	{
 		private RoadkillSection _section;
 
-		public MediumTrustConfigReader(string configFilePath)
+		public MediumTrustConfigReaderWriter(string configFilePath)
 			: base(configFilePath)
 		{
 			if (string.IsNullOrEmpty(configFilePath))

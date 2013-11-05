@@ -12,7 +12,7 @@ namespace Roadkill.Tests.Integration
 	[TestFixture]
 	[Category("Integration")]
 	[Ignore("For future medium trust support")]
-	public class MediumTrustConfigReaderTests
+	public class MediumTrustConfigReaderWriterTests
 	{
 		[Test]
 		[ExpectedException(typeof(ConfigurationException))]
@@ -22,7 +22,7 @@ namespace Roadkill.Tests.Integration
 			string configFile = GetConfigPath("doesntexist.config");
 
 			// Act + Assert
-			MediumTrustConfigReader reader = new MediumTrustConfigReader(configFile);
+			MediumTrustConfigReaderWriter reader = new MediumTrustConfigReaderWriter(configFile);
 		}
 
 		[Test]
@@ -31,7 +31,7 @@ namespace Roadkill.Tests.Integration
 		{
 			// Arrange
 			string configFile = GetConfigPath("test-no-roadkillsection.config");
-			MediumTrustConfigReader reader = new MediumTrustConfigReader(configFile);
+			MediumTrustConfigReaderWriter reader = new MediumTrustConfigReaderWriter(configFile);
 
 			// Act
 			RoadkillSection section = reader.Load();
@@ -44,7 +44,7 @@ namespace Roadkill.Tests.Integration
 		{
 			// Arrange
 			string configFile = GetConfigPath("test.config");
-			MediumTrustConfigReader reader = new MediumTrustConfigReader(configFile);
+			MediumTrustConfigReaderWriter reader = new MediumTrustConfigReaderWriter(configFile);
 
 			// Act
 			RoadkillSection section = reader.Load();

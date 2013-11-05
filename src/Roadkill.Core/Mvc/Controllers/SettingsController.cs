@@ -67,7 +67,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				ConfigReader configReader = ConfigReaderFactory.GetConfigReader();
+				ConfigReaderWriter configReader = ConfigReaderWriterFactory.GetConfigReader();
 				configReader.Save(model);
 			
 				_settingsService.SaveSiteSettings(model);

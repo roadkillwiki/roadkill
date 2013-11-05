@@ -19,7 +19,7 @@ namespace Roadkill.Tests.Unit
 	[TestFixture]
 	[Description("Tests for both database and .config file settings.")]
 	[Category("Integration")]
-	public class FullTrustConfigReaderTests
+	public class FullTrustConfigReaderWriterTests
 	{
 		private ApplicationSettings _settings;
 
@@ -36,7 +36,7 @@ namespace Roadkill.Tests.Unit
 			string configFilePath = GetConfigPath("test.config");
 
 			// Act
-			FullTrustConfigReader configManager = new FullTrustConfigReader(configFilePath);
+			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
 			ApplicationSettings appSettings = configManager.GetApplicationSettings();
 
 			// Assert
@@ -68,7 +68,7 @@ namespace Roadkill.Tests.Unit
 			string configFilePath = GetConfigPath("test-optional-values.config");
 
 			// Act
-			FullTrustConfigReader configManager = new FullTrustConfigReader(configFilePath);
+			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
 			ApplicationSettings appSettings = configManager.GetApplicationSettings();
 
 			// Assert
@@ -92,7 +92,7 @@ namespace Roadkill.Tests.Unit
 			string configFilePath = GetConfigPath("test.config");
 
 			// Act
-			FullTrustConfigReader configManager = new FullTrustConfigReader(configFilePath);
+			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
 			ApplicationSettings appSettings = configManager.GetApplicationSettings();
 
 			// Assert
@@ -107,7 +107,7 @@ namespace Roadkill.Tests.Unit
 			string configFilePath = GetConfigPath("test-missing-values.config");
 
 			// Act
-			FullTrustConfigReader configManager = new FullTrustConfigReader(configFilePath);
+			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
 			
 			// Assert
 		}
@@ -119,7 +119,7 @@ namespace Roadkill.Tests.Unit
 			string configFilePath = GetConfigPath("test-legacy-values.config");
 
 			// Act
-			FullTrustConfigReader configManager = new FullTrustConfigReader(configFilePath);
+			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
 			ApplicationSettings appSettings = configManager.GetApplicationSettings();
 
 			// Assert
@@ -134,7 +134,7 @@ namespace Roadkill.Tests.Unit
 			string configFilePath = GetConfigPath("test-legacy-values.config");
 
 			// Act
-			FullTrustConfigReader configManager = new FullTrustConfigReader(configFilePath);
+			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
 			ApplicationSettings appSettings = configManager.GetApplicationSettings();
 
 			// Assert

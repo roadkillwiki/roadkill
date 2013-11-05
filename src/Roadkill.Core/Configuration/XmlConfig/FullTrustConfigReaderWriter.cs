@@ -13,14 +13,14 @@ using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core.Configuration
 {
-	public class FullTrustConfigReader : ConfigReader
+	public class FullTrustConfigReaderWriter : ConfigReaderWriter
 	{
 		private System.Configuration.Configuration _config;
 		private bool _isWebConfig;
 		private bool _isConfigLoaded;
 		private RoadkillSection _section;
 
-		public FullTrustConfigReader(string configFilePath) : base(configFilePath)
+		public FullTrustConfigReaderWriter(string configFilePath) : base(configFilePath)
 		{
 			if (!_isConfigLoaded)
 			{
@@ -137,13 +137,11 @@ namespace Roadkill.Core.Configuration
 				section.LdapPassword = settings.LdapPassword;
 				section.RepositoryType = dataStoreType.CustomRepositoryType;
 				section.UseWindowsAuthentication = settings.UseWindowsAuth;
-
-				// Optional "tweak" settings - these need to be explicit as DefaultValue="" in the attribute doesn't determine the value when saving.
-				section.IsPublicSite = true;
-				section.IgnoreSearchIndexErrors = true;
-				section.ResizeImages = true;
 				section.Version = ApplicationSettings.ProductVersion.ToString();
 
+				// These need to be explicit as the DefaultValue="" in the attribute doesn't determine the value when saving.
+				section.IsPublicSite = settings.IsPublicSite ?? true;
+				section.IgnoreSearchIndexErrors = settings.IgnoreSearchIndexErrors ?? true;	
 				section.Installed = true;
 
 				_config.Save(ConfigurationSaveMode.Minimal);

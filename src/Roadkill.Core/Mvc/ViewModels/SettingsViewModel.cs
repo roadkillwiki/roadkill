@@ -21,25 +21,50 @@ namespace Roadkill.Core.Mvc.ViewModels
 	{
 		private static string _themesRoot;
 
+		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_MarkupTypeEmpty")]
+		public string MarkupType { get; set; }
+
+		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_SiteNameEmpty")]
+		public string SiteName { get; set; }
+
+		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_SiteUrlEmpty")]
+		public string SiteUrl { get; set; }
+
+		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_AttachmentsEmpty")]
+		[RegularExpression(@"^[^/Files].*", ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_AttachmentsReservedName")]
+		public string AttachmentsFolder { get; set; }
+
+		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_ConnectionEmpty")]
+		public string ConnectionString { get; set; }
+
+		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_ThemeEmpty")]
+		public string Theme { get; set; }
+
 		public string AdminEmail { get; set; }
 		public string AdminPassword { get; set; }
 		public string AdminRoleName { get; set; }
 		public string AllowedFileTypes { get; set; }
 		public bool AllowUserSignup { get; set; }
-
-		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_AttachmentsEmpty")]
-		[RegularExpression(@"^[^/Files].*",ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_AttachmentsReservedName")]
-		public string AttachmentsFolder { get; set; }
-
 		public string AttachmentsDirectoryPath { get; set; }
-
 		public bool UseObjectCache { get; set; }
 		public bool UseBrowserCache { get; set; }
-
-		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_ConnectionEmpty")]
-		public string ConnectionString { get; set; }
-
 		public string DataStoreTypeName { get; set; }
+		public string EditorRoleName { get; set; }
+		public bool IsRecaptchaEnabled { get; set; }
+		public string LdapConnectionString { get; set; }
+		public string LdapUsername { get; set; }
+		public string LdapPassword { get; set; }
+		public string RecaptchaPrivateKey { get; set; }
+		public string RecaptchaPublicKey { get; set; }
+		public bool UseWindowsAuth { get; set; }
+		// v1.8
+		public bool OverwriteExistingFiles { get; set; }
+		public string HeadContent { get; set; }
+		public string MenuMarkup { get; set; }
+
+		public bool? IsPublicSite { get; set; }
+		public bool? IgnoreSearchIndexErrors { get; set; }
+
 		public IEnumerable<string> DatabaseTypesAvailable
 		{
 			get
@@ -52,15 +77,6 @@ namespace Roadkill.Core.Mvc.ViewModels
 			}
 		}
 
-		public string EditorRoleName { get; set; }
-		public bool IsRecaptchaEnabled { get; set; }
-		
-		public string LdapConnectionString { get; set; }
-		public string LdapUsername { get; set; }
-		public string LdapPassword { get; set; }
-
-		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_MarkupTypeEmpty")]
-		public string MarkupType { get; set; }
 		public IEnumerable<string> MarkupTypesAvailable
 		{
 			get
@@ -68,9 +84,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 				return new string[] { "Creole","Markdown","MediaWiki" };
 			}
 		}
-		
-		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_ThemeEmpty")]
-		public string Theme { get; set; }
+
 		public IEnumerable<string> ThemesAvailable
 		{
 			get
@@ -88,22 +102,6 @@ namespace Roadkill.Core.Mvc.ViewModels
 				}
 			}
 		}
-
-		public string RecaptchaPrivateKey { get; set; }
-		public string RecaptchaPublicKey { get; set; }
-
-		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_SiteNameEmpty")]
-		public string SiteName { get; set; }
-
-		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_SiteUrlEmpty")]
-		public string SiteUrl { get; set; }
-	
-		public bool UseWindowsAuth { get; set; }
-
-		// v1.8
-		public bool OverwriteExistingFiles { get; set; }
-		public string HeadContent { get; set; }
-		public string MenuMarkup { get; set; }
 
 		public string Version
 		{
@@ -161,15 +159,17 @@ namespace Roadkill.Core.Mvc.ViewModels
 			AdminRoleName = applicationSettings.AdminRoleName;
 			AttachmentsFolder = applicationSettings.AttachmentsFolder;
 			AttachmentsDirectoryPath = applicationSettings.AttachmentsDirectoryPath;
-			UseObjectCache = applicationSettings.UseObjectCache;
-			UseBrowserCache = applicationSettings.UseBrowserCache;
 			ConnectionString = applicationSettings.ConnectionString;
 			DataStoreTypeName = applicationSettings.DataStoreType.Name;
 			EditorRoleName = applicationSettings.EditorRoleName;
+			IsPublicSite = applicationSettings.IsPublicSite;
+			IgnoreSearchIndexErrors = applicationSettings.IgnoreSearchIndexErrors;
 			LdapConnectionString = applicationSettings.LdapConnectionString;
 			LdapUsername = applicationSettings.LdapUsername;
 			LdapPassword = applicationSettings.LdapPassword;
 			UseWindowsAuth = applicationSettings.UseWindowsAuthentication;
+			UseObjectCache = applicationSettings.UseObjectCache;
+			UseBrowserCache = applicationSettings.UseBrowserCache;
 		}
 	}
 }

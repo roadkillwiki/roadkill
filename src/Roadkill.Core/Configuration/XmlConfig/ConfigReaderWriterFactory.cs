@@ -14,15 +14,15 @@ namespace Roadkill.Core.Configuration
 	/// <summary>
 	/// Handles operations for the Roadkill .config file - both web.config, or custom configuration file.
 	/// </summary>
-	public class ConfigReaderFactory
+	public class ConfigReaderWriterFactory
 	{
-		private static ConfigReader _configReader;
+		private static ConfigReaderWriter _configReader;
 
-		public static ConfigReader GetConfigReader(string configFilename = "")
+		public static ConfigReaderWriter GetConfigReader(string configFilename = "")
 		{
 			if (_configReader == null)
 			{
-				_configReader = new FullTrustConfigReader(configFilename);
+				_configReader = new FullTrustConfigReaderWriter(configFilename);
 			}
 
 			return _configReader;
