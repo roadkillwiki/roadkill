@@ -109,7 +109,7 @@
 	<value>SQLite: observera</value>
 </data>
 <data name="Page2_Group3_SQLiteInstructionsMessage" xml:space="preserve">
-	<value>Obs: För att använda SQLite måste du lägga till en annan fil i mappen /bin eftersom SQLite distribueras för både x86 och x64. &lt;a href=&quot;javascript:;&quot; id=&quot;sqlitecopy&quot;&gt;Klicka här för att kopiera filen&lt;/a&gt;. Om du upplever några problem efter detta, ta bort &quot;SQLite.Interop.dll&quot; från bin-mappen.</value>
+	<value>Obs: För att använda SQLite måste du lägga till en annan fil i mappen /bin eftersom SQLite distribueras för både x86 och x64. {BEGIN-SQLITE_LINK}Klicka här för att kopiera filen{END-SQLITE_LINK}. Om du upplever några problem efter detta, ta bort &quot;SQLite.Interop.dll&quot; från bin-mappen.</value>
 </data>
 <data name="Page2_Group3_SQLiteSuccessTitle" xml:space="preserve">
 	<value>SQLite-filen kopierades</value>
@@ -151,7 +151,7 @@
 	<value>Ange detta i formatet LDAP://mydc01.company.internal (obs: ange LDAP i versaler) där mydc01 är din domänkontrollant och &quot;company&quot; och &quot;internal&quot; är dns suffix för nätverket. Du kan även ange en IP-adress istället. Du kan oftast få denna information genom att köra kommandot &quot;ipconfig&quot;.</value>
 </data>
 <data name="Page3_AD_Group1_Label2" xml:space="preserve">
-	<value>Anslutningssträngen stöder att du anger specifika OU:n, men detta kan eventuellt orsaka problem. Om du är osäker på den här inställningen, bör du ladda ned &lt;a href=&quot;http://technet.microsoft.com/en-us/sysinternals/bb963907&quot;&gt;AD Explorer&lt;/a&gt; först.</value>
+	<value>Anslutningssträngen stöder att du anger specifika OU:n, men detta kan eventuellt orsaka problem. Om du är osäker på den här inställningen, bör du ladda ned {BEGIN_ADEXPLORER_LINK}AD Explorer{END_ADEXPLORER_LINK} först.</value>
 </data>
 <data name="Page3_AD_Group1_Label3" xml:space="preserve">
 	<value>Om användaren som applikationspoolen körs som inte har läsbehörighet till Active Directory måste du ange användarnamn och lösenord for en användare som har det. Använd detta om din domän är en annan skog än huvuddomänen (tex en annan branch office).</value>
@@ -204,7 +204,7 @@
 	<value>Aktivera Recaptcha</value>
 </data>
 <data name="Page3_DB_Group4_Label1" xml:space="preserve">
-	<value>Om du tillåter att användare registrerar sig själva, så rekommenderar vi att du även aktiverar stöd för Recaptcha. Detta är en gratis anti-spam / anti-bot tjänst som tillhandahålls av Google. Du måste i så fall registrera dig och kopiera din publika och privata nyckel i fälten nedan. &lt;a href=&quot;https://www.google.com/recaptcha/admin/create&quot; target=&quot;_blank&quot;&gt;Registrera dig här&lt;/a&gt; - du kommer att behöva skapa ett Google-konto först.</value>
+	<value>Om du tillåter att användare registrerar sig själva, så rekommenderar vi att du även aktiverar stöd för Recaptcha. Detta är en gratis anti-spam / anti-bot tjänst som tillhandahålls av Google. Du måste i så fall registrera dig och kopiera din publika och privata nyckel i fälten nedan. {BEGIN_RECAPTCHA_LINK}Registrera dig här{END_RECAPTCHA_LINK} - du kommer att behöva skapa ett Google-konto först.</value>
 </data>
 <data name="Page3_DB_Group4_Label2" xml:space="preserve">
 	<value>Aktivera Recaptcha antispam-tjänst.</value>

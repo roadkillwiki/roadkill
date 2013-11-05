@@ -36,7 +36,7 @@ namespace Roadkill.Tests.Unit
 			IEnumerable<LanguageViewModel> languages = LanguageViewModel.SupportedLocales();
 
 			// Assert
-			Assert.That(languages.Count(), Is.EqualTo(10));
+			Assert.That(languages.Count(), Is.EqualTo(11));
 		}
 	}
 }

@@ -9,7 +9,7 @@ module Roadkill.Site
 			bootbox.alert(message);
 		}
 
-		public static confirm(title: string, resultFunction: (result: bool) => void )
+        public static confirm(title: string, resultFunction: (result: boolean) => void )
 		{
 			bootbox.animate(false);
 			bootbox.confirm("<b>" +title+ "</b>", resultFunction);

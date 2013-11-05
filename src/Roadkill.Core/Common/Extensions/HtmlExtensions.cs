@@ -14,6 +14,7 @@ using Roadkill.Core.Configuration;
 using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Localization;
 
 namespace Roadkill.Core
 {
@@ -26,7 +27,7 @@ namespace Roadkill.Core
 		/// Turns a tag string into a HTML tag cloud, which produces different spans based on the
 		/// number of pages with each tag in the system.
 		/// </summary>
-		/// <param name="content">The tags in ";" delimited format.</param>
+		/// <param name="tags">The tags in ";" delimited format.</param>
 		/// <returns>A HTML tag cloud.</returns>
 		public static MvcHtmlString TagBlocks(this HtmlHelper helper, IEnumerable<string> tags)
 		{
@@ -280,30 +281,6 @@ namespace Roadkill.Core
 		public static MvcHtmlString DialogPartial(this HtmlHelper helper, string viewName, object model)
 		{
 			return helper.Partial(viewName, model);
-		}
-
-		/// <summary>
-		/// Creates a HTML string without the \r\n in them
-		/// </summary>
-		public static IHtmlString RawWithoutNewlines(this HtmlHelper helper, string value)
-		{
-			return new SingleLineHtmlString(value);
-		}
-	}
-
-	public class SingleLineHtmlString : IHtmlString
-	{
-		private string _value;
-
-		public SingleLineHtmlString(string value)
-		{
-			_value = value;
-		}
-
-		public string ToHtmlString()
-		{
-			string html = new HtmlString(_value).ToHtmlString();
-			return html.Replace("\r\n", "");
 		}
 	}
 }

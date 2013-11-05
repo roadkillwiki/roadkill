@@ -109,7 +109,7 @@
 	<value>SQLite: please read</value>
 </data>
 <data name="Page2_Group3_SQLiteInstructionsMessage" xml:space="preserve">
-	<value>Note: to use SQLite you need to add another file to the /bin folder, as SQLite is distributed for both x86 and x64. &lt;a href=&quot;javascript:;&quot; id=&quot;sqlitecopy&quot;&gt;Click here to copy the file&lt;/a&gt;. If you experience any issues after this, delete &quot;SQLite.Interop.dll&quot; from your bin folder.</value>
+	<value>Note: to use SQLite you need to add another file to the /bin folder, as SQLite is distributed for both x86 and x64. {BEGIN-SQLITE_LINK}Click here to copy the file{END-SQLITE_LINK}. If you experience any issues after this, delete &quot;SQLite.Interop.dll&quot; from your bin folder.</value>
 </data>
 <data name="Page2_Group3_SQLiteSuccessTitle" xml:space="preserve">
 	<value>SQLite file copy success</value>
@@ -151,7 +151,7 @@
 	<value>Použite formát LDAP://mydc01.company.internal (LDAP pište velkými znaky) kde mydc01 je řadič domény a &apos;company&apos; s &apos;internal&apos; jsou DNS přípony sítě. Můžete také použít IP adresu (zjistíte ji příkazem ipconfig na řadiči domény).</value>
 </data>
 <data name="Page3_AD_Group1_Label2" xml:space="preserve">
-	<value>Připojovací řetězec podporuje objekty (OU) avšak jejich použití může způsobil problémy. Pokud si nejste jistí, nejprve si stáhněte &lt;a href=&quot;http://technet.microsoft.com/en-us/sysinternals/bb963907&quot;&gt;AD Explorer&lt;/a&gt;.</value>
+	<value>Připojovací řetězec podporuje objekty (OU) avšak jejich použití může způsobil problémy. Pokud si nejste jistí, nejprve si stáhněte {BEGIN_ADEXPLORER_LINK}AD Explorer{END_ADEXPLORER_LINK}.</value>
 </data>
 <data name="Page3_AD_Group1_Label3" xml:space="preserve">
 	<value>Uživatelské jméno pro ověření v Active Directory. Nechte prázdné pokud uživatel po kterým beží aplikační pool již oprávnění má. Používá se to obvykle pokud Vaše doména je v jiném lese (forest) než je hlavní doména.</value>

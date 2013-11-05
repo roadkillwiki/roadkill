@@ -27,19 +27,21 @@ http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo(v=vs.80
 
 Current languages/codes supported are:
 
-	Czech - cs
-	German - de
-	Hindi - hi
-	Italian - it
-	Polish - pl
-	Russian - ru
+	Czech      - cs
+	Dutch      - nl
+	German     - de
+	Hindi      - hi
+	Italian    - it
+	Polish     - pl
+	Russian    - ru
 	Portuguese - pt
-	Spanish - es
-	Swedish - sv
+	Spanish    - es
+	Swedish    - sv
 
 The powershell script for performing the bulk renames:
 
 ren Roadkill_Installer_Czech.resx InstallStrings.cs.resx
+ren Roadkill_Installer_Dutch.resx InstallStrings.nl.resx
 ren Roadkill_Installer_English.resx InstallStrings.resx
 ren Roadkill_Installer_German.resx InstallStrings.de.resx
 ren Roadkill_Installer_Hindi.resx InstallStrings.hi.resx
@@ -51,6 +53,7 @@ ren Roadkill_Installer_Spanish.resx InstallStrings.es.resx
 ren Roadkill_Installer_Swedish.resx InstallStrings.sv.resx
 
 ren Roadkill_Site_Czech.resx SiteStrings.cs.resx
+ren Roadkill_Site_Dutch.resx SiteStrings.nl.resx
 ren Roadkill_Site_English.resx SiteStrings.resx
 ren Roadkill_Site_German.resx SiteStrings.de.resx
 ren Roadkill_Site_Hindi.resx SiteStrings.hi.resx

@@ -2,6 +2,7 @@
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
+
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
@@ -61,8 +62,9 @@
 		<label>
 			@InstallStrings.Page3_AD_Group1_Label1
 			<br /><br />
-			@Html.Raw(InstallStrings.Page3_AD_Group1_Label2)
+			@Html.Raw(LocalizationTokens.ReplaceAdExplorer(InstallStrings.Page3_AD_Group1_Label2))
 			<br /><br />
+
 			@InstallStrings.Page3_AD_Group1_Label3
 		</label>
 

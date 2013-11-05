@@ -109,7 +109,7 @@
 	<value>SQLite: por favor leia</value>
 </data>
 <data name="Page2_Group3_SQLiteInstructionsMessage" xml:space="preserve">
-	<value>Nota: para usar o SQLite você precisa adicionar um outro arquivo para a pasta / bin, como SQLite é distribuído tanto para x86 e x64. &lt;a href=&quot;javascript:;&quot; id=&quot;sqlitecopy&quot;&gt; Clique aqui para copiar o arquivo &lt;/ a&gt;. Se você tiver problemas após isso, exclua &quot;SQLite.Interop.dll&quot; a partir da pasta bin.</value>
+	<value>Nota: para usar o SQLite você precisa adicionar um outro arquivo para a pasta / bin, como SQLite é distribuído tanto para x86 e x64. {BEGIN-SQLITE_LINK}Clique aqui para copiar o arquivo{END-SQLITE_LINK}. Se você tiver problemas após isso, exclua &quot;SQLite.Interop.dll&quot; a partir da pasta bin.</value>
 </data>
 <data name="Page2_Group3_SQLiteSuccessTitle" xml:space="preserve">
 	<value>SQLite sucesso cópia de arquivo</value>
@@ -151,7 +151,7 @@
 	<value>Isso deve estar no formato LDAP :/ / mydc01.company.internal (deve ser maiúscula LDAP), onde mydc01 é o controlador de domínio e &apos;empresa&apos; e &apos;interno&apos; são os sufixos DNS para sua rede. Isto também pode ser um endereço IP. Você normalmente pode obter esta informação através do comando &quot;ipconfig&quot;.</value>
 </data>
 <data name="Page3_AD_Group1_Label2" xml:space="preserve">
-	<value>A seqüência de conexão suporta OU especificadores no entanto fazê-lo desta forma pode causar problemas. Se você está inseguro sobre essa configuração, é recomendado que você baixar &lt;a href=&quot;http://technet.microsoft.com/en-us/sysinternals/bb963907&quot;&gt; AD Explorador &lt;/ a&gt; em primeiro lugar.</value>
+	<value>A seqüência de conexão suporta OU especificadores no entanto fazê-lo desta forma pode causar problemas. Se você está inseguro sobre essa configuração, é recomendado que você baixar {BEGIN_ADEXPLORER_LINK}AD Explorer{END_ADEXPLORER_LINK} em primeiro lugar.</value>
 </data>
 <data name="Page3_AD_Group1_Label3" xml:space="preserve">
 	<value>Digite um nome de usuário e senha, caso o usuário que o pool de aplicativos está sendo executado não ter acesso de leitura para o Active Directory. Isto é útil se o seu domínio é uma floresta separada do domínio principal (ou seja, uma outra filial).</value>
@@ -202,7 +202,7 @@
 	<value>Ativar Código</value>
 </data>
 <data name="Page3_DB_Group4_Label1" xml:space="preserve">
-	<value>Se você está permitindo inscrições de usuários, é recomendado que você também ativar o suporte ao Código. Este é um serviço bot anti-spam gratuito fornecido pelo Google, você precisa de inscrição e copiar a chave pública e privada nos campos abaixo. &lt;a href=&quot;https://www.google.com/recaptcha/admin/create&quot; target=&quot;_blank&quot;&gt; Registe-se aqui &lt;/ a&gt; - você vai precisar para criar uma conta do Google em primeiro lugar.</value>
+	<value>Se você está permitindo inscrições de usuários, é recomendado que você também ativar o suporte ao Código. Este é um serviço bot anti-spam gratuito fornecido pelo Google, você precisa de inscrição e copiar a chave pública e privada nos campos abaixo. {BEGIN_RECAPTCHA_LINK}Registe-se aqui{END_RECAPTCHA_LINK} - você vai precisar para criar uma conta do Google em primeiro lugar.</value>
 </data>
 <data name="Page3_DB_Group4_Label2" xml:space="preserve">
 	<value>Ativar Código de serviço anti-spam.</value>

@@ -109,7 +109,7 @@
 	<value>SQLite: si prega di leggere</value>
 </data>
 <data name="Page2_Group3_SQLiteInstructionsMessage" xml:space="preserve">
-	<value>Nota: per utilizzare SQLite è necessario aggiungere un altro file nella cartella / bin, come SQLite è distribuito sia per x86 e x64. se si href=&quot;javascript:;&quot; id=&quot;sqlitecopy&quot;&gt; Clicca qui per copiare il file &lt;/ a&gt;. Se si verificano problemi dopo questo, eliminare &quot;SQLite.Interop.dll&quot; dalla cartella bin.</value>
+	<value>Nota: per utilizzare SQLite è necessario aggiungere un altro file nella cartella / bin, come SQLite è distribuito sia per x86 e x64. se si {BEGIN-SQLITE_LINK}Clicca qui per copiare il file{END-SQLITE_LINK}. Se si verificano problemi dopo questo, eliminare &quot;SQLite.Interop.dll&quot; dalla cartella bin.</value>
 </data>
 <data name="Page2_Group3_SQLiteSuccessTitle" xml:space="preserve">
 	<value>Successo di copia di file SQLite</value>
@@ -151,7 +151,7 @@
 	<value>Questo dovrebbe essere nel formato LDAP :/ / mydc01.company.internal (dovrebbe essere maiuscolo LDAP) dove mydc01 è il controller di dominio e &apos;società&apos; e &apos;interne&apos; sono i suffissi DNS per la rete. Questo può anche essere un indirizzo IP. Di solito è possibile ottenere queste informazioni eseguendo &quot;ipconfig&quot;.</value>
 </data>
 <data name="Page3_AD_Group1_Label2" xml:space="preserve">
-	<value>La stringa di connessione supporta UO prescrittori ma facendo in questo modo può causare problemi. In caso di dubbi su questa impostazione, si consiglia di scaricare se si href=&quot;http://technet.microsoft.com/en-us/sysinternals/bb963907&quot;&gt; AD Explorer &lt;/ a&gt;.</value>
+	<value>La stringa di connessione supporta UO prescrittori ma facendo in questo modo può causare problemi. In caso di dubbi su questa impostazione, si consiglia di scaricare se si {BEGIN_ADEXPLORER_LINK}AD Explorer{END_ADEXPLORER_LINK}.</value>
 </data>
 <data name="Page3_AD_Group1_Label3" xml:space="preserve">
 	<value>Immettere un nome utente e una password, se l&apos;utente che il pool di applicazione è in esecuzione non dispone di accesso in lettura ad Active Directory. Questo è utile se il vostro dominio è un insieme di strutture separato dal dominio principale (cioè un&apos;altra filiale).</value>
@@ -202,7 +202,7 @@
 	<value>Abilita Recaptcha</value>
 </data>
 <data name="Page3_DB_Group4_Label1" xml:space="preserve">
-	<value>Se si consente registrazioni degli utenti, si consiglia di abilitare il supporto Recaptcha. Questo è un servizio bot antispam gratuito fornito da Google, sarà necessario per l&apos;iscrizione e copiare la chiave pubblica e privata nei campi sottostanti. se si href=&quot;https://www.google.com/recaptcha/admin/create&quot; target=&quot;_blank&quot;&gt; Registrati qui &lt;/ a&gt; - hai bisogno di creare un account Google prima.</value>
+	<value>Se si consente registrazioni degli utenti, si consiglia di abilitare il supporto Recaptcha. Questo è un servizio bot antispam gratuito fornito da Google, sarà necessario per l&apos;iscrizione e copiare la chiave pubblica e privata nei campi sottostanti. se si {BEGIN_RECAPTCHA_LINK}Registrati qui{END_RECAPTCHA_LINK} - hai bisogno di creare un account Google prima.</value>
 </data>
 <data name="Page3_DB_Group4_Label2" xml:space="preserve">
 	<value>Abilita Recaptcha servizio anti-spam.</value>

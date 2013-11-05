@@ -109,7 +109,7 @@
 	<value>SQLite: lea</value>
 </data>
 <data name="Page2_Group3_SQLiteInstructionsMessage" xml:space="preserve">
-	<value>Nota: para utilizar SQLite es necesario agregar otro archivo a la carpeta / bin, como SQLite se distribuye tanto para x86 y x64. &lt;a href=&quot;javascript:;&quot; id=&quot;sqlitecopy&quot;&gt; Haz clic aquí para copiar el archivo &lt;/ a&gt;. Si experimenta cualquier problema después de esto, elimine &quot;SQLite.Interop.dll&quot; de la carpeta bin.</value>
+	<value>Nota: para utilizar SQLite es necesario agregar otro archivo a la carpeta / bin, como SQLite se distribuye tanto para x86 y x64. {BEGIN-SQLITE_LINK}Haz clic aquí para copiar el archivo{END-SQLITE_LINK}. Si experimenta cualquier problema después de esto, elimine &quot;SQLite.Interop.dll&quot; de la carpeta bin.</value>
 </data>
 <data name="Page2_Group3_SQLiteSuccessTitle" xml:space="preserve">
 	<value>El éxito de copia de archivos SQLite</value>
@@ -151,7 +151,7 @@
 	<value>Esto debe estar en el formato LDAP :/ / mydc01.company.internal (debe estar en mayúsculas LDAP) donde mydc01 es el controlador de dominio y &quot;empresa&quot; y &quot;interna&quot; son los sufijos DNS de la red. Esto también puede ser una dirección IP. Generalmente, usted puede obtener esta información ejecutando &quot;ipconfig&quot;.</value>
 </data>
 <data name="Page3_AD_Group1_Label2" xml:space="preserve">
-	<value>La cadena de conexión es compatible OU especificadores pero hacerlo de esta manera puede causar problemas. Si no está seguro acerca de esta configuración, se recomienda que usted descarga &lt;a href=&quot;http://technet.microsoft.com/en-us/sysinternals/bb963907&quot;&gt; AD Explorador &lt;/ a&gt;.</value>
+	<value>La cadena de conexión es compatible OU especificadores pero hacerlo de esta manera puede causar problemas. Si no está seguro acerca de esta configuración, se recomienda que usted descarga {BEGIN_ADEXPLORER_LINK}AD Explorer{END_ADEXPLORER_LINK}.</value>
 </data>
 <data name="Page3_AD_Group1_Label3" xml:space="preserve">
 	<value>Introduzca un nombre de usuario y una contraseña si el usuario que el grupo de aplicaciones se está ejecutando bajo no tiene acceso de lectura a Active Directory. Esto es útil si su dominio es un bosque diferente que el dominio principal (es decir, otra sucursal).</value>
@@ -202,7 +202,7 @@
 	<value>Habilitar Reconocer texto</value>
 </data>
 <data name="Page3_DB_Group4_Label1" xml:space="preserve">
-	<value>Si usted está permitiendo que las suscripciones de usuarios, se recomienda que también habilita la compatibilidad Reconocer texto. Este es un servicio de bot antispam gratuito proporcionado por Google, tendrá que registrarse y copiar la clave pública y privada en el campo de abajo. &lt;a href=&quot;https://www.google.com/recaptcha/admin/create&quot; target=&quot;_blank&quot;&gt; Regístrate aquí &lt;/ a&gt; - usted tendrá que crear una cuenta de google primero.</value>
+	<value>Si usted está permitiendo que las suscripciones de usuarios, se recomienda que también habilita la compatibilidad Reconocer texto. Este es un servicio de bot antispam gratuito proporcionado por Google, tendrá que registrarse y copiar la clave pública y privada en el campo de abajo. {BEGIN_RECAPTCHA_LINK}Regístrate aquí {END_RECAPTCHA_LINK} - usted tendrá que crear una cuenta de google primero.</value>
 </data>
 <data name="Page3_DB_Group4_Label2" xml:space="preserve">
 	<value>Habilitar Reconocer servicio anti-spam.</value>

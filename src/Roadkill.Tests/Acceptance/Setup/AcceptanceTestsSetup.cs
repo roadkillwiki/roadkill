@@ -10,7 +10,7 @@ using OpenQA.Selenium.PhantomJS;
 namespace Roadkill.Tests.Acceptance
 {
 	/// <summary>
-	/// Separate from the AcceptanceTestBase so it isn't run by nunit as a test.
+	/// Nunit runs this once at the start of the test run. It's separate from AcceptanceTestBase so it isn't seen by nunit(dotcover) as a test.
 	/// </summary>
 	[SetUpFixture]
 	[Category("SetUpFixture")]
@@ -22,7 +22,7 @@ namespace Roadkill.Tests.Acceptance
 		[SetUp]
 		public void Setup()
 		{
-			CopyDbBinaries();
+			CopySqliteBinaries();
 			CopyWebConfig();
 			CopyConnectionStringsConfig();
 			CopyRoadkillConfig();
@@ -153,7 +153,7 @@ namespace Roadkill.Tests.Acceptance
 			}
 		}
 
-		private void CopyDbBinaries()
+		private void CopySqliteBinaries()
 		{
 			string sitePath = GetSitePath();
 
@@ -165,8 +165,8 @@ namespace Roadkill.Tests.Acceptance
 				sqliteInteropFileSource = string.Format("{0}/App_Data/Internal/SQLiteBinaries/x64/SQLite.Interop.dll", sitePath);
 			}
 
-			if (!System.IO.File.Exists(sqliteInteropFileDest))
-				System.IO.File.Copy(sqliteInteropFileSource, sqliteInteropFileDest);
+			File.Delete(sqliteInteropFileDest);
+			//System.IO.File.Copy(sqliteInteropFileSource, sqliteInteropFileDest, true);
 		}
 
 		private void LaunchIisExpress()

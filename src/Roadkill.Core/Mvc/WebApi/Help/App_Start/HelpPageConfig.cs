@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
@@ -16,7 +17,9 @@ namespace Roadkill.Core.Areas.HelpPage
         public static void Register(HttpConfiguration config)
         {
             //// Uncomment the following to use the documentation from XML documentation file.
-            config.SetDocumentationProvider(new XmlDocumentationProvider(HttpContext.Current.Server.MapPath("~/bin/Roadkill.Core.xml")));
+			string xmlDocsPath = HttpContext.Current.Server.MapPath("~/bin/Roadkill.Core.xml");
+			if (File.Exists(xmlDocsPath))
+				config.SetDocumentationProvider(new XmlDocumentationProvider(xmlDocsPath));
 
             //// Uncomment the following to use "sample string" as the sample for all actions that have string as the body parameter or return type.
             //// Also, the string arrays will be used for IEnumerable<string>. The sample objects will be serialized into different media type 

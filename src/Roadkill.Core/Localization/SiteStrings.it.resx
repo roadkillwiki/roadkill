@@ -369,9 +369,6 @@
 <data name="EditPage_Toolbar_BulletList" xml:space="preserve">
 	<value>Inserire Bullet list caratteri di markup.</value>
 </data>
-<data name="EditPage_Toolbar_Heading1" xml:space="preserve">
-	<value>Inserire Rubrica 1 livello caratteri di markup.</value>
-</data>
 <data name="EditPage_Toolbar_Heading2" xml:space="preserve">
 	<value>Inserire rubrica 2 caratteri di codice di livello.</value>
 </data>
@@ -514,7 +511,7 @@
 	<value>La stringa di connessione al database.</value>
 </data>
 <data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
-	<value>&lt;b&gt; ATTENZIONE &lt;/ b&gt; cambiare questo potrebbe bloccare l&apos;utilizzo del sito. Fai un backup del file web.config prima prima di salvare. &lt;br/&gt; Imposta se utilizzare l&apos;autenticazione di Windows e Active Directory per l&apos;autenticazione.</value>
+	<value>{bold} ATTENZIONE {/bold} cambiare questo potrebbe bloccare l&apos;utilizzo del sito. Fai un backup del file web.config prima prima di salvare. {br} Imposta se utilizzare l&apos;autenticazione di Windows e Active Directory per l&apos;autenticazione.</value>
 </data>
 <data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
 	<value>Seleziona questa opzione se si desidera consentire alle persone di signup come nuovi utenti.</value>
@@ -541,7 +538,7 @@
 	<value>Questo è il nome del ruolo di Editor - persone che possono modificare e creare pagine. Questo è utilizzato solo per Active Directory / autenticazione di Windows - lasciare vuoto per consentire a tutti gli utenti di essere editori.</value>
 </data>
 <data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
-	<value>&lt;b&gt; ATTENZIONE &lt;/ b&gt; cambiare questo potrebbe bloccare l&apos;utilizzo del sito quando si utilizza Active Directory / autenticazione di Windows. Fare un backup del file web.config prima prima di salvare. &lt;br/&gt; Questo è il nome del ruolo admin. Gli amministratori hanno gli stessi diritti degli editori, ma anche avere accesso alle impostazioni di configurazione e strumenti per il sito.</value>
+	<value>{bold} ATTENZIONE {/bold} cambiare questo potrebbe bloccare l&apos;utilizzo del sito quando si utilizza Active Directory / autenticazione di Windows. Fare un backup del file web.config prima prima di salvare. {br} Questo è il nome del ruolo admin. Gli amministratori hanno gli stessi diritti degli editori, ma anche avere accesso alle impostazioni di configurazione e strumenti per il sito.</value>
 </data>
 <data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
 	<value>Questo è il formato di markup utilizzato. Roadkill attualmente supporta i seguenti valori: Creola, Markdown, MediaWiki.</value>
@@ -717,17 +714,15 @@
 <data name="FileManager_Upload" xml:space="preserve">
 	<value>Caricare file</value>
 </data>
-<data name="FileManager_AddFolder_PlaceHolder" xml:space="preserve">
+<data name="FileManager_AddFolder" xml:space="preserve">
 	<value>Nuova cartella</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="FileManager_AddFolder_Cancel" xml:space="preserve">
 	<value>Annulla nuova cartella</value>
 </data>
 <data name="FileManager_Delete_File" xml:space="preserve">
 	<value>Elimina File</value>
-</data>
-<data name="FileManager_Add_Folder" xml:space="preserve">
-	<value>Aggiungi cartella</value>
 </data>
 <data name="FileManager_Select" xml:space="preserve">
 	<value>Selezionare</value>
@@ -775,13 +770,15 @@
 	<value>File manager</value>
 </data>
 <data name="SiteSettings_Configuration_HeadContent_Help" xml:space="preserve">
-	<value>Qualsiasi HTML aggiuntivo o script immesso qui verrà aggiunto al tag &lt;head&gt; della pagina.</value>
+	<value>Qualsiasi HTML aggiuntivo o script immesso qui verrà aggiunto al tag {head} della pagina.</value>
 </data>
-<data name="SiteSettings_Configuration_LeftMenu" xml:space="preserve">
+<data name="SiteSettings_Configuration_NavMenu" xml:space="preserve">
 	<value>Menu di sinistra markup</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Configuration_LeftMenu_Help" xml:space="preserve">
-	<value>Il menu di navigazione, che in genere è sul lato sinistro, ma varia a seconda del tema. Markup è accettata e deve essere fatto nel formato Markdown vostro wiki utilizza. È inoltre possibile utilizzare i seguenti token che vengono sostituiti con i link (alcuni dei quali possono essere vuota se non è iscritto): &lt;br/&gt;% mainpage% &lt;br/&gt; categorie%%% &lt;br/&gt; AllPages% &lt;br /&gt;% newpage% &lt;br/&gt;% managefiles% &lt;br/&gt;% Sitesettings%.</value>
+<data name="SiteSettings_Configuration_NavMenu_Help" xml:space="preserve">
+	<value>Il menu di navigazione, che in genere è sul lato sinistro, ma varia a seconda del tema. Markup è accettata e deve essere fatto nel formato Markdown vostro wiki utilizza. È inoltre possibile utilizzare i seguenti token che vengono sostituiti con i link (alcuni dei quali possono essere vuota se non è iscritto): {MENUTOKENS}.</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
 	<value>Sovrascrivere automaticamente i file esistenti su Carica</value>

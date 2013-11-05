@@ -109,7 +109,7 @@
 	<value>SQLite: please read</value>
 </data>
 <data name="Page2_Group3_SQLiteInstructionsMessage" xml:space="preserve">
-	<value>Note: to use SQLite you need to add another file to the /bin folder, as SQLite is distributed for both x86 and x64. &lt;a href=&quot;javascript:;&quot; id=&quot;sqlitecopy&quot;&gt;Click here to copy the file&lt;/a&gt;. If you experience any issues after this, delete &quot;SQLite.Interop.dll&quot; from your bin folder.</value>
+	<value>Note: to use SQLite you need to add another file to the /bin folder, as SQLite is distributed for both x86 and x64. {BEGIN-SQLITE_LINK}Click here to copy the file{END-SQLITE_LINK}. If you experience any issues after this, delete &quot;SQLite.Interop.dll&quot; from your bin folder.</value>
 </data>
 <data name="Page2_Group3_SQLiteSuccessTitle" xml:space="preserve">
 	<value>SQLite file copy success</value>
@@ -151,7 +151,7 @@
 	<value>This should be in the format LDAP://mydc01.company.internal (it should be uppercase LDAP) where mydc01 is your domain controller and &apos;company&apos; and &apos;internal&apos; are the dns suffixes for your network. This can also be an IP address. You can usually get this information by running &quot;ipconfig&quot;.</value>
 </data>
 <data name="Page3_AD_Group1_Label2" xml:space="preserve">
-	<value>The connection string supports OU specifiers however doing it this way can cause issues. If you are unsure about this setting, it&apos;s recommended you download &lt;a href=&quot;http://technet.microsoft.com/en-us/sysinternals/bb963907&quot;&gt;AD Explorer&lt;/a&gt; first.</value>
+	<value>The connection string supports OU specifiers however doing it this way can cause issues. If you are unsure about this setting, it&apos;s recommended you download {BEGIN_ADEXPLORER_LINK}AD Explorer{END_ADEXPLORER_LINK} first.</value>
 </data>
 <data name="Page3_AD_Group1_Label3" xml:space="preserve">
 	<value>Enter a username and password if the user that the app pool is running under does not have read access to Active Directory. This is useful if your Active Directory domain is a separate forest from the main domain (i.e. another branch office).</value>
@@ -202,7 +202,7 @@
 	<value>Enable Recaptcha</value>
 </data>
 <data name="Page3_DB_Group4_Label1" xml:space="preserve">
-	<value>If you are allowing user signups, it&apos;s recommended that you also enable Recaptcha support. This is a free anti-spam bot service provided by Google, you will need to signup and copy your public and private key into the fields below. &lt;a href=&quot;https://www.google.com/recaptcha/admin/create&quot; target=&quot;_blank&quot;&gt;Signup here&lt;/a&gt; - you will need to create a google account first.</value>
+	<value>If you are allowing user signups, it&apos;s recommended that you also enable Recaptcha support. This is a free anti-spam bot service provided by Google, you will need to signup and copy your public and private key into the fields below. {BEGIN_RECAPTCHA_LINK}Signup here{END_RECAPTCHA_LINK} - you will need to create a google account first.</value>
 </data>
 <data name="Page3_DB_Group4_Label2" xml:space="preserve">
 	<value>Enable Recaptcha anti-spam service. </value>

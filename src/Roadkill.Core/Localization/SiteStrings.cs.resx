@@ -369,9 +369,6 @@
 <data name="EditPage_Toolbar_BulletList" xml:space="preserve">
 	<value>Vložit značky pro nečíslovaný seznam.</value>
 </data>
-<data name="EditPage_Toolbar_Heading1" xml:space="preserve">
-	<value>Vložit značky pro Nadpis 1.</value>
-</data>
 <data name="EditPage_Toolbar_Heading2" xml:space="preserve">
 	<value>Vložit značky pro Nadpis 2.</value>
 </data>
@@ -514,7 +511,7 @@
 	<value>Připojovací řetězec k databázi.</value>
 </data>
 <data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
-	<value>&lt;b&gt;POZOR&lt;/b&gt; změnou si můžete uzamknout Váš účet v síti. Před změnou si zazálohujte web.config.&lt;br/&gt;&lt;br/&gt; Nastavte zda pro přihlašování použít Windows a Active Directory.</value>
+	<value>{bold}POZOR{/bold} změnou si můžete uzamknout Váš účet v síti. Před změnou si zazálohujte web.config.{br}{br} Nastavte zda pro přihlašování použít Windows a Active Directory.</value>
 </data>
 <data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
 	<value>Zaškrtněte pokud chcete aby se lidé mohli sami registrovat.</value>
@@ -541,7 +538,7 @@
 	<value>Název role redaktora - lidé kteří mohou vytvářet a měnit stránky.</value>
 </data>
 <data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
-	<value>Název role správce - má práva jako redaktor ale navíc má přísup k nastavení stránek.</value>
+	<value>{bold}WARNING{/bold} changing this may lock you out of the site when using Active Directory/Windows authentication. Make a backup of your web.config first before saving. {br}{br}This is the name of the admin role. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.</value>
 </data>
 <data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
 	<value>Použitý značkovací jazyk. Roadkill nyní podporuje tyto hodnoty: Creole, Markdown, Mediawiki.</value>
@@ -717,7 +714,7 @@
 <data name="FileManager_Upload" xml:space="preserve">
 	<value>Upload files</value>
 </data>
-<data name="FileManager_AddFolder_PlaceHolder" xml:space="preserve">
+<data name="FileManager_AddFolder" xml:space="preserve">
 	<value>New folder</value>
 </data>
 <data name="FileManager_AddFolder_Cancel" xml:space="preserve">
@@ -725,9 +722,6 @@
 </data>
 <data name="FileManager_Delete_File" xml:space="preserve">
 	<value>Delete File</value>
-</data>
-<data name="FileManager_Add_Folder" xml:space="preserve">
-	<value>Add Folder</value>
 </data>
 <data name="FileManager_Select" xml:space="preserve">
 	<value>Select</value>
@@ -775,13 +769,13 @@
 	<value>File manager</value>
 </data>
 <data name="SiteSettings_Configuration_HeadContent_Help" xml:space="preserve">
-	<value>Any additional HTML or scripts you enter here will be added to the &lt;head&gt; tag of the page.</value>
+	<value>Any additional HTML or scripts you enter here will be added to the {head} tag of the page.</value>
 </data>
-<data name="SiteSettings_Configuration_LeftMenu" xml:space="preserve">
-	<value>Left menu markup</value>
+<data name="SiteSettings_Configuration_NavMenu" xml:space="preserve">
+	<value>Navigation menu markup</value>
 </data>
-<data name="SiteSettings_Configuration_LeftMenu_Help" xml:space="preserve">
-	<value>The navigation menu, which is typically on the left hand side but varies according to the theme. Markup is accepted and should be done in the markdown format your wiki uses. You can also use the following tokens which are replaced with links (some of which may be empty if you are not logged in): &lt;br/&gt;%mainpage%&lt;br/&gt;%categories%&lt;br/&gt;%allpages%&lt;br/&gt;%newpage%&lt;br/&gt;%managefiles%&lt;br/&gt;%sitesettings%.</value>
+<data name="SiteSettings_Configuration_NavMenu_Help" xml:space="preserve">
+	<value>The navigation menu, which is typically on the left hand side but varies according to the theme. Markup is accepted and should be done in the markdown format your wiki uses. You can also use the following tokens which are replaced with links (some of which may be empty if you are not logged in): {MENUTOKENS}</value>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
 	<value>Automatically overwrite existing files on upload</value>

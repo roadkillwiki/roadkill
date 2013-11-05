@@ -109,7 +109,7 @@
 	<value>SQLite: Bitte lesen</value>
 </data>
 <data name="Page2_Group3_SQLiteInstructionsMessage" xml:space="preserve">
-	<value>Hinweis: Wenn Sie SQLite verwenden möchten müssen Sie fügen Sie eine andere Datei in den Ordner &quot;/ bin&quot; da SQLite für X 86 und X 64 verteilt ist. &lt;a href=&quot;javascript:;&quot; id=&quot;sqlitecopy&quot;&gt;Klicken Sie hier, um die Datei zu kopieren&lt;/a&gt;. Wenn Sie danach Probleme auftreten, löschen Sie &quot;SQLite.Interop.dll&quot; aus dem Binärordner.</value>
+	<value>Hinweis: Wenn Sie SQLite verwenden möchten müssen Sie fügen Sie eine andere Datei in den Ordner &quot;/ bin&quot; da SQLite für X 86 und X 64 verteilt ist. {BEGIN-SQLITE_LINK}Klicken Sie hier, um die Datei zu kopieren{END-SQLITE_LINK}. Wenn Sie danach Probleme auftreten, löschen Sie &quot;SQLite.Interop.dll&quot; aus dem Binärordner.</value>
 </data>
 <data name="Page2_Group3_SQLiteSuccessTitle" xml:space="preserve">
 	<value>SQLite Datei Erfolgs-</value>
@@ -151,7 +151,7 @@
 	<value>Dies sollte im Format LDAP://mydc01.company.internal (es sollte Großbuchstaben LDAP), wo mydc01 Ihre Domänencontroller und &quot;Kreation&quot; ist und &quot;intern&quot; sind die Dns für Ihr Netzwerk Suffixe. Dies kann auch eine IP-Adresse sein. Diese Informationen erhalten Sie in der Regel durch Ausführen von &quot;Ipconfig&quot;.</value>
 </data>
 <data name="Page3_AD_Group1_Label2" xml:space="preserve">
-	<value>Die Verbindung Zeichenfolge unterstützt OU Spezifizierer jedoch auf diese Weise können Probleme verursachen. Wenn Sie diese Einstellung unsicher sind, empfiehlt es sich, dass Sie zunächst &lt;a href=&quot;http://technet.microsoft.com/en-us/sysinternals/bb963907&quot;&gt;AD Explorer&lt;/a&gt; herunterladen.</value>
+	<value>Die Verbindung Zeichenfolge unterstützt OU Spezifizierer jedoch auf diese Weise können Probleme verursachen. Wenn Sie diese Einstellung unsicher sind, empfiehlt es sich, dass Sie zunächst {BEGIN_ADEXPLORER_LINK}AD Explorer{END_ADEXPLORER_LINK} herunterladen.</value>
 </data>
 <data name="Page3_AD_Group1_Label3" xml:space="preserve">
 	<value>Geben Sie einen Benutzernamen und ein Passwort, wenn der Benutzer, unter der Anwendungspool ausgeführt ist, keinen Zugriff auf Active Directory lesen. Dies ist nützlich, wenn Ihre Domain einer separaten Gesamtstruktur aus der Haupt-Domain (d.h. eine weitere Zweigstelle).</value>
@@ -202,7 +202,7 @@
 	<value>Aktivieren von Recaptcha</value>
 </data>
 <data name="Page3_DB_Group4_Label1" xml:space="preserve">
-	<value>Wenn du Benutzer Anmeldungen zulässt, wird empfohlen, dass Sie auch Recaptcha-Unterstützung aktivieren. Dies ist ein kostenloses Anti-Spam-Bot-Dienst, sofern von Google, Sie zu registrieren benötigen und Ihren öffentlichen und privaten Schlüssel in die untenstehenden Felder kopieren. &lt;a href=&quot;https://www.google.com/recaptcha/admin/create&quot; target=&quot;_blank&quot;&gt;Hier anmelden&lt;/a&gt; - Sie benötigen ein Google-Konto erstellen.</value>
+	<value>Wenn du Benutzer Anmeldungen zulässt, wird empfohlen, dass Sie auch Recaptcha-Unterstützung aktivieren. Dies ist ein kostenloses Anti-Spam-Bot-Dienst, sofern von Google, Sie zu registrieren benötigen und Ihren öffentlichen und privaten Schlüssel in die untenstehenden Felder kopieren. {BEGIN_RECAPTCHA_LINK}Hier anmelden{END_RECAPTCHA_LINK} - Sie benötigen ein Google-Konto erstellen.</value>
 </data>
 <data name="Page3_DB_Group4_Label2" xml:space="preserve">
 	<value>Aktivieren Sie Recaptcha-Anti-Spam-Dienst.</value>
