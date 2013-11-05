@@ -268,13 +268,24 @@ namespace Roadkill.Core.Configuration
 		public bool UseWindowsAuthentication { get; set; }
 
 		/// <summary>
-		/// The current Roadkill product version, e.g. "1.7.0-Beta3".
+		/// The human-friendly current Roadkill product version, e.g. "1.7.0-Beta3".
 		/// </summary>
 		public static string ProductVersion
 		{
 			get
 			{
 				return FileVersionInfo.GetVersionInfo(typeof(ApplicationSettings).Assembly.Location).ProductVersion;
+			}
+		}
+
+		/// <summary>
+		/// The file version of the Roadkill product version, e.g. "1.7.0.0"
+		/// </summary>
+		public static string FileVersion
+		{
+			get
+			{
+				return FileVersionInfo.GetVersionInfo(typeof(ApplicationSettings).Assembly.Location).FileVersion;
 			}
 		}
 
