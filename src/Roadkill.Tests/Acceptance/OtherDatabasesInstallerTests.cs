@@ -357,5 +357,58 @@ namespace Roadkill.Tests.Acceptance
 			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("Homepage"));
 			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
 		}
+
+		[Test]
+		[Explicit(@"This is really a helper test, it installs onto .\SQLEXPRESS, database 'roadkill' using integrated security")]
+		public void All_Steps_With_Minimum_Required_SQLServerExpress_Should_Complete()
+		{
+			// Arrange
+			Driver.Navigate().GoToUrl(BaseUrl);
+			ClickLanguageLink();
+
+			//
+			// ***Act***
+			//
+
+			// step 1
+			Driver.FindElement(By.CssSelector("input[id=testwebconfig]")).Click();
+			Driver.WaitForElementDisplayed(By.CssSelector(".continue > a")).Click();
+
+			// step 2
+			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
+			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
+			select.SelectByValue(DataStoreType.SqlServer2008.Name);
+
+			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"Server=.\SQLEXPRESS;Integrated Security=true;database=roadkill");
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 3
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 3b
+			Driver.FindElement(By.Id("AdminEmail")).SendKeys("admin@localhost");
+			Driver.FindElement(By.Id("AdminPassword")).SendKeys("password");
+			Driver.FindElement(By.Id("password2")).SendKeys("password");
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step 4
+			Driver.FindElement(By.CssSelector("input[id=UseObjectCache]")).Click();
+			Driver.FindElement(By.CssSelector("div.continue input")).Click();
+
+			// step5
+			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"), Driver.PageSource);
+			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
+
+			// login, create a page
+			LoginAsAdmin();
+			CreatePageWithTitleAndTags("Homepage", "homepage");
+
+			//
+			// ***Assert***
+			//
+			Driver.Navigate().GoToUrl(BaseUrl);
+			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("Homepage"));
+			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
+		}
 	}
 }

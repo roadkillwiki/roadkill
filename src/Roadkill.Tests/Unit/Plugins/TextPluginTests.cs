@@ -75,7 +75,18 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Constructor_Should_Set_Cacheable_To_True()	
+		[ExpectedException(typeof(PluginException))]
+		public void DatabaseId_Should_Default_Version_To_1_If_Version_Is_Empty()
+		{
+			// Arrange
+			TextPluginStub plugin = new TextPluginStub("", "", "", "");
+
+			// Act + Assert
+			PluginSettings settings = plugin.Settings;
+		}
+
+		[Test]
+		public void Constructor_Should_Set_Cacheable_To_True()
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
@@ -112,6 +123,8 @@ namespace Roadkill.Tests.Unit.Plugins
 			plugin.Settings.IsEnabled = true;
 
 			string expectedJson = @"{
+  ""PluginId"": ""Amazing plugin"",
+  ""Version"": ""1.0"",
   ""IsEnabled"": true,
   ""Values"": [
     {
@@ -159,7 +172,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.AddScript("pluginscript.js", "script1");
 			plugin.SetHeadJsOnLoadedFunction("alert('done')");
-			
+
 			string expectedHtml = @"<script type=""text/javascript"">" +
 								@"head.js({ ""script1"", ""pluginscript.js"" },function() { alert('done') })" +
 								"</script>\n";
@@ -227,7 +240,7 @@ namespace Roadkill.Tests.Unit.Plugins
 
 			// Act
 			PluginSettings settings = plugin.Settings;
-			settings = plugin.Settings;			
+			settings = plugin.Settings;
 
 			// Assert
 			Assert.That(settings, Is.Not.Null);
@@ -244,7 +257,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			CacheMock cache = new CacheMock();
 			ApplicationSettings appSettings = new ApplicationSettings();
 			Mock<IPluginCache> pluginCacheMock = new Mock<IPluginCache>();
-			PluginSettings expectedPluginSettings = new PluginSettings();
+			PluginSettings expectedPluginSettings = new PluginSettings("mockplugin", "1.0");
 			expectedPluginSettings.SetValue("cache", "test");
 
 			TextPluginStub plugin = new TextPluginStub();
@@ -267,8 +280,8 @@ namespace Roadkill.Tests.Unit.Plugins
 			CacheMock cache = new CacheMock();
 			ApplicationSettings appSettings = new ApplicationSettings();
 			Mock<IPluginCache> pluginCacheMock = new Mock<IPluginCache>();
-			
-			PluginSettings expectedPluginSettings = new PluginSettings();
+
+			PluginSettings expectedPluginSettings = new PluginSettings("mockplugin", "1.0");
 			expectedPluginSettings.SetValue("repository", "test");
 			RepositoryMock repository = new RepositoryMock();
 			repository.PluginSettings = expectedPluginSettings;
@@ -276,7 +289,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.PluginCache = pluginCacheMock.Object;
 			plugin.Repository = repository;
-			
+
 			// Act
 			PluginSettings actualPluginSettings = plugin.Settings;
 
@@ -304,6 +317,44 @@ namespace Roadkill.Tests.Unit.Plugins
 			// Assert
 			Assert.That(actualPluginSettings, Is.Not.Null);
 			Assert.That(actualPluginSettings.Values.Count(), Is.EqualTo(0));
+		}
+
+		[Test]
+		[ExpectedException(typeof(PluginException))]
+		public void Settings_Should_Throw_Exception_If_Id_Is_Not_Set()
+		{
+			// Arrange
+			CacheMock cache = new CacheMock();
+			ApplicationSettings appSettings = new ApplicationSettings();
+			Mock<IPluginCache> pluginCacheMock = new Mock<IPluginCache>();
+			RepositoryMock repository = new RepositoryMock();
+
+			TextPluginStub plugin = new TextPluginStub("","","","");
+			plugin.PluginCache = pluginCacheMock.Object;
+			plugin.Repository = repository;
+
+			// Act + Assert
+			PluginSettings actualPluginSettings = plugin.Settings;
+		}
+
+		[Test]
+		public void Settings_Should_Default_Version_To_1_If_Version_Is_Empty()
+		{
+			// Arrange
+			CacheMock cache = new CacheMock();
+			ApplicationSettings appSettings = new ApplicationSettings();
+			Mock<IPluginCache> pluginCacheMock = new Mock<IPluginCache>();
+			RepositoryMock repository = new RepositoryMock();
+
+			TextPluginStub plugin = new TextPluginStub("id", "name", "desc", "");
+			plugin.PluginCache = pluginCacheMock.Object;
+			plugin.Repository = repository;
+
+			// Act
+			PluginSettings actualPluginSettings = plugin.Settings;
+
+			// Assert
+			Assert.That(actualPluginSettings.Version, Is.EqualTo("1.0"));
 		}
 
 		[Test]

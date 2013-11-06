@@ -59,6 +59,8 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		public override void OnInitializeSettings(Settings settings)
 		{
 			settings.SetValue("name", "value");
+			settings.SetValue("foo", "bar");
+			settings.SetValue("name1", "value2");
 		}
 
 		public override string BeforeParse(string text)

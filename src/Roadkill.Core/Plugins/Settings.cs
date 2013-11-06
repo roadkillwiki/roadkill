@@ -15,6 +15,16 @@ namespace Roadkill.Core.Plugins
 	{
 		private List<SettingValue> _values;
 
+		/// <summary>
+		/// Makes the settings more readable/easy to debug.
+		/// </summary>
+		public string PluginId { get; set; }
+
+		/// <summary>
+		/// Makes the settings more readable/easy to debug.
+		/// </summary>
+		public string Version { get; set; }
+
 		public bool IsEnabled { get; set; }
 
 		/// <summary>
@@ -28,8 +38,10 @@ namespace Roadkill.Core.Plugins
 			}
 		}
 
-		public Settings()
+		public Settings(string pluginId, string version)
 		{
+			PluginId = pluginId;
+			Version = version;
 			_values = new List<SettingValue>();
 		}
 
@@ -70,7 +82,7 @@ namespace Roadkill.Core.Plugins
 			if (string.IsNullOrEmpty(json))
 			{
 				Log.Warn("PluginSettings.LoadFromJson - json string was empty (returning a default Settings object)");
-				return new Settings();
+				return new Settings("error - dummy id: " +Guid.NewGuid(), "1.0");
 			}
 
 			try
@@ -80,7 +92,7 @@ namespace Roadkill.Core.Plugins
 			catch (JsonReaderException ex)
 			{
 				Log.Error(ex, "Settings.LoadFromJson - an exception occurred deserializing the JSON");
-				return new Settings();
+				return new Settings("error - dummy id:" + Guid.NewGuid(), "1.0");
 			}
 		}
 	}

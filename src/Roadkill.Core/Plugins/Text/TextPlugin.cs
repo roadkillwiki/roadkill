@@ -104,12 +104,15 @@ namespace Roadkill.Core.Plugins
 				if (_databaseId == Guid.Empty)
 				{
 					EnsureIdIsValid();
+					string version = EnsureValidVersion();
+
 					int firstPart = Id.GetHashCode();
+					short versionNum = (short)version.GetHashCode();
 
 					short zero = (short)0;
 					byte[] lastChunk = new byte[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
 
-					_databaseId = new Guid(firstPart, zero, zero, lastChunk);
+					_databaseId = new Guid(firstPart, versionNum, zero, lastChunk);
 				}
 
 				return _databaseId;
@@ -155,7 +158,9 @@ namespace Roadkill.Core.Plugins
 					// If this is the first time the plugin has been used, new up the settings
 					if (_settings == null)
 					{
-						_settings = new Settings();
+						EnsureIdIsValid();
+						string version = EnsureValidVersion();
+						_settings = new Settings(Id, version);
 
 						// Allow derived classes to add custom setting values
 						OnInitializeSettings(_settings);
@@ -291,6 +296,14 @@ namespace Roadkill.Core.Plugins
 		{
 			if (string.IsNullOrEmpty(Id))
 				throw new PluginException(null, "The ID is empty or null for plugin {0}. Please remove this plugin from the bin and plugins folder.", this.GetType().Name);
+		}
+
+		private string EnsureValidVersion()
+		{
+			if (string.IsNullOrWhiteSpace(Version))
+				return "1.0";
+			else
+				return Version;
 		}
 	}
 }
