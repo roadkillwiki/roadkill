@@ -142,14 +142,14 @@ namespace Roadkill.Core.Converters
 			IEnumerable<TextPlugin> plugins = new List<TextPlugin>();
 			try
 			{
-				plugins = _pluginFactory.GetTextPlugins();
+				plugins = _pluginFactory.GetEnabledTextPlugins();
 			}
 			catch (Exception e)
 			{
 				Log.Error(e, "An exception occurred with getting the custom variable plugins from the plugin factory.");
 			}
 
-			foreach (TextPlugin plugin in plugins.Where(p => p.Settings.IsEnabled))
+			foreach (TextPlugin plugin in plugins)
 			{
 				try
 				{
@@ -186,7 +186,7 @@ namespace Roadkill.Core.Converters
 			html = tokenParser.ReplaceTokensAfterParse(html);
 
 			// Text plugins after parse
-			foreach (TextPlugin plugin in plugins.Where(p => p.Settings.IsEnabled))
+			foreach (TextPlugin plugin in plugins)
 			{
 				try
 				{

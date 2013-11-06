@@ -8,6 +8,7 @@ namespace Roadkill.Core.Plugins
 	{
 		void CopyTextPlugins(ApplicationSettings applicationSettings);
 		IEnumerable<TextPlugin> GetTextPlugins();
+		IEnumerable<TextPlugin> GetEnabledTextPlugins();
 		void RegisterTextPlugin(TextPlugin plugin);
 
 		/// <summary>
