@@ -5,6 +5,8 @@ using System.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace OpenQA.Selenium
 {
@@ -336,6 +338,18 @@ namespace OpenQA.Selenium
 			}
 			else
 			{
+				ITakesScreenshot screenshotDriver = driver as ITakesScreenshot;
+
+				if (screenshotDriver != null)
+				{
+					string filename = string.Format("webdriverwait-failure{0}.png", DateTime.Now.Ticks);
+					string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filename);
+					Screenshot screenshot = screenshotDriver.GetScreenshot();
+					screenshot.SaveAsFile(fullPath, ImageFormat.Png);
+
+					Console.WriteLine("Took screenshot: {0} ", fullPath);
+				}
+
 				return null;
 			}
 		}

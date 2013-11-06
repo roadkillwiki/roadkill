@@ -24,7 +24,7 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		{
 			get
 			{
-				return "ImagesInNewWindow name";
+				return "Clickable images";
 			}
 		}
 
@@ -32,7 +32,7 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		{
 			get
 			{
-				return "ImagesInNewWindow";
+				return "Configures images so when they are clicked the source image is opened in a new window.";
 			}
 		}
 
@@ -45,15 +45,10 @@ namespace Roadkill.Core.Plugins.BuiltIn
 			}
 		}
 
-		public ImagesInNewWindow(ApplicationSettings applicationSettings, IRepository repository)
-			: base(applicationSettings, repository)
-		{
-		}
-
 		public override string GetHeadContent()
 		{
-			AddScriptWithHeadJS("imagesinnewwindow.js");
-			return GetScriptHtmlWithHeadJS();
+			AddScript("imagesinnewwindow.js");
+			return GetJavascriptHtml();
 		}
 	}
 }

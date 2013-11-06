@@ -3,7 +3,7 @@ module Roadkill.Site.FileManager
 {
 	export class Util
 	{
-		public static IsStringNullOrEmpty(text: string): bool
+        public static IsStringNullOrEmpty(text: string): boolean
 		{
 			return (text === null || text === "" || typeof text === "undefined");
 		}

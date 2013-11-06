@@ -8,6 +8,7 @@ using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Tests.Unit.StubsAndMocks;
+using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Tests.Unit.Cache
 {
@@ -133,6 +134,72 @@ namespace Roadkill.Tests.Unit.Cache
 
 			// Act
 			siteCache.RemoveMenuCacheItems();
+
+			// Assert
+			Assert.That(cache.Count(), Is.EqualTo(0));
+		}
+
+		[Test]
+		public void UpdatePluginSettings_Should_Add_Plugin_Settings_ToCache()
+		{
+			// Arrange
+			CacheMock cache = new CacheMock();
+			ApplicationSettings settings = new ApplicationSettings();
+			SiteCache siteCache = new SiteCache(settings, cache);
+
+			TextPluginStub plugin = new TextPluginStub();
+			plugin.PluginCache = siteCache;
+			plugin.Repository = new RepositoryMock();
+			plugin.Settings.SetValue("foo", "bar");
+
+			// Act
+			siteCache.UpdatePluginSettings(plugin);
+
+			// Assert
+			Assert.That(cache.Count(), Is.EqualTo(1));
+		}
+
+		[Test]
+		public void GetPluginSettings_Should_Return_Plugin_Settings()
+		{
+			// Arrange
+			CacheMock cache = new CacheMock();
+			ApplicationSettings settings = new ApplicationSettings();
+			SiteCache siteCache = new SiteCache(settings, cache);
+
+			TextPluginStub plugin = new TextPluginStub("id1", "", "");
+			plugin.PluginCache = siteCache;
+			plugin.Repository = new RepositoryMock();
+			plugin.Settings.SetValue("foo", "bar");
+
+			TextPluginStub plugin2 = new TextPluginStub("id2", "", "");
+			plugin2.PluginCache = siteCache;
+			plugin2.Repository = new RepositoryMock();
+			plugin2.Settings.SetValue("foo", "bar2");
+
+			// Act
+			PluginSettings pluginSettings = siteCache.GetPluginSettings(plugin);
+
+			// Assert
+			Assert.That(pluginSettings.Values.Count(), Is.EqualTo(1));
+			Assert.That(pluginSettings.GetValue("foo"), Is.EqualTo("bar"));
+		}
+
+		[Test]
+		public void RemovePluginSettings_Should_Remove_Plugin_Settings()
+		{
+			// Arrange
+			CacheMock cache = new CacheMock();
+			ApplicationSettings settings = new ApplicationSettings();
+			SiteCache siteCache = new SiteCache(settings, cache);
+
+			TextPluginStub plugin = new TextPluginStub();
+			plugin.PluginCache = siteCache;
+			plugin.Repository = new RepositoryMock();
+			plugin.Settings.SetValue("foo", "bar");
+
+			// Act
+			siteCache.RemovePluginSettings(plugin);
 
 			// Assert
 			Assert.That(cache.Count(), Is.EqualTo(0));

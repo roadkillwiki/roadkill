@@ -41,12 +41,13 @@ namespace Roadkill.Tests.Integration
 		[SetUp]
 		public void Setup()
 		{
+			
+			// ##################################################################################################
 			// Create dummy data.
-
-			// ############################
+			//
 			// Using the repository (just 4 methods) to test the repository isn't great, but it beats lots of
 			// SQL scripts that are flakey for cross-database tests, and don't work for MongoDB or SimpleDB
-			// ############################
+			// ##################################################################################################
 
 			_applicationSettings = new ApplicationSettings();
 			_applicationSettings.ConnectionString = _connectionString;

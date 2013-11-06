@@ -13,13 +13,13 @@ namespace Roadkill.Core
 		private bool? _isAdmin;
 		private bool? _isEditor;
 		private User _user;
-		private UserManagerBase _userManager;
+		private UserServiceBase _userManager;
 
 		/// <summary>
 		/// Creates a new instance of a <see cref="UserContext"/>.
 		/// </summary>
-		/// <param name="userManager">A <see cref="UserManagerBase"/> which the RoadkillContext uses for user lookups.</param>
-		public UserContext(UserManagerBase userManager)
+		/// <param name="userManager">A <see cref="UserServiceBase"/> which the RoadkillContext uses for user lookups.</param>
+		public UserContext(UserServiceBase userManager)
 		{
 			_userManager = userManager;
 		}

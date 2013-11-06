@@ -11,11 +11,12 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
-using Roadkill.Core.Localization.Resx;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Localization;
+using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using System.Runtime.Caching;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit
 {
@@ -27,14 +28,15 @@ namespace Roadkill.Tests.Unit
 		private IUserContext _context;
 		private RepositoryMock _repository;
 
-		private UserManagerBase _userManager;
-		private PageManager _pageManager;
-		private SearchManagerMock _searchManager;
-		private HistoryManager _historyManager;
-		private SettingsManager _settingsManager;
+		private UserServiceBase _userManager;
+		private PageService _pageService;
+		private SearchServiceMock _searchService;
+		private PageHistoryService _historyService;
+		private SettingsService _settingsService;
+		private PluginFactoryMock _pluginFactory;
 
 		[SetUp]
-		public void Init()
+		public void Setup()
 		{
 			_context = new Mock<IUserContext>().Object;
 			_applicationSettings = new ApplicationSettings();
@@ -42,28 +44,29 @@ namespace Roadkill.Tests.Unit
 			_applicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
 
 			// Cache
-			ListCache listCache = new ListCache(_applicationSettings, MemoryCache.Default);
-			SiteCache siteCache = new SiteCache(_applicationSettings, MemoryCache.Default);
-			PageSummaryCache pageSummaryCache = new PageSummaryCache(_applicationSettings, MemoryCache.Default);
+			ListCache listCache = new ListCache(_applicationSettings, CacheMock.RoadkillCache);
+			SiteCache siteCache = new SiteCache(_applicationSettings, CacheMock.RoadkillCache);
+			PageViewModelCache pageViewModelCache = new PageViewModelCache(_applicationSettings, CacheMock.RoadkillCache);
 
-			// Dependencies for PageManager
-			Mock<SearchManager> searchMock = new Mock<SearchManager>();
+			// Dependencies for PageService
+			Mock<SearchService> searchMock = new Mock<SearchService>();
+			_pluginFactory = new PluginFactoryMock();
 
 			_repository = new RepositoryMock();
-			_settingsManager = new SettingsManager(_applicationSettings, _repository);
-			_userManager = new Mock<UserManagerBase>(_applicationSettings, null).Object;
-			_searchManager = new SearchManagerMock(_applicationSettings, _repository);
-			_searchManager.PageContents = _repository.PageContents;
-			_searchManager.Pages = _repository.Pages;
-			_historyManager = new HistoryManager(_applicationSettings, _repository, _context, pageSummaryCache);
-			_pageManager = new PageManager(_applicationSettings, _repository, _searchManager, _historyManager, _context, listCache, pageSummaryCache, siteCache);
+			_settingsService = new SettingsService(_applicationSettings, _repository);
+			_userManager = new Mock<UserServiceBase>(_applicationSettings, null).Object;
+			_searchService = new SearchServiceMock(_applicationSettings, _repository, _pluginFactory);
+			_searchService.PageContents = _repository.PageContents;
+			_searchService.Pages = _repository.Pages;
+			_historyService = new PageHistoryService(_applicationSettings, _repository, _context, pageViewModelCache, _pluginFactory);
+			_pageService = new PageService(_applicationSettings, _repository, _searchService, _historyService, _context, listCache, pageViewModelCache, siteCache, _pluginFactory);
 		}
 
 		[Test]
 		public void Index_Should_Return_Default_Message_When_No_Homepage_Tag_Exists()
 		{
 			// Arrange
-			HomeController homeController = new HomeController(_applicationSettings, _userManager, new MarkupConverter(_applicationSettings, _repository), _pageManager, _searchManager, _context, _settingsManager);
+			HomeController homeController = new HomeController(_applicationSettings, _userManager, new MarkupConverter(_applicationSettings, _repository, _pluginFactory), _pageService, _searchService, _context, _settingsService);
 			homeController.SetFakeControllerContext();
 
 			// Act
@@ -72,7 +75,7 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 
-			PageSummary summary = result.ModelFromActionResult<PageSummary>();
+			PageViewModel summary = result.ModelFromActionResult<PageViewModel>();
 			Assert.NotNull(summary, "Null model");
 			Assert.That(summary.Title, Is.EqualTo(SiteStrings.NoMainPage_Title));
 			Assert.That(summary.Content, Is.EqualTo(SiteStrings.NoMainPage_Label));
@@ -82,7 +85,7 @@ namespace Roadkill.Tests.Unit
 		public void Index_Should_Return_Homepage_When_Tag_Exists()
 		{
 			// Arrange
-			HomeController homeController = new HomeController(_applicationSettings, _userManager, new MarkupConverter(_applicationSettings, _repository), _pageManager, _searchManager, _context, _settingsManager);
+			HomeController homeController = new HomeController(_applicationSettings, _userManager, new MarkupConverter(_applicationSettings, _repository, _pluginFactory), _pageService, _searchService, _context, _settingsService);
 			homeController.SetFakeControllerContext();
 			Page page1 = new Page() 
 			{ 
@@ -105,7 +108,7 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 
-			PageSummary summary = result.ModelFromActionResult<PageSummary>();
+			PageViewModel summary = result.ModelFromActionResult<PageViewModel>();
 			Assert.NotNull(summary, "Null model");
 			Assert.That(summary.Title, Is.EqualTo(page1.Title));
 			Assert.That(summary.Content, Is.EqualTo(page1Content.Text));
@@ -115,7 +118,7 @@ namespace Roadkill.Tests.Unit
 		public void Search_Should_Return_Some_Results_With_Unicode_Content()
 		{
 			// Arrange
-			HomeController homeController = new HomeController(_applicationSettings, _userManager, new MarkupConverter(_applicationSettings, _repository), _pageManager, _searchManager, _context, _settingsManager);
+			HomeController homeController = new HomeController(_applicationSettings, _userManager, new MarkupConverter(_applicationSettings, _repository, _pluginFactory), _pageService, _searchService, _context, _settingsService);
 			homeController.SetFakeControllerContext();
 			Page page1 = new Page()
 			{
@@ -138,7 +141,7 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 
-			List<SearchResult> searchResults = result.ModelFromActionResult<IEnumerable<SearchResult>>().ToList();
+			List<SearchResultViewModel> searchResults = result.ModelFromActionResult<IEnumerable<SearchResultViewModel>>().ToList();
 			Assert.NotNull(searchResults, "Null model");
 			Assert.That(searchResults.Count(), Is.EqualTo(1));
 			Assert.That(searchResults[0].Title, Is.EqualTo(page1.Title));

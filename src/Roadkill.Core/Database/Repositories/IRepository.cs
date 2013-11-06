@@ -27,6 +27,6 @@ namespace Roadkill.Core.Database
 		void Upgrade(ApplicationSettings applicationSettings);
 
 		void SaveTextPluginSettings(TextPlugin plugin);
-		PluginSettings GetTextPluginSettings(TextPlugin plugin);
+		PluginSettings GetTextPluginSettings(Guid databaseId);
 	}
 }

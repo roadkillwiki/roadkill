@@ -15,7 +15,7 @@ module Roadkill.Site
 	{
 		private static _tagBlackList: string[] = 
 		[
-			";", "/", "?", ":", "@", "&", "=", "{", "}", "|", "\\", "^", "[", "]", "`"	
+			"#", ",", ";", "/", "?", ":", "@", "&", "=", "{", "}", "|", "\\", "^", "[", "]", "`"	
 		];
 
 		/**
@@ -36,11 +36,11 @@ module Roadkill.Site
 				blinkBGColor_2: "#CDE69C",
 				delimeters: [44, 186, 32, 9], // ',' space, tab
 				hiddenTagListName: "RawTags",
-				tagCloseIcon: "×", // ˣ or ×
+				tagCloseIcon: "×", //  ˣ or × (&times;)
 				preventSubmitOnEnter : false,
 				validator: function(input: string)
 				{
-					var isValid: boolean = EditPage.isValidTag(input);
+					var isValid: Boolean = EditPage.isValidTag(input);
 					if (isValid === false)
 					{
 						toastr.error("The following characters are not valid for tags: <br/>" + EditPage._tagBlackList.join(" "));
@@ -75,7 +75,7 @@ module Roadkill.Site
 				// Fix the tag's styles from being blank
 				$(".tm-tag-remove").each(function ()
 				{
-					$(this).text("×");
+					$(this).html("&times;");
 				});
 				$(".tm-tag").each(function ()
 				{
@@ -88,7 +88,7 @@ module Roadkill.Site
 		/**
 		 Returns false if the tag contains any characters that are blacklisted.
 		*/
-		public static isValidTag(tag: string) : boolean
+		public static isValidTag(tag: string) : Boolean
 		{
 			for (var i: number = 0; i < tag.length; i++)
 			{

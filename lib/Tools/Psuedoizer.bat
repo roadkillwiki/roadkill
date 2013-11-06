@@ -1,2 +1,0 @@
-PsuedoizerConsole ..\..\Roadkill.Core\Localization\Resx\InstallStrings.resx ..\..\Roadkill.Core\Localization\Resx\InstallStrings.fi-FI.resx
-PsuedoizerConsole ..\..\Roadkill.Core\Localization\Resx\SiteStrings.resx ..\..\Roadkill.Core\Localization\Resx\SiteStrings.fi-FI.resx

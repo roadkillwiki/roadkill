@@ -1,4 +1,4 @@
-﻿@model PageSummary
+﻿@model PageViewModel
 @{ 
 	ViewBag.Title = SiteStrings.EditPage_Title;
 }
@@ -17,13 +17,13 @@
 
 	@using (Html.BeginForm())
 	{
-		@(Html.HiddenFor<PageSummary, int>(p => p.Id))
-		@(Html.HiddenFor<PageSummary, string>(p => p.PreviousTitle))
-		@(Html.HiddenFor<PageSummary, string>(p => p.RawTags))
+		@(Html.HiddenFor<PageViewModel, int>(p => p.Id))
+		@(Html.HiddenFor<PageViewModel, string>(p => p.PreviousTitle))
+		@(Html.HiddenFor<PageViewModel, string>(p => p.RawTags))
 	 
 		<div>
 			<label for="Title">@SiteStrings.EditPage_Title_Label</label>
-			@(Html.TextBoxFor<PageSummary, string>(p => p.Title, new { @class = "longtextbox validate[required]", tabindex = 1 }))<br />
+			@(Html.TextBoxFor<PageViewModel, string>(p => p.Title, new { @class = "longtextbox validate[required]", tabindex = 1 }))<br />
 		</div>
 		<br />
 		
@@ -35,7 +35,7 @@
 		if (RoadkillContext.IsAdmin)
 		{
 		<div class="lockpage">
-			@(Html.CheckBoxFor<PageSummary>(p => p.IsLocked, new { tabindex = 3 }))
+			@(Html.CheckBoxFor<PageViewModel>(p => p.IsLocked, new { tabindex = 3 }))
 			<span>@SiteStrings.EditPage_AdminOnly</span>
 		</div>
 		}
@@ -55,7 +55,7 @@
 			<a href="javascript:;" class="wysiwyg-link" rel="popover" data-content="@SiteStrings.EditPage_Toolbar_Link"><img src="@(Url.Content("~/Assets/Images/wysiwyg/link.png"))" alt="link" border="0" /></a>			
 			<a href="javascript:;" class="wysiwyg-help" rel="popover" data-content="@SiteStrings.EditPage_Toolbar_Help"><img src="@(Url.Content("~/Assets/Images/wysiwyg/help.png"))" title="" alt="help" border="0" /></a>
 		</div>
-		@(Html.TextAreaFor<PageSummary, string>(p => p.Content, new { tabindex = 4 }))
+		@(Html.TextAreaFor<PageViewModel, string>(p => p.Content, new { tabindex = 4 }))
 		<br />
 
 		if (Model.Id > 0)

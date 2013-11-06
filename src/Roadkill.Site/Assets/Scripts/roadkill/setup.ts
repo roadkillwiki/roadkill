@@ -83,7 +83,7 @@ module Roadkill.Site
 					button.text(ROADKILL_LINK_CONFIRM);
 					button.addClass("jqConfirm");
 
-					var handler = function() : bool
+					var handler = function() : boolean
 					{
 						button.removeClass("jqConfirm");
 						button.val(value);

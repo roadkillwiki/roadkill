@@ -10,6 +10,11 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 	{
 		public List<CacheItem> CacheItems { get; set; }
 
+		/// <summary>
+		/// A MemoryCache instance named "Roadkill", to mimic the one inected by Structuremap.
+		/// </summary>
+		public static readonly MemoryCache RoadkillCache = new MemoryCache("Roadkill");
+
 		public CacheMock() : base("CacheMock")
 		{
 			CacheItems = new List<CacheItem>();

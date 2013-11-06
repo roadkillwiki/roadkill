@@ -12,8 +12,9 @@ using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.DI;
+using Roadkill.Core.Import;
 using Roadkill.Core.Logging;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Mvc.WebViewPages;
@@ -24,6 +25,8 @@ using Roadkill.Core.Security.Windows;
 using StructureMap;
 using StructureMap.Graph;
 using StructureMap.Query;
+using System.Web.Http;
+using Roadkill.Core.Mvc;
 
 namespace Roadkill.Core
 {
@@ -36,7 +39,7 @@ namespace Roadkill.Core
 		//   - LightSpeedRepository creates its own instances of IUnitOfWork
  		// - UserManager relies on IRepository
 		// - RoadkillContext relies on UserManager
-		// - ActiveDirectoryManager relies on IActiveDirectoryService
+		// - ActiveDirectoryService relies on IActiveDirectoryProvider
 		// - The others can rely on everything above.
 		//
 
@@ -96,17 +99,22 @@ namespace Roadkill.Core
 			if (_hasRunInitialization)
 			{
 				//
-				// * _All_ Roadkill MVC controllers are new'd up by MvcDependencyResolver so dependencies are injected into them
+				// * **All** Roadkill MVC controllers are new'd up by MvcDependencyResolver so dependencies are injected into them
 				// * Some view models are new'd up by custom MvcModelBinders so dependencies are injected into them
 				// * MVC Attributes are injected using setter injection
 				// * All views use RoadkillViewPage which is setter injected.
 				// * All layout views use RoadkillLayoutPage which uses bastard injection (as master pages are part of ASP.NET and not MVC) 
 				//
 
-				DependencyResolver.SetResolver(new MvcDependencyResolver()); // views and controllers
+				MvcDependencyResolver mvcResolver = new MvcDependencyResolver();
+
+				GlobalConfiguration.Configuration.DependencyResolver = mvcResolver; // web api
+				GlobalConfiguration.Configuration.Services.Add(typeof(System.Web.Http.Filters.IFilterProvider), new MvcAttributeProvider(GlobalConfiguration.Configuration.Services.GetFilterProviders()));// web api
+
+				DependencyResolver.SetResolver(mvcResolver); // views and controllers
 				FilterProviders.Providers.Add(new MvcAttributeProvider()); // attributes
-				ModelBinders.Binders.Add(typeof(UserSummary), new UserSummaryModelBinder()); // models needing DI
-				ModelBinders.Binders.Add(typeof(SettingsSummary), new SettingsSummaryModelBinder());
+				ModelBinders.Binders.Add(typeof(UserViewModel), new UserViewModelModelBinder()); // models needing DI
+				ModelBinders.Binders.Add(typeof(SettingsViewModel), new SettingsViewModelBinder());
 
 				// Attachments path
 				AttachmentRouteHandler.RegisterRoute(_applicationSettings, RouteTable.Routes);
@@ -128,14 +136,18 @@ namespace Roadkill.Core
 			x.For<IRepository>().HybridHttpOrThreadLocalScoped();
 			x.For<IUserContext>().HybridHttpOrThreadLocalScoped();
 
-			// Temp for custom variable plugins
-			x.For<MathJax>().HybridHttpOrThreadLocalScoped();
+			// Plugins
+			x.For<IPluginFactory>().Singleton().Use<PluginFactory>();
+
+			// Screwturn importer
+			x.For<IWikiImporter>().Use<ScrewTurnImporter>();
 
 			// Cache
 			x.For<ObjectCache>().Use(new MemoryCache("Roadkill"));
 			x.For<ListCache>().Singleton();
 			x.For<SiteCache>().Singleton();
-			x.For<PageSummaryCache>().Singleton();
+			x.For<PageViewModelCache>().Singleton();
+			x.For<IPluginCache>().Use<SiteCache>();
 		}
 
 		private void Scan(IAssemblyScanner scanner)
@@ -151,9 +163,10 @@ namespace Roadkill.Core
 
 			scanner.AssembliesFromPath(userManagerPluginPath);
 
-			// Custom variable plugins
+			// Copy text plugins to the bin folder
 			string textPluginsPath = _applicationSettings.TextPluginsBinPath;
-			PluginFactory.CopyTextPlugins(_applicationSettings);
+			PluginFactory pluginFactory = new PluginFactory(); // registered as a singleton later
+			pluginFactory.CopyTextPlugins(_applicationSettings);
 			if (!Directory.Exists(textPluginsPath))
 				Directory.CreateDirectory(textPluginsPath);
 
@@ -162,26 +175,28 @@ namespace Roadkill.Core
 				scanner.AssembliesFromPath(subDirectory);
 			}
 			scanner.AddAllTypesOf<TextPlugin>();
+			scanner.AddAllTypesOf<IPluginFactory>();
 
 			// Config, repository, context
 			scanner.AddAllTypesOf<ApplicationSettings>();
 			scanner.AddAllTypesOf<IRepository>();
 			scanner.AddAllTypesOf<IUserContext>();
 
-			// Managers and services
+			// Services and services
 			scanner.AddAllTypesOf<ServiceBase>();
-			scanner.AddAllTypesOf<IPageManager>();
-			scanner.AddAllTypesOf<IActiveDirectoryService>();
-			scanner.AddAllTypesOf<UserManagerBase>();
+			scanner.AddAllTypesOf<IPageService>();
+			scanner.AddAllTypesOf<IActiveDirectoryProvider>();
+			scanner.AddAllTypesOf<UserServiceBase>();
 
 			// Text parsers
 			scanner.AddAllTypesOf<MarkupConverter>();
 			scanner.AddAllTypesOf<CustomTokenParser>();
 
 			// MVC Related
+			scanner.AddAllTypesOf<Roadkill.Core.Mvc.Controllers.Api.ApiControllerBase>();
 			scanner.AddAllTypesOf<Roadkill.Core.Mvc.Controllers.ControllerBase>();
-			scanner.AddAllTypesOf<UserSummary>();
-			scanner.AddAllTypesOf<SettingsSummary>();
+			scanner.AddAllTypesOf<UserViewModel>();
+			scanner.AddAllTypesOf<SettingsViewModel>();
 			scanner.AddAllTypesOf<AttachmentRouteHandler>();
 			scanner.AddAllTypesOf<IControllerAttribute>();
 			scanner.AddAllTypesOf<RoadkillLayoutPage>();
@@ -194,7 +209,7 @@ namespace Roadkill.Core
 
 			// Cache
 			scanner.AddAllTypesOf<ListCache>();
-			scanner.AddAllTypesOf<PageSummaryCache>();
+			scanner.AddAllTypesOf<PageViewModelCache>();
 		}
 
 		private void Configure(ConfigurationExpression x)
@@ -231,22 +246,26 @@ namespace Roadkill.Core
 
 			if (_applicationSettings.UseWindowsAuthentication)
 			{
-				x.For<UserManagerBase>().HybridHttpOrThreadLocalScoped().Use<ActiveDirectoryUserManager>();
+				x.For<UserServiceBase>().HybridHttpOrThreadLocalScoped().Use<ActiveDirectoryUserService>();
 			}
 			else if (!string.IsNullOrEmpty(userManagerTypeName))
 			{
-				InstanceRef userManagerRef = ObjectFactory.Model.InstancesOf<UserManagerBase>().FirstOrDefault(t => t.ConcreteType.FullName == userManagerTypeName);
-				x.For<UserManagerBase>().HybridHttpOrThreadLocalScoped().TheDefault.Is.OfConcreteType(userManagerRef.ConcreteType);
+				InstanceRef userManagerRef = ObjectFactory.Model.InstancesOf<UserServiceBase>().FirstOrDefault(t => t.ConcreteType.FullName == userManagerTypeName);
+				x.For<UserServiceBase>().HybridHttpOrThreadLocalScoped().TheDefault.Is.OfConcreteType(userManagerRef.ConcreteType);
 			}
 			else
 			{
-				x.For<UserManagerBase>().HybridHttpOrThreadLocalScoped().Use<FormsAuthUserManager>();
+				x.For<UserServiceBase>().HybridHttpOrThreadLocalScoped().Use<FormsAuthUserService>();
 			}
 
 			// Setter inject the various MVC objects that can't have constructors
 			x.SetAllProperties(y => y.OfType<IControllerAttribute>());
 			x.SetAllProperties(y => y.TypeMatches(t => t == typeof(RoadkillViewPage<>)));
 			x.SetAllProperties(y => y.TypeMatches(t => t == typeof(RoadkillLayoutPage)));
+
+			// Setter inject the *internal* properties for the plugins
+			x.For<TextPlugin>().OnCreationForAll((ctx, plugin) => plugin.PluginCache = ctx.GetInstance<IPluginCache>());
+			x.For<TextPlugin>().OnCreationForAll((ctx, plugin) => plugin.Repository = ctx.GetInstance<IRepository>());
 		}
 	}
 }

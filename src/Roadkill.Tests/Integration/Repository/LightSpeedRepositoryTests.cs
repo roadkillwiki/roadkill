@@ -4,8 +4,10 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Text;
 using NUnit.Framework;
+using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
@@ -26,6 +28,7 @@ namespace Roadkill.Tests.Integration
 		private DataStoreType _dataStoreType = DataStoreType.Sqlite;
 		private LightSpeedRepository _repository;
 		private ApplicationSettings _applicationSettings;
+		private SiteCache _siteCache;
 		
 		private User _adminUser;
 		private User _editor;
@@ -41,7 +44,7 @@ namespace Roadkill.Tests.Integration
 		{
 			// Copy the SQLite interop file for x64
 			string binFolder = AppDomain.CurrentDomain.BaseDirectory;
-			string sqlInteropFileSource = Path.Combine(Settings.PACKAGES_FOLDER, "System.Data.SQLite.1.0.86.0", "content", "net40", "x86", "SQLite.Interop.dll");
+			string sqlInteropFileSource = Path.Combine(Settings.SITE_PATH, "App_Data", "Internal", "SQLiteBinaries", "x86", "SQLite.Interop.dll");
 			string sqlInteropFileDest = Path.Combine(binFolder, "SQLite.Interop.dll");
 
 			if (File.Exists(sqlInteropFileDest))
@@ -49,7 +52,7 @@ namespace Roadkill.Tests.Integration
 
 			if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
 			{
-				sqlInteropFileSource = Path.Combine(Settings.PACKAGES_FOLDER, "System.Data.SQLite.1.0.86.0", "content", "net40", "x64", "SQLite.Interop.dll");
+				sqlInteropFileSource = Path.Combine(Settings.SITE_PATH,  "App_Data", "Internal", "SQLiteBinaries", "x64", "SQLite.Interop.dll");
 			}
 
 			System.IO.File.Copy(sqlInteropFileSource, sqlInteropFileDest, true);
@@ -68,6 +71,8 @@ namespace Roadkill.Tests.Integration
 			_applicationSettings = new ApplicationSettings();
 			_applicationSettings.ConnectionString = _connectionString;
 			_applicationSettings.DataStoreType = _dataStoreType;
+
+			_siteCache = new SiteCache(_applicationSettings, CacheMock.RoadkillCache);
 
 			//_repository = new LightSpeedRepository(_applicationSettings);
 			_repository = new LightSpeedRepository(_applicationSettings);
@@ -411,12 +416,13 @@ namespace Roadkill.Tests.Integration
 			expectedSettings.SetValue("somekey1", "thevalue1");
 			expectedSettings.SetValue("somekey2", "thevalue2");
 
-			TextPluginStub plugin = new TextPluginStub();
-			plugin.Settings = expectedSettings;
+			TextPluginStub plugin = new TextPluginStub(_repository, _siteCache);
+			plugin.Settings.SetValue("somekey1", "thevalue1");
+			plugin.Settings.SetValue("somekey2", "thevalue2");
 
 			// Act
 			_repository.SaveTextPluginSettings(plugin);
-			PluginSettings actualSettings = _repository.GetTextPluginSettings(plugin);
+			PluginSettings actualSettings = _repository.GetTextPluginSettings(plugin.DatabaseId);
 
 			// Assert
 			Assert.That(actualSettings.GetValue("somekey1"), Is.EqualTo("thevalue1"));

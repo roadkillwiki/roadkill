@@ -21,14 +21,14 @@ namespace Roadkill.Core.Configuration
 				//  - < 1.5 does require an upgrade.
 
 				Version version16 = new Version(1,6,0,0);
-				Version currentVersion = null;
-				if (Version.TryParse(version, out currentVersion))
+				Version parsedVersion = null;
+				if (Version.TryParse(version, out parsedVersion))
 				{
-					return (currentVersion < version16);
+					return (parsedVersion < version16);
 				}
 				else
 				{
-					Log.Warn("Invalid Version found ({0}) in the web.config, assuming it's the same as the assembly version ({1})", version, ApplicationSettings.ProductVersion);
+					Log.Warn("Upgrade check: invalid Version found ('{0}') in the web.config, assuming it's the same as the assembly version ({1})", version, ApplicationSettings.ProductVersion);
 					return false;
 				}
 			}

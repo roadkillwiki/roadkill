@@ -1,4 +1,4 @@
-﻿@model UserSummary
+﻿@model UserViewModel
 @{ 
 	ViewBag.Title = SiteStrings.Profile_Title;
 }
@@ -12,35 +12,35 @@ else
 {
 	using (Html.BeginForm())
 	{
-		@(Html.HiddenFor<UserSummary, Guid?>(h => h.Id))
-		@(Html.HiddenFor<UserSummary, string>(h => h.ExistingEmail))
-		@(Html.HiddenFor<UserSummary, string>(h => h.ExistingUsername))
+		@(Html.HiddenFor<UserViewModel, Guid?>(h => h.Id))
+		@(Html.HiddenFor<UserViewModel, string>(h => h.ExistingEmail))
+		@(Html.HiddenFor<UserViewModel, string>(h => h.ExistingUsername))
 	
 		<fieldset id="profile" class="rounded10 lightborder">
 			@Html.ValidationSummary(SiteStrings.Shared_Error, new { @class = "alert alert-block fade in", data_dismiss = "alert" })
 
 			<label for="NewEmail" class="userlabel">@SiteStrings.Shared_Firstname</label>
-			@(Html.TextBoxFor<UserSummary, string>(t => t.Firstname, new { @class = "usertextbox" }))
+			@(Html.TextBoxFor<UserViewModel, string>(t => t.Firstname, new { @class = "usertextbox" }))
 			<br class="clear" />
 
 			<label for="NewEmail" class="userlabel">@SiteStrings.Shared_Lastname</label>
-			@(Html.TextBoxFor<UserSummary, string>(t => t.Lastname, new { @class = "usertextbox" }))
+			@(Html.TextBoxFor<UserViewModel, string>(t => t.Lastname, new { @class = "usertextbox" }))
 			<br class="clear" />
 
 			<label for="NewEmail" class="userlabel">@SiteStrings.Shared_Email_Label</label>
-			@(Html.TextBoxFor<UserSummary, string>(t => t.NewEmail, new { @class = "usertextbox" }))
+			@(Html.TextBoxFor<UserViewModel, string>(t => t.NewEmail, new { @class = "usertextbox" }))
 			<br class="clear" />
 
 			<label for="NewUsername" class="userlabel">@SiteStrings.Shared_Username</label>
-			@(Html.TextBoxFor<UserSummary, string>(t => t.NewUsername, new { @class = "usertextbox" }))
+			@(Html.TextBoxFor<UserViewModel, string>(t => t.NewUsername, new { @class = "usertextbox" }))
 			<br class="clear" />
 
 			<label for="Password" class="userlabel">@SiteStrings.Shared_Password_Label</label>
-			@(Html.PasswordFor<UserSummary, string>(t => t.Password, new { @class = "usertextbox" }))
+			@(Html.PasswordFor<UserViewModel, string>(t => t.Password, new { @class = "usertextbox" }))
 			<br class="clear" />
 
 			<label for="PasswordConfirmation" class="userlabel">@SiteStrings.Shared_PasswordConfirm_Label</label>
-			@(Html.PasswordFor<UserSummary, string>(t => t.PasswordConfirmation, new { @class = "usertextbox" }))	
+			@(Html.PasswordFor<UserViewModel, string>(t => t.PasswordConfirmation, new { @class = "usertextbox" }))	
 			<br class="clear" />
 	
 			<input type="submit" id="userbutton" class="btn btn-primary" value="@SiteStrings.Button_Save" />

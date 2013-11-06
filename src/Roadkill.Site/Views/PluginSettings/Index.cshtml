@@ -1,0 +1,30 @@
+﻿@model IEnumerable<PluginViewModel>
+@{ 
+	ViewBag.Title = @SiteStrings.SiteSettings_Plugins_Title;
+	ViewData["PluginSettingsActive"] = true;
+}
+
+@Html.Partial("SettingsMenu", ViewData)
+
+<div class="more-plugins right">
+	<a href="#">Get more plugins</a> (coming soon...)
+</div>
+
+<table class="table plugins">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+@foreach (PluginViewModel pluginModel in Model)
+{
+	<tr>
+		<td>@Html.ActionLink(pluginModel.Name, "Edit", new { id = pluginModel.Id})</td>
+		<td>@Html.Raw(pluginModel.Description)</td>
+	</tr>
+}
+	</tbody>
+</table>
+<br style="clear:both;" />

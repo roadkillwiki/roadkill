@@ -61,6 +61,8 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			get
 			{
+				EnsureConectionString();
+
 				IUnitOfWork unitOfWork = ObjectFactory.GetInstance<IUnitOfWork>();
 				if (unitOfWork == null)
 					throw new DatabaseException("The IUnitOfWork for Lightspeed is null - has Startup() been called?", null);
@@ -181,19 +183,15 @@ namespace Roadkill.Core.Database.LightSpeed
 			return siteSettings;
 		}
 
-		public PluginSettings GetTextPluginSettings(TextPlugin plugin)
+		public PluginSettings GetTextPluginSettings(Guid databaseId)
 		{
-			PluginSettings pluginSettings = new PluginSettings();
+			PluginSettings pluginSettings = null;
 			SiteConfigurationEntity entity = UnitOfWork.Find<SiteConfigurationEntity>()
-												.FirstOrDefault(x => x.Id == plugin.DatabaseId);
+												.FirstOrDefault(x => x.Id == databaseId);
 
 			if (entity != null)
 			{
 				pluginSettings = PluginSettings.LoadFromJson(entity.Content);
-			}
-			else
-			{
-				Log.Warn("No site settings could be found in the database, using a default instance");
 			}
 
 			return pluginSettings;
@@ -549,6 +547,12 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			UnitOfWork.SaveChanges();
 			UnitOfWork.Dispose();
+		}
+
+		private void EnsureConectionString()
+		{
+			if (_applicationSettings.Installed && string.IsNullOrEmpty(_applicationSettings.ConnectionString))
+				throw new DatabaseException("The connection string is empty in the web.config file (and the roadkill.config's installed=true).", null);
 		}
 	}
 }

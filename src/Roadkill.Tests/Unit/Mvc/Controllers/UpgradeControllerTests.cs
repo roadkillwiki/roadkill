@@ -7,7 +7,7 @@ using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Security;
 
@@ -21,8 +21,8 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		private IUserContext _context;
 		private RepositoryMock _repository;
 
-		private UserManagerBase _userManager;
-		private SettingsManager _settingsManager;
+		private UserServiceBase _userManager;
+		private SettingsService _settingsService;
 		private UpgradeController _controller;
 
 		[SetUp]
@@ -35,9 +35,9 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			_repository = new RepositoryMock();
 			_repository.SiteSettings = new SiteSettings();
 			_repository.SiteSettings.MarkupType = "Creole";
-			_userManager = new FormsAuthUserManager(_settings, _repository);
+			_userManager = new FormsAuthUserService(_settings, _repository);
 
-			_controller = new UpgradeController(_settings, _repository, _userManager, _context, _settingsManager);
+			_controller = new UpgradeController(_settings, _repository, _userManager, _context, _settingsService);
 		}
 
 		[Test]

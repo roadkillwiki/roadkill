@@ -4,16 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
-using Roadkill.Core.Localization.Resx;
+using Roadkill.Core.Localization;
 using System.Globalization;
 using StructureMap;
 using Roadkill.Core.Configuration;
 using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
 using System.Web.Optimization;
 using System.Web;
 using Roadkill.Core.Plugins.BuiltIn;
+using Roadkill.Core.Mvc;
 
 namespace Roadkill.Core
 {
@@ -99,7 +100,7 @@ namespace Roadkill.Core
 				string redirectPath = helper.ViewContext.HttpContext.Request.Path;
 				link = helper.ActionLink(SiteStrings.Navigation_Login, "Login", "User", new { ReturnUrl = redirectPath }, null ).ToString();
 
-				if (controller.SiteSettingsManager.GetSiteSettings().AllowUserSignup)
+				if (controller.SettingsService.GetSiteSettings().AllowUserSignup)
 					link += "&nbsp;/&nbsp;" + helper.ActionLink(SiteStrings.Navigation_Register, "Signup", "User").ToString();
 			}
 
@@ -160,8 +161,8 @@ namespace Roadkill.Core
 		/// <returns>If the page is not found, the link text is returned.</returns>
 		public static MvcHtmlString PageLink(this HtmlHelper helper, string linkText, string pageTitle, object htmlAttributes,string prefix,string suffix)
 		{
-			PageManager manager = ObjectFactory.GetInstance<PageManager>();
-			PageSummary summary = manager.FindByTitle(pageTitle);
+			PageService manager = ObjectFactory.GetInstance<PageService>();
+			PageViewModel summary = manager.FindByTitle(pageTitle);
 			if (summary != null)
 			{
 				string link = helper.ActionLink(linkText, "Index", "Wiki", new { id = summary.Id, title = pageTitle }, htmlAttributes).ToString();
@@ -212,10 +213,11 @@ namespace Roadkill.Core
 		/// </summary>
 		public static MvcHtmlString BootStrap(this UrlHelper helper)
 		{
-			string resources = "\n<link href=\"" + helper.Content("~/Assets/bootstrap/css/bootstrap.min.css") + "\" rel=\"stylesheet\" media=\"screen\" />";
-			resources += "<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content("~/Assets/bootstrap/js/bootstrap.min.js") + "\"></script>";
+			StringBuilder builder = new StringBuilder();
+			builder.AppendLine("<link href=\"" + helper.Content("~/Assets/bootstrap/css/bootstrap.min.css") + "\" rel=\"stylesheet\" media=\"screen\" />");
+			builder.Append("<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content("~/Assets/bootstrap/js/bootstrap.min.js") + "\"></script>", 2);
 			
-			return MvcHtmlString.Create(resources);
+			return MvcHtmlString.Create(builder.ToString());
 		}
 
 		/// <summary>
@@ -223,7 +225,16 @@ namespace Roadkill.Core
 		/// </summary>
 		public static MvcHtmlString JsBundle(this UrlHelper helper)
 		{
-			return MvcHtmlString.Create(Scripts.Render("~/Assets/Scripts/" + RoadkillApplication.BundleJsFilename).ToHtmlString());
+			StringBuilder builder = new StringBuilder();
+			string mainJs = Scripts.Render("~/Assets/Scripts/" + Bundles.JsFilename).ToHtmlString();
+			mainJs = mainJs.Replace("\r\n", ""); // remove them, the lines are done in the view
+			builder.AppendLine(mainJs);
+
+			string jsVars = "";
+			jsVars = ScriptLink(helper, "~/home/globaljsvars?version=" + ApplicationSettings.ProductVersion).ToHtmlString();
+			jsVars = jsVars.Replace("\r\n", "");
+			builder.Append(jsVars, 2); 
+			return MvcHtmlString.Create(builder.ToString());
 		}
 
 		/// <summary>
@@ -231,7 +242,8 @@ namespace Roadkill.Core
 		/// </summary>
 		public static MvcHtmlString CssBundle(this UrlHelper helper)
 		{
-			string html = Styles.Render("~/Assets/CSS/" + RoadkillApplication.BundleCssFilename).ToHtmlString();
+			string html = Styles.Render("~/Assets/CSS/" + Bundles.CssFilename).ToHtmlString();
+			html = html.Replace("\r\n", ""); // done in the view
 			return MvcHtmlString.Create(html);
 		}
 
