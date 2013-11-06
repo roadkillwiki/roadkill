@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7C5170
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roadkill.Site", "src\Roadkill.Site\Roadkill.Site.csproj", "{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roadkill.Site", "src\Roadkill.Site\Roadkill.AzureSite.csproj", "{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roadkill.Core", "src\Roadkill.Core\Roadkill.Core.csproj", "{9C86C475-F3BD-44D1-942A-78BF19158C3A}"
 EndProject
