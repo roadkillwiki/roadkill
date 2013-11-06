@@ -1,7 +1,11 @@
 var Roadkill;
 (function (Roadkill) {
     (function (Site) {
+        /// <reference path="../typescript-ref/filemanager.references.ts" />
         (function (FileManager) {
+            /**
+            Event bindings and handlers for the file manager.
+            */
             var Setup = (function () {
                 function Setup() {
                 }
@@ -80,3 +84,4 @@ var Roadkill;
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
 })(Roadkill || (Roadkill = {}));
+//# sourceMappingURL=setup.js.map

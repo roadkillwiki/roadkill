@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Roadkill.Core.Plugins;
 
 namespace Roadkill.Core.Cache
 {
@@ -11,7 +12,7 @@ namespace Roadkill.Core.Cache
 		public static readonly string HOMEPAGE = "latesthomepage";
 
 		/// <summary>'{id}.{version}'</summary>
-		public static readonly string PAGESUMMARY = "pagesummary.{id}.{version}";
+		public static readonly string PAGEVIEWMODEL = "pageviewmodel.{id}.{version}";
 
 		/// <summary>"allpages.with.content"</summary>
 		public static readonly string ALLPAGES_CONTENT = "allpages.with.content";
@@ -37,9 +38,12 @@ namespace Roadkill.Core.Cache
 		/// <summary>"adminmenu"</summary>
 		public static readonly string ADMINMENU = "adminmenu";
 
-		public static string PageSummaryKeyPrefix()
+		/// <summary>"pluginsettings.{type}.{id}"</summary>
+		public static readonly string PLUGIN_SETTINGS = "pluginsettings.{type}.{id}";
+
+		public static string PageViewModelKeyPrefix()
 		{
-			string key = PAGESUMMARY;
+			string key = PAGEVIEWMODEL;
 			key = key.Replace("{id}", "");
 			key = key.Replace("{version}", "");
 			key = key.Replace(".", "");
@@ -47,9 +51,9 @@ namespace Roadkill.Core.Cache
 			return key;
 		}
 
-		public static string PageSummaryKey(int id, int version)
+		public static string PageViewModelKey(int id, int version)
 		{
-			string key = PAGESUMMARY;
+			string key = PAGEVIEWMODEL;
 			key = key.Replace("{id}", id.ToString());
 			key = key.Replace("{version}", version.ToString());
 
@@ -68,6 +72,15 @@ namespace Roadkill.Core.Cache
 		{
 			string key = PAGES_BY_TAG;
 			key = key.Replace("{tag}", tag);
+
+			return key;
+		}
+
+		public static string PluginSettingsKey(TextPlugin plugin)
+		{
+			string key = PLUGIN_SETTINGS;
+			key = key.Replace("{type}", plugin.GetType().Name);
+			key = key.Replace("{id}", plugin.Id);
 
 			return key;
 		}

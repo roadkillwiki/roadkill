@@ -23,10 +23,10 @@ module Roadkill.Site.FileManager
 			var li = $("ul.navigator li:last-child").prev("li");
 			var level: number = li.attr("data-level");
 
-			this.removeLastItem(level);
+            BreadCrumbTrail.removeLastItem();
 		}
 
-		public static addNewItem(data : DirectorySummary)
+		public static addNewItem(data : DirectoryViewModel)
 		{
 			var htmlBuilder = new HtmlBuilder();
 			var count: number = $("ul.navigator li").length;

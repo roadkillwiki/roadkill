@@ -1,0 +1,793 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="data">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" minOccurs="0"                     msdata:Ordinal="2" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="type" type="xsd:string" />
+        <xsd:attribute name="mimetype" type="xsd:string" />
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="Navigation_Login" xml:space="preserve">
+	<value>Войти</value>
+</data>
+<data name="Navigation_Logout" xml:space="preserve">
+	<value>Выход</value>
+</data>
+<data name="Navigation_Register" xml:space="preserve">
+	<value>Регистрация</value>
+</data>
+<data name="Navigation_MainPage" xml:space="preserve">
+	<value>Главная страница</value>
+</data>
+<data name="Navigation_Categories" xml:space="preserve">
+	<value>Категории</value>
+</data>
+<data name="Navigation_AllPages" xml:space="preserve">
+	<value>Все страницы</value>
+</data>
+<data name="Navigation_NewPage" xml:space="preserve">
+	<value>Новая страница</value>
+</data>
+<data name="Navigation_SiteSettings" xml:space="preserve">
+	<value>Настройки сайта</value>
+</data>
+<data name="Navigation_Edit" xml:space="preserve">
+	<value>Редактировать</value>
+</data>
+<data name="Navigation_Delete" xml:space="preserve">
+	<value>Удалить</value>
+</data>
+<data name="Navigation_History" xml:space="preserve">
+	<value>История</value>
+</data>
+<data name="Navigation_ViewHistory" xml:space="preserve">
+	<value>Просмотреть историю</value>
+</data>
+<data name="Button_Login" xml:space="preserve">
+	<value>Войти</value>
+</data>
+<data name="Button_Cancel" xml:space="preserve">
+	<value>Отменить</value>
+</data>
+<data name="Button_Save" xml:space="preserve">
+	<value>Сохранить</value>
+</data>
+<data name="Button_Preview" xml:space="preserve">
+	<value>Предпросмотр</value>
+</data>
+<data name="Button_Import" xml:space="preserve">
+	<value>Импортировать</value>
+</data>
+<data name="Button_Rename" xml:space="preserve">
+	<value>Переименовать</value>
+</data>
+<data name="Button_Upload" xml:space="preserve">
+	<value>Загрузить</value>
+</data>
+<data name="Button_Search" xml:space="preserve">
+	<value>Поиск</value>
+</data>
+<data name="Shared_EditLink" xml:space="preserve">
+	<value>Редактировать</value>
+</data>
+<data name="Shared_DeleteLink" xml:space="preserve">
+	<value>Удалить</value>
+</data>
+<data name="Shared_ConfirmLink" xml:space="preserve">
+	<value>Подтвердить</value>
+</data>
+<data name="Shared_NotLoggedIn" xml:space="preserve">
+	<value>Вы не вошли</value>
+</data>
+<data name="Shared_LoggedInAs" xml:space="preserve">
+	<value>Вы вошли как</value>
+</data>
+<data name="Shared_LastModified" xml:space="preserve">
+	<value>Последние изменения на странице в</value>
+</data>
+<data name="Shared_PoweredBy" xml:space="preserve">
+	<value>Работает на Roadkill Wiki</value>
+</data>
+<data name="Shared_Firstname" xml:space="preserve">
+	<value>Имя:</value>
+</data>
+<data name="Shared_Lastname" xml:space="preserve">
+	<value>Фамилия:</value>
+</data>
+<data name="Shared_Username" xml:space="preserve">
+	<value>Имя пользователя:</value>
+</data>
+<data name="Shared_Email_Label" xml:space="preserve">
+	<value>E-mail:</value>
+</data>
+<data name="Shared_Password_Label" xml:space="preserve">
+	<value>Пароль:</value>
+</data>
+<data name="Shared_PasswordConfirm_Label" xml:space="preserve">
+	<value>Подтверждение пароля:</value>
+</data>
+<data name="Shared_Error" xml:space="preserve">
+	<value>Произошла ошибка:</value>
+</data>
+<data name="User_Validation_Username" xml:space="preserve">
+	<value>Поле Имя пользователя является обязательным.</value>
+</data>
+<data name="User_Validation_Email" xml:space="preserve">
+	<value>Поле E-mail является обязательным.</value>
+</data>
+<data name="User_Validation_Email_Check" xml:space="preserve">
+	<value>Поле E-mail не содержит действительный адрес электронной почты.</value>
+</data>
+<data name="User_Validation_UsernameExists" xml:space="preserve">
+	<value>Имя пользователя {0} уже существует.</value>
+</data>
+<data name="User_Validation_UsernameEmpty" xml:space="preserve">
+	<value>Имя пользователя пусто.</value>
+</data>
+<data name="User_Validation_EmailExists" xml:space="preserve">
+	<value>E-mail {0} уже существует.</value>
+</data>
+<data name="User_Validation_PasswordsDontMatch" xml:space="preserve">
+	<value>Пароли не совпадают.</value>
+</data>
+<data name="User_Validation_PasswordTooShort" xml:space="preserve">
+	<value>Пароль меньше {0} символов</value>
+</data>
+<data name="Login_Title" xml:space="preserve">
+	<value>Войти</value>
+</data>
+<data name="Login_ForgottenPassword" xml:space="preserve">
+	<value>Забыли пароль?</value>
+</data>
+<data name="Login_Unsuccessful_Title" xml:space="preserve">
+	<value>Вход был неудачным</value>
+</data>
+<data name="Login_Error" xml:space="preserve">
+	<value>Имя пользователя или пароль неверны</value>
+</data>
+<data name="Signup_Title" xml:space="preserve">
+	<value>Регистрация / регистрация</value>
+</data>
+<data name="Signup_Label" xml:space="preserve">
+	<value>Пожалуйста, введите ваши данные ниже.</value>
+</data>
+<data name="Signup_Button" xml:space="preserve">
+	<value>Регистрация нового пользователя</value>
+</data>
+<data name="Signup_Complete_Title" xml:space="preserve">
+	<value>Регистрация завершена.</value>
+</data>
+<data name="Signup_Complete_Label" xml:space="preserve">
+	<value>Спасибо, письмо было отправлено на адрес {0} с подробной информацией о том, как завершить регистрацию.</value>
+</data>
+<data name="Signup_Complete_NoEmail" xml:space="preserve">
+	<value>Не получили Ваш e-mail?</value>
+</data>
+<data name="Signup_Complete_EmailResent" xml:space="preserve">
+	<value>Подтверждение по электронной почте было перепосланно.</value>
+</data>
+<data name="Signup_Complete_EmailResend_Button" xml:space="preserve">
+	<value>Отправить повторно письмо-подтверждение</value>
+</data>
+<data name="Signup_Error_General" xml:space="preserve">
+	<value>Произошла ошибка в регистрации.</value>
+</data>
+<data name="Signup_Error_Recaptcha" xml:space="preserve">
+	<value>Эти два слова для анти-спам поля были неверными</value>
+</data>
+<data name="Activate_Title" xml:space="preserve">
+	<value>Активизация учетной записи</value>
+</data>
+<data name="Activate_Success_Title" xml:space="preserve">
+	<value>Активация прошла успешна</value>
+</data>
+<data name="Activate_Error_Title" xml:space="preserve">
+	<value>Активация не удалась</value>
+</data>
+<data name="Activate_Label" xml:space="preserve">
+	<value>Ваша учетная запись была успешно активирована.</value>
+</data>
+<data name="Activate_Link" xml:space="preserve">
+	<value>Нажмите сюда, чтобы войти</value>
+</data>
+<data name="Activate_Error" xml:space="preserve">
+	<value>Проблема активации аккаунта. Возможно, аккаунт уже был активирован.</value>
+</data>
+<data name="ResetPassword_Title" xml:space="preserve">
+	<value>Сбросить пароль.</value>
+</data>
+<data name="ResetPassword_Label" xml:space="preserve">
+	<value>Введите адрес электронной почты ниже, чтобы сбросить пароль. После этого вы получите письмо с ссылкой для восстановления пароля.</value>
+</data>
+<data name="ResetPassword_Complete_Label" xml:space="preserve">
+	<value>Пожалуйста, введите новый пароль.</value>
+</data>
+<data name="ResetPassword_Button" xml:space="preserve">
+	<value>Сброс пароля</value>
+</data>
+<data name="ResetPassword_Successful_Title" xml:space="preserve">
+	<value>Пароль успешно сброшен.</value>
+</data>
+<data name="ResetPassword_Successful_Label" xml:space="preserve">
+	<value>Ваш пароль был успешно сбросить.</value>
+</data>
+<data name="ResetPassword_Invalid_Title" xml:space="preserve">
+	<value>Сброшенный пароль недействительный.</value>
+</data>
+<data name="ResetPassword_Invalid_Label" xml:space="preserve">
+	<value>Ключ сброса пароля устарел.</value>
+</data>
+<data name="ResetPassword_EmailSent_Title" xml:space="preserve">
+	<value>Запрос на сброса пароля был отправлен.</value>
+</data>
+<data name="ResetPassword_EmailSent_Label" xml:space="preserve">
+	<value>Спасибо, письмо было отправлено на адрес {0} с подробной информацией о том, как изменить пароль.</value>
+</data>
+<data name="ResetPassword_Error" xml:space="preserve">
+	<value>Пароли не совпадают, или слишком короткие</value>
+</data>
+<data name="ResetPassword_Error_ServerError" xml:space="preserve">
+	<value>Сброса пароля не удалось с сервера ошибку.</value>
+</data>
+<data name="ResetPassword_Error_EmailNotFound" xml:space="preserve">
+	<value>Адрес электронной почты не найден</value>
+</data>
+<data name="ResetPassword_Error_MissingEmail" xml:space="preserve">
+	<value>Пожалуйста, введите адрес электронной почты</value>
+</data>
+<data name="Profile_Title" xml:space="preserve">
+	<value>Профиль</value>
+</data>
+<data name="Profile_Error" xml:space="preserve">
+	<value>Произошла ошибка обновление профиля</value>
+</data>
+<data name="NoMainPage_Title" xml:space="preserve">
+	<value>У вас не создана Главная Страница</value>
+</data>
+<data name="NoMainPage_Label" xml:space="preserve">
+	<value>Чтобы настроить главную страницу, создайте страницу и присвоить ей тэг &apos;homepage&apos;.</value>
+</data>
+<data name="Search_PlaceHolder" xml:space="preserve">
+	<value>Введите текст для поиска</value>
+</data>
+<data name="Search_Results" xml:space="preserve">
+	<value>Результаты поиска для &apos;{0}&apos;</value>
+</data>
+<data name="Search_NoResults" xml:space="preserve">
+	<value>Ваш поиск &apos;{0}&apos; не соответствует ни одной странице</value>
+</data>
+<data name="AllPages_Title" xml:space="preserve">
+	<value>Все страницы</value>
+</data>
+<data name="AllPages_NoPages" xml:space="preserve">
+	<value>Страницы не найдены.</value>
+</data>
+<data name="AllTags_Title" xml:space="preserve">
+	<value>Все Теги</value>
+</data>
+<data name="AllTags_NoResults" xml:space="preserve">
+	<value>Тегов не найдено.</value>
+</data>
+<data name="AllPages_TitleColumnHeading" xml:space="preserve">
+	<value>Название</value>
+</data>
+<data name="Pages_ForUser" xml:space="preserve">
+	<value>Все страницы, созданные {0}</value>
+</data>
+<data name="Pages_ForUser_NoPages" xml:space="preserve">
+	<value>{0} еще не имеет созданных страниц.</value>
+</data>
+<data name="Pages_ForTag" xml:space="preserve">
+	<value>Все страницы для тега {0}</value>
+</data>
+<data name="Pages_ForTag_NoPages" xml:space="preserve">
+	<value>Нет страниц для {0}</value>
+</data>
+<data name="History_Title" xml:space="preserve">
+	<value>История страницы</value>
+</data>
+<data name="History_Version" xml:space="preserve">
+	<value>Версия</value>
+</data>
+<data name="History_EditedOn" xml:space="preserve">
+	<value>Отредактировано в</value>
+</data>
+<data name="History_EditedBy" xml:space="preserve">
+	<value>Редактировал</value>
+</data>
+<data name="History_RevertLink" xml:space="preserve">
+	<value>Вернуть к состоянию</value>
+</data>
+<data name="Version_Title" xml:space="preserve">
+	<value>Версия {0}</value>
+</data>
+<data name="Version_BackLink" xml:space="preserve">
+	<value>назад</value>
+</data>
+<data name="Page_Info_CreatedOn" xml:space="preserve">
+	<value>Создано:</value>
+</data>
+<data name="Page_Info_CreatedBy" xml:space="preserve">
+	<value>Создано:</value>
+</data>
+<data name="Page_Info_ModifiedOn" xml:space="preserve">
+	<value>Последнее изменение:</value>
+</data>
+<data name="Page_Info_ModifiedBy" xml:space="preserve">
+	<value>Последнее изменение:</value>
+</data>
+<data name="Page_Validation_Title" xml:space="preserve">
+	<value>Поле Название является обязательным.</value>
+</data>
+<data name="EditPage_Title" xml:space="preserve">
+	<value>Добавить/редактировать страницу</value>
+</data>
+<data name="EditPage_Title_Label" xml:space="preserve">
+	<value>Название</value>
+</data>
+<data name="EditPage_Tags_Label" xml:space="preserve">
+	<value>Тэги</value>
+</data>
+<data name="EditPage_AdminOnly" xml:space="preserve">
+	<value>Эта страница может быть отредактирована толька администраторами.</value>
+</data>
+<data name="EditPage_Preview" xml:space="preserve">
+	<value>Предпросмотр</value>
+</data>
+<data name="EditPage_LinkUrl_PlaceHolder" xml:space="preserve">
+	<value>введите адрес или имя страницы</value>
+</data>
+<data name="EditPage_LinkText_PlaceHolder" xml:space="preserve">
+	<value>Текст ссылки</value>
+</data>
+<data name="EditPage_Image_Title" xml:space="preserve">
+	<value>Название изображения</value>
+</data>
+<data name="EditPage_Error" xml:space="preserve">
+	<value>Невозможно сохранить страницу:</value>
+</data>
+<data name="EditPage_Toolbar_Bold" xml:space="preserve">
+	<value>Жирный шрифт</value>
+</data>
+<data name="EditPage_Toolbar_BulletList" xml:space="preserve">
+	<value>Список</value>
+</data>
+<data name="EditPage_Toolbar_Heading2" xml:space="preserve">
+	<value>Заголовок 2 уровня</value>
+</data>
+<data name="EditPage_Toolbar_Heading3" xml:space="preserve">
+	<value>Заголовок 3 уровня</value>
+</data>
+<data name="EditPage_Toolbar_Heading4" xml:space="preserve">
+	<value>Заголовок 4 уровня.</value>
+</data>
+<data name="EditPage_Toolbar_Heading5" xml:space="preserve">
+	<value>Заголовок 5 уровня.</value>
+</data>
+<data name="EditPage_Toolbar_Help" xml:space="preserve">
+	<value>Справка синтаксис разметки.</value>
+</data>
+<data name="EditPage_Toolbar_Image" xml:space="preserve">
+	<value>Вставить изображение</value>
+</data>
+<data name="EditPage_Toolbar_Italic" xml:space="preserve">
+	<value>Курсив</value>
+</data>
+<data name="EditPage_Toolbar_Link" xml:space="preserve">
+	<value>URL Ссылка</value>
+</data>
+<data name="EditPage_Toolbar_NumberList" xml:space="preserve">
+	<value>Нумерованный список</value>
+</data>
+<data name="EditPage_Toolbar_Underline" xml:space="preserve">
+	<value>Подчеркивание</value>
+</data>
+<data name="SiteSettings_Configuration" xml:space="preserve">
+	<value>Конфигурация</value>
+</data>
+<data name="SiteSettings_Users" xml:space="preserve">
+	<value>Пользователи</value>
+</data>
+<data name="SiteSettings_Tools" xml:space="preserve">
+	<value>Инструменты</value>
+</data>
+<data name="SiteSettings_Configuration_Title" xml:space="preserve">
+	<value>Параметры сайта</value>
+</data>
+<data name="SiteSettings_Configuration_Site" xml:space="preserve">
+	<value>Сайт</value>
+</data>
+<data name="SiteSettings_Configuration_SiteName" xml:space="preserve">
+	<value>Название сайта</value>
+</data>
+<data name="SiteSettings_Configuration_SiteUrl" xml:space="preserve">
+	<value>URL сайта</value>
+</data>
+<data name="SiteSettings_Configuration_Database" xml:space="preserve">
+	<value>База данных</value>
+</data>
+<data name="SiteSettings_Configuration_DatabaseType" xml:space="preserve">
+	<value>Тип базы данных</value>
+</data>
+<data name="SiteSettings_Configuration_DatabaseConnectionString" xml:space="preserve">
+	<value>Строка подключения к базе данных</value>
+</data>
+<data name="SiteSettings_Configuration_Security" xml:space="preserve">
+	<value>Безопасность</value>
+</data>
+<data name="SiteSettings_Configuration_UseWindowsAuth" xml:space="preserve">
+	<value>Использовать проверку подлинности Windows</value>
+</data>
+<data name="SiteSettings_Configuration_AllowUserSignups" xml:space="preserve">
+	<value>Разрешить регистрацию пользователей</value>
+</data>
+<data name="SiteSettings_Configuration_EnableRecaptcha" xml:space="preserve">
+	<value>Включить ReCaptcha</value>
+</data>
+<data name="SiteSettings_Configuration_RecaptchaPrivateKey" xml:space="preserve">
+	<value>Recaptcha закрытый ключ</value>
+</data>
+<data name="SiteSettings_Configuration_RecaptchaPublicKey" xml:space="preserve">
+	<value>Recaptcha открытый ключ</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Connection" xml:space="preserve">
+	<value>Идентификация/LDAP строка подключения</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Username" xml:space="preserve">
+	<value>LDAP имя пользователя</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Password" xml:space="preserve">
+	<value>LDAP пароль</value>
+</data>
+<data name="SiteSettings_Configuration_EditorRole" xml:space="preserve">
+	<value>Роль редактора/имя группы безопасности</value>
+</data>
+<data name="SiteSettings_Configuration_AdminRole" xml:space="preserve">
+	<value>Админ роль/имя группы безопасности</value>
+</data>
+<data name="SiteSettings_Configuration_General" xml:space="preserve">
+	<value>Общее</value>
+</data>
+<data name="SiteSettings_Configuration_MarkupType" xml:space="preserve">
+	<value>Тип разметки</value>
+</data>
+<data name="SiteSettings_Configuration_Theme" xml:space="preserve">
+	<value>Тема</value>
+</data>
+<data name="SiteSettings_Configuration_Attachments" xml:space="preserve">
+	<value>Папка вложений</value>
+</data>
+<data name="SiteSettings_Configuration_Extensions" xml:space="preserve">
+	<value>Допустимые расширения</value>
+</data>
+<data name="SiteSettings_Configuration_CachingTitle" xml:space="preserve">
+	<value>Кэширование</value>
+</data>
+<data name="SiteSettings_Configuration_ObjectCaching" xml:space="preserve">
+	<value>Кэширование объектов</value>
+</data>
+<data name="SiteSettings_Configuration_BrowserCaching" xml:space="preserve">
+	<value>Кэширование на стороне браузера</value>
+</data>
+<data name="SiteSettings_Configuration_Error" xml:space="preserve">
+	<value>Не удалось сохранить настройки</value>
+</data>
+<data name="SiteSettings_Configuration_Caching" xml:space="preserve">
+	<value>(Этот ключ больше не используется. Сниматься в 2.0)</value>
+</data>
+<data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
+	<value>(Этот ключ больше не используется. Сниматься в 2.0)</value>
+</data>
+<data name="SiteSettings_Configuration_SiteName_Help" xml:space="preserve">
+	<value>Имя сайта, который используется в некоторых темах.</value>
+</data>
+<data name="SiteSettings_Configuration_SiteUrl_Help" xml:space="preserve">
+	<value>Адрес сайта, который используется в сообщениях электронной почты при регистрации и сброса пароля. Не добавляйте завершающий слэш.</value>
+</data>
+<data name="SiteSettings_Configuration_ConnectionStrings_Help" xml:space="preserve">
+	<value>Изменить стоку подключения - вам нужно будет пересоздать схему в разделе Инструменты для корректной работы.</value>
+</data>
+<data name="SiteSettings_Configuration_DatabaseType_Help" xml:space="preserve">
+	<value>Изменить тип базы данных - вам нужно будет пересоздать схему в разделе Инструменты для корректной работы.</value>
+</data>
+<data name="SiteSettings_Configuration_DatabaseConnectionString_Help" xml:space="preserve">
+	<value>Строка подключения к базе данных.</value>
+</data>
+<data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
+	<value>{bold}ВНИМАНИЕ{/bold} При изменениях этого вас может заблокировать на сайте. Сделайте резервную копию вашего web.config перед сохранением. {br}{br} Включение и отключение использования проверки подлинности Windows и Active Directory для аутентификации.</value>
+</data>
+<data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
+	<value>Отметьте эту опцию, если вы хотите разрешить людям  зарегистрироваться в качестве нового пользователя.</value>
+</data>
+<data name="SiteSettings_Configuration_EnableRecaptcha_Help" xml:space="preserve">
+	<value>Включить поддержка Recaptcha - бесплатный анти-спам бот сервис . Вам нужно, чтобы зарегистрироваться и скопировать открытый и закрытый ключ в поле ниже.</value>
+</data>
+<data name="SiteSettings_Configuration_RecaptchaPrivateKey_Help" xml:space="preserve">
+	<value>Закрытый ключ Recaptcha, который предоставляется после регистрации в ReCaptcha.</value>
+</data>
+<data name="SiteSettings_Configuration_RecaptchaPublicKey_Help" xml:space="preserve">
+	<value>Открытый ключ Recaptcha, который предоставляется после регистрации в ReCaptcha.</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Connection_Help" xml:space="preserve">
+	<value>LDAP строка соединения для Active Direction соединения.Должна быть в формате LDAP://mydc01.company.internal (LDAP - должен быть в верхнем регистре )</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Username_Help" xml:space="preserve">
+	<value>Имя пользователя для аутентификации с Active Directory. Оставьте пустым, если пул приложение работает под учетной записью пользователя с таким разрешением.</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Password_Help" xml:space="preserve">
+	<value>Пароль, используемый для аутентификации.</value>
+</data>
+<data name="SiteSettings_Configuration_EditorRole_Help" xml:space="preserve">
+	<value>Это имя роли редактора - люди, которые могут редактировать и создавать страницы. Это используется только для Active Directory / Windows аутентификации - оставить это поле пустым, чтобы позволить всем пользователям быть редакторами.</value>
+</data>
+<data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
+	<value>{bold}ВНИМАНИЕ{/bold} При изменениях этого вас может заблокировать на сайте. Сделайте резервную копию вашего web.config перед сохранением. {br}{br} Это имя роли администратора. Администраторы имеют те же права, редакторов, но и иметь доступ к настройкам конфигурации и инструментам сайта.</value>
+</data>
+<data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
+	<value>Это формат разметки, который используется. Roadkill в настоящее время поддерживает следующие значения: Creole, Markdown, MediaWiki.</value>
+</data>
+<data name="SiteSettings_Configuration_Theme_Help" xml:space="preserve">
+	<value>Тема используемая сайтом. Она должена совпадать с именем папки в каталоге Themes.</value>
+</data>
+<data name="SiteSettings_Configuration_Attachments_Help" xml:space="preserve">
+	<value>Это каталог, в который загружаются все файлы. Путь должен начинаться с ~/, чтобы указать на корень сайта.</value>
+</data>
+<data name="SiteSettings_Configuration_Extensions_Help" xml:space="preserve">
+	<value>Это расширения файлов, с которыми могут быть загружены файлы. Через запятую.</value>
+</data>
+<data name="SiteSettings_Configuration_ObjectCaching_Help" xml:space="preserve">
+	<value>Включает кэширование объектов. Roadkill кэширует все страницы и контент в памяти после извлечения его из базы данных. Кэш автоматически обновляется при изменении страницы. Рекомендуется повышение способности сайта. Кэширование объектов в настоящее время не поддерживается для веб-сады или веб-ферм.</value>
+</data>
+<data name="SiteSettings_Configuration_BrowserCaching_Help" xml:space="preserve">
+	<value>Roadkill кэширует все страницы и контент в памяти после извлечения его из базы данных. Кэш автоматически обновляется при изменении страницы. Рекомендуется для повышения производительности сайта. Кэширование объектов в настоящее время не поддерживается для веб-садов или веб-ферм.</value>
+</data>
+<data name="SiteSettings_Configuration_Caching_Help" xml:space="preserve">
+	<value>(Этот ключ больше не используется. Сниматься в 2.0)</value>
+</data>
+<data name="SiteSettings_Configuration_CachePageText_Help" xml:space="preserve">
+	<value>(Этот ключ больше не используется. Сниматься в 2.0)</value>
+</data>
+<data name="SiteSettings_Users_Title" xml:space="preserve">
+	<value>Пользователи сайта</value>
+</data>
+<data name="SiteSettings_Users_ColumnHeader_Username" xml:space="preserve">
+	<value>Имя пользователя</value>
+</data>
+<data name="SiteSettings_Users_ColumnHeader_Email" xml:space="preserve">
+	<value>E-mail</value>
+</data>
+<data name="SiteSettings_Users_Admins" xml:space="preserve">
+	<value>Администраторы</value>
+</data>
+<data name="SiteSettings_Users_NewAdmin" xml:space="preserve">
+	<value>Новый администратор</value>
+</data>
+<data name="SiteSettings_Users_Editors" xml:space="preserve">
+	<value>Редакторы</value>
+</data>
+<data name="SiteSettings_Users_NewEditor" xml:space="preserve">
+	<value>Новый пользователь редактор</value>
+</data>
+<data name="SiteSettings_Users_AddAdminDialog_Title" xml:space="preserve">
+	<value>Добавить администратора</value>
+</data>
+<data name="SiteSettings_Users_AddEditorDialog_Title" xml:space="preserve">
+	<value>Добавить редактора</value>
+</data>
+<data name="SiteSettings_Users_EditUserDialog_Title" xml:space="preserve">
+	<value>Редактировать пользователя</value>
+</data>
+<data name="SiteSettings_Users_AddUserDialog_Help" xml:space="preserve">
+	<value>Для существующих пользователей, оставьте поле пароля пустым, чтобы изменить только имя пользователя.</value>
+</data>
+<data name="SiteSettings_Users_AddUserDialog_Error" xml:space="preserve">
+	<value>Не удалось сохранить данные пользователя:</value>
+</data>
+<data name="SiteSettings_Users_EditUser_Error" xml:space="preserve">
+	<value>Обновление пользователя не удалось.</value>
+</data>
+<data name="SiteSettings_Users_AD_Title" xml:space="preserve">
+	<value>Windows/Active Directory проверка подлинности включена</value>
+</data>
+<data name="SiteSettings_Users_AD_Label1" xml:space="preserve">
+	<value>Имена пользователей и пароли не редактируются в режиме проверки подлинности Windows - вы должны сделать это через Active Directory.</value>
+</data>
+<data name="SiteSettings_Users_AD_Label2" xml:space="preserve">
+	<value>Чтобы добавить пользователя в качестве администратора или редактора, убедитесь, что они являются частью группы безопасности Windows, который вы указали для &quot;AdminRolename&quot; и &quot;EditorRolename&quot; настройки в web.config.</value>
+</data>
+<data name="SiteSettings_Tools_Title" xml:space="preserve">
+	<value>Средства управления сайтом</value>
+</data>
+<data name="SiteSettings_Tools_ClearDatabase" xml:space="preserve">
+	<value>Очистить базу данных</value>
+</data>
+<data name="SiteSettings_Tools_ClearDatabase_Label" xml:space="preserve">
+	<value>Удаляет все страницы и текст из базы данных. Это не приводит к удалению пользователей.</value>
+</data>
+<data name="SiteSettings_Tools_ClearDatabase_Message" xml:space="preserve">
+	<value>База данных очищена</value>
+</data>
+<data name="SiteSettings_Tools_RebuildSearch" xml:space="preserve">
+	<value>Перестроить индекс поиска</value>
+</data>
+<data name="SiteSettings_Tools_RebuildSearch_Label" xml:space="preserve">
+	<value>Вызывает перестройку индекса страниц поиска, полезно, если начинается рассинхронизация поиска по какой-то причине.</value>
+</data>
+<data name="SiteSettings_Tools_RebuildSearch_Message" xml:space="preserve">
+	<value>Перестроение поискового индекса завершено</value>
+</data>
+<data name="SiteSettings_Tools_ExportXml" xml:space="preserve">
+	<value>Экспорт в XML</value>
+</data>
+<data name="SiteSettings_Tools_ExportXml_Label" xml:space="preserve">
+	<value>Экспортирует все содержание страницы текста, и все истории, как единый XML файла.</value>
+</data>
+<data name="SiteSettings_Tools_ExportXml_Error" xml:space="preserve">
+	<value>Экспорт в XML не удался: {0}</value>
+</data>
+<data name="SiteSettings_Tools_ExportContent" xml:space="preserve">
+	<value>Экспортировать все содержимое в виде ZIP</value>
+</data>
+<data name="SiteSettings_Tools_ExportContent_Label" xml:space="preserve">
+	<value>Экспорт всех страниц, в том числе текстовые содержания серии &quot;. Вики&quot; файлов. Только текущее содержание и теги, ни одна история не предоставляется. Этот почтовый файл не включает вложения папки.</value>
+</data>
+<data name="SiteSettings_Tools_ExportContent_Error" xml:space="preserve">
+	<value>Wiki содержание экспорта не удалось: {0}</value>
+</data>
+<data name="SiteSettings_Tools_ExportAttachments" xml:space="preserve">
+	<value>Экспорт вложениий в виде ZIP</value>
+</data>
+<data name="SiteSettings_Tools_ExportAttachments_Label" xml:space="preserve">
+	<value>Экспортирует все содержимое папки и вложенные папки вложений в виде архива.</value>
+</data>
+<data name="SiteSettings_Tools_ExportAttachments_Error" xml:space="preserve">
+	<value>Экспорт вложений не удался: {0}</value>
+</data>
+<data name="SiteSettings_Tools_ScrewTurnImport" xml:space="preserve">
+	<value>Импорт из ScrewTurn</value>
+</data>
+<data name="SiteSettings_Tools_ScrewTurnImport_Label" xml:space="preserve">
+	<value>Импортирует все содержимое ScrewTurn 2 базы данных. Вам нужно будет установить на MediaWiki markuptype в settings/web.config для совместимости форматов. Так как ScrewTurn использует в качестве синтаксиса вариацию MediaWiki, некоторые содержимое не будет отображаться идеально. Это включает в себя некоторые изображения и ссылки.</value>
+</data>
+<data name="SiteSettings_Tools_ScrewTurnImport_Connection" xml:space="preserve">
+	<value>ScrewTurn строка соединения:</value>
+</data>
+<data name="SiteSettings_Tools_ScrewTurnImport_Message" xml:space="preserve">
+	<value>Импорт прошел успешно</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag" xml:space="preserve">
+	<value>Переименовать тэг</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag_Label" xml:space="preserve">
+	<value>Это переименует тэг, и обновить все страницы, которые ссылаются на данный тэг. Тэг чувствителен к регистру.</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag_Existing" xml:space="preserve">
+	<value>Существующий тег:</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag_New" xml:space="preserve">
+	<value>Новое имя тега:</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag_Message" xml:space="preserve">
+	<value>Тэг успешно переименован</value>
+</data>
+<data name="SiteSettings_Validation_AttachmentsEmpty" xml:space="preserve">
+	<value>Папка вложений пуста.</value>
+</data>
+<data name="SiteSettings_Validation_AttachmentsReservedName" xml:space="preserve">
+	<value>&apos;~/Files&apos; зарезервированный путь, пожалуйста, выберите другую папку вложений.</value>
+</data>
+<data name="SiteSettings_Validation_ConnectionEmpty" xml:space="preserve">
+	<value>Строка подключения пуста.</value>
+</data>
+<data name="SiteSettings_Validation_MarkupTypeEmpty" xml:space="preserve">
+	<value>Тип разметки пуст.</value>
+</data>
+<data name="SiteSettings_Validation_ThemeEmpty" xml:space="preserve">
+	<value>Тема пуста.</value>
+</data>
+<data name="SiteSettings_Validation_SiteNameEmpty" xml:space="preserve">
+	<value>Имя сайта пусто.</value>
+</data>
+<data name="SiteSettings_Validation_SiteUrlEmpty" xml:space="preserve">
+	<value>Адрес сайта пуст.</value>
+</data>
+<data name="FileManager_Title" xml:space="preserve">
+	<value>Управление файлами</value>
+</data>
+<data name="FileManager_Upload" xml:space="preserve">
+	<value>Загрузка файлов</value>
+</data>
+<data name="FileManager_AddFolder" xml:space="preserve">
+	<value>Новая папка</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="FileManager_AddFolder_Cancel" xml:space="preserve">
+	<value>Отменить новую папку</value>
+</data>
+<data name="FileManager_Delete_File" xml:space="preserve">
+	<value>Удалить файл</value>
+</data>
+<data name="FileManager_Select" xml:space="preserve">
+	<value>Выбирать</value>
+</data>
+<data name="FileManager_Delete_Folder" xml:space="preserve">
+	<value>Удалить папку</value>
+</data>
+<data name="FileManager_Delete_Confirm" xml:space="preserve">
+	<value>Вы уверены, что хотите удалить {0}?</value>
+</data>
+<data name="FileManager_Delete_Success" xml:space="preserve">
+	<value>{0} успешно удалены.</value>
+</data>
+<data name="FileManager_Delete_Error" xml:space="preserve">
+	<value>Произошла ошибка удаления {0}</value>
+</data>
+<data name="FileManager_Error_DirectoryListing" xml:space="preserve">
+	<value>Произошла ошибка получения каталога:</value>
+</data>
+<data name="FileManager_Error_DeleteFolder" xml:space="preserve">
+	<value>Произошла ошибка удаления папки:</value>
+</data>
+<data name="FileManager_Error_DeleteFile" xml:space="preserve">
+	<value>Произошла ошибка удаления файла:</value>
+</data>
+<data name="FileManager_Error_CreateFolder" xml:space="preserve">
+	<value>Произошла ошибка создания папки:</value>
+</data>
+<data name="FileManager_UploadingProgress" xml:space="preserve">
+	<value>Загрузка ...</value>
+</data>
+<data name="FileManager_Watermark" xml:space="preserve">
+	<value>Перетащите файлы сюда, чтобы загрузить. Дважды щелкните, для навигации по папкам</value>
+</data>
+<data name="FileManager_Extension_Not_Supported" xml:space="preserve">
+	<value>Только файлы с расширением {0} могут быть загружены.</value>
+</data>
+<data name="Homepage_Tagname" xml:space="preserve">
+	<value>homepage</value>
+</data>
+<data name="SiteSettings_Configuration_HeadContent" xml:space="preserve">
+	<value>Дополнительный контент тега head</value>
+</data>
+<data name="SiteSettings_Configuration_FileManager" xml:space="preserve">
+	<value>Файловый менеджер</value>
+</data>
+<data name="SiteSettings_Configuration_HeadContent_Help" xml:space="preserve">
+	<value>Любые дополнительные скрипты или HTML введенные здесь,будут добавлены в области {head} страницы.</value>
+</data>
+<data name="SiteSettings_Configuration_NavMenu" xml:space="preserve">
+	<value>Разметка левого меню</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_Configuration_NavMenu_Help" xml:space="preserve">
+	<value>Навигации по меню, которое обычно располагается на левой стороне, и изменяется в соответствии с темой. Разметка должна быть сделана в текущем формате вики-разметки. Вы также можете использовать следующие маркеры которые заменяются ссылками (некоторые из которых могут быть пусты, если вы не вошли в систему): {MENUTOKENS}</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
+	<value>Автоматическая перезапись существующих файлов при загрузке</value>
+</data>
+<data name="SiteSettings_Configuration_FileManager_OverwriteExisting_Help" xml:space="preserve">
+	<value>Проверьте это, если вы хотите имена файлов, которые уже существуют в папке вложения, которые будут автоматически перезаписаны.</value>
+</data>
+<data name="SiteSettings_Plugins_Title" xml:space="preserve">
+	<value>Плагины</value>
+</data>
+
+</root>

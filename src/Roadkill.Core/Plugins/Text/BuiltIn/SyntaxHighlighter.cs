@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Core.Plugins.BuiltIn
 {
@@ -44,7 +45,7 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		{
 			get
 			{
-				return "Syntax highlights a code block, using the language you specify. Example:<br/>" +
+				return "Syntax highlights a code block, using the language you specify. Example:\n\n" +
 						"[[[code lang=sql|ENTER YOUR CODE HERE]]]";
 			}
 		}
@@ -63,9 +64,9 @@ namespace Roadkill.Core.Plugins.BuiltIn
 			_replacePattern = ParserSafeToken(_replacePattern);
 		}
 
-		public SyntaxHighlighter(ApplicationSettings applicationSettings, IRepository repository)
-			: base(applicationSettings, repository)
+		public override void OnInitializeSettings(Settings settings)
 		{
+			settings.SetValue("name", "value");
 		}
 
 		public override string BeforeParse(string text)
@@ -110,11 +111,11 @@ namespace Roadkill.Core.Plugins.BuiltIn
 
 			foreach (string file in HeadContent.JsFiles)
 			{
-				AddScriptWithHeadJS("javascript/" + file);
+				AddScript("javascript/" + file);
 			}
 
-			AddOnLoadedFunction("SyntaxHighlighter.all()");
-			html += GetScriptHtmlWithHeadJS();
+			SetHeadJsOnLoadedFunction("SyntaxHighlighter.all()");
+			html += GetJavascriptHtml();
 
 			return html;
 		}

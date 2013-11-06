@@ -26,7 +26,7 @@
 
 <div id="settings-container">
 	<div>
-		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ClearDatabase, "ClearPages", null, new { @class = "refreshlink btn btn-success" })<br />
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ClearDatabase, "ClearPages", null, new { @class = "refreshlink btn btn-danger" })<br />
 		<p>@SiteStrings.SiteSettings_Tools_ClearDatabase_Label</p>
 	</div>
 
@@ -34,6 +34,11 @@
 		@Html.ActionLink(SiteStrings.SiteSettings_Tools_RebuildSearch, "UpdateSearchIndex", null, new { @class = "refreshlink btn btn-success" })<br />
 		<p>@SiteStrings.SiteSettings_Tools_RebuildSearch_Label</p>
 	</div>
+
+    <div>
+        @Html.ActionLink("Export as SQL", "ExportAsSQL", null, new { @class = "btn btn-success todo-translation" })<br />
+        <p>Export as SQL description TODO TRANSLATION</p>
+    </div>
 
 	<div>
 		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportXml, "ExportAsXml", null, new { @class = "btn btn-success" })<br />

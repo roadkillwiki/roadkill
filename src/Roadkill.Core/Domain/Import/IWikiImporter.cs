@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 
 namespace Roadkill.Core.Import
 {
@@ -20,7 +20,7 @@ namespace Roadkill.Core.Import
 		/// <summary>
 		/// Updates the search index after a successful import.
 		/// </summary>
-		/// <param name="searchManager">The search manager to use for the update.</param>
-		void UpdateSearchIndex(SearchManager searchManager);
+		/// <param name="searchService">The search manager to use for the update.</param>
+		void UpdateSearchIndex(SearchService searchService);
 	}
 }

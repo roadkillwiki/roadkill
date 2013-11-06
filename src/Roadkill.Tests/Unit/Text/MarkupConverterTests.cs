@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Text;
 using NUnit.Framework;
 using Roadkill.Core;
+using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
@@ -20,10 +22,12 @@ namespace Roadkill.Tests.Unit
 		private ApplicationSettings _settings;
 		private MarkupConverter _converter;
 		private RepositoryMock _repository;
+		private PluginFactoryMock _pluginFactory;
 
 		[SetUp]
 		public void Setup()
 		{
+			_pluginFactory = new PluginFactoryMock();
 			_settings = new ApplicationSettings();
 			_settings.Installed = true;
 			_settings.UseHtmlWhiteList = true;
@@ -33,7 +37,7 @@ namespace Roadkill.Tests.Unit
 			_repository.SiteSettings = new SiteSettings();
 			_repository.SiteSettings.MarkupType = "Creole";
 
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 			_converter.AbsolutePathConverter = (path) => { return path; };
 			_converter.InternalUrlForTitle = (id, title) => { return title; };
 			_converter.NewPageUrlForTitle = (title) => { return title; };
@@ -44,17 +48,17 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange, act
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 
 			// Assert
 			Assert.NotNull(_converter.Parser);
 
 			_repository.SiteSettings.MarkupType = "Markdown";
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 			Assert.NotNull(_converter.Parser);
 
 			_repository.SiteSettings.MarkupType = "Mediawiki";
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 			Assert.NotNull(_converter.Parser);
 		}
 
@@ -63,7 +67,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Markdown";
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 
 			_converter.AbsolutePathConverter = (string path) => 
 			{ 
@@ -93,7 +97,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Markdown";
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 
 			_converter.AbsolutePathConverter = (string path) =>
 			{
@@ -120,7 +124,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 			string markdown = " some text <script type=\"text/html\">while(true)alert('lolz');</script>" +
 				"<iframe src=\"google.com\"></iframe><frame>blah</frame> <applet code=\"MyApplet.class\" width=100 height=140></applet>" +
 				"<frameset src='new.html'></frameset>";
@@ -139,7 +143,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"&#x23;myanchortag\">hello world</a> <a href=\"https&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com\">google</a>\n</p>";
 
@@ -155,7 +159,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"&#x23;myanchortag\">hello world</a> <a href=\"https&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2F;some&#x2D;page&#x2D;23\">google</a>\n</p>";
 
@@ -171,7 +175,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"&#x2F;Attachments&#x2F;my&#x2F;folder&#x2F;image1&#x2E;jpg\">hello world</a>\n</p>";
 
@@ -189,7 +193,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
 			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"http&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2F;&#x3F;blah&#x3D;xyz&#x23;myanchor\">Some link text</a>\n</p>";
 
@@ -207,7 +211,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
 			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"&#x2F;wiki&#x2F;1&#x2F;foo&#x23;myanchor\">Some link text</a>\n</p>"; // use /index/ as no routing exists
 
@@ -225,7 +229,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
 			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"&#x2F;wiki&#x2F;1&#x2F;foo&#x25;23myanchor\">Some link text</a>\n</p>";
 
@@ -243,7 +247,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Markdown";
 			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"&#x2F;wiki&#x2F;1&#x2F;foo&#x23;myanchor\">Some link text</a></p>\n"; // use /index/ as no routing exists
 
@@ -260,7 +264,7 @@ namespace Roadkill.Tests.Unit
 			// Issue #159
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"http&#x3A;&#x2F;&#x2F;msdn&#x2E;microsoft&#x2E;com&#x2F;en&#x2D;us&#x2F;library&#x2F;system&#x2E;componentmodel&#x2E;descriptionattribute&#x2E;aspx\">ComponentModel.Description</a>\n</p>";
 
@@ -277,7 +281,7 @@ namespace Roadkill.Tests.Unit
 			// Issue #159
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"http&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2F;&#x22;&#x3E;javascript&#x3A;alert&#x28;&#x27;hello&#x27;&#x29;\">ComponentModel</a>\n</p>";
 
@@ -294,7 +298,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"&#x2F;Attachments&#x2F;my&#x2F;folder&#x2F;image1&#x2E;jpg\">hello world</a>\n</p>";
 
@@ -310,7 +314,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"http&#x3A;&#x2F;&#x2F;www&#x2E;blah&#x2E;com\">link1</a> <a href=\"www&#x2E;blah&#x2E;com\">link2</a> <a href=\"mailto&#x3A;spam&#x40;gmail&#x2E;com\">spam</a>\n</p>";
 
@@ -327,10 +331,10 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_settings.UseHtmlWhiteList = false;
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 
 			string htmlFragment = "<div onclick=\"javascript:alert('ouch');\">test</div>";
-			MarkupConverter converter = new MarkupConverter(_settings, _repository);
+			MarkupConverter converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 
 			// Act
 			string actualHtml = converter.ToHtml(htmlFragment);
@@ -345,7 +349,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_settings, _repository);
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
 			_converter.AbsolutePathConverter = (string s) => { return s; };
 			string htmlFragment = "Give me a {{TOC}} and a {{{TOC}}} - the should not render a TOC";
 			string expected = @"<p>Give me a <div class=""floatnone""><div class=""image&#x5F;frame""><img src=""&#x2F;Attachments&#x2F;TOC""></div></div> and a TOC - the should not render a TOC"
@@ -382,13 +386,16 @@ here is my C#code
 		}
 
 		[Test]
-		public void Should_Fire_BeforeParse_In_Custom_Variable_Plugin()
+		public void Should_Ignore_TextPlugins_BeforeParse_When_IsEnabled_Is_False()
 		{
 			// Arrange
 			string markupFragment = "This is my ~~~usertoken~~~";
 			string expectedHtml = "<p>This is my <span>usertoken</span>\n</p>";
+
 			TextPluginStub plugin = new TextPluginStub();
-			PluginFactory.RegisterTextPlugin(plugin);
+			plugin.Repository = new RepositoryMock();
+			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			_pluginFactory.RegisterTextPlugin(plugin);
 
 			// Act
 			string actualHtml = _converter.ToHtml(markupFragment);
@@ -398,13 +405,56 @@ here is my C#code
 		}
 
 		[Test]
-		public void Should_Fire_AfterParse_In_Custom_Variable_Plugin_And_Output_Should_Not_Be_Cleaned()
+		public void Should_Ignore_TextPlugins_AfterParse_When_IsEnabled_Is_False()
 		{
 			// Arrange
 			string markupFragment = "Here is some markup **some bold**";
 			string expectedHtml = "<p>Here is some markup <strong style='color:green'><iframe src='javascript:alert(test)'>some bold</strong>\n</p>";
+
 			TextPluginStub plugin = new TextPluginStub();
-			PluginFactory.RegisterTextPlugin(plugin);
+			plugin.Repository = new RepositoryMock();
+			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			_pluginFactory.RegisterTextPlugin(plugin);
+
+			// Act
+			string actualHtml = _converter.ToHtml(markupFragment);
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		public void Should_Fire_BeforeParse_In_TextPlugin()
+		{
+			// Arrange
+			string markupFragment = "This is my ~~~usertoken~~~";
+			string expectedHtml = "<p>This is my <span>usertoken</span>\n</p>";
+			
+			TextPluginStub plugin = new TextPluginStub();
+			plugin.Repository = new RepositoryMock();
+			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			plugin.Settings.IsEnabled = true;
+			_pluginFactory.RegisterTextPlugin(plugin);
+
+			// Act
+			string actualHtml = _converter.ToHtml(markupFragment);
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		public void Should_Fire_AfterParse_In_TextPlugin_And_Output_Should_Not_Be_Cleaned()
+		{
+			// Arrange
+			string markupFragment = "Here is some markup **some bold**";
+			string expectedHtml = "<p>Here is some markup <strong style='color:green'><iframe src='javascript:alert(test)'>some bold</strong>\n</p>";
+			
+			TextPluginStub plugin = new TextPluginStub();
+			plugin.Repository = new RepositoryMock();
+			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			plugin.Settings.IsEnabled = true;
+			_pluginFactory.RegisterTextPlugin(plugin);
 
 			// Act
 			string actualHtml = _converter.ToHtml(markupFragment);

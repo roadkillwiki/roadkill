@@ -32,6 +32,7 @@ namespace Roadkill.Core.Converters
 		private IRepository _repository;
 		private IMarkupParser _parser;
 		private List<string> _externalLinkPrefixes;
+		private IPluginFactory _pluginFactory;
 
 		/// <summary>
 		/// A method used by the converter to convert absolute paths to relative paths.
@@ -62,7 +63,7 @@ namespace Roadkill.Core.Converters
 		/// markdown format parsers.
 		/// </summary>
 		/// <returns>An <see cref="IMarkupParser"/> for Creole,Markdown or Media wiki formats.</returns>
-		public MarkupConverter(ApplicationSettings settings, IRepository repository)
+		public MarkupConverter(ApplicationSettings settings, IRepository repository, IPluginFactory pluginFactory)
 		{
 			AbsolutePathConverter = ConvertToAbsolutePath;
 			InternalUrlForTitle = GetUrlForTitle;
@@ -78,6 +79,7 @@ namespace Roadkill.Core.Converters
 				"tag:"
 			};
 
+			_pluginFactory = pluginFactory;
 			_repository = repository;
 			_applicationSettings = settings;
 
@@ -136,18 +138,18 @@ namespace Roadkill.Core.Converters
 			PageHtml pageHtml = new PageHtml();
 			bool isCacheable = true;
 
-			// Custom variables before parse
+			// Text plugins before parse
 			IEnumerable<TextPlugin> plugins = new List<TextPlugin>();
 			try
 			{
-				plugins = PluginFactory.GetTextPlugins();
+				plugins = _pluginFactory.GetTextPlugins();
 			}
 			catch (Exception e)
 			{
 				Log.Error(e, "An exception occurred with getting the custom variable plugins from the plugin factory.");
 			}
 
-			foreach (TextPlugin plugin in plugins)
+			foreach (TextPlugin plugin in plugins.Where(p => p.Settings.IsEnabled))
 			{
 				try
 				{
@@ -183,8 +185,8 @@ namespace Roadkill.Core.Converters
 			// Customvariables.xml file
 			html = tokenParser.ReplaceTokensAfterParse(html);
 
-			// Custom variables after parse
-			foreach (TextPlugin plugin in plugins)
+			// Text plugins after parse
+			foreach (TextPlugin plugin in plugins.Where(p => p.Settings.IsEnabled))
 			{
 				try
 				{

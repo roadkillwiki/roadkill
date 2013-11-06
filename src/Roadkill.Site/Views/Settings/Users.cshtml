@@ -1,4 +1,4 @@
-﻿@model IList<IEnumerable<UserSummary>>
+﻿@model IList<IEnumerable<UserViewModel>>
 @{ 
 	ViewBag.Title = SiteStrings.SiteSettings_Users_Title;
 	ViewData["UsersActive"] = true;
@@ -37,7 +37,7 @@
 				<th colspan="2"></th>
 			</tr>
 		</thead>
-	@foreach (UserSummary user in Model[0])
+	@foreach (UserViewModel user in Model[0])
 	{
 		<tr>
 			<td style="width:30%;">@user.ExistingUsername</td>
@@ -68,7 +68,7 @@
 				<th colspan="2"></th>
 			</tr>
 		</thead>
-	@foreach (UserSummary user in Model[1])
+	@foreach (UserViewModel user in Model[1])
 	{
 		<tr>
 			<td style="width:30%;">@user.ExistingUsername</td>

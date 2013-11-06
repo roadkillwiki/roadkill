@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PageSummary>
+﻿@model IEnumerable<PageViewModel>
 @{ 
 	string title = string.Format(SiteStrings.Pages_ForUser, ViewData["Username"]);
 	ViewBag.Title = title;
@@ -25,19 +25,19 @@
 			<th></th>
 		</tr>
 	</thead>
-	@foreach (PageSummary summary in Model)
+	@foreach (PageViewModel pageModel in Model)
 	{
 	<tr>
-		<td class="stretch">@Html.ActionLink(summary.Title,"Index","Wiki",new { id = summary.Id,title=Url.EncodeTitle(summary.Title)},null)</td>
+		<td class="stretch">@Html.ActionLink(pageModel.Title,"Index","Wiki",new { id = pageModel.Id,title=Url.EncodeTitle(pageModel.Title)},null)</td>
 		@if (RoadkillContext.IsLoggedIn)
 		{
-		if (!summary.IsLocked || (summary.IsLocked && RoadkillContext.IsAdmin))
+		if (!pageModel.IsLocked || (pageModel.IsLocked && RoadkillContext.IsAdmin))
 		{
-		<td class="edit">@Html.ActionLink(SiteStrings.Shared_EditLink, "Edit", new { id = summary.Id }, new { @class = "btn btn-mini btn-primary" })</td>
+		<td class="edit">@Html.ActionLink(SiteStrings.Shared_EditLink, "Edit", new { id = pageModel.Id }, new { @class = "btn btn-mini btn-primary" })</td>
 		}	  
 		if (RoadkillContext.IsAdmin)
 		{
-		<td class="delete">@Html.ActionLink(SiteStrings.Shared_DeleteLink, "Delete", new { id = summary.Id }, new { @class = "btn btn-mini confirm" })</td>
+		<td class="delete">@Html.ActionLink(SiteStrings.Shared_DeleteLink, "Delete", new { id = pageModel.Id }, new { @class = "btn btn-mini confirm" })</td>
 		}
 		}
 	</tr>

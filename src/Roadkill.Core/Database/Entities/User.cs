@@ -82,9 +82,9 @@ namespace Roadkill.Core.Database
 			}
 		}
 
-		public UserSummary ToSummary()
+		public UserViewModel ToSummary()
 		{
-			return new UserSummary()
+			return new UserViewModel()
 			{
 				ActivationKey = ActivationKey,
 				Id = Id,

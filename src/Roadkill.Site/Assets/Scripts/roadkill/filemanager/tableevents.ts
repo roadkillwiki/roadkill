@@ -43,13 +43,13 @@ module Roadkill.Site.FileManager
 			return $("ul.navigator li:last").attr("data-urlpath");
 		}
 
-		public static update(path: string = "", addBreadCrumb: bool = true)
+        public static update(path: string = "", addBreadCrumb: boolean = true)
 		{
 			if (path === "")
 				path = TableEvents.getCurrentPath();
 
 			var that = this;
-			var success = function (data: DirectorySummary)
+			var success = function (data: DirectoryViewModel)
 			{
 				if (data.status === "error")
 				{

@@ -11,6 +11,7 @@ using Roadkill.Core.Mvc.Controllers;
 using MvcContrib.TestHelper;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Mvc;
 
 namespace Roadkill.Tests.Unit
 {
@@ -23,15 +24,21 @@ namespace Roadkill.Tests.Unit
 		{
 			RouteTable.Routes.Clear();
 			AttachmentRouteHandler.RegisterRoute(new ApplicationSettings(), RouteTable.Routes);
-			RoadkillApplication.RegisterRoutes(RouteTable.Routes);
+			Routing.Register(RouteTable.Routes);
 		}
 
 		[Test]
 		public void HomeController_Routes_Are_Mapped()
 		{
 			"~/".ShouldMapTo<HomeController>(action => action.Index());
-			"~/home/globaljsvars".ShouldMapTo<HomeController>(action => action.GlobalJsVars());
-			// Search isn't supported as it uses 'q' for its id parameter
+
+			RouteData routeData = "~/home/globaljsvars".WithMethod(HttpVerbs.Get);
+			routeData.Values["version"] = "xyz";
+			routeData.ShouldMapTo<HomeController>(action => action.GlobalJsVars("xyz"));
+
+			routeData = "~/home/search".WithMethod(HttpVerbs.Get);
+			routeData.Values["q"] = "searchquery";
+			routeData.ShouldMapTo<HomeController>(action => action.Search("searchquery"));
 		}
 
 		[Test]
@@ -66,7 +73,7 @@ namespace Roadkill.Tests.Unit
 			RouteTable.Routes.Clear();
 			RouteCollection routes = new RouteCollection();
 			AttachmentRouteHandler.RegisterRoute(settings, routes); // has to be registered first
-			RoadkillApplication.RegisterRoutes(routes);		
+			Routing.Register(routes);
 
 			// Act
 			RouteData routeData = routes.GetRouteData(mockContext);
@@ -88,7 +95,7 @@ namespace Roadkill.Tests.Unit
 			RouteTable.Routes.Clear();
 			RouteCollection routes = new RouteCollection();
 			AttachmentRouteHandler.RegisterRoute(settings, routes);
-			RoadkillApplication.RegisterRoutes(routes);
+			Routing.Register(routes);
 
 			// Act
 			RouteData routeData = routes.GetRouteData(mockContext);
@@ -113,7 +120,7 @@ namespace Roadkill.Tests.Unit
 			RouteCollection routes = new RouteCollection();
 
 			// Act
-			RoadkillApplication.RegisterRoutes(routes);
+			Routing.Register(RouteTable.Routes);
 			AttachmentRouteHandler.RegisterRoute(settings, routes);
 
 			// Assert

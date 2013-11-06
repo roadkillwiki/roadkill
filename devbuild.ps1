@@ -18,17 +18,17 @@
 # ====================================================================================================
 
 $ErrorActionPreference = "Stop"
-$zipFilename = "Roadkill.1.8.devbuild.zip"
+$zipFilename = "Roadkill.devbuild.zip"
 
 # ---- Add the tool paths to our path
 $runtimeDir = [System.Runtime.InteropServices.RuntimeEnvironment]::GetRuntimeDirectory()
-$env:Path = $env:Path + $runtimeDir
+$env:Path = $env:Path + ";" +$runtimeDir
 $env:Path = $env:Path + ";C:\Program Files (x86)\IIS\Microsoft Web Deploy V3"
 $env:Path = $env:Path + ";C:\Program Files\7-Zip"
 
-# ---- Make sure the web.config/roadkill.config file is the template one
-copy -Force lib\Configs\web.dev.config src\Roadkill.site\web.config
+# ---- Make sure the roadkill.config,connectionstrings.config files are the download template one
 copy -Force lib\Configs\roadkill.download.config src\Roadkill.site\roadkill.config
+copy -Force lib\Configs\connectionStrings.config src\Roadkill.site\connectionStrings.config
 
 # ---- Build the solution using the Download target
 msbuild roadkill.sln "/p:Configuration=Download;DeployOnBuild=True;PackageAsSingleFile=False;AutoParameterizationWebConfigConnectionStrings=false;outdir=deploytemp\;OutputPath=bin\debug"

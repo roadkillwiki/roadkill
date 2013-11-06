@@ -12,7 +12,7 @@ using StructureMap;
 namespace Roadkill.Tests
 {
 	[Pluggable("x")]
-	public class UserManagerStub : UserManagerBase
+	public class UserManagerStub : UserServiceBase
 	{
 		public UserManagerStub()
 			: base(null, null)
@@ -86,12 +86,12 @@ namespace Roadkill.Tests
 			throw new NotImplementedException();
 		}
 
-		public override IEnumerable<UserSummary> ListAdmins()
+		public override IEnumerable<UserViewModel> ListAdmins()
 		{
 			throw new NotImplementedException();
 		}
 
-		public override IEnumerable<UserSummary> ListEditors()
+		public override IEnumerable<UserViewModel> ListEditors()
 		{
 			throw new NotImplementedException();
 		}
@@ -106,7 +106,7 @@ namespace Roadkill.Tests
 			throw new NotImplementedException();
 		}
 
-		public override string Signup(UserSummary summary, Action completed)
+		public override string Signup(UserViewModel summary, Action completed)
 		{
 			throw new NotImplementedException();
 		}
@@ -121,7 +121,7 @@ namespace Roadkill.Tests
 			throw new NotImplementedException();
 		}
 
-		public override bool UpdateUser(UserSummary summary)
+		public override bool UpdateUser(UserViewModel summary)
 		{
 			throw new NotImplementedException();
 		}

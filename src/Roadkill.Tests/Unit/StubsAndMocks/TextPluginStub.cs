@@ -2,28 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Plugins;
+using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Tests.Unit.StubsAndMocks
 {
 	public class TextPluginStub : TextPlugin
 	{
-		public override string Id
-		{
-			get { return "AmazingPlugin"; }
-		}
+		private string _id;
+		private string _name;
+		private string _description;
 
-		public override string Name
-		{
-			get { return "An Amazing Plugin"; }
-		}
-
-		public override string Description
-		{
-			get { return "Description"; }
-		}
+		public override string Id { get { return _id; } }
+		public override string Name { get { return _name; } }
+		public override string Description { get { return _description; } }
 
 		public override string Version
 		{
@@ -34,11 +29,30 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 			}
 		}
 
-		public TextPluginStub() : this(null, null) { }
-
-		public TextPluginStub(ApplicationSettings applicationSettings, IRepository repository)
-			: base(applicationSettings, repository)
+		public TextPluginStub()
 		{
+			_id = "Amazing plugin";
+			_name = "An amazing plugin";
+			_description = "Amazing stubbed plugin";
+		}
+
+		internal TextPluginStub(IRepository repository, SiteCache siteCache) : base(repository, siteCache)
+		{
+			_id = "Amazing plugin";
+			_name = "An amazing plugin";
+			_description = "Amazing stubbed plugin";
+		}
+
+		public TextPluginStub(string id, string name, string description)
+		{
+			_id = id;
+			_name = name;
+			_description = description;
+		}
+
+		public override void OnInitializeSettings(PluginSettings settings)
+		{
+			
 		}
 
 		public override string BeforeParse(string markupText)

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Chutzpah</id>
+    <version>2.5.0</version>
+    <title>Chutzpah - A JavaScript Test Runner</title>
+    <authors>Matthew Manela</authors>
+    <owners>Matthew Manela</owners>
+    <licenseUrl>http://chutzpah.codeplex.com/license</licenseUrl>
+    <projectUrl>http://chutzpah.codeplex.com/</projectUrl>
+    <iconUrl>http://matthewmanela.com/wp-content/uploads/2011/09/chetTimes.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Chutzpah is an open source JavaScript test runner which helps you integrate JavaScript unit testing into your website. It enables you to run JavaScript unit tests from the command line and from inside of Visual Studio. It also supports running in the TeamCity continuous integration server.</description>
+    <summary>Chutzpah is an open source JavaScript test runner which enables you to run JavaScript unit tests from the command line and from inside of Visual Studio.</summary>
+    <releaseNotes>* Support for HTML template imports (item 144)	
+* Code Coverage issue with jquery.jstepper.min.js (item 120)
+* Code coverage timeout issue (item 114)
+* How can I update to make it work with TypeScript Generics? (item 141)
+* Upgrade TypeScript to 0.9.0 (item 138)</releaseNotes>
+    <copyright />
+    <language>en-US</language>
+    <tags>testing javascript tdd qunit jasmine coffeescript typescript</tags>
+  </metadata>
+</package>

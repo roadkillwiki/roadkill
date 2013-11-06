@@ -1,6 +1,7 @@
 var Roadkill;
 (function (Roadkill) {
     (function (Site) {
+        /// <reference path="../typescript-ref/filemanager.references.ts" />
         (function (FileManager) {
             var BreadCrumbTrail = (function () {
                 function BreadCrumbTrail() {
@@ -10,7 +11,8 @@ var Roadkill;
                     var level = item.attr("data-level");
 
                     if (level == 0)
-                        $("ul.navigator li").remove(); else
+                        $("ul.navigator li").remove();
+else
                         $("ul.navigator li:gt(" + (level - 1) + ")").remove();
                 };
 
@@ -22,7 +24,7 @@ var Roadkill;
                     var li = $("ul.navigator li:last-child").prev("li");
                     var level = li.attr("data-level");
 
-                    this.removeLastItem(level);
+                    BreadCrumbTrail.removeLastItem();
                 };
 
                 BreadCrumbTrail.addNewItem = function (data) {
@@ -45,3 +47,4 @@ var Roadkill;
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
 })(Roadkill || (Roadkill = {}));
+//# sourceMappingURL=breadcrumbtrail.js.map

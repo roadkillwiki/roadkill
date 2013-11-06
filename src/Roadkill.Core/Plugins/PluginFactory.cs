@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 using Roadkill.Core.DI;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Plugins.BuiltIn;
@@ -11,12 +12,12 @@ using StructureMap;
 
 namespace Roadkill.Core.Plugins
 {
-	public class PluginFactory
+	public class PluginFactory : IPluginFactory
 	{
 		/// <summary>
 		/// Copies the custom variable plugins from their storage location to the bin folder.
 		/// </summary>
-		public static void CopyTextPlugins(ApplicationSettings applicationSettings)
+		public void CopyTextPlugins(ApplicationSettings applicationSettings)
 		{
 			try
 			{
@@ -70,19 +71,24 @@ namespace Roadkill.Core.Plugins
 		}
 
 		/// <summary>
-		/// Allows additional custom variable plugins to be registered at runtime.
+		/// Allows additional text plugins to be registered at runtime.
 		/// </summary>
-		public static void RegisterTextPlugin(TextPlugin plugin)
+		public void RegisterTextPlugin(TextPlugin plugin)
 		{
 			ServiceLocator.RegisterType<TextPlugin>(plugin);
 		}
 
 		/// <summary>
-		/// Retrieves all custom variable plugins from the IoC container.
+		/// Retrieves all text plugins from the IoC container.
 		/// </summary>
-		public static IEnumerable<TextPlugin> GetTextPlugins()
+		public IEnumerable<TextPlugin> GetTextPlugins()
 		{
 			return ServiceLocator.GetAllInstances<TextPlugin>().Where(x => x.IsEnabled);
+		}
+
+		public TextPlugin GetTextPlugin(string id)
+		{
+			return ServiceLocator.GetAllInstances<TextPlugin>().FirstOrDefault(x => x.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
 		}
 	}
 }

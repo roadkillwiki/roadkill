@@ -14,6 +14,7 @@ using Roadkill.Core.Configuration;
 using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Localization;
 
 namespace Roadkill.Core
 {
@@ -26,7 +27,7 @@ namespace Roadkill.Core
 		/// Turns a tag string into a HTML tag cloud, which produces different spans based on the
 		/// number of pages with each tag in the system.
 		/// </summary>
-		/// <param name="content">The tags in ";" delimited format.</param>
+		/// <param name="tags">The tags in ";" delimited format.</param>
 		/// <returns>A HTML tag cloud.</returns>
 		public static MvcHtmlString TagBlocks(this HtmlHelper helper, IEnumerable<string> tags)
 		{
@@ -91,11 +92,11 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Gets a CSS class name for the tag based on the <see cref="TagSummary.Count"/> - the number of
+		/// Gets a CSS class name for the tag based on the <see cref="TagViewModel.Count"/> - the number of
 		/// pages with that tag in the system.
 		/// </summary>
 		/// <param name="helper">The helper.</param>
-		/// <param name="tag">A <see cref="TagSummary"/>.</param>
+		/// <param name="tag">A <see cref="TagViewModel"/>.</param>
 		/// <returns>
 		/// <list type="bullet">
 		/// <item>1 tag: "tagcloud1"</item>
@@ -105,7 +106,7 @@ namespace Roadkill.Core
 		/// <item>10+ tags: "tagcloud5"</item>
 		/// </list>
 		/// </returns>
-		public static string ClassNameForTagSummary(this HtmlHelper helper, TagSummary tag)
+		public static string ClassNameForTagViewModel(this HtmlHelper helper, TagViewModel tag)
 		{
 			string className = "";
 
@@ -199,20 +200,20 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Gets a IEnumerable{SelectListItem} from a the SettingsSummary.DatabaseTypesAvailable, as a default
+		/// Gets an IEnumerable{SelectListItem} from a the SettingsViewModel.DatabaseTypesAvailable, as a default
 		/// SelectList doesn't add option value attributes.
 		/// </summary>
-		public static IEnumerable<SelectListItem> DatabaseTypesAvailable(this HtmlHelper helper, SettingsSummary summary)
+		public static IEnumerable<SelectListItem> DatabaseTypesAvailable(this HtmlHelper helper, SettingsViewModel model)
 		{
 			List<SelectListItem> items =  new List<SelectListItem>();
 
-			foreach (string name in summary.DatabaseTypesAvailable)
+			foreach (string name in model.DatabaseTypesAvailable)
 			{
 				SelectListItem item =  new SelectListItem();
 				item.Text = name;
 				item.Value = name;
 
-				if (name == summary.DataStoreTypeName)
+				if (name == model.DataStoreTypeName)
 					item.Selected = true;
 
 				items.Add(item);
@@ -243,6 +244,27 @@ namespace Roadkill.Core
 			}
 
 			return helper.DropDownList(name, selectList);
+		}
+
+		/// <summary>
+		/// Creates a drop down list from an <c>IList</c> of strings.
+		/// </summary>
+		public static MvcHtmlString DropDownBox(this HtmlHelper helper, string name, IEnumerable<string> items)
+		{
+			List<SelectListItem> selectList = new List<SelectListItem>();
+
+			foreach (string item in items)
+			{
+				SelectListItem selectListItem = new SelectListItem
+				{
+					Text = item,
+					Value = item
+				};
+
+				selectList.Add(selectListItem);
+			}
+
+			return helper.DropDownList(name, selectList, new { id = name });
 		}
 
 		/// <summary>

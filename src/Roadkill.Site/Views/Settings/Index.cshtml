@@ -1,4 +1,4 @@
-﻿@model SettingsSummary
+﻿@model SettingsViewModel
 
 @{ 
 	ViewBag.Title = SiteStrings.SiteSettings_Configuration_Title;
@@ -103,8 +103,13 @@
 	<fieldset>
 		<legend>@SiteStrings.SiteSettings_Configuration_Security</legend>
 
+        <label for="IsPublicSite" class="checkbox todo-translation">
+            Public site
+            @(Html.CheckBoxFor(s => s.IsPublicSite, new { rel = "popover", data_content = "todo-translation If true, then all pages are private and can only be viewed after logging in." }))
+        </label>
+
 		<label for="UseWindowsAuth" class="checkbox">@SiteStrings.SiteSettings_Configuration_UseWindowsAuth
-		@(Html.CheckBoxFor(s => s.UseWindowsAuth, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_UseWindowsAuth_Help }))
+		@(Html.CheckBoxFor(s => s.UseWindowsAuth, new { rel = "popover", data_content = LocalizationTokens.ReplaceAdExplorer(SiteStrings.SiteSettings_Configuration_UseWindowsAuth_Help) }))
 		</label>
 
 		<!-- SQL users -->
@@ -140,11 +145,16 @@
 		@Html.TextBoxFor(s => s.EditorRoleName, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_EditorRole_Help })
 
 		<label for="AdminRoleName">@SiteStrings.SiteSettings_Configuration_AdminRole</label>
-		@Html.TextBoxFor(s => s.AdminRoleName, new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_AdminRole_Help })
+		@Html.TextBoxFor(s => s.AdminRoleName, new { rel="popover", data_content = LocalizationTokens.ReplaceHtmlTokens(SiteStrings.SiteSettings_Configuration_AdminRole_Help) })
 	</fieldset>
 	
 	<fieldset>
 		<legend>@SiteStrings.SiteSettings_Configuration_General</legend>
+
+        <label for="IsPublicSite" class="checkbox todo-translation">
+            Ignore search index errors
+            @(Html.CheckBoxFor(s => s.IgnoreSearchIndexErrors, new { rel = "popover", data_content = "todo-translation if true, throws an exception when a page fails to be indexed by lucene" }))
+        </label>
 
 		<label for="MarkupType">@SiteStrings.SiteSettings_Configuration_MarkupType</label>
 		@Html.DropDownListFor(x => x.MarkupType, new SelectList(Model.MarkupTypesAvailable, Model.MarkupType), new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_MarkupType_Help })
@@ -152,15 +162,15 @@
 		<label for="Theme">@SiteStrings.SiteSettings_Configuration_Theme</label>
 		@Html.DropDownListFor(x => x.Theme, new SelectList(Model.ThemesAvailable, Model.Theme), new { rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Theme_Help })
 
-		<label for="HeadContent">Additional head tag content TODO TRANSLATE</label>
-		@Html.TextAreaFor(s => s.HeadContent, new { rel="popover", data_content = "TODO translate"})
+		<label for="HeadContent">@SiteStrings.SiteSettings_Configuration_HeadContent</label>
+		@Html.TextAreaFor(s => s.HeadContent, new { rel = "popover", data_content = LocalizationTokens.ReplaceHeadToken(SiteStrings.SiteSettings_Configuration_HeadContent_Help) })
 
-		<label for="MenuMarkup">Left menu markup TODO TRANSLATE</label>
-		@Html.TextAreaFor(s => s.MenuMarkup, new { rel="popover", data_content = "TODO translate. The navigation menu (typically on the left hand side). This is the markdown format your wiki uses, and also accepts the following keywords which are replaced with links some of which may be empty if you are not logged in: <br/>%mainpage%<br/>%categories%<br/>%allpages%<br/>%newpage%<br/>%managefiles%<br/>%sitesettings%."})
+		<label for="MenuMarkup">@SiteStrings.SiteSettings_Configuration_NavMenu</label>
+		@Html.TextAreaFor(s => s.MenuMarkup, new { rel = "popover", data_content = LocalizationTokens.ReplaceMenuTokens(SiteStrings.SiteSettings_Configuration_NavMenu_Help) })
 	</fieldset>
 
 	<fieldset>
-		<legend>File manager (TODO TRANSLATION)</legend>
+		<legend>@SiteStrings.SiteSettings_Configuration_FileManager</legend>
 
 		<label for="AttachmentsFolder">@SiteStrings.SiteSettings_Configuration_Attachments</label>
 		@Html.TextBoxFor(s => s.AttachmentsFolder, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Attachments_Help })
@@ -171,8 +181,8 @@
 		<label for="AllowedFileTypes">@SiteStrings.SiteSettings_Configuration_Extensions</label>
 		@Html.TextBoxFor(s => s.AllowedFileTypes, new { @class = "validate[required]", rel="popover", data_content = SiteStrings.SiteSettings_Configuration_Extensions_Help })
 
-		<label for="OverwriteExistingFiles" class="checkbox">Automatically overwrite existing files on upload TODO TRANSLATE
-		@Html.CheckBoxFor(s => s.OverwriteExistingFiles, new { rel="popover", data_content = "TODO translate" })
+		<label for="OverwriteExistingFiles" class="checkbox">@SiteStrings.SiteSettings_Configuration_FileManager_OverwriteExisting
+		@Html.CheckBoxFor(s => s.OverwriteExistingFiles, new { rel="popover", data_content = @SiteStrings.SiteSettings_Configuration_FileManager_OverwriteExisting_Help })
 		</label>
 	</fieldset>
 	

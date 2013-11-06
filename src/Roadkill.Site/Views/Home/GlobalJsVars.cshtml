@@ -1,5 +1,7 @@
 ﻿@using Roadkill.Core.Converters;
 @using Roadkill.Core.Configuration;
+@{Layout=null;}
+// Generated at: @DateTime.UtcNow.ToString()
 var ROADKILL_CORESCRIPTPATH = "@Url.Content("~/Assets/Scripts/")";
 var ROADKILL_COREASSETPATH = "@Url.Content("~/Assets/")";
 var ROADKILL_THEMEPATH =  "@Url.Content(SiteSettings.ThemePath)/";
@@ -10,16 +12,10 @@ var ROADKILL_PREVIEWURL = "@Url.Action("GetPreview", "Pages")/";
 var ROADKILL_MARKUPTYPE = "@SiteSettings.MarkupType";
 var ROADKILL_WIKIMARKUPHELP = "@Url.Action(SiteSettings.MarkupType + "Reference", "Help")";
 
-// old File manager constants
-var ROADKILL_FILETREE_URL =  "@Url.Action("Folder", "Files")/";
-var ROADKILL_FILESELECTURL = "@Url.Action("Select", "FileManager")";
-var ROADKILL_FILETREE_PATHNAME_URL =  "@Url.Action("GetPath", "Files")/";
-
-
-// Tokens for the edit toolbar
 @{
 IMarkupParser parser = MarkupConverter.Parser;
 }
+// Tokens for the edit toolbar
 var ROADKILL_EDIT_BOLD_TOKEN        = "@Html.Raw(parser.BoldToken)";
 var ROADKILL_EDIT_ITALIC_TOKEN      = "@Html.Raw(parser.ItalicToken)";
 var ROADKILL_EDIT_UNDERLINE_TOKEN   = "@Html.Raw(parser.UnderlineToken)";
@@ -36,8 +32,9 @@ var ROADKILL_EDIT_IMAGE_TITLE       = "@Html.Raw(SiteStrings.EditPage_Image_Titl
 
 // File manager settings/locale strings
 var ROADKILL_FILEMANAGERURL = "@Url.Action("Index", "FileManager")";
+var ROADKILL_FILESELECTURL = "@Url.Action("Select", "FileManager")";
 var ROADKILL_ATTACHMENTSPATH = "@Url.GetAttachmentsPath(ApplicationSettings)";
-var ROADKILL_FILEMANAGER_ADDFOLDER_PLACEHOLDER = "@SiteStrings.FileManager_AddFolder_PlaceHolder";
+var ROADKILL_FILEMANAGER_ADDFOLDER = "@SiteStrings.FileManager_AddFolder";
 var ROADKILL_FILEMANAGER_ADDFOLDER_CANCEL = "@SiteStrings.FileManager_AddFolder_Cancel";
 var ROADKILL_FILEMANAGER_ERROR_DIRECTORYLISTING = "@SiteStrings.FileManager_Error_DirectoryListing";
 var ROADKILL_FILEMANAGER_ERROR_DELETEFOLDER = "@SiteStrings.FileManager_Error_DeleteFolder";
@@ -47,15 +44,15 @@ var ROADKILL_FILEMANAGER_DELETE_CONFIRM = "@SiteStrings.FileManager_Delete_Confi
 var ROADKILL_FILEMANAGER_DELETE_SUCCESS = "@SiteStrings.FileManager_Delete_Success";
 var ROADKILL_FILEMANAGER_DELETE_ERROR = "@SiteStrings.FileManager_Delete_Error";
 
-@if (RoadkillContext.IsAdmin)
-{
 // User management constants for the settings->user page
-@:var ROADKILL_ADDADMIN_FORMACTION = "@Url.Action("AddAdmin", "Settings")";
-@:var ROADKILL_ADDEDITOR_FORMACTION = "@Url.Action("AddEditor", "Settings")";
-@:var ROADKILL_EDITUSER_FORMACTION = "@Url.Action("EditUser", "Settings")";
+var ROADKILL_ADDADMIN_FORMACTION = "@Url.Action("AddAdmin", "Settings")";
+var ROADKILL_ADDEDITOR_FORMACTION = "@Url.Action("AddEditor", "Settings")";
+var ROADKILL_EDITUSER_FORMACTION = "@Url.Action("EditUser", "Settings")";
 
-@:var ROADKILL_LINK_CONFIRM = "@SiteStrings.Shared_ConfirmLink";
-@:var ROADKILL_ADDADMIN_TITLE = "@SiteStrings.SiteSettings_Users_AddAdminDialog_Title";
-@:var ROADKILL_ADDEDITOR_TITLE = "@SiteStrings.SiteSettings_Users_AddEditorDialog_Title";
-@:var ROADKILL_EDITUSER_TITLE = "@SiteStrings.SiteSettings_Users_EditUserDialog_Title";
-}
+var ROADKILL_LINK_CONFIRM = "@SiteStrings.Shared_ConfirmLink";
+var ROADKILL_ADDADMIN_TITLE = "@SiteStrings.SiteSettings_Users_AddAdminDialog_Title";
+var ROADKILL_ADDEDITOR_TITLE = "@SiteStrings.SiteSettings_Users_AddEditorDialog_Title";
+var ROADKILL_EDITUSER_TITLE = "@SiteStrings.SiteSettings_Users_EditUserDialog_Title";
+
+// Plugins
+var ROADKILL_PLUGINSETTINGS_URL = "@Url.Action("Plugin", "PluginSettings")";

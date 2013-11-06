@@ -11,11 +11,12 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
-using Roadkill.Core.Localization.Resx;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Localization;
+using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using System.Runtime.Caching;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit
 {
@@ -27,10 +28,11 @@ namespace Roadkill.Tests.Unit
 		private IUserContext _context;
 		private RepositoryMock _repository;
 
-		private UserManagerBase _userManager;
-		private PageManager _pageManager;
-		private HistoryManager _historyManager;
-		private SettingsManager _settingsManager;
+		private UserServiceBase _userManager;
+		private PageService _pageService;
+		private PageHistoryService _historyService;
+		private SettingsService _settingsService;
+		private PluginFactoryMock _pluginFactory;
 
 		[SetUp]
 		public void Setup()
@@ -45,24 +47,25 @@ namespace Roadkill.Tests.Unit
 			_repository.SiteSettings.MarkupType = "Creole";
 
 			// Cache
-			ListCache listCache = new ListCache(_applicationSettings, MemoryCache.Default);
-			PageSummaryCache pageSummaryCache = new PageSummaryCache(_applicationSettings, MemoryCache.Default);
-			SiteCache siteCache = new SiteCache(_applicationSettings, MemoryCache.Default);
+			ListCache listCache = new ListCache(_applicationSettings, CacheMock.RoadkillCache);
+			PageViewModelCache pageViewModelCache = new PageViewModelCache(_applicationSettings, CacheMock.RoadkillCache);
+			SiteCache siteCache = new SiteCache(_applicationSettings, CacheMock.RoadkillCache);
 
-			// Dependencies for PageManager
-			Mock<SearchManager> searchMock = new Mock<SearchManager>();
+			// Dependencies for PageService
+			_pluginFactory = new PluginFactoryMock();
+			Mock<SearchService> searchMock = new Mock<SearchService>();
 
-			_settingsManager = new SettingsManager(_applicationSettings, _repository);
-			_userManager = new Mock<UserManagerBase>(_applicationSettings, null).Object;
-			_historyManager = new HistoryManager(_applicationSettings, _repository, _context, pageSummaryCache);
-			_pageManager = new PageManager(_applicationSettings, _repository, null, _historyManager, _context, listCache, pageSummaryCache, siteCache);
+			_settingsService = new SettingsService(_applicationSettings, _repository);
+			_userManager = new Mock<UserServiceBase>(_applicationSettings, null).Object;
+			_historyService = new PageHistoryService(_applicationSettings, _repository, _context, pageViewModelCache, _pluginFactory);
+			_pageService = new PageService(_applicationSettings, _repository, null, _historyService, _context, listCache, pageViewModelCache, siteCache, _pluginFactory);
 		}
 
 		[Test]
 		public void Index_Should_Return_Page()
 		{
 			// Arrange
-			WikiController wikiController = new WikiController(_applicationSettings, _userManager, _pageManager, _context, _settingsManager);
+			WikiController wikiController = new WikiController(_applicationSettings, _userManager, _pageService, _context, _settingsService);
 			wikiController.SetFakeControllerContext();
 			Page page1 = new Page()
 			{
@@ -85,7 +88,7 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 
-			PageSummary summary = result.ModelFromActionResult<PageSummary>();
+			PageViewModel summary = result.ModelFromActionResult<PageViewModel>();
 			Assert.NotNull(summary, "Null model");
 			Assert.That(summary.Title, Is.EqualTo(page1.Title));
 			Assert.That(summary.Content, Is.EqualTo(page1Content.Text));
@@ -95,7 +98,7 @@ namespace Roadkill.Tests.Unit
 		public void Index_With_Bad_Page_Id_Should_Redirect()
 		{
 			// Arrange
-			WikiController wikiController = new WikiController(_applicationSettings, _userManager, _pageManager, _context, _settingsManager);
+			WikiController wikiController = new WikiController(_applicationSettings, _userManager, _pageService, _context, _settingsService);
 			wikiController.SetFakeControllerContext();
 
 			// Act

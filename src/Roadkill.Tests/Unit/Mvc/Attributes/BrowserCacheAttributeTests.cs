@@ -10,9 +10,10 @@ using NUnit.Framework;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.Controllers;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit.Mvc.Attributes
 {
@@ -20,6 +21,14 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 	[Category("Unit")]
 	public class BrowserCacheAttributeTests
 	{
+		private PluginFactoryMock _pluginFactory;
+
+		[SetUp]
+		public void Setup()
+		{
+			_pluginFactory = new PluginFactoryMock();
+		}
+
 		[Test]
 		public void Should_Not_Set_ViewResult_If_Not_Installed()
 		{
@@ -114,19 +123,19 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 			ApplicationSettings appSettings = new ApplicationSettings() { Installed = true, UseBrowserCache = true };
 			RoadkillContextStub userContext = new RoadkillContextStub() { IsLoggedIn = false };
 
-			// PageManager
+			// PageService
 			RepositoryMock repository = new RepositoryMock();
-			PageSummaryCache pageSummaryCache = new PageSummaryCache(appSettings, MemoryCache.Default);
-			ListCache listCache = new ListCache(appSettings, MemoryCache.Default);
-			SiteCache siteCache = new SiteCache(appSettings, MemoryCache.Default);
-			SearchManagerMock searchManager = new SearchManagerMock(appSettings, repository);
-			HistoryManager historyManager = new HistoryManager(appSettings, repository, userContext, pageSummaryCache);
-			PageManager pageManager = new PageManager(appSettings, repository, searchManager, historyManager, userContext, listCache, pageSummaryCache, siteCache);
+			PageViewModelCache pageViewModelCache = new PageViewModelCache(appSettings, CacheMock.RoadkillCache);
+			ListCache listCache = new ListCache(appSettings, CacheMock.RoadkillCache);
+			SiteCache siteCache = new SiteCache(appSettings, CacheMock.RoadkillCache);
+			SearchServiceMock searchService = new SearchServiceMock(appSettings, repository, _pluginFactory);
+			PageHistoryService historyService = new PageHistoryService(appSettings, repository, userContext, pageViewModelCache, _pluginFactory);
+			PageService pageService = new PageService(appSettings, repository, searchService, historyService, userContext, listCache, pageViewModelCache, siteCache, _pluginFactory);
 
 			// WikiController
-			SettingsManager settingsManager = new SettingsManager(appSettings, repository);
+			SettingsService settingsService = new SettingsService(appSettings, repository);
 			UserManagerStub userManager = new UserManagerStub();
-			WikiController wikiController = new WikiController(appSettings, userManager, pageManager, userContext, settingsManager);
+			WikiController wikiController = new WikiController(appSettings, userManager, pageService, userContext, settingsService);
 
 			// Create a page that the request is for
 			Page page = new Page() { Title = "title", ModifiedOn = DateTime.Today };
@@ -135,7 +144,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 			// Update the BrowserCacheAttribute
 			attribute.ApplicationSettings = appSettings;
 			attribute.Context = userContext;
-			attribute.PageManager = pageManager;
+			attribute.PageService = pageService;
 
 			return wikiController;
 		}

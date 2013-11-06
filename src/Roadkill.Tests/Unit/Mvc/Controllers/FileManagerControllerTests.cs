@@ -9,7 +9,7 @@ using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Managers;
+using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Attachments;
@@ -24,10 +24,10 @@ namespace Roadkill.Tests.Unit
 	public class FileManagerControllerTests
 	{
 		private ApplicationSettings _settings;
-		private UserManagerBase _userManager;
+		private UserServiceBase _userManager;
 		private IUserContext _context;
 		private RepositoryMock _repository;
-		private SettingsManager _settingsManager;
+		private SettingsService _settingsService;
 		private AttachmentFileHandler _attachmentFileHandler;
 		private FileManagerController _filesController;
 
@@ -40,8 +40,8 @@ namespace Roadkill.Tests.Unit
 			_settings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Attachments");
 			_repository = new RepositoryMock();
 			_attachmentFileHandler = new AttachmentFileHandler(_settings);
-			_settingsManager = new SettingsManager(_settings, _repository);
-			_filesController = new FileManagerController(_settings, _userManager, _context, _settingsManager, _attachmentFileHandler);
+			_settingsService = new SettingsService(_settings, _repository);
+			_filesController = new FileManagerController(_settings, _userManager, _context, _settingsService, _attachmentFileHandler);
 
 			try
 			{
@@ -60,7 +60,7 @@ namespace Roadkill.Tests.Unit
 				Assert.Fail("Unable to delete the attachments folder "+_settings.AttachmentsFolder+", does it have a lock/explorer window open?" + e.ToString());
 			}
 
-			_userManager = new Mock<UserManagerBase>(_settings, null).Object;
+			_userManager = new Mock<UserServiceBase>(_settings, null).Object;
 		}
 
 		[Test]
@@ -316,12 +316,12 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.Not.Null, "JsonResult was not returned");
 
-			DirectorySummary summary = result.Data as DirectorySummary;
-			Assert.That(summary, Is.Not.Null, "DirectorySummary is null");
-			Assert.That(summary.ChildFolders.Count, Is.EqualTo(1));
-			Assert.That(summary.Files.Count, Is.EqualTo(1));
-			Assert.That(summary.Name, Is.EqualTo(""));
-			Assert.That(summary.UrlPath, Is.EqualTo(""));
+			DirectoryViewModel model = result.Data as DirectoryViewModel;
+			Assert.That(model, Is.Not.Null, "DirectoryViewModel is null");
+			Assert.That(model.ChildFolders.Count, Is.EqualTo(1));
+			Assert.That(model.Files.Count, Is.EqualTo(1));
+			Assert.That(model.Name, Is.EqualTo(""));
+			Assert.That(model.UrlPath, Is.EqualTo(""));
 		}
 
 		[Test]
@@ -338,12 +338,12 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.Not.Null, "JsonResult was not returned");
 
-			DirectorySummary summary = result.Data as DirectorySummary;
-			Assert.That(summary, Is.Not.Null, "DirectorySummary is null");
-			Assert.That(summary.ChildFolders.Count, Is.EqualTo(1));
-			Assert.That(summary.Files.Count, Is.EqualTo(1));
-			Assert.That(summary.Name, Is.EqualTo(""));
-			Assert.That(summary.UrlPath, Is.EqualTo(""));
+			DirectoryViewModel model = result.Data as DirectoryViewModel;
+			Assert.That(model, Is.Not.Null, "DirectoryViewModel is null");
+			Assert.That(model.ChildFolders.Count, Is.EqualTo(1));
+			Assert.That(model.Files.Count, Is.EqualTo(1));
+			Assert.That(model.Name, Is.EqualTo(""));
+			Assert.That(model.UrlPath, Is.EqualTo(""));
 		}
 
 		[Test]
@@ -363,12 +363,12 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.Not.Null, "JsonResult was not returned");
 
-			DirectorySummary summary = result.Data as DirectorySummary;
-			Assert.That(summary, Is.Not.Null, "DirectorySummary is null");
-			Assert.That(summary.ChildFolders.Count, Is.EqualTo(1));
-			Assert.That(summary.Files.Count, Is.EqualTo(3));
-			Assert.That(summary.Name, Is.EqualTo("blah3"));
-			Assert.That(summary.UrlPath, Is.EqualTo("/blah/blah2/blah3"));
+			DirectoryViewModel model = result.Data as DirectoryViewModel;
+			Assert.That(model, Is.Not.Null, "DirectoryViewModel is null");
+			Assert.That(model.ChildFolders.Count, Is.EqualTo(1));
+			Assert.That(model.Files.Count, Is.EqualTo(3));
+			Assert.That(model.Name, Is.EqualTo("blah3"));
+			Assert.That(model.UrlPath, Is.EqualTo("/blah/blah2/blah3"));
 		}
 
 		[Test]
