@@ -83,7 +83,7 @@ namespace Roadkill.Core.Plugins
 		/// </summary>
 		public IEnumerable<TextPlugin> GetTextPlugins()
 		{
-			return ServiceLocator.GetAllInstances<TextPlugin>().Where(x => x.IsEnabled);
+			return ServiceLocator.GetAllInstances<TextPlugin>();
 		}
 
 		/// <summary>
