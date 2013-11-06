@@ -9,8 +9,11 @@ $(document).ready(function()
 	$("form").validationEngine();
 
 	$("span.example").click(
-		function () {
-			$("#ConnectionString").val($(this).text());
+		function ()
+		{
+		    $("#ConnectionString").val($(this).text());
+		    var dbtype = $(this).data("dbtype");
+		    $("#DataStoreTypeName").val(dbtype);
 		}
 	);
 
@@ -94,46 +97,44 @@ $(document).ready(function()
 		<div class="medium">
 
 			<!-- SQLite dependencies -->
-			<p id="sqlite-details">
-				<b>@InstallStrings.Page2_Group3_SQLiteInstructionsTitle</b><br />
-				@Html.Raw(LocalizationTokens.ReplaceSqlite(InstallStrings.Page2_Group3_SQLiteInstructionsMessage))
-			</p>
-			<div id="sqlitesuccess" class="success alert hidden">
-				<h2>@InstallStrings.Page2_Group3_SQLiteSuccessTitle</h2>
-				<p>@InstallStrings.Page2_Group3_SQLiteSuccessMessage</p>
-			</div>
-			<div id="sqlitefailure" class="failure alert hidden">
-				<h2>@InstallStrings.Page2_Group3_SQLiteFailureTitle</h2>
-				<p>@InstallStrings.Page2_Group3_SQLiteFailureMessage
-				<pre class="errormessage" style="width:100%;overflow:scroll;"></pre>
-				</p>
-			</div>
+            <div id="sqlite-help">
+                <p id="sqlite-details">
+                    <b>@InstallStrings.Page2_Group3_SQLiteInstructionsTitle</b><br />
+                    @Html.Raw(LocalizationTokens.ReplaceSqlite(InstallStrings.Page2_Group3_SQLiteInstructionsMessage))
+                </p>
+			    <div id="sqlitesuccess" class="success alert hidden">
+				    <h2>@InstallStrings.Page2_Group3_SQLiteSuccessTitle</h2>
+				    <p>@InstallStrings.Page2_Group3_SQLiteSuccessMessage</p>
+			    </div>
+			    <div id="sqlitefailure" class="failure alert hidden">
+				    <h2>@InstallStrings.Page2_Group3_SQLiteFailureTitle</h2>
+				    <p>@InstallStrings.Page2_Group3_SQLiteFailureMessage
+				    <pre class="errormessage" style="width:100%;overflow:scroll;"></pre>
+				    </p>
+			    </div>
+            </div>
 
 			<ol>
 				<li>
 					<b>SQL Server Express:</b><br />
-					<span class="example">Database=roadkill;Server=.\SQLEXPRESS;uid=youusername;pwd=yourpassword;</span>
-					<span class="example">Database=roadkill;Server=.\SQLEXPRESS;Integrated Security=SSPI</span>
+					<span class="example" data-dbtype="SqlServer2005">Database=roadkill;Server=.\SQLEXPRESS;uid=youusername;pwd=yourpassword;</span>
+                    <span class="example" data-dbtype="SqlServer2005">Database=roadkill;Server=.\SQLEXPRESS;Integrated Security=SSPI</span>
 				</li>
 				<li>
 					<b>SQL Server App_Data file-based:</b><br />
-					<span class="example">Server=.\SQLExpress;AttachDbFilename=|DataDirectory|\roadkill.mdf;Integrated Security=True;User Instance=True</span>
+                    <span class="example" data-dbtype="SqlServer2005">Server=.\SQLExpress;AttachDbFilename=|DataDirectory|\roadkill.mdf;Integrated Security=True;User Instance=True</span>
 				</li>
 				<li style="margin-top:10px">
 					<b>SQL Server Compact:</b><br />
-					<span class="example">Data Source=|DataDirectory|\roadkill.sdf;</span>
+                    <span class="example" data-dbtype="SqlServerCe">Data Source=|DataDirectory|\roadkill.sdf;</span>
 				</li>
 				<li>
 					<b>SQLite (stored in the App_Data folder):</b><br />
-					<span class="example">Data Source=|DataDirectory|\roadkill.sqlite;</span>
-				</li>
-				<li style="margin-top:10px">
-					<b>SQL Server Compact:</b><br />
-					<span class="example">Data Source=|DataDirectory|\roadkill.sdf;</span>
+                    <span class="example" data-dbtype="Sqlite">Data Source=|DataDirectory|\roadkill.sqlite;</span>
 				</li>
 				<li style="margin-top:10px">
 					<b>MongoDB</b><br />
-					<span class="example">mongodb://username:password@my.host.com:10057/MyDatabaseName</span>
+                    <span class="example" data-dbtype="MongoDB">mongodb://username:password@mongohq.com:10057/MyDatabaseName</span>
 				</li>
 			</ol>
 			
