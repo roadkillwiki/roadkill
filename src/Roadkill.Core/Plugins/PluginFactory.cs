@@ -86,6 +86,14 @@ namespace Roadkill.Core.Plugins
 			return ServiceLocator.GetAllInstances<TextPlugin>().Where(x => x.IsEnabled);
 		}
 
+		/// <summary>
+		/// Retrieves all text plugins from the IoC container.
+		/// </summary>
+		public IEnumerable<TextPlugin> GetEnabledTextPlugins()
+		{
+			return ServiceLocator.GetAllInstances<TextPlugin>().Where(x => x.Settings.IsEnabled);
+		}
+
 		public TextPlugin GetTextPlugin(string id)
 		{
 			return ServiceLocator.GetAllInstances<TextPlugin>().FirstOrDefault(x => x.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
