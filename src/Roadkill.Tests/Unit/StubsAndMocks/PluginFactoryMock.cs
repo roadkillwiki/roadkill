@@ -25,6 +25,11 @@ namespace Roadkill.Tests.Unit
 			return TextPlugins;
 		}
 
+		public IEnumerable<TextPlugin> GetEnabledTextPlugins()
+		{
+			return TextPlugins.Where(x => x.Settings.IsEnabled);
+		}
+
 		public void RegisterTextPlugin(TextPlugin plugin)
 		{
 			TextPlugins.Add(plugin);
