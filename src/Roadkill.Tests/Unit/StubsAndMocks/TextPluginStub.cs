@@ -15,6 +15,7 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 		private string _id;
 		private string _name;
 		private string _description;
+		private string _version;
 
 		public override string Id { get { return _id; } }
 		public override string Name { get { return _name; } }
@@ -25,7 +26,7 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 
 			get
 			{
-				return "1.0";
+				return _version;
 			}
 		}
 
@@ -43,11 +44,12 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 			_description = "Amazing stubbed plugin";
 		}
 
-		public TextPluginStub(string id, string name, string description)
+		public TextPluginStub(string id, string name, string description, string version = "1.0")
 		{
 			_id = id;
 			_name = name;
 			_description = description;
+			_version = version;
 		}
 
 		public override void OnInitializeSettings(PluginSettings settings)

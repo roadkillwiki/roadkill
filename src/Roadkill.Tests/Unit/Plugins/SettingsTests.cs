@@ -16,7 +16,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		public void SetValue_Should_Add_New_Value()
 		{
 			// Arrange
-			PluginSettings settings = new PluginSettings();
+			PluginSettings settings = new PluginSettings("mockplugin","1.0");
 
 			// Act
 			settings.SetValue("name", "value");
@@ -32,7 +32,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		public void SetValue_Should_Update_Existing_Value()
 		{
 			// Arrange
-			PluginSettings settings = new PluginSettings();
+			PluginSettings settings = new PluginSettings("mockplugin", "1.0");
 
 			// Act
 			settings.SetValue("name", "value");
@@ -48,7 +48,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		public void SetValue_Should_Be_Case_Insensitive_When_Updating_Existing_Value()
 		{
 			// Arrange
-			PluginSettings settings = new PluginSettings();
+			PluginSettings settings = new PluginSettings("mockplugin", "1.0");
 
 			// Act
 			settings.SetValue("name", "value");
@@ -64,7 +64,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		public void GetValue_Should_Return_Known_Value()
 		{
 			// Arrange
-			PluginSettings settings = new PluginSettings();
+			PluginSettings settings = new PluginSettings("mockplugin", "1.0");
 
 			// Act
 			settings.SetValue("name1", "value1");
@@ -79,7 +79,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		public void GetValue_Should_Be_Case_Insensitive()
 		{
 			// Arrange
-			PluginSettings settings = new PluginSettings();
+			PluginSettings settings = new PluginSettings("mockplugin", "1.0");
 
 			// Act
 			settings.SetValue("name", "value");
@@ -93,7 +93,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		public void Should_Contain_Empty_Values_List()
 		{
 			// Arrange
-			PluginSettings settings = new PluginSettings();
+			PluginSettings settings = new PluginSettings("mockplugin", "1.0");
 
 			// Act + Assert
 			Assert.That(settings.Values, Is.Not.Null);
