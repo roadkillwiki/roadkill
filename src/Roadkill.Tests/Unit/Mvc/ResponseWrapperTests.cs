@@ -29,7 +29,21 @@ namespace Roadkill.Tests.Unit.Mvc
 		}
 
 		[Test]
-		public void GetStatusCodeForCache_Should_Return_304_When_File_Was_Checked_More_Recently()
+		public void GetStatusCodeForCache_Should_Return_200_When_No_Modified_Since_Header()
+		{
+			// Arrange
+			DateTime fileLastWritten = DateTime.Today;
+			string ifModifiedSince = null;
+
+			// Act
+			int status = ResponseWrapper.GetStatusCodeForCache(fileLastWritten, ifModifiedSince);
+
+			// Assert
+			Assert.That(status, Is.EqualTo(200));
+		}
+
+		[Test]
+		public void GetStatusCodeForCache_Should_Return_304_When_LastModified_Date_Matches_File_Last_Write_Date()
 		{
 			// Arrange
 			DateTime fileLastWritten = DateTime.Today.AddDays(-1);

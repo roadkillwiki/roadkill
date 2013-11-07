@@ -28,7 +28,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		private SettingsService _settingsService;
 		private PageService _pageService;
 		private SearchService _searchService;
-		private ScrewTurnImporter _importer;
+		private IWikiImporter _wikiImporter;
 		private ListCache _listCache;
 		private PageViewModelCache _pageViewModelCache;
 		private SiteCache _siteCache;
@@ -36,7 +36,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 		public SettingsController(ApplicationSettings settings, UserServiceBase userManager,
 			SettingsService settingsService, PageService pageService, SearchService searchService, IUserContext context,
-			ListCache listCache, PageViewModelCache pageViewModelCache, SiteCache siteCache, ScrewTurnImporter screwTurnImporter, IRepository repository)
+			ListCache listCache, PageViewModelCache pageViewModelCache, SiteCache siteCache, IWikiImporter wikiImporter, IRepository repository)
 			: base(settings, userManager, context, settingsService) 
 		{
 			_settingsService = settingsService;
@@ -46,6 +46,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			_pageViewModelCache = pageViewModelCache;
 			_siteCache = siteCache;
 			_repository = repository;
+			_wikiImporter = wikiImporter;
 		}
 
 		/// <summary>
@@ -349,7 +350,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			try
 			{
-				ScriptBuilder scriptBuilder = new ScriptBuilder(_repository);
+				SqlExportBuilder scriptBuilder = new SqlExportBuilder(_repository);
 				string sql = scriptBuilder.Export();
 
 				// Let the FileStreamResult dispose the stream
@@ -389,8 +390,8 @@ namespace Roadkill.Core.Mvc.Controllers
 			}
 			else
 			{
-				_importer.ImportFromSqlServer(screwturnConnectionString);
-				_importer.UpdateSearchIndex(_searchService);
+				_wikiImporter.ImportFromSqlServer(screwturnConnectionString);
+				_wikiImporter.UpdateSearchIndex(_searchService);
 				message = SiteStrings.SiteSettings_Tools_ScrewTurnImport_Message;
 			}
 

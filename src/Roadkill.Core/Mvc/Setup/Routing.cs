@@ -51,6 +51,15 @@ namespace Roadkill.Core.Mvc
 				new { controller = "Pages", action = "ByUser", title = UrlParameter.Optional }
 			);
 
+			// Be explicit for the help controller, as it gets confused with the WebAPI one
+			routes.MapRoute(
+				"Roadkill.Core.Mvc.Controllers.HelpController",
+				"help/{action}/{id}",
+				new { controller = "Help", id = UrlParameter.Optional },
+				null,
+				new string[] { "Roadkill.Core.Mvc.Controllers" }
+			);
+
 			// Default
 			routes.MapLowercaseRoute(
 				"Default", // Route name
