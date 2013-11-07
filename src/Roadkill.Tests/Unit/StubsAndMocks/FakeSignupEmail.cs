@@ -11,18 +11,18 @@ namespace Roadkill.Tests.Unit
 	public class FakeSignupEmail : SignupEmail
 	{
 		public bool IsSent { get; set; }
-		public UserViewModel Summary { get; set; }
+		public UserViewModel ViewModel { get; set; }
 
 		public FakeSignupEmail(ApplicationSettings applicationSettings, SiteSettings siteSettings)
 			: base(applicationSettings, siteSettings)
 		{
 		}
 		
-		public override void Send(UserViewModel summary)
+		public override void Send(UserViewModel model)
 		{
-			ReplaceTokens(summary, "{EMAIL}");
+			ReplaceTokens(model, "{EMAIL}");
 			IsSent = true;
-			Summary = summary;
+			ViewModel = model;
 		}
 	}
 

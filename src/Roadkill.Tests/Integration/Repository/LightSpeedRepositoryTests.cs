@@ -412,7 +412,7 @@ namespace Roadkill.Tests.Integration
 		public void Should_Get_And_SavePluginSettings()
 		{
 			// Arrange
-			PluginSettings expectedSettings = new PluginSettings();
+			PluginSettings expectedSettings = new PluginSettings("mockplugin", "1.0");
 			expectedSettings.SetValue("somekey1", "thevalue1");
 			expectedSettings.SetValue("somekey2", "thevalue2");
 

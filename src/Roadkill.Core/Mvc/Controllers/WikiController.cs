@@ -39,12 +39,12 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (id == null || id < 1)
 				return RedirectToAction("Index", "Home");
 
-			PageViewModel summary = PageService.GetById(id.Value);
+			PageViewModel model = PageService.GetById(id.Value);
 
-			if (summary == null)
+			if (model == null)
 				throw new HttpException(404, string.Format("The page with id '{0}' could not be found", id));
 
-			return View(summary);
+			return View(model);
 		}
 
 		public ActionResult PageToolbar(int? id)
@@ -52,12 +52,12 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (id == null || id < 1)
 				return Content("");
 
-			PageViewModel summary = PageService.GetById(id.Value);
+			PageViewModel model = PageService.GetById(id.Value);
 
-			if (summary == null)
+			if (model == null)
 				return Content(string.Format("The page with id '{0}' could not be found", id));
 
-			return PartialView(summary);
+			return PartialView(model);
 		}
 
 		/// <summary>

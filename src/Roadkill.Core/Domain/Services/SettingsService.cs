@@ -60,14 +60,14 @@ namespace Roadkill.Core.Services
 		/// <summary>
 		/// Creates the database schema tables.
 		/// </summary>
-		/// <param name="summary">The settings data.</param>
+		/// <param name="model">The settings data.</param>
 		/// <exception cref="DatabaseException">An datastore error occurred while creating the database tables.</exception>
-		public void CreateTables(SettingsViewModel summary)
+		public void CreateTables(SettingsViewModel model)
 		{
 			try
 			{
-				DataStoreType dataStoreType = DataStoreType.ByName(summary.DataStoreTypeName);
-				Repository.Install(dataStoreType, summary.ConnectionString, summary.UseObjectCache);
+				DataStoreType dataStoreType = DataStoreType.ByName(model.DataStoreTypeName);
+				Repository.Install(dataStoreType, model.ConnectionString, model.UseObjectCache);
 			}
 			catch (DatabaseException ex)
 			{
@@ -87,27 +87,27 @@ namespace Roadkill.Core.Services
 		/// <summary>
 		/// Saves all settings that are stored in the database, to the configuration table.
 		/// </summary>
-		/// <param name="summary">Summary data containing the settings.</param>
+		/// <param name="model">Summary data containing the settings.</param>
 		/// <exception cref="DatabaseException">An datastore error occurred while saving the configuration.</exception>
-		public void SaveSiteSettings(SettingsViewModel summary)
+		public void SaveSiteSettings(SettingsViewModel model)
 		{
 			try
 			{
 				SiteSettings siteSettings = new SiteSettings();
-				siteSettings.AllowedFileTypes = summary.AllowedFileTypes;
-				siteSettings.AllowUserSignup = summary.AllowUserSignup;
-				siteSettings.IsRecaptchaEnabled = summary.IsRecaptchaEnabled;
-				siteSettings.MarkupType = summary.MarkupType;
-				siteSettings.RecaptchaPrivateKey = summary.RecaptchaPrivateKey;
-				siteSettings.RecaptchaPublicKey = summary.RecaptchaPublicKey;
-				siteSettings.SiteUrl = summary.SiteUrl;
-				siteSettings.SiteName = summary.SiteName;
-				siteSettings.Theme = summary.Theme;
+				siteSettings.AllowedFileTypes = model.AllowedFileTypes;
+				siteSettings.AllowUserSignup = model.AllowUserSignup;
+				siteSettings.IsRecaptchaEnabled = model.IsRecaptchaEnabled;
+				siteSettings.MarkupType = model.MarkupType;
+				siteSettings.RecaptchaPrivateKey = model.RecaptchaPrivateKey;
+				siteSettings.RecaptchaPublicKey = model.RecaptchaPublicKey;
+				siteSettings.SiteUrl = model.SiteUrl;
+				siteSettings.SiteName = model.SiteName;
+				siteSettings.Theme = model.Theme;
 
-				// v1.8
-				siteSettings.OverwriteExistingFiles = summary.OverwriteExistingFiles;
-				siteSettings.HeadContent = summary.HeadContent;
-				siteSettings.MenuMarkup = summary.MenuMarkup;
+				// v2.0
+				siteSettings.OverwriteExistingFiles = model.OverwriteExistingFiles;
+				siteSettings.HeadContent = model.HeadContent;
+				siteSettings.MenuMarkup = model.MenuMarkup;
 
 				Repository.SaveSiteSettings(siteSettings);
 			}

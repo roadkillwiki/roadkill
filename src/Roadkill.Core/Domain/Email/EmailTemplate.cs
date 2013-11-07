@@ -56,19 +56,19 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Replaces all tokens in the html and plain text views.
 		/// </summary>
-		/// <param name="summary"></param>
-		protected virtual string ReplaceTokens(UserViewModel summary, string template)
+		/// <param name="model"></param>
+		protected virtual string ReplaceTokens(UserViewModel model, string template)
 		{
 			string result = template;
 
-			result = result.Replace("{FIRSTNAME}", summary.Firstname);
-			result = result.Replace("{LASTNAME}", summary.Lastname);
-			result = result.Replace("{EMAIL}", summary.NewEmail);
-			result = result.Replace("{USERNAME}", summary.NewUsername);
+			result = result.Replace("{FIRSTNAME}", model.Firstname);
+			result = result.Replace("{LASTNAME}", model.Lastname);
+			result = result.Replace("{EMAIL}", model.NewEmail);
+			result = result.Replace("{USERNAME}", model.NewUsername);
 			result = result.Replace("{SITEURL}", SiteSettings.SiteUrl);
-			result = result.Replace("{ACTIVATIONKEY}", summary.ActivationKey);
-			result = result.Replace("{RESETKEY}", summary.PasswordResetKey);
-			result = result.Replace("{USERID}", summary.Id.ToString());
+			result = result.Replace("{ACTIVATIONKEY}", model.ActivationKey);
+			result = result.Replace("{RESETKEY}", model.PasswordResetKey);
+			result = result.Replace("{USERID}", model.Id.ToString());
 			result = result.Replace("{SITENAME}", SiteSettings.SiteName);
 
 			if (HttpContext.Current != null)

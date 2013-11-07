@@ -51,14 +51,14 @@ namespace Roadkill.Tests.Unit
 
 			// Cache
 			ListCache listCache = new ListCache(_settings, CacheMock.RoadkillCache);
-			PageViewModelCache pageSummaryCache = new PageViewModelCache(_settings, CacheMock.RoadkillCache);
+			PageViewModelCache pageViewModelCache = new PageViewModelCache(_settings, CacheMock.RoadkillCache);
 
 			// Dependencies for PageService
 			_pluginFactory = new PluginFactoryMock();
 			_repository = new RepositoryMock();
 
 			_userManager = new Mock<UserServiceBase>(_settings, _repository).Object;
-			_historyService = new PageHistoryService(_settings, _repository, _contextStub, pageSummaryCache, _pluginFactory);
+			_historyService = new PageHistoryService(_settings, _repository, _contextStub, pageViewModelCache, _pluginFactory);
 			_settingsService = new SettingsService(_settings, _repository);
 			_searchService = new SearchService(_settings, _repository, _pluginFactory);
 
@@ -299,14 +299,14 @@ namespace Roadkill.Tests.Unit
 			Page page = AddDummyPage1();
 			PageContent pageContent = _repository.PageContents[0];
 
-			PageViewModel summary = new PageViewModel();
-			summary.Id = page.Id;
-			summary.RawTags = "newtag1,newtag2";
-			summary.Title = "New page title";
-			summary.Content = "*Some new content here*";
+			PageViewModel model = new PageViewModel();
+			model.Id = page.Id;
+			model.RawTags = "newtag1,newtag2";
+			model.Title = "New page title";
+			model.Content = "*Some new content here*";
 
 			// Act
-			ActionResult result = _pagesController.Edit(summary);
+			ActionResult result = _pagesController.Edit(model);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "RedirectToRouteResult");
@@ -316,7 +316,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Index"));
 			Assert.That(redirectResult.RouteValues["controller"], Is.EqualTo("Wiki"));
 			Assert.That(_repository.Pages.Count, Is.EqualTo(1));
-			_pageServiceMock.Verify(x => x.UpdatePage(summary));
+			_pageServiceMock.Verify(x => x.UpdatePage(model));
 		}
 
 		[Test]
@@ -326,12 +326,12 @@ namespace Roadkill.Tests.Unit
 			_contextStub.CurrentUser = "Admin";
 			Page page = AddDummyPage1();
 
-			PageViewModel summary = new PageViewModel();
-			summary.Id = page.Id;
+			PageViewModel model = new PageViewModel();
+			model.Id = page.Id;
 
 			// Act
 			_pagesController.ModelState.AddModelError("Title", "You forgot it");
-			ActionResult result = _pagesController.Edit(summary);
+			ActionResult result = _pagesController.Edit(model);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
@@ -393,31 +393,31 @@ namespace Roadkill.Tests.Unit
 			Assert.NotNull(viewResult, "Null viewResult");
 			Assert.That(viewResult.ViewName, Is.EqualTo("Edit"));
 			
-			PageViewModel summary = viewResult.ModelFromActionResult<PageViewModel>();
-			Assert.NotNull(summary, "Null model");
-			Assert.That(summary.Title, Is.EqualTo(title));
+			PageViewModel model = viewResult.ModelFromActionResult<PageViewModel>();
+			Assert.NotNull(model, "Null model");
+			Assert.That(model.Title, Is.EqualTo(title));
 		}
 
 		[Test]
 		public void New_POST_Should_Return_RedirectResult_And_Call_PageService()
 		{
 			// Arrange
-			PageViewModel summary = new PageViewModel();
-			summary.RawTags = "newtag1,newtag2";
-			summary.Title = "New page title";
-			summary.Content = "*Some new content here*";
+			PageViewModel model = new PageViewModel();
+			model.RawTags = "newtag1,newtag2";
+			model.Title = "New page title";
+			model.Content = "*Some new content here*";
 
-			_pageServiceMock.Setup(x => x.AddPage(summary)).Returns(() =>
+			_pageServiceMock.Setup(x => x.AddPage(model)).Returns(() =>
 			{
-				_repository.Pages.Add(new Page() { Id = 50, Title = summary.Title, Tags = summary.RawTags });
-				_repository.PageContents.Add(new PageContent() { Id = Guid.NewGuid(), Text = summary.Content });
-				summary.Id = 50;
+				_repository.Pages.Add(new Page() { Id = 50, Title = model.Title, Tags = model.RawTags });
+				_repository.PageContents.Add(new PageContent() { Id = Guid.NewGuid(), Text = model.Content });
+				model.Id = 50;
 
-				return summary;
+				return model;
 			});
 
 			// Act
-			ActionResult result = _pagesController.New(summary);
+			ActionResult result = _pagesController.New(model);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "RedirectToRouteResult not returned");
@@ -427,19 +427,19 @@ namespace Roadkill.Tests.Unit
 			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Index"));
 			Assert.That(redirectResult.RouteValues["controller"], Is.EqualTo("Wiki"));
 			Assert.That(_repository.Pages.Count, Is.EqualTo(1));
-			_pageServiceMock.Verify(x => x.AddPage(summary));
+			_pageServiceMock.Verify(x => x.AddPage(model));
 		}
 
 		[Test]
 		public void New_POST_With_Invalid_Data_Should_Return_View_And_Invalid_ModelState()
 		{
 			// Arrange
-			PageViewModel summary = new PageViewModel();
-			summary.Title = "";
+			PageViewModel model = new PageViewModel();
+			model.Title = "";
 
 			// Act
 			_pagesController.ModelState.AddModelError("Title", "You forgot it");
-			ActionResult result = _pagesController.New(summary);
+			ActionResult result = _pagesController.New(model);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
@@ -535,8 +535,8 @@ namespace Roadkill.Tests.Unit
 			ViewResult viewResult = result as ViewResult;
 			Assert.NotNull(viewResult, "Null ViewResult");
 
-			PageViewModel summary = viewResult.ModelFromActionResult<PageViewModel>();
-			Assert.That(summary.Content, Contains.Substring("version2 text"));
+			PageViewModel model = viewResult.ModelFromActionResult<PageViewModel>();
+			Assert.That(model.Content, Contains.Substring("version2 text"));
 		}
 	}
 }

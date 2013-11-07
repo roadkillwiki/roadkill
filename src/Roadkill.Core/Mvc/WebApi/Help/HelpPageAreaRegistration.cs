@@ -25,13 +25,19 @@ namespace Roadkill.Core.Areas.HelpPage
 			context.MapRoute(
 				"HelpPage_Default2",
 				"api/help",
-				new { controller = "Help", action = "Index", apiId = UrlParameter.Optional });
+				new { controller = "Help", action = "Index", apiId = UrlParameter.Optional },
+				null,
+				new string[] { "Roadkill.Core.Areas.HelpPage.Controllers" }
+			);
 
 			// "/api/help/pages"
 			context.MapRoute(
 				"HelpPage_Default3",
 				"api/help/{apiId}/{action}/",
-				new { controller = "Help", action = "Index", apiId = UrlParameter.Optional });
+				new { controller = "Help", action = "Index", apiId = UrlParameter.Optional },
+				null,
+				new string[] { "Roadkill.Core.Areas.HelpPage.Controllers" }
+			);
 
 			HelpPageConfig.Register(GlobalConfiguration.Configuration);
         }

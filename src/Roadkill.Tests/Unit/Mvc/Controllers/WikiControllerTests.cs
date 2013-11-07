@@ -88,10 +88,10 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 
-			PageViewModel summary = result.ModelFromActionResult<PageViewModel>();
-			Assert.NotNull(summary, "Null model");
-			Assert.That(summary.Title, Is.EqualTo(page1.Title));
-			Assert.That(summary.Content, Is.EqualTo(page1Content.Text));
+			PageViewModel model = result.ModelFromActionResult<PageViewModel>();
+			Assert.NotNull(model, "Null model");
+			Assert.That(model.Title, Is.EqualTo(page1.Title));
+			Assert.That(model.Content, Is.EqualTo(page1Content.Text));
 		}
 
 		[Test]

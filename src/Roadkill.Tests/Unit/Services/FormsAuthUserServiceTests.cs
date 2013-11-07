@@ -220,14 +220,14 @@ namespace Roadkill.Tests.Unit
 		public void Signup_And_Activate()
 		{
 			// Signup
-			UserViewModel summary = new UserViewModel();
-			summary.Firstname = "Harry";
-			summary.Lastname = "Houdini";
-			summary.NewEmail = "harry@localhost";
-			summary.NewUsername = "hazza100";
-			summary.Password = "password";
+			UserViewModel model = new UserViewModel();
+			model.Firstname = "Harry";
+			model.Lastname = "Houdini";
+			model.NewEmail = "harry@localhost";
+			model.NewUsername = "hazza100";
+			model.Password = "password";
 
-			string key = _defaultUserService.Signup(summary,null);
+			string key = _defaultUserService.Signup(model,null);
 			Assert.IsNotNull(key);
 
 			User actual = _defaultUserService.GetUser("harry@localhost", false);
@@ -293,12 +293,12 @@ namespace Roadkill.Tests.Unit
 
 			// Update the user
 			User actual = _defaultUserService.GetUser("editor@localhost");
-			UserViewModel summary = actual.ToSummary();
-			summary.Firstname = "Harold";
-			summary.Lastname = "Bishop";
-			summary.NewEmail = "harold@localhost";
-			summary.NewUsername = "harryB";
-			Assert.IsTrue(_defaultUserService.UpdateUser(summary));
+			UserViewModel model = actual.ToViewModel();
+			model.Firstname = "Harold";
+			model.Lastname = "Bishop";
+			model.NewEmail = "harold@localhost";
+			model.NewUsername = "harryB";
+			Assert.IsTrue(_defaultUserService.UpdateUser(model));
 
 			// Check the updates persisted
 			actual = _defaultUserService.GetUser("harold@localhost");
@@ -317,12 +317,12 @@ namespace Roadkill.Tests.Unit
 
 			// Update the user
 			User actual = _defaultUserService.GetUser("editor@localhost");
-			UserViewModel summary = actual.ToSummary();
-			summary.Firstname = "Harold";
-			summary.Lastname = "Bishop";
-			summary.NewEmail = "harold@localhost";
-			summary.NewUsername = "editor2";
-			Assert.IsFalse(_defaultUserService.UpdateUser(summary));
+			UserViewModel model = actual.ToViewModel();
+			model.Firstname = "Harold";
+			model.Lastname = "Bishop";
+			model.NewEmail = "harold@localhost";
+			model.NewUsername = "editor2";
+			Assert.IsFalse(_defaultUserService.UpdateUser(model));
 			Assert.IsFalse(_defaultUserService.Authenticate("harold@localhost", "password"));
 		}
 
@@ -335,12 +335,12 @@ namespace Roadkill.Tests.Unit
 
 			// Update the user
 			User actual = _defaultUserService.GetUser("editor@localhost");
-			UserViewModel summary = actual.ToSummary();
-			summary.Firstname = "Harold";
-			summary.Lastname = "Bishop";
-			summary.NewEmail = "editor2@localhost";
-			summary.NewUsername = "harryB";
-			Assert.IsFalse(_defaultUserService.UpdateUser(summary));
+			UserViewModel model = actual.ToViewModel();
+			model.Firstname = "Harold";
+			model.Lastname = "Bishop";
+			model.NewEmail = "editor2@localhost";
+			model.NewUsername = "harryB";
+			Assert.IsFalse(_defaultUserService.UpdateUser(model));
 			Assert.IsFalse(_defaultUserService.Authenticate("editor2@localhost", "password"));
 		}
 

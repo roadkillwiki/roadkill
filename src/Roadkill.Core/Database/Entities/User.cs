@@ -82,7 +82,7 @@ namespace Roadkill.Core.Database
 			}
 		}
 
-		public UserViewModel ToSummary()
+		public UserViewModel ToViewModel()
 		{
 			return new UserViewModel()
 			{

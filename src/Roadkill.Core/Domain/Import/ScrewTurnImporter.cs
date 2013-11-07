@@ -48,36 +48,43 @@ namespace Roadkill.Core.Import
 		/// </summary>
 		private void ImportUsers()
 		{
-			using (SqlConnection connection = new SqlConnection(_connectionString))
+			try
 			{
-				using (SqlCommand command = connection.CreateCommand())
+				using (SqlConnection connection = new SqlConnection(_connectionString))
 				{
-					connection.Open();
-					command.CommandText = "SELECT * FROM [User]";
-
-					using (SqlDataReader reader = command.ExecuteReader())
+					using (SqlCommand command = connection.CreateCommand())
 					{
-						while (reader.Read())
+						connection.Open();
+						command.CommandText = "SELECT * FROM [User]";
+
+						using (SqlDataReader reader = command.ExecuteReader())
 						{
-							string username = reader["Username"].ToString();
-							if (!string.IsNullOrEmpty(username) && !string.Equals(username, "admin", StringComparison.OrdinalIgnoreCase))
+							while (reader.Read())
 							{
-								string email = reader["Email"].ToString();
+								string username = reader["Username"].ToString();
+								if (!string.IsNullOrEmpty(username) && !string.Equals(username, "admin", StringComparison.OrdinalIgnoreCase))
+								{
+									string email = reader["Email"].ToString();
 
-								User user = new User();
-								user.Id = Guid.NewGuid();
-								user.IsEditor = true;
-								user.IsAdmin = false;
-								user.Email = email;
-								user.Username = username;
-								user.IsActivated = false;
-								user.SetPassword("password");
+									User user = new User();
+									user.Id = Guid.NewGuid();
+									user.IsEditor = true;
+									user.IsAdmin = false;
+									user.Email = email;
+									user.Username = username;
+									user.IsActivated = false;
+									user.SetPassword("password");
 
-								Repository.SaveOrUpdateUser(user);
+									Repository.SaveOrUpdateUser(user);
+								}
 							}
 						}
 					}
 				}
+			}
+			catch (SqlException ex)
+			{
+				throw new DatabaseException(ex, "Unable to import the pages from Screwturn - have you configured it to use the SQL Server users provider? \n{0}", ex.Message);
 			}
 		}
 		
@@ -86,12 +93,14 @@ namespace Roadkill.Core.Import
 		/// </summary>
 		private void ImportPages()
 		{
-			using (SqlConnection connection = new SqlConnection(_connectionString))
+			try
 			{
-				using (SqlCommand command = connection.CreateCommand())
+				using (SqlConnection connection = new SqlConnection(_connectionString))
 				{
-					connection.Open();
-					command.CommandText = @"SELECT 
+					using (SqlCommand command = connection.CreateCommand())
+					{
+						connection.Open();
+						command.CommandText = @"SELECT 
 												p.CreationDateTime,
 												p.Name,
 												pc.[User] as [User],
@@ -103,29 +112,34 @@ namespace Roadkill.Core.Import
 											WHERE 
 												pc.Revision = (SELECT MAX(Revision) FROM PageContent WHERE [Page]=p.Name)";
 
-					using (SqlDataReader reader = command.ExecuteReader())
-					{
-						while (reader.Read())
+						using (SqlDataReader reader = command.ExecuteReader())
 						{
-							string pageName = reader["Name"].ToString();
+							while (reader.Read())
+							{
+								string pageName = reader["Name"].ToString();
 
-							Page page = new Page();
-							page.Title = reader["Title"].ToString();
-							page.CreatedBy = reader["User"].ToString();
-							page.CreatedOn = (DateTime)reader["CreationDateTime"];
-							page.ModifiedBy = reader["User"].ToString();
-							page.ModifiedOn = (DateTime)reader["LastModified"];
+								Page page = new Page();
+								page.Title = reader["Title"].ToString();
+								page.CreatedBy = reader["User"].ToString();
+								page.CreatedOn = (DateTime)reader["CreationDateTime"];
+								page.ModifiedBy = reader["User"].ToString();
+								page.ModifiedOn = (DateTime)reader["LastModified"];
 
-							string categories = GetCategories(pageName);
-							if (!string.IsNullOrWhiteSpace(categories))
-								categories += ";";
-							page.Tags = categories;
+								string categories = GetCategories(pageName);
+								if (!string.IsNullOrWhiteSpace(categories))
+									categories += ";";
+								page.Tags = categories;
 
-							page = Repository.SaveOrUpdatePage(page);
-							AddContent(pageName, page);
+								page = Repository.SaveOrUpdatePage(page);
+								AddContent(pageName, page);
+							}
 						}
 					}
 				}
+			}
+			catch (SqlException ex)
+			{
+				throw new DatabaseException(ex, "Unable to import the pages from Screwturn - have you configured it to use the SQL Server pages provider? \n{0}", ex.Message);
 			}
 		}
 
@@ -134,21 +148,28 @@ namespace Roadkill.Core.Import
 		/// </summary>
 		private void ImportFiles()
 		{
-			using (SqlConnection connection = new SqlConnection(_connectionString))
+			try
 			{
-				using (SqlCommand command = connection.CreateCommand())
+				using (SqlConnection connection = new SqlConnection(_connectionString))
 				{
-					connection.Open();
-					command.CommandText = "SELECT directory,name,data FROM [File]";
-
-					using (SqlDataReader reader = command.ExecuteReader())
+					using (SqlCommand command = connection.CreateCommand())
 					{
-						while (reader.Read())
+						connection.Open();
+						command.CommandText = "SELECT directory,name,data FROM [File]";
+
+						using (SqlDataReader reader = command.ExecuteReader())
 						{
-							SaveFile(reader.GetString(0) + reader.GetString(1),(byte[]) reader[2]);
+							while (reader.Read())
+							{
+								SaveFile(reader.GetString(0) + reader.GetString(1), (byte[])reader[2]);
+							}
 						}
-					}			
+					}
 				}
+			}
+			catch (SqlException ex)
+			{
+				throw new DatabaseException(ex, "Unable to import the pages from Screwturn - have you configured it to use the SQL Server files provider? \n{0}", ex.Message);
 			}
 		}
 
@@ -265,8 +286,13 @@ namespace Roadkill.Core.Import
 				return text;
 
 			// Screwturn uses "[" for links instead of "[[", so do a crude replace.
-			// Needs more coverage for @@ blocks, variables, toc.
-			text = text.Replace("[", "[[").Replace("]", "]]").Replace("{BR}", "\n").Replace("{UP}","");
+			// Files aren't done using File:/ but instead {UP}
+			// This needs more coverage for @@ blocks, variables, toc.
+			text = text.Replace("[", "[[")
+						.Replace("]", "]]")
+						.Replace("{BR}", "\n")
+						.Replace("imageleft||","")
+						.Replace("{UP}/","File:/");
 
 			// Handle nowiki blocks being a little strange
 			Regex regex = new Regex("@@(.*?)@@",RegexOptions.Singleline);

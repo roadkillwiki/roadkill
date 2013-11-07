@@ -38,13 +38,13 @@ namespace Roadkill.Core
 			// Filters
 			GlobalFilters.Filters.Add(new HandleErrorAttribute());
 
-			// Areas are used for the webapi help.
+			// Areas are used for the webapi help. This should be called before the other routes, for some reason.
 			AreaRegistration.RegisterAllAreas();
 
 			// Register routers and JS/CSS bundles
 			Routing.RegisterApi(GlobalConfiguration.Configuration);
 			Routing.Register(RouteTable.Routes);
-			Bundles.Register();
+			Bundles.Register();		
 
 			// Custom view engine registration (to add new search paths)
 			ExtendedRazorViewEngine.Register();

@@ -137,12 +137,12 @@ namespace Roadkill.Tests
 
 		public override IEnumerable<UserViewModel> ListAdmins()
 		{
-			return Users.Where(x => x.IsAdmin).Select(x => x.ToSummary());
+			return Users.Where(x => x.IsAdmin).Select(x => x.ToViewModel());
 		}
 
 		public override IEnumerable<UserViewModel> ListEditors()
 		{
-			return Users.Where(x => x.IsEditor).Select(x => x.ToSummary());
+			return Users.Where(x => x.IsEditor).Select(x => x.ToViewModel());
 		}
 
 		public override void Logout()
@@ -162,11 +162,11 @@ namespace Roadkill.Tests
 			return "user with email " +email+ "not found";
 		}
 
-		public override string Signup(UserViewModel summary, Action completed)
+		public override string Signup(UserViewModel page, Action completed)
 		{
-			AddUser(summary.NewEmail, summary.NewUsername, summary.Password, false, true);
+			AddUser(page.NewEmail, page.NewUsername, page.Password, false, true);
 
-			User user = GetUser(summary.NewEmail, false);
+			User user = GetUser(page.NewEmail, false);
 			user.IsActivated = false;
 			user.ActivationKey = Guid.NewGuid().ToString();
 
@@ -191,15 +191,15 @@ namespace Roadkill.Tests
 			}
 		}
 
-		public override bool UpdateUser(UserViewModel summary)
+		public override bool UpdateUser(UserViewModel model)
 		{
-			User user = GetUser(summary.ExistingEmail);
+			User user = GetUser(model.ExistingEmail);
 			if (user != null)
 			{
-				user.Email = summary.NewEmail;
-				user.Firstname = summary.Firstname;
-				user.Lastname = summary.Lastname;
-				user.Username = summary.NewUsername;
+				user.Email = model.NewEmail;
+				user.Firstname = model.Firstname;
+				user.Lastname = model.Lastname;
+				user.Username = model.NewUsername;
 
 				return true;
 			}

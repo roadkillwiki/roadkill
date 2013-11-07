@@ -107,7 +107,7 @@ namespace Roadkill.Tests.Unit
 				textContent = title + "'s text";
 
 			PageContent content = _repositoryMock.AddNewPage(page, textContent, createdBy, createdOn);
-			PageViewModel summary = new PageViewModel()
+			PageViewModel model = new PageViewModel()
 			{
 				Id = id,
 				Title = title,
@@ -117,14 +117,14 @@ namespace Roadkill.Tests.Unit
 				CreatedOn = createdOn
 			};
 
-			return summary;
+			return model;
 		}
 
 		[Test]
 		public void AddPage_Should_Save_To_Repository()
 		{
 			// Arrange
-			PageViewModel summary = new PageViewModel()
+			PageViewModel model = new PageViewModel()
 			{
 				Id = 1,
 				Title = "Homepage",
@@ -135,11 +135,11 @@ namespace Roadkill.Tests.Unit
 			};
 
 			// Act
-			PageViewModel newSummary = _pageService.AddPage(summary);
+			PageViewModel newModel = _pageService.AddPage(model);
 
 			// Assert
-			Assert.That(newSummary, Is.Not.Null);
-			Assert.That(newSummary.Content, Is.EqualTo(summary.Content));
+			Assert.That(newModel, Is.Not.Null);
+			Assert.That(newModel.Content, Is.EqualTo(model.Content));
 			Assert.That(_repositoryMock.Pages.Count, Is.EqualTo(1));
 			Assert.That(_repositoryMock.PageContents.Count, Is.EqualTo(1));
 		}
@@ -155,14 +155,14 @@ namespace Roadkill.Tests.Unit
 			PageViewModel page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			List<TagViewModel> summaries = _pageService.AllTags().OrderBy(t => t.Name).ToList();
+			List<TagViewModel> models = _pageService.AllTags().OrderBy(t => t.Name).ToList();
 
 			// Assert
-			Assert.That(summaries.Count, Is.EqualTo(4), "Tag summary count");
-			Assert.That(summaries[0].Name, Is.EqualTo("animals"));
-			Assert.That(summaries[1].Name, Is.EqualTo("homepage"));
-			Assert.That(summaries[2].Name, Is.EqualTo("page2"));
-			Assert.That(summaries[3].Name, Is.EqualTo("page3"));
+			Assert.That(models.Count, Is.EqualTo(4), "Tag summary count");
+			Assert.That(models[0].Name, Is.EqualTo("animals"));
+			Assert.That(models[1].Name, Is.EqualTo("homepage"));
+			Assert.That(models[2].Name, Is.EqualTo("page2"));
+			Assert.That(models[3].Name, Is.EqualTo("page3"));
 		}
 
 		[Test]
@@ -178,12 +178,12 @@ namespace Roadkill.Tests.Unit
 			// Act
 			_pageService.DeletePage(page1.Id);
 			_pageService.DeletePage(page2.Id);
-			List<PageViewModel> summaries = _pageService.AllPages().ToList();
+			List<PageViewModel> models = _pageService.AllPages().ToList();
 
 			// Assert
-			Assert.That(summaries.Count, Is.EqualTo(3), "Page count");
-			Assert.That(summaries.FirstOrDefault(p => p.Title == "Homepage"), Is.Null);
-			Assert.That(summaries.FirstOrDefault(p => p.Title == "page 2"), Is.Null);
+			Assert.That(models.Count, Is.EqualTo(3), "Page count");
+			Assert.That(models.FirstOrDefault(p => p.Title == "Homepage"), Is.Null);
+			Assert.That(models.FirstOrDefault(p => p.Title == "page 2"), Is.Null);
 		}
 
 		[Test]
@@ -197,11 +197,11 @@ namespace Roadkill.Tests.Unit
 			PageViewModel page5 = AddToStubbedRepository(5, "bob", "page 5", "animals;");
 
 			// Act
-			List<PageViewModel> summaries = _pageService.AllPagesCreatedBy("bob").ToList();
+			List<PageViewModel> models = _pageService.AllPagesCreatedBy("bob").ToList();
 
 			// Assert
-			Assert.That(summaries.Count, Is.EqualTo(3), "Summary count");
-			Assert.That(summaries.FirstOrDefault(p => p.CreatedBy == "admin"), Is.Null);
+			Assert.That(models.Count, Is.EqualTo(3), "Summary count");
+			Assert.That(models.FirstOrDefault(p => p.CreatedBy == "admin"), Is.Null);
 		}
 
 		[Test]
@@ -215,10 +215,10 @@ namespace Roadkill.Tests.Unit
 			PageViewModel page5 = AddToStubbedRepository(5, "bob", "page 5", "animals;");
 
 			// Act
-			List<PageViewModel> summaries = _pageService.AllPages().ToList();
+			List<PageViewModel> models = _pageService.AllPages().ToList();
 
 			// Assert
-			Assert.That(summaries.Count, Is.EqualTo(5), "Summary count");
+			Assert.That(models.Count, Is.EqualTo(5), "Summary count");
 		}
 
 		[Test]
@@ -230,12 +230,12 @@ namespace Roadkill.Tests.Unit
 			PageViewModel page3 = AddToStubbedRepository(3, "admin", "page 3", "page3;");
 
 			// Act
-			List<PageViewModel> summaries = _pageService.FindByTag("homepage").ToList();
+			List<PageViewModel> models = _pageService.FindByTag("homepage").ToList();
 
 			// Assert
-			Assert.That(summaries.Count, Is.EqualTo(1), "Summary count");
-			Assert.That(summaries[0].Title, Is.EqualTo("Homepage"), "Summary title");
-			Assert.That(summaries[0].Tags.ToList()[0], Is.EqualTo("homepage"), "Summary tags");
+			Assert.That(models.Count, Is.EqualTo(1), "Summary count");
+			Assert.That(models[0].Title, Is.EqualTo("Homepage"), "Summary title");
+			Assert.That(models[0].Tags.ToList()[0], Is.EqualTo("homepage"), "Summary tags");
 		}
 
 		[Test]
@@ -249,10 +249,10 @@ namespace Roadkill.Tests.Unit
 			PageViewModel page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			List<PageViewModel> summaries = _pageService.FindByTag("animals").ToList();
+			List<PageViewModel> models = _pageService.FindByTag("animals").ToList();
 
 			// Assert
-			Assert.That(summaries.Count, Is.EqualTo(2), "Summary count");
+			Assert.That(models.Count, Is.EqualTo(2), "Summary count");
 		}
 
 		[Test]
@@ -266,10 +266,10 @@ namespace Roadkill.Tests.Unit
 			PageViewModel page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			PageViewModel summary = _pageService.FindByTitle("page 3");
+			PageViewModel model = _pageService.FindByTitle("page 3");
 
 			// Assert
-			Assert.That(summary.Title, Is.EqualTo("page 3"), "Page title");
+			Assert.That(model.Title, Is.EqualTo("page 3"), "Page title");
 		}
 
 		[Test]
@@ -283,11 +283,11 @@ namespace Roadkill.Tests.Unit
 			PageViewModel page5 = AddToStubbedRepository(5, "admin", "page 5", "animals;");
 
 			// Act
-			PageViewModel summary = _pageService.GetById(page3.Id);
+			PageViewModel model = _pageService.GetById(page3.Id);
 
 			// Assert
-			Assert.That(summary.Id, Is.EqualTo(page3.Id), "Page id");
-			Assert.That(summary.Title, Is.EqualTo("page 3"), "Page title");
+			Assert.That(model.Id, Is.EqualTo(page3.Id), "Page id");
+			Assert.That(model.Title, Is.EqualTo("page 3"), "Page title");
 		}
 
 		[Test]
@@ -328,24 +328,24 @@ namespace Roadkill.Tests.Unit
 		public void UpdatePage_Should_Persist_To_Repository()
 		{
 			// Arrange
-			PageViewModel summary = AddToStubbedRepository(1, "admin", "Homepage", "animal;");
+			PageViewModel model = AddToStubbedRepository(1, "admin", "Homepage", "animal;");
 			string expectedTags = "new,tags";
 
 			// Act
-			summary.RawTags = "new,tags,";
-			summary.Title = "New title";
-			summary.Content = "**New content**";
+			model.RawTags = "new,tags,";
+			model.Title = "New title";
+			model.Content = "**New content**";
 
-			_pageService.UpdatePage(summary);
+			_pageService.UpdatePage(model);
 			PageViewModel actual = _pageService.GetById(1);
 
 			// Assert
-			Assert.That(actual.Title, Is.EqualTo(summary.Title), "Title");
-			Assert.That(actual.Tags, Is.EqualTo(summary.Tags), "Tags");
+			Assert.That(actual.Title, Is.EqualTo(model.Title), "Title");
+			Assert.That(actual.Tags, Is.EqualTo(model.Tags), "Tags");
 
 			Assert.That(_repositoryMock.Pages[0].Tags, Is.EqualTo(expectedTags));
-			Assert.That(_repositoryMock.Pages[0].Title, Is.EqualTo(summary.Title));
-			Assert.That(_repositoryMock.PageContents[1].Text, Is.EqualTo(summary.Content)); // "smells"
+			Assert.That(_repositoryMock.Pages[0].Title, Is.EqualTo(model.Title));
+			Assert.That(_repositoryMock.PageContents[1].Text, Is.EqualTo(model.Content)); // "smells"
 		}
 	}
 }

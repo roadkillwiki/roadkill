@@ -23,11 +23,11 @@ namespace Roadkill.Tests.Unit
 			PageContents = new List<PageContent>();
 		}
 
-		public override void Add(PageViewModel summary)
+		public override void Add(PageViewModel model)
 		{	
 		}
 
-		public override void Update(PageViewModel summary)
+		public override void Update(PageViewModel model)
 		{	
 		}
 
@@ -35,7 +35,7 @@ namespace Roadkill.Tests.Unit
 		{
 		}
 
-		public override int Delete(PageViewModel summary)
+		public override int Delete(PageViewModel model)
 		{
 			return 1;
 		}

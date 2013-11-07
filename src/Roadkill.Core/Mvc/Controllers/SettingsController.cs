@@ -28,7 +28,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		private SettingsService _settingsService;
 		private PageService _pageService;
 		private SearchService _searchService;
-		private ScrewTurnImporter _importer;
+		private IWikiImporter _wikiImporter;
 		private ListCache _listCache;
 		private PageViewModelCache _pageViewModelCache;
 		private SiteCache _siteCache;
@@ -36,16 +36,17 @@ namespace Roadkill.Core.Mvc.Controllers
 
 		public SettingsController(ApplicationSettings settings, UserServiceBase userManager,
 			SettingsService settingsService, PageService pageService, SearchService searchService, IUserContext context,
-			ListCache listCache, PageViewModelCache pageSummaryCache, SiteCache siteCache, ScrewTurnImporter screwTurnImporter, IRepository repository)
+			ListCache listCache, PageViewModelCache pageViewModelCache, SiteCache siteCache, IWikiImporter wikiImporter, IRepository repository)
 			: base(settings, userManager, context, settingsService) 
 		{
 			_settingsService = settingsService;
 			_pageService = pageService;
 			_searchService = searchService;
 			_listCache = listCache;
-			_pageViewModelCache = pageSummaryCache;
+			_pageViewModelCache = pageViewModelCache;
 			_siteCache = siteCache;
 			_repository = repository;
+			_wikiImporter = wikiImporter;
 		}
 
 		/// <summary>
@@ -108,15 +109,15 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// Adds an admin user to the system, validating the <see cref="UserViewModel"/> first.
 		/// </summary>
-		/// <param name="summary">The user details to add.</param>
+		/// <param name="model">The user details to add.</param>
 		/// <returns>Redirects to the Users action. Additionally, if an error occurred, TempData["action"] contains the string "addadmin".</returns>
 		[HttpPost]
 		[ExportModelState]
-		public ActionResult AddAdmin(UserViewModel summary)
+		public ActionResult AddAdmin(UserViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
-				UserManager.AddUser(summary.NewEmail, summary.NewUsername, summary.Password, true, false);
+				UserManager.AddUser(model.NewEmail, model.NewUsername, model.Password, true, false);
 
 				// TODO
 				// ModelState.AddModelError("General", errors);
@@ -133,17 +134,17 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// Adds an editor user to the system, validating the <see cref="UserViewModel"/> first.
 		/// </summary>
-		/// <param name="summary">The user details to add.</param>
+		/// <param name="model">The user details to add.</param>
 		/// <returns>Redirects to the Users action. Additionally, if an error occurred, TempData["action"] contains the string "addeditor".</returns>
 		[HttpPost]
 		[ExportModelState]
-		public ActionResult AddEditor(UserViewModel summary)
+		public ActionResult AddEditor(UserViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
 				try
 				{
-					UserManager.AddUser(summary.NewEmail, summary.NewUsername, summary.Password, false, true);
+					UserManager.AddUser(model.NewEmail, model.NewUsername, model.Password, false, true);
 				}
 				catch (SecurityException e)
 				{
@@ -163,26 +164,26 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// Edits an existing user. If the <see cref="UserViewModel.Password"/> property is not blank, the password
 		/// for the user is reset and then changed.
 		/// </summary>
-		/// <param name="summary">The user details to edit.</param>
+		/// <param name="model">The user details to edit.</param>
 		/// <returns>Redirects to the Users action. Additionally, if an error occurred, TempData["edituser"] contains the string "addeditor".</returns>
 		[HttpPost]
 		[ExportModelState]
-		public ActionResult EditUser(UserViewModel summary)
+		public ActionResult EditUser(UserViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
-				if (summary.UsernameHasChanged || summary.EmailHasChanged)
+				if (model.UsernameHasChanged || model.EmailHasChanged)
 				{
-					if (!UserManager.UpdateUser(summary))
+					if (!UserManager.UpdateUser(model))
 					{
 						ModelState.AddModelError("General", SiteStrings.SiteSettings_Users_EditUser_Error);
 					}
 
-					summary.ExistingEmail = summary.NewEmail;
+					model.ExistingEmail = model.NewEmail;
 				}
 
-				if (!string.IsNullOrEmpty(summary.Password))
-					UserManager.ChangePassword(summary.ExistingEmail, summary.Password);
+				if (!string.IsNullOrEmpty(model.Password))
+					UserManager.ChangePassword(model.ExistingEmail, model.Password);
 			}
 			else
 			{
@@ -349,7 +350,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			try
 			{
-				ScriptBuilder scriptBuilder = new ScriptBuilder(_repository);
+				SqlExportBuilder scriptBuilder = new SqlExportBuilder(_repository);
 				string sql = scriptBuilder.Export();
 
 				// Let the FileStreamResult dispose the stream
@@ -389,8 +390,8 @@ namespace Roadkill.Core.Mvc.Controllers
 			}
 			else
 			{
-				_importer.ImportFromSqlServer(screwturnConnectionString);
-				_importer.UpdateSearchIndex(_searchService);
+				_wikiImporter.ImportFromSqlServer(screwturnConnectionString);
+				_wikiImporter.UpdateSearchIndex(_searchService);
 				message = SiteStrings.SiteSettings_Tools_ScrewTurnImport_Message;
 			}
 

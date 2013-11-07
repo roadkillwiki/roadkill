@@ -428,7 +428,6 @@ namespace Roadkill.Tests.Unit
 			string subsubPath = Path.Combine(subPath, "subsubfolder");
 			Directory.CreateDirectory(subPath);
 
-
 			// Act
 			JsonResult result = _filesController.NewFolder("/folder1/subfolder1/", "subsubfolder");
 
@@ -505,6 +504,32 @@ namespace Roadkill.Tests.Unit
 			Assert.That(jsonObject.filename, Is.EqualTo("file1.png"));
 
 			Assert.That(File.Exists(file1FullPath), Is.True);
+		}
+
+		[Test]
+		public void FileUpload_Should_OverWrite_Existing_File_WhenOverWriteFiles_Setting_Is_True()
+		{
+			// Arrange
+			_repository.SiteSettings.OverwriteExistingFiles = true;
+			CreateTestFileInAttachments("file1.png", "the original file");
+
+			MvcMockContainer container = _filesController.SetFakeControllerContext();
+			SetupMockPostedFiles(container, "/", "file1.png");
+			string file1FullPath = Path.Combine(_settings.AttachmentsDirectoryPath, "file1.png");
+
+			// Act
+			JsonResult result = _filesController.Upload();
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("ok"));
+			Assert.That(jsonObject.filename, Is.EqualTo("file1.png"));
+
+			string fileContent = File.ReadAllText(file1FullPath);
+			Assert.That(fileContent, Is.EqualTo("test contents"));
 		}
 
 		[Test]
@@ -631,7 +656,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void FileUpload_With_Bad_Extensions_Should_Return_Error_Json_Status()
+		public void FileUpload_Should_Return_Error_Json_Status_When_File_Has_Bad_Extension()
 		{
 			// Arrange
 			MvcMockContainer container = _filesController.SetFakeControllerContext();
@@ -650,6 +675,69 @@ namespace Roadkill.Tests.Unit
 			Assert.That(jsonObject.message, Is.Not.Null.Or.Empty);
 
 			Assert.That(File.Exists(file1FullPath), Is.False);
+		}
+
+		[Test]
+		public void FileUpload_Should_Return_Error_Json_Status_When_File_Exists_And_OverWriteFiles_Setting_Is_False()
+		{
+			// Arrange
+			_repository.SiteSettings.OverwriteExistingFiles = false;
+			CreateTestFileInAttachments("file1.png", "the original file");
+
+			MvcMockContainer container = _filesController.SetFakeControllerContext();
+			SetupMockPostedFiles(container, "/", "file1.png");
+			string file1FullPath = Path.Combine(_settings.AttachmentsDirectoryPath, "file1.png");
+
+			// Act
+			JsonResult result = _filesController.Upload();
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("error"));
+			Assert.That(jsonObject.message, Is.Not.Null.Or.Empty);
+
+			string fileContent = File.ReadAllText(file1FullPath);
+			Assert.That(fileContent, Is.EqualTo("the original file"));
+		}
+
+
+		[Test]
+		public void FileUpload_Should_Return_Error_Json_Status_When_File_Exists_And_OverWriteFiles_Setting_Is_False_For_Multiple_Files()
+		{
+			// Arrange
+			_repository.SiteSettings.OverwriteExistingFiles = false;
+			CreateTestFileInAttachments("file3.png", "the original file");
+
+			MvcMockContainer container = _filesController.SetFakeControllerContext();
+			SetupMockPostedFiles(container, "/", "file1.png", "file2.png", "file3.png", "file4.png", "file5.png");
+
+			string file1FullPath = Path.Combine(_settings.AttachmentsDirectoryPath, "file1.png");
+			string file2FullPath = Path.Combine(_settings.AttachmentsDirectoryPath, "file2.png");
+			string file3FullPath = Path.Combine(_settings.AttachmentsDirectoryPath, "file3.png");
+			string file4FullPath = Path.Combine(_settings.AttachmentsDirectoryPath, "file4.png");
+			string file5FullPath = Path.Combine(_settings.AttachmentsDirectoryPath, "file5.png");
+
+			// Act
+			JsonResult result = _filesController.Upload();
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.DenyGet));
+
+			dynamic jsonObject = result.Data;
+			Assert.That(jsonObject.status, Is.EqualTo("error"));
+			Assert.That(jsonObject.message, Is.Not.Null.Or.Empty);
+
+			string fileContent = File.ReadAllText(file3FullPath);
+			Assert.That(fileContent, Is.EqualTo("the original file"));
+
+			Assert.That(File.Exists(file1FullPath), Is.True);
+			Assert.That(File.Exists(file2FullPath), Is.True);
+			Assert.That(File.Exists(file4FullPath), Is.False);
+			Assert.That(File.Exists(file5FullPath), Is.False);
 		}
 
 		[Test]
@@ -731,10 +819,10 @@ namespace Roadkill.Tests.Unit
 
 		// Helpers
 
-		private string CreateTestFileInAttachments(string filename)
+		private string CreateTestFileInAttachments(string filename, string filecontent = "test")
 		{
 			string fullPath = Path.Combine(_settings.AttachmentsDirectoryPath, filename);
-			File.WriteAllText(fullPath, "test");
+			File.WriteAllText(fullPath, filecontent);
 
 			return fullPath;
 		}
@@ -747,6 +835,10 @@ namespace Roadkill.Tests.Unit
 			return fullPath;
 		}
 
+		/// <summary>
+		/// Sets up all the Request object's various properties to mock a file being uploaded. This sets the 
+		/// file size to 8192 bytes, and writes each file name to disk when SaveAs() is called, with the content "test contents"
+		/// </summary>
 		private void SetupMockPostedFiles(MvcMockContainer container, string destinationFolder, params string[] fileNames)
 		{
 			// Mock the folder the files are saved to

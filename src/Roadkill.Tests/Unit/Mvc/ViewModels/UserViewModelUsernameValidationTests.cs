@@ -36,13 +36,13 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsername_For_New_User_With_Blank_Username_Should_Fail()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = null;
-			summary.NewUsername = "			\n";
-			summary.IsBeingCreatedByAdmin = false;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = null;
+			model.NewUsername = "			\n";
+			model.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewUsername(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewUsername(model, null);
 
 			// Assert
 			Assert.That(result, Is.Not.EqualTo(ValidationResult.Success));
@@ -52,13 +52,13 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsername_For_New_User_With_Valid_Username_Should_Succeed()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = null;
-			summary.NewUsername = "fred1234";
-			summary.IsBeingCreatedByAdmin = false;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = null;
+			model.NewUsername = "fred1234";
+			model.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewUsername(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewUsername(model, null);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(ValidationResult.Success));
@@ -68,14 +68,14 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsername_For_Existing_User_With_Blank_Username_Should_Fail()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = Guid.NewGuid();
-			summary.ExistingUsername = "hansblix";
-			summary.NewUsername = "			\n";
-			summary.IsBeingCreatedByAdmin = false;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = Guid.NewGuid();
+			model.ExistingUsername = "hansblix";
+			model.NewUsername = "			\n";
+			model.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewUsername(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewUsername(model, null);
 
 			// Assert
 			Assert.That(result, Is.Not.EqualTo(ValidationResult.Success));
@@ -85,14 +85,14 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsername_For_Existing_User_With_Valid_Username_Should_Succeed()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = Guid.NewGuid();
-			summary.ExistingUsername = "hansblix";
-			summary.NewUsername = "fred1234";
-			summary.IsBeingCreatedByAdmin = false;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = Guid.NewGuid();
+			model.ExistingUsername = "hansblix";
+			model.NewUsername = "fred1234";
+			model.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewUsername(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewUsername(model, null);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(ValidationResult.Success));
@@ -102,14 +102,14 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsernameIsNotInUse_For_New_User_With_Username_That_Exists_Should_Fail()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = null;
-			summary.ExistingUsername = "hansblix";
-			summary.NewUsername = "username-exists";
-			summary.IsBeingCreatedByAdmin = false;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = null;
+			model.ExistingUsername = "hansblix";
+			model.NewUsername = "username-exists";
+			model.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewUsernameIsNotInUse(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewUsernameIsNotInUse(model, null);
 
 			// Assert
 			Assert.That(result, Is.Not.EqualTo(ValidationResult.Success));
@@ -119,14 +119,14 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsernameIsNotInUse_For_New_User_With_Unique_Username_Should_Succeed()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = null;
-			summary.ExistingUsername = "hansblix";
-			summary.NewUsername = "a_unique_name";
-			summary.IsBeingCreatedByAdmin = false;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = null;
+			model.ExistingUsername = "hansblix";
+			model.NewUsername = "a_unique_name";
+			model.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewUsernameIsNotInUse(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewUsernameIsNotInUse(model, null);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(ValidationResult.Success));
@@ -136,14 +136,14 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsernameIsNotInUse_When_New_User_Created_In_Admin_Tools_With_Unique_Username_Should_Succeed()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = null;
-			summary.ExistingUsername = "hansblix";
-			summary.NewUsername = "a_unique_name";
-			summary.IsBeingCreatedByAdmin = true;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = null;
+			model.ExistingUsername = "hansblix";
+			model.NewUsername = "a_unique_name";
+			model.IsBeingCreatedByAdmin = true;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewUsernameIsNotInUse(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewUsernameIsNotInUse(model, null);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(ValidationResult.Success));
@@ -153,14 +153,14 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsernameIsNotInUse_For_Existing_User_With_username_That_Exists_Should_Fail()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = Guid.NewGuid();
-			summary.ExistingUsername = "hansblix";
-			summary.NewUsername = "username-exists";
-			summary.IsBeingCreatedByAdmin = false;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = Guid.NewGuid();
+			model.ExistingUsername = "hansblix";
+			model.NewUsername = "username-exists";
+			model.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewUsernameIsNotInUse(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewUsernameIsNotInUse(model, null);
 
 			// Assert
 			Assert.That(result, Is.Not.EqualTo(ValidationResult.Success));
@@ -170,14 +170,14 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsernameIsNotInUse_For_Existing_User_With_Unique_Username_Should_Succeed()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = Guid.NewGuid();
-			summary.ExistingUsername = "hansblix";
-			summary.NewUsername = "hansblix2";
-			summary.IsBeingCreatedByAdmin = false;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = Guid.NewGuid();
+			model.ExistingUsername = "hansblix";
+			model.NewUsername = "hansblix2";
+			model.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewUsernameIsNotInUse(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewUsernameIsNotInUse(model, null);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(ValidationResult.Success));
@@ -187,14 +187,14 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmailIsNotInUse_For_Existing_User_With_Unchanged_Username_Should_Succeed()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = Guid.NewGuid();
-			summary.ExistingUsername = "hansblix";
-			summary.NewUsername = "hansblix";
-			summary.IsBeingCreatedByAdmin = false;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = Guid.NewGuid();
+			model.ExistingUsername = "hansblix";
+			model.NewUsername = "hansblix";
+			model.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewUsernameIsNotInUse(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewUsernameIsNotInUse(model, null);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(ValidationResult.Success));

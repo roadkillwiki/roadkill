@@ -48,23 +48,23 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
-			SettingsViewModel summary = new SettingsViewModel();
-			summary.DataStoreTypeName = datastoreType;
-			summary.ConnectionString = connectionString;
-			summary.AllowedFileTypes = "jpg,png,gif,zip,xml,pdf";
-			summary.AttachmentsFolder = "~/App_Data/Attachments";
-			summary.MarkupType = "Creole";
-			summary.Theme = "Mediawiki";
-			summary.UseObjectCache = true;
-			summary.UseBrowserCache = true;
-			summary.AdminEmail = "admin@localhost";
-			summary.AdminPassword = "Password1";
-			summary.AdminRoleName = "admins";
-			summary.EditorRoleName = "editors";
-			summary.SiteName = "my site";
-			summary.SiteUrl = "http://localhost";
+			SettingsViewModel settingsModal = new SettingsViewModel();
+			settingsModal.DataStoreTypeName = datastoreType;
+			settingsModal.ConnectionString = connectionString;
+			settingsModal.AllowedFileTypes = "jpg,png,gif,zip,xml,pdf";
+			settingsModal.AttachmentsFolder = "~/App_Data/Attachments";
+			settingsModal.MarkupType = "Creole";
+			settingsModal.Theme = "Mediawiki";
+			settingsModal.UseObjectCache = true;
+			settingsModal.UseBrowserCache = true;
+			settingsModal.AdminEmail = "admin@localhost";
+			settingsModal.AdminPassword = "Password1";
+			settingsModal.AdminRoleName = "admins";
+			settingsModal.EditorRoleName = "editors";
+			settingsModal.SiteName = "my site";
+			settingsModal.SiteUrl = "http://localhost";
 
-			FinalizeInstall(summary);
+			FinalizeInstall(settingsModal);
 
 			return Content("Unattended installation complete");
 		}
@@ -117,12 +117,12 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		/// <remarks>The <see cref="SettingsViewModel"/> object that is POST'd is passed to the next step.</remarks>
 		[HttpPost]
-		public ActionResult Step3(SettingsViewModel summary)
+		public ActionResult Step3(SettingsViewModel model)
 		{
 			if (ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
-			return View(summary);
+			return View(model);
 		}
 
 		/// <summary>
@@ -131,19 +131,19 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		/// <remarks>The <see cref="SettingsViewModel"/> object that is POST'd is passed to the next step.</remarks>
 		[HttpPost]
-		public ActionResult Step3b(SettingsViewModel summary)
+		public ActionResult Step3b(SettingsViewModel model)
 		{
 			if (ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
-			summary.LdapConnectionString = "LDAP://";
-			summary.EditorRoleName = "Editor";
-			summary.AdminRoleName = "Admin";
+			model.LdapConnectionString = "LDAP://";
+			model.EditorRoleName = "Editor";
+			model.AdminRoleName = "Admin";
 
-			if (summary.UseWindowsAuth)
-				return View("Step3WindowsAuth", summary);
+			if (model.UseWindowsAuth)
+				return View("Step3WindowsAuth", model);
 			else
-				return View("Step3Database",summary);
+				return View("Step3Database",model);
 		}
 
 		/// <summary>
@@ -151,19 +151,19 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		/// <remarks>The <see cref="SettingsViewModel"/> object that is POST'd is passed to the next step.</remarks>
 		[HttpPost]
-		public ActionResult Step4(SettingsViewModel summary)
+		public ActionResult Step4(SettingsViewModel model)
 		{
 			if (ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
-			summary.AllowedFileTypes = "jpg,png,gif,zip,xml,pdf";
-			summary.AttachmentsFolder = "~/App_Data/Attachments";
-			summary.MarkupType = "Creole";
-			summary.Theme = "Mediawiki";
-			summary.UseObjectCache = true;
-			summary.UseBrowserCache = false;
+			model.AllowedFileTypes = "jpg,png,gif,zip,xml,pdf";
+			model.AttachmentsFolder = "~/App_Data/Attachments";
+			model.MarkupType = "Creole";
+			model.Theme = "Mediawiki";
+			model.UseObjectCache = true;
+			model.UseBrowserCache = false;
 
-			return View(summary);
+			return View(model);
 		}
 
 		/// <summary>
@@ -173,7 +173,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns>The Step5 view is displayed.</returns>
 		[HttpPost]
 		[ValidateInput(false)]
-		public ActionResult Step5(SettingsViewModel summary)
+		public ActionResult Step5(SettingsViewModel model)
 		{
 			if (ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
@@ -185,7 +185,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 				if (ModelState.IsValid)
 				{
-					FinalizeInstall(summary);
+					FinalizeInstall(model);
 				}
 			}
 			catch (Exception e)
@@ -203,38 +203,38 @@ namespace Roadkill.Core.Mvc.Controllers
 				ModelState.AddModelError("An error ocurred installing", e.Message + e);
 			}
 
-			return View(summary);
+			return View(model);
 		}
 
-		private void FinalizeInstall(SettingsViewModel summary)
+		private void FinalizeInstall(SettingsViewModel model)
 		{
 			// The name is passed through each step, so parse it
-			DataStoreType dataStoreType = DataStoreType.ByName(summary.DataStoreTypeName);
-			summary.DataStoreTypeName = dataStoreType.Name;
+			DataStoreType dataStoreType = DataStoreType.ByName(model.DataStoreTypeName);
+			model.DataStoreTypeName = dataStoreType.Name;
 
 			// Update all repository references for the dependencies of this class
 			// (changing the For() in StructureMap won't do this as the references have already been created).
-			_repository = RepositoryManager.ChangeRepository(dataStoreType, summary.ConnectionString, summary.UseObjectCache);
+			_repository = RepositoryManager.ChangeRepository(dataStoreType, model.ConnectionString, model.UseObjectCache);
 			UserManager.UpdateRepository(_repository);
 			_settingsService.UpdateRepository(_repository);
 			_searchService.UpdateRepository(_repository);
 
 			// Default these two properties for installations
-			summary.IgnoreSearchIndexErrors = true;
-			summary.IsPublicSite = true;
+			model.IgnoreSearchIndexErrors = true;
+			model.IsPublicSite = true;
 
 			// Update the web.config first, so all connections can be referenced.
 			ConfigReaderWriter configReader = ConfigReaderWriterFactory.GetConfigReader();
-			configReader.Save(summary);
+			configReader.Save(model);
 
 			// Create the roadkill schema and save the configuration settings
-			_settingsService.CreateTables(summary);
-			_settingsService.SaveSiteSettings(summary);
+			_settingsService.CreateTables(model);
+			_settingsService.SaveSiteSettings(model);
 
 			// Add a user if we're not using AD.
-			if (!summary.UseWindowsAuth)
+			if (!model.UseWindowsAuth)
 			{
-				UserManager.AddUser(summary.AdminEmail, "admin", summary.AdminPassword, true, false);
+				UserManager.AddUser(model.AdminEmail, "admin", model.AdminPassword, true, false);
 			}
 
 			// Create a blank search index

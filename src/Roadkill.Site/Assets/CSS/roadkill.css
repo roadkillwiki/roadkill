@@ -179,3 +179,5 @@ span.fileupload-button span { padding:4px; }
 .more-plugins	{ margin-bottom:10px; }
 .plugins		{ border:1px solid #ddd; border-radius:3px;border-collapse:separate; }
 .plugins thead  { background-color: #f9f9f9; }
+
+#pluginsettings-save { margin-top:20px; }
