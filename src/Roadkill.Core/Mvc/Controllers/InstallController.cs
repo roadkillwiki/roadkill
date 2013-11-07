@@ -48,23 +48,23 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (ApplicationSettings.Installed)
 				return RedirectToAction("Index", "Home");
 
-			SettingsViewModel settingsModal = new SettingsViewModel();
-			settingsModal.DataStoreTypeName = datastoreType;
-			settingsModal.ConnectionString = connectionString;
-			settingsModal.AllowedFileTypes = "jpg,png,gif,zip,xml,pdf";
-			settingsModal.AttachmentsFolder = "~/App_Data/Attachments";
-			settingsModal.MarkupType = "Creole";
-			settingsModal.Theme = "Mediawiki";
-			settingsModal.UseObjectCache = true;
-			settingsModal.UseBrowserCache = true;
-			settingsModal.AdminEmail = "admin@localhost";
-			settingsModal.AdminPassword = "Password1";
-			settingsModal.AdminRoleName = "admins";
-			settingsModal.EditorRoleName = "editors";
-			settingsModal.SiteName = "my site";
-			settingsModal.SiteUrl = "http://localhost";
+			SettingsViewModel settingsModel = new SettingsViewModel();
+			settingsModel.DataStoreTypeName = datastoreType;
+			settingsModel.ConnectionString = connectionString;
+			settingsModel.AllowedFileTypes = "jpg,png,gif,zip,xml,pdf";
+			settingsModel.AttachmentsFolder = "~/App_Data/Attachments";
+			settingsModel.MarkupType = "Creole";
+			settingsModel.Theme = "Mediawiki";
+			settingsModel.UseObjectCache = true;
+			settingsModel.UseBrowserCache = true;
+			settingsModel.AdminEmail = "admin@localhost";
+			settingsModel.AdminPassword = "Password1";
+			settingsModel.AdminRoleName = "admins";
+			settingsModel.EditorRoleName = "editors";
+			settingsModel.SiteName = "my site";
+			settingsModel.SiteUrl = "http://localhost";
 
-			FinalizeInstall(settingsModal);
+			FinalizeInstall(settingsModel);
 
 			return Content("Unattended installation complete");
 		}

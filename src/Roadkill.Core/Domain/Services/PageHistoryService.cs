@@ -21,12 +21,12 @@ namespace Roadkill.Core.Services
 		private PageViewModelCache _pageViewModelCache;
 
 		public PageHistoryService(ApplicationSettings settings, IRepository repository, IUserContext context,
-			PageViewModelCache pageViewModalCache, IPluginFactory pluginFactory)
+			PageViewModelCache pageViewModelCache, IPluginFactory pluginFactory)
 			: base(settings, repository)
 		{
 			_markupConverter = new MarkupConverter(settings, repository, pluginFactory);
 			_context = context;
-			_pageViewModelCache = pageViewModalCache;
+			_pageViewModelCache = pageViewModelCache;
 		}
 
 		/// <summary>

@@ -52,11 +52,11 @@ namespace Roadkill.Tests.Unit
 			IEnumerable<PluginViewModel> pluginModels = result.ModelFromActionResult<IEnumerable<PluginViewModel>>();
 			Assert.NotNull(pluginModels, "Null model");
 
-			List<PluginViewModel> pageModalList = pluginModels.ToList();
+			List<PluginViewModel> pageModelList = pluginModels.ToList();
 
-			Assert.That(pageModalList.Count(), Is.EqualTo(2));
-			Assert.That(pageModalList[0].Name, Is.EqualTo("a name"));
-			Assert.That(pageModalList[1].Name, Is.EqualTo("b name"));
+			Assert.That(pageModelList.Count(), Is.EqualTo(2));
+			Assert.That(pageModelList[0].Name, Is.EqualTo("a name"));
+			Assert.That(pageModelList[1].Name, Is.EqualTo("b name"));
 		}
 
 		[Test]

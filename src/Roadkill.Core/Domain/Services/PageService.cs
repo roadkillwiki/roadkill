@@ -32,7 +32,7 @@ namespace Roadkill.Core.Services
 
 		public PageService(ApplicationSettings settings, IRepository repository, SearchService searchService, 
 			PageHistoryService historyService, IUserContext context, 
-			ListCache listCache, PageViewModelCache pageViewModalCache, SiteCache sitecache, IPluginFactory pluginFactory)
+			ListCache listCache, PageViewModelCache pageViewModelCache, SiteCache sitecache, IPluginFactory pluginFactory)
 			: base(settings, repository)
 		{
 			_searchService = searchService;
@@ -40,7 +40,7 @@ namespace Roadkill.Core.Services
 			_historyService = historyService;
 			_context = context;
 			_listCache = listCache;
-			_pageViewModelCache = pageViewModalCache;
+			_pageViewModelCache = pageViewModelCache;
 			_siteCache = sitecache;
 			_pluginFactory = pluginFactory;
 		}
@@ -48,24 +48,29 @@ namespace Roadkill.Core.Services
 		/// <summary>
 		/// Adds the page to the database.
 		/// </summary>
-		/// <param name="modal">The summary details for the page.</param>
+		/// <param name="model">The summary details for the page.</param>
 		/// <returns>A <see cref="PageViewModel"/> for the newly added page.</returns>
 		/// <exception cref="DatabaseException">An databaseerror occurred while saving.</exception>
 		/// <exception cref="SearchException">An error occurred adding the page to the search index.</exception>
-		public PageViewModel AddPage(PageViewModel modal)
+		public PageViewModel AddPage(PageViewModel model)
 		{
 			try
 			{
 				string currentUser = _context.CurrentUsername;
 
 				Page page = new Page();
-				page.Title = modal.Title;
-				page.Tags = modal.CommaDelimitedTags();
+				page.Title = model.Title;
+				page.Tags = model.CommaDelimitedTags();
 				page.CreatedBy = AppendIpForDemoSite(currentUser);
 				page.CreatedOn = DateTime.UtcNow;
 				page.ModifiedOn = DateTime.UtcNow;
 				page.ModifiedBy = AppendIpForDemoSite(currentUser);
-				PageContent pageContent = Repository.AddNewPage(page, modal.Content, AppendIpForDemoSite(currentUser), DateTime.UtcNow);
+
+				// Double check, incase the HTML form was faked.
+				if (_context.IsAdmin)
+					page.IsLocked = model.IsLocked;
+
+				PageContent pageContent = Repository.AddNewPage(page, model.Content, AppendIpForDemoSite(currentUser), DateTime.UtcNow);
 
 				_listCache.RemoveAll();
 				_pageViewModelCache.RemoveAll(); // completely clear the cache to update any reciprocal links.
@@ -85,7 +90,7 @@ namespace Roadkill.Core.Services
 			}
 			catch (DatabaseException e)
 			{
-				throw new DatabaseException(e, "An error occurred while adding page '{0}' to the database", modal.Title);
+				throw new DatabaseException(e, "An error occurred while adding page '{0}' to the database", model.Title);
 			}
 		}
 
@@ -230,7 +235,7 @@ namespace Roadkill.Core.Services
 				Page page = Repository.GetPageById(pageId);
 
 				// Update the lucene index before we actually delete the page.
-				// We cannot call the ToModal() method on an object that no longer exists.
+				// We cannot call the ToModel() method on an object that no longer exists.
 				try
 				{
 					_searchService.Delete(Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter));
@@ -475,9 +480,9 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
-				IEnumerable<PageViewModel> pageModals = FindByTag(oldTagName);
+				IEnumerable<PageViewModel> pageModels = FindByTag(oldTagName);
 
-				foreach (PageViewModel model in pageModals)
+				foreach (PageViewModel model in pageModels)
 				{
 					_searchService.Delete(model);
 
