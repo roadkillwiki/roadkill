@@ -86,24 +86,40 @@ namespace Roadkill.Core.Attachments
 		public static int GetStatusCodeForCache(DateTime fileDate, string modifiedSinceHeader)
 		{
 			int status = 200;
-			if (!string.IsNullOrEmpty(modifiedSinceHeader))
-			{
-				// When If-modified is sent (never when it's incognito mode), it matches the 
-				// the write time you send back for the file. So 1st Jan 2001, it will send back
-				// 1st Jan 2001 for If-Modified.
-				status = 304;
-				DateTime modifiedSinceDate = DateTime.UtcNow;
-				if (DateTime.TryParse(modifiedSinceHeader, out modifiedSinceDate))
-				{
-					modifiedSinceDate = modifiedSinceDate.ToUniversalTime();
 
-					DateTime lastWriteTime = new DateTime(fileDate.Year, fileDate.Month, fileDate.Day, fileDate.Hour, fileDate.Minute, fileDate.Second, 0, DateTimeKind.Utc);
-					if (lastWriteTime != modifiedSinceDate)
-						status = 200;
-				}
+			// When If-modified is sent (never when it's incognito mode), it matches the 
+			// the write time you send back for the file. So 1st Jan 2001, it will send back
+			// 1st Jan 2001 for If-Modified.
+			status = 304;
+			DateTime modifiedSinceDate = GetLastModifiedDate(modifiedSinceHeader);
+			if (modifiedSinceDate != DateTime.MinValue)
+			{
+				DateTime lastWriteTime = new DateTime(fileDate.Year, fileDate.Month, fileDate.Day, fileDate.Hour, fileDate.Minute, fileDate.Second, 0, DateTimeKind.Utc);
+				if (lastWriteTime != modifiedSinceDate)
+					status = 200;
 			}
 
 			return status;
+		}
+
+		/// <summary>
+		/// Parses the modified string given, turning the date into a UTC date and removing any milliseconds
+		/// from the DateTime returned. If the string isn't a valid date, DateTime.Min is returned.
+		/// </summary>
+		public static DateTime GetLastModifiedDate(string modifiedSince)
+		{
+			DateTime modifiedSinceDate = DateTime.MinValue;
+
+			if (!string.IsNullOrWhiteSpace(modifiedSince))
+			{
+				if (DateTime.TryParse(modifiedSince, out modifiedSinceDate))
+				{
+					modifiedSinceDate = modifiedSinceDate.ToUniversalTime();
+					modifiedSinceDate = modifiedSinceDate.ClearMilliseconds();
+				}
+			}
+
+			return modifiedSinceDate;
 		}
 	}
 }
