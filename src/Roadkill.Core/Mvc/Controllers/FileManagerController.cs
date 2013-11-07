@@ -240,23 +240,39 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			try
 			{
+				// Get the allowed files types
 				string fileName = "";
 				IEnumerable<string> allowedExtensions = SettingsService.GetSiteSettings().AllowedFileTypesList
 													.Select(x => x.ToLower());
 
+				// For checking the setting to overwrite existing files
+				SiteSettings siteSettings = SettingsService.GetSiteSettings();
+
 				for (int i = 0; i < Request.Files.Count; i++)
 				{
+					// Find the file's extension
 					HttpPostedFileBase sourceFile = Request.Files[i];
 					string extension = Path.GetExtension(sourceFile.FileName).Replace(".", "");
 
 					if (!string.IsNullOrEmpty(extension))
 						extension = extension.ToLower();
 
+					// Check if it's an allowed extension
 					if (allowedExtensions.Contains(extension))
 					{
 						string fullFilePath = Path.Combine(physicalPath, sourceFile.FileName);
-						sourceFile.SaveAs(fullFilePath);
 
+						// Check if it exists on disk already
+						if (!siteSettings.OverwriteExistingFiles)
+						{
+							 if (System.IO.File.Exists(fullFilePath))
+							 {
+								 string errorMessage = string.Format("The file '{0}' already exists TODO-translation", sourceFile.FileName);
+								 return Json(new { status = "error", message = errorMessage }, "text/plain");
+							 }
+						}
+
+						sourceFile.SaveAs(fullFilePath);
 						fileName = sourceFile.FileName;
 					}
 					else

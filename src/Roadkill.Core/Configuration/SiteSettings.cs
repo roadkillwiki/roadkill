@@ -142,7 +142,7 @@ namespace Roadkill.Core.Configuration
 		}
 
 		/// <summary>
-		/// The last time a plugin was saved - this is used for 304 modified checks.
+		/// The last time a plugin was saved - this is used for 304 modified checks when browser caching is enabled.
 		/// </summary>
 		public DateTime PluginLastSaveDate { get; set; }
 		#endregion
