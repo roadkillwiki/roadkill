@@ -57,7 +57,8 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public string RecaptchaPrivateKey { get; set; }
 		public string RecaptchaPublicKey { get; set; }
 		public bool UseWindowsAuth { get; set; }
-		// v1.8
+		
+		// v2.0
 		public bool OverwriteExistingFiles { get; set; }
 		public string HeadContent { get; set; }
 		public string MenuMarkup { get; set; }

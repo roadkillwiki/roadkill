@@ -68,5 +68,13 @@ namespace Roadkill.Core
 		{
 			return new DateTime(dateTime.Year, dateTime.Month, 1, 0, 0, 0).AddMonths(-1);
 		}
+
+		/// <summary>
+		/// Sets the milliseconds part of a datetime to zero.
+		/// </summary>
+		public static DateTime ClearMilliseconds(this DateTime dateTime)
+		{
+			return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, 0);
+		}
 	}
 }

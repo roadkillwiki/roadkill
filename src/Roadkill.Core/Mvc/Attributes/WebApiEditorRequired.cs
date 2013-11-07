@@ -25,6 +25,9 @@ namespace Roadkill.Core.Mvc.Attributes
 		[SetterProperty]
 		public PageService PageService { get; set; }
 
+		[SetterProperty]
+		public SettingsService SettingsService { get; set; }
+
 		protected override bool IsAuthorized(System.Web.Http.Controllers.HttpActionContext actionContext)
 		{
 			IPrincipal user = Thread.CurrentPrincipal;

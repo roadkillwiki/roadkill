@@ -93,11 +93,13 @@ namespace Roadkill.Core.Plugins
 			get
 			{
 				// Generate an ID for use in the database in the format:
-				// {aaaaaaaa-0000-0000-0000-000000000000}
-				// Where a = hashcode of the plugin id
+				// {aaaaaaaa-bbbb-0000-0000-000000000000}
+				// Where 
+				//		a = hashcode of the plugin id
+				//		b = hashcode of version number 
 				// 
 				// It's not globally unique, but it doesn't matter as it's 
-				// being used for the site_configuration db table only. The only 
+				// being used for the site_configuration database table only. The only 
 				// way the Guid could clash is if two plugins have the same ID.
 				// This should never happen, as the IDs will be like nuget ids.
 				//
