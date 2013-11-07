@@ -21,11 +21,11 @@ namespace Roadkill.Tests.Unit
 		public void VerifyRawTags_With_Ok_Characters_Should_Succeed()
 		{
 			// Arrange
-			PageViewModel summary = new PageViewModel();
-			summary.RawTags = "tagone, anothertag, tag-2, code, c++";
+			PageViewModel model = new PageViewModel();
+			model.RawTags = "tagone, anothertag, tag-2, code, c++";
 
 			// Act
-			ValidationResult result = PageViewModel.VerifyRawTags(summary, null);
+			ValidationResult result = PageViewModel.VerifyRawTags(model, null);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(ValidationResult.Success));
@@ -35,11 +35,11 @@ namespace Roadkill.Tests.Unit
 		public void VerifyRawTags_With_Empty_String_Should_Succeed()
 		{
 			// Arrange
-			PageViewModel summary = new PageViewModel();
-			summary.RawTags = "";
+			PageViewModel model = new PageViewModel();
+			model.RawTags = "";
 
 			// Act
-			ValidationResult result = PageViewModel.VerifyRawTags(summary, null);
+			ValidationResult result = PageViewModel.VerifyRawTags(model, null);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(ValidationResult.Success));
@@ -49,11 +49,11 @@ namespace Roadkill.Tests.Unit
 		public void VerifyRawTags_With_Bad_Characters_Should_Fail()
 		{
 			// Arrange
-			PageViewModel summary = new PageViewModel();
-			summary.RawTags = "&&amp+some,tags,only,^^,!??malicious,#monkey,would,use";
+			PageViewModel model = new PageViewModel();
+			model.RawTags = "&&amp+some,tags,only,^^,!??malicious,#monkey,would,use";
 
 			// Act
-			ValidationResult result = PageViewModel.VerifyRawTags(summary, null);
+			ValidationResult result = PageViewModel.VerifyRawTags(model, null);
 
 			// Assert
 			Assert.That(result, Is.Not.EqualTo(ValidationResult.Success));

@@ -36,14 +36,14 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmail_For_New_User_With_Empty_Email_Should_Fail()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = null;
-			summary.NewEmail = "";
-			summary.ExistingEmail = "";
-			summary.IsBeingCreatedByAdmin = false;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = null;
+			model.NewEmail = "";
+			model.ExistingEmail = "";
+			model.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewEmail(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewEmail(model, null);
 
 			// Assert
 			Assert.That(result, Is.Not.EqualTo(ValidationResult.Success));
@@ -53,13 +53,13 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmail_For_New_User_With_Valid_Email_Should_Succeed()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = null;
-			summary.NewEmail = "test@test.com";
-			summary.IsBeingCreatedByAdmin = false;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = null;
+			model.NewEmail = "test@test.com";
+			model.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewEmail(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewEmail(model, null);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(ValidationResult.Success));
@@ -69,14 +69,14 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmail_For_Existing_User_With_Empty_Email_Should_Fail()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = Guid.NewGuid();
-			summary.NewEmail = "";
-			summary.ExistingEmail = "";
-			summary.IsBeingCreatedByAdmin = false;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = Guid.NewGuid();
+			model.NewEmail = "";
+			model.ExistingEmail = "";
+			model.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewEmail(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewEmail(model, null);
 
 			// Assert
 			Assert.That(result, Is.Not.EqualTo(ValidationResult.Success));
@@ -86,14 +86,14 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmail_For_Existing_User_With_Valid_Email_Should_Succeed()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = Guid.NewGuid();
-			summary.NewEmail = "newemail@test.com";
-			summary.ExistingEmail = "";
-			summary.IsBeingCreatedByAdmin = false;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = Guid.NewGuid();
+			model.NewEmail = "newemail@test.com";
+			model.ExistingEmail = "";
+			model.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewEmail(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewEmail(model, null);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(ValidationResult.Success));
@@ -103,14 +103,14 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmailIsNotInUse_For_New_User_With_Email_That_Exists_Should_Fail()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = null;
-			summary.NewEmail = "emailexists@test.com";
-			summary.ExistingEmail = "";
-			summary.IsBeingCreatedByAdmin = false;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = null;
+			model.NewEmail = "emailexists@test.com";
+			model.ExistingEmail = "";
+			model.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewEmailIsNotInUse(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewEmailIsNotInUse(model, null);
 
 			// Assert
 			Assert.That(result, Is.Not.EqualTo(ValidationResult.Success));
@@ -120,14 +120,14 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmailIsNotInUse_For_New_User_With_Unique_Email_Should_Succeed()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = null;
-			summary.NewEmail = "test@test.com";
-			summary.ExistingEmail = "";
-			summary.IsBeingCreatedByAdmin = false;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = null;
+			model.NewEmail = "test@test.com";
+			model.ExistingEmail = "";
+			model.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewEmailIsNotInUse(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewEmailIsNotInUse(model, null);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(ValidationResult.Success));
@@ -137,13 +137,13 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmailIsNotInUse_When_New_User_Created_In_Admin_Tools_With_Unique_Email_Should_Succeed()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.NewEmail = "test@test.com";
-			summary.ExistingEmail = "";
-			summary.IsBeingCreatedByAdmin = true;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.NewEmail = "test@test.com";
+			model.ExistingEmail = "";
+			model.IsBeingCreatedByAdmin = true;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewEmailIsNotInUse(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewEmailIsNotInUse(model, null);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(ValidationResult.Success));
@@ -153,14 +153,14 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmailIsNotInUse_For_Existing_User_With_Email_That_Exists_Should_Fail()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = Guid.NewGuid();
-			summary.NewEmail = "emailexists@test.com";
-			summary.ExistingEmail = "";
-			summary.IsBeingCreatedByAdmin = false;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = Guid.NewGuid();
+			model.NewEmail = "emailexists@test.com";
+			model.ExistingEmail = "";
+			model.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewEmailIsNotInUse(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewEmailIsNotInUse(model, null);
 
 			// Assert
 			Assert.That(result, Is.Not.EqualTo(ValidationResult.Success));
@@ -170,14 +170,14 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmailIsNotInUse_For_Existing_User_With_Unique_Email_Should_Succeed()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = Guid.NewGuid();
-			summary.NewEmail = "newemail@test.com";
-			summary.ExistingEmail = "";
-			summary.IsBeingCreatedByAdmin = false;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = Guid.NewGuid();
+			model.NewEmail = "newemail@test.com";
+			model.ExistingEmail = "";
+			model.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewEmailIsNotInUse(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewEmailIsNotInUse(model, null);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(ValidationResult.Success));
@@ -187,15 +187,15 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmailIsNotInUse_For_Existing_User_With_Unchanged_Email_Should_Succeed()
 		{
 			// Arrange
-			UserViewModel summary = new UserViewModel(_settings, _userManagerMock.Object);
-			summary.Id = Guid.NewGuid();
-			summary.ExistingEmail = "newemail@test.com";
-			summary.NewEmail = "newemail@test.com";
-			summary.ExistingEmail = "";
-			summary.IsBeingCreatedByAdmin = false;
+			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			model.Id = Guid.NewGuid();
+			model.ExistingEmail = "newemail@test.com";
+			model.NewEmail = "newemail@test.com";
+			model.ExistingEmail = "";
+			model.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyNewEmailIsNotInUse(summary, null);
+			ValidationResult result = UserViewModel.VerifyNewEmailIsNotInUse(model, null);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(ValidationResult.Success));

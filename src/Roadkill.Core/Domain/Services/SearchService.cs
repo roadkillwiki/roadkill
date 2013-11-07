@@ -102,9 +102,9 @@ namespace Roadkill.Core.Services
 		/// <summary>
 		/// Adds the specified page to the search index.
 		/// </summary>
-		/// <param name="summary">The page to add.</param>
+		/// <param name="model">The page to add.</param>
 		/// <exception cref="SearchException">An error occured with the lucene.net IndexWriter while adding the page to the index.</exception>
-		public virtual void Add(PageViewModel summary)
+		public virtual void Add(PageViewModel model)
 		{
 			try
 			{
@@ -114,14 +114,14 @@ namespace Roadkill.Core.Services
 				using (IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(IndexPath)), analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
 				{
 					Document document = new Document();
-					document.Add(new Field("id", summary.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
-					document.Add(new Field("content", summary.Content, Field.Store.YES, Field.Index.ANALYZED));
-					document.Add(new Field("contentsummary", GetContentSummary(summary), Field.Store.YES, Field.Index.NO));
-					document.Add(new Field("title", summary.Title, Field.Store.YES, Field.Index.ANALYZED));
-					document.Add(new Field("tags", summary.SpaceDelimitedTags(), Field.Store.YES, Field.Index.ANALYZED));
-					document.Add(new Field("createdby", summary.CreatedBy, Field.Store.YES, Field.Index.NOT_ANALYZED));
-					document.Add(new Field("createdon", summary.CreatedOn.ToShortDateString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-					document.Add(new Field("contentlength", summary.Content.Length.ToString(), Field.Store.YES, Field.Index.NO));
+					document.Add(new Field("id", model.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
+					document.Add(new Field("content", model.Content, Field.Store.YES, Field.Index.ANALYZED));
+					document.Add(new Field("contentsummary", GetContentSummary(model), Field.Store.YES, Field.Index.NO));
+					document.Add(new Field("title", model.Title, Field.Store.YES, Field.Index.ANALYZED));
+					document.Add(new Field("tags", model.SpaceDelimitedTags(), Field.Store.YES, Field.Index.ANALYZED));
+					document.Add(new Field("createdby", model.CreatedBy, Field.Store.YES, Field.Index.NOT_ANALYZED));
+					document.Add(new Field("createdon", model.CreatedOn.ToShortDateString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+					document.Add(new Field("contentlength", model.Content.Length.ToString(), Field.Store.YES, Field.Index.NO));
 
 					writer.AddDocument(document);
 					writer.Optimize();
@@ -130,16 +130,16 @@ namespace Roadkill.Core.Services
 			catch (Exception ex)
 			{
 				if (!ApplicationSettings.IgnoreSearchIndexErrors)
-					throw new SearchException(ex, "An error occured while adding page '{0}' to the search index", summary.Title);
+					throw new SearchException(ex, "An error occured while adding page '{0}' to the search index", model.Title);
 			}
 		}
 
 		/// <summary>
 		/// Deletes the specified page from the search indexs.
 		/// </summary>
-		/// <param name="summary">The page to remove.</param>
+		/// <param name="model">The page to remove.</param>
 		/// <exception cref="SearchException">An error occured with the lucene.net IndexReader while deleting the page from the index.</exception>
-		public virtual int Delete(PageViewModel summary)
+		public virtual int Delete(PageViewModel model)
 		{
 			try
 			{
@@ -147,7 +147,7 @@ namespace Roadkill.Core.Services
 				int count = 0;
 				using (IndexReader reader = IndexReader.Open(FSDirectory.Open(new DirectoryInfo(IndexPath)), false))
 				{
-					count += reader.DeleteDocuments(new Term("id", summary.Id.ToString()));
+					count += reader.DeleteDocuments(new Term("id", model.Id.ToString()));
 				}
 
 				return count;
@@ -155,7 +155,7 @@ namespace Roadkill.Core.Services
 			catch (Exception ex)
 			{
 				if (!ApplicationSettings.IgnoreSearchIndexErrors)
-					throw new SearchException(ex, "An error occured while deleting page '{0}' from the search index", summary.Title);
+					throw new SearchException(ex, "An error occured while deleting page '{0}' from the search index", model.Title);
 				else
 					return 0;
 			}
@@ -164,13 +164,13 @@ namespace Roadkill.Core.Services
 		/// <summary>
 		/// Updates the <see cref="Page"/> in the search index, by removing it and re-adding it.
 		/// </summary>
-		/// <param name="summary">The page to update</param>
+		/// <param name="model">The page to update</param>
 		/// <exception cref="SearchException">An error occured with lucene.net while deleting the page or inserting it back into the index.</exception>
-		public virtual void Update(PageViewModel summary)
+		public virtual void Update(PageViewModel model)
 		{
 			EnsureDirectoryExists();
-			Delete(summary);
-			Add(summary);
+			Delete(model);
+			Add(model);
 		}
 
 		/// <summary>
@@ -188,17 +188,17 @@ namespace Roadkill.Core.Services
 				{
 					foreach (Page page in Repository.AllPages().ToList())
 					{
-						PageViewModel summary = Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
+						PageViewModel pageModel = Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
 
 						Document document = new Document();
-						document.Add(new Field("id", summary.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
-						document.Add(new Field("content", summary.Content, Field.Store.YES, Field.Index.ANALYZED));
-						document.Add(new Field("contentsummary", GetContentSummary(summary), Field.Store.YES, Field.Index.NO));
-						document.Add(new Field("title", summary.Title, Field.Store.YES, Field.Index.ANALYZED));
-						document.Add(new Field("tags", summary.SpaceDelimitedTags(), Field.Store.YES, Field.Index.ANALYZED));
-						document.Add(new Field("createdby", summary.CreatedBy, Field.Store.YES, Field.Index.NOT_ANALYZED));
-						document.Add(new Field("createdon", summary.CreatedOn.ToShortDateString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-						document.Add(new Field("contentlength", summary.Content.Length.ToString(), Field.Store.YES, Field.Index.NO));
+						document.Add(new Field("id", pageModel.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
+						document.Add(new Field("content", pageModel.Content, Field.Store.YES, Field.Index.ANALYZED));
+						document.Add(new Field("contentsummary", GetContentSummary(pageModel), Field.Store.YES, Field.Index.NO));
+						document.Add(new Field("title", pageModel.Title, Field.Store.YES, Field.Index.ANALYZED));
+						document.Add(new Field("tags", pageModel.SpaceDelimitedTags(), Field.Store.YES, Field.Index.ANALYZED));
+						document.Add(new Field("createdby", pageModel.CreatedBy, Field.Store.YES, Field.Index.NOT_ANALYZED));
+						document.Add(new Field("createdon", pageModel.CreatedOn.ToShortDateString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+						document.Add(new Field("contentlength", pageModel.Content.Length.ToString(), Field.Store.YES, Field.Index.NO));
 
 						writer.AddDocument(document);
 					}
@@ -228,17 +228,17 @@ namespace Roadkill.Core.Services
 		/// <summary>
 		/// Converts the page summary to a lucene Document with the relevant searchable fields.
 		/// </summary>
-		internal string GetContentSummary(PageViewModel summary)
+		internal string GetContentSummary(PageViewModel model)
 		{
 			// Turn the contents into HTML, then strip the tags for the mini summary. This needs some works
-			string summaryHtml = summary.Content;
-			summaryHtml = _markupConverter.ToHtml(summaryHtml);
-			summaryHtml = _removeTagsRegex.Replace(summaryHtml, "");
+			string modelHtml = model.Content;
+			modelHtml = _markupConverter.ToHtml(modelHtml);
+			modelHtml = _removeTagsRegex.Replace(modelHtml, "");
 
-			if (summaryHtml.Length > 150)
-				summaryHtml = summaryHtml.Substring(0, 149);
+			if (modelHtml.Length > 150)
+				modelHtml = modelHtml.Substring(0, 149);
 
-			return summaryHtml;
+			return modelHtml;
 		}
 	}
 }

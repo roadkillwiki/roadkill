@@ -36,11 +36,11 @@ namespace Roadkill.Core.Mvc.ViewModels
 		/// </summary>
 		public override bool Equals(object obj)
 		{
-			TagViewModel summary = obj as TagViewModel;
-			if (summary == null)
+			TagViewModel model = obj as TagViewModel;
+			if (model == null)
 				return false;
 
-			return summary.Name.Equals(Name);
+			return model.Name.Equals(Name);
 		}
 
 		/// <summary>

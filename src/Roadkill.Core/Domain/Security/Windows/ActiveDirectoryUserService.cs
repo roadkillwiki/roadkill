@@ -308,7 +308,7 @@ namespace Roadkill.Core.Security.Windows
 		}
 
 		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
-		public override bool UpdateUser(UserViewModel summary)
+		public override bool UpdateUser(UserViewModel model)
 		{
 			throw new NotImplementedException();
 		}
@@ -350,7 +350,7 @@ namespace Roadkill.Core.Security.Windows
 		}
 
 		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
-		public override string Signup(UserViewModel summary, Action completed)
+		public override string Signup(UserViewModel model, Action completed)
 		{
 			throw new NotImplementedException();
 		}

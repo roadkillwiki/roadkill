@@ -63,7 +63,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Index__Should_Return_ViewResult_And_Model_With_LanguageSummaries_And_Set_UILanguage_To_English()
+		public void Index__Should_Return_ViewResult_And_Model_With_LanguageModels_And_Set_UILanguage_To_English()
 		{
 			// Arrange
 			InstallController controller = new InstallController(_applicationSettings, _userManager, _pageService,
@@ -74,9 +74,9 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
-			IEnumerable<LanguageViewModel> summaries = result.ModelFromActionResult<IEnumerable<LanguageViewModel>>();
-			Assert.NotNull(summaries, "Null model");
-			Assert.That(summaries.Count(), Is.GreaterThanOrEqualTo(1));
+			IEnumerable<LanguageViewModel> models = result.ModelFromActionResult<IEnumerable<LanguageViewModel>>();
+			Assert.NotNull(models, "Null model");
+			Assert.That(models.Count(), Is.GreaterThanOrEqualTo(1));
 			Assert.That(Thread.CurrentThread.CurrentUICulture.Name, Is.EqualTo("en"));
 		}
 
@@ -93,9 +93,9 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.Not.Null);
 
-			LanguageViewModel summary = result.ModelFromActionResult<LanguageViewModel>();
-			Assert.NotNull(summary, "Null model");
-			Assert.That(summary.Code, Is.EqualTo("hi"));
+			LanguageViewModel model = result.ModelFromActionResult<LanguageViewModel>();
+			Assert.NotNull(model, "Null model");
+			Assert.That(model.Code, Is.EqualTo("hi"));
 
 			Assert.That(Thread.CurrentThread.CurrentUICulture.Name, Is.EqualTo("hi"));
 		}

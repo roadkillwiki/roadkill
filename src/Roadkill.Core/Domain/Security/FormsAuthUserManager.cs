@@ -328,7 +328,7 @@ namespace Roadkill.Core.Security
 		{
 			try
 			{
-				var users = Repository.FindAllAdmins().Select(u => u.ToSummary());
+				var users = Repository.FindAllAdmins().Select(u => u.ToViewModel());
 				return users;
 			}
 			catch (DatabaseException ex)
@@ -348,7 +348,7 @@ namespace Roadkill.Core.Security
 		{
 			try
 			{
-				var users = Repository.FindAllEditors().Select(u => u.ToSummary());
+				var users = Repository.FindAllEditors().Select(u => u.ToViewModel());
 				return users;
 			}
 			catch (DatabaseException ex)
@@ -411,22 +411,22 @@ namespace Roadkill.Core.Security
 		/// <returns>
 		/// The activation key for the signup.
 		/// </returns>
-		public override string Signup(UserViewModel summary, Action completed)
+		public override string Signup(UserViewModel model, Action completed)
 		{
-			if (summary == null)
+			if (model == null)
 				throw new SecurityException("The summary provided to Signup is null.", null);
 
 			try
 			{
 				// Create the new user
-				summary.ActivationKey = Guid.NewGuid().ToString();
+				model.ActivationKey = Guid.NewGuid().ToString();
 				User user = new User();
-				user.Username = summary.NewUsername;
-				user.ActivationKey = summary.ActivationKey;
-				user.Email = summary.NewEmail;
-				user.Firstname = summary.Firstname;
-				user.Lastname = summary.Lastname;
-				user.SetPassword(summary.Password);
+				user.Username = model.NewUsername;
+				user.ActivationKey = model.ActivationKey;
+				user.Email = model.NewEmail;
+				user.Firstname = model.Firstname;
+				user.Lastname = model.Lastname;
+				user.SetPassword(model.Password);
 				user.IsEditor = true;
 				user.IsAdmin = false;
 				user.IsActivated = false;
@@ -439,7 +439,7 @@ namespace Roadkill.Core.Security
 			}
 			catch (DatabaseException ex)
 			{
-				throw new SecurityException(ex, "An error occurred with the signup of {0}", summary.NewEmail);
+				throw new SecurityException(ex, "An error occurred with the signup of {0}", model.NewEmail);
 			}
 		}
 
@@ -490,48 +490,48 @@ namespace Roadkill.Core.Security
 		/// <summary>
 		/// Changes the username of a user to a new username.
 		/// </summary>
-		/// <param name="summary">The user details to change. The password property is ignored for this object - use ChangePassword instead.</param>
+		/// <param name="model">The user details to change. The password property is ignored for this object - use ChangePassword instead.</param>
 		/// <returns>
 		/// true if the change was successful;false if the new username already exists in the system.
 		/// </returns>
 		/// <exception cref="SecurityException">An databaseerror occurred while changing the email/username.</exception>
-		public override bool UpdateUser(UserViewModel summary)
+		public override bool UpdateUser(UserViewModel model)
 		{
 			try
 			{
 				User user;
 
 				// These checks are run in the UserViewModel object by MVC - but doubled up in here for _when_ the API is used without MVC.
-				if (summary.ExistingEmail != summary.NewEmail)
+				if (model.ExistingEmail != model.NewEmail)
 				{
-					user = Repository.GetUserByEmail(summary.NewEmail);
+					user = Repository.GetUserByEmail(model.NewEmail);
 					if (user != null)
 						throw new SecurityException(null, "The email provided already exists.");
 				}
 
-				if (summary.ExistingUsername != summary.NewUsername)
+				if (model.ExistingUsername != model.NewUsername)
 				{
-					user = Repository.GetUserByUsername(summary.NewUsername);
+					user = Repository.GetUserByUsername(model.NewUsername);
 					if (user != null)
 						throw new SecurityException(null, "The username provided already exists.");
 				}
 
-				user = Repository.GetUserById(summary.Id.Value);
+				user = Repository.GetUserById(model.Id.Value);
 				if (user == null)
 					throw new SecurityException(null, "The user does not exist.");
 
 				// Update the profile details
-				user.Firstname = summary.Firstname;
-				user.Lastname = summary.Lastname;
+				user.Firstname = model.Firstname;
+				user.Lastname = model.Lastname;
 				Repository.SaveOrUpdateUser(user);
 
 				// Save the email
-				if (summary.ExistingEmail != summary.NewEmail)
+				if (model.ExistingEmail != model.NewEmail)
 				{
-					user = Repository.GetUserByEmail(summary.ExistingEmail);
+					user = Repository.GetUserByEmail(model.ExistingEmail);
 					if (user != null)
 					{
-						user.Email = summary.NewEmail;
+						user.Email = model.NewEmail;
 						Repository.SaveOrUpdateUser(user);
 					}
 					else
@@ -541,38 +541,38 @@ namespace Roadkill.Core.Security
 				}
 
 				// Save the username
-				if (summary.ExistingUsername != summary.NewUsername)
+				if (model.ExistingUsername != model.NewUsername)
 				{
-					user = Repository.GetUserByUsername(summary.ExistingUsername);
+					user = Repository.GetUserByUsername(model.ExistingUsername);
 					if (user != null)
 					{
-						user.Username = summary.NewUsername;
+						user.Username = model.NewUsername;
 						Repository.SaveOrUpdateUser(user);
 
 						//
 						// Update the PageContent.EditedBy history
 						//
-						IList<PageContent> pageContents = Repository.FindPageContentsEditedBy(summary.ExistingUsername).ToList();
+						IList<PageContent> pageContents = Repository.FindPageContentsEditedBy(model.ExistingUsername).ToList();
 						for (int i = 0; i < pageContents.Count; i++)
 						{
-							pageContents[i].EditedBy = summary.NewUsername;
+							pageContents[i].EditedBy = model.NewUsername;
 							Repository.UpdatePageContent(pageContents[i]);
 						}
 
 						//
 						// Update all Page.CreatedBy and Page.ModifiedBy
 						//
-						IList<Page> pages = Repository.FindPagesCreatedBy(summary.ExistingUsername).ToList();
+						IList<Page> pages = Repository.FindPagesCreatedBy(model.ExistingUsername).ToList();
 						for (int i = 0; i < pages.Count; i++)
 						{
-							pages[i].CreatedBy = summary.NewUsername;
+							pages[i].CreatedBy = model.NewUsername;
 							Repository.SaveOrUpdatePage(pages[i]);
 						}
 
-						pages = Repository.FindPagesModifiedBy(summary.ExistingUsername).ToList();
+						pages = Repository.FindPagesModifiedBy(model.ExistingUsername).ToList();
 						for (int i = 0; i < pages.Count; i++)
 						{
-							pages[i].ModifiedBy = summary.NewUsername;
+							pages[i].ModifiedBy = model.NewUsername;
 							Repository.SaveOrUpdatePage(pages[i]);
 						}
 					}
@@ -586,7 +586,7 @@ namespace Roadkill.Core.Security
 			}
 			catch (DatabaseException ex)
 			{
-				throw new SecurityException(ex, "An error occurred updating the user {0} ", summary.ExistingEmail);
+				throw new SecurityException(ex, "An error occurred updating the user {0} ", model.ExistingEmail);
 			}
 		}
 

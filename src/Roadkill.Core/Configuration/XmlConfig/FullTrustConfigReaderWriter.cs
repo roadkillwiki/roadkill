@@ -169,7 +169,7 @@ namespace Roadkill.Core.Configuration
 		/// <summary>
 		/// Adds config settings for forms authentication.
 		/// </summary>
-		private void WriteConfigForFormsAuth(SettingsViewModel summary)
+		private void WriteConfigForFormsAuth(SettingsViewModel model)
 		{
 			// Turn on forms authentication
 			AuthenticationSection authSection = _config.GetSection("system.web/authentication") as AuthenticationSection;

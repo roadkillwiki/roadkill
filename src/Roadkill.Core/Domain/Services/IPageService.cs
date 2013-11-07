@@ -113,7 +113,7 @@ namespace Roadkill.Core.Services
 		/// <summary>
 		/// Updates the provided page.
 		/// </summary>
-		/// <param name="model">The summary.</param>
+		/// <param name="model">The page model.</param>
 		/// <exception cref="DatabaseException">An database error occurred while updating.</exception>
 		/// <exception cref="SearchException">An error occurred adding the page to the search index.</exception>
 		void UpdatePage(PageViewModel model);

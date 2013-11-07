@@ -32,7 +32,7 @@ namespace Roadkill.Core.Services
 
 		public PageService(ApplicationSettings settings, IRepository repository, SearchService searchService, 
 			PageHistoryService historyService, IUserContext context, 
-			ListCache listCache, PageViewModelCache pageSummaryCache, SiteCache sitecache, IPluginFactory pluginFactory)
+			ListCache listCache, PageViewModelCache pageViewModalCache, SiteCache sitecache, IPluginFactory pluginFactory)
 			: base(settings, repository)
 		{
 			_searchService = searchService;
@@ -40,7 +40,7 @@ namespace Roadkill.Core.Services
 			_historyService = historyService;
 			_context = context;
 			_listCache = listCache;
-			_pageViewModelCache = pageSummaryCache;
+			_pageViewModelCache = pageViewModalCache;
 			_siteCache = sitecache;
 			_pluginFactory = pluginFactory;
 		}
@@ -48,89 +48,89 @@ namespace Roadkill.Core.Services
 		/// <summary>
 		/// Adds the page to the database.
 		/// </summary>
-		/// <param name="summary">The summary details for the page.</param>
+		/// <param name="modal">The summary details for the page.</param>
 		/// <returns>A <see cref="PageViewModel"/> for the newly added page.</returns>
 		/// <exception cref="DatabaseException">An databaseerror occurred while saving.</exception>
 		/// <exception cref="SearchException">An error occurred adding the page to the search index.</exception>
-		public PageViewModel AddPage(PageViewModel summary)
+		public PageViewModel AddPage(PageViewModel modal)
 		{
 			try
 			{
 				string currentUser = _context.CurrentUsername;
 
 				Page page = new Page();
-				page.Title = summary.Title;
-				page.Tags = summary.CommaDelimitedTags();
+				page.Title = modal.Title;
+				page.Tags = modal.CommaDelimitedTags();
 				page.CreatedBy = AppendIpForDemoSite(currentUser);
 				page.CreatedOn = DateTime.UtcNow;
 				page.ModifiedOn = DateTime.UtcNow;
 				page.ModifiedBy = AppendIpForDemoSite(currentUser);
-				PageContent pageContent = Repository.AddNewPage(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.UtcNow);
+				PageContent pageContent = Repository.AddNewPage(page, modal.Content, AppendIpForDemoSite(currentUser), DateTime.UtcNow);
 
 				_listCache.RemoveAll();
 				_pageViewModelCache.RemoveAll(); // completely clear the cache to update any reciprocal links.
 
 				// Update the lucene index
-				PageViewModel savedSummary = pageContent.ToModel(_markupConverter);
+				PageViewModel savedModel = pageContent.ToModel(_markupConverter);
 				try
 				{
-					_searchService.Add(savedSummary);
+					_searchService.Add(savedModel);
 				}
 				catch (SearchException)
 				{
 					// TODO: log
 				}
 
-				return savedSummary;
+				return savedModel;
 			}
 			catch (DatabaseException e)
 			{
-				throw new DatabaseException(e, "An error occurred while adding page '{0}' to the database", summary.Title);
+				throw new DatabaseException(e, "An error occurred while adding page '{0}' to the database", modal.Title);
 			}
 		}
 
 		/// <summary>
 		/// Retrieves a list of all pages in the system.
 		/// </summary>
-		/// <returns>An <see cref="IEnumerable`PageSummary"/> of the pages.</returns>
+		/// <returns>An <see cref="IEnumerable{PageViewModel}"/> of the pages.</returns>
 		/// <exception cref="DatabaseException">An databaseerror occurred while retrieving the list.</exception>
 		public IEnumerable<PageViewModel> AllPages(bool loadPageContent = false)
 		{
 			try
 			{
 				string cacheKey = "";
-				IEnumerable<PageViewModel> summaries;
+				IEnumerable<PageViewModel> pageModels;
 
 				if (loadPageContent)
 				{
 					cacheKey = CacheKeys.ALLPAGES_CONTENT;
-					summaries = _listCache.Get<PageViewModel>(cacheKey);
+					pageModels = _listCache.Get<PageViewModel>(cacheKey);
 
-					if (summaries == null)
+					if (pageModels == null)
 					{
 						IEnumerable<Page> pages = Repository.AllPages().OrderBy(p => p.Title);
-						summaries = from page in pages
+						pageModels = from page in pages
 									select Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
 
-						_listCache.Add<PageViewModel>(cacheKey, summaries);
+						_listCache.Add<PageViewModel>(cacheKey, pageModels);
 					}
 				}
 				else
 				{
 					cacheKey = CacheKeys.ALLPAGES;
-					summaries = _listCache.Get<PageViewModel>(cacheKey);
+					pageModels = _listCache.Get<PageViewModel>(cacheKey);
 
-					if (summaries == null)
+					if (pageModels == null)
 					{
 						IEnumerable<Page> pages = Repository.AllPages().OrderBy(p => p.Title);
-						summaries = from page in pages
+						pageModels = from page in pages
 									select new PageViewModel() { Id = page.Id, Title = page.Title };
 
-						_listCache.Add<PageViewModel>(cacheKey, summaries);
+						_listCache.Add<PageViewModel>(cacheKey, pageModels);
 					}
 				}
 
-				return summaries;
+				return pageModels;
 			}
 			catch (DatabaseException ex)
 			{
@@ -150,17 +150,17 @@ namespace Roadkill.Core.Services
 			{
 				string cacheKey = string.Format("allpages.createdby.{0}", userName);
 
-				IEnumerable<PageViewModel> summaries = _listCache.Get<PageViewModel>(cacheKey);
-				if (summaries == null)
+				IEnumerable<PageViewModel> models = _listCache.Get<PageViewModel>(cacheKey);
+				if (models == null)
 				{
 					IEnumerable<Page> pages = Repository.FindPagesCreatedBy(userName);
-					summaries = from page in pages
+					models = from page in pages
 								select Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
 
-					_listCache.Add<PageViewModel>(cacheKey, summaries);
+					_listCache.Add<PageViewModel>(cacheKey, models);
 				}
 
-				return summaries;
+				return models;
 			}
 			catch (DatabaseException ex)
 			{
@@ -191,12 +191,12 @@ namespace Roadkill.Core.Services
 						{
 							if (!string.IsNullOrEmpty(tagName))
 							{
-								TagViewModel summary = new TagViewModel(tagName);
-								int index = tags.IndexOf(summary);
+								TagViewModel tagModel = new TagViewModel(tagName);
+								int index = tags.IndexOf(tagModel);
 
 								if (index < 0)
 								{
-									tags.Add(summary);
+									tags.Add(tagModel);
 								}
 								else
 								{
@@ -230,7 +230,7 @@ namespace Roadkill.Core.Services
 				Page page = Repository.GetPageById(pageId);
 
 				// Update the lucene index before we actually delete the page.
-				// We cannot call the ToSummary() method on an object that no longer exists.
+				// We cannot call the ToModal() method on an object that no longer exists.
 				try
 				{
 					_searchService.Delete(Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter));
@@ -293,8 +293,8 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
-				PageViewModel summary = _pageViewModelCache.GetHomePage();
-				if (summary == null)
+				PageViewModel pageModel = _pageViewModelCache.GetHomePage();
+				if (pageModel == null)
 				{
 
 					Page page = Repository.FindPagesContainingTag("homepage").FirstOrDefault(x => x.IsLocked == true);
@@ -305,12 +305,12 @@ namespace Roadkill.Core.Services
 					
 					if (page != null)
 					{
-						summary = Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
-						_pageViewModelCache.UpdateHomePage(summary);
+						pageModel = Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
+						_pageViewModelCache.UpdateHomePage(pageModel);
 					}
 				}
 
-				return summary;
+				return pageModel;
 			}
 			catch (DatabaseException ex)
 			{
@@ -322,7 +322,7 @@ namespace Roadkill.Core.Services
 		/// Finds all pages with the given tag.
 		/// </summary>
 		/// <param name="tag">The tag to search for.</param>
-		/// <returns>A <see cref="IEnumerable{PageSummary}"/> of pages tagged with the provided tag.</returns>
+		/// <returns>A <see cref="IEnumerable{PageViewModel}"/> of pages tagged with the provided tag.</returns>
 		/// <exception cref="DatabaseException">An databaseerror occurred while getting the list.</exception>
 		public IEnumerable<PageViewModel> FindByTag(string tag)
 		{
@@ -330,18 +330,18 @@ namespace Roadkill.Core.Services
 			{
 				string cacheKey = string.Format("pagesbytag.{0}", tag);
 
-				IEnumerable<PageViewModel> summaries = _listCache.Get<PageViewModel>(cacheKey);
-				if (summaries == null)
+				IEnumerable<PageViewModel> models = _listCache.Get<PageViewModel>(cacheKey);
+				if (models == null)
 				{
 
 					IEnumerable<Page> pages = Repository.FindPagesContainingTag(tag).OrderBy(p => p.Title);
-					summaries = from page in pages
+					models = from page in pages
 								select Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
 
-					_listCache.Add<PageViewModel>(cacheKey, summaries);
+					_listCache.Add<PageViewModel>(cacheKey, models);
 				}
 
-				return summaries;
+				return models;
 			}
 			catch (DatabaseException ex)
 			{
@@ -385,10 +385,10 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
-				PageViewModel summary = _pageViewModelCache.Get(id);
-				if (summary != null)
+				PageViewModel pageModel = _pageViewModelCache.Get(id);
+				if (pageModel != null)
 				{
-					return summary;
+					return pageModel;
 				}
 				else
 				{
@@ -400,10 +400,10 @@ namespace Roadkill.Core.Services
 					}
 					else
 					{
-						summary = Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
-						_pageViewModelCache.Add(id, summary);
+						pageModel = Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
+						_pageViewModelCache.Add(id, pageModel);
 
-						return summary;
+						return pageModel;
 					}
 				}
 			}
@@ -416,24 +416,24 @@ namespace Roadkill.Core.Services
 		/// <summary>
 		/// Updates the provided page.
 		/// </summary>
-		/// <param name="summary">The summary.</param>
+		/// <param name="model">The summary.</param>
 		/// <exception cref="DatabaseException">An databaseerror occurred while updating.</exception>
 		/// <exception cref="SearchException">An error occurred adding the page to the search index.</exception>
-		public void UpdatePage(PageViewModel summary)
+		public void UpdatePage(PageViewModel model)
 		{
 			try
 			{
 				string currentUser = _context.CurrentUsername;
 
-				Page page = Repository.GetPageById(summary.Id);
-				page.Title = summary.Title;
-				page.Tags = summary.CommaDelimitedTags();
+				Page page = Repository.GetPageById(model.Id);
+				page.Title = model.Title;
+				page.Tags = model.CommaDelimitedTags();
 				page.ModifiedOn = DateTime.UtcNow;
 				page.ModifiedBy = AppendIpForDemoSite(currentUser);
 
 				// A second check to ensure a fake IsLocked POST doesn't work.
 				if (_context.IsAdmin)
-					page.IsLocked = summary.IsLocked;
+					page.IsLocked = model.IsLocked;
 
 				Repository.SaveOrUpdatePage(page);
 
@@ -441,20 +441,20 @@ namespace Roadkill.Core.Services
 				// Update the cache - updating a page is expensive for the cache right now
 				// this could be improved by updating the item in the listcache instead of invalidating it
 				//
-				_pageViewModelCache.Remove(summary.Id , 0);
+				_pageViewModelCache.Remove(model.Id , 0);
 
-				if (summary.Tags.Contains("homepage"))
+				if (model.Tags.Contains("homepage"))
 					_pageViewModelCache.RemoveHomePage();
 
 				_listCache.RemoveAll();
 
-				int newVersion = _historyService.MaxVersion(summary.Id) + 1;
-				PageContent pageContent = Repository.AddNewPageContentVersion(page, summary.Content, AppendIpForDemoSite(currentUser), DateTime.UtcNow, newVersion); 
+				int newVersion = _historyService.MaxVersion(model.Id) + 1;
+				PageContent pageContent = Repository.AddNewPageContentVersion(page, model.Content, AppendIpForDemoSite(currentUser), DateTime.UtcNow, newVersion); 
 
 				// Update all links to this page (if it has had its title renamed). Case changes don't need any updates.
-				if (summary.PreviousTitle != null && summary.PreviousTitle.ToLower() != summary.Title.ToLower())
+				if (model.PreviousTitle != null && model.PreviousTitle.ToLower() != model.Title.ToLower())
 				{
-					UpdateLinksToPage(summary.PreviousTitle, summary.Title);
+					UpdateLinksToPage(model.PreviousTitle, model.Title);
 				}
 
 				// Update the lucene index
@@ -462,7 +462,7 @@ namespace Roadkill.Core.Services
 			}
 			catch (DatabaseException ex)
 			{
-				throw new DatabaseException(ex, "An error occurred updating the page with title '{0}' in the database", summary.Title);
+				throw new DatabaseException(ex, "An error occurred updating the page with title '{0}' in the database", model.Title);
 			}
 		}
 
@@ -475,13 +475,13 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
-				IEnumerable<PageViewModel> pageSummaries = FindByTag(oldTagName);
+				IEnumerable<PageViewModel> pageModals = FindByTag(oldTagName);
 
-				foreach (PageViewModel summary in pageSummaries)
+				foreach (PageViewModel model in pageModals)
 				{
-					_searchService.Delete(summary);
+					_searchService.Delete(model);
 
-					string tags = summary.CommaDelimitedTags();
+					string tags = model.CommaDelimitedTags();
 
 					if (tags.IndexOf(",") != -1)
 					{
@@ -498,8 +498,8 @@ namespace Roadkill.Core.Services
 						tags = tags.Replace(oldTagName, newTagName);
 					}
 
-					summary.RawTags = tags;
-					UpdatePage(summary);
+					model.RawTags = tags;
+					UpdatePage(model);
 				}
 
 				string cacheKey = CacheKeys.PagesByTagKey(oldTagName);
