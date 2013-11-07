@@ -310,14 +310,21 @@
     <Content Include="App_Data\customvariables.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Assets\bootstrap\css\bootstrap-responsive.css" />
-    <Content Include="Assets\bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="Assets\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="Assets\bootstrap\css\bootstrap-theme.min.css" />
     <Content Include="Assets\bootstrap\css\bootstrap.css" />
     <Content Include="Assets\bootstrap\css\bootstrap.min.css" />
-    <Content Include="Assets\bootstrap\img\glyphicons-halflings-white.png" />
-    <Content Include="Assets\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Assets\bootstrap\js\bootstrap.js" />
     <Content Include="Assets\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Assets\bootstrap\v2\css\bootstrap-responsive.css" />
+    <Content Include="Assets\bootstrap\v2\css\bootstrap-responsive.min.css" />
+    <Content Include="Assets\bootstrap\v2\css\bootstrap.css" />
+    <Content Include="Assets\bootstrap\v2\css\bootstrap.min.css" />
+    <Content Include="Assets\bootstrap\v2\img\glyphicons-halflings-white.png" />
+    <Content Include="Assets\bootstrap\v2\img\glyphicons-halflings.png" />
+    <Content Include="Assets\bootstrap\v2\js\bootstrap.js" />
+    <Content Include="Assets\bootstrap\v2\js\bootstrap.min.js" />
     <Content Include="Assets\CSS\apihelp.css" />
     <Content Include="Assets\CSS\htmldiff.css" />
     <Content Include="Assets\CSS\images\blank.gif" />
@@ -351,6 +358,9 @@
     <Content Include="Areas\HelpPage\Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Assets\Scripts\jquery\jquery-1.8.0-vsdoc.js" />
     <Content Include="Assets\CSS\bootstrap-tagmanager.css" />
     <Content Include="Assets\Images\plugin.png" />
@@ -823,7 +833,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>3588</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
