@@ -286,8 +286,13 @@ namespace Roadkill.Core.Import
 				return text;
 
 			// Screwturn uses "[" for links instead of "[[", so do a crude replace.
-			// Needs more coverage for @@ blocks, variables, toc.
-			text = text.Replace("[", "[[").Replace("]", "]]").Replace("{BR}", "\n").Replace("{UP}","");
+			// Files aren't done using File:/ but instead {UP}
+			// This needs more coverage for @@ blocks, variables, toc.
+			text = text.Replace("[", "[[")
+						.Replace("]", "]]")
+						.Replace("{BR}", "\n")
+						.Replace("imageleft||","")
+						.Replace("{UP}/","File:/");
 
 			// Handle nowiki blocks being a little strange
 			Regex regex = new Regex("@@(.*?)@@",RegexOptions.Singleline);
