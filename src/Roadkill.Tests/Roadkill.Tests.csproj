@@ -338,6 +338,7 @@
     <Compile Include="Unit\Cache\SiteCacheTests.cs" />
     <Compile Include="Unit\Cache\PageServiceCacheTests.cs" />
     <Compile Include="Unit\Cache\ListCacheTests.cs" />
+    <Compile Include="Unit\Database\Export\SqlExportBuilderTests.cs" />
     <Compile Include="Unit\Extensions\ExtensionsTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\AdminRequiredAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\AuthorizeAttributeBase.cs" />
@@ -416,6 +417,7 @@
     <Content Include="Unit\Attachments\afile.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Unit\Database\Export\expected-users-export.sql" />
     <Content Include="Unit\Text\whitelist.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

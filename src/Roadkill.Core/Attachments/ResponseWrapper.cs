@@ -89,11 +89,11 @@ namespace Roadkill.Core.Attachments
 
 			// When If-modified is sent (never when it's incognito mode), it matches the 
 			// the write time you send back for the file. So 1st Jan 2001, it will send back
-			// 1st Jan 2001 for If-Modified.
-			status = 304;
+			// 1st Jan 2001 for If-Modified.	
 			DateTime modifiedSinceDate = GetLastModifiedDate(modifiedSinceHeader);
 			if (modifiedSinceDate != DateTime.MinValue)
 			{
+				status = 304;
 				DateTime lastWriteTime = new DateTime(fileDate.Year, fileDate.Month, fileDate.Day, fileDate.Hour, fileDate.Minute, fileDate.Second, 0, DateTimeKind.Utc);
 				if (lastWriteTime != modifiedSinceDate)
 					status = 200;

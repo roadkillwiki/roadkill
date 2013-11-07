@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Roadkill.Core.Logging;
 
 namespace Roadkill.Core.Database.Export
 {
-	public class ScriptBuilder
+	public class SqlExportBuilder
 	{
 		private IRepository _repository;
 
-		public ScriptBuilder(IRepository repository)
+		public SqlExportBuilder(IRepository repository)
 		{
+			if (repository == null)
+				throw new ArgumentNullException("repository");
+
 			_repository = repository;
 		}
 
@@ -22,17 +26,24 @@ namespace Roadkill.Core.Database.Export
 				IEnumerable<Page> pages = _repository.AllPages();
 				IEnumerable<PageContent> pageContent = _repository.AllPageContents();
 
-				string sql1 = string.Join("\n", users.Select(x => GetUsersInsertSql(x)).ToArray());
-				string sql2 = string.Join("\n", pages.Select(x => GetPagesInsertSql(x)).ToArray());
-				string sql3 = string.Join("\n", pageContent.Select(x => GetPageContentInsertSql(x)).ToArray());
+				// The order of the SQL is important - users should come before pages, pages before content.
+				string usersSql = string.Join(Environment.NewLine, users.Select(x => GetUsersInsertSql(x)).ToArray());
+				string pagesSql = string.Join(Environment.NewLine, pages.Select(x => GetPagesInsertSql(x)).ToArray());
+				string pageContentSql = string.Join(Environment.NewLine, pageContent.Select(x => GetPageContentInsertSql(x)).ToArray());
 
-				Log.Debug("Sql successfully written: {0}\r\n{1}\r\n{2}", sql1, sql2, sql3);
-				return "-- You will need to enable identity inserts for your chosen db before running this Script, for example:" +
-					   "-- SET IDENTITY_INSERT roadkill_pages ON;\r\n" +
-					   sql1 +"\r\n" +
-					   sql2  +"\r\n" +
-					   sql3;
+				StringBuilder sqlBuilder = new StringBuilder();
+				sqlBuilder.AppendLine("-- You will need to enable identity inserts for your chosen db before running this Script, for example in SQL Server:");
+				sqlBuilder.AppendLine("-- SET IDENTITY_INSERT roadkill_pages ON;");
+				sqlBuilder.AppendLine(usersSql);
+				
+				if (!string.IsNullOrWhiteSpace(pagesSql))
+					sqlBuilder.AppendLine(pagesSql);
 
+				if (!string.IsNullOrWhiteSpace(pageContentSql))
+					sqlBuilder.AppendLine(pageContentSql);
+
+				Log.Debug("Sql export successfully written: \n\n{0}", sqlBuilder);
+				return sqlBuilder.ToString();
 			}
 			catch (Exception e)
 			{
