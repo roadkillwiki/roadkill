@@ -15,6 +15,14 @@ namespace Roadkill.Core.Plugins.BuiltIn
 		private static readonly string _token = "[[[mathjax]]]";
 		private static readonly string _parserSafeToken;
 
+		public override bool IsEnabled
+		{
+			get
+			{
+				return false;
+			}
+		}
+
 		public override string Id
 		{
 			get 
