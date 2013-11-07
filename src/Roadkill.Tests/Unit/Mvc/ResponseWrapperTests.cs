@@ -59,5 +59,36 @@ namespace Roadkill.Tests.Unit.Mvc
 			// Assert
 			Assert.That(response.ContentType, Is.EqualTo("image/jpeg"));
 		}
+
+		
+		[Test]
+		[TestCase(null)]
+		[TestCase("")]
+		[TestCase("gibberish")]
+		public void GetLastModifiedDate_Should_Return_DateTimeMin_For_Empty_Last_Modified_Dates(string lastModifiedHeader)
+		{
+			// Arrange
+
+			// Act
+			DateTime modifiedDate = ResponseWrapper.GetLastModifiedDate(lastModifiedHeader);
+
+			// Assert
+			Assert.That(modifiedDate, Is.EqualTo(DateTime.MinValue));
+		}
+
+		[Test]
+		public void GetLastModifiedDate_Should_Return_Valid_DateTime_For_Known_Date_With_No_Milliseconds()
+		{
+			// Arrange
+			string lastModifiedHeader = "Thu, 07 Nov 2013 12:32:40 GMT"; // direct from Firebug
+			DateTime expectedDateTime = new DateTime(2013, 11, 07, 12, 32, 40);
+
+			// Act
+			DateTime modifiedDate = ResponseWrapper.GetLastModifiedDate(lastModifiedHeader);
+
+			// Assert
+			Assert.That(modifiedDate, Is.EqualTo(expectedDateTime));
+			Assert.That(modifiedDate.Millisecond, Is.EqualTo(0));
+		}
 	}
 }
