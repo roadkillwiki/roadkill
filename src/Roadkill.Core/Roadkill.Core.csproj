@@ -412,8 +412,8 @@
     <Compile Include="Mvc\Attributes\WebApiEditorRequired.cs" />
     <Compile Include="Mvc\Attributes\WebApiAdminRequiredAttribute.cs" />
     <Compile Include="Mvc\Attributes\IControllerAttribute.cs" />
-    <Compile Include="DI\MVC\MvcAttributeProvider.cs" />
-    <Compile Include="DI\MVC\MvcDependencyResolver.cs" />
+    <Compile Include="DI\Mvc\MvcAttributeProvider.cs" />
+    <Compile Include="DI\Mvc\MvcDependencyResolver.cs" />
     <Compile Include="Logging\Level.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Common\ShortGuid.cs" />
@@ -497,7 +497,7 @@
     <Compile Include="Exceptions\DatabaseException.cs" />
     <Compile Include="Attachments\AttachmentRouteHandler.cs" />
     <Compile Include="Domain\Security\IUserContext.cs" />
-    <Compile Include="DI\MVC\MvcModelBinders.cs" />
+    <Compile Include="DI\Mvc\MvcModelBinders.cs" />
     <Compile Include="Configuration\RoadkillSection.cs" />
     <Compile Include="Mvc\Controllers\InstallController.cs" />
     <Compile Include="Mvc\Controllers\WikiController.cs" />

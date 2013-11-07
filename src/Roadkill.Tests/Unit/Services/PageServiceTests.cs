@@ -131,7 +131,8 @@ namespace Roadkill.Tests.Unit
 				Content = "**Homepage**",
 				RawTags = "1;2;3;",
 				CreatedBy = AdminUsername,
-				CreatedOn = DateTime.UtcNow
+				CreatedOn = DateTime.UtcNow,
+				IsLocked = true
 			};
 
 			// Act
@@ -140,8 +141,33 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(newModel, Is.Not.Null);
 			Assert.That(newModel.Content, Is.EqualTo(model.Content));
+			Assert.That(newModel.IsLocked, Is.True);
 			Assert.That(_repositoryMock.Pages.Count, Is.EqualTo(1));
 			Assert.That(_repositoryMock.PageContents.Count, Is.EqualTo(1));
+		}
+
+		[Test]
+		public void AddPage_Should_Not_Set_IsLocked_If_User_Is_Editor()
+		{
+			// Arrange
+			PageViewModel model = new PageViewModel()
+			{
+				Id = 1,
+				Title = "Homepage",
+				Content = "**Homepage**",
+				RawTags = "1;2;3;",
+				CreatedBy = AdminUsername,
+				CreatedOn = DateTime.UtcNow,
+				IsLocked = true
+			};
+
+			_testUser.IsAdmin = false; // concurrent test issues
+
+			// Act
+			PageViewModel newModel = _pageService.AddPage(model);
+
+			// Assert
+			Assert.That(newModel.IsLocked, Is.False);
 		}
 
 		[Test]
