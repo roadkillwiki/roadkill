@@ -13,6 +13,7 @@ using StructureMap;
 using StructureMap.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Attachments;
+using Roadkill.Core.Cache;
 
 namespace Roadkill.Core.Mvc.Attributes
 {
@@ -33,6 +34,9 @@ namespace Roadkill.Core.Mvc.Attributes
 		[SetterProperty]
 		public PageService PageService { get; set; }
 
+		[SetterProperty]
+		public SettingsService SettingsService { get; set; }
+
 		public override void OnResultExecuted(ResultExecutedContext filterContext)
 		{
 			if (!ApplicationSettings.Installed || !ApplicationSettings.UseBrowserCache || Context.IsLoggedIn)
@@ -44,7 +48,7 @@ namespace Roadkill.Core.Mvc.Attributes
 			if (wikiController == null && homeController == null)
 				return;
 
-			PageViewModel summary = null;
+			PageViewModel page = null;
 
 			// Find the page for the action we're on
 			if (wikiController != null)
@@ -52,27 +56,86 @@ namespace Roadkill.Core.Mvc.Attributes
 				int id = 0;
 				if (int.TryParse(filterContext.RouteData.Values["id"].ToString(), out id))
 				{
-					summary = PageService.GetById(id);
+					page = PageService.GetById(id);
 				}
 			}
 			else
 			{
-				summary = PageService.FindHomePage();
+				page = PageService.FindHomePage();
 			}
 
-			if (summary != null && summary.IsCacheable)
+			if (page != null && page.IsCacheable)
 			{
+				SiteSettings siteSettings = SettingsService.GetSiteSettings();
+				if (PluginsHaveChangedSinceModifiedDate(siteSettings, filterContext))
+				{
+					// Return a default 200 to indicate a change has occurrred
+					return;
+				}
+
+				//
+				// Is the page's last modified date after the plugin last save date?
+				//
+				DateTime pluginLastSaveDate = siteSettings.PluginLastSaveDate.ClearMilliseconds();
+				DateTime pageModifiedDate = page.ModifiedOn.ToUniversalTime();
+
+				if (pageModifiedDate > pluginLastSaveDate)
+				{
+					// [Yes] - check if the page's last modified date is more recent than the header. If it isn't then a 304 is returned.
+					filterContext.HttpContext.Response.Cache.SetLastModified(page.ModifiedOn.ToUniversalTime());
+					filterContext.HttpContext.Response.StatusCode = ResponseWrapper.GetStatusCodeForCache(page.ModifiedOn.ToUniversalTime(), filterContext.HttpContext.Request.Headers["If-Modified-Since"]);
+
+				}
+				else
+				{
+					// [No]  - return a 304 and make sure the last modified date returned to the browser is correct.
+					filterContext.HttpContext.Response.Cache.SetLastModified(pluginLastSaveDate.ToUniversalTime());
+					filterContext.HttpContext.Response.StatusCode = 304;
+				}
+
+				// These cache headers are required for the last modified header to be understood by the browser
 				filterContext.HttpContext.Response.Cache.SetCacheability(HttpCacheability.Public);
 				filterContext.HttpContext.Response.Cache.SetExpires(DateTime.UtcNow.AddSeconds(2));
 				filterContext.HttpContext.Response.Cache.SetMaxAge(TimeSpan.FromSeconds(0));
-				filterContext.HttpContext.Response.Cache.SetLastModified(summary.ModifiedOn.ToUniversalTime());
-				filterContext.HttpContext.Response.StatusCode = ResponseWrapper.GetStatusCodeForCache(summary.ModifiedOn.ToUniversalTime(), filterContext.HttpContext.Request.Headers["If-Modified-Since"]);
 
+				// Lastly, if the status code is 304 then return an empty body (HttpStatusCodeResult 304), or the 
+				// browser will try to read the entire response body again.
 				if (filterContext.HttpContext.Response.StatusCode == 304)
 				{
 					filterContext.Result = new HttpStatusCodeResult(304, "Not Modified");
 				}
 			}
+		}
+
+		internal bool PluginsHaveChangedSinceModifiedDate(SiteSettings siteSettings, ResultExecutedContext filterContext)
+		{
+			// Check if any plugins have been recently updated as saving invalidates the cache.
+			// This is necessary because for example enabling the TOC plugin will mean the content
+			// should have {TOC} parsed now, but the browser cache content will contain the un-cached version still.
+			DateTime pluginLastSaveDate = siteSettings.PluginLastSaveDate.ClearMilliseconds();
+			string modifiedSince = filterContext.HttpContext.Request.Headers["If-Modified-Since"];
+
+			if (!string.IsNullOrWhiteSpace(modifiedSince))
+			{
+				DateTime modifiedSinceDate = DateTime.UtcNow;
+				if (DateTime.TryParse(modifiedSince, out modifiedSinceDate))
+				{
+					modifiedSinceDate = modifiedSinceDate.ToUniversalTime();
+					modifiedSinceDate = modifiedSinceDate.ClearMilliseconds();
+
+					if (pluginLastSaveDate > modifiedSinceDate)
+					{
+						// Update the browser's modified since date
+						filterContext.HttpContext.Response.Cache.SetCacheability(HttpCacheability.Public);
+						filterContext.HttpContext.Response.Cache.SetExpires(DateTime.UtcNow.AddSeconds(2));
+						filterContext.HttpContext.Response.Cache.SetMaxAge(TimeSpan.FromSeconds(0));
+						filterContext.HttpContext.Response.Cache.SetLastModified(pluginLastSaveDate.ToUniversalTime());
+						return true;
+					}
+				}
+			}
+
+			return false;
 		}
 	}
 }

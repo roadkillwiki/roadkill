@@ -23,8 +23,11 @@ namespace Roadkill.Tests.Unit
 		public void Index_Should_Return_ViewResult_And_Model_With_2_PluginSummaries_Ordered_By_Name()
 		{
 			// Arrange
+			ApplicationSettings appSettings = new ApplicationSettings();
 			CacheMock cacheMock = new CacheMock();
-			SiteCache siteCache = new SiteCache(new ApplicationSettings(), cacheMock);
+			SiteCache siteCache = new SiteCache(appSettings, cacheMock);
+			PageViewModelCache viewModelCache = new PageViewModelCache(appSettings, cacheMock);
+			ListCache listCache = new ListCache(appSettings, cacheMock);
 			RepositoryMock repositoryMock = new RepositoryMock();
 
 			TextPluginStub pluginB = new TextPluginStub("b id", "b name", "b desc");
@@ -38,7 +41,7 @@ namespace Roadkill.Tests.Unit
 			PluginFactoryMock pluginFactory = new PluginFactoryMock();
 			pluginFactory.RegisterTextPlugin(pluginB); // reverse the order to test the ordering
 			pluginFactory.RegisterTextPlugin(pluginA);
-			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, null, siteCache);
+			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, null, siteCache, viewModelCache, listCache);
 
 			// Act
 			ViewResult result = controller.Index() as ViewResult;
@@ -59,8 +62,11 @@ namespace Roadkill.Tests.Unit
 		public void Edit_GET_Should_Return_ViewResult_And_Model_With_Known_Values()
 		{
 			// Arrange
+			ApplicationSettings appSettings = new ApplicationSettings();
 			CacheMock cacheMock = new CacheMock();
-			SiteCache siteCache = new SiteCache(new ApplicationSettings(), cacheMock);
+			SiteCache siteCache = new SiteCache(appSettings, cacheMock);
+			PageViewModelCache viewModelCache = new PageViewModelCache(appSettings, cacheMock);
+			ListCache listCache = new ListCache(appSettings, cacheMock);
 			RepositoryMock repositoryMock = new RepositoryMock();
 			
 			TextPluginStub plugin = new TextPluginStub();
@@ -72,7 +78,7 @@ namespace Roadkill.Tests.Unit
 			PluginFactoryMock pluginFactory = new PluginFactoryMock();
 			pluginFactory.RegisterTextPlugin(plugin);
 
-			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, repositoryMock, siteCache);
+			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, repositoryMock, siteCache, viewModelCache, listCache);
 
 			// Act
 			ViewResult result = controller.Edit(plugin.Id) as ViewResult;
@@ -91,8 +97,11 @@ namespace Roadkill.Tests.Unit
 		public void Edit_GET_Should_Load_Settings_From_Repository()
 		{
 			// Arrange
+			ApplicationSettings appSettings = new ApplicationSettings();
 			CacheMock cacheMock = new CacheMock();
-			SiteCache siteCache = new SiteCache(new ApplicationSettings(), cacheMock);
+			SiteCache siteCache = new SiteCache(appSettings, cacheMock);
+			PageViewModelCache viewModelCache = new PageViewModelCache(appSettings, cacheMock);
+			ListCache listCache = new ListCache(appSettings, cacheMock);
 
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.Repository = new RepositoryMock();
@@ -107,7 +116,7 @@ namespace Roadkill.Tests.Unit
 
 			PluginFactoryMock pluginFactory = new PluginFactoryMock();
 			pluginFactory.RegisterTextPlugin(plugin);
-			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, repositoryMock, siteCache);
+			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, repositoryMock, siteCache, viewModelCache, listCache);
 
 			// Act
 			ViewResult result = controller.Edit(plugin.Id) as ViewResult;
@@ -122,8 +131,11 @@ namespace Roadkill.Tests.Unit
 		public void Edit_GET_Should_Use_Default_Plugin_Settings_When_Plugin_Doesnt_Exist_In_Repository()
 		{
 			// Arrange
+			ApplicationSettings appSettings = new ApplicationSettings();
 			CacheMock cacheMock = new CacheMock();
-			SiteCache siteCache = new SiteCache(new ApplicationSettings(), cacheMock);
+			SiteCache siteCache = new SiteCache(appSettings, cacheMock);
+			PageViewModelCache viewModelCache = new PageViewModelCache(appSettings, cacheMock);
+			ListCache listCache = new ListCache(appSettings, cacheMock);
 			RepositoryMock repositoryMock = new RepositoryMock();
 
 			TextPluginStub plugin = new TextPluginStub();
@@ -134,7 +146,7 @@ namespace Roadkill.Tests.Unit
 
 			PluginFactoryMock pluginFactory = new PluginFactoryMock();
 			pluginFactory.RegisterTextPlugin(plugin);
-			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, repositoryMock, siteCache);
+			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, repositoryMock, siteCache, viewModelCache, listCache);
 
 			// Act
 			ViewResult result = controller.Edit(plugin.Id) as ViewResult;
@@ -149,9 +161,7 @@ namespace Roadkill.Tests.Unit
 		public void Edit_GET_Should_Redirect_When_Id_Is_Empty()
 		{
 			// Arrange
-			CacheMock cacheMock = new CacheMock();
-			SiteCache siteCache = new SiteCache(new ApplicationSettings(), cacheMock);
-			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, null, null, siteCache);
+			PluginSettingsController controller = CreateController();
 
 			// Act
 			RedirectToRouteResult result = controller.Edit("") as RedirectToRouteResult;
@@ -164,11 +174,7 @@ namespace Roadkill.Tests.Unit
 		public void Edit_GET_Should_Redirect_When_Plugin_Does_Not_Exist()
 		{
 			// Arrange
-			CacheMock cacheMock = new CacheMock();
-			SiteCache siteCache = new SiteCache(new ApplicationSettings(), cacheMock);
-
-			PluginFactoryMock pluginFactory = new PluginFactoryMock();
-			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, null, siteCache);
+			PluginSettingsController controller = CreateController();
 
 			// Act
 			RedirectToRouteResult result = controller.Edit("somepluginId") as RedirectToRouteResult;
@@ -178,12 +184,18 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Edit_POST_Should_Save_Setting_Values_To_Repository_From_Model_And_Clear_Cache()
+		public void Edit_POST_Should_Save_Setting_Values_To_Repository_From_Model_And_Clear_SiteCache()
 		{
 			// Arrange
+			ApplicationSettings appSettings = new ApplicationSettings() { UseObjectCache = true };
 			CacheMock cacheMock = new CacheMock();
-			SiteCache siteCache = new SiteCache(new ApplicationSettings(), cacheMock);
+			SiteCache siteCache = new SiteCache(appSettings, cacheMock);
+			PageViewModelCache viewModelCache = new PageViewModelCache(appSettings, cacheMock);
+			ListCache listCache = new ListCache(appSettings, cacheMock);
 			RepositoryMock repositoryMock = new RepositoryMock();
+
+			viewModelCache.Add(1, new PageViewModel()); // dummmy items
+			listCache.Add("a key", new List<string>() { "1", "2" });
 
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.Repository = repositoryMock;
@@ -193,7 +205,7 @@ namespace Roadkill.Tests.Unit
 
 			PluginFactoryMock pluginFactory = new PluginFactoryMock();
 			pluginFactory.RegisterTextPlugin(plugin);
-			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, repositoryMock, siteCache);
+			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, repositoryMock, siteCache, viewModelCache, listCache);
 
 			PluginViewModel model = new PluginViewModel();
 			model.Id = plugin.Id;
@@ -216,16 +228,30 @@ namespace Roadkill.Tests.Unit
 		public void Edit_POST_Should_Redirect_When_Plugin_Does_Not_Exist()
 		{
 			// Arrange
-			CacheMock cacheMock = new CacheMock();
-			SiteCache siteCache = new SiteCache(new ApplicationSettings(), cacheMock);
-			PluginFactoryMock pluginFactory = new PluginFactoryMock();
-			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, null, siteCache);
+			PluginSettingsController controller = CreateController();
 
 			// Act
 			RedirectToRouteResult result = controller.Edit("somepluginId") as RedirectToRouteResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
+		}
+
+		private PluginSettingsController CreateController()
+		{
+			ApplicationSettings appSettings = new ApplicationSettings() { UseObjectCache = true };
+
+			CacheMock cacheMock = new CacheMock();
+			SiteCache siteCache = new SiteCache(appSettings, cacheMock);
+			PageViewModelCache viewModelCache = new PageViewModelCache(appSettings, cacheMock);
+			ListCache listCache = new ListCache(appSettings, cacheMock);
+
+			RepositoryMock repositoryMock = new RepositoryMock();
+			PluginFactoryMock pluginFactory = new PluginFactoryMock();
+
+			PluginSettingsController controller = new PluginSettingsController(appSettings, null, null, null, pluginFactory, repositoryMock, siteCache, viewModelCache, listCache);
+
+			return controller;
 		}
 	}
 }

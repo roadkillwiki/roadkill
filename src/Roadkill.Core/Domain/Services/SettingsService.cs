@@ -104,7 +104,7 @@ namespace Roadkill.Core.Services
 				siteSettings.SiteName = summary.SiteName;
 				siteSettings.Theme = summary.Theme;
 
-				// v1.8
+				// v2.0
 				siteSettings.OverwriteExistingFiles = summary.OverwriteExistingFiles;
 				siteSettings.HeadContent = summary.HeadContent;
 				siteSettings.MenuMarkup = summary.MenuMarkup;

@@ -22,14 +22,19 @@ namespace Roadkill.Core.Mvc.Controllers
 		private IPluginFactory _pluginFactory;
 		private IRepository _repository;
 		private SiteCache _siteCache;
+		private PageViewModelCache _viewModelCache;
+		private ListCache _listCache;
 
 		public PluginSettingsController(ApplicationSettings settings, UserServiceBase userManager, IUserContext context, 
-			SettingsService settingsService, IPluginFactory pluginFactory, IRepository repository, SiteCache siteCache)
+			SettingsService settingsService, IPluginFactory pluginFactory, IRepository repository, SiteCache siteCache, 
+			PageViewModelCache viewModelCache, ListCache listCache)
 			: base (settings, userManager, context, settingsService)
 		{
 			_pluginFactory = pluginFactory;
 			_repository = repository;
 			_siteCache = siteCache;
+			_viewModelCache = viewModelCache;
+			_listCache = listCache;
 		}
 
 		public ActionResult Index()
@@ -87,9 +92,20 @@ namespace Roadkill.Core.Mvc.Controllers
 					pluginValue.Value = summaryValue.Value;
 			}
 
+			// Update the plugin last saved date - this is important for 304 modified tracking
+			// when the browser caching option is turned on.
+			SiteSettings settings = SettingsService.GetSiteSettings();
+			settings.PluginLastSaveDate = DateTime.UtcNow;
+			SettingsViewModel settingsViewModel = new SettingsViewModel(ApplicationSettings, settings);
+			SettingsService.SaveSiteSettings(settingsViewModel);
+
 			// Save and clear the cached settings
 			_repository.SaveTextPluginSettings(plugin);
 			_siteCache.RemovePluginSettings(plugin);
+		
+			// Clear all other caches if the plugin has been enabled or disabled.
+			_viewModelCache.RemoveAll();
+			_listCache.RemoveAll();
 
 			return RedirectToAction("Index");
 		}

@@ -110,7 +110,7 @@ namespace Roadkill.Core.Configuration
 		}
 		#endregion
 
-		#region Version 1.8
+		#region Version 2.0
 		/// <summary>
 		/// Whether files with the same name overwrite the existing file, or throw an error.
 		/// </summary>
@@ -140,6 +140,11 @@ namespace Roadkill.Core.Configuration
 				_menuMarkup = value;
 			}
 		}
+
+		/// <summary>
+		/// The last time a plugin was saved - this is used for 304 modified checks.
+		/// </summary>
+		public DateTime PluginLastSaveDate { get; set; }
 		#endregion
 
 		public SiteSettings()
@@ -155,10 +160,11 @@ namespace Roadkill.Core.Configuration
 			RecaptchaPrivateKey = "";
 			RecaptchaPublicKey = "";
 
-			// v1.8
+			// v2.0
 			OverwriteExistingFiles = false;
 			HeadContent = "";
 			MenuMarkup = GetDefaultMenuMarkup();
+			PluginLastSaveDate = DateTime.UtcNow;
 		}
 
 		public string GetJson()

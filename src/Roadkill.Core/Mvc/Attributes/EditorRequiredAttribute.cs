@@ -26,6 +26,9 @@ namespace Roadkill.Core.Mvc.Attributes
 		[SetterProperty]
 		public PageService PageService { get; set; }
 
+		[SetterProperty]
+		public SettingsService SettingsService { get; set; }
+
 		/// <summary>
 		/// Provides an entry point for custom authorization checks.
 		/// </summary>
