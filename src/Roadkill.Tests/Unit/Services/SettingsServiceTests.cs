@@ -65,19 +65,19 @@ namespace Roadkill.Tests.Unit
 		public void CreateTables_Calls_Repository_Install()
 		{
 			// Arrange
-			SettingsViewModel summary = new SettingsViewModel();
-			summary.DataStoreTypeName = "SQLite";
-			summary.ConnectionString = "Data Source=somefile.sqlite;";
-			summary.UseObjectCache = true;
+			SettingsViewModel model = new SettingsViewModel();
+			model.DataStoreTypeName = "SQLite";
+			model.ConnectionString = "Data Source=somefile.sqlite;";
+			model.UseObjectCache = true;
 
 			// Act
-			_settingsService.CreateTables(summary);
+			_settingsService.CreateTables(model);
 
 
 			// Assert
-			Assert.That(_repository.InstalledConnectionString, Is.EqualTo(summary.ConnectionString));
+			Assert.That(_repository.InstalledConnectionString, Is.EqualTo(model.ConnectionString));
 			Assert.That(_repository.InstalledDataStoreType, Is.EqualTo(DataStoreType.Sqlite));
-			Assert.That(_repository.InstalledEnableCache, Is.EqualTo(summary.UseObjectCache));
+			Assert.That(_repository.InstalledEnableCache, Is.EqualTo(model.UseObjectCache));
 		}
 
 		[Test]

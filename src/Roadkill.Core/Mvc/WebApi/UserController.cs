@@ -53,7 +53,7 @@ namespace Roadkill.Core.Mvc.Controllers.Api
 		[HttpGet]
 		public UserViewModel Get(Guid id)
 		{
-			return _userService.GetUserById(id).ToSummary();
+			return _userService.GetUserById(id).ToViewModel();
 		}
 
 		/// <summary>

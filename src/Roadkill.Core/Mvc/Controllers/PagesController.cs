@@ -118,14 +118,14 @@ namespace Roadkill.Core.Mvc.Controllers
 		[EditorRequired]
 		public ActionResult Edit(int id)
 		{
-			PageViewModel summary = _pageService.GetById(id);
+			PageViewModel model = _pageService.GetById(id);
 
-			if (summary != null)
+			if (model != null)
 			{
-				if (summary.IsLocked && !Context.IsAdmin)
-					return new HttpStatusCodeResult(403, string.Format("The page '{0}' can only be edited by administrators.", summary.Title));
+				if (model.IsLocked && !Context.IsAdmin)
+					return new HttpStatusCodeResult(403, string.Format("The page '{0}' can only be edited by administrators.", model.Title));
 
-				return View("Edit", summary);
+				return View("Edit", model);
 			}
 			else
 			{
@@ -136,20 +136,20 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// Saves all POST'd data for a page edit to the database.
 		/// </summary>
-		/// <param name="summary">A filled <see cref="PageViewModel"/> containing the new data.</param>
+		/// <param name="model">A filled <see cref="PageViewModel"/> containing the new data.</param>
 		/// <returns>Redirects to /Wiki/{id} using the passed in <see cref="PageViewModel.Id"/>.</returns>
 		/// <remarks>This action requires editor rights.</remarks>
 		[EditorRequired]
 		[HttpPost]
 		[ValidateInput(false)]
-		public ActionResult Edit(PageViewModel summary)
+		public ActionResult Edit(PageViewModel model)
 		{
 			if (!ModelState.IsValid)
-				return View("Edit", summary);
+				return View("Edit", model);
 
-			_pageService.UpdatePage(summary);
+			_pageService.UpdatePage(model);
 
-			return RedirectToAction("Index", "Wiki", new { id = summary.Id });
+			return RedirectToAction("Index", "Wiki", new { id = model.Id });
 		}
 
 		/// <summary>
@@ -201,20 +201,20 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// Saves a new page using the provided <see cref="PageViewModel"/> object to the database.
 		/// </summary>
-		/// <param name="summary">The page details to save.</param>
+		/// <param name="model">The page details to save.</param>
 		/// <returns>Redirects to /Wiki/{id} using the newly created page's ID.</returns>
 		/// <remarks>This action requires editor rights.</remarks>
 		[EditorRequired]
 		[HttpPost]
 		[ValidateInput(false)]
-		public ActionResult New(PageViewModel summary)
+		public ActionResult New(PageViewModel model)
 		{
 			if (!ModelState.IsValid)
-				return View("Edit", summary);
+				return View("Edit", model);
 
-			summary = _pageService.AddPage(summary);
+			model = _pageService.AddPage(model);
 
-			return RedirectToAction("Index", "Wiki", new { id = summary.Id });
+			return RedirectToAction("Index", "Wiki", new { id = model.Id });
 		}
 
 		/// <summary>
@@ -274,9 +274,9 @@ namespace Roadkill.Core.Mvc.Controllers
 				diffHtml = converter.ToHtml(bothVersions[0].Content).Html;
 			}
 
-			PageViewModel summary = bothVersions[0];
-			summary.Content = diffHtml;
-			return View(summary);
+			PageViewModel model = bothVersions[0];
+			model.Content = diffHtml;
+			return View(model);
 		}
 	}
 }

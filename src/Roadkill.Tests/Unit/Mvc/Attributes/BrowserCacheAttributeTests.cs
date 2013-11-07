@@ -130,7 +130,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Have_304_Http_Status_Code_If_PluginsSaved_Before_Header_Last_Modified_Date()
+		public void Should_Have_304_Http_Status_Code_If_PluginsSaved_Is_Equal_To_Header_Last_Modified_Date()
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();

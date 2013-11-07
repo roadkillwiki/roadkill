@@ -218,19 +218,19 @@ namespace Roadkill.Tests.Unit
 			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsService, signupEmail, null);
 			userController.SetFakeControllerContext();
 
-			UserViewModel summary = new UserViewModel();
-			summary.NewEmail = "blah@localhost";
-			summary.Password = "password";
-			summary.PasswordConfirmation = "password";
+			UserViewModel model = new UserViewModel();
+			model.NewEmail = "blah@localhost";
+			model.Password = "password";
+			model.PasswordConfirmation = "password";
 
 			// Act	
-			ViewResult result = userController.Signup(summary, null) as ViewResult;
+			ViewResult result = userController.Signup(model, null) as ViewResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
 			Assert.That(result.ViewName, Is.EqualTo("SignupComplete"));
 			Assert.That(signupEmail.IsSent, Is.True);
-			Assert.That(signupEmail.Summary, Is.EqualTo(summary));
+			Assert.That(signupEmail.ViewModel, Is.EqualTo(model));
 		}
 
 		[Test]
@@ -251,10 +251,10 @@ namespace Roadkill.Tests.Unit
 			userController.SetFakeControllerContext();
 			userController.ModelState.AddModelError("key", "this is used to force ModelState.IsValid to false");
 
-			UserViewModel summary = new UserViewModel();
+			UserViewModel model = new UserViewModel();
 
 			// Act
-			ViewResult result = userController.Signup(summary, null) as ViewResult;
+			ViewResult result = userController.Signup(model, null) as ViewResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
@@ -363,14 +363,14 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>());
 
-			UserViewModel summary = result.ModelFromActionResult<UserViewModel>();
+			UserViewModel model = result.ModelFromActionResult<UserViewModel>();
 			User expectedUser = _userManager.Users[0];
 
-			Assert.That(summary.Id, Is.EqualTo(expectedUser.Id));
-			Assert.That(summary.NewEmail, Is.EqualTo(expectedUser.Email));
-			Assert.That(summary.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
-			Assert.That(summary.Firstname, Is.EqualTo(expectedUser.Firstname));
-			Assert.That(summary.Lastname, Is.EqualTo(expectedUser.Lastname));
+			Assert.That(model.Id, Is.EqualTo(expectedUser.Id));
+			Assert.That(model.NewEmail, Is.EqualTo(expectedUser.Email));
+			Assert.That(model.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
+			Assert.That(model.Firstname, Is.EqualTo(expectedUser.Firstname));
+			Assert.That(model.Lastname, Is.EqualTo(expectedUser.Lastname));
 		}
 
 		[Test]
@@ -424,7 +424,7 @@ namespace Roadkill.Tests.Unit
 
 			string email = "test@test.com";
 			_userManager.AddUser(email, "test", "password", false, true);
-			UserViewModel summary = _userManager.GetUser("test@test.com", false).ToSummary();
+			UserViewModel model = _userManager.GetUser("test@test.com", false).ToViewModel();
 
 			FakeSignupEmail signupEmail = new FakeSignupEmail(_applicationSettings, siteSettings);
 			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsService, signupEmail, null);
@@ -456,14 +456,14 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>());
 
-			UserViewModel summary = result.ModelFromActionResult<UserViewModel>();
+			UserViewModel model = result.ModelFromActionResult<UserViewModel>();
 			User expectedUser = _userManager.Users[0];
 
-			Assert.That(summary.Id, Is.EqualTo(expectedUser.Id));
-			Assert.That(summary.NewEmail, Is.EqualTo(expectedUser.Email));
-			Assert.That(summary.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
-			Assert.That(summary.Firstname, Is.EqualTo(expectedUser.Firstname));
-			Assert.That(summary.Lastname, Is.EqualTo(expectedUser.Lastname));
+			Assert.That(model.Id, Is.EqualTo(expectedUser.Id));
+			Assert.That(model.NewEmail, Is.EqualTo(expectedUser.Email));
+			Assert.That(model.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
+			Assert.That(model.Firstname, Is.EqualTo(expectedUser.Firstname));
+			Assert.That(model.Lastname, Is.EqualTo(expectedUser.Lastname));
 		}
 
 		[Test]
@@ -473,10 +473,10 @@ namespace Roadkill.Tests.Unit
 			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsService, null, null);
 			userController.SetFakeControllerContext();
 
-			UserViewModel summary = new UserViewModel();
+			UserViewModel model = new UserViewModel();
 			
 			// Act	
-			ActionResult result = userController.Profile(summary);
+			ActionResult result = userController.Profile(model);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
@@ -506,17 +506,17 @@ namespace Roadkill.Tests.Unit
 			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsService, null, null);
 			userController.SetFakeControllerContext();
 
-			UserViewModel summary = new UserViewModel(); // try to change the other user's email
-			summary.Id = secondUserId;
-			summary.ExistingEmail = secondUserEmail;
-			summary.NewEmail = secondUserNewEmail;
-			summary.Firstname = "test";
-			summary.Lastname = "user";
-			summary.ExistingUsername = "profiletest";
-			summary.NewUsername = "newprofiletest";
+			UserViewModel model = new UserViewModel(); // try to change the other user's email
+			model.Id = secondUserId;
+			model.ExistingEmail = secondUserEmail;
+			model.NewEmail = secondUserNewEmail;
+			model.Firstname = "test";
+			model.Lastname = "user";
+			model.ExistingUsername = "profiletest";
+			model.NewUsername = "newprofiletest";
 
 			// Act	
-			ActionResult result = userController.Profile(summary);
+			ActionResult result = userController.Profile(model);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<HttpStatusCodeResult>());
@@ -540,27 +540,27 @@ namespace Roadkill.Tests.Unit
 			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsService, null, null);
 			userController.SetFakeControllerContext();
 
-			UserViewModel summary = new UserViewModel();
-			summary.Id = userId;
-			summary.ExistingEmail = email;
-			summary.NewEmail = newEmail;
-			summary.Firstname = "test";
-			summary.Lastname = "user";
-			summary.ExistingUsername = "profiletest";
-			summary.NewUsername = "newprofiletest";
+			UserViewModel model = new UserViewModel();
+			model.Id = userId;
+			model.ExistingEmail = email;
+			model.NewEmail = newEmail;
+			model.Firstname = "test";
+			model.Lastname = "user";
+			model.ExistingUsername = "profiletest";
+			model.NewUsername = "newprofiletest";
 
 			// Act	
-			ViewResult result = userController.Profile(summary) as ViewResult;
+			ViewResult result = userController.Profile(model) as ViewResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
 			result.AssertViewRendered();
 
 			User user = _userManager.GetUser(newEmail);
-			Assert.That(user.Email, Is.EqualTo(summary.NewEmail));
-			Assert.That(user.Username, Is.EqualTo(summary.NewUsername));
-			Assert.That(user.Firstname, Is.EqualTo(summary.Firstname));
-			Assert.That(user.Lastname, Is.EqualTo(summary.Lastname));
+			Assert.That(user.Email, Is.EqualTo(model.NewEmail));
+			Assert.That(user.Username, Is.EqualTo(model.NewUsername));
+			Assert.That(user.Firstname, Is.EqualTo(model.Firstname));
+			Assert.That(user.Lastname, Is.EqualTo(model.Lastname));
 		}
 
 		[Test]
@@ -579,11 +579,11 @@ namespace Roadkill.Tests.Unit
 			UserController userController = new UserController(_applicationSettings, _userManager, _userContext, _settingsService, null, null);
 			userController.SetFakeControllerContext();
 
-			UserViewModel summary = _userManager.GetUser(email).ToSummary(); // use the same summary, as profile() updates everything.
-			summary.Password = newPassword;
+			UserViewModel model = _userManager.GetUser(email).ToViewModel(); // use the same model, as profile() updates everything.
+			model.Password = newPassword;
 
 			// Act	
-			ViewResult result = userController.Profile(summary) as ViewResult;
+			ViewResult result = userController.Profile(model) as ViewResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);

@@ -64,8 +64,8 @@ namespace Roadkill.Core.Mvc.Controllers
 			}
 			else
 			{
-				UserViewModel summary = user.ToSummary();
-				return View(summary);
+				UserViewModel model = user.ToViewModel();
+				return View(model);
 			}
 		}
 
@@ -73,25 +73,25 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// Updates the password for a user based for a reset key.
 		/// </summary>
 		[HttpPost]
-		public ActionResult CompleteResetPassword(string id, UserViewModel summary)
+		public ActionResult CompleteResetPassword(string id, UserViewModel model)
 		{
 			if (ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
 			// Don't use ModelState.isvalid as the summary object only has an ID and two passwords
-			if (string.IsNullOrEmpty(summary.Password) || string.IsNullOrEmpty(summary.PasswordConfirmation) ||
-				summary.Password != summary.PasswordConfirmation)
+			if (string.IsNullOrEmpty(model.Password) || string.IsNullOrEmpty(model.PasswordConfirmation) ||
+				model.Password != model.PasswordConfirmation)
 			{
 				ModelState.Clear();
 				ModelState.AddModelError("Passwords", SiteStrings.ResetPassword_Error);
-				return View(summary);
+				return View(model);
 			}
 			else
 			{
 				RoadkillUser user = UserManager.GetUserByResetKey(id);
 				if (user != null)
 				{
-					UserManager.ChangePassword(user.Email, summary.Password);
+					UserManager.ChangePassword(user.Email, model.Password);
 					return View("CompleteResetPasswordSuccessful");
 				}
 				else
@@ -170,13 +170,13 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			if (Context.IsLoggedIn)
 			{
-				UserViewModel summary = null;
+				UserViewModel model = null;
 				if (!ApplicationSettings.UseWindowsAuthentication)
 				{
-					summary = UserManager.GetUserById(new Guid(Context.CurrentUser)).ToSummary();
+					model = UserManager.GetUserById(new Guid(Context.CurrentUser)).ToViewModel();
 				}
 
-				return View(summary);
+				return View(model);
 			}
 			else
 			{
@@ -188,19 +188,19 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// Updates the POST'd user profile details.
 		/// </summary>
 		[HttpPost]
-		public ActionResult Profile(UserViewModel summary)
+		public ActionResult Profile(UserViewModel model)
 		{
 			if (!Context.IsLoggedIn)
 				return RedirectToAction("Login");
 
 			// If the ID (and probably IsNew) have been tampered with in an attempt to create new users, just redirect.
 			// We can't set summary.IsNew=false here as it's already been validated.
-			if (summary.Id == null || summary.Id == Guid.Empty)
+			if (model.Id == null || model.Id == Guid.Empty)
 				return RedirectToAction("Login");
 
 			// Don't allow the logged in user to change someone else's email - throw 403
 			// so that it's logged in the server logs.
-			if (summary.Id.ToString() != Context.CurrentUser)
+			if (model.Id.ToString() != Context.CurrentUser)
 				return new HttpStatusCodeResult(403, "You cannot change the profile of another user");
 
 #if DEMOSITE
@@ -211,14 +211,14 @@ namespace Roadkill.Core.Mvc.Controllers
 			{
 				try
 				{
-					if (!UserManager.UpdateUser(summary))
+					if (!UserManager.UpdateUser(model))
 					{
 						ModelState.AddModelError("General", SiteStrings.Profile_Error);
-						summary.ExistingEmail = summary.NewEmail;
+						model.ExistingEmail = model.NewEmail;
 					}
 
-					if (!string.IsNullOrEmpty(summary.Password))
-						UserManager.ChangePassword(summary.ExistingEmail, summary.Password);
+					if (!string.IsNullOrEmpty(model.Password))
+						UserManager.ChangePassword(model.ExistingEmail, model.Password);
 				}
 				catch (SecurityException e)
 				{
@@ -226,7 +226,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				}
 			}
 
-			return View(summary);
+			return View(model);
 		}
 
 		/// <summary>
@@ -276,7 +276,7 @@ namespace Roadkill.Core.Mvc.Controllers
 						// Everything worked, send the email
 						user.PasswordResetKey = key;
 						SiteSettings siteSettings = SettingsService.GetSiteSettings();
-						_resetPasswordEmail.Send(user.ToSummary());
+						_resetPasswordEmail.Send(user.ToViewModel());
 
 						return View("ResetPasswordSent",(object) email);
 					}
@@ -304,13 +304,13 @@ namespace Roadkill.Core.Mvc.Controllers
 				return View("Signup");
 			}
 
-			UserViewModel summary = user.ToSummary();
+			UserViewModel model = user.ToViewModel();
 
 			SiteSettings siteSettings = SettingsService.GetSiteSettings();
-			_signupEmail.Send(summary);
+			_signupEmail.Send(model);
 
 			TempData["resend"] = true;
-			return View("SignupComplete", summary);
+			return View("SignupComplete", model);
 		}
 
 		/// <summary>
@@ -335,7 +335,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		[HttpPost]
 		[RecaptchaRequired]
-		public ActionResult Signup(UserViewModel summary, bool? isCaptchaValid)
+		public ActionResult Signup(UserViewModel model, bool? isCaptchaValid)
 		{
 			SiteSettings siteSettings = SettingsService.GetSiteSettings();
 			if (Context.IsLoggedIn || !siteSettings.AllowUserSignup || ApplicationSettings.UseWindowsAuthentication)
@@ -355,7 +355,7 @@ namespace Roadkill.Core.Mvc.Controllers
 					{
 						try
 						{
-							string key = UserManager.Signup(summary, null);
+							string key = UserManager.Signup(model, null);
 							if (string.IsNullOrEmpty(key))
 							{
 								ModelState.AddModelError("General", SiteStrings.Signup_Error_General);
@@ -363,8 +363,8 @@ namespace Roadkill.Core.Mvc.Controllers
 							else
 							{
 								// Send the confirm email
-								_signupEmail.Send(summary);
-								return View("SignupComplete", summary);
+								_signupEmail.Send(model);
+								return View("SignupComplete", model);
 							}
 						}
 						catch (SecurityException e)

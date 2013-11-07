@@ -10,6 +10,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Plugins;
+using Roadkill.Core.Services;
 using Roadkill.Tests.Unit.Mvc.Controllers;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
@@ -20,7 +21,7 @@ namespace Roadkill.Tests.Unit
 	public class PluginSettingsControllerTests
 	{
 		[Test]
-		public void Index_Should_Return_ViewResult_And_Model_With_2_PluginSummaries_Ordered_By_Name()
+		public void Index_Should_Return_ViewResult_And_Model_With_2_PluginModels_Ordered_By_Name()
 		{
 			// Arrange
 			ApplicationSettings appSettings = new ApplicationSettings();
@@ -51,11 +52,11 @@ namespace Roadkill.Tests.Unit
 			IEnumerable<PluginViewModel> pluginModels = result.ModelFromActionResult<IEnumerable<PluginViewModel>>();
 			Assert.NotNull(pluginModels, "Null model");
 
-			List<PluginViewModel> summaryList = pluginModels.ToList();
+			List<PluginViewModel> pageModalList = pluginModels.ToList();
 
-			Assert.That(summaryList.Count(), Is.EqualTo(2));
-			Assert.That(summaryList[0].Name, Is.EqualTo("a name"));
-			Assert.That(summaryList[1].Name, Is.EqualTo("b name"));
+			Assert.That(pageModalList.Count(), Is.EqualTo(2));
+			Assert.That(pageModalList[0].Name, Is.EqualTo("a name"));
+			Assert.That(pageModalList[1].Name, Is.EqualTo("b name"));
 		}
 
 		[Test]
@@ -193,6 +194,7 @@ namespace Roadkill.Tests.Unit
 			PageViewModelCache viewModelCache = new PageViewModelCache(appSettings, cacheMock);
 			ListCache listCache = new ListCache(appSettings, cacheMock);
 			RepositoryMock repositoryMock = new RepositoryMock();
+			SettingsService settingsService = new SettingsService(appSettings, repositoryMock);
 
 			viewModelCache.Add(1, new PageViewModel()); // dummmy items
 			listCache.Add("a key", new List<string>() { "1", "2" });
@@ -205,7 +207,7 @@ namespace Roadkill.Tests.Unit
 
 			PluginFactoryMock pluginFactory = new PluginFactoryMock();
 			pluginFactory.RegisterTextPlugin(plugin);
-			PluginSettingsController controller = new PluginSettingsController(null, null, null, null, pluginFactory, repositoryMock, siteCache, viewModelCache, listCache);
+			PluginSettingsController controller = new PluginSettingsController(appSettings, null, null, settingsService, pluginFactory, repositoryMock, siteCache, viewModelCache, listCache);
 
 			PluginViewModel model = new PluginViewModel();
 			model.Id = plugin.Id;
@@ -248,8 +250,10 @@ namespace Roadkill.Tests.Unit
 
 			RepositoryMock repositoryMock = new RepositoryMock();
 			PluginFactoryMock pluginFactory = new PluginFactoryMock();
+			SettingsService settingsService = new SettingsService(appSettings, repositoryMock);
 
-			PluginSettingsController controller = new PluginSettingsController(appSettings, null, null, null, pluginFactory, repositoryMock, siteCache, viewModelCache, listCache);
+			// Some of these are null as they're not used (but required by ControllerBase).
+			PluginSettingsController controller = new PluginSettingsController(appSettings, null, null, settingsService, pluginFactory, repositoryMock, siteCache, viewModelCache, listCache);
 
 			return controller;
 		}

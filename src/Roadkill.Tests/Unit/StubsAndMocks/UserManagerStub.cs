@@ -106,7 +106,7 @@ namespace Roadkill.Tests
 			throw new NotImplementedException();
 		}
 
-		public override string Signup(UserViewModel summary, Action completed)
+		public override string Signup(UserViewModel model, Action completed)
 		{
 			throw new NotImplementedException();
 		}
@@ -121,7 +121,7 @@ namespace Roadkill.Tests
 			throw new NotImplementedException();
 		}
 
-		public override bool UpdateUser(UserViewModel summary)
+		public override bool UpdateUser(UserViewModel model)
 		{
 			throw new NotImplementedException();
 		}

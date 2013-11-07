@@ -125,7 +125,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			string json = "";
-			DateTime now = DateTime.Now;
+			DateTime now = DateTime.Now.AddSeconds(-1); // eeek
 
 			// Act
 			SiteSettings settings = SiteSettings.LoadFromJson(json);
