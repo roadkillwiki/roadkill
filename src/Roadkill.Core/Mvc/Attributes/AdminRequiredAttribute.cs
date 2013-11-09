@@ -12,7 +12,7 @@ namespace Roadkill.Core.Mvc.Attributes
 	/// <summary>
 	/// Represents an attribute that is used to restrict access by callers to users that are in Admin role group.
 	/// </summary>
-	public class AdminRequiredAttribute : AuthorizeAttribute, IControllerAttribute
+	public class AdminRequiredAttribute : AuthorizeAttribute, ISetterInjected
 	{
 		[SetterProperty]
 		public ApplicationSettings ApplicationSettings { get; set; }

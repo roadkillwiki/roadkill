@@ -4,6 +4,26 @@ The typescript files are setup to be compiled when you compile the project (Java
 
 To run all the integration tests, you should install Mongodb, http://chocolatey.org/packages?q=mongodb is the easiest way to do this.
 
+=====QUICKSTART====
+The web.config for the site is unlikely to work when you pull the latest from Bitbucket, it could
+be in any state from the previous commit. Copy the web.config from the \lib\Configs directory 
+and overwrite the web.config in the site folder with this.
+
+Don't worry about committing your web.config, the lib\Configs\Web.config file is used for release packages.
+
+To get up and running quickly, you can use the unattended setup (replace roadkill.local with your chosen host mapping):
+
+	http://roadkill.local/install/Unattended?datastoretype=sqlserver2008&connectionstring=database=roadkill;uid=sa;pwd=Passw0rd;server=.\SQLEXPRESS
+
+
+To login using this method, use admin@localhost/Password1
+
+An alternative is to run one of the "OtherDatabasesInstallerTests" acceptance tests via NUnit for example 
+All_Steps_With_Minimum_Required_SQLServerExpress_Should_Complete. This will setup your roadkill.config and connectionstrings.configs for you,
+but you will need to rename them from .bak to .config in the site.
+
+The lib/Test-databases folder contains lots of pre-installed databases for each database type. Each one has the login admin@localhost/password.
+
 =====PROBLEMS WITH SQLITE=====
 If you get yellow screen of deaths with a SQLiteinterop.dll message, remove that file from bin folder.
 
@@ -32,13 +52,6 @@ Firstly for the version being released:
 8) Copy /lib/Empty-databases/roadkill.sdf to the publish /App_Data folder
 9) Copy /lib/Empty-databases/roadkill.mdf to the publish /App_Data folder
 10) Zip up using the name 'Roadkill_v{number}.zip' e.g. Roadkill_v1.3.zip, add to the downloads on bitbucket/codeplex.
-
-=====DEV WEB.CONFIG====
-The web.config for the site is unlikely to work when you pull the latest from Bitbucket, it could
-be in any state from the previous commit. Copy the web.dev.config from the \lib\Configs directory 
-and overwrite the web.config in the site folder with this.
-
-Don't worry about committing your web.config, the Web.Download.config file is used for release packages.
 
 =====TESTING WINDOWS AUTH=====
 

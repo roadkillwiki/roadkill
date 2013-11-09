@@ -146,21 +146,21 @@ namespace Roadkill.Core.Configuration
 		/// <summary>
 		/// The full path to the custom user managers directory.
 		/// </summary>
-		public string UserManagerPluginsPath { get; set; }
+		public string UserManagerPluginsPath { get; internal set; }
 
 		/// <summary>
 		/// The full path to the custom variable plugins directory. This is where plugins are stored after 
 		/// download (including their nuget files), and are copied to the bin folder.
 		/// </summary>
-		public string TextPluginsPath { get; set; }
+		public string TextPluginsPath { get; internal set; }
 
 		/// <summary>
-		/// The directory within the bin folder that the custom variable plugins are stored. The plugins are 
+		/// The directory within the /bin folder that the custom variable plugins are stored. The plugins are 
 		/// copied here on application start, so they can be loaded into the application domain with shadow 
 		/// copy support (and supported in medium trust environments), and also monitored by the ASP.NET 
 		/// file watcher.
 		/// </summary>
-		public string TextPluginsBinPath { get; set; }
+		public string TextPluginsBinPath { get; internal set; }
 
 		/// <summary>
 		/// The database type used as the backing store.

@@ -411,7 +411,7 @@
     <Compile Include="Mvc\Attributes\CacheContentTypeAttribute.cs" />
     <Compile Include="Mvc\Attributes\WebApiEditorRequired.cs" />
     <Compile Include="Mvc\Attributes\WebApiAdminRequiredAttribute.cs" />
-    <Compile Include="Mvc\Attributes\IControllerAttribute.cs" />
+    <Compile Include="DI\ISetterInjected.cs" />
     <Compile Include="DI\Mvc\MvcAttributeProvider.cs" />
     <Compile Include="DI\Mvc\MvcDependencyResolver.cs" />
     <Compile Include="Logging\Level.cs" />
@@ -419,6 +419,7 @@
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
     <Compile Include="Mvc\Attributes\BrowserCacheAttribute.cs" />
+    <Compile Include="Mvc\Controllers\SpecialPagesController.cs" />
     <Compile Include="Mvc\WebApi\ApiControllerBase.cs" />
     <Compile Include="Mvc\WebApi\Help\ApiDescriptionExtensions.cs" />
     <Compile Include="Mvc\WebApi\Help\App_Start\HelpPageConfig.cs" />
@@ -504,6 +505,7 @@
     <Compile Include="Mvc\Controllers\HelpController.cs" />
     <Compile Include="Plugins\IPluginFactory.cs" />
     <Compile Include="Plugins\SettingFormType.cs" />
+    <Compile Include="Plugins\SpecialPages\SpecialPage.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ImagesInNewWindow.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ResizeLargeImages.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ExternalLinksInNewWindow.cs" />

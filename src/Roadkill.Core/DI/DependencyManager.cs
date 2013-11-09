@@ -27,6 +27,7 @@ using StructureMap.Graph;
 using StructureMap.Query;
 using System.Web.Http;
 using Roadkill.Core.Mvc;
+using Roadkill.Core.Plugins.SpecialPages;
 
 namespace Roadkill.Core
 {
@@ -163,18 +164,25 @@ namespace Roadkill.Core
 
 			scanner.AssembliesFromPath(userManagerPluginPath);
 
-			// Copy text plugins to the bin folder
+			// Copy TextPlugins to the bin folder
 			string textPluginsPath = _applicationSettings.TextPluginsBinPath;
-			PluginFactory pluginFactory = new PluginFactory(); // registered as a singleton later
-			pluginFactory.CopyTextPlugins(_applicationSettings);
 			if (!Directory.Exists(textPluginsPath))
 				Directory.CreateDirectory(textPluginsPath);
 
+			PluginFactory pluginFactory = new PluginFactory(); // registered as a singleton later
+			pluginFactory.CopyTextPlugins(_applicationSettings);
+			
+			// Scan for TextPlugins
 			foreach (string subDirectory in Directory.GetDirectories(textPluginsPath))
 			{
 				scanner.AssembliesFromPath(subDirectory);
 			}
 			scanner.AddAllTypesOf<TextPlugin>();
+			
+			// Scan for SpecialPages
+			scanner.AddAllTypesOf<SpecialPage>();
+
+			// The pluginfactory
 			scanner.AddAllTypesOf<IPluginFactory>();
 
 			// Config, repository, context
@@ -198,7 +206,7 @@ namespace Roadkill.Core
 			scanner.AddAllTypesOf<UserViewModel>();
 			scanner.AddAllTypesOf<SettingsViewModel>();
 			scanner.AddAllTypesOf<AttachmentRouteHandler>();
-			scanner.AddAllTypesOf<IControllerAttribute>();
+			scanner.AddAllTypesOf<ISetterInjected>();
 			scanner.AddAllTypesOf<RoadkillLayoutPage>();
 			scanner.AddAllTypesOf(typeof(RoadkillViewPage<>));
 			scanner.ConnectImplementationsToTypesClosing(typeof(RoadkillViewPage<>));
@@ -259,7 +267,7 @@ namespace Roadkill.Core
 			}
 
 			// Setter inject the various MVC objects that can't have constructors
-			x.SetAllProperties(y => y.OfType<IControllerAttribute>());
+			x.SetAllProperties(y => y.OfType<ISetterInjected>());
 			x.SetAllProperties(y => y.TypeMatches(t => t == typeof(RoadkillViewPage<>)));
 			x.SetAllProperties(y => y.TypeMatches(t => t == typeof(RoadkillLayoutPage)));
 

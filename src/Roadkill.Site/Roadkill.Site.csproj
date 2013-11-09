@@ -567,6 +567,7 @@
     <Content Include="NLog.config" />
     <None Include="packages.config" />
     <Content Include="Plugins\Web.config" />
+    <Content Include="Plugins\SpecialPages\SoundCloud\SoundCloud.cshtml" />
     <None Include="Properties\PublishProfiles\Mono.pubxml" />
     <Content Include="Assets\Scripts\toastr.js" />
     <Content Include="Themes\BlackBar\Theme.print.css" />
@@ -657,6 +658,7 @@
     <Content Include="Views\PluginSettings\Index.cshtml" />
     <Content Include="Views\Install\Index.cshtml" />
     <Content Include="Views\PluginSettings\Edit.cshtml" />
+    <Content Include="Views\SpecialPages\Index.cshtml" />
     <None Include="Web.DemoSite.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

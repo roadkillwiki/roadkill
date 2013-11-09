@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Plugins;
+using Roadkill.Core.Plugins.SpecialPages;
 
 namespace Roadkill.Tests.Unit
 {
 	public class PluginFactoryMock : IPluginFactory
 	{
 		public List<TextPlugin> TextPlugins { get; set; }
+		public List<SpecialPage> SpecialPages { get; set; }
 
 		public PluginFactoryMock()
 		{
@@ -43,6 +45,16 @@ namespace Roadkill.Tests.Unit
 		public void UpdateInstance(TextPlugin plugin)
 		{
 			throw new NotImplementedException();
+		}
+
+		public IEnumerable<SpecialPage> GetSpecialPagePlugins()
+		{
+			return SpecialPages;
+		}
+
+		public SpecialPage GetSpecialPagePlugin(string name)
+		{
+			return SpecialPages.FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 		}
 	}
 }
