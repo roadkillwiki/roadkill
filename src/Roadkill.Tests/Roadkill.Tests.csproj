@@ -413,11 +413,12 @@
       <DependentUpon>editpage-tests.ts</DependentUpon>
     </Content>
     <Content Include="Javascript\qunit.d.ts" />
-    <Content Include="Scripts\typings\qunit\qunit.d.ts" />
     <Content Include="Unit\Attachments\afile.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Unit\Database\Export\expected-users-export.sql" />
+    <EmbeddedResource Include="Unit\Database\Export\expected-pages-export.sql" />
+    <EmbeddedResource Include="Unit\Database\Export\expected-siteconfiguration-export.sql" />
     <Content Include="Unit\Text\whitelist.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
