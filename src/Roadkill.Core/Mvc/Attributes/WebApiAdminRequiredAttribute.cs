@@ -11,7 +11,7 @@ using StructureMap.Attributes;
 
 namespace Roadkill.Core.Mvc.Attributes
 {
-	public class WebApiAdminRequiredAttribute : System.Web.Http.AuthorizeAttribute, IControllerAttribute
+	public class WebApiAdminRequiredAttribute : System.Web.Http.AuthorizeAttribute, ISetterInjected
 	{
 		[SetterProperty]
 		public ApplicationSettings ApplicationSettings { get; set; }

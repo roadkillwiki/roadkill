@@ -12,7 +12,7 @@ namespace Roadkill.Core.Mvc.Attributes
 	/// <summary>
 	/// Represents an attribute that is used to restrict access by callers to users that are in Editor role group.
 	/// </summary>
-	public class EditorRequiredAttribute : AuthorizeAttribute, IControllerAttribute
+	public class EditorRequiredAttribute : AuthorizeAttribute, ISetterInjected
 	{
 		[SetterProperty]
 		public ApplicationSettings ApplicationSettings { get; set; }

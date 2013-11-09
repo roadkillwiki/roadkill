@@ -8,6 +8,7 @@ using Roadkill.Core.Database;
 using Roadkill.Core.DI;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Plugins.BuiltIn;
+using Roadkill.Core.Plugins.SpecialPages;
 using StructureMap;
 
 namespace Roadkill.Core.Plugins
@@ -19,11 +20,16 @@ namespace Roadkill.Core.Plugins
 		/// </summary>
 		public void CopyTextPlugins(ApplicationSettings applicationSettings)
 		{
+			CopyAssemblies(applicationSettings.TextPluginsPath, applicationSettings.TextPluginsBinPath);
+		}
+
+		/// <summary>
+		/// Copies plugins from their storage location to the bin folder.
+		/// </summary>
+		private void CopyAssemblies(string pluginsourcePath, string pluginDestinationPath)
+		{
 			try
 			{
-				string pluginsourcePath = applicationSettings.TextPluginsPath;
-				string pluginDestinationPath = applicationSettings.TextPluginsBinPath;
-
 				if (Directory.Exists(pluginsourcePath))
 				{
 					if (!Directory.Exists(pluginDestinationPath))
@@ -97,6 +103,16 @@ namespace Roadkill.Core.Plugins
 		public TextPlugin GetTextPlugin(string id)
 		{
 			return ServiceLocator.GetAllInstances<TextPlugin>().FirstOrDefault(x => x.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
+		}
+
+		public IEnumerable<SpecialPage> GetSpecialPagePlugins()
+		{
+			return ServiceLocator.GetAllInstances<SpecialPage>();
+		}
+
+		public SpecialPage GetSpecialPagePlugin(string name)
+		{
+			return ServiceLocator.GetAllInstances<SpecialPage>().FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 		}
 	}
 }

@@ -11,7 +11,7 @@ namespace Roadkill.Core.Mvc.Attributes
 	/// <summary>
 	/// Describes a page that doesn't require a login to view, unless Roadkill has IsPublicSite=false. 
 	/// </summary>
-	public class OptionalAuthorizationAttribute : AuthorizeAttribute, IControllerAttribute
+	public class OptionalAuthorizationAttribute : AuthorizeAttribute, ISetterInjected
 	{
 		[SetterProperty]
 		public ApplicationSettings ApplicationSettings { get; set; }

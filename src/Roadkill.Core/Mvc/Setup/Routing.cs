@@ -60,6 +60,13 @@ namespace Roadkill.Core.Mvc
 				new string[] { "Roadkill.Core.Mvc.Controllers" }
 			);
 
+			// Map /Special:{id} urls
+			routes.MapRoute(
+				"Special",
+				"Special:{id}",
+				new { controller = "SpecialPages", action = "Index"}
+			);
+
 			// Default
 			routes.MapLowercaseRoute(
 				"Default", // Route name
