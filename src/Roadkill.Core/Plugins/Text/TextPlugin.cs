@@ -140,8 +140,8 @@ namespace Roadkill.Core.Plugins
 				// Guard for null SiteCache
 				if (PluginCache == null)
 				{
-					throw new PluginException(null, "The SiteCache property is null for {0} when it should be injected by the DI container. " +
-											  "If you're unit testing, set the SiteCache and Repository properties with stubs before calling the Settings properties.", GetType().FullName);
+					throw new PluginException(null, "The PluginCache property is null for {0} when it should be injected by the DI container. " +
+											  "If you're unit testing, set the PluginCache and Repository properties with stubs before calling the Settings properties.", GetType().FullName);
 				}
 
 				_settings = PluginCache.GetPluginSettings(this);
@@ -151,7 +151,7 @@ namespace Roadkill.Core.Plugins
 					if (Repository == null)
 					{
 						throw new PluginException(null, "The Repository property is null for {0} and it wasn't found in the cache - it should be injected by the DI container. " +
-											  "If you're unit testing, set the SiteCache and Repository properties with stubs before calling the Settings properties.", GetType().FullName);
+											  "If you're unit testing, set the PluginCache and Repository properties with stubs before calling the Settings properties.", GetType().FullName);
 					}
 
 					// Load from the database

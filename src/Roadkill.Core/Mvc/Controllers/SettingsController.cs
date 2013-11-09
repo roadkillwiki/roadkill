@@ -15,6 +15,7 @@ using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Database.Export;
 using Roadkill.Core.Database;
+using Roadkill.Core.Plugins;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -33,10 +34,12 @@ namespace Roadkill.Core.Mvc.Controllers
 		private PageViewModelCache _pageViewModelCache;
 		private SiteCache _siteCache;
 		private IRepository _repository;
+		private IPluginFactory _pluginFactory;
 
 		public SettingsController(ApplicationSettings settings, UserServiceBase userManager,
 			SettingsService settingsService, PageService pageService, SearchService searchService, IUserContext context,
-			ListCache listCache, PageViewModelCache pageViewModelCache, SiteCache siteCache, IWikiImporter wikiImporter, IRepository repository)
+			ListCache listCache, PageViewModelCache pageViewModelCache, SiteCache siteCache, IWikiImporter wikiImporter, 
+			IRepository repository, IPluginFactory pluginFactory)
 			: base(settings, userManager, context, settingsService) 
 		{
 			_settingsService = settingsService;
@@ -45,8 +48,9 @@ namespace Roadkill.Core.Mvc.Controllers
 			_listCache = listCache;
 			_pageViewModelCache = pageViewModelCache;
 			_siteCache = siteCache;
+			_wikiImporter = wikiImporter;			
 			_repository = repository;
-			_wikiImporter = wikiImporter;
+			_pluginFactory = pluginFactory;
 		}
 
 		/// <summary>
@@ -350,7 +354,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			try
 			{
-				SqlExportBuilder scriptBuilder = new SqlExportBuilder(_repository);
+				SqlExportBuilder scriptBuilder = new SqlExportBuilder(_repository, _pluginFactory);
 				string sql = scriptBuilder.Export();
 
 				// Let the FileStreamResult dispose the stream
