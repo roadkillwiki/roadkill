@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Roadkill.Core.Plugins.SpecialPages;
+using Roadkill.Core.Plugins;
 
 namespace Roadkill.Tests.Unit.StubsAndMocks
 {
-	public class SpecialPageMock : SpecialPage
+	public class SpecialPageMock : SpecialPagePlugin
 	{
 		public override string Name
 		{
