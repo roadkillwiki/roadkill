@@ -28,18 +28,20 @@ namespace Roadkill.Tests.Unit
 				// Delete any existing attachments folder
 
 				// Remove the files 1st
-				DirectoryInfo directoryInfo = new DirectoryInfo(_settings.AttachmentsFolder);
-				foreach (FileInfo file in directoryInfo.GetFiles())
+				if (Directory.Exists(_settings.AttachmentsFolder))
 				{
-					File.Delete(file.FullName);
-				}
-				
-				if (directoryInfo.Exists)
-				{
-					directoryInfo.Attributes = FileAttributes.Normal;
-					directoryInfo.Delete(true);
-				}
+					DirectoryInfo directoryInfo = new DirectoryInfo(_settings.AttachmentsFolder);
+					foreach (FileInfo file in directoryInfo.GetFiles())
+					{
+						File.Delete(file.FullName);
+					}
 
+					if (directoryInfo.Exists)
+					{
+						directoryInfo.Attributes = FileAttributes.Normal;
+						directoryInfo.Delete(true);
+					}
+				}
 				Directory.CreateDirectory(_settings.AttachmentsFolder);
 			}
 			catch (IOException e)

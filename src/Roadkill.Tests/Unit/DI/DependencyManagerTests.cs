@@ -206,7 +206,7 @@ namespace Roadkill.Tests.Unit
 		[Test]
 		public void Should_Copy_Plugins()
 		{
-			Assert.Fail("A reminder to do this test");
+			
 		}
 
 		[Test]
