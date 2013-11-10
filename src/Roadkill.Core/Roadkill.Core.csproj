@@ -506,7 +506,8 @@
     <Compile Include="Plugins\IPluginFactory.cs" />
     <Compile Include="Plugins\SettingFormType.cs" />
     <Compile Include="Plugins\SpecialPages\BuiltIn\RandomPage.cs" />
-    <Compile Include="Plugins\SpecialPages\SpecialPage.cs" />
+    <Compile Include="Plugins\SpecialPages\BuiltIn\SoundCloud.cs" />
+    <Compile Include="Plugins\SpecialPages\SpecialPagePlugin.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ImagesInNewWindow.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ResizeLargeImages.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ExternalLinksInNewWindow.cs" />
