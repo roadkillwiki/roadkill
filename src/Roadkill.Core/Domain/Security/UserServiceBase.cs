@@ -24,7 +24,7 @@ namespace Roadkill.Core.Security
 		}
 
 		/// <summary>
-		/// Indicates whether this UserManager can perform deletes, updates or inserts for users.
+		/// Indicates whether this UserService can perform deletes, updates or inserts for users.
 		/// </summary>
 		public abstract bool IsReadonly { get; }
 

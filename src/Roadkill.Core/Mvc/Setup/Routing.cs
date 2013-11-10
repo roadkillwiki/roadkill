@@ -16,6 +16,8 @@ namespace Roadkill.Core.Mvc
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 			routes.IgnoreRoute("favicon.ico");
 
+			RegisterSpecialRoutes(routes);
+
 			// For the jQuery ajax file manager
 			routes.MapLowercaseRoute(
 				"FileFolder",
@@ -35,7 +37,7 @@ namespace Roadkill.Core.Mvc
 				"ServerError",
 				"wiki/servererror",
 				new { controller = "Wiki", action = "ServerError", id = UrlParameter.Optional }
-			);
+			);	
 
 			// The default way of getting to a page: "/wiki/123/page-title"
 			routes.MapLowercaseRoute(
@@ -55,16 +57,9 @@ namespace Roadkill.Core.Mvc
 			routes.MapRoute(
 				"Roadkill.Core.Mvc.Controllers.HelpController",
 				"help/{action}/{id}",
-				new { controller = "Help", id = UrlParameter.Optional },
+				new { controller = "Help", action = "Index", id = UrlParameter.Optional },
 				null,
 				new string[] { "Roadkill.Core.Mvc.Controllers" }
-			);
-
-			// Map /Special:{id} urls
-			routes.MapRoute(
-				"Special",
-				"Special:{id}",
-				new { controller = "SpecialPages", action = "Index"}
 			);
 
 			// Default
@@ -72,6 +67,34 @@ namespace Roadkill.Core.Mvc
 				"Default", // Route name
 				"{controller}/{action}/{id}", // URL with parameters
 				new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
+			);
+		}
+
+		private static void RegisterSpecialRoutes(RouteCollection routes)
+		{
+			// /Wiki/Special:{id} urls
+			routes.MapRoute(
+				"SpecialPages",
+				"Wiki/Special:{id}",
+				new { controller = "SpecialPages", action = "Index" }
+			);
+
+			// /Wiki/Help:About
+			routes.MapRoute(
+				"Help:About",
+				"Wiki/Help:About",
+				new { controller = "Help", action = "About" },
+				null,
+				new string[] { "Roadkill.Core.Mvc.Controllers" }
+			);
+
+			// /Wiki/Help:Cheatsheet
+			routes.MapRoute(
+				"Help:CheatSheet",
+				"Wiki/Help:Cheatsheet",
+				new { controller = "Help", action = "Index" },
+				null,
+				new string[] { "Roadkill.Core.Mvc.Controllers" }
 			);
 		}
 

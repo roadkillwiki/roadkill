@@ -326,6 +326,7 @@
     <Compile Include="Acceptance\Setup\AcceptanceTestsSetup.cs" />
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
+    <Compile Include="Integration\Configuration\ApplicationSettingsTests.cs" />
     <Compile Include="Integration\Configuration\MediumTrustConfigReaderWriterTests.cs" />
     <Compile Include="Integration\Repository\MongoDBRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeedRepositoryTests.cs" />
@@ -345,6 +346,7 @@
     <Compile Include="Unit\Mvc\Attributes\BrowserCacheAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\OptionalAuthorizationTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\EditorRequiredAttributeTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\SpecialPagesControllerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\InstallControllerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\HelpControllerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\PluginSettingsControllerTests.cs" />
@@ -380,7 +382,8 @@
     <Compile Include="Unit\StubsAndMocks\Mvc\Attributes\PrincipalMock.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\HttpCachePolicyMock.cs" />
     <Compile Include="Unit\StubsAndMocks\PluginFactoryMock.cs" />
-    <Compile Include="Unit\StubsAndMocks\UserManagerMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\SpecialPageMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\UserServiceMock.cs" />
     <Compile Include="Unit\StubsAndMocks\FakeSignupEmail.cs" />
     <Compile Include="Unit\StubsAndMocks\SearchServiceMock.cs" />
     <Compile Include="Unit\StubsAndMocks\RepositoryMock.cs" />
@@ -389,7 +392,7 @@
     <Compile Include="Unit\Mvc\Controllers\HomeControllerTests.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\MvcMockContainer.cs" />
     <Compile Include="Unit\StubsAndMocks\RoadkillContextStub.cs" />
-    <Compile Include="Unit\StubsAndMocks\UserManagerStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\UserServiceStub.cs" />
     <Compile Include="Unit\StubsAndMocks\TextPluginStub.cs" />
     <Compile Include="Unit\Text\MenuParserTests.cs" />
     <Compile Include="Unit\Plugins\TocParserTests.cs" />

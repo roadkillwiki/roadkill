@@ -13,9 +13,9 @@ using Roadkill.Core.Attachments;
 using Roadkill.Core.Text.Sanitizer;
 using Roadkill.Core.Database;
 using Roadkill.Core.Text;
-using Roadkill.Core.Plugins.BuiltIn.ToC;
+using Roadkill.Core.Plugins.Text.BuiltIn.ToC;
 using Roadkill.Core.Logging;
-using Roadkill.Core.Plugins.BuiltIn;
+using Roadkill.Core.Plugins.Text.BuiltIn;
 using Roadkill.Core.Plugins;
 
 namespace Roadkill.Core.Converters
@@ -146,7 +146,7 @@ namespace Roadkill.Core.Converters
 			}
 			catch (Exception e)
 			{
-				Log.Error(e, "An exception occurred with getting the custom variable plugins from the plugin factory.");
+				Log.Error(e, "An exception occurred with getting the text plugins from the plugin factory.");
 			}
 
 			foreach (TextPlugin plugin in plugins)

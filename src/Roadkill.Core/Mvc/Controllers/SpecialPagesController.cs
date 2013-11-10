@@ -35,7 +35,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 		public ActionResult Index(string id)
 		{
-			SpecialPage plugin = _pluginFactory.GetSpecialPagePlugin(id);
+			SpecialPagePlugin plugin = _pluginFactory.GetSpecialPagePlugin(id);
 
 			// Throw an HttpException so the customerrors is used and not the default asp.net 404 page
 			if (plugin == null)

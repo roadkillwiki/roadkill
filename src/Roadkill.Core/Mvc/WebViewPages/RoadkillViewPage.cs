@@ -13,7 +13,7 @@ namespace Roadkill.Core.Mvc.WebViewPages
 {
 	public abstract class RoadkillViewPage<T> : WebViewPage<T>
 	{
-		// Constructor injection isn't viable here, as this class are created by the ASP.NET runtime
+		// Constructor injection isn't viable here, as this class is created by the ASP.NET runtime
 		private SiteSettings _siteSettings;
 
 		[SetterProperty]

@@ -255,7 +255,7 @@ namespace Roadkill.Core.Configuration
 			appSettings.LdapPassword = _section.LdapPassword;
 			appSettings.RepositoryType = _section.RepositoryType;
 			appSettings.UseHtmlWhiteList = _section.UseHtmlWhiteList;
-			appSettings.UserManagerType = _section.UserManagerType;
+			appSettings.UserServiceType = _section.UserServiceType;
 			appSettings.UseWindowsAuthentication = _section.UseWindowsAuthentication;
 			appSettings.UpgradeRequired = UpgradeChecker.IsUpgradeRequired(_section.Version);
 

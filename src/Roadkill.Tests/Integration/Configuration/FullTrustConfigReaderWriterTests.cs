@@ -57,7 +57,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(appSettings.LoggingTypes, Is.EqualTo("All"), "LoggingType");
 			Assert.That(appSettings.LogErrorsOnly, Is.False, "LogErrorsOnly");
 			Assert.That(appSettings.UseHtmlWhiteList, Is.EqualTo(false), "UseHtmlWhiteList");
-			Assert.That(appSettings.UserManagerType, Is.EqualTo("DefaultUserManager-test"), "DefaultUserManager");
+			Assert.That(appSettings.UserServiceType, Is.EqualTo("DefaultUserManager-test"), "DefaultUserManager");
 			Assert.That(appSettings.UseWindowsAuthentication, Is.False, "UseWindowsAuthentication");
 		}
 
@@ -82,7 +82,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(appSettings.LoggingTypes, Is.EqualTo("None"), "LoggingType");
 			Assert.That(appSettings.LogErrorsOnly, Is.True, "LoggingType");
 			Assert.That(appSettings.UseHtmlWhiteList, Is.EqualTo(true), "UseHtmlWhiteList");
-			Assert.That(appSettings.UserManagerType, Is.EqualTo(""), "DefaultUserManager");
+			Assert.That(appSettings.UserServiceType, Is.EqualTo(""), "DefaultUserManager");
 		}
 
 		[Test]
@@ -110,6 +110,20 @@ namespace Roadkill.Tests.Unit
 			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
 			
 			// Assert
+		}
+
+		[Test]
+		public void RoadkillSection_Legacy_UserManagerType_Value_Is_Ignored()
+		{
+			// Arrange
+			string configFilePath = GetConfigPath("test-legacy-values.config");
+
+			// Act
+			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
+			ApplicationSettings appSettings = configManager.GetApplicationSettings();
+
+			// Assert
+			Assert.That(appSettings.UserServiceType, Is.Null.Or.Empty, "UserManagerType [legacy test for userManagerType]");
 		}
 
 		[Test]
@@ -196,7 +210,7 @@ namespace Roadkill.Tests.Unit
 		}
 		
 		[Test]
-		public void UseWindowsAuth_Should_Load_ActiveDirectory_UserManager()
+		public void UseWindowsAuth_Should_Load_ActiveDirectory_UserService()
 		{
 			// Arrange
 			Mock<IRepository> mockRepository = new Mock<IRepository>();
@@ -217,7 +231,7 @@ namespace Roadkill.Tests.Unit
 		}
 		
 		[Test]
-		public void Should_Use_DefaultUserManager_By_Default()
+		public void Should_Use_FormsAuthUserService_By_Default()
 		{
 			// Arrange
 			Mock<IRepository> mockRepository = new Mock<IRepository>();

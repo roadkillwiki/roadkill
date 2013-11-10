@@ -10,9 +10,9 @@ using Roadkill.Core.Security;
 using Roadkill.Core.Services;
 using StructureMap.Attributes;
 
-namespace Roadkill.Core.Plugins.SpecialPages
+namespace Roadkill.Core.Plugins
 {
-	public abstract class SpecialPage : ISetterInjected
+	public abstract class SpecialPagePlugin : ISetterInjected
 	{
 		[SetterProperty]
 		public ApplicationSettings ApplicationSettings { get; set; }
@@ -21,7 +21,7 @@ namespace Roadkill.Core.Plugins.SpecialPages
 		public IUserContext Context { get; set; }
 
 		[SetterProperty]
-		public UserServiceBase UserManager { get; set; }
+		public UserServiceBase UserService { get; set; }
 
 		[SetterProperty]
 		public PageService PageService { get; set; }
@@ -35,42 +35,5 @@ namespace Roadkill.Core.Plugins.SpecialPages
 		public abstract string Name { get; }
 
 		public abstract ActionResult GetResult();
-	}
-
-	public class WhoAmISpecialPage : SpecialPage
-	{
-		public override string Name
-		{
-			get
-			{
-				return "WhoAmI";
-			}
-		}
-
-		public override ActionResult GetResult()
-		{
-			string loginName = Context.CurrentUsername;
-			if (!Context.IsLoggedIn)
-				loginName = "Anonymoose";
-
-			return new ContentResult() { Content = loginName };
-		}
-	}
-
-
-	public class SoundCloudSpecialPage : SpecialPage
-	{
-		public override string Name
-		{
-			get
-			{
-				return "SoundCloud";
-			}
-		}
-
-		public override ActionResult GetResult()
-		{
-			return new ViewResult() { ViewName = "SoundCloud/SoundCloud", };
-		}
 	}
 }

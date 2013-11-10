@@ -18,7 +18,7 @@ INSERT INTO roadkill_siteconfiguration (id, version, content) VALUES ('b960e8e5-
   "OverwriteExistingFiles": false,
   "HeadContent": "",
   "MenuMarkup": "markup ```'''''' \r\n",
-  "PluginLastSaveDate": "2013-11-09T00:00:00+00:00"
+  "PluginLastSaveDate": "2013-11-09T00:00:00"
 }');
 INSERT INTO roadkill_siteconfiguration (id, version, content) VALUES ('8131b60c-80fc-0000-0000-000000000000','1.1','{
   "PluginId": "fake-plugin1",

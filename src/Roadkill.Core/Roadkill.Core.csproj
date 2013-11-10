@@ -505,6 +505,7 @@
     <Compile Include="Mvc\Controllers\HelpController.cs" />
     <Compile Include="Plugins\IPluginFactory.cs" />
     <Compile Include="Plugins\SettingFormType.cs" />
+    <Compile Include="Plugins\SpecialPages\BuiltIn\RandomPage.cs" />
     <Compile Include="Plugins\SpecialPages\SpecialPage.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ImagesInNewWindow.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ResizeLargeImages.cs" />
@@ -529,7 +530,7 @@
     <Compile Include="Text\LinkEventArgs.cs" />
     <Compile Include="Text\Parsers\MediaWikiParser.cs" />
     <Compile Include="Domain\Security\Windows\ActiveDirectoryUserService.cs" />
-    <Compile Include="Domain\Security\FormsAuthUserManager.cs" />
+    <Compile Include="Domain\Security\FormsAuthUserService.cs" />
     <Compile Include="Domain\Security\UserServiceBase.cs" />
     <Compile Include="Domain\Services\SettingsService.cs" />
     <Compile Include="Database\Entities\User.cs" />

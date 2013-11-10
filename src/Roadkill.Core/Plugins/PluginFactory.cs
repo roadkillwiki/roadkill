@@ -7,7 +7,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.DI;
 using Roadkill.Core.Logging;
-using Roadkill.Core.Plugins.BuiltIn;
+using Roadkill.Core.Plugins.Text.BuiltIn;
 using Roadkill.Core.Plugins.SpecialPages;
 using StructureMap;
 
@@ -15,67 +15,6 @@ namespace Roadkill.Core.Plugins
 {
 	public class PluginFactory : IPluginFactory
 	{
-		/// <summary>
-		/// Copies the custom variable plugins from their storage location to the bin folder.
-		/// </summary>
-		public void CopyTextPlugins(ApplicationSettings applicationSettings)
-		{
-			CopyAssemblies(applicationSettings.TextPluginsPath, applicationSettings.TextPluginsBinPath);
-		}
-
-		/// <summary>
-		/// Copies plugins from their storage location to the bin folder.
-		/// </summary>
-		private void CopyAssemblies(string pluginsourcePath, string pluginDestinationPath)
-		{
-			try
-			{
-				if (Directory.Exists(pluginsourcePath))
-				{
-					if (!Directory.Exists(pluginDestinationPath))
-						Directory.CreateDirectory(pluginDestinationPath);
-
-					foreach (string subdirectory in Directory.GetDirectories(pluginsourcePath))
-					{
-						// Create the irectory in the /bin/Plugins/CustomVariables folder,
-						// e.g. /bin/Plugins/CustomVariables/MyPlugin
-						DirectoryInfo dirInfo = new DirectoryInfo(subdirectory);
-						string destination = Path.Combine(pluginDestinationPath, dirInfo.Name);
-						if (!Directory.Exists(destination))
-						{
-							Directory.CreateDirectory(destination);
-							Log.Information("Created directory {0} for plugin", destination);
-						}
-
-						foreach (string sourceFile in Directory.EnumerateFiles(subdirectory, "*.dll"))
-						{
-							// Copy the plugin's dlls only - but only if the file write time is more recent.
-							// If this check is removed, a looping app restart occurs (as the bin folder
-							// changes, so an app start occurs, and this method is called on app start, which then triggers another restart).
-							FileInfo sourceInfo = new FileInfo(sourceFile);
-							string destPath = Path.Combine(destination, sourceInfo.Name);
-							FileInfo destInfo = new FileInfo(destPath);
-
-							if (sourceInfo.LastWriteTimeUtc > destInfo.LastWriteTimeUtc)
-							{
-								File.Copy(sourceFile, destPath, true);
-								Log.Information("Copied text plugin file '{0}' to '{1}' as it's newer ({2} > {3})", sourceInfo.FullName, destInfo.FullName,
-																											 sourceInfo.LastWriteTimeUtc, destInfo.LastWriteTimeUtc);
-							}
-						}
-					}
-				}
-				else
-				{
-					Directory.CreateDirectory(pluginsourcePath);
-				}
-			}
-			catch (IOException e)
-			{
-				Log.Error(e, "Unable to copy custom variable plugins to the bin folder");
-			}
-		}
-
 		/// <summary>
 		/// Allows additional text plugins to be registered at runtime.
 		/// </summary>
@@ -105,14 +44,103 @@ namespace Roadkill.Core.Plugins
 			return ServiceLocator.GetAllInstances<TextPlugin>().FirstOrDefault(x => x.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
 		}
 
-		public IEnumerable<SpecialPage> GetSpecialPagePlugins()
+		public IEnumerable<SpecialPagePlugin> GetSpecialPagePlugins()
 		{
-			return ServiceLocator.GetAllInstances<SpecialPage>();
+			return ServiceLocator.GetAllInstances<SpecialPagePlugin>();
 		}
 
-		public SpecialPage GetSpecialPagePlugin(string name)
+		public SpecialPagePlugin GetSpecialPagePlugin(string name)
 		{
-			return ServiceLocator.GetAllInstances<SpecialPage>().FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+			return ServiceLocator.GetAllInstances<SpecialPagePlugin>().FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+		}
+
+		/// <summary>
+		/// Copies the user service plugin DLLs from their storage location in /Plugins/UserService/ to the /bin folder.
+		/// </summary>
+		public void CopyUserServicePlugins(ApplicationSettings applicationSettings)
+		{
+			CopyAssemblies(applicationSettings.UserServicePluginsPath, applicationSettings.UserServicePluginsBinPath, false);
+		}
+
+		/// <summary>
+		/// Copies the text plugin DLLs from their storage location in /Plugins/TextPlugins/ to the /bin folder.
+		/// </summary>
+		public void CopyTextPlugins(ApplicationSettings applicationSettings)
+		{
+			CopyAssemblies(applicationSettings.TextPluginsPath, applicationSettings.TextPluginsBinPath);
+		}
+
+		/// <summary>
+		/// Copies the special page (/Special:) plugins from their storage location in /Plugins/SpecialPages/to the /bin folder.
+		/// </summary>
+		public void CopySpecialPagePlugins(ApplicationSettings applicationSettings)
+		{
+			CopyAssemblies(applicationSettings.SpecialPagePluginsPath, applicationSettings.SpecialPagePluginsBinPath);
+		}
+
+		/// <summary>
+		/// Copies plugins from their storage location to the bin folder.
+		/// </summary>
+		internal void CopyAssemblies(string pluginsourcePath, string pluginDestinationPath, bool hasSubDirectories = true)
+		{
+			try
+			{
+				if (Directory.Exists(pluginsourcePath))
+				{
+					if (!Directory.Exists(pluginDestinationPath))
+						Directory.CreateDirectory(pluginDestinationPath);
+
+					if (hasSubDirectories)
+					{
+						foreach (string subdirectory in Directory.GetDirectories(pluginsourcePath))
+						{
+							CopyDirectoryContents(subdirectory, pluginDestinationPath);
+						}
+					}
+					else
+					{
+						CopyDirectoryContents(pluginsourcePath, pluginDestinationPath);
+					}
+				}
+				else
+				{
+					Directory.CreateDirectory(pluginsourcePath);
+				}
+			}
+			catch (IOException e)
+			{
+				Log.Error(e, "Unable to copy plugins to the bin folder");
+			}
+		}
+
+		private void CopyDirectoryContents(string subdirectory, string pluginDestinationPath)
+		{
+			// Create the directory in the /bin/Plugins/CustomVariables folder,
+			// e.g. /bin/Plugins/TextPlugins/MyPlugin
+			DirectoryInfo dirInfo = new DirectoryInfo(subdirectory);
+			string destination = Path.Combine(pluginDestinationPath, dirInfo.Name);
+			if (!Directory.Exists(destination))
+			{
+				Directory.CreateDirectory(destination);
+				Log.Information("Created directory {0} for plugin", destination);
+			}
+
+			foreach (string sourceFile in Directory.EnumerateFiles(subdirectory, "*.dll"))
+			{
+				// Copy the plugin's dlls only - but only if the file write time is more recent.
+				// If this check is removed, a looping app restart occurs (as the bin folder
+				// changes, so an app start occurs, and this method is called on app start, which then triggers another restart).
+				FileInfo sourceInfo = new FileInfo(sourceFile);
+				string destPath = Path.Combine(destination, sourceInfo.Name);
+				FileInfo destInfo = new FileInfo(destPath);
+
+				if (sourceInfo.LastWriteTimeUtc > destInfo.LastWriteTimeUtc)
+				{
+					File.Copy(sourceFile, destPath, true);
+					Log.Information("Copied plugin file '{0}' to '{1}' as it's newer ({2} > {3})", sourceInfo.FullName, destInfo.FullName,
+																								 sourceInfo.LastWriteTimeUtc, destInfo.LastWriteTimeUtc);
+				}
+			}
 		}
 	}
 }

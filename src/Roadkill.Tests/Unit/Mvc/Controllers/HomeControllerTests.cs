@@ -28,7 +28,7 @@ namespace Roadkill.Tests.Unit
 		private IUserContext _context;
 		private RepositoryMock _repository;
 
-		private UserServiceBase _userManager;
+		private UserServiceBase _userService;
 		private PageService _pageService;
 		private SearchServiceMock _searchService;
 		private PageHistoryService _historyService;
@@ -54,7 +54,7 @@ namespace Roadkill.Tests.Unit
 
 			_repository = new RepositoryMock();
 			_settingsService = new SettingsService(_applicationSettings, _repository);
-			_userManager = new Mock<UserServiceBase>(_applicationSettings, null).Object;
+			_userService = new Mock<UserServiceBase>(_applicationSettings, null).Object;
 			_searchService = new SearchServiceMock(_applicationSettings, _repository, _pluginFactory);
 			_searchService.PageContents = _repository.PageContents;
 			_searchService.Pages = _repository.Pages;
@@ -66,7 +66,7 @@ namespace Roadkill.Tests.Unit
 		public void Index_Should_Return_Default_Message_When_No_Homepage_Tag_Exists()
 		{
 			// Arrange
-			HomeController homeController = new HomeController(_applicationSettings, _userManager, new MarkupConverter(_applicationSettings, _repository, _pluginFactory), _pageService, _searchService, _context, _settingsService);
+			HomeController homeController = new HomeController(_applicationSettings, _userService, new MarkupConverter(_applicationSettings, _repository, _pluginFactory), _pageService, _searchService, _context, _settingsService);
 			homeController.SetFakeControllerContext();
 
 			// Act
@@ -85,7 +85,7 @@ namespace Roadkill.Tests.Unit
 		public void Index_Should_Return_Homepage_When_Tag_Exists()
 		{
 			// Arrange
-			HomeController homeController = new HomeController(_applicationSettings, _userManager, new MarkupConverter(_applicationSettings, _repository, _pluginFactory), _pageService, _searchService, _context, _settingsService);
+			HomeController homeController = new HomeController(_applicationSettings, _userService, new MarkupConverter(_applicationSettings, _repository, _pluginFactory), _pageService, _searchService, _context, _settingsService);
 			homeController.SetFakeControllerContext();
 			Page page1 = new Page() 
 			{ 
@@ -118,7 +118,7 @@ namespace Roadkill.Tests.Unit
 		public void Search_Should_Return_Some_Results_With_Unicode_Content()
 		{
 			// Arrange
-			HomeController homeController = new HomeController(_applicationSettings, _userManager, new MarkupConverter(_applicationSettings, _repository, _pluginFactory), _pageService, _searchService, _context, _settingsService);
+			HomeController homeController = new HomeController(_applicationSettings, _userService, new MarkupConverter(_applicationSettings, _repository, _pluginFactory), _pageService, _searchService, _context, _settingsService);
 			homeController.SetFakeControllerContext();
 			Page page1 = new Page()
 			{

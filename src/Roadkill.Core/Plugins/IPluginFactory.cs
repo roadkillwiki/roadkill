@@ -7,10 +7,14 @@ namespace Roadkill.Core.Plugins
 {
 	public interface IPluginFactory
 	{
+		void CopyUserServicePlugins(ApplicationSettings applicationSettings);
 		void CopyTextPlugins(ApplicationSettings applicationSettings);
-		IEnumerable<SpecialPage> GetSpecialPagePlugins();
+		void CopySpecialPagePlugins(ApplicationSettings applicationSettings);
+
+		
 		IEnumerable<TextPlugin> GetTextPlugins();
 		IEnumerable<TextPlugin> GetEnabledTextPlugins();
+
 		void RegisterTextPlugin(TextPlugin plugin);
 
 		/// <summary>
@@ -18,9 +22,12 @@ namespace Roadkill.Core.Plugins
 		/// </summary>
 		TextPlugin GetTextPlugin(string id);
 
+
+		IEnumerable<SpecialPagePlugin> GetSpecialPagePlugins();
+
 		/// <summary>
 		/// Case insensitive search for a special page plugin. Returns null if it doesn't exist.
 		/// </summary>
-		SpecialPage GetSpecialPagePlugin(string name);
+		SpecialPagePlugin GetSpecialPagePlugin(string name);
 	}
 }

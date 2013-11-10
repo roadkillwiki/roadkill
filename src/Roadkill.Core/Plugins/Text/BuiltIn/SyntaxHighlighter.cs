@@ -9,7 +9,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using PluginSettings = Roadkill.Core.Plugins.Settings;
 
-namespace Roadkill.Core.Plugins.BuiltIn
+namespace Roadkill.Core.Plugins.Text.BuiltIn
 {
 	public class SyntaxHighlighter : TextPlugin
 	{

@@ -29,7 +29,7 @@ namespace Roadkill.Tests.Unit
 		private IUserContext _context;
 		private RepositoryMock _repository;
 
-		private UserServiceBase _userManager;
+		private UserServiceBase _userService;
 		private PageService _pageService;
 		private SearchServiceMock _searchService;
 		private PageHistoryService _historyService;
@@ -54,7 +54,7 @@ namespace Roadkill.Tests.Unit
 
 			_repository = new RepositoryMock();
 			_settingsService = new SettingsService(_applicationSettings, _repository);
-			_userManager = new Mock<UserServiceBase>(_applicationSettings, null).Object;
+			_userService = new Mock<UserServiceBase>(_applicationSettings, null).Object;
 			_searchService = new SearchServiceMock(_applicationSettings, _repository, _pluginFactory);
 			_searchService.PageContents = _repository.PageContents;
 			_searchService.Pages = _repository.Pages;
@@ -66,7 +66,7 @@ namespace Roadkill.Tests.Unit
 		public void Index__Should_Return_ViewResult_And_Model_With_LanguageModels_And_Set_UILanguage_To_English()
 		{
 			// Arrange
-			InstallController controller = new InstallController(_applicationSettings, _userManager, _pageService,
+			InstallController controller = new InstallController(_applicationSettings, _userService, _pageService,
 													_searchService, _repository, _settingsService, _context);
 
 			// Act
@@ -84,7 +84,7 @@ namespace Roadkill.Tests.Unit
 		public void Step1_Should_Return_ViewResult_With_Language_Summary_And_Set_UICulture_From_Language()
 		{
 			// Arrange
-			InstallController controller = new InstallController(_applicationSettings, _userManager, _pageService,
+			InstallController controller = new InstallController(_applicationSettings, _userService, _pageService,
 													_searchService, _repository, _settingsService, _context);
 
 			// Act
