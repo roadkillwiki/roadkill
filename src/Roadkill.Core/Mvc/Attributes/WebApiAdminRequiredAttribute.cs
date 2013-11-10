@@ -20,7 +20,7 @@ namespace Roadkill.Core.Mvc.Attributes
 		public IUserContext Context { get; set; }
 
 		[SetterProperty]
-		public UserServiceBase UserManager { get; set; }
+		public UserServiceBase UserService { get; set; }
 
 		[SetterProperty]
 		public PageService PageService { get; set; }
@@ -41,7 +41,7 @@ namespace Roadkill.Core.Mvc.Attributes
 			if (string.IsNullOrEmpty(ApplicationSettings.AdminRoleName))
 				return true;
 
-			if (UserManager.IsAdmin(identity.Name))
+			if (UserService.IsAdmin(identity.Name))
 				return true;
 			else
 				return false;

@@ -11,11 +11,23 @@ namespace Roadkill.Tests.Unit
 	public class PluginFactoryMock : IPluginFactory
 	{
 		public List<TextPlugin> TextPlugins { get; set; }
-		public List<SpecialPage> SpecialPages { get; set; }
+		public List<SpecialPagePlugin> SpecialPages { get; set; }
 
 		public PluginFactoryMock()
 		{
 			TextPlugins = new List<TextPlugin>();
+			SpecialPages = new List<SpecialPagePlugin>();
+		}
+
+
+		public void CopyUserServicePlugins(ApplicationSettings applicationSettings)
+		{
+
+		}
+
+		public void CopySpecialPagePlugins(ApplicationSettings applicationSettings)
+		{
+
 		}
 
 		public void CopyTextPlugins(ApplicationSettings applicationSettings)
@@ -47,12 +59,12 @@ namespace Roadkill.Tests.Unit
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<SpecialPage> GetSpecialPagePlugins()
+		public IEnumerable<SpecialPagePlugin> GetSpecialPagePlugins()
 		{
 			return SpecialPages;
 		}
 
-		public SpecialPage GetSpecialPagePlugin(string name)
+		public SpecialPagePlugin GetSpecialPagePlugin(string name)
 		{
 			return SpecialPages.FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 		}

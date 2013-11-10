@@ -11,20 +11,20 @@ using StructureMap;
 
 namespace Roadkill.Tests
 {
-	public class UserManagerMock : UserServiceBase
+	public class UserServiceMock : UserServiceBase
 	{
 		public static readonly string RESETKEY = "resetkey";
 		public static readonly string ACTIVATIONKEY = "activationkey";
 		public List<User> Users { get; set; }
 		private string _loggedInUserId;
 
-		public UserManagerMock()
+		public UserServiceMock()
 			: base(null, null)
 		{
 			Users = new List<User>();
 		}
 
-		public UserManagerMock(ApplicationSettings settings, IRepository repository)
+		public UserServiceMock(ApplicationSettings settings, IRepository repository)
 			: base(settings, repository)
 		{
 			Users = new List<User>();

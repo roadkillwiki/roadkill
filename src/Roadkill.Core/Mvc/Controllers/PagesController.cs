@@ -193,9 +193,9 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns>An empty <see cref="PageViewModel"/> as the model.</returns>
 		/// <remarks>This action requires editor rights.</remarks>
 		[EditorRequired]
-		public ActionResult New(string title = "")
+		public ActionResult New(string title = "", string tags = "")
 		{
-			return View("Edit", new PageViewModel() { Title = title });
+			return View("Edit", new PageViewModel() { Title = title, RawTags = tags });
 		}
 
 		/// <summary>

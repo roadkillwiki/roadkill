@@ -199,7 +199,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 
 			// WikiController
 			SettingsService settingsService = new SettingsService(appSettings, _repositoryMock);
-			UserManagerStub userManager = new UserManagerStub();
+			UserServiceStub userManager = new UserServiceStub();
 			WikiController wikiController = new WikiController(appSettings, userManager, pageService, userContext, settingsService);
 
 			// Create a page that the request is for

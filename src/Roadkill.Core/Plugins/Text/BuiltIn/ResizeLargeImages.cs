@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 
-namespace Roadkill.Core.Plugins.BuiltIn
+namespace Roadkill.Core.Plugins.Text.BuiltIn
 {
 	/// <summary>
 	/// Whether to scale images dynamically on the page, using Javascript, so they fit inside the main page container (400x400px).

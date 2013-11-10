@@ -191,7 +191,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
-			repository.SiteSettings.PluginLastSaveDate = DateTime.Today;
+			repository.SiteSettings.PluginLastSaveDate = new DateTime(2013, 11, 09, 0, 0, 0);
 			repository.SiteSettings.AllowedFileTypes = ".exe,.vbscript";
 			repository.SiteSettings.MenuMarkup = "markup ```''' \r\n";
 			

@@ -11,16 +11,15 @@ using StructureMap;
 
 namespace Roadkill.Tests
 {
-	[Pluggable("x")]
-	public class UserManagerStub : UserServiceBase
+	public class UserServiceStub : UserServiceBase
 	{
-		public UserManagerStub()
+		public UserServiceStub()
 			: base(null, null)
 		{
 
 		}
 
-		public UserManagerStub(ApplicationSettings settings, IRepository repository)
+		public UserServiceStub(ApplicationSettings settings, IRepository repository)
 			: base(settings, repository)
 		{
 

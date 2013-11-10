@@ -19,7 +19,7 @@ using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Mvc.WebViewPages;
 using Roadkill.Core.Plugins;
-using Roadkill.Core.Plugins.BuiltIn;
+using Roadkill.Core.Plugins.Text.BuiltIn;
 using Roadkill.Core.Security;
 using Roadkill.Core.Security.Windows;
 using StructureMap;
@@ -38,8 +38,8 @@ namespace Roadkill.Core
 		//
 		// - IRepository relies on ApplicationSettings
 		//   - LightSpeedRepository creates its own instances of IUnitOfWork
- 		// - UserManager relies on IRepository
-		// - RoadkillContext relies on UserManager
+ 		// - UserService relies on IRepository
+		// - RoadkillContext relies on UserService
 		// - ActiveDirectoryService relies on IActiveDirectoryProvider
 		// - The others can rely on everything above.
 		//
@@ -157,30 +157,29 @@ namespace Roadkill.Core
 			scanner.SingleImplementationsOfInterface();
 			scanner.WithDefaultConventions();
 
-			// User manager plugins
-			string userManagerPluginPath = _applicationSettings.UserManagerPluginsPath;
-			if (!Directory.Exists(userManagerPluginPath))
-				Directory.CreateDirectory(userManagerPluginPath);
+			// Copy all plugins to the /bin/Plugins folder
+			CopyPlugins();
 
-			scanner.AssembliesFromPath(userManagerPluginPath);
+			// Scan user service plugins
+			foreach (string subDirectory in Directory.GetDirectories(_applicationSettings.UserServicePluginsBinPath))
+			{
+				scanner.AssembliesFromPath(subDirectory);
+			}
+			// UserServiceBase is scanned below
 
-			// Copy TextPlugins to the bin folder
-			string textPluginsPath = _applicationSettings.TextPluginsBinPath;
-			if (!Directory.Exists(textPluginsPath))
-				Directory.CreateDirectory(textPluginsPath);
-
-			PluginFactory pluginFactory = new PluginFactory(); // registered as a singleton later
-			pluginFactory.CopyTextPlugins(_applicationSettings);
-			
 			// Scan for TextPlugins
-			foreach (string subDirectory in Directory.GetDirectories(textPluginsPath))
+			foreach (string subDirectory in Directory.GetDirectories(_applicationSettings.TextPluginsBinPath))
 			{
 				scanner.AssembliesFromPath(subDirectory);
 			}
 			scanner.AddAllTypesOf<TextPlugin>();
 			
 			// Scan for SpecialPages
-			scanner.AddAllTypesOf<SpecialPage>();
+			foreach (string subDirectory in Directory.GetDirectories(_applicationSettings.SpecialPagePluginsBinPath))
+			{
+				scanner.AssembliesFromPath(subDirectory);
+			}
+			scanner.AddAllTypesOf<SpecialPagePlugin>();
 
 			// The pluginfactory
 			scanner.AddAllTypesOf<IPluginFactory>();
@@ -248,18 +247,25 @@ namespace Roadkill.Core
 			}
 
 			//
-			// UserManager : Windows authentication, custom or the default
+			// UserService : Windows authentication, custom or the default
 			//
-			string userManagerTypeName = _applicationSettings.UserManagerType;
+			string userServiceTypeName = _applicationSettings.UserServiceType;
 
 			if (_applicationSettings.UseWindowsAuthentication)
 			{
 				x.For<UserServiceBase>().HybridHttpOrThreadLocalScoped().Use<ActiveDirectoryUserService>();
 			}
-			else if (!string.IsNullOrEmpty(userManagerTypeName))
+			else if (!string.IsNullOrEmpty(userServiceTypeName))
 			{
-				InstanceRef userManagerRef = ObjectFactory.Model.InstancesOf<UserServiceBase>().FirstOrDefault(t => t.ConcreteType.FullName == userManagerTypeName);
-				x.For<UserServiceBase>().HybridHttpOrThreadLocalScoped().TheDefault.Is.OfConcreteType(userManagerRef.ConcreteType);
+				InstanceRef userServiceRef = ObjectFactory.Model.InstancesOf<UserServiceBase>().FirstOrDefault(t => t.ConcreteType.FullName == userServiceTypeName);
+				if (userServiceRef == null)
+				{
+					var instances = ObjectFactory.Model.InstancesOf<UserServiceBase>();
+					string debugMessage = string.Join(Environment.NewLine, instances.Select(t => t.ConcreteType.FullName).ToArray());
+					throw new ConfigurationException(null, "Unable to find custom user service type '{0}' - I only have these types: \n\n{1}", userServiceTypeName, debugMessage);
+				}
+
+				x.For<UserServiceBase>().HybridHttpOrThreadLocalScoped().TheDefault.Is.OfConcreteType(userServiceRef.ConcreteType);
 			}
 			else
 			{
@@ -271,9 +277,35 @@ namespace Roadkill.Core
 			x.SetAllProperties(y => y.TypeMatches(t => t == typeof(RoadkillViewPage<>)));
 			x.SetAllProperties(y => y.TypeMatches(t => t == typeof(RoadkillLayoutPage)));
 
-			// Setter inject the *internal* properties for the plugins
+			// Setter inject the *internal* properties for the text plugins
 			x.For<TextPlugin>().OnCreationForAll((ctx, plugin) => plugin.PluginCache = ctx.GetInstance<IPluginCache>());
 			x.For<TextPlugin>().OnCreationForAll((ctx, plugin) => plugin.Repository = ctx.GetInstance<IRepository>());
+		}
+
+		private void CopyPlugins()
+		{
+			PluginFactory pluginFactory = new PluginFactory(); // registered as a singleton later
+
+			// Copy UserService plugins to the /bin folder
+			string userservicePluginDestPath = _applicationSettings.UserServicePluginsBinPath;
+			if (!Directory.Exists(userservicePluginDestPath))
+				Directory.CreateDirectory(userservicePluginDestPath);
+
+			pluginFactory.CopyUserServicePlugins(_applicationSettings);
+
+			// Copy Text plugins to the /bin folder
+			string textPluginsDestPath = _applicationSettings.TextPluginsBinPath;
+			if (!Directory.Exists(textPluginsDestPath))
+				Directory.CreateDirectory(textPluginsDestPath);
+		
+			pluginFactory.CopyTextPlugins(_applicationSettings);
+
+			// Copy SpecialPages plugins to the /bin folder
+			string specialPagesDestPath = _applicationSettings.SpecialPagePluginsBinPath;
+			if (!Directory.Exists(specialPagesDestPath))
+				Directory.CreateDirectory(specialPagesDestPath);
+
+			pluginFactory.CopySpecialPagePlugins(_applicationSettings);
 		}
 	}
 }

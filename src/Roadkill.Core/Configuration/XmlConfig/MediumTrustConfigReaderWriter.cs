@@ -93,14 +93,11 @@ namespace Roadkill.Core.Configuration
 			if (element.Attribute("logErrorsOnly") != null)
 				section.LogErrorsOnly = Convert.ToBoolean(element.Attribute("logErrorsOnly").Value);
 
-			if (element.Attribute("resizeImages") != null)
-				section.ResizeImages = Convert.ToBoolean(element.Attribute("resizeImages").Value);
-
 			if (element.Attribute("useHtmlWhiteList") != null)
 				section.UseHtmlWhiteList = Convert.ToBoolean(element.Attribute("useHtmlWhiteList").Value);
 
-			if (element.Attribute("userManagerType") != null)
-				section.UserManagerType = element.Attribute("userManagerType").Value;
+			if (element.Attribute("userServiceType") != null)
+				section.UserServiceType = element.Attribute("userServiceType").Value;
 
 			if (element.Attribute("repositoryType") != null)
 				section.RepositoryType = element.Attribute("repositoryType").Value;
@@ -151,7 +148,7 @@ namespace Roadkill.Core.Configuration
 			appSettings.LdapPassword = _section.LdapPassword;
 			appSettings.RepositoryType = _section.RepositoryType;
 			appSettings.UseHtmlWhiteList = _section.UseHtmlWhiteList;
-			appSettings.UserManagerType = _section.UserManagerType;
+			appSettings.UserServiceType = _section.UserServiceType;
 			appSettings.UseWindowsAuthentication = _section.UseWindowsAuthentication;
 			appSettings.UpgradeRequired = UpgradeChecker.IsUpgradeRequired(_section.Version);
 

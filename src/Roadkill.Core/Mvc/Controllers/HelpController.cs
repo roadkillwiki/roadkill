@@ -4,6 +4,9 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Security;
+using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Localization;
+using System.Linq;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -13,38 +16,43 @@ namespace Roadkill.Core.Mvc.Controllers
 	public class HelpController : ControllerBase
 	{
 		private CustomTokenParser _customTokenParser;
+		private PageService _pageService;
 
-		public HelpController(ApplicationSettings settings, UserServiceBase userManager, IUserContext context, SettingsService settingsService)
+		public HelpController(ApplicationSettings settings, UserServiceBase userManager, IUserContext context, SettingsService settingsService, PageService pageService)
 			: base(settings, userManager, context, settingsService) 
 		{
 			_customTokenParser = new CustomTokenParser(settings);
+			_pageService = pageService;
 		}
 
-		[EditorRequired]
+		public ActionResult Index()
+		{
+			return View();
+		}
+
+		public ActionResult About()
+		{
+			// Get the first page with an "about" tag
+			PageViewModel model = _pageService.FindByTag("about").FirstOrDefault();
+			if (model == null)
+				return RedirectToAction("New", "Pages", new { title = "about", tags = "about" });
+			else
+				return View("../Wiki/Index", model);
+		}
+
 		public ActionResult CreoleReference()
 		{
 			return View(_customTokenParser.Tokens);
 		}
 
-		[EditorRequired]
 		public ActionResult MediaWikiReference()
 		{
 			return View(_customTokenParser.Tokens);
 		}
 
-		[EditorRequired]
 		public ActionResult MarkdownReference()
 		{
 			return View(_customTokenParser.Tokens);
 		}
-
-#if DEBUG
-		[AdminRequired]
-		public ActionResult ShowError()
-		{
-			// Test action for errors
-			throw new Exception("Woops an error occurred");
-		}
-#endif
 	}
 }

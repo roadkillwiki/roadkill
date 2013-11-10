@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Roadkill.Core.Plugins.BuiltIn.ToC
+namespace Roadkill.Core.Plugins.Text.BuiltIn.ToC
 {
 	/// <summary>
 	/// Keeps a tree of <see cref="Item"/> objects, from the Root H1 tags down.

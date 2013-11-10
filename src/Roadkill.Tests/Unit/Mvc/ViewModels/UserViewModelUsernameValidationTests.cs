@@ -19,7 +19,7 @@ namespace Roadkill.Tests.Unit
 	{
 		private ApplicationSettings _settings;
 		private IRepository _repository;
-		private Mock<UserServiceBase> _userManagerMock;
+		private Mock<UserServiceBase> _userServiceMock;
 		private IUserContext _context;
 
 		[SetUp]
@@ -28,15 +28,15 @@ namespace Roadkill.Tests.Unit
 			_context = new Mock<IUserContext>().Object;
 			_settings = new ApplicationSettings();
 			_repository = null;
-			_userManagerMock = new Mock<UserServiceBase>(_settings, _repository);
-			_userManagerMock.Setup(u => u.UserNameExists("username-exists")).Returns(true);
+			_userServiceMock = new Mock<UserServiceBase>(_settings, _repository);
+			_userServiceMock.Setup(u => u.UserNameExists("username-exists")).Returns(true);
 		}
 
 		[Test]
 		public void VerifyNewUsername_For_New_User_With_Blank_Username_Should_Fail()
 		{
 			// Arrange
-			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			UserViewModel model = new UserViewModel(_settings, _userServiceMock.Object);
 			model.Id = null;
 			model.NewUsername = "			\n";
 			model.IsBeingCreatedByAdmin = false;
@@ -52,7 +52,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsername_For_New_User_With_Valid_Username_Should_Succeed()
 		{
 			// Arrange
-			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			UserViewModel model = new UserViewModel(_settings, _userServiceMock.Object);
 			model.Id = null;
 			model.NewUsername = "fred1234";
 			model.IsBeingCreatedByAdmin = false;
@@ -68,7 +68,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsername_For_Existing_User_With_Blank_Username_Should_Fail()
 		{
 			// Arrange
-			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			UserViewModel model = new UserViewModel(_settings, _userServiceMock.Object);
 			model.Id = Guid.NewGuid();
 			model.ExistingUsername = "hansblix";
 			model.NewUsername = "			\n";
@@ -85,7 +85,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsername_For_Existing_User_With_Valid_Username_Should_Succeed()
 		{
 			// Arrange
-			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			UserViewModel model = new UserViewModel(_settings, _userServiceMock.Object);
 			model.Id = Guid.NewGuid();
 			model.ExistingUsername = "hansblix";
 			model.NewUsername = "fred1234";
@@ -102,7 +102,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsernameIsNotInUse_For_New_User_With_Username_That_Exists_Should_Fail()
 		{
 			// Arrange
-			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			UserViewModel model = new UserViewModel(_settings, _userServiceMock.Object);
 			model.Id = null;
 			model.ExistingUsername = "hansblix";
 			model.NewUsername = "username-exists";
@@ -119,7 +119,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsernameIsNotInUse_For_New_User_With_Unique_Username_Should_Succeed()
 		{
 			// Arrange
-			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			UserViewModel model = new UserViewModel(_settings, _userServiceMock.Object);
 			model.Id = null;
 			model.ExistingUsername = "hansblix";
 			model.NewUsername = "a_unique_name";
@@ -136,7 +136,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsernameIsNotInUse_When_New_User_Created_In_Admin_Tools_With_Unique_Username_Should_Succeed()
 		{
 			// Arrange
-			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			UserViewModel model = new UserViewModel(_settings, _userServiceMock.Object);
 			model.Id = null;
 			model.ExistingUsername = "hansblix";
 			model.NewUsername = "a_unique_name";
@@ -153,7 +153,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsernameIsNotInUse_For_Existing_User_With_username_That_Exists_Should_Fail()
 		{
 			// Arrange
-			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			UserViewModel model = new UserViewModel(_settings, _userServiceMock.Object);
 			model.Id = Guid.NewGuid();
 			model.ExistingUsername = "hansblix";
 			model.NewUsername = "username-exists";
@@ -170,7 +170,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewUsernameIsNotInUse_For_Existing_User_With_Unique_Username_Should_Succeed()
 		{
 			// Arrange
-			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			UserViewModel model = new UserViewModel(_settings, _userServiceMock.Object);
 			model.Id = Guid.NewGuid();
 			model.ExistingUsername = "hansblix";
 			model.NewUsername = "hansblix2";
@@ -187,7 +187,7 @@ namespace Roadkill.Tests.Unit
 		public void VerifyNewEmailIsNotInUse_For_Existing_User_With_Unchanged_Username_Should_Succeed()
 		{
 			// Arrange
-			UserViewModel model = new UserViewModel(_settings, _userManagerMock.Object);
+			UserViewModel model = new UserViewModel(_settings, _userServiceMock.Object);
 			model.Id = Guid.NewGuid();
 			model.ExistingUsername = "hansblix";
 			model.NewUsername = "hansblix";
