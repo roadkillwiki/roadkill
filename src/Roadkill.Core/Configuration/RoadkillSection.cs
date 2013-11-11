@@ -44,50 +44,6 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Indicates whether server-based page object caching is enabled.
-		/// </summary>
-		[ConfigurationProperty("useObjectCache", IsRequired = false, DefaultValue = true)]
-		public bool UseObjectCache
-		{
-			get { return (bool)this["useObjectCache"]; }
-			set { this["useObjectCache"] = value; }
-		}
-
-		/// <summary>
-		/// Legacy property, this is now "useObjectCache"
-		/// </summary>
-		/// <remarks>legacy, now ignored</remarks>
-		[ConfigurationProperty("cacheEnabled", IsRequired = false, DefaultValue = true)]
-		[Obsolete("Legacy property, this is now useObjectCache")]
-		internal bool CacheEnabled
-		{
-			get;
-			set;
-		}
-
-		/// <summary>
-		/// Indicates whether page content should be cached, if <see cref="UseObjectCache"/> is true.
-		/// </summary>
-		[ConfigurationProperty("useBrowserCache", IsRequired = false, DefaultValue = false)]
-		public bool UseBrowserCache
-		{
-			get { return (bool)this["useBrowserCache"]; }
-			set { this["useBrowserCache"] = value; }
-		}
-
-		/// <summary>
-		/// Legacy property, this is now "useBrowserCache"
-		/// </summary>
-		/// <remarks>legacy, now ignored</remarks>
-		[ConfigurationProperty("cacheText", IsRequired = false, DefaultValue = false)]
-		[Obsolete("Legacy property, this is now useBrowserCache")]
-		internal bool CacheText
-		{
-			get;
-			set;
-		}
-
-		/// <summary>
 		/// Gets or sets the name of the connection string in the connectionstrings section.
 		/// </summary>
 		[ConfigurationProperty("connectionStringName", IsRequired = true)]
@@ -95,17 +51,6 @@ namespace Roadkill.Core
 		{
 			get { return (string)this["connectionStringName"]; }
 			set { this["connectionStringName"] = value; }
-		}
-
-		/// <summary>
-		/// Don't use this property - it's a leegacy one, use "dataStoreType"
-		/// </summary>
-		/// <remarks>Renamed in 1.6</remarks>
-		[ConfigurationProperty("databaseType", IsRequired = false)]
-		internal string DatabaseType
-		{
-			get { return (string)this["databaseType"]; }
-			set { this["databaseType"] = value; }
 		}
 
 		/// <summary>
@@ -220,22 +165,6 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Whether to scale images dynamically on the page, using Javascript, so they fit inside the main page container (400x400px).
-		/// </summary>
-		[ConfigurationProperty("resizeImages", IsRequired = false, DefaultValue = true)]
-		public bool ResizeImages
-		{
-			get
-			{
-				if (this["resizeImages"] == null)
-					return true;
-				else
-					return (bool)this["resizeImages"];
-			}
-			set { this["resizeImages"] = value; }
-		}
-
-		/// <summary>
 		/// Whether to remove all HTML tags from the markup except those found in the whitelist.xml file,
 		/// inside the App_Data folder.
 		/// </summary>
@@ -257,14 +186,35 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The type used for the managing users, in the format "MyNamespace.Type, MyAssembly".
-		/// This class should inherit from the <see cref="UserManager"/> class or a one of its derived types.
+		/// The type used for the managing users, in the format "MyNamespace.Type".
+		/// This class should inherit from the <see cref="UserServiceBase"/> class or a one of its derived types.
 		/// </summary>
-		[ConfigurationProperty("userManagerType", IsRequired = false)]
-		public string UserManagerType
+		[ConfigurationProperty("userServiceType", IsRequired = false)]
+		public string UserServiceType
 		{
-			get { return (string)this["userManagerType"]; }
-			set { this["userManagerType"] = value; }
+			get { return (string)this["userServiceType"]; }
+			set { this["userServiceType"] = value; }
+		}
+
+		/// <summary>
+		/// Indicates whether server-based page object caching is enabled.
+		/// </summary>
+		[ConfigurationProperty("useObjectCache", IsRequired = false, DefaultValue = true)]
+		public bool UseObjectCache
+		{
+			get { return (bool)this["useObjectCache"]; }
+			set { this["useObjectCache"] = value; }
+		}
+
+
+		/// <summary>
+		/// Indicates whether page content should be cached, if <see cref="UseObjectCache"/> is true.
+		/// </summary>
+		[ConfigurationProperty("useBrowserCache", IsRequired = false, DefaultValue = false)]
+		public bool UseBrowserCache
+		{
+			get { return (bool)this["useBrowserCache"]; }
+			set { this["useBrowserCache"] = value; }
 		}
 
 		/// <summary>
@@ -289,17 +239,65 @@ namespace Roadkill.Core
 			return false;
 		}
 
+		#region Legacy properties
 		/// <summary>
-		/// Checks for a legacy key value, if the new key isn't present.
+		/// Don't use this property - it's a legacy one (but still supported for non-breaking backwards compatibility), use "dataStoreType"
 		/// </summary>
-		private T CheckForLegacyValue<T>(string oldKeyName, string newKeyname)
+		/// <remarks>Renamed in 1.6</remarks>
+		[ConfigurationProperty("databaseType", IsRequired = false)]
+		[Obsolete("Legacy property, this is now dataStoreType")]
+		internal string DatabaseType
 		{
-			T keyValue = (T)this[newKeyname];
-
-			if (this.Properties[newKeyname] == null && this.Properties[oldKeyName] != null)
-				keyValue = (T)this[oldKeyName];
-
-			return keyValue;
+			get { return (string)this["databaseType"]; }
+			set { this["databaseType"] = value; }
 		}
+
+		/// <summary>
+		/// Legacy property, this is now "useBrowserCache"
+		/// </summary>
+		/// <remarks>legacy, now ignored</remarks>
+		[ConfigurationProperty("cacheText", IsRequired = false, DefaultValue = false)]
+		[Obsolete("Legacy property, this is now useBrowserCache")]
+		internal bool CacheText
+		{
+			get;
+			set;
+		}
+
+
+		/// <summary>
+		/// Legacy property, this is now "useObjectCache"
+		/// </summary>
+		/// <remarks>legacy, now ignored</remarks>
+		[ConfigurationProperty("cacheEnabled", IsRequired = false, DefaultValue = true)]
+		[Obsolete("Legacy property, this is now useObjectCache")]
+		internal bool CacheEnabled
+		{
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// Legacy property, this is now "userServiceType"
+		/// </summary>
+		[ConfigurationProperty("userManagerType", IsRequired = false)]
+		[Obsolete("Legacy property, this is now userServiceType")]
+		public string UserManagerType
+		{
+			get;
+			set;
+		}
+
+		/// <summary>
+		/// Whether to scale images dynamically on the page, using Javascript, so they fit inside the main page container (400x400px).
+		/// </summary>
+		[ConfigurationProperty("resizeImages", IsRequired = false, DefaultValue = true)]
+		[Obsolete("This is now a text plugin")]
+		public bool ResizeImages
+		{
+			get;
+			set;
+		}
+		#endregion
 	}
 }

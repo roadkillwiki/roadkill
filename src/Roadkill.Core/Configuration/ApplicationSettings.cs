@@ -144,23 +144,46 @@ namespace Roadkill.Core.Configuration
 		public string CustomTokensPath { get; set; }
 
 		/// <summary>
-		/// The full path to the custom user managers directory.
-		/// </summary>
-		public string UserManagerPluginsPath { get; set; }
-
-		/// <summary>
-		/// The full path to the custom variable plugins directory. This is where plugins are stored after 
+		/// The full path to the text plugins directory. This is where plugins are stored after 
 		/// download (including their nuget files), and are copied to the bin folder.
 		/// </summary>
-		public string TextPluginsPath { get; set; }
+		public string TextPluginsPath { get; internal set; }
 
 		/// <summary>
-		/// The directory within the bin folder that the custom variable plugins are stored. The plugins are 
+		/// The directory within the /bin folder that the text plugins are stored. The plugins are 
 		/// copied here on application start, so they can be loaded into the application domain with shadow 
 		/// copy support (and supported in medium trust environments), and also monitored by the ASP.NET 
 		/// file watcher.
 		/// </summary>
-		public string TextPluginsBinPath { get; set; }
+		public string TextPluginsBinPath { get; internal set; }
+
+		/// <summary>
+		/// The full path to the special page plugins directory. This is where plugins are stored after 
+		/// download (including their nuget files), and are copied to the bin folder.
+		/// </summary>
+		public string SpecialPagePluginsPath { get; internal set; }
+
+		/// <summary>
+		/// The directory within the /bin folder that the special page plugins are stored. As with text plugins, they are 
+		/// copied here on application start, so they can be loaded into the application domain with shadow 
+		/// copy support (and supported in medium trust environments), and also monitored by the ASP.NET 
+		/// file watcher.
+		/// </summary>
+		public string SpecialPagePluginsBinPath { get; internal set; }
+
+		/// <summary>
+		/// The full path to the user service plugins directory. This is where plugins are stored after 
+		/// download (including their nuget files), and are copied to the bin folder.
+		/// </summary>
+		public string UserServicePluginsPath { get; internal set; }
+		
+		/// /// <summary>
+		/// The directory within the /bin folder that the user service plugins are stored. As with text plugins, they are 
+		/// copied here on application start, so they can be loaded into the application domain with shadow 
+		/// copy support (and supported in medium trust environments), and also monitored by the ASP.NET 
+		/// file watcher.
+		/// </summary>
+		public string UserServicePluginsBinPath { get; internal set; }	
 
 		/// <summary>
 		/// The database type used as the backing store.
@@ -191,6 +214,17 @@ namespace Roadkill.Core.Configuration
 		/// Whether the site is public, i.e. all pages are visible by default. This is optional in the web.config and the default is true.
 		/// </summary>
 		public bool IsPublicSite { get; set; }
+
+		/// <summary>
+		/// If this instance is running on the demo site.
+		/// </summary>
+		internal bool IsDemoSite
+		{
+			get
+			{
+				return ConfigurationManager.AppSettings["DemoSite"] == "true";
+			}
+		}
 
 		/// <summary>
 		/// Indicates whether the installation has been completed previously.
@@ -255,12 +289,12 @@ namespace Roadkill.Core.Configuration
 		public bool UseHtmlWhiteList { get; set; }
 
 		/// <summary>
-		/// The type for the <see cref="UserManager"/>. If the setting for this is blank
+		/// The type for the <see cref="UserServiceBase"/>. If the setting for this is blank
 		/// in the web.config, then the <see cref="UseWindowsAuthentication"/> is checked and if false
-		/// a <see cref="DefaultUserManager"/> is created. The format of this setting can be retrieved by
-		/// using <code>typeof(YourUserManager).AssemblyQualifiedName.</code>
+		/// a <see cref="FormsAuthUserService"/> is created. The format of this setting can be retrieved by
+		/// using <code>typeof(YourUserService).FullName.</code>
 		/// </summary>
-		public string UserManagerType { get; set; }
+		public string UserServiceType { get; set; }
 
 		/// <summary>
 		/// Gets a value indicating whether this windows authentication is being used.
@@ -294,8 +328,6 @@ namespace Roadkill.Core.Configuration
 			AppDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data");
 			AppDataInternalPath = Path.Combine(AppDataPath, "Internal");
 			CustomTokensPath = Path.Combine(AppDataPath, "customvariables.xml");
-			TextPluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins", "Text");
-			TextPluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "Plugins", "Text");
 			EmailTemplateFolder = Path.Combine(AppDataPath, "EmailTemplates");
 			HtmlElementWhiteListPath = Path.Combine(AppDataInternalPath, "htmlwhitelist.xml");
 			MinimumPasswordLength = 6;
@@ -304,7 +336,12 @@ namespace Roadkill.Core.Configuration
 			AttachmentsFolder = "~/App_Data/Attachments";
 			SearchIndexPath = Path.Combine(AppDataInternalPath, "Search");
 			SQLiteBinariesPath = Path.Combine(AppDataInternalPath, "SQLiteBinaries");
-			UserManagerPluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins", "UserManager");
+			SpecialPagePluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins", "SpecialPages");
+			SpecialPagePluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "Plugins", "SpecialPages");
+			TextPluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins", "Text");
+			TextPluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "Plugins", "Text");
+			UserServicePluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins", "UserService");
+			UserServicePluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "Plugins", "UserService");
 		}
 
 		private string ParseAttachmentsPath()

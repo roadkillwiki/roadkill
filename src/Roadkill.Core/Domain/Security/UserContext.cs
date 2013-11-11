@@ -13,15 +13,15 @@ namespace Roadkill.Core
 		private bool? _isAdmin;
 		private bool? _isEditor;
 		private User _user;
-		private UserServiceBase _userManager;
+		private UserServiceBase _userService;
 
 		/// <summary>
 		/// Creates a new instance of a <see cref="UserContext"/>.
 		/// </summary>
-		/// <param name="userManager">A <see cref="UserServiceBase"/> which the RoadkillContext uses for user lookups.</param>
-		public UserContext(UserServiceBase userManager)
+		/// <param name="userService">A <see cref="UserServiceBase"/> which the RoadkillContext uses for user lookups.</param>
+		public UserContext(UserServiceBase userService)
 		{
-			_userManager = userManager;
+			_userService = userService;
 		}
 
 		/// <summary>
@@ -33,7 +33,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// Gets the username of the current user. This differs from <see cref="CurrentUser"/> which retrieves the email,
 		/// unless using windows auth where both fields are the same.
-		/// This property is derived from the current UserManager's GetUser() method, if the CurrentUser property is not empty.
+		/// This property is derived from the current UserService's GetUser() method, if the CurrentUser property is not empty.
 		/// </summary>
 		public string CurrentUsername
 		{
@@ -51,20 +51,20 @@ namespace Roadkill.Core
 						if (Guid.TryParse(CurrentUser, out userId) && userId != Guid.Empty)
 						{
 							// Guids are now used for cookie auth
-							_user = _userManager.GetUserById(userId); // handle old logins by ignoring them
+							_user = _userService.GetUserById(userId); // handle old logins by ignoring them
 							if (_user != null)
 							{
 								return _user.Username;
 							}
 							else
 							{
-								_userManager.Logout();
+								_userService.Logout();
 								return "(User id no longer exists)";
 							}
 						}
 						else
 						{
-							_userManager.Logout();
+							_userService.Logout();
 							return CurrentUser;
 						}
 					}
@@ -85,7 +85,7 @@ namespace Roadkill.Core
 				{
 					if (_isAdmin == null)
 					{
-						_isAdmin = _userManager.IsAdmin(CurrentUser);
+						_isAdmin = _userService.IsAdmin(CurrentUser);
 					}
 
 					return _isAdmin.Value;
@@ -108,7 +108,7 @@ namespace Roadkill.Core
 				{
 					if (_isEditor == null)
 					{
-						_isEditor = _userManager.IsEditor(CurrentUser);
+						_isEditor = _userService.IsEditor(CurrentUser);
 					}
 
 					return _isEditor.Value;

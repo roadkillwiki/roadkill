@@ -4,16 +4,30 @@ using System.Linq;
 using System.Text;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Plugins;
+using Roadkill.Core.Plugins.SpecialPages;
 
 namespace Roadkill.Tests.Unit
 {
 	public class PluginFactoryMock : IPluginFactory
 	{
 		public List<TextPlugin> TextPlugins { get; set; }
+		public List<SpecialPagePlugin> SpecialPages { get; set; }
 
 		public PluginFactoryMock()
 		{
 			TextPlugins = new List<TextPlugin>();
+			SpecialPages = new List<SpecialPagePlugin>();
+		}
+
+
+		public void CopyUserServicePlugins(ApplicationSettings applicationSettings)
+		{
+
+		}
+
+		public void CopySpecialPagePlugins(ApplicationSettings applicationSettings)
+		{
+
 		}
 
 		public void CopyTextPlugins(ApplicationSettings applicationSettings)
@@ -43,6 +57,16 @@ namespace Roadkill.Tests.Unit
 		public void UpdateInstance(TextPlugin plugin)
 		{
 			throw new NotImplementedException();
+		}
+
+		public IEnumerable<SpecialPagePlugin> GetSpecialPagePlugins()
+		{
+			return SpecialPages;
+		}
+
+		public SpecialPagePlugin GetSpecialPagePlugin(string name)
+		{
+			return SpecialPages.FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 		}
 	}
 }

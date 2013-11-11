@@ -63,7 +63,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			EditorRequiredCaller attribute = GetEditorRequiredCaller();
-			attribute.UserManager.AddUser("admin@localhost", "admin", "password", true, true);
+			attribute.UserService.AddUser("admin@localhost", "admin", "password", true, true);
 
 			PrincipalMock principal = GetPrincipal();
 			principal.Identity.Name = "admin@localhost";
@@ -81,7 +81,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			EditorRequiredCaller attribute = GetEditorRequiredCaller();
-			attribute.UserManager.AddUser("editor@localhost", "editor", "password", false, true);
+			attribute.UserService.AddUser("editor@localhost", "editor", "password", false, true);
 
 			PrincipalMock principal = GetPrincipal();
 			principal.Identity.Name = "editor@localhost";
@@ -99,7 +99,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			EditorRequiredCaller attribute = GetEditorRequiredCaller();
-			attribute.UserManager.AddUser("weirdlogin@localhost", "editor", "password", false, false);
+			attribute.UserService.AddUser("weirdlogin@localhost", "editor", "password", false, false);
 
 			PrincipalMock principal = GetPrincipal();
 			principal.Identity.Name = "editor@localhost";
@@ -119,8 +119,8 @@ namespace Roadkill.Tests.Unit
 			attribute.ApplicationSettings.AdminRoleName = "admin";
 			attribute.ApplicationSettings.EditorRoleName = "editor";
 
-			attribute.Context = new UserContext(new UserManagerMock());
-			attribute.UserManager = new UserManagerMock();
+			attribute.Context = new UserContext(new UserServiceMock());
+			attribute.UserService = new UserServiceMock();
 
 			return attribute;
 		}

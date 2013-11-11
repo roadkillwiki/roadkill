@@ -62,6 +62,24 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
+		public void Special_Route_Should_Map_To_SpecialPagesController()
+		{
+			"~/wiki/Special:Random".ShouldMapTo<SpecialPagesController>(action => action.Index("Random"));
+		}
+
+		[Test]
+		public void HelpCheatsheet_Route_Should_Map_To_HelpController()
+		{
+			"~/wiki/Help:Cheatsheet".ShouldMapTo<HelpController>(action => action.Index());
+		}
+
+		[Test]
+		public void HelpAbout_Route_Should_Map_To_HelpController()
+		{
+			"~/wiki/Help:About".ShouldMapTo<HelpController>(action => action.About());
+		}
+
+		[Test]
 		public void Attachments_Should_Have_Correct_Handler_And_Contain_Route_Values()
 		{
 			// Arrange

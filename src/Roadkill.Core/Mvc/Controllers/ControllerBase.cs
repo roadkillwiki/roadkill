@@ -33,7 +33,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 		protected override void OnException(ExceptionContext filterContext)
 		{
-			// Route data values
+			// Log the route data values
 			List<string> routeData = new List<string>();
 			foreach (string key in filterContext.RouteData.Values.Keys)
 			{

@@ -10,11 +10,13 @@ namespace Roadkill.Core.Mvc
 	{
 		public static void Register()
 		{
-			// Add a search path for /Dialogs, via a custom view engine.
+			// Add a search path for /Dialogs, /Plugins/SpecialPages via a custom view engine.
 			ViewEngines.Engines.Clear();
 
 			ExtendedRazorViewEngine engine = new ExtendedRazorViewEngine();
 			engine.AddPartialViewLocationFormat("~/Views/Shared/Dialogs/{0}.cshtml");
+			engine.AddViewLocationFormat("~/Plugins/SpecialPages/{0}.cshtml");
+			engine.AddPartialViewLocationFormat("~/Plugins/SpecialPages/{0}.cshtml");
 
 			ViewEngines.Engines.Add(engine);
 		}

@@ -398,9 +398,9 @@
     <Content Include="Assets\Scripts\roadkill\typescript-ref\constants.js">
       <DependentUpon>constants.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\constants.min.js">
+    <None Include="Assets\Scripts\roadkill\typescript-ref\constants.min.js">
       <DependentUpon>constants.ts</DependentUpon>
-    </Content>
+    </None>
     <Content Include="Assets\Scripts\head.js" />
     <Content Include="Assets\Scripts\roadkill\typescript-ref\directoryviewmodel.js">
       <DependentUpon>directoryviewmodel.ts</DependentUpon>
@@ -456,21 +456,21 @@
     <Content Include="Assets\Scripts\roadkill\adminsetup.js">
       <DependentUpon>adminsetup.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\adminsetup.min.js">
+    <None Include="Assets\Scripts\roadkill\adminsetup.min.js">
       <DependentUpon>adminsetup.ts</DependentUpon>
-    </Content>
+    </None>
     <Content Include="Assets\Scripts\roadkill\dialogs.js">
       <DependentUpon>dialogs.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\dialogs.min.js">
+    <None Include="Assets\Scripts\roadkill\dialogs.min.js">
       <DependentUpon>dialogs.ts</DependentUpon>
-    </Content>
+    </None>
     <Content Include="Assets\Scripts\roadkill\editpage.js">
       <DependentUpon>editpage.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\editpage.min.js">
+    <None Include="Assets\Scripts\roadkill\editpage.min.js">
       <DependentUpon>editpage.ts</DependentUpon>
-    </Content>
+    </None>
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\setup.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.ts" />
     <None Include="Assets\Scripts\roadkill\typescript-ref\directoryviewmodel.ts" />
@@ -479,63 +479,63 @@
     <Content Include="Assets\Scripts\roadkill\filemanager\ajaxrequest.js">
       <DependentUpon>ajaxrequest.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\filemanager\ajaxrequest.min.js">
+    <None Include="Assets\Scripts\roadkill\filemanager\ajaxrequest.min.js">
       <DependentUpon>ajaxrequest.ts</DependentUpon>
-    </Content>
+    </None>
     <Content Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.js">
       <DependentUpon>breadcrumbtrail.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.min.js">
+    <None Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.min.js">
       <DependentUpon>breadcrumbtrail.ts</DependentUpon>
-    </Content>
+    </None>
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\buttonevents.ts" />
     <Content Include="Assets\Scripts\roadkill\filemanager\buttonevents.js">
       <DependentUpon>buttonevents.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\filemanager\buttonevents.min.js">
+    <None Include="Assets\Scripts\roadkill\filemanager\buttonevents.min.js">
       <DependentUpon>buttonevents.ts</DependentUpon>
-    </Content>
+    </None>
     <None Include="Assets\Scripts\roadkill\readme.txt" />
     <Content Include="Assets\Scripts\roadkill\typescript-ref\filemanager.references.js">
       <DependentUpon>filemanager.references.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\filemanager.references.min.js">
+    <None Include="Assets\Scripts\roadkill\typescript-ref\filemanager.references.min.js">
       <DependentUpon>filemanager.references.ts</DependentUpon>
-    </Content>
+    </None>
     <Content Include="Assets\Scripts\roadkill\typescript-ref\filesummary.js">
       <DependentUpon>filemodel.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\filesummary.min.js">
+    <None Include="Assets\Scripts\roadkill\typescript-ref\filesummary.min.js">
       <DependentUpon>filemodel.ts</DependentUpon>
-    </Content>
+    </None>
     <Content Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.js">
       <DependentUpon>htmlbuilder.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.min.js">
+    <None Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.min.js">
       <DependentUpon>htmlbuilder.ts</DependentUpon>
-    </Content>
+    </None>
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.ts" />
     <None Include="Assets\Scripts\roadkill\typescript-ref\filemanager.references.ts" />
     <Content Include="Assets\Scripts\roadkill\filemanager\setup.js">
       <DependentUpon>setup.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\filemanager\setup.min.js">
+    <None Include="Assets\Scripts\roadkill\filemanager\setup.min.js">
       <DependentUpon>setup.ts</DependentUpon>
-    </Content>
+    </None>
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\util.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\tableevents.ts" />
     <Content Include="Assets\Scripts\roadkill\filemanager\tableevents.js">
       <DependentUpon>tableevents.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\filemanager\tableevents.min.js">
+    <None Include="Assets\Scripts\roadkill\filemanager\tableevents.min.js">
       <DependentUpon>tableevents.ts</DependentUpon>
-    </Content>
+    </None>
     <Content Include="Assets\Scripts\roadkill\filemanager\util.js">
       <DependentUpon>util.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\filemanager\util.min.js">
+    <None Include="Assets\Scripts\roadkill\filemanager\util.min.js">
       <DependentUpon>util.ts</DependentUpon>
-    </Content>
+    </None>
     <TypeScriptCompile Include="Assets\Scripts\roadkill\setup.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\adminsetup.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\editpage.ts" />
@@ -543,21 +543,21 @@
     <Content Include="Assets\Scripts\roadkill\typescript-ref\references.js">
       <DependentUpon>references.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\references.min.js">
+    <None Include="Assets\Scripts\roadkill\typescript-ref\references.min.js">
       <DependentUpon>references.ts</DependentUpon>
-    </Content>
+    </None>
     <Content Include="Assets\Scripts\roadkill\setup.js">
       <DependentUpon>setup.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\setup.min.js">
+    <None Include="Assets\Scripts\roadkill\setup.min.js">
       <DependentUpon>setup.ts</DependentUpon>
-    </Content>
+    </None>
     <Content Include="Assets\Scripts\roadkill\wysiwygeditor.js">
       <DependentUpon>wysiwygeditor.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\wysiwygeditor.min.js">
+    <None Include="Assets\Scripts\roadkill\wysiwygeditor.min.js">
       <DependentUpon>wysiwygeditor.ts</DependentUpon>
-    </Content>
+    </None>
     <Content Include="Assets\CSS\toastr.css" />
     <Content Include="Roadkill.config">
       <SubType>Designer</SubType>
@@ -567,6 +567,7 @@
     <Content Include="NLog.config" />
     <None Include="packages.config" />
     <Content Include="Plugins\Web.config" />
+    <Content Include="Plugins\SpecialPages\SoundCloud\SoundCloud.cshtml" />
     <None Include="Properties\PublishProfiles\Mono.pubxml" />
     <Content Include="Assets\Scripts\toastr.js" />
     <Content Include="Themes\BlackBar\Theme.print.css" />
@@ -657,10 +658,7 @@
     <Content Include="Views\PluginSettings\Index.cshtml" />
     <Content Include="Views\Install\Index.cshtml" />
     <Content Include="Views\PluginSettings\Edit.cshtml" />
-    <None Include="Web.DemoSite.config">
-      <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
+    <Content Include="Views\Help\Index.cshtml" />
     <None Include="Web.Mono.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

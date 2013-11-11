@@ -1,7 +1,6 @@
 var Roadkill;
 (function (Roadkill) {
     (function (Site) {
-        /// <reference path="../typescript-ref/filemanager.references.ts" />
         (function (FileManager) {
             var HtmlBuilder = (function () {
                 function HtmlBuilder() {
@@ -81,4 +80,3 @@ var Roadkill;
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
 })(Roadkill || (Roadkill = {}));
-//# sourceMappingURL=htmlbuilder.js.map

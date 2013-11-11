@@ -1,7 +1,6 @@
 var Roadkill;
 (function (Roadkill) {
     (function (Site) {
-        /// <reference path="../typescript-ref/filemanager.references.ts" />
         (function (FileManager) {
             var TableEvents = (function () {
                 function TableEvents() {
@@ -78,4 +77,3 @@ var Roadkill;
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
 })(Roadkill || (Roadkill = {}));
-//# sourceMappingURL=tableevents.js.map

@@ -13,11 +13,11 @@ namespace Roadkill.Core.Mvc.Attributes
 	/// <summary>
 	/// Defines an Attribute that has its property values setter injected by Structuremap.
 	/// </summary>
-	public interface IControllerAttribute
+	public interface ISetterInjected
 	{
 		ApplicationSettings ApplicationSettings { get; set; }
 		IUserContext Context { get; set; }
-		UserServiceBase UserManager { get; set; }
+		UserServiceBase UserService { get; set; }
 		PageService PageService { get; set; }
 		SettingsService SettingsService { get; set; }
 	}

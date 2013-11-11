@@ -28,7 +28,7 @@ namespace Roadkill.Tests.Unit
 		private IUserContext _context;
 		private RepositoryMock _repository;
 
-		private UserServiceBase _userManager;
+		private UserServiceBase _userService;
 		private PageService _pageService;
 		private PageHistoryService _historyService;
 		private SettingsService _settingsService;
@@ -56,7 +56,7 @@ namespace Roadkill.Tests.Unit
 			Mock<SearchService> searchMock = new Mock<SearchService>();
 
 			_settingsService = new SettingsService(_applicationSettings, _repository);
-			_userManager = new Mock<UserServiceBase>(_applicationSettings, null).Object;
+			_userService = new Mock<UserServiceBase>(_applicationSettings, null).Object;
 			_historyService = new PageHistoryService(_applicationSettings, _repository, _context, pageViewModelCache, _pluginFactory);
 			_pageService = new PageService(_applicationSettings, _repository, null, _historyService, _context, listCache, pageViewModelCache, siteCache, _pluginFactory);
 		}
@@ -65,7 +65,7 @@ namespace Roadkill.Tests.Unit
 		public void Index_Should_Return_Page()
 		{
 			// Arrange
-			WikiController wikiController = new WikiController(_applicationSettings, _userManager, _pageService, _context, _settingsService);
+			WikiController wikiController = new WikiController(_applicationSettings, _userService, _pageService, _context, _settingsService);
 			wikiController.SetFakeControllerContext();
 			Page page1 = new Page()
 			{
@@ -98,7 +98,7 @@ namespace Roadkill.Tests.Unit
 		public void Index_With_Bad_Page_Id_Should_Redirect()
 		{
 			// Arrange
-			WikiController wikiController = new WikiController(_applicationSettings, _userManager, _pageService, _context, _settingsService);
+			WikiController wikiController = new WikiController(_applicationSettings, _userService, _pageService, _context, _settingsService);
 			wikiController.SetFakeControllerContext();
 
 			// Act

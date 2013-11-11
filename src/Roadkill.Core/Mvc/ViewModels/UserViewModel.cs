@@ -17,8 +17,9 @@ namespace Roadkill.Core.Mvc.ViewModels
 	[CustomValidation(typeof(UserViewModel), "VerifyPasswordsMatch")]
 	public class UserViewModel
 	{
+		// These services are required by the static validation methods
 		protected ApplicationSettings Settings;
-		protected UserServiceBase UserManager;
+		protected UserServiceBase UserService;
 
 		/// <summary>
 		/// The user's id
@@ -119,7 +120,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public UserViewModel(ApplicationSettings settings, UserServiceBase userManager)
 		{
 			Settings = settings;
-			UserManager = userManager;
+			UserService = userManager;
 		}
 
 		/// <summary>
@@ -153,7 +154,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 			// Only check if it's a new user, OR the username has changed
 			if ((user.IsBeingCreatedByAdmin || user.Id == null) || user.ExistingUsername != user.NewUsername)
 			{
-				if (user.UserManager == null || user.UserManager.UserNameExists(user.NewUsername))
+				if (user.UserService == null || user.UserService.UserNameExists(user.NewUsername))
 				{
 					return new ValidationResult(string.Format(SiteStrings.User_Validation_UsernameExists, user.NewUsername));
 				}
@@ -191,7 +192,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 			// Only check if it's a new user, OR the email has changed
 			if ((user.IsBeingCreatedByAdmin || user.Id == null) || user.ExistingEmail != user.NewEmail)
 			{
-				if (user.UserManager == null || user.UserManager.UserExists(user.NewEmail))
+				if (user.UserService == null || user.UserService.UserExists(user.NewEmail))
 				{
 					return new ValidationResult(string.Format(SiteStrings.User_Validation_EmailExists, user.NewEmail));
 				}

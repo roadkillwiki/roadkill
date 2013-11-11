@@ -6,7 +6,7 @@ using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Text;
-using Roadkill.Core.Plugins.BuiltIn.ToC;
+using Roadkill.Core.Plugins.Text.BuiltIn.ToC;
 
 namespace Roadkill.Tests.Unit
 {

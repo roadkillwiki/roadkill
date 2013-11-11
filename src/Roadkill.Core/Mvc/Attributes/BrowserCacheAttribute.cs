@@ -20,7 +20,7 @@ namespace Roadkill.Core.Mvc.Attributes
 	/// <summary>
 	/// Includes 304 modified header support on the client.
 	/// </summary>
-	public class BrowserCacheAttribute : ActionFilterAttribute, IControllerAttribute
+	public class BrowserCacheAttribute : ActionFilterAttribute, ISetterInjected
 	{
 		[SetterProperty]
 		public ApplicationSettings ApplicationSettings { get; set; }
@@ -29,7 +29,7 @@ namespace Roadkill.Core.Mvc.Attributes
 		public IUserContext Context { get; set; }
 
 		[SetterProperty]
-		public UserServiceBase UserManager { get; set; }
+		public UserServiceBase UserService { get; set; }
 
 		[SetterProperty]
 		public PageService PageService { get; set; }

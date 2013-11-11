@@ -1,6 +1,5 @@
 var Roadkill;
 (function (Roadkill) {
-    /// <reference path="typescript-ref/references.ts" />
     (function (Site) {
         $(document).ready(function () {
             Setup.configureBinds();
@@ -16,9 +15,6 @@ var Roadkill;
             };
         });
 
-        /**
-        Event bindings and handlers for all pages.
-        */
         var Setup = (function () {
             function Setup() {
             }
@@ -29,19 +25,16 @@ var Roadkill;
             };
 
             Setup.bindTimeAgo = function () {
-                // Friendly times for the history tables
                 $("#historytable .editedon").timeago();
             };
 
             Setup.bindInfoButton = function () {
-                // Bind the info icon on each page
                 $("#pageinfo-button").click(function () {
                     Site.Dialogs.openModal("#pageinformation");
                 });
             };
 
             Setup.bindTocLinks = function () {
-                // The show/hide for table of contents
                 $("a.toc-showhide").click(function () {
                     if ($(this).text() == "hide") {
                         $(this).text("show");
@@ -53,11 +46,7 @@ var Roadkill;
                 });
             };
 
-            Setup.bindConfirmDelete = /**
-            Sets all links with the .confirm class so they have to click confirm to
-            delete or the link is cancelled.
-            */
-            function () {
+            Setup.bindConfirmDelete = function () {
                 $("a.confirm").click(function () {
                     var button;
                     var value;
@@ -95,4 +84,3 @@ var Roadkill;
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
 })(Roadkill || (Roadkill = {}));
-//# sourceMappingURL=setup.js.map

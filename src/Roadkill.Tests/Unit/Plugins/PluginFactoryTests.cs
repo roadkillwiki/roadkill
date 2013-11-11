@@ -17,7 +17,7 @@ namespace Roadkill.Tests.Unit.Plugins
 	public class PluginFactoryTests
 	{
 		[Test]
-		public void CopyTextPlugins_Should_Copy_All_Dlls_To_PluginsBinPath()
+		public void CopyAssemblies_Should_Copy_All_Dlls_To_PluginsBinPath()
 		{
 			// Arrange
 			string sourceDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins", "Text");
@@ -39,14 +39,10 @@ namespace Roadkill.Tests.Unit.Plugins
 			if (File.Exists(plugin3Path))
 				File.Delete(plugin3Path);
 
-			ApplicationSettings appSettings = new ApplicationSettings();
-			appSettings.TextPluginsPath = sourceDir;
-			appSettings.TextPluginsBinPath = destDir;
-
 			PluginFactory factory = new PluginFactory();
 
 			// Act
-			factory.CopyTextPlugins(appSettings);
+			factory.CopyAssemblies(sourceDir, destDir);
 
 			// Assert
 			Assert.That(File.Exists(plugin1Path), Is.True);
@@ -55,7 +51,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void CopyTextPlugins_Should_Copy_Source_Dll_When_Source_Is_More_Recent()
+		public void CopyAssemblies_Should_Copy_Source_Dll_When_Source_Is_More_Recent()
 		{
 			// Arrange
 			string pluginId = "PluginSourceMoreRecentTest";
@@ -70,14 +66,10 @@ namespace Roadkill.Tests.Unit.Plugins
 			Thread.Sleep(250); // slow the test down slightly
 			File.WriteAllText(sourcePluginPath, "file has been updated"); // update the source plugin
 
-			ApplicationSettings appSettings = new ApplicationSettings();
-			appSettings.TextPluginsPath = sourceDir;
-			appSettings.TextPluginsBinPath = destDir;
-
 			PluginFactory factory = new PluginFactory();
 
 			// Act
-			factory.CopyTextPlugins(appSettings);
+			factory.CopyAssemblies(sourceDir, destDir);
 
 			// Assert
 			string fileContent = File.ReadAllText(pluginDestPath);
@@ -85,7 +77,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void CopyTextPlugins_Should_Not_Copy_Source_Dll_When_Destination_Is_More_Recent()
+		public void CopyAssemblies_Should_Not_Copy_Source_Dll_When_Destination_Is_More_Recent()
 		{
 			// Arrange
 			string pluginId = "PluginDestMoreRecentTest";
@@ -100,14 +92,10 @@ namespace Roadkill.Tests.Unit.Plugins
 				Directory.CreateDirectory(pluginDestFolder);
 			File.WriteAllText(pluginDestPath, "dest file is more recent");  // create the plugin in the destination path so it's more recent
 
-			ApplicationSettings appSettings = new ApplicationSettings();
-			appSettings.TextPluginsPath = sourceDir;
-			appSettings.TextPluginsBinPath = destDir;
-
 			PluginFactory factory = new PluginFactory();
 
 			// Act
-			factory.CopyTextPlugins(appSettings);
+			factory.CopyAssemblies(sourceDir, destDir);
 
 			// Assert
 			string fileContent = File.ReadAllText(pluginDestPath);

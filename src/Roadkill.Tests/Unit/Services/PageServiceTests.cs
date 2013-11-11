@@ -28,7 +28,12 @@ namespace Roadkill.Tests.Unit
 		public static string AdminUsername = "admin";
 		public static string AdminPassword = "password";
 
-		private User _testUser;
+		public static string EditorEmail = "editor@localhost";
+		public static string EditorUsername = "editor";
+		public static string EditorPassword = "password";
+
+		private User _adminUser;
+		private User _editorUser;
 
 		private RepositoryMock _repositoryMock;
 		private Mock<SearchService> _mockSearchService;
@@ -39,6 +44,10 @@ namespace Roadkill.Tests.Unit
 		private UserContext _context;
 		private PageService _pageService;
 		private PluginFactoryMock _pluginFactory;
+
+		private ListCache _listCache;
+		private PageViewModelCache _pageViewModelCache;
+		private SiteCache _siteCache;
 
 		[SetUp]
 		public void Setup()
@@ -56,34 +65,54 @@ namespace Roadkill.Tests.Unit
 			_repositoryMock.SiteSettings.MarkupType = "Creole";
 
 			// Cache
-			ListCache listCache = new ListCache(_applicationSettings, CacheMock.RoadkillCache);
-			PageViewModelCache pageViewModelCache = new PageViewModelCache(_applicationSettings, CacheMock.RoadkillCache);
-			SiteCache siteCache = new SiteCache(_applicationSettings, CacheMock.RoadkillCache);
+			_listCache = new ListCache(_applicationSettings, CacheMock.RoadkillCache);
+			_pageViewModelCache = new PageViewModelCache(_applicationSettings, CacheMock.RoadkillCache);
+			_siteCache = new SiteCache(_applicationSettings, CacheMock.RoadkillCache);
 
 			// Services needed by the PageService
 			_pluginFactory = new PluginFactoryMock();
 			_markupConverter = new MarkupConverter(_applicationSettings, _repositoryMock, _pluginFactory);
 			_mockSearchService = new Mock<SearchService>(_applicationSettings, _repositoryMock, _pluginFactory);
-			_historyService = new PageHistoryService(_applicationSettings, _repositoryMock, _context, pageViewModelCache, _pluginFactory);
+			_historyService = new PageHistoryService(_applicationSettings, _repositoryMock, _context, _pageViewModelCache, _pluginFactory);
 
-			// Usermanager stub
-			_testUser = new User();
-			_testUser.Id = Guid.NewGuid();
-			_testUser.Email = AdminEmail;
-			_testUser.Username = AdminUsername;
-			Guid userId = _testUser.Id;
+			// User setup
+			_editorUser = new User();
+			_editorUser.Id = Guid.NewGuid();
+			_editorUser.Email = EditorEmail;
+			_editorUser.Username = EditorUsername;
+			_editorUser.IsAdmin = false;
+			_editorUser.IsEditor = true;
+
+			_adminUser = new User();
+			_adminUser.Id = Guid.NewGuid();
+			_adminUser.Email = AdminEmail;
+			_adminUser.Username = AdminUsername;
+			_adminUser.IsAdmin = true;
+			_adminUser.IsEditor = true;
+			SetUserContext(_adminUser);		
+
+			_pageService = new PageService(_applicationSettings, _repositoryMock, _mockSearchService.Object, _historyService, _context, _listCache, _pageViewModelCache, _siteCache, _pluginFactory);
+		}
+
+		private void SetUserContext(User user)
+		{
+			Guid userId = user.Id;
+			string cookieValue = userId.ToString();
 
 			_mockUserManager = new Mock<UserServiceBase>(_applicationSettings, _repositoryMock);
-			_mockUserManager.Setup(x => x.GetUser(_testUser.Email, It.IsAny<bool>())).Returns(_testUser);
-			_mockUserManager.Setup(x => x.GetUserById(userId, It.IsAny<bool>())).Returns(_testUser);
-			_mockUserManager.Setup(x => x.Authenticate(_testUser.Email, "")).Returns(true);
-			_mockUserManager.Setup(x => x.GetLoggedInUserName(It.IsAny<HttpContextBase>())).Returns(_testUser.Username);
+			_mockUserManager.Setup(x => x.GetUser(user.Email, It.IsAny<bool>())).Returns(user);
+			_mockUserManager.Setup(x => x.GetUserById(user.Id, It.IsAny<bool>())).Returns(user);
+			_mockUserManager.Setup(x => x.Authenticate(user.Email, "")).Returns(true);
+			_mockUserManager.Setup(x => x.IsAdmin(cookieValue)).Returns(user.IsAdmin);
+			_mockUserManager.Setup(x => x.IsEditor(cookieValue)).Returns(user.IsEditor);
+			_mockUserManager.Setup(x => x.GetLoggedInUserName(It.IsAny<HttpContextBase>())).Returns(user.Username);
 
 			// Context stub
 			_context = new UserContext(_mockUserManager.Object);
 			_context.CurrentUser = userId.ToString();
 
-			_pageService = new PageService(_applicationSettings, _repositoryMock, _mockSearchService.Object, _historyService, _context, listCache, pageViewModelCache, siteCache, _pluginFactory);
+			// Update the context reference as it's a copy
+			_pageService = new PageService(_applicationSettings, _repositoryMock, _mockSearchService.Object, _historyService, _context, _listCache, _pageViewModelCache, _siteCache, _pluginFactory);
 		}
 
 		public PageViewModel AddToStubbedRepository(int id, string createdBy, string title, string tags, string textContent = "")
@@ -131,7 +160,8 @@ namespace Roadkill.Tests.Unit
 				Content = "**Homepage**",
 				RawTags = "1;2;3;",
 				CreatedBy = AdminUsername,
-				CreatedOn = DateTime.UtcNow
+				CreatedOn = DateTime.UtcNow,
+				IsLocked = true
 			};
 
 			// Act
@@ -140,8 +170,33 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(newModel, Is.Not.Null);
 			Assert.That(newModel.Content, Is.EqualTo(model.Content));
+			Assert.That(newModel.IsLocked, Is.True);
 			Assert.That(_repositoryMock.Pages.Count, Is.EqualTo(1));
 			Assert.That(_repositoryMock.PageContents.Count, Is.EqualTo(1));
+		}
+
+		[Test]
+		public void AddPage_Should_Not_Set_IsLocked_If_User_Is_Editor()
+		{
+			// Arrange
+			PageViewModel model = new PageViewModel()
+			{
+				Id = 1,
+				Title = "Homepage",
+				Content = "**Homepage**",
+				RawTags = "1;2;3;",
+				CreatedBy = AdminUsername,
+				CreatedOn = DateTime.UtcNow,
+				IsLocked = true
+			};
+
+			SetUserContext(_editorUser);	
+
+			// Act
+			PageViewModel newModel = _pageService.AddPage(model);
+
+			// Assert
+			Assert.That(newModel.IsLocked, Is.False);
 		}
 
 		[Test]

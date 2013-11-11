@@ -13,7 +13,7 @@ using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
 using System.Web.Optimization;
 using System.Web;
-using Roadkill.Core.Plugins.BuiltIn;
+using Roadkill.Core.Plugins.Text.BuiltIn;
 using Roadkill.Core.Mvc;
 
 namespace Roadkill.Core

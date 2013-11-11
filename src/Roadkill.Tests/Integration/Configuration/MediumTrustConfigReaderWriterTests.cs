@@ -66,9 +66,8 @@ namespace Roadkill.Tests.Integration
 			Assert.That(section.LdapPassword, Is.EqualTo("ldappassword-test"));
 			Assert.That(section.Logging, Is.EqualTo("All"));
 			Assert.That(section.LogErrorsOnly, Is.False);
-			Assert.That(section.ResizeImages, Is.True);
 			Assert.That(section.RepositoryType, Is.EqualTo("Repository-test"));
-			Assert.That(section.UserManagerType, Is.EqualTo("DefaultUserManager-test"));
+			Assert.That(section.UserServiceType, Is.EqualTo("DefaultUserManager-test"));
 			Assert.That(section.UseHtmlWhiteList, Is.False);
 			Assert.That(section.UseWindowsAuthentication, Is.False);
 			Assert.That(section.Version, Is.EqualTo("1.8.0"));

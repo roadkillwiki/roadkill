@@ -5,7 +5,7 @@ using System.Text;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 
-namespace Roadkill.Core.Plugins.BuiltIn.ToC
+namespace Roadkill.Core.Plugins.Text.BuiltIn.ToC
 {
 	public class TocPlugin : TextPlugin
 	{

@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 
-namespace Roadkill.Core.Plugins.BuiltIn
+namespace Roadkill.Core.Plugins.Text.BuiltIn
 {
 	public class MathJax : TextPlugin
 	{

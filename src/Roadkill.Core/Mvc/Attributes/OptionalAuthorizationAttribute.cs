@@ -11,7 +11,7 @@ namespace Roadkill.Core.Mvc.Attributes
 	/// <summary>
 	/// Describes a page that doesn't require a login to view, unless Roadkill has IsPublicSite=false. 
 	/// </summary>
-	public class OptionalAuthorizationAttribute : AuthorizeAttribute, IControllerAttribute
+	public class OptionalAuthorizationAttribute : AuthorizeAttribute, ISetterInjected
 	{
 		[SetterProperty]
 		public ApplicationSettings ApplicationSettings { get; set; }
@@ -20,7 +20,7 @@ namespace Roadkill.Core.Mvc.Attributes
 		public IUserContext Context { get; set; }
 
 		[SetterProperty]
-		public UserServiceBase UserManager { get; set; }
+		public UserServiceBase UserService { get; set; }
 
 		[SetterProperty]
 		public PageService PageService { get; set; }
@@ -55,7 +55,7 @@ namespace Roadkill.Core.Mvc.Attributes
 				}
 				else
 				{
-					if (UserManager.IsAdmin(identity.Name) || UserManager.IsEditor(identity.Name))
+					if (UserService.IsAdmin(identity.Name) || UserService.IsEditor(identity.Name))
 					{
 						return true;
 					}

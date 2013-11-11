@@ -204,30 +204,36 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Load_Custom_UserManager()
+		public void Should_Copy_Plugins()
+		{
+			
+		}
+
+		[Test]
+		public void Should_Load_Custom_UserService()
 		{
 			// Arrange
-			string tempFilename = Path.GetFileName(Path.GetTempFileName()) + ".dll";
 			ApplicationSettings applicationSettings = new ApplicationSettings();
-			applicationSettings.UserManagerType = "Roadkill.Tests.UserManagerStub";
+			applicationSettings.UserServiceType = "Roadkill.Tests.UserServiceStub";
 			DependencyManager iocSetup = new DependencyManager(applicationSettings);
 
-			// Put the UserManagerStub in a new assembly so we can test it's loaded
-			string sourcePlugin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Roadkill.Tests.dll");
-			string pluginDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins", "UserManager");
-			string destPlugin = Path.Combine(pluginDir, tempFilename);
+			// Put the UserServiceStub in a new assembly so we can test it's loaded
+			string tempFilename = Path.GetFileName(Path.GetTempFileName()) + ".dll";
+			string thisAssembly = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Roadkill.Tests.dll");
+			string pluginSourceDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins", "UserService");
+			string destPlugin = Path.Combine(pluginSourceDir, tempFilename);
 
-			if (!Directory.Exists(pluginDir))
-				Directory.CreateDirectory(pluginDir);
+			if (!Directory.Exists(pluginSourceDir))
+				Directory.CreateDirectory(pluginSourceDir);
 
-			File.Copy(sourcePlugin, destPlugin, true);
+			File.Copy(thisAssembly, destPlugin, true);
 
 			// Act
 			iocSetup.Configure();
 
 			// Assert
 			UserServiceBase userManager = ObjectFactory.GetInstance<UserServiceBase>();
-			Assert.That(userManager.GetType().FullName, Is.EqualTo("Roadkill.Tests.UserManagerStub"));
+			Assert.That(userManager.GetType().FullName, Is.EqualTo("Roadkill.Tests.UserServiceStub"));
 		}
 	}
 }

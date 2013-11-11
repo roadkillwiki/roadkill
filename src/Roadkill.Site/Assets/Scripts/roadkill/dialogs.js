@@ -1,6 +1,5 @@
 var Roadkill;
 (function (Roadkill) {
-    /// <reference path="typescript-ref/references.ts" />
     (function (Site) {
         var Dialogs = (function () {
             function Dialogs() {
@@ -52,4 +51,3 @@ var Roadkill;
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
 })(Roadkill || (Roadkill = {}));
-//# sourceMappingURL=dialogs.js.map

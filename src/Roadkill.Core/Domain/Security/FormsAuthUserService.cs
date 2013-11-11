@@ -20,7 +20,7 @@ namespace Roadkill.Core.Security
 		}
 
 		/// <summary>
-		/// Indicates whether this UserManager can perform deletes, updates or inserts for Repository.Users.
+		/// Indicates whether this UserService can perform deletes, updates or inserts for Repository.Users.
 		/// </summary>
 		public override bool IsReadonly
 		{

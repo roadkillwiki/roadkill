@@ -1,7 +1,6 @@
 var Roadkill;
 (function (Roadkill) {
     (function (Site) {
-        /// <reference path="../typescript-ref/filemanager.references.ts" />
         (function (FileManager) {
             var Util = (function () {
                 function Util() {
@@ -31,4 +30,3 @@ var Roadkill;
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
 })(Roadkill || (Roadkill = {}));
-//# sourceMappingURL=util.js.map

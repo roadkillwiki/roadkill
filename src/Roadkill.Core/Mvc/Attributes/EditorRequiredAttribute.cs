@@ -12,7 +12,7 @@ namespace Roadkill.Core.Mvc.Attributes
 	/// <summary>
 	/// Represents an attribute that is used to restrict access by callers to users that are in Editor role group.
 	/// </summary>
-	public class EditorRequiredAttribute : AuthorizeAttribute, IControllerAttribute
+	public class EditorRequiredAttribute : AuthorizeAttribute, ISetterInjected
 	{
 		[SetterProperty]
 		public ApplicationSettings ApplicationSettings { get; set; }
@@ -21,7 +21,7 @@ namespace Roadkill.Core.Mvc.Attributes
 		public IUserContext Context { get; set; }
 
 		[SetterProperty]
-		public UserServiceBase UserManager { get; set; }
+		public UserServiceBase UserService { get; set; }
 
 		[SetterProperty]
 		public PageService PageService { get; set; }
@@ -51,7 +51,7 @@ namespace Roadkill.Core.Mvc.Attributes
 			if (string.IsNullOrEmpty(ApplicationSettings.EditorRoleName))
 				return true;
 
-			if (UserManager.IsAdmin(identity.Name) || UserManager.IsEditor(identity.Name))
+			if (UserService.IsAdmin(identity.Name) || UserService.IsEditor(identity.Name))
 			{
 				return true;
 			}

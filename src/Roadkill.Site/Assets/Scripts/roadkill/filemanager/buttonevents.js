@@ -1,7 +1,6 @@
 var Roadkill;
 (function (Roadkill) {
     (function (Site) {
-        /// <reference path="../typescript-ref/filemanager.references.ts" />
         (function (FileManager) {
             var ButtonEvents = (function () {
                 function ButtonEvents() {
@@ -32,10 +31,8 @@ var Roadkill;
                         if (!result)
                             return;
 
-                        // Ajax request
                         var success = function (data) {
                             if (data.status == "ok") {
-                                // Update the current folder's listing
                                 var li = $("ul.navigator li:last-child");
                                 var currentFolder = li.attr("data-urlpath");
                                 FileManager.TableEvents.update(currentFolder, false);
@@ -65,7 +62,6 @@ var Roadkill;
                             if (!result)
                                 return;
 
-                            // Ajax request
                             var success = function (data) {
                                 if (data.status == "ok") {
                                     $(tr).remove();
@@ -146,4 +142,3 @@ var Roadkill;
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
 })(Roadkill || (Roadkill = {}));
-//# sourceMappingURL=buttonevents.js.map
