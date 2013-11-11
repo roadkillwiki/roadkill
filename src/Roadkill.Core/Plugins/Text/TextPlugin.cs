@@ -47,6 +47,7 @@ namespace Roadkill.Core.Plugins
 		internal IRepository Repository { get; set; }
 
 		public virtual bool IsCacheable { get; set; }
+		public virtual bool IsEnabled { get; set; }
 
 		public Settings Settings
 		{
