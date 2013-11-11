@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.AspNet.Mvc.FixedDisplayModes</id>
+    <version>5.0.0</version>
+    <title>Microsoft ASP.NET MVC Fixed DisplayModes (deprecated)</title>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <licenseUrl>http://www.microsoft.com/web/webpi/eula/aspnetcomponent_rtw_ENU.htm</licenseUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>The previous version of this package contained a workaround for a bug affecting mobile view caching in ASP.NET MVC 4. As of ASP.NET MVC 5 this workaround is no longer needed. This package can be safely removed without affecting your application.</description>
+    <releaseNotes />
+    <copyright />
+    <language>en-US</language>
+    <tags>Microsoft AspNet Mvc AspNetMvc</tags>
+    <dependencies>
+      <dependency id="Microsoft.AspNet.Mvc" version="5.0.0" />
+    </dependencies>
+  </metadata>
+</package>

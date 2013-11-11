@@ -1,0 +1,8 @@
+﻿<msdeploy.iisApp>
+	<iisApp path="roadkill" />
+	<setAcl path="roadkill" setAclAccess="Read, Write, Modify" />
+	<setAcl path="roadkill/app_data" setAclAccess="Read, Write, Modify" />
+	<setAcl path="roadkill/bin" setAclAccess="Read, Write, Modify" />
+	<setAcl path="roadkill/plugins" setAclAccess="Read, Write, Modify" />
+	<setAcl path="roadkill/web.config" setAclResourceType="File" setAclAccess="Read, Write, Modify" />
+</msdeploy.iisApp>

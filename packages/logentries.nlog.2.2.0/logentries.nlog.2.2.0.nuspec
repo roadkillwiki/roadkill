@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>logentries.nlog</id>
+    <version>2.2.0</version>
+    <title>Logentries Plugin for Nlog v2.0</title>
+    <authors>Mark Lacomber</authors>
+    <owners>Mark Lacomber</owners>
+    <projectUrl>https://github.com/logentries/le_dotnet</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>logentries.nlog is a plugin library for NLog to enable logging to Logentries from a .NET platform. Logentries is a real-time log management service on the cloud. More info at https://logentries.com Nuget source and instructions can be found at https://github.com/logentries/le_nlog</description>
+    <releaseNotes />
+    <copyright>Copyright 2011</copyright>
+    <language />
+    <tags>nlog le logentries le_nlog</tags>
+    <dependencies>
+      <dependency id="logentries.core" />
+      <dependency id="NLog" version="2.0.0.2000" />
+    </dependencies>
+  </metadata>
+</package>
