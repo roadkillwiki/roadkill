@@ -1,9 +1,7 @@
 ﻿var Roadkill;
 (function (Roadkill) {
-    /// <reference path="typescript-ref/references.ts" />
     (function (Site) {
         $(document).ready(function () {
-            // Event bindings and handlers for the edit page
             var editor = new Site.WysiwygEditor();
             editor.bindEvents();
 
@@ -13,10 +11,7 @@
         var EditPage = (function () {
             function EditPage() {
             }
-            EditPage.initializeTagManager = /**
-            Sets up the Bootstrap tag manager
-            */
-            function (tags) {
+            EditPage.initializeTagManager = function (tags) {
                 $("#TagsEntry").typeahead({});
                 $("#TagsEntry").tagsManager({
                     tagClass: "tm-tag-success",
@@ -42,7 +37,6 @@
                 });
 
                 $("#TagsEntry").keydown(function (e) {
-                    // Tab adds the tag, but then focuses the textarea
                     var code = e.keyCode || e.which;
                     if (code == "9") {
                         var tag = $("#TagsEntry").val();
@@ -56,10 +50,8 @@
                 });
 
                 $("#TagsEntry").blur(function (e) {
-                    // Push the tag when focus is lost, e.g. Save is pressed
                     $("#TagsEntry").tagsManager("pushTag", $("#TagsEntry").val());
 
-                    // Fix the tag's styles from being blank
                     $(".tm-tag-remove").each(function () {
                         $(this).html("&times;");
                     });
@@ -70,10 +62,7 @@
                 });
             };
 
-            EditPage.isValidTag = /**
-            Returns false if the tag contains any characters that are blacklisted.
-            */
-            function (tag) {
+            EditPage.isValidTag = function (tag) {
                 for (var i = 0; i < tag.length; i++) {
                     if ($.inArray(tag[i], EditPage._tagBlackList) > -1) {
                         return false;
@@ -84,17 +73,12 @@
             };
 
             EditPage.bindPreviewButton = function () {
-                // Preview modal preview
                 $(".previewButton").click(function () {
                     EditPage.showPreview();
                 });
             };
 
-            EditPage.showPreview = /**
-            Grabs a preview from the server for the wiki markup, and displays it in the
-            preview modal (as an iframe)
-            */
-            function () {
+            EditPage.showPreview = function () {
                 $("#previewLoading").show();
                 var text = $("#Content").val();
 

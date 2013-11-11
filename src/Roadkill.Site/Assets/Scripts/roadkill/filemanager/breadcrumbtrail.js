@@ -1,7 +1,6 @@
 var Roadkill;
 (function (Roadkill) {
     (function (Site) {
-        /// <reference path="../typescript-ref/filemanager.references.ts" />
         (function (FileManager) {
             var BreadCrumbTrail = (function () {
                 function BreadCrumbTrail() {
@@ -11,8 +10,7 @@ var Roadkill;
                     var level = item.attr("data-level");
 
                     if (level == 0)
-                        $("ul.navigator li").remove();
-else
+                        $("ul.navigator li").remove(); else
                         $("ul.navigator li:gt(" + (level - 1) + ")").remove();
                 };
 

@@ -216,6 +216,17 @@ namespace Roadkill.Core.Configuration
 		public bool IsPublicSite { get; set; }
 
 		/// <summary>
+		/// If this instance is running on the demo site.
+		/// </summary>
+		internal bool IsDemoSite
+		{
+			get
+			{
+				return ConfigurationManager.AppSettings["DemoSite"] == "true";
+			}
+		}
+
+		/// <summary>
 		/// Indicates whether the installation has been completed previously.
 		/// </summary>
 		public bool Installed { get; set; }

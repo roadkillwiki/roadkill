@@ -1,7 +1,6 @@
 var Roadkill;
 (function (Roadkill) {
     (function (Site) {
-        /// <reference path="../typescript-ref/filemanager.references.ts" />
         (function (FileManager) {
             var TableEvents = (function () {
                 function TableEvents() {

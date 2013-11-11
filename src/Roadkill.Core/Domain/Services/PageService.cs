@@ -533,17 +533,17 @@ namespace Roadkill.Core.Services
 		{
 			string result = username;
 
-#if DEMOSITE
-			Console.WriteLine("NUnit warning: You're running using #DEMOSITE !");
-			if (!_context.IsAdmin)
+			if (ApplicationSettings.IsDemoSite)
 			{
-				string ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-				if (string.IsNullOrEmpty(ip))
-					ip = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+				if (!_context.IsAdmin)
+				{
+					string ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+					if (string.IsNullOrEmpty(ip))
+						ip = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
 
-				result = string.Format("{0} ({1})", username, ip);
+					result = string.Format("{0} ({1})", username, ip);
+				}
 			}
-#endif
 
 			return result;
 		}

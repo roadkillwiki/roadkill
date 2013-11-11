@@ -659,10 +659,6 @@
     <Content Include="Views\Install\Index.cshtml" />
     <Content Include="Views\PluginSettings\Edit.cshtml" />
     <Content Include="Views\Help\Index.cshtml" />
-    <None Include="Web.DemoSite.config">
-      <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Web.Mono.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

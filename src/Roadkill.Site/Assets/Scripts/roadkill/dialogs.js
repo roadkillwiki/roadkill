@@ -1,6 +1,5 @@
 var Roadkill;
 (function (Roadkill) {
-    /// <reference path="typescript-ref/references.ts" />
     (function (Site) {
         var Dialogs = (function () {
             function Dialogs() {
