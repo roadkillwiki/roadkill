@@ -1,0 +1,127 @@
+﻿@model IEnumerable<TextToken>
+@{
+	Layout = "~/Views/Shared/_Blank.cshtml";
+}
+
+<table id="helptable">
+	<thead>
+		<tr>
+		<th colspan="2">
+			MARKDOWN SYNTAX REFERENCE
+		</th>
+		</tr>
+	</thead>
+	<tr>
+		<td class="bold">Bold</td>
+		<td>**bold**</td>
+	</tr>
+	<tr>
+		<td class="bold">Italic</td>
+		<td>*italic*</td>
+	</tr>
+	<tr>
+		<td class="bold">Superscript</td>
+		<td>&lt;sup&gt;superscript&lt;/sup&gt;</td>
+	</tr>
+	<tr>
+		<td class="bold">Subscript</td>
+		<td>&lt;sub&gt;subscript&lt;/sub&gt;</td>
+	</tr>
+	<tr>
+		<td class="bold">Ignore wiki markup</td>
+		<td>&lt;pre&gt;This will not render **bold**&lt;/pre&gt;</td>
+	</tr>
+	<tr>
+		<td class="bold">Headings</td>
+		<td>
+			#Heading 1#<br />
+			##Heading 2##<br />
+			###Heading 3###<br />
+			####Heading 4####<br />
+			#####Heading 5#####<br />
+		</td>
+	</tr>
+	<tr>
+		<td class="bold">Links</td>
+		<td>
+			<b>Note: spaces are not supported in markdown URLs.</b><br />
+			Use "-" to represent a space for an internal link.<br /><br />
+
+			Links to [wiki page](wiki page)<br />
+			<i>Links to <a href="wiki-page">wiki page</a></i>
+			<br /><br />
+
+			Link to [click here](wiki page)<br />
+			<i>Link to <a href="wiki-page">click here</a></i>
+			<br /><br />
+
+			This is [the yahoo page](http://www.yahoo.com)<br />
+			<i>This is the <a href="wiki-page">yahoo page</a></i>
+			<br /><br />
+
+			This is [the yahoo page][1]<br />
+			[1]: http://www.yahoo.com
+			<i>This is the <a href="wiki-page">yahoo page</a></i>
+		</td>
+	</tr>
+	<tr>
+		<td class="bold">Images</td>
+		<td>
+			![Alt text](someimage.jpg)
+			<br /><br />
+
+			![Alt text][1]
+			[1]: someimage.jpg
+		</td>
+	</tr>
+	<tr>
+		<td class="bold">Bulleted lists</td>
+		<td>
+			*item1<br />
+			*item2<br />
+			**item 2b<br />
+
+			<ul>
+				<li>item1</li>
+				<li>item2</li>
+				<li>
+					<ul>
+						<li>item 2b</li>
+					</ul>
+				</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td class="bold">Numbered lists</td>
+		<td>
+			1.item1<br />
+			2.item2<br />
+			 1.item 2b<br />
+
+			<ol>
+				<li>item1</li>
+				<li>item2</li>
+				<li>
+					<ol>
+						<li>item 2b</li>
+					</ol>
+				</li>
+			</ol>
+		</td>
+	</tr>
+	@foreach (TextToken token in Model)
+	{
+	<tr>
+		<td class="bold" title="@token.SearchRegex">@MvcHtmlString.Create(token.Name)</td>
+		<td>@MvcHtmlString.Create(token.Description)</td>
+	</tr>
+	 }
+	<tfoot>
+		<tr>
+		<th colspan="2">
+			<a href="http://en.wikipedia.org/wiki/Markdown" target="_blank">More information...</a>
+		</th>
+		</tr>
+	</tfoot>
+</table>

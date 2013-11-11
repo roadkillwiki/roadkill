@@ -1,0 +1,37 @@
+﻿@model PageViewModel
+@{ 
+	ViewBag.Title = Model.Title;
+}
+
+@section PluginHead
+{
+		<!-- Plugins -->
+		@Html.Raw(Model.PluginHeadHtml)<!-- End plugins -->
+}
+
+@section PageToolbar
+{  
+	@* This is rendered by an action (and not a partial/extension method) for future donut caching *@
+	@Html.Action("PageToolBar", "Wiki", new { id = Model.Id })
+}
+
+@section ViewHistoryLink
+{
+	<div id="viewhistory">@Html.ActionLink(SiteStrings.Navigation_ViewHistory, "History", "Pages", new { id = Model.Id }, null)</div>
+}
+
+<h1 class="pagetitle">@Model.Title</h1>
+
+<div id="pagecontent">
+@MvcHtmlString.Create(Model.ContentAsHtml)
+</div>
+
+@section PageDetailsFooter
+{
+<p>@SiteStrings.Shared_LastModified @Model.ModifiedOn.ToString("dd MMM yyyy") at @Model.ModifiedOn.ToShortTimeString().</p>
+}
+
+@section PluginFooter
+{
+	@MvcHtmlString.Create(Model.PluginFooterHtml)
+}

@@ -1,0 +1,12 @@
+﻿@model PageViewModel
+@{ 
+	ViewBag.Title = string.Format(SiteStrings.Version_Title, Model.VersionNumber);
+}
+
+@Html.ActionLink("< " +SiteStrings.Version_BackLink,"History",new { id = Model.Id })
+<h1>@Model.Title</h1>
+
+
+<div id="diff-pagecontent">
+ @MvcHtmlString.Create(Model.Content)
+</div>

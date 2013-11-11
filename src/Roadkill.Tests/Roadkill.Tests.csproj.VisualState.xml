@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ShowCheckBoxes="false">
+  <TopNode>[0-1000]C:\Users\corsair\Documents\GitHub\Roadkill\Roadkill.Tests\Roadkill.Tests.csproj</TopNode>
+  <SelectedNode>[0-1000]C:\Users\corsair\Documents\GitHub\Roadkill\Roadkill.Tests\Roadkill.Tests.csproj</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1000]C:\Users\corsair\Documents\GitHub\Roadkill\Roadkill.Tests\Roadkill.Tests.csproj" Expanded="true" />
+    <Node UniqueName="[1-1032]C:\Users\corsair\Documents\GitHub\Roadkill\Roadkill.Tests\bin\Debug\Roadkill.Tests.dll" Expanded="true" />
+    <Node UniqueName="[1-1033]Roadkill" Expanded="true" />
+    <Node UniqueName="[1-1034]Roadkill.Tests" Expanded="true" />
+    <Node UniqueName="[1-1035]Roadkill.Tests.Core" Expanded="true" />
+    <Node UniqueName="[1-1001]Roadkill.Tests.Core.SqlUserManagerTests" Expanded="true" />
+    <Node UniqueName="[1-1036]Roadkill.Tests.Plasma" Expanded="true" />
+    <Node UniqueName="[1-1026]Roadkill.Tests.Plasma.PageTests" Expanded="true" />
+    <Node UniqueName="[1-1037]Roadkill.Tests.Selenium" Expanded="true" />
+    <Node UniqueName="[1-1030]Roadkill.Tests.Selenium.HomePageTests" Expanded="true" />
+  </Nodes>
+</VisualState>
