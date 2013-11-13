@@ -15,6 +15,7 @@ using System.Web.Optimization;
 using System.Web;
 using Roadkill.Core.Plugins.Text.BuiltIn;
 using Roadkill.Core.Mvc;
+using Roadkill.Core.DI;
 
 namespace Roadkill.Core
 {
@@ -161,7 +162,7 @@ namespace Roadkill.Core
 		/// <returns>If the page is not found, the link text is returned.</returns>
 		public static MvcHtmlString PageLink(this HtmlHelper helper, string linkText, string pageTitle, object htmlAttributes,string prefix,string suffix)
 		{
-			PageService manager = ObjectFactory.GetInstance<PageService>();
+			PageService manager = ServiceLocator.GetInstance<PageService>();
 			PageViewModel model = manager.FindByTitle(pageTitle);
 			if (model != null)
 			{
