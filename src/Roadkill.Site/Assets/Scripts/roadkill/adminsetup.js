@@ -1,5 +1,6 @@
 var Roadkill;
 (function (Roadkill) {
+    /// <reference path="typescript-ref/references.ts" />
     (function (Site) {
         $(document).ready(function () {
             Site.Setup.bindConfirmDelete();
@@ -9,7 +10,11 @@ var Roadkill;
         var AdminSetup = (function () {
             function AdminSetup() {
             }
-            AdminSetup.bindUserButtons = function () {
+            AdminSetup.bindUserButtons = /**
+            Event bindings and handlers for the the links on the settings->user page.
+            */
+            function () {
+                // Add admin link
                 $("#addadmin").click(function () {
                     $("#userdialog .title").html(ROADKILL_ADDADMIN_TITLE);
                     $("form#userform").attr("action", ROADKILL_ADDADMIN_FORMACTION);
@@ -25,6 +30,7 @@ var Roadkill;
                     Site.Dialogs.openModal("#userdialog");
                 });
 
+                // Add editor link
                 $("#addeditor").click(function () {
                     $("#userdialog .title").html(ROADKILL_ADDEDITOR_TITLE);
                     $("form#userform").attr("action", ROADKILL_ADDEDITOR_FORMACTION);
@@ -40,6 +46,7 @@ var Roadkill;
                     Site.Dialogs.openModal("#userdialog");
                 });
 
+                // Edit link for each user
                 $("#manage-users .edit a").click(function () {
                     $("#userdialog .title").html(ROADKILL_EDITUSER_TITLE);
                     $("form#userform").attr("action", ROADKILL_EDITUSER_FORMACTION);
@@ -80,3 +87,4 @@ var Roadkill;
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
 })(Roadkill || (Roadkill = {}));
+//# sourceMappingURL=adminsetup.js.map
