@@ -188,7 +188,7 @@ namespace Roadkill.Core.Services
 				{
 					foreach (Page page in Repository.AllPages().ToList())
 					{
-						PageViewModel pageModel = Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
+						PageViewModel pageModel = new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
 
 						Document document = new Document();
 						document.Add(new Field("id", pageModel.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));

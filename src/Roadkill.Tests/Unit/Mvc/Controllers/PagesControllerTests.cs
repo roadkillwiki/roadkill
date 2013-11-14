@@ -70,7 +70,7 @@ namespace Roadkill.Tests.Unit
 					PageContent content = _repository.GetLatestPageContent(x);
 
 					if (content != null)
-						return content.ToModel(_markupConverter);
+						return new PageViewModel(content, _markupConverter);
 					else
 						return null;
 				});

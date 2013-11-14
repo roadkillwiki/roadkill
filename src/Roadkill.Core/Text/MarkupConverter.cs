@@ -69,8 +69,7 @@ namespace Roadkill.Core.Converters
 			_repository = repository;
 			_applicationSettings = settings;
 
-			UrlResolver = new UrlResolver();
-			
+			UrlResolver = new UrlResolver();		
 	
 			if (!_applicationSettings.Installed || _applicationSettings.UpgradeRequired)
 			{
