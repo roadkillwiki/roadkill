@@ -17,6 +17,7 @@ using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Localization;
+using Roadkill.Core.DI;
 
 namespace Roadkill.Core
 {
@@ -285,8 +286,6 @@ namespace Roadkill.Core
 			return helper.Partial(viewName, model);
 		}
 
-
-
         /// <summary>
         /// Render the first page which has this tag. Admin locked pages have priority. 
         /// </summary>
@@ -297,7 +296,7 @@ namespace Roadkill.Core
         /// </example>
         public static MvcHtmlString RenderPageByTag(this HtmlHelper helper, string tag)
         {
-            var manager = ObjectFactory.GetInstance<PageService>();
+            var manager = ServiceLocator.GetInstance<PageService>();
 
             // Find the page, first search for a locked page.
             var summary = manager.FindByTag(tag).FirstOrDefault(h => h.IsLocked);

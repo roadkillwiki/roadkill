@@ -1,12 +1,17 @@
 var Roadkill;
 (function (Roadkill) {
+    /// <reference path="typescript-ref/references.ts" />
     (function (Site) {
+        /**
+        Event bindings and handlers for the edit text area toolbar.
+        */
         var WysiwygEditor = (function () {
             function WysiwygEditor() {
             }
             WysiwygEditor.prototype.bindEvents = function () {
                 var parent = this;
 
+                // Bind the toolbar button clicks.
                 $(".wysiwyg-bold").click(function () {
                     parent.addStyling(ROADKILL_EDIT_BOLD_TOKEN);
                 });
@@ -45,6 +50,9 @@ var Roadkill;
                 });
             };
 
+            /**
+            Adds bold,italic and underline at the current selection point, e.g. **|**
+            */
             WysiwygEditor.prototype.addStyling = function (styleCode) {
                 var range = $("#Content").getSelection();
 
@@ -59,6 +67,9 @@ var Roadkill;
                 }
             };
 
+            /**
+            Adds a heading before and after the current selection point, e.g. ===|====
+            */
             WysiwygEditor.prototype.addHeading = function (styleCode) {
                 var range = $("#Content").getSelection();
 
@@ -72,7 +83,10 @@ var Roadkill;
                 }
             };
 
-            WysiwygEditor.addImage = function (image) {
+            WysiwygEditor.addImage = /**
+            Adds an image tag to the current caret location.
+            */
+            function (image) {
                 var range = $("#Content").getSelection();
 
                 if (range !== null) {
@@ -94,6 +108,9 @@ var Roadkill;
                 }
             };
 
+            /**
+            Adds a hyperlink tag to the current caret location.
+            */
             WysiwygEditor.prototype.addLink = function () {
                 var range = $("#Content").getSelection();
 
@@ -115,6 +132,9 @@ var Roadkill;
                 }
             };
 
+            /**
+            Adds a bullet or numbered list item onto the next line after the current caret location.
+            */
             WysiwygEditor.prototype.addListItem = function (styleCode) {
                 var range = $("#Content").getSelection();
 
@@ -151,3 +171,4 @@ var Roadkill;
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
 })(Roadkill || (Roadkill = {}));
+//# sourceMappingURL=wysiwygeditor.js.map

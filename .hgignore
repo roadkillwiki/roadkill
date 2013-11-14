@@ -73,3 +73,9 @@ obj/
 # Visual Studio user files
 *.user
 *.suo
+
+# All roadkill/*.min.js files as the Bundler uses the non-minified versions.
+# Typescript regenerates the JS files at compile time, but on Azure you need
+# the JS files, as there is no Typescript compiler on the website servers.
+Assets/Scripts/roadkill/*min.js
+Assets/Scripts/roadkill/*.map
