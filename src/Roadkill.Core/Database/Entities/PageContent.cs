@@ -26,34 +26,5 @@ namespace Roadkill.Core.Database
 			get { return Id; }
 			set { Id = value; }
 		}
-
-		public PageViewModel ToModel(MarkupConverter markupConverter)
-		{
-			PageHtml pageHtml = markupConverter.ToHtml(Text);
-
-			PageViewModel model = new PageViewModel()
-			{
-				Id = Page.Id,
-				Title = Page.Title,
-				PreviousTitle = Page.Title,
-				CreatedBy = Page.CreatedBy,
-				CreatedOn = Page.CreatedOn,
-				IsLocked = Page.IsLocked,
-				ModifiedBy = Page.ModifiedBy,
-				ModifiedOn = Page.ModifiedOn,
-				RawTags = Page.Tags,
-				Content = Text,
-				ContentAsHtml = pageHtml.Html,
-				VersionNumber = VersionNumber,
-				IsCacheable = pageHtml.IsCacheable,
-				PluginHeadHtml = pageHtml.HeadHtml,
-				PluginFooterHtml = pageHtml.FooterHtml,
-			};
-
-			model.CreatedOn = DateTime.SpecifyKind(model.CreatedOn, DateTimeKind.Utc);
-			model.ModifiedOn = DateTime.SpecifyKind(model.ModifiedOn, DateTimeKind.Utc);
-
-			return model;
-		}
 	}
 }

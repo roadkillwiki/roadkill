@@ -20,6 +20,8 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 		public override string Id { get { return _id; } }
 		public override string Name { get { return _name; } }
 		public override string Description { get { return _description; } }
+		public string HeadContent { get; set; }
+		public string FooterContent { get; set; }
 
 		public override string Version
 		{
@@ -65,6 +67,16 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 		public override string AfterParse(string html)
 		{
 			return html.Replace("<strong>", "<strong style='color:green'><iframe src='javascript:alert(test)'>");
+		}
+
+		public override string GetHeadContent()
+		{
+			return HeadContent;
+		}
+
+		public override string GetFooterContent()
+		{
+			return FooterContent;
 		}
 	}
 }

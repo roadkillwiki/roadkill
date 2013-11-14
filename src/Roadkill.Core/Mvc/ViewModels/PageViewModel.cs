@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using Roadkill.Core.Localization;
+using Roadkill.Core.Database;
+using Roadkill.Core.Text;
+using Roadkill.Core.Converters;
 
 namespace Roadkill.Core.Mvc.ViewModels
 {
@@ -79,7 +82,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public DateTime ModifiedOn { get; set; }
 		
 		/// <summary>
-		/// The tags for the for the page.
+		/// The tags for the page.
 		/// </summary>
 		public IEnumerable<string> Tags
 		{
@@ -145,6 +148,39 @@ namespace Roadkill.Core.Mvc.ViewModels
 			IsCacheable = true;
 			PluginHeadHtml = "";
 			PluginFooterHtml = "";
+		}
+
+		public PageViewModel(PageContent pageContent, MarkupConverter converter)
+		{
+			if (pageContent == null)
+				throw new ArgumentNullException("pageContent");
+
+			if (pageContent.Page == null)
+				throw new ArgumentNullException("pageContent.Page");
+
+			if (converter == null)
+				throw new ArgumentNullException("converter");
+
+			Id = pageContent.Page.Id;
+			Title = pageContent.Page.Title;
+			PreviousTitle = pageContent.Page.Title;
+			CreatedBy = pageContent.Page.CreatedBy;
+			CreatedOn = pageContent.Page.CreatedOn;
+			IsLocked = pageContent.Page.IsLocked;
+			ModifiedBy = pageContent.Page.ModifiedBy;
+			ModifiedOn = pageContent.Page.ModifiedOn;
+			RawTags = pageContent.Page.Tags;
+			Content = pageContent.Text;
+			VersionNumber = pageContent.VersionNumber;
+
+			PageHtml pageHtml = converter.ToHtml(pageContent.Text);
+			ContentAsHtml = pageHtml.Html;
+			IsCacheable = pageHtml.IsCacheable;
+			PluginHeadHtml = pageHtml.HeadHtml;
+			PluginFooterHtml = pageHtml.FooterHtml;
+
+			CreatedOn = DateTime.SpecifyKind(CreatedOn, DateTimeKind.Utc);
+			ModifiedOn = DateTime.SpecifyKind(ModifiedOn, DateTimeKind.Utc);
 		}
 
 		/// <summary>
