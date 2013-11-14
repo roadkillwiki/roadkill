@@ -383,6 +383,7 @@
     <Compile Include="Unit\StubsAndMocks\Mvc\HttpCachePolicyMock.cs" />
     <Compile Include="Unit\StubsAndMocks\PluginFactoryMock.cs" />
     <Compile Include="Unit\StubsAndMocks\SpecialPageMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\UrlResolverStub.cs" />
     <Compile Include="Unit\StubsAndMocks\UserServiceMock.cs" />
     <Compile Include="Unit\StubsAndMocks\FakeSignupEmail.cs" />
     <Compile Include="Unit\StubsAndMocks\SearchServiceMock.cs" />
