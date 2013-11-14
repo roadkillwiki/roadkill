@@ -10,6 +10,7 @@ using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit
 {
@@ -41,8 +42,10 @@ namespace Roadkill.Tests.Unit
 			settings.Installed = true;
 			settings.UpgradeRequired = false;
 
+			UrlResolverMock resolver = new UrlResolverMock();
+			resolver.InternalUrl = "blah";
 			MarkupConverter converter = new MarkupConverter(settings, repositoryStub, _pluginFactory);
-			converter.InternalUrlForTitle = (id, title) => { return "blah"; };
+			converter.UrlResolver = resolver;
 			
 			string markdownText = "[Link](My-first-page)";
 			string invalidMarkdownText = "[Link](My first page)";

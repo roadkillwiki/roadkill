@@ -11,6 +11,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
 using Roadkill.Core.Plugins;
+using Roadkill.Core.Text;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit
@@ -38,9 +39,7 @@ namespace Roadkill.Tests.Unit
 			_repository.SiteSettings.MarkupType = "Creole";
 
 			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
-			_converter.AbsolutePathConverter = (path) => { return path; };
-			_converter.InternalUrlForTitle = (id, title) => { return title; };
-			_converter.NewPageUrlForTitle = (title) => { return title; };
+			_converter.UrlResolver = new UrlResolverMock();
 		}
 
 		[Test]
@@ -67,14 +66,10 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Markdown";
+			UrlResolverMock resolver = new UrlResolverMock();
+			resolver.AbsolutePathSuffix = "123";
 			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
-
-			_converter.AbsolutePathConverter = (string path) => 
-			{ 
-				return path + "123"; 
-			};
-			_converter.InternalUrlForTitle = (int pageId, string path) => { return path; };
-			_converter.NewPageUrlForTitle = (string path) => { return path; };
+			_converter.UrlResolver = resolver; 
 
 			// Act
 			bool wasCalled = false;
@@ -97,14 +92,11 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Markdown";
-			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
+			UrlResolverMock resolver = new UrlResolverMock();
+			resolver.AbsolutePathSuffix = "123";
 
-			_converter.AbsolutePathConverter = (string path) =>
-			{
-				return path + "123";
-			};
-			_converter.InternalUrlForTitle = (int pageId, string path) => { return path; };
-			_converter.NewPageUrlForTitle = (string path) => { return path; };
+			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
+			_converter.UrlResolver = resolver;
 
 			bool wasCalled = false;
 			_converter.Parser.ImageParsed += (object sender, ImageEventArgs e) =>
@@ -350,7 +342,8 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
 			_converter = new MarkupConverter(_settings, _repository, _pluginFactory);
-			_converter.AbsolutePathConverter = (string s) => { return s; };
+			_converter.UrlResolver = new UrlResolverMock();
+
 			string htmlFragment = "Give me a {{TOC}} and a {{{TOC}}} - the should not render a TOC";
 			string expected = @"<p>Give me a <div class=""floatnone""><div class=""image&#x5F;frame""><img src=""&#x2F;Attachments&#x2F;TOC""></div></div> and a TOC - the should not render a TOC"
 				+"\n</p>";
