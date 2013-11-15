@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Roadkill.Tests.Unit.StubsAndMocks
 {
-	public class CacheMock: MemoryCache
+	public class CacheMock : MemoryCache
 	{
 		public List<CacheItem> CacheItems { get; set; }
 
@@ -15,7 +15,8 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 		/// </summary>
 		public static readonly MemoryCache RoadkillCache = new MemoryCache("Roadkill");
 
-		public CacheMock() : base("CacheMock")
+		public CacheMock()
+			: base("CacheMock")
 		{
 			CacheItems = new List<CacheItem>();
 		}

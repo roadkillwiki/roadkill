@@ -7,7 +7,7 @@ using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Tests.Unit
 {
-	internal class RoadkillContextStub : IUserContext
+	internal class UserContextStub : IUserContext
 	{
 		public string CurrentUser { get; set; }
 		public string CurrentUsername { get; set; }

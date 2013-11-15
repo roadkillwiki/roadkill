@@ -24,49 +24,41 @@ namespace Roadkill.Tests.Unit
 	[Category("Unit")]
 	public class WikiControllerTests
 	{
+		private MocksAndStubsContainer _container;
+
 		private ApplicationSettings _applicationSettings;
 		private IUserContext _context;
 		private RepositoryMock _repository;
-
-		private UserServiceBase _userService;
+		private UserServiceMock _userService;
 		private PageService _pageService;
 		private PageHistoryService _historyService;
 		private SettingsService _settingsService;
 		private PluginFactoryMock _pluginFactory;
 
+		private WikiController _wikiController;
+
 		[SetUp]
 		public void Setup()
 		{
-			_context = new Mock<IUserContext>().Object;
-			_applicationSettings = new ApplicationSettings();
-			_applicationSettings.Installed = true;
-			_applicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
+			_container = new MocksAndStubsContainer();
 
-			_repository = new RepositoryMock();
-			_repository.SiteSettings = new SiteSettings();
-			_repository.SiteSettings.MarkupType = "Creole";
+			_applicationSettings = _container.ApplicationSettings;
+			_context = _container.UserContext;	
+			_repository = _container.Repository;
+			_pluginFactory = _container.PluginFactory;
+			_settingsService = _container.SettingsService;
+			_userService = _container.UserService;
+			_historyService = _container.HistoryService;
+			_pageService = _container.PageService;
 
-			// Cache
-			ListCache listCache = new ListCache(_applicationSettings, CacheMock.RoadkillCache);
-			PageViewModelCache pageViewModelCache = new PageViewModelCache(_applicationSettings, CacheMock.RoadkillCache);
-			SiteCache siteCache = new SiteCache(_applicationSettings, CacheMock.RoadkillCache);
-
-			// Dependencies for PageService
-			_pluginFactory = new PluginFactoryMock();
-			Mock<SearchService> searchMock = new Mock<SearchService>();
-
-			_settingsService = new SettingsService(_applicationSettings, _repository);
-			_userService = new Mock<UserServiceBase>(_applicationSettings, null).Object;
-			_historyService = new PageHistoryService(_applicationSettings, _repository, _context, pageViewModelCache, _pluginFactory);
-			_pageService = new PageService(_applicationSettings, _repository, null, _historyService, _context, listCache, pageViewModelCache, siteCache, _pluginFactory);
+			_wikiController = new WikiController(_applicationSettings, _userService, _pageService, _context, _settingsService);
+			_wikiController.SetFakeControllerContext();
 		}
 
 		[Test]
 		public void Index_Should_Return_Page()
 		{
 			// Arrange
-			WikiController wikiController = new WikiController(_applicationSettings, _userService, _pageService, _context, _settingsService);
-			wikiController.SetFakeControllerContext();
 			Page page1 = new Page()
 			{
 				Id = 50,
@@ -83,7 +75,7 @@ namespace Roadkill.Tests.Unit
 			_repository.PageContents.Add(page1Content);
 
 			// Act
-			ActionResult result = wikiController.Index(50, "");
+			ActionResult result = _wikiController.Index(50, "");
 
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
@@ -98,11 +90,9 @@ namespace Roadkill.Tests.Unit
 		public void Index_With_Bad_Page_Id_Should_Redirect()
 		{
 			// Arrange
-			WikiController wikiController = new WikiController(_applicationSettings, _userService, _pageService, _context, _settingsService);
-			wikiController.SetFakeControllerContext();
 
 			// Act
-			ActionResult result = wikiController.Index(0, "");
+			ActionResult result = _wikiController.Index(0, "");
 
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "ViewResult");

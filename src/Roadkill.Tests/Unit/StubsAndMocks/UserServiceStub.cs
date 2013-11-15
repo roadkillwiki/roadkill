@@ -75,12 +75,12 @@ namespace Roadkill.Tests
 			throw new NotImplementedException();
 		}
 
-		public override bool IsAdmin(string email)
+		public override bool IsAdmin(string cookieValue)
 		{
 			throw new NotImplementedException();
 		}
 
-		public override bool IsEditor(string email)
+		public override bool IsEditor(string cookieValue)
 		{
 			throw new NotImplementedException();
 		}

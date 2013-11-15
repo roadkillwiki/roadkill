@@ -35,45 +35,31 @@ namespace Roadkill.Tests.Unit
 		private User _adminUser;
 		private User _editorUser;
 
-		private RepositoryMock _repositoryMock;
-		private Mock<SearchService> _mockSearchService;
-		private Mock<UserServiceBase> _mockUserManager;
-		private ApplicationSettings _applicationSettings;
-		private MarkupConverter _markupConverter;
-		private PageHistoryService _historyService;
-		private UserContext _context;
-		private PageService _pageService;
-		private PluginFactoryMock _pluginFactory;
+		private MocksAndStubsContainer _container;
 
-		private ListCache _listCache;
-		private PageViewModelCache _pageViewModelCache;
-		private SiteCache _siteCache;
+		private ApplicationSettings _applicationSettings;
+		private IUserContext _context;
+		private RepositoryMock _repository;
+		private UserServiceMock _userService;
+		private PageService _pageService;
+		private PageHistoryService _historyService;
+		private SettingsService _settingsService;
+		private PluginFactoryMock _pluginFactory;
 
 		[SetUp]
 		public void Setup()
 		{
-			// Repository stub
-			_repositoryMock = new RepositoryMock();
+			_container = new MocksAndStubsContainer();
 
-			// Config stub
-			_applicationSettings = new ApplicationSettings();
+			_applicationSettings = _container.ApplicationSettings;
 			_applicationSettings.ConnectionString = "connstring";
-			_applicationSettings.Installed = true;
-
-			_repositoryMock = new RepositoryMock();
-			_repositoryMock.SiteSettings = new SiteSettings();
-			_repositoryMock.SiteSettings.MarkupType = "Creole";
-
-			// Cache
-			_listCache = new ListCache(_applicationSettings, CacheMock.RoadkillCache);
-			_pageViewModelCache = new PageViewModelCache(_applicationSettings, CacheMock.RoadkillCache);
-			_siteCache = new SiteCache(_applicationSettings, CacheMock.RoadkillCache);
-
-			// Services needed by the PageService
-			_pluginFactory = new PluginFactoryMock();
-			_markupConverter = new MarkupConverter(_applicationSettings, _repositoryMock, _pluginFactory);
-			_mockSearchService = new Mock<SearchService>(_applicationSettings, _repositoryMock, _pluginFactory);
-			_historyService = new PageHistoryService(_applicationSettings, _repositoryMock, _context, _pageViewModelCache, _pluginFactory);
+			_context = _container.UserContext;
+			_repository = _container.Repository;
+			_pluginFactory = _container.PluginFactory;
+			_settingsService = _container.SettingsService;
+			_userService = _container.UserService;
+			_historyService = _container.HistoryService;
+			_pageService = _container.PageService;
 
 			// User setup
 			_editorUser = new User();
@@ -89,30 +75,15 @@ namespace Roadkill.Tests.Unit
 			_adminUser.Username = AdminUsername;
 			_adminUser.IsAdmin = true;
 			_adminUser.IsEditor = true;
-			SetUserContext(_adminUser);		
 
-			_pageService = new PageService(_applicationSettings, _repositoryMock, _mockSearchService.Object, _historyService, _context, _listCache, _pageViewModelCache, _siteCache, _pluginFactory);
+			_userService.Users.Add(_editorUser);
+			_userService.Users.Add(_adminUser);
+			SetUserContext(_adminUser);
 		}
 
 		private void SetUserContext(User user)
 		{
-			Guid userId = user.Id;
-			string cookieValue = userId.ToString();
-
-			_mockUserManager = new Mock<UserServiceBase>(_applicationSettings, _repositoryMock);
-			_mockUserManager.Setup(x => x.GetUser(user.Email, It.IsAny<bool>())).Returns(user);
-			_mockUserManager.Setup(x => x.GetUserById(user.Id, It.IsAny<bool>())).Returns(user);
-			_mockUserManager.Setup(x => x.Authenticate(user.Email, "")).Returns(true);
-			_mockUserManager.Setup(x => x.IsAdmin(cookieValue)).Returns(user.IsAdmin);
-			_mockUserManager.Setup(x => x.IsEditor(cookieValue)).Returns(user.IsEditor);
-			_mockUserManager.Setup(x => x.GetLoggedInUserName(It.IsAny<HttpContextBase>())).Returns(user.Username);
-
-			// Context stub
-			_context = new UserContext(_mockUserManager.Object);
-			_context.CurrentUser = userId.ToString();
-
-			// Update the context reference as it's a copy
-			_pageService = new PageService(_applicationSettings, _repositoryMock, _mockSearchService.Object, _historyService, _context, _listCache, _pageViewModelCache, _siteCache, _pluginFactory);
+			_context.CurrentUser = user.Id.ToString();
 		}
 
 		public PageViewModel AddToStubbedRepository(int id, string createdBy, string title, string tags, string textContent = "")
@@ -135,7 +106,7 @@ namespace Roadkill.Tests.Unit
 			if (string.IsNullOrEmpty(textContent))
 				textContent = title + "'s text";
 
-			PageContent content = _repositoryMock.AddNewPage(page, textContent, createdBy, createdOn);
+			PageContent content = _repository.AddNewPage(page, textContent, createdBy, createdOn);
 			PageViewModel model = new PageViewModel()
 			{
 				Id = id,
@@ -150,7 +121,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void AddPage_Should_Save_To_Repository()
+		public void AddPage_Should_Save_To_Repository_And_Set_Locked_If_User_Is_Admin()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel()
@@ -165,14 +136,14 @@ namespace Roadkill.Tests.Unit
 			};
 
 			// Act
-			PageViewModel newModel = _pageService.AddPage(model);
+			PageViewModel actualModel = _pageService.AddPage(model);
 
 			// Assert
-			Assert.That(newModel, Is.Not.Null);
-			Assert.That(newModel.Content, Is.EqualTo(model.Content));
-			Assert.That(newModel.IsLocked, Is.True);
-			Assert.That(_repositoryMock.Pages.Count, Is.EqualTo(1));
-			Assert.That(_repositoryMock.PageContents.Count, Is.EqualTo(1));
+			Assert.That(actualModel, Is.Not.Null);
+			Assert.That(actualModel.Content, Is.EqualTo(model.Content));
+			Assert.That(actualModel.IsLocked, Is.True);
+			Assert.That(_repository.Pages.Count, Is.EqualTo(1));
+			Assert.That(_repository.PageContents.Count, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -398,9 +369,9 @@ namespace Roadkill.Tests.Unit
 			Assert.That(actual.Title, Is.EqualTo(model.Title), "Title");
 			Assert.That(actual.Tags, Is.EqualTo(model.Tags), "Tags");
 
-			Assert.That(_repositoryMock.Pages[0].Tags, Is.EqualTo(expectedTags));
-			Assert.That(_repositoryMock.Pages[0].Title, Is.EqualTo(model.Title));
-			Assert.That(_repositoryMock.PageContents[1].Text, Is.EqualTo(model.Content)); // "smells"
+			Assert.That(_repository.Pages[0].Tags, Is.EqualTo(expectedTags));
+			Assert.That(_repository.Pages[0].Title, Is.EqualTo(model.Title));
+			Assert.That(_repository.PageContents[1].Text, Is.EqualTo(model.Content)); // "smells"
 		}
 	}
 }

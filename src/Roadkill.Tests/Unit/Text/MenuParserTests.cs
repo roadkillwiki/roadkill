@@ -41,7 +41,7 @@ namespace Roadkill.Tests.Unit
 			repository.SiteSettings.MarkupType = "Markdown";
 			repository.SiteSettings.MenuMarkup = menuMarkup;
 
-			RoadkillContextStub userContext = new RoadkillContextStub();
+			UserContextStub userContext = new UserContextStub();
 			userContext.IsAdmin = true;
 			userContext.IsLoggedIn = true;
 
@@ -75,7 +75,7 @@ namespace Roadkill.Tests.Unit
 			repository.SiteSettings.MarkupType = "Markdown";
 			repository.SiteSettings.MenuMarkup = menuMarkup;
 
-			RoadkillContextStub userContext = new RoadkillContextStub();
+			UserContextStub userContext = new UserContextStub();
 			userContext.IsAdmin = false;
 			userContext.IsLoggedIn = true;
 
@@ -108,7 +108,7 @@ namespace Roadkill.Tests.Unit
 			repository.SiteSettings.MarkupType = "Markdown";
 			repository.SiteSettings.MenuMarkup = menuMarkup;
 
-			RoadkillContextStub userContext = new RoadkillContextStub();
+			UserContextStub userContext = new UserContextStub();
 			userContext.IsLoggedIn = false;
 
 			ApplicationSettings applicationSettings = new ApplicationSettings();
@@ -139,7 +139,7 @@ namespace Roadkill.Tests.Unit
 			repository.SiteSettings.MarkupType = markupType;
 			repository.SiteSettings.MenuMarkup = menuMarkup;
 
-			RoadkillContextStub userContext = new RoadkillContextStub();
+			UserContextStub userContext = new UserContextStub();
 			userContext.IsLoggedIn = false;
 
 			ApplicationSettings applicationSettings = new ApplicationSettings();
@@ -168,7 +168,7 @@ namespace Roadkill.Tests.Unit
 			repository.SiteSettings.MarkupType = "Markdown";
 			repository.SiteSettings.MenuMarkup = menuMarkup;
 
-			RoadkillContextStub userContext = new RoadkillContextStub();
+			UserContextStub userContext = new UserContextStub();
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.Installed = true;
 
@@ -206,7 +206,7 @@ namespace Roadkill.Tests.Unit
 			repository.SiteSettings.MarkupType = "Markdown";
 			repository.SiteSettings.MenuMarkup = menuMarkup;
 
-			RoadkillContextStub userContext = new RoadkillContextStub();
+			UserContextStub userContext = new UserContextStub();
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.Installed = true;
 
@@ -247,7 +247,7 @@ namespace Roadkill.Tests.Unit
 			repository.SiteSettings.MarkupType = "Markdown";
 			repository.SiteSettings.MenuMarkup = menuMarkup;
 
-			RoadkillContextStub userContext = new RoadkillContextStub();
+			UserContextStub userContext = new UserContextStub();
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.Installed = true;
 
@@ -278,7 +278,7 @@ namespace Roadkill.Tests.Unit
 			repository.SiteSettings.MarkupType = "Markdown";
 			repository.SiteSettings.MenuMarkup = menuMarkup;
 
-			RoadkillContextStub userContext = new RoadkillContextStub();
+			UserContextStub userContext = new UserContextStub();
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.Installed = true;
 

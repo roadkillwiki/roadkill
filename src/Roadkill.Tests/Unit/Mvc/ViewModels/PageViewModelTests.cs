@@ -16,6 +16,8 @@ namespace Roadkill.Tests.Unit
 	[Category("Unit")]
 	public class PageViewModelTests
 	{
+		private MocksAndStubsContainer _container;
+
 		private ApplicationSettings _appSettings;
 		private MarkupConverter _markupConverter;
 		private RepositoryMock _repository;
@@ -24,16 +26,13 @@ namespace Roadkill.Tests.Unit
 		[SetUp]
 		public void Setup()
 		{
-			_pluginFactory = new PluginFactoryMock();
-			_appSettings = new ApplicationSettings();
+			_container = new MocksAndStubsContainer();
+
+			_pluginFactory = _container.PluginFactory;
+			_appSettings = _container.ApplicationSettings;
 			_appSettings.Installed = true;
-			_appSettings.UseHtmlWhiteList = true;
-
-			_repository = new RepositoryMock();
-			_repository.SiteSettings = new SiteSettings();
-			_repository.SiteSettings.MarkupType = "Creole";
-
-			_markupConverter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
+			_repository = _container.Repository;
+			_markupConverter = _container.MarkupConverter;
 			_markupConverter.UrlResolver = new UrlResolverMock();
 		}
 

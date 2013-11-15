@@ -39,7 +39,5 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(actual, Is.EqualTo(expected));
 		}
-
-
 	}
 }
