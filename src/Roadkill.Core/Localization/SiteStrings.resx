@@ -427,7 +427,7 @@
 	<value>Database type</value>
 </data>
 <data name="SiteSettings_Configuration_DatabaseConnectionString" xml:space="preserve">
-	<value>Database connection string</value>
+	<value>Connection string</value>
 </data>
 <data name="SiteSettings_Configuration_Security" xml:space="preserve">
 	<value>Security</value>
@@ -502,10 +502,10 @@
 	<value>The url of the site, which is used in signup and reset password emails.  Do not include the trailing slash.</value>
 </data>
 <data name="SiteSettings_Configuration_ConnectionStrings_Help" xml:space="preserve">
-	<value>Changes your connection string - if your server or database has changed, you will need to manually create the database tables for this to work correctly.</value>
+	<value>Changes your connection string. Note: Roadkill won&apos;t automatically recreate the database structure.</value>
 </data>
 <data name="SiteSettings_Configuration_DatabaseType_Help" xml:space="preserve">
-	<value>Changes your database type - you will need to recreate the schema in the tools for this to work correctly.</value>
+	<value>Changes the database type you&apos;re using. Note: Roadkill won&apos;t automatically recreate the database structure</value>
 </data>
 <data name="SiteSettings_Configuration_DatabaseConnectionString_Help" xml:space="preserve">
 	<value>The database connection string.</value>
@@ -774,11 +774,9 @@
 </data>
 <data name="SiteSettings_Configuration_NavMenu" xml:space="preserve">
 	<value>Navigation menu markup</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Configuration_NavMenu_Help" xml:space="preserve">
 	<value>The navigation menu, which is typically on the left hand side but varies according to the theme. Markup is accepted and should be done in the markdown format your wiki uses. You can also use the following tokens which are replaced with links (some of which may be empty if you are not logged in): {MENUTOKENS}</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
 	<value>Automatically overwrite existing files on upload</value>
@@ -788,6 +786,30 @@
 </data>
 <data name="SiteSettings_Plugins_Title" xml:space="preserve">
 	<value>Plugins</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport" xml:space="preserve">
+	<value>Export as SQL</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport_Label" xml:space="preserve">
+	<value>Exports the current database as a single SQL script. If you are using MongoDB this action does nothing.</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite" xml:space="preserve">
+	<value>Public site</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite_Help" xml:space="preserve">
+	<value>When un-checked, all pages are private and can only be viewed by logged in users.</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors" xml:space="preserve">
+	<value>Ignore search index errors</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors_Help" xml:space="preserve">
+	<value>When checked, an error is displayed when a page fails to be indexed by the Lucene search engine (when creating or updating a page), instead of being ignored.</value>
+</data>
+<data name="FileManager_Upload_FileAlreadyExists" xml:space="preserve">
+	<value>The file &apos;{0}&apos; already exists.</value>
+</data>
+<data name="History_Help_Label" xml:space="preserve">
+	<value>Click on a version number to compare the changes with version before it.</value>
 </data>
 
 </root>

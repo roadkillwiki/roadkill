@@ -267,7 +267,7 @@ namespace Roadkill.Core.Mvc.Controllers
 						{
 							 if (System.IO.File.Exists(fullFilePath))
 							 {
-								 string errorMessage = string.Format("The file '{0}' already exists TODO-translation", sourceFile.FileName);
+								 string errorMessage = string.Format(SiteStrings.FileManager_Upload_FileAlreadyExists, sourceFile.FileName);
 								 return Json(new { status = "error", message = errorMessage }, "text/plain");
 							 }
 						}
