@@ -24,37 +24,43 @@ namespace Roadkill.Tests.Unit
 		public static string AdminUsername = "admin";
 		public static string AdminPassword = "password";
 
+		private MocksAndStubsContainer _container;
+
 		private ApplicationSettings _applicationSettings;
 		private RepositoryMock _repository;
 		private UserServiceMock _userService;
 		private IUserContext _userContext;
 		private SettingsService _settingsService;
+		private UserController _userController;
 
 		[SetUp]
 		public void Setup()
 		{
-			_applicationSettings = new ApplicationSettings();
-			_repository = new RepositoryMock();
-			_settingsService = new SettingsService(_applicationSettings, _repository);
+			_container = new MocksAndStubsContainer();
 
-			_userService = new UserServiceMock(_applicationSettings, _repository);
+			_applicationSettings = _container.ApplicationSettings;
+			_applicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
+			_repository = _container.Repository;
+			_settingsService = _container.SettingsService;
+			_userService = _container.UserService;
+			_userContext = _container.UserContext;
+
 			_userService.AddUser(AdminEmail, AdminUsername, AdminPassword, true, true);
 			_userService.Users[0].IsActivated = true;
 			_userService.Users[0].Firstname = "Firstname";
 			_userService.Users[0].Lastname = "LastnameNotSurname";
 
-			_userContext = new UserContext(_userService);
+			_userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
+			_userController.SetFakeControllerContext();
 		}
 
 		[Test]
 		public void Activate_With_Valid_Key_Returns_View()
 		{
 			// Arrange
-			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
-			userController.SetFakeControllerContext();
 
 			// Act	
-			ActionResult result = userController.Activate(UserServiceMock.ACTIVATIONKEY);
+			ActionResult result = _userController.Activate(UserServiceMock.ACTIVATIONKEY);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>());
@@ -64,26 +70,22 @@ namespace Roadkill.Tests.Unit
 		public void Activate_With_Invalid_Key_Should_Have_Model_Error()
 		{
 			// Arrange
-			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
-			userController.SetFakeControllerContext();
 
 			// Act	
-			ActionResult result = userController.Activate("badkey");
+			ActionResult result = _userController.Activate("badkey");
 
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>());
-			Assert.That(userController.ModelState.Count, Is.EqualTo(1));
+			Assert.That(_userController.ModelState.Count, Is.EqualTo(1));
 		}
 
 		[Test]
 		public void Activate_With_Empty_Key_Returns_RedirectResult()
 		{
 			// Arrange
-			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
-			userController.SetFakeControllerContext();
 
 			// Act	
-			ActionResult result = userController.Activate("");
+			ActionResult result = _userController.Activate("");
 
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
@@ -98,15 +100,13 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
-			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
-			userController.SetFakeControllerContext();
 
 			// Act	
-			ActionResult result = userController.Login(AdminEmail, AdminPassword, "");
+			ActionResult result = _userController.Login(AdminEmail, AdminPassword, "");
 
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
-			Assert.That(userController.ModelState.Count, Is.EqualTo(0));
+			Assert.That(_userController.ModelState.Count, Is.EqualTo(0));
 		}
 
 		[Test]
@@ -114,26 +114,22 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
-			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
-			userController.SetFakeControllerContext();
 
 			// Act	
-			ActionResult result = userController.Login("wrongemail", "wrongpassword", "");
+			ActionResult result = _userController.Login("wrongemail", "wrongpassword", "");
 
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>());
-			Assert.That(userController.ModelState.Count, Is.EqualTo(1));
+			Assert.That(_userController.ModelState.Count, Is.EqualTo(1));
 		}
 
 		[Test]
 		public void Logout_Should_Have_RedirectResult()
 		{
 			// Arrange
-			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
-			userController.SetFakeControllerContext();
 
 			// Act	
-			ActionResult result = userController.Logout();
+			ActionResult result = _userController.Logout();
 
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
@@ -147,12 +143,10 @@ namespace Roadkill.Tests.Unit
 		public void Signup_When_LoggedIn_Should_Return_RedirectResult()
 		{
 			// Arrange
-			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
-			userController.SetFakeControllerContext();
 
 			// Act	
-			userController.Login(AdminEmail, AdminPassword, "");
-			ActionResult result = userController.Signup(null, null);
+			_userController.Login(AdminEmail, AdminPassword, "");
+			ActionResult result = _userController.Signup(null, null);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
@@ -168,11 +162,9 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_repository.SiteSettings.AllowUserSignup = true;
 			_applicationSettings.UseWindowsAuthentication = true;
-			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
-			userController.SetFakeControllerContext();
 
 			// Act	
-			ActionResult result = userController.Signup(null, null);
+			ActionResult result = _userController.Signup(null, null);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
@@ -187,11 +179,9 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.AllowUserSignup = false;
-			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
-			userController.SetFakeControllerContext();
 
 			// Act	
-			ActionResult result = userController.Signup(null, null);
+			ActionResult result = _userController.Signup(null, null);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
@@ -268,11 +258,9 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
-			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
-			userController.SetFakeControllerContext();
 
 			// Act	
-			ViewResult result = userController.ResetPassword() as ViewResult;
+			ViewResult result = _userController.ResetPassword() as ViewResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
@@ -284,11 +272,9 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = true;
-			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
-			userController.SetFakeControllerContext();
 
 			// Act	
-			ActionResult result = userController.Logout();
+			ActionResult result = _userController.Logout();
 
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
@@ -378,11 +364,9 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = true;
-			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
-			userController.SetFakeControllerContext();
 
 			// Act	
-			ActionResult result = userController.CompleteResetPassword("resetkey");
+			ActionResult result = _userController.CompleteResetPassword("resetkey");
 
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
@@ -445,13 +429,11 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
-			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
-			userController.SetFakeControllerContext();
 
 			// Act
-			userController.Login(AdminEmail, AdminPassword, "");
+			_userController.Login(AdminEmail, AdminPassword, "");
 			//_userContext.CurrentUser = _userManager.Users[0].Id.ToString(); // base controller's OnActionExecuted normally sets this.
-			ActionResult result = userController.Profile();
+			ActionResult result = _userController.Profile();
 
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>());
@@ -470,13 +452,10 @@ namespace Roadkill.Tests.Unit
 		public void Profile_Post_Should_Redirect_If_Summary_Has_No_Id()
 		{
 			// Arrange
-			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
-			userController.SetFakeControllerContext();
-
 			UserViewModel model = new UserViewModel();
 			
 			// Act	
-			ActionResult result = userController.Profile(model);
+			ActionResult result = _userController.Profile(model);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
@@ -537,9 +516,6 @@ namespace Roadkill.Tests.Unit
 
 			_userContext.CurrentUser = userId.ToString();
 
-			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
-			userController.SetFakeControllerContext();
-
 			UserViewModel model = new UserViewModel();
 			model.Id = userId;
 			model.ExistingEmail = email;
@@ -550,7 +526,7 @@ namespace Roadkill.Tests.Unit
 			model.NewUsername = "newprofiletest";
 
 			// Act	
-			ViewResult result = userController.Profile(model) as ViewResult;
+			ViewResult result = _userController.Profile(model) as ViewResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
@@ -576,14 +552,11 @@ namespace Roadkill.Tests.Unit
 			Guid userId = _userService.GetUser(email).Id;
 			_userContext.CurrentUser = userId.ToString();
 
-			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
-			userController.SetFakeControllerContext();
-
 			UserViewModel model = _userService.GetUser(email).ToViewModel(); // use the same model, as profile() updates everything.
 			model.Password = newPassword;
 
 			// Act	
-			ViewResult result = userController.Profile(model) as ViewResult;
+			ViewResult result = _userController.Profile(model) as ViewResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);

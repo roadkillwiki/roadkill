@@ -20,26 +20,26 @@ namespace Roadkill.Tests.Unit
 	[Category("Unit")]
 	public class MarkupConverterTests
 	{
-		private ApplicationSettings _appSettings;
-		private MarkupConverter _converter;
+		private MocksAndStubsContainer _container;
+
+		private ApplicationSettings _applicationSettings;
 		private RepositoryMock _repository;
 		private PluginFactoryMock _pluginFactory;
+		private MarkupConverter _markupConverter;
 
 		[SetUp]
 		public void Setup()
 		{
-			_pluginFactory = new PluginFactoryMock();
-			_appSettings = new ApplicationSettings();
-			_appSettings.Installed = true;
-			_appSettings.UseHtmlWhiteList = true;
-			_appSettings.CustomTokensPath = Path.Combine(Settings.SITE_PATH, "App_Data", "customvariables.xml");
+			_container = new MocksAndStubsContainer();
 
-			_repository = new RepositoryMock();
-			_repository.SiteSettings = new SiteSettings();
-			_repository.SiteSettings.MarkupType = "Creole";
+			_applicationSettings = _container.ApplicationSettings;
+			_applicationSettings.UseHtmlWhiteList = true;
+			_applicationSettings.CustomTokensPath = Path.Combine(Settings.SITE_PATH, "App_Data", "customvariables.xml");
 
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
-			_converter.UrlResolver = new UrlResolverMock();
+			_pluginFactory = _container.PluginFactory;
+			_repository = _container.Repository;
+			_markupConverter = _container.MarkupConverter;
+			_markupConverter.UrlResolver = new UrlResolverMock();
 		}
 
 		[Test]
@@ -47,18 +47,18 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange, act
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
 			// Assert
-			Assert.NotNull(_converter.Parser);
+			Assert.NotNull(_markupConverter.Parser);
 
 			_repository.SiteSettings.MarkupType = "Markdown";
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
-			Assert.NotNull(_converter.Parser);
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
+			Assert.NotNull(_markupConverter.Parser);
 
 			_repository.SiteSettings.MarkupType = "Mediawiki";
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
-			Assert.NotNull(_converter.Parser);
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
+			Assert.NotNull(_markupConverter.Parser);
 		}
 
 		[Test]
@@ -68,17 +68,17 @@ namespace Roadkill.Tests.Unit
 			_repository.SiteSettings.MarkupType = "Markdown";
 			UrlResolverMock resolver = new UrlResolverMock();
 			resolver.AbsolutePathSuffix = "123";
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
-			_converter.UrlResolver = resolver; 
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
+			_markupConverter.UrlResolver = resolver; 
 
 			// Act
 			bool wasCalled = false;
-			_converter.Parser.ImageParsed += (object sender, ImageEventArgs e) =>
+			_markupConverter.Parser.ImageParsed += (object sender, ImageEventArgs e) =>
 			{
 				wasCalled = (e.Src == "/Attachments/DSC001.jpg123");
 			};
 
-			_converter.ToHtml("![Image title](/DSC001.jpg)");
+			_markupConverter.ToHtml("![Image title](/DSC001.jpg)");
 			
 			// Assert
 			Assert.True(wasCalled, "ImageParsed.ImageEventArgs.Src did not match.");
@@ -95,17 +95,17 @@ namespace Roadkill.Tests.Unit
 			UrlResolverMock resolver = new UrlResolverMock();
 			resolver.AbsolutePathSuffix = "123";
 
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
-			_converter.UrlResolver = resolver;
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
+			_markupConverter.UrlResolver = resolver;
 
 			bool wasCalled = false;
-			_converter.Parser.ImageParsed += (object sender, ImageEventArgs e) =>
+			_markupConverter.Parser.ImageParsed += (object sender, ImageEventArgs e) =>
 			{
 				wasCalled = (e.Src == imageUrl);
 			};
 
 			// Act
-			_converter.ToHtml("![Image title](" +imageUrl+ ")");
+			_markupConverter.ToHtml("![Image title](" +imageUrl+ ")");
 
 			// Assert
 			Assert.True(wasCalled);
@@ -116,7 +116,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 			string markdown = " some text <script type=\"text/html\">while(true)alert('lolz');</script>" +
 				"<iframe src=\"google.com\"></iframe><frame>blah</frame> <applet code=\"MyApplet.class\" width=100 height=140></applet>" +
 				"<frameset src='new.html'></frameset>";
@@ -124,7 +124,7 @@ namespace Roadkill.Tests.Unit
 			string expectedHtml = "<p> some text blah \n</p>";
 
 			// Act
-			string actualHtml = _converter.ToHtml(markdown);
+			string actualHtml = _markupConverter.ToHtml(markdown);
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
@@ -135,12 +135,12 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"&#x23;myanchortag\">hello world</a> <a href=\"https&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com\">google</a>\n</p>";
 
 			// Act
-			string actualHtml = _converter.ToHtml("[[#myanchortag|hello world]] [[https://www.google.com|google]]");
+			string actualHtml = _markupConverter.ToHtml("[[#myanchortag|hello world]] [[https://www.google.com|google]]");
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
@@ -151,12 +151,12 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"&#x23;myanchortag\">hello world</a> <a href=\"https&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2F;some&#x2D;page&#x2D;23\">google</a>\n</p>";
 
 			// Act
-			string actualHtml = _converter.ToHtml("[[#myanchortag|hello world]] [[https://www.google.com/some-page-23|google]]");
+			string actualHtml = _markupConverter.ToHtml("[[#myanchortag|hello world]] [[https://www.google.com/some-page-23|google]]");
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
@@ -167,12 +167,12 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"&#x2F;Attachments&#x2F;my&#x2F;folder&#x2F;image1&#x2E;jpg\">hello world</a>\n</p>";
 
 			// Act
-			string actualHtml = _converter.ToHtml("[[~/my/folder/image1.jpg|hello world]]");
+			string actualHtml = _markupConverter.ToHtml("[[~/my/folder/image1.jpg|hello world]]");
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
@@ -185,12 +185,12 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
 			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"http&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2F;&#x3F;blah&#x3D;xyz&#x23;myanchor\">Some link text</a>\n</p>";
 
 			// Act
-			string actualHtml = _converter.ToHtml("[[http://www.google.com/?blah=xyz#myanchor|Some link text]]");
+			string actualHtml = _markupConverter.ToHtml("[[http://www.google.com/?blah=xyz#myanchor|Some link text]]");
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
@@ -203,12 +203,12 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
 			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"&#x2F;wiki&#x2F;1&#x2F;foo&#x23;myanchor\">Some link text</a>\n</p>"; // use /index/ as no routing exists
 
 			// Act
-			string actualHtml = _converter.ToHtml("[[foo#myanchor|Some link text]]");
+			string actualHtml = _markupConverter.ToHtml("[[foo#myanchor|Some link text]]");
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
@@ -221,12 +221,12 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
 			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"&#x2F;wiki&#x2F;1&#x2F;foo&#x25;23myanchor\">Some link text</a>\n</p>";
 
 			// Act
-			string actualHtml = _converter.ToHtml("[[foo%23myanchor|Some link text]]");
+			string actualHtml = _markupConverter.ToHtml("[[foo%23myanchor|Some link text]]");
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
@@ -239,12 +239,12 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Markdown";
 			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"&#x2F;wiki&#x2F;1&#x2F;foo&#x23;myanchor\">Some link text</a></p>\n"; // use /index/ as no routing exists
 
 			// Act
-			string actualHtml = _converter.ToHtml("[Some link text](foo#myanchor)");
+			string actualHtml = _markupConverter.ToHtml("[Some link text](foo#myanchor)");
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
@@ -256,12 +256,12 @@ namespace Roadkill.Tests.Unit
 			// Issue #159
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"http&#x3A;&#x2F;&#x2F;msdn&#x2E;microsoft&#x2E;com&#x2F;en&#x2D;us&#x2F;library&#x2F;system&#x2E;componentmodel&#x2E;descriptionattribute&#x2E;aspx\">ComponentModel.Description</a>\n</p>";
 
 			// Act
-			string actualHtml = _converter.ToHtml("[[http://msdn.microsoft.com/en-us/library/system.componentmodel.descriptionattribute.aspx|ComponentModel.Description]]");
+			string actualHtml = _markupConverter.ToHtml("[[http://msdn.microsoft.com/en-us/library/system.componentmodel.descriptionattribute.aspx|ComponentModel.Description]]");
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
@@ -273,12 +273,12 @@ namespace Roadkill.Tests.Unit
 			// Issue #159
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"http&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2F;&#x22;&#x3E;javascript&#x3A;alert&#x28;&#x27;hello&#x27;&#x29;\">ComponentModel</a>\n</p>";
 
 			// Act
-			string actualHtml = _converter.ToHtml("[[http://www.google.com/\">javascript:alert('hello')|ComponentModel]]");
+			string actualHtml = _markupConverter.ToHtml("[[http://www.google.com/\">javascript:alert('hello')|ComponentModel]]");
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
@@ -290,12 +290,12 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"&#x2F;Attachments&#x2F;my&#x2F;folder&#x2F;image1&#x2E;jpg\">hello world</a>\n</p>";
 
 			// Act
-			string actualHtml = _converter.ToHtml("[[attachment:/my/folder/image1.jpg|hello world]]");
+			string actualHtml = _markupConverter.ToHtml("[[attachment:/my/folder/image1.jpg|hello world]]");
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
@@ -306,12 +306,12 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
 			string expectedHtml = "<p><a href=\"http&#x3A;&#x2F;&#x2F;www&#x2E;blah&#x2E;com\">link1</a> <a href=\"www&#x2E;blah&#x2E;com\">link2</a> <a href=\"mailto&#x3A;spam&#x40;gmail&#x2E;com\">spam</a>\n</p>";
 
 			// Act
-			string actualHtml = _converter.ToHtml("[[http://www.blah.com|link1]] [[www.blah.com|link2]] [[mailto:spam@gmail.com|spam]]");
+			string actualHtml = _markupConverter.ToHtml("[[http://www.blah.com|link1]] [[www.blah.com|link2]] [[mailto:spam@gmail.com|spam]]");
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
@@ -321,12 +321,12 @@ namespace Roadkill.Tests.Unit
 		public void Html_Should_Not_Be_Sanitized_If_UseHtmlWhiteList_Setting_Is_False()
 		{
 			// Arrange
-			_appSettings.UseHtmlWhiteList = false;
+			_applicationSettings.UseHtmlWhiteList = false;
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
 			string htmlFragment = "<div onclick=\"javascript:alert('ouch');\">test</div>";
-			MarkupConverter converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
+			MarkupConverter converter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
 			// Act
 			string actualHtml = converter.ToHtml(htmlFragment);
@@ -341,15 +341,15 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
-			_converter = new MarkupConverter(_appSettings, _repository, _pluginFactory);
-			_converter.UrlResolver = new UrlResolverMock();
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
+			_markupConverter.UrlResolver = new UrlResolverMock();
 
 			string htmlFragment = "Give me a {{TOC}} and a {{{TOC}}} - the should not render a TOC";
 			string expected = @"<p>Give me a <div class=""floatnone""><div class=""image&#x5F;frame""><img src=""&#x2F;Attachments&#x2F;TOC""></div></div> and a TOC - the should not render a TOC"
 				+"\n</p>";
 
 			// Act
-			string actualHtml = _converter.ToHtml(htmlFragment);
+			string actualHtml = _markupConverter.ToHtml(htmlFragment);
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expected));
@@ -367,7 +367,7 @@ namespace Roadkill.Tests.Unit
 </p>";
 
 			// Act
-			string actualHtml = _converter.ToHtml(@"@@warningbox:ENTER YOUR CONTENT HERE 
+			string actualHtml = _markupConverter.ToHtml(@"@@warningbox:ENTER YOUR CONTENT HERE 
 {{{
 here is my C#code
 }}} 
@@ -391,7 +391,7 @@ here is my C#code
 			_pluginFactory.RegisterTextPlugin(plugin);
 
 			// Act
-			string actualHtml = _converter.ToHtml(markupFragment);
+			string actualHtml = _markupConverter.ToHtml(markupFragment);
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
@@ -410,7 +410,7 @@ here is my C#code
 			_pluginFactory.RegisterTextPlugin(plugin);
 
 			// Act
-			string actualHtml = _converter.ToHtml(markupFragment);
+			string actualHtml = _markupConverter.ToHtml(markupFragment);
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
@@ -430,7 +430,7 @@ here is my C#code
 			_pluginFactory.RegisterTextPlugin(plugin);
 
 			// Act
-			string actualHtml = _converter.ToHtml(markupFragment);
+			string actualHtml = _markupConverter.ToHtml(markupFragment);
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
@@ -450,7 +450,7 @@ here is my C#code
 			_pluginFactory.RegisterTextPlugin(plugin);
 
 			// Act
-			string actualHtml = _converter.ToHtml(markupFragment);
+			string actualHtml = _markupConverter.ToHtml(markupFragment);
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));

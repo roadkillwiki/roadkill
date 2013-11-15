@@ -10,7 +10,7 @@ using Roadkill.Tests.Unit.Attributes;
 
 namespace Roadkill.Tests.Unit
 {
-	public abstract class AuthorizeAttributeBase
+	public abstract class AuthorizeAttributeTestBase
 	{
 		protected PrincipalMock GetPrincipal()
 		{

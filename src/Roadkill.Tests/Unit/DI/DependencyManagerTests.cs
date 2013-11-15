@@ -125,7 +125,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			ApplicationSettings settings = new ApplicationSettings();
-			DependencyManager container = new DependencyManager(settings, new RepositoryMock(), new RoadkillContextStub());
+			DependencyManager container = new DependencyManager(settings, new RepositoryMock(), new UserContextStub());
 
 			// Act
 			container.Configure();
@@ -134,7 +134,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			Assert.That(repository, Is.TypeOf<RepositoryMock>());
-			Assert.That(context, Is.TypeOf<RoadkillContextStub>());
+			Assert.That(context, Is.TypeOf<UserContextStub>());
 		}
 
 		[Test]
@@ -147,7 +147,7 @@ namespace Roadkill.Tests.Unit
 			settings.EditorRoleName = "editor;";
 			settings.AdminRoleName = "admins";
 
-			DependencyManager container = new DependencyManager(settings, new RepositoryMock(), new RoadkillContextStub());
+			DependencyManager container = new DependencyManager(settings, new RepositoryMock(), new UserContextStub());
 
 			// Act
 			container.Configure();

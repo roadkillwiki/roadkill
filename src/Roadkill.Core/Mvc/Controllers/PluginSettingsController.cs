@@ -25,10 +25,10 @@ namespace Roadkill.Core.Mvc.Controllers
 		private PageViewModelCache _viewModelCache;
 		private ListCache _listCache;
 
-		public PluginSettingsController(ApplicationSettings settings, UserServiceBase userManager, IUserContext context, 
+		public PluginSettingsController(ApplicationSettings settings, UserServiceBase userService, IUserContext context, 
 			SettingsService settingsService, IPluginFactory pluginFactory, IRepository repository, SiteCache siteCache, 
 			PageViewModelCache viewModelCache, ListCache listCache)
-			: base (settings, userManager, context, settingsService)
+			: base (settings, userService, context, settingsService)
 		{
 			_pluginFactory = pluginFactory;
 			_repository = repository;
