@@ -508,8 +508,8 @@
     <Compile Include="Plugins\SpecialPages\BuiltIn\RandomPage.cs" />
     <Compile Include="Plugins\SpecialPages\BuiltIn\SoundCloud.cs" />
     <Compile Include="Plugins\SpecialPages\SpecialPagePlugin.cs" />
-    <Compile Include="Plugins\Text\BuiltIn\ImagesInNewWindow.cs" />
-    <Compile Include="Plugins\Text\BuiltIn\ResizeLargeImages.cs" />
+    <Compile Include="Plugins\Text\BuiltIn\ClickableImages.cs" />
+    <Compile Include="Plugins\Text\BuiltIn\DontResizeImages.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ExternalLinksInNewWindow.cs" />
     <Compile Include="Plugins\Text\BuiltIn\MathJax.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ToC\TocPlugin.cs" />

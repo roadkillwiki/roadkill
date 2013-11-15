@@ -406,8 +406,8 @@
       <DependentUpon>directoryviewmodel.ts</DependentUpon>
     </Content>
     <Content Include="Plugins\Text\ExternalLinksInNewWindow\externallinksinnewwindow.js" />
-    <Content Include="Plugins\Text\ImagesInNewWindow\imagesinnewwindow.js" />
-    <Content Include="Plugins\Text\ResizeLargeImages\resizelargeimages.css" />
+    <Content Include="Plugins\Text\ClickableImages\clickableimages.js" />
+    <Content Include="Plugins\Text\DontResizeImages\dontresizeimages.css" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shAutoloader.js" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushAppleScript.js" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushAS3.js" />

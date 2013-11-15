@@ -10,16 +10,13 @@ using Roadkill.Core.Database;
 
 namespace Roadkill.Core.Plugins.Text.BuiltIn
 {
-	/// <summary>
-	/// Whether to scale images dynamically on the page, using Javascript, so they fit inside the main page container (400x400px).
-	/// </summary>
-	public class ResizeLargeImages : TextPlugin
+	public class ClickableImages : TextPlugin
 	{
 		public override string Id
 		{
 			get 
-			{ 
-				return "ResizeLargeImages";	
+			{
+				return "ClickableImages";	
 			}
 		}
 
@@ -27,7 +24,7 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 		{
 			get
 			{
-				return "Resize large images";
+				return "Clickable images";
 			}
 		}
 
@@ -35,7 +32,7 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 		{
 			get
 			{
-				return "Resizes large images using CSS so they always fit the page width/height.";
+				return "Configures images so when they are clicked the source image is opened in a new window.";
 			}
 		}
 
@@ -48,9 +45,14 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 			}
 		}
 
+		public ClickableImages()
+		{
+			AddScript("clickableimages.js");
+		}
+
 		public override string GetHeadContent()
 		{
-			return GetCssLink("resizelargeimages.css");
+			return GetJavascriptHtml();
 		}
 	}
 }

@@ -45,9 +45,13 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 			}
 		}
 
-		public override string GetHeadContent()
+		public ExternalLinksInNewWindow()
 		{
 			AddScript("externallinksinnewwindow.js");
+		}
+
+		public override string GetHeadContent()
+		{
 			return GetJavascriptHtml();
 		}
 	}

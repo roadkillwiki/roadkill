@@ -5,7 +5,7 @@
 <h1>History</h1>
 
 <p>@Html.ActionLink("View current page version", "Index", "Wiki", new { id = ViewData["PageId"] }, null) </p>
-<p class="todo-translation">Click on a version number to compare the changes with version before it.</p>
+<p>@SiteStrings.History_Help_Label</p>
 
 @if (Model.Count() > 0)
 {

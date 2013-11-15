@@ -56,13 +56,6 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 			_replacePattern = ParserSafeToken(_replacePattern);
 		}
 
-		public override void OnInitializeSettings(Settings settings)
-		{
-			settings.SetValue("name", "value");
-			settings.SetValue("foo", "bar");
-			settings.SetValue("name1", "value2");
-		}
-
 		public override string BeforeParse(string text)
 		{
 			if (_variableRegex.IsMatch(text))

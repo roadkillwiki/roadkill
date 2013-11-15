@@ -10,13 +10,16 @@ using Roadkill.Core.Database;
 
 namespace Roadkill.Core.Plugins.Text.BuiltIn
 {
-	public class ImagesInNewWindow : TextPlugin
+	/// <summary>
+	/// Sets images (via CSS) so they don't get scaled by Bootstrap and are their original size.
+	/// </summary>
+	public class DontResizeImages : TextPlugin
 	{
 		public override string Id
 		{
 			get 
 			{ 
-				return "ImagesInNewWindow";	
+				return "DontResizeImages";	
 			}
 		}
 
@@ -24,7 +27,7 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 		{
 			get
 			{
-				return "Clickable images";
+				return "Dont't resize images";
 			}
 		}
 
@@ -32,7 +35,7 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 		{
 			get
 			{
-				return "Configures images so when they are clicked the source image is opened in a new window.";
+				return "Ensure all images are always their original width/height and not sized to fit the page.";
 			}
 		}
 
@@ -47,8 +50,7 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 
 		public override string GetHeadContent()
 		{
-			AddScript("imagesinnewwindow.js");
-			return GetJavascriptHtml();
+			return GetCssLink("dontresizeimages.css");
 		}
 	}
 }

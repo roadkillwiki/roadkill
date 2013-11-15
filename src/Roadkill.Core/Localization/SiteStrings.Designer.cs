@@ -556,6 +556,15 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The file &apos;{0}&apos; already exists..
+        /// </summary>
+        public static string FileManager_Upload_FileAlreadyExists {
+            get {
+                return ResourceManager.GetString("FileManager_Upload_FileAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Uploading....
         /// </summary>
         public static string FileManager_UploadingProgress {
@@ -588,6 +597,15 @@ namespace Roadkill.Core.Localization {
         public static string History_EditedOn {
             get {
                 return ResourceManager.GetString("History_EditedOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click on a version number to compare the changes with version before it..
+        /// </summary>
+        public static string History_Help_Label {
+            get {
+                return ResourceManager.GetString("History_Help_Label", resourceCulture);
             }
         }
         
@@ -1438,7 +1456,7 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Changes your connection string - if your server or database has changed, you will need to manually create the database tables for this to work correctly..
+        ///   Looks up a localized string similar to Changes your connection string. Note: Roadkill won&apos;t automatically recreate the database structure..
         /// </summary>
         public static string SiteSettings_Configuration_ConnectionStrings_Help {
             get {
@@ -1456,7 +1474,7 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Database connection string.
+        ///   Looks up a localized string similar to Connection string.
         /// </summary>
         public static string SiteSettings_Configuration_DatabaseConnectionString {
             get {
@@ -1483,7 +1501,7 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Changes your database type - you will need to recreate the schema in the tools for this to work correctly..
+        ///   Looks up a localized string similar to Changes the database type you&apos;re using. Note: Roadkill won&apos;t automatically recreate the database structure.
         /// </summary>
         public static string SiteSettings_Configuration_DatabaseType_Help {
             get {
@@ -1605,6 +1623,42 @@ namespace Roadkill.Core.Localization {
         public static string SiteSettings_Configuration_HeadContent_Help {
             get {
                 return ResourceManager.GetString("SiteSettings_Configuration_HeadContent_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ignore search index errors.
+        /// </summary>
+        public static string SiteSettings_Configuration_IgnoreSearchIndexErrors {
+            get {
+                return ResourceManager.GetString("SiteSettings_Configuration_IgnoreSearchIndexErrors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When checked, an error is displayed when a page fails to be indexed by the Lucene search engine (when creating or updating a page), instead of being ignored..
+        /// </summary>
+        public static string SiteSettings_Configuration_IgnoreSearchIndexErrors_Help {
+            get {
+                return ResourceManager.GetString("SiteSettings_Configuration_IgnoreSearchIndexErrors_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Public site.
+        /// </summary>
+        public static string SiteSettings_Configuration_IsPublicSite {
+            get {
+                return ResourceManager.GetString("SiteSettings_Configuration_IsPublicSite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When un-checked, all pages are private and can only be viewed by logged in users..
+        /// </summary>
+        public static string SiteSettings_Configuration_IsPublicSite_Help {
+            get {
+                return ResourceManager.GetString("SiteSettings_Configuration_IsPublicSite_Help", resourceCulture);
             }
         }
         
@@ -2028,6 +2082,24 @@ namespace Roadkill.Core.Localization {
         public static string SiteSettings_Tools_ScrewTurnImport_Message {
             get {
                 return ResourceManager.GetString("SiteSettings_Tools_ScrewTurnImport_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export as SQL.
+        /// </summary>
+        public static string SiteSettings_Tools_SqlExport {
+            get {
+                return ResourceManager.GetString("SiteSettings_Tools_SqlExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exports the current database as a single SQL script. If you are using MongoDB this action does nothing..
+        /// </summary>
+        public static string SiteSettings_Tools_SqlExport_Label {
+            get {
+                return ResourceManager.GetString("SiteSettings_Tools_SqlExport_Label", resourceCulture);
             }
         }
         
