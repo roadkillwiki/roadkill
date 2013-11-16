@@ -10,7 +10,7 @@
 		]]>
 		</Description>
 		<SearchRegex>\(warningbox:(?'warningbox'.*?)\)</SearchRegex>
-		<HtmlReplacement><![CDATA[<div class="alert">${warningbox}</div><br style="clear:both"/>]]></HtmlReplacement>
+		<HtmlReplacement><![CDATA[<div class="alert alert-warning">${warningbox}</div><br style="clear:both"/>]]></HtmlReplacement>
 	</TextToken>
 	<TextToken>
 		<Name>Alertbox</Name>
@@ -23,7 +23,7 @@
 		</Description>
 		<SearchRegex>\(alertbox:(?'alertbox'.*?)\)</SearchRegex>
 		<HtmlReplacement>
-			<![CDATA[<div class="alert alert-error">${alertbox}</div><br style="clear:both"/>]]>
+			<![CDATA[<div class="alert alert-danger">${alertbox}</div><br style="clear:both"/>]]>
 		</HtmlReplacement>
 	</TextToken>
 	<TextToken>
@@ -78,7 +78,7 @@
 		]]>
 		</Description>
 		<SearchRegex>@@warningbox:(?'warningbox'.*?)@@</SearchRegex>
-		<HtmlReplacement><![CDATA[<div class="alert">${warningbox}</div><br style="clear:both"/>]]></HtmlReplacement>
+		<HtmlReplacement><![CDATA[<div class="alert alert-warning">${warningbox}</div><br style="clear:both"/>]]></HtmlReplacement>
 	</TextToken>
 	<TextToken>
 		<Name>Alertbox</Name>
@@ -91,7 +91,7 @@
 		</Description>
 		<SearchRegex>@@alertbox:(?'alertbox'.*?)@@</SearchRegex>
 		<HtmlReplacement>
-			<![CDATA[<div class="alert alert-error">${alertbox}</div><br style="clear:both"/>]]>
+			<![CDATA[<div class="alert alert-danger">${alertbox}</div><br style="clear:both"/>]]>
 		</HtmlReplacement>
 	</TextToken>
 	<TextToken>

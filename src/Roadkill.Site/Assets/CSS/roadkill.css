@@ -38,22 +38,23 @@ The formatting style of this CSS file is:
 .smallest		{ font-size:0.7em; }
 .jqConfirm		{ font-weight:bold !important; }
 
+/* Reset the bootstrap container's padding*/
+.container { padding-left:0px !important; }
+
 /* Glyph for external links */
 a.external-link	{ background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAVklEQVR4Xn3PgQkAMQhDUXfqTu7kTtkpd5RA8AInfArtQ2iRXFWT2QedAfttj2FsPIOE1eCOlEuoWWjgzYaB/IkeGOrxXhqB+uA9Bfcm0lAZuh+YIeAD+cAqSz4kCMUAAAAASUVORK5CYII=) center right no-repeat;padding-right:13px; }
 
 /* Page information dialog */
+#pageinformation { padding-top: 10%; }
 #pageinformation .tags		{  }
 #pageinformation .tagblock	{ border:1px solid #c2c2c2;background-color:#dcdcdc;margin-right:3px;padding:5px;border-radius: 4px; }
 #pageinformation .tags a	{ color:#000 !important; }
 #pageinformation .tags a:hover	{ color:#7c7c7c !important; }
 
 /* Login,profile,reset password pages */
-#profile		{ background-color:#fbfafa;width:35em;padding:1em; }
-#login			{ background-color:#fbfafa;width:25em;padding:1em; }
-#resetpassword	{ background-color:#fbfafa;width:30em;padding:1em; }
-.userlabel		{ float:left;margin:0 5px 0 0;padding:5px 0 0 0; }
-.usertextbox	{ float:right;width:15em;display:block; padding:0.25em; margin:0 0 10px 0;color:#3A3A3A; }
-#userbutton		{ float:right; }
+#profile		{ background-color:#fbfafa;padding:1em; }
+#login			{ background-color:#fbfafa;padding:1em; }
+#resetpassword	{ background-color:#fbfafa;padding:1em; }
 
 /* Search result page */
 .searchresult			{}

@@ -70,10 +70,11 @@ var Roadkill;
 
                         button.val(ROADKILL_LINK_CONFIRM);
                         button.text(ROADKILL_LINK_CONFIRM);
-                        button.addClass("jqConfirm");
+                        button.addClass("jqConfirm btn-danger");
 
                         var handler = function () {
                             button.removeClass("jqConfirm");
+                            button.removeClass("btn-danger");
                             button.val(value);
                             button.text(text);
                             button.unbind("click.jqConfirmHandler");

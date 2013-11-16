@@ -25,7 +25,8 @@ namespace Roadkill.Core
 	public static class HtmlLinkExtensions
 	{
 		/// <summary>
-		/// Gets a string to indicate whether the current user is logged in.
+		/// Gets a string to indicate whether the current user is logged in. You should render the User action rather than this extension:
+		/// @Html.Action("LoggedInAs", "User")
 		/// </summary>
 		/// <returns>"Logged in as {user}" if the user is logged in; "Not logged in" if the user is not logged in.</returns>
 		public static MvcHtmlString LoginStatus(this HtmlHelper helper)

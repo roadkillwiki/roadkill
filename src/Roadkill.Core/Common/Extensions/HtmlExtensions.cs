@@ -180,9 +180,13 @@ namespace Roadkill.Core
 				{
 					using (HtmlTextWriter htmlWriter = new HtmlTextWriter(stringWriter))
 					{
-						stringWriter.WriteLine("<br/><label class=\"userlabel\">As an anti-spam measure, please enter the two words below</label><br style=\"clear:both\"><br/>");
+						// todo-TRANSLATION
+						stringWriter.WriteLine("<div class=\"form-group\">");
+						stringWriter.WriteLine("\t<label class=\"col-sm-4 control-label\">As an anti-spam measure, please enter the two words below</label>");
+						stringWriter.WriteLine("\t<div class=\"col-sm-8\">");
 						control.RenderControl(htmlWriter);
-						stringWriter.WriteLine("<br/>");
+						stringWriter.WriteLine("\t</div>");
+						stringWriter.WriteLine("</div>");
 						
 						return MvcHtmlString.Create(htmlWriter.InnerWriter.ToString());
 					}
