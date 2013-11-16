@@ -1,17 +1,12 @@
-body				{ font-family:sans-serif;background:url('pagebg.png');font-size:0.8em;margin:0px;padding:0px; }
-/* Resize headers as Bootstrap makes them enormous */
-h1					{ font-size:2em; }
-h2					{ font-size:1.5em; }
-h3					{ font-size:1.17em; }
-h4					{ font-size:1em; }
-h5					{ font-size: 90%; }
+body				{ font-family:sans-serif;background:url('pagebg.png');margin:0px;padding:0px; }
+
 h1,h2,h3,h4,h5		{ border-bottom:1px solid #AAA;bottom-padding:3px; }
 a					{ text-decoration:none;color:#0645AD; }
 a:hover, a:focus	{ text-decoration:underline; }
 
 #headfade		{ background-color:#FFF;width:100%;height:6em;background-image:url('page-fade.png');background-position:bottom left;background-repeat:repeat-x; }
 #search input	{ float:left;z-index:10; }
-#search button	{ padding:0px;margin:0px; }
+#search button	{ padding:0px;margin:0px;margin-top:2px; }
 #searchbutton	{ background-color:transparent;cursor:pointer;border:0px;margin-left:-18px !important; }
 
 #leftmenu ul,#leftmenu li	{ padding:0px;margin:0px; }
