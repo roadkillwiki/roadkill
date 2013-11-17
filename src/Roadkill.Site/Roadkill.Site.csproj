@@ -574,7 +574,6 @@
     <None Include="Properties\PublishProfiles\Mono.pubxml" />
     <Content Include="Assets\Scripts\toastr.js" />
     <Content Include="Themes\BlackBar\Theme.print.css" />
-    <Content Include="Themes\Responsive\jumbotron.jpg" />
     <Content Include="Themes\Responsive\Theme.css" />
     <Content Include="Themes\Roadkill\logo.png" />
     <Content Include="Themes\Roadkill\Theme.css" />

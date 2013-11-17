@@ -8,12 +8,11 @@
 	@RenderSection("PluginHead", false)
 </head>
 <body>
+	@RenderSection("PageToolbar", false)
+
 	<!-- Header -->
 @using (Html.BeginForm("Search", "Home", FormMethod.Get))
 {
-		<div class="container">
-		
-	</div>
 	<div id="header-wrapper">
 		<div class="container">
 			<div id="login-status">
@@ -60,18 +59,15 @@
 		<div id="footer-inner">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-8">
-						<h6>@SiteStrings.Shared_PoweredBy (@ApplicationSettings.ProductVersion). <a href="#">Top</a></h6>
-					</div>
-				</div>
-
-				<div class="row" id="footer-page-toolbar">
-					<div class="col-md-12">
-						@RenderSection("PageToolbar", false)
+					<div class="col-md-11">
+						<h6>@SiteStrings.Shared_PoweredBy (@ApplicationSettings.ProductVersion).</h6>
 						<h6>
 							@RenderSection("PageDetailsFooter", false)
 							@RenderSection("ViewHistoryLink", false)
 						</h6>
+					</div>
+					<div class="col-md-1">
+						<h6><a href="#">Top</a></h6>
 					</div>
 				</div>
 

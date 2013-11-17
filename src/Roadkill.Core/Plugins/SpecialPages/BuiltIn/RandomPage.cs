@@ -19,7 +19,7 @@ namespace Roadkill.Core.Plugins.SpecialPages.BuiltIn
 		}
 
 		public RandomPage() { }
-		public RandomPage(Random random)
+		internal RandomPage(Random random)
 		{
 			_random = random;
 		}
