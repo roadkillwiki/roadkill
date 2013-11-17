@@ -10,6 +10,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Security;
+using System.IO;
 
 namespace Roadkill.Tests.Unit.Mvc.Controllers
 {
@@ -17,37 +18,38 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 	[Category("Unit")]
 	public class UpgradeControllerTests
 	{
-		private ApplicationSettings _settings;
+		private MocksAndStubsContainer _container;
+
+		private ApplicationSettings _applicationSettings;
 		private IUserContext _context;
 		private RepositoryMock _repository;
-
 		private UserServiceBase _userService;
 		private SettingsService _settingsService;
-		private UpgradeController _controller;
+		private UpgradeController _upgradeController;
 
 		[SetUp]
 		public void Setup()
 		{
-			_context = new Mock<IUserContext>().Object;
-			_settings = new ApplicationSettings();
-			_settings.Installed = true;
+			_container = new MocksAndStubsContainer();
 
-			_repository = new RepositoryMock();
-			_repository.SiteSettings = new SiteSettings();
-			_repository.SiteSettings.MarkupType = "Creole";
-			_userService = new FormsAuthUserService(_settings, _repository);
+			_applicationSettings = _container.ApplicationSettings;
+			_applicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
+			_context = _container.UserContext;
+			_repository = _container.Repository;
+			_settingsService = _container.SettingsService;
+			_userService = new FormsAuthUserService(_applicationSettings, _repository);
 
-			_controller = new UpgradeController(_settings, _repository, _userService, _context, _settingsService);
+			_upgradeController = new UpgradeController(_applicationSettings, _repository, _userService, _context, _settingsService);
 		}
 
 		[Test]
 		public void Index_Should_Redirect_If_Upgrade_Is_Not_Required()
 		{
 			// Arrange
-			_settings.UpgradeRequired = false;
+			_applicationSettings.UpgradeRequired = false;
 			
 			// Act
-			ActionResult result = _controller.Index();
+			ActionResult result = _upgradeController.Index();
 
 			// Assert
 			Assert.That(result, Is.TypeOf<RedirectToRouteResult>(), "RedirectToAction");

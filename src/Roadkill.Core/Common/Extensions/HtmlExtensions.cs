@@ -11,10 +11,13 @@ using Recaptcha;
 using System.Web.UI;
 using System.IO;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Services;
+using StructureMap;
 using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Localization;
+using Roadkill.Core.DI;
 
 namespace Roadkill.Core
 {
@@ -177,9 +180,13 @@ namespace Roadkill.Core
 				{
 					using (HtmlTextWriter htmlWriter = new HtmlTextWriter(stringWriter))
 					{
-						stringWriter.WriteLine("<br/><label class=\"userlabel\">As an anti-spam measure, please enter the two words below</label><br style=\"clear:both\"><br/>");
+						// todo-TRANSLATION
+						stringWriter.WriteLine("<div class=\"form-group\">");
+						stringWriter.WriteLine("\t<label class=\"col-sm-4 control-label\">As an anti-spam measure, please enter the two words below</label>");
+						stringWriter.WriteLine("\t<div class=\"col-sm-8\">");
 						control.RenderControl(htmlWriter);
-						stringWriter.WriteLine("<br/>");
+						stringWriter.WriteLine("\t</div>");
+						stringWriter.WriteLine("</div>");
 						
 						return MvcHtmlString.Create(htmlWriter.InnerWriter.ToString());
 					}
@@ -282,5 +289,35 @@ namespace Roadkill.Core
 		{
 			return helper.Partial(viewName, model);
 		}
+
+        /// <summary>
+        /// Render the first page which has this tag. Admin locked pages have priority. 
+        /// </summary>
+        /// <param name="tag">the tagname</param>
+        /// <returns>html</returns>
+        /// <example>
+        /// usage:   @Html.RenderPageByTag("secondMenu")
+        /// </example>
+        public static MvcHtmlString RenderPageByTag(this HtmlHelper helper, string tag)
+        {
+            var manager = ServiceLocator.GetInstance<PageService>();
+
+            // Find the page, first search for a locked page.
+            var summary = manager.FindByTag(tag).FirstOrDefault(h => h.IsLocked);
+            if (summary == null)
+            {
+               
+                summary = manager.FindByTag(tag).FirstOrDefault();
+            }
+            if (summary == null)
+            {
+                return new MvcHtmlString(string.Empty);
+            }
+            var content = summary.Content;
+            var markupConverter = ObjectFactory.GetInstance<MarkupConverter>();
+
+
+            return MvcHtmlString.Create(markupConverter.ToHtml(content));
+        }
 	}
 }

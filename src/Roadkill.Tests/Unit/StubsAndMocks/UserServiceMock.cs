@@ -125,14 +125,16 @@ namespace Roadkill.Tests
 			return Users.FirstOrDefault(x => x.PasswordResetKey == resetKey);
 		}
 
-		public override bool IsAdmin(string email)
+		public override bool IsAdmin(string cookieValue)
 		{
-			return Users.Any(x => x.Email == email && x.IsAdmin);
+			Guid id = Guid.Parse(cookieValue);
+			return Users.Any(x => x.Id == id && x.IsAdmin);
 		}
 
-		public override bool IsEditor(string email)
+		public override bool IsEditor(string cookieValue)
 		{
-			return Users.Any(x => x.Email == email && x.IsEditor);
+			Guid id = Guid.Parse(cookieValue);
+			return Users.Any(x => x.Id == id && x.IsEditor);
 		}
 
 		public override IEnumerable<UserViewModel> ListAdmins()

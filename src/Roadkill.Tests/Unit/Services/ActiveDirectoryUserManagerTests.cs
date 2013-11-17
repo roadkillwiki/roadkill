@@ -30,10 +30,12 @@ namespace Roadkill.Tests.Unit
 		private static readonly string _username = "username";
 		private static readonly string _password = "password";
 
-		private Mock<IActiveDirectoryProvider> _serviceMock;
+		private MocksAndStubsContainer _container;
+
 		private IRepository _repository;
-		private ApplicationSettings _settings;
-		private ActiveDirectoryUserService _manager;
+		private ApplicationSettings _applicationSettings;
+		private Mock<IActiveDirectoryProvider> _adProviderMock;
+		private ActiveDirectoryUserService _userService;
 
 		private class MockPrincipal : IPrincipalDetails
 		{
@@ -43,6 +45,15 @@ namespace Roadkill.Tests.Unit
 		[SetUp]
 		public void Setup()
 		{
+			_container = new MocksAndStubsContainer();
+			_applicationSettings = _container.ApplicationSettings;
+			_applicationSettings.LdapConnectionString = _ldapString;
+			_applicationSettings.LdapUsername = _username;
+			_applicationSettings.LdapPassword = _password;
+			_applicationSettings.AdminRoleName = _adminsGroupName;
+			_applicationSettings.EditorRoleName = _editorsGroupName;
+			_repository = _container.Repository;
+
 			List<IPrincipalDetails> adminUsers = new List<IPrincipalDetails>();
 			adminUsers.Add(new MockPrincipal() { SamAccountName = "admin1" });
 			adminUsers.Add(new MockPrincipal() { SamAccountName = "admin2" });
@@ -51,19 +62,11 @@ namespace Roadkill.Tests.Unit
 			editorUsers.Add(new MockPrincipal() { SamAccountName = "editor1" });
 			editorUsers.Add(new MockPrincipal() { SamAccountName = "editor2" });
 
-			_serviceMock = new Mock<IActiveDirectoryProvider>();
-			_serviceMock.Setup(x => x.GetMembers(_domainPath, _username, _password, _adminsGroupName)).Returns(adminUsers);
-			_serviceMock.Setup(x => x.GetMembers(_domainPath, _username, _password, _editorsGroupName)).Returns(editorUsers);
+			_adProviderMock = new Mock<IActiveDirectoryProvider>();
+			_adProviderMock.Setup(x => x.GetMembers(_domainPath, _username, _password, _adminsGroupName)).Returns(adminUsers);
+			_adProviderMock.Setup(x => x.GetMembers(_domainPath, _username, _password, _editorsGroupName)).Returns(editorUsers);
 
-			_settings = new ApplicationSettings();
-			_settings.LdapConnectionString = _ldapString;
-			_settings.LdapUsername = _username;
-			_settings.LdapPassword = _password;
-			_settings.AdminRoleName = _adminsGroupName;
-			_settings.EditorRoleName = _editorsGroupName;
-			_repository = new Mock<IRepository>().Object;
-
-			_manager = new ActiveDirectoryUserService(_settings, _repository, _serviceMock.Object);
+			_userService = new ActiveDirectoryUserService(_applicationSettings, _repository, _adProviderMock.Object);
 		}
 
 		[Test]
@@ -72,8 +75,8 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 
 			// Act + Assert
-			Assert.That(_manager.IsAdmin("admin1"), Is.True);
-			Assert.That(_manager.IsAdmin("admin2"), Is.True);
+			Assert.That(_userService.IsAdmin("admin1"), Is.True);
+			Assert.That(_userService.IsAdmin("admin2"), Is.True);
 		}
 
 		[Test]
@@ -82,19 +85,19 @@ namespace Roadkill.Tests.Unit
 			// Arrange		
 
 			// Act + Assert
-			Assert.That(_manager.IsAdmin("editor1"), Is.False);
-			Assert.That(_manager.IsAdmin("editor2"), Is.False);
+			Assert.That(_userService.IsAdmin("editor1"), Is.False);
+			Assert.That(_userService.IsAdmin("editor2"), Is.False);
 		}
 
 		[Test]
 		public void Editors_Should_Belong_To_Group()
 		{
 			// Arrange
-			ActiveDirectoryUserService manager = new ActiveDirectoryUserService(_settings, _repository, _serviceMock.Object);
+			ActiveDirectoryUserService service = new ActiveDirectoryUserService(_applicationSettings, _repository, _adProviderMock.Object);
 
 			// Act + Assert
-			Assert.That(manager.IsEditor("editor1"), Is.True);
-			Assert.That(manager.IsEditor("editor2"), Is.True);
+			Assert.That(service.IsEditor("editor1"), Is.True);
+			Assert.That(service.IsEditor("editor2"), Is.True);
 		}
 
 		[Test]
@@ -103,7 +106,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange			
 
 			// Act
-			User user = _manager.GetUser("editor1");
+			User user = _userService.GetUser("editor1");
 
 			// Assert
 			Assert.That(user, Is.Not.Null);
@@ -120,7 +123,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 
 			// Act
-			List<UserViewModel> users = _manager.ListAdmins().ToList();
+			List<UserViewModel> users = _userService.ListAdmins().ToList();
 
 			// Assert
 			Assert.That(users.Count, Is.EqualTo(2));
@@ -134,7 +137,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 
 			// Act
-			List<UserViewModel> users = _manager.ListEditors().ToList();
+			List<UserViewModel> users = _userService.ListEditors().ToList();
 
 			// Assert
 			Assert.That(users.Count, Is.EqualTo(2));
@@ -146,10 +149,10 @@ namespace Roadkill.Tests.Unit
 		public void Should_Not_Throw_SecurityException_With_Valid_Ldap_String()
 		{
 			// Arrange + Act
-			ActiveDirectoryUserService manager = new ActiveDirectoryUserService(_settings, _repository, _serviceMock.Object);
+			ActiveDirectoryUserService manager = new ActiveDirectoryUserService(_applicationSettings, _repository, _adProviderMock.Object);
 
 			// Assert
-			Assert.That(_manager, Is.Not.Null);
+			Assert.That(_userService, Is.Not.Null);
 		}
 
 		[Test]
@@ -157,8 +160,8 @@ namespace Roadkill.Tests.Unit
 		public void Empty_Ldap_String_Should_Throw_SecurityException_In_Constructor()
 		{
 			// Arrange + act + assert
-			_settings.LdapConnectionString = "";
-			ActiveDirectoryUserService manager = new ActiveDirectoryUserService(_settings, _repository, _serviceMock.Object);
+			_applicationSettings.LdapConnectionString = "";
+			ActiveDirectoryUserService service = new ActiveDirectoryUserService(_applicationSettings, _repository, _adProviderMock.Object);
 		}
 
 		[Test]
@@ -166,8 +169,8 @@ namespace Roadkill.Tests.Unit
 		public void Wrong_Format_Ldap_String_Should_Throw_SecurityException_In_Constructor()
 		{
 			// Arrange + act + assert
-			_settings.LdapConnectionString = "iforgot.the.ldap.part.com";
-			ActiveDirectoryUserService manager = new ActiveDirectoryUserService(_settings, _repository, _serviceMock.Object);
+			_applicationSettings.LdapConnectionString = "iforgot.the.ldap.part.com";
+			ActiveDirectoryUserService service = new ActiveDirectoryUserService(_applicationSettings, _repository, _adProviderMock.Object);
 		}
 
 		[Test]
@@ -175,8 +178,8 @@ namespace Roadkill.Tests.Unit
 		public void No_Admin_Group_Should_Throw_SecurityException_In_Constructor()
 		{
 			// Arrange + act + assert
-			_settings.AdminRoleName = "";
-			ActiveDirectoryUserService manager = new ActiveDirectoryUserService(_settings, _repository, _serviceMock.Object);
+			_applicationSettings.AdminRoleName = "";
+			ActiveDirectoryUserService service = new ActiveDirectoryUserService(_applicationSettings, _repository, _adProviderMock.Object);
 		}
 
 		[Test]
@@ -184,8 +187,8 @@ namespace Roadkill.Tests.Unit
 		public void No_Editor_Group_Should_Throw_SecurityException_In_Constructor()
 		{
 			// Arrange + act + assert
-			_settings.EditorRoleName = "";
-			ActiveDirectoryUserService manager = new ActiveDirectoryUserService(_settings, _repository, _serviceMock.Object);
+			_applicationSettings.EditorRoleName = "";
+			ActiveDirectoryUserService service = new ActiveDirectoryUserService(_applicationSettings, _repository, _adProviderMock.Object);
 		}
 	}
 }

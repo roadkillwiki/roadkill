@@ -36,8 +36,8 @@
 	</div>
 
     <div>
-        @Html.ActionLink("Export as SQL", "ExportAsSQL", null, new { @class = "btn btn-success todo-translation" })<br />
-        <p>Export as SQL description TODO TRANSLATION</p>
+        @Html.ActionLink(SiteStrings.SiteSettings_Tools_SqlExport, "ExportAsSQL", null, new { @class = "btn btn-success" })<br />
+        <p>@SiteStrings.SiteSettings_Tools_SqlExport_Label</p>
     </div>
 
 	<div>

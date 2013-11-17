@@ -61,7 +61,7 @@ namespace Roadkill.Core.Text
 				SiteSettings siteSettings = _repository.GetSiteSettings();
 				html = siteSettings.MenuMarkup;
 
-				html = _markupConverter.ParseMenuHtml(html);
+				html = _markupConverter.ParseMenuMarkup(html);
 				html = ReplaceKnownTokens(html);
 
 				if (_userContext.IsLoggedIn)

@@ -24,40 +24,35 @@ namespace Roadkill.Tests.Unit
 		public static string AdminUsername = "admin";
 		public static string AdminPassword = "password";
 
-		private User _testUser;
+		private MocksAndStubsContainer _container;
 
-		private RepositoryMock _repositoryMock;
-		private ApplicationSettings _settings;
-		private Mock<UserServiceBase> _mockUserManager;
-		private UserContext _context;
+		private ApplicationSettings _applicationSettings;
+		private RepositoryMock _repository;
+		private UserServiceMock _userService;
 		private PageHistoryService _historyService;
-		private PluginFactoryMock _pluginFactory;
+
+		private IUserContext _context;
+		private User _testUser;
 
 		[SetUp]
 		public void Setup()
 		{
-			_repositoryMock = new RepositoryMock();
-			_settings = new ApplicationSettings();
-			_settings.Installed = true;
+			_container = new MocksAndStubsContainer();
+
+			_applicationSettings = _container.ApplicationSettings;
+			_context = _container.UserContext;	
+			_repository = _container.Repository;
+			_userService = _container.UserService;
+			_historyService = _container.HistoryService;
 
 			_testUser = new User();
+			_testUser.IsActivated = true;
 			_testUser.Id = Guid.NewGuid();
 			_testUser.Email = AdminEmail;
 			_testUser.Username = AdminUsername;
-			Guid userId = _testUser.Id;
+			_userService.Users.Add(_testUser);
 
-			_mockUserManager = new Mock<UserServiceBase>(_settings, _repositoryMock);
-			_mockUserManager.Setup(x => x.GetUser(_testUser.Email, It.IsAny<bool>())).Returns(_testUser);
-			_mockUserManager.Setup(x => x.GetUserById(userId, It.IsAny<bool>())).Returns(_testUser);
-			_mockUserManager.Setup(x => x.Authenticate(_testUser.Email, "")).Returns(true);
-			_mockUserManager.Setup(x => x.GetLoggedInUserName(It.IsAny<HttpContextBase>())).Returns(_testUser.Username);
-
-			// Context stub
-			_context = new UserContext(_mockUserManager.Object);
-			_context.CurrentUser = userId.ToString();
-
-			_pluginFactory = new PluginFactoryMock();
-			_historyService = new PageHistoryService(_settings, _repositoryMock, _context, new PageViewModelCache(_settings, CacheMock.RoadkillCache), _pluginFactory);
+			_context.CurrentUser = _testUser.Id.ToString();
 		}
 
 		[Test]
@@ -66,10 +61,10 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			DateTime createdDate = DateTime.Today.AddDays(-1);
 			Page page = NewPage("admin");
-			PageContent v1Content = _repositoryMock.AddNewPage(page, "v1 text", "admin", createdDate);
-			PageContent v2Content = _repositoryMock.AddNewPageContentVersion(page, "v2 text", "admin", createdDate.AddHours(1), 2);
-			PageContent v3Content = _repositoryMock.AddNewPageContentVersion(page, "v3 text", "admin", createdDate.AddHours(2), 3);
-			PageContent v4Content = _repositoryMock.AddNewPageContentVersion(page, "v4 text", "admin", createdDate.AddHours(3), 4);
+			PageContent v1Content = _repository.AddNewPage(page, "v1 text", "admin", createdDate);
+			PageContent v2Content = _repository.AddNewPageContentVersion(page, "v2 text", "admin", createdDate.AddHours(1), 2);
+			PageContent v3Content = _repository.AddNewPageContentVersion(page, "v3 text", "admin", createdDate.AddHours(2), 3);
+			PageContent v4Content = _repository.AddNewPageContentVersion(page, "v4 text", "admin", createdDate.AddHours(3), 4);
 
 			// Act
 			List<PageViewModel> versionList = _historyService.CompareVersions(v4Content.Id).ToList();
@@ -85,7 +80,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			Page page = NewPage("admin");
-			PageContent v1Content = _repositoryMock.AddNewPage(page, "v1 text", "admin", DateTime.Today.AddDays(-1));
+			PageContent v1Content = _repository.AddNewPage(page, "v1 text", "admin", DateTime.Today.AddDays(-1));
 
 			// Act
 			List<PageViewModel> versionList = _historyService.CompareVersions(v1Content.Id).ToList();
@@ -101,8 +96,8 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			Page page = NewPage("admin");
-			PageContent v1Content = _repositoryMock.AddNewPage(page, "v1 text", "admin", DateTime.Today.AddDays(-1));
-			PageContent v2Content = _repositoryMock.AddNewPageContentVersion(page, "v2 text", "admin", DateTime.Today.AddDays(-1).AddHours(1), 2);
+			PageContent v1Content = _repository.AddNewPage(page, "v1 text", "admin", DateTime.Today.AddDays(-1));
+			PageContent v2Content = _repository.AddNewPageContentVersion(page, "v2 text", "admin", DateTime.Today.AddDays(-1).AddHours(1), 2);
 
 			page = v2Content.Page; // update the id
 			page.IsLocked = true;
@@ -127,10 +122,10 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			DateTime createdDate = DateTime.Today.AddDays(-1);
 			Page page = NewPage("admin");
-			PageContent v1Content = _repositoryMock.AddNewPage(page, "v1 text", "admin", createdDate);
-			PageContent v2Content = _repositoryMock.AddNewPageContentVersion(page, "v2 text", "admin", createdDate.AddHours(1), 2);
-			PageContent v3Content = _repositoryMock.AddNewPageContentVersion(page, "v3 text", "admin", createdDate.AddHours(2), 3);
-			PageContent v4Content = _repositoryMock.AddNewPageContentVersion(page, "v4 text", "admin", createdDate.AddHours(3), 4);
+			PageContent v1Content = _repository.AddNewPage(page, "v1 text", "admin", createdDate);
+			PageContent v2Content = _repository.AddNewPageContentVersion(page, "v2 text", "admin", createdDate.AddHours(1), 2);
+			PageContent v3Content = _repository.AddNewPageContentVersion(page, "v3 text", "admin", createdDate.AddHours(2), 3);
+			PageContent v4Content = _repository.AddNewPageContentVersion(page, "v4 text", "admin", createdDate.AddHours(3), 4);
 
 			// Act
 			List<PageHistoryViewModel> historyList = _historyService.GetHistory(v1Content.Page.Id).ToList();
@@ -149,11 +144,11 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			DateTime createdDate = DateTime.Today.AddDays(-1);
 			Page page = NewPage("admin");
-			PageContent v1Content = _repositoryMock.AddNewPage(page, "v1 text", "admin", createdDate);
+			PageContent v1Content = _repository.AddNewPage(page, "v1 text", "admin", createdDate);
 			page = v1Content.Page;
-			PageContent v2Content = _repositoryMock.AddNewPageContentVersion(page, "v2 text", "admin", createdDate.AddHours(1), 2);
-			PageContent v3Content = _repositoryMock.AddNewPageContentVersion(page, "v3 text", "admin", createdDate.AddHours(2), 3);
-			PageContent v4Content = _repositoryMock.AddNewPageContentVersion(page, "v4 text", "admin", createdDate.AddHours(3), 4);
+			PageContent v2Content = _repository.AddNewPageContentVersion(page, "v2 text", "admin", createdDate.AddHours(1), 2);
+			PageContent v3Content = _repository.AddNewPageContentVersion(page, "v3 text", "admin", createdDate.AddHours(2), 3);
+			PageContent v4Content = _repository.AddNewPageContentVersion(page, "v4 text", "admin", createdDate.AddHours(3), 4);
 
 			int expectedVersion = 4;
 
@@ -171,13 +166,13 @@ namespace Roadkill.Tests.Unit
 			DateTime createdDate = DateTime.Today.AddDays(-1);
 			_context.CurrentUser = "someoneelse";
 			Page page = NewPage("admin");
-			PageContent v1Content = _repositoryMock.AddNewPage(page, "v1 text", "admin", createdDate);
+			PageContent v1Content = _repository.AddNewPage(page, "v1 text", "admin", createdDate);
 			page = v1Content.Page;
-			PageContent v2Content = _repositoryMock.AddNewPageContentVersion(page, "v2 text", "admin", createdDate.AddHours(1), 2);
+			PageContent v2Content = _repository.AddNewPageContentVersion(page, "v2 text", "admin", createdDate.AddHours(1), 2);
 
 			// Act
 			_historyService.RevertTo(v1Content.Id, _context);
-			PageContent actualContent = _repositoryMock.GetLatestPageContent(page.Id);
+			PageContent actualContent = _repository.GetLatestPageContent(page.Id);
 
 			// Assert
 			Assert.That(actualContent.VersionNumber, Is.EqualTo(3));
@@ -191,13 +186,13 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			DateTime createdDate = DateTime.Today.AddDays(-1);
 			Page page = NewPage("admin");
-			PageContent v1Content = _repositoryMock.AddNewPage(page, "v1 text", "admin", createdDate);
+			PageContent v1Content = _repository.AddNewPage(page, "v1 text", "admin", createdDate);
 			page = v1Content.Page;
-			PageContent v2Content = _repositoryMock.AddNewPageContentVersion(page, "v2 text", "admin", createdDate.AddHours(1), 2);
+			PageContent v2Content = _repository.AddNewPageContentVersion(page, "v2 text", "admin", createdDate.AddHours(1), 2);
 
 			// Act
 			_historyService.RevertTo(page.Id, 1);
-			PageContent actualContent = _repositoryMock.GetLatestPageContent(page.Id);
+			PageContent actualContent = _repository.GetLatestPageContent(page.Id);
 
 			// Assert
 			Assert.That(actualContent.VersionNumber, Is.EqualTo(3));

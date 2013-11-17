@@ -21,40 +21,30 @@ namespace Roadkill.Tests.Unit
 	[Category("Unit")]
 	public class HelpControllerTests
 	{
+		private MocksAndStubsContainer _container;
+
 		private ApplicationSettings _applicationSettings;
 		private IUserContext _context;
 		private RepositoryMock _repository;
-		private UserServiceBase _userService;
+		private UserServiceMock _userService;
 		private PageService _pageService;
-		private PageHistoryService _historyService;
 		private SettingsService _settingsService;
-		private PluginFactoryMock _pluginFactory;
 
-		private HelpController _controller;
+		private HelpController _helpController;
 
 		[SetUp]
 		public void Setup()
 		{
-			_context = new Mock<IUserContext>().Object;
-			_applicationSettings = new ApplicationSettings();
-			_applicationSettings.Installed = true;
-			_repository = new RepositoryMock();
+			_container = new MocksAndStubsContainer();
 
-			// Cache
-			ListCache listCache = new ListCache(_applicationSettings, CacheMock.RoadkillCache);
-			PageViewModelCache pageViewModelCache = new PageViewModelCache(_applicationSettings, CacheMock.RoadkillCache);
-			SiteCache siteCache = new SiteCache(_applicationSettings, CacheMock.RoadkillCache);
+			_applicationSettings = _container.ApplicationSettings;
+			_context = _container.UserContext;
+			_repository = _container.Repository;
+			_settingsService = _container.SettingsService;
+			_userService = _container.UserService;
+			_pageService = _container.PageService;
 
-			// Dependencies for PageService
-			_pluginFactory = new PluginFactoryMock();
-			Mock<SearchService> searchMock = new Mock<SearchService>();
-
-			_settingsService = new SettingsService(_applicationSettings, _repository);
-			_userService = new Mock<UserServiceBase>(_applicationSettings, null).Object;
-			_historyService = new PageHistoryService(_applicationSettings, _repository, _context, pageViewModelCache, _pluginFactory);
-			_pageService = new PageService(_applicationSettings, _repository, null, _historyService, _context, listCache, pageViewModelCache, siteCache, _pluginFactory);
-
-			_controller = new HelpController(_applicationSettings, _userService, _context, _settingsService, _pageService);
+			_helpController = new HelpController(_applicationSettings, _userService, _context, _settingsService, _pageService);
 		}
 
 		[Test]
@@ -64,7 +54,7 @@ namespace Roadkill.Tests.Unit
 			_repository.SiteSettings.MarkupType = "Mediawiki";
 
 			// Act
-			ViewResult result = _controller.Index() as ViewResult;
+			ViewResult result = _helpController.Index() as ViewResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
@@ -84,7 +74,7 @@ namespace Roadkill.Tests.Unit
 			_repository.AddNewPage(aboutPage, "text", "nobody", DateTime.Now);
 
 			// Act
-			ViewResult result = _controller.About() as ViewResult;
+			ViewResult result = _helpController.About() as ViewResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
@@ -102,7 +92,7 @@ namespace Roadkill.Tests.Unit
 
 
 			// Act
-			RedirectToRouteResult result = _controller.About() as RedirectToRouteResult;
+			RedirectToRouteResult result = _helpController.About() as RedirectToRouteResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
@@ -119,7 +109,7 @@ namespace Roadkill.Tests.Unit
 
 
 			// Act
-			ViewResult result = _controller.CreoleReference() as ViewResult;
+			ViewResult result = _helpController.CreoleReference() as ViewResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
@@ -132,7 +122,7 @@ namespace Roadkill.Tests.Unit
 
 
 			// Act
-			ViewResult result = _controller.MediaWikiReference() as ViewResult;
+			ViewResult result = _helpController.MediaWikiReference() as ViewResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
@@ -145,7 +135,7 @@ namespace Roadkill.Tests.Unit
 
 
 			// Act
-			ViewResult result = _controller.MarkdownReference() as ViewResult;
+			ViewResult result = _helpController.MarkdownReference() as ViewResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);

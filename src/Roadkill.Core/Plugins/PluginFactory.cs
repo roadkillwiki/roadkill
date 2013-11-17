@@ -39,6 +39,9 @@ namespace Roadkill.Core.Plugins
 			return ServiceLocator.GetAllInstances<TextPlugin>().Where(x => x.Settings.IsEnabled);
 		}
 
+		/// <summary>
+		/// Case insensitive search for a text plugin. Returns null if it doesn't exist.
+		/// </summary>
 		public TextPlugin GetTextPlugin(string id)
 		{
 			return ServiceLocator.GetAllInstances<TextPlugin>().FirstOrDefault(x => x.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
@@ -49,6 +52,9 @@ namespace Roadkill.Core.Plugins
 			return ServiceLocator.GetAllInstances<SpecialPagePlugin>();
 		}
 
+		/// <summary>
+		/// Case insensitive search for a special page plugin. Returns null if it doesn't exist.
+		/// </summary>
 		public SpecialPagePlugin GetSpecialPagePlugin(string name)
 		{
 			return ServiceLocator.GetAllInstances<SpecialPagePlugin>().FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));

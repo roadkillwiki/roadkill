@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using Moq;
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Tests.Unit;
 
 namespace Roadkill.Tests.Integration.Configuration
 {
@@ -42,22 +45,41 @@ namespace Roadkill.Tests.Integration.Configuration
 		}
 
 		[Test]
-		public void Attachment_Paths_Should()
+		public void AttachmentsDirectoryPath_Should_Map_AttachmentsFolder_And_End_With_Slash()
 		{
-			// AttachmentsFolder
-			// AttachmentsDirectoryPath
-			// AttachmentsUrlPath
-			// AttachmentsRoutePath
-
-			// RandomPage plugin
-
 			// Arrange
-			ApplicationSettings appSettings = new ApplicationSettings();
+			string attachmentsFolder = @"~/myfolder";
+
+			MvcMockContainer container = new MvcMockContainer();
+			HttpContextBase httpContext = MvcMockHelpers.FakeHttpContext(container);
+			container.ServerUtility.Setup(x => x.MapPath(attachmentsFolder)).Returns(@"c:\inetpub\myfolder");
+
+			ApplicationSettings appSettings = new ApplicationSettings(httpContext);
+			appSettings.AttachmentsFolder = attachmentsFolder;
 
 			// Act
-
+			string actualPath = appSettings.AttachmentsDirectoryPath;
 
 			// Assert
+			Assert.That(actualPath, Is.EqualTo(@"c:\inetpub\myfolder\"));
+		}
+
+		[Test]
+		public void AttachmentsRoutePath_Should_Use_AttachmentsRoutePath_And_Prepend_ApplicationPath()
+		{
+			// Arrange
+			MvcMockContainer container = new MvcMockContainer();
+			HttpContextBase httpContext = MvcMockHelpers.FakeHttpContext(container);
+			container.Request.Setup(x => x.ApplicationPath).Returns("/wiki");
+
+			ApplicationSettings appSettings = new ApplicationSettings(httpContext);
+			appSettings.AttachmentsRoutePath = "Folder1/Folder2";
+
+			// Act
+			string actualUrlPath = appSettings.AttachmentsUrlPath;
+			
+			// Assert
+			Assert.That(actualUrlPath, Is.EqualTo(@"/wiki/Folder1/Folder2"));
 		}
 	}
 }

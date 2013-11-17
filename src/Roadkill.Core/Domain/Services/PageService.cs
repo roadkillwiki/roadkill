@@ -76,7 +76,7 @@ namespace Roadkill.Core.Services
 				_pageViewModelCache.RemoveAll(); // completely clear the cache to update any reciprocal links.
 
 				// Update the lucene index
-				PageViewModel savedModel = pageContent.ToModel(_markupConverter);
+				PageViewModel savedModel = new PageViewModel(pageContent, _markupConverter);
 				try
 				{
 					_searchService.Add(savedModel);
@@ -115,7 +115,7 @@ namespace Roadkill.Core.Services
 					{
 						IEnumerable<Page> pages = Repository.AllPages().OrderBy(p => p.Title);
 						pageModels = from page in pages
-									select Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
+									select new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
 
 						_listCache.Add<PageViewModel>(cacheKey, pageModels);
 					}
@@ -160,7 +160,7 @@ namespace Roadkill.Core.Services
 				{
 					IEnumerable<Page> pages = Repository.FindPagesCreatedBy(userName);
 					models = from page in pages
-								select Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
+								select new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
 
 					_listCache.Add<PageViewModel>(cacheKey, models);
 				}
@@ -235,10 +235,10 @@ namespace Roadkill.Core.Services
 				Page page = Repository.GetPageById(pageId);
 
 				// Update the lucene index before we actually delete the page.
-				// We cannot call the ToModel() method on an object that no longer exists.
 				try
 				{
-					_searchService.Delete(Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter));
+					PageViewModel model = new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
+					_searchService.Delete(model);
 				}
 				catch (SearchException ex)
 				{
@@ -310,7 +310,7 @@ namespace Roadkill.Core.Services
 					
 					if (page != null)
 					{
-						pageModel = Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
+						pageModel = new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
 						_pageViewModelCache.UpdateHomePage(pageModel);
 					}
 				}
@@ -341,7 +341,7 @@ namespace Roadkill.Core.Services
 
 					IEnumerable<Page> pages = Repository.FindPagesContainingTag(tag).OrderBy(p => p.Title);
 					models = from page in pages
-								select Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
+								select new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
 
 					_listCache.Add<PageViewModel>(cacheKey, models);
 				}
@@ -372,7 +372,7 @@ namespace Roadkill.Core.Services
 				if (page == null)
 					return null;
 				else
-					return Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
+					return new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
 			}
 			catch (DatabaseException ex)
 			{
@@ -405,7 +405,7 @@ namespace Roadkill.Core.Services
 					}
 					else
 					{
-						pageModel = Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter);
+						pageModel = new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
 						_pageViewModelCache.Add(id, pageModel);
 
 						return pageModel;
@@ -463,7 +463,8 @@ namespace Roadkill.Core.Services
 				}
 
 				// Update the lucene index
-				_searchService.Update(Repository.GetLatestPageContent(page.Id).ToModel(_markupConverter));
+				PageViewModel updatedModel = new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
+				_searchService.Update(updatedModel);
 			}
 			catch (DatabaseException ex)
 			{
@@ -582,12 +583,58 @@ namespace Roadkill.Core.Services
 		{
 			MenuParser parser = new MenuParser(_markupConverter, Repository, _siteCache, userContext);
 
+			// TODO: turn this into a theme-based bit of template HTML
 			StringBuilder builder = new StringBuilder();
+
 			builder.AppendLine("<div id=\"leftmenu\">");
 			builder.AppendLine(parser.GetMenu());
 			builder.AppendLine("</div>");
 
 			return builder.ToString();
+		}
+
+		/// <summary>
+		/// Retrieves the (usually left) menu containing the new page, settings etc. options
+		/// </summary>
+		public string GetBootStrapNavMenu(IUserContext userContext)
+		{
+			MenuParser parser = new MenuParser(_markupConverter, Repository, _siteCache, userContext);
+
+			// TODO: turn this into a theme-based bit of template HTML
+			StringBuilder builder = new StringBuilder();
+
+			builder.AppendLine("<nav id=\"leftmenu\" class=\"navbar navbar-default\" role=\"navigation\">");
+			builder.Append(GetCollapsableMenuHtml());
+
+			builder.AppendLine(@"<div id=""left-menu-toggle"" class=""collapse navbar-collapse"">");
+
+			// Add bootstrap into the <ul>
+			string menuHtml = parser.GetMenu();
+			menuHtml = menuHtml.Replace("<ul>", "<ul class =\"nav navbar-nav\">");
+			builder.AppendLine(menuHtml);
+
+			builder.AppendLine("</div>");
+			builder.AppendLine("</nav>");
+
+			return builder.ToString();
+		}
+
+		/// <summary>
+		/// Adds the Adidas bar to the nav bar so it can be collapsed on mobile devices
+		/// </summary>
+		/// <returns></returns>
+		private string GetCollapsableMenuHtml()
+		{
+			string html = @"<div class=""navbar-header"">
+					<button type=""button"" class=""navbar-toggle"" data-toggle=""collapse"" data-target=""#left-menu-toggle"">
+						<span class=""sr-only"">Toggle navigation</span>
+						<span class=""icon-bar""></span>
+						<span class=""icon-bar""></span>
+						<span class=""icon-bar""></span>
+					</button>
+				</div>";
+
+			return html;
 		}
 
 		/// <summary>

@@ -11,11 +11,17 @@ namespace Roadkill.Core.Plugins.SpecialPages.BuiltIn
 {
 	public class RandomPage : SpecialPagePlugin
 	{
-		private static readonly Random _random = new Random();
+		private static Random _random = new Random();
 
 		public override string Name
 		{
 			get { return "Random"; }
+		}
+
+		public RandomPage() { }
+		internal RandomPage(Random random)
+		{
+			_random = random;
 		}
 
 		public override ActionResult GetResult()

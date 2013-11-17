@@ -17,32 +17,39 @@ namespace Roadkill.Tests.Unit
 	[Category("Unit")]
 	public class UserViewModelPasswordValidationTests
 	{
-		private ApplicationSettings _settings;
-		private IRepository _repository;
-		private Mock<UserServiceBase> _userServiceMock;
+		private MocksAndStubsContainer _container;
+
+		private ApplicationSettings _applicationSettings;
+		private RepositoryMock _repository;
+		private UserServiceMock _userService;
 		private IUserContext _context;
 
+		private UserViewModel _userViewModel;
+
 		[SetUp]
-		public void TestsSetup()
+		public void Setup()
 		{
-			_context = new Mock<IUserContext>().Object;
-			_settings = new ApplicationSettings();
-			_repository = null;
-			_userServiceMock = new Mock<UserServiceBase>(_settings, _repository);
-			_userServiceMock.Setup(u => u.UserExists("emailexists@test.com")).Returns(true);
+			_container = new MocksAndStubsContainer();
+
+			_applicationSettings = _container.ApplicationSettings;
+			_context = _container.UserContext;
+			_repository = _container.Repository;
+			_userService = _container.UserService;
+
+			_userService.Users.Add(new User() { Email = "emailexists@test.com" });
+			_userViewModel = new UserViewModel(_applicationSettings, _userService);
 		}
 
 		[Test]
 		public void VerifyPassword_When_Created_In_Admin_Tools_With_Bad_Password_Fails()
 		{
 			// Arrange
-			UserViewModel model = new UserViewModel(_settings, _userServiceMock.Object);
-			model.Id = null;
-			model.Password = "1";
-			model.IsBeingCreatedByAdmin = true;
+			_userViewModel.Id = null;
+			_userViewModel.Password = "1";
+			_userViewModel.IsBeingCreatedByAdmin = true;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyPassword(model, null);
+			ValidationResult result = UserViewModel.VerifyPassword(_userViewModel, null);
 
 			// Assert
 			Assert.That(result, Is.Not.EqualTo(ValidationResult.Success));
@@ -52,13 +59,12 @@ namespace Roadkill.Tests.Unit
 		public void VerifyPassword_For_New_User_With_Bad_Password_Fails()
 		{
 			// Arrange
-			UserViewModel model = new UserViewModel(_settings, _userServiceMock.Object);
-			model.Id = null;
-			model.Password = "1";
-			model.IsBeingCreatedByAdmin = false;
+			_userViewModel.Id = null;
+			_userViewModel.Password = "1";
+			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyPassword(model, null);
+			ValidationResult result = UserViewModel.VerifyPassword(_userViewModel, null);
 
 			// Assert
 			Assert.That(result, Is.Not.EqualTo(ValidationResult.Success));
@@ -68,13 +74,12 @@ namespace Roadkill.Tests.Unit
 		public void VerifyPassword_For_Existing_User_With_Bad_Password_Fails()
 		{
 			// Arrange
-			UserViewModel model = new UserViewModel(_settings, _userServiceMock.Object);
-			model.Id = Guid.NewGuid();
-			model.Password = "1";
-			model.IsBeingCreatedByAdmin = false;
+			_userViewModel.Id = Guid.NewGuid();
+			_userViewModel.Password = "1";
+			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyPassword(model, null);
+			ValidationResult result = UserViewModel.VerifyPassword(_userViewModel, null);
 
 			// Assert
 			Assert.That(result, Is.Not.EqualTo(ValidationResult.Success));
@@ -84,13 +89,12 @@ namespace Roadkill.Tests.Unit
 		public void VerifyPassword_For_Existing_User_With_Empty_Password_Succeeds()
 		{
 			// Arrange
-			UserViewModel model = new UserViewModel(_settings, _userServiceMock.Object);
-			model.Id = Guid.NewGuid();
-			model.Password = "";
-			model.IsBeingCreatedByAdmin = false;
+			_userViewModel.Id = Guid.NewGuid();
+			_userViewModel.Password = "";
+			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyPassword(model, null);
+			ValidationResult result = UserViewModel.VerifyPassword(_userViewModel, null);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(ValidationResult.Success));
@@ -100,14 +104,13 @@ namespace Roadkill.Tests.Unit
 		public void VerifyPasswordsMatch_When_Created_In_Admin_Tools_With_Mismatching_Passwords_Fails()
 		{
 			// Arrange
-			UserViewModel model = new UserViewModel(_settings, _userServiceMock.Object);
-			model.Id = null;
-			model.PasswordConfirmation = "1";
-			model.Password = "2";
-			model.IsBeingCreatedByAdmin = true;
+			_userViewModel.Id = null;
+			_userViewModel.PasswordConfirmation = "1";
+			_userViewModel.Password = "2";
+			_userViewModel.IsBeingCreatedByAdmin = true;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyPasswordsMatch(model, null);
+			ValidationResult result = UserViewModel.VerifyPasswordsMatch(_userViewModel, null);
 
 			// Assert
 			Assert.That(result, Is.Not.EqualTo(ValidationResult.Success));
@@ -117,14 +120,13 @@ namespace Roadkill.Tests.Unit
 		public void VerifyPasswordsMatch_For_Existing_User_With_Matching_Passwords_Succeeds()
 		{
 			// Arrange
-			UserViewModel model = new UserViewModel(_settings, _userServiceMock.Object);
-			model.Id = null;
-			model.PasswordConfirmation = "password";
-			model.Password = "password";
-			model.IsBeingCreatedByAdmin = true;
+			_userViewModel.Id = null;
+			_userViewModel.PasswordConfirmation = "password";
+			_userViewModel.Password = "password";
+			_userViewModel.IsBeingCreatedByAdmin = true;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyPasswordsMatch(model, null);
+			ValidationResult result = UserViewModel.VerifyPasswordsMatch(_userViewModel, null);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(ValidationResult.Success));
@@ -134,14 +136,13 @@ namespace Roadkill.Tests.Unit
 		public void VerifyPasswordsMatch_For_New_User_With_Mismatching_Passwords_Fails()
 		{
 			// Arrange
-			UserViewModel model = new UserViewModel(_settings, _userServiceMock.Object);
-			model.Id = null;
-			model.PasswordConfirmation = "password1";
-			model.Password = "password2";
-			model.IsBeingCreatedByAdmin = true;
+			_userViewModel.Id = null;
+			_userViewModel.PasswordConfirmation = "password1";
+			_userViewModel.Password = "password2";
+			_userViewModel.IsBeingCreatedByAdmin = true;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyPasswordsMatch(model, null);
+			ValidationResult result = UserViewModel.VerifyPasswordsMatch(_userViewModel, null);
 
 			// Assert
 			Assert.That(result, Is.Not.EqualTo(ValidationResult.Success));
@@ -151,14 +152,13 @@ namespace Roadkill.Tests.Unit
 		public void VerifyPasswordsMatch_For_Existing_User_With_Empty_Password_Succeeds()
 		{
 			// Arrange
-			UserViewModel model = new UserViewModel(_settings, _userServiceMock.Object);
-			model.Id = Guid.NewGuid();
-			model.PasswordConfirmation = "";
-			model.Password = "";
-			model.IsBeingCreatedByAdmin = true;
+			_userViewModel.Id = Guid.NewGuid();
+			_userViewModel.PasswordConfirmation = "";
+			_userViewModel.Password = "";
+			_userViewModel.IsBeingCreatedByAdmin = true;
 
 			// Act
-			ValidationResult result = UserViewModel.VerifyPasswordsMatch(model, null);
+			ValidationResult result = UserViewModel.VerifyPasswordsMatch(_userViewModel, null);
 
 			// Assert
 			Assert.That(result, Is.EqualTo(ValidationResult.Success));

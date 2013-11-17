@@ -24,60 +24,56 @@ namespace Roadkill.Tests.Unit
 	[Category("Unit")]
 	public class PagesControllerTests
 	{
-		private ApplicationSettings _settings;
+		private MocksAndStubsContainer _container;
+
+		private ApplicationSettings _applicationSettings;
 		private RepositoryMock _repository;
-
-		private UserServiceBase _userService;
-		private IPageService _pageService;
-		private Mock<IPageService> _pageServiceMock;
-
+		private UserServiceMock _userService;
 		private PageHistoryService _historyService;
 		private SettingsService _settingsService;
-		private SearchService _searchService;
-		private PagesController _pagesController;
-		private MvcMockContainer _mocksContainer;
-		private RoadkillContextStub _contextStub;
-		private MarkupConverter _markupConverter;
 		private PluginFactoryMock _pluginFactory;
+		private MarkupConverter _markupConverter;
+		private SearchServiceMock _searchService;
+
+		private UserContextStub _contextStub;
+		private Mock<IPageService> _pageServiceMock;
+		private IPageService _pageService;
+		private MvcMockContainer _mocksContainer;
+		private PagesController _pagesController;
 
 		[SetUp]
 		public void Setup()
 		{
-			_contextStub = new RoadkillContextStub();
+			_container = new MocksAndStubsContainer();
 
-			_settings = new ApplicationSettings();
-			_settings.Installed = true;
-			_settings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
+			_applicationSettings = _container.ApplicationSettings;
+			_repository = _container.Repository;
+			_pluginFactory = _container.PluginFactory;
+			_settingsService = _container.SettingsService;
+			_userService = _container.UserService;
+			_historyService = _container.HistoryService;
+			_markupConverter = _container.MarkupConverter;
+			_searchService = _container.SearchService;
 
-			// Cache
-			ListCache listCache = new ListCache(_settings, CacheMock.RoadkillCache);
-			PageViewModelCache pageViewModelCache = new PageViewModelCache(_settings, CacheMock.RoadkillCache);
+			// Use a stub instead of the MocksAndStubsContainer's default
+			_contextStub = new UserContextStub();
 
-			// Dependencies for PageService
-			_pluginFactory = new PluginFactoryMock();
-			_repository = new RepositoryMock();
-
-			_userService = new Mock<UserServiceBase>(_settings, _repository).Object;
-			_historyService = new PageHistoryService(_settings, _repository, _contextStub, pageViewModelCache, _pluginFactory);
-			_settingsService = new SettingsService(_settings, _repository);
-			_searchService = new SearchService(_settings, _repository, _pluginFactory);
-
-			_markupConverter = new MarkupConverter(_settings, _repository, _pluginFactory);
+			// Customise the page service so we can verify what was called
 			_pageServiceMock = new Mock<IPageService>();
-			_pageServiceMock.Setup(x => x.GetMarkupConverter()).Returns(new MarkupConverter(_settings, _repository, _pluginFactory));
+			_pageServiceMock.Setup(x => x.GetMarkupConverter()).Returns(new MarkupConverter(_applicationSettings, _repository, _pluginFactory));
 			_pageServiceMock.Setup(x => x.GetById(It.IsAny<int>())).Returns<int>(x =>
 				{
 					PageContent content = _repository.GetLatestPageContent(x);
 
 					if (content != null)
-						return content.ToModel(_markupConverter);
+						return new PageViewModel(content, _markupConverter);
 					else
 						return null;
 				});
 			_pageServiceMock.Setup(x => x.FindByTag(It.IsAny<string>()));
 			_pageService = _pageServiceMock.Object;
 
-			_pagesController = new PagesController(_settings, _userService, _settingsService, _pageService, _searchService, _historyService, _contextStub);
+			_pagesController = new PagesController(_applicationSettings, _userService, _settingsService, _pageService, _searchService, _historyService, _contextStub);
 			_mocksContainer = _pagesController.SetFakeControllerContext();
 		}
 

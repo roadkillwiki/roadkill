@@ -432,7 +432,7 @@ namespace Roadkill.Tests.Unit.Cache
 
 			// Settings
 			ApplicationSettings appSettings = new ApplicationSettings() { Installed = true, UseObjectCache = true };
-			RoadkillContextStub userContext = new RoadkillContextStub() { IsLoggedIn = false };
+			UserContextStub userContext = new UserContextStub() { IsLoggedIn = false };
 
 			// PageService
 			PageViewModelCache pageViewModelCache = new PageViewModelCache(appSettings, pageObjectCache);

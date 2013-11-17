@@ -22,8 +22,31 @@ namespace Roadkill.Tests.Unit
 	/// </summary>
 	[TestFixture]
 	[Category("Unit")]
-	public class AdminRequiredAttributeTests : AuthorizeAttributeBase
+	public class AdminRequiredAttributeTests : AuthorizeAttributeTestBase
 	{
+		private MocksAndStubsContainer _container;
+		private UserServiceMock _userService;
+		private IUserContext _context;
+
+		private Guid _adminId;
+		private Guid _editorId;
+
+		[SetUp]
+		public void Setup()
+		{
+			_container = new MocksAndStubsContainer();
+			_userService = _container.UserService;
+			_context = _container.UserContext;
+
+			_userService.AddUser("admin@localhost", "admin", "password", true, true);
+			_userService.AddUser("editor@localhost", "editor", "password", false, true);
+			_userService.Users[0].IsActivated = true;
+			_userService.Users[1].IsActivated = true;
+
+			_adminId = _userService.Users[0].Id;
+			_editorId = _userService.Users[1].Id;
+		}
+
 		[Test]
 		public void Should_Not_Authorize_When_User_Is_Not_Authenticated()
 		{
@@ -66,7 +89,7 @@ namespace Roadkill.Tests.Unit
 			attribute.UserService.AddUser("admin@localhost", "admin", "password", true, true);
 
 			PrincipalMock principal = GetPrincipal();
-			principal.Identity.Name = "admin@localhost";
+			principal.Identity.Name = _adminId.ToString();
 			HttpContextBase context = GetHttpContext(principal);
 
 			// Act
@@ -81,11 +104,9 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			AdminRequiredCaller attribute = GetAdminRequiredCaller();
-			attribute.UserService.AddUser("admin@localhost", "admin", "password", true, true);
-			attribute.UserService.AddUser("editor@localhost", "editor", "password", false, true);
 
 			PrincipalMock principal = GetPrincipal();
-			principal.Identity.Name = "editor@localhost";
+			principal.Identity.Name = _editorId.ToString();
 			HttpContextBase context = GetHttpContext(principal);
 
 			// Act
@@ -102,8 +123,8 @@ namespace Roadkill.Tests.Unit
 			attribute.ApplicationSettings.AdminRoleName = "admin";
 			attribute.ApplicationSettings.EditorRoleName = "editor";
 
-			attribute.Context = new UserContext(new UserServiceMock());
-			attribute.UserService = new UserServiceMock();
+			attribute.Context = _context;
+			attribute.UserService = _userService;
 
 			return attribute;
 		}

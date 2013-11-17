@@ -8,29 +8,34 @@
 </head>
 
 <body>
-@using (Html.BeginForm("Search", "Home", FormMethod.Get))
-{
-	<div id="header">
-		<div id="loggedinas" class="left">
-			@Html.LoginStatus()
+	@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+	{
+		<div id="header">
+			<div id="loggedinas" class="left">
+				@Html.Action("LoggedInAs", "User")
+			</div>
+			<div class="right">
+					@Html.Action("NavMenu", "Home")
+				<div id="searchbox" class="left">
+					<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" class="form-control" />
+				</div>
+			</div>
 		</div>
-		<div id="panel" class="right">
-			@Html.Action("LeftMenu", "Home")
-			<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" class="minisearchbox" />
+	}
+
+	<div id="page-content">
+		@RenderSection("PageToolbar", false)
+
+		<div id="container">
+			@RenderSection("ViewHistoryLink", false)
+			@RenderBody()
+
+			<div id="footer">
+				@RenderSection("PageDetailsFooter", false)
+			</div>
 		</div>
+
+		@RenderSection("PluginFooter", false)
 	</div>
-}
-	@RenderSection("PageToolbar", false)
-
-	<div id="container">
-		@RenderSection("ViewHistoryLink", false)
-		@RenderBody()
-
-		<div id="footer">
-			@RenderSection("PageDetailsFooter", false)
-		</div>
-	</div>
-
-	@RenderSection("PluginFooter", false)
 </body>
 </html>

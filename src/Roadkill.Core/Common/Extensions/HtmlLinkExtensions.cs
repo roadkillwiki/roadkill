@@ -15,6 +15,7 @@ using System.Web.Optimization;
 using System.Web;
 using Roadkill.Core.Plugins.Text.BuiltIn;
 using Roadkill.Core.Mvc;
+using Roadkill.Core.DI;
 
 namespace Roadkill.Core
 {
@@ -24,7 +25,8 @@ namespace Roadkill.Core
 	public static class HtmlLinkExtensions
 	{
 		/// <summary>
-		/// Gets a string to indicate whether the current user is logged in.
+		/// Gets a string to indicate whether the current user is logged in. You should render the User action rather than this extension:
+		/// @Html.Action("LoggedInAs", "User")
 		/// </summary>
 		/// <returns>"Logged in as {user}" if the user is logged in; "Not logged in" if the user is not logged in.</returns>
 		public static MvcHtmlString LoginStatus(this HtmlHelper helper)
@@ -161,7 +163,7 @@ namespace Roadkill.Core
 		/// <returns>If the page is not found, the link text is returned.</returns>
 		public static MvcHtmlString PageLink(this HtmlHelper helper, string linkText, string pageTitle, object htmlAttributes,string prefix,string suffix)
 		{
-			PageService manager = ObjectFactory.GetInstance<PageService>();
+			PageService manager = ServiceLocator.GetInstance<PageService>();
 			PageViewModel model = manager.FindByTitle(pageTitle);
 			if (model != null)
 			{

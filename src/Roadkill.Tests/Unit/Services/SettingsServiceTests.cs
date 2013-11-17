@@ -15,18 +15,20 @@ namespace Roadkill.Tests.Unit
 	[Category("Unit")]
 	public class SettingsServiceTests
 	{
+		private MocksAndStubsContainer _container;
+
 		private RepositoryMock _repository;
-		private ApplicationSettings _settings;
+		private ApplicationSettings _applicationSettings;
 		private SettingsService _settingsService;
 
 		[SetUp]
 		public void Setup()
 		{
-			_settings = new ApplicationSettings();
-			_settings.Installed = true;
+			_container = new MocksAndStubsContainer();
 
-			_repository = new RepositoryMock();
-			_settingsService = new SettingsService(_settings, _repository);
+			_applicationSettings = _container.ApplicationSettings;
+			_repository = _container.Repository;
+			_settingsService = _container.SettingsService;
 		}
 
 		[Test]

@@ -1,44 +1,76 @@
 ﻿@model UserViewModel
-@{ 
+@{
 	ViewBag.Title = SiteStrings.Signup_Title;
 }
 
 <h1>@SiteStrings.Signup_Title</h1>
-<p>@SiteStrings.Signup_Label</p>
-@using (Html.BeginForm())
-{
-	@(Html.HiddenFor<UserViewModel, string>(h => h.ExistingEmail))
-	@(Html.HiddenFor<UserViewModel, string>(h => h.ExistingUsername))
-	
-	<fieldset id="profile" class="rounded10 lightborder">
-		@Html.ValidationSummary(SiteStrings.Signup_Error_General, new { @class = "alert alert-block alert-error fade in", data_dismiss = "alert" })
 
-		<label for="NewEmail" class="userlabel">@SiteStrings.Shared_Firstname</label>
-		@(Html.TextBoxFor<UserViewModel, string>(t => t.Firstname, new { @class = "usertextbox" }))
-		<br class="clear" />
+<div class="container pull-left">
+	<div class="row">
+		<div class="col-sm-8">
+			@Html.ValidationSummary(SiteStrings.Signup_Error_General, new { @class = "alert alert-danger" })
+			<p>@SiteStrings.Signup_Label</p>
 
-		<label for="NewEmail" class="userlabel">@SiteStrings.Shared_Lastname</label>
-		@(Html.TextBoxFor<UserViewModel, string>(t => t.Lastname, new { @class = "usertextbox" }))
-		<br class="clear" />
+			<div id="profile" class="lightborder rounded10 col-sm-12">
 
-		<label for="NewEmail" class="userlabel">@SiteStrings.Shared_Email_Label</label>
-		@(Html.TextBoxFor<UserViewModel, string>(t => t.NewEmail, new { @class = "usertextbox" }))
-		<br class="clear" />
+				<form class="form-horizontal" role="form" method="post">
+					@(Html.HiddenFor<UserViewModel, string>(h => h.ExistingEmail))
+					@(Html.HiddenFor<UserViewModel, string>(h => h.ExistingUsername))
 
-		<label for="NewUsername" class="userlabel">@SiteStrings.Shared_Username</label>
-		@(Html.TextBoxFor<UserViewModel, string>(t => t.NewUsername, new { @class = "usertextbox" }))
-		<br class="clear" />
+					<div class="form-group">
+						<label for="NewEmail" class="col-sm-3 control-label">@SiteStrings.Shared_Firstname</label>
+						<div class="col-sm-9">
+							@(Html.TextBoxFor<UserViewModel, string>(t => t.Firstname, new { @class = "form-control" }))
+						</div>
+					</div>
 
-		<label for="Password" class="userlabel">@SiteStrings.Shared_Password_Label</label>
-		@(Html.PasswordFor<UserViewModel, string>(t => t.Password, new { @class = "usertextbox" }))
-		<br class="clear" />
+					<div class="form-group">
+						<label for="Lastname" class="col-sm-3 control-label">@SiteStrings.Shared_Lastname</label>
+						<div class="col-sm-9">
+							@(Html.TextBoxFor<UserViewModel, string>(t => t.Lastname, new { @class = "form-control" }))
+						</div>
+					</div>
 
-		<label for="PasswordConfirmation" class="userlabel">@SiteStrings.Shared_PasswordConfirm_Label</label>
-		@(Html.PasswordFor<UserViewModel, string>(t => t.PasswordConfirmation, new { @class = "usertextbox" }))	
-		<br class="clear" />
+					<div class="form-group">
+						<label for="NewEmail" class="col-sm-3 control-label">@SiteStrings.Shared_Email_Label</label>
+						<div class="col-sm-9">
+							@(Html.TextBoxFor<UserViewModel, string>(t => t.NewEmail, new { @class = "form-control" }))
+						</div>
+					</div>
 
-		@Html.RenderCaptcha(SiteSettings)
-	
-		<input type="submit" id="userbutton" class="btn btn-primary" value="@SiteStrings.Signup_Button" style="width:150px"  /><!-- explicit width for IE7 (ie7js doesn't fix it) -->
-	</fieldset>
-}
+					<div class="form-group">
+						<label for="NewUsername" class="col-sm-3 control-label">@SiteStrings.Shared_Username</label>
+						<div class="col-sm-9">
+							@(Html.TextBoxFor<UserViewModel, string>(t => t.NewUsername, new { @class = "form-control" }))
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="Password" class="col-sm-3 control-label">@SiteStrings.Shared_Password_Label</label>
+						<div class="col-sm-9">
+							@(Html.PasswordFor<UserViewModel, string>(t => t.Password, new { @class = "form-control" }))
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="PasswordConfirmation" class="col-sm-3 control-label">@SiteStrings.Shared_PasswordConfirm_Label</label>
+						<div class="col-sm-9">
+							@(Html.PasswordFor<UserViewModel, string>(t => t.PasswordConfirmation, new { @class = "form-control" }))
+						</div>
+					</div>
+
+					@Html.RenderCaptcha(SiteSettings)
+
+					<div class="form-group">
+						<div class="col-sm-offset-3 col-sm-9">
+							<input type="submit" class="btn btn-primary right" value="@SiteStrings.Signup_Button" />
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<br class="clear" />

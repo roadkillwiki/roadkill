@@ -1,17 +1,22 @@
 ﻿var Roadkill;
 (function (Roadkill) {
+    /// <reference path="typescript-ref/references.ts" />
     (function (Site) {
         $(document).ready(function () {
+            // Event bindings and handlers for the edit page
             var editor = new Site.WysiwygEditor();
             editor.bindEvents();
 
-            EditPage.bindPreviewButton();
+            EditPage.bindPreview();
         });
 
         var EditPage = (function () {
             function EditPage() {
             }
-            EditPage.initializeTagManager = function (tags) {
+            EditPage.initializeTagManager = /**
+            Sets up the Bootstrap tag manager
+            */
+            function (tags) {
                 $("#TagsEntry").typeahead({});
                 $("#TagsEntry").tagsManager({
                     tagClass: "tm-tag-success",
@@ -37,6 +42,7 @@
                 });
 
                 $("#TagsEntry").keydown(function (e) {
+                    // Tab adds the tag, but then focuses the textarea
                     var code = e.keyCode || e.which;
                     if (code == "9") {
                         var tag = $("#TagsEntry").val();
@@ -50,8 +56,10 @@
                 });
 
                 $("#TagsEntry").blur(function (e) {
+                    // Push the tag when focus is lost, e.g. Save is pressed
                     $("#TagsEntry").tagsManager("pushTag", $("#TagsEntry").val());
 
+                    // Fix the tag's styles from being blank
                     $(".tm-tag-remove").each(function () {
                         $(this).html("&times;");
                     });
@@ -62,7 +70,10 @@
                 });
             };
 
-            EditPage.isValidTag = function (tag) {
+            EditPage.isValidTag = /**
+            Returns false if the tag contains any characters that are blacklisted.
+            */
+            function (tag) {
                 for (var i = 0; i < tag.length; i++) {
                     if ($.inArray(tag[i], EditPage._tagBlackList) > -1) {
                         return false;
@@ -72,13 +83,39 @@
                 return true;
             };
 
-            EditPage.bindPreviewButton = function () {
-                $(".previewButton").click(function () {
-                    EditPage.showPreview();
+            EditPage.bindPreview = function () {
+                EditPage.setElementHeights();
+                EditPage.showPreview();
+
+                $(document).on("resize", function () {
+                    EditPage.setElementHeights();
+                });
+
+                // Keydown fires the preview after 1/100th second, but each keypress resets this.
+                $("#Content").on("keypress", function () {
+                    if (EditPage._timeout !== null) {
+                        clearTimeout(EditPage._timeout);
+                        EditPage._timeout = null;
+                    }
+
+                    EditPage._timeout = setTimeout(EditPage.showPreview, 100);
                 });
             };
 
-            EditPage.showPreview = function () {
+            EditPage.setElementHeights = function () {
+                // Height fix for CSS heights sucking
+                $("#Content").height($("#container").height());
+
+                var buttonsHeight = $("#editpage-button-container").height();
+                var scrollbarHeight = 10;
+                var formHeight = $("#editpage-form").height() - buttonsHeight - scrollbarHeight;
+                $("#preview-wrapper").height(formHeight);
+            };
+
+            EditPage.showPreview = /**
+            Grabs a preview from the server for the wiki markup, and displays it in the preview pane.
+            */
+            function () {
                 $("#previewLoading").show();
                 var text = $("#Content").val();
 
@@ -100,10 +137,12 @@
 
                 request.always(function () {
                     $("#previewLoading").show();
-                    Site.Dialogs.openFullScreenModal("#previewContainer");
+
+                    //Dialogs.openFullScreenModal("#previewContainer");
                     $("#previewLoading").hide();
                 });
             };
+            EditPage._timeout = null;
             EditPage._tagBlackList = [
                 "#",
                 ",",
@@ -129,3 +168,4 @@
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
 })(Roadkill || (Roadkill = {}));
+//# sourceMappingURL=editpage.js.map
