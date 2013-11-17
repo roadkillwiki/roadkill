@@ -7,7 +7,7 @@
             var editor = new Site.WysiwygEditor();
             editor.bindEvents();
 
-            EditPage.bindPreviewButton();
+            EditPage.bindPreview();
         });
 
         var EditPage = (function () {
@@ -83,16 +83,37 @@
                 return true;
             };
 
-            EditPage.bindPreviewButton = function () {
-                // Preview modal preview
-                $(".previewButton").click(function () {
-                    EditPage.showPreview();
+            EditPage.bindPreview = function () {
+                EditPage.setElementHeights();
+                EditPage.showPreview();
+
+                $(document).on("resize", function () {
+                    EditPage.setElementHeights();
+                });
+
+                // Keydown fires the preview after 1/100th second, but each keypress resets this.
+                $("#Content").on("keypress", function () {
+                    if (EditPage._timeout !== null) {
+                        clearTimeout(EditPage._timeout);
+                        EditPage._timeout = null;
+                    }
+
+                    EditPage._timeout = setTimeout(EditPage.showPreview, 100);
                 });
             };
 
+            EditPage.setElementHeights = function () {
+                // Height fix for CSS heights sucking
+                $("#Content").height($("#container").height());
+
+                var buttonsHeight = $("#editpage-button-container").height();
+                var scrollbarHeight = 10;
+                var formHeight = $("#editpage-form").height() - buttonsHeight - scrollbarHeight;
+                $("#preview-wrapper").height(formHeight);
+            };
+
             EditPage.showPreview = /**
-            Grabs a preview from the server for the wiki markup, and displays it in the
-            preview modal (as an iframe)
+            Grabs a preview from the server for the wiki markup, and displays it in the preview pane.
             */
             function () {
                 $("#previewLoading").show();
@@ -116,10 +137,12 @@
 
                 request.always(function () {
                     $("#previewLoading").show();
-                    Site.Dialogs.openFullScreenModal("#previewContainer");
+
+                    //Dialogs.openFullScreenModal("#previewContainer");
                     $("#previewLoading").hide();
                 });
             };
+            EditPage._timeout = null;
             EditPage._tagBlackList = [
                 "#",
                 ",",

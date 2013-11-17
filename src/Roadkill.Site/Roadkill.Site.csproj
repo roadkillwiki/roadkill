@@ -575,6 +575,7 @@
     <Content Include="Assets\Scripts\toastr.js" />
     <Content Include="Themes\BlackBar\Theme.print.css" />
     <Content Include="Themes\Responsive\Theme.css" />
+    <Content Include="Themes\Responsive\Theme.print.css" />
     <Content Include="Themes\Roadkill\logo.png" />
     <Content Include="Themes\Roadkill\Theme.css" />
     <Content Include="Themes\Roadkill\Theme.print.css" />
@@ -664,6 +665,7 @@
     <Content Include="Views\PluginSettings\Edit.cshtml" />
     <Content Include="Views\Help\Index.cshtml" />
     <Content Include="Themes\Responsive\Theme.cshtml" />
+    <Content Include="Views\Shared\WysiwgToolbar.cshtml" />
     <None Include="Web.Mono.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

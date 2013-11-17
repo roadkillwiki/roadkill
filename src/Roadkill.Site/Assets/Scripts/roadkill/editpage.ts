@@ -8,11 +8,12 @@ module Roadkill.Site
 		var editor = new WysiwygEditor();
 		editor.bindEvents();
 
-		EditPage.bindPreviewButton();
+		EditPage.bindPreview();
 	});
 
 	export class EditPage
 	{
+		private static _timeout: any = null;
 		private static _tagBlackList: string[] = 
 		[
 			"#", ",", ";", "/", "?", ":", "@", "&", "=", "{", "}", "|", "\\", "^", "[", "]", "`"	
@@ -101,18 +102,41 @@ module Roadkill.Site
 			return true;
 		}
 
-		public static bindPreviewButton()
+		public static bindPreview()
 		{
-			// Preview modal preview
-			$(".previewButton").click(function ()
+			EditPage.setElementHeights();
+			EditPage.showPreview();
+
+			$(document).on("resize", function () {
+				EditPage.setElementHeights();
+			});
+
+			// Keydown fires the preview after 1/100th second, but each keypress resets this.
+			$("#Content").on("keypress", function ()
 			{
-				EditPage.showPreview();
+				if (EditPage._timeout !== null)
+				{
+					clearTimeout(EditPage._timeout);
+					EditPage._timeout = null;
+				}
+
+				EditPage._timeout = setTimeout(EditPage.showPreview, 100);
 			});
 		}
 
+		public static setElementHeights()
+		{
+			// Height fix for CSS heights sucking
+			$("#Content").height($("#container").height());
+
+			var buttonsHeight: number = $("#editpage-button-container").height();
+			var scrollbarHeight: number = 10;
+			var formHeight: number = $("#editpage-form").height() - buttonsHeight - scrollbarHeight;
+			$("#preview-wrapper").height(formHeight);
+		}
+
 		/**
-		Grabs a preview from the server for the wiki markup, and displays it in the 
-		preview modal (as an iframe) 
+		Grabs a preview from the server for the wiki markup, and displays it in the preview pane.
 		*/
 		public static showPreview()
 		{
@@ -140,7 +164,7 @@ module Roadkill.Site
 			request.always(function ()
 			{
 				$("#previewLoading").show();
-				Dialogs.openFullScreenModal("#previewContainer");
+				//Dialogs.openFullScreenModal("#previewContainer");
 				$("#previewLoading").hide();
 			});
 		}
