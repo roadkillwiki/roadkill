@@ -10,6 +10,9 @@ body, h1, h2, h3, h4, h5, h6 { font-family: "Noticia Text", sans-serif; }
 #content-wrapper { min-height: 83%; padding: 0px; margin: 0px; }
 #footer-wrapper { min-height: 10%; padding: 0px; margin: 0px; }
 
+/* Page and pen toolbar */
+#toolbar { position:absolute; top:30px;left:5px; }
+
 /* Add borders to the bottom of all H tags that the editor supports */
 h1, h2, h3, h4, h5 { border-bottom: solid 1px #DDD; padding-bottom: 20px; }
 
@@ -36,4 +39,3 @@ h1, h2, h3, h4, h5 { border-bottom: solid 1px #DDD; padding-bottom: 20px; }
 #footer-wrapper { background-color: #F8F8F8; }
 #footer-inner { padding: 0px 20px; border-top: 1px solid #F8F8F8; min-height: 100%; }
 #viewhistory { display: inline; }
-#footer-page-toolbar{ padding-top: 20px; padding-bottom: 10px; }
