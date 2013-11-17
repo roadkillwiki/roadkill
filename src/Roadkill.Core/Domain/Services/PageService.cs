@@ -583,12 +583,58 @@ namespace Roadkill.Core.Services
 		{
 			MenuParser parser = new MenuParser(_markupConverter, Repository, _siteCache, userContext);
 
+			// TODO: turn this into a theme-based bit of template HTML
 			StringBuilder builder = new StringBuilder();
+
 			builder.AppendLine("<div id=\"leftmenu\">");
 			builder.AppendLine(parser.GetMenu());
 			builder.AppendLine("</div>");
 
 			return builder.ToString();
+		}
+
+		/// <summary>
+		/// Retrieves the (usually left) menu containing the new page, settings etc. options
+		/// </summary>
+		public string GetBootStrapNavMenu(IUserContext userContext)
+		{
+			MenuParser parser = new MenuParser(_markupConverter, Repository, _siteCache, userContext);
+
+			// TODO: turn this into a theme-based bit of template HTML
+			StringBuilder builder = new StringBuilder();
+
+			builder.AppendLine("<nav id=\"leftmenu\" class=\"navbar navbar-default\" role=\"navigation\">");
+			builder.Append(GetCollapsableMenuHtml());
+
+			builder.AppendLine(@"<div id=""left-menu-toggle"" class=""collapse navbar-collapse"">");
+
+			// Add bootstrap into the <ul>
+			string menuHtml = parser.GetMenu();
+			menuHtml = menuHtml.Replace("<ul>", "<ul class =\"nav navbar-nav\">");
+			builder.AppendLine(menuHtml);
+
+			builder.AppendLine("</div>");
+			builder.AppendLine("</nav>");
+
+			return builder.ToString();
+		}
+
+		/// <summary>
+		/// Adds the Adidas bar to the nav bar so it can be collapsed on mobile devices
+		/// </summary>
+		/// <returns></returns>
+		private string GetCollapsableMenuHtml()
+		{
+			string html = @"<div class=""navbar-header"">
+					<button type=""button"" class=""navbar-toggle"" data-toggle=""collapse"" data-target=""#left-menu-toggle"">
+						<span class=""sr-only"">Toggle navigation</span>
+						<span class=""icon-bar""></span>
+						<span class=""icon-bar""></span>
+						<span class=""icon-bar""></span>
+					</button>
+				</div>";
+
+			return html;
 		}
 
 		/// <summary>

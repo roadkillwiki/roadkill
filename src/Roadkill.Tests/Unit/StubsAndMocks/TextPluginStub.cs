@@ -22,6 +22,8 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 		public override string Description { get { return _description; } }
 		public string HeadContent { get; set; }
 		public string FooterContent { get; set; }
+		public string PreContainerHtml { get; set; }
+		public string PostContainerHtml { get; set; }
 
 		public override string Version
 		{
@@ -77,6 +79,16 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 		public override string GetFooterContent()
 		{
 			return FooterContent;
+		}
+
+		public override string GetPreContainerHtml()
+		{
+			return PreContainerHtml;
+		}
+
+		public override string GetPostContainerHtml()
+		{
+			return PostContainerHtml;
 		}
 	}
 }

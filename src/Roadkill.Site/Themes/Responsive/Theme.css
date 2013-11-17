@@ -1,0 +1,39 @@
+﻿@import url(http://fonts.googleapis.com/css?family=Noticia+Text);
+
+/* Make the page have 100% height */
+html, body { height: 100%; min-height: 100%; padding: 0px; margin: 0px; }
+
+body, h1, h2, h3, h4, h5, h6 { font-family: "Noticia Text", sans-serif; }
+
+/* The basic 3 row layout*/
+#header-wrapper { min-height: 7%; padding: 0px; margin: 0px; }
+#content-wrapper { min-height: 83%; padding: 0px; margin: 0px; }
+#footer-wrapper { min-height: 10%; padding: 0px; margin: 0px; }
+
+/* Add borders to the bottom of all H tags that the editor supports */
+h1, h2, h3, h4, h5 { border-bottom: solid 1px #DDD; padding-bottom: 20px; }
+
+/* Responsive header */
+@media screen and (min-width:720px) {
+	/* Show the bar at the top for larger screens*/
+	#bootstrap-nav-menu { float: left; }
+	#search { float:left; margin-top: 10px; padding-left: 150px; }
+}
+@media screen and (max-width:720px) {
+	#search { margin: 15px;padding-left:10px; }
+}
+#header-wrapper { background-color: #F8F8F8; border-bottom: 1px solid #DDD; } /* redefine the bootstrap nav bar*/
+	#header-wrapper .navbar { border: 0px; margin-bottom: 0px !important; min-height: 100%; }
+
+/* Login bar*/
+#login-status	{ text-align:right;padding:2px; }
+#loggedinas	{ display:block; }
+
+/* The main page container*/
+#container { padding: 20px !important; font-size: 1.5em; }
+
+/* Change the default footer */
+#footer-wrapper { background-color: #F8F8F8; }
+#footer-inner { padding: 0px 20px; border-top: 1px solid #F8F8F8; min-height: 100%; }
+#viewhistory { display: inline; }
+#footer-page-toolbar{ padding-top: 20px; padding-bottom: 10px; }

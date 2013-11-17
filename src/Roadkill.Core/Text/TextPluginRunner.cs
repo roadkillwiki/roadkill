@@ -101,5 +101,43 @@ namespace Roadkill.Core.Text
 			IsCacheable = isCacheable;
 			return html;
 		}
+
+		public string PreContainerHtml()
+		{
+			StringBuilder htmlBuilder = new StringBuilder();
+
+			foreach (TextPlugin plugin in _plugins)
+			{
+				try
+				{
+					htmlBuilder.Append(plugin.GetPreContainerHtml());
+				}
+				catch (Exception e)
+				{
+					Log.Error(e, "An exception occurred with the plugin {0} when calling GetPreContainerHtml()", plugin.Id);
+				}
+			}
+
+			return htmlBuilder.ToString();
+		}
+
+		public string PostContainerHtml()
+		{
+			StringBuilder htmlBuilder = new StringBuilder();
+
+			foreach (TextPlugin plugin in _plugins)
+			{
+				try
+				{
+					htmlBuilder.Append(plugin.GetPostContainerHtml());
+				}
+				catch (Exception e)
+				{
+					Log.Error(e, "An exception occurred with the plugin {0} when calling GetPostContainerHtml()", plugin.Id);
+				}
+			}
+
+			return htmlBuilder.ToString();
+		}
 	}
 }
