@@ -23,6 +23,7 @@ namespace Roadkill.Core.Configuration
 		private string _attachmentsDirectoryPath;
 		private string _attachmentsUrlPath;
 		private string _attachmentsRoutePath;
+		private HttpContextBase _httpContext;
 
 		/// <summary>
 		/// The name of the role or Active Directory security group that users should belong to in order to create,edit,delete pages,
@@ -78,9 +79,9 @@ namespace Roadkill.Core.Configuration
 			{
 				if (string.IsNullOrEmpty(_attachmentsDirectoryPath))
 				{
-					if (AttachmentsFolder.StartsWith("~") && HttpContext.Current != null)
+					if (AttachmentsFolder.StartsWith("~") && _httpContext != null)
 					{
-						_attachmentsDirectoryPath = HttpContext.Current.Server.MapPath(AttachmentsFolder);
+						_attachmentsDirectoryPath = _httpContext.Server.MapPath(AttachmentsFolder);
 					}
 					else
 					{
@@ -325,6 +326,9 @@ namespace Roadkill.Core.Configuration
 
 		public ApplicationSettings()
 		{
+			if (HttpContext.Current != null)
+				_httpContext = new HttpContextWrapper(HttpContext.Current);
+
 			AppDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data");
 			AppDataInternalPath = Path.Combine(AppDataPath, "Internal");
 			CustomTokensPath = Path.Combine(AppDataPath, "customvariables.xml");
@@ -344,12 +348,17 @@ namespace Roadkill.Core.Configuration
 			UserServicePluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "Plugins", "UserService");
 		}
 
+		public ApplicationSettings(HttpContextBase httpContext) : this()
+		{
+			_httpContext = httpContext;
+		}
+
 		private string ParseAttachmentsPath()
 		{
 			string attachmentsPath = "/" + AttachmentsRoutePath;
-			if (HttpContext.Current != null)
+			if (_httpContext != null)
 			{
-				string applicationPath = HttpContext.Current.Request.ApplicationPath;
+				string applicationPath = _httpContext.Request.ApplicationPath;
 				if (!applicationPath.EndsWith("/"))
 					applicationPath += "/";
 

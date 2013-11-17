@@ -15,6 +15,7 @@ using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Tests.Unit.StubsAndMocks;
 using System;
 using System.Web;
+using System.IO;
 
 namespace Roadkill.Tests.Unit
 {
@@ -22,35 +23,30 @@ namespace Roadkill.Tests.Unit
 	[Category("Unit")]
 	public class SpecialPagesControllerTests
 	{
+		private MocksAndStubsContainer _container;
+		
 		private ApplicationSettings _applicationSettings;
 		private IUserContext _context;
 		private RepositoryMock _repository;
-		private UserServiceBase _userService;
+		private UserServiceMock _userService;
 		private SettingsService _settingsService;
 		private PluginFactoryMock _pluginFactory;
 
-		private SpecialPagesController _controller;
+		private SpecialPagesController _specialPagesController;
 
 		[SetUp]
 		public void Setup()
 		{
-			_context = new Mock<IUserContext>().Object;
-			_applicationSettings = new ApplicationSettings();
-			_applicationSettings.Installed = true;
-			_repository = new RepositoryMock();
+			_container = new MocksAndStubsContainer();
 
-			// Cache
-			ListCache listCache = new ListCache(_applicationSettings, CacheMock.RoadkillCache);
-			PageViewModelCache pageViewModelCache = new PageViewModelCache(_applicationSettings, CacheMock.RoadkillCache);
-			SiteCache siteCache = new SiteCache(_applicationSettings, CacheMock.RoadkillCache);
+			_applicationSettings = _container.ApplicationSettings;
+			_context = _container.UserContext;
+			_repository = _container.Repository;
+			_pluginFactory = _container.PluginFactory;
+			_settingsService = _container.SettingsService;
+			_userService = _container.UserService;
 
-			_pluginFactory = new PluginFactoryMock();
-			Mock<SearchService> searchMock = new Mock<SearchService>();
-
-			_settingsService = new SettingsService(_applicationSettings, _repository);
-			_userService = new Mock<UserServiceBase>(_applicationSettings, null).Object;
-
-			_controller = new SpecialPagesController(_applicationSettings, _userService, _context, _settingsService, _pluginFactory);
+			_specialPagesController = new SpecialPagesController(_applicationSettings, _userService, _context, _settingsService, _pluginFactory);
 		}
 
 		[Test]
@@ -60,7 +56,7 @@ namespace Roadkill.Tests.Unit
 			_pluginFactory.SpecialPages.Add(new SpecialPageMock());
 
 			// Act
-			ContentResult result = _controller.Index("kay") as ContentResult;
+			ContentResult result = _specialPagesController.Index("kay") as ContentResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
@@ -70,7 +66,7 @@ namespace Roadkill.Tests.Unit
 		public void Index_Should_Throw_HttpException_When_Plugin_Does_Not_Exist()
 		{
 			// Arrange + Act + Assert
-			HttpException httpException = Assert.Throws<HttpException>(() => _controller.Index("badID"));
+			HttpException httpException = Assert.Throws<HttpException>(() => _specialPagesController.Index("badID"));
 			Assert.That(httpException.GetHttpCode(), Is.EqualTo(404));
 		}
 	}

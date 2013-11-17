@@ -39,12 +39,6 @@ namespace Roadkill.Core
 		public bool SanitizeContent { get; set; }
 
 		/// <summary>
-		/// The fully namespace and class name for the token's plugin (or empty for no plugin).
-		/// The plugin assembly (DLL) should be stored in the App_Data/Plugins directory.
-		/// </summary>
-		public string Plugin { get; set; }
-
-		/// <summary>
 		/// The cache regex for the token
 		/// </summary>
 		[XmlIgnore]

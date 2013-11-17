@@ -24,53 +24,57 @@ namespace Roadkill.Tests.Unit
 	[Category("Unit")]
 	public class HomeControllerTests
 	{
+		private MocksAndStubsContainer _container;
+
 		private ApplicationSettings _applicationSettings;
 		private IUserContext _context;
 		private RepositoryMock _repository;
-
-		private UserServiceBase _userService;
+		private UserServiceMock _userService;
 		private PageService _pageService;
-		private SearchServiceMock _searchService;
 		private PageHistoryService _historyService;
 		private SettingsService _settingsService;
 		private PluginFactoryMock _pluginFactory;
+		private SearchServiceMock _searchService;
+		private ListCache _listCache;
+		private SiteCache _siteCache;
+		private PageViewModelCache _pageViewModelCache;
+		private MemoryCache _memoryCache;
+		private MarkupConverter _markupConverter;
+
+		private HomeController _homeController;
 
 		[SetUp]
 		public void Setup()
 		{
-			_context = new Mock<IUserContext>().Object;
-			_applicationSettings = new ApplicationSettings();
-			_applicationSettings.Installed = true;
-			_applicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
+			_container = new MocksAndStubsContainer();
 
-			// Cache
-			ListCache listCache = new ListCache(_applicationSettings, CacheMock.RoadkillCache);
-			SiteCache siteCache = new SiteCache(_applicationSettings, CacheMock.RoadkillCache);
-			PageViewModelCache pageViewModelCache = new PageViewModelCache(_applicationSettings, CacheMock.RoadkillCache);
+			_applicationSettings = _container.ApplicationSettings;
+			_context = _container.UserContext;
+			_repository = _container.Repository;
+			_pluginFactory = _container.PluginFactory;
+			_settingsService = _container.SettingsService;
+			_userService = _container.UserService;
+			_historyService = _container.HistoryService;
+			_pageService = _container.PageService;
+			_searchService = _container.SearchService;
+			_markupConverter = _container.MarkupConverter;
 
-			// Dependencies for PageService
-			Mock<SearchService> searchMock = new Mock<SearchService>();
-			_pluginFactory = new PluginFactoryMock();
+			_listCache = _container.ListCache;
+			_siteCache = _container.SiteCache;
+			_pageViewModelCache = _container.PageViewModelCache;
+			_memoryCache = _container.MemoryCache;
 
-			_repository = new RepositoryMock();
-			_settingsService = new SettingsService(_applicationSettings, _repository);
-			_userService = new Mock<UserServiceBase>(_applicationSettings, null).Object;
-			_searchService = new SearchServiceMock(_applicationSettings, _repository, _pluginFactory);
-			_searchService.PageContents = _repository.PageContents;
-			_searchService.Pages = _repository.Pages;
-			_historyService = new PageHistoryService(_applicationSettings, _repository, _context, pageViewModelCache, _pluginFactory);
-			_pageService = new PageService(_applicationSettings, _repository, _searchService, _historyService, _context, listCache, pageViewModelCache, siteCache, _pluginFactory);
+			_homeController = new HomeController(_applicationSettings, _userService, _markupConverter, _pageService, _searchService, _context, _settingsService);
+			_homeController.SetFakeControllerContext();
 		}
 
 		[Test]
 		public void Index_Should_Return_Default_Message_When_No_Homepage_Tag_Exists()
 		{
 			// Arrange
-			HomeController homeController = new HomeController(_applicationSettings, _userService, new MarkupConverter(_applicationSettings, _repository, _pluginFactory), _pageService, _searchService, _context, _settingsService);
-			homeController.SetFakeControllerContext();
 
 			// Act
-			ActionResult result = homeController.Index();
+			ActionResult result = _homeController.Index();
 
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
@@ -85,8 +89,6 @@ namespace Roadkill.Tests.Unit
 		public void Index_Should_Return_Homepage_When_Tag_Exists()
 		{
 			// Arrange
-			HomeController homeController = new HomeController(_applicationSettings, _userService, new MarkupConverter(_applicationSettings, _repository, _pluginFactory), _pageService, _searchService, _context, _settingsService);
-			homeController.SetFakeControllerContext();
 			Page page1 = new Page() 
 			{ 
 				Id = 1, 
@@ -103,7 +105,7 @@ namespace Roadkill.Tests.Unit
 			_repository.PageContents.Add(page1Content);
 
 			// Act
-			ActionResult result = homeController.Index();
+			ActionResult result = _homeController.Index();
 			
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
@@ -118,8 +120,6 @@ namespace Roadkill.Tests.Unit
 		public void Search_Should_Return_Some_Results_With_Unicode_Content()
 		{
 			// Arrange
-			HomeController homeController = new HomeController(_applicationSettings, _userService, new MarkupConverter(_applicationSettings, _repository, _pluginFactory), _pageService, _searchService, _context, _settingsService);
-			homeController.SetFakeControllerContext();
 			Page page1 = new Page()
 			{
 				Id = 1,
@@ -136,7 +136,7 @@ namespace Roadkill.Tests.Unit
 			_repository.PageContents.Add(page1Content);
 
 			// Act
-			ActionResult result = homeController.Search("ОШИБКА: неверная последовательность байт для кодировки");
+			ActionResult result = _homeController.Search("ОШИБКА: неверная последовательность байт для кодировки");
 
 			// Assert
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");

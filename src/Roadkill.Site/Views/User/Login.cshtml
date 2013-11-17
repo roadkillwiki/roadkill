@@ -1,24 +1,45 @@
-﻿@{ 
+﻿@{
 	ViewBag.Title = SiteStrings.Login_Title;
 }
 
 <h1>@SiteStrings.Login_Title</h1>
-@Html.ValidationSummary(SiteStrings.Login_Unsuccessful_Title, new { @class = "alert alert-block alert-error fade in", data_dismiss = "alert" })
 
-@using (Html.BeginForm())
-{
-	@Html.Hidden("fromUrl",Request.QueryString["ReturnUrl"])
-	<fieldset id="login" class="rounded10 lightborder">
-		<label for="email" class="userlabel">@SiteStrings.Shared_Email_Label</label>
-		@Html.TextBox("email", null, new { @class = "usertextbox" })
-		<br class="clear" />	
+<div class="container pull-left">
+	<div class="row">
+		<div class="col-sm-4">
+			@Html.ValidationSummary(SiteStrings.Login_Unsuccessful_Title, new { @class = "alert alert-danger" })
 
-		<label for="password" class="userlabel">@SiteStrings.Shared_Password_Label</label>
-		<div>@Html.Password("password", null, new { @class = "usertextbox" })</div>
-		<br class="clear" />
+			<div id="login" class="lightborder rounded10 col-sm-12">
 
-		@Html.ActionLink(@SiteStrings.Login_ForgottenPassword, "ResetPassword", null, new { @class = "smaller" })
-	
-		<input type="submit" id="userbutton" class="btn btn-primary" value="@SiteStrings.Button_Login" />
-	</fieldset>
-}
+				<form class="form-horizontal" role="form" method="post">
+					@Html.Hidden("fromUrl", Request.QueryString["ReturnUrl"])
+
+					<div class="form-group">
+						<label for="email" class="col-sm-4 control-label">@SiteStrings.Shared_Email_Label</label>
+						<div class="col-sm-8">
+							@Html.TextBox("email", null, new { @class = "form-control" })
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="password" class="col-sm-4 control-label">@SiteStrings.Shared_Password_Label</label>
+						<div class="col-sm-8">
+							@Html.Password("password", null, new { @class = "form-control" })
+						</div>
+					</div>
+
+					<div class="col-sm-12">
+						@Html.ActionLink(@SiteStrings.Login_ForgottenPassword, "ResetPassword", null, new { @class = "smaller" })
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-offset-8 col-sm-4">
+							<input type="submit" class="btn btn-primary right" value="@SiteStrings.Button_Login" />
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>

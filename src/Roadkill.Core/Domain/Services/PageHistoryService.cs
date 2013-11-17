@@ -69,7 +69,7 @@ namespace Roadkill.Core.Services
 				List<PageViewModel> versions = new List<PageViewModel>();
 
 				PageContent mainContent = Repository.GetPageContentById(mainVersionId);
-				versions.Add(mainContent.ToModel(_markupConverter));
+				versions.Add(new PageViewModel(mainContent, _markupConverter));
 
 				if (mainContent.VersionNumber == 1)
 				{
@@ -88,7 +88,7 @@ namespace Roadkill.Core.Services
 						}
 						else
 						{
-							model = previousContent.ToModel(_markupConverter);
+							model = new PageViewModel(previousContent, _markupConverter);
 							_pageViewModelCache.Add(mainContent.Page.Id, mainContent.VersionNumber - 1, model);
 						}
 					}

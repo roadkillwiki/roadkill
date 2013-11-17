@@ -342,7 +342,7 @@
     <Compile Include="Unit\Database\Export\SqlExportBuilderTests.cs" />
     <Compile Include="Unit\Extensions\ExtensionsTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\AdminRequiredAttributeTests.cs" />
-    <Compile Include="Unit\Mvc\Attributes\AuthorizeAttributeBase.cs" />
+    <Compile Include="Unit\Mvc\Attributes\AuthorizeAttributeTestBase.cs" />
     <Compile Include="Unit\Mvc\Attributes\BrowserCacheAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\OptionalAuthorizationTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\EditorRequiredAttributeTests.cs" />
@@ -367,6 +367,7 @@
     <Compile Include="Unit\DI\DependencyManagerTests.cs" />
     <Compile Include="Unit\Database\LightSpeed\ToEntityTests.cs" />
     <Compile Include="Unit\Database\LightSpeed\FromEntityTests.cs" />
+    <Compile Include="Unit\Plugins\RandomPageTests.cs" />
     <Compile Include="Unit\Services\PageHistoryServiceTests.cs" />
     <Compile Include="Unit\Services\SettingsServiceTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\FileManagerControllerTests.cs" />
@@ -377,12 +378,14 @@
     <Compile Include="Unit\Plugins\PluginFactoryTests.cs" />
     <Compile Include="Unit\Plugins\SettingsTests.cs" />
     <Compile Include="Unit\Plugins\TextPluginTests.cs" />
+    <Compile Include="Unit\MocksAndStubsContainer.cs" />
     <Compile Include="Unit\StubsAndMocks\CacheMock.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\Attributes\IdentityStub.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\Attributes\PrincipalMock.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\HttpCachePolicyMock.cs" />
     <Compile Include="Unit\StubsAndMocks\PluginFactoryMock.cs" />
     <Compile Include="Unit\StubsAndMocks\SpecialPageMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\UrlResolverStub.cs" />
     <Compile Include="Unit\StubsAndMocks\UserServiceMock.cs" />
     <Compile Include="Unit\StubsAndMocks\FakeSignupEmail.cs" />
     <Compile Include="Unit\StubsAndMocks\SearchServiceMock.cs" />
@@ -391,7 +394,7 @@
     <Compile Include="Unit\Mvc\ViewModels\UserViewModelPasswordValidationTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\HomeControllerTests.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\MvcMockContainer.cs" />
-    <Compile Include="Unit\StubsAndMocks\RoadkillContextStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\UserContextStub.cs" />
     <Compile Include="Unit\StubsAndMocks\UserServiceStub.cs" />
     <Compile Include="Unit\StubsAndMocks\TextPluginStub.cs" />
     <Compile Include="Unit\Text\MenuParserTests.cs" />

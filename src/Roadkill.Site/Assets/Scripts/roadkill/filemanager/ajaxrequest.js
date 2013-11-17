@@ -1,6 +1,7 @@
 var Roadkill;
 (function (Roadkill) {
     (function (Site) {
+        /// <reference path="../typescript-ref/filemanager.references.ts" />
         (function (FileManager) {
             var AjaxRequest = (function () {
                 function AjaxRequest() {
@@ -63,3 +64,4 @@ var Roadkill;
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
 })(Roadkill || (Roadkill = {}));
+//# sourceMappingURL=ajaxrequest.js.map

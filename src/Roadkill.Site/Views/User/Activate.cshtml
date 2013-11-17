@@ -1,13 +1,24 @@
-﻿@{ 
+﻿@{
 	ViewBag.Title = SiteStrings.Activate_Title;
 }
 
-@Html.ValidationSummary(SiteStrings.Activate_Error_Title)
+<h1>@SiteStrings.Activate_Title</h1>
 
-@if (ViewData.ModelState.IsValid)
-{
-	<h1>@SiteStrings.Activate_Success_Title</h1>
-	<p>
-		@SiteStrings.Activate_Label @Html.ActionLink(SiteStrings.Activate_Link, "Login")
-	</p>
-}
+<div class="container pull-left">
+	<div class="row">
+		<div class="col-sm-6">
+			@Html.ValidationSummary(SiteStrings.Activate_Error_Title, new { @class = "alert alert-danger" })
+
+			@if (ViewData.ModelState.IsValid)
+			{
+				<div class="alert alert-info">
+					<p class="bigger bold">@SiteStrings.Activate_Success_Title</p>
+
+					<p>
+						@SiteStrings.Activate_Label @Html.ActionLink(SiteStrings.Activate_Link, "Login")
+					</p>
+				</div>
+			}
+		</div>
+	</div>
+</div>

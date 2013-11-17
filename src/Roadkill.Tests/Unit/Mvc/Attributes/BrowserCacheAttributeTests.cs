@@ -187,7 +187,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		{
 			// Settings
 			ApplicationSettings appSettings = new ApplicationSettings() { Installed = true, UseBrowserCache = true };
-			RoadkillContextStub userContext = new RoadkillContextStub() { IsLoggedIn = false };
+			UserContextStub userContext = new UserContextStub() { IsLoggedIn = false };
 
 			// PageService
 			PageViewModelCache pageViewModelCache = new PageViewModelCache(appSettings, CacheMock.RoadkillCache);

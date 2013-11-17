@@ -14,7 +14,7 @@
 		@Html.Action("LoggedInAs", "User")
 		<br class="clear" />
 		<div id="search">
-			<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" />
+			<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" class="form-control" />
 			<button id="searchbutton">
 				<img src="@Url.ThemeContent("search.png", SiteSettings)" alt="Search" />
 			</button>
@@ -26,7 +26,7 @@
 		<a href="@(Url.Action("Index", "Home"))"><img src="@Url.ThemeContent("logo.png", SiteSettings)" alt="logo" border="0" /></a>
 	</div>
 	<div id="panel">
-		@Html.Action("LeftMenu", "Home")
+		@Html.Action("NavMenu", "Home")
 	</div>
 
 	<div id="container">

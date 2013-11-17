@@ -215,6 +215,16 @@ namespace Roadkill.Core.Plugins
 			return "";
 		}
 
+		public virtual string GetPreContainerHtml()
+		{
+			return "";
+		}
+
+		public virtual string GetPostContainerHtml()
+		{
+			return "";
+		}
+
 		/// <summary>
 		/// Gets the HTML for a javascript link for the plugin, assuming the javascript is stored in the /Plugins/ID/ folder.
 		/// </summary>
