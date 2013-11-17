@@ -410,6 +410,7 @@
     <Content Include="Plugins\Text\ExternalLinksInNewWindow\externallinksinnewwindow.js" />
     <Content Include="Plugins\Text\ClickableImages\clickableimages.js" />
     <Content Include="Plugins\Text\DontResizeImages\dontresizeimages.css" />
+    <Content Include="Plugins\Text\Jumbotron\jumbotron.css" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shAutoloader.js" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushAppleScript.js" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushAS3.js" />
@@ -573,6 +574,8 @@
     <None Include="Properties\PublishProfiles\Mono.pubxml" />
     <Content Include="Assets\Scripts\toastr.js" />
     <Content Include="Themes\BlackBar\Theme.print.css" />
+    <Content Include="Themes\Responsive\jumbotron.jpg" />
+    <Content Include="Themes\Responsive\Theme.css" />
     <Content Include="Themes\Roadkill\logo.png" />
     <Content Include="Themes\Roadkill\Theme.css" />
     <Content Include="Themes\Roadkill\Theme.print.css" />
@@ -661,6 +664,7 @@
     <Content Include="Views\Install\Index.cshtml" />
     <Content Include="Views\PluginSettings\Edit.cshtml" />
     <Content Include="Views\Help\Index.cshtml" />
+    <Content Include="Themes\Responsive\Theme.cshtml" />
     <None Include="Web.Mono.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

@@ -101,6 +101,8 @@ namespace Roadkill.Tests.Unit
 			plugin.IsCacheable = false;
 			plugin.HeadContent = "head content";
 			plugin.FooterContent = "footer content";
+			plugin.PreContainerHtml = "pre container";
+			plugin.PostContainerHtml = "post container";
 			plugin.PluginCache = new SiteCache(_appSettings, CacheMock.RoadkillCache);
 			plugin.Repository = _repository;
 			plugin.Settings.IsEnabled = true;
@@ -133,10 +135,13 @@ namespace Roadkill.Tests.Unit
 			Assert.That(model.IsCacheable, Is.EqualTo(plugin.IsCacheable));
 			Assert.That(model.PluginHeadHtml, Is.EqualTo(plugin.HeadContent));
 			Assert.That(model.PluginFooterHtml, Is.EqualTo(plugin.FooterContent));
+			Assert.That(model.PluginPreContainer, Is.EqualTo(plugin.PreContainerHtml));
+			Assert.That(model.PluginPostContainer, Is.EqualTo(plugin.PostContainerHtml));
+
 		}
 
 		[Test]
-		public void Content_Should_Be_Empty_When_Set_To_Null()
+		public void Content_Should_Be_Empty_And_Not_Null_When_Set_To_Null()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel();			

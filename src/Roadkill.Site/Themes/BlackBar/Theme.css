@@ -12,8 +12,7 @@ h1,h2,h3,h4,h4	{ font-family:"Myriad Pro",helvetica;border-bottom:1px solid #AAA
 #footer			{ color: #555; font-size: 0.8em; }
 
 #leftmenu			  { float:left; }
-#leftmenu ul li		  { display:inline; }
-#leftmenu ul li:after { content: " | " }
+#leftmenu ul li		  { display:inline;padding-right:20px; }
 
 #viewhistory { float:right; }
 

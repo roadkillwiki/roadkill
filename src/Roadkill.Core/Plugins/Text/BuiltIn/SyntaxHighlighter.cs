@@ -56,24 +56,25 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 			_replacePattern = ParserSafeToken(_replacePattern);
 		}
 
-		public override string BeforeParse(string text)
+		public override string BeforeParse(string markupText)
 		{
-			if (_variableRegex.IsMatch(text))
+			if (_variableRegex.IsMatch(markupText))
 			{
-				// Replaces the {{{roadkillinternal[[[code lang=sql|xxx]]]roadkillinternal}}}
-				// with the HTML pre tags. As the code is HTML encoded, it doesn't get butchered by the HTML cleaner.
-				MatchCollection matches = _variableRegex.Matches(text);
+				// Replaces the [[[code lang=sql|xxx]]]
+				// with the HTML tags (surrounded with {{{roadkillinternal}}.
+				// As the code is HTML encoded, it doesn't get butchered by the HTML cleaner.
+				MatchCollection matches = _variableRegex.Matches(markupText);
 				foreach (Match match in matches)
 				{
 					string language = match.Groups["lang"].Value;
 					string code = HttpUtility.HtmlEncode(match.Groups["code"].Value);
-					text = text.Replace(match.Groups["code"].Value, code);
+					markupText = markupText.Replace(match.Groups["code"].Value, code);
 
-					text = Regex.Replace(text, _regexString, _replacePattern, _variableRegex.Options);
+					markupText = Regex.Replace(markupText, _regexString, _replacePattern, _variableRegex.Options);
 				}
 			}
 
-			return text;
+			return markupText;
 		}
 
 		public override string AfterParse(string html)

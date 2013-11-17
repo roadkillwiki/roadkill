@@ -511,6 +511,7 @@
     <Compile Include="Plugins\Text\BuiltIn\ClickableImages.cs" />
     <Compile Include="Plugins\Text\BuiltIn\DontResizeImages.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ExternalLinksInNewWindow.cs" />
+    <Compile Include="Plugins\Text\BuiltIn\Jumbotron.cs" />
     <Compile Include="Plugins\Text\BuiltIn\MathJax.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ToC\TocPlugin.cs" />
     <Compile Include="Plugins\Settings.cs" />

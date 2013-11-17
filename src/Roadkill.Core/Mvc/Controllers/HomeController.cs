@@ -85,6 +85,20 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// Displays the left side menu view, including new page/settings if logged in.
 		/// </summary>
+		public ActionResult NavMenu()
+		{
+			return Content(PageService.GetMenu(Context));
+		}
+
+		/// <summary>
+		/// Displays the a Bootstrap-styled left side menu view, including new page/settings if logged in.
+		/// </summary>
+		public ActionResult BootstrapNavMenu()
+		{
+			return Content(PageService.GetBootStrapNavMenu(Context));
+		}
+
+		// Legacy support - remove this in future versionse
 		public ActionResult LeftMenu()
 		{
 			return Content(PageService.GetMenu(Context));
