@@ -79,3 +79,22 @@ obj/
 # the JS files, as there is no Typescript compiler on the website servers.
 Assets/Scripts/roadkill/*/*.min.js
 *.map
+
+# Typescript generated JS files (they're produced at compile time)
+constants.js
+filemanager.references.js
+breadcrumbtrail.js
+ajaxrequest.js
+setup.js
+wysiwygeditor.js
+editpage.js
+references.js
+htmlbuilder.js
+dialogs.js
+directoryviewmodel.js
+Demosite.pubxml
+buttonevents.js
+util.js
+tableevents.js
+adminsetup.js
+filemodel.js
