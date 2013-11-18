@@ -342,7 +342,7 @@
     <Content Include="Assets\CSS\images\ui-icons_888888_256x240.png" />
     <Content Include="Assets\CSS\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Assets\CSS\jquery-ui-bootstrap.css" />
-    <Content Include="Assets\CSS\validationEngine.jquery.css" />
+    <Content Include="Assets\CSS\jquery.fileupload.css" />
     <Content Include="Assets\Images\log_error.png" />
     <Content Include="Assets\Images\gradientbutton-green.png" />
     <Content Include="Assets\Images\gradientbutton.png" />
@@ -368,7 +368,6 @@
     <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.woff" />
-    <None Include="Assets\Scripts\jquery\jquery-1.8.0-vsdoc.js" />
     <Content Include="Assets\CSS\tagmanager.css" />
     <Content Include="Assets\Images\plugin.png" />
     <Content Include="Assets\Images\roadkill.png" />
@@ -377,6 +376,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Assets\Scripts\bootbox.js" />
+    <Content Include="Assets\Scripts\readme.txt" />
     <Content Include="Assets\Scripts\jquery\additional-methods.js" />
     <Content Include="Assets\Scripts\jquery\jquery-1.9.1.js" />
     <Content Include="Assets\Scripts\jquery\jquery-ui-1.10.3.custom.js" />
@@ -482,7 +482,10 @@
     <Content Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.js">
       <DependentUpon>breadcrumbtrail.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\buttonevents.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\buttonevents.ts">
+      <BrowseToURL>
+      </BrowseToURL>
+    </TypeScriptCompile>
     <Content Include="Assets\Scripts\roadkill\filemanager\buttonevents.js">
       <DependentUpon>buttonevents.ts</DependentUpon>
     </Content>
@@ -546,21 +549,6 @@
     <Content Include="Views\Help\MarkdownReference.cshtml" />
     <Content Include="Views\Help\CreoleReference.cshtml" />
     <Content Include="Assets\Images\info_icon.png" />
-    <Content Include="Assets\Images\wysiwyg\help.png" />
-    <Content Include="Assets\Images\wysiwyg\readme.txt" />
-    <Content Include="Assets\Images\wysiwyg\picture.png" />
-    <Content Include="Assets\Images\wysiwyg\bold.png" />
-    <Content Include="Assets\Images\wysiwyg\h1.png" />
-    <Content Include="Assets\Images\wysiwyg\h2.png" />
-    <Content Include="Assets\Images\wysiwyg\h3.png" />
-    <Content Include="Assets\Images\wysiwyg\h4.png" />
-    <Content Include="Assets\Images\wysiwyg\h5.png" />
-    <Content Include="Assets\Images\wysiwyg\h6.png" />
-    <Content Include="Assets\Images\wysiwyg\italic.png" />
-    <Content Include="Assets\Images\wysiwyg\bullets.png" />
-    <Content Include="Assets\Images\wysiwyg\numbers.png" />
-    <Content Include="Assets\Images\wysiwyg\underline.png" />
-    <Content Include="Assets\Images\wysiwyg\link.png" />
     <Content Include="Assets\CSS\roadkill.css" />
     <Content Include="Assets\Scripts\jquery\jquery.timeago.js" />
     <Content Include="Assets\Images\loading.gif" />
@@ -625,7 +613,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Scripts\jquery\jquery.extensions.js" />
     <Content Include="Assets\Scripts\jquery\jquery.form-extensions.js" />
     <Content Include="Global.asax" />
     <Content Include="Views\Pages\Edit.cshtml" />
@@ -693,6 +680,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Internal\Search\" />
+    <Folder Include="Assets\Images\wysiwyg\" />
     <Folder Include="Plugins\UserManager\" />
   </ItemGroup>
   <PropertyGroup>

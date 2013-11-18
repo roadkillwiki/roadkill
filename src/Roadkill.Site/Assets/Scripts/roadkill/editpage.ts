@@ -103,7 +103,7 @@ module Roadkill.Site
 		public static bindPreview()
 		{
 			EditPage.setElementHeights();
-			EditPage.showPreview();
+			EditPage.updatePreviewPane();
 
 			$(document).on("resize", function () {
 				EditPage.setElementHeights();
@@ -118,7 +118,7 @@ module Roadkill.Site
 					EditPage._timeout = null;
 				}
 
-				EditPage._timeout = setTimeout(EditPage.showPreview, 100);
+				EditPage._timeout = setTimeout(EditPage.updatePreviewPane, 100);
 			});
 		}
 
@@ -138,7 +138,7 @@ module Roadkill.Site
 		/**
 		Grabs a preview from the server for the wiki markup, and displays it in the preview pane.
 		*/
-		public static showPreview()
+		public static updatePreviewPane()
 		{
 			$("#previewLoading").show();
 			var text = $("#Content").val();
@@ -164,7 +164,6 @@ module Roadkill.Site
 			request.always(function ()
 			{
 				$("#previewLoading").show();
-				//Dialogs.openFullScreenModal("#previewContainer");
 				$("#previewLoading").hide();
 			});
 		}

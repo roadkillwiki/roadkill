@@ -14,19 +14,21 @@
 		<style> body { background-color: whitesmoke; } </style>
 </head>
 <body>
-	<div style="padding:3px">
-    @Html.Partial("Navigator", false)
+	<div id="filechooser-select">
+		<div style="padding:3px">
+			@Html.Partial("Navigator", false)
+		</div>
+		<script type="text/javascript">
+			$(function ()
+			{
+				Roadkill.Site.FileManager.Setup.configure();
+				$("body").on("fileselected", "table#files",
+				function (e, data)
+				{
+					window.top.Roadkill.Site.WysiwygEditor.addImage(data.file);
+				});
+			});
+		</script>
 	</div>
-    <script type="text/javascript">
-    	$(function ()
-    	{
-    		Roadkill.Site.FileManager.Setup.configure();
-    		$("table#files").live("fileselected",
-            function (e, data)
-            {
-                window.top.Roadkill.Site.WysiwygEditor.addImage(data.file);
-            });
-    	});
-    </script>
 </body>
 </html>

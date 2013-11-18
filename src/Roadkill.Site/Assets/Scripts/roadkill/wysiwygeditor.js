@@ -14,39 +14,52 @@ var Roadkill;
                 // Bind the toolbar button clicks.
                 $(".wysiwyg-bold").click(function () {
                     parent.addStyling(ROADKILL_EDIT_BOLD_TOKEN);
+                    return false;
                 });
                 $(".wysiwyg-italic").click(function () {
                     parent.addStyling(ROADKILL_EDIT_ITALIC_TOKEN);
+                    return false;
                 });
                 $(".wysiwyg-underline").click(function () {
                     parent.addStyling(ROADKILL_EDIT_UNDERLINE_TOKEN);
+                    return false;
                 });
                 $(".wysiwyg-h2").click(function () {
                     parent.addHeading(parent.repeat(ROADKILL_EDIT_HEADING_TOKEN, 2));
+                    return false;
                 });
                 $(".wysiwyg-h3").click(function () {
                     parent.addHeading(parent.repeat(ROADKILL_EDIT_HEADING_TOKEN, 3));
+                    return false;
                 });
                 $(".wysiwyg-h4").click(function () {
                     parent.addHeading(parent.repeat(ROADKILL_EDIT_HEADING_TOKEN, 4));
+                    return false;
                 });
                 $(".wysiwyg-h5").click(function () {
                     parent.addHeading(parent.repeat(ROADKILL_EDIT_HEADING_TOKEN, 5));
+                    return false;
                 });
                 $(".wysiwyg-bullets").click(function () {
                     parent.addListItem(ROADKILL_EDIT_BULLETLIST_TOKEN);
+                    return false;
                 });
                 $(".wysiwyg-numbers").click(function () {
+                    // Obselete
                     parent.addListItem(ROADKILL_EDIT_NUMBERLIST_TOKEN);
+                    return false;
                 });
                 $(".wysiwyg-picture").click(function () {
                     Site.Dialogs.openImageChooserModal("<iframe src='" + ROADKILL_FILESELECTURL + "' id='filechooser-iframe'></iframe>");
+                    return false;
                 });
                 $(".wysiwyg-link").click(function () {
                     parent.addLink();
+                    return false;
                 });
                 $(".wysiwyg-help").click(function () {
                     Site.Dialogs.openMarkupHelpModal("<iframe src='" + ROADKILL_WIKIMARKUPHELP + "' id='help-iframe'></iframe>");
+                    return false;
                 });
             };
 
@@ -105,6 +118,8 @@ var Roadkill;
                     $("#Content").replaceSelection(prefix + suffix);
                     $("#Content").setSelection(range.start + prefix.length, range.start + prefix.length);
                     Site.Dialogs.closeImageChooserModal();
+
+                    Site.EditPage.updatePreviewPane();
                 }
             };
 

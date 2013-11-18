@@ -5,31 +5,19 @@ module Roadkill.Site
 	{
 		public static alert(message: string)
 		{
-			bootbox.animate(false);
+			bootbox.setDefaults({ animate: false });
 			bootbox.alert(message);
 		}
 
-        public static confirm(title: string, resultFunction: (result: boolean) => void )
+		public static confirm(title: string, resultFunction: (result: boolean) => void)
 		{
-			bootbox.animate(false);
-			bootbox.confirm("<b>" +title+ "</b>", resultFunction);
+			bootbox.setDefaults({ animate: false });
+			bootbox.confirm("<b>" + title + "</b>", resultFunction);
 		}
 
 		public static openModal(selector: string)
 		{
 			$(selector).modal("show");
-		}
-
-		public static openFullScreenModal(selector: string)
-		{
-			$(selector).modal("show");
-			$(selector).css("width", $(window).width() - 110);
-			$(selector).css("height", $(window).height() - 110);
-			$(window).on("resize", function ()
-			{
-				$(selector).css("width", $(window).width() - 110);
-				$(selector).css("height", $(window).height() - 110);
-			});
 		}
 
 		public static openMarkupHelpModal(html: string)

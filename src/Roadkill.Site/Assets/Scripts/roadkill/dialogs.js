@@ -6,27 +6,17 @@ var Roadkill;
             function Dialogs() {
             }
             Dialogs.alert = function (message) {
-                bootbox.animate(false);
+                bootbox.setDefaults({ animate: false });
                 bootbox.alert(message);
             };
 
             Dialogs.confirm = function (title, resultFunction) {
-                bootbox.animate(false);
+                bootbox.setDefaults({ animate: false });
                 bootbox.confirm("<b>" + title + "</b>", resultFunction);
             };
 
             Dialogs.openModal = function (selector) {
                 $(selector).modal("show");
-            };
-
-            Dialogs.openFullScreenModal = function (selector) {
-                $(selector).modal("show");
-                $(selector).css("width", $(window).width() - 110);
-                $(selector).css("height", $(window).height() - 110);
-                $(window).on("resize", function () {
-                    $(selector).css("width", $(window).width() - 110);
-                    $(selector).css("height", $(window).height() - 110);
-                });
             };
 
             Dialogs.openMarkupHelpModal = function (html) {

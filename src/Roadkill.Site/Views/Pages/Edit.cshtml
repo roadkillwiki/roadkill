@@ -4,9 +4,11 @@
 }
 @Url.ScriptLinkForValidationLocalization()
 <script type="text/javascript">
-	$(document).ready(function () {
-		Roadkill.Site.EditPage.initializeTagManager("@Html.Raw(Model.CommaDelimitedTags())");
-		$("#wysiwyg-toolbar a").popover({ placement: "top", trigger: "hover", html: true, delay: { show: 250, hide: 100 } });
+	$(document).ready(function ()
+	{
+		var pageTags = "@Html.Raw(Model.CommaDelimitedTags())";
+		Roadkill.Site.EditPage.initializeTagManager(pageTags);
+		$("#wysiwyg-toolbar button").popover({trigger: "hover", html: false, delay: { show: 250, hide: 100 } });
 	});
 </script>
 <style>
