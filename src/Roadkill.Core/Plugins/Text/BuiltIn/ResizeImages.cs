@@ -11,15 +11,15 @@ using Roadkill.Core.Database;
 namespace Roadkill.Core.Plugins.Text.BuiltIn
 {
 	/// <summary>
-	/// Sets images (via CSS) so they don't get scaled by Bootstrap and are their original size.
+	/// Sets images (via CSS) so they are no bigger than the page.
 	/// </summary>
-	public class DontResizeImages : TextPlugin
+	public class ResizeImages : TextPlugin
 	{
 		public override string Id
 		{
 			get 
-			{ 
-				return "DontResizeImages";	
+			{
+				return "ResizeImages";	
 			}
 		}
 
@@ -27,7 +27,7 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 		{
 			get
 			{
-				return "Dont't resize images";
+				return "Resize images";
 			}
 		}
 
@@ -35,7 +35,7 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 		{
 			get
 			{
-				return "Ensure all images are always their original width/height and not sized to fit the page.";
+				return "Ensure all images are always fit the page.";
 			}
 		}
 
@@ -50,7 +50,7 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 
 		public override string GetHeadContent()
 		{
-			return GetCssLink("dontresizeimages.css");
+			return GetCssLink("resizeimages.css");
 		}
 	}
 }

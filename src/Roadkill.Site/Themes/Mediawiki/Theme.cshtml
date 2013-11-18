@@ -30,12 +30,15 @@
 	</div>
 
 	<div id="container">
+		@RenderSection("PluginPreContainer", false) @*Not outside the container*@
 		@RenderSection("PageToolbar", false)
 		@RenderSection("ViewHistoryLink", false)
 		<div id="content">
 			@RenderBody()
 		</div>
 	</div>
+
+	@RenderSection("PluginPostContainer", false)
 
 	<div id="footer">
 		@RenderSection("PageDetailsFooter", false)

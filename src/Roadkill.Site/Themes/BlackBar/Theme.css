@@ -10,6 +10,7 @@ h1,h2,h3,h4,h4	{ font-family:"Myriad Pro",helvetica;border-bottom:1px solid #AAA
 #page-content	{ padding: 100px 80px; }
 #searchbox		{ width: 200px; }
 #footer			{ color: #555; font-size: 0.8em; }
+#toolbar		{ padding-bottom:10px; }
 
 #leftmenu			  { float:left; }
 #leftmenu ul li		  { display:inline;padding-right:20px; }

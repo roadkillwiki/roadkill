@@ -409,7 +409,7 @@
     </Content>
     <Content Include="Plugins\Text\ExternalLinksInNewWindow\externallinksinnewwindow.js" />
     <Content Include="Plugins\Text\ClickableImages\clickableimages.js" />
-    <Content Include="Plugins\Text\DontResizeImages\dontresizeimages.css" />
+    <Content Include="Plugins\Text\ResizeImages\resizeimages.css" />
     <Content Include="Plugins\Text\Jumbotron\jumbotron.css" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shAutoloader.js" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushAppleScript.js" />
@@ -562,6 +562,7 @@
       <DependentUpon>wysiwygeditor.ts</DependentUpon>
     </None>
     <Content Include="Assets\CSS\toastr.css" />
+    <Content Include="Plugins\Text\Toc\toc.css" />
     <Content Include="Roadkill.config">
       <SubType>Designer</SubType>
     </Content>

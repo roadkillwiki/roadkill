@@ -1114,7 +1114,7 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This page was last modified on.
+        ///   Looks up a localized string similar to This page was last modified.
         /// </summary>
         public static string Shared_LastModified {
             get {

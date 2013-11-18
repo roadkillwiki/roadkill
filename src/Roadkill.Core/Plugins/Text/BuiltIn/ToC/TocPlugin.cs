@@ -40,5 +40,10 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn.ToC
 
 			return html;
 		}
+
+		public override string GetHeadContent()
+		{
+			return GetCssLink("toc.css");
+		}
 	}
 }
