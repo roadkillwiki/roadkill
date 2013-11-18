@@ -25,8 +25,9 @@ var Roadkill;
                 Setup.initializeImagePreview = function () {
                     var xOffset = 20;
                     var yOffset = 20;
+                    var rowSelector = "table#files tr[data-itemtype=file]";
 
-                    $("table#files tr[data-itemtype=file]").live("mouseenter", function (e) {
+                    $("#folder-container").on("mouseenter", rowSelector, function (e) {
                         var fileType;
                         fileType = $("td.filetype", this).text();
                         if (fileType.search(/^(jpg|png|gif)$/i) == -1)
@@ -38,9 +39,9 @@ var Roadkill;
 
                         $("body").append("<p id='image-preview'><img src='" + imgUrl + "' alt='Image Preview' /></p>");
                         $("#image-preview").css("top", (e.pageY - xOffset) + "px").css("left", (e.pageX + yOffset) + "px").fadeIn("fast");
-                    }).live("mouseleave", function () {
+                    }).on("mouseleave", rowSelector, function () {
                         $("#image-preview").remove();
-                    }).live("mousemove", function (e) {
+                    }).on("mousemove", rowSelector, function (e) {
                         $("#preview").css("top", (e.pageY - xOffset) + "px").css("left", (e.pageX + yOffset) + "px");
                     });
                 };

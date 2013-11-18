@@ -5,8 +5,7 @@
 @Url.ScriptLinkForValidationLocalization()
 <script type="text/javascript">
 	$(document).ready(function () {
-		//Roadkill.Site.EditPage.initializeTagManager("@Html.Raw(Model.CommaDelimitedTags())");
-		$("form").validationEngine();
+		Roadkill.Site.EditPage.initializeTagManager("@Html.Raw(Model.CommaDelimitedTags())");
 		$("#wysiwyg-toolbar a").popover({ placement: "top", trigger: "hover", html: true, delay: { show: 250, hide: 100 } });
 	});
 </script>
@@ -22,7 +21,6 @@
 		<form class="form-horizontal" role="form" method="post">
 			@(Html.HiddenFor<PageViewModel, int>(p => p.Id))
 			@(Html.HiddenFor<PageViewModel, string>(p => p.PreviousTitle))
-			@(Html.HiddenFor<PageViewModel, string>(p => p.RawTags))
 
 			<div class="form-group">
 				<div class="col-sm-12">
@@ -30,10 +28,8 @@
 				</div>
 			</div>
 
-			<div class="form-group">
-				<div class="col-sm-10">
-					@(Html.TextBox("TagsEntry", null, new { @class = "form-control", autocomplete = "off", tabindex = 2, placeholder = SiteStrings.EditPage_Tags_Label }))
-				</div>
+			<div class="form-inline">
+				@(Html.TextBox("TagsEntry", null, new { @class = "form-control tm-input", autocomplete = "off", tabindex = 2, placeholder = SiteStrings.EditPage_Tags_Label }))
 			</div>
 
 
@@ -66,11 +62,16 @@
 		</form>
 	</div>
 
-	<div id="preview-wrapper" class="col-sm-5">
-		<div id="previewLoading" class="hide"><img src="@(Url.Content("~/Assets/Images/loading.gif"))" border="0" alt="loading" /></div>
-		<div id="preview"><br class="clear" /></div>
+	<!-- Preview panel -->
+	<div class="col-sm-5">
+		<div class="panel panel-default">
+			<div id="preview-heading" class="panel-heading">@SiteStrings.EditPage_Preview</div>
+			<div class="panel-body" id="preview-wrapper">
+				<div id="previewLoading" class="hide"><img src="@(Url.Content("~/Assets/Images/loading.gif"))" border="0" alt="loading" /></div>
+				<div id="preview"><br class="clear" /></div>
+			</div>
+		</div>
 	</div>
-	<div class="clear"></div>
 
 </div>
 

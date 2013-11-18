@@ -24,9 +24,10 @@ module Roadkill.Site.FileManager
 		{
 			var xOffset: number = 20;
 			var yOffset: number = 20;
+			var rowSelector = "table#files tr[data-itemtype=file]"; // see http://stackoverflow.com/a/12571166/21574
 
-			$("table#files tr[data-itemtype=file]")
-				.live("mouseenter", function (e)
+			$("#folder-container")
+				.on("mouseenter", rowSelector,function (e)
 				{
 					var fileType: string;
 					fileType = $("td.filetype", this).text();
@@ -43,11 +44,11 @@ module Roadkill.Site.FileManager
 						.css("left", (e.pageX + yOffset) + "px")
 						.fadeIn("fast");
 				})
-				.live("mouseleave", function ()
+				.on("mouseleave", rowSelector, function ()
 				{
 					$("#image-preview").remove();
 				})
-				.live("mousemove", function (e)
+				.on("mousemove", rowSelector, function (e)
 				{
 					$("#preview")
 						.css("top", (e.pageY - xOffset) + "px")

@@ -60,18 +60,18 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// Returns all tags in the system as a JSON string.
 		/// </summary>
+		/// <param name="term">The jQuery UI autocomplete filter passed in, e.g. when "ho" is typed for homepage.</param>
 		/// <returns>A string array of tags.</returns>
 		/// <remarks>This action requires editor rights.</remarks>
 		[EditorRequired]
-		[HttpPost]
-		public ActionResult AllTagsAsJson()
+		public ActionResult AllTagsAsJson(string term = "")
 		{
 			IEnumerable<TagViewModel> tags = _pageService.AllTags();
-			var tagsJson = tags.Select(t => new { tag = t.Name });
-			Dictionary<string, object> result = new Dictionary<string, object>();
-			result.Add("tags", tagsJson);
+			if (!string.IsNullOrEmpty(term))
+				tags = tags.Where(x => x.Name.StartsWith(term, StringComparison.InvariantCultureIgnoreCase));
 
-			return Json(result, JsonRequestBehavior.AllowGet);
+			IEnumerable<string> tagsJson = tags.Select(t => t.Name);
+			return Json(tagsJson, JsonRequestBehavior.AllowGet);
 		}
 
 		/// <summary>

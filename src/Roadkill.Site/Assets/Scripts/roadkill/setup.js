@@ -29,7 +29,7 @@ var Roadkill;
             };
 
             Setup.bindTimeAgo = function () {
-                // Friendly times for the history tables
+                // Friendly times
                 $("#lastmodified-on").timeago();
                 $("#historytable .editedon").timeago();
             };
