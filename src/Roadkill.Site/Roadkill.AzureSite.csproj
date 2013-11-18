@@ -350,8 +350,6 @@
     <Content Include="Areas\HelpPage\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Assets\bootstrap\css\bootstrap.css.orig" />
-    <Content Include="Assets\bootstrap\css\bootstrap.min.css.orig" />
     <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.woff" />
