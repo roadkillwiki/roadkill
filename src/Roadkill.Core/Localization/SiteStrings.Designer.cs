@@ -574,7 +574,7 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Drag files here to upload. Double click to navigate folders.
+        ///   Looks up a localized string similar to Drag files onto the box below to upload. Double click to navigate folders..
         /// </summary>
         public static string FileManager_Watermark {
             get {

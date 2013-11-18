@@ -79,7 +79,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("a[href='/filemanager']")).Click();
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector(".fileupload-buttonbar")).Displayed, Is.True, ".fileupload-buttonbar");
+			Assert.That(Driver.FindElement(By.CssSelector("#fileupload-buttonbar")).Displayed, Is.True, "#fileupload-buttonbar");
 			Assert.That(Driver.FindElement(By.CssSelector("#addfolderbtn")).Displayed, Is.True, "#addfolderbtn");
 			Assert.That(Driver.FindElements(By.CssSelector("#deletefilebtn")).Count(), Is.EqualTo(0), "#deletefilebtn");
 			Assert.That(Driver.FindElements(By.CssSelector("#deletefolderbtn")).Count(), Is.EqualTo(0), "#deletefolderbtn");

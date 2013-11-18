@@ -22,19 +22,21 @@
 @using (Html.BeginForm("Upload", "FileManager", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 	@Html.Hidden("destination_folder", "")
-    <span class="fileupload-buttonbar">
-        <span class="fileupload-button btn">
-            <span>@SiteStrings.FileManager_Upload</span>
-            <input id="fileupload" type="file" name="files[]" data-url="FileManager/Upload" multiple />
-        </span>
-	@if (RoadkillContext.IsAdmin)
-	{
-        <button id="deletefilebtn" type="button" class="btn">@SiteStrings.FileManager_Delete_File</button>
+    <div id="fileupload-buttonbar">
+		<span class="fileinput-button btn btn-primary">
+			<i class="glyphicon glyphicon-plus"></i>
+			<input id="fileupload" type="file" name="files[]" data-url="FileManager/Upload" multiple />
+			<span>@SiteStrings.FileManager_Upload</span>
+		</span>
+	@if (RoadkillContext.IsAdmin){
+		<button id="deletefilebtn" type="button" class="btn btn-primary">@SiteStrings.FileManager_Delete_File</button>
 	}
-        <button id="addfolderbtn" type="button" class="btn">@SiteStrings.FileManager_AddFolder</button>
-	@if (RoadkillContext.IsAdmin)
-	{
-        <button id="deletefolderbtn" type="button" class="btn">@SiteStrings.FileManager_Delete_Folder</button>
+		<button id="addfolderbtn" type="button" class="btn btn-primary">@SiteStrings.FileManager_AddFolder</button>
+	@if (RoadkillContext.IsAdmin){
+		<button id="deletefolderbtn" type="button" class="btn btn-danger">
+			<i class="glyphicon glyphicon-trash"></i>
+			@SiteStrings.FileManager_Delete_Folder
+		</button> 
 	}
-    </span>
+    </div>
 }

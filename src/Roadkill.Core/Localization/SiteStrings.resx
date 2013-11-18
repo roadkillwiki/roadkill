@@ -848,7 +848,7 @@
     <value>Uploading...</value>
   </data>
   <data name="FileManager_Watermark" xml:space="preserve">
-    <value>Drag files here to upload. Double click to navigate folders</value>
+    <value>Drag files onto the box below to upload. Double click to navigate folders.</value>
   </data>
   <data name="FileManager_Extension_Not_Supported" xml:space="preserve">
     <value>Only files with the extension {0} can be uploaded.</value>

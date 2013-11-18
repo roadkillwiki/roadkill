@@ -31,7 +31,7 @@ var Roadkill;
                         htmlRow += "<tr class=\"listrow\" data-itemtype=\"folder\" data-urlpath=\"" + directoryViewModel.ChildFolders[i].UrlPath + "\">";
                         htmlRow += "<td width='1%'>";
                         htmlRow += "<img src='" + ROADKILL_COREASSETPATH + "CSS/images/directory.png'></td>";
-                        htmlRow += "<td nowrap width=\"40%\">" + directoryViewModel.ChildFolders[i].Name + "</td>";
+                        htmlRow += "<td nowrap width=\"50%\">" + directoryViewModel.ChildFolders[i].Name + "</td>";
                         htmlRow += "<td></td>";
                         htmlRow += "<td></td>";
                         htmlRow += "<td></td>";
