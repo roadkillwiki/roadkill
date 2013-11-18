@@ -310,12 +310,11 @@
     <Content Include="App_Data\customvariables.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Assets\bootstrap\css\bootstrap-responsive.css" />
-    <Content Include="Assets\bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="Assets\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="Assets\bootstrap\css\bootstrap-theme.min.css" />
     <Content Include="Assets\bootstrap\css\bootstrap.css" />
     <Content Include="Assets\bootstrap\css\bootstrap.min.css" />
-    <Content Include="Assets\bootstrap\img\glyphicons-halflings-white.png" />
-    <Content Include="Assets\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Assets\bootstrap\js\bootstrap.js" />
     <Content Include="Assets\bootstrap\js\bootstrap.min.js" />
     <Content Include="Assets\CSS\apihelp.css" />
@@ -351,6 +350,11 @@
     <Content Include="Areas\HelpPage\Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Assets\bootstrap\css\bootstrap.css.orig" />
+    <Content Include="Assets\bootstrap\css\bootstrap.min.css.orig" />
+    <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Assets\Scripts\jquery\jquery-1.8.0-vsdoc.js" />
     <Content Include="Assets\CSS\bootstrap-tagmanager.css" />
     <Content Include="Assets\Images\plugin.png" />
@@ -808,7 +812,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
-   <!-- <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
+  <!-- <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
 	To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
