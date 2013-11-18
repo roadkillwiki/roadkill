@@ -80,6 +80,18 @@ namespace Roadkill.Core.Mvc.ViewModels
 		/// The date the page was last modified on.
 		/// </summary>
 		public DateTime ModifiedOn { get; set; }
+
+		/// <summary>
+		/// Displays ModifiedOn in IS8601 format, plus the timezone offset included for timeago
+		/// </summary>
+		public string ModifiedOnWithOffset
+		{
+			get
+			{
+				// EditedOn (ModifiedOn in the domain) is stored in UTC time, so just add a Z to indicate this.
+				return string.Format("{0}Z", ModifiedOn.ToString("s"));
+			}
+		}
 		
 		/// <summary>
 		/// The tags for the page.

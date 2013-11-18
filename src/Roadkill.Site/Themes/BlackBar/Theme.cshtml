@@ -25,6 +25,7 @@
 
 	<div id="page-content">
 		@RenderSection("PageToolbar", false)
+		@RenderSection("PluginPreContainer", false)
 
 		<div id="container">
 			@RenderSection("ViewHistoryLink", false)
@@ -35,6 +36,7 @@
 			</div>
 		</div>
 
+		@RenderSection("PluginPostContainer", false)
 		@RenderSection("PluginFooter", false)
 	</div>
 </body>

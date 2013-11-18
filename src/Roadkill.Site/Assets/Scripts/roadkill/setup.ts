@@ -30,7 +30,8 @@ module Roadkill.Site
 
 		public static bindTimeAgo()
 		{
-			// Friendly times for the history tables
+			// Friendly times
+			$("#lastmodified-on").timeago();
 			$("#historytable .editedon").timeago();
 		}
 

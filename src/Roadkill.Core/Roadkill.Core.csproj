@@ -509,7 +509,7 @@
     <Compile Include="Plugins\SpecialPages\BuiltIn\SoundCloud.cs" />
     <Compile Include="Plugins\SpecialPages\SpecialPagePlugin.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ClickableImages.cs" />
-    <Compile Include="Plugins\Text\BuiltIn\DontResizeImages.cs" />
+    <Compile Include="Plugins\Text\BuiltIn\ResizeImages.cs" />
     <Compile Include="Plugins\Text\BuiltIn\ExternalLinksInNewWindow.cs" />
     <Compile Include="Plugins\Text\BuiltIn\Jumbotron.cs" />
     <Compile Include="Plugins\Text\BuiltIn\MathJax.cs" />

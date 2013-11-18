@@ -84,19 +84,6 @@ a.external-link	{ background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA
 .tagcloud4		{ font-size:1.5em; }
 .tagcloud5		{ font-size:2em; }
 
-/* Table of contents {TOC} */
-.toc			{ border:1px solid #AAA; background-color:#F9F9F9; padding:5px 0px;display:table;margin-bottom:15px; }
-.toc-title		{ font-weight:bold;text-align:center;min-width:100px; }
-.toc-showhide	{ font-weight:normal;font-size:0.8em; }
-.toc ul			{ list-style-type:none;padding:2px 5px;margin: 0px 0px 0px 1em;line-height:1.5em; }
-.toc-list>ul	{ margin:0px; }
-
-/* Left side menu */
-ul.mainmenu		 { list-style-type:none; padding-left:0px; }
-ul.mainmenu li	 { float:left;padding-right:15px; }
-ul.mainmenu li a { font-weight:bold; }
-ul.mainmenu li a:hover { text-decoration:underline; }
-
 /* Wiki page tables (see http://en.wikipedia.org/wiki/Help:Table) */
 .wikitable			{ margin: 1em 0; background-color: #f9f9f9; border: 1px #aaa solid;border-collapse: collapse; color: black; }
 .wikitable tr>th	{ background-color: #f2f2f2;text-align: center;border: 1px #aaa solid;padding: 0.2em; }

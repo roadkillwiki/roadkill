@@ -11,7 +11,7 @@ body, h1, h2, h3, h4, h5, h6 { font-family: "Noticia Text", sans-serif; }
 #footer-wrapper { min-height: 10%; padding: 0px; margin: 0px; }
 
 /* Page and pen toolbar */
-#toolbar { position:absolute; top:30px;left:5px; }
+#toolbar { position:absolute; top:85px;left:5px;z-index:99; }
 
 /* Add borders to the bottom of all H tags that the editor supports */
 h1, h2, h3, h4, h5 { border-bottom: solid 1px #DDD; padding-bottom: 20px; }
@@ -23,7 +23,8 @@ h1, h2, h3, h4, h5 { border-bottom: solid 1px #DDD; padding-bottom: 20px; }
 	#search { float:left; margin-top: 10px; padding-left: 150px; }
 }
 @media screen and (max-width:720px) {
-	#search-small { margin: 15px;padding-left:10px; }
+	#search-mobile { margin: 15px;padding-left:10px; }
+	#toolbar { display:none; }
 }
 #header-wrapper { background-color: #F8F8F8; border-bottom: 1px solid #DDD; } /* redefine the bootstrap nav bar*/
 	#header-wrapper .navbar { border: 0px; margin-bottom: 0px !important; min-height: 100%; }

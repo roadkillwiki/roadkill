@@ -30,6 +30,7 @@ var Roadkill;
 
             Setup.bindTimeAgo = function () {
                 // Friendly times for the history tables
+                $("#lastmodified-on").timeago();
                 $("#historytable .editedon").timeago();
             };
 
