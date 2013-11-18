@@ -17,19 +17,18 @@
             Sets up the Bootstrap tag manager
             */
             function (tags) {
-                $("#TagsEntry").typeahead({});
+                // Use jQuery UI autocomplete, as typeahead is currently broken for BS3
+                $("#TagsEntry").autocomplete({
+                    source: ROADKILL_TAGAJAXURL
+                });
+
                 $("#TagsEntry").tagsManager({
-                    tagClass: "tm-tag-success",
                     prefilled: tags,
-                    preventSubmitOnEnter: true,
-                    typeahead: true,
-                    typeaheadAjaxMethod: "POST",
-                    typeaheadAjaxSource: ROADKILL_TAGAJAXURL,
+                    tagClass: "tm-tag-success",
                     blinkBGColor_1: "#FFFF9C",
                     blinkBGColor_2: "#CDE69C",
                     delimeters: [44, 186, 32, 9],
                     hiddenTagListName: "RawTags",
-                    tagCloseIcon: "×",
                     preventSubmitOnEnter: false,
                     validator: function (input) {
                         var isValid = EditPage.isValidTag(input);
@@ -92,7 +91,7 @@
                 });
 
                 // Keydown fires the preview after 1/100th second, but each keypress resets this.
-                $("#Content").on("keypress", function () {
+                $("#Content").on("keydown", function () {
                     if (EditPage._timeout !== null) {
                         clearTimeout(EditPage._timeout);
                         EditPage._timeout = null;
@@ -106,9 +105,11 @@
                 // Height fix for CSS heights sucking
                 $("#Content").height($("#container").height());
 
+                var previewTitleHeight = $("#preview-heading").outerHeight(true) + 20;
                 var buttonsHeight = $("#editpage-button-container").height();
                 var scrollbarHeight = 10;
-                var formHeight = $("#editpage-form").height() - buttonsHeight - scrollbarHeight;
+                var formHeight = $("#editpage-form").height() - (buttonsHeight + scrollbarHeight + previewTitleHeight);
+
                 $("#preview-wrapper").height(formHeight);
             };
 

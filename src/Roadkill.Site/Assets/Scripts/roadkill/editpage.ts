@@ -24,22 +24,20 @@ module Roadkill.Site
 		*/
 		public static initializeTagManager(tags)
 		{
-			$("#TagsEntry").typeahead({});
-			$("#TagsEntry").tagsManager(
-			{
-				tagClass: "tm-tag-success",
+			// Use jQuery UI autocomplete, as typeahead is currently broken for BS3
+			$("#TagsEntry").autocomplete({
+				source: ROADKILL_TAGAJAXURL
+			});
+
+			$("#TagsEntry").tagsManager({
 				prefilled: tags,
-				preventSubmitOnEnter: true,
-				typeahead: true,
-				typeaheadAjaxMethod: "POST",
-				typeaheadAjaxSource: ROADKILL_TAGAJAXURL,
+				tagClass: "tm-tag-success",
 				blinkBGColor_1: "#FFFF9C",
 				blinkBGColor_2: "#CDE69C",
-				delimeters: [44, 186, 32, 9], // ',' space, tab
+				delimeters: [44, 186, 32, 9], // comma, ";", space, tab
 				hiddenTagListName: "RawTags",
-				tagCloseIcon: "×", //  ˣ or × (&times;)
-				preventSubmitOnEnter : false,
-				validator: function(input: string)
+				preventSubmitOnEnter: false,
+				validator: function (input: string)
 				{
 					var isValid: Boolean = EditPage.isValidTag(input);
 					if (isValid === false)
@@ -112,7 +110,7 @@ module Roadkill.Site
 			});
 
 			// Keydown fires the preview after 1/100th second, but each keypress resets this.
-			$("#Content").on("keypress", function ()
+			$("#Content").on("keydown", function ()
 			{
 				if (EditPage._timeout !== null)
 				{
@@ -129,9 +127,11 @@ module Roadkill.Site
 			// Height fix for CSS heights sucking
 			$("#Content").height($("#container").height());
 
+			var previewTitleHeight: number = $("#preview-heading").outerHeight(true) +20 ; // 26 is the magic number
 			var buttonsHeight: number = $("#editpage-button-container").height();
 			var scrollbarHeight: number = 10;
-			var formHeight: number = $("#editpage-form").height() - buttonsHeight - scrollbarHeight;
+			var formHeight: number = $("#editpage-form").height() - (buttonsHeight + scrollbarHeight + previewTitleHeight);
+
 			$("#preview-wrapper").height(formHeight);
 		}
 

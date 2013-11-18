@@ -8,13 +8,13 @@ var Roadkill;
                 }
                 TableEvents.prototype.bind = function () {
                     var that = this;
-                    $("tr.listrow").live("mouseenter", function () {
+                    $("#folder-container").on("mouseenter", "tr.listrow", function () {
                         $(this).addClass("focus");
-                    }).live("mouseleave", function () {
+                    }).on("mouseleave", "tr.listrow", function () {
                         $(this).removeClass("focus");
-                    }).live("click", function () {
+                    }).on("click", "tr.listrow", function () {
                         that.handleRowSelection(this);
-                    }).live("dblclick", function () {
+                    }).on("dblclick", "tr.listrow", function () {
                         that.handleDoubleClickForRow(this);
                     });
                 };

@@ -319,6 +319,7 @@
     <Content Include="Assets\bootstrap\js\bootstrap.min.js" />
     <Content Include="Assets\CSS\apihelp.css" />
     <Content Include="Assets\CSS\htmldiff.css" />
+    <Content Include="Assets\CSS\images\animated-overlay.gif" />
     <Content Include="Assets\CSS\images\blank.gif" />
     <Content Include="Assets\CSS\images\cancel.png" />
     <Content Include="Assets\CSS\images\fancybox_loading.gif" />
@@ -327,6 +328,20 @@
     <Content Include="Assets\CSS\images\directory.png" />
     <Content Include="Assets\CSS\images\file.png" />
     <Content Include="Assets\CSS\images\spinner.gif" />
+    <Content Include="Assets\CSS\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Assets\CSS\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Assets\CSS\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Assets\CSS\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Assets\CSS\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Assets\CSS\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Assets\CSS\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Assets\CSS\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Assets\CSS\images\ui-icons_222222_256x240.png" />
+    <Content Include="Assets\CSS\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Assets\CSS\images\ui-icons_454545_256x240.png" />
+    <Content Include="Assets\CSS\images\ui-icons_888888_256x240.png" />
+    <Content Include="Assets\CSS\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Assets\CSS\jquery-ui-bootstrap.css" />
     <Content Include="Assets\CSS\validationEngine.jquery.css" />
     <Content Include="Assets\Images\log_error.png" />
     <Content Include="Assets\Images\gradientbutton-green.png" />
@@ -354,7 +369,7 @@
     <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Assets\Scripts\jquery\jquery-1.8.0-vsdoc.js" />
-    <Content Include="Assets\CSS\bootstrap-tagmanager.css" />
+    <Content Include="Assets\CSS\tagmanager.css" />
     <Content Include="Assets\Images\plugin.png" />
     <Content Include="Assets\Images\roadkill.png" />
     <Content Include="Assets\Images\log_warning.png" />
@@ -362,16 +377,16 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Assets\Scripts\bootbox.js" />
-    <Content Include="Assets\Scripts\bootstrap-tagmanager.js" />
+    <Content Include="Assets\Scripts\jquery\additional-methods.js" />
+    <Content Include="Assets\Scripts\jquery\jquery-1.9.1.js" />
+    <Content Include="Assets\Scripts\jquery\jquery-ui-1.10.3.custom.js" />
+    <Content Include="Assets\Scripts\jquery\jquery.validate.js" />
+    <Content Include="Assets\Scripts\tagmanager.js" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\dialogs.ts" />
     <Content Include="Assets\Scripts\jquery\jquery.fileupload.js" />
     <Content Include="Assets\Scripts\jquery\jquery.iframe-transport.js" />
-    <Content Include="Assets\Scripts\jquery\jquery.ui.widget.js" />
     <Content Include="Assets\Scripts\jquery\jquery.fieldSelection.js" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\typescript-ref\constants.ts" />
-    <Content Include="Assets\Scripts\jquery\jquery-1.8.0.js" />
-    <Content Include="Assets\Scripts\jquery\jquery.validate.js" />
-    <Content Include="Assets\Scripts\jquery\jquery.validationEngine.js" />
+    <None Include="Assets\Scripts\roadkill\typescript-ref\constants.ts" />
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-cz.js" />
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-da.js" />
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-de.js" />
@@ -396,17 +411,8 @@
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-vi.js" />
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-zh_CN.js" />
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-zh_TW.js" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\typescript-ref\references.ts" />
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\constants.js">
-      <DependentUpon>constants.ts</DependentUpon>
-    </Content>
-    <None Include="Assets\Scripts\roadkill\typescript-ref\constants.min.js">
-      <DependentUpon>constants.ts</DependentUpon>
-    </None>
+    <None Include="Assets\Scripts\roadkill\typescript-ref\references.ts" />
     <Content Include="Assets\Scripts\head.js" />
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\directoryviewmodel.js">
-      <DependentUpon>directoryviewmodel.ts</DependentUpon>
-    </Content>
     <Content Include="Plugins\Text\ExternalLinksInNewWindow\externallinksinnewwindow.js" />
     <Content Include="Plugins\Text\ClickableImages\clickableimages.js" />
     <Content Include="Plugins\Text\ResizeImages\resizeimages.css" />
@@ -459,21 +465,12 @@
     <Content Include="Assets\Scripts\roadkill\adminsetup.js">
       <DependentUpon>adminsetup.ts</DependentUpon>
     </Content>
-    <None Include="Assets\Scripts\roadkill\adminsetup.min.js">
-      <DependentUpon>adminsetup.ts</DependentUpon>
-    </None>
     <Content Include="Assets\Scripts\roadkill\dialogs.js">
       <DependentUpon>dialogs.ts</DependentUpon>
     </Content>
-    <None Include="Assets\Scripts\roadkill\dialogs.min.js">
-      <DependentUpon>dialogs.ts</DependentUpon>
-    </None>
     <Content Include="Assets\Scripts\roadkill\editpage.js">
       <DependentUpon>editpage.ts</DependentUpon>
     </Content>
-    <None Include="Assets\Scripts\roadkill\editpage.min.js">
-      <DependentUpon>editpage.ts</DependentUpon>
-    </None>
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\setup.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.ts" />
     <None Include="Assets\Scripts\roadkill\typescript-ref\directoryviewmodel.ts" />
@@ -482,85 +479,40 @@
     <Content Include="Assets\Scripts\roadkill\filemanager\ajaxrequest.js">
       <DependentUpon>ajaxrequest.ts</DependentUpon>
     </Content>
-    <None Include="Assets\Scripts\roadkill\filemanager\ajaxrequest.min.js">
-      <DependentUpon>ajaxrequest.ts</DependentUpon>
-    </None>
     <Content Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.js">
       <DependentUpon>breadcrumbtrail.ts</DependentUpon>
     </Content>
-    <None Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.min.js">
-      <DependentUpon>breadcrumbtrail.ts</DependentUpon>
-    </None>
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\buttonevents.ts" />
     <Content Include="Assets\Scripts\roadkill\filemanager\buttonevents.js">
       <DependentUpon>buttonevents.ts</DependentUpon>
     </Content>
-    <None Include="Assets\Scripts\roadkill\filemanager\buttonevents.min.js">
-      <DependentUpon>buttonevents.ts</DependentUpon>
-    </None>
     <None Include="Assets\Scripts\roadkill\readme.txt" />
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\filemanager.references.js">
-      <DependentUpon>filemanager.references.ts</DependentUpon>
-    </Content>
-    <None Include="Assets\Scripts\roadkill\typescript-ref\filemanager.references.min.js">
-      <DependentUpon>filemanager.references.ts</DependentUpon>
-    </None>
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\filesummary.js">
-      <DependentUpon>filemodel.ts</DependentUpon>
-    </Content>
-    <None Include="Assets\Scripts\roadkill\typescript-ref\filesummary.min.js">
-      <DependentUpon>filemodel.ts</DependentUpon>
-    </None>
     <Content Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.js">
       <DependentUpon>htmlbuilder.ts</DependentUpon>
     </Content>
-    <None Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.min.js">
-      <DependentUpon>htmlbuilder.ts</DependentUpon>
-    </None>
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.ts" />
     <None Include="Assets\Scripts\roadkill\typescript-ref\filemanager.references.ts" />
     <Content Include="Assets\Scripts\roadkill\filemanager\setup.js">
       <DependentUpon>setup.ts</DependentUpon>
     </Content>
-    <None Include="Assets\Scripts\roadkill\filemanager\setup.min.js">
-      <DependentUpon>setup.ts</DependentUpon>
-    </None>
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\util.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\tableevents.ts" />
     <Content Include="Assets\Scripts\roadkill\filemanager\tableevents.js">
       <DependentUpon>tableevents.ts</DependentUpon>
     </Content>
-    <None Include="Assets\Scripts\roadkill\filemanager\tableevents.min.js">
-      <DependentUpon>tableevents.ts</DependentUpon>
-    </None>
     <Content Include="Assets\Scripts\roadkill\filemanager\util.js">
       <DependentUpon>util.ts</DependentUpon>
     </Content>
-    <None Include="Assets\Scripts\roadkill\filemanager\util.min.js">
-      <DependentUpon>util.ts</DependentUpon>
-    </None>
     <TypeScriptCompile Include="Assets\Scripts\roadkill\setup.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\adminsetup.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\editpage.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\wysiwygeditor.ts" />
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\references.js">
-      <DependentUpon>references.ts</DependentUpon>
-    </Content>
-    <None Include="Assets\Scripts\roadkill\typescript-ref\references.min.js">
-      <DependentUpon>references.ts</DependentUpon>
-    </None>
     <Content Include="Assets\Scripts\roadkill\setup.js">
       <DependentUpon>setup.ts</DependentUpon>
     </Content>
-    <None Include="Assets\Scripts\roadkill\setup.min.js">
-      <DependentUpon>setup.ts</DependentUpon>
-    </None>
     <Content Include="Assets\Scripts\roadkill\wysiwygeditor.js">
       <DependentUpon>wysiwygeditor.ts</DependentUpon>
     </Content>
-    <None Include="Assets\Scripts\roadkill\wysiwygeditor.min.js">
-      <DependentUpon>wysiwygeditor.ts</DependentUpon>
-    </None>
     <Content Include="Assets\CSS\toastr.css" />
     <Content Include="Plugins\Text\Toc\toc.css" />
     <Content Include="Roadkill.config">

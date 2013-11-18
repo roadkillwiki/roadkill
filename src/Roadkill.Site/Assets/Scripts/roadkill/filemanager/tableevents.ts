@@ -6,11 +6,11 @@ module Roadkill.Site.FileManager
 		bind()
 		{
 			var that = this;
-			$("tr.listrow")
-						.live("mouseenter", function () { $(this).addClass("focus"); })
-						.live("mouseleave", function () { $(this).removeClass("focus"); })
-						.live("click", function() { that.handleRowSelection(this); })
-						.live("dblclick", function () { that.handleDoubleClickForRow(this); });
+			$("#folder-container")
+				.on("mouseenter", "tr.listrow", function () { $(this).addClass("focus"); })
+				.on("mouseleave", "tr.listrow", function () { $(this).removeClass("focus"); })
+				.on("click", "tr.listrow", function() { that.handleRowSelection(this); })
+				.on("dblclick", "tr.listrow", function () { that.handleDoubleClickForRow(this); });
 		}
 
 		handleRowSelection(tr)
