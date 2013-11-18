@@ -400,16 +400,90 @@
     <Content Include="Assets\Scripts\roadkill\typescript-ref\constants.js">
       <DependentUpon>constants.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\constants.min.js">
-      <DependentUpon>constants.ts</DependentUpon>
-    </Content>
     <Content Include="Assets\Scripts\head.js" />
     <Content Include="Assets\Scripts\roadkill\typescript-ref\directoryviewmodel.js">
       <DependentUpon>directoryviewmodel.ts</DependentUpon>
     </Content>
-    <Content Include="Plugins\Text\ExternalLinksInNewWindow\externallinksinnewwindow.js" />
-    <Content Include="Plugins\Text\ImagesInNewWindow\imagesinnewwindow.js" />
-    <Content Include="Plugins\Text\ResizeLargeImages\resizelargeimages.css" />
+    <Content Include="Assets\Scripts\roadkill\adminsetup.js">
+      <DependentUpon>adminsetup.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\dialogs.js">
+      <DependentUpon>dialogs.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\editpage.js">
+      <DependentUpon>editpage.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\setup.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.ts" />
+    <None Include="Assets\Scripts\roadkill\typescript-ref\directoryviewmodel.ts" />
+    <None Include="Assets\Scripts\roadkill\typescript-ref\filemodel.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\ajaxrequest.ts" />
+    <Content Include="Assets\Scripts\roadkill\filemanager\ajaxrequest.js">
+      <DependentUpon>ajaxrequest.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.js">
+      <DependentUpon>breadcrumbtrail.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\buttonevents.ts" />
+    <Content Include="Assets\Scripts\roadkill\filemanager\buttonevents.js">
+      <DependentUpon>buttonevents.ts</DependentUpon>
+    </Content>
+    <None Include="Assets\Scripts\roadkill\readme.txt" />
+    <Content Include="Assets\Scripts\roadkill\typescript-ref\filemanager.references.js">
+      <DependentUpon>filemanager.references.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.js">
+      <DependentUpon>htmlbuilder.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.ts" />
+    <None Include="Assets\Scripts\roadkill\typescript-ref\filemanager.references.ts" />
+    <Content Include="Assets\Scripts\roadkill\filemanager\setup.js">
+      <DependentUpon>setup.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\util.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\tableevents.ts" />
+    <Content Include="Assets\Scripts\roadkill\filemanager\tableevents.js">
+      <DependentUpon>tableevents.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\filemanager\util.js">
+      <DependentUpon>util.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\setup.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\adminsetup.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\editpage.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\wysiwygeditor.ts" />
+    <Content Include="Assets\Scripts\roadkill\typescript-ref\references.js">
+      <DependentUpon>references.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\setup.js">
+      <DependentUpon>setup.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\wysiwygeditor.js">
+      <DependentUpon>wysiwygeditor.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\CSS\toastr.css" />
+    <Content Include="Plugins\Text\ClickableImages\clickableimages.js" />
+    <Content Include="Plugins\Text\DontResizeImages\dontresizeimages.css" />
+    <Content Include="Plugins\Text\ExternalLinksInNewWindow\ExternalLinksInNewWindow.js" />
+    <Content Include="Plugins\Text\Jumbotron\jumbotron.css" />
+    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCore.css" />
+    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreDefault.css" />
+    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreDjango.css" />
+    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreEclipse.css" />
+    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreEmacs.css" />
+    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreFadeToGrey.css" />
+    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreMDUltra.css" />
+    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreMidnight.css" />
+    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreRDark.css" />
+    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeDefault.css" />
+    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeDjango.css" />
+    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeEclipse.css" />
+    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeEmacs.css" />
+    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeFadeToGrey.css" />
+    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeMDUltra.css" />
+    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeMidnight.css" />
+    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeRDark.css" />
+    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\out.txt" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shAutoloader.js" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushAppleScript.js" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushAS3.js" />
@@ -438,129 +512,6 @@
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushXml.js" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shCore.js" />
     <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shLegacy.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCore.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreDefault.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreDjango.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreEclipse.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreEmacs.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreFadeToGrey.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreMDUltra.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreMidnight.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreRDark.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeDefault.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeDjango.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeEclipse.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeEmacs.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeFadeToGrey.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeMDUltra.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeMidnight.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeRDark.css" />
-    <Content Include="Assets\Scripts\roadkill\adminsetup.js">
-      <DependentUpon>adminsetup.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\adminsetup.min.js">
-      <DependentUpon>adminsetup.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\dialogs.js">
-      <DependentUpon>dialogs.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\dialogs.min.js">
-      <DependentUpon>dialogs.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\editpage.js">
-      <DependentUpon>editpage.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\editpage.min.js">
-      <DependentUpon>editpage.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\setup.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.ts" />
-    <None Include="Assets\Scripts\roadkill\typescript-ref\directoryviewmodel.ts" />
-    <None Include="Assets\Scripts\roadkill\typescript-ref\filemodel.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\ajaxrequest.ts" />
-    <Content Include="Assets\Scripts\roadkill\filemanager\ajaxrequest.js">
-      <DependentUpon>ajaxrequest.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\filemanager\ajaxrequest.min.js">
-      <DependentUpon>ajaxrequest.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.js">
-      <DependentUpon>breadcrumbtrail.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.min.js">
-      <DependentUpon>breadcrumbtrail.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\buttonevents.ts" />
-    <Content Include="Assets\Scripts\roadkill\filemanager\buttonevents.js">
-      <DependentUpon>buttonevents.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\filemanager\buttonevents.min.js">
-      <DependentUpon>buttonevents.ts</DependentUpon>
-    </Content>
-    <None Include="Assets\Scripts\roadkill\readme.txt" />
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\filemanager.references.js">
-      <DependentUpon>filemanager.references.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\filemanager.references.min.js">
-      <DependentUpon>filemanager.references.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\filesummary.js">
-      <DependentUpon>filemodel.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\filesummary.min.js">
-      <DependentUpon>filemodel.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.js">
-      <DependentUpon>htmlbuilder.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.min.js">
-      <DependentUpon>htmlbuilder.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.ts" />
-    <None Include="Assets\Scripts\roadkill\typescript-ref\filemanager.references.ts" />
-    <Content Include="Assets\Scripts\roadkill\filemanager\setup.js">
-      <DependentUpon>setup.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\filemanager\setup.min.js">
-      <DependentUpon>setup.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\util.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\tableevents.ts" />
-    <Content Include="Assets\Scripts\roadkill\filemanager\tableevents.js">
-      <DependentUpon>tableevents.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\filemanager\tableevents.min.js">
-      <DependentUpon>tableevents.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\filemanager\util.js">
-      <DependentUpon>util.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\filemanager\util.min.js">
-      <DependentUpon>util.ts</DependentUpon>
-    </Content>
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\setup.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\adminsetup.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\editpage.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\wysiwygeditor.ts" />
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\references.js">
-      <DependentUpon>references.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\references.min.js">
-      <DependentUpon>references.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\setup.js">
-      <DependentUpon>setup.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\setup.min.js">
-      <DependentUpon>setup.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\wysiwygeditor.js">
-      <DependentUpon>wysiwygeditor.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\Scripts\roadkill\wysiwygeditor.min.js">
-      <DependentUpon>wysiwygeditor.ts</DependentUpon>
-    </Content>
-    <Content Include="Assets\CSS\toastr.css" />
     <Content Include="Roadkill.config">
       <SubType>Designer</SubType>
     </Content>
