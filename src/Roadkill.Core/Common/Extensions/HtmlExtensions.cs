@@ -18,6 +18,7 @@ using Roadkill.Core.Attachments;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Localization;
 using Roadkill.Core.DI;
+using System.Linq.Expressions;
 
 namespace Roadkill.Core
 {

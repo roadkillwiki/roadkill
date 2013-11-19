@@ -57,7 +57,7 @@ a.external-link	{ background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA
 #resetpassword	{ background-color:#fbfafa;padding:1em; }
 
 /* Search result page */
-.searchresult			{}
+.searchresult			{ padding-bottom: 20px; }
 .searchresult-title		{ color:Black; }
 .searchresult-summary	{ font-size:95%; }
 .searchresult-date		{ color:green;font-size:97%; }
@@ -121,11 +121,13 @@ a.external-link	{ background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA
 #helptable td	{ border-right:1px solid #C1DAD7;border-bottom:1px solid #C1DAD7;background:#fff;padding:6px 6px 6px 12px;color:#4f6b72;vertical-align:top; }
 
 /* Tools/config page [admins] */
-.test-button	{ margin-bottom:15px !important; }
 #configuration-container legend		{ font-size:2em; font-weight:bold; }
 #configuration-container fieldset	{ padding-bottom:10px; }
+#configuration-container .form-group label { font-weight:normal !important;margin-top:10px;}
+#configuration-container .form-group button { margin-top:10px; } 
+
 #settings-container p		{ padding-top: 10px; }
-#HeadContent,#MenuMarkup	{ width:400px;height:100px; }
+textarea#HeadContent, textarea#MenuMarkup	{ height:150px; }
 
 /* Users page [admins] */
 #userform	{ padding:0px; margin:0px; }

@@ -93,6 +93,12 @@ namespace Roadkill.Core.DI
 			{
 				return e.ToString();
 			}
+			finally
+			{
+				// Restore to their previous state
+				ApplicationSettings appSettings = ObjectFactory.GetInstance<ApplicationSettings>();
+				IRepository repository = ChangeRepository(appSettings.DataStoreType, appSettings.ConnectionString, false);
+			}
 		}
 	}
 }
