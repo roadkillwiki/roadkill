@@ -41,14 +41,14 @@
 	}
 }
 
-<div class="navbar">
-	<div class="navbar-inner">
-		<ul class="nav">
+<div id="settings-navigation" class="navbar">
+	<nav class="navbar navbar-default">
+		<ul class="nav navbar-nav">
 			<li@(nav1Active)>@Html.ActionLink(SiteStrings.SiteSettings_Configuration, "Index", "Settings")</li>
 			<li@(nav2Active)>@Html.ActionLink(SiteStrings.SiteSettings_Users, "Users", "Settings")</li>
 			<li@(nav3Active)>@Html.ActionLink(SiteStrings.SiteSettings_Tools, "Tools", "Settings")</li>
 			<li@(nav4Active)>@Html.ActionLink(SiteStrings.SiteSettings_Configuration_ObjectCaching, "Cache", "Settings")</li>
 			<li@(nav5Active)>@Html.ActionLink(SiteStrings.SiteSettings_Plugins_Title, "Index", "PluginSettings")</li>
 		</ul>
-	</div>
+	</nav>
 </div>

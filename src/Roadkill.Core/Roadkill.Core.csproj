@@ -381,6 +381,7 @@
     <Compile Include="Attachments\AttachmentPathUtil.cs" />
     <Compile Include="Attachments\IResponseWrapper.cs" />
     <Compile Include="Attachments\ResponseWrapper.cs" />
+    <Compile Include="Common\Extensions\BootstrapHtmlExtensions.cs" />
     <Compile Include="Common\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Configuration\XmlConfig\ConfigReaderWriterFactory.cs" />
     <Compile Include="Configuration\UpgradeChecker.cs" />

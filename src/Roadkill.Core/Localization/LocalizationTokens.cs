@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Roadkill.Core.Localization
 {
+	/// <summary>
+	/// Replaces tokens such as {bold} in the localization text (which breaks the XML resx format) with HTML.
+	/// </summary>
 	public class LocalizationTokens
 	{
 		private static readonly string SQLITE_START = "{BEGIN-SQLITE_LINK}";
@@ -64,7 +67,7 @@ namespace Roadkill.Core.Localization
 
 		public static string ReplaceHeadToken(string text)
 		{
-			text = text.Replace(HEAD, "<head>");
+			text = text.Replace(HEAD, "&lt;head&gt;");
 			return text;
 		}
 	}

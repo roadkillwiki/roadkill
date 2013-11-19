@@ -343,6 +343,7 @@
     <Content Include="Assets\CSS\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Assets\CSS\jquery-ui-bootstrap.css" />
     <Content Include="Assets\CSS\jquery.fileupload.css" />
+    <Content Include="Assets\Images\button-loading.gif" />
     <Content Include="Assets\Images\log_error.png" />
     <Content Include="Assets\Images\gradientbutton-green.png" />
     <Content Include="Assets\Images\gradientbutton.png" />
@@ -583,7 +584,6 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Properties\PublishProfiles\Demosite.pubxml" />
     <None Include="Properties\PublishProfiles\Download.pubxml" />
     <Content Include="Views\Upgrade\Index.cshtml" />
     <Content Include="Views\Upgrade\Layout.cshtml" />
@@ -607,6 +607,8 @@
     <Content Include="Views\Help\Index.cshtml" />
     <Content Include="Themes\Responsive\Theme.cshtml" />
     <Content Include="Views\Shared\WysiwgToolbar.cshtml" />
+    <None Include="Properties\PublishProfiles\roadkill - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\roadkill - Web Deploy.pubxml" />
     <None Include="Web.Mono.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -680,7 +682,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Internal\Search\" />
-    <Folder Include="Assets\Images\wysiwyg\" />
     <Folder Include="Plugins\UserManager\" />
   </ItemGroup>
   <PropertyGroup>
