@@ -4,30 +4,14 @@
 	ViewData["UsersActive"] = true;
 }
 
-@Html.Partial("SettingsMenu")
-
-@if (TempData["action"] != null)
-{
-	<script type="text/javascript">
-		$(window).load(function ()
-		{
-			if ($.browser.msie === true)
-			{
-				var ie9Fix = 'Roadkill.Site.AdminSetup.showUserModal("@(TempData["action"])")';
-				setTimeout(ie9Fix, 500);
-			}
-			else
-			{
-				Roadkill.Site.AdminSetup.showUserModal("@(TempData["action"])")
-			}
-		});
-	</script>
-}
+@Html.SiteSettingsNavigation()
 
 <div id="manage-users">
 	<h1>@SiteStrings.SiteSettings_Users_Admins</h1>
 	<p>
-		<button id="addadmin" class="btn btn-primary btn-success">@SiteStrings.SiteSettings_Users_NewAdmin</button>
+		<a href="@Url.Action("AddAdmin", "UserManagement")" class="btn btn-primary btn-success">
+			@SiteStrings.SiteSettings_Users_NewAdmin
+		</a>
 	</p>
 	<table class="table table-striped" id="admins-table">
 		<thead>
@@ -42,7 +26,7 @@
 		<tr>
 			<td style="width:30%;">@user.ExistingUsername</td>
 			<td class="stretch">@user.ExistingEmail</td>
-			<td class="edit"><a href="javascript:;" class="btn btn-primary btn-mini" rel="var user = {id : '@user.Id', email :'@user.ExistingEmail',username:'@user.ExistingUsername'}">@SiteStrings.Navigation_Edit</a></td>
+			<td class="edit">@Html.ActionLink(SiteStrings.Navigation_Edit, "EditUser", new { id = user.Id }, new { @class = "btn btn-primary btn-mini" })</td>
 		@if (Model[0].Count() > 0 && user.Id.ToString() != RoadkillContext.CurrentUser)
 		{
 			<td class="delete">@Html.ActionLink(SiteStrings.Navigation_Delete, "DeleteUser", new { id = user.ExistingEmail }, new { @class = "confirm btn btn-mini" })</td>
@@ -58,7 +42,9 @@
 
 	<h1>@SiteStrings.SiteSettings_Users_Editors</h1>
 	<p>
-		<button id="addeditor" class="btn btn-primary btn-success">@SiteStrings.SiteSettings_Users_NewEditor</button>
+		<a href="@Url.Action("AddEditor", "UserManagement")" class="btn btn-primary btn-success">
+			@SiteStrings.SiteSettings_Users_NewEditor
+		</a>
 	</p>
 	<table class="table table-striped" id="editors-table">
 		<thead>
@@ -73,12 +59,10 @@
 		<tr>
 			<td style="width:30%;">@user.ExistingUsername</td>
 			<td class="stretch">@user.ExistingEmail</td>
-			<td class="edit"><a href="javascript:;" class="btn btn-primary btn-mini" rel="var user = {id : '@user.Id', email :'@user.ExistingEmail',username:'@user.ExistingUsername'}">@SiteStrings.Navigation_Edit</a></td>
+			<td class="edit">@Html.ActionLink(SiteStrings.Navigation_Edit, "EditUser", new { id = user.Id }, new { @class = "btn btn-primary btn-mini" })</td>
 			<td class="delete">@Html.ActionLink(SiteStrings.Navigation_Delete, "DeleteUser", new { id = user.ExistingEmail }, new { @class = "confirm btn btn-mini" })</td>
 		</tr>
 	}
 	</table>
 	<br class="clear" />
-
-	@Html.DialogPartial("AddEditUser", Model)
 </div>

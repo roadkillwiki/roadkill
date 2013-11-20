@@ -280,7 +280,7 @@ namespace Roadkill.Core
 		/// </summary>
 		public static MvcHtmlString DialogPartial(this HtmlHelper helper, string viewName)
 		{
-			return helper.Partial(viewName);
+			return helper.Partial("Dialogs/"+viewName);
 		}
 
 		/// <summary>
@@ -320,5 +320,11 @@ namespace Roadkill.Core
 
             return MvcHtmlString.Create(markupConverter.ToHtml(content));
         }
+
+		public static MvcHtmlString SiteSettingsNavigation(this HtmlHelper htmlHelper)
+		{
+			// MVC thinks it's in a Settings or Cache folder (as the controllers aren't areas or the views in their own folder)
+			return htmlHelper.Partial("Navigation");
+		}
 	}
 }

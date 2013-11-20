@@ -79,11 +79,6 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public string PasswordResetKey { get; set; }
 
 		/// <summary>
-		/// If the user is being created via the settings->users interface (to work around data annotation GUID issues).
-		/// </summary>
-		public bool IsBeingCreatedByAdmin { get; set; }
-
-		/// <summary>
 		/// Indicates whether the username has changed.
 		/// </summary>
 		public bool UsernameHasChanged
@@ -103,6 +98,12 @@ namespace Roadkill.Core.Mvc.ViewModels
 			{
 				return ExistingEmail != NewEmail;
 			}
+		}
+
+		public bool IsBeingCreatedByAdmin
+		{
+			get { return false;  }
+			set { }
 		}
 
 		/// <summary>
@@ -152,7 +153,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public static ValidationResult VerifyNewUsernameIsNotInUse(UserViewModel user, ValidationContext context)
 		{
 			// Only check if it's a new user, OR the username has changed
-			if ((user.IsBeingCreatedByAdmin || user.Id == null) || user.ExistingUsername != user.NewUsername)
+			if (user.ExistingUsername != user.NewUsername)
 			{
 				if (user.UserService == null || user.UserService.UserNameExists(user.NewUsername))
 				{
@@ -190,7 +191,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public static ValidationResult VerifyNewEmailIsNotInUse(UserViewModel user, ValidationContext context)
 		{
 			// Only check if it's a new user, OR the email has changed
-			if ((user.IsBeingCreatedByAdmin || user.Id == null) || user.ExistingEmail != user.NewEmail)
+			if (user.ExistingEmail != user.NewEmail)
 			{
 				if (user.UserService == null || user.UserService.UserExists(user.NewEmail))
 				{
@@ -206,11 +207,6 @@ namespace Roadkill.Core.Mvc.ViewModels
 		/// </summary>
 		public static ValidationResult VerifyPasswordsMatch(UserViewModel user, ValidationContext context)
 		{
-			if (user.IsBeingCreatedByAdmin && user.Password != user.PasswordConfirmation)
-			{
-				return new ValidationResult(SiteStrings.User_Validation_PasswordsDontMatch);
-			}
-
 			// If it's an existing user, then a blank password indicates no change is occurring.
 			if (user.Id != null && string.IsNullOrEmpty(user.Password))
 			{
@@ -234,11 +230,6 @@ namespace Roadkill.Core.Mvc.ViewModels
 		/// <returns></returns>
 		public static ValidationResult VerifyPassword(UserViewModel user, ValidationContext context)
 		{
-			if (user.IsBeingCreatedByAdmin && (string.IsNullOrEmpty(user.Password) || user.Password.Length < user.Settings.MinimumPasswordLength))
-			{
-				return new ValidationResult(string.Format(SiteStrings.User_Validation_PasswordTooShort, user.Settings.MinimumPasswordLength));
-			}
-
 			if (user.Id != null && string.IsNullOrEmpty(user.Password))
 			{
 				// Existing user, a blank password indicates no change is occurring.

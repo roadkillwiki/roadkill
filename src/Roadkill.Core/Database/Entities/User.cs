@@ -94,8 +94,7 @@ namespace Roadkill.Core.Database
 				NewUsername = Username,
 				Firstname = Firstname,
 				Lastname = Lastname,
-				PasswordResetKey = PasswordResetKey,
-				IsBeingCreatedByAdmin = (Id == Guid.Empty)
+				PasswordResetKey = PasswordResetKey
 			};
 		}
 	}

@@ -20,11 +20,11 @@ using Roadkill.Core.Plugins;
 namespace Roadkill.Core.Mvc.Controllers
 {
 	/// <summary>
-	/// Provides functionality for the settings page including tools and user management.
+	/// Provides functionality for the tools page for admins.
 	/// </summary>
 	/// <remarks>All actions in this controller require admin rights.</remarks>
 	[AdminRequired]
-	public class SettingsController : ControllerBase
+	public class ToolsController : ControllerBase
 	{
 		private SettingsService _settingsService;
 		private PageService _pageService;
@@ -36,7 +36,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		private IRepository _repository;
 		private IPluginFactory _pluginFactory;
 
-		public SettingsController(ApplicationSettings settings, UserServiceBase userManager,
+		public ToolsController(ApplicationSettings settings, UserServiceBase userManager,
 			SettingsService settingsService, PageService pageService, SearchService searchService, IUserContext context,
 			ListCache listCache, PageViewModelCache pageViewModelCache, SiteCache siteCache, IWikiImporter wikiImporter, 
 			IRepository repository, IPluginFactory pluginFactory)
@@ -54,165 +54,9 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
-		/// The default settings page that displays the current Roadkill settings.
+		/// Displays the main tools page.
 		/// </summary>
-		/// <returns>A <see cref="SettingsViewModel"/> as the model.</returns>
 		public ActionResult Index()
-		{
-			SiteSettings siteSettings = SettingsService.GetSiteSettings();
-			SettingsViewModel model = new SettingsViewModel(ApplicationSettings, siteSettings);
-
-			return View(model);
-		}
-
-		/// <summary>
-		/// Saves the <see cref="SettingsViewModel"/> that is POST'd to the action.
-		/// </summary>
-		/// <param name="model">The settings to save to the web.config/database.</param>
-		/// <returns>A <see cref="SettingsViewModel"/> as the model.</returns>
-		[HttpPost]
-		[ValidateInput(false)]
-		public ActionResult Index(SettingsViewModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				ConfigReaderWriter configReader = ConfigReaderWriterFactory.GetConfigReader();
-				configReader.Save(model);
-			
-				_settingsService.SaveSiteSettings(model);
-				_siteCache.RemoveMenuCacheItems();
-
-				// Refresh the AttachmentsDirectoryPath using the absolute attachments path, as it's calculated in the constructor
-				ApplicationSettings appSettings = configReader.GetApplicationSettings();
-				model.FillFromApplicationSettings(appSettings);
-			}
-
-
-			return View(model);
-		}
-
-		/// <summary>
-		/// Displays the Users view.
-		/// </summary>
-		/// <returns>An <see cref="IList{UserViewModel}"/> as the model. The first item contains a list of admin users,
-		/// the second item contains a list of editor users. If Windows authentication is being used, the action uses the 
-		/// UsersForWindows view.</returns>
-		[ImportModelState]
-		public ActionResult Users()
-		{
-			var list = new List<IEnumerable<UserViewModel>>();
-			list.Add(UserManager.ListAdmins());
-			list.Add(UserManager.ListEditors());
-
-			if (UserManager.IsReadonly)
-				return View("UsersReadOnly", list);
-			else
-				return View(list);
-		}
-
-		/// <summary>
-		/// Adds an admin user to the system, validating the <see cref="UserViewModel"/> first.
-		/// </summary>
-		/// <param name="model">The user details to add.</param>
-		/// <returns>Redirects to the Users action. Additionally, if an error occurred, TempData["action"] contains the string "addadmin".</returns>
-		[HttpPost]
-		[ExportModelState]
-		public ActionResult AddAdmin(UserViewModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				UserManager.AddUser(model.NewEmail, model.NewUsername, model.Password, true, false);
-
-				// TODO
-				// ModelState.AddModelError("General", errors);
-			}
-			else
-			{
-				// Instructs the view to reshow the modal dialog
-				TempData["action"] = "addadmin";
-			}
-
-			return RedirectToAction("Users");
-		}
-
-		/// <summary>
-		/// Adds an editor user to the system, validating the <see cref="UserViewModel"/> first.
-		/// </summary>
-		/// <param name="model">The user details to add.</param>
-		/// <returns>Redirects to the Users action. Additionally, if an error occurred, TempData["action"] contains the string "addeditor".</returns>
-		[HttpPost]
-		[ExportModelState]
-		public ActionResult AddEditor(UserViewModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				try
-				{
-					UserManager.AddUser(model.NewEmail, model.NewUsername, model.Password, false, true);
-				}
-				catch (SecurityException e)
-				{
-					ModelState.AddModelError("General", e.Message);
-				}
-			}
-			else
-			{
-				// Instructs the view to reshow the modal dialog
-				TempData["action"] = "addeditor";
-			}
-
-			return RedirectToAction("Users");
-		}
-
-		/// <summary>
-		/// Edits an existing user. If the <see cref="UserViewModel.Password"/> property is not blank, the password
-		/// for the user is reset and then changed.
-		/// </summary>
-		/// <param name="model">The user details to edit.</param>
-		/// <returns>Redirects to the Users action. Additionally, if an error occurred, TempData["edituser"] contains the string "addeditor".</returns>
-		[HttpPost]
-		[ExportModelState]
-		public ActionResult EditUser(UserViewModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				if (model.UsernameHasChanged || model.EmailHasChanged)
-				{
-					if (!UserManager.UpdateUser(model))
-					{
-						ModelState.AddModelError("General", SiteStrings.SiteSettings_Users_EditUser_Error);
-					}
-
-					model.ExistingEmail = model.NewEmail;
-				}
-
-				if (!string.IsNullOrEmpty(model.Password))
-					UserManager.ChangePassword(model.ExistingEmail, model.Password);
-			}
-			else
-			{
-				// Instructs the view to reshow the modal dialog
-				TempData["action"] = "edituser";
-			}
-
-			return RedirectToAction("Users");
-		}
-
-		/// <summary>
-		/// Removes a user from the system.
-		/// </summary>
-		/// <param name="id">The id of the user to remove.</param>
-		/// <returns>Redirects to the Users action.</returns>
-		public ActionResult DeleteUser(string id)
-		{
-			UserManager.DeleteUser(id);
-			return RedirectToAction("Users");
-		}
-
-		/// <summary>
-		/// Displays the tools page.
-		/// </summary>
-		public ActionResult Tools()
 		{
 			return View();
 		}
@@ -448,29 +292,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ActionResult SiteSettings()
 		{
 			return Content(SettingsService.GetSiteSettings().GetJson(), "text/json");
-		}
-
-		/// <summary>
-		/// Displays all items in the cache
-		/// </summary>
-		/// <param name="clear">If not empty, then signals the action to clear the cache</param>
-		/// <returns></returns>
-		public ActionResult Cache(string clear)
-		{
-			if (!string.IsNullOrEmpty(clear))
-			{
-				_pageViewModelCache.RemoveAll();
-				_listCache.RemoveAll();
-				ViewData["CacheCleared"] = true;
-			}
-
-			List<IEnumerable<string>> cacheKeys = new List<IEnumerable<string>>()
-			{
-				_pageViewModelCache.GetAllKeys(),
-				_listCache.GetAllKeys()
-			};
-
-			return View(cacheKeys);
 		}
 	}
 }

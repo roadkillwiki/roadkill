@@ -38,7 +38,10 @@ namespace Roadkill.Core
 			// Filters
 			GlobalFilters.Filters.Add(new HandleErrorAttribute());
 
-			// Areas are used for the webapi help. This should be called before the other routes, for some reason.
+			// Areas are used for:
+			// - Site settings (for a cleaner view structure)
+			// - Webapi help. 
+			// This should be called before the other routes, for some reason.
 			AreaRegistration.RegisterAllAreas();
 
 			// Register routers and JS/CSS bundles

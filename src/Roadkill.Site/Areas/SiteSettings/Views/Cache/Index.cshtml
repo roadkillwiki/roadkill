@@ -3,7 +3,7 @@
 	ViewBag.Title = "View cache";
 	ViewData["CacheActive"] = true;
 }
-@Html.Partial("SettingsMenu")
+@Html.SiteSettingsNavigation()
 
 @if (ViewData["CacheCleared"] != null)
 {

@@ -904,4 +904,7 @@
   <data name="History_Help_Label" xml:space="preserve">
     <value>Click on a version number to compare the changes with version before it.</value>
   </data>
+  <data name="SiteSettings_Configuration_Required_Field" xml:space="preserve">
+    <value>This field is required.</value>
+  </data>
 </root>
