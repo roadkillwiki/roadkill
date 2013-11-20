@@ -201,16 +201,6 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Gets the localization strings for the jQuery validationEngine.
-		/// </summary>
-		public static MvcHtmlString ScriptLinkForValidationLocalization(this UrlHelper helper)
-		{
-			string path = "~/Assets/Scripts/languages/jquery.validationEngine-" + CultureInfo.CurrentUICulture.TwoLetterISOLanguageName + ".js";
-
-			return MvcHtmlString.Create("<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content(path) + "\"></script>");
-		}
-
-		/// <summary>
 		/// Provides a Javascript and CSS tags for the Bootstrap framework.
 		/// </summary>
 		public static MvcHtmlString BootStrap(this UrlHelper helper)

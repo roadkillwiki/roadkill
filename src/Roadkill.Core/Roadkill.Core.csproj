@@ -420,6 +420,10 @@
     <Compile Include="Common\ShortGuid.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
     <Compile Include="Mvc\Attributes\BrowserCacheAttribute.cs" />
+    <Compile Include="Mvc\Controllers\SiteSettings\CacheController.cs" />
+    <Compile Include="Mvc\Controllers\SiteSettings\SiteSettingsAreaRegistration.cs" />
+    <Compile Include="Mvc\Controllers\SiteSettings\UserManagementController.cs" />
+    <Compile Include="Mvc\Controllers\SiteSettings\ToolsController.cs" />
     <Compile Include="Mvc\Controllers\SpecialPagesController.cs" />
     <Compile Include="Mvc\WebApi\ApiControllerBase.cs" />
     <Compile Include="Mvc\WebApi\Help\ApiDescriptionExtensions.cs" />
@@ -439,7 +443,7 @@
     <Compile Include="Mvc\WebApi\UserController.cs" />
     <Compile Include="Mvc\WebApi\SearchController.cs" />
     <Compile Include="Mvc\WebApi\PagesController.cs" />
-    <Compile Include="Mvc\Controllers\PluginSettingsController.cs" />
+    <Compile Include="Mvc\Controllers\SiteSettings\PluginSettingsController.cs" />
     <Compile Include="Mvc\Setup\Bundles.cs" />
     <Compile Include="Mvc\Setup\ExtendedRazorViewEngine.cs" />
     <Compile Include="Mvc\Controllers\FileManagerController.cs" />
@@ -555,7 +559,7 @@
     <Compile Include="Domain\Import\ScrewTurnImporter.cs" />
     <Compile Include="Domain\Import\IWikiImporter.cs" />
     <Compile Include="Domain\Services\SearchService.cs" />
-    <Compile Include="Mvc\Controllers\SettingsController.cs" />
+    <Compile Include="Mvc\Controllers\SiteSettings\SettingsController.cs" />
     <Compile Include="Mvc\ViewModels\PageHistoryViewModel.cs" />
     <Compile Include="Mvc\ViewModels\TagViewModel.cs" />
     <Compile Include="Text\Parsers\CreoleParser.cs" />

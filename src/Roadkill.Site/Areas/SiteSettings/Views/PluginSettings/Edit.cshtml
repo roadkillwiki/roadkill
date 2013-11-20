@@ -6,7 +6,7 @@
 	ViewData["PluginSettingsActive"] = true;
 }
 
-@Html.Partial("SettingsMenu", ViewData)
+@Html.SiteSettingsNavigation()
 @Html.ActionLink("< back", "Index")
 
 @using (Html.BeginForm("Edit", "PluginSettings"))

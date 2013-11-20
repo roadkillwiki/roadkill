@@ -3,7 +3,6 @@
 @{
 	ViewBag.Title = SiteStrings.SiteSettings_Configuration_Title;
 }
-@Url.ScriptLinkForValidationLocalization()
 
 <script type="text/javascript">
 	$(document).ready(function ()
@@ -13,7 +12,7 @@
 
 		toggleUserSettings();
 		$.validator.messages = {
-			required: 'woops'
+			required: "@SiteStrings.SiteSettings_Configuration_Required_Field"
 		};
 
 
@@ -110,7 +109,7 @@
 		}
 	}
 </script>
-@Html.Partial("SettingsMenu", ViewData)
+@Html.SiteSettingsNavigation()
 
 @Html.ValidationSummary("Unable to save the settings:", new { @class = "alert alert-block alert-error fade in", data_dismiss = "alert" })
 

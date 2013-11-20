@@ -387,6 +387,10 @@
     <Content Include="Assets\Scripts\jquery\jquery.fileupload.js" />
     <Content Include="Assets\Scripts\jquery\jquery.iframe-transport.js" />
     <Content Include="Assets\Scripts\jquery\jquery.fieldSelection.js" />
+    <Content Include="Areas\SiteSettings\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\SiteSettings\Views\_ViewStart.cshtml" />
     <None Include="Assets\Scripts\roadkill\typescript-ref\constants.ts" />
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-cz.js" />
     <Content Include="Assets\Scripts\languages\jquery.validationEngine-da.js" />
@@ -563,11 +567,11 @@
     <Content Include="Views\Shared\_Blank.cshtml" />
     <Content Include="Views\Wiki\PageToolbar.cshtml" />
     <Content Include="Views\Shared\HeadContent.cshtml" />
-    <Content Include="Views\Shared\SettingsMenu.cshtml" />
-    <Content Include="Views\Settings\Users.cshtml" />
-    <Content Include="Views\Settings\UsersReadOnly.cshtml" />
+    <Content Include="Areas\SiteSettings\Views\Shared\Navigation.cshtml" />
+    <Content Include="Areas\SiteSettings\Views\UserManagement\Index.cshtml" />
+    <Content Include="Areas\SiteSettings\Views\UserManagement\IndexReadOnly.cshtml" />
     <Content Include="Views\User\BlankLogin.cshtml" />
-    <Content Include="Views\Settings\Tools.cshtml" />
+    <Content Include="Areas\SiteSettings\Views\Tools\Index.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Install\Layout.cshtml" />
     <Content Include="Views\Install\Step2.cshtml" />
@@ -587,28 +591,31 @@
     <None Include="Properties\PublishProfiles\Download.pubxml" />
     <Content Include="Views\Upgrade\Index.cshtml" />
     <Content Include="Views\Upgrade\Layout.cshtml" />
-    <Content Include="Views\Settings\Cache.cshtml" />
+    <Content Include="Areas\SiteSettings\Views\Cache\Index.cshtml" />
     <Content Include="Views\User\LoggedInAs.cshtml" />
     <Content Include="Views\User\LeftMenu.cshtml" />
     <Content Include="Views\FileManager\Index.cshtml" />
     <Content Include="Views\FileManager\Select.cshtml" />
     <Content Include="Views\FileManager\Navigator.cshtml" />
-    <Content Include="Views\Shared\Dialogs\PageInformation.cshtml" />
-    <Content Include="Views\Shared\Dialogs\MarkupHelp.cshtml" />
-    <Content Include="Views\Shared\Dialogs\ChooseImage.cshtml" />
-    <Content Include="Views\Shared\Dialogs\AddEditUser.cshtml" />
-    <Content Include="Views\Shared\Dialogs\PreviewPage.cshtml" />
+    <Content Include="Views\Pages\Dialogs\MarkupHelp.cshtml" />
+    <Content Include="Views\Pages\Dialogs\ChooseImage.cshtml" />
+    <Content Include="Views\SiteSettings\AddEditUser.cshtml" />
+    <Content Include="Views\Pages\Dialogs\PreviewPage.cshtml" />
     <Content Include="Views\Wiki\500.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Themes\Roadkill\Theme.cshtml" />
-    <Content Include="Views\PluginSettings\Index.cshtml" />
+    <Content Include="Areas\SiteSettings\Views\PluginSettings\Index.cshtml" />
     <Content Include="Views\Install\Index.cshtml" />
-    <Content Include="Views\PluginSettings\Edit.cshtml" />
+    <Content Include="Areas\SiteSettings\Views\PluginSettings\Edit.cshtml" />
     <Content Include="Views\Help\Index.cshtml" />
     <Content Include="Themes\Responsive\Theme.cshtml" />
-    <Content Include="Views\Shared\WysiwgToolbar.cshtml" />
+    <Content Include="Views\Pages\WysiwgToolbar.cshtml" />
     <None Include="Properties\PublishProfiles\roadkill - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\roadkill - Web Deploy.pubxml" />
+    <Content Include="Areas\SiteSettings\Views\UserManagement\AddAdmin.cshtml" />
+    <Content Include="Areas\SiteSettings\Views\UserManagement\EditUser.cshtml" />
+    <Content Include="Areas\SiteSettings\Views\UserManagement\AddEditor.cshtml" />
+    <Content Include="Views\Shared\Dialogs\PageInformation.cshtml" />
     <None Include="Web.Mono.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -619,7 +626,7 @@
     <Content Include="Global.asax" />
     <Content Include="Views\Pages\Edit.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
-    <Content Include="Views\Settings\Index.cshtml" />
+    <Content Include="Areas\SiteSettings\Views\Settings\Index.cshtml" />
     <Content Include="Views\Install\Step1.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Wiki\Index.cshtml" />

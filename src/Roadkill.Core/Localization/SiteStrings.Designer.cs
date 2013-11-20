@@ -1753,6 +1753,15 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This field is required..
+        /// </summary>
+        public static string SiteSettings_Configuration_Required_Field {
+            get {
+                return ResourceManager.GetString("SiteSettings_Configuration_Required_Field", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Security.
         /// </summary>
         public static string SiteSettings_Configuration_Security {

@@ -1,5 +1,5 @@
 ﻿@{
-	MvcHtmlString activeCss = MvcHtmlString.Create(" class=\"active\"");
+	MvcHtmlString activeCss = MvcHtmlString.Create("active");
 	MvcHtmlString nav1Active = activeCss;
 	MvcHtmlString nav2Active = MvcHtmlString.Empty;
 	MvcHtmlString nav3Active = MvcHtmlString.Empty;
@@ -44,11 +44,11 @@
 <div id="settings-navigation" class="navbar">
 	<nav class="navbar navbar-default">
 		<ul class="nav navbar-nav">
-			<li@(nav1Active)>@Html.ActionLink(SiteStrings.SiteSettings_Configuration, "Index", "Settings")</li>
-			<li@(nav2Active)>@Html.ActionLink(SiteStrings.SiteSettings_Users, "Users", "Settings")</li>
-			<li@(nav3Active)>@Html.ActionLink(SiteStrings.SiteSettings_Tools, "Tools", "Settings")</li>
-			<li@(nav4Active)>@Html.ActionLink(SiteStrings.SiteSettings_Configuration_ObjectCaching, "Cache", "Settings")</li>
-			<li@(nav5Active)>@Html.ActionLink(SiteStrings.SiteSettings_Plugins_Title, "Index", "PluginSettings")</li>
+			<li class="@nav1Active">@Html.ActionLink(SiteStrings.SiteSettings_Configuration, "Index", "Settings")</li>
+			<li class="@nav2Active">@Html.ActionLink(SiteStrings.SiteSettings_Users, "Index", "UserManagement")</li>
+			<li class="@nav3Active">@Html.ActionLink(SiteStrings.SiteSettings_Tools, "Index", "Tools")</li>
+			<li class="@nav4Active">@Html.ActionLink(SiteStrings.SiteSettings_Configuration_ObjectCaching, "Index", "Cache")</li>
+			<li class="@nav5Active">@Html.ActionLink(SiteStrings.SiteSettings_Plugins_Title, "Index", "PluginSettings")</li>
 		</ul>
 	</nav>
 </div>

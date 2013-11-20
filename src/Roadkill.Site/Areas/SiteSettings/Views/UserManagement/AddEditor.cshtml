@@ -1,0 +1,30 @@
+﻿@model UserViewModel
+@{
+	ViewBag.Title = SiteStrings.SiteSettings_Users_AddEditorDialog_Title;
+	ViewData["UsersActive"] = true;
+}
+@Html.SiteSettingsNavigation()
+
+<h2>
+	@SiteStrings.SiteSettings_Users_AddEditorDialog_Title
+</h2>
+
+@Html.ValidationSummary(SiteStrings.SiteSettings_Users_AddUserDialog_Error, new { @class = "alert alert-block alert-danger fade in", data_dismiss = "alert" })
+
+<form role="form" method="post">
+	<div class="form-group col-lg-5 row">
+		<label for="NewUsername">@SiteStrings.Shared_Username</label>
+		@Html.SettingsTextBoxFor(s => s.NewUsername, SiteStrings.SiteSettings_Users_AddUserDialog_Help)
+
+		<label for="NewEmail">@SiteStrings.Shared_Email_Label</label>
+		@Html.SettingsTextBoxFor(s => s.NewEmail, SiteStrings.Shared_Email_Label)
+
+		<label for="Password">@SiteStrings.Shared_Password_Label</label>
+		@Html.SettingsTextBoxFor(s => s.Password, SiteStrings.Shared_Password_Label)
+
+		<label for="PasswordConfirmation">@SiteStrings.Shared_PasswordConfirm_Label</label>
+		@Html.SettingsTextBoxFor(s => s.PasswordConfirmation, SiteStrings.Shared_PasswordConfirm_Label)
+
+		<input type="submit" value="@SiteStrings.Button_Save" class="btn btn-primary right" />
+	</div>
+</form>
