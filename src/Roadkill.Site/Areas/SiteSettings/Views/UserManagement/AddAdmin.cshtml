@@ -3,28 +3,59 @@
 	ViewBag.Title = SiteStrings.SiteSettings_Users_AddAdminDialog_Title;
 	ViewData["UsersActive"] = true;
 }
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		// Form validation
+		var validationRules =
+		{
+			NewUsername: {
+				required: true
+			},
+			Password: {
+				required: true
+			},
+			PasswordConfirmation: {
+				required: true
+			}
+		};
+		var validation = new Roadkill.Site.Validation();
+		validation.Configure("#addedit-user-form", validationRules);
+	});
+</script>
+
 @Html.SiteSettingsNavigation()
 
-<h2>
-	@SiteStrings.SiteSettings_Users_AddAdminDialog_Title
-</h2>
+<div class="col-lg-6">
+	<h2>
+		@SiteStrings.SiteSettings_Users_AddAdminDialog_Title
+	</h2>
 
-@Html.ValidationSummary(SiteStrings.SiteSettings_Users_AddUserDialog_Error, new { @class = "alert alert-block alert-danger fade in", data_dismiss = "alert" })
+	@Html.BootstrapValidationSummary(SiteStrings.SiteSettings_Users_AddUserDialog_Error)
 
-<form role="form" method="post">
-	<div class="form-group col-lg-5 row">
-		<label for="NewUsername">@SiteStrings.Shared_Username</label>
-		@Html.SettingsTextBoxFor(s => s.NewUsername, SiteStrings.SiteSettings_Users_AddUserDialog_Help)
+	<form role="form" method="post" id="addedit-user-form">
+		<div class="form-group">
+			<label for="NewUsername">@SiteStrings.Shared_Username</label>
+			@Html.BootstrapTextBoxFor(s => s.NewUsername, SiteStrings.SiteSettings_Users_AddUserDialog_Help)
+		</div>
 
-		<label for="NewEmail">@SiteStrings.Shared_Email_Label</label>
-		@Html.SettingsTextBoxFor(s => s.NewEmail, SiteStrings.Shared_Email_Label)
+		<div class="form-group">
+			<label for="NewEmail">@SiteStrings.Shared_Email_Label</label>
+			@Html.BootstrapTextBoxFor(s => s.NewEmail, SiteStrings.Shared_Email_Label)
+		</div>
 
-		<label for="Password">@SiteStrings.Shared_Password_Label</label>
-		@Html.SettingsTextBoxFor(s => s.Password, SiteStrings.Shared_Password_Label)
+		<div class="form-group">
+			<label for="Password">@SiteStrings.Shared_Password_Label</label>
+			@Html.BootstrapPasswordFor(s => s.Password, SiteStrings.Shared_Password_Label)
+		</div>
 
-		<label for="PasswordConfirmation">@SiteStrings.Shared_PasswordConfirm_Label</label>
-		@Html.SettingsTextBoxFor(s => s.PasswordConfirmation, SiteStrings.Shared_PasswordConfirm_Label)
+		<div class="form-group">
+			<label for="PasswordConfirmation">@SiteStrings.Shared_PasswordConfirm_Label</label>
+			@Html.BootstrapPasswordFor(s => s.PasswordConfirmation, SiteStrings.Shared_PasswordConfirm_Label)
+		</div>
 
-		<input type="submit" value="@SiteStrings.Button_Save" class="btn btn-primary right" />
-	</div>
-</form>
+		<div class="form-group">
+			<input type="submit" value="@SiteStrings.Button_Save" class="btn btn-primary right" />
+		</div>
+	</form>
+</div>

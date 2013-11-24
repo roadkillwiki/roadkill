@@ -51,14 +51,14 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
-		public void Basic_Token_Should_Return_Html_Fragment()
+		public void WarningBox_Token_Should_Return_Html_Fragment()
 		{
 			// Arrange
 			ApplicationSettings settings = new ApplicationSettings();
 			settings.CustomTokensPath = Path.Combine(Settings.SITE_PATH, "App_Data", "customvariables.xml");
 			CustomTokenParser parser = new CustomTokenParser(settings);
 
-			string expectedHtml = @"<div class=""alert"">ENTER YOUR CONTENT HERE {{some link}}</div><br style=""clear:both""/>";
+			string expectedHtml = @"<div class=""alert alert-warning"">ENTER YOUR CONTENT HERE {{some link}}</div><br style=""clear:both""/>";
 
 			// Act
 			string actualHtml = parser.ReplaceTokensAfterParse("@@warningbox:ENTER YOUR CONTENT HERE {{some link}}@@");

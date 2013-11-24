@@ -3,32 +3,25 @@
 	ViewBag.Title = "View cache";
 	ViewData["CacheActive"] = true;
 }
-@Html.SiteSettingsNavigation()
-
-@if (ViewData["CacheCleared"] != null)
+@if (TempData["CacheCleared"] != null)
 {
 	<script type="text/javascript">
-	$(document).ready(function ()
-	{
-		if ($(".alert").text().trim().length > 0)
+		$(document).ready(function ()
 		{
-			$(".alert").show().delay(2500).fadeOut(1000);
-		}
-	});
+			// TODO-translation
+			toastr.success("All caches were successfully cleared.");
+		});
 	</script>
-	<div class="alert alert-success">
-		All caches were successfully cleared.
-	</div>
 }
 
-@using (Html.BeginForm("Cache", "Settings", FormMethod.Get))
-{
+@Html.SiteSettingsNavigation()
+
+<form role="form" method="post" action="@Url.Action("Clear", "Cache")">
 	<input name="clear" type="submit" class="btn btn-primary" value="Clear cache" />
-}
-
+</form>
 <div>
 	<h2>Page cache (@Model[0].Count())</h2>
-	<p>The keys are in the format "page ID.version"</p>
+	<p class="TODO-translation">The keys are in the format "page ID.version"</p>
 	<table class="table table-striped">
 		<thead>
 			<tr>

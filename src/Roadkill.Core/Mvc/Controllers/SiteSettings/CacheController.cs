@@ -56,8 +56,8 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// Displays all items in the cache
 		/// </summary>
-		/// <param name="clear">If not empty, then signals the action to clear the cache</param>
 		/// <returns></returns>
+		[ImportModelState]
 		public ActionResult Index()
 		{
 			List<IEnumerable<string>> cacheKeys = new List<IEnumerable<string>>()
@@ -72,12 +72,15 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// Clears all items in the database caches (not sitecache)
 		/// </summary>
+		/// <param name="clear">If not empty, then signals the action to clear the cache</param>
 		/// <returns></returns>
+		[ExportModelState]
+		[HttpPost]
 		public ActionResult Clear()
 		{
 			_pageViewModelCache.RemoveAll();
 			_listCache.RemoveAll();
-			ViewData["CacheCleared"] = true;
+			TempData["CacheCleared"] = true;
 
 			return RedirectToAction("Index");
 		}

@@ -467,9 +467,6 @@
     <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeMDUltra.css" />
     <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeMidnight.css" />
     <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeRDark.css" />
-    <Content Include="Assets\Scripts\roadkill\adminsetup.js">
-      <DependentUpon>adminsetup.ts</DependentUpon>
-    </Content>
     <Content Include="Assets\Scripts\roadkill\dialogs.js">
       <DependentUpon>dialogs.ts</DependentUpon>
     </Content>
@@ -512,8 +509,9 @@
       <DependentUpon>util.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Assets\Scripts\roadkill\setup.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\adminsetup.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\editpage.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\settings.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\validation.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\wysiwygeditor.ts" />
     <Content Include="Assets\Scripts\roadkill\setup.js">
       <DependentUpon>setup.ts</DependentUpon>
@@ -599,7 +597,6 @@
     <Content Include="Views\FileManager\Navigator.cshtml" />
     <Content Include="Views\Pages\Dialogs\MarkupHelp.cshtml" />
     <Content Include="Views\Pages\Dialogs\ChooseImage.cshtml" />
-    <Content Include="Views\SiteSettings\AddEditUser.cshtml" />
     <Content Include="Views\Pages\Dialogs\PreviewPage.cshtml" />
     <Content Include="Views\Wiki\500.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />

@@ -70,7 +70,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (!string.IsNullOrEmpty(term))
 				tags = tags.Where(x => x.Name.StartsWith(term, StringComparison.InvariantCultureIgnoreCase));
 
-			IEnumerable<string> tagsJson = tags.Select(t => t.Name);
+			IEnumerable<string> tagsJson = tags.Select(t => t.Name).ToList();
 			return Json(tagsJson, JsonRequestBehavior.AllowGet);
 		}
 
@@ -124,6 +124,8 @@ namespace Roadkill.Core.Mvc.Controllers
 			{
 				if (model.IsLocked && !Context.IsAdmin)
 					return new HttpStatusCodeResult(403, string.Format("The page '{0}' can only be edited by administrators.", model.Title));
+
+				model.AllTags = _pageService.AllTags().ToList();
 
 				return View("Edit", model);
 			}
@@ -195,7 +197,15 @@ namespace Roadkill.Core.Mvc.Controllers
 		[EditorRequired]
 		public ActionResult New(string title = "", string tags = "")
 		{
-			return View("Edit", new PageViewModel() { Title = title, RawTags = tags });
+			PageViewModel model = new PageViewModel()
+			{
+				Title = title,
+				RawTags = tags,
+			};
+
+			model.AllTags = _pageService.AllTags().ToList();
+
+			return View("Edit", model);
 		}
 
 		/// <summary>

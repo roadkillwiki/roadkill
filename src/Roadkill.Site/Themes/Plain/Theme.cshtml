@@ -9,6 +9,7 @@
 
 <body>
 	<div class="container">
+		<!--  Header -->
 		@using (Html.BeginForm("Search", "Home", FormMethod.Get))
 		{
 			<div id="header-wrapper">
@@ -28,7 +29,7 @@
 		@RenderSection("PageToolbar", false)
 		<br/>
 
-
+		<!-- Main content -->
 		@RenderSection("PluginPreContainer", false)
 		<div id="container">
 			<div id="content">
@@ -37,6 +38,8 @@
 		</div>
 		@RenderSection("PluginPostContainer", false)
 
+		<!-- Footer -->
+		<br class="clear" />
 		<div id="footer">
 			@RenderSection("PageDetailsFooter", false)
 			<p>

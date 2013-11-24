@@ -33,4 +33,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("2.0.0.0")]
 [assembly: AssemblyFileVersion("2.0.0.0")]
-[assembly: AssemblyInformationalVersion("2.0.155-beta")]
+[assembly: AssemblyInformationalVersion("2.0.159-beta")]// Do not include spaces (as it's used by the Bundles)

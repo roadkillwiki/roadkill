@@ -1,28 +1,29 @@
-﻿@{ 
+﻿@{
 	ViewBag.Title = SiteStrings.SiteSettings_Tools_Title;
 	ViewData["ToolsActive"] = true;
 }
+@if (@TempData["SuccessMessage"] != null)
+{
+	<script type="text/javascript">
+		$(document).ready(function ()
+		{
+			// TODO-translation
+			toastr.success("@TempData["SuccessMessage"]");
+		});
+	</script>
+}
+else if (@TempData["ErrorMessage"] != null)
+{
+	<script type="text/javascript">
+		$(document).ready(function ()
+		{
+			// TODO-translation
+			toastr.error("@TempData["ErrorMessage"]");
+		});
+	</script>
+}
 
 @Html.SiteSettingsNavigation()
-
-<script type="text/javascript">
-	$(document).ready(function ()
-	{
-		$("#settingscontainer a.refreshlink").click(function ()
-		{
-			// Appends the progress bar div under the clicked anchor, and shows it
-			$(this).parent().parent().append($("#wait"));
-			$(this).parent().parent().find(".progress").show();
-		});
-
-		if ($(".alert").text().trim().length > 0)
-		{
-			$(".alert").show().delay(2500).fadeOut(1000);
-		}
-	});
-</script>
-
-<div class="alert alert-success hide">@TempData["Message"]</div>
 
 <div id="settings-container">
 	<div>
@@ -35,10 +36,10 @@
 		<p>@SiteStrings.SiteSettings_Tools_RebuildSearch_Label</p>
 	</div>
 
-    <div>
-        @Html.ActionLink(SiteStrings.SiteSettings_Tools_SqlExport, "ExportAsSQL", null, new { @class = "btn btn-success" })<br />
-        <p>@SiteStrings.SiteSettings_Tools_SqlExport_Label</p>
-    </div>
+	<div>
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_SqlExport, "ExportAsSQL", null, new { @class = "btn btn-success" })<br />
+		<p>@SiteStrings.SiteSettings_Tools_SqlExport_Label</p>
+	</div>
 
 	<div>
 		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportXml, "ExportAsXml", null, new { @class = "btn btn-success" })<br />
@@ -56,38 +57,42 @@
 	</div>
 	<br />
 
-	<h1>@SiteStrings.SiteSettings_Tools_ScrewTurnImport</h1><br />
+	<!-- Screwturn import -->
+	<h1>@SiteStrings.SiteSettings_Tools_ScrewTurnImport</h1>
 	<p>
-	@SiteStrings.SiteSettings_Tools_ScrewTurnImport_Label
+		@SiteStrings.SiteSettings_Tools_ScrewTurnImport_Label
 	</p>
-
-	@using (Html.BeginForm("ImportFromScrewTurn", "Settings"))
-	{
-	<b>@SiteStrings.SiteSettings_Tools_ScrewTurnImport_Connection</b>
-	@(Html.TextBox("screwturnConnectionString", null, new { @class = "longtextbox" }))<br />
-	<input type="submit" class="btn-small btn-primary" value="@SiteStrings.Button_Import" />
-	}
+	<form method="post" id="settings-form" action="@Url.Action("ImportFromScrewTurn", "Tools")">
+		<fieldset>
+			<div class="form-group col-lg-12 row">
+				<label for="screwturnConnectionString">@SiteStrings.SiteSettings_Tools_ScrewTurnImport_Connection</label>
+				@(Html.BootstrapLongTextBox("screwturnConnectionString", SiteStrings.SiteSettings_Tools_ScrewTurnImport_Connection))
+			</div>
+		</fieldset>
+		<input type="submit" class="btn btn-primary" value="@SiteStrings.Button_Import" />
+	</form>
 	<br />
 
-	<h1>@SiteStrings.SiteSettings_Tools_RenameTag</h1><br />
+	<!-- Rename tags -->
+	<h1>@SiteStrings.SiteSettings_Tools_RenameTag</h1>
 	<p>
-	@SiteStrings.SiteSettings_Tools_RenameTag_Label
+		@SiteStrings.SiteSettings_Tools_RenameTag_Label
 	</p>
+	<form method="post" id="settings-form" action="@Url.Action("RenameTag", "Tools")" role="form">
+		<fieldset>
+			<div class="form-group col-lg-4 row">
+				<label for="oldTagName">@SiteStrings.SiteSettings_Tools_RenameTag_Existing</label>
+				@(Html.BootstrapLongTextBox("oldTagName", SiteStrings.SiteSettings_Tools_ScrewTurnImport_Connection))
+			</div>
+		</fieldset>
 
-	@using (Html.BeginForm("RenameTag", "Settings"))
-	{
-	<div class="left bold" style="width:150px;">@SiteStrings.SiteSettings_Tools_RenameTag_Existing</div>
-	<div class="left">@(Html.TextBox("oldTagName", null, new { style = "width:100px" }))</div>
-	<br class="clear" />
-	 
-	<div class="left bold" style="width:150px;">@SiteStrings.SiteSettings_Tools_RenameTag_New</div>
-	<div class="left">@(Html.TextBox("newTagName", null, new { style = "width:100px" }))</div>
-	<br class="clear" />
-	<input type="submit" class="btn-small btn-primary" value="@SiteStrings.Button_Rename" />
-	}
-</div>
+		<fieldset>
+			<div class="form-group col-lg-4 row">
+				<label for="newTagName">@SiteStrings.SiteSettings_Tools_RenameTag_New</label>
+				@(Html.BootstrapLongTextBox("newTagName", SiteStrings.SiteSettings_Tools_ScrewTurnImport_Connection))
+			</div>
+		</fieldset>
 
-
-<div id="wait" class="progress progress-striped active hidden" style="text-align:center;width:200px;">
-	<div class="bar" style="width: 60%;"></div>
+		<input type="submit" class="btn btn-primary" value="@SiteStrings.Button_Rename" />
+	</form>
 </div>

@@ -223,5 +223,23 @@ namespace Roadkill.Tests.Unit
 			Assert.That(tags, Contains.Item("tag3"));
 			Assert.That(tags, Contains.Item("tag4"));
 		}
+
+		[Test]
+		public void JavascriptArrayForAllTags_Should_Return_Valid_Javascript_Array()
+		{
+			// Arrange
+			PageViewModel model = new PageViewModel();
+			model.AllTags.Add(new TagViewModel("tag1"));
+			model.AllTags.Add(new TagViewModel("tag2"));
+			model.AllTags.Add(new TagViewModel("tag3"));
+
+			string expectedJavascript = "\"tag1\", \"tag2\", \"tag3\"";
+
+			// Act
+			string actualJavascript = model.JavascriptArrayForAllTags();
+
+			// Assert
+			Assert.That(actualJavascript, Is.EqualTo(expectedJavascript));
+		}
 	}
 }

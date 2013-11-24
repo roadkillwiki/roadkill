@@ -164,6 +164,11 @@ namespace Roadkill.Core.Mvc.ViewModels
 		/// </summary>
 		public string PluginPostContainer { get; set; }
 
+		/// <summary>
+		/// All tags in the system.
+		/// </summary>
+		public List<TagViewModel> AllTags { get; set; }
+
 		public PageViewModel()
 		{
 			_tags = new List<string>();
@@ -172,6 +177,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 			PluginFooterHtml = "";
 			PluginPreContainer = "";
 			PluginPostContainer = "";
+			AllTags = new List<TagViewModel>();
 		}
 
 		public PageViewModel(PageContent pageContent, MarkupConverter converter)
@@ -207,6 +213,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 
 			CreatedOn = DateTime.SpecifyKind(CreatedOn, DateTimeKind.Utc);
 			ModifiedOn = DateTime.SpecifyKind(ModifiedOn, DateTimeKind.Utc);
+			AllTags = new List<TagViewModel>();
 		}
 
 		/// <summary>
@@ -215,6 +222,15 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public string CommaDelimitedTags()
 		{
 			return string.Join(",", _tags);
+		}
+
+		/// <summary>
+		/// Formats the <see cref="AllTags"/> to insert inside an array initializer like [];
+		/// </summary>
+		public string JavascriptArrayForAllTags()
+		{
+			IEnumerable<string> allTags = AllTags.OrderBy(x => x.Name).Select(t => t.Name);
+			return "\"" +string.Join("\", \"", allTags) + "\"";
 		}
 
 		/// <summary>
