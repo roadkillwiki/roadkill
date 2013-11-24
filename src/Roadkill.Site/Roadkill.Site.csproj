@@ -343,13 +343,10 @@
     <Content Include="Assets\CSS\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Assets\CSS\jquery-ui-bootstrap.css" />
     <Content Include="Assets\CSS\jquery.fileupload.css" />
+    <Content Include="Assets\CSS\roadkill.installer.css" />
     <Content Include="Assets\Images\button-loading.gif" />
-    <Content Include="Assets\Images\log_error.png" />
-    <Content Include="Assets\Images\gradientbutton-green.png" />
-    <Content Include="Assets\Images\gradientbutton.png" />
     <Content Include="Assets\Images\favicon.png" />
     <Content Include="Assets\Images\help.png" />
-    <Content Include="Assets\Images\log_information.png" />
     <Content Include="Assets\Images\installer-ex-chicken.png" />
     <Content Include="Assets\Images\loadinglarge.gif" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
@@ -372,7 +369,6 @@
     <Content Include="Assets\CSS\tagmanager.css" />
     <Content Include="Assets\Images\plugin.png" />
     <Content Include="Assets\Images\roadkill.png" />
-    <Content Include="Assets\Images\log_warning.png" />
     <Content Include="Assets\opensearch.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -508,9 +504,16 @@
     <Content Include="Assets\Scripts\roadkill\filemanager\util.js">
       <DependentUpon>util.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\page5.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\page4.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\page3.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\page2.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\page1.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\wizard.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\setup.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\editpage.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\settings.ts" />
+    <Content Include="Assets\Scripts\roadkill\typescript-ref\installerconstants.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\validation.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\wysiwygeditor.ts" />
     <Content Include="Assets\Scripts\roadkill\setup.js">
@@ -613,6 +616,7 @@
     <Content Include="Areas\SiteSettings\Views\UserManagement\EditUser.cshtml" />
     <Content Include="Areas\SiteSettings\Views\UserManagement\AddEditor.cshtml" />
     <Content Include="Views\Shared\Dialogs\PageInformation.cshtml" />
+    <Content Include="Views\Install\InstallerJsVars.cshtml" />
     <None Include="Web.Mono.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

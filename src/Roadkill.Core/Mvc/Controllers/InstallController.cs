@@ -70,6 +70,14 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
+		/// Returns Javascript 'constants' for the installer.
+		/// </summary>
+		public ActionResult InstallerJsVars()
+		{
+			return View();
+		}
+
+		/// <summary>
 		/// Displays the language choice page.
 		/// </summary>
 		public ActionResult Index()
