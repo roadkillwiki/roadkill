@@ -4,21 +4,27 @@
 <head>
 	<title>Roadkill Install</title>
 	<link rel="shortcut icon" href="@Url.Content("~/Assets/Images/favicon.png")" />
+	@Url.CssLink("roadkill.installer.css")
+	@Url.CssLink("toastr.css")
 	@Url.ScriptLink("jquery/jquery-1.9.1.js")
 	@Url.ScriptLink("jquery/jquery.validate.js")
 	@Url.ScriptLink("toastr.js")
+	@Url.ScriptLink("bootbox.js")
 	@Url.ScriptLink("~/install/InstallerJsVars")
 	@Url.BootStrap()
-	@Url.CssLink("roadkill.installer.css")
-	@Url.ScriptLink("roadkill/installer/wizard.js")
+	@Url.ScriptLink("roadkill/validation.js")
+	@Url.ScriptLink("roadkill/installer/installwizard.js")
 </head>
 
 <body>
 <div id="installer">
+	<!-- Logo -->
 	<div style="text-align:left;margin-left:50px;">
 		<img src="@Url.Content("~/Assets/Images/roadkill.png")" alt="logo" />
 	</div>
+
 	<div id="container">
+		<!-- Page navigation -->
 		<ul id="trail">
 			<li>1. @InstallStrings.Shared_Stage1</li>
 			<li>2. @InstallStrings.Shared_Stage2</li>
@@ -28,12 +34,15 @@
 		</ul>
 		<br style="clear:both;" />
 		
+		<!-- Content-->
 		<div class="page" id="page1">
 			@RenderBody()
 		</div>
 	</div>
 	<br class="clear" />
 </div>
+
+<!-- Footer image -->
 <div style="margin: -25px auto">
 	<img src="@Url.Content("~/Assets/Images/installer-ex-chicken.png")" border="0" alt="an ex-chicken" />	
 </div>

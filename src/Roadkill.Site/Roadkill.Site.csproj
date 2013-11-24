@@ -504,12 +504,12 @@
     <Content Include="Assets\Scripts\roadkill\filemanager\util.js">
       <DependentUpon>util.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\page5.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\page4.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\page3.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\page2.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\page1.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\wizard.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\step5.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\step4.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\step3.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\step2.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\step1.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\installwizard.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\setup.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\editpage.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\settings.ts" />

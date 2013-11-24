@@ -5,16 +5,17 @@ var Roadkill;
             $(document).ready(function () {
             });
 
-            var Page4 = (function () {
-                function Page4(wizard) {
+            var Page3 = (function () {
+                function Page3(wizard) {
                     this._wizard = wizard;
-                    this._wizard.updateNavigation(4);
+                    this._wizard.updateNavigation(3);
                 }
-                return Page4;
+                return Page3;
             })();
-            Installer.Page4 = Page4;
+            Installer.Page3 = Page3;
         })(Site.Installer || (Site.Installer = {}));
         var Installer = Site.Installer;
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
 })(Roadkill || (Roadkill = {}));
+//# sourceMappingURL=step3.js.map

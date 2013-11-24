@@ -14,20 +14,20 @@
 /// <reference path="qunit.d.ts" />
 /// <reference path="../../Roadkill.Site/Assets/Scripts/roadkill/editpage.ts" />
 
-test("Commas (,) are invalid in tags", () =>
-{
-	var isValid3: Boolean = Roadkill.Site.EditPage.isValidTag(",l,l,");
-	equal(isValid3, false);
-});
+//test("Commas (,) are invalid in tags", () =>
+//{
+//	var isValid3: Boolean = Roadkill.Site.EditPage.isValidTag(",l,l,");
+//	equal(isValid3, false);
+//});
 
-test("Hashes (#) are invalid in tags", () =>
-{
-	var isValid2: Boolean = Roadkill.Site.EditPage.isValidTag("###");
-	equal(isValid2, false);
-});
+//test("Hashes (#) are invalid in tags", () =>
+//{
+//	var isValid2: Boolean = Roadkill.Site.EditPage.isValidTag("###");
+//	equal(isValid2, false);
+//});
 
-test("Semi-colons (;) are invalid in tags", () =>
-{
-	var isValid: Boolean = Roadkill.Site.EditPage.isValidTag(";;;");
-	equal(isValid, false);
-});
+//test("Semi-colons (;) are invalid in tags", () =>
+//{
+//	var isValid: Boolean = Roadkill.Site.EditPage.isValidTag(";;;");
+//	equal(isValid, false);
+//});

@@ -7,4 +7,7 @@ declare var bootbox : any;
 // and defined here to help Typescript compilation out.
 //
 
+declare var ROADKILL_INSTALLER_WOOPS;
 declare var ROADKILL_INSTALLER_TESTWEBCONFIG_URL;
+declare var ROADKILL_INSTALLER_TESTDATABASE_URL;
+declare var ROADKILL_INSTALLER_COPYSQLITE_URL;
