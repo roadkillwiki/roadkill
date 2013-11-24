@@ -2,141 +2,125 @@
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
-
+@Url.ScriptLink("roadkill/installer/step3.js")
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
-		setPage(3);
-
-		$("#testldap").click(function()
-		{	
-			testActiveDirectory("#ldapconnectionsuccess","#ldapconnectionfailure","#ldap-loading","");
-		});
-
-		$("#testeditor").click(function(){	
-			testActiveDirectory("#editor-connectionsuccess","#editor-connectionfailure","#editor-loading",$("#EditorRoleName").val());
-		});
-
-		$("#testadmin").click(function(){	
-			testActiveDirectory("#admin-connectionsuccess","#admin-connectionfailure","#admin-loading",$("#AdminRoleName").val());
-		});
+		var messages =
+		{
+			successTitle: "@InstallStrings.Shared_Success",
+			successMessage: "@InstallStrings.Page3_AD_Connection_Success",
+			failureTitle: "@InstallStrings.Shared_Failure",
+			failureMessage: "@InstallStrings.Page3_AD_Connection_Error",
+		};
+		
+		var wizard = new Roadkill.Site.Installer.InstallWizard();
+		var step3 = new Roadkill.Site.Installer.Step3(wizard, messages);
+		step3.bindWindowsAuthButtons();
+		step3.configureWindowsAuthValidation();
 	});
-
-	function testActiveDirectory(successId,failureId,loadingId,groupName)
-	{
-		$(loadingId).show();
-		hideAlerts();
-		$.get("@(Url.Action("TestLdap"))",
-				{ 
-					"connectionstring" : $("#LdapConnectionString").val(),
-					"username" : $("#LdapUsername").val(),
-					"password" : $("#LdapPassword").val(),
-					"groupName" : groupName					
-				},
-				function(data)
-				{
-					$(loadingId).hide();
-					if (data.Success)
-					{
-						showSuccess(successId);
-					}
-					else
-					{
-						showFailure(failureId,data.ErrorMessage);
-					}
-				});
-	}
 </script>
 
-@using (Html.BeginForm("Step4","Install"))
-{
+<form role="form" method="post" id="step2-form" action="@Url.Action("Step4", "Install")">
 	@(Html.HiddenFor<SettingsViewModel, string>(h => h.ConnectionString))
 	@(Html.HiddenFor<SettingsViewModel, string>(h => h.DataStoreTypeName))
 	@(Html.HiddenFor<SettingsViewModel, string>(h => h.SiteName))
 	@(Html.HiddenFor<SettingsViewModel, string>(h => h.SiteUrl))
 	@(Html.HiddenFor<SettingsViewModel, bool>(h => h.UseWindowsAuth))
-	
-	<fieldset>
+
+	<!-- Connection string -->
+	<fieldset class="row">
 		<legend>@InstallStrings.Page3_AD_Group1_Title</legend>
-		<label>
-			@InstallStrings.Page3_AD_Group1_Label1
-			<br /><br />
-			@Html.Raw(LocalizationTokens.ReplaceAdExplorer(InstallStrings.Page3_AD_Group1_Label2))
-			<br /><br />
 
-			@InstallStrings.Page3_AD_Group1_Label3
-		</label>
+		<div class="form-group">
+			<p>
+				@InstallStrings.Page3_AD_Group1_Label1
+			</p>
 
-		<div class="small">
-			<div class="textbox">@(Html.TextBoxFor<SettingsViewModel, string>(s => s.LdapConnectionString, new { @class = "validate[required]" }))</div>
-			<div class="textbox">
-				@InstallStrings.Page3_AD_Group2_Label1<br />
-				@(Html.TextBoxFor<SettingsViewModel, string>(s => s.LdapUsername, new { autocomplete = "off" }))
-			</div>
-			<div class="textbox">
-				@InstallStrings.Page3_AD_Group2_Label2<br />
-				@(Html.PasswordFor<SettingsViewModel, string>(s => s.LdapPassword, new { autocomplete = "off" }))
-			</div>
+			<p>
+				@Html.Raw(LocalizationTokens.ReplaceAdExplorer(InstallStrings.Page3_AD_Group1_Label2))
+			</p>
 
-			<input id="testldap" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
-			<div id="ldap-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/loading.gif"))" border="0" /></div>
-			<div id="ldapconnectionsuccess" class="success alert hidden">
-				<h2>@InstallStrings.Shared_Success</h2>
-				<p>@InstallStrings.Page3_AD_Connection_Success</p>
-			</div>
+			<p>
+				@InstallStrings.Page3_AD_Group1_Label3
+			</p>
+		</div>
 
-			<div id="ldapconnectionfailure" class="failure alert hidden">
-				<h2>@InstallStrings.Shared_Failure</h2>
-				<p>@InstallStrings.Page3_AD_Connection_Error&nbsp;<span class="errormessage"></span></p>
-			</div>
+		<!-- Connection string -->
+		<div class="form-group">
+			<label for="LdapConnectionString">@InstallStrings.Page3_AD_Group1_Title</label>
+			@Html.BootstrapTextBoxFor(s => s.LdapConnectionString, InstallStrings.Page3_AD_Group1_Label3)
+		</div>
+
+		<!-- LDAP username string -->
+		<div class="form-group">
+			<label for="LdapUsername">@InstallStrings.Page3_AD_Group2_Label1</label>
+			@Html.BootstrapTextBoxFor(s => s.LdapUsername, InstallStrings.Page3_AD_Group2_Label1)
+		</div>
+
+		<!-- LDAP password string -->
+		<div class="form-group">
+			<label for="LdapPassword">@InstallStrings.Page3_AD_Group2_Label2</label>
+			@Html.BootstrapPasswordFor(s => s.LdapPassword, InstallStrings.Page3_AD_Group2_Label2)
+		</div>
+
+		<!-- Test LDAP connection string button -->
+		<div class="form-group">
+			<button id="testldap" class="btn btn-info test-button" type="button">
+				@InstallStrings.Shared_TestButton
+				<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/button-loading.gif"))" border="0" alt="loading" /></span>
+			</button>
 		</div>
 	</fieldset>
 
-	<fieldset>
+	<!-- Editor name -->
+	<fieldset class="row">
 		<legend>@InstallStrings.Page3_AD_Group3_Title</legend>
-		<label>@InstallStrings.Page3_AD_Group3_Label</label>
 
-		<div class="small">
-			<div class="textbox">@(Html.TextBoxFor<SettingsViewModel, string>(s => s.EditorRoleName, new { @class = "validate[required]" }))</div>
-			<input id="testeditor" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
-			<div id="editor-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/loading.gif"))" border="0" /></div>
-			<div id="editor-connectionsuccess" class="success alert hidden">
-				<h2>@InstallStrings.Shared_Success</h2>
-				<p>@InstallStrings.Page3_AD_Success</p>
-			</div>
+		<p>
+			@InstallStrings.Page3_AD_Group3_Label
+		</p>
 
-			<div id="editor-connectionfailure" class="failure alert hidden">
-				<h2>@InstallStrings.Shared_Failure</h2>
-				<p>@InstallStrings.Page3_AD_Error&nbsp;<span class="errormessage"></span></p>
-			</div>
+		<!-- Editor name -->
+		<div class="form-group">
+			@Html.BootstrapTextBoxFor(s => s.EditorRoleName, InstallStrings.Page3_AD_Group3_Label)
+		</div>
+
+		<!-- Test editor button -->
+		<div class="form-group">
+			<button id="testeditor" class="btn btn-info test-button" type="button">
+				@InstallStrings.Shared_TestButton
+				<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/button-loading.gif"))" border="0" alt="loading" /></span>
+			</button>
 		</div>
 	</fieldset>
-	
-	<fieldset>
+
+	<!-- Admin name -->
+	<fieldset class="row">
 		<legend>@InstallStrings.Page3_AD_Group4_Title</legend>
-		<label>@InstallStrings.Page3_AD_Group4_Label</label>
 
-		<div class="small">
-			<div class="textbox">@(Html.TextBoxFor<SettingsViewModel, string>(s => s.AdminRoleName, new { @class = "validate[required]" }))</div>
-			<input id="testadmin" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
-			<div id="admin-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/loading.gif"))" border="0" /></div>
-			<div id="admin-connectionsuccess" class="success alert hidden">
-				<h2>@InstallStrings.Shared_Success</h2>
-				<p>@InstallStrings.Page3_AD_Success</p>
-			</div>
+		<p>
+			@InstallStrings.Page3_AD_Group4_Label
+		</p>
 
-			<div id="admin-connectionfailure" class="failure alert hidden">
-				<h2>@InstallStrings.Shared_Failure</h2>
-				<p>@InstallStrings.Page3_AD_Error&nbsp;<span class="errormessage"></span></p>
-			</div>
+		<!-- Admin name -->
+		<div class="form-group">
+			@Html.BootstrapTextBoxFor(s => s.AdminRoleName, InstallStrings.Page3_AD_Group4_Label)
+		</div>
+
+		<!-- Test admin button -->
+		<div class="form-group">
+			<button id="testadmin" class="btn btn-info test-button" type="button">
+				@InstallStrings.Shared_TestButton
+				<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/button-loading.gif"))" border="0" alt="loading" /></span>
+			</button>
 		</div>
 	</fieldset>
 
-	<div>
+	<div class="row">
 		<div class="previous"><a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a></div>
-	
 		<div class="continue">
-			<input type="submit" class="button" value="@InstallStrings.Shared_NextButton" />
+			<input type="submit" value="@InstallStrings.Shared_NextButton" class="btn btn-success pull-right" />
 		</div>
 	</div>
-}
+</form>

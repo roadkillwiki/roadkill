@@ -5,14 +5,14 @@ var Roadkill;
             $(document).ready(function () {
             });
 
-            var Page4 = (function () {
-                function Page4(wizard) {
+            var Step4 = (function () {
+                function Step4(wizard) {
                     this._wizard = wizard;
                     this._wizard.updateNavigation(4);
                 }
-                return Page4;
+                return Step4;
             })();
-            Installer.Page4 = Page4;
+            Installer.Step4 = Step4;
         })(Site.Installer || (Site.Installer = {}));
         var Installer = Site.Installer;
     })(Roadkill.Site || (Roadkill.Site = {}));

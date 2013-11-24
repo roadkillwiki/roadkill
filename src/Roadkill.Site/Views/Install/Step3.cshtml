@@ -2,35 +2,40 @@
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
+@Url.ScriptLink("roadkill/installer/step3.js")
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
-		setPage(3);
+		var wizard = new Roadkill.Site.Installer.InstallWizard();
+		var step3 = new Roadkill.Site.Installer.Step3(wizard, messages);
 	});
 </script>
-
 <p>
 @InstallStrings.Page3_Label1
 </p>
 
-@using (Html.BeginForm("Step3b","Install"))
-{
-	@Html.HiddenFor(h => h.ConnectionString)
-	@Html.HiddenFor(h => h.SiteName)
-	@Html.HiddenFor(h => h.SiteUrl)
-	@Html.HiddenFor(h => h.DataStoreTypeName)
-	<fieldset>
-		<legend>@InstallStrings.Page3_Group1_Title</legend>
-		<br />
-		@(Html.CheckBoxFor(s => s.UseWindowsAuth)) @InstallStrings.Page3_Group1_Label
-		<br /><br />
-	</fieldset>
+<form role="form" method="post" id="step2-form" action="@Url.Action("Step3b", "Install")">
+		@Html.HiddenFor(h => h.ConnectionString)
+		@Html.HiddenFor(h => h.SiteName)
+		@Html.HiddenFor(h => h.SiteUrl)
+		@Html.HiddenFor(h => h.DataStoreTypeName)
 
-	<div>
-		<div class="previous"><a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a></div>
-	
-		<div class="continue">
-			<input type="submit" value="@InstallStrings.Shared_NextButton" class="button" />
+		<!-- Use windows auth -->
+		<fieldset>
+			<legend>@InstallStrings.Page3_Group1_Title</legend>
+
+			<div class="form-group">
+				<label for="SiteName" class="checkbox">
+					@InstallStrings.Page3_Group1_Label
+					@Html.BootstrapCheckBoxFor(s => s.UseWindowsAuth, InstallStrings.Page3_Group1_Label)
+				</label>
+			</div>
+		</fieldset>
+
+		<div>
+			<div class="previous"><a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a></div>
+			<div class="continue">
+				<input type="submit" value="@InstallStrings.Shared_NextButton" class="btn btn-success pull-right" />
+			</div>
 		</div>
-	</div>
-}
+</form>

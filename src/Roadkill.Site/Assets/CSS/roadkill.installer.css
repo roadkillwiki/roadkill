@@ -25,7 +25,7 @@ a			{ color:Black;}
 #trail		{ color:#616161;list-style-type:none;display:block;clear:both;margin:auto;font-size:16px;-webkit-text-shadow: 0 1px rgba(255, 255, 255, 0.9); text-shadow: 0 1px rgba(255, 255, 255, 0.9); }
 #trail li	{ float:left;text-align:right;display:block;margin-right:50px; }
 .selected	{ font-weight:bold;color:#b30f10; }
-.page		{ border-top:1px solid black;margin-top:5px;}
+.page		{ border-top:1px solid black;margin-top:5px;padding-top:15px;}
 .page p		{ padding:10px 0; }
 
 /* Database connection strings */
