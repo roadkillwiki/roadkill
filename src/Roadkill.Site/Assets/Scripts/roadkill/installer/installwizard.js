@@ -3,30 +3,32 @@ var Roadkill;
     (function (Site) {
         /// <reference path="../typescript-ref/installerconstants.ts" />
         (function (Installer) {
-            var Wizard = (function () {
-                function Wizard() {
+            var InstallWizard = (function () {
+                function InstallWizard() {
                 }
-                Wizard.prototype.updateNavigation = function (pageNumber) {
+                InstallWizard.prototype.updateNavigation = function (pageNumber) {
                     $("#trail li:nth-child(" + pageNumber + ")").addClass("selected");
                 };
 
-                Wizard.prototype.showSuccess = function (message) {
-                    toastr.success(message);
+                InstallWizard.prototype.showSuccess = function (title, message) {
+                    toastr.success(message, title);
                 };
 
-                Wizard.prototype.showFailure = function (message, errorMessage) {
-                    toastr.failure(message + "<br/>" + errorMessage);
+                InstallWizard.prototype.showFailure = function (title, errorMessage) {
+                    bootbox.alert("<h2>" + title + "<h2><pre>" + errorMessage + "</pre>");
                 };
 
-                Wizard.prototype.enableContinueButton = function () {
+                InstallWizard.prototype.enableContinueButton = function () {
+                    $(".continue").removeClass("hidden");
                     $(".continue").show();
                 };
 
-                Wizard.prototype.disableContinueButton = function () {
+                InstallWizard.prototype.disableContinueButton = function () {
+                    $(".continue").addClass("hidden");
                     $(".continue").hide();
                 };
 
-                Wizard.prototype.makeAjaxRequest = function (url, data, errorMessage, successFunction) {
+                InstallWizard.prototype.makeAjaxRequest = function (url, data, successFunction) {
                     var request = $.ajax({
                         type: "GET",
                         url: url,
@@ -37,15 +39,15 @@ var Roadkill;
                     request.done(successFunction);
 
                     request.fail(function (jqXHR, textStatus, errorThrown) {
-                        toastr.error(errorMessage + errorThrown);
+                        toastr.error(ROADKILL_INSTALLER_WOOPS + errorThrown);
                     });
                 };
-                return Wizard;
+                return InstallWizard;
             })();
-            Installer.Wizard = Wizard;
+            Installer.InstallWizard = InstallWizard;
         })(Site.Installer || (Site.Installer = {}));
         var Installer = Site.Installer;
     })(Roadkill.Site || (Roadkill.Site = {}));
     var Site = Roadkill.Site;
 })(Roadkill || (Roadkill = {}));
-//# sourceMappingURL=wizard.js.map
+//# sourceMappingURL=installwizard.js.map

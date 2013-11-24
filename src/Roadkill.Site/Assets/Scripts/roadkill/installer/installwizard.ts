@@ -2,34 +2,36 @@
 
 module Roadkill.Site.Installer
 {
-	export class Wizard 
+	export class InstallWizard 
 	{
 		public updateNavigation(pageNumber: number)
 		{
 			$("#trail li:nth-child(" + pageNumber + ")").addClass("selected");
 		}
 
-		public showSuccess(message: string)
+		public showSuccess(title: string, message: string)
 		{
-			toastr.success(message);
+			toastr.success(message, title);
 		}
 
-		public showFailure(message: string, errorMessage: string)
+		public showFailure(title: string, errorMessage: string)
 		{	
-			toastr.failure(message + "<br/>" +errorMessage);
+			bootbox.alert("<h2>" +title +"<h2><pre>" +errorMessage+"</pre>");
 		}
 
 		public enableContinueButton()
 		{
+			$(".continue").removeClass("hidden");
 			$(".continue").show();
 		}
 
 		public disableContinueButton()
 		{
+			$(".continue").addClass("hidden");
 			$(".continue").hide();
 		}
 
-		public makeAjaxRequest(url: string, data: any, errorMessage: string, successFunction: (data: any) => void)
+		public makeAjaxRequest(url: string, data: any, successFunction: (data: any) => void)
 		{
 			var request = $.ajax({
 				type: "GET",
@@ -42,7 +44,7 @@ module Roadkill.Site.Installer
 
 			request.fail(function (jqXHR, textStatus, errorThrown: SyntaxError)
 			{
-				toastr.error(errorMessage + errorThrown);
+				toastr.error(ROADKILL_INSTALLER_WOOPS + errorThrown);
 			});
 		}
 	}

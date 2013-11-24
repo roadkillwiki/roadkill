@@ -3,10 +3,20 @@
 	Layout = "~/Views/Install/Layout.cshtml";
 }
 
+@Url.ScriptLink("roadkill/installer/step1.js")
 <script type="text/javascript">
 $(document).ready(function()
 {
-	
+	var messages = {
+		successTitle: "@InstallStrings.Shared_Success",
+		successMessage: "@InstallStrings.Page1_WebConfig_Success_Message",
+		failureTitle: "@InstallStrings.Shared_Failure",
+		failureMessage: "@InstallStrings.Page1_WebConfig_Failure_Message",
+	};
+
+	var wizard = new Roadkill.Site.Installer.InstallWizard();
+	var step1 = new Roadkill.Site.Installer.Step1(wizard, messages);
+	step1.bindButtons();
 });
 </script>
 
@@ -18,17 +28,6 @@ $(document).ready(function()
 @InstallStrings.Page1_Label2
 </p>
 
-<input id="testwebconfig" class="button" type="button" value="@InstallStrings.Shared_TestButton" />
-<br /><br />
-	
-<div id="webconfig-success" class="success alert hidden">
-	<h2>@InstallStrings.Shared_Success</h2>
-	<p>@InstallStrings.Page1_WebConfig_Success_Message</p>
-</div>
+<input id="testwebconfig" class="btn btn-primary" type="button" value="@InstallStrings.Shared_TestButton" />
 
-<div id="webconfig-failure" class="failure alert hidden">
-	<h2>@InstallStrings.Shared_Failure</h2>
-	<p>@InstallStrings.Page1_WebConfig_Failure_Message: <pre class="errormessage" style="width:100%;overflow:scroll;"></pre></p>
-</div>
-
-<div class="continue hidden">@Html.ActionLink(InstallStrings.Shared_Continue + " >", "Step2", new { language = Model.Code })</div>
+<a href="@Url.Action("Step2", new { language = Model.Code })" class="continue hidden btn btn-success pull-right">@InstallStrings.Shared_Continue ></a>

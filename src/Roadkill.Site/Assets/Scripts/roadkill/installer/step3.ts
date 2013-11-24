@@ -7,9 +7,9 @@ module Roadkill.Site.Installer
 
 	export class Page3
 	{
-		private _wizard: Wizard;
+		private _wizard: InstallWizard;
 
-		constructor(wizard: Wizard)
+		constructor(wizard: InstallWizard)
 		{
 			this._wizard = wizard;
 			this._wizard.updateNavigation(3);
