@@ -3,13 +3,14 @@ declare var toastr : any;
 declare var bootbox : any;
 
 //
-// All variables below are declared in GlobalJSdeclare vars
-// and defined here to help Typescript out.
+// All variables below are copied from GlobalJsVars
+// and defined here to help Typescript compilation out.
 //
 
 declare var ROADKILL_CORESCRIPTPATH;
 declare var ROADKILL_COREASSETPATH;
 declare var ROADKILL_THEMEPATH;
+declare var ROADKILL_LINK_CONFIRM;
 
 // Edit page constants
 declare var ROADKILL_TAGAJAXURL;
@@ -45,15 +46,12 @@ declare var ROADKILL_FILEMANAGER_DELETE_ERROR;
 declare var ROADKILL_FILEMANAGER_DELETE_CONFIRM;
 declare var ROADKILL_FILEMANAGER_DELETE_SUCCESS;
 
-// User management constants for the settings->user page
-declare var ROADKILL_ADDADMIN_FORMACTION;;
-declare var ROADKILL_ADDEDITOR_FORMACTION;
-declare var ROADKILL_EDITUSER_FORMACTION;
+// Settings
+declare var ROADKILL_TESTATTACHMENTS_URL;
+declare var ROADKILL_TESTDB_URL;
 
-declare var ROADKILL_LINK_CONFIRM;
-declare var ROADKILL_ADDADMIN_TITLE;
-declare var ROADKILL_ADDEDITOR_TITLE;
-declare var ROADKILL_EDITUSER_TITLE;
+// Localization for validation
+declare var ROADKILL_REQUIRED_FIELD;
 
 // Plugins
-var ROADKILL_PLUGINSETTINGS_URL;
+declare var ROADKILL_PLUGINSETTINGS_URL;

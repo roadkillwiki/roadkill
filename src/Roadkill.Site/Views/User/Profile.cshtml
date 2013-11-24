@@ -17,7 +17,7 @@ else
 		@(Html.HiddenFor<UserViewModel, string>(h => h.ExistingUsername))
 	
 		<fieldset id="profile" class="rounded10 lightborder">
-			@Html.ValidationSummary(SiteStrings.Shared_Error, new { @class = "alert alert-block fade in", data_dismiss = "alert" })
+			@Html.BootstrapValidationSummary(SiteStrings.Shared_Error)
 
 			<label for="NewEmail" class="userlabel">@SiteStrings.Shared_Firstname</label>
 			@(Html.TextBoxFor<UserViewModel, string>(t => t.Firstname, new { @class = "usertextbox" }))

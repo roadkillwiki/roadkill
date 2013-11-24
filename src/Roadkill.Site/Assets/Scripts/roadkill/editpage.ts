@@ -1,32 +1,48 @@
 ﻿/// <reference path="typescript-ref/references.ts" />
 module Roadkill.Site
 {
-	$(document).ready(function ()
-	{
-		// Event bindings and handlers for the edit page
-
-		var editor = new WysiwygEditor();
-		editor.bindEvents();
-
-		EditPage.bindPreview();
-	});
-
 	export class EditPage
 	{
-		private static _timeout: any = null;
-		private static _tagBlackList: string[] = 
+		private _timeout: any = null;
+		private _tagBlackList: string[] = 
 		[
 			"#", ",", ";", "/", "?", ":", "@", "&", "=", "{", "}", "|", "\\", "^", "[", "]", "`"	
 		];
 
+		constructor(tags : string[])
+		{
+			// Setup tagmanager
+			this.initializeTagManager(tags);
+
+			// Bind all the button events
+			var editor = new WysiwygEditor();
+			editor.bindEvents();
+
+			// Setup the help popovers for the buttons
+			$("#wysiwyg-toolbar button").popover({ trigger: "hover", html: false, delay: { show: 250, hide: 100 } });
+			
+			// Set the preview pane to auto-update
+			this.bindPreview();
+
+			// Form validation
+			var validationRules =
+				{
+					Title: {
+						required: true
+					}
+				};
+			var validation = new Roadkill.Site.Validation();
+			validation.Configure("#editpage-form", validationRules);
+		}
+
 		/**
 		Sets up the Bootstrap tag manager
 		*/
-		public static initializeTagManager(tags)
+		private initializeTagManager(tags: string[])
 		{
 			// Use jQuery UI autocomplete, as typeahead is currently broken for BS3
 			$("#TagsEntry").autocomplete({
-				source: ROADKILL_TAGAJAXURL
+				source: tags
 			});
 
 			$("#TagsEntry").tagsManager({
@@ -37,26 +53,26 @@ module Roadkill.Site
 				delimeters: [44, 186, 32, 9], // comma, ";", space, tab
 				hiddenTagListName: "RawTags",
 				preventSubmitOnEnter: false,
-				validator: function (input: string)
+				validator: (input: string) =>
 				{
-					var isValid: Boolean = EditPage.isValidTag(input);
+					var isValid: Boolean = this.isValidTag(input);
 					if (isValid === false)
 					{
-						toastr.error("The following characters are not valid for tags: <br/>" + EditPage._tagBlackList.join(" "));
+						toastr.error("The following characters are not valid for tags: <br/>" + this._tagBlackList.join(" "));
 					}
 
 					return isValid;
 				}
 			});
 
-			$("#TagsEntry").keydown(function (e)
+			$("#TagsEntry").keydown((e) =>
 			{
 				// Tab adds the tag, but then focuses the textarea
 				var code = e.keyCode || e.which;
 				if (code == "9")
 				{
 					var tag: string = $("#TagsEntry").val();
-					if (EditPage.isValidTag(tag))
+					if (this.isValidTag(tag))
 					{
 						$("#Content").focus();
 					}
@@ -87,11 +103,11 @@ module Roadkill.Site
 		/**
 		 Returns false if the tag contains any characters that are blacklisted.
 		*/
-		public static isValidTag(tag: string) : Boolean
+		private isValidTag(tag: string) : Boolean
 		{
 			for (var i: number = 0; i < tag.length; i++)
 			{
-				if ($.inArray(tag[i], EditPage._tagBlackList) > -1)
+				if ($.inArray(tag[i], this._tagBlackList) > -1)
 				{
 					return false;
 				}
@@ -100,37 +116,38 @@ module Roadkill.Site
 			return true;
 		}
 
-		public static bindPreview()
+		private bindPreview()
 		{
-			EditPage.setElementHeights();
+			this.resizePreviewPane();
 			EditPage.updatePreviewPane();
 
-			$(document).on("resize", function () {
-				EditPage.setElementHeights();
+			$(document).on("resize", () =>
+			{
+				this.resizePreviewPane();
 			});
 
 			// Keydown fires the preview after 1/100th second, but each keypress resets this.
-			$("#Content").on("keydown", function ()
+			$("#Content").on("keydown", () =>
 			{
-				if (EditPage._timeout !== null)
+				if (this._timeout !== null)
 				{
-					clearTimeout(EditPage._timeout);
-					EditPage._timeout = null;
+					clearTimeout(this._timeout);
+					this._timeout = null;
 				}
 
-				EditPage._timeout = setTimeout(EditPage.updatePreviewPane, 100);
+				this._timeout = setTimeout(EditPage.updatePreviewPane, 100);
 			});
 		}
 
-		public static setElementHeights()
+		private resizePreviewPane()
 		{
 			// Height fix for CSS heights sucking
 			$("#Content").height($("#container").height());
 
-			var previewTitleHeight: number = $("#preview-heading").outerHeight(true) +20 ; // 26 is the magic number
-			var buttonsHeight: number = $("#editpage-button-container").height();
-			var scrollbarHeight: number = 10;
-			var formHeight: number = $("#editpage-form").height() - (buttonsHeight + scrollbarHeight + previewTitleHeight);
+			var previewTitleHeight: number = $("#preview-heading").outerHeight(true); // true to include margin
+			var buttonsHeight: number = $("#editpage-button-container").outerHeight(true);
+			var scrollbarHeight: number = 36; // top and bottom scrollbars
+			var formHeight: number = $("#editpage-form-container").outerHeight(true) - (buttonsHeight + scrollbarHeight + previewTitleHeight);
 
 			$("#preview-wrapper").height(formHeight);
 		}

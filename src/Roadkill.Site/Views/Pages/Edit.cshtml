@@ -6,27 +6,25 @@
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
-		var pageTags = "@Html.Raw(Model.CommaDelimitedTags())";
-		Roadkill.Site.EditPage.initializeTagManager(pageTags);
-		$("#wysiwyg-toolbar button").popover({trigger: "hover", html: false, delay: { show: 250, hide: 100 } });
+		var pageTags = [ @(Html.Raw(Model.JavascriptArrayForAllTags())) ];
+		var editPage = new Roadkill.Site.EditPage(pageTags);
 	});
 </script>
 <style>
-	#container { width:100%;height:100%;overflow:auto; }
 	.searchbar	{ display:none; }
 </style>
 
 <div id="editpage" class="row">
-	<div id="editpage-form" class="col-sm-6">
-		@Html.ValidationSummary(SiteStrings.EditPage_Error, new { @class = "alert alert-block alert-danger fade in", data_dismiss = "alert" })
+	<div id="editpage-form-container" class="col-sm-6">
+		@Html.BootstrapValidationSummary(SiteStrings.EditPage_Error)
 
-		<form class="form-horizontal" role="form" method="post">
+		<form class="form-horizontal" role="form" method="post" id="editpage-form">
 			@(Html.HiddenFor<PageViewModel, int>(p => p.Id))
 			@(Html.HiddenFor<PageViewModel, string>(p => p.PreviousTitle))
 
 			<div class="form-group">
 				<div class="col-sm-12">
-					@(Html.TextBoxFor<PageViewModel, string>(p => p.Title, new { @class = "validate[required] form-control", tabindex = 1, placeholder = SiteStrings.EditPage_Title_Label }))
+					@(Html.BootstrapTextBoxFor<PageViewModel, string>(p => p.Title, SiteStrings.EditPage_Title_Label))
 				</div>
 			</div>
 
@@ -65,7 +63,7 @@
 	</div>
 
 	<!-- Preview panel -->
-	<div class="col-sm-5">
+	<div class="col-sm-6">
 		<div class="panel panel-default">
 			<div id="preview-heading" class="panel-heading">@SiteStrings.EditPage_Preview</div>
 			<div class="panel-body" id="preview-wrapper">

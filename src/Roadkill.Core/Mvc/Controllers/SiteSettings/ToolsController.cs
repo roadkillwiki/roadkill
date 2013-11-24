@@ -87,9 +87,9 @@ namespace Roadkill.Core.Mvc.Controllers
 			catch (IOException e)
 			{
 				Log.Warn(e, "Unable to export as XML");
-				TempData["Message"] = string.Format(SiteStrings.SiteSettings_Tools_ExportXml_Error, e.Message);
+				TempData["ErrorMessage"] = string.Format(SiteStrings.SiteSettings_Tools_ExportXml_Error, e.Message);
 
-				return RedirectToAction("Tools");
+				return RedirectToAction("Index");
 			}
 		}
 
@@ -149,9 +149,9 @@ namespace Roadkill.Core.Mvc.Controllers
 			catch (IOException e)
 			{
 				Log.Warn(e, "Unable to export wiki content");
-				TempData["Message"] = string.Format(SiteStrings.SiteSettings_Tools_ExportContent_Error, e.Message);
+				TempData["ErrorMessage"] = string.Format(SiteStrings.SiteSettings_Tools_ExportContent_Error, e.Message);
 
-				return RedirectToAction("Tools");
+				return RedirectToAction("Index");
 			}
 		}
 
@@ -183,9 +183,9 @@ namespace Roadkill.Core.Mvc.Controllers
 			catch (IOException e)
 			{
 				Log.Warn(e, "Unable to export attachments");
-				TempData["Message"] = string.Format(SiteStrings.SiteSettings_Tools_ExportAttachments_Error, e.Message);
+				TempData["ErrorMessage"] = string.Format(SiteStrings.SiteSettings_Tools_ExportAttachments_Error, e.Message);
 
-				return RedirectToAction("Tools");
+				return RedirectToAction("Index");
 			}
 		}
 
@@ -216,9 +216,9 @@ namespace Roadkill.Core.Mvc.Controllers
 			catch (IOException e)
 			{
 				Log.Warn(e, "Unable to export as SQL");
-				TempData["Message"] = string.Format(SiteStrings.SiteSettings_Tools_ExportXml_Error, e.Message);
+				TempData["ErrorMessage"] = string.Format(SiteStrings.SiteSettings_Tools_ExportXml_Error, e.Message);
 
-				return RedirectToAction("Tools");
+				return RedirectToAction("Index");
 			}
 		}
 
@@ -234,17 +234,17 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			if (string.IsNullOrEmpty(screwturnConnectionString))
 			{
-				message = "Please enter a Screwturn connection string";
+				TempData["ErrorMessage"] = "Please enter a Screwturn connection string";
 			}
 			else
 			{
 				_wikiImporter.ImportFromSqlServer(screwturnConnectionString);
 				_wikiImporter.UpdateSearchIndex(_searchService);
-				message = SiteStrings.SiteSettings_Tools_ScrewTurnImport_Message;
-			}
+				TempData["SuccessMessage"] = SiteStrings.SiteSettings_Tools_ScrewTurnImport_Message;
 
-			TempData["Message"] = message;
-			return RedirectToAction("Tools");
+			}
+			
+			return RedirectToAction("Index");
 		}
 
 		/// <summary>
@@ -253,10 +253,10 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns>Redirects to the Tools action.</returns>
 		public ActionResult UpdateSearchIndex()
 		{
-			TempData["Message"] = SiteStrings.SiteSettings_Tools_RebuildSearch_Message;
+			TempData["SuccessMessage"] = SiteStrings.SiteSettings_Tools_RebuildSearch_Message;
 			_searchService.CreateIndex();
 
-			return RedirectToAction("Tools");
+			return RedirectToAction("Index");
 		}
 
 		/// <summary>
@@ -265,12 +265,12 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns>Redirects to the Tools action.</returns>
 		public ActionResult ClearPages()
 		{
-			TempData["Message"] = SiteStrings.SiteSettings_Tools_ClearDatabase_Message;
+			TempData["SuccessMessage"] = SiteStrings.SiteSettings_Tools_ClearDatabase_Message;
 			_settingsService.ClearPageTables();
 			_listCache.RemoveAll();
 			_pageViewModelCache.RemoveAll();
 
-			return RedirectToAction("Tools");
+			return RedirectToAction("Index");
 		}
 
 		/// <summary>
@@ -279,10 +279,10 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns>Redirects to the Tools action.</returns>
 		public ActionResult RenameTag(string oldTagName, string newTagName)
 		{
-			TempData["Message"] = SiteStrings.SiteSettings_Tools_RenameTag_Message;
+			TempData["SuccessMessage"] = SiteStrings.SiteSettings_Tools_RenameTag_Message;
 			_pageService.RenameTag(oldTagName, newTagName);
 
-			return RedirectToAction("Tools");
+			return RedirectToAction("Index");
 		}
 
 		/// <summary>

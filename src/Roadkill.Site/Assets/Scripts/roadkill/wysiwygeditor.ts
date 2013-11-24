@@ -8,66 +8,64 @@ module Roadkill.Site
 	{
 		bindEvents()
 		{
-			var parent = this;
-
 			// Bind the toolbar button clicks.
-			$(".wysiwyg-bold").click(function ()
+			$(".wysiwyg-bold").click((e) =>
 			{
-				parent.addStyling(ROADKILL_EDIT_BOLD_TOKEN);
+				this.insertStyle(ROADKILL_EDIT_BOLD_TOKEN);
 				return false;
 			});
-			$(".wysiwyg-italic").click(function ()
+			$(".wysiwyg-italic").click((e) =>
 			{
-				parent.addStyling(ROADKILL_EDIT_ITALIC_TOKEN);
+				this.insertStyle(ROADKILL_EDIT_ITALIC_TOKEN);
 				return false;
 			});
-			$(".wysiwyg-underline").click(function ()
+			$(".wysiwyg-underline").click((e) =>
 			{
-				parent.addStyling(ROADKILL_EDIT_UNDERLINE_TOKEN);
+				this.insertStyle(ROADKILL_EDIT_UNDERLINE_TOKEN);
 				return false;
 			});
-			$(".wysiwyg-h2").click(function ()
+			$(".wysiwyg-h2").click((e) =>
 			{
-				parent.addHeading(parent.repeat(ROADKILL_EDIT_HEADING_TOKEN, 2));
+				this.insertStyle(this.repeat(ROADKILL_EDIT_HEADING_TOKEN, 2));
 				return false;
 			});
-			$(".wysiwyg-h3").click(function ()
+			$(".wysiwyg-h3").click((e) =>
 			{
-				parent.addHeading(parent.repeat(ROADKILL_EDIT_HEADING_TOKEN, 3));
+				this.insertStyle(this.repeat(ROADKILL_EDIT_HEADING_TOKEN, 3));
 				return false;
 			});
-			$(".wysiwyg-h4").click(function ()
+			$(".wysiwyg-h4").click((e) =>
 			{
-				parent.addHeading(parent.repeat(ROADKILL_EDIT_HEADING_TOKEN, 4));
+				this.insertStyle(this.repeat(ROADKILL_EDIT_HEADING_TOKEN, 4));
 				return false;
 			});
-			$(".wysiwyg-h5").click(function ()
+			$(".wysiwyg-h5").click((e) =>
 			{
-				parent.addHeading(parent.repeat(ROADKILL_EDIT_HEADING_TOKEN, 5));
+				this.insertStyle(this.repeat(ROADKILL_EDIT_HEADING_TOKEN, 5));
 				return false;
 			});
-			$(".wysiwyg-bullets").click(function ()
+			$(".wysiwyg-bullets").click((e) =>
 			{
-				parent.addListItem(ROADKILL_EDIT_BULLETLIST_TOKEN);
+				this.insertListItem(ROADKILL_EDIT_BULLETLIST_TOKEN);
 				return false;
 			});
-			$(".wysiwyg-numbers").click(function ()
+			$(".wysiwyg-numbers").click((e) =>
 			{
 				// Obselete
-				parent.addListItem(ROADKILL_EDIT_NUMBERLIST_TOKEN);
+				this.insertListItem(ROADKILL_EDIT_NUMBERLIST_TOKEN);
 				return false;
 			});
-			$(".wysiwyg-picture").click(function ()
+			$(".wysiwyg-picture").click((e) =>
 			{
 				Dialogs.openImageChooserModal("<iframe src='" + ROADKILL_FILESELECTURL + "' id='filechooser-iframe'></iframe>");
 				return false;
 			});
-			$(".wysiwyg-link").click(function ()
+			$(".wysiwyg-link").click((e) =>
 			{
-				parent.addLink();
+				this.insertLink();
 				return false;
 			});
-			$(".wysiwyg-help").click(function ()
+			$(".wysiwyg-help").click((e) =>
 			{
 				Dialogs.openMarkupHelpModal("<iframe src='" + ROADKILL_WIKIMARKUPHELP + "' id='help-iframe'></iframe>");
 				return false;
@@ -77,77 +75,32 @@ module Roadkill.Site
 		/**
 		Adds bold,italic and underline at the current selection point, e.g. **|**
 		*/
-		addStyling(styleCode:string)
+		private insertStyle(styleCode:string)
 		{
 			var range = $("#Content").getSelection();
+			var length: number = styleCode.length;
 
 			if (range !== null)
 			{
-				var text = $("#Content").val();
-				if (text.substr(range.start - 2, 2) !== styleCode && range.text.substr(0, 2) !== styleCode)
+				var editorText: string = $("#Content").val();
+
+				// Put the caret in the middle of the style, if the current selection isn't the style being added
+				if (editorText.substr(range.start - length, length) !== styleCode && range.text.substr(0, length) !== styleCode)
 				{
 					$("#Content").replaceSelection(styleCode + range.text + styleCode);
-					$("#Content").setSelection(range.end + 2, range.end + 2);
+					$("#Content").setSelection(range.end + length, range.end + length);
 				}
 				else
 				{
 					$("#Content").setSelection(range.end, range.end);
 				}
-
-			}
-		}
-
-		/**
-		Adds a heading before and after the current selection point, e.g. ===|====
-		*/
-		addHeading(styleCode:string)
-		{
-			var range = $("#Content").getSelection();
-
-			if (range !== null)
-			{
-				var text = range.text;
-				if (range.text === "")
-					text = "Your heading";
-
-				$("#Content").replaceSelection("\n" + styleCode + text + styleCode + "\n");
-				$("#Content").setSelection(range.end, range.end);
-			}
-		}
-
-		/**
-		Adds an image tag to the current caret location.
-		*/
-		public static addImage(image: string)
-		{
-			var range = $("#Content").getSelection();
-
-			if (range !== null)
-			{
-				var text = range.text;
-				if (range.text === "")
-					text = ROADKILL_EDIT_IMAGE_TITLE;
-
-				var prefix = ROADKILL_EDIT_IMAGE_STARTTOKEN.toString();
-				prefix = prefix.replace("%ALT%", text);
-				prefix = prefix.replace("%FILENAME%", image);
-
-				var suffix = ROADKILL_EDIT_IMAGE_ENDTOKEN.toString();
-				suffix = suffix.replace("%ALT%", text);
-				suffix = suffix.replace("%FILENAME%", image);
-
-				$("#Content").replaceSelection(prefix + suffix);
-				$("#Content").setSelection(range.start + prefix.length, range.start + prefix.length);
-				Dialogs.closeImageChooserModal();
-
-				EditPage.updatePreviewPane();
 			}
 		}
 
 		/**
 		Adds a hyperlink tag to the current caret location.
 		*/
-		addLink()
+		private insertLink()
 		{
 			var range = $("#Content").getSelection();
 
@@ -173,7 +126,7 @@ module Roadkill.Site
 		/**
 		Adds a bullet or numbered list item onto the next line after the current caret location.
 		*/
-		addListItem(styleCode:string)
+		private insertListItem(styleCode:string)
 		{
 			var range = $("#Content").getSelection();
 
@@ -206,9 +159,38 @@ module Roadkill.Site
 			}
 		}
 
-		repeat(text: string, count:number)
+		private repeat(text: string, count:number)
 		{
 			return new Array(count + 1).join(text);
+		}
+
+		/**
+		Adds an image tag to the current caret location.
+		*/
+		public static addImage(image: string)
+		{
+			var range = $("#Content").getSelection();
+
+			if (range !== null)
+			{
+				var text = range.text;
+				if (range.text === "")
+					text = ROADKILL_EDIT_IMAGE_TITLE;
+
+				var prefix = ROADKILL_EDIT_IMAGE_STARTTOKEN.toString();
+				prefix = prefix.replace("%ALT%", text);
+				prefix = prefix.replace("%FILENAME%", image);
+
+				var suffix = ROADKILL_EDIT_IMAGE_ENDTOKEN.toString();
+				suffix = suffix.replace("%ALT%", text);
+				suffix = suffix.replace("%FILENAME%", image);
+
+				$("#Content").replaceSelection(prefix + suffix);
+				$("#Content").setSelection(range.start + prefix.length, range.start + prefix.length);
+				Dialogs.closeImageChooserModal();
+
+				EditPage.updatePreviewPane();
+			}
 		}
 	}
 }

@@ -7,7 +7,7 @@
 <div class="container pull-left">
 	<div class="row">
 		<div class="col-sm-6">
-			@Html.ValidationSummary(SiteStrings.Activate_Error_Title, new { @class = "alert alert-danger" })
+			@Html.BootstrapValidationSummary(SiteStrings.Activate_Error_Title)
 
 			@if (ViewData.ModelState.IsValid)
 			{

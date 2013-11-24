@@ -98,3 +98,9 @@ util.js
 tableevents.js
 adminsetup.js
 filemodel.js
+
+# Favourites plugin for Visual Studio
+*.favdoc
+
+# Ignore all exported files
+src/Roadkill.Site/App_Data/Export/

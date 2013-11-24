@@ -158,8 +158,9 @@ namespace Roadkill.Tests.Unit
 			JsonResult jsonResult = result as JsonResult;
 			Assert.NotNull(jsonResult, "Null jsonResult");
 
+			var xxx = jsonResult.Data.GetType();
 			Assert.That(jsonResult.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
-			Assert.That(jsonResult.Data, Is.TypeOf<Dictionary<string, object>>());
+			Assert.That(jsonResult.Data, Is.AssignableTo<IEnumerable<string>>());
 			_pageServiceMock.Verify(x => x.AllTags());
 		}
 

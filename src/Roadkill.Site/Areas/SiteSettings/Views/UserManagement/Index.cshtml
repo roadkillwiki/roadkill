@@ -3,6 +3,13 @@
 	ViewBag.Title = SiteStrings.SiteSettings_Users_Title;
 	ViewData["UsersActive"] = true;
 }
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		// Delete button confirmations
+		Roadkill.Site.Setup.bindConfirmDelete();
+	});
+</script>
 
 @Html.SiteSettingsNavigation()
 
@@ -29,7 +36,7 @@
 			<td class="edit">@Html.ActionLink(SiteStrings.Navigation_Edit, "EditUser", new { id = user.Id }, new { @class = "btn btn-primary btn-mini" })</td>
 		@if (Model[0].Count() > 0 && user.Id.ToString() != RoadkillContext.CurrentUser)
 		{
-			<td class="delete">@Html.ActionLink(SiteStrings.Navigation_Delete, "DeleteUser", new { id = user.ExistingEmail }, new { @class = "confirm btn btn-mini" })</td>
+			<td class="delete">@Html.ActionLink(SiteStrings.Navigation_Delete, "DeleteUser", new { id = user.ExistingEmail }, new { @class = "confirm btn btn-danger btn-mini" })</td>
 		}
 		else
 		{
@@ -60,7 +67,7 @@
 			<td style="width:30%;">@user.ExistingUsername</td>
 			<td class="stretch">@user.ExistingEmail</td>
 			<td class="edit">@Html.ActionLink(SiteStrings.Navigation_Edit, "EditUser", new { id = user.Id }, new { @class = "btn btn-primary btn-mini" })</td>
-			<td class="delete">@Html.ActionLink(SiteStrings.Navigation_Delete, "DeleteUser", new { id = user.ExistingEmail }, new { @class = "confirm btn btn-mini" })</td>
+			<td class="delete">@Html.ActionLink(SiteStrings.Navigation_Delete, "DeleteUser", new { id = user.ExistingEmail }, new { @class = "confirm btn btn-danger btn-mini" })</td>
 		</tr>
 	}
 	</table>
