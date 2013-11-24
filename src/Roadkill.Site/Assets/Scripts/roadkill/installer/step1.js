@@ -34,9 +34,7 @@ var Roadkill;
 
                 Step1.prototype.OnTestWebConfigSuccess = function (data) {
                     if (data.Success) {
-                        this._wizard.showFailure(this._messages.failureTitle, this._messages.failureMessage + "\n" + data.ErrorMessage);
-
-                        //this._wizard.showSuccess(this._messages.successTitle, this._messages.successMessage);
+                        this._wizard.showSuccess(this._messages.successTitle, this._messages.successMessage);
                         this._wizard.enableContinueButton();
                     } else {
                         this._wizard.showFailure(this._messages.failureTitle, this._messages.failureMessage + "\n" + data.ErrorMessage);

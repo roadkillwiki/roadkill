@@ -7,7 +7,8 @@
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
-		var messages = {
+		var messages =
+		{
 			dbSuccessTitle: "@InstallStrings.Shared_Success",
 			dbSuccessMessage: "@InstallStrings.Page2_Success",
 			dbFailureTitle: "@InstallStrings.Page2_Error",
@@ -29,7 +30,6 @@
 </p>
 
 <form role="form" method="post" id="step2-form" action="@Url.Action("Step3","Install")">
-
 	<!-- Site name -->
 	<fieldset>
 		<legend>@InstallStrings.Page2_Group1_Title</legend>
@@ -54,7 +54,7 @@
 	<fieldset>
 		<legend>@InstallStrings.Page2_Group3_Title</legend>
 
-		<!-- Example db connection strings -->
+		<!-- Example db connection strings collapsed table -->
 		<div class="form-group">
 			<a data-toggle="collapse" href="#connectionstrings-table">@InstallStrings.Page2_Group3_Label2 ...</a>
 			<table id="connectionstrings-table" class="collapse table table-striped table-bordered TODO-translation">
@@ -67,7 +67,7 @@
 				<tbody>
 					<tr>
 						<td>SQL Server Express</td>
-						<td class="example" data-dbtype="SqlServer2005">Database=roadkill;Server=.\SQLEXPRESS;uid=youusername;pwd=yourpassword;</td>
+						<td class="example" data-dbtype="SqlServer2005">Database=roadkill;Server=.\SQLEXPRESS;uid=username;pwd=password;</td>
 					</tr>
 					<tr>
 						<td>SQL Server Express (integrated security)</td>
@@ -107,15 +107,15 @@
 		</div>
 
 		<!-- Test button -->
-		<div class="form-group col-lg-9 row">
-			<button id="testdbconnection" class="btn btn-primary test-button" type="button">
+		<div class="form-group">
+			<button id="testdbconnection" class="btn btn-info test-button" type="button">
 				@InstallStrings.Shared_TestButton
 				<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/button-loading.gif"))" border="0" alt="loading" /></span>
 			</button>
 		</div>
 	</fieldset>
 
-	<!-- SQLite warning -->
+	<!-- SQLite info box -->
 	<div class="alert alert-warning">
 		<p id="sqlite-details">
 			<b>@InstallStrings.Page2_Group3_SQLiteInstructionsTitle</b><br />

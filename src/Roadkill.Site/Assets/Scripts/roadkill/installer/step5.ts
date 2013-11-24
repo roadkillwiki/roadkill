@@ -5,7 +5,7 @@ module Roadkill.Site.Installer
 		
 	});
 
-	export class Page5
+	export class Step5
 	{
 		private _wizard: InstallWizard;
 
