@@ -6,26 +6,7 @@
 <script type="text/javascript">
 $(document).ready(function()
 {
-	setPage(1);
-
-	$("#testwebconfig").click(function ()
-	{
-		hideAlerts();
-
-		$.get("@(Url.Action("TestWebConfig"))",function(data)
-		{
-			if (data.Success)
-			{
-				showSuccess("#webconfig-success");
-				$(".continue").show();
-			}
-			else
-			{
-				
-				showFailure("#webconfig-failure",data.ErrorMessage);
-			}
-		});
-	});
+	
 });
 </script>
 
