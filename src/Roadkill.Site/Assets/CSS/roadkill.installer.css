@@ -1,0 +1,52 @@
+﻿/* 
+This contains the shared Roadkill installer CSS definitions, used on all installer pages.
+
+The formatting style of this CSS file is:
+	* Single line definitions.
+	* Tab aligned, grouped definitions.
+	* Space after each ";"
+	* Space before and after curlies. 
+	* No space after ":". 
+	* This file is minified at runtime, so comments are welcomed.
+*/
+
+body		{ text-align:center;margin:10px auto;}
+h1			{ font-size:24px; }
+h3			{ display:inline;-webkit-text-shadow: 0 1px rgba(255, 255, 255, 0.9); text-shadow: 0 1px rgba(255, 255, 255, 0.9);}
+a			{ color:Black;}
+a:visited	{ color:Black;}
+
+#installer	{ font-family: 'Helvetica Neue',Arial,sans-serif; letter-spacing: .01em; font-size:14px; width:1024px; min-height:700px; margin:auto; }
+#language	{ font-size:1.5em; list-style:none; margin-left: 40%; }
+#language li { margin-bottom: 5px;text-align:center; padding: 5px; width:6em; }
+#language a { color:#2f2f2f; text-decoration:none; }
+#language a:hover { text-decoration:underline; }
+#container	{ margin:50px 50px 20px 50px;width:900px;text-align:left; }
+#trail		{ color:#616161;list-style-type:none;display:block;clear:both;margin:auto;font-size:16px;-webkit-text-shadow: 0 1px rgba(255, 255, 255, 0.9); text-shadow: 0 1px rgba(255, 255, 255, 0.9); }
+#trail li	{ float:left;text-align:right;display:block;margin-right:50px; }
+.selected	{ font-weight:bold;color:#b30f10; }
+.page		{ border-top:1px solid black;margin-top:5px;}
+.page p		{ padding:10px 0; }
+ol			{ margin:20px;display: block;list-style-type: decimal; }
+.alert		{ border:1px solid #000;padding:5px;width:600px;top:0px;font-size:12px;border-radius:3px; }
+.alert h2	{ display:inline;font-size:14px;font-weight:bold; }
+.alert p	{ margin:0px;padding:0px;}
+.success	{ border:1px solid #D6E9C6;background-color:#DFF0D8;padding:5px;color:#468847; }
+.failure	{ border:1px solid #EED3D7;background-color:#F2DEDE;padding:5px;color:#B94A48; }
+.previous	{ float:left;padding:10px;font-weight:bold;}
+.continue	{ float:right;text-align:right;padding:10px;font-weight:bold;}
+.continue input	{ font-size:1.2em;width:120px;}
+fieldset	{ background-color:#fbfafa;border:1px solid #ddd;padding:0 10px 10px 10px;margin:5px 0;border-radius: 5px;}
+legend		{ font-weight:bold;color:#b30f10;font-size:18px;}
+fieldset div,label { font-size:1em;display:block;margin-top:5px; }
+.hidden		{ display:none; }
+.rounded	{ border-radius: 5px; }
+.errormessage	{ font-family: "Courier new",sans-serif;display:block; }
+.small			{ font-size: 0.7em; }
+.textbox input	{ min-width:350px;padding:5px;margin:5px 0; }
+.example	{ cursor:pointer; width:100%;height:15px;border-radius:3px; border:1px solid #BCE8F1;background-color:#D9EDF7;padding:5px;color:#000;font-size:8pt;font-family:Monospace;margin-bottom:10px;display:block;}
+.clear		{ clear:both;}
+.left		{ float:left;}
+.italic		{ font-style:italic;}
+#sqlite-help { border: 1px solid #004B9C; border-radius: 5px; padding: 0px 10px !important; background-color: #D1E0F0; }
+#sqlite-details { padding: 0px;}
