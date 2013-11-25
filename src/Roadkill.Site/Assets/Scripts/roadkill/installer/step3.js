@@ -2,12 +2,12 @@ var Roadkill;
 (function (Roadkill) {
     (function (Site) {
         (function (Installer) {
-            var Step3Messages = (function () {
-                function Step3Messages() {
+            var Step3WindowsAuthMessages = (function () {
+                function Step3WindowsAuthMessages() {
                 }
-                return Step3Messages;
+                return Step3WindowsAuthMessages;
             })();
-            Installer.Step3Messages = Step3Messages;
+            Installer.Step3WindowsAuthMessages = Step3WindowsAuthMessages;
 
             var Step3 = (function () {
                 function Step3(wizard, messages) {
@@ -17,6 +17,38 @@ var Roadkill;
                     // Set the page number in the header
                     this._wizard.updateNavigation(3);
                 }
+                Step3.prototype.configureDatabaseAuthValidation = function () {
+                    // Form validation
+                    var validationRules = {
+                        EditorRoleName: {
+                            required: true
+                        },
+                        AdminRoleName: {
+                            required: true
+                        },
+                        AdminEmail: {
+                            required: true
+                        },
+                        AdminPassword: {
+                            required: true
+                        },
+                        password2: {
+                            required: true,
+                            equalTo: "#AdminPassword",
+                            messages: {
+                                equalTo: "The passwords aren't the same"
+                            }
+                        }
+                    };
+
+                    var validation = new Roadkill.Site.Validation();
+                    validation.Configure("#step3-form", validationRules);
+
+                    var rules = $("#password2").rules();
+                    rules.messages.equalTo = "The passwords don't match";
+                    $("#password2").rules("add", rules);
+                };
+
                 Step3.prototype.configureWindowsAuthValidation = function () {
                     // Form validation
                     var validationRules = {
@@ -32,7 +64,7 @@ var Roadkill;
                     };
 
                     var validation = new Roadkill.Site.Validation();
-                    validation.Configure("#step2-form", validationRules);
+                    validation.Configure("#step3-form", validationRules);
                 };
 
                 Step3.prototype.bindWindowsAuthButtons = function () {

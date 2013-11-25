@@ -122,8 +122,9 @@
 			@Html.Raw(LocalizationTokens.ReplaceSqlite(InstallStrings.Page2_Group3_SQLiteInstructionsMessage))
 		</p>
 	</div>
-
-	<div>
+    
+    <!-- Back and Continue buttons -->
+    <div>
 		<div class="previous">@Html.ActionLink("< " + InstallStrings.Shared_Back, "Index")</div>
 		<div class="continue">
 			<input type="submit" value="@InstallStrings.Shared_NextButton" class="btn btn-success pull-right" />
