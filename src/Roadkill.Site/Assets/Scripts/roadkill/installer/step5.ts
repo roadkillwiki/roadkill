@@ -1,10 +1,6 @@
+/// <reference path="../typescript-ref/installerconstants.ts" />
 module Roadkill.Site.Installer
 {
-	$(document).ready(function ()
-	{
-		
-	});
-
 	export class Step5
 	{
 		private _wizard: InstallWizard;

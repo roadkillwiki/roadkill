@@ -1,6 +1,7 @@
 var Roadkill;
 (function (Roadkill) {
     (function (Site) {
+        /// <reference path="../typescript-ref/installerconstants.ts" />
         (function (Installer) {
             var Step3WindowsAuthMessages = (function () {
                 function Step3WindowsAuthMessages() {
@@ -36,7 +37,7 @@ var Roadkill;
                             required: true,
                             equalTo: "#AdminPassword",
                             messages: {
-                                equalTo: "The passwords aren't the same"
+                                equalTo: ""
                             }
                         }
                     };

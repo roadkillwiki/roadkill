@@ -113,9 +113,12 @@ namespace Roadkill.Core.Mvc.Controllers
 				return RedirectToAction("Index", "Home");
 
 			// Persist the language change now that we know the web.config can be written to.
-			Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
-			ConfigReaderWriter configReader = ConfigReaderWriterFactory.GetConfigReader();
-			configReader.UpdateLanguage(language);
+			if (!string.IsNullOrEmpty(language))
+			{
+				Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
+				ConfigReaderWriter configReader = ConfigReaderWriterFactory.GetConfigReader();
+				configReader.UpdateLanguage(language);
+			}
 
 			return View(new SettingsViewModel());
 		}

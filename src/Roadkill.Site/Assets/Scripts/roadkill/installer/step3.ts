@@ -1,3 +1,4 @@
+/// <reference path="../typescript-ref/installerconstants.ts" />
 module Roadkill.Site.Installer
 {
 	export class Step3WindowsAuthMessages

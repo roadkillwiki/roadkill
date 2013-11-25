@@ -5,6 +5,10 @@ var Roadkill;
         (function (Installer) {
             var InstallWizard = (function () {
                 function InstallWizard() {
+                    // Set the bottom submit button to submit the form above it
+                    $("#bottom-buttons button[type=submit]").click(function () {
+                        $("form").submit();
+                    });
                 }
                 InstallWizard.prototype.updateNavigation = function (pageNumber) {
                     $("#trail li:nth-child(" + pageNumber + ")").addClass("selected");
@@ -15,7 +19,7 @@ var Roadkill;
                 };
 
                 InstallWizard.prototype.showFailure = function (title, errorMessage) {
-                    bootbox.alert("<h2>" + title + "<h2><pre>" + errorMessage + "</pre>");
+                    bootbox.alert("<h2>" + title + "<h2><pre style='max-height:500px;overflow-y:scroll;'>" + errorMessage + "</pre>");
                 };
 
                 InstallWizard.prototype.enableContinueButton = function () {

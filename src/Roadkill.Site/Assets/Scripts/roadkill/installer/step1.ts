@@ -1,5 +1,4 @@
 /// <reference path="../typescript-ref/installerconstants.ts" />
-
 module Roadkill.Site.Installer
 {
 	export class Step1Messages
@@ -14,7 +13,6 @@ module Roadkill.Site.Installer
 	{
 		private _wizard: InstallWizard;
 		private _messages: Step1Messages;
-		private _failureMessage: string;
 
 		constructor(wizard: InstallWizard, messages: Step1Messages)
 		{
