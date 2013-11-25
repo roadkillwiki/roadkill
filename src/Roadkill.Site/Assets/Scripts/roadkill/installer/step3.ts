@@ -1,6 +1,6 @@
 module Roadkill.Site.Installer
 {
-	export class Step3Messages
+	export class Step3WindowsAuthMessages
 	{
 		public successTitle: string;
 		public successMessage: string;
@@ -11,15 +11,49 @@ module Roadkill.Site.Installer
 	export class Step3
 	{
 		private _wizard: InstallWizard;
-		private _messages: Step3Messages;
+		private _messages: Step3WindowsAuthMessages;
 
-		constructor(wizard: InstallWizard, messages: Step3Messages)
+		constructor(wizard: InstallWizard, messages: Step3WindowsAuthMessages)
 		{
 			this._wizard = wizard;
 			this._messages = messages;
 
 			// Set the page number in the header
 			this._wizard.updateNavigation(3);
+		}
+
+		public configureDatabaseAuthValidation()
+		{
+			// Form validation
+			var validationRules =
+			{
+				EditorRoleName: {
+					required: true
+				},
+				AdminRoleName: {
+					required: true
+				},
+				AdminEmail: {
+					required: true
+				},
+				AdminPassword: {
+					required: true
+				},
+				password2: {
+					required: true,
+					equalTo: "#AdminPassword",
+					messages: {
+						equalTo: ""// TODO-translation
+					}
+				}
+			};
+
+			var validation = new Roadkill.Site.Validation();
+			validation.Configure("#step3-form", validationRules);
+
+			var rules = $("#password2").rules();
+			rules.messages.equalTo = "The passwords don't match";
+			$("#password2").rules("add", rules);
 		}
 
 		public configureWindowsAuthValidation()
@@ -39,7 +73,7 @@ module Roadkill.Site.Installer
 			};
 
 			var validation = new Roadkill.Site.Validation();
-			validation.Configure("#step2-form", validationRules);
+			validation.Configure("#step3-form", validationRules);
 		}
 
 		public bindWindowsAuthButtons()

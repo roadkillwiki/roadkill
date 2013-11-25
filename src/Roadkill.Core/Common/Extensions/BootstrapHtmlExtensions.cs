@@ -16,10 +16,14 @@ namespace Roadkill.Core
 			return htmlHelper.TextBoxFor(expression, new { @class = "form-control", rel = "popover", data_content = help, autocomplete = "off" });
 		}
 
-
 		public static MvcHtmlString BootstrapPasswordFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string help)
 		{
 			return htmlHelper.PasswordFor(expression, new { @class = "form-control", rel = "popover", data_content = help, autocomplete = "off" });
+		}
+
+		public static MvcHtmlString BootstrapPassword(this HtmlHelper htmlHelper, string name, string help	)
+		{
+			return htmlHelper.Password(name, null, new { @class = "form-control", rel = "popover", data_content = help, autocomplete = "off" });
 		}
 
 		public static MvcHtmlString BootstrapLongTextBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string help)
