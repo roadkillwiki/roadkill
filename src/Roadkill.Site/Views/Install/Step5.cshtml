@@ -2,39 +2,29 @@
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
+@Url.ScriptLink("roadkill/installer/step5.js")
 <script type="text/javascript">
-	$(document).ready(function ()
+	$(document).ready(function()
 	{
-		setPage(5);
+		var wizard = new Roadkill.Site.Installer.InstallWizard();
+		var step5 = new Roadkill.Site.Installer.Step4(wizard);
 	});
 </script>
 
-@if (!ViewData.ModelState.IsValid)
+@if (ViewData.ModelState.IsValid)
 {
-	<div style="margin-top:10px" id="installfailed">
-		<h1>@InstallStrings.Page5_Error_Title</h1>
-		<br />
-		@InstallStrings.Page5_Error_Label1
-		<br /><br />
-		<pre class="alert alert-error" style="width:100%;overflow:scroll;">
-			@Html.ValidationSummary()
-		</pre>
-	</div>
-}
-else
-{
-	<div style="margin-top:10px" id="installsuccess">
-		<h1>@InstallStrings.Page5_Success_Title</h1>
+	<div class="alert alert-info">
+		<strong>@InstallStrings.Page5_Success_Title</strong>
 		
-		@if (Model.UseWindowsAuth)
-		{
-		<h2>@InstallStrings.Page5_Success_AD_Title</h2>
-		<div>
+	@if (Model.UseWindowsAuth)
+	{
+		<p style="margin-top:20px;">
+			<strong>@InstallStrings.Page5_Success_AD_Title</strong>
+		</p>
 		<p>
 			@InstallStrings.Page5_Success_AD_Label
 		</p>
-
-		<pre>
+<pre>
 &lt;system.webServer&gt;
 	...
 	&lt;security&gt;
@@ -45,9 +35,26 @@ else
 		&lt;/authentication&gt;
 	&lt;/security&gt;
 &lt;/system.webServer&gt;
-		</pre>
-		</div>
+</pre>
 		 }
-		@Html.ActionLink(InstallStrings.Page5_Success_Label1, "Index", "Home")
+	</div>
+}
+else
+{
+	<div class="alert alert-warning">
+		<h4>@InstallStrings.Page5_Error_Title</h4>
+		<br />
+		@InstallStrings.Page5_Error_Label1
+		<br /><br />
+		<pre style="width:100%;overflow:scroll;">
+			@Html.ValidationSummary()
+		</pre>
+	</div>
+}
+
+@section BottomButtons
+{
+	<div class="continue">
+		<a class="btn btn-success pull-right" href="@Url.Action("Index", "Home")">@InstallStrings.Page5_Success_Label1</a>
 	</div>
 }

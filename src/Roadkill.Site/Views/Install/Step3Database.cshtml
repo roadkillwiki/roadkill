@@ -15,98 +15,126 @@
 </script>
 
 <form role="form" method="post" id="step3-form" action="@Url.Action("Step4", "Install")">
-    @(Html.HiddenFor<SettingsViewModel, string>(h => h.ConnectionString))
-    @(Html.HiddenFor<SettingsViewModel, string>(h => h.DataStoreTypeName))
-    @(Html.HiddenFor<SettingsViewModel, string>(h => h.SiteName))
-    @(Html.HiddenFor<SettingsViewModel, string>(h => h.SiteUrl))
-    @(Html.HiddenFor<SettingsViewModel, bool>(h => h.UseWindowsAuth))
-    
-    <p>
-        @InstallStrings.Page3_DB_Label
-    </p>
-    
-    <!-- Editor role name -->
-    <fieldset>
-        <legend>@InstallStrings.Page3_DB_Group1_Title</legend>
-        <label for="EditorRoleName">@InstallStrings.Page3_DB_Group1_Label1</label>
-        
-        <div class="form-group col-lg-4 row">
-            @Html.BootstrapTextBoxFor(s => s.EditorRoleName, InstallStrings.Page3_AD_Group1_Label3)
-        </div>
-    </fieldset>
-    
-    <!-- Admin role name -->
-    <fieldset>
-        <legend>@InstallStrings.Page3_DB_Group2_Title</legend>
-        <label for="AdminRoleName">@InstallStrings.Page3_DB_Group2_Label1</label>
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.ConnectionString))
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.DataStoreTypeName))
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.SiteName))
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.SiteUrl))
+	@(Html.HiddenFor<SettingsViewModel, bool>(h => h.UseWindowsAuth))
 
-        <div class="form-group">
-            @Html.BootstrapTextBoxFor(s => s.AdminRoleName, InstallStrings.Page3_DB_Group2_Label1)
-        </div>
-    </fieldset>
-    
-    <!-- Allow user signups -->
-    <fieldset>
-        <legend>@InstallStrings.Page3_DB_Group3_Title</legend>
-        <p>@InstallStrings.Page3_DB_Group3_Label1</p>
+	<p>
+		@InstallStrings.Page3_DB_Label
+	</p>
 
-        <div class="form-group col-lg-4 row">
-            <label for="AllowUserSignup" class="checkbox">
-                @InstallStrings.Page3_DB_Group3_Label2
-                @Html.BootstrapCheckBoxFor(s => s.AllowUserSignup, InstallStrings.Page3_DB_Group3_Label2)
-            </label>
-        </div>
-    </fieldset>
-    
-    <!-- Enable recaptcha -->
-    <fieldset>
-        <legend>@InstallStrings.Page3_DB_Group4_Title</legend>
-        <p>@Html.Raw(LocalizationTokens.ReplaceRecaptcha(InstallStrings.Page3_DB_Group4_Label1))</p>
+	<!-- Editor role name -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@InstallStrings.Page3_DB_Group1_Title</legend>
+			<label for="EditorRoleName">@InstallStrings.Page3_DB_Group1_Label1</label>
 
-        <div class="form-group">
-            <label for="IsRecaptchaEnabled" class="checkbox">
-                @InstallStrings.Page3_DB_Group4_Label2
-                @Html.BootstrapCheckBoxFor(s => s.IsRecaptchaEnabled, InstallStrings.Page3_DB_Group4_Label2)
-            </label>
-            
-            <label for="RecaptchaPublicKey">@InstallStrings.Page3_DB_Group4_Label3</label>
-            @Html.BootstrapTextBoxFor(s => s.RecaptchaPublicKey, InstallStrings.Page3_DB_Group4_Label3)
-            
-            <label for="RecaptchaPrivateKey">@InstallStrings.Page3_DB_Group4_Label4</label>
-            @Html.BootstrapTextBoxFor(s => s.RecaptchaPrivateKey, InstallStrings.Page3_DB_Group4_Label4)
-        </div>
-    </fieldset>
-    
-    <!-- Admin email -->
-    <fieldset>
-        <legend>@InstallStrings.Page3_DB_Group5_Title</legend>
-        <label for="AdminEmail">@InstallStrings.Page3_DB_Group5_Label1</label>
+			<div class="row">
+				<div class="col-xs-4">
+					@Html.BootstrapTextBoxFor(s => s.EditorRoleName, InstallStrings.Page3_AD_Group1_Label3)
+				</div>
+			</div>
+		</fieldset>
+	</div>
 
-        <div class="form-group col-lg-6 row">
-            @Html.BootstrapTextBoxFor(s => s.AdminEmail, InstallStrings.Page3_DB_Group5_Label1)
-        </div>
-    </fieldset>
-    
-    <!-- Admin passwords -->
-    <fieldset>
-        <legend>@InstallStrings.Page3_DB_Group6_Title</legend>
+	<!-- Admin role name -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@InstallStrings.Page3_DB_Group2_Title</legend>
+			<label for="AdminRoleName">@InstallStrings.Page3_DB_Group2_Label1</label>
 
-        <div class="form-group col-lg-6 row">
-            <label for="AdminPassword">@InstallStrings.Page3_DB_Group6_Label1</label>
-            @Html.BootstrapPasswordFor(s => s.AdminPassword, InstallStrings.Page3_DB_Group6_Label1)
-        </div>
-    </fieldset>
-    <fieldset>
-        <div class="form-group col-lg-6 row">
-            @Html.BootstrapPassword("password2", InstallStrings.Page3_DB_Group6_Label1)
-        </div>
-    </fieldset>
+			<div class="row">
+				<div class="col-xs-4">
+					@Html.BootstrapTextBoxFor(s => s.AdminRoleName, InstallStrings.Page3_DB_Group2_Label1)
+				</div>
+			</div>
+		</fieldset>
+	</div>
 
-    <!-- Back and Continue buttons -->
-    <div class="row">
-        <div class="previous"><a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a></div>
-        <div class="continue">
-            <input type="submit" value="@InstallStrings.Shared_NextButton" class="btn btn-success pull-right" />
-        </div>
-    </div>
+	<!-- Allow user signups -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@InstallStrings.Page3_DB_Group3_Title</legend>
+			<p>@InstallStrings.Page3_DB_Group3_Label1</p>
+
+			<div class="form-group">
+				<label for="AllowUserSignup" class="checkbox">
+					@InstallStrings.Page3_DB_Group3_Label2
+					@Html.BootstrapCheckBoxFor(s => s.AllowUserSignup, InstallStrings.Page3_DB_Group3_Label2)
+				</label>
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Enable recaptcha -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@InstallStrings.Page3_DB_Group4_Title</legend>
+			<p>@Html.Raw(LocalizationTokens.ReplaceRecaptcha(InstallStrings.Page3_DB_Group4_Label1))</p>
+
+			<div class="form-group">
+				<label for="IsRecaptchaEnabled" class="checkbox">
+					@InstallStrings.Page3_DB_Group4_Label2
+					@Html.BootstrapCheckBoxFor(s => s.IsRecaptchaEnabled, InstallStrings.Page3_DB_Group4_Label2)
+				</label>
+
+				<label for="RecaptchaPublicKey">@InstallStrings.Page3_DB_Group4_Label3</label>
+				@Html.BootstrapTextBoxFor(s => s.RecaptchaPublicKey, InstallStrings.Page3_DB_Group4_Label3)
+
+				<label for="RecaptchaPrivateKey">@InstallStrings.Page3_DB_Group4_Label4</label>
+				@Html.BootstrapTextBoxFor(s => s.RecaptchaPrivateKey, InstallStrings.Page3_DB_Group4_Label4)
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Admin email -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@InstallStrings.Page3_DB_Group5_Title</legend>
+			<label for="AdminEmail">@InstallStrings.Page3_DB_Group5_Label1</label>
+
+			<div class="row">
+				<div class="col-xs-4">
+					@Html.BootstrapTextBoxFor(s => s.AdminEmail, InstallStrings.Page3_DB_Group5_Label1)
+				</div>
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Admin password -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@InstallStrings.Page3_DB_Group6_Title</legend>
+			<label for="AdminPassword">@InstallStrings.Page3_DB_Group6_Label1</label>
+
+			<div class="row">
+				<div class="col-xs-4">
+					@Html.BootstrapPasswordFor(s => s.AdminPassword, InstallStrings.Page3_DB_Group6_Label1)
+				</div>
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Repeat password -->
+	<div class="form-group">
+		<fieldset>
+			<div class="row">
+				<div class="col-xs-4">
+					@Html.BootstrapPassword("password2", InstallStrings.Page3_DB_Group6_Label1)
+				</div>
+			</div>
+		</fieldset>
+	</div>
 </form>
+
+@section BottomButtons
+{
+	<div class="previous">
+		<a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a>
+	</div>
+	<div class="continue">
+		<button type="submit" class="btn btn-success pull-right">@InstallStrings.Shared_NextButton</button>
+	</div>
+}

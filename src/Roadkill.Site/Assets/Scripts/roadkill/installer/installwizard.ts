@@ -1,9 +1,17 @@
 /// <reference path="../typescript-ref/installerconstants.ts" />
-
 module Roadkill.Site.Installer
 {
 	export class InstallWizard 
 	{
+		constructor()
+		{
+			// Set the bottom submit button to submit the form above it
+			$("#bottom-buttons button[type=submit]").click(function ()
+			{
+				$("form").submit();
+			});
+		}
+
 		public updateNavigation(pageNumber: number)
 		{
 			$("#trail li:nth-child(" + pageNumber + ")").addClass("selected");
@@ -16,7 +24,7 @@ module Roadkill.Site.Installer
 
 		public showFailure(title: string, errorMessage: string)
 		{	
-			bootbox.alert("<h2>" +title +"<h2><pre>" +errorMessage+"</pre>");
+			bootbox.alert("<h2>" +title +"<h2><pre style='max-height:500px;overflow-y:scroll;'>" +errorMessage+"</pre>");
 		}
 
 		public enableContinueButton()

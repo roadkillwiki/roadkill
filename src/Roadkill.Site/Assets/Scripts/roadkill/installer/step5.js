@@ -1,10 +1,8 @@
 var Roadkill;
 (function (Roadkill) {
     (function (Site) {
+        /// <reference path="../typescript-ref/installerconstants.ts" />
         (function (Installer) {
-            $(document).ready(function () {
-            });
-
             var Step5 = (function () {
                 function Step5(wizard) {
                     this._wizard = wizard;

@@ -31,12 +31,14 @@
             </label>
 		</div>
 	</fieldset>
-    
-    <!-- Back and Continue buttons -->
-    <div class="row">
-        <div class="previous"><a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a></div>
-        <div class="continue">
-            <input type="submit" value="@InstallStrings.Shared_NextButton" class="btn btn-success pull-right" />
-        </div>
-    </div>
 </form>
+
+@section BottomButtons
+{
+	<div class="previous">
+		<a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a>
+	</div>
+	<div class="continue">
+		<button type="submit" class="btn btn-success pull-right">@InstallStrings.Shared_NextButton</button>
+	</div>
+}

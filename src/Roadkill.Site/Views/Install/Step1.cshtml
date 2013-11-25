@@ -2,7 +2,6 @@
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
-
 @Url.ScriptLink("roadkill/installer/step1.js")
 <script type="text/javascript">
 	$(document).ready(function()
@@ -29,6 +28,11 @@
 @InstallStrings.Page1_Label2
 </p>
 
-<input id="testwebconfig" class="btn btn-info" type="button" value="@InstallStrings.Shared_TestButton" />
+<button id="testwebconfig" class="btn btn-info" type="button">
+	@InstallStrings.Shared_TestButton
+</button>
 
-<a href="@Url.Action("Step2", new { language = Model.Code })" class="continue hidden btn btn-success pull-right">@InstallStrings.Shared_Continue ></a>
+@section BottomButtons
+{
+	<a href="@Url.Action("Step2", new { language = Model.Code })" class="continue hidden btn btn-success pull-right">@InstallStrings.Shared_Continue ></a>
+}
