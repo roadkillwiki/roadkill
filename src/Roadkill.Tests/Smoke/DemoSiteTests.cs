@@ -11,13 +11,14 @@ namespace Roadkill.Tests.Acceptance.Smoke
 	/// Demo site web tests.
 	/// </summary>
 	[TestFixture]
-	[Category("Smoke Tests")]
+	[Category("Smoke")]
+	[Explicit]
 	public class DemoSiteTests : AcceptanceTestBase
 	{
 		[SetUp]
 		public void Setup()
 		{
-			BaseUrl = "http://www.roadkillwiki.net";
+			BaseUrl = "http://demo.roadkillwiki.net";
 			Driver.Navigate().GoToUrl(BaseUrl);
 		}
 
