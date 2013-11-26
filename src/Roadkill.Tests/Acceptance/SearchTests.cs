@@ -30,10 +30,11 @@ namespace Roadkill.Tests.Acceptance
 		public void Search_From_Global_Search_Bar_Returns_Results()
 		{
 			// Arrange
-			LoginAsEditor();
+			LoginAsAdmin();
 			CreatePageWithTitleAndTags("Homepage");
 			CreatePageWithTitleAndTags("Another page 1", "Another");
 			CreatePageWithTitleAndTags("Another page 2", "Another");
+			Driver.Navigate().GoToUrl(BaseUrl + "/SiteSettings/tools/updatesearchindex");
 			Logout();
 
 			// Act
@@ -52,10 +53,11 @@ namespace Roadkill.Tests.Acceptance
 		public void Search_From_Search_Page_Returns_Results()
 		{
 			// Arrange
-			LoginAsEditor();
+			LoginAsAdmin();
 			CreatePageWithTitleAndTags("Homepage");
 			CreatePageWithTitleAndTags("Another page 1", "Another");
 			CreatePageWithTitleAndTags("Another page 2", "Another");
+			Driver.Navigate().GoToUrl(BaseUrl + "/SiteSettings/tools/updatesearchindex");
 			Logout();
 
 			// Act
@@ -78,9 +80,10 @@ namespace Roadkill.Tests.Acceptance
 		public void Search_With_No_Results_Shows_Message()
 		{
 			// Arrange
-			LoginAsEditor();
+			LoginAsAdmin();
 			CreatePageWithTitleAndTags("Page 1", "Another");
 			CreatePageWithTitleAndTags("Page 2", "Another");
+			Driver.Navigate().GoToUrl(BaseUrl + "/SiteSettings/tools/updatesearchindex");
 			Logout();
 
 			// Act

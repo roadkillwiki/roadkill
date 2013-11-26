@@ -100,10 +100,9 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
-			Driver.FindElement(By.CssSelector(".table td a")).Click();
+			Driver.FindElement(By.CssSelector("td.pagename a")).Click();
 
 			// Assert
-			Assert.That(Driver.FindElements(By.CssSelector("#toolbar i.icon-pencil")).Count, Is.EqualTo(1));
 			Assert.That(Driver.FindElements(By.CssSelector("#pageedit-button")).Count, Is.EqualTo(1));
 		}
 
@@ -116,10 +115,9 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
-			Driver.FindElement(By.CssSelector(".table td a")).Click();
+			Driver.FindElement(By.CssSelector("td.pagename a")).Click();
 
 			// Assert
-			Assert.That(Driver.FindElements(By.CssSelector("#toolbar i.icon-pencil")).Count, Is.EqualTo(1));
 			Assert.That(Driver.FindElements(By.CssSelector("#pageedit-button")).Count, Is.EqualTo(1));
 		}
 
@@ -132,10 +130,9 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
-			Driver.FindElement(By.CssSelector(".table td a")).Click();
+			Driver.FindElement(By.CssSelector("td.pagename a")).Click();
 
 			// Assert
-			Assert.That(Driver.FindElements(By.CssSelector("#toolbar i.icon-book")).Count, Is.EqualTo(1));
 			Assert.That(Driver.FindElements(By.CssSelector("#pageinfo-button")).Count, Is.EqualTo(1));
 
 			Driver.FindElement(By.CssSelector("#pageinfo-button")).Click();
@@ -152,10 +149,9 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
-			Driver.FindElement(By.CssSelector(".table td a")).Click();
+			Driver.FindElement(By.CssSelector("td.pagename a")).Click();
 
 			// Assert
-			Assert.That(Driver.FindElements(By.CssSelector("#toolbar i.icon-book")).Count, Is.EqualTo(1));
 			Assert.That(Driver.FindElements(By.CssSelector("#pageinfo-button")).Count, Is.EqualTo(1));
 
 			Driver.FindElement(By.CssSelector("#pageinfo-button")).Click();
@@ -172,7 +168,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
-			Driver.FindElement(By.CssSelector(".table td a")).Click();
+			Driver.FindElement(By.CssSelector("td.pagename a")).Click();
 
 			// Assert
 			Assert.That(Driver.FindElements(By.CssSelector("#viewhistory")).Count, Is.EqualTo(1));
@@ -329,14 +325,12 @@ namespace Roadkill.Tests.Acceptance
 			Assert.That(Driver.FindElements(By.CssSelector(".table .delete a")).Count, Is.EqualTo(0));
 		}
 
-		///
-
 		[Test]
 		public void HistoryPage_Has_Revert_For_Admin()
 		{
 			// Arrange
 			LoginAsAdmin();
-			Driver.Navigate().GoToUrl(BaseUrl + "/settings/updatesearchindex");
+			Driver.Navigate().GoToUrl(BaseUrl + "/SiteSettings/tools/updatesearchindex");
 
 			CreatePageWithTags("Homepage");
 			Driver.FindElement(By.CssSelector("#pageedit-button")).Click();
@@ -344,7 +338,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
-			Driver.FindElement(By.CssSelector(".table td a")).Click();
+			Driver.FindElement(By.CssSelector("td.pagename a")).Click();
 			Driver.FindElement(By.CssSelector("#viewhistory a")).Click();
 
 			// Assert
@@ -356,7 +350,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			LoginAsAdmin();
-			Driver.Navigate().GoToUrl(BaseUrl + "/settings/updatesearchindex");
+			Driver.Navigate().GoToUrl(BaseUrl + "/SiteSettings/tools/updatesearchindex");
 			Logout();
 
 			LoginAsEditor();
@@ -367,7 +361,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
-			Driver.FindElement(By.CssSelector(".table td a")).Click();
+			Driver.FindElement(By.CssSelector("td.pagename a")).Click();
 			Driver.FindElement(By.CssSelector("#viewhistory a")).Click();
 			
 
@@ -380,7 +374,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			LoginAsAdmin();
-			Driver.Navigate().GoToUrl(BaseUrl + "/settings/updatesearchindex");
+			Driver.Navigate().GoToUrl(BaseUrl + "/SiteSettings/tools/updatesearchindex");
 			Logout();
 
 			LoginAsEditor();
@@ -391,7 +385,7 @@ namespace Roadkill.Tests.Acceptance
 
 			// Act
 			Driver.FindElement(By.CssSelector("a[href='/pages/allpages']")).Click();
-			Driver.FindElement(By.CssSelector(".table td a")).Click();
+			Driver.FindElement(By.CssSelector("td.pagename a")).Click();
 			Driver.FindElement(By.CssSelector("#viewhistory a")).Click();
 
 			// Assert
