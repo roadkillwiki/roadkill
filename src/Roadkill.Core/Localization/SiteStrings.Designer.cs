@@ -160,11 +160,47 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to write to the attachments directory: .
+        /// </summary>
+        public static string Attachments_Folder_Failure {
+            get {
+                return ResourceManager.GetString("Attachments_Folder_Failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Success! The directory exists and can be written to..
+        /// </summary>
+        public static string Attachments_Folder_Success {
+            get {
+                return ResourceManager.GetString("Attachments_Folder_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string Button_Add {
+            get {
+                return ResourceManager.GetString("Button_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Button_Cancel {
             get {
                 return ResourceManager.GetString("Button_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Button_Close {
+            get {
+                return ResourceManager.GetString("Button_Close", resourceCulture);
             }
         }
         
@@ -205,6 +241,15 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset password.
+        /// </summary>
+        public static string Button_ResetPassword {
+            get {
+                return ResourceManager.GetString("Button_ResetPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string Button_Save {
@@ -223,11 +268,56 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Register new user.
+        /// </summary>
+        public static string Button_Signup {
+            get {
+                return ResourceManager.GetString("Button_Signup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resend email confirmation.
+        /// </summary>
+        public static string Button_Signup_Complete_EmailResend {
+            get {
+                return ResourceManager.GetString("Button_Signup_Complete_EmailResend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test.
+        /// </summary>
+        public static string Button_Test {
+            get {
+                return ResourceManager.GetString("Button_Test", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Upload.
         /// </summary>
         public static string Button_Upload {
             get {
                 return ResourceManager.GetString("Button_Upload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database connection failed:.
+        /// </summary>
+        public static string DatabaseConnection_Failure {
+            get {
+                return ResourceManager.GetString("DatabaseConnection_Failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The database connection was successful..
+        /// </summary>
+        public static string DatabaseConnection_Success {
+            get {
+                return ResourceManager.GetString("DatabaseConnection_Success", resourceCulture);
             }
         }
         
@@ -529,6 +619,15 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Drag files onto the box below to upload. Double click to navigate folders..
+        /// </summary>
+        public static string FileManager_Help {
+            get {
+                return ResourceManager.GetString("FileManager_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select.
         /// </summary>
         public static string FileManager_Select {
@@ -570,15 +669,6 @@ namespace Roadkill.Core.Localization {
         public static string FileManager_UploadingProgress {
             get {
                 return ResourceManager.GetString("FileManager_UploadingProgress", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Drag files onto the box below to upload. Double click to navigate folders..
-        /// </summary>
-        public static string FileManager_Watermark {
-            get {
-                return ResourceManager.GetString("FileManager_Watermark", resourceCulture);
             }
         }
         
@@ -889,11 +979,47 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The profile details were successfully updated..
+        /// </summary>
+        public static string Profile_Details_Updated_Successfully {
+            get {
+                return ResourceManager.GetString("Profile_Details_Updated_Successfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred updating your profile.
         /// </summary>
         public static string Profile_Error {
             get {
                 return ResourceManager.GetString("Profile_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Leave the password fields blank if you do not want to change your password..
+        /// </summary>
+        public static string Profile_Leave_Password_Blank {
+            get {
+                return ResourceManager.GetString("Profile_Leave_Password_Blank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows authentication is enabled, so the user profile is not available..
+        /// </summary>
+        public static string Profile_Not_Available {
+            get {
+                return ResourceManager.GetString("Profile_Not_Available", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password was successfully changed.
+        /// </summary>
+        public static string Profile_Password_Change_Successful {
+            get {
+                return ResourceManager.GetString("Profile_Password_Change_Successful", resourceCulture);
             }
         }
         
@@ -907,11 +1033,11 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reset password.
+        ///   Looks up a localized string similar to As an anti-spam measure, please enter the two words below.
         /// </summary>
-        public static string ResetPassword_Button {
+        public static string Recaptcha_Prompt {
             get {
-                return ResourceManager.GetString("ResetPassword_Button", resourceCulture);
+                return ResourceManager.GetString("Recaptcha_Prompt", resourceCulture);
             }
         }
         
@@ -1105,11 +1231,20 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failure!.
+        /// </summary>
+        public static string Shared_Failure {
+            get {
+                return ResourceManager.GetString("Shared_Failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First name:.
         /// </summary>
-        public static string Shared_Firstname {
+        public static string Shared_Firstname_Label {
             get {
-                return ResourceManager.GetString("Shared_Firstname", resourceCulture);
+                return ResourceManager.GetString("Shared_Firstname_Label", resourceCulture);
             }
         }
         
@@ -1125,9 +1260,9 @@ namespace Roadkill.Core.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Last name:.
         /// </summary>
-        public static string Shared_Lastname {
+        public static string Shared_Lastname_Label {
             get {
-                return ResourceManager.GetString("Shared_Lastname", resourceCulture);
+                return ResourceManager.GetString("Shared_Lastname_Label", resourceCulture);
             }
         }
         
@@ -1177,29 +1312,29 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Success!.
+        /// </summary>
+        public static string Shared_Success {
+            get {
+                return ResourceManager.GetString("Shared_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Something went wrong.
+        /// </summary>
+        public static string Shared_Unexpected_Error {
+            get {
+                return ResourceManager.GetString("Shared_Unexpected_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Username:.
         /// </summary>
-        public static string Shared_Username {
+        public static string Shared_Username_Label {
             get {
-                return ResourceManager.GetString("Shared_Username", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Register new user.
-        /// </summary>
-        public static string Signup_Button {
-            get {
-                return ResourceManager.GetString("Signup_Button", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Resend email confirmation.
-        /// </summary>
-        public static string Signup_Complete_EmailResend_Button {
-            get {
-                return ResourceManager.GetString("Signup_Complete_EmailResend_Button", resourceCulture);
+                return ResourceManager.GetString("Shared_Username_Label", resourceCulture);
             }
         }
         
@@ -1272,6 +1407,60 @@ namespace Roadkill.Core.Localization {
         public static string Signup_Title {
             get {
                 return ResourceManager.GetString("Signup_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear cache.
+        /// </summary>
+        public static string SiteSettings_Cache_Clear_Button {
+            get {
+                return ResourceManager.GetString("SiteSettings_Cache_Clear_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All caches were successfully cleared..
+        /// </summary>
+        public static string SiteSettings_Cache_Clear_Successful {
+            get {
+                return ResourceManager.GetString("SiteSettings_Cache_Clear_Successful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Items cache.
+        /// </summary>
+        public static string SiteSettings_Cache_Items_Cache {
+            get {
+                return ResourceManager.GetString("SiteSettings_Cache_Items_Cache", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key.
+        /// </summary>
+        public static string SiteSettings_Cache_Key_Column_Header {
+            get {
+                return ResourceManager.GetString("SiteSettings_Cache_Key_Column_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The keys are in the format: .
+        /// </summary>
+        public static string SiteSettings_Cache_Key_Format {
+            get {
+                return ResourceManager.GetString("SiteSettings_Cache_Key_Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Page cache.
+        /// </summary>
+        public static string SiteSettings_Cache_Page_Cache {
+            get {
+                return ResourceManager.GetString("SiteSettings_Cache_Page_Cache", resourceCulture);
             }
         }
         
@@ -1366,7 +1555,7 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check this option if you want to allow people to signup as a new users..
+        ///   Looks up a localized string similar to Check this option if you want to allow people to signup as a new users. If left unchecked, only admins will be able to create new users. .
         /// </summary>
         public static string SiteSettings_Configuration_AllowUserSignups_Help {
             get {
@@ -1425,15 +1614,6 @@ namespace Roadkill.Core.Localization {
         public static string SiteSettings_Configuration_CachePageText_Help {
             get {
                 return ResourceManager.GetString("SiteSettings_Configuration_CachePageText_Help", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to (This key is no longer used. To be removed in 2.0).
-        /// </summary>
-        public static string SiteSettings_Configuration_Caching {
-            get {
-                return ResourceManager.GetString("SiteSettings_Configuration_Caching", resourceCulture);
             }
         }
         
@@ -1789,7 +1969,7 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The name of the site, which is used in certain themes..
+        ///   Looks up a localized string similar to The name of the site, which appears on certain themes and in signup emails (if enabled)..
         /// </summary>
         public static string SiteSettings_Configuration_SiteName_Help {
             get {
@@ -1839,6 +2019,24 @@ namespace Roadkill.Core.Localization {
         public static string SiteSettings_Configuration_Title {
             get {
                 return ResourceManager.GetString("SiteSettings_Configuration_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to save the settings:.
+        /// </summary>
+        public static string SiteSettings_Configuration_Unable_To_Save {
+            get {
+                return ResourceManager.GetString("SiteSettings_Configuration_Unable_To_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The settings were successfully updated..
+        /// </summary>
+        public static string SiteSettings_Configuration_Update_Successful {
+            get {
+                return ResourceManager.GetString("SiteSettings_Configuration_Update_Successful", resourceCulture);
             }
         }
         
@@ -2124,153 +2322,153 @@ namespace Roadkill.Core.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Users.
         /// </summary>
-        public static string SiteSettings_Users {
+        public static string SiteSettings_UserManagement {
             get {
-                return ResourceManager.GetString("SiteSettings_Users", resourceCulture);
+                return ResourceManager.GetString("SiteSettings_UserManagement", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to User names and passwords are not editable with Windows authentication - you should do this through Active Directory..
         /// </summary>
-        public static string SiteSettings_Users_AD_Label1 {
+        public static string SiteSettings_UserManagement_AD_Label1 {
             get {
-                return ResourceManager.GetString("SiteSettings_Users_AD_Label1", resourceCulture);
+                return ResourceManager.GetString("SiteSettings_UserManagement_AD_Label1", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to To add a user as an admin or editor, make sure they are part of the Windows security group that you have specified for the &quot;AdminRolename&quot; and &quot;EditorRolename&quot; settings in the web.config..
         /// </summary>
-        public static string SiteSettings_Users_AD_Label2 {
+        public static string SiteSettings_UserManagement_AD_Label2 {
             get {
-                return ResourceManager.GetString("SiteSettings_Users_AD_Label2", resourceCulture);
+                return ResourceManager.GetString("SiteSettings_UserManagement_AD_Label2", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Windows/Active Directory authentication is enabled.
         /// </summary>
-        public static string SiteSettings_Users_AD_Title {
+        public static string SiteSettings_UserManagement_AD_Title {
             get {
-                return ResourceManager.GetString("SiteSettings_Users_AD_Title", resourceCulture);
+                return ResourceManager.GetString("SiteSettings_UserManagement_AD_Title", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Add admin.
         /// </summary>
-        public static string SiteSettings_Users_AddAdminDialog_Title {
+        public static string SiteSettings_UserManagement_AddAdmin_Title {
             get {
-                return ResourceManager.GetString("SiteSettings_Users_AddAdminDialog_Title", resourceCulture);
+                return ResourceManager.GetString("SiteSettings_UserManagement_AddAdmin_Title", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Add editor.
         /// </summary>
-        public static string SiteSettings_Users_AddEditorDialog_Title {
+        public static string SiteSettings_UserManagement_AddEditor_Title {
             get {
-                return ResourceManager.GetString("SiteSettings_Users_AddEditorDialog_Title", resourceCulture);
+                return ResourceManager.GetString("SiteSettings_UserManagement_AddEditor_Title", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Unable to save the user details:.
         /// </summary>
-        public static string SiteSettings_Users_AddUserDialog_Error {
+        public static string SiteSettings_UserManagement_AddUser_Error {
             get {
-                return ResourceManager.GetString("SiteSettings_Users_AddUserDialog_Error", resourceCulture);
+                return ResourceManager.GetString("SiteSettings_UserManagement_AddUser_Error", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to For existing users, leave the password fields blank to change just the username..
         /// </summary>
-        public static string SiteSettings_Users_AddUserDialog_Help {
+        public static string SiteSettings_UserManagement_AddUser_Help {
             get {
-                return ResourceManager.GetString("SiteSettings_Users_AddUserDialog_Help", resourceCulture);
+                return ResourceManager.GetString("SiteSettings_UserManagement_AddUser_Help", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Admins.
         /// </summary>
-        public static string SiteSettings_Users_Admins {
+        public static string SiteSettings_UserManagement_Admins {
             get {
-                return ResourceManager.GetString("SiteSettings_Users_Admins", resourceCulture);
+                return ResourceManager.GetString("SiteSettings_UserManagement_Admins", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
-        public static string SiteSettings_Users_ColumnHeader_Email {
+        public static string SiteSettings_UserManagement_ColumnHeader_Email {
             get {
-                return ResourceManager.GetString("SiteSettings_Users_ColumnHeader_Email", resourceCulture);
+                return ResourceManager.GetString("SiteSettings_UserManagement_ColumnHeader_Email", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Username.
         /// </summary>
-        public static string SiteSettings_Users_ColumnHeader_Username {
+        public static string SiteSettings_UserManagement_ColumnHeader_Username {
             get {
-                return ResourceManager.GetString("SiteSettings_Users_ColumnHeader_Username", resourceCulture);
+                return ResourceManager.GetString("SiteSettings_UserManagement_ColumnHeader_Username", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Editors.
         /// </summary>
-        public static string SiteSettings_Users_Editors {
+        public static string SiteSettings_UserManagement_Editors {
             get {
-                return ResourceManager.GetString("SiteSettings_Users_Editors", resourceCulture);
+                return ResourceManager.GetString("SiteSettings_UserManagement_Editors", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Updating the user failed..
         /// </summary>
-        public static string SiteSettings_Users_EditUser_Error {
+        public static string SiteSettings_UserManagement_EditUser_Error {
             get {
-                return ResourceManager.GetString("SiteSettings_Users_EditUser_Error", resourceCulture);
+                return ResourceManager.GetString("SiteSettings_UserManagement_EditUser_Error", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Edit user.
         /// </summary>
-        public static string SiteSettings_Users_EditUserDialog_Title {
+        public static string SiteSettings_UserManagement_EditUser_Title {
             get {
-                return ResourceManager.GetString("SiteSettings_Users_EditUserDialog_Title", resourceCulture);
+                return ResourceManager.GetString("SiteSettings_UserManagement_EditUser_Title", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to New admin user.
         /// </summary>
-        public static string SiteSettings_Users_NewAdmin {
+        public static string SiteSettings_UserManagement_NewAdmin {
             get {
-                return ResourceManager.GetString("SiteSettings_Users_NewAdmin", resourceCulture);
+                return ResourceManager.GetString("SiteSettings_UserManagement_NewAdmin", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to New editor user.
         /// </summary>
-        public static string SiteSettings_Users_NewEditor {
+        public static string SiteSettings_UserManagement_NewEditor {
             get {
-                return ResourceManager.GetString("SiteSettings_Users_NewEditor", resourceCulture);
+                return ResourceManager.GetString("SiteSettings_UserManagement_NewEditor", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Site users.
         /// </summary>
-        public static string SiteSettings_Users_Title {
+        public static string SiteSettings_UserManagement_Title {
             get {
-                return ResourceManager.GetString("SiteSettings_Users_Title", resourceCulture);
+                return ResourceManager.GetString("SiteSettings_UserManagement_Title", resourceCulture);
             }
         }
         

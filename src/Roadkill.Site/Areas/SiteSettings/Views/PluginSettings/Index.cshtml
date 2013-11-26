@@ -9,6 +9,7 @@
 <table class="table plugins">
 	<thead>
 		<tr>
+			<th></th>
 			<th>Name</th>
 			<th>Description</th>
 		</tr>
@@ -17,6 +18,7 @@
 @foreach (PluginViewModel pluginModel in Model)
 {
 	<tr>
+		<td>@Html.Raw(pluginModel.EnabledSymbol)</td>
 		<td>@Html.ActionLink(pluginModel.Name, "Edit", new { id = pluginModel.Id})</td>
 		<td>@Html.Raw(pluginModel.Description)</td>
 	</tr>

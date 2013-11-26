@@ -8,9 +8,9 @@ module Roadkill.Site.FileManager
 			var html: string = "";
 
 			html += "<tr id=\"newfolderrow\">";
-			html += "<td class=\"newfolder-icon\"><img src=\"" + ROADKILL_COREASSETPATH + "CSS/images/directory.png\"></td>";
+			html += "<td class=\"newfolder-icon\"><img src=\"" + ROADKILL_COREASSETPATH + "Images/filemanager/directory.png\"></td>";
 			html += "<td><span><input id=\"newfolderinput\" placeholder=\"" +ROADKILL_FILEMANAGER_ADDFOLDER+ "\" /></span>";
-			html += "<img id=\"newfoldercancel\" title=\"" +ROADKILL_FILEMANAGER_ADDFOLDER_CANCEL+ "\" src=\"" + ROADKILL_COREASSETPATH + "CSS/images/cancel.png\"></span>";
+			html += "<img id=\"newfoldercancel\" title=\"" + ROADKILL_FILEMANAGER_ADDFOLDER_CANCEL + "\" src=\"" + ROADKILL_COREASSETPATH + "Images/filemanager/cancel.png\"></span>";
 			html += "<span style=\"vertical-align:bottom;\"></td>";
 			html += "<td colspan=\"3\"></td></tr>";
 
@@ -35,7 +35,7 @@ module Roadkill.Site.FileManager
 
 				htmlRow += "<tr class=\"listrow\" data-itemtype=\"folder\" data-urlpath=\"" + directoryViewModel.ChildFolders[i].UrlPath + "\">";
 				htmlRow += "<td width='1%'>";
-				htmlRow += "<img src='" + ROADKILL_COREASSETPATH + "CSS/images/directory.png'></td>";
+				htmlRow += "<img src='" + ROADKILL_COREASSETPATH + "Images/filemanager/directory.png'></td>";
 				htmlRow += "<td nowrap width=\"50%\">" + directoryViewModel.ChildFolders[i].Name + "</td>";
 				htmlRow += "<td></td>";
 				htmlRow += "<td></td>";
@@ -71,7 +71,7 @@ module Roadkill.Site.FileManager
 
 			html += "<tr class=\"listrow\" data-itemtype=\"file\">";
 			html += "<td width=\"1%\">";
-			html += "<img src=\"" + ROADKILL_COREASSETPATH + "CSS/images/file.png\" >";
+			html += "<img src=\"" + ROADKILL_COREASSETPATH + "Images/filemanager/file.png\" >";
 			html += "</td>";
 			html += "<td class=\"file\">{0}</td >";
 			html += "<td>{1}</td>";

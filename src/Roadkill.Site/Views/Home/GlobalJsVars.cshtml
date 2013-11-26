@@ -46,8 +46,8 @@ var ROADKILL_FILEMANAGER_DELETE_SUCCESS = "@SiteStrings.FileManager_Delete_Succe
 var ROADKILL_FILEMANAGER_DELETE_ERROR = "@SiteStrings.FileManager_Delete_Error";
 
 // Settings
-var ROADKILL_TESTATTACHMENTS_URL = "@(Url.Action("TestAttachments", "Install"))";
-var ROADKILL_TESTDB_URL = "@(Url.Action("TestDatabaseConnection","Install"))";
+var ROADKILL_TESTATTACHMENTS_URL = "@(Url.Action("TestAttachments", "Settings", new { area = "SiteSettings" }))";
+var ROADKILL_TESTDB_URL = "@(Url.Action("TestDatabaseConnection", "Settings", new { area = "SiteSettings" }))";
 
 // Localization for validation
 var ROADKILL_REQUIRED_FIELD = "@SiteStrings.SiteSettings_Configuration_Required_Field";

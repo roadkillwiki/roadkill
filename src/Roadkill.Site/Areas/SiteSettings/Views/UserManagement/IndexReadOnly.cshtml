@@ -1,7 +1,7 @@
 ﻿@using Roadkill.Core.Configuration;
 @model IList<IEnumerable<UserViewModel>>
 @{ 
-	ViewBag.Title = SiteStrings.SiteSettings_Users_Title;
+	ViewBag.Title = SiteStrings.SiteSettings_UserManagement_Title;
 	ViewData["UsersActive"] = true;
 }
 
@@ -9,18 +9,18 @@
 
 <div>
 	<p class="label label-info">
-		@SiteStrings.SiteSettings_Users_AD_Title
+		@SiteStrings.SiteSettings_UserManagement_AD_Title
 	</p>
 
 	<p>
-		@SiteStrings.SiteSettings_Users_AD_Label1
+		@SiteStrings.SiteSettings_UserManagement_AD_Label1
 	</p>
 	
 	<p>
-		@SiteStrings.SiteSettings_Users_AD_Label2
+		@SiteStrings.SiteSettings_UserManagement_AD_Label2
 	</p>
 	
-	<h2>@SiteStrings.SiteSettings_Users_Admins (using group '@ApplicationSettings.AdminRoleName')</h2>
+	<h2>@SiteStrings.SiteSettings_UserManagement_Admins (using group '@ApplicationSettings.AdminRoleName')</h2>
 	<table class="table table-striped">
 		@foreach (UserViewModel user in Model[0])
 		{
@@ -31,7 +31,7 @@
 	</table>
 	<br class="clear" />
 
-	<h2>@SiteStrings.SiteSettings_Users_Editors (using group '@ApplicationSettings.EditorRoleName')</h2>
+	<h2>@SiteStrings.SiteSettings_UserManagement_Editors (using group '@ApplicationSettings.EditorRoleName')</h2>
 	<table class="table table-striped">
 	@foreach (UserViewModel user in Model[1])
 	{

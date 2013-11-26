@@ -105,14 +105,17 @@
 <data name="Shared_PoweredBy" xml:space="preserve">
 	<value>Powered by Roadkill Wiki</value>
 </data>
-<data name="Shared_Firstname" xml:space="preserve">
+<data name="Shared_Firstname_Label" xml:space="preserve">
 	<value>Voornaam:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Shared_Lastname" xml:space="preserve">
+<data name="Shared_Lastname_Label" xml:space="preserve">
 	<value>Achternaam:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Shared_Username" xml:space="preserve">
+<data name="Shared_Username_Label" xml:space="preserve">
 	<value>Gebruikersnaam:</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Shared_Email_Label" xml:space="preserve">
 	<value>E-mail:</value>
@@ -142,7 +145,7 @@
 	<value>De gebruikersnaam is leeg.</value>
 </data>
 <data name="User_Validation_EmailExists" xml:space="preserve">
-	<value>E-mail {0} is al in gebruik.</value>
+	<value>E-mailadres {0} is al in gebruik.</value>
 </data>
 <data name="User_Validation_PasswordsDontMatch" xml:space="preserve">
 	<value>De wachtwoorden komen niet overeen.</value>
@@ -168,31 +171,31 @@
 <data name="Signup_Label" xml:space="preserve">
 	<value>Vul hieronder je gegevens in.</value>
 </data>
-<data name="Signup_Button" xml:space="preserve">
+<data name="Button_Signup" xml:space="preserve">
 	<value>Registreer nieuwe gebruiker</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Signup_Complete_Title" xml:space="preserve">
 	<value>Registratie voltooid.</value>
 </data>
 <data name="Signup_Complete_Label" xml:space="preserve">
-	<value>Bedankt, een e-mailbericht is verzonden naar {0|. In deze e-mail staat beschreven hoe u het aanmeldingsproces kunt voltooien.</value>
-	<comment>Fuzzy</comment>
+	<value>Bedankt, een e-mailbericht is verzonden naar {0|. In deze e-mail staat hoe u het aanmeldingsproces kunt voltooien.</value>
 </data>
 <data name="Signup_Complete_NoEmail" xml:space="preserve">
 	<value>Geen e-mail ontvangen?</value>
 </data>
 <data name="Signup_Complete_EmailResent" xml:space="preserve">
-	<value>Bevestigingmail is opnieuw verstuurd.</value>
+	<value>Bevestigingsmail is opnieuw verstuurd.</value>
 </data>
-<data name="Signup_Complete_EmailResend_Button" xml:space="preserve">
+<data name="Button_Signup_Complete_EmailResend" xml:space="preserve">
 	<value>Opnieuw verzenden bevestigingsmail</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Signup_Error_General" xml:space="preserve">
 	<value>Er is een fout opgetreden met de aanmelding</value>
 </data>
 <data name="Signup_Error_Recaptcha" xml:space="preserve">
 	<value>De woorden van de ReCaptcha waren onjuist. Dit dienen twee woorden te zijn.</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="Activate_Title" xml:space="preserve">
 	<value>Account activatie</value>
@@ -217,15 +220,14 @@
 </data>
 <data name="ResetPassword_Label" xml:space="preserve">
 	<value>Geef uw e-mailadres op om uw wachtwoord opnieuw in te stellen. U ontvangt een e-mail met een link. Met deze link kunt u het wachtwoord opnieuw instellen.</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="ResetPassword_Complete_Label" xml:space="preserve">
 	<value>Vul uw nieuwe wachtwoord in.</value>
-	<comment>Fuzzy</comment>
 </data>
-<data name="ResetPassword_Button" xml:space="preserve">
-	<value>Wachtwoord opnieuw instellen</value>
-	<comment>schould be: &apos;send mail&apos; ?</comment>
+<data name="Button_ResetPassword" xml:space="preserve">
+	<value>Verstuur</value>
+	<comment>schould be: &apos;send mail&apos; ?
+Fuzzy</comment>
 </data>
 <data name="ResetPassword_Successful_Title" xml:space="preserve">
 	<value>Wachtwoord is gereset.</value>
@@ -235,7 +237,6 @@
 </data>
 <data name="ResetPassword_Invalid_Title" xml:space="preserve">
 	<value>Deze link is verlopen</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="ResetPassword_Invalid_Label" xml:space="preserve">
 	<value>Deze link is verlopen</value>
@@ -243,11 +244,9 @@
 </data>
 <data name="ResetPassword_EmailSent_Title" xml:space="preserve">
 	<value>Er is een e-mailbericht verzonden voor het wijzigen van het wachtwoord.</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="ResetPassword_EmailSent_Label" xml:space="preserve">
-	<value>Bedankt, een e-mail is verzonden naar {0}. Hierin staat de informatie hoe u het wachtwoord kunt wijzigen.</value>
-	<comment>Fuzzy</comment>
+	<value>Bedankt, een e-mail is verzonden naar {0}. Hierin staan de stappen hoe u het wachtwoord kunt wijzigen.</value>
 </data>
 <data name="ResetPassword_Error" xml:space="preserve">
 	<value>De wachtwoorden komen niet overeen, of deze zijn te kort</value>
@@ -412,8 +411,9 @@
 <data name="SiteSettings_Configuration" xml:space="preserve">
 	<value>Configuratie</value>
 </data>
-<data name="SiteSettings_Users" xml:space="preserve">
+<data name="SiteSettings_UserManagement" xml:space="preserve">
 	<value>Gebruikers</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Tools" xml:space="preserve">
 	<value>Tools</value>
@@ -435,7 +435,6 @@
 </data>
 <data name="SiteSettings_Configuration_DatabaseType" xml:space="preserve">
 	<value>Databasesoort</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Configuration_DatabaseConnectionString" xml:space="preserve">
 	<value>Database connectiestring</value>
@@ -450,10 +449,10 @@
 	<value>Gebruikersregistraties toestaan</value>
 </data>
 <data name="SiteSettings_Configuration_EnableRecaptcha" xml:space="preserve">
-	<value>Recaptcha gebruiken</value>
+	<value>ReCaptcha gebruiken</value>
 </data>
 <data name="SiteSettings_Configuration_RecaptchaPrivateKey" xml:space="preserve">
-	<value>ReCaptcha prive sleutel</value>
+	<value>ReCaptcha privé sleutel</value>
 </data>
 <data name="SiteSettings_Configuration_RecaptchaPublicKey" xml:space="preserve">
 	<value>ReCaptcha publieke sleutel</value>
@@ -468,10 +467,10 @@
 	<value>LDAP-wachtwoord</value>
 </data>
 <data name="SiteSettings_Configuration_EditorRole" xml:space="preserve">
-	<value>Auteurrol / security groepsnaam</value>
+	<value>Auteursrol / beveiligingsgroepnaam</value>
 </data>
 <data name="SiteSettings_Configuration_AdminRole" xml:space="preserve">
-	<value>Beheerderrol / security groepsnaam</value>
+	<value>Beheerdersrol / beveiligingsgroepnaam</value>
 </data>
 <data name="SiteSettings_Configuration_General" xml:space="preserve">
 	<value>Algemeen</value>
@@ -495,13 +494,10 @@
 	<value>Gebruik  object-caching</value>
 </data>
 <data name="SiteSettings_Configuration_BrowserCaching" xml:space="preserve">
-	<value>Gebruik browser-caching</value>
+	<value>Gebruik browser-cache</value>
 </data>
 <data name="SiteSettings_Configuration_Error" xml:space="preserve">
 	<value>Instellingen opslaan mislukt</value>
-</data>
-<data name="SiteSettings_Configuration_Caching" xml:space="preserve">
-	<value>(Deze sleutel wordt niet meer gebruikt. Deze wordt verwijderd in versie 2)</value>
 </data>
 <data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
 	<value>(Deze sleutel wordt niet meer gebruikt. Deze wordt verwijderd in versie 2)</value>
@@ -513,13 +509,11 @@
 	<value>De url van deze website. Nodig voor e-mails voor registratie en e-mails voor het opnieuw instellen van een wachtwoord. Deze url dient niet te eindigen op een slash (/)</value>
 </data>
 <data name="SiteSettings_Configuration_ConnectionStrings_Help" xml:space="preserve">
-	<value>De connectiestring naar de database. Let op, Roadkill maakt niet automatisch de tabellen aan in een nieuwe database.</value>
-	<comment>Fuzzy</comment>
+	<value>De connectiestring naar de database. Let op, Roadkill maakt niet automatisch de database-structuur aan.</value>
 </data>
 <data name="SiteSettings_Configuration_DatabaseType_Help" xml:space="preserve">
-	<value>Verandert het type database - u moet het schema opnieuw in de gereedschappen voor deze correct te laten werken.</value>
-	<comment>plz change this string analogous to SiteSettings_Configuration_ConnectionStrings_Help
-Fuzzy</comment>
+	<value>Het type van de database. Let op, Roadkill maakt niet automatisch de database-structuur aan.</value>
+	<comment>plz change this string analogous to SiteSettings_Configuration_ConnectionStrings_Help</comment>
 </data>
 <data name="SiteSettings_Configuration_DatabaseConnectionString_Help" xml:space="preserve">
 	<value>Database connectiestring.</value>
@@ -527,12 +521,10 @@ Fuzzy</comment>
 <data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
 	<value>{bold}LET OP:{/bold} indien foutief ingesteld dan kan geen enkele gebruiker meer inloggen! Maak eerst een back-up van de web.config voordat deze instelling gewijzigd wordt. {br}{br}
 
-Zet wanneer Windows authenticatie en Active Directory gebruikt worden.</value>
-	<comment>Fuzzy</comment>
+Gebruik deze optie voor Windows authenticatie in combinatie met Active Directory</value>
 </data>
 <data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
-	<value>Als deze optie aanstaat, kunnen personen zichzelf registeren als gebruiker.</value>
-	<comment>Fuzzy</comment>
+	<value>Toestaan dat personen zichzelf kunnen registeren als gebruiker.</value>
 </data>
 <data name="SiteSettings_Configuration_EnableRecaptcha_Help" xml:space="preserve">
 	<value>Zet ReCaptcha aan - een gratis anti-spam service. Hiervoor is een ReCaptcha registratie nodig. Neem de publieke- en privésleutel hieronder over.</value>
@@ -544,51 +536,41 @@ Zet wanneer Windows authenticatie en Active Directory gebruikt worden.</value>
 	<value>De publieke-sleutel voor ReCaptcha, deze heeft u ontvangen bij de ReCaptcha-registratie.</value>
 </data>
 <data name="SiteSettings_Configuration_AD_Connection_Help" xml:space="preserve">
-	<value>De LDAP-connectiestring voor de Active Directory. Geef deze op in het volgende formaat LDAP :/ / mydc01.company.internal (LDAP dient in hoofdletters opgegeven te worden).</value>
-	<comment>Fuzzy</comment>
+	<value>De LDAP-connectiestring voor de Active Directory. Geef deze op in het volgende formaat LDAP :/ / mydc01.company.internal (LDAP dient in hoofdletters opgegeven te worden)</value>
 </data>
 <data name="SiteSettings_Configuration_AD_Username_Help" xml:space="preserve">
-	<value>De gebruikersnaam voor verificatie met de Active Directory. Deze kan leeg indien de applicatie pool draait onder een gebruiker met deze juiste rechten.</value>
-	<comment>Fuzzy</comment>
+	<value>De gebruikersnaam voor verificatie met de Active Directory. Alleen nodig indien de gebruiker van de applicationpool geen leesrechten heeft.</value>
 </data>
 <data name="SiteSettings_Configuration_AD_Password_Help" xml:space="preserve">
-	<value>Het wachtwoord te gebruiken voor authenticatie aan de Active Directory</value>
-	<comment>Fuzzy</comment>
+	<value>Het wachtwoord te gebruiken voor authenticatie aan de Active Directory. Alleen nodig indien de gebruiker van de applicationpool geen leesrechten heeft.</value>
 </data>
 <data name="SiteSettings_Configuration_EditorRole_Help" xml:space="preserve">
-	<value>Dit is de naam van de auteur rol - gebruikers die pagina&apos;s kunnen bewerken en maken. Dit wordt alleen gebruikt bij Active Directory / Windows-verificatie - indien leeg, dan zijn alle gebruikers auteurs</value>
-	<comment>Fuzzy</comment>
+	<value>Dit is een naam van Windows beveiligingsgroep waar een auteur lid van dient te zijn - gebruikers die pagina&apos;s kunnen bewerken en maken. Dit wordt alleen gebruikt bij Active Directory / Windows-verificatie. Indien leeg, dan zijn alle gebruikers auteurs</value>
 </data>
 <data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
 	<value>{bold}LET OP:{/bold} indien foutief ingesteld dan kunt u niet meer inloggen! Maak eerst een back-up van de web.config voordat deze instelling gewijzigd wordt. {br}{br}
 
-Dit is een naam van de beheerderrol. Beheerders hebben dezelfde rechten als auteurs, maar hebben ook toegang tot de website-instellen en -tools.</value>
-	<comment>Fuzzy</comment>
+Dit is een naam van Windows beveiligingsgroep waar een beheerder lid van dient te zijn. Beheerders hebben dezelfde rechten als auteurs, maar hebben ook toegang tot de website-instellingen en -tools.</value>
 </data>
 <data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
-	<value>De markuptaal die Roadkill gebruikt voor de pagina&apos;s. Mogelijke waarden: Creol, Markdown, Mediawiki.</value>
-	<comment>Fuzzy</comment>
+	<value>De markuptaal die Roadkill gebruikt voor de pagina&apos;s. Mogelijke talen: Creol, Markdown, Mediawiki.</value>
 </data>
 <data name="SiteSettings_Configuration_Theme_Help" xml:space="preserve">
 	<value>Het thema die de website gebruikt.</value>
 </data>
 <data name="SiteSettings_Configuration_Attachments_Help" xml:space="preserve">
-	<value>Naar deze map worden alle bestanden geüpload. Deze instelling dient te beginnen met ~ /  (website-root)
-</value>
+	<value>Naar deze map worden alle bestanden geüpload. Deze instelling dient te beginnen met ~ /  (website-root). De gebruiker van de applicationpool dient hier schrijfrechten te hebben.</value>
 </data>
 <data name="SiteSettings_Configuration_Extensions_Help" xml:space="preserve">
 	<value>Deze bestandsextensies kunnen geüpload worden. Geeft komma-gescheiden op.</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Configuration_ObjectCaching_Help" xml:space="preserve">
 	<value>Gebruik &apos;Object caching&apos;. Roadkill slaat alle pagina&apos;s en inhoud in het geheugen na het ophalen uit de database. De cache wordt automatisch bijgewerkt wanneer een pagina verandert. Aanbevolen om het reactievermogen van de website te verhogen. Object caching wordt momenteel niet ondersteund voor &apos;web gardens&apos; of &apos;web farms&apos;,</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Configuration_BrowserCaching_Help" xml:space="preserve">
-	<value>Gebruik caching in de browser. Roadkill zal aan de browser aangeven dat pagina&apos;s gecached kunnen worden. Roadkill controleert bij iedere pagina-refresh of er iets veranderd is; met behulp van de &apos;aangepast sinds&apos; tijdstip. 
+	<value>Gebruik caching in de browser. Roadkill zal aan de browser aangeven dat pagina&apos;s gecached kunnen worden. Roadkill controleert bij iedere pagina-refresh of er iets veranderd is met behulp van de &apos;aangepast sinds&apos; tijdstip. 
 
 Aanbevolen om het reactievermogen van de website te verhogen..</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Configuration_Caching_Help" xml:space="preserve">
 	<value>(Deze sleutel wordt niet meer gebruikt. Deze wordt verwijderd in versie 2)</value>
@@ -596,53 +578,68 @@ Aanbevolen om het reactievermogen van de website te verhogen..</value>
 <data name="SiteSettings_Configuration_CachePageText_Help" xml:space="preserve">
 	<value>(Deze sleutel wordt niet meer gebruikt. Deze wordt verwijderd in versie 2)</value>
 </data>
-<data name="SiteSettings_Users_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Title" xml:space="preserve">
 	<value>Gebruikers</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_ColumnHeader_Username" xml:space="preserve">
+<data name="SiteSettings_UserManagement_ColumnHeader_Username" xml:space="preserve">
 	<value>Gebruikersnaam</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_ColumnHeader_Email" xml:space="preserve">
+<data name="SiteSettings_UserManagement_ColumnHeader_Email" xml:space="preserve">
 	<value>E-mailadres</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_Admins" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Admins" xml:space="preserve">
 	<value>Beheerders</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_NewAdmin" xml:space="preserve">
+<data name="SiteSettings_UserManagement_NewAdmin" xml:space="preserve">
 	<value>Nieuwe beheerder</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_Editors" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Editors" xml:space="preserve">
 	<value>Auteurs</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_NewEditor" xml:space="preserve">
+<data name="SiteSettings_UserManagement_NewEditor" xml:space="preserve">
 	<value>Nieuwe auteur</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddAdminDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddAdmin_Title" xml:space="preserve">
 	<value>Maak beheerder</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddEditorDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddEditor_Title" xml:space="preserve">
 	<value>Maak auteur</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_EditUserDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_EditUser_Title" xml:space="preserve">
 	<value>Gebruikerinformatie aanpassen</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddUserDialog_Help" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddUser_Help" xml:space="preserve">
 	<value>Voor bestaande gebruikers, laat het wachtwoordveld leeg om enkel de gebruikersnaam te wijzigen.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddUserDialog_Error" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddUser_Error" xml:space="preserve">
 	<value>Gebruikersinformatie opslaan mislukt.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_EditUser_Error" xml:space="preserve">
+<data name="SiteSettings_UserManagement_EditUser_Error" xml:space="preserve">
 	<value>Aanpassen van de gebruikerinformatie is mislukt</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Title" xml:space="preserve">
 	<value>Windows / Active Directory-verificatie is ingeschakeld</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Label1" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Label1" xml:space="preserve">
 	<value>Bij gebruik van Windows-verificatie, zijn gebruikersnamen en wachtwoorden niet in Roadkill te wijzigen. Dit dient te gebeuren in de Active Directory.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Label2" xml:space="preserve">
-	<value>Om een ​​gebruiker als beheerder of auteur voegen, zorg ervoor dat deze lid is van de Windows security group. Deze groepnamen zijn eerder opgegeven bij beheerrolname en auteurrolnaam.</value>
+<data name="SiteSettings_UserManagement_AD_Label2" xml:space="preserve">
+	<value>Om een ​​gebruiker als beheerder of auteur toe te voegen, dient de gebruiker lid te zijn van de beveiligingsgroep die opgegeven staat bij respectievelijk auteursrol of beheerdersrol.</value>
 	<comment>this setting is currently not only editable in the web.config, but also in the &apos;site settings&apos;? So reference to the web.config is a bit confusing.
 Fuzzy</comment>
 </data>
@@ -663,7 +660,6 @@ Fuzzy</comment>
 </data>
 <data name="SiteSettings_Tools_RebuildSearch_Label" xml:space="preserve">
 	<value>Forceer het opnieuw bouwen van de pagina index.</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Tools_RebuildSearch_Message" xml:space="preserve">
 	<value>Zoekindex opnieuw opgebouwd</value>
@@ -700,8 +696,7 @@ Fuzzy</comment>
 </data>
 <data name="SiteSettings_Tools_ScrewTurnImport_Label" xml:space="preserve">
 	<value>Import alle inhoud vanuit ScrewTurn 2. &apos;MediaWiki&apos; dient als markuptaal geselecteerd te zijn voordat u het importeren start. 
-Omdat de MediaWiki syntaxis in  ScrewTurn niet geheel overeenkomt met de officiële specificatie, is er geen garantie dat alle content er perfect uitziet. Dit geldt vooral voor afbeeldingen en hyperlinks..</value>
-	<comment>Fuzzy</comment>
+Omdat de MediaWiki syntaxis in  ScrewTurn niet geheel overeenkomt met de officiële specificatie, is er geen garantie dat alle content er perfect uitziet. Dit geldt vooral voor afbeeldingen en hyperlinks.</value>
 </data>
 <data name="SiteSettings_Tools_ScrewTurnImport_Connection" xml:space="preserve">
 	<value>ScrewTurn connectiestring</value>
@@ -753,7 +748,6 @@ Omdat de MediaWiki syntaxis in  ScrewTurn niet geheel overeenkomt met de offici�
 </data>
 <data name="FileManager_AddFolder" xml:space="preserve">
 	<value>Nieuwe map</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="FileManager_AddFolder_Cancel" xml:space="preserve">
 	<value>Annuleer aanmaken nieuwe map</value>
@@ -791,8 +785,9 @@ Omdat de MediaWiki syntaxis in  ScrewTurn niet geheel overeenkomt met de offici�
 <data name="FileManager_UploadingProgress" xml:space="preserve">
 	<value>Uploaden ...</value>
 </data>
-<data name="FileManager_Watermark" xml:space="preserve">
+<data name="FileManager_Help" xml:space="preserve">
 	<value>Sleep bestanden om te uploaden. Dubbelklik op mappen voor navigatie.</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="FileManager_Extension_Not_Supported" xml:space="preserve">
 	<value>Alleen bestanden met de extensie {0} mogen worden geüpload.</value>
@@ -808,7 +803,6 @@ Omdat de MediaWiki syntaxis in  ScrewTurn niet geheel overeenkomt met de offici�
 </data>
 <data name="SiteSettings_Configuration_HeadContent_Help" xml:space="preserve">
 	<value>Scripts, styles en andere HTML die bij iedere pagina in de &lt;head&gt; wordt toegevoegd.</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Configuration_NavMenu" xml:space="preserve">
 	<value>Layout voor het navigatiemenu</value>
@@ -816,17 +810,112 @@ Omdat de MediaWiki syntaxis in  ScrewTurn niet geheel overeenkomt met de offici�
 </data>
 <data name="SiteSettings_Configuration_NavMenu_Help" xml:space="preserve">
 	<value>De layout van het hoofd-navigatiemenu. Markdown markup wordt geaccepteerd. De volgende tokens kunnen gebruikt worden: {MENUTOKENS}. Sommige tokens zullen leeg zijn afhankelijk van de gebruikersrol (bezoeker, auteur, beheerder).</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
 	<value>Bestaande bestanden automatisch overschrijven bij uploaden</value>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting_Help" xml:space="preserve">
-	<value>Controleer dit als u bestandsnamen die al bestaan ​​in de bijlagen map worden automatisch overschreven.</value>
+	<value>Overschrijf bestanden met dezelfde naam bij het uploaden zonder een waarschuwing.</value>
 	<comment>strange text. If true, will the files with duplicate name overwritten or checked?</comment>
 </data>
 <data name="SiteSettings_Plugins_Title" xml:space="preserve">
 	<value>Plugins</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport" xml:space="preserve">
+	<value>Exporteren als SQL</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport_Label" xml:space="preserve">
+	<value>Exporteert de huidige database als een SQL-script. Als u gebruik maakt MongoDB deze actie doet niets.</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite" xml:space="preserve">
+	<value>Publieke site</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite_Help" xml:space="preserve">
+	<value>Bij niet-gecontroleerd, alle pagina&apos;s zijn prive en kan alleen bekeken worden door ingelogde gebruikers.</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors" xml:space="preserve">
+	<value>Negeer zoekindex fouten</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors_Help" xml:space="preserve">
+	<value>Indien aangevinkt, wordt een foutmelding weergegeven wanneer een pagina niet worden geïndexeerd door de zoekmachine Lucene (bij het maken of bijwerken van een pagina), in plaats van genegeerd.</value>
+</data>
+<data name="FileManager_Upload_FileAlreadyExists" xml:space="preserve">
+	<value>Het bestand &apos;{0}&apos; bestaat reeds.</value>
+</data>
+<data name="History_Help_Label" xml:space="preserve">
+	<value>Klik op een versie nummer om de wijzigingen te vergelijken met de versie voor het.</value>
+</data>
+<data name="SiteSettings_Configuration_Required_Field" xml:space="preserve">
+	<value>Dit veld is verplicht.</value>
+</data>
+<data name="Button_Test" xml:space="preserve">
+	<value>Test</value>
+</data>
+<data name="Shared_Success" xml:space="preserve">
+	<value>Succes!</value>
+</data>
+<data name="Shared_Failure" xml:space="preserve">
+	<value>Mislukking!</value>
+</data>
+<data name="DatabaseConnection_Success" xml:space="preserve">
+	<value>De database connectie was succesvol.</value>
+</data>
+<data name="DatabaseConnection_Failure" xml:space="preserve">
+	<value>Database connectie mislukt:</value>
+</data>
+<data name="Button_Add" xml:space="preserve">
+	<value>Toevoegen</value>
+</data>
+<data name="Attachments_Folder_Success" xml:space="preserve">
+	<value>Succes! De map bestaat en kan worden geschreven.</value>
+</data>
+<data name="Attachments_Folder_Failure" xml:space="preserve">
+	<value>Kan niet schrijven naar de bijlagen directory:</value>
+</data>
+<data name="Shared_Unexpected_Error" xml:space="preserve">
+	<value>Er ging iets mis</value>
+</data>
+<data name="Profile_Not_Available" xml:space="preserve">
+	<value>Windows-verificatie is ingeschakeld, zodat de gebruiker profiel is niet beschikbaar.</value>
+</data>
+<data name="Profile_Password_Change_Successful" xml:space="preserve">
+	<value>Het wachtwoord is succesvol gewijzigd</value>
+</data>
+<data name="Profile_Details_Updated_Successfully" xml:space="preserve">
+	<value>De profielgegevens zijn bijgewerkt.</value>
+</data>
+<data name="Profile_Leave_Password_Blank" xml:space="preserve">
+	<value>Laat het wachtwoord velden leeg als u niet wilt dat uw wachtwoord te wijzigen.</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Successful" xml:space="preserve">
+	<value>Alle caches zijn succesvol gewist.</value>
+</data>
+<data name="SiteSettings_Cache_Key_Format" xml:space="preserve">
+	<value>De toetsen zijn in het formaat:</value>
+</data>
+<data name="SiteSettings_Cache_Key_Column_Header" xml:space="preserve">
+	<value>Sleutel</value>
+</data>
+<data name="SiteSettings_Cache_Page_Cache" xml:space="preserve">
+	<value>Pagina cache</value>
+</data>
+<data name="SiteSettings_Cache_Items_Cache" xml:space="preserve">
+	<value>Items cache</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Button" xml:space="preserve">
+	<value>Cache wissen</value>
+</data>
+<data name="SiteSettings_Configuration_Unable_To_Save" xml:space="preserve">
+	<value>In staat om de instellingen op te slaan:</value>
+</data>
+<data name="SiteSettings_Configuration_Update_Successful" xml:space="preserve">
+	<value>De instellingen zijn succesvol gewijzigd.</value>
+</data>
+<data name="Recaptcha_Prompt" xml:space="preserve">
+	<value>Als een anti-spam maatregel, dan kunt u de twee woorden hieronder in te voeren</value>
+</data>
+<data name="Button_Close" xml:space="preserve">
+	<value>Dicht</value>
 </data>
 
 </root>

@@ -11,50 +11,50 @@ namespace Roadkill.Tests.Acceptance.Smoke
 	/// Demo site web tests.
 	/// </summary>
 	[TestFixture]
-	[Category("Smoke Tests")]
+	[Category("Smoke")]
 	public class DemoSiteTests : AcceptanceTestBase
 	{
 		[SetUp]
 		public void Setup()
 		{
-			BaseUrl = "http://www.roadkillwiki.net";
+			BaseUrl = "http://demo.roadkillwiki.net";
 			Driver.Navigate().GoToUrl(BaseUrl);
 		}
 
 		[Test]
-		public void ShouldHave_HeaderTitle()
-		{
-			IWebElement h1Element = Driver.FindElement(By.CssSelector("h1"));
-			Assert.That(h1Element.Text, Is.EqualTo("Welcome to the Roadkill .NET Wiki demo site"));
-		}
-
-		[Test]
-		public void ShouldHave_Title()
+		public void Should_Have_Page_Title()
 		{
 			IWebElement title = Driver.FindElement(By.CssSelector(".pagetitle"));
 			Assert.That(title.Text, Is.EqualTo("Welcome to the Roadkill .NET Wiki demo site"));
 		}
 
 		[Test]
-		public void ShouldHave_LeftMenu()
+		public void Should_Have_LeftMenu()
 		{
-			IEnumerable<IWebElement> leftmenu = Driver.FindElements(By.CssSelector("div#leftmenu li"));
+			IEnumerable<IWebElement> leftmenu = Driver.FindElements(By.CssSelector("ul.nav li"));
 			Assert.That(leftmenu.Count(), Is.EqualTo(3));
 		}
 
 		[Test]
-		public void ShouldHave_HistoryLink()
+		public void Should_Have_HistoryLink()
 		{
 			IWebElement title = Driver.FindElement(By.CssSelector("div#viewhistory a"));
 			Assert.That(title.Text, Is.EqualTo("View History"));
 		}
 
 		[Test]
-		public void ShouldHave_LoginLink()
+		public void Should_Have_LoginLink()
 		{
 			IWebElement title = Driver.FindElement(By.CssSelector("span#loggedinas a"));
 			Assert.That(title.Text, Is.EqualTo("Login"));
 			Assert.That(title.GetAttribute("href"), Is.StringEnding("/user/login?returnurl=%2f"));
+		}
+
+		[Test]
+		public void Should_Have_Search_Box()
+		{
+			IWebElement input = Driver.FindElement(By.CssSelector("form input[name=q]"));
+			Assert.That(input, Is.Not.Null);
 		}
 	}
 }

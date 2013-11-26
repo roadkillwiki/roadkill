@@ -7,6 +7,7 @@ using Roadkill.Core.Localization;
 using Roadkill.Core.Database;
 using Roadkill.Core.Text;
 using Roadkill.Core.Converters;
+using System.Xml.Serialization;
 
 namespace Roadkill.Core.Mvc.ViewModels
 {
@@ -167,6 +168,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		/// <summary>
 		/// All tags in the system.
 		/// </summary>
+		[XmlIgnore]
 		public List<TagViewModel> AllTags { get; set; }
 
 		public PageViewModel()
@@ -177,6 +179,26 @@ namespace Roadkill.Core.Mvc.ViewModels
 			PluginFooterHtml = "";
 			PluginPreContainer = "";
 			PluginPostContainer = "";
+			AllTags = new List<TagViewModel>();
+		}
+
+		public PageViewModel(Page page)
+		{
+			if (page == null)
+				throw new ArgumentNullException("page");
+
+			Id = page.Id;
+			Title = page.Title;
+			PreviousTitle = page.Title;
+			CreatedBy = page.CreatedBy;
+			CreatedOn = page.CreatedOn;
+			IsLocked = page.IsLocked;
+			ModifiedBy = page.ModifiedBy;
+			ModifiedOn = page.ModifiedOn;
+			RawTags = page.Tags;
+
+			CreatedOn = DateTime.SpecifyKind(CreatedOn, DateTimeKind.Utc);
+			ModifiedOn = DateTime.SpecifyKind(ModifiedOn, DateTimeKind.Utc);
 			AllTags = new List<TagViewModel>();
 		}
 

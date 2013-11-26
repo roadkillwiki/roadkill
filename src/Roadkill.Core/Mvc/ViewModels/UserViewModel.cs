@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Roadkill.Core.Localization;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Security;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Core.Mvc.ViewModels
 {
@@ -100,11 +101,15 @@ namespace Roadkill.Core.Mvc.ViewModels
 			}
 		}
 
-		public bool IsBeingCreatedByAdmin
-		{
-			get { return false;  }
-			set { }
-		}
+		/// <summary>
+		/// True when the model was updated during postback
+		/// </summary>
+		public bool UpdateSuccessful { get; set; }
+
+		/// <summary>
+		/// True when the password was updated during postback.
+		/// </summary>
+		public bool PasswordUpdateSuccessful { get; set; }
 
 		/// <summary>
 		/// Constructor used by none-controllers
@@ -114,7 +119,23 @@ namespace Roadkill.Core.Mvc.ViewModels
 		}
 
 		/// <summary>
-		/// Use this constructor when inside a controller, or you have ApplicationSettings.
+		/// Takes all properties on <see cref="User"/> and fills them on in the UserViewModel
+		/// </summary>
+		public UserViewModel(User user)
+		{
+			ActivationKey = user.ActivationKey;
+			Id = user.Id;
+			ExistingEmail = user.Email;
+			ExistingUsername = user.Username;
+			NewEmail = user.Email;
+			NewUsername = user.Username;
+			Firstname = user.Firstname;
+			Lastname = user.Lastname;
+			PasswordResetKey = user.PasswordResetKey;
+		}
+
+		/// <summary>
+		/// Used by the IOC and by validation.
 		/// </summary>
 		/// <param name="settings"></param>
 		/// <param name="userManager"></param>

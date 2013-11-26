@@ -65,7 +65,7 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn.ToC
 
 			StringBuilder builder = new StringBuilder();
 			builder.AppendLine("<div class=\"toc\">");
-			builder.AppendLine("<div class=\"toc-title\">Contents [<a class=\"toc-showhide\" href=\"#\">hide</a>]</div>");
+			builder.AppendLine("<div class=\"toc-title\">Contents [<a class=\"toc-showhide\" href=\"javascript:;\">hide</a>]</div>");
 			builder.AppendLine("<div class=\"toc-list\">");
 			builder.AppendLine("<ul>");
 			builder.AppendLine(treeHtml);

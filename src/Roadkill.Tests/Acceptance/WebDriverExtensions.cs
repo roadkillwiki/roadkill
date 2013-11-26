@@ -7,6 +7,7 @@ using OpenQA.Selenium.Support.UI;
 using System.Threading;
 using System.IO;
 using System.Drawing.Imaging;
+using NUnit.Framework;
 
 namespace OpenQA.Selenium
 {
@@ -331,25 +332,33 @@ namespace OpenQA.Selenium
 
 		public static IWebElement WaitForElementDisplayed(this IWebDriver driver, By by, int timeoutInSeconds = 10)
 		{
-			WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
-			if (wait.Until<bool>(x => x.FindElement(by).Displayed))
+			try
 			{
-				return driver.FindElement(by);
-			}
-			else
-			{
-				ITakesScreenshot screenshotDriver = driver as ITakesScreenshot;
-
-				if (screenshotDriver != null)
+				WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
+				if (wait.Until<bool>(x => x.FindElement(by).Displayed))
 				{
-					string filename = string.Format("webdriverwait-failure{0}.png", DateTime.Now.Ticks);
-					string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filename);
-					Screenshot screenshot = screenshotDriver.GetScreenshot();
-					screenshot.SaveAsFile(fullPath, ImageFormat.Png);
-
-					Console.WriteLine("Took screenshot: {0} ", fullPath);
+					return driver.FindElement(by);
 				}
+				else
+				{
+					ITakesScreenshot screenshotDriver = driver as ITakesScreenshot;
 
+					if (screenshotDriver != null)
+					{
+						string filename = string.Format("webdriverwait-failure{0}.png", DateTime.Now.Ticks);
+						string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filename);
+						Screenshot screenshot = screenshotDriver.GetScreenshot();
+						screenshot.SaveAsFile(fullPath, ImageFormat.Png);
+
+						Console.WriteLine("Took screenshot: {0} ", fullPath);
+					}
+
+					return null;
+				}
+			}
+			catch (WebDriverException e)
+			{
+				Assert.Fail("Unable to find element '{0}' on '{1}' - {2}", by.ToString(), driver.Url, e.Message);
 				return null;
 			}
 		}
@@ -357,7 +366,17 @@ namespace OpenQA.Selenium
 		public static bool IsElementDisplayed(this IWebDriver driver, By by, int timeoutInSeconds = 10)
 		{
 			WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
-			return wait.Until<bool>(x => x.FindElement(by).Displayed);
+
+			try
+			{
+				bool result = wait.Until<bool>(x => x.FindElement(by).Displayed);
+				return result;
+			}
+			catch (WebDriverException e)
+			{
+				Assert.Fail("Unable to find element '{0}' on '{1}' - {2}", by.ToString(), driver.Url, e.Message);
+				return false;
+			}
 		}
 	}
 }

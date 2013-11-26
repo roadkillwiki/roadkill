@@ -181,9 +181,8 @@ namespace Roadkill.Core
 				{
 					using (HtmlTextWriter htmlWriter = new HtmlTextWriter(stringWriter))
 					{
-						// todo-TRANSLATION
 						stringWriter.WriteLine("<div class=\"form-group\">");
-						stringWriter.WriteLine("\t<label class=\"col-sm-4 control-label\">As an anti-spam measure, please enter the two words below</label>");
+						stringWriter.WriteLine("\t<label class=\"col-sm-4 control-label\">" + SiteStrings.Recaptcha_Prompt + "</label>");
 						stringWriter.WriteLine("\t<div class=\"col-sm-8\">");
 						control.RenderControl(htmlWriter);
 						stringWriter.WriteLine("\t</div>");

@@ -24,7 +24,7 @@ namespace Roadkill.Core.Plugins
 		public UserServiceBase UserService { get; set; }
 
 		[SetterProperty]
-		public PageService PageService { get; set; }
+		public IPageService PageService { get; set; }
 
 		[SetterProperty]
 		public SettingsService SettingsService { get; set; }

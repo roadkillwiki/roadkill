@@ -2,15 +2,18 @@
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
-@Url.ScriptLink("roadkill/installer/step3.js")
+@Url.InstallerScriptLink("step3Db.js")
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
-		var messages = {};
+		var messages =
+		{
+			passwordsDontMatch : "@SiteStrings.User_Validation_PasswordsDontMatch"
+		};
 
 		var wizard = new Roadkill.Site.Installer.InstallWizard();
-		var step3 = new Roadkill.Site.Installer.Step3(wizard, messages);
-		step3.configureDatabaseAuthValidation();
+		var step3 = new Roadkill.Site.Installer.Step3Db(wizard, messages);
+		step3.configureValidation();
 	});
 </script>
 
@@ -22,18 +25,18 @@
 	@(Html.HiddenFor<SettingsViewModel, bool>(h => h.UseWindowsAuth))
 
 	<p>
-		@InstallStrings.Page3_DB_Label
+		@InstallStrings.Step3_One_Way_Hashed
 	</p>
 
 	<!-- Editor role name -->
 	<div class="form-group">
 		<fieldset>
-			<legend>@InstallStrings.Page3_DB_Group1_Title</legend>
-			<label for="EditorRoleName">@InstallStrings.Page3_DB_Group1_Label1</label>
+			<legend>@InstallStrings.Step3_DB_Editor_Role_Title</legend>
+			<label for="EditorRoleName">@InstallStrings.Step3_DB_Editor_Role</label>
 
 			<div class="row">
 				<div class="col-xs-4">
-					@Html.BootstrapTextBoxFor(s => s.EditorRoleName, InstallStrings.Page3_AD_Group1_Label3)
+					@Html.BootstrapTextBoxFor(s => s.EditorRoleName, InstallStrings.Step3_DB_Editor_Role)
 				</div>
 			</div>
 		</fieldset>
@@ -42,12 +45,12 @@
 	<!-- Admin role name -->
 	<div class="form-group">
 		<fieldset>
-			<legend>@InstallStrings.Page3_DB_Group2_Title</legend>
-			<label for="AdminRoleName">@InstallStrings.Page3_DB_Group2_Label1</label>
+			<legend>@InstallStrings.Step3_DB_Admin_Role_Title</legend>
+			<label for="AdminRoleName">@InstallStrings.Step3_DB_Admin_Role</label>
 
 			<div class="row">
 				<div class="col-xs-4">
-					@Html.BootstrapTextBoxFor(s => s.AdminRoleName, InstallStrings.Page3_DB_Group2_Label1)
+					@Html.BootstrapTextBoxFor(s => s.AdminRoleName, InstallStrings.Step3_DB_Admin_Role)
 				</div>
 			</div>
 		</fieldset>
@@ -56,13 +59,13 @@
 	<!-- Allow user signups -->
 	<div class="form-group">
 		<fieldset>
-			<legend>@InstallStrings.Page3_DB_Group3_Title</legend>
-			<p>@InstallStrings.Page3_DB_Group3_Label1</p>
+			<legend>@SiteStrings.SiteSettings_Configuration_AllowUserSignups</legend>
+			<p>@SiteStrings.SiteSettings_Configuration_AllowUserSignups_Help</p>
 
 			<div class="form-group">
 				<label for="AllowUserSignup" class="checkbox">
-					@InstallStrings.Page3_DB_Group3_Label2
-					@Html.BootstrapCheckBoxFor(s => s.AllowUserSignup, InstallStrings.Page3_DB_Group3_Label2)
+					@SiteStrings.SiteSettings_Configuration_AllowUserSignups
+					@Html.BootstrapCheckBoxFor(s => s.AllowUserSignup, SiteStrings.SiteSettings_Configuration_AllowUserSignups)
 				</label>
 			</div>
 		</fieldset>
@@ -71,20 +74,20 @@
 	<!-- Enable recaptcha -->
 	<div class="form-group">
 		<fieldset>
-			<legend>@InstallStrings.Page3_DB_Group4_Title</legend>
-			<p>@Html.Raw(LocalizationTokens.ReplaceRecaptcha(InstallStrings.Page3_DB_Group4_Label1))</p>
+			<legend>@SiteStrings.SiteSettings_Configuration_EnableRecaptcha</legend>
+			<p>@Html.Raw(LocalizationTokens.ReplaceRecaptcha(InstallStrings.Step3_DB_Enable_Recaptcha_Description))</p>
 
 			<div class="form-group">
 				<label for="IsRecaptchaEnabled" class="checkbox">
-					@InstallStrings.Page3_DB_Group4_Label2
-					@Html.BootstrapCheckBoxFor(s => s.IsRecaptchaEnabled, InstallStrings.Page3_DB_Group4_Label2)
+					@SiteStrings.SiteSettings_Configuration_EnableRecaptcha
+					@Html.BootstrapCheckBoxFor(s => s.IsRecaptchaEnabled, SiteStrings.SiteSettings_Configuration_EnableRecaptcha)
 				</label>
 
-				<label for="RecaptchaPublicKey">@InstallStrings.Page3_DB_Group4_Label3</label>
-				@Html.BootstrapTextBoxFor(s => s.RecaptchaPublicKey, InstallStrings.Page3_DB_Group4_Label3)
+				<label for="RecaptchaPublicKey">@SiteStrings.SiteSettings_Configuration_RecaptchaPublicKey</label>
+				@Html.BootstrapTextBoxFor(s => s.RecaptchaPublicKey, SiteStrings.SiteSettings_Configuration_RecaptchaPublicKey)
 
-				<label for="RecaptchaPrivateKey">@InstallStrings.Page3_DB_Group4_Label4</label>
-				@Html.BootstrapTextBoxFor(s => s.RecaptchaPrivateKey, InstallStrings.Page3_DB_Group4_Label4)
+				<label for="RecaptchaPrivateKey">@SiteStrings.SiteSettings_Configuration_RecaptchaPrivateKey</label>
+				@Html.BootstrapTextBoxFor(s => s.RecaptchaPrivateKey, SiteStrings.SiteSettings_Configuration_RecaptchaPrivateKey)
 			</div>
 		</fieldset>
 	</div>
@@ -92,12 +95,12 @@
 	<!-- Admin email -->
 	<div class="form-group">
 		<fieldset>
-			<legend>@InstallStrings.Page3_DB_Group5_Title</legend>
-			<label for="AdminEmail">@InstallStrings.Page3_DB_Group5_Label1</label>
+			<legend>@InstallStrings.Step3_DB_Admin_Email_Title</legend>
+			<label for="AdminEmail">@InstallStrings.Step3_DB_Admin_Email</label>
 
 			<div class="row">
 				<div class="col-xs-4">
-					@Html.BootstrapTextBoxFor(s => s.AdminEmail, InstallStrings.Page3_DB_Group5_Label1)
+					@Html.BootstrapTextBoxFor(s => s.AdminEmail, InstallStrings.Step3_DB_Admin_Email)
 				</div>
 			</div>
 		</fieldset>
@@ -106,12 +109,12 @@
 	<!-- Admin password -->
 	<div class="form-group">
 		<fieldset>
-			<legend>@InstallStrings.Page3_DB_Group6_Title</legend>
-			<label for="AdminPassword">@InstallStrings.Page3_DB_Group6_Label1</label>
+			<legend>@InstallStrings.Step3_DB_Admin_Password_Title</legend>
+			<label for="AdminPassword">@InstallStrings.Step3_DB_Admin_Password</label>
 
 			<div class="row">
 				<div class="col-xs-4">
-					@Html.BootstrapPasswordFor(s => s.AdminPassword, InstallStrings.Page3_DB_Group6_Label1)
+					@Html.BootstrapPasswordFor(s => s.AdminPassword, InstallStrings.Step3_DB_Admin_Password)
 				</div>
 			</div>
 		</fieldset>
@@ -122,7 +125,7 @@
 		<fieldset>
 			<div class="row">
 				<div class="col-xs-4">
-					@Html.BootstrapPassword("password2", InstallStrings.Page3_DB_Group6_Label1)
+					@Html.BootstrapPassword("password2", InstallStrings.Step3_DB_Admin_Password)
 				</div>
 			</div>
 		</fieldset>

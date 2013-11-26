@@ -3,9 +3,7 @@ module Roadkill.Site.Installer
 {
 	export class Step4Messages
 	{
-		public successTitle: string;
 		public successMessage: string;
-		public failureTitle: string;
 		public failureMessage: string;
 	}
 
