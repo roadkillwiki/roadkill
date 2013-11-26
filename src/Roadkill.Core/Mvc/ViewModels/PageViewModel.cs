@@ -7,6 +7,7 @@ using Roadkill.Core.Localization;
 using Roadkill.Core.Database;
 using Roadkill.Core.Text;
 using Roadkill.Core.Converters;
+using System.Xml.Serialization;
 
 namespace Roadkill.Core.Mvc.ViewModels
 {
@@ -167,6 +168,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		/// <summary>
 		/// All tags in the system.
 		/// </summary>
+		[XmlIgnore]
 		public List<TagViewModel> AllTags { get; set; }
 
 		public PageViewModel()

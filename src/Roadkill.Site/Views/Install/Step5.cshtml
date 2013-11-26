@@ -7,17 +7,19 @@
 	$(document).ready(function()
 	{
 		var wizard = new Roadkill.Site.Installer.InstallWizard();
-		var step5 = new Roadkill.Site.Installer.Step4(wizard);
+		var step5 = new Roadkill.Site.Installer.Step5(wizard);
 	});
 </script>
 
 @if (ViewData.ModelState.IsValid)
 {
+	<!-- Successful install -->
 	<div class="alert alert-info">
 		<strong>@InstallStrings.Page5_Success_Title</strong>
 		
 	@if (Model.UseWindowsAuth)
 	{
+		<!-- Windows auth web.config ssettings-->
 		<p style="margin-top:20px;">
 			<strong>@InstallStrings.Page5_Success_AD_Title</strong>
 		</p>
@@ -38,9 +40,17 @@
 </pre>
 		 }
 	</div>
+	
+	@section BottomButtons
+	{
+		<div class="continue">
+			<a class="btn btn-success pull-right" href="@Url.Action("Index", "Home")">@InstallStrings.Page5_Success_Label1</a>
+		</div>
+	}
 }
 else
 {
+	<!-- Failed install -->
 	<div class="alert alert-warning">
 		<h4>@InstallStrings.Page5_Error_Title</h4>
 		<br />
@@ -50,11 +60,11 @@ else
 			@Html.ValidationSummary()
 		</pre>
 	</div>
-}
-
-@section BottomButtons
-{
-	<div class="continue">
-		<a class="btn btn-success pull-right" href="@Url.Action("Index", "Home")">@InstallStrings.Page5_Success_Label1</a>
-	</div>
+	
+	@section BottomButtons
+	{
+		<div class="previous">
+			<a class="btn btn-danger pull-left" href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a>
+		</div>
+	}
 }
