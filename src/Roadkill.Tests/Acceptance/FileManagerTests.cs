@@ -95,7 +95,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("a[href='/filemanager']")).Click();
 
 			// Assert
-			Assert.That(Driver.FindElement(By.CssSelector(".fileupload-buttonbar")).Displayed, Is.True, ".fileupload-buttonbar");
+			Assert.That(Driver.FindElement(By.CssSelector("#fileupload-buttonbar")).Displayed, Is.True, ".fileupload-buttonbar");
 			Assert.That(Driver.FindElement(By.CssSelector("#addfolderbtn")).Displayed, Is.True, "#addfolderbtn");
 			Assert.That(Driver.FindElement(By.CssSelector("#deletefilebtn")).Displayed, Is.True, "#deletefilebtn");
 			Assert.That(Driver.FindElement(By.CssSelector("#deletefolderbtn")).Displayed, Is.True, "#deletefolderbtn");
@@ -160,7 +160,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("a[href='/filemanager']")).Click();
 			Driver.FindElement(By.CssSelector("td.file")).Click();
 			Driver.FindElement(By.CssSelector("#deletefilebtn")).Click();
-			Driver.FindElement(By.CssSelector(".bootbox a.btn-primary")).Click();
+			Driver.FindElement(By.CssSelector(".bootbox button.btn-primary")).Click();
 			WaitForAjaxToComplete();
 
 			// Assert
@@ -182,7 +182,7 @@ namespace Roadkill.Tests.Acceptance
 			Driver.FindElement(By.CssSelector("a[href='/filemanager']")).Click();
 			Driver.FindElement(By.CssSelector("table#files tbody tr td+td")).Click();
 			Driver.FindElement(By.CssSelector("#deletefolderbtn")).Click();
-			Driver.FindElement(By.CssSelector(".bootbox a.btn-primary")).Click();
+			Driver.FindElement(By.CssSelector(".bootbox button.btn-primary")).Click();
 			WaitForAjaxToComplete();
 
 			// Assert
