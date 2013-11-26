@@ -17,7 +17,7 @@ namespace Roadkill.Tests.Acceptance.Smoke
 	/// before running main batch of acceptance tests.
 	/// </summary>
 	[TestFixture]
-	[Category("Smoke Tests")]
+	[Category("Smoke")]
 	public class CanaryTests : AcceptanceTestBase
 	{
 		[Test]
@@ -63,7 +63,7 @@ namespace Roadkill.Tests.Acceptance.Smoke
 		public void Can_Install_SqlServer_Ce_From_Release_Zip_File()
 		{
 			// Arrange
-			string installUrl = "http://roadkill16.local/";
+			string installUrl = "http://roadkill.prerelease.local/";
 			LoginUrl = string.Format("{0}/user/login", installUrl);
 			Driver.Navigate().GoToUrl(installUrl);
 			
@@ -108,7 +108,7 @@ namespace Roadkill.Tests.Acceptance.Smoke
 		}
 
 		[Test]
-		[Description("Used to verify the release zip file before Creating a new Codeplex release")]
+		[Description("Used to verify the upgrade in the release zip file before Creating a new Codeplex release")]
 		[Explicit]
 		public void Can_Upgrade_SqlServerCe_From_152_From_Release_Zip_File()
 		{
