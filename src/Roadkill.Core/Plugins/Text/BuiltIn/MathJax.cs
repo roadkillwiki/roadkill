@@ -12,8 +12,8 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 {
 	public class MathJax : TextPlugin
 	{
-		private static readonly string _token = "[[[mathjax]]]";
-		private static readonly string _parserSafeToken;
+		internal static readonly string TOKEN = "[[[mathjax]]]";
+		internal static readonly string PARSER_SAFE_TOKEN;
 
 		public override string Id
 		{
@@ -51,19 +51,19 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 
 		static MathJax()
 		{
-			_parserSafeToken = ParserSafeToken(_token);
+			PARSER_SAFE_TOKEN = ParserSafeToken(TOKEN);
 		}
 
 		public override string BeforeParse(string markupText)
 		{
-			return markupText.Replace(_token, _parserSafeToken);
+			return markupText.Replace(TOKEN, PARSER_SAFE_TOKEN);
 		}
 
 		public override string AfterParse(string html)
 		{
-			if (html.Contains(_token))
+			if (html.Contains(TOKEN))
 			{
-				return html.Replace(_token, "");
+				return html.Replace(TOKEN, "");
 			}
 			else
 			{
@@ -73,6 +73,7 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 
 		public override string GetHeadContent()
 		{
+			// Mathjax runs on the server, so use the CDN.
 			return "\t\t<script type=\"text/javascript\" src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\"></script>\n";
 		}
 	}

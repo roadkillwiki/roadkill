@@ -123,7 +123,8 @@ namespace Roadkill.Core.Mvc.Controllers
 
 		public ActionResult EditUser(Guid id)
 		{
-			UserViewModel model = UserManager.GetUserById(id).ToViewModel();
+			User user = UserManager.GetUserById(id);
+			UserViewModel model = new UserViewModel(user);
 			return View(model);
 		}
 
@@ -142,7 +143,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				{
 					if (!UserManager.UpdateUser(model))
 					{
-						ModelState.AddModelError("General", SiteStrings.SiteSettings_Users_EditUser_Error);
+						ModelState.AddModelError("General", SiteStrings.SiteSettings_UserManagement_EditUser_Error);
 					}
 
 					model.ExistingEmail = model.NewEmail;

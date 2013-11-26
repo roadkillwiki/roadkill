@@ -1,6 +1,9 @@
 /// <reference path="typescript-ref/references.ts" />
 module Roadkill.Site
 {
+	/**
+	Setup for all pages.
+	*/
 	$(document).ready(function ()
 	{
 		Setup.configureBinds();
@@ -23,9 +26,21 @@ module Roadkill.Site
 	{
 		public static configureBinds()
 		{
+			this.hideTemporaryAlerts();
 			this.bindInfoButton();
 			this.bindTimeAgo();
-			this.bindTocLinks();
+		}
+
+		public static hideTemporaryAlerts()
+		{
+			// Any alert warnings and success that should dissapear after 5 seconds
+			$(".alert-temporary").each(function ()
+			{
+				var item = $(this);
+				setTimeout(function () {
+					item.fadeOut();
+				}, 5000);
+			});
 		}
 
 		public static bindTimeAgo()
@@ -41,24 +56,6 @@ module Roadkill.Site
 			$("#pageinfo-button").click(function ()
 			{
 				Dialogs.openModal("#pageinformation");
-			});
-		}
-
-		public static bindTocLinks()
-		{
-			// The show/hide for table of contents
-			$("a.toc-showhide").click(function ()
-			{
-				if ($(this).text() == "hide")
-				{
-					$(this).text("show");
-				}
-				else
-				{
-					$(this).text("hide");
-				}
-
-				$(this).parent().next().toggle();
 			});
 		}
 

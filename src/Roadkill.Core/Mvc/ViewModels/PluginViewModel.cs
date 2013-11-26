@@ -14,6 +14,20 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public bool IsEnabled { get; set; }
+		public string EnabledSymbol
+		{
+			get
+			{
+				if (IsEnabled)
+				{
+					return "<input type='checkbox' style='cursor:default;' disabled checked='checked' />";
+				}
+				else 
+				{
+					return "<input type='checkbox' style='cursor:default;' disabled/>";
+				}
+			}
+		}
 
 		/// <summary>
 		/// This property should be lazy loaded when then settings are loaded.

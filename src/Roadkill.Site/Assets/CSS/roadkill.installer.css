@@ -10,24 +10,24 @@ The formatting style of this CSS file is:
 	* This file is minified at runtime, so comments are welcomed.
 */
 
-body		{ font-family: 'Helvetica Neue',Arial,sans-serif; letter-spacing: .01em; font-size:14px;}
+body		{ font-family: 'Helvetica Neue',Arial,sans-serif; letter-spacing: .01em; font-size:14px;background-color:#eeeeee !important;padding:50px 0px;}
 h1			{ font-size:24px; }
 h3			{ display:inline;-webkit-text-shadow: 0 1px rgba(255, 255, 255, 0.9); text-shadow: 0 1px rgba(255, 255, 255, 0.9);}
 a			{ color:#000;}
 
-#installer-container { width: 700px; }
+#installer-container { width: 850px;border:1px solid #aaa;border-radius:5px;padding:10px; background-color:#fff;}
 #logo		{ text-align:center;}
-#nav		{ padding: 10px 0px;border-bottom: 1px dotted #a4a4a4; }
 #content	{ padding:30px; }
 #footer		{ margin-top: 30px;text-align:center; }
 
 /* Navigation */
-#trail		{ color:#616161;list-style-type:none;display:block;clear:both;margin:auto;font-size:16px;-webkit-text-shadow: 0 1px rgba(255, 255, 255, 0.9); text-shadow: 0 1px rgba(255, 255, 255, 0.9); }
+#nav		{ padding: 10px 0px;margin: 0 auto; }
+#trail		{ color:#616161;list-style-type:none;display:block;clear:both;font-size:16px;-webkit-text-shadow: 0 1px rgba(255, 255, 255, 0.9); text-shadow: 0 1px rgba(255, 255, 255, 0.9); }
 #trail li	{ float:left;text-align:right;display:block;margin-right:50px; }
 .selected	{ font-weight:bold;color:#b30f10; }
 
 /* Continue + previous buttons */
-#bottom-buttons { padding-top:10px;border-top:1px dotted #a4a4a4; }
+#bottom-buttons { padding-top:10px; }
 .previous	{ float:left;padding:10px;font-weight:bold;}
 
 /* Index page */

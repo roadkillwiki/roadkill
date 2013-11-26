@@ -2,27 +2,29 @@
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
-@Url.ScriptLink("roadkill/installer/step5.js")
+@Url.InstallerScriptLink("step5.js")
 <script type="text/javascript">
 	$(document).ready(function()
 	{
 		var wizard = new Roadkill.Site.Installer.InstallWizard();
-		var step5 = new Roadkill.Site.Installer.Step4(wizard);
+		var step5 = new Roadkill.Site.Installer.Step5(wizard);
 	});
 </script>
 
 @if (ViewData.ModelState.IsValid)
 {
+	<!-- Successful install -->
 	<div class="alert alert-info">
-		<strong>@InstallStrings.Page5_Success_Title</strong>
+		<strong>@InstallStrings.Step5_Success_Title</strong>
 		
 	@if (Model.UseWindowsAuth)
 	{
+		<!-- Windows auth web.config settings-->
 		<p style="margin-top:20px;">
-			<strong>@InstallStrings.Page5_Success_AD_Title</strong>
+			<strong>@InstallStrings.Step5_WindowsAuth_Please_Read</strong>
 		</p>
 		<p>
-			@InstallStrings.Page5_Success_AD_Label
+			@InstallStrings.Step5_WindowsAuth_IIS_Settings
 		</p>
 <pre>
 &lt;system.webServer&gt;
@@ -38,23 +40,31 @@
 </pre>
 		 }
 	</div>
+	
+	@section BottomButtons
+	{
+		<div class="continue">
+			<a class="btn btn-success pull-right" href="@Url.Action("Index", "Home")">@InstallStrings.Step5_Continue_Button</a>
+		</div>
+	}
 }
 else
 {
+	<!-- Failed install -->
 	<div class="alert alert-warning">
-		<h4>@InstallStrings.Page5_Error_Title</h4>
+		<h4>@InstallStrings.Step5_Failure_Title</h4>
 		<br />
-		@InstallStrings.Page5_Error_Label1
+		@InstallStrings.Step5_Failure_GoBack_And_Check
 		<br /><br />
 		<pre style="width:100%;overflow:scroll;">
 			@Html.ValidationSummary()
 		</pre>
 	</div>
-}
-
-@section BottomButtons
-{
-	<div class="continue">
-		<a class="btn btn-success pull-right" href="@Url.Action("Index", "Home")">@InstallStrings.Page5_Success_Label1</a>
-	</div>
+	
+	@section BottomButtons
+	{
+		<div class="previous">
+			<a class="btn btn-danger pull-left" href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a>
+		</div>
+	}
 }

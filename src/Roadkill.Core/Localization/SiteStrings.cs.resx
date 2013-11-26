@@ -105,14 +105,17 @@
 <data name="Shared_PoweredBy" xml:space="preserve">
 	<value>Beží na Roadkill .NET</value>
 </data>
-<data name="Shared_Firstname" xml:space="preserve">
+<data name="Shared_Firstname_Label" xml:space="preserve">
 	<value>Jméno:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Shared_Lastname" xml:space="preserve">
+<data name="Shared_Lastname_Label" xml:space="preserve">
 	<value>Příjmení:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Shared_Username" xml:space="preserve">
+<data name="Shared_Username_Label" xml:space="preserve">
 	<value>Uživatelské jméno:</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Shared_Email_Label" xml:space="preserve">
 	<value>Email:</value>
@@ -168,8 +171,9 @@
 <data name="Signup_Label" xml:space="preserve">
 	<value>Vyplňte níže uvedené prosím.</value>
 </data>
-<data name="Signup_Button" xml:space="preserve">
+<data name="Button_Signup" xml:space="preserve">
 	<value>Registrace nového uživatele</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Signup_Complete_Title" xml:space="preserve">
 	<value>Registrace byla úspěšná.</value>
@@ -183,8 +187,9 @@
 <data name="Signup_Complete_EmailResent" xml:space="preserve">
 	<value>Potvrzovací email byl znovu odeslán.</value>
 </data>
-<data name="Signup_Complete_EmailResend_Button" xml:space="preserve">
+<data name="Button_Signup_Complete_EmailResend" xml:space="preserve">
 	<value>Znovu odeslat potvrzovací email</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Signup_Error_General" xml:space="preserve">
 	<value>Při registraci se vyskytla chyba.</value>
@@ -219,8 +224,9 @@
 <data name="ResetPassword_Complete_Label" xml:space="preserve">
 	<value>Zadejte své nové heslo.</value>
 </data>
-<data name="ResetPassword_Button" xml:space="preserve">
+<data name="Button_ResetPassword" xml:space="preserve">
 	<value>Změnit heslo</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="ResetPassword_Successful_Title" xml:space="preserve">
 	<value>Změna hesla byla úspěšná.</value>
@@ -286,7 +292,7 @@
 	<value>Žádné štítky nenalezeny.</value>
 </data>
 <data name="AllPages_TitleColumnHeading" xml:space="preserve">
-	<value>Title</value>
+	<value>Název</value>
 </data>
 <data name="Pages_ForUser" xml:space="preserve">
 	<value>Všechny stránky vytvořil {0}</value>
@@ -402,8 +408,9 @@
 <data name="SiteSettings_Configuration" xml:space="preserve">
 	<value>Nastavení</value>
 </data>
-<data name="SiteSettings_Users" xml:space="preserve">
+<data name="SiteSettings_UserManagement" xml:space="preserve">
 	<value>Uživatelé</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Tools" xml:space="preserve">
 	<value>Nástroje</value>
@@ -412,7 +419,7 @@
 	<value>Nastavení</value>
 </data>
 <data name="SiteSettings_Configuration_Site" xml:space="preserve">
-	<value>Site</value>
+	<value>Místo</value>
 </data>
 <data name="SiteSettings_Configuration_SiteName" xml:space="preserve">
 	<value>Název stránek:</value>
@@ -421,7 +428,7 @@
 	<value>URL adresa:</value>
 </data>
 <data name="SiteSettings_Configuration_Database" xml:space="preserve">
-	<value>Database</value>
+	<value>Databáze</value>
 </data>
 <data name="SiteSettings_Configuration_DatabaseType" xml:space="preserve">
 	<value>Typ databáze:</value>
@@ -481,16 +488,13 @@
 	<value>Caching</value>
 </data>
 <data name="SiteSettings_Configuration_ObjectCaching" xml:space="preserve">
-	<value>Object caching</value>
+	<value>Objekt mezipaměti</value>
 </data>
 <data name="SiteSettings_Configuration_BrowserCaching" xml:space="preserve">
-	<value>Browser caching</value>
+	<value>Prohlížeč mezipaměti</value>
 </data>
 <data name="SiteSettings_Configuration_Error" xml:space="preserve">
 	<value>Chyba při ukládání nastavení:</value>
-</data>
-<data name="SiteSettings_Configuration_Caching" xml:space="preserve">
-	<value>Ukládání do vyrovnávací paměti:</value>
 </data>
 <data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
 	<value>Ukládat do vyr. paměti i text stránek:</value>
@@ -538,7 +542,7 @@
 	<value>Název role redaktora - lidé kteří mohou vytvářet a měnit stránky.</value>
 </data>
 <data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
-	<value>{bold}WARNING{/bold} changing this may lock you out of the site when using Active Directory/Windows authentication. Make a backup of your web.config first before saving. {br}{br}This is the name of the admin role. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.</value>
+	<value>{Bold} POZOR {/ bold} Změna může zamknout z webu při používání služby Active Directory / ověřování systému Windows. Udělejte si zálohu souboru web.config první před uložením. {Br} {br} To je jméno admin roli. Správci mají stejná práva jako editory, ale také přístup k nastavení konfigurace a nástroje pro web.</value>
 </data>
 <data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
 	<value>Použitý značkovací jazyk. Roadkill nyní podporuje tyto hodnoty: Creole, Markdown, Mediawiki.</value>
@@ -553,10 +557,10 @@
 	<value>Soubory s těmito příponami mohou být nahrávány. Oddělujte je čárkou.</value>
 </data>
 <data name="SiteSettings_Configuration_ObjectCaching_Help" xml:space="preserve">
-	<value>Enables Object caching. Roadkill caches all pages and content in memory after retrieving it from the database. The cache is automatically updated when a page changes. Recommended to increase the responsiveness of the site. Object caching is not currently supported for web gardens or web farms.</value>
+	<value>Umožňuje ukládání objektů do mezipaměti. Roadkill ukládá všechny stránky a obsah v paměti po načtení z databáze. Cache je automaticky aktualizován, když stránky se mění. Doporučuje se zvýšit schopnost těchto stránek. Objekt mezipaměti není aktuálně podporován pro webové zahrady nebo webové farmy.</value>
 </data>
 <data name="SiteSettings_Configuration_BrowserCaching_Help" xml:space="preserve">
-	<value>Enables caching on the browser. This will tell the browser to cache Roadkill pages, and check for updates (If-Modified-Since) each time the page is loaded. If no update is found, no content is returned from the server. Recommended to increase the responsiveness of the site.</value>
+	<value>Umožňuje ukládání do mezipaměti na prohlížeči. To vám řekne prohlížeč na mezipaměti přejeté zvíře stránek a zkontrolovat aktualizace (If-Modified-Since) při každém načtení stránky. Není-li je nalezena aktualizace, se vrátil nulový obsah ze serveru. Doporučuje se zvýšit schopnost těchto stránek.</value>
 </data>
 <data name="SiteSettings_Configuration_Caching_Help" xml:space="preserve">
 	<value>Zapíná používání vyrovnávací paměti. Roadkill používá vyrovnávací pamět společně s výstupná vyrovnávací pamětí v ASP.NET. Pro zlepšení odezev aplikace je doporučeno ukládání do vyrovnávací paměti povolit. Databáová vyrovnávací paměť není pro webové zahrady či farmy podporována.</value>
@@ -564,53 +568,69 @@
 <data name="SiteSettings_Configuration_CachePageText_Help" xml:space="preserve">
 	<value>Ukládat do vyrovnávací paměti textový obsah stránek. Není-li povoleno, bude při každém zobrazení stránka načítána znovu z databáze.</value>
 </data>
-<data name="SiteSettings_Users_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Title" xml:space="preserve">
 	<value>Uživatelé</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_ColumnHeader_Username" xml:space="preserve">
+<data name="SiteSettings_UserManagement_ColumnHeader_Username" xml:space="preserve">
 	<value>Uživatelské jméno</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_ColumnHeader_Email" xml:space="preserve">
+<data name="SiteSettings_UserManagement_ColumnHeader_Email" xml:space="preserve">
 	<value>Email</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_Admins" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Admins" xml:space="preserve">
 	<value>Správci</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_NewAdmin" xml:space="preserve">
+<data name="SiteSettings_UserManagement_NewAdmin" xml:space="preserve">
 	<value>Nový správce</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_Editors" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Editors" xml:space="preserve">
 	<value>Redaktoři</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_NewEditor" xml:space="preserve">
+<data name="SiteSettings_UserManagement_NewEditor" xml:space="preserve">
 	<value>Nový redaktor</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddAdminDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddAdmin_Title" xml:space="preserve">
 	<value>Přidat správce</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddEditorDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddEditor_Title" xml:space="preserve">
 	<value>Přidat redaktora</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_EditUserDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_EditUser_Title" xml:space="preserve">
 	<value>Upravit uživatele</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddUserDialog_Help" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddUser_Help" xml:space="preserve">
 	<value>Při změně uživatelského jména nebo emailu stávajícím uživatelům ponechte pole hesla prázdné.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddUserDialog_Error" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddUser_Error" xml:space="preserve">
 	<value>Nebylo možné uložit údaje uživatele:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_EditUser_Error" xml:space="preserve">
+<data name="SiteSettings_UserManagement_EditUser_Error" xml:space="preserve">
 	<value>Chyba při aktualizaci údajů uživatele.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Title" xml:space="preserve">
 	<value>Ověření Windows/Active Directory je povoleno</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Label1" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Label1" xml:space="preserve">
 	<value>Uživatelská jména a hesla nelze upravovat při použití ověření Windows - poveďte to přímo v Active Directory.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Label2" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Label2" xml:space="preserve">
 	<value>Jako správce nebo redaktora přidáte uživatele jeho zařazením do skupiny nastavené ve web.config u &quot;AdminRolename&quot; a &quot;EditorRolename&quot;.</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Tools_Title" xml:space="preserve">
 	<value>Nástroje</value>
@@ -691,7 +711,7 @@
 	<value>Adresář příloh je prázdný.</value>
 </data>
 <data name="SiteSettings_Validation_AttachmentsReservedName" xml:space="preserve">
-	<value>&apos;~/Files&apos; is a reserved path, please choose another attachments folder.</value>
+	<value>&quot;~~~HEAD=NNS~~HEAD=poss / Files&quot; je vyhrazené cesty, vyberte prosím jiné příloh složku.</value>
 </data>
 <data name="SiteSettings_Validation_ConnectionEmpty" xml:space="preserve">
 	<value>Připojovací řetězec není vyplněn.</value>
@@ -709,82 +729,179 @@
 	<value>Adresa stránek</value>
 </data>
 <data name="FileManager_Title" xml:space="preserve">
-	<value>Manage files</value>
+	<value>Správa souborů</value>
 </data>
 <data name="FileManager_Upload" xml:space="preserve">
-	<value>Upload files</value>
+	<value>Upload souborů</value>
 </data>
 <data name="FileManager_AddFolder" xml:space="preserve">
-	<value>New folder</value>
+	<value>Nová složka</value>
 </data>
 <data name="FileManager_AddFolder_Cancel" xml:space="preserve">
-	<value>Cancel new folder</value>
+	<value>Zrušit novou složku</value>
 </data>
 <data name="FileManager_Delete_File" xml:space="preserve">
-	<value>Delete File</value>
+	<value>Odstranit soubor</value>
 </data>
 <data name="FileManager_Select" xml:space="preserve">
-	<value>Select</value>
+	<value>Vybrat</value>
 </data>
 <data name="FileManager_Delete_Folder" xml:space="preserve">
-	<value>Delete Folder</value>
+	<value>Smazat složku</value>
 </data>
 <data name="FileManager_Delete_Confirm" xml:space="preserve">
-	<value>Are you sure you want to delete {0}?</value>
+	<value>Jste si jisti, že chcete smazat {0}?</value>
 </data>
 <data name="FileManager_Delete_Success" xml:space="preserve">
-	<value>{0} was sucessfully deleted.</value>
+	<value>{0} byl úspěšně smazán.</value>
 </data>
 <data name="FileManager_Delete_Error" xml:space="preserve">
-	<value>An error occurred deleting {0}</value>
+	<value>Došlo k chybě při mazání {0}</value>
 </data>
 <data name="FileManager_Error_DirectoryListing" xml:space="preserve">
-	<value>An error occurred getting the directory listing: </value>
+	<value>Došlo k chybě při získávání výpis adresáře:</value>
 </data>
 <data name="FileManager_Error_DeleteFolder" xml:space="preserve">
-	<value>An error occurred deleting the folder: </value>
+	<value>Došlo k chybě při mazání složky:</value>
 </data>
 <data name="FileManager_Error_DeleteFile" xml:space="preserve">
-	<value>An error occurred deleting the file: </value>
+	<value>Došlo k chybě při mazání souboru:</value>
 </data>
 <data name="FileManager_Error_CreateFolder" xml:space="preserve">
-	<value>An error occurred creating the folder: </value>
+	<value>Došlo k chybě při vytváření složky:</value>
 </data>
 <data name="FileManager_UploadingProgress" xml:space="preserve">
-	<value>Uploading...</value>
+	<value>Nahrávání ...</value>
 </data>
-<data name="FileManager_Watermark" xml:space="preserve">
-	<value>Drag files here to upload. Double click to navigate folders</value>
+<data name="FileManager_Help" xml:space="preserve">
+	<value>Přetáhněte soubory sem nahrát. Dvojitým kliknutím na procházení složek</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="FileManager_Extension_Not_Supported" xml:space="preserve">
-	<value>Only files with the extension {0} can be uploaded.</value>
+	<value>Pouze soubory s příponou {0} lze nahrát.</value>
 </data>
 <data name="Homepage_Tagname" xml:space="preserve">
-	<value>homepage</value>
+	<value>úvodní stránka</value>
 </data>
 <data name="SiteSettings_Configuration_HeadContent" xml:space="preserve">
-	<value>Additional head tag content</value>
+	<value>Další hlava tag obsah</value>
 </data>
 <data name="SiteSettings_Configuration_FileManager" xml:space="preserve">
-	<value>File manager</value>
+	<value>Správce souborů</value>
 </data>
 <data name="SiteSettings_Configuration_HeadContent_Help" xml:space="preserve">
-	<value>Any additional HTML or scripts you enter here will be added to the {head} tag of the page.</value>
+	<value>Jakékoli další HTML nebo skripty, které zde zadáte, budou přidány do {} vedoucí značku na stránce.</value>
 </data>
 <data name="SiteSettings_Configuration_NavMenu" xml:space="preserve">
-	<value>Navigation menu markup</value>
+	<value>Navigační menu značky</value>
 </data>
 <data name="SiteSettings_Configuration_NavMenu_Help" xml:space="preserve">
-	<value>The navigation menu, which is typically on the left hand side but varies according to the theme. Markup is accepted and should be done in the markdown format your wiki uses. You can also use the following tokens which are replaced with links (some of which may be empty if you are not logged in): {MENUTOKENS}</value>
+	<value>V nabídce, která je obvykle na levé straně, ale liší v závislosti na tématu. Markup je přijat a mělo by být provedeno v podobě srážky vaše wiki používá. Můžete také použít následující tokeny, které jsou nahrazeny odkazy (z nichž některé mohou být prázdné, pokud nejste přihlášeni): {} MENUTOKENS</value>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
-	<value>Automatically overwrite existing files on upload</value>
+	<value>Automaticky přepsat existující soubory na nahrání</value>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting_Help" xml:space="preserve">
-	<value>Check this if you want file names that already exist in the attachments folder to be automatically overwritten.</value>
+	<value>Zaškrtněte toto políčko, pokud chcete názvy souborů, které již existují v přílohách složky bude automaticky přepsán.</value>
 </data>
 <data name="SiteSettings_Plugins_Title" xml:space="preserve">
-	<value>Plugins</value>
+	<value>Zásuvné moduly</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport" xml:space="preserve">
+	<value>Exportovat jako SQL</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport_Label" xml:space="preserve">
+	<value>Exportuje aktuální databázi jako jediný SQL skriptu. Pokud používáte MongoDB tato akce nemá nic.</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite" xml:space="preserve">
+	<value>Veřejná stránka</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite_Help" xml:space="preserve">
+	<value>Když un-zkontrolovat všechny stránky jsou soukromé a mohou být prohlíženy přihlášené uživatele.</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors" xml:space="preserve">
+	<value>Ignorovat chyby vyhledávací index</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors_Help" xml:space="preserve">
+	<value>Pokud je zaškrtnuto, je zobrazena chyba, když se strana nedokáže být indexovány vyhledávači Lucene (při vytváření nebo aktualizaci stránky), místo toho, aby ignorovala.</value>
+</data>
+<data name="FileManager_Upload_FileAlreadyExists" xml:space="preserve">
+	<value>Soubor &apos;{0}&apos; již existuje.</value>
+</data>
+<data name="History_Help_Label" xml:space="preserve">
+	<value>Kliknutím na číslo verze porovnat změny ve verzi před ním.</value>
+</data>
+<data name="SiteSettings_Configuration_Required_Field" xml:space="preserve">
+	<value>Toto pole je povinné.</value>
+</data>
+<data name="Button_Test" xml:space="preserve">
+	<value>Test</value>
+</data>
+<data name="Shared_Success" xml:space="preserve">
+	<value>Úspěch!</value>
+</data>
+<data name="Shared_Failure" xml:space="preserve">
+	<value>Selhání!</value>
+</data>
+<data name="DatabaseConnection_Success" xml:space="preserve">
+	<value>Připojení k databázi bylo úspěšné.</value>
+</data>
+<data name="DatabaseConnection_Failure" xml:space="preserve">
+	<value>Připojení k databázi se nezdařilo:</value>
+</data>
+<data name="Button_Add" xml:space="preserve">
+	<value>Přidat</value>
+</data>
+<data name="Attachments_Folder_Success" xml:space="preserve">
+	<value>Úspěch! Adresář existuje a je možné zapisovat.</value>
+</data>
+<data name="Attachments_Folder_Failure" xml:space="preserve">
+	<value>Nelze zapisovat do adresáře s přílohami:</value>
+</data>
+<data name="Shared_Unexpected_Error" xml:space="preserve">
+	<value>Něco je špatně</value>
+</data>
+<data name="Profile_Not_Available" xml:space="preserve">
+	<value>Je povoleno ověřování systému Windows, takže uživatelský profil není k dispozici.</value>
+</data>
+<data name="Profile_Password_Change_Successful" xml:space="preserve">
+	<value>Heslo bylo úspěšně změněno</value>
+</data>
+<data name="Profile_Details_Updated_Successfully" xml:space="preserve">
+	<value>Mezi detaily v profilu byly úspěšně aktualizovány.</value>
+</data>
+<data name="Profile_Leave_Password_Blank" xml:space="preserve">
+	<value>Ponechte pole hesla prázdné, pokud nechcete změnit heslo.</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Successful" xml:space="preserve">
+	<value>Všechny vyrovnávací paměti byly úspěšně vymazány.</value>
+</data>
+<data name="SiteSettings_Cache_Key_Format" xml:space="preserve">
+	<value>Klíče jsou ve formátu:</value>
+</data>
+<data name="SiteSettings_Cache_Key_Column_Header" xml:space="preserve">
+	<value>Klíč</value>
+</data>
+<data name="SiteSettings_Cache_Page_Cache" xml:space="preserve">
+	<value>Mezipaměť Page</value>
+</data>
+<data name="SiteSettings_Cache_Items_Cache" xml:space="preserve">
+	<value>Položky mezipaměti</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Button" xml:space="preserve">
+	<value>Vymazat mezipaměť</value>
+</data>
+<data name="SiteSettings_Configuration_Unable_To_Save" xml:space="preserve">
+	<value>Nelze uložit nastavení:</value>
+</data>
+<data name="SiteSettings_Configuration_Update_Successful" xml:space="preserve">
+	<value>Nastavení byla úspěšně aktualizována.</value>
+</data>
+<data name="Recaptcha_Prompt" xml:space="preserve">
+	<value>Jako anti-spam opatření, prosím, zadejte dvě slova níže</value>
+</data>
+<data name="Button_Close" xml:space="preserve">
+	<value>Zavřít</value>
 </data>
 
 </root>

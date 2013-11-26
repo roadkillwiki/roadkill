@@ -16,6 +16,8 @@ using Roadkill.Core.Logging;
 using Roadkill.Core.Database.Export;
 using Roadkill.Core.Database;
 using Roadkill.Core.Plugins;
+using Roadkill.Core.Attachments;
+using Roadkill.Core.DI;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -85,9 +87,37 @@ namespace Roadkill.Core.Mvc.Controllers
 				// Refresh the AttachmentsDirectoryPath using the absolute attachments path, as it's calculated in the constructor
 				ApplicationSettings appSettings = configReader.GetApplicationSettings();
 				model.FillFromApplicationSettings(appSettings);
+				model.UpdateSuccessful = true;
 			}
 
 			return View(model);
+		}
+
+		//
+		// AJAX/JSON testers
+		//
+
+		/// <summary>
+		/// This is a duplicate of the Installer.TestAttachments (minus the installed check).
+		/// This method checks to see if the provided folder exists and if it can be written to.
+		/// </summary>
+		/// <param name="folder"></param>
+		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
+		public ActionResult TestAttachments(string folder)
+		{
+			string errors = AttachmentPathUtil.AttachmentFolderExistsAndWriteable(folder, HttpContext);
+			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
+		}
+
+		/// <summary>
+		/// This is a duplicate of the Installer.TestAttachments (minus the installed check).
+		/// Attempts a database connection using the provided connection string.
+		/// </summary>
+		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
+		public ActionResult TestDatabaseConnection(string connectionString, string databaseType)
+		{
+			string errors = RepositoryManager.TestDbConnection(connectionString, databaseType);
+			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 	}
 }

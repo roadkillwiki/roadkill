@@ -46,7 +46,6 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_userViewModel.Id = null;
 			_userViewModel.Password = "1";
-			_userViewModel.IsBeingCreatedByAdmin = true;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyPassword(_userViewModel, null);
@@ -61,7 +60,6 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_userViewModel.Id = null;
 			_userViewModel.Password = "1";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyPassword(_userViewModel, null);
@@ -76,7 +74,6 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_userViewModel.Id = Guid.NewGuid();
 			_userViewModel.Password = "1";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyPassword(_userViewModel, null);
@@ -91,7 +88,6 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_userViewModel.Id = Guid.NewGuid();
 			_userViewModel.Password = "";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyPassword(_userViewModel, null);
@@ -107,7 +103,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = null;
 			_userViewModel.PasswordConfirmation = "1";
 			_userViewModel.Password = "2";
-			_userViewModel.IsBeingCreatedByAdmin = true;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyPasswordsMatch(_userViewModel, null);
@@ -123,7 +118,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = null;
 			_userViewModel.PasswordConfirmation = "password";
 			_userViewModel.Password = "password";
-			_userViewModel.IsBeingCreatedByAdmin = true;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyPasswordsMatch(_userViewModel, null);
@@ -139,7 +133,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = null;
 			_userViewModel.PasswordConfirmation = "password1";
 			_userViewModel.Password = "password2";
-			_userViewModel.IsBeingCreatedByAdmin = true;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyPasswordsMatch(_userViewModel, null);
@@ -155,7 +148,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = Guid.NewGuid();
 			_userViewModel.PasswordConfirmation = "";
 			_userViewModel.Password = "";
-			_userViewModel.IsBeingCreatedByAdmin = true;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyPasswordsMatch(_userViewModel, null);

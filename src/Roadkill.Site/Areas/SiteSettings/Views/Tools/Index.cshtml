@@ -2,28 +2,22 @@
 	ViewBag.Title = SiteStrings.SiteSettings_Tools_Title;
 	ViewData["ToolsActive"] = true;
 }
+@Html.SiteSettingsNavigation()
+
+
 @if (@TempData["SuccessMessage"] != null)
 {
-	<script type="text/javascript">
-		$(document).ready(function ()
-		{
-			// TODO-translation
-			toastr.success("@TempData["SuccessMessage"]");
-		});
-	</script>
+	<div class="alert alert-success alert-temporary">
+		@TempData["SuccessMessage"]
+	</div>
 }
 else if (@TempData["ErrorMessage"] != null)
 {
-	<script type="text/javascript">
-		$(document).ready(function ()
-		{
-			// TODO-translation
-			toastr.error("@TempData["ErrorMessage"]");
-		});
-	</script>
+	<div class="alert alert-danger alert-temporary">
+		@TempData["ErrorMessage"]
+	</div>
 }
 
-@Html.SiteSettingsNavigation()
 
 <div id="settings-container">
 	<div>

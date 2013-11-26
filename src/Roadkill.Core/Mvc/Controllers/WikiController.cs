@@ -39,7 +39,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (id == null || id < 1)
 				return RedirectToAction("Index", "Home");
 
-			PageViewModel model = PageService.GetById(id.Value);
+			PageViewModel model = PageService.GetById(id.Value, true);
 
 			if (model == null)
 				throw new HttpException(404, string.Format("The page with id '{0}' could not be found", id));

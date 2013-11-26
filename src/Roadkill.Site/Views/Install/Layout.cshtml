@@ -8,8 +8,8 @@
 	@Url.CssLink("toastr.css")
 	@Url.ScriptLink("jquery/jquery-1.9.1.js")
 	@Url.ScriptLink("jquery/jquery.validate.js")
-	@Url.ScriptLink("toastr.js")
-	@Url.ScriptLink("bootbox.js")
+	@Url.ScriptLink("shared/toastr.js")
+	@Url.ScriptLink("shared/bootbox.js")
 	@Url.ScriptLink("~/install/InstallerJsVars")
 	@Url.BootStrap()
 	@Url.ScriptLink("roadkill/validation.js")
@@ -37,16 +37,11 @@
 		<!-- Content-->
 		<div id="content" class="row">
 			@RenderBody()
-		</div>
 
-		<!-- Previous + Continue buttons -->
-		<div id="bottom-buttons" class="row">
-			@RenderSection("BottomButtons")
-		</div>
-
-		<!-- Footer -->
-		<div id="footer" class="row center">
-			<img src="@Url.Content("~/Assets/Images/installer-ex-chicken.png")" border="0" alt="an ex-chicken" />
+			<!-- Previous + Continue buttons -->
+			<div id="bottom-buttons">
+				@RenderSection("BottomButtons")
+			</div>
 		</div>
 	</div>
 </body>

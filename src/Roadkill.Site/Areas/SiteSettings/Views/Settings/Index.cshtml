@@ -3,17 +3,29 @@
 @{
 	ViewBag.Title = SiteStrings.SiteSettings_Configuration_Title;
 }
-
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
-		var settings = new Roadkill.Site.Admin.Settings();
+		var messages =
+		{
+			dbSuccessTitle: "@SiteStrings.DatabaseConnection_Success",
+			dbFailureTitle: "@SiteStrings.DatabaseConnection_Failure",
+			attachmentsSuccess: "@SiteStrings.Attachments_Folder_Success",
+			attachmentsFailureTitle: "@SiteStrings.Attachments_Folder_Failure",
+			unexpectedError: "@SiteStrings.Shared_Unexpected_Error"
+		};
+		var settings = new Roadkill.Site.Admin.Settings(messages);
 	});
 </script>
 @Html.SiteSettingsNavigation()
 
-@* TODO-translation *@
-@Html.BootstrapValidationSummary("Unable to save the settings:")
+@Html.BootstrapValidationSummary(SiteStrings.SiteSettings_Configuration_Unable_To_Save)
+@if (Model.UpdateSuccessful)
+{
+	<div class="alert alert-success alert-temporary">
+		@SiteStrings.SiteSettings_Configuration_Update_Successful
+	</div>
+}
 
 <form method="post" id="settings-form">
 	<div id="configuration-container">
@@ -43,7 +55,7 @@
 
 				<div class="pull-left">
 					<button id="testdbconnection" class="btn btn-primary test-button" type="button">
-						@InstallStrings.Shared_TestButton
+						@SiteStrings.Button_Test
 						<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/button-loading.gif"))" border="0" alt="loading" /></span>
 					</button>
 				</div>
@@ -151,7 +163,7 @@
 			</div>
 			<div class="form-group col-lg-7 row">
 				<button id="testattachments" class="btn btn-primary test-button" type="button">
-					@InstallStrings.Shared_TestButton
+					@SiteStrings.Button_Test
 				</button>
 			</div>
 		</fieldset>

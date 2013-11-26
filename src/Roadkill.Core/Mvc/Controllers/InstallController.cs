@@ -253,7 +253,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		//
-		// JSON actions
+		// AJAX/JSON testers
 		//
 
 		/// <summary>
@@ -291,6 +291,9 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestAttachments(string folder)
 		{
+			if (ApplicationSettings.Installed)
+				return Content("");
+
 			string errors = AttachmentPathUtil.AttachmentFolderExistsAndWriteable(folder, HttpContext);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
@@ -301,6 +304,9 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestDatabaseConnection(string connectionString, string databaseType)
 		{
+			if (ApplicationSettings.Installed)
+				return Content("");
+
 			string errors = RepositoryManager.TestDbConnection(connectionString, databaseType);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
@@ -331,34 +337,6 @@ namespace Roadkill.Core.Mvc.Controllers
 			}
 
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
-		}
-	}
-
-	/// <summary>
-	/// Basic error information for the JSON actions
-	/// </summary>
-	public class TestResult
-	{
-		/// <summary>
-		/// Any error message associated with the call.
-		/// </summary>
-		public string ErrorMessage { get; set; }
-
-		/// <summary>
-		/// Indicates if there are any errors.
-		/// </summary>
-		public bool Success 
-		{
-			get { return string.IsNullOrEmpty(ErrorMessage); }
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="TestResult"/> class.
-		/// </summary>
-		/// <param name="errorMessage">The error message.</param>
-		public TestResult(string errorMessage)
-		{
-			ErrorMessage = errorMessage;
 		}
 	}
 }

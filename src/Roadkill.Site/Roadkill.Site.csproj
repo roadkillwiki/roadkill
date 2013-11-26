@@ -310,23 +310,20 @@
     <Content Include="App_Data\customvariables.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Assets\bootstrap\css\bootstrap-theme.css" />
-    <Content Include="Assets\bootstrap\css\bootstrap-theme.min.css" />
-    <Content Include="Assets\bootstrap\css\bootstrap.css" />
-    <Content Include="Assets\bootstrap\css\bootstrap.min.css" />
-    <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Assets\bootstrap\js\bootstrap.js" />
-    <Content Include="Assets\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Assets\Bootstrap\css\bootstrap-theme.css" />
+    <Content Include="Assets\Bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="Assets\Bootstrap\css\bootstrap.css" />
+    <Content Include="Assets\Bootstrap\css\bootstrap.min.css" />
+    <Content Include="Assets\Bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Assets\Bootstrap\js\bootstrap.js" />
+    <Content Include="Assets\Bootstrap\js\bootstrap.min.js" />
     <Content Include="Assets\CSS\apihelp.css" />
     <Content Include="Assets\CSS\htmldiff.css" />
     <Content Include="Assets\CSS\images\animated-overlay.gif" />
     <Content Include="Assets\CSS\images\blank.gif" />
-    <Content Include="Assets\CSS\images\cancel.png" />
-    <Content Include="Assets\CSS\images\fancybox_loading.gif" />
-    <Content Include="Assets\CSS\images\fancybox_overlay.png" />
-    <Content Include="Assets\CSS\images\fancybox_sprite.png" />
-    <Content Include="Assets\CSS\images\directory.png" />
-    <Content Include="Assets\CSS\images\file.png" />
+    <Content Include="Assets\Images\filemanager\cancel.png" />
+    <Content Include="Assets\Images\filemanager\directory.png" />
+    <Content Include="Assets\Images\filemanager\file.png" />
     <Content Include="Assets\CSS\images\spinner.gif" />
     <Content Include="Assets\CSS\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Assets\CSS\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -346,9 +343,7 @@
     <Content Include="Assets\CSS\roadkill.installer.css" />
     <Content Include="Assets\Images\button-loading.gif" />
     <Content Include="Assets\Images\favicon.png" />
-    <Content Include="Assets\Images\help.png" />
     <Content Include="Assets\Images\installer-ex-chicken.png" />
-    <Content Include="Assets\Images\loadinglarge.gif" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\HelpPageApiModel.cshtml" />
@@ -363,22 +358,21 @@
     <Content Include="Areas\HelpPage\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Assets\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Assets\Bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Assets\Bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Assets\Bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Assets\CSS\tagmanager.css" />
-    <Content Include="Assets\Images\plugin.png" />
     <Content Include="Assets\Images\roadkill.png" />
     <Content Include="Assets\opensearch.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Assets\Scripts\bootbox.js" />
+    <Content Include="Assets\Scripts\shared\bootbox.js" />
     <Content Include="Assets\Scripts\readme.txt" />
     <Content Include="Assets\Scripts\jquery\additional-methods.js" />
     <Content Include="Assets\Scripts\jquery\jquery-1.9.1.js" />
     <Content Include="Assets\Scripts\jquery\jquery-ui-1.10.3.custom.js" />
     <Content Include="Assets\Scripts\jquery\jquery.validate.js" />
-    <Content Include="Assets\Scripts\tagmanager.js" />
+    <Content Include="Assets\Scripts\shared\tagmanager.js" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\dialogs.ts" />
     <Content Include="Assets\Scripts\jquery\jquery.fileupload.js" />
     <Content Include="Assets\Scripts\jquery\jquery.iframe-transport.js" />
@@ -388,32 +382,8 @@
     </Content>
     <Content Include="Areas\SiteSettings\Views\_ViewStart.cshtml" />
     <None Include="Assets\Scripts\roadkill\typescript-ref\constants.ts" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-cz.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-da.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-de.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-en.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-es.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-et.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-fa.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-fi.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-fr.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-hr.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-hu.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-it.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-ja.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-nl.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-pl.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-pt.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-pt_BR.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-ro.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-ru.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-se.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-tr.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-vi.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-zh_CN.js" />
-    <Content Include="Assets\Scripts\languages\jquery.validationEngine-zh_TW.js" />
     <None Include="Assets\Scripts\roadkill\typescript-ref\references.ts" />
-    <Content Include="Assets\Scripts\head.js" />
+    <Content Include="Assets\Scripts\shared\head.js" />
     <Content Include="Plugins\Text\ExternalLinksInNewWindow\externallinksinnewwindow.js" />
     <Content Include="Plugins\Text\ClickableImages\clickableimages.js" />
     <Content Include="Plugins\Text\ResizeImages\resizeimages.css" />
@@ -466,9 +436,6 @@
     <Content Include="Assets\Scripts\roadkill\dialogs.js">
       <DependentUpon>dialogs.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\editpage.js">
-      <DependentUpon>editpage.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\setup.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.ts" />
     <None Include="Assets\Scripts\roadkill\typescript-ref\directoryviewmodel.ts" />
@@ -480,14 +447,10 @@
     <Content Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.js">
       <DependentUpon>breadcrumbtrail.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\buttonevents.ts">
-      <BrowseToURL>
-      </BrowseToURL>
-    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\buttonevents.ts" />
     <Content Include="Assets\Scripts\roadkill\filemanager\buttonevents.js">
       <DependentUpon>buttonevents.ts</DependentUpon>
     </Content>
-    <None Include="Assets\Scripts\roadkill\readme.txt" />
     <Content Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.js">
       <DependentUpon>htmlbuilder.ts</DependentUpon>
     </Content>
@@ -504,25 +467,51 @@
     <Content Include="Assets\Scripts\roadkill\filemanager\util.js">
       <DependentUpon>util.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\step3Db.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\step5.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\step4.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\step3.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\step3WindowsAuth.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\step2.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\step1.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\installwizard.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\setup.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\editpage.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\settings.ts" />
-    <Content Include="Assets\Scripts\roadkill\typescript-ref\installerconstants.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\validation.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\wysiwygeditor.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\editpage\wysiwygeditor.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\setup.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\editpage\editpage.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\sitesettings\settings.ts" />
+    <Content Include="Assets\Scripts\roadkill\installer\installwizard.js">
+      <DependentUpon>installwizard.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\installer\step5.js">
+      <DependentUpon>step5.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\installer\step4.js">
+      <DependentUpon>step4.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\installer\step2.js">
+      <DependentUpon>step2.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\installer\step1.js">
+      <DependentUpon>step1.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\validation.js">
+      <DependentUpon>validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\editpage\editpage.js">
+      <DependentUpon>editpage.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\sitesettings\settings.js">
+      <DependentUpon>settings.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\typescript-ref\installerconstants.ts" />
     <Content Include="Assets\Scripts\roadkill\setup.js">
       <DependentUpon>setup.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\wysiwygeditor.js">
+    <Content Include="Assets\Scripts\roadkill\editpage\wysiwygeditor.js">
       <DependentUpon>wysiwygeditor.ts</DependentUpon>
     </Content>
     <Content Include="Assets\CSS\toastr.css" />
+    <Content Include="Plugins\Text\Toc\toc.js" />
     <Content Include="Plugins\Text\Toc\toc.css" />
     <Content Include="Roadkill.config">
       <SubType>Designer</SubType>
@@ -533,14 +522,12 @@
     <None Include="packages.config" />
     <Content Include="Plugins\Web.config" />
     <Content Include="Plugins\SpecialPages\SoundCloud\SoundCloud.cshtml" />
+    <None Include="Properties\PublishProfiles\discountasp.pubxml" />
     <None Include="Properties\PublishProfiles\Mono.pubxml" />
-    <Content Include="Assets\Scripts\toastr.js" />
+    <Content Include="Assets\Scripts\shared\toastr.js" />
     <Content Include="Themes\BlackBar\Theme.print.css" />
     <Content Include="Themes\Responsive\Theme.css" />
     <Content Include="Themes\Responsive\Theme.print.css" />
-    <Content Include="Themes\Roadkill\logo.png" />
-    <Content Include="Themes\Roadkill\Theme.css" />
-    <Content Include="Themes\Roadkill\Theme.print.css" />
     <Content Include="Themes\Mediawiki\border.png" />
     <Content Include="Themes\Mediawiki\Theme.cshtml" />
     <Content Include="Themes\Mediawiki\logo.png" />
@@ -554,10 +541,9 @@
     <Content Include="Views\Help\MediaWikiReference.cshtml" />
     <Content Include="Views\Help\MarkdownReference.cshtml" />
     <Content Include="Views\Help\CreoleReference.cshtml" />
-    <Content Include="Assets\Images\info_icon.png" />
     <Content Include="Assets\CSS\roadkill.css" />
     <Content Include="Assets\Scripts\jquery\jquery.timeago.js" />
-    <Content Include="Assets\Images\loading.gif" />
+    <Content Include="Assets\Images\white-loading.gif" />
     <Content Include="Themes\BlackBar\Theme.css" />
     <Content Include="Views\Pages\History.cshtml" />
     <Content Include="Views\Pages\Version.cshtml" />
@@ -603,7 +589,6 @@
     <Content Include="Views\Pages\Dialogs\PreviewPage.cshtml" />
     <Content Include="Views\Wiki\500.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Themes\Roadkill\Theme.cshtml" />
     <Content Include="Areas\SiteSettings\Views\PluginSettings\Index.cshtml" />
     <Content Include="Views\Install\Index.cshtml" />
     <Content Include="Areas\SiteSettings\Views\PluginSettings\Edit.cshtml" />

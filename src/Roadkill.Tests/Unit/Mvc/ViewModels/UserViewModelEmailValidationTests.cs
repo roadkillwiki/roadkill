@@ -47,7 +47,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = null;
 			_userViewModel.NewEmail = "";
 			_userViewModel.ExistingEmail = "";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewEmail(_userViewModel, null);
@@ -62,7 +61,6 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_userViewModel.Id = null;
 			_userViewModel.NewEmail = "test@test.com";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewEmail(_userViewModel, null);
@@ -78,7 +76,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = Guid.NewGuid();
 			_userViewModel.NewEmail = "";
 			_userViewModel.ExistingEmail = "";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewEmail(_userViewModel, null);
@@ -94,7 +91,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = Guid.NewGuid();
 			_userViewModel.NewEmail = "newemail@test.com";
 			_userViewModel.ExistingEmail = "";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewEmail(_userViewModel, null);
@@ -110,7 +106,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = null;
 			_userViewModel.NewEmail = "emailexists@test.com";
 			_userViewModel.ExistingEmail = "";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewEmailIsNotInUse(_userViewModel, null);
@@ -126,7 +121,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = null;
 			_userViewModel.NewEmail = "test@test.com";
 			_userViewModel.ExistingEmail = "";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewEmailIsNotInUse(_userViewModel, null);
@@ -141,7 +135,6 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_userViewModel.NewEmail = "test@test.com";
 			_userViewModel.ExistingEmail = "";
-			_userViewModel.IsBeingCreatedByAdmin = true;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewEmailIsNotInUse(_userViewModel, null);
@@ -157,7 +150,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = Guid.NewGuid();
 			_userViewModel.NewEmail = "emailexists@test.com";
 			_userViewModel.ExistingEmail = "";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewEmailIsNotInUse(_userViewModel, null);
@@ -173,7 +165,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = Guid.NewGuid();
 			_userViewModel.NewEmail = "newemail@test.com";
 			_userViewModel.ExistingEmail = "";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewEmailIsNotInUse(_userViewModel, null);
@@ -190,7 +181,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.ExistingEmail = "newemail@test.com";
 			_userViewModel.NewEmail = "newemail@test.com";
 			_userViewModel.ExistingEmail = "";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewEmailIsNotInUse(_userViewModel, null);

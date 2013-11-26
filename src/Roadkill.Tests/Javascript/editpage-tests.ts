@@ -1,3 +1,5 @@
+// *** These Javascript tests are experimental and not used by the build server ***
+
 // 
 // Guide to setting up Chutzpah: http://joeriks.com/2012/10/06/testing-typescript-with-chutzpah/
 // When running in the Visual Studio Web Essentials context menu plugin, use the "open in browser" 
@@ -12,7 +14,7 @@
 
 // --- These are for intellisense only. QUnit.ts is copied from the (nuget) packages folder
 /// <reference path="qunit.d.ts" />
-/// <reference path="../../Roadkill.Site/Assets/Scripts/roadkill/editpage.ts" />
+/// <reference path="../../Roadkill.Site/Assets/Scripts/roadkill/editpage/editpage.ts" />
 
 //test("Commas (,) are invalid in tags", () =>
 //{

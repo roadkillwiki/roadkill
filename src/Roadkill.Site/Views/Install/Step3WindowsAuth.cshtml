@@ -2,22 +2,22 @@
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
-@Url.ScriptLink("roadkill/installer/step3.js")
+@Url.InstallerScriptLink("step3WindowsAuth.js")
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
 		var messages =
 		{
-			successTitle: "@InstallStrings.Shared_Success",
-			successMessage: "@InstallStrings.Page3_AD_Connection_Success",
-			failureTitle: "@InstallStrings.Shared_Failure",
-			failureMessage: "@InstallStrings.Page3_AD_Connection_Error",
+			successTitle: "@SiteStrings.Shared_Success",
+			successMessage: "@InstallStrings.Step3_AD_Connection_Success",
+			failureTitle: "@SiteStrings.Shared_Failure",
+			failureMessage: "@InstallStrings.Step3_AD_Connection_Error"
 		};
 
 		var wizard = new Roadkill.Site.Installer.InstallWizard();
-		var step3 = new Roadkill.Site.Installer.Step3(wizard, messages);
-		step3.bindWindowsAuthButtons();
-		step3.configureWindowsAuthValidation();
+		var step3 = new Roadkill.Site.Installer.step3WindowsAuth(wizard, messages);
+		step3.bindButtons();
+		step3.configureValidation();
 	});
 </script>
 
@@ -29,21 +29,21 @@
 	@(Html.HiddenFor<SettingsViewModel, bool>(h => h.UseWindowsAuth))
 
 	<p>
-		@InstallStrings.Page3_AD_Group1_Label1
+		@InstallStrings.Step3_AD_ConnectionString_Details
 	</p>
 	<p>
-		@Html.Raw(LocalizationTokens.ReplaceAdExplorer(InstallStrings.Page3_AD_Group1_Label2))
+		@Html.Raw(LocalizationTokens.ReplaceAdExplorer(InstallStrings.Step3_AD_ADExplorer_Details))
 	</p>
 	<p>
-		@InstallStrings.Page3_AD_Group1_Label3
+		@InstallStrings.Step3_AD_Username_Password_Details
 	</p>
 
 	<!-- Connection string -->
 	<div class="form-group">
 		<fieldset>
-			<label for="LdapConnectionString">@InstallStrings.Page3_AD_Group1_Title</label>
+			<label for="LdapConnectionString">@InstallStrings.Step3_AD_ConnectionString_Title</label>
 
-			@Html.BootstrapTextBoxFor(s => s.LdapConnectionString, InstallStrings.Page3_AD_Group1_Label3)
+			@Html.BootstrapTextBoxFor(s => s.LdapConnectionString, InstallStrings.Step3_AD_ConnectionString_Title)
 		</fieldset>
 	</div>
 
@@ -51,11 +51,11 @@
 	<div class="form-group">
 		<fieldset>
 			<!-- LDAP username string -->
-			<label for="LdapUsername">@InstallStrings.Page3_AD_Group2_Label1</label>
+			<label for="LdapUsername">@SiteStrings.Shared_Username_Label</label>
 
 			<div class="row">
 				<div class="col-xs-4">
-					@Html.BootstrapTextBoxFor(s => s.LdapUsername, InstallStrings.Page3_AD_Group2_Label1)
+					@Html.BootstrapTextBoxFor(s => s.LdapUsername, SiteStrings.Shared_Username_Label)
 				</div>
 			</div>
 		</fieldset>
@@ -64,11 +64,11 @@
 	<!-- LDAP password string -->
 	<div class="form-group">
 		<fieldset>
-			<label for="LdapPassword">@InstallStrings.Page3_AD_Group2_Label2</label>
+			<label for="LdapPassword">@SiteStrings.Shared_Password_Label</label>
 
 			<div class="row">
 				<div class="col-xs-4">
-					@Html.BootstrapPasswordFor(s => s.LdapPassword, InstallStrings.Page3_AD_Group2_Label2)
+					@Html.BootstrapPasswordFor(s => s.LdapPassword, SiteStrings.Shared_Password_Label)
 				</div>
 			</div>
 		</fieldset>
@@ -77,7 +77,7 @@
 	<!-- Test LDAP connection string button -->
 	<div class="form-group">
 		<button id="testldap" class="btn btn-info test-button" type="button">
-			@InstallStrings.Shared_TestButton
+			@SiteStrings.Button_Test
 			<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/button-loading.gif"))" border="0" alt="loading" /></span>
 		</button>
 	</div>
@@ -85,15 +85,15 @@
 	<!-- Editor name -->
 	<div class="form-group">
 		<fieldset>
-			<legend>@InstallStrings.Page3_AD_Group3_Title</legend>
+			<legend>@InstallStrings.Step3_AD_Editor_GroupName_Title</legend>
 
 			<p>
-				@InstallStrings.Page3_AD_Group3_Label
+				@InstallStrings.Step3_AD_Editor_GroupName_Details
 			</p>
 
 			<div class="row">
 				<div class="col-xs-4">
-					@Html.BootstrapTextBoxFor(s => s.EditorRoleName, InstallStrings.Page3_AD_Group3_Label)
+					@Html.BootstrapTextBoxFor(s => s.EditorRoleName, InstallStrings.Step3_AD_Editor_GroupName_Details)
 				</div>
 			</div>
 		</fieldset>
@@ -102,7 +102,7 @@
 	<!-- Test editor button -->
 	<div class="form-group">
 		<button id="testeditor" class="btn btn-info test-button" type="button">
-			@InstallStrings.Shared_TestButton
+			@SiteStrings.Button_Test
 			<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/button-loading.gif"))" border="0" alt="loading" /></span>
 		</button>
 	</div>
@@ -110,15 +110,15 @@
 	<!-- Admin name -->
 	<div class="form-group">
 		<fieldset>
-			<legend>@InstallStrings.Page3_AD_Group4_Title</legend>
+			<legend>@InstallStrings.Step3_AD_Admin_GroupName_Title</legend>
 
 			<p>
-				@InstallStrings.Page3_AD_Group4_Label
+				@InstallStrings.Step3_AD_Admin_GroupName_Details
 			</p>
 
 			<div class="row">
 				<div class="col-xs-4">
-					@Html.BootstrapTextBoxFor(s => s.AdminRoleName, InstallStrings.Page3_AD_Group4_Label)
+					@Html.BootstrapTextBoxFor(s => s.AdminRoleName, InstallStrings.Step3_AD_Admin_GroupName_Details)
 				</div>
 			</div>
 		</fieldset>
@@ -127,7 +127,7 @@
 	<!-- Test admin button -->
 	<div class="form-group">
 		<button id="testadmin" class="btn btn-info test-button" type="button">
-			@InstallStrings.Shared_TestButton
+			@SiteStrings.Button_Test
 			<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/button-loading.gif"))" border="0" alt="loading" /></span>
 		</button>
 	</div>
