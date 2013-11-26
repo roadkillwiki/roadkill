@@ -11,29 +11,29 @@ namespace Roadkill.Core
 	/// </summary>
 	public static class BootstrapHtmlExtensions
 	{
-		public static MvcHtmlString BootstrapTextBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string help)
+		public static MvcHtmlString BootstrapTextBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string help, bool autoCompleteOff = false)
 		{
-			return htmlHelper.TextBoxFor(expression, new { @class = "form-control", rel = "popover", data_content = help, autocomplete = "off" });
+			return htmlHelper.TextBoxFor(expression, GetHtmlAttributes(help, autoCompleteOff));
 		}
 
-		public static MvcHtmlString BootstrapPasswordFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string help)
+		public static MvcHtmlString BootstrapPasswordFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string help, bool autoCompleteOff = false)
 		{
-			return htmlHelper.PasswordFor(expression, new { @class = "form-control", rel = "popover", data_content = help, autocomplete = "off" });
+			return htmlHelper.PasswordFor(expression, GetHtmlAttributes(help, autoCompleteOff));
 		}
 
-		public static MvcHtmlString BootstrapPassword(this HtmlHelper htmlHelper, string name, string help	)
+		public static MvcHtmlString BootstrapPassword(this HtmlHelper htmlHelper, string name, string help, bool autoCompleteOff = false)
 		{
-			return htmlHelper.Password(name, null, new { @class = "form-control", rel = "popover", data_content = help, autocomplete = "off" });
+			return htmlHelper.Password(name, null, GetHtmlAttributes(help, autoCompleteOff));
 		}
 
-		public static MvcHtmlString BootstrapLongTextBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string help)
+		public static MvcHtmlString BootstrapLongTextBoxFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, string help, bool autoCompleteOff = false)
 		{
-			return htmlHelper.TextBoxFor(expression, new { @class = "form-control longtextbox", rel = "popover", data_content = help, autocomplete = "off" });
+			return htmlHelper.TextBoxFor(expression, GetHtmlAttributes(help, autoCompleteOff));
 		}
 
-		public static MvcHtmlString BootstrapLongTextBox(this HtmlHelper htmlHelper, string name, string help)
+		public static MvcHtmlString BootstrapLongTextBox(this HtmlHelper htmlHelper, string name, string help, bool autoCompleteOff = false)
 		{
-			return htmlHelper.TextBox(name, null, new { @class = "form-control longtextbox", rel = "popover", data_content = help, autocomplete = "off" });
+			return htmlHelper.TextBox(name, null, GetHtmlAttributes(help, autoCompleteOff, " longtextbox"));
 		}
 
 		public static MvcHtmlString BootstrapDropDownListFor<TModel, TProperty>(this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList, string help)
@@ -54,6 +54,14 @@ namespace Roadkill.Core
 		public static MvcHtmlString BootstrapValidationSummary(this HtmlHelper htmlHelper, string message)
 		{
 			return htmlHelper.ValidationSummary(message, new { @class = "alert alert-block alert-danger fade in", data_dismiss = "alert" });
+		}
+
+		private static object GetHtmlAttributes(string help, bool autoCompleteOff, string additionalCssClass = "")
+		{
+			if (autoCompleteOff)
+				return new { @class = "form-control" + additionalCssClass, rel = "popover", data_content = help, autocomplete = "off" };
+			else
+				return new { @class = "form-control" + additionalCssClass, rel = "popover", data_content = help };
 		}
 	}
 }
