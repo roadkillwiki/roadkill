@@ -12,7 +12,6 @@ namespace Roadkill.Tests.Acceptance.Smoke
 	/// </summary>
 	[TestFixture]
 	[Category("Smoke")]
-	[Explicit]
 	public class DemoSiteTests : AcceptanceTestBase
 	{
 		[SetUp]
@@ -23,6 +22,7 @@ namespace Roadkill.Tests.Acceptance.Smoke
 		}
 
 		[Test]
+		[Ignore]
 		public void ShouldHave_HeaderTitle()
 		{
 			IWebElement h1Element = Driver.FindElement(By.CssSelector("h1"));
@@ -30,6 +30,7 @@ namespace Roadkill.Tests.Acceptance.Smoke
 		}
 
 		[Test]
+		[Ignore]
 		public void ShouldHave_Title()
 		{
 			IWebElement title = Driver.FindElement(By.CssSelector(".pagetitle"));
@@ -37,6 +38,7 @@ namespace Roadkill.Tests.Acceptance.Smoke
 		}
 
 		[Test]
+		[Ignore]
 		public void ShouldHave_LeftMenu()
 		{
 			IEnumerable<IWebElement> leftmenu = Driver.FindElements(By.CssSelector("div#leftmenu li"));
@@ -44,6 +46,7 @@ namespace Roadkill.Tests.Acceptance.Smoke
 		}
 
 		[Test]
+		[Ignore]
 		public void ShouldHave_HistoryLink()
 		{
 			IWebElement title = Driver.FindElement(By.CssSelector("div#viewhistory a"));
@@ -51,6 +54,7 @@ namespace Roadkill.Tests.Acceptance.Smoke
 		}
 
 		[Test]
+		[Ignore]
 		public void ShouldHave_LoginLink()
 		{
 			IWebElement title = Driver.FindElement(By.CssSelector("span#loggedinas a"));
