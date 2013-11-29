@@ -328,7 +328,7 @@ namespace Roadkill.Core.Security
 		{
 			try
 			{
-				var users = Repository.FindAllAdmins().Select(u => u.ToViewModel());
+				var users = Repository.FindAllAdmins().Select(u => new UserViewModel(u));
 				return users;
 			}
 			catch (DatabaseException ex)
@@ -348,7 +348,7 @@ namespace Roadkill.Core.Security
 		{
 			try
 			{
-				var users = Repository.FindAllEditors().Select(u => u.ToViewModel());
+				var users = Repository.FindAllEditors().Select(u => new UserViewModel(u));
 				return users;
 			}
 			catch (DatabaseException ex)

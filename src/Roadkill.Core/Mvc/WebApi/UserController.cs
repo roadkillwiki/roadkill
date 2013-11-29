@@ -53,7 +53,7 @@ namespace Roadkill.Core.Mvc.Controllers.Api
 		[HttpGet]
 		public UserViewModel Get(Guid id)
 		{
-			return _userService.GetUserById(id).ToViewModel();
+			return new UserViewModel(_userService.GetUserById(id));
 		}
 
 		/// <summary>
@@ -67,6 +67,9 @@ namespace Roadkill.Core.Mvc.Controllers.Api
 			return _userService.ListAdmins().Union(_userService.ListEditors());
 		}
 
+		/// <summary>
+		/// Json details sent in from a request
+		/// </summary>
 		public class UserInfo
 		{
 			public string Email { get; set; }

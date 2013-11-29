@@ -64,7 +64,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			}
 			else
 			{
-				UserViewModel model = user.ToViewModel();
+				UserViewModel model = new UserViewModel(user);
 				return View(model);
 			}
 		}
@@ -173,7 +173,8 @@ namespace Roadkill.Core.Mvc.Controllers
 				UserViewModel model = null;
 				if (!ApplicationSettings.UseWindowsAuthentication)
 				{
-					model = UserManager.GetUserById(new Guid(Context.CurrentUser)).ToViewModel();
+					RoadkillUser user = UserManager.GetUserById(new Guid(Context.CurrentUser));
+					model = new UserViewModel(user);
 				}
 
 				return View(model);
@@ -276,7 +277,7 @@ namespace Roadkill.Core.Mvc.Controllers
 						// Everything worked, send the email
 						user.PasswordResetKey = key;
 						SiteSettings siteSettings = SettingsService.GetSiteSettings();
-						_resetPasswordEmail.Send(user.ToViewModel());
+						_resetPasswordEmail.Send(new UserViewModel(user));
 
 						return View("ResetPasswordSent",(object) email);
 					}
@@ -304,7 +305,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				return View("Signup");
 			}
 
-			UserViewModel model = user.ToViewModel();
+			UserViewModel model = new UserViewModel(user);
 
 			SiteSettings siteSettings = SettingsService.GetSiteSettings();
 			_signupEmail.Send(model);

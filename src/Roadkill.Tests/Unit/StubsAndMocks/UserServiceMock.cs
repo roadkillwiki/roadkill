@@ -139,12 +139,12 @@ namespace Roadkill.Tests
 
 		public override IEnumerable<UserViewModel> ListAdmins()
 		{
-			return Users.Where(x => x.IsAdmin).Select(x => x.ToViewModel());
+			return Users.Where(x => x.IsAdmin).Select(x => new UserViewModel(x));
 		}
 
 		public override IEnumerable<UserViewModel> ListEditors()
 		{
-			return Users.Where(x => x.IsEditor).Select(x => x.ToViewModel());
+			return Users.Where(x => x.IsEditor).Select(x => new UserViewModel(x));
 		}
 
 		public override void Logout()
