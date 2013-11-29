@@ -123,7 +123,8 @@ namespace Roadkill.Core.Mvc.Controllers
 
 		public ActionResult EditUser(Guid id)
 		{
-			UserViewModel model = UserManager.GetUserById(id).ToViewModel();
+			User user = UserManager.GetUserById(id);
+			UserViewModel model = new UserViewModel(user);
 			return View(model);
 		}
 

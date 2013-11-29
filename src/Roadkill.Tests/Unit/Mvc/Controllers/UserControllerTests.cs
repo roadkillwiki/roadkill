@@ -408,7 +408,7 @@ namespace Roadkill.Tests.Unit
 
 			string email = "test@test.com";
 			_userService.AddUser(email, "test", "password", false, true);
-			UserViewModel model = _userService.GetUser("test@test.com", false).ToViewModel();
+			UserViewModel model = new UserViewModel(_userService.GetUser("test@test.com", false));
 
 			FakeSignupEmail signupEmail = new FakeSignupEmail(_applicationSettings, siteSettings);
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, signupEmail, null);
@@ -552,7 +552,7 @@ namespace Roadkill.Tests.Unit
 			Guid userId = _userService.GetUser(email).Id;
 			_userContext.CurrentUser = userId.ToString();
 
-			UserViewModel model = _userService.GetUser(email).ToViewModel(); // use the same model, as profile() updates everything.
+			UserViewModel model = new UserViewModel(_userService.GetUser(email)); // use the same model, as profile() updates everything.
 			model.Password = newPassword;
 
 			// Act	

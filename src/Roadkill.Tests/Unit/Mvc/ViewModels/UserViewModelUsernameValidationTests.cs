@@ -46,7 +46,6 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_userViewModel.Id = null;
 			_userViewModel.NewUsername = "			\n";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewUsername(_userViewModel, null);
@@ -61,7 +60,6 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_userViewModel.Id = null;
 			_userViewModel.NewUsername = "fred1234";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewUsername(_userViewModel, null);
@@ -77,7 +75,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = Guid.NewGuid();
 			_userViewModel.ExistingUsername = "hansblix";
 			_userViewModel.NewUsername = "			\n";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewUsername(_userViewModel, null);
@@ -93,7 +90,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = Guid.NewGuid();
 			_userViewModel.ExistingUsername = "hansblix";
 			_userViewModel.NewUsername = "fred1234";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewUsername(_userViewModel, null);
@@ -109,7 +105,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = null;
 			_userViewModel.ExistingUsername = "hansblix";
 			_userViewModel.NewUsername = "username-exists";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewUsernameIsNotInUse(_userViewModel, null);
@@ -125,7 +120,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = null;
 			_userViewModel.ExistingUsername = "hansblix";
 			_userViewModel.NewUsername = "a_unique_name";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewUsernameIsNotInUse(_userViewModel, null);
@@ -141,7 +135,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = null;
 			_userViewModel.ExistingUsername = "hansblix";
 			_userViewModel.NewUsername = "a_unique_name";
-			_userViewModel.IsBeingCreatedByAdmin = true;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewUsernameIsNotInUse(_userViewModel, null);
@@ -157,7 +150,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = Guid.NewGuid();
 			_userViewModel.ExistingUsername = "hansblix";
 			_userViewModel.NewUsername = "username-exists";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewUsernameIsNotInUse(_userViewModel, null);
@@ -173,7 +165,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = Guid.NewGuid();
 			_userViewModel.ExistingUsername = "hansblix";
 			_userViewModel.NewUsername = "hansblix2";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewUsernameIsNotInUse(_userViewModel, null);
@@ -189,7 +180,6 @@ namespace Roadkill.Tests.Unit
 			_userViewModel.Id = Guid.NewGuid();
 			_userViewModel.ExistingUsername = "hansblix";
 			_userViewModel.NewUsername = "hansblix";
-			_userViewModel.IsBeingCreatedByAdmin = false;
 
 			// Act
 			ValidationResult result = UserViewModel.VerifyNewUsernameIsNotInUse(_userViewModel, null);

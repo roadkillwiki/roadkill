@@ -289,7 +289,7 @@ namespace Roadkill.Tests.Unit
 
 			// Update the user
 			User actual = _userService.GetUser("editor@localhost");
-			UserViewModel model = actual.ToViewModel();
+			UserViewModel model = new UserViewModel(actual);
 			model.Firstname = "Harold";
 			model.Lastname = "Bishop";
 			model.NewEmail = "harold@localhost";
@@ -313,7 +313,7 @@ namespace Roadkill.Tests.Unit
 
 			// Update the user
 			User actual = _userService.GetUser("editor@localhost");
-			UserViewModel model = actual.ToViewModel();
+			UserViewModel model = new UserViewModel(actual);
 			model.Firstname = "Harold";
 			model.Lastname = "Bishop";
 			model.NewEmail = "harold@localhost";
@@ -331,7 +331,7 @@ namespace Roadkill.Tests.Unit
 
 			// Update the user
 			User actual = _userService.GetUser("editor@localhost");
-			UserViewModel model = actual.ToViewModel();
+			UserViewModel model = new UserViewModel(actual);
 			model.Firstname = "Harold";
 			model.Lastname = "Bishop";
 			model.NewEmail = "editor2@localhost";

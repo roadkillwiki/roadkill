@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Roadkill.Core.Localization;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Security;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Core.Mvc.ViewModels
 {
@@ -100,12 +101,6 @@ namespace Roadkill.Core.Mvc.ViewModels
 			}
 		}
 
-		public bool IsBeingCreatedByAdmin
-		{
-			get { return false;  }
-			set { }
-		}
-
 		/// <summary>
 		/// Constructor used by none-controllers
 		/// </summary>
@@ -114,11 +109,27 @@ namespace Roadkill.Core.Mvc.ViewModels
 		}
 
 		/// <summary>
-		/// Use this constructor when inside a controller, or you have ApplicationSettings.
+		/// Takes all properties on <see cref="User"/> and fills them on in the UserViewModel
+		/// </summary>
+		public UserViewModel(User user)
+		{
+			ActivationKey = user.ActivationKey;
+			Id = user.Id;
+			ExistingEmail = user.Email;
+			ExistingUsername = user.Username;
+			NewEmail = user.Email;
+			NewUsername = user.Username;
+			Firstname = user.Firstname;
+			Lastname = user.Lastname;
+			PasswordResetKey = user.PasswordResetKey;
+		}
+
+		/// <summary>
+		/// For testing the Validation only
 		/// </summary>
 		/// <param name="settings"></param>
 		/// <param name="userManager"></param>
-		public UserViewModel(ApplicationSettings settings, UserServiceBase userManager)
+		internal UserViewModel(ApplicationSettings settings, UserServiceBase userManager)
 		{
 			Settings = settings;
 			UserService = userManager;

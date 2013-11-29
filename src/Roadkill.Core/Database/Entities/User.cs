@@ -81,21 +81,5 @@ namespace Roadkill.Core.Database
 				return stringBuilder.ToString();
 			}
 		}
-
-		public UserViewModel ToViewModel()
-		{
-			return new UserViewModel()
-			{
-				ActivationKey = ActivationKey,
-				Id = Id,
-				ExistingEmail = Email,
-				ExistingUsername = Username,
-				NewEmail = Email,
-				NewUsername = Username,
-				Firstname = Firstname,
-				Lastname = Lastname,
-				PasswordResetKey = PasswordResetKey
-			};
-		}
 	}
 }
