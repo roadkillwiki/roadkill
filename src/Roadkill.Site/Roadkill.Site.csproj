@@ -523,6 +523,7 @@
       <DependentUpon>wysiwygeditor.ts</DependentUpon>
     </Content>
     <Content Include="Assets\CSS\toastr.css" />
+    <Content Include="Plugins\Text\Toc\toc.js" />
     <Content Include="Plugins\Text\Toc\toc.css" />
     <Content Include="Roadkill.config">
       <SubType>Designer</SubType>

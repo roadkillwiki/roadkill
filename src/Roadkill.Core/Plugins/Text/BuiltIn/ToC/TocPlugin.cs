@@ -21,7 +21,7 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn.ToC
 
 		public override string Description
 		{
-			get { return "Add a table of contents using the {{TOC}} tag"; }
+			get { return "Add a table of contents using the {TOC} tag"; }
 		}
 
 		public override string Version
@@ -31,6 +31,11 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn.ToC
 			{
 				return "1.0";
 			}
+		}
+
+		public TocPlugin()
+		{
+			AddScript("toc.js");
 		}
 
 		public override string AfterParse(string html)
@@ -43,7 +48,10 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn.ToC
 
 		public override string GetHeadContent()
 		{
-			return GetCssLink("toc.css");
+			string html = GetJavascriptHtml();
+			html += GetCssLink("toc.css");
+
+			return html;
 		}
 	}
 }

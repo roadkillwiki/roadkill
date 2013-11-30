@@ -25,7 +25,6 @@ module Roadkill.Site
 		{
 			this.bindInfoButton();
 			this.bindTimeAgo();
-			this.bindTocLinks();
 		}
 
 		public static bindTimeAgo()
@@ -41,24 +40,6 @@ module Roadkill.Site
 			$("#pageinfo-button").click(function ()
 			{
 				Dialogs.openModal("#pageinformation");
-			});
-		}
-
-		public static bindTocLinks()
-		{
-			// The show/hide for table of contents
-			$("a.toc-showhide").click(function ()
-			{
-				if ($(this).text() == "hide")
-				{
-					$(this).text("show");
-				}
-				else
-				{
-					$(this).text("hide");
-				}
-
-				$(this).parent().next().toggle();
 			});
 		}
 
