@@ -466,9 +466,6 @@
     <Content Include="Assets\Scripts\roadkill\dialogs.js">
       <DependentUpon>dialogs.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\Scripts\roadkill\editpage.js">
-      <DependentUpon>editpage.ts</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\setup.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.ts" />
     <None Include="Assets\Scripts\roadkill\typescript-ref\directoryviewmodel.ts" />
@@ -480,10 +477,7 @@
     <Content Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.js">
       <DependentUpon>breadcrumbtrail.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\buttonevents.ts">
-      <BrowseToURL>
-      </BrowseToURL>
-    </TypeScriptCompile>
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\buttonevents.ts" />
     <Content Include="Assets\Scripts\roadkill\filemanager\buttonevents.js">
       <DependentUpon>buttonevents.ts</DependentUpon>
     </Content>
@@ -510,12 +504,42 @@
     <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\step2.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\step1.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\installer\installwizard.ts" />
+	
+	<TypeScriptCompile Include="Assets\Scripts\roadkill\validation.ts" />
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\wysiwygeditor.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\setup.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\editpage.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\settings.ts" />
+	<TypeScriptCompile Include="Assets\Scripts\roadkill\settings.ts" />
+	
+	<Content Include="Assets\Scripts\roadkill\installer\installwizard.js">
+      <DependentUpon>installwizard.ts</DependentUpon>
+    </Content>
+	<Content Include="Assets\Scripts\roadkill\installer\step5.js">
+      <DependentUpon>step5.ts</DependentUpon>
+    </Content>
+	<Content Include="Assets\Scripts\roadkill\installer\step4.js">
+      <DependentUpon>step4.ts</DependentUpon>
+    </Content>
+	<Content Include="Assets\Scripts\roadkill\installer\step3.js">
+      <DependentUpon>step3.ts</DependentUpon>
+    </Content>
+	<Content Include="Assets\Scripts\roadkill\installer\step2.js">
+      <DependentUpon>step2.ts</DependentUpon>
+    </Content>
+	<Content Include="Assets\Scripts\roadkill\installer\step1.js">
+      <DependentUpon>step1.ts</DependentUpon>
+    </Content>
+	<Content Include="Assets\Scripts\roadkill\validation.js">
+      <DependentUpon>validation.ts</DependentUpon>
+    </Content>
+	<Content Include="Assets\Scripts\roadkill\editpage.js">
+      <DependentUpon>editpage.ts</DependentUpon>
+    </Content>
+	<Content Include="Assets\Scripts\roadkill\settings.js">
+      <DependentUpon>settings.ts</DependentUpon>
+    </Content>
     <Content Include="Assets\Scripts\roadkill\typescript-ref\installerconstants.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\validation.ts" />
-    <TypeScriptCompile Include="Assets\Scripts\roadkill\wysiwygeditor.ts" />
+    
     <Content Include="Assets\Scripts\roadkill\setup.js">
       <DependentUpon>setup.ts</DependentUpon>
     </Content>
