@@ -24,11 +24,12 @@
 	<h2>
 		@SiteStrings.SiteSettings_Users_EditUserDialog_Title
 	</h2>
+
+	@Html.BootstrapValidationSummary(SiteStrings.SiteSettings_Users_AddUserDialog_Error)
+
 	<p>
 		@SiteStrings.SiteSettings_Users_AddUserDialog_Help
 	</p>
-
-	@Html.BootstrapValidationSummary(SiteStrings.SiteSettings_Users_AddUserDialog_Error)
 
 	<form role="form" method="post" id="addedit-user-form">
 		@(Html.HiddenFor<UserViewModel, Guid?>(x => x.Id))

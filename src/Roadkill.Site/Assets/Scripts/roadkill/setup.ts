@@ -23,8 +23,21 @@ module Roadkill.Site
 	{
 		public static configureBinds()
 		{
+			this.hideTemporaryAlerts();
 			this.bindInfoButton();
 			this.bindTimeAgo();
+		}
+
+		public static hideTemporaryAlerts()
+		{
+			// Any alert warnings and success that should dissapear after 5 seconds
+			$(".alert-temporary").each(function ()
+			{
+				var item = $(this);
+				setTimeout(function () {
+					item.fadeOut();
+				}, 5000);
+			});
 		}
 
 		public static bindTimeAgo()

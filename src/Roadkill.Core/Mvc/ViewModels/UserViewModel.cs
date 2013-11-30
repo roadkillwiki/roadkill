@@ -102,6 +102,16 @@ namespace Roadkill.Core.Mvc.ViewModels
 		}
 
 		/// <summary>
+		/// True when the model was updated during postback
+		/// </summary>
+		public bool UpdateSuccessful { get; set; }
+
+		/// <summary>
+		/// True when the password was updated during postback.
+		/// </summary>
+		public bool PasswordUpdateSuccessful { get; set; }
+
+		/// <summary>
 		/// Constructor used by none-controllers
 		/// </summary>
 		public UserViewModel()
@@ -125,11 +135,11 @@ namespace Roadkill.Core.Mvc.ViewModels
 		}
 
 		/// <summary>
-		/// For testing the Validation only
+		/// Used by the IOC and by validation.
 		/// </summary>
 		/// <param name="settings"></param>
 		/// <param name="userManager"></param>
-		internal UserViewModel(ApplicationSettings settings, UserServiceBase userManager)
+		public UserViewModel(ApplicationSettings settings, UserServiceBase userManager)
 		{
 			Settings = settings;
 			UserService = userManager;

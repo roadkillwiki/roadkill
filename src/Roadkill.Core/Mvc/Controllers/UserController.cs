@@ -212,14 +212,21 @@ namespace Roadkill.Core.Mvc.Controllers
 			{
 				try
 				{
-					if (!UserManager.UpdateUser(model))
+					if (UserManager.UpdateUser(model))
+					{
+						model.UpdateSuccessful = true;
+					}
+					else
 					{
 						ModelState.AddModelError("General", SiteStrings.Profile_Error);
 						model.ExistingEmail = model.NewEmail;
 					}
 
 					if (!string.IsNullOrEmpty(model.Password))
+					{
 						UserManager.ChangePassword(model.ExistingEmail, model.Password);
+						model.PasswordUpdateSuccessful = true;
+					}
 				}
 				catch (SecurityException e)
 				{

@@ -85,6 +85,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				// Refresh the AttachmentsDirectoryPath using the absolute attachments path, as it's calculated in the constructor
 				ApplicationSettings appSettings = configReader.GetApplicationSettings();
 				model.FillFromApplicationSettings(appSettings);
+				model.UpdateSuccessful = true;
 			}
 
 			return View(model);

@@ -17,6 +17,7 @@
 					@(Html.HiddenFor<UserViewModel, string>(h => h.ExistingEmail))
 					@(Html.HiddenFor<UserViewModel, string>(h => h.ExistingUsername))
 
+					<!-- Firstname -->
 					<div class="form-group">
 						<label for="NewEmail" class="col-sm-3 control-label">@SiteStrings.Shared_Firstname</label>
 						<div class="col-sm-9">
@@ -24,6 +25,7 @@
 						</div>
 					</div>
 
+					<!-- Lastname -->
 					<div class="form-group">
 						<label for="Lastname" class="col-sm-3 control-label">@SiteStrings.Shared_Lastname</label>
 						<div class="col-sm-9">
@@ -31,6 +33,7 @@
 						</div>
 					</div>
 
+					<!-- Email -->
 					<div class="form-group">
 						<label for="NewEmail" class="col-sm-3 control-label">@SiteStrings.Shared_Email_Label</label>
 						<div class="col-sm-9">
@@ -38,6 +41,7 @@
 						</div>
 					</div>
 
+					<!-- New username -->
 					<div class="form-group">
 						<label for="NewUsername" class="col-sm-3 control-label">@SiteStrings.Shared_Username</label>
 						<div class="col-sm-9">
@@ -45,6 +49,7 @@
 						</div>
 					</div>
 
+					<!-- Password -->
 					<div class="form-group">
 						<label for="Password" class="col-sm-3 control-label">@SiteStrings.Shared_Password_Label</label>
 						<div class="col-sm-9">
@@ -52,6 +57,7 @@
 						</div>
 					</div>
 
+					<!-- Confirm password -->
 					<div class="form-group">
 						<label for="PasswordConfirmation" class="col-sm-3 control-label">@SiteStrings.Shared_PasswordConfirm_Label</label>
 						<div class="col-sm-9">
