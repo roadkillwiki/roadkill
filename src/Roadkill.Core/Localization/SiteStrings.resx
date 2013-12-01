@@ -907,4 +907,7 @@
   <data name="SiteSettings_Configuration_Required_Field" xml:space="preserve">
     <value>This field is required.</value>
   </data>
+  <data name="Button_Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
 </root>
