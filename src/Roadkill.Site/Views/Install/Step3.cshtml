@@ -10,9 +10,6 @@
 		var step3 = new Roadkill.Site.Installer.Step3(wizard, messages);
 	});
 </script>
-<p>
-@InstallStrings.Page3_Label1
-</p>
 
 <form role="form" method="post" id="step3-form" action="@Url.Action("Step3b", "Install")">
 	@Html.HiddenFor(h => h.ConnectionString)
@@ -22,12 +19,15 @@
 
 	<!-- Use windows auth -->
 	<fieldset>
-		<legend>@InstallStrings.Page3_Group1_Title</legend>
+		<legend>@SiteStrings.SiteSettings_Configuration_UseWindowsAuth</legend>
+		<p>
+			@InstallStrings.Page3_Label1
+		</p>
 
 		<div class="form-group">
             <label for="UseWindowsAuth" class="checkbox">
-                @InstallStrings.Page3_Group1_Label
-                @Html.BootstrapCheckBoxFor(s => s.UseWindowsAuth, InstallStrings.Page3_Group1_Label)
+                @SiteStrings.SiteSettings_Configuration_UseWindowsAuth
+                @Html.BootstrapCheckBoxFor(s => s.UseWindowsAuth, SiteStrings.SiteSettings_Configuration_UseWindowsAuth)
             </label>
 		</div>
 	</fieldset>
