@@ -46,12 +46,11 @@ module Roadkill.Site
 			});
 
 			$("#TagsEntry").tagsManager({
-				prefilled: tags,
 				tagClass: "tm-tag-success",
 				blinkBGColor_1: "#FFFF9C",
 				blinkBGColor_2: "#CDE69C",
 				delimeters: [44, 186, 32, 9], // comma, ";", space, tab
-				hiddenTagListName: "RawTags",
+				output: "#RawTags",
 				preventSubmitOnEnter: false,
 				validator: (input: string) =>
 				{

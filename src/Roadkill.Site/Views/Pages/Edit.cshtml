@@ -21,6 +21,7 @@
 		<form class="form-horizontal" role="form" method="post" id="editpage-form">
 			@(Html.HiddenFor<PageViewModel, int>(p => p.Id))
 			@(Html.HiddenFor<PageViewModel, string>(p => p.PreviousTitle))
+			@(Html.HiddenFor<PageViewModel, string>(p => p.RawTags))
 
 			<div class="form-group">
 				<div class="col-sm-12">
