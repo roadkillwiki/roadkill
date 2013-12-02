@@ -241,6 +241,24 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database connection failed:.
+        /// </summary>
+        public static string DatabaseConnection_Failure {
+            get {
+                return ResourceManager.GetString("DatabaseConnection_Failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The database connection is was successful..
+        /// </summary>
+        public static string DatabaseConnection_Success {
+            get {
+                return ResourceManager.GetString("DatabaseConnection_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This page can only be edited by administrators..
         /// </summary>
         public static string EditPage_AdminOnly {
@@ -1114,6 +1132,15 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failure!.
+        /// </summary>
+        public static string Shared_Failure {
+            get {
+                return ResourceManager.GetString("Shared_Failure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First name:.
         /// </summary>
         public static string Shared_Firstname {
@@ -1182,6 +1209,15 @@ namespace Roadkill.Core.Localization {
         public static string Shared_PoweredBy {
             get {
                 return ResourceManager.GetString("Shared_PoweredBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Success!.
+        /// </summary>
+        public static string Shared_Success {
+            get {
+                return ResourceManager.GetString("Shared_Success", resourceCulture);
             }
         }
         
@@ -1798,7 +1834,7 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The name of the site, which is used in certain themes..
+        ///   Looks up a localized string similar to The name of the site, which appears on certain themes and in signup emails (if enabled)..
         /// </summary>
         public static string SiteSettings_Configuration_SiteName_Help {
             get {
