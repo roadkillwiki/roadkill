@@ -8,14 +8,14 @@
 	{
 		var messages =
 		{
-			dbSuccessTitle: "@InstallStrings.Shared_Success",
-			dbSuccessMessage: "@InstallStrings.Page2_Success",
-			dbFailureTitle: "@InstallStrings.Page2_Error",
+			dbSuccessTitle: "@SiteStrings.Shared_Failure",
+			dbSuccessMessage: "@SiteStrings.DatabaseConnection_Success",
+			dbFailureTitle: "@SiteStrings.DatabaseConnection_Failure",
 
-			sqliteSuccessTitle: "@InstallStrings.Page2_Group3_SQLiteSuccessTitle",
-			sqliteSuccessMessage: "@InstallStrings.Page2_Group3_SQLiteSuccessMessage",
-			sqliteFailureTitle: "@InstallStrings.Page2_Group3_SQLiteFailureTitle",
-			sqliteFailureMessage: "@InstallStrings.Page2_Group3_SQLiteFailureMessage",
+			sqliteSuccessTitle: "@InstallStrings.Step2_SQLiteSuccessTitle",
+			sqliteSuccessMessage: "@InstallStrings.Step2_SQLiteSuccessMessage",
+			sqliteFailureTitle: "@InstallStrings.Step2_SQLiteFailureTitle",
+			sqliteFailureMessage: "@InstallStrings.Step2_SQLiteFailureMessage",
 		};
 
 		var wizard = new Roadkill.Site.Installer.InstallWizard();
@@ -25,7 +25,7 @@
 </script>
 
 <p>
-	@InstallStrings.Page2_Label1
+	@InstallStrings.Step2_Intro
 </p>
 
 <form role="form" method="post" id="step2-form" action="@Url.Action("Step3","Install")">
@@ -58,12 +58,12 @@
 		<fieldset>
 			<legend>@SiteStrings.SiteSettings_Configuration_DatabaseConnectionString</legend>
 			<p>
-				@InstallStrings.Page2_Group3_Label
+				@InstallStrings.Step2_ConnectionString_CreateDatabase
 			</p>
 
 			<!-- Example db connection strings collapsed table -->
 			<div class="form-group">
-				<a data-toggle="collapse" href="#connectionstrings-table">@InstallStrings.Page2_Group3_Label2 ...</a>
+				<a data-toggle="collapse" href="#connectionstrings-table">@InstallStrings.Step2_Example_ConnectionStrings ...</a>
 				<table id="connectionstrings-table" class="collapse table table-striped table-bordered TODO-translation">
 					<thead>
 						<tr>
@@ -125,8 +125,8 @@
 	<!-- SQLite info box -->
 	<div class="alert alert-warning">
 		<p id="sqlite-details">
-			<b>@InstallStrings.Page2_Group3_SQLiteInstructionsTitle</b><br />
-			@Html.Raw(LocalizationTokens.ReplaceSqlite(InstallStrings.Page2_Group3_SQLiteInstructionsMessage))
+			<b>@InstallStrings.Step2_SQLiteInstructionsTitle</b><br />
+			@Html.Raw(LocalizationTokens.ReplaceSqlite(InstallStrings.Step2_SQLiteInstructionsMessage))
 		</p>
 	</div>
 </form>

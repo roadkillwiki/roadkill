@@ -7,7 +7,12 @@
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
-		var settings = new Roadkill.Site.Admin.Settings();
+		var messages =
+		{
+			dbSuccessTitle: "@SiteStrings.DatabaseConnection_Success",
+			dbFailureTitle: "@SiteStrings.DatabaseConnection_Failure"
+		};
+		var settings = new Roadkill.Site.Admin.Settings(messages);
 	});
 </script>
 @Html.SiteSettingsNavigation()

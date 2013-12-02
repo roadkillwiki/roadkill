@@ -1,10 +1,21 @@
 /// <reference path="typescript-ref/references.ts" />
 module Roadkill.Site.Admin
 {
+	export class SettingsMessages
+	{
+		public successTitle: string;
+		public failureMessage: string;
+	}
+
 	export class Settings
 	{
-		constructor()
+		private _messages: SettingsMessages;
+
+		constructor(messages : SettingsMessages)
 		{
+			// Test button messages
+			this._messages = messages;
+
 			// Help popovers
 			$("input[rel=popover][type!=checkbox]").popover({ container: "body", placement: "right", trigger: "hover", html: true });
 			$("input[type=checkbox][rel=popover],textarea[rel=popover],select[rel=popover]").popover({ container: "body", placement: "right", trigger: "hover", html: true });
@@ -49,15 +60,14 @@ module Roadkill.Site.Admin
 
 		public TestDatabaseSuccess(data : any)
 		{
-			// TODO-translation
 			$("#db-loading").hide();
 			if (data.Success)
 			{
-				toastr.success("Database connection was successful.");
+				toastr.success(this._messages.successTitle);
 			}
 			else
 			{
-				toastr.error("Database connection failed: <br/>" + data.ErrorMessage);
+				toastr.error(data.ErrorMessage, this._messages.failureMessage);
 			}
 		}
 

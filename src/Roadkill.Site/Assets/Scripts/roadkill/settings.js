@@ -3,9 +3,19 @@ var Roadkill;
     (function (Site) {
         /// <reference path="typescript-ref/references.ts" />
         (function (Admin) {
+            var SettingsMessages = (function () {
+                function SettingsMessages() {
+                }
+                return SettingsMessages;
+            })();
+            Admin.SettingsMessages = SettingsMessages;
+
             var Settings = (function () {
-                function Settings() {
+                function Settings(messages) {
                     var _this = this;
+                    // Test button messages
+                    this._messages = messages;
+
                     // Help popovers
                     $("input[rel=popover][type!=checkbox]").popover({ container: "body", placement: "right", trigger: "hover", html: true });
                     $("input[type=checkbox][rel=popover],textarea[rel=popover],select[rel=popover]").popover({ container: "body", placement: "right", trigger: "hover", html: true });
@@ -48,12 +58,11 @@ var Roadkill;
                 };
 
                 Settings.prototype.TestDatabaseSuccess = function (data) {
-                    // TODO-translation
                     $("#db-loading").hide();
                     if (data.Success) {
-                        toastr.success("Database connection was successful.");
+                        toastr.success(this._messages.successTitle);
                     } else {
-                        toastr.error("Database connection failed: <br/>" + data.ErrorMessage);
+                        toastr.error(data.ErrorMessage, this._messages.failureMessage);
                     }
                 };
 
