@@ -57,12 +57,11 @@
                 });
 
                 $("#TagsEntry").tagsManager({
-                    prefilled: tags,
                     tagClass: "tm-tag-success",
                     blinkBGColor_1: "#FFFF9C",
                     blinkBGColor_2: "#CDE69C",
                     delimeters: [44, 186, 32, 9],
-                    hiddenTagListName: "RawTags",
+                    output: "#RawTags",
                     preventSubmitOnEnter: false,
                     validator: function (input) {
                         var isValid = _this.isValidTag(input);
