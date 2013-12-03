@@ -1,6 +1,6 @@
 ﻿@model IList<IEnumerable<UserViewModel>>
 @{ 
-	ViewBag.Title = SiteStrings.SiteSettings_Users_Title;
+	ViewBag.Title = SiteStrings.SiteSettings_UserManagement_Title;
 	ViewData["UsersActive"] = true;
 }
 <script type="text/javascript">
@@ -14,17 +14,17 @@
 @Html.SiteSettingsNavigation()
 
 <div id="manage-users">
-	<h1>@SiteStrings.SiteSettings_Users_Admins</h1>
+	<h1>@SiteStrings.SiteSettings_UserManagement_Admins</h1>
 	<p>
 		<a href="@Url.Action("AddAdmin", "UserManagement")" class="btn btn-primary btn-success">
-			@SiteStrings.SiteSettings_Users_NewAdmin
+			@SiteStrings.SiteSettings_UserManagement_NewAdmin
 		</a>
 	</p>
 	<table class="table table-striped" id="admins-table">
 		<thead>
 			<tr>
-				<th>@SiteStrings.SiteSettings_Users_ColumnHeader_Username</th>
-				<th>@SiteStrings.SiteSettings_Users_ColumnHeader_Email</th>
+				<th>@SiteStrings.SiteSettings_UserManagement_ColumnHeader_Username</th>
+				<th>@SiteStrings.SiteSettings_UserManagement_ColumnHeader_Email</th>
 				<th colspan="2"></th>
 			</tr>
 		</thead>
@@ -47,17 +47,17 @@
 	</table>
 	<br class="clear" />
 
-	<h1>@SiteStrings.SiteSettings_Users_Editors</h1>
+	<h1>@SiteStrings.SiteSettings_UserManagement_Editors</h1>
 	<p>
 		<a href="@Url.Action("AddEditor", "UserManagement")" class="btn btn-primary btn-success">
-			@SiteStrings.SiteSettings_Users_NewEditor
+			@SiteStrings.SiteSettings_UserManagement_NewEditor
 		</a>
 	</p>
 	<table class="table table-striped" id="editors-table">
 		<thead>
 			<tr>
-				<th>@SiteStrings.SiteSettings_Users_ColumnHeader_Username</th>
-				<th>@SiteStrings.SiteSettings_Users_ColumnHeader_Email</th>
+				<th>@SiteStrings.SiteSettings_UserManagement_ColumnHeader_Username</th>
+				<th>@SiteStrings.SiteSettings_UserManagement_ColumnHeader_Email</th>
 				<th colspan="2"></th>
 			</tr>
 		</thead>

@@ -201,6 +201,15 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// Provides a Javascript script tag for the installer Javascript file provided, using ~/Assets/Scripts/roadkill/installer as the base path.
+		/// </summary>
+		public static MvcHtmlString InstallerScriptLink(this UrlHelper helper, string filename)
+		{
+			string relativePath = "~/Assets/Scripts/roadkill/installer/" + filename;
+			return MvcHtmlString.Create("<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content(relativePath) + "\"></script>");
+		}
+
+		/// <summary>
 		/// Provides a Javascript and CSS tags for the Bootstrap framework.
 		/// </summary>
 		public static MvcHtmlString BootStrap(this UrlHelper helper)

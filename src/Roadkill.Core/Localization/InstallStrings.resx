@@ -159,131 +159,93 @@
 	<value>This is the security group that users should belong to in order to be admins. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.The test button uses the connection settings entered above.</value>
 	<comment>Fuzzy</comment>
 </data>
-<data name="Page3_DB_Label" xml:space="preserve">
+<data name="Step3_One_Way_Hashed" xml:space="preserve">
 	<value>All passwords are one-way encrypted using SHA128 and a salt. This means passwords are not recoverable and will require an admin to reset them (there is no reset password functionality yet). The minimum password length is 6 characters.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page3_DB_Group1_Title" xml:space="preserve">
+<data name="Step3_DB_Editor_Role_Title" xml:space="preserve">
 	<value>Editor role name</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page3_DB_Group1_Label1" xml:space="preserve">
+<data name="Step3_DB_Editor_Role" xml:space="preserve">
 	<value>This is the name of the editor role - people who can edit and create pages.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page3_DB_Group2_Title" xml:space="preserve">
+<data name="Step3_DB_Admin_Role_Title" xml:space="preserve">
 	<value>Admin role name</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page3_DB_Group2_Label1" xml:space="preserve">
+<data name="Step3_DB_Admin_Role" xml:space="preserve">
 	<value>This is the name of the admin role. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page3_DB_Group3_Title" xml:space="preserve">
+<data name="Step3_DB_Allow_User_Signups_Title" xml:space="preserve">
 	<value>Allow user signups</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page3_DB_Group3_Label1" xml:space="preserve">
+<data name="Step3_DB_Allow_User_Signups" xml:space="preserve">
 	<value>Check this option if you want to allow people to signup as a new users. If left unchecked, only admins will be able to create new users. </value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page3_DB_Group3_Label2" xml:space="preserve">
+<data name="Step3_DB_Allow_User_Signups_Label" xml:space="preserve">
 	<value>Allow new user signups. </value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page3_DB_Group4_Title" xml:space="preserve">
-	<value>Enable Recaptcha</value>
-</data>
-<data name="Page3_DB_Group4_Label1" xml:space="preserve">
+<data name="Step3_DB_Enable_Recaptcha_Description" xml:space="preserve">
 	<value>If you are allowing user signups, it&apos;s recommended that you also enable Recaptcha support. This is a free anti-spam bot service provided by Google, you will need to signup and copy your public and private key into the fields below. {BEGIN_RECAPTCHA_LINK}Signup here{END_RECAPTCHA_LINK} - you will need to create a google account first.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page3_DB_Group4_Label2" xml:space="preserve">
-	<value>Enable Recaptcha anti-spam service. </value>
-</data>
-<data name="Page3_DB_Group4_Label3" xml:space="preserve">
-	<value>Public key</value>
-</data>
-<data name="Page3_DB_Group4_Label4" xml:space="preserve">
-	<value>Private key</value>
-</data>
-<data name="Page3_DB_Group5_Title" xml:space="preserve">
+<data name="Step3_DB_Admin_Email_Title" xml:space="preserve">
 	<value>Admin email</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page3_DB_Group5_Label1" xml:space="preserve">
+<data name="Step3_DB_Admin_Email" xml:space="preserve">
 	<value>This is the email address for the admin user. You can add more admins in the settings page, so this user does not &apos;own&apos; the site</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page3_DB_Group6_Title" xml:space="preserve">
+<data name="Step3_DB_Admin_Password_Title" xml:space="preserve">
 	<value>Admin password</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page3_DB_Group6_Label1" xml:space="preserve">
+<data name="Step3_DB_Admin_Password" xml:space="preserve">
 	<value>This is the password for the admin user.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page4_Label1" xml:space="preserve">
+<data name="Step4_Almost_Done" xml:space="preserve">
 	<value>Almost done...Finally some extra tweakable settings. </value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page4_Group1_Title" xml:space="preserve">
-	<value>Attachments folder</value>
-</data>
-<data name="Page4_Group1_Success" xml:space="preserve">
-	<value>The folder exists and can be written to.</value>
-</data>
-<data name="Page4_Group1_Error" xml:space="preserve">
-	<value>Unable to write to the folder:</value>
-</data>
-<data name="Page4_Group1_Label1" xml:space="preserve">
+<data name="Step4_Attachments_Folder_Description" xml:space="preserve">
 	<value>This is the directory where all files are uploaded to. This directory will need write permission by the user that the app pool runs under. Most of the time you shouldn&apos;t have to worry about changing the permissions for the folder, as they will be inherited from the parent folder. </value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page4_Group1_Label2" xml:space="preserve">
+<data name="Step4_Attachments_Folder_RelativePath" xml:space="preserve">
 	<value>The folder path should start with &quot;~/&quot; for the website root, or be a file path (e.g. c:\myattachments).</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page4_Group2_Title" xml:space="preserve">
-	<value>Allowed extensions</value>
-</data>
-<data name="Page4_Group2_Label1" xml:space="preserve">
-	<value>These are the file extensions that can be uploaded.</value>
-</data>
-<data name="Page4_Group3_Title" xml:space="preserve">
-	<value>Theme</value>
-</data>
-<data name="Page4_Group3_Label1" xml:space="preserve">
-	<value>This is the theme that the site uses. This should match a folder name in the Themes directory.</value>
-</data>
-<data name="Page4_Group4_Title" xml:space="preserve">
-	<value>Markup type</value>
-</data>
-<data name="Page4_Group4_Label1" xml:space="preserve">
-	<value>This is the markup format that is used. Roadkill currently supports the following values: Creole, Markdown, Mediawiki.</value>
-</data>
-<data name="Page4_Group4_Label2" xml:space="preserve">
-	<value>Creole is the recommended format. </value>
-</data>
-<data name="Page4_Group5_Title" xml:space="preserve">
-	<value>Cache</value>
-</data>
-<data name="Page4_Group5_Label1" xml:space="preserve">
-	<value>Enable Object caching</value>
-</data>
-<data name="Page4_Group5_Label2" xml:space="preserve">
-	<value>Roadkill caches all pages and content in memory after retrieving it from the database. The cache is automatically updated when a page changes. Recommended to increase the responsiveness of the site. Object caching is not currently supported for web gardens or web farms.</value>
-</data>
-<data name="Page4_Group5_Label3" xml:space="preserve">
-	<value>Enable browser cache</value>
-</data>
-<data name="Page4_Group5_Label4" xml:space="preserve">
-	<value>This will tell the browser to cache Roadkill pages, and check for updates (If-Modified-Since) each time the page is loaded. If no update is found, no content is returned from the server. Recommended to increase the responsiveness of the site.</value>
-</data>
-<data name="Page4_Group5_Label5" xml:space="preserve">
-	<value>(Now unused, can be removed in 2.0)</value>
-</data>
-<data name="Page5_Success_Title" xml:space="preserve">
+<data name="Step5_Success_Title" xml:space="preserve">
 	<value>Installation successful</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page5_Success_AD_Title" xml:space="preserve">
+<data name="Step5_WindowsAuth_Please_Read" xml:space="preserve">
 	<value>Windows Authentication - please read</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page5_Success_AD_Label" xml:space="preserve">
+<data name="Step5_WindowsAuth_IIS_Settings" xml:space="preserve">
 	<value>If you are using IIS7+ you may need to configure the web.config file for your security setup, below are the elements that are required.If you receive 500 errors after making these changes, then the section is locked at a parent level, and you will need to make the changes via the IIS manager.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page5_Success_Label1" xml:space="preserve">
+<data name="Step5_Continue_Button" xml:space="preserve">
 	<value>Continue to the site</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page5_Error_Title" xml:space="preserve">
+<data name="Step5_Failure_Title" xml:space="preserve">
 	<value>An error occurred during the install</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Page5_Error_Label1" xml:space="preserve">
+<data name="Step5_Failure_GoBack_And_Check" xml:space="preserve">
 	<value>Please go back through the installation steps and check your settings. The error message was:</value>
+	<comment>Fuzzy</comment>
 </data>
 
 </root>

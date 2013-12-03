@@ -39,7 +39,7 @@ else
 
 					<!-- Firstname -->
 					<div class="form-group">
-						<label for="NewEmail" class="col-sm-3 control-label">@SiteStrings.Shared_Firstname</label>
+						<label for="NewEmail" class="col-sm-3 control-label">@SiteStrings.Shared_Firstname_Label</label>
 						<div class="col-sm-9">
 							@(Html.TextBoxFor<UserViewModel, string>(t => t.Firstname, new { @class = "form-control" }))
 						</div>
@@ -47,7 +47,7 @@ else
 
 					<!-- Lastname -->
 					<div class="form-group">
-						<label for="Lastname" class="col-sm-3 control-label">@SiteStrings.Shared_Lastname</label>
+						<label for="Lastname" class="col-sm-3 control-label">@SiteStrings.Shared_Lastname_Label</label>
 						<div class="col-sm-9">
 							@(Html.TextBoxFor<UserViewModel, string>(t => t.Lastname, new { @class = "form-control" }))
 						</div>
@@ -63,7 +63,7 @@ else
 
 					<!-- New username -->
 					<div class="form-group">
-						<label for="NewUsername" class="col-sm-3 control-label">@SiteStrings.Shared_Username</label>
+						<label for="NewUsername" class="col-sm-3 control-label">@SiteStrings.Shared_Username_Label</label>
 						<div class="col-sm-9">
 							@(Html.TextBoxFor<UserViewModel, string>(t => t.NewUsername, new { @class = "form-control" }))
 						</div>

@@ -54,15 +54,15 @@ var Roadkill;
                         "databaseType": $("#DataStoreTypeName").val()
                     };
 
-                    this.makeAjaxRequest(ROADKILL_TESTDB_URL, jsonData, "Something went wrong", this.TestDatabaseSuccess);
+                    this.makeAjaxRequest(ROADKILL_TESTDB_URL, jsonData, this._messages.unexpectedError, this.TestDatabaseSuccess);
                 };
 
                 Settings.prototype.TestDatabaseSuccess = function (data) {
                     $("#db-loading").hide();
                     if (data.Success) {
-                        toastr.success(this._messages.successTitle);
+                        toastr.success(this._messages.dbSuccessTitle);
                     } else {
-                        toastr.error(data.ErrorMessage, this._messages.failureMessage);
+                        toastr.error(data.ErrorMessage, this._messages.dbFailureMessage);
                     }
                 };
 
@@ -71,14 +71,14 @@ var Roadkill;
                         "folder": $("#AttachmentsFolder").val()
                     };
 
-                    this.makeAjaxRequest(ROADKILL_TESTATTACHMENTS_URL, jsonData, "Something went wrong", this.TestAttachmentsSuccess);
+                    this.makeAjaxRequest(ROADKILL_TESTATTACHMENTS_URL, jsonData, this._messages.unexpectedError, this.TestAttachmentsSuccess);
                 };
 
                 Settings.prototype.TestAttachmentsSuccess = function (data) {
                     if (data.Success) {
-                        toastr.success("Success! The directory exists and can be written to.");
+                        toastr.success(this._messages.attachmentsSuccess);
                     } else {
-                        toastr.error("Attachments directory failed: <br/>" + data.ErrorMessage);
+                        toastr.error(data.ErrorMessage, this._messages.attachmentsFailure);
                     }
                 };
 
