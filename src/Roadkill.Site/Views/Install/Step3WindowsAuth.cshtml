@@ -2,7 +2,7 @@
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
-@Url.InstallerScriptLink("step3.js")
+@Url.InstallerScriptLink("step3WindowsAuth.js")
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
@@ -11,13 +11,13 @@
 			successTitle: "@SiteStrings.Shared_Success",
 			successMessage: "@InstallStrings.Step3_AD_Connection_Success",
 			failureTitle: "@SiteStrings.Shared_Failure",
-			failureMessage: "@InstallStrings.Step3_AD_Connection_Error",
+			failureMessage: "@InstallStrings.Step3_AD_Connection_Error"
 		};
 
 		var wizard = new Roadkill.Site.Installer.InstallWizard();
-		var step3 = new Roadkill.Site.Installer.Step3(wizard, messages);
-		step3.bindWindowsAuthButtons();
-		step3.configureWindowsAuthValidation();
+		var step3 = new Roadkill.Site.Installer.step3WindowsAuth(wizard, messages);
+		step3.bindButtons();
+		step3.configureValidation();
 	});
 </script>
 
@@ -51,11 +51,11 @@
 	<div class="form-group">
 		<fieldset>
 			<!-- LDAP username string -->
-			<label for="LdapUsername">@SiteStrings.Shared_Username</label>
+			<label for="LdapUsername">@SiteStrings.Shared_Username_Label</label>
 
 			<div class="row">
 				<div class="col-xs-4">
-					@Html.BootstrapTextBoxFor(s => s.LdapUsername, SiteStrings.Shared_Username)
+					@Html.BootstrapTextBoxFor(s => s.LdapUsername, SiteStrings.Shared_Username_Label)
 				</div>
 			</div>
 		</fieldset>

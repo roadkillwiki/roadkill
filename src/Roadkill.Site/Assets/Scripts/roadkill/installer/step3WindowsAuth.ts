@@ -9,7 +9,7 @@ module Roadkill.Site.Installer
 		public failureMessage: string;
 	}
 
-	export class Step3
+	export class step3WindowsAuth
 	{
 		private _wizard: InstallWizard;
 		private _messages: Step3WindowsAuthMessages;
@@ -23,41 +23,7 @@ module Roadkill.Site.Installer
 			this._wizard.updateNavigation(3);
 		}
 
-		public configureDatabaseAuthValidation()
-		{
-			// Form validation
-			var validationRules =
-			{
-				EditorRoleName: {
-					required: true
-				},
-				AdminRoleName: {
-					required: true
-				},
-				AdminEmail: {
-					required: true
-				},
-				AdminPassword: {
-					required: true
-				},
-				password2: {
-					required: true,
-					equalTo: "#AdminPassword",
-					messages: {
-						equalTo: ""// TODO-translation
-					}
-				}
-			};
-
-			var validation = new Roadkill.Site.Validation();
-			validation.Configure("#step3-form", validationRules);
-
-			var rules = $("#password2").rules();
-			rules.messages.equalTo = "The passwords don't match";
-			$("#password2").rules("add", rules);
-		}
-
-		public configureWindowsAuthValidation()
+		public configureValidation()
 		{
 			// Form validation
 			var validationRules =
@@ -77,7 +43,7 @@ module Roadkill.Site.Installer
 			validation.Configure("#step3-form", validationRules);
 		}
 
-		public bindWindowsAuthButtons()
+		public bindButtons()
 		{
 			$("#testldap").click((e) =>
 			{

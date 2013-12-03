@@ -2,15 +2,18 @@
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
-@Url.InstallerScriptLink("step3.js")
+@Url.InstallerScriptLink("step3Db.js")
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
-		var messages = {};
+		var messages =
+		{
+			passwordsDontMatch : "@SiteStrings.User_Validation_PasswordsDontMatch"
+		};
 
 		var wizard = new Roadkill.Site.Installer.InstallWizard();
-		var step3 = new Roadkill.Site.Installer.Step3(wizard, messages);
-		step3.configureDatabaseAuthValidation();
+		var step3 = new Roadkill.Site.Installer.Step3Db(wizard, messages);
+		step3.configureValidation();
 	});
 </script>
 
