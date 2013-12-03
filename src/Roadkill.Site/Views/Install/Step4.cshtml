@@ -2,16 +2,16 @@
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
-@Url.ScriptLink("roadkill/installer/step4.js")
+@Url.InstallerScriptLink("step4.js")
 <script type="text/javascript">
 	$(document).ready(function()
 	{
 		var messages =
 		{
-			successTitle: "@InstallStrings.Shared_Success",
-			successMessage: "@InstallStrings.Page4_Group1_Success",
-			failureTitle: "@InstallStrings.Shared_Failure",
-			failureMessage: "@InstallStrings.Page4_Group1_Error",
+			successTitle: "@SiteStrings.Shared_Success",
+			successMessage: "@SiteStrings.Attachments_Folder_Success",
+			failureTitle: "@SiteStrings.Shared_Failure",
+			failureMessage: "@SiteStrings.Attachments_Folder_Failure",
 		};
 
 		var wizard = new Roadkill.Site.Installer.InstallWizard();
@@ -22,7 +22,7 @@
 </script>
 
 <p>
-	@InstallStrings.Page4_Label1
+	@InstallStrings.Step4_Almost_Done
 </p>
 
 <form role="form" method="post" id="step4-form" action="@Url.Action("Step5", "Install")">
@@ -46,11 +46,11 @@
 	<!-- Attachments folder -->
 	<div class="form-group">
 		<fieldset>
-			<legend>@InstallStrings.Page4_Group1_Title</legend>
-			<label for="AttachmentsFolder">@InstallStrings.Page4_Group1_Label1</label>
+			<legend>@SiteStrings.SiteSettings_Configuration_Attachments</legend>
+			<label for="AttachmentsFolder">@InstallStrings.Step4_Attachments_Folder_Description</label>
 
 			<p>
-				@InstallStrings.Page4_Group1_Label2
+				@InstallStrings.Step4_Attachments_Folder_RelativePath
 			</p>
 
 			<div class="row">
@@ -64,7 +64,7 @@
 	<!-- Test attachments button -->
 	<div class="form-group">
 		<button id="testattachments" class="btn btn-info test-button" type="button">
-			@InstallStrings.Shared_TestButton
+			@SiteStrings.Button_Test
 			<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/button-loading.gif"))" border="0" alt="loading" /></span>
 		</button>
 	</div>
@@ -72,12 +72,12 @@
 	<!-- Allowed extensions -->
 	<div class="form-group">
 		<fieldset>
-			<legend>@InstallStrings.Page4_Group2_Title</legend>
-			<label for="AllowedFileTypes">@InstallStrings.Page4_Group2_Label1</label>
+			<legend>@SiteStrings.SiteSettings_Configuration_Extensions</legend>
+			<label for="AllowedFileTypes">@SiteStrings.SiteSettings_Configuration_Extensions_Help</label>
 
 			<div class="row">
 				<div class="col-xs-4">
-					@Html.BootstrapTextBoxFor(s => s.AllowedFileTypes, InstallStrings.Page4_Group2_Title)
+					@Html.BootstrapTextBoxFor(s => s.AllowedFileTypes, SiteStrings.SiteSettings_Configuration_Extensions)
 				</div>
 			</div>
 		</fieldset>
@@ -86,50 +86,47 @@
 	<!-- Theme -->
 	<div class="form-group">
 		<fieldset>
-			<legend>@InstallStrings.Page4_Group3_Title</legend>
-			<label for="Theme">@InstallStrings.Page4_Group3_Label1</label>
+			<legend>@SiteStrings.SiteSettings_Configuration_Theme</legend>
+			<label for="Theme">@SiteStrings.SiteSettings_Configuration_Theme_Help</label>
 
-			@Html.BootstrapDropDownListFor(s => s.Theme, new SelectList(Model.ThemesAvailable, Model.Theme), InstallStrings.Page4_Group3_Title)
+			@Html.BootstrapDropDownListFor(s => s.Theme, new SelectList(Model.ThemesAvailable, Model.Theme), SiteStrings.SiteSettings_Configuration_Theme_Help)
 		</fieldset>
 	</div>
 
 	<!-- Markup type -->
 	<div class="form-group">
 		<fieldset>
-			<legend>@InstallStrings.Page4_Group4_Title</legend>
-			<label for="MarkupType">@InstallStrings.Page4_Group4_Label1</label>
-			<p>
-				@InstallStrings.Page4_Group4_Label2
-			</p>
+			<legend>@SiteStrings.SiteSettings_Configuration_MarkupType</legend>
+			<label for="MarkupType">@SiteStrings.SiteSettings_Configuration_MarkupType_Help</label>
 
-			@Html.BootstrapDropDownListFor(s => s.MarkupType, new SelectList(Model.MarkupTypesAvailable, Model.MarkupType), InstallStrings.Page4_Group4_Title)
+			@Html.BootstrapDropDownListFor(s => s.MarkupType, new SelectList(Model.MarkupTypesAvailable, Model.MarkupType), SiteStrings.SiteSettings_Configuration_MarkupType)
 		</fieldset>
 	</div>
 
 	<!-- Use object cache -->
 	<fieldset>
-		<legend>@InstallStrings.Page4_Group5_Title</legend>
+		<legend>@SiteStrings.SiteSettings_Configuration_CachingTitle</legend>
 
 		<div class="form-group">
 			<label for="UseObjectCache" class="checkbox">
-				@InstallStrings.Page4_Group5_Label1
-				@Html.BootstrapCheckBoxFor(s => s.UseObjectCache, InstallStrings.Page4_Group5_Title)
+				@SiteStrings.SiteSettings_Configuration_ObjectCaching
+				@Html.BootstrapCheckBoxFor(s => s.UseObjectCache, SiteStrings.SiteSettings_Configuration_ObjectCaching)
 			</label>
 		</div>
 
-		<p>@InstallStrings.Page4_Group5_Label2</p>
+		<p>@SiteStrings.SiteSettings_Configuration_ObjectCaching_Help</p>
 	</fieldset>
 
 	<!-- Use browser cache -->
 	<fieldset>
 		<div class="form-group">
 			<label for="UseBrowserCache" class="checkbox">
-				@InstallStrings.Page4_Group5_Label3
-				@Html.BootstrapCheckBoxFor(s => s.UseBrowserCache, InstallStrings.Page4_Group5_Label3)
+				@SiteStrings.SiteSettings_Configuration_BrowserCaching
+				@Html.BootstrapCheckBoxFor(s => s.UseBrowserCache, SiteStrings.SiteSettings_Configuration_BrowserCaching)
 			</label>
 		</div>
 
-		<p>@InstallStrings.Page4_Group5_Label4</p>
+		<p>@SiteStrings.SiteSettings_Configuration_BrowserCaching_Help/p>
 	</fieldset>
 </form>
 

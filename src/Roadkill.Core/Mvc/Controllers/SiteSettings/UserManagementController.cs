@@ -143,7 +143,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				{
 					if (!UserManager.UpdateUser(model))
 					{
-						ModelState.AddModelError("General", SiteStrings.SiteSettings_Users_EditUser_Error);
+						ModelState.AddModelError("General", SiteStrings.SiteSettings_UserManagement_EditUser_Error);
 					}
 
 					model.ExistingEmail = model.NewEmail;

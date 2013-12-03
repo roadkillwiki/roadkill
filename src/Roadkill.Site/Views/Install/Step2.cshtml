@@ -2,13 +2,13 @@
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
-@Url.ScriptLink("roadkill/installer/step2.js")
+@Url.InstallerScriptLink("step2.js")
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
 		var messages =
 		{
-			dbSuccessTitle: "@SiteStrings.Shared_Failure",
+			dbSuccessTitle: "@SiteStrings.Shared_Success",
 			dbSuccessMessage: "@SiteStrings.DatabaseConnection_Success",
 			dbFailureTitle: "@SiteStrings.DatabaseConnection_Failure",
 

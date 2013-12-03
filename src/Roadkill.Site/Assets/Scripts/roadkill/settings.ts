@@ -3,8 +3,11 @@ module Roadkill.Site.Admin
 {
 	export class SettingsMessages
 	{
-		public successTitle: string;
-		public failureMessage: string;
+		public dbSuccessTitle: string;
+		public dbFailureMessage: string;
+		public attachmentsSuccess: string;
+		public attachmentsFailure: string;
+		public unexpectedError: string;
 	}
 
 	export class Settings
@@ -55,7 +58,7 @@ module Roadkill.Site.Admin
 				"databaseType": $("#DataStoreTypeName").val()
 			};
 
-			this.makeAjaxRequest(ROADKILL_TESTDB_URL, jsonData, "Something went wrong", this.TestDatabaseSuccess);
+			this.makeAjaxRequest(ROADKILL_TESTDB_URL, jsonData, this._messages.unexpectedError, this.TestDatabaseSuccess);
 		}
 
 		public TestDatabaseSuccess(data : any)
@@ -63,11 +66,11 @@ module Roadkill.Site.Admin
 			$("#db-loading").hide();
 			if (data.Success)
 			{
-				toastr.success(this._messages.successTitle);
+				toastr.success(this._messages.dbSuccessTitle);
 			}
 			else
 			{
-				toastr.error(data.ErrorMessage, this._messages.failureMessage);
+				toastr.error(data.ErrorMessage, this._messages.dbFailureMessage);
 			}
 		}
 
@@ -78,18 +81,18 @@ module Roadkill.Site.Admin
 				"folder": $("#AttachmentsFolder").val()
 			}
 
-			this.makeAjaxRequest(ROADKILL_TESTATTACHMENTS_URL, jsonData, "Something went wrong", this.TestAttachmentsSuccess);
+			this.makeAjaxRequest(ROADKILL_TESTATTACHMENTS_URL, jsonData, this._messages.unexpectedError, this.TestAttachmentsSuccess);
 		}
 
 		public TestAttachmentsSuccess(data: any)
 		{
 			if (data.Success)
 			{
-				toastr.success("Success! The directory exists and can be written to.");
+				toastr.success(this._messages.attachmentsSuccess);
 			}
 			else
 			{
-				toastr.error("Attachments directory failed: <br/>" + data.ErrorMessage);
+				toastr.error(data.ErrorMessage, this._messages.attachmentsFailure);
 			}
 		}
 
