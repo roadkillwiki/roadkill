@@ -74,12 +74,15 @@
                 });
 
                 $("#TagsEntry").keydown(function (e) {
-                    // Tab adds the tag, but then focuses the textarea
+                    // Tab adds the tag, but then focuses the toolbar (the next tab index)
                     var code = e.keyCode || e.which;
                     if (code == "9") {
                         var tag = $("#TagsEntry").val();
                         if (_this.isValidTag(tag)) {
-                            $("#Content").focus();
+                            if ($("#IsLocked").length == 0)
+                                $(".wysiwyg-bold").focus();
+else
+                                $("#IsLocked").focus();
                         }
                         return false;
                     }
