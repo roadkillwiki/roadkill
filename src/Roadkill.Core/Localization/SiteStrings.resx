@@ -496,9 +496,6 @@
 <data name="SiteSettings_Configuration_Error" xml:space="preserve">
 	<value>Unable to save the settings</value>
 </data>
-<data name="SiteSettings_Configuration_Caching" xml:space="preserve">
-	<value>(This key is no longer used. To be removed in 2.0)</value>
-</data>
 <data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
 	<value>(This key is no longer used. To be removed in 2.0)</value>
 </data>
@@ -859,10 +856,22 @@
 	<value>Success! The directory exists and can be written to.</value>
 </data>
 <data name="Attachments_Folder_Failure" xml:space="preserve">
-	<value>Attachments directory failed: </value>
+	<value>Unable to write to the attachments directory: </value>
 </data>
 <data name="Shared_Unexpected_Error" xml:space="preserve">
 	<value>Something went wrong</value>
+</data>
+<data name="Profile_Not_Available" xml:space="preserve">
+	<value>Windows authentication is enabled, so the user profile is not available.</value>
+</data>
+<data name="Profile_Password_Change_Successful" xml:space="preserve">
+	<value>The password was successfully changed</value>
+</data>
+<data name="Profile_Details_Updated_Successfully" xml:space="preserve">
+	<value>The profile details were successfully updated.</value>
+</data>
+<data name="Profile_Leave_Password_Blank" xml:space="preserve">
+	<value>Leave the password fields blank if you do not want to change your password.</value>
 </data>
 
 </root>

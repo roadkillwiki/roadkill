@@ -5,7 +5,7 @@
 <h1>@SiteStrings.Profile_Title</h1>
 @if (Model == null)
 {
-	<p>Windows authentication is enabled, so the user profile is not available.</p>
+	<p>@SiteStrings.Profile_Not_Available</p>
 }
 else
 {
@@ -15,19 +15,19 @@ else
 			@Html.BootstrapValidationSummary(SiteStrings.Shared_Error)
 			@if (Model.PasswordUpdateSuccessful)
 			{
-				<div class="alert alert-success alert-temporary todo-TRANSLATION">
-					The password was successfully changed.
+				<div class="alert alert-success alert-temporary">
+					@SiteStrings.Profile_Password_Change_Successful
 				</div>
 			}
 			else if (Model.UpdateSuccessful)
 			{
-				<div class="alert alert-success alert-temporary TODO-translation">
-					The profile details were successfully updated.
+				<div class="alert alert-success alert-temporary">
+					@SiteStrings.Profile_Details_Updated_Successfully
 				</div>
 			}
 			
-			<p class="TODO-translation">
-				Leave the password fields blank if you do not want to change your password
+			<p>
+				@SiteStrings.Profile_Leave_Password_Blank
 			</p>
 
 			<div id="profile" class="lightborder rounded10 col-sm-12">

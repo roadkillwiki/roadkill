@@ -160,7 +160,7 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attachments directory failed: .
+        ///   Looks up a localized string similar to Unable to write to the attachments directory: .
         /// </summary>
         public static string Attachments_Folder_Failure {
             get {
@@ -970,11 +970,47 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The profile details were successfully updated..
+        /// </summary>
+        public static string Profile_Details_Updated_Successfully {
+            get {
+                return ResourceManager.GetString("Profile_Details_Updated_Successfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred updating your profile.
         /// </summary>
         public static string Profile_Error {
             get {
                 return ResourceManager.GetString("Profile_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Leave the password fields blank if you do not want to change your password..
+        /// </summary>
+        public static string Profile_Leave_Password_Blank {
+            get {
+                return ResourceManager.GetString("Profile_Leave_Password_Blank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows authentication is enabled, so the user profile is not available..
+        /// </summary>
+        public static string Profile_Not_Available {
+            get {
+                return ResourceManager.GetString("Profile_Not_Available", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password was successfully changed.
+        /// </summary>
+        public static string Profile_Password_Change_Successful {
+            get {
+                return ResourceManager.GetString("Profile_Password_Change_Successful", resourceCulture);
             }
         }
         
@@ -1506,15 +1542,6 @@ namespace Roadkill.Core.Localization {
         public static string SiteSettings_Configuration_CachePageText_Help {
             get {
                 return ResourceManager.GetString("SiteSettings_Configuration_CachePageText_Help", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to (This key is no longer used. To be removed in 2.0).
-        /// </summary>
-        public static string SiteSettings_Configuration_Caching {
-            get {
-                return ResourceManager.GetString("SiteSettings_Configuration_Caching", resourceCulture);
             }
         }
         
