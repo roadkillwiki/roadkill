@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
 
 namespace Roadkill.Core.Plugins.Text.BuiltIn
@@ -15,8 +16,9 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 		internal static readonly string _regexString = @"\[\[\[jumbotron=(?'inner'.*?)\]\]\]";
 		internal static readonly Regex _variableRegex = new Regex(_regexString, RegexOptions.Singleline | RegexOptions.Compiled);
 
-		private string _preContainerHtml = @"<div id=""roadkill-jumbotron"" class=""jumbotron""><div id=""inner"">${inner}</div></div>";
-		private bool _hasJumbotronTag = false;
+		private string _preContainerHtml = "";
+		private string _htmlTemplate = @"<div id=""roadkill-jumbotron"" class=""jumbotron""><div id=""inner"">${inner}</div></div>";
+		private MarkupConverter _converter;
 
 		public override string Id
 		{
@@ -38,7 +40,7 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 		{
 			get
 			{
-				return "Adds a giant image to the top of the page, with custom HTML overlayed ontop. Usage: [[[jumbotron=your HTML here]]]";
+				return "Adds a giant image to the top of the page, with markdown overlayed ontop. Usage: [[[jumbotron=your markdown here]]]";
 			}
 		}
 
@@ -51,21 +53,35 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 			}
 		}
 
+		public Jumbotron(MarkupConverter converter) : base()
+		{
+			_converter = converter;
+			_preContainerHtml = "";
+		}
+
 		public override string BeforeParse(string markupText)
 		{
+			// Check for the jumbotron token
 			if (_variableRegex.IsMatch(markupText))
 			{
 				MatchCollection matches = _variableRegex.Matches(markupText);
 
-				foreach (Match match in matches)
+				// All instances of the token
+				if (matches.Count > 0)
 				{
-					string inner = match.Groups["inner"].Value;
-					_preContainerHtml = _preContainerHtml.Replace("${inner}", inner);
-					_hasJumbotronTag = true;
-					break;
+					Match match = matches[0];
+
+					// Grab the markdown after the [[[jumbotron=..]]] and parse it,
+					// and put it back in.
+					string innerMarkDown = match.Groups["inner"].Value;
+					string html = _converter.ToHtml(innerMarkDown);
+
+					// _preContainerHtml is returned later and it contains the HTML that lives 
+					// outside the container, that this plugin provides.
+					_preContainerHtml = _htmlTemplate.Replace("${inner}", html);
 				}
 				
-				// Remove the token it from the markdown/creole
+				// Remove the token from the markdown/creole
 				markupText = Regex.Replace(markupText, _regexString, "", _variableRegex.Options);
 			}
 
@@ -74,10 +90,7 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 
 		public override string GetPreContainerHtml()
 		{
-			if (_hasJumbotronTag)
-				return _preContainerHtml;
-			else
-				return "";
+			return _preContainerHtml;
 		}
 
 		public override string GetHeadContent()
