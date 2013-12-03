@@ -25,7 +25,7 @@
 
 			<div class="form-group">
 				<div class="col-sm-12">
-					@(Html.BootstrapTextBoxFor<PageViewModel, string>(p => p.Title, SiteStrings.EditPage_Title_Label))
+					@(Html.BootstrapTextBoxFor<PageViewModel, string>(p => p.Title, SiteStrings.EditPage_Title_Label, false, 1))
 				</div>
 			</div>
 
@@ -36,11 +36,16 @@
 
 			@if (RoadkillContext.IsAdmin)
 			{
-				<h6>@(Html.CheckBoxFor<PageViewModel>(p => p.IsLocked, new { tabindex = 3 })) @SiteStrings.EditPage_AdminOnly</h6>
+				<div class="form-inline">
+					<h6>
+						@(Html.BootstrapCheckBoxFor<PageViewModel>(p => p.IsLocked, SiteStrings.EditPage_AdminOnly, 3))
+						@SiteStrings.EditPage_AdminOnly
+					</h6>
+				</div>
 			}
 
 			@Html.Partial("WysiwgToolbar")
-			@(Html.TextAreaFor<PageViewModel, string>(p => p.Content, new { @class = "form-control", tabindex = 4 }))
+			@(Html.TextAreaFor<PageViewModel, string>(p => p.Content, new { @class = "form-control", tabindex = 5 }))
 
 			<div id="editpage-button-container" class="row" >
 				<div class="col-sm-1">
@@ -54,7 +59,7 @@
 				}
 				</div>
 				<div id="editpage-save-button" class="col-sm-11"><!-- @SiteStrings.Button_Preview" -->
-					<input type="submit" class="btn btn-primary saveButton" value="@SiteStrings.Button_Save" tabindex="5" />
+					<input type="submit" class="btn btn-primary saveButton" value="@SiteStrings.Button_Save" tabindex="6" />
 				</div>
 			</div>
 
