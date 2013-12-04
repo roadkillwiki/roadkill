@@ -13,11 +13,11 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 {
 	public class Jumbotron : TextPlugin
 	{
-		internal static readonly string _regexString = @"\[\[\[jumbotron=(?'inner'.*?)\]\]\]";
-		internal static readonly Regex _variableRegex = new Regex(_regexString, RegexOptions.Singleline | RegexOptions.Compiled);
+		internal static readonly string REGEX_STRING = @"\[\[\[jumbotron=(?'inner'.*?)\]\]\]";
+		internal static readonly Regex COMPILED_REGEX = new Regex(REGEX_STRING, RegexOptions.Singleline | RegexOptions.Compiled);
+		internal static readonly string HTMLTEMPLATE = @"<div id=""roadkill-jumbotron"" class=""jumbotron""><div id=""inner"">${inner}</div></div>";
 
 		private string _preContainerHtml = "";
-		private string _htmlTemplate = @"<div id=""roadkill-jumbotron"" class=""jumbotron""><div id=""inner"">${inner}</div></div>";
 		private MarkupConverter _converter;
 
 		public override string Id
@@ -62,9 +62,9 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 		public override string BeforeParse(string markupText)
 		{
 			// Check for the jumbotron token
-			if (_variableRegex.IsMatch(markupText))
+			if (COMPILED_REGEX.IsMatch(markupText))
 			{
-				MatchCollection matches = _variableRegex.Matches(markupText);
+				MatchCollection matches = COMPILED_REGEX.Matches(markupText);
 
 				// All instances of the token
 				if (matches.Count > 0)
@@ -78,11 +78,11 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 
 					// _preContainerHtml is returned later and it contains the HTML that lives 
 					// outside the container, that this plugin provides.
-					_preContainerHtml = _htmlTemplate.Replace("${inner}", html);
+					_preContainerHtml = HTMLTEMPLATE.Replace("${inner}", html);
 				}
 				
 				// Remove the token from the markdown/creole
-				markupText = Regex.Replace(markupText, _regexString, "", _variableRegex.Options);
+				markupText = Regex.Replace(markupText, REGEX_STRING, "", COMPILED_REGEX.Options);
 			}
 
 			return markupText;
