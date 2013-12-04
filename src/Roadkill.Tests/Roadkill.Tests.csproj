@@ -368,6 +368,9 @@
     <Compile Include="Unit\Database\LightSpeed\ToEntityTests.cs" />
     <Compile Include="Unit\Database\LightSpeed\FromEntityTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\UserViewModelTests.cs" />
+    <Compile Include="Unit\Plugins\MathJaxTests.cs" />
+    <Compile Include="Unit\Plugins\SyntaxHighlighterTests.cs" />
+    <Compile Include="Unit\Plugins\JumbotronTests.cs" />
     <Compile Include="Unit\Plugins\RandomPageTests.cs" />
     <Compile Include="Unit\Services\PageHistoryServiceTests.cs" />
     <Compile Include="Unit\Services\SettingsServiceTests.cs" />
