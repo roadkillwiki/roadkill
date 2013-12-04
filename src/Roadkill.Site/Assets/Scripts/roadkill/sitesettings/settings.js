@@ -66,7 +66,7 @@ var Roadkill;
                     if (data.Success) {
                         toastr.success(this._messages.dbSuccessTitle);
                     } else {
-                        toastr.error(data.ErrorMessage, this._messages.dbFailureMessage);
+                        this.showFailure(this._messages.dbFailureTitle, data.ErrorMessage);
                     }
                 };
 
@@ -86,7 +86,7 @@ var Roadkill;
                     if (data.Success) {
                         toastr.success(this._messages.attachmentsSuccess);
                     } else {
-                        toastr.error(data.ErrorMessage, this._messages.attachmentsFailure);
+                        this.showFailure(this._messages.attachmentsFailureTitle, data.ErrorMessage);
                     }
                 };
 
@@ -119,6 +119,10 @@ var Roadkill;
                         $("#aspnetuser-settings").show();
                         $("#aspnetuser-settings").removeClass("hidden");
                     }
+                };
+
+                Settings.prototype.showFailure = function (title, errorMessage) {
+                    bootbox.alert("<h2>" + title + "<h2><pre style='max-height:500px;overflow-y:scroll;'>" + errorMessage + "</pre>");
                 };
                 return Settings;
             })();
