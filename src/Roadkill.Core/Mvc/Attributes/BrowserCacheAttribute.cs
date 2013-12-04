@@ -32,7 +32,7 @@ namespace Roadkill.Core.Mvc.Attributes
 		public UserServiceBase UserService { get; set; }
 
 		[SetterProperty]
-		public PageService PageService { get; set; }
+		public IPageService PageService { get; set; }
 
 		[SetterProperty]
 		public SettingsService SettingsService { get; set; }
@@ -56,7 +56,7 @@ namespace Roadkill.Core.Mvc.Attributes
 				int id = 0;
 				if (int.TryParse(filterContext.RouteData.Values["id"].ToString(), out id))
 				{
-					page = PageService.GetById(id);
+					page = PageService.GetById(id, true);
 				}
 			}
 			else

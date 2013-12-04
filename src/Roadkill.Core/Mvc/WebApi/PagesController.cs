@@ -29,7 +29,7 @@ namespace Roadkill.Core.Mvc.Controllers.Api
 		}
 
 		/// <summary>
-		/// Retrieves a page by its id.
+		/// Retrieves a page by its id, without any markup content.
 		/// </summary>
 		/// <param name="id">The id of the page.</param>
 		/// <returns>The page details</returns>
