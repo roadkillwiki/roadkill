@@ -425,6 +425,7 @@
     <Compile Include="Mvc\Controllers\SiteSettings\UserManagementController.cs" />
     <Compile Include="Mvc\Controllers\SiteSettings\ToolsController.cs" />
     <Compile Include="Mvc\Controllers\SpecialPagesController.cs" />
+    <Compile Include="Mvc\ViewModels\TestResult.cs" />
     <Compile Include="Mvc\WebApi\ApiControllerBase.cs" />
     <Compile Include="Mvc\WebApi\Help\ApiDescriptionExtensions.cs" />
     <Compile Include="Mvc\WebApi\Help\App_Start\HelpPageConfig.cs" />
