@@ -23,9 +23,12 @@ namespace Roadkill.Core.Mvc
 
 			ScriptBundle defaultJsBundle = new ScriptBundle("~/Assets/Scripts/" + JsFilename);
 			defaultJsBundle.Include("~/Assets/Scripts/*.js");
+			defaultJsBundle.Include("~/Assets/Scripts/shared/*.js");
 			defaultJsBundle.Include("~/Assets/Scripts/jquery/*.js");
 			defaultJsBundle.Include("~/Assets/Scripts/roadkill/*.js");
 			defaultJsBundle.Include("~/Assets/Scripts/roadkill/filemanager/*.js");
+			defaultJsBundle.Include("~/Assets/Scripts/roadkill/editpage/*.js");
+			defaultJsBundle.Include("~/Assets/Scripts/roadkill/sitesettings/*.js");
 
 			BundleTable.Bundles.Add(cssBundle);
 			BundleTable.Bundles.Add(defaultJsBundle);

@@ -1,4 +1,4 @@
-/// <reference path="typescript-ref/references.ts" />
+/// <reference path="../typescript-ref/references.ts" />
 module Roadkill.Site.Admin
 {
 	export class SettingsMessages

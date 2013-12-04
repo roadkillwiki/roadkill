@@ -1,7 +1,7 @@
 var Roadkill;
 (function (Roadkill) {
     (function (Site) {
-        /// <reference path="typescript-ref/references.ts" />
+        /// <reference path="../typescript-ref/references.ts" />
         (function (Admin) {
             var SettingsMessages = (function () {
                 function SettingsMessages() {

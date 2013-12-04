@@ -2,6 +2,9 @@ var Roadkill;
 (function (Roadkill) {
     /// <reference path="typescript-ref/references.ts" />
     (function (Site) {
+        /**
+        Setup for all pages.
+        */
         $(document).ready(function () {
             Setup.configureBinds();
 

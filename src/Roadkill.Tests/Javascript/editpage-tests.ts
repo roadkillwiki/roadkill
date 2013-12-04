@@ -12,7 +12,7 @@
 
 // --- These are for intellisense only. QUnit.ts is copied from the (nuget) packages folder
 /// <reference path="qunit.d.ts" />
-/// <reference path="../../Roadkill.Site/Assets/Scripts/roadkill/editpage.ts" />
+/// <reference path="../../Roadkill.Site/Assets/Scripts/roadkill/editpage/editpage.ts" />
 
 //test("Commas (,) are invalid in tags", () =>
 //{
