@@ -4,9 +4,9 @@ module Roadkill.Site.Admin
 	export class SettingsMessages
 	{
 		public dbSuccessTitle: string;
-		public dbFailureMessage: string;
+		public dbFailureTitle: string;
 		public attachmentsSuccess: string;
-		public attachmentsFailure: string;
+		public attachmentsFailureTitle: string;
 		public unexpectedError: string;
 	}
 
@@ -71,7 +71,7 @@ module Roadkill.Site.Admin
 			}
 			else
 			{
-				toastr.error(data.ErrorMessage, this._messages.dbFailureMessage);
+				this.showFailure(this._messages.dbFailureTitle, data.ErrorMessage);
 			}
 		}
 
@@ -94,7 +94,7 @@ module Roadkill.Site.Admin
 			}
 			else
 			{
-				toastr.error(data.ErrorMessage, this._messages.attachmentsFailure);
+				this.showFailure(this._messages.attachmentsFailureTitle, data.ErrorMessage);
 			}
 		}
 
@@ -137,6 +137,11 @@ module Roadkill.Site.Admin
 				$("#aspnetuser-settings").show();
 				$("#aspnetuser-settings").removeClass("hidden");
 			}
+		}
+
+		public showFailure(title: string, errorMessage: string)
+		{
+			bootbox.alert("<h2>" + title + "<h2><pre style='max-height:500px;overflow-y:scroll;'>" + errorMessage + "</pre>");
 		}
 	}
 }
