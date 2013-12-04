@@ -1,3 +1,5 @@
+// *** These Javascript tests are experimental and not used by the build server ***
+
 // 
 // Guide to setting up Chutzpah: http://joeriks.com/2012/10/06/testing-typescript-with-chutzpah/
 // When running in the Visual Studio Web Essentials context menu plugin, use the "open in browser" 

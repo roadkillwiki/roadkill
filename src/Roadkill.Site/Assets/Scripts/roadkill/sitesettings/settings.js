@@ -46,6 +46,7 @@ var Roadkill;
                     validation.Configure("#settings-form", validationRules);
                 }
                 Settings.prototype.OnTestDatabaseClick = function () {
+                    var _this = this;
                     $("#db-loading").removeClass("hidden");
                     $("#db-loading").show();
 
@@ -54,7 +55,10 @@ var Roadkill;
                         "databaseType": $("#DataStoreTypeName").val()
                     };
 
-                    this.makeAjaxRequest(ROADKILL_TESTDB_URL, jsonData, this._messages.unexpectedError, this.TestDatabaseSuccess);
+                    // Make sure to use a lambda, so the "this" references is kept intact
+                    this.makeAjaxRequest(ROADKILL_TESTDB_URL, jsonData, this._messages.unexpectedError, function (data) {
+                        _this.TestDatabaseSuccess(data);
+                    });
                 };
 
                 Settings.prototype.TestDatabaseSuccess = function (data) {
@@ -67,11 +71,15 @@ var Roadkill;
                 };
 
                 Settings.prototype.OnTestAttachmentsClick = function () {
+                    var _this = this;
                     var jsonData = {
                         "folder": $("#AttachmentsFolder").val()
                     };
 
-                    this.makeAjaxRequest(ROADKILL_TESTATTACHMENTS_URL, jsonData, this._messages.unexpectedError, this.TestAttachmentsSuccess);
+                    // Make sure to use a lambda, so the "this" references is kept intact
+                    this.makeAjaxRequest(ROADKILL_TESTATTACHMENTS_URL, jsonData, this._messages.unexpectedError, function (data) {
+                        _this.TestAttachmentsSuccess(data);
+                    });
                 };
 
                 Settings.prototype.TestAttachmentsSuccess = function (data) {
