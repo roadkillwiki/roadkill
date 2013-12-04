@@ -196,6 +196,15 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Button_Close {
+            get {
+                return ResourceManager.GetString("Button_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Import.
         /// </summary>
         public static string Button_Import {
@@ -610,6 +619,15 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Drag files onto the box below to upload. Double click to navigate folders..
+        /// </summary>
+        public static string FileManager_Help {
+            get {
+                return ResourceManager.GetString("FileManager_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select.
         /// </summary>
         public static string FileManager_Select {
@@ -651,15 +669,6 @@ namespace Roadkill.Core.Localization {
         public static string FileManager_UploadingProgress {
             get {
                 return ResourceManager.GetString("FileManager_UploadingProgress", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Drag files onto the box below to upload. Double click to navigate folders..
-        /// </summary>
-        public static string FileManager_Watermark {
-            get {
-                return ResourceManager.GetString("FileManager_Watermark", resourceCulture);
             }
         }
         
@@ -1020,6 +1029,15 @@ namespace Roadkill.Core.Localization {
         public static string Profile_Title {
             get {
                 return ResourceManager.GetString("Profile_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to As an anti-spam measure, please enter the two words below.
+        /// </summary>
+        public static string Recaptcha_Prompt {
+            get {
+                return ResourceManager.GetString("Recaptcha_Prompt", resourceCulture);
             }
         }
         
@@ -1389,6 +1407,60 @@ namespace Roadkill.Core.Localization {
         public static string Signup_Title {
             get {
                 return ResourceManager.GetString("Signup_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear cache.
+        /// </summary>
+        public static string SiteSettings_Cache_Clear_Button {
+            get {
+                return ResourceManager.GetString("SiteSettings_Cache_Clear_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All caches were successfully cleared..
+        /// </summary>
+        public static string SiteSettings_Cache_Clear_Successful {
+            get {
+                return ResourceManager.GetString("SiteSettings_Cache_Clear_Successful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Items cache.
+        /// </summary>
+        public static string SiteSettings_Cache_Items_Cache {
+            get {
+                return ResourceManager.GetString("SiteSettings_Cache_Items_Cache", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Key.
+        /// </summary>
+        public static string SiteSettings_Cache_Key_Column_Header {
+            get {
+                return ResourceManager.GetString("SiteSettings_Cache_Key_Column_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The keys are in the format: .
+        /// </summary>
+        public static string SiteSettings_Cache_Key_Format {
+            get {
+                return ResourceManager.GetString("SiteSettings_Cache_Key_Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Page cache.
+        /// </summary>
+        public static string SiteSettings_Cache_Page_Cache {
+            get {
+                return ResourceManager.GetString("SiteSettings_Cache_Page_Cache", resourceCulture);
             }
         }
         
@@ -1947,6 +2019,24 @@ namespace Roadkill.Core.Localization {
         public static string SiteSettings_Configuration_Title {
             get {
                 return ResourceManager.GetString("SiteSettings_Configuration_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to save the settings:.
+        /// </summary>
+        public static string SiteSettings_Configuration_Unable_To_Save {
+            get {
+                return ResourceManager.GetString("SiteSettings_Configuration_Unable_To_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The settings were successfully updated..
+        /// </summary>
+        public static string SiteSettings_Configuration_Update_Successful {
+            get {
+                return ResourceManager.GetString("SiteSettings_Configuration_Update_Successful", resourceCulture);
             }
         }
         

@@ -3,7 +3,6 @@
 @{
 	ViewBag.Title = SiteStrings.SiteSettings_Configuration_Title;
 }
-
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
@@ -20,12 +19,11 @@
 </script>
 @Html.SiteSettingsNavigation()
 
-@* TODO-translation *@
-@Html.BootstrapValidationSummary("Unable to save the settings:")
+@Html.BootstrapValidationSummary(SiteStrings.SiteSettings_Configuration_Unable_To_Save)
 @if (Model.UpdateSuccessful)
 {
-	<div class="alert alert-success alert-temporary todo-TRANSLATION">
-		The settings were successfully changed.
+	<div class="alert alert-success alert-temporary">
+		@SiteStrings.SiteSettings_Configuration_Update_Successful
 	</div>
 }
 

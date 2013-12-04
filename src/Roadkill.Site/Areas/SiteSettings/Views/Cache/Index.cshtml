@@ -3,29 +3,24 @@
 	ViewBag.Title = "View cache";
 	ViewData["CacheActive"] = true;
 }
-@if (TempData["CacheCleared"] != null)
-{
-	<script type="text/javascript">
-		$(document).ready(function ()
-		{
-			// TODO-translation
-			toastr.success("All caches were successfully cleared.");
-		});
-	</script>
-}
 
 @Html.SiteSettingsNavigation()
-
+@if (TempData["CacheCleared"] != null)
+{
+	<div class="alert alert-success alert-temporary">
+		@SiteStrings.SiteSettings_Cache_Clear_Successful
+	</div>
+}
 <form role="form" method="post" action="@Url.Action("Clear", "Cache")">
-	<input name="clear" type="submit" class="btn btn-primary" value="Clear cache" />
+	<input name="clear" type="submit" class="btn btn-primary" value="@SiteStrings.SiteSettings_Cache_Clear_Button" />
 </form>
 <div>
-	<h2>Page cache (@Model[0].Count())</h2>
-	<p class="TODO-translation">The keys are in the format "page ID.version"</p>
+	<h2>@SiteStrings.SiteSettings_Cache_Page_Cache (@Model[0].Count())</h2>
+	<p>@SiteStrings.SiteSettings_Cache_Key_Format "page ID.version"</p>
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th>Key</th>
+				<th>@SiteStrings.SiteSettings_Cache_Key_Column_Header</th>
 			</tr>
 		</thead>
 		@foreach (string cacheKey in Model[0])
@@ -37,11 +32,11 @@
 	</table>
 	<br class="clear" />
 
-	<h2>Items cache (@Model[1].Count())</h2>
+	<h2>@SiteStrings.SiteSettings_Cache_Items_Cache (@Model[1].Count())</h2>
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th>Key</th>
+				<th>>@SiteStrings.SiteSettings_Cache_Key_Column_Header</th>
 			</tr>
 		</thead>
 	@foreach (string cacheKey in Model[1])

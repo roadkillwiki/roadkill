@@ -774,8 +774,9 @@
 <data name="FileManager_UploadingProgress" xml:space="preserve">
 	<value>Uploading...</value>
 </data>
-<data name="FileManager_Watermark" xml:space="preserve">
+<data name="FileManager_Help" xml:space="preserve">
 	<value>Drag files onto the box below to upload. Double click to navigate folders.</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="FileManager_Extension_Not_Supported" xml:space="preserve">
 	<value>Only files with the extension {0} can be uploaded.</value>
@@ -872,6 +873,37 @@
 </data>
 <data name="Profile_Leave_Password_Blank" xml:space="preserve">
 	<value>Leave the password fields blank if you do not want to change your password.</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Successful" xml:space="preserve">
+	<value>All caches were successfully cleared.</value>
+</data>
+<data name="SiteSettings_Cache_Key_Format" xml:space="preserve">
+	<value>The keys are in the format: </value>
+</data>
+<data name="SiteSettings_Cache_Key_Column_Header" xml:space="preserve">
+	<value>Key</value>
+</data>
+<data name="SiteSettings_Cache_Page_Cache" xml:space="preserve">
+	<value>Page cache</value>
+</data>
+<data name="SiteSettings_Cache_Items_Cache" xml:space="preserve">
+	<value>Items cache</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Button" xml:space="preserve">
+	<value>Clear cache</value>
+</data>
+<data name="SiteSettings_Configuration_Unable_To_Save" xml:space="preserve">
+	<value>Unable to save the settings:</value>
+</data>
+<data name="SiteSettings_Configuration_Update_Successful" xml:space="preserve">
+	<value>The settings were successfully updated.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Recaptcha_Prompt" xml:space="preserve">
+	<value>As an anti-spam measure, please enter the two words below</value>
+</data>
+<data name="Button_Close" xml:space="preserve">
+	<value>Close</value>
 </data>
 
 </root>
