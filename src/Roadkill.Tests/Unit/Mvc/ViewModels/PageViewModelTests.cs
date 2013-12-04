@@ -81,6 +81,39 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
+		public void Page_Constructor_Should_Fill_Properties()
+		{
+			// Arrange
+			Page page = new Page();
+			page.Id = 3;
+			page.Title = "my title";
+			page.CreatedBy = "me";
+			page.CreatedOn = DateTime.Now;
+			page.IsLocked = true;
+			page.ModifiedBy = "me2";
+			page.ModifiedOn = DateTime.Now.AddDays(1);
+			page.Tags = "tag1,tag2,tag3";
+
+			// Act
+			PageViewModel model = new PageViewModel(page);
+
+			// Assert
+			Assert.That(model.Id, Is.EqualTo(page.Id));
+			Assert.That(model.Title, Is.EqualTo(page.Title));
+			Assert.That(model.CreatedBy, Is.EqualTo(page.CreatedBy));
+			Assert.That(model.ModifiedBy, Is.EqualTo(page.ModifiedBy));
+			Assert.That(model.CreatedOn, Is.EqualTo(page.CreatedOn));
+			Assert.That(model.CreatedOn.Kind, Is.EqualTo(DateTimeKind.Utc));
+			Assert.That(model.ModifiedOn, Is.EqualTo(page.ModifiedOn));
+			Assert.That(model.ModifiedOn.Kind, Is.EqualTo(DateTimeKind.Utc));
+
+			Assert.That(model.Tags.Count(), Is.EqualTo(3));
+			Assert.That(model.Tags, Contains.Item("tag1"));
+			Assert.That(model.Tags, Contains.Item("tag2"));
+			Assert.That(model.Tags, Contains.Item("tag3"));
+		}
+
+		[Test]
 		public void PageContent_Constructor_Should_Fill_Properties_And_Parse_Markup()
 		{
 			// Arrange

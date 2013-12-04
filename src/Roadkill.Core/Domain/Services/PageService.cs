@@ -386,7 +386,7 @@ namespace Roadkill.Core.Services
 		/// <param name="id">The id of the page</param>
 		/// <returns>A <see cref="PageViewModel"/> for the page.</returns>
 		/// <exception cref="DatabaseException">An databaseerror occurred while getting the page.</exception>
-		public PageViewModel GetById(int id)
+		public PageViewModel GetById(int id, bool loadContent = false)
 		{
 			try
 			{
@@ -405,9 +405,25 @@ namespace Roadkill.Core.Services
 					}
 					else
 					{
-						pageModel = new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
-						_pageViewModelCache.Add(id, pageModel);
+						// If object caching is enabled, ignore the "loadcontent" parameter as the cache will be 
+						// used on the second call anyway, so performance isn't an issue.
+						if (ApplicationSettings.UseObjectCache)
+						{
+							pageModel = new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
+						}
+						else
+						{
+							if (loadContent)
+							{
+								pageModel = new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
+							}
+							else
+							{
+								pageModel = new PageViewModel(page);
+							}
+						}
 
+						_pageViewModelCache.Add(id, pageModel);
 						return pageModel;
 					}
 				}

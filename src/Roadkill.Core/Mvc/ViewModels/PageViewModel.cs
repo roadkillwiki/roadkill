@@ -182,6 +182,26 @@ namespace Roadkill.Core.Mvc.ViewModels
 			AllTags = new List<TagViewModel>();
 		}
 
+		public PageViewModel(Page page)
+		{
+			if (page == null)
+				throw new ArgumentNullException("page");
+
+			Id = page.Id;
+			Title = page.Title;
+			PreviousTitle = page.Title;
+			CreatedBy = page.CreatedBy;
+			CreatedOn = page.CreatedOn;
+			IsLocked = page.IsLocked;
+			ModifiedBy = page.ModifiedBy;
+			ModifiedOn = page.ModifiedOn;
+			RawTags = page.Tags;
+
+			CreatedOn = DateTime.SpecifyKind(CreatedOn, DateTimeKind.Utc);
+			ModifiedOn = DateTime.SpecifyKind(ModifiedOn, DateTimeKind.Utc);
+			AllTags = new List<TagViewModel>();
+		}
+
 		public PageViewModel(PageContent pageContent, MarkupConverter converter)
 		{
 			if (pageContent == null)

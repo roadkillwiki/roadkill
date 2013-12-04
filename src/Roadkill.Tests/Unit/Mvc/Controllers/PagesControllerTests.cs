@@ -61,15 +61,20 @@ namespace Roadkill.Tests.Unit
 			// Customise the page service so we can verify what was called
 			_pageServiceMock = new Mock<IPageService>();
 			_pageServiceMock.Setup(x => x.GetMarkupConverter()).Returns(new MarkupConverter(_applicationSettings, _repository, _pluginFactory));
-			_pageServiceMock.Setup(x => x.GetById(It.IsAny<int>())).Returns<int>(x =>
+			_pageServiceMock.Setup(x => x.GetById(It.IsAny<int>(), false)).Returns<int, bool>((int id, bool loadContent) =>
 				{
-					PageContent content = _repository.GetLatestPageContent(x);
-
-					if (content != null)
-						return new PageViewModel(content, _markupConverter);
-					else
-						return null;
+					Page page = _repository.GetPageById(id);
+					return new PageViewModel(page);
 				});
+			_pageServiceMock.Setup(x => x.GetById(It.IsAny<int>(), true)).Returns<int,bool>((int id, bool loadContent) =>
+			{
+				PageContent content = _repository.GetLatestPageContent(id);
+
+				if (content != null)
+					return new PageViewModel(content, _markupConverter);
+				else
+					return null;
+			});
 			_pageServiceMock.Setup(x => x.FindByTag(It.IsAny<string>()));
 			_pageService = _pageServiceMock.Object;
 
@@ -257,7 +262,7 @@ namespace Roadkill.Tests.Unit
 			_contextStub.IsAdmin = false;
 			Page page = AddDummyPage1();
 			page.IsLocked = true;
-			_pageServiceMock.Setup(x => x.GetById(page.Id)).Returns(new PageViewModel() { Id = page.Id, IsLocked = true });
+			_pageServiceMock.Setup(x => x.GetById(page.Id, It.IsAny<bool>())).Returns(new PageViewModel() { Id = page.Id, IsLocked = true });
 
 			// Act
 			ActionResult result = _pagesController.Edit(page.Id);
@@ -276,7 +281,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			Page page = AddDummyPage1();
 			PageContent pageContent = _repository.PageContents.First(p => p.Page.Id == page.Id);
-			_pageServiceMock.Setup(x => x.GetById(page.Id)).Returns(new PageViewModel() { Id = page.Id,});
+			_pageServiceMock.Setup(x => x.GetById(page.Id, It.IsAny<bool>())).Returns(new PageViewModel() { Id = page.Id, });
 
 			// Act
 			ActionResult result = _pagesController.Edit(page.Id);
@@ -285,7 +290,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 			ViewResult viewResult = result as ViewResult;
 			Assert.NotNull(viewResult, "Null viewResult");
-			_pageServiceMock.Verify(x => x.GetById(page.Id));
+			_pageServiceMock.Verify(x => x.GetById(page.Id, It.IsAny<bool>()));
 		}
 
 		[Test]

@@ -118,7 +118,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		[EditorRequired]
 		public ActionResult Edit(int id)
 		{
-			PageViewModel model = _pageService.GetById(id);
+			PageViewModel model = _pageService.GetById(id, true);
 
 			if (model != null)
 			{

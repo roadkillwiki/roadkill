@@ -79,9 +79,10 @@ namespace Roadkill.Core.Services
 		/// Retrieves the page by its id.
 		/// </summary>
 		/// <param name="id">The id of the page</param>
+		/// <param name="loadContent">True if the page's content should also be loaded, which will also run all text plugins.</param>
 		/// <returns>A <see cref="PageViewModel"/> for the page.</returns>
 		/// <exception cref="DatabaseException">An database error occurred while getting the page.</exception>
-		PageViewModel GetById(int id);
+		PageViewModel GetById(int id, bool loadContent = false);
 
 		/// <summary>
 		/// Retrieves the current text content for a page.
