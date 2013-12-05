@@ -105,14 +105,17 @@
 <data name="Shared_PoweredBy" xml:space="preserve">
 	<value>Powered by Roadkill Wiki</value>
 </data>
-<data name="Shared_Firstname" xml:space="preserve">
+<data name="Shared_Firstname_Label" xml:space="preserve">
 	<value>Nome:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Shared_Lastname" xml:space="preserve">
+<data name="Shared_Lastname_Label" xml:space="preserve">
 	<value>Cognome:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Shared_Username" xml:space="preserve">
+<data name="Shared_Username_Label" xml:space="preserve">
 	<value>Nome utente:</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Shared_Email_Label" xml:space="preserve">
 	<value>E-mail:</value>
@@ -168,8 +171,9 @@
 <data name="Signup_Label" xml:space="preserve">
 	<value>Inserisci i particolari qui di seguito.</value>
 </data>
-<data name="Signup_Button" xml:space="preserve">
+<data name="Button_Signup" xml:space="preserve">
 	<value>Registrazione nuovo utente</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Signup_Complete_Title" xml:space="preserve">
 	<value>Iscriviti completo.</value>
@@ -183,8 +187,9 @@
 <data name="Signup_Complete_EmailResent" xml:space="preserve">
 	<value>La mail di conferma è stato inviato nuovamente.</value>
 </data>
-<data name="Signup_Complete_EmailResend_Button" xml:space="preserve">
+<data name="Button_Signup_Complete_EmailResend" xml:space="preserve">
 	<value>Reinvia mail di conferma</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Signup_Error_General" xml:space="preserve">
 	<value>Si è verificato un errore con la registrazione.</value>
@@ -219,8 +224,9 @@
 <data name="ResetPassword_Complete_Label" xml:space="preserve">
 	<value>Si prega di inserire la nuova password.</value>
 </data>
-<data name="ResetPassword_Button" xml:space="preserve">
+<data name="Button_ResetPassword" xml:space="preserve">
 	<value>Resettare la password</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="ResetPassword_Successful_Title" xml:space="preserve">
 	<value>Resettare la password di successo.</value>
@@ -402,8 +408,9 @@
 <data name="SiteSettings_Configuration" xml:space="preserve">
 	<value>Configurazione</value>
 </data>
-<data name="SiteSettings_Users" xml:space="preserve">
+<data name="SiteSettings_UserManagement" xml:space="preserve">
 	<value>Utenti</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Tools" xml:space="preserve">
 	<value>Strumenti</value>
@@ -489,9 +496,6 @@
 <data name="SiteSettings_Configuration_Error" xml:space="preserve">
 	<value>Impossibile salvare le impostazioni</value>
 </data>
-<data name="SiteSettings_Configuration_Caching" xml:space="preserve">
-	<value>(Questo tasto non è più utilizzato. Per essere rimossi in 2.0)</value>
-</data>
 <data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
 	<value>(Questo tasto non è più utilizzato. Per essere rimossi in 2.0)</value>
 </data>
@@ -564,53 +568,69 @@
 <data name="SiteSettings_Configuration_CachePageText_Help" xml:space="preserve">
 	<value>(Questo tasto non è più utilizzato. Per essere rimossi in 2.0)</value>
 </data>
-<data name="SiteSettings_Users_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Title" xml:space="preserve">
 	<value>Gli utenti del sito</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_ColumnHeader_Username" xml:space="preserve">
+<data name="SiteSettings_UserManagement_ColumnHeader_Username" xml:space="preserve">
 	<value>Nome utente</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_ColumnHeader_Email" xml:space="preserve">
+<data name="SiteSettings_UserManagement_ColumnHeader_Email" xml:space="preserve">
 	<value>Email</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_Admins" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Admins" xml:space="preserve">
 	<value>Admins</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_NewAdmin" xml:space="preserve">
+<data name="SiteSettings_UserManagement_NewAdmin" xml:space="preserve">
 	<value>Nuovo utente admin</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_Editors" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Editors" xml:space="preserve">
 	<value>Editori</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_NewEditor" xml:space="preserve">
+<data name="SiteSettings_UserManagement_NewEditor" xml:space="preserve">
 	<value>Nuovo utente redattore</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddAdminDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddAdmin_Title" xml:space="preserve">
 	<value>Aggiungi Admin</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddEditorDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddEditor_Title" xml:space="preserve">
 	<value>Aggiungi editore</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_EditUserDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_EditUser_Title" xml:space="preserve">
 	<value>Modifica utente</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddUserDialog_Help" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddUser_Help" xml:space="preserve">
 	<value>Per gli utenti esistenti, lasciare i campi della password vuota di cambiare solo il nome utente.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddUserDialog_Error" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddUser_Error" xml:space="preserve">
 	<value>Impossibile salvare i dati utente:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_EditUser_Error" xml:space="preserve">
+<data name="SiteSettings_UserManagement_EditUser_Error" xml:space="preserve">
 	<value>Aggiornare l&apos;utente non è riuscita.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Title" xml:space="preserve">
 	<value>Autenticazione / Active Directory di Windows è abilitato</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Label1" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Label1" xml:space="preserve">
 	<value>I nomi utente e le password non sono modificabili con l&apos;autenticazione di Windows - si dovrebbe fare questo tramite Active Directory.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Label2" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Label2" xml:space="preserve">
 	<value>Per aggiungere un utente come un amministratore o un editor, assicurarsi che essi sono parte del gruppo di protezione di Windows che avete specificato per le impostazioni &quot;EditorRolename&quot; nel web.config &quot;AdminRolename&quot; e.</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Tools_Title" xml:space="preserve">
 	<value>Strumenti del sito</value>
@@ -754,8 +774,9 @@
 <data name="FileManager_UploadingProgress" xml:space="preserve">
 	<value>Caricamento ...</value>
 </data>
-<data name="FileManager_Watermark" xml:space="preserve">
+<data name="FileManager_Help" xml:space="preserve">
 	<value>Trascinare i file da caricare qui. Fare doppio clic per navigare le cartelle</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="FileManager_Extension_Not_Supported" xml:space="preserve">
 	<value>Solo i file con estensione {0} possono essere caricati.</value>
@@ -788,6 +809,102 @@
 </data>
 <data name="SiteSettings_Plugins_Title" xml:space="preserve">
 	<value>Plugins</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport" xml:space="preserve">
+	<value>Esporta come SQL</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport_Label" xml:space="preserve">
+	<value>Esporta il database corrente come un singolo script SQL. Se si sta usando MongoDB questa azione non fa nulla.</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite" xml:space="preserve">
+	<value>Sito pubblico</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite_Help" xml:space="preserve">
+	<value>Se deselezionata, tutte le pagine sono private e possono essere visualizzati solo da utenti registrati.</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors" xml:space="preserve">
+	<value>Ignora errori di indice di ricerca</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors_Help" xml:space="preserve">
+	<value>Quando è selezionata, viene visualizzato un errore quando una pagina non riesce ad essere indicizzato dal motore di ricerca Lucene (durante la creazione o l&apos;aggiornamento di una pagina), invece di essere ignorato.</value>
+</data>
+<data name="FileManager_Upload_FileAlreadyExists" xml:space="preserve">
+	<value>Il file &apos;{0}&apos; esiste già.</value>
+</data>
+<data name="History_Help_Label" xml:space="preserve">
+	<value>Fare clic su un numero di versione per confrontare i cambiamenti con la versione prima di esso.</value>
+</data>
+<data name="SiteSettings_Configuration_Required_Field" xml:space="preserve">
+	<value>Questo campo è obbligatorio.</value>
+</data>
+<data name="Button_Test" xml:space="preserve">
+	<value>Prova</value>
+</data>
+<data name="Shared_Success" xml:space="preserve">
+	<value>Successo!</value>
+</data>
+<data name="Shared_Failure" xml:space="preserve">
+	<value>Fallimento!</value>
+</data>
+<data name="DatabaseConnection_Success" xml:space="preserve">
+	<value>La connessione al database è riuscita.</value>
+</data>
+<data name="DatabaseConnection_Failure" xml:space="preserve">
+	<value>Connessione al database non riuscita:</value>
+</data>
+<data name="Button_Add" xml:space="preserve">
+	<value>Aggiungere</value>
+</data>
+<data name="Attachments_Folder_Success" xml:space="preserve">
+	<value>Successo! Esiste la directory e può essere scritto.</value>
+</data>
+<data name="Attachments_Folder_Failure" xml:space="preserve">
+	<value>Impossibile scrivere nella directory allegati:</value>
+</data>
+<data name="Shared_Unexpected_Error" xml:space="preserve">
+	<value>Qualcosa è andato storto</value>
+</data>
+<data name="Profile_Not_Available" xml:space="preserve">
+	<value>L&apos;autenticazione di Windows è attivata, in modo che il profilo utente non è disponibile.</value>
+</data>
+<data name="Profile_Password_Change_Successful" xml:space="preserve">
+	<value>La password è stata modificata correttamente</value>
+</data>
+<data name="Profile_Details_Updated_Successfully" xml:space="preserve">
+	<value>I dati di questo profilo sono stati aggiornati correttamente.</value>
+</data>
+<data name="Profile_Leave_Password_Blank" xml:space="preserve">
+	<value>Lasciare i campi della password vuoto se non si desidera modificare la password.</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Successful" xml:space="preserve">
+	<value>Tutte le cache sono stati liquidati con successo.</value>
+</data>
+<data name="SiteSettings_Cache_Key_Format" xml:space="preserve">
+	<value>Le chiavi sono nel formato:</value>
+</data>
+<data name="SiteSettings_Cache_Key_Column_Header" xml:space="preserve">
+	<value>Chiave</value>
+</data>
+<data name="SiteSettings_Cache_Page_Cache" xml:space="preserve">
+	<value>Cache della pagina</value>
+</data>
+<data name="SiteSettings_Cache_Items_Cache" xml:space="preserve">
+	<value>Elementi di cache</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Button" xml:space="preserve">
+	<value>Cancella cache</value>
+</data>
+<data name="SiteSettings_Configuration_Unable_To_Save" xml:space="preserve">
+	<value>Impossibile salvare le impostazioni:</value>
+</data>
+<data name="SiteSettings_Configuration_Update_Successful" xml:space="preserve">
+	<value>Le impostazioni sono state aggiornate con successo.</value>
+</data>
+<data name="Recaptcha_Prompt" xml:space="preserve">
+	<value>Come misura anti-spam, si prega di inserire le due parole qui sotto</value>
+</data>
+<data name="Button_Close" xml:space="preserve">
+	<value>Vicino</value>
 </data>
 
 </root>

@@ -71,10 +71,6 @@
 	<value>Below are some required settings for Roadkill to work correctly. You can change these later via the settings page as an admin.</value>
 	<comment>Fuzzy</comment>
 </data>
-<data name="Step2_Error" xml:space="preserve">
-	<value>Unable to connect:</value>
-	<comment>Fuzzy</comment>
-</data>
 <data name="Step2_ConnectionString_CreateDatabase" xml:space="preserve">
 	<value>Note: you will need to create the database first.</value>
 	<comment>Fuzzy</comment>

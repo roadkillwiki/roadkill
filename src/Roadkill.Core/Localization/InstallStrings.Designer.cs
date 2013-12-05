@@ -187,15 +187,6 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to connect:.
-        /// </summary>
-        public static string Step2_Error {
-            get {
-                return ResourceManager.GetString("Step2_Error", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Example connection strings.
         /// </summary>
         public static string Step2_Example_ConnectionStrings {
