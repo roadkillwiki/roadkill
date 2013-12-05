@@ -105,14 +105,17 @@
 <data name="Shared_PoweredBy" xml:space="preserve">
 	<value>Powered by Roadkill Wiki</value>
 </data>
-<data name="Shared_Firstname" xml:space="preserve">
+<data name="Shared_Firstname_Label" xml:space="preserve">
 	<value>Imię:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Shared_Lastname" xml:space="preserve">
+<data name="Shared_Lastname_Label" xml:space="preserve">
 	<value>Nazwisko:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Shared_Username" xml:space="preserve">
+<data name="Shared_Username_Label" xml:space="preserve">
 	<value>Nazwa użytkownika:</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Shared_Email_Label" xml:space="preserve">
 	<value>Adres email:</value>
@@ -168,8 +171,9 @@
 <data name="Signup_Label" xml:space="preserve">
 	<value>Uzupełnij swoje dane.</value>
 </data>
-<data name="Signup_Button" xml:space="preserve">
+<data name="Button_Signup" xml:space="preserve">
 	<value>Zarejestruj nowego użytkownika</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Signup_Complete_Title" xml:space="preserve">
 	<value>Rejestracja zakończona.</value>
@@ -183,8 +187,9 @@
 <data name="Signup_Complete_EmailResent" xml:space="preserve">
 	<value>Email z potwierdzeniem został ponownie wysłany.</value>
 </data>
-<data name="Signup_Complete_EmailResend_Button" xml:space="preserve">
+<data name="Button_Signup_Complete_EmailResend" xml:space="preserve">
 	<value>Wyślij ponownie email z potwierdzeniem</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Signup_Error_General" xml:space="preserve">
 	<value>Wystąpił błąd podczas rejestracji.</value>
@@ -219,8 +224,9 @@
 <data name="ResetPassword_Complete_Label" xml:space="preserve">
 	<value>Wprowadź nowe hasło.</value>
 </data>
-<data name="ResetPassword_Button" xml:space="preserve">
+<data name="Button_ResetPassword" xml:space="preserve">
 	<value>Przywracanie hasła</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="ResetPassword_Successful_Title" xml:space="preserve">
 	<value>Zakończono przywracanie hasła.</value>
@@ -286,7 +292,7 @@
 	<value>Nie znaleziono kategorii</value>
 </data>
 <data name="AllPages_TitleColumnHeading" xml:space="preserve">
-	<value>Title</value>
+	<value>Tytuł</value>
 </data>
 <data name="Pages_ForUser" xml:space="preserve">
 	<value>Wszystkie strony utworzone przez {0}</value>
@@ -402,8 +408,9 @@
 <data name="SiteSettings_Configuration" xml:space="preserve">
 	<value>Konfiguracja</value>
 </data>
-<data name="SiteSettings_Users" xml:space="preserve">
+<data name="SiteSettings_UserManagement" xml:space="preserve">
 	<value>Użytkownicy</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Tools" xml:space="preserve">
 	<value>Narzędzia</value>
@@ -412,7 +419,7 @@
 	<value>Ustawienia witryny</value>
 </data>
 <data name="SiteSettings_Configuration_Site" xml:space="preserve">
-	<value>Site</value>
+	<value>Teren</value>
 </data>
 <data name="SiteSettings_Configuration_SiteName" xml:space="preserve">
 	<value>Nazwa witryny:</value>
@@ -421,7 +428,7 @@
 	<value>URL witryny:</value>
 </data>
 <data name="SiteSettings_Configuration_Database" xml:space="preserve">
-	<value>Database</value>
+	<value>Baza danych</value>
 </data>
 <data name="SiteSettings_Configuration_DatabaseType" xml:space="preserve">
 	<value>Rodzaj bazy danych:</value>
@@ -478,19 +485,16 @@
 	<value>Rozszerzenia załączników:</value>
 </data>
 <data name="SiteSettings_Configuration_CachingTitle" xml:space="preserve">
-	<value>Caching</value>
+	<value>Buforowanie</value>
 </data>
 <data name="SiteSettings_Configuration_ObjectCaching" xml:space="preserve">
-	<value>Object caching</value>
+	<value>Buforowanie obiektu</value>
 </data>
 <data name="SiteSettings_Configuration_BrowserCaching" xml:space="preserve">
-	<value>Browser caching</value>
+	<value>Buforowanie Browser</value>
 </data>
 <data name="SiteSettings_Configuration_Error" xml:space="preserve">
 	<value>Nie można zapisać ustawień: </value>
-</data>
-<data name="SiteSettings_Configuration_Caching" xml:space="preserve">
-	<value>Buforowanie:</value>
 </data>
 <data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
 	<value>Buforuj zawartość stron:</value>
@@ -553,10 +557,10 @@
 	<value>Lista rozszerzeń plików (oddzielonych przecinkiem), które mogą być przesyłane jako załączniki.</value>
 </data>
 <data name="SiteSettings_Configuration_ObjectCaching_Help" xml:space="preserve">
-	<value>Enables Object caching. Roadkill caches all pages and content in memory after retrieving it from the database. The cache is automatically updated when a page changes. Recommended to increase the responsiveness of the site. Object caching is not currently supported for web gardens or web farms.</value>
+	<value>Włącza buforowanie obiektu. Roadkill buforuje wszystkie strony i treści w pamięci, po pobraniu go z bazy danych. Pamięć podręczna jest automatycznie aktualizowany przy zmianie stron. Zalecane na poprawienie terenu. Buforowanie obiektu nie jest aktualnie obsługiwany przez internetową ogrodów lub gospodarstw internetowych.</value>
 </data>
 <data name="SiteSettings_Configuration_BrowserCaching_Help" xml:space="preserve">
-	<value>Enables caching on the browser. This will tell the browser to cache Roadkill pages, and check for updates (If-Modified-Since) each time the page is loaded. If no update is found, no content is returned from the server. Recommended to increase the responsiveness of the site.</value>
+	<value>Włącza buforowanie w przeglądarce. To powie przeglądarkę do pamięci podręcznej stron Roadkill i sprawdzić dostępność aktualizacji (If-Modified-Since) przy każdym załadowaniu strony. Jeżeli aktualizacja nie zostanie znaleziona, nie treść jest zwracane z serwera. Zalecane na poprawienie terenu.</value>
 </data>
 <data name="SiteSettings_Configuration_Caching_Help" xml:space="preserve">
 	<value>Włącz buforowanie. Roadkill używa buforowania wraz z buforowaniem wyjścia ASP.NET. Zaleca się włączenie buforowania w celu poprawienia szybkości działania witryny. Buforowanie danych nie jest obecnie obsługiwane w farmach serwerów web.</value>
@@ -564,53 +568,69 @@
 <data name="SiteSettings_Configuration_CachePageText_Help" xml:space="preserve">
 	<value>Buforowanie zawartości stron. Wyłączenie oznacza, że treść każdej strony będzie za każdym razem pobierana z bazy danych.</value>
 </data>
-<data name="SiteSettings_Users_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Title" xml:space="preserve">
 	<value>Użytkownicy witryny</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_ColumnHeader_Username" xml:space="preserve">
+<data name="SiteSettings_UserManagement_ColumnHeader_Username" xml:space="preserve">
 	<value>Nazwa użytkownika</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_ColumnHeader_Email" xml:space="preserve">
+<data name="SiteSettings_UserManagement_ColumnHeader_Email" xml:space="preserve">
 	<value>Email</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_Admins" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Admins" xml:space="preserve">
 	<value>Administratorzy</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_NewAdmin" xml:space="preserve">
+<data name="SiteSettings_UserManagement_NewAdmin" xml:space="preserve">
 	<value>Nowy administrator</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_Editors" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Editors" xml:space="preserve">
 	<value>Redaktorzy</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_NewEditor" xml:space="preserve">
+<data name="SiteSettings_UserManagement_NewEditor" xml:space="preserve">
 	<value>Nowy redaktor</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddAdminDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddAdmin_Title" xml:space="preserve">
 	<value>Dodaj administratora</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddEditorDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddEditor_Title" xml:space="preserve">
 	<value>Dodaj redaktora</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_EditUserDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_EditUser_Title" xml:space="preserve">
 	<value>Zmiana użytkownika</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddUserDialog_Help" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddUser_Help" xml:space="preserve">
 	<value>Dla istniejących użytkowników, pozostaw pole hasło puste (aby zmienić tylko nazwę).</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddUserDialog_Error" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddUser_Error" xml:space="preserve">
 	<value>Nie można zapisać zmian:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_EditUser_Error" xml:space="preserve">
+<data name="SiteSettings_UserManagement_EditUser_Error" xml:space="preserve">
 	<value>Zmiana użytkownika zakończona niepowodzeniem.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Title" xml:space="preserve">
 	<value>Włączone uwierzytelnianie Windows/Active Directory</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Label1" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Label1" xml:space="preserve">
 	<value>Jeśli włączono uwierzytelnianie Windows, nie można zmieniać nazw i haseł. Należy to wykonać poprzez Active Directory.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Label2" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Label2" xml:space="preserve">
 	<value>Aby dodać użytkownika jako administratora lub redaktora, należy się upewnić, że są członkami grupy w systemie Windows, które są ustawione w web.config jako &quot;AdminRole&quot; lub &quot;EditorRole&quot;.</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Tools_Title" xml:space="preserve">
 	<value>Narzędzia</value>
@@ -691,7 +711,7 @@
 	<value>Uzupełnij nazwę katalogu załączników.</value>
 </data>
 <data name="SiteSettings_Validation_AttachmentsReservedName" xml:space="preserve">
-	<value>&apos;~/Files&apos; is a reserved path, please choose another attachments folder.</value>
+	<value>&quot;~~~HEAD=NNS~~HEAD=poss / Files&quot; jest zastrzeżone ścieżka, wybierz inny folder z załącznikami.</value>
 </data>
 <data name="SiteSettings_Validation_ConnectionEmpty" xml:space="preserve">
 	<value>Uzupełnij parametry połączenia (connection string).</value>
@@ -709,82 +729,179 @@
 	<value>Uzupełnij URL witryny.</value>
 </data>
 <data name="FileManager_Title" xml:space="preserve">
-	<value>Manage files</value>
+	<value>Zarządzanie plikami</value>
 </data>
 <data name="FileManager_Upload" xml:space="preserve">
-	<value>Upload files</value>
+	<value>Prześlij pliki</value>
 </data>
 <data name="FileManager_AddFolder" xml:space="preserve">
-	<value>New folder</value>
+	<value>Nowy folder</value>
 </data>
 <data name="FileManager_AddFolder_Cancel" xml:space="preserve">
-	<value>Cancel new folder</value>
+	<value>Anuluj nowy folder</value>
 </data>
 <data name="FileManager_Delete_File" xml:space="preserve">
-	<value>Delete File</value>
+	<value>Usuń plik</value>
 </data>
 <data name="FileManager_Select" xml:space="preserve">
-	<value>Select</value>
+	<value>Wybierać</value>
 </data>
 <data name="FileManager_Delete_Folder" xml:space="preserve">
-	<value>Delete Folder</value>
+	<value>Usuwanie folderu</value>
 </data>
 <data name="FileManager_Delete_Confirm" xml:space="preserve">
-	<value>Are you sure you want to delete {0}?</value>
+	<value>Czy na pewno chcesz usunąć {0}?</value>
 </data>
 <data name="FileManager_Delete_Success" xml:space="preserve">
-	<value>{0} was sucessfully deleted.</value>
+	<value>{0} został pomyślnie usunięty.</value>
 </data>
 <data name="FileManager_Delete_Error" xml:space="preserve">
-	<value>An error occurred deleting {0}</value>
+	<value>Wystąpił błąd podczas usuwania {0}</value>
 </data>
 <data name="FileManager_Error_DirectoryListing" xml:space="preserve">
-	<value>An error occurred getting the directory listing: </value>
+	<value>Wystąpił błąd otrzymujesz listę katalogów:</value>
 </data>
 <data name="FileManager_Error_DeleteFolder" xml:space="preserve">
-	<value>An error occurred deleting the folder: </value>
+	<value>Wystąpił błąd podczas usuwania folderu:</value>
 </data>
 <data name="FileManager_Error_DeleteFile" xml:space="preserve">
-	<value>An error occurred deleting the file: </value>
+	<value>Wystąpił błąd podczas usuwania pliku:</value>
 </data>
 <data name="FileManager_Error_CreateFolder" xml:space="preserve">
-	<value>An error occurred creating the folder: </value>
+	<value>Wystąpił błąd podczas tworzenia folderu:</value>
 </data>
 <data name="FileManager_UploadingProgress" xml:space="preserve">
-	<value>Uploading...</value>
+	<value>Wgrywanie ...</value>
 </data>
-<data name="FileManager_Watermark" xml:space="preserve">
-	<value>Drag files here to upload. Double click to navigate folders</value>
+<data name="FileManager_Help" xml:space="preserve">
+	<value>Przeciągnij pliki tutaj załadować. Kliknij dwukrotnie, aby przejść folderów</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="FileManager_Extension_Not_Supported" xml:space="preserve">
-	<value>Only files with the extension {0} can be uploaded.</value>
+	<value>Tylko pliki z rozszerzeniem {0} mogą być przesłane.</value>
 </data>
 <data name="Homepage_Tagname" xml:space="preserve">
-	<value>homepage</value>
+	<value>strona główna</value>
 </data>
 <data name="SiteSettings_Configuration_HeadContent" xml:space="preserve">
-	<value>Additional head tag content</value>
+	<value>Dodatkowa zawartość tag głowy</value>
 </data>
 <data name="SiteSettings_Configuration_FileManager" xml:space="preserve">
-	<value>File manager</value>
+	<value>Menedżer plików</value>
 </data>
 <data name="SiteSettings_Configuration_HeadContent_Help" xml:space="preserve">
-	<value>Any additional HTML or scripts you enter here will be added to the {head} tag of the page.</value>
+	<value>Wszelkie dodatkowe HTML lub skrypty wprowadzić tutaj zostanie dodany do głowy} {tag strony.</value>
 </data>
 <data name="SiteSettings_Configuration_NavMenu" xml:space="preserve">
-	<value>Navigation menu markup</value>
+	<value>Nawigacja menu markup</value>
 </data>
 <data name="SiteSettings_Configuration_NavMenu_Help" xml:space="preserve">
-	<value>The navigation menu, which is typically on the left hand side but varies according to the theme. Markup is accepted and should be done in the markdown format your wiki uses. You can also use the following tokens which are replaced with links (some of which may be empty if you are not logged in): {MENUTOKENS}</value>
+	<value>Menu, które są zwykle po lewej stronie, lecz zmienia się w zależności od motywu. Markup jest akceptowane i powinny być wykonane w formacie wyprzedaży Twój wiki wykorzystuje. Możesz także użyć następujących znaków, które są zastępowane linków (niektóre z nich mogą być puste, jeśli nie jesteś zalogowany): {MENUTOKENS}</value>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
-	<value>Automatically overwrite existing files on upload</value>
+	<value>Automatyczne zastępowanie istniejących plików na przesłaniu</value>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting_Help" xml:space="preserve">
-	<value>Check this if you want file names that already exist in the attachments folder to be automatically overwritten.</value>
+	<value>Sprawdź to, jeśli chcesz nazwy plików, które już istnieją w załącznikach folder do automatycznie nadpisane.</value>
 </data>
 <data name="SiteSettings_Plugins_Title" xml:space="preserve">
-	<value>Plugins</value>
+	<value>Wtyczki</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport" xml:space="preserve">
+	<value>Eksportuj jako SQL</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport_Label" xml:space="preserve">
+	<value>Eksportuje bieżącą bazę danych jako jednego skryptu SQL. Jeśli używasz MongoDB ta akcja nic nie robi.</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite" xml:space="preserve">
+	<value>Strona publiczna</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite_Help" xml:space="preserve">
+	<value>Gdy odznaczone, wszystkie strony są prywatne i mogą być oglądane tylko przez zalogowanych użytkowników.</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors" xml:space="preserve">
+	<value>Ignoruj ​​błędy indeksu wyszukiwania</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors_Help" xml:space="preserve">
+	<value>Gdy zaznaczone, wyświetlany jest błąd, gdy strona nie jest indeksowana przez wyszukiwarki Lucene (podczas tworzenia lub aktualizowania strony), a nie ignorowane.</value>
+</data>
+<data name="FileManager_Upload_FileAlreadyExists" xml:space="preserve">
+	<value>Plik &apos;{0}&apos; już istnieje.</value>
+</data>
+<data name="History_Help_Label" xml:space="preserve">
+	<value>Kliknij na numer wersji, aby porównać zmiany z wersji przed nim.</value>
+</data>
+<data name="SiteSettings_Configuration_Required_Field" xml:space="preserve">
+	<value>Pole to jest konieczne.</value>
+</data>
+<data name="Button_Test" xml:space="preserve">
+	<value>Test</value>
+</data>
+<data name="Shared_Success" xml:space="preserve">
+	<value>Sukces!</value>
+</data>
+<data name="Shared_Failure" xml:space="preserve">
+	<value>Nie powiodła się!</value>
+</data>
+<data name="DatabaseConnection_Success" xml:space="preserve">
+	<value>Połączenie z bazą danych powiodło.</value>
+</data>
+<data name="DatabaseConnection_Failure" xml:space="preserve">
+	<value>Połączenie z bazą danych nie powiodło się:</value>
+</data>
+<data name="Button_Add" xml:space="preserve">
+	<value>Dodać</value>
+</data>
+<data name="Attachments_Folder_Success" xml:space="preserve">
+	<value>Sukces! Katalog istnieje i można zapisać do.</value>
+</data>
+<data name="Attachments_Folder_Failure" xml:space="preserve">
+	<value>Nie można zapisywać do katalogu Załączniki:</value>
+</data>
+<data name="Shared_Unexpected_Error" xml:space="preserve">
+	<value>Coś poszło nie tak</value>
+</data>
+<data name="Profile_Not_Available" xml:space="preserve">
+	<value>Uwierzytelnianie systemu Windows jest włączona, więc profil nie jest dostępny.</value>
+</data>
+<data name="Profile_Password_Change_Successful" xml:space="preserve">
+	<value>Hasło zostało zmienione</value>
+</data>
+<data name="Profile_Details_Updated_Successfully" xml:space="preserve">
+	<value>Te dane zostały pomyślnie zaktualizowane.</value>
+</data>
+<data name="Profile_Leave_Password_Blank" xml:space="preserve">
+	<value>Pozostawić puste pola hasła, jeśli nie chcesz zmieniać hasła.</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Successful" xml:space="preserve">
+	<value>Wszystkie bufory zostały pomyślnie usunięte.</value>
+</data>
+<data name="SiteSettings_Cache_Key_Format" xml:space="preserve">
+	<value>Klawisze są w formacie:</value>
+</data>
+<data name="SiteSettings_Cache_Key_Column_Header" xml:space="preserve">
+	<value>Klucz</value>
+</data>
+<data name="SiteSettings_Cache_Page_Cache" xml:space="preserve">
+	<value>Cache strona</value>
+</data>
+<data name="SiteSettings_Cache_Items_Cache" xml:space="preserve">
+	<value>Pozycji pamięci podręcznej</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Button" xml:space="preserve">
+	<value>Wyczyść cache</value>
+</data>
+<data name="SiteSettings_Configuration_Unable_To_Save" xml:space="preserve">
+	<value>Nie można zapisać ustawień:</value>
+</data>
+<data name="SiteSettings_Configuration_Update_Successful" xml:space="preserve">
+	<value>Ustawienia zostały pomyślnie zaktualizowane.</value>
+</data>
+<data name="Recaptcha_Prompt" xml:space="preserve">
+	<value>Jako ochrony przed spamem, należy wprowadzić dwa poniższe słowa</value>
+</data>
+<data name="Button_Close" xml:space="preserve">
+	<value>Blisko</value>
 </data>
 
 </root>

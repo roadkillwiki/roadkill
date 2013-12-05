@@ -105,14 +105,17 @@
 <data name="Shared_PoweredBy" xml:space="preserve">
 	<value>Roadkill विकी द्वारा संचालित</value>
 </data>
-<data name="Shared_Firstname" xml:space="preserve">
+<data name="Shared_Firstname_Label" xml:space="preserve">
 	<value>प्रथम नाम:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Shared_Lastname" xml:space="preserve">
+<data name="Shared_Lastname_Label" xml:space="preserve">
 	<value>अंतिम नाम:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Shared_Username" xml:space="preserve">
+<data name="Shared_Username_Label" xml:space="preserve">
 	<value>प्रयोक्ता नाम:</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Shared_Email_Label" xml:space="preserve">
 	<value>ईमेल:</value>
@@ -168,8 +171,9 @@
 <data name="Signup_Label" xml:space="preserve">
 	<value>नीचे आप विवरण दर्ज करें.</value>
 </data>
-<data name="Signup_Button" xml:space="preserve">
+<data name="Button_Signup" xml:space="preserve">
 	<value>नई उपयोगकर्ता पंजीकरण</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Signup_Complete_Title" xml:space="preserve">
 	<value>पूरा साइनअप.</value>
@@ -183,8 +187,9 @@
 <data name="Signup_Complete_EmailResent" xml:space="preserve">
 	<value>पुष्टिकरण ईमेल क्रोध था.</value>
 </data>
-<data name="Signup_Complete_EmailResend_Button" xml:space="preserve">
+<data name="Button_Signup_Complete_EmailResend" xml:space="preserve">
 	<value>ईमेल पुष्टि पुन: भेजें</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Signup_Error_General" xml:space="preserve">
 	<value>एक त्रुटि पंजीकरण के साथ हुई.</value>
@@ -219,8 +224,9 @@
 <data name="ResetPassword_Complete_Label" xml:space="preserve">
 	<value>अपना नया पासवर्ड दर्ज करें.</value>
 </data>
-<data name="ResetPassword_Button" xml:space="preserve">
+<data name="Button_ResetPassword" xml:space="preserve">
 	<value>पासवर्ड रीसेट</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="ResetPassword_Successful_Title" xml:space="preserve">
 	<value>पासवर्ड सफल रीसेट.</value>
@@ -402,8 +408,9 @@
 <data name="SiteSettings_Configuration" xml:space="preserve">
 	<value>विन्यास</value>
 </data>
-<data name="SiteSettings_Users" xml:space="preserve">
+<data name="SiteSettings_UserManagement" xml:space="preserve">
 	<value>उपयोगकर्ता</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Tools" xml:space="preserve">
 	<value>उपकरण</value>
@@ -489,9 +496,6 @@
 <data name="SiteSettings_Configuration_Error" xml:space="preserve">
 	<value>सेटिंग्स को बचाने में असमर्थ</value>
 </data>
-<data name="SiteSettings_Configuration_Caching" xml:space="preserve">
-	<value>(यह कुंजी प्रयोग किया जाता है. 2.0 में हटाया जा सकता है)</value>
-</data>
 <data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
 	<value>(यह कुंजी प्रयोग किया जाता है. 2.0 में हटाया जा सकता है)</value>
 </data>
@@ -564,53 +568,69 @@
 <data name="SiteSettings_Configuration_CachePageText_Help" xml:space="preserve">
 	<value>(यह कुंजी प्रयोग किया जाता है. 2.0 में हटाया जा सकता है)</value>
 </data>
-<data name="SiteSettings_Users_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Title" xml:space="preserve">
 	<value>इस साइट के उपयोगकर्ताओं</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_ColumnHeader_Username" xml:space="preserve">
+<data name="SiteSettings_UserManagement_ColumnHeader_Username" xml:space="preserve">
 	<value>प्रयोक्ता नाम</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_ColumnHeader_Email" xml:space="preserve">
+<data name="SiteSettings_UserManagement_ColumnHeader_Email" xml:space="preserve">
 	<value>ईमेल</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_Admins" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Admins" xml:space="preserve">
 	<value>बनावें</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_NewAdmin" xml:space="preserve">
+<data name="SiteSettings_UserManagement_NewAdmin" xml:space="preserve">
 	<value>नई व्यवस्थापक उपयोगकर्ता</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_Editors" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Editors" xml:space="preserve">
 	<value>संपादकों</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_NewEditor" xml:space="preserve">
+<data name="SiteSettings_UserManagement_NewEditor" xml:space="preserve">
 	<value>नई संपादक उपयोगकर्ता</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddAdminDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddAdmin_Title" xml:space="preserve">
 	<value>व्यवस्थापक जोड़ें</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddEditorDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddEditor_Title" xml:space="preserve">
 	<value>संपादक जोड़ें</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_EditUserDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_EditUser_Title" xml:space="preserve">
 	<value>उपयोगकर्ता संपादित करें</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddUserDialog_Help" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddUser_Help" xml:space="preserve">
 	<value>मौजूदा उपयोगकर्ताओं के लिए, सिर्फ उपयोगकर्ता नाम बदलने के लिए पासवर्ड फ़ील्ड रिक्त छोड़ दें.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddUserDialog_Error" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddUser_Error" xml:space="preserve">
 	<value>उपयोगकर्ता जानकारी को बचाने में असमर्थ:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_EditUser_Error" xml:space="preserve">
+<data name="SiteSettings_UserManagement_EditUser_Error" xml:space="preserve">
 	<value>अद्यतन हो रहा है उपयोगकर्ता में विफल रहा है.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Title" xml:space="preserve">
 	<value>विंडोज / सक्रिय निर्देशिका प्रमाणीकरण सक्षम है</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Label1" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Label1" xml:space="preserve">
 	<value>उपयोगकर्ता नाम और पासवर्ड Windows प्रमाणीकरण के साथ संपादन योग्य नहीं हैं - आप सक्रिय निर्देशिका के माध्यम से यह करना चाहिए.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Label2" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Label2" xml:space="preserve">
 	<value>एक व्यवस्थापक या संपादक के रूप में एक उपयोगकर्ता को जोड़ने के लिए, वे आप &quot;AdminRolename&quot; और web.config में &quot;EditorRolename&quot; सेटिंग के लिए निर्दिष्ट किया है कि Windows सुरक्षा समूह का हिस्सा हैं सुनिश्चित करें.</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Tools_Title" xml:space="preserve">
 	<value>साइट उपकरण</value>
@@ -754,8 +774,9 @@
 <data name="FileManager_UploadingProgress" xml:space="preserve">
 	<value>अपलोड हो रहा है ...</value>
 </data>
-<data name="FileManager_Watermark" xml:space="preserve">
+<data name="FileManager_Help" xml:space="preserve">
 	<value>अपलोड करने के लिए यहाँ फाइलें खींचें. फ़ोल्डर्स नेविगेट करने के लिए डबल क्लिक करें</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="FileManager_Extension_Not_Supported" xml:space="preserve">
 	<value>विस्तार {0} के साथ ही फाइल अपलोड किया जा सकता है.</value>
@@ -788,6 +809,102 @@
 </data>
 <data name="SiteSettings_Plugins_Title" xml:space="preserve">
 	<value>प्लगइन्स</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport" xml:space="preserve">
+	<value>एसक्यूएल के रूप में निर्यात</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport_Label" xml:space="preserve">
+	<value>एक एकल एसक्यूएल स्क्रिप्ट के रूप में वर्तमान डेटाबेस निर्यात करता है. आप MongoDB उपयोग कर रहे हैं यह कार्रवाई कुछ भी नहीं है.</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite" xml:space="preserve">
+	<value>सार्वजनिक स्थल</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite_Help" xml:space="preserve">
+	<value>संयुक्त राष्ट्र की जाँच की, सभी पृष्ठों के निजी हैं और उपयोगकर्ताओं में लॉग इन के द्वारा ही देखा जा सकता है.</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors" xml:space="preserve">
+	<value>खोज सूचकांक त्रुटियों पर ध्यान न दें</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors_Help" xml:space="preserve">
+	<value>एक पृष्ठ के बजाय पर ध्यान नहीं दिया जा रहा है, Lucene खोज इंजन (बनाने या एक पेज को अपडेट करते समय) द्वारा अनुक्रमित करने में विफल रहता है जब जाँच की, एक त्रुटि प्रदर्शित किया जाता है.</value>
+</data>
+<data name="FileManager_Upload_FileAlreadyExists" xml:space="preserve">
+	<value>फ़ाइल &apos;{0}&apos; पहले से मौजूद है.</value>
+</data>
+<data name="History_Help_Label" xml:space="preserve">
+	<value>यह पहले संस्करण के साथ परिवर्तनों की तुलना करने के लिए एक संस्करण संख्या पर क्लिक करें.</value>
+</data>
+<data name="SiteSettings_Configuration_Required_Field" xml:space="preserve">
+	<value>इस फ़ील्ड की आवश्यकता है.</value>
+</data>
+<data name="Button_Test" xml:space="preserve">
+	<value>परीक्षण</value>
+</data>
+<data name="Shared_Success" xml:space="preserve">
+	<value>सफलता!</value>
+</data>
+<data name="Shared_Failure" xml:space="preserve">
+	<value>असफलता!</value>
+</data>
+<data name="DatabaseConnection_Success" xml:space="preserve">
+	<value>डेटाबेस कनेक्शन सफल रहा था.</value>
+</data>
+<data name="DatabaseConnection_Failure" xml:space="preserve">
+	<value>डेटाबेस कनेक्शन विफल रहा:</value>
+</data>
+<data name="Button_Add" xml:space="preserve">
+	<value>जोड़ना</value>
+</data>
+<data name="Attachments_Folder_Success" xml:space="preserve">
+	<value>सफलता! निर्देशिका मौजूद है और करने के लिए लिखा जा सकता है.</value>
+</data>
+<data name="Attachments_Folder_Failure" xml:space="preserve">
+	<value>संलग्नक निर्देशिका में लिखने में असमर्थ:</value>
+</data>
+<data name="Shared_Unexpected_Error" xml:space="preserve">
+	<value>कुछ गलत हो गया</value>
+</data>
+<data name="Profile_Not_Available" xml:space="preserve">
+	<value>Windows प्रमाणीकरण सक्षम है, तो उपयोगकर्ता प्रोफ़ाइल उपलब्ध नहीं है.</value>
+</data>
+<data name="Profile_Password_Change_Successful" xml:space="preserve">
+	<value>पासवर्ड सफलतापूर्वक बदल गया था</value>
+</data>
+<data name="Profile_Details_Updated_Successfully" xml:space="preserve">
+	<value>प्रोफ़ाइल विवरण सफलतापूर्वक अद्यतन किया गया.</value>
+</data>
+<data name="Profile_Leave_Password_Blank" xml:space="preserve">
+	<value>आप अपने पासवर्ड बदलने के लिए नहीं चाहते, तो पासवर्ड फ़ील्ड रिक्त छोड़ दें.</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Successful" xml:space="preserve">
+	<value>सभी कैश सफलतापूर्वक मंजूरी दे दी थी.</value>
+</data>
+<data name="SiteSettings_Cache_Key_Format" xml:space="preserve">
+	<value>चाबियाँ प्रारूप में हैं:</value>
+</data>
+<data name="SiteSettings_Cache_Key_Column_Header" xml:space="preserve">
+	<value>कुंजी</value>
+</data>
+<data name="SiteSettings_Cache_Page_Cache" xml:space="preserve">
+	<value>पृष्ठ कैश</value>
+</data>
+<data name="SiteSettings_Cache_Items_Cache" xml:space="preserve">
+	<value>आइटम कैश</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Button" xml:space="preserve">
+	<value>कैश साफ़ करें</value>
+</data>
+<data name="SiteSettings_Configuration_Unable_To_Save" xml:space="preserve">
+	<value>सेटिंग्स को बचाने में असमर्थ:</value>
+</data>
+<data name="SiteSettings_Configuration_Update_Successful" xml:space="preserve">
+	<value>सेटिंग्स सफलतापूर्वक अद्यतन किया गया.</value>
+</data>
+<data name="Recaptcha_Prompt" xml:space="preserve">
+	<value>एक एंटी स्पैम उपाय के रूप में नीचे दो शब्द दर्ज करें</value>
+</data>
+<data name="Button_Close" xml:space="preserve">
+	<value>पास</value>
 </data>
 
 </root>
