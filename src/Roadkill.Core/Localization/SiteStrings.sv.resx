@@ -105,14 +105,17 @@
 <data name="Shared_PoweredBy" xml:space="preserve">
 	<value>Powered by Roadkill Wiki</value>
 </data>
-<data name="Shared_Firstname" xml:space="preserve">
+<data name="Shared_Firstname_Label" xml:space="preserve">
 	<value>Förnamn:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Shared_Lastname" xml:space="preserve">
+<data name="Shared_Lastname_Label" xml:space="preserve">
 	<value>Efternamn:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Shared_Username" xml:space="preserve">
+<data name="Shared_Username_Label" xml:space="preserve">
 	<value>Användarnamn:</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Shared_Email_Label" xml:space="preserve">
 	<value>Epost:</value>
@@ -168,8 +171,9 @@
 <data name="Signup_Label" xml:space="preserve">
 	<value>Fyll i dina uppgifter nedan.</value>
 </data>
-<data name="Signup_Button" xml:space="preserve">
+<data name="Button_Signup" xml:space="preserve">
 	<value>Registrera ny användare</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Signup_Complete_Title" xml:space="preserve">
 	<value>Registrering klar.</value>
@@ -183,8 +187,9 @@
 <data name="Signup_Complete_EmailResent" xml:space="preserve">
 	<value>Bekräftelsemailet har skickats igen.</value>
 </data>
-<data name="Signup_Complete_EmailResend_Button" xml:space="preserve">
+<data name="Button_Signup_Complete_EmailResend" xml:space="preserve">
 	<value>Skicka om bekräftelsemailet.</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Signup_Error_General" xml:space="preserve">
 	<value>Ett fel uppstod med registreringen.</value>
@@ -219,8 +224,9 @@
 <data name="ResetPassword_Complete_Label" xml:space="preserve">
 	<value>Ange ditt nya lösenord.</value>
 </data>
-<data name="ResetPassword_Button" xml:space="preserve">
+<data name="Button_ResetPassword" xml:space="preserve">
 	<value>Återställ lösenord</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="ResetPassword_Successful_Title" xml:space="preserve">
 	<value>Återställing av lösenordet lyckades.</value>
@@ -403,8 +409,9 @@
 <data name="SiteSettings_Configuration" xml:space="preserve">
 	<value>Konfiguration</value>
 </data>
-<data name="SiteSettings_Users" xml:space="preserve">
+<data name="SiteSettings_UserManagement" xml:space="preserve">
 	<value>Användare</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Tools" xml:space="preserve">
 	<value>Verktyg</value>
@@ -490,9 +497,6 @@
 <data name="SiteSettings_Configuration_Error" xml:space="preserve">
 	<value>Det gick inte att spara inställningarna</value>
 </data>
-<data name="SiteSettings_Configuration_Caching" xml:space="preserve">
-	<value>(Denna knapp används inte längre. Att tas bort i 2.0)</value>
-</data>
 <data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
 	<value>(Denna knapp används inte längre. Att tas bort i 2.0)</value>
 </data>
@@ -566,53 +570,69 @@
 <data name="SiteSettings_Configuration_CachePageText_Help" xml:space="preserve">
 	<value>(Denna knapp används inte längre. Att tas bort i 2.0)</value>
 </data>
-<data name="SiteSettings_Users_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Title" xml:space="preserve">
 	<value>Användare</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_ColumnHeader_Username" xml:space="preserve">
+<data name="SiteSettings_UserManagement_ColumnHeader_Username" xml:space="preserve">
 	<value>Användarnamn</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_ColumnHeader_Email" xml:space="preserve">
+<data name="SiteSettings_UserManagement_ColumnHeader_Email" xml:space="preserve">
 	<value>Epostadress</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_Admins" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Admins" xml:space="preserve">
 	<value>Administratörer</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_NewAdmin" xml:space="preserve">
+<data name="SiteSettings_UserManagement_NewAdmin" xml:space="preserve">
 	<value>Ny administratör</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_Editors" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Editors" xml:space="preserve">
 	<value>Redaktörer</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_NewEditor" xml:space="preserve">
+<data name="SiteSettings_UserManagement_NewEditor" xml:space="preserve">
 	<value>Ny redaktör</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddAdminDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddAdmin_Title" xml:space="preserve">
 	<value>Lägg till administratör</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddEditorDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddEditor_Title" xml:space="preserve">
 	<value>Lägg till redaktör</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_EditUserDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_EditUser_Title" xml:space="preserve">
 	<value>Redigera användare</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddUserDialog_Help" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddUser_Help" xml:space="preserve">
 	<value>För befintliga användare, lämna lösenordsfältet tomt för att endast ändra användarnamnet.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddUserDialog_Error" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddUser_Error" xml:space="preserve">
 	<value>Det gick inte att spara användaruppgifterna:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_EditUser_Error" xml:space="preserve">
+<data name="SiteSettings_UserManagement_EditUser_Error" xml:space="preserve">
 	<value>Det gick inte att uppdatera användaruppgifterna.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Title" xml:space="preserve">
 	<value>Windows / Active Directory-autentisering är aktiverat</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Label1" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Label1" xml:space="preserve">
 	<value>Användarnamn och lösenord kan inte redigeras när Windows-autentisering är aktiverat - detta måste göras genom Active Directory.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Label2" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Label2" xml:space="preserve">
 	<value>För att lägga till en användare som administratör eller redaktör, se till att de är medlemmar i den säkerhetsgrupp som du har angett för &quot;AdminRolename&quot;- och &quot;EditorRolename&quot;fälten i web.config.</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Tools_Title" xml:space="preserve">
 	<value>Verktyg</value>
@@ -756,8 +776,9 @@
 <data name="FileManager_UploadingProgress" xml:space="preserve">
 	<value>Laddar upp ...</value>
 </data>
-<data name="FileManager_Watermark" xml:space="preserve">
+<data name="FileManager_Help" xml:space="preserve">
 	<value>Dra filer hit för att ladda upp dom. Dubbelklicka på mappar för att öppna dom</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="FileManager_Extension_Not_Supported" xml:space="preserve">
 	<value>Endast filer med filändelsen {0} får laddas upp.</value>
@@ -776,7 +797,7 @@
 	<value>All ytterligare HTML-kod eller skript du lägger till här kommer att läggas till sidans {head}-tagg.</value>
 </data>
 <data name="SiteSettings_Configuration_NavMenu" xml:space="preserve">
-	<value>Vänstra menyns markupkod</value>
+	<value>Menyns markupkod</value>
 	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Configuration_NavMenu_Help" xml:space="preserve">
@@ -791,6 +812,102 @@
 </data>
 <data name="SiteSettings_Plugins_Title" xml:space="preserve">
 	<value>Tillägg/plugins</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport" xml:space="preserve">
+	<value>Exportera som SQL</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport_Label" xml:space="preserve">
+	<value>Exporterar aktuell databas som ett enda SQL-skript. Om du använder MongoDB så utför denna åtgärd ingenting.</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite" xml:space="preserve">
+	<value>Public sajt</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite_Help" xml:space="preserve">
+	<value>Om ej ibockad så är alla sidor privata och kan endast visas av inloggade användare.</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors" xml:space="preserve">
+	<value>Ignorera sökindexfel.</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors_Help" xml:space="preserve">
+	<value>Om ibockad så visas ett felmeddelande (när du skapar eller uppdaterar en sida) om ett fel uppstår när Lucene försöker indexera sidan. I annat fall ignoreras felet.</value>
+</data>
+<data name="FileManager_Upload_FileAlreadyExists" xml:space="preserve">
+	<value>Filen &quot;{0}&quot; finns redan.</value>
+</data>
+<data name="History_Help_Label" xml:space="preserve">
+	<value>Klicka på ett versionsnummer som du vill jämföra gentemot versionen innan.</value>
+</data>
+<data name="SiteSettings_Configuration_Required_Field" xml:space="preserve">
+	<value>Detta fält är tvingande.</value>
+</data>
+<data name="Button_Test" xml:space="preserve">
+	<value>Test</value>
+</data>
+<data name="Shared_Success" xml:space="preserve">
+	<value>Framgång!</value>
+</data>
+<data name="Shared_Failure" xml:space="preserve">
+	<value>Fel!</value>
+</data>
+<data name="DatabaseConnection_Success" xml:space="preserve">
+	<value>Databasen anslutningen lyckades.</value>
+</data>
+<data name="DatabaseConnection_Failure" xml:space="preserve">
+	<value>Databas anslutning misslyckades:</value>
+</data>
+<data name="Button_Add" xml:space="preserve">
+	<value>Lägg</value>
+</data>
+<data name="Attachments_Folder_Success" xml:space="preserve">
+	<value>Framgång! Katalogen finns och kan skrivas till.</value>
+</data>
+<data name="Attachments_Folder_Failure" xml:space="preserve">
+	<value>Kan inte skriva till den bifogade katalogen:</value>
+</data>
+<data name="Shared_Unexpected_Error" xml:space="preserve">
+	<value>Något gick fel</value>
+</data>
+<data name="Profile_Not_Available" xml:space="preserve">
+	<value>Windows-autentisering är aktiverad, så att användaren profilen är inte tillgänglig.</value>
+</data>
+<data name="Profile_Password_Change_Successful" xml:space="preserve">
+	<value>Lösenordet har ändrats</value>
+</data>
+<data name="Profile_Details_Updated_Successfully" xml:space="preserve">
+	<value>De profiluppgifter har uppdaterats.</value>
+</data>
+<data name="Profile_Leave_Password_Blank" xml:space="preserve">
+	<value>Lämna lösenordsfälten tomma om du inte vill ändra ditt lösenord.</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Successful" xml:space="preserve">
+	<value>Alla cachar framgångsrikt rensas.</value>
+</data>
+<data name="SiteSettings_Cache_Key_Format" xml:space="preserve">
+	<value>Nycklarna är i formatet:</value>
+</data>
+<data name="SiteSettings_Cache_Key_Column_Header" xml:space="preserve">
+	<value>Nyckel</value>
+</data>
+<data name="SiteSettings_Cache_Page_Cache" xml:space="preserve">
+	<value>Sidan cache</value>
+</data>
+<data name="SiteSettings_Cache_Items_Cache" xml:space="preserve">
+	<value>Items cache</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Button" xml:space="preserve">
+	<value>Töm cache</value>
+</data>
+<data name="SiteSettings_Configuration_Unable_To_Save" xml:space="preserve">
+	<value>Det går inte att spara inställningarna:</value>
+</data>
+<data name="SiteSettings_Configuration_Update_Successful" xml:space="preserve">
+	<value>Inställningarna har uppdaterats.</value>
+</data>
+<data name="Recaptcha_Prompt" xml:space="preserve">
+	<value>Som en anti-spam åtgärd, ange de två orden nedan</value>
+</data>
+<data name="Button_Close" xml:space="preserve">
+	<value>Stäng</value>
 </data>
 
 </root>
