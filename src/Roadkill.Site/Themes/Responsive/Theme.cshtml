@@ -1,0 +1,79 @@
+@inherits RoadkillLayoutPage
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>@ViewBag.Title</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	@Html.Partial("HeadContent")
+	@RenderSection("PluginHead", false)
+</head>
+<body>
+	@RenderSection("PageToolbar", false)
+
+	<!-- Header -->
+@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+{
+	<div id="header-wrapper">
+		<div class="container">
+			<div id="login-status">
+				@Html.Action("LoggedInAs", "User")
+			</div>
+			<div id="bootstrap-nav-menu">
+				@Html.Action("BootstrapNavMenu", "Home")
+			</div>
+			<div id="search" class="searchbar navbar-right hidden-xs hidden-sm">
+				<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" class="form-control" />
+			</div>
+		</div>
+	</div>
+}
+
+@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+{
+	<!-- Search bar for tablets and below -->
+	<div class="container hidden-lg hidden-md">
+		<div class="row">
+			<div id="search-mobile" class="searchbar">
+				<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" class="form-control" />
+			</div>
+		</div>
+	</div>
+}
+
+	<!-- Content -->
+	<div id="content-wrapper">
+		@RenderSection("PluginPreContainer", false)
+
+		<div id="container" class="container">
+			<div id="content">
+				@RenderBody()
+			</div>
+		</div>
+
+		@RenderSection("PluginPostContainer", false)
+	</div>
+
+
+	<!-- Footer -->
+	<div id="footer-wrapper">
+		<div id="footer-inner">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-11">
+						<h6 id="powered-by">@SiteStrings.Shared_PoweredBy (@ApplicationSettings.ProductVersion).</h6>
+						<h6>
+							@RenderSection("PageDetailsFooter", false)
+							@RenderSection("ViewHistoryLink", false)
+						</h6>
+					</div>
+					<div id="top-link" class="col-md-1">
+						<h6><a href="#">Top</a></h6>
+					</div>
+				</div>
+
+				@RenderSection("PluginFooter", false)
+			</div>
+		</div>
+	</div>
+</body>
+</html>

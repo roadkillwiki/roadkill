@@ -1,0 +1,42 @@
+﻿/* 
+This contains the shared Roadkill installer CSS definitions, used on all installer pages.
+
+The formatting style of this CSS file is:
+	* Single line definitions.
+	* Tab aligned, grouped definitions.
+	* Space after each ";"
+	* Space before and after curlies. 
+	* No space after ":". 
+	* This file is minified at runtime, so comments are welcomed.
+*/
+
+body		{ font-family: 'Helvetica Neue',Arial,sans-serif; letter-spacing: .01em; font-size:14px;}
+h1			{ font-size:24px; }
+h3			{ display:inline;-webkit-text-shadow: 0 1px rgba(255, 255, 255, 0.9); text-shadow: 0 1px rgba(255, 255, 255, 0.9);}
+a			{ color:#000;}
+
+#installer-container { width: 700px; }
+#logo		{ text-align:center;}
+#nav		{ padding: 10px 0px;border-bottom: 1px dotted #a4a4a4; }
+#content	{ padding:30px; }
+#footer		{ margin-top: 30px;text-align:center; }
+
+/* Navigation */
+#trail		{ color:#616161;list-style-type:none;display:block;clear:both;margin:auto;font-size:16px;-webkit-text-shadow: 0 1px rgba(255, 255, 255, 0.9); text-shadow: 0 1px rgba(255, 255, 255, 0.9); }
+#trail li	{ float:left;text-align:right;display:block;margin-right:50px; }
+.selected	{ font-weight:bold;color:#b30f10; }
+
+/* Continue + previous buttons */
+#bottom-buttons { padding-top:10px;border-top:1px dotted #a4a4a4; }
+.previous	{ float:left;padding:10px;font-weight:bold;}
+
+/* Index page */
+#language	 { font-size:1.5em; list-style:none;padding-left:18px !important; }
+#language li { margin-bottom: 5px; }
+#language a  { color:#2f2f2f; text-decoration:none; }
+#language a:hover { text-decoration:underline; }
+
+/* Step 2 */
+.example	{ cursor:pointer; font-family:Monospace; font-size:0.8em;}
+#sqlite-help { background-color: #D1E0F0; }
+#sqlite-details { padding: 0px;}

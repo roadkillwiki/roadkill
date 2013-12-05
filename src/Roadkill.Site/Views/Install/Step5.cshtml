@@ -1,0 +1,60 @@
+﻿@model SettingsViewModel
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+@Url.ScriptLink("roadkill/installer/step5.js")
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		var wizard = new Roadkill.Site.Installer.InstallWizard();
+		var step5 = new Roadkill.Site.Installer.Step4(wizard);
+	});
+</script>
+
+@if (ViewData.ModelState.IsValid)
+{
+	<div class="alert alert-info">
+		<strong>@InstallStrings.Page5_Success_Title</strong>
+		
+	@if (Model.UseWindowsAuth)
+	{
+		<p style="margin-top:20px;">
+			<strong>@InstallStrings.Page5_Success_AD_Title</strong>
+		</p>
+		<p>
+			@InstallStrings.Page5_Success_AD_Label
+		</p>
+<pre>
+&lt;system.webServer&gt;
+	...
+	&lt;security&gt;
+		&lt;authentication&gt;
+			&lt;anonymousAuthentication enabled="false"/&gt;
+			&lt;windowsAuthentication enabled="true" /&gt;
+			&lt;basicAuthentication enabled="true" /&gt;
+		&lt;/authentication&gt;
+	&lt;/security&gt;
+&lt;/system.webServer&gt;
+</pre>
+		 }
+	</div>
+}
+else
+{
+	<div class="alert alert-warning">
+		<h4>@InstallStrings.Page5_Error_Title</h4>
+		<br />
+		@InstallStrings.Page5_Error_Label1
+		<br /><br />
+		<pre style="width:100%;overflow:scroll;">
+			@Html.ValidationSummary()
+		</pre>
+	</div>
+}
+
+@section BottomButtons
+{
+	<div class="continue">
+		<a class="btn btn-success pull-right" href="@Url.Action("Index", "Home")">@InstallStrings.Page5_Success_Label1</a>
+	</div>
+}

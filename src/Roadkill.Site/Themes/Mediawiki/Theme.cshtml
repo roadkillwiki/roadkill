@@ -1,0 +1,52 @@
+@inherits RoadkillLayoutPage
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>@ViewBag.Title</title>
+		@Html.Partial("HeadContent")
+		@RenderSection("PluginHead", false)
+	</head>
+<body>
+
+@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+{
+	<div id="headfade">
+		@Html.Action("LoggedInAs", "User")
+		<br class="clear" />
+		<div id="search">
+			<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" class="form-control" />
+			<button id="searchbutton">
+				<img src="@Url.ThemeContent("search.png", SiteSettings)" alt="Search" />
+			</button>
+		</div>	
+	</div>
+}
+
+	<div id="logo">
+		<a href="@(Url.Action("Index", "Home"))"><img src="@Url.ThemeContent("logo.png", SiteSettings)" alt="logo" border="0" /></a>
+	</div>
+	<div id="panel">
+		@Html.Action("NavMenu", "Home")
+	</div>
+
+	<div id="container">
+		@RenderSection("PluginPreContainer", false) @*Not outside the container*@
+		@RenderSection("PageToolbar", false)
+		@RenderSection("ViewHistoryLink", false)
+		<div id="content">
+			@RenderBody()
+		</div>
+	</div>
+
+	@RenderSection("PluginPostContainer", false)
+
+	<div id="footer">
+		@RenderSection("PageDetailsFooter", false)
+		<p>
+			@SiteStrings.Shared_PoweredBy (@ApplicationSettings.ProductVersion). This theme contains portions of its design from <a href="http://www.mediawiki.org" target="_blank">Mediawiki.org</a>.
+		</p>
+	</div>
+
+	@RenderSection("PluginFooter", false)
+</body>
+</html>

@@ -1,0 +1,34 @@
+﻿body			{ font-family:"Myriad Web Pro",helvetica;margin:0px !important;color:#000000;padding:0px !important; }
+h1,h2,h3,h4,h4	{ font-family:"Myriad Pro",helvetica;border-bottom:1px solid #AAA; }
+
+#header			{ z-index:999; position:fixed; background-color:#38381D;width:100%;height:60px;padding:15px;color:#999;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;text-shadow: 0 -1px 0 rgba(0,0,0,0.25); }
+#header div		{ margin:0 10px;color:White;height:32px;line-height:33px;margin-right:20px; }
+#header	a		{ color:White;text-decoration:none; }
+#header	a:hover { text-decoration:underline; }
+#header input	{ font-family:Arial,helvetica; }
+
+#page-content	{ padding: 100px 80px; }
+#searchbox		{ width: 200px; }
+#footer			{ color: #555; font-size: 0.8em; }
+#toolbar		{ padding-bottom:10px; }
+
+#leftmenu			  { float:left; }
+#leftmenu ul li		  { display:inline;padding-right:20px; }
+
+#viewhistory { float:right; }
+
+div.image_frame { border: 1px solid gray; display: inline-block; padding: 4px; }
+div.image_frame .caption { border: 1px solid #E0E0E0; padding: 4px; }
+
+div.floatleft, table.floatleft { border: 0 none; margin: 0 0.5em 0.5em 0; }
+div.floatright, table.floatright, div.floatleft, table.floatleft { position: relative; }
+div.floatleft, table.floatleft { clear: left; float: left; }
+
+div.floatright, table.floatright { border: 0 none;margin: 0 0 0.5em 0.5em; }
+div.floatright, table.floatright, div.floatleft, table.floatleft { position: relative; }
+div.floatright, table.floatright { clear: right; float: right; }
+
+.center * { margin-left: auto; margin-right: auto; }
+.center { text-align: center; width: 100%; }
+
+.pagetitle	{ margin-bottom: 40px; }

@@ -1,0 +1,144 @@
+﻿@model SettingsViewModel
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+@Url.ScriptLink("roadkill/installer/step4.js")
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		var messages =
+		{
+			successTitle: "@InstallStrings.Shared_Success",
+			successMessage: "@InstallStrings.Page4_Group1_Success",
+			failureTitle: "@InstallStrings.Shared_Failure",
+			failureMessage: "@InstallStrings.Page4_Group1_Error",
+		};
+
+		var wizard = new Roadkill.Site.Installer.InstallWizard();
+		var step4 = new Roadkill.Site.Installer.Step4(wizard, messages);
+		step4.bindButtons();
+		step4.configureValidation();
+	});
+</script>
+
+<p>
+	@InstallStrings.Page4_Label1
+</p>
+
+<form role="form" method="post" id="step4-form" action="@Url.Action("Step5", "Install")">
+	@Html.HiddenFor(h => h.AdminEmail)
+	@Html.HiddenFor(h => h.AdminPassword)
+	@Html.HiddenFor(h => h.AdminRoleName)
+	@Html.HiddenFor(h => h.AllowUserSignup)
+	@Html.HiddenFor(h => h.ConnectionString)
+	@Html.HiddenFor(h => h.DataStoreTypeName)
+	@Html.HiddenFor(h => h.EditorRoleName)
+	@Html.HiddenFor(h => h.IsRecaptchaEnabled)
+	@Html.HiddenFor(h => h.LdapConnectionString)
+	@Html.HiddenFor(h => h.LdapUsername)
+	@Html.HiddenFor(h => h.LdapPassword)
+	@Html.HiddenFor(h => h.RecaptchaPrivateKey)
+	@Html.HiddenFor(h => h.RecaptchaPublicKey)
+	@Html.HiddenFor(h => h.SiteName)
+	@Html.HiddenFor(h => h.SiteUrl)
+	@Html.HiddenFor(h => h.UseWindowsAuth)
+
+	<!-- Attachments folder -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@InstallStrings.Page4_Group1_Title</legend>
+			<label for="AttachmentsFolder">@InstallStrings.Page4_Group1_Label1</label>
+
+			<p>
+				@InstallStrings.Page4_Group1_Label2
+			</p>
+
+			<div class="row">
+				<div class="col-xs-6">
+					@Html.BootstrapTextBoxFor(s => s.AttachmentsFolder, InstallStrings.Page4_Group1_Label1)
+				</div>
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Test attachments button -->
+	<div class="form-group">
+		<button id="testattachments" class="btn btn-info test-button" type="button">
+			@InstallStrings.Shared_TestButton
+			<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/button-loading.gif"))" border="0" alt="loading" /></span>
+		</button>
+	</div>
+
+	<!-- Allowed extensions -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@InstallStrings.Page4_Group2_Title</legend>
+			<label for="AllowedFileTypes">@InstallStrings.Page4_Group2_Label1</label>
+
+			<div class="row">
+				<div class="col-xs-4">
+					@Html.BootstrapTextBoxFor(s => s.AllowedFileTypes, InstallStrings.Page4_Group2_Title)
+				</div>
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Theme -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@InstallStrings.Page4_Group3_Title</legend>
+			<label for="Theme">@InstallStrings.Page4_Group3_Label1</label>
+
+			@Html.BootstrapDropDownListFor(s => s.Theme, new SelectList(Model.ThemesAvailable, Model.Theme), InstallStrings.Page4_Group3_Title)
+		</fieldset>
+	</div>
+
+	<!-- Markup type -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@InstallStrings.Page4_Group4_Title</legend>
+			<label for="MarkupType">@InstallStrings.Page4_Group4_Label1</label>
+			<p>
+				@InstallStrings.Page4_Group4_Label2
+			</p>
+
+			@Html.BootstrapDropDownListFor(s => s.MarkupType, new SelectList(Model.MarkupTypesAvailable, Model.MarkupType), InstallStrings.Page4_Group4_Title)
+		</fieldset>
+	</div>
+
+	<!-- Use object cache -->
+	<fieldset>
+		<legend>@InstallStrings.Page4_Group5_Title</legend>
+
+		<div class="form-group">
+			<label for="UseObjectCache" class="checkbox">
+				@InstallStrings.Page4_Group5_Label1
+				@Html.BootstrapCheckBoxFor(s => s.UseObjectCache, InstallStrings.Page4_Group5_Title)
+			</label>
+		</div>
+
+		<p>@InstallStrings.Page4_Group5_Label2</p>
+	</fieldset>
+
+	<!-- Use browser cache -->
+	<fieldset>
+		<div class="form-group">
+			<label for="UseBrowserCache" class="checkbox">
+				@InstallStrings.Page4_Group5_Label3
+				@Html.BootstrapCheckBoxFor(s => s.UseBrowserCache, InstallStrings.Page4_Group5_Label3)
+			</label>
+		</div>
+
+		<p>@InstallStrings.Page4_Group5_Label4</p>
+	</fieldset>
+</form>
+
+@section BottomButtons
+{
+	<div class="previous">
+		<a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a>
+	</div>
+	<div class="continue">
+		<button type="submit" class="btn btn-success pull-right">@InstallStrings.Shared_NextButton</button>
+	</div>
+}

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="data">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" minOccurs="0"                     msdata:Ordinal="2" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="type" type="xsd:string" />
+        <xsd:attribute name="mimetype" type="xsd:string" />
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="Shared_Stage1" xml:space="preserve">
+	<value>Witamy</value>
+</data>
+<data name="Shared_Stage2" xml:space="preserve">
+	<value>Baza danych</value>
+</data>
+<data name="Shared_Stage3" xml:space="preserve">
+	<value>Logowanie</value>
+</data>
+<data name="Shared_Stage4" xml:space="preserve">
+	<value>Dodatkowe</value>
+</data>
+<data name="Shared_Stage5" xml:space="preserve">
+	<value>Koniec</value>
+</data>
+<data name="Shared_Continue" xml:space="preserve">
+	<value>Dalej</value>
+</data>
+<data name="Shared_Back" xml:space="preserve">
+	<value>Wstecz</value>
+</data>
+<data name="Shared_TestButton" xml:space="preserve">
+	<value>Sprawdź</value>
+</data>
+<data name="Shared_BackButton" xml:space="preserve">
+	<value>Wstecz</value>
+</data>
+<data name="Shared_NextButton" xml:space="preserve">
+	<value>Dalej</value>
+</data>
+<data name="Shared_Success" xml:space="preserve">
+	<value>Udało się !</value>
+</data>
+<data name="Shared_Failure" xml:space="preserve">
+	<value>Błąd !</value>
+</data>
+<data name="Page1_Label1" xml:space="preserve">
+	<value>Dziękujemy za zainstalowanie platformy Roadkill .NET Wiki. Instalator zapisze wprowadzone przez Ciebie ustawienia do pliku web.config oraz skonfiguruje bazę danych.</value>
+</data>
+<data name="Page1_Label2" xml:space="preserve">
+	<value>Aby kontynuować, najpierw sprawdź, czy masz prawa zapisu do pliku web.config.</value>
+</data>
+<data name="Page1_WebConfig_Success_Message" xml:space="preserve">
+	<value>Można zapisywać do pliku  web.config</value>
+</data>
+<data name="Page1_WebConfig_Failure_Message" xml:space="preserve">
+	<value>Nie można zapisywać do pliku  web.config</value>
+</data>
+<data name="Page2_Label1" xml:space="preserve">
+	<value>Poniżej znajdują się ustawienia niezbędne do poprawnej pracy Roadkill. Możesz je później zmienić na stronie ustawień, logując si jako administrator.</value>
+</data>
+<data name="Page2_Success" xml:space="preserve">
+	<value>Połączenie z bazą danych poprawne</value>
+</data>
+<data name="Page2_Error" xml:space="preserve">
+	<value>Nie można uzyskać połączenia:</value>
+</data>
+<data name="Page2_Group1_Title" xml:space="preserve">
+	<value>Nazwa wirtyny</value>
+</data>
+<data name="Page2_Group1_Label" xml:space="preserve">
+	<value>Nazwa witryny wiki, która jest używana w niektórych motywach i w email-ach rejestracyjnych.</value>
+</data>
+<data name="Page2_Group2_Title" xml:space="preserve">
+	<value>URL witryny</value>
+</data>
+<data name="Page2_Group2_Label" xml:space="preserve">
+	<value>Pełny URL witryny, który jest używany w email-ach rejestracyjnych i przy odzyskiwaniu hasła. Nie zawiera końcowego ukośnika.</value>
+</data>
+<data name="Page2_Group3_Title" xml:space="preserve">
+	<value>Połączenie z bazą danych</value>
+</data>
+<data name="Page2_Group3_Label" xml:space="preserve">
+	<value>Najpierw musisz utworzyć bazę danych. Następnie wprowadź connection string do bazy. Poniżej znajduje się kilka przykładów.</value>
+</data>
+<data name="Page2_Group3_Label2" xml:space="preserve">
+	<value>Przykłady connection string</value>
+</data>
+<data name="Page2_Group3_Label3" xml:space="preserve">
+	<value>Rodzaj bazy danych</value>
+</data>
+<data name="Page2_Group3_SQLiteInstructionsTitle" xml:space="preserve">
+	<value>SQLite: please read</value>
+</data>
+<data name="Page2_Group3_SQLiteInstructionsMessage" xml:space="preserve">
+	<value>Note: to use SQLite you need to add another file to the /bin folder, as SQLite is distributed for both x86 and x64. {BEGIN-SQLITE_LINK}Click here to copy the file{END-SQLITE_LINK}. If you experience any issues after this, delete &quot;SQLite.Interop.dll&quot; from your bin folder.</value>
+</data>
+<data name="Page2_Group3_SQLiteSuccessTitle" xml:space="preserve">
+	<value>SQLite file copy success</value>
+</data>
+<data name="Page2_Group3_SQLiteSuccessMessage" xml:space="preserve">
+	<value>SQLite should now be ready to use.</value>
+</data>
+<data name="Page2_Group3_SQLiteFailureTitle" xml:space="preserve">
+	<value>SQLite file copy failed</value>
+</data>
+<data name="Page2_Group3_SQLiteFailureMessage" xml:space="preserve">
+	<value>Failure - try copying the SQLite.Interop.dll file from ~/App_Data/SQLiteBinaries to your bin folder.</value>
+</data>
+<data name="Page3_Label1" xml:space="preserve">
+	<value>Czy chcesz, żeby użytkownicy logowali się z wykorzystaniem autentykacji systemu Windows (Active Directory) ?</value>
+</data>
+<data name="Page3_Group1_Title" xml:space="preserve">
+	<value>Logowanie zintegrowane</value>
+</data>
+<data name="Page3_Group1_Label" xml:space="preserve">
+	<value>Użyj autentykacji Windows</value>
+</data>
+<data name="Page3_AD_Group1_Title" xml:space="preserve">
+	<value>Połączenie LDAP (connection string) do usługi Active Directory</value>
+</data>
+<data name="Page3_AD_Connection_Success" xml:space="preserve">
+	<value>Połączenie i autentykacja z użyciem Active Directory zakończona powodzeniem</value>
+</data>
+<data name="Page3_AD_Connection_Error" xml:space="preserve">
+	<value>Nie można połączyć się z serwerem Active Directory</value>
+</data>
+<data name="Page3_AD_Success" xml:space="preserve">
+	<value>Grupa została zweryfikowana poprawnie</value>
+</data>
+<data name="Page3_AD_Error" xml:space="preserve">
+	<value>Nie można zweryfikować:</value>
+</data>
+<data name="Page3_AD_Group1_Label1" xml:space="preserve">
+	<value>Należy wpisać connection string w postaci LDAP://mydc01.company.internal, gdzie mydc01 jest nazwą kontrolera domeny, a &apos;company&apos; i &apos;internal&apos; są sufiksami dns w sieci. Można również podać adres IP. Zwykle można uzyskać tą informację przez uruchomienie &quot;ipconfig&quot;.</value>
+</data>
+<data name="Page3_AD_Group1_Label2" xml:space="preserve">
+	<value>Connection string pozwala na użycie atrybutu OU, jednakże może to powodować niespodziewane problemy. Jeśli nie jesteś pewien co do tych ustawień, zapoznaj się z artykułem {BEGIN_ADEXPLORER_LINK}AD Explorer{END_ADEXPLORER_LINK}.</value>
+</data>
+<data name="Page3_AD_Group1_Label3" xml:space="preserve">
+	<value>Jeżeli konto na jakim pracuje pula aplikacji nie ma dostępu do Active Directory, wprowadź nazwę i hasło użytkownika.</value>
+</data>
+<data name="Page3_AD_Group2_Label1" xml:space="preserve">
+	<value>Nazwa użytkownika:</value>
+</data>
+<data name="Page3_AD_Group2_Label2" xml:space="preserve">
+	<value>Hasło:</value>
+</data>
+<data name="Page3_AD_Group3_Title" xml:space="preserve">
+	<value>Nazwa grupy Redaktorzy</value>
+</data>
+<data name="Page3_AD_Group3_Label" xml:space="preserve">
+	<value>Nazwa grupy, której członkowie będą redaktorami (osoby mogące tworzyć i edytować strony). Przycisk Sprawdź używa połączenia wprowadzonego powyżej.</value>
+</data>
+<data name="Page3_AD_Group4_Title" xml:space="preserve">
+	<value>Nazwa grupy Administratorzy</value>
+</data>
+<data name="Page3_AD_Group4_Label" xml:space="preserve">
+	<value>Nazwa grupy, której członkowie będą administratorami. Administratorzy mają takie same prawa jak redaktorzy, ponadto mają dostęp do konfiguracji oraz narzędzi. Przycisk Sprawdź używa połączenia wprowadzonego powyżej.</value>
+</data>
+<data name="Page3_DB_Label" xml:space="preserve">
+	<value>Wszystkie hasła są szyfrowane jednokierunkowo za pomocą SHA128. Oznacza to, że zapomniane hasło nie może być odzyskane i tylko administrator może je zresetować (nie ma jeszcze funkcjonalności przywracania hasła). Minimalna długość hasła: 6 znaków.</value>
+</data>
+<data name="Page3_DB_Group1_Title" xml:space="preserve">
+	<value>Nazwa roli Redaktor</value>
+</data>
+<data name="Page3_DB_Group1_Label1" xml:space="preserve">
+	<value>Nazwa roli Redaktor - osób, które mogą tworzyć i edytować strony.</value>
+</data>
+<data name="Page3_DB_Group2_Title" xml:space="preserve">
+	<value>Nazwa roli Administrator</value>
+</data>
+<data name="Page3_DB_Group2_Label1" xml:space="preserve">
+	<value>Nazwa roli Administrator. Administratorzy mają takie same prawa jak redaktorzy, ponadto mają dostęp do konfiguracji oraz narzędzi.</value>
+</data>
+<data name="Page3_DB_Group3_Title" xml:space="preserve">
+	<value>Pozwól na rejestrację użytkowników</value>
+</data>
+<data name="Page3_DB_Group3_Label1" xml:space="preserve">
+	<value>Zaznacz tą opcję, aby umożliwić rejestrację nowym użytkownikom. Jeśli niezaznaczona, tylko administratorzy będą mogli tworzyć nowych użytkowników.</value>
+</data>
+<data name="Page3_DB_Group3_Label2" xml:space="preserve">
+	<value>Pozwól na samodzielną rejestrację nowych użytkowników.</value>
+</data>
+<data name="Page3_DB_Group4_Title" xml:space="preserve">
+	<value>Włącz weryfikację Recaptcha</value>
+</data>
+<data name="Page3_DB_Group4_Label1" xml:space="preserve">
+	<value>Jeśli zezwolono na rejestrację nowych użytkowników, zalecamy włączyć weryfikację Recaptcha. Jest to darmowy serwis anty-spamowy dostarczany przez Google. Musisz się zarejestrować i skopiować do poniższych pól swój prywatny i publiczny klucz. Najpierw musisz się {BEGIN_RECAPTCHA_LINK}zarejestrować{END_RECAPTCHA_LINK}.</value>
+</data>
+<data name="Page3_DB_Group4_Label2" xml:space="preserve">
+	<value>Włącz weryfikację anty-spamową Recaptcha.</value>
+</data>
+<data name="Page3_DB_Group4_Label3" xml:space="preserve">
+	<value>Klucz publiczny</value>
+</data>
+<data name="Page3_DB_Group4_Label4" xml:space="preserve">
+	<value>Klucz prywatny</value>
+</data>
+<data name="Page3_DB_Group5_Title" xml:space="preserve">
+	<value>Email administratora</value>
+</data>
+<data name="Page3_DB_Group5_Label1" xml:space="preserve">
+	<value>Adres email administratora strony. Możesz dodać wielu administratorów na stronie Ustawienia.</value>
+</data>
+<data name="Page3_DB_Group6_Title" xml:space="preserve">
+	<value>Hasło administratora</value>
+</data>
+<data name="Page3_DB_Group6_Label1" xml:space="preserve">
+	<value>Hasło użytkownika Administrator</value>
+</data>
+<data name="Page4_Label1" xml:space="preserve">
+	<value>Prawie gotowe... Na koniec kilka dodatkowych ustawień.</value>
+</data>
+<data name="Page4_Group1_Title" xml:space="preserve">
+	<value>Katalog załączników</value>
+</data>
+<data name="Page4_Group1_Success" xml:space="preserve">
+	<value>Katalog istnieje i można do niego zapisywać</value>
+</data>
+<data name="Page4_Group1_Error" xml:space="preserve">
+	<value>Nie można zapisywać do katalogu:</value>
+</data>
+<data name="Page4_Group1_Label1" xml:space="preserve">
+	<value>Nazwa katalogu, do któreo będą przesyłane załączniki. Konto na jakim pracuje pula aplikacji musi mieć prawa zapisu w tym katalogu.</value>
+</data>
+<data name="Page4_Group1_Label2" xml:space="preserve">
+	<value>Upewnij się, że ścieżka zaczyna się od &quot;~/&quot;. Należy sprawdzić prawa do odczytu i zapisu w tym folderze.</value>
+</data>
+<data name="Page4_Group2_Title" xml:space="preserve">
+	<value>Rozszerzenia załączników</value>
+</data>
+<data name="Page4_Group2_Label1" xml:space="preserve">
+	<value>Lista rozszerzeń plików (oddzielonych przecinkiem), które mogą być przesyłane jako załączniki.</value>
+</data>
+<data name="Page4_Group3_Title" xml:space="preserve">
+	<value>Motyw</value>
+</data>
+<data name="Page4_Group3_Label1" xml:space="preserve">
+	<value>Motyw używany dla witryny. Należy wskazać nazwę folderu w katalogu Themes.</value>
+</data>
+<data name="Page4_Group4_Title" xml:space="preserve">
+	<value>Typ znaczników tekstu</value>
+</data>
+<data name="Page4_Group4_Label1" xml:space="preserve">
+	<value>Używany format znaczników. Obecnie Roadkill wspiera formaty: Creole, Markdown, Mediawiki.</value>
+</data>
+<data name="Page4_Group4_Label2" xml:space="preserve">
+	<value>Zalecanym formatem jest Creole.</value>
+</data>
+<data name="Page4_Group5_Title" xml:space="preserve">
+	<value>Buforowanie</value>
+</data>
+<data name="Page4_Group5_Label1" xml:space="preserve">
+	<value>Roadkill używa buforowania wraz z buforowaniem wyjścia ASP.NET. Zaleca się włączenie buforowania w celu poprawienia szybkości działania witryny. Buforowanie danych nie jest obecnie obsługiwane w farmach serwerów web.</value>
+</data>
+<data name="Page4_Group5_Label2" xml:space="preserve">
+	<value>To ustawienie dotyczy tylko buforowania bazy danych. Buforowanie wyjścia ASP.NET należy wyłączyć ręcznie w pliku web.config.</value>
+</data>
+<data name="Page4_Group5_Label3" xml:space="preserve">
+	<value>Włącz buforowanie</value>
+</data>
+<data name="Page4_Group5_Label4" xml:space="preserve">
+	<value>Buforowanie zawartości stron</value>
+</data>
+<data name="Page4_Group5_Label5" xml:space="preserve">
+	<value>Wyłączenie oznacza, że treść każdej strony będzie za każdym razem pobierana z bazy danych.</value>
+</data>
+<data name="Page5_Success_Title" xml:space="preserve">
+	<value>Instalacja zakończona powodzeniem</value>
+</data>
+<data name="Page5_Success_AD_Title" xml:space="preserve">
+	<value>Autentykacja Windows - proszę przecztać</value>
+</data>
+<data name="Page5_Success_AD_Label" xml:space="preserve">
+	<value>Jeśli używasz IIS7+, może być potrzeba ręcznego skonfigurowania zabezpieczeń w pliku web.config. Poniżej znajdują się wymagane elementy. Jeśli po wprowadzeniu tych zmian otrzymasz 500 błędów, to sekcja zostanie zablokowana i trzeba będzie dokonać zmian za pomocą Menedżera usług IIS.</value>
+</data>
+<data name="Page5_Success_Label1" xml:space="preserve">
+	<value>Kontynuuj</value>
+</data>
+<data name="Page5_Error_Title" xml:space="preserve">
+	<value>Podczas instalacji wystąpił błąd</value>
+</data>
+<data name="Page5_Error_Label1" xml:space="preserve">
+	<value>Przejdź ponownie przez kolejne kroki instalacji i sprawdź ustawienia. Wystąpił błąd:</value>
+</data>
+
+</root>

@@ -1,0 +1,44 @@
+﻿@model SettingsViewModel
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+@Url.ScriptLink("roadkill/installer/step3.js")
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		var wizard = new Roadkill.Site.Installer.InstallWizard();
+		var step3 = new Roadkill.Site.Installer.Step3(wizard, messages);
+	});
+</script>
+<p>
+@InstallStrings.Page3_Label1
+</p>
+
+<form role="form" method="post" id="step3-form" action="@Url.Action("Step3b", "Install")">
+	@Html.HiddenFor(h => h.ConnectionString)
+	@Html.HiddenFor(h => h.SiteName)
+	@Html.HiddenFor(h => h.SiteUrl)
+	@Html.HiddenFor(h => h.DataStoreTypeName)
+
+	<!-- Use windows auth -->
+	<fieldset>
+		<legend>@InstallStrings.Page3_Group1_Title</legend>
+
+		<div class="form-group">
+            <label for="UseWindowsAuth" class="checkbox">
+                @InstallStrings.Page3_Group1_Label
+                @Html.BootstrapCheckBoxFor(s => s.UseWindowsAuth, InstallStrings.Page3_Group1_Label)
+            </label>
+		</div>
+	</fieldset>
+</form>
+
+@section BottomButtons
+{
+	<div class="previous">
+		<a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a>
+	</div>
+	<div class="continue">
+		<button type="submit" class="btn btn-success pull-right">@InstallStrings.Shared_NextButton</button>
+	</div>
+}
