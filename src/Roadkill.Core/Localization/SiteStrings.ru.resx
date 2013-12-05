@@ -105,14 +105,17 @@
 <data name="Shared_PoweredBy" xml:space="preserve">
 	<value>Работает на Roadkill Wiki</value>
 </data>
-<data name="Shared_Firstname" xml:space="preserve">
+<data name="Shared_Firstname_Label" xml:space="preserve">
 	<value>Имя:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Shared_Lastname" xml:space="preserve">
+<data name="Shared_Lastname_Label" xml:space="preserve">
 	<value>Фамилия:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="Shared_Username" xml:space="preserve">
+<data name="Shared_Username_Label" xml:space="preserve">
 	<value>Имя пользователя:</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Shared_Email_Label" xml:space="preserve">
 	<value>E-mail:</value>
@@ -168,8 +171,9 @@
 <data name="Signup_Label" xml:space="preserve">
 	<value>Пожалуйста, введите ваши данные ниже.</value>
 </data>
-<data name="Signup_Button" xml:space="preserve">
+<data name="Button_Signup" xml:space="preserve">
 	<value>Регистрация нового пользователя</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Signup_Complete_Title" xml:space="preserve">
 	<value>Регистрация завершена.</value>
@@ -183,8 +187,9 @@
 <data name="Signup_Complete_EmailResent" xml:space="preserve">
 	<value>Подтверждение по электронной почте было перепосланно.</value>
 </data>
-<data name="Signup_Complete_EmailResend_Button" xml:space="preserve">
+<data name="Button_Signup_Complete_EmailResend" xml:space="preserve">
 	<value>Отправить повторно письмо-подтверждение</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="Signup_Error_General" xml:space="preserve">
 	<value>Произошла ошибка в регистрации.</value>
@@ -219,8 +224,9 @@
 <data name="ResetPassword_Complete_Label" xml:space="preserve">
 	<value>Пожалуйста, введите новый пароль.</value>
 </data>
-<data name="ResetPassword_Button" xml:space="preserve">
+<data name="Button_ResetPassword" xml:space="preserve">
 	<value>Сброс пароля</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="ResetPassword_Successful_Title" xml:space="preserve">
 	<value>Пароль успешно сброшен.</value>
@@ -402,8 +408,9 @@
 <data name="SiteSettings_Configuration" xml:space="preserve">
 	<value>Конфигурация</value>
 </data>
-<data name="SiteSettings_Users" xml:space="preserve">
+<data name="SiteSettings_UserManagement" xml:space="preserve">
 	<value>Пользователи</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Tools" xml:space="preserve">
 	<value>Инструменты</value>
@@ -489,9 +496,6 @@
 <data name="SiteSettings_Configuration_Error" xml:space="preserve">
 	<value>Не удалось сохранить настройки</value>
 </data>
-<data name="SiteSettings_Configuration_Caching" xml:space="preserve">
-	<value>(Этот ключ больше не используется. Сниматься в 2.0)</value>
-</data>
 <data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
 	<value>(Этот ключ больше не используется. Сниматься в 2.0)</value>
 </data>
@@ -564,53 +568,69 @@
 <data name="SiteSettings_Configuration_CachePageText_Help" xml:space="preserve">
 	<value>(Этот ключ больше не используется. Сниматься в 2.0)</value>
 </data>
-<data name="SiteSettings_Users_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Title" xml:space="preserve">
 	<value>Пользователи сайта</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_ColumnHeader_Username" xml:space="preserve">
+<data name="SiteSettings_UserManagement_ColumnHeader_Username" xml:space="preserve">
 	<value>Имя пользователя</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_ColumnHeader_Email" xml:space="preserve">
+<data name="SiteSettings_UserManagement_ColumnHeader_Email" xml:space="preserve">
 	<value>E-mail</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_Admins" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Admins" xml:space="preserve">
 	<value>Администраторы</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_NewAdmin" xml:space="preserve">
+<data name="SiteSettings_UserManagement_NewAdmin" xml:space="preserve">
 	<value>Новый администратор</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_Editors" xml:space="preserve">
+<data name="SiteSettings_UserManagement_Editors" xml:space="preserve">
 	<value>Редакторы</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_NewEditor" xml:space="preserve">
+<data name="SiteSettings_UserManagement_NewEditor" xml:space="preserve">
 	<value>Новый пользователь редактор</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddAdminDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddAdmin_Title" xml:space="preserve">
 	<value>Добавить администратора</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddEditorDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddEditor_Title" xml:space="preserve">
 	<value>Добавить редактора</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_EditUserDialog_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_EditUser_Title" xml:space="preserve">
 	<value>Редактировать пользователя</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddUserDialog_Help" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddUser_Help" xml:space="preserve">
 	<value>Для существующих пользователей, оставьте поле пароля пустым, чтобы изменить только имя пользователя.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AddUserDialog_Error" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AddUser_Error" xml:space="preserve">
 	<value>Не удалось сохранить данные пользователя:</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_EditUser_Error" xml:space="preserve">
+<data name="SiteSettings_UserManagement_EditUser_Error" xml:space="preserve">
 	<value>Обновление пользователя не удалось.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Title" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Title" xml:space="preserve">
 	<value>Windows/Active Directory проверка подлинности включена</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Label1" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Label1" xml:space="preserve">
 	<value>Имена пользователей и пароли не редактируются в режиме проверки подлинности Windows - вы должны сделать это через Active Directory.</value>
+	<comment>Fuzzy</comment>
 </data>
-<data name="SiteSettings_Users_AD_Label2" xml:space="preserve">
+<data name="SiteSettings_UserManagement_AD_Label2" xml:space="preserve">
 	<value>Чтобы добавить пользователя в качестве администратора или редактора, убедитесь, что они являются частью группы безопасности Windows, который вы указали для &quot;AdminRolename&quot; и &quot;EditorRolename&quot; настройки в web.config.</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Tools_Title" xml:space="preserve">
 	<value>Средства управления сайтом</value>
@@ -754,8 +774,9 @@
 <data name="FileManager_UploadingProgress" xml:space="preserve">
 	<value>Загрузка ...</value>
 </data>
-<data name="FileManager_Watermark" xml:space="preserve">
+<data name="FileManager_Help" xml:space="preserve">
 	<value>Перетащите файлы сюда, чтобы загрузить. Дважды щелкните, для навигации по папкам</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="FileManager_Extension_Not_Supported" xml:space="preserve">
 	<value>Только файлы с расширением {0} могут быть загружены.</value>
@@ -788,6 +809,102 @@
 </data>
 <data name="SiteSettings_Plugins_Title" xml:space="preserve">
 	<value>Плагины</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport" xml:space="preserve">
+	<value>Экспорт в SQL</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport_Label" xml:space="preserve">
+	<value>Экспортирует текущую базу данных в отдельный SQL сценарий. Если вы используете MongoDB это действие ничего не делает.</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite" xml:space="preserve">
+	<value>Открытый сайт</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite_Help" xml:space="preserve">
+	<value>Когда снята галочка, все страницы являются закрытыми, и их можно посетить только зарегистрированным пользователям.</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors" xml:space="preserve">
+	<value>Игнорировать ошибки поискового индекса</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors_Help" xml:space="preserve">
+	<value>Если флажок установлен, выводится сообщение об ошибке, когда страница не была проиндексирована поисковым движком Lucene (при создании или обновлении страницы), иначе ошибка будет проигнорировать.</value>
+</data>
+<data name="FileManager_Upload_FileAlreadyExists" xml:space="preserve">
+	<value>Файл &apos;{0}&apos; уже существует.</value>
+</data>
+<data name="History_Help_Label" xml:space="preserve">
+	<value>Нажмите на номер версии, чтобы сравнить изменения с предыдущей версией.</value>
+</data>
+<data name="SiteSettings_Configuration_Required_Field" xml:space="preserve">
+	<value>Это поле обязательно.</value>
+</data>
+<data name="Button_Test" xml:space="preserve">
+	<value>Тест</value>
+</data>
+<data name="Shared_Success" xml:space="preserve">
+	<value>Успех!</value>
+</data>
+<data name="Shared_Failure" xml:space="preserve">
+	<value>Несоблюдение!</value>
+</data>
+<data name="DatabaseConnection_Success" xml:space="preserve">
+	<value>Соединение с базой данных была успешной.</value>
+</data>
+<data name="DatabaseConnection_Failure" xml:space="preserve">
+	<value>Подключение к базе данных не удалось:</value>
+</data>
+<data name="Button_Add" xml:space="preserve">
+	<value>Добавлять</value>
+</data>
+<data name="Attachments_Folder_Success" xml:space="preserve">
+	<value>Успех! Каталог существует и может быть записан на.</value>
+</data>
+<data name="Attachments_Folder_Failure" xml:space="preserve">
+	<value>Невозможно записать в каталог вложений:</value>
+</data>
+<data name="Shared_Unexpected_Error" xml:space="preserve">
+	<value>Что-то пошло не так</value>
+</data>
+<data name="Profile_Not_Available" xml:space="preserve">
+	<value>Проверка подлинности Windows включена, так что профиль пользователя не доступна.</value>
+</data>
+<data name="Profile_Password_Change_Successful" xml:space="preserve">
+	<value>Пароль был успешно изменен</value>
+</data>
+<data name="Profile_Details_Updated_Successfully" xml:space="preserve">
+	<value>Детали профильные были успешно обновлены.</value>
+</data>
+<data name="Profile_Leave_Password_Blank" xml:space="preserve">
+	<value>Оставьте поле пароля пустым, если вы не хотите, чтобы изменить пароль.</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Successful" xml:space="preserve">
+	<value>Все склады были успешно удалены.</value>
+</data>
+<data name="SiteSettings_Cache_Key_Format" xml:space="preserve">
+	<value>Клавиши в формате:</value>
+</data>
+<data name="SiteSettings_Cache_Key_Column_Header" xml:space="preserve">
+	<value>Ключ</value>
+</data>
+<data name="SiteSettings_Cache_Page_Cache" xml:space="preserve">
+	<value>Кэш Страница</value>
+</data>
+<data name="SiteSettings_Cache_Items_Cache" xml:space="preserve">
+	<value>Элементы кэш</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Button" xml:space="preserve">
+	<value>Очистить кэш</value>
+</data>
+<data name="SiteSettings_Configuration_Unable_To_Save" xml:space="preserve">
+	<value>Невозможно сохранить настройки:</value>
+</data>
+<data name="SiteSettings_Configuration_Update_Successful" xml:space="preserve">
+	<value>Настройки были успешно обновлены.</value>
+</data>
+<data name="Recaptcha_Prompt" xml:space="preserve">
+	<value>В качестве меры по борьбе со спамом, введите два слова ниже</value>
+</data>
+<data name="Button_Close" xml:space="preserve">
+	<value>Близко</value>
 </data>
 
 </root>
