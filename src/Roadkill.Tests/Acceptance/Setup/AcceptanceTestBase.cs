@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Net.Mail;
 using System.Reflection;
@@ -29,14 +30,17 @@ namespace Roadkill.Tests.Acceptance
 			if (string.IsNullOrEmpty(url))
 				url = "http://localhost:9876";
 
+			Console.WriteLine("============ Acceptance tests setup ============");
+
 			CopySqlCeDb();
 			AcceptanceTestsSetup.CopyRoadkillConfig();
 			BaseUrl = url;
 			LoginUrl = BaseUrl + "/user/login";
 			LogoutUrl = BaseUrl + "/user/logout";
 			Driver = AcceptanceTestsSetup.Driver;
-
 			IsWindowsAuthTests = (ConfigurationManager.AppSettings["useWindowsAuth"] == "true");
+
+			Console.WriteLine("=================================================");
 		}
 
 		protected void CopySqlCeDb()
