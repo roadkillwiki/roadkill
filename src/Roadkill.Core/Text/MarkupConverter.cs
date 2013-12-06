@@ -188,6 +188,10 @@ namespace Roadkill.Core.Converters
 				{
 					ConvertAttachmentHrefToFullPath(e);
 				}
+				else if (lowerHref.StartsWith("special:"))
+				{
+					ConvertSpecialPageHrefToFullPath(e);
+				}
 				else
 				{
 					ConvertInternalLinkHrefToFullPath(e);
@@ -223,6 +227,16 @@ namespace Roadkill.Core.Converters
 			// Get the full path to the attachment
 			string attachmentsPath = _applicationSettings.AttachmentsUrlPath;
 			e.Href = UrlResolver.ConvertToAbsolutePath(attachmentsPath) + href;
+		}
+
+		/// <summary>
+		/// Updates the LinkEventArgs.Href to be a full path to the Special: page
+		/// </summary>
+		private void ConvertSpecialPageHrefToFullPath(LinkEventArgs e)
+		{
+			string href = e.OriginalHref;
+			string attachmentsPath = _applicationSettings.AttachmentsUrlPath;
+			e.Href = UrlResolver.ConvertToAbsolutePath("~/wiki/"+href);
 		}
 
 		/// <summary>

@@ -20,11 +20,11 @@ namespace Roadkill.Core.Mvc.ViewModels
 			{
 				if (IsEnabled)
 				{
-					return "<input type='checkbox' style='cursor:default;' disabled checked='checked' />";
+					return "<div class=\"plugin-enabled\"></div>";
 				}
 				else 
 				{
-					return "<input type='checkbox' style='cursor:default;' disabled/>";
+					return "";
 				}
 			}
 		}

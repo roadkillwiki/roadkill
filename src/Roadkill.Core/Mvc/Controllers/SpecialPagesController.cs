@@ -41,7 +41,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (plugin == null)
 				throw new HttpException(404, string.Format("A plugin for the special page '{0}' was not found", id));
 
-			return plugin.GetResult();
+			return plugin.GetResult(this);
 		}
 	}
 }

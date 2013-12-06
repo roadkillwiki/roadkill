@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Attributes;
+using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Security;
 using Roadkill.Core.Services;
 using StructureMap.Attributes;
@@ -34,6 +35,6 @@ namespace Roadkill.Core.Plugins
 		/// </summary>
 		public abstract string Name { get; }
 
-		public abstract ActionResult GetResult();
+		public abstract ActionResult GetResult(SpecialPagesController controller);
 	}
 }

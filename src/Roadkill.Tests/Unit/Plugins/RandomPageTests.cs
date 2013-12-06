@@ -10,6 +10,7 @@ using Roadkill.Core;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Plugins.SpecialPages.BuiltIn;
 using Roadkill.Core.Security;
 using Roadkill.Core.Services;
@@ -22,11 +23,13 @@ namespace Roadkill.Tests.Unit.Plugins
 	public class RandomPageTests
 	{
 		private MocksAndStubsContainer _container;
+		private SpecialPagesController _controller;
 
 		[SetUp]
 		public void Setup()
 		{
 			_container = new MocksAndStubsContainer();
+			_controller = null; // not used
 		}
 
 		[Test]
@@ -37,7 +40,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			randomPage.PageService = _container.PageService;
 
 			// Act
-			RedirectToRouteResult redirectResult = randomPage.GetResult() as RedirectToRouteResult;
+			RedirectToRouteResult redirectResult = randomPage.GetResult(_controller) as RedirectToRouteResult;
 
 			// Assert
 			Assert.That(redirectResult, Is.Not.Null);
@@ -60,7 +63,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			randomPage.PageService = _container.PageService;
 
 			// Act
-			RedirectToRouteResult redirectResult = randomPage.GetResult() as RedirectToRouteResult;
+			RedirectToRouteResult redirectResult = randomPage.GetResult(_controller) as RedirectToRouteResult;
 
 			// Assert
 			Assert.That(redirectResult, Is.Not.Null);
