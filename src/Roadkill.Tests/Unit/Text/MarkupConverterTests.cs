@@ -302,6 +302,22 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
+		public void Links_Starting_With_SpecialColon_Should_Resolve_As_Full_SpecialPage()
+		{
+			// Arrange
+			_repository.SiteSettings.MarkupType = "Creole";
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
+
+			string expectedHtml = "<p><a href=\"&#x2F;wiki&#x2F;Special&#x3A;Foo\">My special page</a>\n</p>";
+
+			// Act
+			string actualHtml = _markupConverter.ToHtml("[[Special:Foo|My special page]]");
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
+		}
+
+		[Test]
 		public void Links_Starting_With_Http_Www_Mailto_Tag_Are_No_Rewritten_As_Internal()
 		{
 			// Arrange

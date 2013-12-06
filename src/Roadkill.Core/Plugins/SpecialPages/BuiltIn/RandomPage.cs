@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core.Plugins.SpecialPages.BuiltIn
@@ -24,7 +25,7 @@ namespace Roadkill.Core.Plugins.SpecialPages.BuiltIn
 			_random = random;
 		}
 
-		public override ActionResult GetResult()
+		public override ActionResult GetResult(SpecialPagesController controller)
 		{
 			RouteValueDictionary routeValueDictionary = new RouteValueDictionary();
 			List<PageViewModel> pages = PageService.AllPages().ToList();
