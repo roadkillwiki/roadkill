@@ -1,0 +1,38 @@
+body				{ font-family:sans-serif;background:url('pagebg.png');margin:0px;padding:0px; }
+
+h1,h2,h3,h4,h5		{ border-bottom:1px solid #AAA;bottom-padding:3px; }
+a					{ text-decoration:none;color:#0645AD; }
+a:hover, a:focus	{ text-decoration:underline; }
+
+#headfade		{ background-color:#FFF;width:100%;height:6em;background-image:url('page-fade.png');background-position:bottom left;background-repeat:repeat-x; }
+#search input	{ float:left;z-index:10; }
+#search button	{ padding:0px;margin:0px;margin-top:2px; }
+#searchbutton	{ background-color:transparent;cursor:pointer;border:0px;margin-left:-18px !important; }
+
+#leftmenu ul,#leftmenu li	{ padding:0px;margin:0px; }
+#loggedinas, #search		{ float:right;padding:5px; top:0px;line-height:2em; }
+#logo			{ position:absolute;top:0px;left:7px;padding:0px; }
+#viewhistory	{ float:right; }
+#panel			{ position:absolute;top:130px;width:10em;left:0px; }
+#panel ul,
+#panel p,
+#panel h1		{ padding-left:1.5em; }
+#panel ul li	{ list-style:none;list-style-image:none;list-style-type:none;padding:0px;margin:0px; }
+#container		{ padding:1em;margin-left:12em;background-color:#FFF;color:#000;min-height:30em;border:1px solid #a7d7f9;border-right:0px solid #a7d7f9; }
+#footer			{ margin-left:12em;margin-top:0px;padding:0.75em;}
+#footer p		{ color:#333;font-size:0.7em; }
+pre				{ font-size:9pt !important;background-color:#EEE;padding:5px;border:1px solid #AAA; }
+
+div.image_frame { border: 1px solid gray; display: inline-block; padding: 4px; }
+div.image_frame .caption { border: 1px solid #E0E0E0; padding: 4px; }
+
+div.floatleft, table.floatleft { border: 0 none; margin: 0 0.5em 0.5em 0; }
+div.floatright, table.floatright, div.floatleft, table.floatleft { position: relative; }
+div.floatleft, table.floatleft { clear: left; float: left; }
+
+div.floatright, table.floatright { border: 0 none;margin: 0 0 0.5em 0.5em; }
+div.floatright, table.floatright, div.floatleft, table.floatleft { position: relative; }
+div.floatright, table.floatright { clear: right; float: right; }
+
+.center * { margin-left: auto; margin-right: auto; }
+.center { text-align: center; width: 100%; }

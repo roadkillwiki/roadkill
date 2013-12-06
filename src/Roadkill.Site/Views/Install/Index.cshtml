@@ -1,0 +1,19 @@
+﻿@model IEnumerable<LanguageViewModel>
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+
+<div class="col-lg-offset-5">
+	<p>Choose a language:</p>
+	<ul id="language">
+		@foreach (LanguageViewModel languageModel in Model)
+		{
+			<li>@Html.ActionLink(languageModel.Name, "Step1", new { language = languageModel.Code })</li>
+		}
+	</ul>
+</div>
+
+@section BottomButtons
+{
+	
+}

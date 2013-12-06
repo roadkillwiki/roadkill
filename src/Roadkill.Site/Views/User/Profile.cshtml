@@ -1,0 +1,101 @@
+﻿@model UserViewModel
+@{ 
+	ViewBag.Title = SiteStrings.Profile_Title;
+}
+<h1>@SiteStrings.Profile_Title</h1>
+@if (Model == null)
+{
+	<p>@SiteStrings.Profile_Not_Available</p>
+}
+else
+{
+<div class="container pull-left">
+	<div class="row">
+		<div class="col-sm-8">
+			@Html.BootstrapValidationSummary(SiteStrings.Shared_Error)
+			@if (Model.PasswordUpdateSuccessful)
+			{
+				<div class="alert alert-success alert-temporary">
+					@SiteStrings.Profile_Password_Change_Successful
+				</div>
+			}
+			else if (Model.UpdateSuccessful)
+			{
+				<div class="alert alert-success alert-temporary">
+					@SiteStrings.Profile_Details_Updated_Successfully
+				</div>
+			}
+			
+			<p>
+				@SiteStrings.Profile_Leave_Password_Blank
+			</p>
+
+			<div id="profile" class="lightborder rounded10 col-sm-12">
+
+				<form class="form-horizontal" role="form" method="post">
+					@(Html.HiddenFor<UserViewModel, Guid?>(h => h.Id))
+					@(Html.HiddenFor<UserViewModel, string>(h => h.ExistingEmail))
+					@(Html.HiddenFor<UserViewModel, string>(h => h.ExistingUsername))
+
+					<!-- Firstname -->
+					<div class="form-group">
+						<label for="NewEmail" class="col-sm-3 control-label">@SiteStrings.Shared_Firstname_Label</label>
+						<div class="col-sm-9">
+							@(Html.TextBoxFor<UserViewModel, string>(t => t.Firstname, new { @class = "form-control" }))
+						</div>
+					</div>
+
+					<!-- Lastname -->
+					<div class="form-group">
+						<label for="Lastname" class="col-sm-3 control-label">@SiteStrings.Shared_Lastname_Label</label>
+						<div class="col-sm-9">
+							@(Html.TextBoxFor<UserViewModel, string>(t => t.Lastname, new { @class = "form-control" }))
+						</div>
+					</div>
+
+					<!-- Email -->
+					<div class="form-group">
+						<label for="NewEmail" class="col-sm-3 control-label">@SiteStrings.Shared_Email_Label</label>
+						<div class="col-sm-9">
+							@(Html.TextBoxFor<UserViewModel, string>(t => t.NewEmail, new { @class = "form-control" }))
+						</div>
+					</div>
+
+					<!-- New username -->
+					<div class="form-group">
+						<label for="NewUsername" class="col-sm-3 control-label">@SiteStrings.Shared_Username_Label</label>
+						<div class="col-sm-9">
+							@(Html.TextBoxFor<UserViewModel, string>(t => t.NewUsername, new { @class = "form-control" }))
+						</div>
+					</div>
+
+					<!-- Password -->
+					<div class="form-group">
+						<label for="Password" class="col-sm-3 control-label">@SiteStrings.Shared_Password_Label</label>
+						<div class="col-sm-9">
+							@(Html.PasswordFor<UserViewModel, string>(t => t.Password, new { @class = "form-control" }))
+						</div>
+					</div>
+
+					<!-- Confirm password -->
+					<div class="form-group">
+						<label for="PasswordConfirmation" class="col-sm-3 control-label">@SiteStrings.Shared_PasswordConfirm_Label</label>
+						<div class="col-sm-9">
+							@(Html.PasswordFor<UserViewModel, string>(t => t.PasswordConfirmation, new { @class = "form-control" }))
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-offset-3 col-sm-9">
+							<input type="submit" class="btn btn-primary right" value="@SiteStrings.Button_Save" />
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+}
+
+<br class="clear" />

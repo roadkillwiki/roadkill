@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="data">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" minOccurs="0"                     msdata:Ordinal="2" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="type" type="xsd:string" />
+        <xsd:attribute name="mimetype" type="xsd:string" />
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="Shared_Stage1" xml:space="preserve">
+	<value>Välkommen</value>
+</data>
+<data name="Shared_Stage2" xml:space="preserve">
+	<value>Databas</value>
+</data>
+<data name="Shared_Stage3" xml:space="preserve">
+	<value>Säkerhet</value>
+</data>
+<data name="Shared_Stage4" xml:space="preserve">
+	<value>Extra</value>
+</data>
+<data name="Shared_Stage5" xml:space="preserve">
+	<value>Klar</value>
+</data>
+<data name="Shared_Continue" xml:space="preserve">
+	<value>Fortsätt</value>
+</data>
+<data name="Shared_Back" xml:space="preserve">
+	<value>Tillbaka</value>
+</data>
+<data name="Shared_BackButton" xml:space="preserve">
+	<value>Tillbaka</value>
+</data>
+<data name="Shared_NextButton" xml:space="preserve">
+	<value>Nästa</value>
+</data>
+<data name="Step1_Intro" xml:space="preserve">
+	<value>Tack för att du laddat ned Roadkill .NET Wiki. Installationsprogrammet sparar inställningarna du anger här till filen web.config, samt till databasen.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Intro" xml:space="preserve">
+	<value>Innan vi kan gå vidare, måste vi först säkerställa att du har skrivbehörighet till filen web.config.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Success_Message" xml:space="preserve">
+	<value>Web.config kan skrivas till.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Failure_Message" xml:space="preserve">
+	<value>Det går inte att skriva till filen web.config.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_Intro" xml:space="preserve">
+	<value>Nedan finns några inställningar för att Roadkill ska fungera korrekt. Du kan ändra dessa senare via inställningssidan när du är inloggad som en administratör.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_ConnectionString_CreateDatabase" xml:space="preserve">
+	<value>Du måste skapa databasen först om du använder en namngiven instans. Nedan visas några exempel, använd det andra alternativet om du använder delad hosting utan någon SQL Server hosting.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_Example_ConnectionStrings" xml:space="preserve">
+	<value>Exempel på anslutningssträngar</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteInstructionsTitle" xml:space="preserve">
+	<value>SQLite: observera</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteInstructionsMessage" xml:space="preserve">
+	<value>Obs: För att använda SQLite måste du lägga till en annan fil i mappen /bin eftersom SQLite distribueras för både x86 och x64. {BEGIN-SQLITE_LINK}Klicka här för att kopiera filen{END-SQLITE_LINK}. Om du upplever några problem efter detta, ta bort &quot;SQLite.Interop.dll&quot; från bin-mappen.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteSuccessTitle" xml:space="preserve">
+	<value>SQLite-filen kopierades</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteSuccessMessage" xml:space="preserve">
+	<value>SQLite bör nu vara redo att använda.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteFailureTitle" xml:space="preserve">
+	<value>SQLite-filen gick inte att kopiera</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteFailureMessage" xml:space="preserve">
+	<value>Ett fel uppstod - försök att manuellt kopiera filen SQLite.Interop.dll från ~/App_Data/SQLiteBinaries till bin-mappen.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_Use_WindowsAuth_Intro" xml:space="preserve">
+	<value>Vill du att användarna skall autentiseras mot en Active Directory-domän via Windows-autentisering?</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ConnectionString_Title" xml:space="preserve">
+	<value>Active Directory LDAP-anslutningssträng</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Connection_Success" xml:space="preserve">
+	<value>Anslutning och autentisering mot Active Directory-servern lyckades.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Connection_Error" xml:space="preserve">
+	<value>Det gick inte att ansluta till Active Directory-servern:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Success" xml:space="preserve">
+	<value>Förfrågan mot AD-gruppen lyckades.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Error" xml:space="preserve">
+	<value>Förfrågan misslyckades:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ConnectionString_Details" xml:space="preserve">
+	<value>Ange detta i formatet LDAP://mydc01.company.internal (obs: ange LDAP i versaler) där mydc01 är din domänkontrollant och &quot;company&quot; och &quot;internal&quot; är dns suffix för nätverket. Du kan även ange en IP-adress istället. Du kan oftast få denna information genom att köra kommandot &quot;ipconfig&quot;.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ADExplorer_Details" xml:space="preserve">
+	<value>Anslutningssträngen stöder att du anger specifika OU:n, men detta kan eventuellt orsaka problem. Om du är osäker på den här inställningen, bör du ladda ned {BEGIN_ADEXPLORER_LINK}AD Explorer{END_ADEXPLORER_LINK} först.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Username_Password_Details" xml:space="preserve">
+	<value>Om användaren som applikationspoolen körs som inte har läsbehörighet till Active Directory måste du ange användarnamn och lösenord for en användare som har det. Använd detta om din domän är en annan skog än huvuddomänen (tex en annan branch office).</value>
+	<comment>This is a bit iffy; I need to check on a Swedish AD-domain controller how MS translates &apos;forest&apos; and &apos;branch office&apos;. I&apos;ll revisit this.
+Fuzzy</comment>
+</data>
+<data name="Step3_AD_Editor_GroupName_Title" xml:space="preserve">
+	<value>Gruppnamn för redaktörer</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Editor_GroupName_Details" xml:space="preserve">
+	<value>Den säkerhetsgrupp som användare skall tillhöra för att vara redaktörer (personer som kan redigera och skapa sidor). Testknappen använder anslutningsinställningarna ovan.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Admin_GroupName_Title" xml:space="preserve">
+	<value>Gruppnamn för administratörer</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Admin_GroupName_Details" xml:space="preserve">
+	<value>Den säkerhetsgrupp som användare skall tillhöra för att vara administratörer. Administratörer har samma rättigheter som redaktörer, men har även tillgång till konfigurationsinställningar och verktyg för webbplatsen.Testknappen använder anslutningsinställningarna ovan.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_One_Way_Hashed" xml:space="preserve">
+	<value>Alla lösenord är envägskrypterade med SHA128 och ett sk saltvärde. Detta innebär att lösenord inte går att återskapa, och att en administratör därför måste återställa dom manuellt (det finns ingen &quot;Återställ lösenord&quot;-funktion ännu). Minimilängden för lösenord är 6 tecken.</value>
+	<comment>&quot;and admin&quot; should probably be &quot;an admin&quot;
+Fuzzy</comment>
+</data>
+<data name="Step3_DB_Editor_Role_Title" xml:space="preserve">
+	<value>Rollnamn för redaktörer</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Editor_Role" xml:space="preserve">
+	<value>Namnet på rollen redaktör - användare som kan redigera och skapa sidor.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Role_Title" xml:space="preserve">
+	<value>Rollnamn för administratörer</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Role" xml:space="preserve">
+	<value>Namnet på rollen administratör. Administratörer har samma rättigheter som redaktörer, men har även tillgång till konfigurationsinställningar och verktyg för webbplatsen.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups_Title" xml:space="preserve">
+	<value>Tillåt användare att registrera sig</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups" xml:space="preserve">
+	<value>Markera detta alternativ om du vill tillåta personer att registrera sig som nya användare. Om du inte tillåter detta, kommer endast administratörer att kunna skapa nya användare.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups_Label" xml:space="preserve">
+	<value>Tillåt nya användare att registrera sig.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Enable_Recaptcha_Description" xml:space="preserve">
+	<value>Om du tillåter att användare registrerar sig själva, så rekommenderar vi att du även aktiverar stöd för Recaptcha. Detta är en gratis anti-spam / anti-bot tjänst som tillhandahålls av Google. Du måste i så fall registrera dig och kopiera din publika och privata nyckel i fälten nedan. {BEGIN_RECAPTCHA_LINK}Registrera dig här{END_RECAPTCHA_LINK} - du kommer att behöva skapa ett Google-konto först.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Email_Title" xml:space="preserve">
+	<value>Administratörens e-post</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Email" xml:space="preserve">
+	<value>Administatörens e-postadress. Du kan lägga till fler administratörer under Inställningar, så att den här användaren inte &quot;äger&quot; webbplatsen</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Password_Title" xml:space="preserve">
+	<value>Administratörslösenord</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Password" xml:space="preserve">
+	<value>Administratörens lösenord</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Almost_Done" xml:space="preserve">
+	<value>Nästan klar...bara några ytterligare inställningar.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Attachments_Folder_Description" xml:space="preserve">
+	<value>Det här är katalogen dit alla uppladdade filer sparas. Användaren som applikationspoolen körs som måste ha skrivrättigheter till denna katalog. I dom flesta fall behöver du inte tänka på att ändra rättigheterna, eftersom dom ärvs från den överordnade mappen. </value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Attachments_Folder_RelativePath" xml:space="preserve">
+	<value>Säkerställ att mappens sökväg antingen börjar med &quot;~/&quot; vilket indikerar webbplatsens rotkatalog, eller är en vanlig sökväg (t ex &apos;c:\bilagor&apos;).</value>
+	<comment>The english version of this label is a bit confusing?
+Fuzzy</comment>
+</data>
+<data name="Step5_Success_Title" xml:space="preserve">
+	<value>Installationen lyckades</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_WindowsAuth_Please_Read" xml:space="preserve">
+	<value>Windows-autentisering - observera</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_WindowsAuth_IIS_Settings" xml:space="preserve">
+	<value>Om du använder IIS7 + kan du behöva konfigurera web.config-filen för dina säkerhetsinställningar; se nedan för de element som behövs. Om du får HTTP 500-fel efter att dessa förändringar utförts, så är sektionen låst på en överordnad nivå, och då måste förändringarna utföras med hjälp av IIS-managern.</value>
+	<comment>&quot;thechanges&quot;=&quot;the changes&quot;
+Fuzzy</comment>
+</data>
+<data name="Step5_Continue_Button" xml:space="preserve">
+	<value>Fortsätt till webbplatsen</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Failure_Title" xml:space="preserve">
+	<value>Ett fel uppstod under installationen</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Failure_GoBack_And_Check" xml:space="preserve">
+	<value>Gå tillbaka genom installationsstegen och kontrollera dina inställningar. Felmeddelandet var:</value>
+	<comment>Fuzzy</comment>
+</data>
+
+</root>

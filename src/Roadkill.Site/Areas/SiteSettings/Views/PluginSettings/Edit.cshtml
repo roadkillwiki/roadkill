@@ -1,0 +1,36 @@
+﻿@model PluginViewModel
+
+@{ 
+	string title = "'" +Model.Name+ "' plugin settings";
+	ViewBag.Title = title;
+	ViewData["PluginSettingsActive"] = true;
+}
+
+@Html.SiteSettingsNavigation()
+@Html.ActionLink("< back", "Index")
+
+@using (Html.BeginForm("Edit", "PluginSettings"))
+{
+    @Html.Hidden("Id", Model.Id)
+    <fieldset>
+	    <legend>@title</legend>
+
+        <label for="IsEnabled" class="checkbox">
+            Enabled
+            @Html.CheckBox("IsEnabled", Model.IsEnabled)
+        </label>
+        <br/>
+
+	    @for (int i = 0; i < Model.SettingValues.Count(); i++)
+	    {
+		    <div>
+                <label for="SettingValues[@i].Value">@Model.SettingValues[i].Name</label>
+                    
+                <input type="hidden" name="SettingValues[@i].Name" value="@Model.SettingValues[i].Name" />
+                <input type="text" name="SettingValues[@i].Value" value="@Model.SettingValues[i].Value" />
+		    </div>
+	    }
+    </fieldset>
+    
+    <input id="pluginsettings-save" type="submit" class="btn btn-primary" value="@SiteStrings.Button_Save" />
+}

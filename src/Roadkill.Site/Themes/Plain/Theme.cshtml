@@ -1,0 +1,56 @@
+﻿@inherits RoadkillLayoutPage
+<!DOCTYPE html>
+<html>
+<head>
+	<title>@ViewBag.Title</title>
+	@Html.Partial("HeadContent")
+	@RenderSection("PluginHead", false)
+</head>
+
+<body>
+	<div class="container">
+		<!--  Header -->
+		@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+		{
+			<div id="header-wrapper">
+				<div class="container">
+					<div id="login-status">
+						@Html.Action("LoggedInAs", "User")
+					</div>
+					<div id="bootstrap-nav-menu">
+						@Html.Action("BootstrapNavMenu", "Home")
+					</div>
+					<div id="search" class="searchbar navbar-right hidden-xs hidden-sm">
+						<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" class="form-control" />
+					</div>
+				</div>
+			</div>
+		}
+		@RenderSection("PageToolbar", false)
+		<br/>
+
+		<!-- Main content -->
+		@RenderSection("PluginPreContainer", false)
+		<div id="container">
+			<div id="content">
+				@RenderBody()
+			</div>
+		</div>
+		@RenderSection("PluginPostContainer", false)
+
+		<!-- Footer -->
+		<br class="clear" />
+		<div id="footer">
+			@RenderSection("PageDetailsFooter", false)
+			<p>
+				@SiteStrings.Shared_PoweredBy (@ApplicationSettings.ProductVersion).
+			</p>
+			<p>
+				@RenderSection("ViewHistoryLink", false)
+			</p>
+		</div>
+
+		@RenderSection("PluginFooter", false)
+	</div>
+</body>
+</html>

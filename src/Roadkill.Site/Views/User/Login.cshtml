@@ -1,0 +1,43 @@
+﻿@{
+	ViewBag.Title = SiteStrings.Login_Title;
+}
+
+<h1>@SiteStrings.Login_Title</h1>
+
+<div class="row">
+	<div class="col-lg-8">
+		@Html.BootstrapValidationSummary(SiteStrings.Login_Unsuccessful_Title)
+
+		<div id="login" class="lightborder rounded10">
+
+			<form class="form-horizontal" role="form" method="post">
+				@Html.Hidden("fromUrl", Request.QueryString["ReturnUrl"])
+
+				<div class="form-group">
+					<label for="email" class="col-lg-2 control-label">@SiteStrings.Shared_Email_Label</label>
+					<div class="col-lg-10">
+						@Html.TextBox("email", null, new { @class = "form-control" })
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="password" class="col-lg-2 control-label">@SiteStrings.Shared_Password_Label</label>
+					<div class="col-lg-10">
+						@Html.Password("password", null, new { @class = "form-control" })
+					</div>
+				</div>
+
+				<div class="col-lg-12">
+					@Html.ActionLink(@SiteStrings.Login_ForgottenPassword, "ResetPassword", null, new { @class = "smaller" })
+				</div>
+
+				<div class="form-group">
+					<div class="col-lg-12">
+						<input type="submit" class="btn btn-primary right" value="@SiteStrings.Button_Login" />
+					</div>
+				</div>
+			</form>
+
+		</div>
+	</div>
+</div>
