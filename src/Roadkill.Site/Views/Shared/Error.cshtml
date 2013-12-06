@@ -1,0 +1,28 @@
+﻿@inherits RoadkillViewPage<System.Web.Mvc.HandleErrorInfo>
+@{
+	if (ApplicationSettings.Installed)
+	{
+		Layout = SiteSettings.ThemePath + "/Theme.cshtml";
+	}
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Error</title>
+</head>
+<body>
+	<h2>
+		Sorry, an error occurred while processing your request.
+	</h2>
+
+@if (RoadkillContext.IsAdmin)
+{
+	<p>An error occured on @(Model.ControllerName).@Model.ActionName</p> 
+	if (Model.Exception != null)
+	{
+	<p class="lead">@(Model.Exception.Message)</p>
+	<pre class="alert alert-danger">@Model.Exception.ToString()</pre>
+	}
+}
+</body>
+</html>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="data">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" minOccurs="0"                     msdata:Ordinal="2" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="type" type="xsd:string" />
+        <xsd:attribute name="mimetype" type="xsd:string" />
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="Shared_Stage1" xml:space="preserve">
+	<value>आपका स्वागत है</value>
+</data>
+<data name="Shared_Stage2" xml:space="preserve">
+	<value>डेटाबेस</value>
+</data>
+<data name="Shared_Stage3" xml:space="preserve">
+	<value>सुरक्षा</value>
+</data>
+<data name="Shared_Stage4" xml:space="preserve">
+	<value>अतिरिक्त</value>
+</data>
+<data name="Shared_Stage5" xml:space="preserve">
+	<value>समाप्त</value>
+</data>
+<data name="Shared_Continue" xml:space="preserve">
+	<value>जारी</value>
+</data>
+<data name="Shared_Back" xml:space="preserve">
+	<value>वापस</value>
+</data>
+<data name="Shared_BackButton" xml:space="preserve">
+	<value>वापस</value>
+</data>
+<data name="Shared_NextButton" xml:space="preserve">
+	<value>अगला</value>
+</data>
+<data name="Step1_Intro" xml:space="preserve">
+	<value>आप Roadkill. नेट विकी इंजन डाउनलोड करने के लिए धन्यवाद. इंस्टॉलर web.config फ़ाइल (और भी डेटाबेस) के लिए यहां आप में प्रवेश सेटिंग्स लिखते हैं.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Intro" xml:space="preserve">
+	<value>आगे बढ़ने के लिए, पहले हम आपको web.config फ़ाइल के लिए लेखन पहुँच अगर परीक्षण की जरूरत है.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Success_Message" xml:space="preserve">
+	<value>web.config के लिए लिखा जा सकता है.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Failure_Message" xml:space="preserve">
+	<value>Web.config फ़ाइल में लिखने में असमर्थ.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_Intro" xml:space="preserve">
+	<value>नीचे सही ढंग से काम करने के लिए Roadkill के लिए कुछ आवश्यक सेटिंग कर रहे हैं. आप एक व्यवस्थापक के रूप में सेटिंग्स पृष्ठ के माध्यम से बाद में बदल सकते हैं.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_ConnectionString_CreateDatabase" xml:space="preserve">
+	<value>आप नाम उदाहरण का उपयोग कर रहे हैं यदि आप पहले डेटाबेस बनाने की आवश्यकता होगी. नीचे कुछ उदाहरण हैं, आप साझा किसी भी एसक्यूएल सर्वर होस्टिंग के बिना होस्टिंग का उपयोग कर दूसरा विकल्प रहे हैं का उपयोग कर रहे हैं.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_Example_ConnectionStrings" xml:space="preserve">
+	<value>उदाहरण कनेक्शन तार</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteInstructionsTitle" xml:space="preserve">
+	<value>SQLite: कृपया पढ़ें</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteInstructionsMessage" xml:space="preserve">
+	<value>नोट: SQLite x86 और x64 दोनों के लिए वितरित किया जाता है, जैसा कि आप / बिन फ़ोल्डर के लिए एक और फाइल को जोड़ने की जरूरत SQLite का उपयोग करने के लिए. {BEGIN-SQLITE_LINK}फाइल कॉपी करने के लिए यहां क्लिक करें{END-SQLITE_LINK}. आप इस के बाद किसी भी मुद्दे का अनुभव करते हैं, अपने बिन फ़ोल्डर से &quot;SQLite.Interop.dll&quot; हटा दें.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteSuccessTitle" xml:space="preserve">
+	<value>SQLite फ़ाइल कॉपी सफलता</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteSuccessMessage" xml:space="preserve">
+	<value>SQLite अब इस्तेमाल के लिए तैयार होना चाहिए.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteFailureTitle" xml:space="preserve">
+	<value>SQLite फ़ाइल कॉपी विफल रहा</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteFailureMessage" xml:space="preserve">
+	<value>विफलता - अपने बिन फ़ोल्डर में ~ / App_Data / SQLiteBinaries से SQLite.Interop.dll फाइल को कॉपी करने की कोशिश.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_Use_WindowsAuth_Intro" xml:space="preserve">
+	<value>आप Windows प्रमाणीकरण का उपयोग कर सक्रिय निर्देशिका के खिलाफ प्रमाणीकृत किया जा करने के लिए उपयोगकर्ताओं के लिए करना चाहते हैं?</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ConnectionString_Title" xml:space="preserve">
+	<value>सक्रिय निर्देशिका एलडीएपी कनेक्शन स्ट्रिंग</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Connection_Success" xml:space="preserve">
+	<value>सक्रिय निर्देशिका सर्वर के साथ कनेक्शन और प्रमाणीकरण सफल रहा था.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Connection_Error" xml:space="preserve">
+	<value>सक्रिय निर्देशिका सर्वर से कनेक्ट करने में असमर्थ:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Success" xml:space="preserve">
+	<value>समूह सफलतापूर्वक पूछे था.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Error" xml:space="preserve">
+	<value>क्वेरी करने में असमर्थ:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ConnectionString_Details" xml:space="preserve">
+	<value>इस प्रारूप में होना चाहिए एलडीएपी :/ / mydc01.company.internal (यह अपरकेस एलडीएपी) किया जाना चाहिए जहां mydc01 अपने नेटवर्क के लिए डीएनएस प्रत्यय हैं आपके डोमेन नियंत्रक और &apos;कंपनी&apos; और &apos;आंतरिक&apos; है. यह भी एक आईपी पता किया जा सकता है. आप आमतौर पर &quot;ipconfig&quot; चलाकर यह जानकारी प्राप्त कर सकते हैं.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ADExplorer_Details" xml:space="preserve">
+	<value>कनेक्शन स्ट्रिंग कहां विनिर्देशक का समर्थन करता है लेकिन यह इस तरह से कर समस्याओं का कारण हो सकता है. आप इस सेटिंग के बारे में अनिश्चित हैं, तो यह आप डाउनलोड {BEGIN_ADEXPLORER_LINK}ई. एक्सप्लोरर{END_ADEXPLORER_LINK} पहले की सिफारिश की है.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Username_Password_Details" xml:space="preserve">
+	<value>अनुप्रयोग पूल के तहत चल रहा है जो उपयोगकर्ता सक्रिय निर्देशिका तक पढ़ने की पहुंच नहीं है अगर एक उपयोगकर्ता नाम और पासवर्ड दर्ज करें. अपने डोमेन मुख्य डोमेन (एक और शाखा कार्यालय यानी) से एक अलग जंगल है, तो यह उपयोगी है.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Editor_GroupName_Title" xml:space="preserve">
+	<value>संपादक समूह नाम</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Editor_GroupName_Details" xml:space="preserve">
+	<value>यह उपयोगकर्ताओं को संपादकों (पृष्ठों को संपादित करें और बना सकते हैं, जो लोगों को) होने के लिए संबंधित होना चाहिए कि सुरक्षा समूह है. परीक्षण बटन कनेक्शन सेटिंग्स ऊपर डाली का उपयोग करता है.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Admin_GroupName_Title" xml:space="preserve">
+	<value>व्यवस्थापक समूह का नाम</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Admin_GroupName_Details" xml:space="preserve">
+	<value>यह उपयोगकर्ताओं को व्यवस्थापक होने के लिए संबंधित होना चाहिए कि सुरक्षा समूह है. बनावें संपादक के रूप में एक ही अधिकार है, लेकिन यह भी site.The परीक्षण बटन के लिए विन्यास सेटिंग्स और उपकरणों के लिए उपयोग कनेक्शन सेटिंग्स ऊपर डाली का उपयोग करता है.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_One_Way_Hashed" xml:space="preserve">
+	<value>सभी पासवर्ड SHA128 और एक नमक का उपयोग कर एक तरह से एन्क्रिप्टेड रहे हैं. इसका मतलब यह है पासवर्ड की वसूली नहीं कर रहे हैं और उन्हें फिर से कायम करने के लिए व्यवस्थापक की आवश्यकता होती है और होगा (कोई रीसेट पासवर्ड कार्यक्षमता अभी तक नहीं है). न्यूनतम पासवर्ड लंबाई 6 अक्षर है.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Editor_Role_Title" xml:space="preserve">
+	<value>संपादक की भूमिका का नाम</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Editor_Role" xml:space="preserve">
+	<value>पृष्ठों को संपादित करें और बना सकते हैं - जो लोग इस संपादक की भूमिका का नाम है.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Role_Title" xml:space="preserve">
+	<value>व्यवस्थापक भूमिका नाम</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Role" xml:space="preserve">
+	<value>यह व्यवस्थापक भूमिका का नाम है. बनावें संपादक के रूप में एक ही अधिकार है, लेकिन यह भी साइट के लिए विन्यास सेटिंग्स और उपकरणों का उपयोग किया है.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups_Title" xml:space="preserve">
+	<value>उपयोगकर्ता पंजीकरण की अनुमति दें</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups" xml:space="preserve">
+	<value>आप लोगों को एक नया उपयोगकर्ता के रूप में पंजीकरण करने के लिए अनुमति देना चाहते हैं, तो इस विकल्प की जाँच करें. अनियंत्रित छोड़ दिया, केवल व्यवस्थापक नए उपयोगकर्ताओं को बनाने में सक्षम हो जाएगा.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups_Label" xml:space="preserve">
+	<value>नई उपयोगकर्ता पंजीकरण की अनुमति दें.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Enable_Recaptcha_Description" xml:space="preserve">
+	<value>आप उपयोगकर्ता पंजीकरण की अनुमति दे रहे हैं, यह आप भी reCAPTCHA समर्थन सक्षम की सिफारिश की है. यह गूगल के द्वारा उपलब्ध कराई गई एक मुक्त विरोधी स्पैम बॉट सेवा है, आप नीचे क्षेत्रों में अपने सार्वजनिक और निजी कुंजी पंजीकरण और कॉपी करने की जरूरत होगी. {BEGIN_RECAPTCHA_LINK}यहां पंजीकरण{END_RECAPTCHA_LINK} - आप पहली बार एक गूगल खाते बनाने की आवश्यकता होगी.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Email_Title" xml:space="preserve">
+	<value>व्यवस्थापक ईमेल</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Email" xml:space="preserve">
+	<value>यह व्यवस्थापक उपयोगकर्ता के लिए ईमेल पता है. आप सेटिंग्स पृष्ठ में अधिक व्यवस्थापक जोड़ सकते हैं, यह उपयोगकर्ता को &apos;खुद&apos; साइट नहीं करता तो</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Password_Title" xml:space="preserve">
+	<value>व्यवस्थापक पासवर्ड</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Password" xml:space="preserve">
+	<value>यह व्यवस्थापक उपयोगकर्ता के लिए पासवर्ड है.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Almost_Done" xml:space="preserve">
+	<value>लगभग हो गया ... अंत में कुछ अतिरिक्त tweakable सेटिंग्स.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Attachments_Folder_Description" xml:space="preserve">
+	<value>यह सभी फ़ाइलों को अपलोड कर रहे हैं, जहां निर्देशिका है. इस निर्देशिका अनुप्रयोग पूल के तहत चलाता है कि उपयोगकर्ता द्वारा लिखने की अनुमति की आवश्यकता होगी. समय से अधिकांश आप वे मूल फ़ोल्डर से विरासत में मिला दिया जाएगा, के रूप में फ़ोल्डर के लिए अनुमतियाँ बदलने के बारे में चिंता करने की जरूरत नहीं होनी चाहिए.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Attachments_Folder_RelativePath" xml:space="preserve">
+	<value>फ़ोल्डर पथ वेबसाइट रूट के लिए &quot;~ /&quot; के साथ शुरू होता है सुनिश्चित करें. आप इस तरह के App_Data और बिन रूप फ़ोल्डर के लिए लिखा जा सकता है लेकिन वहाँ संग्रहीत किसी भी चित्र दिखाई नहीं देंगे के रूप में फ़ोल्डर, ब्राउज़र के रूप में अच्छी तरह से करने के लिए किया जा रहा है लेखनीय द्वारा पहुँचा जा सकता है की जाँच करनी चाहिए.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Success_Title" xml:space="preserve">
+	<value>स्थापना सफल</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_WindowsAuth_Please_Read" xml:space="preserve">
+	<value>Windows प्रमाणीकरण - पढ़ कृपया</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_WindowsAuth_IIS_Settings" xml:space="preserve">
+	<value>आप IIS7 के उपयोग कर रहे हैं + आप आप तो खंड एक माता पिता के स्तर पर बंद कर दिया, और तुम है, इन परिवर्तनों को बनाने के बाद 500 त्रुटियाँ प्राप्त required.If हैं कि तत्व हैं, नीचे अपनी सुरक्षा की स्थापना के लिए web.config फ़ाइल विन्यस्त करने की जरूरत हो सकती है आईआईएस प्रबंधक के माध्यम से thechanges बनाने की आवश्यकता होगी.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Continue_Button" xml:space="preserve">
+	<value>साइट पर जारी</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Failure_Title" xml:space="preserve">
+	<value>एक त्रुटि स्थापित करने के दौरान हुआ</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Failure_GoBack_And_Check" xml:space="preserve">
+	<value>स्थापना के कदम के माध्यम से वापस जाने के लिए और अपनी सेटिंग्स की जाँच करें. त्रुटि संदेश था:</value>
+	<comment>Fuzzy</comment>
+</data>
+
+</root>

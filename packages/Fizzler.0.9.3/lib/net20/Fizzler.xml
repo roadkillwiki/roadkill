@@ -1,0 +1,1283 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Fizzler</name>
+    </assembly>
+    <members>
+        <member name="T:Fizzler.HumanReadableSelectorGenerator">
+            <summary>
+            An <see cref="T:Fizzler.ISelectorGenerator"/> implementation that generates
+            human-readable description of the selector.
+            </summary>
+        </member>
+        <member name="T:Fizzler.ISelectorGenerator">
+            <summary>
+            Represent an implementation that is responsible for generating
+            an implementation for a selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.OnInit">
+            <summary>
+            Delimits the initialization of a generation.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.OnClose">
+            <summary>
+            Delimits the closing/conclusion of a generation.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.OnSelector">
+            <summary>
+            Delimits a selector generation in a group of selectors.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.Type(Fizzler.NamespacePrefix,System.String)">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#type-selectors">type selector</a>,
+            which represents an instance of the element type in the document tree. 
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.Universal(Fizzler.NamespacePrefix)">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#universal-selector">universal selector</a>,
+            any single element in the document tree in any namespace 
+            (including those without a namespace) if no default namespace 
+            has been specified for selectors. 
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.Id(System.String)">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#Id-selectors">ID selector</a>,
+            which represents an element instance that has an identifier that 
+            matches the identifier in the ID selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.Class(System.String)">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#class-html">class selector</a>,
+            which is an alternative <see cref="M:Fizzler.ISelectorGenerator.AttributeIncludes(Fizzler.NamespacePrefix,System.String,System.String)"/> when 
+            representing the <c>class</c> attribute. 
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.AttributeExists(Fizzler.NamespacePrefix,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the given attribute <paramref name="name"/>
+            whatever the values of the attribute.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.AttributeExact(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the given attribute <paramref name="name"/>
+            and whose value is exactly <paramref name="value"/>.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.AttributeIncludes(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the given attribute <paramref name="name"/>
+            and whose value is a whitespace-separated list of words, one of 
+            which is exactly <paramref name="value"/>.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.AttributeDashMatch(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the given attribute <paramref name="name"/>,
+            its value either being exactly <paramref name="value"/> or beginning 
+            with <paramref name="value"/> immediately followed by "-" (U+002D).
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.AttributePrefixMatch(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the attribute <paramref name="name"/> 
+            whose value begins with the prefix <paramref name="value"/>.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.AttributeSuffixMatch(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the attribute <paramref name="name"/> 
+            whose value ends with the suffix <paramref name="value"/>.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.AttributeSubstring(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the attribute <paramref name="name"/> 
+            whose value contains at least one instance of the substring <paramref name="value"/>.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.FirstChild">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">pseudo-class selector</a>,
+            which represents an element that is the first child of some other element.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.LastChild">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">pseudo-class selector</a>,
+            which represents an element that is the last child of some other element.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.NthChild(System.Int32,System.Int32)">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">pseudo-class selector</a>,
+            which represents an element that is the N-th child of some other element.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.OnlyChild">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">pseudo-class selector</a>,
+            which represents an element that has a parent element and whose parent 
+            element has no other element children.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.Empty">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">pseudo-class selector</a>,
+            which represents an element that has no children at all.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.Child">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#combinators">combinator</a>,
+            which represents a childhood relationship between two elements.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.Descendant">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#combinators">combinator</a>,
+            which represents a relationship between two elements where one element is an 
+            arbitrary descendant of some ancestor element.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.Adjacent">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#combinators">combinator</a>,
+            which represents elements that share the same parent in the document tree and 
+            where the first element immediately precedes the second element.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.GeneralSibling">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#combinators">combinator</a>,
+            which separates two sequences of simple selectors. The elements represented
+            by the two sequences share the same parent in the document tree and the
+            element represented by the first sequence precedes (not necessarily
+            immediately) the element represented by the second one.
+            </summary>
+        </member>
+        <member name="M:Fizzler.ISelectorGenerator.NthLastChild(System.Int32,System.Int32)">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">pseudo-class selector</a>,
+            which represents an element that is the N-th child from bottom up of some other element.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.OnInit">
+            <summary>
+            Initializes the text.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.OnSelector">
+            <summary>
+            Generates human-readable for a selector in a group.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.OnClose">
+            <summary>
+            Concludes the text.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.Add(System.String)">
+            <summary>
+            Adds to the generated human-readable text.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.Type(Fizzler.NamespacePrefix,System.String)">
+            <summary>
+            Generates human-readable text of this type selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.Universal(Fizzler.NamespacePrefix)">
+            <summary>
+            Generates human-readable text of this universal selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.Id(System.String)">
+            <summary>
+            Generates human-readable text of this ID selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.Fizzler#ISelectorGenerator#Class(System.String)">
+            <summary>
+            Generates human-readable text of this class selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.AttributeExists(Fizzler.NamespacePrefix,System.String)">
+            <summary>
+            Generates human-readable text of this attribute selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.AttributeExact(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates human-readable text of this attribute selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.AttributeIncludes(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates human-readable text of this attribute selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.AttributeDashMatch(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates human-readable text of this attribute selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.AttributePrefixMatch(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates human-readable text of this attribute selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.AttributeSuffixMatch(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates human-readable text of this attribute selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.AttributeSubstring(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates human-readable text of this attribute selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.FirstChild">
+            <summary>
+            Generates human-readable text of this pseudo-class selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.LastChild">
+            <summary>
+            Generates human-readable text of this pseudo-class selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.NthChild(System.Int32,System.Int32)">
+            <summary>
+            Generates human-readable text of this pseudo-class selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.OnlyChild">
+            <summary>
+            Generates human-readable text of this pseudo-class selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.Empty">
+            <summary>
+            Generates human-readable text of this pseudo-class selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.Child">
+            <summary>
+            Generates human-readable text of this combinator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.Descendant">
+            <summary>
+            Generates human-readable text of this combinator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.Adjacent">
+            <summary>
+            Generates human-readable text of this combinator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.GeneralSibling">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#combinators">combinator</a>,
+            which separates two sequences of simple selectors. The elements represented
+            by the two sequences share the same parent in the document tree and the
+            element represented by the first sequence precedes (not necessarily
+            immediately) the element represented by the second one.
+            </summary>
+        </member>
+        <member name="M:Fizzler.HumanReadableSelectorGenerator.NthLastChild(System.Int32,System.Int32)">
+            <summary>
+            Generates human-readable text of this combinator.
+            </summary>
+        </member>
+        <member name="P:Fizzler.HumanReadableSelectorGenerator.Text">
+            <summary>
+            Gets the generated human-readable description text.
+            </summary>
+        </member>
+        <member name="T:Fizzler.IElementOps`1">
+            <summary>
+            Represents a selectors implementation for an arbitrary document/node system.
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.Type(Fizzler.NamespacePrefix,System.String)">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#type-selectors">type selector</a>,
+            which represents an instance of the element type in the document tree. 
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.Universal(Fizzler.NamespacePrefix)">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#universal-selector">universal selector</a>,
+            any single element in the document tree in any namespace 
+            (including those without a namespace) if no default namespace 
+            has been specified for selectors. 
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.Id(System.String)">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#Id-selectors">ID selector</a>,
+            which represents an element instance that has an identifier that 
+            matches the identifier in the ID selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.Class(System.String)">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#class-html">class selector</a>,
+            which is an alternative <see cref="M:Fizzler.IElementOps`1.AttributeIncludes(Fizzler.NamespacePrefix,System.String,System.String)"/> when 
+            representing the <c>class</c> attribute. 
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.AttributeExists(Fizzler.NamespacePrefix,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the given attribute <paramref name="name"/>
+            whatever the values of the attribute.
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.AttributeExact(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the given attribute <paramref name="name"/>
+            and whose value is exactly <paramref name="value"/>.
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.AttributeIncludes(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the given attribute <paramref name="name"/>
+            and whose value is a whitespace-separated list of words, one of 
+            which is exactly <paramref name="value"/>.
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.AttributeDashMatch(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the given attribute <paramref name="name"/>,
+            its value either being exactly <paramref name="value"/> or beginning 
+            with <paramref name="value"/> immediately followed by "-" (U+002D).
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.AttributePrefixMatch(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the attribute <paramref name="name"/> 
+            whose value begins with the prefix <paramref name="value"/>.
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.AttributeSuffixMatch(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the attribute <paramref name="name"/> 
+            whose value ends with the suffix <paramref name="value"/>.
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.AttributeSubstring(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the attribute <paramref name="name"/> 
+            whose value contains at least one instance of the substring <paramref name="value"/>.
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.FirstChild">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">pseudo-class selector</a>,
+            which represents an element that is the first child of some other element.
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.LastChild">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">pseudo-class selector</a>,
+            which represents an element that is the last child of some other element.
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.NthChild(System.Int32,System.Int32)">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">pseudo-class selector</a>,
+            which represents an element that is the N-th child of some other element.
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.OnlyChild">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">pseudo-class selector</a>,
+            which represents an element that has a parent element and whose parent 
+            element has no other element children.
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.Empty">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">pseudo-class selector</a>,
+            which represents an element that has no children at all.
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.Child">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#combinators">combinator</a>,
+            which represents a childhood relationship between two elements.
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.Descendant">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#combinators">combinator</a>,
+            which represents a relationship between two elements where one element is an 
+            arbitrary descendant of some ancestor element.
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.Adjacent">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#combinators">combinator</a>,
+            which represents elements that share the same parent in the document tree and 
+            where the first element immediately precedes the second element.
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.GeneralSibling">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#combinators">combinator</a>,
+            which separates two sequences of simple selectors. The elements represented
+            by the two sequences share the same parent in the document tree and the
+            element represented by the first sequence precedes (not necessarily
+            immediately) the element represented by the second one.
+            </summary>
+        </member>
+        <member name="M:Fizzler.IElementOps`1.NthLastChild(System.Int32,System.Int32)">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">pseudo-class selector</a>,
+            which represents an element that is the N-th child from bottom up of some other element.
+            </summary>
+        </member>
+        <member name="T:Fizzler.NamespacePrefix">
+            <summary>
+            Represent a type or attribute name.
+            </summary>
+        </member>
+        <member name="F:Fizzler.NamespacePrefix.None">
+            <summary>
+            Represents a name from either the default or any namespace 
+            in a target document, depending on whether a default namespace is
+            in effect or not.
+            </summary>
+        </member>
+        <member name="F:Fizzler.NamespacePrefix.Empty">
+            <summary>
+            Represents an empty namespace.
+            </summary>
+        </member>
+        <member name="F:Fizzler.NamespacePrefix.Any">
+            <summary>
+            Represents any namespace.
+            </summary>
+        </member>
+        <member name="M:Fizzler.NamespacePrefix.#ctor(System.String)">
+            <summary>
+            Initializes an instance with a namespace prefix specification.
+            </summary>
+        </member>
+        <member name="M:Fizzler.NamespacePrefix.Equals(System.Object)">
+            <summary>
+            Indicates whether this instance and a specified object are equal.
+            </summary>
+        </member>
+        <member name="M:Fizzler.NamespacePrefix.Equals(Fizzler.NamespacePrefix)">
+            <summary>
+            Indicates whether this instance and another are equal.
+            </summary>
+        </member>
+        <member name="M:Fizzler.NamespacePrefix.GetHashCode">
+            <summary>
+            Returns the hash code for this instance.
+            </summary>
+        </member>
+        <member name="M:Fizzler.NamespacePrefix.ToString">
+            <summary>
+            Returns a string representation of this instance.
+            </summary>
+        </member>
+        <member name="M:Fizzler.NamespacePrefix.Format(System.String)">
+            <summary>
+            Formats this namespace together with a name.
+            </summary>
+        </member>
+        <member name="P:Fizzler.NamespacePrefix.Text">
+            <summary>
+            Gets the raw text value of this instance.
+            </summary>
+        </member>
+        <member name="P:Fizzler.NamespacePrefix.IsNone">
+            <summary>
+            Indicates whether this instance represents a name
+            from either the default or any namespace in a target
+            document, depending on whether a default namespace is
+            in effect or not.
+            </summary>
+        </member>
+        <member name="P:Fizzler.NamespacePrefix.IsAny">
+            <summary>
+            Indicates whether this instance represents a name
+            from any namespace (including one without one)
+            in a target document.
+            </summary>
+        </member>
+        <member name="P:Fizzler.NamespacePrefix.IsEmpty">
+            <summary>
+            Indicates whether this instance represents a name
+            without a namespace in a target document.
+            </summary>
+        </member>
+        <member name="P:Fizzler.NamespacePrefix.IsSpecific">
+            <summary>
+            Indicates whether this instance represents a name from a 
+            specific namespace or not.
+            </summary>
+        </member>
+        <member name="T:Fizzler.Parser">
+            <summary>
+            Semantic parser for CSS selector grammar.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Parser.Parse``1(System.String,``0)">
+            <summary>
+            Parses a CSS selector group and generates its implementation.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Parser.Parse``2(System.String,``0,System.Func{``0,``1})">
+            <summary>
+            Parses a CSS selector group and generates its implementation.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Parser.Parse``1(System.Collections.Generic.IEnumerable{Fizzler.Token},``0)">
+            <summary>
+            Parses a tokenized stream representing a CSS selector group and 
+            generates its implementation.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Parser.Parse``2(System.Collections.Generic.IEnumerable{Fizzler.Token},``0,System.Func{``0,``1})">
+            <summary>
+            Parses a tokenized stream representing a CSS selector group and 
+            generates its implementation.
+            </summary>
+        </member>
+        <member name="T:Fizzler.Reader`1">
+            <summary>
+            Adds reading semantics to a base <see cref="T:System.Collections.Generic.IEnumerator`1"/> with the 
+            option to un-read and insert new elements while consuming the source.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Reader`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initialize a new <see cref="T:Fizzler.Reader`1"/> with a base
+            <see cref="T:System.Collections.Generic.IEnumerable`1"/> object.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Reader`1.#ctor(System.Collections.Generic.IEnumerator{`0})">
+            <summary>
+            Initialize a new <see cref="T:Fizzler.Reader`1"/> with a base
+            <see cref="T:System.Collections.Generic.IEnumerator`1"/> object.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Reader`1.Unread(`0)">
+            <summary>
+            Pushes back a new value that will be returned on the next read.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Reader`1.Read">
+            <summary>
+            Reads and returns the next value.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Reader`1.Peek">
+            <summary>
+            Peeks the next value waiting to be read.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">
+            Thrown if there is no value waiting to be read.
+            </exception>
+        </member>
+        <member name="M:Fizzler.Reader`1.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the remaining
+            values to be read.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Reader`1.Close">
+            <summary>
+            Disposes the enumerator used to initialize this object
+            if that enumerator supports <see cref="T:System.IDisposable"/>.
+            </summary>
+        </member>
+        <member name="P:Fizzler.Reader`1.HasMore">
+            <summary>
+            Indicates whether there is, at least, one value waiting to be read or not.
+            </summary>
+        </member>
+        <member name="T:Fizzler.Selector`1">
+            <summary>
+            Represents a selector implementation over an arbitrary type of elements.
+            </summary>
+        </member>
+        <member name="T:Fizzler.SelectorGenerator`1">
+            <summary>
+            A selector generator implementation for an arbitrary document/element system.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.#ctor(Fizzler.IElementOps{`0})">
+            <summary>
+            Initializes a new instance of this object with an instance
+            of <see cref="T:Fizzler.IElementOps`1"/> and the default equality
+            comparer that is used for determining if two elements are equal.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.#ctor(Fizzler.IElementOps{`0},System.Collections.Generic.IEqualityComparer{`0})">
+            <summary>
+            Initializes a new instance of this object with an instance
+            of <see cref="T:Fizzler.IElementOps`1"/> and an equality comparer
+            used for determining if two elements are equal.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.GetSelectors">
+            <summary>
+            Returns the collection of selector implementations representing 
+            a group.
+            </summary>
+            <remarks>
+            If the generation is not complete, this method return the 
+            selectors generated so far in a group.
+            </remarks>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.Add(Fizzler.Selector{`0})">
+            <summary>
+            Adds a generated selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.OnInit">
+            <summary>
+            Delimits the initialization of a generation.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.OnSelector">
+            <summary>
+            Delimits a selector generation in a group of selectors.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.OnClose">
+            <summary>
+            Delimits the closing/conclusion of a generation.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.Id(System.String)">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#Id-selectors">ID selector</a>,
+            which represents an element instance that has an identifier that 
+            matches the identifier in the ID selector.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.Class(System.String)">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#class-html">class selector</a>,
+            which is an alternative <see cref="M:Fizzler.ISelectorGenerator.AttributeIncludes(Fizzler.NamespacePrefix,System.String,System.String)"/> when 
+            representing the <c>class</c> attribute. 
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.Type(Fizzler.NamespacePrefix,System.String)">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#type-selectors">type selector</a>,
+            which represents an instance of the element type in the document tree. 
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.Universal(Fizzler.NamespacePrefix)">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#universal-selector">universal selector</a>,
+            any single element in the document tree in any namespace 
+            (including those without a namespace) if no default namespace 
+            has been specified for selectors. 
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.AttributeExists(Fizzler.NamespacePrefix,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the given attribute <paramref name="name"/>
+            whatever the values of the attribute.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.AttributeExact(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the given attribute <paramref name="name"/>
+            and whose value is exactly <paramref name="value"/>.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.AttributeIncludes(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the given attribute <paramref name="name"/>
+            and whose value is a whitespace-separated list of words, one of 
+            which is exactly <paramref name="value"/>.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.AttributeDashMatch(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the given attribute <paramref name="name"/>,
+            its value either being exactly <paramref name="value"/> or beginning 
+            with <paramref name="value"/> immediately followed by "-" (U+002D).
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.AttributePrefixMatch(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the attribute <paramref name="name"/> 
+            whose value begins with the prefix <paramref name="value"/>.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.AttributeSuffixMatch(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the attribute <paramref name="name"/> 
+            whose value ends with the suffix <paramref name="value"/>.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.AttributeSubstring(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Generates an <a href="http://www.w3.org/TR/css3-selectors/#attribute-selectors">attribute selector</a>
+            that represents an element with the attribute <paramref name="name"/> 
+            whose value contains at least one instance of the substring <paramref name="value"/>.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.FirstChild">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">pseudo-class selector</a>,
+            which represents an element that is the first child of some other element.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.LastChild">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">pseudo-class selector</a>,
+            which represents an element that is the last child of some other element.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.NthChild(System.Int32,System.Int32)">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">pseudo-class selector</a>,
+            which represents an element that is the N-th child of some other element.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.OnlyChild">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">pseudo-class selector</a>,
+            which represents an element that has a parent element and whose parent 
+            element has no other element children.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.Empty">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">pseudo-class selector</a>,
+            which represents an element that has no children at all.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.Child">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#combinators">combinator</a>,
+            which represents a childhood relationship between two elements.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.Descendant">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#combinators">combinator</a>,
+            which represents a relationship between two elements where one element is an 
+            arbitrary descendant of some ancestor element.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.Adjacent">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#combinators">combinator</a>,
+            which represents elements that share the same parent in the document tree and 
+            where the first element immediately precedes the second element.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.GeneralSibling">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#combinators">combinator</a>,
+            which separates two sequences of simple selectors. The elements represented
+            by the two sequences share the same parent in the document tree and the
+            element represented by the first sequence precedes (not necessarily
+            immediately) the element represented by the second one.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGenerator`1.NthLastChild(System.Int32,System.Int32)">
+            <summary>
+            Generates a <a href="http://www.w3.org/TR/css3-selectors/#pseudo-classes">pseudo-class selector</a>,
+            which represents an element that is the N-th child from bottom up of some other element.
+            </summary>
+        </member>
+        <member name="P:Fizzler.SelectorGenerator`1.Selector">
+            <summary>
+            Gets the selector implementation.
+            </summary>
+            <remarks>
+            If the generation is not complete, this property returns the 
+            last generated selector.
+            </remarks>
+        </member>
+        <member name="P:Fizzler.SelectorGenerator`1.Ops">
+            <summary>
+            Gets the <see cref="T:Fizzler.IElementOps`1"/> instance that this object
+            was initialized with.
+            </summary>
+        </member>
+        <member name="T:Fizzler.SelectorGeneratorTee">
+            <summary>
+            An <see cref="T:Fizzler.ISelectorGenerator"/> implementation that delegates
+            to two other <see cref="T:Fizzler.ISelectorGenerator"/> objects, which
+            can be useful for doing work in a single pass.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.#ctor(Fizzler.ISelectorGenerator,Fizzler.ISelectorGenerator)">
+            <summary>
+            Initializes a new instance of <see cref="T:Fizzler.SelectorGeneratorTee"/>
+            with the two other <see cref="T:Fizzler.ISelectorGenerator"/> objects
+            it delegates to.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.OnInit">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.OnClose">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.OnSelector">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.Type(Fizzler.NamespacePrefix,System.String)">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.Universal(Fizzler.NamespacePrefix)">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.Id(System.String)">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.Class(System.String)">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.AttributeExists(Fizzler.NamespacePrefix,System.String)">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.AttributeExact(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.AttributeIncludes(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.AttributeDashMatch(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.AttributePrefixMatch(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.AttributeSuffixMatch(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.AttributeSubstring(Fizzler.NamespacePrefix,System.String,System.String)">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.FirstChild">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.LastChild">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.NthChild(System.Int32,System.Int32)">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.OnlyChild">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.Empty">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.Child">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.Descendant">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.Adjacent">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.GeneralSibling">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorGeneratorTee.NthLastChild(System.Int32,System.Int32)">
+            <summary>
+            Delegates to <see cref="P:Fizzler.SelectorGeneratorTee.Primary"/> then <see cref="P:Fizzler.SelectorGeneratorTee.Secondary"/> generator.
+            </summary>
+        </member>
+        <member name="P:Fizzler.SelectorGeneratorTee.Primary">
+            <summary>
+            Gets the first generator used to initialize this generator.
+            </summary>
+        </member>
+        <member name="P:Fizzler.SelectorGeneratorTee.Secondary">
+            <summary>
+            Gets the second generator used to initialize this generator.
+            </summary>
+        </member>
+        <member name="T:Fizzler.SelectorsCachingCompiler">
+            <summary>
+            Implementation for a selectors compiler that supports caching.
+            </summary>
+            <remarks>
+            This class is primarily targeted for developers of selection
+            over an arbitrary document model.
+            </remarks>
+        </member>
+        <member name="M:Fizzler.SelectorsCachingCompiler.Create``1(System.Func{System.String,``0})">
+            <summary>
+            Creates a caching selectors compiler on top on an existing compiler.
+            </summary>
+        </member>
+        <member name="M:Fizzler.SelectorsCachingCompiler.Create``1(System.Func{System.String,``0},System.Collections.Generic.IDictionary{System.String,``0})">
+            <summary>
+            Creates a caching selectors compiler on top on an existing compiler.
+            An addition parameter specified a dictionary to use as the cache.
+            </summary>
+            <remarks>
+            If <paramref name="cache"/> is <c>null</c> then this method uses a
+            the <see cref="T:System.Collections.Generic.Dictionary`2"/> implementation with an 
+            ordinally case-insensitive selectors text comparer.
+            </remarks>
+        </member>
+        <member name="T:Fizzler.Token">
+            <summary>
+            Represent a token and optionally any text associated with it.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.Eoi">
+            <summary>
+            Creates an end-of-input token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.Star">
+            <summary>
+            Creates a star token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.Dot">
+            <summary>
+            Creates a dot token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.Colon">
+            <summary>
+            Creates a colon token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.Comma">
+            <summary>
+            Creates a comma token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.RightParenthesis">
+            <summary>
+            Creates a right parenthesis token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.Equals">
+            <summary>
+            Creates an equals token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.LeftBracket">
+            <summary>
+            Creates a left bracket token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.RightBracket">
+            <summary>
+            Creates a right bracket token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.Pipe">
+            <summary>
+            Creates a pipe (vertical line) token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.Plus">
+            <summary>
+            Creates a plus token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.Greater">
+            <summary>
+            Creates a greater token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.Includes">
+            <summary>
+            Creates an includes token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.DashMatch">
+            <summary>
+            Creates a dash-match token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.PrefixMatch">
+            <summary>
+            Creates a prefix-match token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.SuffixMatch">
+            <summary>
+            Creates a suffix-match token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.SubstringMatch">
+            <summary>
+            Creates a substring-match token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.Tilde">
+            <summary>
+            Creates a general sibling token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.Ident(System.String)">
+            <summary>
+            Creates an identifier token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.Integer(System.String)">
+            <summary>
+            Creates an integer token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.Hash(System.String)">
+            <summary>
+            Creates a hash-name token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.WhiteSpace(System.String)">
+            <summary>
+            Creates a white-space token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.String(System.String)">
+            <summary>
+            Creates a string token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.Function(System.String)">
+            <summary>
+            Creates a function token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.Char(System.Char)">
+            <summary>
+            Creates an arbitrary character token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.Equals(System.Object)">
+            <summary>
+            Indicates whether this instance and a specified object are equal.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.GetHashCode">
+            <summary>
+            Returns the hash code for this instance.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.Equals(Fizzler.Token)">
+            <summary>
+            Indicates whether the current object is equal to another object of the same type.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.ToString">
+            <summary>
+            Gets a string representation of the token.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.op_Equality(Fizzler.Token,Fizzler.Token)">
+            <summary>
+            Performs a logical comparison of the two tokens to determine 
+            whether they are equal. 
+            </summary>
+        </member>
+        <member name="M:Fizzler.Token.op_Inequality(Fizzler.Token,Fizzler.Token)">
+            <summary>
+            Performs a logical comparison of the two tokens to determine 
+            whether they are inequal. 
+            </summary>
+        </member>
+        <member name="P:Fizzler.Token.Kind">
+            <summary>
+            Gets the kind/type/class of the token.
+            </summary>
+        </member>
+        <member name="P:Fizzler.Token.Text">
+            <summary>
+            Gets text, if any, associated with the token.
+            </summary>
+        </member>
+        <member name="T:Fizzler.Tokener">
+            <summary>
+            Lexer for tokens in CSS selector grammar.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Tokener.Tokenize(System.IO.TextReader)">
+            <summary>
+            Parses tokens from a given text source.
+            </summary>
+        </member>
+        <member name="M:Fizzler.Tokener.Tokenize(System.String)">
+            <summary>
+            Parses tokens from a given string.
+            </summary>
+        </member>
+        <member name="T:Fizzler.TokenKind">
+            <summary>
+            Represents the classification of a token.
+            </summary>
+        </member>
+        <member name="F:Fizzler.TokenKind.Eoi">
+            <summary>
+            Represents end of input/file/stream
+            </summary>
+        </member>
+        <member name="F:Fizzler.TokenKind.Ident">
+            <summary>
+            Represents {ident}
+            </summary>
+        </member>
+        <member name="F:Fizzler.TokenKind.Hash">
+            <summary>
+            Represents "#" {name}
+            </summary>
+        </member>
+        <member name="F:Fizzler.TokenKind.Includes">
+            <summary>
+            Represents "~="
+            </summary>
+        </member>
+        <member name="F:Fizzler.TokenKind.DashMatch">
+            <summary>
+            Represents "|="
+            </summary>
+        </member>
+        <member name="F:Fizzler.TokenKind.PrefixMatch">
+            <summary>
+            Represents "^="
+            </summary>
+        </member>
+        <member name="F:Fizzler.TokenKind.SuffixMatch">
+            <summary>
+            Represents "$="
+            </summary>
+        </member>
+        <member name="F:Fizzler.TokenKind.SubstringMatch">
+            <summary>
+            Represents "*="
+            </summary>
+        </member>
+        <member name="F:Fizzler.TokenKind.String">
+            <summary>
+            Represents {string}
+            </summary>
+        </member>
+        <member name="F:Fizzler.TokenKind.Plus">
+            <summary>
+            Represents S* "+"
+            </summary>
+        </member>
+        <member name="F:Fizzler.TokenKind.Greater">
+            <summary>
+            Represents S* ">"
+            </summary>
+        </member>
+        <member name="F:Fizzler.TokenKind.WhiteSpace">
+            <summary>
+            Represents [ \t\r\n\f]+
+            </summary>
+        </member>
+        <member name="F:Fizzler.TokenKind.Function">
+            <summary>
+            Represents {ident} ")"
+            </summary>
+        </member>
+        <member name="F:Fizzler.TokenKind.Integer">
+            <summary>
+            Represents [0-9]+
+            </summary>
+        </member>
+        <member name="F:Fizzler.TokenKind.Tilde">
+            <summary>
+            Represents S* "~"
+            </summary>
+        </member>
+        <member name="F:Fizzler.TokenKind.Char">
+            <summary>
+            Represents an arbitrary character
+            </summary>
+        </member>
+    </members>
+</doc>

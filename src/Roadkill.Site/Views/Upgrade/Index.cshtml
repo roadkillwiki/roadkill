@@ -1,0 +1,42 @@
+﻿@model Exception
+@{
+	Layout = "~/Views/Upgrade/Layout.cshtml";
+}
+
+<h1>Database upgrade required</h1>
+
+@if (ApplicationSettings.DataStoreType == Roadkill.Core.Database.DataStoreType.Sqlite)
+{
+	<p id="notsupported">
+	Automatic SQLite upgrades are not supported in Roadkill 1.6 due to legacy problems with unique identifiers.
+	</p>
+	<p>
+		...But don't worry - we will do the upgrade for you! Please post your request on the 
+		<a href="https://groups.google.com/forum/#!forum/roadkillwiki">forum</a> or if you prefer the database to be 
+		private, send a message via <a href="https://bitbucket.org/mrshrinkray">Bitbucket</a>
+	</p>
+}
+else
+{
+	<p class="label label-warning">
+		Please backup your database and site before continuing.
+	</p>
+	<p>
+		Roadkill needs to perform a one time upgrade. Click below to upgrade now.
+	</p>
+	<p class="label">
+		Note: Your cache settings and site preferences - site name, url, markup type - will be reset after this upgrade.<br />
+		Please go to the admin settings page to update them once you've upgraded (sorry!).
+	</p>
+
+	if (Model != null)
+	{
+	<h4>An error occurred:</h4>
+	<pre class="alert alert-error" style="width:100%;overflow:scroll;">@Model.ToString()</pre>
+	}
+
+	using (Html.BeginForm("Run", "Upgrade"))
+	{
+	<input type="submit" class="btn btn-primary" value="Upgrade" />
+	}
+}
