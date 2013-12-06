@@ -23,10 +23,7 @@ namespace Roadkill.Tests.Acceptance.Smoke
 		[Test]
 		public void Can_Reach_Homepage()
 		{
-			// Arrange
-			
-
-			// Act
+			// Arrange + Act
 			Driver.Navigate().GoToUrl(BaseUrl);
 
 			// Assert
@@ -34,7 +31,6 @@ namespace Roadkill.Tests.Acceptance.Smoke
 		}
 
 		[Test]
-		[Explicit]
 		public void Can_Login_As_Admin()
 		{
 			// Arrange
