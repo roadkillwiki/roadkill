@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
 using Mindscape.LightSpeed;
@@ -23,17 +24,17 @@ namespace Roadkill.Core.Cache
 
 		public void AddMenu(string html)
 		{
-			_cache.Add(CacheKeys.MENU, html, new CacheItemPolicy());
+			_cache.Add(CacheKeys.MenuKey(), html, new CacheItemPolicy());
 		}
 
 		public void AddLoggedInMenu(string html)
 		{
-			_cache.Add(CacheKeys.LOGGEDINMENU, html, new CacheItemPolicy());
+			_cache.Add(CacheKeys.LoggedInMenuKey(), html, new CacheItemPolicy());
 		}
 
 		public void AddAdminMenu(string html)
 		{
-			_cache.Add(CacheKeys.ADMINMENU, html, new CacheItemPolicy());
+			_cache.Add(CacheKeys.AdminMenuKey(), html, new CacheItemPolicy());
 		}
 
 		public void UpdatePluginSettings(TextPlugin plugin)
@@ -49,29 +50,44 @@ namespace Roadkill.Core.Cache
 
 		public void RemoveMenuCacheItems()
 		{
-			_cache.Remove(CacheKeys.MENU);
-			_cache.Remove(CacheKeys.LOGGEDINMENU);
-			_cache.Remove(CacheKeys.ADMINMENU);
+			_cache.Remove(CacheKeys.MenuKey());
+			_cache.Remove(CacheKeys.LoggedInMenuKey());
+			_cache.Remove(CacheKeys.AdminMenuKey());
+		}
+
+		public void RemoveAll()
+		{
+			foreach (var key in GetAllKeys())
+			{
+				_cache.Remove(key);
+			}
 		}
 
 		public string GetMenu()
 		{
-			return _cache.Get(CacheKeys.MENU) as string;
+			return _cache.Get(CacheKeys.MenuKey()) as string;
 		}
 
 		public string GetLoggedInMenu()
 		{
-			return _cache.Get(CacheKeys.LOGGEDINMENU) as string;
+			return _cache.Get(CacheKeys.LoggedInMenuKey()) as string;
 		}
 
 		public string GetAdminMenu()
 		{
-			return _cache.Get(CacheKeys.ADMINMENU) as string;
+			return _cache.Get(CacheKeys.AdminMenuKey()) as string;
 		}
 
 		public PluginSettings GetPluginSettings(TextPlugin plugin)
 		{
 			return _cache.Get(CacheKeys.PluginSettingsKey(plugin)) as PluginSettings;
+		}
+
+		public IEnumerable<string> GetAllKeys()
+		{
+			return _cache.Where(x => x.Key.StartsWith(CacheKeys.SITE_CACHE_PREFIX))
+					.OrderBy(x => x.Key)
+					.Select(x => x.Key);
 		}
 	}
 }

@@ -115,7 +115,7 @@ namespace Roadkill.Core.Cache
 
 			// No need to lock the cache as Remove doesn't throw an exception if the key doesn't exist
 			IEnumerable<string> keys = _cache.Select(x => x.Key).ToList();
-			foreach (string key in keys)
+			foreach (string key in GetAllKeys())
 			{
 				_cache.Remove(key);
 			}
@@ -123,7 +123,7 @@ namespace Roadkill.Core.Cache
 
 		public IEnumerable<string> GetAllKeys()
 		{
-			return _cache.Where(x => x.Key.StartsWith(CacheKeys.PageViewModelKeyPrefix()))
+			return _cache.Where(x => x.Key.StartsWith(CacheKeys.PAGEVIEWMODEL_CACHE_PREFIX))
 				.OrderBy(x => x.Key)
 				.Select(x => x.Key);
 		}

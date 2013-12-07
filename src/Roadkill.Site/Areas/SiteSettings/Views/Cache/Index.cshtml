@@ -1,4 +1,4 @@
-﻿@model List<IEnumerable<string>>
+﻿@model CacheViewModel
 @{ 
 	ViewBag.Title = "View cache";
 	ViewData["CacheActive"] = true;
@@ -11,19 +11,31 @@
 		@SiteStrings.SiteSettings_Cache_Clear_Successful
 	</div>
 }
+
+@if (!Model.IsCacheEnabled)
+{
+	<div class="alert alert-warning">
+		<p>@SiteStrings.SiteSettings_Cache_Not_Enabled</p>
+	</div>
+}
+
 <form role="form" method="post" action="@Url.Action("Clear", "Cache")">
 	<input name="clear" type="submit" class="btn btn-primary" value="@SiteStrings.SiteSettings_Cache_Clear_Button" />
 </form>
+
 <div>
-	<h2>@SiteStrings.SiteSettings_Cache_Page_Cache (@Model[0].Count())</h2>
-	<p>@SiteStrings.SiteSettings_Cache_Key_Format "page ID.version"</p>
+	<!-- Page view model cache -->
+	<h2>@SiteStrings.SiteSettings_Cache_Page_Cache (@Model.PageKeys.Count())</h2>
+	<p>
+		@SiteStrings.SiteSettings_Cache_Key_Format "page ID.version"
+	</p>
 	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th>@SiteStrings.SiteSettings_Cache_Key_Column_Header</th>
 			</tr>
 		</thead>
-		@foreach (string cacheKey in Model[0])
+		@foreach (string cacheKey in Model.PageKeys)
 		{
 		<tr>
 			<td class="title">@cacheKey</td>
@@ -32,19 +44,36 @@
 	</table>
 	<br class="clear" />
 
-	<h2>@SiteStrings.SiteSettings_Cache_Items_Cache (@Model[1].Count())</h2>
+	<!-- List cache -->
+	<h2>@SiteStrings.SiteSettings_Cache_List_Cache (@Model.ListKeys.Count())</h2>
 	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th>@SiteStrings.SiteSettings_Cache_Key_Column_Header</th>
 			</tr>
 		</thead>
-	@foreach (string cacheKey in Model[1])
+	@foreach (string cacheKey in Model.ListKeys)
 	{
 		<tr>
 			<td class="title">@cacheKey</td>
 		</tr>
 	}
+	</table>
+
+	<!-- Site wide cache -->
+	<h2>@SiteStrings.SiteSettings_Cache_Site_Cache (@Model.SiteKeys.Count())</h2>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>@SiteStrings.SiteSettings_Cache_Key_Column_Header</th>
+			</tr>
+		</thead>
+		@foreach (string cacheKey in Model.SiteKeys)
+		{
+			<tr>
+				<td class="title">@cacheKey</td>
+			</tr>
+		}
 	</table>
 	<br class="clear" />
 </div>

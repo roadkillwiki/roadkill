@@ -27,30 +27,21 @@ namespace Roadkill.Core.Mvc.Controllers
 	public class CacheController : ControllerBase
 	{
 		private SettingsService _settingsService;
-		private PageService _pageService;
-		private SearchService _searchService;
-		private IWikiImporter _wikiImporter;
 		private ListCache _listCache;
 		private PageViewModelCache _pageViewModelCache;
 		private SiteCache _siteCache;
 		private IRepository _repository;
 		private IPluginFactory _pluginFactory;
 
-		public CacheController(ApplicationSettings settings, UserServiceBase userManager,
-			SettingsService settingsService, PageService pageService, SearchService searchService, IUserContext context,
-			ListCache listCache, PageViewModelCache pageViewModelCache, SiteCache siteCache, IWikiImporter wikiImporter, 
-			IRepository repository, IPluginFactory pluginFactory)
-			: base(settings, userManager, context, settingsService) 
+		public CacheController(ApplicationSettings settings, UserServiceBase userService,
+			SettingsService settingsService, IUserContext context,
+			ListCache listCache, PageViewModelCache pageViewModelCache, SiteCache siteCache)
+			: base(settings, userService, context, settingsService) 
 		{
 			_settingsService = settingsService;
-			_pageService = pageService;
-			_searchService = searchService;
 			_listCache = listCache;
 			_pageViewModelCache = pageViewModelCache;
 			_siteCache = siteCache;
-			_wikiImporter = wikiImporter;			
-			_repository = repository;
-			_pluginFactory = pluginFactory;
 		}
 
 		/// <summary>
@@ -60,13 +51,15 @@ namespace Roadkill.Core.Mvc.Controllers
 		[ImportModelState]
 		public ActionResult Index()
 		{
-			List<IEnumerable<string>> cacheKeys = new List<IEnumerable<string>>()
+			CacheViewModel viewModel = new CacheViewModel()
 			{
-				_pageViewModelCache.GetAllKeys(),
-				_listCache.GetAllKeys()
+				IsCacheEnabled = ApplicationSettings.UseObjectCache,
+				PageKeys = _pageViewModelCache.GetAllKeys(),
+				ListKeys = _listCache.GetAllKeys(),
+				SiteKeys = _siteCache.GetAllKeys()
 			};
 
-			return View(cacheKeys);
+			return View(viewModel);
 		}
 
 		/// <summary>
@@ -80,6 +73,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			_pageViewModelCache.RemoveAll();
 			_listCache.RemoveAll();
+			_siteCache.RemoveAll();
 			TempData["CacheCleared"] = true;
 
 			return RedirectToAction("Index");

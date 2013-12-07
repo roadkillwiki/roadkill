@@ -30,7 +30,7 @@ namespace Roadkill.Tests.Unit.Cache
 			// Assert
 			Assert.That(cache.Count(), Is.EqualTo(1));
 			IEnumerable<string> keys = cache.Select(x => x.Key);
-			Assert.That(keys, Contains.Item(CacheKeys.MENU));
+			Assert.That(keys, Contains.Item(CacheKeys.MenuKey()));
 		}
 
 		[Test]
@@ -47,7 +47,7 @@ namespace Roadkill.Tests.Unit.Cache
 			// Assert
 			Assert.That(cache.Count(), Is.EqualTo(1));
 			IEnumerable<string> keys = cache.Select(x => x.Key);
-			Assert.That(keys, Contains.Item(CacheKeys.ADMINMENU));
+			Assert.That(keys, Contains.Item(CacheKeys.AdminMenuKey()));
 		}
 
 		[Test]
@@ -64,7 +64,7 @@ namespace Roadkill.Tests.Unit.Cache
 			// Assert
 			Assert.That(cache.Count(), Is.EqualTo(1));
 			IEnumerable<string> keys = cache.Select(x => x.Key);
-			Assert.That(keys, Contains.Item(CacheKeys.LOGGEDINMENU));
+			Assert.That(keys, Contains.Item(CacheKeys.LoggedInMenuKey()));
 		}
 
 		[Test]
@@ -203,6 +203,31 @@ namespace Roadkill.Tests.Unit.Cache
 
 			// Assert
 			Assert.That(cache.Count(), Is.EqualTo(0));
+		}
+
+		[Test]
+		public void RemoveAll_Should_Remove_SiteCache_Keys_Only()
+		{
+			// Arrange
+			CacheMock cache = new CacheMock();
+			cache.Add("list.blah", "xyz", new CacheItemPolicy());
+			ApplicationSettings settings = new ApplicationSettings();
+			SiteCache siteCache = new SiteCache(settings, cache);
+
+			siteCache.AddMenu("menu html");
+			siteCache.AddLoggedInMenu("logged in menu html");
+			siteCache.AddAdminMenu("admin menu html");
+
+			TextPluginStub plugin = new TextPluginStub();
+			plugin.PluginCache = siteCache;
+			plugin.Repository = new RepositoryMock();
+			plugin.Settings.SetValue("foo", "bar");
+
+			// Act
+			siteCache.RemoveAll();
+
+			// Assert
+			Assert.That(cache.Count(), Is.EqualTo(1));
 		}
 	}
 }
