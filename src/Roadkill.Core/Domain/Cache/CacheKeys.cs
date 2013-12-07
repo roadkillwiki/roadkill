@@ -12,7 +12,7 @@ namespace Roadkill.Core.Cache
 		public static readonly string HOMEPAGE = "latesthomepage";
 
 		/// <summary>'{id}.{version}'</summary>
-		public static readonly string PAGEVIEWMODEL = "pageviewmodel.{id}.{version}";
+		public static readonly string PAGEVIEWMODEL_FORMAT = "{id}.{version}";
 
 		/// <summary>"allpages.with.content"</summary>
 		public static readonly string ALLPAGES_CONTENT = "allpages.with.content";
@@ -41,19 +41,18 @@ namespace Roadkill.Core.Cache
 		/// <summary>"pluginsettings.{type}.{id}"</summary>
 		public static readonly string PLUGIN_SETTINGS = "pluginsettings.{type}.{id}";
 
-		public static string PageViewModelKeyPrefix()
-		{
-			string key = PAGEVIEWMODEL;
-			key = key.Replace("{id}", "");
-			key = key.Replace("{version}", "");
-			key = key.Replace(".", "");
+		/// <summary>"pageviewmodel.."</summary>
+		public static readonly string PAGEVIEWMODEL_CACHE_PREFIX = "page.";
 
-			return key;
-		}
+		/// <summary>"list."</summary>
+		public static readonly string LIST_CACHE_PREFIX = "list.";
+
+		/// <summary>"site."</summary>
+		public static readonly string SITE_CACHE_PREFIX = "site.";
 
 		public static string PageViewModelKey(int id, int version)
 		{
-			string key = PAGEVIEWMODEL;
+			string key = LIST_CACHE_PREFIX + PAGEVIEWMODEL_FORMAT;
 			key = key.Replace("{id}", id.ToString());
 			key = key.Replace("{version}", version.ToString());
 
@@ -62,7 +61,7 @@ namespace Roadkill.Core.Cache
 
 		public static string AllPagesCreatedByKey(string username)
 		{
-			string key = ALLPAGES_CREATEDBY;
+			string key = LIST_CACHE_PREFIX + ALLPAGES_CREATEDBY;
 			key = key.Replace("{username}", username);
 
 			return key;
@@ -70,7 +69,7 @@ namespace Roadkill.Core.Cache
 
 		public static string PagesByTagKey(string tag)
 		{
-			string key = PAGES_BY_TAG;
+			string key = LIST_CACHE_PREFIX + PAGES_BY_TAG;
 			key = key.Replace("{tag}", tag);
 
 			return key;
@@ -78,11 +77,26 @@ namespace Roadkill.Core.Cache
 
 		public static string PluginSettingsKey(TextPlugin plugin)
 		{
-			string key = PLUGIN_SETTINGS;
+			string key = SITE_CACHE_PREFIX + PLUGIN_SETTINGS;
 			key = key.Replace("{type}", plugin.GetType().Name);
 			key = key.Replace("{id}", plugin.Id);
 
 			return key;
+		}
+
+		public static string MenuKey()
+		{
+			return SITE_CACHE_PREFIX + MENU;
+		}
+
+		public static string LoggedInMenuKey()
+		{
+			return SITE_CACHE_PREFIX + LOGGEDINMENU;
+		}
+
+		public static string AdminMenuKey()
+		{
+			return SITE_CACHE_PREFIX + ADMINMENU;
 		}
 	}
 }

@@ -1429,15 +1429,6 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Items cache.
-        /// </summary>
-        public static string SiteSettings_Cache_Items_Cache {
-            get {
-                return ResourceManager.GetString("SiteSettings_Cache_Items_Cache", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Key.
         /// </summary>
         public static string SiteSettings_Cache_Key_Column_Header {
@@ -1456,11 +1447,38 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Items cache.
+        /// </summary>
+        public static string SiteSettings_Cache_List_Cache {
+            get {
+                return ResourceManager.GetString("SiteSettings_Cache_List_Cache", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The object cache is not currently enabled..
+        /// </summary>
+        public static string SiteSettings_Cache_Not_Enabled {
+            get {
+                return ResourceManager.GetString("SiteSettings_Cache_Not_Enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Page cache.
         /// </summary>
         public static string SiteSettings_Cache_Page_Cache {
             get {
                 return ResourceManager.GetString("SiteSettings_Cache_Page_Cache", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Site cache.
+        /// </summary>
+        public static string SiteSettings_Cache_Site_Cache {
+            get {
+                return ResourceManager.GetString("SiteSettings_Cache_Site_Cache", resourceCulture);
             }
         }
         
