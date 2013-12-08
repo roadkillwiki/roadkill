@@ -26,6 +26,9 @@ namespace Roadkill.Core.Cache
 			if (!_applicationSettings.UseObjectCache)
 				return;
 
+			if (!key.StartsWith(CacheKeys.LIST_CACHE_PREFIX))
+				key = CacheKeys.LIST_CACHE_PREFIX + key;
+
 			Log.Information("ListCache: Added {0} to cache", key);
 			_cache.Add(key, items.ToList(), new CacheItemPolicy());
 		}
@@ -33,7 +36,7 @@ namespace Roadkill.Core.Cache
 		public List<T> Get<T>(string key)
 		{
 			Log.Information("ListCache: Retrieved {0} from cache", key);
-			return _cache.Get(key) as List<T>;
+			return _cache.Get(CacheKeys.LIST_CACHE_PREFIX + key) as List<T>;
 		}
 
 		public void Remove(string key)
@@ -42,7 +45,7 @@ namespace Roadkill.Core.Cache
 				return;
 
 			Log.Information("ListCache: Removed {0} from cache", key);
-			_cache.Remove(key);
+			_cache.Remove(CacheKeys.LIST_CACHE_PREFIX + key);
 		}
 
 		public void RemoveAll()
@@ -53,8 +56,8 @@ namespace Roadkill.Core.Cache
 			Log.Information("ListCache: RemoveAll from cache");
 
 			// No need to lock the cache as Remove doesn't throw an exception if the key doesn't exist
-			IEnumerable<string> keys = _cache.Select(x => x.Key).ToList();
-			foreach (string key in GetAllKeys())
+			IEnumerable<string> keys = GetAllKeys();
+			foreach (string key in keys)
 			{
 				_cache.Remove(key);
 			}

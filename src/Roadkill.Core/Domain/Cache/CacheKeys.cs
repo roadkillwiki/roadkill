@@ -9,50 +9,50 @@ namespace Roadkill.Core.Cache
 	public class CacheKeys
 	{
 		/// <summary>'latesthomepage'</summary>
-		public static readonly string HOMEPAGE = "latesthomepage";
+		private static readonly string HOMEPAGE = "latesthomepage";
 
 		/// <summary>'{id}.{version}'</summary>
-		public static readonly string PAGEVIEWMODEL_FORMAT = "{id}.{version}";
+		private static readonly string PAGEVIEWMODEL_FORMAT = "{id}.{version}";
 
 		/// <summary>"allpages.with.content"</summary>
-		public static readonly string ALLPAGES_CONTENT = "allpages.with.content";
+		private static readonly string ALLPAGES_WITH_CONTENT = "allpages.with.content";
 
 		/// <summary>"allpages"</summary>
-		public static readonly string ALLPAGES = "allpages";
+		private static readonly string ALLPAGES = "allpages";
 
 		/// <summary>"allpages.createdby.{username}"</summary>
-		public static readonly string ALLPAGES_CREATEDBY = "allpages.createdby.{username}";
+		private static readonly string ALLPAGES_CREATEDBY = "allpages.createdby.{username}";
 
 		/// <summary>"alltags"</summary>
-		public static readonly string ALLTAGS = "alltags";
+		private static readonly string ALLTAGS = "alltags";
 
 		/// <summary>"pagesbytag.{tag}"</summary>
-		public static readonly string PAGES_BY_TAG = "pagesbytag.{tag}";
+		private static readonly string PAGES_BY_TAG = "pagesbytag.{tag}";
 
 		/// <summary>"menu"</summary>
-		public static readonly string MENU = "menu";
+		private static readonly string MENU = "menu";
 
 		/// <summary>"loggedinmenu"</summary>
-		public static readonly string LOGGEDINMENU = "loggedinmenu";
+		private static readonly string LOGGEDINMENU = "loggedinmenu";
 
 		/// <summary>"adminmenu"</summary>
-		public static readonly string ADMINMENU = "adminmenu";
+		private static readonly string ADMINMENU = "adminmenu";
 
 		/// <summary>"pluginsettings.{type}.{id}"</summary>
-		public static readonly string PLUGIN_SETTINGS = "pluginsettings.{type}.{id}";
+		private static readonly string PLUGIN_SETTINGS = "pluginsettings.{type}.{id}";
 
 		/// <summary>"pageviewmodel.."</summary>
-		public static readonly string PAGEVIEWMODEL_CACHE_PREFIX = "page.";
+		internal static readonly string PAGEVIEWMODEL_CACHE_PREFIX = "page.";
 
 		/// <summary>"list."</summary>
-		public static readonly string LIST_CACHE_PREFIX = "list.";
+		internal static readonly string LIST_CACHE_PREFIX = "list.";
 
 		/// <summary>"site."</summary>
-		public static readonly string SITE_CACHE_PREFIX = "site.";
+		internal static readonly string SITE_CACHE_PREFIX = "site.";
 
 		public static string PageViewModelKey(int id, int version)
 		{
-			string key = LIST_CACHE_PREFIX + PAGEVIEWMODEL_FORMAT;
+			string key = PAGEVIEWMODEL_CACHE_PREFIX + PAGEVIEWMODEL_FORMAT;
 			key = key.Replace("{id}", id.ToString());
 			key = key.Replace("{version}", version.ToString());
 
@@ -83,6 +83,11 @@ namespace Roadkill.Core.Cache
 
 			return key;
 		}
+		
+		public static string HomepageKey()
+		{
+			return PAGEVIEWMODEL_CACHE_PREFIX + HOMEPAGE;
+		}
 
 		public static string MenuKey()
 		{
@@ -97,6 +102,26 @@ namespace Roadkill.Core.Cache
 		public static string AdminMenuKey()
 		{
 			return SITE_CACHE_PREFIX + ADMINMENU;
+		}
+
+		public static string ListCacheKey(string key)
+		{
+			return LIST_CACHE_PREFIX + key;
+		}
+
+		public static string AllPages()
+		{
+			return LIST_CACHE_PREFIX + ALLPAGES;
+		}
+
+		public static string AllTags()
+		{
+			return LIST_CACHE_PREFIX + ALLTAGS;
+		}
+
+		public static string AllPagesWithContent()
+		{
+			return LIST_CACHE_PREFIX + ALLPAGES_WITH_CONTENT;
 		}
 	}
 }

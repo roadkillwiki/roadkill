@@ -108,7 +108,7 @@ namespace Roadkill.Core.Services
 
 				if (loadPageContent)
 				{
-					cacheKey = CacheKeys.ALLPAGES_CONTENT;
+					cacheKey = CacheKeys.AllPagesWithContent();
 					pageModels = _listCache.Get<PageViewModel>(cacheKey);
 
 					if (pageModels == null)
@@ -122,7 +122,7 @@ namespace Roadkill.Core.Services
 				}
 				else
 				{
-					cacheKey = CacheKeys.ALLPAGES;
+					cacheKey = CacheKeys.AllPages();
 					pageModels = _listCache.Get<PageViewModel>(cacheKey);
 
 					if (pageModels == null)

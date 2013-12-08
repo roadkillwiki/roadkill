@@ -50,8 +50,8 @@ namespace Roadkill.Core.Cache
 			if (!_applicationSettings.UseObjectCache)
 				return;
 
-			_cache.Remove(CacheKeys.HOMEPAGE);
-			_cache.Add(CacheKeys.HOMEPAGE, item, new CacheItemPolicy());
+			_cache.Remove(CacheKeys.HomepageKey());
+			_cache.Add(CacheKeys.HomepageKey(), item, new CacheItemPolicy());
 		}
 
 		public PageViewModel GetHomePage()
@@ -61,7 +61,7 @@ namespace Roadkill.Core.Cache
 
 			Log("Get latest homepage");
 
-			return _cache.Get(CacheKeys.HOMEPAGE) as PageViewModel;
+			return _cache.Get(CacheKeys.HomepageKey()) as PageViewModel;
 		}
 
 		public PageViewModel Get(int id)
@@ -85,9 +85,9 @@ namespace Roadkill.Core.Cache
 			if (!_applicationSettings.UseObjectCache)
 				return;
 
-			_cache.Remove(CacheKeys.HOMEPAGE);
+			_cache.Remove(CacheKeys.HomepageKey());
 
-			Log("Removed homepage from cache", CacheKeys.HOMEPAGE);
+			Log("Removed homepage from cache", CacheKeys.HomepageKey());
 		}
 
 		public void Remove(int id)
@@ -114,8 +114,8 @@ namespace Roadkill.Core.Cache
 			Log("RemoveAll from cache");
 
 			// No need to lock the cache as Remove doesn't throw an exception if the key doesn't exist
-			IEnumerable<string> keys = _cache.Select(x => x.Key).ToList();
-			foreach (string key in GetAllKeys())
+			IEnumerable<string> keys = GetAllKeys();
+			foreach (string key in keys)
 			{
 				_cache.Remove(key);
 			}

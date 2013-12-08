@@ -86,8 +86,8 @@ namespace Roadkill.Tests.Unit.Cache
 
 			PageService pageService = CreatePageService(pageModelCache, listCache, repository);
 			PageViewModel expectedModel = CreatePageViewModel();
-			pageModelCache.Add("key", expectedModel, new CacheItemPolicy());
-			listCache.Add("key", new List<string>() { "tag1", "tag2" }, new CacheItemPolicy());
+			AddPageCacheItem(pageModelCache, "key", expectedModel);
+			AddListCacheItem(listCache, "key", new List<string>() { "tag1", "tag2" });
 
 			// Act
 			pageService.AddPage(new PageViewModel() { Title = "totoro" });
@@ -102,7 +102,7 @@ namespace Roadkill.Tests.Unit.Cache
 		[TestCase(true)]
 		public void AllPages_Should_Load_From_Cache(bool loadPageContent)
 		{
-			string cacheKey = (loadPageContent) ? (CacheKeys.ALLPAGES_CONTENT) : (CacheKeys.ALLPAGES);
+			string cacheKey = (loadPageContent) ? (CacheKeys.AllPagesWithContent()) : (CacheKeys.AllPages());
 
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
@@ -110,7 +110,7 @@ namespace Roadkill.Tests.Unit.Cache
 
 			PageService pageService = CreatePageService(null, listCache, repository);
 			PageViewModel expectedModel = CreatePageViewModel();
-			listCache.Add(cacheKey, new List<PageViewModel>() {expectedModel}, new CacheItemPolicy());
+			AddListCacheItem(listCache, cacheKey, new List<PageViewModel>() { expectedModel });
 
 			// Act
 			IEnumerable<PageViewModel> actualList = pageService.AllPages(loadPageContent);
@@ -125,7 +125,7 @@ namespace Roadkill.Tests.Unit.Cache
 		public void AllPages_Should_Add_To_Cache_When_Cache_Is_Empty(bool loadPageContent)
 		{
 			// Arrange
-			string cacheKey = (loadPageContent) ? (CacheKeys.ALLPAGES_CONTENT) : (CacheKeys.ALLPAGES);
+			string cacheKey = (loadPageContent) ? (CacheKeys.AllPagesWithContent()) : (CacheKeys.AllPages());
 
 			RepositoryMock repository = new RepositoryMock();
 			repository.AddNewPage(new Page() { Title = "1" }, "text", "admin", DateTime.UtcNow);
@@ -155,8 +155,8 @@ namespace Roadkill.Tests.Unit.Cache
 			PageService pageService = CreatePageService(null, listCache, repository);
 			PageViewModel adminModel = CreatePageViewModel();
 			PageViewModel editorModel = CreatePageViewModel("editor");
-			listCache.Add(adminCacheKey, new List<PageViewModel>() { adminModel }, new CacheItemPolicy());
-			listCache.Add(editorCacheKey, new List<PageViewModel>() { editorModel }, new CacheItemPolicy());
+			listCache.Add(CacheKeys.AllPagesCreatedByKey("admin"), new List<PageViewModel>() { adminModel }, new CacheItemPolicy());
+			listCache.Add(CacheKeys.AllPagesCreatedByKey("editor"), new List<PageViewModel>() { editorModel }, new CacheItemPolicy());
 
 			// Act
 			IEnumerable<PageViewModel> actualList = pageService.AllPagesCreatedBy("admin");
@@ -198,7 +198,7 @@ namespace Roadkill.Tests.Unit.Cache
 
 			PageService pageService = CreatePageService(null, listCache, repository);
 			List<string> expectedTags = new List<string>() { "tag1", "tag2", "tag3" };
-			listCache.Add(CacheKeys.ALLTAGS, expectedTags, new CacheItemPolicy());
+			AddListCacheItem(listCache, CacheKeys.AllTags(), expectedTags);
 
 			// Act
 			IEnumerable<string> actualTags = pageService.AllTags().Select(x => x.Name);
@@ -223,7 +223,7 @@ namespace Roadkill.Tests.Unit.Cache
 
 			// Assert
 			Assert.That(listCache.CacheItems.Count, Is.EqualTo(1));
-			Assert.That(listCache.CacheItems.FirstOrDefault().Key, Is.EqualTo(CacheKeys.ALLTAGS));
+			Assert.That(listCache.CacheItems.FirstOrDefault().Key, Is.EqualTo(CacheKeys.AllTags()));
 		}
 
 		[Test]
@@ -237,8 +237,8 @@ namespace Roadkill.Tests.Unit.Cache
 
 			PageService pageService = CreatePageService(pageCache, listCache, repository);
 			PageViewModel expectedModel = CreatePageViewModel();
-			pageCache.Add("key", expectedModel, new CacheItemPolicy());
-			listCache.Add("key", new List<string>() { "tag1", "tag2" }, new CacheItemPolicy());
+			AddPageCacheItem(pageCache, "key", expectedModel);
+			AddListCacheItem(listCache, "key", new List<string>() { "tag1", "tag2" });
 
 			// Act
 			pageService.DeletePage(1);
@@ -258,7 +258,7 @@ namespace Roadkill.Tests.Unit.Cache
 			PageService pageService = CreatePageService(modelCache, null, repository);
 			PageViewModel expectedModel = CreatePageViewModel();
 			expectedModel.RawTags = "homepage";
-			modelCache.Add(CacheKeys.HOMEPAGE, expectedModel, new CacheItemPolicy());
+			modelCache.Add(CacheKeys.HomepageKey(), expectedModel, new CacheItemPolicy());
 
 			// Act
 			PageViewModel actualModel = pageService.FindHomePage();
@@ -284,7 +284,7 @@ namespace Roadkill.Tests.Unit.Cache
 
 			// Assert
 			Assert.That(pageCache.CacheItems.Count, Is.EqualTo(1));
-			Assert.That(pageCache.CacheItems.FirstOrDefault().Key, Is.EqualTo(CacheKeys.HOMEPAGE));
+			Assert.That(pageCache.CacheItems.FirstOrDefault().Key, Is.EqualTo(CacheKeys.HomepageKey()));
 		}
 
 		[Test]
@@ -354,9 +354,9 @@ namespace Roadkill.Tests.Unit.Cache
 			PageViewModel page2Model = CreatePageViewModel();
 			page2Model.Id = 2;
 
-			pageCache.Add(CacheKeys.HOMEPAGE, homepageModel, new CacheItemPolicy());
+			AddPageCacheItem(pageCache, CacheKeys.HomepageKey(), homepageModel);
 			pageCache.Add(CacheKeys.PageViewModelKey(2,0), page2Model, new CacheItemPolicy());
-			listCache.Add(CacheKeys.ALLTAGS, new List<string>() { "tag1", "tag2" }, new CacheItemPolicy());
+			AddListCacheItem(listCache, CacheKeys.AllTags(), new List<string>() { "tag1", "tag2" });
 
 			// Act
 			pageService.UpdatePage(page2Model);
@@ -379,7 +379,7 @@ namespace Roadkill.Tests.Unit.Cache
 
 			PageViewModel homepageModel = CreatePageViewModel();
 			homepageModel.RawTags = "homepage";
-			pageCache.Add(CacheKeys.HOMEPAGE, homepageModel, new CacheItemPolicy());
+			pageCache.Add(CacheKeys.HomepageKey(), homepageModel, new CacheItemPolicy());
 
 			// Act
 			pageService.UpdatePage(homepageModel);
@@ -399,7 +399,7 @@ namespace Roadkill.Tests.Unit.Cache
 			CacheMock listCache = new CacheMock();
 			PageViewModel homepageModel = CreatePageViewModel();
 			PageViewModel page1Model = CreatePageViewModel();
-			listCache.Add(tag1CacheKey, new List<PageViewModel>() { homepageModel, page1Model }, new CacheItemPolicy());
+			AddListCacheItem(listCache, tag1CacheKey, new List<PageViewModel>() { homepageModel, page1Model });
 
 			PageService pageService = CreatePageService(null, listCache, repository);
 
@@ -464,6 +464,16 @@ namespace Roadkill.Tests.Unit.Cache
 			filterContext.HttpContext = context;
 
 			return filterContext;
+		}
+
+		private void AddPageCacheItem(CacheMock cache, string key, object value)
+		{
+			cache.Add(CacheKeys.PAGEVIEWMODEL_CACHE_PREFIX + key, value, new CacheItemPolicy());
+		}
+
+		private void AddListCacheItem(CacheMock cache, string key, object value)
+		{
+			cache.Add(CacheKeys.ListCacheKey(key), value, new CacheItemPolicy());
 		}
 	}
 }

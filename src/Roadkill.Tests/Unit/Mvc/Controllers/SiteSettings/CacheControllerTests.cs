@@ -14,6 +14,7 @@ using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Tests.Unit.StubsAndMocks;
 using System;
+using System.Collections.Generic;
 
 namespace Roadkill.Tests.Unit
 {
@@ -53,14 +54,26 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Test()
+		public void Index_Should_Return_ViewModel_With_Filled_Properties()
 		{
 			// Arrange
+			_applicationSettings.UseObjectCache = true;			
+			_pageCache.Add(1, new PageViewModel());
+			_listCache.Add<string>("test", new List<string>());
+			_siteCache.AddMenu("menu");
 
 			// Act
+			ActionResult result = _cacheController.Index();
 
 			// Assert
-		}
+			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
 
+			CacheViewModel model = result.ModelFromActionResult<CacheViewModel>();
+			Assert.NotNull(model, "Null model");
+			Assert.That(model.IsCacheEnabled, Is.True);
+			Assert.That(model.PageKeys.Count(), Is.EqualTo(1));
+			Assert.That(model.ListKeys.Count(), Is.EqualTo(1));
+			Assert.That(model.SiteKeys.Count(), Is.EqualTo(1));
+		}
 	}
 }
