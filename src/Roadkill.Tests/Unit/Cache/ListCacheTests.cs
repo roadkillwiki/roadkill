@@ -40,7 +40,7 @@ namespace Roadkill.Tests.Unit.Cache
 			ApplicationSettings settings = new ApplicationSettings() { UseObjectCache = true };
 
 			List<string> tagCacheItems = new List<string>() { "1", "2" };
-			cache.CacheItems.Add(new CacheItem("all.tags", tagCacheItems));
+			AddToCache(cache, "all.tags", tagCacheItems);
 			
 			ListCache listCache = new ListCache(settings, cache);
 
@@ -68,8 +68,8 @@ namespace Roadkill.Tests.Unit.Cache
 
 			// Assert
 			List<string> keys = listCache.GetAllKeys().ToList();
-			Assert.That(keys, Contains.Item("all.tags1"));
-			Assert.That(keys, Contains.Item("all.tags2"));
+			Assert.That(keys, Contains.Item(CacheKeys.ListCacheKey("all.tags1")));
+			Assert.That(keys, Contains.Item(CacheKeys.ListCacheKey("all.tags2")));
 		}
 
 		[Test]
@@ -80,7 +80,7 @@ namespace Roadkill.Tests.Unit.Cache
 			ApplicationSettings settings = new ApplicationSettings() { UseObjectCache = true };
 
 			List<string> tagCacheItems = new List<string>() { "1", "2" };
-			cache.CacheItems.Add(new CacheItem("all.tags", tagCacheItems));
+			AddToCache(cache, "all.tags", tagCacheItems);
 
 			ListCache listCache = new ListCache(settings, cache);
 
@@ -101,8 +101,8 @@ namespace Roadkill.Tests.Unit.Cache
 
 			List<string> tagCacheItems1 = new List<string>() { "1", "2" };
 			List<string> tagCacheItems2 = new List<string>() { "1", "2" };
-			cache.CacheItems.Add(new CacheItem("all.tags1", tagCacheItems1));
-			cache.CacheItems.Add(new CacheItem("all.tags2", tagCacheItems2));
+			AddToCache(cache, "all.tags1", tagCacheItems1);
+			AddToCache(cache, "all.tags2", tagCacheItems2);
 
 			ListCache listCache = new ListCache(settings, cache);
 
@@ -142,7 +142,7 @@ namespace Roadkill.Tests.Unit.Cache
 			ApplicationSettings settings = new ApplicationSettings() { UseObjectCache = false };
 
 			List<string> tagCacheItems = new List<string>() { "1", "2" };
-			cache.CacheItems.Add(new CacheItem("all.tags", tagCacheItems));
+			AddToCache(cache, "all.tags", tagCacheItems);
 
 			ListCache listCache = new ListCache(settings, cache);
 			
@@ -163,8 +163,8 @@ namespace Roadkill.Tests.Unit.Cache
 
 			List<string> tagCacheItems1 = new List<string>() { "1", "2" };
 			List<string> tagCacheItems2 = new List<string>() { "1", "2" };
-			cache.CacheItems.Add(new CacheItem("all.tags1", tagCacheItems1));
-			cache.CacheItems.Add(new CacheItem("all.tags2", tagCacheItems2));
+			AddToCache(cache, "all.tags1", tagCacheItems1);
+			AddToCache(cache, "all.tags2", tagCacheItems2);
 
 			ListCache listCache = new ListCache(settings, cache);
 
@@ -172,11 +172,39 @@ namespace Roadkill.Tests.Unit.Cache
 			listCache.RemoveAll();
 
 			// Assert
-			var tags1 = cache.CacheItems.FirstOrDefault(x => x.Key == "all.tags1");
-			var tags2 = cache.CacheItems.FirstOrDefault(x => x.Key == "all.tags2");
+			var tags1 = cache.CacheItems.FirstOrDefault(x => x.Key.Contains("all.tags1"));
+			var tags2 = cache.CacheItems.FirstOrDefault(x => x.Key.Contains("all.tags2"));
 
 			Assert.That(tags1, Is.Not.Null);
 			Assert.That(tags2, Is.Not.Null);
+		}
+
+		[Test]
+		public void RemoveAll_Should_Remove_ListCache_Keys_Only()
+		{
+			// Arrange
+			CacheMock cache = new CacheMock();
+			cache.Add("site.blah", "xyz", new CacheItemPolicy());
+
+			ApplicationSettings settings = new ApplicationSettings() { UseObjectCache = true };
+
+			List<string> tagCacheItems1 = new List<string>() { "1", "2" };
+			List<string> tagCacheItems2 = new List<string>() { "1", "2" };
+			AddToCache(cache, "all.tags1", tagCacheItems1);
+			AddToCache(cache, "all.tags2", tagCacheItems2);
+
+			ListCache listCache = new ListCache(settings, cache);
+
+			// Act
+			listCache.RemoveAll();
+
+			// Assert
+			Assert.That(cache.Count(), Is.EqualTo(1));
+		}
+
+		private void AddToCache(CacheMock cache, string key, object value)
+		{
+			cache.Add(CacheKeys.ListCacheKey(key), value, new CacheItemPolicy());
 		}
 	}
 }
