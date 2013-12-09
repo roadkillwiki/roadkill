@@ -32,21 +32,6 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ClearPageTables_Should_Remove_All_Pages_And_Content()
-		{
-			// Arrange
-			_repository.AddNewPage(new Page(), "test1", "test1", DateTime.UtcNow);
-			_repository.AddNewPage(new Page(), "test2", "test2", DateTime.UtcNow);
-
-			// Act
-			_settingsService.ClearPageTables();
-
-			// Assert
-			Assert.That(_repository.AllPages().Count(), Is.EqualTo(0));
-			Assert.That(_repository.AllPageContents().Count(), Is.EqualTo(0));
-		}
-
-		[Test]
 		public void ClearUserTable_Should_Remove_All_Users()
 		{
 			// Arrange

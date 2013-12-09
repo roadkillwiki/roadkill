@@ -28,6 +28,8 @@ using StructureMap.Query;
 using System.Web.Http;
 using Roadkill.Core.Mvc;
 using Roadkill.Core.Plugins.SpecialPages;
+using Roadkill.Core.Database.Export;
+using Roadkill.Core.Mvc.Controllers;
 
 namespace Roadkill.Core
 {
@@ -217,6 +219,9 @@ namespace Roadkill.Core
 			// Cache
 			scanner.AddAllTypesOf<ListCache>();
 			scanner.AddAllTypesOf<PageViewModelCache>();
+
+			// Export
+			scanner.AddAllTypesOf<WikiExporter>();
 		}
 
 		private void Configure(ConfigurationExpression x)

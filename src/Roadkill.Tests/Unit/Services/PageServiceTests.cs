@@ -373,5 +373,20 @@ namespace Roadkill.Tests.Unit
 			Assert.That(_repository.Pages[0].Title, Is.EqualTo(model.Title));
 			Assert.That(_repository.PageContents[1].Text, Is.EqualTo(model.Content)); // "smells"
 		}
+
+		[Test]
+		public void ClearPageTables_Should_Remove_All_Pages_And_Content()
+		{
+			// Arrange
+			_repository.AddNewPage(new Page(), "test1", "test1", DateTime.UtcNow);
+			_repository.AddNewPage(new Page(), "test2", "test2", DateTime.UtcNow);
+
+			// Act
+			_pageService.ClearPageTables();
+
+			// Assert
+			Assert.That(_repository.AllPages().Count(), Is.EqualTo(0));
+			Assert.That(_repository.AllPageContents().Count(), Is.EqualTo(0));
+		}
 	}
 }

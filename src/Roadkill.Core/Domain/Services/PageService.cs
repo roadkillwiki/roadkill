@@ -661,5 +661,21 @@ namespace Roadkill.Core.Services
 		{
 			return new MarkupConverter(ApplicationSettings, Repository, _pluginFactory);
 		}
+
+		/// <summary>
+		/// Clears all pages and page content from the database.
+		/// </summary>
+		/// <exception cref="DatabaseException">An datastore error occurred while clearing the page data.</exception>
+		public void ClearPageTables()
+		{
+			try
+			{
+				Repository.DeleteAllPages();
+			}
+			catch (DatabaseException ex)
+			{
+				throw new DatabaseException(ex, "An exception occurred while clearing all page tables.");
+			}
+		}
 	}
 }
