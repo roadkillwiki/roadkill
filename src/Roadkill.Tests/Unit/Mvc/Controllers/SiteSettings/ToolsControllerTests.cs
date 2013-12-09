@@ -9,11 +9,13 @@ using Roadkill.Core;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Domain.Export;
 using Roadkill.Core.Import;
 using Roadkill.Core.Localization;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Services;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit
 {
@@ -28,9 +30,9 @@ namespace Roadkill.Tests.Unit
 		private RepositoryMock _repository;
 		private UserServiceMock _userService;
 		private PageService _pageService;
-		private IWikiImporter _wikiImporter;
+		private WikiImporterMock _wikiImporter;
 		private PluginFactoryMock _pluginFactory;
-		private SearchService _searchService;
+		private SearchServiceMock _searchService;
 		private SettingsService _settingsService;
 		private PageViewModelCache _pageCache;
 		private ListCache _listCache;
@@ -56,11 +58,13 @@ namespace Roadkill.Tests.Unit
 			_cache = _container.MemoryCache;
 
 			_pageService = _container.PageService;
-			_wikiImporter = new ScrewTurnImporter(_applicationSettings, _repository);
+			_wikiImporter = new WikiImporterMock();
 			_pluginFactory = _container.PluginFactory;
 			_searchService = _container.SearchService;
 
-			_wikiExporter = new WikiExporter(_pageService, _repository, _pluginFactory);
+			// There's no point mocking WikiExporter (and turning it into an interface) as it 
+			// a lot of usefulness of these tests would be lost when creating fake Streams and zip files.
+			_wikiExporter = new WikiExporter(_applicationSettings, _pageService, _repository, _pluginFactory);
 			_wikiExporter.ExportFolder = AppDomain.CurrentDomain.BaseDirectory;
 
 			_toolsController = new ToolsController(_applicationSettings, _userService, _settingsService, _pageService,
@@ -78,6 +82,7 @@ namespace Roadkill.Tests.Unit
 			_pageCache.RemoveAll();
 			_listCache.RemoveAll();
 			_siteCache.RemoveAll();
+
 			_pageCache.Add(1, new PageViewModel());
 			_listCache.Add("list.somekey", new List<string>());
 			_siteCache.AddMenu("should not be cleared");
@@ -112,11 +117,10 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ExportAsWikiFiles_Should()
+		public void ExportAsWikiFiles_Should_Set_Filename_And_ContentType()
 		{
 			// Arrange
-			string downloadFilename = string.Format("export-{0}.zip", DateTime.UtcNow.ToString("yyyy-MM-dd-HHmm"));
-			string fullPath = Path.Combine(_wikiExporter.ExportFolder, downloadFilename);
+			string fullPath = Path.Combine(_wikiExporter.ExportFolder, "export-");
 
 			_repository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
 			_repository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
@@ -126,8 +130,9 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			Assert.That(result, Is.Not.Null, "FileStreamResult");
-			Assert.That(result.FileName, Is.EqualTo(fullPath));
-			Assert.That(result.FileDownloadName, Is.EqualTo(downloadFilename));
+			Assert.That(result.FileName, Is.StringStarting(fullPath));
+			Assert.That(result.FileDownloadName, Is.StringStarting("export-"));
+			Assert.That(result.FileDownloadName, Is.StringEnding(".zip"));
 			Assert.That(result.ContentType, Is.EqualTo("application/zip"));
 		}
 
@@ -149,129 +154,112 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ExportAttachments_Should()
+		public void ExportAttachments_Should_Set_Filename_And_ContentType()
 		{
 			// Arrange
+			string fullPath = Path.Combine(_wikiExporter.ExportFolder, "attachments-");
 
 			// Act
-			ActionResult result = _toolsController.ExportAttachments();
+			FilePathResult result = _toolsController.ExportAttachments() as FilePathResult;
 
 			// Assert
+			Assert.That(result, Is.Not.Null, "FileStreamResult");
+			Assert.That(result.FileName, Is.StringStarting(fullPath));
+			Assert.That(result.FileDownloadName, Is.StringStarting("attachments-"));
+			Assert.That(result.FileDownloadName, Is.StringEnding(".zip"));
+			Assert.That(result.ContentType, Is.EqualTo("application/zip"));
 		}
 
 		[Test]
-		public void ImportFromScrewTurn_Should()
+		public void ImportFromScrewTurn_Should_TempData_Error_Message_When_ConnectionString_Is_Empty()
 		{
 			// Arrange
 
 			// Act
-			ActionResult result = _toolsController.ImportFromScrewTurn("");
+			RedirectToRouteResult result = _toolsController.ImportFromScrewTurn("") as RedirectToRouteResult;
 
 			// Assert
+			Assert.That(result, Is.Not.Null, "RedirectToRouteResult");
+			Assert.That(result.RouteValues["action"], Is.EqualTo("Index"));
+			Assert.That(_toolsController.TempData["ErrorMessage"], Is.Not.Null.Or.Empty);
 		}
 
 		[Test]
-		public void Index_Should()
+		public void ImportFromScrewTurn_Should_Redirect_And_TempData_Message_And_Import()
 		{
 			// Arrange
 
 			// Act
-			ActionResult result = _toolsController.Index();
+			RedirectToRouteResult result = _toolsController.ImportFromScrewTurn("connection string") as RedirectToRouteResult;
 
 			// Assert
+			Assert.That(result, Is.Not.Null, "RedirectToRouteResult");
+			Assert.That(result.RouteValues["action"], Is.EqualTo("Index"));
+			Assert.That(_toolsController.TempData["SuccessMessage"], Is.EqualTo(SiteStrings.SiteSettings_Tools_ScrewTurnImport_Message));
+
+			Assert.That(_wikiImporter.ImportedFromSql, Is.True);
+			Assert.That(_wikiImporter.UpdatedSearch, Is.True);
 		}
 
 		[Test]
-		public void RenameTag_Should()
+		public void Index_Should_Return_View()
 		{
 			// Arrange
 
 			// Act
-			ActionResult result = _toolsController.RenameTag("", "");
+			ViewResult result = _toolsController.Index() as ViewResult;
 
 			// Assert
+			Assert.That(result, Is.Not.Null, "ViewResult");
 		}
 
 		[Test]
-		public void UpdateSearchIndex_Should()
+		public void RenameTag_Should_Redirect_And_Set_TempData_Message_And_Rename_Tag()
 		{
 			// Arrange
+			_repository.AddNewPage(new Page() { Id = 1, Tags = "old" }, "text", "admin", DateTime.UtcNow);
+			_repository.AddNewPage(new Page() { Id = 2, Tags = "old" }, "text", "admin", DateTime.UtcNow);
 
 			// Act
-			ActionResult result = _toolsController.UpdateSearchIndex();
+			RedirectToRouteResult result = _toolsController.RenameTag("old", "new") as RedirectToRouteResult;
 
 			// Assert
-		}
-	}
+			Assert.That(result, Is.Not.Null, "RedirectToRouteResult");
+			Assert.That(result.RouteValues["action"], Is.EqualTo("Index"));
+			Assert.That(_toolsController.TempData["SuccessMessage"], Is.EqualTo(SiteStrings.SiteSettings_Tools_RenameTag_Message));
 
-	[TestFixture]
-	[Category("Unit")]
-	public class WikiExporterTests
-	{
-		private MocksAndStubsContainer _container;
-		private RepositoryMock _repository;
-		private PageService _pageService;
-		private PluginFactoryMock _pluginFactory;
-		private WikiExporter _wikiExporter;
-
-		[SetUp]
-		public void Setup()
-		{
-			_container = new MocksAndStubsContainer();
-			_repository = _container.Repository;
-			_pageService = _container.PageService;
-			_pluginFactory = _container.PluginFactory;
-
-			_wikiExporter = new WikiExporter(_pageService, _repository, _pluginFactory);
-			_wikiExporter.ExportFolder = AppDomain.CurrentDomain.BaseDirectory;
+			Assert.That(_repository.GetPageById(1).Tags, Is.StringContaining("new"));
+			Assert.That(_repository.GetPageById(2).Tags, Is.StringContaining("new"));
 		}
 
 		[Test]
-		public void ExportAsXml_Should_Return_Non_Empty_Stream()
+		public void SiteSettings_Should_Return_ContentResult_With_Json()
 		{
 			// Arrange
-			_repository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
-			_repository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
 
 			// Act
-			Stream stream = _wikiExporter.ExportAsXml();
+			ContentResult result = _toolsController.SiteSettings() as ContentResult;
 
 			// Assert
-			Assert.That(stream.Length, Is.GreaterThan(1));
+			Assert.That(result, Is.Not.Null, "ContentResult");
+			Assert.That(result.Content, Is.StringContaining("{")); // a very basic JSON-format string test
+			Assert.That(result.Content, Is.StringContaining("}"));
 		}
 
 		[Test]
-		public void ExportAsSql_Should_Return_Non_Empty_Stream()
+		public void UpdateSearchIndex_Should_Redirect_And_Set_TempData_Message_And_Create_Index()
 		{
 			// Arrange
-			_repository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
-			_repository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
 
 			// Act
-			Stream stream = _wikiExporter.ExportAsSql();
+			RedirectToRouteResult result = _toolsController.UpdateSearchIndex() as RedirectToRouteResult;
 
 			// Assert
-			Assert.That(stream.Length, Is.GreaterThan(1));
-		}
+			Assert.That(result, Is.Not.Null, "RedirectToRouteResult");
+			Assert.That(result.RouteValues["action"], Is.EqualTo("Index"));
+			Assert.That(_toolsController.TempData["SuccessMessage"], Is.EqualTo(SiteStrings.SiteSettings_Tools_RebuildSearch_Message));
 
-		[Test]
-		public void ExportAsWikiFiles_Should_Save_File_To_Export_Directory()
-		{
-			// Arrange
-			string filename = string.Format("export-{0}.zip", DateTime.Now.Ticks);
-			string zipFullPath = Path.Combine(_wikiExporter.ExportFolder, filename);
-
-			_repository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
-			_repository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
-
-			// Act
-			_wikiExporter.ExportAsWikiFiles(filename);
-
-			// Assert
-			Assert.That(File.Exists(zipFullPath), Is.True);
-
-			FileInfo file = new FileInfo(zipFullPath);
-			Assert.That(file.Length, Is.GreaterThan(1));
+			Assert.That(_searchService.CreatedNewIndex, Is.True);
 		}
 	}
 }

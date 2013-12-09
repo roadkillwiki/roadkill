@@ -340,8 +340,9 @@
     <Compile Include="Unit\Cache\SiteCacheTests.cs" />
     <Compile Include="Unit\Cache\PageServiceCacheTests.cs" />
     <Compile Include="Unit\Cache\ListCacheTests.cs" />
-    <Compile Include="Unit\Database\Export\SqlExportBuilderTests.cs" />
+    <Compile Include="Unit\Export\SqlExportBuilderTests.cs" />
     <Compile Include="Unit\Extensions\ExtensionsTests.cs" />
+    <Compile Include="Unit\Import\WikiExporterTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\AdminRequiredAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\AuthorizeAttributeTestBase.cs" />
     <Compile Include="Unit\Mvc\Attributes\BrowserCacheAttributeTests.cs" />
@@ -405,6 +406,7 @@
     <Compile Include="Unit\StubsAndMocks\UserContextStub.cs" />
     <Compile Include="Unit\StubsAndMocks\UserServiceStub.cs" />
     <Compile Include="Unit\StubsAndMocks\TextPluginStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\WikiImporterMock.cs" />
     <Compile Include="Unit\Text\MenuParserTests.cs" />
     <Compile Include="Unit\Plugins\TocParserTests.cs" />
     <Compile Include="Unit\Text\MarkupSanitizerTests.cs" />
@@ -430,9 +432,9 @@
     <Content Include="Unit\Attachments\afile.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Unit\Database\Export\expected-users-export.sql" />
-    <EmbeddedResource Include="Unit\Database\Export\expected-pages-export.sql" />
-    <EmbeddedResource Include="Unit\Database\Export\expected-siteconfiguration-export.sql" />
+    <EmbeddedResource Include="Unit\Export\expected-users-export.sql" />
+    <EmbeddedResource Include="Unit\Export\expected-pages-export.sql" />
+    <EmbeddedResource Include="Unit\Export\expected-siteconfiguration-export.sql" />
     <Content Include="Unit\Text\whitelist.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

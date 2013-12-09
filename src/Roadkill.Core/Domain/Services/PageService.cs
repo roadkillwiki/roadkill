@@ -495,6 +495,9 @@ namespace Roadkill.Core.Services
 		/// <exception cref="SearchException">An error occurred updating the search index.</exception>
 		public void RenameTag(string oldTagName, string newTagName)
 		{
+			if (string.IsNullOrEmpty(oldTagName) || string.IsNullOrEmpty(newTagName))
+				return;
+
 			try
 			{
 				IEnumerable<PageViewModel> pageModels = FindByTag(oldTagName);

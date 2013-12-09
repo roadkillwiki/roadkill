@@ -16,6 +16,7 @@ using Roadkill.Core.Logging;
 using Roadkill.Core.Database.Export;
 using Roadkill.Core.Database;
 using Roadkill.Core.Plugins;
+using Roadkill.Core.Domain.Export;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -99,7 +100,6 @@ namespace Roadkill.Core.Mvc.Controllers
 				_wikiExporter.ExportAsWikiFiles(zipFilename);
 
 				string zipFullPath = Path.Combine(_wikiExporter.ExportFolder, zipFilename);
-
 				return File(zipFullPath, "application/zip", zipFilename);
 			}
 			catch (IOException e)
@@ -118,21 +118,13 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// If an error occurs, the action adds the error message to the TempData 'ErrorMessage' item.</returns>
 		public ActionResult ExportAttachments()
 		{
-			IEnumerable<PageViewModel> pages = _pageService.AllPages();
-
 			try
 			{
-				string exportFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Export");
-				Directory.CreateDirectory(exportFolder);
 
 				string zipFilename = string.Format("attachments-export-{0}.zip", DateTime.UtcNow.ToString("yyy-MM-dd-HHss"));
-				string zipFullPath = Path.Combine(exportFolder, zipFilename);
-				using (ZipFile zip = new ZipFile(zipFullPath))
-				{
-					zip.AddDirectory(ApplicationSettings.AttachmentsDirectoryPath, "Attachments");
-					zip.Save();
-				}
+				_wikiExporter.ExportAsWikiFiles(zipFilename);
 
+				string zipFullPath = Path.Combine(_wikiExporter.ExportFolder, zipFilename);
 				return File(zipFullPath, "application/zip", zipFilename);
 			}
 			catch (IOException e)
@@ -176,10 +168,9 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public ActionResult ImportFromScrewTurn(string screwturnConnectionString)
 		{
-			string message = "";
-
 			if (string.IsNullOrEmpty(screwturnConnectionString))
 			{
+				// todo-translation
 				TempData["ErrorMessage"] = "Please enter a Screwturn connection string";
 			}
 			else
@@ -187,7 +178,6 @@ namespace Roadkill.Core.Mvc.Controllers
 				_wikiImporter.ImportFromSqlServer(screwturnConnectionString);
 				_wikiImporter.UpdateSearchIndex(_searchService);
 				TempData["SuccessMessage"] = SiteStrings.SiteSettings_Tools_ScrewTurnImport_Message;
-
 			}
 			
 			return RedirectToAction("Index");
@@ -238,105 +228,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ActionResult SiteSettings()
 		{
 			return Content(SettingsService.GetSiteSettings().GetJson(), "text/json");
-		}
-	}
-
-	public class WikiExporter
-	{
-		private readonly PageService _pageService;
-		private readonly SqlExportBuilder _sqlExportBuilder;
-
-		public string ExportFolder { get; set; }
-
-		public WikiExporter(PageService pageService, IRepository repository, IPluginFactory pluginFactory)
-		{
-			if (pageService == null)
-				throw new ArgumentNullException("pageService");
-
-			_pageService = pageService;
-			_sqlExportBuilder = new SqlExportBuilder(repository, pluginFactory);
-
-			ExportFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Export");
-		}
-
-		public Stream ExportAsXml()
-		{
-			string xml = _pageService.ExportToXml();
-
-			// Don't dispose the stream (as the FileStreamResult will need it open)
-			MemoryStream stream = new MemoryStream();
-			StreamWriter writer = new StreamWriter(stream);
-			writer.Write(xml);
-			writer.Flush();
-			stream.Position = 0;
-
-			return stream;
-		}
-
-		public Stream ExportAsSql()
-		{
-			string sql = _sqlExportBuilder.Export();
-
-			MemoryStream stream = new MemoryStream();
-			StreamWriter writer = new StreamWriter(stream);
-			writer.Write(sql);
-			writer.Flush();
-			stream.Position = 0;
-
-			return stream;
-		}
-
-		public void ExportAsWikiFiles(string filename)
-		{
-			if (string.IsNullOrEmpty(filename))
-				throw new ArgumentNullException("filename");
-
-			IEnumerable<PageViewModel> pages = _pageService.AllPages();
-			char[] invalidChars = Path.GetInvalidFileNameChars();
-
-			if (!Directory.Exists(ExportFolder))
-				Directory.CreateDirectory(ExportFolder);
-
-			string zipFullPath = Path.Combine(ExportFolder, filename);
-
-			using (ZipFile zip = new ZipFile(zipFullPath))
-			{
-				int index = 0;
-				List<string> filenames = new List<string>();
-
-				foreach (PageViewModel summary in pages.OrderBy(p => p.Title))
-				{
-					// Double check for blank titles, as the API can add
-					// pages with blanks titles even though the UI doesn't allow it.
-					if (string.IsNullOrEmpty(summary.Title))
-						summary.Title = "(No title -" +summary.Id+ ")";
-
-					string filePath = summary.Title;
-
-					// Ensure the filename is unique as its title based.
-					// Simply replace invalid path characters with a '-'
-					foreach (char item in invalidChars)
-					{
-						filePath = filePath.Replace(item, '-');
-					}
-
-					if (filenames.Contains(filePath))
-						filePath += (++index) + "";
-					else
-						index = 0;
-
-					filenames.Add(filePath);
-
-					filePath = Path.Combine(ExportFolder, filePath);
-					filePath += ".wiki";
-					string content = "Tags:" + summary.SpaceDelimitedTags() + "\r\n" + summary.Content;
-
-					System.IO.File.WriteAllText(filePath, content);
-					zip.AddFile(filePath, "");
-				}
-
-				zip.Save();
-			}
 		}
 	}
 }
