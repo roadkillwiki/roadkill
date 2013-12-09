@@ -230,7 +230,7 @@ namespace Roadkill.Tests.Unit
 		private string ReadEmbeddedResource(string name)
 		{
 			// These files need to have Windows line spacing (\r\n). To convert the files use Notepad++ - Edit->EOL Conversion
-			string path = string.Format("Roadkill.Tests.Unit.Database.Export.{0}", name);
+			string path = string.Format("Roadkill.Tests.Unit.Export.{0}", name);
 
 			Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path);
 			if (stream == null)
