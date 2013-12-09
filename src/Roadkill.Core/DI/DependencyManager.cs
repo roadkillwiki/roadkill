@@ -30,6 +30,7 @@ using Roadkill.Core.Mvc;
 using Roadkill.Core.Plugins.SpecialPages;
 using Roadkill.Core.Database.Export;
 using Roadkill.Core.Mvc.Controllers;
+using Roadkill.Core.Domain.Export;
 
 namespace Roadkill.Core
 {

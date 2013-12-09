@@ -15,6 +15,7 @@ namespace Roadkill.Tests.Unit
 	{
 		public List<Page> Pages { get; set; }
 		public List<PageContent> PageContents { get; set; }
+		public bool CreatedNewIndex { get; set; }
 
 		public SearchServiceMock(ApplicationSettings settings, IRepository repository, IPluginFactory pluginFactory)
 			: base(settings, repository, pluginFactory)
@@ -33,6 +34,7 @@ namespace Roadkill.Tests.Unit
 
 		public override void CreateIndex()
 		{
+			CreatedNewIndex = true;
 		}
 
 		public override int Delete(PageViewModel model)
