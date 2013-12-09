@@ -123,5 +123,11 @@ namespace Roadkill.Core.Services
 		/// Gets the menu HTML, which is stored in the database.
 		/// </summary>
 		string GetMenu(IUserContext userContext);
+
+		/// <summary>
+		/// Clears all pages and page content from the database.
+		/// </summary>
+		/// <exception cref="DatabaseException">A datastore error occurred while clearing the page data.</exception>
+		void ClearPageTables();
 	}
 }

@@ -26,22 +26,6 @@ namespace Roadkill.Core.Services
 		}
 
 		/// <summary>
-		/// Clears all pages and page content from the database.
-		/// </summary>
-		/// <exception cref="DatabaseException">An datastore error occurred while clearing the page data.</exception>
-		public void ClearPageTables()
-		{
-			try
-			{
-				Repository.DeleteAllPages();
-			}
-			catch (DatabaseException ex)
-			{
-				throw new DatabaseException(ex, "An exception occurred while clearing all page tables.");
-			}
-		}
-
-		/// <summary>
 		/// Clears all users from the system.
 		/// </summary>
 		/// <exception cref="DatabaseException">An databaseerror occurred while clearing the user table.</exception>
