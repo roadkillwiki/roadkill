@@ -83,7 +83,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 
 			// Act
-			ActionResult result = _controller.AddAdmin(null);
+			//ActionResult result = _controller.AddAdmin(null);
 
 			// Assert
 		}
@@ -105,7 +105,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 
 			// Act
-			ActionResult result = _controller.AddEditor(null);
+			//ActionResult result = _controller.AddEditor(null);
 
 			// Assert
 		}
@@ -127,7 +127,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 
 			// Act
-			ActionResult result = _controller.EditUser(Guid.Empty);
+			//ActionResult result = _controller.EditUser(Guid.Empty);
 
 			// Assert
 		}

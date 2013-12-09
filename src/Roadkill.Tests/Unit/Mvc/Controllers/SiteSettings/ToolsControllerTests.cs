@@ -57,6 +57,9 @@ namespace Roadkill.Tests.Unit
 			_siteCache = _container.SiteCache;
 			_cache = _container.MemoryCache;
 
+			foreach (string key in _cache.Select(x => x.Key))
+				_cache.Remove(key);
+
 			_pageService = _container.PageService;
 			_wikiImporter = new WikiImporterMock();
 			_pluginFactory = _container.PluginFactory;
@@ -78,10 +81,6 @@ namespace Roadkill.Tests.Unit
 			// Arrange		
 			_repository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
 			_repository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
-
-			_pageCache.RemoveAll();
-			_listCache.RemoveAll();
-			_siteCache.RemoveAll();
 
 			_pageCache.Add(1, new PageViewModel());
 			_listCache.Add("list.somekey", new List<string>());
