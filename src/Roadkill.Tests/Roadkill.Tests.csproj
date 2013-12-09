@@ -347,6 +347,7 @@
     <Compile Include="Unit\Mvc\Attributes\BrowserCacheAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\OptionalAuthorizationTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\EditorRequiredAttributeTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\SiteSettings\ToolsControllerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\SiteSettings\CacheControllerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\SpecialPagesControllerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\InstallControllerTests.cs" />

@@ -15,6 +15,7 @@ using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Tests.Unit.StubsAndMocks;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Caching;
 
 namespace Roadkill.Tests.Unit
 {
@@ -33,6 +34,7 @@ namespace Roadkill.Tests.Unit
 		private PageViewModelCache _pageCache;
 		private ListCache _listCache;
 		private SiteCache _siteCache;
+		private MemoryCache _cache;
 
 		private CacheController _cacheController;
 
@@ -49,6 +51,7 @@ namespace Roadkill.Tests.Unit
 			_pageCache = _container.PageViewModelCache;
 			_listCache = _container.ListCache;
 			_siteCache = _container.SiteCache;
+			_cache = _container.MemoryCache;
 
 			_cacheController = new CacheController(_applicationSettings, _userService, _settingsService, _context, _listCache, _pageCache, _siteCache);
 		}
@@ -63,10 +66,10 @@ namespace Roadkill.Tests.Unit
 			_siteCache.AddMenu("menu");
 
 			// Act
-			ActionResult result = _cacheController.Index();
+			ViewResult result = _cacheController.Index() as ViewResult;
 
 			// Assert
-			Assert.That(result, Is.TypeOf<ViewResult>(), "ViewResult");
+			Assert.That(result, Is.Not.Null, "ViewResult");
 
 			CacheViewModel model = result.ModelFromActionResult<CacheViewModel>();
 			Assert.NotNull(model, "Null model");
@@ -74,6 +77,26 @@ namespace Roadkill.Tests.Unit
 			Assert.That(model.PageKeys.Count(), Is.EqualTo(1));
 			Assert.That(model.ListKeys.Count(), Is.EqualTo(1));
 			Assert.That(model.SiteKeys.Count(), Is.EqualTo(1));
+		}
+
+		[Test]
+		public void Clear_Should_Redirect_And_Clear_All_Cache_Items()
+		{
+			// Arrange
+			_applicationSettings.UseObjectCache = true;
+			_pageCache.Add(1, new PageViewModel());
+			_listCache.Add<string>("test", new List<string>());
+			_siteCache.AddMenu("menu");
+
+			// Act
+			RedirectToRouteResult result = _cacheController.Clear() as RedirectToRouteResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "RedirectToRouteResult");
+			Assert.That(result.RouteValues["action"], Is.EqualTo("Index"));
+			Assert.That(_cacheController.TempData["CacheCleared"], Is.EqualTo(true));
+
+			Assert.That(_cache.Count(), Is.EqualTo(0));
 		}
 	}
 }
