@@ -67,91 +67,241 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void AddAdmin_GET_Should()
+		public void AddAdmin_GET_Should_Return_View_And_ViewModel()
 		{
 			// Arrange
 
 			// Act
-			ActionResult result = _controller.AddAdmin();
+			ViewResult result = _controller.AddAdmin() as ViewResult;
 
 			// Assert
+			Assert.That(result, Is.Not.Null, "ViewResult");
+			UserViewModel model = result.ModelFromActionResult<UserViewModel>();
+			Assert.That(model, Is.Not.Null, "model");
 		}
 
 		[Test]
-		public void AddAdmin_POST_Should()
+		public void AddAdmin_POST_Should_Add_Admin_And_Redirect_To_Index()
 		{
 			// Arrange
+			UserViewModel model = new UserViewModel();
 
 			// Act
-			//ActionResult result = _controller.AddAdmin(null);
+			RedirectToRouteResult result = _controller.AddAdmin(model) as RedirectToRouteResult;
 
 			// Assert
+			Assert.That(result, Is.Not.Null, "RedirectToRouteResult");
+			Assert.That(result.RouteValues["action"], Is.EqualTo("Index"));
+			Assert.That(_userService.Users.Count, Is.EqualTo(1));
 		}
 
 		[Test]
-		public void AddEditor_GET_Should()
+		public void AddAdmin_POST_Should_Return_ViewResult_When_ModelState_Is_Invalid()
 		{
 			// Arrange
+			UserViewModel model = new UserViewModel();
+			_controller.ModelState.AddModelError("username", "notvalid"); // force an error
 
 			// Act
-			ActionResult result = _controller.AddEditor();
+			ViewResult result = _controller.AddAdmin(model) as ViewResult;
 
 			// Assert
+			Assert.That(result, Is.Not.Null, "ViewResult");
+			UserViewModel resultModel = result.ModelFromActionResult<UserViewModel>();
+			Assert.That(resultModel, Is.Not.Null, "resultModel");
 		}
 
 		[Test]
-		public void AddEditor_POST_Should()
+		public void AddEditor_GET_Should_Return_View_And_ViewModel()
 		{
 			// Arrange
 
 			// Act
-			//ActionResult result = _controller.AddEditor(null);
+			ViewResult result = _controller.AddEditor() as ViewResult;
 
 			// Assert
+			Assert.That(result, Is.Not.Null, "ViewResult");
+			UserViewModel model = result.ModelFromActionResult<UserViewModel>();
+			Assert.That(model, Is.Not.Null, "model");
 		}
 
 		[Test]
-		public void DeleteUser_Should()
+		public void AddEditor_POST_Should_Add_Admin_And_Redirect_To_Index()
 		{
 			// Arrange
+			UserViewModel model = new UserViewModel();
 
 			// Act
-			ActionResult result = _controller.DeleteUser("");
+			RedirectToRouteResult result = _controller.AddEditor(model) as RedirectToRouteResult;
 
 			// Assert
+			Assert.That(result, Is.Not.Null, "RedirectToRouteResult");
+			Assert.That(result.RouteValues["action"], Is.EqualTo("Index"));
+			Assert.That(_userService.Users.Count, Is.EqualTo(1));
 		}
 
 		[Test]
-		public void EditUser_Get_Should()
+		public void AddEditor_POST_Should_Return_ViewResult_When_ModelState_Is_Invalid()
 		{
 			// Arrange
+			UserViewModel model = new UserViewModel();
+			_controller.ModelState.AddModelError("username", "notvalid"); // force an error
 
 			// Act
-			//ActionResult result = _controller.EditUser(Guid.Empty);
+			ViewResult result = _controller.AddEditor(model) as ViewResult;
 
 			// Assert
+			Assert.That(result, Is.Not.Null, "ViewResult");
+			UserViewModel resultModel = result.ModelFromActionResult<UserViewModel>();
+			Assert.That(resultModel, Is.Not.Null, "resultModel");
 		}
 
 		[Test]
-		public void EditUser_Post_Should()
+		public void DeleteUser_Should_Remove_User_And_Redirect_To_Index()
 		{
 			// Arrange
+			User user = new User() { Id = Guid.NewGuid(), Email="blah@localhost", IsActivated = true };
+			_userService.Users.Add(user);
 
 			// Act
-			ActionResult result = _controller.EditUser(new UserViewModel());
+			RedirectToRouteResult result = _controller.DeleteUser(user.Email) as RedirectToRouteResult;
 
 			// Assert
+			Assert.That(_userService.Users.Count, Is.EqualTo(0));
+			Assert.That(result, Is.Not.Null, "RedirectToRouteResult");
+			Assert.That(result.RouteValues["action"], Is.EqualTo("Index"));
 		}
 
 		[Test]
-		public void Index_Should()
+		public void EditUser_GET_Should_Return_View_And_ViewModel()
+		{
+			// Arrange
+			User user = new User() { Id = Guid.NewGuid(), IsActivated = true };
+			_userService.Users.Add(user);
+
+			// Act
+			ViewResult result = _controller.EditUser(user.Id) as ViewResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "ViewResult");
+			UserViewModel model = result.ModelFromActionResult<UserViewModel>();
+			Assert.That(model, Is.Not.Null, "model");
+			Assert.That(model.Id, Is.EqualTo(user.Id), "model");
+		}
+
+		[Test]
+		public void EditUser_GET_Should_Redirect_When_User_Does_Not_Exist()
 		{
 			// Arrange
 
 			// Act
-			ActionResult result = _controller.Index();
+			RedirectToRouteResult result = _controller.EditUser(Guid.NewGuid()) as RedirectToRouteResult;
 
 			// Assert
+			Assert.That(result, Is.Not.Null, "RedirectToRouteResult");
+			Assert.That(result.RouteValues["action"], Is.EqualTo("Index"));
+		}
+
+		[Test]
+		public void EditUser_POST_Should_Update_User_When_Username_And_Email_Changes_And_Redirect_To_Index()
+		{
+			// Arrange
+			User user = new User()
+			{ 
+				Id = Guid.NewGuid(), 
+				IsActivated = true, 
+				Lastname = "Lastname",
+				Firstname = "Firstname",
+				Email = "email@localhost",
+				Username = "username"
+			};
+			_userService.Users.Add(user);
+
+			UserViewModel model = new UserViewModel(user);
+			model.Lastname = "new lastname";
+			model.Firstname = "new Firstname";
+			model.ExistingEmail = "email@localhost";
+			model.NewEmail = "newemail@localhost";
+			model.NewUsername = "new username";
+
+			// Act
+			RedirectToRouteResult result = _controller.EditUser(model) as RedirectToRouteResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "RedirectToRouteResult");
+			Assert.That(result.RouteValues["action"], Is.EqualTo("Index"));
+
+			User savedUser = _userService.Users.First();
+			Assert.That(savedUser.Lastname, Is.EqualTo(model.Lastname));
+			Assert.That(savedUser.Firstname, Is.EqualTo(model.Firstname));
+			Assert.That(savedUser.Email, Is.EqualTo(model.NewEmail));
+			Assert.That(savedUser.Username, Is.EqualTo(model.NewUsername));
+		}
+
+		[Test]
+		public void EditUser_POST_Should_Update_Password_When_Password_Is_Not_Empty_And_Redirect_To_Index()
+		{
+			// Arrange
+			User user = new User()
+			{
+				Id = Guid.NewGuid(),
+				IsActivated = true,
+				Lastname = "Lastname",
+				Firstname = "Firstname",
+				Email = "email@localhost",
+				Username = "username"
+			};
+			_userService.Users.Add(user);
+
+			UserViewModel model = new UserViewModel(user);
+			model.Password = "NewPassword";
+			model.PasswordConfirmation = "NewPassword";
+
+			// Act
+			RedirectToRouteResult result = _controller.EditUser(model) as RedirectToRouteResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "RedirectToRouteResult");
+			Assert.That(result.RouteValues["action"], Is.EqualTo("Index"));
+
+			bool passwordChanged = _userService.Authenticate(user.Email, "NewPassword");
+			Assert.That(passwordChanged, Is.True);
+		}
+
+		[Test]
+		public void EditUser_POST_Should_Return_ViewResult_When_ModelState_Is_Invalid()
+		{
+			// Arrange
+			UserViewModel model = new UserViewModel();
+			_controller.ModelState.AddModelError("username", "notvalid"); // force an error
+
+			// Act
+			ViewResult result = _controller.EditUser(model) as ViewResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "ViewResult");
+			UserViewModel resultModel = result.ModelFromActionResult<UserViewModel>();
+			Assert.That(resultModel, Is.Not.Null, "resultModel");
+		}
+
+		[Test]
+		public void Index_Should_Return_View_And_ViewModel_With_Both_User_Types()
+		{
+			// Arrange
+			User admin = new User() { Id = Guid.NewGuid() };
+			_userService.Users.Add(admin);
+
+			User editor = new User() { Id = Guid.NewGuid() };
+			_userService.Users.Add(editor);
+
+			// Act
+			ViewResult result = _controller.Index() as ViewResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "ViewResult");
+			List<IEnumerable<UserViewModel>> model = result.ModelFromActionResult<List<IEnumerable<UserViewModel>>>();
+			Assert.That(model, Is.Not.Null, "model");
+			Assert.That(model.Count, Is.EqualTo(2));
 		}
 	}
 }

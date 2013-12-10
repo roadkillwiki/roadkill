@@ -124,6 +124,9 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ActionResult EditUser(Guid id)
 		{
 			User user = UserManager.GetUserById(id);
+			if (user == null)
+				return RedirectToAction("Index");
+
 			UserViewModel model = new UserViewModel(user);
 			return View(model);
 		}
@@ -163,7 +166,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// Removes a user from the system.
 		/// </summary>
-		/// <param name="id">The id of the user to remove.</param>
+		/// <param name="id">The email or username of the user to remove.</param>
 		/// <returns>Redirects to the Users action.</returns>
 		public ActionResult DeleteUser(string id)
 		{
