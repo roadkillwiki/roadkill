@@ -152,6 +152,9 @@ namespace Roadkill.Core
 			x.For<SiteCache>().Singleton();
 			x.For<PageViewModelCache>().Singleton();
 			x.For<IPluginCache>().Use<SiteCache>();
+
+			// Site sttings
+			x.For<ConfigReaderWriter>().Use<FullTrustConfigReaderWriter>();
 		}
 
 		private void Scan(IAssemblyScanner scanner)

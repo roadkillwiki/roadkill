@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Moq;
+using NUnit.Framework;
 using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
 namespace Roadkill.Tests.Unit
@@ -145,6 +148,24 @@ namespace Roadkill.Tests.Unit
 
 			T typedModel = (T)model;
 			return typedModel;
+		}
+
+		public static void AssertIsOnlyHttpPost<T>(this T controller, Expression<Action<T>> action) where T: Controller
+		{
+			Type type = controller.GetType();
+			MethodCallExpression body = action.Body as MethodCallExpression;
+			MethodInfo actionMethod = body.Method;
+
+			HttpPostAttribute postAttribute = actionMethod.GetCustomAttributes(typeof(HttpPostAttribute), false)
+							 .Cast<HttpPostAttribute>()
+							 .SingleOrDefault();
+
+			HttpGetAttribute getAttribute = actionMethod.GetCustomAttributes(typeof(HttpGetAttribute), false)
+							 .Cast<HttpGetAttribute>()
+							 .SingleOrDefault();
+
+			Assert.That(postAttribute != null && getAttribute != null, 
+				"{0}.{1} does not have [HttpPost] attribute", controller.GetType().Name, actionMethod.Name);
 		}
 	}
 }

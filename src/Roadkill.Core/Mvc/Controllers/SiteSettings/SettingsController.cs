@@ -29,30 +29,16 @@ namespace Roadkill.Core.Mvc.Controllers
 	public class SettingsController : ControllerBase
 	{
 		private SettingsService _settingsService;
-		private PageService _pageService;
-		private SearchService _searchService;
-		private IWikiImporter _wikiImporter;
-		private ListCache _listCache;
-		private PageViewModelCache _pageViewModelCache;
 		private SiteCache _siteCache;
-		private IRepository _repository;
-		private IPluginFactory _pluginFactory;
+		private ConfigReaderWriter _configReaderWriter;
 
-		public SettingsController(ApplicationSettings settings, UserServiceBase userManager,
-			SettingsService settingsService, PageService pageService, SearchService searchService, IUserContext context,
-			ListCache listCache, PageViewModelCache pageViewModelCache, SiteCache siteCache, IWikiImporter wikiImporter, 
-			IRepository repository, IPluginFactory pluginFactory)
+		public SettingsController(ApplicationSettings settings, UserServiceBase userManager, SettingsService settingsService, 
+			IUserContext context, SiteCache siteCache, ConfigReaderWriter configReaderWriter)
 			: base(settings, userManager, context, settingsService) 
 		{
 			_settingsService = settingsService;
-			_pageService = pageService;
-			_searchService = searchService;
-			_listCache = listCache;
-			_pageViewModelCache = pageViewModelCache;
 			_siteCache = siteCache;
-			_wikiImporter = wikiImporter;			
-			_repository = repository;
-			_pluginFactory = pluginFactory;
+			_configReaderWriter = configReaderWriter;
 		}
 
 		/// <summary>
@@ -78,14 +64,13 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				ConfigReaderWriter configReader = ConfigReaderWriterFactory.GetConfigReader();
-				configReader.Save(model);
+				_configReaderWriter.Save(model);
 			
 				_settingsService.SaveSiteSettings(model);
 				_siteCache.RemoveMenuCacheItems();
 
 				// Refresh the AttachmentsDirectoryPath using the absolute attachments path, as it's calculated in the constructor
-				ApplicationSettings appSettings = configReader.GetApplicationSettings();
+				ApplicationSettings appSettings = _configReaderWriter.GetApplicationSettings();
 				model.FillFromApplicationSettings(appSettings);
 				model.UpdateSuccessful = true;
 			}
