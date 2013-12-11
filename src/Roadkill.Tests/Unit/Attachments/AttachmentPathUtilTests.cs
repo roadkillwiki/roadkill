@@ -185,5 +185,47 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(actualResult, Is.EqualTo(expectedResult));
 		}
+
+		[Test]
+		public void AttachmentFolderExistsAndWriteable_Should_Return_Empty_String_For_Writeable_Folder()
+		{
+			// Arrange
+			string directory = AppDomain.CurrentDomain.BaseDirectory;
+			string expectedMessage = "";
+
+			// Act
+			string actualMessage = AttachmentPathUtil.AttachmentFolderExistsAndWriteable(directory, null);
+
+			// Assert
+			Assert.That(actualMessage, Is.EqualTo(expectedMessage));
+		}
+
+		[Test]
+		public void AttachmentFolderExistsAndWriteable_Should_Return_Error_For_Empty_Folder()
+		{
+			// Arrange
+			string directory = "";
+			string expectedMessage = "The folder name is empty";
+
+			// Act
+			string actualMessage = AttachmentPathUtil.AttachmentFolderExistsAndWriteable(directory, null);
+
+			// Assert
+			Assert.That(actualMessage, Is.EqualTo(expectedMessage));
+		}
+
+		[Test]
+		public void AttachmentFolderExistsAndWriteable_Should_Return_Error_For_Missing_Folder()
+		{
+			// Arrange
+			string directory = @"c:\87sd9f7dssdds3232";
+			string expectedMessage = "The directory does not exist, please create it first";
+
+			// Act
+			string actualMessage = AttachmentPathUtil.AttachmentFolderExistsAndWriteable(directory, null);
+
+			// Assert
+			Assert.That(actualMessage, Is.EqualTo(expectedMessage));
+		}
 	}
 }

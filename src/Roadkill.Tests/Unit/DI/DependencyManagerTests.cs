@@ -22,6 +22,7 @@ using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security.Windows;
 using Roadkill.Core.Plugins;
 using Roadkill.Core.Import;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit
 {
@@ -90,6 +91,8 @@ namespace Roadkill.Tests.Unit
 
 			// Act
 			container.Configure();
+			ObjectFactory.Configure(x => x.For<ConfigReaderWriter>().Use<ConfigReaderWriterStub>()); // this avoids issues with the web.config trying to be loaded
+
 			IList<Roadkill.Core.Mvc.Controllers.ControllerBase> controllers = ObjectFactory.GetAllInstances<Roadkill.Core.Mvc.Controllers.ControllerBase>();
 
 			// Assert

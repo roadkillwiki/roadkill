@@ -36,6 +36,7 @@ namespace Roadkill.Tests.Unit
 		private SettingsService _settingsService;
 		private PluginFactoryMock _pluginFactory;
 		private SearchServiceMock _searchService;
+		private ConfigReaderWriterStub _configReaderWriter;
 
 		private InstallController _installController;
 
@@ -55,8 +56,9 @@ namespace Roadkill.Tests.Unit
 			_historyService = _container.HistoryService;
 			_pageService = _container.PageService;
 			_searchService = _container.SearchService;
+			_configReaderWriter = new ConfigReaderWriterStub();
 
-			_installController = new InstallController(_applicationSettings, _userService, _pageService, _searchService, _repository, _settingsService, _context);
+			_installController = new InstallController(_applicationSettings, _userService, _pageService, _searchService, _repository, _settingsService, _context, _configReaderWriter);
 		}
 
 		[Test]

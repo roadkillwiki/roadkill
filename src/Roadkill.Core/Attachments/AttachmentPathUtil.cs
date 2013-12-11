@@ -155,10 +155,12 @@ namespace Roadkill.Core.Attachments
 					if (Directory.Exists(directory))
 					{
 						string path = Path.Combine(directory, "_installtest.txt");
-						System.IO.File.WriteAllText(path, "created by the installer to test the attachments folder");
+						File.WriteAllText(path, "created by the installer to test the attachments folder");
+						File.Delete(path);
 					}
 					else
 					{
+						// todo-translation
 						errors = "The directory does not exist, please create it first";
 					}
 				}

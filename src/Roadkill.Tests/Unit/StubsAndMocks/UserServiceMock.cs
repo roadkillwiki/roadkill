@@ -16,7 +16,7 @@ namespace Roadkill.Tests
 		public static readonly string RESETKEY = "resetkey";
 		public static readonly string ACTIVATIONKEY = "activationkey";
 		public List<User> Users { get; set; }
-		private string _loggedInUserId;
+		public string LoggedInUserId { get;set; }
 
 		public UserServiceMock()
 			: base(null, null)
@@ -65,7 +65,7 @@ namespace Roadkill.Tests
 
 				if (isLoggedIn)
 				{
-					_loggedInUserId = user.Id.ToString();
+					LoggedInUserId = user.Id.ToString();
 					return true;
 				}
 			}
@@ -223,7 +223,7 @@ namespace Roadkill.Tests
 
 		public override string GetLoggedInUserName(System.Web.HttpContextBase context)
 		{
-			return _loggedInUserId;
+			return LoggedInUserId;
 		}
 	}
 }

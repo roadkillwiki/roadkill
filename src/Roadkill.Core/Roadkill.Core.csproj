@@ -383,11 +383,9 @@
     <Compile Include="Attachments\ResponseWrapper.cs" />
     <Compile Include="Common\Extensions\BootstrapHtmlExtensions.cs" />
     <Compile Include="Common\Extensions\DateTimeExtensions.cs" />
-    <Compile Include="Configuration\XmlConfig\ConfigReaderWriterFactory.cs" />
     <Compile Include="Configuration\UpgradeChecker.cs" />
-    <Compile Include="Configuration\XmlConfig\ConfigReaderWriter.cs" />
-    <Compile Include="Configuration\XmlConfig\FullTrustConfigReaderWriter.cs" />
-    <Compile Include="Configuration\XmlConfig\MediumTrustConfigReaderWriter.cs" />
+    <Compile Include="Configuration\ConfigReaderWriter.cs" />
+    <Compile Include="Configuration\FullTrustConfigReaderWriter.cs" />
     <Compile Include="Database\Export\SqlExportBuilder.cs" />
     <Compile Include="Database\Repositories\LightSpeed\DatabaseLogger.cs" />
     <Compile Include="DI\RepositoryManager.cs" />

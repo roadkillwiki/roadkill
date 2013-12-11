@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Moq;
 using NUnit.Framework;
+using Roadkill.Core.Mvc;
 using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
 namespace Roadkill.Tests.Unit
@@ -36,6 +37,7 @@ namespace Roadkill.Tests.Unit
 
 			response.Setup(r => r.Cache).Returns(new HttpCachePolicyMock());
 			response.SetupProperty(r => r.StatusCode);
+			response.Setup(x => x.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(x => x);
 
 			server.Setup(s => s.UrlDecode(It.IsAny<string>())).Returns<string>(s => s);
 
@@ -67,6 +69,11 @@ namespace Roadkill.Tests.Unit
 			var httpContext = FakeHttpContext(container);
 			ControllerContext context = new ControllerContext(new RequestContext(httpContext, new RouteData()), controller);
 			controller.ControllerContext = context;
+
+			// Routes
+			RouteCollection routes = new RouteCollection();
+			Routing.Register(routes);
+			controller.Url = new UrlHelper(new RequestContext(httpContext, new RouteData()), routes);
 
 			return container;
 		}
@@ -150,7 +157,7 @@ namespace Roadkill.Tests.Unit
 			return typedModel;
 		}
 
-		public static void AssertIsOnlyHttpPost<T>(this T controller, Expression<Action<T>> action) where T: Controller
+		public static void AssertHttpPostOnly<T>(this T controller, Expression<Action<T>> action) where T: Controller
 		{
 			Type type = controller.GetType();
 			MethodCallExpression body = action.Body as MethodCallExpression;
@@ -164,7 +171,7 @@ namespace Roadkill.Tests.Unit
 							 .Cast<HttpGetAttribute>()
 							 .SingleOrDefault();
 
-			Assert.That(postAttribute != null && getAttribute != null, 
+			Assert.That(postAttribute != null && getAttribute == null, 
 				"{0}.{1} does not have [HttpPost] attribute", controller.GetType().Name, actionMethod.Name);
 		}
 	}

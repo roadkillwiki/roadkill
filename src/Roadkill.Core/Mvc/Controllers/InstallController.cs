@@ -23,21 +23,24 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// this controller redirect to the homepage</remarks>
 	public class InstallController : ControllerBase
 	{
+		private static string _uiLanguageCode = "en";
+
 		private IRepository _repository;
 		private PageService _pageService;
 		private SearchService _searchService;
 		private SettingsService _settingsService;
-		private static string _uiLanguageCode = "en";
+		private ConfigReaderWriter _configReaderWriter;
 
-		public InstallController(ApplicationSettings settings, UserServiceBase userManager,
+		public InstallController(ApplicationSettings settings, UserServiceBase userService,
 			PageService pageService, SearchService searchService, IRepository respository,
-			SettingsService settingsService, IUserContext context)
-			: base(settings, userManager, context, settingsService) 
+			SettingsService settingsService, IUserContext context, ConfigReaderWriter configReaderWriter)
+			: base(settings, userService, context, settingsService) 
 		{
 			_pageService = pageService;
 			_searchService = searchService;
 			_repository = respository;
 			_settingsService = settingsService;
+			_configReaderWriter = configReaderWriter;
 		}
 
 		/// <summary>
@@ -116,8 +119,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (!string.IsNullOrEmpty(language))
 			{
 				Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
-				ConfigReaderWriter configReader = ConfigReaderWriterFactory.GetConfigReader();
-				configReader.UpdateLanguage(language);
+				_configReaderWriter.UpdateLanguage(language);
 			}
 
 			return View(new SettingsViewModel());
@@ -203,8 +205,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			{
 				try
 				{
-					ConfigReaderWriter configReader = ConfigReaderWriterFactory.GetConfigReader();
-					configReader.ResetInstalledState();
+					_configReaderWriter.ResetInstalledState();
 				}
 				catch (Exception ex)
 				{
@@ -226,7 +227,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			// Update all repository references for the dependencies of this class
 			// (changing the For() in StructureMap won't do this as the references have already been created).
 			_repository = RepositoryManager.ChangeRepository(dataStoreType, model.ConnectionString, model.UseObjectCache);
-			UserManager.UpdateRepository(_repository);
+			UserService.UpdateRepository(_repository);
 			_settingsService.UpdateRepository(_repository);
 			_searchService.UpdateRepository(_repository);
 
@@ -235,8 +236,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			model.IsPublicSite = true;
 
 			// Update the web.config first, so all connections can be referenced.
-			ConfigReaderWriter configReader = ConfigReaderWriterFactory.GetConfigReader();
-			configReader.Save(model);
+			_configReaderWriter.Save(model);
 
 			// Create the roadkill schema and save the configuration settings
 			_settingsService.CreateTables(model);
@@ -245,7 +245,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			// Add a user if we're not using AD.
 			if (!model.UseWindowsAuth)
 			{
-				UserManager.AddUser(model.AdminEmail, "admin", model.AdminPassword, true, false);
+				UserService.AddUser(model.AdminEmail, "admin", model.AdminPassword, true, false);
 			}
 
 			// Create a blank search index
@@ -279,8 +279,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (ApplicationSettings.Installed)
 				return Content("");
 
-			ConfigReaderWriter configReader = ConfigReaderWriterFactory.GetConfigReader();
-			string errors = configReader.TestSaveWebConfig();
+			string errors = _configReaderWriter.TestSaveWebConfig();
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 

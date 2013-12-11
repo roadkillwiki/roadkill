@@ -17,6 +17,8 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Caching;
 using MvcContrib.TestHelper;
+using StructureMap;
+using System.IO;
 
 namespace Roadkill.Tests.Unit
 {
@@ -30,12 +32,12 @@ namespace Roadkill.Tests.Unit
 		private IUserContext _context;
 		private RepositoryMock _repository;
 		private UserServiceMock _userService;
-		private PageService _pageService;
 		private SettingsService _settingsService;
 		private PageViewModelCache _pageCache;
 		private ListCache _listCache;
 		private SiteCache _siteCache;
 		private MemoryCache _cache;
+		private ConfigReaderWriterStub _configReaderWriter;
 
 		private SettingsController _settingsController;
 
@@ -43,6 +45,7 @@ namespace Roadkill.Tests.Unit
 		public void Setup()
 		{
 			_container = new MocksAndStubsContainer();
+			_container.ClearCache();
 
 			_applicationSettings = _container.ApplicationSettings;
 			_applicationSettings.AttachmentsFolder = AppDomain.CurrentDomain.BaseDirectory;
@@ -54,9 +57,9 @@ namespace Roadkill.Tests.Unit
 			_listCache = _container.ListCache;
 			_siteCache = _container.SiteCache;
 			_cache = _container.MemoryCache;
-			var config = new FullTrustConfigReaderWriter(AppDomain.CurrentDomain.BaseDirectory + @"\Roadkill.Tests.dll.config");
+			_configReaderWriter = new ConfigReaderWriterStub();
 
-			_settingsController = new SettingsController(_applicationSettings, _userService, _settingsService, _context, _siteCache, config);
+			_settingsController = new SettingsController(_applicationSettings, _userService, _settingsService, _context, _siteCache, _configReaderWriter);
 		}
 
 		[Test]
@@ -74,7 +77,25 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Index_POST_Should_Return_View_And_ViewModel()
+		public void Index_POST_Should_Return_ViewResult_And_Save_Settings()
+		{
+			// Arrange
+			SettingsViewModel model = new SettingsViewModel();
+			model.MenuMarkup = "some new markup";
+
+			// Act
+			ViewResult result = _settingsController.Index(model) as ViewResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "ViewResult");
+			SettingsViewModel resultModel = result.ModelFromActionResult<SettingsViewModel>();
+			Assert.That(resultModel, Is.Not.Null, "model");
+
+			Assert.That(_repository.GetSiteSettings().MenuMarkup, Is.EqualTo("some new markup"));
+		}
+
+		[Test]
+		public void Index_POST_Should_Accept_HttpPost_Only()
 		{
 			// Arrange
 			SettingsViewModel model = new SettingsViewModel();
@@ -83,21 +104,103 @@ namespace Roadkill.Tests.Unit
 			ViewResult result = _settingsController.Index(model) as ViewResult;
 
 			// Assert
-			_settingsController.AssertIsOnlyHttpPost(x => x.Index(model));
-			
-			Assert.That(result, Is.Not.Null, "ViewResult");
-			SettingsViewModel resultModel = result.ModelFromActionResult<SettingsViewModel>();
-			Assert.That(resultModel, Is.Not.Null, "model");
+			_settingsController.AssertHttpPostOnly(x => x.Index(model));
 		}
 
 		[Test]
-		public void TestAttachments_Should_Return_Json_Result()
+		public void Index_POST_Should_Clear_Site_Cache()
 		{
+			// Arrange
+			_siteCache.AddMenu("some menu");
+			_siteCache.AddAdminMenu("admin menu");
+			_siteCache.AddLoggedInMenu("logged in menu");
+
+			SettingsViewModel model = new SettingsViewModel();
+
+			// Act
+			ViewResult result = _settingsController.Index(model) as ViewResult;
+
+			// Assert
+			Assert.That(_cache.Count(), Is.EqualTo(0));
 		}
 
 		[Test]
-		public void TestDatabaseConnection_Should_Return_Json_Result()
+		public void TestAttachments_Should_Allow_Get_And_Return_Json_Result_And_TestResult_With_No_Errors()
 		{
+			// Arrange
+			string directory = AppDomain.CurrentDomain.BaseDirectory;
+	
+			// Act
+			JsonResult result = _settingsController.TestAttachments(directory) as JsonResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
+
+			TestResult data = result.Data as TestResult;
+			Assert.That(data, Is.Not.Null);
+			Assert.That(data.Success, Is.True);
+			Assert.That(data.ErrorMessage, Is.Null.Or.Empty);
+		}
+
+		[Test]
+		public void TestAttachments_Should_Return_TestResult_With_Errors_For_UnWritable_Folder()
+		{
+			// Arrange
+			string directory = "c:\ads8ads9f8d7asf98ad7f";
+
+			// Act
+			JsonResult result = _settingsController.TestAttachments(directory) as JsonResult;
+
+			// Assert
+			TestResult data = result.Data as TestResult;
+			Assert.That(data.ErrorMessage, Is.Not.Null);
+			Assert.That(data.Success, Is.False);
+		}
+
+		[Test]
+		public void TestDatabaseConnection_Should_Allow_Get_And_Return_Json_Result_And_TestResult_With_No_Errors()
+		{
+			// Arrange
+			string sqlCeDbPath = Path.Combine(Settings.LIB_FOLDER, "Empty-databases", "roadkill.sdf");
+			string sqlCeDbDestPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testdatabase.sdf");
+			File.Copy(sqlCeDbPath, sqlCeDbDestPath, true);
+
+			string connectionString = @"Data Source=|DataDirectory|\testdatabase.sdf";
+			DependencyManager manager = new DependencyManager(new ApplicationSettings());
+			manager.Configure();
+
+			// Act
+			JsonResult result = _settingsController.TestDatabaseConnection(connectionString, "SqlServerCE") as JsonResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+			Assert.That(result.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
+
+			TestResult data = result.Data as TestResult;
+			Assert.That(data, Is.Not.Null);
+			Assert.That(data.Success, Is.True, data.ErrorMessage);
+			Assert.That(data.ErrorMessage, Is.Null.Or.Empty);
+		}
+
+		[Test]
+		public void TestDatabaseConnection_Should_Return_TestResult_With_Errors_For_Invalid_ConnectionString()
+		{
+			// Arrange
+			string connectionString = "invalid connection string";
+			DependencyManager manager = new DependencyManager(new ApplicationSettings());
+			manager.Configure();
+
+			// Act
+			JsonResult result = _settingsController.TestDatabaseConnection(connectionString, "SqlServerCE") as JsonResult;
+
+			// Assert
+			Assert.That(result, Is.Not.Null, "JsonResult");
+
+			TestResult data = result.Data as TestResult;
+			Assert.That(data, Is.Not.Null);
+			Assert.That(data.Success, Is.False, data.ErrorMessage);
+			Assert.That(data.ErrorMessage, Is.Not.Null.Or.Empty);
 		}
 	}
 }

@@ -18,15 +18,15 @@ namespace Roadkill.Core.Mvc.Controllers
 	public class ControllerBase : Controller
 	{
 		public ApplicationSettings ApplicationSettings { get; private set; }
-		public UserServiceBase UserManager { get; private set; }
+		public UserServiceBase UserService { get; private set; }
 		public IUserContext Context { get; private set; }
 		public SettingsService SettingsService { get; private set; }
 
-		public ControllerBase(ApplicationSettings settings, UserServiceBase userManager, IUserContext context, 
+		public ControllerBase(ApplicationSettings settings, UserServiceBase userService, IUserContext context, 
 			SettingsService settingsService)
 		{
 			ApplicationSettings = settings;
-			UserManager = userManager;
+			UserService = userService;
 			Context = context;
 			SettingsService = settingsService;
 		}
@@ -70,7 +70,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				return;
 			}
 
-			Context.CurrentUser = UserManager.GetLoggedInUserName(HttpContext);
+			Context.CurrentUser = UserService.GetLoggedInUserName(HttpContext);
 			ViewBag.Context = Context;
 			ViewBag.Config = ApplicationSettings;
 
@@ -82,7 +82,7 @@ namespace Roadkill.Core.Mvc.Controllers
 					Guid userId;
 					if (!Guid.TryParse(Context.CurrentUser, out userId))
 					{
-						UserManager.Logout();
+						UserService.Logout();
 					}
 				}
 			}

@@ -327,7 +327,6 @@
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
     <Compile Include="Integration\Configuration\ApplicationSettingsTests.cs" />
-    <Compile Include="Integration\Configuration\MediumTrustConfigReaderWriterTests.cs" />
     <Compile Include="Integration\Repository\MongoDBRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeedRepositoryTests.cs" />
     <Compile Include="Integration\Import\ScrewturnImporterTests.cs" />
@@ -356,6 +355,7 @@
     <Compile Include="Unit\Mvc\Controllers\InstallControllerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\HelpControllerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\PluginSettingsControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\ControllerBaseTests.cs" />
     <Compile Include="Unit\Mvc\ResponseWrapperTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\PageViewModelTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\TagViewModelTests.cs" />
@@ -390,6 +390,7 @@
     <Compile Include="Unit\Plugins\TextPluginTests.cs" />
     <Compile Include="Unit\MocksAndStubsContainer.cs" />
     <Compile Include="Unit\StubsAndMocks\CacheMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\ConfigReaderWriterStub.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\Attributes\IdentityStub.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\Attributes\PrincipalMock.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\HttpCachePolicyMock.cs" />

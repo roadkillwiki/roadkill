@@ -70,5 +70,11 @@ namespace Roadkill.Tests.Unit
 
 			PageService = new PageService(ApplicationSettings, Repository, SearchService, HistoryService, UserContext, ListCache, PageViewModelCache, SiteCache, PluginFactory);
 		}
+
+		public void ClearCache()
+		{
+			foreach (string key in MemoryCache.Select(x => x.Key))
+				MemoryCache.Remove(key);
+		}
 	}
 }

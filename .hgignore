@@ -104,3 +104,4 @@ filemodel.js
 
 # Ignore all exported files
 src/Roadkill.Site/App_Data/Export/
+Roadkill.sln.DotSettings

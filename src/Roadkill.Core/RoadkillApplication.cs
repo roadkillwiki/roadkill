@@ -24,7 +24,7 @@ namespace Roadkill.Core
 		protected void Application_Start()
 		{
 			// Get the settings from the web.config
-			ConfigReaderWriter configReader = ConfigReaderWriterFactory.GetConfigReader();
+			ConfigReaderWriter configReader = new FullTrustConfigReaderWriter("");
 			ApplicationSettings applicationSettings = configReader.GetApplicationSettings();
 
 			// Configure StructureMap dependencies
