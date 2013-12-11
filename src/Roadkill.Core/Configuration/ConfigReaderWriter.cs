@@ -13,13 +13,6 @@ namespace Roadkill.Core.Configuration
 {
 	public abstract class ConfigReaderWriter
 	{
-		protected string ConfigFilePath;
-
-		public ConfigReaderWriter(string configFilePath)
-		{
-			ConfigFilePath = configFilePath;
-		}
-
 		public abstract void UpdateCurrentVersion(string currentVersion);
 		public abstract void UpdateLanguage(string uiLanguageCode);
 		public abstract void Save(SettingsViewModel settings);

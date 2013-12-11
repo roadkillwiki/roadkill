@@ -11,6 +11,7 @@ using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Security;
 using System.IO;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit.Mvc.Controllers
 {
@@ -26,6 +27,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		private UserServiceBase _userService;
 		private SettingsService _settingsService;
 		private UpgradeController _upgradeController;
+		private ConfigReaderWriterStub _configReaderWriter;
 
 		[SetUp]
 		public void Setup()
@@ -38,8 +40,9 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			_repository = _container.Repository;
 			_settingsService = _container.SettingsService;
 			_userService = new FormsAuthUserService(_applicationSettings, _repository);
+			_configReaderWriter = new ConfigReaderWriterStub();
 
-			_upgradeController = new UpgradeController(_applicationSettings, _repository, _userService, _context, _settingsService);
+			_upgradeController = new UpgradeController(_applicationSettings, _repository, _userService, _context, _settingsService, _configReaderWriter);
 		}
 
 		[Test]

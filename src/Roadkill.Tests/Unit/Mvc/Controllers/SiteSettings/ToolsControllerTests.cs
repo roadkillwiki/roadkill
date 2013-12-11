@@ -45,7 +45,7 @@ namespace Roadkill.Tests.Unit
 		[SetUp]
 		public void Setup()
 		{
-			_container = new MocksAndStubsContainer();
+			_container = new MocksAndStubsContainer();	
 
 			_applicationSettings = _container.ApplicationSettings;
 			_context = _container.UserContext;
@@ -56,9 +56,7 @@ namespace Roadkill.Tests.Unit
 			_listCache = _container.ListCache;
 			_siteCache = _container.SiteCache;
 			_cache = _container.MemoryCache;
-
-			foreach (string key in _cache.Select(x => x.Key))
-				_cache.Remove(key);
+			_container.ClearCache();
 
 			_pageService = _container.PageService;
 			_wikiImporter = new WikiImporterMock();

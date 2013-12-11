@@ -42,6 +42,7 @@ namespace Roadkill.Tests.Unit
 		public void Setup()
 		{
 			_container = new MocksAndStubsContainer();
+			_container.ClearCache();
 
 			_applicationSettings = _container.ApplicationSettings;
 			_context = _container.UserContext;

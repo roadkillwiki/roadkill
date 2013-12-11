@@ -20,7 +20,14 @@ namespace Roadkill.Core.Configuration
 		private bool _isConfigLoaded;
 		private RoadkillSection _section;
 
-		public FullTrustConfigReaderWriter(string configFilePath) : base(configFilePath)
+		public string ConfigFilePath { get;set; }
+
+		public FullTrustConfigReaderWriter()
+			: this("")
+		{
+		}
+
+		internal FullTrustConfigReaderWriter(string configFilePath)
 		{
 			if (!_isConfigLoaded)
 			{

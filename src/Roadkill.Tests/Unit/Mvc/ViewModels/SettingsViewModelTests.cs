@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
@@ -138,6 +139,65 @@ namespace Roadkill.Tests.Unit
 			Assert.That(model.UseWindowsAuth, Is.EqualTo(appSettings.UseWindowsAuthentication));
 			Assert.That(model.IsPublicSite, Is.EqualTo(appSettings.IsPublicSite));
 			Assert.That(model.IgnoreSearchIndexErrors, Is.EqualTo(appSettings.IgnoreSearchIndexErrors));
+		}
+
+		[Test]
+		public void DatabaseTypesAvailable_Should_Equal_DataStoreTypes()
+		{
+			// Arrange
+			SettingsViewModel model = new SettingsViewModel();
+			int expectedCount = DataStoreType.AllTypes.Count();
+
+			// Act
+			int actualCount = model.DatabaseTypesAvailable.Count();
+
+			// Assert
+			Assert.That(actualCount, Is.EqualTo(expectedCount));
+		}
+
+		[Test]
+		public void MarkupTypesAvailable_Should_Contain_Known_Markups()
+		{
+			// Arrange
+			SettingsViewModel model = new SettingsViewModel();
+
+			// Act + Assert
+			Assert.That(model.MarkupTypesAvailable, Contains.Item("Creole"));
+			Assert.That(model.MarkupTypesAvailable, Contains.Item("Markdown"));
+			Assert.That(model.MarkupTypesAvailable, Contains.Item("MediaWiki"));
+		}
+
+		[Test]
+		public void Version_Should_Equal_ApplicationSettingsProductVersion()
+		{
+			// Arrange
+			SettingsViewModel model = new SettingsViewModel();
+
+			// Act + Assert
+			Assert.That(model.Version, Is.EqualTo(ApplicationSettings.ProductVersion));
+		}
+
+		[Test]
+		public void ThemesAvailable_Should_Scan_Themes_Directory()
+		{
+			// Arrange
+			string themeDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Themes");
+			if (Directory.Exists(themeDir))
+				Directory.Delete(themeDir, true);
+
+			Directory.CreateDirectory(Path.Combine(themeDir, "Theme1"));
+			Directory.CreateDirectory(Path.Combine(themeDir, "Theme2"));
+			Directory.CreateDirectory(Path.Combine(themeDir, "Theme3"));
+			
+			SettingsViewModel model = new SettingsViewModel();			
+
+			// Act
+			List<string> themesAvailable = model.ThemesAvailable.ToList();
+
+			// Assert
+			Assert.That(themesAvailable, Contains.Item("Theme1"));
+			Assert.That(themesAvailable, Contains.Item("Theme2"));
+			Assert.That(themesAvailable, Contains.Item("Theme3"));
 		}
 	}
 }

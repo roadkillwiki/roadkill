@@ -700,28 +700,38 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		[TestCase("Upload")]
-		[TestCase("DeleteFile")]
-		[TestCase("DeleteFolder")]
-		[TestCase("FolderInfo")]
-		[TestCase("NewFolder")]
-		public void Actions_Should_Be_HttpPost(string actionName)
+		public void Upload_Should_Accept_HttpPost_Only()
 		{
-			// Arrange
-			MethodInfo actionMethod = typeof(FileManagerController).GetMethod(actionName);
+			// Arrange, Act and Assert
+			_filesController.AssertHttpPostOnly(x => x.Upload());
+		}
 
-			// Act
-			HttpPostAttribute postAttribute = actionMethod.GetCustomAttributes(typeof(HttpPostAttribute), false)
-							 .Cast<HttpPostAttribute>()
-							 .SingleOrDefault();
+		[Test]
+		public void DeleteFile_Should_Accept_HttpPost_Only()
+		{
+			// Arrange, Act and Assert
+			_filesController.AssertHttpPostOnly(x => x.DeleteFile("",""));
+		}
 
-			HttpGetAttribute getAttribute = actionMethod.GetCustomAttributes(typeof(HttpGetAttribute), false)
-							 .Cast<HttpGetAttribute>()
-							 .SingleOrDefault();
+		[Test]
+		public void DeleteFolder_Should_Accept_HttpPost_Only()
+		{
+			// Arrange, Act and Assert
+			_filesController.AssertHttpPostOnly(x => x.DeleteFolder(""));
+		}
 
-			// Assert
-			Assert.That(postAttribute, Is.Not.Null, "Couldn't find the HttpPostAttribute");
-			Assert.That(getAttribute, Is.Null, "The HttpGetAttribute was not null (and should be)");
+		[Test]
+		public void FolderInfo_Should_Accept_HttpPost_Only()
+		{
+			// Arrange, Act and Assert
+			_filesController.AssertHttpPostOnly(x => x.FolderInfo(""));
+		}
+
+		[Test]
+		public void NewFolder_Should_Accept_HttpPost_Only()
+		{
+			// Arrange, Act and Assert
+			_filesController.AssertHttpPostOnly(x => x.NewFolder("",""));
 		}
 
 		[Test]

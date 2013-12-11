@@ -40,7 +40,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (string.IsNullOrEmpty(id))
 				return RedirectToAction("Index", "Home");
 
-			if (!UserManager.ActivateUser(id))
+			if (!UserService.ActivateUser(id))
 			{
 				ModelState.AddModelError("General", SiteStrings.Activate_Error);
 			}
@@ -56,7 +56,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
-			RoadkillUser user = UserManager.GetUserByResetKey(id);
+			RoadkillUser user = UserService.GetUserByResetKey(id);
 			
 			if (user == null)
 			{
@@ -88,10 +88,10 @@ namespace Roadkill.Core.Mvc.Controllers
 			}
 			else
 			{
-				RoadkillUser user = UserManager.GetUserByResetKey(id);
+				RoadkillUser user = UserService.GetUserByResetKey(id);
 				if (user != null)
 				{
-					UserManager.ChangePassword(user.Email, model.Password);
+					UserService.ChangePassword(user.Email, model.Password);
 					return View("CompleteResetPasswordSuccessful");
 				}
 				else
@@ -138,9 +138,9 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (Request.QueryString["ReturnUrl"] != null && Request.QueryString["ReturnUrl"].ToLower().Contains("files"))
 				viewName = "BlankLogin";
 
-			if (UserManager.Authenticate(email, password))
+			if (UserService.Authenticate(email, password))
 			{
-				Context.CurrentUser = UserManager.GetLoggedInUserName(HttpContext);
+				Context.CurrentUser = UserService.GetLoggedInUserName(HttpContext);
 
 				if (!string.IsNullOrWhiteSpace(fromUrl))
 					return Redirect(fromUrl);
@@ -159,7 +159,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		public ActionResult Logout()
 		{
-			UserManager.Logout();
+			UserService.Logout();
 			return RedirectToAction("Index", "Home");
 		}
 
@@ -173,7 +173,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				UserViewModel model = null;
 				if (!ApplicationSettings.UseWindowsAuthentication)
 				{
-					RoadkillUser user = UserManager.GetUserById(new Guid(Context.CurrentUser));
+					RoadkillUser user = UserService.GetUserById(new Guid(Context.CurrentUser));
 					model = new UserViewModel(user);
 				}
 
@@ -212,7 +212,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			{
 				try
 				{
-					if (UserManager.UpdateUser(model))
+					if (UserService.UpdateUser(model))
 					{
 						model.UpdateSuccessful = true;
 					}
@@ -224,7 +224,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 					if (!string.IsNullOrEmpty(model.Password))
 					{
-						UserManager.ChangePassword(model.ExistingEmail, model.Password);
+						UserService.ChangePassword(model.ExistingEmail, model.Password);
 						model.PasswordUpdateSuccessful = true;
 					}
 				}
@@ -271,14 +271,14 @@ namespace Roadkill.Core.Mvc.Controllers
 			}
 			else
 			{
-				RoadkillUser user = UserManager.GetUser(email);
+				RoadkillUser user = UserService.GetUser(email);
 				if (user == null)
 				{
 					ModelState.AddModelError("General", SiteStrings.ResetPassword_Error_EmailNotFound);
 				}
 				else
 				{
-					string key = UserManager.ResetPassword(email);
+					string key = UserService.ResetPassword(email);
 					if (!string.IsNullOrEmpty(key))
 					{
 						// Everything worked, send the email
@@ -304,7 +304,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public ActionResult ResendConfirmation(string email)
 		{
-			RoadkillUser user = UserManager.GetUser(email, false);
+			RoadkillUser user = UserService.GetUser(email, false);
 
 			if (user == null)
 			{
@@ -363,7 +363,7 @@ namespace Roadkill.Core.Mvc.Controllers
 					{
 						try
 						{
-							string key = UserManager.Signup(model, null);
+							string key = UserService.Signup(model, null);
 							if (string.IsNullOrEmpty(key))
 							{
 								ModelState.AddModelError("General", SiteStrings.Signup_Error_General);

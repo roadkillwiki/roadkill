@@ -16,12 +16,14 @@ namespace Roadkill.Core.Mvc.Controllers
 	public class UpgradeController : ControllerBase
 	{
 		private IRepository _repository;
+		private ConfigReaderWriter _configReaderWriter;
 
-		public UpgradeController(ApplicationSettings settings, IRepository repository, UserServiceBase userManager,
-			IUserContext context, SettingsService settingsService)
-			: base (settings, userManager, context, settingsService)
+		public UpgradeController(ApplicationSettings settings, IRepository repository, UserServiceBase userService,
+			IUserContext context, SettingsService settingsService, ConfigReaderWriter configReaderWriter)
+			: base (settings, userService, context, settingsService)
 		{
 			_repository = repository;
+			_configReaderWriter = configReaderWriter;
 		}
 
 		public ActionResult Index()
@@ -41,8 +43,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			try
 			{
 				_repository.Upgrade(ApplicationSettings);
-				ConfigReaderWriter configReader = ConfigReaderWriterFactory.GetConfigReader();
-				configReader.UpdateCurrentVersion(ApplicationSettings.ProductVersion.ToString());
+				_configReaderWriter.UpdateCurrentVersion(ApplicationSettings.ProductVersion.ToString());
 
 				return RedirectToAction("Index", "Home");
 			}

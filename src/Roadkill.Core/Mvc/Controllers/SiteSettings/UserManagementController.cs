@@ -62,10 +62,10 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ActionResult Index()
 		{
 			var list = new List<IEnumerable<UserViewModel>>();
-			list.Add(UserManager.ListAdmins());
-			list.Add(UserManager.ListEditors());
+			list.Add(UserService.ListAdmins());
+			list.Add(UserService.ListEditors());
 
-			if (UserManager.IsReadonly)
+			if (UserService.IsReadonly)
 				return View("IndexReadOnly", list);
 			else
 				return View(list);
@@ -86,7 +86,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				UserManager.AddUser(model.NewEmail, model.NewUsername, model.Password, true, false);
+				UserService.AddUser(model.NewEmail, model.NewUsername, model.Password, true, false);
 				return RedirectToAction("Index");
 				
 			}
@@ -111,7 +111,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				UserManager.AddUser(model.NewEmail, model.NewUsername, model.Password, false, true);
+				UserService.AddUser(model.NewEmail, model.NewUsername, model.Password, false, true);
 				return RedirectToAction("Index");
 
 			}
@@ -123,7 +123,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 		public ActionResult EditUser(Guid id)
 		{
-			User user = UserManager.GetUserById(id);
+			User user = UserService.GetUserById(id);
 			if (user == null)
 				return RedirectToAction("Index");
 
@@ -144,7 +144,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			{
 				if (model.UsernameHasChanged || model.EmailHasChanged)
 				{
-					if (!UserManager.UpdateUser(model))
+					if (!UserService.UpdateUser(model))
 					{
 						ModelState.AddModelError("General", SiteStrings.SiteSettings_UserManagement_EditUser_Error);
 					}
@@ -153,7 +153,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				}
 
 				if (!string.IsNullOrEmpty(model.Password))
-					UserManager.ChangePassword(model.ExistingEmail, model.Password);
+					UserService.ChangePassword(model.ExistingEmail, model.Password);
 
 				return RedirectToAction("Index");
 			}
@@ -170,7 +170,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns>Redirects to the Users action.</returns>
 		public ActionResult DeleteUser(string id)
 		{
-			UserManager.DeleteUser(id);
+			UserService.DeleteUser(id);
 			return RedirectToAction("Index");
 		}
 	}
