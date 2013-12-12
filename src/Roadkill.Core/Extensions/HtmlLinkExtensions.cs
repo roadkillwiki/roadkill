@@ -17,7 +17,7 @@ using Roadkill.Core.Plugins.Text.BuiltIn;
 using Roadkill.Core.Mvc;
 using Roadkill.Core.DI;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Extensions
 {
 	/// <summary>
 	/// A set of extension methods for common links throughout the site.

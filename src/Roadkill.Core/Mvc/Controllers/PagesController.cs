@@ -11,6 +11,7 @@ using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
 using System.Web;
 using Roadkill.Core.Text;
+using Roadkill.Core.Extensions;
 
 namespace Roadkill.Core.Mvc.Controllers
 {

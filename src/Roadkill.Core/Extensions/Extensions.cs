@@ -8,7 +8,7 @@ using System.IO;
 using System.Web.Mvc;
 using System.Web;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Extensions
 {
 	/// <summary>
 	/// A set of common extension methods.

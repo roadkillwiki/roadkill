@@ -8,6 +8,7 @@ using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Mvc.Attributes;
+using Roadkill.Core.Email;
 
 namespace Roadkill.Core.Mvc.Controllers
 {

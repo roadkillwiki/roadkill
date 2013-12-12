@@ -6,7 +6,8 @@ using System.Configuration;
 using System.Xml;
 using System.Xml.XPath;
 
-namespace Roadkill.Core
+// Don't change the namespace to "Roadkill.Core.Configuration" it will break legacy config files
+namespace Roadkill.Core 
 {
 	/// <summary>
 	/// Config file settings - represents a &lt;roadkill&gt; section inside a configuration file.

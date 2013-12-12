@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Email;
 using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Tests.Unit

@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using Roadkill.Core.Logging;
 using StructureMap;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.DI.Mvc
 {
 	/// <summary>
 	/// The factory for all MVC attributes

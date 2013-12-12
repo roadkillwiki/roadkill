@@ -11,7 +11,7 @@ using Roadkill.Core.Mvc.ViewModels;
 using System.IO;
 using System.Globalization;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Email
 {
 	/// <summary>
 	/// A base class for an email template.

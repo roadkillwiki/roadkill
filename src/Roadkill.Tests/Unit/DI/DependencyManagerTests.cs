@@ -23,6 +23,7 @@ using Roadkill.Core.Security.Windows;
 using Roadkill.Core.Plugins;
 using Roadkill.Core.Import;
 using Roadkill.Tests.Unit.StubsAndMocks;
+using Roadkill.Core.DI;
 
 namespace Roadkill.Tests.Unit
 {
