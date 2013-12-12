@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Roadkill.Core.Extensions;
 
 namespace Roadkill.Core.Plugins.Text.BuiltIn.ToC
 {

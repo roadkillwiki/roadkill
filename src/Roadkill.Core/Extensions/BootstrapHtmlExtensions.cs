@@ -4,7 +4,7 @@ using System.Web.Mvc.Html;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Extensions
 {
 	/// <summary>
 	/// Extension methods that spit out Bootstrap class="" into the elements.

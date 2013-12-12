@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using Roadkill.Core.DI;
 using StructureMap;
 
-namespace Roadkill.Core.Mvc
+namespace Roadkill.Core.DI.Mvc
 {
 	/// <summary>
 	/// Implements both dependency resolvers for MVC and WebApi, to create Structuremap-injected controllers when requested by those frameworks.

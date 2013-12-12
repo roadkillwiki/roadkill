@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Security
 {
 	/// <summary>
 	/// Generates a random 16 character string for a hashed password salt.

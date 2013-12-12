@@ -31,8 +31,10 @@ using Roadkill.Core.Plugins.SpecialPages;
 using Roadkill.Core.Database.Export;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Domain.Export;
+using Roadkill.Core.Email;
+using Roadkill.Core.DI.Mvc;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.DI
 {
 	public class DependencyManager
 	{

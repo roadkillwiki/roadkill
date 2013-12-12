@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security;
-namespace Roadkill.Core
+
+namespace Roadkill.Core.Security
 {
 	/// <summary>
 	/// Encapsulates all Roadkill-specific information about the current user on the site.

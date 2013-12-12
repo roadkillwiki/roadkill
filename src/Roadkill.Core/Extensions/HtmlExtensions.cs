@@ -20,7 +20,7 @@ using Roadkill.Core.Localization;
 using Roadkill.Core.DI;
 using System.Linq.Expressions;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Extensions
 {
 	/// <summary>
 	/// Roadkill specific extensions methods for the <see cref="HtmlHelper"/> class.

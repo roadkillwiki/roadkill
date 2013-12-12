@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using Roadkill.Core.Extensions;
 
 namespace Roadkill.Core.Attachments
 {

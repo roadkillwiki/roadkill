@@ -8,17 +8,17 @@ using System.Globalization;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Email
 {
 	/// <summary>
-	/// The template for password reset emails.
+	/// The template for signup emails.
 	/// </summary>
-	public class ResetPasswordEmail : EmailTemplate
+	public class SignupEmail : EmailTemplate
 	{
 		private static string _htmlContent;
 		private static string _plainTextContent;
 
-		public ResetPasswordEmail(ApplicationSettings applicationSettings, SiteSettings siteSettings)
+		public SignupEmail(ApplicationSettings applicationSettings, SiteSettings siteSettings)
 			: base(applicationSettings, siteSettings)
 		{
 		}
@@ -27,10 +27,10 @@ namespace Roadkill.Core
 		{
 			// Thread safety should not be an issue here
 			if (string.IsNullOrEmpty(_plainTextContent))
-				_plainTextContent = ReadTemplateFile("ResetPassword.txt");
+				_plainTextContent = ReadTemplateFile("Signup.txt");
 
 			if (string.IsNullOrEmpty(_htmlContent))
-				_htmlContent = ReadTemplateFile("ResetPassword.html");
+				_htmlContent = ReadTemplateFile("Signup.html");
 
 			PlainTextView = _plainTextContent;
 			HtmlView = _htmlContent;

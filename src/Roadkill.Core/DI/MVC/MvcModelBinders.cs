@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Roadkill.Core.Mvc.ViewModels;
 using StructureMap;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.DI.Mvc
 {
 	/// <summary>
 	/// Used by the MVC framework to create all instances of a <see cref="UserViewModel"/> view model object.

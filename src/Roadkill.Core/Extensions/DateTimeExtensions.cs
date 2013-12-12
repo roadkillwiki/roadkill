@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Roadkill.Core
+namespace Roadkill.Core.Extensions
 {
 	/// <summary>
 	/// A set of extension methods for dates.
