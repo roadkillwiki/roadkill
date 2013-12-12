@@ -14,6 +14,9 @@ $env:Path = $env:Path + ";" +$runtimeDir
 $env:Path = $env:Path + ";C:\Program Files (x86)\IIS\Microsoft Web Deploy V3"
 $env:Path = $env:Path + ";C:\Program Files\7-Zip"
 
+# ---- Up to the root directory
+cd ..
+
 # ---- Make sure the roadkill.config,connectionstrings.config files are the download template one
 copy -Force lib\Configs\roadkill.download.config src\Roadkill.site\roadkill.config
 copy -Force lib\Configs\connectionStrings.config src\Roadkill.site\connectionStrings.config

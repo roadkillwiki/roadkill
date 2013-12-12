@@ -1,5 +1,5 @@
 # ====================================================================================================
-# ROADKILL release build script
+# ROADKILL Developer/nightly build script
 #  
 # This build script does the following:
 # 1. Builds the solution using the Download target with msbuild, and publish/deploy settings
@@ -9,7 +9,7 @@
 # 5. Adds blank SQLite, SQL Server CE and SQL Server Express database to the _WEBSITE directory
 # 6. Zips up _WEBSITE using 7zip
 # 7. Cleans up the mess MSBUILD/MSDEPLOY created
-# 8. Copies the zip file to ..\roadkillbuilds directory
+# 8. Pushes the zip file to the roadkillbuilds repository
 #
 # This batch file assumes:
 #	You have MSDeploy installed
@@ -18,13 +18,16 @@
 # ====================================================================================================
 
 $ErrorActionPreference = "Stop"
-$zipFileName = "Roadkill_v1.8.zip"
+$zipFilename = "Roadkill.devbuild.zip"
 
 # ---- Add the tool paths to our path
 $runtimeDir = [System.Runtime.InteropServices.RuntimeEnvironment]::GetRuntimeDirectory()
 $env:Path = $env:Path + ";" +$runtimeDir
 $env:Path = $env:Path + ";C:\Program Files (x86)\IIS\Microsoft Web Deploy V3"
 $env:Path = $env:Path + ";C:\Program Files\7-Zip"
+
+# ---- Up to the root directory
+cd ..
 
 # ---- Make sure the roadkill.config,connectionstrings.config files are the download template one
 copy -Force lib\Configs\roadkill.download.config src\Roadkill.site\roadkill.config
@@ -40,9 +43,9 @@ $packageDest = $currentDir + "\_WEBSITE"
 msdeploy -verb:sync -source:contentPath=$packageSource -dest:contentPath=$packageDest
 
 # ---- Copy licence + text files
+copy -Force textfiles\devbuild.txt _WEBSITE\
 copy -Force textfiles\licence.txt _WEBSITE\
 copy -Force textfiles\install.txt _WEBSITE\
-copy -Force textfiles\upgrading.txt _WEBSITE\
 
 # ---- Copy missing DLL dependencies that the publish doesn't add
 copy -Force lib\Microsoft.Web.Administration.dll _WEBSITE\bin
@@ -56,13 +59,20 @@ copy -Force lib\Empty-databases\roadkill.mdf _WEBSITE\App_Data
 # ---- Zip up the folder (requires 7zip)
 CD _WEBSITE
 7z a $zipFileName
-copy $zipFileName ..\$zipFileName
+copy -Force $zipFileName ..\..\roadkillbuilds\
 CD ..
 
 # ---- Clean up the temporary deploy folders
 Remove-Item -Force -Recurse _WEBSITE
-Remove-Item -Force -Recurse src\Roadkill.Core\deploytemp
-Remove-Item -Force -Recurse src\Roadkill.Site\deploytemp
-Remove-Item -Force -Recurse src\Roadkill.Tests\deploytemp
+#Remove-Item -Force -Recurse src\Roadkill.Core\deploytemp
+#Remove-Item -Force -Recurse src\Roadkill.Site\deploytemp
+#Remove-Item -Force -Recurse src\Roadkill.Tests\deploytemp
 
-"Release build Complete."
+# ---- Commit to builds repository
+CD ..\roadkillbuilds
+$commitMessage = "Dev build " + [DateTime]::Now.toString()
+hg addremove
+hg commit -m $commitMessage
+hg push
+
+"DEV BUILD Complete."

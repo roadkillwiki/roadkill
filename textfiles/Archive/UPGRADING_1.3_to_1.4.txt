@@ -1,6 +1,0 @@
-To upgrade from version 1.3 to 1.4:
-
-1. Copy the Assets, bin, themes, Views folders to your 1.3 Roadkill folder
-2. Copy the global.asax file to your 1.3 Roadkill folder
-
-Make sure you DO NOT copy over the web.config file!
