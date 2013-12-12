@@ -59,6 +59,14 @@ namespace Roadkill.Core.Mvc.ViewModels
 
 		public SearchResultViewModel(Document document, ScoreDoc scoreDoc)
 		{
+			if (document == null)
+				throw new ArgumentNullException("document");
+
+			if (scoreDoc == null)
+				throw new ArgumentNullException("scoreDoc");
+
+			EnsureFieldsExist(document);
+
 			Id = int.Parse(document.GetField("id").StringValue);
 			Title = document.GetField("title").StringValue;
 			ContentSummary = document.GetField("contentsummary").StringValue;
@@ -72,6 +80,24 @@ namespace Roadkill.Core.Mvc.ViewModels
 				createdOn = DateTime.UtcNow;
 
 			CreatedOn = createdOn;
+		}
+
+		private void EnsureFieldsExist(Document document)
+		{
+			IList<IFieldable> fields = document.GetFields();
+			EnsureFieldExists(fields, "id");
+			EnsureFieldExists(fields, "title");
+			EnsureFieldExists(fields, "contentsummary");
+			EnsureFieldExists(fields, "tags");
+			EnsureFieldExists(fields, "createdby");
+			EnsureFieldExists(fields, "contentlength");
+			EnsureFieldExists(fields, "createdon");
+		}
+
+		private void EnsureFieldExists(IList<IFieldable> fields, string fieldname)
+		{
+			if (fields.Any(x => x.Name == fieldname) == false)
+				throw new SearchException(null, "The LuceneDocument did not contain the expected field '{0}'", fieldname);
 		}
 
 		/// <summary>
