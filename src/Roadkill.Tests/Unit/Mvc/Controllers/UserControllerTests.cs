@@ -63,7 +63,7 @@ namespace Roadkill.Tests.Unit
 			ActionResult result = _userController.Activate(UserServiceMock.ACTIVATIONKEY);
 
 			// Assert
-			Assert.That(result, Is.TypeOf<ViewResult>());
+			result.AssertResultIs<ViewResult>();
 		}
 
 		[Test]
@@ -75,7 +75,7 @@ namespace Roadkill.Tests.Unit
 			ActionResult result = _userController.Activate("badkey");
 
 			// Assert
-			Assert.That(result, Is.TypeOf<ViewResult>());
+			result.AssertResultIs<ViewResult>();
 			Assert.That(_userController.ModelState.Count, Is.EqualTo(1));
 		}
 
@@ -88,11 +88,9 @@ namespace Roadkill.Tests.Unit
 			ActionResult result = _userController.Activate("");
 
 			// Assert
-			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
-
-			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
-			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Index"));
-			Assert.That(redirectResult.RouteValues["controller"], Is.EqualTo("Home"));
+			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
+			redirectResult.AssertActionRouteIs("Index");
+			redirectResult.AssertControllerRouteIs("Home");
 		}
 
 		[Test]
@@ -105,7 +103,7 @@ namespace Roadkill.Tests.Unit
 			ActionResult result = _userController.Login(AdminEmail, AdminPassword, "");
 
 			// Assert
-			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
+			result.AssertResultIs<RedirectToRouteResult>();
 			Assert.That(_userController.ModelState.Count, Is.EqualTo(0));
 		}
 
@@ -119,7 +117,7 @@ namespace Roadkill.Tests.Unit
 			ActionResult result = _userController.Login("wrongemail", "wrongpassword", "");
 
 			// Assert
-			Assert.That(result, Is.TypeOf<ViewResult>());
+			result.AssertResultIs<ViewResult>();
 			Assert.That(_userController.ModelState.Count, Is.EqualTo(1));
 		}
 
@@ -132,15 +130,13 @@ namespace Roadkill.Tests.Unit
 			ActionResult result = _userController.Logout();
 
 			// Assert
-			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
-
-			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
-			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Index"));
-			Assert.That(redirectResult.RouteValues["controller"], Is.EqualTo("Home"));
+			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
+			redirectResult.AssertActionRouteIs("Index");
+			redirectResult.AssertControllerRouteIs("Home");
 		}
 
 		[Test]
-		public void Signup_When_LoggedIn_Should_Return_RedirectResult()
+		public void Signup_POST_When_LoggedIn_Should_Return_RedirectResult()
 		{
 			// Arrange
 
@@ -149,15 +145,13 @@ namespace Roadkill.Tests.Unit
 			ActionResult result = _userController.Signup(null, null);
 
 			// Assert
-			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
-
-			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
-			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Index"));
-			Assert.That(redirectResult.RouteValues["controller"], Is.EqualTo("Home"));
+			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
+			redirectResult.AssertActionRouteIs("Index");
+			redirectResult.AssertControllerRouteIs("Home");
 		}
 
 		[Test]
-		public void Signup_With_WindowsAuth_Enabled_Should_Return_RedirectResult()
+		public void Signup_POST_With_WindowsAuth_Enabled_Should_Return_RedirectResult()
 		{
 			// Arrange
 			_repository.SiteSettings.AllowUserSignup = true;
@@ -167,15 +161,13 @@ namespace Roadkill.Tests.Unit
 			ActionResult result = _userController.Signup(null, null);
 
 			// Assert
-			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
-
-			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
-			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Index"));
-			Assert.That(redirectResult.RouteValues["controller"], Is.EqualTo("Home"));
+			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
+			redirectResult.AssertActionRouteIs("Index");
+			redirectResult.AssertControllerRouteIs("Home");
 		}
 
 		[Test]
-		public void Signup_With_Signups_Disabled_Should_Return_RedirectResult()
+		public void Signup_POST_With_Signups_Disabled_Should_Return_RedirectResult()
 		{
 			// Arrange
 			_repository.SiteSettings.AllowUserSignup = false;
@@ -184,15 +176,13 @@ namespace Roadkill.Tests.Unit
 			ActionResult result = _userController.Signup(null, null);
 
 			// Assert
-			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
-
-			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
-			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Index"));
-			Assert.That(redirectResult.RouteValues["controller"], Is.EqualTo("Home"));
+			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
+			redirectResult.AssertActionRouteIs("Index");
+			redirectResult.AssertControllerRouteIs("Home");
 		}
 
 		[Test]
-		public void Signup_Should_Send_Email()
+		public void Signup_POST_Should_Send_Email()
 		{
 			// Arrange
 			string binFolder = AppDomain.CurrentDomain.BaseDirectory;
@@ -214,17 +204,17 @@ namespace Roadkill.Tests.Unit
 			model.PasswordConfirmation = "password";
 
 			// Act	
-			ViewResult result = userController.Signup(model, null) as ViewResult;
+			ActionResult result = userController.Signup(model, null);
 
 			// Assert
-			Assert.That(result, Is.Not.Null);
-			Assert.That(result.ViewName, Is.EqualTo("SignupComplete"));
+			ViewResult viewResult = result.AssertResultIs<ViewResult>();
+			Assert.That(viewResult.ViewName, Is.EqualTo("SignupComplete"));
 			Assert.That(signupEmail.IsSent, Is.True);
 			Assert.That(signupEmail.ViewModel, Is.EqualTo(model));
 		}
 
 		[Test]
-		public void Signup_Should_Not_Send_Email_With_Invalid_ModelState()
+		public void Signup_POST_Should_Not_Send_Email_With_Invalid_ModelState()
 		{
 			// Arrange
 			string binFolder = AppDomain.CurrentDomain.BaseDirectory;
@@ -244,13 +234,38 @@ namespace Roadkill.Tests.Unit
 			UserViewModel model = new UserViewModel();
 
 			// Act
-			ViewResult result = userController.Signup(model, null) as ViewResult;
+			ActionResult result = userController.Signup(model, null);
 
 			// Assert
-			Assert.That(result, Is.Not.Null);
-			Assert.That(result.ViewName, Is.Not.EqualTo("Signup"));
+			ViewResult viewResult = result.AssertResultIs<ViewResult>();
+			Assert.That(viewResult.ViewName, Is.Not.EqualTo("Signup"));
 			Assert.That(userController.ModelState.Count, Is.EqualTo(1));
 			Assert.That(signupEmail.IsSent, Is.False);
+		}
+
+		[Test]
+		public void Signup_POST_Should_Set_ModelState_Error_From_SecurityException()
+		{
+			// Arrange
+			SiteSettings siteSettings = _settingsService.GetSiteSettings();
+			siteSettings.AllowUserSignup = true;
+
+			FakeSignupEmail signupEmail = new FakeSignupEmail(_applicationSettings, siteSettings);
+			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, signupEmail, null);
+			userController.SetFakeControllerContext();
+			
+			_userService.ThrowSecurityExceptionOnSignup = true;
+
+			UserViewModel model = new UserViewModel();
+
+			// Act
+			ActionResult result = userController.Signup(model, null);
+
+			// Assert
+			ViewResult viewResult = result.AssertResultIs<ViewResult>();
+			Assert.That(viewResult.ViewName, Is.Not.EqualTo("Signup"));
+			Assert.That(userController.ModelState.Count, Is.EqualTo(1));
+			Assert.That(userController.ModelState["General"].Errors[0].ErrorMessage, Is.EqualTo("ThrowSecurityExceptionOnSignup"));
 		}
 
 		[Test]
@@ -260,11 +275,11 @@ namespace Roadkill.Tests.Unit
 			_applicationSettings.UseWindowsAuthentication = false;
 
 			// Act	
-			ViewResult result = _userController.ResetPassword() as ViewResult;
+			ActionResult result = _userController.ResetPassword();
 
 			// Assert
-			Assert.That(result, Is.Not.Null);
-			result.AssertViewRendered(); // this checks the view name matches the method
+			ViewResult viewResult = result.AssertResultIs<ViewResult>();
+			viewResult.AssertViewRendered(); // this checks the view name matches the method
 		}
 
 		[Test]
@@ -277,11 +292,9 @@ namespace Roadkill.Tests.Unit
 			ActionResult result = _userController.Logout();
 
 			// Assert
-			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
-
-			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
-			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Index"));
-			Assert.That(redirectResult.RouteValues["controller"], Is.EqualTo("Home"));
+			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
+			redirectResult.AssertActionRouteIs("Index");
+			redirectResult.AssertControllerRouteIs("Home");
 		}
 
 		[Test]
@@ -296,11 +309,11 @@ namespace Roadkill.Tests.Unit
 			userController.SetFakeControllerContext();
 
 			// Act	
-			ViewResult result = userController.ResetPassword("fake email") as ViewResult;
+			ActionResult result = userController.ResetPassword("fake email");
 
 			// Assert
-			Assert.That(result, Is.Not.Null);
-			result.AssertViewRendered();
+			ViewResult viewResult = result.AssertResultIs<ViewResult>();
+			viewResult.AssertViewRendered();
 			Assert.That(userController.ModelState.Count, Is.EqualTo(1));
 			Assert.That(resetEmail.IsSent, Is.EqualTo(false));
 		}
@@ -325,11 +338,11 @@ namespace Roadkill.Tests.Unit
 			userController.SetFakeControllerContext();
 
 			// Act	
-			ViewResult result = userController.ResetPassword(email) as ViewResult;
+			ActionResult result = userController.ResetPassword(email);
 
 			// Assert
-			Assert.That(result, Is.Not.Null);
-			Assert.That(result.ViewName, Is.EqualTo("ResetPasswordSent"));
+			ViewResult viewResult = result.AssertResultIs<ViewResult>();
+			Assert.That(viewResult.ViewName, Is.EqualTo("ResetPasswordSent"));
 			Assert.That(resetEmail.IsSent, Is.True);
 			Assert.That(resetEmail.Model.ExistingEmail, Is.EqualTo(email));
 			Assert.That(resetEmail.Model.PasswordResetKey, Is.EqualTo(UserServiceMock.RESETKEY));
@@ -347,9 +360,9 @@ namespace Roadkill.Tests.Unit
 			ActionResult result = userController.CompleteResetPassword("resetkey");
 
 			// Assert
-			Assert.That(result, Is.TypeOf<ViewResult>());
+			ViewResult viewResult = result.AssertResultIs<ViewResult>();
 
-			UserViewModel model = result.ModelFromActionResult<UserViewModel>();
+			UserViewModel model = viewResult.ModelFromActionResult<UserViewModel>();
 			User expectedUser = _userService.Users[0];
 
 			Assert.That(model.Id, Is.EqualTo(expectedUser.Id));
@@ -357,6 +370,21 @@ namespace Roadkill.Tests.Unit
 			Assert.That(model.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
 			Assert.That(model.Firstname, Is.EqualTo(expectedUser.Firstname));
 			Assert.That(model.Lastname, Is.EqualTo(expectedUser.Lastname));
+		}
+
+		[Test]
+		public void CompleteResetPassword_Should_Return_CompleteResetPasswordInvalid_View_When_User_Is_Null()
+		{
+			// Arrange
+			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
+			userController.SetFakeControllerContext();
+
+			// Act	
+			ActionResult result = userController.CompleteResetPassword("invalidresetkey");
+
+			// Assert
+			ViewResult viewResult = result.AssertResultIs<ViewResult>();
+			Assert.That(viewResult.ViewName, Is.EqualTo("CompleteResetPasswordInvalid"));
 		}
 
 		[Test]
@@ -369,11 +397,9 @@ namespace Roadkill.Tests.Unit
 			ActionResult result = _userController.CompleteResetPassword("resetkey");
 
 			// Assert
-			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
-
-			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
-			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Index"));
-			Assert.That(redirectResult.RouteValues["controller"], Is.EqualTo("Home"));
+			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
+			redirectResult.AssertActionRouteIs("Index");
+			redirectResult.AssertControllerRouteIs("Home");
 		}
 
 		[Test]
@@ -388,11 +414,11 @@ namespace Roadkill.Tests.Unit
 			userController.SetFakeControllerContext();
 
 			// Act	
-			ViewResult result = userController.ResendConfirmation("doesnt exist") as ViewResult;
+			ActionResult result = userController.ResendConfirmation("doesnt exist");
 
 			// Assert
-			Assert.That(result, Is.Not.Null);
-			Assert.That(result.ViewName, Is.EqualTo("Signup"));
+			ViewResult viewResult = result.AssertResultIs<ViewResult>();
+			Assert.That(viewResult.ViewName, Is.EqualTo("Signup"));
 		}
 
 		[Test]
@@ -415,12 +441,12 @@ namespace Roadkill.Tests.Unit
 			userController.SetFakeControllerContext();
 
 			// Act	
-			ViewResult result = userController.ResendConfirmation(email) as ViewResult;
+			ActionResult result = userController.ResendConfirmation(email);
 
 			// Assert
-			Assert.That(result, Is.Not.Null);
-			Assert.That(result.ViewName, Is.EqualTo("SignupComplete"));
-			Assert.That(result.TempData["resend"], Is.EqualTo(true));
+			ViewResult viewResult = result.AssertResultIs<ViewResult>();
+			Assert.That(viewResult.ViewName, Is.EqualTo("SignupComplete"));
+			Assert.That(viewResult.TempData["resend"], Is.EqualTo(true));
 			Assert.That(signupEmail.IsSent, Is.EqualTo(true));
 		}
 
@@ -432,13 +458,13 @@ namespace Roadkill.Tests.Unit
 
 			// Act
 			_userController.Login(AdminEmail, AdminPassword, "");
-			//_userContext.CurrentUser = _userManager.Users[0].Id.ToString(); // base controller's OnActionExecuted normally sets this.
+			//_userContext.CurrentUser = _userManager.Users[0].Id.ToString(); // the base controller's OnActionExecuted normally sets this.
 			ActionResult result = _userController.Profile();
 
 			// Assert
-			Assert.That(result, Is.TypeOf<ViewResult>());
+			ViewResult viewResult = result.AssertResultIs<ViewResult>();
 
-			UserViewModel model = result.ModelFromActionResult<UserViewModel>();
+			UserViewModel model = viewResult.ModelFromActionResult<UserViewModel>();
 			User expectedUser = _userService.Users[0];
 
 			Assert.That(model.Id, Is.EqualTo(expectedUser.Id));
@@ -458,10 +484,8 @@ namespace Roadkill.Tests.Unit
 			ActionResult result = _userController.Profile(model);
 
 			// Assert
-			Assert.That(result, Is.TypeOf<RedirectToRouteResult>());
-
-			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
-			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Login"));
+			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
+			redirectResult.AssertActionRouteIs("Login");
 		}
 
 		[Test]
@@ -526,7 +550,7 @@ namespace Roadkill.Tests.Unit
 			model.NewUsername = "newprofiletest";
 
 			// Act	
-			ViewResult result = _userController.Profile(model) as ViewResult;
+			ActionResult result = _userController.Profile(model) as ViewResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
@@ -556,14 +580,79 @@ namespace Roadkill.Tests.Unit
 			model.Password = newPassword;
 
 			// Act	
-			ViewResult result = _userController.Profile(model) as ViewResult;
+			ActionResult result = _userController.Profile(model);
 
 			// Assert
-			Assert.That(result, Is.Not.Null);
-			result.AssertViewRendered();
+			ViewResult viewResult = result.AssertResultIs<ViewResult>();
+			viewResult.AssertViewRendered();
 
 			User user = _userService.GetUser(email);
 			Assert.That(user.Password, Is.EqualTo(hashedPassword));
+		}
+
+		[Test]
+		public void Signup_GET_Should_Return_View()
+		{
+			// Arrange
+			UserViewModel model = new UserViewModel();
+			_repository.SiteSettings.AllowUserSignup = true;
+			_userContext.CurrentUser = "";
+			_applicationSettings.UseWindowsAuthentication = false;
+
+			// Act	
+			ActionResult result = _userController.Signup();
+
+			// Assert
+			result.AssertResultIs<ViewResult>();
+		}
+
+		[Test]
+		public void Signup_GET_Should_Redirect_When_Logged_In()
+		{
+			// Arrange
+			UserViewModel model = new UserViewModel();
+			_repository.SiteSettings.AllowUserSignup = true;
+			_userContext.CurrentUser = Guid.NewGuid().ToString();
+
+			// Act	
+			ActionResult result = _userController.Signup();
+
+			// Assert
+			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
+			redirectResult.AssertActionRouteIs("Index");
+			redirectResult.AssertControllerRouteIs("Home");
+		}
+
+		[Test]
+		public void Signup_GET_Should_Redirect_When_Signups_Are_Disabled()
+		{
+			// Arrange
+			UserViewModel model = new UserViewModel();
+			_repository.SiteSettings.AllowUserSignup = false;
+
+			// Act	
+			ActionResult result = _userController.Signup();
+
+			// Assert
+			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
+			redirectResult.AssertActionRouteIs("Index");
+			redirectResult.AssertControllerRouteIs("Home");
+		}
+
+		[Test]
+		public void Signup_GET_Should_Redirect_When_Windows_Auth_Is_Enabled()
+		{
+			// Arrange
+			UserViewModel model = new UserViewModel();
+			_applicationSettings.UseWindowsAuthentication = true;
+
+			// Act	
+			ActionResult result = _userController.Signup();
+
+			// Assert
+			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
+			redirectResult.AssertActionRouteIs("Index");
+			redirectResult.AssertControllerRouteIs("Home");
 		}
 	}
 }

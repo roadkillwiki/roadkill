@@ -342,6 +342,7 @@
     <Compile Include="Unit\Database\EntityTests.cs" />
     <Compile Include="Unit\Export\SqlExportBuilderTests.cs" />
     <Compile Include="Unit\Extensions\ExtensionsTests.cs" />
+    <Compile Include="Unit\Extensions\MvcActionExtensions.cs" />
     <Compile Include="Unit\Import\WikiExporterTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\AdminRequiredAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\AuthorizeAttributeTestBase.cs" />
