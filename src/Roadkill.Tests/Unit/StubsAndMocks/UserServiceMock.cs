@@ -17,6 +17,7 @@ namespace Roadkill.Tests
 		public static readonly string ACTIVATIONKEY = "activationkey";
 		public List<User> Users { get; set; }
 		public string LoggedInUserId { get;set; }
+		public bool ThrowSecurityExceptionOnSignup { get; set; }
 
 		public UserServiceMock()
 			: base(null, null)
@@ -166,6 +167,9 @@ namespace Roadkill.Tests
 
 		public override string Signup(UserViewModel page, Action completed)
 		{
+			if (ThrowSecurityExceptionOnSignup)
+				throw new SecurityException("ThrowSecurityExceptionOnSignup", null);
+
 			AddUser(page.NewEmail, page.NewUsername, page.Password, false, true);
 
 			User user = GetUser(page.NewEmail, false);

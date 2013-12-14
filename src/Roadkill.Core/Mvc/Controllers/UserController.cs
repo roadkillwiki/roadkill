@@ -79,7 +79,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
-			// Don't use ModelState.isvalid as the summary object only has an ID and two passwords
+			// Don't use ModelState.isvalid as the UserViewModel instance only has an ID and two passwords
 			if (string.IsNullOrEmpty(model.Password) || string.IsNullOrEmpty(model.PasswordConfirmation) ||
 				model.Password != model.PasswordConfirmation)
 			{
