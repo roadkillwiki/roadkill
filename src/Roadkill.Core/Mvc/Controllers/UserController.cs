@@ -136,8 +136,16 @@ namespace Roadkill.Core.Mvc.Controllers
 				return RedirectToAction("Index", "Home");
 
 			string viewName = "Login";
-			if (Request.QueryString["ReturnUrl"] != null && Request.QueryString["ReturnUrl"].ToLower().Contains("files"))
-				viewName = "BlankLogin";
+
+			// Show a plain login page if the session has ended inside the file explorer/help dialogs
+			if (Request.QueryString["ReturnUrl"] != null)
+			{
+				if (Request.QueryString["ReturnUrl"].ToLower().Contains("/filemanager/select") ||
+					Request.QueryString["ReturnUrl"].ToLower().Contains("/help"))
+				{
+					viewName = "BlankLogin";
+				}
+			}
 
 			if (UserService.Authenticate(email, password))
 			{

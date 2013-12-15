@@ -64,12 +64,12 @@ namespace Roadkill.Tests.Unit
 
 		public static void AssertActionRouteIs(this RedirectToRouteResult result, string value)
 		{
-			Assert.That(result.RouteValues["action"], Is.EqualTo(value), "Expected {0} for action route value", value);
+			Assert.That(result.RouteValues["action"], Is.EqualTo(value), "'{0}' for action route value failed:", value);
 		}
 
 		public static void AssertControllerRouteIs(this RedirectToRouteResult result, string value)
 		{
-			Assert.That(result.RouteValues["controller"], Is.EqualTo(value), "Expected {0} for controller route value", value);
+			Assert.That(result.RouteValues["controller"], Is.EqualTo(value), "'{0}' for controller route value failed:", value);
 		}
 	}
 }
