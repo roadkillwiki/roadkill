@@ -15,7 +15,7 @@
 </style>
 
 <div id="editpage" class="row">
-	<div id="editpage-form-container" class="col-sm-6">
+	<div id="editpage-form-container" class="col-lg-6">
 		@Html.BootstrapValidationSummary(SiteStrings.EditPage_Error)
 
 		<form class="form-horizontal" role="form" method="post" id="editpage-form">
@@ -69,8 +69,8 @@
 	</div>
 
 	<!-- Preview panel -->
-	<div class="col-sm-6">
-		<div class="panel panel-default">
+	<div class="col-lg-6" id="previewpanel-container">
+		<div id="previewpanel-inner" class="panel panel-default">
 			<div id="preview-heading" class="panel-heading">@SiteStrings.EditPage_Preview</div>
 			<div class="panel-body" id="preview-wrapper">
 				<div id="previewLoading" class="hide"><img src="@(Url.Content("~/Assets/Images/white-loading.gif"))" border="0" alt="loading" /></div>
@@ -78,6 +78,5 @@
 			</div>
 		</div>
 	</div>
-
 </div>
 

@@ -24,6 +24,9 @@ module Roadkill.Site
 			// Set the preview pane to auto-update
 			this.bindPreview();
 
+			// Set the preview pane toggle button
+			this.bindPreviewToggleButton();
+
 			// Form validation
 			var validationRules =
 				{
@@ -138,6 +141,47 @@ module Roadkill.Site
 				}
 
 				this._timeout = setTimeout(EditPage.updatePreviewPane, 100);
+			});
+		}
+
+		private bindPreviewToggleButton()
+		{
+			$("#preview-toggle").click(function ()
+			{
+				// Switch the bootstrap classes so the form area fills or collapses
+				var panelContainer = $("#previewpanel-container");
+
+				if (panelContainer.is(":visible"))
+				{
+					// Hide the preview
+					$("#preview-toggle span")
+						.removeClass("glyphicon-chevron-right")
+						.addClass("glyphicon-chevron-left");
+
+					$("#editpage-form-container")
+						.removeClass("col-lg-6")
+						.addClass("col-lg-12");
+
+					$("#previewpanel-container")
+						.removeClass("col-lg-6")
+				}
+				else
+				{
+					// Show the preview
+					$("#preview-toggle span")
+						.removeClass("glyphicon-chevron-left")
+						.addClass("glyphicon-chevron-right");
+
+					$("#editpage-form-container")
+						.removeClass("col-lg-12")
+						.addClass("col-lg-6");
+
+					$("#previewpanel-container")
+						.addClass("col-lg-6");
+				}
+
+				panelContainer.toggle();
+				return false;
 			});
 		}
 
