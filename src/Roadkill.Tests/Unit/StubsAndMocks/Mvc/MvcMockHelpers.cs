@@ -37,7 +37,7 @@ namespace Roadkill.Tests.Unit
 
 			response.Setup(r => r.Cache).Returns(new HttpCachePolicyMock());
 			response.SetupProperty(r => r.StatusCode);
-			response.Setup(x => x.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(x => x);
+			response.Setup(x => x.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(x => x); // UrlHelper support
 
 			server.Setup(s => s.UrlDecode(It.IsAny<string>())).Returns<string>(s => s);
 

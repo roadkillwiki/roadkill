@@ -340,6 +340,7 @@
     <Compile Include="Unit\Cache\PageServiceCacheTests.cs" />
     <Compile Include="Unit\Cache\ListCacheTests.cs" />
     <Compile Include="Unit\Database\EntityTests.cs" />
+    <Compile Include="Unit\Database\SchemaTests.cs" />
     <Compile Include="Unit\Export\SqlExportBuilderTests.cs" />
     <Compile Include="Unit\Extensions\ExtensionsTests.cs" />
     <Compile Include="Unit\Extensions\MvcActionExtensions.cs" />
@@ -393,6 +394,7 @@
     <Compile Include="Unit\MocksAndStubsContainer.cs" />
     <Compile Include="Unit\StubsAndMocks\CacheMock.cs" />
     <Compile Include="Unit\StubsAndMocks\ConfigReaderWriterStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\DbCommandStub.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\Attributes\IdentityStub.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\Attributes\PrincipalMock.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\HttpCachePolicyMock.cs" />
