@@ -5,13 +5,14 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.DI;
 using Roadkill.Core.Security;
 using Roadkill.Core.Services;
 using StructureMap.Attributes;
 
 namespace Roadkill.Core.Mvc.Attributes
 {
-	public class WebApiAdminRequiredAttribute : System.Web.Http.AuthorizeAttribute, ISetterInjected
+	public class WebApiAdminRequiredAttribute : System.Web.Http.AuthorizeAttribute, ISetterInjected, IAuthorizationAttribute
 	{
 		[SetterProperty]
 		public ApplicationSettings ApplicationSettings { get; set; }
@@ -28,23 +29,16 @@ namespace Roadkill.Core.Mvc.Attributes
 		[SetterProperty]
 		public SettingsService SettingsService { get; set; }
 
+		[SetterProperty]
+		public IAuthorizationProvider AuthorizationProvider { get; set; }
+
 		protected override bool IsAuthorized(System.Web.Http.Controllers.HttpActionContext actionContext)
 		{
-			IPrincipal user = Thread.CurrentPrincipal;
-			IIdentity identity = Thread.CurrentPrincipal.Identity;
+			if (AuthorizationProvider == null)
+				throw new SecurityException("The AuthorizationProvider property has not been set for WebApiAdminRequiredAttribute.", null);
 
-			if (!identity.IsAuthenticated)
-			{
-				return false;
-			}
-
-			if (string.IsNullOrEmpty(ApplicationSettings.AdminRoleName))
-				return true;
-
-			if (UserService.IsAdmin(identity.Name))
-				return true;
-			else
-				return false;
+			IPrincipal principal = Thread.CurrentPrincipal;
+			return AuthorizationProvider.IsAdmin(principal);
 		}
 	}
 }

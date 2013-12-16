@@ -8,7 +8,7 @@ using Roadkill.Core.Security;
 using StructureMap.Attributes;
 using Roadkill.Core.Cache;
 
-namespace Roadkill.Core.Mvc.Attributes
+namespace Roadkill.Core.DI
 {
 	/// <summary>
 	/// Defines an Attribute that has its property values setter injected by Structuremap.

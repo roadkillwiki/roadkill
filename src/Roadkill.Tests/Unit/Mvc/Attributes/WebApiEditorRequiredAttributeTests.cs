@@ -25,7 +25,7 @@ namespace Roadkill.Tests.Unit
 	/// </summary>
 	[TestFixture]
 	[Category("Unit")]
-	public class AdminRequiredAttributeTests
+	public class WebApiEditorRequiredAttributeTests
 	{
 		private MocksAndStubsContainer _container;
 
@@ -50,17 +50,17 @@ namespace Roadkill.Tests.Unit
 		public void Should_Use_AuthorizationProvider()
 		{
 			// Arrange
-			AdminRequiredAttributeMock attribute = new AdminRequiredAttributeMock();
-			attribute.AuthorizationProvider = new AuthorizationProviderMock() { IsAdminResult = true };
+			WebApiEditorRequiredAttributeMock attribute = new WebApiEditorRequiredAttributeMock();
+			attribute.AuthorizationProvider = new AuthorizationProviderMock() { IsEditorResult = true };
 			attribute.ApplicationSettings = _applicationSettings;
 			attribute.UserService = _userService;
 
 			IdentityStub identity = new IdentityStub() { Name = Guid.NewGuid().ToString(), IsAuthenticated = true };
 			PrincipalStub principal = new PrincipalStub() { Identity = identity };
-			HttpContextBase context = GetHttpContext(principal);
+			Thread.CurrentPrincipal = principal;
 
 			// Act
-			bool isAuthorized = attribute.CallAuthorize(context);
+			bool isAuthorized = attribute.CallAuthorize(new HttpActionContext());
 
 			// Assert
 			Assert.That(isAuthorized, Is.True);
@@ -71,32 +71,23 @@ namespace Roadkill.Tests.Unit
 		public void Should_Throw_SecurityException_When_AuthorizationProvider_Is_Null()
 		{
 			// Arrange
-			AdminRequiredAttributeMock attribute = new AdminRequiredAttributeMock();
+			WebApiEditorRequiredAttributeMock attribute = new WebApiEditorRequiredAttributeMock();
 			attribute.AuthorizationProvider = null;
 
 			IdentityStub identity = new IdentityStub() { Name = Guid.NewGuid().ToString(), IsAuthenticated = true };
 			PrincipalStub principal = new PrincipalStub() { Identity = identity };
-			HttpContextBase context = GetHttpContext(principal);
+			Thread.CurrentPrincipal = principal;
 
 			// Act + Assert
-			attribute.CallAuthorize(context);
-		}
-
-		protected HttpContextBase GetHttpContext(PrincipalStub principal)
-		{
-			MvcMockContainer container = new MvcMockContainer();
-			HttpContextBase context = MvcMockHelpers.FakeHttpContext(container);
-			container.Context.SetupProperty(x => x.User, principal);
-
-			return context;
+			attribute.CallAuthorize(new HttpActionContext());
 		}
 	}
 
-	public class AdminRequiredAttributeMock : AdminRequiredAttribute
+	public class WebApiEditorRequiredAttributeMock : WebApiEditorRequiredAttribute
 	{
-		public bool CallAuthorize(HttpContextBase context)
+		public bool CallAuthorize(HttpActionContext actionContext)
 		{
-			return base.AuthorizeCore(context);
+			return base.IsAuthorized(actionContext);
 		}
 	}
 }

@@ -24,6 +24,7 @@ using Roadkill.Core.Plugins;
 using Roadkill.Core.Import;
 using Roadkill.Tests.Unit.StubsAndMocks;
 using Roadkill.Core.DI;
+using Roadkill.Core.Mvc.Attributes;
 
 namespace Roadkill.Tests.Unit
 {
@@ -69,6 +70,7 @@ namespace Roadkill.Tests.Unit
 			UserServiceBase userManager = ObjectFactory.GetInstance<UserServiceBase>();
 			IPluginFactory pluginFactory = ObjectFactory.GetInstance<IPluginFactory>();
 			IWikiImporter wikiImporter = ObjectFactory.GetInstance<IWikiImporter>();
+			IAuthorizationProvider authProvider = ObjectFactory.GetInstance<IAuthorizationProvider>();
 
 			// Assert
 			Assert.That(settings, Is.Not.Null);
@@ -82,6 +84,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(userManager, Is.TypeOf<FormsAuthUserService>());
 			Assert.That(pluginFactory, Is.TypeOf<PluginFactory>());
 			Assert.That(wikiImporter, Is.TypeOf<ScrewTurnImporter>());
+			Assert.That(authProvider, Is.TypeOf<AuthorizationProvider>());
 		}
 
 		[Test]
@@ -208,9 +211,33 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
+		public void Should_Fill_ISetterInjected_Properties()
+		{
+			// Arrange + Act
+			ISetterInjected setterInjected = ObjectFactory.GetInstance<AdminRequiredAttribute>();
+
+			// Assert
+			Assert.That(setterInjected.ApplicationSettings, Is.Not.Null);
+			Assert.That(setterInjected.Context, Is.Not.Null);
+			Assert.That(setterInjected.UserService, Is.Not.Null);
+			Assert.That(setterInjected.PageService, Is.Not.Null);
+			Assert.That(setterInjected.SettingsService, Is.Not.Null);
+		}
+
+		[Test]
+		public void Should_Fill_IAuthorizationAttribute_Properties()
+		{
+			// Arrange + Act
+			IAuthorizationAttribute authorizationAttribute = ObjectFactory.GetInstance<AdminRequiredAttribute>();
+
+			// Assert
+			Assert.That(authorizationAttribute.AuthorizationProvider, Is.Not.Null);
+		}
+
+		[Test]
 		public void Should_Copy_Plugins()
 		{
-			
+			// TODO
 		}
 
 		[Test]

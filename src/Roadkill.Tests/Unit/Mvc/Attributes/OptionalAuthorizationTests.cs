@@ -8,12 +8,16 @@ using NUnit;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Tests.Unit.Attributes;
 using MvcContrib.TestHelper;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Attributes;
 using System.Security.Principal;
+using Roadkill.Core.Security;
+using Roadkill.Tests.Unit.StubsAndMocks;
+using System.Web.Http.Controllers;
+using System.Threading;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Tests.Unit
 {
@@ -22,155 +26,186 @@ namespace Roadkill.Tests.Unit
 	/// </summary>
 	[TestFixture]
 	[Category("Unit")]
-	public class OptionalAuthorizationAttributeTests : AuthorizeAttributeTestBase
+	public class OptionalAuthorizationTests
 	{
 		private MocksAndStubsContainer _container;
-		private UserServiceMock _userService;
-		private IUserContext _context;
 
-		private Guid _adminId;
-		private Guid _editorId;
+		private ApplicationSettings _applicationSettings;
+		private IUserContext _context;
+		private UserServiceMock _userService;
 
 		[SetUp]
 		public void Setup()
 		{
 			_container = new MocksAndStubsContainer();
-			_userService = _container.UserService;
+
+			_applicationSettings = _container.ApplicationSettings;
 			_context = _container.UserContext;
+			_userService = _container.UserService;
 
-			_userService.AddUser("admin@localhost", "admin", "password", true, true);
-			_userService.AddUser("editor@localhost", "editor", "password", false, true);
-			_userService.Users[0].IsActivated = true;
-			_userService.Users[1].IsActivated = true;
-
-			_adminId = _userService.Users[0].Id;
-			_editorId = _userService.Users[1].Id;
+			_applicationSettings.AdminRoleName = "Admin";
+			_applicationSettings.EditorRoleName = "Editor";
 		}
 
 		[Test]
-		public void Should_Authorize_When_Not_Installed()
+		public void Should_Return_True_If_Installed_Is_False()
 		{
 			// Arrange
-			OptionalAuthorizationCaller attribute = GetOptionalAuthorizationCaller();
-			attribute.ApplicationSettings.Installed = false;
+			_applicationSettings.Installed = false;
 
-			PrincipalMock principal = GetPrincipal();
-			principal.Identity.IsAuthenticated = false;
-
-			HttpContextBase context = GetHttpContext(principal);
-
-			// Act
-			bool isAuthorized = attribute.CallAuthorize(context); // skips authorization
-
-			// Assert
-			Assert.That(isAuthorized, Is.True);
-		}
-
-		[Test]
-		public void Should_Authorize_When_Upgrade_Pending()
-		{
-			// Arrange
-			OptionalAuthorizationCaller attribute = GetOptionalAuthorizationCaller();
-			attribute.ApplicationSettings.UpgradeRequired = true;
-
-			PrincipalMock principal = GetPrincipal();
-			principal.Identity.IsAuthenticated = false;
-
-			HttpContextBase context = GetHttpContext(principal);
-
-			// Act
-			bool isAuthorized = attribute.CallAuthorize(context); // skips authorization
-
-			// Assert
-			Assert.That(isAuthorized, Is.True);
-		}
-
-		[Test]
-		public void Should_Authorize_When_Site_Is_Public()
-		{
-			// Arrange
-			OptionalAuthorizationCaller attribute = GetOptionalAuthorizationCaller();
-			attribute.ApplicationSettings.IsPublicSite = true;
-
-			PrincipalMock principal = GetPrincipal();
-			principal.Identity.IsAuthenticated = false;
-
-			HttpContextBase context = GetHttpContext(principal);
-
-			// Act
-			bool isAuthorized = attribute.CallAuthorize(context); // skips authorization
-
-			// Assert
-			Assert.That(isAuthorized, Is.True);
-		}
-
-		[Test]
-		public void Should_Not_Authorize_When_Not_Authenticated_And_Site_Is_Not_Public()
-		{
-			// Arrange
-			OptionalAuthorizationCaller attribute = GetOptionalAuthorizationCaller();
-			attribute.ApplicationSettings.IsPublicSite = false;
-
-			PrincipalMock principal = GetPrincipal();
-			principal.Identity.IsAuthenticated = false;
-
-			HttpContextBase context = GetHttpContext(principal);
-
-			// Act
-			bool isAuthorized = attribute.CallAuthorize(context);
-
-			// Assert
-			Assert.That(isAuthorized, Is.False);
-		}
-
-		[Test]
-		public void Should_Authorize_When_User_Is_Admin_And_Site_Is_Not_Public()
-		{
-			// Arrange
-			OptionalAuthorizationCaller attribute = GetOptionalAuthorizationCaller();
-			attribute.ApplicationSettings.IsPublicSite = false;
-
-			PrincipalMock principal = GetPrincipal();
-			principal.Identity.Name = _adminId.ToString();
-			HttpContextBase context = GetHttpContext(principal);
-
-			// Act
-			bool isAuthorized = attribute.CallAuthorize(context);
-
-			// Assert
-			Assert.That(isAuthorized, Is.True);
-		}
-
-		[Test]
-		public void Should_Authorize_When_User_Is_Editor_And_Site_Is_Not_Public()
-		{
-			// Arrange
-			OptionalAuthorizationCaller attribute = GetOptionalAuthorizationCaller();
-			attribute.ApplicationSettings.IsPublicSite = false;
-
-			PrincipalMock principal = GetPrincipal();
-			principal.Identity.Name = _editorId.ToString();
-			HttpContextBase context = GetHttpContext(principal);
-
-			// Act
-			bool isAuthorized = attribute.CallAuthorize(context);
-
-			// Assert
-			Assert.That(isAuthorized, Is.True);
-		}
-
-		private OptionalAuthorizationCaller GetOptionalAuthorizationCaller()
-		{
-			OptionalAuthorizationCaller attribute = new OptionalAuthorizationCaller();
-			attribute.ApplicationSettings = new ApplicationSettings();
-			attribute.ApplicationSettings.Installed = true;
-			attribute.ApplicationSettings.AdminRoleName = "admin";
-			attribute.ApplicationSettings.EditorRoleName = "editor";
-
-			attribute.Context = _context;
+			OptionalAuthorizationAttributeMock attribute = new OptionalAuthorizationAttributeMock();
+			attribute.AuthorizationProvider = new AuthorizationProviderMock();
+			attribute.ApplicationSettings = _applicationSettings;
 			attribute.UserService = _userService;
 
-			return attribute;
+			IdentityStub identity = new IdentityStub() { Name = Guid.NewGuid().ToString(), IsAuthenticated = true };
+			PrincipalStub principal = new PrincipalStub() { Identity = identity };
+			HttpContextBase context = GetHttpContext(principal);
+
+			// Act
+			bool isAuthorized = attribute.CallAuthorize(context);
+
+			// Assert
+			Assert.That(isAuthorized, Is.True);
+		}
+
+		[Test]
+		public void Should_Return_True_If_UpgradeRequired_Is_True()
+		{
+			// Arrange
+			_applicationSettings.UpgradeRequired = true;
+
+			OptionalAuthorizationAttributeMock attribute = new OptionalAuthorizationAttributeMock();
+			attribute.AuthorizationProvider = new AuthorizationProviderMock();
+			attribute.ApplicationSettings = _applicationSettings;
+			attribute.UserService = _userService;
+
+			IdentityStub identity = new IdentityStub() { Name = Guid.NewGuid().ToString(), IsAuthenticated = true };
+			PrincipalStub principal = new PrincipalStub() { Identity = identity };
+			HttpContextBase context = GetHttpContext(principal);
+
+			// Act
+			bool isAuthorized = attribute.CallAuthorize(context);
+
+			// Assert
+			Assert.That(isAuthorized, Is.True);
+		}
+
+		[Test]
+		public void Should_Return_True_If_PublicSite_Is_True()
+		{
+			// Arrange
+			_applicationSettings.IsPublicSite = true;
+
+			OptionalAuthorizationAttributeMock attribute = new OptionalAuthorizationAttributeMock();
+			attribute.AuthorizationProvider = new AuthorizationProviderMock();
+			attribute.ApplicationSettings = _applicationSettings;
+			attribute.UserService = _userService;
+
+			IdentityStub identity = new IdentityStub() { Name = Guid.NewGuid().ToString(), IsAuthenticated = true };
+			PrincipalStub principal = new PrincipalStub() { Identity = identity };
+			HttpContextBase context = GetHttpContext(principal);
+
+			// Act
+			bool isAuthorized = attribute.CallAuthorize(context);
+
+			// Assert
+			Assert.That(isAuthorized, Is.True);
+		}
+
+		[Test]
+		public void Should_Use_AuthorizationProvider_For_Editors_When_PublicSite_Is_False()
+		{
+			// Arrange
+			User editorUser = CreateEditorUser();
+
+			OptionalAuthorizationAttributeMock attribute = new OptionalAuthorizationAttributeMock();
+			attribute.AuthorizationProvider = new AuthorizationProviderMock() { IsEditorResult = true };
+			attribute.ApplicationSettings = _applicationSettings;
+			attribute.UserService = _userService;
+
+			IdentityStub identity = new IdentityStub() { Name = editorUser.Id.ToString(), IsAuthenticated = true };
+			PrincipalStub principal = new PrincipalStub() { Identity = identity };
+			HttpContextBase context = GetHttpContext(principal);
+
+			// Act
+			bool isAuthorized = attribute.CallAuthorize(context);
+
+			// Assert
+			Assert.That(isAuthorized, Is.True);
+		}
+
+		[Test]
+		public void Should_Use_AuthorizationProvider_For_Admin_When_PublicSite_Is_False()
+		{
+			// Arrange
+			User adminUser = CreateAdminUser();
+
+			OptionalAuthorizationAttributeMock attribute = new OptionalAuthorizationAttributeMock();
+			attribute.AuthorizationProvider = new AuthorizationProviderMock() { IsEditorResult = true };
+			attribute.ApplicationSettings = _applicationSettings;
+			attribute.UserService = _userService;
+
+			IdentityStub identity = new IdentityStub() { Name = adminUser.Id.ToString(), IsAuthenticated = true };
+			PrincipalStub principal = new PrincipalStub() { Identity = identity };
+			HttpContextBase context = GetHttpContext(principal);
+
+			// Act
+			bool isAuthorized = attribute.CallAuthorize(context);
+
+			// Assert
+			Assert.That(isAuthorized, Is.True);
+		}
+
+		[Test]
+		[ExpectedException(typeof(SecurityException))]
+		public void Should_Throw_SecurityException_When_AuthorizationProvider_Is_Null()
+		{
+			// Arrange
+			OptionalAuthorizationAttributeMock attribute = new OptionalAuthorizationAttributeMock();
+			attribute.AuthorizationProvider = null;
+
+			IdentityStub identity = new IdentityStub() { Name = Guid.NewGuid().ToString(), IsAuthenticated = true };
+			PrincipalStub principal = new PrincipalStub() { Identity = identity };
+			HttpContextBase context = GetHttpContext(principal);
+
+			// Act + Assert
+			attribute.CallAuthorize(context);
+		}
+
+		protected HttpContextBase GetHttpContext(PrincipalStub principal)
+		{
+			MvcMockContainer container = new MvcMockContainer();
+			HttpContextBase context = MvcMockHelpers.FakeHttpContext(container);
+			container.Context.SetupProperty(x => x.User, principal);
+
+			return context;
+		}
+
+		private User CreateAdminUser()
+		{
+			_userService.AddUser("admin@localhost", "admin", "password", true, false);
+			User user = _userService.GetUser("admin@localhost", false);
+			user.IsActivated = true;
+
+			return user;
+		}
+
+		private User CreateEditorUser()
+		{
+			_userService.AddUser("editor@localhost", "editor", "password", false, true);
+			User user = _userService.GetUser("editor@localhost", false);
+			user.IsActivated = true;
+
+			return user;
+		}
+	}
+
+	public class OptionalAuthorizationAttributeMock : OptionalAuthorizationAttribute
+	{
+		public bool CallAuthorize(HttpContextBase context)
+		{
+			return base.AuthorizeCore(context);
 		}
 	}
 }

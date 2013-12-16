@@ -237,6 +237,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\MySql.Data.6.7.4\lib\net40\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
@@ -269,11 +273,20 @@
     </Reference>
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.0.0\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -345,11 +358,13 @@
     <Compile Include="Unit\Extensions\ExtensionsTests.cs" />
     <Compile Include="Unit\Extensions\MvcActionExtensions.cs" />
     <Compile Include="Unit\Import\WikiExporterTests.cs" />
-    <Compile Include="Unit\Mvc\Attributes\AdminRequiredAttributeTests.cs" />
-    <Compile Include="Unit\Mvc\Attributes\AuthorizeAttributeTestBase.cs" />
-    <Compile Include="Unit\Mvc\Attributes\BrowserCacheAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\OptionalAuthorizationTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\EditorRequiredAttributeTests.cs" />
+    <Compile Include="Unit\Mvc\Attributes\WebApiEditorRequiredAttributeTests.cs" />
+    <Compile Include="Unit\Mvc\Attributes\WebApiAdminRequiredAttributeTests.cs" />
+    <Compile Include="Unit\Mvc\Attributes\AdminRequiredAttributeTests.cs" />
+    <Compile Include="Unit\Security\AuthorizationProviderTests.cs" />
+    <Compile Include="Unit\Mvc\Attributes\BrowserCacheAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\SiteSettings\SettingsControllerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\SiteSettings\UserManagementControllerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\SiteSettings\ToolsControllerTests.cs" />
@@ -392,11 +407,12 @@
     <Compile Include="Unit\Plugins\SettingsTests.cs" />
     <Compile Include="Unit\Plugins\TextPluginTests.cs" />
     <Compile Include="Unit\MocksAndStubsContainer.cs" />
+    <Compile Include="Unit\StubsAndMocks\AuthorizationProviderMock.cs" />
     <Compile Include="Unit\StubsAndMocks\CacheMock.cs" />
     <Compile Include="Unit\StubsAndMocks\ConfigReaderWriterStub.cs" />
     <Compile Include="Unit\StubsAndMocks\DbCommandStub.cs" />
-    <Compile Include="Unit\StubsAndMocks\Mvc\Attributes\IdentityStub.cs" />
-    <Compile Include="Unit\StubsAndMocks\Mvc\Attributes\PrincipalMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\IdentityStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\PrincipalStub.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\HttpCachePolicyMock.cs" />
     <Compile Include="Unit\StubsAndMocks\PluginFactoryMock.cs" />
     <Compile Include="Unit\StubsAndMocks\SpecialPageMock.cs" />

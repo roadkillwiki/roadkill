@@ -15,6 +15,7 @@ using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Extensions;
+using Roadkill.Core.DI;
 
 namespace Roadkill.Core.Mvc.Attributes
 {
