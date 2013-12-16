@@ -4,18 +4,12 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 
-namespace Roadkill.Tests.Unit.Attributes
+namespace Roadkill.Tests.Unit.StubsAndMocks
 {
 	public class IdentityStub : IIdentity
 	{
-		public string AuthenticationType
-		{
-			get { return "authtype"; }
-		}
-
+		public string AuthenticationType { get; set; }
 		public bool IsAuthenticated { get; set; }
-
-		string IIdentity.Name { get { return Name; } }
 		public string Name { get; set; }
 	}
 }

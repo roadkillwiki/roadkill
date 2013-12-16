@@ -8,142 +8,95 @@ using NUnit;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Tests.Unit.Attributes;
 using MvcContrib.TestHelper;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Attributes;
 using System.Security.Principal;
+using Roadkill.Core.Security;
+using Roadkill.Tests.Unit.StubsAndMocks;
+using System.Web.Http.Controllers;
+using System.Threading;
 
 namespace Roadkill.Tests.Unit
 {
 	/// <summary>
-	/// Setup-heavy tests for the EditorAdminRequired attribute.
+	/// Setup-heavy tests for the AdminRequired attribute.
 	/// </summary>
 	[TestFixture]
 	[Category("Unit")]
-	public class EditorRequiredAttributeTests : AuthorizeAttributeTestBase
+	public class EditorRequiredAttributeTests
 	{
 		private MocksAndStubsContainer _container;
-		private UserServiceMock _userService;
-		private IUserContext _context;
 
-		private Guid _adminId;
-		private Guid _editorId;
+		private ApplicationSettings _applicationSettings;
+		private IUserContext _context;
+		private UserServiceMock _userService;
 
 		[SetUp]
 		public void Setup()
 		{
 			_container = new MocksAndStubsContainer();
-			_userService = _container.UserService;
+
+			_applicationSettings = _container.ApplicationSettings;
 			_context = _container.UserContext;
+			_userService = _container.UserService;
 
-			_userService.AddUser("admin@localhost", "admin", "password", true, true);
-			_userService.AddUser("editor@localhost", "editor", "password", false, true);
-			_userService.Users[0].IsActivated = true;
-			_userService.Users[1].IsActivated = true;
-
-			_adminId = _userService.Users[0].Id;
-			_editorId = _userService.Users[1].Id;
+			_applicationSettings.AdminRoleName = "Admin";
+			_applicationSettings.EditorRoleName = "Editor";
 		}
 
 		[Test]
-		public void Should_Not_Authorize_When_User_Is_Not_Authenticated()
+		public void Should_Use_AuthorizationProvider()
 		{
 			// Arrange
-			EditorRequiredCaller attribute = GetEditorRequiredCaller();
-			PrincipalMock principal = GetPrincipal();
-			principal.Identity.IsAuthenticated = false;
-
-			HttpContextBase context = GetHttpContext(principal);
-
-			// Act
-			bool isAuthorized = attribute.CallAuthorize(context);
-
-			// Assert
-			Assert.That(isAuthorized, Is.False);
-		}
-
-		[Test]
-		public void Should_Authorize_When_No_Editor_Group_Name()
-		{
-			// Arrange
-			EditorRequiredCaller attribute = GetEditorRequiredCaller();
-			attribute.ApplicationSettings.EditorRoleName = "";
-
-			PrincipalMock principal = GetPrincipal();
-			HttpContextBase context = GetHttpContext(principal);
-
-			// Act
-			bool isAuthorized = attribute.CallAuthorize(context);
-
-			// Assert
-			Assert.That(isAuthorized, Is.True);
-		}
-
-		[Test]
-		public void Should_Authorize_When_Admin()
-		{
-			// Arrange
-			EditorRequiredCaller attribute = GetEditorRequiredCaller();
-
-			PrincipalMock principal = GetPrincipal();
-			principal.Identity.Name = _adminId.ToString();
-			HttpContextBase context = GetHttpContext(principal);
-
-			// Act
-			bool isAuthorized = attribute.CallAuthorize(context);
-
-			// Assert
-			Assert.That(isAuthorized, Is.True);
-		}
-
-		[Test]
-		public void Should_Authorize_When_Editor()
-		{
-			// Arrange
-			EditorRequiredCaller attribute = GetEditorRequiredCaller();
-
-			PrincipalMock principal = GetPrincipal();
-			principal.Identity.Name = _editorId.ToString();
-			HttpContextBase context = GetHttpContext(principal);
-
-			// Act
-			bool isAuthorized = attribute.CallAuthorize(context);
-
-			// Assert
-			Assert.That(isAuthorized, Is.True);
-		}
-
-		[Test]
-		public void Should_Not_Authorize_When_Not_Editor_Or_Admin()
-		{
-			// Arrange
-			EditorRequiredCaller attribute = GetEditorRequiredCaller();
-			attribute.UserService.AddUser("weirdlogin@localhost", "editor", "password", false, false);
-
-			PrincipalMock principal = GetPrincipal();
-			principal.Identity.Name = Guid.NewGuid().ToString();
-			HttpContextBase context = GetHttpContext(principal);
-
-			// Act
-			bool isAuthorized = attribute.CallAuthorize(context);
-
-			// Assert
-			Assert.That(isAuthorized, Is.False);
-		}
-
-		private EditorRequiredCaller GetEditorRequiredCaller()
-		{
-			EditorRequiredCaller attribute = new EditorRequiredCaller();
-			attribute.ApplicationSettings = new ApplicationSettings();
-			attribute.ApplicationSettings.AdminRoleName = "admin";
-			attribute.ApplicationSettings.EditorRoleName = "editor";
-
-			attribute.Context = _context;
+			EditorRequiredAttributeMock attribute = new EditorRequiredAttributeMock();
+			attribute.AuthorizationProvider = new AuthorizationProviderMock() { IsEditorResult = true };
+			attribute.ApplicationSettings = _applicationSettings;
 			attribute.UserService = _userService;
 
-			return attribute;
+			IdentityStub identity = new IdentityStub() { Name = Guid.NewGuid().ToString(), IsAuthenticated = true };
+			PrincipalStub principal = new PrincipalStub() { Identity = identity };
+			HttpContextBase context = GetHttpContext(principal);
+
+			// Act
+			bool isAuthorized = attribute.CallAuthorize(context);
+
+			// Assert
+			Assert.That(isAuthorized, Is.True);
+		}
+
+		[Test]
+		[ExpectedException(typeof(SecurityException))]
+		public void Should_Throw_SecurityException_When_AuthorizationProvider_Is_Null()
+		{
+			// Arrange
+			EditorRequiredAttributeMock attribute = new EditorRequiredAttributeMock();
+			attribute.AuthorizationProvider = null;
+
+			IdentityStub identity = new IdentityStub() { Name = Guid.NewGuid().ToString(), IsAuthenticated = true };
+			PrincipalStub principal = new PrincipalStub() { Identity = identity };
+			HttpContextBase context = GetHttpContext(principal);
+
+			// Act + Assert
+			attribute.CallAuthorize(context);
+		}
+
+		protected HttpContextBase GetHttpContext(PrincipalStub principal)
+		{
+			MvcMockContainer container = new MvcMockContainer();
+			HttpContextBase context = MvcMockHelpers.FakeHttpContext(container);
+			container.Context.SetupProperty(x => x.User, principal);
+
+			return context;
+		}
+	}
+
+	public class EditorRequiredAttributeMock : EditorRequiredAttribute
+	{
+		public bool CallAuthorize(HttpContextBase context)
+		{
+			return base.AuthorizeCore(context);
 		}
 	}
 }

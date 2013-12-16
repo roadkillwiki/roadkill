@@ -157,6 +157,10 @@ namespace Roadkill.Core.DI
 
 			// Site sttings
 			x.For<ConfigReaderWriter>().Use<FullTrustConfigReaderWriter>();
+
+			// Security
+			x.For<IAuthorizationProvider>().Use<AuthorizationProvider>();
+
 		}
 
 		private void Scan(IAssemblyScanner scanner)
@@ -214,6 +218,7 @@ namespace Roadkill.Core.DI
 			scanner.AddAllTypesOf<SettingsViewModel>();
 			scanner.AddAllTypesOf<AttachmentRouteHandler>();
 			scanner.AddAllTypesOf<ISetterInjected>();
+			scanner.AddAllTypesOf<IAuthorizationAttribute>();
 			scanner.AddAllTypesOf<RoadkillLayoutPage>();
 			scanner.AddAllTypesOf(typeof(RoadkillViewPage<>));
 			scanner.ConnectImplementationsToTypesClosing(typeof(RoadkillViewPage<>));
@@ -285,6 +290,7 @@ namespace Roadkill.Core.DI
 
 			// Setter inject the various MVC objects that can't have constructors
 			x.SetAllProperties(y => y.OfType<ISetterInjected>());
+			x.SetAllProperties(y => y.OfType<IAuthorizationAttribute>());
 			x.SetAllProperties(y => y.TypeMatches(t => t == typeof(RoadkillViewPage<>)));
 			x.SetAllProperties(y => y.TypeMatches(t => t == typeof(RoadkillLayoutPage)));
 

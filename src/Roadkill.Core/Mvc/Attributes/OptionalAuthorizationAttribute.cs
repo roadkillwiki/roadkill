@@ -5,6 +5,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using StructureMap.Attributes;
+using Roadkill.Core.DI;
 
 namespace Roadkill.Core.Mvc.Attributes
 {
@@ -28,42 +29,34 @@ namespace Roadkill.Core.Mvc.Attributes
 		[SetterProperty]
 		public SettingsService SettingsService { get; set; }
 
+		[SetterProperty]
+		public IAuthorizationProvider AuthorizationProvider { get; set; }
+
 		/// <summary>
 		/// Provides an entry point for custom authorization checks.
 		/// </summary>
 		/// <param name="httpContext">The HTTP context, which encapsulates all HTTP-specific information about an individual HTTP request.</param>
 		/// <returns>
-		/// true if the user is an admin, in the role name specified by the roadkill web.config editorRoleName setting or if this is blank; otherwise, false.
+		/// false if the user is an admin or editor AND the site is private (ispublicsite=false). Otherwise true is returned.
 		/// </returns>
 		/// <exception cref="T:System.ArgumentNullException">The <paramref name="httpContext"/> parameter is null.</exception>
 		protected override bool AuthorizeCore(HttpContextBase httpContext)
 		{
+			if (AuthorizationProvider == null)
+				throw new SecurityException("The OptionalAuthorizationAttribute property has not been set for AdminRequiredAttribute.", null);
+
 			if (!ApplicationSettings.Installed || ApplicationSettings.UpgradeRequired)
 			{
 				return true;
 			}
 
-			IPrincipal user = httpContext.User;
-			IIdentity identity = user.Identity;
-
 			// If the site is private then check for a login
 			if (!ApplicationSettings.IsPublicSite)
 			{
-				if (!identity.IsAuthenticated)
-				{
-					return false;
-				}
-				else
-				{
-					if (UserService.IsAdmin(identity.Name) || UserService.IsEditor(identity.Name))
-					{
-						return true;
-					}
-					else
-					{
-						return false;
-					}
-				}
+				IPrincipal principal = httpContext.User;
+
+				AuthorizationProvider provider = new AuthorizationProvider(ApplicationSettings, UserService);
+				return provider.IsAdmin(principal) || provider.IsEditor(principal);
 			}
 			else
 			{

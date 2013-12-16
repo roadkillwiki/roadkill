@@ -6,13 +6,14 @@ using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using StructureMap.Attributes;
 using System.Threading;
+using Roadkill.Core.DI;
 
 namespace Roadkill.Core.Mvc.Attributes
 {
 	/// <summary>
 	/// Represents an attribute that is used to restrict access by callers to users that are in Admin role group.
 	/// </summary>
-	public class AdminRequiredAttribute : AuthorizeAttribute, ISetterInjected
+	public class AdminRequiredAttribute : AuthorizeAttribute, ISetterInjected, IAuthorizationAttribute
 	{
 		[SetterProperty]
 		public ApplicationSettings ApplicationSettings { get; set; }
@@ -29,6 +30,9 @@ namespace Roadkill.Core.Mvc.Attributes
 		[SetterProperty]
 		public SettingsService SettingsService { get; set; }
 
+		[SetterProperty]
+		public IAuthorizationProvider AuthorizationProvider { get; set; }
+
 		/// <summary>
 		/// Provides an entry point for custom authorization checks.
 		/// </summary>
@@ -39,21 +43,11 @@ namespace Roadkill.Core.Mvc.Attributes
 		/// <exception cref="T:System.ArgumentNullException">The <paramref name="httpContext"/> parameter is null.</exception>
 		protected override bool AuthorizeCore(HttpContextBase httpContext)
 		{
-			IPrincipal user = httpContext.User;
-			IIdentity identity = user.Identity;
+			if (AuthorizationProvider == null)
+				throw new SecurityException("The AuthorizationProvider property has not been set for AdminRequiredAttribute.", null);
 
-			if (!identity.IsAuthenticated)
-			{
-				return false;
-			}
-
-			if (string.IsNullOrEmpty(ApplicationSettings.AdminRoleName))
-				return true;
-
-			if (UserService.IsAdmin(identity.Name))
-				return true;
-			else
-				return false;
+			IPrincipal principal = httpContext.User;
+			return AuthorizationProvider.IsAdmin(principal);
 		}
 	}
 }

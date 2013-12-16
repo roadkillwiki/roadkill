@@ -394,6 +394,9 @@
     <Compile Include="Cache\IPluginCache.cs" />
     <Compile Include="Cache\SiteCache.cs" />
     <Compile Include="Export\WikiExporter.cs" />
+    <Compile Include="Mvc\Attributes\IAuthorizationAttribute.cs" />
+    <Compile Include="Security\AuthorizationProvider.cs" />
+    <Compile Include="Security\IAuthorizationProvider.cs" />
     <Compile Include="Security\FormsAuthenticationWrapper.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
     <Compile Include="Exceptions\PluginException.cs" />
@@ -409,9 +412,9 @@
       <DependentUpon>SiteStrings.resx</DependentUpon>
     </Compile>
     <Compile Include="Mvc\Attributes\CacheContentTypeAttribute.cs" />
-    <Compile Include="Mvc\Attributes\WebApiEditorRequired.cs" />
+    <Compile Include="Mvc\Attributes\WebApiEditorRequiredAttribute.cs" />
     <Compile Include="Mvc\Attributes\WebApiAdminRequiredAttribute.cs" />
-    <Compile Include="Mvc\Attributes\ISetterInjected.cs" />
+    <Compile Include="DI\ISetterInjected.cs" />
     <Compile Include="DI\Mvc\MvcAttributeProvider.cs" />
     <Compile Include="DI\Mvc\MvcDependencyResolver.cs" />
     <Compile Include="Logging\Level.cs" />
