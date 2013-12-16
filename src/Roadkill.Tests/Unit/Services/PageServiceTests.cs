@@ -388,5 +388,20 @@ namespace Roadkill.Tests.Unit
 			Assert.That(_repository.AllPages().Count(), Is.EqualTo(0));
 			Assert.That(_repository.AllPageContents().Count(), Is.EqualTo(0));
 		}
+
+		[Test]
+		public void UpdateLinksToPage()
+		{
+			// Arrange
+			_repository.AddNewPage(new Page() { Id = 1, Title = "First page" }, "This is a link to [[Second page|The page 2]]", "editor", DateTime.UtcNow);
+			_repository.AddNewPage(new Page() { Id = 2, Title = "Second page" }, "This is a link to [[FiRsT PAGE|The page 1]]", "editor", DateTime.UtcNow);
+
+			// Act
+			_pageService.UpdateLinksToPage("Second page", "This page is now Page 3");
+
+			// Assert
+			PageContent page1 = _pageService.GetCurrentContent(1);
+			Assert.That(page1.Text, Is.EqualTo("asdfadf"), page1.Text);
+		}
 	}
 }
