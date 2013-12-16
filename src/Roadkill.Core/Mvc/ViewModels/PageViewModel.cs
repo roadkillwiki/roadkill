@@ -47,7 +47,9 @@ namespace Roadkill.Core.Mvc.ViewModels
 		}
 
 		/// <summary>
-		/// The content after it has been transformed into HTML by the current wiki markup converter.
+		/// The content after it has been transformed into HTML by the current wiki markup converter. This property 
+		/// is only set when the PageContent object is passed into the constructor, and is empty unless explicitly 
+		/// set by the caller.
 		/// </summary>
 		public string ContentAsHtml { get; set; }
 

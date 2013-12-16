@@ -210,14 +210,24 @@ namespace Roadkill.Core.Extensions
 		}
 
 		/// <summary>
-		/// Provides a Javascript and CSS tags for the Bootstrap framework.
+		/// Provides a CSS tag for the Bootstrap framework.
 		/// </summary>
-		public static MvcHtmlString BootStrap(this UrlHelper helper)
+		public static MvcHtmlString BootstrapCSS(this UrlHelper helper)
 		{
 			StringBuilder builder = new StringBuilder();
 			builder.AppendLine("<link href=\"" + helper.Content("~/Assets/bootstrap/css/bootstrap.min.css") + "\" rel=\"stylesheet\" media=\"screen\" />");
-			builder.Append("<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content("~/Assets/bootstrap/js/bootstrap.min.js") + "\"></script>", 2);
 			
+			return MvcHtmlString.Create(builder.ToString());
+		}
+
+		/// <summary>
+		/// Provides a Javascript script tag for the Bootstrap framework.
+		/// </summary>
+		public static MvcHtmlString BootstrapJS(this UrlHelper helper)
+		{
+			StringBuilder builder = new StringBuilder();
+			builder.Append("<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content("~/Assets/bootstrap/js/bootstrap.min.js") + "\"></script>", 2);
+
 			return MvcHtmlString.Create(builder.ToString());
 		}
 

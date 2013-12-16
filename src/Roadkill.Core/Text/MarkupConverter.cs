@@ -325,6 +325,10 @@ namespace Roadkill.Core.Converters
 			Regex regex = new Regex(GetLinkUpdateRegex(oldPageName), RegexOptions.IgnoreCase);
 			return regex.Replace(text, delegate(Match match)
 			{
+				// TODO: refactor into the Parser
+				if (Parser is MarkdownParser)
+					newPageName = newPageName.Replace(" ", "-");
+
 				if (match.Success && match.Groups.Count == 2)
 				{
 					return match.Value.Replace(match.Groups[1].Value, newPageName);
@@ -341,10 +345,17 @@ namespace Roadkill.Core.Converters
 		/// </summary>
 		private string GetLinkUpdateRegex(string pageName)
 		{
+			// TODO: refactor into the Parser
+			// Replace spaces with "-" as Markdown doesn't support spaces in URLs.
+			if (Parser is MarkdownParser)
+				pageName = pageName.Replace(" ", @"\-");
+
 			string regex = string.Format("{0}{1}", _parser.LinkStartToken, _parser.LinkEndToken);
-			regex = regex.Replace("%LINKTEXT%", "(?:.*?)");
 			regex = regex.Replace("(", @"\(").Replace(")", @"\)").Replace("[", @"\[").Replace("]", @"\]");
-			regex = regex.Replace("%URL%", "(?<url>" + pageName + ")"); // brackets or square brackets will break the URL, so ignore these.
+			regex = regex.Replace("%LINKTEXT%", "(?:.*?)");
+
+			// Don't worry about brackets or square brackets as they will break the URL anyway
+			regex = regex.Replace("%URL%", "(?<url>" + pageName + ")"); 
 
 			return regex;
 		}
