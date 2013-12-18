@@ -604,6 +604,8 @@
     <Content Include="Areas\SiteSettings\Views\UserManagement\AddEditor.cshtml" />
     <Content Include="Views\Shared\Dialogs\PageInformation.cshtml" />
     <Content Include="Views\Install\InstallerJsVars.cshtml" />
+    <Content Include="Views\Shared\TagBlocks.cshtml" />
+    <Content Include="Views\User\Recaptcha.cshtml" />
     <None Include="Web.Mono.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

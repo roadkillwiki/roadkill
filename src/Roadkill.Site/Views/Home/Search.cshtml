@@ -34,11 +34,11 @@ else
 	{
 	<div class="searchresult row">
 		<div class="col-sm-12 padded">
-			<div class="searchresult-title">@Html.ActionLink(result.Title, "Index", "Wiki", new { id = result.Id, title = result.Title.EncodeTitle() }, null)</div>
+			<div class="searchresult-title">@Html.ActionLink(result.Title, "Index", "Wiki", new { id = result.Id, title = result.EncodedTitle }, null)</div>
 			<div class="searchresult-summary">@MvcHtmlString.Create(result.ContentSummary)...</div>
 			<div>
-				<div class="searchresult-date left">@Html.FormatFileSize(result.ContentLength) - @result.CreatedOn.ToString("dd MMM yyyy")</div>
-				<div class="searchresult-tags left">@Html.TagBlocks(result.TagsAsList())</div>
+				<div class="searchresult-date left">@result.ContentLengthInKB - @result.CreatedOn.ToString("dd MMM yyyy")</div>
+				<div class="searchresult-tags left">@Html.Partial("TagBlocks", result.TagsAsList())</div>
 			</div>
 		</div>
 	</div>

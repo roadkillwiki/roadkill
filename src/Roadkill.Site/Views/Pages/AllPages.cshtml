@@ -32,7 +32,7 @@
 		@foreach (PageViewModel pageModel in Model)
 		{
 			<tr>
-				<td class="pagename stretch">@Html.ActionLink(pageModel.Title, "Index", "Wiki", new { id = pageModel.Id, title = pageModel.Title.EncodeTitle() }, null)</td>
+				<td class="pagename stretch">@Html.ActionLink(pageModel.Title, "Index", "Wiki", new { id = pageModel.Id, title = pageModel.EncodedTitle }, null)</td>
 			@if (RoadkillContext.IsLoggedIn)
 			{
 				if (!pageModel.IsLocked || (pageModel.IsLocked && RoadkillContext.IsAdmin))

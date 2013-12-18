@@ -65,7 +65,10 @@
 						</div>
 					</div>
 
-					@Html.RenderCaptcha(SiteSettings)
+					@if (SiteSettings.IsRecaptchaEnabled)
+					{ 
+						@Html.Partial("Recaptcha", SiteSettings)
+					}
 
 					<div class="form-group">
 						<div class="col-sm-offset-3 col-sm-9">

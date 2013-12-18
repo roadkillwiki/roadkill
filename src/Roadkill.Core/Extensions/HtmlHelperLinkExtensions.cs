@@ -22,7 +22,7 @@ namespace Roadkill.Core.Extensions
 	/// <summary>
 	/// A set of extension methods for common links throughout the site.
 	/// </summary>
-	public static class HtmlLinkExtensions
+	public static class HtmlHelperLinkExtensions
 	{
 		/// <summary>
 		/// Gets a string to indicate whether the current user is logged in. You should render the User action rather than this extension:
@@ -174,88 +174,6 @@ namespace Roadkill.Core.Extensions
 			{
 				return MvcHtmlString.Create(linkText);
 			}
-		}
-
-		/// <summary>
-		/// Provides a CSS link tag for the CSS file provided. If the relative path does not begin with ~ then
-		/// the Assets/Css folder is assumed.
-		/// </summary>
-		public static MvcHtmlString CssLink(this UrlHelper helper, string relativePath)
-		{
-			if (!relativePath.StartsWith("~"))
-				relativePath = "~/Assets/CSS/" + relativePath;
-
-			return MvcHtmlString.Create("<link href=\"" + helper.Content(relativePath) + "\" rel=\"stylesheet\" type=\"text/css\" />");
-		}
-
-		/// <summary>
-		/// Provides a Javascript script tag for the Javascript file provided. If the relative path does not begin with ~ then
-		/// the Assets/Scripts folder is assumed.
-		/// </summary>
-		public static MvcHtmlString ScriptLink(this UrlHelper helper, string relativePath)
-		{
-			if (!relativePath.StartsWith("~"))
-				relativePath = "~/Assets/Scripts/" + relativePath;
-
-			return MvcHtmlString.Create("<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content(relativePath) + "\"></script>");
-		}
-
-		/// <summary>
-		/// Provides a Javascript script tag for the installer Javascript file provided, using ~/Assets/Scripts/roadkill/installer as the base path.
-		/// </summary>
-		public static MvcHtmlString InstallerScriptLink(this UrlHelper helper, string filename)
-		{
-			string relativePath = "~/Assets/Scripts/roadkill/installer/" + filename;
-			return MvcHtmlString.Create("<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content(relativePath) + "\"></script>");
-		}
-
-		/// <summary>
-		/// Provides a CSS tag for the Bootstrap framework.
-		/// </summary>
-		public static MvcHtmlString BootstrapCSS(this UrlHelper helper)
-		{
-			StringBuilder builder = new StringBuilder();
-			builder.AppendLine("<link href=\"" + helper.Content("~/Assets/bootstrap/css/bootstrap.min.css") + "\" rel=\"stylesheet\" media=\"screen\" />");
-			
-			return MvcHtmlString.Create(builder.ToString());
-		}
-
-		/// <summary>
-		/// Provides a Javascript script tag for the Bootstrap framework.
-		/// </summary>
-		public static MvcHtmlString BootstrapJS(this UrlHelper helper)
-		{
-			StringBuilder builder = new StringBuilder();
-			builder.Append("<script type=\"text/javascript\" language=\"javascript\" src=\"" + helper.Content("~/Assets/bootstrap/js/bootstrap.min.js") + "\"></script>", 2);
-
-			return MvcHtmlString.Create(builder.ToString());
-		}
-
-		/// <summary>
-		/// Returns the script link for the JS bundle
-		/// </summary>
-		public static MvcHtmlString JsBundle(this UrlHelper helper)
-		{
-			StringBuilder builder = new StringBuilder();
-			string mainJs = Scripts.Render("~/Assets/Scripts/" + Bundles.JsFilename).ToHtmlString();
-			mainJs = mainJs.Replace("\r\n", ""); // remove them, the lines are done in the view
-			builder.AppendLine(mainJs);
-
-			string jsVars = "";
-			jsVars = ScriptLink(helper, "~/home/globaljsvars?version=" + ApplicationSettings.ProductVersion).ToHtmlString();
-			jsVars = jsVars.Replace("\r\n", "");
-			builder.Append(jsVars, 2); 
-			return MvcHtmlString.Create(builder.ToString());
-		}
-
-		/// <summary>
-		/// Returns the script link for the CSS bundle.
-		/// </summary>
-		public static MvcHtmlString CssBundle(this UrlHelper helper)
-		{
-			string html = Styles.Render("~/Assets/CSS/" + Bundles.CssFilename).ToHtmlString();
-			html = html.Replace("\r\n", ""); // done in the view
-			return MvcHtmlString.Create(html);
 		}
 
 		/// <summary>

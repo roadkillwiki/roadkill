@@ -83,6 +83,33 @@ namespace Roadkill.Core.Mvc.ViewModels
 			}
 		}
 
+		// TODO: tests
+		/// <summary>
+		/// Gets an IEnumerable{SelectListItem} from a the SettingsViewModel.DatabaseTypesAvailable, as a default
+		/// SelectList doesn't add option value attributes.
+		/// </summary>
+		public List<SelectListItem> DatabaseTypesAsSelectList
+		{
+			get
+			{
+				List<SelectListItem> items = new List<SelectListItem>();
+
+				foreach (string name in DatabaseTypesAvailable)
+				{
+					SelectListItem item = new SelectListItem();
+					item.Text = name;
+					item.Value = name;
+
+					if (name == DataStoreTypeName)
+						item.Selected = true;
+
+					items.Add(item);
+				}
+
+				return items;
+			}
+		}
+
 		public IEnumerable<string> MarkupTypesAvailable
 		{
 			get

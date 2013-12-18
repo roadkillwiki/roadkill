@@ -28,7 +28,7 @@
 	@foreach (PageViewModel pageModel in Model)
 	{
 	<tr>
-		<td class="stretch">@Html.ActionLink(pageModel.Title,"Index","Wiki",new { id = pageModel.Id,title=Url.EncodeTitle(pageModel.Title)},null)</td>
+		<td class="stretch">@Html.ActionLink(pageModel.Title, "Index", "Wiki", new { id = pageModel.Id, title = pageModel.EncodedTitle }, null)</td>
 		@if (RoadkillContext.IsLoggedIn)
 		{
 		if (!pageModel.IsLocked || (pageModel.IsLocked && RoadkillContext.IsAdmin))

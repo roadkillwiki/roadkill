@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Roadkill.Core.Extensions;
+using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core.Plugins.Text.BuiltIn.ToC
 {
@@ -36,7 +37,7 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn.ToC
 		{
 			// Generate a unique id for the A tag, using the title name
 			// If the title already exists, add a guid after it
-			string titleId = title.EncodeTitle();
+			string titleId = PageViewModel.EncodePageTitle(title);
 			if (_titleIdLookup.Contains(titleId))
 			{
 				int uniqueSuffix = _titleIdLookup.Count(x => x.StartsWith(titleId)) + 1;

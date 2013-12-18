@@ -331,12 +331,11 @@ namespace Roadkill.Core.Converters
 
 				if (match.Success && match.Groups.Count == 2)
 				{
-					return match.Value.Replace(match.Groups[1].Value, newPageName);
+					if (!string.IsNullOrEmpty(match.Groups[1].Value))
+						return match.Value.Replace(match.Groups[1].Value, newPageName);
 				}
-				else
-				{
-					return match.Value;
-				}
+
+				return match.Value;
 			});
 		}
 

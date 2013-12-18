@@ -328,7 +328,7 @@ namespace Roadkill.Core.Services
 		/// </summary>
 		/// <param name="tag">The tag to search for.</param>
 		/// <returns>A <see cref="IEnumerable{PageViewModel}"/> of pages tagged with the provided tag.</returns>
-		/// <exception cref="DatabaseException">An databaseerror occurred while getting the list.</exception>
+		/// <exception cref="DatabaseException">An database error occurred while getting the list.</exception>
 		public IEnumerable<PageViewModel> FindByTag(string tag)
 		{
 			try

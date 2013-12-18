@@ -1,0 +1,9 @@
+﻿@model IEnumerable<string>
+
+@foreach (string tag in Model)
+{
+	if (!string.IsNullOrWhiteSpace(tag))
+	{
+	<span class="tagblock">@Html.ActionLink(tag, "Tag", "Pages", new { id = tag }, null)</span>
+	}
+}
