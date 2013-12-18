@@ -24,6 +24,17 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public string Title { get; internal set; }
 
 		/// <summary>
+		/// The page title, encoded so it is a safe search-engine friendly url.
+		/// </summary>
+		public string EncodedTitle
+		{
+			get
+			{
+				return PageViewModel.EncodePageTitle(Title);
+			}
+		}
+
+		/// <summary>
 		/// The summary of the content (the first 150 characters of text with all HTML removed).
 		/// </summary>
 		public string ContentSummary { get; internal set; }
@@ -32,6 +43,24 @@ namespace Roadkill.Core.Mvc.ViewModels
 		/// The length of the content in bytes.
 		/// </summary>
 		public int ContentLength { get; internal set; }
+
+		// TODO: tests
+		/// <summary>
+		/// Formats the page length in bytes using KB or bytes if it is less than 1024 bytes.
+		/// </summary>
+		/// <param name="helper">The helper.</param>
+		/// <param name="size">The size in bytes.</param>
+		/// <returns>If the size parameter is 900: 900 bytes. If size is 4000: 4KB.</returns>
+		public string ContentLengthInKB
+		{
+			get
+			{
+				if (ContentLength > 1024)
+					return ContentLength / 1024 + "KB";
+				else
+					return ContentLength + " bytes";
+			}
+		}
 
 		/// <summary>
 		/// The person who created the page.

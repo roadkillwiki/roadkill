@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Roadkill.Core.Extensions;
+using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core.Text
 {
@@ -46,12 +47,12 @@ namespace Roadkill.Core.Text
 			if (_httpContext != null)
 			{
 				UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-				return helper.Action("Index", "Wiki", new { id = id, title = title.EncodeTitle() });
+				return helper.Action("Index", "Wiki", new { id = id, title = PageViewModel.EncodePageTitle(title) });
 			}
 			else
 			{
 				// This is really here as a fallback, for tests
-				return string.Format("/wiki/{0}/{1}", id, title.EncodeTitle());
+				return string.Format("/wiki/{0}/{1}", id, PageViewModel.EncodePageTitle(title));
 			}
 		}
 

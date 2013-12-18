@@ -55,7 +55,7 @@ namespace Roadkill.Tests.Unit
 			_userService = _container.UserService;
 
 			_controller = new ControllerBaseStub(_applicationSettings, _userService, _context, _settingsService);
-			MvcMockContainer container = _controller.SetFakeControllerContext();
+			MvcMockContainer container = _controller.SetFakeControllerContext("~/");
 
 			// Used by InstallController
 			_repository = _container.Repository;

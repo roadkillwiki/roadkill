@@ -21,8 +21,9 @@ var Roadkill;
                     $("input[type=checkbox][rel=popover],textarea[rel=popover],select[rel=popover]").popover({ container: "body", placement: "right", trigger: "hover", html: true });
 
                     // Make the windows auth checkbox toggle the forms-auth/windows-auth sections.
-                    $("#UseWindowsAuth").click(function () {
-                        this.toggleUserSettings();
+                    this.ToggleUserSettings();
+                    $("#UseWindowsAuth").click(function (e) {
+                        _this.ToggleUserSettings();
                     });
 
                     // Button clicks

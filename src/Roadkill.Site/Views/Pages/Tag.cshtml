@@ -11,7 +11,7 @@
 	@foreach (PageViewModel pageModel in Model)
 	{
 		<tr>
-			<td class="stretch">@Html.ActionLink(pageModel.Title, "Index", "Wiki", new { id = pageModel.Id, title = pageModel.Title.EncodeTitle() }, null)</td>
+			<td class="stretch">@Html.ActionLink(pageModel.Title, "Index", "Wiki", new { id = pageModel.Id, title = pageModel.EncodedTitle }, null)</td>
 			@if (RoadkillContext.IsLoggedIn)
 			{
 			<td class="edit">@Html.ActionLink(SiteStrings.Shared_EditLink,"Edit",new { id = pageModel.Id}, new {@class = "btn btn-mini btn-primary" } )</td>

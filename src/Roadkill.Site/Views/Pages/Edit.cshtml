@@ -51,7 +51,7 @@
 				<div class="col-sm-1">
 				@if (Model.Id > 0)
 				{
-					<h6>@Html.ActionLink(SiteStrings.Button_Cancel, "Index", "Wiki", new { id = Model.Id, title = Url.EncodeTitle(Model.Title) }, null)</h6>
+					<h6>@Html.ActionLink(SiteStrings.Button_Cancel, "Index", "Wiki", new { id = Model.Id, title = Model.EncodedTitle }, null)</h6>
 				}
 				else
 				{

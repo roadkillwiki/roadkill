@@ -37,7 +37,7 @@ namespace Roadkill.Tests.Unit
 
 			response.Setup(r => r.Cache).Returns(new HttpCachePolicyMock());
 			response.SetupProperty(r => r.StatusCode);
-			response.Setup(x => x.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(x => x); // UrlHelper support
+			response.Setup(x => x.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(x => { return x; }); // UrlHelper support
 
 			server.Setup(s => s.UrlDecode(It.IsAny<string>())).Returns<string>(s => s);
 
@@ -63,10 +63,14 @@ namespace Roadkill.Tests.Unit
 			return context;
 		}
 
-		public static MvcMockContainer SetFakeControllerContext(this Controller controller)
+		public static MvcMockContainer SetFakeControllerContext(this Controller controller, string url = "")
 		{
 			MvcMockContainer container = new MvcMockContainer();
 			var httpContext = FakeHttpContext(container);
+
+			if (!string.IsNullOrEmpty(url))
+				httpContext.Request.SetupRequestUrl(url);
+
 			ControllerContext context = new ControllerContext(new RequestContext(httpContext, new RouteData()), controller);
 			controller.ControllerContext = context;
 
@@ -125,13 +129,11 @@ namespace Roadkill.Tests.Unit
 				throw new ArgumentException("Sorry, we expect a virtual url starting with \"~/\".");
 
 			var mock = Mock.Get(request);
-
-			mock.Setup(req => req.QueryString)
-				.Returns(GetQueryStringParameters(url));
-			mock.Setup(req => req.AppRelativeCurrentExecutionFilePath)
-				.Returns(GetUrlFileName(url));
-			mock.Setup(req => req.PathInfo)
-				.Returns(string.Empty);
+			mock.Setup(req => req.QueryString).Returns(GetQueryStringParameters(url));
+			mock.Setup(req => req.AppRelativeCurrentExecutionFilePath).Returns(GetUrlFileName(url));
+			mock.Setup(req => req.PathInfo).Returns(string.Empty);
+			mock.Setup(req => req.Path).Returns(url);
+			mock.Setup(req => req.ApplicationPath).Returns("/"); // essential for UrlHelper
 		}
 	}
 }

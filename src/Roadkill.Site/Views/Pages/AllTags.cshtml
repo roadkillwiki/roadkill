@@ -9,7 +9,7 @@
 <ul id="tagcloud" class="rounded10">
 @foreach (TagViewModel tag in Model)
 {
-	<li class="@Html.ClassNameForTagViewModel(tag)">
+	<li class="@tag.ClassName">
 	@Html.ActionLink(tag.Name,"Tag",new { id = tag })
 	</li>
 }

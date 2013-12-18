@@ -109,7 +109,7 @@
 			<!-- Database type -->
 			<div class="form-group">
 				<label>@SiteStrings.SiteSettings_Configuration_DatabaseType</label>
-				@Html.BootstrapDropDownListFor(s => s.DataStoreTypeName, Html.DatabaseTypesAvailable(Model), SiteStrings.SiteSettings_Configuration_DatabaseType)
+				@Html.BootstrapDropDownListFor(s => s.DataStoreTypeName, Model.DatabaseTypesAsSelectList, SiteStrings.SiteSettings_Configuration_DatabaseType)
 			</div>
 
 			<!-- Test button -->

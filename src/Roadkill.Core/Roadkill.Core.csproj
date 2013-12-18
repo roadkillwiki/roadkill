@@ -382,7 +382,6 @@
     <Compile Include="Attachments\IResponseWrapper.cs" />
     <Compile Include="Attachments\ResponseWrapper.cs" />
     <Compile Include="Extensions\BootstrapHtmlExtensions.cs" />
-    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Configuration\UpgradeChecker.cs" />
     <Compile Include="Configuration\ConfigReaderWriter.cs" />
     <Compile Include="Configuration\FullTrustConfigReaderWriter.cs" />
@@ -394,6 +393,7 @@
     <Compile Include="Cache\IPluginCache.cs" />
     <Compile Include="Cache\SiteCache.cs" />
     <Compile Include="Export\WikiExporter.cs" />
+    <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Mvc\Attributes\IAuthorizationAttribute.cs" />
     <Compile Include="Security\AuthorizationProvider.cs" />
     <Compile Include="Security\IAuthorizationProvider.cs" />
@@ -485,7 +485,7 @@
     <Compile Include="Mvc\Attributes\RecaptchaRequiredAttribute.cs" />
     <Compile Include="Mvc\Attributes\ImportModelStateAttribute.cs" />
     <Compile Include="Mvc\Attributes\ExportModelStateAttribute.cs" />
-    <Compile Include="Extensions\HtmlLinkExtensions.cs" />
+    <Compile Include="Extensions\HtmlHelperLinkExtensions.cs" />
     <Compile Include="Mvc\Setup\LowercaseRoute.cs" />
     <Compile Include="Mvc\Attributes\AdminRequiredAttribute.cs" />
     <Compile Include="Mvc\Attributes\EditorRequiredAttribute.cs" />
@@ -572,7 +572,7 @@
     <Compile Include="Exceptions\InstallerException.cs" />
     <Compile Include="Security\UserContext.cs" />
     <Compile Include="Extensions\Extensions.cs" />
-    <Compile Include="Extensions\HtmlExtensions.cs" />
+    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Mvc\Controllers\ControllerBase.cs" />
     <Compile Include="Mvc\Controllers\HomeController.cs" />
     <Compile Include="Mvc\Controllers\PagesController.cs" />

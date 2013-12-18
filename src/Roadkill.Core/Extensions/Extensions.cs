@@ -7,6 +7,7 @@ using System.Web.Security;
 using System.IO;
 using System.Web.Mvc;
 using System.Web;
+using System.Text.RegularExpressions;
 
 namespace Roadkill.Core.Extensions
 {
@@ -44,7 +45,7 @@ namespace Roadkill.Core.Extensions
 		/// <summary>
 		/// Appends text with the number of tabs before the text.
 		/// </summary>
-		public static void Append(this StringBuilder builder, string value, int tabCount)
+		public static StringBuilder Append(this StringBuilder builder, string value, int tabCount)
 		{
 			string tabs = "";
 			for (int i = 0; i < tabCount; i++)
@@ -53,12 +54,13 @@ namespace Roadkill.Core.Extensions
 			}
 
 			builder.Append(tabs + value);
+			return builder;
 		}
 
 		/// <summary>
 		/// Appends a line with the number of tabs before the text.
 		/// </summary>
-		public static void AppendLine(this StringBuilder builder, string value, int tabCount)
+		public static StringBuilder AppendLine(this StringBuilder builder, string value, int tabCount)
 		{
 			string tabs = "";
 			for (int i = 0; i < tabCount; i++)
@@ -67,6 +69,15 @@ namespace Roadkill.Core.Extensions
 			}
 
 			builder.AppendLine(tabs + value);
+			return builder;
+		}
+
+		/// <summary>
+		/// Sets the milliseconds part of a datetime to zero.
+		/// </summary>
+		public static DateTime ClearMilliseconds(this DateTime dateTime)
+		{
+			return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, 0);
 		}
 	}
 }

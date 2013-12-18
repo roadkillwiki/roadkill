@@ -24,14 +24,21 @@ module Roadkill.Site.Admin
 			$("input[type=checkbox][rel=popover],textarea[rel=popover],select[rel=popover]").popover({ container: "body", placement: "right", trigger: "hover", html: true });
 
 			// Make the windows auth checkbox toggle the forms-auth/windows-auth sections.
-			$("#UseWindowsAuth").click(function ()
+			this.ToggleUserSettings(); // initial display
+			$("#UseWindowsAuth").click((e) =>
 			{
-				this.toggleUserSettings();
+				this.ToggleUserSettings();
 			});
 
 			// Button clicks
-			$("#testdbconnection").click((e) => { this.OnTestDatabaseClick(); });
-			$("#testattachments").click((e) => { this.OnTestAttachmentsClick(); });
+			$("#testdbconnection").click((e) =>
+			{
+				this.OnTestDatabaseClick();
+			});
+			$("#testattachments").click((e) =>
+			{
+				this.OnTestAttachmentsClick();
+			});
 
 			// Form validation
 			var validationRules =

@@ -1,0 +1,18 @@
+﻿@model SiteSettings
+@{
+	Recaptcha.RecaptchaControl control = new Recaptcha.RecaptchaControl();
+	control.ID = "recaptcha";
+	control.Theme = "clean";
+	control.PublicKey = Model.RecaptchaPublicKey;
+	control.PrivateKey = Model.RecaptchaPrivateKey;
+	
+	StringWriter stringWriter = new StringWriter();
+	HtmlTextWriter htmlWriter = new HtmlTextWriter(stringWriter);
+	control.RenderControl(htmlWriter);
+}
+<div class="form-group">
+	<label class="col-sm-4 control-label">@SiteStrings.Recaptcha_Prompt</label>
+	<div class="col-sm-8">
+		@Html.Raw(htmlWriter.InnerWriter.ToString())
+	</div>
+</div>

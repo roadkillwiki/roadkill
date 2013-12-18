@@ -355,8 +355,11 @@
     <Compile Include="Unit\Database\EntityTests.cs" />
     <Compile Include="Unit\Database\SchemaTests.cs" />
     <Compile Include="Unit\Export\SqlExportBuilderTests.cs" />
+    <Compile Include="Unit\Extensions\UrlHelperExtensionsTests.cs" />
+    <Compile Include="Unit\Extensions\HtmlHelperLinkExtensionsTests.cs" />
+    <Compile Include="Unit\Extensions\HtmlHelperExtensionTests.cs" />
     <Compile Include="Unit\Extensions\ExtensionsTests.cs" />
-    <Compile Include="Unit\Extensions\MvcActionExtensions.cs" />
+    <Compile Include="Unit\MvcActionExtensions.cs" />
     <Compile Include="Unit\Import\WikiExporterTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\OptionalAuthorizationTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\EditorRequiredAttributeTests.cs" />
