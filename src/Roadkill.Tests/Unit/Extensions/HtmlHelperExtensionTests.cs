@@ -63,20 +63,6 @@ namespace Roadkill.Tests.Unit
 			_htmlHelper = new HtmlHelper(_viewContext, mockViewDataContainer.Object);
 		}
 
-		// It is impossible to test extensions that render Partials because of the ridiculous amount of setup, so they're skipped.
-
-		[Test]
-		public void DropDownBox1_Should()
-		{
-
-		}
-
-		[Test]
-		public void DropDownBox2_Should()
-		{
-
-		}
-
 		[Test]
 		public void RenderPageByTag_Should_Return_Rendered_Html_Locked_Page_When_Multiple_Pages_Exist_For_Tag()
 		{
@@ -131,5 +117,43 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(htmlString.ToHtmlString(), Is.EqualTo(""));
 		}
+
+		[Test]
+		[Ignore]
+		public void DropDownBox1_Should()
+		{
+			// Can't mock DropDownList as it relies on private/internal implementations in System.Web.Mvc
+		}
+
+		[Test]
+		[Ignore]
+		public void DropDownBox2_Should()
+		{
+			// Can't mock DropDownList as it relies on private/internal implementations in System.Web.Mvc
+
+		}
+
+		[Test]
+		[Ignore]
+		public void DialogPartial_Should_()
+		{
+			// RenderPartials can't be tested without ridiculous amounts of setup
+		}
+
+		[Test]
+		[Ignore]
+		public void DialogPartial2_Should_()
+		{
+			// RenderPartialscan't be tested without ridiculous amounts of setup
+		}
+
+		[Ignore]
+		[Test]
+		public void SiteSettingsNavigation_Should_()
+		{
+			// RenderPartials can't be tested without ridiculous amounts of setup
+		}
+		
+		// All Bootstrap Helpers are the same as above
 	}
 }
