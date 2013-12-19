@@ -354,6 +354,7 @@
     <Compile Include="Unit\Cache\ListCacheTests.cs" />
     <Compile Include="Unit\Database\EntityTests.cs" />
     <Compile Include="Unit\Database\SchemaTests.cs" />
+    <Compile Include="Unit\Email\EmailTemplateTests.cs" />
     <Compile Include="Unit\Export\SqlExportBuilderTests.cs" />
     <Compile Include="Unit\Extensions\UrlHelperExtensionsTests.cs" />
     <Compile Include="Unit\Extensions\HtmlHelperLinkExtensionsTests.cs" />
@@ -414,14 +415,17 @@
     <Compile Include="Unit\StubsAndMocks\CacheMock.cs" />
     <Compile Include="Unit\StubsAndMocks\ConfigReaderWriterStub.cs" />
     <Compile Include="Unit\StubsAndMocks\DbCommandStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\EmailClientMock.cs" />
     <Compile Include="Unit\StubsAndMocks\IdentityStub.cs" />
     <Compile Include="Unit\StubsAndMocks\PrincipalStub.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\HttpCachePolicyMock.cs" />
     <Compile Include="Unit\StubsAndMocks\PluginFactoryMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\ResetPasswordEmailStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\EmailTemplateStub.cs" />
     <Compile Include="Unit\StubsAndMocks\SpecialPageMock.cs" />
     <Compile Include="Unit\StubsAndMocks\UrlResolverStub.cs" />
     <Compile Include="Unit\StubsAndMocks\UserServiceMock.cs" />
-    <Compile Include="Unit\StubsAndMocks\FakeSignupEmail.cs" />
+    <Compile Include="Unit\StubsAndMocks\SignupEmailStub.cs" />
     <Compile Include="Unit\StubsAndMocks\SearchServiceMock.cs" />
     <Compile Include="Unit\StubsAndMocks\RepositoryMock.cs" />
     <Compile Include="Unit\Mvc\ViewModels\UserViewModelUsernameValidationTests.cs" />

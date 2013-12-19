@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using MvcContrib.TestHelper;
 using Roadkill.Core.Localization;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit
 {
@@ -34,6 +35,7 @@ namespace Roadkill.Tests.Unit
 		private SettingsService _settingsService;
 		private UserController _userController;
 		private MvcMockContainer _mvcMockContainer;
+		private EmailClientMock _emailClientMock;
 
 		[SetUp]
 		public void Setup()
@@ -46,6 +48,7 @@ namespace Roadkill.Tests.Unit
 			_settingsService = _container.SettingsService;
 			_userService = _container.UserService;
 			_userContext = _container.UserContext;
+			_emailClientMock = _container.EmailClient;
 
 			_userService.AddUser(AdminEmail, AdminUsername, AdminPassword, true, true);
 			_userService.Users[0].IsActivated = true;
@@ -329,16 +332,12 @@ namespace Roadkill.Tests.Unit
 		public void Signup_POST_Should_Send_Email()
 		{
 			// Arrange
-			string binFolder = AppDomain.CurrentDomain.BaseDirectory;
-			File.WriteAllText(Path.Combine(binFolder, "Signup.txt"), "{EMAIL}");
-			File.WriteAllText(Path.Combine(binFolder, "Signup.html"), "{EMAIL}");
-			_applicationSettings.EmailTemplateFolder = binFolder;
 			_applicationSettings.UseWindowsAuthentication = false;
 			
 			SiteSettings siteSettings = _settingsService.GetSiteSettings();
 			siteSettings.AllowUserSignup = true;
 
-			FakeSignupEmail signupEmail = new FakeSignupEmail(_applicationSettings, siteSettings);
+			SignupEmailStub signupEmail = new SignupEmailStub(_applicationSettings, siteSettings, _emailClientMock);
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, signupEmail, null);
 			userController.SetFakeControllerContext();
 
@@ -361,16 +360,12 @@ namespace Roadkill.Tests.Unit
 		public void Signup_POST_Should_Not_Send_Email_With_Invalid_ModelState()
 		{
 			// Arrange
-			string binFolder = AppDomain.CurrentDomain.BaseDirectory;
-			File.WriteAllText(Path.Combine(binFolder, "Signup.txt"), "{EMAIL}");
-			File.WriteAllText(Path.Combine(binFolder, "Signup.html"), "{EMAIL}");
-			_applicationSettings.EmailTemplateFolder = binFolder;
 			_applicationSettings.UseWindowsAuthentication = false;
 			
 			SiteSettings siteSettings = _settingsService.GetSiteSettings();
 			siteSettings.AllowUserSignup = true;
 
-			FakeSignupEmail signupEmail = new FakeSignupEmail(_applicationSettings, siteSettings);
+			SignupEmailStub signupEmail = new SignupEmailStub(_applicationSettings, siteSettings, _emailClientMock);
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, signupEmail, null);
 			userController.SetFakeControllerContext();
 			userController.ModelState.AddModelError("key", "this is used to force ModelState.IsValid to false");
@@ -394,7 +389,7 @@ namespace Roadkill.Tests.Unit
 			SiteSettings siteSettings = _settingsService.GetSiteSettings();
 			siteSettings.AllowUserSignup = true;
 
-			FakeSignupEmail signupEmail = new FakeSignupEmail(_applicationSettings, siteSettings); // change the signup email
+			SignupEmailStub signupEmail = new SignupEmailStub(_applicationSettings, siteSettings, _emailClientMock); // change the signup email
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, signupEmail, null);
 			userController.SetFakeControllerContext();
 			
@@ -485,7 +480,7 @@ namespace Roadkill.Tests.Unit
 			_applicationSettings.UseWindowsAuthentication = false;
 			SiteSettings siteSettings = _settingsService.GetSiteSettings();
 
-			FakeResetPasswordEmail resetEmail = new FakeResetPasswordEmail(_applicationSettings, siteSettings);
+			ResetPasswordEmailStub resetEmail = new ResetPasswordEmailStub(_applicationSettings, siteSettings, _emailClientMock);
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, resetEmail);
 			userController.SetFakeControllerContext();
 
@@ -503,10 +498,6 @@ namespace Roadkill.Tests.Unit
 		public void ResetPassword_POST_Should_Have_ResetPasswordSent_View_And_Should_Send_ResetPassword_Email()
 		{
 			// Arrange
-			string binFolder = AppDomain.CurrentDomain.BaseDirectory;
-			File.WriteAllText(Path.Combine(binFolder, "ResetPassowrd.txt"), "{EMAIL}");
-			File.WriteAllText(Path.Combine(binFolder, "ResetPassword.html"), "{EMAIL}");
-			_applicationSettings.EmailTemplateFolder = binFolder;
 			_applicationSettings.UseWindowsAuthentication = false;
 			SiteSettings siteSettings = _settingsService.GetSiteSettings();
 			
@@ -514,7 +505,7 @@ namespace Roadkill.Tests.Unit
 			_userService.AddUser(email, "test", "test", false, true);
 			_userService.Users.First(x => x.Email == email).IsActivated = true;
 
-			FakeResetPasswordEmail resetEmail = new FakeResetPasswordEmail(_applicationSettings, siteSettings);
+			ResetPasswordEmailStub resetEmail = new ResetPasswordEmailStub(_applicationSettings, siteSettings, _emailClientMock);
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, resetEmail);
 			userController.SetFakeControllerContext();
 
@@ -677,7 +668,7 @@ namespace Roadkill.Tests.Unit
 			_applicationSettings.UseWindowsAuthentication = false;
 			SiteSettings siteSettings = _settingsService.GetSiteSettings();
 
-			FakeResetPasswordEmail resetEmail = new FakeResetPasswordEmail(_applicationSettings, siteSettings);
+			ResetPasswordEmailStub resetEmail = new ResetPasswordEmailStub(_applicationSettings, siteSettings, _emailClientMock);
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, resetEmail);
 			userController.SetFakeControllerContext();
 
@@ -693,10 +684,6 @@ namespace Roadkill.Tests.Unit
 		public void ResendConfirmation_POST_Should_SendEmail_And_Show_SignupComplete_View_And_Set_TempData()
 		{
 			// Arrange
-			string binFolder = AppDomain.CurrentDomain.BaseDirectory;
-			File.WriteAllText(Path.Combine(binFolder, "Signup.txt"), "{EMAIL}");
-			File.WriteAllText(Path.Combine(binFolder, "Signup.html"), "{EMAIL}");
-			_applicationSettings.EmailTemplateFolder = binFolder;
 			_applicationSettings.UseWindowsAuthentication = false;
 			SiteSettings siteSettings = _settingsService.GetSiteSettings();
 
@@ -704,7 +691,7 @@ namespace Roadkill.Tests.Unit
 			_userService.AddUser(email, "test", "password", false, true);
 			UserViewModel model = new UserViewModel(_userService.GetUser("test@test.com", false));
 
-			FakeSignupEmail signupEmail = new FakeSignupEmail(_applicationSettings, siteSettings);
+			SignupEmailStub signupEmail = new SignupEmailStub(_applicationSettings, siteSettings, _emailClientMock);
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, signupEmail, null);
 			userController.SetFakeControllerContext();
 

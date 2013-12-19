@@ -30,6 +30,7 @@ namespace Roadkill.Core.Email
 	{
 		protected ApplicationSettings ApplicationSettings;
 		protected SiteSettings SiteSettings;
+		protected IEmailClient EmailClient;
 
 		/// <summary>
 		/// The HTML template for the email.
@@ -44,37 +45,18 @@ namespace Roadkill.Core.Email
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EmailTemplate"/> class.
 		/// </summary>
-		/// <param name="summary">The summary.</param>
 		/// <param name="applicationSettings"></param>
 		/// <param name="siteSettings"></param>
-		public EmailTemplate(ApplicationSettings applicationSettings, SiteSettings siteSettings)
+		/// <param name="emailClient">The <see cref="IEmailClient"/> to send the mail through. If this 
+		/// parameter is null, then <see cref="EmailClient"/> is used</param>
+		protected EmailTemplate(ApplicationSettings applicationSettings, SiteSettings siteSettings, IEmailClient emailClient)
 		{
 			ApplicationSettings = applicationSettings;
 			SiteSettings = siteSettings;
-		}
-
-		/// <summary>
-		/// Replaces all tokens in the html and plain text views.
-		/// </summary>
-		/// <param name="model"></param>
-		protected virtual string ReplaceTokens(UserViewModel model, string template)
-		{
-			string result = template;
-
-			result = result.Replace("{FIRSTNAME}", model.Firstname);
-			result = result.Replace("{LASTNAME}", model.Lastname);
-			result = result.Replace("{EMAIL}", model.NewEmail);
-			result = result.Replace("{USERNAME}", model.NewUsername);
-			result = result.Replace("{SITEURL}", SiteSettings.SiteUrl);
-			result = result.Replace("{ACTIVATIONKEY}", model.ActivationKey);
-			result = result.Replace("{RESETKEY}", model.PasswordResetKey);
-			result = result.Replace("{USERID}", model.Id.ToString());
-			result = result.Replace("{SITENAME}", SiteSettings.SiteName);
-
-			if (HttpContext.Current != null)
-				result = result.Replace("{REQUEST_IP}", HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"]);
-
-			return result;
+			
+			EmailClient = emailClient;
+			if (EmailClient == null)
+				EmailClient = new EmailClient();
 		}
 
 		/// <summary>
@@ -111,25 +93,25 @@ namespace Roadkill.Core.Email
 			message.AlternateViews.Add(htmlView);
 			message.AlternateViews.Add(plainTextView);
 
-			// Send + auth with the SMTP server if needed.
-			SmtpClient client = new SmtpClient();
-			
 			// Add "~" support for pickupdirectories.
-			if (client.DeliveryMethod == SmtpDeliveryMethod.SpecifiedPickupDirectory && client.PickupDirectoryLocation.StartsWith("~"))
+			if (EmailClient.GetDeliveryMethod() == SmtpDeliveryMethod.SpecifiedPickupDirectory && 
+				!string.IsNullOrEmpty(EmailClient.PickupDirectoryLocation) &&
+				EmailClient.PickupDirectoryLocation.StartsWith("~"))
 			{
 				string root = AppDomain.CurrentDomain.BaseDirectory;
-				string pickupRoot = client.PickupDirectoryLocation.Replace("~/", root);
-				pickupRoot = pickupRoot.Replace("/",@"\");
-				client.PickupDirectoryLocation = pickupRoot;
+				string pickupRoot = EmailClient.PickupDirectoryLocation.Replace("~/", root);
+				pickupRoot = pickupRoot.Replace("/", @"\");
+				EmailClient.PickupDirectoryLocation = pickupRoot;
 			}
-			client.Send(message);
+
+			EmailClient.Send(message);
 		}
 
 		/// <summary>
 		/// Reads the text file prowvided from the email templates directory.
 		/// If a culture-specific version of the file exists, e.g. /fr/signup.txt then this is used instead.
 		/// </summary>
-		protected string ReadTemplateFile(string filename)
+		protected internal string ReadTemplateFile(string filename)
 		{
 			string templatePath = ApplicationSettings.EmailTemplateFolder;
 			string textfilePath = Path.Combine(templatePath, filename);
@@ -144,6 +126,31 @@ namespace Roadkill.Core.Email
 			}
 
 			return File.ReadAllText(textfilePath);
+		}
+
+		/// <summary>
+		/// Replaces all tokens in the html and plain text views.
+		/// </summary>
+		/// <param name="model"></param>
+		/// <param name="template"></param>
+		protected internal virtual string ReplaceTokens(UserViewModel model, string template)
+		{
+			string result = template;
+
+			result = result.Replace("{FIRSTNAME}", model.Firstname);
+			result = result.Replace("{LASTNAME}", model.Lastname);
+			result = result.Replace("{EMAIL}", model.NewEmail);
+			result = result.Replace("{USERNAME}", model.NewUsername);
+			result = result.Replace("{SITEURL}", SiteSettings.SiteUrl);
+			result = result.Replace("{ACTIVATIONKEY}", model.ActivationKey);
+			result = result.Replace("{RESETKEY}", model.PasswordResetKey);
+			result = result.Replace("{USERID}", model.Id.ToString());
+			result = result.Replace("{SITENAME}", SiteSettings.SiteName);
+
+			if (HttpContext.Current != null)
+				result = result.Replace("{REQUEST_IP}", HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"]);
+
+			return result;
 		}
 	}
 }
