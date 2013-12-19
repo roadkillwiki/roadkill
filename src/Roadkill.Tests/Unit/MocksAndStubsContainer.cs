@@ -32,6 +32,7 @@ namespace Roadkill.Tests.Unit
 		public SettingsService SettingsService { get; set; }
 		public PluginFactoryMock PluginFactory { get; set; }
 		public MarkupConverter MarkupConverter { get; set; }
+		public EmailClientMock EmailClient { get; set; }
 
 		/// <summary>
 		/// Creates a new instance of MocksAndStubsContainer.
@@ -69,6 +70,9 @@ namespace Roadkill.Tests.Unit
 			HistoryService = new PageHistoryService(ApplicationSettings, Repository, UserContext, PageViewModelCache, PluginFactory);
 
 			PageService = new PageService(ApplicationSettings, Repository, SearchService, HistoryService, UserContext, ListCache, PageViewModelCache, SiteCache, PluginFactory);
+
+			// EmailTemplates
+			EmailClient = new EmailClientMock();
 		}
 
 		public void ClearCache()

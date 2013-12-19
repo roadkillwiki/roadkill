@@ -18,8 +18,8 @@ namespace Roadkill.Core.Email
 		private static string _htmlContent;
 		private static string _plainTextContent;
 
-		public SignupEmail(ApplicationSettings applicationSettings, SiteSettings siteSettings)
-			: base(applicationSettings, siteSettings)
+		public SignupEmail(ApplicationSettings applicationSettings, SiteSettings siteSettings, IEmailClient emailClient)
+			: base(applicationSettings, siteSettings, emailClient)
 		{
 		}
 
