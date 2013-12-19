@@ -22,5 +22,10 @@ namespace Roadkill.Tests.Unit
 		{
 			base.Send(model);
 		}
+
+		public IEmailClient GetEmailClient()
+		{
+			return base.EmailClient;
+		}
 	}
 }

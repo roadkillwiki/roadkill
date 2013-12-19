@@ -13,10 +13,12 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 		public string PickupDirectoryLocation { get; set; }
 		public SmtpDeliveryMethod DeliveryMethod { get; set; }
 		public bool Sent { get; set; }
+		public MailMessage Message { get; set; }
 
 		public void Send(MailMessage message)
 		{
 			Sent = true;
+			Message = message;
 		}
 
 		public SmtpDeliveryMethod GetDeliveryMethod()
