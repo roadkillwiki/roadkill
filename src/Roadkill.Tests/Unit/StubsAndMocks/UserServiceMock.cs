@@ -112,17 +112,17 @@ namespace Roadkill.Tests
 			}
 		}
 
-		public override User GetUserById(Guid id, bool isActivated = true)
+		public override User GetUserById(Guid id, bool? isActivated = null)
 		{
-			if (isActivated)
+			if (isActivated.HasValue)
 				return Users.FirstOrDefault(x => x.Id == id && x.IsActivated == isActivated);
 			else
 				return Users.FirstOrDefault(x => x.Id == id);
 		}
 
-		public override User GetUser(string email, bool isActivated = true)
+		public override User GetUser(string email, bool? isActivated = null)
 		{
-			if (isActivated)
+			if (isActivated.HasValue)
 				return Users.FirstOrDefault(x => x.Email == email && x.IsActivated == isActivated);
 			else
 				return Users.FirstOrDefault(x => x.Email == email);

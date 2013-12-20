@@ -12,6 +12,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Database.MongoDB;
+using Roadkill.Core.Logging;
 using Roadkill.Tests.Unit.StubsAndMocks;
 using PluginSettings = Roadkill.Core.Plugins.Settings;
 
@@ -71,6 +72,9 @@ namespace Roadkill.Tests.Integration
 			_applicationSettings = new ApplicationSettings();
 			_applicationSettings.ConnectionString = _connectionString;
 			_applicationSettings.DataStoreType = _dataStoreType;
+			_applicationSettings.LogErrorsOnly = true;
+			_applicationSettings.LoggingTypes = "none"; // change for SQL outputting
+			Log.ConfigureLogging(_applicationSettings);
 
 			_siteCache = new SiteCache(_applicationSettings, CacheMock.RoadkillCache);
 
@@ -891,28 +895,13 @@ namespace Roadkill.Tests.Integration
 		}
 
 		[Test]
-		public void GetUserByEmail_With_Inactive_User()
-		{
-			// Arrange
-			User expectedUser = null;
-
-			// Act
-			User noUser = _repository.GetUserByUsername("nobody");
-			User actualUser = _repository.GetUserByEmail(_inactiveUser.Email);
-
-			// Assert
-			Assert.That(noUser, Is.Null);
-			Assert.That(actualUser, Is.EqualTo(expectedUser));
-		}
-
-		[Test]
-		public void GetUserByEmail_Not_Activated_With_Inactive_User()
+		public void GetUserByEmail_With_Inactive_User_And_No_Flag_Set_Should_Return_User()
 		{
 			// Arrange
 			User expectedUser = _inactiveUser;
 
 			// Act
-			User actualUser = _repository.GetUserByEmail(_inactiveUser.Email, false);
+			User actualUser = _repository.GetUserByEmail(_inactiveUser.Email);
 
 			// Assert
 			Assert.That(actualUser.Id, Is.EqualTo(expectedUser.Id));
@@ -926,6 +915,18 @@ namespace Roadkill.Tests.Integration
 			Assert.That(actualUser.Password, Is.EqualTo(expectedUser.Password));
 			Assert.That(actualUser.PasswordResetKey, Is.EqualTo(expectedUser.PasswordResetKey));
 			Assert.That(actualUser.Salt, Is.EqualTo(expectedUser.Salt));
+		}
+
+		[Test]
+		public void GetUserByEmail_With_Inactive_User_And_Active_Only_Flag_Should_Return_Null()
+		{
+			// Arrange
+
+			// Act
+			User actualUser = _repository.GetUserByEmail(_inactiveUser.Email, true);
+
+			// Assert
+			Assert.That(actualUser, Is.Null);
 		}
 		
 		[Test]
@@ -955,27 +956,27 @@ namespace Roadkill.Tests.Integration
 		}
 
 		[Test]
-		public void GetUserById_With_Inactive_User()
+		public void GetUserById_Should_Return_Null_When_User_Is_InActive_And_Active_Flag_Is_True()
 		{
 			// Arrange
 			User expectedUser = null;
 
 			// Act
-			User actualUser = _repository.GetUserById(_inactiveUser.Id);
+			User actualUser = _repository.GetUserById(_inactiveUser.Id, true);
 
 			// Assert
 			Assert.That(actualUser, Is.EqualTo(expectedUser));
 		}
 
 		[Test]
-		public void GetUserById_NotActivated_With_Inactive_User()
+		public void GetUserById_Should_Return_Full_User_When_User_Is_Active()
 		{
 			// Arrange
 			User expectedUser = _inactiveUser;
 
 			// Act
 			User noUser = _repository.GetUserById(_editor.Id, false);
-			User actualUser = _repository.GetUserById(_inactiveUser.Id, false);
+			User actualUser = _repository.GetUserById(_inactiveUser.Id);
 
 			// Assert
 			Assert.That(noUser, Is.Null);

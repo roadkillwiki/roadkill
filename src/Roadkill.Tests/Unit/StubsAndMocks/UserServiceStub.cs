@@ -60,12 +60,12 @@ namespace Roadkill.Tests
 			throw new NotImplementedException();
 		}
 
-		public override User GetUserById(Guid id, bool isActivated = true)
+		public override User GetUserById(Guid id, bool? isActivated = null)
 		{
 			throw new NotImplementedException();
 		}
 
-		public override User GetUser(string email, bool isActivated = true)
+		public override User GetUser(string email, bool? isActivated = null)
 		{
 			throw new NotImplementedException();
 		}

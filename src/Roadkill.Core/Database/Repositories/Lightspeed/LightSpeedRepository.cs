@@ -372,11 +372,11 @@ namespace Roadkill.Core.Database.LightSpeed
 			return FromEntity.ToUser(entity);
 		}
 
-		public User GetUserByEmail(string email, bool isActivated = true)
+		public User GetUserByEmail(string email, bool? isActivated = null)
 		{
 			UserEntity entity;
 
-			if (isActivated)
+			if (isActivated.HasValue)
 				entity = Users.FirstOrDefault(x => x.Email == email && x.IsActivated == isActivated);
 			else
 				entity = Users.FirstOrDefault(x => x.Email == email);
@@ -384,11 +384,11 @@ namespace Roadkill.Core.Database.LightSpeed
 			return FromEntity.ToUser(entity);
 		}
 
-		public User GetUserById(Guid id, bool isActivated = true)
+		public User GetUserById(Guid id, bool? isActivated = null)
 		{
 			UserEntity entity;
 
-			if (isActivated)
+			if (isActivated.HasValue)
 				entity = Users.FirstOrDefault(x => x.Id == id && x.IsActivated == isActivated);
 			else
 				entity = Users.FirstOrDefault(x => x.Id == id);

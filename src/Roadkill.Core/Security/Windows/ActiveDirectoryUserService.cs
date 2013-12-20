@@ -109,16 +109,22 @@ namespace Roadkill.Core.Security.Windows
 		/// <returns>
 		/// A <see cref="User"/> object
 		/// </returns>
-		public override User GetUser(string email, bool isActivated = true)
+		public override User GetUser(string email, bool? isActivated = null)
 		{
-			return new User()
+			User user = new User()
 			{
 				Email = email,
 				Username = email,
-				IsActivated = isActivated,
 				IsEditor = IsEditor(email),
 				IsAdmin = IsAdmin(email),
 			};
+
+			if (isActivated.HasValue)
+				user.IsActivated = isActivated.Value;
+			else
+				user.IsActivated = true;
+
+			return user;
 		}
 
 		/// <summary>
@@ -320,7 +326,7 @@ namespace Roadkill.Core.Security.Windows
 		}
 
 		/// <exception cref="NotImplementedException">This feature is not available with the <see cref="ActiveDirectoryUserService"/></exception>
-		public override User GetUserById(Guid id, bool isActivated = true)
+		public override User GetUserById(Guid id, bool? isActivated = null)
 		{
 			throw new NotImplementedException();
 		}

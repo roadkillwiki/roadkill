@@ -367,8 +367,8 @@
     <Compile Include="Unit\Mvc\Attributes\WebApiEditorRequiredAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\WebApiAdminRequiredAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\AdminRequiredAttributeTests.cs" />
-    <Compile Include="Unit\Mvc\WebApi\PageControllerTests.cs" />
     <Compile Include="Unit\Mvc\WebApi\SearchControllerTests.cs" />
+    <Compile Include="Unit\Mvc\WebApi\PageControllerTests.cs" />
     <Compile Include="Unit\Security\AuthorizationProviderTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\BrowserCacheAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\SiteSettings\SettingsControllerTests.cs" />
