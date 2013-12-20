@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
 
@@ -64,6 +65,33 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Constructor_Should_Throw_ArgumentException_When_User_Object_Is_Null()
+		{
+			// Arrange
+			User user = null;
+
+			// Act + Assert
+			UserViewModel model = new UserViewModel(user);
+		}
+
+		[Test]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Constructor_Should_Throw_ArgumentException_When_Settings_Is_Null()
+		{
+			// Arrange + Act + Assert
+			UserViewModel model = new UserViewModel(null, new UserServiceStub());
+		}
+
+		[Test]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void Constructor_Should_Throw_ArgumentException_When_UserService_Is_Null()
+		{
+			// Arrange + Act + Assert
+			UserViewModel model = new UserViewModel(new ApplicationSettings(), null);
+		}
+
+		[Test]
 		public void Email_And_Username_Changed_Should_Be_True_When_Properties_Changed()
 		{
 			// Arrange + Act
@@ -76,6 +104,85 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 			// Assert
 			Assert.That(model.UsernameHasChanged, Is.True);
 			Assert.That(model.EmailHasChanged, Is.True);
+		}
+
+		[Test]
+		public void Equals_Should_Compare_By_ExistingEmail()
+		{
+			// Arrange + Act
+			UserViewModel user1 = new UserViewModel();
+			user1.ExistingEmail = "user1@email.com";
+
+			UserViewModel user2 = new UserViewModel();
+			user2.ExistingEmail = "user2@email.com";
+
+			// Assert
+			Assert.False(user1.Equals(user2));
+		}
+
+		[Test]
+		public void GetHashCode_Should_Compare_By_ExistingEmail()
+		{
+			// Arrange + Act
+			UserViewModel user1 = new UserViewModel();
+			user1.ExistingEmail = "user1@email.com";
+
+			UserViewModel user2 = new UserViewModel();
+			user2.ExistingEmail = "user2@email.com";
+
+			// Assert
+			Assert.That(user1.GetHashCode(), Is.Not.EqualTo(user2.GetHashCode()));
+		}
+
+		[Test]
+		[Description("A check for the webapi use of unioning two userviewmodel sets")]
+		public void Union_Should_Removed_Duplicate_Emails()
+		{
+			// Arrange + Act
+			UserViewModel user1 = new UserViewModel();
+			user1.ExistingEmail = "user1@email.com";
+
+			UserViewModel user2 = new UserViewModel();
+			user2.ExistingEmail = "user2@email.com";
+
+			UserViewModel user2Again = new UserViewModel();
+			user2Again.ExistingEmail = "user2@email.com";
+
+			List<UserViewModel> userList1 = new List<UserViewModel>()
+			{
+				user1, user2, user2Again
+			};
+
+			List<UserViewModel> userList2 = new List<UserViewModel>()
+			{
+				user1, user2, user2Again
+			};
+
+			// Assert
+			Assert.That(userList1.Union(userList2).Count(), Is.EqualTo(2));
+		}
+
+		[Test]
+		[Description("A similar check to the Union test (it may now be redundant)")]
+		public void IEquatable_With_Distinct_Should_Removed_Duplicate_Emails()
+		{
+			// Arrange + Act
+			UserViewModel user1 = new UserViewModel();
+			user1.ExistingEmail = "user1@email.com";
+
+			UserViewModel user2 = new UserViewModel();
+			user2.ExistingEmail = "user2@email.com";
+
+			UserViewModel user2Again = new UserViewModel();
+			user2Again.ExistingEmail = "user2@email.com";
+
+			List<UserViewModel> users = new List<UserViewModel>()
+			{
+				user1, user2, user2Again
+			};
+
+			// Assert
+			Assert.That(users.Distinct().Count(), Is.EqualTo(2));
 		}
 	}
 }

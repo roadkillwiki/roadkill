@@ -374,13 +374,25 @@ namespace Roadkill.Core.Database.LightSpeed
 
 		public User GetUserByEmail(string email, bool isActivated = true)
 		{
-			UserEntity entity = Users.FirstOrDefault(x => x.Email == email && x.IsActivated == isActivated);
+			UserEntity entity;
+
+			if (isActivated)
+				entity = Users.FirstOrDefault(x => x.Email == email && x.IsActivated == isActivated);
+			else
+				entity = Users.FirstOrDefault(x => x.Email == email);
+
 			return FromEntity.ToUser(entity);
 		}
 
 		public User GetUserById(Guid id, bool isActivated = true)
 		{
-			UserEntity entity = Users.FirstOrDefault(x => x.Id == id && x.IsActivated == isActivated);
+			UserEntity entity;
+
+			if (isActivated)
+				entity = Users.FirstOrDefault(x => x.Id == id && x.IsActivated == isActivated);
+			else
+				entity = Users.FirstOrDefault(x => x.Id == id);
+
 			return FromEntity.ToUser(entity);
 		}
 

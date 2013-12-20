@@ -10,6 +10,5 @@ namespace Roadkill.Core.Mvc.Controllers.Api
 {
 	public class ApiControllerBase : ApiController
 	{
-
 	}
 }

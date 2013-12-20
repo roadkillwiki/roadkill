@@ -287,12 +287,18 @@ namespace Roadkill.Core.Database.MongoDB
 
 		public User GetUserByEmail(string email, bool isActivated = true)
 		{
-			return Users.FirstOrDefault(x => x.Email == email && x.IsActivated == isActivated);
+			if (isActivated)
+				return Users.FirstOrDefault(x => x.Email == email && x.IsActivated == isActivated);
+			else
+				return Users.FirstOrDefault(x => x.Email == email);
 		}
 
 		public User GetUserById(Guid id, bool isActivated = true)
 		{
-			return Users.FirstOrDefault(x => x.Id == id && x.IsActivated == isActivated);
+			if (isActivated)
+				return Users.FirstOrDefault(x => x.Id == id && x.IsActivated == isActivated);
+			else
+				return Users.FirstOrDefault(x => x.Id == id);
 		}
 
 		public User GetUserByPasswordResetKey(string key)
