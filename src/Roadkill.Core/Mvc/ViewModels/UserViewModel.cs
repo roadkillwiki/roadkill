@@ -16,7 +16,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 	[CustomValidation(typeof(UserViewModel), "VerifyNewEmailIsNotInUse")]
 	[CustomValidation(typeof(UserViewModel), "VerifyPassword")]
 	[CustomValidation(typeof(UserViewModel), "VerifyPasswordsMatch")]
-	public class UserViewModel
+	public class UserViewModel : IEquatable<UserViewModel>
 	{
 		// These services are required by the static validation methods
 		protected ApplicationSettings Settings;
@@ -123,6 +123,9 @@ namespace Roadkill.Core.Mvc.ViewModels
 		/// </summary>
 		public UserViewModel(User user)
 		{
+			if (user == null)
+				throw new ArgumentNullException("user");
+
 			ActivationKey = user.ActivationKey;
 			Id = user.Id;
 			ExistingEmail = user.Email;
@@ -141,6 +144,12 @@ namespace Roadkill.Core.Mvc.ViewModels
 		/// <param name="userManager"></param>
 		public UserViewModel(ApplicationSettings settings, UserServiceBase userManager)
 		{
+			if (settings == null)
+				throw new ArgumentNullException("settings");
+
+			if (userManager == null)
+				throw new ArgumentNullException("userManager");
+
 			Settings = settings;
 			UserService = userManager;
 		}
@@ -263,6 +272,25 @@ namespace Roadkill.Core.Mvc.ViewModels
 			}
 
 			return ValidationResult.Success;
+		}
+
+		public override bool Equals(object obj)
+		{
+			UserViewModel other = obj as UserViewModel;
+			if (other == null)
+				return false;
+
+			return Equals(other);
+		}
+
+		public override int GetHashCode()
+		{
+			return ExistingEmail.GetHashCode();
+		}
+
+		public bool Equals(UserViewModel other)
+		{
+			return other.ExistingEmail.Equals(ExistingEmail);
 		}
 	}
 }

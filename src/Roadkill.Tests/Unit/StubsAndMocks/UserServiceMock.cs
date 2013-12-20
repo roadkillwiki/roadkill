@@ -18,6 +18,7 @@ namespace Roadkill.Tests
 		public List<User> Users { get; set; }
 		public string LoggedInUserId { get;set; }
 		public bool ThrowSecurityExceptionOnSignup { get; set; }
+		public bool HasLoggedOut { get; set; }
 
 		public UserServiceMock()
 			: base(null, null)
@@ -113,12 +114,18 @@ namespace Roadkill.Tests
 
 		public override User GetUserById(Guid id, bool isActivated = true)
 		{
-			return Users.FirstOrDefault(x => x.Id == id && x.IsActivated == isActivated);
+			if (isActivated)
+				return Users.FirstOrDefault(x => x.Id == id && x.IsActivated == isActivated);
+			else
+				return Users.FirstOrDefault(x => x.Id == id);
 		}
 
 		public override User GetUser(string email, bool isActivated = true)
 		{
-			return Users.FirstOrDefault(x => x.Email == email && x.IsActivated == isActivated);
+			if (isActivated)
+				return Users.FirstOrDefault(x => x.Email == email && x.IsActivated == isActivated);
+			else
+				return Users.FirstOrDefault(x => x.Email == email);
 		}
 
 		public override User GetUserByResetKey(string resetKey)
@@ -150,7 +157,7 @@ namespace Roadkill.Tests
 
 		public override void Logout()
 		{
-			
+			HasLoggedOut = true;
 		}
 
 		public override string ResetPassword(string email)

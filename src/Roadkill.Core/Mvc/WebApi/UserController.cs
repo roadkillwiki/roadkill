@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Http;
+using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security;
@@ -53,7 +54,11 @@ namespace Roadkill.Core.Mvc.Controllers.Api
 		[HttpGet]
 		public UserViewModel Get(Guid id)
 		{
-			return new UserViewModel(_userService.GetUserById(id));
+			User user = _userService.GetUserById(id, false);
+			if (user == null)
+				return null;
+
+			return new UserViewModel(user);
 		}
 
 		/// <summary>
