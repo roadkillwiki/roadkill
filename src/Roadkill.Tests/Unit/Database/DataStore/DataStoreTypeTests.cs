@@ -14,7 +14,7 @@ namespace Roadkill.Tests.Unit
 	public class DataStoreTypeTests
 	{
 		[Test]
-		public void ShouldContainTypesAndBeEnumerable()
+		public void AllTypes_Should_Contain_Types_With_Name_And_Description()
 		{
 			// Arrange
 			IEnumerable<DataStoreType> dataStoreTypes = DataStoreType.AllTypes;
@@ -29,7 +29,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ShouldContainMongoDB()
+		public void AllTypes_Should_Contain_MongoDB_With_Custom_Repository()
 		{
 			// Arrange
 			IEnumerable<DataStoreType> dataStoreTypes = DataStoreType.AllTypes;
@@ -43,7 +43,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ByNameShouldFindTypeAndBeCaseInsensitive()
+		public void ByName_Should_Find_DataStoreType_And_Be_Case_Insensitive()
 		{
 			// Arrange
 			IEnumerable<DataStoreType> dataStoreTypes = DataStoreType.AllTypes;
@@ -53,6 +53,32 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			Assert.That(datastoreType.Name, Is.EqualTo("MongoDB"));
+		}
+
+		[Test]
+		[ExpectedException(typeof(DatabaseException))]
+		public void ByName_Should_Throw_DatabaseException_If_DataStoreType_Not_Found()
+		{
+			// Arrange
+			IEnumerable<DataStoreType> dataStoreTypes = DataStoreType.AllTypes;
+
+			// Act + Assert
+			DataStoreType datastoreType = DataStoreType.ByName("thunderbird");
+		}
+
+		[Test]
+		public void AllMonoTypes_Should_Only_Contain_Dbs_Supported_On_Linux()
+		{
+			// Arrange
+
+			// Act
+			IEnumerable<DataStoreType> dataStoreTypes = DataStoreType.AllMonoTypes;
+
+			// Assert
+			Assert.That(dataStoreTypes.Count(), Is.EqualTo(3));
+			Assert.That(dataStoreTypes, Contains.Item(DataStoreType.MongoDB));
+			Assert.That(dataStoreTypes, Contains.Item(DataStoreType.MySQL));
+			Assert.That(dataStoreTypes, Contains.Item(DataStoreType.Postgres));
 		}
 	}
 }

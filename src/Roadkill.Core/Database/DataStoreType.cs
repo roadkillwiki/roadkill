@@ -8,11 +8,8 @@ using Roadkill.Core.Logging;
 
 namespace Roadkill.Core.Database
 {
-	public class DataStoreType : IEnumerable<DataStoreType>
+	public class DataStoreType
 	{
-		private static List<DataStoreType> _allTypes;
-		private static List<DataStoreType> _allMonoTypes;
-
 		public static readonly DataStoreType MySQL = new DataStoreType("MySQL", "A MySQL database.", DataProvider.MySql5, new MySqlSchema());
 		public static readonly DataStoreType Postgres = new DataStoreType("Postgres", "A Postgres database.", DataProvider.PostgreSql9, new PostgresSchema());
 		public static readonly DataStoreType MongoDB = new DataStoreType("MongoDB", "A MongoDB server, using the official MongoDB driver.", typeof(MongoDBRepository).FullName);
@@ -30,40 +27,32 @@ namespace Roadkill.Core.Database
 		public DataProvider LightSpeedDbType { get; private set; }
 		public SchemaBase Schema { get; private set; }
 
-		public static IEnumerable<DataStoreType> AllTypes
-		{
-			get 
-			{
-				if (_allTypes == null)
-				{
-					_allTypes = new List<DataStoreType>()
-					{
-						MongoDB, MySQL, Postgres, 
-						Sqlite, SqlServerCe, SqlServer2005, SqlServer2008, SqlServer2012
-					};
-				}
+		public static IEnumerable<DataStoreType> AllTypes { get; private set; }
+		public static IEnumerable<DataStoreType> AllMonoTypes { get; private set; }
 
-				return _allTypes; 
-			}
+		static DataStoreType()
+		{
+			AllTypes = new List<DataStoreType>()
+			{
+				MongoDB, 
+				MySQL, 
+				Postgres, 
+				Sqlite, 
+				SqlServerCe, 
+				SqlServer2005, 
+				SqlServer2008, 
+				SqlServer2012
+			};
+
+			AllMonoTypes = new List<DataStoreType>()
+			{
+				MongoDB, 
+				MySQL, 
+				Postgres
+			};
 		}
 
-		public static IEnumerable<DataStoreType> AllMonoTypes
-		{
-			get
-			{
-				if (_allMonoTypes == null)
-				{
-					_allMonoTypes = new List<DataStoreType>()
-					{
-						MongoDB, MySQL, Postgres
-					};
-				}
-
-				return _allMonoTypes;
-			}
-		}
-
-		public DataStoreType(string name, string description, string customRepositoryType)
+		public DataStoreType(string name, string description, string customRepositoryType) 
 		{
 			Name = name;
 			Description = description;
@@ -80,22 +69,6 @@ namespace Roadkill.Core.Database
 			CustomRepositoryType = "";
 			LightSpeedDbType = lightSpeedDbType;
 			Schema = schema;
-		}
-
-		public IEnumerator<DataStoreType> GetEnumerator()
-		{
-			foreach (DataStoreType type in _allTypes)
-			{
-				yield return type;
-			}
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			foreach (DataStoreType type in _allTypes)
-			{
-				yield return type;
-			}
 		}
 
 		public static DataStoreType ByName(string name)
