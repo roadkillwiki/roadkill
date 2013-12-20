@@ -83,7 +83,7 @@ namespace Roadkill.Core.Security
 		/// <param name="id"></param>
 		/// <param name="isActivated">True if the user should be activated, false for either.</param>
 		/// <returns>A <see cref="User"/> object</returns>
-		public abstract User GetUserById(Guid id, bool isActivated = true);
+		public abstract User GetUserById(Guid id, bool? isActivated = null);
 
 		/// <summary>
 		/// Retrieves a full <see cref="User"/> object for the email address provided, or null if the user doesn't exist.
@@ -91,7 +91,7 @@ namespace Roadkill.Core.Security
 		/// <param name="email">The email address of the user to get</param>
 		/// <param name="isActivated">True if the user should be activated, false for either.</param>
 		/// <returns>A <see cref="User"/> object</returns>
-		public abstract User GetUser(string email, bool isActivated = true);
+		public abstract User GetUser(string email, bool? isActivated = null);
 
 		/// <summary>
 		/// Retrieves a full <see cref="User"/> object for a password reset request.

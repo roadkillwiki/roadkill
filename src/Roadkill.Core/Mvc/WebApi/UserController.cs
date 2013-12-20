@@ -54,7 +54,7 @@ namespace Roadkill.Core.Mvc.Controllers.Api
 		[HttpGet]
 		public UserViewModel Get(Guid id)
 		{
-			User user = _userService.GetUserById(id, false);
+			User user = _userService.GetUserById(id);
 			if (user == null)
 				return null;
 

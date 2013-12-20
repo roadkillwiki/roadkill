@@ -237,7 +237,7 @@ namespace Roadkill.Core.Security
 		/// </summary>
 		/// <param name="id">The ID of the user.</param>
 		/// <returns>A <see cref="User"/> object</returns>
-		public override User GetUserById(Guid id, bool isActivated = true)
+		public override User GetUserById(Guid id, bool? isActivated = null)
 		{
 			return Repository.GetUserById(id, isActivated);
 		}
@@ -247,7 +247,7 @@ namespace Roadkill.Core.Security
 		/// </summary>
 		/// <param name="email">The email address of the user to get</param>
 		/// <returns>A <see cref="User"/> object</returns>
-		public override User GetUser(string email, bool isActivated = true)
+		public override User GetUser(string email, bool? isActivated = null)
 		{
 			return Repository.GetUserByEmail(email, isActivated);
 		}

@@ -285,17 +285,17 @@ namespace Roadkill.Core.Database.MongoDB
 			return Users.FirstOrDefault(x => x.Id == id && x.IsEditor);
 		}
 
-		public User GetUserByEmail(string email, bool isActivated = true)
+		public User GetUserByEmail(string email, bool? isActivated = null)
 		{
-			if (isActivated)
+			if (isActivated.HasValue)
 				return Users.FirstOrDefault(x => x.Email == email && x.IsActivated == isActivated);
 			else
 				return Users.FirstOrDefault(x => x.Email == email);
 		}
 
-		public User GetUserById(Guid id, bool isActivated = true)
+		public User GetUserById(Guid id, bool? isActivated = null)
 		{
-			if (isActivated)
+			if (isActivated.HasValue)
 				return Users.FirstOrDefault(x => x.Id == id && x.IsActivated == isActivated);
 			else
 				return Users.FirstOrDefault(x => x.Id == id);
