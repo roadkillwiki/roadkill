@@ -44,7 +44,6 @@ namespace Roadkill.Core.Database.MongoDB
 			}
 		}
 
-
 		public MongoDBRepository(ApplicationSettings settings)
 		{
 			_settings = settings;
@@ -288,7 +287,7 @@ namespace Roadkill.Core.Database.MongoDB
 		public User GetUserByEmail(string email, bool? isActivated = null)
 		{
 			if (isActivated.HasValue)
-				return Users.FirstOrDefault(x => x.Email == email && x.IsActivated == isActivated);
+				return Users.FirstOrDefault(x => x.Email == email && x.IsActivated == isActivated.HasValue);
 			else
 				return Users.FirstOrDefault(x => x.Email == email);
 		}
@@ -296,7 +295,7 @@ namespace Roadkill.Core.Database.MongoDB
 		public User GetUserById(Guid id, bool? isActivated = null)
 		{
 			if (isActivated.HasValue)
-				return Users.FirstOrDefault(x => x.Id == id && x.IsActivated == isActivated);
+				return Users.FirstOrDefault(x => x.Id == id && x.IsActivated == isActivated.Value);
 			else
 				return Users.FirstOrDefault(x => x.Id == id);
 		}
