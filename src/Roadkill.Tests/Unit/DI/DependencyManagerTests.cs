@@ -168,6 +168,7 @@ namespace Roadkill.Tests.Unit
 		public void RegisterMvcFactoriesAndRouteHandlers_Should_Register_Instances()
 		{
 			// Arrange
+			RouteTable.Routes.Clear();
 			DependencyManager iocSetup = new DependencyManager(new ApplicationSettings());
 
 			// Act

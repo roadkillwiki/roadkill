@@ -71,13 +71,16 @@ namespace Roadkill.Tests.Unit
 			if (!string.IsNullOrEmpty(url))
 				httpContext.Request.SetupRequestUrl(url);
 
-			ControllerContext context = new ControllerContext(new RequestContext(httpContext, new RouteData()), controller);
-			controller.ControllerContext = context;
+			// Routes		
+			RouteTable.Routes.Clear();
+			Routing.Register(RouteTable.Routes);
+			var routeData = new RouteData();
+			routeData.Values["controller"] = "wiki";
+			routeData.Values["action"] = "index";
 
-			// Routes
-			RouteCollection routes = new RouteCollection();
-			Routing.Register(routes);
-			controller.Url = new UrlHelper(new RequestContext(httpContext, new RouteData()), routes);
+			ControllerContext context = new ControllerContext(new RequestContext(httpContext, routeData), controller);
+			controller.ControllerContext = context;
+			controller.Url = new UrlHelper(new RequestContext(httpContext, routeData), RouteTable.Routes);
 
 			return container;
 		}

@@ -29,6 +29,7 @@ namespace Roadkill.Core.Extensions
 		/// @Html.Action("LoggedInAs", "User")
 		/// </summary>
 		/// <returns>"Logged in as {user}" if the user is logged in; "Not logged in" if the user is not logged in.</returns>
+		[Obsolete("You should render the User action using @Html.Action(\"LoggedInAs\", \"User\") instead of this extension")]
 		public static MvcHtmlString LoginStatus(this HtmlHelper helper)
 		{
 			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
@@ -68,7 +69,7 @@ namespace Roadkill.Core.Extensions
 		public static MvcHtmlString FileManagerLink(this HtmlHelper helper, string prefix, string suffix)
 		{
 			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
-			if (controller != null)
+			if (controller != null && (controller.Context.IsLoggedIn && (controller.Context.IsAdmin || controller.Context.IsEditor)))
 			{
 				string link = helper.ActionLink(SiteStrings.FileManager_Title, "Index", "FileManager").ToString();
 				return MvcHtmlString.Create(prefix + link + suffix);
@@ -133,7 +134,7 @@ namespace Roadkill.Core.Extensions
 		/// </summary>
 		public static MvcHtmlString MainPageLink(this HtmlHelper helper, string linkText, string prefix,string suffix)
 		{
-			return helper.ActionLink(linkText, "Index", "Home");
+			return MvcHtmlString.Create(prefix + helper.ActionLink(linkText, "Index", "Home") + suffix);
 		}
 
 		/// <summary>
@@ -163,8 +164,8 @@ namespace Roadkill.Core.Extensions
 		/// <returns>If the page is not found, the link text is returned.</returns>
 		public static MvcHtmlString PageLink(this HtmlHelper helper, string linkText, string pageTitle, object htmlAttributes,string prefix,string suffix)
 		{
-			PageService manager = ServiceLocator.GetInstance<PageService>();
-			PageViewModel model = manager.FindByTitle(pageTitle);
+			IPageService pageService = ServiceLocator.GetInstance<IPageService>();
+			PageViewModel model = pageService.FindByTitle(pageTitle);
 			if (model != null)
 			{
 				string link = helper.ActionLink(linkText, "Index", "Wiki", new { id = model.Id, title = pageTitle }, htmlAttributes).ToString();
@@ -173,23 +174,6 @@ namespace Roadkill.Core.Extensions
 			else
 			{
 				return MvcHtmlString.Create(linkText);
-			}
-		}
-
-		/// <summary>
-		/// Sometime in the future, the JS bundle will be split out into seperate files, this is for that.
-		/// </summary>
-		public static MvcHtmlString EditorScriptLink(this HtmlHelper helper)
-		{
-			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
-
-			if (controller != null && controller.Context.IsLoggedIn)
-			{
-				return MvcHtmlString.Create(Scripts.Render("~/Assets/Scripts/roadkilleditor.js").ToHtmlString());
-			}
-			else
-			{
-				return MvcHtmlString.Empty;
 			}
 		}
 	}
