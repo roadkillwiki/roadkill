@@ -148,43 +148,14 @@ namespace Roadkill.Core.Configuration
 		/// The full path to the text plugins directory. This is where plugins are stored after 
 		/// download (including their nuget files), and are copied to the bin folder.
 		/// </summary>
-		public string TextPluginsPath { get; internal set; }
+		public string PluginsPath { get; internal set; }
 
 		/// <summary>
-		/// The directory within the /bin folder that the text plugins are stored. The plugins are 
+		/// The directory within the /bin folder that the plugins are stored. They are 
 		/// copied here on application start, so they can be loaded into the application domain with shadow 
-		/// copy support (and supported in medium trust environments), and also monitored by the ASP.NET 
-		/// file watcher.
+		/// copy support and also monitored by the ASP.NET file watcher.
 		/// </summary>
-		public string TextPluginsBinPath { get; internal set; }
-
-		/// <summary>
-		/// The full path to the special page plugins directory. This is where plugins are stored after 
-		/// download (including their nuget files), and are copied to the bin folder.
-		/// </summary>
-		public string SpecialPagePluginsPath { get; internal set; }
-
-		/// <summary>
-		/// The directory within the /bin folder that the special page plugins are stored. As with text plugins, they are 
-		/// copied here on application start, so they can be loaded into the application domain with shadow 
-		/// copy support (and supported in medium trust environments), and also monitored by the ASP.NET 
-		/// file watcher.
-		/// </summary>
-		public string SpecialPagePluginsBinPath { get; internal set; }
-
-		/// <summary>
-		/// The full path to the user service plugins directory. This is where plugins are stored after 
-		/// download (including their nuget files), and are copied to the bin folder.
-		/// </summary>
-		public string UserServicePluginsPath { get; internal set; }
-		
-		/// /// <summary>
-		/// The directory within the /bin folder that the user service plugins are stored. As with text plugins, they are 
-		/// copied here on application start, so they can be loaded into the application domain with shadow 
-		/// copy support (and supported in medium trust environments), and also monitored by the ASP.NET 
-		/// file watcher.
-		/// </summary>
-		public string UserServicePluginsBinPath { get; internal set; }	
+		public string PluginsBinPath { get; internal set; }
 
 		/// <summary>
 		/// The database type used as the backing store.
@@ -340,12 +311,8 @@ namespace Roadkill.Core.Configuration
 			AttachmentsFolder = "~/App_Data/Attachments";
 			SearchIndexPath = Path.Combine(AppDataInternalPath, "Search");
 			SQLiteBinariesPath = Path.Combine(AppDataInternalPath, "SQLiteBinaries");
-			SpecialPagePluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins", "SpecialPages");
-			SpecialPagePluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "Plugins", "SpecialPages");
-			TextPluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins", "Text");
-			TextPluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "Plugins", "Text");
-			UserServicePluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins", "UserService");
-			UserServicePluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "Plugins", "UserService");
+			PluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "Plugins");
+			PluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
 		}
 
 		public ApplicationSettings(HttpContextBase httpContext) : this()

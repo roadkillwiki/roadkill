@@ -19,18 +19,7 @@ namespace Roadkill.Tests.Unit
 			SpecialPages = new List<SpecialPagePlugin>();
 		}
 
-
-		public void CopyUserServicePlugins(ApplicationSettings applicationSettings)
-		{
-
-		}
-
-		public void CopySpecialPagePlugins(ApplicationSettings applicationSettings)
-		{
-
-		}
-
-		public void CopyTextPlugins(ApplicationSettings applicationSettings)
+		public void CopyPlugins(ApplicationSettings applicationSettings)
 		{
 		}
 

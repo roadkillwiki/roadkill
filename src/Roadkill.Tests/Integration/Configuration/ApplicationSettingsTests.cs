@@ -37,11 +37,8 @@ namespace Roadkill.Tests.Integration.Configuration
 			Assert.That(appSettings.AttachmentsFolder, Is.EqualTo("~/App_Data/Attachments"), "AttachmentsFolder");
 			Assert.That(appSettings.SearchIndexPath, Is.EqualTo(baseDir + @"\App_Data\Internal\Search"), "SearchIndexPath");
 			Assert.That(appSettings.SQLiteBinariesPath, Is.EqualTo(baseDir + @"\App_Data\Internal\SQLiteBinaries"), "SQLiteBinariesPath");
-			Assert.That(appSettings.SpecialPagePluginsPath, Is.EqualTo(baseDir + @"\Plugins\SpecialPages"), "SpecialPagePluginsPath");
-			Assert.That(appSettings.SpecialPagePluginsBinPath, Is.EqualTo(baseDir + @"\bin\Plugins\SpecialPages"), "SpecialPagePluginsBinPath");
-			Assert.That(appSettings.TextPluginsPath, Is.EqualTo(baseDir + @"\Plugins\Text"), "TextPluginsPath");
-			Assert.That(appSettings.TextPluginsBinPath, Is.EqualTo(baseDir + @"\bin\Plugins\Text"), "TextPluginsBinPath");
-			Assert.That(appSettings.UserServicePluginsPath, Is.EqualTo(baseDir + @"\Plugins\UserService"), "UserServicePluginsPath");
+			Assert.That(appSettings.PluginsBinPath, Is.EqualTo(baseDir + @"\bin\Plugins"), "PluginsBinPath");
+			Assert.That(appSettings.PluginsPath, Is.EqualTo(baseDir + @"\Plugins"), "PluginsPath");
 		}
 
 		[Test]

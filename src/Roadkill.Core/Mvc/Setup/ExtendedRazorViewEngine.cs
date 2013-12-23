@@ -16,8 +16,8 @@ namespace Roadkill.Core.Mvc
 			// {1} is the controller, {0} is the action
 			ExtendedRazorViewEngine engine = new ExtendedRazorViewEngine();
 			engine.AddPartialViewLocationFormat("~/Views/Shared/Dialogs/{0}.cshtml");
-			engine.AddViewLocationFormat("~/Plugins/SpecialPages/{0}.cshtml");
-			engine.AddPartialViewLocationFormat("~/Plugins/SpecialPages/{0}.cshtml");
+			engine.AddViewLocationFormat("~/Plugins/{0}.cshtml");
+			engine.AddPartialViewLocationFormat("~/Plugins/{0}.cshtml");
 
 			ViewEngines.Engines.Add(engine);
 		}

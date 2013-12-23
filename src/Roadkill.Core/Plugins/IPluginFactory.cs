@@ -8,19 +8,9 @@ namespace Roadkill.Core.Plugins
 	public interface IPluginFactory
 	{
 		/// <summary>
-		/// Copies the UserService plugins from the /Plugins directory to the bin folder. This is run at application startup.
+		/// Copies the plugins from the /Plugins directory to the bin folder. This is run at application startup.
 		/// </summary>
-		void CopyUserServicePlugins(ApplicationSettings applicationSettings);
-
-		/// <summary>
-		/// Copies the TextPlugin plugins from the /Plugins/Textplugins directory to the bin folder. This is run at application startup.
-		/// </summary>
-		void CopyTextPlugins(ApplicationSettings applicationSettings);
-
-		/// <summary>
-		/// Copies the SpecialPage plugins from the /Plugins/SpecialPage directory to the bin folder. This is run at application startup.
-		/// </summary>
-		void CopySpecialPagePlugins(ApplicationSettings applicationSettings);
+		void CopyPlugins(ApplicationSettings applicationSettings);
 
 		/// <summary>
 		/// Retrieves all text plugins from the DI container.
