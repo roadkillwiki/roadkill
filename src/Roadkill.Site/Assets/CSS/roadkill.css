@@ -157,6 +157,7 @@ table#files tr.listrow	{ cursor:pointer; }
 .more-plugins	{ margin-bottom:10px; }
 .plugins		{ border:1px solid #ddd; border-radius:3px;border-collapse:separate; }
 .plugins thead  { background-color: #f9f9f9; }
-.plugin-enabled { min-width:15px;min-height:16px;background: url('images/plugin-enabled.png');margin-top:2px; }
+.plugin-enabled		{ min-width:15px;min-height:16px;background: url('images/plugin-enabled.png');margin-top:2px; }
+.plugin-disabled	{ min-width:15px;min-height:16px;background: url('images/plugin-disabled.png');margin-top:2px; }
 
 #pluginsettings-save { margin-top:20px; }

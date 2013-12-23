@@ -172,25 +172,17 @@ namespace Roadkill.Core.DI
 			// Copy all plugins to the /bin/Plugins folder
 			CopyPlugins();
 
-			// Scan user service plugins
-			foreach (string subDirectory in Directory.GetDirectories(_applicationSettings.UserServicePluginsBinPath))
+			// Scan plugins
+			foreach (string subDirectory in Directory.GetDirectories(_applicationSettings.PluginsBinPath))
 			{
 				scanner.AssembliesFromPath(subDirectory);
 			}
-			// UserServiceBase is scanned below
 
+			// UserServiceBase is scanned below
 			// Scan for TextPlugins
-			foreach (string subDirectory in Directory.GetDirectories(_applicationSettings.TextPluginsBinPath))
-			{
-				scanner.AssembliesFromPath(subDirectory);
-			}
 			scanner.AddAllTypesOf<TextPlugin>();
 			
 			// Scan for SpecialPages
-			foreach (string subDirectory in Directory.GetDirectories(_applicationSettings.SpecialPagePluginsBinPath))
-			{
-				scanner.AssembliesFromPath(subDirectory);
-			}
 			scanner.AddAllTypesOf<SpecialPagePlugin>();
 
 			// The pluginfactory
@@ -303,26 +295,12 @@ namespace Roadkill.Core.DI
 		{
 			PluginFactory pluginFactory = new PluginFactory(); // registered as a singleton later
 
-			// Copy UserService plugins to the /bin folder
-			string userservicePluginDestPath = _applicationSettings.UserServicePluginsBinPath;
-			if (!Directory.Exists(userservicePluginDestPath))
-				Directory.CreateDirectory(userservicePluginDestPath);
-
-			pluginFactory.CopyUserServicePlugins(_applicationSettings);
-
-			// Copy Text plugins to the /bin folder
-			string textPluginsDestPath = _applicationSettings.TextPluginsBinPath;
-			if (!Directory.Exists(textPluginsDestPath))
-				Directory.CreateDirectory(textPluginsDestPath);
-		
-			pluginFactory.CopyTextPlugins(_applicationSettings);
-
 			// Copy SpecialPages plugins to the /bin folder
-			string specialPagesDestPath = _applicationSettings.SpecialPagePluginsBinPath;
-			if (!Directory.Exists(specialPagesDestPath))
-				Directory.CreateDirectory(specialPagesDestPath);
+			string pluginsDestPath = _applicationSettings.PluginsBinPath;
+			if (!Directory.Exists(pluginsDestPath))
+				Directory.CreateDirectory(pluginsDestPath);
 
-			pluginFactory.CopySpecialPagePlugins(_applicationSettings);
+			pluginFactory.CopyPlugins(_applicationSettings);
 		}
 	}
 }

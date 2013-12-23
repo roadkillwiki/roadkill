@@ -61,27 +61,11 @@ namespace Roadkill.Core.Plugins
 		}
 
 		/// <summary>
-		/// Copies the user service plugin DLLs from their storage location in /Plugins/UserService/ to the /bin folder.
+		/// Copies the plugins from the /Plugins directory to the bin folder. This is run at application startup.
 		/// </summary>
-		public void CopyUserServicePlugins(ApplicationSettings applicationSettings)
+		public void CopyPlugins(ApplicationSettings applicationSettings)
 		{
-			CopyAssemblies(applicationSettings.UserServicePluginsPath, applicationSettings.UserServicePluginsBinPath, false);
-		}
-
-		/// <summary>
-		/// Copies the text plugin DLLs from their storage location in /Plugins/TextPlugins/ to the /bin folder.
-		/// </summary>
-		public void CopyTextPlugins(ApplicationSettings applicationSettings)
-		{
-			CopyAssemblies(applicationSettings.TextPluginsPath, applicationSettings.TextPluginsBinPath);
-		}
-
-		/// <summary>
-		/// Copies the special page (/Special:) plugins from their storage location in /Plugins/SpecialPages/to the /bin folder.
-		/// </summary>
-		public void CopySpecialPagePlugins(ApplicationSettings applicationSettings)
-		{
-			CopyAssemblies(applicationSettings.SpecialPagePluginsPath, applicationSettings.SpecialPagePluginsBinPath);
+			CopyAssemblies(applicationSettings.PluginsPath, applicationSettings.PluginsBinPath);
 		}
 
 		/// <summary>

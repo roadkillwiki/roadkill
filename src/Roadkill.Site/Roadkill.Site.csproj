@@ -385,55 +385,55 @@
     <None Include="Assets\Scripts\roadkill\typescript-ref\constants.ts" />
     <None Include="Assets\Scripts\roadkill\typescript-ref\references.ts" />
     <Content Include="Assets\Scripts\shared\head.js" />
-    <Content Include="Plugins\Text\ExternalLinksInNewWindow\externallinksinnewwindow.js" />
-    <Content Include="Plugins\Text\ClickableImages\clickableimages.js" />
-    <Content Include="Plugins\Text\ResizeImages\resizeimages.css" />
-    <Content Include="Plugins\Text\Jumbotron\jumbotron.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shAutoloader.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushAppleScript.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushAS3.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushBash.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushColdFusion.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushCpp.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushCSharp.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushCss.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushDelphi.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushDiff.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushErlang.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushGroovy.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushJava.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushJavaFX.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushJScript.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushPerl.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushPhp.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushPlain.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushPowerShell.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushPython.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushRuby.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushSass.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushScala.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushSql.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushVb.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shBrushXml.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shCore.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\javascript\shLegacy.js" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCore.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreDefault.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreDjango.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreEclipse.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreEmacs.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreFadeToGrey.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreMDUltra.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreMidnight.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shCoreRDark.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeDefault.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeDjango.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeEclipse.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeEmacs.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeFadeToGrey.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeMDUltra.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeMidnight.css" />
-    <Content Include="Plugins\Text\SyntaxHighlighter\css\shThemeRDark.css" />
+    <Content Include="Plugins\ExternalLinksInNewWindow\externallinksinnewwindow.js" />
+    <Content Include="Plugins\ClickableImages\clickableimages.js" />
+    <Content Include="Plugins\ResizeImages\resizeimages.css" />
+    <Content Include="Plugins\Jumbotron\jumbotron.css" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shAutoloader.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushAppleScript.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushAS3.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushBash.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushColdFusion.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushCpp.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushCSharp.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushCss.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushDelphi.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushDiff.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushErlang.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushGroovy.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushJava.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushJavaFX.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushJScript.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushPerl.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushPhp.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushPlain.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushPowerShell.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushPython.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushRuby.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushSass.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushScala.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushSql.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushVb.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushXml.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shCore.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shLegacy.js" />
+    <Content Include="Plugins\SyntaxHighlighter\css\shCore.css" />
+    <Content Include="Plugins\SyntaxHighlighter\css\shCoreDefault.css" />
+    <Content Include="Plugins\SyntaxHighlighter\css\shCoreDjango.css" />
+    <Content Include="Plugins\SyntaxHighlighter\css\shCoreEclipse.css" />
+    <Content Include="Plugins\SyntaxHighlighter\css\shCoreEmacs.css" />
+    <Content Include="Plugins\SyntaxHighlighter\css\shCoreFadeToGrey.css" />
+    <Content Include="Plugins\SyntaxHighlighter\css\shCoreMDUltra.css" />
+    <Content Include="Plugins\SyntaxHighlighter\css\shCoreMidnight.css" />
+    <Content Include="Plugins\SyntaxHighlighter\css\shCoreRDark.css" />
+    <Content Include="Plugins\SyntaxHighlighter\css\shThemeDefault.css" />
+    <Content Include="Plugins\SyntaxHighlighter\css\shThemeDjango.css" />
+    <Content Include="Plugins\SyntaxHighlighter\css\shThemeEclipse.css" />
+    <Content Include="Plugins\SyntaxHighlighter\css\shThemeEmacs.css" />
+    <Content Include="Plugins\SyntaxHighlighter\css\shThemeFadeToGrey.css" />
+    <Content Include="Plugins\SyntaxHighlighter\css\shThemeMDUltra.css" />
+    <Content Include="Plugins\SyntaxHighlighter\css\shThemeMidnight.css" />
+    <Content Include="Plugins\SyntaxHighlighter\css\shThemeRDark.css" />
     <Content Include="Assets\Scripts\roadkill\dialogs.js">
       <DependentUpon>dialogs.ts</DependentUpon>
     </Content>
@@ -512,8 +512,8 @@
       <DependentUpon>wysiwygeditor.ts</DependentUpon>
     </Content>
     <Content Include="Assets\CSS\toastr.css" />
-    <Content Include="Plugins\Text\Toc\toc.js" />
-    <Content Include="Plugins\Text\Toc\toc.css" />
+    <Content Include="Plugins\Toc\toc.js" />
+    <Content Include="Plugins\Toc\toc.css" />
     <Content Include="Roadkill.config">
       <SubType>Designer</SubType>
     </Content>
@@ -522,8 +522,8 @@
     <Content Include="NLog.config" />
     <None Include="packages.config" />
     <Content Include="Plugins\Web.config" />
-    <Content Include="Plugins\SpecialPages\SoundCloud\SoundCloud.cshtml" />
-    <Content Include="Plugins\SpecialPages\_ViewStart.cshtml" />
+    <Content Include="Plugins\SoundCloud\SoundCloud.cshtml" />
+    <Content Include="Plugins\_ViewStart.cshtml" />
     <None Include="Properties\PublishProfiles\discountasp.pubxml" />
     <None Include="Properties\PublishProfiles\Mono.pubxml" />
     <Content Include="Assets\Scripts\shared\toastr.js" />
@@ -679,7 +679,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Internal\Search\" />
-    <Folder Include="Plugins\UserManager\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

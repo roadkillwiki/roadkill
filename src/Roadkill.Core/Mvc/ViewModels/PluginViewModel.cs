@@ -24,7 +24,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 				}
 				else 
 				{
-					return "";
+					return "<div class=\"plugin-disabled\"></div>";
 				}
 			}
 		}
