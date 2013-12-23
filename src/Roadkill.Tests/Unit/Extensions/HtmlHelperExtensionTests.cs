@@ -11,6 +11,7 @@ using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Extensions;
+using Roadkill.Core.Mvc;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Services;
@@ -51,12 +52,11 @@ namespace Roadkill.Tests.Unit
 			_pageService = _container.PageService;
 
 			_wikiController = new WikiController(_applicationSettings, _userService, _pageService, _context, _settingsService);
-			_wikiController.SetFakeControllerContext();
+			_wikiController.SetFakeControllerContext("~/wiki/index/1");
 
 			// HtmlHelper setup
 			var viewDataDictionary = new ViewDataDictionary();
-			var controllerContext = new ControllerContext(_wikiController.HttpContext, new RouteData(), _wikiController);
-			_viewContext = new ViewContext(controllerContext, new Mock<IView>().Object, viewDataDictionary, new TempDataDictionary(), new StringWriter());
+			_viewContext = new ViewContext(_wikiController.ControllerContext, new Mock<IView>().Object, viewDataDictionary, new TempDataDictionary(), new StringWriter());
 			var mockViewDataContainer = new Mock<IViewDataContainer>();
 			mockViewDataContainer.Setup(v => v.ViewData).Returns(viewDataDictionary);
 
