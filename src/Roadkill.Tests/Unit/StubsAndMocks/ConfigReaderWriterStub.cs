@@ -15,12 +15,13 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 		public string UILanguageCode { get; set; }
 		public bool InstallStateReset { get; set; }
 		public bool Saved { get; set; }
-
+		public string TestWebConfigResult { get; set; }
 
 		public ConfigReaderWriterStub()
 		{
 			ApplicationSettings = new ApplicationSettings();
 			ApplicationSettings.AttachmentsFolder = "~/App_Data/Attachments";
+			TestWebConfigResult = "OK";
 		}
 
 		public override void UpdateCurrentVersion(string currentVersion)
@@ -54,7 +55,7 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 
 		public override string TestSaveWebConfig()
 		{
-			return "OK";
+			return TestWebConfigResult;
 		}
 	}
 }

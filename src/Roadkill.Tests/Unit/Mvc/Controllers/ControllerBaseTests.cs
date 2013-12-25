@@ -21,6 +21,7 @@ using Roadkill.Tests.Unit.StubsAndMocks;
 using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
 using System.Web.Routing;
 using Roadkill.Core.Mvc;
+using Roadkill.Core.Security.Windows;
 
 namespace Roadkill.Tests.Unit
 {
@@ -88,7 +89,9 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_applicationSettings.Installed = false;
-			InstallControllerStub installController = new InstallControllerStub(_applicationSettings, _userService, _pageService, _searchService, _repository, _settingsService, _context, _configReaderWriter);
+			InstallControllerStub installController = new InstallControllerStub(_applicationSettings, _userService, _pageService, 
+																				_searchService, _repository, _settingsService, _context, 
+																				_configReaderWriter, new ActiveDirectoryProviderMock());
 			 
 			ActionExecutingContext filterContext = new ActionExecutingContext();
 			filterContext.Controller = installController;
@@ -180,8 +183,8 @@ namespace Roadkill.Tests.Unit
 	{
 		public InstallControllerStub(ApplicationSettings settings, UserServiceBase userService,
 			PageService pageService, SearchService searchService, IRepository respository,
-			SettingsService settingsService, IUserContext context, ConfigReaderWriter configReaderWriter)
-			: base(settings, userService, pageService, searchService, respository, settingsService, context, configReaderWriter)
+			SettingsService settingsService, IUserContext context, ConfigReaderWriter configReaderWriter, IActiveDirectoryProvider provider)
+			: base(settings, userService, pageService, searchService, respository, settingsService, context, configReaderWriter, provider)
 		{
 
 		}

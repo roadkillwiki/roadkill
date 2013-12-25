@@ -71,6 +71,8 @@ namespace Roadkill.Tests.Unit
 			IPluginFactory pluginFactory = ObjectFactory.GetInstance<IPluginFactory>();
 			IWikiImporter wikiImporter = ObjectFactory.GetInstance<IWikiImporter>();
 			IAuthorizationProvider authProvider = ObjectFactory.GetInstance<IAuthorizationProvider>();
+			IActiveDirectoryProvider adProvider = ObjectFactory.GetInstance<IActiveDirectoryProvider>();
+
 
 			// Assert
 			Assert.That(settings, Is.Not.Null);
@@ -85,6 +87,8 @@ namespace Roadkill.Tests.Unit
 			Assert.That(pluginFactory, Is.TypeOf<PluginFactory>());
 			Assert.That(wikiImporter, Is.TypeOf<ScrewTurnImporter>());
 			Assert.That(authProvider, Is.TypeOf<AuthorizationProvider>());
+			Assert.That(adProvider, Is.TypeOf<ActiveDirectoryProvider>());
+
 		}
 
 		[Test]

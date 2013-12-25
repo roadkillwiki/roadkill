@@ -85,7 +85,7 @@ namespace Roadkill.Core.Security.Windows
 		/// <param name="password">The ldap password.</param>
 		/// <param name="groupName">The Active Directory group name to test against. Defaults to "Users" if empty</param>
 		/// <returns>Any error messages or an empty string if no errors occurred.</returns>
-		public static string TestLdapConnection(string connectionString, string username, string password, string groupName)
+		public string TestLdapConnection(string connectionString, string username, string password, string groupName)
 		{
 			if (string.IsNullOrEmpty(connectionString))
 				return "The connection string is empty";
