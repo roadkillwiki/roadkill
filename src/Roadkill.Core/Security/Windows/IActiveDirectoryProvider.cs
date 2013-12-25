@@ -12,5 +12,6 @@ namespace Roadkill.Core.Security.Windows
 	public interface IActiveDirectoryProvider
 	{
 		IEnumerable<IPrincipalDetails> GetMembers(string domainName, string username, string password, string groupName);
+		string TestLdapConnection(string connectionString, string username, string password, string groupName);
 	}
 }

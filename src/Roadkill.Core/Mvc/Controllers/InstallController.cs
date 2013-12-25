@@ -30,10 +30,11 @@ namespace Roadkill.Core.Mvc.Controllers
 		private SearchService _searchService;
 		private SettingsService _settingsService;
 		private ConfigReaderWriter _configReaderWriter;
+		private IActiveDirectoryProvider _activeDirectoryProvider;
 
 		public InstallController(ApplicationSettings settings, UserServiceBase userService,
 			PageService pageService, SearchService searchService, IRepository respository,
-			SettingsService settingsService, IUserContext context, ConfigReaderWriter configReaderWriter)
+			SettingsService settingsService, IUserContext context, ConfigReaderWriter configReaderWriter, IActiveDirectoryProvider activeDirectoryProvider)
 			: base(settings, userService, context, settingsService) 
 		{
 			_pageService = pageService;
@@ -41,6 +42,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			_repository = respository;
 			_settingsService = settingsService;
 			_configReaderWriter = configReaderWriter;
+			_activeDirectoryProvider = activeDirectoryProvider;
 		}
 
 		/// <summary>
@@ -267,7 +269,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (ApplicationSettings.Installed)
 				return Content("");
 
-			string errors = ActiveDirectoryProvider.TestLdapConnection(connectionString, username, password, groupName);
+			string errors = _activeDirectoryProvider.TestLdapConnection(connectionString, username, password, groupName);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 
@@ -316,12 +318,14 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		public ActionResult CopySqlite()
 		{
+			if (ApplicationSettings.Installed)
+				return Content("");
+
 			string errors = "";
 
 			try
 			{
 				string sqliteInteropFileSource = Path.Combine(ApplicationSettings.SQLiteBinariesPath, "x86", "SQLite.Interop.dll");
-
 				string sqliteInteropFileDest = Server.MapPath("~/bin/SQLite.Interop.dll");
 
 				if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)

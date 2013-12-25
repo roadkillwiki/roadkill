@@ -160,7 +160,7 @@ namespace Roadkill.Core.DI
 
 			// Security
 			x.For<IAuthorizationProvider>().Use<AuthorizationProvider>();
-
+			x.For<IActiveDirectoryProvider>().Use<ActiveDirectoryProvider>();
 		}
 
 		private void Scan(IAssemblyScanner scanner)

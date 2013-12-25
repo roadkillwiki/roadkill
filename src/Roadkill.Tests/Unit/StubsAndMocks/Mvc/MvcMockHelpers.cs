@@ -40,6 +40,7 @@ namespace Roadkill.Tests.Unit
 			response.Setup(x => x.ApplyAppPathModifier(It.IsAny<string>())).Returns<string>(x => { return x; }); // UrlHelper support
 
 			server.Setup(s => s.UrlDecode(It.IsAny<string>())).Returns<string>(s => s);
+			server.Setup(s => s.MapPath(It.IsAny<string>())).Returns<string>(s => { return s.Replace("~/", AppDomain.CurrentDomain.BaseDirectory +@"\").Replace("/",@"\"); });
 
 			context.Setup(ctx => ctx.Request).Returns(request.Object);
 			context.Setup(ctx => ctx.Response).Returns(response.Object);

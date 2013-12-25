@@ -72,8 +72,26 @@ namespace Roadkill.Tests.Unit.WebApi
 			Assert.That(actualPage, Is.Null);
 		}
 
+		[Test]
+		public void Put_Should_Update_Page()
+		{
+			// Arrange
 
-		// Post
-		// Put
+			// Act
+
+			// Assert
+			Assert.Fail("TODO");
+		}
+
+		[Test]
+		public void Post_Should_Add_Page()
+		{
+			// Arrange
+
+			// Act
+
+			// Assert
+			Assert.Fail("TODO");
+		}
 	}
 }
