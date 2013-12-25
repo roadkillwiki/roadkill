@@ -21,6 +21,7 @@ namespace Roadkill.Tests.Unit
 		// If this is set, GetTextPluginSettings returns it instead of a lookup
 		public PluginSettings PluginSettings { get; set; }
 
+		public bool Installed { get; set; }
 		public DataStoreType InstalledDataStoreType { get; private set; }
 		public string InstalledConnectionString { get; private set; }
 		public bool InstalledEnableCache { get; private set; }
@@ -199,14 +200,15 @@ namespace Roadkill.Tests.Unit
 			
 		}
 
-		public void Install(DataStoreType dataStoreType, string connectionString, bool enableCache)
+		public virtual void Install(DataStoreType dataStoreType, string connectionString, bool enableCache)
 		{
+			Installed = true;
 			InstalledDataStoreType = dataStoreType;
 			InstalledConnectionString = connectionString;
 			InstalledEnableCache = enableCache;
 		}
 
-		public void TestConnection(DataStoreType dataStoreType, string connectionString)
+		public virtual void TestConnection(DataStoreType dataStoreType, string connectionString)
 		{
 			
 		}

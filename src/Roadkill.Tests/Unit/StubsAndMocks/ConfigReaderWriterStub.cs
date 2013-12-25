@@ -12,6 +12,10 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 	internal class ConfigReaderWriterStub : ConfigReaderWriter
 	{
 		public ApplicationSettings ApplicationSettings { get; set; }
+		public string UILanguageCode { get; set; }
+		public bool InstallStateReset { get; set; }
+		public bool Saved { get; set; }
+
 
 		public ConfigReaderWriterStub()
 		{
@@ -25,10 +29,12 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 
 		public override void UpdateLanguage(string uiLanguageCode)
 		{
+			UILanguageCode = uiLanguageCode;
 		}
 
 		public override void Save(SettingsViewModel settings)
 		{
+			Saved = true;
 		}
 
 		public override RoadkillSection Load()
@@ -43,6 +49,7 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 
 		public override void ResetInstalledState()
 		{
+			InstallStateReset = true;
 		}
 
 		public override string TestSaveWebConfig()

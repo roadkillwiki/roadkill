@@ -83,7 +83,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		//
 
 		/// <summary>
-		/// This is a duplicate of the Installer.TestAttachments (minus the installed check).
+		/// This is a duplicate of the Installer.TestAttachments (minus the installed check, and permissions check).
 		/// This method checks to see if the provided folder exists and if it can be written to.
 		/// </summary>
 		/// <param name="folder"></param>
@@ -95,7 +95,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
-		/// This is a duplicate of the Installer.TestAttachments (minus the installed check).
+		/// This is a duplicate of the Installer.TestAttachments (minus the installed check, and permissions check).
 		/// Attempts a database connection using the provided connection string.
 		/// </summary>
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>

@@ -430,6 +430,7 @@
     <Compile Include="Unit\StubsAndMocks\PrincipalStub.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\HttpCachePolicyMock.cs" />
     <Compile Include="Unit\StubsAndMocks\PluginFactoryMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\RepositoryThrowsExceptionsMock.cs" />
     <Compile Include="Unit\StubsAndMocks\ResetPasswordEmailStub.cs" />
     <Compile Include="Unit\StubsAndMocks\EmailTemplateStub.cs" />
     <Compile Include="Unit\StubsAndMocks\SpecialPageMock.cs" />
