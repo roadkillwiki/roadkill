@@ -108,7 +108,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
-		/// Displays the second step in the installation wizard.
+		/// Displays the second step in the installation wizard (connection strings and site url/name).
 		/// </summary>
 		public ActionResult Step2(string language)
 		{
@@ -209,6 +209,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				}
 				catch (Exception ex)
 				{
+					// TODO-translation
 					ModelState.AddModelError("An error ocurred installing", ex.Message + e);
 				}
 
@@ -218,9 +219,9 @@ namespace Roadkill.Core.Mvc.Controllers
 			return View(model);
 		}
 
-		private void FinalizeInstall(SettingsViewModel model)
+		internal void FinalizeInstall(SettingsViewModel model)
 		{
-			// The name is passed through each step, so parse it
+			// The name as a string is passed through each step, so parse it
 			DataStoreType dataStoreType = DataStoreType.ByName(model.DataStoreTypeName);
 			model.DataStoreTypeName = dataStoreType.Name;
 

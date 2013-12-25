@@ -315,7 +315,7 @@ namespace Roadkill.Core.Configuration
 			PluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
 		}
 
-		public ApplicationSettings(HttpContextBase httpContext) : this()
+		internal ApplicationSettings(HttpContextBase httpContext) : this()
 		{
 			_httpContext = httpContext;
 		}

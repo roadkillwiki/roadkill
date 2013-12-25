@@ -23,12 +23,12 @@ namespace Roadkill.Core.Database
 		public string Name { get; private set; }
 		public string Description { get; private set; }
 		public bool RequiresCustomRepository { get; private set; }
-		public string CustomRepositoryType { get; private set; }
+		public string CustomRepositoryType { get; internal set; }
 		public DataProvider LightSpeedDbType { get; private set; }
 		public SchemaBase Schema { get; private set; }
 
-		public static IEnumerable<DataStoreType> AllTypes { get; private set; }
-		public static IEnumerable<DataStoreType> AllMonoTypes { get; private set; }
+		public static IEnumerable<DataStoreType> AllTypes { get; internal set; }
+		public static IEnumerable<DataStoreType> AllMonoTypes { get; internal set; }
 
 		static DataStoreType()
 		{
