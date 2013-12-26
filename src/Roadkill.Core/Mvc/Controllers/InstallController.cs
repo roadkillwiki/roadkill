@@ -30,11 +30,10 @@ namespace Roadkill.Core.Mvc.Controllers
 		private SearchService _searchService;
 		private SettingsService _settingsService;
 		private ConfigReaderWriter _configReaderWriter;
-		private IActiveDirectoryProvider _activeDirectoryProvider;
 
 		public InstallController(ApplicationSettings settings, UserServiceBase userService,
 			PageService pageService, SearchService searchService, IRepository respository,
-			SettingsService settingsService, IUserContext context, ConfigReaderWriter configReaderWriter, IActiveDirectoryProvider activeDirectoryProvider)
+			SettingsService settingsService, IUserContext context, ConfigReaderWriter configReaderWriter)
 			: base(settings, userService, context, settingsService) 
 		{
 			_pageService = pageService;
@@ -42,7 +41,6 @@ namespace Roadkill.Core.Mvc.Controllers
 			_repository = respository;
 			_settingsService = settingsService;
 			_configReaderWriter = configReaderWriter;
-			_activeDirectoryProvider = activeDirectoryProvider;
 		}
 
 		/// <summary>
@@ -253,94 +251,6 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			// Create a blank search index
 			_searchService.CreateIndex();
-		}
-
-		//
-		// AJAX/JSON testers
-		//
-
-		/// <summary>
-		/// This action is for JSON calls only. Attempts to contact an Active Directory server using the
-		/// connection string and user details provided.
-		/// </summary>
-		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
-		public ActionResult TestLdap(string connectionString, string username, string password, string groupName)
-		{
-			if (ApplicationSettings.Installed)
-				return Content("");
-
-			string errors = _activeDirectoryProvider.TestLdapConnection(connectionString, username, password, groupName);
-			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
-		}
-
-		/// <summary>
-		/// This action is for JSON calls only. Attempts to write to the web.config file and save it.
-		/// </summary>
-		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
-		public ActionResult TestWebConfig()
-		{
-			if (ApplicationSettings.Installed)
-				return Content("");
-
-			string errors = _configReaderWriter.TestSaveWebConfig();
-			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
-		}
-
-		/// <summary>
-		/// This action is for JSON calls only. Checks to see if the provided folder exists and if it can be written to.
-		/// </summary>
-		/// <param name="folder"></param>
-		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
-		public ActionResult TestAttachments(string folder)
-		{
-			if (ApplicationSettings.Installed)
-				return Content("");
-
-			string errors = AttachmentPathUtil.AttachmentFolderExistsAndWriteable(folder, HttpContext);
-			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
-		}
-
-		/// <summary>
-		/// This action is for JSON calls only. Attempts a database connection using the provided connection string.
-		/// </summary>
-		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
-		public ActionResult TestDatabaseConnection(string connectionString, string databaseType)
-		{
-			if (ApplicationSettings.Installed)
-				return Content("");
-
-			string errors = RepositoryManager.TestDbConnection(connectionString, databaseType);
-			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
-		}
-
-		/// <summary>
-		/// Attempts to copy the correct SQL binaries to the bin folder for the architecture the app pool is running under.
-		/// </summary>
-		public ActionResult CopySqlite()
-		{
-			if (ApplicationSettings.Installed)
-				return Content("");
-
-			string errors = "";
-
-			try
-			{
-				string sqliteInteropFileSource = Path.Combine(ApplicationSettings.SQLiteBinariesPath, "x86", "SQLite.Interop.dll");
-				string sqliteInteropFileDest = Server.MapPath("~/bin/SQLite.Interop.dll");
-
-				if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
-				{
-					sqliteInteropFileSource = Path.Combine(ApplicationSettings.SQLiteBinariesPath, "x64", "SQLite.Interop.dll");
-				}
-
-				System.IO.File.Copy(sqliteInteropFileSource, sqliteInteropFileDest, true);
-			}
-			catch (Exception e)
-			{
-				errors = e.ToString();
-			}
-
-			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 	}
 }

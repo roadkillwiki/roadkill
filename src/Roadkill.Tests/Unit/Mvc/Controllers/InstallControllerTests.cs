@@ -40,7 +40,6 @@ namespace Roadkill.Tests.Unit
 		private PluginFactoryMock _pluginFactory;
 		private SearchServiceMock _searchService;
 		private ConfigReaderWriterStub _configReaderWriter;
-		private ActiveDirectoryProviderMock _activeDirectoryProviderMock;
 
 		private InstallController _installController;
 		private List<DataStoreType> _defaultDataStoreTypes;
@@ -76,9 +75,8 @@ namespace Roadkill.Tests.Unit
 			_pageService = _container.PageService;
 			_searchService = _container.SearchService;
 			_configReaderWriter = new ConfigReaderWriterStub();
-			_activeDirectoryProviderMock = new ActiveDirectoryProviderMock();
 
-			_installController = new InstallController(_applicationSettings, _userService, _pageService, _searchService, _repository, _settingsService, _context, _configReaderWriter, _activeDirectoryProviderMock);
+			_installController = new InstallController(_applicationSettings, _userService, _pageService, _searchService, _repository, _settingsService, _context, _configReaderWriter);
 		}
 
 		[Test]
@@ -184,161 +182,6 @@ namespace Roadkill.Tests.Unit
 			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
 			redirectResult.AssertActionRouteIs("Index");
 			redirectResult.AssertControllerRouteIs("Home");
-		}
-
-		[Test]
-		public void TestWebConfig_Should_Return_JsonResult_And_TestResult_Model_Without_Errors()
-		{
-			// Arrange
-			_configReaderWriter.TestWebConfigResult = "";
-
-			// Act
-			ActionResult result = _installController.TestWebConfig();
-
-			// Assert
-			JsonResult jsonResult = result.AssertResultIs<JsonResult>();
-
-			TestResult testResult = jsonResult.Data as TestResult;
-			Assert.That(testResult, Is.Not.Null);
-			Assert.That(testResult.ErrorMessage, Is.EqualTo(""));
-			Assert.That(testResult.Success, Is.True);
-		}
-
-		[Test]
-		public void TestWebConfig_Should_Return_Empty_Content_When_Installed_Is_True()
-		{
-			// Arrange
-			_applicationSettings.Installed = true;
-
-			// Act
-			ActionResult result = _installController.TestWebConfig();
-
-			// Assert
-			ContentResult contentResult = result.AssertResultIs<ContentResult>();
-			Assert.That(contentResult, Is.Not.Null);
-			Assert.That(contentResult.Content, Is.Empty);
-		}
-
-		[Test]
-		public void TestAttachments_Should_Return_Empty_Content_When_Installed_Is_True()
-		{
-			// Arrange
-			_applicationSettings.Installed = true;
-
-			// Act
-			ActionResult result = _installController.TestAttachments(AppDomain.CurrentDomain.BaseDirectory);
-
-			// Assert
-			ContentResult contentResult = result.AssertResultIs<ContentResult>();
-			Assert.That(contentResult, Is.Not.Null);
-			Assert.That(contentResult.Content, Is.Empty);
-		}
-
-		[Test]
-		public void TestDatabaseConnection_Should_Return_Empty_Content_When_Installed_Is_True()
-		{
-			// Arrange
-			_applicationSettings.Installed = true;
-
-			// Act
-			ActionResult result = _installController.TestDatabaseConnection("connectionstring", "sqlite");
-
-			// Assert
-			ContentResult contentResult = result.AssertResultIs<ContentResult>();
-			Assert.That(contentResult, Is.Not.Null);
-			Assert.That(contentResult.Content, Is.Empty);
-		}
-
-		[Test]
-		public void TestLdap_Should_Return_JsonResult_And_TestResult_Model_Without_Errors()
-		{
-			// Arrange
-			_activeDirectoryProviderMock.LdapConnectionResult = "";
-
-			// Act
-			ActionResult result = _installController.TestLdap("connectionstring", "username", "password", "groupname");
-
-			// Assert
-			JsonResult jsonResult = result.AssertResultIs<JsonResult>();
-
-			TestResult testResult = jsonResult.Data as TestResult;
-			Assert.That(testResult, Is.Not.Null);
-			Assert.That(testResult.ErrorMessage, Is.EqualTo(""));
-			Assert.That(testResult.Success, Is.True);
-		}
-
-		[Test]
-		public void TestLdap_Should_Return_Empty_Content_When_Installed_Is_True()
-		{
-			// Arrange
-			_applicationSettings.Installed = true;
-
-			// Act
-			ActionResult result = _installController.TestLdap("connectionstring", "username", "password", "groupname");
-
-			// Assert
-			ContentResult contentResult = result.AssertResultIs<ContentResult>();
-			Assert.That(contentResult, Is.Not.Null);
-			Assert.That(contentResult.Content, Is.Empty);
-		}
-
-		[Test]
-		public void CopySqlite_Should_Return_Empty_Content_When_Installed_Is_True()
-		{
-			// Arrange
-			_applicationSettings.Installed = true;
-
-			// Act
-			ActionResult result = _installController.CopySqlite();
-
-			// Assert
-			ContentResult contentResult = result.AssertResultIs<ContentResult>();
-			Assert.That(contentResult, Is.Not.Null);
-			Assert.That(contentResult.Content, Is.Empty);
-		}
-
-		[Test]
-		public void CopySqlite_Should_Return_JsonResult_And_TestResult_Model_Without_Errors()
-		{
-			// Arrange
-			_activeDirectoryProviderMock.LdapConnectionResult = "";
-			_applicationSettings.SQLiteBinariesPath = Path.Combine(Settings.SITE_PATH, "App_Data", "Internal", "SQLiteBinaries");
-			_installController.SetFakeControllerContext();
-
-			// Act
-			ActionResult result = _installController.CopySqlite();
-
-			// Assert
-			JsonResult jsonResult = result.AssertResultIs<JsonResult>();
-
-			TestResult testResult = jsonResult.Data as TestResult;
-			Assert.That(testResult, Is.Not.Null);
-			Assert.That(testResult.ErrorMessage, Is.EqualTo(""));
-			Assert.That(testResult.Success, Is.True);
-		}
-
-		[Test]
-		[Description("See SettingsControllerTests")]
-		public void TestAttachments_Should_Return_JsonResult_And_TestResult_Model_Without_Errors()
-		{
-		}
-
-		[Test]
-		[Description("See SettingsControllerTests")]
-		public void TestAttachments_Should_Return_TestResult_Model_With_Errors_When_Directory_Is_Not_Writeable()
-		{
-		}
-
-		[Test]
-		[Description("See SettingsControllerTests")]
-		public void TestDatabaseConnection_Should_Return_JsonResult_And_TestResult_Model_Without_Errors()
-		{		
-		}
-
-		[Test]
-		[Description("See SettingsControllerTests")]
-		public void TestDatabaseConnection_Should_Return_JsonResult_And_TestResult_Model_With_Errors_For_Bad_Connection()
-		{
 		}
 
 		[Test]
