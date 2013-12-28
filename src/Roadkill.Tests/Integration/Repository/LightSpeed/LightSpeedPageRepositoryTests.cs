@@ -18,12 +18,12 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 	{
 		protected override string ConnectionString
 		{
-			get { return @"Data Source=roadkill-integrationtests.sqlite;"; }
+			get { return LocalDBSetup.ConnectionString; }
 		}
 
 		protected override DataStoreType DataStoreType
 		{
-			get { return DataStoreType.Sqlite; }
+			get { return DataStoreType.SqlServer2012; }
 		}
 
 		protected override IRepository GetRepository()

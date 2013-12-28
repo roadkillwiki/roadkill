@@ -330,6 +330,11 @@
   <ItemGroup>
     <Compile Include="Acceptance\OtherDatabasesInstallerTests.cs" />
     <Compile Include="Acceptance\FileManagerTests.cs" />
+    <Compile Include="Setup\LocalDBApi\DbCommunication.cs" />
+    <Compile Include="Setup\LocalDBApi\IDbCommunication.cs" />
+    <Compile Include="Setup\LocalDBApi\Info.cs" />
+    <Compile Include="Setup\LocalDBApi\Instance.cs" />
+    <Compile Include="Setup\LocalDBApi\State.cs" />
     <Compile Include="Acceptance\UpgradeTests.cs" />
     <Compile Include="Acceptance\WebDriverExtensions.cs" />
     <Compile Include="Acceptance\InstallerTests.cs" />
@@ -342,6 +347,7 @@
     <Compile Include="Integration\Configuration\ApplicationSettingsTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedPageRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedSettingsRepositoryTests.cs" />
+    <Compile Include="Setup\LocalDBSetup.cs" />
     <Compile Include="Integration\Repository\MongoDb\MongoDbSettingsRepositoryTests.cs" />
     <Compile Include="Integration\Repository\MongoDb\MongoDbPageRepositoryTests.cs" />
     <Compile Include="Integration\Repository\MongoDb\MongoDbUserRepositoryTests.cs" />
@@ -353,6 +359,8 @@
     <Compile Include="Integration\Import\ScrewturnImporterTests.cs" />
     <Compile Include="Smoke\CanaryTests.cs" />
     <Compile Include="Smoke\DemoSiteTests.cs" />
+    <Compile Include="Setup\SqlCeSetup.cs" />
+    <Compile Include="Setup\SqliteSetup.cs" />
     <Compile Include="Unit\Attachments\AttachmentPathUtilTests.cs" />
     <Compile Include="Unit\Attachments\AttachmentFileHandlerTests.cs" />
     <Compile Include="Unit\Attachments\ResponseWrapperMock.cs" />
@@ -455,7 +463,7 @@
     <Compile Include="Unit\Text\MarkupSanitizerTests.cs" />
     <Compile Include="Unit\Text\MarkdownTests.cs" />
     <Compile Include="Integration\Configuration\FullTrustConfigReaderWriterTests.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="Setup\Settings.cs" />
     <Compile Include="Unit\Services\PageServiceTests.cs" />
     <Compile Include="Unit\Services\ActiveDirectoryUserManagerTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\UserViewModelEmailValidationTests.cs" />

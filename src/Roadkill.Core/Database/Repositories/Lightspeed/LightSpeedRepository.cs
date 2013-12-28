@@ -223,6 +223,10 @@ namespace Roadkill.Core.Database.LightSpeed
 
 		public void SaveTextPluginSettings(TextPlugin plugin)
 		{
+			string version = plugin.Version;
+			if (string.IsNullOrEmpty(version))
+				version = "1.0.0";
+
 			SiteConfigurationEntity entity = UnitOfWork.Find<SiteConfigurationEntity>()
 												.FirstOrDefault(x => x.Id == plugin.DatabaseId);
 
@@ -230,13 +234,13 @@ namespace Roadkill.Core.Database.LightSpeed
 			{
 				entity = new SiteConfigurationEntity();
 				entity.Id = plugin.DatabaseId;
-				entity.Version = plugin.Version;
+				entity.Version = version;
 				entity.Content = plugin.Settings.GetJson();
 				UnitOfWork.Add(entity);
 			}
 			else
 			{
-				entity.Version = plugin.Version;
+				entity.Version = version;
 				entity.Content = plugin.Settings.GetJson();
 			}
 

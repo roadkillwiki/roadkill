@@ -14,14 +14,18 @@ namespace Roadkill.Tests.Integration
 {
 	[TestFixture]
 	[Category("Integration")]
-	[Explicit("Requires localdb (SQL Server 2012)")]
 	public class ScrewturnImporterTests
 	{
-		private string _connectionString = @"Server=(LocalDB)\v11.0;Integrated Security=true;";
+		private LocalDBSetup _localDb;
+		private string _connectionString = LocalDBSetup.ConnectionString;
 
 		[SetUp]
 		public void Setup()
 		{
+			_localDb = new LocalDBSetup();
+			_localDb.StartLocalDB();
+			_localDb.RecreateLocalDbData();
+
 			string sqlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "Import", "screwturn3.sql");
 			string sqlCommands = File.ReadAllText(sqlFile);
 
@@ -34,6 +38,12 @@ namespace Roadkill.Tests.Integration
 					command.ExecuteNonQuery();
 				}
 			}
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			_localDb.StopLocalDB();
 		}
 
 		[Test]
@@ -63,7 +73,7 @@ namespace Roadkill.Tests.Integration
 			ScrewTurnImporter importer = new ScrewTurnImporter(applicationSettings, repository);
 
 			// Act
-			importer.ImportFromSqlServer(_connectionString);
+			importer.ImportFromSqlServer(LocalDBSetup.ConnectionString);
 
 			// Assert
 			User user = repository.GetUserByUsername("user2");

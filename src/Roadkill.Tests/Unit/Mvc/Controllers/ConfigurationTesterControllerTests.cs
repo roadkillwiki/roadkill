@@ -183,7 +183,7 @@ namespace Roadkill.Tests.Unit
 
 			TestResult testResult = jsonResult.Data as TestResult;
 			Assert.That(testResult, Is.Not.Null);
-			Assert.That(testResult.ErrorMessage, Is.EqualTo(""));
+			Assert.That(testResult.ErrorMessage, Is.EqualTo(""), testResult.ErrorMessage);
 			Assert.That(testResult.Success, Is.True);
 		}
 

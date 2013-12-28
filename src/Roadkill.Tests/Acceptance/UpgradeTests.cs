@@ -26,7 +26,7 @@ namespace Roadkill.Tests.Acceptance
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
-			SitePath = AcceptanceTestsSetup.GetSitePath();
+			SitePath = Settings.SITE_PATH;
 
 			// SQL Server 1.5.2 script
 			CreateSqlServer152Database();
@@ -114,7 +114,7 @@ namespace Roadkill.Tests.Acceptance
 
 		private void UpdateWebConfig(string connectionstring, DataStoreType databaseType)
 		{
-			string sitePath = AcceptanceTestsSetup.GetSitePath();
+			string sitePath = Settings.SITE_PATH;
 			string webConfigPath = Path.Combine(sitePath, "web.config");
 
 			// Remove the readonly flag 
