@@ -1,7 +1,4 @@
-USE master;
-
-IF EXISTS (SELECT * FROM sys.databases WHERE name = 'Roadkill')
-	EXEC sp_executesql 'USE Roadkill';
+USE Roadkill;
 
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'roadkill_pagecontent')
     DROP TABLE [dbo].[roadkill_pagecontent];
