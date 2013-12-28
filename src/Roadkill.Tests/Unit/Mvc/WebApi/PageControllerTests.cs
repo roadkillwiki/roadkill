@@ -75,14 +75,20 @@ namespace Roadkill.Tests.Unit.WebApi
 		[Test]
 		public void Put_Should_Update_Page()
 		{
+			// Arrange
+			DateTime version1Date = DateTime.Today.AddDays(-1); // stops the getlatestcontent acting up when add+update are the same time
+
 			Page page = new Page();
 			page.Title = "Hello world";
 			page.Tags = "tag1, tag2";
-			PageContent pageContent = _repositoryMock.AddNewPage(page, "Some content1", "editor", DateTime.UtcNow);
+			page.CreatedOn = version1Date;
+			page.ModifiedOn = version1Date;
+			PageContent pageContent = _repositoryMock.AddNewPage(page, "Some content1", "editor", version1Date);
 
 			PageViewModel model = new PageViewModel(pageContent.Page);
 			model.Title = "New title";
 			model.Content = "Some content2";
+			model.ModifiedOn = DateTime.UtcNow;
 
 			// Act
 			_pagesController.Put(model);
