@@ -21,7 +21,7 @@ namespace Roadkill.Tests.Acceptance
 			try
 			{
 				// Delete SQLiteinterop.dll
-				string sitePath = AcceptanceTestsSetup.GetSitePath();
+				string sitePath = Settings.SITE_PATH;
 				string sqlitePath = Path.Combine(sitePath, "bin", "SQLite.Interop.dll");
 				if (File.Exists(sqlitePath))
 					File.Delete(sqlitePath);
@@ -280,70 +280,6 @@ namespace Roadkill.Tests.Acceptance
 			// step5
 			Assert.That(Driver.FindElement(By.CssSelector("div#installsuccess h1")).Text, Is.EqualTo("Installation successful"), Driver.PageSource);
 			Driver.FindElement(By.CssSelector("div#installsuccess a")).Click();
-
-			// login, create a page
-			LoginAsAdmin();
-			CreatePageWithTitleAndTags("Homepage", "homepage");
-
-			//
-			// ***Assert***
-			//
-			Driver.Navigate().GoToUrl(BaseUrl);
-			Assert.That(Driver.FindElement(By.CssSelector(".pagetitle")).Text, Contains.Substring("Homepage"));
-			Assert.That(Driver.FindElement(By.CssSelector("#pagecontent p")).Text, Contains.Substring("Some content goes here"));
-		}
-
-		[Test]
-		[Explicit("Requires SQL Server Express 2012 installed on the machine the acceptance tests are running first, using LocalDB.")]
-		[Description("These tests go through the entire installer workflow to ensure no localization strings break the installer.")]
-		[TestCase(Language.English)]
-		[TestCase(Language.Czech)]
-		[TestCase(Language.Dutch)]
-		[TestCase(Language.German)]
-		[TestCase(Language.Hindi)]
-		[TestCase(Language.Italian)]
-		[TestCase(Language.Polish)]
-		[TestCase(Language.Portuguese)]
-		[TestCase(Language.Russian)]
-		[TestCase(Language.Spanish)]
-		[TestCase(Language.Swedish)]
-		public void All_Steps_With_Minimum_Required_SQLServer2012_Should_Complete(Language language)
-		{
-			// Arrange
-			Driver.Navigate().GoToUrl(BaseUrl);
-			ClickLanguageLink(language);
-
-			//
-			// ***Act***
-			//
-
-			// step 1
-			Driver.FindElement(By.CssSelector("button[id=testwebconfig]")).Click();
-			Driver.WaitForElementDisplayed(By.CssSelector("#bottom-buttons > a")).Click();
-
-			// step 2
-			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
-			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
-			select.SelectByValue(DataStoreType.SqlServer2012.Name);
-
-			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"Server=(LocalDB)\v11.0;Integrated Security=true;");
-			Driver.FindElement(By.CssSelector("div.continue button")).Click();
-
-			// step 3
-			Driver.FindElement(By.CssSelector("div.continue button")).Click();
-
-			// step 3b
-			Driver.FindElement(By.Id("AdminEmail")).SendKeys("admin@localhost");
-			Driver.FindElement(By.Id("AdminPassword")).SendKeys("password");
-			Driver.FindElement(By.Id("password2")).SendKeys("password");
-			Driver.FindElement(By.CssSelector("div.continue button")).Click();
-
-			// step 4
-			Driver.FindElement(By.CssSelector("input[id=UseObjectCache]")).Click();
-			Driver.FindElement(By.CssSelector("div.continue button")).Click();
-
-			// step5
-			Driver.FindElement(By.CssSelector(".continue a")).Click();
 
 			// login, create a page
 			LoginAsAdmin();

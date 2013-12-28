@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Configuration;
+using System.Data.SqlClient;
 using System.IO;
 using System.Net.Mail;
 using System.Reflection;
+using LocalDbApi;
 using NUnit.Framework;
 using OpenQA.Selenium;
 
 namespace Roadkill.Tests.Acceptance
 {
+	/// <summary>
+	/// The base class for all Acceptance tests
+	/// </summary>
 	public abstract class AcceptanceTestBase
 	{
 		protected static readonly string ADMIN_EMAIL = "admin@localhost";
@@ -32,7 +37,7 @@ namespace Roadkill.Tests.Acceptance
 
 			Console.WriteLine("============ Acceptance tests setup ============");
 
-			CopySqlCeDb();
+			AcceptanceTestsSetup.LocalDb.RecreateLocalDbData();
 			AcceptanceTestsSetup.CopyRoadkillConfig();
 			BaseUrl = url;
 			LoginUrl = BaseUrl + "/user/login";
@@ -41,14 +46,6 @@ namespace Roadkill.Tests.Acceptance
 			IsWindowsAuthTests = (ConfigurationManager.AppSettings["useWindowsAuth"] == "true");
 
 			Console.WriteLine("=================================================");
-		}
-
-		protected void CopySqlCeDb()
-		{
-			SitePath = AcceptanceTestsSetup.GetSitePath();
-
-			string testsDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill-acceptancetests.sdf");
-			File.Copy(testsDBPath, Path.Combine(SitePath, "App_Data", "roadkill-acceptancetests.sdf"), true);
 		}
 
 		protected void CreatePageWithTags(params string[] tags)

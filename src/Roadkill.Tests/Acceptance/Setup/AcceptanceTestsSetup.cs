@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using LocalDbApi;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -17,13 +18,17 @@ namespace Roadkill.Tests.Acceptance
 	{
 		public static IWebDriver Driver { get; private set; }
 		public static Process IisProcess { get; private set; }
+		public static LocalDBSetup LocalDb { get; private set; }
+		
 
 		[SetUp]
 		public void Setup()
 		{
-			CopySqliteBinaries();
+			DeleteSqliteBinaries();
 			CopyWebConfig();
 			CopyConnectionStringsConfig();
+			LocalDb = new LocalDBSetup();
+			LocalDb.StartLocalDB();
 			CopyRoadkillConfig();
 			LaunchIisExpress();
 
@@ -45,6 +50,7 @@ namespace Roadkill.Tests.Acceptance
 		public void AfterAllTests()
 		{
 			Driver.Quit();
+			LocalDb.StopLocalDB();
 
 			if (IisProcess != null && !IisProcess.HasExited)
 			{
@@ -54,19 +60,11 @@ namespace Roadkill.Tests.Acceptance
 			}
 		}
 
-		public static string GetSitePath()
-		{
-			string sitePath = Path.Combine(Settings.ROOT_FOLDER, "src", "Roadkill.Site");
-			sitePath = new DirectoryInfo(sitePath).FullName;
-
-			return sitePath;
-		}
-
 		public static void CopyWebConfig()
 		{
 			try
 			{
-				string sitePath = GetSitePath();
+				string sitePath = Settings.SITE_PATH;
 				string siteWebConfig = Path.Combine(sitePath, "web.config");
 
 				string testsWebConfigPath = Path.Combine(Settings.LIB_FOLDER, "Configs", "web.config");
@@ -101,7 +99,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			try
 			{
-				string sitePath = GetSitePath();
+				string sitePath = Settings.SITE_PATH;
 				string siteConnStringsConfig = Path.Combine(sitePath, "connectionStrings.config");
 
 				string testsConnStringsPath = Path.Combine(Settings.LIB_FOLDER, "Configs", "connectionStrings.acceptancetests.config");
@@ -136,7 +134,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			try
 			{
-				string sitePath = GetSitePath();
+				string sitePath = Settings.SITE_PATH;
 				string roadkillConfig = Path.Combine(sitePath, "Roadkill.config");
 
 				string testsRoadkillConfigPath = Path.Combine(Settings.LIB_FOLDER, "Configs", "Roadkill.dev.config");
@@ -152,9 +150,9 @@ namespace Roadkill.Tests.Acceptance
 			}
 		}
 
-		private void CopySqliteBinaries()
+		private void DeleteSqliteBinaries()
 		{
-			string sitePath = GetSitePath();
+			string sitePath = Settings.SITE_PATH;
 
 			string sqliteInteropFileSource = string.Format("{0}/App_Data/Internal/SQLiteBinaries/x86/SQLite.Interop.dll", sitePath);
 			string sqliteInteropFileDest = string.Format("{0}/bin/SQLite.Interop.dll", sitePath);
@@ -170,7 +168,7 @@ namespace Roadkill.Tests.Acceptance
 
 		private void LaunchIisExpress()
 		{
-			string sitePath = GetSitePath();
+			string sitePath = Settings.SITE_PATH;
 			ProcessStartInfo startInfo = new ProcessStartInfo();
 			startInfo.Arguments = string.Format("/path:\"{0}\" /port:{1}", sitePath, 9876);
 
