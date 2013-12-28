@@ -19,13 +19,11 @@ namespace Roadkill.Tests.Integration.Repository
 
 		protected abstract string ConnectionString { get; }
 		protected virtual DataStoreType DataStoreType { get { return null; } }
-		protected LocalDBSetup LocalDb;
 
 		[TestFixtureSetUp]
 		public void TestFixtureSetup()
 		{
-			LocalDb = new LocalDBSetup();
-			LocalDb.RecreateLocalDbData();
+			LocalDBSetup.RecreateLocalDbData();
 		}
 
 		[SetUp]

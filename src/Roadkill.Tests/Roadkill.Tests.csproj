@@ -330,11 +330,6 @@
   <ItemGroup>
     <Compile Include="Acceptance\OtherDatabasesInstallerTests.cs" />
     <Compile Include="Acceptance\FileManagerTests.cs" />
-    <Compile Include="Setup\LocalDBApi\DbCommunication.cs" />
-    <Compile Include="Setup\LocalDBApi\IDbCommunication.cs" />
-    <Compile Include="Setup\LocalDBApi\Info.cs" />
-    <Compile Include="Setup\LocalDBApi\Instance.cs" />
-    <Compile Include="Setup\LocalDBApi\State.cs" />
     <Compile Include="Acceptance\UpgradeTests.cs" />
     <Compile Include="Acceptance\WebDriverExtensions.cs" />
     <Compile Include="Acceptance\InstallerTests.cs" />

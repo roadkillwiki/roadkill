@@ -1,4 +1,4 @@
-USE TempDB;
+USE master;
 
 IF EXISTS (SELECT * FROM sys.databases WHERE name = 'Roadkill')
 	EXEC sp_executesql 'USE Roadkill';
