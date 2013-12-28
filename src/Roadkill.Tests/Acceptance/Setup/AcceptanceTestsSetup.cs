@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using LocalDbApi;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -18,17 +17,13 @@ namespace Roadkill.Tests.Acceptance
 	{
 		public static IWebDriver Driver { get; private set; }
 		public static Process IisProcess { get; private set; }
-		public static LocalDBSetup LocalDb { get; private set; }
-		
-
+	
 		[SetUp]
 		public void Setup()
 		{
 			DeleteSqliteBinaries();
 			CopyWebConfig();
 			CopyConnectionStringsConfig();
-			LocalDb = new LocalDBSetup();
-			LocalDb.StartLocalDB();
 			CopyRoadkillConfig();
 			LaunchIisExpress();
 
@@ -51,7 +46,6 @@ namespace Roadkill.Tests.Acceptance
 		public void AfterAllTests()
 		{
 			Driver.Quit();
-			LocalDb.StopLocalDB();
 
 			if (IisProcess != null && !IisProcess.HasExited)
 			{

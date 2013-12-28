@@ -16,15 +16,12 @@ namespace Roadkill.Tests.Integration
 	[Category("Integration")]
 	public class ScrewturnImporterTests
 	{
-		private LocalDBSetup _localDb;
 		private string _connectionString = LocalDBSetup.ConnectionString;
 
 		[SetUp]
 		public void Setup()
 		{
-			_localDb = new LocalDBSetup();
-			_localDb.StartLocalDB();
-			_localDb.RecreateLocalDbData();
+			LocalDBSetup.RecreateLocalDbData();
 
 			string sqlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "Import", "screwturn3.sql");
 			string sqlCommands = File.ReadAllText(sqlFile);
@@ -38,12 +35,6 @@ namespace Roadkill.Tests.Integration
 					command.ExecuteNonQuery();
 				}
 			}
-		}
-
-		[TearDown]
-		public void TearDown()
-		{
-			_localDb.StopLocalDB();
 		}
 
 		[Test]
