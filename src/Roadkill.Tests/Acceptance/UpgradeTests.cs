@@ -26,19 +26,17 @@ namespace Roadkill.Tests.Acceptance
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
-			SitePath = Settings.SITE_PATH;
-
 			// SQL Server 1.5.2 script
 			CreateSqlServer152Database();
 			InstallSqlServer152Tables();
 
 			// SQL Server CE 1.5.2. database
-			string sqlServerCEDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill152.sdf");
-			File.Copy(sqlServerCEDBPath, Path.Combine(SitePath, "App_Data", "roadkill152.sdf"), true);
+			string sqlServerCEDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "Upgrade", "roadkill152.sdf");
+			File.Copy(sqlServerCEDBPath, Path.Combine(Settings.SITE_PATH, "App_Data", "roadkill152.sdf"), true);
 
 			// SQLite 1.5.2 database
-			string sqliteDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill152.sqlite");
-			string destSqlitePath = Path.Combine(SitePath, "App_Data", "roadkill152.sqlite");
+			string sqliteDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "Upgrade", "roadkill152.sqlite");
+			string destSqlitePath = Path.Combine(Settings.SITE_PATH, "App_Data", "roadkill152.sqlite");
 			File.Copy(sqliteDBPath, destSqlitePath, true);
 		}
 
@@ -164,7 +162,7 @@ namespace Roadkill.Tests.Acceptance
 		/// </summary>
 		private void InstallSqlServer152Tables()
 		{
-			string scriptPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill152.sqlserver.sql");
+			string scriptPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "Upgrade", "roadkill152.sqlserver.sql");
 			string sql = File.ReadAllText(scriptPath);
 
 			string[] sqlCommands = sql.Split(';');

@@ -16,7 +16,7 @@ namespace Roadkill.Tests.Acceptance
 		public void BeforeEachTest()
 		{
 			// Recreate the lucene index as it will be out of sync with the db
-			foreach (string file in Directory.GetFiles(Path.Combine(SitePath, "App_Data", "Internal", "search")))
+			foreach (string file in Directory.GetFiles(Path.Combine(Settings.SITE_PATH, "App_Data", "Internal", "search")))
 			{
 				File.Delete(file);
 			}
@@ -38,10 +38,9 @@ namespace Roadkill.Tests.Acceptance
 			Logout();
 
 			// Act
-			Driver.FindElement(By.CssSelector("#leftmenu li>a")).Click();
 			Driver.FindElement(By.CssSelector("#search input[name='q']")).Clear();
 			Driver.FindElement(By.CssSelector("#search input[name='q']")).SendKeys("Another page");
-			Driver.FindElement(By.CssSelector("#searchbutton")).Click();
+			Driver.FindElement(By.CssSelector("#search input[name='q']")).SendKeys(Keys.Return);
 			
 			// Assert
 			Assert.That(Driver.FindElements(By.CssSelector(".searchresult-title a")).Count, Is.EqualTo(2));
@@ -61,13 +60,10 @@ namespace Roadkill.Tests.Acceptance
 			Logout();
 
 			// Act
-			Driver.FindElement(By.CssSelector("#leftmenu li>a")).Click();
-			Driver.FindElement(By.CssSelector("#search input[name=q]")).Clear();
-			Driver.FindElement(By.CssSelector("#search input[name=q]")).SendKeys("test");
-			Driver.FindElement(By.CssSelector("#searchbutton")).Click();
+			Driver.FindElement(By.CssSelector("#search input[name='q']")).SendKeys(Keys.Return);
 
-			Driver.FindElement(By.CssSelector("#q")).Clear();
-			Driver.FindElement(By.CssSelector("#q")).SendKeys("Another page");
+			Driver.FindElement(By.CssSelector("#content input[name='q']")).Clear();
+			Driver.FindElement(By.CssSelector("#content input[name='q']")).SendKeys("Another page");
 			Driver.FindElement(By.CssSelector("input[value='Search']")).Click();
 
 			// Assert
@@ -87,10 +83,11 @@ namespace Roadkill.Tests.Acceptance
 			Logout();
 
 			// Act
-			Driver.FindElement(By.CssSelector("#leftmenu li>a")).Click();
-			Driver.FindElement(By.CssSelector("#search input[name='q']")).Clear();
-			Driver.FindElement(By.CssSelector("#search input[name='q']")).SendKeys("test");
-			Driver.FindElement(By.CssSelector("#searchbutton")).Click();
+			Driver.FindElement(By.CssSelector("#search input[name='q']")).SendKeys(Keys.Return);
+
+			Driver.FindElement(By.CssSelector("#content input[name='q']")).Clear();
+			Driver.FindElement(By.CssSelector("#content input[name='q']")).SendKeys("test");
+			Driver.FindElement(By.CssSelector("input[value='Search']")).Click();
 
 			// Assert
 			Assert.That(Driver.FindElements(By.CssSelector(".searchresult")).Count, Is.EqualTo(0));

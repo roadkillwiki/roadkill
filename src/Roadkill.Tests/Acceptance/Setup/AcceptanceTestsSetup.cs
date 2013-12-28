@@ -35,6 +35,7 @@ namespace Roadkill.Tests.Acceptance
 			// Disable the remember password popups
 			ChromeOptions options = new ChromeOptions();
 			options.AddArgument("--incognito");
+			options.AddArgument("--start-maximized");
 			ChromeDriver chromeDriver = new ChromeDriver(options);
 
 			Driver = chromeDriver;

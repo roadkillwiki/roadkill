@@ -20,7 +20,6 @@ namespace Roadkill.Tests.Acceptance
 
 		protected static readonly string EDITOR_EMAIL = "editor@localhost";
 		protected static readonly string EDITOR_PASSWORD = "password";
-		protected string SitePath;
 
 		protected IWebDriver Driver;
 		protected string LoginUrl;
