@@ -98,7 +98,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		}
 		
 		/// <summary>
-		/// The tags for the page.
+		/// Gets the tags for the page as a list.
 		/// </summary>
 		public IEnumerable<string> Tags
 		{
@@ -106,7 +106,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		}
 
 		/// <summary>
-		/// The tags for the page - these are given by the page in comma separated format.
+		/// Sets or gets the tags for the page - these are given by the page in comma separated format.
 		/// </summary>
 		public string RawTags
 		{
@@ -180,7 +180,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public string PluginPostContainer { get; set; }
 
 		/// <summary>
-		/// All tags in the system.
+		/// Retrieves all tags for all pages in the system. This is empty unless filled by the controller.
 		/// </summary>
 		[XmlIgnore]
 		public List<TagViewModel> AllTags { get; set; }

@@ -457,6 +457,79 @@ namespace Roadkill.Tests.Unit
 			Assert.That(adminUser, Is.Not.Null);
 		}
 
+		[Test]
+		public void UnattendedSetup_Should_Redirect_When_Installed_Is_True()
+		{
+			// Arrange
+			_applicationSettings.Installed = true;
+
+			// Act
+			ActionResult result = _installController.Unattended("mock datastore", "fake connection string");
+
+			// Assert
+			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
+			redirectResult.AssertActionRouteIs("Index");
+			redirectResult.AssertControllerRouteIs("Home");
+		}
+
+		[Test]
+		public void UnattendedSetup_Should_Add_Admin_User_And_Set_Default_Site_Settings()
+		{
+			// Arrange
+			SettingsViewModel existingModel = new SettingsViewModel();
+			SetMockDataStoreType(existingModel);
+
+			// Act
+			ActionResult result = _installController.Unattended("mock datastore", "fake connection string");
+
+			// Assert
+			ContentResult contentResult = result.AssertResultIs<ContentResult>();
+			Assert.That(contentResult.Content, Is.EqualTo("Unattended installation complete"));
+
+			UserViewModel adminUser = _userService.ListAdmins().FirstOrDefault(); // check admin
+			Assert.That(adminUser, Is.Not.Null);
+
+			ApplicationSettings appSettings = _configReaderWriter.ApplicationSettings; // check settings
+			Assert.That(appSettings.DataStoreType.Name, Is.EqualTo("mock datastore"));
+			Assert.That(appSettings.ConnectionString, Is.EqualTo("fake connection string"));
+			Assert.That(appSettings.UseObjectCache, Is.True);
+			Assert.That(appSettings.UseBrowserCache, Is.True);
+
+			SiteSettings settings = _settingsService.GetSiteSettings();		
+			Assert.That(settings.AllowedFileTypes, Is.EqualTo("jpg,png,gif,zip,xml,pdf"));
+			Assert.That(settings.MarkupType, Is.EqualTo("Creole"));
+			Assert.That(settings.Theme, Is.EqualTo("Responsive"));
+			Assert.That(settings.SiteName, Is.EqualTo("my site"));
+			Assert.That(settings.SiteUrl, Is.EqualTo("http://localhost"));
+		}
+
+		[Test]
+		public void InstallerJsVars_Should_Return_View()
+		{
+			// Arrange
+
+			// Act
+			ActionResult result = _installController.InstallerJsVars();
+
+			// Assert
+			ViewResult viewResult = result.AssertResultIs<ViewResult>();
+			viewResult.AssertViewRendered();
+		}
+		
+		[Test]
+		public void InstallerJsVars_Should_Redirect_When_Installed_Is_True()
+		{
+			// Arrange
+			_applicationSettings.Installed = true;
+
+			// Act
+			ActionResult result = _installController.InstallerJsVars();
+
+			// Assert
+			ContentResult contentResult = result.AssertResultIs<ContentResult>();
+			Assert.That(contentResult.Content, Is.Empty);
+		}
+
 		/// <summary>
 		/// Resets DataStoreType.AllTypes to have just one type, "mock datastore"
 		/// </summary>

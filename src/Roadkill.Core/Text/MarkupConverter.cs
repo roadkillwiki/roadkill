@@ -309,6 +309,9 @@ namespace Roadkill.Core.Converters
 		/// <returns>True if the text contains links; false otherwise.</returns>
 		public bool ContainsPageLink(string text, string pageName)
 		{
+			if (string.IsNullOrEmpty(text))
+				return false;
+
 			Regex regex = new Regex(GetLinkUpdateRegex(pageName), RegexOptions.IgnoreCase);
 			return regex.IsMatch(text);
 		}

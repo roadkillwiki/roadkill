@@ -98,7 +98,12 @@ namespace Roadkill.Core.Mvc.Controllers
 			return Content(PageService.GetBootStrapNavMenu(Context));
 		}
 
-		// Legacy support - remove this in future versionse
+		
+		/// <summary>
+		/// Legacy action - use NavMenu().
+		/// </summary>
+		/// <returns></returns>
+		[Obsolete]
 		public ActionResult LeftMenu()
 		{
 			return Content(PageService.GetMenu(Context));

@@ -17,6 +17,7 @@ using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using System.Runtime.Caching;
 using Roadkill.Tests.Unit.StubsAndMocks;
+using MvcContrib.TestHelper;
 
 namespace Roadkill.Tests.Unit
 {
@@ -146,6 +147,58 @@ namespace Roadkill.Tests.Unit
 			Assert.That(searchResults.Count(), Is.EqualTo(1));
 			Assert.That(searchResults[0].Title, Is.EqualTo(page1.Title));
 			Assert.That(searchResults[0].ContentSummary, Contains.Substring(page1Content.Text));
+		}
+
+		[Test]
+		public void GlobalJsVars_Should_Return_View()
+		{
+			// Arrange
+
+			// Act
+			ActionResult result = _homeController.GlobalJsVars("2.0");
+
+			// Assert
+			ViewResult viewResult = result.AssertResultIs<ViewResult>();
+			viewResult.AssertViewRendered();
+		}
+
+		[Test]
+		public void NavMenu_Should_Return_View()
+		{
+			// Arrange
+
+			// Act
+			ActionResult result = _homeController.NavMenu();
+
+			// Assert
+			ContentResult contentResult = result.AssertResultIs<ContentResult>();
+			Assert.That(contentResult.Content, Is.Not.Empty);
+		}
+
+		[Test]
+		public void BootstrapNavMenu_Should_Return_View()
+		{
+			// Arrange
+
+			// Act
+			ActionResult result = _homeController.BootstrapNavMenu();
+
+			// Assert
+			ContentResult contentResult = result.AssertResultIs<ContentResult>();
+			Assert.That(contentResult.Content, Is.Not.Empty);
+		}
+
+		[Test]
+		public void LeftMenu_Should_Return_Content()
+		{
+			// Arrange
+
+			// Act
+			ActionResult result = _homeController.LeftMenu();
+
+			// Assert
+			ContentResult contentResult = result.AssertResultIs<ContentResult>();
+			Assert.That(contentResult.Content, Is.Not.Empty);
 		}
 	}
 }
