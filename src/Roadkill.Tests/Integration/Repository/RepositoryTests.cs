@@ -23,7 +23,7 @@ namespace Roadkill.Tests.Integration.Repository
 		[TestFixtureSetUp]
 		public void TestFixtureSetup()
 		{
-			LocalDBSetup.RecreateLocalDbData();
+			SqlExpressSetup.RecreateLocalDbData();
 		}
 
 		[SetUp]

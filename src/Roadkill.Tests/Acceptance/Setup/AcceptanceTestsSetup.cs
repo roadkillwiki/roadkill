@@ -97,7 +97,7 @@ namespace Roadkill.Tests.Acceptance
 				string sitePath = Settings.SITE_PATH;
 				string siteConnStringsConfig = Path.Combine(sitePath, "connectionStrings.config");
 
-				string testsConnStringsPath = Path.Combine(Settings.LIB_FOLDER, "Configs", "connectionStrings.acceptancetests.config");
+				string testsConnStringsPath = Path.Combine(Settings.LIB_FOLDER, "Configs", "connectionStrings.dev.config");
 				Console.WriteLine("Original connectionStrings.config path: {0}", siteConnStringsConfig);
 				Console.WriteLine("Acceptance tests connectionStrings.config path: {0}", testsConnStringsPath);
 

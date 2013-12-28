@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Roadkill.Tests
 {
-	public class LocalDBSetup
+	public class SqlExpressSetup
 	{
-		public static string ConnectionString { get { return @"Server=(LocalDB)\v11.0;Integrated Security=true;database=master"; } }
+		public static string ConnectionString { get { return @"Server=.\SQLEXPRESS;Integrated Security=true;database=Roadkill"; } }
 
 		public static void RecreateLocalDbData()
 		{
@@ -27,7 +27,7 @@ namespace Roadkill.Tests
 
 		private static string ReadSqlServerScript()
 		{
-			string path = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill-sqlserver-localdb.sql");
+			string path = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill-sqlserver.sql");
 			return File.ReadAllText(path);
 		}
 	}
