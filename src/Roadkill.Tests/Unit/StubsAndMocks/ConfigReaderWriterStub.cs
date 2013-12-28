@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Tests.Unit.StubsAndMocks
@@ -36,6 +37,12 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 		public override void Save(SettingsViewModel settings)
 		{
 			Saved = true;
+
+			// The bare minimum needed to test the installer
+			ApplicationSettings.ConnectionString = settings.ConnectionString;
+			ApplicationSettings.DataStoreType = DataStoreType.ByName(settings.DataStoreTypeName);
+			ApplicationSettings.UseBrowserCache = settings.UseBrowserCache;
+			ApplicationSettings.UseObjectCache = settings.UseObjectCache;
 		}
 
 		public override RoadkillSection Load()

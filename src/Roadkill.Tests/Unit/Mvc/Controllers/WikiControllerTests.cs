@@ -17,6 +17,8 @@ using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using System.Runtime.Caching;
 using Roadkill.Tests.Unit.StubsAndMocks;
+using System.Web;
+using MvcContrib.TestHelper;
 
 namespace Roadkill.Tests.Unit
 {
@@ -100,6 +102,95 @@ namespace Roadkill.Tests.Unit
 			RedirectToRouteResult redirectResult = result as RedirectToRouteResult;
 			Assert.That(redirectResult.RouteValues["action"], Is.EqualTo("Index"));
 			Assert.That(redirectResult.RouteValues["controller"], Is.EqualTo("Home"));
+		}
+
+		[Test]
+		public void Index_With_Unknown_Page_Should_Throw_404Exception()
+		{
+			// Arrange
+
+			// Act + Assert
+			try
+			{
+				_wikiController.Index(5, "");
+				Assert.Fail("No Exception was thrown");
+			}
+			catch (HttpException ex)
+			{
+				if (ex.GetHttpCode() != 404)
+					Assert.Fail("HttpException was thrown, but the status code was "+ ex.GetHttpCode()+ " and not a 404.");
+			}
+			catch (Exception ex)
+			{
+				Assert.Fail("Expected HttpException but was " + ex.GetType().Name);
+			}
+
+		}
+
+		[Test]
+		public void ServerError_Should_Return_500_View()
+		{
+			// Arrange
+
+			// Act
+			ActionResult result = _wikiController.ServerError();
+
+			// Assert
+			ViewResult viewResult = result.AssertResultIs<ViewResult>();
+			Assert.That(viewResult.ViewName, Is.EqualTo("500"));
+		}
+
+		[Test]
+		public void NotFound_Should_Return_500_View()
+		{
+			// Arrange
+
+			// Act
+			ActionResult result = _wikiController.NotFound();
+
+			// Assert
+			ViewResult viewResult = result.AssertResultIs<ViewResult>();
+			Assert.That(viewResult.ViewName, Is.EqualTo("404"));
+		}
+
+		[Test]
+		public void PageToolbar_Should_Return_PartialView()
+		{
+			// Arrange
+			_repository.AddNewPage(new Page() {Title = "Title" }, "text", "admin", DateTime.UtcNow);
+
+			// Act
+			ActionResult result = _wikiController.PageToolbar(1);
+
+			// Assert
+			PartialViewResult partialResult = result.AssertResultIs<PartialViewResult>();
+			partialResult.AssertPartialViewRendered();
+		}
+
+		[Test]
+		public void PageToolbar_Should_Return_Empty_Content_When_Page_Cannot_Be_Found()
+		{
+			// Arrange
+
+			// Act
+			ActionResult result = _wikiController.PageToolbar(666);
+
+			// Assert
+			ContentResult contentResult = result.AssertResultIs<ContentResult>();
+			Assert.That(contentResult.Content, Is.Not.Null);
+		}
+
+		[Test]
+		public void PageToolbar_Should_Return_Empty_Content_When_Id_Is_Null()
+		{
+			// Arrange
+
+			// Act
+			ActionResult result = _wikiController.PageToolbar(null);
+
+			// Assert
+			ContentResult contentResult = result.AssertResultIs<ContentResult>();
+			Assert.That(contentResult.Content, Is.Not.Null);
 		}
 	}
 }

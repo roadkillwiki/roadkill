@@ -77,6 +77,9 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		public ActionResult InstallerJsVars()
 		{
+			if (ApplicationSettings.Installed)
+				return Content("");
+
 			return View();
 		}
 

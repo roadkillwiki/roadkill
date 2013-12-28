@@ -75,23 +75,40 @@ namespace Roadkill.Tests.Unit.WebApi
 		[Test]
 		public void Put_Should_Update_Page()
 		{
-			// Arrange
+			Page page = new Page();
+			page.Title = "Hello world";
+			page.Tags = "tag1, tag2";
+			PageContent pageContent = _repositoryMock.AddNewPage(page, "Some content1", "editor", DateTime.UtcNow);
+
+			PageViewModel model = new PageViewModel(pageContent.Page);
+			model.Title = "New title";
+			model.Content = "Some content2";
 
 			// Act
+			_pagesController.Put(model);
 
 			// Assert
-			Assert.Fail("TODO");
+			 Assert.That(_pageService.AllPages().Count(), Is.EqualTo(1));
+
+			PageViewModel actualPage = _pageService.GetById(1, true);
+			Assert.That(actualPage.Title, Is.EqualTo("New title"));
+			Assert.That(actualPage.Content, Is.EqualTo("Some content2"));
 		}
 
 		[Test]
 		public void Post_Should_Add_Page()
 		{
 			// Arrange
+			PageViewModel model = new PageViewModel();
+			model.Title = "Hello world";
+			model.RawTags = "tag1, tag2";
+			model.Content = "Some content";
 
 			// Act
+			_pagesController.Post(model);
 
 			// Assert
-			Assert.Fail("TODO");
+			Assert.That(_pageService.AllPages().Count(), Is.EqualTo(1));
 		}
 	}
 }
