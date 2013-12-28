@@ -27,7 +27,7 @@ namespace Roadkill.Tests.Acceptance
 			Logout();
 
 			// Act
-			IEnumerable<IWebElement> leftmenuItems = Driver.FindElements(By.CssSelector("div#leftmenu li"));
+			IEnumerable<IWebElement> leftmenuItems = Driver.FindElements(By.CssSelector("ul.nav li"));
 
 			// Assert
 			Assert.That(leftmenuItems.Count(), Is.EqualTo(3));
@@ -40,7 +40,7 @@ namespace Roadkill.Tests.Acceptance
 			LoginAsAdmin();
 
 			// Act
-			IEnumerable<IWebElement> leftmenuItems = Driver.FindElements(By.CssSelector("div#leftmenu li"));
+			IEnumerable<IWebElement> leftmenuItems = Driver.FindElements(By.CssSelector("ul.nav li"));
 
 			// Assert
 			Assert.That(leftmenuItems.Count(), Is.EqualTo(6));
@@ -53,7 +53,7 @@ namespace Roadkill.Tests.Acceptance
 			LoginAsEditor();
 
 			// Act
-			IEnumerable<IWebElement> leftmenuItems = Driver.FindElements(By.CssSelector("div#leftmenu li"));
+			IEnumerable<IWebElement> leftmenuItems = Driver.FindElements(By.CssSelector("ul.nav li"));
 
 			// Assert
 			Assert.That(leftmenuItems.Count(), Is.EqualTo(5));

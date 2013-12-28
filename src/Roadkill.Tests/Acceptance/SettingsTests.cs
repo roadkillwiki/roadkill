@@ -26,7 +26,7 @@ namespace Roadkill.Tests.Acceptance
 			// Assert
 			Assert.That(Driver.ElementValue("#SiteName"), Is.EqualTo("Acceptance Tests"));
 			Assert.That(Driver.ElementValue("#SiteUrl"), Is.EqualTo("http://localhost:9876"));
-			Assert.That(Driver.ElementValue("#ConnectionString"), Is.StringStarting(@"Data Source=|DataDirectory|\roadkill-acceptancetests.sdf"));
+			Assert.That(Driver.ElementValue("#ConnectionString"), Is.StringStarting(LocalDBSetup.ConnectionString));
 			Assert.That(Driver.ElementValue("#RecaptchaPrivateKey"), Is.EqualTo("recaptcha-private-key"));
 			Assert.That(Driver.ElementValue("#RecaptchaPublicKey"), Is.EqualTo("recaptcha-public-key"));
 			Assert.That(Driver.ElementValue("#EditorRoleName"), Is.EqualTo("Editor"));
@@ -42,7 +42,7 @@ namespace Roadkill.Tests.Acceptance
 
 			Assert.That(Driver.FindElements(By.CssSelector("#DataStoreTypeName option")).Count, Is.EqualTo(DataStoreType.AllTypes.Count()));
 			SelectElement element = new SelectElement(Driver.FindElement(By.CssSelector("#DataStoreTypeName")));
-			Assert.That(element.SelectedOption.GetAttribute("value"), Is.EqualTo(DataStoreType.ByName("SqlServerCe").Name));
+			Assert.That(element.SelectedOption.GetAttribute("value"), Is.EqualTo(DataStoreType.ByName("SqlServer2012").Name));
 			Assert.That(Driver.SelectedIndex("#MarkupType"), Is.EqualTo(0));
 			Assert.That(Driver.SelectedIndex("#Theme"), Is.EqualTo(1));
 			Assert.False(Driver.IsCheckboxChecked("OverwriteExistingFiles"));
@@ -207,10 +207,10 @@ namespace Roadkill.Tests.Acceptance
 
 			// Assert
 			Assert.That(Driver.FindElements(By.CssSelector("#editors-table tbody tr")).Count, Is.EqualTo(2));
-			Assert.That(Driver.FindElement(By.CssSelector("#editors-table tbody tr+tr>td")).Text, Is.EqualTo("anothereditor"));
-			Assert.That(Driver.FindElement(By.CssSelector("#editors-table tbody tr+tr>td+td")).Text, Is.EqualTo("anothereditor@localhost"));
-			Assert.That(Driver.FindElement(By.CssSelector("#editors-table tbody tr+tr>td+td+td a")).Text, Is.EqualTo("Edit"));
-			Assert.That(Driver.FindElement(By.CssSelector("#editors-table tbody tr+tr>td+td+td+td a")).Text, Is.EqualTo("Delete"));
+			Assert.That(Driver.FindElement(By.CssSelector("#editors-table tbody tr>td")).Text, Is.EqualTo("anothereditor"));
+			Assert.That(Driver.FindElement(By.CssSelector("#editors-table tbody tr>td+td")).Text, Is.EqualTo("anothereditor@localhost"));
+			Assert.That(Driver.FindElement(By.CssSelector("#editors-table tbody tr>td+td+td a")).Text, Is.EqualTo("Edit"));
+			Assert.That(Driver.FindElement(By.CssSelector("#editors-table tbody tr>td+td+td+td a")).Text, Is.EqualTo("Delete"));
 		}
 
 		[Test]
