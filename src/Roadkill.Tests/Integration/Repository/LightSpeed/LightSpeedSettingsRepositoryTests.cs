@@ -18,7 +18,7 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 	{
 		protected override string ConnectionString
 		{
-			get { return LocalDBSetup.ConnectionString; }
+			get { return SqlExpressSetup.ConnectionString; }
 		}
 
 		protected override DataStoreType DataStoreType

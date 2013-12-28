@@ -36,7 +36,7 @@ namespace Roadkill.Tests.Acceptance
 
 			Console.WriteLine("============ Acceptance tests setup ============");
 
-			LocalDBSetup.RecreateLocalDbData();
+			SqlExpressSetup.RecreateLocalDbData();
 			AcceptanceTestsSetup.CopyRoadkillConfig();
 			BaseUrl = url;
 			LoginUrl = BaseUrl + "/user/login";
