@@ -4,7 +4,7 @@ namespace Roadkill.Core.Attachments
 	/// <summary>
 	/// Defines a class that wraps the HttpResponse object.
 	/// </summary>
-	public interface IResponseWrapper
+	internal interface IResponseWrapper
 	{
 		void AddStatusCodeForCache(string fullPath, string modifiedSinceHeader);
 		void BinaryWrite(byte[] buffer);
