@@ -6,6 +6,9 @@ using Microsoft.Web.Administration;
 
 namespace Roadkill.Core.Attachments
 {
+	/// <summary>
+	/// Contains a  list of common mime type, used when IIS mime type lookups fail.
+	/// </summary>
 	internal class MimeTypes
 	{
 		private static Dictionary<string, string> ExtensionMap = new Dictionary<string, string>();
