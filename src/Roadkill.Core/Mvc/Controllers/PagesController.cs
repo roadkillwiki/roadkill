@@ -20,7 +20,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// </summary>
 	[HandleError]
 	[OptionalAuthorization]
-	public class PagesController : ControllerBase
+	internal class PagesController : ControllerBase
 	{
 		private SettingsService _settingsService;
 		private IPageService _pageService;

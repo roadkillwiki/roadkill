@@ -6,7 +6,7 @@ using Roadkill.Core.Logging;
 
 namespace Roadkill.Core.Configuration
 {
-	public class UpgradeChecker
+	internal class UpgradeChecker
 	{
 		public static bool IsUpgradeRequired(string version)
 		{

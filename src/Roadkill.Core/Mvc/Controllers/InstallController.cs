@@ -21,7 +21,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// </summary>
 	/// <remarks>If the web.config "installed" setting is "true", then all the actions in
 	/// this controller redirect to the homepage</remarks>
-	public class InstallController : ControllerBase
+	internal class InstallController : ControllerBase
 	{
 		private static string _uiLanguageCode = "en";
 
