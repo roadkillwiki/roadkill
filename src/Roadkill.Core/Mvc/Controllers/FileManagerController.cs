@@ -18,7 +18,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// Provides file manager functionality for wiki page editing.
 	/// </summary>
 	[EditorRequired]
-	public class FileManagerController : ControllerBase
+	internal class FileManagerController : ControllerBase
 	{
 		private AttachmentFileHandler _attachmentHandler;
 		private AttachmentPathUtil _attachmentPathUtil;
