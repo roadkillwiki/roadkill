@@ -17,7 +17,7 @@ using Roadkill.Core.Cache;
 namespace Roadkill.Core.Mvc.Controllers
 {
 	[AdminRequired]
-	public class PluginSettingsController : ControllerBase
+	internal class PluginSettingsController : ControllerBase
 	{
 		private IPluginFactory _pluginFactory;
 		private IRepository _repository;

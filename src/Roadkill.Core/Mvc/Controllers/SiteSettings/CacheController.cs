@@ -24,7 +24,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// </summary>
 	/// <remarks>All actions in this controller require admin rights.</remarks>
 	[AdminRequired]
-	public class CacheController : ControllerBase
+	internal class CacheController : ControllerBase
 	{
 		private SettingsService _settingsService;
 		private ListCache _listCache;

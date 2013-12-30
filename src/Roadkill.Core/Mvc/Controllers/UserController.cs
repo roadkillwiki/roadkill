@@ -15,7 +15,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// <summary>
 	/// All actions related to user based tasks.
 	/// </summary>
-	public class UserController : ControllerBase
+	internal class UserController : ControllerBase
 	{
 		private SignupEmail _signupEmail;
 		private ResetPasswordEmail _resetPasswordEmail;

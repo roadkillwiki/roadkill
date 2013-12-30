@@ -179,7 +179,7 @@ namespace Roadkill.Tests.Unit
 		}
 	}
 
-	public class InstallControllerStub : InstallController
+	internal class InstallControllerStub : InstallController
 	{
 		public InstallControllerStub(ApplicationSettings settings, UserServiceBase userService,
 			PageService pageService, SearchService searchService, IRepository respository,
@@ -195,7 +195,7 @@ namespace Roadkill.Tests.Unit
 		}
 	}
 
-	public class UpgradeControllerStub : UpgradeController
+	internal class UpgradeControllerStub : UpgradeController
 	{
 		public UpgradeControllerStub(ApplicationSettings settings, UserServiceBase userService, IRepository respository,
 			SettingsService settingsService, IUserContext context, ConfigReaderWriter configReaderWriter)
