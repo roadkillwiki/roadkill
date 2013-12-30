@@ -6,6 +6,9 @@ using Roadkill.Core.Plugins;
 
 namespace Roadkill.Core.Cache
 {
+	/// <summary>
+	/// Contains all cache keys used by the Roadkill MemoryCache (or custom cache implementation)
+	/// </summary>
 	public class CacheKeys
 	{
 		/// <summary>'latesthomepage'</summary>
@@ -50,6 +53,13 @@ namespace Roadkill.Core.Cache
 		/// <summary>"site."</summary>
 		internal static readonly string SITE_CACHE_PREFIX = "site.";
 
+
+		/// <summary>
+		/// Gets the cache key for a page, using its id and version.
+		/// </summary>
+		/// <param name="id">The page ID.</param>
+		/// <param name="version">The page version.</param>
+		/// <returns>The cache key.</returns>
 		public static string PageViewModelKey(int id, int version)
 		{
 			string key = PAGEVIEWMODEL_CACHE_PREFIX + PAGEVIEWMODEL_FORMAT;
@@ -59,6 +69,11 @@ namespace Roadkill.Core.Cache
 			return key;
 		}
 
+		/// <summary>
+		/// Gets the cache key for the "alls the pages created by xyz" page.
+		/// </summary>
+		/// <param name="username">The created by username.</param>
+		/// <returns>The cache key.</returns>
 		public static string AllPagesCreatedByKey(string username)
 		{
 			string key = LIST_CACHE_PREFIX + ALLPAGES_CREATEDBY;
@@ -67,6 +82,11 @@ namespace Roadkill.Core.Cache
 			return key;
 		}
 
+		/// <summary>
+		/// Gets the cache key for the "pages created by tag xyz" page.
+		/// </summary>
+		/// <param name="tag">The tag name.</param>
+		/// <returns>The cache key.</returns>
 		public static string PagesByTagKey(string tag)
 		{
 			string key = LIST_CACHE_PREFIX + PAGES_BY_TAG;
@@ -75,6 +95,11 @@ namespace Roadkill.Core.Cache
 			return key;
 		}
 
+		/// <summary>
+		/// Gets the cache key for a plugin's settings.
+		/// </summary>
+		/// <param name="plugin">The plugin. - its Id and Name is used in the cache key.</param>
+		/// <returns>The cache key.</returns>
 		public static string PluginSettingsKey(TextPlugin plugin)
 		{
 			string key = SITE_CACHE_PREFIX + PLUGIN_SETTINGS;
@@ -83,42 +108,75 @@ namespace Roadkill.Core.Cache
 
 			return key;
 		}
-		
+
+		/// <summary>
+		/// Gets the cache key for the homepage.
+		/// </summary>
+		/// <returns>The cache key.</returns>
 		public static string HomepageKey()
 		{
 			return PAGEVIEWMODEL_CACHE_PREFIX + HOMEPAGE;
 		}
 
+		/// <summary>
+		/// Gets the cache key for the navigation menu
+		/// </summary>
+		/// <returns>The cache key.</returns>
 		public static string MenuKey()
 		{
 			return SITE_CACHE_PREFIX + MENU;
 		}
 
+		/// <summary>
+		/// Gets the cache key for the navigation menu when you're logged in.
+		/// </summary>
+		/// <returns>The cache key.</returns>
 		public static string LoggedInMenuKey()
 		{
 			return SITE_CACHE_PREFIX + LOGGEDINMENU;
 		}
 
+		/// <summary>
+		/// Gets the cache key for the navigation menu when you're logged in as an admin.
+		/// </summary>
+		/// <returns>The cache key.</returns>
 		public static string AdminMenuKey()
 		{
 			return SITE_CACHE_PREFIX + ADMINMENU;
 		}
 
+		/// <summary>
+		/// Gets the cache key for the list with the given key.
+		/// </summary>
+		/// <param name="key">The name of the list.</param>
+		/// <returns>The cache key.</returns>
 		public static string ListCacheKey(string key)
 		{
 			return LIST_CACHE_PREFIX + key;
 		}
 
+		/// <summary>
+		/// Gets the cache key for the list of pages.
+		/// </summary>
+		/// <returns>The cache key.</returns>
 		public static string AllPages()
 		{
 			return LIST_CACHE_PREFIX + ALLPAGES;
 		}
 
+		/// <summary>
+		/// Gets the cache key for the list of tags.
+		/// </summary>
+		/// <returns>The cache key.</returns>
 		public static string AllTags()
 		{
 			return LIST_CACHE_PREFIX + ALLTAGS;
 		}
 
+		/// <summary>
+		/// Gets the cache key for the list of pages which also contain their markup contents.
+		/// </summary>
+		/// <returns>The cache key.</returns>
 		public static string AllPagesWithContent()
 		{
 			return LIST_CACHE_PREFIX + ALLPAGES_WITH_CONTENT;

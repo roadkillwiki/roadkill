@@ -16,7 +16,7 @@ namespace Roadkill.Core.Attachments
 	/// <summary>
 	/// A <see cref="IHttpHandler"/> that serves all uploaded files.
 	/// </summary>
-	public class AttachmentFileHandler : IHttpHandler
+	internal class AttachmentFileHandler : IHttpHandler
 	{
 		private ApplicationSettings _settings;
 

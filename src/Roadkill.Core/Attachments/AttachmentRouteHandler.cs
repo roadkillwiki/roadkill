@@ -9,17 +9,31 @@ using Roadkill.Core.Configuration;
 namespace Roadkill.Core.Attachments
 {
 	/// <summary>
-	/// A route handler for the attachments virtual folder, which doesn't swallow MVC routes.
+	/// A route handler for the attachments virtual folder. This route handler doesn't swallow MVC routes.
 	/// </summary>
-	public class AttachmentRouteHandler : IRouteHandler
+	internal class AttachmentRouteHandler : IRouteHandler
 	{
 		private ApplicationSettings _settings;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AttachmentRouteHandler"/> class.
+		/// </summary>
+		/// <param name="settings">The current application settings.</param>
 		public AttachmentRouteHandler(ApplicationSettings settings)
 		{
 			_settings = settings;
 		}
 
+		/// <summary>
+		/// Registers the attachments path route, using the settings given in the application settings.
+		/// </summary>
+		/// <param name="settings">The settings.</param>
+		/// <param name="routes">The routes.</param>
+		/// <exception cref="ConfigurationException">
+		/// The configuration is missing an attachments route path.
+		/// or
+		/// The attachmentsRoutePath in the config is set to 'files' which is not an allowed route path.
+		/// </exception>
 		public static void RegisterRoute(ApplicationSettings settings, RouteCollection routes)
 		{
 			if (string.IsNullOrEmpty(settings.AttachmentsRoutePath))
@@ -36,11 +50,22 @@ namespace Roadkill.Core.Attachments
 			routes.Add(route);
 		}
 
+		/// <summary>
+		/// Provides the object that processes the request.
+		/// </summary>
+		/// <param name="requestContext">An object that encapsulates information about the request.</param>
+		/// <returns>
+		/// An object that processes the request.
+		/// </returns>
 		public IHttpHandler GetHttpHandler(RequestContext requestContext)
 		{
 			return new AttachmentFileHandler(_settings);
 		}
 
+		/// <summary>
+		/// A route constraint for the attachments route, that ignores any controller or action route requests so only the
+		/// /attachments/{filename} routes get through.
+		/// </summary>
 		internal class IgnoreMvcConstraint : IRouteConstraint
 		{
 			private ApplicationSettings _settings;

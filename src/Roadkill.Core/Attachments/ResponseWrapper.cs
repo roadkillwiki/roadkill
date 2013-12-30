@@ -10,25 +10,35 @@ using Roadkill.Core.Extensions;
 namespace Roadkill.Core.Attachments
 {
 	/// <summary>
-	/// A wrapper around HttpResponse...just to help tests.
+	/// A wrapper around HttpResponse, including caching capabilities.
 	/// </summary>
 	public class ResponseWrapper : IResponseWrapper
 	{
-		private NameValueCollection _headers;
 		private HttpResponseBase _context;
 
 		public int StatusCode { get; set; }
 		public string ContentType { get; set; }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ResponseWrapper"/> class.
+		/// </summary>
 		public ResponseWrapper()
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ResponseWrapper"/> class.
+		/// </summary>
+		/// <param name="context">The <see cref="HttpResponseBase"/> context.</param>
 		public ResponseWrapper(HttpResponseBase context)
 		{
 			_context = context;
 		}
 
+		/// <summary>
+		/// Writes the specified text to the HttpResponse, using the current content type.
+		/// </summary>
+		/// <param name="text">The text.</param>
 		public void Write(string text)
 		{
 			if (_context != null)
@@ -38,6 +48,10 @@ namespace Roadkill.Core.Attachments
 			}
 		}
 
+		/// <summary>
+		/// Writes binary output to the HttpResponse.
+		/// </summary>
+		/// <param name="buffer">The buffer.</param>
 		public void BinaryWrite(byte[] buffer)
 		{
 			if (_context != null)
@@ -54,10 +68,10 @@ namespace Roadkill.Core.Attachments
 		}
 
 		/// <summary>
-		/// Adds the HTTP headers for cache expiry, and status code.
+		/// Adds the HTTP headers for cache expiry, and status code to the current response.
 		/// </summary>
-		/// <param name="fullPath"></param>
-		/// <param name="modifiedSinceHeader"></param>
+		/// <param name="fullPath">The full virtual path of the file to add cache settings for.</param>
+		/// <param name="modifiedSinceHeader">The incoming modified since header sent by the browser.</param>
 		public void AddStatusCodeForCache(string fullPath, string modifiedSinceHeader)
 		{
 			if (_context != null)
