@@ -14,7 +14,7 @@ namespace Roadkill.Core
 	/// <summary>
 	/// Deserializes and caches the custom tokens XML file, which contains a set of text replacements for the markup.
 	/// </summary>
-	internal class CustomTokenParser
+	public class CustomTokenParser
 	{
 		private static IEnumerable<TextToken> _tokens;
 		private static bool _isTokensFileCached;

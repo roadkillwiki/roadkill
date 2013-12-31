@@ -83,7 +83,7 @@ namespace Roadkill.Tests.Unit
 		}
 	}
 
-	public class WebApiAdminRequiredAttributeMock : WebApiAdminRequiredAttribute
+	internal class WebApiAdminRequiredAttributeMock : WebApiAdminRequiredAttribute
 	{
 		public bool CallAuthorize(HttpActionContext actionContext)
 		{

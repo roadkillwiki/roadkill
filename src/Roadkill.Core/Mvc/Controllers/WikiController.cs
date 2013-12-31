@@ -14,7 +14,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// Provides functionality for the /wiki/{id}/{title} route, which all pages are displayed via.
 	/// </summary>
 	[OptionalAuthorization]
-	internal class WikiController : ControllerBase
+	public class WikiController : ControllerBase
 	{
 		public PageService PageService { get; private set; }
 

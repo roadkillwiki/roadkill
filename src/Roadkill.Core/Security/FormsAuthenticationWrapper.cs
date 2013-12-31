@@ -10,7 +10,7 @@ namespace Roadkill.Core.Security
 	/// Used to wrap FormsAuthentication methods, where Mono does not implement the methods or 
 	/// behaves slightly differently from the Windows implementation.
 	/// </summary>
-	internal class FormsAuthenticationWrapper
+	public class FormsAuthenticationWrapper
 	{
 		public static bool IsEnabled()
 		{

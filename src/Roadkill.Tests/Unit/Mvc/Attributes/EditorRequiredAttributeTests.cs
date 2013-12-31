@@ -92,7 +92,7 @@ namespace Roadkill.Tests.Unit
 		}
 	}
 
-	public class EditorRequiredAttributeMock : EditorRequiredAttribute
+	internal class EditorRequiredAttributeMock : EditorRequiredAttribute
 	{
 		public bool CallAuthorize(HttpContextBase context)
 		{

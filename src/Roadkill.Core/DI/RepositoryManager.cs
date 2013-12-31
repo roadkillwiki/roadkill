@@ -9,7 +9,7 @@ using StructureMap;
 
 namespace Roadkill.Core.DI
 {
-	internal class RepositoryManager
+	public class RepositoryManager
 	{
 		public static IRepository LoadRepositoryFromType(string typeName)
 		{

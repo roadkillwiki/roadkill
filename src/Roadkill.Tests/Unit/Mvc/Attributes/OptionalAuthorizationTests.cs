@@ -201,7 +201,7 @@ namespace Roadkill.Tests.Unit
 		}
 	}
 
-	public class OptionalAuthorizationAttributeMock : OptionalAuthorizationAttribute
+	internal class OptionalAuthorizationAttributeMock : OptionalAuthorizationAttribute
 	{
 		public bool CallAuthorize(HttpContextBase context)
 		{

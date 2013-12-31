@@ -13,7 +13,7 @@ using Roadkill.Core.Localization;
 
 namespace Roadkill.Core.Text
 {
-	internal class MenuParser
+	public class MenuParser
 	{
 		private static readonly string CATEGORIES_TOKEN = "%categories%";
 		private static readonly string ALLPAGES_TOKEN = "%allpages%";

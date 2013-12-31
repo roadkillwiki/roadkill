@@ -20,7 +20,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// Provides functionality that is common through the site.
 	/// </summary>
 	[OptionalAuthorization]
-	internal class HomeController : ControllerBase
+	public class HomeController : ControllerBase
 	{
 		public PageService PageService { get; private set; }
 		private SearchService _searchService;

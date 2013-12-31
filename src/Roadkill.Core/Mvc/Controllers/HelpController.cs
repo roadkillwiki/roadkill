@@ -13,7 +13,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// <summary>
 	/// Provides help for the 3 supported markup syntax.
 	/// </summary>
-	internal class HelpController : ControllerBase
+	public class HelpController : ControllerBase
 	{
 		private CustomTokenParser _customTokenParser;
 		private PageService _pageService;

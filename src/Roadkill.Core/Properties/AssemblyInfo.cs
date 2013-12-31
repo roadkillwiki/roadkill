@@ -36,3 +36,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("2.0.0.0")]
 [assembly: AssemblyInformationalVersion("2.0.70-beta")]// Do not include spaces (as it's used by the Bundles)
 [assembly: InternalsVisibleTo("Roadkill.Tests")]
+[assembly: InternalsVisibleTo("StructureMap")]

@@ -8,7 +8,7 @@ using Roadkill.Core.Security;
 namespace Roadkill.Core.Database
 {
 	/// <summary>
-	/// A user object for use with the data store. This object is intended for internal use only.
+	/// A user object for use with the data store, whatever that might be (e.g. an RDMS or MongoDB)
 	/// </summary>
 	public class User : IDataStoreEntity
 	{

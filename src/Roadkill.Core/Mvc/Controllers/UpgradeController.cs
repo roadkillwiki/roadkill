@@ -13,7 +13,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// <summary>
 	/// Provides an automated way of upgrading from a previous version of Roadkill.
 	/// </summary>
-	internal class UpgradeController : ControllerBase
+	public class UpgradeController : ControllerBase
 	{
 		private IRepository _repository;
 		private ConfigReaderWriter _configReaderWriter;

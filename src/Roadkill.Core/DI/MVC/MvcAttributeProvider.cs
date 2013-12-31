@@ -11,7 +11,7 @@ using StructureMap;
 namespace Roadkill.Core.DI.Mvc
 {
 	/// <summary>
-	/// The factory for all MVC attributes
+	/// The factory for all MVC attributes. This should be marked internal to avoid Structuremap issues.
 	/// </summary>
 	internal class MvcAttributeProvider : FilterAttributeFilterProvider, System.Web.Http.Filters.IFilterProvider
 	{

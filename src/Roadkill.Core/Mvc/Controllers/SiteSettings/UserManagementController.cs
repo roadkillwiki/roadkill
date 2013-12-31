@@ -24,7 +24,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// </summary>
 	/// <remarks>All actions in this controller require admin rights.</remarks>
 	[AdminRequired]
-	internal class UserManagementController : ControllerBase
+	public class UserManagementController : ControllerBase
 	{
 		private SettingsService _settingsService;
 		private PageService _pageService;

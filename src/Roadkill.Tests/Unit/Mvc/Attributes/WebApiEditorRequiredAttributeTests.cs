@@ -83,7 +83,7 @@ namespace Roadkill.Tests.Unit
 		}
 	}
 
-	public class WebApiEditorRequiredAttributeMock : WebApiEditorRequiredAttribute
+	internal class WebApiEditorRequiredAttributeMock : WebApiEditorRequiredAttribute
 	{
 		public bool CallAuthorize(HttpActionContext actionContext)
 		{

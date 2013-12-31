@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
-	internal class SiteSettingsAreaRegistration : AreaRegistration
+	public class SiteSettingsAreaRegistration : AreaRegistration
     {
         public override string AreaName
         {

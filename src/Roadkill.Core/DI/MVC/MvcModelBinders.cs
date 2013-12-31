@@ -11,7 +11,7 @@ namespace Roadkill.Core.DI.Mvc
 	/// <summary>
 	/// Used by the MVC framework to create all instances of a <see cref="UserViewModel"/> view model object.
 	/// </summary>
-	public class UserViewModelModelBinder : DefaultModelBinder
+	internal class UserViewModelModelBinder : DefaultModelBinder
 	{
 		protected override object CreateModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Type modelType)
 		{
@@ -22,7 +22,7 @@ namespace Roadkill.Core.DI.Mvc
 	/// <summary>
 	/// Used by the MVC framework to create all instances of a <see cref="SettingsViewModel"/> view model object.
 	/// </summary>
-	public class SettingsViewModelBinder : DefaultModelBinder
+	internal class SettingsViewModelBinder : DefaultModelBinder
 	{
 		protected override object CreateModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Type modelType)
 		{

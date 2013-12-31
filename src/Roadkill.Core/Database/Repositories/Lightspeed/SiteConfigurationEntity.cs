@@ -6,7 +6,7 @@ namespace Roadkill.Core.Database.LightSpeed
 {
 	[Table("roadkill_siteconfiguration")]
 	[Cached(ExpiryMinutes = 10)]
-	internal class SiteConfigurationEntity : Entity<Guid>
+	public class SiteConfigurationEntity : Entity<Guid>
 	{
 		[Column("content")]
 		private string _content;

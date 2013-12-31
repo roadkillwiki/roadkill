@@ -9,7 +9,8 @@ using System.Text.RegularExpressions;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// Represents a single token for text replacement inside the wiki markup.
+	/// Represents a single token for text replacement inside the wiki markup, an array of
+	/// object is used for the custom-tokens.xml.
 	/// </summary>
 	public class TextToken
 	{

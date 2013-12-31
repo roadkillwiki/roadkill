@@ -465,7 +465,7 @@
     <Compile Include="Database\Repositories\IUserRepository.cs" />
     <Compile Include="Database\Repositories\IPageRepository.cs" />
     <Compile Include="Database\DataStoreType.cs" />
-    <Compile Include="Database\IDataStoreEntity.cs" />
+    <Compile Include="Database\Entities\IDataStoreEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\Conversion\ToEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\LightSpeedRepository.cs" />
     <Compile Include="Database\Repositories\LightSpeed\Conversion\FromEntity.cs" />

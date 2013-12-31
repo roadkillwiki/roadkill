@@ -4,7 +4,7 @@ using Mindscape.LightSpeed;
 namespace Roadkill.Core.Database.LightSpeed
 {
 	[Table("roadkill_pages", IdentityMethod=IdentityMethod.IdentityColumn)]
-	internal class PageEntity : Entity<int>
+	public class PageEntity : Entity<int>
 	{
 		[Column("title")]
 		private string _title;
