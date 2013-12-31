@@ -5,7 +5,7 @@ using System.Web.Http.Description;
 
 namespace Roadkill.Core.Areas.HelpPage
 {
-    public static class ApiDescriptionExtensions
+	internal static class ApiDescriptionExtensions
     {
         /// <summary>
         /// Generates an URI-friendly ID for the <see cref="ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"

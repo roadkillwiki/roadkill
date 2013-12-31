@@ -212,7 +212,7 @@ namespace Roadkill.Core.Database.Export
 			return sql;
 		}
 
-		internal class SiteConfigurationRow
+		public class SiteConfigurationRow
 		{
 			public Guid Id { get; set; }
 			public string Version { get; set; }

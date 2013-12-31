@@ -13,7 +13,7 @@ using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core.Configuration
 {
-	internal class FullTrustConfigReaderWriter : ConfigReaderWriter
+	public class FullTrustConfigReaderWriter : ConfigReaderWriter
 	{
 		private System.Configuration.Configuration _config;
 		private bool _isWebConfig;

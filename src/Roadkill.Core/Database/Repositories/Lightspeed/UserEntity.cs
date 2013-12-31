@@ -5,7 +5,7 @@ namespace Roadkill.Core.Database.LightSpeed
 {
 	[Table("roadkill_users")]
 	[Cached(ExpiryMinutes = 1)]
-	internal class UserEntity : Entity<Guid>
+	public class UserEntity : Entity<Guid>
 	{
 		[Column("username")]
 		private string _username;

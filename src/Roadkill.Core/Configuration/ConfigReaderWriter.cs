@@ -11,7 +11,7 @@ using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core.Configuration
 {
-	internal abstract class ConfigReaderWriter
+	public abstract class ConfigReaderWriter
 	{
 		public abstract void UpdateCurrentVersion(string currentVersion);
 		public abstract void UpdateLanguage(string uiLanguageCode);

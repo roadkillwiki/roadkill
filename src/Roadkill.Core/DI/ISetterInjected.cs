@@ -11,7 +11,7 @@ using Roadkill.Core.Cache;
 namespace Roadkill.Core.DI
 {
 	/// <summary>
-	/// Defines an Attribute that has its property values setter injected by Structuremap.
+	/// Defines an class that has is created and has its property values setter injected by Structuremap.
 	/// </summary>
 	public interface ISetterInjected
 	{

@@ -10,7 +10,7 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn.ToC
 	/// <summary>
 	/// Keeps a tree of <see cref="Item"/> objects, from the Root H1 tags down.
 	/// </summary>
-	internal class Tree
+	public class Tree
 	{
 		/// <summary>
 		/// Zero-based level that all Tocs start from. This is currently H2.

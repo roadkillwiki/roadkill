@@ -8,7 +8,7 @@ namespace Roadkill.Core.Areas.HelpPage.Models
     /// <summary>
     /// The model that represents an API displayed on the help page.
     /// </summary>
-    public class HelpPageApiModel
+	public class HelpPageApiModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HelpPageApiModel"/> class.

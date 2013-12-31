@@ -8,7 +8,7 @@ namespace Roadkill.Core.Areas.HelpPage
     /// <summary>
     /// This is used to identify the place where the sample should be applied.
     /// </summary>
-    public class HelpPageSampleKey
+	public class HelpPageSampleKey
     {
         /// <summary>
         /// Creates a new <see cref="HelpPageSampleKey"/> based on media type and CLR type.

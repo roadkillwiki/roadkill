@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Roadkill.Core.Security.Windows
 {
-	internal class PrincipalDetails : IPrincipalDetails
+	public class PrincipalDetails : IPrincipalDetails
 	{
 		public string SamAccountName { get; set; }
 

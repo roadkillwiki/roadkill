@@ -12,7 +12,7 @@ namespace Roadkill.Core.Attachments
 	/// <summary>
 	/// A wrapper around HttpResponse, including caching capabilities.
 	/// </summary>
-	internal class ResponseWrapper : IResponseWrapper
+	public class ResponseWrapper : IResponseWrapper
 	{
 		private HttpResponseBase _context;
 

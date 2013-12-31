@@ -8,7 +8,7 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn.ToC
 	/// <summary>
 	/// Represents a H tags and its child headers.
 	/// </summary>
-	internal class Item
+	public class Item
 	{
 		private List<Item> _children;
 		

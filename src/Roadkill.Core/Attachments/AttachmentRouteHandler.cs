@@ -11,7 +11,7 @@ namespace Roadkill.Core.Attachments
 	/// <summary>
 	/// A route handler for the attachments virtual folder. This route handler doesn't swallow MVC routes.
 	/// </summary>
-	internal class AttachmentRouteHandler : IRouteHandler
+	public class AttachmentRouteHandler : IRouteHandler
 	{
 		private ApplicationSettings _settings;
 
@@ -66,7 +66,7 @@ namespace Roadkill.Core.Attachments
 		/// A route constraint for the attachments route, that ignores any controller or action route requests so only the
 		/// /attachments/{filename} routes get through.
 		/// </summary>
-		internal class IgnoreMvcConstraint : IRouteConstraint
+		public class IgnoreMvcConstraint : IRouteConstraint
 		{
 			private ApplicationSettings _settings;
 

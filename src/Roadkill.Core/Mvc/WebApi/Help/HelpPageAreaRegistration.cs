@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace Roadkill.Core.Areas.HelpPage
 {
-    public class HelpPageAreaRegistration : AreaRegistration
+	public class HelpPageAreaRegistration : AreaRegistration
     {
         public override string AreaName
         {

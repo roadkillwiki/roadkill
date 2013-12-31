@@ -92,7 +92,7 @@ namespace Roadkill.Tests.Unit
 		}
 	}
 
-	public class AdminRequiredAttributeMock : AdminRequiredAttribute
+	internal class AdminRequiredAttributeMock : AdminRequiredAttribute
 	{
 		public bool CallAuthorize(HttpContextBase context)
 		{

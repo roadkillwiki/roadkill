@@ -25,7 +25,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// </summary>
 	/// <remarks>All actions in this controller require admin rights.</remarks>
 	[AdminRequired]
-	internal class ToolsController : ControllerBase
+	public class ToolsController : ControllerBase
 	{
 		private SettingsService _settingsService;
 		private PageService _pageService;

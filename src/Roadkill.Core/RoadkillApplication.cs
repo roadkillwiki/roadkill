@@ -17,7 +17,7 @@ using System.Web.Http;
 namespace Roadkill.Core
 {
 	/// <summary>
-	/// The entry point application (Global.asax) for Roadkill.
+	/// The entry point (Global.asax) for the Roadkill application.
 	/// </summary>
 	public class RoadkillApplication : HttpApplication
 	{

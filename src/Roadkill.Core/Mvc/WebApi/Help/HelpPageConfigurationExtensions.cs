@@ -11,7 +11,7 @@ using Roadkill.Core.Areas.HelpPage.Models;
 
 namespace Roadkill.Core.Areas.HelpPage
 {
-    public static class HelpPageConfigurationExtensions
+	internal static class HelpPageConfigurationExtensions
     {
         private const string ApiModelPrefix = "MS_HelpPageApiModel_";
 

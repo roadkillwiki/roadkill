@@ -11,7 +11,7 @@ namespace Roadkill.Core.Database.LightSpeed
 	/// These methods deliberatly don't return a new <see cref="Entity"/> as that causes its 
 	/// state to be marked as New, which can have side effects.
 	/// </summary>
-	internal class ToEntity
+	public class ToEntity
 	{
 		public static void FromUser(User user, UserEntity entity)
 		{

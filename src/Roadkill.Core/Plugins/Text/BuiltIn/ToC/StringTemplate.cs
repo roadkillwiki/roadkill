@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Roadkill.Core.Plugins.Text.BuiltIn.ToC
 {
-	internal class StringTemplate
+	public class StringTemplate
 	{
 		private string _htmlOutput;
 

@@ -12,7 +12,7 @@ namespace Roadkill.Core.Attachments
 	/// <summary>
 	/// Helper methods for the attachments folder.
 	/// </summary>
-	internal class AttachmentPathUtil
+	public class AttachmentPathUtil
 	{
 		private ApplicationSettings _settings;
 

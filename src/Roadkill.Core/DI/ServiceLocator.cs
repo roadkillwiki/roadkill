@@ -6,7 +6,7 @@ using StructureMap;
 
 namespace Roadkill.Core.DI
 {
-	internal class ServiceLocator
+	public class ServiceLocator
 	{
 		/// <summary>
 		/// Gets the current instance of T from the IoC, or returns null if doesn't exist.

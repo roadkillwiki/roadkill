@@ -10,7 +10,7 @@ namespace Roadkill.Core.Database.LightSpeed
 	/// Maps Lightspeed entity classes to the Roadkill domain objects.
 	/// </summary>
 	/// <remarks>(AutoMapper was tried for this, but had problems with the Mindscape.LightSpeed.Entity class)</remarks>
-	internal class FromEntity
+	public class FromEntity
 	{
 		public static Page ToPage(PageEntity entity)
 		{

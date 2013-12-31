@@ -20,7 +20,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// Contains AJAX actions for testing various configuration options: database connections, attachments.
 	/// This controller is only accessable by admins, if the installed state is false.
 	/// </summary>
-	internal class ConfigurationTesterController : Controller // Don't inherit from ControllerBase, as it checks if Installed is true.
+	public class ConfigurationTesterController : Controller // Don't inherit from ControllerBase, as it checks if Installed is true.
 	{
 		private ApplicationSettings _applicationSettings;
 		private IUserContext _userContext;
