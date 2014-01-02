@@ -1,0 +1,49 @@
+﻿@using Roadkill.Core
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Roadkill Install</title>
+	<link rel="shortcut icon" href="@Url.Content("~/Assets/Images/favicon.png")" />
+	@Url.CssLink("roadkill.installer.css")
+	@Url.CssLink("toastr.css")
+	@Url.BootstrapCSS()
+	@Url.ScriptLink("jquery/jquery-1.9.1.js")
+	@Url.ScriptLink("jquery/jquery.validate.js")
+	@Url.ScriptLink("shared/toastr.js")
+	@Url.ScriptLink("shared/bootbox.js")
+	@Url.ScriptLink("~/install/InstallerJsVars")
+	@Url.BootstrapJS()
+	@Url.ScriptLink("roadkill/validation.js")
+	@Url.ScriptLink("roadkill/installer/installwizard.js")
+</head>
+
+<body>
+	<div id="installer-container" class="container">
+		<!-- Logo -->
+		<div id="logo" class="row">
+			<img src="@Url.Content("~/Assets/Images/roadkill.png")" alt="logo" />
+		</div>
+
+		<!-- Page navigation -->
+		<div id="nav" class="row">
+			<ul id="trail">
+				<li>1. @InstallStrings.Shared_Stage1</li>
+				<li>2. @InstallStrings.Shared_Stage2</li>
+				<li>3. @InstallStrings.Shared_Stage3</li>
+				<li>4. @InstallStrings.Shared_Stage4</li>
+				<li>5. @InstallStrings.Shared_Stage5</li>
+			</ul>
+		</div>
+
+		<!-- Content-->
+		<div id="content" class="row">
+			@RenderBody()
+
+			<!-- Previous + Continue buttons -->
+			<div id="bottom-buttons">
+				@RenderSection("BottomButtons")
+			</div>
+		</div>
+	</div>
+</body>
+</html>

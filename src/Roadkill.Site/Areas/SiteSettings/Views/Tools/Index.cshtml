@@ -1,0 +1,92 @@
+﻿@{
+	ViewBag.Title = SiteStrings.SiteSettings_Tools_Title;
+	ViewData["ToolsActive"] = true;
+}
+@Html.SiteSettingsNavigation()
+
+
+@if (@TempData["SuccessMessage"] != null)
+{
+	<div class="alert alert-success alert-temporary">
+		@TempData["SuccessMessage"]
+	</div>
+}
+else if (@TempData["ErrorMessage"] != null)
+{
+	<div class="alert alert-danger alert-temporary">
+		@TempData["ErrorMessage"]
+	</div>
+}
+
+
+<div id="settings-container">
+	<div>
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ClearDatabase, "ClearPages", null, new { @class = "refreshlink btn btn-danger" })<br />
+		<p>@SiteStrings.SiteSettings_Tools_ClearDatabase_Label</p>
+	</div>
+
+	<div>
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_RebuildSearch, "UpdateSearchIndex", null, new { @class = "refreshlink btn btn-success" })<br />
+		<p>@SiteStrings.SiteSettings_Tools_RebuildSearch_Label</p>
+	</div>
+
+	<div>
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_SqlExport, "ExportAsSQL", null, new { @class = "btn btn-success" })<br />
+		<p>@SiteStrings.SiteSettings_Tools_SqlExport_Label</p>
+	</div>
+
+	<div>
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportXml, "ExportAsXml", null, new { @class = "btn btn-success" })<br />
+		<p>@SiteStrings.SiteSettings_Tools_ExportXml_Label</p>
+	</div>
+
+	<div>
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportContent, "ExportAsWikiFiles", null, new { @class = "btn btn-success" })<br />
+		<p>@SiteStrings.SiteSettings_Tools_ExportContent_Label</p>
+	</div>
+
+	<div>
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportAttachments, "ExportAttachments", null, new { @class = "btn btn-success" })<br />
+		<p>@SiteStrings.SiteSettings_Tools_ExportAttachments_Label</p>
+	</div>
+	<br />
+
+	<!-- Screwturn import -->
+	<h1>@SiteStrings.SiteSettings_Tools_ScrewTurnImport</h1>
+	<p>
+		@SiteStrings.SiteSettings_Tools_ScrewTurnImport_Label
+	</p>
+	<form method="post" id="settings-form" action="@Url.Action("ImportFromScrewTurn", "Tools")">
+		<fieldset>
+			<div class="form-group col-lg-12 row">
+				<label for="screwturnConnectionString">@SiteStrings.SiteSettings_Tools_ScrewTurnImport_Connection</label>
+				@(Html.BootstrapLongTextBox("screwturnConnectionString", SiteStrings.SiteSettings_Tools_ScrewTurnImport_Connection))
+			</div>
+		</fieldset>
+		<input type="submit" class="btn btn-primary" value="@SiteStrings.Button_Import" />
+	</form>
+	<br />
+
+	<!-- Rename tags -->
+	<h1>@SiteStrings.SiteSettings_Tools_RenameTag</h1>
+	<p>
+		@SiteStrings.SiteSettings_Tools_RenameTag_Label
+	</p>
+	<form method="post" id="settings-form" action="@Url.Action("RenameTag", "Tools")" role="form">
+		<fieldset>
+			<div class="form-group col-lg-4 row">
+				<label for="oldTagName">@SiteStrings.SiteSettings_Tools_RenameTag_Existing</label>
+				@(Html.BootstrapLongTextBox("oldTagName", SiteStrings.SiteSettings_Tools_ScrewTurnImport_Connection))
+			</div>
+		</fieldset>
+
+		<fieldset>
+			<div class="form-group col-lg-4 row">
+				<label for="newTagName">@SiteStrings.SiteSettings_Tools_RenameTag_New</label>
+				@(Html.BootstrapLongTextBox("newTagName", SiteStrings.SiteSettings_Tools_ScrewTurnImport_Connection))
+			</div>
+		</fieldset>
+
+		<input type="submit" class="btn btn-primary" value="@SiteStrings.Button_Rename" />
+	</form>
+</div>

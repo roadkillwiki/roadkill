@@ -1,0 +1,57 @@
+declare var $ : any;
+declare var toastr : any;
+declare var bootbox : any;
+
+//
+// All variables below are copied from GlobalJsVars
+// and defined here to help Typescript compilation out.
+//
+
+declare var ROADKILL_CORESCRIPTPATH;
+declare var ROADKILL_COREASSETPATH;
+declare var ROADKILL_THEMEPATH;
+declare var ROADKILL_LINK_CONFIRM;
+
+// Edit page constants
+declare var ROADKILL_TAGAJAXURL;
+declare var ROADKILL_PREVIEWURL;
+declare var ROADKILL_MARKUPTYPE;
+declare var ROADKILL_WIKIMARKUPHELP;
+
+// Tokens for the edit toolbar
+declare var ROADKILL_EDIT_BOLD_TOKEN;
+declare var ROADKILL_EDIT_ITALIC_TOKEN;
+declare var ROADKILL_EDIT_UNDERLINE_TOKEN;
+declare var ROADKILL_EDIT_LINK_STARTTOKEN;
+declare var ROADKILL_EDIT_LINK_ENDTOKEN;
+declare var ROADKILL_EDIT_IMAGE_STARTTOKEN;
+declare var ROADKILL_EDIT_IMAGE_ENDTOKEN;
+declare var ROADKILL_EDIT_NUMBERLIST_TOKEN;
+declare var ROADKILL_EDIT_BULLETLIST_TOKEN;
+declare var ROADKILL_EDIT_HEADING_TOKEN;
+declare var ROADKILL_EDIT_LINK_URLPLACEHOLDER;
+declare var ROADKILL_EDIT_LINK_TEXTPLACEHOLDER;
+declare var ROADKILL_EDIT_IMAGE_TITLE;
+
+declare var ROADKILL_FILEMANAGERURL;
+declare var ROADKILL_FILESELECTURL;
+declare var ROADKILL_ATTACHMENTSPATH;
+declare var ROADKILL_FILEMANAGER_ADDFOLDER;
+declare var ROADKILL_FILEMANAGER_ADDFOLDER_CANCEL;
+declare var ROADKILL_FILEMANAGER_ERROR_DIRECTORYLISTING;
+declare var ROADKILL_FILEMANAGER_ERROR_DELETEFOLDER;
+declare var ROADKILL_FILEMANAGER_ERROR_DELETEFILE;
+declare var ROADKILL_FILEMANAGER_ERROR_CREATEFOLDER;
+declare var ROADKILL_FILEMANAGER_DELETE_ERROR;
+declare var ROADKILL_FILEMANAGER_DELETE_CONFIRM;
+declare var ROADKILL_FILEMANAGER_DELETE_SUCCESS;
+
+// Settings
+declare var ROADKILL_TESTATTACHMENTS_URL;
+declare var ROADKILL_TESTDB_URL;
+
+// Localization for validation
+declare var ROADKILL_REQUIRED_FIELD;
+
+// Plugins
+declare var ROADKILL_PLUGINSETTINGS_URL;

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="data">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" minOccurs="0"                     msdata:Ordinal="2" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="type" type="xsd:string" />
+        <xsd:attribute name="mimetype" type="xsd:string" />
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="Shared_Stage1" xml:space="preserve">
+	<value>Vítejte</value>
+</data>
+<data name="Shared_Stage2" xml:space="preserve">
+	<value>Databáze</value>
+</data>
+<data name="Shared_Stage3" xml:space="preserve">
+	<value>Zabezpečení</value>
+</data>
+<data name="Shared_Stage4" xml:space="preserve">
+	<value>Něco navíc</value>
+</data>
+<data name="Shared_Stage5" xml:space="preserve">
+	<value>Dokončeno</value>
+</data>
+<data name="Shared_Continue" xml:space="preserve">
+	<value>Pokračovat</value>
+</data>
+<data name="Shared_Back" xml:space="preserve">
+	<value>Zpět</value>
+</data>
+<data name="Shared_BackButton" xml:space="preserve">
+	<value>Zpět</value>
+</data>
+<data name="Shared_NextButton" xml:space="preserve">
+	<value>Další</value>
+</data>
+<data name="Step1_Intro" xml:space="preserve">
+	<value>Děkujeme že jste si stáhli Roadkill .NET Wiki. Instalátor zapíše Vái zadané hodnoty do souboru web.config (a také do databáze). </value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Intro" xml:space="preserve">
+	<value>Aby instalace mohla pokračovat, potřebujeme ověřit jestli je možné zapisovat do souboru web.config. </value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Success_Message" xml:space="preserve">
+	<value>Do web.config je možné zapisovat.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Failure_Message" xml:space="preserve">
+	<value>Do web.config nelze zapisovat.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_Intro" xml:space="preserve">
+	<value>Níže je uvedeno několik důležitých nastavení. Změnit je můžete i pozdějí v menu Nastavení.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_ConnectionString_CreateDatabase" xml:space="preserve">
+	<value>Je třeba nejprve vytvořit databázi. Níže je uvedeno několik příkladů, zvolte druhou volbu používáte-i sdílený hosting bez SQL serveru.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_Example_ConnectionStrings" xml:space="preserve">
+	<value>Příklad připojovacího řetězce</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteInstructionsTitle" xml:space="preserve">
+	<value>SQLite: přečtěte si</value>
+</data>
+<data name="Step2_SQLiteInstructionsMessage" xml:space="preserve">
+	<value>Poznámka: používat SQLite je nutné přidat další soubor do adresáře / bin složce, jako SQLite je distribuován jak pro x86 a x64. {BEGIN-SQLITE_LINK} Klikněte zde zkopírujte soubor {END-SQLITE_LINK}. Pokud narazíte na nějaké problémy po tomto, odstranit &quot;SQLite.Interop.dll&quot; z bin adresáře.</value>
+</data>
+<data name="Step2_SQLiteSuccessTitle" xml:space="preserve">
+	<value>Úspěch SQLite kopírování souborů</value>
+</data>
+<data name="Step2_SQLiteSuccessMessage" xml:space="preserve">
+	<value>SQLite by měl být nyní připraven k použití.</value>
+</data>
+<data name="Step2_SQLiteFailureTitle" xml:space="preserve">
+	<value>SQLite kopírování souborů selhalo</value>
+</data>
+<data name="Step2_SQLiteFailureMessage" xml:space="preserve">
+	<value>Selhání - zkuste kopírování souboru SQLite.Interop.dll z ~ / App_Data / SQLiteBinaries do bin adresáře.</value>
+</data>
+<data name="Step3_Use_WindowsAuth_Intro" xml:space="preserve">
+	<value>Chcete uživatele ověřovat v Active Directory?</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ConnectionString_Title" xml:space="preserve">
+	<value>Připojovací řetezec k LDAP Active Directory</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Connection_Success" xml:space="preserve">
+	<value>Připojení a ověření v Active Directory bylo úspěšné.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Connection_Error" xml:space="preserve">
+	<value>Nebylo možné se k Active Directory připojit:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Success" xml:space="preserve">
+	<value>Dotaz na skupinu byl úspěšný.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Error" xml:space="preserve">
+	<value>Chyba dotazu na skupinu:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ConnectionString_Details" xml:space="preserve">
+	<value>Použite formát LDAP://mydc01.company.internal (LDAP pište velkými znaky) kde mydc01 je řadič domény a &apos;company&apos; s &apos;internal&apos; jsou DNS přípony sítě. Můžete také použít IP adresu (zjistíte ji příkazem ipconfig na řadiči domény).</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ADExplorer_Details" xml:space="preserve">
+	<value>Připojovací řetězec podporuje objekty (OU) avšak jejich použití může způsobil problémy. Pokud si nejste jistí, nejprve si stáhněte {BEGIN_ADEXPLORER_LINK}AD Explorer{END_ADEXPLORER_LINK}.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Username_Password_Details" xml:space="preserve">
+	<value>Uživatelské jméno pro ověření v Active Directory. Nechte prázdné pokud uživatel po kterým beží aplikační pool již oprávnění má. Používá se to obvykle pokud Vaše doména je v jiném lese (forest) než je hlavní doména.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Editor_GroupName_Title" xml:space="preserve">
+	<value>Název skupiny role redaktora</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Editor_GroupName_Details" xml:space="preserve">
+	<value>Doménová skupina jejíž uživatelé busou mít oprávnění redaktora (lidé kteří mohou vytvářet a měnit stránky). Testovací tlačítko používá uvedený připojovací řetězec. </value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Admin_GroupName_Title" xml:space="preserve">
+	<value>Název skupiny role správce</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Admin_GroupName_Details" xml:space="preserve">
+	<value>Má práva jako redaktor ale navíc má přísup k nastavení stránek. Správci mají práva jako redaktor, ale navíc mají přísup k nastavení stránek. Testovací tlačítko používá uvedený připojovací řetězec.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_One_Way_Hashed" xml:space="preserve">
+	<value>Všechna hesla jsou jednocestně zašifrována šifrou SHA128 a náhodným klíčem. To znamená že hesla není možné obnovit nýbrž pouze znovu nastavit. Heslo musí být alespoň 6 znaků dlouhé.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Editor_Role_Title" xml:space="preserve">
+	<value>Název role redaktora</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Editor_Role" xml:space="preserve">
+	<value>Název role redaktora - lidé kteří mohou vytvářet a měnit stránky.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Role_Title" xml:space="preserve">
+	<value>Název role správce</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Role" xml:space="preserve">
+	<value>Název role správce - má práva jako redaktor, ale navíc má přísup k nastavení stránek.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups_Title" xml:space="preserve">
+	<value>Povolit registrace</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups" xml:space="preserve">
+	<value>Zaškrtněte pokud chcete aby se lidé mohli sami registrovat. Pokud není zaškrtnuto, nové uživatele bude moci přidávat pouze správce. </value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups_Label" xml:space="preserve">
+	<value>Povolit registrace nových uživatelů. </value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Enable_Recaptcha_Description" xml:space="preserve">
+	<value>Zapíná podporu Recaptcha - anti spamová služba zdarma. Je nutné se zaregistrovat a veřejný a soukromý klíč zkopírovat do níže uvedených polí. &lt;a href=&quot;https://www.google.com/recaptcha/admin/create&quot; target=&quot;_blank&quot;&gt;Zde se přihlašte&lt;/a&gt; - je nutný účet google.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Email_Title" xml:space="preserve">
+	<value>Email správce</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Email" xml:space="preserve">
+	<value>Toto je emailová adresa správce. Další správce můžete přidat v menu Nastavení.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Password_Title" xml:space="preserve">
+	<value>Heslo správce</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Password" xml:space="preserve">
+	<value>Toto je heslo správce.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Almost_Done" xml:space="preserve">
+	<value>Téměř hotovo...Nakonec několik extra nastavení. </value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Attachments_Folder_Description" xml:space="preserve">
+	<value>Adresář do kterého budou nahrávány veškeré soubory. Do tohoto adresáře musí mít uživatel pod nímž běží IIS pool právo zápisu. Oprávnění obvykle není nutné měnit poněvadž ho zdědí od nadřazeného adresáře. </value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Attachments_Folder_RelativePath" xml:space="preserve">
+	<value>Cesta by měla začínat ~/ což znamená kořenový adresář. Možnost přístupu můžete ověřit webovým prohlížečem. Ověřte také že do něj lze zapisovat (stejně jako do App_Data a bin - do nich však nic nahráváno nebude. </value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Success_Title" xml:space="preserve">
+	<value>Instalace byla úspěšná</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_WindowsAuth_Please_Read" xml:space="preserve">
+	<value>Ověřeřování Windows - prosím čtěte</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_WindowsAuth_IIS_Settings" xml:space="preserve">
+	<value>Používáte-li IIS7+, je třeba upravit web.config pro nastavení zabezpečení, viz. níže uvedené povinné elementy. Pokud se Vám po provedené těchto změn zobrazuje chyba HTTP 500, je sekce blokovaná nadřazenou úrovní. Změny ve web.config v takovém případě proveďte přes administrační konzoli IIS.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Continue_Button" xml:space="preserve">
+	<value>Pokračovat na stránky</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Failure_Title" xml:space="preserve">
+	<value>Při instalaci se vyskytla chyba</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Failure_GoBack_And_Check" xml:space="preserve">
+	<value>Vraťte se prosím v instalaci zpět a ověřte zadané hodnoty a nastavení. Chybové hlášení:</value>
+	<comment>Fuzzy</comment>
+</data>
+
+</root>

@@ -1,0 +1,546 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Roadkill.Tests</RootNamespace>
+    <AssemblyName>Roadkill.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Download|AnyCPU'">
+    <OutputPath>bin\Download\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\Roadkill.Tests.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Download|x86'">
+    <OutputPath>bin\x86\Download\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\x86\Release\Roadkill.Tests.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Download|x64'">
+    <OutputPath>bin\x64\Download\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\x64\Release\Roadkill.Tests.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DemoSite|AnyCPU'">
+    <OutputPath>bin\DemoSite\</OutputPath>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DemoSite|x86'">
+    <OutputPath>bin\x86\DemoSite\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DemoSite|x64'">
+    <OutputPath>bin\x64\DemoSite\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono|AnyCPU'">
+    <OutputPath>bin\Mono\</OutputPath>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono|x86'">
+    <OutputPath>bin\x86\Mono\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Mono|x64'">
+    <OutputPath>bin\x64\Mono\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Fizzler, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Fizzler.0.9.3\lib\net35\Fizzler.dll</HintPath>
+    </Reference>
+    <Reference Include="Fizzler.Sandbox, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Fizzler.0.9.3\lib\net35\Fizzler.Sandbox.dll</HintPath>
+    </Reference>
+    <Reference Include="Fizzler.Systems.HtmlAgilityPack, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Fizzler.0.9.3\lib\net35\Fizzler.Systems.HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\HtmlAgilityPack.1.4.6\lib\Net40\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net, Version=3.0.3.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Microsoft.Web.Administration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Mindscape.LightSpeed, Version=5.0.2302.0, Culture=neutral, PublicKeyToken=360c8f37b466ebb2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\LightSpeed\Mindscape.LightSpeed.dll</HintPath>
+    </Reference>
+    <Reference Include="Mindscape.LightSpeed.Providers.SqlServerCe4">
+      <HintPath>..\..\lib\LightSpeed\Providers\Mindscape.LightSpeed.Providers.SqlServerCe4.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq, Version=4.1.1309.1617, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Moq.4.1.1309.1617\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcContrib.TestHelper">
+      <HintPath>..\..\packages\MvcContrib.Mvc3.TestHelper-ci.3.0.100.0\lib\MvcContrib.TestHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\MySql.Data.6.7.4\lib\net40\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.Mocks">
+      <HintPath>..\..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap">
+      <HintPath>..\..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\System.Data.SQLite.1.0.89.0\lib\net45\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.89.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\System.Data.SQLite.1.0.89.0\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\System.Data.SqlServerCe.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.0.0\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="ThoughtWorks.Selenium.Core, Version=2.37.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Selenium.RC.2.37.0\lib\net40\ThoughtWorks.Selenium.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver, Version=2.37.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Selenium.WebDriver.2.37.0\lib\net40\WebDriver.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver.Support, Version=2.37.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Selenium.Support.2.37.0\lib\net40\WebDriver.Support.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
+      <Visible>False</Visible>
+    </CodeAnalysisDependentAssemblyPaths>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Acceptance\OtherDatabasesInstallerTests.cs" />
+    <Compile Include="Acceptance\FileManagerTests.cs" />
+    <Compile Include="Acceptance\UpgradeTests.cs" />
+    <Compile Include="Acceptance\WebDriverExtensions.cs" />
+    <Compile Include="Acceptance\InstallerTests.cs" />
+    <Compile Include="Acceptance\SearchTests.cs" />
+    <Compile Include="Acceptance\SettingsTests.cs" />
+    <Compile Include="Acceptance\Setup\AcceptanceTestBase.cs" />
+    <Compile Include="Acceptance\Setup\AcceptanceTestsSetup.cs" />
+    <Compile Include="Acceptance\PageTests.cs" />
+    <Compile Include="Acceptance\UserTests.cs" />
+    <Compile Include="Integration\Configuration\ApplicationSettingsTests.cs" />
+    <Compile Include="Integration\Repository\LightSpeed\LightSpeedPageRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\LightSpeed\LightSpeedSettingsRepositoryTests.cs" />
+    <Compile Include="Setup\SqlExpressSetup.cs" />
+    <Compile Include="Integration\Repository\MongoDb\MongoDbSettingsRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\MongoDb\MongoDbPageRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\MongoDb\MongoDbUserRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\PageRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\SettingsRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\UserRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\RepositoryTests.cs" />
+    <Compile Include="Integration\Repository\LightSpeed\LightSpeedUserRepositoryTests.cs" />
+    <Compile Include="Integration\Import\ScrewturnImporterTests.cs" />
+    <Compile Include="Smoke\CanaryTests.cs" />
+    <Compile Include="Smoke\DemoSiteTests.cs" />
+    <Compile Include="Setup\SqlCeSetup.cs" />
+    <Compile Include="Setup\SqliteSetup.cs" />
+    <Compile Include="Unit\Attachments\AttachmentPathUtilTests.cs" />
+    <Compile Include="Unit\Attachments\AttachmentFileHandlerTests.cs" />
+    <Compile Include="Unit\Attachments\ResponseWrapperMock.cs" />
+    <Compile Include="Unit\Cache\PageViewModelCacheTests.cs" />
+    <Compile Include="Unit\Cache\SiteCacheTests.cs" />
+    <Compile Include="Unit\Cache\PageServiceCacheTests.cs" />
+    <Compile Include="Unit\Cache\ListCacheTests.cs" />
+    <Compile Include="Unit\Database\EntityTests.cs" />
+    <Compile Include="Unit\Database\SchemaTests.cs" />
+    <Compile Include="Unit\Email\EmailTemplateTests.cs" />
+    <Compile Include="Unit\Export\SqlExportBuilderTests.cs" />
+    <Compile Include="Unit\Extensions\UrlHelperExtensionsTests.cs" />
+    <Compile Include="Unit\Extensions\HtmlHelperLinkExtensionsTests.cs" />
+    <Compile Include="Unit\Extensions\HtmlHelperExtensionTests.cs" />
+    <Compile Include="Unit\Extensions\ExtensionsTests.cs" />
+    <Compile Include="Unit\MvcActionExtensions.cs" />
+    <Compile Include="Unit\Import\WikiExporterTests.cs" />
+    <Compile Include="Unit\Mvc\Attributes\OptionalAuthorizationTests.cs" />
+    <Compile Include="Unit\Mvc\Attributes\EditorRequiredAttributeTests.cs" />
+    <Compile Include="Unit\Mvc\Attributes\WebApiEditorRequiredAttributeTests.cs" />
+    <Compile Include="Unit\Mvc\Attributes\WebApiAdminRequiredAttributeTests.cs" />
+    <Compile Include="Unit\Mvc\Attributes\AdminRequiredAttributeTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\ConfigurationTesterControllerTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\TestResultTests.cs" />
+    <Compile Include="Unit\Mvc\WebApi\SearchControllerTests.cs" />
+    <Compile Include="Unit\Mvc\WebApi\PageControllerTests.cs" />
+    <Compile Include="Unit\Security\AuthorizationProviderTests.cs" />
+    <Compile Include="Unit\Mvc\Attributes\BrowserCacheAttributeTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\SiteSettings\SettingsControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\SiteSettings\UserManagementControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\SiteSettings\ToolsControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\SiteSettings\CacheControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\SpecialPagesControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\InstallControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\HelpControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\PluginSettingsControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\ControllerBaseTests.cs" />
+    <Compile Include="Unit\Mvc\Setup\ResponseWrapperTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\PageViewModelTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\TagViewModelTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\LanguageViewModelTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\PageHistoryViewModelTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\SettingsViewModelTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\SearchResultViewModelTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\PluginViewModelTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\PageViewModelValidationTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\FileViewModelTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\DirectoryViewModelTests.cs" />
+    <Compile Include="Unit\Attachments\MimeMappingTests.cs" />
+    <Compile Include="Unit\Database\DataStore\DataStoreTypeTests.cs" />
+    <Compile Include="Unit\Database\SiteSettingsTests.cs" />
+    <Compile Include="Unit\DI\DependencyManagerTests.cs" />
+    <Compile Include="Unit\Database\LightSpeed\ToEntityTests.cs" />
+    <Compile Include="Unit\Database\LightSpeed\FromEntityTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\UserViewModelTests.cs" />
+    <Compile Include="Unit\Plugins\MathJaxTests.cs" />
+    <Compile Include="Unit\Plugins\SyntaxHighlighterTests.cs" />
+    <Compile Include="Unit\Plugins\JumbotronTests.cs" />
+    <Compile Include="Unit\Plugins\RandomPageTests.cs" />
+    <Compile Include="Unit\Services\PageHistoryServiceTests.cs" />
+    <Compile Include="Unit\Services\SettingsServiceTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\FileManagerControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\UpgradeControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\PagesControllerTests.cs" />
+    <Compile Include="Unit\Mvc\Setup\RoutingTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\WikiControllerTests.cs" />
+    <Compile Include="Unit\Plugins\PluginFactoryTests.cs" />
+    <Compile Include="Unit\Plugins\SettingsTests.cs" />
+    <Compile Include="Unit\Plugins\TextPluginTests.cs" />
+    <Compile Include="Unit\MocksAndStubsContainer.cs" />
+    <Compile Include="Unit\StubsAndMocks\ActiveDirectoryProviderMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\AuthorizationProviderMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\CacheMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\ConfigReaderWriterStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\DbCommandStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\EmailClientMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\IdentityStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\PrincipalStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\Mvc\HttpCachePolicyMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\PluginFactoryMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\RepositoryThrowsExceptionsMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\ResetPasswordEmailStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\EmailTemplateStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\SpecialPageMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\UrlResolverStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\UserServiceMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\SignupEmailStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\SearchServiceMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\RepositoryMock.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\UserViewModelUsernameValidationTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\UserViewModelPasswordValidationTests.cs" />
+    <Compile Include="Unit\Mvc\Controllers\HomeControllerTests.cs" />
+    <Compile Include="Unit\StubsAndMocks\Mvc\MvcMockContainer.cs" />
+    <Compile Include="Unit\StubsAndMocks\UserContextStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\UserServiceStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\TextPluginStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\WikiImporterMock.cs" />
+    <Compile Include="Unit\Text\MenuParserTests.cs" />
+    <Compile Include="Unit\Plugins\TocParserTests.cs" />
+    <Compile Include="Unit\Text\MarkupSanitizerTests.cs" />
+    <Compile Include="Unit\Text\MarkdownTests.cs" />
+    <Compile Include="Integration\Configuration\FullTrustConfigReaderWriterTests.cs" />
+    <Compile Include="Setup\Settings.cs" />
+    <Compile Include="Unit\Services\PageServiceTests.cs" />
+    <Compile Include="Unit\Services\ActiveDirectoryUserManagerTests.cs" />
+    <Compile Include="Unit\Mvc\ViewModels\UserViewModelEmailValidationTests.cs" />
+    <Compile Include="Unit\Text\MarkupConverterTests.cs" />
+    <Compile Include="Unit\Text\CustomTokenParserTests.cs" />
+    <Compile Include="Unit\Mvc\WebApi\UserControllerTests.cs" />
+    <Content Include="chromedriver.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Integration\Import\screwturn3.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <TypeScriptCompile Include="Javascript\editpage-tests.ts" />
+    <Content Include="Javascript\editpage-tests.js">
+      <DependentUpon>editpage-tests.ts</DependentUpon>
+    </Content>
+    <Content Include="Javascript\qunit.d.ts" />
+    <Content Include="Unit\Attachments\afile.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="Unit\Export\expected-users-export.sql" />
+    <EmbeddedResource Include="Unit\Export\expected-pages-export.sql" />
+    <EmbeddedResource Include="Unit\Export\expected-siteconfiguration-export.sql" />
+    <Content Include="Unit\Text\whitelist.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Integration\Configuration\TestConfigs\test.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Integration\Configuration\TestConfigs\test-optional-values.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Integration\Configuration\TestConfigs\test-missing-values.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Integration\Configuration\TestConfigs\test-mongodb.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Integration\Configuration\TestConfigs\test-legacy-values.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Integration\Configuration\TestConfigs\test-no-roadkillsection.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Integration\Configuration\TestConfigs\test-empty.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Integration\Configuration\TestConfigs\test-empty-defaults.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Compile Include="Unit\Text\CreoleParserTests.cs" />
+    <Compile Include="Acceptance\LoginTests.cs" />
+    <Compile Include="Unit\StubsAndMocks\Mvc\MvcMockHelpers.cs" />
+    <Compile Include="Unit\Mvc\Controllers\UserControllerTests.cs" />
+    <Compile Include="Integration\Search\SearchServiceTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unit\Services\FormsAuthUserServiceTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Roadkill.Core\Roadkill.Core.csproj">
+      <Project>{9C86C475-F3BD-44D1-942A-78BF19158C3A}</Project>
+      <Name>Roadkill.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

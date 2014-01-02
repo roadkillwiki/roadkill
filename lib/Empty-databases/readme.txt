@@ -1,0 +1,1 @@
+The database files in this folder all have NO tables - they are used for fresh installations.

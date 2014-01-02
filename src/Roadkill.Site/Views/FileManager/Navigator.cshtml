@@ -1,0 +1,16 @@
+﻿@* The bool for the Model indicates whether to show the watermark or not *@
+@model bool
+
+@if (Model)
+{
+	<div class="alert alert-info alert-dismissable">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		<h6>@SiteStrings.FileManager_Help</h6>
+	</div>
+}
+
+<div id="path-navigator">
+	<ul class="breadcrumb navigator"></ul>
+</div>
+
+<div id="folder-container"></div>

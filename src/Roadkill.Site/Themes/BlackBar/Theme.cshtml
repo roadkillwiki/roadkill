@@ -1,0 +1,43 @@
+﻿@inherits RoadkillLayoutPage
+<!DOCTYPE html>
+<html>
+<head>
+	<title>@ViewBag.Title</title>
+	@Html.Partial("HeadContent")
+	@RenderSection("PluginHead", false)
+</head>
+
+<body>
+	@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+	{
+		<div id="header">
+			<div id="loggedinas" class="left">
+				@Html.Action("LoggedInAs", "User")
+			</div>
+			<div class="right">
+					@Html.Action("NavMenu", "Home")
+				<div id="searchbox" class="left">
+					<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" class="form-control" />
+				</div>
+			</div>
+		</div>
+	}
+
+	<div id="page-content">
+		@RenderSection("PageToolbar", false)
+		@RenderSection("PluginPreContainer", false)
+
+		<div id="container">
+			@RenderSection("ViewHistoryLink", false)
+			@RenderBody()
+
+			<div id="footer">
+				@RenderSection("PageDetailsFooter", false)
+			</div>
+		</div>
+
+		@RenderSection("PluginPostContainer", false)
+		@RenderSection("PluginFooter", false)
+	</div>
+</body>
+</html>

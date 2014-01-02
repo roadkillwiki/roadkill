@@ -1,0 +1,13 @@
+﻿@using Roadkill.Core.Converters;
+@using Roadkill.Core.Configuration;
+@{Layout=null;}
+
+// Generated at: @DateTime.UtcNow.ToString()
+
+var ROADKILL_INSTALLER_WOOPS = "@SiteStrings.Shared_Unexpected_Error";
+var ROADKILL_REQUIRED_FIELD = "@SiteStrings.SiteSettings_Configuration_Required_Field";
+var ROADKILL_INSTALLER_TESTWEBCONFIG_URL = "@(Url.Action("TestWebConfig", "ConfigurationTester"))";
+var ROADKILL_INSTALLER_TESTDATABASE_URL  = "@(Url.Action("TestDatabaseConnection", "ConfigurationTester"))";
+var ROADKILL_INSTALLER_COPYSQLITE_URL    = "@(Url.Action("CopySqlite", "ConfigurationTester"))";
+var ROADKILL_INSTALLER_TESTLDAP_URL    = "@(Url.Action("TestLdap", "ConfigurationTester"))";
+var ROADKILL_INSTALLER_TESTATTACHMENTS_URL = "@(Url.Action("TestAttachments", "ConfigurationTester"))";

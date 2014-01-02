@@ -1,0 +1,23 @@
+﻿@model PageViewModel
+
+@if (Model.Id != 0)
+{
+<div id="toolbar" class="btn-toolbar">
+	<div class="btn-group">
+	@if (RoadkillContext.IsLoggedIn)
+	{
+		if (Model.IsLocked && !RoadkillContext.IsAdmin)
+		{
+			<a id="pageedit-button" class="btn btn-default btn-sm disabled" href="#" title="@SiteStrings.Shared_EditLink - this page can only be edited by administrators."><span class="glyphicon glyphicon-pencil"></span></a>
+        }
+        else
+        {
+            <a id="pageedit-button" class="btn btn-default btn-sm" href="@Url.Action("Edit", "Pages", new { id = Model.Id})" title="@SiteStrings.Shared_EditLink"><span class="glyphicon glyphicon-pencil"></span></a>
+        }
+    }
+        <a id="pageinfo-button" class="btn btn-default btn-sm" href="javascript:;" title="Page information"><span class="glyphicon glyphicon-book"></span></a>
+	</div>
+</div>
+
+@Html.DialogPartial("PageInformation", Model)
+}
