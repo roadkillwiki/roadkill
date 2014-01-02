@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Roadkill.Core.Database
 {
 	/// <summary>
-	/// Defines a class that should be stored in the database or other kind of storage.
+	/// Defines a class that should be stored in the database or other kind of data store.
 	/// </summary>
 	public interface IDataStoreEntity
 	{

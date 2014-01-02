@@ -2,7 +2,6 @@
 using System.Text;
 using System.Web.Security;
 using System.Security.Cryptography;
-using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security;
 
 namespace Roadkill.Core.Database
@@ -12,25 +11,83 @@ namespace Roadkill.Core.Database
 	/// </summary>
 	public class User : IDataStoreEntity
 	{
+		/// <summary>
+		/// Gets or sets the activation key for the user.
+		/// </summary>
+		/// <value>
+		/// The activation key.
+		/// </value>
 		public string ActivationKey { get; set; }
+
+		/// <summary>
+		/// Gets or sets the unique ID for the settings.
+		/// </summary>
+		/// <value>
+		/// The identifier.
+		/// </value>
 		public Guid Id { get; set; }
 
 		/// <summary>
-		/// This is used as the username or identifier for the user. If using windows auth, this will
-		/// be the user name from active directory.
+		/// Gets or sets the email address for the user. This is used as the username or identifier 
+		/// for the user.
 		/// </summary>
 		public string Email { get; set; }
-		public string Firstname { get; set; }
-		public bool IsEditor { get; set; }
-		public bool IsAdmin { get; set; }
-		public bool IsActivated { get; set; }
-		public string Lastname { get; set; }
+
 		/// <summary>
-		/// Do not set the password using this property - use <see cref="SetPassword"/> instead.
-		/// Use <see cref="User.HashPassword"/> to encrypt a plain text password for authentication with the salt and password.
+		/// Gets or sets the firstname of the user.
 		/// </summary>
+		/// <value>
+		/// The firstname.
+		/// </value>
+		public string Firstname { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether the user has editor rights for pages.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if they are an editor; otherwise, <c>false</c>.
+		/// </value>
+		public bool IsEditor { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether the user has admin rights.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if they have admin rights (which includes editor rights) otherwise, <c>false</c>.
+		/// </value>
+		public bool IsAdmin { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether the account has been activated.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if the user is activated; otherwise, <c>false</c>.
+		/// </value>
+		public bool IsActivated { get; set; }
+
+		/// <summary>
+		/// Gets or sets the lastname of the user.
+		/// </summary>
+		/// <value>
+		/// The lastname.
+		/// </value>
+		public string Lastname { get; set; }
+
+		/// <summary>
+		/// Gets the hashed password for the user. 
+		/// </summary>
+		/// <remarks>
+		/// Use <see cref="SetPassword"/> to set the user's password, and 
+		/// <see cref="User.HashPassword"/> to encrypt a plain text password for authentication with the salt and password.
+		/// </remarks>
 		public string Password { get; internal set; }
 
+		/// <summary>
+		/// Gets or sets the password reset key.
+		/// </summary>
+		/// <value>
+		/// The password reset key, which is blank by default.
+		/// </value>
 		public string PasswordResetKey { get; set; }
 
 		/// <summary>
@@ -44,12 +101,19 @@ namespace Roadkill.Core.Database
 		/// </summary>
 		public string Username { get; set; }
 
+		/// <summary>
+		/// The unique id for this object, this is the same as the <see cref="Id"/> property.
+		/// </summary>
 		public Guid ObjectId
 		{
 			get { return Id; }
 			set { Id = value; }
 		}
 
+		/// <summary>
+		/// Encrypts and sets the password for the user.
+		/// </summary>
+		/// <param name="password">The password in plain text format.</param>
 		public void SetPassword(string password)
 		{
 			Salt = new Salt();
@@ -57,7 +121,8 @@ namespace Roadkill.Core.Database
 		}
 
 		/// <summary>
-		/// Hashes the password and salt using SHA1 via FormsAuthentication, or 256 is FormsAuthentication is not enabled.
+		/// Hashes a combination of the password and salt using SHA1 via FormsAuthentication, or 
+		/// SHA256 is FormsAuthentication is not enabled.
 		/// </summary>
 		public static string HashPassword(string password, string salt)
 		{

@@ -8,14 +8,40 @@ using Roadkill.Core.Plugins;
 
 namespace Roadkill.Core.Database.Export
 {
+	/// <summary>
+	/// Exports the current Roadkill installation data as SQL scripts.
+	/// </summary>
 	public class SqlExportBuilder
 	{
-		private IRepository _repository;
-		private IPluginFactory _pluginFactory;
+		private readonly IRepository _repository;
+		private readonly IPluginFactory _pluginFactory;
 
+		/// <summary>
+		/// Gets or sets a value indicating whether to include page data in the SQL script.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if pages data should be included; otherwise, <c>false</c>.
+		/// </value>
 		public bool IncludePages { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether to include configuration data in the SQL script.
+		/// </summary>
+		/// <value>
+		///   <c>true</c> if configuration data should be included; otherwise, <c>false</c>.
+		/// </value>
 		public bool IncludeConfiguration { get; set; }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SqlExportBuilder"/> class.
+		/// </summary>
+		/// <param name="repository">The current repository.</param>
+		/// <param name="pluginFactory">The plugin factory.</param>
+		/// <exception cref="System.ArgumentNullException">
+		/// repository
+		/// or
+		/// pluginFactory are null.
+		/// </exception>
 		public SqlExportBuilder(IRepository repository, IPluginFactory pluginFactory)
 		{
 			if (repository == null)
@@ -30,6 +56,10 @@ namespace Roadkill.Core.Database.Export
 			IncludeConfiguration = true;
 		}
 
+		/// <summary>
+		/// Exports all Roadkill data as a SQL92 compliant script.
+		/// </summary>
+		/// <returns>The exported SQL, or any errors that occurred.</returns>
 		public string Export()
 		{
 			try
@@ -212,7 +242,7 @@ namespace Roadkill.Core.Database.Export
 			return sql;
 		}
 
-		public class SiteConfigurationRow
+		internal class SiteConfigurationRow
 		{
 			public Guid Id { get; set; }
 			public string Version { get; set; }
