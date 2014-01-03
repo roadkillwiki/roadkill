@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Web.Http;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security;
-using Roadkill.Core.Services;
 
 namespace Roadkill.Core.Mvc.Controllers.Api
 {
