@@ -31,6 +31,21 @@ namespace Roadkill.Tests.Acceptance.Smoke
 		}
 
 		[Test]
+		public void WebApi_Help_Page_Has_Known_Text()
+		{
+			// Arrange
+			string expectedText = "Roadkill REST API Help";
+
+			// Act
+			Driver.Navigate().GoToUrl(BaseUrl + "/api");
+
+			string actualText = Driver.FindElement(By.CssSelector(".content-wrapper h1")).Text;
+
+			// Assert
+			Assert.That(actualText, Is.EqualTo(expectedText), actualText);
+		}
+
+		[Test]
 		public void Can_Login_As_Admin()
 		{
 			// Arrange

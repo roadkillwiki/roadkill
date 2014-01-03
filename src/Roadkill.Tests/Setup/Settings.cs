@@ -72,5 +72,10 @@ namespace Roadkill.Tests
 				return _sitePath;
 			}
 		}
+
+		public static readonly string ADMIN_EMAIL = "admin@localhost";
+		public static readonly string ADMIN_PASSWORD = "password";
+		public static readonly string EDITOR_EMAIL = "editor@localhost";
+		public static readonly string EDITOR_PASSWORD = "password";
 	}
 }

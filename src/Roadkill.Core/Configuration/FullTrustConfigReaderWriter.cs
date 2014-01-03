@@ -22,6 +22,11 @@ namespace Roadkill.Core.Configuration
 
 		public string ConfigFilePath { get;set; }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="FullTrustConfigReaderWriter"/> class.
+		/// The class will attempt to load the Roadkill section from the web.config when the class 
+		/// is instantiated, and cache it for the lifetime of the <see cref="FullTrustConfigReaderWriter"/> instance.
+		/// </summary>
 		public FullTrustConfigReaderWriter()
 			: this("")
 		{
@@ -77,22 +82,10 @@ namespace Roadkill.Core.Configuration
 		}
 
 		/// <summary>
-		/// Tests the web.config can be saved to by changing the "installed" to false.
+		/// Updates the current version.
 		/// </summary>
-		/// <returns>Any error messages or an empty string if no errors occurred.</returns>
-		public override string TestSaveWebConfig()
-		{
-			try
-			{
-				ResetInstalledState();
-				return "";
-			}
-			catch (Exception e)
-			{
-				return e.ToString();
-			}
-		}
-
+		/// <param name="currentVersion">The current version.</param>
+		/// <exception cref="UpgradeException">An exception occurred while updating the version to the web.config</exception>
 		public override void UpdateCurrentVersion(string currentVersion)
 		{
 			try
@@ -107,11 +100,42 @@ namespace Roadkill.Core.Configuration
 			}
 		}
 
+		/// <summary>
+		/// Updates the current UI language.
+		/// </summary>
+		/// <param name="uiLanguageCode">The UI language code, e.g. fr for French.</param>
+		/// <exception cref="System.Configuration.ConfigurationException">An exception occurred while updating the UI language in the web.config</exception>
+		public override void UpdateLanguage(string uiLanguageCode)
+		{
+			try
+			{
+				GlobalizationSection globalizationSection = _config.GetSection("system.web/globalization") as GlobalizationSection;
+				globalizationSection.UICulture = uiLanguageCode;
+				_config.Save(ConfigurationSaveMode.Minimal);
+			}
+			catch (ConfigurationErrorsException ex)
+			{
+				throw new ConfigurationException("An exception occurred while updating the UI language in the web.config", ex);
+			}
+		}
+
+		/// <summary>
+		/// Loads the configuration settings.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="RoadkillSection" /> instance with the settings.
+		/// </returns>
 		public override RoadkillSection Load()
 		{
 			return _section;
 		}
 
+		/// <summary>
+		/// Saves the configuration settings. This will save a subset of the <see cref="SettingsViewModel" /> based on
+		/// the values that match those found in the <see cref="RoadkillSection" />
+		/// </summary>
+		/// <param name="settings">The application settings.</param>
+		/// <exception cref="InstallerException">An exception occurred while updating the settings to the web.config</exception>
 		public override void Save(SettingsViewModel settings)
 		{
 			try
@@ -159,20 +183,6 @@ namespace Roadkill.Core.Configuration
 			}
 		}
 
-		public override void UpdateLanguage(string uiLanguageCode)
-		{
-			try
-			{
-				GlobalizationSection globalizationSection = _config.GetSection("system.web/globalization") as GlobalizationSection;
-				globalizationSection.UICulture = uiLanguageCode;
-				_config.Save(ConfigurationSaveMode.Minimal);
-			}
-			catch (ConfigurationErrorsException ex)
-			{
-				throw new ConfigurationException("An exception occurred while updating the UI language in the web.config", ex);
-			}
-		}
-
 		/// <summary>
 		/// Adds config settings for forms authentication.
 		/// </summary>
@@ -204,9 +214,9 @@ namespace Roadkill.Core.Configuration
 		}
 
 		/// <summary>
-		/// Resets the roadkill "installed" property in the web.config for when the installation fails.
+		/// Resets the state the configuration file/store so the 'installed' property is false.
 		/// </summary>
-		/// <exception cref="InstallerException">An web.config related error occurred while reseting the install state.</exception>
+		/// <exception cref="InstallerException">An exception occurred while resetting web.config install state to false.</exception>
 		public override void ResetInstalledState()
 		{
 			try
@@ -221,10 +231,11 @@ namespace Roadkill.Core.Configuration
 		}
 
 		/// <summary>
-		/// Loads the settings from the configuration file.
+		/// Gets the current application settings, which is usually cached settings from the <see cref="Load" /> method.
 		/// </summary>
-		/// <param name="config">The configuration to load the settings from. If this is null, the <see cref="ConfigurationManager"/> 
-		/// is used to load the settings.</param>
+		/// <returns>
+		/// A new <see cref="ApplicationSettings" /> instance
+		/// </returns>
 		public override ApplicationSettings GetApplicationSettings()
 		{
 			ApplicationSettings appSettings = new ApplicationSettings();
@@ -269,9 +280,32 @@ namespace Roadkill.Core.Configuration
 			return appSettings;
 		}
 
+		/// <summary>
+		/// Gets the curent <see cref="System.Configuration.Configuration"/>.
+		/// </summary>
+		/// <returns></returns>
 		public System.Configuration.Configuration GetConfiguration()
 		{
 			return _config;
+		}
+
+		/// <summary>
+		/// Tests the app.config or web.config file to ensure that it can be written to.
+		/// </summary>
+		/// <returns>
+		/// An empty string if no error occurred; otherwise the error message.
+		/// </returns>
+		public override string TestSaveWebConfig()
+		{
+			try
+			{
+				ResetInstalledState();
+				return "";
+			}
+			catch (Exception e)
+			{
+				return e.ToString();
+			}
 		}
 	}
 }

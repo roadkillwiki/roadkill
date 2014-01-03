@@ -44,7 +44,7 @@ namespace Roadkill.Core
 			// This should be called before the other routes, for some reason.
 			AreaRegistration.RegisterAllAreas();
 
-			// Register routers and JS/CSS bundles
+			// Register routes and JS/CSS bundles
 			Routing.RegisterApi(GlobalConfiguration.Configuration);
 			Routing.Register(RouteTable.Routes);
 			Bundles.Register();		
