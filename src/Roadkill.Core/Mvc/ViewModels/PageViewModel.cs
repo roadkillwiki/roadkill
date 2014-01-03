@@ -106,7 +106,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		}
 
 		/// <summary>
-		/// Sets or gets the tags for the page - these are given by the page in comma separated format.
+		/// Sets or gets the tags for the page - these should be in comma separated format.
 		/// </summary>
 		public string RawTags
 		{

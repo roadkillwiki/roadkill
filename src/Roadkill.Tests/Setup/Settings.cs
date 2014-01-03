@@ -77,5 +77,6 @@ namespace Roadkill.Tests
 		public static readonly string ADMIN_PASSWORD = "password";
 		public static readonly string EDITOR_EMAIL = "editor@localhost";
 		public static readonly string EDITOR_PASSWORD = "password";
+		public static readonly Guid ADMIN_ID = new Guid("aabd5468-1c0e-4277-ae10-a0ce00d2fefc");
 	}
 }

@@ -12,8 +12,12 @@ namespace Roadkill.Core.Mvc.Controllers.Api
 	[WebApiAdminRequired]
 	public class SearchController : ApiControllerBase
 	{
-		private SearchService _searchService;
+		private readonly SearchService _searchService;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SearchController"/> class.
+		/// </summary>
+		/// <param name="searchService">The search service.</param>
 		public SearchController(SearchService searchService)
 		{
 			_searchService = searchService;
@@ -26,6 +30,23 @@ namespace Roadkill.Core.Mvc.Controllers.Api
 		public IEnumerable<SearchResultViewModel> Get(string query)
 		{
 			return _searchService.Search(query);
+		}
+
+		/// <summary>
+		/// Creates or re-indexes and updates the Lucene index with all roadkill pages.
+		/// </summary>
+		/// <returns></returns>
+		public string Createindex()
+		{
+			try
+			{
+				_searchService.CreateIndex();
+				return "OK";
+			}
+			catch (SearchException ex)
+			{
+				return ex.ToString();
+			}
 		}
 	}
 }

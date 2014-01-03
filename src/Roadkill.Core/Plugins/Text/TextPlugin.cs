@@ -69,7 +69,7 @@ namespace Roadkill.Core.Plugins
 		}
 
 		/// <summary>
-		/// The virtual path for the plugin, e.g. ~/Plugins/Text/MyPlugin/. Does not contain a trailing slash.
+		/// The virtual path for the plugin, e.g. ~/Plugins/MyPlugin/. Does not contain a trailing slash.
 		/// </summary>
 		public string PluginVirtualPath
 		{
@@ -78,7 +78,7 @@ namespace Roadkill.Core.Plugins
 				if (_pluginVirtualPath == null)
 				{
 					EnsureIdIsValid();
-					_pluginVirtualPath = "~/Plugins/Text/" + Id;
+					_pluginVirtualPath = "~/Plugins/" + Id;
 				}
 
 				return _pluginVirtualPath;
