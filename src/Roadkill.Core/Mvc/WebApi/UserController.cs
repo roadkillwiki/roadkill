@@ -11,6 +11,8 @@ using Roadkill.Core.Services;
 
 namespace Roadkill.Core.Mvc.Controllers.Api
 {
+	[WebApiAdminRequired]
+	[RoutePrefix("api/user")]
 	public class UserController : ApiControllerBase
 	{
 		private UserServiceBase _userService;
@@ -25,9 +27,11 @@ namespace Roadkill.Core.Mvc.Controllers.Api
 		/// used for further API requests.
 		/// </summary>
 		/// <param name="user">The user's email and password</param>
-		/// <returns>True if the authentication request was sucessful, false otherwise.</returns>
+		/// <returns>True if the authentication request was successful, false otherwise.</returns>
 		[HttpPost]
-		[Route("Authenticate")]
+		[Route("authenticate")]
+		[Route("~/api/Authenticate")]
+		[AllowAnonymous]
 		public bool Authenticate(UserInfo user)
 		{
 			return _userService.Authenticate(user.Email, user.Password);
@@ -39,6 +43,8 @@ namespace Roadkill.Core.Mvc.Controllers.Api
 		/// <returns>"OK" if the logout call was successful.</returns>
 		[HttpGet]
 		[Route("Logout")]
+		[Route("~/api/Logout")]
+		[AllowAnonymous]
 		public string Logout()
 		{
 			_userService.Logout();
@@ -50,7 +56,6 @@ namespace Roadkill.Core.Mvc.Controllers.Api
 		/// </summary>
 		/// <param name="id">The id of the user</param>
 		/// <returns>The user's details.</returns>
-		[WebApiAdminRequired]
 		[HttpGet]
 		public UserViewModel Get(Guid id)
 		{
@@ -65,7 +70,6 @@ namespace Roadkill.Core.Mvc.Controllers.Api
 		/// Lists all users in the system [admin access is required to make this call].
 		/// </summary>
 		/// <returns>An array of user objects.</returns>
-		[WebApiAdminRequired]
 		[HttpGet]
 		public IEnumerable<UserViewModel> Get()
 		{

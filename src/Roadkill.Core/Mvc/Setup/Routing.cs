@@ -102,6 +102,7 @@ namespace Roadkill.Core.Mvc
 		{
 			config.MapHttpAttributeRoutes();
 
+			// Adds support for the webapi 1 style methods, e.g. /api/Users/ 
 			config.Routes.MapHttpRoute(
 				name: "DefaultApi",
 				routeTemplate: "api/{controller}/{id}",

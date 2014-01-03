@@ -245,6 +245,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Rhino.Mocks">
       <HintPath>..\..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
     </Reference>
@@ -339,9 +342,13 @@
     <Compile Include="Acceptance\Setup\AcceptanceTestsSetup.cs" />
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
+    <Compile Include="Integration\WebApi\UserTests.cs" />
+    <Compile Include="Integration\WebApi\WebApiTestBase.cs" />
     <Compile Include="Integration\Configuration\ApplicationSettingsTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedPageRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedSettingsRepositoryTests.cs" />
+    <Compile Include="Setup\ConfigFileManager.cs" />
+    <Compile Include="Setup\IISExpress.cs" />
     <Compile Include="Setup\SqlExpressSetup.cs" />
     <Compile Include="Integration\Repository\MongoDb\MongoDbSettingsRepositoryTests.cs" />
     <Compile Include="Integration\Repository\MongoDb\MongoDbPageRepositoryTests.cs" />
