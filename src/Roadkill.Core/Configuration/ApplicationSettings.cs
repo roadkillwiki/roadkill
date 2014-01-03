@@ -295,6 +295,9 @@ namespace Roadkill.Core.Configuration
 			}
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ApplicationSettings"/> class.
+		/// </summary>
 		public ApplicationSettings()
 		{
 			if (HttpContext.Current != null)
@@ -315,6 +318,10 @@ namespace Roadkill.Core.Configuration
 			PluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ApplicationSettings"/> class.
+		/// </summary>
+		/// <param name="httpContext">The HTTP context.</param>
 		internal ApplicationSettings(HttpContextBase httpContext) : this()
 		{
 			_httpContext = httpContext;
