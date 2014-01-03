@@ -46,7 +46,7 @@ namespace Roadkill.Tests.Unit.Plugins
 
 			// Assert
 			Assert.That(virtualPath, Is.StringContaining("Plugin1"));
-			Assert.That(virtualPath, Is.StringStarting("~/Plugins/Text/"));
+			Assert.That(virtualPath, Is.StringStarting("~/Plugins/"));
 			Assert.That(virtualPath, Is.Not.StringEnding("/"));
 		}
 
@@ -190,7 +190,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			// Arrange
 			TextPluginStub plugin = new TextPluginStub("PluginId", "name", "desc");
 			string expectedHtml = "\t\t" +
-								 @"<link href=""~/Plugins/Text/PluginId/file.css"" rel=""stylesheet"" type=""text/css"" />" +
+								 @"<link href=""~/Plugins/PluginId/file.css"" rel=""stylesheet"" type=""text/css"" />" +
 								 "\n";
 
 			// Act

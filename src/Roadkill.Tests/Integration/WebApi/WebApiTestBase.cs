@@ -11,7 +11,7 @@ using Roadkill.Core.Mvc.Controllers.Api;
 namespace Roadkill.Tests.Integration.WebApi
 {
 	[TestFixture]
-	[Category("Unit")]
+	[Category("Integration")]
 	public class WebApiTestBase
 	{
 		private IISExpress _iisExpress;
