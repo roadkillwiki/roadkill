@@ -15,17 +15,23 @@ namespace Roadkill.Tests.Acceptance
 	[Category("Acceptance")]
 	public abstract class AcceptanceTestBase
 	{
-		public static readonly string ADMIN_EMAIL = Settings.ADMIN_EMAIL;
-		public static readonly string ADMIN_PASSWORD = Settings.ADMIN_PASSWORD;
+		protected static readonly string ADMIN_EMAIL = "admin@localhost";
+		protected static readonly string ADMIN_PASSWORD = "password";
 
-		protected static readonly string EDITOR_EMAIL = Settings.EDITOR_EMAIL;
-		protected static readonly string EDITOR_PASSWORD = Settings.EDITOR_PASSWORD;
+		protected static readonly string EDITOR_EMAIL = "editor@localhost";
+		protected static readonly string EDITOR_PASSWORD = "password";
 
 		protected IWebDriver Driver;
 		protected string LoginUrl;
 		protected string BaseUrl;
 		protected string LogoutUrl;
 		protected bool IsWindowsAuthTests;
+		
+		/// <summary>
+		/// The WebApi needs a clean website setup, but not ChromeDriver so this variable gives those classes the
+		/// option to skip running ChromeDriver.
+		/// </summary>
+		protected virtual bool SkipChromeDriver { get; set; }
 
 		[SetUp]
 		public void Setup()
@@ -37,12 +43,14 @@ namespace Roadkill.Tests.Acceptance
 			Console.WriteLine("============ Acceptance tests setup ============");
 
 			SqlExpressSetup.RecreateLocalDbData();
-			ConfigFileManager.CopyRoadkillConfig();
-
+			AcceptanceTestsSetup.CopyRoadkillConfig();
 			BaseUrl = url;
 			LoginUrl = BaseUrl + "/user/login";
 			LogoutUrl = BaseUrl + "/user/logout";
-			Driver = AcceptanceTestsSetup.Driver;
+
+			if (SkipChromeDriver == false)
+				Driver = AcceptanceTestsSetup.Driver;
+
 			IsWindowsAuthTests = (ConfigurationManager.AppSettings["useWindowsAuth"] == "true");
 
 			Console.WriteLine("=================================================");
