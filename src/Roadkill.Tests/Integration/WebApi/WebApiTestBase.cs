@@ -78,7 +78,8 @@ namespace Roadkill.Tests.Integration.WebApi
 
 		protected string GetFullUrl(string fullPath)
 		{
-			return string.Format("{0}/api/{1}", BaseUrl, fullPath);
+			//return string.Format("{0}/api/{1}", BaseUrl, fullPath);
+			return string.Format("http://roadkill.local/api/{0}",fullPath);
 		}
 
 		protected IRepository GetRepository()

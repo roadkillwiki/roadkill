@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.Controllers.Api;
@@ -17,6 +18,9 @@ namespace Roadkill.Tests.Unit.WebApi
 		private MocksAndStubsContainer _container;
 
 		private RepositoryMock _repositoryMock;
+		private ApplicationSettings _applicationSettings;
+		private UserServiceMock _userService;
+		private IUserContext _userContext;
 		private PageService _pageService;
 		private PagesController _pagesController;
 
@@ -25,10 +29,13 @@ namespace Roadkill.Tests.Unit.WebApi
 		{
 			_container = new MocksAndStubsContainer();
 
+			_applicationSettings = _container.ApplicationSettings;
+			_userContext = _container.UserContext;
+			_userService = _container.UserService;
 			_repositoryMock = _container.Repository;
 			_pageService = _container.PageService;
 
-			_pagesController = new PagesController(_pageService);
+			_pagesController = new PagesController(_pageService, _applicationSettings, _userService, _userContext);
 		}
 
 		[Test]

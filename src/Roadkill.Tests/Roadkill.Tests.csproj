@@ -342,6 +342,7 @@
     <Compile Include="Acceptance\Setup\AcceptanceTestsSetup.cs" />
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
+    <Compile Include="Integration\WebApi\WebApiClient.cs" />
     <Compile Include="Integration\WebApi\PageControllerTests.cs" />
     <Compile Include="Integration\WebApi\SearchControllerTests.cs" />
     <Compile Include="Integration\WebApi\UserControllerTests.cs" />
