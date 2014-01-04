@@ -19,17 +19,13 @@ namespace Roadkill.Tests.Acceptance
 		private IISExpress _iisExpress;
 		public static IWebDriver Driver { get; private set; }
 
-		[TestFixtureSetUp]
-		public void TestFixtureSetUp()
+		[SetUp]
+		public void Setup()
 		{
 			DeleteSqliteBinaries();
 			_iisExpress = new IISExpress();
 			_iisExpress.Start();
-		}
 
-		[SetUp]
-		public void Setup()
-		{
 			ConfigFileManager.CopyWebConfig();
 			ConfigFileManager.CopyConnectionStringsConfig();
 			ConfigFileManager.CopyRoadkillConfig();
