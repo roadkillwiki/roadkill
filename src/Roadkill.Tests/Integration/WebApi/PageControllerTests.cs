@@ -80,6 +80,9 @@ namespace Roadkill.Tests.Integration.WebApi
 		[Test]
 		public void Put_Should_Update_Page()
 		{
+			WebApiClient apiclient = new WebApiClient();
+			apiclient.Login();
+
 			// Arrange
 			IRepository repository = GetRepository();
 			PageContent pageContent = AddPage(repository, "test", "this is page 1");
@@ -95,7 +98,7 @@ namespace Roadkill.Tests.Integration.WebApi
 
 			// Assert
 			Page page = repository.AllPages().FirstOrDefault();
-			//Assert.That(page.Title, Is.EqualTo("New title"), jsonResponse);
+			Assert.That(page.Title, Is.EqualTo("New title"), jsonResponse);
 		}
 	}
 }
