@@ -21,7 +21,7 @@ namespace Roadkill.Tests.Integration.WebApi
 			AddPage(repository, "page 2", "this is page 2");
 
 			HttpClient client = Login();
-			string indexUrl = GetFullUrl("CreateIndex");
+			string indexUrl = GetFullUrl("Search/CreateIndex");
 			string url = GetFullUrl("Search?query=test");
 
 			// Act
