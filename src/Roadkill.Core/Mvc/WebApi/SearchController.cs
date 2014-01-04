@@ -10,6 +10,7 @@ using Roadkill.Core.Services;
 namespace Roadkill.Core.Mvc.Controllers.Api
 {
 	[WebApiAdminRequired]
+	[RoutePrefix("api/search")]
 	public class SearchController : ApiControllerBase
 	{
 		private readonly SearchService _searchService;
@@ -35,8 +36,10 @@ namespace Roadkill.Core.Mvc.Controllers.Api
 		/// <summary>
 		/// Creates or re-indexes and updates the Lucene index with all roadkill pages.
 		/// </summary>
-		/// <returns></returns>
-		public string Createindex()
+		/// <returns>"OK" if there no errors occurred, otherwise any error message.</returns>
+		[HttpGet]
+		[Route("CreateIndex")]
+		public string CreateIndex()
 		{
 			try
 			{
