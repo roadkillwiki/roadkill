@@ -16,21 +16,23 @@ namespace Roadkill.Tests.Integration.WebApi
 		public void Search_Should_Return_Result_Based_On_Query()
 		{
 			// Arrange
-			IRepository repository = GetRepository();
-			AddPage(repository, "test", "this is page 1");
-			AddPage(repository, "page 2", "this is page 2");
+			AddPage("test", "this is page 1");
+			AddPage("page 2", "this is page 2");
+			var queryString = new Dictionary<string, string>()
+			{ 
+				{ "query", "test" }
+			};
 
-			HttpClient client = Login();
-			string indexUrl = GetFullUrl("Search/CreateIndex");
-			string url = GetFullUrl("Search?query=test");
+			WebApiClient apiclient = new WebApiClient();
+			apiclient.Login();
 
 			// Act
-			var x = client.GetAsync(indexUrl).Result;
-			HttpResponseMessage response = client.GetAsync(url).Result;
-			IEnumerable<SearchResultViewModel> results = response.Content.ReadAsAsync<IEnumerable<SearchResultViewModel>>().Result;
+			apiclient.Get("Search/CreateIndex");
+			WebApiResponse<List<PageViewModel>> response = apiclient.Get<List<PageViewModel>>("Search", queryString);
 
 			// Assert
-			Assert.That(results.Count(), Is.EqualTo(1), response.Content.ReadAsStringAsync().Result);
+			IEnumerable<PageViewModel> pages = response.Result;
+			Assert.That(pages.Count(), Is.EqualTo(1), response);
 		}
 	}
 }

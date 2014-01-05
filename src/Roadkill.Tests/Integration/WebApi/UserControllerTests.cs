@@ -16,100 +16,94 @@ namespace Roadkill.Tests.Integration.WebApi
 		public void Authenticate_Should_Return_True_For_Known_User()
 		{
 			// Arrange
-			string url = GetFullUrl("Authenticate");
-
 			UserController.UserInfo info = new UserController.UserInfo()
 			{
 				Email = ADMIN_EMAIL,
 				Password = ADMIN_PASSWORD
 			};
 
-			HttpClient client = new HttpClient();
+			WebApiClient apiclient = new WebApiClient();
+			apiclient.Login();
 
 			// Act
-			HttpResponseMessage response = client.PostAsJsonAsync<UserController.UserInfo>(url, info).Result;
-			string jsonResponse = response.Content.ReadAsStringAsync().Result;
+			WebApiResponse response = apiclient.Post<UserController.UserInfo>("Authenticate", info);
 
 			// Assert
-			Assert.That(jsonResponse, Is.EqualTo("true"), jsonResponse);
+			Assert.That(response.Content, Is.EqualTo("true"), response);
 		}
 
 		[Test]
 		public void Authenticate_Should_Return_False_For_Unknown_User()
 		{
 			// Arrange
-			string url = GetFullUrl("Authenticate");
-
 			UserController.UserInfo info = new UserController.UserInfo()
 			{
-				Email = "anyone@localhost",
+				Email = "badlogin@localhost",
 				Password = ADMIN_PASSWORD
 			};
 
-			HttpClient client = new HttpClient();
+			WebApiClient apiclient = new WebApiClient();
+			apiclient.Login();
 
 			// Act
-			HttpResponseMessage response = client.PostAsJsonAsync<UserController.UserInfo>(url, info).Result;
-			string jsonResponse = response.Content.ReadAsStringAsync().Result;
+			WebApiResponse response = apiclient.Post<UserController.UserInfo>("Authenticate", info);
 
 			// Assert
-			Assert.That(jsonResponse, Is.EqualTo("false"), jsonResponse);
+			Assert.That(response.Content, Is.EqualTo("false"), response);
 		}
 
 		[Test]
 		public void GetUsers_Should_Return_All_Users()
 		{
 			// Arrange
-			HttpClient client = Login();
-			string url = GetFullUrl("User");
+			WebApiClient apiclient = new WebApiClient();
+			apiclient.Login();
 
 			// Act
-			HttpResponseMessage response = client.GetAsync(url).Result;
-			IEnumerable<UserViewModel> users = response.Content.ReadAsAsync<IEnumerable<UserViewModel>>().Result;
+			WebApiResponse<List<UserViewModel>> response = apiclient.Get<List<UserViewModel>>("User");
 
 			// Assert
-			Assert.That(users.Count(), Is.EqualTo(2), response.Content.ReadAsStringAsync().Result);
+			List<UserViewModel> results = response.Result;
+			Assert.That(results.Count(), Is.EqualTo(2), response);
 		}
 
 		[Test]
 		public void GetUser_Should_Return_Admin_User()
 		{
 			// Arrange
-			HttpClient client = Login();
-			string url = GetFullUrl("User/" +ADMIN_ID);
+			var queryString = new Dictionary<string, string>()
+			{ 
+				{ "Id", ADMIN_ID.ToString() }
+			};
+
+			WebApiClient apiclient = new WebApiClient();
+			apiclient.Login();	
 
 			// Act
-			HttpResponseMessage response = client.GetAsync(url).Result;
-			UserViewModel user = response.Content.ReadAsAsync<UserViewModel>().Result;
+			WebApiResponse<UserViewModel> response = apiclient.Get<UserViewModel>("User", queryString);
 
 			// Assert
-			Assert.That(user, Is.Not.Null, response.Content.ReadAsStringAsync().Result);
-			Assert.That(user.Id, Is.EqualTo(ADMIN_ID), response.Content.ReadAsStringAsync().Result);
+			UserViewModel userViewModel = response.Result;
+			Assert.That(userViewModel, Is.Not.Null, response);
+			Assert.That(userViewModel.Id, Is.EqualTo(ADMIN_ID), response);
 		}
 
 		[Test]
 		public void Logout_Should_Remove_Auth_Cookie()
 		{
 			// Arrange
-			string authUrl = GetFullUrl("Authenticate");
-			string logoutUrl = GetFullUrl("Logout");
-			string usersUrl = GetFullUrl("User");
-
-			UserController.UserInfo info = new UserController.UserInfo()
-			{
-				Email = ADMIN_EMAIL,
-				Password = ADMIN_PASSWORD
-			};
-
-			HttpClient client = new HttpClient();
+			WebApiClient apiclient = new WebApiClient();
+			apiclient.Login();
+			apiclient.Get("Logout");
+			apiclient.Get("User");
 
 			// Act
-			HttpResponseMessage authResult = client.PostAsJsonAsync<UserController.UserInfo>(authUrl, info).Result;
-			HttpResponseMessage logoutResult = client.GetAsync(logoutUrl).Result;
-			HttpResponseMessage response = client.GetAsync(usersUrl).Result;
+			apiclient.Login();
+			apiclient.Get("Logout");
+			WebApiResponse response = apiclient.Get("User");
 
 			// Assert
-			Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized), response.Content.ReadAsStringAsync().Result);
+			Assert.That(response.HttpStatusCode, Is.EqualTo(HttpStatusCode.Unauthorized), response);
 		}
 	}
 }

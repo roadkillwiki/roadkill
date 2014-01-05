@@ -25,9 +25,13 @@ namespace Roadkill.Tests.Integration.WebApi
 			BaseUrl = url;
 
 			Client = new RestClient(BaseUrl);
+			//Client = new RestClient("http://roadkill.local");
 			Client.CookieContainer = new CookieContainer();
 		}
 
+		/// <summary>
+		/// Calls the Authenticate() web api method for further get/post/put calls.
+		/// </summary>
 		public void Login()
 		{
 			UserController.UserInfo info = new UserController.UserInfo()
@@ -36,7 +40,7 @@ namespace Roadkill.Tests.Integration.WebApi
 				Password = Settings.ADMIN_PASSWORD
 			};
 
-			string url = GetResourcePath("Authenticate");
+			string url = GetFullPath("Authenticate");
 			RestRequest request = new RestRequest(url, Method.POST);
 			request.RequestFormat = DataFormat.Json;
 			request.AddBody(info);
@@ -46,49 +50,103 @@ namespace Roadkill.Tests.Integration.WebApi
 			Assert.That(response.Content, Is.EqualTo("true"), "Login failed, true wasn't returned: : {0}", response.Content);
 		}
 
-		public string GetResourcePath(string fullPath)
+		public string GetFullPath(string fullPath)
 		{
 			return string.Format("/api/{0}", fullPath);
 		}
 
-		public WebApiResponse Get(string url, Dictionary<string,string> arguments)
+		public WebApiResponse Get(string url, Dictionary<string, string> queryString = null)
 		{
+			url = GetFullPath(url);
 			RestRequest request = new RestRequest(url, Method.GET);
 			request.RequestFormat = DataFormat.Json;
 
-			foreach (string key in arguments.Keys)
+			if (queryString != null)
 			{
-				request.Parameters.Add(new Parameter() { Name = key, Value = arguments[key] });
-			}
-			IRestResponse response = Client.ExecuteAsGet(request, "GET");
+				foreach (string key in queryString.Keys)
+				{
+					Parameter parameter = new Parameter()
+					{
+						Name = key,
+						Value = queryString[key],
+						Type = ParameterType.QueryString
+					};
 
-			return new WebApiResponse() { Content = response.Content, HttpStatusCode = response.StatusCode };
+					request.Parameters.Add(parameter);
+				}
+			}
+
+			IRestResponse response = Client.ExecuteAsGet(request, "GET");
+			return new WebApiResponse()
+			{
+				Url = Client.BuildUri(request).ToString(), 
+				Content = response.Content, 
+				HttpStatusCode = response.StatusCode 
+			};
 		}
 
-		public WebApiResponse Post<T>(string url, T jsonBody) where T: new()
+		public WebApiResponse<TResult> Get<TResult>(string url, Dictionary<string, string> queryString = null) where TResult : new()
 		{
+			url = GetFullPath(url);
+			RestRequest request = new RestRequest(url, Method.GET);
+			request.RequestFormat = DataFormat.Json;
+
+			if (queryString != null)
+			{
+				foreach (string key in queryString.Keys)
+				{
+					Parameter parameter = new Parameter()
+					{
+						Name = key,
+						Value = queryString[key],
+						Type = ParameterType.QueryString
+					};
+
+					request.Parameters.Add(parameter);
+				}
+			}
+
+			IRestResponse<TResult> response = Client.ExecuteAsGet<TResult>(request, "GET");
+			return new WebApiResponse<TResult>()
+			{
+				Result = response.Data,
+				Url = Client.BuildUri(request).ToString(),
+				Content = response.Content,
+				HttpStatusCode =
+				response.StatusCode
+			};
+		}
+
+		public WebApiResponse Post<T>(string url, T jsonBody) where T : new()
+		{
+			url = GetFullPath(url);
 			RestRequest request = new RestRequest(url, Method.POST);
 			request.RequestFormat = DataFormat.Json;
 			request.AddBody(jsonBody);
 			IRestResponse response = Client.ExecuteAsPost<T>(request, "POST");
 
-			return new WebApiResponse() { Content = response.Content, HttpStatusCode = response.StatusCode };
+			return new WebApiResponse()
+			{
+				Url = Client.BuildUri(request).ToString(), 
+				Content = response.Content, 
+				HttpStatusCode = response.StatusCode 
+			};
 		}
 
 		public WebApiResponse Put<T>(string url, T jsonBody) where T : new()
 		{
+			url = GetFullPath(url);
 			RestRequest request = new RestRequest(url, Method.POST);
 			request.RequestFormat = DataFormat.Json;
 			request.AddBody(jsonBody);
 			IRestResponse response = Client.ExecuteAsPost<T>(request, "PUT");
 
-			return new WebApiResponse() { Content = response.Content, HttpStatusCode = response.StatusCode };
+			return new WebApiResponse()
+			{
+				Url = Client.BuildUri(request).ToString(), 
+				Content = response.Content, 
+				HttpStatusCode = response.StatusCode 
+			};
 		}
-	}
-
-	public class WebApiResponse
-	{
-		public string Content { get; set; }
-		public HttpStatusCode HttpStatusCode { get; set; }
 	}
 }

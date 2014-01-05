@@ -17,45 +17,45 @@ namespace Roadkill.Tests.Integration.WebApi
 		public void Get_Should_Return_All_Pages()
 		{
 			// Arrange
-			IRepository repository = GetRepository();
-			AddPage(repository, "test", "this is page 1");
-			AddPage(repository, "page 2", "this is page 2");
+			AddPage("test", "this is page 1");
+			AddPage("page 2", "this is page 2");
 
-			HttpClient client = Login();
-			string url = GetFullUrl("Pages");
+			WebApiClient apiclient = new WebApiClient();
+			apiclient.Login();
 
 			// Act
-			HttpResponseMessage response = client.GetAsync(url).Result;
-			IEnumerable<PageViewModel> results = response.Content.ReadAsAsync<IEnumerable<PageViewModel>>().Result;
+			WebApiResponse<List<PageViewModel>> response = apiclient.Get<List<PageViewModel>>("Pages");
 
 			// Assert
-			Assert.That(results.Count(), Is.EqualTo(2), response.Content.ReadAsStringAsync().Result);
+			IEnumerable<PageViewModel> pages = response.Result;
+			Assert.That(pages.Count(), Is.EqualTo(2), response);
 		}
 
 		[Test]
 		public void Get_With_Id_Should_Return_Correct_Page()
 		{
 			// Arrange
-			IRepository repository = GetRepository();
-			PageContent expectedPage = AddPage(repository, "test", "this is page 1");
-
-			HttpClient client = Login();
-			string url = GetFullUrl("Pages/" + expectedPage.Page.Id);
+			PageContent expectedPage = AddPage("test", "this is page 1");
+			var queryString = new Dictionary<string, string>()
+			{ 
+				{ "Id", expectedPage.Page.Id.ToString() }
+			};
+			WebApiClient apiclient = new WebApiClient();
+			apiclient.Login();
 
 			// Act
-			HttpResponseMessage response = client.GetAsync(url).Result;
-			PageViewModel actualPage = response.Content.ReadAsAsync<PageViewModel>().Result;
+			WebApiResponse<PageViewModel> response = apiclient.Get<PageViewModel>("Pages", queryString);
 
 			// Assert
-			Assert.That(actualPage, Is.Not.Null, response.Content.ReadAsStringAsync().Result);
-			Assert.That(actualPage.Id, Is.EqualTo(expectedPage.Page.Id), response.Content.ReadAsStringAsync().Result);
+			PageViewModel actualPage = response.Result;
+			Assert.That(actualPage, Is.Not.Null, response.ToString());
+			Assert.That(actualPage.Id, Is.EqualTo(expectedPage.Page.Id), response.ToString());
 		}
 
 		[Test]
 		public void Post_Should_Add_Page()
 		{
 			// Arrange
-			IRepository repository = GetRepository();
 			PageViewModel page = new PageViewModel()
 			{
 				Title = "Hello",
@@ -65,40 +65,36 @@ namespace Roadkill.Tests.Integration.WebApi
 				RawTags = "tag1,tag2"
 			};
 
-			HttpClient client = Login();
-			string url = GetFullUrl("Pages");
+			WebApiClient apiclient = new WebApiClient();
+			apiclient.Login();
 
 			// Act
-			HttpResponseMessage response = client.PostAsJsonAsync<PageViewModel>(url, page).Result;
-			string jsonResponse = response.Content.ReadAsStringAsync().Result;
+			WebApiResponse response = apiclient.Post<PageViewModel>("Pages", page);
 
 			// Assert
+			IRepository repository = GetRepository();
 			IEnumerable<Page> pages = repository.AllPages();
-			Assert.That(pages.Count(), Is.EqualTo(1), jsonResponse);
+			Assert.That(pages.Count(), Is.EqualTo(1), response);
 		}
 
 		[Test]
 		public void Put_Should_Update_Page()
 		{
+			// Arrange
+			PageContent pageContent = AddPage("test", "this is page 1");
+			PageViewModel viewModel = new PageViewModel(pageContent.Page);
+			viewModel.Title = "New title";
+			
 			WebApiClient apiclient = new WebApiClient();
 			apiclient.Login();
 
-			// Arrange
-			IRepository repository = GetRepository();
-			PageContent pageContent = AddPage(repository, "test", "this is page 1");
-			PageViewModel viewModel = new PageViewModel(pageContent.Page);
-			viewModel.Title = "New title";
-
-			HttpClient client = Login();
-			string url = GetFullUrl("Pages");
-
 			// Act
-			HttpResponseMessage response = client.PutAsJsonAsync<PageViewModel>(url, viewModel).Result;
-			string jsonResponse = response.Content.ReadAsStringAsync().Result;
+			WebApiResponse response = apiclient.Put<PageViewModel>("Pages/Put", viewModel);
 
 			// Assert
+			IRepository repository = GetRepository();
 			Page page = repository.AllPages().FirstOrDefault();
-			Assert.That(page.Title, Is.EqualTo("New title"), jsonResponse);
+			Assert.That(page.Title, Is.EqualTo("New title"), response);
 		}
 	}
 }
