@@ -2,29 +2,27 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
+using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Database.MongoDB;
-using Roadkill.Core.Attachments;
-using Roadkill.Core.Services;
-using Roadkill.Core.Security;
-using StructureMap;
-using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Security.Windows;
-using Roadkill.Core.Plugins;
-using Roadkill.Core.Import;
-using Roadkill.Tests.Unit.StubsAndMocks;
 using Roadkill.Core.DI;
+using Roadkill.Core.Import;
 using Roadkill.Core.Mvc.Attributes;
+using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Plugins;
+using Roadkill.Core.Security;
+using Roadkill.Core.Security.Windows;
+using Roadkill.Core.Services;
+using Roadkill.Tests.Unit.StubsAndMocks;
+using StructureMap;
 
 namespace Roadkill.Tests.Unit
 {
@@ -270,6 +268,61 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			UserServiceBase userManager = ObjectFactory.GetInstance<UserServiceBase>();
 			Assert.That(userManager.GetType().FullName, Is.EqualTo("Roadkill.Tests.UserServiceStub"));
+		}
+
+		[Test]
+		[Explicit]
+		public void MongoDB_databaseType_Should_Load_Repository()
+		{
+			// Arrange
+			Mock<IRepository> mockRepository = new Mock<IRepository>();
+			Mock<IUserContext> mockContext = new Mock<IUserContext>();
+			ApplicationSettings settings = new ApplicationSettings();
+			settings.DataStoreType = DataStoreType.MongoDB;
+
+			// Act
+			DependencyManager iocContainer = new DependencyManager(settings, mockRepository.Object, mockContext.Object);
+			iocContainer.Configure();
+
+			// Assert
+			Assert.That(ServiceLocator.GetInstance<UserServiceBase>(), Is.TypeOf(typeof(FormsAuthUserService)));
+		}
+
+		[Test]
+		public void Should_Use_FormsAuthUserService_By_Default()
+		{
+			// Arrange
+			Mock<IRepository> mockRepository = new Mock<IRepository>();
+			Mock<IUserContext> mockContext = new Mock<IUserContext>();
+			ApplicationSettings settings = new ApplicationSettings();
+
+			// Act
+			DependencyManager iocSetup = new DependencyManager(settings, mockRepository.Object, mockContext.Object);
+			iocSetup.Configure();
+
+			// Assert
+			Assert.That(ServiceLocator.GetInstance<UserServiceBase>(), Is.TypeOf(typeof(FormsAuthUserService)));
+		}
+
+		[Test]
+		public void Should_Load_ActiveDirectory_UserService_When_UseWindowsAuth_Is_True()
+		{
+			// Arrange
+			Mock<IRepository> mockRepository = new Mock<IRepository>();
+			Mock<IUserContext> mockContext = new Mock<IUserContext>();
+
+			ApplicationSettings settings = new ApplicationSettings();
+			settings.UseWindowsAuthentication = true;
+			settings.LdapConnectionString = "LDAP://dc=roadkill.org";
+			settings.AdminRoleName = "editors";
+			settings.EditorRoleName = "editors";
+
+			// Act
+			DependencyManager iocSetup = new DependencyManager(settings, mockRepository.Object, mockContext.Object);
+			iocSetup.Configure();
+
+			// Assert
+			Assert.That(ServiceLocator.GetInstance<UserServiceBase>(), Is.TypeOf(typeof(ActiveDirectoryUserService)));
 		}
 	}
 }

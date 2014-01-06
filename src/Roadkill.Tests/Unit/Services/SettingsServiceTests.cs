@@ -8,6 +8,8 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.DI;
+using Roadkill.Core.Security;
 
 namespace Roadkill.Tests.Unit
 {
@@ -135,6 +137,61 @@ namespace Roadkill.Tests.Unit
 			Assert.That(actualSettings.OverwriteExistingFiles, Is.EqualTo(expectedSettings.OverwriteExistingFiles));
 			Assert.That(actualSettings.HeadContent, Is.EqualTo(expectedSettings.HeadContent));
 			Assert.That(actualSettings.MenuMarkup, Is.EqualTo(expectedSettings.MenuMarkup));
+		}
+
+		[Test]
+		public void SaveSiteSettings_Should_Persist_All_Values()
+		{
+			// Arrange
+			ApplicationSettings appSettings = new ApplicationSettings();
+			SiteSettings siteSettings = new SiteSettings()
+			{
+				AllowedFileTypes = "jpg, png, gif",
+				AllowUserSignup = true,
+				IsRecaptchaEnabled = true,
+				MarkupType = "markuptype",
+				RecaptchaPrivateKey = "privatekey",
+				RecaptchaPublicKey = "publickey",
+				SiteName = "sitename",
+				SiteUrl = "siteurl",
+				Theme = "theme",
+			};
+			SettingsViewModel validConfigSettings = new SettingsViewModel()
+			{
+				AllowedFileTypes = "jpg, png, gif",
+				AllowUserSignup = true,
+				IsRecaptchaEnabled = true,
+				MarkupType = "markuptype",
+				RecaptchaPrivateKey = "privatekey",
+				RecaptchaPublicKey = "publickey",
+				SiteName = "sitename",
+				SiteUrl = "siteurl",
+				Theme = "theme",
+			};
+
+			RepositoryMock repository = new RepositoryMock();
+
+			DependencyManager iocSetup = new DependencyManager(appSettings, repository, new UserContext(null)); // context isn't used
+			iocSetup.Configure();
+			SettingsService settingsService = new SettingsService(appSettings, repository);
+
+			// Act
+			settingsService.SaveSiteSettings(validConfigSettings);
+
+			// Assert
+			SiteSettings actualSettings = settingsService.GetSiteSettings();
+
+			Assert.That(actualSettings.AllowedFileTypes.Contains("jpg"), "AllowedFileTypes jpg");
+			Assert.That(actualSettings.AllowedFileTypes.Contains("gif"), "AllowedFileTypes gif");
+			Assert.That(actualSettings.AllowedFileTypes.Contains("png"), "AllowedFileTypes png");
+			Assert.That(actualSettings.AllowUserSignup, Is.True, "AllowUserSignup");
+			Assert.That(actualSettings.IsRecaptchaEnabled, Is.True, "IsRecaptchaEnabled");
+			Assert.That(actualSettings.MarkupType, Is.EqualTo("markuptype"), "MarkupType");
+			Assert.That(actualSettings.RecaptchaPrivateKey, Is.EqualTo("privatekey"), "RecaptchaPrivateKey");
+			Assert.That(actualSettings.RecaptchaPublicKey, Is.EqualTo("publickey"), "RecaptchaPublicKey");
+			Assert.That(actualSettings.SiteName, Is.EqualTo("sitename"), "SiteName");
+			Assert.That(actualSettings.SiteUrl, Is.EqualTo("siteurl"), "SiteUrl");
+			Assert.That(actualSettings.Theme, Is.EqualTo("theme"), "Theme");
 		}
 	}
 }

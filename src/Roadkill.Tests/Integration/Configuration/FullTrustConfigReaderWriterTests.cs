@@ -1,36 +1,135 @@
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using Moq;
+using System.Web.Configuration;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.DI;
-using Roadkill.Core.Logging;
-using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Security;
-using Roadkill.Core.Security.Windows;
 
 namespace Roadkill.Tests.Unit
 {
 	[TestFixture]
-	[Description("Tests for both database and .config file settings.")]
+	[Description("Tests writing and reading .config files.")]
 	[Category("Integration")]
 	public class FullTrustConfigReaderWriterTests
 	{
-		private ApplicationSettings _settings;
-
-		[SetUp]
-		public void Setup()
+		[Test]
+		public void Load_Should_Return_RoadkillSection()
 		{
-			_settings = new ApplicationSettings();
+			// Arrange
+			string configFilePath = GetConfigPath("test.config");
+
+			// Act
+			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
+			RoadkillSection appSettings = configManager.Load();
+
+			// Assert
+			Assert.That(appSettings.AdminRoleName, Is.EqualTo("Admin-test"), "AdminRoleName"); // basic check
 		}
 
 		[Test]
-		public void RoadkillSection_Properties_Have_Correct_Key_Mappings_And_Values()
+		public void UpdateCurrentVersion()
+		{
+			// Arrange
+
+			// Act
+
+			// Assert
+		}
+
+		[Test]
+		public void UpdateCurrentVersion()
+		{
+			// Arrange
+
+			// Act
+
+			// Assert
+		}
+
+		[Test]
+		public void ResetInstalledState()
+		{
+			// Arrange
+
+			// Act
+
+			// Assert
+		}
+
+		[Test]
+		public void TestSaveWebConfig()
+		{
+			// Arrange
+
+			// Act
+
+			// Assert
+		}
+
+		[Test]
+		public void GetConfiguration_Should_Return_Configuration_For_Exe_File()
+		{
+			// Arrange
+			string configFilePath = GetConfigPath("test.config");
+
+			// Act
+			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
+			Configuration config = configManager.GetConfiguration();
+
+			// Assert
+			Assert.That(config, Is.Not.Null);
+			Assert.That(config.FilePath, Is.EqualTo(configFilePath));
+		}
+
+		[Test]
+		public void WriteConfigForFormsAuth_Should_Add_FormsAuth_Section_And_AnonymousIdentification()
+		{
+			// Arrange
+			string configFilePath = GetConfigPath("test.config");
+
+			// Act
+			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
+			configManager.WriteConfigForFormsAuth();
+
+			// Assert
+			Configuration config = configManager.GetConfiguration();
+			AuthenticationSection authSection = config.GetSection("system.web/authentication") as AuthenticationSection;
+
+			Assert.That(authSection, Is.Not.Null);
+			Assert.That(authSection.Mode, Is.EqualTo(AuthenticationMode.Forms));
+			Assert.That(authSection.Forms.LoginUrl, Is.EqualTo("~/User/Login"));
+
+			AnonymousIdentificationSection anonSection = config.GetSection("system.web/anonymousIdentification") as AnonymousIdentificationSection;
+			Assert.That(anonSection.Enabled, Is.True);
+		}
+
+		[Test]
+		public void WriteConfigForWindowsAuth_Should_Set_WindowsAuthMode_And_Disable_AnonymousIdentification()
+		{
+			// Arrange
+			string configFilePath = GetConfigPath("test.config");
+
+			// Act
+			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
+			configManager.WriteConfigForWindowsAuth();
+
+			// Assert
+			Configuration config = configManager.GetConfiguration();
+			AuthenticationSection authSection = config.GetSection("system.web/authentication") as AuthenticationSection;
+
+			Assert.That(authSection, Is.Not.Null);
+			Assert.That(authSection.Mode, Is.EqualTo(AuthenticationMode.Windows));
+			Assert.That(authSection.Forms.LoginUrl, Is.EqualTo("login.aspx")); // login.aspx is the default for windows auth
+
+			AnonymousIdentificationSection anonSection = config.GetSection("system.web/anonymousIdentification") as AnonymousIdentificationSection;
+			Assert.That(anonSection.Enabled, Is.False);
+		}
+
+		[Test]
+		public void GetApplicationSettings_Should_Have_Correct_Key_Mappings_And_Values()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
@@ -62,7 +161,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void RoadkillSection_Optional_Settings_With_Missing_Values_Have_Default_Values()
+		public void GetApplicationSettings_Should_Use_Default_Values_When_Optional_Settings_Have_Missing_Values()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test-optional-values.config");
@@ -86,7 +185,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Connection_Setting_Should_Find_Connection_Value()
+		public void GetApplicationSettings_Should_Find_Connection_Value_From_Connection_Setting()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
@@ -156,99 +255,8 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void SettingsService_Should_Save_Settings()
-		{
-			// Arrange
-			SiteSettings siteSettings = new SiteSettings()
-			{
-				AllowedFileTypes = "jpg, png, gif",
-				AllowUserSignup = true,
-				IsRecaptchaEnabled = true,
-				MarkupType = "markuptype",
-				RecaptchaPrivateKey = "privatekey",
-				RecaptchaPublicKey = "publickey",
-				SiteName = "sitename",
-				SiteUrl = "siteurl",
-				Theme = "theme",
-			};
-			SettingsViewModel validConfigSettings = new SettingsViewModel()
-			{
-				AllowedFileTypes = "jpg, png, gif",
-				AllowUserSignup = true,
-				IsRecaptchaEnabled = true,
-				MarkupType = "markuptype",
-				RecaptchaPrivateKey = "privatekey",
-				RecaptchaPublicKey = "publickey",
-				SiteName = "sitename",
-				SiteUrl = "siteurl",
-				Theme = "theme",
-			};
-
-			RepositoryMock repository = new RepositoryMock();
-
-			DependencyManager iocSetup = new DependencyManager(_settings, repository, new UserContext(null)); // context isn't used
-			iocSetup.Configure();
-			SettingsService settingsService = new SettingsService(_settings, repository);
-
-			// Act
-			settingsService.SaveSiteSettings(validConfigSettings);
-
-			// Assert
-			SiteSettings actualSettings = settingsService.GetSiteSettings();
-
-			Assert.That(actualSettings.AllowedFileTypes.Contains("jpg"), "AllowedFileTypes jpg");
-			Assert.That(actualSettings.AllowedFileTypes.Contains("gif"), "AllowedFileTypes gif");
-			Assert.That(actualSettings.AllowedFileTypes.Contains("png"), "AllowedFileTypes png");
-			Assert.That(actualSettings.AllowUserSignup, Is.True, "AllowUserSignup");
-			Assert.That(actualSettings.IsRecaptchaEnabled, Is.True, "IsRecaptchaEnabled");
-			Assert.That(actualSettings.MarkupType, Is.EqualTo("markuptype"), "MarkupType");
-			Assert.That(actualSettings.RecaptchaPrivateKey, Is.EqualTo("privatekey"), "RecaptchaPrivateKey");
-			Assert.That(actualSettings.RecaptchaPublicKey, Is.EqualTo("publickey"), "RecaptchaPublicKey");
-			Assert.That(actualSettings.SiteName, Is.EqualTo("sitename"), "SiteName");
-			Assert.That(actualSettings.SiteUrl, Is.EqualTo("siteurl"), "SiteUrl");
-			Assert.That(actualSettings.Theme, Is.EqualTo("theme"), "Theme");
-		}
-		
-		[Test]
-		public void UseWindowsAuth_Should_Load_ActiveDirectory_UserService()
-		{
-			// Arrange
-			Mock<IRepository> mockRepository = new Mock<IRepository>();
-			Mock<IUserContext> mockContext = new Mock<IUserContext>();
-
-			ApplicationSettings settings = new ApplicationSettings();
-			settings.UseWindowsAuthentication = true;
-			settings.LdapConnectionString = "LDAP://dc=roadkill.org";
-			settings.AdminRoleName = "editors";
-			settings.EditorRoleName = "editors";
-
-			// Act
-			DependencyManager iocSetup = new DependencyManager(settings, mockRepository.Object, mockContext.Object);
-			iocSetup.Configure();
-
-			// Assert
-			Assert.That(ServiceLocator.GetInstance<UserServiceBase>(), Is.TypeOf(typeof(ActiveDirectoryUserService)));
-		}
-		
-		[Test]
-		public void Should_Use_FormsAuthUserService_By_Default()
-		{
-			// Arrange
-			Mock<IRepository> mockRepository = new Mock<IRepository>();
-			Mock<IUserContext> mockContext = new Mock<IUserContext>();
-			ApplicationSettings settings = new ApplicationSettings();
-
-			// Act
-			DependencyManager iocSetup = new DependencyManager(settings, mockRepository.Object, mockContext.Object);
-			iocSetup.Configure();
-
-			// Assert
-			Assert.That(ServiceLocator.GetInstance<UserServiceBase>(), Is.TypeOf(typeof(FormsAuthUserService)));
-		}
-
-		[Test]
-		[Description("Test for the Save when it's called from the settings page, and installation")]
-		public void Should_Save_All_ApplicationSettings()
+		[Description("Tests the save from both the settings page and installation")]
+		public void Save_Should_Persist_All_ApplicationSettings()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test-empty.config");
@@ -290,24 +298,6 @@ namespace Roadkill.Tests.Unit
 			Assert.That(appSettings.LdapUsername, Is.EqualTo(viewModel.LdapUsername), "LdapUsername");
 			Assert.That(appSettings.UseWindowsAuthentication, Is.EqualTo(viewModel.UseWindowsAuth), "UseWindowsAuthentication");
 			Assert.That(appSettings.Installed, Is.True, "Installed");
-		}
-
-		[Test]
-		[Explicit]
-		public void MongoDB_databaseType_Should_Load_Repository()
-		{
-			// Arrange
-			Mock<IRepository> mockRepository = new Mock<IRepository>();
-			Mock<IUserContext> mockContext = new Mock<IUserContext>();
-			ApplicationSettings settings = new ApplicationSettings();
-			settings.DataStoreType = DataStoreType.MongoDB;
-
-			// Act
-			DependencyManager iocContainer = new DependencyManager(settings, mockRepository.Object, mockContext.Object);
-			iocContainer.Configure();
-
-			// Assert
-			Assert.That(ServiceLocator.GetInstance<UserServiceBase>(), Is.TypeOf(typeof(FormsAuthUserService)));
 		}
 
 		private string GetConfigPath(string filename)
