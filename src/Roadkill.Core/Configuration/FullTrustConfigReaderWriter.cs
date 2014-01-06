@@ -143,7 +143,7 @@ namespace Roadkill.Core.Configuration
 				if (settings.UseWindowsAuth)
 					WriteConfigForWindowsAuth();
 				else
-					WriteConfigForFormsAuth(settings);
+					WriteConfigForFormsAuth();
 
 				// Create a "Roadkill" connection string, or use the existing one if it exists.
 				ConnectionStringSettings roadkillConnection = new ConnectionStringSettings("Roadkill", settings.ConnectionString);
@@ -186,7 +186,7 @@ namespace Roadkill.Core.Configuration
 		/// <summary>
 		/// Adds config settings for forms authentication.
 		/// </summary>
-		private void WriteConfigForFormsAuth(SettingsViewModel model)
+		internal void WriteConfigForFormsAuth()
 		{
 			// Turn on forms authentication
 			AuthenticationSection authSection = _config.GetSection("system.web/authentication") as AuthenticationSection;
@@ -201,11 +201,10 @@ namespace Roadkill.Core.Configuration
 		/// <summary>
 		/// Adds web.config settings for windows authentication.
 		/// </summary>
-		private void WriteConfigForWindowsAuth()
+		internal void WriteConfigForWindowsAuth()
 		{
 			// Turn on Windows authentication
 			AuthenticationSection authSection = _config.GetSection("system.web/authentication") as AuthenticationSection;
-			authSection.Forms.LoginUrl = "";
 			authSection.Mode = AuthenticationMode.Windows;
 
 			// Turn off anonymous auth
