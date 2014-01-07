@@ -452,15 +452,15 @@ namespace Roadkill.Tests.Unit
 		public void UpdateLinksToPage_Should_Clear_Cache()
 		{
 			// Arrange
-			_repository.AddNewPage(new Page() { Id = 1, Title = "Homepage" }, "This is a link to [[About page|About]]", "editor", DateTime.UtcNow);
-			_repository.AddNewPage(new Page() { Id = 2, Title = "About" }, "This is a link to [[Homepage|Back home]]", "editor", DateTime.UtcNow);
+			_repository.AddNewPage(new Page() { Id = 1, Title = "Homepage" }, "This is a link to [[About page title|About]]", "editor", DateTime.UtcNow);
+			_repository.AddNewPage(new Page() { Id = 2, Title = "About page title" }, "This is a link to [[Homepage|Back home]]", "editor", DateTime.UtcNow);
 
 			_pageViewModelCache.Add(1, new PageViewModel());
 			_pageViewModelCache.Add(2, new PageViewModel());
 			_listCache.Add("somekey", new List<string>());
 
 			// Act
-			_pageService.UpdateLinksToPage("About", "About us");
+			_pageService.UpdateLinksToPage("About page title", "New title");
 
 			// Assert
 			Assert.That(_pageViewModelCache.GetAllKeys().Count(), Is.EqualTo(0));
