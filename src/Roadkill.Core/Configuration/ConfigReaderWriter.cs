@@ -17,13 +17,13 @@ namespace Roadkill.Core.Configuration
 	public abstract class ConfigReaderWriter
 	{
 		/// <summary>
-		/// Updates the current version.
+		/// Updates the current version in the RoadkillSection and saves the configuration file.
 		/// </summary>
 		/// <param name="currentVersion">The current version.</param>
 		public abstract void UpdateCurrentVersion(string currentVersion);
 
 		/// <summary>
-		/// Updates the current UI language.
+		/// Updates the current UI language in the globalization section and saves the configuration file.
 		/// </summary>
 		/// <param name="uiLanguageCode">The UI language code, e.g. fr for French.</param>
 		/// <exception cref="ConfigurationException">An exception occurred while updating the UI language.</exception>
@@ -38,7 +38,7 @@ namespace Roadkill.Core.Configuration
 		public abstract void Save(SettingsViewModel settings);
 
 		/// <summary>
-		/// Loads the configuration settings.
+		/// Loads the Roadkill-specific configuration settings.
 		/// </summary>
 		/// <returns>A <see cref="RoadkillSection"/> instance with the settings.</returns>
 		public abstract RoadkillSection Load();

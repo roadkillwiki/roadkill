@@ -332,10 +332,10 @@ namespace Roadkill.Core.Converters
 				if (Parser is MarkdownParser)
 					newPageName = newPageName.Replace(" ", "-");
 
-				if (match.Success && match.Groups.Count == 2)
+				if (match.Success && match.Groups.Count == 3)
 				{
-					if (!string.IsNullOrEmpty(match.Groups[1].Value))
-						return match.Value.Replace(match.Groups[1].Value, newPageName);
+					if (!string.IsNullOrEmpty(match.Groups["url"].Value))
+						return match.Value.Replace(match.Groups["url"].Value, newPageName);
 				}
 
 				return match.Value;
@@ -353,11 +353,12 @@ namespace Roadkill.Core.Converters
 				pageName = pageName.Replace(" ", @"\-");
 
 			string regex = string.Format("{0}{1}", _parser.LinkStartToken, _parser.LinkEndToken);
+			regex = regex.Replace("|", @"\|");
 			regex = regex.Replace("(", @"\(").Replace(")", @"\)").Replace("[", @"\[").Replace("]", @"\]");
-			regex = regex.Replace("%LINKTEXT%", "(?:.*?)");
+			regex = regex.Replace("%LINKTEXT%", "(?<name>.+?)");
 
 			// Don't worry about brackets or square brackets as they will break the URL anyway
-			regex = regex.Replace("%URL%", "(?<url>" + pageName + ")"); 
+			regex = regex.Replace("%URL%", "(?<url>" + pageName + ")");
 
 			return regex;
 		}

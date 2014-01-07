@@ -15,6 +15,20 @@ namespace Roadkill.Tests.Unit
 	[Category("Integration")]
 	public class FullTrustConfigReaderWriterTests
 	{
+		[SetUp]
+		public void Setup()
+		{
+			// Copy the config files so they're fresh before each test
+			string source = Path.Combine(Settings.ROOT_FOLDER, "src", "Roadkill.Tests", "Integration", "Configuration", "TestConfigs");
+			string destination = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "Configuration", "TestConfigs");
+
+			foreach (string filename in Directory.GetFiles(source))
+			{
+				FileInfo info = new FileInfo(filename);
+				File.Copy(filename, Path.Combine(destination, info.Name), true);
+			}
+		}
+
 		[Test]
 		public void Load_Should_Return_RoadkillSection()
 		{
@@ -30,43 +44,65 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void UpdateCurrentVersion()
+		public void UpdateLanguage_Should_Save_Language_Code_To_Globalization_Section()
 		{
 			// Arrange
+			string configFilePath = GetConfigPath("test.config");
 
 			// Act
+			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
+			configManager.UpdateLanguage("fr-FR");
 
 			// Assert
+			Configuration config = configManager.GetConfiguration();
+			GlobalizationSection globalizationSection = config.GetSection("system.web/globalization") as GlobalizationSection;
+
+			Assert.That(globalizationSection, Is.Not.Null);
+			Assert.That(globalizationSection.UICulture, Is.EqualTo("fr-FR"));
 		}
 
 		[Test]
-		public void UpdateCurrentVersion()
+		public void UpdateCurrentVersion_Should_Save_Version_To_RoadkillSection()
 		{
 			// Arrange
+			string configFilePath = GetConfigPath("test.config");
 
 			// Act
+			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
+			configManager.UpdateCurrentVersion("2.0");
 
 			// Assert
+			RoadkillSection section = configManager.Load();
+			Assert.That(section.Version, Is.EqualTo("2.0"));
 		}
 
 		[Test]
-		public void ResetInstalledState()
+		public void ResetInstalledState_Should_Set_Installed_To_False()
 		{
 			// Arrange
+			string configFilePath = GetConfigPath("test.config");
 
 			// Act
+			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
+			configManager.ResetInstalledState();
 
 			// Assert
+			RoadkillSection section = configManager.Load();
+			Assert.That(section.Installed, Is.False);
 		}
 
 		[Test]
-		public void TestSaveWebConfig()
+		public void TestSaveWebConfig_Should_Return_Empty_String_For_Success()
 		{
 			// Arrange
+			string configFilePath = GetConfigPath("test.config");
 
 			// Act
+			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
+			string result = configManager.TestSaveWebConfig();
 
 			// Assert
+			Assert.That(result, Is.EqualTo(""));
 		}
 
 		[Test]

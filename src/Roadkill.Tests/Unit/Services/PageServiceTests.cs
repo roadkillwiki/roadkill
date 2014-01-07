@@ -389,20 +389,64 @@ namespace Roadkill.Tests.Unit
 			Assert.That(_repository.AllPageContents().Count(), Is.EqualTo(0));
 		}
 
+		
 		[Test]
-		[Ignore("TODO")]
-		public void UpdateLinksToPage()
+		public void GetBootStrapNavMenu()
 		{
 			// Arrange
-			_repository.AddNewPage(new Page() { Id = 1, Title = "First page" }, "This is a link to [[Second page|The page 2]]", "editor", DateTime.UtcNow);
-			_repository.AddNewPage(new Page() { Id = 2, Title = "Second page" }, "This is a link to [[FiRsT PAGE|The page 1]]", "editor", DateTime.UtcNow);
+			string expectedHtml = @"<nav id=""leftmenu"" class=""navbar navbar-default"" role=""navigation"">
+<div class=""navbar-header"">
+					<button type=""button"" class=""navbar-toggle"" data-toggle=""collapse"" data-target=""#left-menu-toggle"">
+						<span class=""sr-only"">Toggle navigation</span>
+						<span class=""icon-bar""></span>
+						<span class=""icon-bar""></span>
+						<span class=""icon-bar""></span>
+					</button>
+				</div><div id=""left-menu-toggle"" class=""collapse navbar-collapse"">
+<ul class =""nav navbar-nav""><li> <a href=""/"">Main Page</a></li><li> <a href=""/pages/alltags"">Categories</a></li><li> <a href=""/pages/allpages"">All pages</a></li><li> <a href=""/pages/new"">New page</a></li><li> <a href=""/filemanager"">Manage files</a></li><li> <a href=""/settings"">Site settings</a></li></ul>
+</div>
+</nav>";
 
 			// Act
-			_pageService.UpdateLinksToPage("Second page", "This page is now Page 3");
+			string actualHtml = _pageService.GetBootStrapNavMenu(_context);
+
+			// Assert
+			Assert.That(actualHtml, Is.StringStarting(expectedHtml), actualHtml);
+		}
+
+		[Test]
+		public void GetMenu()
+		{
+			// Arrange
+			string expectedHtml = @"<div id=""leftmenu"">
+<ul><li> <a href=""/"">Main Page</a></li><li> <a href=""/pages/alltags"">Categories</a></li><li> <a href=""/pages/allpages"">All pages</a></li><li> <a href=""/pages/new"">New page</a></li><li> <a href=""/filemanager"">Manage files</a></li><li> <a href=""/settings"">Site settings</a></li></ul>
+</div>";
+
+			// Act
+			string actualHtml = _pageService.GetMenu(_context);
+
+			// Assert
+			Assert.That(actualHtml, Is.StringStarting(expectedHtml), actualHtml);
+		}
+
+		[Test]
+		public void UpdateLinksToPage()
+		{
+			// Should replace page links (basic test, MarkupConverter should do it)
+			// Should save to repository
+			// Should clear cache
+			// 
+
+			// Arrange
+			_repository.AddNewPage(new Page() { Id = 1, Title = "Homepage" }, "This is a link to [[Page AbOuT horses|Horses]]", "editor", DateTime.UtcNow);
+			_repository.AddNewPage(new Page() { Id = 2, Title = "Page about horses" }, "This is a link to [[Homepage|Back home]]", "editor", DateTime.UtcNow);
+
+			// Act
+			_pageService.UpdateLinksToPage("Page about horses", "Page about donkeys");
 
 			// Assert
 			PageContent page1 = _pageService.GetCurrentContent(1);
-			Assert.That(page1.Text, Is.EqualTo("asdfadf"), page1.Text);
+			Assert.That(page1.Text, Is.EqualTo("This is a link to [[Page about donkeys|Horses]]"), page1.Text);
 		}
 	}
 }
