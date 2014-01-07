@@ -45,6 +45,8 @@ namespace Roadkill.Tests.Unit
 		private PageHistoryService _historyService;
 		private SettingsService _settingsService;
 		private PluginFactoryMock _pluginFactory;
+		private ListCache _listCache;
+		private PageViewModelCache _pageViewModelCache;
 
 		[SetUp]
 		public void Setup()
@@ -60,6 +62,8 @@ namespace Roadkill.Tests.Unit
 			_userService = _container.UserService;
 			_historyService = _container.HistoryService;
 			_pageService = _container.PageService;
+			_listCache = _container.ListCache;
+			_pageViewModelCache = _container.PageViewModelCache;
 
 			// User setup
 			_editorUser = new User();
@@ -391,7 +395,7 @@ namespace Roadkill.Tests.Unit
 
 		
 		[Test]
-		public void GetBootStrapNavMenu()
+		public void GetBootStrapNavMenu_Should_Return_Expected_Default_Html()
 		{
 			// Arrange
 			string expectedHtml = @"<nav id=""leftmenu"" class=""navbar navbar-default"" role=""navigation"">
@@ -415,7 +419,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void GetMenu()
+		public void GetMenu_Should_Return_Expected_Default_Html()
 		{
 			// Arrange
 			string expectedHtml = @"<div id=""leftmenu"">
@@ -430,13 +434,8 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void UpdateLinksToPage()
+		public void UpdateLinksToPage_Should_Replace_Link_Title_In_Markup_And_Save_To_Repository()
 		{
-			// Should replace page links (basic test, MarkupConverter should do it)
-			// Should save to repository
-			// Should clear cache
-			// 
-
 			// Arrange
 			_repository.AddNewPage(new Page() { Id = 1, Title = "Homepage" }, "This is a link to [[Page AbOuT horses|Horses]]", "editor", DateTime.UtcNow);
 			_repository.AddNewPage(new Page() { Id = 2, Title = "Page about horses" }, "This is a link to [[Homepage|Back home]]", "editor", DateTime.UtcNow);
@@ -447,6 +446,25 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			PageContent page1 = _pageService.GetCurrentContent(1);
 			Assert.That(page1.Text, Is.EqualTo("This is a link to [[Page about donkeys|Horses]]"), page1.Text);
+		}
+
+		[Test]
+		public void UpdateLinksToPage_Should_Clear_Cache()
+		{
+			// Arrange
+			_repository.AddNewPage(new Page() { Id = 1, Title = "Homepage" }, "This is a link to [[About page|About]]", "editor", DateTime.UtcNow);
+			_repository.AddNewPage(new Page() { Id = 2, Title = "About" }, "This is a link to [[Homepage|Back home]]", "editor", DateTime.UtcNow);
+
+			_pageViewModelCache.Add(1, new PageViewModel());
+			_pageViewModelCache.Add(2, new PageViewModel());
+			_listCache.Add("somekey", new List<string>());
+
+			// Act
+			_pageService.UpdateLinksToPage("About", "About us");
+
+			// Assert
+			Assert.That(_pageViewModelCache.GetAllKeys().Count(), Is.EqualTo(0));
+			Assert.That(_listCache.GetAllKeys().Count(), Is.EqualTo(0));
 		}
 	}
 }

@@ -29,6 +29,7 @@ namespace Roadkill.Core.Services
 		private PageViewModelCache _pageViewModelCache;
 		private SiteCache _siteCache;
 		private IPluginFactory _pluginFactory;
+		private MarkupLinkUpdater _markupLinkUpdater;
 
 		public PageService(ApplicationSettings settings, IRepository repository, SearchService searchService, 
 			PageHistoryService historyService, IUserContext context, 
@@ -43,6 +44,7 @@ namespace Roadkill.Core.Services
 			_pageViewModelCache = pageViewModelCache;
 			_siteCache = sitecache;
 			_pluginFactory = pluginFactory;
+			_markupLinkUpdater = new MarkupLinkUpdater(_markupConverter.Parser);
 		}
 
 		/// <summary>
@@ -579,9 +581,9 @@ namespace Roadkill.Core.Services
 
 			foreach (PageContent content in Repository.AllPageContents())
 			{
-				if (_markupConverter.ContainsPageLink(content.Text, oldTitle))
+				if (_markupLinkUpdater.ContainsPageLink(content.Text, oldTitle))
 				{
-					content.Text = _markupConverter.ReplacePageLinks(content.Text, oldTitle, newTitle);
+					content.Text = _markupLinkUpdater.ReplacePageLinks(content.Text, oldTitle, newTitle);
 					Repository.UpdatePageContent(content);
 					
 					shouldClearCache = true;
