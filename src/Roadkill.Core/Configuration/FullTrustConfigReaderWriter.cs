@@ -82,7 +82,7 @@ namespace Roadkill.Core.Configuration
 		}
 
 		/// <summary>
-		/// Updates the current version.
+		/// Updates the current version in the RoadkillSection and saves the configuration file.
 		/// </summary>
 		/// <param name="currentVersion">The current version.</param>
 		/// <exception cref="UpgradeException">An exception occurred while updating the version to the web.config</exception>
@@ -101,7 +101,7 @@ namespace Roadkill.Core.Configuration
 		}
 
 		/// <summary>
-		/// Updates the current UI language.
+		/// Updates the current UI language in the globalization section and saves the configuration file.
 		/// </summary>
 		/// <param name="uiLanguageCode">The UI language code, e.g. fr for French.</param>
 		/// <exception cref="System.Configuration.ConfigurationException">An exception occurred while updating the UI language in the web.config</exception>
@@ -120,7 +120,7 @@ namespace Roadkill.Core.Configuration
 		}
 
 		/// <summary>
-		/// Loads the configuration settings.
+		/// Loads the Roadkill-specific configuration settings.
 		/// </summary>
 		/// <returns>
 		/// A <see cref="RoadkillSection" /> instance with the settings.

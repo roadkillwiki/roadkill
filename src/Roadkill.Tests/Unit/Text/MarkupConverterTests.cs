@@ -473,8 +473,9 @@ here is my C#code
 		}
 
 		// TODO:
-		// ContainsPageLink
-		// ReplacePageLinks
+		// ContainsPageLink - 
+		// ReplacePageLinks - Refactor into seperate class
+
 		// TOCParser
 		// Creole tests
 	}
