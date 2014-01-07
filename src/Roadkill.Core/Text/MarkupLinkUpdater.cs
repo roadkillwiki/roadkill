@@ -22,7 +22,7 @@ namespace Roadkill.Core.Converters
 			if (string.IsNullOrEmpty(text))
 				return false;
 
-			pageName = ChangeTitleForMarkdown(pageName);
+			pageName = AddDashesForMarkdownTitle(pageName);
 			string customRegex = GetRegexForTitle(pageName);
 
 			Regex regex = new Regex(customRegex, RegexOptions.IgnoreCase);
@@ -38,8 +38,8 @@ namespace Roadkill.Core.Converters
 		/// <returns>The text with link title names replaced.</returns>
 		public string ReplacePageLinks(string text, string oldPageName, string newPageName)
 		{
-			oldPageName = ChangeTitleForMarkdown(oldPageName);
-			newPageName = ChangeTitleForMarkdown(newPageName);
+			oldPageName = AddDashesForMarkdownTitle(oldPageName);
+			newPageName = AddDashesForMarkdownTitle(newPageName);
 
 			string customRegex = GetRegexForTitle(oldPageName);
 			Regex regex = new Regex(customRegex, RegexOptions.IgnoreCase);
@@ -86,7 +86,7 @@ namespace Roadkill.Core.Converters
 			return regex;
 		}
 
-		private string ChangeTitleForMarkdown(string title)
+		private string AddDashesForMarkdownTitle(string title)
 		{
 			if (_parser is MarkdownParser)
 			{

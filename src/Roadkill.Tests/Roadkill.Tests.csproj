@@ -464,6 +464,7 @@
     <Compile Include="Unit\StubsAndMocks\UserServiceStub.cs" />
     <Compile Include="Unit\StubsAndMocks\TextPluginStub.cs" />
     <Compile Include="Unit\StubsAndMocks\WikiImporterMock.cs" />
+    <Compile Include="Unit\Text\MarkupLinkUpdaterTests.cs" />
     <Compile Include="Unit\Text\MenuParserTests.cs" />
     <Compile Include="Unit\Plugins\TocParserTests.cs" />
     <Compile Include="Unit\Text\MarkupSanitizerTests.cs" />
