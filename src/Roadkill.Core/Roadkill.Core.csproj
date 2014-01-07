@@ -530,6 +530,7 @@
     <Compile Include="Plugins\Text\TextPlugin.cs" />
     <Compile Include="Plugins\PluginFactory.cs" />
     <Compile Include="Plugins\Text\BuiltIn\SyntaxHighlighter.cs" />
+    <Compile Include="Text\MarkupLinkUpdater.cs" />
     <Compile Include="Text\TextPluginRunner.cs" />
     <Compile Include="Text\UrlResolver.cs" />
     <Compile Include="Text\MenuParser.cs" />
