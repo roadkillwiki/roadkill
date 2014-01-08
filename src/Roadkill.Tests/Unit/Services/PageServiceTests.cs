@@ -452,6 +452,7 @@ namespace Roadkill.Tests.Unit
 		public void UpdateLinksToPage_Should_Clear_Cache()
 		{
 			// Arrange
+			_container.ClearCache();
 			_repository.AddNewPage(new Page() { Id = 1, Title = "Homepage" }, "This is a link to [[About page title|About]]", "editor", DateTime.UtcNow);
 			_repository.AddNewPage(new Page() { Id = 2, Title = "About page title" }, "This is a link to [[Homepage|Back home]]", "editor", DateTime.UtcNow);
 
