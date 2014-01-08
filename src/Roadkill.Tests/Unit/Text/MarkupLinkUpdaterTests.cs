@@ -112,5 +112,22 @@ namespace Roadkill.Tests.Unit.Text
 			// Assert
 			Assert.That(hasLink, Is.False);
 		}
+
+		[Test]
+		public void ReplacePageLinks_Should_()
+		{
+			// Arrange
+
+			// Act
+
+			// Assert
+		}
+
+		// ReplacePageLinks:
+		//	- Should rename basic creole title
+		//	- Should rename multiple creole titles
+		//  - Should rename title inside creole markup block
+		//	- Should not replace title that's not found
+		//  (Repeat for markdown)
 	}
 }
