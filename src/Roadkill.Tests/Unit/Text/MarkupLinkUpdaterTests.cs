@@ -114,20 +114,168 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
-		public void ReplacePageLinks_Should_()
+		public void ReplacePageLinks_Should_Rename_Basic_Creole_Title()
 		{
 			// Arrange
+			CreoleParser parser = new CreoleParser(_applicationSettings, _siteSettings);
+			MarkupLinkUpdater updater = new MarkupLinkUpdater(parser);
+
+			string text = "here is a nice [[the internal wiki page title|the link text]]";
+			string expectedMarkup = "here is a nice [[buy stuff online|the link text]]";
 
 			// Act
+			string actualMarkup = updater.ReplacePageLinks(text, "the internal wiki page title", "buy stuff online");
 
 			// Assert
+			Assert.That(actualMarkup, Is.EqualTo(expectedMarkup), actualMarkup);
 		}
 
+		[Test]
+		public void ReplacePageLinks_Should_Rename_Multiple_Creole_Titles()
+		{
+			// Arrange
+			CreoleParser parser = new CreoleParser(_applicationSettings, _siteSettings);
+			MarkupLinkUpdater updater = new MarkupLinkUpdater(parser);
+
+			string text = @"here is a nice [[the internal wiki page title|the link text]] and 
+                            another one: here is a nice [[the internal wiki page title|the link text]] and 
+							a different one: here is a nice [[different title|the link text]]";
+
+			string expectedMarkup = @"here is a nice [[buy stuff online|the link text]] and 
+                            another one: here is a nice [[buy stuff online|the link text]] and 
+							a different one: here is a nice [[different title|the link text]]";
+
+			// Act
+			string actualMarkup = updater.ReplacePageLinks(text, "the internal wiki page title", "buy stuff online");
+
+			// Assert
+			Assert.That(actualMarkup, Is.EqualTo(expectedMarkup), actualMarkup);
+		}
+
+		[Test]
+		public void ReplacePageLinks_Should_Rename_Title_Inside_Creole_Markup_Block()
+		{
+			// Arrange
+			CreoleParser parser = new CreoleParser(_applicationSettings, _siteSettings);
+			MarkupLinkUpdater updater = new MarkupLinkUpdater(parser);
+
+			string text = @"//here is a nice **[[the internal wiki page title|the link text]]** and// 
+                            another one: *here is a nice [[the internal wiki page title|the link text]] and 
+							*a different one: here is a nice [[different title|the link text]]";
+
+			string expectedMarkup = @"//here is a nice **[[buy stuff online|the link text]]** and// 
+                            another one: *here is a nice [[buy stuff online|the link text]] and 
+							*a different one: here is a nice [[different title|the link text]]";
+
+			// Act
+			string actualMarkup = updater.ReplacePageLinks(text, "the internal wiki page title", "buy stuff online");
+
+			// Assert
+			Assert.That(actualMarkup, Is.EqualTo(expectedMarkup), actualMarkup);
+		}
+
+		[Test]
+		public void ReplacePageLinks_Should_Not_Rename_Title_That_Is_Not_Found_In_Creole()
+		{
+			// Arrange
+			CreoleParser parser = new CreoleParser(_applicationSettings, _siteSettings);
+			MarkupLinkUpdater updater = new MarkupLinkUpdater(parser);
+
+			string text = @"here is a nice [[the internal wiki page title|the link text]] and 
+                            another one: here is a nice [[the internal wiki page title|the link text]] and 
+							a different one: here is a nice [[different title|the link text]]";
+
+			// Act
+			string actualMarkup = updater.ReplacePageLinks(text, "page title", "buy stuff online");
+
+			// Assert
+			Assert.That(actualMarkup, Is.EqualTo(text), actualMarkup);
+		}
+		
 		// ReplacePageLinks:
-		//	- Should rename basic creole title
-		//	- Should rename multiple creole titles
-		//  - Should rename title inside creole markup block
+		//	- x Should rename basic creole title
+		//	- x Should rename multiple creole titles
+		//  - x Should rename title inside creole markup block
 		//	- Should not replace title that's not found
 		//  (Repeat for markdown)
+
+		[Test]
+		public void ReplacePageLinks_Should_Rename_Basic_Markdown_Title()
+		{
+			// Arrange
+			MarkdownParser parser = new MarkdownParser();
+			MarkupLinkUpdater updater = new MarkupLinkUpdater(parser);
+
+			string text = "here is a nice [the link text](the-internal-wiki-page-title)";
+			string expectedMarkup = "here is a nice [the link text](buy-stuff-online)";
+
+			// Act
+			string actualMarkup = updater.ReplacePageLinks(text, "the internal wiki page title", "buy stuff online");
+
+			// Assert
+			Assert.That(actualMarkup, Is.EqualTo(expectedMarkup), actualMarkup);
+		}
+
+		[Test]
+		public void ReplacePageLinks_Should_Rename_Multiple_Markdown_Titles()
+		{
+			// Arrange
+			MarkdownParser parser = new MarkdownParser();
+			MarkupLinkUpdater updater = new MarkupLinkUpdater(parser);
+
+			string text = @"here is a nice [the link text](the-internal-wiki-page-title) and 
+                            another one: here is a nice [the link text](the-internal-wiki-page-title) and 
+							a different one: here is a nice [the link text](different-title)";
+
+			string expectedMarkup = @"here is a nice [the link text](buy-stuff-online) and 
+                            another one: here is a nice [the link text](buy-stuff-online) and 
+							a different one: here is a nice [the link text](different-title)";
+
+			// Act
+			string actualMarkup = updater.ReplacePageLinks(text, "the internal wiki page title", "buy stuff online");
+
+			// Assert
+			Assert.That(actualMarkup, Is.EqualTo(expectedMarkup), actualMarkup);
+		}
+
+		[Test]
+		public void ReplacePageLinks_Should_Rename_Title_Inside_Markdown_Block()
+		{
+			// Arrange
+			MarkdownParser parser = new MarkdownParser();
+			MarkupLinkUpdater updater = new MarkupLinkUpdater(parser);
+
+			string text = @"here is a nice [the link text](the-internal-wiki-page-title) and 
+                            another one: here is a nice [the link text](the-internal-wiki-page-title) and 
+							a different one: here is a nice [the link text](different-title)";
+
+			string expectedMarkup = @"here is a nice [the link text](buy-stuff-online) and 
+                            another one: here is a nice [the link text](buy-stuff-online) and 
+							a different one: here is a nice [the link text](different-title)";
+
+			// Act
+			string actualMarkup = updater.ReplacePageLinks(text, "the internal wiki page title", "buy stuff online");
+
+			// Assert
+			Assert.That(actualMarkup, Is.EqualTo(expectedMarkup), actualMarkup);
+		}
+
+		[Test]
+		public void ReplacePageLinks_Should_Not_Rename_Title_That_Is_Not_Found_In_Markdown()
+		{
+			// Arrange
+			MarkdownParser parser = new MarkdownParser();
+			MarkupLinkUpdater updater = new MarkupLinkUpdater(parser);
+
+			string text = @"*here* is a nice **[the link text](the-internal-wiki-page-title)** and 
+                            another one: *here is a nice [the link text](the-internal-wiki-page-title) and 
+							a different one: *here is a nice [the link text](different-title)";
+
+			// Act
+			string actualMarkup = updater.ReplacePageLinks(text, "page title", "buy stuff online");
+
+			// Assert
+			Assert.That(actualMarkup, Is.EqualTo(text), actualMarkup);
+		}
 	}
 }
