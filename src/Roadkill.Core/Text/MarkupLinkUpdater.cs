@@ -39,18 +39,18 @@ namespace Roadkill.Core.Converters
 		public string ReplacePageLinks(string text, string oldPageName, string newPageName)
 		{
 			oldPageName = AddDashesForMarkdownTitle(oldPageName);
-			newPageName = AddDashesForMarkdownTitle(newPageName);
+			newPageName = AddDashesForMarkdownTitle(newPageName, false);
 
 			string customRegex = GetRegexForTitle(oldPageName);
 			Regex regex = new Regex(customRegex, RegexOptions.IgnoreCase);
 
 			return regex.Replace(text, (Match match) => 
 			{
-				return OnLinkMatched(match, oldPageName, newPageName);
+				return OnLinkMatched(match, newPageName);
 			});
 		}
 
-		private string OnLinkMatched(Match match, string oldPageName, string newPageName)
+		private string OnLinkMatched(Match match, string newPageName)
 		{
 			if (match.Success && match.Groups.Count == 3)
 			{
@@ -86,11 +86,14 @@ namespace Roadkill.Core.Converters
 			return regex;
 		}
 
-		private string AddDashesForMarkdownTitle(string title)
+		private string AddDashesForMarkdownTitle(string title, bool escape = true)
 		{
 			if (_parser is MarkdownParser)
 			{
-				title = title.Replace(" ", @"\-");
+				if (escape)
+					title = title.Replace(" ", @"\-");
+				else
+					title = title.Replace(" ", "-");
 			}
 
 			return title;
