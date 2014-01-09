@@ -13,9 +13,9 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 {
 	public class SyntaxHighlighter : TextPlugin
 	{
-		internal static readonly string REGEX_STRING = @"\[\[\[code lang=(?'lang'.*?)\|(?'code'.*?)\]\]\]";
-		internal static readonly Regex COMPILED_REGEX = new Regex(REGEX_STRING, RegexOptions.Singleline | RegexOptions.Compiled);
-		internal static string REPLACEMENT_PATTERN = "<pre class=\"brush: ${lang}\">${code}</pre>";
+		internal static readonly string RegexString = @"\[\[\[code lang=(?'lang'.*?)\|(?'code'.*?)\]\]\]";
+		internal static readonly Regex CompiledRegex = new Regex(RegexString, RegexOptions.Singleline | RegexOptions.Compiled);
+		internal static string ReplacementPattern = "<pre class=\"brush: ${lang}\">${code}</pre>";
 
 		public override string Id
 		{
@@ -53,24 +53,24 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 
 		static SyntaxHighlighter()
 		{
-			REPLACEMENT_PATTERN = ParserSafeToken(REPLACEMENT_PATTERN);
+			ReplacementPattern = ParserSafeToken(ReplacementPattern);
 		}
 
 		public override string BeforeParse(string markupText)
 		{
-			if (COMPILED_REGEX.IsMatch(markupText))
+			if (CompiledRegex.IsMatch(markupText))
 			{
 				// Replaces the [[[code lang=sql|xxx]]]
 				// with the HTML tags (surrounded with {{{roadkillinternal}}.
 				// As the code is HTML encoded, it doesn't get butchered by the HTML cleaner.
-				MatchCollection matches = COMPILED_REGEX.Matches(markupText);
+				MatchCollection matches = CompiledRegex.Matches(markupText);
 				foreach (Match match in matches)
 				{
 					string language = match.Groups["lang"].Value;
 					string code = HttpUtility.HtmlEncode(match.Groups["code"].Value);
 					markupText = markupText.Replace(match.Groups["code"].Value, code);
 
-					markupText = Regex.Replace(markupText, REGEX_STRING, REPLACEMENT_PATTERN, COMPILED_REGEX.Options);
+					markupText = Regex.Replace(markupText, RegexString, ReplacementPattern, CompiledRegex.Options);
 				}
 			}
 

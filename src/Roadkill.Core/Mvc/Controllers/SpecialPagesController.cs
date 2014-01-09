@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Web;
 using System.Web.Mvc;
-using Roadkill.Core.Converters;
-using Roadkill.Core.Localization;
 using Roadkill.Core.Configuration;
-using System.Diagnostics;
-using System.Web;
-using System.Web.UI;
-using Roadkill.Core.Services;
-using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.Attributes;
-using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Text;
 using Roadkill.Core.Plugins;
-using Roadkill.Core.Plugins.SpecialPages;
+using Roadkill.Core.Security;
+using Roadkill.Core.Services;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -33,6 +23,12 @@ namespace Roadkill.Core.Mvc.Controllers
 			_pluginFactory = pluginFactory;
 		}
 
+		/// <summary>
+		/// Calls any special page plugin based on the id (the name).
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		/// <exception cref="HttpException">Thrown when a special page plugin cannot be found for id/name.</exception>
 		public ActionResult Index(string id)
 		{
 			SpecialPagePlugin plugin = _pluginFactory.GetSpecialPagePlugin(id);

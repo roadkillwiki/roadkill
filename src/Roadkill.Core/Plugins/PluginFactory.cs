@@ -13,6 +13,9 @@ using StructureMap;
 
 namespace Roadkill.Core.Plugins
 {
+	/// <summary>
+	/// The default <see cref="IPluginFactory"/> implementation, that uses the <see cref="ServiceLocator"/> class.
+	/// </summary>
 	public class PluginFactory : IPluginFactory
 	{
 		/// <summary>

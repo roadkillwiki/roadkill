@@ -10,6 +10,9 @@ using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core.Plugins.SpecialPages.BuiltIn
 {
+	/// <summary>
+	/// A special url that redirects to a random page in the wiki.
+	/// </summary>
 	public class RandomPage : SpecialPagePlugin
 	{
 		private static Random _random = new Random();
@@ -19,7 +22,10 @@ namespace Roadkill.Core.Plugins.SpecialPages.BuiltIn
 			get { return "Random"; }
 		}
 
-		public RandomPage() { }
+		public RandomPage()
+		{ 
+		}
+
 		internal RandomPage(Random random)
 		{
 			_random = random;
