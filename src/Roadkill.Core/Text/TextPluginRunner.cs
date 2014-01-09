@@ -12,7 +12,7 @@ namespace Roadkill.Core.Text
 	/// Runs the BeforeParse and AfterParse methods on all TextPlugins, and determines if 
 	/// the the HTML can be cached or not based on the plugins run.
 	/// </summary>
-	public class TextPluginRunner
+	internal class TextPluginRunner
 	{
 		private IEnumerable<TextPlugin> _plugins;
 		private IPluginFactory _pluginFactory;
