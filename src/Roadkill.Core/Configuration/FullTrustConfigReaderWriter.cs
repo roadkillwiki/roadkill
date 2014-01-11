@@ -13,6 +13,9 @@ using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core.Configuration
 {
+	/// <summary>
+	/// Reads and write the application configuration settings, from a web.config or app.config file.
+	/// </summary>
 	public class FullTrustConfigReaderWriter : ConfigReaderWriter
 	{
 		private System.Configuration.Configuration _config;
