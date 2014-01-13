@@ -301,5 +301,12 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			return View();
 		}
+
+		protected override void OnException(ExceptionContext filterContext)
+		{
+			base.OnException(filterContext);
+
+			Console.WriteLine(filterContext.Exception);
+		}
 	}
 }

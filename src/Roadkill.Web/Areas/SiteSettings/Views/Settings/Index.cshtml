@@ -1,0 +1,190 @@
+﻿@model SettingsViewModel
+
+@{
+	ViewBag.Title = SiteStrings.SiteSettings_Configuration_Title;
+}
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		var messages =
+		{
+			dbSuccessTitle: "@SiteStrings.DatabaseConnection_Success",
+			dbFailureTitle: "@SiteStrings.DatabaseConnection_Failure",
+			attachmentsSuccess: "@SiteStrings.Attachments_Folder_Success",
+			attachmentsFailureTitle: "@SiteStrings.Attachments_Folder_Failure",
+			unexpectedError: "@SiteStrings.Shared_Unexpected_Error"
+		};
+		var settings = new Roadkill.Web.Admin.Settings(messages);
+	});
+</script>
+@Html.SiteSettingsNavigation()
+
+@Html.BootstrapValidationSummary(SiteStrings.SiteSettings_Configuration_Unable_To_Save)
+@if (Model.UpdateSuccessful)
+{
+	<div class="alert alert-success alert-temporary">
+		@SiteStrings.SiteSettings_Configuration_Update_Successful
+	</div>
+}
+
+<form method="post" id="settings-form">
+	<div id="configuration-container">
+		<!-- Site-->
+		<fieldset>
+			<legend>@SiteStrings.SiteSettings_Configuration_Site</legend>
+
+			<div class="form-group col-lg-5 row">
+				<label for="SiteName">@SiteStrings.SiteSettings_Configuration_SiteName</label>
+				@Html.BootstrapTextBoxFor(s => s.SiteName, SiteStrings.SiteSettings_Configuration_SiteName_Help)
+
+				<label for="SiteUrl">@SiteStrings.SiteSettings_Configuration_SiteUrl</label>
+				@Html.BootstrapLongTextBoxFor(s => s.SiteUrl, SiteStrings.SiteSettings_Configuration_SiteUrl_Help)
+			</div>
+		</fieldset>
+
+		<!-- Database -->
+		<fieldset>
+			<legend>@SiteStrings.SiteSettings_Configuration_Database</legend>
+
+			<div class="form-group col-lg-7 row">
+				<label for="DatabaseType">@SiteStrings.SiteSettings_Configuration_DatabaseType</label>
+				@Html.BootstrapDropDownListFor(x => x.DataStoreTypeName, Model.DatabaseTypesAsSelectList, SiteStrings.SiteSettings_Configuration_DatabaseType_Help)
+
+				<label for="ConnectionString">@SiteStrings.SiteSettings_Configuration_DatabaseConnectionString</label>
+				@Html.BootstrapLongTextBoxFor(s => s.ConnectionString, SiteStrings.SiteSettings_Configuration_DatabaseConnectionString_Help)
+
+				<div class="pull-left">
+					<button id="testdbconnection" class="btn btn-primary test-button" type="button">
+						@SiteStrings.Button_Test
+						<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/button-loading.gif"))" border="0" alt="loading" /></span>
+					</button>
+				</div>
+			</div>
+		</fieldset>
+
+		<!-- Security -->
+		<fieldset>
+			<legend>@SiteStrings.SiteSettings_Configuration_Security</legend>
+
+			<div class="form-group col-lg-5 row">
+				<label for="IsPublicSite" class="checkbox">
+					@SiteStrings.SiteSettings_Configuration_IsPublicSite
+					@Html.BootstrapCheckBoxFor(s => s.IsPublicSite, SiteStrings.SiteSettings_Configuration_IsPublicSite_Help)
+				</label>
+
+				<label for="UseWindowsAuth" class="checkbox">
+					@SiteStrings.SiteSettings_Configuration_UseWindowsAuth
+					@Html.BootstrapCheckBoxFor(s => s.UseWindowsAuth, LocalizationTokens.ReplaceHtmlTokens(SiteStrings.SiteSettings_Configuration_UseWindowsAuth_Help))
+				</label>
+
+				<!-- Forms Authentication -->
+				<div id="aspnetuser-settings" class="hidden">
+					<label for="AllowUserSignup" class="checkbox">
+						@SiteStrings.SiteSettings_Configuration_AllowUserSignups
+						@Html.BootstrapCheckBoxFor(s => s.AllowUserSignup, SiteStrings.SiteSettings_Configuration_AllowUserSignups_Help)
+					</label>
+
+					<label for="IsRecaptchaEnabled" class="checkbox">
+						@SiteStrings.SiteSettings_Configuration_EnableRecaptcha
+						@Html.BootstrapCheckBoxFor(s => s.IsRecaptchaEnabled, SiteStrings.SiteSettings_Configuration_EnableRecaptcha_Help)
+					</label>
+
+					<label for="RecaptchaPrivateKey">@SiteStrings.SiteSettings_Configuration_RecaptchaPrivateKey</label>
+					@Html.BootstrapLongTextBoxFor(s => s.RecaptchaPrivateKey, SiteStrings.SiteSettings_Configuration_RecaptchaPrivateKey_Help)
+
+					<label for="RecaptchaPrivateKey">@SiteStrings.SiteSettings_Configuration_RecaptchaPublicKey</label>
+					@Html.BootstrapLongTextBoxFor(s => s.RecaptchaPublicKey, SiteStrings.SiteSettings_Configuration_RecaptchaPublicKey_Help)
+				</div>
+
+				<!-- Active Directory -->
+				<div id="ldapsettings" class="hidden">
+					<label for="LdapConnectionString">@SiteStrings.SiteSettings_Configuration_AD_Connection</label>
+					@Html.BootstrapTextBoxFor(s => s.LdapConnectionString, SiteStrings.SiteSettings_Configuration_AD_Connection_Help)
+
+					<label for="LdapUsername">@SiteStrings.SiteSettings_Configuration_AD_Username</label>
+					@Html.BootstrapTextBoxFor(s => s.LdapUsername, SiteStrings.SiteSettings_Configuration_AD_Username_Help)
+
+					<label for="LdapPassword">@SiteStrings.SiteSettings_Configuration_AD_Password</label>
+					@Html.BootstrapTextBoxFor(s => s.LdapPassword, SiteStrings.SiteSettings_Configuration_AD_Password_Help)
+				</div>
+
+				<label for="EditorRoleName">@SiteStrings.SiteSettings_Configuration_EditorRole</label>
+				@Html.BootstrapTextBoxFor(s => s.EditorRoleName, SiteStrings.SiteSettings_Configuration_EditorRole_Help)
+
+				<label for="AdminRoleName">@SiteStrings.SiteSettings_Configuration_AdminRole</label>
+				@Html.BootstrapTextBoxFor(s => s.AdminRoleName, LocalizationTokens.ReplaceHtmlTokens(SiteStrings.SiteSettings_Configuration_AdminRole_Help))
+			</div>
+		</fieldset>
+
+		<!-- General -->
+		<fieldset>
+			<legend>@SiteStrings.SiteSettings_Configuration_General</legend>
+
+			<div class="form-group col-lg-7 row">
+				<label for="IgnoreSearchIndexErrors" class="checkbox">
+					@SiteStrings.SiteSettings_Configuration_IgnoreSearchIndexErrors
+					@Html.BootstrapCheckBoxFor(s => s.IgnoreSearchIndexErrors, SiteStrings.SiteSettings_Configuration_IgnoreSearchIndexErrors_Help)
+				</label>
+
+				<label for="MarkupType">@SiteStrings.SiteSettings_Configuration_MarkupType</label>
+				@Html.BootstrapDropDownListFor(x => x.MarkupType, new SelectList(Model.MarkupTypesAvailable, Model.MarkupType), SiteStrings.SiteSettings_Configuration_MarkupType_Help)
+
+				<label for="Theme">@SiteStrings.SiteSettings_Configuration_Theme</label>
+				@Html.BootstrapDropDownListFor(x => x.Theme, new SelectList(Model.ThemesAvailable, Model.Theme), SiteStrings.SiteSettings_Configuration_Theme_Help)
+
+				<label for="HeadContent">@SiteStrings.SiteSettings_Configuration_HeadContent</label>
+				@Html.BootstrapTextAreaFor(s => s.HeadContent, LocalizationTokens.ReplaceHeadToken(SiteStrings.SiteSettings_Configuration_HeadContent_Help))
+
+				<label for="MenuMarkup">@SiteStrings.SiteSettings_Configuration_NavMenu</label>
+				@Html.BootstrapTextAreaFor(s => s.MenuMarkup, LocalizationTokens.ReplaceMenuTokens(SiteStrings.SiteSettings_Configuration_NavMenu_Help))
+			</div>
+		</fieldset>
+
+		<!-- File manager-->
+		<fieldset>
+			<legend>@SiteStrings.SiteSettings_Configuration_FileManager</legend>
+
+			<div class="form-group col-lg-7 row">
+				<label for="OverwriteExistingFiles" class="checkbox">
+					@SiteStrings.SiteSettings_Configuration_FileManager_OverwriteExisting
+					@Html.BootstrapCheckBoxFor(s => s.OverwriteExistingFiles, SiteStrings.SiteSettings_Configuration_FileManager_OverwriteExisting_Help)
+				</label>
+			</div>
+			<div class="form-group col-lg-7 row">
+				<label for="AllowedFileTypes">@SiteStrings.SiteSettings_Configuration_Extensions</label>
+				@Html.BootstrapTextBoxFor(s => s.AllowedFileTypes, SiteStrings.SiteSettings_Configuration_Extensions_Help)
+			</div>
+			<div class="form-group col-lg-7 row">
+				<label for="AttachmentsFolder">@SiteStrings.SiteSettings_Configuration_Attachments</label>
+				@Html.BootstrapTextBoxFor(s => s.AttachmentsFolder, SiteStrings.SiteSettings_Configuration_Attachments_Help)
+			</div>
+			<div class="form-group col-lg-7 row">
+				<span class="label label-info">This directory maps to @Model.AttachmentsDirectoryPath</span>
+			</div>
+			<div class="form-group col-lg-7 row">
+				<button id="testattachments" class="btn btn-primary test-button" type="button">
+					@SiteStrings.Button_Test
+				</button>
+			</div>
+		</fieldset>
+
+		<!-- Caching -->
+		<fieldset>
+			<legend>@SiteStrings.SiteSettings_Configuration_CachingTitle</legend>
+
+			<div class="form-group col-lg-7 row">
+				<label for="UseObjectCache" class="checkbox">
+					@SiteStrings.SiteSettings_Configuration_ObjectCaching
+					@Html.BootstrapCheckBoxFor(s => s.UseObjectCache, SiteStrings.SiteSettings_Configuration_ObjectCaching_Help)
+				</label>
+
+				<label for="UseBrowserCache" class="checkbox">
+					@SiteStrings.SiteSettings_Configuration_BrowserCaching
+					@Html.BootstrapCheckBoxFor(s => s.UseBrowserCache, SiteStrings.SiteSettings_Configuration_BrowserCaching_Help)
+				</label>
+			</div>
+		</fieldset>
+
+		<input type="submit" class="btn btn-primary" value="@SiteStrings.Button_Save" />
+	</div>
+</form>

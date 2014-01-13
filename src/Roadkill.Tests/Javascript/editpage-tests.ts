@@ -7,29 +7,29 @@
 // 
 
 // --- These 4 references are needed by the Roadkill scripts to run correctly
-/// <Chutzpah_reference path="../../Roadkill.Site/Assets/Scripts/jquery/jquery-1.8.0.js" />
-/// <Chutzpah_reference path="../../Roadkill.Site/Assets/Scripts/jquery/jquery.timeago.js" />
-/// <Chutzpah_reference path="../../Roadkill.Site/Assets/Scripts/toastr.js" />
-/// <Chutzpah_reference path="../../Roadkill.Site/Assets/Scripts/roadkill/editpage.js" />
+/// <Chutzpah_reference path="../../Roadkill.Web/Assets/Scripts/jquery/jquery-1.8.0.js" />
+/// <Chutzpah_reference path="../../Roadkill.Web/Assets/Scripts/jquery/jquery.timeago.js" />
+/// <Chutzpah_reference path="../../Roadkill.Web/Assets/Scripts/toastr.js" />
+/// <Chutzpah_reference path="../../Roadkill.Web/Assets/Scripts/roadkill/editpage.js" />
 
 // --- These are for intellisense only. QUnit.ts is copied from the (nuget) packages folder
 /// <reference path="qunit.d.ts" />
-/// <reference path="../../Roadkill.Site/Assets/Scripts/roadkill/editpage/editpage.ts" />
+/// <reference path="../../Roadkill.Web/Assets/Scripts/roadkill/editpage/editpage.ts" />
 
 //test("Commas (,) are invalid in tags", () =>
 //{
-//	var isValid3: Boolean = Roadkill.Site.EditPage.isValidTag(",l,l,");
+//	var isValid3: Boolean = Roadkill.Web.EditPage.isValidTag(",l,l,");
 //	equal(isValid3, false);
 //});
 
 //test("Hashes (#) are invalid in tags", () =>
 //{
-//	var isValid2: Boolean = Roadkill.Site.EditPage.isValidTag("###");
+//	var isValid2: Boolean = Roadkill.Web.EditPage.isValidTag("###");
 //	equal(isValid2, false);
 //});
 
 //test("Semi-colons (;) are invalid in tags", () =>
 //{
-//	var isValid: Boolean = Roadkill.Site.EditPage.isValidTag(";;;");
+//	var isValid: Boolean = Roadkill.Web.EditPage.isValidTag(";;;");
 //	equal(isValid, false);
 //});

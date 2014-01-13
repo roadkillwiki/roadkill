@@ -1,0 +1,50 @@
+﻿@model IEnumerable<PageViewModel>
+@{ 
+	string title = string.Format(SiteStrings.Pages_ForUser, ViewData["Username"]);
+	ViewBag.Title = title;
+}
+@if (RoadkillContext.IsAdmin)
+{
+<script type="text/javascript">
+	$(function ()
+	{
+		Roadkill.Web.Setup.bindConfirmDelete();
+	});
+</script>
+}
+
+<h1>@title</h1>
+
+@if (Model.Count() > 0)
+{
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th class="stretch">@SiteStrings.AllPages_TitleColumnHeading</th>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
+	@foreach (PageViewModel pageModel in Model)
+	{
+	<tr>
+		<td class="stretch">@Html.ActionLink(pageModel.Title, "Index", "Wiki", new { id = pageModel.Id, title = pageModel.EncodedTitle }, null)</td>
+		@if (RoadkillContext.IsLoggedIn)
+		{
+		if (!pageModel.IsLocked || (pageModel.IsLocked && RoadkillContext.IsAdmin))
+		{
+		<td class="edit">@Html.ActionLink(SiteStrings.Shared_EditLink, "Edit", new { id = pageModel.Id }, new { @class = "btn btn-mini btn-primary" })</td>
+		}	  
+		if (RoadkillContext.IsAdmin)
+		{
+		<td class="delete">@Html.ActionLink(SiteStrings.Shared_DeleteLink, "Delete", new { id = pageModel.Id }, new { @class = "btn btn-mini confirm" })</td>
+		}
+		}
+	</tr>
+	}
+</table>
+}
+else
+{
+	<p>@string.Format(SiteStrings.Pages_ForUser_NoPages, ViewData["Username"])</p>
+}

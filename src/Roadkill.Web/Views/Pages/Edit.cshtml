@@ -1,0 +1,82 @@
+﻿@model PageViewModel
+@{
+	ViewBag.Title = SiteStrings.EditPage_Title;
+}
+
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		var pageTags = [ @(Html.Raw(Model.JavascriptArrayForAllTags())) ];
+		var editPage = new Roadkill.Web.EditPage(pageTags);
+	});
+</script>
+<style>
+	.searchbar	{ display:none; }
+</style>
+
+<div id="editpage" class="row">
+	<div id="editpage-form-container" class="col-lg-6">
+		@Html.BootstrapValidationSummary(SiteStrings.EditPage_Error)
+
+		<form class="form-horizontal" role="form" method="post" id="editpage-form">
+			@(Html.HiddenFor<PageViewModel, int>(p => p.Id))
+			@(Html.HiddenFor<PageViewModel, string>(p => p.PreviousTitle))
+			@(Html.HiddenFor<PageViewModel, string>(p => p.RawTags))
+
+			<div class="form-group">
+				<div class="col-sm-12">
+					@(Html.BootstrapTextBoxFor<PageViewModel, string>(p => p.Title, SiteStrings.EditPage_Title_Label, false, 1))
+				</div>
+			</div>
+
+			<div class="form-inline">
+				@(Html.TextBox("TagsEntry", null, new { @class = "form-control tm-input", autocomplete = "off", tabindex = 2, placeholder = SiteStrings.EditPage_Tags_Label }))
+			</div>
+
+
+			@if (RoadkillContext.IsAdmin)
+			{
+				<div class="form-inline">
+					<h6>
+						@(Html.BootstrapCheckBoxFor<PageViewModel>(p => p.IsLocked, SiteStrings.EditPage_AdminOnly, 3))
+						@SiteStrings.EditPage_AdminOnly
+					</h6>
+				</div>
+			}
+
+			@Html.Partial("WysiwgToolbar")
+			@(Html.TextAreaFor<PageViewModel, string>(p => p.Content, new { @class = "form-control", tabindex = 5 }))
+
+			<div id="editpage-button-container" class="row" >
+				<div class="col-sm-1">
+				@if (Model.Id > 0)
+				{
+					<h6>@Html.ActionLink(SiteStrings.Button_Cancel, "Index", "Wiki", new { id = Model.Id, title = Model.EncodedTitle }, null)</h6>
+				}
+				else
+				{
+					<h6>@Html.ActionLink(SiteStrings.Button_Cancel, "Index", "Wiki")</h6>
+				}
+				</div>
+				<div id="editpage-save-button" class="col-sm-11"><!-- @SiteStrings.Button_Preview" -->
+					<input type="submit" class="btn btn-primary saveButton" value="@SiteStrings.Button_Save" tabindex="6" />
+				</div>
+			</div>
+
+			@Html.DialogPartial("ChooseImage")
+			@Html.DialogPartial("MarkupHelp")
+		</form>
+	</div>
+
+	<!-- Preview panel -->
+	<div class="col-lg-6" id="previewpanel-container">
+		<div id="previewpanel-inner" class="panel panel-default">
+			<div id="preview-heading" class="panel-heading">@SiteStrings.EditPage_Preview</div>
+			<div class="panel-body" id="preview-wrapper">
+				<div id="previewLoading" class="hide"><img src="@(Url.Content("~/Assets/Images/white-loading.gif"))" border="0" alt="loading" /></div>
+				<div id="preview"><br class="clear" /></div>
+			</div>
+		</div>
+	</div>
+</div>
+
