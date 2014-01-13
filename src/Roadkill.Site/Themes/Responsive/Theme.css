@@ -3,7 +3,7 @@
 /* Make the page have 100% height */
 html, body { height: 100%; min-height: 100%; padding: 0px; margin: 0px; }
 body, h1, h2, h3, h4, h5, h6 { font-family: "Noticia Text", sans-serif; }
-h1, h2, h3, h4, h5, h6 { font-family: "Noticia Text", sans-serif;padding-top: 20px !important; padding-bottom: 5px !important; }
+h1, h2, h3, h4, h5, h6 { font-family: "Noticia Text", sans-serif;padding: 5px 0px 5px 0px; }
 
 /* The basic 3 row layout*/
 #header-wrapper { min-height: 7%; padding: 0px; margin: 0px; }
@@ -12,9 +12,6 @@ h1, h2, h3, h4, h5, h6 { font-family: "Noticia Text", sans-serif;padding-top: 20
 
 /* Page and pen toolbar */
 #toolbar { position:absolute; top:85px;left:5px;z-index:99; }
-
-/* Add borders to the bottom of all H tags that the editor supports */
-h1, h2, h3, h4, h5 { border-bottom: solid 1px #DDD; padding-bottom: 20px; }
 
 /* Responsive header */
 @media screen and (min-width:720px) {
