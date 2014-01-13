@@ -1,0 +1,143 @@
+﻿@model SettingsViewModel
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+@Url.InstallerScriptLink("step3Db.js")
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		var messages =
+		{
+			passwordsDontMatch : "@SiteStrings.User_Validation_PasswordsDontMatch"
+		};
+
+		var wizard = new Roadkill.Web.Installer.InstallWizard();
+		var step3 = new Roadkill.Web.Installer.Step3Db(wizard, messages);
+		step3.configureValidation();
+	});
+</script>
+
+<form role="form" method="post" id="step3-form" action="@Url.Action("Step4", "Install")">
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.ConnectionString))
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.DataStoreTypeName))
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.SiteName))
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.SiteUrl))
+	@(Html.HiddenFor<SettingsViewModel, bool>(h => h.UseWindowsAuth))
+
+	<p>
+		@InstallStrings.Step3_One_Way_Hashed
+	</p>
+
+	<!-- Editor role name -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@InstallStrings.Step3_DB_Editor_Role_Title</legend>
+			<label for="EditorRoleName">@InstallStrings.Step3_DB_Editor_Role</label>
+
+			<div class="row">
+				<div class="col-xs-4">
+					@Html.BootstrapTextBoxFor(s => s.EditorRoleName, InstallStrings.Step3_DB_Editor_Role)
+				</div>
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Admin role name -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@InstallStrings.Step3_DB_Admin_Role_Title</legend>
+			<label for="AdminRoleName">@InstallStrings.Step3_DB_Admin_Role</label>
+
+			<div class="row">
+				<div class="col-xs-4">
+					@Html.BootstrapTextBoxFor(s => s.AdminRoleName, InstallStrings.Step3_DB_Admin_Role)
+				</div>
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Allow user signups -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@SiteStrings.SiteSettings_Configuration_AllowUserSignups</legend>
+			<p>@SiteStrings.SiteSettings_Configuration_AllowUserSignups_Help</p>
+
+			<div class="form-group">
+				<label for="AllowUserSignup" class="checkbox">
+					@SiteStrings.SiteSettings_Configuration_AllowUserSignups
+					@Html.BootstrapCheckBoxFor(s => s.AllowUserSignup, SiteStrings.SiteSettings_Configuration_AllowUserSignups)
+				</label>
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Enable recaptcha -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@SiteStrings.SiteSettings_Configuration_EnableRecaptcha</legend>
+			<p>@Html.Raw(LocalizationTokens.ReplaceRecaptcha(InstallStrings.Step3_DB_Enable_Recaptcha_Description))</p>
+
+			<div class="form-group">
+				<label for="IsRecaptchaEnabled" class="checkbox">
+					@SiteStrings.SiteSettings_Configuration_EnableRecaptcha
+					@Html.BootstrapCheckBoxFor(s => s.IsRecaptchaEnabled, SiteStrings.SiteSettings_Configuration_EnableRecaptcha)
+				</label>
+
+				<label for="RecaptchaPublicKey">@SiteStrings.SiteSettings_Configuration_RecaptchaPublicKey</label>
+				@Html.BootstrapTextBoxFor(s => s.RecaptchaPublicKey, SiteStrings.SiteSettings_Configuration_RecaptchaPublicKey)
+
+				<label for="RecaptchaPrivateKey">@SiteStrings.SiteSettings_Configuration_RecaptchaPrivateKey</label>
+				@Html.BootstrapTextBoxFor(s => s.RecaptchaPrivateKey, SiteStrings.SiteSettings_Configuration_RecaptchaPrivateKey)
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Admin email -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@InstallStrings.Step3_DB_Admin_Email_Title</legend>
+			<label for="AdminEmail">@InstallStrings.Step3_DB_Admin_Email</label>
+
+			<div class="row">
+				<div class="col-xs-4">
+					@Html.BootstrapTextBoxFor(s => s.AdminEmail, InstallStrings.Step3_DB_Admin_Email)
+				</div>
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Admin password -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@InstallStrings.Step3_DB_Admin_Password_Title</legend>
+			<label for="AdminPassword">@InstallStrings.Step3_DB_Admin_Password</label>
+
+			<div class="row">
+				<div class="col-xs-4">
+					@Html.BootstrapPasswordFor(s => s.AdminPassword, InstallStrings.Step3_DB_Admin_Password)
+				</div>
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Repeat password -->
+	<div class="form-group">
+		<fieldset>
+			<div class="row">
+				<div class="col-xs-4">
+					@Html.BootstrapPassword("password2", InstallStrings.Step3_DB_Admin_Password)
+				</div>
+			</div>
+		</fieldset>
+	</div>
+</form>
+
+@section BottomButtons
+{
+	<div class="previous">
+		<a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a>
+	</div>
+	<div class="continue">
+		<button type="submit" class="btn btn-success pull-right">@InstallStrings.Shared_NextButton</button>
+	</div>
+}

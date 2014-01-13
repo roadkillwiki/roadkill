@@ -1,0 +1,141 @@
+﻿@model SettingsViewModel
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+@Url.InstallerScriptLink("step4.js")
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		var messages =
+		{
+			successTitle: "@SiteStrings.Shared_Success",
+			successMessage: "@SiteStrings.Attachments_Folder_Success",
+			failureTitle: "@SiteStrings.Shared_Failure",
+			failureMessage: "@SiteStrings.Attachments_Folder_Failure",
+		};
+
+		var wizard = new Roadkill.Web.Installer.InstallWizard();
+		var step4 = new Roadkill.Web.Installer.Step4(wizard, messages);
+		step4.bindButtons();
+		step4.configureValidation();
+	});
+</script>
+
+<p>
+	@InstallStrings.Step4_Almost_Done
+</p>
+
+<form role="form" method="post" id="step4-form" action="@Url.Action("Step5", "Install")">
+	@Html.HiddenFor(h => h.AdminEmail)
+	@Html.HiddenFor(h => h.AdminPassword)
+	@Html.HiddenFor(h => h.AdminRoleName)
+	@Html.HiddenFor(h => h.AllowUserSignup)
+	@Html.HiddenFor(h => h.ConnectionString)
+	@Html.HiddenFor(h => h.DataStoreTypeName)
+	@Html.HiddenFor(h => h.EditorRoleName)
+	@Html.HiddenFor(h => h.IsRecaptchaEnabled)
+	@Html.HiddenFor(h => h.LdapConnectionString)
+	@Html.HiddenFor(h => h.LdapUsername)
+	@Html.HiddenFor(h => h.LdapPassword)
+	@Html.HiddenFor(h => h.RecaptchaPrivateKey)
+	@Html.HiddenFor(h => h.RecaptchaPublicKey)
+	@Html.HiddenFor(h => h.SiteName)
+	@Html.HiddenFor(h => h.SiteUrl)
+	@Html.HiddenFor(h => h.UseWindowsAuth)
+
+	<!-- Attachments folder -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@SiteStrings.SiteSettings_Configuration_Attachments</legend>
+			<label for="AttachmentsFolder">@InstallStrings.Step4_Attachments_Folder_Description</label>
+
+			<p>
+				@InstallStrings.Step4_Attachments_Folder_RelativePath
+			</p>
+
+			<div class="row">
+				<div class="col-xs-6">
+					@Html.BootstrapTextBoxFor(s => s.AttachmentsFolder, SiteStrings.SiteSettings_Configuration_Attachments)
+				</div>
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Test attachments button -->
+	<div class="form-group">
+		<button id="testattachments" class="btn btn-info test-button" type="button">
+			@SiteStrings.Button_Test
+			<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/button-loading.gif"))" border="0" alt="loading" /></span>
+		</button>
+	</div>
+
+	<!-- Allowed extensions -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@SiteStrings.SiteSettings_Configuration_Extensions</legend>
+			<label for="AllowedFileTypes">@SiteStrings.SiteSettings_Configuration_Extensions_Help</label>
+
+			<div class="row">
+				<div class="col-xs-4">
+					@Html.BootstrapTextBoxFor(s => s.AllowedFileTypes, SiteStrings.SiteSettings_Configuration_Extensions)
+				</div>
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Theme -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@SiteStrings.SiteSettings_Configuration_Theme</legend>
+			<label for="Theme">@SiteStrings.SiteSettings_Configuration_Theme_Help</label>
+
+			@Html.BootstrapDropDownListFor(s => s.Theme, new SelectList(Model.ThemesAvailable, Model.Theme), SiteStrings.SiteSettings_Configuration_Theme_Help)
+		</fieldset>
+	</div>
+
+	<!-- Markup type -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@SiteStrings.SiteSettings_Configuration_MarkupType</legend>
+			<label for="MarkupType">@SiteStrings.SiteSettings_Configuration_MarkupType_Help</label>
+
+			@Html.BootstrapDropDownListFor(s => s.MarkupType, new SelectList(Model.MarkupTypesAvailable, Model.MarkupType), SiteStrings.SiteSettings_Configuration_MarkupType)
+		</fieldset>
+	</div>
+
+	<!-- Use object cache -->
+	<fieldset>
+		<legend>@SiteStrings.SiteSettings_Configuration_CachingTitle</legend>
+
+		<div class="form-group">
+			<label for="UseObjectCache" class="checkbox">
+				@SiteStrings.SiteSettings_Configuration_ObjectCaching
+				@Html.BootstrapCheckBoxFor(s => s.UseObjectCache, SiteStrings.SiteSettings_Configuration_ObjectCaching)
+			</label>
+		</div>
+
+		<p>@SiteStrings.SiteSettings_Configuration_ObjectCaching_Help</p>
+	</fieldset>
+
+	<!-- Use browser cache -->
+	<fieldset>
+		<div class="form-group">
+			<label for="UseBrowserCache" class="checkbox">
+				@SiteStrings.SiteSettings_Configuration_BrowserCaching
+				@Html.BootstrapCheckBoxFor(s => s.UseBrowserCache, SiteStrings.SiteSettings_Configuration_BrowserCaching)
+			</label>
+		</div>
+
+		<p>@SiteStrings.SiteSettings_Configuration_BrowserCaching_Help/p>
+	</fieldset>
+</form>
+
+@section BottomButtons
+{
+	<div class="previous">
+		<a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a>
+	</div>
+	<div class="continue">
+		<button type="submit" class="btn btn-success pull-right">@InstallStrings.Shared_NextButton</button>
+	</div>
+}

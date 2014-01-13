@@ -30,15 +30,15 @@ $env:Path = $env:Path + ";C:\Program Files\7-Zip"
 cd ..
 
 # ---- Make sure the roadkill.config,connectionstrings.config files are the download template one
-copy -Force lib\Configs\roadkill.download.config src\Roadkill.site\roadkill.config
-copy -Force lib\Configs\connectionStrings.config src\Roadkill.site\connectionStrings.config
+copy -Force lib\Configs\roadkill.download.config src\Roadkill.Web\roadkill.config
+copy -Force lib\Configs\connectionStrings.config src\Roadkill.Web\connectionStrings.config
 
 # ---- Build the solution using the Download target
 msbuild roadkill.sln "/p:Configuration=Download;DeployOnBuild=True;PackageAsSingleFile=False;AutoParameterizationWebConfigConnectionStrings=false;outdir=deploytemp\;OutputPath=bin\debug"
 
 # ---- Use msdeploy to publish the website to disk
 $currentDir = $(get-location).toString()
-$packageSource = $currentDir +"\src\roadkill.site\obj\download\Package\PackageTmp\"
+$packageSource = $currentDir +"\src\Roadkill.Web\obj\download\Package\PackageTmp\"
 $packageDest = $currentDir + "\_WEBSITE"
 msdeploy -verb:sync -source:contentPath=$packageSource -dest:contentPath=$packageDest
 
@@ -65,7 +65,7 @@ CD ..
 # ---- Clean up the temporary deploy folders
 Remove-Item -Force -Recurse _WEBSITE
 #Remove-Item -Force -Recurse src\Roadkill.Core\deploytemp
-#Remove-Item -Force -Recurse src\Roadkill.Site\deploytemp
+#Remove-Item -Force -Recurse src\Roadkill.Web\deploytemp
 #Remove-Item -Force -Recurse src\Roadkill.Tests\deploytemp
 
 # ---- Commit to builds repository

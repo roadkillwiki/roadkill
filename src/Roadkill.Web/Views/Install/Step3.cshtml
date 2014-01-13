@@ -1,0 +1,44 @@
+﻿@model SettingsViewModel
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+@Url.InstallerScriptLink("step3.js")
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		var wizard = new Roadkill.Web.Installer.InstallWizard();
+		wizard.updateNavigation(3);
+	});
+</script>
+
+<form role="form" method="post" id="step3-form" action="@Url.Action("Step3b", "Install")">
+	@Html.HiddenFor(h => h.ConnectionString)
+	@Html.HiddenFor(h => h.SiteName)
+	@Html.HiddenFor(h => h.SiteUrl)
+	@Html.HiddenFor(h => h.DataStoreTypeName)
+
+	<!-- Use windows auth -->
+	<fieldset>
+		<legend>@SiteStrings.SiteSettings_Configuration_UseWindowsAuth</legend>
+		<p>
+			@InstallStrings.Step3_Use_WindowsAuth_Intro
+		</p>
+
+		<div class="form-group">
+            <label for="UseWindowsAuth" class="checkbox">
+                @SiteStrings.SiteSettings_Configuration_UseWindowsAuth
+                @Html.BootstrapCheckBoxFor(s => s.UseWindowsAuth, SiteStrings.SiteSettings_Configuration_UseWindowsAuth)
+            </label>
+		</div>
+	</fieldset>
+</form>
+
+@section BottomButtons
+{
+	<div class="previous">
+		<a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a>
+	</div>
+	<div class="continue">
+		<button type="submit" class="btn btn-success pull-right">@InstallStrings.Shared_NextButton</button>
+	</div>
+}

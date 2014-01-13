@@ -18,15 +18,15 @@ $env:Path = $env:Path + ";C:\Program Files\7-Zip"
 cd ..
 
 # ---- Make sure the roadkill.config,connectionstrings.config files are the download template one
-copy -Force lib\Configs\roadkill.download.config src\Roadkill.site\roadkill.config
-copy -Force lib\Configs\connectionStrings.config src\Roadkill.site\connectionStrings.config
+copy -Force lib\Configs\roadkill.download.config src\Roadkill.Web\roadkill.config
+copy -Force lib\Configs\connectionStrings.config src\Roadkill.Web\connectionStrings.config
 
 # ---- Build the solution using the Mono target
 msbuild roadkill.sln "/p:Configuration=Mono;DeployOnBuild=True;PackageAsSingleFile=False;AutoParameterizationWebConfigConnectionStrings=false;outdir=deploytemp\;OutputPath=bin\debug"
 
 # ---- Use msdeploy to publish the website to disk
 $currentDir = $(get-location).toString()
-$packageSource = $currentDir +"\src\roadkill.site\obj\Mono\Package\PackageTmp\"
+$packageSource = $currentDir +"\src\roadkill.Web\obj\Mono\Package\PackageTmp\"
 $packageDest = $currentDir + "\_WEBSITE"
 msdeploy -verb:sync -source:contentPath=$packageSource -dest:contentPath=$packageDest
 
@@ -54,7 +54,7 @@ CD ..
 # ---- Clean up the temporary deploy folders
 Remove-Item -Force -Recurse _WEBSITE
 Remove-Item -Force -Recurse src\Roadkill.Core\deploytemp
-Remove-Item -Force -Recurse src\Roadkill.Site\deploytemp
+Remove-Item -Force -Recurse src\Roadkill.Web\deploytemp
 Remove-Item -Force -Recurse src\Roadkill.Tests\deploytemp
 
 "Mono release build complete."

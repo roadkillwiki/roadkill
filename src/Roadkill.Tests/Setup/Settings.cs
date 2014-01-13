@@ -65,7 +65,7 @@ namespace Roadkill.Tests
 			{
 				if (string.IsNullOrEmpty(_sitePath))
 				{
-					_sitePath = Path.Combine(Settings.ROOT_FOLDER, "src", "Roadkill.Site");
+					_sitePath = Path.Combine(Settings.ROOT_FOLDER, "src", "Roadkill.Web");
 					_sitePath = new DirectoryInfo(_sitePath).FullName;
 				}
 

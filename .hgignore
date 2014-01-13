@@ -103,5 +103,5 @@ filemodel.js
 *.favdoc
 
 # Ignore all exported files
-src/Roadkill.Site/App_Data/Export/
+src/Roadkill.Web/App_Data/Export/
 Roadkill.sln.DotSettings
