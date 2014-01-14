@@ -931,7 +931,10 @@ namespace Roadkill.Core.Converters
 				LinkEventArgs args = new LinkEventArgs(url, url, linkText, "");
 				OnLinkParsed(args);
 
-				result = "<a rel=\"nofollow\" href=\"" + args.Href + "\"";
+				if (args.Href.StartsWith("http://"))
+					result = "<a rel=\"nofollow\" href=\"" + args.Href + "\"";
+				else
+					result = "<a href=\"" + args.Href + "\"";
 
 				if (_titles.ContainsKey(linkID))
 				{
@@ -943,6 +946,11 @@ namespace Roadkill.Core.Converters
 				if (!string.IsNullOrEmpty(args.Target))
 				{
 					result += " target=\"" + args.Target + "\"";
+				}
+
+				if (!string.IsNullOrEmpty(args.CssClass))
+				{
+					result += " class=\"" + args.CssClass + "\"";
 				}
 
 				result += ">" + args.Text + "</a>";
@@ -961,6 +969,7 @@ namespace Roadkill.Core.Converters
 
 			string result;
 
+			// links like this: [link text](url "optional title") or [link text](url "optional title")
 			if (_urls.ContainsKey(linkID))
 			{
 				string url = _urls[linkID];
@@ -971,7 +980,10 @@ namespace Roadkill.Core.Converters
 				LinkEventArgs args = new LinkEventArgs(url, url, linkText, "");
 				OnLinkParsed(args);
 
-				result = "<a href=\"" + args.Href + "\"";
+				if (args.Href.StartsWith("http://"))
+					result = "<a rel=\"nofollow\" href=\"" + args.Href + "\"";
+				else
+					result = "<a href=\"" + args.Href + "\"";
 
 				if (_titles.ContainsKey(linkID))
 				{
@@ -983,6 +995,11 @@ namespace Roadkill.Core.Converters
 				if (!string.IsNullOrEmpty(args.Target))
 				{
 					result += " target=\"" + args.Target + "\"";
+				}
+
+				if (!string.IsNullOrEmpty(args.CssClass))
+				{
+					result += " class=\"" + args.CssClass + "\"";
 				}
 
 				result += ">" + args.Text + "</a>";
@@ -1009,7 +1026,10 @@ namespace Roadkill.Core.Converters
 			LinkEventArgs args = new LinkEventArgs(url, url, linkText, "");
 			OnLinkParsed(args);
 
-			result = string.Format("<a href=\"{0}\"", args.Href);
+			if (args.Href.StartsWith("http://"))
+				result = "<a rel=\"nofollow\" href=\"" + args.Href + "\"";
+			else
+				result = "<a href=\"" + args.Href + "\"";
 
 			if (!String.IsNullOrEmpty(title))
 			{
@@ -1021,6 +1041,11 @@ namespace Roadkill.Core.Converters
 			if (!string.IsNullOrEmpty(args.Target))
 			{
 				result += " target=\"" + args.Target + "\"";
+			}
+
+			if (!string.IsNullOrEmpty(args.CssClass))
+			{
+				result += " class=\"" + args.CssClass + "\"";
 			}
 
 			result += string.Format(">{0}</a>", args.Text);
