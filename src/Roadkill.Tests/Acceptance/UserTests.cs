@@ -14,7 +14,7 @@ namespace Roadkill.Tests.Acceptance
 		public void Reset_Password_Sends_Email()
 		{
 			// Arrange
-			string pickupPath = Path.Combine(Settings.SITE_PATH, "App_Data", "TempSmtp");
+			string pickupPath = Path.Combine(Settings.WEB_PATH, "App_Data", "TempSmtp");
 			if (!Directory.Exists(pickupPath))
 				Directory.CreateDirectory(pickupPath);
 
@@ -119,7 +119,7 @@ namespace Roadkill.Tests.Acceptance
 		public void Register_Shows_Confirmation_Page_And_Sends_Email()
 		{
 			// Arrange
-			string pickupPath = Path.Combine(Settings.SITE_PATH, "App_Data", "TempSmtp");
+			string pickupPath = Path.Combine(Settings.WEB_PATH, "App_Data", "TempSmtp");
 			if (!Directory.Exists(pickupPath))
 				Directory.CreateDirectory(pickupPath);
 
@@ -211,7 +211,7 @@ namespace Roadkill.Tests.Acceptance
 		public void Register_And_Resend_Email_Confirmation_Sends_Email()
 		{
 			// Arrange
-			string pickupPath = Path.Combine(Settings.SITE_PATH, "App_Data", "TempSmtp");
+			string pickupPath = Path.Combine(Settings.WEB_PATH, "App_Data", "TempSmtp");
 			if (!Directory.Exists(pickupPath))
 				Directory.CreateDirectory(pickupPath);
 

@@ -15,7 +15,7 @@ namespace Roadkill.Tests
 
 		public IISExpress()
 		{
-			string sitePath = Settings.SITE_PATH;
+			string sitePath = Settings.WEB_PATH;
 			_startInfo = new ProcessStartInfo();
 			_startInfo.Arguments = string.Format("/path:\"{0}\" /port:{1}", sitePath, 9876);
 

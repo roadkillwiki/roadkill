@@ -32,11 +32,11 @@ namespace Roadkill.Tests.Acceptance
 
 			// SQL Server CE 1.5.2. database
 			string sqlServerCEDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "Upgrade", "roadkill152.sdf");
-			File.Copy(sqlServerCEDBPath, Path.Combine(Settings.SITE_PATH, "App_Data", "roadkill152.sdf"), true);
+			File.Copy(sqlServerCEDBPath, Path.Combine(Settings.WEB_PATH, "App_Data", "roadkill152.sdf"), true);
 
 			// SQLite 1.5.2 database
 			string sqliteDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "Upgrade", "roadkill152.sqlite");
-			string destSqlitePath = Path.Combine(Settings.SITE_PATH, "App_Data", "roadkill152.sqlite");
+			string destSqlitePath = Path.Combine(Settings.WEB_PATH, "App_Data", "roadkill152.sqlite");
 			File.Copy(sqliteDBPath, destSqlitePath, true);
 		}
 
@@ -112,7 +112,7 @@ namespace Roadkill.Tests.Acceptance
 
 		private void UpdateWebConfig(string connectionstring, DataStoreType databaseType)
 		{
-			string sitePath = Settings.SITE_PATH;
+			string sitePath = Settings.WEB_PATH;
 			string webConfigPath = Path.Combine(sitePath, "web.config");
 
 			// Remove the readonly flag 
