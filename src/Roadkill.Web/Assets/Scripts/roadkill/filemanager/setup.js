@@ -51,17 +51,6 @@ var Roadkill;
                         dropZone: $("#folder-container"),
                         pasteZone: $("body"),
                         dataType: "json",
-                        add: function (e, data) {
-                            var uploadErrors = [];
-                            if (data.originalFiles[0]['size'].length && data.originalFiles[0]['size'] > 5000) {
-                                uploadErrors.push('Filesize is too big');
-                            }
-                            if (uploadErrors.length > 0) {
-                                alert(uploadErrors.join("\n"));
-                            } else {
-                                data.submit();
-                            }
-                        },
                         progressall: function (e, data) {
                             $("#progress").show();
 

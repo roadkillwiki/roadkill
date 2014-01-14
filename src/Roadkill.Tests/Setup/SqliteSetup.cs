@@ -15,7 +15,7 @@ namespace Roadkill.Tests
 	{
 		public static string ConnectionString { get { return @"Data Source=roadkill-integrationtests.sqlite;"; } }
 
-		public void CopyInteropFiles()
+		public static void CopyInteropFiles()
 		{
 			// Copy the SQLite interop file for x64
 			string binFolder = AppDomain.CurrentDomain.BaseDirectory;
@@ -35,7 +35,7 @@ namespace Roadkill.Tests
 			}
 		}
 
-		protected void CopyDb()
+		public static void CopyDb()
 		{
 			string testsDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "Sqlite", "roadkill-integrationtests.sqlite");
 			File.Copy(testsDBPath, Path.Combine(Settings.SITE_PATH, "App_Data", "roadkill-integrationtests.sqlite"), true);
