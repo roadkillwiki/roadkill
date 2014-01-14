@@ -21,7 +21,7 @@ namespace Roadkill.Tests.Acceptance
 			try
 			{
 				// Delete SQLiteinterop.dll
-				string sitePath = Settings.SITE_PATH;
+				string sitePath = Settings.WEB_PATH;
 				string sqlitePath = Path.Combine(sitePath, "bin", "SQLite.Interop.dll");
 				if (File.Exists(sqlitePath))
 					File.Delete(sqlitePath);

@@ -13,7 +13,7 @@ namespace Roadkill.Tests
 		{
 			try
 			{
-				string sitePath = Settings.SITE_PATH;
+				string sitePath = Settings.WEB_PATH;
 				string siteWebConfig = Path.Combine(sitePath, "web.config");
 
 				string testsWebConfigPath = Path.Combine(Settings.LIB_FOLDER, "Configs", "web.config");
@@ -48,7 +48,7 @@ namespace Roadkill.Tests
 		{
 			try
 			{
-				string sitePath = Settings.SITE_PATH;
+				string sitePath = Settings.WEB_PATH;
 				string siteConnStringsConfig = Path.Combine(sitePath, "connectionStrings.config");
 
 				string testsConnStringsPath = Path.Combine(Settings.LIB_FOLDER, "Configs", "connectionStrings.dev.config");
@@ -83,7 +83,7 @@ namespace Roadkill.Tests
 		{
 			try
 			{
-				string sitePath = Settings.SITE_PATH;
+				string sitePath = Settings.WEB_PATH;
 				string roadkillConfig = Path.Combine(sitePath, "Roadkill.config");
 
 				string testsRoadkillConfigPath = Path.Combine(Settings.LIB_FOLDER, "Configs", "Roadkill.dev.config");

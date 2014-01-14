@@ -58,7 +58,7 @@ namespace Roadkill.Tests.Acceptance
 
 		public static void DeleteSqliteBinaries()
 		{
-			string sitePath = Settings.SITE_PATH;
+			string sitePath = Settings.WEB_PATH;
 
 			string sqliteInteropFileSource = string.Format("{0}/App_Data/Internal/SQLiteBinaries/x86/SQLite.Interop.dll", sitePath);
 			string sqliteInteropFileDest = string.Format("{0}/bin/SQLite.Interop.dll", sitePath);

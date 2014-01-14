@@ -15,7 +15,7 @@ namespace Roadkill.Tests
 	{
 		private static string _rootFolder;
 		private static string _libFolder;
-		private static string _sitePath;
+		private static string _webPath;
 		private static string _packagesFolder;
 
 		public static string ROOT_FOLDER
@@ -59,17 +59,17 @@ namespace Roadkill.Tests
 			}
 		}
 
-		public static string SITE_PATH
+		public static string WEB_PATH
 		{
 			get
 			{
-				if (string.IsNullOrEmpty(_sitePath))
+				if (string.IsNullOrEmpty(_webPath))
 				{
-					_sitePath = Path.Combine(Settings.ROOT_FOLDER, "src", "Roadkill.Web");
-					_sitePath = new DirectoryInfo(_sitePath).FullName;
+					_webPath = Path.Combine(Settings.ROOT_FOLDER, "src", "Roadkill.Web");
+					_webPath = new DirectoryInfo(_webPath).FullName;
 				}
 
-				return _sitePath;
+				return _webPath;
 			}
 		}
 

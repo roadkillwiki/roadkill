@@ -172,7 +172,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_activeDirectoryProviderMock.LdapConnectionResult = "";
-			_applicationSettings.SQLiteBinariesPath = Path.Combine(Settings.SITE_PATH, "App_Data", "Internal", "SQLiteBinaries");
+			_applicationSettings.SQLiteBinariesPath = Path.Combine(Settings.WEB_PATH, "App_Data", "Internal", "SQLiteBinaries");
 			_configTesterController.SetFakeControllerContext();
 
 			// Act

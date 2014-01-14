@@ -18,7 +18,7 @@ namespace Roadkill.Tests.Acceptance
 		public void Setup()
 		{
 			// Re-create the attachments directory
-			string sitePath = Settings.SITE_PATH;
+			string sitePath = Settings.WEB_PATH;
 			string attachmentsPath = Path.Combine(sitePath, "App_Data", "Attachments");
 			if (Directory.Exists(attachmentsPath))
 				Directory.Delete(attachmentsPath, true);
@@ -30,7 +30,7 @@ namespace Roadkill.Tests.Acceptance
 		public void TearDown()
 		{
 			// Remove everything from the attachments directory
-			string sitePath = Settings.SITE_PATH;
+			string sitePath = Settings.WEB_PATH;
 			string attachmentsPath = Path.Combine(sitePath, "App_Data", "Attachments");
 			if (Directory.Exists(attachmentsPath))
 				Directory.Delete(attachmentsPath, true);
@@ -46,7 +46,7 @@ namespace Roadkill.Tests.Acceptance
 		public void File_Table_Should_List_Folders_Then_Files()
 		{
 			// Arrange
-			string sitePath = Settings.SITE_PATH;
+			string sitePath = Settings.WEB_PATH;
 			string fileSource = Path.Combine(sitePath, "Themes", "Mediawiki", "logo.png");
 			string fileDest = Path.Combine(sitePath, "App_Data", "Attachments", "logo.png");
 			File.Copy(fileSource, fileDest);
@@ -130,7 +130,7 @@ namespace Roadkill.Tests.Acceptance
 		{
 			// Arrange
 			LoginAsEditor();
-			string sitePath = Settings.SITE_PATH;
+			string sitePath = Settings.WEB_PATH;
 			string file = Path.Combine(sitePath, "Themes", "Mediawiki", "logo.png");
 
 			// Act
@@ -149,7 +149,7 @@ namespace Roadkill.Tests.Acceptance
 		public void Delete_File_Should_Show_Toast_And_Not_Show_File_In_Table()
 		{
 			// Arrange
-			string sitePath = Settings.SITE_PATH;
+			string sitePath = Settings.WEB_PATH;
 			string fileSource = Path.Combine(sitePath, "Themes", "Mediawiki", "logo.png");
 			string fileDest = Path.Combine(sitePath, "App_Data", "Attachments", "logo.png");
 			File.Copy(fileSource, fileDest);
@@ -172,7 +172,7 @@ namespace Roadkill.Tests.Acceptance
 		public void Delete_Folder_Should_Show_Toast_And_Not_Show_Folder_In_Table()
 		{
 			// Arrange
-			string sitePath = Settings.SITE_PATH;
+			string sitePath = Settings.WEB_PATH;
 			string folderPath = Path.Combine(sitePath, "App_Data", "Attachments", "RandomFolder");
 			Directory.CreateDirectory(folderPath);
 
@@ -195,7 +195,7 @@ namespace Roadkill.Tests.Acceptance
 		public void Navigate_SubFolders_Should_Work_With_Double_Click()
 		{
 			// Arrange
-			string sitePath = Settings.SITE_PATH;
+			string sitePath = Settings.WEB_PATH;
 			string folderPath = Path.Combine(sitePath, "App_Data", "Attachments", "folder");
 			Directory.CreateDirectory(folderPath);
 			
@@ -229,7 +229,7 @@ namespace Roadkill.Tests.Acceptance
 		public void Navigate_Folders_With_Crumb_Trail_Should_Update_Table_And_Crumb_Trail()
 		{
 			// Arrange
-			string sitePath = Settings.SITE_PATH;
+			string sitePath = Settings.WEB_PATH;
 			string folderPath = Path.Combine(sitePath, "App_Data", "Attachments", "folder");
 			Directory.CreateDirectory(folderPath);
 
@@ -271,7 +271,7 @@ namespace Roadkill.Tests.Acceptance
 		public void Select_File_In_Page_Editor_Should_Add_Markup()
 		{
 			// Arrange
-			string sitePath = Settings.SITE_PATH;
+			string sitePath = Settings.WEB_PATH;
 			string fileSource = Path.Combine(sitePath, "Themes", "Mediawiki", "logo.png");
 			string fileDest = Path.Combine(sitePath, "App_Data", "Attachments", "logo.png");
 			File.Copy(fileSource, fileDest);

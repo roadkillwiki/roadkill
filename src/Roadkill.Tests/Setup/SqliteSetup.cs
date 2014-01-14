@@ -19,7 +19,7 @@ namespace Roadkill.Tests
 		{
 			// Copy the SQLite interop file for x64
 			string binFolder = AppDomain.CurrentDomain.BaseDirectory;
-			string sqlInteropFileSource = Path.Combine(Settings.SITE_PATH, "App_Data", "Internal", "SQLiteBinaries", "x86", "SQLite.Interop.dll");
+			string sqlInteropFileSource = Path.Combine(Settings.WEB_PATH, "App_Data", "Internal", "SQLiteBinaries", "x86", "SQLite.Interop.dll");
 			string sqlInteropFileDest = Path.Combine(binFolder, "SQLite.Interop.dll");
 
 			if (!File.Exists(sqlInteropFileDest))
@@ -28,7 +28,7 @@ namespace Roadkill.Tests
 
 				if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
 				{
-					sqlInteropFileSource = Path.Combine(Settings.SITE_PATH, "App_Data", "Internal", "SQLiteBinaries", "x64", "SQLite.Interop.dll");
+					sqlInteropFileSource = Path.Combine(Settings.WEB_PATH, "App_Data", "Internal", "SQLiteBinaries", "x64", "SQLite.Interop.dll");
 				}
 
 				System.IO.File.Copy(sqlInteropFileSource, sqlInteropFileDest, true);
@@ -38,7 +38,7 @@ namespace Roadkill.Tests
 		public static void CopyDb()
 		{
 			string testsDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "Sqlite", "roadkill-integrationtests.sqlite");
-			File.Copy(testsDBPath, Path.Combine(Settings.SITE_PATH, "App_Data", "roadkill-integrationtests.sqlite"), true);
+			File.Copy(testsDBPath, Path.Combine(Settings.WEB_PATH, "App_Data", "roadkill-integrationtests.sqlite"), true);
 		}
 	}
 }
