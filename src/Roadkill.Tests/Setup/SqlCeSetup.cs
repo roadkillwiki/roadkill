@@ -15,7 +15,7 @@ namespace Roadkill.Tests
 	{
 		public static string ConnectionString { get { return @"Data Source=|DataDirectory|\roadkill-acceptancetests.sdf"; } }
 
-		protected void CopyDb()
+		public static void CopyDb()
 		{
 			string testsDBPath = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "SqlCe", "roadkill-acceptancetests.sdf");
 			File.Copy(testsDBPath, Path.Combine(Settings.SITE_PATH, "App_Data", "roadkill-acceptancetests.sdf"), true);
