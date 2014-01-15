@@ -1,0 +1,45 @@
+﻿@model IList<IList<string>>
+@{
+	ViewBag.Title = SiteStrings.FileManager_Title;
+}
+<script type="text/javascript">
+	$(function ()
+	{
+		Roadkill.Web.FileManager.Setup.configure();
+	});
+</script>
+
+<h1>@SiteStrings.FileManager_Title</h1>
+
+@Html.Partial("Navigator", true)
+
+<!-- Upload progress bar -->
+<div id="progress" class="progress progress-striped">
+	<div id="progress-message">@SiteStrings.FileManager_UploadingProgress</div>
+    <div class="bar" style="width: 0%;"></div>
+</div>
+
+@using (Html.BeginForm("Upload", "FileManager", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	@Html.Hidden("destination_folder", "")
+    <div id="fileupload-buttonbar">
+		<!-- Skin the file chooser ("...") input field to look like a button -->
+		<span class="fileinput-button btn btn-primary">
+			<i class="glyphicon glyphicon-plus"></i>
+			<input id="fileupload" type="file" name="files[]" data-url="FileManager/Upload" multiple />
+			<span>@SiteStrings.FileManager_Upload</span>
+		</span>
+	@if (RoadkillContext.IsAdmin)
+	{
+		<button id="deletefilebtn" type="button" class="btn btn-primary">@SiteStrings.FileManager_Delete_File</button>
+	}
+		<button id="addfolderbtn" type="button" class="btn btn-primary">@SiteStrings.FileManager_AddFolder</button>
+	@if (RoadkillContext.IsAdmin)
+	{
+		<button id="deletefolderbtn" type="button" class="btn btn-danger">
+			<i class="glyphicon glyphicon-trash"></i>
+			@SiteStrings.FileManager_Delete_Folder
+		</button> 
+	}
+    </div>
+}

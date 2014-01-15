@@ -1,0 +1,47 @@
+﻿@model IEnumerable<SearchResultViewModel>
+@{ 
+	string title = string.Format(SiteStrings.Search_Results, ViewData["search"]);
+	if (Model.Count() == 0)
+	{
+		title = string.Format(SiteStrings.Search_NoResults, ViewData["search"]);
+	}
+	
+	ViewBag.Title = title;
+}
+
+@if (Model.Count() == 0)
+{
+	<h1>@title</h1>
+}
+else
+{
+	<h1>@title</h1>
+}
+
+<div class="container pull-left">
+@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+{
+	<div class="row pull">
+		<div class="col-sm-5">
+			@Html.TextBox("q", null, new { placeholder = SiteStrings.Search_PlaceHolder, @class = "form-control" })
+		</div>
+		<div class="col-sm-5">
+			<input type="submit" class="btn btn-primary" value="@SiteStrings.Button_Search" />
+		</div>
+	</div>
+
+	foreach (SearchResultViewModel result in Model)
+	{
+	<div class="searchresult row">
+		<div class="col-sm-12 padded">
+			<div class="searchresult-title">@Html.ActionLink(result.Title, "Index", "Wiki", new { id = result.Id, title = result.EncodedTitle }, null)</div>
+			<div class="searchresult-summary">@MvcHtmlString.Create(result.ContentSummary)...</div>
+			<div>
+				<div class="searchresult-date left">@result.ContentLengthInKB - @result.CreatedOn.ToString("dd MMM yyyy")</div>
+				<div class="searchresult-tags left">@Html.Partial("TagBlocks", result.TagsAsList())</div>
+			</div>
+		</div>
+	</div>
+	}
+}
+</div>

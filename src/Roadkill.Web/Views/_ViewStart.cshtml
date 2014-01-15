@@ -1,0 +1,13 @@
+﻿@using Roadkill.Core.Configuration;
+@{
+	// ViewStart does not inherit from the RoadkillView, as it's outside of MVC (it's the ASP.NET Masterpage system). So get the controller from context instead.
+	// When changing this file, change the one in the SiteSettings Area too.
+	Roadkill.Core.Mvc.Controllers.ControllerBase controller = this.ViewContext.Controller as Roadkill.Core.Mvc.Controllers.ControllerBase;
+	ApplicationSettings applicationSettings = controller.ApplicationSettings;
+
+	if (applicationSettings.Installed && !applicationSettings.UpgradeRequired)
+	{
+		SiteSettings siteSettings = controller.SettingsService.GetSiteSettings();
+		Layout = siteSettings.ThemePath + "/Theme.cshtml";
+	}
+}

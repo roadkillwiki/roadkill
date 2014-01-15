@@ -1,0 +1,43 @@
+﻿@model IList<PageHistoryViewModel>
+@{ 
+	ViewBag.Title = SiteStrings.History_Title;
+}
+<h1>History</h1>
+
+<p>@Html.ActionLink("View current page version", "Index", "Wiki", new { id = ViewData["PageId"] }, null) </p>
+<p>@SiteStrings.History_Help_Label</p>
+
+@if (Model.Count() > 0)
+{
+<table id="historytable" class="table table-striped">
+	<thead>
+		<tr>
+			<th class="version">@SiteStrings.History_Version</th>
+			<th class="editedon">@SiteStrings.History_EditedOn</th>
+			<th class="editedby stretch">@SiteStrings.History_EditedBy</th>
+			<th class="revert"></th>
+		</tr>
+	</thead>
+	<tbody>
+
+		@for (int i=0;i < Model.Count;i++)
+		{
+		<tr>
+			<td class="version" style="width:10%;">@Html.ActionLink(Model[i].VersionNumber.ToString(), "Version", new { id = Model[i].Id })</td>
+			<td class="editedon" title="@Model[i].EditedOnWithOffset">@Model[i].EditedOnWithOffset</td>
+			<td class="editedby stretch">@Html.ActionLink(Model[i].EditedBy, "ByUser", "Pages", new { id = Model[i].EditedBy.ToBase64(), encoded = true }, null)</td>
+			<td class="revert">
+			@if (i > 0 && RoadkillContext.IsLoggedIn && (!Model[i].IsPageAdminOnly || RoadkillContext.IsAdmin))
+			{
+			@Html.ActionLink(SiteStrings.History_RevertLink, "Revert", new { versionId = Model[i].Id, pageId = Model[i].PageId }, new {@class = "btn btn-mini btn-primary" })
+			}
+			</td>
+		</tr>
+		}
+	</tbody>
+</table>
+}
+else
+{
+	<p>No history yet.</p>
+}

@@ -1,0 +1,28 @@
+﻿@model UserViewModel
+@{
+	ViewBag.Title = SiteStrings.Signup_Complete_Title;
+}
+
+<h1>@SiteStrings.Signup_Complete_Title</h1>
+
+<div class="container pull-left">
+	<div class="row">
+		<div class="col-sm-8">
+			<p>@string.Format(SiteStrings.Signup_Complete_Label, Model.NewEmail)</p>
+
+			@if (TempData["resend"] != null)
+			{
+				<div class="alert alert-info">
+					@SiteStrings.Signup_Complete_EmailResent
+				</div>
+			}
+
+			<p class="bigger bold">@SiteStrings.Signup_Complete_NoEmail</p>
+			@using (Html.BeginForm("ResendConfirmation", "User"))
+			{
+				@Html.Hidden("email", Model.NewEmail)
+				<input type="submit" class="btn btn-primary" value="@SiteStrings.Button_Signup_Complete_EmailResend" />
+			}
+		</div>
+	</div>
+</div>

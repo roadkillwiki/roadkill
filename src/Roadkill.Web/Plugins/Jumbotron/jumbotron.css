@@ -1,0 +1,5 @@
+﻿#roadkill-jumbotron { height: 700px; padding: 0px; margin: 0px; margin-bottom: 20px; border: 1px solid black; background-image: url(/Attachments/jumbotron.jpg); color: white; }
+#roadkill-jumbotron>#inner { text-align: center; margin-top: 50px; }
+#roadkill-jumbotron h1,
+#roadkill-jumbotron h2,
+#roadkill-jumbotron h3 { border:0px; }

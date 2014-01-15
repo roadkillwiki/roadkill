@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="data">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" minOccurs="0"                     msdata:Ordinal="2" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="type" type="xsd:string" />
+        <xsd:attribute name="mimetype" type="xsd:string" />
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="Shared_Stage1" xml:space="preserve">
+	<value>Welcome</value>
+</data>
+<data name="Shared_Stage2" xml:space="preserve">
+	<value>Database</value>
+</data>
+<data name="Shared_Stage3" xml:space="preserve">
+	<value>Security</value>
+</data>
+<data name="Shared_Stage4" xml:space="preserve">
+	<value>Extras</value>
+</data>
+<data name="Shared_Stage5" xml:space="preserve">
+	<value>Finished</value>
+</data>
+<data name="Shared_Continue" xml:space="preserve">
+	<value>Continue</value>
+</data>
+<data name="Shared_Back" xml:space="preserve">
+	<value>Back</value>
+</data>
+<data name="Shared_BackButton" xml:space="preserve">
+	<value>Back</value>
+</data>
+<data name="Shared_NextButton" xml:space="preserve">
+	<value>Next</value>
+</data>
+<data name="Step1_Intro" xml:space="preserve">
+	<value>Thank for you downloading Roadkill .NET Wiki engine. The installer writes the settings you enter here to the web.config file (and also the database). </value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Intro" xml:space="preserve">
+	<value>In order to proceed, first we need to test if you have write access to the web.config file. </value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Success_Message" xml:space="preserve">
+	<value>The web.config can be written to.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Failure_Message" xml:space="preserve">
+	<value>Unable to write to the web.config file.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_Intro" xml:space="preserve">
+	<value>Below are some required settings for Roadkill to work correctly. You can change these later via the settings page as an admin.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_ConnectionString_CreateDatabase" xml:space="preserve">
+	<value>Note: you will need to create the database first.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_Example_ConnectionStrings" xml:space="preserve">
+	<value>Example connection strings</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteInstructionsTitle" xml:space="preserve">
+	<value>SQLite: please read</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteInstructionsMessage" xml:space="preserve">
+	<value>Note: to use SQLite you need to add another file to the /bin folder, as SQLite is distributed for both x86 and x64. {BEGIN-SQLITE_LINK}Click here to copy the file{END-SQLITE_LINK}. If you experience any issues after this, delete &quot;SQLite.Interop.dll&quot; from your bin folder.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteSuccessTitle" xml:space="preserve">
+	<value>SQLite file copy success</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteSuccessMessage" xml:space="preserve">
+	<value>SQLite should now be ready to use.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteFailureTitle" xml:space="preserve">
+	<value>SQLite file copy failed</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteFailureMessage" xml:space="preserve">
+	<value>Failure - try copying the SQLite.Interop.dll file from ~/App_Data/SQLiteBinaries to your bin folder.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_Use_WindowsAuth_Intro" xml:space="preserve">
+	<value>Do you want to users to be authenticated against an Active Directory using Windows authentication?</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ConnectionString_Title" xml:space="preserve">
+	<value>Active Directory LDAP connection string</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Connection_Success" xml:space="preserve">
+	<value>The connection and authentication with the Active Directory server was successful.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Connection_Error" xml:space="preserve">
+	<value>Unable to connect to the Active Directory server:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Success" xml:space="preserve">
+	<value>The group was queried sucessfully.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Error" xml:space="preserve">
+	<value>Unable to query:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ConnectionString_Details" xml:space="preserve">
+	<value>This should be in the format LDAP://mydc01.company.internal (it should be uppercase LDAP) where mydc01 is your domain controller and &apos;company&apos; and &apos;internal&apos; are the dns suffixes for your network. This can also be an IP address. You can usually get this information by running &quot;ipconfig&quot;.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ADExplorer_Details" xml:space="preserve">
+	<value>The connection string supports OU specifiers however doing it this way can cause issues. If you are unsure about this setting, it&apos;s recommended you download {BEGIN_ADEXPLORER_LINK}AD Explorer{END_ADEXPLORER_LINK} first.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Username_Password_Details" xml:space="preserve">
+	<value>Enter a username and password if the user that the app pool is running under does not have read access to Active Directory. This is useful if your Active Directory domain is a separate forest from the main domain (i.e. another branch office).</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Editor_GroupName_Title" xml:space="preserve">
+	<value>Editor group name</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Editor_GroupName_Details" xml:space="preserve">
+	<value>This is the security group that users should belong to in order to be editors (people who can edit and create pages). The test button uses the connection settings entered above. </value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Admin_GroupName_Title" xml:space="preserve">
+	<value>Admin group name</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Admin_GroupName_Details" xml:space="preserve">
+	<value>This is the security group that users should belong to in order to be admins. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.The test button uses the connection settings entered above.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_One_Way_Hashed" xml:space="preserve">
+	<value>All passwords are one-way encrypted using SHA128 and a salt. This means passwords are not recoverable and will require an admin to reset them (there is no reset password functionality yet). The minimum password length is 6 characters.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Editor_Role_Title" xml:space="preserve">
+	<value>Editor role name</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Editor_Role" xml:space="preserve">
+	<value>This is the name of the editor role - people who can edit and create pages.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Role_Title" xml:space="preserve">
+	<value>Admin role name</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Role" xml:space="preserve">
+	<value>This is the name of the admin role. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups_Title" xml:space="preserve">
+	<value>Allow user signups</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups" xml:space="preserve">
+	<value>Check this option if you want to allow people to signup as a new users. If left unchecked, only admins will be able to create new users. </value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups_Label" xml:space="preserve">
+	<value>Allow new user signups. </value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Enable_Recaptcha_Description" xml:space="preserve">
+	<value>If you are allowing user signups, it&apos;s recommended that you also enable Recaptcha support. This is a free anti-spam bot service provided by Google, you will need to signup and copy your public and private key into the fields below. {BEGIN_RECAPTCHA_LINK}Signup here{END_RECAPTCHA_LINK} - you will need to create a google account first.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Email_Title" xml:space="preserve">
+	<value>Admin email</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Email" xml:space="preserve">
+	<value>This is the email address for the admin user. You can add more admins in the settings page, so this user does not &apos;own&apos; the site</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Password_Title" xml:space="preserve">
+	<value>Admin password</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Password" xml:space="preserve">
+	<value>This is the password for the admin user.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Almost_Done" xml:space="preserve">
+	<value>Almost done...Finally some extra tweakable settings. </value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Attachments_Folder_Description" xml:space="preserve">
+	<value>This is the directory where all files are uploaded to. This directory will need write permission by the user that the app pool runs under. Most of the time you shouldn&apos;t have to worry about changing the permissions for the folder, as they will be inherited from the parent folder. </value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Attachments_Folder_RelativePath" xml:space="preserve">
+	<value>The folder path should start with &quot;~/&quot; for the website root, or be a file path (e.g. c:\myattachments).</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Success_Title" xml:space="preserve">
+	<value>Installation successful</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_WindowsAuth_Please_Read" xml:space="preserve">
+	<value>Windows Authentication - please read</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_WindowsAuth_IIS_Settings" xml:space="preserve">
+	<value>If you are using IIS7+ you may need to configure the web.config file for your security setup, below are the elements that are required.If you receive 500 errors after making these changes, then the section is locked at a parent level, and you will need to make the changes via the IIS manager.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Continue_Button" xml:space="preserve">
+	<value>Continue to the site</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Failure_Title" xml:space="preserve">
+	<value>An error occurred during the install</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Failure_GoBack_And_Check" xml:space="preserve">
+	<value>Please go back through the installation steps and check your settings. The error message was:</value>
+	<comment>Fuzzy</comment>
+</data>
+
+</root>

@@ -1,0 +1,921 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="data">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" minOccurs="0"                     msdata:Ordinal="2" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="type" type="xsd:string" />
+        <xsd:attribute name="mimetype" type="xsd:string" />
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="Navigation_Login" xml:space="preserve">
+	<value>Inloggen</value>
+</data>
+<data name="Navigation_Logout" xml:space="preserve">
+	<value>Uitloggen</value>
+</data>
+<data name="Navigation_Register" xml:space="preserve">
+	<value>Registreren</value>
+</data>
+<data name="Navigation_MainPage" xml:space="preserve">
+	<value>Beginpagina</value>
+</data>
+<data name="Navigation_Categories" xml:space="preserve">
+	<value>Categorieën</value>
+</data>
+<data name="Navigation_AllPages" xml:space="preserve">
+	<value>Alle pagina&apos;s</value>
+</data>
+<data name="Navigation_NewPage" xml:space="preserve">
+	<value>Nieuwe pagina</value>
+</data>
+<data name="Navigation_SiteSettings" xml:space="preserve">
+	<value>Website instellingen</value>
+</data>
+<data name="Navigation_Edit" xml:space="preserve">
+	<value>Bijwerken</value>
+</data>
+<data name="Navigation_Delete" xml:space="preserve">
+	<value>Verwijderen</value>
+</data>
+<data name="Navigation_History" xml:space="preserve">
+	<value>Geschiedenis</value>
+</data>
+<data name="Navigation_ViewHistory" xml:space="preserve">
+	<value>Bekijk geschiedenis</value>
+</data>
+<data name="Button_Login" xml:space="preserve">
+	<value>Inloggen</value>
+</data>
+<data name="Button_Cancel" xml:space="preserve">
+	<value>Annuleren</value>
+</data>
+<data name="Button_Save" xml:space="preserve">
+	<value>Opslaan</value>
+</data>
+<data name="Button_Preview" xml:space="preserve">
+	<value>Voorbeeld</value>
+</data>
+<data name="Button_Import" xml:space="preserve">
+	<value>Importeren</value>
+</data>
+<data name="Button_Rename" xml:space="preserve">
+	<value>Hernoemen</value>
+</data>
+<data name="Button_Upload" xml:space="preserve">
+	<value>Uploaden</value>
+</data>
+<data name="Button_Search" xml:space="preserve">
+	<value>Zoeken</value>
+</data>
+<data name="Shared_EditLink" xml:space="preserve">
+	<value>Bewerken</value>
+</data>
+<data name="Shared_DeleteLink" xml:space="preserve">
+	<value>Verwijderen</value>
+</data>
+<data name="Shared_ConfirmLink" xml:space="preserve">
+	<value>Bevestigen</value>
+</data>
+<data name="Shared_NotLoggedIn" xml:space="preserve">
+	<value>Niet ingelogd</value>
+</data>
+<data name="Shared_LoggedInAs" xml:space="preserve">
+	<value>Ingelogd als</value>
+</data>
+<data name="Shared_LastModified" xml:space="preserve">
+	<value>Deze pagina is als laatst gewijzigd op</value>
+</data>
+<data name="Shared_PoweredBy" xml:space="preserve">
+	<value>Powered by Roadkill Wiki</value>
+</data>
+<data name="Shared_Firstname_Label" xml:space="preserve">
+	<value>Voornaam:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Shared_Lastname_Label" xml:space="preserve">
+	<value>Achternaam:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Shared_Username_Label" xml:space="preserve">
+	<value>Gebruikersnaam:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Shared_Email_Label" xml:space="preserve">
+	<value>E-mail:</value>
+</data>
+<data name="Shared_Password_Label" xml:space="preserve">
+	<value>Wachtwoord:</value>
+</data>
+<data name="Shared_PasswordConfirm_Label" xml:space="preserve">
+	<value>Bevestig wachtwoord:</value>
+</data>
+<data name="Shared_Error" xml:space="preserve">
+	<value>Er is een fout opgetreden:</value>
+</data>
+<data name="User_Validation_Username" xml:space="preserve">
+	<value>Gebruikersnaam is een verplicht veld</value>
+</data>
+<data name="User_Validation_Email" xml:space="preserve">
+	<value>E-mail is een verplicht veld.</value>
+</data>
+<data name="User_Validation_Email_Check" xml:space="preserve">
+	<value>Veld e-mail bevat geen correct e-mailadres</value>
+</data>
+<data name="User_Validation_UsernameExists" xml:space="preserve">
+	<value>Gebruikersnaam {0} is al in gebruik.</value>
+</data>
+<data name="User_Validation_UsernameEmpty" xml:space="preserve">
+	<value>De gebruikersnaam is leeg.</value>
+</data>
+<data name="User_Validation_EmailExists" xml:space="preserve">
+	<value>E-mailadres {0} is al in gebruik.</value>
+</data>
+<data name="User_Validation_PasswordsDontMatch" xml:space="preserve">
+	<value>De wachtwoorden komen niet overeen.</value>
+</data>
+<data name="User_Validation_PasswordTooShort" xml:space="preserve">
+	<value>Het wachtwoord is korter dan {0} tekens</value>
+</data>
+<data name="Login_Title" xml:space="preserve">
+	<value>Inloggen</value>
+</data>
+<data name="Login_ForgottenPassword" xml:space="preserve">
+	<value>Wachtwoord vergeten?</value>
+</data>
+<data name="Login_Unsuccessful_Title" xml:space="preserve">
+	<value>Login was onsuccesvol</value>
+</data>
+<data name="Login_Error" xml:space="preserve">
+	<value>De gebruikersnaam en / of wachtwoord is onjuist</value>
+</data>
+<data name="Signup_Title" xml:space="preserve">
+	<value>Registreren</value>
+</data>
+<data name="Signup_Label" xml:space="preserve">
+	<value>Vul hieronder je gegevens in.</value>
+</data>
+<data name="Button_Signup" xml:space="preserve">
+	<value>Registreer nieuwe gebruiker</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Signup_Complete_Title" xml:space="preserve">
+	<value>Registratie voltooid.</value>
+</data>
+<data name="Signup_Complete_Label" xml:space="preserve">
+	<value>Bedankt, een e-mailbericht is verzonden naar {0|. In deze e-mail staat hoe u het aanmeldingsproces kunt voltooien.</value>
+</data>
+<data name="Signup_Complete_NoEmail" xml:space="preserve">
+	<value>Geen e-mail ontvangen?</value>
+</data>
+<data name="Signup_Complete_EmailResent" xml:space="preserve">
+	<value>Bevestigingsmail is opnieuw verstuurd.</value>
+</data>
+<data name="Button_Signup_Complete_EmailResend" xml:space="preserve">
+	<value>Opnieuw verzenden bevestigingsmail</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Signup_Error_General" xml:space="preserve">
+	<value>Er is een fout opgetreden met de aanmelding</value>
+</data>
+<data name="Signup_Error_Recaptcha" xml:space="preserve">
+	<value>De woorden van de ReCaptcha waren onjuist. Dit dienen twee woorden te zijn.</value>
+</data>
+<data name="Activate_Title" xml:space="preserve">
+	<value>Account activatie</value>
+</data>
+<data name="Activate_Success_Title" xml:space="preserve">
+	<value>Activering succesvol</value>
+</data>
+<data name="Activate_Error_Title" xml:space="preserve">
+	<value>Activering is mislukt</value>
+</data>
+<data name="Activate_Label" xml:space="preserve">
+	<value>Uw account is geactiveerd.</value>
+</data>
+<data name="Activate_Link" xml:space="preserve">
+	<value>Klik hier om in te loggen</value>
+</data>
+<data name="Activate_Error" xml:space="preserve">
+	<value>Het activeren van uw account is mislukt. Wellicht is het al reeds geactiveerd?</value>
+</data>
+<data name="ResetPassword_Title" xml:space="preserve">
+	<value>Wachtwoord opnieuw instellen.</value>
+</data>
+<data name="ResetPassword_Label" xml:space="preserve">
+	<value>Geef uw e-mailadres op om uw wachtwoord opnieuw in te stellen. U ontvangt een e-mail met een link. Met deze link kunt u het wachtwoord opnieuw instellen.</value>
+</data>
+<data name="ResetPassword_Complete_Label" xml:space="preserve">
+	<value>Vul uw nieuwe wachtwoord in.</value>
+</data>
+<data name="Button_ResetPassword" xml:space="preserve">
+	<value>Verstuur</value>
+	<comment>schould be: &apos;send mail&apos; ?
+Fuzzy</comment>
+</data>
+<data name="ResetPassword_Successful_Title" xml:space="preserve">
+	<value>Wachtwoord is gereset.</value>
+</data>
+<data name="ResetPassword_Successful_Label" xml:space="preserve">
+	<value>Uw wachtwoord is gereset.</value>
+</data>
+<data name="ResetPassword_Invalid_Title" xml:space="preserve">
+	<value>Deze link is verlopen</value>
+</data>
+<data name="ResetPassword_Invalid_Label" xml:space="preserve">
+	<value>Deze link is verlopen</value>
+	<comment>it this the link in the e-mail thats not valid anymore?</comment>
+</data>
+<data name="ResetPassword_EmailSent_Title" xml:space="preserve">
+	<value>Er is een e-mailbericht verzonden voor het wijzigen van het wachtwoord.</value>
+</data>
+<data name="ResetPassword_EmailSent_Label" xml:space="preserve">
+	<value>Bedankt, een e-mail is verzonden naar {0}. Hierin staan de stappen hoe u het wachtwoord kunt wijzigen.</value>
+</data>
+<data name="ResetPassword_Error" xml:space="preserve">
+	<value>De wachtwoorden komen niet overeen, of deze zijn te kort</value>
+</data>
+<data name="ResetPassword_Error_ServerError" xml:space="preserve">
+	<value>Het wachtwoord opnieuw instellen is mislukt (serverfout)</value>
+</data>
+<data name="ResetPassword_Error_EmailNotFound" xml:space="preserve">
+	<value>E-mailadres niet gevonden</value>
+</data>
+<data name="ResetPassword_Error_MissingEmail" xml:space="preserve">
+	<value>Vul een e-mailadres in</value>
+</data>
+<data name="Profile_Title" xml:space="preserve">
+	<value>Profiel</value>
+</data>
+<data name="Profile_Error" xml:space="preserve">
+	<value>Bijwerken van je profiel is mislukt</value>
+</data>
+<data name="NoMainPage_Title" xml:space="preserve">
+	<value>Er is geen beginpagina ingesteld</value>
+</data>
+<data name="NoMainPage_Label" xml:space="preserve">
+	<value>Stel de beginpagina in door aan een pagina de tag &apos;homepage&apos; toe te voegen.</value>
+</data>
+<data name="Search_PlaceHolder" xml:space="preserve">
+	<value>Zoeken</value>
+</data>
+<data name="Search_Results" xml:space="preserve">
+	<value>Zoekresultaten voor &apos;{0}&apos;</value>
+</data>
+<data name="Search_NoResults" xml:space="preserve">
+	<value>Uw zoekopdracht &apos;{0}&apos; leverde geen resultaten op</value>
+</data>
+<data name="AllPages_Title" xml:space="preserve">
+	<value>Alle pagina&apos;s</value>
+</data>
+<data name="AllPages_NoPages" xml:space="preserve">
+	<value>Geen pagina&apos;s gevonden.</value>
+</data>
+<data name="AllTags_Title" xml:space="preserve">
+	<value>Alle tags</value>
+</data>
+<data name="AllTags_NoResults" xml:space="preserve">
+	<value>Geen tags aanwezig.</value>
+</data>
+<data name="AllPages_TitleColumnHeading" xml:space="preserve">
+	<value>Titel
+</value>
+</data>
+<data name="Pages_ForUser" xml:space="preserve">
+	<value>Alle pagina&apos;s die door {0} gemaakt zijn</value>
+</data>
+<data name="Pages_ForUser_NoPages" xml:space="preserve">
+	<value>{0} heeft nog geen pagina&apos;s gemaakt.</value>
+</data>
+<data name="Pages_ForTag" xml:space="preserve">
+	<value>Alle pagina&apos;s met tag {0}</value>
+</data>
+<data name="Pages_ForTag_NoPages" xml:space="preserve">
+	<value>Geen pagina gevonden met tag {0}</value>
+</data>
+<data name="History_Title" xml:space="preserve">
+	<value>Paginageschiedenis</value>
+</data>
+<data name="History_Version" xml:space="preserve">
+	<value>Versie</value>
+</data>
+<data name="History_EditedOn" xml:space="preserve">
+	<value>Gewijzigd op</value>
+</data>
+<data name="History_EditedBy" xml:space="preserve">
+	<value>Bewerkt door</value>
+</data>
+<data name="History_RevertLink" xml:space="preserve">
+	<value>Ongedaan maken</value>
+</data>
+<data name="Version_Title" xml:space="preserve">
+	<value>Versie {0}</value>
+</data>
+<data name="Version_BackLink" xml:space="preserve">
+	<value>vorige</value>
+</data>
+<data name="Page_Info_CreatedOn" xml:space="preserve">
+	<value>Gemaakt op:</value>
+</data>
+<data name="Page_Info_CreatedBy" xml:space="preserve">
+	<value>Gemaakt door:</value>
+</data>
+<data name="Page_Info_ModifiedOn" xml:space="preserve">
+	<value>Laatst gewijzigd op:</value>
+</data>
+<data name="Page_Info_ModifiedBy" xml:space="preserve">
+	<value>Laatst gewijzigd op:</value>
+</data>
+<data name="Page_Validation_Title" xml:space="preserve">
+	<value>Titel is een verplicht veld.</value>
+</data>
+<data name="EditPage_Title" xml:space="preserve">
+	<value>Toevoegen / bewerken pagina</value>
+</data>
+<data name="EditPage_Title_Label" xml:space="preserve">
+	<value>Titel</value>
+</data>
+<data name="EditPage_Tags_Label" xml:space="preserve">
+	<value>Tags</value>
+</data>
+<data name="EditPage_AdminOnly" xml:space="preserve">
+	<value>Deze pagina kan alleen worden bewerkt door beheerders.</value>
+</data>
+<data name="EditPage_Preview" xml:space="preserve">
+	<value>Voorbeeld</value>
+</data>
+<data name="EditPage_LinkUrl_PlaceHolder" xml:space="preserve">
+	<value>Geef url of paginanaam op</value>
+</data>
+<data name="EditPage_LinkText_PlaceHolder" xml:space="preserve">
+	<value>Tekst van de link</value>
+</data>
+<data name="EditPage_Image_Title" xml:space="preserve">
+	<value>Titel van afbeelding</value>
+</data>
+<data name="EditPage_Error" xml:space="preserve">
+	<value>Pagina opslaan mislukt.</value>
+</data>
+<data name="EditPage_Toolbar_Bold" xml:space="preserve">
+	<value>Dikgedrukt</value>
+</data>
+<data name="EditPage_Toolbar_BulletList" xml:space="preserve">
+	<value>Lijst</value>
+</data>
+<data name="EditPage_Toolbar_Heading2" xml:space="preserve">
+	<value>Kop 2</value>
+</data>
+<data name="EditPage_Toolbar_Heading3" xml:space="preserve">
+	<value>Kop 3</value>
+</data>
+<data name="EditPage_Toolbar_Heading4" xml:space="preserve">
+	<value>Kop 4</value>
+</data>
+<data name="EditPage_Toolbar_Heading5" xml:space="preserve">
+	<value>Kop 5</value>
+</data>
+<data name="EditPage_Toolbar_Help" xml:space="preserve">
+	<value>Markuptaal help</value>
+</data>
+<data name="EditPage_Toolbar_Image" xml:space="preserve">
+	<value>Afbeelding</value>
+</data>
+<data name="EditPage_Toolbar_Italic" xml:space="preserve">
+	<value>Cursief</value>
+</data>
+<data name="EditPage_Toolbar_Link" xml:space="preserve">
+	<value>Hyperlink invoegen</value>
+</data>
+<data name="EditPage_Toolbar_NumberList" xml:space="preserve">
+	<value>Genummerde lijst</value>
+</data>
+<data name="EditPage_Toolbar_Underline" xml:space="preserve">
+	<value>Onderstreep</value>
+</data>
+<data name="SiteSettings_Configuration" xml:space="preserve">
+	<value>Configuratie</value>
+</data>
+<data name="SiteSettings_UserManagement" xml:space="preserve">
+	<value>Gebruikers</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_Tools" xml:space="preserve">
+	<value>Tools</value>
+</data>
+<data name="SiteSettings_Configuration_Title" xml:space="preserve">
+	<value>Website instellingen</value>
+</data>
+<data name="SiteSettings_Configuration_Site" xml:space="preserve">
+	<value>Plaats</value>
+</data>
+<data name="SiteSettings_Configuration_SiteName" xml:space="preserve">
+	<value>Websitenaam</value>
+</data>
+<data name="SiteSettings_Configuration_SiteUrl" xml:space="preserve">
+	<value>Website-url</value>
+</data>
+<data name="SiteSettings_Configuration_Database" xml:space="preserve">
+	<value>Database</value>
+</data>
+<data name="SiteSettings_Configuration_DatabaseType" xml:space="preserve">
+	<value>Databasesoort</value>
+</data>
+<data name="SiteSettings_Configuration_DatabaseConnectionString" xml:space="preserve">
+	<value>Database connectiestring</value>
+</data>
+<data name="SiteSettings_Configuration_Security" xml:space="preserve">
+	<value>Beveiliging</value>
+</data>
+<data name="SiteSettings_Configuration_UseWindowsAuth" xml:space="preserve">
+	<value>Gebruik Windows authenticatie</value>
+</data>
+<data name="SiteSettings_Configuration_AllowUserSignups" xml:space="preserve">
+	<value>Gebruikersregistraties toestaan</value>
+</data>
+<data name="SiteSettings_Configuration_EnableRecaptcha" xml:space="preserve">
+	<value>ReCaptcha gebruiken</value>
+</data>
+<data name="SiteSettings_Configuration_RecaptchaPrivateKey" xml:space="preserve">
+	<value>ReCaptcha privé sleutel</value>
+</data>
+<data name="SiteSettings_Configuration_RecaptchaPublicKey" xml:space="preserve">
+	<value>ReCaptcha publieke sleutel</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Connection" xml:space="preserve">
+	<value>Authenticatie / LDAP connectiestring</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Username" xml:space="preserve">
+	<value>LDAP-gebruikersnaam</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Password" xml:space="preserve">
+	<value>LDAP-wachtwoord</value>
+</data>
+<data name="SiteSettings_Configuration_EditorRole" xml:space="preserve">
+	<value>Auteursrol / beveiligingsgroepnaam</value>
+</data>
+<data name="SiteSettings_Configuration_AdminRole" xml:space="preserve">
+	<value>Beheerdersrol / beveiligingsgroepnaam</value>
+</data>
+<data name="SiteSettings_Configuration_General" xml:space="preserve">
+	<value>Algemeen</value>
+</data>
+<data name="SiteSettings_Configuration_MarkupType" xml:space="preserve">
+	<value>Markuptaal</value>
+</data>
+<data name="SiteSettings_Configuration_Theme" xml:space="preserve">
+	<value>Thema</value>
+</data>
+<data name="SiteSettings_Configuration_Attachments" xml:space="preserve">
+	<value>Map voor de geüploade bestanden</value>
+</data>
+<data name="SiteSettings_Configuration_Extensions" xml:space="preserve">
+	<value>Toegestane extensies</value>
+</data>
+<data name="SiteSettings_Configuration_CachingTitle" xml:space="preserve">
+	<value>Gebruik caching</value>
+</data>
+<data name="SiteSettings_Configuration_ObjectCaching" xml:space="preserve">
+	<value>Gebruik  object-caching</value>
+</data>
+<data name="SiteSettings_Configuration_BrowserCaching" xml:space="preserve">
+	<value>Gebruik browser-cache</value>
+</data>
+<data name="SiteSettings_Configuration_Error" xml:space="preserve">
+	<value>Instellingen opslaan mislukt</value>
+</data>
+<data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
+	<value>(Deze sleutel wordt niet meer gebruikt. Deze wordt verwijderd in versie 2)</value>
+</data>
+<data name="SiteSettings_Configuration_SiteName_Help" xml:space="preserve">
+	<value>Naam van de website. Sommige thema&apos;s tonen deze naam.</value>
+</data>
+<data name="SiteSettings_Configuration_SiteUrl_Help" xml:space="preserve">
+	<value>De url van deze website. Nodig voor e-mails voor registratie en e-mails voor het opnieuw instellen van een wachtwoord. Deze url dient niet te eindigen op een slash (/)</value>
+</data>
+<data name="SiteSettings_Configuration_ConnectionStrings_Help" xml:space="preserve">
+	<value>De connectiestring naar de database. Let op, Roadkill maakt niet automatisch de database-structuur aan.</value>
+</data>
+<data name="SiteSettings_Configuration_DatabaseType_Help" xml:space="preserve">
+	<value>Het type van de database. Let op, Roadkill maakt niet automatisch de database-structuur aan.</value>
+	<comment>plz change this string analogous to SiteSettings_Configuration_ConnectionStrings_Help</comment>
+</data>
+<data name="SiteSettings_Configuration_DatabaseConnectionString_Help" xml:space="preserve">
+	<value>Database connectiestring.</value>
+</data>
+<data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
+	<value>{bold}LET OP:{/bold} indien foutief ingesteld dan kan geen enkele gebruiker meer inloggen! Maak eerst een back-up van de web.config voordat deze instelling gewijzigd wordt. {br}{br}
+
+Gebruik deze optie voor Windows authenticatie in combinatie met Active Directory</value>
+</data>
+<data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
+	<value>Toestaan dat personen zichzelf kunnen registeren als gebruiker.</value>
+</data>
+<data name="SiteSettings_Configuration_EnableRecaptcha_Help" xml:space="preserve">
+	<value>Zet ReCaptcha aan - een gratis anti-spam service. Hiervoor is een ReCaptcha registratie nodig. Neem de publieke- en privésleutel hieronder over.</value>
+</data>
+<data name="SiteSettings_Configuration_RecaptchaPrivateKey_Help" xml:space="preserve">
+	<value>De privésleutel voor ReCaptcha, deze heeft u ontvangen bij de ReCaptcha-registratie.</value>
+</data>
+<data name="SiteSettings_Configuration_RecaptchaPublicKey_Help" xml:space="preserve">
+	<value>De publieke-sleutel voor ReCaptcha, deze heeft u ontvangen bij de ReCaptcha-registratie.</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Connection_Help" xml:space="preserve">
+	<value>De LDAP-connectiestring voor de Active Directory. Geef deze op in het volgende formaat LDAP :/ / mydc01.company.internal (LDAP dient in hoofdletters opgegeven te worden)</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Username_Help" xml:space="preserve">
+	<value>De gebruikersnaam voor verificatie met de Active Directory. Alleen nodig indien de gebruiker van de applicationpool geen leesrechten heeft.</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Password_Help" xml:space="preserve">
+	<value>Het wachtwoord te gebruiken voor authenticatie aan de Active Directory. Alleen nodig indien de gebruiker van de applicationpool geen leesrechten heeft.</value>
+</data>
+<data name="SiteSettings_Configuration_EditorRole_Help" xml:space="preserve">
+	<value>Dit is een naam van Windows beveiligingsgroep waar een auteur lid van dient te zijn - gebruikers die pagina&apos;s kunnen bewerken en maken. Dit wordt alleen gebruikt bij Active Directory / Windows-verificatie. Indien leeg, dan zijn alle gebruikers auteurs</value>
+</data>
+<data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
+	<value>{bold}LET OP:{/bold} indien foutief ingesteld dan kunt u niet meer inloggen! Maak eerst een back-up van de web.config voordat deze instelling gewijzigd wordt. {br}{br}
+
+Dit is een naam van Windows beveiligingsgroep waar een beheerder lid van dient te zijn. Beheerders hebben dezelfde rechten als auteurs, maar hebben ook toegang tot de website-instellingen en -tools.</value>
+</data>
+<data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
+	<value>De markuptaal die Roadkill gebruikt voor de pagina&apos;s. Mogelijke talen: Creol, Markdown, Mediawiki.</value>
+</data>
+<data name="SiteSettings_Configuration_Theme_Help" xml:space="preserve">
+	<value>Het thema die de website gebruikt.</value>
+</data>
+<data name="SiteSettings_Configuration_Attachments_Help" xml:space="preserve">
+	<value>Naar deze map worden alle bestanden geüpload. Deze instelling dient te beginnen met ~ /  (website-root). De gebruiker van de applicationpool dient hier schrijfrechten te hebben.</value>
+</data>
+<data name="SiteSettings_Configuration_Extensions_Help" xml:space="preserve">
+	<value>Deze bestandsextensies kunnen geüpload worden. Geeft komma-gescheiden op.</value>
+</data>
+<data name="SiteSettings_Configuration_ObjectCaching_Help" xml:space="preserve">
+	<value>Gebruik &apos;Object caching&apos;. Roadkill slaat alle pagina&apos;s en inhoud in het geheugen na het ophalen uit de database. De cache wordt automatisch bijgewerkt wanneer een pagina verandert. Aanbevolen om het reactievermogen van de website te verhogen. Object caching wordt momenteel niet ondersteund voor &apos;web gardens&apos; of &apos;web farms&apos;,</value>
+</data>
+<data name="SiteSettings_Configuration_BrowserCaching_Help" xml:space="preserve">
+	<value>Gebruik caching in de browser. Roadkill zal aan de browser aangeven dat pagina&apos;s gecached kunnen worden. Roadkill controleert bij iedere pagina-refresh of er iets veranderd is met behulp van de &apos;aangepast sinds&apos; tijdstip. 
+
+Aanbevolen om het reactievermogen van de website te verhogen..</value>
+</data>
+<data name="SiteSettings_Configuration_Caching_Help" xml:space="preserve">
+	<value>(Deze sleutel wordt niet meer gebruikt. Deze wordt verwijderd in versie 2)</value>
+</data>
+<data name="SiteSettings_Configuration_CachePageText_Help" xml:space="preserve">
+	<value>(Deze sleutel wordt niet meer gebruikt. Deze wordt verwijderd in versie 2)</value>
+</data>
+<data name="SiteSettings_UserManagement_Title" xml:space="preserve">
+	<value>Gebruikers</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_ColumnHeader_Username" xml:space="preserve">
+	<value>Gebruikersnaam</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_ColumnHeader_Email" xml:space="preserve">
+	<value>E-mailadres</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_Admins" xml:space="preserve">
+	<value>Beheerders</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_NewAdmin" xml:space="preserve">
+	<value>Nieuwe beheerder</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_Editors" xml:space="preserve">
+	<value>Auteurs</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_NewEditor" xml:space="preserve">
+	<value>Nieuwe auteur</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AddAdmin_Title" xml:space="preserve">
+	<value>Maak beheerder</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AddEditor_Title" xml:space="preserve">
+	<value>Maak auteur</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_EditUser_Title" xml:space="preserve">
+	<value>Gebruikerinformatie aanpassen</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AddUser_Help" xml:space="preserve">
+	<value>Voor bestaande gebruikers, laat het wachtwoordveld leeg om enkel de gebruikersnaam te wijzigen.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AddUser_Error" xml:space="preserve">
+	<value>Gebruikersinformatie opslaan mislukt.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_EditUser_Error" xml:space="preserve">
+	<value>Aanpassen van de gebruikerinformatie is mislukt</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AD_Title" xml:space="preserve">
+	<value>Windows / Active Directory-verificatie is ingeschakeld</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AD_Label1" xml:space="preserve">
+	<value>Bij gebruik van Windows-verificatie, zijn gebruikersnamen en wachtwoorden niet in Roadkill te wijzigen. Dit dient te gebeuren in de Active Directory.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AD_Label2" xml:space="preserve">
+	<value>Om een ​​gebruiker als beheerder of auteur toe te voegen, dient de gebruiker lid te zijn van de beveiligingsgroep die opgegeven staat bij respectievelijk auteursrol of beheerdersrol.</value>
+	<comment>this setting is currently not only editable in the web.config, but also in the &apos;site settings&apos;? So reference to the web.config is a bit confusing.
+Fuzzy</comment>
+</data>
+<data name="SiteSettings_Tools_Title" xml:space="preserve">
+	<value>Website tools</value>
+</data>
+<data name="SiteSettings_Tools_ClearDatabase" xml:space="preserve">
+	<value>Database leeg maken</value>
+</data>
+<data name="SiteSettings_Tools_ClearDatabase_Label" xml:space="preserve">
+	<value>Verwijder alle pagina&apos;s en teksten uit de database. Gebruikersaccounts worden niet verwijderd.</value>
+</data>
+<data name="SiteSettings_Tools_ClearDatabase_Message" xml:space="preserve">
+	<value>Database leeg gemaakt</value>
+</data>
+<data name="SiteSettings_Tools_RebuildSearch" xml:space="preserve">
+	<value>Zoekindex opnieuw opbouwen</value>
+</data>
+<data name="SiteSettings_Tools_RebuildSearch_Label" xml:space="preserve">
+	<value>Forceer het opnieuw bouwen van de pagina index.</value>
+</data>
+<data name="SiteSettings_Tools_RebuildSearch_Message" xml:space="preserve">
+	<value>Zoekindex opnieuw opgebouwd</value>
+</data>
+<data name="SiteSettings_Tools_ExportXml" xml:space="preserve">
+	<value>Exporteer naar XML bestand</value>
+</data>
+<data name="SiteSettings_Tools_ExportXml_Label" xml:space="preserve">
+	<value>Exporteer alle teksten en geschiedenis van alle pagina&apos;s als een enkel.XML-bestand.</value>
+</data>
+<data name="SiteSettings_Tools_ExportXml_Error" xml:space="preserve">
+	<value>Exporteren naar XML is mislukt: {0}</value>
+</data>
+<data name="SiteSettings_Tools_ExportContent" xml:space="preserve">
+	<value>Alle inhoud exporteren als zip-archief</value>
+</data>
+<data name="SiteSettings_Tools_ExportContent_Label" xml:space="preserve">
+	<value>Exporteer alle pagina&apos;s inclusief  de tekst. Iedere pagina wordt een .wiki-bestand.  Alleen de huidige inhoud en tags worden meegenomen, niet de paginageschiedenis. Ook de geüploade bestanden staan niet in het zip-archief.</value>
+</data>
+<data name="SiteSettings_Tools_ExportContent_Error" xml:space="preserve">
+	<value>Wiki-inhoud exporteren mislukt: {0}</value>
+</data>
+<data name="SiteSettings_Tools_ExportAttachments" xml:space="preserve">
+	<value>Geüploade bestanden exporteren als zip-archief</value>
+</data>
+<data name="SiteSettings_Tools_ExportAttachments_Label" xml:space="preserve">
+	<value>Exporteert alle geüploade bestanden, inclusief mappen, als een zip-archief.</value>
+</data>
+<data name="SiteSettings_Tools_ExportAttachments_Error" xml:space="preserve">
+	<value>Exporteren geüploade bestanden mislukt: {0}</value>
+</data>
+<data name="SiteSettings_Tools_ScrewTurnImport" xml:space="preserve">
+	<value>Importeren vanuit ScrewTurn</value>
+</data>
+<data name="SiteSettings_Tools_ScrewTurnImport_Label" xml:space="preserve">
+	<value>Import alle inhoud vanuit ScrewTurn 2. &apos;MediaWiki&apos; dient als markuptaal geselecteerd te zijn voordat u het importeren start. 
+Omdat de MediaWiki syntaxis in  ScrewTurn niet geheel overeenkomt met de officiële specificatie, is er geen garantie dat alle content er perfect uitziet. Dit geldt vooral voor afbeeldingen en hyperlinks.</value>
+</data>
+<data name="SiteSettings_Tools_ScrewTurnImport_Connection" xml:space="preserve">
+	<value>ScrewTurn connectiestring</value>
+</data>
+<data name="SiteSettings_Tools_ScrewTurnImport_Message" xml:space="preserve">
+	<value>Importeren succesvol</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag" xml:space="preserve">
+	<value>Tag hernoemen</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag_Label" xml:space="preserve">
+	<value>Dit zal de naam van de tag wijzigen. De pagina&apos;s worden aangepast zodat deze de nieuwe tagnaam gebruiken.  De tagnaam is hoofdlettergevoelig.</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag_Existing" xml:space="preserve">
+	<value>Huidige naam:</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag_New" xml:space="preserve">
+	<value>Nieuwe naam:</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag_Message" xml:space="preserve">
+	<value>Tag hernoemd</value>
+</data>
+<data name="SiteSettings_Validation_AttachmentsEmpty" xml:space="preserve">
+	<value>De instelling voor de bestandenmap is leeg</value>
+</data>
+<data name="SiteSettings_Validation_AttachmentsReservedName" xml:space="preserve">
+	<value>&apos;~/Files&apos; is een gereserveerd pad en kan niet gebruikt worden.</value>
+</data>
+<data name="SiteSettings_Validation_ConnectionEmpty" xml:space="preserve">
+	<value>De connectiestring is leeg.</value>
+</data>
+<data name="SiteSettings_Validation_MarkupTypeEmpty" xml:space="preserve">
+	<value>Selecteer een markuptaal</value>
+</data>
+<data name="SiteSettings_Validation_ThemeEmpty" xml:space="preserve">
+	<value>Er is geen thema gekozen.</value>
+</data>
+<data name="SiteSettings_Validation_SiteNameEmpty" xml:space="preserve">
+	<value>De website-naam is leeg.</value>
+</data>
+<data name="SiteSettings_Validation_SiteUrlEmpty" xml:space="preserve">
+	<value>De website-url is leeg.</value>
+</data>
+<data name="FileManager_Title" xml:space="preserve">
+	<value>Bestanden beheren</value>
+</data>
+<data name="FileManager_Upload" xml:space="preserve">
+	<value>Bestanden uploaden</value>
+</data>
+<data name="FileManager_AddFolder" xml:space="preserve">
+	<value>Nieuwe map</value>
+</data>
+<data name="FileManager_AddFolder_Cancel" xml:space="preserve">
+	<value>Annuleer aanmaken nieuwe map</value>
+</data>
+<data name="FileManager_Delete_File" xml:space="preserve">
+	<value>Bestand verwijderen</value>
+</data>
+<data name="FileManager_Select" xml:space="preserve">
+	<value>Kies</value>
+</data>
+<data name="FileManager_Delete_Folder" xml:space="preserve">
+	<value>Verwijder map</value>
+</data>
+<data name="FileManager_Delete_Confirm" xml:space="preserve">
+	<value>Weet u zeker dat u {0} wilt verwijderen?</value>
+</data>
+<data name="FileManager_Delete_Success" xml:space="preserve">
+	<value>{0} is met succes verwijderd.</value>
+</data>
+<data name="FileManager_Delete_Error" xml:space="preserve">
+	<value>Verwijderen van {0} is mislukt</value>
+</data>
+<data name="FileManager_Error_DirectoryListing" xml:space="preserve">
+	<value>Ophalen van de mapinhoud is mislukt:</value>
+</data>
+<data name="FileManager_Error_DeleteFolder" xml:space="preserve">
+	<value>Map verwijderen is mislukt:</value>
+</data>
+<data name="FileManager_Error_DeleteFile" xml:space="preserve">
+	<value>Bestand verwijderen is mislukt:</value>
+</data>
+<data name="FileManager_Error_CreateFolder" xml:space="preserve">
+	<value>Map aanmaken is mislukt:</value>
+</data>
+<data name="FileManager_UploadingProgress" xml:space="preserve">
+	<value>Uploaden ...</value>
+</data>
+<data name="FileManager_Help" xml:space="preserve">
+	<value>Sleep bestanden om te uploaden. Dubbelklik op mappen voor navigatie.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="FileManager_Extension_Not_Supported" xml:space="preserve">
+	<value>Alleen bestanden met de extensie {0} mogen worden geüpload.</value>
+</data>
+<data name="Homepage_Tagname" xml:space="preserve">
+	<value>homepage</value>
+</data>
+<data name="SiteSettings_Configuration_HeadContent" xml:space="preserve">
+	<value>Extra inhoud in de &lt;head&gt; tag voor iedere pagina</value>
+</data>
+<data name="SiteSettings_Configuration_FileManager" xml:space="preserve">
+	<value>Bestandsbeheer</value>
+</data>
+<data name="SiteSettings_Configuration_HeadContent_Help" xml:space="preserve">
+	<value>Scripts, styles en andere HTML die bij iedere pagina in de &lt;head&gt; wordt toegevoegd.</value>
+</data>
+<data name="SiteSettings_Configuration_NavMenu" xml:space="preserve">
+	<value>Layout voor het navigatiemenu</value>
+	<comment>should be &apos;main menu&apos;, not left</comment>
+</data>
+<data name="SiteSettings_Configuration_NavMenu_Help" xml:space="preserve">
+	<value>De layout van het hoofd-navigatiemenu. Markdown markup wordt geaccepteerd. De volgende tokens kunnen gebruikt worden: {MENUTOKENS}. Sommige tokens zullen leeg zijn afhankelijk van de gebruikersrol (bezoeker, auteur, beheerder).</value>
+</data>
+<data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
+	<value>Bestaande bestanden automatisch overschrijven bij uploaden</value>
+</data>
+<data name="SiteSettings_Configuration_FileManager_OverwriteExisting_Help" xml:space="preserve">
+	<value>Overschrijf bestanden met dezelfde naam bij het uploaden zonder een waarschuwing.</value>
+	<comment>strange text. If true, will the files with duplicate name overwritten or checked?</comment>
+</data>
+<data name="SiteSettings_Plugins_Title" xml:space="preserve">
+	<value>Plugins</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport" xml:space="preserve">
+	<value>Exporteren als SQL</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport_Label" xml:space="preserve">
+	<value>Exporteert de huidige database als een SQL-script. Als u gebruik maakt MongoDB deze actie doet niets.</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite" xml:space="preserve">
+	<value>Publieke site</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite_Help" xml:space="preserve">
+	<value>Bij niet-gecontroleerd, alle pagina&apos;s zijn prive en kan alleen bekeken worden door ingelogde gebruikers.</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors" xml:space="preserve">
+	<value>Negeer zoekindex fouten</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors_Help" xml:space="preserve">
+	<value>Indien aangevinkt, wordt een foutmelding weergegeven wanneer een pagina niet worden geïndexeerd door de zoekmachine Lucene (bij het maken of bijwerken van een pagina), in plaats van genegeerd.</value>
+</data>
+<data name="FileManager_Upload_FileAlreadyExists" xml:space="preserve">
+	<value>Het bestand &apos;{0}&apos; bestaat reeds.</value>
+</data>
+<data name="History_Help_Label" xml:space="preserve">
+	<value>Klik op een versie nummer om de wijzigingen te vergelijken met de versie voor het.</value>
+</data>
+<data name="SiteSettings_Configuration_Required_Field" xml:space="preserve">
+	<value>Dit veld is verplicht.</value>
+</data>
+<data name="Button_Test" xml:space="preserve">
+	<value>Test</value>
+</data>
+<data name="Shared_Success" xml:space="preserve">
+	<value>Succes!</value>
+</data>
+<data name="Shared_Failure" xml:space="preserve">
+	<value>Mislukking!</value>
+</data>
+<data name="DatabaseConnection_Success" xml:space="preserve">
+	<value>De database connectie was succesvol.</value>
+</data>
+<data name="DatabaseConnection_Failure" xml:space="preserve">
+	<value>Database connectie mislukt:</value>
+</data>
+<data name="Button_Add" xml:space="preserve">
+	<value>Toevoegen</value>
+</data>
+<data name="Attachments_Folder_Success" xml:space="preserve">
+	<value>Succes! De map bestaat en kan worden geschreven.</value>
+</data>
+<data name="Attachments_Folder_Failure" xml:space="preserve">
+	<value>Kan niet schrijven naar de bijlagen directory:</value>
+</data>
+<data name="Shared_Unexpected_Error" xml:space="preserve">
+	<value>Er ging iets mis</value>
+</data>
+<data name="Profile_Not_Available" xml:space="preserve">
+	<value>Windows-verificatie is ingeschakeld, zodat de gebruiker profiel is niet beschikbaar.</value>
+</data>
+<data name="Profile_Password_Change_Successful" xml:space="preserve">
+	<value>Het wachtwoord is succesvol gewijzigd</value>
+</data>
+<data name="Profile_Details_Updated_Successfully" xml:space="preserve">
+	<value>De profielgegevens zijn bijgewerkt.</value>
+</data>
+<data name="Profile_Leave_Password_Blank" xml:space="preserve">
+	<value>Laat het wachtwoord velden leeg als u niet wilt dat uw wachtwoord te wijzigen.</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Successful" xml:space="preserve">
+	<value>Alle caches zijn succesvol gewist.</value>
+</data>
+<data name="SiteSettings_Cache_Key_Format" xml:space="preserve">
+	<value>De toetsen zijn in het formaat:</value>
+</data>
+<data name="SiteSettings_Cache_Key_Column_Header" xml:space="preserve">
+	<value>Sleutel</value>
+</data>
+<data name="SiteSettings_Cache_Page_Cache" xml:space="preserve">
+	<value>Pagina cache</value>
+</data>
+<data name="SiteSettings_Cache_Items_Cache" xml:space="preserve">
+	<value>Items cache</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Button" xml:space="preserve">
+	<value>Cache wissen</value>
+</data>
+<data name="SiteSettings_Configuration_Unable_To_Save" xml:space="preserve">
+	<value>In staat om de instellingen op te slaan:</value>
+</data>
+<data name="SiteSettings_Configuration_Update_Successful" xml:space="preserve">
+	<value>De instellingen zijn succesvol gewijzigd.</value>
+</data>
+<data name="Recaptcha_Prompt" xml:space="preserve">
+	<value>Als een anti-spam maatregel, dan kunt u de twee woorden hieronder in te voeren</value>
+</data>
+<data name="Button_Close" xml:space="preserve">
+	<value>Dicht</value>
+</data>
+
+</root>

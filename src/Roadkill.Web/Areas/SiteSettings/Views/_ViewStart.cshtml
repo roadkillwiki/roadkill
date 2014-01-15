@@ -1,0 +1,12 @@
+﻿@using Roadkill.Core.Configuration;
+@{
+	// A direct copy of ~/Views/_ViewStart.cshtml
+	Roadkill.Core.Mvc.Controllers.ControllerBase controller = this.ViewContext.Controller as Roadkill.Core.Mvc.Controllers.ControllerBase;
+	ApplicationSettings applicationSettings = controller.ApplicationSettings;
+
+	if (applicationSettings.Installed && !applicationSettings.UpgradeRequired)
+	{
+		SiteSettings siteSettings = controller.SettingsService.GetSiteSettings();
+		Layout = siteSettings.ThemePath + "/Theme.cshtml";
+	}
+}

@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @RenderSection("scripts", required: false)
+	<link rel="shortcut icon" href="@Url.Content("~/Assets/Images/favicon.png")" />
+	<link rel="search" href="@Url.Content("~/Assets/opensearch.xml")" type="application/opensearchdescription+xml" title="Roadkill Wiki" />
+	@Url.CssBundle()
+	@Url.BootstrapCSS()
+	@Url.BootstrapJS()
+	<link type="text/css" href="@Url.Content("~/Assets/Css/apihelp.css")" rel="stylesheet" />
+</head>
+<body>
+    @RenderBody()
+</body>
+</html>

@@ -1,0 +1,44 @@
+﻿@model PageViewModel
+
+<div class="modal" id="pageinformation" role="dialog" aria-describedby="Contains meta information about the current page">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="default-header">@Model.Title</h4>
+			</div>
+
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-12 tags">
+						@Html.Partial("TagBlocks", Model.Tags)
+					</div>
+				</div>
+
+				<br/>
+
+				<div class="row">
+					<div class="col-sm-6">
+						<b>@SiteStrings.Page_Info_CreatedOn</b><br />
+						@Model.CreatedOn<br /><br />
+
+						<b>@SiteStrings.Page_Info_CreatedBy</b><br />
+						@Model.CreatedBy
+					</div>
+
+					<div class="col-sm-6">
+						<b>@SiteStrings.Page_Info_ModifiedOn</b><br />
+						@Model.ModifiedOn<br /><br />
+
+						<b>@SiteStrings.Page_Info_ModifiedBy</b><br />
+						@Model.ModifiedBy
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" data-dismiss="modal" class="btn btn-primary">@SiteStrings.Button_Close</button>
+			</div>
+		</div>
+	</div>
+</div>

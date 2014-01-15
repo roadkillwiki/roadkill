@@ -1,0 +1,44 @@
+﻿@import url(http://fonts.googleapis.com/css?family=Noticia+Text);
+
+/* Make the page have 100% height */
+html, body { height: 100%; min-height: 100%; padding: 0px; margin: 0px; }
+body, h1, h2, h3, h4, h5, h6 { font-family: "Noticia Text", sans-serif; }
+h1, h2, h3, h4, h5, h6 { font-family: "Noticia Text", sans-serif;padding: 5px 0px 5px 0px; }
+
+/* The basic 3 row layout*/
+#header-wrapper { min-height: 7%; padding: 0px; margin: 0px; }
+#content-wrapper { min-height: 83%; padding: 0px; margin: 0px; }
+#footer-wrapper { min-height: 10%; padding: 0px; margin: 0px; }
+
+/* Page and pen toolbar */
+#toolbar { position:absolute; top:85px;left:5px;z-index:99; }
+
+/* Responsive header */
+@media screen and (min-width:720px) {
+	/* Show the bar at the top for larger screens*/
+	#bootstrap-nav-menu { float: left; }
+	#search { float:left; margin-top: 10px; padding-left: 150px; }
+}
+@media screen and (max-width:720px) {
+	#search-mobile { margin: 15px;padding-left:10px; }
+	#toolbar { display:none; }
+}
+#header-wrapper { background-color: #F8F8F8; border-bottom: 1px solid #DDD; } /* redefine the bootstrap nav bar*/
+	#header-wrapper .navbar { border: 0px; margin-bottom: 0px !important; min-height: 100%; }
+
+/* Login bar*/
+#login-status	{ text-align:right;padding:2px; }
+#loggedinas	{ display:block; }
+
+/* The main page container*/
+#container { padding: 20px !important; font-size: 1em; }
+
+/* Change the default footer */
+#footer-wrapper { background-color: #F8F8F8; }
+#footer-inner { padding: 0px 20px; border-top: 1px solid #F8F8F8; min-height: 100%; }
+#viewhistory { display: inline; }
+
+/* Settings page */
+#configuration-container legend { font-size:1.2em !important; }
+#configuration-container select { font-size:0.9em !important;font-weight:normal;}
+#configuration-container input { font-size:0.9em !important;font-weight:normal;}

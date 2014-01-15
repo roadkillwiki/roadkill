@@ -1,0 +1,38 @@
+﻿@model LanguageViewModel
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+@Url.InstallerScriptLink("step1.js")
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		var messages =
+		{
+			successTitle: "@SiteStrings.Shared_Success",
+			successMessage: "@InstallStrings.Step1_WebConfig_Success_Message",
+			failureTitle: "@SiteStrings.Shared_Failure",
+			failureMessage: "@InstallStrings.Step1_WebConfig_Failure_Message",
+		};
+
+		var wizard = new Roadkill.Web.Installer.InstallWizard();
+		var step1 = new Roadkill.Web.Installer.Step1(wizard, messages);
+		step1.bindButtons();
+	});
+</script>
+
+<p>
+@InstallStrings.Step1_Intro
+</p>
+	
+<p>
+@InstallStrings.Step1_WebConfig_Intro
+</p>
+
+<button id="testwebconfig" class="btn btn-info" type="button">
+	@SiteStrings.Button_Test
+</button>
+
+@section BottomButtons
+{
+	<a href="@Url.Action("Step2", new { language = Model.Code })" class="continue hidden btn btn-success pull-right">@InstallStrings.Shared_Continue ></a>
+}

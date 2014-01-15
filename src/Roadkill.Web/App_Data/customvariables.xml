@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ArrayOfTextToken xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<TextToken>
+		<Name>Warningbox</Name>
+		<Description>
+			<![CDATA[
+		Surrounds the content in a light yellow, bordered warning box. Example:<br/>
+		(warningbox:ENTER YOUR CONTENT HERE)
+		]]>
+		</Description>
+		<SearchRegex>\(warningbox:(?'warningbox'.*?)\)</SearchRegex>
+		<HtmlReplacement><![CDATA[<div class="alert alert-warning">${warningbox}</div><br style="clear:both"/>]]></HtmlReplacement>
+	</TextToken>
+	<TextToken>
+		<Name>Alertbox</Name>
+		<Description>
+			<![CDATA[
+		Surrounds the content in a red, bordered alert box. Example:<br/>
+		(alertbox:ENTER YOUR CONTENT HERE)
+		]]>
+		</Description>
+		<SearchRegex>\(alertbox:(?'alertbox'.*?)\)</SearchRegex>
+		<HtmlReplacement>
+			<![CDATA[<div class="alert alert-danger">${alertbox}</div><br style="clear:both"/>]]>
+		</HtmlReplacement>
+	</TextToken>
+	<TextToken>
+		<Name>Infobox</Name>
+		<Description>
+			<![CDATA[
+		Surrounds the content in a blue, bordered information box. Example:<br/>
+		(infobox:ENTER YOUR CONTENT HERE)
+		]]>
+		</Description>
+		<SearchRegex>\(infobox:(?'infobox'.*?)\)</SearchRegex>
+		<HtmlReplacement>
+			<![CDATA[<div class="alert alert-info">${infobox}</div><br style="clear:both"/>]]>
+		</HtmlReplacement>
+	</TextToken>
+	<TextToken>
+		<Name>Successbox</Name>
+		<Description>
+			<![CDATA[
+		Surrounds the content in a green, bordered success box. Example:<br/>
+		(successbox:ENTER YOUR CONTENT HERE)
+		]]>
+		</Description>
+		<SearchRegex>\(successbox:(?'successbox'.*?)\)</SearchRegex>
+		<HtmlReplacement>
+			<![CDATA[<div class="alert alert-success">${successbox}</div><br style="clear:both"/>]]>
+		</HtmlReplacement>
+	</TextToken>
+	<TextToken>
+		<Name>Youtube</Name>
+		<Description>
+			<![CDATA[
+		Adds a youtube video:<br/>
+		(Youtube:Enter the youtube id here)
+		]]>
+		</Description>
+		<SearchRegex>\(youtube:(?'youtube'.*?)\)</SearchRegex>
+		<HtmlReplacement>
+			<![CDATA[<iframe width="420" height="315" src="//www.youtube.com/embed/${youtube}" frameborder="0" allowfullscreen></iframe>]]>
+		</HtmlReplacement>
+	</TextToken>
+	<TextToken>
+		<Name>Warningbox</Name>
+		<Description>
+			<![CDATA[
+		Surrounds the content in a light yellow, bordered warning box. Example:<br/>
+		@@warningbox:ENTER YOUR CONTENT HERE@@
+		]]>
+		</Description>
+		<SearchRegex>@@warningbox:(?'warningbox'.*?)@@</SearchRegex>
+		<HtmlReplacement><![CDATA[<div class="alert alert-warning">${warningbox}</div><br style="clear:both"/>]]></HtmlReplacement>
+	</TextToken>
+	<TextToken>
+		<Name>Alertbox</Name>
+		<Description>
+			<![CDATA[
+		Surrounds the content in a red, bordered alert box. Example:<br/>
+		@@alertbox:ENTER YOUR CONTENT HERE@@
+		]]>
+		</Description>
+		<SearchRegex>@@alertbox:(?'alertbox'.*?)@@</SearchRegex>
+		<HtmlReplacement>
+			<![CDATA[<div class="alert alert-danger">${alertbox}</div><br style="clear:both"/>]]>
+		</HtmlReplacement>
+	</TextToken>
+	<TextToken>
+		<Name>Infobox alternative</Name>
+		<Description>
+			<![CDATA[
+		Surrounds the content in a blue, bordered information box. Example:<br/>
+		@@infobox:ENTER YOUR CONTENT HERE@@
+		]]>
+		</Description>
+		<SearchRegex>@@infobox:(?'infobox'.*?)@@</SearchRegex>
+		<HtmlReplacement>
+			<![CDATA[<div class="alert alert-info">${infobox}</div><br style="clear:both"/>]]>
+		</HtmlReplacement>
+	</TextToken>
+	<TextToken>
+		<Name>Successbox alternative.</Name>
+		<Description>
+			<![CDATA[
+		Surrounds the content in a green, bordered success box. Example:<br/>
+		@@successbox:ENTER YOUR CONTENT HERE@@
+		]]>
+		</Description>
+		<SearchRegex>@@successbox:(?'successbox'.*?)@@</SearchRegex>
+		<HtmlReplacement>
+			<![CDATA[<div class="alert alert-success">${successbox}</div><br style="clear:both"/>]]>
+		</HtmlReplacement>
+	</TextToken>
+</ArrayOfTextToken>

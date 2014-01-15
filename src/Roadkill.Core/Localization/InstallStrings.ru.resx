@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="data">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" minOccurs="0"                     msdata:Ordinal="2" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="type" type="xsd:string" />
+        <xsd:attribute name="mimetype" type="xsd:string" />
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="Shared_Stage1" xml:space="preserve">
+	<value>Добро пожаловать</value>
+</data>
+<data name="Shared_Stage2" xml:space="preserve">
+	<value>База данных</value>
+</data>
+<data name="Shared_Stage3" xml:space="preserve">
+	<value>Безопасность</value>
+</data>
+<data name="Shared_Stage4" xml:space="preserve">
+	<value>Дополнительно</value>
+</data>
+<data name="Shared_Stage5" xml:space="preserve">
+	<value>Завершение</value>
+</data>
+<data name="Shared_Continue" xml:space="preserve">
+	<value>Продолжить</value>
+</data>
+<data name="Shared_Back" xml:space="preserve">
+	<value>Назад</value>
+</data>
+<data name="Shared_BackButton" xml:space="preserve">
+	<value>Назад</value>
+</data>
+<data name="Shared_NextButton" xml:space="preserve">
+	<value>Далее</value>
+</data>
+<data name="Step1_Intro" xml:space="preserve">
+	<value>Спасибо за загрузку вики-движка Roadkill .NET. Мастер установки сохранить настройки которые вы укажете в файл web.config (а также в базу данных).</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Intro" xml:space="preserve">
+	<value>Для того, чтобы продолжить, сначала необходимо проверить, если ли у вас доступ на запись в файл web.config.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Success_Message" xml:space="preserve">
+	<value>Web.config доступен для записи.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Failure_Message" xml:space="preserve">
+	<value>Запись в файл web.config невозможна.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_Intro" xml:space="preserve">
+	<value>Ниже приведены некоторые необходимые настройки Roadkill необходимые для корректной работы. Вы можете изменить их позже на странице настроек в качестве администратора.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_ConnectionString_CreateDatabase" xml:space="preserve">
+	<value>Если вы используете именованный экземпляр, то вам необходимо сначала создать базу данных. Ниже приведены несколько примеров, используйте второй вариант если вы используете виртуальный хостинг без SQL Сервера.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_Example_ConnectionStrings" xml:space="preserve">
+	<value>Пример строки соединения</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteInstructionsTitle" xml:space="preserve">
+	<value>SQLite: пожалуйста, прочитайте</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteInstructionsMessage" xml:space="preserve">
+	<value>Примечание: Для использования SQLite нужно добавить еще один файл в / BIN папки, а SQLite распространяется для x86 и x64. {BEGIN-SQLITE_LINK}Нажмите, чтобы скопировать файл{END-SQLITE_LINK}. Если у вас возникли вопросы, после этого удалите &quot;SQLite.Interop.dll&quot; из папки bin.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteSuccessTitle" xml:space="preserve">
+	<value>SQLite файл успешно скопирован</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteSuccessMessage" xml:space="preserve">
+	<value>SQLite должен быть готов к использованию.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteFailureTitle" xml:space="preserve">
+	<value>SQLite копирование файлов не удалось</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteFailureMessage" xml:space="preserve">
+	<value>Failure - попробуйте скопировать файл из SQLite.Interop.dll ~/App_Data/SQLiteBinaries в вашу bin папку.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_Use_WindowsAuth_Intro" xml:space="preserve">
+	<value>Хотите ли вы использовать аутентификацию пользователей с помощью Active Directory и проверки подлинности Windows?</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ConnectionString_Title" xml:space="preserve">
+	<value>Active Directory LDAP строка подключения</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Connection_Success" xml:space="preserve">
+	<value>Подключение и авторизация с сервером Active Directory было успешным.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Connection_Error" xml:space="preserve">
+	<value>Не удается подключиться к серверу Active Directory:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Success" xml:space="preserve">
+	<value>Группа была успешно опрошена.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Error" xml:space="preserve">
+	<value>Невозможно опросить:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ConnectionString_Details" xml:space="preserve">
+	<value>Должна быть в формате LDAP://mydc01.company.internal (LDAP - должен быть в верхнем регистре ), где mydc01 ваш контроллер домена и «company» и «internal » являются DNS-суффиксы для вашей сети. Это также может быть IP-адресом. Обычно вы можете получить эту информацию, запустив &quot;IPCONFIG&quot;.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ADExplorer_Details" xml:space="preserve">
+	<value>Строка подключения поддерживает спецификаторы OU однако это может вызвать проблемы. Если вы не знаете об этом параметре, вам рекомендуется загрузить {BEGIN_ADEXPLORER_LINK}AD Explorer{END_ADEXPLORER_LINK} в первую очередь.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Username_Password_Details" xml:space="preserve">
+	<value>Введите имя пользователя и пароль, если пользователь этого пула приложения не имеет доступ на чтение к Active Directory. Это полезно, если ваш домен Active Directory отдельный лес от главного домена (т.е. другой филиал).</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Editor_GroupName_Title" xml:space="preserve">
+	<value>Имя редактора группы</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Editor_GroupName_Details" xml:space="preserve">
+	<value>Это группа безопасности к которой должны принадлежать пользователи чтобы быть редакторами (люди, которые могут редактировать и создавать страницы). Кнопка Тест использует настройки подключения введенные выше.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Admin_GroupName_Title" xml:space="preserve">
+	<value>Имя администратора группы</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Admin_GroupName_Details" xml:space="preserve">
+	<value>Это группа безопасности к которой должны принадлежать пользователи чтобы быть администраторами. Администраторы имеют те же права, что и редакторы, но и имеют доступ к настройкам конфигурации и инструментам для сайта.Кнопка тест использует настройки подключения введенный выше.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_One_Way_Hashed" xml:space="preserve">
+	<value>Все пароли, зашифрованные односторонним образом использованием SHA128 и salt. Это означает, что пароли не восстанавливаются и потребует от администратора сбрасывать их вручную (функциональность нет сброса пароля еще не реализована). Минимальная длина пароля 6 символов.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Editor_Role_Title" xml:space="preserve">
+	<value>Название роли Редакторов</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Editor_Role" xml:space="preserve">
+	<value>Это имя роли редактора  - люди, которые могут редактировать и создавать страницы.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Role_Title" xml:space="preserve">
+	<value>Название роли Администраторов</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Role" xml:space="preserve">
+	<value>Это имя роли администратора. Администраторы имеют те же права, редакторов, но и имеют доступ к настройкам конфигурации и инструментам сайта.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups_Title" xml:space="preserve">
+	<value>Разрешить регистрацию</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups" xml:space="preserve">
+	<value>Отметьте эту опцию, если вы хотите, чтобы люди могли зарегистрироваться в качестве нового пользователя. Иначе, только администраторы смогут создавать новых пользователей.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups_Label" xml:space="preserve">
+	<value>Разрешить регистрацию новых пользователей.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Enable_Recaptcha_Description" xml:space="preserve">
+	<value>Если вы позволяете пользователями регистрироваться, рекомендуется также включить поддержку Recaptcha. Это бесплатный анти-спам бот сервис, предоставляемый Google. Вам  нужно, зарегистрироваться и скопировать открытый и закрытый ключи в поля ниже. {BEGIN_RECAPTCHA_LINK}Регистрация здесь{END_RECAPTCHA_LINK} - вам необходимо создать учетную запись Google в первую очередь.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Email_Title" xml:space="preserve">
+	<value>Email администратора</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Email" xml:space="preserve">
+	<value>Это адрес электронной почты для пользователя с правами администратора. Вы можете добавить больше администраторов на странице управления сайтом, так что этот пользователь не «владелец» сайта</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Password_Title" xml:space="preserve">
+	<value>Пароль администратора</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Password" xml:space="preserve">
+	<value>Это пароль для пользователя с правами администратора.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Almost_Done" xml:space="preserve">
+	<value>Почти готово ... Наконец осталось несколько дополнительных настраиваемых параметров.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Attachments_Folder_Description" xml:space="preserve">
+	<value>Это каталог, в который загружаются все файлы. Этому каталогу будет нужны права записи пользователя пула приложений под управлением которого работает приложение. Большую часть времени вы не должны беспокоиться об изменении разрешения для папки, так как они будут унаследованы от родительской папки.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Attachments_Folder_RelativePath" xml:space="preserve">
+	<value>Убедитесь, что путь папки начинается с &quot;~/&quot; для корня сайта или является абсолютным путем (например c:\myattachments).</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Success_Title" xml:space="preserve">
+	<value>Установка успешно завершена!</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_WindowsAuth_Please_Read" xml:space="preserve">
+	<value>Проверка подлинности Windows - пожалуйста, прочитайте</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_WindowsAuth_IIS_Settings" xml:space="preserve">
+	<value>Если вы используете IIS7+ вам может потребоваться настроить файл web.config для вашей безопасной установки, ниже приведены те элементы, которые необходимы. Если вы получаете  ошибку 500 после внесения этих изменений, значит раздел заблокирован на родительском уровне, и вам нужно будет сделать изменения через Диспетчер Служб IIS.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Continue_Button" xml:space="preserve">
+	<value>Перейти на сайт</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Failure_Title" xml:space="preserve">
+	<value>Произошла ошибка во время установки</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Failure_GoBack_And_Check" xml:space="preserve">
+	<value>Пожалуйста вернитесь через шаги установки и проверьте ваши настройки. Сообщение об ошибке:</value>
+	<comment>Fuzzy</comment>
+</data>
+
+</root>

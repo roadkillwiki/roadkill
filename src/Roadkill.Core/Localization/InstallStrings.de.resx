@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="data">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" minOccurs="0"                     msdata:Ordinal="2" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="type" type="xsd:string" />
+        <xsd:attribute name="mimetype" type="xsd:string" />
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="Shared_Stage1" xml:space="preserve">
+	<value>Willkommen</value>
+</data>
+<data name="Shared_Stage2" xml:space="preserve">
+	<value>Datenbank</value>
+</data>
+<data name="Shared_Stage3" xml:space="preserve">
+	<value>Sicherheit</value>
+</data>
+<data name="Shared_Stage4" xml:space="preserve">
+	<value>Extras</value>
+</data>
+<data name="Shared_Stage5" xml:space="preserve">
+	<value>Fertig</value>
+</data>
+<data name="Shared_Continue" xml:space="preserve">
+	<value>Weiter</value>
+</data>
+<data name="Shared_Back" xml:space="preserve">
+	<value>Zurück</value>
+</data>
+<data name="Shared_BackButton" xml:space="preserve">
+	<value>Zurück</value>
+</data>
+<data name="Shared_NextButton" xml:space="preserve">
+	<value>Nächste</value>
+</data>
+<data name="Step1_Intro" xml:space="preserve">
+	<value>Danke, dass Sie Roadkill .NET Wiki-Engine herunterladen. Der Installer schreibt den Einstellungen, den Sie hier eingeben, um die Datei &quot;Web.config&quot; (und auch die Datenbank).</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Intro" xml:space="preserve">
+	<value>Um fortzufahren, müssen wir zuerst testen, ob Sie Schreibzugriff auf die Datei &quot;Web.config&quot; haben.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Success_Message" xml:space="preserve">
+	<value>Der Web.config-Datei geschrieben werden kann.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Failure_Message" xml:space="preserve">
+	<value>Fehler beim Schreiben in die Datei web.config.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_Intro" xml:space="preserve">
+	<value>Im folgenden werden einige erforderlichen Einstellungen für Roadkill ordnungsgemäß funktioniert. Sie können diese später über die Einstellungsseite als eine &quot;admin&quot; ändern.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_ConnectionString_CreateDatabase" xml:space="preserve">
+	<value>Sie müssen zuerst die Datenbank zu erstellen, wenn Sie eine benannte Instanz verwenden. Unten finden Sie ein paar Beispiele, verwenden Sie die zweite Option ist, dass du verwendest shared hosting ohne jede SQL Server-hosting.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_Example_ConnectionStrings" xml:space="preserve">
+	<value>Beispiele für Verbindungszeichenfolgen</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteInstructionsTitle" xml:space="preserve">
+	<value>SQLite: Bitte lesen</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteInstructionsMessage" xml:space="preserve">
+	<value>Hinweis: Wenn Sie SQLite verwenden möchten müssen Sie fügen Sie eine andere Datei in den Ordner &quot;/ bin&quot; da SQLite für X 86 und X 64 verteilt ist. {BEGIN-SQLITE_LINK}Klicken Sie hier, um die Datei zu kopieren{END-SQLITE_LINK}. Wenn Sie danach Probleme auftreten, löschen Sie &quot;SQLite.Interop.dll&quot; aus dem Binärordner.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteSuccessTitle" xml:space="preserve">
+	<value>SQLite Datei Erfolgs-</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteSuccessMessage" xml:space="preserve">
+	<value>SQLite sollte nun einsatzbereit sein.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteFailureTitle" xml:space="preserve">
+	<value>SQLite Datei kopieren fehlgeschlagen</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteFailureMessage" xml:space="preserve">
+	<value>Ausfall - Versuch, die SQLite.Interop.dll-Datei von ~/App_Data/SQLiteBinaries in den Binärordner kopieren.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_Use_WindowsAuth_Intro" xml:space="preserve">
+	<value>Benutzer möchten Sie für ein Active Directory mit Windows-Authentifizierung authentifiziert werden?</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ConnectionString_Title" xml:space="preserve">
+	<value>Active Directory LDAP-Verbindungszeichenfolge</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Connection_Success" xml:space="preserve">
+	<value>Die Verbindung und die Authentifizierung mit dem Active Directory-Server war erfolgreich.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Connection_Error" xml:space="preserve">
+	<value>Keine Verbindung zum Active Directory-Server:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Success" xml:space="preserve">
+	<value>Die Gruppe wurde abgefragten erfolgreich.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Error" xml:space="preserve">
+	<value>Abfrage konnte nicht:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ConnectionString_Details" xml:space="preserve">
+	<value>Dies sollte im Format LDAP://mydc01.company.internal (es sollte Großbuchstaben LDAP), wo mydc01 Ihre Domänencontroller und &quot;Kreation&quot; ist und &quot;intern&quot; sind die Dns für Ihr Netzwerk Suffixe. Dies kann auch eine IP-Adresse sein. Diese Informationen erhalten Sie in der Regel durch Ausführen von &quot;Ipconfig&quot;.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ADExplorer_Details" xml:space="preserve">
+	<value>Die Verbindung Zeichenfolge unterstützt OU Spezifizierer jedoch auf diese Weise können Probleme verursachen. Wenn Sie diese Einstellung unsicher sind, empfiehlt es sich, dass Sie zunächst {BEGIN_ADEXPLORER_LINK}AD Explorer{END_ADEXPLORER_LINK} herunterladen.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Username_Password_Details" xml:space="preserve">
+	<value>Geben Sie einen Benutzernamen und ein Passwort, wenn der Benutzer, unter der Anwendungspool ausgeführt ist, keinen Zugriff auf Active Directory lesen. Dies ist nützlich, wenn Ihre Domain einer separaten Gesamtstruktur aus der Haupt-Domain (d.h. eine weitere Zweigstelle).</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Editor_GroupName_Title" xml:space="preserve">
+	<value>Editor-Gruppennamen</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Editor_GroupName_Details" xml:space="preserve">
+	<value>Dies ist der Sicherheitsgruppe, der Benutzer angehören sollte, um sein Editoren (Leute, die können Sie bearbeiten und Erstellen von Seiten). Die Test-Taste verwendet die Verbindungseinstellungen oben eingetragen.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Admin_GroupName_Title" xml:space="preserve">
+	<value>Admin-Gruppennamen</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Admin_GroupName_Details" xml:space="preserve">
+	<value>Dies ist der Sicherheitsgruppe, der Benutzer zu Admins angehören sollte. Admins haben die gleichen Rechte wie Editoren, aber haben auch Zugriff auf Konfigurationseinstellungen und Tools für die Website.Die Test-Taste verwendet die Verbindungseinstellungen oben eingetragen.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_One_Way_Hashed" xml:space="preserve">
+	<value>Alle Passwörter sind mit SHA128 und ein Salz verschlüsselt. Dies bedeutet Passwörter sind nicht erstattungsfähig und benötigen und Admin sie zurücksetzen (es gibt keine Reset-Passwort-Funktion noch). Die minimale Kennwortlänge beträgt 6 Zeichen.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Editor_Role_Title" xml:space="preserve">
+	<value>Editor-Rollenname</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Editor_Role" xml:space="preserve">
+	<value>Dies ist der Name der Rolle des Bearbeiters - Menschen, die Seiten erstellen und bearbeiten können.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Role_Title" xml:space="preserve">
+	<value>Adminname der Rolle</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Role" xml:space="preserve">
+	<value>Dies ist der Name der Administratorrolle. Admins haben die gleichen Rechte wie Editoren, aber haben auch Zugriff auf Konfigurationseinstellungen und Tools für die Website.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups_Title" xml:space="preserve">
+	<value>Benutzer-Registrierungen zu ermöglichen</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups" xml:space="preserve">
+	<value>Aktivieren Sie diese Option, wenn Sie Menschen zu registrieren als neuer Benutzer zulassen möchten. Wenn deaktiviert, werden nur Admins neue Benutzer erstellen können.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups_Label" xml:space="preserve">
+	<value>Neuregistrierungen Benutzer zulassen</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Enable_Recaptcha_Description" xml:space="preserve">
+	<value>Wenn du Benutzer Anmeldungen zulässt, wird empfohlen, dass Sie auch Recaptcha-Unterstützung aktivieren. Dies ist ein kostenloses Anti-Spam-Bot-Dienst, sofern von Google, Sie zu registrieren benötigen und Ihren öffentlichen und privaten Schlüssel in die untenstehenden Felder kopieren. {BEGIN_RECAPTCHA_LINK}Hier anmelden{END_RECAPTCHA_LINK} - Sie benötigen ein Google-Konto erstellen.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Email_Title" xml:space="preserve">
+	<value>Admin-email</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Email" xml:space="preserve">
+	<value>Dies ist die e-Mail-Adresse für den Administratorbenutzer. Sie können weitere Admins der Seite &quot;Einstellungen&quot; hinzufügen, damit dieser Benutzer nicht &apos;die Website besitzt&quot;</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Password_Title" xml:space="preserve">
+	<value>Admin-Passwort</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Password" xml:space="preserve">
+	<value>Dies ist das Kennwort für den Administratorbenutzer.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Almost_Done" xml:space="preserve">
+	<value>Fast fertig...Schließlich einige zusätzliche herumzudrehen Einstellungen.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Attachments_Folder_Description" xml:space="preserve">
+	<value>Dies ist das Verzeichnis, in dem alle Dateien hochgeladen werden, auf. Dieses Verzeichnis wird vom Benutzer Schreibberechtigung benötigen, das der Anwendungspool ausgeführt wird. Die meiste Zeit, die du hättest nicht zu sorgen, die Berechtigungen für den Ordner ändern, wie sie vom übergeordneten Ordner geerbt werden. </value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Attachments_Folder_RelativePath" xml:space="preserve">
+	<value>Stellen Sie sicher der Pfad beginnt mit &quot;~ /&quot; für das Website-Stammverzeichnis. Prüfen Sie der Ordner zugegriffen werden kann, durch den Browser als auch das Wesen, wie z. B. App_Data Ordner beschreibbar und bin in geschrieben werden kann, sondern zeigt keine Bilder dort gespeichert. </value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Success_Title" xml:space="preserve">
+	<value>Installation erfolgreich</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_WindowsAuth_Please_Read" xml:space="preserve">
+	<value>Windows-Authentifizierung - Bitte lesen</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_WindowsAuth_IIS_Settings" xml:space="preserve">
+	<value>Wenn Sie IIS7 + möglicherweise müssen Sie die Datei web.config für Ihre Sicherheits-Setup konfigurieren verwenden, sind unten die Elemente, die erforderlich sind.Wenn Sie nach diesen Änderungen 500-Fehler erhalten, dann ist der Abschnitt auf einer übergeordneten Ebene gesperrt, und Sie müssen Thechanges über den IIS-Manager vornehmen.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Continue_Button" xml:space="preserve">
+	<value>Weiter zur Website</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Failure_Title" xml:space="preserve">
+	<value>Während der Installation ist ein Fehler aufgetreten.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Failure_GoBack_And_Check" xml:space="preserve">
+	<value>Bitte gehen Sie durch die Installationsschritte zurück und überprüfen Sie Ihre Einstellungen. Die Fehlermeldung war:</value>
+	<comment>Fuzzy</comment>
+</data>
+
+</root>

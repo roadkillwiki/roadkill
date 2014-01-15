@@ -1,0 +1,910 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="data">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" minOccurs="0"                     msdata:Ordinal="2" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="type" type="xsd:string" />
+        <xsd:attribute name="mimetype" type="xsd:string" />
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="Navigation_Login" xml:space="preserve">
+	<value>Login</value>
+</data>
+<data name="Navigation_Logout" xml:space="preserve">
+	<value>Sair</value>
+</data>
+<data name="Navigation_Register" xml:space="preserve">
+	<value>Registrar</value>
+</data>
+<data name="Navigation_MainPage" xml:space="preserve">
+	<value>Página Principal</value>
+</data>
+<data name="Navigation_Categories" xml:space="preserve">
+	<value>Categorias</value>
+</data>
+<data name="Navigation_AllPages" xml:space="preserve">
+	<value>Todas as páginas</value>
+</data>
+<data name="Navigation_NewPage" xml:space="preserve">
+	<value>Nova página</value>
+</data>
+<data name="Navigation_SiteSettings" xml:space="preserve">
+	<value>Configurações do site</value>
+</data>
+<data name="Navigation_Edit" xml:space="preserve">
+	<value>Editar</value>
+</data>
+<data name="Navigation_Delete" xml:space="preserve">
+	<value>Excluir</value>
+</data>
+<data name="Navigation_History" xml:space="preserve">
+	<value>História</value>
+</data>
+<data name="Navigation_ViewHistory" xml:space="preserve">
+	<value>Ver História</value>
+</data>
+<data name="Button_Login" xml:space="preserve">
+	<value>Login</value>
+</data>
+<data name="Button_Cancel" xml:space="preserve">
+	<value>Cancelar</value>
+</data>
+<data name="Button_Save" xml:space="preserve">
+	<value>Salvar</value>
+</data>
+<data name="Button_Preview" xml:space="preserve">
+	<value>Visualização</value>
+</data>
+<data name="Button_Import" xml:space="preserve">
+	<value>Importar</value>
+</data>
+<data name="Button_Rename" xml:space="preserve">
+	<value>Rebatizar</value>
+</data>
+<data name="Button_Upload" xml:space="preserve">
+	<value>Carregar</value>
+</data>
+<data name="Button_Search" xml:space="preserve">
+	<value>Pesquisar</value>
+</data>
+<data name="Shared_EditLink" xml:space="preserve">
+	<value>Editar</value>
+</data>
+<data name="Shared_DeleteLink" xml:space="preserve">
+	<value>Excluir</value>
+</data>
+<data name="Shared_ConfirmLink" xml:space="preserve">
+	<value>Confirmar</value>
+</data>
+<data name="Shared_NotLoggedIn" xml:space="preserve">
+	<value>Você não está logado</value>
+</data>
+<data name="Shared_LoggedInAs" xml:space="preserve">
+	<value>Logado como</value>
+</data>
+<data name="Shared_LastModified" xml:space="preserve">
+	<value>Esta página foi modificada pela última vez</value>
+</data>
+<data name="Shared_PoweredBy" xml:space="preserve">
+	<value>Desenvolvido por Roadkill Wiki</value>
+</data>
+<data name="Shared_Firstname_Label" xml:space="preserve">
+	<value>Nome:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Shared_Lastname_Label" xml:space="preserve">
+	<value>Apelido:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Shared_Username_Label" xml:space="preserve">
+	<value>Usuário:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Shared_Email_Label" xml:space="preserve">
+	<value>Email:</value>
+</data>
+<data name="Shared_Password_Label" xml:space="preserve">
+	<value>Senha:</value>
+</data>
+<data name="Shared_PasswordConfirm_Label" xml:space="preserve">
+	<value>Confirmar senha:</value>
+</data>
+<data name="Shared_Error" xml:space="preserve">
+	<value>Ocorreu um erro:</value>
+</data>
+<data name="User_Validation_Username" xml:space="preserve">
+	<value>O campo nome de usuário é necessária.</value>
+</data>
+<data name="User_Validation_Email" xml:space="preserve">
+	<value>O campo e-mail é necessária.</value>
+</data>
+<data name="User_Validation_Email_Check" xml:space="preserve">
+	<value>O campo email não contém um e-mail válido.</value>
+</data>
+<data name="User_Validation_UsernameExists" xml:space="preserve">
+	<value>O nome de usuário {0} já existe.</value>
+</data>
+<data name="User_Validation_UsernameEmpty" xml:space="preserve">
+	<value>O O nome de usuário está vazio.</value>
+</data>
+<data name="User_Validation_EmailExists" xml:space="preserve">
+	<value>O e-mail {0} já existe.</value>
+</data>
+<data name="User_Validation_PasswordsDontMatch" xml:space="preserve">
+	<value>As senhas não coincidem.</value>
+</data>
+<data name="User_Validation_PasswordTooShort" xml:space="preserve">
+	<value>A senha é menor do que {0} caracteres</value>
+</data>
+<data name="Login_Title" xml:space="preserve">
+	<value>Login</value>
+</data>
+<data name="Login_ForgottenPassword" xml:space="preserve">
+	<value>Esqueceu sua senha?</value>
+</data>
+<data name="Login_Unsuccessful_Title" xml:space="preserve">
+	<value>Entrar não foi bem sucedida</value>
+</data>
+<data name="Login_Error" xml:space="preserve">
+	<value>O nome de usuário / senha está incorreta</value>
+</data>
+<data name="Signup_Title" xml:space="preserve">
+	<value>Cadastre / Registre-se</value>
+</data>
+<data name="Signup_Label" xml:space="preserve">
+	<value>Por favor, indique-lhe os detalhes abaixo.</value>
+</data>
+<data name="Button_Signup" xml:space="preserve">
+	<value>Registrar novo usuário</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Signup_Complete_Title" xml:space="preserve">
+	<value>Registre-se completa.</value>
+</data>
+<data name="Signup_Complete_Label" xml:space="preserve">
+	<value>Obrigado, um email foi enviado para {0} com detalhes sobre como concluir a inscrição.</value>
+</data>
+<data name="Signup_Complete_NoEmail" xml:space="preserve">
+	<value>Não recebi seu e-mail?</value>
+</data>
+<data name="Signup_Complete_EmailResent" xml:space="preserve">
+	<value>O e-mail de confirmação foi reenviado.</value>
+</data>
+<data name="Button_Signup_Complete_EmailResend" xml:space="preserve">
+	<value>Reenviar e-mail de confirmação</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Signup_Error_General" xml:space="preserve">
+	<value>Ocorreu um erro com a inscrição.</value>
+</data>
+<data name="Signup_Error_Recaptcha" xml:space="preserve">
+	<value>As duas palavras para a caixa de anti-spam estão incorretos</value>
+</data>
+<data name="Activate_Title" xml:space="preserve">
+	<value>Ativação de Conta</value>
+</data>
+<data name="Activate_Success_Title" xml:space="preserve">
+	<value>Ativação bem-sucedida</value>
+</data>
+<data name="Activate_Error_Title" xml:space="preserve">
+	<value>Ativação não foi bem sucedida</value>
+</data>
+<data name="Activate_Label" xml:space="preserve">
+	<value>Sua conta foi ativada com sucesso.</value>
+</data>
+<data name="Activate_Link" xml:space="preserve">
+	<value>Clique aqui para acessar</value>
+</data>
+<data name="Activate_Error" xml:space="preserve">
+	<value>Houve um problema na ativação de sua conta. Ele já pode ter sido ativado.</value>
+</data>
+<data name="ResetPassword_Title" xml:space="preserve">
+	<value>Redefinir sua senha.</value>
+</data>
+<data name="ResetPassword_Label" xml:space="preserve">
+	<value>Digite seu email abaixo para redefinir sua senha. Você receberá um e-mail com um link para redefinir sua senha.</value>
+</data>
+<data name="ResetPassword_Complete_Label" xml:space="preserve">
+	<value>Por favor insira sua nova senha.</value>
+</data>
+<data name="Button_ResetPassword" xml:space="preserve">
+	<value>Redefinir a senha</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="ResetPassword_Successful_Title" xml:space="preserve">
+	<value>Redefinir a senha de sucesso.</value>
+</data>
+<data name="ResetPassword_Successful_Label" xml:space="preserve">
+	<value>Sua senha foi sucessfully repor.</value>
+</data>
+<data name="ResetPassword_Invalid_Title" xml:space="preserve">
+	<value>Redefinir senha inválida.</value>
+</data>
+<data name="ResetPassword_Invalid_Label" xml:space="preserve">
+	<value>A chave de redefinição de senha não é mais válida.</value>
+</data>
+<data name="ResetPassword_EmailSent_Title" xml:space="preserve">
+	<value>Sua senha pedido de redefinição foi enviado.</value>
+</data>
+<data name="ResetPassword_EmailSent_Label" xml:space="preserve">
+	<value>Obrigado, um email foi enviado para {0} com detalhes sobre como redefinir sua senha.</value>
+</data>
+<data name="ResetPassword_Error" xml:space="preserve">
+	<value>As senhas não são iguais, ou são muito curtos</value>
+</data>
+<data name="ResetPassword_Error_ServerError" xml:space="preserve">
+	<value>A redefinição de senha não a partir de um erro do servidor.</value>
+</data>
+<data name="ResetPassword_Error_EmailNotFound" xml:space="preserve">
+	<value>O endereço de e-mail não pôde ser encontrado</value>
+</data>
+<data name="ResetPassword_Error_MissingEmail" xml:space="preserve">
+	<value>Por favor insira um endereço de e-mail</value>
+</data>
+<data name="Profile_Title" xml:space="preserve">
+	<value>Perfil</value>
+</data>
+<data name="Profile_Error" xml:space="preserve">
+	<value>Ocorreu um erro ao atualizar o seu perfil</value>
+</data>
+<data name="NoMainPage_Title" xml:space="preserve">
+	<value>Você não definiu mainpage</value>
+</data>
+<data name="NoMainPage_Label" xml:space="preserve">
+	<value>Para definir uma página, crie uma página e atribuir &apos;homepage&apos; do tag a ele.</value>
+</data>
+<data name="Search_PlaceHolder" xml:space="preserve">
+	<value>Digite o texto a ser pesquisado</value>
+</data>
+<data name="Search_Results" xml:space="preserve">
+	<value>Resultados da busca por &apos;{0}&apos;</value>
+</data>
+<data name="Search_NoResults" xml:space="preserve">
+	<value>Sua busca &apos;{0}&apos; não encontrou nenhum páginas</value>
+</data>
+<data name="AllPages_Title" xml:space="preserve">
+	<value>Todas as páginas</value>
+</data>
+<data name="AllPages_NoPages" xml:space="preserve">
+	<value>Nenhum resultado foi encontrado.</value>
+</data>
+<data name="AllTags_Title" xml:space="preserve">
+	<value>Todas as Etiquetas</value>
+</data>
+<data name="AllTags_NoResults" xml:space="preserve">
+	<value>Nenhuma tag encontrada.</value>
+</data>
+<data name="AllPages_TitleColumnHeading" xml:space="preserve">
+	<value>Título</value>
+</data>
+<data name="Pages_ForUser" xml:space="preserve">
+	<value>Todas as páginas criadas por {0}</value>
+</data>
+<data name="Pages_ForUser_NoPages" xml:space="preserve">
+	<value>{0} não criou nenhuma página ainda.</value>
+</data>
+<data name="Pages_ForTag" xml:space="preserve">
+	<value>Todas as páginas de tag {0}</value>
+</data>
+<data name="Pages_ForTag_NoPages" xml:space="preserve">
+	<value>Não há páginas para {0}</value>
+</data>
+<data name="History_Title" xml:space="preserve">
+	<value>Histórico da página</value>
+</data>
+<data name="History_Version" xml:space="preserve">
+	<value>Versão</value>
+</data>
+<data name="History_EditedOn" xml:space="preserve">
+	<value>Editado em</value>
+</data>
+<data name="History_EditedBy" xml:space="preserve">
+	<value>Editado por</value>
+</data>
+<data name="History_RevertLink" xml:space="preserve">
+	<value>Reverter</value>
+</data>
+<data name="Version_Title" xml:space="preserve">
+	<value>Versão {0}</value>
+</data>
+<data name="Version_BackLink" xml:space="preserve">
+	<value>de volta</value>
+</data>
+<data name="Page_Info_CreatedOn" xml:space="preserve">
+	<value>Criado em:</value>
+</data>
+<data name="Page_Info_CreatedBy" xml:space="preserve">
+	<value>Criado por:</value>
+</data>
+<data name="Page_Info_ModifiedOn" xml:space="preserve">
+	<value>Última modificação em:</value>
+</data>
+<data name="Page_Info_ModifiedBy" xml:space="preserve">
+	<value>Última modificação por:</value>
+</data>
+<data name="Page_Validation_Title" xml:space="preserve">
+	<value>O campo de título é obrigatório.</value>
+</data>
+<data name="EditPage_Title" xml:space="preserve">
+	<value>Adicionar / Editar página</value>
+</data>
+<data name="EditPage_Title_Label" xml:space="preserve">
+	<value>Título</value>
+</data>
+<data name="EditPage_Tags_Label" xml:space="preserve">
+	<value>Marcações</value>
+</data>
+<data name="EditPage_AdminOnly" xml:space="preserve">
+	<value>Esta página só pode ser editada por administradores.</value>
+</data>
+<data name="EditPage_Preview" xml:space="preserve">
+	<value>Visualização</value>
+</data>
+<data name="EditPage_LinkUrl_PlaceHolder" xml:space="preserve">
+	<value>inserir url ou nome da página</value>
+</data>
+<data name="EditPage_LinkText_PlaceHolder" xml:space="preserve">
+	<value>O texto do link</value>
+</data>
+<data name="EditPage_Image_Title" xml:space="preserve">
+	<value>Título da Imagem</value>
+</data>
+<data name="EditPage_Error" xml:space="preserve">
+	<value>Não foi possível salvar a página:</value>
+</data>
+<data name="EditPage_Toolbar_Bold" xml:space="preserve">
+	<value>Inserir caracteres de marcação de texto em negrito.</value>
+</data>
+<data name="EditPage_Toolbar_BulletList" xml:space="preserve">
+	<value>Insira bala caracteres de marcação da lista.</value>
+</data>
+<data name="EditPage_Toolbar_Heading2" xml:space="preserve">
+	<value>Insira Rubrica 2 caracteres de marcação de nível.</value>
+</data>
+<data name="EditPage_Toolbar_Heading3" xml:space="preserve">
+	<value>Insira rubrica 3 caracteres de marcação de nível.</value>
+</data>
+<data name="EditPage_Toolbar_Heading4" xml:space="preserve">
+	<value>Insira rubrica 4 caracteres de marcação de nível.</value>
+</data>
+<data name="EditPage_Toolbar_Heading5" xml:space="preserve">
+	<value>Insira Rubrica 5 caracteres de marcação de nível.</value>
+</data>
+<data name="EditPage_Toolbar_Help" xml:space="preserve">
+	<value>Ver Ajuda de referência para a sintaxe de marcação.</value>
+</data>
+<data name="EditPage_Toolbar_Image" xml:space="preserve">
+	<value>Insira caracteres de marcação de imagem.</value>
+</data>
+<data name="EditPage_Toolbar_Italic" xml:space="preserve">
+	<value>Insira caracteres de marcação Itálico.</value>
+</data>
+<data name="EditPage_Toolbar_Link" xml:space="preserve">
+	<value>Inserir URL caracteres de marcação ligação.</value>
+</data>
+<data name="EditPage_Toolbar_NumberList" xml:space="preserve">
+	<value>Insira caracteres de marcação lista numerada.</value>
+</data>
+<data name="EditPage_Toolbar_Underline" xml:space="preserve">
+	<value>Insira Sublinhado caracteres de marcação.</value>
+</data>
+<data name="SiteSettings_Configuration" xml:space="preserve">
+	<value>Configuração</value>
+</data>
+<data name="SiteSettings_UserManagement" xml:space="preserve">
+	<value>Usuários</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_Tools" xml:space="preserve">
+	<value>Ferramentas</value>
+</data>
+<data name="SiteSettings_Configuration_Title" xml:space="preserve">
+	<value>Definições do Site</value>
+</data>
+<data name="SiteSettings_Configuration_Site" xml:space="preserve">
+	<value>Local</value>
+</data>
+<data name="SiteSettings_Configuration_SiteName" xml:space="preserve">
+	<value>Nome do site</value>
+</data>
+<data name="SiteSettings_Configuration_SiteUrl" xml:space="preserve">
+	<value>URL do site</value>
+</data>
+<data name="SiteSettings_Configuration_Database" xml:space="preserve">
+	<value>Banco de dados</value>
+</data>
+<data name="SiteSettings_Configuration_DatabaseType" xml:space="preserve">
+	<value>Tipo de banco de dados</value>
+</data>
+<data name="SiteSettings_Configuration_DatabaseConnectionString" xml:space="preserve">
+	<value>String de conexão do banco de dados</value>
+</data>
+<data name="SiteSettings_Configuration_Security" xml:space="preserve">
+	<value>Segurança</value>
+</data>
+<data name="SiteSettings_Configuration_UseWindowsAuth" xml:space="preserve">
+	<value>Usar Autenticação do Windows</value>
+</data>
+<data name="SiteSettings_Configuration_AllowUserSignups" xml:space="preserve">
+	<value>Permitir cadastros de usuários</value>
+</data>
+<data name="SiteSettings_Configuration_EnableRecaptcha" xml:space="preserve">
+	<value>Ativar recaptcha</value>
+</data>
+<data name="SiteSettings_Configuration_RecaptchaPrivateKey" xml:space="preserve">
+	<value>Código chave privada</value>
+</data>
+<data name="SiteSettings_Configuration_RecaptchaPublicKey" xml:space="preserve">
+	<value>Código de chave pública</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Connection" xml:space="preserve">
+	<value>Autenticação / string de conexão LDAP</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Username" xml:space="preserve">
+	<value>LDAP nome de usuário</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Password" xml:space="preserve">
+	<value>Senha LDAP</value>
+</data>
+<data name="SiteSettings_Configuration_EditorRole" xml:space="preserve">
+	<value>Função de Editor / nome do grupo de segurança</value>
+</data>
+<data name="SiteSettings_Configuration_AdminRole" xml:space="preserve">
+	<value>Função admin / o nome do grupo de segurança</value>
+</data>
+<data name="SiteSettings_Configuration_General" xml:space="preserve">
+	<value>Geral</value>
+</data>
+<data name="SiteSettings_Configuration_MarkupType" xml:space="preserve">
+	<value>Markup tipo</value>
+</data>
+<data name="SiteSettings_Configuration_Theme" xml:space="preserve">
+	<value>Tema</value>
+</data>
+<data name="SiteSettings_Configuration_Attachments" xml:space="preserve">
+	<value>Pasta Anexos</value>
+</data>
+<data name="SiteSettings_Configuration_Extensions" xml:space="preserve">
+	<value>Extensões permitidas</value>
+</data>
+<data name="SiteSettings_Configuration_CachingTitle" xml:space="preserve">
+	<value>Caching</value>
+</data>
+<data name="SiteSettings_Configuration_ObjectCaching" xml:space="preserve">
+	<value>Cache de objetos</value>
+</data>
+<data name="SiteSettings_Configuration_BrowserCaching" xml:space="preserve">
+	<value>O cache do navegador</value>
+</data>
+<data name="SiteSettings_Configuration_Error" xml:space="preserve">
+	<value>Não foi possível salvar as configurações</value>
+</data>
+<data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
+	<value>(Esta chave não é mais usado. Para ser removido na versão 2.0)</value>
+</data>
+<data name="SiteSettings_Configuration_SiteName_Help" xml:space="preserve">
+	<value>O nome do local, que é utilizado em certos temas.</value>
+</data>
+<data name="SiteSettings_Configuration_SiteUrl_Help" xml:space="preserve">
+	<value>A url do site, que é usado na inscrição e redefinir e-mails de senha. Não inclua a barra.</value>
+</data>
+<data name="SiteSettings_Configuration_ConnectionStrings_Help" xml:space="preserve">
+	<value>Altera o tipo de banco de dados - você vai precisar recriar o esquema nas ferramentas para que isso funcione corretamente.</value>
+</data>
+<data name="SiteSettings_Configuration_DatabaseType_Help" xml:space="preserve">
+	<value>Altera o tipo de banco de dados - você vai precisar recriar o esquema nas ferramentas para que isso funcione corretamente.</value>
+</data>
+<data name="SiteSettings_Configuration_DatabaseConnectionString_Help" xml:space="preserve">
+	<value>A seqüência de conexão de dados.</value>
+</data>
+<data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
+	<value>{bold}AVISO{/bold} mudança pode bloqueá-lo do site. Faça um backup do seu web.config primeiro antes de salvar. {br} Define se para usar a autenticação do Windows e Active Directory para autenticação.</value>
+</data>
+<data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
+	<value>Marque esta opção se você quiser permitir que as pessoas para se cadastrar como novos usuários.</value>
+</data>
+<data name="SiteSettings_Configuration_EnableRecaptcha_Help" xml:space="preserve">
+	<value>Ativar o suporte Código - um serviço anti-spam bot livre. Você precisa de inscrição e copiar a chave pública e privada nos campos abaixo.</value>
+</data>
+<data name="SiteSettings_Configuration_RecaptchaPrivateKey_Help" xml:space="preserve">
+	<value>A chave privada para o Código, que é fornecido quando você inscrição com recaptcha.</value>
+</data>
+<data name="SiteSettings_Configuration_RecaptchaPublicKey_Help" xml:space="preserve">
+	<value>A chave pública para o Código, que é fornecido quando você inscrição com recaptcha.</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Connection_Help" xml:space="preserve">
+	<value>A seqüência de conexão LDAP para o connection.This Active Directory deve estar no formato LDAP :/ / mydc01.company.internal (deve ser maiúscula LDAP).</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Username_Help" xml:space="preserve">
+	<value>O nome de usuário para autenticar no Active Directory com. Deixe em branco se o pool de aplicativo está sendo executado sob um usuário com essa permissão.</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Password_Help" xml:space="preserve">
+	<value>A senha usada para autenticação.</value>
+</data>
+<data name="SiteSettings_Configuration_EditorRole_Help" xml:space="preserve">
+	<value>Este é o nome da função de editor - pessoas que podem editar e criar páginas. Isto é usado apenas para Active Directory / autenticação Windows - deixar em branco para permitir que todos os usuários sejam editores.</value>
+</data>
+<data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
+	<value>{bold}AVISO{/bold} mudança pode bloqueá-lo do local, quando usando o Active Directory / autenticação do Windows. Faça um backup do seu web.config primeiro antes de salvar. {br} Este é o nome da função de administrador. Administradores têm os mesmos direitos que os editores, mas também ter acesso a configurações e ferramentas para o site.</value>
+</data>
+<data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
+	<value>Este é o formato de marcação, que é utilizada. Roadkill atualmente suporta os seguintes valores: crioulo, Markdown, Mediawiki.</value>
+</data>
+<data name="SiteSettings_Configuration_Theme_Help" xml:space="preserve">
+	<value>Este é o tema que o site usa. Isso deve corresponder a um nome da pasta no diretório Themes.</value>
+</data>
+<data name="SiteSettings_Configuration_Attachments_Help" xml:space="preserve">
+	<value>Este é o diretório onde todos os arquivos são enviados para. Esta configuração deve começar com ~ / para indicar a pasta raiz do site.</value>
+</data>
+<data name="SiteSettings_Configuration_Extensions_Help" xml:space="preserve">
+	<value>Estas são as extensões de arquivos que podem ser enviados, separados por vírgulas.</value>
+</data>
+<data name="SiteSettings_Configuration_ObjectCaching_Help" xml:space="preserve">
+	<value>Permite o armazenamento em cache de objetos. Roadkill armazena todas as páginas e conteúdo na memória após recuperá-lo a partir do banco de dados. O cache é atualizado automaticamente quando uma página mudanças. Recomendado para aumentar a capacidade de resposta do site. Cache de objetos não é suportado para jardins web ou fazendas web.</value>
+</data>
+<data name="SiteSettings_Configuration_BrowserCaching_Help" xml:space="preserve">
+	<value>Permite o armazenamento em cache do navegador. Isto irá dizer ao navegador para páginas de cache Roadkill, e verificar se há atualizações (If-Modified-Since) cada vez que a página é carregada. Se nenhuma atualização for encontrada, nenhum conteúdo é retornado do servidor. Recomendado para aumentar a capacidade de resposta do site.</value>
+</data>
+<data name="SiteSettings_Configuration_Caching_Help" xml:space="preserve">
+	<value>(Esta chave não é mais usado. Para ser removido na versão 2.0)</value>
+</data>
+<data name="SiteSettings_Configuration_CachePageText_Help" xml:space="preserve">
+	<value>(Esta chave não é mais usado. Para ser removido na versão 2.0)</value>
+</data>
+<data name="SiteSettings_UserManagement_Title" xml:space="preserve">
+	<value>Os usuários do site</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_ColumnHeader_Username" xml:space="preserve">
+	<value>Usuário</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_ColumnHeader_Email" xml:space="preserve">
+	<value>Email</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_Admins" xml:space="preserve">
+	<value>Administradores</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_NewAdmin" xml:space="preserve">
+	<value>Novo usuário admin</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_Editors" xml:space="preserve">
+	<value>Editores</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_NewEditor" xml:space="preserve">
+	<value>Novo usuário editor</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AddAdmin_Title" xml:space="preserve">
+	<value>Adicionar administrador</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AddEditor_Title" xml:space="preserve">
+	<value>Adicionar editor</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_EditUser_Title" xml:space="preserve">
+	<value>Editar usuário</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AddUser_Help" xml:space="preserve">
+	<value>Para os usuários existentes, deixar os campos de senha em branco para mudar apenas o nome de usuário.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AddUser_Error" xml:space="preserve">
+	<value>Não foi possível salvar os detalhes do usuário:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_EditUser_Error" xml:space="preserve">
+	<value>Atualizando o usuário falhou.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AD_Title" xml:space="preserve">
+	<value>Autenticação / Active Directory do Windows estiver habilitado</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AD_Label1" xml:space="preserve">
+	<value>Os nomes de usuário e senhas não são editáveis ​​com a autenticação do Windows - você deve fazer isso por meio do Active Directory.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AD_Label2" xml:space="preserve">
+	<value>Para adicionar um usuário como administrador ou editor, certifique-se que eles fazem parte do grupo de segurança do Windows que você especificou para a &quot;AdminRolename&quot; e as configurações de &quot;EditorRolename&quot; no web.config.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_Tools_Title" xml:space="preserve">
+	<value>Ferramentas do Site</value>
+</data>
+<data name="SiteSettings_Tools_ClearDatabase" xml:space="preserve">
+	<value>Limpar o banco de dados</value>
+</data>
+<data name="SiteSettings_Tools_ClearDatabase_Label" xml:space="preserve">
+	<value>Limpa todas as páginas e textos do banco de dados. Isso não remove todos os usuários.</value>
+</data>
+<data name="SiteSettings_Tools_ClearDatabase_Message" xml:space="preserve">
+	<value>Banco de dados limpo</value>
+</data>
+<data name="SiteSettings_Tools_RebuildSearch" xml:space="preserve">
+	<value>Reconstruir índice de pesquisa</value>
+</data>
+<data name="SiteSettings_Tools_RebuildSearch_Label" xml:space="preserve">
+	<value>Força uma re-construção do índice de busca da página, útil se a busca começa a ficar fora de sincronia, por qualquer motivo.</value>
+</data>
+<data name="SiteSettings_Tools_RebuildSearch_Message" xml:space="preserve">
+	<value>Reconstruir do índice de busca completo</value>
+</data>
+<data name="SiteSettings_Tools_ExportXml" xml:space="preserve">
+	<value>Exportar para XML</value>
+</data>
+<data name="SiteSettings_Tools_ExportXml_Label" xml:space="preserve">
+	<value>Exporta todo o conteúdo texto da página e toda a história em um único arquivo XML.</value>
+</data>
+<data name="SiteSettings_Tools_ExportXml_Error" xml:space="preserve">
+	<value>Exportando para XML falhou: {0}</value>
+</data>
+<data name="SiteSettings_Tools_ExportContent" xml:space="preserve">
+	<value>Exportar todos os conteúdos como um zip</value>
+</data>
+<data name="SiteSettings_Tools_ExportContent_Label" xml:space="preserve">
+	<value>Exporta todas as páginas, incluindo conteúdo de texto como uma série de arquivos &quot;. Wiki&quot;. Apenas o conteúdo e as tags corrente estão incluídos, sem história é fornecido. Este arquivo zip não inclui a pasta de anexos.</value>
+</data>
+<data name="SiteSettings_Tools_ExportContent_Error" xml:space="preserve">
+	<value>Wiki conteúdo exportação falhou: {0}</value>
+</data>
+<data name="SiteSettings_Tools_ExportAttachments" xml:space="preserve">
+	<value>Exportar anexos como um zip</value>
+</data>
+<data name="SiteSettings_Tools_ExportAttachments_Label" xml:space="preserve">
+	<value>As exportações de todos os conteúdos da pasta de anexos e subpastas como um arquivo zip.</value>
+</data>
+<data name="SiteSettings_Tools_ExportAttachments_Error" xml:space="preserve">
+	<value>Anexos exportadores falhou: {0}</value>
+</data>
+<data name="SiteSettings_Tools_ScrewTurnImport" xml:space="preserve">
+	<value>Importar de ScrewTurn</value>
+</data>
+<data name="SiteSettings_Tools_ScrewTurnImport_Label" xml:space="preserve">
+	<value>Importações todo o conteúdo de um banco de dados ScrewTurn 2. Você precisará definir o markuptype para MediaWiki nas configurações / arquivo Web.config para o formato a ser compatível. Como ScrewTurn usa como variação da sintaxe MediaWiki, alguns conteúdos não tornará perfeitamente. Isto inclui algumas imagens e links.</value>
+</data>
+<data name="SiteSettings_Tools_ScrewTurnImport_Connection" xml:space="preserve">
+	<value>ScrewTurn string de conexão:</value>
+</data>
+<data name="SiteSettings_Tools_ScrewTurnImport_Message" xml:space="preserve">
+	<value>Importação bem sucedida</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag" xml:space="preserve">
+	<value>Renomear uma tag</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag_Label" xml:space="preserve">
+	<value>Isto irá renomear uma tag, e atualizar todas as páginas que fazem referência a tag para usar o novo tagname. O tagname é sensível a maiúsculas.</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag_Existing" xml:space="preserve">
+	<value>Existente tag:</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag_New" xml:space="preserve">
+	<value>Novo nome de tag:</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag_Message" xml:space="preserve">
+	<value>Tag renomear sucesso</value>
+</data>
+<data name="SiteSettings_Validation_AttachmentsEmpty" xml:space="preserve">
+	<value>A pasta de anexos está vazio.</value>
+</data>
+<data name="SiteSettings_Validation_AttachmentsReservedName" xml:space="preserve">
+	<value>&apos;~ / Arquivos &quot;é um caminho reservado, por favor, escolha outra pasta anexos.</value>
+</data>
+<data name="SiteSettings_Validation_ConnectionEmpty" xml:space="preserve">
+	<value>A seqüência de conexão está vazio.</value>
+</data>
+<data name="SiteSettings_Validation_MarkupTypeEmpty" xml:space="preserve">
+	<value>O tipo de marcação está vazio.</value>
+</data>
+<data name="SiteSettings_Validation_ThemeEmpty" xml:space="preserve">
+	<value>O tema está vazio.</value>
+</data>
+<data name="SiteSettings_Validation_SiteNameEmpty" xml:space="preserve">
+	<value>O nome do site é vazio.</value>
+</data>
+<data name="SiteSettings_Validation_SiteUrlEmpty" xml:space="preserve">
+	<value>A url do site é vazio.</value>
+</data>
+<data name="FileManager_Title" xml:space="preserve">
+	<value>Gerenciar arquivos</value>
+</data>
+<data name="FileManager_Upload" xml:space="preserve">
+	<value>Fazer upload de arquivos</value>
+</data>
+<data name="FileManager_AddFolder" xml:space="preserve">
+	<value>Nova pasta</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="FileManager_AddFolder_Cancel" xml:space="preserve">
+	<value>Cancelar nova pasta</value>
+</data>
+<data name="FileManager_Delete_File" xml:space="preserve">
+	<value>Excluir arquivo</value>
+</data>
+<data name="FileManager_Select" xml:space="preserve">
+	<value>Selecionar</value>
+</data>
+<data name="FileManager_Delete_Folder" xml:space="preserve">
+	<value>Excluir pasta</value>
+</data>
+<data name="FileManager_Delete_Confirm" xml:space="preserve">
+	<value>Tem certeza de que deseja excluir {0}?</value>
+</data>
+<data name="FileManager_Delete_Success" xml:space="preserve">
+	<value>{0} foi apagado com sucesso.</value>
+</data>
+<data name="FileManager_Delete_Error" xml:space="preserve">
+	<value>Ocorreu um erro ao excluir {0}</value>
+</data>
+<data name="FileManager_Error_DirectoryListing" xml:space="preserve">
+	<value>Ocorreu um erro ao obter a listagem de diretórios:</value>
+</data>
+<data name="FileManager_Error_DeleteFolder" xml:space="preserve">
+	<value>Ocorreu um erro ao excluir a pasta:</value>
+</data>
+<data name="FileManager_Error_DeleteFile" xml:space="preserve">
+	<value>Ocorreu um erro ao excluir o arquivo:</value>
+</data>
+<data name="FileManager_Error_CreateFolder" xml:space="preserve">
+	<value>Ocorreu um erro ao criar a pasta:</value>
+</data>
+<data name="FileManager_UploadingProgress" xml:space="preserve">
+	<value>Upload ...</value>
+</data>
+<data name="FileManager_Help" xml:space="preserve">
+	<value>Arraste arquivos aqui para fazer o upload. Dê um duplo clique para navegar por pastas</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="FileManager_Extension_Not_Supported" xml:space="preserve">
+	<value>Somente arquivos com a extensão {0} pode ser carregado.</value>
+</data>
+<data name="Homepage_Tagname" xml:space="preserve">
+	<value>página inicial</value>
+</data>
+<data name="SiteSettings_Configuration_HeadContent" xml:space="preserve">
+	<value>Conteúdo tag adicional cabeça</value>
+</data>
+<data name="SiteSettings_Configuration_FileManager" xml:space="preserve">
+	<value>Gerenciador de arquivos</value>
+</data>
+<data name="SiteSettings_Configuration_HeadContent_Help" xml:space="preserve">
+	<value>Qualquer HTML ou scripts adicionais que você inserir aqui será adicionado à tag {head} da página.</value>
+</data>
+<data name="SiteSettings_Configuration_NavMenu" xml:space="preserve">
+	<value>Menu à esquerda marcação</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_Configuration_NavMenu_Help" xml:space="preserve">
+	<value>O menu de navegação, que normalmente é no lado esquerdo, mas varia de acordo com o tema. Markup é aceito e deve ser feito no formato de remarcação seu wiki usa. Você também pode usar os seguintes símbolos que são substituídos por links (alguns dos quais podem estar vazio, se você não estiver logado): {MENUTOKENS}</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
+	<value>Substituir automaticamente os arquivos existentes no carregamento</value>
+</data>
+<data name="SiteSettings_Configuration_FileManager_OverwriteExisting_Help" xml:space="preserve">
+	<value>Marque esta opção se você quiser os nomes dos arquivos que já existem nos anexos pasta a ser automaticamente substituído.</value>
+</data>
+<data name="SiteSettings_Plugins_Title" xml:space="preserve">
+	<value>Plugins</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport" xml:space="preserve">
+	<value>Exportar como SQL</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport_Label" xml:space="preserve">
+	<value>Exporta o atual banco de dados como um único script SQL. Se você estiver usando MongoDB esta ação não faz nada.</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite" xml:space="preserve">
+	<value>Site público</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite_Help" xml:space="preserve">
+	<value>Quando desmarcada, todas as páginas são privadas e só podem ser vistos por usuários logados.</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors" xml:space="preserve">
+	<value>Ignorar erros de índice de pesquisa</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors_Help" xml:space="preserve">
+	<value>Quando selecionado, um erro é exibido quando uma página não seja indexado pelo motor de busca Lucene (ao criar ou atualizar uma página), em vez de ser ignorada.</value>
+</data>
+<data name="FileManager_Upload_FileAlreadyExists" xml:space="preserve">
+	<value>O arquivo &apos;{0}&apos; já existe.</value>
+</data>
+<data name="History_Help_Label" xml:space="preserve">
+	<value>Clique em um número de versão para comparar as mudanças com a versão antes.</value>
+</data>
+<data name="SiteSettings_Configuration_Required_Field" xml:space="preserve">
+	<value>Este campo é obrigatório.</value>
+</data>
+<data name="Button_Test" xml:space="preserve">
+	<value>Teste</value>
+</data>
+<data name="Shared_Success" xml:space="preserve">
+	<value>Sucesso!</value>
+</data>
+<data name="Shared_Failure" xml:space="preserve">
+	<value>Fracasso!</value>
+</data>
+<data name="DatabaseConnection_Success" xml:space="preserve">
+	<value>A conexão com o banco foi bem sucedida.</value>
+</data>
+<data name="DatabaseConnection_Failure" xml:space="preserve">
+	<value>Conexão do banco de dados falhou:</value>
+</data>
+<data name="Button_Add" xml:space="preserve">
+	<value>Adicionar</value>
+</data>
+<data name="Attachments_Folder_Success" xml:space="preserve">
+	<value>Sucesso! O diretório existe e pode ser gravado.</value>
+</data>
+<data name="Attachments_Folder_Failure" xml:space="preserve">
+	<value>Não foi possível escrever para o diretório de anexos:</value>
+</data>
+<data name="Shared_Unexpected_Error" xml:space="preserve">
+	<value>Algo deu errado</value>
+</data>
+<data name="Profile_Not_Available" xml:space="preserve">
+	<value>A autenticação do Windows estiver ativado, para que o perfil de usuário não está disponível.</value>
+</data>
+<data name="Profile_Password_Change_Successful" xml:space="preserve">
+	<value>A senha foi alterada com sucesso</value>
+</data>
+<data name="Profile_Details_Updated_Successfully" xml:space="preserve">
+	<value>Os detalhes do perfil foram atualizados com sucesso.</value>
+</data>
+<data name="Profile_Leave_Password_Blank" xml:space="preserve">
+	<value>Deixe os campos de senha em branco se você não quiser mudar a sua senha.</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Successful" xml:space="preserve">
+	<value>Todos os caches foram apuradas com sucesso.</value>
+</data>
+<data name="SiteSettings_Cache_Key_Format" xml:space="preserve">
+	<value>As chaves estão no formato:</value>
+</data>
+<data name="SiteSettings_Cache_Key_Column_Header" xml:space="preserve">
+	<value>Chave</value>
+</data>
+<data name="SiteSettings_Cache_Page_Cache" xml:space="preserve">
+	<value>Cache de página</value>
+</data>
+<data name="SiteSettings_Cache_Items_Cache" xml:space="preserve">
+	<value>Itens de cache</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Button" xml:space="preserve">
+	<value>Limpar cache</value>
+</data>
+<data name="SiteSettings_Configuration_Unable_To_Save" xml:space="preserve">
+	<value>Não foi possível salvar as configurações:</value>
+</data>
+<data name="SiteSettings_Configuration_Update_Successful" xml:space="preserve">
+	<value>As configurações foram atualizadas com sucesso.</value>
+</data>
+<data name="Recaptcha_Prompt" xml:space="preserve">
+	<value>Como uma medida anti-spam, por favor digite as duas palavras abaixo</value>
+</data>
+<data name="Button_Close" xml:space="preserve">
+	<value>Perto</value>
+</data>
+
+</root>

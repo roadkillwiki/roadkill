@@ -1,0 +1,144 @@
+﻿@model SettingsViewModel
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+@Url.InstallerScriptLink("step3WindowsAuth.js")
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		var messages =
+		{
+			successTitle: "@SiteStrings.Shared_Success",
+			successMessage: "@InstallStrings.Step3_AD_Connection_Success",
+			failureTitle: "@SiteStrings.Shared_Failure",
+			failureMessage: "@InstallStrings.Step3_AD_Connection_Error"
+		};
+
+		var wizard = new Roadkill.Web.Installer.InstallWizard();
+		var step3 = new Roadkill.Web.Installer.step3WindowsAuth(wizard, messages);
+		step3.bindButtons();
+		step3.configureValidation();
+	});
+</script>
+
+<form role="form" method="post" id="step3-form" action="@Url.Action("Step4", "Install")">
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.ConnectionString))
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.DataStoreTypeName))
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.SiteName))
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.SiteUrl))
+	@(Html.HiddenFor<SettingsViewModel, bool>(h => h.UseWindowsAuth))
+
+	<p>
+		@InstallStrings.Step3_AD_ConnectionString_Details
+	</p>
+	<p>
+		@Html.Raw(LocalizationTokens.ReplaceAdExplorer(InstallStrings.Step3_AD_ADExplorer_Details))
+	</p>
+	<p>
+		@InstallStrings.Step3_AD_Username_Password_Details
+	</p>
+
+	<!-- Connection string -->
+	<div class="form-group">
+		<fieldset>
+			<label for="LdapConnectionString">@InstallStrings.Step3_AD_ConnectionString_Title</label>
+
+			@Html.BootstrapTextBoxFor(s => s.LdapConnectionString, InstallStrings.Step3_AD_ConnectionString_Title)
+		</fieldset>
+	</div>
+
+	<!-- LDAP username string -->
+	<div class="form-group">
+		<fieldset>
+			<!-- LDAP username string -->
+			<label for="LdapUsername">@SiteStrings.Shared_Username_Label</label>
+
+			<div class="row">
+				<div class="col-xs-4">
+					@Html.BootstrapTextBoxFor(s => s.LdapUsername, SiteStrings.Shared_Username_Label)
+				</div>
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- LDAP password string -->
+	<div class="form-group">
+		<fieldset>
+			<label for="LdapPassword">@SiteStrings.Shared_Password_Label</label>
+
+			<div class="row">
+				<div class="col-xs-4">
+					@Html.BootstrapPasswordFor(s => s.LdapPassword, SiteStrings.Shared_Password_Label)
+				</div>
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Test LDAP connection string button -->
+	<div class="form-group">
+		<button id="testldap" class="btn btn-info test-button" type="button">
+			@SiteStrings.Button_Test
+			<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/button-loading.gif"))" border="0" alt="loading" /></span>
+		</button>
+	</div>
+
+	<!-- Editor name -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@InstallStrings.Step3_AD_Editor_GroupName_Title</legend>
+
+			<p>
+				@InstallStrings.Step3_AD_Editor_GroupName_Details
+			</p>
+
+			<div class="row">
+				<div class="col-xs-4">
+					@Html.BootstrapTextBoxFor(s => s.EditorRoleName, InstallStrings.Step3_AD_Editor_GroupName_Details)
+				</div>
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Test editor button -->
+	<div class="form-group">
+		<button id="testeditor" class="btn btn-info test-button" type="button">
+			@SiteStrings.Button_Test
+			<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/button-loading.gif"))" border="0" alt="loading" /></span>
+		</button>
+	</div>
+
+	<!-- Admin name -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@InstallStrings.Step3_AD_Admin_GroupName_Title</legend>
+
+			<p>
+				@InstallStrings.Step3_AD_Admin_GroupName_Details
+			</p>
+
+			<div class="row">
+				<div class="col-xs-4">
+					@Html.BootstrapTextBoxFor(s => s.AdminRoleName, InstallStrings.Step3_AD_Admin_GroupName_Details)
+				</div>
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Test admin button -->
+	<div class="form-group">
+		<button id="testadmin" class="btn btn-info test-button" type="button">
+			@SiteStrings.Button_Test
+			<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/button-loading.gif"))" border="0" alt="loading" /></span>
+		</button>
+	</div>
+</form>
+
+@section BottomButtons
+{
+	<div class="previous">
+		<a href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a>
+	</div>
+	<div class="continue">
+		<button type="submit" class="btn btn-success pull-right">@InstallStrings.Shared_NextButton</button>
+	</div>
+}

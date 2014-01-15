@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Roadkill Upgrade</title>
+	<link rel="shortcut icon" href="@Url.Content("~/Assets/Images/favicon.png")" />
+	@Url.ScriptLink("jquery/jquery-1.8.0.js")
+	@Url.CssBundle()
+	@Url.BootstrapCSS()
+	@Url.BootstrapJS()
+	<style type="text/css">
+		 #upgrade	{ 
+			font-family: 'Helvetica Neue',Arial,sans-serif;
+			letter-spacing: .01em;
+			font-size:14px;
+			width:1024px;
+			min-height:700px;
+			margin:auto;
+		}
+		body		{ text-align:center;margin:10px auto;}
+		#container	{ margin:50px 50px 20px 50px;width:900px;text-align:left; }
+	</style>
+</head>
+
+<body>
+<div id="upgrade">
+	<div style="text-align:left;margin-left:50px;">
+		<img src="@Url.Content("~/Assets/Images/roadkill.png")" alt="logo" />
+	</div>
+	<div id="container">
+		<br style="clear:both;" />
+		
+		<div class="page" id="page1">
+			@RenderBody()
+		</div>
+	</div>
+	<br class="clear" />
+</div>
+<div style="margin: -25px auto">
+	<img src="@Url.Content("~/Assets/Images/installer-ex-chicken.png")" border="0" alt="an ex-chicken" />	
+</div>
+</body>
+</html>

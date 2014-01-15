@@ -1,0 +1,142 @@
+﻿@model SettingsViewModel
+@{
+	Layout = "~/Views/Install/Layout.cshtml";
+}
+@Url.InstallerScriptLink("step2.js")
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		var messages =
+		{
+			dbSuccessTitle: "@SiteStrings.Shared_Success",
+			dbSuccessMessage: "@SiteStrings.DatabaseConnection_Success",
+			dbFailureTitle: "@SiteStrings.DatabaseConnection_Failure",
+
+			sqliteSuccessTitle: "@InstallStrings.Step2_SQLiteSuccessTitle",
+			sqliteSuccessMessage: "@InstallStrings.Step2_SQLiteSuccessMessage",
+			sqliteFailureTitle: "@InstallStrings.Step2_SQLiteFailureTitle",
+			sqliteFailureMessage: "@InstallStrings.Step2_SQLiteFailureMessage",
+		};
+
+		var wizard = new Roadkill.Web.Installer.InstallWizard();
+		var step2 = new Roadkill.Web.Installer.Step2(wizard, messages);
+		step2.bindButtons();
+	});
+</script>
+
+<p>
+	@InstallStrings.Step2_Intro
+</p>
+
+<form role="form" method="post" id="step2-form" action="@Url.Action("Step3","Install")">
+	<!-- Site name -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@SiteStrings.SiteSettings_Configuration_SiteName</legend>
+
+			<div class="form-group">
+				<label for="SiteName">@SiteStrings.SiteSettings_Configuration_SiteName_Help</label>
+				@Html.BootstrapTextBoxFor(s => s.SiteName, SiteStrings.SiteSettings_Configuration_SiteName_Help)
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Site url -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@SiteStrings.SiteSettings_Configuration_SiteUrl</legend>
+
+			<div class="form-group">
+				<label for="SiteUrl">@SiteStrings.SiteSettings_Configuration_SiteUrl_Help</label>
+				@Html.BootstrapTextBoxFor(s => s.SiteUrl, SiteStrings.SiteSettings_Configuration_SiteUrl_Help)
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- Database connection string -->
+	<div class="form-group">
+		<fieldset>
+			<legend>@SiteStrings.SiteSettings_Configuration_DatabaseConnectionString</legend>
+			<p>
+				@InstallStrings.Step2_ConnectionString_CreateDatabase
+			</p>
+
+			<!-- Example db connection strings collapsed table -->
+			<div class="form-group">
+				<a data-toggle="collapse" href="#connectionstrings-table">@InstallStrings.Step2_Example_ConnectionStrings ...</a>
+				<table id="connectionstrings-table" class="collapse table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>Database</th>
+							<th>Connection string</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>SQL Server Express</td>
+							<td class="example" data-dbtype="SqlServer2012">Database=roadkill;Server=.\SQLEXPRESS;uid=username;pwd=password;</td>
+						</tr>
+						<tr>
+							<td>SQL Server Express (integrated security)</td>
+							<td class="example" data-dbtype="SqlServer2012">Database=roadkill;Server=.\SQLEXPRESS;Integrated Security=SSPI</td>
+						</tr>
+						<tr>
+							<td>SQL Server App_Data file-based</td>
+							<td class="example" data-dbtype="SqlServer2012">Server=.\SQLExpress;AttachDbFilename=|DataDirectory|\roadkill.mdf;Integrated Security=True;User Instance=True</td>
+						</tr>
+						<tr>
+							<td>SQL Server Compact</td>
+							<td class="example" data-dbtype="SqlServerCe">Data Source=|DataDirectory|\roadkill.sdf;</td>
+						</tr>
+						<tr>
+							<td>SQLite (stored in the App_Data folder)</td>
+							<td class="example" data-dbtype="Sqlite">Data Source=|DataDirectory|\roadkill.sqlite;</td>
+						</tr>
+						<tr>
+							<td>MongoDB</td>
+							<td class="example" data-dbtype="MongoDB">mongodb://username:password@mongohq.com:10057/MyDatabaseName</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<!-- Database connection string -->
+			<div class="form-group">
+				<label>@SiteStrings.SiteSettings_Configuration_DatabaseConnectionString</label>
+				@Html.BootstrapTextBoxFor(s => s.ConnectionString, SiteStrings.SiteSettings_Configuration_ConnectionStrings_Help)
+			</div>
+
+			<!-- Database type -->
+			<div class="form-group">
+				<label>@SiteStrings.SiteSettings_Configuration_DatabaseType</label>
+				@Html.BootstrapDropDownListFor(s => s.DataStoreTypeName, Model.DatabaseTypesAsSelectList, SiteStrings.SiteSettings_Configuration_DatabaseType)
+			</div>
+
+			<!-- Test button -->
+			<div class="form-group">
+				<button id="testdbconnection" class="btn btn-info test-button" type="button">
+					@SiteStrings.Button_Test
+					<span id="db-loading" class="hidden"><img src="@(Url.Content("~/Assets/Images/button-loading.gif"))" border="0" alt="loading" /></span>
+				</button>
+			</div>
+		</fieldset>
+	</div>
+
+	<!-- SQLite info box -->
+	<div class="alert alert-warning">
+		<p id="sqlite-details">
+			<b>@InstallStrings.Step2_SQLiteInstructionsTitle</b><br />
+			@Html.Raw(LocalizationTokens.ReplaceSqlite(InstallStrings.Step2_SQLiteInstructionsMessage))
+		</p>
+	</div>
+</form>
+
+@section BottomButtons
+{
+	<div class="previous">
+		@Html.ActionLink("< " + InstallStrings.Shared_Back, "Index")
+	</div>
+	<div class="continue">
+		<button type="submit" class="btn btn-success pull-right">@InstallStrings.Shared_NextButton</button>
+	</div>
+}
