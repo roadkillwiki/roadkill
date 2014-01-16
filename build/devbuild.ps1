@@ -20,14 +20,14 @@
 $ErrorActionPreference = "Stop"
 $zipFilename = "Roadkill.devbuild.zip"
 
+# ---- Up to the root directory
+cd ..
+
 # ---- Add the tool paths to our path
 $runtimeDir = [System.Runtime.InteropServices.RuntimeEnvironment]::GetRuntimeDirectory()
 $env:Path = $env:Path + ";" +$runtimeDir
 $env:Path = $env:Path + ";C:\Program Files (x86)\IIS\Microsoft Web Deploy V3"
 $env:Path = $env:Path + ";C:\Program Files\7-Zip"
-
-# ---- Up to the root directory
-cd ..
 
 # ---- Make sure the roadkill.config,connectionstrings.config files are the download template one
 copy -Force lib\Configs\roadkill.download.config src\Roadkill.Web\roadkill.config
@@ -44,8 +44,7 @@ msdeploy -verb:sync -source:contentPath=$packageSource -dest:contentPath=$packag
 
 # ---- Copy licence + text files
 copy -Force textfiles\devbuild.txt _WEBSITE\
-copy -Force textfiles\licence.txt _WEBSITE\
-copy -Force textfiles\install.txt _WEBSITE\
+copy -Force textfiles\readme.txt _WEBSITE\
 
 # ---- Copy missing DLL dependencies that the publish doesn't add
 copy -Force lib\Microsoft.Web.Administration.dll _WEBSITE\bin

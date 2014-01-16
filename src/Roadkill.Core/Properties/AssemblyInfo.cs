@@ -34,5 +34,5 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("2.0.0.0")]
 [assembly: AssemblyFileVersion("2.0.0.0")]
-[assembly: AssemblyInformationalVersion("2.0.252-beta")]// Do not include spaces (as it's used by the Bundles)
+[assembly: AssemblyInformationalVersion("2.0.259")]// Do not include spaces (as it's used by the Bundles)
 [assembly: InternalsVisibleTo("Roadkill.Tests")]

@@ -6,16 +6,16 @@ Write-host "This script is TODO: Configuration=Mono is failing"
 exit 1
 
 $ErrorActionPreference = "Stop"
-$zipFileName = "Roadkill.mono.1.7.zip"
+$zipFileName = "Roadkill.mono.2.0.zip"
+
+# ---- Up to the root directory
+cd ..
 
 # ---- Add the tool paths to our path
 $runtimeDir = [System.Runtime.InteropServices.RuntimeEnvironment]::GetRuntimeDirectory()
 $env:Path = $env:Path + ";" +$runtimeDir
 $env:Path = $env:Path + ";C:\Program Files (x86)\IIS\Microsoft Web Deploy V3"
 $env:Path = $env:Path + ";C:\Program Files\7-Zip"
-
-# ---- Up to the root directory
-cd ..
 
 # ---- Make sure the roadkill.config,connectionstrings.config files are the download template one
 copy -Force lib\Configs\roadkill.download.config src\Roadkill.Web\roadkill.config
@@ -30,7 +30,8 @@ $packageSource = $currentDir +"\src\roadkill.Web\obj\Mono\Package\PackageTmp\"
 $packageDest = $currentDir + "\_WEBSITE"
 msdeploy -verb:sync -source:contentPath=$packageSource -dest:contentPath=$packageDest
 
-# ---- Copy licence + text files (skip)
+# ---- Copy licence
+copy -Force textfiles\licence.txt _WEBSITE\
 
 # ---- Delete files that don't work on Apache/Mono
 del _WEBSITE\bin\System.Web.dll
