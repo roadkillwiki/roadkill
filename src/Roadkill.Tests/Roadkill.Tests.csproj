@@ -484,6 +484,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <TypeScriptCompile Include="Javascript\editpage-tests.ts" />
+    <Content Include="Integration\windows-auth-testing.txt" />
     <Content Include="Javascript\qunit.d.ts" />
     <Content Include="Unit\Attachments\afile.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
