@@ -69,7 +69,12 @@ namespace Roadkill.Core.Converters
 			_repository = repository;
 			_applicationSettings = settings;
 
-			UrlResolver = new UrlResolver();		
+			// Create the UrlResolver for all wiki urls
+			HttpContextBase httpContext = null;
+			if (HttpContext.Current != null)
+				httpContext = new HttpContextWrapper(HttpContext.Current);
+
+			UrlResolver = new UrlResolver(httpContext);		
 	
 			if (!_applicationSettings.Installed || _applicationSettings.UpgradeRequired)
 			{
@@ -235,7 +240,6 @@ namespace Roadkill.Core.Converters
 		private void ConvertSpecialPageHrefToFullPath(LinkEventArgs e)
 		{
 			string href = e.OriginalHref;
-			string attachmentsPath = _applicationSettings.AttachmentsUrlPath;
 			e.Href = UrlResolver.ConvertToAbsolutePath("~/wiki/"+href);
 		}
 

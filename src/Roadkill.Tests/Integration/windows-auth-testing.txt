@@ -1,0 +1,21 @@
+=====TESTING WINDOWS AUTHENTICATION=====
+
+This can be done by creating a new Windows 2012 server and running into inside VirtualBox or on EC2.
+
+To setup the box from fresh and perform manual tests:
+
+Install IIS (including application support)
+Install Active Directory Domain Services, call your domain Contoso.com (you'll need a new forest).
+The two user groups are RoadkillEditors, RoadkillAdmins. I then setup two users to belong to each:
+BobAdmin - RoadkillAdmins
+EricEditor - RoadkillEditors
+
+Logout and login as both of these users to test they add pages and administer the site. If using a remote server, add
+these two users to the Administrators group to enable remote desktop access.
+
+The Roadkill ldap settings are then:
+-	ldapConnectionString: LDAP://contoso.com
+-	ldapUsername: administrator
+-	ldapPassword: Passw0rd
+
+Use SQLite for the database.
