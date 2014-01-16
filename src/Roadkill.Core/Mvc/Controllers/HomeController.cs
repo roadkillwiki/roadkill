@@ -77,6 +77,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		/// <param name="version">This is sent by the views to ensure new versions of Roadkill have this JS file cleared from the cache.</param>
 		[CacheContentType(Duration = 86400 * 30, ContentType = "application/javascript")] // 30 days
+		[AllowAnonymous]
 		public ActionResult GlobalJsVars(string version)
 		{
 			return View();
@@ -85,6 +86,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// Displays the left side menu view, including new page/settings if logged in.
 		/// </summary>
+		[AllowAnonymous]
 		public ActionResult NavMenu()
 		{
 			return Content(PageService.GetMenu(Context));
@@ -93,17 +95,18 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// Displays the a Bootstrap-styled left side menu view, including new page/settings if logged in.
 		/// </summary>
+		[AllowAnonymous]
 		public ActionResult BootstrapNavMenu()
 		{
 			return Content(PageService.GetBootStrapNavMenu(Context));
 		}
-
 		
 		/// <summary>
 		/// Legacy action - use NavMenu().
 		/// </summary>
 		/// <returns></returns>
 		[Obsolete]
+		[AllowAnonymous]
 		public ActionResult LeftMenu()
 		{
 			return Content(PageService.GetMenu(Context));
