@@ -240,7 +240,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			string menuMarkup = "* [First link](http://www.google.com)\r\n";
-			string expectedHtml = "<ul><li><a href=\"http://www.google.com\">First link</a></li></ul>";
+			string expectedHtml = "<ul><li><a href=\"http://www.google.com\" rel=\"nofollow\" class=\"external-link\">First link</a></li></ul>";
 
 			RepositoryMock repository = new RepositoryMock();
 			repository.SiteSettings = new SiteSettings();
