@@ -930,11 +930,9 @@ namespace Roadkill.Core.Converters
 
 				LinkEventArgs args = new LinkEventArgs(url, url, linkText, "");
 				OnLinkParsed(args);
-
-				if (args.Href.StartsWith("http://"))
-					result = "<a rel=\"nofollow\" href=\"" + args.Href + "\"";
-				else
-					result = "<a href=\"" + args.Href + "\"";
+				
+				result = "<a href=\"" + args.Href + "\"";
+				result += AddNoRelToLink(args);
 
 				if (_titles.ContainsKey(linkID))
 				{
@@ -980,10 +978,8 @@ namespace Roadkill.Core.Converters
 				LinkEventArgs args = new LinkEventArgs(url, url, linkText, "");
 				OnLinkParsed(args);
 
-				if (args.Href.StartsWith("http://"))
-					result = "<a rel=\"nofollow\" href=\"" + args.Href + "\"";
-				else
-					result = "<a href=\"" + args.Href + "\"";
+				result = "<a href=\"" + args.Href + "\"";
+				result += AddNoRelToLink(args);
 
 				if (_titles.ContainsKey(linkID))
 				{
@@ -1026,10 +1022,8 @@ namespace Roadkill.Core.Converters
 			LinkEventArgs args = new LinkEventArgs(url, url, linkText, "");
 			OnLinkParsed(args);
 
-			if (args.Href.StartsWith("http://"))
-				result = "<a rel=\"nofollow\" href=\"" + args.Href + "\"";
-			else
-				result = "<a href=\"" + args.Href + "\"";
+			result = "<a href=\"" + args.Href + "\"";
+			result += AddNoRelToLink(args);
 
 			if (!String.IsNullOrEmpty(title))
 			{
@@ -1050,6 +1044,14 @@ namespace Roadkill.Core.Converters
 
 			result += string.Format(">{0}</a>", args.Text);
 			return result;
+		}
+
+		private string AddNoRelToLink(LinkEventArgs args)
+		{
+			if (args.Href.StartsWith("http://") || args.Href.StartsWith("https://"))
+				return "rel=\"nofollow\" ";
+			else
+				return "";
 		}
 
 		private static Regex _imagesRef = new Regex(@"
