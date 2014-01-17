@@ -40,7 +40,7 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 		{
 			get
 			{
-				return "Adds a giant image to the top of the page, with markdown overlayed ontop. Usage: [[[jumbotron=your markdown here]]]";
+				return "Adds a giant image to the top of the page, with markdown overlayed ontop. Usage: [[[jumbotron=your markdown here]]] and ensure you have an image called 'jumbotron.jpg' in your attachments folder.";
 			}
 		}
 
