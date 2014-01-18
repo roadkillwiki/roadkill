@@ -888,8 +888,9 @@
 <data name="SiteSettings_Cache_Page_Cache" xml:space="preserve">
 	<value>Cache della pagina</value>
 </data>
-<data name="SiteSettings_Cache_Items_Cache" xml:space="preserve">
+<data name="SiteSettings_Cache_List_Cache" xml:space="preserve">
 	<value>Elementi di cache</value>
+	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Cache_Clear_Button" xml:space="preserve">
 	<value>Cancella cache</value>
@@ -905,6 +906,12 @@
 </data>
 <data name="Button_Close" xml:space="preserve">
 	<value>Vicino</value>
+</data>
+<data name="SiteSettings_Cache_Site_Cache" xml:space="preserve">
+	<value>Site cache</value>
+</data>
+<data name="SiteSettings_Cache_Not_Enabled" xml:space="preserve">
+	<value>The object cache is not currently enabled.</value>
 </data>
 
 </root>
