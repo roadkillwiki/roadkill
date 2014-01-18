@@ -1,107 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
+    <xsd:element name="data">
       <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" minOccurs="0"                     msdata:Ordinal="2" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="type" type="xsd:string" />
+        <xsd:attribute name="mimetype" type="xsd:string" />
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
@@ -112,232 +19,232 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Shared_Stage1" xml:space="preserve">
-    <value>Welkom</value>
-  </data>
-  <data name="Shared_Stage2" xml:space="preserve">
-    <value>Database</value>
-  </data>
-  <data name="Shared_Stage3" xml:space="preserve">
-    <value>Beveiliging</value>
-  </data>
-  <data name="Shared_Stage4" xml:space="preserve">
-    <value>Extras</value>
-  </data>
-  <data name="Shared_Stage5" xml:space="preserve">
-    <value>Voltooid</value>
-  </data>
-  <data name="Shared_Continue" xml:space="preserve">
-    <value>Verder</value>
-  </data>
-  <data name="Shared_Back" xml:space="preserve">
-    <value>Terug</value>
-  </data>
-  <data name="Shared_BackButton" xml:space="preserve">
-    <value>Terug</value>
-  </data>
-  <data name="Shared_NextButton" xml:space="preserve">
-    <value>Volgende</value>
-  </data>
-  <data name="Step1_Intro" xml:space="preserve">
-    <value>Bedankt voor het downloaden van Roadkill. NET Wiki engine. De installatie schrijft de gemaakte instellingen naar de web.config en de database.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step1_WebConfig_Intro" xml:space="preserve">
-    <value>Om door te gaan, moet u eerst testen of u schrijftoegang heeft tot de web.config.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step1_WebConfig_Success_Message" xml:space="preserve">
-    <value>Het bijwerken van de web.config was succesvol.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step1_WebConfig_Failure_Message" xml:space="preserve">
-    <value>Het bijwerken van de web.config is mislukt..</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step2_Intro" xml:space="preserve">
-    <value>Hieronder staan de verplichte instellingen voor Roadkill. Een beheerder kan deze instellingen later wijzigingen.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step2_ConnectionString_CreateDatabase" xml:space="preserve">
-    <value>BIj 'named instances' dient eerst de database handmatig aangemaakt te worden. Enkele voorbeelden staan onderaan. Gebruik de tweede optie bij shared hosting zonder SQL server.</value>
-    <comment>can you explain the last sentence? Use the second option with shared hosting, but only if not using sql server?
+<data name="Shared_Stage1" xml:space="preserve">
+	<value>Welkom</value>
+</data>
+<data name="Shared_Stage2" xml:space="preserve">
+	<value>Database</value>
+</data>
+<data name="Shared_Stage3" xml:space="preserve">
+	<value>Beveiliging</value>
+</data>
+<data name="Shared_Stage4" xml:space="preserve">
+	<value>Extras</value>
+</data>
+<data name="Shared_Stage5" xml:space="preserve">
+	<value>Voltooid</value>
+</data>
+<data name="Shared_Continue" xml:space="preserve">
+	<value>Verder</value>
+</data>
+<data name="Shared_Back" xml:space="preserve">
+	<value>Terug</value>
+</data>
+<data name="Shared_BackButton" xml:space="preserve">
+	<value>Terug</value>
+</data>
+<data name="Shared_NextButton" xml:space="preserve">
+	<value>Volgende</value>
+</data>
+<data name="Step1_Intro" xml:space="preserve">
+	<value>Bedankt voor het downloaden van Roadkill. NET Wiki engine. De installatie schrijft de gemaakte instellingen naar de web.config en de database.</value>
+</data>
+<data name="Step1_WebConfig_Intro" xml:space="preserve">
+	<value>Om door te gaan, moet u eerst testen of u schrijftoegang heeft tot de web.config.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Success_Message" xml:space="preserve">
+	<value>Het bijwerken van de web.config was succesvol.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step1_WebConfig_Failure_Message" xml:space="preserve">
+	<value>Het bijwerken van de web.config is mislukt..</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_Intro" xml:space="preserve">
+	<value>Hieronder staan de verplichte instellingen voor Roadkill. Een beheerder kan deze instellingen later wijzigingen.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_ConnectionString_CreateDatabase" xml:space="preserve">
+	<value>BIj &apos;named instances&apos; dient eerst de database handmatig aangemaakt te worden. Enkele voorbeelden staan onderaan. Gebruik de tweede optie bij shared hosting zonder SQL server.</value>
+	<comment>can you explain the last sentence? Use the second option with shared hosting, but only if not using sql server?
 Fuzzy</comment>
-  </data>
-  <data name="Step2_Example_ConnectionStrings" xml:space="preserve">
-    <value>Connectiestring voorbeelden</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step2_SQLiteInstructionsTitle" xml:space="preserve">
-    <value>SQLite: lees dit eerst</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step2_SQLiteInstructionsMessage" xml:space="preserve">
-    <value>Opmerking: om SQLite te gebruiken moet je een ander bestand toe te voegen aan de map / bin, er zijn verschillende SQLite versies voor x86 en x64. {BEGIN-SQLITE_LINK}Klik hier om het bestand te kopiëren{END-SQLITE_LINK}. Als u problemen ondervindt na deze stap, verwijderen dan "SQLite.Interop.dll 'uit de bin map.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step2_SQLiteSuccessTitle" xml:space="preserve">
-    <value>SQLite-bestand succesvol gekopieerd</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step2_SQLiteSuccessMessage" xml:space="preserve">
-    <value>SQLite is nu klaar voor gebruik.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step2_SQLiteFailureTitle" xml:space="preserve">
-    <value>SQLite-bestand kopiëren mislukt</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step2_SQLiteFailureMessage" xml:space="preserve">
-    <value>Mislukt - probeer het bestand SQLite.Interop.dll uit ~/App_Data/SQLiteBinaries te kopiëren naar de bin map.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_Use_WindowsAuth_Intro" xml:space="preserve">
-    <value>Gebruikers verifiëren via Windows-verificatie en Active Directory? De gebruikersnamen en wachtwoorden zijn dan niet in Roadkill te wijzigen, dit dient te gebeuren in de Active Directory.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_AD_ConnectionString_Title" xml:space="preserve">
-    <value>Active Directory LDAP connectiestring</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_AD_Connection_Success" xml:space="preserve">
-    <value>Succesvol verbinding gemaakt en geauthenticeerd tegen de Active Directory-server.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_AD_Connection_Error" xml:space="preserve">
-    <value>Verbinding maken met de Active Directory-server mislukt:</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_AD_Success" xml:space="preserve">
-    <value>De beveiligingsgroep is succesvol te benaderen.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_AD_Error" xml:space="preserve">
-    <value>Query uitvoeren mislukt:</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_AD_ConnectionString_Details" xml:space="preserve">
-    <value>De LDAP-connectiestring voor de Active Directory. Geef deze op in het volgende formaat LDAP :/ / mydc01.company.internal (LDAP dient in hoofdletters opgegeven te worden)</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_AD_ADExplorer_Details" xml:space="preserve">
-    <value>De verbinding string ondersteunt OU bestekschrijvers maar doen het op deze manier kan problemen veroorzaken. Als je onzeker bent over deze instelling, is het aan te raden je downloaden {BEGIN_ADEXPLORER_LINK}AD Explorer{END_ADEXPLORER_LINK} eerste.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_AD_Username_Password_Details" xml:space="preserve">
-    <value>Gebruikersnaam en wachtwoord voor authenticatie tegen de Active Direcory. Alleen nodig indien de gebruiker van de applicationpool geen leesrechten heeft.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_AD_Editor_GroupName_Title" xml:space="preserve">
-    <value>Auteur groepsnaam</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_AD_Editor_GroupName_Details" xml:space="preserve">
-    <value>Dit is een naam van Windows beveiligingsgroep waar een auteur lid van dient te zijn - gebruikers die pagina's kunnen bewerken en maken. Dit wordt alleen gebruikt bij Active Directory / Windows-verificatie. Indien leeg, dan zijn alle gebruikers auteurs. De testknop gebruikt bovenstaande instellingen.</value>
-    <comment>"leave this blank to allow all users to be editors." (from site), this is also valid here?
+</data>
+<data name="Step2_Example_ConnectionStrings" xml:space="preserve">
+	<value>Connectiestring voorbeelden</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteInstructionsTitle" xml:space="preserve">
+	<value>SQLite: lees dit eerst</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteInstructionsMessage" xml:space="preserve">
+	<value>Opmerking: om SQLite te gebruiken moet je een ander bestand toe te voegen aan de map / bin, er zijn verschillende SQLite versies voor x86 en x64. {BEGIN-SQLITE_LINK}Klik hier om het bestand te kopiëren{END-SQLITE_LINK}. Als u problemen ondervindt na deze stap, verwijderen dan &quot;SQLite.Interop.dll &apos;uit de bin map.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteSuccessTitle" xml:space="preserve">
+	<value>SQLite-bestand succesvol gekopieerd</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteSuccessMessage" xml:space="preserve">
+	<value>SQLite is nu klaar voor gebruik.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteFailureTitle" xml:space="preserve">
+	<value>SQLite-bestand kopiëren mislukt</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step2_SQLiteFailureMessage" xml:space="preserve">
+	<value>Mislukt - probeer het bestand SQLite.Interop.dll uit ~/App_Data/SQLiteBinaries te kopiëren naar de bin map.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_Use_WindowsAuth_Intro" xml:space="preserve">
+	<value>Gebruikers verifiëren via Windows-verificatie en Active Directory? De gebruikersnamen en wachtwoorden zijn dan niet in Roadkill te wijzigen, dit dient te gebeuren in de Active Directory.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ConnectionString_Title" xml:space="preserve">
+	<value>Active Directory LDAP connectiestring</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Connection_Success" xml:space="preserve">
+	<value>Succesvol verbinding gemaakt en geauthenticeerd tegen de Active Directory-server.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Connection_Error" xml:space="preserve">
+	<value>Verbinding maken met de Active Directory-server mislukt:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Success" xml:space="preserve">
+	<value>De beveiligingsgroep is succesvol te benaderen.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Error" xml:space="preserve">
+	<value>Query uitvoeren mislukt:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ConnectionString_Details" xml:space="preserve">
+	<value>De LDAP-connectiestring voor de Active Directory. Geef deze op in het volgende formaat LDAP :/ / mydc01.company.internal (LDAP dient in hoofdletters opgegeven te worden)</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_ADExplorer_Details" xml:space="preserve">
+	<value>De verbinding string ondersteunt OU bestekschrijvers maar doen het op deze manier kan problemen veroorzaken. Als je onzeker bent over deze instelling, is het aan te raden je downloaden {BEGIN_ADEXPLORER_LINK}AD Explorer{END_ADEXPLORER_LINK} eerste.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Username_Password_Details" xml:space="preserve">
+	<value>Gebruikersnaam en wachtwoord voor authenticatie tegen de Active Direcory. Alleen nodig indien de gebruiker van de applicationpool geen leesrechten heeft.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Editor_GroupName_Title" xml:space="preserve">
+	<value>Auteur groepsnaam</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Editor_GroupName_Details" xml:space="preserve">
+	<value>Dit is een naam van Windows beveiligingsgroep waar een auteur lid van dient te zijn - gebruikers die pagina&apos;s kunnen bewerken en maken. Dit wordt alleen gebruikt bij Active Directory / Windows-verificatie. Indien leeg, dan zijn alle gebruikers auteurs. De testknop gebruikt bovenstaande instellingen.</value>
+	<comment>&quot;leave this blank to allow all users to be editors.&quot; (from site), this is also valid here?
 Fuzzy</comment>
-  </data>
-  <data name="Step3_AD_Admin_GroupName_Title" xml:space="preserve">
-    <value>Beheerder groepsnaam</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_AD_Admin_GroupName_Details" xml:space="preserve">
-    <value>Dit is een naam van Windows beveiligingsgroep waar een beheerder lid van dient te zijn. Beheerders hebben dezelfde rechten als auteurs, maar hebben ook toegang tot de website-instellingen en -tools. De testknop gebruikt bovenstaande instellingen.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_One_Way_Hashed" xml:space="preserve">
-    <value>Alle wachtwoorden worden geshashed en 'salted' opgeslagen. Hiervoor wordt SHA-128 gebruikt. De wachtwoorden zijn niet te herstellen en dienen bij verlies opnieuw gezet te worden. 
+</data>
+<data name="Step3_AD_Admin_GroupName_Title" xml:space="preserve">
+	<value>Beheerder groepsnaam</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_AD_Admin_GroupName_Details" xml:space="preserve">
+	<value>Dit is een naam van Windows beveiligingsgroep waar een beheerder lid van dient te zijn. Beheerders hebben dezelfde rechten als auteurs, maar hebben ook toegang tot de website-instellingen en -tools. De testknop gebruikt bovenstaande instellingen.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_One_Way_Hashed" xml:space="preserve">
+	<value>Alle wachtwoorden worden geshashed en &apos;salted&apos; opgeslagen. Hiervoor wordt SHA-128 gebruikt. De wachtwoorden zijn niet te herstellen en dienen bij verlies opnieuw gezet te worden. 
 
 De minimale lengte van het wachtwoord is 6 tekens.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_DB_Editor_Role_Title" xml:space="preserve">
-    <value>Rolnaam voor de auteurs</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_DB_Editor_Role" xml:space="preserve">
-    <value>Dit is de naam van de auteurrol - gebruikers die pagina's kunnen bewerken en maken. Dit wordt alleen gebruikt bij Active Directory / Windows-verificatie. Indien leeg, dan zijn alle gebruikers auteurs</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_DB_Admin_Role_Title" xml:space="preserve">
-    <value>Rolnaam voor de beheerders</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_DB_Admin_Role" xml:space="preserve">
-    <value>Dit is een naam van de beheerdersrol. Beheerders hebben dezelfde rechten als auteurs, maar hebben ook toegang tot de website-instellingen en -tools.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_DB_Allow_User_Signups_Title" xml:space="preserve">
-    <value>Gebruikersregistraties toestaan</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_DB_Allow_User_Signups" xml:space="preserve">
-    <value>Toestaan dat personen zichzelf kunnen registeren als gebruiker. Indien optie uitstaan, dan kunnen alleen beheerders nieuwe gebruikers aanmaken.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_DB_Allow_User_Signups_Label" xml:space="preserve">
-    <value>Gebruikersregistraties toestaan</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_DB_Enable_Recaptcha_Description" xml:space="preserve">
-    <value>Als je toestaat dat de gebruiker aanmeldingen, is het aanbevolen dat u ook Recaptcha ondersteuning in te schakelen. Dit is een gratis anti-spam bot van Google, moet u uw publieke en private sleutel aanmelden en kopiëren in de onderstaande velden in. {BEGIN_RECAPTCHA_LINK}Hier aanmelden{END_RECAPTCHA_LINK} - moet u een Google-account eerst aanmaken.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_DB_Admin_Email_Title" xml:space="preserve">
-    <value>Beheerder e-mailadres</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_DB_Admin_Email" xml:space="preserve">
-    <value>Dit is het e-mailadres van de beheerder. Er kunnen later meerdere beheerders toegevoegd worden.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_DB_Admin_Password_Title" xml:space="preserve">
-    <value>Beheerder wachtwoord</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step3_DB_Admin_Password" xml:space="preserve">
-    <value>Wachtwoord voor de beheerder.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step4_Almost_Done" xml:space="preserve">
-    <value>Bijna klaar ... Nog wat laatste tweaks</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step4_Attachments_Folder_Description" xml:space="preserve">
-    <value>Naar deze map worden alle bestanden geüpload. Deze instelling dient te beginnen met ~ /  (website-root). De gebruiker van de application pool dient hier schrijfrechten te hebben.</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step4_Attachments_Folder_RelativePath" xml:space="preserve">
-    <value>Het pad moet beginnen met "~/" (website root), of met een absoluut bestandspad (bijvoorbeeld c:\uploads)</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step5_Success_Title" xml:space="preserve">
-    <value>Installatie succesvol</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step5_WindowsAuth_Please_Read" xml:space="preserve">
-    <value>Windows-verificatie - lees eerst dit eerst</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step5_WindowsAuth_IIS_Settings" xml:space="preserve">
-    <value>Als u gebruik maakt van IIS7 en hoger, is het mogelijk dat de web.config handmatig geconfigureerd moet worden met de instellingen onderaan. Indien er daarna nog 500 foutmeldingen voorkomen, wellicht is dan de sectie in de parent .config gelocked. Dit kan aangepast worden in IIS manager</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step5_Continue_Button" xml:space="preserve">
-    <value>Ga naar de website</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step5_Failure_Title" xml:space="preserve">
-    <value>De installatie is mislukt</value>
-    <comment>Fuzzy</comment>
-  </data>
-  <data name="Step5_Failure_GoBack_And_Check" xml:space="preserve">
-    <value>Ga terug naar de installatiestappen en controleer de instellingen. De foutmelding was:</value>
-    <comment>Fuzzy</comment>
-  </data>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Editor_Role_Title" xml:space="preserve">
+	<value>Rolnaam voor de auteurs</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Editor_Role" xml:space="preserve">
+	<value>Dit is de naam van de auteurrol - gebruikers die pagina&apos;s kunnen bewerken en maken. Dit wordt alleen gebruikt bij Active Directory / Windows-verificatie. Indien leeg, dan zijn alle gebruikers auteurs</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Role_Title" xml:space="preserve">
+	<value>Rolnaam voor de beheerders</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Role" xml:space="preserve">
+	<value>Dit is een naam van de beheerdersrol. Beheerders hebben dezelfde rechten als auteurs, maar hebben ook toegang tot de website-instellingen en -tools.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups_Title" xml:space="preserve">
+	<value>Gebruikersregistraties toestaan</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups" xml:space="preserve">
+	<value>Toestaan dat personen zichzelf kunnen registeren als gebruiker. Indien optie uitstaan, dan kunnen alleen beheerders nieuwe gebruikers aanmaken.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Allow_User_Signups_Label" xml:space="preserve">
+	<value>Gebruikersregistraties toestaan</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Enable_Recaptcha_Description" xml:space="preserve">
+	<value>Als je toestaat dat de gebruiker aanmeldingen, is het aanbevolen dat u ook Recaptcha ondersteuning in te schakelen. Dit is een gratis anti-spam bot van Google, moet u uw publieke en private sleutel aanmelden en kopiëren in de onderstaande velden in. {BEGIN_RECAPTCHA_LINK}Hier aanmelden{END_RECAPTCHA_LINK} - moet u een Google-account eerst aanmaken.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Email_Title" xml:space="preserve">
+	<value>Beheerder e-mailadres</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Email" xml:space="preserve">
+	<value>Dit is het e-mailadres van de beheerder. Er kunnen later meerdere beheerders toegevoegd worden.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Password_Title" xml:space="preserve">
+	<value>Beheerder wachtwoord</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step3_DB_Admin_Password" xml:space="preserve">
+	<value>Wachtwoord voor de beheerder.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Almost_Done" xml:space="preserve">
+	<value>Bijna klaar ... Nog wat laatste tweaks</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Attachments_Folder_Description" xml:space="preserve">
+	<value>Naar deze map worden alle bestanden geüpload. Deze instelling dient te beginnen met ~ /  (website-root). De gebruiker van de application pool dient hier schrijfrechten te hebben.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step4_Attachments_Folder_RelativePath" xml:space="preserve">
+	<value>Het pad moet beginnen met &quot;~/&quot; (website root), of met een absoluut bestandspad (bijvoorbeeld c:\uploads)</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Success_Title" xml:space="preserve">
+	<value>Installatie succesvol</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_WindowsAuth_Please_Read" xml:space="preserve">
+	<value>Windows-verificatie - lees eerst dit eerst</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_WindowsAuth_IIS_Settings" xml:space="preserve">
+	<value>Als u gebruik maakt van IIS7 en hoger, is het mogelijk dat de web.config handmatig geconfigureerd moet worden met de instellingen onderaan. Indien er daarna nog 500 foutmeldingen voorkomen, wellicht is dan de sectie in de parent .config gelocked. Dit kan aangepast worden in IIS manager</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Continue_Button" xml:space="preserve">
+	<value>Ga naar de website</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Failure_Title" xml:space="preserve">
+	<value>De installatie is mislukt</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Step5_Failure_GoBack_And_Check" xml:space="preserve">
+	<value>Ga terug naar de installatiestappen en controleer de instellingen. De foutmelding was:</value>
+	<comment>Fuzzy</comment>
+</data>
+
 </root>
