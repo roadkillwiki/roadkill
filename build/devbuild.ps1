@@ -2,13 +2,7 @@
 # ROADKILL Developer/nightly build script
 #  
 # This build script does the following:
-# 1. Builds the solution using the Download target with msbuild, and publish/deploy settings
-# 2. Uses MSDEPLOY to create a package into a _WEBSITE
-# 3. Adds the text files to the _WEBSITE directory
-# 4. Adds the missing references to the _WEBSITE directory
-# 5. Adds blank SQLite, SQL Server CE and SQL Server Express database to the _WEBSITE directory
-# 6. Zips up _WEBSITE using 7zip
-# 7. Cleans up the mess MSBUILD/MSDEPLOY created
+# 1-7. Same steps as releasebuild.ps1
 # 8. Pushes the zip file to the roadkillbuilds repository
 #
 # This batch file assumes:

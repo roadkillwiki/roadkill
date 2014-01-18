@@ -1,11 +1,12 @@
 # ====================================================================================================
-# ROADKILL Mono release build script
+# ROADKILL release build script - upgrade version.
 #  
-# See releasebuild.ps1 for what the script does - this script just builds using the MONO target.
+# See releasebuild.ps1 for what the script does.
+# This upgrade script removes files from the package that will already exist in a Roadkill installation.
 # ====================================================================================================
 
 $ErrorActionPreference = "Stop"
-$zipFileName = "Roadkill.mono.2.0.zip"
+$zipFileName = "Roadkill_v2.0.upgrade.zip"
 
 # ---- Up to the root directory
 cd ..
@@ -20,30 +21,33 @@ $env:Path = $env:Path + ";C:\Program Files\7-Zip"
 copy -Force lib\Configs\roadkill.download.config src\Roadkill.Web\roadkill.config
 copy -Force lib\Configs\connectionStrings.config src\Roadkill.Web\connectionStrings.config
 
-# ---- Build the solution using the Mono target
-msbuild roadkill.sln "/p:Configuration=Mono;DeployOnBuild=True;PackageAsSingleFile=False;AutoParameterizationWebConfigConnectionStrings=false;outdir=deploytemp\;OutputPath=bin\debug"
+# ---- Build the solution using the Download target
+msbuild roadkill.sln "/p:Configuration=Download;DeployOnBuild=True;PackageAsSingleFile=False;AutoParameterizationWebConfigConnectionStrings=false;outdir=deploytemp\;OutputPath=bin\debug"
 
 # ---- Use msdeploy to publish the website to disk
 $currentDir = $(get-location).toString()
-$packageSource = $currentDir +"\src\roadkill.Web\obj\Mono\Package\PackageTmp\"
+$packageSource = $currentDir +"\src\Roadkill.Web\obj\download\Package\PackageTmp\"
 $packageDest = $currentDir + "\_WEBSITE"
 msdeploy -verb:sync -source:contentPath=$packageSource -dest:contentPath=$packageDest
 
-# ---- Copy licence
+# ---- Copy licence + text files
 copy -Force textfiles\licence.txt _WEBSITE\
+copy -Force textfiles\readme.txt _WEBSITE\
 
-# ---- Delete files that don't work on Apache/Mono
-del _WEBSITE\bin\System.Web.dll
-del _WEBSITE\bin\Microsoft.Web.Infrastructure.dll
-del _WEBSITE\bin\Microsoft.Web.Administration.dll
+# ---- Copy missing DLL dependencies that the publish doesn't add
+copy -Force lib\Microsoft.Web.Administration.dll _WEBSITE\bin
+copy -Force lib\System.Data.SqlServerCe.dll _WEBSITE\bin
 
-# ---- Add Lightspeed files that are Mono specific
-copy -Force lib\LightSpeed\Mindscape.LightSpeed.MetaData.dll _WEBSITE\bin
-copy -Force lib\LightSpeed\Providers\log4net.dll _WEBSITE\bin
-copy -Force lib\LightSpeed\Providers\Memcached.ClientLibrary.dll _WEBSITE\bin
+# ---- Remove files that should already exist on an existing Roadkill install
+del _WEBSITE/App_Data/customvariables.xml
+del _WEBSITE/App_Data/roadkill.sqlite
+del _WEBSITE/App_Data/roadkill.sdf
+del _WEBSITE/App_Data/Internal/htmlwhitelist.xml
 
-# ---- Apache config
-copy -Force lib\Configs\apache.txt _WEBSITE\
+# ---- Copy blank databases
+copy -Force lib\Empty-databases\roadkill.sqlite _WEBSITE\App_Data
+copy -Force lib\Empty-databases\roadkill.sdf _WEBSITE\App_Data
+copy -Force lib\Empty-databases\roadkill.mdf _WEBSITE\App_Data
 
 # ---- Zip up the folder (requires 7zip)
 CD _WEBSITE
@@ -57,4 +61,4 @@ Remove-Item -Force -Recurse src\Roadkill.Core\deploytemp
 Remove-Item -Force -Recurse src\Roadkill.Web\deploytemp
 Remove-Item -Force -Recurse src\Roadkill.Tests\deploytemp
 
-"Mono release build complete."
+"Release build Complete."
