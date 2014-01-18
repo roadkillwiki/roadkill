@@ -34,7 +34,8 @@
 	<value>Registreren</value>
 </data>
 <data name="Navigation_MainPage" xml:space="preserve">
-	<value>Beginpagina</value>
+	<value>Hoofdpagina
+</value>
 </data>
 <data name="Navigation_Categories" xml:space="preserve">
 	<value>Categorie√´n</value>
@@ -160,7 +161,7 @@
 	<value>Wachtwoord vergeten?</value>
 </data>
 <data name="Login_Unsuccessful_Title" xml:space="preserve">
-	<value>Login was onsuccesvol</value>
+	<value>Inloggen is mislukt</value>
 </data>
 <data name="Login_Error" xml:space="preserve">
 	<value>De gebruikersnaam en / of wachtwoord is onjuist</value>
@@ -173,7 +174,6 @@
 </data>
 <data name="Button_Signup" xml:space="preserve">
 	<value>Registreer nieuwe gebruiker</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="Signup_Complete_Title" xml:space="preserve">
 	<value>Registratie voltooid.</value>
@@ -226,8 +226,7 @@
 </data>
 <data name="Button_ResetPassword" xml:space="preserve">
 	<value>Verstuur</value>
-	<comment>schould be: &apos;send mail&apos; ?
-Fuzzy</comment>
+	<comment>schould be: &apos;send mail&apos; ?</comment>
 </data>
 <data name="ResetPassword_Successful_Title" xml:space="preserve">
 	<value>Wachtwoord is gereset.</value>
@@ -267,10 +266,10 @@ Fuzzy</comment>
 	<value>Bijwerken van je profiel is mislukt</value>
 </data>
 <data name="NoMainPage_Title" xml:space="preserve">
-	<value>Er is geen beginpagina ingesteld</value>
+	<value>Er is geen hoofdpagina ingesteld</value>
 </data>
 <data name="NoMainPage_Label" xml:space="preserve">
-	<value>Stel de beginpagina in door aan een pagina de tag &apos;homepage&apos; toe te voegen.</value>
+	<value>Voeg de tag &apos;homepage&apos; toe aan een pagina.</value>
 </data>
 <data name="Search_PlaceHolder" xml:space="preserve">
 	<value>Zoeken</value>
@@ -355,7 +354,7 @@ Fuzzy</comment>
 	<value>Tags</value>
 </data>
 <data name="EditPage_AdminOnly" xml:space="preserve">
-	<value>Deze pagina kan alleen worden bewerkt door beheerders.</value>
+	<value>Alleen beheerders mogen deze pagina wijzigen.</value>
 </data>
 <data name="EditPage_Preview" xml:space="preserve">
 	<value>Voorbeeld</value>
@@ -422,13 +421,13 @@ Fuzzy</comment>
 	<value>Website instellingen</value>
 </data>
 <data name="SiteSettings_Configuration_Site" xml:space="preserve">
-	<value>Plaats</value>
+	<value>Website</value>
 </data>
 <data name="SiteSettings_Configuration_SiteName" xml:space="preserve">
 	<value>Websitenaam</value>
 </data>
 <data name="SiteSettings_Configuration_SiteUrl" xml:space="preserve">
-	<value>Website-url</value>
+	<value>Url naar de website</value>
 </data>
 <data name="SiteSettings_Configuration_Database" xml:space="preserve">
 	<value>Database</value>
@@ -443,7 +442,7 @@ Fuzzy</comment>
 	<value>Beveiliging</value>
 </data>
 <data name="SiteSettings_Configuration_UseWindowsAuth" xml:space="preserve">
-	<value>Gebruik Windows authenticatie</value>
+	<value>Gebruik Windows-authenticatie</value>
 </data>
 <data name="SiteSettings_Configuration_AllowUserSignups" xml:space="preserve">
 	<value>Gebruikersregistraties toestaan</value>
@@ -488,10 +487,10 @@ Fuzzy</comment>
 	<value>Toegestane extensies</value>
 </data>
 <data name="SiteSettings_Configuration_CachingTitle" xml:space="preserve">
-	<value>Gebruik caching</value>
+	<value>Caching</value>
 </data>
 <data name="SiteSettings_Configuration_ObjectCaching" xml:space="preserve">
-	<value>Gebruik  object-caching</value>
+	<value>Caching</value>
 </data>
 <data name="SiteSettings_Configuration_BrowserCaching" xml:space="preserve">
 	<value>Gebruik browser-cache</value>
@@ -521,7 +520,7 @@ Fuzzy</comment>
 <data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
 	<value>{bold}LET OP:{/bold} indien foutief ingesteld dan kan geen enkele gebruiker meer inloggen! Maak eerst een back-up van de web.config voordat deze instelling gewijzigd wordt. {br}{br}
 
-Gebruik deze optie voor Windows authenticatie in combinatie met Active Directory</value>
+Gebruik deze optie voor Windows-authenticatie in combinatie met Active Directory</value>
 </data>
 <data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
 	<value>Toestaan dat personen zichzelf kunnen registeren als gebruiker.</value>
@@ -545,7 +544,7 @@ Gebruik deze optie voor Windows authenticatie in combinatie met Active Directory
 	<value>Het wachtwoord te gebruiken voor authenticatie aan de Active Directory. Alleen nodig indien de gebruiker van de applicationpool geen leesrechten heeft.</value>
 </data>
 <data name="SiteSettings_Configuration_EditorRole_Help" xml:space="preserve">
-	<value>Dit is een naam van Windows beveiligingsgroep waar een auteur lid van dient te zijn - gebruikers die pagina&apos;s kunnen bewerken en maken. Dit wordt alleen gebruikt bij Active Directory / Windows-verificatie. Indien leeg, dan zijn alle gebruikers auteurs</value>
+	<value>Dit is een naam van Windows beveiligingsgroep waar een auteur lid van dient te zijn - gebruikers die pagina&apos;s kunnen bewerken en maken. Dit wordt alleen gebruikt bij Active Directory / Windows-authenticatie. Indien leeg, dan zijn alle gebruikers auteurs</value>
 </data>
 <data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
 	<value>{bold}LET OP:{/bold} indien foutief ingesteld dan kunt u niet meer inloggen! Maak eerst een back-up van de web.config voordat deze instelling gewijzigd wordt. {br}{br}
@@ -562,7 +561,7 @@ Dit is een naam van Windows beveiligingsgroep waar een beheerder lid van dient t
 	<value>Naar deze map worden alle bestanden ge√ºpload. Deze instelling dient te beginnen met ~ /  (website-root). De gebruiker van de applicationpool dient hier schrijfrechten te hebben.</value>
 </data>
 <data name="SiteSettings_Configuration_Extensions_Help" xml:space="preserve">
-	<value>Deze bestandsextensies kunnen ge√ºpload worden. Geeft komma-gescheiden op.</value>
+	<value>Deze bestandsextensies worden geaccepteerd bij het uploaden. Scheid de extensies met een puntkomma.</value>
 </data>
 <data name="SiteSettings_Configuration_ObjectCaching_Help" xml:space="preserve">
 	<value>Gebruik &apos;Object caching&apos;. Roadkill slaat alle pagina&apos;s en inhoud in het geheugen na het ophalen uit de database. De cache wordt automatisch bijgewerkt wanneer een pagina verandert. Aanbevolen om het reactievermogen van de website te verhogen. Object caching wordt momenteel niet ondersteund voor &apos;web gardens&apos; of &apos;web farms&apos;,</value>
@@ -580,68 +579,52 @@ Aanbevolen om het reactievermogen van de website te verhogen..</value>
 </data>
 <data name="SiteSettings_UserManagement_Title" xml:space="preserve">
 	<value>Gebruikers</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_UserManagement_ColumnHeader_Username" xml:space="preserve">
 	<value>Gebruikersnaam</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_UserManagement_ColumnHeader_Email" xml:space="preserve">
 	<value>E-mailadres</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_UserManagement_Admins" xml:space="preserve">
 	<value>Beheerders</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_UserManagement_NewAdmin" xml:space="preserve">
 	<value>Nieuwe beheerder</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_UserManagement_Editors" xml:space="preserve">
 	<value>Auteurs</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_UserManagement_NewEditor" xml:space="preserve">
 	<value>Nieuwe auteur</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_UserManagement_AddAdmin_Title" xml:space="preserve">
 	<value>Maak beheerder</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_UserManagement_AddEditor_Title" xml:space="preserve">
 	<value>Maak auteur</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_UserManagement_EditUser_Title" xml:space="preserve">
 	<value>Gebruikerinformatie aanpassen</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_UserManagement_AddUser_Help" xml:space="preserve">
 	<value>Voor bestaande gebruikers, laat het wachtwoordveld leeg om enkel de gebruikersnaam te wijzigen.</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_UserManagement_AddUser_Error" xml:space="preserve">
 	<value>Gebruikersinformatie opslaan mislukt.</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_UserManagement_EditUser_Error" xml:space="preserve">
 	<value>Aanpassen van de gebruikerinformatie is mislukt</value>
-	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_UserManagement_AD_Title" xml:space="preserve">
-	<value>Windows / Active Directory-verificatie is ingeschakeld</value>
-	<comment>Fuzzy</comment>
+	<value>Windows / Active Directory-authenticatie is ingeschakeld</value>
 </data>
 <data name="SiteSettings_UserManagement_AD_Label1" xml:space="preserve">
-	<value>Bij gebruik van Windows-verificatie, zijn gebruikersnamen en wachtwoorden niet in Roadkill te wijzigen. Dit dient te gebeuren in de Active Directory.</value>
-	<comment>Fuzzy</comment>
+	<value>Bij gebruik van Windows-authenticatie, zijn gebruikersnamen en wachtwoorden niet in Roadkill te wijzigen. Dit dient te gebeuren in de Active Directory.</value>
 </data>
 <data name="SiteSettings_UserManagement_AD_Label2" xml:space="preserve">
 	<value>Om een ‚Äã‚Äãgebruiker als beheerder of auteur toe te voegen, dient de gebruiker lid te zijn van de beveiligingsgroep die opgegeven staat bij respectievelijk auteursrol of beheerdersrol.</value>
-	<comment>this setting is currently not only editable in the web.config, but also in the &apos;site settings&apos;? So reference to the web.config is a bit confusing.
-Fuzzy</comment>
+	<comment>this setting is currently not only editable in the web.config, but also in the &apos;site settings&apos;? So reference to the web.config is a bit confusing.</comment>
 </data>
 <data name="SiteSettings_Tools_Title" xml:space="preserve">
 	<value>Website tools</value>
@@ -665,7 +648,7 @@ Fuzzy</comment>
 	<value>Zoekindex opnieuw opgebouwd</value>
 </data>
 <data name="SiteSettings_Tools_ExportXml" xml:space="preserve">
-	<value>Exporteer naar XML bestand</value>
+	<value>Exporteer naar XML-bestand</value>
 </data>
 <data name="SiteSettings_Tools_ExportXml_Label" xml:space="preserve">
 	<value>Exporteer alle teksten en geschiedenis van alle pagina&apos;s als een enkel.XML-bestand.</value>
@@ -695,7 +678,7 @@ Fuzzy</comment>
 	<value>Importeren vanuit ScrewTurn</value>
 </data>
 <data name="SiteSettings_Tools_ScrewTurnImport_Label" xml:space="preserve">
-	<value>Import alle inhoud vanuit ScrewTurn 2. &apos;MediaWiki&apos; dient als markuptaal geselecteerd te zijn voordat u het importeren start. 
+	<value>Import alle inhoud vanuit ScrewTurn 2/3. &apos;MediaWiki&apos; dient als markuptaal geselecteerd te zijn voordat u het importeren start. 
 Omdat de MediaWiki syntaxis in  ScrewTurn niet geheel overeenkomt met de offici√´le specificatie, is er geen garantie dat alle content er perfect uitziet. Dit geldt vooral voor afbeeldingen en hyperlinks.</value>
 </data>
 <data name="SiteSettings_Tools_ScrewTurnImport_Connection" xml:space="preserve">
@@ -735,10 +718,10 @@ Omdat de MediaWiki syntaxis in  ScrewTurn niet geheel overeenkomt met de offici√
 	<value>Er is geen thema gekozen.</value>
 </data>
 <data name="SiteSettings_Validation_SiteNameEmpty" xml:space="preserve">
-	<value>De website-naam is leeg.</value>
+	<value>De websitenaam is leeg.</value>
 </data>
 <data name="SiteSettings_Validation_SiteUrlEmpty" xml:space="preserve">
-	<value>De website-url is leeg.</value>
+	<value>De url is leeg.</value>
 </data>
 <data name="FileManager_Title" xml:space="preserve">
 	<value>Bestanden beheren</value>
@@ -756,7 +739,7 @@ Omdat de MediaWiki syntaxis in  ScrewTurn niet geheel overeenkomt met de offici√
 	<value>Bestand verwijderen</value>
 </data>
 <data name="FileManager_Select" xml:space="preserve">
-	<value>Kies</value>
+	<value>Selecteer</value>
 </data>
 <data name="FileManager_Delete_Folder" xml:space="preserve">
 	<value>Verwijder map</value>
@@ -786,7 +769,7 @@ Omdat de MediaWiki syntaxis in  ScrewTurn niet geheel overeenkomt met de offici√
 	<value>Uploaden ...</value>
 </data>
 <data name="FileManager_Help" xml:space="preserve">
-	<value>Sleep bestanden om te uploaden. Dubbelklik op mappen voor navigatie.</value>
+	<value>U kunt bestanden hier naar toe slepen om deze te uploaden. Dubbelklik op mappen om te navigeren.</value>
 	<comment>Fuzzy</comment>
 </data>
 <data name="FileManager_Extension_Not_Supported" xml:space="preserve">
@@ -796,23 +779,24 @@ Omdat de MediaWiki syntaxis in  ScrewTurn niet geheel overeenkomt met de offici√
 	<value>homepage</value>
 </data>
 <data name="SiteSettings_Configuration_HeadContent" xml:space="preserve">
-	<value>Extra inhoud in de &lt;head&gt; tag voor iedere pagina</value>
+	<value>Extra inhoud in de &lt;head&gt; tag van iedere pagina</value>
 </data>
 <data name="SiteSettings_Configuration_FileManager" xml:space="preserve">
 	<value>Bestandsbeheer</value>
 </data>
 <data name="SiteSettings_Configuration_HeadContent_Help" xml:space="preserve">
-	<value>Scripts, styles en andere HTML die bij iedere pagina in de &lt;head&gt; wordt toegevoegd.</value>
+	<value>Scripts, styles en andere HTML die bij iedere pagina in de {head} wordt toegevoegd.</value>
+	<comment>it seems that I have to HTML encode the text (&lt; to &amp;lt;)</comment>
 </data>
 <data name="SiteSettings_Configuration_NavMenu" xml:space="preserve">
-	<value>Layout voor het navigatiemenu</value>
+	<value>Navigatiemenu lay-out</value>
 	<comment>should be &apos;main menu&apos;, not left</comment>
 </data>
 <data name="SiteSettings_Configuration_NavMenu_Help" xml:space="preserve">
-	<value>De layout van het hoofd-navigatiemenu. Markdown markup wordt geaccepteerd. De volgende tokens kunnen gebruikt worden: {MENUTOKENS}. Sommige tokens zullen leeg zijn afhankelijk van de gebruikersrol (bezoeker, auteur, beheerder).</value>
+	<value>De lay-out van het hoofd-navigatiemenu. Het is mogelijk om Markdown markup te gebruiken. De volgende tokens kunnen gebruikt worden: {MENUTOKENS}. Sommige tokens zullen leeg zijn afhankelijk van de gebruikersrol (bezoeker, auteur, beheerder).</value>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
-	<value>Bestaande bestanden automatisch overschrijven bij uploaden</value>
+	<value>Bij uploaden bestaande bestanden automatisch overschrijven.</value>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting_Help" xml:space="preserve">
 	<value>Overschrijf bestanden met dezelfde naam bij het uploaden zonder een waarschuwing.</value>
@@ -825,25 +809,25 @@ Omdat de MediaWiki syntaxis in  ScrewTurn niet geheel overeenkomt met de offici√
 	<value>Exporteren als SQL</value>
 </data>
 <data name="SiteSettings_Tools_SqlExport_Label" xml:space="preserve">
-	<value>Exporteert de huidige database als een SQL-script. Als u gebruik maakt MongoDB deze actie doet niets.</value>
+	<value>Exporteert de huidige database als een SQL-script. Als u gebruik maakt MongoDB dan zal deze actie niets doen. </value>
 </data>
 <data name="SiteSettings_Configuration_IsPublicSite" xml:space="preserve">
 	<value>Publieke site</value>
 </data>
 <data name="SiteSettings_Configuration_IsPublicSite_Help" xml:space="preserve">
-	<value>Bij niet-gecontroleerd, alle pagina&apos;s zijn prive en kan alleen bekeken worden door ingelogde gebruikers.</value>
+	<value>Indien deze optie uitstaat dan zijn alle pagina&apos;s enkel te bekijken wanneer een gebruiker ingelogd is.</value>
 </data>
 <data name="SiteSettings_Configuration_IgnoreSearchIndexErrors" xml:space="preserve">
-	<value>Negeer zoekindex fouten</value>
+	<value>Negeer fouten in de zoekindex</value>
 </data>
 <data name="SiteSettings_Configuration_IgnoreSearchIndexErrors_Help" xml:space="preserve">
-	<value>Indien aangevinkt, wordt een foutmelding weergegeven wanneer een pagina niet worden ge√Øndexeerd door de zoekmachine Lucene (bij het maken of bijwerken van een pagina), in plaats van genegeerd.</value>
+	<value>Foutmelding tonen wanneer een pagina niet ge√Øndexeerd kan worden. Dit kan voorkomen bij het maken of bewerken van een pagina.</value>
 </data>
 <data name="FileManager_Upload_FileAlreadyExists" xml:space="preserve">
-	<value>Het bestand &apos;{0}&apos; bestaat reeds.</value>
+	<value>Het bestand &apos;{0}&apos; bestaat al.</value>
 </data>
 <data name="History_Help_Label" xml:space="preserve">
-	<value>Klik op een versie nummer om de wijzigingen te vergelijken met de versie voor het.</value>
+	<value>Klik op een versienummer om de wijzigingen te vergelijken met een vorige versie.</value>
 </data>
 <data name="SiteSettings_Configuration_Required_Field" xml:space="preserve">
 	<value>Dit veld is verplicht.</value>
@@ -852,31 +836,32 @@ Omdat de MediaWiki syntaxis in  ScrewTurn niet geheel overeenkomt met de offici√
 	<value>Test</value>
 </data>
 <data name="Shared_Success" xml:space="preserve">
-	<value>Succes!</value>
+	<value>Succesvol!</value>
 </data>
 <data name="Shared_Failure" xml:space="preserve">
-	<value>Mislukking!</value>
+	<value>Mislukt!</value>
+	<comment>LOL the automatic translation said &quot;you&apos;re a failure&quot; :P</comment>
 </data>
 <data name="DatabaseConnection_Success" xml:space="preserve">
-	<value>De database connectie was succesvol.</value>
+	<value>Connectie maken naar database was succesvol.</value>
 </data>
 <data name="DatabaseConnection_Failure" xml:space="preserve">
-	<value>Database connectie mislukt:</value>
+	<value>Connectie maken naar database is mislukt:</value>
 </data>
 <data name="Button_Add" xml:space="preserve">
 	<value>Toevoegen</value>
 </data>
 <data name="Attachments_Folder_Success" xml:space="preserve">
-	<value>Succes! De map bestaat en kan worden geschreven.</value>
+	<value>Succesvol! De map is aanwezig en schrijven is toegestaan.</value>
 </data>
 <data name="Attachments_Folder_Failure" xml:space="preserve">
-	<value>Kan niet schrijven naar de bijlagen directory:</value>
+	<value>Kan niet schrijven naar de map voor ge√ºploade bestanden:</value>
 </data>
 <data name="Shared_Unexpected_Error" xml:space="preserve">
-	<value>Er ging iets mis</value>
+	<value>Er is iets fout gegaan</value>
 </data>
 <data name="Profile_Not_Available" xml:space="preserve">
-	<value>Windows-verificatie is ingeschakeld, zodat de gebruiker profiel is niet beschikbaar.</value>
+	<value>Omdat Windows-authenticatie is ingeschakeld, zijn gebruikersprofielen niet beschikbaar.</value>
 </data>
 <data name="Profile_Password_Change_Successful" xml:space="preserve">
 	<value>Het wachtwoord is succesvol gewijzigd</value>
@@ -885,13 +870,13 @@ Omdat de MediaWiki syntaxis in  ScrewTurn niet geheel overeenkomt met de offici√
 	<value>De profielgegevens zijn bijgewerkt.</value>
 </data>
 <data name="Profile_Leave_Password_Blank" xml:space="preserve">
-	<value>Laat het wachtwoord velden leeg als u niet wilt dat uw wachtwoord te wijzigen.</value>
+	<value>Laat de wachtwoordvelden leeg indien u het wachtwoord niet wilt wijzigen.</value>
 </data>
 <data name="SiteSettings_Cache_Clear_Successful" xml:space="preserve">
-	<value>Alle caches zijn succesvol gewist.</value>
+	<value>Alle caches zijn succesvol geleegd.</value>
 </data>
 <data name="SiteSettings_Cache_Key_Format" xml:space="preserve">
-	<value>De toetsen zijn in het formaat:</value>
+	<value>De sleutels zijn in het formaat:</value>
 </data>
 <data name="SiteSettings_Cache_Key_Column_Header" xml:space="preserve">
 	<value>Sleutel</value>
@@ -899,23 +884,29 @@ Omdat de MediaWiki syntaxis in  ScrewTurn niet geheel overeenkomt met de offici√
 <data name="SiteSettings_Cache_Page_Cache" xml:space="preserve">
 	<value>Pagina cache</value>
 </data>
-<data name="SiteSettings_Cache_Items_Cache" xml:space="preserve">
+<data name="SiteSettings_Cache_List_Cache" xml:space="preserve">
 	<value>Items cache</value>
 </data>
 <data name="SiteSettings_Cache_Clear_Button" xml:space="preserve">
-	<value>Cache wissen</value>
+	<value>Cache legen</value>
 </data>
 <data name="SiteSettings_Configuration_Unable_To_Save" xml:space="preserve">
-	<value>In staat om de instellingen op te slaan:</value>
+	<value>Opslaan instellingen mislukt:</value>
 </data>
 <data name="SiteSettings_Configuration_Update_Successful" xml:space="preserve">
-	<value>De instellingen zijn succesvol gewijzigd.</value>
+	<value>De instellingen zijn succesvol aangepast.</value>
 </data>
 <data name="Recaptcha_Prompt" xml:space="preserve">
-	<value>Als een anti-spam maatregel, dan kunt u de twee woorden hieronder in te voeren</value>
+	<value>Vul hieronder twee woorden in</value>
 </data>
 <data name="Button_Close" xml:space="preserve">
-	<value>Dicht</value>
+	<value>Sluiten</value>
+</data>
+<data name="SiteSettings_Cache_Site_Cache" xml:space="preserve">
+	<value>Website cache</value>
+</data>
+<data name="SiteSettings_Cache_Not_Enabled" xml:space="preserve">
+	<value>Caching is niet ingeschakeld.</value>
 </data>
 
 </root>
