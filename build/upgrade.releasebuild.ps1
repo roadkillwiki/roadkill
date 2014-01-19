@@ -40,14 +40,9 @@ copy -Force lib\System.Data.SqlServerCe.dll _WEBSITE\bin
 
 # ---- Remove files that should already exist on an existing Roadkill install
 del _WEBSITE/App_Data/customvariables.xml
-del _WEBSITE/App_Data/roadkill.sqlite
-del _WEBSITE/App_Data/roadkill.sdf
 del _WEBSITE/App_Data/Internal/htmlwhitelist.xml
 
-# ---- Copy blank databases
-copy -Force lib\Empty-databases\roadkill.sqlite _WEBSITE\App_Data
-copy -Force lib\Empty-databases\roadkill.sdf _WEBSITE\App_Data
-copy -Force lib\Empty-databases\roadkill.mdf _WEBSITE\App_Data
+# ---- DON'T copy the blank databases
 
 # ---- Zip up the folder (requires 7zip)
 CD _WEBSITE
