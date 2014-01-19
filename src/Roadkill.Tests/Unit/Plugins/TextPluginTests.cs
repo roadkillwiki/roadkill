@@ -190,8 +190,10 @@ namespace Roadkill.Tests.Unit.Plugins
 			// Arrange
 			TextPluginStub plugin = new TextPluginStub("PluginId", "name", "desc");
 			string expectedHtml = "\t\t" +
-								 @"<link href=""~/Plugins/PluginId/file.css"" rel=""stylesheet"" type=""text/css"" />" +
+								 @"<link href=""~/Plugins/PluginId/file.css?version={PluginVersion}"" rel=""stylesheet"" type=""text/css"" />" +
 								 "\n";
+
+			expectedHtml = expectedHtml.Replace("{PluginVersion}", plugin.Version);
 
 			// Act
 			string actualHtml = plugin.GetCssLink("file.css");
