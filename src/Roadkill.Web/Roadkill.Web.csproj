@@ -489,6 +489,12 @@
     <Content Include="Assets\Scripts\roadkill\installer\step4.js">
       <DependentUpon>step4.ts</DependentUpon>
     </Content>
+    <Content Include="Assets\Scripts\roadkill\installer\step3Db.js">
+      <DependentUpon>step3Db.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\installer\step3WindowsAuth.js">
+      <DependentUpon>step3WindowsAuth.ts</DependentUpon>
+    </Content>
     <Content Include="Assets\Scripts\roadkill\installer\step2.js">
       <DependentUpon>step2.ts</DependentUpon>
     </Content>
