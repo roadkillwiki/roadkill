@@ -5,7 +5,7 @@
 
 
 -- Configuration
-INSERT INTO roadkill_siteconfiguration (id, version, content) VALUES ('b960e8e5-529f-4f7c-aee4-28eb23e13dbd','2.0.0.0','{
+INSERT INTO roadkill_siteconfiguration (id, version, content) VALUES ('b960e8e5-529f-4f7c-aee4-28eb23e13dbd','{AppVersion}','{
   "AllowedFileTypes": ".exe,.vbscript",
   "AllowUserSignup": false,
   "IsRecaptchaEnabled": false,

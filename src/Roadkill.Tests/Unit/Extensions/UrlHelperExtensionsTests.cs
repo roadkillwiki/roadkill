@@ -59,7 +59,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ThemeContent_Should()
+		public void ThemeContent_Should_Return_Expected_Html()
 		{
 			// Arrange
 			string expectedHtml = "/Themes/Mediawiki/mythemefile.png";
@@ -72,10 +72,11 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void CssLink_Should_()
+		public void CssLink_Should_Return_Expected_Html()
 		{
 			// Arrange
-			string expectedHtml = @"<link href=""/Assets/CSS/roadkill.css"" rel=""stylesheet"" type=""text/css"" />";
+			string expectedHtml = @"<link href=""/Assets/CSS/roadkill.css?version={AppVersion}"" rel=""stylesheet"" type=""text/css"" />";
+			expectedHtml = expectedHtml.Replace("{AppVersion}", ApplicationSettings.ProductVersion);
 
 			// Act
 			string actualHtml = _urlHelper.CssLink("roadkill.css").ToHtmlString();
@@ -85,10 +86,11 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ScriptLink_Should_()
+		public void ScriptLink_Should_Return_Expected_Html()
 		{
 			// Arrange
-			string expectedHtml = @"<script type=""text/javascript"" language=""javascript"" src=""/Assets/Scripts/roadkill.js""></script>";
+			string expectedHtml = @"<script type=""text/javascript"" language=""javascript"" src=""/Assets/Scripts/roadkill.js?version={AppVersion}""></script>";
+			expectedHtml = expectedHtml.Replace("{AppVersion}", ApplicationSettings.ProductVersion);
 
 			// Act
 			string actualHtml = _urlHelper.ScriptLink("roadkill.js").ToHtmlString();
@@ -98,10 +100,11 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void InstallerScriptLink_Should_()
+		public void InstallerScriptLink_Should_Expected_Html()
 		{
 			// Arrange
-			string expectedHtml = @"<script type=""text/javascript"" language=""javascript"" src=""/Assets/Scripts/roadkill/installer/step1.js""></script>";
+			string expectedHtml = @"<script type=""text/javascript"" language=""javascript"" src=""/Assets/Scripts/roadkill/installer/step1.js?version={AppVersion}""></script>";
+			expectedHtml = expectedHtml.Replace("{AppVersion}", ApplicationSettings.ProductVersion);
 
 			// Act
 			string actualHtml = _urlHelper.InstallerScriptLink("step1.js").ToHtmlString();
@@ -111,10 +114,11 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void BootstrapCSS_Should_()
+		public void BootstrapCSS_Should_Return_Expected_Html()
 		{
 			// Arrange
-			string expectedHtml = @"<link href=""/Assets/bootstrap/css/bootstrap.min.css"" rel=""stylesheet"" type=""text/css"" />";
+			string expectedHtml = @"<link href=""/Assets/bootstrap/css/bootstrap.min.css?version={AppVersion}"" rel=""stylesheet"" type=""text/css"" />";
+			expectedHtml = expectedHtml.Replace("{AppVersion}", ApplicationSettings.ProductVersion);
 
 			// Act
 			string actualHtml = _urlHelper.BootstrapCSS().ToHtmlString();
@@ -124,10 +128,11 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void BootstrapJS_Should_()
+		public void BootstrapJS_Should_Return_Expected_Html()
 		{
 			// Arrange
-			string expectedHtml = @"<script type=""text/javascript"" language=""javascript"" src=""/Assets/bootstrap/js/bootstrap.min.js""></script>";
+			string expectedHtml = @"<script type=""text/javascript"" language=""javascript"" src=""/Assets/bootstrap/js/bootstrap.min.js?version={AppVersion}""></script>";
+			expectedHtml = expectedHtml.Replace("{AppVersion}", ApplicationSettings.ProductVersion);
 
 			// Act
 			string actualHtml = _urlHelper.BootstrapJS().ToHtmlString();
@@ -138,14 +143,14 @@ namespace Roadkill.Tests.Unit
 
 		[Test]
 		[Ignore]
-		public void JsBundle_Should_()
+		public void JsBundle_Should_Should_Return_Expected_Html()
 		{
 			// System.Web.Optimization.Scripts can't be tested (it uses HttpContext internally)
 		}
 
 		[Test]
 		[Ignore]
-		public void CssBundle_Should_()
+		public void CssBundle_Should_Return_Expected_Html()
 		{
 			// System.Web.Optimization.Styles can't be tested (it uses HttpContext internally)
 		}

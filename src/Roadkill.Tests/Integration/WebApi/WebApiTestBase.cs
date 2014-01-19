@@ -12,7 +12,7 @@ namespace Roadkill.Tests.Integration.WebApi
 {
 	[TestFixture]
 	[Category("Integration")]
-	public class WebApiTestBase
+	public abstract class WebApiTestBase
 	{
 		private IISExpress _iisExpress;
 

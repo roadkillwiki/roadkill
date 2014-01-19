@@ -391,7 +391,7 @@ namespace Roadkill.Core.Plugins
 			}
 			else
 			{
-				html = string.Format(cssLink, PluginVirtualPath, filename);
+				html = string.Format(cssLink, PluginVirtualPath, filename, Version);
 			}
 
 			return html;
