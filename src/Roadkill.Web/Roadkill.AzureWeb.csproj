@@ -321,6 +321,7 @@
     <Content Include="Assets\CSS\htmldiff.css" />
     <Content Include="Assets\CSS\images\animated-overlay.gif" />
     <Content Include="Assets\CSS\images\blank.gif" />
+    <Content Include="Assets\CSS\images\plugin-disabled.png" />
     <Content Include="Assets\CSS\images\plugin-enabled.png" />
     <Content Include="Assets\Images\filemanager\cancel.png" />
     <Content Include="Assets\Images\filemanager\directory.png" />
@@ -488,6 +489,12 @@
     </Content>
     <Content Include="Assets\Scripts\roadkill\installer\step4.js">
       <DependentUpon>step4.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\installer\step3Db.js">
+      <DependentUpon>step3Db.ts</DependentUpon>
+    </Content>
+    <Content Include="Assets\Scripts\roadkill\installer\step3WindowsAuth.js">
+      <DependentUpon>step3WindowsAuth.ts</DependentUpon>
     </Content>
     <Content Include="Assets\Scripts\roadkill\installer\step2.js">
       <DependentUpon>step2.ts</DependentUpon>
