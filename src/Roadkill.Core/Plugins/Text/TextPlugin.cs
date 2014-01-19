@@ -381,13 +381,13 @@ namespace Roadkill.Core.Plugins
 		/// </summary>
 		public string GetCssLink(string filename)
 		{
-			string cssLink = "\t\t<link href=\"{0}/{1}\" rel=\"stylesheet\" type=\"text/css\" />\n";
+			string cssLink = "\t\t<link href=\"{0}/{1}?version={2}\" rel=\"stylesheet\" type=\"text/css\" />\n";
 			string html = "";
 
 			if (HttpContext.Current != null)
 			{
 				UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-				html = string.Format(cssLink, urlHelper.Content(PluginVirtualPath), filename);
+				html = string.Format(cssLink, urlHelper.Content(PluginVirtualPath), filename, Version);
 			}
 			else
 			{
