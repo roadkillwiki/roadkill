@@ -660,5 +660,26 @@ namespace Roadkill.Core.Security
 
 			return "";
 		}
+
+		/// <summary>
+		/// Gets the currently logged in user, based off the cookie or HttpContext user identity value set during authentication. 
+		/// The value for FormsAuthentication is the user's Guid id.
+		/// </summary>
+		/// <param name="cookieValue">The user id stored in the cookie.</param>
+		/// <returns>A new <see cref="User"/> object</returns>
+		public override User GetLoggedInUser(string cookieValue)
+		{
+			Guid userId;
+
+			// Guids are used for the FormsAuth cookies
+			if (Guid.TryParse(cookieValue, out userId) && userId != Guid.Empty)
+			{
+				return GetUserById(userId);
+			}
+			else
+			{
+				return null;
+			}
+		}
 	}
 }

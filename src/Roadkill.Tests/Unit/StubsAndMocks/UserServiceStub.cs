@@ -139,5 +139,10 @@ namespace Roadkill.Tests
 		{
 			throw new NotImplementedException();
 		}
+
+		public override User GetLoggedInUser(string cookieValue)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

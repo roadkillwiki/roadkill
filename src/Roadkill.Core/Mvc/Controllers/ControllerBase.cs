@@ -73,19 +73,6 @@ namespace Roadkill.Core.Mvc.Controllers
 			Context.CurrentUser = UserService.GetLoggedInUserName(HttpContext);
 			ViewBag.Context = Context;
 			ViewBag.Config = ApplicationSettings;
-
-			// This is a fix for versions before 1.5 storing the username instead of a guid in the login cookie
-			if (!ApplicationSettings.UseWindowsAuthentication)
-			{
-				if (!string.IsNullOrEmpty(Context.CurrentUser))
-				{
-					Guid userId;
-					if (!Guid.TryParse(Context.CurrentUser, out userId))
-					{
-						UserService.Logout();
-					}
-				}
-			}
 		}
 	}
 }

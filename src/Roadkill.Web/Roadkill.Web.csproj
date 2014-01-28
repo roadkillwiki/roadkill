@@ -304,7 +304,9 @@
     <Content Include="App_Data\EmailTemplates\Signup.txt" />
     <Content Include="App_Data\Internal\Export\emptyfile.txt" />
     <Content Include="App_Data\Logs\emptyfile.txt" />
-    <Content Include="App_Data\Internal\htmlwhitelist.xml" />
+    <Content Include="App_Data\Internal\htmlwhitelist.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\Internal\SQLiteBinaries\x64\SQLite.Interop.dll" />
     <Content Include="App_Data\Internal\SQLiteBinaries\x86\SQLite.Interop.dll" />
     <Content Include="App_Data\customvariables.xml">
