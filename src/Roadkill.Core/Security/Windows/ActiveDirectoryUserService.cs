@@ -234,6 +234,17 @@ namespace Roadkill.Core.Security.Windows
 		}
 
 		/// <summary>
+		/// Gets the currently logged in user, based off the cookie or HttpContext user identity value set during authentication. 
+		/// For ActiveDirectory this is an empty <see cref="User"/> object with the Username property set to the cookieValue.
+		/// </summary>
+		/// <param name="cookieValue">The user id stored in the cookie.</param>
+		/// <returns>A new <see cref="User"/> object</returns>
+		public override User GetLoggedInUser(string cookieValue)
+		{
+			return new User() { Username = cookieValue };
+		}
+
+		/// <summary>
 		/// Lowercases the username and takes the "john" part from "DOMAIN\john".
 		/// </summary>
 		private string CleanUsername(string username)

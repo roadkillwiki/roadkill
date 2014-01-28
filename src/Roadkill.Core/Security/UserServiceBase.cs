@@ -78,7 +78,7 @@ namespace Roadkill.Core.Security
 		public abstract bool DeleteUser(string email);
 
 		/// <summary>
-		/// Retrieves a full <see cref="User"/> object using the unique ID provided..
+		/// Retrieves a full <see cref="User"/> object using the unique ID provided.
 		/// </summary>
 		/// <param name="id"></param>
 		/// <param name="isActivated">True if the user should be activated, false for either.</param>
@@ -186,5 +186,12 @@ namespace Roadkill.Core.Security
 		/// <param name="context">The current <see cref="System.Web.HttpContext"/> for the request.</param>
 		/// <returns>The username of the logged in user, or an empty string if the user is not logged in.</returns>
 		public abstract string GetLoggedInUserName(HttpContextBase context);
+
+		/// <summary>
+		/// Gets the currently logged in user, based off the cookie or HttpContext user identity value set during authentication. 
+		/// </summary>
+		/// <param name="cookieValue">The user id stored in the cookie.</param>
+		/// <returns>A new <see cref="User"/> object</returns>
+		public abstract User GetLoggedInUser(string cookieValue);
 	}
 }

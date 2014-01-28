@@ -33,7 +33,7 @@ namespace Roadkill.Core.Security
 		/// <summary>
 		/// Gets the username of the current user. This differs from <see cref="CurrentUser"/> which retrieves the email,
 		/// unless using windows auth where both fields are the same.
-		/// This property is derived from the current UserService's GetUser() method, if the CurrentUser property is not empty.
+		/// This property is derived from the current UserService's GetLoggedInUser() method, if the CurrentUser property is not empty.
 		/// </summary>
 		public string CurrentUsername
 		{
@@ -41,36 +41,24 @@ namespace Roadkill.Core.Security
 			{
 				if (IsLoggedIn)
 				{
-					if (_user != null)
+					if (_user == null)
 					{
-						return _user.Username;
-					}
-					else
-					{
-						Guid userId;
-						if (Guid.TryParse(CurrentUser, out userId) && userId != Guid.Empty)
+						_user = _userService.GetLoggedInUser(CurrentUser);
+
+						if (_user == null)
 						{
-							// Guids are now used for cookie auth
-							_user = _userService.GetUserById(userId); // handle old logins by ignoring them
-							if (_user != null)
-							{
-								return _user.Username;
-							}
-							else
-							{
-								_userService.Logout();
-								return "(User id no longer exists)";
-							}
-						}
-						else
-						{
+							// Assume the cookie/request identity value is bad, and logout.
 							_userService.Logout();
-							return CurrentUser;
+							return "";
 						}
 					}
+
+					return _user.Username;
 				}
 				else
+				{
 					return "";
+				}
 			}
 		}
 
@@ -121,7 +109,8 @@ namespace Roadkill.Core.Security
 		}
 
 		/// <summary>
-		/// Whether the user is currently logged in or not.
+		/// Whether the user is currently logged in or not. If the <see cref="CurrentUser"/> 
+		/// property is populated, this is assumed to be true.
 		/// </summary>
 		public bool IsLoggedIn
 		{
