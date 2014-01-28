@@ -957,18 +957,30 @@ namespace Roadkill.Core.Converters
 					href = href.Replace(">", "&#x3E;");				
 					href = href.Replace("'", "&#x27;");
 
-					// default to external
+					// Use the MarkupConverter to parse the link
 					LinkEventArgs linkEventArgs = new LinkEventArgs(link, href, text, "");
 					OnLinkParsed(linkEventArgs);
 
-					markup = markup.Substring(0, iPos - 2)
-						+ String.Format("<a rel=\"nofollow\" href=\"{0}\"{2}{3}>{1}</a>",
-											linkEventArgs.Href,
-											linkEventArgs.Text,
-											(string.IsNullOrWhiteSpace(linkEventArgs.Target)) ? "" : " target=\"" + linkEventArgs.Target + "\"",
-											(string.IsNullOrWhiteSpace(linkEventArgs.CssClass)) ? "" : " class=\"" + linkEventArgs.CssClass + "\""
-											)
-							+ markup.Substring(iEnd + 2);
+					string nofollow = "";
+					if (linkEventArgs.IsInternalLink == false)
+						nofollow = "rel=\"nofollow\" ";
+
+					string target = "";
+					if (!string.IsNullOrWhiteSpace(linkEventArgs.Target))
+						target= " target=\"" + linkEventArgs.Target + "\"";
+
+					string cssClass = "";
+					if (!string.IsNullOrWhiteSpace(linkEventArgs.CssClass))
+						cssClass = " class=\"" + linkEventArgs.CssClass + "\"";
+
+					string anchorHtml = string.Format("<a {0}href=\"{1}\"{2}{3}>{4}</a>",
+														nofollow,
+														linkEventArgs.Href,
+														target,
+														cssClass,
+														linkEventArgs.Text);
+
+					markup = markup.Substring(0, iPos - 2) + anchorHtml	+ markup.Substring(iEnd + 2);
 				}
 				else
 					break;

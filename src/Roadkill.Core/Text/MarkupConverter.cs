@@ -186,6 +186,9 @@ namespace Roadkill.Core.Converters
 		{
 			if (!_externalLinkPrefixes.Any(x => e.OriginalHref.StartsWith(x)))
 			{
+				e.IsInternalLink = true;
+
+				// Parse internal links, including attachments, tag: and special: links
 				string href = e.OriginalHref;
 				string lowerHref = href.ToLower();
 
@@ -204,7 +207,10 @@ namespace Roadkill.Core.Converters
 			}
 			else
 			{
-				e.CssClass = "external-link";
+				// Add the external-link class to all outward bound links, 
+				// except for anchors pointing to <a name=""> tags on the current page.
+				if (!e.OriginalHref.StartsWith("#"))
+					e.CssClass = "external-link";
 			}
 		}
 

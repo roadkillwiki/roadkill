@@ -36,6 +36,11 @@ namespace Roadkill.Core.Converters
 		public string CssClass { get; set; }
 
 		/// <summary>
+		/// True if the link points to another page in the wiki, including Special: urls, and attachments.
+		/// </summary>
+		public bool IsInternalLink { get; set; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="LinkEventArgs"/> class.
 		/// </summary>
 		public LinkEventArgs(string originalHref, string href, string text, string target)
@@ -45,6 +50,7 @@ namespace Roadkill.Core.Converters
 			Text = text;
 			Target = target;
 			CssClass = "";
+			IsInternalLink = false;
 		}
 	}
 }
