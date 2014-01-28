@@ -137,7 +137,7 @@ namespace Roadkill.Tests.Unit
 			_repository.SiteSettings.MarkupType = "Creole";
 			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
-			string expectedHtml = "<p><a href=\"&#x23;myanchortag\">hello world</a> <a href=\"https&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com\">google</a>\n</p>";
+			string expectedHtml = "<p><a rel=\"nofollow\" href=\"&#x23;myanchortag\">hello world</a> <a rel=\"nofollow\" href=\"https&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com\" class=\"external&#x2D;link\">google</a>\n</p>";
 
 			// Act
 			string actualHtml = _markupConverter.ToHtml("[[#myanchortag|hello world]] [[https://www.google.com|google]]");
@@ -153,10 +153,26 @@ namespace Roadkill.Tests.Unit
 			_repository.SiteSettings.MarkupType = "Creole";
 			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
-			string expectedHtml = "<p><a href=\"&#x23;myanchortag\">hello world</a> <a href=\"https&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2F;some&#x2D;page&#x2D;23\">google</a>\n</p>";
+			string expectedHtml = "<p><a rel=\"nofollow\" href=\"&#x23;myanchortag\">hello world</a> <a rel=\"nofollow\" href=\"https&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2F;some&#x2D;page&#x2D;23\" class=\"external&#x2D;link\">google</a>\n</p>";
 
 			// Act
 			string actualHtml = _markupConverter.ToHtml("[[#myanchortag|hello world]] [[https://www.google.com/some-page-23|google]]");
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+		}
+
+		[Test]
+		public void Links_To_Named_Anchors_Should_Not_Have_External_CSS_Class()
+		{
+			// Arrange
+			_repository.SiteSettings.MarkupType = "Creole";
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
+
+			string expectedHtml = "<p><a rel=\"nofollow\" href=\"&#x23;myanchortag\">hello world</a>\n</p>";
+
+			// Act
+			string actualHtml = _markupConverter.ToHtml("[[#myanchortag|hello world]]");
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
@@ -187,10 +203,59 @@ namespace Roadkill.Tests.Unit
 			_repository.AddNewPage(new Page() { Id = 1, Title = "foo" }, "foo", "admin", DateTime.Today);
 			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
-			string expectedHtml = "<p><a href=\"http&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2F;&#x3F;blah&#x3D;xyz&#x23;myanchor\">Some link text</a>\n</p>";
+			string expectedHtml = "<p><a rel=\"nofollow\" href=\"http&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2F;&#x3F;blah&#x3D;xyz&#x23;myanchor\" class=\"external&#x2D;link\">Some link text</a>\n</p>";
 
 			// Act
 			string actualHtml = _markupConverter.ToHtml("[[http://www.google.com/?blah=xyz#myanchor|Some link text]]");
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
+		}
+
+		[Test]
+		public void Internal_Wiki_Page_Link_Should_Not_Have_NoFollow_Attribute()
+		{
+			// Arrange
+			_repository.SiteSettings.MarkupType = "Creole";
+			_repository.AddNewPage(new Page() { Id = 1, Title = "foo-page" }, "foo", "admin", DateTime.Today);
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
+
+			string expectedHtml = "<p><a href=\"&#x2F;wiki&#x2F;1&#x2F;foo&#x2D;page\">Some link text</a>\n</p>";
+
+			// Act
+			string actualHtml = _markupConverter.ToHtml("[[foo-page|Some link text]]");
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
+		}
+
+		[Test]
+		public void Attachment_Link_Should_Not_Have_NoFollow_Attribute()
+		{
+			// Arrange
+			_repository.SiteSettings.MarkupType = "Creole";
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
+
+			string expectedHtml = "<p><a href=\"&#x2F;Attachments&#x2F;folder&#x2F;myfile&#x2E;jpg\">Some link text</a> <a href=\"&#x2F;Attachments&#x2F;folder2&#x2F;myfile&#x2E;jpg\">Some link text</a>\n</p>";
+
+			// Act
+			string actualHtml = _markupConverter.ToHtml("[[~/folder/myfile.jpg|Some link text]] [[attachment:/folder2/myfile.jpg|Some link text]]");
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
+		}
+
+		[Test]
+		public void SpecialUrl_Link_Should_Not_Have_NoFollow_Attribute()
+		{
+			// Arrange
+			_repository.SiteSettings.MarkupType = "Creole";
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
+
+			string expectedHtml = "<p><a href=\"&#x2F;wiki&#x2F;Special&#x3A;Random\">Some link text</a>\n</p>";
+
+			// Act
+			string actualHtml = _markupConverter.ToHtml("[[Special:Random|Some link text]]");
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
@@ -258,7 +323,7 @@ namespace Roadkill.Tests.Unit
 			_repository.SiteSettings.MarkupType = "Creole";
 			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
-			string expectedHtml = "<p><a href=\"http&#x3A;&#x2F;&#x2F;msdn&#x2E;microsoft&#x2E;com&#x2F;en&#x2D;us&#x2F;library&#x2F;system&#x2E;componentmodel&#x2E;descriptionattribute&#x2E;aspx\">ComponentModel.Description</a>\n</p>";
+			string expectedHtml = "<p><a rel=\"nofollow\" href=\"http&#x3A;&#x2F;&#x2F;msdn&#x2E;microsoft&#x2E;com&#x2F;en&#x2D;us&#x2F;library&#x2F;system&#x2E;componentmodel&#x2E;descriptionattribute&#x2E;aspx\" class=\"external&#x2D;link\">ComponentModel.Description</a>\n</p>";
 
 			// Act
 			string actualHtml = _markupConverter.ToHtml("[[http://msdn.microsoft.com/en-us/library/system.componentmodel.descriptionattribute.aspx|ComponentModel.Description]]");
@@ -275,7 +340,7 @@ namespace Roadkill.Tests.Unit
 			_repository.SiteSettings.MarkupType = "Creole";
 			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
-			string expectedHtml = "<p><a href=\"http&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2F;&#x22;&#x3E;javascript&#x3A;alert&#x28;&#x27;hello&#x27;&#x29;\">ComponentModel</a>\n</p>";
+			string expectedHtml = "<p><a rel=\"nofollow\" href=\"http&#x3A;&#x2F;&#x2F;www&#x2E;google&#x2E;com&#x2F;&#x22;&#x3E;javascript&#x3A;alert&#x28;&#x27;hello&#x27;&#x29;\" class=\"external&#x2D;link\">ComponentModel</a>\n</p>";
 
 			// Act
 			string actualHtml = _markupConverter.ToHtml("[[http://www.google.com/\">javascript:alert('hello')|ComponentModel]]");
@@ -324,7 +389,7 @@ namespace Roadkill.Tests.Unit
 			_repository.SiteSettings.MarkupType = "Creole";
 			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
-			string expectedHtml = "<p><a href=\"http&#x3A;&#x2F;&#x2F;www&#x2E;blah&#x2E;com\">link1</a> <a href=\"www&#x2E;blah&#x2E;com\">link2</a> <a href=\"mailto&#x3A;spam&#x40;gmail&#x2E;com\">spam</a>\n</p>";
+			string expectedHtml = "<p><a rel=\"nofollow\" href=\"http&#x3A;&#x2F;&#x2F;www&#x2E;blah&#x2E;com\" class=\"external&#x2D;link\">link1</a> <a rel=\"nofollow\" href=\"www&#x2E;blah&#x2E;com\" class=\"external&#x2D;link\">link2</a> <a rel=\"nofollow\" href=\"mailto&#x3A;spam&#x40;gmail&#x2E;com\" class=\"external&#x2D;link\">spam</a>\n</p>";
 
 			// Act
 			string actualHtml = _markupConverter.ToHtml("[[http://www.blah.com|link1]] [[www.blah.com|link2]] [[mailto:spam@gmail.com|spam]]");

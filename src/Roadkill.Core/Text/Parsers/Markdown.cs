@@ -1048,7 +1048,7 @@ namespace Roadkill.Core.Converters
 
 		private string AddNoRelToLink(LinkEventArgs args)
 		{
-			if (args.Href.StartsWith("http://") || args.Href.StartsWith("https://"))
+			if (args.IsInternalLink == false)
 				return "rel=\"nofollow\" ";
 			else
 				return "";

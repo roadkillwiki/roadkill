@@ -77,7 +77,7 @@ namespace Roadkill.Core.Text.Sanitizer
 			tagList.Add(new HtmlElement("span", new string[] { "style", "class" }));
 			tagList.Add(new HtmlElement("br", new string[] { "style" }));
 			tagList.Add(new HtmlElement("center", new string[] { "style" }));
-			tagList.Add(new HtmlElement("a", new string[] { "href" }));
+			tagList.Add(new HtmlElement("a", new string[] { "rel", "class", "href" }));
 			tagList.Add(new HtmlElement("pre", new string[] { "id", "class" }));
 			tagList.Add(new HtmlElement("code", new string[] { "id", "class" }));
 
