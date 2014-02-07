@@ -78,6 +78,10 @@
 		<HtmlElement Name="img">
 			<AllowedAttributes>
 				<HtmlAttribute Name="src" />
+        <HtmlAttribute Name="alt" />
+        <HtmlAttribute Name="title" />
+        <HtmlAttribute Name="height" />
+        <HtmlAttribute Name="width" />
 			</AllowedAttributes>
 		</HtmlElement>
 		<HtmlElement Name="div">

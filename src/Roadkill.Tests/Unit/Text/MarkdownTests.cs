@@ -92,5 +92,71 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
 		}
+
+        [Test]
+        public void Images_Should_Support_Dimensions()
+        {
+            // Issue #82
+            // Arrange
+            Page page = new Page() { Id = 1, Title = "My first page" };
+
+            RepositoryMock repositoryStub = new RepositoryMock();
+            repositoryStub.AddNewPage(page, "My first page", "admin", DateTime.UtcNow);
+            repositoryStub.SiteSettings = new SiteSettings() { MarkupType = "Markdown" };
+
+            ApplicationSettings settings = new ApplicationSettings();
+            settings.Installed = true;
+            settings.UpgradeRequired = false;
+
+            MarkupConverter converter = new MarkupConverter(settings, repositoryStub, _pluginFactory);
+
+            string markdownText = "Here is an image:![Image](/Image1.png) \n\n" +
+                                  "And another with equal dimensions ![Square](/Image1.png =250x) \n\n" +
+                                  "And this one is a rectangle ![Rectangle](/Image1.png =250x350)";
+
+            string expectedHtml = "<p>Here is an image:<img src=\"/Image1.png\" border=\"0\" alt=\"Image\" width=\"\" height=\"\" /> </p>\n\n" +
+                                    "<p>And another with equal dimensions <img src=\"/Image1.png\" border=\"0\" alt=\"Square\" width=\"250px\" height=\"\" /> </p>\n\n" +
+                                    "<p>And this one is a rectangle <img src=\"/Image1.png\" border=\"0\" alt=\"Rectangle\" width=\"250px\" height=\"350px\" /></p>\n";
+
+
+            // Act		
+            string actualHtml = converter.ToHtml(markdownText);
+
+            // Assert
+            Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+        }
+
+        [Test]
+        public void Images_Should_Support_Dimensions_And_Titles()
+        {
+            // Issue #82
+            // Arrange
+            Page page = new Page() { Id = 1, Title = "My first page" };
+
+            RepositoryMock repositoryStub = new RepositoryMock();
+            repositoryStub.AddNewPage(page, "My first page", "admin", DateTime.UtcNow);
+            repositoryStub.SiteSettings = new SiteSettings() { MarkupType = "Markdown" };
+
+            ApplicationSettings settings = new ApplicationSettings();
+            settings.Installed = true;
+            settings.UpgradeRequired = false;
+
+            MarkupConverter converter = new MarkupConverter(settings, repositoryStub, _pluginFactory);
+
+            string markdownText = "Here is an image with a title:![Image](/Image1.png \"Image\") \n\n" +
+                                  "And another with equal dimensions ![Square](/Image1.png \"Square\" =250x) \n\n" +
+                                  "And this one is a rectangle ![Rectangle](/Image1.png \"Rectangle\" =250x350)";
+
+            string expectedHtml = "<p>Here is an image with a title:<img src=\"/Image1.png\" border=\"0\" alt=\"Image\" width=\"\" height=\"\" title=\"Image\" /> </p>\n\n" +
+                                    "<p>And another with equal dimensions <img src=\"/Image1.png\" border=\"0\" alt=\"Square\" width=\"250px\" height=\"\" title=\"Square\" /> </p>\n\n" +
+                                    "<p>And this one is a rectangle <img src=\"/Image1.png\" border=\"0\" alt=\"Rectangle\" width=\"250px\" height=\"350px\" title=\"Rectangle\" /></p>\n";
+
+
+            // Act		
+            string actualHtml = converter.ToHtml(markdownText);
+
+            // Assert
+            Assert.That(actualHtml, Is.EqualTo(expectedHtml));
+        }
 	}
 }
