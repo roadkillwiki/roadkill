@@ -7,6 +7,7 @@ using System.Web;
 using System.Globalization;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Core.Email
 {
@@ -18,8 +19,8 @@ namespace Roadkill.Core.Email
 		private static string _htmlContent;
 		private static string _plainTextContent;
 
-		public ResetPasswordEmail(ApplicationSettings applicationSettings, SiteSettings siteSettings, IEmailClient emailClient)
-			: base(applicationSettings, siteSettings, emailClient)
+		public ResetPasswordEmail(ApplicationSettings applicationSettings, IRepository repository, IEmailClient emailClient)
+			: base(applicationSettings, repository, emailClient)
 		{
 		}
 

@@ -337,7 +337,7 @@ namespace Roadkill.Tests.Unit
 			SiteSettings siteSettings = _settingsService.GetSiteSettings();
 			siteSettings.AllowUserSignup = true;
 
-			SignupEmailStub signupEmail = new SignupEmailStub(_applicationSettings, siteSettings, _emailClientMock);
+			SignupEmailStub signupEmail = new SignupEmailStub(_applicationSettings, _repository, _emailClientMock);
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, signupEmail, null);
 			userController.SetFakeControllerContext();
 
@@ -365,7 +365,7 @@ namespace Roadkill.Tests.Unit
 			SiteSettings siteSettings = _settingsService.GetSiteSettings();
 			siteSettings.AllowUserSignup = true;
 
-			SignupEmailStub signupEmail = new SignupEmailStub(_applicationSettings, siteSettings, _emailClientMock);
+			SignupEmailStub signupEmail = new SignupEmailStub(_applicationSettings, _repository, _emailClientMock);
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, signupEmail, null);
 			userController.SetFakeControllerContext();
 			userController.ModelState.AddModelError("key", "this is used to force ModelState.IsValid to false");
@@ -389,7 +389,7 @@ namespace Roadkill.Tests.Unit
 			SiteSettings siteSettings = _settingsService.GetSiteSettings();
 			siteSettings.AllowUserSignup = true;
 
-			SignupEmailStub signupEmail = new SignupEmailStub(_applicationSettings, siteSettings, _emailClientMock); // change the signup email
+			SignupEmailStub signupEmail = new SignupEmailStub(_applicationSettings, _repository, _emailClientMock); // change the signup email
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, signupEmail, null);
 			userController.SetFakeControllerContext();
 			
@@ -480,7 +480,7 @@ namespace Roadkill.Tests.Unit
 			_applicationSettings.UseWindowsAuthentication = false;
 			SiteSettings siteSettings = _settingsService.GetSiteSettings();
 
-			ResetPasswordEmailStub resetEmail = new ResetPasswordEmailStub(_applicationSettings, siteSettings, _emailClientMock);
+			ResetPasswordEmailStub resetEmail = new ResetPasswordEmailStub(_applicationSettings, _repository, _emailClientMock);
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, resetEmail);
 			userController.SetFakeControllerContext();
 
@@ -505,7 +505,7 @@ namespace Roadkill.Tests.Unit
 			_userService.AddUser(email, "test", "test", false, true);
 			_userService.Users.First(x => x.Email == email).IsActivated = true;
 
-			ResetPasswordEmailStub resetEmail = new ResetPasswordEmailStub(_applicationSettings, siteSettings, _emailClientMock);
+			ResetPasswordEmailStub resetEmail = new ResetPasswordEmailStub(_applicationSettings, _repository, _emailClientMock);
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, resetEmail);
 			userController.SetFakeControllerContext();
 
@@ -668,7 +668,7 @@ namespace Roadkill.Tests.Unit
 			_applicationSettings.UseWindowsAuthentication = false;
 			SiteSettings siteSettings = _settingsService.GetSiteSettings();
 
-			ResetPasswordEmailStub resetEmail = new ResetPasswordEmailStub(_applicationSettings, siteSettings, _emailClientMock);
+			ResetPasswordEmailStub resetEmail = new ResetPasswordEmailStub(_applicationSettings, _repository, _emailClientMock);
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, resetEmail);
 			userController.SetFakeControllerContext();
 
@@ -691,7 +691,7 @@ namespace Roadkill.Tests.Unit
 			_userService.AddUser(email, "test", "password", false, true);
 			UserViewModel model = new UserViewModel(_userService.GetUser("test@test.com", false));
 
-			SignupEmailStub signupEmail = new SignupEmailStub(_applicationSettings, siteSettings, _emailClientMock);
+			SignupEmailStub signupEmail = new SignupEmailStub(_applicationSettings, _repository, _emailClientMock);
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, signupEmail, null);
 			userController.SetFakeControllerContext();
 
