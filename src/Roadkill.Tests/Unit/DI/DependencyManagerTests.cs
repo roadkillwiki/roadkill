@@ -93,7 +93,10 @@ namespace Roadkill.Tests.Unit
 		public void Should_Register_Controller_Instances()
 		{
 			// Arrange
-			DependencyManager container = new DependencyManager(new ApplicationSettings());
+			ApplicationSettings settings = new ApplicationSettings();
+			settings.DataStoreType = DataStoreType.MongoDB; // avoid the Lightspeed connectionstring startup
+
+			DependencyManager container = new DependencyManager(settings);
 
 			// Act
 			container.Configure();
