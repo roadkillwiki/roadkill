@@ -102,9 +102,12 @@ namespace Roadkill.Core.Extensions
 		/// </summary>
 		public static MvcHtmlString BootstrapJS(this UrlHelper helper)
 		{
-			string path = helper.Content("~/Assets/bootstrap/js/bootstrap.min.js");
-			string html = string.Format("<script type=\"text/javascript\" language=\"javascript\" src=\"{0}?version={1}\"></script>", path, ApplicationSettings.ProductVersion);
-			
+			string bootStrapPath = helper.Content("~/Assets/bootstrap/js/bootstrap.min.js");
+			string respondPath = helper.Content("~/Assets/bootstrap/js/respond.min.js");
+
+			string html = string.Format("<script type=\"text/javascript\" language=\"javascript\" src=\"{0}?version={1}\"></script>", bootStrapPath, ApplicationSettings.ProductVersion);
+			html += string.Format("\n<script type=\"text/javascript\" language=\"javascript\" src=\"{0}?version={1}\"></script>", respondPath, ApplicationSettings.ProductVersion);
+		
 			return MvcHtmlString.Create(html);
 		}
 

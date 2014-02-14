@@ -319,6 +319,7 @@
     <Content Include="Assets\Bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Assets\Bootstrap\js\bootstrap.js" />
     <Content Include="Assets\Bootstrap\js\bootstrap.min.js" />
+    <Content Include="Assets\Bootstrap\js\respond.js" />
     <Content Include="Assets\CSS\apihelp.css" />
     <Content Include="Assets\CSS\htmldiff.css" />
     <Content Include="Assets\CSS\images\animated-overlay.gif" />

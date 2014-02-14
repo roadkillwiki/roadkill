@@ -132,6 +132,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			string expectedHtml = @"<script type=""text/javascript"" language=""javascript"" src=""/Assets/bootstrap/js/bootstrap.min.js?version={AppVersion}""></script>";
+			expectedHtml += "\n" +@"<script type=""text/javascript"" language=""javascript"" src=""/Assets/bootstrap/js/respond.min.js?version={AppVersion}""></script>";
 			expectedHtml = expectedHtml.Replace("{AppVersion}", ApplicationSettings.ProductVersion);
 
 			// Act
