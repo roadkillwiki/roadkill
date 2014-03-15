@@ -1179,7 +1179,7 @@ namespace Roadkill.Core.Converters
 			OnImageParsed(args);
 
 
-			result = string.Format("<img src=\"{0}\" border=\"0\" alt=\"{1}\" width=\"{2}\" height=\"{3}\"", url, alt, width, height);
+			result = string.Format("<img src=\"{0}\" border=\"0\" alt=\"{1}\" width=\"{2}\" height=\"{3}\"", args.Src, args.Alt, width, height);
 
 			if (!String.IsNullOrEmpty(title))
 			{
