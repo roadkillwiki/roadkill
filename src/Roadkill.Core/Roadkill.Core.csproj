@@ -384,6 +384,7 @@
     <Compile Include="Database\Repositories\ISettingsRepository.cs" />
     <Compile Include="Email\EmailClient.cs" />
     <Compile Include="Email\IEmailClient.cs" />
+    <Compile Include="Exceptions\FileException.cs" />
     <Compile Include="Extensions\BootstrapHtmlExtensions.cs" />
     <Compile Include="Configuration\UpgradeChecker.cs" />
     <Compile Include="Configuration\ConfigReaderWriter.cs" />
@@ -480,6 +481,7 @@
     <Compile Include="Database\Schema\Sqlite\SqliteSchema.cs" />
     <Compile Include="Database\Schema\SqlServerCE\SqlServerCESchema.cs" />
     <Compile Include="Database\Schema\SqlServer\SqlServerSchema.cs" />
+    <Compile Include="Services\IFileService.cs" />
     <Compile Include="Services\IPageService.cs" />
     <Compile Include="Database\Repositories\MongoDB\MongoDBRepository.cs" />
     <Compile Include="Exceptions\UpgradeException.cs" />
@@ -530,6 +532,7 @@
     <Compile Include="Plugins\Text\TextPlugin.cs" />
     <Compile Include="Plugins\PluginFactory.cs" />
     <Compile Include="Plugins\Text\BuiltIn\SyntaxHighlighter.cs" />
+    <Compile Include="Services\LocalFileService.cs" />
     <Compile Include="Text\MarkupLinkUpdater.cs" />
     <Compile Include="Text\TextPluginRunner.cs" />
     <Compile Include="Text\UrlResolver.cs" />

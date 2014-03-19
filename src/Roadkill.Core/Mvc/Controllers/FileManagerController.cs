@@ -1,16 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Web;
-using System.Web.Mvc;
-using System.Linq;
-using System.Collections.Generic;
+﻿using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Localization;
+using Roadkill.Core.Exceptions;
 using Roadkill.Core.Mvc.Attributes;
-using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security;
 using Roadkill.Core.Services;
-using Roadkill.Core.Attachments;
+using System;
+using System.Web.Mvc;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -23,17 +18,19 @@ namespace Roadkill.Core.Mvc.Controllers
 		private AttachmentFileHandler _attachmentHandler;
 		private AttachmentPathUtil _attachmentPathUtil;
 		private static string[] _filesToExclude = new string[] { "emptyfile.txt", "_installtest.txt" }; // installer/publish files
+		private readonly IFileService _fileService;
 
 		/// <summary>
 		/// Constructor for the file manager.
 		/// </summary>
 		/// <remarks>This action requires editor rights.</remarks>
 		public FileManagerController(ApplicationSettings settings, UserServiceBase userManager, IUserContext context,
-			SettingsService settingsService, AttachmentFileHandler attachment)
+			SettingsService settingsService, AttachmentFileHandler attachment, IFileService fileService)
 			: base(settings, userManager, context, settingsService)
 		{
 			_attachmentHandler = attachment;
 			_attachmentPathUtil = new AttachmentPathUtil(settings);
+			_fileService = fileService;
 		}
 
 		/// <summary>
@@ -56,22 +53,12 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public JsonResult DeleteFile(string filePath, string fileName)
 		{
-			string physicalPath = _attachmentPathUtil.ConvertUrlPathToPhysicalPath(filePath);
-			string physicalFilePath = Path.Combine(physicalPath, fileName);
-
-			if (!_attachmentPathUtil.IsAttachmentPathValid(physicalPath))
-			{
-				throw new SecurityException(null, "Attachment path was invalid when deleting {0}", fileName);
-			}
-
 			try
 			{
-				if (System.IO.File.Exists(physicalFilePath))
-					System.IO.File.Delete(physicalFilePath);
-
+				_fileService.Delete(filePath, fileName);
 				return Json(new { status = "ok", message = "" });
 			}
-			catch (IOException e)
+			catch (FileException e)
 			{
 				return Json(new { status = "error", message = e.Message });
 			}
@@ -86,34 +73,12 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public JsonResult DeleteFolder(string folder)
 		{
-			if (string.IsNullOrEmpty(folder))
-			{
-				return Json(new { status = "error", message = SiteStrings.FileManager_Error_DeleteFolder });
-			}
-
-			string physicalPath = _attachmentPathUtil.ConvertUrlPathToPhysicalPath(folder);
-
-			if (!_attachmentPathUtil.IsAttachmentPathValid(physicalPath, false))
-			{
-				throw new SecurityException(null, "Attachment path was invalid when deleting the folder {0}", folder);
-			}
-
 			try
 			{
-				DirectoryInfo info = new DirectoryInfo(physicalPath);
-
-				if (info.Exists && info.GetDirectories().Length == 0 && info.GetFiles().Length == 0)
-				{
-					info.Delete();
-				}
-				else
-				{
-					return Json(new { status = "error", message = "The folder is not empty." });
-				}
-
+				_fileService.DeleteFolder(folder);
 				return Json(new { status = "ok", message = "" });
 			}
-			catch (IOException e)
+			catch (FileException e)
 			{
 				return Json(new { status = "error", message = e.Message });
 			}
@@ -129,60 +94,13 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public ActionResult FolderInfo(string dir)
 		{
-			if (!Directory.Exists(ApplicationSettings.AttachmentsDirectoryPath))
-				return Json(new { status = "error", message = "The attachments directory does not exist - please create it." });
-
-			string folder = dir;
-			folder = Server.UrlDecode(folder);
-
-			string physicalPath = _attachmentPathUtil.ConvertUrlPathToPhysicalPath(folder);
-
-			if (!_attachmentPathUtil.IsAttachmentPathValid(physicalPath))
-			{
-				throw new SecurityException(null, "Attachment path was invalid when getting the folder {0}", dir);
-			}
-
 			try
 			{
-				string currentFolderName = dir;
-				if (!string.IsNullOrEmpty(currentFolderName) && currentFolderName != "/")
-					currentFolderName = Path.GetFileName(dir);
-
-				DirectoryViewModel directoryModel = new DirectoryViewModel(currentFolderName, dir);
-				if (Directory.Exists(physicalPath))
-				{
-					foreach (string directory in Directory.GetDirectories(physicalPath))
-					{
-						DirectoryInfo info = new DirectoryInfo(directory);
-						string fullPath = info.FullName;
-						fullPath = fullPath.Replace(ApplicationSettings.AttachmentsDirectoryPath, "");
-						fullPath = fullPath.Replace(Path.DirectorySeparatorChar.ToString(), "/");
-						fullPath = "/" + fullPath; // removed in the 1st replace
-
-						DirectoryViewModel childModel = new DirectoryViewModel(info.Name, fullPath);
-						directoryModel.ChildFolders.Add(childModel);
-					}
-
-					foreach (string file in Directory.GetFiles(physicalPath))
-					{
-
-						FileInfo info = new FileInfo(file);
-						string filename = info.Name;
-
-						if (!_filesToExclude.Contains(info.Name))
-						{
-							string urlPath = Path.Combine(dir, filename);
-							FileViewModel fileModel = new FileViewModel(info.Name, info.Extension.Replace(".", ""), info.Length, info.CreationTime, dir);
-							directoryModel.Files.Add(fileModel);
-						}
-					}
-				}
-
-				return Json(directoryModel);
+				return Json(_fileService.FolderInfo(dir));
 			}
-			catch (IOException e)
+			catch (FileException e)
 			{
-				return Json(new { status = "error", message = "An unhandled error occurred: "+e.Message });
+				return Json(new { status = "error", message = e.Message });
 			}
 		}
 
@@ -197,28 +115,15 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public JsonResult NewFolder(string currentFolderPath, string newFolderName)
 		{
-			var physicalPath = _attachmentPathUtil.ConvertUrlPathToPhysicalPath(currentFolderPath);
-
-			if (!_attachmentPathUtil.IsAttachmentPathValid(physicalPath))
-			{
-				throw new SecurityException(null, "Attachment path was invalid when creating folder {0}", newFolderName);
-			}
-
 			try
 			{
-				var newPath = Path.Combine(physicalPath, newFolderName);
-
-				if (!Directory.Exists(newPath))
-					Directory.CreateDirectory(newPath);
-				else
-					return Json(new { status = "error", message = SiteStrings.FileManager_Error_CreateFolder + " " + newFolderName });
+				_fileService.CreateFolder(currentFolderPath, newFolderName);
+				return Json(new { status = "ok", message = newFolderName });
 			}
-			catch (Exception e)
+			catch (FileException e)
 			{
 				return Json(new { status = "error", message = e.Message });
 			}
-
-			return Json(new { status = "ok", FolderName = newFolderName });
 		}
 
 		/// <summary>
@@ -230,63 +135,13 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public JsonResult Upload()
 		{
-			string destinationFolder = Request.Form["destination_folder"];
-			string physicalPath = _attachmentPathUtil.ConvertUrlPathToPhysicalPath(destinationFolder);
-
-			if (!_attachmentPathUtil.IsAttachmentPathValid(physicalPath))
-			{
-				throw new SecurityException("Attachment path was invalid when uploading.", null);
-			}
-
 			try
 			{
-				// Get the allowed files types
-				string fileName = "";
-				IEnumerable<string> allowedExtensions = SettingsService.GetSiteSettings().AllowedFileTypesList
-													.Select(x => x.ToLower());
-
-				// For checking the setting to overwrite existing files
-				SiteSettings siteSettings = SettingsService.GetSiteSettings();
-
-				for (int i = 0; i < Request.Files.Count; i++)
-				{
-					// Find the file's extension
-					HttpPostedFileBase sourceFile = Request.Files[i];
-					string extension = Path.GetExtension(sourceFile.FileName).Replace(".", "");
-
-					if (!string.IsNullOrEmpty(extension))
-						extension = extension.ToLower();
-
-					// Check if it's an allowed extension
-					if (allowedExtensions.Contains(extension))
-					{
-						string fullFilePath = Path.Combine(physicalPath, sourceFile.FileName);
-
-						// Check if it exists on disk already
-						if (!siteSettings.OverwriteExistingFiles)
-						{
-							 if (System.IO.File.Exists(fullFilePath))
-							 {
-								 string errorMessage = string.Format(SiteStrings.FileManager_Upload_FileAlreadyExists, sourceFile.FileName);
-								 return Json(new { status = "error", message = errorMessage }, "text/plain");
-							 }
-						}
-
-						sourceFile.SaveAs(fullFilePath);
-						fileName = sourceFile.FileName;
-					}
-					else
-					{
-						string allowedExtensionsCsv = string.Join(",", allowedExtensions);
-						string errorMessage = string.Format(SiteStrings.FileManager_Extension_Not_Supported, allowedExtensionsCsv);
-						
-						return Json(new { status = "error", message = errorMessage }, "text/plain");
-					}
-				}
+				string fileName = _fileService.Upload(Request.Form["destination_folder"], Request.Files);
 
 				return Json(new { status = "ok", filename = fileName }, "text/plain");
 			}
-			catch (Exception e)
+			catch (FileException e)
 			{
 				return Json(new { status = "error", message = e.Message }, "text/plain");
 			}
