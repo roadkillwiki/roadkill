@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Caching;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
-using Roadkill.Core;
+﻿using Roadkill.Core;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Security;
 using Roadkill.Core.Services;
 using Roadkill.Tests.Unit.StubsAndMocks;
+using System;
+using System.IO;
+using System.Linq;
+using System.Runtime.Caching;
 
 namespace Roadkill.Tests.Unit
 {
@@ -33,6 +29,7 @@ namespace Roadkill.Tests.Unit
 		public PluginFactoryMock PluginFactory { get; set; }
 		public MarkupConverter MarkupConverter { get; set; }
 		public EmailClientMock EmailClient { get; set; }
+		public IFileService FileService { get; set; }
 
 		/// <summary>
 		/// Creates a new instance of MocksAndStubsContainer.
@@ -73,6 +70,8 @@ namespace Roadkill.Tests.Unit
 
 			// EmailTemplates
 			EmailClient = new EmailClientMock();
+
+			FileService = new LocalFileService(ApplicationSettings,SettingsService);
 		}
 
 		public void ClearCache()
