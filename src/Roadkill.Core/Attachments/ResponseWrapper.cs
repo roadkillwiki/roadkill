@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using Roadkill.Core.Extensions;
+using System;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Web;
-using Roadkill.Core.Extensions;
 
 namespace Roadkill.Core.Attachments
 {
@@ -84,6 +80,27 @@ namespace Roadkill.Core.Attachments
 				_context.Headers.Add("Expires", "-1"); // always followed by the browser
 				_context.Cache.SetLastModifiedFromFileDependencies(); // sometimes followed by the browser
 				 int statusCode = GetStatusCodeForCache(info.LastWriteTimeUtc, modifiedSinceHeader);
+
+				_context.StatusCode = statusCode;
+				StatusCode = statusCode;
+			}
+		}
+
+		/// <summary>
+		/// Adds the HTTP headers for cache expiry, and status code to the current response.
+		/// </summary>
+		/// <param name="fullPath">The full virtual path of the file to add cache settings for.</param>
+		/// <param name="modifiedSinceHeader">The incoming modified since header sent by the browser.</param>
+		public void AddStatusCodeForCache(string fileName, string modifiedSinceHeader, DateTime lastWriteTimeUtc)
+		{
+			if (_context != null)
+			{
+				// https://developers.google.com/speed/docs/best-practices/caching
+				_context.AddFileDependency(fileName);
+				_context.Cache.SetCacheability(HttpCacheability.Public);
+				_context.Headers.Add("Expires", "-1"); // always followed by the browser
+				_context.Cache.SetLastModifiedFromFileDependencies(); // sometimes followed by the browser
+				int statusCode = GetStatusCodeForCache(lastWriteTimeUtc, modifiedSinceHeader);
 
 				_context.StatusCode = statusCode;
 				StatusCode = statusCode;
