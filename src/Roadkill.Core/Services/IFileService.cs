@@ -1,4 +1,5 @@
-﻿using Roadkill.Core.Mvc.ViewModels;
+﻿using Roadkill.Core.Attachments;
+using Roadkill.Core.Mvc.ViewModels;
 using System.Web;
 
 namespace Roadkill.Core.Services
@@ -10,5 +11,6 @@ namespace Roadkill.Core.Services
 		bool CreateFolder(string parentPath, string folderName);
 		DirectoryViewModel FolderInfo(string dir);
 		string Upload(string destination, HttpFileCollectionBase files);
+		void WriteResponse(string localPath, string applicationPath, string modifiedSinceHeader, IResponseWrapper responseWrapper);
 	}
 }
