@@ -51,7 +51,7 @@ namespace Roadkill.Tests.Unit
 			_userService = _container.UserService;
 			_historyService = _container.HistoryService;
 			_pageService = _container.PageService;
-			_attachmentFileHandler = new AttachmentFileHandler(_applicationSettings);
+			_attachmentFileHandler = new AttachmentFileHandler(_applicationSettings,_container.FileService);
 			_fileService = _container.FileService;
 
 			try

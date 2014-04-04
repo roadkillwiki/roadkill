@@ -1,5 +1,6 @@
 ﻿using Roadkill.Core.Configuration;
 using Roadkill.Core.Services;
+using System.IO;
 using System.Web;
 
 namespace Roadkill.Core.Attachments
@@ -34,7 +35,7 @@ namespace Roadkill.Core.Attachments
 			WriteResponse(context.Request.Url.LocalPath, 
 							context.Request.ApplicationPath, 
 							context.Request.Headers["If-Modified-Since"], 
-							wrapper);
+							wrapper, context);
 		}
 
 		/// <summary>
@@ -48,12 +49,40 @@ namespace Roadkill.Core.Attachments
 		/// <param name="modifiedSinceHeader">The modified since header (or null if there isn't one) - this is a date in ISO format.</param>
 		/// <param name="responseWrapper">A wrapper for the HttpResponse object, to cater for ASP.NET being untestable.</param>
 		public void WriteResponse(string localPath, string applicationPath, string modifiedSinceHeader, 
-									IResponseWrapper responseWrapper)
+									IResponseWrapper responseWrapper, HttpContext context)
 		{
 			_fileService.WriteResponse( localPath,  applicationPath,  modifiedSinceHeader, 
-									 responseWrapper);
+									 responseWrapper, context);
 
 
+		}
+
+		public string TranslateUrlPathToFilePath(string urlPath, string applicationPath)
+		{
+			if (string.IsNullOrEmpty(urlPath))
+				return "";
+
+			if (!urlPath.StartsWith("/"))
+				urlPath = "/" + urlPath;
+
+			// Get rid of the route from the path
+			// This replacement assumes the url is case sensitive (e.g. '/Attachments' is replaced, '/attachments' isn't)
+			string filePath = urlPath.Replace(string.Format("/{0}", _settings.AttachmentsRoutePath), "");
+
+			if (!string.IsNullOrEmpty(applicationPath) && applicationPath != "/" && filePath.StartsWith(applicationPath))
+				filePath = filePath.Replace(applicationPath, "");
+
+			// urlPath/LocalPath uses "/" and a Windows filepath is "\"
+			// ignoring Path.AltDirectorySeparatorChar, Path.VolumeSeparatorChar for now.
+			filePath = filePath.Replace('/', Path.DirectorySeparatorChar);
+
+			// Get rid of the \ at the start of the file path
+			if (filePath.StartsWith(Path.DirectorySeparatorChar.ToString()))
+				filePath = filePath.Remove(0, 1);
+
+			// THe attachmentFolder has a trailing slash
+			string fullPath = _settings.AttachmentsDirectoryPath + filePath;
+			return fullPath;
 		}
 	}
 }
