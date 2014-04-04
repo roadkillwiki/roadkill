@@ -238,7 +238,7 @@ namespace Roadkill.Core.Services
 			}
 		}
 
-		public void WriteResponse(string localPath, string applicationPath, string modifiedSinceHeader, IResponseWrapper responseWrapper)
+		public void WriteResponse(string localPath, string applicationPath, string modifiedSinceHeader, IResponseWrapper responseWrapper, HttpContext context)
 		{
 			// Get the mimetype from the IIS settings (configurable in the mimetypes.xml file in the site)
 			// n.b. debug mode skips using IIS to avoid complications with testing.

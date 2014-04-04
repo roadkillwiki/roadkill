@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
+﻿using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 using Roadkill.Core.Localization;
-using Roadkill.Core.Configuration;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Roadkill.Core.Database;
 
 namespace Roadkill.Core.Mvc.ViewModels
 {
@@ -34,6 +32,10 @@ namespace Roadkill.Core.Mvc.ViewModels
 		[RegularExpression(@"^[^/Files].*", ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_AttachmentsReservedName")]
 		public string AttachmentsFolder { get; set; }
 
+		public string AzureConnectionString { get; set; }
+
+		public string AzureContainer { get; set; }
+
 		[Required(ErrorMessageResourceType = typeof(SiteStrings), ErrorMessageResourceName = "SiteSettings_Validation_ConnectionEmpty")]
 		public string ConnectionString { get; set; }
 
@@ -56,6 +58,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public string LdapPassword { get; set; }
 		public string RecaptchaPrivateKey { get; set; }
 		public string RecaptchaPublicKey { get; set; }
+		public bool UseAzureFileStorage { get; set; }
 		public bool UseWindowsAuth { get; set; }
 		
 		// v2.0

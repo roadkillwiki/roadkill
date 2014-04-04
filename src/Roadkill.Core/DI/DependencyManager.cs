@@ -274,7 +274,15 @@ namespace Roadkill.Core.DI
 			}
 
 			// IFileService : Local or Azure or Custom
-			x.For<IFileService>().HybridHttpOrThreadLocalScoped().Use<LocalFileService>();
+			if (_applicationSettings.UseAzureFileStorage)
+			{
+				x.For<IFileService>().HybridHttpOrThreadLocalScoped().Use<AzureFileService>();
+			}
+			else
+			{
+				x.For<IFileService>().HybridHttpOrThreadLocalScoped().Use<LocalFileService>();
+			}
+			
 
 			// Setter inject the various MVC objects that can't have constructors
 			x.SetAllProperties(y => y.OfType<ISetterInjected>());

@@ -11,6 +11,6 @@ namespace Roadkill.Core.Services
 		bool CreateFolder(string parentPath, string folderName);
 		DirectoryViewModel FolderInfo(string dir);
 		string Upload(string destination, HttpFileCollectionBase files);
-		void WriteResponse(string localPath, string applicationPath, string modifiedSinceHeader, IResponseWrapper responseWrapper);
+		void WriteResponse(string localPath, string applicationPath, string modifiedSinceHeader, IResponseWrapper responseWrapper, HttpContext context);
 	}
 }
