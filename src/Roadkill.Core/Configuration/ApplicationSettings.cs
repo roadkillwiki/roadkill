@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Roadkill.Core.Database;
+using Roadkill.Core.Security;
+using System;
 using System.Configuration;
-using System.Web.Security;
-using System.Web.Configuration;
-using System.Reflection;
-using System.IO;
-using StructureMap;
-using Roadkill.Core.Database;
-using Roadkill.Core.Logging;
 using System.Diagnostics;
+using System.IO;
+using System.Web;
 
 namespace Roadkill.Core.Configuration
 {
@@ -130,6 +124,16 @@ namespace Roadkill.Core.Configuration
 		}
 
 		/// <summary>
+		/// ConnectionString for azure blob storage
+		/// </summary>
+		public string AzureConnectionString { get; set; }
+
+		/// <summary>
+		/// Azure storage container for attachments
+		/// </summary>
+		public string AzureContainer { get; set; }
+
+		/// <summary>
 		/// The connection string to the Roadkill database.
 		/// </summary>
 		public string ConnectionString { get; set; }
@@ -243,6 +247,11 @@ namespace Roadkill.Core.Configuration
 		/// True if the version number in the web.config does not match the current assembly version.
 		/// </summary>
 		public bool UpgradeRequired { get; internal set; }
+
+		/// <summary>
+		/// Indicates whether to use Local storage or Azure for attachments
+		/// </summary>
+		public bool UseAzureFileStorage { get; set; }
 
 		/// <summary>
 		/// Indicates whether server-based page object caching is enabled.

@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
-using Roadkill.Core.Configuration;
-using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Services;
-using Roadkill.Core.Security;
-using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Attachments;
-using System.Collections.Specialized;
-using System.Reflection;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Attributes;
+using Roadkill.Core.Mvc.Controllers;
+using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Services;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Web;
+using System.Web.Mvc;
 
 namespace Roadkill.Tests.Unit
 {
@@ -35,6 +34,7 @@ namespace Roadkill.Tests.Unit
 		private PluginFactoryMock _pluginFactory;
 		private AttachmentFileHandler _attachmentFileHandler;
 		private MvcMockContainer _mvcMockContainer;
+		private IFileService _fileService;
 
 		private FileManagerController _filesController;
 
@@ -51,7 +51,8 @@ namespace Roadkill.Tests.Unit
 			_userService = _container.UserService;
 			_historyService = _container.HistoryService;
 			_pageService = _container.PageService;
-			_attachmentFileHandler = new AttachmentFileHandler(_applicationSettings);
+			_attachmentFileHandler = new AttachmentFileHandler(_applicationSettings,_container.FileService);
+			_fileService = _container.FileService;
 
 			try
 			{
@@ -74,7 +75,7 @@ namespace Roadkill.Tests.Unit
 				Assert.Fail("Unable to delete the attachments folder " + _applicationSettings.AttachmentsFolder + ", is EasyMercurial open?" + e.ToString());
 			}
 
-			_filesController = new FileManagerController(_applicationSettings, _userService, _context, _settingsService, _attachmentFileHandler);
+			_filesController = new FileManagerController(_applicationSettings, _userService, _context, _settingsService, _attachmentFileHandler, _fileService);
 			_mvcMockContainer = _filesController.SetFakeControllerContext();
 		}
 
