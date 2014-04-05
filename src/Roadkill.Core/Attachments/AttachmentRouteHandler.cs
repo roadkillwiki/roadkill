@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Routing;
+﻿using Roadkill.Core.Configuration;
+using Roadkill.Core.Services;
+using StructureMap;
 using System.Web;
-using Roadkill.Core.Configuration;
+using System.Web.Routing;
 
 namespace Roadkill.Core.Attachments
 {
@@ -14,14 +12,16 @@ namespace Roadkill.Core.Attachments
 	public class AttachmentRouteHandler : IRouteHandler
 	{
 		private ApplicationSettings _settings;
+		private readonly IFileService _fileService;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AttachmentRouteHandler"/> class.
 		/// </summary>
 		/// <param name="settings">The current application settings.</param>
-		public AttachmentRouteHandler(ApplicationSettings settings)
+		public AttachmentRouteHandler(ApplicationSettings settings, IFileService fileService)
 		{
 			_settings = settings;
+			_fileService = fileService ?? ObjectFactory.GetInstance<IFileService>(); //This is a hack, but I'm not seeing the good solution.
 		}
 
 		/// <summary>
@@ -43,7 +43,7 @@ namespace Roadkill.Core.Attachments
 				throw new ConfigurationException("The attachmentsRoutePath in the config is set to 'files' which is not an allowed route path. Please change it to something else.", null);
 
 
-			Route route = new Route(settings.AttachmentsRoutePath + "/{*filename}", new AttachmentRouteHandler(settings));
+			Route route = new Route(settings.AttachmentsRoutePath + "/{*filename}", new AttachmentRouteHandler(settings, null));
 			route.Constraints = new RouteValueDictionary();
 			route.Constraints.Add("MvcContraint", new IgnoreMvcConstraint(settings));
 
@@ -59,7 +59,7 @@ namespace Roadkill.Core.Attachments
 		/// </returns>
 		public IHttpHandler GetHttpHandler(RequestContext requestContext)
 		{
-			return new AttachmentFileHandler(_settings);
+			return new AttachmentFileHandler(_settings, _fileService);
 		}
 
 		/// <summary>

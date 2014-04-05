@@ -45,6 +45,26 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// Gets or sets the attachments folder, which should begin with "~/".
+		/// </summary>
+		[ConfigurationProperty("azureConnectionString", IsRequired = false, DefaultValue = "Attachments")]
+		public string AzureConnectionString
+		{
+			get { return (string)this["azureConnectionString"]; }
+			set { this["azureConnectionString"] = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the attachments folder, which should begin with "~/".
+		/// </summary>
+		[ConfigurationProperty("azureContainer", IsRequired = false, DefaultValue = "Attachments")]
+		public string AzureContainer
+		{
+			get { return (string)this["azureContainer"]; }
+			set { this["azureContainer"] = value; }
+		}
+
+		/// <summary>
 		/// Gets or sets the name of the connection string in the connectionstrings section.
 		/// </summary>
 		[ConfigurationProperty("connectionStringName", IsRequired = true)]
@@ -163,6 +183,16 @@ namespace Roadkill.Core
 		{
 			get { return (string)this["repositoryType"]; }
 			set { this["repositoryType"] = value; }
+		}
+
+		/// <summary>
+		/// Whether to enable Azure file storage.
+		/// </summary>
+		[ConfigurationProperty("useAzureFileStorage", IsRequired = false, DefaultValue = false)]
+		public bool UseAzureFileStorage
+		{
+			get { return (bool)this["useAzureFileStorage"]; }
+			set { this["useAzureFileStorage"] = value; }
 		}
 
 		/// <summary>

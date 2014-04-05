@@ -1,38 +1,30 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Caching;
-using System.Web.Mvc;
-using System.Web.Routing;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
-using Roadkill.Core.DI;
+using Roadkill.Core.DI.Mvc;
+using Roadkill.Core.Domain.Export;
+using Roadkill.Core.Email;
 using Roadkill.Core.Import;
-using Roadkill.Core.Logging;
-using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Mvc.WebViewPages;
 using Roadkill.Core.Plugins;
-using Roadkill.Core.Plugins.Text.BuiltIn;
 using Roadkill.Core.Security;
 using Roadkill.Core.Security.Windows;
+using Roadkill.Core.Services;
 using StructureMap;
 using StructureMap.Graph;
 using StructureMap.Query;
+using System;
+using System.IO;
+using System.Linq;
+using System.Runtime.Caching;
 using System.Web.Http;
-using Roadkill.Core.Mvc;
-using Roadkill.Core.Plugins.SpecialPages;
-using Roadkill.Core.Database.Export;
-using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Domain.Export;
-using Roadkill.Core.Email;
-using Roadkill.Core.DI.Mvc;
+using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace Roadkill.Core.DI
 {
@@ -198,6 +190,7 @@ namespace Roadkill.Core.DI
 			scanner.AddAllTypesOf<IPageService>();
 			scanner.AddAllTypesOf<IActiveDirectoryProvider>();
 			scanner.AddAllTypesOf<UserServiceBase>();
+			scanner.AddAllTypesOf<IFileService>();
 
 			// Text parsers
 			scanner.AddAllTypesOf<MarkupConverter>();
@@ -279,6 +272,17 @@ namespace Roadkill.Core.DI
 			{
 				x.For<UserServiceBase>().HybridHttpOrThreadLocalScoped().Use<FormsAuthUserService>();
 			}
+
+			// IFileService : Local or Azure or Custom
+			if (_applicationSettings.UseAzureFileStorage)
+			{
+				x.For<IFileService>().HybridHttpOrThreadLocalScoped().Use<AzureFileService>();
+			}
+			else
+			{
+				x.For<IFileService>().HybridHttpOrThreadLocalScoped().Use<LocalFileService>();
+			}
+			
 
 			// Setter inject the various MVC objects that can't have constructors
 			x.SetAllProperties(y => y.OfType<ISetterInjected>());

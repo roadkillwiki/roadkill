@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Web.Configuration;
-using System.Xml.Linq;
-using Roadkill.Core.Database;
+﻿using Roadkill.Core.Database;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Mvc.ViewModels;
+using System;
+using System.Configuration;
+using System.IO;
+using System.Web.Configuration;
 
 namespace Roadkill.Core.Configuration
 {
@@ -161,6 +156,7 @@ namespace Roadkill.Core.Configuration
 				RoadkillSection section = _config.GetSection("roadkill") as RoadkillSection;
 				section.AdminRoleName = settings.AdminRoleName;
 				section.AttachmentsFolder = settings.AttachmentsFolder;
+				section.AzureContainer = settings.AzureContainer;
 				section.UseObjectCache = settings.UseObjectCache;
 				section.UseBrowserCache = settings.UseBrowserCache;
 				section.ConnectionStringName = "Roadkill";
@@ -245,6 +241,8 @@ namespace Roadkill.Core.Configuration
 			appSettings.AdminRoleName = _section.AdminRoleName;
 			appSettings.AttachmentsFolder = _section.AttachmentsFolder;
 			appSettings.AttachmentsRoutePath = _section.AttachmentsRoutePath;
+			appSettings.AzureConnectionString = _section.AzureConnectionString;
+			appSettings.AzureContainer = _section.AzureContainer;
 			appSettings.ConnectionStringName = _section.ConnectionStringName;
 			appSettings.ConnectionString = _config.ConnectionStrings.ConnectionStrings[_section.ConnectionStringName].ConnectionString;
 			if (string.IsNullOrEmpty(appSettings.ConnectionString))
@@ -274,6 +272,7 @@ namespace Roadkill.Core.Configuration
 			appSettings.LdapUsername = _section.LdapUsername;
 			appSettings.LdapPassword = _section.LdapPassword;
 			appSettings.RepositoryType = _section.RepositoryType;
+			appSettings.UseAzureFileStorage = _section.UseAzureFileStorage;
 			appSettings.UseHtmlWhiteList = _section.UseHtmlWhiteList;
 			appSettings.UserServiceType = _section.UserServiceType;
 			appSettings.UseWindowsAuthentication = _section.UseWindowsAuthentication;
