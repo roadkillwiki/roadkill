@@ -125,7 +125,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			string json = "";
-			DateTime now = DateTime.Now.AddSeconds(-1); // eeek
+			DateTime now = DateTime.UtcNow.AddSeconds(-10); // a bit of a bodge
 
 			// Act
 			SiteSettings settings = SiteSettings.LoadFromJson(json);
@@ -156,7 +156,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			string json = "asdf";
-			DateTime now = DateTime.Now;
+			DateTime now = DateTime.Now.ToUniversalTime();
 
 			// Act
 			SiteSettings settings = SiteSettings.LoadFromJson(json);
@@ -225,7 +225,7 @@ namespace Roadkill.Tests.Unit
   ""PluginLastSaveDate"": ""{today}""
 }";
 
-			expectedJson = expectedJson.Replace("{today}", DateTime.Today.ToString("s") +"+00:00"); // won't work if the build agent is in a different time zone from UK
+			expectedJson = expectedJson.Replace("{today}", DateTime.Today.ToUniversalTime().ToString("s") + "Z"); // Z = zero offset from UTC
 
 			SiteSettings settings = new SiteSettings();
 			settings.AllowedFileTypes = "pdf, swf, avi";
@@ -237,7 +237,7 @@ namespace Roadkill.Tests.Unit
 			settings.SiteUrl = "http://siteurl";
 			settings.SiteName = "my sitename";
 			settings.Theme = "Mytheme";
-			settings.PluginLastSaveDate = DateTime.Today; // ideally property this would take an IDate...something to refactor in for the future if there are problems.
+			settings.PluginLastSaveDate = DateTime.Today.ToUniversalTime(); // ideally property this would take an IDate...something to refactor in for the future if there are problems.
 
 			// Act
 			string actualJson = settings.GetJson();

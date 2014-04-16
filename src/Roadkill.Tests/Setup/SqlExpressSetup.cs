@@ -11,7 +11,7 @@ namespace Roadkill.Tests
 	public class SqlExpressSetup
 	{
 		// This should match connectionStrings.dev.config
-		public static string ConnectionString { get { return @"Server=.\SQLEXPRESS;Integrated Security=true;Connect Timeout=5;database=Roadkill"; } }
+		public static string ConnectionString { get { return @"Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill"; } }
 
 		public static void RecreateLocalDbData()
 		{
