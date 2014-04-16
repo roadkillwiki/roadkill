@@ -35,7 +35,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Gets or sets the attachments folder, which should begin with "~/".
+		/// TODO: comments
 		/// </summary>
 		[ConfigurationProperty("attachmentsRoutePath", IsRequired = false, DefaultValue = "Attachments")]
 		public string AttachmentsRoutePath
@@ -45,7 +45,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Gets or sets the attachments folder, which should begin with "~/".
+		/// TODO: comments + tests
 		/// </summary>
 		[ConfigurationProperty("azureConnectionString", IsRequired = false, DefaultValue = "Attachments")]
 		public string AzureConnectionString
@@ -55,7 +55,7 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// Gets or sets the attachments folder, which should begin with "~/".
+		/// TODO: comments + tests
 		/// </summary>
 		[ConfigurationProperty("azureContainer", IsRequired = false, DefaultValue = "Attachments")]
 		public string AzureContainer

@@ -125,11 +125,13 @@ namespace Roadkill.Core.Configuration
 
 		/// <summary>
 		/// ConnectionString for azure blob storage
+		/// TODO: comments + tests
 		/// </summary>
 		public string AzureConnectionString { get; set; }
 
 		/// <summary>
 		/// Azure storage container for attachments
+		/// TODO: comments + tests
 		/// </summary>
 		public string AzureContainer { get; set; }
 
