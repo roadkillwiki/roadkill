@@ -118,7 +118,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			try
 			{
 				_fileService.CreateFolder(currentFolderPath, newFolderName);
-				return Json(new { status = "ok", message = newFolderName });
+				return Json(new { status = "ok", FolderName = newFolderName });
 			}
 			catch (FileException e)
 			{
