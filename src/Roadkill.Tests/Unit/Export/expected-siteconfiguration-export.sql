@@ -20,7 +20,7 @@ INSERT INTO roadkill_siteconfiguration (id, version, content) VALUES ('b960e8e5-
   "MenuMarkup": "markup ```'''''' \r\n",
   "PluginLastSaveDate": "2013-11-09T00:00:00"
 }');
-INSERT INTO roadkill_siteconfiguration (id, version, content) VALUES ('8131b60c-80fc-0000-0000-000000000000','1.1','{
+INSERT INTO roadkill_siteconfiguration (id, version, content) VALUES ('7f4f72e9-cbc4-0000-0000-000000000000','1.1','{
   "PluginId": "fake-plugin1",
   "Version": "1.1",
   "IsEnabled": true,
@@ -37,7 +37,7 @@ INSERT INTO roadkill_siteconfiguration (id, version, content) VALUES ('8131b60c-
     }
   ]
 }');
-INSERT INTO roadkill_siteconfiguration (id, version, content) VALUES ('993b583b-811d-0000-0000-000000000000','2.1','{
+INSERT INTO roadkill_siteconfiguration (id, version, content) VALUES ('dd2072e9-cbc3-0000-0000-000000000000','2.1','{
   "PluginId": "fake-plugin2",
   "Version": "2.1",
   "IsEnabled": false,

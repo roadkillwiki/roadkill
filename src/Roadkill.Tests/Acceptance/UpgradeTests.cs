@@ -18,8 +18,8 @@ namespace Roadkill.Tests.Acceptance
 	[Category("Acceptance")]
 	public class UpgradeTests : AcceptanceTestBase
 	{
-		private string _sqlServerMasterConnection = @"Server=.\SQLExpress;uid=sa;pwd=Passw0rd;database=master;";
-		private string _sqlServerConnection = @"Server=.\SQLExpress;uid=sa;pwd=Passw0rd;database=roadkill152;";
+		private string _sqlServerMasterConnection = @"Server=(local);uid=sa;pwd=Passw0rd;database=master;";
+		private string _sqlServerConnection = @"Server=(local);uid=sa;pwd=Passw0rd;database=roadkill152;";
 		private string _sqliteConnection = @"Data Source=|DataDirectory|\roadkill152.sqlite;";
 		private string _sqlServerCeConnection = @"Data Source=|DataDirectory|\roadkill152.sdf;";
 
