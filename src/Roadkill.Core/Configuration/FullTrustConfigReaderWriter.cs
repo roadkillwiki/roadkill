@@ -243,6 +243,7 @@ namespace Roadkill.Core.Configuration
 			appSettings.AttachmentsRoutePath = _section.AttachmentsRoutePath;
 			appSettings.AzureConnectionString = _section.AzureConnectionString;
 			appSettings.AzureContainer = _section.AzureContainer;
+
 			appSettings.ConnectionStringName = _section.ConnectionStringName;
 			appSettings.ConnectionString = _config.ConnectionStrings.ConnectionStrings[_section.ConnectionStringName].ConnectionString;
 			if (string.IsNullOrEmpty(appSettings.ConnectionString))
