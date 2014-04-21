@@ -4,6 +4,9 @@
 There are two sets of localization files in Roadkill: installation strings and site-wide strings.
 These are managed in POEditor.com, and then exported and copied into the solution when any updates occur.
 
+If you want to contribute to the translations, please contact us via the Google Groups forum, and you can be added as 
+a contributor on POEditor.com
+
 The default language is British English, which InstallStrings.resx and SiteStrings.resx are in. All languages that are 
 missing translations keys default to this.
 
@@ -38,7 +41,7 @@ Current languages/codes supported are:
 	Spanish    - es
 	Swedish    - sv
 
-The powershell script for performing the bulk renames:
+The powershell script for performing the bulk renames (this is now done via Github):
 
 ren Roadkill_Installer_Czech.resx InstallStrings.cs.resx
 ren Roadkill_Installer_Dutch.resx InstallStrings.nl.resx
