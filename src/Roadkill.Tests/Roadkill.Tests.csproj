@@ -444,6 +444,7 @@
     <Compile Include="Unit\StubsAndMocks\ConfigReaderWriterStub.cs" />
     <Compile Include="Unit\StubsAndMocks\DbCommandStub.cs" />
     <Compile Include="Unit\StubsAndMocks\EmailClientMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\FileServiceMock.cs" />
     <Compile Include="Unit\StubsAndMocks\IdentityStub.cs" />
     <Compile Include="Unit\StubsAndMocks\PrincipalStub.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\HttpCachePolicyMock.cs" />

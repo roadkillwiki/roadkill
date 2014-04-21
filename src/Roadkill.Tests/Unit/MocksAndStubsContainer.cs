@@ -72,7 +72,7 @@ namespace Roadkill.Tests.Unit
 			EmailClient = new EmailClientMock();
 
 			// Other services
-			FileService = new LocalFileService(ApplicationSettings, SettingsService);
+			FileService = new FileServiceMock();
 		}
 
 		public void ClearCache()

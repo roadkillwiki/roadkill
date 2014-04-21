@@ -62,6 +62,26 @@ namespace Roadkill.Tests.Unit
 		public void Delete_Should_Delete_Given_File()
 		{
 			// Arrange
+			string fullPath = CreateTestFileInAttachments("test.txt");
+
+			// Act
+			_fileService.Delete("/", "test.txt");
+
+			// Assert
+			Assert.That(File.Exists(fullPath), Is.False);
+		}
+
+		[Test]
+		public void Delete_Should_Not_Throw_Exception_When_File_Doesnt_Exist()
+		{
+			// Arrange + Act + Assert
+			_fileService.Delete("/", "this.file.doesnt.exist.txt");
+		}
+
+		[Test]
+		public void Delete_In_Subfolder_Should_Delete_File()
+		{
+			// Arrange
 			string testFile1Path = CreateTestFileInAttachments("test.txt");
 			string dirPath = CreateTestDirectoryInAttachments("test");
 			string testFile2Path = Path.Combine(dirPath, "test.txt");
@@ -73,19 +93,6 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(File.Exists(testFile2Path), Is.False);
 			Assert.That(File.Exists(testFile1Path), Is.True);
-		}
-
-		[Test]
-		public void Delete_In_Subfolder_Should_Delete_File()
-		{
-			// Arrange
-			string fullPath = CreateTestFileInAttachments("test.txt");
-
-			// Act
-			_fileService.Delete("/", "test.txt");
-
-			// Assert
-			Assert.That(File.Exists(fullPath), Is.False);
 		}
 
 		[Test]

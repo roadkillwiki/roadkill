@@ -129,7 +129,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// Attempts to upload a file provided.
 		/// </summary>
-		/// <returns>Returns Json object containing status and either message or fileList.</returns>
+		/// <returns>Returns Json object containing status and the last uploaded file name.</returns>
 		/// <remarks>This action requires editor rights.</remarks>
 		[EditorRequired]
 		[HttpPost]
@@ -137,8 +137,8 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			try
 			{
-				string fileName = _fileService.Upload(Request.Form["destination_folder"], Request.Files);
-
+				string destinationFolder = Request.Form["destination_folder"];
+				string fileName = _fileService.Upload(destinationFolder, Request.Files);
 				return Json(new { status = "ok", filename = fileName }, "text/plain");
 			}
 			catch (FileException e)
@@ -155,13 +155,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ActionResult Select()
 		{
 			return View();
-		}
-
-		protected override void OnException(ExceptionContext filterContext)
-		{
-			base.OnException(filterContext);
-
-			Console.WriteLine(filterContext.Exception);
 		}
 	}
 }
