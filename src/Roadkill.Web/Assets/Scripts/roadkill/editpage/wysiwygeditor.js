@@ -72,6 +72,7 @@ var Roadkill;
                 if (range !== null) {
                     var editorText = $("#Content").val();
 
+                    // Put the caret in the middle of the style, if the current selection isn't the style being added
                     if (editorText.substr(range.start - length, length) !== styleCode && range.text.substr(0, length) !== styleCode) {
                         $("#Content").replaceSelection(styleCode + range.text + styleCode);
                         $("#Content").setSelection(range.end + length, range.end + length);
@@ -139,10 +140,10 @@ var Roadkill;
                 return new Array(count + 1).join(text);
             };
 
-            WysiwygEditor.addImage = /**
+            /**
             Adds an image tag to the current caret location.
             */
-            function (image) {
+            WysiwygEditor.addImage = function (image) {
                 var range = $("#Content").getSelection();
 
                 if (range !== null) {

@@ -12,7 +12,7 @@ var Roadkill;
 
                     if (level == 0)
                         $("ul.navigator li").remove();
-else
+                    else
                         $("ul.navigator li:gt(" + (level - 1) + ")").remove();
                 };
 
