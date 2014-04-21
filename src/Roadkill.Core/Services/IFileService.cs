@@ -10,7 +10,15 @@ namespace Roadkill.Core.Services
 		void DeleteFolder(string folderPath);
 		bool CreateFolder(string parentPath, string folderName);
 		DirectoryViewModel FolderInfo(string dir);
-		string Upload(string destination, HttpFileCollectionBase files);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="destinationPath">The relative path of the folder to store the file.</param>
+		/// <param name="files"></param>
+		/// <returns></returns>
+		string Upload(string destinationPath, HttpFileCollectionBase files);
+
 		void WriteResponse(string localPath, string applicationPath, string modifiedSinceHeader, IResponseWrapper responseWrapper, HttpContext context);
 	}
 }

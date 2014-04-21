@@ -18,7 +18,7 @@ using WebGrease.Css.Extensions;
 
 namespace Roadkill.Core.Services
 {
-	class AzureFileService : IFileService
+	public class AzureFileService : IFileService
 	{
 		private readonly ApplicationSettings _applicationSettings;
 		private readonly SettingsService _settingsService;
@@ -34,8 +34,8 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
-				var container = GetCloudBlobContainer();
-				var path = CleanPath(String.Format("/{0}/{1}", filePath, fileName));
+				CloudBlobContainer container = GetCloudBlobContainer();
+				string path = CleanPath(String.Format("/{0}/{1}", filePath, fileName));
 				container.GetBlockBlobReference(path).DeleteIfExists();
 			}
 			catch (StorageException e)
@@ -48,12 +48,18 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
-				var container = GetCloudBlobContainer();
+				CloudBlobContainer container = GetCloudBlobContainer();
 				var azureDirectory = container.GetDirectoryReference(CleanPath(folderPath));
-				var files =
-					azureDirectory.ListBlobs().OfType<CloudBlockBlob>().Where(b => !FilesToExclude.Contains(Path.GetFileName(b.Name)))
-						.ToList();
-				var directories = azureDirectory.ListBlobs().Select(b => b as CloudBlobDirectory).Where(b => b != null).ToList();
+				var files = azureDirectory.ListBlobs()
+										  .OfType<CloudBlockBlob>()
+										  .Where(b => !FilesToExclude.Contains(Path.GetFileName(b.Name)))
+										  .ToList();
+
+				var directories = azureDirectory.ListBlobs()
+												.Select(b => b as CloudBlobDirectory)
+												.Where(b => b != null)
+												.ToList();
+
 				if (files.Count == 0 && directories.Count == 0)
 				{
 					azureDirectory.ListBlobs().OfType<CloudBlockBlob>().ForEach(b => b.Delete());
@@ -63,7 +69,7 @@ namespace Roadkill.Core.Services
 					throw new FileException("The folder is not empty.", null);
 				}
 			}
-			catch(StorageException e)
+			catch (StorageException e)
 			{
 				throw new FileException(e.Message, e);
 			}
@@ -73,10 +79,9 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
-				var container = GetCloudBlobContainer();
-				var fileName = CleanPath(parentPath + "/" + folderName + "/" + FilesToExclude[0]);
+				CloudBlobContainer container = GetCloudBlobContainer();
+				string fileName = CleanPath(parentPath + "/" + folderName + "/" + FilesToExclude[0]);
 				var blob = container.GetBlockBlobReference(fileName);
-
 
 				if (!blob.Exists())
 				{
@@ -100,25 +105,31 @@ namespace Roadkill.Core.Services
 					currentFolderName = Path.GetFileName(dir);
 
 				DirectoryViewModel directoryModel = new DirectoryViewModel(currentFolderName, dir);
-				var container = GetCloudBlobContainer();
-				var azureDirectory = container.GetDirectoryReference(dir);
-				var directories =
-					azureDirectory.ListBlobs().Select(b => b as CloudBlobDirectory).Where(b => b != null).ToList();
-				var files =
-					azureDirectory.ListBlobs().OfType<CloudBlockBlob>().Where(b => !FilesToExclude.Contains(Path.GetFileName(b.Name)))
-						.ToList();
-				foreach (var directory in directories)
+				CloudBlobContainer container = GetCloudBlobContainer();
+				CloudBlobDirectory azureDirectory = container.GetDirectoryReference(dir);
+				List<CloudBlobDirectory> directories = azureDirectory.ListBlobs()
+																	.Select(b => b as CloudBlobDirectory)
+																	.Where(b => b != null)
+																	.ToList();
+
+				List<CloudBlockBlob> files = azureDirectory.ListBlobs()
+														  .OfType<CloudBlockBlob>()
+														  .Where(b => !FilesToExclude.Contains(Path.GetFileName(b.Name)))
+														  .ToList();
+
+				foreach (CloudBlobDirectory directory in directories)
 				{
-					var dirName = directory.Prefix.TrimEnd('/');
+					string dirName = directory.Prefix.TrimEnd('/');
 					dirName = dirName.Replace(directory.Parent.Prefix, String.Empty);
 					DirectoryViewModel childModel = new DirectoryViewModel(dirName, directory.Prefix.TrimEnd('/'));
 					directoryModel.ChildFolders.Add(childModel);
 				}
-				foreach (var file in files)
+
+				foreach (CloudBlockBlob file in files)
 				{
 					file.FetchAttributes();
 					string filename = file.Name;
-					FileViewModel fileModel = new FileViewModel(Path.GetFileName(file.Name), Path.GetExtension(file.Name).Replace(".", ""), file.Properties.Length, ((DateTimeOffset)file.Properties.LastModified).DateTime , dir);
+					FileViewModel fileModel = new FileViewModel(Path.GetFileName(file.Name), Path.GetExtension(file.Name).Replace(".", ""), file.Properties.Length, ((DateTimeOffset)file.Properties.LastModified).DateTime, dir);
 					directoryModel.Files.Add(fileModel);
 				}
 
@@ -127,16 +138,16 @@ namespace Roadkill.Core.Services
 			}
 			catch (StorageException e)
 			{
-				throw new FileException(e.Message,e);
+				throw new FileException(e.Message, e);
 			}
 		}
 
 		public string Upload(string destination, HttpFileCollectionBase files)
 		{
-
 			try
 			{
-				var container = GetCloudBlobContainer();
+				CloudBlobContainer container = GetCloudBlobContainer();
+
 				// Get the allowed files types
 				string fileName = "";
 
@@ -157,8 +168,8 @@ namespace Roadkill.Core.Services
 					// Check if it's an allowed extension
 					if (allowedExtensions.Contains(extension))
 					{
-						var filePath = CleanPath(String.Format("/{0}/{1}", destination, sourceFile.FileName));
-						var blob = container.GetBlockBlobReference(filePath);
+						string filePath = CleanPath(String.Format("/{0}/{1}", destination, sourceFile.FileName));
+						CloudBlockBlob blob = container.GetBlockBlobReference(filePath);
 
 						// Check if it exists on disk already
 						if (!siteSettings.OverwriteExistingFiles)
@@ -197,23 +208,19 @@ namespace Roadkill.Core.Services
 				int bufferSize;
 				if (!Int32.TryParse(context.Request["bufferSize"], out bufferSize))
 				{
-					bufferSize = 100*1024;
+					bufferSize = 100 * 1024;
 				}
-				//var account = CloudStorageAccount.Parse();
-				//var client = account.CreateCloudBlobClient();
-				//var pathExpression = new Regex("/(?<containerName>[^/]+)/(?<blobPath>.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.ExplicitCapture);
-				//var pathMatch = pathExpression.Match(path);
-				//var containerName = pathMatch.Groups["containerName"].Value;
-				//var blobPath = pathMatch.Groups["blobPath"].Value;
-				var container = GetCloudBlobContainer();
-				var blobPath = CleanPath(localPath.Replace(_applicationSettings.AttachmentsRoutePath, String.Empty));
-				//Add leading slash if necessary
+
+				CloudBlobContainer container = GetCloudBlobContainer();
+				string blobPath = CleanPath(localPath.Replace(_applicationSettings.AttachmentsRoutePath, String.Empty));
+
+				// Add leading slash if necessary
 				if (blobPath.Contains("/") && !blobPath.StartsWith("/"))
 				{
 					blobPath = blobPath.Insert(0, "/");
 				}
 
-				var blob = container.GetBlockBlobReference(blobPath);
+				CloudBlockBlob blob = container.GetBlockBlobReference(blobPath);
 
 				if (blob.Exists())
 				{
@@ -226,7 +233,7 @@ namespace Roadkill.Core.Services
 					{
 						try
 						{
-							var blobStream = blob.OpenRead();
+							Stream blobStream = blob.OpenRead();
 							int blockLength = 0;
 
 							do
@@ -274,7 +281,8 @@ namespace Roadkill.Core.Services
 						var data = dataQueue.Take();
 						context.Response.OutputStream.Write(data.Item2, 0, data.Item1);
 						context.Response.Flush();
-						//Put the processed buffer back into the queue so as to minimize memory consumption
+
+						// Put the processed buffer back into the queue so as to minimize memory consumption
 						bufferQueue.Add(data.Item2);
 					}
 				}
@@ -313,27 +321,26 @@ namespace Roadkill.Core.Services
 			{
 				cloudStorageAccount = CloudStorageAccount.Parse(_applicationSettings.AzureConnectionString);
 			}
-			//cloudStorageAccount = CloudStorageAccount.Parse(_applicationSettings.AzureConnectionString);
 
-			var cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
-			var cloudBlobContainer = cloudBlobClient.GetContainerReference(container.ToLower());
+			CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
+			CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(container.ToLower());
 
-			if (!cloudBlobContainer.CreateIfNotExists()) return cloudBlobContainer;
+			if (!cloudBlobContainer.CreateIfNotExists()) 
+				return cloudBlobContainer;
 
-			var permissions = cloudBlobContainer.GetPermissions();
+			BlobContainerPermissions permissions = cloudBlobContainer.GetPermissions();
 			permissions.PublicAccess = BlobContainerPublicAccessType.Container;
 			cloudBlobContainer.SetPermissions(permissions);
 
 			return cloudBlobContainer;
 		}
 
-
-
 		private static string CleanPath(string path)
 		{
 			string MultipleSlashPattern = @"(\/+|\\+)";
-			var _multipleSlashRegex = new Regex(MultipleSlashPattern);
-			path = _multipleSlashRegex.Replace(path, "/");
+			Regex multipleSlashRegex = new Regex(MultipleSlashPattern);
+			path = multipleSlashRegex.Replace(path, "/");
+
 			return path;
 		}
 	}

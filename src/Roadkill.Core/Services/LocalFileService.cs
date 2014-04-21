@@ -9,10 +9,11 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System;
 
 namespace Roadkill.Core.Services
 {
-	class LocalFileService : IFileService
+	public class LocalFileService : IFileService
 	{
 		#region private properties
 
@@ -95,26 +96,41 @@ namespace Roadkill.Core.Services
 		#region creates
 		public bool CreateFolder(string parentPath, string folderName)
 		{
-			var physicalPath = _attachmentPathUtil.ConvertUrlPathToPhysicalPath(parentPath);
+			if (string.IsNullOrEmpty(folderName))
+				throw new ArgumentNullException("folderName", SiteStrings.FileManager_Error_CreateFolder + " " + folderName);
+
+			string physicalPath = _attachmentPathUtil.ConvertUrlPathToPhysicalPath(parentPath);
 
 			if (!_attachmentPathUtil.IsAttachmentPathValid(physicalPath))
 			{
 				throw new SecurityException(null, "Attachment path was invalid when creating folder {0}", folderName);
 			}
 
-			var newPath = Path.Combine(physicalPath, folderName);
+			string newPath = Path.Combine(physicalPath, folderName);
 
-			if (!Directory.Exists(newPath)){
+			if (!Directory.Exists(newPath))
+			{
+				// TODO: catch IOException here?
 				Directory.CreateDirectory(newPath);
 				return true;
 			}
-			throw new FileException(SiteStrings.FileManager_Error_CreateFolder + " " + folderName, null);
+			else
+			{
+				// TODO: should this just return false?
+				throw new FileException(SiteStrings.FileManager_Error_CreateFolder + " " + folderName, null);
+			}
 		}
 
-		public string Upload(string destination, HttpFileCollectionBase files)
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="destinationPath">The relative path of the folder to store the file.</param>
+		/// <param name="files"></param>
+		/// <returns></returns>
+		public string Upload(string destinationPath, HttpFileCollectionBase files)
 		{
 			//string destination = Request.Form["destination_folder"];
-			string physicalPath = _attachmentPathUtil.ConvertUrlPathToPhysicalPath(destination);
+			string physicalPath = _attachmentPathUtil.ConvertUrlPathToPhysicalPath(destinationPath);
 
 			if (!_attachmentPathUtil.IsAttachmentPathValid(physicalPath))
 			{
@@ -150,6 +166,8 @@ namespace Roadkill.Core.Services
 						{
 							if (System.IO.File.Exists(fullFilePath))
 							{
+								// Any files afterwards won't be uploaded...this behaviour could change so that a flag is set, but
+								// all other files are still uploaded sucessfully.
 								string errorMessage = string.Format(SiteStrings.FileManager_Upload_FileAlreadyExists, sourceFile.FileName);
 								throw new FileException(errorMessage, null);
 							}
@@ -181,7 +199,7 @@ namespace Roadkill.Core.Services
 		{
 			if (!Directory.Exists(_applicationSettings.AttachmentsDirectoryPath))
 			{
-				throw new SecurityException("The attachments directory does not exist - please create it.",null);
+				throw new SecurityException("The attachments directory does not exist - please create it.", null);
 			}
 
 			string folder = dir;
@@ -284,8 +302,6 @@ namespace Roadkill.Core.Services
 		#endregion
 
 		#region helpers
-
-
 		/// <summary>
 		/// Takes a request's local file path (e.g. /attachments/a.jpg 
 		/// and translates it into the correct attachment file path.
@@ -327,7 +343,3 @@ namespace Roadkill.Core.Services
 		#endregion
 	}
 }
-
-
-
-

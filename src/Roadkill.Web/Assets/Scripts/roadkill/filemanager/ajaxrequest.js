@@ -49,6 +49,7 @@ var Roadkill;
                     request.done(successFunction);
 
                     request.fail(function (jqXHR, textStatus, errorThrown) {
+                        // Logged out since the call was made
                         if (errorThrown.message.indexOf("unexpected character") !== -1) {
                             window.location = window.location;
                         } else {

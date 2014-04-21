@@ -21,7 +21,7 @@ var Roadkill;
                     $("input[type=checkbox][rel=popover],textarea[rel=popover],select[rel=popover]").popover({ container: "body", placement: "right", trigger: "hover", html: true });
 
                     // Make the windows auth checkbox toggle the forms-auth/windows-auth sections.
-                    this.ToggleUserSettings();
+                    this.ToggleUserSettings(); // initial display
                     $("#UseWindowsAuth").click(function (e) {
                         _this.ToggleUserSettings();
                     });
@@ -102,6 +102,7 @@ var Roadkill;
                     request.done(successFunction);
 
                     request.fail(function (jqXHR, textStatus, errorThrown) {
+                        // Logged out since the call was made
                         if (errorThrown.message.indexOf("unexpected character") !== -1) {
                             window.location = window.location;
                         } else {
