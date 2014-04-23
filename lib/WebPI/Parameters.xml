@@ -29,9 +29,14 @@
 	<parameter name="SetAclParameter5" description="Sets the permissions on the web.config file" defaultValue="{Application Path}/web.config" tags="Hidden">
 		<parameterEntry type="ProviderPath" scope="setAcl" match="^roadkill/web.config$" />
 	</parameter>
+
+	<!-- ACL for connectionStrings.config -->
+	<parameter name="SetAclParameter6" description="Sets the permissions on the connectionStrings.config file" defaultValue="{Application Path}/connectionStrings.config" tags="Hidden">
+		<parameterEntry type="ProviderPath" scope="setAcl" match="^roadkill/connectionStrings.config$" />
+	</parameter>
 	
 	<!-- ACL for roadkill.config -->
-	<parameter name="SetAclParameter6" description="Sets the permissions on the roadkill.config file" defaultValue="{Application Path}/web.config" tags="Hidden">
+	<parameter name="SetAclParameter7" description="Sets the permissions on the roadkill.config file" defaultValue="{Application Path}/roadkill.config" tags="Hidden">
 		<parameterEntry type="ProviderPath" scope="setAcl" match="^roadkill/roadkill.config$" />
 	</parameter>
 </parameters>
