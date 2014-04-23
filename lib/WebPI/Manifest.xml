@@ -5,4 +5,6 @@
 	<setAcl path="roadkill/bin" setAclAccess="Read, Write, Modify" />
 	<setAcl path="roadkill/plugins" setAclAccess="Read, Write, Modify" />
 	<setAcl path="roadkill/web.config" setAclResourceType="File" setAclAccess="Read, Write, Modify" />
+	<setAcl path="roadkill/roadkill.config" setAclResourceType="File" setAclAccess="Read, Write, Modify" />
+	<setAcl path="roadkill/connectionStrings.config" setAclResourceType="File" setAclAccess="Read, Write, Modify" />
 </msdeploy.iisApp>
