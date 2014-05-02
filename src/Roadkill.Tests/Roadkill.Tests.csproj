@@ -342,6 +342,8 @@
     <Compile Include="Acceptance\Setup\AcceptanceTestsSetup.cs" />
     <Compile Include="Acceptance\PageTests.cs" />
     <Compile Include="Acceptance\UserTests.cs" />
+    <Compile Include="Integration\Repository\RavenDB\RavenDBPageRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\RavenDB\RavenDBUserRepositoryTests.cs" />
     <Compile Include="Integration\WebApi\WebApiResponse.cs" />
     <Compile Include="Integration\WebApi\WebApiClient.cs" />
     <Compile Include="Integration\WebApi\PageControllerTests.cs" />

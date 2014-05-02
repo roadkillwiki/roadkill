@@ -296,6 +296,12 @@
     <Reference Include="Npgsql">
       <HintPath>..\..\lib\LightSpeed\Providers\Npgsql.dll</HintPath>
     </Reference>
+    <Reference Include="Raven.Abstractions">
+      <HintPath>..\..\packages\RavenDB.Client.2.5.2874\lib\net45\Raven.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight">
+      <HintPath>..\..\packages\RavenDB.Client.2.5.2874\lib\net45\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
     <Reference Include="Recaptcha, Version=1.0.5.0, Culture=neutral, PublicKeyToken=9afc4d65b28c38c2, processorArchitecture=MSIL">
       <HintPath>..\..\packages\recaptcha.1.0.5.0\lib\.NetFramework 4.0\Recaptcha.dll</HintPath>
     </Reference>
@@ -303,6 +309,7 @@
       <HintPath>..\..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -396,6 +403,7 @@
     <Compile Include="Attachments\IResponseWrapper.cs" />
     <Compile Include="Attachments\ResponseWrapper.cs" />
     <Compile Include="Database\Repositories\ISettingsRepository.cs" />
+    <Compile Include="Database\Repositories\RavenDB\RavenDBRepository.cs" />
     <Compile Include="Email\EmailClient.cs" />
     <Compile Include="Email\IEmailClient.cs" />
     <Compile Include="Exceptions\FileException.cs" />
@@ -608,6 +616,7 @@
     <Compile Include="Plugins\Text\BuiltIn\ToC\TocParser.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
