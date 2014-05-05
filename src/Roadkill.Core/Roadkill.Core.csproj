@@ -285,9 +285,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\MySql.Data.6.7.4\lib\net40\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=2.1.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -395,6 +395,7 @@
     <Compile Include="Attachments\AttachmentPathUtil.cs" />
     <Compile Include="Attachments\IResponseWrapper.cs" />
     <Compile Include="Attachments\ResponseWrapper.cs" />
+    <Compile Include="Configuration\ConfigFileSerializer.cs" />
     <Compile Include="Database\Repositories\ISettingsRepository.cs" />
     <Compile Include="Email\EmailClient.cs" />
     <Compile Include="Email\IEmailClient.cs" />
@@ -415,6 +416,10 @@
     <Compile Include="Mvc\Attributes\IAuthorizationAttribute.cs" />
     <Compile Include="Mvc\Controllers\ConfigurationTesterController.cs" />
     <Compile Include="Security\AuthorizationProvider.cs" />
+    <Compile Include="Security\Permissions\Capabilities\SiteSettingsCapability.cs" />
+    <Compile Include="Security\Permissions\Capabilities\PageCapability.cs" />
+    <Compile Include="Security\Permissions\Capabilities\IOCapability.cs" />
+    <Compile Include="Security\Permissions\RoleBuilder.cs" />
     <Compile Include="Security\IAuthorizationProvider.cs" />
     <Compile Include="Security\FormsAuthenticationWrapper.cs" />
     <Compile Include="Exceptions\ConfigurationException.cs" />
@@ -495,6 +500,7 @@
     <Compile Include="Database\Schema\Sqlite\SqliteSchema.cs" />
     <Compile Include="Database\Schema\SqlServerCE\SqlServerCESchema.cs" />
     <Compile Include="Database\Schema\SqlServer\SqlServerSchema.cs" />
+    <Compile Include="Security\Permissions\Role.cs" />
     <Compile Include="Services\AzureFileService.cs" />
     <Compile Include="Services\IFileService.cs" />
     <Compile Include="Services\IPageService.cs" />
@@ -608,6 +614,7 @@
     <Compile Include="Plugins\Text\BuiltIn\ToC\TocParser.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

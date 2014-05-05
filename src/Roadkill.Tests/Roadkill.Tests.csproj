@@ -237,9 +237,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\MySql.Data.6.7.4\lib\net40\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -426,6 +426,7 @@
     <Compile Include="Unit\Plugins\SyntaxHighlighterTests.cs" />
     <Compile Include="Unit\Plugins\JumbotronTests.cs" />
     <Compile Include="Unit\Plugins\RandomPageTests.cs" />
+    <Compile Include="Unit\Security\RoleTests.cs" />
     <Compile Include="Unit\Services\LocalFileServiceTests.cs" />
     <Compile Include="Unit\Services\PageHistoryServiceTests.cs" />
     <Compile Include="Unit\Services\SettingsServiceTests.cs" />

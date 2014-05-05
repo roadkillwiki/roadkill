@@ -15,7 +15,7 @@ namespace Roadkill.Core.Security
 		public static bool IsEnabled()
 		{
 #if MONO
-			return true; // Mono doesn't support FormsAuthentication
+			return true; // Mono doesn't support FormsAuthentication.IsEnabled
 #else
 			return FormsAuthentication.IsEnabled;
 #endif
