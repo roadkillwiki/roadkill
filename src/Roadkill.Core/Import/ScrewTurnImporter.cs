@@ -127,7 +127,7 @@ namespace Roadkill.Core.Import
 
 								string categories = GetCategories(pageName);
 								if (!string.IsNullOrWhiteSpace(categories))
-									categories += ";";
+									categories += ",";
 								page.Tags = categories;
 
 								page = Repository.SaveOrUpdatePage(page);
@@ -200,7 +200,7 @@ namespace Roadkill.Core.Import
 		}
 
 		/// <summary>
-		/// Returns all categories in the Screwturn database as a ";" delimited string.
+		/// Returns all categories in the Screwturn database as a "," delimited string.
 		/// </summary>
 		private string GetCategories(string pageName)
 		{
@@ -222,11 +222,11 @@ namespace Roadkill.Core.Import
 					{
 						while (reader.Read())
 						{
-							categories.Add(reader.GetString(0).Replace(";","-").Replace(" ","-"));
+							categories.Add(reader.GetString(0).Replace(",","-").Replace(" ","-"));
 						}
 					}
 
-					return string.Join(";", categories);
+					return string.Join(",", categories);
 				}
 			}
 		}
