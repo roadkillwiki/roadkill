@@ -84,7 +84,7 @@ namespace Roadkill.Core.Import
 			}
 			catch (SqlException ex)
 			{
-				throw new DatabaseException(ex, "Unable to import the pages from Screwturn - have you configured it to use the SQL Server users provider? \n{0}", ex.Message);
+				throw new DatabaseException(ex, "Unable to import the users from Screwturn - have you configured it to use the SQL Server users provider? \n{0}", ex.Message);
 			}
 		}
 		
@@ -169,7 +169,7 @@ namespace Roadkill.Core.Import
 			}
 			catch (SqlException ex)
 			{
-				throw new DatabaseException(ex, "Unable to import the pages from Screwturn - have you configured it to use the SQL Server files provider? \n{0}", ex.Message);
+				throw new DatabaseException(ex, "Unable to import the files from Screwturn - have you configured it to use the SQL Server files provider? \n{0}", ex.Message);
 			}
 		}
 
