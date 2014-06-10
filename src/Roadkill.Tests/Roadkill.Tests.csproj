@@ -382,6 +382,7 @@
     <Compile Include="Unit\Extensions\HtmlHelperLinkExtensionsTests.cs" />
     <Compile Include="Unit\Extensions\HtmlHelperExtensionTests.cs" />
     <Compile Include="Unit\Extensions\ExtensionsTests.cs" />
+    <Compile Include="Unit\Import\ScrewTurnImportExtensionTests.cs" />
     <Compile Include="Unit\MvcActionExtensions.cs" />
     <Compile Include="Unit\Import\WikiExporterTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\OptionalAuthorizationTests.cs" />
