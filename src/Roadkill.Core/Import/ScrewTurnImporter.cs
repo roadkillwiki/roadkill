@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.IO;
-using System.Web;
-using StructureMap;
+using Mono.Security.X509;
+using Roadkill.Core.Logging;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Services;
@@ -38,9 +36,13 @@ namespace Roadkill.Core.Import
 		{
 			_connectionString = connectionString;
 
+			Log.Information("Importing users");
 			ImportUsers();
+			Log.Information("Importing pages");
 			ImportPages();
+			Log.Information("Importing files");
 			ImportFiles();
+			Log.Information("Import complete");
 		}
 
 		/// <summary>
@@ -93,6 +95,7 @@ namespace Roadkill.Core.Import
 		/// </summary>
 		private void ImportPages()
 		{
+			Dictionary<string, string> nameTitleMapping = new Dictionary<string, string>();
 			try
 			{
 				using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -101,16 +104,36 @@ namespace Roadkill.Core.Import
 					{
 						connection.Open();
 						command.CommandText = @"SELECT 
+												p.Name,
+												pc.Title
+											FROM [Page] p
+												INNER JOIN [PageContent] pc ON pc.[Page] = p.Name
+											WHERE 
+												pc.Revision = (SELECT TOP 1 Revision FROM PageContent WHERE [Page]=p.Name ORDER BY LastModified)
+											ORDER BY p.CreationDateTime";
+
+						using (SqlDataReader reader = command.ExecuteReader())
+						{
+							while (reader.Read())
+							{
+								nameTitleMapping.Add(reader["Name"].ToString(), reader["Title"].ToString());
+							}
+						}
+					}
+
+					using (SqlCommand command = connection.CreateCommand())
+					{
+						command.CommandText = @"SELECT 
 												p.CreationDateTime,
 												p.Name,
 												pc.[User] as [User],
 												pc.Title,
-												pc.Revision,
 												pc.LastModified 
 											FROM [Page] p
 												INNER JOIN [PageContent] pc ON pc.[Page] = p.Name
 											WHERE 
-												pc.Revision = (SELECT MAX(Revision) FROM PageContent WHERE [Page]=p.Name)";
+												pc.Revision = (SELECT TOP 1 Revision FROM PageContent WHERE [Page]=p.Name ORDER BY LastModified)
+											ORDER BY p.CreationDateTime";
 
 						using (SqlDataReader reader = command.ExecuteReader())
 						{
@@ -131,7 +154,7 @@ namespace Roadkill.Core.Import
 								page.Tags = categories;
 
 								page = Repository.SaveOrUpdatePage(page);
-								AddContent(pageName, page);
+								AddContent(pageName, page, nameTitleMapping);
 							}
 						}
 					}
@@ -234,15 +257,18 @@ namespace Roadkill.Core.Import
 		/// <summary>
 		/// Extracts and saves all textual content for a page.
 		/// </summary>
+		/// <param name="pageName"></param>
 		/// <param name="page">The page the content belongs to.</param>
-		private void AddContent(string pageName, Page page)
+		/// <param name="nameTitleMapping">Mapping between name and title</param>
+		private void AddContent(string pageName, Page page, Dictionary<string, string> nameTitleMapping)
 		{
 			using (SqlConnection connection = new SqlConnection(_connectionString))
 			{
 				using (SqlCommand command = connection.CreateCommand())
 				{
 					connection.Open();
-					command.CommandText = "SELECT * FROM PageContent WHERE [Page]=@Page";
+					command.CommandText = @"SELECT *, (SELECT MAX(Revision) FROM PageContent PC WHERE PC.Page = PageContent.Page) AS MaxRevision
+											FROM PageContent WHERE [Page]=@Page ORDER BY LastModified";
 					
 					SqlParameter parameter = new SqlParameter();
 					parameter.ParameterName = "@Page";
@@ -258,12 +284,15 @@ namespace Roadkill.Core.Import
 						{
 							PageContent content = new PageContent();
 							string editedBy = reader["User"].ToString();
-							DateTime EditedOn = (DateTime)reader["LastModified"];
+							DateTime editedOn = (DateTime)reader["LastModified"];
 							string text = reader["Content"].ToString();
-							text = CleanContent(text);
+							text = CleanContent(text, nameTitleMapping);
 							int versionNumber = (int.Parse(reader["Revision"].ToString())) + 1;
 
-							Repository.AddNewPageContentVersion(page, text, editedBy, EditedOn, versionNumber);
+							if (versionNumber == 0)
+								versionNumber = (int.Parse(reader["MaxRevision"].ToString())) + 2;					
+
+							Repository.AddNewPageContentVersion(page, text, editedBy, editedOn, versionNumber);
 							hasContent = true;
 						}
 					}
@@ -280,27 +309,18 @@ namespace Roadkill.Core.Import
 		/// <summary>
 		/// Attempts to clean the Screwturn wiki syntax so it loosely matches media wiki format.
 		/// </summary>
-		private string CleanContent(string text)
+		private string CleanContent(string text, Dictionary<string, string> nameTitleMapping)
 		{
 			if (string.IsNullOrEmpty(text))
 				return text;
 
-			// Screwturn uses "[" for links instead of "[[", so do a crude replace.
-			// Files aren't done using File:/ but instead {UP}
-			// This needs more coverage for @@ blocks, variables, toc.
-			text = text.Replace("[", "[[")
-						.Replace("]", "]]")
-						.Replace("{BR}", "\n")
-						.Replace("imageleft||","")
-						.Replace("{UP}/","File:/");
-
-			// Handle nowiki blocks being a little strange
-			Regex regex = new Regex("@@(.*?)@@",RegexOptions.Singleline);
-			if (regex.IsMatch(text))
-			{
-				text = regex.Replace(text,"<nowiki>$1</nowiki>");
-			}
-
+		    text = text.ReplaceHyperlinks(nameTitleMapping)
+						.ReplaceBr()
+						.ReplaceImageLinks()
+                        .ReplaceBlockCode()
+                        .ReplaceInlineCode()
+                        .ReplaceBoxMarkup();
+			
 			return text;
 		}
 
