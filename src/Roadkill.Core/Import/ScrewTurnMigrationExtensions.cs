@@ -19,9 +19,9 @@ namespace Roadkill.Core.Import
 			IEnumerable<Match> uniqueMatches = matches.OfType<Match>().Distinct(new MatchComparer());
 			foreach (Match match in uniqueMatches)
 			{
-				var linkMarkup = match.Groups["LinkMarkup"].Value;
-				var linkUri = match.Groups["LinkUri"].Value;
-				var linkText = match.Groups["LinkText"].Value;
+				string linkMarkup = match.Groups["LinkMarkup"].Value;
+				string linkUri = match.Groups["LinkUri"].Value;
+				string linkText = match.Groups["LinkText"].Value;
 
 				if (nameTitleMapping.ContainsKey(linkUri))
 				{
@@ -37,7 +37,7 @@ namespace Roadkill.Core.Import
 					linkText = "|" + linkText;
 				}
 			  
-				var newLinkMarkup = string.Format("[[{0}{1}]]", linkUri, linkText);
+				string newLinkMarkup = string.Format("[[{0}{1}]]", linkUri, linkText);
 				newLinkMarkup = newLinkMarkup.Replace("{UP}", "/");
 				text = text.Replace(linkMarkup, newLinkMarkup);
 			}
