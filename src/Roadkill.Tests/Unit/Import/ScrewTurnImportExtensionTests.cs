@@ -15,7 +15,7 @@ namespace Roadkill.Tests.Unit
 		public void ReplaceHyperlinks_Should_Return_String_With_Expected_Format(string input, string expected)
 		{
 			// Arrange
-			var nameTitleMapping = new Dictionary<string, string> {{"PageName", "PageTitle"}};
+			Dictionary<string, string> nameTitleMapping = new Dictionary<string, string> {{"PageName", "PageTitle"}};
 
 			// Act
 			string actual = input.ReplaceHyperlinks(nameTitleMapping);
