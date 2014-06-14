@@ -144,9 +144,9 @@ namespace Roadkill.Core.Import
 								Page page = new Page();
 								page.Title = reader["Title"].ToString();
 								page.CreatedBy = reader["User"].ToString();
-								page.CreatedOn = (DateTime)reader["CreationDateTime"];
+								page.CreatedOn = ConvertToUtcDateTime(reader["CreationDateTime"]);
 								page.ModifiedBy = reader["User"].ToString();
-								page.ModifiedOn = (DateTime)reader["LastModified"];
+								page.ModifiedOn = ConvertToUtcDateTime(reader["LastModified"]);
 
 								string categories = GetCategories(pageName);
 								if (!string.IsNullOrWhiteSpace(categories))
@@ -284,7 +284,7 @@ namespace Roadkill.Core.Import
 						{
 							PageContent content = new PageContent();
 							string editedBy = reader["User"].ToString();
-							DateTime editedOn = (DateTime)reader["LastModified"];
+							DateTime editedOn = ConvertToUtcDateTime(reader["LastModified"]);
 							string text = reader["Content"].ToString();
 							text = CleanContent(text, nameTitleMapping);
 							int versionNumber = (int.Parse(reader["Revision"].ToString())) + 1;
@@ -304,6 +304,12 @@ namespace Roadkill.Core.Import
 					}
 				}
 			}
+		}
+
+		private static DateTime ConvertToUtcDateTime(object localDateTimeField)
+		{
+			DateTime localDateTime = DateTime.SpecifyKind((DateTime)localDateTimeField, DateTimeKind.Local);
+			return localDateTime.ToUniversalTime();
 		}
 
 		/// <summary>
