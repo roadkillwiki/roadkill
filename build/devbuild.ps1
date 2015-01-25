@@ -64,8 +64,7 @@ Remove-Item -Force -Recurse _WEBSITE
 # ---- Commit to builds repository
 CD ..\roadkillbuilds
 $commitMessage = "Dev build " + [DateTime]::Now.toString()
-hg addremove
-hg commit -m $commitMessage
-hg push
+git commit -m $commitMessage
+git push origin master
 
 "DEV BUILD Complete."
