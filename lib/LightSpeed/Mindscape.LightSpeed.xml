@@ -1044,6 +1044,32 @@
             </code>
             </example>
         </member>
+        <member name="M:Mindscape.LightSpeed.IUnitOfWork.Project(Mindscape.LightSpeed.Querying.ProcedureQuery)">
+            <summary>
+            Returns an <see cref="T:System.Data.IDataReader"/> containing the results of the specified
+            projection query. A projection query returns only a subset of fields of an entity.
+            At lease one field name must have been added to the <see cref="P:Mindscape.LightSpeed.Querying.Query.Projection"/>
+            collection.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>An <see cref="T:System.Data.IDataReader"/> containing the results of the specified
+            projection query.</returns>
+            <example>
+            <code>
+            Query query = new Query(typeof(Product), Entity.Attribute("OrderId") == 101);
+            query.Projection.Add("Name");
+            query.Projection.Add("Price");
+            
+            using (IDataReader reader = unitOfWork.Project(query))
+            {
+              while (reader.Read())
+              {
+                yield return new { Name = reader.GetString(0), Price = reader.GetDecimal(1) };
+              }
+            }
+            </code>
+            </example>
+        </member>
         <member name="M:Mindscape.LightSpeed.IUnitOfWork.Project(Mindscape.LightSpeed.Querying.Query,System.Type)">
             <summary>
             Performs a query with a projection, and materialises the results as the specified type.
@@ -1064,7 +1090,47 @@
             </code>
             </example>
         </member>
+        <member name="M:Mindscape.LightSpeed.IUnitOfWork.Project(Mindscape.LightSpeed.Querying.ProcedureQuery,System.Type)">
+            <summary>
+            Performs a query with a projection, and materialises the results as the specified type.
+            </summary>
+            <param name="query">The query to be performed.</param>
+            <param name="projectedType">The type of object to be materialised from the query results.</param>
+            <returns>A list of objects of the specified type.</returns>
+            <remarks>The results of the projection are not entities, and are not associated with
+            the unit of work.</remarks>
+            <example>
+            <code>
+            Query query = new Query(typeof(Product));
+            query.Projection.Add("Name");
+            query.Projection.Add("Price");
+            
+            // PricingInfo is a non-entity class with Name and Price properties
+            IList pricingInfo = unitOfWork.Project(query, typeof(PricingInfo));
+            </code>
+            </example>
+        </member>
         <member name="M:Mindscape.LightSpeed.IUnitOfWork.Project``1(Mindscape.LightSpeed.Querying.Query)">
+            <summary>
+            Performs a query with a projection, and materialises the results as the specified type.
+            </summary>
+            <param name="query">The query to be performed.</param>
+            <typeparam name="T">The type of object to be materialised from the query results.</typeparam>
+            <returns>A list of objects of the specified type.</returns>
+            <remarks>The results of the projection are not entities, and are not associated with
+            the unit of work.</remarks>
+            <example>
+            <code>
+            Query query = new Query(typeof(Product));
+            query.Projection.Add("Name");
+            query.Projection.Add("Price");
+            
+            // PricingInfo is a non-entity class with Name and Price properties
+            IList&lt;PricingInfo&gt; pricingInfo = unitOfWork.Project&lt;PricingInfo&gt;(query);
+            </code>
+            </example>
+        </member>
+        <member name="M:Mindscape.LightSpeed.IUnitOfWork.Project``1(Mindscape.LightSpeed.Querying.ProcedureQuery)">
             <summary>
             Performs a query with a projection, and materialises the results as the specified type.
             </summary>
@@ -1884,6 +1950,17 @@
             <returns>An <see cref="T:System.Data.IDataReader"/> containing the results of the specified
             projection query.</returns>
         </member>
+        <member name="M:Mindscape.LightSpeed.UnitOfWorkBase.Project(Mindscape.LightSpeed.Querying.ProcedureQuery)">
+            <summary>
+            Returns an <see cref="T:System.Data.IDataReader"/> containing the results of the specified
+            projection query. A projection query returns only a subset of fields of an entity.
+            At lease one field name must have been added to the <see cref="P:Mindscape.LightSpeed.Querying.Query.Projection"/>
+            collection.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>An <see cref="T:System.Data.IDataReader"/> containing the results of the specified
+            projection query.</returns>
+        </member>
         <member name="M:Mindscape.LightSpeed.UnitOfWorkBase.Project(Mindscape.LightSpeed.Querying.Query,System.Type)">
             <summary>
             Performs a query with a projection, and materialises the results as the specified type.
@@ -1894,7 +1971,27 @@
             <remarks>The results of the projection are not entities, and are not associated with
             the unit of work.</remarks>
         </member>
+        <member name="M:Mindscape.LightSpeed.UnitOfWorkBase.Project(Mindscape.LightSpeed.Querying.ProcedureQuery,System.Type)">
+            <summary>
+            Performs a query with a projection, and materialises the results as the specified type.
+            </summary>
+            <param name="query">The query to be performed.</param>
+            <param name="projectedType">The type of object to be materialised from the query results.</param>
+            <returns>A list of objects of the specified type.</returns>
+            <remarks>The results of the projection are not entities, and are not associated with
+            the unit of work.</remarks>
+        </member>
         <member name="M:Mindscape.LightSpeed.UnitOfWorkBase.Project``1(Mindscape.LightSpeed.Querying.Query)">
+            <summary>
+            Performs a query with a projection, and materialises the results as the specified type.
+            </summary>
+            <param name="query">The query to be performed.</param>
+            <typeparam name="T">The type of object to be materialised from the query results.</typeparam>
+            <returns>A list of objects of the specified type.</returns>
+            <remarks>The results of the projection are not entities, and are not associated with
+            the unit of work.</remarks>
+        </member>
+        <member name="M:Mindscape.LightSpeed.UnitOfWorkBase.Project``1(Mindscape.LightSpeed.Querying.ProcedureQuery)">
             <summary>
             Performs a query with a projection, and materialises the results as the specified type.
             </summary>
@@ -2190,6 +2287,17 @@
             <param name="results">The collection where the results are placed.</param>
         </member>
         <member name="M:Mindscape.LightSpeed.UnitOfWork.Project(Mindscape.LightSpeed.Querying.Query)">
+            <summary>
+            Returns an <see cref="T:System.Data.IDataReader"/> containing the results of the specified
+            projection query. A projection query returns only a subset of fields of an entity.
+            At lease one field name must have been added to the <see cref="P:Mindscape.LightSpeed.Querying.Query.Projection"/>
+            collection.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>An <see cref="T:System.Data.IDataReader"/> containing the results of the specified
+            projection query.</returns>
+        </member>
+        <member name="M:Mindscape.LightSpeed.UnitOfWork.Project(Mindscape.LightSpeed.Querying.ProcedureQuery)">
             <summary>
             Returns an <see cref="T:System.Data.IDataReader"/> containing the results of the specified
             projection query. A projection query returns only a subset of fields of an entity.
@@ -4789,6 +4897,17 @@
             <param name="results">The collection where the results are placed.</param>
         </member>
         <member name="M:Mindscape.LightSpeed.Testing.TestUnitOfWork.Project(Mindscape.LightSpeed.Querying.Query)">
+            <summary>
+            Returns an <see cref="T:System.Data.IDataReader"/> containing the results of the specified
+            projection query. A projection query returns only a subset of fields of an entity.
+            At lease one field name must have been added to the <see cref="P:Mindscape.LightSpeed.Querying.Query.Projection"/>
+            collection.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>An <see cref="T:System.Data.IDataReader"/> containing the results of the specified
+            projection query.</returns>
+        </member>
+        <member name="M:Mindscape.LightSpeed.Testing.TestUnitOfWork.Project(Mindscape.LightSpeed.Querying.ProcedureQuery)">
             <summary>
             Returns an <see cref="T:System.Data.IDataReader"/> containing the results of the specified
             projection query. A projection query returns only a subset of fields of an entity.
@@ -7774,7 +7893,7 @@
             </summary>
             <param name="index">The zero-based index of the item to remove.</param>
         </member>
-        <member name="M:Mindscape.LightSpeed.EntityCollection`1.Add(`0)">
+        <member name="M:Mindscape.LightSpeed.EntityCollection`1.Mindscape#LightSpeed#IEntityCollection#Add(Mindscape.LightSpeed.Entity)">
             <summary>
             
             </summary>
@@ -9167,6 +9286,11 @@
             Gets the target name.
             </summary>
             <value>The target name.</value>
+        </member>
+        <member name="P:Mindscape.LightSpeed.Validation.ValidationContext.FieldName">
+            <summary>
+            Gets the field name on the field info which is being validated
+            </summary>
         </member>
         <member name="P:Mindscape.LightSpeed.Validation.ValidationContext.TargetValueIsDefault">
             <summary>
