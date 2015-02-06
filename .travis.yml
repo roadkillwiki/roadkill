@@ -1,0 +1,9 @@
+language: csharp
+solution: Roadkill.sln
+
+install:
+  - nuget restore Roadkill.sln
+  - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
+script:
+  - xbuild /p:Configuration=Release Roadkill.sln
+  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./src/Roadkill.Tests/bin/Release/Roadkill.Tests.dll /include:Unit
