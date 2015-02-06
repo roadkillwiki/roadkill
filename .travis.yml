@@ -4,6 +4,7 @@ solution: Roadkill.sln
 install:
   - nuget restore Roadkill.sln
   - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
+  - dir lib
 script:
   - xbuild /p:Configuration=Mono Roadkill.sln
   - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./src/Roadkill.Tests/bin/Mono/Roadkill.Tests.dll /include:Unit
