@@ -152,7 +152,10 @@ namespace Roadkill.Core.DI
 
 			// Security
 			x.For<IAuthorizationProvider>().Use<AuthorizationProvider>();
+
+#if !MONO
 			x.For<IActiveDirectoryProvider>().Use<ActiveDirectoryProvider>();
+#endif
 		}
 
 		private void Scan(IAssemblyScanner scanner)
@@ -254,7 +257,9 @@ namespace Roadkill.Core.DI
 
 			if (_applicationSettings.UseWindowsAuthentication)
 			{
+#if !MONO
 				x.For<UserServiceBase>().HybridHttpOrThreadLocalScoped().Use<ActiveDirectoryUserService>();
+#endif
 			}
 			else if (!string.IsNullOrEmpty(userServiceTypeName))
 			{

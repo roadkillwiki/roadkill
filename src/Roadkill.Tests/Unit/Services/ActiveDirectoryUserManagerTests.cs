@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !MONO
+using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
@@ -192,3 +193,4 @@ namespace Roadkill.Tests.Unit
 		}
 	}
 }
+#endif

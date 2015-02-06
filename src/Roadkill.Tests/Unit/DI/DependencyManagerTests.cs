@@ -85,8 +85,10 @@ namespace Roadkill.Tests.Unit
 			Assert.That(pluginFactory, Is.TypeOf<PluginFactory>());
 			Assert.That(wikiImporter, Is.TypeOf<ScrewTurnImporter>());
 			Assert.That(authProvider, Is.TypeOf<AuthorizationProvider>());
-			Assert.That(adProvider, Is.TypeOf<ActiveDirectoryProvider>());
 
+#if !MONO
+			Assert.That(adProvider, Is.TypeOf<ActiveDirectoryProvider>());
+#endif
 		}
 
 		[Test]
@@ -149,6 +151,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(context, Is.TypeOf<UserContextStub>());
 		}
 
+#if !MONO
 		[Test]
 		public void WindowsAuth_Should_Register_ActiveDirectoryUserManager()
 		{
@@ -168,6 +171,7 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(usermanager, Is.TypeOf<ActiveDirectoryUserService>());
 		}
+#endif
 
 		[Test]
 		public void RegisterMvcFactoriesAndRouteHandlers_Should_Register_Instances()
@@ -307,6 +311,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(ServiceLocator.GetInstance<UserServiceBase>(), Is.TypeOf(typeof(FormsAuthUserService)));
 		}
 
+ #if !MONO
 		[Test]
 		public void Should_Load_ActiveDirectory_UserService_When_UseWindowsAuth_Is_True()
 		{
@@ -327,5 +332,6 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(ServiceLocator.GetInstance<UserServiceBase>(), Is.TypeOf(typeof(ActiveDirectoryUserService)));
 		}
+#endif
 	}
 }

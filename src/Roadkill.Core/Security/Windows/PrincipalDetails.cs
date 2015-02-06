@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !MONO
+using System;
 using System.Collections.Generic;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
@@ -16,3 +17,4 @@ namespace Roadkill.Core.Security.Windows
 		}
 	}
 }
+#endif
