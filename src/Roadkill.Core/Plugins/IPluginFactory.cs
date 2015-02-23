@@ -6,7 +6,7 @@ using Roadkill.Core.Plugins.SpecialPages;
 namespace Roadkill.Core.Plugins
 {
 	/// <summary>
-	/// Represents a class that is responsible for managing all plugin instances in Roadkill.
+	/// Manage all plugin instances in Roadkill.
 	/// </summary>
 	public interface IPluginFactory
 	{
