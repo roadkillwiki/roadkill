@@ -4,7 +4,7 @@
 }
 <h1>History</h1>
 
-<p>@Html.ActionLink("View current page version", "Index", "Wiki", new { id = ViewData["PageId"] }, null) </p>
+<p>@Html.ActionLink(SiteStrings.History_CurrentVersion, "Index", "Wiki", new { id = ViewData["PageId"] }, null) </p>
 <p>@SiteStrings.History_Help_Label</p>
 
 @if (Model.Count() > 0)
