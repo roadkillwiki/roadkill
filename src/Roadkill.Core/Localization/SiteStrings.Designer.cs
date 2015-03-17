@@ -529,6 +529,42 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date Uploaded.
+        /// </summary>
+        public static string FileManager_Column_Date {
+            get {
+                return ResourceManager.GetString("FileManager_Column_Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string FileManager_Column_Name {
+            get {
+                return ResourceManager.GetString("FileManager_Column_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size.
+        /// </summary>
+        public static string FileManager_Column_Size {
+            get {
+                return ResourceManager.GetString("FileManager_Column_Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        public static string FileManager_Column_Type {
+            get {
+                return ResourceManager.GetString("FileManager_Column_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete {0}?.
         /// </summary>
         public static string FileManager_Delete_Confirm {

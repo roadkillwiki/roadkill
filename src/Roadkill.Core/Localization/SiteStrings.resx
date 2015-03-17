@@ -1005,6 +1005,18 @@
   <data name="SiteSettings_Cache_Not_Enabled" xml:space="preserve">
     <value>The object cache is not currently enabled.</value>
   </data>
+  <data name="FileManager_Column_Date" xml:space="preserve">
+    <value>Date Uploaded</value>
+  </data>
+  <data name="FileManager_Column_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="FileManager_Column_Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="FileManager_Column_Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
   <data name="History_CurrentVersion" xml:space="preserve">
     <value>View current page version</value>
   </data>
