@@ -21,6 +21,10 @@ namespace Roadkill.Core.Plugins
 		/// <summary>
 		/// A textarea.
 		/// </summary>
-		Textarea = 2
+		Textarea = 2,
+        /// <summary>
+        /// A password textbox
+        /// </summary>
+        Password = 3
 	}
 }

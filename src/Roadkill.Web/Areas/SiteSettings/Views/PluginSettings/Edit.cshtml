@@ -1,4 +1,5 @@
-﻿@model PluginViewModel
+﻿@using Roadkill.Core.Plugins
+@model PluginViewModel
 
 @{ 
 	string title = "'" +Model.Name+ "' plugin settings";
@@ -27,7 +28,21 @@
                 <label for="SettingValues[@i].Value">@Model.SettingValues[i].Name</label>
                     
                 <input type="hidden" name="SettingValues[@i].Name" value="@Model.SettingValues[i].Name" />
-                <input type="text" name="SettingValues[@i].Value" value="@Model.SettingValues[i].Value" />
+                @switch (@Model.SettingValues[i].FormType)
+                {
+                    case SettingFormType.Textbox:
+                        <input type="text" name="SettingValues[@i].Value" value="@Model.SettingValues[i].Value"/>
+                        break;
+                    case SettingFormType.Checkbox:
+                        <input type="checkbox" name="SettingValues[@i].Value"  @Html.Raw(Model.SettingValues[i].Value.ToLower() == "on" ? "checked='checked'" : "") />
+                        break;
+					case SettingFormType.Password:
+                        <input type="password" name="SettingValues[@i].Value" value="@Model.SettingValues[i].Value"/>
+                        break;
+                    case SettingFormType.Textarea:
+                        <textarea rows="3" cols="20">@Model.SettingValues[i].Value</textarea>
+                        break;
+                }       
 		    </div>
 	    }
     </fieldset>
