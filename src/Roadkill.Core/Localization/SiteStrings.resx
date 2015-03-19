@@ -574,6 +574,9 @@
   <data name="SiteSettings_Configuration_Attachments" xml:space="preserve">
     <value>Attachments folder</value>
   </data>
+  <data name="SiteSettings_Configuration_Attachments_Mapping" xml:space="preserve">
+    <value>This directory maps to</value>
+  </data>
   <data name="SiteSettings_Configuration_Extensions" xml:space="preserve">
     <value>Allowed extensions</value>
   </data>
@@ -900,6 +903,21 @@
   </data>
   <data name="SiteSettings_Plugins_Title" xml:space="preserve">
     <value>Plugins</value>
+  </data>
+  <data name="SiteSettings_Plugins_ColumnHeader_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="SiteSettings_Plugins_ColumnHeader_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="SiteSettings_Plugins_Edit_Title" xml:space="preserve">
+    <value>'{0}' plugin settings</value>
+  </data>
+  <data name="SiteSettings_Plugins_Edit_BackLink" xml:space="preserve">
+    <value>back</value>
+  </data>
+  <data name="SiteSettings_Plugins_Edit_Enabled_Label" xml:space="preserve">
+    <value>Enabled</value>
   </data>
   <data name="SiteSettings_Tools_SqlExport" xml:space="preserve">
     <value>Export as SQL</value>

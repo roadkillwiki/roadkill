@@ -259,7 +259,7 @@
     <value>Nome de usuário/senha incorreto</value>
   </data>
   <data name="Signup_Title" xml:space="preserve">
-    <value>Cadastro/Registrar</value>
+    <value>Cadastrar Usuário</value>
   </data>
   <data name="Signup_Label" xml:space="preserve">
     <value>Por favor informe os detalhes abaixo.</value>
@@ -309,10 +309,10 @@
     <value>Houve um problema na ativação de sua conta. Ele já pode ter sido ativado.</value>
   </data>
   <data name="ResetPassword_Title" xml:space="preserve">
-    <value>Redefinir senha sucesso.</value>
+    <value>Redefinir Senha.</value>
   </data>
   <data name="ResetPassword_Label" xml:space="preserve">
-    <value>Digite seu email abaixo para redefinir sua senha. Você receberá um e-mail com um link para redefinir sua senha.</value>
+    <value>Digite seu email abaixo. Você receberá um e-mail com o link para redefinir sua senha.</value>
   </data>
   <data name="ResetPassword_Complete_Label" xml:space="preserve">
     <value>Por favor insira sua nova senha.</value>
@@ -328,7 +328,7 @@
     <value>Sua senha foi redefinida com sucesso.</value>
   </data>
   <data name="ResetPassword_Invalid_Title" xml:space="preserve">
-    <value>Redefinir senha inválida.</value>
+    <value>Redefinição de senha inválida.</value>
   </data>
   <data name="ResetPassword_Invalid_Label" xml:space="preserve">
     <value>A chave de redefinição de senha não é mais válida.</value>
@@ -466,7 +466,7 @@
     <value>Texto em negrito.</value>
   </data>
   <data name="EditPage_Toolbar_BulletList" xml:space="preserve">
-    <value>Inserir marcadores</value>
+    <value>Inserir marcadores.</value>
   </data>
   <data name="EditPage_Toolbar_Heading2" xml:space="preserve">
     <value>Inserir cabeçalho 2.</value>
@@ -512,7 +512,7 @@
     <value>Definições do Site</value>
   </data>
   <data name="SiteSettings_Configuration_Site" xml:space="preserve">
-    <value>Local</value>
+    <value>Site</value>
   </data>
   <data name="SiteSettings_Configuration_SiteName" xml:space="preserve">
     <value>Nome do site</value>
@@ -539,7 +539,7 @@
     <value>Permitir cadastro de usuários</value>
   </data>
   <data name="SiteSettings_Configuration_EnableRecaptcha" xml:space="preserve">
-    <value>Ativar recaptcha</value>
+    <value>Ativar Recaptcha</value>
   </data>
   <data name="SiteSettings_Configuration_RecaptchaPrivateKey" xml:space="preserve">
     <value>Código chave privada</value>
@@ -574,6 +574,9 @@
   <data name="SiteSettings_Configuration_Attachments" xml:space="preserve">
     <value>Pasta de Anexos</value>
   </data>
+  <data name="SiteSettings_Configuration_Attachments_Mapping" xml:space="preserve">
+    <value>Este diretório está mapeado em</value>
+  </data>
   <data name="SiteSettings_Configuration_Extensions" xml:space="preserve">
     <value>Extensões permitidas</value>
   </data>
@@ -599,22 +602,22 @@
     <value>Url do site, que é utilizado para logar e resetar senha por email. Não inclua a barra.</value>
   </data>
   <data name="SiteSettings_Configuration_ConnectionStrings_Help" xml:space="preserve">
-    <value>Altera o tipo de banco de dados - você vai precisar recriar o esquema nas ferramentas para que isso funcione corretamente.</value>
+    <value>Altera o tipo de banco de dados - você vai precisar recriar o esquema nas ferramentas para que funcione corretamente.</value>
   </data>
   <data name="SiteSettings_Configuration_DatabaseType_Help" xml:space="preserve">
     <value>Altera o tipo de banco de dados - você vai precisar recriar o esquema nas ferramentas para que isso funcione corretamente.</value>
   </data>
   <data name="SiteSettings_Configuration_DatabaseConnectionString_Help" xml:space="preserve">
-    <value>Connection string</value>
+    <value>String de conexão</value>
   </data>
   <data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
-    <value>{bold}AVISO{/bold} alterando esta configuração pode bloqueá-lo por completo do site. Primeiramente faça um backup do seu web.config antes de salvar. {br}Define  que irá utilizar autenticação do windows e Active Directory para autenticação.</value>
+    <value>{bold}AVISO{/bold} alterando esta configuração pode bloqueá-lo por completo do site. Primeiramente faça um backup do seu web.config antes de salvar. {br}Esta opção define  que irá utilizar autenticação do windows e Active Directory.</value>
   </data>
   <data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
-    <value>Marque esta opção se você permie que as pessoas se cadastrem como novos usuários. Deixando desmarcado apenas os adminsitradores poderão cadastrar novoso usuários.</value>
+    <value>Marque esta opção se você permite que as pessoas se cadastrem como novos usuários. Deixando desmarcado apenas os adminsitradores poderão cadastrar novoso usuários.</value>
   </data>
   <data name="SiteSettings_Configuration_EnableRecaptcha_Help" xml:space="preserve">
-    <value>Ativa suporte a Recaptacha - um anti-spam contra bots. Você precisa se registrar e copiar a sua chace pública e privada nos campos abaixo.</value>
+    <value>Ativa suporte a Recaptcha - um anti-spam contra bots. Você precisa se registrar e copiar a sua chave pública e privada nos campos abaixo.</value>
   </data>
   <data name="SiteSettings_Configuration_RecaptchaPrivateKey_Help" xml:space="preserve">
     <value>A chave privada para o Recaptcha, que é fornecida quando você se inscreve com recaptcha.</value>
@@ -632,28 +635,28 @@
     <value>A senha usada para autenticação.</value>
   </data>
   <data name="SiteSettings_Configuration_EditorRole_Help" xml:space="preserve">
-    <value>Este é o nome da função de editor - pessoas que podem editar e criar páginas. Isto é usado apenas para Active Directory/autenticação Windows - deixar em branco para permitir que todos os usuários sejam editores.</value>
+    <value>Este é o nome/grupo de usuários com a função de editor - pessoas que podem editar e criar páginas. Isto é usado apenas para Active Directory/autenticação Windows - deixe em branco para permitir que todos os usuários sejam editores.</value>
   </data>
   <data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
-    <value>{bold}AVISO{/bold} alterando esta configuração pode bloqueá-lo por completo quando estiver utilizando Active Directory/autenticação do Windows. Primeiramente faça um backup do seu web.config antes de salvar. {br} Este é o nome da função de administrador. Administradores têm os mesmos direitos que os editores, mas também tem acesso a configurações e ferramentas do site.</value>
+    <value>{bold}AVISO{/bold} alterando esta configuração pode bloqueá-lo por completo quando estiver utilizando Active Directory/Autenticação do Windows. Primeiramente faça um backup do seu web.config antes de salvar. {br} Este é o nome/grupo de usuários da função de administrador. Administradores têm os mesmos direitos que os editores, mas também tem acesso a configurações e ferramentas do site.</value>
   </data>
   <data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
     <value>Este é o formato de marcação que esta sendo utilizado. O Roadkill atualmente suporta os seguintes valores: Creole, Markdown, Mediawiki.</value>
   </data>
   <data name="SiteSettings_Configuration_Theme_Help" xml:space="preserve">
-    <value>Este é o tema que o site atualmente utiliza. Isso deve corresponder a um nome de pasta no diretório Themes.</value>
+    <value>Este é o tema que o site atualmente utiliza, ele deve corresponder a um nome de pasta no diretório Themes.</value>
   </data>
   <data name="SiteSettings_Configuration_Attachments_Help" xml:space="preserve">
-    <value>Este é o diretório onde todos os arquivos serão enviados. Esta configuração deve começar com ~/ para indicar a pasta raiz do site.</value>
+    <value>Este é o diretório onde todos os arquivos serão enviados. Esta configuração deve começar com "~/" para indicar a pasta raiz do site.</value>
   </data>
   <data name="SiteSettings_Configuration_Extensions_Help" xml:space="preserve">
     <value>Estas são as extensões de arquivos que podem ser enviados, separados por vírgulas.</value>
   </data>
   <data name="SiteSettings_Configuration_ObjectCaching_Help" xml:space="preserve">
-    <value>Permite o armazenamento em cache de objetos. O Roadkill armazena todas as páginas e conteúdos na memória após recuperá-los do banco de dados. O cache é atualizado automaticamente quando uma página é modificada. Recomendado para aumentar a capacidade de resposta do site. O Cache de objetos não é suportado para web gardens ou web farms.</value>
+    <value>Permite o armazenamento em cache de objetos. O Roadkill armazena todas as páginas e conteúdos na memória após recuperá-los do banco de dados. O cache é atualizado automaticamente quando uma página é modificada. Recomendado para aumentar a capacidade de resposta do site. O Cache de objetos não é suportado em web gardens ou web farms.</value>
   </data>
   <data name="SiteSettings_Configuration_BrowserCaching_Help" xml:space="preserve">
-    <value>Permite o armazenamento em cache no navegador. Isto irá dizer ao navegador para armazenar em cache as páginas do Roadkill, e verificar se há atualizações a cada vez que a página for carregada. Se nenhuma atualização for encontrada, nenhum conteúdo será retornado do servidor. Recomendado para aumentar a capacidade de resposta do site.</value>
+    <value>Permite o armazenamento em cache no navegador. Isto irá dizer ao navegador para armazenar em cache as páginas do Roadkill e verificar se há atualizações a cada vez que a página for carregada. Se nenhuma atualização for encontrada nenhum conteúdo será retornado do servidor. Recomendado para aumentar a capacidade de resposta do site.</value>
   </data>
   <data name="SiteSettings_Configuration_Caching_Help" xml:space="preserve">
     <value>(Esta chave não é mais usado. Para ser removido na versão 2.0)</value>
@@ -702,7 +705,7 @@
     <comment>Fuzzy</comment>
   </data>
   <data name="SiteSettings_UserManagement_AddUser_Help" xml:space="preserve">
-    <value>Para os usuários existentes, deixar os campos de senha em branco para mudar apenas o nome de usuário.</value>
+    <value>Para os usuários existentes, deixe os campos de senha em branco para mudar apenas o nome de usuário.</value>
     <comment>Fuzzy</comment>
   </data>
   <data name="SiteSettings_UserManagement_AddUser_Error" xml:space="preserve">
@@ -756,10 +759,10 @@
     <value>Exportação para XML falhou: {0}</value>
   </data>
   <data name="SiteSettings_Tools_ExportContent" xml:space="preserve">
-    <value>Exporta todo o conteúdo como um zip</value>
+    <value>Exportar todo o conteúdo como um zip</value>
   </data>
   <data name="SiteSettings_Tools_ExportContent_Label" xml:space="preserve">
-    <value>Exporta todas as páginas, os textos serão salvos no formato "".Wiki". Somente o conteúdo atual e as tags serão incluídos, nenhum histórico será exportado. O arquivo zip não inclui a pasta de anexo.</value>
+    <value>Exporta todas as páginas, os textos serão salvos no formato "".Wiki". Somente o conteúdo atual e as tags serão incluídos, nenhum histórico será exportado. O arquivo zip não inclui a pasta de anexos.</value>
   </data>
   <data name="SiteSettings_Tools_ExportContent_Error" xml:space="preserve">
     <value>A exportação do conteúdo falhou: {0}</value>
@@ -777,10 +780,10 @@
     <value>Importar de ScrewTurn</value>
   </data>
   <data name="SiteSettings_Tools_ScrewTurnImport_Label" xml:space="preserve">
-    <value>Importações todo o conteúdo de um banco de dados ScrewTurn 2. Você precisará definir o markuptype para MediaWiki nas configurações / arquivo Web.config para o formato a ser compatível. Como ScrewTurn usa como variação da sintaxe MediaWiki, alguns conteúdos não tornará perfeitamente. Isto inclui algumas imagens e links.</value>
+    <value>Importa todo o conteúdo do banco de dados ScrewTurn 2/3. Você precisará definir o Tipo de markup para MediaWiki nas configurações/arquivo Web.config para o formato ser compatível. Como ScrewTurn usa a sintaxe do MediaWiki alguns conteúdos não serão exibidos corretamente. Isto inclui algumas imagens e links.</value>
   </data>
   <data name="SiteSettings_Tools_ScrewTurnImport_Connection" xml:space="preserve">
-    <value>ScrewTurn string de conexão:</value>
+    <value>String de conexão do ScrewTurn:</value>
   </data>
   <data name="SiteSettings_Tools_ScrewTurnImport_Message" xml:space="preserve">
     <value>Importação bem sucedida</value>
@@ -792,7 +795,7 @@
     <value>Isto irá renomear uma tag e atualizar todas as páginas que fazem referência a ela a fim de usar o novo tag. O tag é case sensitive.</value>
   </data>
   <data name="SiteSettings_Tools_RenameTag_Existing" xml:space="preserve">
-    <value>Tag existente:</value>
+    <value>Tag atual:</value>
   </data>
   <data name="SiteSettings_Tools_RenameTag_New" xml:space="preserve">
     <value>Novo nome da tag:</value>
@@ -878,7 +881,7 @@
     <value>homepage</value>
   </data>
   <data name="SiteSettings_Configuration_HeadContent" xml:space="preserve">
-    <value>Conteúdo adicional para a tag {head}</value>
+    <value>Conteúdo adicional para o cabeçalho do HTML</value>
   </data>
   <data name="SiteSettings_Configuration_FileManager" xml:space="preserve">
     <value>Gerenciador de arquivos</value>
@@ -898,10 +901,25 @@
     <value>Substituir os arquivos existentes automaticamente no upload</value>
   </data>
   <data name="SiteSettings_Configuration_FileManager_OverwriteExisting_Help" xml:space="preserve">
-    <value>Marque esta opção se você quiser os nomes dos arquivos que já existem nos anexos pasta a ser automaticamente substituído.</value>
+    <value>Marque esta opção se você permite que os arquivos que já existam na pasta de anexos sejam automaticamente substituídos.</value>
   </data>
   <data name="SiteSettings_Plugins_Title" xml:space="preserve">
     <value>Plugins</value>
+  </data>
+  <data name="SiteSettings_Plugins_ColumnHeader_Name" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="SiteSettings_Plugins_ColumnHeader_Description" xml:space="preserve">
+    <value>Descrição</value>
+  </data>
+  <data name="SiteSettings_Plugins_Edit_Title" xml:space="preserve">
+    <value>Configurações do plugin '{0}'</value>
+  </data>
+  <data name="SiteSettings_Plugins_Edit_BackLink" xml:space="preserve">
+    <value>voltar</value>
+  </data>
+  <data name="SiteSettings_Plugins_Edit_Enabled_Label" xml:space="preserve">
+    <value>Habilitado</value>
   </data>
   <data name="SiteSettings_Tools_SqlExport" xml:space="preserve">
     <value>Exportar como SQL</value>
@@ -913,7 +931,7 @@
     <value>Site público</value>
   </data>
   <data name="SiteSettings_Configuration_IsPublicSite_Help" xml:space="preserve">
-    <value>Quando desmarcada, todas as páginas são privadas e só podem ser vistos por usuários logados.</value>
+    <value>Quando desmarcada, todas as páginas são privadas e só podem ser vistas por usuários autenticados.</value>
   </data>
   <data name="SiteSettings_Configuration_IgnoreSearchIndexErrors" xml:space="preserve">
     <value>Ignorar erros de índice de pesquisa</value>

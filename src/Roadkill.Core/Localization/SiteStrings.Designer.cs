@@ -1645,6 +1645,15 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This directory maps to.
+        /// </summary>
+        public static string SiteSettings_Configuration_Attachments_Mapping {
+            get {
+                return ResourceManager.GetString("SiteSettings_Configuration_Attachments_Mapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Browser caching.
         /// </summary>
         public static string SiteSettings_Configuration_BrowserCaching {
@@ -2118,6 +2127,51 @@ namespace Roadkill.Core.Localization {
         public static string SiteSettings_Configuration_UseWindowsAuth_Help {
             get {
                 return ResourceManager.GetString("SiteSettings_Configuration_UseWindowsAuth_Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string SiteSettings_Plugins_ColumnHeader_Description {
+            get {
+                return ResourceManager.GetString("SiteSettings_Plugins_ColumnHeader_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string SiteSettings_Plugins_ColumnHeader_Name {
+            get {
+                return ResourceManager.GetString("SiteSettings_Plugins_ColumnHeader_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to back.
+        /// </summary>
+        public static string SiteSettings_Plugins_Edit_BackLink {
+            get {
+                return ResourceManager.GetString("SiteSettings_Plugins_Edit_BackLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enabled.
+        /// </summary>
+        public static string SiteSettings_Plugins_Edit_Enabled_Label {
+            get {
+                return ResourceManager.GetString("SiteSettings_Plugins_Edit_Enabled_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; plugin settings.
+        /// </summary>
+        public static string SiteSettings_Plugins_Edit_Title {
+            get {
+                return ResourceManager.GetString("SiteSettings_Plugins_Edit_Title", resourceCulture);
             }
         }
         
