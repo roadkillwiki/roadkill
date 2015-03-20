@@ -732,7 +732,7 @@
     <value>Ferramentas do Site</value>
   </data>
   <data name="SiteSettings_Tools_ClearDatabase" xml:space="preserve">
-    <value>Limpar o banco de dados</value>
+    <value>Limpar banco de dados</value>
   </data>
   <data name="SiteSettings_Tools_ClearDatabase_Label" xml:space="preserve">
     <value>Limpa todas as páginas e textos do banco de dados. Isso não remove todos os usuários.</value>
