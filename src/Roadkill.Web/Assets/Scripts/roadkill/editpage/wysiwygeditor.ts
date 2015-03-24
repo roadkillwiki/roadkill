@@ -5,7 +5,12 @@ module Roadkill.Web
 	Event bindings and handlers for the edit text area toolbar.
 	*/
 	export class WysiwygEditor
-	{
+    {
+        constructor(customWysiwygButtons: IWysiwygButton[]) {
+            this.customButtons = customWysiwygButtons;
+	    }
+
+	    private customButtons: IWysiwygButton[];
 		bindEvents()
 		{
 			// Bind the toolbar button clicks.
@@ -69,7 +74,15 @@ module Roadkill.Web
 			{
 				Dialogs.openMarkupHelpModal("<iframe src='" + ROADKILL_WIKIMARKUPHELP + "' id='help-iframe'></iframe>");
 				return false;
-			});
+            });
+            for (var i = 0; i < this.customButtons.length; ++i) {
+                var button = $("." + this.customButtons[i].id);
+                button.data("cwid", i);
+                button.click((e) => {
+                    this.customButtons[$(e.target).data("cwid")].clickAction(e, this);
+                    return false;
+                });
+            }
 		}
 
 		/**

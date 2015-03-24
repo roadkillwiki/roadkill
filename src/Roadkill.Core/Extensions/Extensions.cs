@@ -8,6 +8,7 @@ using System.IO;
 using System.Web.Mvc;
 using System.Web;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace Roadkill.Core.Extensions
 {
@@ -79,5 +80,16 @@ namespace Roadkill.Core.Extensions
 		{
 			return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, 0);
 		}
+
+	    public static string ValueOrDefault(this XAttribute attr)
+	    {
+	        return attr == null ? null : attr.Value;
+	    }
+
+	    public static T ValueOrDefault<T>(this XAttribute attr,Func<string, T> converter)
+	    {
+            return attr == null ? default(T) : converter(attr.Value);
+	    }
+
 	}
 }
