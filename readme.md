@@ -38,7 +38,7 @@ Roadkill can be run using a website deploy on Windows Azure. The instructions fo
 
 ### Syncing with Codeplex
 
-Codeplex is then synced from Github using `git push --all https://git01.codeplex.com/roadkill`
+Codeplex is synced from Github before releases using `git push --all https://git01.codeplex.com/roadkill`
 
 ### Contributing
 
