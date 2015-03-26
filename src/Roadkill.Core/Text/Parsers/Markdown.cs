@@ -135,55 +135,7 @@ namespace Roadkill.Core.Converters
 	{
 		private const string _version = "1.13";
 
-		public string BoldToken
-		{
-			get { return "**"; }
-		}
-
-		public string ItalicToken
-		{
-			get { return "*"; }
-		}
-
-		public string UnderlineToken
-		{
-			get { return ""; }
-		}
-
-		public string LinkStartToken
-		{
-			get { return "[%LINKTEXT%"; }
-		}
-
-		public string LinkEndToken
-		{
-			get { return "](%URL%)"; }
-		}
-
-		public string ImageStartToken
-		{
-			get { return "![%ALT%"; }
-		}
-
-		public string ImageEndToken
-		{
-			get { return "](%FILENAME%)"; }
-		}
-
-		public string BulletListToken
-		{
-			get { return "*"; }
-		}
-
-		public string NumberedListToken
-		{
-			get { return "1."; }
-		}
-
-		public string HeadingToken
-		{
-			get { return "#"; }
-		}
+		public MarkupParserHelp MarkupParserHelp { get; private set; }
 
 		#region Constructors and Options
 
@@ -209,7 +161,22 @@ namespace Roadkill.Core.Converters
 		/// </summary>
 		public MarkdownParser(bool loadOptionsFromConfigFile)
 		{
-			if (!loadOptionsFromConfigFile) return;
+			MarkupParserHelp = new MarkupParserHelp()
+			{
+				BoldToken = "**",
+				ItalicToken = "*",
+				UnderlineToken = "",
+				LinkStartToken = "[%LINKTEXT%",
+				LinkEndToken = "](%URL%)",
+				ImageStartToken = "![%ALT%",
+				ImageEndToken = "](%FILENAME%)",
+				BulletListToken = "*",
+				NumberedListToken = "1.",
+				HeadingToken = "#",
+			};
+
+			if (!loadOptionsFromConfigFile) 
+				return;
 
 			var settings = ConfigurationManager.AppSettings;
 			foreach (string key in settings.Keys)

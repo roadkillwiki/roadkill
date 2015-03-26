@@ -551,6 +551,8 @@
     <Compile Include="Plugins\Text\BuiltIn\SyntaxHighlighter.cs" />
     <Compile Include="Services\LocalFileService.cs" />
     <Compile Include="Text\MarkupLinkUpdater.cs" />
+    <Compile Include="Text\MarkupParserHelp.cs" />
+    <Compile Include="Text\Parsers\Legacy\CreoleParser.cs" />
     <Compile Include="Text\TextPluginRunner.cs" />
     <Compile Include="Text\UrlResolver.cs" />
     <Compile Include="Text\MenuParser.cs" />
@@ -564,7 +566,6 @@
     <Compile Include="Text\ImageEventArgs.cs" />
     <Compile Include="Text\IMarkupParser.cs" />
     <Compile Include="Text\LinkEventArgs.cs" />
-    <Compile Include="Text\Parsers\MediaWikiParser.cs" />
     <Compile Include="Security\Windows\ActiveDirectoryUserService.cs" />
     <Compile Include="Security\FormsAuthUserService.cs" />
     <Compile Include="Security\UserServiceBase.cs" />
@@ -589,7 +590,6 @@
     <Compile Include="Mvc\Controllers\SiteSettings\SettingsController.cs" />
     <Compile Include="Mvc\ViewModels\PageHistoryViewModel.cs" />
     <Compile Include="Mvc\ViewModels\TagViewModel.cs" />
-    <Compile Include="Text\Parsers\CreoleParser.cs" />
     <Compile Include="Text\HtmlDiff.cs" />
     <Compile Include="Text\Parsers\Markdown.cs" />
     <Compile Include="Text\MarkupConverter.cs" />

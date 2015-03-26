@@ -101,17 +101,17 @@ namespace Roadkill.Core.Converters
 
 			switch (markupType)
 			{
-				case "markdown":
-					_parser = new MarkdownParser();
+				case "creole":
+					_parser = new CreoleParser(_applicationSettings, siteSettings);
 					break;
 
 				case "mediawiki":
-					_parser = new MediaWikiParser(_applicationSettings, siteSettings);
+					throw new NotImplementedException("Sorry, Mediawiki markup is no longer supported.");
 					break;
 
-				case "creole":
-				default:
-					_parser = new CreoleParser(_applicationSettings, siteSettings);
+				case "markdown":
+					default:
+					_parser = new MarkdownParser();
 					break;
 			}
 

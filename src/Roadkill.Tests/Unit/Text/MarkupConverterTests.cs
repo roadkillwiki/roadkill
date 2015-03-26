@@ -47,18 +47,23 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange, act
 			_repository.SiteSettings.MarkupType = "Creole";
-			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 
 			// Assert
+			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 			Assert.NotNull(_markupConverter.Parser);
 
 			_repository.SiteSettings.MarkupType = "Markdown";
 			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
 			Assert.NotNull(_markupConverter.Parser);
+		}
 
-			_repository.SiteSettings.MarkupType = "Mediawiki";
+		[Test]
+		[ExpectedException(typeof(NotImplementedException))]
+		public void Parser_Should_Throw_Exception_For_MediaWiki()
+		{
+			// Arrange, act + assert
+			_repository.SiteSettings.MarkupType = "MediaWiki";
 			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
-			Assert.NotNull(_markupConverter.Parser);
 		}
 
 		[Test]
@@ -69,7 +74,7 @@ namespace Roadkill.Tests.Unit
 			UrlResolverMock resolver = new UrlResolverMock();
 			resolver.AbsolutePathSuffix = "123";
 			_markupConverter = new MarkupConverter(_applicationSettings, _repository, _pluginFactory);
-			_markupConverter.UrlResolver = resolver; 
+			_markupConverter.UrlResolver = resolver;
 
 			// Act
 			bool wasCalled = false;
@@ -79,7 +84,7 @@ namespace Roadkill.Tests.Unit
 			};
 
 			_markupConverter.ToHtml("![Image title](/DSC001.jpg)");
-			
+
 			// Assert
 			Assert.True(wasCalled, "ImageParsed.ImageEventArgs.Src did not match.");
 		}
@@ -105,7 +110,7 @@ namespace Roadkill.Tests.Unit
 			};
 
 			// Act
-			_markupConverter.ToHtml("![Image title](" +imageUrl+ ")");
+			_markupConverter.ToHtml("![Image title](" + imageUrl + ")");
 
 			// Assert
 			Assert.True(wasCalled);
@@ -348,7 +353,7 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
 		}
-	
+
 
 		[Test]
 		public void Links_Starting_With_AttachmentColon_Should_Resolve_As_Attachment_Paths()
@@ -413,7 +418,7 @@ namespace Roadkill.Tests.Unit
 			string actualHtml = converter.ToHtml(htmlFragment);
 
 			// Assert
-			string expectedHtml = "<p>" +htmlFragment+ "\n</p>";
+			string expectedHtml = "<p>" + htmlFragment + "\n</p>";
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
 		}
 
@@ -427,7 +432,7 @@ namespace Roadkill.Tests.Unit
 
 			string htmlFragment = "Give me a {{TOC}} and a {{{TOC}}} - the should not render a TOC";
 			string expected = @"<p>Give me a <div class=""floatnone""><div class=""image&#x5F;frame""><img src=""&#x2F;Attachments&#x2F;TOC""></div></div> and a TOC - the should not render a TOC"
-				+"\n</p>";
+				+ "\n</p>";
 
 			// Act
 			string actualHtml = _markupConverter.ToHtml(htmlFragment);
@@ -503,7 +508,7 @@ here is my C#code
 			// Arrange
 			string markupFragment = "This is my ~~~usertoken~~~";
 			string expectedHtml = "<p>This is my <span>usertoken</span>\n</p>";
-			
+
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.Repository = new RepositoryMock();
 			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
@@ -523,7 +528,7 @@ here is my C#code
 			// Arrange
 			string markupFragment = "Here is some markup **some bold**";
 			string expectedHtml = "<p>Here is some markup <strong style='color:green'><iframe src='javascript:alert(test)'>some bold</strong>\n</p>";
-			
+
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.Repository = new RepositoryMock();
 			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
