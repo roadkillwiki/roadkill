@@ -33,26 +33,26 @@ namespace Roadkill.Core.Plugins.Wysiwyg
             _buttons.Clear();
             _buttons.AddRange(wButtonDir.EnumerateFiles("*.xml")
                 .Select(fi => XDocument.Load(fi.FullName))
-                .Where(doc => doc.Root != null && doc.Root.Name.LocalName.Equals("WysiwygButton"))
-                .Select(doc => LoadButton(doc.Root))
+                .Where(doc => doc.Root != null)
+                .SelectMany(doc => doc.Root.Elements("WysiwygButton").Select(LoadButton))
                 .Where(button => button != null)
                 );
         }
 
-        private WysiwygButton LoadButton(XElement root)
+        private WysiwygButton LoadButton(XElement element)
         {
             try
             {
                 return new WysiwygButton
                 {
-                    Id = root.Attribute("id").Value,
-                    Name = root.Attribute("name").ValueOrDefault(),
-                    Title = root.Attribute("title").ValueOrDefault(),
-                    Glyph = root.Attribute("glyph").ValueOrDefault(),
+                    Id = element.Attribute("id").Value,
+                    Name = element.Attribute("name").ValueOrDefault(),
+                    Title = element.Attribute("title").ValueOrDefault(),
+                    Glyph = element.Attribute("glyph").ValueOrDefault(),
                     IWysiwygButton =
-                        root.Element("script") != null
-                            ? root.Element("script").Value
-                            : File.ReadAllText(root.Attribute("scriptFile").Value)
+                        element.Element("script") != null
+                            ? element.Element("script").Value
+                            : File.ReadAllText(element.Attribute("scriptFile").Value)
                 };
             }
             catch (Exception e)
