@@ -12,7 +12,7 @@ To setup Roadkill on a developer machine, you will need:
 * Visual Studio 2013 (2012 should also work)
 * Typescript installed - http://www.typescriptlang.org
 * SQL Server Express 2012 or higher - `choco install sqlserver2014express` for Choclatey users.
-* Your SQL Server installation should be the default instance (not YOURMACHINE\SQLEXPRESS) for the tests to pass.
+* Your SQL Server installation should be the default instance (not YOURMACHINE\SQLEXPRESS) for the tests to pass. They rely on the connection string being `Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill`
 * An NUnit runner (NUnit, Resharper, Dotcover etc.) if you want to run the tests. This is required if you want to contribute.
 
 ### Fresh install
