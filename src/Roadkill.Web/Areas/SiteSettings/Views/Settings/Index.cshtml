@@ -159,7 +159,7 @@
 				@Html.BootstrapTextBoxFor(s => s.AttachmentsFolder, SiteStrings.SiteSettings_Configuration_Attachments_Help)
 			</div>
 			<div class="form-group col-lg-7 row">
-				<span class="label label-info">This directory maps to @Model.AttachmentsDirectoryPath</span>
+				<span class="label label-info">@string.Format("{0} {1}", SiteStrings.SiteSettings_Configuration_Attachments_Mapping, Model.AttachmentsDirectoryPath)</span>
 			</div>
 			<div class="form-group col-lg-7 row">
 				<button id="testattachments" class="btn btn-primary test-button" type="button">

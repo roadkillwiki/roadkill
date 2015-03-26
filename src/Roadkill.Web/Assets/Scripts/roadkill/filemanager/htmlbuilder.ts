@@ -22,10 +22,10 @@ module Roadkill.Web.FileManager
 			var html: string[] = [];
 
 			var header = "<table id=\"files\"><thead><tr>"+
-					"<th colspan=2>Name</th>" +
-					"<th>Date Uploaded</th>" +
-					"<th>Type</th>" +
-					"<th>Size</th>" +
+					"<th colspan=2>" + ROADKILL_FILEMANAGER_COLUMN_NAME + "</th>" +
+                    "<th>" + ROADKILL_FILEMANAGER_COLUMN_DATE + "</th>" +
+                    "<th>" + ROADKILL_FILEMANAGER_COLUMN_TYPE + "</th>" +
+                    "<th>" + ROADKILL_FILEMANAGER_COLUMN_SIZE + "</th>" +
 					"</tr></thead>";
 			html.push(header);
 			

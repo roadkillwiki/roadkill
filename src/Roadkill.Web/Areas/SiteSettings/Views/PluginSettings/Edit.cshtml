@@ -1,13 +1,13 @@
 ﻿@model PluginViewModel
 
-@{ 
-	string title = "'" +Model.Name+ "' plugin settings";
+@{
+    string title = string.Format(SiteStrings.SiteSettings_Plugins_Edit_Title, Model.Name);
 	ViewBag.Title = title;
 	ViewData["PluginSettingsActive"] = true;
 }
 
 @Html.SiteSettingsNavigation()
-@Html.ActionLink("< back", "Index")
+@Html.ActionLink(string.Format("< {0}", SiteStrings.SiteSettings_Plugins_Edit_BackLink), "Index")
 
 @using (Html.BeginForm("Edit", "PluginSettings"))
 {
@@ -16,7 +16,7 @@
 	    <legend>@title</legend>
 
         <label for="IsEnabled" class="checkbox">
-            Enabled
+            @SiteStrings.SiteSettings_Plugins_Edit_Enabled_Label
             @Html.CheckBox("IsEnabled", Model.IsEnabled)
         </label>
         <br/>
