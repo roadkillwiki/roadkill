@@ -17,16 +17,16 @@ var ROADKILL_WIKIMARKUPHELP = "@Url.Action(SiteSettings.MarkupType + "Reference"
 IMarkupParser parser = MarkupConverter.Parser;
 }
 // Tokens for the edit toolbar
-var ROADKILL_EDIT_BOLD_TOKEN        = "@Html.Raw(parser.BoldToken)";
-var ROADKILL_EDIT_ITALIC_TOKEN      = "@Html.Raw(parser.ItalicToken)";
-var ROADKILL_EDIT_UNDERLINE_TOKEN   = "@Html.Raw(parser.UnderlineToken)";
-var ROADKILL_EDIT_LINK_STARTTOKEN   = "@Html.Raw(parser.LinkStartToken)";
-var ROADKILL_EDIT_LINK_ENDTOKEN     = "@Html.Raw(parser.LinkEndToken)";
-var ROADKILL_EDIT_IMAGE_STARTTOKEN  = "@Html.Raw(parser.ImageStartToken)";
-var ROADKILL_EDIT_IMAGE_ENDTOKEN    = "@Html.Raw(parser.ImageEndToken)";
-var ROADKILL_EDIT_NUMBERLIST_TOKEN  = "@Html.Raw(parser.NumberedListToken)";
-var ROADKILL_EDIT_BULLETLIST_TOKEN  = "@Html.Raw(parser.BulletListToken)";
-var ROADKILL_EDIT_HEADING_TOKEN     = "@Html.Raw(parser.HeadingToken)";
+var ROADKILL_EDIT_BOLD_TOKEN        = "@Html.Raw(parser.MarkupParserHelp.BoldToken)";
+var ROADKILL_EDIT_ITALIC_TOKEN      = "@Html.Raw(parser.MarkupParserHelp.ItalicToken)";
+var ROADKILL_EDIT_UNDERLINE_TOKEN   = "@Html.Raw(parser.MarkupParserHelp.UnderlineToken)";
+var ROADKILL_EDIT_LINK_STARTTOKEN   = "@Html.Raw(parser.MarkupParserHelp.LinkStartToken)";
+var ROADKILL_EDIT_LINK_ENDTOKEN     = "@Html.Raw(parser.MarkupParserHelp.LinkEndToken)";
+var ROADKILL_EDIT_IMAGE_STARTTOKEN  = "@Html.Raw(parser.MarkupParserHelp.ImageStartToken)";
+var ROADKILL_EDIT_IMAGE_ENDTOKEN    = "@Html.Raw(parser.MarkupParserHelp.ImageEndToken)";
+var ROADKILL_EDIT_NUMBERLIST_TOKEN  = "@Html.Raw(parser.MarkupParserHelp.NumberedListToken)";
+var ROADKILL_EDIT_BULLETLIST_TOKEN  = "@Html.Raw(parser.MarkupParserHelp.BulletListToken)";
+var ROADKILL_EDIT_HEADING_TOKEN     = "@Html.Raw(parser.MarkupParserHelp.HeadingToken)";
 var ROADKILL_EDIT_LINK_URLPLACEHOLDER  = "@Html.Raw(SiteStrings.EditPage_LinkUrl_PlaceHolder)";
 var ROADKILL_EDIT_LINK_TEXTPLACEHOLDER  = "@Html.Raw(SiteStrings.EditPage_LinkText_PlaceHolder)";
 var ROADKILL_EDIT_IMAGE_TITLE       = "@Html.Raw(SiteStrings.EditPage_Image_Title)";
