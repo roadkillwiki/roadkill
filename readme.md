@@ -2,7 +2,6 @@
 
 
 [![Version](https://img.shields.io/nuget/v/Roadkill.svg?style=flat)](https://www.nuget.org/packages/Roadkill)
-[![Build Status](https://travis-ci.org/roadkillwiki/roadkill.svg?branch=master)](https://travis-ci.org/roadkillwiki/roadkill)
 
 
 ### Pre-requisites
