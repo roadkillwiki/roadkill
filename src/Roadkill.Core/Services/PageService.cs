@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using System.IO;
+using System.Security.Cryptography;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
 using Roadkill.Core.Cache;
@@ -682,5 +684,30 @@ namespace Roadkill.Core.Services
 				throw new DatabaseException(ex, "An exception occurred while clearing all page tables.");
 			}
 		}
+
+
+        private Dictionary<string, string> viewKeysCache = new Dictionary<string, string>();
+	    /// <summary>
+	    /// Gets a valid viewkey for a given page
+	    /// </summary>
+	    /// <param name="id">Page id</param>
+	    /// <returns>Viewkey</returns>
+	    public string GetViewKey(int id)
+	    {
+	        var page = GetById(id);
+	        if (page == null) return null;
+	        var seed = page.Id + page.CreatedBy + page.CreatedOn.ToString("O") + ApplicationSettings.ViewKeysSecret;
+	        if (!viewKeysCache.ContainsKey(seed))
+	        {
+	            var sb = new StringBuilder();
+
+	            using (var hash = SHA256Managed.Create())
+	                foreach (var b in hash.ComputeHash(Encoding.UTF8.GetBytes(seed)))
+	                    sb.Append(b.ToString("x2"));
+
+                viewKeysCache[seed] = sb.ToString();
+	        }
+	        return viewKeysCache[seed];
+	    }
 	}
 }

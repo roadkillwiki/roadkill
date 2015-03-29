@@ -185,6 +185,8 @@ namespace Roadkill.Core.Mvc.ViewModels
 		[XmlIgnore]
 		public List<TagViewModel> AllTags { get; set; }
 
+        public string ViewKeyLink { get; set; }
+
 		public PageViewModel()
 		{
 			_tags = new List<string>();

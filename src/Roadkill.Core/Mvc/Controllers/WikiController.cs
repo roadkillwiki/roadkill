@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Security.Policy;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.UI;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Services;
@@ -13,7 +16,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// <summary>
 	/// Provides functionality for the /wiki/{id}/{title} route, which all pages are displayed via.
 	/// </summary>
-	[OptionalAuthorization]
+	
 	public class WikiController : ControllerBase
 	{
 		public PageService PageService { get; private set; }
@@ -34,6 +37,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <remarks>This action adds a "Last-Modified" header using the page's last modified date, if no user is currently logged in.</remarks>
 		/// <exception cref="HttpNotFoundResult">Thrown if the page with the id cannot be found.</exception>
 		[BrowserCache]
+        [ViewKeyOptionalAuthorization]
 		public ActionResult Index(int? id, string title)
 		{
 			if (id == null || id < 1)
@@ -41,12 +45,13 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			PageViewModel model = PageService.GetById(id.Value, true);
 
-			if (model == null)
+		    if (model == null)
 				throw new HttpException(404, string.Format("The page with id '{0}' could not be found", id));
 
 			return View(model);
 		}
 
+        [ViewKeyOptionalAuthorization]
 		public ActionResult PageToolbar(int? id)
 		{
 			if (id == null || id < 1)
@@ -57,12 +62,14 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (model == null)
 				return Content(string.Format("The page with id '{0}' could not be found", id));
 
+            model.ViewKeyLink = Url.Action("Index", "Wiki", new RouteValueDictionary(new {id, viewkey = PageService.GetViewKey(model.Id)}),Request.Url.Scheme, Request.Url.Host);
 			return PartialView(model);
 		}
 
 		/// <summary>
 		/// 404 not found page - configured in the web.config
 		/// </summary>
+        [OptionalAuthorization]
 		public ActionResult NotFound()
 		{
 			return View("404");
@@ -71,6 +78,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <summary>
 		/// 500 internal error - configured in the web.config
 		/// </summary>
+        [OptionalAuthorization]
 		public ActionResult ServerError()
 		{
 			return View("500");

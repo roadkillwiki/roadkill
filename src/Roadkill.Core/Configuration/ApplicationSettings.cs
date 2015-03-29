@@ -193,6 +193,16 @@ namespace Roadkill.Core.Configuration
 		/// </summary>
 		public bool IsPublicSite { get; set; }
 
+        /// <summary>
+        /// Whether to allow access if an unique view key to a page is provided, if the site is not public. This is optional in the web.config and the default is false.
+        /// </summary>
+        public bool AllowViewKeys { get; set; }
+
+        /// <summary>
+        /// Secret to use during generating viewkeys.
+        /// </summary>
+        public string ViewKeysSecret { get; set; }
+
 		/// <summary>
 		/// If this instance is running on the demo site.
 		/// </summary>
@@ -327,6 +337,8 @@ namespace Roadkill.Core.Configuration
 			SQLiteBinariesPath = Path.Combine(AppDataInternalPath, "SQLiteBinaries");
 			PluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "Plugins");
 			PluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
+		    AllowViewKeys = false;
+		    ViewKeysSecret = "ChangeMePlease";
 		}
 
 		/// <summary>

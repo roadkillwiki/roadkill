@@ -278,6 +278,8 @@ namespace Roadkill.Core.Configuration
 			appSettings.UserServiceType = _section.UserServiceType;
 			appSettings.UseWindowsAuthentication = _section.UseWindowsAuthentication;
 			appSettings.UpgradeRequired = UpgradeChecker.IsUpgradeRequired(_section.Version);
+		    appSettings.AllowViewKeys = _section.AllowViewKeys;
+		    appSettings.ViewKeysSecret = _section.ViewKeysSecret;
 
 			return appSettings;
 		}

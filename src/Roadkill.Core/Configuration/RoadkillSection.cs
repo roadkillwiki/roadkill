@@ -114,16 +114,36 @@ namespace Roadkill.Core
 			set { this["installed"] = value; }
 		}
 
-		/// <summary>
-		/// Whether the site is public, i.e. all pages are visible by default. The default is true,
-		/// and this is optional.
-		/// </summary>
-		[ConfigurationProperty("isPublicSite", IsRequired = false, DefaultValue = true)]
-		public bool IsPublicSite
-		{
-			get { return (bool)this["isPublicSite"]; }
-			set { this["isPublicSite"] = value; }
-		}
+        /// <summary>
+        /// Whether the site is public, i.e. all pages are visible by default. The default is true,
+        /// and this is optional.
+        /// </summary>
+        [ConfigurationProperty("isPublicSite", IsRequired = false, DefaultValue = true)]
+        public bool IsPublicSite
+        {
+            get { return (bool)this["isPublicSite"]; }
+            set { this["isPublicSite"] = value; }
+        }
+
+        /// <summary>
+        /// Whether to allow access if an unique view key to a page is provided, if the site is not public. This is optional in the web.config and the default is false.
+        /// </summary>
+        [ConfigurationProperty("allowViewKeys", IsRequired = false, DefaultValue = false)]
+        public bool AllowViewKeys
+        {
+            get { return (bool)this["allowViewKeys"]; }
+            set { this["allowViewKeys"] = value; }
+        }
+
+        /// <summary>
+        /// Secret used for generating viewkeys
+        /// </summary>
+        [ConfigurationProperty("viewKeysSecret", IsRequired = true)]
+        public string ViewKeysSecret
+        {
+            get { return (string)this["viewKeysSecret"]; }
+            set { this["viewKeysSecret"] = value; }
+        }
 
 		/// <summary>
 		/// For example: LDAP://mydc01.company.internal
