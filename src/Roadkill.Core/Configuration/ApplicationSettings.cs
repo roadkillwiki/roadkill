@@ -145,10 +145,16 @@ namespace Roadkill.Core.Configuration
 		/// </summary>
 		public string ConnectionStringName { get; set; }
 
-		/// <summary>
-		/// The file path for the custom tokens file.
-		/// </summary>
-		public string CustomTokensPath { get; set; }
+        /// <summary>
+        /// The file path for the custom tokens file.
+        /// </summary>
+        public string CustomTokensPath { get; set; }
+
+        /// <summary>
+        /// The full path to the Wysiwyg buttons directory. This is where buttons (xml+js) are stored
+        /// </summary>
+        public string WysiwygButtonsPath { get; internal set; }
+
 
 		/// <summary>
 		/// The full path to the text plugins directory. This is where plugins are stored after 
@@ -337,6 +343,7 @@ namespace Roadkill.Core.Configuration
 			SQLiteBinariesPath = Path.Combine(AppDataInternalPath, "SQLiteBinaries");
 			PluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "Plugins");
 			PluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
+		    WysiwygButtonsPath = Path.Combine(PluginsPath, "WysiwygButtons");
 		    AllowViewKeys = false;
 		    ViewKeysSecret = "ChangeMePlease";
 		}

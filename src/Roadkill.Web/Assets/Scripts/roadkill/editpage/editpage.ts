@@ -9,13 +9,13 @@ module Roadkill.Web
 			"#", ",", ";", "/", "?", ":", "@", "&", "=", "{", "}", "|", "\\", "^", "[", "]", "`"	
 		];
 
-		constructor(tags : string[])
+		constructor(tags : string[], customWysiwygButtons : IWysiwygButton[])
 		{
 			// Setup tagmanager
 			this.initializeTagManager(tags);
 
 			// Bind all the button events
-			var editor = new WysiwygEditor();
+			var editor = new WysiwygEditor(customWysiwygButtons);
 			editor.bindEvents();
 
 			// Setup the help popovers for the buttons

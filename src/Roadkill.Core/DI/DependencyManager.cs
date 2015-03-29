@@ -25,6 +25,7 @@ using System.Runtime.Caching;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Roadkill.Core.Plugins.Wysiwyg;
 
 namespace Roadkill.Core.DI
 {
@@ -221,6 +222,9 @@ namespace Roadkill.Core.DI
 
 			// Export
 			scanner.AddAllTypesOf<WikiExporter>();
+
+            // Wysiwyg
+		    scanner.AddAllTypesOf<WysiwygButtonParser>();
 		}
 
 		private void Configure(ConfigurationExpression x)

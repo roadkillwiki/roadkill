@@ -6,8 +6,15 @@
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
-		var pageTags = [ @(Html.Raw(Model.JavascriptArrayForAllTags())) ];
-		var editPage = new Roadkill.Web.EditPage(pageTags);
+	    var pageTags = [ @(Html.Raw(Model.JavascriptArrayForAllTags()))];
+	    var customWysiwygButtons = [];
+	    @{
+            foreach (var button in Model.CustomWysiwygButtons)
+            {
+	                @:customWysiwygButtons.push(@(Html.Raw(button.IWysiwygButton)));
+            }
+        }
+	    var editPage = new Roadkill.Web.EditPage(pageTags, customWysiwygButtons);
 	});
 </script>
 <style>
@@ -44,7 +51,7 @@
 				</div>
 			}
 
-			@Html.Partial("WysiwgToolbar")
+			@Html.Partial("WysiwgToolbar",Model.CustomWysiwygButtons)
 			@(Html.TextAreaFor<PageViewModel, string>(p => p.Content, new { @class = "form-control", tabindex = 5 }))
 
 			<div id="editpage-button-container" class="row" >
