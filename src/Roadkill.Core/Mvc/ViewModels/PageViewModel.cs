@@ -185,6 +185,13 @@ namespace Roadkill.Core.Mvc.ViewModels
 		[XmlIgnore]
 		public List<TagViewModel> AllTags { get; set; }
 
+        /// <summary>
+        /// Custom buttons to display on Wysiwyg toolbar
+        /// </summary>
+        public List<WysiwygButtonViewModel> CustomWysiwygButtons { get; set; } 
+
+        public string ViewKeyLink { get; set; }
+
 		public PageViewModel()
 		{
 			_tags = new List<string>();
@@ -194,6 +201,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 			PluginPreContainer = "";
 			PluginPostContainer = "";
 			AllTags = new List<TagViewModel>();
+            CustomWysiwygButtons = new List<WysiwygButtonViewModel>();
 		}
 
 		public PageViewModel(Page page)
@@ -214,6 +222,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 			CreatedOn = DateTime.SpecifyKind(CreatedOn, DateTimeKind.Utc);
 			ModifiedOn = DateTime.SpecifyKind(ModifiedOn, DateTimeKind.Utc);
 			AllTags = new List<TagViewModel>();
+            CustomWysiwygButtons = new List<WysiwygButtonViewModel>();
 		}
 
 		public PageViewModel(PageContent pageContent, MarkupConverter converter)
@@ -250,6 +259,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 			CreatedOn = DateTime.SpecifyKind(CreatedOn, DateTimeKind.Utc);
 			ModifiedOn = DateTime.SpecifyKind(ModifiedOn, DateTimeKind.Utc);
 			AllTags = new List<TagViewModel>();
+            CustomWysiwygButtons = new List<WysiwygButtonViewModel>();
 		}
 
 		/// <summary>

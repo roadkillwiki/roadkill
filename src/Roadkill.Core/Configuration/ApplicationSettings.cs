@@ -145,10 +145,16 @@ namespace Roadkill.Core.Configuration
 		/// </summary>
 		public string ConnectionStringName { get; set; }
 
-		/// <summary>
-		/// The file path for the custom tokens file.
-		/// </summary>
-		public string CustomTokensPath { get; set; }
+        /// <summary>
+        /// The file path for the custom tokens file.
+        /// </summary>
+        public string CustomTokensPath { get; set; }
+
+        /// <summary>
+        /// The full path to the Wysiwyg buttons directory. This is where buttons (xml+js) are stored
+        /// </summary>
+        public string WysiwygButtonsPath { get; internal set; }
+
 
 		/// <summary>
 		/// The full path to the text plugins directory. This is where plugins are stored after 
@@ -192,6 +198,16 @@ namespace Roadkill.Core.Configuration
 		/// Whether the site is public, i.e. all pages are visible by default. This is optional in the web.config and the default is true.
 		/// </summary>
 		public bool IsPublicSite { get; set; }
+
+        /// <summary>
+        /// Whether to allow access if an unique view key to a page is provided, if the site is not public. This is optional in the web.config and the default is false.
+        /// </summary>
+        public bool AllowViewKeys { get; set; }
+
+        /// <summary>
+        /// Secret to use during generating viewkeys.
+        /// </summary>
+        public string ViewKeysSecret { get; set; }
 
 		/// <summary>
 		/// If this instance is running on the demo site.
@@ -327,6 +343,9 @@ namespace Roadkill.Core.Configuration
 			SQLiteBinariesPath = Path.Combine(AppDataInternalPath, "SQLiteBinaries");
 			PluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "Plugins");
 			PluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
+		    WysiwygButtonsPath = Path.Combine(PluginsPath, "WysiwygButtons");
+		    AllowViewKeys = false;
+		    ViewKeysSecret = "ChangeMePlease";
 		}
 
 		/// <summary>

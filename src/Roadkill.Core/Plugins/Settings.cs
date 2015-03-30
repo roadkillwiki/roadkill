@@ -69,9 +69,12 @@ namespace Roadkill.Core.Plugins
 				settingValue.Name = name;
 				_values.Add(settingValue);
 			}
-			
-			settingValue.Value = value;
+            
+			// Set form type first, so that the validation happens
+			// Though the after-the-fact validation will work even 
+            // if done other way around.
 			settingValue.FormType = formType;
+            settingValue.Value = value;
 		}
 
 		/// <summary>

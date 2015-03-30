@@ -12,6 +12,7 @@ using Roadkill.Core.Mvc.ViewModels;
 using System.Web;
 using Roadkill.Core.Text;
 using Roadkill.Core.Extensions;
+using Roadkill.Core.Plugins.Wysiwyg;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -26,6 +27,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		private IPageService _pageService;
 		private SearchService _searchService;
 		private PageHistoryService _historyService;
+        private WysiwygButtonParser _wysiwygButtonParser;
 
 		public PagesController(ApplicationSettings settings, UserServiceBase userManager,
 			SettingsService settingsService, IPageService pageService, SearchService searchService,
@@ -36,6 +38,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			_pageService = pageService;
 			_searchService = searchService;
 			_historyService = historyService;
+            _wysiwygButtonParser = new WysiwygButtonParser(settings);
 		}
 
 		/// <summary>
@@ -120,6 +123,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ActionResult Edit(int id)
 		{
 			PageViewModel model = _pageService.GetById(id, true);
+		    AddCustomWysiwygButtons(model);
 
 			if (model != null)
 			{
@@ -198,11 +202,12 @@ namespace Roadkill.Core.Mvc.Controllers
 		[EditorRequired]
 		public ActionResult New(string title = "", string tags = "")
 		{
-			PageViewModel model = new PageViewModel()
-			{
-				Title = title,
-				RawTags = tags,
-			};
+		    PageViewModel model = new PageViewModel()
+		    {
+		        Title = title,
+		        RawTags = tags
+		    };
+            AddCustomWysiwygButtons(model);
 
 			model.AllTags = _pageService.AllTags().ToList();
 
@@ -220,10 +225,13 @@ namespace Roadkill.Core.Mvc.Controllers
 		[ValidateInput(false)]
 		public ActionResult New(PageViewModel model)
 		{
-			if (!ModelState.IsValid)
-				return View("Edit", model);
+		    if (!ModelState.IsValid)
+		    {
+                AddCustomWysiwygButtons(model);
+		        return View("Edit", model);
+		    }
 
-			model = _pageService.AddPage(model);
+		    model = _pageService.AddPage(model);
 
 			return RedirectToAction("Index", "Wiki", new { id = model.Id });
 		}
@@ -289,5 +297,17 @@ namespace Roadkill.Core.Mvc.Controllers
 			model.Content = diffHtml;
 			return View(model);
 		}
+
+	    private void AddCustomWysiwygButtons(PageViewModel model)
+	    {
+	        model.CustomWysiwygButtons = _wysiwygButtonParser.Buttons.Select(b => new WysiwygButtonViewModel
+	        {
+	            Id = b.Id,
+	            Name = b.Name,
+	            Title = b.Title,
+	            Glyph = b.Glyph,
+	            IWysiwygButton = b.IWysiwygButton
+	        }).ToList();
+	    }
 	}
 }

@@ -129,5 +129,12 @@ namespace Roadkill.Core.Services
 		/// </summary>
 		/// <exception cref="DatabaseException">A datastore error occurred while clearing the page data.</exception>
 		void ClearPageTables();
+
+        /// <summary>
+        /// Gets a valid viewkey for a given page
+        /// </summary>
+        /// <param name="id">Page id</param>
+        /// <returns>Viewkey</returns>
+        string GetViewKey(int id);
 	}
 }

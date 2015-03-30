@@ -441,6 +441,7 @@
     <Content Include="Assets\Scripts\roadkill\dialogs.js">
       <DependentUpon>dialogs.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="Assets\Scripts\roadkill\editpage\iwysiwygbutton.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\setup.ts" />
     <TypeScriptCompile Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.ts" />
     <None Include="Assets\Scripts\roadkill\typescript-ref\directoryviewmodel.ts" />
