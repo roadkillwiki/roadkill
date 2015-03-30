@@ -77,7 +77,17 @@
 					@Html.BootstrapCheckBoxFor(s => s.UseWindowsAuth, LocalizationTokens.ReplaceHtmlTokens(SiteStrings.SiteSettings_Configuration_UseWindowsAuth_Help))
 				</label>
 
-				<!-- Forms Authentication -->
+			    <label for="AllowViewKeys" class="checkbox">
+			        @SiteStrings.SiteSettings_Configuration_AllowViewKeys
+			        @Html.BootstrapCheckBoxFor(s => s.AllowViewKeys, SiteStrings.SiteSettings_Configuration_AllowViewKeys_Help)
+			    </label>
+
+			    <label for="ViewKeysSecret">
+                    @SiteStrings.SiteSettings_Configuration_ViewKeysSecret
+                </label>
+                @Html.BootstrapTextBoxFor(s => s.ViewKeysSecret, SiteStrings.SiteSettings_Configuration_ViewKeysSecret_Help)
+
+			    <!-- Forms Authentication -->
 				<div id="aspnetuser-settings" class="hidden">
 					<label for="AllowUserSignup" class="checkbox">
 						@SiteStrings.SiteSettings_Configuration_AllowUserSignups

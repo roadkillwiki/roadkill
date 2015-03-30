@@ -69,6 +69,9 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public bool IsPublicSite { get; set; }
 		public bool IgnoreSearchIndexErrors { get; set; }
 
+        public bool AllowViewKeys { get; set; }
+        public string ViewKeysSecret { get; set; }
+
 		/// <summary>
 		/// True when the model was updated during postback
 		/// </summary>
@@ -206,6 +209,8 @@ namespace Roadkill.Core.Mvc.ViewModels
 			UseWindowsAuth = applicationSettings.UseWindowsAuthentication;
 			UseObjectCache = applicationSettings.UseObjectCache;
 			UseBrowserCache = applicationSettings.UseBrowserCache;
+		    AllowViewKeys = applicationSettings.AllowViewKeys;
+		    ViewKeysSecret = applicationSettings.ViewKeysSecret;
 		}
 	}
 }

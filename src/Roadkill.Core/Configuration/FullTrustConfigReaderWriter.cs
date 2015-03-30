@@ -168,6 +168,8 @@ namespace Roadkill.Core.Configuration
 				section.RepositoryType = dataStoreType.CustomRepositoryType;
 				section.UseWindowsAuthentication = settings.UseWindowsAuth;
 				section.Version = ApplicationSettings.FileVersion.ToString();
+			    section.AllowViewKeys = settings.AllowViewKeys;
+			    section.ViewKeysSecret = settings.ViewKeysSecret;
 
 				// For first time installs: these need to be explicit as the DefaultValue="" in the attribute doesn't determine the value when saving.
 				section.IsPublicSite = settings.IsPublicSite;
