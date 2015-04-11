@@ -135,7 +135,7 @@ namespace Roadkill.Core.Database
 			else
 			{
 				SHA256 sha = new SHA256Managed();
-				byte[] hash = sha.ComputeHash(Encoding.ASCII.GetBytes(password + "salt"));
+				byte[] hash = sha.ComputeHash(Encoding.ASCII.GetBytes(password + salt));
 
 				StringBuilder stringBuilder = new StringBuilder();
 				foreach (byte b in hash)
