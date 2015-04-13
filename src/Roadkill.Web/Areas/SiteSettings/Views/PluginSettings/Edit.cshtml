@@ -35,6 +35,9 @@
                     case SettingFormType.Textarea:
                         <textarea rows="5" cols="25" name="SettingValues[@i].Value">Model.SettingValues[i].Value</textarea>
                         break;
+                    case SettingFormType.Password:
+                        <input type="password" name="SettingValues[@i].Value" value="@Model.SettingValues[i].Value"/>
+                        break;
                     default:
                         <input type="text" name="SettingValues[@i].Value" value="@Model.SettingValues[i].Value"/>
                         break;
