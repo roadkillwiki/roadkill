@@ -20,7 +20,7 @@ Find bugs
 Suggest new features
 ---
 
-Please do do this via the Google groups forum.
+Please do do this via [UserEcho](http://roadkillwiki.userecho.com/)
 
 Write some code
 ---
