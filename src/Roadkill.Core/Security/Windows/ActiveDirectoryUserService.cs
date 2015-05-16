@@ -146,7 +146,7 @@ namespace Roadkill.Core.Security.Windows
 					users.AddRange(GetUsersInGroup(group));
 				}
 
-				return users.Contains(CleanUsername(email));
+				return new HashSet<string>(users).Contains(CleanUsername(email));
 			}
 			catch (Exception ex)
 			{
@@ -172,7 +172,7 @@ namespace Roadkill.Core.Security.Windows
 					users.AddRange(GetUsersInGroup(group));
 				}
 
-				return users.Contains(CleanUsername(email));
+                return new HashSet<string>(users).Contains(CleanUsername(email));
 			}
 			catch (Exception ex)
 			{
