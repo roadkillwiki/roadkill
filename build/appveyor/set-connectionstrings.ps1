@@ -1,5 +1,6 @@
-$devConfigPath = "..\..\lib\Configs\connectionStrings.dev.config";
-$testsSetupPath = "..\..\src\Roadkill.Tests\Setup\SqlExpressSetup.cs";
+$currentDir = $pwd;
+$devConfigPath = "$currentDir\..\..\lib\Configs\connectionStrings.dev.config";
+$testsSetupPath = "$currentDir\..\..\src\Roadkill.Tests\Setup\SqlExpressSetup.cs";
 
 $connectionStrings = Get-Content -Path $devConfigPath
 $hardcodedCsharp = Get-Content -Path $testsSetupPath;

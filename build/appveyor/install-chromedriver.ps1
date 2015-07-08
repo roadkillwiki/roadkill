@@ -17,7 +17,10 @@ $copyPath = "C:\windows" # This should be somewhere that's in the PATH environme
  
 # Download the latest chomedriver
 Write-Host "Downloading $downloadUrl"
-del "$destFullPath" -Force
+if ("$destFullPath")
+{
+  del "$destFullPath" -Force
+}
 wget -Uri $downloadUrl -OutFile $destFullPath
  
 # Unzip it - requires 7zip - choco install 7zip
