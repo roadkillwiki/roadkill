@@ -1,8 +1,11 @@
-$connectionStrings = Get-Content lib\Configs\connectionStrings.dev.config;
-$hardcodedCsharp = Get-Content src\Roadkill.Tests\Setup\SqlExpressSetup.cs;
+$devConfigPath = "..\..\lib\Configs\connectionStrings.dev.config";
+$testsSetupPath = "..\..\src\Roadkill.Tests\Setup\SqlExpressSetup.cs";
+
+$connectionStrings = Get-Content -Path $devConfigPath
+$hardcodedCsharp = Get-Content -Path $testsSetupPath;
 
 $originalDbConnection = "Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill"
 $appveyorDbConnection = "Server=(local)\SQL2012SP1;Database=master;User ID=sa;Password=Password12!"
 
-Get-Content $connectionStrings.replace($originalDbConnection, $appveyorDbConnection) | Out-File lib\Configs\connectionStrings.dev.config;
-Get-Content $hardcodedCsharp.replace($originalDbConnection, $appveyorDbConnection) | Out-File src\Roadkill.Tests\Setup\SqlExpressSetup.cs
+$connectionStrings.replace($originalDbConnection, $appveyorDbConnection) | Out-File $devConfigPath;
+$hardcodedCsharp.replace($originalDbConnection, $appveyorDbConnection) | Out-File $testsSetupPath;
