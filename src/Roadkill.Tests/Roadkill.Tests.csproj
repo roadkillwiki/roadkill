@@ -384,7 +384,7 @@
     <Compile Include="Unit\Extensions\ExtensionsTests.cs" />
     <Compile Include="Unit\Import\ScrewTurnImportExtensionTests.cs" />
     <Compile Include="Unit\MvcActionExtensions.cs" />
-    <Compile Include="Unit\Import\WikiExporterTests.cs" />
+    <Compile Include="Unit\Export\WikiExporterTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\OptionalAuthorizationTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\EditorRequiredAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\WebApiEditorRequiredAttributeTests.cs" />

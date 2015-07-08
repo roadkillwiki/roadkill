@@ -35,7 +35,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		private PageViewModelCache _pageViewModelCache;
 		private IRepository _repository;
 		private IPluginFactory _pluginFactory;
-		private WikiExporter _wikiExporter;
+		internal WikiExporter _wikiExporter;
 
 		public ToolsController(ApplicationSettings settings, UserServiceBase userManager,
 			SettingsService settingsService, PageService pageService, SearchService searchService, IUserContext context,
@@ -120,9 +120,8 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			try
 			{
-
 				string zipFilename = string.Format("attachments-export-{0}.zip", DateTime.UtcNow.ToString("yyy-MM-dd-HHss"));
-				_wikiExporter.ExportAsWikiFiles(zipFilename);
+				_wikiExporter.ExportAttachments(zipFilename);
 
 				string zipFullPath = Path.Combine(_wikiExporter.ExportFolder, zipFilename);
 				return File(zipFullPath, "application/zip", zipFilename);

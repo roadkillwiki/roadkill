@@ -37,7 +37,7 @@ namespace Roadkill.Core.Domain.Export
 			ExportFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Export");
 		}
 
-		public Stream ExportAsXml()
+		public virtual Stream ExportAsXml()
 		{
 			string xml = _pageService.ExportToXml();
 
@@ -51,7 +51,7 @@ namespace Roadkill.Core.Domain.Export
 			return stream;
 		}
 
-		public Stream ExportAsSql()
+		public virtual Stream ExportAsSql()
 		{
 			string sql = _sqlExportBuilder.Export();
 
@@ -64,7 +64,7 @@ namespace Roadkill.Core.Domain.Export
 			return stream;
 		}
 
-		public void ExportAttachments(string filename)
+		public virtual void ExportAttachments(string filename)
 		{
 			if (!Directory.Exists(ExportFolder))
 				Directory.CreateDirectory(ExportFolder);
@@ -77,7 +77,7 @@ namespace Roadkill.Core.Domain.Export
 			}
 		}
 
-		public void ExportAsWikiFiles(string filename)
+		public virtual void ExportAsWikiFiles(string filename)
 		{
 			if (string.IsNullOrEmpty(filename))
 				throw new ArgumentNullException("filename");
@@ -127,7 +127,9 @@ namespace Roadkill.Core.Domain.Export
 
 					Console.WriteLine(filePath);
 					File.WriteAllText(filePath, content);
-					zip.AddFile(filePath, "");
+
+					if (!zip.ContainsEntry(filePath))
+						zip.AddFile(filePath, "");
 				}
 
 				zip.Save();

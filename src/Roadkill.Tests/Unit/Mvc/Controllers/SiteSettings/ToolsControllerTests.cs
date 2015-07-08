@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Web.Mvc;
+using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Cache;
@@ -63,7 +64,7 @@ namespace Roadkill.Tests.Unit
 			_pluginFactory = _container.PluginFactory;
 			_searchService = _container.SearchService;
 
-			// There's no point mocking WikiExporter (and turning it into an interface) as it 
+			// There's no point mocking WikiExporter (and turning it into an interface) as 
 			// a lot of usefulness of these tests would be lost when creating fake Streams and zip files.
 			_wikiExporter = new WikiExporter(_applicationSettings, _pageService, _repository, _pluginFactory);
 			_wikiExporter.ExportFolder = AppDomain.CurrentDomain.BaseDirectory;
@@ -165,6 +166,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(result.FileDownloadName, Is.StringStarting("attachments-"));
 			Assert.That(result.FileDownloadName, Is.StringEnding(".zip"));
 			Assert.That(result.ContentType, Is.EqualTo("application/zip"));
+			
 		}
 
 		[Test]
@@ -257,6 +259,64 @@ namespace Roadkill.Tests.Unit
 			Assert.That(_toolsController.TempData["SuccessMessage"], Is.EqualTo(SiteStrings.SiteSettings_Tools_RebuildSearch_Message));
 
 			Assert.That(_searchService.CreatedNewIndex, Is.True);
+		}
+
+		[Test]
+		public void ExportAttachments_Should_Call_WikiExporter_ExportAttachments()
+		{
+			// Arrange
+			var mockWikiExporter = new Mock<WikiExporter>(_applicationSettings, _pageService, _repository, _pluginFactory);
+			_toolsController._wikiExporter = mockWikiExporter.Object;
+
+			// Act
+			FilePathResult result = _toolsController.ExportAttachments() as FilePathResult;
+
+			// Assert
+			mockWikiExporter.Verify(x => x.ExportAttachments(result.FileDownloadName), Times.Once);
+		}
+
+		[Test]
+		public void ExportAsWikiFiles_Should_Call_WikiExporter_ExportAsWikiFiles()
+		{
+			// Arrange
+			var mockWikiExporter = new Mock<WikiExporter>(_applicationSettings, _pageService, _repository, _pluginFactory);
+			_toolsController._wikiExporter = mockWikiExporter.Object;
+
+			// Act
+			FilePathResult result = _toolsController.ExportAsWikiFiles() as FilePathResult;
+
+			// Assert
+			mockWikiExporter.Verify(x => x.ExportAsWikiFiles(result.FileDownloadName), Times.Once);
+		}
+
+		[Test]
+		public void ExportAsSql_Should_Call_WikiExporter_ExportAsSql()
+		{
+			// Arrange
+			var mockWikiExporter = new Mock<WikiExporter>(_applicationSettings, _pageService, _repository, _pluginFactory);
+			_toolsController._wikiExporter = mockWikiExporter.Object;
+			mockWikiExporter.Setup(x => x.ExportAsSql()).Returns(new MemoryStream());
+
+			// Act
+			FilePathResult result = _toolsController.ExportAsSql() as FilePathResult;
+
+			// Assert
+			mockWikiExporter.Verify(x => x.ExportAsSql(), Times.Once);
+		}
+
+		[Test]
+		public void ExportAsXml_Should_Call_WikiExporter_ExportAsXml()
+		{
+			// Arrange
+			var mockWikiExporter = new Mock<WikiExporter>(_applicationSettings, _pageService, _repository, _pluginFactory);
+			mockWikiExporter.Setup(x => x.ExportAsXml()).Returns(new MemoryStream());
+			_toolsController._wikiExporter = mockWikiExporter.Object;
+
+			// Act
+			FilePathResult result = _toolsController.ExportAsXml() as FilePathResult;
+
+			// Assert
+			mockWikiExporter.Verify(x => x.ExportAsXml(), Times.Once);
 		}
 	}
 }
