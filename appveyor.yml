@@ -6,14 +6,10 @@ services:
   -mssql2012sp1
 
 install:
-  -ps: "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))"
-  -ps: "choco install GoogleChrome -y"
-  -ps: "choco install gb.MongoDB -y"
-  -ps: ".\\build\\install-chromedriver.ps1"
-
+  -ps: "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))\nchoco install GoogleChrome -y\n\choco install gb.MongoDB -y\n.\\build\\install-chromedriver.ps1"
+  
 before_build:
-  -ps: "(gc lib\\Configs\\connectionStrings.dev.config).replace('Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill','Server=(local)\\SQL2012SP1;Database=master;User ID=sa;Password=Password12!') | Out-File lib\\Configs\\connectionStrings.dev.config"
-  -ps: "(gc src\\Roadkill.Tests\\Setup\\SqlExpressSetup.cs).replace('Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill','Server=(local)\\SQL2012SP1;Database=master;User ID=sa;Password=Password12!') | Out-File src\\Roadkill.Tests\\Setup\\SqlExpressSetup.cs"
+  -ps: "(gc lib\\Configs\\connectionStrings.dev.config).replace('Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill','Server=(local)\\SQL2012SP1;Database=master;User ID=sa;Password=Password12!') | Out-File lib\\Configs\\connectionStrings.dev.config\n(gc src\\Roadkill.Tests\\Setup\\SqlExpressSetup.cs).replace('Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill','Server=(local)\\SQL2012SP1;Database=master;User ID=sa;Password=Password12!') | Out-File src\\Roadkill.Tests\\Setup\\SqlExpressSetup.cs"
 
 build:
   project: Roadkill.sln
