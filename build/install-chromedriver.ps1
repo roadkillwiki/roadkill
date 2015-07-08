@@ -22,7 +22,10 @@ wget -Uri $downloadUrl -OutFile $destFullPath
  
 # Unzip it - requires 7zip - choco install 7zip
 Write-Host "Unzipped $destPath"
-del "$destDir\chromedriver.exe" -Force
+if (Test-Path "$destDir\chromedriver.exe")
+{
+  del "$destDir\chromedriver.exe" -Force
+}
 & "C:\Program Files\7-Zip\7z.exe" x $destFullPath -o"$destDir"
  
 # Copy to c:\windows
