@@ -5,13 +5,27 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Roadkill.Tests.Setup;
 
 namespace Roadkill.Tests
 {
 	public class SqlExpressSetup
 	{
-		// This should match connectionStrings.dev.config
-		public static string ConnectionString { get { return @"Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill"; } }
+		public static string ConnectionString
+		{
+			get
+			{
+				string envValue = EnvironmentalVariables.GetVariable("ConnectionString");
+				if (!string.IsNullOrEmpty(envValue))
+				{
+					Console.WriteLine("Found {0} connection string environmental variable.");
+					return envValue;
+				}
+
+				// This should match connectionStrings.dev.config
+				return @"Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill";
+			}
+		}
 
 		public static void RecreateLocalDbData()
 		{

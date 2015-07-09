@@ -12,10 +12,14 @@ install:
      .\build\appveyor\install-chromedriver.ps1;
      .\build\appveyor\set-connectionstrings.ps1;
 
+environment:
+  ConnectionString: Server=(local)\SQL2012SP1;Database=master;User ID=sa;Password=Password12!
+
 build:
   project: Roadkill.sln
   parallel: true
   verbosity: normal
+  
 test:
   categories:
     - Unit
