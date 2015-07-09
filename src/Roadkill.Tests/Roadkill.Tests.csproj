@@ -352,6 +352,7 @@
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedPageRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedSettingsRepositoryTests.cs" />
     <Compile Include="Setup\ConfigFileManager.cs" />
+    <Compile Include="Setup\EnvironmentalVariables.cs" />
     <Compile Include="Setup\IISExpress.cs" />
     <Compile Include="Setup\SqlExpressSetup.cs" />
     <Compile Include="Integration\Repository\MongoDb\MongoDbSettingsRepositoryTests.cs" />
