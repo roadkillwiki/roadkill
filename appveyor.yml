@@ -12,7 +12,7 @@ install:
      .\build\appveyor\install-chromedriver.ps1;
 
 before_build:
-  -ps: .\build\appveyor\set-connectionstrings.ps1;
+  -ps: >- .\build\appveyor\set-connectionstrings.ps1;
 
 build:
   project: Roadkill.sln
