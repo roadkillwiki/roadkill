@@ -8,7 +8,7 @@ services:
 install:
   -ps: >- 
      choco install GoogleChrome -y; 
-     choco install gb.MongoDB -y;
+     choco install mongodb -y;
      .\build\appveyor\install-chromedriver.ps1;
      .\build\appveyor\set-connectionstrings.ps1;
 
