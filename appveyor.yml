@@ -7,7 +7,7 @@ services:
   
 install:
   -ps: >- 
-     choco install mongodb -y;  
+     #choco install mongodb -y;  
 
 environment:
   ConnectionString: Server=(local)\SQL2012SP1;Database=master;User ID=sa;Password=Password12!
