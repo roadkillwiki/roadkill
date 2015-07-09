@@ -18,7 +18,7 @@ namespace Roadkill.Tests
 				string envValue = EnvironmentalVariables.GetVariable("ConnectionString");
 				if (!string.IsNullOrEmpty(envValue))
 				{
-					Console.WriteLine("Found {0} connection string environmental variable.");
+					Console.WriteLine("Found {0} connection string environmental variable.", envValue);
 					return envValue;
 				}
 
