@@ -30,6 +30,7 @@ namespace Roadkill.Tests.Integration.Repository
 		public void SetUp()
 		{
 			ApplicationSettings = new ApplicationSettings() { ConnectionString = ConnectionString, DataStoreType = DataStoreType };
+			Console.WriteLine("Using {0} for RepositoryTests connection string.", ConnectionString);
 
 			Repository = GetRepository();
 			Repository.Startup(ApplicationSettings.DataStoreType, ApplicationSettings.ConnectionString, false);
