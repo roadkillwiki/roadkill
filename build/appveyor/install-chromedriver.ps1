@@ -17,7 +17,7 @@ $copyPath = "C:\windows" # This should be somewhere that's in the PATH environme
  
 # Download the latest chomedriver
 Write-Host "Downloading $downloadUrl"
-if ("$destFullPath")
+if (Test-Path "$destFullPath")
 {
   del "$destFullPath" -Force
 }
