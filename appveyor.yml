@@ -5,13 +5,6 @@ clone_depth: 1
 services: 
   -mssql2012sp1
 
-install:
-  -ps: >- 
-     choco install GoogleChrome -y; 
-     choco install mongodb -y;
-     .\build\appveyor\install-chromedriver.ps1;
-     .\build\appveyor\set-connectionstrings.ps1;
-
 environment:
   ConnectionString: Server=(local)\SQL2012SP1;Database=master;User ID=sa;Password=Password12!
 
@@ -24,4 +17,3 @@ test:
   categories:
     - Unit
     - Integration
-    - Acceptance
