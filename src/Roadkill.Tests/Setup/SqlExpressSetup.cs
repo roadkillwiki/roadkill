@@ -29,6 +29,8 @@ namespace Roadkill.Tests
 
 		public static void RecreateLocalDbData()
 		{
+			Console.WriteLine("RecreateLocalDbData: using {0} for connection string.", ConnectionString);
+
 			using (SqlConnection connection = new SqlConnection(ConnectionString))
 			{
 				connection.Open();
