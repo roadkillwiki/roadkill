@@ -10,9 +10,7 @@ install:
      choco install GoogleChrome -y; 
      choco install gb.MongoDB -y;
      .\build\appveyor\install-chromedriver.ps1;
-
-before_build:
-  -ps: >- .\build\appveyor\set-connectionstrings.ps1;
+     .\build\appveyor\set-connectionstrings.ps1;
 
 build:
   project: Roadkill.sln
