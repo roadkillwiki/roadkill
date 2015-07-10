@@ -10,7 +10,7 @@ environment:
   
 install:
   -ps: >- 
-     build\appveyor\install-mongodb.ps1
+    .\build\appveyor\install-mongodb.ps1
 
 build:
   project: Roadkill.sln
