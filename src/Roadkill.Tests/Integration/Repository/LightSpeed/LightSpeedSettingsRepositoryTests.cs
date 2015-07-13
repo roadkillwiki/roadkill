@@ -13,12 +13,12 @@ using Roadkill.Core.Database.MongoDB;
 namespace Roadkill.Tests.Integration.Repository.LightSpeed
 {
 	[TestFixture]
-	[Category("Unit")]
+	[Category("Integration")]
 	public class LightSpeedSettingsRepositoryTests : SettingsRepositoryTests
 	{
 		protected override string ConnectionString
 		{
-			get { return SqlExpressSetup.ConnectionString; }
+			get { return SqlServerSetup.ConnectionString; }
 		}
 
 		protected override DataStoreType DataStoreType

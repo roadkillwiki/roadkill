@@ -11,7 +11,7 @@ using Roadkill.Core.Database;
 namespace Roadkill.Tests.Integration.Repository
 {
 	[TestFixture]
-	[Category("Unit")]
+	[Category("Integration")]
 	public abstract class RepositoryTests
 	{
 		protected Roadkill.Core.Database.IRepository Repository;
@@ -23,13 +23,18 @@ namespace Roadkill.Tests.Integration.Repository
 		[TestFixtureSetUp]
 		public void TestFixtureSetup()
 		{
-			SqlExpressSetup.RecreateLocalDbData();
+			SqlServerSetup.RecreateLocalDbData();
 		}
 
 		[SetUp]
 		public void SetUp()
 		{
-			ApplicationSettings = new ApplicationSettings() { ConnectionString = ConnectionString, DataStoreType = DataStoreType };
+			ApplicationSettings = new ApplicationSettings()
+			{
+				ConnectionString = ConnectionString, 
+				DataStoreType = DataStoreType,
+				LoggingTypes =  "none"
+			};
 
 			Repository = GetRepository();
 			Repository.Startup(ApplicationSettings.DataStoreType, ApplicationSettings.ConnectionString, false);

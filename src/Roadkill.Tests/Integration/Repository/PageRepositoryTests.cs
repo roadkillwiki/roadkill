@@ -9,7 +9,7 @@ using Roadkill.Core.Database;
 namespace Roadkill.Tests.Integration.Repository
 {
 	[TestFixture]
-	[Category("Unit")]
+	[Category("Integration")]
 	public abstract class PageRepositoryTests : RepositoryTests
 	{
 		private Page _page1;

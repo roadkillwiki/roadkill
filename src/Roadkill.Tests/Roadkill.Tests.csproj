@@ -357,7 +357,7 @@
     <Compile Include="Setup\EnvironmentalVariables.cs" />
     <Compile Include="Setup\IIS.cs" />
     <Compile Include="Setup\IISExpress.cs" />
-    <Compile Include="Setup\SqlExpressSetup.cs" />
+    <Compile Include="Setup\SqlServerSetup.cs" />
     <Compile Include="Integration\Repository\MongoDb\MongoDbSettingsRepositoryTests.cs" />
     <Compile Include="Integration\Repository\MongoDb\MongoDbPageRepositoryTests.cs" />
     <Compile Include="Integration\Repository\MongoDb\MongoDbUserRepositoryTests.cs" />

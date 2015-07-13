@@ -14,7 +14,7 @@ using PluginSettings = Roadkill.Core.Plugins.Settings;
 namespace Roadkill.Tests.Integration.Repository
 {
 	[TestFixture]
-	[Category("Unit")]
+	[Category("Integration")]
 	public abstract class SettingsRepositoryTests : RepositoryTests
 	{
 		private SiteCache _siteCache;

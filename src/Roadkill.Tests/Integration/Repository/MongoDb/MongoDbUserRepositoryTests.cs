@@ -13,7 +13,7 @@ using Roadkill.Core.Database.MongoDB;
 namespace Roadkill.Tests.Integration.Repository.LightSpeed
 {
 	[TestFixture]
-	[Category("Unit")]
+	[Category("Integration")]
 	[Explicit("Requires MongoDB installed on the machine running the tests")]
 	[Description("For an easy install of MongoDB on Windows : http://chocolatey.org/packages?q=mongodb")]
 	public class MongoDbUserRepositoryTests : UserRepositoryTests

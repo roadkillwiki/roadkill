@@ -26,7 +26,7 @@ namespace Roadkill.Tests.Acceptance
 			// Assert
 			Assert.That(Driver.ElementValue("#SiteName"), Is.EqualTo("Acceptance Tests"));
 			Assert.That(Driver.ElementValue("#SiteUrl"), Is.EqualTo("http://localhost:9876"));
-			Assert.That(Driver.ElementValue("#ConnectionString"), Is.StringStarting(SqlExpressSetup.ConnectionString));
+			Assert.That(Driver.ElementValue("#ConnectionString"), Is.StringStarting(SqlServerSetup.ConnectionString));
 			Assert.That(Driver.ElementValue("#RecaptchaPrivateKey"), Is.EqualTo("recaptcha-private-key"));
 			Assert.That(Driver.ElementValue("#RecaptchaPublicKey"), Is.EqualTo("recaptcha-public-key"));
 			Assert.That(Driver.ElementValue("#EditorRoleName"), Is.EqualTo("Editor"));
