@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,26 +20,30 @@ namespace Roadkill.Tests.Integration.Configuration
 		[Test]
 		public void Should_Have_Default_Values_Set_In_Constructor()
 		{
-			// Arrange
-			string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-
-			// Act
+			// Arrange + Act
 			ApplicationSettings appSettings = new ApplicationSettings();
 
 			// Assert
-			Assert.That(appSettings.AppDataPath, Is.EqualTo(baseDir +@"\App_Data"), "AppDataPath");
-			Assert.That(appSettings.AppDataInternalPath, Is.EqualTo(baseDir + @"\App_Data\Internal"), "AppDataInternalPath");
-			Assert.That(appSettings.CustomTokensPath, Is.EqualTo(baseDir + @"\App_Data\customvariables.xml"), "CustomTokensPath");
-			Assert.That(appSettings.EmailTemplateFolder, Is.EqualTo(baseDir + @"\App_Data\EmailTemplates"), "EmailTemplateFolder");
-			Assert.That(appSettings.HtmlElementWhiteListPath, Is.EqualTo(baseDir + @"\App_Data\Internal\htmlwhitelist.xml"), "HtmlElementWhiteListPath");
+			Assert.That(appSettings.AppDataPath,               Is.EqualTo(GetFullPath(@"App_Data")), "AppDataPath");
+			Assert.That(appSettings.AppDataInternalPath,       Is.EqualTo(GetFullPath(@"App_Data\Internal")), "AppDataInternalPath");
+			Assert.That(appSettings.CustomTokensPath,          Is.EqualTo(GetFullPath(@"App_Data\customvariables.xml")), "CustomTokensPath");
+			Assert.That(appSettings.EmailTemplateFolder,       Is.EqualTo(GetFullPath(@"App_Data\EmailTemplates")), "EmailTemplateFolder");
+			Assert.That(appSettings.HtmlElementWhiteListPath,  Is.EqualTo(GetFullPath(@"App_Data\Internal\htmlwhitelist.xml")), "HtmlElementWhiteListPath");
+			Assert.That(appSettings.SearchIndexPath,           Is.EqualTo(GetFullPath(@"App_Data\Internal\Search")), "SearchIndexPath");
+			Assert.That(appSettings.SQLiteBinariesPath,        Is.EqualTo(GetFullPath(@"App_Data\Internal\SQLiteBinaries")), "SQLiteBinariesPath");
+			Assert.That(appSettings.PluginsBinPath,            Is.EqualTo(GetFullPath(@"bin\Plugins")), "PluginsBinPath");
+			Assert.That(appSettings.PluginsPath,               Is.EqualTo(GetFullPath(@"Plugins")), "PluginsPath");
+
 			Assert.That(appSettings.MinimumPasswordLength, Is.EqualTo(6), "MinimumPasswordLength");
 			Assert.That(appSettings.DataStoreType, Is.EqualTo(DataStoreType.SqlServer2008), "DataStoreType");
 			Assert.That(appSettings.AttachmentsRoutePath, Is.EqualTo("Attachments"), "AttachmentsRoutePath");
-			Assert.That(appSettings.AttachmentsFolder, Is.EqualTo("~/App_Data/Attachments"), "AttachmentsFolder");
-			Assert.That(appSettings.SearchIndexPath, Is.EqualTo(baseDir + @"\App_Data\Internal\Search"), "SearchIndexPath");
-			Assert.That(appSettings.SQLiteBinariesPath, Is.EqualTo(baseDir + @"\App_Data\Internal\SQLiteBinaries"), "SQLiteBinariesPath");
-			Assert.That(appSettings.PluginsBinPath, Is.EqualTo(baseDir + @"\bin\Plugins"), "PluginsBinPath");
-			Assert.That(appSettings.PluginsPath, Is.EqualTo(baseDir + @"\Plugins"), "PluginsPath");
+			Assert.That(appSettings.AttachmentsFolder, Is.EqualTo("~/App_Data/Attachments"), "AttachmentsFolder");	
+		}
+
+		private string GetFullPath(string path)
+		{
+			string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+			return Path.Combine(baseDir, path);
 		}
 
 		[Test]
