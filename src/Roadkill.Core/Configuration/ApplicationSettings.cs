@@ -235,6 +235,19 @@ namespace Roadkill.Core.Configuration
 		/// </summary>
 		public bool LogErrorsOnly { get; set; }
 
+		
+		/// <summary>
+		/// Whether logging is enabled - if LoggingTypes has values set.
+		/// </summary>
+		/// TODO: tests
+		public bool IsLoggingEnabled
+		{
+			get
+			{
+				return (!string.IsNullOrEmpty(LoggingTypes) && LoggingTypes.Trim().ToLower() != "none");
+			}
+		}
+
 		/// <summary>
 		/// The number of characters each password should be.
 		/// </summary>

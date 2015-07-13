@@ -14,7 +14,7 @@ namespace Roadkill.Tests.Integration.Repository
 	[Category("Integration")]
 	public abstract class RepositoryTests
 	{
-		protected Roadkill.Core.Database.IRepository Repository;
+		protected IRepository Repository;
 		protected ApplicationSettings ApplicationSettings;
 
 		protected abstract string ConnectionString { get; }

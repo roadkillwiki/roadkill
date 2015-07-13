@@ -32,11 +32,7 @@ namespace Roadkill.Core.Logging
 		/// </summary>
 		public static void ConfigureLogging(ApplicationSettings settings)
 		{
-			if (string.IsNullOrEmpty(settings.LoggingTypes) || settings.LoggingTypes.Trim().ToLower() == "none")
-			{
-				LogManager.DisableLogging();
-			}
-			else
+			if (settings.IsLoggingEnabled)
 			{
 				LogManager.EnableLogging();
 				
@@ -100,6 +96,10 @@ namespace Roadkill.Core.Logging
 				}
 
 				LogManager.Configuration.Reload();
+			}
+			else
+			{
+				LogManager.DisableLogging();				
 			}
 		}
 

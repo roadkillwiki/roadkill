@@ -11,8 +11,8 @@ environment:
   
 after_build:
   - ps: >-
-      .\build\appveyor\install-mongodb.ps1
-      .\build\appveyor\set-connectionstrings.ps1
+      .\build\appveyor\install-mongodb.ps1;
+      .\build\appveyor\set-connectionstrings.ps1;
 
 build:
   project: Roadkill.sln

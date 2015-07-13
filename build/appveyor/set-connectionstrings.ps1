@@ -7,3 +7,6 @@ Write-Host "Contents of lib\Configs\connectionStrings.dev.config :"
 Write-Host "------------------------------------------------------"
 Get-Content -Path "lib\Configs\connectionStrings.dev.config"
 Write-Host "------------------------------------------------------"
+
+Write-Host "Connection string setup complete."
+Write-Host "--------------------------------------"
