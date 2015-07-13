@@ -1,6 +1,6 @@
 $msiPath = "$($env:USERPROFILE)\mongodb-win32-x86_64-2008plus-ssl-3.0.4-signed.msi"
-(New-Object Net.WebClient).DownloadFile('https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-3.0.4-signed.msi', $msiPath)
-cmd /c start /wait msiexec /q /i $msiPath INSTALLLOCATION=C:\mongodb ADDLOCAL="all"
+#(New-Object Net.WebClient).DownloadFile('https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-3.0.4-signed.msi', $msiPath)
+#cmd /c start /wait msiexec /q /i $msiPath INSTALLLOCATION=C:\mongodb ADDLOCAL="all"
 del $msiPath
  
 mkdir c:\mongodb\data\db | Out-Null
