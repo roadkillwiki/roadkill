@@ -14,7 +14,7 @@ namespace Roadkill.Tests.Integration.WebApi
 	[Category("Integration")]
 	public abstract class WebApiTestBase
 	{
-		private IISExpress _iisExpress;
+		private IIS _iis;
 
 		protected static readonly string ADMIN_EMAIL = Settings.ADMIN_EMAIL;
 		protected static readonly string ADMIN_PASSWORD = Settings.ADMIN_PASSWORD;
@@ -24,8 +24,8 @@ namespace Roadkill.Tests.Integration.WebApi
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
-			_iisExpress = new IISExpress();
-			_iisExpress.Start();
+			_iis = new IIS();
+			_iis.Start();
 
 			string url = ConfigurationManager.AppSettings["url"];
 			if (string.IsNullOrEmpty(url))
@@ -36,9 +36,9 @@ namespace Roadkill.Tests.Integration.WebApi
 		[TestFixtureTearDown]
 		public void TearDown()
 		{
-			if (_iisExpress != null)
+			if (_iis != null)
 			{
-				_iisExpress.Dispose();
+				_iis.Dispose();
 			}
 		}
 

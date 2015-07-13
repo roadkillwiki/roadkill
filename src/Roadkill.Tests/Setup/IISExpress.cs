@@ -11,13 +11,14 @@ namespace Roadkill.Tests
 	public class IISExpress : IDisposable
 	{
 		private ProcessStartInfo _startInfo;
+		private readonly int _port = 9876;
 		public Process IisProcess { get; private set; }
 
 		public IISExpress()
 		{
 			string sitePath = Settings.WEB_PATH;
 			_startInfo = new ProcessStartInfo();
-			_startInfo.Arguments = string.Format("/path:\"{0}\" /port:{1}", sitePath, 9876);
+			_startInfo.Arguments = string.Format("/path:\"{0}\" /port:{1}", sitePath, _port);
 
 			string programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 			string searchPath1 = string.Format(@"{0}\IIS Express\iisexpress.exe", programFiles);
