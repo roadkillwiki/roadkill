@@ -8,9 +8,8 @@ services:
 environment:
   ConnectionString: Server=(local)\SQL2012SP1;Database=master;User ID=sa;Password=Password12!
   
-install:
-  -ps: >- 
-    .\build\appveyor\install-mongodb.ps1
+after_build:
+  - ps: .\build\appveyor\install-mongodb.ps1
 
 build:
   project: Roadkill.sln
