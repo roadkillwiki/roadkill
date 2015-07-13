@@ -1,7 +1,7 @@
-$url = https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-3.0.4-signed.msi
-
-Write-Host "Downloading $url..."
+$url = "https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-3.0.4-signed.msi"
 $msiPath = "$($env:USERPROFILE)\mongodb-win32-x86_64-2008plus-ssl-3.0.4-signed.msi"
+
+Write-Host "Downloading $url to $msiPath..."
 (New-Object Net.WebClient).DownloadFile($url, $msiPath)
 Write-Host "Done"
 
