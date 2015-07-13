@@ -444,7 +444,7 @@ namespace Roadkill.Tests.Unit
 		[Test]
 		public void WarningBox_Token_With_NoWiki_Adds_Pre_And_Renders_Token_HTML()
 		{
-			// Arrange
+			// Arrange..make sure expectedHtml uses \n and not \r\n
 			string expectedHtml = @"<p><div class=""alert alert-warning"">ENTER YOUR CONTENT HERE 
 <pre>here is my C#code
 </pre>

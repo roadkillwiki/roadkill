@@ -149,13 +149,21 @@ namespace Roadkill.Core.Plugins
 					EnsureIdIsValid();
 					string version = EnsureValidVersion();
 
-					int firstPart = Id.GetHashCode();
-					short versionNum = (short)version.GetHashCode();
+					// Don't use GetHashCode, it's not guaranteed to return the same hash the next time.
+					int idNumber = 0;
+					foreach (char c in Id)
+					{
+						idNumber += c;
+					}
+
+					short versionNum = 0;
+					version = Version.Replace(".", "");
+					short.TryParse(version, out versionNum);
 
 					short zero = (short)0;
 					byte[] lastChunk = new byte[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
 
-					_databaseId = new Guid(firstPart, versionNum, zero, lastChunk);
+					_databaseId = new Guid(idNumber, versionNum, zero, lastChunk);
 				}
 
 				return _databaseId;

@@ -838,14 +838,16 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			string email = "profiletest@test.com";
 			string newPassword = "newpassword";
-			string hashedPassword = User.HashPassword(newPassword, "");
-
 			_userService.AddUser(email, "profiletest", "password", false, true);
-			_userService.Users.First(x => x.Email == "profiletest@test.com").IsActivated = true;
-			Guid userId = _userService.GetUser(email).Id;
+			User newUser = _userService.Users.First(x => x.Email == email);
+			newUser.IsActivated = true;
+
+			string existingHash = newUser.Password;
+
+			Guid userId = newUser.Id;
 			_userContext.CurrentUser = userId.ToString();
 
-			UserViewModel model = new UserViewModel(_userService.GetUser(email)); // use the same model, as profile() updates everything.
+			UserViewModel model = new UserViewModel(newUser);
 			model.Password = newPassword;
 
 			// Act	
@@ -856,7 +858,9 @@ namespace Roadkill.Tests.Unit
 			viewResult.AssertViewRendered();
 
 			User user = _userService.GetUser(email);
-			Assert.That(user.Password, Is.EqualTo(hashedPassword));
+			Assert.That(user.Password, Is.Not.EqualTo(existingHash));
+			Assert.That(user.Password, Is.Not.Empty.Or.Null);
+			Assert.That(user.Password.Length, Is.GreaterThan(10));
 		}
 
 		[Test]

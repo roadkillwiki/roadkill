@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -76,8 +77,10 @@ namespace Roadkill.Tests.Integration
 			Page page1 = pages.FirstOrDefault(x => x.Title == "Screwturn page 1");
 			PageContent pageContent1 = repository.GetLatestPageContent(page1.Id);			
 			Assert.That(page1.Tags, Is.EqualTo("Category1,"));
-			Assert.That(page1.CreatedOn.ToString("u"), Is.EqualTo("2013-08-11 19:05:49Z"));
-			Assert.That(page1.ModifiedOn.ToString("u"), Is.EqualTo("2013-08-11 19:05:49Z"));
+
+			AssertSameDateTimes(page1.CreatedOn, "2013-08-11 18:05");
+			AssertSameDateTimes(page1.ModifiedOn, "2013-08-11 18:05");
+
 			Assert.That(page1.CreatedBy, Is.EqualTo("admin"));
 			Assert.That(page1.ModifiedBy, Is.EqualTo("admin"));
 			Assert.That(pageContent1.Text, Is.EqualTo("This is an amazing Screwturn page."));
@@ -85,11 +88,25 @@ namespace Roadkill.Tests.Integration
 			Page page2 = pages.FirstOrDefault(x => x.Title == "Screwturn page 2");
 			PageContent pageContent2 = repository.GetLatestPageContent(page2.Id);
 			Assert.That(page2.Tags, Is.EqualTo("Category1,Category2,"));
-			Assert.That(page2.CreatedOn.ToString("u"), Is.EqualTo("2013-08-11 19:06:54Z"));
-			Assert.That(page2.ModifiedOn.ToString("u"), Is.EqualTo("2013-08-11 19:06:54Z"));
+
+			AssertSameDateTimes(page2.CreatedOn, "2013-08-11 18:06");
+			AssertSameDateTimes(page2.ModifiedOn, "2013-08-11 18:06");
+
 			Assert.That(page2.CreatedBy, Is.EqualTo("user2"));
 			Assert.That(page2.ModifiedBy, Is.EqualTo("user2"));
 			Assert.That(pageContent2.Text, Is.EqualTo("Amazing screwturn page 2"));
+		}
+
+		private void AssertSameDateTimes(DateTime date1, string date2Text)
+		{
+			// Screwturn dates are assumed to be localtime of the server, and are converted to UTC by Roadkill.
+			date1 = new DateTime(date1.Year, date1.Month, date1.Day, date1.Hour, date1.Minute, 0);
+
+			// date2Text (in the SQL script) is already UTC.
+			DateTime date2 = DateTime.Parse(date2Text, new CultureInfo("en-gb"), DateTimeStyles.AdjustToUniversal);
+			date2 = new DateTime(date2.Year, date2.Month, date2.Day, date2.Hour, date2.Minute, 0);
+
+			Assert.That(date1, Is.EqualTo(date2));
 		}
 
 		[Test]
