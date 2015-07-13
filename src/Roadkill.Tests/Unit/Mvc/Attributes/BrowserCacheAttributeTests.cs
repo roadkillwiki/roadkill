@@ -119,7 +119,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 
 			WikiController controller = CreateWikiController(attribute);
 			ResultExecutedContext filterContext = CreateContext(controller);
-			filterContext.HttpContext.Request.Headers.Add("If-Modified-Since", DateTime.Today.ToString("r"));
+			filterContext.HttpContext.Request.Headers.Add("If-Modified-Since", DateTime.Today.ToUniversalTime().ToString("r"));
 
 			// Act
 			attribute.OnResultExecuted(filterContext);
@@ -135,11 +135,11 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
 			attribute.SettingsService = GetSettingsService();
-			_repositoryMock.SiteSettings.PluginLastSaveDate = DateTime.Today.AddHours(1);
+			_repositoryMock.SiteSettings.PluginLastSaveDate = DateTime.Today.ToUniversalTime().AddHours(1);
 
 			WikiController controller = CreateWikiController(attribute);
 			ResultExecutedContext filterContext = CreateContext(controller);
-			filterContext.HttpContext.Request.Headers.Add("If-Modified-Since", DateTime.Today.AddHours(1).ToString("r"));
+			filterContext.HttpContext.Request.Headers.Add("If-Modified-Since", DateTime.Today.AddHours(1).ToUniversalTime().ToString("r"));
 
 			// Act
 			attribute.OnResultExecuted(filterContext);

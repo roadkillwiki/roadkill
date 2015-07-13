@@ -147,7 +147,7 @@ namespace Roadkill.Core.Plugins
 				if (_databaseId == Guid.Empty)
 				{
 					EnsureIdIsValid();
-					string version = EnsureValidVersion();
+					string versionText = EnsureValidVersion();
 
 					// Don't use GetHashCode, it's not guaranteed to return the same hash the next time.
 					int idNumber = 0;
@@ -157,8 +157,8 @@ namespace Roadkill.Core.Plugins
 					}
 
 					short versionNum = 0;
-					version = Version.Replace(".", "");
-					short.TryParse(version, out versionNum);
+					versionText = versionText.Replace(".", "");
+					short.TryParse(versionText, out versionNum);
 
 					short zero = (short)0;
 					byte[] lastChunk = new byte[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
