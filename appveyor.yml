@@ -17,10 +17,8 @@ after_build:
 configuration:
   - Release;RunOctoPack=true
 
-build:
-  project: Roadkill.sln
-  parallel: true
-  verbosity: normal
+build_script:
+  - ps: msbuild roadkill.sln "/p:Configuration=Download;RunOctoPack=true"
   
 test:
   categories:
