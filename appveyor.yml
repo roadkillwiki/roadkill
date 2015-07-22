@@ -14,7 +14,7 @@ after_build:
   - ps: >- 
        .\build\appveyor\set-connectionstrings.ps1;
 
-configuration
+configuration:
   - Release;RunOctoPack=true
 
 build:
