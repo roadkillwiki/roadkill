@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D9791D01-184A-44AE-9CDE-42E8C411026D}"
 EndProject
@@ -24,12 +24,6 @@ Global
 		DemoSite|Any CPU = DemoSite|Any CPU
 		DemoSite|x64 = DemoSite|x64
 		DemoSite|x86 = DemoSite|x86
-		Download|Any CPU = Download|Any CPU
-		Download|x64 = Download|x64
-		Download|x86 = Download|x86
-		Mono|Any CPU = Mono|Any CPU
-		Mono|x64 = Mono|x64
-		Mono|x86 = Mono|x86
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
@@ -47,18 +41,6 @@ Global
 		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.DemoSite|x64.Build.0 = DemoSite|x64
 		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.DemoSite|x86.ActiveCfg = DemoSite|x86
 		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.DemoSite|x86.Build.0 = DemoSite|x86
-		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Download|Any CPU.ActiveCfg = Download|Any CPU
-		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Download|Any CPU.Build.0 = Download|Any CPU
-		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Download|x64.ActiveCfg = Download|x64
-		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Download|x64.Build.0 = Download|x64
-		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Download|x86.ActiveCfg = Download|x86
-		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Download|x86.Build.0 = Download|x86
-		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Mono|Any CPU.ActiveCfg = Mono|Any CPU
-		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Mono|Any CPU.Build.0 = Mono|Any CPU
-		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Mono|x64.ActiveCfg = Mono|x64
-		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Mono|x64.Build.0 = Mono|x64
-		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Mono|x86.ActiveCfg = Mono|x86
-		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Mono|x86.Build.0 = Mono|x86
 		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9C86C475-F3BD-44D1-942A-78BF19158C3A}.Release|x64.ActiveCfg = Release|x64
@@ -77,18 +59,6 @@ Global
 		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.DemoSite|x64.Build.0 = DemoSite|x64
 		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.DemoSite|x86.ActiveCfg = DemoSite|x86
 		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.DemoSite|x86.Build.0 = DemoSite|x86
-		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Download|Any CPU.ActiveCfg = Download|Any CPU
-		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Download|Any CPU.Build.0 = Download|Any CPU
-		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Download|x64.ActiveCfg = Download|x64
-		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Download|x64.Build.0 = Download|x64
-		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Download|x86.ActiveCfg = Download|x86
-		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Download|x86.Build.0 = Download|x86
-		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Mono|Any CPU.ActiveCfg = Mono|Any CPU
-		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Mono|Any CPU.Build.0 = Mono|Any CPU
-		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Mono|x64.ActiveCfg = Mono|x64
-		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Mono|x64.Build.0 = Mono|x64
-		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Mono|x86.ActiveCfg = Mono|x86
-		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Mono|x86.Build.0 = Mono|x86
 		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DAFE5DDE-9D55-48A5-AA06-1C2155417ADA}.Release|x64.ActiveCfg = Release|x64
@@ -107,18 +77,6 @@ Global
 		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.DemoSite|x64.Build.0 = DemoSite|x64
 		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.DemoSite|x86.ActiveCfg = DemoSite|x86
 		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.DemoSite|x86.Build.0 = DemoSite|x86
-		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Download|Any CPU.ActiveCfg = Download|Any CPU
-		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Download|Any CPU.Build.0 = Download|Any CPU
-		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Download|x64.ActiveCfg = Download|x64
-		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Download|x64.Build.0 = Download|x64
-		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Download|x86.ActiveCfg = Download|x86
-		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Download|x86.Build.0 = Download|x86
-		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Mono|Any CPU.ActiveCfg = Mono|Any CPU
-		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Mono|Any CPU.Build.0 = Mono|Any CPU
-		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Mono|x64.ActiveCfg = Mono|x64
-		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Mono|x64.Build.0 = Mono|x64
-		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Mono|x86.ActiveCfg = Mono|x86
-		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Mono|x86.Build.0 = Mono|x86
 		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}.Release|x64.ActiveCfg = Release|x64

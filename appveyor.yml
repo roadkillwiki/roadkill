@@ -14,6 +14,9 @@ after_build:
   - ps: >- 
        .\build\appveyor\set-connectionstrings.ps1;
 
+configuration
+  - Release;RunOctoPack=true
+
 build:
   project: Roadkill.sln
   parallel: true
@@ -23,3 +26,9 @@ test:
   categories:
     - Unit
     - Integration
+
+artifacts:
+  - path: src\Roadkill.Web\obj\octopacked\*.nupkg
+
+before_deploy:
+  - ps: Copy-item -Path lib\configs\connectionStrings.config -Destination src\Roadkill.Web\connectionStrings.config

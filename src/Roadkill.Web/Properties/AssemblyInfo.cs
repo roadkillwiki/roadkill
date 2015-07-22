@@ -33,5 +33,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 
 // Roadkill.Core is used for all file versioning, these are ignored.
-[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyVersion("2.0.*")]
 [assembly: AssemblyFileVersion("2.0.0.0")]

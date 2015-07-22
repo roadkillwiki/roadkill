@@ -1,0 +1,107 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <UsingTask TaskName="OctoPack.Tasks.CreateOctoPackPackage" AssemblyFile="OctoPack.Tasks.dll" />
+  <UsingTask TaskName="OctoPack.Tasks.GetAssemblyVersionInfo" AssemblyFile="OctoPack.Tasks.dll" />
+
+  <!-- Hook into the AfterBuild activity -->
+  <PropertyGroup>
+    <BuildDependsOn>
+      $(BuildDependsOn);
+      OctoPack
+    </BuildDependsOn>
+  </PropertyGroup>
+  
+  <!--
+  Configuration properties - you can override these from the command line
+  -->
+  <PropertyGroup>
+    <OctoPackImported>true</OctoPackImported>
+
+    <RunOctoPack Condition="'$(RunOctoPack)'==''">false</RunOctoPack>
+    <OctoPackIncludeTypeScriptSourceFiles Condition="'$(OctoPackIncludeTypeScriptSourceFiles)'==''">false</OctoPackIncludeTypeScriptSourceFiles>
+    <OctoPackNuSpecFileName Condition="'$(OctoPackNuSpecFileName)' == ''"></OctoPackNuSpecFileName>
+    <OctoPackAppendToPackageId Condition="'$(OctoPackAppendToPackageId)' == ''"></OctoPackAppendToPackageId>
+    <OctoPackReleaseNotesFile Condition="'$(OctoPackReleaseNotesFile)' == ''"></OctoPackReleaseNotesFile>
+    <OctoPackNuGetExePath Condition="'$(OctoPackNuGetExePath)' == ''"></OctoPackNuGetExePath>
+    <OctoPackPublishPackageToFileShare Condition="'$(OctoPackPublishPackageToFileShare)' == ''"></OctoPackPublishPackageToFileShare>
+    <OctoPackPublishPackageToHttp Condition="'$(OctoPackPublishPackageToHttp)' == ''"></OctoPackPublishPackageToHttp>
+    <OctoPackPublishApiKey Condition="'$(OctoPackPublishApiKey)' == ''"></OctoPackPublishApiKey>
+    <OctoPackPackageVersion Condition="'$(OctoPackPackageVersion)' == ''"></OctoPackPackageVersion>
+    <OctoPackNuGetArguments Condition="'$(OctoPackNuGetArguments)' == ''"></OctoPackNuGetArguments>
+    <OctoPackNugetProperties Condition="'$(OctoPackNuGetProperties)' == ''"></OctoPackNugetProperties>
+    <OctoPackEnforceAddingFiles Condition="'$(OctoPackEnforceAddingFiles)' == ''">false</OctoPackEnforceAddingFiles>
+    <OctoPackNuGetPushProperties Condition="'$(OctoPackNuGetPushProperties)' == ''"></OctoPackNuGetPushProperties>
+    <OctoPackPublishPackagesToTeamCity Condition="'$(OctoPackPublishPackagesToTeamCity)' == ''">true</OctoPackPublishPackagesToTeamCity>
+    <OctoPackProjectName Condition="'$(OctoPackProjectName)' == ''">$(MSBuildProjectName)</OctoPackProjectName>
+    <OctoPackIgnoreNonRootScripts Condition="'$(OctoPackIgnoreNonRootScripts)' == ''">false</OctoPackIgnoreNonRootScripts>
+    <OctoPackAppConfigFileOverride Condition="'$(OctoPackAppConfigFileOverride)' == ''">$(TargetDir)$(TargetFileName).config</OctoPackAppConfigFileOverride>
+    <OctoPackAppendProjectToFeed Condition="'$(OctoPackAppendProjectToFeed)' == ''">false</OctoPackAppendProjectToFeed>
+  </PropertyGroup>
+
+  <!-- 
+  Create Octopus Deploy package
+  -->
+  <Target Name="OctoPack" Condition="$(RunOctoPack)">
+    <GetAssemblyVersionInfo AssemblyFiles="$(TargetPath)" Condition="'$(OctoPackPackageVersion)' == ''">
+      <Output TaskParameter="AssemblyVersionInfo" ItemName="AssemblyVersions"/>
+    </GetAssemblyVersionInfo>
+    <PropertyGroup>
+      <OctoPackPackageVersion Condition="'$(OctoPackPackageVersion)' == ''">%(AssemblyVersions.Version)</OctoPackPackageVersion>
+    </PropertyGroup>
+    <PropertyGroup>
+      <OctoPackPackageVersion Condition="'$(OctoPackPackageVersion)' == ''"><!-- Use the value from nuspec, or 1.0.0 if not in NuSpec --></OctoPackPackageVersion>
+    </PropertyGroup>
+    <PropertyGroup>
+      <OctoPackNuGetProperties Condition="'$(OctoPackNuGetProperties)' == ''"></OctoPackNuGetProperties>
+    </PropertyGroup>
+	<!--
+		Append project name so that you can nest packages in a structure such as [orgName]/[PackageName]/PackageName.Version.nupkg
+	-->
+    <PropertyGroup>
+      <OctoPackPublishPackageToHttp Condition="'$(OctoPackPublishPackageToHttp)' != '' AND '$(OctoPackAppendProjectToFeed)'">$(OctoPackPublishPackageToHttp)/$(MSBuildProjectName)</OctoPackPublishPackageToHttp>
+    </PropertyGroup>
+
+    <Message Text="Using package version: $(OctoPackPackageVersion)" />
+
+    <ItemGroup>
+
+      <OctoPackWrittenFiles Include="@(FileWrites)" Exclude="$(IntermediateOutputPath)**\*" />
+      <OctoPackWrittenFiles Include="@(FileWritesShareable)" Exclude="$(IntermediateOutputPath)**\*" />
+      
+      <OctoPackContentFiles Include="@(Content)" />
+      <OctoPackContentFiles Include="@(TypeScriptCompile)" />
+    </ItemGroup>
+    
+    <CreateOctoPackPackage
+      NuSpecFileName="$(OctoPackNuSpecFileName)"
+      AppendToPackageId="$(OctoPackAppendToPackageId)"
+      ContentFiles="@(OctoPackContentFiles)"
+      OutDir="$(OutDir)"
+      ProjectDirectory="$(MSBuildProjectDirectory)"
+      ProjectName="$(OctoPackProjectName)"
+      PackageVersion="$(OctoPackPackageVersion)"
+      PrimaryOutputAssembly="$(TargetPath)"
+      ReleaseNotesFile="$(OctoPackReleaseNotesFile)"
+      NuGetExePath="$(OctoPackNuGetExePath)"
+      NuGetArguments="$(OctoPackNuGetArguments)"
+      NuGetProperties="$(OctoPackNuGetProperties)"
+      EnforceAddingFiles="$(OctoPackEnforceAddingFiles)"
+      PublishPackagesToTeamCity="$(OctoPackPublishPackagesToTeamCity)"
+      WrittenFiles="@(OctoPackWrittenFiles)"
+      IncludeTypeScriptSourceFiles="$(OctoPackIncludeTypeScriptSourceFiles)"
+      IgnoreNonRootScripts="$(OctoPackIgnoreNonRootScripts)"
+      AppConfigFile="$(OctoPackAppConfigFileOverride)"
+      >
+      <Output TaskParameter="Packages" ItemName="OctoPackBuiltPackages" />
+      <Output TaskParameter="NuGetExePath" PropertyName="OctoPackNuGetExePath" />
+    </CreateOctoPackPackage>
+
+    <Message Text="Built package: @(OctoPackBuiltPackages)" Importance="Low" />
+    <Message Text="NuGet.exe: $(OctoPackNuGetExePath)" Importance="Low" />
+
+    <Message Text="Publish to file share: $(OctoPackPublishPackageToFileShare)" Condition="'$(OctoPackPublishPackageToFileShare)' != ''" Importance="Normal" />
+    <Copy SourceFiles="@(OctoPackBuiltPackages)" DestinationFolder="$(OctoPackPublishPackageToFileShare)" Condition="'$(OctoPackPublishPackageToFileShare)' != ''" />
+
+    <Message Text="Publish to repository: $(OctoPackPublishPackageToHttp)" Condition="'$(OctoPackPublishPackageToHttp)' != ''" Importance="Normal" />
+    <Exec Command='"$(OctoPackNuGetExePath)" push "@(OctoPackBuiltPackages)" $(OctoPackPublishApiKey) -s $(OctoPackPublishPackageToHttp) $(OctoPackNuGetPushProperties)' Condition="'$(OctoPackPublishPackageToHttp)' != ''" />
+  </Target>
+</Project>

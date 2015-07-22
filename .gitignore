@@ -85,3 +85,4 @@ deploytemp/
 # Ignore all exported files
 src/Roadkill.Web/App_Data/Export/
 *.eml
+.vs/

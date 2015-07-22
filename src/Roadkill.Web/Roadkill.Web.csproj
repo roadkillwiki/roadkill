@@ -31,6 +31,7 @@
     <TypeScriptIncludeComments>true</TypeScriptIncludeComments>
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
     <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -533,8 +534,6 @@
     <None Include="packages.config" />
     <Content Include="Plugins\Web.config" />
     <Content Include="Plugins\_ViewStart.cshtml" />
-    <None Include="Properties\PublishProfiles\discountasp.pubxml" />
-    <None Include="Properties\PublishProfiles\Mono.pubxml" />
     <Content Include="Assets\Scripts\shared\toastr.js" />
     <Content Include="Themes\BlackBar\Theme.print.css" />
     <Content Include="Themes\Responsive\Theme.css" />
@@ -586,7 +585,6 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Properties\PublishProfiles\Download.pubxml" />
     <Content Include="Views\Upgrade\Index.cshtml" />
     <Content Include="Views\Upgrade\Layout.cshtml" />
     <Content Include="Areas\SiteSettings\Views\Cache\Index.cshtml" />
@@ -606,8 +604,6 @@
     <Content Include="Views\Help\Index.cshtml" />
     <Content Include="Themes\Responsive\Theme.cshtml" />
     <Content Include="Views\Pages\WysiwgToolbar.cshtml" />
-    <None Include="Properties\PublishProfiles\roadkill - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\roadkill - Web Deploy.pubxml" />
     <Content Include="Areas\SiteSettings\Views\UserManagement\AddAdmin.cshtml" />
     <Content Include="Areas\SiteSettings\Views\UserManagement\EditUser.cshtml" />
     <Content Include="Areas\SiteSettings\Views\UserManagement\AddEditor.cshtml" />
@@ -615,10 +611,6 @@
     <Content Include="Views\Install\InstallerJsVars.cshtml" />
     <Content Include="Views\Shared\TagBlocks.cshtml" />
     <Content Include="Views\User\Recaptcha.cshtml" />
-    <None Include="Web.Mono.config">
-      <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Scripts\jquery\jquery.form-extensions.js" />
@@ -681,18 +673,8 @@
     <Content Include="Views\User\CompleteResetPasswordInvalid.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.Download.config">
-      <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="App_Data\Internal\Search\" />
   </ItemGroup>
-  <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DemoSite|AnyCPU'">
     <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE;DEMOSITE</DefineConstants>
@@ -793,4 +775,9 @@
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="..\..\packages\OctoPack.3.0.42\tools\OctoPack.targets" Condition="Exists('..\..\packages\OctoPack.3.0.42\tools\OctoPack.targets')" />
+  <Target Name="EnsureOctoPackImported" BeforeTargets="BeforeBuild" Condition="'$(OctoPackImported)' == ''">
+    <Error Condition="!Exists('..\..\packages\OctoPack.3.0.42\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="You are trying to build with OctoPack, but the NuGet targets file that OctoPack depends on is not available on this computer. This is probably because the OctoPack package has not been committed to source control, or NuGet Package Restore is not enabled. Please enable NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\..\packages\OctoPack.3.0.42\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="OctoPack cannot be run because NuGet packages were restored prior to the build running, and the targets file was unavailable when the build started. Please build the project again to include these packages in the build. You may also need to make sure that your build server does not delete packages prior to each build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
 </Project>
