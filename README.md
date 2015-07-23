@@ -33,39 +33,39 @@ It's been over 18 months since a Roadkill release, and the number of feature req
 
 The next version of Roadkill will be Roadkill version 3. It's a major version number because the following major changes are planned:
 
-### No more Creole support
+#### No more Creole support
 Sorry Creole fans, but supported 3 different markdown formats is too labour intensive, and CommonMark has come a long and pretty much made Creole redundant, and Mediawiki syntax has zero support for .NET. Version 3 will support Markdown, using the [CommonMark](http://commonmark.org/) standard. 
 
 This will be done via the [CommonMark.NET](https://github.com/Knagis/CommonMark.NET) library, which in future should support additional features like tables, which are [currently under discussion](http://talk.commonmark.org/t/tables-in-pure-markdown/81/81)
 
 There's plans to create a tool to do some primitive conversion of Creole to Markdown to help people upgrade.
 
-### No more SQLite support
+#### No more SQLite support
 
 SQlite on Windows makes the whole Roadkill installation experience painful, and was the cause of most of the issues with version 2. It also runs extremely slower after you have a 5+ pages of lots of text.
 
-### .NET 4.6, ASP.NET 5, MVC 6, DNX by default
+#### .NET 4.6, ASP.NET 5, MVC 6, DNX by default
 As with the previous versions of Roadkill, version 3 will use the latest Microsoft technologies. This is quite involved given the changes Microsoft have just made to their web stack, but also promises that Roadkill *should* work on OS X and Linux environments.
 
-### Better editor
+#### Better editor
 Because Roadkill is moving to CommonMark, the editor can now be improved to be more user friendly, and have a faster client-side preview and will hopefully have some WYSIWYG abilities.
 
-### Continuous-integration builds
+#### Continuous-integration builds
 To replace the archaic zip system, it's planned to combine Octopack and Appveyor's ninja abilities together to make a new tag-based release system, in other words more frequent minor releases for minor bug fixes. Self-updating will also be considered if it's viable.
 
-### A new theme
+#### A new theme
 A new material-design based theme.
 
-### Re-designed file manager
+#### Re-designed file manager
 The plan is to redesign the file manager to emulate the Wordpress 4 file manager.
 
-### Better page dialog for adding links
+#### Better page dialog for adding links
 Instead of having to memorize page names, adding links will be similar to Wordpress in finding pages that exist on the site.
 
-### Page attachments
+#### Page attachments
 See http://roadkillwiki.userecho.com/topic/354042-page-attachments/
 
-### View role
+#### Viewer role
 See http://roadkillwiki.userecho.com/topic/416051-viewer-role/
 
 As Roadkill is not a commercial project, nor backed commercially, there are no time-frames that can be relied upon.
