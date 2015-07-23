@@ -27,9 +27,9 @@ test:
 
 after_test:
   - ps: >- 
-       Copy-item -Path lib\configs\connectionStrings.config -Destination src\Roadkill.Web\connectionStrings.config
-       del src\Roadkill.Web\Web.Debug.config
-       del src\Roadkill.Web\Web.Release.config
+       Copy-item -Path "lib\configs\connectionStrings.config" -Destination "src\Roadkill.Web\connectionStrings.config";
+       del "src\Roadkill.Web\Web.Debug.config";  
+       del "src\Roadkill.Web\Web.Release.config";  
 
 artifacts:
   - path: src\Roadkill.Web\obj\octopacked\*.nupkg
@@ -41,4 +41,4 @@ deploy:
     prerelease: true
     on:
       branch: master
-      appveyor_repo_tag: true       # deploy on tag push only
+      appveyor_repo_tag: false       # deploy on tag push only
