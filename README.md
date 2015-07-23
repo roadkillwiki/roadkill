@@ -24,6 +24,7 @@ Roadkill is licensed under the [MS-PL license](https://github.com/roadkillwiki/r
 * [Please see the Roadkill wiki for information on installing](http://www.roadkillwiki.net/wiki/2/installing)
 * [Upgrading from 1.7 to 2.0](http://www.roadkillwiki.net/wiki/14/upgrading-from-version-17-to-20)
 * [Mono on Ubuntu installations](http://www.roadkillwiki.net/wiki/15/installing-on-linux-ubuntu-with-mono)
+* [Discussions/forum](https://groups.google.com/forum/#!forum/roadkillwiki)
 
 ## Version 3.0 Roadmap
 

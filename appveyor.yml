@@ -43,4 +43,4 @@ deploy:
         secure: Tat27Q1Y34VPg4IwJk8sqLaw5qRtIyR0huJnSgDowvB2+YRPRtx6vwdLNuMY0S7P
     on:
       branch: master
-      appveyor_repo_tag: false       # deploy on tag push only
+      appveyor_repo_tag: true       # deploy on tag push only
