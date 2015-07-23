@@ -25,10 +25,9 @@ Roadkill is licensed under the [MS-PL license](https://github.com/roadkillwiki/r
 * [Upgrading from 1.7 to 2.0](http://www.roadkillwiki.net/wiki/14/upgrading-from-version-17-to-20)
 * [Mono on Ubuntu installations](http://www.roadkillwiki.net/wiki/15/installing-on-linux-ubuntu-with-mono)
 
-## Roadmap
+## Version 3.0 Roadmap
 
 *Last updated: July 2015*
-
 
 It's been over 18 months since a Roadkill release, and the number of feature requests has grown quite large on the [UserEcho site](http://roadkillwiki.userecho.com/list/27059-general/).
 
@@ -50,6 +49,9 @@ As with the previous versions of Roadkill, version 3 will use the latest Microso
 
 ### Better editor
 Because Roadkill is moving to CommonMark, the editor can now be improved to be more user friendly, and have a faster client-side preview and will hopefully have some WYSIWYG abilities.
+
+### Continuous-integration builds
+To replace the archaic zip system, it's planned to combine Octopack and Appveyor's ninja abilities together to make a new tag-based release system, in other words more frequent minor releases for minor bug fixes. Self-updating will also be considered if it's viable.
 
 ### A new theme
 A new material-design based theme.
