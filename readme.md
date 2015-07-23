@@ -1,15 +1,34 @@
-# Roadkill Developer Readme
-
-
 [![Version](https://img.shields.io/nuget/v/Roadkill.svg?style=flat)](https://www.nuget.org/packages/Roadkill)
+
+[![Version](https://ci.appveyor.com/api/projects/status/37etwyx9kw7uriar/branch/master?svg=true)](https://ci.appveyor.com/project/yetanotherchris/roadkill)
+
+# Introduction
+
+* [Download the latest version (2.0)](https://github.com/roadkillwiki/roadkill/releases/tag/v2.0)
+* [Read the docs](http://www.roadkillwiki.net)
+* [Try a demo](http://demo.roadkillwiki.net)
+
+Roadkill .NET is a lightweight but powerful Wiki platform built on the following foundations:
+
+* .NET 4.5
+* jQuery
+* ASP.NET MVC 5 with Razor
+* Lucene.net search engine
+* Creole, Media Wiki and Markdown syntax support
+* Bootstrap 3 based UI.
+* Supports SQL Server, SQL Server CE, SQL Azure (v1.6+), Sqlite, MySQL, Postgres, MongoDB
+* It's themeable and extendable, has documentation, supports Active Directory authentication and is (I hope) extremely easy to use. It's Free Open Source (FOSS)
+
+Roadkill is licensed under the [MS-PL license](https://roadkill.codeplex.com/license) which means it's free to use commercially or privately, but requires you to retain the copyright, trademark and attribution if you intend to distribute it (typically for commercial gain).
+
+## For Developers
 
 
 ### Pre-requisites
 
 To setup Roadkill on a developer machine, you will need:
 
-* Visual Studio 2013 (2012 should also work)
-* Typescript installed - http://www.typescriptlang.org
+* Visual Studio 2015 (2013 will also work but requires Typescript installed)
 * SQL Server Express 2012 or higher - `choco install sqlserver2014express` for Chocolatey users.
 * Your SQL Server installation should be the default instance (not YOURMACHINE\SQLEXPRESS) for the tests to pass. They rely on the connection string being `Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill`
 * An NUnit runner (NUnit, Resharper, Dotcover etc.) if you want to run the tests. This is required if you want to contribute.
@@ -40,6 +59,10 @@ Roadkill can be run using a website deploy on Windows Azure. The instructions fo
 
 Codeplex is synced from Github before releases using `git push --all https://git01.codeplex.com/roadkill`
 
+The Codeplex site is now only around for publicity, and its source is usually very stale.
+
+The Bitbucket site has also been retired.
+
 ### Contributing
 
-If you want to contribute to Roadkill, have a look at the Contributing page on Github or on the [Roadkill wiki](http://www.roadkillwiki.net/wiki/4/contributing): 
+If you want to contribute to Roadkill, have a look at the Contributing page on Github or on the [Roadkill wiki](http://www.roadkillwiki.net/wiki/4/contributing).
