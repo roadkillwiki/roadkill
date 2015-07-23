@@ -19,7 +19,11 @@ Roadkill .NET is a lightweight but powerful Wiki platform built on the following
 * Supports SQL Server, SQL Server CE, SQL Azure (v1.6+), Sqlite, MySQL, Postgres, MongoDB
 * It's themeable and extendable, has documentation, supports Active Directory authentication and is (I hope) extremely easy to use. It's Free Open Source (FOSS)
 
-Roadkill is licensed under the [MS-PL license](https://roadkill.codeplex.com/license) which means it's free to use commercially or privately, but requires you to retain the copyright, trademark and attribution if you intend to distribute it (typically for commercial gain).
+Roadkill is licensed under the [MS-PL license](https://github.com/roadkillwiki/roadkill/blob/master/LICENCE.md) which means it's free to use commercially or privately, but requires you to retain the copyright, trademark and attribution if you intend to distribute it (typically for commercial gain).
+
+* [Please see the Roadkill wiki for information on installing](http://www.roadkillwiki.net/wiki/2/installing)
+* [Upgrading from 1.7 to 2.0](http://www.roadkillwiki.net/wiki/14/upgrading-from-version-17-to-20)
+* [Mono on Ubuntu installations](http://www.roadkillwiki.net/wiki/15/installing-on-linux-ubuntu-with-mono)
 
 ## For Developers
 
@@ -45,6 +49,8 @@ To get a 'fresh' Roadkill installation on your development machine, you will nee
 
 ### Build scripts
 
+*Note: work is now commencing on vNext (ASP.NET 5/MVC 6/DNX), so these scripts are likely to change in master.*
+
 There are 4 build scripts that automate the builds:
 
 * build.ps1 - runs msbuild with the solution file
@@ -60,7 +66,6 @@ Roadkill can be run using a website deploy on Windows Azure. The instructions fo
 Codeplex is synced from Github before releases using `git push --all https://git01.codeplex.com/roadkill`
 
 The Codeplex site is now only around for publicity, and its source is usually very stale.
-
 The Bitbucket site has also been retired.
 
 ### Contributing
