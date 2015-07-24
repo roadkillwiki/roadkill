@@ -7,6 +7,8 @@
 * [Download the latest version (2.0)](https://github.com/roadkillwiki/roadkill/releases/tag/v2.0)
 * [Read the docs](http://www.roadkillwiki.net)
 * [Try a demo](http://demo.roadkillwiki.net)
+* [Chat on Gitter](https://gitter.im/roadkillwiki/general)
+* [Discuss on Google Groups](https://groups.google.com/forum/#!forum/roadkillwiki)
 
 Roadkill .NET is a lightweight but powerful Wiki platform built on the following foundations:
 
