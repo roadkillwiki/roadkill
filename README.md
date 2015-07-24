@@ -2,12 +2,14 @@
 
 [![Version](https://ci.appveyor.com/api/projects/status/37etwyx9kw7uriar/branch/master?svg=true)](https://ci.appveyor.com/project/yetanotherchris/roadkill)
 
++[![Join the chat at Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/roadkillwiki/general)
++
+
 # Introduction
 
 * [Download the latest version (2.0)](https://github.com/roadkillwiki/roadkill/releases/tag/v2.0)
 * [Read the docs](http://www.roadkillwiki.net)
 * [Try a demo](http://demo.roadkillwiki.net)
-* [Chat on Gitter](https://gitter.im/roadkillwiki/general)
 * [Discuss on Google Groups](https://groups.google.com/forum/#!forum/roadkillwiki)
 
 Roadkill .NET is a lightweight but powerful Wiki platform built on the following foundations:
