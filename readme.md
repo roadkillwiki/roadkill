@@ -1,10 +1,8 @@
 # Roadkill Developer Readme
 
-
-
 ### Pre-requisites
 
-To setup Roadkill on a developer machine, you will need:
+To setup Roadkill on a developer machine, you will need to:
 
 * Visual Studio 2013 (2012 should also work)
 * Typescript installed - http://www.typescriptlang.org
