@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Shared_Stage1" xml:space="preserve">
+    <value>Benvinguda</value>
+  </data>
+  <data name="Shared_Stage2" xml:space="preserve">
+    <value>Base de dades</value>
+  </data>
+  <data name="Shared_Stage3" xml:space="preserve">
+    <value>Seguretat</value>
+  </data>
+  <data name="Shared_Stage4" xml:space="preserve">
+    <value>Estres</value>
+  </data>
+  <data name="Shared_Stage5" xml:space="preserve">
+    <value>Finalitzat</value>
+  </data>
+  <data name="Shared_Continue" xml:space="preserve">
+    <value>Continuar</value>
+  </data>
+  <data name="Shared_Back" xml:space="preserve">
+    <value>Enrrera</value>
+  </data>
+  <data name="Shared_BackButton" xml:space="preserve">
+    <value>Enrerra</value>
+  </data>
+  <data name="Shared_NextButton" xml:space="preserve">
+    <value>Següent</value>
+  </data>
+  <data name="Step1_Intro" xml:space="preserve">
+    <value>Gràcies per la seva descarrega de Roadkill. Motor Wiki Net. El programa d'instal·lació escriurà aquests paràmetres als fitxer web.config ( i també a la base de dades )</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step1_WebConfig_Intro" xml:space="preserve">
+    <value>Primer ens cal comprovar que tenim accés d'escriptura a l'arxiu web.config.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step1_WebConfig_Success_Message" xml:space="preserve">
+    <value>Tenim accés d'escriptura a web.config.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step1_WebConfig_Failure_Message" xml:space="preserve">
+    <value>No es pot escriure l'arxiu web.config.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step2_Intro" xml:space="preserve">
+    <value>A continuació es presenten alguns ajustos necessàries per a Roadkill per a que funcioni correctament. Podeu canviar-los més endavant mitjançant la pàgina de configuració com administrador.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step2_ConnectionString_CreateDatabase" xml:space="preserve">
+    <value>Haureu de crear primer la base de dades si utilitzeu una instància amb nom. A continuació es presenten alguns exemples, utilitzeu la segona opció si esteu fent servir un servidor compartit sense SQL Server.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step2_Example_ConnectionStrings" xml:space="preserve">
+    <value>Exemples de cadenes de connexió</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step2_SQLiteInstructionsTitle" xml:space="preserve">
+    <value>SQLite: llegiu</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step2_SQLiteInstructionsMessage" xml:space="preserve">
+    <value>Nota: para utilitzar SQLite és necesari afegir un altre archiu a la carpeta / bin, com que SQLite es distribueix per x86 y x64. {BEGIN-SQLITE_LINK}Haz clic aquí para copiar el archivo{END-SQLITE_LINK}. Si experimenteu qualsevol problema després d'això, elimineu "SQLite.Interop.dll" de la carpeta bin.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step2_SQLiteSuccessTitle" xml:space="preserve">
+    <value>Éxit de copia d'archius SQLite</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step2_SQLiteSuccessMessage" xml:space="preserve">
+    <value>SQLite llest per al seu ús</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step2_SQLiteFailureTitle" xml:space="preserve">
+    <value>Còpia d'arxius SQLite no</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step2_SQLiteFailureMessage" xml:space="preserve">
+    <value>Error - preveu de copiar l'arxiu SQLite.Interop.dll de  ~ / App_Data / SQLiteBinaries a la carpeta bin. </value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_Use_WindowsAuth_Intro" xml:space="preserve">
+    <value>Desitjeu que els usuaris s'autentiquyin amb un Directori Actiu mitjançant l'autenticació de Windows?</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_AD_ConnectionString_Title" xml:space="preserve">
+    <value>Cadena de conexió LDAP Active Directory</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_AD_Connection_Success" xml:space="preserve">
+    <value>La connexió i autenticació amb l'Active Directori ha estat un éxit.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_AD_Connection_Error" xml:space="preserve">
+    <value>No es pot connectar a l'Active Directori:</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_AD_Success" xml:space="preserve">
+    <value>Resultat correcta de la consulta del grup.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_AD_Error" xml:space="preserve">
+    <value>No es pot consultar:</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_AD_ConnectionString_Details" xml:space="preserve">
+    <value>Això ha d'estar en format LDAP :/ / mydc01.company.internal (debe estar en mayúsculas LDAP) on mydc01 és el controlador de domini y "company" i "internal" són els sufixos DNS de la xarxa. Això també pot ser una adreça IP. Normalment podeu obtenir aquesta informació amb la comanda "ipconfig".</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_AD_ADExplorer_Details" xml:space="preserve">
+    <value>La cadena de connexió és compatible a les especificaciones, però fer-ho d'aquesta manera pot causar problemes. Si no esteu segurs d'aquesta configuració, es recomana descarregueu {BEGIN_ADEXPLORER_LINK}AD Explorer{END_ADEXPLORER_LINK}.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_AD_Username_Password_Details" xml:space="preserve">
+    <value>Introduiu un nom d'usuari i una contrasenya si l'usuari amb el que esteu executant el grup d'aplicacions no té accés de lectura a l'Active Directory. Això és d'utilitat si el domini és un bosc diferent al domini principal ( és a dir, una sucursal diferent )</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_AD_Editor_GroupName_Title" xml:space="preserve">
+    <value>Nom del grup Editor</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_AD_Editor_GroupName_Details" xml:space="preserve">
+    <value>Aquest és el grup de seguretat dels usuaris editors (poden editar i crear pàgines). Afegiu a aquest grup els usuaris que desitjeu tinguin aquests permisos. El botó de prova utilitza les configuracions de connexió introduïdes abans.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_AD_Admin_GroupName_Title" xml:space="preserve">
+    <value>Nom del grup d'aministració.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_AD_Admin_GroupName_Details" xml:space="preserve">
+    <value>Aquest és el grup de seguretat dels usuaris administradors. Tenen els mateixos permisos que els editors a més d'ajustos a la configuració i eines per a la prova de la web. S'utilitza la configuració de connexió introduida abans.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_One_Way_Hashed" xml:space="preserve">
+    <value>Totes les contrasenyes són xifrades amb SHA128 i un bocí de sal. Això vol dir que no són recuperables i caldrà la figura de l'administrador per a restablir-ne (funcionalitat no implementada encara). La longitud mínima de les contrasenyes és 6 caracters.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_DB_Editor_Role_Title" xml:space="preserve">
+    <value>Nombre de rol Editor</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_DB_Editor_Role" xml:space="preserve">
+    <value>Aquest és el nom del rol editor. Usuaris que poden editar i crear pàgines.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_DB_Admin_Role_Title" xml:space="preserve">
+    <value>Nom del rol d'administració</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_DB_Admin_Role" xml:space="preserve">
+    <value> Aquest és el nom del rol administrador. Els administradors tenen els mateixos permisos que els editors i a més, accés a la configuració i eines del site.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_DB_Allow_User_Signups_Title" xml:space="preserve">
+    <value>Permetre subscripcions d'usuaris.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_DB_Allow_User_Signups" xml:space="preserve">
+    <value>Marqueu aquesta opció si desitgeu permetre a les persones autoregistrar-se com a nous usuaris. En cas contrari, només els administradors podran crear nous usuaris.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_DB_Allow_User_Signups_Label" xml:space="preserve">
+    <value>Permetre registre de nous usuaris.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_DB_Enable_Recaptcha_Description" xml:space="preserve">
+    <value>Si permeteu les auto-subscripcions, es recomana que habiliteu també la compatibilitat 'reconèixer text'. És un servei de bot antispam gratuït de Google, haureu de registrar-vos i copiar la clau pública i privada al camp de sota. {BEGIN_RECAPTCHA_LINK} Registreu-vos aquí {END_RECAPTCHA_LINK} - primer haureu de crear un compte de Google.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_DB_Admin_Email_Title" xml:space="preserve">
+    <value>Email administració</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_DB_Admin_Email" xml:space="preserve">
+    <value>Aquesta és l'adreça de correcu electrònic de l'usuari admin. Podeu afegir més administradors a la pàgina de configuració. Per tant aquest usuari no és el propietari del site.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_DB_Admin_Password_Title" xml:space="preserve">
+    <value>Paraula de pas de l'usuari admin.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step3_DB_Admin_Password" xml:space="preserve">
+    <value>Aquesta és la paraula de pas de l'usuari admin.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step4_Almost_Done" xml:space="preserve">
+    <value>Quasi finalitzat ... darrers paràmetres.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step4_Attachments_Folder_Description" xml:space="preserve">
+    <value>Aquest és el directori on tots els arxius es carreguen. Aquest directori tindrà permisos d'escriptura per l'usuari del grup d'aplicacions amb que està corrents el sistema. La major part de vegades no haurieu de tenir que preocupar-vos per canviar els permisos de la carpeta perquè l'heretan de la carpeta principal.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step4_Attachments_Folder_RelativePath" xml:space="preserve">
+    <value>Assegureu-vos que la ruta de la carpeta comença amb "~ /" o ser un path de fitxer (e.g. c:\myattachments).</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step5_Success_Title" xml:space="preserve">
+    <value>Instal·lació finalitzada amb éxit.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step5_WindowsAuth_Please_Read" xml:space="preserve">
+    <value>Autenticació Windows - llegiu, sisplau</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step5_WindowsAuth_IIS_Settings" xml:space="preserve">
+    <value>Si esteu fent servir IIS7 + pot ser que hagueu de configurar web.config per a la configuració de seguretat, a sota apareixen els elements que necessita. Si rebeu error 500 després dels canvis, llavors la secció és bloqueja a nivell superior, necessitareu fer canvis via IIS manager.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step5_Continue_Button" xml:space="preserve">
+    <value>Continuar al site</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step5_Failure_Title" xml:space="preserve">
+    <value>S'ha produit un error durant la instal·lació.</value>
+    <comment>Fuzzy</comment>
+  </data>
+  <data name="Step5_Failure_GoBack_And_Check" xml:space="preserve">
+    <value>Torneu a revisar els paràmetres de configuració. El missatge d'error ha estat:</value>
+    <comment>Fuzzy</comment>
+  </data>
+</root>
