@@ -1,0 +1,916 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="data">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element name="value" type="xsd:string" minOccurs="0"                     msdata:Ordinal="2" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="type" type="xsd:string" />
+        <xsd:attribute name="mimetype" type="xsd:string" />
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+<data name="Navigation_Login" xml:space="preserve">
+	<value>Login</value>
+</data>
+<data name="Navigation_Logout" xml:space="preserve">
+	<value>Tancar sessió</value>
+</data>
+<data name="Navigation_Register" xml:space="preserve">
+	<value>Registrar-se</value>
+</data>
+<data name="Navigation_MainPage" xml:space="preserve">
+	<value>Pàgina pricipal</value>
+</data>
+<data name="Navigation_Categories" xml:space="preserve">
+	<value>Categories</value>
+</data>
+<data name="Navigation_AllPages" xml:space="preserve">
+	<value>Totes les pàgines</value>
+</data>
+<data name="Navigation_NewPage" xml:space="preserve">
+	<value>Nova pàgina</value>
+</data>
+<data name="Navigation_SiteSettings" xml:space="preserve">
+	<value>Paràmetres del 'site'</value>
+</data>
+<data name="Navigation_Edit" xml:space="preserve">
+	<value>Editar</value>
+</data>
+<data name="Navigation_Delete" xml:space="preserve">
+	<value>Esborrar</value>
+</data>
+<data name="Navigation_History" xml:space="preserve">
+	<value>Historial</value>
+</data>
+<data name="Navigation_ViewHistory" xml:space="preserve">
+	<value>Veure historial</value>
+</data>
+<data name="Button_Login" xml:space="preserve">
+	<value>Login</value>
+</data>
+<data name="Button_Cancel" xml:space="preserve">
+	<value>Cancelar</value>
+</data>
+<data name="Button_Save" xml:space="preserve">
+	<value>Desar</value>
+</data>
+<data name="Button_Preview" xml:space="preserve">
+	<value>Vista previa</value>
+</data>
+<data name="Button_Import" xml:space="preserve">
+	<value>Importar</value>
+</data>
+<data name="Button_Rename" xml:space="preserve">
+	<value>Reanomenar</value>
+</data>
+<data name="Button_Upload" xml:space="preserve">
+	<value>Pujar</value>
+</data>
+<data name="Button_Search" xml:space="preserve">
+	<value>Buscar</value>
+</data>
+<data name="Shared_EditLink" xml:space="preserve">
+	<value>Editar</value>
+</data>
+<data name="Shared_DeleteLink" xml:space="preserve">
+	<value>Esborrar</value>
+</data>
+<data name="Shared_ConfirmLink" xml:space="preserve">
+	<value>Confirmar</value>
+</data>
+<data name="Shared_NotLoggedIn" xml:space="preserve">
+	<value>Esteu fora de sessió</value>
+</data>
+<data name="Shared_LoggedInAs" xml:space="preserve">
+	<value>Heu iniciat sessió com</value>
+</data>
+<data name="Shared_LastModified" xml:space="preserve">
+	<value>Pàgina modificada per darrer cop </value>
+</data>
+<data name="Shared_PoweredBy" xml:space="preserve">
+	<value>Powered by Roadkill Wiki</value>
+</data>
+<data name="Shared_Firstname_Label" xml:space="preserve">
+	<value>Nom:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Shared_Lastname_Label" xml:space="preserve">
+	<value>Cognoms:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Shared_Username_Label" xml:space="preserve">
+	<value>Nom d'usuari (username):</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Shared_Email_Label" xml:space="preserve">
+	<value>Correu electrònic (email):</value>
+</data>
+<data name="Shared_Password_Label" xml:space="preserve">
+	<value>Password:</value>
+</data>
+<data name="Shared_PasswordConfirm_Label" xml:space="preserve">
+	<value>Confirmar Password:</value>
+</data>
+<data name="Shared_Error" xml:space="preserve">
+	<value>Hi ha hagut un error:</value>
+</data>
+<data name="User_Validation_Username" xml:space="preserve">
+	<value>El camp nom d'usuari és obligatori.</value>
+</data>
+<data name="User_Validation_Email" xml:space="preserve">
+	<value>El camp correu electrònic és obligatori.</value>
+</data>
+<data name="User_Validation_Email_Check" xml:space="preserve">
+	<value>El camp correu electrònic no compté una adreça vàlida.</value>
+</data>
+<data name="User_Validation_UsernameExists" xml:space="preserve">
+	<value>El nom d'usuari {0} ja existeix al sistema.</value>
+</data>
+<data name="User_Validation_UsernameEmpty" xml:space="preserve">
+	<value>El camp nom d'usuari està buit.</value>
+</data>
+<data name="User_Validation_EmailExists" xml:space="preserve">
+	<value>L'adreça de correu {0} ja existeix al sistema.</value>
+</data>
+<data name="User_Validation_PasswordsDontMatch" xml:space="preserve">
+	<value>No coincideixen els passwords.</value>
+</data>
+<data name="User_Validation_PasswordTooShort" xml:space="preserve">
+	<value>Aquesta paraula de pas (password) té menys de {0} caracters</value>
+</data>
+<data name="Login_Title" xml:space="preserve">
+	<value>Login</value>
+</data>
+<data name="Login_ForgottenPassword" xml:space="preserve">
+	<value>Heu perdut el password?</value>
+</data>
+<data name="Login_Unsuccessful_Title" xml:space="preserve">
+	<value>Heu iniciat sessió correctament</value>
+</data>
+<data name="Login_Error" xml:space="preserve">
+	<value>Usuari o paraula de pas incorrecta</value>
+</data>
+<data name="Signup_Title" xml:space="preserve">
+	<value>Registrarse / Iniciar sessió</value>
+</data>
+<data name="Signup_Label" xml:space="preserve">
+	<value>Sisplau, entreu els detalls a sota.</value>
+</data>
+<data name="Button_Signup" xml:space="preserve">
+	<value>Registrar nou usuari</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Signup_Complete_Title" xml:space="preserve">
+	<value>Registre completat.</value>
+</data>
+<data name="Signup_Complete_Label" xml:space="preserve">
+	<value>Gràcies, us hem enviat un correu a {0} amb els detalls per completar el procés de registre.</value>
+</data>
+<data name="Signup_Complete_NoEmail" xml:space="preserve">
+	<value>No heu rebut el correu?</value>
+</data>
+<data name="Signup_Complete_EmailResent" xml:space="preserve">
+	<value>El correu de confirmació ha estat tornat a enviar.</value>
+</data>
+<data name="Button_Signup_Complete_EmailResend" xml:space="preserve">
+	<value>Tornar a enviar el correu de confirmació</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Signup_Error_General" xml:space="preserve">
+	<value>Hi ha hagut un error amb el procés de registre.</value>
+</data>
+<data name="Signup_Error_Recaptcha" xml:space="preserve">
+	<value>Les paraules del sistema 'anti-spam' no són correctes</value>
+</data>
+<data name="Activate_Title" xml:space="preserve">
+	<value>Activar el compte</value>
+</data>
+<data name="Activate_Success_Title" xml:space="preserve">
+	<value>Activació exitosa</value>
+</data>
+<data name="Activate_Error_Title" xml:space="preserve">
+	<value>Activatió amb errors</value>
+</data>
+<data name="Activate_Label" xml:space="preserve">
+	<value>El teu compte ha estat activat amb éxit.</value>
+</data>
+<data name="Activate_Link" xml:space="preserve">
+	<value>Punxeu aquí per iniciar sessió</value>
+</data>
+<data name="Activate_Error" xml:space="preserve">
+	<value>Hi ha hagut un problema activant el vostre compte. Potser ja estava activat previament.</value>
+</data>
+<data name="ResetPassword_Title" xml:space="preserve">
+	<value>Posar una nova paraula de pas.</value>
+</data>
+<data name="ResetPassword_Label" xml:space="preserve">
+	<value>Entreu a sota el vostre correu electrònic per a reiniciar el vostre password. Rebreu un enllaç per a posar un nou password.</value>
+</data>
+<data name="ResetPassword_Complete_Label" xml:space="preserve">
+	<value>Sisplau, entreu la nova paraula de pas.</value>
+</data>
+<data name="Button_ResetPassword" xml:space="preserve">
+	<value>Posar una nova paraula de pas (reset password)</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="ResetPassword_Successful_Title" xml:space="preserve">
+	<value>Heu canviat la paraula de pas correctament.</value>
+</data>
+<data name="ResetPassword_Successful_Label" xml:space="preserve">
+	<value>Heu canviat la paraula de pas correctament.</value>
+</data>
+<data name="ResetPassword_Invalid_Title" xml:space="preserve">
+	<value>Paraula de pas NO canviada.</value>
+</data>
+<data name="ResetPassword_Invalid_Label" xml:space="preserve">
+	<value>La clau de la paraula de pas ja no és vàlida.</value>
+</data>
+<data name="ResetPassword_EmailSent_Title" xml:space="preserve">
+	<value>Enviat canvi de passord.</value>
+</data>
+<data name="ResetPassword_EmailSent_Label" xml:space="preserve">
+	<value>Gràcies, us hem enviat un correu a {0} amb els detalls de com canviar la paraula de pas ( password ).</value>
+</data>
+<data name="ResetPassword_Error" xml:space="preserve">
+	<value>Els passwords no casen o són massa curst</value>
+</data>
+<data name="ResetPassword_Error_ServerError" xml:space="preserve">
+	<value>Hi ha hagut un error canviant la paraula de pas (password).</value>
+</data>
+<data name="ResetPassword_Error_EmailNotFound" xml:space="preserve">
+	<value>L'adreça de correu no es troba.</value>
+</data>
+<data name="ResetPassword_Error_MissingEmail" xml:space="preserve">
+	<value>Sisplau, entreu una adreça de correu</value>
+</data>
+<data name="Profile_Title" xml:space="preserve">
+	<value>Perfil</value>
+</data>
+<data name="Profile_Error" xml:space="preserve">
+	<value>Hi ha hagut un error actualitzant el teu perfil</value>
+</data>
+<data name="NoMainPage_Title" xml:space="preserve">
+	<value>No heu predefinit pàgina principal</value>
+</data>
+<data name="NoMainPage_Label" xml:space="preserve">
+	<value>Per definir una pàgina com a principal, creeu una pàgina i assigneu-li el tag &apos;homepage&apos;.</value>
+</data>
+<data name="Search_PlaceHolder" xml:space="preserve">
+	<value>Entreu un text a cercar</value>
+</data>
+<data name="Search_Results" xml:space="preserve">
+	<value>Resultats de la cerca per &apos;{0}&apos;</value>
+</data>
+<data name="Search_NoResults" xml:space="preserve">
+	<value>La vostre cerca per &apos;{0}&apos; no casa amb cap resultat</value>
+</data>
+<data name="AllPages_Title" xml:space="preserve">
+	<value>Totes les pàgines</value>
+</data>
+<data name="AllPages_NoPages" xml:space="preserve">
+	<value>No s'han trobat pàgines.</value>
+</data>
+<data name="AllTags_Title" xml:space="preserve">
+	<value>Tots els tags</value>
+</data>
+<data name="AllTags_NoResults" xml:space="preserve">
+	<value>No s'han trobat tags.</value>
+</data>
+<data name="AllPages_TitleColumnHeading" xml:space="preserve">
+	<value>Títol</value>
+</data>
+<data name="Pages_ForUser" xml:space="preserve">
+	<value>Totes les pàgines creades per {0}</value>
+</data>
+<data name="Pages_ForUser_NoPages" xml:space="preserve">
+	<value>En {0} encara no ha creat cap pàgina.</value>
+</data>
+<data name="Pages_ForTag" xml:space="preserve">
+	<value>Totes les pàgines per al tag {0}</value>
+</data>
+<data name="Pages_ForTag_NoPages" xml:space="preserve">
+	<value>No hi ha pàgines per {0}</value>
+</data>
+<data name="History_Title" xml:space="preserve">
+	<value>Historial de pàgines</value>
+</data>
+<data name="History_Version" xml:space="preserve">
+	<value>Versió</value>
+</data>
+<data name="History_EditedOn" xml:space="preserve">
+	<value>Editat:</value>
+</data>
+<data name="History_EditedBy" xml:space="preserve">
+	<value>Editat per</value>
+</data>
+<data name="History_RevertLink" xml:space="preserve">
+	<value>Revertir</value>
+</data>
+<data name="Version_Title" xml:space="preserve">
+	<value>Versió {0}</value>
+</data>
+<data name="Version_BackLink" xml:space="preserve">
+	<value>enrrera</value>
+</data>
+<data name="Page_Info_CreatedOn" xml:space="preserve">
+	<value>Creat:</value>
+</data>
+<data name="Page_Info_CreatedBy" xml:space="preserve">
+	<value>Creat per:</value>
+</data>
+<data name="Page_Info_ModifiedOn" xml:space="preserve">
+	<value>Modificat darrer cop:</value>
+</data>
+<data name="Page_Info_ModifiedBy" xml:space="preserve">
+	<value>Modificat darrer cop per:</value>
+</data>
+<data name="Page_Validation_Title" xml:space="preserve">
+	<value>Cal posar-hi un títol.</value>
+</data>
+<data name="EditPage_Title" xml:space="preserve">
+	<value>Afegir/editar una pàgina</value>
+</data>
+<data name="EditPage_Title_Label" xml:space="preserve">
+	<value>Títol</value>
+</data>
+<data name="EditPage_Tags_Label" xml:space="preserve">
+	<value>Tags</value>
+</data>
+<data name="EditPage_AdminOnly" xml:space="preserve">
+	<value>Aquesta pàgina només pot ser editada per administradors.</value>
+</data>
+<data name="EditPage_Preview" xml:space="preserve">
+	<value>Vista prévia</value>
+</data>
+<data name="EditPage_LinkUrl_PlaceHolder" xml:space="preserve">
+	<value>entreu una url o nom de pàgina</value>
+</data>
+<data name="EditPage_LinkText_PlaceHolder" xml:space="preserve">
+	<value>Enllaçar text</value>
+</data>
+<data name="EditPage_Image_Title" xml:space="preserve">
+	<value>Títol de la imatge</value>
+</data>
+<data name="EditPage_Error" xml:space="preserve">
+	<value>No ha estat posible desar la pàgina:</value>
+</data>
+<data name="EditPage_Toolbar_Bold" xml:space="preserve">
+	<value>Negreta</value>
+</data>
+<data name="EditPage_Toolbar_BulletList" xml:space="preserve">
+	<value>Llista no numerada</value>
+</data>
+<data name="EditPage_Toolbar_Heading2" xml:space="preserve">
+	<value>Capcelera 2</value>
+</data>
+<data name="EditPage_Toolbar_Heading3" xml:space="preserve">
+	<value>Capcelera 3</value>
+</data>
+<data name="EditPage_Toolbar_Heading4" xml:space="preserve">
+	<value>Capcelera 4</value>
+</data>
+<data name="EditPage_Toolbar_Heading5" xml:space="preserve">
+	<value>Capcelera 5</value>
+</data>
+<data name="EditPage_Toolbar_Help" xml:space="preserve">
+	<value>Veure referència d'ajuda.</value>
+</data>
+<data name="EditPage_Toolbar_Image" xml:space="preserve">
+	<value>Imatge</value>
+</data>
+<data name="EditPage_Toolbar_Italic" xml:space="preserve">
+	<value>Italica</value>
+</data>
+<data name="EditPage_Toolbar_Link" xml:space="preserve">
+	<value>Enllaç</value>
+</data>
+<data name="EditPage_Toolbar_NumberList" xml:space="preserve">
+	<value>Llista numerada</value>
+</data>
+<data name="EditPage_Toolbar_Underline" xml:space="preserve">
+	<value>Subrallat</value>
+</data>
+<data name="SiteSettings_Configuration" xml:space="preserve">
+	<value>Configuració</value>
+</data>
+<data name="SiteSettings_UserManagement" xml:space="preserve">
+	<value>Usuaris</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_Tools" xml:space="preserve">
+	<value>Eines</value>
+</data>
+<data name="SiteSettings_Configuration_Title" xml:space="preserve">
+	<value>Paràmetres del site</value>
+</data>
+<data name="SiteSettings_Configuration_Site" xml:space="preserve">
+	<value>Site</value>
+</data>
+<data name="SiteSettings_Configuration_SiteName" xml:space="preserve">
+	<value>Nom del 'Site'</value>
+</data>
+<data name="SiteSettings_Configuration_SiteUrl" xml:space="preserve">
+	<value>url del 'Site'</value>
+</data>
+<data name="SiteSettings_Configuration_Database" xml:space="preserve">
+	<value>Base de dades (Database)</value>
+</data>
+<data name="SiteSettings_Configuration_DatabaseType" xml:space="preserve">
+	<value>Tipus de base de dades</value>
+</data>
+<data name="SiteSettings_Configuration_DatabaseConnectionString" xml:space="preserve">
+	<value>cadena de connexió (Connection string)</value>
+</data>
+<data name="SiteSettings_Configuration_Security" xml:space="preserve">
+	<value>Seguretat</value>
+</data>
+<data name="SiteSettings_Configuration_UseWindowsAuth" xml:space="preserve">
+	<value>Utilitzar Windows Authentication</value>
+</data>
+<data name="SiteSettings_Configuration_AllowUserSignups" xml:space="preserve">
+	<value>Permetre que els usuaris es registrin</value>
+</data>
+<data name="SiteSettings_Configuration_EnableRecaptcha" xml:space="preserve">
+	<value>Activar sistema anti boots (recaptcha)</value>
+</data>
+<data name="SiteSettings_Configuration_RecaptchaPrivateKey" xml:space="preserve">
+	<value>Recaptcha private key</value>
+</data>
+<data name="SiteSettings_Configuration_RecaptchaPublicKey" xml:space="preserve">
+	<value>Recaptcha public key</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Connection" xml:space="preserve">
+	<value>Authentication/LDAP connection string</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Username" xml:space="preserve">
+	<value>LDAP username</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Password" xml:space="preserve">
+	<value>LDAP password</value>
+</data>
+<data name="SiteSettings_Configuration_EditorRole" xml:space="preserve">
+	<value>Nom del grup del rol Editor</value>
+</data>
+<data name="SiteSettings_Configuration_AdminRole" xml:space="preserve">
+	<value>Nom del grup del rol Admin</value>
+</data>
+<data name="SiteSettings_Configuration_General" xml:space="preserve">
+	<value>General</value>
+</data>
+<data name="SiteSettings_Configuration_MarkupType" xml:space="preserve">
+	<value>Tipus de Markup</value>
+</data>
+<data name="SiteSettings_Configuration_Theme" xml:space="preserve">
+	<value>Tema</value>
+</data>
+<data name="SiteSettings_Configuration_Attachments" xml:space="preserve">
+	<value>Carpeta d'annexos</value>
+</data>
+<data name="SiteSettings_Configuration_Extensions" xml:space="preserve">
+	<value>Extensions permeses</value>
+</data>
+<data name="SiteSettings_Configuration_CachingTitle" xml:space="preserve">
+	<value>Caching</value>
+</data>
+<data name="SiteSettings_Configuration_ObjectCaching" xml:space="preserve">
+	<value>Object caching</value>
+</data>
+<data name="SiteSettings_Configuration_BrowserCaching" xml:space="preserve">
+	<value>Browser caching</value>
+</data>
+<data name="SiteSettings_Configuration_Error" xml:space="preserve">
+	<value>No ha estat posible desar els paràmetres</value>
+</data>
+<data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
+	<value>(This key is no longer used. To be removed in 2.0)</value>
+</data>
+<data name="SiteSettings_Configuration_SiteName_Help" xml:space="preserve">
+	<value>Nom del 'Site', apareixerà en alguns temes i al procés d' auto-registre d'usuaris ( si està activat )</value>
+</data>
+<data name="SiteSettings_Configuration_SiteUrl_Help" xml:space="preserve">
+	<value>La url del site, apareixerà al procés de subscripció d'usuaris i al canvi de paraula de pas. No incloure la darrera barra. </value>
+</data>
+<data name="SiteSettings_Configuration_ConnectionStrings_Help" xml:space="preserve">
+	<value>Canvia la cadena de connexió. Nota: Roadkill no recrearà automàticament l'estructura.</value>
+</data>
+<data name="SiteSettings_Configuration_DatabaseType_Help" xml:space="preserve">
+	<value>Canvia el tipus de base de dades que estàs fent servir. Nota: Roadkill no recrearà l'estructura de la base de dades</value>
+</data>
+<data name="SiteSettings_Configuration_DatabaseConnectionString_Help" xml:space="preserve">
+	<value>És la cadena de connexió a la base de dades (The database connection string)</value>
+</data>
+<data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
+	<value>{bold}ATENCIÓ{/bold} canviant això pot fer-te fora del site. Feu una còpia de seguretat de web.config abans de desar. {br}{br} Marcar si utilitzeu Windows Authentication and Active Directory for authentication.</value>
+</data>
+<data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
+	<value>Marqueu aquesta opció si voleu permetre l'auto subscripció.Si ho deixeu desmarcat només els administradors podran donar d'alta usuaris. </value>
+</data>
+<data name="SiteSettings_Configuration_EnableRecaptcha_Help" xml:space="preserve">
+	<value>Activar suport Recaptcha - un servei anti-spam gratuït. Necessitareu donar-vos d'alta i copiar public i private key als camps de sota.</value>
+</data>
+<data name="SiteSettings_Configuration_RecaptchaPrivateKey_Help" xml:space="preserve">
+	<value>La clau privada de Recaptcha que et proveeix el servei quan et dones d'alta.</value>
+</data>
+<data name="SiteSettings_Configuration_RecaptchaPublicKey_Help" xml:space="preserve">
+	<value>La clau pública de Recaptcha que et proveeix el servei quan et dones d'alta.</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Connection_Help" xml:space="preserve">
+	<value>La cadena de connexió LDAP per Active Directory. Ha d'estar en format LDAP://mydc01.company.internal (LDAP sempre en majúscules).</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Username_Help" xml:space="preserve">
+	<value>Nom d'usuari per autenticar-se de nou amb Active Directory. Deixar-lo en blanc si l'aplicació està corrent amb un usuari que ja disposa d'aquest permis.</value>
+</data>
+<data name="SiteSettings_Configuration_AD_Password_Help" xml:space="preserve">
+	<value>La paraula de pas per autenticar-se.</value>
+</data>
+<data name="SiteSettings_Configuration_EditorRole_Help" xml:space="preserve">
+	<value>Aquest és el nom del rol d'Editor - usuaris que poden editar i crar pàgines. Això nomes és usat per  Active Directory/Windows authentication - deixeu-lo en blanc si tots els usuaris han de tenir aquests permisos.</value>
+</data>
+<data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
+	<value>{bold}ATENCIÓ{/bold} canviant aquest paràmetre et pot fer fora del site si estu usant autenticació Active Directory/Windows. Feu una còpia del web.config abas de desar. {br}{br}Aquest és el nom del rol administrador. Els administradors tenen els mateixos permisos que els editors i, a més, poden canviar paràmetres del sistema i fer servir eines del 'Site'.</value>
+</data>
+<data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
+	<value>Aquest és el tipus de format de markup que s'utilitza. Roadkill, actualment, suporta els següents: Creole, Markdown, Mediawiki.</value>
+</data>
+<data name="SiteSettings_Configuration_Theme_Help" xml:space="preserve">
+	<value>Aquest és el tema que aquesta site utilitza. Ha de casar amb un nom de carpeta al directori de temes (Themes).</value>
+</data>
+<data name="SiteSettings_Configuration_Attachments_Help" xml:space="preserve">
+	<value>Aquesta és la carpeta a on es pugen tots els fitxers. Aquest paràmetre ha de començar per ~/ per indicar el directori principal del site.</value>
+</data>
+<data name="SiteSettings_Configuration_Extensions_Help" xml:space="preserve">
+	<value>Aquestes són les extensions permeses, separeu per comes.</value>
+</data>
+<data name="SiteSettings_Configuration_ObjectCaching_Help" xml:space="preserve">
+	<value>Activa Object caching. Roadkill emmagatzema a memòria totes les pàgines i contingut un cop llegides de la base de dades fins que una pàgina canvia. És el comportament predefinit per millorar el rendiment. No està suportat actualment a granges de servidors.</value>
+</data>
+<data name="SiteSettings_Configuration_BrowserCaching_Help" xml:space="preserve">
+	<value>Activa la cache al navegador. Indica al navegador que guardi en cache les pàgines de RoadKilll, i comprova actualitzacions (If-Modified-Since) cada cop que la pàgina es carrega. Si no hi ha actualització no s'envia contingut des del server. Recomenat per millorar la sensació de velocitat del sistema.</value>
+</data>
+<data name="SiteSettings_Configuration_Caching_Help" xml:space="preserve">
+	<value>(This key is no longer used. To be removed in 2.0)</value>
+</data>
+<data name="SiteSettings_Configuration_CachePageText_Help" xml:space="preserve">
+	<value>(This key is no longer used. To be removed in 2.0)</value>
+</data>
+<data name="SiteSettings_UserManagement_Title" xml:space="preserve">
+	<value>Usuaris del Site</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_ColumnHeader_Username" xml:space="preserve">
+	<value>Nom d'usuari</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_ColumnHeader_Email" xml:space="preserve">
+	<value>Correu electrònic</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_Admins" xml:space="preserve">
+	<value>Administradors</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_NewAdmin" xml:space="preserve">
+	<value>Nou usuari administrador</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_Editors" xml:space="preserve">
+	<value>Editors</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_NewEditor" xml:space="preserve">
+	<value>Nou usuari editor</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AddAdmin_Title" xml:space="preserve">
+	<value>Afegir administrador</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AddEditor_Title" xml:space="preserve">
+	<value>Afegir editor</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_EditUser_Title" xml:space="preserve">
+	<value>Editar usuari</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AddUser_Help" xml:space="preserve">
+	<value>Per usuaris que ja existeixe, deixeu els camps de 'password' en blanc per a que els canvii el propi usuari.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AddUser_Error" xml:space="preserve">
+	<value>No ha estat posible desar els detalls d'usuari:</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_EditUser_Error" xml:space="preserve">
+	<value>Actualització fallida d'actualització d'usuari.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AD_Title" xml:space="preserve">
+	<value>Windows/Active Directory authentication està activada</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AD_Label1" xml:space="preserve">
+	<value>Els noms d'usuari i paraules de pas no són editables amb autenticació Windows - ho heu de fer mitjançant el Directori Actiu.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_UserManagement_AD_Label2" xml:space="preserve">
+	<value>Per afegir un usuari com administrador o editor, cal que esteu segurs que forman part del grup de seguretat de Windows que heu especificat com als paràmetres &quot;AdminRolename&quot; i &quot;EditorRolename&quot; al web.config.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_Tools_Title" xml:space="preserve">
+	<value>Eines del Site</value>
+</data>
+<data name="SiteSettings_Tools_ClearDatabase" xml:space="preserve">
+	<value>Netejar la base de dades</value>
+</data>
+<data name="SiteSettings_Tools_ClearDatabase_Label" xml:space="preserve">
+	<value>Eliminar totes les pàgines i textos de la base de dades. Això no esborra els usuaris.</value>
+</data>
+<data name="SiteSettings_Tools_ClearDatabase_Message" xml:space="preserve">
+	<value>base de dades neta</value>
+</data>
+<data name="SiteSettings_Tools_RebuildSearch" xml:space="preserve">
+	<value>Tornar a crear l'index per a les cerques</value>
+</data>
+<data name="SiteSettings_Tools_RebuildSearch_Label" xml:space="preserve">
+	<value>Força la reconstrucció de l'index de recerca de pàgines, útil si l'index es desincronitza per alguna raó.</value>
+</data>
+<data name="SiteSettings_Tools_RebuildSearch_Message" xml:space="preserve">
+	<value>Completada la tasca de refer l'index de recerca</value>
+</data>
+<data name="SiteSettings_Tools_ExportXml" xml:space="preserve">
+	<value>Exportar a XML</value>
+</data>
+<data name="SiteSettings_Tools_ExportXml_Label" xml:space="preserve">
+	<value>Exportar tot el contingut a un únic fitxer XML.</value>
+</data>
+<data name="SiteSettings_Tools_ExportXml_Error" xml:space="preserve">
+	<value>Ha fallat l'exportació a XML: {0}</value>
+</data>
+<data name="SiteSettings_Tools_ExportContent" xml:space="preserve">
+	<value>Exportar tot el contingut com un zip</value>
+</data>
+<data name="SiteSettings_Tools_ExportContent_Label" xml:space="preserve">
+	<value>Exportar totes les pàgines, incloent el contingut de text com a sèries de fitxers &quot;.wiki&quot; . Només el contingut actual i els tags són inclosos, no s'exporta l'historial. Aquest fitxer zip no inclourà la carpeta d'annexos.</value>
+</data>
+<data name="SiteSettings_Tools_ExportContent_Error" xml:space="preserve">
+	<value>Ha fallat la exportació de contingut Wiki: {0}</value>
+</data>
+<data name="SiteSettings_Tools_ExportAttachments" xml:space="preserve">
+	<value>Exportar els annexos com un fitxer zip</value>
+</data>
+<data name="SiteSettings_Tools_ExportAttachments_Label" xml:space="preserve">
+	<value>Exporta tot el contingut de les carpetes i subcarpetes d'annexos a un fitxer zip.</value>
+</data>
+<data name="SiteSettings_Tools_ExportAttachments_Error" xml:space="preserve">
+	<value>Ha fallat l'exportació d'annexos: {0}</value>
+</data>
+<data name="SiteSettings_Tools_ScrewTurnImport" xml:space="preserve">
+	<value>Importar des de screwturn</value>
+</data>
+<data name="SiteSettings_Tools_ScrewTurnImport_Label" xml:space="preserve">
+	<value>Importa tot el contingut des de una base de dades Screwturn 2/3. Necessitareu fixar el markuptype com a MediaWiki a settings/web.config per tal que el format sigui compatible. Degut a que screwturn utilitza una variació de la sintaxi mediawiki, pot haver contingut que no es mostri correctament. Això inclou imatges i enllaços.</value>
+</data>
+<data name="SiteSettings_Tools_ScrewTurnImport_Connection" xml:space="preserve">
+	<value>Cadena de connexió Screwturn:</value>
+</data>
+<data name="SiteSettings_Tools_ScrewTurnImport_Message" xml:space="preserve">
+	<value>Importat correctament</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag" xml:space="preserve">
+	<value>Renombra un tag</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag_Label" xml:space="preserve">
+	<value>Això li canviarà el nom al tag i totes les pàgines que referencien el Tag. Recordeu que el nom del Tag diferencia entre majuscules/minúscules.</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag_Existing" xml:space="preserve">
+	<value>Tag existent:</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag_New" xml:space="preserve">
+	<value>Nou nom del tag:</value>
+</data>
+<data name="SiteSettings_Tools_RenameTag_Message" xml:space="preserve">
+	<value>El procés de renombrat ha finalitzat correctament</value>
+</data>
+<data name="SiteSettings_Validation_AttachmentsEmpty" xml:space="preserve">
+	<value>La carpeta d'annexos està buida.</value>
+</data>
+<data name="SiteSettings_Validation_AttachmentsReservedName" xml:space="preserve">
+	<value>&apos;~/Files&apos; és un nom de path reservat, seleccioneu un altre directori per annexes.</value>
+</data>
+<data name="SiteSettings_Validation_ConnectionEmpty" xml:space="preserve">
+	<value>La cadena de connexió està buida.</value>
+</data>
+<data name="SiteSettings_Validation_MarkupTypeEmpty" xml:space="preserve">
+	<value>El tipus de markup no està informat.</value>
+</data>
+<data name="SiteSettings_Validation_ThemeEmpty" xml:space="preserve">
+	<value>No heu informat quin tema voleu.</value>
+</data>
+<data name="SiteSettings_Validation_SiteNameEmpty" xml:space="preserve">
+	<value>El mapa del site (sitename) està buit.</value>
+</data>
+<data name="SiteSettings_Validation_SiteUrlEmpty" xml:space="preserve">
+	<value>La url del Site està buida.</value>
+</data>
+<data name="FileManager_Title" xml:space="preserve">
+	<value>Gestionar fitxers</value>
+</data>
+<data name="FileManager_Upload" xml:space="preserve">
+	<value>Pujar fitxer</value>
+</data>
+<data name="FileManager_AddFolder" xml:space="preserve">
+	<value>Nova carpeta</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="FileManager_AddFolder_Cancel" xml:space="preserve">
+	<value>Cancelar crear nova carpeta</value>
+</data>
+<data name="FileManager_Delete_File" xml:space="preserve">
+	<value>Esborrar el fitxer</value>
+</data>
+<data name="FileManager_Select" xml:space="preserve">
+	<value>Seleccionar</value>
+</data>
+<data name="FileManager_Delete_Folder" xml:space="preserve">
+	<value>Esborrar carpeta</value>
+</data>
+<data name="FileManager_Delete_Confirm" xml:space="preserve">
+	<value>Esteu seguirs d'esborrar {0}?</value>
+</data>
+<data name="FileManager_Delete_Success" xml:space="preserve">
+	<value>{0} esborrat.</value>
+</data>
+<data name="FileManager_Delete_Error" xml:space="preserve">
+	<value>Hi ha hagut un error esborrant {0}</value>
+</data>
+<data name="FileManager_Error_DirectoryListing" xml:space="preserve">
+	<value>Hi ha hagut un error obtenint la llista de carpetes: </value>
+</data>
+<data name="FileManager_Error_DeleteFolder" xml:space="preserve">
+	<value>Hi ha hagut un error esborrant la carpeta: </value>
+</data>
+<data name="FileManager_Error_DeleteFile" xml:space="preserve">
+	<value>Hi ha hagut un error esborrant el fitxer: </value>
+</data>
+<data name="FileManager_Error_CreateFolder" xml:space="preserve">
+	<value>Hi ha hagut un error creant la carpeta: </value>
+</data>
+<data name="FileManager_UploadingProgress" xml:space="preserve">
+	<value>Pujant...</value>
+</data>
+<data name="FileManager_Help" xml:space="preserve">
+	<value>Arrosegueu els fitxes a la caixa de sota per pujar-los. Doble clic per a navegar per les carpetes.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="FileManager_Extension_Not_Supported" xml:space="preserve">
+	<value>Només es pode pujar fitxers amb extensió {0}.</value>
+</data>
+<data name="Homepage_Tagname" xml:space="preserve">
+	<value>pàgina principal</value>
+</data>
+<data name="SiteSettings_Configuration_HeadContent" xml:space="preserve">
+	<value>Contingut de capcelera de tag adicional</value>
+</data>
+<data name="SiteSettings_Configuration_FileManager" xml:space="preserve">
+	<value>Gestor de fitxers</value>
+</data>
+<data name="SiteSettings_Configuration_HeadContent_Help" xml:space="preserve">
+	<value>Qualsevol HTML o scripts que entreu aquí seran afegits al {head} tag de la pàgina.</value>
+</data>
+<data name="SiteSettings_Configuration_NavMenu" xml:space="preserve">
+	<value>markup del menú de navegació</value>
+</data>
+<data name="SiteSettings_Configuration_NavMenu_Help" xml:space="preserve">
+	<value>El menú de navegació típicament el trobem a l'esquerra però pot variar amb el tema que feu servir. S'accepta Markup i serà correcte en el format markdown que utilitzi la vostra wiki. També podeu fer servir els següents tokens que seran col·locats en els enllaços (alguns poden estar buits si no heu iniciat sessió): {MENUTOKENS}</value>
+</data>
+<data name="SiteSettings_Configuration_FileManager_OverwriteExisting" xml:space="preserve">
+	<value>Automàticament sobrescriure els fitxers existents quan es pugen fitxers</value>
+</data>
+<data name="SiteSettings_Configuration_FileManager_OverwriteExisting_Help" xml:space="preserve">
+	<value>Marca aquesta opció si vols que els noms de fitxers que ja existeixin a la carpeta d'annexes se sobreescriguin automàticament.</value>
+</data>
+<data name="SiteSettings_Plugins_Title" xml:space="preserve">
+	<value>Plugins</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport" xml:space="preserve">
+	<value>Exportar com SQL</value>
+</data>
+<data name="SiteSettings_Tools_SqlExport_Label" xml:space="preserve">
+	<value>Exportar la base de dades actual com un únic fitxer script SQL. Si esteu usant MongoDB aquesta opció no fa res.</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite" xml:space="preserve">
+	<value>Site pública</value>
+</data>
+<data name="SiteSettings_Configuration_IsPublicSite_Help" xml:space="preserve">
+	<value>Quan ho desmarqueu, totes les pàgines seran privades i només es podran veure per usuaris que hagin iniciat sessió.</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors" xml:space="preserve">
+	<value>Ignorar els errors de l'index de recerca</value>
+</data>
+<data name="SiteSettings_Configuration_IgnoreSearchIndexErrors_Help" xml:space="preserve">
+	<value>Quan està activat, un error es mostrat quan una pàgina falla al ser indexada pel motor de recerca Lucene ( a la creació o modifiació de pàgines ), en comptes de ser ignorat.</value>
+</data>
+<data name="FileManager_Upload_FileAlreadyExists" xml:space="preserve">
+	<value>El fitxer '{0}' ja existeix.</value>
+</data>
+<data name="History_Help_Label" xml:space="preserve">
+	<value>Feu clic en un número de versió per a comparar els canvis amb versions anteriors.</value>
+</data>
+<data name="SiteSettings_Configuration_Required_Field" xml:space="preserve">
+	<value>Aquest camp és obligatori.</value>
+</data>
+<data name="Button_Test" xml:space="preserve">
+	<value>Test</value>
+</data>
+<data name="Shared_Success" xml:space="preserve">
+	<value>Perfecte!</value>
+</data>
+<data name="Shared_Failure" xml:space="preserve">
+	<value>Error!</value>
+</data>
+<data name="DatabaseConnection_Success" xml:space="preserve">
+	<value>La connexió a la base de dades ha estat un éxit.</value>
+</data>
+<data name="DatabaseConnection_Failure" xml:space="preserve">
+	<value>Ha fallat la connexió a la base de dades:</value>
+</data>
+<data name="Button_Add" xml:space="preserve">
+	<value>Afegir</value>
+</data>
+<data name="Attachments_Folder_Success" xml:space="preserve">
+	<value>Perfecte! La carpeta existeix i s'hi pot escriure.</value>
+</data>
+<data name="Attachments_Folder_Failure" xml:space="preserve">
+	<value>No s'ha pogut escriure a la carpeta d'annexos: </value>
+</data>
+<data name="Shared_Unexpected_Error" xml:space="preserve">
+	<value>Alguna cosa va malament</value>
+</data>
+<data name="Profile_Not_Available" xml:space="preserve">
+	<value>Windows authentication està activat, el perfil d'usuari no està disponible.</value>
+</data>
+<data name="Profile_Password_Change_Successful" xml:space="preserve">
+	<value>Paraula de pass canviada amb éxit</value>
+</data>
+<data name="Profile_Details_Updated_Successfully" xml:space="preserve">
+	<value>Els detalls del perfil s'han canviat correctament.</value>
+</data>
+<data name="Profile_Leave_Password_Blank" xml:space="preserve">
+	<value>Deixa els camps de 'paraula de pas' (password) en blanc si t'està bé l'actual.</value>
+</data>
+<data name="SiteSettings_Cache_Clear_Successful" xml:space="preserve">
+	<value>Totes les caches s'han netejat amb éxit.</value>
+</data>
+<data name="SiteSettings_Cache_Key_Format" xml:space="preserve">
+	<value>Les claus estan en el format: </value>
+</data>
+<data name="SiteSettings_Cache_Key_Column_Header" xml:space="preserve">
+	<value>Clau (Key)</value>
+</data>
+<data name="SiteSettings_Cache_Page_Cache" xml:space="preserve">
+	<value>Page cache</value>
+</data>
+<data name="SiteSettings_Cache_List_Cache" xml:space="preserve">
+	<value>Items cache</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="SiteSettings_Cache_Clear_Button" xml:space="preserve">
+	<value>Netejar la cache</value>
+</data>
+<data name="SiteSettings_Configuration_Unable_To_Save" xml:space="preserve">
+	<value>No ha estat posible desar els paràmetres:</value>
+</data>
+<data name="SiteSettings_Configuration_Update_Successful" xml:space="preserve">
+	<value>Els paràmetres s'han actualitzat correctament.</value>
+	<comment>Fuzzy</comment>
+</data>
+<data name="Recaptcha_Prompt" xml:space="preserve">
+	<value>Com a mesura 'anti-spam', sisplau, entreu les paraules que veieu a sota</value>
+</data>
+<data name="Button_Close" xml:space="preserve">
+	<value>Tancar</value>
+</data>
+<data name="SiteSettings_Cache_Site_Cache" xml:space="preserve">
+	<value>Site cache</value>
+</data>
+<data name="SiteSettings_Cache_Not_Enabled" xml:space="preserve">
+	<value>La 'object cache' no està activada actualment.</value>
+</data>
+
+</root>
