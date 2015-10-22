@@ -641,6 +641,7 @@
     <EmbeddedResource Include="Localization\InstallStrings.cs.resx" />
     <EmbeddedResource Include="Localization\InstallStrings.de.resx" />
     <EmbeddedResource Include="Localization\InstallStrings.es.resx">
+    <EmbeddedResource Include="Localization\InstallStrings.ca.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Localization\InstallStrings.hi.resx" />
@@ -658,6 +659,7 @@
     <EmbeddedResource Include="Localization\SiteStrings.cs.resx" />
     <EmbeddedResource Include="Localization\SiteStrings.de.resx" />
     <EmbeddedResource Include="Localization\SiteStrings.es.resx" />
+    <EmbeddedResource Include="Localization\SiteStrings.ca.resx" />
     <EmbeddedResource Include="Localization\SiteStrings.hi.resx" />
     <EmbeddedResource Include="Localization\SiteStrings.it.resx" />
     <EmbeddedResource Include="Localization\SiteStrings.nl.resx" />
