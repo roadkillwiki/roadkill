@@ -640,7 +640,7 @@
     <EmbeddedResource Include="Database\Schema\SqlServerCE\Upgrade2.sql" />
     <EmbeddedResource Include="Localization\InstallStrings.cs.resx" />
     <EmbeddedResource Include="Localization\InstallStrings.de.resx" />
-    <EmbeddedResource Include="Localization\InstallStrings.es.resx">
+    <EmbeddedResource Include="Localization\InstallStrings.es.resx" />
     <EmbeddedResource Include="Localization\InstallStrings.ca.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
