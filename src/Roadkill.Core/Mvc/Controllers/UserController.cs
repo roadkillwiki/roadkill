@@ -213,9 +213,11 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (model.Id.ToString() != Context.CurrentUser)
 				return new HttpStatusCodeResult(403, "You cannot change the profile of another user");
 
-#if DEMOSITE
-			ModelState.AddModelError("General", "The demo site login cannot be changed.");
-#endif
+			if (ApplicationSettings.IsDemoSite)
+			{
+				ModelState.AddModelError("General", "The demo site login cannot be changed.");
+				return View(model);
+			}
 
 			if (ModelState.IsValid)
 			{
