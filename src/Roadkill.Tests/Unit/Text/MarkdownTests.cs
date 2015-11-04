@@ -113,9 +113,9 @@ namespace Roadkill.Tests.Unit
 								  "And another with equal dimensions ![Square](/Image1.png =250x) \n\n" +
 								  "And this one is a rectangle ![Rectangle](/Image1.png =250x350)";
 
-			string expectedHtml = "<p>Here is an image:<img src=\"/Attachments/Image1.png\" border=\"0\" alt=\"Image\" width=\"\" height=\"\" /> </p>\n\n" +
-									"<p>And another with equal dimensions <img src=\"/Attachments/Image1.png\" border=\"0\" alt=\"Square\" width=\"250px\" height=\"\" /> </p>\n\n" +
-									"<p>And this one is a rectangle <img src=\"/Attachments/Image1.png\" border=\"0\" alt=\"Rectangle\" width=\"250px\" height=\"350px\" /></p>\n";
+			string expectedHtml = "<p>Here is an image:<img src=\"/Attachments/Image1.png\" class=\"img-responsive\" border=\"0\" alt=\"Image\" width=\"\" height=\"\" /> </p>\n\n" +
+									"<p>And another with equal dimensions <img src=\"/Attachments/Image1.png\" class=\"img-responsive\" border=\"0\" alt=\"Square\" width=\"250px\" height=\"\" /> </p>\n\n" +
+									"<p>And this one is a rectangle <img src=\"/Attachments/Image1.png\" class=\"img-responsive\" border=\"0\" alt=\"Rectangle\" width=\"250px\" height=\"350px\" /></p>\n";
 
 
 			// Act		
@@ -145,9 +145,9 @@ namespace Roadkill.Tests.Unit
 								  "And another with equal dimensions ![Square](/Image1.png \"Square\" =250x) \n\n" +
 								  "And this one is a rectangle ![Rectangle](/Image1.png \"Rectangle\" =250x350)";
 
-			string expectedHtml = "<p>Here is an image with a title:<img src=\"/Attachments/Image1.png\" border=\"0\" alt=\"Image\" width=\"\" height=\"\" title=\"Image\" /> </p>\n\n" +
-									"<p>And another with equal dimensions <img src=\"/Attachments/Image1.png\" border=\"0\" alt=\"Square\" width=\"250px\" height=\"\" title=\"Square\" /> </p>\n\n" +
-									"<p>And this one is a rectangle <img src=\"/Attachments/Image1.png\" border=\"0\" alt=\"Rectangle\" width=\"250px\" height=\"350px\" title=\"Rectangle\" /></p>\n";
+			string expectedHtml = "<p>Here is an image with a title:<img src=\"/Attachments/Image1.png\" class=\"img-responsive\" border=\"0\" alt=\"Image\" width=\"\" height=\"\" title=\"Image\" /> </p>\n\n" +
+									"<p>And another with equal dimensions <img src=\"/Attachments/Image1.png\" class=\"img-responsive\" border=\"0\" alt=\"Square\" width=\"250px\" height=\"\" title=\"Square\" /> </p>\n\n" +
+									"<p>And this one is a rectangle <img src=\"/Attachments/Image1.png\" class=\"img-responsive\" border=\"0\" alt=\"Rectangle\" width=\"250px\" height=\"350px\" title=\"Rectangle\" /></p>\n";
 
 
 			// Act		

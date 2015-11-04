@@ -33,6 +33,6 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("2.0.*")]
-[assembly: AssemblyFileVersion("2.0.0")]
+[assembly: AssemblyFileVersion("2.0.300")]
 [assembly: AssemblyInformationalVersion("2.0.300")]// Do not include spaces (as it's used by the Bundles)
 [assembly: InternalsVisibleTo("Roadkill.Tests")]
