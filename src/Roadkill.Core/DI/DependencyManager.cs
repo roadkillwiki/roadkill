@@ -287,8 +287,9 @@ namespace Roadkill.Core.DI
 			{
 				x.For<IFileService>().HybridHttpOrThreadLocalScoped().Use<LocalFileService>();
 			}
-			
 
+			x.For<IPageService>().HybridHttpOrThreadLocalScoped().Use<PageService>();
+			
 			// Setter inject the various MVC objects that can't have constructors
 			x.SetAllProperties(y => y.OfType<ISetterInjected>());
 			x.SetAllProperties(y => y.OfType<IAuthorizationAttribute>());

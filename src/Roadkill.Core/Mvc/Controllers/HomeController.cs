@@ -22,12 +22,12 @@ namespace Roadkill.Core.Mvc.Controllers
 	[OptionalAuthorization]
 	public class HomeController : ControllerBase
 	{
-		public PageService PageService { get; private set; }
+		public IPageService PageService { get; private set; }
 		private SearchService _searchService;
 		private MarkupConverter _markupConverter;
 
 		public HomeController(ApplicationSettings settings, UserServiceBase userManager, MarkupConverter markupConverter,
-			PageService pageService, SearchService searchService, IUserContext context, SettingsService settingsService)
+			IPageService pageService, SearchService searchService, IUserContext context, SettingsService settingsService)
 			: base(settings, userManager, context, settingsService) 
 		{
 			_markupConverter = markupConverter;
@@ -98,7 +98,11 @@ namespace Roadkill.Core.Mvc.Controllers
 		[AllowAnonymous]
 		public ActionResult BootstrapNavMenu()
 		{
-			return Content(PageService.GetBootStrapNavMenu(Context));
+			var pageService = PageService as PageService;
+			if (pageService == null)
+				return Content("");
+
+			return Content(pageService.GetBootStrapNavMenu(Context));
 		}
 		
 		/// <summary>

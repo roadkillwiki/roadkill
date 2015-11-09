@@ -17,7 +17,7 @@ namespace Roadkill.Tests.Acceptance.Smoke
 		[SetUp]
 		public void Setup()
 		{
-			BaseUrl = "http://demo.roadkillwiki.net";
+			BaseUrl = "http://roadkilldemo.azurewebsites.net";
 			Driver.Navigate().GoToUrl(BaseUrl);
 		}
 
