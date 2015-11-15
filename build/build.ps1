@@ -26,7 +26,7 @@ nuget restore $solutionFile
 # Build the sln file
 Write-Host "Building $solutionFile." -ForegroundColor Green
 
-& $msbuild $solutionFile /p:Configuration=$configuration /p:RunOctoPack=true /p:OctoPackPublishPackageToFileShare="$octopackTargetDir" /p:Platform=$platform /target:Build /verbosity:minimal /p:WarningLevel=1
+& $msbuild $solutionFile /p:Configuration=$configuration /p:RunOctoPack=true /p:OctoPackPublishPackageToFileShare="$octopackTargetDir" /p:Platform=$platform /target:Build /verbosity:minimal /p:WarningLevel=0
 if ($LastExitCode -ne 0)
 {
     throw "Building solution failed."
