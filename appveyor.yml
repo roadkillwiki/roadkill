@@ -24,7 +24,7 @@ test:
     - Integration
 
 after_test:
-  - packages\OpenCover.4.6.166\tools\OpenCover.Console.exe -register:user -filter:"+[Roadkill*]* -[Roadkill.Tests*]*" -target:"packages\NUnit.Runners.2.6.4\tools\nunit-console.exe" -targetargs:"/noshadow /domain:single /include=Unit,Integration src\Roadkill.Tests\bin\release\Roadkill.Tests.dll" -output:coverage.xml
+  - packages\OpenCover.4.6.166\tools\OpenCover.Console.exe -register:user -filter:"+[Roadkill*]* -[Roadkill.Tests*]* -[*]HtmlDiff* -[*]*Exception* -[*]*.Designer.cs" -target:"packages\NUnit.Runners.2.6.4\tools\nunit-console.exe" -targetargs:"/noshadow /domain:single /include=Unit,Integration src\Roadkill.Tests\bin\release\Roadkill.Tests.dll" -output:coverage.xml
   - packages\coveralls.io.1.3.4\tools\coveralls.net.exe --opencover coverage.xml
   - ps: >- 
        Copy-item -Path "lib\configs\connectionStrings.config" -Destination "src\Roadkill.Web\connectionStrings.config";
