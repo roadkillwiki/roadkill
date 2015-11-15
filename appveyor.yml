@@ -9,16 +9,15 @@ services:
 
 environment:
   ConnectionString: Server=(local)\SQL2012SP1;Database=master;User ID=sa;Password=Password12!
-  
-after_build:
-  - ps: >- 
-       .\build\appveyor\set-connectionstrings.ps1;
+  COVERALLS_REPO_TOKEN:  
+    secure: VwMSUv6m2x21/AfgTZY9+hxfSBAjRL0gScLpmwpZk6W0LujzCZ1atvFGBRT5HGrC
 
-configuration:
-  - Release;RunOctoPack=true
+cache:
+  - packages ->  **\packages.config
 
 build_script:
-  - ps: msbuild roadkill.sln /verbosity:minimal /p:WarningLevel=3 "/p:Configuration=Release;RunOctoPack=true"
+    - ps: .\build\build.ps1
+
   
 test:
   categories:
@@ -30,17 +29,5 @@ after_test:
        Copy-item -Path "lib\configs\connectionStrings.config" -Destination "src\Roadkill.Web\connectionStrings.config";
        del "src\Roadkill.Web\Web.Debug.config";  
        del "src\Roadkill.Web\Web.Release.config";  
-
-artifacts:
-  - path: src\Roadkill.Web\obj\octopacked\*.nupkg
-
-deploy:
-  - provider: GitHub
-    artifact: src\Roadkill.Web\obj\octopacked\*.nupkg
-    draft: false
-    prerelease: true
-    auth_token: 
-        secure: Tat27Q1Y34VPg4IwJk8sqLaw5qRtIyR0huJnSgDowvB2+YRPRtx6vwdLNuMY0S7P
-    on:
-      branch: master
-      appveyor_repo_tag: true       # deploy on tag push only
+  - packages\OpenCover.4.6.166\tools\OpenCover.Console.exe -register:user -filter:"+[Roadkill*]*" -target:"packages\NUnit.Runners.2.6.4\tools\nunit-console.exe" -targetargs:"/noshadow /domain:single  src\Roadkill.Tests\bin\release\Roadkill.Tests.dll" -output:coverage.xml
+  - packages\coveralls.io.1.3.4\tools\coveralls.net.exe --opencover coverage.xml
