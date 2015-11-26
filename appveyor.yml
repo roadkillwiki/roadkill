@@ -2,6 +2,10 @@ version: 2.0.{build}
 shallow_clone: true
 clone_depth: 1
 
+branches:
+  only:
+    - master
+
 services: 
   - mssql2012sp1
   - iis
