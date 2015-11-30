@@ -1,1 +1,0 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Roadkill.Core.RoadkillApplication" Language="C#" %>
