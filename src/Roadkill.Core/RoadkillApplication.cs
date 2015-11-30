@@ -2,16 +2,10 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System;
-using Roadkill.Core.Attachments;
-using StructureMap;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Converters;
-using System.Web.Optimization;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Mvc;
-using System.IO;
 using Roadkill.Core.DI;
-using Roadkill.Core.Mvc;
 using System.Web.Http;
 
 namespace Roadkill.Core
@@ -47,7 +41,6 @@ namespace Roadkill.Core
 			// Register routes and JS/CSS bundles
 			Routing.RegisterApi(GlobalConfiguration.Configuration);
 			Routing.Register(RouteTable.Routes);
-			Bundles.Register();		
 
 			// Custom view engine registration (to add new search paths)
 			ExtendedRazorViewEngine.Register();

@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("C.Small")]
 [assembly: AssemblyProduct("Roadkill.Core")]
-[assembly: AssemblyCopyright("Copyright © C.Small 2013")]
+[assembly: AssemblyCopyright("Copyright © C.Small 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,6 +33,6 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("2.0.*")]
-[assembly: AssemblyFileVersion("2.0.300")]
-[assembly: AssemblyInformationalVersion("2.0.300")]// Do not include spaces (as it's used by the Bundles)
+[assembly: AssemblyFileVersion("2.0.400")]
+[assembly: AssemblyInformationalVersion("2.0.400")]// Do not include spaces (as it's used by the CSS/Javascript tags as ?v=)
 [assembly: InternalsVisibleTo("Roadkill.Tests")]

@@ -33,7 +33,6 @@ namespace Roadkill.Tests.Unit
 		private ApplicationSettings _applicationSettings;
 		private IUserContext _context;
 		private UserServiceMock _userService;
-		private SettingsService _settingsService;
 		private ConfigReaderWriterStub _configReaderWriter;
 		private ActiveDirectoryProviderMock _activeDirectoryProviderMock;
 
@@ -48,12 +47,11 @@ namespace Roadkill.Tests.Unit
 			_applicationSettings.Installed = false;
 
 			_context = _container.UserContext;
-			_settingsService = _container.SettingsService;
 			_userService = _container.UserService;
 			_configReaderWriter = new ConfigReaderWriterStub();
 			_activeDirectoryProviderMock = new ActiveDirectoryProviderMock();
 
-			_configTesterController = new ConfigurationTesterController(_applicationSettings, _context, _configReaderWriter, _activeDirectoryProviderMock);
+			_configTesterController = new ConfigurationTesterController(_applicationSettings, _context, _configReaderWriter, _activeDirectoryProviderMock, _userService);
 		}
 
 		[Test]

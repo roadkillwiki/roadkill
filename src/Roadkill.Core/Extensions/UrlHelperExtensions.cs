@@ -1,27 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Web.Mvc;
-using System.Web.Mvc.Html;
-using Roadkill.Core.Converters;
-using System.Web;
-using System.Text.RegularExpressions;
-using Recaptcha;
-using System.Web.UI;
-using System.IO;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Services;
-using StructureMap;
-using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
-using Roadkill.Core.Attachments;
-using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Localization;
-using Roadkill.Core.DI;
-using System.Linq.Expressions;
-using Roadkill.Core.Mvc.Controllers;
-using System.Web.Optimization;
-using Roadkill.Core.Mvc;
 
 namespace Roadkill.Core.Extensions
 {
@@ -53,7 +32,7 @@ namespace Roadkill.Core.Extensions
 				path = "~/Assets/CSS/" + relativePath;
 
 			path = helper.Content(path);
-			string html = string.Format("<link href=\"{0}?version={1}\" rel=\"stylesheet\" type=\"text/css\" />", path, ApplicationSettings.ProductVersion);
+			string html = $"<link href=\"{path}?version={ApplicationSettings.ProductVersion}\" rel=\"stylesheet\" type=\"text/css\" />";
 
 			return MvcHtmlString.Create(html);
 		}
@@ -70,7 +49,7 @@ namespace Roadkill.Core.Extensions
 				path = "~/Assets/Scripts/" + relativePath;
 
 			path = helper.Content(path);
-			string html = string.Format("<script type=\"text/javascript\" language=\"javascript\" src=\"{0}?version={1}\"></script>", path, ApplicationSettings.ProductVersion);
+			string html = $"<script type=\"text/javascript\" language=\"javascript\" src=\"{path}?version={ApplicationSettings.ProductVersion}\"></script>";
 
 			return MvcHtmlString.Create(html);
 		}
@@ -80,10 +59,7 @@ namespace Roadkill.Core.Extensions
 		/// </summary>
 		public static MvcHtmlString InstallerScriptLink(this UrlHelper helper, string filename)
 		{
-			string path = helper.Content("~/Assets/Scripts/roadkill/installer/" + filename);
-			string html = string.Format("<script type=\"text/javascript\" language=\"javascript\" src=\"{0}?version={1}\"></script>", path, ApplicationSettings.ProductVersion);
-
-			return MvcHtmlString.Create(html);
+			return ScriptLink(helper, "~/Assets/Scripts/roadkill/installer/" + filename);
 		}
 
 		/// <summary>
@@ -91,10 +67,7 @@ namespace Roadkill.Core.Extensions
 		/// </summary>
 		public static MvcHtmlString BootstrapCSS(this UrlHelper helper)
 		{
-			string path = helper.Content("~/Assets/bootstrap/css/bootstrap.min.css");
-			string html = string.Format("<link href=\"{0}?version={1}\" rel=\"stylesheet\" type=\"text/css\" />", path, ApplicationSettings.ProductVersion);
-			
-			return MvcHtmlString.Create(html);
+			return CssLink(helper, "~/Assets/bootstrap/css/bootstrap.min.css");
 		}
 
 		/// <summary>
@@ -102,12 +75,11 @@ namespace Roadkill.Core.Extensions
 		/// </summary>
 		public static MvcHtmlString BootstrapJS(this UrlHelper helper)
 		{
-			string bootStrapPath = helper.Content("~/Assets/bootstrap/js/bootstrap.min.js");
-			string respondPath = helper.Content("~/Assets/bootstrap/js/respond.min.js");
+			string html = ScriptLink(helper, "~/Assets/bootstrap/js/bootstrap.min.js").ToHtmlString();
+			html += "\n";
 
-			string html = string.Format("<script type=\"text/javascript\" language=\"javascript\" src=\"{0}?version={1}\"></script>", bootStrapPath, ApplicationSettings.ProductVersion);
-			html += string.Format("\n<script type=\"text/javascript\" language=\"javascript\" src=\"{0}?version={1}\"></script>", respondPath, ApplicationSettings.ProductVersion);
-		
+			html += ScriptLink(helper, "~/Assets/bootstrap/js/respond.min.js").ToHtmlString();
+
 			return MvcHtmlString.Create(html);
 		}
 
@@ -117,14 +89,9 @@ namespace Roadkill.Core.Extensions
 		public static MvcHtmlString JsBundle(this UrlHelper helper)
 		{
 			StringBuilder builder = new StringBuilder();
-			string mainJs = Scripts.Render("~/Assets/Scripts/" + Bundles.JsFilename).ToHtmlString();
-			mainJs = mainJs.Replace("\r\n", ""); // remove these newlines, the newlines are done in the view
-			builder.AppendLine(mainJs);
 
-			string jsVars = "";
-			jsVars = ScriptLink(helper, "~/home/globaljsvars").ToHtmlString();
-			jsVars = jsVars.Replace("\r\n", ""); // more cleanup to tidy the HTML up
-			builder.Append(jsVars, 2);
+			builder.AppendLine(ScriptLink(helper, "~/Assets/Scripts/roadkill.min.js").ToHtmlString());
+			builder.AppendLine(ScriptLink(helper, "~/home/globaljsvars").ToHtmlString());
 
 			return MvcHtmlString.Create(builder.ToString());
 		}
@@ -134,8 +101,7 @@ namespace Roadkill.Core.Extensions
 		/// </summary>
 		public static MvcHtmlString CssBundle(this UrlHelper helper)
 		{
-			string html = Styles.Render("~/Assets/CSS/" + Bundles.CssFilename).ToHtmlString();
-			html = html.Replace("\r\n", ""); // done in the view
+			string html = CssLink(helper, "~/Assets/CSS/roadkill.css").ToHtmlString();
 			return MvcHtmlString.Create(html);
 		}
 	}

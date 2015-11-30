@@ -26,13 +26,22 @@ namespace Roadkill.Core.Mvc.Controllers
 		private IUserContext _userContext;
 		private ConfigReaderWriter _configReaderWriter;
 		private IActiveDirectoryProvider _activeDirectoryProvider;
+		private readonly UserServiceBase _userService;
 
-		public ConfigurationTesterController(ApplicationSettings appSettings, IUserContext userContext, ConfigReaderWriter configReaderWriter, IActiveDirectoryProvider activeDirectoryProvider) 
+		public ConfigurationTesterController(ApplicationSettings appSettings, IUserContext userContext, ConfigReaderWriter configReaderWriter, IActiveDirectoryProvider activeDirectoryProvider, UserServiceBase userService) 
 		{
 			_applicationSettings = appSettings;
 			_userContext = userContext;
 			_configReaderWriter = configReaderWriter;
 			_activeDirectoryProvider = activeDirectoryProvider;
+			_userService = userService;
+		}
+
+		protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		{
+			_userContext.CurrentUser = _userService.GetLoggedInUserName(HttpContext);
+			ViewBag.Context = _userContext;
+			ViewBag.Config = _applicationSettings;
 		}
 
 		/// <summary>

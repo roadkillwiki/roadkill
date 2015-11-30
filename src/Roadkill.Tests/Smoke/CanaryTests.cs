@@ -31,6 +31,7 @@ namespace Roadkill.Tests.Acceptance.Smoke
 		}
 
 		[Test]
+		[Ignore("Moving to swagger")]
 		public void WebApi_Help_Page_Has_Known_Text()
 		{
 			// Arrange

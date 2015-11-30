@@ -288,10 +288,6 @@
       <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
       <Private>True</Private>
@@ -386,7 +382,6 @@
     <Compile Include="Mvc\WebApi\SearchController.cs" />
     <Compile Include="Mvc\WebApi\PagesController.cs" />
     <Compile Include="Mvc\Controllers\SiteSettings\PluginSettingsController.cs" />
-    <Compile Include="Mvc\Setup\Bundles.cs" />
     <Compile Include="Mvc\Setup\ExtendedRazorViewEngine.cs" />
     <Compile Include="Mvc\Controllers\FileManagerController.cs" />
     <Compile Include="Mvc\Setup\Routing.cs" />
