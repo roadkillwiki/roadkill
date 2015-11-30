@@ -141,19 +141,5 @@ namespace Roadkill.Tests.Unit
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
 		}
-
-		[Test]
-		[Ignore]
-		public void JsBundle_Should_Should_Return_Expected_Html()
-		{
-			// System.Web.Optimization.Scripts can't be tested (it uses HttpContext internally)
-		}
-
-		[Test]
-		[Ignore]
-		public void CssBundle_Should_Return_Expected_Html()
-		{
-			// System.Web.Optimization.Styles can't be tested (it uses HttpContext internally)
-		}
 	}
 }

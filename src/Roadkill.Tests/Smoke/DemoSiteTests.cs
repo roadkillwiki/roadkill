@@ -12,6 +12,7 @@ namespace Roadkill.Tests.Acceptance.Smoke
 	/// </summary>
 	[TestFixture]
 	[Category("Smoke")]
+	[Explicit]
 	public class DemoSiteTests : AcceptanceTestBase
 	{
 		[SetUp]

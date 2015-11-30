@@ -95,3 +95,12 @@ src/Roadkill.Web/App_Data/Export/
 !**/packages/build/
 # Uncomment if necessary however generally it will be regenerated when needed
 #!**/packages/repositories.config
+
+# Grunt
+node_modules/
+bower_components/
+.sass-cache/
+
+# Ignore Roadkill CSS/JS files as they're generated on build
+roadkill.min.js
+**/Assets/CSS/*.css

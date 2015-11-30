@@ -263,10 +263,6 @@
       <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
       <Private>True</Private>
@@ -289,10 +285,6 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Attachments\emptyfile.txt" />
@@ -318,12 +310,11 @@
     <Content Include="Assets\Bootstrap\js\bootstrap.js" />
     <Content Include="Assets\Bootstrap\js\bootstrap.min.js" />
     <Content Include="Assets\Bootstrap\js\respond.min.js" />
-    <Content Include="Assets\CSS\apihelp.css" />
-    <Content Include="Assets\CSS\htmldiff.css" />
     <Content Include="Assets\CSS\images\animated-overlay.gif" />
     <Content Include="Assets\CSS\images\blank.gif" />
     <Content Include="Assets\CSS\images\plugin-disabled.png" />
     <Content Include="Assets\CSS\images\plugin-enabled.png" />
+    <Content Include="Assets\CSS\images\ui-bg_glass_75_ffffff_1x400.png" />
     <Content Include="Assets\Images\filemanager\cancel.png" />
     <Content Include="Assets\Images\filemanager\directory.png" />
     <Content Include="Assets\Images\filemanager\file.png" />
@@ -341,16 +332,12 @@
     <Content Include="Assets\CSS\images\ui-icons_454545_256x240.png" />
     <Content Include="Assets\CSS\images\ui-icons_888888_256x240.png" />
     <Content Include="Assets\CSS\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Assets\CSS\jquery-ui-bootstrap.css" />
-    <Content Include="Assets\CSS\jquery.fileupload.css" />
-    <Content Include="Assets\CSS\roadkill.installer.css" />
     <Content Include="Assets\Images\button-loading.gif" />
     <Content Include="Assets\Images\favicon.png" />
     <Content Include="Assets\Images\installer-ex-chicken.png" />
     <Content Include="Assets\Bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Assets\Bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Assets\Bootstrap\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Assets\CSS\tagmanager.css" />
     <Content Include="Assets\Images\roadkill.png" />
     <Content Include="Assets\opensearch.xml">
       <SubType>Designer</SubType>
@@ -370,9 +357,18 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Areas\SiteSettings\Views\_ViewStart.cshtml" />
+    <Content Include="Assets\CSS\roadkill.installer.scss" />
+    <Content Include="Assets\CSS\roadkill.scss" />
+    <Content Include="Assets\CSS\_apihelp.scss" />
+    <Content Include="Assets\CSS\_htmldiff.scss" />
+    <Content Include="Assets\CSS\_jquery-ui-bootstrap.scss" />
+    <Content Include="Assets\CSS\_jquery.fileupload.scss" />
+    <Content Include="Assets\CSS\_tagmanager.scss" />
+    <Content Include="Assets\CSS\_toastr.scss" />
     <None Include="Assets\Scripts\roadkill\typescript-ref\constants.ts" />
     <None Include="Assets\Scripts\roadkill\typescript-ref\references.ts" />
     <Content Include="Assets\Scripts\shared\head.js" />
+    <Content Include="gruntfile.js" />
     <Content Include="Plugins\ExternalLinksInNewWindow\externallinksinnewwindow.js" />
     <Content Include="Plugins\ClickableImages\clickableimages.js" />
     <Content Include="Plugins\ResizeImages\resizeimages.css" />
@@ -505,7 +501,6 @@
     <Content Include="Assets\Scripts\roadkill\editpage\wysiwygeditor.js">
       <DependentUpon>wysiwygeditor.ts</DependentUpon>
     </Content>
-    <Content Include="Assets\CSS\toastr.css" />
     <Content Include="Plugins\Toc\toc.js" />
     <Content Include="Plugins\Toc\toc.css" />
     <Content Include="Roadkill.config">
@@ -514,6 +509,7 @@
     <Content Include="Assets\web.config" />
     <Content Include="connectionStrings.config" />
     <Content Include="NLog.config" />
+    <Content Include="package.json" />
     <None Include="packages.config" />
     <Content Include="Plugins\Web.config" />
     <Content Include="Plugins\_ViewStart.cshtml" />
@@ -534,7 +530,6 @@
     <Content Include="Views\Help\MediaWikiReference.cshtml" />
     <Content Include="Views\Help\MarkdownReference.cshtml" />
     <Content Include="Views\Help\CreoleReference.cshtml" />
-    <Content Include="Assets\CSS\roadkill.css" />
     <Content Include="Assets\Scripts\jquery\jquery.timeago.js" />
     <Content Include="Assets\Images\white-loading.gif" />
     <Content Include="Themes\BlackBar\Theme.css" />

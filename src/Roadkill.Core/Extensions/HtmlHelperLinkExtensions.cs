@@ -1,20 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using Roadkill.Core.Localization;
-using System.Globalization;
-using StructureMap;
-using Roadkill.Core.Configuration;
 using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
 using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
-using System.Web.Optimization;
-using System.Web;
-using Roadkill.Core.Plugins.Text.BuiltIn;
-using Roadkill.Core.Mvc;
 using Roadkill.Core.DI;
 
 namespace Roadkill.Core.Extensions
