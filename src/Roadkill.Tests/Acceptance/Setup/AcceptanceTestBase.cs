@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Configuration;
-using System.Data.SqlClient;
-using System.IO;
-using System.Net.Mail;
-using System.Reflection;
 using NUnit.Framework;
 using OpenQA.Selenium;
 
