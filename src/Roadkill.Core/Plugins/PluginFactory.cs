@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.DI;
+using Roadkill.Core.DependencyResolution;
+using Roadkill.Core.DependencyResolution.StructureMap;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Plugins.Text.BuiltIn;
 using Roadkill.Core.Plugins.SpecialPages;
@@ -14,16 +16,28 @@ using StructureMap;
 namespace Roadkill.Core.Plugins
 {
 	/// <summary>
-	/// The default <see cref="IPluginFactory"/> implementation, that uses the <see cref="ServiceLocator"/> class.
+	/// The default <see cref="IPluginFactory"/> implementation, that uses the <see cref="StructureMapServiceLocator"/> class.
 	/// </summary>
 	public class PluginFactory : IPluginFactory
 	{
+		private readonly StructureMapServiceLocator _serviceLocator;
+
+		public PluginFactory()
+		{
+			_serviceLocator = LocatorStartup.Locator;
+		}
+
+		internal PluginFactory(StructureMapServiceLocator locator)
+		{
+			_serviceLocator = locator;
+		}
+
 		/// <summary>
 		/// Allows additional text plugins to be registered at runtime.
 		/// </summary>
 		public void RegisterTextPlugin(TextPlugin plugin)
 		{
-			ServiceLocator.RegisterType<TextPlugin>(plugin);
+			_serviceLocator.RegisterType<TextPlugin>(plugin);
 		}
 
 		/// <summary>
@@ -31,7 +45,7 @@ namespace Roadkill.Core.Plugins
 		/// </summary>
 		public IEnumerable<TextPlugin> GetTextPlugins()
 		{
-			return ServiceLocator.GetAllInstances<TextPlugin>();
+			return _serviceLocator.GetAllInstances<TextPlugin>();
 		}
 
 		/// <summary>
@@ -39,7 +53,7 @@ namespace Roadkill.Core.Plugins
 		/// </summary>
 		public IEnumerable<TextPlugin> GetEnabledTextPlugins()
 		{
-			return ServiceLocator.GetAllInstances<TextPlugin>().Where(x => x.Settings.IsEnabled);
+			return _serviceLocator.GetAllInstances<TextPlugin>().Where(x => x.Settings.IsEnabled);
 		}
 
 		/// <summary>
@@ -47,12 +61,12 @@ namespace Roadkill.Core.Plugins
 		/// </summary>
 		public TextPlugin GetTextPlugin(string id)
 		{
-			return ServiceLocator.GetAllInstances<TextPlugin>().FirstOrDefault(x => x.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
+			return _serviceLocator.GetAllInstances<TextPlugin>().FirstOrDefault(x => x.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
 		}
 
 		public IEnumerable<SpecialPagePlugin> GetSpecialPagePlugins()
 		{
-			return ServiceLocator.GetAllInstances<SpecialPagePlugin>();
+			return _serviceLocator.GetAllInstances<SpecialPagePlugin>();
 		}
 
 		/// <summary>
@@ -60,7 +74,7 @@ namespace Roadkill.Core.Plugins
 		/// </summary>
 		public SpecialPagePlugin GetSpecialPagePlugin(string name)
 		{
-			return ServiceLocator.GetAllInstances<SpecialPagePlugin>().FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+			return _serviceLocator.GetAllInstances<SpecialPagePlugin>().FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 		}
 
 		/// <summary>

@@ -19,7 +19,7 @@ using System.Runtime.Caching;
 using System.Threading;
 using Roadkill.Tests.Unit.StubsAndMocks;
 using MvcContrib.TestHelper;
-using Roadkill.Core.DI;
+using Roadkill.Core.DependencyResolution;
 using StructureMap;
 
 namespace Roadkill.Tests.Unit
@@ -427,6 +427,7 @@ namespace Roadkill.Tests.Unit
 		public void Finalize_Should_Install_And_Save_Site_Settings()
 		{
 			// Arrange
+			LocatorStartup.StartMVC();
 			SettingsViewModel existingModel = new SettingsViewModel();
 			existingModel.Theme = "ChewbaccaOnHolidayTheme";
 			SetMockDataStoreType(existingModel);
@@ -435,7 +436,7 @@ namespace Roadkill.Tests.Unit
 			_installController.FinalizeInstall(existingModel);
 
 			// Assert
-			RepositoryMock repository = (RepositoryMock) ObjectFactory.GetInstance<IRepository>();
+			RepositoryMock repository = (RepositoryMock)LocatorStartup.Locator.GetInstance<IRepository>();
 			Assert.That(repository.Installed, Is.True);
 			SiteSettings settings = _settingsService.GetSiteSettings();
 			Assert.That(settings.Theme, Is.EqualTo("ChewbaccaOnHolidayTheme"));

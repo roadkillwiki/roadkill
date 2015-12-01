@@ -5,7 +5,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.DI;
+using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.Security;
 using Roadkill.Core.Services;
 using StructureMap.Attributes;

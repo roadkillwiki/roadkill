@@ -6,10 +6,12 @@ using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.DependencyResolution;
+using Roadkill.Core.DependencyResolution.StructureMap;
 using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.DI;
 using Roadkill.Core.Security;
+using Roadkill.Tests.Setup;
 
 namespace Roadkill.Tests.Unit
 {
@@ -170,9 +172,7 @@ namespace Roadkill.Tests.Unit
 			};
 
 			RepositoryMock repository = new RepositoryMock();
-
-			DependencyManager iocSetup = new DependencyManager(appSettings, repository, new UserContext(null)); // context isn't used
-			iocSetup.Configure();
+			IocHelper.ConfigureLocator(appSettings);
 			SettingsService settingsService = new SettingsService(appSettings, repository);
 
 			// Act

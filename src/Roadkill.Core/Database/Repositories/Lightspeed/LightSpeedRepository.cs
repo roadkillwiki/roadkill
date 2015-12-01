@@ -5,13 +5,12 @@ using System.Linq;
 using Mindscape.LightSpeed;
 using Mindscape.LightSpeed.Caching;
 using Mindscape.LightSpeed.Linq;
-using Mindscape.LightSpeed.Logging;
 using Mindscape.LightSpeed.Querying;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Database.Schema;
+using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Plugins;
-using StructureMap;
+using StructureMap.Web;
 using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Core.Database.LightSpeed
@@ -48,7 +47,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			get
 			{
-				LightSpeedContext context = ObjectFactory.GetInstance<LightSpeedContext>();
+				LightSpeedContext context = DependencyResolution.LocatorStartup.Locator.GetInstance<LightSpeedContext>();
 				if (context == null)
 					throw new DatabaseException("The context for Lightspeed is null - has Startup() been called?", null);
 
@@ -62,9 +61,12 @@ namespace Roadkill.Core.Database.LightSpeed
 			{
 				EnsureConectionString();
 
-				IUnitOfWork unitOfWork = ObjectFactory.GetInstance<IUnitOfWork>();
+				IUnitOfWork unitOfWork = DependencyResolution.LocatorStartup.Locator.GetInstance<IUnitOfWork>();
 				if (unitOfWork == null)
-					throw new DatabaseException("The IUnitOfWork for Lightspeed is null - has Startup() been called?", null);
+				{
+					string debug = DependencyResolution.LocatorStartup.Locator.Container.WhatDoIHave();
+                    throw new DatabaseException("The IUnitOfWork for Lightspeed is null - has Startup() been called?" + debug, null);
+				}
 
 				return unitOfWork;
 			}
@@ -80,25 +82,17 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			if (!string.IsNullOrEmpty(connectionString))
 			{
-				LightSpeedContext context = new LightSpeedContext();
-				context.ConnectionString = connectionString;
-				context.DataProvider = dataStoreType.LightSpeedDbType;
-				context.IdentityMethod = IdentityMethod.GuidComb;
-				context.CascadeDeletes = true;
-
-				if (_applicationSettings.IsLoggingEnabled)
-				{
-					context.VerboseLogging = true;
-					context.Logger = new DatabaseLogger();
-				}
+				LightSpeedContext context = CreateLightSpeedContext(dataStoreType, connectionString);
 
 				if (enableCache)
 					context.Cache = new CacheBroker(new DefaultCache());
 
-				ObjectFactory.Configure(x =>
+				LocatorStartup.Locator.Container.Configure(c => c.For<LightSpeedContext>().Singleton().Use(context));
+				LocatorStartup.Locator.Container.Configure(c =>
 				{
-					x.For<LightSpeedContext>().Singleton().Use(context);
-					x.For<IUnitOfWork>().HybridHttpOrThreadLocalScoped().Use(ctx => ctx.GetInstance<LightSpeedContext>().CreateUnitOfWork());
+					c.For<IUnitOfWork>()
+						.HybridHttpOrThreadLocalScoped()
+						.Use(ctx => ctx.GetInstance<LightSpeedContext>().CreateUnitOfWork());
 				});
 			}
 			else
@@ -107,11 +101,26 @@ namespace Roadkill.Core.Database.LightSpeed
 			}
 		}
 
+		private LightSpeedContext CreateLightSpeedContext(DataStoreType dataStoreType, string connectionString)
+		{
+			LightSpeedContext context = new LightSpeedContext();
+			context.ConnectionString = connectionString;
+			context.DataProvider = dataStoreType.LightSpeedDbType;
+			context.IdentityMethod = IdentityMethod.GuidComb;
+			context.CascadeDeletes = true;
+
+			if (_applicationSettings.IsLoggingEnabled)
+			{
+				context.VerboseLogging = true;
+				context.Logger = new DatabaseLogger();
+			}
+
+			return context;
+		}
+
 		public void TestConnection(DataStoreType dataStoreType, string connectionString)
 		{
-			LightSpeedContext context = ObjectFactory.GetInstance<LightSpeedContext>();
-			if (context == null)
-				throw new InvalidOperationException("Repository.Test failed - LightSpeedContext was null from the ObjectFactory");
+			LightSpeedContext context = CreateLightSpeedContext(dataStoreType, connectionString);
 
 			using (IDbConnection connection = context.DataProviderObjectFactory.CreateConnection())
 			{
@@ -124,9 +133,9 @@ namespace Roadkill.Core.Database.LightSpeed
 		#region ISettingsRepository
 		public void Install(DataStoreType dataStoreType, string connectionString, bool enableCache)
 		{
-			LightSpeedContext context = ObjectFactory.GetInstance<LightSpeedContext>();
+			LightSpeedContext context = LocatorStartup.Locator.GetInstance<LightSpeedContext>();
 			if (context == null)
-				throw new InvalidOperationException("Repository.Install failed - LightSpeedContext was null from the ObjectFactory");
+				throw new InvalidOperationException("Repository.Install failed - LightSpeedContext was null from the LocatorStartup");
 
 			using (IDbConnection connection = context.DataProviderObjectFactory.CreateConnection())
 			{

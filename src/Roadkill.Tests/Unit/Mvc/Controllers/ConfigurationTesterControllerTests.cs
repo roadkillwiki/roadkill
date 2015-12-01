@@ -19,7 +19,9 @@ using System.Runtime.Caching;
 using System.Threading;
 using Roadkill.Tests.Unit.StubsAndMocks;
 using MvcContrib.TestHelper;
-using Roadkill.Core.DI;
+using Roadkill.Core.DependencyResolution;
+using Roadkill.Core.DependencyResolution.StructureMap;
+using Roadkill.Tests.Setup;
 using StructureMap;
 
 namespace Roadkill.Tests.Unit
@@ -224,13 +226,13 @@ namespace Roadkill.Tests.Unit
 		public void TestDatabaseConnection_Should_Allow_Get_And_Return_Json_Result_And_TestResult_With_No_Errors()
 		{
 			// Arrange
+			IocHelper.ConfigureLocator();
+
 			string sqlCeDbPath = Path.Combine(Settings.LIB_FOLDER, "Empty-databases", "roadkill.sdf");
 			string sqlCeDbDestPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testdatabase.sdf");
 			File.Copy(sqlCeDbPath, sqlCeDbDestPath, true);
 
 			string connectionString = @"Data Source=|DataDirectory|\testdatabase.sdf";
-			DependencyManager manager = new DependencyManager(new ApplicationSettings());
-			manager.Configure();
 
 			// Act
 			JsonResult result = _configTesterController.TestDatabaseConnection(connectionString, "SqlServerCE") as JsonResult;
@@ -250,8 +252,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			string connectionString = "invalid connection string";
-			DependencyManager manager = new DependencyManager(new ApplicationSettings());
-			manager.Configure();
+			IocHelper.ConfigureLocator();
 
 			// Act
 			JsonResult result = _configTesterController.TestDatabaseConnection(connectionString, "SqlServerCE") as JsonResult;

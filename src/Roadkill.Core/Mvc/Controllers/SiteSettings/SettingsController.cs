@@ -17,7 +17,6 @@ using Roadkill.Core.Database.Export;
 using Roadkill.Core.Database;
 using Roadkill.Core.Plugins;
 using Roadkill.Core.Attachments;
-using Roadkill.Core.DI;
 
 namespace Roadkill.Core.Mvc.Controllers
 {

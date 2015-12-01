@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.Localization;
 using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
 using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.DI;
 
 namespace Roadkill.Core.Extensions
 {
@@ -154,7 +154,7 @@ namespace Roadkill.Core.Extensions
 		/// <returns>If the page is not found, the link text is returned.</returns>
 		public static MvcHtmlString PageLink(this HtmlHelper helper, string linkText, string pageTitle, object htmlAttributes,string prefix,string suffix)
 		{
-			IPageService pageService = ServiceLocator.GetInstance<IPageService>();
+			IPageService pageService = DependencyResolution.LocatorStartup.Locator.GetInstance<IPageService>();
 			PageViewModel model = pageService.FindByTitle(pageTitle);
 			if (model != null)
 			{

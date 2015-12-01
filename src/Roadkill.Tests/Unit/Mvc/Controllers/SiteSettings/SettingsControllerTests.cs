@@ -19,7 +19,6 @@ using System.Runtime.Caching;
 using MvcContrib.TestHelper;
 using StructureMap;
 using System.IO;
-using Roadkill.Core.DI;
 
 namespace Roadkill.Tests.Unit
 {

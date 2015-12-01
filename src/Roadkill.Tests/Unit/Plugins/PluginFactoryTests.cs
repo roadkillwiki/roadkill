@@ -4,10 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Web;
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.DependencyResolution.StructureMap;
 using Roadkill.Core.Plugins;
 using Roadkill.Tests.Unit.StubsAndMocks;
+using StructureMap;
 using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Tests.Unit.Plugins
@@ -16,6 +19,12 @@ namespace Roadkill.Tests.Unit.Plugins
 	[Category("Unit")]
 	public class PluginFactoryTests
 	{
+		private static PluginFactory CreateFactory()
+		{
+			var container = new Container();
+			return new PluginFactory(new StructureMapServiceLocator(container, false));
+		}
+
 		[Test]
 		public void CopyAssemblies_Should_Copy_All_Dlls_To_PluginsBinPath()
 		{
@@ -39,7 +48,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			if (File.Exists(plugin3Path))
 				File.Delete(plugin3Path);
 
-			PluginFactory factory = new PluginFactory();
+			PluginFactory factory = CreateFactory();
 
 			// Act
 			factory.CopyAssemblies(sourceDir, destDir);
@@ -66,7 +75,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			Thread.Sleep(250); // slow the test down slightly
 			File.WriteAllText(sourcePluginPath, "file has been updated"); // update the source plugin
 
-			PluginFactory factory = new PluginFactory();
+			PluginFactory factory = CreateFactory();
 
 			// Act
 			factory.CopyAssemblies(sourceDir, destDir);
@@ -92,7 +101,7 @@ namespace Roadkill.Tests.Unit.Plugins
 				Directory.CreateDirectory(pluginDestFolder);
 			File.WriteAllText(pluginDestPath, "dest file is more recent");  // create the plugin in the destination path so it's more recent
 
-			PluginFactory factory = new PluginFactory();
+			PluginFactory factory = CreateFactory();
 
 			// Act
 			factory.CopyAssemblies(sourceDir, destDir);
@@ -124,7 +133,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		public void GetTextPlugin_Should_Return_Null_When_Plugin_Is_Not_Registered()
 		{
 			// Arrange
-			PluginFactory factory = new PluginFactory();
+			PluginFactory factory = CreateFactory();
 
 			// Act
 			TextPlugin plugin = factory.GetTextPlugin("doesntexist");
@@ -137,7 +146,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		public void RegisterTextPlugin_Should_Register_Plugin_And_GetTextPlugin_Should_Return_Plugin()
 		{
 			// Arrange
-			PluginFactory factory = new PluginFactory();
+			PluginFactory factory = CreateFactory();
 			TextPluginStub pluginStub = new TextPluginStub("randomid", "name", "desc");
 
 			// Act
@@ -152,7 +161,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		public void GetTextPlugins_Should_Return_All_Plugins()
 		{
 			// Arrange
-			PluginFactory factory = new PluginFactory();
+			PluginFactory factory = CreateFactory();
 			TextPluginStub plugin1Stub = new TextPluginStub("plugin1", "name", "desc");
 			TextPluginStub plugin2Stub = new TextPluginStub("plugin2", "name", "desc");
 			factory.RegisterTextPlugin(plugin1Stub);

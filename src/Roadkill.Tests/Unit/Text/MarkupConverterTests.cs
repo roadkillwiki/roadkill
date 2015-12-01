@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.Caching;
-using System.Text;
 using NUnit.Framework;
-using Roadkill.Core;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
-using Roadkill.Core.Plugins;
-using Roadkill.Core.Text;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit
@@ -451,6 +444,8 @@ namespace Roadkill.Tests.Unit
 </p>
 <p></div><br style=""clear:both""/>
 </p>";
+
+			expectedHtml = expectedHtml.Replace("\r\n", "\n"); // fix line ending issues
 
 			// Act
 			string actualHtml = _markupConverter.ToHtml(@"@@warningbox:ENTER YOUR CONTENT HERE 

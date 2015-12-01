@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.DI;
 using Roadkill.Core.Logging;
 using StructureMap;
 using StructureMap.Attributes;

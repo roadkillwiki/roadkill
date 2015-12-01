@@ -10,12 +10,14 @@ using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
+using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.Extensions;
 using Roadkill.Core.Mvc;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security;
 using Roadkill.Core.Services;
+using Roadkill.Tests.Setup;
 using StructureMap;
 
 namespace Roadkill.Tests.Unit
@@ -300,8 +302,10 @@ namespace Roadkill.Tests.Unit
 		public void PageLink_Should_Render_Html_Link_With_Page_Title_And_Html_Attributes()
 		{
 			// Arrange
+			IocHelper.ConfigureLocator();
+
 			_pageService.AddPage(new PageViewModel() { Id = 7, Title = "Crispy Pancake Recipe" });
-			ObjectFactory.Configure(x => x.For<IPageService>().Use(_pageService)); // the extension uses bastard injection
+			LocatorStartup.Locator.Container.Configure(x => x.For<IPageService>().Use(_pageService)); // the extension uses bastard injection
 
 			string expectedHtml = "@<a data-merry=\"xmas\" href=\"/wiki/1/crispy%20pancake%20recipe\">captains log</a>~"; // the url will always be /wiki/1 because of the mock url setup
 
@@ -316,7 +320,8 @@ namespace Roadkill.Tests.Unit
 		public void PageLink_Should_Render_Html_With_No_Link_When_Page_Does_Not_Exist()
 		{
 			// Arrange
-			ObjectFactory.Configure(x => x.For<IPageService>().Use(_pageService)); // the extension uses bastard injection
+			IocHelper.ConfigureLocator();
+			LocatorStartup.Locator.Container.Configure(x => x.For<IPageService>().Use(_pageService)); // the extension method uses bastard injection
 
 			string expectedHtml = "captains log"; // the url will always be /wiki/1 because of the mock url setup
 

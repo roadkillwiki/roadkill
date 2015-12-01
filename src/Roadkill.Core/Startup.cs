@@ -3,7 +3,8 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Owin;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.DI;
+using Roadkill.Core.Database;
+using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Mvc;
 
@@ -13,18 +14,6 @@ namespace Roadkill.Core
 	{
 		public void Configuration(IAppBuilder app)
 		{
-			// Get the settings from the web.config
-			ConfigReaderWriter configReader = new FullTrustConfigReaderWriter("");
-			ApplicationSettings applicationSettings = configReader.GetApplicationSettings();
-
-			// Configure StructureMap dependencies
-			var iocSetup = new DependencyManager(applicationSettings);
-			iocSetup.Configure();
-			iocSetup.ConfigureMvc();
-
-			// Logging
-			Log.ConfigureLogging(applicationSettings);
-
 			// Filters
 			GlobalFilters.Filters.Add(new HandleErrorAttribute());
 
@@ -41,8 +30,20 @@ namespace Roadkill.Core
 			ExtendedRazorViewEngine.Register();
 
 			app.UseWebApi(new HttpConfiguration());
+			AdditionalDI();
 
 			Log.Information("Application started");
+		}
+
+		internal static void AdditionalDI()
+		{
+			// Setup the additional MVC DI stuff
+			var settings = LocatorStartup.Locator.GetInstance<ApplicationSettings>();
+			LocatorStartup.ConfigureAdditionalMVC(LocatorStartup.Locator.Container, settings);
+
+			// Setup the repository
+			var repository = LocatorStartup.Locator.GetInstance<IRepository>();
+			repository.Startup(settings.DataStoreType, settings.ConnectionString, settings.UseObjectCache);
 		}
 	}
 }

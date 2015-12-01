@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.DI;
+using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security;
 using Roadkill.Core.Security.Windows;
@@ -94,7 +94,8 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (InstalledAndUserIsNotAdmin())
 				return Content("");
 
-			string errors = RepositoryManager.TestDbConnection(connectionString, databaseType);
+			var repositoryManager = new RepositoryManager();
+            string errors = repositoryManager.TestDbConnection(connectionString, databaseType);
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 

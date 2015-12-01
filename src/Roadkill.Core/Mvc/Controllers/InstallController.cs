@@ -8,11 +8,11 @@ using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security.Windows;
 using System.IO;
-using Roadkill.Core.DI;
 using System.Collections.Generic;
 using System.Threading;
 using System.Globalization;
 using System.Linq;
+using Roadkill.Core.DependencyResolution;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -229,8 +229,9 @@ namespace Roadkill.Core.Mvc.Controllers
 			model.DataStoreTypeName = dataStoreType.Name;
 
 			// Update all repository references for the dependencies of this class
-			// (changing the For() in StructureMap won't do this as the references have already been created).
-			_repository = RepositoryManager.ChangeRepository(dataStoreType, model.ConnectionString, model.UseObjectCache);
+			// (changing the For() in StructureMap won't do this as the references have already been created for this Controller).
+			var repositoryManager = new RepositoryManager();
+			_repository = repositoryManager.ChangeRepository(dataStoreType, model.ConnectionString, model.UseObjectCache);
 			UserService.UpdateRepository(_repository);
 			_settingsService.UpdateRepository(_repository);
 			_searchService.UpdateRepository(_repository);
