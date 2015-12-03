@@ -12,17 +12,18 @@ namespace Roadkill.Core
 {
 	public class Startup
 	{
+		// See LocatorStartup for lots of pre-startup IoC setup that's performed.
+
 		public void Configuration(IAppBuilder app)
 		{
 			// Filters
 			GlobalFilters.Filters.Add(new HandleErrorAttribute());
 
-			// Areas are used for:
-			// - Site settings (for a cleaner view structure)
+			// Areas are used for Site settings (for a cleaner view structure)
 			// This should be called before the other routes, for some reason.
 			AreaRegistration.RegisterAllAreas();
 
-			// Register routes and JS/CSS bundles
+			// Register routes
 			Routing.RegisterApi(GlobalConfiguration.Configuration);
 			Routing.Register(RouteTable.Routes);
 
@@ -30,20 +31,8 @@ namespace Roadkill.Core
 			ExtendedRazorViewEngine.Register();
 
 			app.UseWebApi(new HttpConfiguration());
-			AdditionalDI();
 
 			Log.Information("Application started");
-		}
-
-		internal static void AdditionalDI()
-		{
-			// Setup the additional MVC DI stuff
-			var settings = LocatorStartup.Locator.GetInstance<ApplicationSettings>();
-			LocatorStartup.ConfigureAdditionalMVC(LocatorStartup.Locator.Container, settings);
-
-			// Setup the repository
-			var repository = LocatorStartup.Locator.GetInstance<IRepository>();
-			repository.Startup(settings.DataStoreType, settings.ConnectionString, settings.UseObjectCache);
 		}
 	}
 }

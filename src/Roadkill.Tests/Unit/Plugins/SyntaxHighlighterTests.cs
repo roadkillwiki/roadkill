@@ -10,10 +10,9 @@ using Roadkill.Core;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Plugins.SpecialPages.BuiltIn;
-using Roadkill.Core.Plugins.Text.BuiltIn;
 using Roadkill.Core.Security;
 using Roadkill.Core.Services;
+using Roadkill.Plugins.Text.BuiltIn;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit.Plugins

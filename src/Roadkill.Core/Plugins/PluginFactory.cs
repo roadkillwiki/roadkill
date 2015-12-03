@@ -2,16 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Web.Mvc;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Database;
 using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.DependencyResolution.StructureMap;
 using Roadkill.Core.Logging;
-using Roadkill.Core.Plugins.Text.BuiltIn;
-using Roadkill.Core.Plugins.SpecialPages;
-using StructureMap;
 
 namespace Roadkill.Core.Plugins
 {

@@ -44,8 +44,6 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 			ConfigureUserService();
 			ConfigureFileService();
 			ConfigureSetterInjection();
-
-            Log.ConfigureLogging(_applicationSettings);
 		}
 
 		private void ScanTypes(IAssemblyScanner scanner)
@@ -156,28 +154,6 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 #if !MONO
 			For<IActiveDirectoryProvider>().Use<ActiveDirectoryProvider>();
 #endif
-		}
-
-		public void RegisterCustomInstances(ApplicationSettings applicationSettings, IRepository repository, IUserContext context)
-		{
-			if (applicationSettings == null)
-				throw new IoCException("The ApplicationSettings parameter is null", null);
-
-			if (repository == null)
-				throw new IoCException("The IRepository parameter is null", null);
-
-			if (context == null)
-				throw new IoCException("The IRoadkillContext parameter is null", null);
-
-			if (applicationSettings.Installed && string.IsNullOrEmpty(applicationSettings.ConnectionString))
-				throw new DatabaseException("The configuration file's connection string is empty (and installed=true).", null);
-
-
-			For<ApplicationSettings>().HybridHttpOrThreadLocalScoped().Use(applicationSettings);
-			For<IRepository>().HybridHttpOrThreadLocalScoped().Use(repository);
-			For<IUserContext>().HybridHttpOrThreadLocalScoped().Use(context);
-
-			Log.ConfigureLogging(applicationSettings);
 		}
 
 		private void ConfigureSetterInjection()

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Roadkill.Core;
+﻿using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.DependencyResolution;
@@ -33,6 +28,13 @@ namespace Roadkill.Tests.Setup
 
 				x.For<IUserContext>().Use(new UserContextStub());
 			});
+
+			//LocatorStartup.AfterInitialization(LocatorStartup.Locator.Container, LocatorStartup.Locator.Container.GetInstance<ApplicationSettings>());
+		}
+
+		public static void ClearIoC()
+		{
+			LocatorStartup.Locator.DisposeNestedContainer();
 		}
 	}
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Plugins.SpecialPages;
 
 namespace Roadkill.Core.Plugins
 {

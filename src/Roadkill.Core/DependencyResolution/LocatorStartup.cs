@@ -1,3 +1,4 @@
+using System;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -8,21 +9,23 @@ using Roadkill.Core.Database;
 using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.DependencyResolution.MVC;
 using Roadkill.Core.DependencyResolution.StructureMap;
+using Roadkill.Core.Logging;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Services;
 using StructureMap;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(LocatorStartup), "StartMVC")]
-[assembly: WebActivatorEx.PostApplicationStartMethod(typeof(LocatorStartup), "StartWebApi")]
+[assembly: WebActivatorEx.PostApplicationStartMethod(typeof(LocatorStartup), "AfterInitialization")]
 [assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(LocatorStartup), "End")]
 
 namespace Roadkill.Core.DependencyResolution
 {
 	// This class does the following:
 	// - Is called on app startup
-	// - Creates a new Container that uses DefaultRegistry, which does the real work.
-	// - Uses a new StructureMapServiceLocator for the service locator
+	// - Creates a new Container that uses RoadkillRegistry, which does the scanning + instance mapping.
+	// - Uses a new StructureMapServiceLocator as the service locator
 	// - Uses a StructureMapScopeModule HttpModule to create a new container per request
+	// - Does additional MVC/WebApi plumbing after application start in AfterInitialization
 
 	public static class LocatorStartup
 	{
@@ -43,15 +46,25 @@ namespace Roadkill.Core.DependencyResolution
 			DynamicModuleUtility.RegisterModule(typeof(StructureMapHttpModule));
 		}
 
-		internal static void StartWebApi()
+		// Must be run **after** the app has started/initialized via WebActivor
+		public static void AfterInitialization()
+		{
+			// Setup the additional MVC DI stuff
+			var settings = Locator.GetInstance<ApplicationSettings>();
+			AfterInitializationInternal(Locator.Container, settings);
+
+			// Setup the repository
+			var repository = Locator.GetInstance<IRepository>();
+			repository.Startup(settings.DataStoreType, settings.ConnectionString, settings.UseObjectCache);
+
+			Log.ConfigureLogging(settings);
+		}
+
+		internal static void AfterInitializationInternal(IContainer container, ApplicationSettings appSettings)
 		{
 			// WebApi locator
 			GlobalConfiguration.Configuration.DependencyResolver = Locator;
-		}
 
-		// Must be run **after** the app has started/initialized via WebActivor
-		public static void ConfigureAdditionalMVC(IContainer container, ApplicationSettings appSettings)
-		{
 			// MVC attributes
 			var mvcProvider = new MvcAttributeProvider(container);
 			FilterProviders.Providers.Add(mvcProvider); // attributes

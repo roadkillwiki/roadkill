@@ -1,21 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Web.Mvc;
 using System.Web;
 using System.Text.RegularExpressions;
-using HtmlAgilityPack;
 using Roadkill.Core.Configuration;
-using StructureMap;
-using System.IO;
-using Roadkill.Core.Attachments;
 using Roadkill.Core.Text.Sanitizer;
 using Roadkill.Core.Database;
 using Roadkill.Core.Text;
-using Roadkill.Core.Plugins.Text.BuiltIn.ToC;
 using Roadkill.Core.Logging;
-using Roadkill.Core.Plugins.Text.BuiltIn;
 using Roadkill.Core.Plugins;
 
 namespace Roadkill.Core.Converters

@@ -370,7 +370,7 @@
     <Compile Include="Unit\Attachments\MimeMappingTests.cs" />
     <Compile Include="Unit\Database\DataStore\DataStoreTypeTests.cs" />
     <Compile Include="Unit\Database\SiteSettingsTests.cs" />
-    <Compile Include="Unit\DI\DependencyManagerTests.cs" />
+    <Compile Include="Unit\DI\RoadkillRegistryTests.cs" />
     <Compile Include="Unit\Database\LightSpeed\ToEntityTests.cs" />
     <Compile Include="Unit\Database\LightSpeed\FromEntityTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\UserViewModelTests.cs" />
@@ -497,6 +497,10 @@
     <ProjectReference Include="..\Roadkill.Core\Roadkill.Core.csproj">
       <Project>{9C86C475-F3BD-44D1-942A-78BF19158C3A}</Project>
       <Name>Roadkill.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Roadkill.Plugins\Roadkill.Plugins.csproj">
+      <Project>{ea201e5c-1fef-4955-9ce8-f801d05e68cb}</Project>
+      <Name>Roadkill.Plugins</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

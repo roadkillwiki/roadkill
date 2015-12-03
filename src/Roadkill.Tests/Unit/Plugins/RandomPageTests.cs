@@ -11,9 +11,9 @@ using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Plugins.SpecialPages.BuiltIn;
 using Roadkill.Core.Security;
 using Roadkill.Core.Services;
+using Roadkill.Plugins.SpecialPages.BuiltIn;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit.Plugins

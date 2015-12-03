@@ -34,6 +34,9 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 		public IContainer Container { get; set; }
 		public bool IsWeb { get; set; }
 
+		[ThreadStatic]
+		private static IContainer _container;
+
 		public IContainer CurrentNestedContainer
 		{
 			get
@@ -44,7 +47,7 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 				}
 				else
 				{
-					return (IContainer) Thread.GetData(Thread.GetNamedDataSlot(NestedContainerKey));
+					return _container;
 				}
 			}
 			set
@@ -55,7 +58,7 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 				}
 				else
 				{
-					Thread.SetData(Thread.GetNamedDataSlot(NestedContainerKey), value);
+					_container = value;
 				}
 			}
 		}

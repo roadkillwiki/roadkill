@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Plugins;
-using Roadkill.Core.Plugins.SpecialPages;
 
 namespace Roadkill.Tests.Unit
 {

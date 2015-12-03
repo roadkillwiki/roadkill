@@ -633,6 +633,10 @@
       <Project>{9C86C475-F3BD-44D1-942A-78BF19158C3A}</Project>
       <Name>Roadkill.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Roadkill.Plugins\Roadkill.Plugins.csproj">
+      <Project>{ea201e5c-1fef-4955-9ce8-f801d05e68cb}</Project>
+      <Name>Roadkill.Plugins</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Wiki\404.cshtml" />

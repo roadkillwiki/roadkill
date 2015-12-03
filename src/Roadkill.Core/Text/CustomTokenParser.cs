@@ -7,7 +7,6 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Logging;
-using Roadkill.Core.Plugins.Text.BuiltIn;
 
 namespace Roadkill.Core
 {
