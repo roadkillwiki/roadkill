@@ -21,12 +21,13 @@ using Roadkill.Core.Plugins;
 using Roadkill.Core.Security;
 using Roadkill.Core.Security.Windows;
 using Roadkill.Core.Services;
-using StructureMap.Configuration.DSL;
+using StructureMap;
 using StructureMap.Graph;
+using StructureMap.Graph.Scanning;
 using StructureMap.Pipeline;
-using StructureMap.Query;
 using StructureMap.TypeRules;
 using StructureMap.Web;
+using WebGrease.Css.Extensions;
 
 namespace Roadkill.Core.DependencyResolution.StructureMap
 {
@@ -228,24 +229,29 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 
 		private class AbstractClassConvention<T> : IRegistrationConvention
 		{
-			public void Process(Type type, Registry registry)
+			public void ScanTypes(TypeSet types, Registry registry)
 			{
-				if (type.CanBeCastTo<T>() && !type.IsAbstract)
+				types.FindTypes(TypeClassification.Concretes | TypeClassification.Closed).ForEach(type =>
 				{
-					registry.For(type).LifecycleIs(new UniquePerRequestLifecycle());
-				}
+					if (type.CanBeCastTo<T>())
+					{
+						registry.For(type).LifecycleIs(new UniquePerRequestLifecycle()).Use(type);
+					}
+				});
 			}
 		}
 
 		private class ControllerConvention : IRegistrationConvention
 		{
-			public void Process(Type type, Registry registry)
+			public void ScanTypes(TypeSet types, Registry registry)
 			{
-				if ((type.CanBeCastTo<Mvc.Controllers.ControllerBase>() || type.CanBeCastTo<ApiControllerBase>() || type.CanBeCastTo<ConfigurationTesterController>()) 
-                    && !type.IsAbstract)
+				types.FindTypes(TypeClassification.Concretes | TypeClassification.Closed).ForEach(type =>
 				{
-					registry.For(type).LifecycleIs(new UniquePerRequestLifecycle());
-				}
+					if (type.CanBeCastTo<ControllerBase>() || type.CanBeCastTo<ApiControllerBase>() || type.CanBeCastTo<ConfigurationTesterController>())
+					{
+						registry.For(type).LifecycleIs(new UniquePerRequestLifecycle()).Use(type);
+					}
+				});
 			}
 		}
 	}
