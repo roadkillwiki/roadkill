@@ -185,18 +185,5 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			ContentResult contentResult = result.AssertResultIs<ContentResult>();
 			Assert.That(contentResult.Content, Is.Not.Empty);
 		}
-
-		[Test]
-		public void LeftMenu_Should_Return_Content()
-		{
-			// Arrange
-
-			// Act
-			ActionResult result = _homeController.LeftMenu();
-
-			// Assert
-			ContentResult contentResult = result.AssertResultIs<ContentResult>();
-			Assert.That(contentResult.Content, Is.Not.Empty);
-		}
 	}
 }

@@ -140,13 +140,12 @@ namespace Roadkill.Core.Configuration
 				section.UseObjectCache = settings.UseObjectCache;
 				section.UseBrowserCache = settings.UseBrowserCache;
 				section.ConnectionStringName = "Roadkill";
-				section.DataStoreType = settings.DatabaseName;
+				section.DatabaseName = string.IsNullOrEmpty(settings.DatabaseName) ? "SqlServer2008" : settings.DatabaseName; ;
 				section.EditorRoleName = settings.EditorRoleName;
 				section.LdapConnectionString = settings.LdapConnectionString;
 				section.LdapUsername = settings.LdapUsername;
 				section.LdapPassword = settings.LdapPassword;
 				section.UseWindowsAuthentication = settings.UseWindowsAuth;
-				section.Version = ApplicationSettings.FileVersion.ToString();
 
 				// For first time installs: these need to be explicit as the DefaultValue="" in the attribute doesn't determine the value when saving.
 				section.IsPublicSite = settings.IsPublicSite;
@@ -231,13 +230,11 @@ namespace Roadkill.Core.Configuration
 			if (string.IsNullOrEmpty(appSettings.ConnectionString))
 				Log.Warn("ConnectionString property is null/empty.");
 
-			// Ignore the legacy useCache and cacheText section keys, as the behaviour has changed.
 			appSettings.UseObjectCache = _section.UseObjectCache;
 			appSettings.UseBrowserCache = _section.UseBrowserCache;
-
 			appSettings.LoggingTypes = _section.Logging;
 			appSettings.LogErrorsOnly = _section.LogErrorsOnly;
-			appSettings.DatabaseName = _section.DatabaseName;
+			appSettings.DatabaseName = string.IsNullOrEmpty(_section.DatabaseName) ? "SqlServer2008" : _section.DatabaseName;
 			appSettings.ConnectionStringName = _section.ConnectionStringName;
 			appSettings.EditorRoleName = _section.EditorRoleName;
 			appSettings.IgnoreSearchIndexErrors = _section.IgnoreSearchIndexErrors;

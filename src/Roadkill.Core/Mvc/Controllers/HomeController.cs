@@ -5,14 +5,10 @@ using System.Web.Mvc;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Localization;
 using Roadkill.Core.Configuration;
-using System.Diagnostics;
-using System.Web;
-using System.Web.UI;
 using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Text;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -103,17 +99,6 @@ namespace Roadkill.Core.Mvc.Controllers
 				return Content("");
 
 			return Content(pageService.GetBootStrapNavMenu(Context));
-		}
-		
-		/// <summary>
-		/// Legacy action - use NavMenu().
-		/// </summary>
-		/// <returns></returns>
-		[Obsolete]
-		[AllowAnonymous]
-		public ActionResult LeftMenu()
-		{
-			return Content(PageService.GetMenu(Context));
 		}
 	}
 }

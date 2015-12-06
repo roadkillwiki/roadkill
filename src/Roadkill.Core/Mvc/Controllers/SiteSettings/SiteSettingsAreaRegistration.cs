@@ -15,12 +15,6 @@ namespace Roadkill.Core.Mvc.Controllers
 
         public override void RegisterArea(AreaRegistrationContext context)
         {
-			// "/Settings" (legacy)
-			context.MapRoute(
-				"SiteSettings_Default",
-				"Settings",
-				new { controller = "Settings", action = "Index", id = UrlParameter.Optional });
-
 			// "/SiteSettings/{controller}/{action}/{id}"
 			context.MapRoute(
 				"SiteSettings_Controller",

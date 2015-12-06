@@ -61,20 +61,6 @@ namespace Roadkill.Tests.Integration.Configuration
 		}
 
 		[Test]
-		public void UpdateCurrentVersion_Should_Save_Version_To_RoadkillSection()
-		{
-			// Arrange
-			string configFilePath = GetConfigPath("test.config");
-
-			// Act
-			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
-
-			// Assert
-			RoadkillSection section = configManager.Load();
-			Assert.That(section.Version, Is.EqualTo("2.0"));
-		}
-
-		[Test]
 		public void ResetInstalledState_Should_Set_Installed_To_False()
 		{
 			// Arrange
@@ -206,7 +192,7 @@ namespace Roadkill.Tests.Integration.Configuration
 
 			// Assert
 			Assert.That(appSettings.AttachmentsRoutePath, Is.EqualTo("Attachments"), "AttachmentsRoutePath");
-			Assert.That(appSettings.DatabaseName, Is.EqualTo("SqlServer2008"), "DatabaseType");
+			Assert.That(appSettings.DatabaseName, Is.EqualTo("SqlServer2008"), "DatabaseName");
 			Assert.That(appSettings.IgnoreSearchIndexErrors, Is.False, "IgnoreSearchIndexErrors");
 			Assert.That(appSettings.IsPublicSite, Is.True, "IsPublicSite");
 			Assert.That(appSettings.LdapConnectionString, Is.EqualTo(""), "LdapConnectionString");
@@ -243,49 +229,6 @@ namespace Roadkill.Tests.Integration.Configuration
 			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
 			
 			// Assert
-		}
-
-		[Test]
-		public void RoadkillSection_Legacy_UserManagerType_Value_Is_Ignored()
-		{
-			// Arrange
-			string configFilePath = GetConfigPath("test-legacy-values.config");
-
-			// Act
-			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
-			ApplicationSettings appSettings = configManager.GetApplicationSettings();
-
-			// Assert
-			Assert.That(appSettings.UserServiceType, Is.Null.Or.Empty, "UserManagerType [legacy test for userManagerType]");
-		}
-
-		[Test]
-		public void RoadkillSection_Legacy_CacheValues_Are_Ignored()
-		{
-			// Arrange
-			string configFilePath = GetConfigPath("test-legacy-values.config");
-
-			// Act
-			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
-			ApplicationSettings appSettings = configManager.GetApplicationSettings();
-
-			// Assert
-			Assert.That(appSettings.UseObjectCache, Is.True, "UseObjectCache [legacy test for cacheEnabled]");
-			Assert.That(appSettings.UseBrowserCache, Is.False, "UseBrowserCache [legacy test for cacheText]");
-		}
-
-		[Test]
-		public void RoadkillSection_Legacy_DatabaseType_Is_Used()
-		{
-			// Arrange
-			string configFilePath = GetConfigPath("test-legacy-values.config");
-
-			// Act
-			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
-			ApplicationSettings appSettings = configManager.GetApplicationSettings();
-
-			// Assert
-			Assert.That(appSettings.DatabaseName, Is.EqualTo("SqlServer2008"), "DataStoreType [legacy test for databaseType]");
 		}
 
 		[Test]
