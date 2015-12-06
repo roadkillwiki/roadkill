@@ -6,11 +6,6 @@ module Roadkill.Web.Installer
 		public dbSuccessTitle: string;
 		public dbSuccessMessage: string;
 		public dbFailureTitle: string;
-
-		public sqliteSuccessTitle: string;
-		public sqliteSuccessMessage: string;
-		public sqliteFailureTitle: string;
-		public sqliteFailureMessage: string;
 	}
 
 	export class Step2
@@ -54,11 +49,6 @@ module Roadkill.Web.Installer
 			{
 				this.OnTestDatabaseClick(e);
 			});
-
-			$("#sqlitecopy").click((e) =>
-			{
-				this.OnCopySqliteClick(e);
-			});
 		}
 
 		private OnDbExampleClick(e: any)
@@ -81,12 +71,6 @@ module Roadkill.Web.Installer
 			this._wizard.makeAjaxRequest(url, jsonData, (data: any) => { this.OnTestDatabaseSuccess(data); });
 		}
 
-		private OnCopySqliteClick(e: any)
-		{
-			var url: string = ROADKILL_INSTALLER_COPYSQLITE_URL;
-			this._wizard.makeAjaxRequest(url, {}, (data: any) => { this.OnCopySqliteSuccess(data); });
-		}
-
 		private OnTestDatabaseSuccess(data: any)
 		{
 			if (data.Success)
@@ -96,18 +80,6 @@ module Roadkill.Web.Installer
 			else
 			{
 				this._wizard.showFailure(this._messages.dbFailureTitle, data.ErrorMessage);
-			}
-		}
-
-		private OnCopySqliteSuccess(data: any)
-		{
-			if (data.Success)
-			{
-				this._wizard.showSuccess(this._messages.sqliteSuccessTitle, this._messages.sqliteSuccessMessage);
-			}
-			else
-			{
-				this._wizard.showFailure(this._messages.sqliteFailureTitle, this._messages.sqliteFailureMessage +"\n"+ data.ErrorMessage);
 			}
 		}
 	}

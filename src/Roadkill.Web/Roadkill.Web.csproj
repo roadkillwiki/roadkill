@@ -313,8 +313,6 @@
     <Content Include="App_Data\Internal\htmlwhitelist.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_Data\Internal\SQLiteBinaries\x64\SQLite.Interop.dll" />
-    <Content Include="App_Data\Internal\SQLiteBinaries\x86\SQLite.Interop.dll" />
     <Content Include="App_Data\customvariables.xml">
       <SubType>Designer</SubType>
     </Content>

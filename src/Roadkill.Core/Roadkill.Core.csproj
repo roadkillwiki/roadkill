@@ -458,7 +458,6 @@
     <Compile Include="Database\Schema\MySql\MySqlSchema.cs" />
     <Compile Include="Database\Schema\Postgres\PostgresSchema.cs" />
     <Compile Include="Database\Schema\SchemaBase.cs" />
-    <Compile Include="Database\Schema\Sqlite\SqliteSchema.cs" />
     <Compile Include="Database\Schema\SqlServerCE\SqlServerCESchema.cs" />
     <Compile Include="Database\Schema\SqlServer\SqlServerSchema.cs" />
     <Compile Include="Services\AzureFileService.cs" />
@@ -568,8 +567,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Database\Schema\Postgres\Create.sql" />
     <EmbeddedResource Include="Database\Schema\Postgres\Drop.sql" />
-    <EmbeddedResource Include="Database\Schema\Sqlite\Create.sql" />
-    <EmbeddedResource Include="Database\Schema\Sqlite\Drop.sql" />
     <EmbeddedResource Include="Database\Schema\SqlServer\Create.sql" />
     <EmbeddedResource Include="Database\Schema\SqlServer\Drop.sql" />
     <EmbeddedResource Include="Database\Schema\SqlServerCE\Create2.sql" />
@@ -585,7 +582,6 @@
     <EmbeddedResource Include="Database\Schema\MySql\Drop.sql" />
     <EmbeddedResource Include="Database\Schema\MySql\Upgrade.sql" />
     <EmbeddedResource Include="Database\Schema\Postgres\Upgrade.sql" />
-    <EmbeddedResource Include="Database\Schema\Sqlite\Upgrade.sql" />
     <EmbeddedResource Include="Database\Schema\SqlServer\Upgrade.sql" />
     <EmbeddedResource Include="Database\Schema\SqlServerCE\Upgrade1.sql" />
     <EmbeddedResource Include="Database\Schema\SqlServerCE\Upgrade2.sql" />

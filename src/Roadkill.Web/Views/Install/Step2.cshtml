@@ -10,12 +10,7 @@
 		{
 			dbSuccessTitle: "@SiteStrings.Shared_Success",
 			dbSuccessMessage: "@SiteStrings.DatabaseConnection_Success",
-			dbFailureTitle: "@SiteStrings.DatabaseConnection_Failure",
-
-			sqliteSuccessTitle: "@InstallStrings.Step2_SQLiteSuccessTitle",
-			sqliteSuccessMessage: "@InstallStrings.Step2_SQLiteSuccessMessage",
-			sqliteFailureTitle: "@InstallStrings.Step2_SQLiteFailureTitle",
-			sqliteFailureMessage: "@InstallStrings.Step2_SQLiteFailureMessage"
+			dbFailureTitle: "@SiteStrings.DatabaseConnection_Failure"
 		};
 
 		var wizard = new Roadkill.Web.Installer.InstallWizard();
@@ -89,10 +84,6 @@
 							<td class="example" data-dbtype="SqlServerCe">Data Source=|DataDirectory|\roadkill.sdf;</td>
 						</tr>
 						<tr>
-							<td>SQLite (stored in the App_Data folder)</td>
-							<td class="example" data-dbtype="Sqlite">Data Source=|DataDirectory|\roadkill.sqlite;</td>
-						</tr>
-						<tr>
 							<td>MongoDB</td>
 							<td class="example" data-dbtype="MongoDB">mongodb://username:password@mongohq.com:10057/MyDatabaseName</td>
 						</tr>
@@ -120,14 +111,6 @@
 				</button>
 			</div>
 		</fieldset>
-	</div>
-
-	<!-- SQLite info box -->
-	<div class="alert alert-warning">
-		<p id="sqlite-details">
-			<b>@InstallStrings.Step2_SQLiteInstructionsTitle</b><br />
-			@Html.Raw(LocalizationTokens.ReplaceSqlite(InstallStrings.Step2_SQLiteInstructionsMessage))
-		</p>
 	</div>
 </form>
 

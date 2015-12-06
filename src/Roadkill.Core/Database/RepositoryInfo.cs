@@ -7,23 +7,49 @@ namespace Roadkill.Core.Database
 		public string Id { get; set; }
 		public string Description { get; set; }
 
+		// info == "string"
 		public static bool operator == (RepositoryInfo a, string b)
 		{
-			return a.Id.Equals(b, StringComparison.OrdinalIgnoreCase);
-		}
+			if (ReferenceEquals(a, null))
+				return ReferenceEquals(a, null);
 
-		public static bool operator ==(string a, RepositoryInfo b)
-		{
-			return b.Id.Equals(a, StringComparison.OrdinalIgnoreCase);
+			if (string.IsNullOrEmpty(b))
+				return false;
+
+			return a.Id.Equals(b, StringComparison.OrdinalIgnoreCase);
 		}
 
 		public static bool operator !=(RepositoryInfo a, string b)
 		{
+			if (ReferenceEquals(a, null))
+				return ReferenceEquals(a, null);
+
+			if (string.IsNullOrEmpty(b))
+				return true;
+
 			return !a.Id.Equals(b, StringComparison.OrdinalIgnoreCase);
+		}
+
+		// "string" == info
+		public static bool operator ==(string a, RepositoryInfo b)
+		{
+			if (ReferenceEquals(b, null))
+				return ReferenceEquals(b, null);
+
+			if (string.IsNullOrEmpty(a))
+				return false;
+
+			return b.Id.Equals(a, StringComparison.OrdinalIgnoreCase);
 		}
 
 		public static bool operator !=(string a, RepositoryInfo b)
 		{
+			if (ReferenceEquals(b, null))
+				return ReferenceEquals(b, null);
+
+			if (string.IsNullOrEmpty(a))
+				return true;
+
 			return !b.Id.Equals(a, StringComparison.OrdinalIgnoreCase);
 		}
 

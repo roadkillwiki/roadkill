@@ -21,8 +21,7 @@ The Roadkill ldap settings are then:
 -	ldapUsername: administrator
 -	ldapPassword: Passw0rd
 
-Use SQLite for the database.
-
+Use SqlServer2008 for the database.
 
 To test, connect to the server in your browser from the host machine using for example contoso\bobadmin and Passw0rd.
 (The server won't allow you to login as BobAdmin or EricEditor as they're not administrators of the domain.)
@@ -38,7 +37,7 @@ The roadkill.config looks like this:
 	logging="none"
 	logErrorsOnly="true"
 	connectionStringName="Roadkill"
-	dataStoreType="SqlServerCe"
+	dataStoreType="SqlServer2008"
 	editorRoleName="RoadkillEditors"
 	installed="true"
 	isPublicSite="true"

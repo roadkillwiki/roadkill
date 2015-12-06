@@ -112,36 +112,6 @@ namespace Roadkill.Core.Mvc.Controllers
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 
-		/// <summary>
-		/// Attempts to copy the correct SQL binaries to the bin folder for the architecture the app pool is running under.
-		/// </summary>
-		public ActionResult CopySqlite()
-		{
-			if (InstalledAndUserIsNotAdmin())
-				return Content("");
-
-			string errors = "";
-
-			try
-			{
-				string sqliteInteropFileSource = Path.Combine(_applicationSettings.SQLiteBinariesPath, "x86", "SQLite.Interop.dll");
-				string sqliteInteropFileDest = Server.MapPath("~/bin/SQLite.Interop.dll");
-
-				if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
-				{
-					sqliteInteropFileSource = Path.Combine(_applicationSettings.SQLiteBinariesPath, "x64", "SQLite.Interop.dll");
-				}
-
-				System.IO.File.Copy(sqliteInteropFileSource, sqliteInteropFileDest, true);
-			}
-			catch (Exception e)
-			{
-				errors = e.ToString();
-			}
-
-			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
-		}
-
 		internal bool InstalledAndUserIsNotAdmin()
 		{
 			return _applicationSettings.Installed && !_userContext.IsAdmin;

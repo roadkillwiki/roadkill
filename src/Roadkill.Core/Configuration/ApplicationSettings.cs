@@ -41,11 +41,6 @@ namespace Roadkill.Core.Configuration
 		public string SearchIndexPath { get; set; }
 
 		/// <summary>
-		/// The path to the folder that contains x86 and x64 SQLite binary file - ~/App_Data/Internal/SQLiteBinaries.
-		/// </summary>
-		public string SQLiteBinariesPath { get; set; }
-
-		/// <summary>
 		/// The folder where all uploads (typically image files) are saved to. This is taken from the web.config.
 		/// Use AttachmentsDirectoryPath for the absolute directory path.
 		/// </summary>
@@ -337,7 +332,6 @@ namespace Roadkill.Core.Configuration
 			AttachmentsRoutePath = "Attachments";
 			AttachmentsFolder = "~/App_Data/Attachments";
 			SearchIndexPath = Path.Combine(AppDataInternalPath, "Search");
-			SQLiteBinariesPath = Path.Combine(AppDataInternalPath, "SQLiteBinaries");
 			PluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "Plugins");
 			PluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
 		}

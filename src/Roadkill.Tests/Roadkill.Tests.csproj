@@ -320,7 +320,6 @@
     <Compile Include="Smoke\CanaryTests.cs" />
     <Compile Include="Smoke\DemoSiteTests.cs" />
     <Compile Include="Setup\SqlCeSetup.cs" />
-    <Compile Include="Setup\SqliteSetup.cs" />
     <Compile Include="Unit\Attachments\AttachmentPathUtilTests.cs" />
     <Compile Include="Unit\Attachments\AttachmentFileHandlerTests.cs" />
     <Compile Include="Unit\Attachments\ResponseWrapperMock.cs" />

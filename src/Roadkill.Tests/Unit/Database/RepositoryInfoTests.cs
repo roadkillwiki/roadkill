@@ -21,10 +21,34 @@ namespace Roadkill.Tests.Unit.Database
 		{
 			// Arrange
 			var info = new RepositoryInfo("SqlDB", "A Sql Server Mongo Redis Document Store");
-			
+
 			// Act + Assert
 			Assert.True(info == "sqldb");
 			Assert.True("sqldb" == info);
+
+			Assert.True(info != "foo");
+			Assert.True("foo" != info);
+		}
+
+		[Test]
+		public void Id_should_return_false_when_compared_with_null_and_empty_strings()
+		{
+			// Arrange
+			var info = new RepositoryInfo("", "");
+			RepositoryInfo nullInfo = null;
+
+			// Act + Assert
+			Assert.True(nullInfo == null);
+
+			Assert.False(info == null);
+			Assert.False(null == info);
+			Assert.False(info == "");
+			Assert.False("" == info);
+
+			Assert.True(info != null);
+			Assert.True(null != info);		
+			Assert.True(info != "");
+			Assert.True("" != info);
 		}
 
 		[Test]

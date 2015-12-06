@@ -97,7 +97,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			_applicationSettings.Installed = true;
 
 			// Act
-			ActionResult result = _configTesterController.TestDatabaseConnection("connectionstring", "sqlite");
+			ActionResult result = _configTesterController.TestDatabaseConnection("connectionstring", "SqlServer2008");
 
 			// Assert
 			ContentResult contentResult = result.AssertResultIs<ContentResult>();
@@ -137,42 +137,6 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			Assert.That(contentResult, Is.Not.Null);
 			Assert.That(contentResult.Content, Is.Empty);
 		}
-
-		[Test]
-		public void CopySqlite_Should_Return_Empty_Content_When_Installed_Is_True()
-		{
-			// Arrange
-			_applicationSettings.Installed = true;
-
-			// Act
-			ActionResult result = _configTesterController.CopySqlite();
-
-			// Assert
-			ContentResult contentResult = result.AssertResultIs<ContentResult>();
-			Assert.That(contentResult, Is.Not.Null);
-			Assert.That(contentResult.Content, Is.Empty);
-		}
-
-		[Test]
-		public void CopySqlite_Should_Return_JsonResult_And_TestResult_Model_Without_Errors()
-		{
-			// Arrange
-			_activeDirectoryProviderMock.LdapConnectionResult = "";
-			_applicationSettings.SQLiteBinariesPath = Path.Combine(Settings.WEB_PATH, "App_Data", "Internal", "SQLiteBinaries");
-			_configTesterController.SetFakeControllerContext();
-
-			// Act
-			ActionResult result = _configTesterController.CopySqlite();
-
-			// Assert
-			JsonResult jsonResult = result.AssertResultIs<JsonResult>();
-
-			TestResult testResult = jsonResult.Data as TestResult;
-			Assert.That(testResult, Is.Not.Null);
-			Assert.That(testResult.ErrorMessage, Is.EqualTo(""), testResult.ErrorMessage);
-			Assert.That(testResult.Success, Is.True);
-		}
-
 
 		[Test]
 		public void TestAttachments_Should_Allow_Get_And_Return_Json_Result_And_TestResult_With_No_Errors()

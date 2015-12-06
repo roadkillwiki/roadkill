@@ -1,11 +1,7 @@
 using System;
-using System.Diagnostics;
-using System.IO;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.PhantomJS;
 
 namespace Roadkill.Tests.Acceptance
 {
@@ -22,7 +18,6 @@ namespace Roadkill.Tests.Acceptance
 		[SetUp]
 		public void Setup()
 		{
-			DeleteSqliteBinaries();
 			_iisExpress = new IISExpress();
 			_iisExpress.Start();
 
@@ -43,7 +38,6 @@ namespace Roadkill.Tests.Acceptance
 			}
 		}
 
-
 		private ChromeDriver LaunchChrome()
 		{
 			// Disable the remember password popups, and make sure it's full screen so that Bootstrap elements aren't hidden
@@ -54,22 +48,6 @@ namespace Roadkill.Tests.Acceptance
 			chromeDriver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(2));
 
 			return chromeDriver;
-		}
-
-		public static void DeleteSqliteBinaries()
-		{
-			string sitePath = Settings.WEB_PATH;
-
-			string sqliteInteropFileSource = string.Format("{0}/App_Data/Internal/SQLiteBinaries/x86/SQLite.Interop.dll", sitePath);
-			string sqliteInteropFileDest = string.Format("{0}/bin/SQLite.Interop.dll", sitePath);
-
-			if (Environment.Is64BitOperatingSystem && Environment.Is64BitProcess)
-			{
-				sqliteInteropFileSource = string.Format("{0}/App_Data/Internal/SQLiteBinaries/x64/SQLite.Interop.dll", sitePath);
-			}
-
-			File.Delete(sqliteInteropFileDest);
-			//System.IO.File.Copy(sqliteInteropFileSource, sqliteInteropFileDest, true);
 		}
 	}
 }
