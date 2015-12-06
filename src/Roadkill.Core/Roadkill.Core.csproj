@@ -385,7 +385,6 @@
     <Compile Include="Email\IEmailClient.cs" />
     <Compile Include="Exceptions\FileException.cs" />
     <Compile Include="Extensions\BootstrapHtmlExtensions.cs" />
-    <Compile Include="Configuration\UpgradeChecker.cs" />
     <Compile Include="Configuration\ConfigReaderWriter.cs" />
     <Compile Include="Configuration\FullTrustConfigReaderWriter.cs" />
     <Compile Include="Database\Export\SqlExportBuilder.cs" />
@@ -441,7 +440,6 @@
     <Compile Include="Mvc\ViewModels\PluginViewModel.cs" />
     <Compile Include="Mvc\WebViewPages\RoadkillLayoutPage.cs" />
     <Compile Include="Mvc\WebViewPages\RoadkillViewPage.cs" />
-    <Compile Include="Mvc\Controllers\UpgradeController.cs" />
     <Compile Include="Cache\PageViewModelCache.cs" />
     <Compile Include="Cache\ListCache.cs" />
     <Compile Include="Database\Repositories\IUserRepository.cs" />
@@ -463,7 +461,6 @@
     <Compile Include="Services\IFileService.cs" />
     <Compile Include="Services\IPageService.cs" />
     <Compile Include="Database\Repositories\MongoDB\MongoDBRepository.cs" />
-    <Compile Include="Exceptions\UpgradeException.cs" />
     <Compile Include="Attachments\MimeTypes.cs" />
     <Compile Include="Mvc\Attributes\OptionalAuthorizationAttribute.cs" />
     <Compile Include="Mvc\Attributes\RecaptchaRequiredAttribute.cs" />
@@ -570,9 +567,6 @@
     <EmbeddedResource Include="Database\Schema\SqlServer\Drop.sql" />
     <EmbeddedResource Include="Database\Schema\MySql\Create.sql" />
     <EmbeddedResource Include="Database\Schema\MySql\Drop.sql" />
-    <EmbeddedResource Include="Database\Schema\MySql\Upgrade.sql" />
-    <EmbeddedResource Include="Database\Schema\Postgres\Upgrade.sql" />
-    <EmbeddedResource Include="Database\Schema\SqlServer\Upgrade.sql" />
     <EmbeddedResource Include="Localization\InstallStrings.cs.resx" />
     <EmbeddedResource Include="Localization\InstallStrings.de.resx" />
     <EmbeddedResource Include="Localization\InstallStrings.es.resx" />

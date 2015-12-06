@@ -21,11 +21,6 @@ namespace Roadkill.Core.Database.Schema
 			RunStatements(GetDropStatements(), command);
 		}
 
-		public virtual void Upgrade(IDbCommand command)
-		{
-			RunStatements(GetUpgradeStatements(), command);
-		}
-
 		private void RunStatements(IEnumerable<string> statements, IDbCommand command)
 		{
 			foreach (string statement in statements)
@@ -64,7 +59,5 @@ namespace Roadkill.Core.Database.Schema
 		protected abstract IEnumerable<string> GetCreateStatements();
 
 		protected abstract IEnumerable<string> GetDropStatements();
-
-		protected abstract IEnumerable<string> GetUpgradeStatements();
 	}
 }

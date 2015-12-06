@@ -12,7 +12,6 @@ namespace Roadkill.Core.Database
 	public interface IRepositoryInstaller
 	{
 		void Install();
-		void Upgrade();
 		void TestConnection();
 	}
 }

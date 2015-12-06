@@ -229,8 +229,7 @@ namespace Roadkill.Core.Configuration
 		/// Whether to just error messages are logged, or all information (warnings, information).
 		/// </summary>
 		public bool LogErrorsOnly { get; set; }
-
-		
+	
 		/// <summary>
 		/// Whether logging is enabled - if LoggingTypes has values set.
 		/// </summary>
@@ -252,11 +251,6 @@ namespace Roadkill.Core.Configuration
 		/// The fully qualified assembly and classname for the repository.
 		/// </summary>
 		public string RepositoryType { get; set; }
-
-		/// <summary>
-		/// True if the version number in the web.config does not match the current assembly version.
-		/// </summary>
-		public bool UpgradeRequired { get; internal set; }
 
 		/// <summary>
 		/// Indicates whether to use Local storage or Azure for attachments

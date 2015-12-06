@@ -54,18 +54,11 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <param name="filterContext">Information about the current request and action.</param>
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			// Redirect if Roadkill isn't installed or an upgrade is needed.
+			// Redirect if Roadkill isn't installed
 			if (!ApplicationSettings.Installed)
 			{
 				if (!(filterContext.Controller is InstallController))
 					filterContext.Result = new RedirectResult(this.Url.Action("Index", "Install"));
-
-				return;
-			}
-			else if (ApplicationSettings.UpgradeRequired)
-			{
-				if (!(filterContext.Controller is UpgradeController))
-					filterContext.Result = new RedirectResult(this.Url.Action("Index", "Upgrade"));
 
 				return;
 			}

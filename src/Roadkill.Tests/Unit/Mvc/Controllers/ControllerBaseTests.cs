@@ -88,47 +88,10 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Should_Redirect_When_UpgradeRequired_Is_True()
-		{
-			// Arrange
-			_applicationSettings.Installed = true;
-			_applicationSettings.UpgradeRequired = true;
-			ActionExecutingContext filterContext = new ActionExecutingContext();
-			filterContext.Controller = _controller;
-
-			// Act
-			_controller.CallOnActionExecuting(filterContext);
-			RedirectResult result = filterContext.Result as RedirectResult;
-
-			// Assert
-			Assert.That(result, Is.Not.Null, "RedirectResult");
-			Assert.That(result.Url, Is.EqualTo("/upgrade"));
-		}
-
-		[Test]
-		public void Should_Not_Redirect_When_UpgradeRequired_Is_True_Is_UpgradeController()
-		{
-			// Arrange
-			_applicationSettings.Installed = true;
-			_applicationSettings.UpgradeRequired = true;
-
-			UpgradeControllerStub upgradeController = new UpgradeControllerStub(_applicationSettings, _userService, _repository, _settingsService, _context, _configReaderWriter);
-			ActionExecutingContext filterContext = new ActionExecutingContext();
-			filterContext.Controller = upgradeController;
-
-			// Act
-			upgradeController.CallOnActionExecuting(filterContext);
-
-			// Assert
-			Assert.That(filterContext.Result, Is.Null);
-		}
-
-		[Test]
 		public void Should_Set_LoggedIn_User_And_ViewBag_Data()
 		{
 			// Arrange
 			_applicationSettings.Installed = true;
-			_applicationSettings.UpgradeRequired = false;
 			_userService.LoggedInUserId = "mrblah";
 
 			ActionExecutingContext filterContext = new ActionExecutingContext();
@@ -167,21 +130,6 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 	{
 		public InstallControllerStub(ApplicationSettings settings, ConfigReaderWriter configReaderWriter, IRepositoryFactory repositoryFactory)
 			: base(settings, configReaderWriter, repositoryFactory)
-		{
-
-		}
-
-		public void CallOnActionExecuting(ActionExecutingContext filterContext)
-		{
-			base.OnActionExecuting(filterContext);
-		}
-	}
-
-	internal class UpgradeControllerStub : UpgradeController
-	{
-		public UpgradeControllerStub(ApplicationSettings settings, UserServiceBase userService, IRepository respository,
-			SettingsService settingsService, IUserContext context, ConfigReaderWriter configReaderWriter)
-			: base(settings, respository, userService, context, settingsService, configReaderWriter)
 		{
 
 		}

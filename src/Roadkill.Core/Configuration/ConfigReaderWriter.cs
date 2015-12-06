@@ -17,12 +17,6 @@ namespace Roadkill.Core.Configuration
 	public abstract class ConfigReaderWriter
 	{
 		/// <summary>
-		/// Updates the current version in the RoadkillSection and saves the configuration file.
-		/// </summary>
-		/// <param name="currentVersion">The current version.</param>
-		public abstract void UpdateCurrentVersion(string currentVersion);
-
-		/// <summary>
 		/// Updates the current UI language in the globalization section and saves the configuration file.
 		/// </summary>
 		/// <param name="uiLanguageCode">The UI language code, e.g. fr for French.</param>

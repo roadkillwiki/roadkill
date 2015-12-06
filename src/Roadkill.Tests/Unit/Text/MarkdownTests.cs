@@ -33,7 +33,6 @@ namespace Roadkill.Tests.Unit.Text
 
 			ApplicationSettings settings = new ApplicationSettings();
 			settings.Installed = true;
-			settings.UpgradeRequired = false;
 
 			UrlResolverMock resolver = new UrlResolverMock();
 			resolver.InternalUrl = "blah";
@@ -68,7 +67,6 @@ namespace Roadkill.Tests.Unit.Text
 
 			ApplicationSettings settings = new ApplicationSettings();
 			settings.Installed = true;
-			settings.UpgradeRequired = false;
 
 			MarkupConverter converter = new MarkupConverter(settings, repositoryStub, _pluginFactory);
 
@@ -98,7 +96,6 @@ namespace Roadkill.Tests.Unit.Text
 
 			ApplicationSettings settings = new ApplicationSettings();
 			settings.Installed = true;
-			settings.UpgradeRequired = false;
 
 			MarkupConverter converter = new MarkupConverter(settings, repositoryStub, _pluginFactory);
 
@@ -130,7 +127,6 @@ namespace Roadkill.Tests.Unit.Text
 
 			ApplicationSettings settings = new ApplicationSettings();
 			settings.Installed = true;
-			settings.UpgradeRequired = false;
 
 			MarkupConverter converter = new MarkupConverter(settings, repositoryStub, _pluginFactory);
 

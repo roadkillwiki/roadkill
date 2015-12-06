@@ -241,6 +241,7 @@ namespace Roadkill.Core
 		/// <summary>
 		/// The version of the roadkill application running. If this is less than the current assembly version,
 		/// then it's assumed that an upgrade is required at startup.
+		/// TODO: Remove
 		/// </summary>
 		/// <remarks>Added in 1.6</remarks>
 		[ConfigurationProperty("version", IsRequired = false, DefaultValue = "")]

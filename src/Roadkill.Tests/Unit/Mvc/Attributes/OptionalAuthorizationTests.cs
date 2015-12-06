@@ -59,28 +59,6 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Return_True_If_UpgradeRequired_Is_True()
-		{
-			// Arrange
-			_applicationSettings.UpgradeRequired = true;
-
-			OptionalAuthorizationAttributeMock attribute = new OptionalAuthorizationAttributeMock();
-			attribute.AuthorizationProvider = new AuthorizationProviderMock();
-			attribute.ApplicationSettings = _applicationSettings;
-			attribute.UserService = _userService;
-
-			IdentityStub identity = new IdentityStub() { Name = Guid.NewGuid().ToString(), IsAuthenticated = true };
-			PrincipalStub principal = new PrincipalStub() { Identity = identity };
-			HttpContextBase context = GetHttpContext(principal);
-
-			// Act
-			bool isAuthorized = attribute.CallAuthorize(context);
-
-			// Assert
-			Assert.That(isAuthorized, Is.True);
-		}
-
-		[Test]
 		public void Should_Return_True_If_PublicSite_Is_True()
 		{
 			// Arrange

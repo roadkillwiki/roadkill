@@ -25,10 +25,6 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 			TestWebConfigResult = "OK";
 		}
 
-		public override void UpdateCurrentVersion(string currentVersion)
-		{
-		}
-
 		public override void UpdateLanguage(string uiLanguageCode)
 		{
 			UILanguageCode = uiLanguageCode;

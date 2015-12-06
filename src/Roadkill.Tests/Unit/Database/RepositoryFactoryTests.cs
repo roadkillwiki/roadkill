@@ -23,7 +23,7 @@ namespace Roadkill.Tests.Unit.Database
 			List<RepositoryInfo> all = factory.ListAll().ToList();
 
 			// Assert
-			Assert.That(all.Count, Is.EqualTo(7));
+			Assert.That(all.Count, Is.EqualTo(4));
 			Assert.That(all.First(), Is.Not.Null);
 			Assert.That(all.First().Id, Is.Not.Null.Or.Empty);
 		}

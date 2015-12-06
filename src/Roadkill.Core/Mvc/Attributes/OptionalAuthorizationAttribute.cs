@@ -45,7 +45,7 @@ namespace Roadkill.Core.Mvc.Attributes
 			if (AuthorizationProvider == null)
 				throw new SecurityException("The OptionalAuthorizationAttribute property has not been set for AdminRequiredAttribute. Has it been injected by the DI?", null);
 
-			if (!ApplicationSettings.Installed || ApplicationSettings.UpgradeRequired)
+			if (!ApplicationSettings.Installed)
 			{
 				return true;
 			}

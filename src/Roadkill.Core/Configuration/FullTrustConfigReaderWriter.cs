@@ -80,25 +80,6 @@ namespace Roadkill.Core.Configuration
 		}
 
 		/// <summary>
-		/// Updates the current version in the RoadkillSection and saves the configuration file.
-		/// </summary>
-		/// <param name="currentVersion">The current version.</param>
-		/// <exception cref="UpgradeException">An exception occurred while updating the version to the web.config</exception>
-		public override void UpdateCurrentVersion(string currentVersion)
-		{
-			try
-			{
-				RoadkillSection section = _config.GetSection("roadkill") as RoadkillSection;
-				section.Version = currentVersion;
-				_config.Save(ConfigurationSaveMode.Minimal);
-			}
-			catch (ConfigurationErrorsException ex)
-			{
-				throw new UpgradeException("An exception occurred while updating the version to the web.config", ex);
-			}
-		}
-
-		/// <summary>
 		/// Updates the current UI language in the globalization section and saves the configuration file.
 		/// </summary>
 		/// <param name="uiLanguageCode">The UI language code, e.g. fr for French.</param>
@@ -270,7 +251,6 @@ namespace Roadkill.Core.Configuration
 			appSettings.UseHtmlWhiteList = _section.UseHtmlWhiteList;
 			appSettings.UserServiceType = _section.UserServiceType;
 			appSettings.UseWindowsAuthentication = _section.UseWindowsAuthentication;
-			appSettings.UpgradeRequired = UpgradeChecker.IsUpgradeRequired(_section.Version);
 
 			return appSettings;
 		}

@@ -59,22 +59,5 @@ namespace Roadkill.Tests.Unit.Database
 			// Assert
 			Assert.That(dbCommand.CommandText, Is.StringContaining("DROP"));
 		}
-
-        [Test]
-		[TestCase("Postgres")]
-		[TestCase("MySQL")]
-		[TestCase("SqlServer")]
-		public void Schema_Upgrade_Should_Contain_SQL(string dbType)
-		{
-			// Arrange
-			SchemaBase schema = SchemaLookup.FromName(dbType);
-			DbCommandStub dbCommand = new DbCommandStub();
-			
-			// Act
-			schema.Upgrade(dbCommand);
-
-			// Assert
-			Assert.That(dbCommand.CommandText, Is.StringContaining("CREATE"));
-		}
 	}
 }

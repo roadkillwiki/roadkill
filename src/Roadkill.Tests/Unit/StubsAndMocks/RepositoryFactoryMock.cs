@@ -9,11 +9,13 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 {
 	public class RepositoryFactoryMock : IRepositoryFactory
 	{
-		public IRepository Repository { get; set; }
+		public RepositoryMock Repository { get; set; }
+		public RepositoryInstallerMock RepositoryInstaller { get; set; }
 
 		public RepositoryFactoryMock()
 		{
 			Repository = new RepositoryMock();
+			RepositoryInstaller = new RepositoryInstallerMock();
 		}
 
 		public IRepository GetRepository(string databaseProviderName, string connectionString)
@@ -23,7 +25,7 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 
 		public IRepositoryInstaller GetRepositoryInstaller(string databaseProviderName, string connectionString)
 		{
-			return new RepositoryInstallerMock();
+			return RepositoryInstaller;
 		}
 
 		public IEnumerable<RepositoryInfo> ListAll()

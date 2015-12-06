@@ -1,9 +1,7 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using Mindscape.LightSpeed;
 using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Database.Schema;
-using Roadkill.Core.Logging;
 
 namespace Roadkill.Core.Database
 {
@@ -65,40 +63,6 @@ namespace Roadkill.Core.Database
 				Schema.Drop(command);
 				Schema.Create(command);
 			}
-		}
-
-		public void Upgrade()
-		{
-			try
-			{
-				LightSpeedContext context = CreateLightSpeedContext();
-
-				using (IDbConnection connection = context.DataProviderObjectFactory.CreateConnection())
-				{
-					connection.ConnectionString = ConnectionString;
-					connection.Open();
-
-					IDbCommand command = context.DataProviderObjectFactory.CreateCommand();
-					command.Connection = connection;
-
-					Schema.Upgrade(command);
-				}
-			}
-			catch (Exception ex)
-			{
-				Log.Error("Upgrade failed: {0}", ex);
-				throw new UpgradeException("A problem occurred upgrading the database schema.\n\n", ex);
-			}
-
-			//try
-			//{
-			//	SaveSiteSettings(new SiteSettings());
-			//}
-			//catch (Exception ex)
-			//{
-			//	Log.Error("Upgrade failed: {0}", ex);
-			//	throw new UpgradeException("A problem occurred saving the site preferences.\n\n", ex);
-			//}
 		}
 	}
 }

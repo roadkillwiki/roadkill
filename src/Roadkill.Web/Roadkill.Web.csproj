@@ -578,8 +578,6 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Upgrade\Index.cshtml" />
-    <Content Include="Views\Upgrade\Layout.cshtml" />
     <Content Include="Areas\SiteSettings\Views\Cache\Index.cshtml" />
     <Content Include="Views\User\LoggedInAs.cshtml" />
     <Content Include="Views\User\LeftMenu.cshtml" />

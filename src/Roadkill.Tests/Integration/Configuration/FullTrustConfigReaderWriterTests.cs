@@ -68,7 +68,6 @@ namespace Roadkill.Tests.Integration.Configuration
 
 			// Act
 			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
-			configManager.UpdateCurrentVersion("2.0");
 
 			// Assert
 			RoadkillSection section = configManager.Load();

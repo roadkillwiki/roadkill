@@ -33,12 +33,8 @@ namespace Roadkill.Core.Mvc.Controllers.Api
 		{
 			base.Initialize(controllerContext);
 
-			// Redirect if Roadkill isn't installed or an upgrade is needed.
+			// Redirect if Roadkill isn't installed
 			if (!ApplicationSettings.Installed)
-			{
-				return;
-			}
-			else if (ApplicationSettings.UpgradeRequired)
 			{
 				return;
 			}

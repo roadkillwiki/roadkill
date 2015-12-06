@@ -23,6 +23,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		private ActiveDirectoryProviderMock _activeDirectoryProviderMock;
 
 		private ConfigurationTesterController _configTesterController;
+		private RepositoryFactoryMock _repositoryFactoryMock;
 
 		[SetUp]
 		public void Setup()
@@ -37,7 +38,8 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			_configReaderWriter = new ConfigReaderWriterStub();
 			_activeDirectoryProviderMock = new ActiveDirectoryProviderMock();
 
-			_configTesterController = new ConfigurationTesterController(_applicationSettings, _context, _configReaderWriter, _activeDirectoryProviderMock, _userService, new RepositoryFactoryMock());
+			_repositoryFactoryMock = new RepositoryFactoryMock();
+			_configTesterController = new ConfigurationTesterController(_applicationSettings, _context, _configReaderWriter, _activeDirectoryProviderMock, _userService, _repositoryFactoryMock);
 		}
 
 		[Test]
@@ -175,6 +177,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		{
 			// Arrange
 			string connectionString = "Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill";
+			_repositoryFactoryMock.RepositoryInstaller.IsConnectionValid = true;
 
 			// Act
 			JsonResult result = _configTesterController.TestDatabaseConnection(connectionString, "SqlServer2008") as JsonResult;
@@ -194,7 +197,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		{
 			// Arrange
 			string connectionString = "invalid connection string";
-			IocHelper.ConfigureLocator();
+			_repositoryFactoryMock.RepositoryInstaller.IsConnectionValid = false;
 
 			// Act
 			JsonResult result = _configTesterController.TestDatabaseConnection(connectionString, "SqlServer2008") as JsonResult;

@@ -47,10 +47,5 @@ namespace Roadkill.Core.Database.MongoDB
 			MongoDatabase database = server.GetDatabase(databaseName);
 			database.GetCollectionNames();
 		}
-
-		public void Upgrade()
-		{
-			// TODO
-		}
 	}
 }

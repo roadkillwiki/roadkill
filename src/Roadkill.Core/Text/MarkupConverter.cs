@@ -68,10 +68,9 @@ namespace Roadkill.Core.Converters
 
 			UrlResolver = new UrlResolver(httpContext);		
 	
-			if (!_applicationSettings.Installed || _applicationSettings.UpgradeRequired)
+			if (!_applicationSettings.Installed)
 			{
-				string warnMessage = "Roadkill is not installed, or an upgrade is pending (ApplicationSettings.UpgradeRequired = false)." +
-									"Skipping initialization of MarkupConverter (MarkupConverter.Parser will now be null)";
+				string warnMessage = "Roadkill is not installed - skipping initialization of MarkupConverter (MarkupConverter.Parser will now be null)";
 
 				Log.Warn(warnMessage);
 

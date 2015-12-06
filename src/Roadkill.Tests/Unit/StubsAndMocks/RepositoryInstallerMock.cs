@@ -1,19 +1,22 @@
-﻿using Roadkill.Core.Database;
+﻿using Roadkill.Core;
+using Roadkill.Core.Database;
 
 namespace Roadkill.Tests.Unit.StubsAndMocks
 {
 	public class RepositoryInstallerMock : IRepositoryInstaller
 	{
-		public void Install()
-		{
-		}
+		public bool IsConnectionValid { get; set; }
 
-		public void Upgrade()
+		public void Install()
 		{
 		}
 
 		public void TestConnection()
 		{
+			if (!IsConnectionValid)
+			{
+				throw new DatabaseException("RepositoryInstallerMock", null);
+			}
 		}
 	}
 }
