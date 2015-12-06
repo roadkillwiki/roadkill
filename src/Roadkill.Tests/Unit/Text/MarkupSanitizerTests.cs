@@ -1,18 +1,16 @@
 ﻿// To create unit tests in this class reference is taken from
 // https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet#RULE_.232_-_Attribute_Escape_Before_Inserting_Untrusted_Data_into_HTML_Common_Attributes
 // and http://ha.ckers.org/xss.html
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
-using HtmlAgilityPack;
 using NUnit.Framework;
-using Roadkill.Core;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Converters;
 using Roadkill.Core.Text.Sanitizer;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Text
 {
 	/// <summary>
 	///This is a test class for HtmlAgilityPackSanitizerProviderTest and is intended

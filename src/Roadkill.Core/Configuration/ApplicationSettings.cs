@@ -164,9 +164,9 @@ namespace Roadkill.Core.Configuration
 		public string PluginsBinPath { get; internal set; }
 
 		/// <summary>
-		/// The database type used as the backing store.
+		/// The database used for storage.
 		/// </summary>
-		public DataStoreType DataStoreType { get; set; }
+		public string DatabaseName { get; set; }
 
 		/// <summary>
 		/// The name of the role or Active Directory security group that users should belong to in order to create and edit pages.
@@ -333,7 +333,7 @@ namespace Roadkill.Core.Configuration
 			EmailTemplateFolder = Path.Combine(AppDataPath, "EmailTemplates");
 			HtmlElementWhiteListPath = Path.Combine(AppDataInternalPath, "htmlwhitelist.xml");
 			MinimumPasswordLength = 6;
-			DataStoreType = DataStoreType.SqlServer2008;
+			DatabaseName = RepositoryFactory.SqlServer2008.Id;
 			AttachmentsRoutePath = "Attachments";
 			AttachmentsFolder = "~/App_Data/Attachments";
 			SearchIndexPath = Path.Combine(AppDataInternalPath, "Search");

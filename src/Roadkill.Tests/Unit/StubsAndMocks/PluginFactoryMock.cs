@@ -4,7 +4,7 @@ using System.Linq;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Plugins;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.StubsAndMocks
 {
 	public class PluginFactoryMock : IPluginFactory
 	{

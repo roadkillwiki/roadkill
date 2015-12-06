@@ -1,12 +1,13 @@
-﻿using NUnit.Framework;
-using Roadkill.Core.Attachments;
-using Roadkill.Core.Configuration;
-using System;
+﻿using System;
 using System.IO;
 using System.Web;
+using NUnit.Framework;
+using Roadkill.Core.Attachments;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Services;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Attachments
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -22,7 +23,7 @@ namespace Roadkill.Tests.Unit
 			_applicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Unit", "Attachments");
 			_applicationSettings.AttachmentsRoutePath = "Attachments";
 
-			_fileService = new LocalFileService(_applicationSettings, new SettingsService(_applicationSettings,null));
+			_fileService = new LocalFileService(_applicationSettings, new SettingsService(new RepositoryFactoryMock(), _applicationSettings));
 		}
 
 		[Test]

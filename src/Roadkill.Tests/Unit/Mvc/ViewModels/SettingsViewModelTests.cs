@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Plugins;
-using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.ViewModels
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -27,7 +23,7 @@ namespace Roadkill.Tests.Unit
 				UseObjectCache = true,
 				UseBrowserCache = true,
 				ConnectionString = "connection string",
-				DataStoreType = DataStoreType.SqlServer2008,
+				DatabaseName = "SqlServer2008",
 				EditorRoleName = "editor role name",
 				LdapConnectionString = "ldap connection string",
 				LdapUsername = "ldap username",
@@ -61,7 +57,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(model.UseObjectCache, Is.EqualTo(appSettings.UseObjectCache));
 			Assert.That(model.UseBrowserCache, Is.EqualTo(appSettings.UseBrowserCache));
 			Assert.That(model.ConnectionString, Is.EqualTo(appSettings.ConnectionString));
-			Assert.That(model.DataStoreTypeName, Is.EqualTo(appSettings.DataStoreType.Name));
+			Assert.That(model.DatabaseName, Is.EqualTo(appSettings.DatabaseName));
 			Assert.That(model.EditorRoleName, Is.EqualTo(appSettings.EditorRoleName));
 			Assert.That(model.LdapConnectionString, Is.EqualTo(appSettings.LdapConnectionString));
 			Assert.That(model.LdapUsername, Is.EqualTo(appSettings.LdapUsername));
@@ -111,7 +107,7 @@ namespace Roadkill.Tests.Unit
 				UseObjectCache = true,
 				UseBrowserCache = true,
 				ConnectionString = "connection string",
-				DataStoreType = DataStoreType.SqlServer2008,
+				DatabaseName = "SqlServer2008",
 				EditorRoleName = "editor role name",
 				LdapConnectionString = "ldap connection string",
 				LdapUsername = "ldap username",
@@ -131,7 +127,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(model.UseObjectCache, Is.EqualTo(appSettings.UseObjectCache));
 			Assert.That(model.UseBrowserCache, Is.EqualTo(appSettings.UseBrowserCache));
 			Assert.That(model.ConnectionString, Is.EqualTo(appSettings.ConnectionString));
-			Assert.That(model.DataStoreTypeName, Is.EqualTo(appSettings.DataStoreType.Name));
+			Assert.That(model.DatabaseName, Is.EqualTo(appSettings.DatabaseName));
 			Assert.That(model.EditorRoleName, Is.EqualTo(appSettings.EditorRoleName));
 			Assert.That(model.LdapConnectionString, Is.EqualTo(appSettings.LdapConnectionString));
 			Assert.That(model.LdapUsername, Is.EqualTo(appSettings.LdapUsername));
@@ -144,15 +140,16 @@ namespace Roadkill.Tests.Unit
 		[Test]
 		public void DatabaseTypesAvailable_Should_Equal_DataStoreTypes()
 		{
-			// Arrange
-			SettingsViewModel model = new SettingsViewModel();
-			int expectedCount = DataStoreType.AllTypes.Count();
+			Assert.Fail("TODO");
+			//// Arrange
+			//SettingsViewModel model = new SettingsViewModel();
+			//int expectedCount = DataStoreType.AllTypes.Count();
 
-			// Act
-			int actualCount = model.DatabaseTypesAvailable.Count();
+			//// Act
+			//int actualCount = model.DatabaseTypesAvailable.Count();
 
-			// Assert
-			Assert.That(actualCount, Is.EqualTo(expectedCount));
+			//// Assert
+			//Assert.That(actualCount, Is.EqualTo(expectedCount));
 		}
 
 		[Test]

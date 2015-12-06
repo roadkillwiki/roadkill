@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using Roadkill.Core;
-using Roadkill.Core.Configuration;
-using Roadkill.Core.Converters;
 using Roadkill.Core.Extensions;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Extensions
 {
 	[TestFixture]
 	[Category("Unit")]

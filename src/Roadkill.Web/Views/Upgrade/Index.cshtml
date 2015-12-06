@@ -5,7 +5,7 @@
 
 <h1>Database upgrade required</h1>
 
-@if (ApplicationSettings.DataStoreType == Roadkill.Core.Database.DataStoreType.Sqlite)
+@if (ApplicationSettings.DatabaseName == Roadkill.Core.Database.DataStoreType.Sqlite)
 {
 	<p id="notsupported">
 	Automatic SQLite upgrades are not supported in Roadkill 1.6 due to legacy problems with unique identifiers.

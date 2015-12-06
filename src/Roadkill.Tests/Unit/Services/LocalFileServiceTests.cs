@@ -1,23 +1,16 @@
-﻿using Moq;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Web;
+using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
-using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Mvc.Attributes;
-using Roadkill.Core.Mvc.Controllers;
+using Roadkill.Core.Exceptions;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Web;
-using System.Web.Mvc;
-using Roadkill.Core.Exceptions;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Services
 {
 	[TestFixture]
 	[Category("Unit")]

@@ -1,20 +1,19 @@
 ﻿using System;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Net.Mail;
+using System.Text;
+using System.Threading;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 using Roadkill.Core.Email;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Services;
 using Roadkill.Tests.Unit.StubsAndMocks;
-using System.Linq;
-using System.IO;
-using System.Threading;
-using System.Globalization;
-using System.Text;
-using Roadkill.Core.Database;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Email
 {
 	[TestFixture]
 	[Category("Unit")]

@@ -41,7 +41,6 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 
 			Scan(ScanTypes);
 			ConfigureInstances(configReader);
-			UseDefaultRepository();
 			ConfigureUserService();
 			ConfigureFileService();
 			ConfigureSetterInjection();
@@ -124,13 +123,17 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 
 		private void ConfigureInstances(ConfigReaderWriter configReader)
 		{
-			// Appsettings reader
+			// Appsettings and reader - these need to go first
 			For<ConfigReaderWriter>().Singleton().Use(configReader);
-
-			// Web.config/app settings
 			For<ApplicationSettings>()
 				.HybridHttpOrThreadLocalScoped()
 				.Use(x => x.TryGetInstance<ConfigReaderWriter>().GetApplicationSettings());
+
+			// Repository
+			For<IRepositoryFactory>().HybridHttpOrThreadLocalScoped().Use<RepositoryFactory>();
+			For<IRepository>()
+				.HybridHttpOrThreadLocalScoped()
+				.Use(x => x.TryGetInstance<IRepositoryFactory>().GetRepository(_applicationSettings.DatabaseName, _applicationSettings.ConnectionString));
 
 			// Plugins
 			For<IPluginFactory>().Singleton().Use<PluginFactory>();
@@ -209,21 +212,6 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 				For<UserServiceBase>()
 					.HybridHttpOrThreadLocalScoped()
 					.Use<FormsAuthUserService>();
-			}
-		}
-
-		private void UseDefaultRepository()
-		{
-			For<IRepository>().HybridHttpOrThreadLocalScoped().Use<LightSpeedRepository>();
-
-			// This smells
-			if (_applicationSettings.DataStoreType.RequiresCustomRepository)
-			{
-				string typeName = _applicationSettings.DataStoreType.CustomRepositoryType;
-
-                For<IRepository>()
-					.HybridHttpOrThreadLocalScoped()
-					.Use(context => context.All<IRepository>().First(x => x.GetType().Name == typeName));
 			}
 		}
 

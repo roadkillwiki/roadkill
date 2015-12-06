@@ -75,16 +75,6 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The database type for Roadkill. This defaults to SQLServer2005 (MongoDB on Mono) if empty - see DatabaseType enum for all options.
-		/// </summary>
-		[ConfigurationProperty("dataStoreType", IsRequired = false)]
-		public string DataStoreType
-		{
-			get { return (string)this["dataStoreType"]; }
-			set { this["dataStoreType"] = value; }
-		}
-
-		/// <summary>
 		/// Gets or sets the name of the editor role.
 		/// </summary>
 		[ConfigurationProperty("editorRoleName", IsRequired = true)]
@@ -270,17 +260,36 @@ namespace Roadkill.Core
 			return false;
 		}
 
+		/// <summary>
+		/// The database type for Roadkill. This defaults to SQLServer2008 (MongoDB on Mono) if empty - see DatabaseType enum for all options.
+		/// </summary>
+		[ConfigurationProperty("databaseName", IsRequired = false)]
+		internal string DatabaseName
+		{
+			get { return (string)this["databaseName"]; }
+			set { this["databaseName"] = value; }
+		}
+
 		#region Legacy properties
 		/// <summary>
-		/// Don't use this property - it's a legacy one (but still supported for non-breaking backwards compatibility), use "dataStoreType"
+		/// Don't use this property - it's a legacy one (but still supported for non-breaking backwards compatibility), use "databaseName"
 		/// </summary>
-		/// <remarks>Renamed in 1.6</remarks>
-		[ConfigurationProperty("databaseType", IsRequired = false)]
-		[Obsolete("Legacy property, this is now dataStoreType")]
+		[ConfigurationProperty("dataStoreType", IsRequired = false)]
+		public string DataStoreType
+		{
+			get { return (string)this["databaseName"]; }
+			set { this["databaseName"] = value; }
+		}
+
+		/// <summary>
+		/// Don't use this property - it's a legacy one (but still supported for non-breaking backwards compatibility), use "databaseName"
+		/// </summary>
+		[ConfigurationProperty("databaseType", IsRequired = false, DefaultValue = false)]
+		[Obsolete("Legacy property, this is now DatabaseName")]
 		internal string DatabaseType
 		{
-			get { return (string)this["databaseType"]; }
-			set { this["databaseType"] = value; }
+			get { return (string)this["databaseName"]; }
+			set { this["databaseName"] = value; }
 		}
 
 		/// <summary>

@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using Lucene.Net.Documents;
 using Lucene.Net.Search;
 using NUnit.Framework;
 using Roadkill.Core;
-using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Plugins;
-using Roadkill.Tests.Unit.StubsAndMocks;
 using LuceneDocument = Lucene.Net.Documents.Document;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.ViewModels
 {
 	[TestFixture]
 	[Category("Unit")]

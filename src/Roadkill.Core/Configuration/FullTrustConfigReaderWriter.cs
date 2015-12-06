@@ -152,7 +152,6 @@ namespace Roadkill.Core.Configuration
 					_config.ConnectionStrings.ConnectionStrings["Roadkill"].ConnectionString = settings.ConnectionString;
 
 				// The roadkill section
-				DataStoreType dataStoreType = DataStoreType.ByName(settings.DataStoreTypeName);
 				RoadkillSection section = _config.GetSection("roadkill") as RoadkillSection;
 				section.AdminRoleName = settings.AdminRoleName;
 				section.AttachmentsFolder = settings.AttachmentsFolder;
@@ -160,12 +159,11 @@ namespace Roadkill.Core.Configuration
 				section.UseObjectCache = settings.UseObjectCache;
 				section.UseBrowserCache = settings.UseBrowserCache;
 				section.ConnectionStringName = "Roadkill";
-				section.DataStoreType = dataStoreType.Name;
+				section.DataStoreType = settings.DatabaseName;
 				section.EditorRoleName = settings.EditorRoleName;
 				section.LdapConnectionString = settings.LdapConnectionString;
 				section.LdapUsername = settings.LdapUsername;
 				section.LdapPassword = settings.LdapPassword;
-				section.RepositoryType = dataStoreType.CustomRepositoryType;
 				section.UseWindowsAuthentication = settings.UseWindowsAuth;
 				section.Version = ApplicationSettings.FileVersion.ToString();
 
@@ -256,14 +254,9 @@ namespace Roadkill.Core.Configuration
 			appSettings.UseObjectCache = _section.UseObjectCache;
 			appSettings.UseBrowserCache = _section.UseBrowserCache;
 
-			// Look for the legacy database type key
-			string dataStoreType = _section.DataStoreType;
-			if (string.IsNullOrEmpty(dataStoreType) && !string.IsNullOrEmpty(_section.DatabaseType))
-				dataStoreType = _section.DatabaseType;
-
 			appSettings.LoggingTypes = _section.Logging;
 			appSettings.LogErrorsOnly = _section.LogErrorsOnly;
-			appSettings.DataStoreType = DataStoreType.ByName(dataStoreType);
+			appSettings.DatabaseName = _section.DatabaseName;
 			appSettings.ConnectionStringName = _section.ConnectionStringName;
 			appSettings.EditorRoleName = _section.EditorRoleName;
 			appSettings.IgnoreSearchIndexErrors = _section.IgnoreSearchIndexErrors;

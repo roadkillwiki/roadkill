@@ -48,7 +48,7 @@
 
 			<div class="form-group col-lg-7 row">
 				<label for="DatabaseType">@SiteStrings.SiteSettings_Configuration_DatabaseType</label>
-				@Html.BootstrapDropDownListFor(x => x.DataStoreTypeName, Model.DatabaseTypesAsSelectList, SiteStrings.SiteSettings_Configuration_DatabaseType_Help)
+				@Html.BootstrapDropDownListFor(x => x.DatabaseName, Model.DatabaseTypesAsSelectList, SiteStrings.SiteSettings_Configuration_DatabaseType_Help)
 
 				<label for="ConnectionString">@SiteStrings.SiteSettings_Configuration_DatabaseConnectionString</label>
 				@Html.BootstrapLongTextBoxFor(s => s.ConnectionString, SiteStrings.SiteSettings_Configuration_DatabaseConnectionString_Help)

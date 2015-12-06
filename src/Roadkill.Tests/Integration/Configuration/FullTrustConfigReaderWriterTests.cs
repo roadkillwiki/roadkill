@@ -5,10 +5,9 @@ using System.Web.Configuration;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Integration.Configuration
 {
 	[TestFixture]
 	[Description("Tests writing and reading .config files.")]
@@ -54,7 +53,7 @@ namespace Roadkill.Tests.Unit
 			configManager.UpdateLanguage("fr-FR");
 
 			// Assert
-			Configuration config = configManager.GetConfiguration();
+			System.Configuration.Configuration config = configManager.GetConfiguration();
 			GlobalizationSection globalizationSection = config.GetSection("system.web/globalization") as GlobalizationSection;
 
 			Assert.That(globalizationSection, Is.Not.Null);
@@ -113,7 +112,7 @@ namespace Roadkill.Tests.Unit
 
 			// Act
 			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
-			Configuration config = configManager.GetConfiguration();
+			System.Configuration.Configuration config = configManager.GetConfiguration();
 
 			// Assert
 			Assert.That(config, Is.Not.Null);
@@ -131,7 +130,7 @@ namespace Roadkill.Tests.Unit
 			configManager.WriteConfigForFormsAuth();
 
 			// Assert
-			Configuration config = configManager.GetConfiguration();
+			System.Configuration.Configuration config = configManager.GetConfiguration();
 			AuthenticationSection authSection = config.GetSection("system.web/authentication") as AuthenticationSection;
 
 			Assert.That(authSection, Is.Not.Null);
@@ -153,7 +152,7 @@ namespace Roadkill.Tests.Unit
 			configManager.WriteConfigForWindowsAuth();
 
 			// Assert
-			Configuration config = configManager.GetConfiguration();
+			System.Configuration.Configuration config = configManager.GetConfiguration();
 			AuthenticationSection authSection = config.GetSection("system.web/authentication") as AuthenticationSection;
 
 			Assert.That(authSection, Is.Not.Null);
@@ -181,7 +180,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(appSettings.UseObjectCache, Is.True, "UseObjectCache");
 			Assert.That(appSettings.UseBrowserCache, Is.True, "UseBrowserCache");
 			Assert.That(appSettings.ConnectionStringName, Is.EqualTo("Roadkill-test"), "ConnectionStringName");
-			Assert.That(appSettings.DataStoreType, Is.EqualTo(DataStoreType.Sqlite), "DatabaseType");
+			Assert.That(appSettings.DatabaseName, Is.EqualTo("SqlServer2008"), "DatabaseType");
 			Assert.That(appSettings.EditorRoleName, Is.EqualTo("Editor-test"), "EditorRoleName");
 			Assert.That(appSettings.IgnoreSearchIndexErrors, Is.True, "IgnoreSearchIndexErrors");
 			Assert.That(appSettings.Installed, Is.True, "Installed");
@@ -208,7 +207,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			Assert.That(appSettings.AttachmentsRoutePath, Is.EqualTo("Attachments"), "AttachmentsRoutePath");
-			Assert.That(appSettings.DataStoreType, Is.EqualTo(DataStoreType.SqlServer2005), "DatabaseType");
+			Assert.That(appSettings.DatabaseName, Is.EqualTo("SqlServer2008"), "DatabaseType");
 			Assert.That(appSettings.IgnoreSearchIndexErrors, Is.False, "IgnoreSearchIndexErrors");
 			Assert.That(appSettings.IsPublicSite, Is.True, "IsPublicSite");
 			Assert.That(appSettings.LdapConnectionString, Is.EqualTo(""), "LdapConnectionString");
@@ -287,7 +286,7 @@ namespace Roadkill.Tests.Unit
 			ApplicationSettings appSettings = configManager.GetApplicationSettings();
 
 			// Assert
-			Assert.That(appSettings.DataStoreType, Is.EqualTo(DataStoreType.Sqlite), "DataStoreType [legacy test for databaseType]");
+			Assert.That(appSettings.DatabaseName, Is.EqualTo("SqlServer2008"), "DataStoreType [legacy test for databaseType]");
 		}
 
 		[Test]
@@ -303,7 +302,7 @@ namespace Roadkill.Tests.Unit
 				UseObjectCache = true,
 				UseBrowserCache = true,
 				ConnectionString = "connection string",
-				DataStoreTypeName = "MongoDB",
+				DatabaseName = "MongoDB",
 				EditorRoleName = "editor role name",
 				LdapConnectionString = "ldap connection string",
 				LdapUsername = "ldap username",
@@ -325,7 +324,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(appSettings.UseObjectCache, Is.EqualTo(viewModel.UseObjectCache), "UseObjectCache");
 			Assert.That(appSettings.UseBrowserCache, Is.EqualTo(viewModel.UseBrowserCache), "UseBrowserCache");
 			Assert.That(appSettings.ConnectionString, Is.EqualTo(viewModel.ConnectionString), "ConnectionStringName");
-			Assert.That(appSettings.DataStoreType, Is.EqualTo(DataStoreType.MongoDB), "DatabaseType");
+			Assert.That(appSettings.DatabaseName, Is.EqualTo("MongoDB"), "DatabaseName");
 			Assert.That(appSettings.EditorRoleName, Is.EqualTo(viewModel.EditorRoleName), "EditorRoleName");
 			Assert.That(appSettings.IgnoreSearchIndexErrors, Is.EqualTo(viewModel.IgnoreSearchIndexErrors), "IgnoreSearchIndexErrors");
 			Assert.That(appSettings.IsPublicSite, Is.EqualTo(viewModel.IsPublicSite), "IsPublicSite");

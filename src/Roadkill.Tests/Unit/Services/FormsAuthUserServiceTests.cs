@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Linq;
-using Roadkill.Core;
 using NUnit.Framework;
-using Roadkill.Core.Configuration;
+using Roadkill.Core;
 using Roadkill.Core.Database;
-using Roadkill.Core.Database.LightSpeed;
-using Roadkill.Core.Security;
-using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Tests.Unit;
+using Roadkill.Core.Security;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Services
 {
 	/// <summary>
 	/// Tests the FormsAuthUser SQL-based class (the default auth mechanism in Roadkill)

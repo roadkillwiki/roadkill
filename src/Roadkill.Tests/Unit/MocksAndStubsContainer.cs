@@ -15,6 +15,8 @@ namespace Roadkill.Tests.Unit
 	public class MocksAndStubsContainer
 	{
 		public ApplicationSettings ApplicationSettings { get; set; }
+		public ConfigReaderWriterStub ConfigReaderWriter { get; set; }
+		public RepositoryFactoryMock RepositoryFactory { get; set; }
 		public MemoryCache MemoryCache { get; set; }
 		public ListCache ListCache { get; set; }
 		public SiteCache SiteCache { get; set; }
@@ -42,6 +44,7 @@ namespace Roadkill.Tests.Unit
 			ApplicationSettings = new ApplicationSettings();
 			ApplicationSettings.Installed = true;
 			ApplicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "attachments");
+			ConfigReaderWriter = new ConfigReaderWriterStub();
 
 			// Cache
 			MemoryCache = useCacheMock ? new CacheMock() : CacheMock.RoadkillCache;
@@ -53,12 +56,13 @@ namespace Roadkill.Tests.Unit
 			Repository = new RepositoryMock();
 			Repository.SiteSettings = new SiteSettings();
 			Repository.SiteSettings.MarkupType = "Creole";
+			RepositoryFactory = new RepositoryFactoryMock() {Repository = Repository};
 
 			PluginFactory = new PluginFactoryMock();
 			MarkupConverter = new MarkupConverter(ApplicationSettings, Repository, PluginFactory);
 
 			// Dependencies for PageService. Be careful to make sure the class using this Container isn't testing the mock.
-			SettingsService = new SettingsService(ApplicationSettings, Repository);
+			SettingsService = new SettingsService(RepositoryFactory, ApplicationSettings);
 			UserService = new UserServiceMock(ApplicationSettings, Repository);
 			UserContext = new UserContext(UserService);
 			SearchService = new SearchServiceMock(ApplicationSettings, Repository, PluginFactory);

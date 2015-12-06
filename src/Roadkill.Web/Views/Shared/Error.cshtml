@@ -17,7 +17,7 @@
 
 @if (RoadkillContext.IsAdmin)
 {
-	<p>An error occured on @(Model.ControllerName).@Model.ActionName</p> 
+	<p>An error occurred on @(Model.ControllerName).@Model.ActionName</p> 
 	if (Model.Exception != null)
 	{
 	<p class="lead">@(Model.Exception.Message)</p>

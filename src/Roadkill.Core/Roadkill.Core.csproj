@@ -364,6 +364,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\IRepositoryFactory.cs" />
+    <Compile Include="Database\IRepositoryInstaller.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\LightSpeedRepositoryInstaller.cs" />
+    <Compile Include="Database\Repositories\MongoDB\MongoDBRepositoryInstaller.cs" />
+    <Compile Include="Database\RepositoryFactory.cs" />
+    <Compile Include="Database\RepositoryInfo.cs" />
     <Compile Include="DependencyResolution\ISetterInjected.cs" />
     <Compile Include="DependencyResolution\MVC\MvcAttributeProvider.cs" />
     <Compile Include="DependencyResolution\MVC\MvcModelBinders.cs" />
@@ -384,7 +390,6 @@
     <Compile Include="Configuration\FullTrustConfigReaderWriter.cs" />
     <Compile Include="Database\Export\SqlExportBuilder.cs" />
     <Compile Include="Database\Repositories\LightSpeed\DatabaseLogger.cs" />
-    <Compile Include="DependencyResolution\RepositoryManager.cs" />
     <Compile Include="Cache\CacheKeys.cs" />
     <Compile Include="Cache\IPluginCache.cs" />
     <Compile Include="Cache\SiteCache.cs" />
@@ -441,7 +446,6 @@
     <Compile Include="Cache\ListCache.cs" />
     <Compile Include="Database\Repositories\IUserRepository.cs" />
     <Compile Include="Database\Repositories\IPageRepository.cs" />
-    <Compile Include="Database\DataStoreType.cs" />
     <Compile Include="Database\Entities\IDataStoreEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\Conversion\ToEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\LightSpeedRepository.cs" />
@@ -500,6 +504,7 @@
     <Compile Include="Plugins\TextPlugin.cs" />
     <Compile Include="Plugins\PluginFactory.cs" />
     <Compile Include="Services\LocalFileService.cs" />
+    <Compile Include="Services\InstallationService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Text\MarkupLinkUpdater.cs" />
     <Compile Include="Text\MarkupParserHelp.cs" />

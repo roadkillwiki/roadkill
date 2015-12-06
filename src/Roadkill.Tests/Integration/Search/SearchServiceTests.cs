@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using Moq;
 using NUnit.Framework;
-using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Services;
 using Roadkill.Tests.Unit;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Integration
+namespace Roadkill.Tests.Integration.Search
 {
 	[TestFixture]
 	[Category("Integration")]

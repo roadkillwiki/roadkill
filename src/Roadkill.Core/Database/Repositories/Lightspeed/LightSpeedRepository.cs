@@ -1,57 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using Mindscape.LightSpeed;
 using Mindscape.LightSpeed.Caching;
 using Mindscape.LightSpeed.Linq;
 using Mindscape.LightSpeed.Querying;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Plugins;
-using StructureMap.Web;
 using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Core.Database.LightSpeed
 {
-	public class LightSpeedRepository : Roadkill.Core.Database.IRepository
+	public class LightSpeedRepository : IRepository
 	{
-		private ApplicationSettings _applicationSettings;
+		[ThreadStatic]
+		private static LightSpeedContext _context;
 
-		internal IQueryable<PageEntity> Pages
+		internal readonly IUnitOfWork _unitOfWork;
+		public DataProvider DataProvider { get; }
+		public string ConnectionString { get; }
+
+		internal IQueryable<PageEntity> Pages => UnitOfWork.Query<PageEntity>();
+		internal IQueryable<PageContentEntity> PageContents => UnitOfWork.Query<PageContentEntity>();
+		internal IQueryable<UserEntity> Users => UnitOfWork.Query<UserEntity>();
+
+		public static LightSpeedContext Context
 		{
 			get
 			{
-				return UnitOfWork.Query<PageEntity>();
-			}
-		}
+				if (_context == null)
+				{
+					throw new DatabaseException("The LightSpeedContext for Lightspeed is null", null);
+				}
 
-		internal IQueryable<PageContentEntity> PageContents
-		{
-			get
-			{
-				return UnitOfWork.Query<PageContentEntity>();
-			}
-		}
-
-		internal IQueryable<UserEntity> Users
-		{
-			get
-			{
-				return UnitOfWork.Query<UserEntity>();
-			}
-		}
-
-		public virtual LightSpeedContext Context
-		{
-			get
-			{
-				LightSpeedContext context = DependencyResolution.LocatorStartup.Locator.GetInstance<LightSpeedContext>();
-				if (context == null)
-					throw new DatabaseException("The context for Lightspeed is null - has Startup() been called?", null);
-
-				return context;
+				return _context;
 			}
 		}
 
@@ -59,129 +42,50 @@ namespace Roadkill.Core.Database.LightSpeed
 		{
 			get
 			{
-				EnsureConectionString();
-
-				IUnitOfWork unitOfWork = DependencyResolution.LocatorStartup.Locator.GetInstance<IUnitOfWork>();
-				if (unitOfWork == null)
+				if (_unitOfWork == null)
 				{
-					string debug = DependencyResolution.LocatorStartup.Locator.Container.WhatDoIHave();
-                    throw new DatabaseException("The IUnitOfWork for Lightspeed is null - has Startup() been called?" + debug, null);
+                    throw new DatabaseException("The IUnitOfWork for Lightspeed is null", null);
 				}
 
-				return unitOfWork;
+				return _unitOfWork;
 			}
 		}
 
-		public LightSpeedRepository(ApplicationSettings settings)
+		public LightSpeedRepository(DataProvider dataDataProvider, string connectionString)
 		{
-			_applicationSettings = settings;
+			if (string.IsNullOrEmpty(connectionString))
+				throw new DatabaseException("The connection string is empty", null);
+
+			DataProvider = dataDataProvider;
+			ConnectionString = connectionString;
+
+			if (_context == null)
+			{
+				_context = CreateLightSpeedContext();
+			}
+
+			_unitOfWork = _context.CreateUnitOfWork();
 		}
 
-		#region IRepository
-		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)
-		{
-			if (!string.IsNullOrEmpty(connectionString))
-			{
-				LightSpeedContext context = CreateLightSpeedContext(dataStoreType, connectionString);
-
-				if (enableCache)
-					context.Cache = new CacheBroker(new DefaultCache());
-
-				LocatorStartup.Locator.Container.Configure(c => c.For<LightSpeedContext>().Singleton().Use(context));
-				LocatorStartup.Locator.Container.Configure(c =>
-				{
-					c.For<IUnitOfWork>()
-						.HybridHttpOrThreadLocalScoped()
-						.Use(ctx => ctx.GetInstance<LightSpeedContext>().CreateUnitOfWork());
-				});
-			}
-			else
-			{
-				Log.Warn("LightSpeedRepository.Startup skipped as no connection string was provided");
-			}
-		}
-
-		private LightSpeedContext CreateLightSpeedContext(DataStoreType dataStoreType, string connectionString)
+		private LightSpeedContext CreateLightSpeedContext()
 		{
 			LightSpeedContext context = new LightSpeedContext();
-			context.ConnectionString = connectionString;
-			context.DataProvider = dataStoreType.LightSpeedDbType;
+			context.Cache = new CacheBroker(new DefaultCache());
+			context.ConnectionString = ConnectionString;
+			context.DataProvider = DataProvider;
 			context.IdentityMethod = IdentityMethod.GuidComb;
 			context.CascadeDeletes = true;
-
-			if (_applicationSettings.IsLoggingEnabled)
-			{
-				context.VerboseLogging = true;
-				context.Logger = new DatabaseLogger();
-			}
 
 			return context;
 		}
 
-		public void TestConnection(DataStoreType dataStoreType, string connectionString)
+		public void EnableVerboseLogging()
 		{
-			LightSpeedContext context = CreateLightSpeedContext(dataStoreType, connectionString);
-
-			using (IDbConnection connection = context.DataProviderObjectFactory.CreateConnection())
-			{
-				connection.ConnectionString = connectionString;
-				connection.Open();
-			}
+			Context.VerboseLogging = true;
+			Context.Logger = new DatabaseLogger();
 		}
-		#endregion
 
 		#region ISettingsRepository
-		public void Install(DataStoreType dataStoreType, string connectionString, bool enableCache)
-		{
-			LightSpeedContext context = LocatorStartup.Locator.GetInstance<LightSpeedContext>();
-			if (context == null)
-				throw new InvalidOperationException("Repository.Install failed - LightSpeedContext was null from the LocatorStartup");
-
-			using (IDbConnection connection = context.DataProviderObjectFactory.CreateConnection())
-			{
-				connection.ConnectionString = connectionString;
-				connection.Open();
-
-				IDbCommand command = context.DataProviderObjectFactory.CreateCommand();
-				command.Connection = connection;
-
-				dataStoreType.Schema.Drop(command);
-				dataStoreType.Schema.Create(command);
-			}
-		}
-
-		public void Upgrade(ApplicationSettings settings)
-		{
-			try
-			{
-				using (IDbConnection connection = Context.DataProviderObjectFactory.CreateConnection())
-				{
-					connection.ConnectionString = settings.ConnectionString;
-					connection.Open();
-
-					IDbCommand command = Context.DataProviderObjectFactory.CreateCommand();
-					command.Connection = connection;
-
-					settings.DataStoreType.Schema.Upgrade(command);
-				}
-			}
-			catch (Exception ex)
-			{
-				Log.Error("Upgrade failed: {0}", ex);
-				throw new UpgradeException("A problem occurred upgrading the database schema.\n\n", ex);
-			}
-
-			try
-			{
-				SaveSiteSettings(new SiteSettings());
-			}
-			catch (Exception ex)
-			{
-				Log.Error("Upgrade failed: {0}", ex);
-				throw new UpgradeException("A problem occurred saving the site preferences.\n\n", ex);
-			}
-		}
-
 		public SiteSettings GetSiteSettings()
 		{
 			SiteSettings siteSettings = new SiteSettings();
@@ -583,15 +487,9 @@ namespace Roadkill.Core.Database.LightSpeed
 		#region IDisposable
 		public void Dispose()
 		{
-			UnitOfWork.SaveChanges();
-			UnitOfWork.Dispose();
+			_unitOfWork.SaveChanges();
+			_unitOfWork.Dispose();
 		}
 		#endregion
-
-		private void EnsureConectionString()
-		{
-			if (_applicationSettings.Installed && string.IsNullOrEmpty(_applicationSettings.ConnectionString))
-				throw new DatabaseException("The connection string is empty in the web.config file (and the roadkill.config's installed=true).", null);
-		}
 	}
 }

@@ -48,6 +48,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			SiteSettings siteSettings = SettingsService.GetSiteSettings();
 			SettingsViewModel model = new SettingsViewModel(ApplicationSettings, siteSettings);
+			model.SetSupportedDatabases(SettingsService.GetSupportedDatabases());
 
 			return View(model);
 		}

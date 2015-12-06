@@ -14,6 +14,7 @@ using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Tests.Unit.StubsAndMocks;
+using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
 namespace Roadkill.Tests.Unit.Mvc.Attributes
 {
@@ -179,7 +180,9 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		private SettingsService GetSettingsService()
 		{
 			_repositoryMock.SiteSettings.PluginLastSaveDate = _pluginLastSavedDate;
-			SettingsService service = new SettingsService(new ApplicationSettings(), _repositoryMock);
+			var repositoryFactory = new RepositoryFactoryMock() { Repository = _repositoryMock };
+
+			SettingsService service = new SettingsService(repositoryFactory, new ApplicationSettings());
 			return service;
 		}
 
@@ -198,7 +201,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 			PageService pageService = new PageService(appSettings, _repositoryMock, searchService, historyService, userContext, listCache, pageViewModelCache, siteCache, _pluginFactory);
 
 			// WikiController
-			SettingsService settingsService = new SettingsService(appSettings, _repositoryMock);
+			SettingsService settingsService = new SettingsService(new RepositoryFactoryMock(), appSettings);
 			UserServiceStub userManager = new UserServiceStub();
 			WikiController wikiController = new WikiController(appSettings, userManager, pageService, userContext, settingsService);
 

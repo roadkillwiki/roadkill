@@ -23,7 +23,7 @@
 
 <form role="form" method="post" id="step3-form" action="@Url.Action("Step4", "Install")">
 	@(Html.HiddenFor<SettingsViewModel, string>(h => h.ConnectionString))
-	@(Html.HiddenFor<SettingsViewModel, string>(h => h.DataStoreTypeName))
+	@(Html.HiddenFor<SettingsViewModel, string>(h => h.DatabaseName))
 	@(Html.HiddenFor<SettingsViewModel, string>(h => h.SiteName))
 	@(Html.HiddenFor<SettingsViewModel, string>(h => h.SiteUrl))
 	@(Html.HiddenFor<SettingsViewModel, bool>(h => h.UseWindowsAuth))

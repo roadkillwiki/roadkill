@@ -40,6 +40,24 @@ namespace Roadkill.Tests
 			}
 		}
 
+		public static void ClearDatabase()
+		{
+			using (SqlConnection connection = new SqlConnection(ConnectionString))
+			{
+				connection.Open();
+
+				SqlCommand command = connection.CreateCommand();
+				command.CommandText =
+					"DELETE FROM roadkill_pagecontent;"+
+					"DELETE FROM roadkill_pages;"+
+					"DELETE FROM roadkill_users;"+
+					"DELETE FROM roadkill_siteconfiguration;"+
+					"DBCC CHECKIDENT (roadkill_pages, RESEED, 1);";
+
+				command.ExecuteNonQuery();
+			}
+		}
+
 		private static string ReadSqlServerScript()
 		{
 			string path = Path.Combine(Settings.LIB_FOLDER, "Test-databases", "roadkill-sqlserver.sql");

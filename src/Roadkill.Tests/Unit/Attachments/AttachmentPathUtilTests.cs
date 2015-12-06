@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Attachments
 {
 	[TestFixture]
 	[Category("Unit")]

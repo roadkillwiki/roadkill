@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security;
-using StructureMap;
 
-namespace Roadkill.Tests
+namespace Roadkill.Tests.Unit.StubsAndMocks
 {
 	public class UserServiceStub : UserServiceBase
 	{

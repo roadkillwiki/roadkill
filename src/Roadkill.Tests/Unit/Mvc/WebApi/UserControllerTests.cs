@@ -7,8 +7,9 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.Controllers.Api;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit.WebApi
+namespace Roadkill.Tests.Unit.Mvc.WebApi
 {
 	[TestFixture]
 	[Category("Unit")]

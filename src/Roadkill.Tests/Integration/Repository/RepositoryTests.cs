@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
@@ -18,13 +14,6 @@ namespace Roadkill.Tests.Integration.Repository
 		protected ApplicationSettings ApplicationSettings;
 
 		protected abstract string ConnectionString { get; }
-		protected virtual DataStoreType DataStoreType { get { return null; } }
-
-		[TestFixtureSetUp]
-		public void TestFixtureSetup()
-		{
-			SqlServerSetup.RecreateLocalDbData();
-		}
 
 		[SetUp]
 		public void SetUp()
@@ -32,15 +21,21 @@ namespace Roadkill.Tests.Integration.Repository
 			ApplicationSettings = new ApplicationSettings()
 			{
 				ConnectionString = ConnectionString, 
-				DataStoreType = DataStoreType,
+				DatabaseName = "SqlServer2008",
 				LoggingTypes =  "none"
 			};
 
 			Repository = GetRepository();
-			Repository.Startup(ApplicationSettings.DataStoreType, ApplicationSettings.ConnectionString, false);
-			Repository.Install(ApplicationSettings.DataStoreType, ApplicationSettings.ConnectionString, false);
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			Clearup();
+			Repository.Dispose();
 		}
 
 		protected abstract IRepository GetRepository();
+		protected abstract void Clearup();
 	}
 }

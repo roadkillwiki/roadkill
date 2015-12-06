@@ -1,57 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Runtime.Caching;
-using System.Text;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Plugins;
-using StructureMap.Attributes;
 using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Core.Database.MongoDB
 {
 	public class MongoDBRepository : IRepository
 	{
-		private ApplicationSettings _settings;
+		internal readonly string ConnectionString;
 
-		public IQueryable<Page> Pages
+		public IQueryable<Page> Pages => Queryable<Page>();
+		public IQueryable<PageContent> PageContents => Queryable<PageContent>();
+		public IQueryable<User> Users => Queryable<User>();
+
+		public MongoDBRepository(string connectionString)
 		{
-			get
-			{
-				return Queryable<Page>();
-			}
+			ConnectionString = connectionString;
 		}
 
-		public IQueryable<PageContent> PageContents
+		public void Wipe()
 		{
-			get
-			{
-				return Queryable<PageContent>();
-			}
-		}
+			string databaseName = MongoUrl.Create(ConnectionString).DatabaseName;
+			MongoClient client = new MongoClient(ConnectionString);
+			MongoServer server = client.GetServer();
+			MongoDatabase database = server.GetDatabase(databaseName);
 
-		public IQueryable<User> Users
-		{
-			get
-			{
-				return Queryable<User>();
-			}
-		}
-
-		public MongoDBRepository(ApplicationSettings settings)
-		{
-			_settings = settings;
+			database.DropCollection(typeof(PageContent).Name);
+			database.DropCollection(typeof(Page).Name);
+			database.DropCollection(typeof(User).Name);
+			database.DropCollection(typeof(SiteConfigurationEntity).Name);
 		}
 
 		private MongoCollection<T> GetCollection<T>()
 		{
-			string connectionString = _settings.ConnectionString;
+			string connectionString = ConnectionString;
 
 			string databaseName = MongoUrl.Create(connectionString).DatabaseName;
 			MongoClient client = new MongoClient(connectionString);
@@ -167,43 +155,6 @@ namespace Roadkill.Core.Database.MongoDB
 			entity.Version = ApplicationSettings.ProductVersion.ToString();
 			entity.Content = preferences.GetJson();
 			SaveOrUpdate<SiteConfigurationEntity>(entity);
-		}
-
-		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)
-		{
-			// Nothing to do here
-		}
-
-		public void Install(DataStoreType dataStoreType, string connectionString, bool enableCache)
-		{
-			string databaseName = MongoUrl.Create(connectionString).DatabaseName;
-			MongoClient client = new MongoClient(connectionString);
-			MongoServer server = client.GetServer();
-			MongoDatabase database = server.GetDatabase(databaseName);
-			database.DropCollection("Page");
-			database.DropCollection("PageContent");
-			database.DropCollection("User");
-			database.DropCollection("SiteConfiguration");
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="dataStoreType"></param>
-		/// <param name="connectionString"></param>
-		/// <exception cref="MongoConnectionException">Can't connect to the MongoDB server (but it's a valid connection string)</exception>
-		public void TestConnection(DataStoreType dataStoreType, string connectionString)
-		{
-			string databaseName = MongoUrl.Create(connectionString).DatabaseName;
-			MongoClient client = new MongoClient(connectionString);
-			MongoServer server = client.GetServer();
-			MongoDatabase database = server.GetDatabase(databaseName);
-			database.GetCollectionNames();
-		}
-
-		public void Upgrade(ApplicationSettings settings)
-		{
-			// TODO
 		}
 
 		public IEnumerable<Page> AllPages()

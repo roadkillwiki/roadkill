@@ -10,7 +10,7 @@ using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Tests.Unit.StubsAndMocks
 {
-	internal class ConfigReaderWriterStub : ConfigReaderWriter
+	public class ConfigReaderWriterStub : ConfigReaderWriter
 	{
 		public ApplicationSettings ApplicationSettings { get; set; }
 		public string UILanguageCode { get; set; }
@@ -40,7 +40,7 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 
 			// The bare minimum needed to test the installer
 			ApplicationSettings.ConnectionString = settings.ConnectionString;
-			ApplicationSettings.DataStoreType = DataStoreType.ByName(settings.DataStoreTypeName);
+			ApplicationSettings.DatabaseName = settings.DatabaseName;
 			ApplicationSettings.UseBrowserCache = settings.UseBrowserCache;
 			ApplicationSettings.UseObjectCache = settings.UseObjectCache;
 		}

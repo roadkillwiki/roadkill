@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
-using Roadkill.Core;
+﻿using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 
 // Reference:
 // http://www.wikicreole.org/attach/Creole1.0TestCases/creole1.0test.txt
 // http://www.wikicreole.org/wiki/JSPWikiTestCases
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Text
 {
 	[TestFixture]
 	[Category("Unit")]

@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Database;
 using Roadkill.Tests.Unit.StubsAndMocks;
 using PluginSettings = Roadkill.Core.Plugins.Settings;
 
@@ -29,17 +22,18 @@ namespace Roadkill.Tests.Integration.Repository
 		[Test]
 		public void Install_Should_Clear_All_Entities_And_Create_Site_Settings()
 		{
-			// Arrange
+			//// Arrange
 
-			// Act
-			Repository.Install(ApplicationSettings.DataStoreType, ApplicationSettings.ConnectionString, false);
+			//// Act
+			//Repository.Install(ApplicationSettings.DatabaseName, ApplicationSettings.ConnectionString, false);
 
-			// Assert
-			Assert.That(Repository.AllPages().Count(), Is.EqualTo(0));
-			Assert.That(Repository.AllPageContents().Count(), Is.EqualTo(0));
-			Assert.That(Repository.FindAllAdmins().Count(), Is.EqualTo(0));
-			Assert.That(Repository.FindAllEditors().Count(), Is.EqualTo(0));
-			Assert.That(Repository.GetSiteSettings(), Is.Not.Null);
+			//// Assert
+			//Assert.That(Repository.AllPages().Count(), Is.EqualTo(0));
+			//Assert.That(Repository.AllPageContents().Count(), Is.EqualTo(0));
+			//Assert.That(Repository.FindAllAdmins().Count(), Is.EqualTo(0));
+			//Assert.That(Repository.FindAllEditors().Count(), Is.EqualTo(0));
+			//Assert.That(Repository.GetSiteSettings(), Is.Not.Null);
+			Assert.Fail("TODO");
 		}
 		
 		[Test]
@@ -100,41 +94,43 @@ namespace Roadkill.Tests.Integration.Repository
 		[Test]
 		public void TestConnection_With_Valid_Connection_String()
 		{
-			// Arrange
+			Assert.Fail("TODO");
+			//// Arrange
 
 
-			// Act
-			Repository.TestConnection(ApplicationSettings.DataStoreType, ApplicationSettings.ConnectionString);
+			//// Act
+			//Repository.TestConnection(ApplicationSettings.DatabaseName, ApplicationSettings.ConnectionString);
 
-			// Assert (no exception)
+			//// Assert (no exception)
 		}
 
 		[Test]
 		public void TestConnection_With_Invalid_Connection_String()
 		{
-			// [expectedexception] can't handle exception heirachies
+			Assert.Fail("TODO");
+			//// [expectedexception] can't handle exception heirachies
 
-			// Arrange
+			//// Arrange
 
-			try
-			{
-				// Act
-				// (MongoConnectionException is also thrown here)
-				Repository.TestConnection(ApplicationSettings.DataStoreType, InvalidConnectionString);
-			}
-			catch (DbException)
-			{
-				// Assert
-				Assert.Pass();
-			}
-			catch (ArgumentException)
-			{
-				Assert.Pass();
-			}
-			catch (Exception)
-			{
-				Assert.Fail();
-			}
+			//try
+			//{
+			//	// Act
+			//	// (MongoConnectionException is also thrown here)
+			//	Repository.TestConnection(ApplicationSettings.DatabaseName, InvalidConnectionString);
+			//}
+			//catch (DbException)
+			//{
+			//	// Assert
+			//	Assert.Pass();
+			//}
+			//catch (ArgumentException)
+			//{
+			//	Assert.Pass();
+			//}
+			//catch (Exception)
+			//{
+			//	Assert.Fail();
+			//}
 		}
 	}
 }

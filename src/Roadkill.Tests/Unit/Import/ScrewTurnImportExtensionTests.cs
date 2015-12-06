@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using Roadkill.Core.Import;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Import
 {
 	[TestFixture]
 	[Category("Unit")]

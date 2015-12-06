@@ -21,10 +21,5 @@ namespace Roadkill.Core.Services
 			ApplicationSettings = settings;
 			Repository = repository;
 		}
-
-		public void UpdateRepository(IRepository repository)
-		{
-			Repository = repository;
-		}
 	}
 }

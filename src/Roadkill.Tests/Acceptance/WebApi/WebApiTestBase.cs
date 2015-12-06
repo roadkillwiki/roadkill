@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Configuration;
+using Mindscape.LightSpeed;
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
+using IRepository = Roadkill.Core.Database.IRepository;
 
 namespace Roadkill.Tests.Acceptance.WebApi
 {
@@ -51,15 +53,12 @@ namespace Roadkill.Tests.Acceptance.WebApi
 		protected IRepository GetRepository()
 		{
 			ApplicationSettings appSettings = new ApplicationSettings();
-			appSettings.DataStoreType = DataStoreType.SqlServer2012;
+			appSettings.DatabaseName = "SqlServer2008";
 			appSettings.ConnectionString = SqlServerSetup.ConnectionString;
 			appSettings.LoggingTypes = "none";
 			appSettings.UseBrowserCache = false;
 
-			//Log.ConfigureLogging(appSettings);
-
-			LightSpeedRepository repository = new LightSpeedRepository(appSettings);
-			repository.Startup(appSettings.DataStoreType, appSettings.ConnectionString, false);
+			LightSpeedRepository repository = new LightSpeedRepository(DataProvider.SqlServer2008, SqlServerSetup.ConnectionString);
 			return repository;
 		}
 

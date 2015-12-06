@@ -87,7 +87,7 @@ namespace Roadkill.Tests.Acceptance.Smoke
 			// step 2
 			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
 			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
-			select.SelectByValue(DataStoreType.SqlServerCe.Name);
+			select.SelectByValue("SqlServer2008");
 
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"Data Source=|DataDirectory|\roadkill.sdf");
 			Driver.FindElement(By.CssSelector("div.continue input")).Click();

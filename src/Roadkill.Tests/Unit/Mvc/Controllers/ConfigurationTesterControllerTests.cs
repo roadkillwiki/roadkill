@@ -1,30 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web.Mvc;
-using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
-using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Converters;
-using Roadkill.Core.Database;
-using Roadkill.Core.Localization;
-using Roadkill.Core.Services;
-using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
-using System.Runtime.Caching;
-using System.Threading;
-using Roadkill.Tests.Unit.StubsAndMocks;
-using MvcContrib.TestHelper;
-using Roadkill.Core.DependencyResolution;
-using Roadkill.Core.DependencyResolution.StructureMap;
 using Roadkill.Tests.Setup;
-using StructureMap;
+using Roadkill.Tests.Unit.StubsAndMocks;
+using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.Controllers
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -53,7 +39,7 @@ namespace Roadkill.Tests.Unit
 			_configReaderWriter = new ConfigReaderWriterStub();
 			_activeDirectoryProviderMock = new ActiveDirectoryProviderMock();
 
-			_configTesterController = new ConfigurationTesterController(_applicationSettings, _context, _configReaderWriter, _activeDirectoryProviderMock, _userService);
+			_configTesterController = new ConfigurationTesterController(_applicationSettings, _context, _configReaderWriter, _activeDirectoryProviderMock, _userService, new RepositoryFactoryMock());
 		}
 
 		[Test]

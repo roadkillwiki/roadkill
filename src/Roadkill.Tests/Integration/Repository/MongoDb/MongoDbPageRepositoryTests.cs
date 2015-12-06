@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using Roadkill.Core.Configuration;
+﻿using NUnit.Framework;
 using Roadkill.Core.Database;
-using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Database.MongoDB;
 
-namespace Roadkill.Tests.Integration.Repository.LightSpeed
+namespace Roadkill.Tests.Integration.Repository.MongoDb
 {
 	[TestFixture]
 	[Category("Integration")]
@@ -25,7 +17,12 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 
 		protected override IRepository GetRepository()
 		{
-			return new MongoDBRepository(ApplicationSettings);
+			return new MongoDBRepository(ConnectionString);
+		}
+
+		protected override void Clearup()
+		{
+			new MongoDBRepository(ConnectionString).Wipe();
 		}
 	}
 }

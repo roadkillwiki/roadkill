@@ -1,25 +1,14 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
-using Moq;
-using NUnit;
 using NUnit.Framework;
 using Roadkill.Core;
-using Roadkill.Core.Mvc.Controllers;
-using MvcContrib.TestHelper;
-using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Mvc.Attributes;
-using System.Security.Principal;
-using Roadkill.Core.Security;
-using Roadkill.Tests.Unit.StubsAndMocks;
-using System.Web.Http.Controllers;
-using System.Threading;
 using Roadkill.Core.Database;
+using Roadkill.Core.Mvc.Attributes;
+using Roadkill.Tests.Unit.StubsAndMocks;
+using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.Attributes
 {
 	/// <summary>
 	/// Setup-heavy tests for the AdminRequired attribute.

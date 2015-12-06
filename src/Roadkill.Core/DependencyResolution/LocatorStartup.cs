@@ -53,10 +53,6 @@ namespace Roadkill.Core.DependencyResolution
 			var settings = Locator.GetInstance<ApplicationSettings>();
 			AfterInitializationInternal(Locator.Container, settings);
 
-			// Setup the repository
-			var repository = Locator.GetInstance<IRepository>();
-			repository.Startup(settings.DataStoreType, settings.ConnectionString, settings.UseObjectCache);
-
 			Log.ConfigureLogging(settings);
 		}
 

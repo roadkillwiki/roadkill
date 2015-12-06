@@ -1,20 +1,15 @@
 ﻿#if !MONO
-using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Roadkill.Core;
-using NUnit.Framework;
 using Moq;
-using System.DirectoryServices.AccountManagement;
-using Moq.Language.Flow;
+using NUnit.Framework;
+using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security.Windows;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Services
 {
 	/// <summary>
 	/// Tests the ActiveDirectory User manager class using stubs for the service.

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
@@ -12,7 +8,7 @@ using Roadkill.Core.Security;
 using Roadkill.Core.Services;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Security
 {
 	[TestFixture]
 	[Category("Unit")]

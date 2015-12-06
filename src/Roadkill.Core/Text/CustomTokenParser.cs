@@ -84,9 +84,6 @@ namespace Roadkill.Core
 		{
 			if (string.IsNullOrEmpty(settings.CustomTokensPath) || !File.Exists(settings.CustomTokensPath))
 			{
-				if (!string.IsNullOrEmpty(settings.CustomTokensPath))
-					Log.Warn("The custom tokens file does not exist in path '{0}' - using an empty token list.", settings.CustomTokensPath);
-
 				return new List<TextToken>();
 			}
 

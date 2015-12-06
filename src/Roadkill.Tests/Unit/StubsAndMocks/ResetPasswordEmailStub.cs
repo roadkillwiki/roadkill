@@ -3,7 +3,7 @@ using Roadkill.Core.Database;
 using Roadkill.Core.Email;
 using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.StubsAndMocks
 {
 	public class ResetPasswordEmailStub : ResetPasswordEmail
 	{

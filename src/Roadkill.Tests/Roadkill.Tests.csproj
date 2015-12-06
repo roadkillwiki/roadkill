@@ -285,7 +285,6 @@
   <ItemGroup>
     <Compile Include="Acceptance\OtherDatabasesInstallerTests.cs" />
     <Compile Include="Acceptance\FileManagerTests.cs" />
-    <Compile Include="Acceptance\UpgradeTests.cs" />
     <Compile Include="Acceptance\WebDriverExtensions.cs" />
     <Compile Include="Acceptance\InstallerTests.cs" />
     <Compile Include="Acceptance\SearchTests.cs" />
@@ -330,6 +329,8 @@
     <Compile Include="Unit\Cache\PageServiceCacheTests.cs" />
     <Compile Include="Unit\Cache\ListCacheTests.cs" />
     <Compile Include="Unit\Database\EntityTests.cs" />
+    <Compile Include="Unit\Database\RepositoryFactoryTests.cs" />
+    <Compile Include="Unit\Database\RepositoryInfoTests.cs" />
     <Compile Include="Unit\Database\SchemaTests.cs" />
     <Compile Include="Unit\Email\EmailTemplateTests.cs" />
     <Compile Include="Unit\Export\SqlExportBuilderTests.cs" />
@@ -372,7 +373,6 @@
     <Compile Include="Unit\Mvc\ViewModels\FileViewModelTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\DirectoryViewModelTests.cs" />
     <Compile Include="Unit\Attachments\MimeMappingTests.cs" />
-    <Compile Include="Unit\Database\DataStore\DataStoreTypeTests.cs" />
     <Compile Include="Unit\Database\SiteSettingsTests.cs" />
     <Compile Include="Unit\DI\RoadkillRegistryTests.cs" />
     <Compile Include="Unit\Database\LightSpeed\ToEntityTests.cs" />
@@ -401,11 +401,12 @@
     <Compile Include="Unit\StubsAndMocks\DbCommandStub.cs" />
     <Compile Include="Unit\StubsAndMocks\EmailClientMock.cs" />
     <Compile Include="Unit\StubsAndMocks\FileServiceMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\RepositoryFactoryMock.cs" />
     <Compile Include="Unit\StubsAndMocks\IdentityStub.cs" />
     <Compile Include="Unit\StubsAndMocks\PrincipalStub.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\HttpCachePolicyMock.cs" />
     <Compile Include="Unit\StubsAndMocks\PluginFactoryMock.cs" />
-    <Compile Include="Unit\StubsAndMocks\RepositoryThrowsExceptionsMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\RepositoryInstallerMock.cs" />
     <Compile Include="Unit\StubsAndMocks\ResetPasswordEmailStub.cs" />
     <Compile Include="Unit\StubsAndMocks\EmailTemplateStub.cs" />
     <Compile Include="Unit\StubsAndMocks\SpecialPageMock.cs" />

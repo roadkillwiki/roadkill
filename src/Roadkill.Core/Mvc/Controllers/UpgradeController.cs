@@ -37,20 +37,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public ActionResult Run()
 		{
-			if (!ApplicationSettings.UpgradeRequired)
-				return RedirectToAction("Index", "Home");
-
-			try
-			{
-				_repository.Upgrade(ApplicationSettings);
-				_configReaderWriter.UpdateCurrentVersion(ApplicationSettings.ProductVersion.ToString());
-
-				return RedirectToAction("Index", "Home");
-			}
-			catch (UpgradeException ex)
-			{
-				return View("Index", ex);
-			}
+			throw new NotImplementedException("Needs rewriting");
 		}
 	}
 }

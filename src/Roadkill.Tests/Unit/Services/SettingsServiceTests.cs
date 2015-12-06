@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
-using Roadkill.Core;
+﻿using NUnit.Framework;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Database;
-using Roadkill.Core.DependencyResolution;
-using Roadkill.Core.DependencyResolution.StructureMap;
-using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Security;
-using Roadkill.Tests.Setup;
+using Roadkill.Core.Services;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Services
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -22,7 +13,6 @@ namespace Roadkill.Tests.Unit
 		private MocksAndStubsContainer _container;
 
 		private RepositoryMock _repository;
-		private ApplicationSettings _applicationSettings;
 		private SettingsService _settingsService;
 
 		[SetUp]
@@ -30,7 +20,6 @@ namespace Roadkill.Tests.Unit
 		{
 			_container = new MocksAndStubsContainer();
 
-			_applicationSettings = _container.ApplicationSettings;
 			_repository = _container.Repository;
 			_settingsService = _container.SettingsService;
 		}
@@ -38,37 +27,41 @@ namespace Roadkill.Tests.Unit
 		[Test]
 		public void ClearUserTable_Should_Remove_All_Users()
 		{
-			// Arrange
-			_repository.Users.Add(new User() { IsAdmin = true });
-			_repository.Users.Add(new User() { IsAdmin = true });
-			_repository.Users.Add(new User() { IsEditor = true });
-			_repository.Users.Add(new User() { IsEditor = true });
+			Assert.Fail("TODO");
 
-			// Act
-			_settingsService.ClearUserTable();
+			//// Arrange
+			//_repository.Users.Add(new User() { IsAdmin = true });
+			//_repository.Users.Add(new User() { IsAdmin = true });
+			//_repository.Users.Add(new User() { IsEditor = true });
+			//_repository.Users.Add(new User() { IsEditor = true });
 
-			// Assert
-			Assert.That(_repository.FindAllAdmins().Count(), Is.EqualTo(0)); // need an allusers method
-			Assert.That(_repository.FindAllEditors().Count(), Is.EqualTo(0));
+			//// Act
+			//_settingsService.ClearUserTable();
+
+			//// Assert
+			//Assert.That(_repository.FindAllAdmins().Count(), Is.EqualTo(0)); // need an allusers method
+			//Assert.That(_repository.FindAllEditors().Count(), Is.EqualTo(0));
 		}
 
 		[Test]
 		public void CreateTables_Calls_Repository_Install()
 		{
-			// Arrange
-			SettingsViewModel model = new SettingsViewModel();
-			model.DataStoreTypeName = "SQLite";
-			model.ConnectionString = "Data Source=somefile.sqlite;";
-			model.UseObjectCache = true;
+			Assert.Fail("TODO");
 
-			// Act
-			_settingsService.CreateTables(model);
+			//// Arrange
+			//SettingsViewModel model = new SettingsViewModel();
+			//model.DatabaseName = "SQLite";
+			//model.ConnectionString = "Data Source=somefile.sqlite;";
+			//model.UseObjectCache = true;
+
+			//// Act
+			//_settingsService.CreateTables(model);
 
 
-			// Assert
-			Assert.That(_repository.InstalledConnectionString, Is.EqualTo(model.ConnectionString));
-			Assert.That(_repository.InstalledDataStoreType, Is.EqualTo(DataStoreType.Sqlite));
-			Assert.That(_repository.InstalledEnableCache, Is.EqualTo(model.UseObjectCache));
+			//// Assert
+			//Assert.That(_repository.InstalledConnectionString, Is.EqualTo(model.ConnectionString));
+			//Assert.That(_repository.InstalledDataStoreType, Is.EqualTo(DataStoreType.Sqlite));
+			//Assert.That(_repository.InstalledEnableCache, Is.EqualTo(model.UseObjectCache));
 		}
 
 		[Test]
@@ -171,9 +164,7 @@ namespace Roadkill.Tests.Unit
 				Theme = "theme",
 			};
 
-			RepositoryMock repository = new RepositoryMock();
-			IocHelper.ConfigureLocator(appSettings);
-			SettingsService settingsService = new SettingsService(appSettings, repository);
+			SettingsService settingsService = new SettingsService(new RepositoryFactoryMock(), appSettings);
 
 			// Act
 			settingsService.SaveSiteSettings(validConfigSettings);

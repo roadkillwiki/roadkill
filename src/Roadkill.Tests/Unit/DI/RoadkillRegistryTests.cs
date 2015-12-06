@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
@@ -22,11 +21,10 @@ using Roadkill.Core.Plugins;
 using Roadkill.Core.Security;
 using Roadkill.Core.Security.Windows;
 using Roadkill.Core.Services;
-using Roadkill.Tests.Setup;
 using Roadkill.Tests.Unit.StubsAndMocks;
 using StructureMap;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.DI
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -165,11 +163,11 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Load_Custom_Repository_From_DatabaseType()
+		public void Should_Load_Custom_Repository_From_DatabaseName()
 		{
 			// Arrange
 			var settings = new ApplicationSettings();
-			settings.DataStoreType = DataStoreType.MongoDB;
+			settings.DatabaseName = "MongoDB";
 
 			var registry = new RoadkillRegistry(new ConfigReaderWriterStub() { ApplicationSettings = settings });
 			var container = new Container(registry);
@@ -253,7 +251,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			var settings = new ApplicationSettings();
-			settings.DataStoreType = DataStoreType.MongoDB;
+			settings.DatabaseName = "MongoDB";
 
 			var registry = new RoadkillRegistry(new ConfigReaderWriterStub() { ApplicationSettings = settings });
 			var container = new Container(registry);

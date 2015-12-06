@@ -42,7 +42,7 @@ namespace Roadkill.Tests.Acceptance
 			// step 2
 			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
 			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
-			select.SelectByValue(DataStoreType.Sqlite.Name);
+			select.SelectByValue("SqlServer2008");
 
 			// install sqlite
 			Driver.FindElement(By.CssSelector("#sqlite-details a")).Click();
@@ -100,7 +100,7 @@ namespace Roadkill.Tests.Acceptance
 			// step 2
 			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
 			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
-			select.SelectByValue(DataStoreType.MySQL.Name);
+			select.SelectByValue("MySQL");
 
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"server=localhost;database=roadkill;uid=root;pwd=Passw0rd;");
 			Driver.FindElement(By.CssSelector("div.continue button")).Click();
@@ -153,7 +153,7 @@ namespace Roadkill.Tests.Acceptance
 			// step 2
 			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
 			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
-			select.SelectByValue(DataStoreType.Postgres.Name);
+			select.SelectByValue("Postgres");
 
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"server=localhost;database=roadkill;uid=postgres;pwd=Passw0rd;");
 			Driver.FindElement(By.CssSelector("div.continue button")).Click();
@@ -206,7 +206,7 @@ namespace Roadkill.Tests.Acceptance
 			// step 2
 			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
 			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
-			select.SelectByValue(DataStoreType.SqlServer2005.Name);
+			select.SelectByValue("SqlServer2008");
 
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"Server=(LocalDB)\v11.0;Integrated Security=true;");
 			Driver.FindElement(By.CssSelector("div.continue button")).Click();
@@ -259,7 +259,7 @@ namespace Roadkill.Tests.Acceptance
 			// step 2
 			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
 			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
-			select.SelectByValue(DataStoreType.SqlServer2008.Name);
+			select.SelectByValue("SqlServer2008");
 
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"Server=(LocalDB)\v11.0;Integrated Security=true;");
 			Driver.FindElement(By.CssSelector("div.continue button")).Click();
@@ -312,7 +312,7 @@ namespace Roadkill.Tests.Acceptance
 			// step 2
 			Driver.FindElement(By.Id("SiteName")).SendKeys("Acceptance tests");
 			SelectElement select = new SelectElement(Driver.FindElement(By.Id("DataStoreTypeName")));
-			select.SelectByValue(DataStoreType.SqlServer2008.Name);
+			select.SelectByValue("SqlServer2008");
 
 			Driver.FindElement(By.Id("ConnectionString")).SendKeys(@"Server=.\SQLEXPRESS;Integrated Security=true;database=roadkill");
 			Driver.FindElement(By.CssSelector("div.continue button")).Click();

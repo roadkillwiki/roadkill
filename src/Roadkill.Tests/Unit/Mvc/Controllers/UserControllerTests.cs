@@ -1,22 +1,20 @@
 using System;
-using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Web.Mvc;
-using Moq;
+using MvcContrib.TestHelper;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Database;
-using Roadkill.Core.Services;
-using Roadkill.Core.Security;
-using Roadkill.Core.Mvc.ViewModels;
-using System.IO;
-using System.Linq;
-using MvcContrib.TestHelper;
 using Roadkill.Core.Localization;
+using Roadkill.Core.Mvc.Controllers;
+using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Services;
 using Roadkill.Tests.Unit.StubsAndMocks;
+using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.Controllers
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -334,7 +332,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
 			
-			SiteSettings siteSettings = _settingsService.GetSiteSettings();
+			Core.Configuration.SiteSettings siteSettings = _settingsService.GetSiteSettings();
 			siteSettings.AllowUserSignup = true;
 
 			SignupEmailStub signupEmail = new SignupEmailStub(_applicationSettings, _repository, _emailClientMock);
@@ -362,7 +360,7 @@ namespace Roadkill.Tests.Unit
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
 			
-			SiteSettings siteSettings = _settingsService.GetSiteSettings();
+			Core.Configuration.SiteSettings siteSettings = _settingsService.GetSiteSettings();
 			siteSettings.AllowUserSignup = true;
 
 			SignupEmailStub signupEmail = new SignupEmailStub(_applicationSettings, _repository, _emailClientMock);
@@ -386,7 +384,7 @@ namespace Roadkill.Tests.Unit
 		public void Signup_POST_Should_Set_ModelState_Error_From_SecurityException()
 		{
 			// Arrange
-			SiteSettings siteSettings = _settingsService.GetSiteSettings();
+			Core.Configuration.SiteSettings siteSettings = _settingsService.GetSiteSettings();
 			siteSettings.AllowUserSignup = true;
 
 			SignupEmailStub signupEmail = new SignupEmailStub(_applicationSettings, _repository, _emailClientMock); // change the signup email
@@ -411,7 +409,7 @@ namespace Roadkill.Tests.Unit
 		public void Signup_POST_Should_Set_ModelState_Error_From_Bad_Recaptcha()
 		{
 			// Arrange
-			SiteSettings siteSettings = _settingsService.GetSiteSettings();
+			Core.Configuration.SiteSettings siteSettings = _settingsService.GetSiteSettings();
 			siteSettings.AllowUserSignup = true;
 
 			UserViewModel model = new UserViewModel();
@@ -478,7 +476,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
-			SiteSettings siteSettings = _settingsService.GetSiteSettings();
+			Core.Configuration.SiteSettings siteSettings = _settingsService.GetSiteSettings();
 
 			ResetPasswordEmailStub resetEmail = new ResetPasswordEmailStub(_applicationSettings, _repository, _emailClientMock);
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, resetEmail);
@@ -499,7 +497,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
-			SiteSettings siteSettings = _settingsService.GetSiteSettings();
+			Core.Configuration.SiteSettings siteSettings = _settingsService.GetSiteSettings();
 			
 			string email = "test@test.com";
 			_userService.AddUser(email, "test", "test", false, true);
@@ -666,7 +664,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
-			SiteSettings siteSettings = _settingsService.GetSiteSettings();
+			Core.Configuration.SiteSettings siteSettings = _settingsService.GetSiteSettings();
 
 			ResetPasswordEmailStub resetEmail = new ResetPasswordEmailStub(_applicationSettings, _repository, _emailClientMock);
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, resetEmail);
@@ -685,7 +683,7 @@ namespace Roadkill.Tests.Unit
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
-			SiteSettings siteSettings = _settingsService.GetSiteSettings();
+			Core.Configuration.SiteSettings siteSettings = _settingsService.GetSiteSettings();
 
 			string email = "test@test.com";
 			_userService.AddUser(email, "test", "password", false, true);
