@@ -316,6 +316,7 @@
     <Content Include="App_Data\customvariables.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Data\roadkill.mdf" />
     <Content Include="Assets\Bootstrap\css\bootstrap-theme.css" />
     <Content Include="Assets\Bootstrap\css\bootstrap-theme.min.css" />
     <Content Include="Assets\Bootstrap\css\bootstrap.css" />

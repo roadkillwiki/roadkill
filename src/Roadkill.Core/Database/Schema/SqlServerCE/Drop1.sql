@@ -1,1 +1,0 @@
-﻿DROP TABLE [roadkill_pagecontent];

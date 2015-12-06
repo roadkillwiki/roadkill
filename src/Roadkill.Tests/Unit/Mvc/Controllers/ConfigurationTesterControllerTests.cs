@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Web.Mvc;
 using NUnit.Framework;
 using Roadkill.Core;
@@ -8,7 +7,6 @@ using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Tests.Setup;
 using Roadkill.Tests.Unit.StubsAndMocks;
-using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
 namespace Roadkill.Tests.Unit.Mvc.Controllers
 {
@@ -176,16 +174,10 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		public void TestDatabaseConnection_Should_Allow_Get_And_Return_Json_Result_And_TestResult_With_No_Errors()
 		{
 			// Arrange
-			IocHelper.ConfigureLocator();
-
-			string sqlCeDbPath = Path.Combine(Settings.LIB_FOLDER, "Empty-databases", "roadkill.sdf");
-			string sqlCeDbDestPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testdatabase.sdf");
-			File.Copy(sqlCeDbPath, sqlCeDbDestPath, true);
-
-			string connectionString = @"Data Source=|DataDirectory|\testdatabase.sdf";
+			string connectionString = "Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill";
 
 			// Act
-			JsonResult result = _configTesterController.TestDatabaseConnection(connectionString, "SqlServerCE") as JsonResult;
+			JsonResult result = _configTesterController.TestDatabaseConnection(connectionString, "SqlServer2008") as JsonResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null, "JsonResult");
@@ -205,7 +197,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			IocHelper.ConfigureLocator();
 
 			// Act
-			JsonResult result = _configTesterController.TestDatabaseConnection(connectionString, "SqlServerCE") as JsonResult;
+			JsonResult result = _configTesterController.TestDatabaseConnection(connectionString, "SqlServer2008") as JsonResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null, "JsonResult");
