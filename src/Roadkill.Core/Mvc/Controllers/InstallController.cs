@@ -126,7 +126,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			}
 
 			var settingsModel = new SettingsViewModel();
-			var installationService = new InstallationService(_repositoryFactory, "", "");
+			var installationService = new InstallationService(_repositoryFactory, "", "", UserService);
 			settingsModel.SetSupportedDatabases(installationService.GetSupportedDatabases());
 
 			return View(settingsModel);
@@ -220,9 +220,9 @@ namespace Roadkill.Core.Mvc.Controllers
 			model.IgnoreSearchIndexErrors = true;
 			model.IsPublicSite = true;
 
-			var installationService = new InstallationService(_repositoryFactory, model.DatabaseName, model.ConnectionString);
+			var installationService = new InstallationService(_repositoryFactory, model.DatabaseName, model.ConnectionString, UserService);
 			installationService.ClearUserTable();
-			installationService.CreateTables(model);
+			installationService.CreateTables();
 			installationService.SaveSiteSettings(model);
 
 			// Add a user if we're not using AD.

@@ -136,10 +136,6 @@
       <HintPath>..\..\packages\IisConfiguration.1.0.5710.23613\lib\net451\IisConfiguration.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Kestrel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\Kestrel.dll</HintPath>
-    </Reference>
     <Reference Include="Lucene.Net, Version=3.0.3.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
@@ -382,6 +378,7 @@
     <Compile Include="Unit\Plugins\RandomPageTests.cs" />
     <Compile Include="Unit\Services\LocalFileServiceTests.cs" />
     <Compile Include="Unit\Services\PageHistoryServiceTests.cs" />
+    <Compile Include="Unit\Services\InstallationServiceTests.cs" />
     <Compile Include="Unit\Services\SettingsServiceTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\FileManagerControllerTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\PagesControllerTests.cs" />

@@ -14,12 +14,19 @@ namespace Roadkill.Core.Services
 		private readonly IRepositoryFactory _repositoryFactory;
 		private readonly string _databaseName;
 		private readonly string _connectionString;
+		private readonly UserServiceBase _userService;
 
-		public InstallationService(IRepositoryFactory repositoryFactory, string databaseName, string connectionString)
+		public InstallationService(IRepositoryFactory repositoryFactory, string databaseName, string connectionString, UserServiceBase userService)
 		{
 			_repositoryFactory = repositoryFactory;
 			_connectionString = connectionString;
+			_userService = userService;
 			_databaseName = databaseName;
+		}
+
+		public void AddAdminUser(string email, string password)
+		{
+			_userService.AddUser(email, "admin", password, true, false);
 		}
 
 		public IEnumerable<RepositoryInfo> GetSupportedDatabases()
@@ -49,7 +56,7 @@ namespace Roadkill.Core.Services
 		/// </summary>
 		/// <param name="model">The settings data.</param>
 		/// <exception cref="DatabaseException">An datastore error occurred while creating the database tables.</exception>
-		public void CreateTables(SettingsViewModel model)
+		public void CreateTables()
 		{
 			try
 			{
@@ -94,13 +101,6 @@ namespace Roadkill.Core.Services
 			{
 				throw new DatabaseException(ex, "An exception occurred while saving the site configuration.");
 			}
-		}
-
-		public void AddAdminUser(string email, string password)
-		{
-			var repository = _repositoryFactory.GetRepository(_databaseName, _connectionString);
-			var userService = new FormsAuthUserService(null, repository);
-			userService.AddUser(email, "admin", password, true, false);
 		}
 	}
 }

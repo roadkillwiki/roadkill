@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Plugins;
@@ -22,6 +23,7 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 		public bool Installed { get; set; }
 		public string InstalledConnectionString { get; private set; }
 		public bool InstalledEnableCache { get; private set; }
+		public bool ThrowSaveSiteSettingsException { get; set; }
 
 		public RepositoryMock()
 		{
@@ -161,6 +163,9 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 
 		public void SaveSiteSettings(SiteSettings settings)
 		{
+			if (ThrowSaveSiteSettingsException)
+				throw new DatabaseException("Something happened", null);
+
 			SiteSettings = settings;
 		}
 

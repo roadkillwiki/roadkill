@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit.Mvc.ViewModels
 {
@@ -138,18 +140,23 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void DatabaseTypesAvailable_Should_Equal_DataStoreTypes()
+		public void SetSupportedDatabases_Should_Convert_RepositoryInfo_Objects_SelectList()
 		{
-			Assert.Fail("TODO");
-			//// Arrange
-			//SettingsViewModel model = new SettingsViewModel();
-			//int expectedCount = DataStoreType.AllTypes.Count();
+			// Arrange
+			var respositoryFactory = new RepositoryFactoryMock();
+			List<RepositoryInfo> repositoryInfos = respositoryFactory.ListAll().ToList();
+            SettingsViewModel model = new SettingsViewModel();
 
-			//// Act
-			//int actualCount = model.DatabaseTypesAvailable.Count();
+			// Act
+			model.SetSupportedDatabases(repositoryInfos);
 
-			//// Assert
-			//Assert.That(actualCount, Is.EqualTo(expectedCount));
+			// Assert
+			Assert.That(model.DatabaseTypesAsSelectList.Count, Is.EqualTo(repositoryInfos.Count()));
+
+			var firstItem = repositoryInfos[0];
+
+			Assert.That(model.DatabaseTypesAsSelectList[0].Value, Is.EqualTo(firstItem.Id));
+			Assert.That(model.DatabaseTypesAsSelectList[0].Text, Is.EqualTo(firstItem.Description));
 		}
 
 		[Test]
