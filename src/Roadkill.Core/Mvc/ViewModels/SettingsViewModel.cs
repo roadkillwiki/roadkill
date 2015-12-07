@@ -190,8 +190,8 @@ namespace Roadkill.Core.Mvc.ViewModels
 			foreach (RepositoryInfo info in repositoryInfos)
 			{
 				SelectListItem item = new SelectListItem();
-				item.Text = info.Id;
-				item.Value = info.Description;
+				item.Value = info.Id;
+				item.Text = info.Description;
 
 				if (item.Value == DatabaseName)
 					item.Selected = true;

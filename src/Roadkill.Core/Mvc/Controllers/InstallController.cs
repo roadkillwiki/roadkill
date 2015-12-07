@@ -21,11 +21,15 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// </summary>
 	/// <remarks>If the web.config "installed" setting is "true", then all the actions in
 	/// this controller redirect to the homepage</remarks>
-	public class InstallController : Controller
+	public class InstallController : Controller, IRoadkillController
 	{
 		private static string _uiLanguageCode = "en";
 
-		private readonly ApplicationSettings _applicationSettings;
+		public ApplicationSettings ApplicationSettings { get; private set; }
+		public UserServiceBase UserService { get; private set; }
+		public IUserContext Context { get; private set; }
+		public SettingsService SettingsService { get; private set; }
+
 		private readonly ConfigReaderWriter _configReaderWriter;
 		private readonly IRepositoryFactory _repositoryFactory;
 
@@ -37,14 +41,20 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <param name="repositoryFactory"></param>
 		public InstallController(ApplicationSettings applicationSettings, ConfigReaderWriter configReaderWriter, IRepositoryFactory repositoryFactory)
 		{
-			_applicationSettings = applicationSettings;
+			ApplicationSettings = applicationSettings;
+
+			// These aren't needed for the installer
+			UserService = null;
+			Context = null;
+			SettingsService = null;
+
 			_configReaderWriter = configReaderWriter;
 			_repositoryFactory = repositoryFactory;
 		}
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			if (_applicationSettings.Installed)
+			if (ApplicationSettings.Installed)
 				filterContext.Result = new RedirectResult(this.Url.Action("Index", "Home"));
 		}
 

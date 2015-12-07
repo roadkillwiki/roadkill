@@ -15,7 +15,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// A base controller for all Roadkill controller classes which require services 
 	/// (via an IServiceContainer) or authentication.
 	/// </summary>
-	public class ControllerBase : Controller
+	public class ControllerBase : Controller, IRoadkillController
 	{
 		public ApplicationSettings ApplicationSettings { get; private set; }
 		public UserServiceBase UserService { get; private set; }

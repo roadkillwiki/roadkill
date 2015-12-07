@@ -56,7 +56,7 @@ module Roadkill.Web.Installer
 			// e is a jQuery.Event
 			$("#ConnectionString").val($(e.target).text());
 			var dbtype = $(e.target).data("dbtype");
-			$("#DataStoreTypeName").val(dbtype);
+			$("#DatabaseName").val(dbtype);
 		}
 
 		private OnTestDatabaseClick(e: any)
@@ -65,7 +65,7 @@ module Roadkill.Web.Installer
 			var jsonData: any =
 			{
 				"connectionString": $("#ConnectionString").val(),
-				"databaseType": $("#DataStoreTypeName").val()
+				"databaseName": $("#DatabaseName").val()
 			};
 
 			this._wizard.makeAjaxRequest(url, jsonData, (data: any) => { this.OnTestDatabaseSuccess(data); });

@@ -92,12 +92,12 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// This action is for JSON calls only. Attempts a database connection using the provided connection string.
 		/// </summary>
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
-		public ActionResult TestDatabaseConnection(string connectionString, string databaseType)
+		public ActionResult TestDatabaseConnection(string connectionString, string databaseName)
 		{
 			if (InstalledAndUserIsNotAdmin())
 				return Content("");
 
-			IRepositoryInstaller repositoryInstaller = _repositoryFactory.GetRepositoryInstaller(databaseType, connectionString);
+			IRepositoryInstaller repositoryInstaller = _repositoryFactory.GetRepositoryInstaller(databaseName, connectionString);
 
 			string errors = "";
 			try

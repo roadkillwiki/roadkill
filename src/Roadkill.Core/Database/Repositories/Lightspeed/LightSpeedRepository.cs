@@ -54,7 +54,7 @@ namespace Roadkill.Core.Database.LightSpeed
 		public LightSpeedRepository(DataProvider dataDataProvider, string connectionString)
 		{
 			if (string.IsNullOrEmpty(connectionString))
-				throw new DatabaseException("The connection string is empty", null);
+				return;
 
 			DataProvider = dataDataProvider;
 			ConnectionString = connectionString;
