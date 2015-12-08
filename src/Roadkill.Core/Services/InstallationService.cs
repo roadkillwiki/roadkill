@@ -9,7 +9,7 @@ namespace Roadkill.Core.Services
 	/// <summary>
 	/// Provides common tasks for changing the Roadkill application settings.
 	/// </summary>
-	public class InstallationService
+	public class InstallationService : IInstallationService
 	{
 		private readonly IRepositoryFactory _repositoryFactory;
 		private readonly string _databaseName;

@@ -29439,7 +29439,7 @@ var Roadkill;
                     $("#db-loading").show();
                     var jsonData = {
                         "connectionString": $("#ConnectionString").val(),
-                        "databaseType": $("#DataStoreTypeName").val()
+                        "databaseType": $("#DatabaseName").val()
                     };
                     // Make sure to use a lambda, so the "this" references is kept intact
                     this.makeAjaxRequest(ROADKILL_TESTDB_URL, jsonData, this._messages.unexpectedError, function (data) { _this.TestDatabaseSuccess(data); });

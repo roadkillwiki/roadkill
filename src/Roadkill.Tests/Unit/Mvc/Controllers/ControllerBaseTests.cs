@@ -75,8 +75,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		{
 			// Arrange
 			_applicationSettings.Installed = false;
-			InstallControllerStub installController = new InstallControllerStub(_applicationSettings, _configReaderWriter, new RepositoryFactoryMock()); // use a concrete implementation
-			 
+			InstallControllerStub installController = new InstallControllerStub(_applicationSettings, _configReaderWriter, new RepositoryFactoryMock(), _userService);
 			ActionExecutingContext filterContext = new ActionExecutingContext();
 			filterContext.Controller = installController;
 
@@ -128,8 +127,8 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 
 	internal class InstallControllerStub : InstallController
 	{
-		public InstallControllerStub(ApplicationSettings settings, ConfigReaderWriter configReaderWriter, IRepositoryFactory repositoryFactory)
-			: base(settings, configReaderWriter, repositoryFactory)
+		public InstallControllerStub(ApplicationSettings settings, ConfigReaderWriter configReaderWriter, IRepositoryFactory repositoryFactory, UserServiceBase userService)
+			: base(settings, configReaderWriter, repositoryFactory, userService)
 		{
 
 		}

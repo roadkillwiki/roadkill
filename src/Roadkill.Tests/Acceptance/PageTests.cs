@@ -10,6 +10,18 @@ namespace Roadkill.Tests.Acceptance
 	public class PageTests : AcceptanceTestBase
 	{
 		[Test]
+		public void Installation_Page_Should_Not_Display_For_Home_Page_When_Installed_Is_True()
+		{
+			// Arrange
+
+			// Act
+			Driver.Navigate().GoToUrl($"{BaseUrl}/Install");
+
+			// Assert
+			Assert.That(Driver.FindElements(By.CssSelector("div#installer-container")).Count, Is.EqualTo(0));
+		}
+
+		[Test]
 		public void No_MainPage_Set()
 		{
 			// Arrange + Act

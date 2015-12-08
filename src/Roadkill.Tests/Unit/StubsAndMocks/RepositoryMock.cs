@@ -17,10 +17,7 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 		public SiteSettings SiteSettings { get; set; }
 		public List<TextPlugin> TextPlugins { get; set; }
 
-		// If this is set, GetTextPluginSettings returns it instead of a lookup
 		public PluginSettings PluginSettings { get; set; }
-
-		public bool Installed { get; set; }
 		public string InstalledConnectionString { get; private set; }
 		public bool InstalledEnableCache { get; private set; }
 		public bool ThrowSaveSiteSettingsException { get; set; }

@@ -82,6 +82,7 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 			scanner.AddAllTypesOf<IPageService>();
 			scanner.AddAllTypesOf<IActiveDirectoryProvider>();
 			scanner.AddAllTypesOf<IFileService>();
+			scanner.AddAllTypesOf<IInstallationService>();
 
 			// Text parsers
 			scanner.AddAllTypesOf<MarkupConverter>();
@@ -148,8 +149,9 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 			For<PageViewModelCache>().Singleton();
 			For<IPluginCache>().Use<SiteCache>();
 
-			// PageService
+			// Services
 			For<IPageService>().HybridHttpOrThreadLocalScoped().Use<PageService>();
+			For<IInstallationService>().HybridHttpOrThreadLocalScoped().Use<InstallationService>();
 
 			// Security
 			For<IAuthorizationProvider>().Use<AuthorizationProvider>();

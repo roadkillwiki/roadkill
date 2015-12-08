@@ -33,18 +33,20 @@ namespace Roadkill.Core.Mvc.Controllers
 		private readonly ConfigReaderWriter _configReaderWriter;
 		private readonly IRepositoryFactory _repositoryFactory;
 
+		public Func<IRepositoryFactory, string, string, UserServiceBase, IInstallationService> GetInstallationService { get; set; }
+
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="applicationSettings">Use solely to detect whether Roadkill is already installed.</param>
 		/// <param name="configReaderWriter"></param>
 		/// <param name="repositoryFactory"></param>
-		public InstallController(ApplicationSettings applicationSettings, ConfigReaderWriter configReaderWriter, IRepositoryFactory repositoryFactory)
+		public InstallController(ApplicationSettings applicationSettings, ConfigReaderWriter configReaderWriter, IRepositoryFactory repositoryFactory, UserServiceBase userService)
 		{
 			ApplicationSettings = applicationSettings;
+			UserService = userService;
 
 			// These aren't needed for the installer
-			UserService = null;
 			Context = null;
 			SettingsService = null;
 
@@ -216,11 +218,19 @@ namespace Roadkill.Core.Mvc.Controllers
 
 		internal void FinalizeInstall(SettingsViewModel model)
 		{
+			if (GetInstallationService == null)
+			{
+				GetInstallationService = (service, factory, connectionString, userService) =>
+				{
+					return new InstallationService(_repositoryFactory, model.DatabaseName, model.ConnectionString, UserService);
+				};
+			}
+
 			// Default these two properties for installations
 			model.IgnoreSearchIndexErrors = true;
 			model.IsPublicSite = true;
 
-			var installationService = new InstallationService(_repositoryFactory, model.DatabaseName, model.ConnectionString, UserService);
+			IInstallationService installationService = GetInstallationService(_repositoryFactory, model.DatabaseName, model.ConnectionString, UserService);
 			installationService.ClearUserTable();
 			installationService.CreateTables();
 			installationService.SaveSiteSettings(model);
@@ -233,9 +243,6 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			// Update the web.config first, so all connections can be referenced.
 			_configReaderWriter.Save(model);
-
-			// Create a blank search index
-			//_searchService.CreateIndex();
 		}
 	}
 }

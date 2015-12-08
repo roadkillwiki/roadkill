@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Web.Mvc;
+using Moq;
 using MvcContrib.TestHelper;
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
@@ -25,6 +26,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		private MocksAndStubsContainer _container;
 		private SettingsService _settingsService;
 		private UserServiceMock _userService;
+		private RepositoryMock _repository;
 
 		[SetUp]
 		public void Setup()
@@ -38,104 +40,9 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			_userService = _container.UserService;
 			_configReaderWriter = _container.ConfigReaderWriter;
 			_repositoryFactory = _container.RepositoryFactory;
+			_repository = _repositoryFactory.Repository;
 
-            _installController = new InstallController(_applicationSettings, _configReaderWriter, _repositoryFactory);
-		}
-
-		[Test]
-		public void Should_Redirect_When_Installed_Is_True()
-		{
-			Assert.Fail("This needs to be an acceptance test now");
-		}
-
-		[Test]
-		public void Step1_Should_Redirect_When_Installed_Is_True()
-		{
-			// Arrange
-			_applicationSettings.Installed = true;
-
-			// Act
-			ActionResult result = _installController.Step1("en");
-
-			// Assert
-			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
-			redirectResult.AssertActionRouteIs("Index");
-			redirectResult.AssertControllerRouteIs("Home");
-		}
-
-		[Test]
-		public void Step2_Should_Redirect_When_Installed_Is_True()
-		{
-			// Arrange
-			_applicationSettings.Installed = true;
-
-			// Act
-			ActionResult result = _installController.Step2("en");
-
-			// Assert
-			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
-			redirectResult.AssertActionRouteIs("Index");
-			redirectResult.AssertControllerRouteIs("Home");
-		}
-
-		[Test]
-		public void Step3_Should_Redirect_When_Installed_Is_True()
-		{
-			// Arrange
-			_applicationSettings.Installed = true;
-
-			// Act
-			ActionResult result = _installController.Step3(new SettingsViewModel());
-
-			// Assert
-			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
-			redirectResult.AssertActionRouteIs("Index");
-			redirectResult.AssertControllerRouteIs("Home");
-		}
-
-		[Test]
-		public void Step3b_Should_Redirect_When_Installed_Is_True()
-		{
-			// Arrange
-			_applicationSettings.Installed = true;
-
-			// Act
-			ActionResult result = _installController.Step3b(new SettingsViewModel());
-
-			// Assert
-			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
-			redirectResult.AssertActionRouteIs("Index");
-			redirectResult.AssertControllerRouteIs("Home");
-		}
-
-		[Test]
-		public void Step4_Should_Redirect_When_Installed_Is_True()
-		{
-			// Arrange
-			_applicationSettings.Installed = true;
-
-			// Act
-			ActionResult result = _installController.Step4(new SettingsViewModel());
-
-			// Assert
-			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
-			redirectResult.AssertActionRouteIs("Index");
-			redirectResult.AssertControllerRouteIs("Home");
-		}
-
-		[Test]
-		public void Step5_Should_Redirect_When_Installed_Is_True()
-		{
-			// Arrange
-			_applicationSettings.Installed = true;
-
-			// Act
-			ActionResult result = _installController.Step5(new SettingsViewModel());
-
-			// Assert
-			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
-			redirectResult.AssertActionRouteIs("Index");
-			redirectResult.AssertControllerRouteIs("Home");
+            _installController = new InstallController(_applicationSettings, _configReaderWriter, _repositoryFactory, _userService);
 		}
 
 		[Test]
@@ -329,18 +236,16 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		public void Step5_Should_Reset_Install_State_And_Add_ModelState_Error_When_Exception_Is_Thrown()
 		{
 			// Arrange
-			string exceptionMessage = "TODO";
-
-			SettingsViewModel existingModel = new SettingsViewModel();
+			SettingsViewModel existingModel = null; // test using a null reference exception
 
 			// Act
-			ActionResult result = _installController.Step5(existingModel);
+			_installController.Step5(existingModel);
 
 			// Assert
 			Assert.That(_configReaderWriter.InstallStateReset, Is.True);
 
 			string error = _installController.ModelState["An error occurred installing"].Errors[0].ErrorMessage;
-			Assert.That(error, Is.StringStarting(exceptionMessage), error);
+			Assert.That(error, Is.StringStarting("Object reference not set to an instance of an object"), error);
 		}
 
 		[Test]
@@ -372,24 +277,6 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Finalize_Should_Install_And_Save_Site_Settings()
-		{
-			// Arrange
-			LocatorStartup.StartMVC();
-			SettingsViewModel existingModel = new SettingsViewModel();
-			existingModel.Theme = "ChewbaccaOnHolidayTheme";
-
-			// Act
-			_installController.FinalizeInstall(existingModel);
-
-			// Assert
-			RepositoryMock repository = (RepositoryMock)LocatorStartup.Locator.GetInstance<IRepository>();
-			Assert.That(repository.Installed, Is.True);
-			Core.Configuration.SiteSettings settings = _settingsService.GetSiteSettings();
-			Assert.That(settings.Theme, Is.EqualTo("ChewbaccaOnHolidayTheme"));
-		}
-
-		[Test]
 		public void Finalize_Should_Add_AdminUser_When_Windows_Auth_Is_False()
 		{
 			// Arrange
@@ -405,25 +292,9 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void UnattendedSetup_Should_Redirect_When_Installed_Is_True()
-		{
-			// Arrange
-			_applicationSettings.Installed = true;
-
-			// Act
-			ActionResult result = _installController.Unattended("mock datastore", "fake connection string");
-
-			// Assert
-			RedirectToRouteResult redirectResult = result.AssertResultIs<RedirectToRouteResult>();
-			redirectResult.AssertActionRouteIs("Index");
-			redirectResult.AssertControllerRouteIs("Home");
-		}
-
-		[Test]
 		public void UnattendedSetup_Should_Add_Admin_User_And_Set_Default_Site_Settings()
 		{
 			// Arrange
-			SettingsViewModel existingModel = new SettingsViewModel();
 
 			// Act
 			ActionResult result = _installController.Unattended("mock datastore", "fake connection string");
@@ -461,19 +332,27 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			ViewResult viewResult = result.AssertResultIs<ViewResult>();
 			viewResult.AssertViewRendered();
 		}
-		
+
 		[Test]
-		public void InstallerJsVars_Should_Redirect_When_Installed_Is_True()
+		public void Finalize_Should_Install_And_Save_Site_Settings()
 		{
 			// Arrange
-			_applicationSettings.Installed = true;
+			var existingModel = new SettingsViewModel();
+			existingModel.AdminEmail = "email";
+			existingModel.AdminPassword = "password";
+			existingModel.Theme = "ChewbaccaOnHolidayTheme";
+
+			var installationServiceMock = new Mock<IInstallationService>();
+			_installController.GetInstallationService = (factory, service, connectionString, userService) => installationServiceMock.Object;
 
 			// Act
-			ActionResult result = _installController.InstallerJsVars();
+			_installController.FinalizeInstall(existingModel);
 
 			// Assert
-			ContentResult contentResult = result.AssertResultIs<ContentResult>();
-			Assert.That(contentResult.Content, Is.Empty);
+			installationServiceMock.Verify(x => x.ClearUserTable());
+			installationServiceMock.Verify(x => x.CreateTables());
+			installationServiceMock.Verify(x => x.SaveSiteSettings(existingModel));
+			installationServiceMock.Verify(x => x.AddAdminUser("email", "password"));
 		}
 	}
 }
