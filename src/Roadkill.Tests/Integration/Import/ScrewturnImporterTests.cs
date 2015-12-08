@@ -18,12 +18,12 @@ namespace Roadkill.Tests.Integration.Import
 	[Category("Integration")]
 	public class ScrewturnImporterTests
 	{
-		private string _connectionString = SqlServerSetup.ConnectionString;
+		private string _connectionString = TestConstants.CONNECTION_STRING;
 
 		[SetUp]
 		public void Setup()
 		{
-			SqlServerSetup.RecreateLocalDbData();
+			TestHelpers.SqlServerSetup.RecreateLocalDbData();
 
 			string sqlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "Import", "screwturn3.sql");
 			string sqlCommands = File.ReadAllText(sqlFile);
@@ -58,7 +58,7 @@ namespace Roadkill.Tests.Integration.Import
 			ScrewTurnImporter importer = new ScrewTurnImporter(applicationSettings, repository);
 
 			// Act
-			importer.ImportFromSqlServer(SqlServerSetup.ConnectionString);
+			importer.ImportFromSqlServer(TestConstants.CONNECTION_STRING);
 
 			// Assert
 			User user = repository.GetUserByUsername("user2");

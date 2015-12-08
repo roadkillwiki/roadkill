@@ -11,11 +11,11 @@ namespace Roadkill.Tests.Acceptance
 	[Category("Acceptance")]
 	public abstract class AcceptanceTestBase
 	{
-		public static readonly string ADMIN_EMAIL = Settings.ADMIN_EMAIL;
-		public static readonly string ADMIN_PASSWORD = Settings.ADMIN_PASSWORD;
+		public static readonly string ADMIN_EMAIL = TestConstants.ADMIN_EMAIL;
+		public static readonly string ADMIN_PASSWORD = TestConstants.ADMIN_PASSWORD;
 
-		protected static readonly string EDITOR_EMAIL = Settings.EDITOR_EMAIL;
-		protected static readonly string EDITOR_PASSWORD = Settings.EDITOR_PASSWORD;
+		protected static readonly string EDITOR_EMAIL = TestConstants.EDITOR_EMAIL;
+		protected static readonly string EDITOR_PASSWORD = TestConstants.EDITOR_PASSWORD;
 
 		protected IWebDriver Driver;
 		protected string LoginUrl;
@@ -28,12 +28,12 @@ namespace Roadkill.Tests.Acceptance
 		{
 			string url = ConfigurationManager.AppSettings["url"];
 			if (string.IsNullOrEmpty(url))
-				url = "http://localhost:9876";
+				url = TestConstants.WEB_BASEURL;
 
 			Console.WriteLine("============ Acceptance tests setup ============");
 
-			SqlServerSetup.RecreateLocalDbData();
-			ConfigFileManager.CopyRoadkillConfig();
+			TestHelpers.SqlServerSetup.RecreateLocalDbData();
+			TestHelpers.CopyRoadkillConfig();
 
 			BaseUrl = url;
 			LoginUrl = BaseUrl + "/user/login";

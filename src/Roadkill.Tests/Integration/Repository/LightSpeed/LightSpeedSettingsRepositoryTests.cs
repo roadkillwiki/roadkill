@@ -19,7 +19,7 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 	{
 		protected override string ConnectionString
 		{
-			get { return SqlServerSetup.ConnectionString; }
+			get { return TestConstants.CONNECTION_STRING; }
 		}
 
 		protected override string InvalidConnectionString
@@ -34,7 +34,7 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 
 		protected override void Clearup()
 		{
-			SqlServerSetup.ClearDatabase();
+			TestHelpers.SqlServerSetup.ClearDatabase();
 		}
 	}
 }

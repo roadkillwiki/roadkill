@@ -18,7 +18,7 @@ namespace Roadkill.Tests.Integration.Configuration
 		public void Setup()
 		{
 			// Copy the config files so they're fresh before each test
-			string source = Path.Combine(Settings.ROOT_FOLDER, "src", "Roadkill.Tests", "Integration", "Configuration", "TestConfigs");
+			string source = Path.Combine(TestConstants.ROOT_FOLDER, "src", "Roadkill.Tests", "Integration", "Configuration", "TestConfigs");
 			string destination = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "Configuration", "TestConfigs");
 
 			foreach (string filename in Directory.GetFiles(source))

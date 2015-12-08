@@ -12,18 +12,14 @@ namespace Roadkill.Tests.Acceptance
 	[SetUpFixture]
 	public class AcceptanceTestsSetup
 	{
-		private IISExpress _iisExpress;
 		public static IWebDriver Driver { get; private set; }
 
 		[SetUp]
 		public void Setup()
 		{
-			_iisExpress = new IISExpress();
-			_iisExpress.Start();
-
-			ConfigFileManager.CopyWebConfig();
-			ConfigFileManager.CopyConnectionStringsConfig();
-			ConfigFileManager.CopyRoadkillConfig();
+			TestHelpers.CopyWebConfig();
+			TestHelpers.CopyConnectionStringsConfig();
+			TestHelpers.CopyRoadkillConfig();
 			Driver = LaunchChrome();
 		}
 
@@ -31,11 +27,6 @@ namespace Roadkill.Tests.Acceptance
 		public void TearDown()
 		{
 			Driver.Quit();
-
-			if (_iisExpress != null)
-			{
-				_iisExpress.Dispose();
-			}
 		}
 
 		private ChromeDriver LaunchChrome()

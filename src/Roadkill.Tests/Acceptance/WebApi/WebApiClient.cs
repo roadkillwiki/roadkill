@@ -16,12 +16,11 @@ namespace Roadkill.Tests.Acceptance.WebApi
 		{
 			string url = ConfigurationManager.AppSettings["url"];
 			if (string.IsNullOrEmpty(url))
-				url = "http://localhost:9876";
+				url = TestConstants.WEB_BASEURL;
 
 			BaseUrl = url;
 
 			Client = new RestClient(BaseUrl);
-			//Client = new RestClient("http://roadkill.local");
 			Client.CookieContainer = new CookieContainer();
 		}
 
@@ -32,8 +31,8 @@ namespace Roadkill.Tests.Acceptance.WebApi
 		{
 			UserController.UserInfo info = new UserController.UserInfo()
 			{
-				Email = Settings.ADMIN_EMAIL,
-				Password = Settings.ADMIN_PASSWORD
+				Email = TestConstants.ADMIN_EMAIL,
+				Password = TestConstants.ADMIN_PASSWORD
 			};
 
 			string url = GetFullPath("Authenticate");

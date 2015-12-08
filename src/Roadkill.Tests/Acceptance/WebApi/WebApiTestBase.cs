@@ -13,52 +13,40 @@ namespace Roadkill.Tests.Acceptance.WebApi
 	[Category("Acceptance")]
 	public abstract class WebApiTestBase
 	{
-		private IIS _iis;
-
-		protected static readonly string ADMIN_EMAIL = Settings.ADMIN_EMAIL;
-		protected static readonly string ADMIN_PASSWORD = Settings.ADMIN_PASSWORD;
-		protected static readonly Guid ADMIN_ID = Settings.ADMIN_ID;
+		protected static readonly string ADMIN_EMAIL = TestConstants.ADMIN_EMAIL;
+		protected static readonly string ADMIN_PASSWORD = TestConstants.ADMIN_PASSWORD;
+		protected static readonly Guid ADMIN_ID = TestConstants.ADMIN_ID;
 		protected string BaseUrl;
 
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
-			_iis = new IIS();
-			_iis.Start();
+			TestHelpers.CreateIisTestSite();
 
 			string url = ConfigurationManager.AppSettings["url"];
 			if (string.IsNullOrEmpty(url))
-				url = "http://localhost:9876";
+				url = TestConstants.WEB_BASEURL;
 			BaseUrl = url;
-		}
-
-		[TestFixtureTearDown]
-		public void TearDown()
-		{
-			if (_iis != null)
-			{
-				_iis.Dispose();
-			}
 		}
 
 		[SetUp]
 		public void Setup()
 		{
-			ConfigFileManager.CopyWebConfig();
-			ConfigFileManager.CopyConnectionStringsConfig();
-			ConfigFileManager.CopyRoadkillConfig();
-			SqlServerSetup.RecreateLocalDbData();
+			TestHelpers.CopyWebConfig();
+			TestHelpers.CopyConnectionStringsConfig();
+			TestHelpers.CopyRoadkillConfig();
+			TestHelpers.SqlServerSetup.RecreateLocalDbData();
 		}
 
 		protected IRepository GetRepository()
 		{
 			ApplicationSettings appSettings = new ApplicationSettings();
 			appSettings.DatabaseName = "SqlServer2008";
-			appSettings.ConnectionString = SqlServerSetup.ConnectionString;
+			appSettings.ConnectionString = TestConstants.CONNECTION_STRING;
 			appSettings.LoggingTypes = "none";
 			appSettings.UseBrowserCache = false;
 
-			LightSpeedRepository repository = new LightSpeedRepository(DataProvider.SqlServer2008, SqlServerSetup.ConnectionString);
+			LightSpeedRepository repository = new LightSpeedRepository(DataProvider.SqlServer2008, TestConstants.CONNECTION_STRING);
 			return repository;
 		}
 

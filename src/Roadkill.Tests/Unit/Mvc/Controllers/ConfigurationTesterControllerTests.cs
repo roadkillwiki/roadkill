@@ -5,7 +5,6 @@ using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Tests.Setup;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit.Mvc.Controllers

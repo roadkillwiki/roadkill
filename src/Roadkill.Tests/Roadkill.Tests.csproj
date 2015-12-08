@@ -279,6 +279,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Acceptance\LocalizationTests.cs" />
     <Compile Include="Acceptance\OtherDatabasesInstallerTests.cs" />
     <Compile Include="Acceptance\FileManagerTests.cs" />
     <Compile Include="Acceptance\WebDriverExtensions.cs" />
@@ -298,12 +299,6 @@
     <Compile Include="Integration\Configuration\ApplicationSettingsTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedPageRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedSettingsRepositoryTests.cs" />
-    <Compile Include="Setup\ConfigFileManager.cs" />
-    <Compile Include="Setup\EnvironmentalVariables.cs" />
-    <Compile Include="Setup\IIS.cs" />
-    <Compile Include="Setup\IISExpress.cs" />
-    <Compile Include="Setup\IocHelper.cs" />
-    <Compile Include="Setup\SqlServerSetup.cs" />
     <Compile Include="Integration\Repository\MongoDb\MongoDbSettingsRepositoryTests.cs" />
     <Compile Include="Integration\Repository\MongoDb\MongoDbPageRepositoryTests.cs" />
     <Compile Include="Integration\Repository\MongoDb\MongoDbUserRepositoryTests.cs" />
@@ -315,6 +310,7 @@
     <Compile Include="Integration\Import\ScrewturnImporterTests.cs" />
     <Compile Include="Smoke\CanaryTests.cs" />
     <Compile Include="Smoke\DemoSiteTests.cs" />
+    <Compile Include="TestHelpers.cs" />
     <Compile Include="Unit\Attachments\AttachmentPathUtilTests.cs" />
     <Compile Include="Unit\Attachments\AttachmentFileHandlerTests.cs" />
     <Compile Include="Unit\Attachments\ResponseWrapperMock.cs" />
@@ -423,7 +419,7 @@
     <Compile Include="Unit\Text\MarkupSanitizerTests.cs" />
     <Compile Include="Unit\Text\MarkdownTests.cs" />
     <Compile Include="Integration\Configuration\FullTrustConfigReaderWriterTests.cs" />
-    <Compile Include="Setup\Settings.cs" />
+    <Compile Include="TestConstants.cs" />
     <Compile Include="Unit\Services\PageServiceTests.cs" />
     <Compile Include="Unit\Services\ActiveDirectoryUserManagerTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\UserViewModelEmailValidationTests.cs" />
