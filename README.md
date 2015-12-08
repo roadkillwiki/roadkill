@@ -119,3 +119,7 @@ The Bitbucket site has also been retired.
 ### Contributing
 
 If you want to contribute to Roadkill, have a look at the Contributing page on Github or on the [Roadkill wiki](http://www.roadkillwiki.net/wiki/4/contributing).
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/roadkillwiki/roadkill/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
