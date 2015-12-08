@@ -18,6 +18,7 @@ namespace Roadkill.Tests.Integration.Repository
 		[SetUp]
 		public void SetUp()
 		{
+			Clearup();
 			ApplicationSettings = new ApplicationSettings()
 			{
 				ConnectionString = ConnectionString, 
@@ -31,7 +32,6 @@ namespace Roadkill.Tests.Integration.Repository
 		[TearDown]
 		public void TearDown()
 		{
-			Clearup();
 			Repository.Dispose();
 		}
 
