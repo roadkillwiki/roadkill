@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
@@ -18,6 +20,7 @@ using Roadkill.Core.DependencyResolution.StructureMap;
 using Roadkill.Core.Logging;
 using Roadkill.Tests.Unit.StubsAndMocks;
 using StructureMap;
+using Configuration = System.Configuration.Configuration;
 
 namespace Roadkill.Tests
 {
@@ -51,12 +54,9 @@ namespace Roadkill.Tests
 			Console.WriteLine(String.Join("\n", all));
 		}
 
-		public static bool IsRunningNUnitAsAdmin()
+		public static bool IsSqlServerRunning()
 		{
-			WindowsIdentity identity = WindowsIdentity.GetCurrent();
-			WindowsPrincipal principal = new WindowsPrincipal(identity);
-
-			return principal.IsInRole(WindowsBuiltInRole.Administrator);
+			return Process.GetProcessesByName("sqlservr").Any();
 		}
 
 		public static void CreateIisTestSite()
@@ -80,7 +80,39 @@ namespace Roadkill.Tests
 				.Commit();
 		}
 
-		public static void CopyWebConfig()
+		public static void SetRoadkillConfigToUnInstalled()
+		{
+			string sitePath = TestConstants.WEB_PATH;
+			string webConfigPath = Path.Combine(sitePath, "web.config");
+			string roadkillConfigPath = Path.Combine(sitePath, "roadkill.config");
+
+			// Remove the readonly flag from one of the installer tests (this could be fired in any order)
+			File.SetAttributes(webConfigPath, FileAttributes.Normal);
+			File.SetAttributes(roadkillConfigPath, FileAttributes.Normal);
+
+			// Switch installed=false in the web.config (roadkill.config)
+			ExeConfigurationFileMap fileMap = new ExeConfigurationFileMap();
+			fileMap.ExeConfigFilename = webConfigPath;
+			Configuration config = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
+			RoadkillSection section = config.GetSection("roadkill") as RoadkillSection;
+
+			section.Installed = false;
+			config.ConnectionStrings.ConnectionStrings["Roadkill"].ConnectionString = "";
+			config.Save(ConfigurationSaveMode.Minimal);
+		}
+
+		public static void DeleteAttachmentsFolder()
+		{
+			try
+			{
+				// Remove any attachment folders used by the installer tests
+				string installerTestsAttachmentsPath = Path.Combine(TestConstants.WEB_PATH, "AcceptanceTests");
+				Directory.Delete(installerTestsAttachmentsPath, true);
+			}
+			catch { }
+		}
+
+		public static void CopyDevWebConfigFromLibFolder()
 		{
 			try
 			{
@@ -115,7 +147,7 @@ namespace Roadkill.Tests
 			}
 		}
 
-		public static void CopyConnectionStringsConfig()
+		public static void CopyDevConnectionStringsConfig()
 		{
 			try
 			{
@@ -150,7 +182,7 @@ namespace Roadkill.Tests
 			}
 		}
 
-		public static void CopyRoadkillConfig()
+		public static void CopyDevRoadkillConfig()
 		{
 			try
 			{
@@ -175,10 +207,10 @@ namespace Roadkill.Tests
 			// Tries to gets an environmental variable from any of the 3 env sources.
 			string value = Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Machine);
 			
-			if (String.IsNullOrEmpty(value))
+			if (string.IsNullOrEmpty(value))
 				value = Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
 
-			if (String.IsNullOrEmpty(value))
+			if (string.IsNullOrEmpty(value))
 				value = Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.User);
 
 			return value;
@@ -186,7 +218,7 @@ namespace Roadkill.Tests
 
 		public class SqlServerSetup
 		{
-			public static void RecreateLocalDbData()
+			public static void RecreateTables()
 			{
 				using (SqlConnection connection = new SqlConnection(TestConstants.CONNECTION_STRING))
 				{

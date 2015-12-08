@@ -280,7 +280,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Acceptance\LocalizationTests.cs" />
-    <Compile Include="Acceptance\OtherDatabasesInstallerTests.cs" />
     <Compile Include="Acceptance\FileManagerTests.cs" />
     <Compile Include="Acceptance\WebDriverExtensions.cs" />
     <Compile Include="Acceptance\InstallerTests.cs" />

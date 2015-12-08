@@ -29,7 +29,7 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 
 		protected override void Clearup()
 		{
-			TestHelpers.SqlServerSetup.RecreateLocalDbData();
+			TestHelpers.SqlServerSetup.RecreateTables();
 		}
 	}
 }

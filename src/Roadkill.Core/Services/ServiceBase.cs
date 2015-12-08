@@ -13,8 +13,8 @@ namespace Roadkill.Core.Services
 	/// </summary>
 	public class ServiceBase
 	{
-		protected IRepository Repository;
-		protected ApplicationSettings ApplicationSettings;
+		public IRepository Repository { get; set; }
+		public ApplicationSettings ApplicationSettings { get; set; }
 
 		public ServiceBase(ApplicationSettings settings, IRepository repository)
 		{

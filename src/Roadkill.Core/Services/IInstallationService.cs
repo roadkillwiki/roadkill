@@ -18,7 +18,6 @@ namespace Roadkill.Core.Services
 		/// <summary>
 		/// Creates the database schema tables.
 		/// </summary>
-		/// <param name="model">The settings data.</param>
 		/// <exception cref="DatabaseException">An datastore error occurred while creating the database tables.</exception>
 		void CreateTables();
 

@@ -32,10 +32,10 @@ namespace Roadkill.Tests.Acceptance.WebApi
 		[SetUp]
 		public void Setup()
 		{
-			TestHelpers.CopyWebConfig();
-			TestHelpers.CopyConnectionStringsConfig();
-			TestHelpers.CopyRoadkillConfig();
-			TestHelpers.SqlServerSetup.RecreateLocalDbData();
+			TestHelpers.CopyDevWebConfigFromLibFolder();
+			TestHelpers.CopyDevConnectionStringsConfig();
+			TestHelpers.CopyDevRoadkillConfig();
+			TestHelpers.SqlServerSetup.RecreateTables();
 		}
 
 		protected IRepository GetRepository()

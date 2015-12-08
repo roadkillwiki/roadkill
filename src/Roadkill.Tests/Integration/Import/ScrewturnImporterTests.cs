@@ -23,7 +23,7 @@ namespace Roadkill.Tests.Integration.Import
 		[SetUp]
 		public void Setup()
 		{
-			TestHelpers.SqlServerSetup.RecreateLocalDbData();
+			TestHelpers.SqlServerSetup.RecreateTables();
 
 			string sqlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "Import", "screwturn3.sql");
 			string sqlCommands = File.ReadAllText(sqlFile);

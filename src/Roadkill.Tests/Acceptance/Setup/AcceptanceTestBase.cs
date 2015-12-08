@@ -30,18 +30,14 @@ namespace Roadkill.Tests.Acceptance
 			if (string.IsNullOrEmpty(url))
 				url = TestConstants.WEB_BASEURL;
 
-			Console.WriteLine("============ Acceptance tests setup ============");
-
-			TestHelpers.SqlServerSetup.RecreateLocalDbData();
-			TestHelpers.CopyRoadkillConfig();
+			TestHelpers.SqlServerSetup.RecreateTables();
+			TestHelpers.CopyDevRoadkillConfig();
 
 			BaseUrl = url;
 			LoginUrl = BaseUrl + "/user/login";
 			LogoutUrl = BaseUrl + "/user/logout";
 			Driver = AcceptanceTestsSetup.Driver;
 			IsWindowsAuthTests = (ConfigurationManager.AppSettings["useWindowsAuth"] == "true");
-
-			Console.WriteLine("=================================================");
 		}
 
 		protected void CreatePageWithTags(params string[] tags)

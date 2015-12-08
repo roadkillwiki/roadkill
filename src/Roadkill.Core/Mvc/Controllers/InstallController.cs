@@ -39,8 +39,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// 
 		/// </summary>
 		/// <param name="applicationSettings">Use solely to detect whether Roadkill is already installed.</param>
-		/// <param name="configReaderWriter"></param>
-		/// <param name="repositoryFactory"></param>
 		public InstallController(ApplicationSettings applicationSettings, ConfigReaderWriter configReaderWriter, IRepositoryFactory repositoryFactory, UserServiceBase userService)
 		{
 			ApplicationSettings = applicationSettings;
@@ -226,6 +224,10 @@ namespace Roadkill.Core.Mvc.Controllers
 				};
 			}
 
+			// Inject the repository into the UserService, as the one StructureMap gave us will have a stale Repository
+			var repository = _repositoryFactory.GetRepository(model.DatabaseName, model.ConnectionString);
+			UserService.Repository = repository;
+
 			// Default these two properties for installations
 			model.IgnoreSearchIndexErrors = true;
 			model.IsPublicSite = true;
@@ -235,11 +237,8 @@ namespace Roadkill.Core.Mvc.Controllers
 			installationService.CreateTables();
 			installationService.SaveSiteSettings(model);
 
-			// Add a user if we're not using AD.
-			if (!model.UseWindowsAuth)
-			{
-				installationService.AddAdminUser(model.AdminEmail, model.AdminPassword);
-			}
+			// Add a user (if we're using AD this will be ignored).
+			installationService.AddAdminUser(model.AdminEmail, model.AdminPassword);
 
 			// Update the web.config first, so all connections can be referenced.
 			_configReaderWriter.Save(model);

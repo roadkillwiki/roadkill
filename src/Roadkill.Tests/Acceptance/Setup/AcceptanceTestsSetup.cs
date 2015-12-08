@@ -17,9 +17,15 @@ namespace Roadkill.Tests.Acceptance
 		[SetUp]
 		public void Setup()
 		{
-			TestHelpers.CopyWebConfig();
-			TestHelpers.CopyConnectionStringsConfig();
-			TestHelpers.CopyRoadkillConfig();
+			if (!TestHelpers.IsSqlServerRunning())
+			{
+				Assert.Fail("SQL server isn't running - is the service started?");
+			}
+
+			TestHelpers.CopyDevWebConfigFromLibFolder();
+			TestHelpers.CopyDevConnectionStringsConfig();
+			TestHelpers.CopyDevRoadkillConfig();
+
 			Driver = LaunchChrome();
 		}
 
@@ -31,9 +37,10 @@ namespace Roadkill.Tests.Acceptance
 
 		private ChromeDriver LaunchChrome()
 		{
-			// Disable the remember password popups, and make sure it's full screen so that Bootstrap elements aren't hidden
+			// Disable the remember password popups, dev extensions moanware and make sure it's full screen so that Bootstrap elements aren't hidden
 			ChromeOptions options = new ChromeOptions();
 			options.AddArgument("--incognito");
+			options.AddArgument("--disable-extensions");
 			options.AddArgument("--start-maximized");
 			ChromeDriver chromeDriver = new ChromeDriver(options);
 			chromeDriver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(2));
