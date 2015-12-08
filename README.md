@@ -2,6 +2,7 @@
 [![Appveyor](https://ci.appveyor.com/api/projects/status/37etwyx9kw7uriar/branch/master?svg=true)](https://ci.appveyor.com/project/yetanotherchris/roadkill)
 [![Coverage Status](https://coveralls.io/repos/roadkillwiki/roadkill/badge.svg?branch=master&service=github)](https://coveralls.io/github/roadkillwiki/roadkill?branch=master)
 [![Join the chat at Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/roadkillwiki/general)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/roadkillwiki/roadkill/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 # Introduction
 
@@ -119,7 +120,3 @@ The Bitbucket site has also been retired.
 ### Contributing
 
 If you want to contribute to Roadkill, have a look at the Contributing page on Github or on the [Roadkill wiki](http://www.roadkillwiki.net/wiki/4/contributing).
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/roadkillwiki/roadkill/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
