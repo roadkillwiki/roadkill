@@ -50,7 +50,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Index_Should_Return_Page()
+		public void index_should_return_page()
 		{
 			// Arrange
 			Page page1 = new Page()
@@ -81,7 +81,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Index_With_Bad_Page_Id_Should_Redirect()
+		public void index_with_bad_page_id_should_redirect()
 		{
 			// Arrange
 
@@ -97,7 +97,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Index_With_Unknown_Page_Should_Throw_404Exception()
+		public void index_with_unknown_page_should_throw_404exception()
 		{
 			// Arrange
 
@@ -120,7 +120,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void ServerError_Should_Return_500_View()
+		public void servererror_should_return_500_view()
 		{
 			// Arrange
 
@@ -133,7 +133,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void NotFound_Should_Return_500_View()
+		public void notfound_should_return_500_view()
 		{
 			// Arrange
 
@@ -146,7 +146,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void PageToolbar_Should_Return_PartialView()
+		public void pagetoolbar_should_return_partialview()
 		{
 			// Arrange
 			_repository.AddNewPage(new Page() {Title = "Title" }, "text", "admin", DateTime.UtcNow);
@@ -160,7 +160,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void PageToolbar_Should_Return_Empty_Content_When_Page_Cannot_Be_Found()
+		public void pagetoolbar_should_return_empty_content_when_page_cannot_be_found()
 		{
 			// Arrange
 
@@ -173,7 +173,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void PageToolbar_Should_Return_Empty_Content_When_Id_Is_Null()
+		public void pagetoolbar_should_return_empty_content_when_id_is_null()
 		{
 			// Arrange
 

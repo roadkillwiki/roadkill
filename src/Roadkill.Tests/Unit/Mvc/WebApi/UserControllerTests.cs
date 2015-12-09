@@ -38,7 +38,7 @@ namespace Roadkill.Tests.Unit.Mvc.WebApi
 		}
 
 		[Test]
-		public void Authenticate_Should_Return_True_User()
+		public void authenticate_should_return_true_user()
 		{
 			// Arrange
 			UserController.UserInfo userInfo = new UserController.UserInfo();
@@ -56,7 +56,7 @@ namespace Roadkill.Tests.Unit.Mvc.WebApi
 		}
 
 		[Test]
-		public void Logout_Should_User_Service_To_Logout()
+		public void logout_should_user_service_to_logout()
 		{
 			// Arrange + Act
 			_userController.Logout();
@@ -66,7 +66,7 @@ namespace Roadkill.Tests.Unit.Mvc.WebApi
 		}
 
 		[Test]
-		public void Get_Should_Return_User()
+		public void get_should_return_user()
 		{
 			// Arrange
 			_userService.AddUser("admin@localhost", "user", "password1", true, true);
@@ -81,7 +81,7 @@ namespace Roadkill.Tests.Unit.Mvc.WebApi
 		}
 
 		[Test]
-		public void Get_Should_Return_Null_When_User_Does_Not_Exist()
+		public void get_should_return_null_when_user_does_not_exist()
 		{
 			// Arrange
 
@@ -93,7 +93,7 @@ namespace Roadkill.Tests.Unit.Mvc.WebApi
 		}
 
 		[Test]
-		public void Get_Should_Return_Inactive_User()
+		public void get_should_return_inactive_user()
 		{
 			// Arrange
 			_userService.AddUser("admin@localhost", "user", "password1", false, true);
@@ -107,7 +107,7 @@ namespace Roadkill.Tests.Unit.Mvc.WebApi
 		}
 
 		[Test]
-		public void Get_Should_Return_All_Editors_And_Admins()
+		public void get_should_return_all_editors_and_admins()
 		{
 			// Arrange
 			_userService.AddUser("admin@localhost", "user", "password1", true, true);

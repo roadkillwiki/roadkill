@@ -64,7 +64,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void AllPages()
+		public void allpages()
 		{
 			// Arrange
 
@@ -82,7 +82,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void GetPageById()
+		public void getpagebyid()
 		{
 			// Arrange
 
@@ -103,7 +103,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void FindPagesCreatedBy()
+		public void findpagescreatedby()
 		{
 			// Arrange
 
@@ -124,7 +124,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void FindPagesByModifiedBy()
+		public void findpagesbymodifiedby()
 		{
 			// Arrange
 			PageContent newContent = Repository.AddNewPageContentVersion(_page1, "new text", "bob", _createdDate, 3);
@@ -146,7 +146,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void FindPagesContainingTag()
+		public void findpagescontainingtag()
 		{
 			// Arrange
 
@@ -160,7 +160,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void AllTags()
+		public void alltags()
 		{
 			// Arrange
 
@@ -173,7 +173,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void GetPageByTitle()
+		public void getpagebytitle()
 		{
 			// Arrange
 			string title = "page title";
@@ -196,7 +196,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void GetLatestPageContent()
+		public void getlatestpagecontent()
 		{
 			// Arrange
 			PageContent expectedContent = _pageContent2;
@@ -224,7 +224,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void GetPageContentById()
+		public void getpagecontentbyid()
 		{
 			// Arrange
 			PageContent expectedContent = _pageContent2;
@@ -252,7 +252,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void GetPageContentByPageIdAndVersionNumber()
+		public void getpagecontentbypageidandversionnumber()
 		{
 			// Arrange
 			PageContent expectedContent = _pageContent2;
@@ -280,7 +280,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void GetPageContentByEditedBy()
+		public void getpagecontentbyeditedby()
 		{
 			// Arrange
 
@@ -292,7 +292,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void FindPageContentsByPageId()
+		public void findpagecontentsbypageid()
 		{
 			// Arrange
 
@@ -309,7 +309,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void FindPageContentsEditedBy()
+		public void findpagecontentseditedby()
 		{
 			// Arrange
 
@@ -326,7 +326,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void AllPageContents()
+		public void allpagecontents()
 		{
 			// Arrange
 
@@ -343,7 +343,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void DeletePage_Test()
+		public void deletepage_test()
 		{
 			// Arrange
 			Page page = Repository.GetPageById(1);
@@ -357,7 +357,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void DeletePageContent()
+		public void deletepagecontent()
 		{
 			// Arrange
 			PageContent pageContent = Repository.GetLatestPageContent(1);
@@ -372,7 +372,7 @@ namespace Roadkill.Tests.Integration.Repository
 
 
 		[Test]
-		public void SaveOrUpdatePage()
+		public void saveorupdatepage()
 		{
 			// Arrange
 			Page newPage = NewPage("admin", "tag1, 3, 4");
@@ -397,7 +397,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void AddNewPage()
+		public void addnewpage()
 		{
 			// Arrange
 			Page newPage = NewPage("admin", "tag1,3,4");
@@ -424,7 +424,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void AddNewPageContentVersion()
+		public void addnewpagecontentversion()
 		{
 			// Arrange
 			Page existingPage = _page1;
@@ -448,7 +448,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void UpdatePageContent()
+		public void updatepagecontent()
 		{
 			// Arrange
 			DateTime editedDate = _editedDate.AddMinutes(10);

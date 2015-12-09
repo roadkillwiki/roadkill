@@ -35,7 +35,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void AddAdminUser_should_add_new_admin_user_via_userservice()
+		public void addadminuser_should_add_new_admin_user_via_userservice()
 		{
 			// Arrange
 
@@ -51,7 +51,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void ClearUserTable_should_remove_all_users_via_repository()
+		public void clearusertable_should_remove_all_users_via_repository()
 		{
 			// Arrange
 			_repository.Users.Add(new User());
@@ -66,7 +66,7 @@ namespace Roadkill.Tests.Unit.Services
         }
 
 		[Test]
-		public void CreateTables_should_install_via_repository()
+		public void createtables_should_install_via_repository()
 		{
 			// Arrange
 
@@ -78,7 +78,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void CreateTables_should_rethrow_database_exception_with_context_of_error()
+		public void createtables_should_rethrow_database_exception_with_context_of_error()
 		{
 			// Arrange
 			_repositoryInstaller.ThrowInstallException = true;
@@ -88,7 +88,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void GetSupportedDatabases_should_return_repository_infoobjects_from_factory()
+		public void getsupporteddatabases_should_return_repository_infoobjects_from_factory()
 		{
 			// Arrange
 			int expectedCount = _repositoryFactory.ListAll().Count();
@@ -101,7 +101,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void SaveSiteSettings_Should_Save_All_Values()
+		public void savesitesettings_should_save_all_values()
 		{
 			// Arrange
 			SettingsViewModel expectedSettings = new SettingsViewModel();
@@ -136,7 +136,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void SaveSiteSettings_should_rethrow_database_exception_with_context_of_error()
+		public void savesitesettings_should_rethrow_database_exception_with_context_of_error()
 		{
 			// Arrange
 			_repository.ThrowSaveSiteSettingsException = true;

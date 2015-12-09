@@ -120,7 +120,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void AddPage_Should_Save_To_Repository_And_Set_Locked_If_User_Is_Admin()
+		public void addpage_should_save_to_repository_and_set_locked_if_user_is_admin()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel()
@@ -146,7 +146,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void AddPage_Should_Not_Set_IsLocked_If_User_Is_Editor()
+		public void addpage_should_not_set_islocked_if_user_is_editor()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel()
@@ -170,7 +170,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void AllTags_Should_Return_Correct_Items()
+		public void alltags_should_return_correct_items()
 		{
 			// Arrange
 			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
@@ -191,7 +191,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void DeletePage_Should_Remove_Correct_Page()
+		public void deletepage_should_remove_correct_page()
 		{
 			// Arrange
 			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
@@ -212,7 +212,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void AllPages_CreatedBy_Should_Have_Correct_Authors()
+		public void allpages_createdby_should_have_correct_authors()
 		{
 			// Arrange
 			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
@@ -230,7 +230,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void AllPages_Should_Have_Correct_Items()
+		public void allpages_should_have_correct_items()
 		{
 			// Arrange
 			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
@@ -247,7 +247,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void FindByTags_For_Single_Tag_Returns_Single_Result()
+		public void findbytags_for_single_tag_returns_single_result()
 		{
 			// Arrange
 			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
@@ -264,7 +264,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void FindByTags_For_Multiple_Tags_Returns_Many_Results()
+		public void findbytags_for_multiple_tags_returns_many_results()
 		{
 			// Arrange
 			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
@@ -281,7 +281,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void FindByTitle_Should_Return_Correct_Page()
+		public void findbytitle_should_return_correct_page()
 		{
 			// Arrange
 			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
@@ -298,7 +298,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void GetById_Should_Return_Correct_Page()
+		public void getbyid_should_return_correct_page()
 		{
 			// Arrange
 			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
@@ -316,7 +316,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void ExportToXml_Should_Contain_Xml()
+		public void exporttoxml_should_contain_xml()
 		{
 			// Arrange
 			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "homepage;");
@@ -333,7 +333,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void RenameTags_For_Multiple_Tags_Returns_Multiple_Results()
+		public void renametags_for_multiple_tags_returns_multiple_results()
 		{
 			// Arrange
 			PageViewModel page1 = AddToStubbedRepository(1, "admin", "Homepage", "animal;");
@@ -350,7 +350,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void UpdatePage_Should_Persist_To_Repository()
+		public void updatepage_should_persist_to_repository()
 		{
 			// Arrange
 			PageViewModel model = AddToStubbedRepository(1, "admin", "Homepage", "animal;");
@@ -374,7 +374,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void ClearPageTables_Should_Remove_All_Pages_And_Content()
+		public void clearpagetables_should_remove_all_pages_and_content()
 		{
 			// Arrange
 			_repository.AddNewPage(new Page(), "test1", "test1", DateTime.UtcNow);
@@ -390,7 +390,7 @@ namespace Roadkill.Tests.Unit.Services
 
 		
 		[Test]
-		public void GetBootStrapNavMenu_Should_Return_Expected_Default_Html()
+		public void getbootstrapnavmenu_should_return_expected_default_html()
 		{
 			// Arrange
 			string expectedHtml = @"<nav id=""leftmenu"" class=""navbar navbar-default"" role=""navigation"">
@@ -414,7 +414,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void GetMenu_Should_Return_Expected_Default_Html()
+		public void getmenu_should_return_expected_default_html()
 		{
 			// Arrange
 			string expectedHtml = @"<div id=""leftmenu"">
@@ -429,7 +429,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void UpdateLinksToPage_Should_Replace_Link_Title_In_Markup_And_Save_To_Repository()
+		public void updatelinkstopage_should_replace_link_title_in_markup_and_save_to_repository()
 		{
 			// Arrange
 			_repository.AddNewPage(new Page() { Id = 1, Title = "Homepage" }, "This is a link to [[Page AbOuT horses|Horses]]", "editor", DateTime.UtcNow);
@@ -444,7 +444,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void UpdateLinksToPage_Should_Clear_Cache()
+		public void updatelinkstopage_should_clear_cache()
 		{
 			// Arrange
 			_container.ClearCache();

@@ -48,7 +48,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Should_Have_Correct_Tree_Structure_From_Basic_Html()
+		public void should_have_correct_tree_structure_from_basic_html()
 		{
 			// Arrange
 			TocParser tocParser = new TocParser();
@@ -86,7 +86,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Should_Have_Correct_Titles()
+		public void should_have_correct_titles()
 		{
 			// Arrange
 			TocParser tocParser = new TocParser();
@@ -113,7 +113,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Should_Have_Named_Anchors_Inserted_By_Headers_In_Html()
+		public void should_have_named_anchors_inserted_by_headers_in_html()
 		{
 			// Arrange
 			TocParser tocParser = new TocParser();
@@ -127,7 +127,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Should_Have_Correct_Section_Numbering_For_Large_Lists()
+		public void should_have_correct_section_numbering_for_large_lists()
 		{
 			// Arrnage
 			TocParser tocParser = new TocParser();
@@ -148,7 +148,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Should_Ignore_Multiple_Curlies()
+		public void should_ignore_multiple_curlies()
 		{
 			// Arrange
 			TocParser tocParser = new TocParser();
@@ -163,7 +163,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Should_Have_Correct_Html_Nesting_And_Warning_Titles_When_Missing_Levels()
+		public void should_have_correct_html_nesting_and_warning_titles_when_missing_levels()
 		{
 			// From issue #177
 			// Arrange

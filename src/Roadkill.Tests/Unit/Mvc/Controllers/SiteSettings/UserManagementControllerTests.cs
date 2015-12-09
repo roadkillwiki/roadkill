@@ -63,7 +63,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void AddAdmin_GET_Should_Return_View_And_ViewModel()
+		public void addadmin_get_should_return_view_and_viewmodel()
 		{
 			// Arrange
 
@@ -77,7 +77,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void AddAdmin_POST_Should_Add_Admin_And_Redirect_To_Index()
+		public void addadmin_post_should_add_admin_and_redirect_to_index()
 		{
 			// Arrange
 			UserViewModel model = new UserViewModel();
@@ -92,7 +92,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void AddAdmin_POST_Should_Return_ViewResult_When_ModelState_Is_Invalid()
+		public void addadmin_post_should_return_viewresult_when_modelstate_is_invalid()
 		{
 			// Arrange
 			UserViewModel model = new UserViewModel();
@@ -108,7 +108,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void AddEditor_GET_Should_Return_View_And_ViewModel()
+		public void addeditor_get_should_return_view_and_viewmodel()
 		{
 			// Arrange
 
@@ -122,7 +122,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void AddEditor_POST_Should_Add_Admin_And_Redirect_To_Index()
+		public void addeditor_post_should_add_admin_and_redirect_to_index()
 		{
 			// Arrange
 			UserViewModel model = new UserViewModel();
@@ -137,7 +137,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void AddEditor_POST_Should_Return_ViewResult_When_ModelState_Is_Invalid()
+		public void addeditor_post_should_return_viewresult_when_modelstate_is_invalid()
 		{
 			// Arrange
 			UserViewModel model = new UserViewModel();
@@ -153,7 +153,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void DeleteUser_Should_Remove_User_And_Redirect_To_Index()
+		public void deleteuser_should_remove_user_and_redirect_to_index()
 		{
 			// Arrange
 			User user = new User() { Id = Guid.NewGuid(), Email="blah@localhost", IsActivated = true };
@@ -169,7 +169,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void EditUser_GET_Should_Return_View_And_ViewModel()
+		public void edituser_get_should_return_view_and_viewmodel()
 		{
 			// Arrange
 			User user = new User() { Id = Guid.NewGuid(), IsActivated = true };
@@ -186,7 +186,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void EditUser_GET_Should_Redirect_When_User_Does_Not_Exist()
+		public void edituser_get_should_redirect_when_user_does_not_exist()
 		{
 			// Arrange
 
@@ -199,7 +199,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void EditUser_POST_Should_Update_User_When_Username_And_Email_Changes_And_Redirect_To_Index()
+		public void edituser_post_should_update_user_when_username_and_email_changes_and_redirect_to_index()
 		{
 			// Arrange
 			User user = new User()
@@ -235,7 +235,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void EditUser_POST_Should_Update_Password_When_Password_Is_Not_Empty_And_Redirect_To_Index()
+		public void edituser_post_should_update_password_when_password_is_not_empty_and_redirect_to_index()
 		{
 			// Arrange
 			User user = new User()
@@ -265,7 +265,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void EditUser_POST_Should_Return_ViewResult_When_ModelState_Is_Invalid()
+		public void edituser_post_should_return_viewresult_when_modelstate_is_invalid()
 		{
 			// Arrange
 			UserViewModel model = new UserViewModel();
@@ -281,7 +281,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void Index_Should_Return_View_And_ViewModel_With_Both_User_Types()
+		public void index_should_return_view_and_viewmodel_with_both_user_types()
 		{
 			// Arrange
 			User admin = new User() { Id = Guid.NewGuid() };

@@ -40,7 +40,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Index_Should_Call_Plugin_GetResult()
+		public void index_should_call_plugin_getresult()
 		{
 			// Arrange
 			_pluginFactory.SpecialPages.Add(new SpecialPageMock());
@@ -53,7 +53,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Index_Should_Throw_HttpException_When_Plugin_Does_Not_Exist()
+		public void index_should_throw_httpexception_when_plugin_does_not_exist()
 		{
 			// Arrange + Act + Assert
 			HttpException httpException = Assert.Throws<HttpException>(() => _specialPagesController.Index("badID"));

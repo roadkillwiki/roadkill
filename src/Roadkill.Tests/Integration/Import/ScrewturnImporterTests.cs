@@ -40,7 +40,7 @@ namespace Roadkill.Tests.Integration.Import
 		}
 
 		[Test]
-		public void Should_Import_All_Pages_Categories_And_Usernames()
+		public void should_import_all_pages_categories_and_usernames()
 		{
 			// Arrange
 			ApplicationSettings applicationSettings = new ApplicationSettings();
@@ -108,7 +108,7 @@ namespace Roadkill.Tests.Integration.Import
 		}
 
 		[Test]
-		public void Should_Import_Files_In_Attachments_Folder()
+		public void should_import_files_in_attachments_folder()
 		{
 			// Arrange
 			ApplicationSettings applicationSettings = new ApplicationSettings();

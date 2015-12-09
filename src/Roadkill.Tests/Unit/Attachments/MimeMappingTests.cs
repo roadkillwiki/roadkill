@@ -8,7 +8,7 @@ namespace Roadkill.Tests.Unit.Attachments
 	public class MimeMappingTests
 	{
 		[Test]
-		public void Should_Return_Application_MimeType_For_Empty_Extension()
+		public void should_return_application_mimetype_for_empty_extension()
 		{
 			// Arrange
 			string expected = "application/octet-stream";
@@ -21,7 +21,7 @@ namespace Roadkill.Tests.Unit.Attachments
 		}
 
 		[Test]
-		public void Should_Return_Application_MimeType_For_Unknown_Extension()
+		public void should_return_application_mimetype_for_unknown_extension()
 		{
 			// Arrange
 			string expected = "application/octet-stream";
@@ -34,7 +34,7 @@ namespace Roadkill.Tests.Unit.Attachments
 		}
 
 		[Test]
-		public void Should_Ignore_Case_For_Extension()
+		public void should_ignore_case_for_extension()
 		{
 			// Arrange
 			string expected = "image/jpeg";

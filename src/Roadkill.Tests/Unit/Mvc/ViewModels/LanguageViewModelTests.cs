@@ -10,7 +10,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 	public class LanguageViewModelTests
 	{
 		[Test]
-		public void Constructor_Should_Set_Properties()
+		public void constructor_should_set_properties()
 		{
 			// Arrange
 			string code = "en-GB";
@@ -25,7 +25,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void SupportedLocales_Should_Return_List_Of_Languages()
+		public void supportedlocales_should_return_list_of_languages()
 		{
 			// Arrange + Act
 			IEnumerable<LanguageViewModel> languages = LanguageViewModel.SupportedLocales();

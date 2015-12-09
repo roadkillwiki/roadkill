@@ -54,7 +54,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Should_Redirect_When_Installed_Is_False()
+		public void should_redirect_when_installed_is_false()
 		{
 			// Arrange
 			_applicationSettings.Installed = false;
@@ -71,7 +71,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Should_Not_Redirect_When_Installed_Is_False_And_Controller_Is_InstallerController()
+		public void should_not_redirect_when_installed_is_false_and_controller_is_installercontroller()
 		{
 			// Arrange
 			_applicationSettings.Installed = false;
@@ -87,7 +87,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Should_Set_LoggedIn_User_And_ViewBag_Data()
+		public void should_set_loggedin_user_and_viewbag_data()
 		{
 			// Arrange
 			_applicationSettings.Installed = true;

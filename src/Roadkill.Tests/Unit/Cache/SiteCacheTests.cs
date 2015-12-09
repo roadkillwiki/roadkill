@@ -17,7 +17,7 @@ namespace Roadkill.Tests.Unit.Cache
 	public class SiteCacheTests
 	{
 		[Test]
-		public void AddMenu_Should_Cache_Html()
+		public void addmenu_should_cache_html()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -34,7 +34,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void AddAdminMenu_Should_Cache_Html()
+		public void addadminmenu_should_cache_html()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -51,7 +51,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void AddLoggedInMenu_Should_Cache_Html()
+		public void addloggedinmenu_should_cache_html()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -68,7 +68,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void GetMenu_Should_Return_Correct_Html()
+		public void getmenu_should_return_correct_html()
 		{
 			// Arrange
 			string expectedHtml = "some html";
@@ -86,7 +86,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void GetAdminMenu_Should_Return_Correct_Html()
+		public void getadminmenu_should_return_correct_html()
 		{
 			// Arrange
 			string expectedHtml = "some html";
@@ -104,7 +104,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void GetLoggedInMenu_Should_Return_Correct_Html()
+		public void getloggedinmenu_should_return_correct_html()
 		{
 			// Arrange
 			string expectedHtml = "some html";
@@ -121,7 +121,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void RemoveMenuCacheItems_Should_Clear_Cache_Items()
+		public void removemenucacheitems_should_clear_cache_items()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -140,7 +140,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void UpdatePluginSettings_Should_Add_Plugin_Settings_ToCache()
+		public void updatepluginsettings_should_add_plugin_settings_tocache()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -160,7 +160,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void GetPluginSettings_Should_Return_Plugin_Settings()
+		public void getpluginsettings_should_return_plugin_settings()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -186,7 +186,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void RemovePluginSettings_Should_Remove_Plugin_Settings()
+		public void removepluginsettings_should_remove_plugin_settings()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -206,7 +206,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void RemoveAll_Should_Remove_SiteCache_Keys_Only()
+		public void removeall_should_remove_sitecache_keys_only()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();

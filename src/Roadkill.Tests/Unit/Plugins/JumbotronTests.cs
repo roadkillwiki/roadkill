@@ -30,7 +30,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Should_Remove_Jumbotron_Tag_From_Markup()
+		public void should_remove_jumbotron_tag_from_markup()
 		{
 			// Arrange
 			string markup = "Here is some ===Heading 1=== markup \n[[[jumbotron=\n==Welcome==\n==This the subheading==]]]";
@@ -44,7 +44,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Should_Parse_And_Fill_PreContainerHtml()
+		public void should_parse_and_fill_precontainerhtml()
 		{
 			// Arrange
 			string markup = "Here is some ===Heading 1=== markup \n[[[jumbotron==Welcome=\n==This the subheading==]]]";

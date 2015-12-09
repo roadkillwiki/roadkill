@@ -19,7 +19,7 @@ namespace Roadkill.Tests.Integration.Configuration
 	public class ApplicationSettingsTests
 	{
 		[Test]
-		public void Should_Have_Default_Values_Set_In_Constructor()
+		public void should_have_default_values_set_in_constructor()
 		{
 			// Arrange + Act
 			ApplicationSettings appSettings = new ApplicationSettings();
@@ -47,7 +47,7 @@ namespace Roadkill.Tests.Integration.Configuration
 		}
 
 		[Test]
-		public void AttachmentsDirectoryPath_Should_Map_AttachmentsFolder_And_End_With_Slash()
+		public void attachmentsdirectorypath_should_map_attachmentsfolder_and_end_with_slash()
 		{
 			// Arrange
 			string attachmentsFolder = @"~/myfolder";
@@ -67,7 +67,7 @@ namespace Roadkill.Tests.Integration.Configuration
 		}
 
 		[Test]
-		public void AttachmentsRoutePath_Should_Use_AttachmentsRoutePath_And_Prepend_ApplicationPath()
+		public void attachmentsroutepath_should_use_attachmentsroutepath_and_prepend_applicationpath()
 		{
 			// Arrange
 			MvcMockContainer container = new MvcMockContainer();

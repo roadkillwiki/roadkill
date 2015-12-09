@@ -20,7 +20,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void Install_Should_Clear_All_Entities_And_Create_Site_Settings()
+		public void install_should_clear_all_entities_and_create_site_settings()
 		{
 			//// Arrange
 
@@ -37,7 +37,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 		
 		[Test]
-		public void SaveSiteSettings_And_GetSiteSettings()
+		public void savesitesettings_and_getsitesettings()
 		{
 			// Arrange
 			SiteSettings expectedSettings = new SiteSettings()
@@ -71,7 +71,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void SavePluginSettings_And_GetTextPluginSettings()
+		public void savepluginsettings_and_gettextpluginsettings()
 		{
 			// Arrange
 			PluginSettings expectedSettings = new PluginSettings("mockplugin", "1.0");
@@ -92,7 +92,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void TestConnection_With_Valid_Connection_String()
+		public void testconnection_with_valid_connection_string()
 		{
 			Assert.Fail("TODO");
 			//// Arrange
@@ -105,7 +105,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void TestConnection_With_Invalid_Connection_String()
+		public void testconnection_with_invalid_connection_string()
 		{
 			Assert.Fail("TODO");
 			//// [expectedexception] can't handle exception heirachies

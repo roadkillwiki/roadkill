@@ -36,7 +36,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Use_AuthorizationProvider()
+		public void should_use_authorizationprovider()
 		{
 			// Arrange
 			WebApiEditorRequiredAttributeMock attribute = new WebApiEditorRequiredAttributeMock();

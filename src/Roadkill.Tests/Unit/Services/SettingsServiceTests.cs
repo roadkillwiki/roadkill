@@ -28,7 +28,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void GetSiteSettings_Should_Return_Correct_Settings()
+		public void getsitesettings_should_return_correct_settings()
 		{
 			// Arrange
 			SiteSettings expectedSettings = new SiteSettings();
@@ -63,7 +63,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void SaveSiteSettings_Should_Save_All_Values()
+		public void savesitesettings_should_save_all_values()
 		{
 			// Arrange
 			SettingsViewModel expectedSettings = new SettingsViewModel();
@@ -98,7 +98,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void SaveSiteSettings_Should_Persist_All_Values()
+		public void savesitesettings_should_persist_all_values()
 		{
 			// Arrange
 			ApplicationSettings appSettings = new ApplicationSettings();
@@ -149,7 +149,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void SaveSiteSettings_should_rethrow_database_exception_with_context_of_error()
+		public void savesitesettings_should_rethrow_database_exception_with_context_of_error()
 		{
 			// Arrange
 			_repository.ThrowSaveSiteSettingsException = true;

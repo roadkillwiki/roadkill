@@ -37,7 +37,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void VerifyPassword_When_Created_In_Admin_Tools_With_Bad_Password_Fails()
+		public void verifypassword_when_created_in_admin_tools_with_bad_password_fails()
 		{
 			// Arrange
 			_userViewModel.Id = null;
@@ -51,7 +51,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void VerifyPassword_For_New_User_With_Bad_Password_Fails()
+		public void verifypassword_for_new_user_with_bad_password_fails()
 		{
 			// Arrange
 			_userViewModel.Id = null;
@@ -65,7 +65,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void VerifyPassword_For_Existing_User_With_Bad_Password_Fails()
+		public void verifypassword_for_existing_user_with_bad_password_fails()
 		{
 			// Arrange
 			_userViewModel.Id = Guid.NewGuid();
@@ -79,7 +79,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void VerifyPassword_For_Existing_User_With_Empty_Password_Succeeds()
+		public void verifypassword_for_existing_user_with_empty_password_succeeds()
 		{
 			// Arrange
 			_userViewModel.Id = Guid.NewGuid();
@@ -93,7 +93,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void VerifyPasswordsMatch_When_Created_In_Admin_Tools_With_Mismatching_Passwords_Fails()
+		public void verifypasswordsmatch_when_created_in_admin_tools_with_mismatching_passwords_fails()
 		{
 			// Arrange
 			_userViewModel.Id = null;
@@ -108,7 +108,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void VerifyPasswordsMatch_For_Existing_User_With_Matching_Passwords_Succeeds()
+		public void verifypasswordsmatch_for_existing_user_with_matching_passwords_succeeds()
 		{
 			// Arrange
 			_userViewModel.Id = null;
@@ -123,7 +123,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void VerifyPasswordsMatch_For_New_User_With_Mismatching_Passwords_Fails()
+		public void verifypasswordsmatch_for_new_user_with_mismatching_passwords_fails()
 		{
 			// Arrange
 			_userViewModel.Id = null;
@@ -138,7 +138,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void VerifyPasswordsMatch_For_Existing_User_With_Empty_Password_Succeeds()
+		public void verifypasswordsmatch_for_existing_user_with_empty_password_succeeds()
 		{
 			// Arrange
 			_userViewModel.Id = Guid.NewGuid();

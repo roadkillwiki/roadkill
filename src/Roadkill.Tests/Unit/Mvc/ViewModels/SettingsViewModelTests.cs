@@ -15,7 +15,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 	public class SettingsViewModelTests
 	{
 		[Test]
-		public void Constructor_Should_Convert_ApplicationSettings_And_SiteSettings_To_Properties()
+		public void constructor_should_convert_applicationsettings_and_sitesettings_to_properties()
 		{
 			// Arrange
 			ApplicationSettings appSettings = new ApplicationSettings()
@@ -81,7 +81,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void Constructor_Should_Remove_Spaces_From_SiteSettings_Allow_File_Types()
+		public void constructor_should_remove_spaces_from_sitesettings_allow_file_types()
 		{
 			// Arrange
 			ApplicationSettings appSettings = new ApplicationSettings();
@@ -99,7 +99,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void FillFromApplicationSettings_Should_Convert_ApplicationSettings_To_Properties()
+		public void fillfromapplicationsettings_should_convert_applicationsettings_to_properties()
 		{
 			// Arrange
 			ApplicationSettings appSettings = new ApplicationSettings()
@@ -140,7 +140,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void SetSupportedDatabases_Should_Convert_RepositoryInfo_Objects_SelectList()
+		public void setsupporteddatabases_should_convert_repositoryinfo_objects_selectlist()
 		{
 			// Arrange
 			var respositoryFactory = new RepositoryFactoryMock();
@@ -160,7 +160,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void MarkupTypesAvailable_Should_Contain_Known_Markups()
+		public void markuptypesavailable_should_contain_known_markups()
 		{
 			// Arrange
 			SettingsViewModel model = new SettingsViewModel();
@@ -172,7 +172,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void Version_Should_Equal_ApplicationSettingsProductVersion()
+		public void version_should_equal_applicationsettingsproductversion()
 		{
 			// Arrange
 			SettingsViewModel model = new SettingsViewModel();
@@ -182,7 +182,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void ThemesAvailable_Should_Scan_Themes_Directory()
+		public void themesavailable_should_scan_themes_directory()
 		{
 			// Arrange
 			string themeDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Themes");

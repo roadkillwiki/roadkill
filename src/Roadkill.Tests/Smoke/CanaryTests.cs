@@ -21,7 +21,7 @@ namespace Roadkill.Tests.Acceptance.Smoke
 	public class CanaryTests : AcceptanceTestBase
 	{
 		[Test]
-		public void Can_Reach_Homepage()
+		public void can_reach_homepage()
 		{
 			// Arrange + Act
 			Driver.Navigate().GoToUrl(BaseUrl);
@@ -47,7 +47,7 @@ namespace Roadkill.Tests.Acceptance.Smoke
 		}
 
 		[Test]
-		public void Can_Login_As_Admin()
+		public void can_login_as_admin()
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(LogoutUrl);

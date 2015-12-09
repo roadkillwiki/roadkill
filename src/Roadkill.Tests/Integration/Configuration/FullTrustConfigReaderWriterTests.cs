@@ -29,7 +29,7 @@ namespace Roadkill.Tests.Integration.Configuration
 		}
 
 		[Test]
-		public void Load_Should_Return_RoadkillSection()
+		public void load_should_return_roadkillsection()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
@@ -43,7 +43,7 @@ namespace Roadkill.Tests.Integration.Configuration
 		}
 
 		[Test]
-		public void UpdateLanguage_Should_Save_Language_Code_To_Globalization_Section()
+		public void updatelanguage_should_save_language_code_to_globalization_section()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
@@ -61,7 +61,7 @@ namespace Roadkill.Tests.Integration.Configuration
 		}
 
 		[Test]
-		public void ResetInstalledState_Should_Set_Installed_To_False()
+		public void resetinstalledstate_should_set_installed_to_false()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
@@ -76,7 +76,7 @@ namespace Roadkill.Tests.Integration.Configuration
 		}
 
 		[Test]
-		public void TestSaveWebConfig_Should_Return_Empty_String_For_Success()
+		public void testsavewebconfig_should_return_empty_string_for_success()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
@@ -90,7 +90,7 @@ namespace Roadkill.Tests.Integration.Configuration
 		}
 
 		[Test]
-		public void GetConfiguration_Should_Return_Configuration_For_Exe_File()
+		public void getconfiguration_should_return_configuration_for_exe_file()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
@@ -105,7 +105,7 @@ namespace Roadkill.Tests.Integration.Configuration
 		}
 
 		[Test]
-		public void WriteConfigForFormsAuth_Should_Add_FormsAuth_Section_And_AnonymousIdentification()
+		public void writeconfigforformsauth_should_add_formsauth_section_and_anonymousidentification()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
@@ -127,7 +127,7 @@ namespace Roadkill.Tests.Integration.Configuration
 		}
 
 		[Test]
-		public void WriteConfigForWindowsAuth_Should_Set_WindowsAuthMode_And_Disable_AnonymousIdentification()
+		public void writeconfigforwindowsauth_should_set_windowsauthmode_and_disable_anonymousidentification()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
@@ -149,7 +149,7 @@ namespace Roadkill.Tests.Integration.Configuration
 		}
 
 		[Test]
-		public void GetApplicationSettings_Should_Have_Correct_Key_Mappings_And_Values()
+		public void getapplicationsettings_should_have_correct_key_mappings_and_values()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
@@ -181,7 +181,7 @@ namespace Roadkill.Tests.Integration.Configuration
 		}
 
 		[Test]
-		public void GetApplicationSettings_Should_Use_Default_Values_When_Optional_Settings_Have_Missing_Values()
+		public void getapplicationsettings_should_use_default_values_when_optional_settings_have_missing_values()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test-optional-values.config");
@@ -205,7 +205,7 @@ namespace Roadkill.Tests.Integration.Configuration
 		}
 
 		[Test]
-		public void GetApplicationSettings_Should_Find_Connection_Value_From_Connection_Setting()
+		public void getapplicationsettings_should_find_connection_value_from_connection_setting()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");

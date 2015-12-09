@@ -43,7 +43,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void File_Table_Should_List_Folders_Then_Files()
+		public void file_table_should_list_folders_then_files()
 		{
 			// Arrange
 			string sitePath = TestConstants.WEB_PATH;
@@ -70,7 +70,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Editor_Login_Should_Only_Show_Upload_And_New_Folder_Buttons()
+		public void editor_login_should_only_show_upload_and_new_folder_buttons()
 		{
 			// Arrange
 			LoginAsEditor();
@@ -86,7 +86,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Admin_Login_Should_Show_All_Buttons()
+		public void admin_login_should_show_all_buttons()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -126,7 +126,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Upload_File_Should_Show_Toast_And_Displays_In_Table()
+		public void upload_file_should_show_toast_and_displays_in_table()
 		{
 			// Arrange
 			LoginAsEditor();
@@ -146,7 +146,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Delete_File_Should_Show_Toast_And_Not_Show_File_In_Table()
+		public void delete_file_should_show_toast_and_not_show_file_in_table()
 		{
 			// Arrange
 			string sitePath = TestConstants.WEB_PATH;
@@ -169,7 +169,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Delete_Folder_Should_Show_Toast_And_Not_Show_Folder_In_Table()
+		public void delete_folder_should_show_toast_and_not_show_folder_in_table()
 		{
 			// Arrange
 			string sitePath = TestConstants.WEB_PATH;
@@ -192,7 +192,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Navigate_SubFolders_Should_Work_With_Double_Click()
+		public void navigate_subfolders_should_work_with_double_click()
 		{
 			// Arrange
 			string sitePath = TestConstants.WEB_PATH;
@@ -268,7 +268,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Select_File_In_Page_Editor_Should_Add_Markup()
+		public void select_file_in_page_editor_should_add_markup()
 		{
 			// Arrange
 			string sitePath = TestConstants.WEB_PATH;

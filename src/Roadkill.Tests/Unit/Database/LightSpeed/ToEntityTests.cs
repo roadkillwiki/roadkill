@@ -10,7 +10,7 @@ namespace Roadkill.Tests.Unit.Database.LightSpeed
 	public class ToEntityTests
 	{
 		[Test]
-		public void FromUser_ShouldFillCorrectProperties()
+		public void fromuser_shouldfillcorrectproperties()
 		{
 			// Arrange
 			User user = new User();
@@ -46,7 +46,7 @@ namespace Roadkill.Tests.Unit.Database.LightSpeed
 		}
 
 		[Test]
-		public void FromPage_ShouldFillCorrectProperties()
+		public void frompage_shouldfillcorrectproperties()
 		{
 			// Arrange
 			Page page = new Page();
@@ -76,7 +76,7 @@ namespace Roadkill.Tests.Unit.Database.LightSpeed
 		}
 
 		[Test]
-		public void FromPageContent_ShouldFillCorrectProperties()
+		public void frompagecontent_shouldfillcorrectproperties()
 		{
 			// Arrange
 			PageContent pageContent = new PageContent();

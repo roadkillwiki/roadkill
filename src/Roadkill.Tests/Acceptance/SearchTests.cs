@@ -27,7 +27,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Search_From_Global_Search_Bar_Returns_Results()
+		public void search_from_global_search_bar_returns_results()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -49,7 +49,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Search_From_Search_Page_Returns_Results()
+		public void search_from_search_page_returns_results()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -73,7 +73,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Search_With_No_Results_Shows_Message()
+		public void search_with_no_results_shows_message()
 		{
 			// Arrange
 			LoginAsAdmin();

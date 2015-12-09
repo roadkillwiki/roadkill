@@ -36,7 +36,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Not_Set_ViewResult_If_Not_Installed()
+		public void should_not_set_viewresult_if_not_installed()
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
@@ -55,7 +55,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Not_Set_ViewResult_If_UseBrowserCache_Is_Disabled()
+		public void should_not_set_viewresult_if_usebrowsercache_is_disabled()
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
@@ -74,7 +74,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Not_Set_ViewResult_If_User_Is_Logged_In()
+		public void should_not_set_viewresult_if_user_is_logged_in()
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
@@ -93,7 +93,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Have_200_Http_Status_Code_If_No_Modified_Since_Header()
+		public void should_have_200_http_status_code_if_no_modified_since_header()
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
@@ -111,7 +111,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Have_200_Http_Status_Code_If_PluginsSaved_After_Header_Last_Modified_Date()
+		public void should_have_200_http_status_code_if_pluginssaved_after_header_last_modified_date()
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
@@ -131,7 +131,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Have_304_Http_Status_Code_If_PluginsSaved_Is_Equal_To_Header_Last_Modified_Date()
+		public void should_have_304_http_status_code_if_pluginssaved_is_equal_to_header_last_modified_date()
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
@@ -151,7 +151,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Have_304_Http_Status_Code_If_Response_Has_Modified_Since_Header_Matching_Page_Modified_Date()
+		public void should_have_304_http_status_code_if_response_has_modified_since_header_matching_page_modified_date()
 		{
 			// The file date and the browser date always match for a 304 status, the browser will never send back a more recent date,
 			// i.e. "Has the file changed since this date I've stored for the last time it was changed?"

@@ -37,7 +37,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Return_True_If_Installed_Is_False()
+		public void should_return_true_if_installed_is_false()
 		{
 			// Arrange
 			_applicationSettings.Installed = false;
@@ -59,7 +59,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Return_True_If_PublicSite_Is_True()
+		public void should_return_true_if_publicsite_is_true()
 		{
 			// Arrange
 			_applicationSettings.IsPublicSite = true;
@@ -81,7 +81,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Use_AuthorizationProvider_For_Editors_When_PublicSite_Is_False()
+		public void should_use_authorizationprovider_for_editors_when_publicsite_is_false()
 		{
 			// Arrange
 			User editorUser = CreateEditorUser();
@@ -103,7 +103,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Use_AuthorizationProvider_For_Admin_When_PublicSite_Is_False()
+		public void should_use_authorizationprovider_for_admin_when_publicsite_is_false()
 		{
 			// Arrange
 			User adminUser = CreateAdminUser();

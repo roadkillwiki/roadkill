@@ -51,7 +51,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void CompareVersions_Has_Last_Two_Versions()
+		public void compareversions_has_last_two_versions()
 		{
 			// Arrange
 			DateTime createdDate = DateTime.Today.AddDays(-1);
@@ -71,7 +71,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void CompareVersions_With_One_Page_Version_Returns_One_Item()
+		public void compareversions_with_one_page_version_returns_one_item()
 		{
 			// Arrange
 			Page page = NewPage("admin");
@@ -87,7 +87,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void GetHistory_Returns_Correct_Items()
+		public void gethistory_returns_correct_items()
 		{
 			// Arrange
 			Page page = NewPage("admin");
@@ -112,7 +112,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void GetHistory_Returns_Items_In_Correct_Order()
+		public void gethistory_returns_items_in_correct_order()
 		{
 			// Arrange
 			DateTime createdDate = DateTime.Today.AddDays(-1);
@@ -134,7 +134,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void MaxVersion_Returns_Correct_Version_Number()
+		public void maxversion_returns_correct_version_number()
 		{
 			// Arrange
 			DateTime createdDate = DateTime.Today.AddDays(-1);
@@ -155,7 +155,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void RevertTo_With_VersionId_Should_Add_New_Version()
+		public void revertto_with_versionid_should_add_new_version()
 		{
 			// Arrange
 			DateTime createdDate = DateTime.Today.AddDays(-1);
@@ -176,7 +176,7 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		public void RevertTo_With_PageId_Should_Add_New_Version()
+		public void revertto_with_pageid_should_add_new_version()
 		{
 			// Arrange
 			DateTime createdDate = DateTime.Today.AddDays(-1);

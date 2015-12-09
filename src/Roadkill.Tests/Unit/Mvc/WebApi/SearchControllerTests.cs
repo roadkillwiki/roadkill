@@ -40,7 +40,7 @@ namespace Roadkill.Tests.Unit.Mvc.WebApi
 		}
 
 		[Test]
-		public void Get_Should_Search_Return_Correct_Results_Using_Search_Service()
+		public void get_should_search_return_correct_results_using_search_service()
 		{
 			// Arrange
 			_pageService.AddPage(new PageViewModel() { Id = 1, Title = "title 1", Content = "page 1" });

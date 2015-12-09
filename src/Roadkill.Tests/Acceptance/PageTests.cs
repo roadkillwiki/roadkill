@@ -10,7 +10,7 @@ namespace Roadkill.Tests.Acceptance
 	public class PageTests : AcceptanceTestBase
 	{
 		[Test]
-		public void Installation_Page_Should_Not_Display_For_Home_Page_When_Installed_Is_True()
+		public void installation_page_should_not_display_for_home_page_when_installed_is_true()
 		{
 			// Arrange
 
@@ -22,7 +22,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void No_MainPage_Set()
+		public void no_mainpage_set()
 		{
 			// Arrange + Act
 			Driver.Navigate().GoToUrl(BaseUrl);
@@ -33,7 +33,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void No_Extra_Menu_Options_For_Anonymous_Users()
+		public void no_extra_menu_options_for_anonymous_users()
 		{
 			// Arrange
 			Logout();
@@ -46,7 +46,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Login_As_Admin_Shows_All_Left_Menu_Options()
+		public void login_as_admin_shows_all_left_menu_options()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -59,7 +59,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Login_As_Editor_Shows_Extra_Menu_Option()
+		public void login_as_editor_shows_extra_menu_option()
 		{
 			// Arrange
 			LoginAsEditor();
@@ -72,7 +72,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void NewPage_With_Homepage_Tag_Shows_As_Homepage()
+		public void newpage_with_homepage_tag_shows_as_homepage()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -87,7 +87,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void AllTagsPage_Displays_Correct_Tags_For_All_Users()
+		public void alltagspage_displays_correct_tags_for_all_users()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -104,7 +104,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void EditIcon_Exists_For_Editors()
+		public void editicon_exists_for_editors()
 		{
 			// Arrange
 			LoginAsEditor();
@@ -119,7 +119,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void EditIcon_Exists_For_Admins()
+		public void editicon_exists_for_admins()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -134,7 +134,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Properties_Icon_Exists_For_Editors()
+		public void properties_icon_exists_for_editors()
 		{
 			// Arrange
 			LoginAsEditor();
@@ -153,7 +153,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Properties_Icon_Exists_For_Admin()
+		public void properties_icon_exists_for_admin()
 		{
 			// Arrange
 			LoginAsEditor();
@@ -172,7 +172,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void View_History_Link_Exists_For_All_Users()
+		public void view_history_link_exists_for_all_users()
 		{
 			// Arrange
 			LoginAsEditor();
@@ -188,7 +188,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void All_Pages_Has_Edit_But_No_Delete_Button_For_Editor()
+		public void all_pages_has_edit_but_no_delete_button_for_editor()
 		{
 			// Arrange
 			LoginAsEditor();
@@ -203,7 +203,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void All_Pages_Has_Edit_And_Delete_Button_For_Admin()
+		public void all_pages_has_edit_and_delete_button_for_admin()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -218,7 +218,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void All_Pages_Has_No_Buttons_For_Anonymous()
+		public void all_pages_has_no_buttons_for_anonymous()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -235,7 +235,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void TagPage_Has_Edit_And_Delete_Button_For_Admin()
+		public void tagpage_has_edit_and_delete_button_for_admin()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -251,7 +251,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void TagPage_Has_Edit_But_No_Delete_Button_For_Editor()
+		public void tagpage_has_edit_but_no_delete_button_for_editor()
 		{
 			// Arrange
 			LoginAsEditor();
@@ -267,7 +267,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void TagPage_Has_No_Buttons_For_Anonymous()
+		public void tagpage_has_no_buttons_for_anonymous()
 		{
 			// Arrange
 			LoginAsEditor();
@@ -283,7 +283,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void ByUserPage_Has_Edit_And_Delete_Button_For_Admin()
+		public void byuserpage_has_edit_and_delete_button_for_admin()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -301,7 +301,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void ByUserPage_Has_Edit_But_No_Delete_Button_For_Editor()
+		public void byuserpage_has_edit_but_no_delete_button_for_editor()
 		{
 			// Arrange
 			LoginAsEditor();
@@ -319,7 +319,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void ByUserPage_Has_No_Buttons_For_Anonymous()
+		public void byuserpage_has_no_buttons_for_anonymous()
 		{
 			// Arrange
 			LoginAsEditor();
@@ -338,7 +338,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void HistoryPage_Has_Revert_For_Admin()
+		public void historypage_has_revert_for_admin()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -358,7 +358,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void HistoryPage_Has_Revert_For_Editor()
+		public void historypage_has_revert_for_editor()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -382,7 +382,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void HistoryPage_Has_No_Revert_For_Anonymous()
+		public void historypage_has_no_revert_for_anonymous()
 		{
 			// Arrange
 			LoginAsAdmin();

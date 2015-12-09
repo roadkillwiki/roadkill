@@ -10,7 +10,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 	public class FileViewModelTests
 	{
 		[Test]
-		public void Constructor_Should_Fill_Properties_And_Create_Empty_Files_And_ChildFolders()
+		public void constructor_should_fill_properties_and_create_empty_files_and_childfolders()
 		{
 			// Arrange
 			string name = "random.jpg";

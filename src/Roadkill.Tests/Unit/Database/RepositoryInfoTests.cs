@@ -17,7 +17,7 @@ namespace Roadkill.Tests.Unit.Database
 		}
 
 		[Test]
-		public void Id_should_compare_with_string_and_be_case_insensitive()
+		public void id_should_compare_with_string_and_be_case_insensitive()
 		{
 			// Arrange
 			var info = new RepositoryInfo("SqlDB", "A Sql Server Mongo Redis Document Store");
@@ -31,7 +31,7 @@ namespace Roadkill.Tests.Unit.Database
 		}
 
 		[Test]
-		public void Id_should_return_false_when_compared_with_null_and_empty_strings()
+		public void id_should_return_false_when_compared_with_null_and_empty_strings()
 		{
 			// Arrange
 			var info = new RepositoryInfo("", "");
@@ -52,7 +52,7 @@ namespace Roadkill.Tests.Unit.Database
 		}
 
 		[Test]
-		public void Equals_should_be_case_insensitive()
+		public void equals_should_be_case_insensitive()
 		{
 			// Arrange
 			var info = new RepositoryInfo("SqlDB", "A Sql Server Mongo Redis Document Store");

@@ -30,7 +30,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Should_Replace_Token_After_Parse()
+		public void should_replace_token_after_parse()
 		{
 			// Arrange
 			string expectedHtml = "<p> $$e=mc2$$</p>";
@@ -44,7 +44,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void HeadContent_Should_Contain_Script_Tag_And_CDN_Src()
+		public void headcontent_should_contain_script_tag_and_cdn_src()
 		{
 			// Arrange
 			string expectedScriptTag = "<script type=\"text/javascript\" src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\"></script>";

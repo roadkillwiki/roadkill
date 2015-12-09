@@ -54,7 +54,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void Index_GET_Should_Return_View_And_ViewModel()
+		public void index_get_should_return_view_and_viewmodel()
 		{
 			// Arrange
 
@@ -68,7 +68,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void Index_POST_Should_Return_ViewResult_And_Save_Settings()
+		public void index_post_should_return_viewresult_and_save_settings()
 		{
 			// Arrange
 			SettingsViewModel model = new SettingsViewModel();
@@ -86,7 +86,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void Index_POST_Should_Accept_HttpPost_Only()
+		public void index_post_should_accept_httppost_only()
 		{
 			// Arrange
 			SettingsViewModel model = new SettingsViewModel();
@@ -99,7 +99,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void Index_POST_Should_Clear_Site_Cache()
+		public void index_post_should_clear_site_cache()
 		{
 			// Arrange
 			_siteCache.AddMenu("some menu");

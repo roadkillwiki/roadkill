@@ -56,7 +56,7 @@ namespace Roadkill.Tests.Unit.Security
 		//
 
 		[Test]
-		public void IsViewer_Should_Return_True_When_Not_Authenticated()
+		public void isviewer_should_return_true_when_not_authenticated()
 		{
 			// Arrange
 			User editorUser = CreateEditorUser();
@@ -76,7 +76,7 @@ namespace Roadkill.Tests.Unit.Security
 		//
 
 		[Test]
-		public void IsAdmin_Should_Return_True_For_Admin_User()
+		public void isadmin_should_return_true_for_admin_user()
 		{
 			// Arrange
 			User adminUser = CreateAdminUser();
@@ -92,7 +92,7 @@ namespace Roadkill.Tests.Unit.Security
 		}
 
 		[Test]
-		public void IsAdmin_Should_Return_False_For_Editor_User()
+		public void isadmin_should_return_false_for_editor_user()
 		{
 			// Arrange
 			User editorUser = CreateEditorUser();
@@ -108,7 +108,7 @@ namespace Roadkill.Tests.Unit.Security
 		}
 
 		[Test]
-		public void IsAdmin_Should_Return_False_When_Not_Authenticated()
+		public void isadmin_should_return_false_when_not_authenticated()
 		{
 			// Arrange
 			User adminUser = CreateAdminUser();
@@ -124,7 +124,7 @@ namespace Roadkill.Tests.Unit.Security
 		}
 
 		[Test]
-		public void IsAdmin_Should_Return_True_When_No_Admin_Role_Set()
+		public void isadmin_should_return_true_when_no_admin_role_set()
 		{
 			// Arrange
 			_applicationSettings.AdminRoleName = "";
@@ -142,7 +142,7 @@ namespace Roadkill.Tests.Unit.Security
 		}
 
 		[Test]
-		public void IsAdmin_Should_Return_False_When_No_Identity_Name_Set()
+		public void isadmin_should_return_false_when_no_identity_name_set()
 		{
 			// Arrange
 			User adminUser = CreateAdminUser();
@@ -162,7 +162,7 @@ namespace Roadkill.Tests.Unit.Security
 		// 
 
 		[Test]
-		public void IsEditor_Should_Return_True_For_Editor_User()
+		public void iseditor_should_return_true_for_editor_user()
 		{
 			// Arrange
 			User editorUser = CreateEditorUser();
@@ -178,7 +178,7 @@ namespace Roadkill.Tests.Unit.Security
 		}
 
 		[Test]
-		public void IsEditor_Should_Return_True_For_Admin_User()
+		public void iseditor_should_return_true_for_admin_user()
 		{
 			// Arrange
 			User adminUser = CreateAdminUser();
@@ -194,7 +194,7 @@ namespace Roadkill.Tests.Unit.Security
 		}
 
 		[Test]
-		public void IsEditor_Should_Return_False_When_Not_Authenticated()
+		public void iseditor_should_return_false_when_not_authenticated()
 		{
 			// Arrange
 			User editorUser = CreateEditorUser();
@@ -210,7 +210,7 @@ namespace Roadkill.Tests.Unit.Security
 		}
 
 		[Test]
-		public void IsEditor_Should_Return_True_When_No_Editor_Role_Set()
+		public void iseditor_should_return_true_when_no_editor_role_set()
 		{
 			// Arrange
 			_applicationSettings.EditorRoleName = "";
@@ -228,7 +228,7 @@ namespace Roadkill.Tests.Unit.Security
 		}
 
 		[Test]
-		public void IsEditor_Should_Return_False_When_No_Identity_Name_Set()
+		public void iseditor_should_return_false_when_no_identity_name_set()
 		{
 			// Arrange
 			User adminUser = CreateAdminUser();
@@ -244,7 +244,7 @@ namespace Roadkill.Tests.Unit.Security
 		}
 
 		[Test]
-		public void IsEditor_Should_Return_False_When_User_Is_Not_Admin_Or_Editor()
+		public void iseditor_should_return_false_when_user_is_not_admin_or_editor()
 		{
 			// Arrange
 			User user = CreateEditorUser();

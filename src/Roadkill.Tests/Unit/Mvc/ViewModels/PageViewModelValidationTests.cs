@@ -9,7 +9,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 	public class PageViewModelValidationTests
 	{
 		[Test]
-		public void VerifyRawTags_With_Ok_Characters_Should_Succeed()
+		public void verifyrawtags_with_ok_characters_should_succeed()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel();
@@ -23,7 +23,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void VerifyRawTags_With_Empty_String_Should_Succeed()
+		public void verifyrawtags_with_empty_string_should_succeed()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel();
@@ -37,7 +37,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void VerifyRawTags_With_Bad_Characters_Should_Fail()
+		public void verifyrawtags_with_bad_characters_should_fail()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel();

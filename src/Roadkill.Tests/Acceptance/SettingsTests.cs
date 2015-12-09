@@ -15,7 +15,7 @@ namespace Roadkill.Tests.Acceptance
 	public class SettingsTests : AcceptanceTestBase
 	{
 		[Test]
-		public void Configuration_Page_Shows_All_Settings()
+		public void configuration_page_shows_all_settings()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -51,7 +51,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Users_Page_Shows_All_Admin_Users_And_Buttons_And_No_Delete_For_Current_User()
+		public void users_page_shows_all_admin_users_and_buttons_and_no_delete_for_current_user()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -70,7 +70,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Users_Page_Shows_All_Editor_Users_And_Both_Buttons()
+		public void users_page_shows_all_editor_users_and_both_buttons()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -90,7 +90,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Edit_User_On_Users_Page_Shows_CorrectDetails()
+		public void edit_user_on_users_page_shows_correctdetails()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -108,7 +108,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Edit_User_On_Users_Page_Saves_User()
+		public void edit_user_on_users_page_saves_user()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -131,7 +131,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Can_Change_Password_On_Users_Page()
+		public void can_change_password_on_users_page()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -158,7 +158,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Add_Admin_On_Users_Page_Shows_In_Table_Of_Admins_With_Both_Buttons()
+		public void add_admin_on_users_page_shows_in_table_of_admins_with_both_buttons()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -186,7 +186,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Add_Editor_On_Users_Page_Shows_In_Table_Of_Editor_With_Both_Buttons()
+		public void add_editor_on_users_page_shows_in_table_of_editor_with_both_buttons()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -214,7 +214,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Delete_User_On_Users_Page_Removes_From_User_Table()
+		public void delete_user_on_users_page_removes_from_user_table()
 		{
 			// Arrange
 			LoginAsAdmin();
@@ -230,7 +230,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Delete_User_On_Users_Page_Requires_Confirm_Click()
+		public void delete_user_on_users_page_requires_confirm_click()
 		{
 			// Arrange
 			LoginAsAdmin();

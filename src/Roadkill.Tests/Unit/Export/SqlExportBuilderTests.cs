@@ -18,7 +18,7 @@ namespace Roadkill.Tests.Unit.Export
 		// Some full integration tests for each database type can be added if needed later.
 
 		[Test]
-		public void Should_Export_Users_With_All_FieldValues()
+		public void should_export_users_with_all_fieldvalues()
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
@@ -91,7 +91,7 @@ namespace Roadkill.Tests.Unit.Export
 		}
 
 		[Test]
-		public void Should_Export_Pages_With_Content()
+		public void should_export_pages_with_content()
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
@@ -182,7 +182,7 @@ namespace Roadkill.Tests.Unit.Export
 		}
 
 		[Test]
-		public void Should_Export_SiteConfiguration_And_Plugin_Settings()
+		public void should_export_siteconfiguration_and_plugin_settings()
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();

@@ -26,7 +26,7 @@ namespace Roadkill.Tests.Unit.Mvc.Setup
 		}
 
 		[Test]
-		public void HomeController_Routes_Are_Mapped()
+		public void homecontroller_routes_are_mapped()
 		{
 			"~/".ShouldMapTo<HomeController>(action => action.Index());
 
@@ -40,45 +40,45 @@ namespace Roadkill.Tests.Unit.Mvc.Setup
 		}
 
 		[Test]
-		public void WikiController_Maps_Id_And_Title()
+		public void wikicontroller_maps_id_and_title()
 		{
 			"~/wiki/42".ShouldMapTo<WikiController>(action => action.Index(42,""));
 			"~/wiki/42/my-page-name".ShouldMapTo<WikiController>(action => action.Index(42, "my-page-name"));
 		}
 
 		[Test]
-		public void PagesController_ByUser_Maps_Values()
+		public void pagescontroller_byuser_maps_values()
 		{
 			"~/Pages/byuser/ZWRpdG9yICg5Ni4yNTIuMTQwLjE3OSk%3d".ShouldMapTo<PagesController>(action => action.ByUser("ZWRpdG9yICg5Ni4yNTIuMTQwLjE3OSk%3d", null));
 			"~/Pages/byuser/ZWRpdG9yICg5Ni4yNTIuMTQwLjE3OSk%3d/True".ShouldMapTo<PagesController>(action => action.ByUser("ZWRpdG9yICg5Ni4yNTIuMTQwLjE3OSk%3d", true));
 		}
 
 		[Test]
-		public void FileManagerController_Should_Have_Index()
+		public void filemanagercontroller_should_have_index()
 		{
 			"~/filemanager".ShouldMapTo<FileManagerController>(action => action.Index());
 		}
 
 		[Test]
-		public void Special_Route_Should_Map_To_SpecialPagesController()
+		public void special_route_should_map_to_specialpagescontroller()
 		{
 			"~/wiki/Special:Random".ShouldMapTo<SpecialPagesController>(action => action.Index("Random"));
 		}
 
 		[Test]
-		public void HelpCheatsheet_Route_Should_Map_To_HelpController()
+		public void helpcheatsheet_route_should_map_to_helpcontroller()
 		{
 			"~/wiki/Help:Cheatsheet".ShouldMapTo<HelpController>(action => action.Index());
 		}
 
 		[Test]
-		public void HelpAbout_Route_Should_Map_To_HelpController()
+		public void helpabout_route_should_map_to_helpcontroller()
 		{
 			"~/wiki/Help:About".ShouldMapTo<HelpController>(action => action.About());
 		}
 
 		[Test]
-		public void Attachments_Should_Have_Correct_Handler_And_Contain_Route_Values()
+		public void attachments_should_have_correct_handler_and_contain_route_values()
 		{
 			// Arrange
 			ApplicationSettings settings = new ApplicationSettings();
@@ -101,7 +101,7 @@ namespace Roadkill.Tests.Unit.Mvc.Setup
 		}
 
 		[Test]
-		public void Attachments_In_Standard_Controller_Path_Should_Not_Map_To_Attachments_Handler()
+		public void attachments_in_standard_controller_path_should_not_map_to_attachments_handler()
 		{
 			// Arrange
 			ApplicationSettings settings = new ApplicationSettings();

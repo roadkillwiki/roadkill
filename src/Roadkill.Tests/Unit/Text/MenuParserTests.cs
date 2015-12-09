@@ -22,7 +22,7 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
-		public void Should_Replace_Known_Tokens_When_Logged_In_As_Admin()
+		public void should_replace_known_tokens_when_logged_in_as_admin()
 		{
 			// Arrange
 			string menuMarkup = "* %categories%\r\n\r\n%allpages%\r\n%mainpage%\r\n%newpage%\r\n%managefiles%\r\n%sitesettings%\r\n";
@@ -58,7 +58,7 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
-		public void Should_Replace_Known_Tokens_When_Logged_In_As_Editor()
+		public void should_replace_known_tokens_when_logged_in_as_editor()
 		{
 			// Arrange
 			string menuMarkup = "* %categories%\r\n\r\n%allpages%\r\n%mainpage%\r\n%newpage%\r\n%managefiles%\r\n%sitesettings%\r\n";
@@ -92,7 +92,7 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
-		public void Should_Replace_Known_Tokens_When_Not_Logged()
+		public void should_replace_known_tokens_when_not_logged()
 		{
 			// Arrange
 			string menuMarkup = "* %categories%\r\n\r\n%allpages%\r\n%mainpage%\r\n%newpage%\r\n%managefiles%\r\n%sitesettings%\r\n";
@@ -155,7 +155,7 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
-		public void Should_Cache_Menu_Html_For_Admin_And_Editor_And_Guest_User()
+		public void should_cache_menu_html_for_admin_and_editor_and_guest_user()
 		{
 			// Arrange
 			string menuMarkup = "My menu %newpage% %sitesettings%";
@@ -193,7 +193,7 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
-		public void Should_Return_Different_Menu_Html_For_Admin_And_Editor_And_Guest_User()
+		public void should_return_different_menu_html_for_admin_and_editor_and_guest_user()
 		{
 			// Arrange
 			string menuMarkup = "My menu %newpage% %sitesettings%";
@@ -233,7 +233,7 @@ namespace Roadkill.Tests.Unit.Text
 		}
 		
 		[Test]
-		public void Should_Replace_Markdown_With_External_Link()
+		public void should_replace_markdown_with_external_link()
 		{
 			// Arrange
 			string menuMarkup = "* [First link](http://www.google.com)\r\n";
@@ -262,7 +262,7 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
-		public void Should_Replace_Markdown_With_Internal_Link()
+		public void should_replace_markdown_with_internal_link()
 		{
 			// Arrange
 			string menuMarkup = "* [First link](my-page)\r\n";

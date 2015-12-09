@@ -52,7 +52,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void Index_Should_Return_ViewModel_With_Filled_Properties()
+		public void index_should_return_viewmodel_with_filled_properties()
 		{
 			// Arrange
 			_applicationSettings.UseObjectCache = true;			
@@ -75,7 +75,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		}
 
 		[Test]
-		public void Clear_Should_Redirect_And_Clear_All_Cache_Items()
+		public void clear_should_redirect_and_clear_all_cache_items()
 		{
 			// Arrange
 			_applicationSettings.UseObjectCache = true;

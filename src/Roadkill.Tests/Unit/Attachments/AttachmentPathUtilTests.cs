@@ -81,7 +81,7 @@ namespace Roadkill.Tests.Unit.Attachments
 		}
 
 		[Test]
-		public void IsAttachmentPathValid_Should_Be_True_For_Valid_SubDirectory()
+		public void isattachmentpathvalid_should_be_true_for_valid_subdirectory()
 		{
 			// Arrange
 			string physicalPath = Path.Combine(_settings.AttachmentsDirectoryPath, "images", "test");
@@ -96,7 +96,7 @@ namespace Roadkill.Tests.Unit.Attachments
 		}
 
 		[Test]
-		public void IsAttachmentPathValid_Should_Be_False_For_Valid_Path_That_Does_Not_Exist()
+		public void isattachmentpathvalid_should_be_false_for_valid_path_that_does_not_exist()
 		{
 			// Arrange
 			string physicalPath = Path.Combine(_settings.AttachmentsDirectoryPath, "folder100", "folder99");
@@ -110,7 +110,7 @@ namespace Roadkill.Tests.Unit.Attachments
 		}
 
 		[Test]
-		public void IsAttachmentPathValid_Should_Be_Case_Insensitive()
+		public void isattachmentpathvalid_should_be_case_insensitive()
 		{
 			// Arrange
 			string physicalPath = Path.Combine(_settings.AttachmentsDirectoryPath, "images", "test");
@@ -144,7 +144,7 @@ namespace Roadkill.Tests.Unit.Attachments
 		}
 
 		[Test]
-		public void IsAttachmentPathValid_Should_Be_True_For_EmptyString()
+		public void isattachmentpathvalid_should_be_true_for_emptystring()
 		{
 			// Arrange
 			bool expectedResult = true;
@@ -184,7 +184,7 @@ namespace Roadkill.Tests.Unit.Attachments
 		}
 
 		[Test]
-		public void AttachmentFolderExistsAndWriteable_Should_Return_Empty_String_For_Writeable_Folder()
+		public void attachmentfolderexistsandwriteable_should_return_empty_string_for_writeable_folder()
 		{
 			// Arrange
 			string directory = AppDomain.CurrentDomain.BaseDirectory;
@@ -198,7 +198,7 @@ namespace Roadkill.Tests.Unit.Attachments
 		}
 
 		[Test]
-		public void AttachmentFolderExistsAndWriteable_Should_Return_Error_For_Empty_Folder()
+		public void attachmentfolderexistsandwriteable_should_return_error_for_empty_folder()
 		{
 			// Arrange
 			string directory = "";
@@ -212,7 +212,7 @@ namespace Roadkill.Tests.Unit.Attachments
 		}
 
 		[Test]
-		public void AttachmentFolderExistsAndWriteable_Should_Return_Error_For_Missing_Folder()
+		public void attachmentfolderexistsandwriteable_should_return_error_for_missing_folder()
 		{
 			// Arrange
 			string directory = @"c:\87sd9f7dssdds3232";

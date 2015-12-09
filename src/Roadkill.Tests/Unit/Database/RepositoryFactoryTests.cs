@@ -14,7 +14,7 @@ namespace Roadkill.Tests.Unit.Database
 	public class RepositoryFactoryTests
 	{
 		[Test]
-		public void ListAll_should_return_all_databases()
+		public void listall_should_return_all_databases()
 		{
 			// Arrange
 			var factory = new RepositoryFactory();
@@ -49,7 +49,7 @@ namespace Roadkill.Tests.Unit.Database
 		}
 
 		[Test]
-		public void GetRepository_should_default_to_sqlserver_lightspeedrepository()
+		public void getrepository_should_default_to_sqlserver_lightspeedrepository()
 		{
 			// Arrange
 			string provider = "anything";
@@ -67,7 +67,7 @@ namespace Roadkill.Tests.Unit.Database
 		}
 
 		[Test]
-		public void GetRepository_should_return_mongodb_repository()
+		public void getrepository_should_return_mongodb_repository()
 		{
 			// Arrange
 			string provider = "MONGODB";
@@ -105,7 +105,7 @@ namespace Roadkill.Tests.Unit.Database
 		}
 
 		[Test]
-		public void GetRepositoryInstaller_should_default_to_sqlserver_lightspeedrepository()
+		public void getrepositoryinstaller_should_default_to_sqlserver_lightspeedrepository()
 		{
 			// Arrange
 			string provider = "anything";
@@ -126,7 +126,7 @@ namespace Roadkill.Tests.Unit.Database
 		}
 
 		[Test]
-		public void GetRepositoryInstaller_should_return_mongodb_repository()
+		public void getrepositoryinstaller_should_return_mongodb_repository()
 		{
 			// Arrange
 			string provider = "MONGODB";

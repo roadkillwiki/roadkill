@@ -68,7 +68,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Index_Should_Return_Default_Message_When_No_Homepage_Tag_Exists()
+		public void index_should_return_default_message_when_no_homepage_tag_exists()
 		{
 			// Arrange
 
@@ -85,7 +85,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Index_Should_Return_Homepage_When_Tag_Exists()
+		public void index_should_return_homepage_when_tag_exists()
 		{
 			// Arrange
 			Page page1 = new Page() 
@@ -116,7 +116,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Search_Should_Return_Some_Results_With_Unicode_Content()
+		public void search_should_return_some_results_with_unicode_content()
 		{
 			// Arrange
 			Page page1 = new Page()
@@ -148,7 +148,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void GlobalJsVars_Should_Return_View()
+		public void globaljsvars_should_return_view()
 		{
 			// Arrange
 
@@ -161,7 +161,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void NavMenu_Should_Return_View()
+		public void navmenu_should_return_view()
 		{
 			// Arrange
 
@@ -174,7 +174,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void BootstrapNavMenu_Should_Return_View()
+		public void bootstrapnavmenu_should_return_view()
 		{
 			// Arrange
 

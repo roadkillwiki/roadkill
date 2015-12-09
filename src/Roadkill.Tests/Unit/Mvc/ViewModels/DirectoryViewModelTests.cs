@@ -9,7 +9,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 	public class DirectoryViewModelTests
 	{
 		[Test]
-		public void Constructor_Should_Fill_Properties()
+		public void constructor_should_fill_properties()
 		{
 			// Arrange
 			string name = "MyDirectory";
@@ -24,7 +24,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void Constructor_Should_Create_Empty_Files_And_ChildFolders()
+		public void constructor_should_create_empty_files_and_childfolders()
 		{
 			// Arrange + Act
 			DirectoryViewModel model = new DirectoryViewModel("", "");

@@ -9,7 +9,7 @@ namespace Roadkill.Tests.Unit.Database
 	public class SiteSettingsTests
 	{
 		[Test]
-		public void Deserialize_Should_Have_Correct_Values_With_Valid_Json()
+		public void deserialize_should_have_correct_values_with_valid_json()
 		{
 			// Arrange
 			string json = @"{
@@ -53,7 +53,7 @@ namespace Roadkill.Tests.Unit.Database
 		}
 
 		[Test]
-		public void Deserialize_Should_Have_Correct_Values_When_Json_Has_Unknown_Properties()
+		public void deserialize_should_have_correct_values_when_json_has_unknown_properties()
 		{
 			// Arrange
 			string json = @"{
@@ -95,7 +95,7 @@ namespace Roadkill.Tests.Unit.Database
 		}
 
 		[Test]
-		public void Deserialize_Should_Have_Correct_Values_With_Fragment_Of_Json()
+		public void deserialize_should_have_correct_values_with_fragment_of_json()
 		{
 			// Arrange
 			string json = @"{
@@ -118,7 +118,7 @@ namespace Roadkill.Tests.Unit.Database
 		}
 
 		[Test]
-		public void Deserialize_Should_Have_Default_Values_With_Empty_Json()
+		public void deserialize_should_have_default_values_with_empty_json()
 		{
 			// Arrange
 			string json = "";
@@ -149,7 +149,7 @@ namespace Roadkill.Tests.Unit.Database
 		}
 
 		[Test]
-		public void Deserialize_Should_Have_Default_Values_With_Invalid_Json()
+		public void deserialize_should_have_default_values_with_invalid_json()
 		{
 			// Arrange
 			string json = "asdf";
@@ -180,7 +180,7 @@ namespace Roadkill.Tests.Unit.Database
 		}
 
 		[Test]
-		public void Deserialize_Should_Have_Default_MenuMarkup_When_Json_Value_Is_Null()
+		public void deserialize_should_have_default_menumarkup_when_json_value_is_null()
 		{
 			// Arrange
 			string json = @"{
@@ -203,7 +203,7 @@ namespace Roadkill.Tests.Unit.Database
 		}
 
 		[Test]
-		public void GetJson_Should_Return_Known_Json()
+		public void getjson_should_return_known_json()
 		{
 			// Arrange
 			string expectedJson = @"{
@@ -245,7 +245,7 @@ namespace Roadkill.Tests.Unit.Database
 
 		// The two previous default value tests might make this test redundant
 		[Test]
-		public void Deserialize_Should_Have_Default_Values_For_New_v1_8_Settings()
+		public void deserialize_should_have_default_values_for_new_v1_8_settings()
 		{
 			// Arrange
 			string json = @"{

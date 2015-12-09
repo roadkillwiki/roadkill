@@ -35,7 +35,7 @@ namespace Roadkill.Tests.Integration.Search
 		}
 
 		[Test]
-		public void Search_With_No_Field_Returns_Results()
+		public void search_with_no_field_returns_results()
 		{
 			// Arrange
 			SearchService searchService = new SearchService(_config, _repository, _pluginFactory);
@@ -55,7 +55,7 @@ namespace Roadkill.Tests.Integration.Search
 		}
 
 		[Test]
-		public void Search_By_Title()
+		public void search_by_title()
 		{
 			// Arrange
 			SearchService searchService = new SearchService(_config, _repository, _pluginFactory);
@@ -79,7 +79,7 @@ namespace Roadkill.Tests.Integration.Search
 		}
 
 		[Test]
-		public void Search_By_TagsField_Returns_Multiple_Results()
+		public void search_by_tagsfield_returns_multiple_results()
 		{
 			// Arrange
 			SearchService searchService = new SearchService(_config, _repository, _pluginFactory);
@@ -103,7 +103,7 @@ namespace Roadkill.Tests.Integration.Search
 		}
 
 		[Test]
-		public void Search_By_IdField_Returns_Single_Results()
+		public void search_by_idfield_returns_single_results()
 		{
 			// Arrange
 			SearchService searchService = new SearchService(_config, _repository, _pluginFactory);
@@ -127,7 +127,7 @@ namespace Roadkill.Tests.Integration.Search
 		}
 
 		[Test]
-		public void CreatedBy_Only_Searchable_Using_Field_Syntax()
+		public void createdby_only_searchable_using_field_syntax()
 		{
 			// Arrange
 			SearchService searchService = new SearchService(_config, _repository, _pluginFactory);
@@ -149,7 +149,7 @@ namespace Roadkill.Tests.Integration.Search
 		}
 
 		[Test]
-		public void Search_By_CreatedOnField_Returns_Results()
+		public void search_by_createdonfield_returns_results()
 		{
 			// Arrange
 			string todaysDate = DateTime.Today.ToShortDateString(); // (SearchService stores dates, not times)
@@ -174,7 +174,7 @@ namespace Roadkill.Tests.Integration.Search
 		}
 
 		[Test]
-		public void Delete_Should_Remove_Page_From_Index()
+		public void delete_should_remove_page_from_index()
 		{
 			// Arrange
 			SearchService searchService = new SearchService(_config, _repository, _pluginFactory);
@@ -195,7 +195,7 @@ namespace Roadkill.Tests.Integration.Search
 		}
 
 		[Test]
-		public void Update_Should_Show_In_Index_Search()
+		public void update_should_show_in_index_search()
 		{
 			// Arrange
 			SearchService searchService = new SearchService(_config, _repository, _pluginFactory);

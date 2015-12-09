@@ -62,7 +62,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void LoginStatus_Should_Contain_Link_And_Username_In_Text_When_User_Is_LoggedIn()
+		public void loginstatus_should_contain_link_and_username_in_text_when_user_is_loggedin()
 		{
 			// Arrange
 			_context.CurrentUser = "editor";
@@ -76,7 +76,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void LoginStatus_Should_Contain_Login_Link_And_Guest_In_Text_When_User_Is_Anonymous()
+		public void loginstatus_should_contain_login_link_and_guest_in_text_when_user_is_anonymous()
 		{
 			// Arrange
 			_context.CurrentUser = "";
@@ -90,7 +90,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void SettingsLink_Should_Render_Link_Html_When_Logged_In_As_Admin()
+		public void settingslink_should_render_link_html_when_logged_in_as_admin()
 		{
 			// Arrange
 			_userService.AddUser("admin@localhost", "admin", "password", true, true);
@@ -107,7 +107,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void SettingsLink_Should_Not_Render_Html_When_Logged_In_As_Editor()
+		public void settingslink_should_not_render_html_when_logged_in_as_editor()
 		{
 			// Arrange
 			_userService.AddUser("editor@localhost", "admin", "password", false, true);
@@ -124,7 +124,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void SettingsLink_Should_Not_Render_Html_When_Anonymous_User()
+		public void settingslink_should_not_render_html_when_anonymous_user()
 		{
 			// Arrange
 			_context.CurrentUser = "";
@@ -138,7 +138,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void FileManagerLink_Should_Render_Link_Html_When_Logged_In_As_Admin()
+		public void filemanagerlink_should_render_link_html_when_logged_in_as_admin()
 		{
 			// Arrange
 			_userService.AddUser("admin@localhost", "admin", "password", true, true);
@@ -155,7 +155,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void FileManagerLink_Should_Render_Link_Html_When_Logged_In_As_Editor()
+		public void filemanagerlink_should_render_link_html_when_logged_in_as_editor()
 		{
 			// Arrange
 			_userService.AddUser("editor@localhost", "editor", "password", false, true);
@@ -172,7 +172,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void FileManagerLink_Should_Not_Render_Html_When_Anonymous_User()
+		public void filemanagerlink_should_not_render_html_when_anonymous_user()
 		{
 			// Arrange
 			_context.CurrentUser = "";
@@ -186,7 +186,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void LoginLink_Should_Render_Login_Html_When_Anonymous_User()
+		public void loginlink_should_render_login_html_when_anonymous_user()
 		{
 			// Arrange
 			_context.CurrentUser = "";
@@ -200,7 +200,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void LoginLink_Should_Render_Logout_Html_When_Logged_In_As_Editor()
+		public void loginlink_should_render_logout_html_when_logged_in_as_editor()
 		{
 			// Arrange
 			_userService.AddUser("editor@localhost", "editor", "password", false, true);
@@ -217,7 +217,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void LoginLink_Should_Return_Empty_String_When_Windows_Auth_Is_Enabled()
+		public void loginlink_should_return_empty_string_when_windows_auth_is_enabled()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = true;
@@ -231,7 +231,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void NewPageLink_Should_Render_Link_Html_When_Logged_In_As_Admin()
+		public void newpagelink_should_render_link_html_when_logged_in_as_admin()
 		{
 			// Arrange
 			_userService.AddUser("admin@localhost", "admin", "password", true, true);
@@ -248,7 +248,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void NewPageLink_Should_Render_Link_Html_When_Logged_In_As_Editor()
+		public void newpagelink_should_render_link_html_when_logged_in_as_editor()
 		{
 			// Arrange
 			_userService.AddUser("editor@localhost", "editor", "password", false, true);
@@ -265,7 +265,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void NewPageLink_Should_Not_Render_Html_When_Anonymous_User()
+		public void newpagelink_should_not_render_html_when_anonymous_user()
 		{
 			// Arrange
 			_context.CurrentUser = "";
@@ -279,7 +279,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void MainPageLink_Should_Render_Html_With_Home_Link()
+		public void mainpagelink_should_render_html_with_home_link()
 		{
 			// Arrange
 			string expectedHtml = "@<a href=\"/\">the fun starts here</a>~";
@@ -293,7 +293,7 @@ namespace Roadkill.Tests.Unit.Extensions
 
 
 		[Test]
-		public void PageLink_Should_Render_Html_Link_With_Page_Title_And_Html_Attributes()
+		public void pagelink_should_render_html_link_with_page_title_and_html_attributes()
 		{
 			// Arrange
 			TestHelpers.ConfigureLocator();
@@ -311,7 +311,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void PageLink_Should_Render_Html_With_No_Link_When_Page_Does_Not_Exist()
+		public void pagelink_should_render_html_with_no_link_when_page_does_not_exist()
 		{
 			// Arrange
 			TestHelpers.ConfigureLocator();

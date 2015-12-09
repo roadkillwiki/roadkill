@@ -26,7 +26,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void CopyAssemblies_Should_Copy_All_Dlls_To_PluginsBinPath()
+		public void copyassemblies_should_copy_all_dlls_to_pluginsbinpath()
 		{
 			// Arrange
 			string sourceDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins", "Text");
@@ -58,7 +58,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void CopyAssemblies_Should_Copy_Source_Dll_When_Source_Is_More_Recent()
+		public void copyassemblies_should_copy_source_dll_when_source_is_more_recent()
 		{
 			// Arrange
 			string pluginId = "PluginSourceMoreRecentTest";
@@ -82,7 +82,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void CopyAssemblies_Should_Not_Copy_Source_Dll_When_Destination_Is_More_Recent()
+		public void copyassemblies_should_not_copy_source_dll_when_destination_is_more_recent()
 		{
 			// Arrange
 			string pluginId = "PluginDestMoreRecentTest";
@@ -124,7 +124,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void GetTextPlugin_Should_Return_Null_When_Plugin_Is_Not_Registered()
+		public void gettextplugin_should_return_null_when_plugin_is_not_registered()
 		{
 			// Arrange
 			PluginFactory factory = CreateFactory();
@@ -137,7 +137,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void RegisterTextPlugin_Should_Register_Plugin_And_GetTextPlugin_Should_Return_Plugin()
+		public void registertextplugin_should_register_plugin_and_gettextplugin_should_return_plugin()
 		{
 			// Arrange
 			PluginFactory factory = CreateFactory();
@@ -152,7 +152,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void GetTextPlugins_Should_Return_All_Plugins()
+		public void gettextplugins_should_return_all_plugins()
 		{
 			// Arrange
 			PluginFactory factory = CreateFactory();

@@ -46,7 +46,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Index__Should_Return_ViewResult_And_Model_With_LanguageModels_And_Set_UILanguage_To_English()
+		public void index__should_return_viewresult_and_model_with_languagemodels_and_set_uilanguage_to_english()
 		{
 			// Arrange
 
@@ -64,7 +64,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Step1_Should_Return_ViewResult_With_LanguageViewModel_And_Set_UICulture_From_Language()
+		public void step1_should_return_viewresult_with_languageviewmodel_and_set_uiculture_from_language()
 		{
 			// Arrange
 			string hinduCode = "hi";
@@ -84,7 +84,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Step2_Should_Return_ViewResult_With_SettingsViewModel()
+		public void step2_should_return_viewresult_with_settingsviewmodel()
 		{
 			// Arrange
 			string hinduCode = "hi";
@@ -101,7 +101,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Step2_Should_Set_UICulture_From_Language_And_Update_Config()
+		public void step2_should_set_uiculture_from_language_and_update_config()
 		{
 			// Arrange
 			string hinduCode = "hi";
@@ -115,7 +115,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Step3_Should_Return_ViewResult_With_SettingsViewModel()
+		public void step3_should_return_viewresult_with_settingsviewmodel()
 		{
 			// Arrange
 			SettingsViewModel existingModel = new SettingsViewModel();
@@ -141,7 +141,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Step3b_Should_Return_Database_ViewResult_When_WindowsAuth_Is_False()
+		public void step3b_should_return_database_viewresult_when_windowsauth_is_false()
 		{
 			// Arrange
 			SettingsViewModel existingModel = new SettingsViewModel();
@@ -156,7 +156,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Step3b_Should_Return_WindowsAuth_ViewResult_When_WindowsAuth_Is_True()
+		public void step3b_should_return_windowsauth_viewresult_when_windowsauth_is_true()
 		{
 			// Arrange
 			SettingsViewModel existingModel = new SettingsViewModel();
@@ -171,7 +171,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Step3b_Should_Set_Model_Default_Roles_And_LDAP_ConnectionString()
+		public void step3b_should_set_model_default_roles_and_ldap_connectionstring()
 		{
 			// Arrange
 			SettingsViewModel existingModel = new SettingsViewModel();
@@ -192,7 +192,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Step4_Should_Set_Model_Defaults_For_Attachments_Theme_And_Cache()
+		public void step4_should_set_model_defaults_for_attachments_theme_and_cache()
 		{
 			// Arrange
 			SettingsViewModel existingModel = new SettingsViewModel();
@@ -216,7 +216,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Step5_Should_Finalize_Setup()
+		public void step5_should_finalize_setup()
 		{
 			// Arrange
 			SettingsViewModel existingModel = new SettingsViewModel();
@@ -233,7 +233,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Step5_Should_Reset_Install_State_And_Add_ModelState_Error_When_Exception_Is_Thrown()
+		public void step5_should_reset_install_state_and_add_modelstate_error_when_exception_is_thrown()
 		{
 			// Arrange
 			SettingsViewModel existingModel = null; // test using a null reference exception
@@ -249,7 +249,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Finalize_Should_Set_PublicSite_And_IgnoreSearchErrors_To_True()
+		public void finalize_should_set_publicsite_and_ignoresearcherrors_to_true()
 		{
 			// Arrange
 			SettingsViewModel existingModel = new SettingsViewModel();
@@ -263,7 +263,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Finalize_Should_Save_Config_Settings()
+		public void finalize_should_save_config_settings()
 		{
 			// Arrange
 			SettingsViewModel existingModel = new SettingsViewModel();
@@ -277,7 +277,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Finalize_Should_Add_AdminUser_When_Windows_Auth_Is_False()
+		public void finalize_should_add_adminuser_when_windows_auth_is_false()
 		{
 			// Arrange
 			SettingsViewModel existingModel = new SettingsViewModel();
@@ -292,7 +292,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void UnattendedSetup_Should_Add_Admin_User_And_Set_Default_Site_Settings()
+		public void unattendedsetup_should_add_admin_user_and_set_default_site_settings()
 		{
 			// Arrange
 
@@ -321,7 +321,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void InstallerJsVars_Should_Return_View()
+		public void installerjsvars_should_return_view()
 		{
 			// Arrange
 
@@ -334,7 +334,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void Finalize_Should_Install_And_Save_Site_Settings()
+		public void finalize_should_install_and_save_site_settings()
 		{
 			// Arrange
 			var existingModel = new SettingsViewModel();

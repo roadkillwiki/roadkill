@@ -52,7 +52,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void ThemeContent_Should_Return_Expected_Html()
+		public void themecontent_should_return_expected_html()
 		{
 			// Arrange
 			string expectedHtml = "/Themes/Mediawiki/mythemefile.png";
@@ -65,7 +65,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void CssLink_Should_Return_Expected_Html()
+		public void csslink_should_return_expected_html()
 		{
 			// Arrange
 			string expectedHtml = @"<link href=""/Assets/CSS/roadkill.css?version={AppVersion}"" rel=""stylesheet"" type=""text/css"" />";
@@ -79,7 +79,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void ScriptLink_Should_Return_Expected_Html()
+		public void scriptlink_should_return_expected_html()
 		{
 			// Arrange
 			string expectedHtml = @"<script type=""text/javascript"" language=""javascript"" src=""/Assets/Scripts/roadkill.js?version={AppVersion}""></script>";
@@ -93,7 +93,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void InstallerScriptLink_Should_Expected_Html()
+		public void installerscriptlink_should_expected_html()
 		{
 			// Arrange
 			string expectedHtml = @"<script type=""text/javascript"" language=""javascript"" src=""/Assets/Scripts/roadkill/installer/step1.js?version={AppVersion}""></script>";
@@ -107,7 +107,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void BootstrapCSS_Should_Return_Expected_Html()
+		public void bootstrapcss_should_return_expected_html()
 		{
 			// Arrange
 			string expectedHtml = @"<link href=""/Assets/bootstrap/css/bootstrap.min.css?version={AppVersion}"" rel=""stylesheet"" type=""text/css"" />";
@@ -121,7 +121,7 @@ namespace Roadkill.Tests.Unit.Extensions
 		}
 
 		[Test]
-		public void BootstrapJS_Should_Return_Expected_Html()
+		public void bootstrapjs_should_return_expected_html()
 		{
 			// Arrange
 			string expectedHtml = @"<script type=""text/javascript"" language=""javascript"" src=""/Assets/bootstrap/js/bootstrap.min.js?version={AppVersion}""></script>";

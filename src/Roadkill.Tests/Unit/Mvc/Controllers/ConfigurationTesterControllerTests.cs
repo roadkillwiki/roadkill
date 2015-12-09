@@ -42,7 +42,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void TestWebConfig_Should_Return_JsonResult_And_TestResult_Model_Without_Errors()
+		public void testwebconfig_should_return_jsonresult_and_testresult_model_without_errors()
 		{
 			// Arrange
 			_configReaderWriter.TestWebConfigResult = "";
@@ -60,7 +60,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void TestWebConfig_Should_Return_Empty_Content_When_Installed_Is_True()
+		public void testwebconfig_should_return_empty_content_when_installed_is_true()
 		{
 			// Arrange
 			_applicationSettings.Installed = true;
@@ -75,7 +75,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void TestAttachments_Should_Return_Empty_Content_When_Installed_Is_True()
+		public void testattachments_should_return_empty_content_when_installed_is_true()
 		{
 			// Arrange
 			_applicationSettings.Installed = true;
@@ -90,7 +90,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void TestDatabaseConnection_Should_Return_Empty_Content_When_Installed_Is_True()
+		public void testdatabaseconnection_should_return_empty_content_when_installed_is_true()
 		{
 			// Arrange
 			_applicationSettings.Installed = true;
@@ -105,7 +105,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void TestLdap_Should_Return_JsonResult_And_TestResult_Model_Without_Errors()
+		public void testldap_should_return_jsonresult_and_testresult_model_without_errors()
 		{
 			// Arrange
 			_activeDirectoryProviderMock.LdapConnectionResult = "";
@@ -123,7 +123,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void TestLdap_Should_Return_Empty_Content_When_Installed_Is_True()
+		public void testldap_should_return_empty_content_when_installed_is_true()
 		{
 			// Arrange
 			_applicationSettings.Installed = true;
@@ -138,7 +138,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void TestAttachments_Should_Allow_Get_And_Return_Json_Result_And_TestResult_With_No_Errors()
+		public void testattachments_should_allow_get_and_return_json_result_and_testresult_with_no_errors()
 		{
 			// Arrange
 			string directory = AppDomain.CurrentDomain.BaseDirectory;
@@ -157,7 +157,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void TestAttachments_Should_Return_TestResult_With_Errors_For_UnWritable_Folder()
+		public void testattachments_should_return_testresult_with_errors_for_unwritable_folder()
 		{
 			// Arrange
 			string directory = "c:\ads8ads9f8d7asf98ad7f";
@@ -172,7 +172,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void TestDatabaseConnection_Should_Allow_Get_And_Return_Json_Result_And_TestResult_With_No_Errors()
+		public void testdatabaseconnection_should_allow_get_and_return_json_result_and_testresult_with_no_errors()
 		{
 			// Arrange
 			string connectionString = "Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill";
@@ -192,7 +192,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void TestDatabaseConnection_Should_Return_TestResult_With_Errors_For_Invalid_ConnectionString()
+		public void testdatabaseconnection_should_return_testresult_with_errors_for_invalid_connectionstring()
 		{
 			// Arrange
 			string connectionString = "invalid connection string";

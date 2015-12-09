@@ -32,7 +32,7 @@ namespace Roadkill.Tests.Unit.DI
 	public class RoadkillRegistryTests
 	{
 		[Test]
-		public void Should_Register_Default_Instances()
+		public void should_register_default_instances()
 		{
 			// Arrange
 			var registry = new RoadkillRegistry(new ConfigReaderWriterStub());
@@ -77,7 +77,7 @@ namespace Roadkill.Tests.Unit.DI
 		}
 
 		[Test]
-		public void Should_Register_Controller_Instances()
+		public void should_register_controller_instances()
 		{
 			// Arrange
 			var registry = new RoadkillRegistry(new ConfigReaderWriterStub());
@@ -91,7 +91,7 @@ namespace Roadkill.Tests.Unit.DI
 		}
 
 		[Test]
-		public void Should_Register_Service_Instances_When_Windows_Auth_Enabled()
+		public void should_register_service_instances_when_windows_auth_enabled()
 		{
 			// Arrange
 			ApplicationSettings settings = new ApplicationSettings();
@@ -111,7 +111,7 @@ namespace Roadkill.Tests.Unit.DI
 		}
 
 		[Test]
-		public void Custom_Configuration_Repository_And_Context_Types_Should_Be_Registered()
+		public void custom_configuration_repository_and_context_types_should_be_registered()
 		{
 			// Arrange
 			var registry = new RoadkillRegistry(new ConfigReaderWriterStub());
@@ -128,7 +128,7 @@ namespace Roadkill.Tests.Unit.DI
 
 #if !MONO
 		[Test]
-		public void WindowsAuth_Should_Register_ActiveDirectoryUserManager()
+		public void windowsauth_should_register_activedirectoryusermanager()
 		{
 			// Arrange
 			ApplicationSettings settings = new ApplicationSettings();
@@ -164,7 +164,7 @@ namespace Roadkill.Tests.Unit.DI
 		}
 
 		[Test]
-		public void Should_Load_Custom_Repository_From_DatabaseName()
+		public void should_load_custom_repository_from_databasename()
 		{
 			// Arrange
 			var settings = new ApplicationSettings();
@@ -181,7 +181,7 @@ namespace Roadkill.Tests.Unit.DI
 		}
 
 		[Test]
-		public void Should_Fill_ISetterInjected_Properties()
+		public void should_fill_isetterinjected_properties()
 		{
 			// Arrange
 			var registry = new RoadkillRegistry(new ConfigReaderWriterStub());
@@ -199,7 +199,7 @@ namespace Roadkill.Tests.Unit.DI
 		}
 
 		[Test]
-		public void Should_Fill_IAuthorizationAttribute_Properties()
+		public void should_fill_iauthorizationattribute_properties()
 		{
 			// Arrange
 			var registry = new RoadkillRegistry(new ConfigReaderWriterStub());
@@ -213,13 +213,13 @@ namespace Roadkill.Tests.Unit.DI
 		}
 
 		[Test]
-		public void Should_Copy_Plugins()
+		public void should_copy_plugins()
 		{
 			// TODO
 		}
 
 		[Test]
-		public void Should_Load_Custom_UserService_Using_Short_Type_Format()
+		public void should_load_custom_userservice_using_short_type_format()
 		{
 			// Arrange
 			ApplicationSettings settings = new ApplicationSettings();
@@ -238,7 +238,7 @@ namespace Roadkill.Tests.Unit.DI
 		}
 
 		[Test]
-		public void Should_Load_Custom_UserService_Using_AssemblyQualifiedName()
+		public void should_load_custom_userservice_using_assemblyqualifiedname()
 		{
 			// Arrange
 			ApplicationSettings settings = new ApplicationSettings();
@@ -274,7 +274,7 @@ namespace Roadkill.Tests.Unit.DI
 		}
 
 		[Test]
-		public void Should_Use_FormsAuthUserService_By_Default()
+		public void should_use_formsauthuserservice_by_default()
 		{
 			// Arrange
 			var registry = new RoadkillRegistry(new ConfigReaderWriterStub());
@@ -288,7 +288,7 @@ namespace Roadkill.Tests.Unit.DI
 
  #if !MONO
 		[Test]
-		public void Should_Load_ActiveDirectory_UserService_When_UseWindowsAuth_Is_True()
+		public void should_load_activedirectory_userservice_when_usewindowsauth_is_true()
 		{
 			// Arrange
 			ApplicationSettings settings = new ApplicationSettings();

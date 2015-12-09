@@ -55,7 +55,7 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
-		public void ShouldDeserializeWhiteListFromExistingXmlFile()
+		public void shoulddeserializewhitelistfromexistingxmlfile()
 		{
 			// Arrange
 			string whitelistFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Unit", "Text", "whitelist.xml");
@@ -75,7 +75,7 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
-		public void ShouldDeserializeWhiteListFromGeneratedXmlFile()
+		public void shoulddeserializewhitelistfromgeneratedxmlfile()
 		{
 			// Arrange
 			string whitelistFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "whitelistgenerated.xml");
@@ -113,7 +113,7 @@ namespace Roadkill.Tests.Unit.Text
 		/// Example <!-- <a href="'';!--\"<XSS>=&{()}"> --> 
 		/// </summary>
 		[Test]
-		public void XSSLocatorTest()
+		public void xsslocatortest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -132,7 +132,7 @@ namespace Roadkill.Tests.Unit.Text
 		/// Example <!-- <IMG SRC="javascript:alert('XSS');"> -->
 		/// </summary>
 		[Test]
-		public void ImageXSS1Test()
+		public void imagexss1test()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -151,7 +151,7 @@ namespace Roadkill.Tests.Unit.Text
 		/// Example <!-- <IMG SRC=javascript:alert('XSS')> -->
 		/// </summary>
 		[Test]
-		public void ImageXSS2Test()
+		public void imagexss2test()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -170,7 +170,7 @@ namespace Roadkill.Tests.Unit.Text
 		/// Example <!-- <IMG SRC=JaVaScRiPt:alert('XSS')> -->
 		/// </summary>
 		[Test]
-		public void ImageCaseInsensitiveXSSTest()
+		public void imagecaseinsensitivexsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -189,7 +189,7 @@ namespace Roadkill.Tests.Unit.Text
 		/// Example <!-- <IMG SRC=javascript:alert(&quot;XSS&quot;)> -->
 		/// </summary>
 		[Test]
-		public void ImageHtmlEntitiesXSSTest()
+		public void imagehtmlentitiesxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -208,7 +208,7 @@ namespace Roadkill.Tests.Unit.Text
 		/// Example <!-- <IMG SRC=`javascript:alert("RSnake says, 'XSS'")`> -->
 		/// </summary>
 		[Test]
-		public void ImageGraveAccentXSSTest()
+		public void imagegraveaccentxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -227,7 +227,7 @@ namespace Roadkill.Tests.Unit.Text
 		/// Example <!-- <IMG \"\"\"><SCRIPT>alert(\"XSS\")</SCRIPT>\"> -->
 		/// </summary>
 		[Test]
-		public void ImageMalformedXSSTest()
+		public void imagemalformedxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -246,7 +246,7 @@ namespace Roadkill.Tests.Unit.Text
 		/// Example <!-- <IMG SRC=javascript:alert(String.fromCharCode(88,83,83))> -->
 		/// </summary>
 		[Test]
-		public void ImageFromCharCodeXSSTest()
+		public void imagefromcharcodexsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -265,7 +265,7 @@ namespace Roadkill.Tests.Unit.Text
 		/// Example <!-- <IMG SRC=&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;&#39;&#88;&#83;&#83;&#39;&#41;> -->
 		/// </summary>
 		[Test]
-		public void ImageUTF8UnicodeXSSTest()
+		public void imageutf8unicodexsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -284,7 +284,7 @@ namespace Roadkill.Tests.Unit.Text
 		/// Example <!-- <IMG SRC=&#0000106&#0000097&#0000118&#0000097&#0000115&#0000099&#0000114&#0000105&#0000112&#0000116&#0000058&#0000097&#0000108&#0000101&#0000114&#0000116&#0000040&#0000039&#0000088&#0000083&#0000083&#0000039&#0000041> --> 
 		/// </summary>
 		[Test]
-		public void ImageLongUTF8UnicodeXSSTest()
+		public void imagelongutf8unicodexsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -303,7 +303,7 @@ namespace Roadkill.Tests.Unit.Text
 		/// Example <!-- <IMG SRC=&#x6A&#x61&#x76&#x61&#x73&#x63&#x72&#x69&#x70&#x74&#x3A&#x61&#x6C&#x65&#x72&#x74&#x28&#x27&#x58&#x53&#x53&#x27&#x29> -->
 		/// </summary>   
 		[Test]
-		public void ImageHexEncodeXSSTest()
+		public void imagehexencodexsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -322,7 +322,7 @@ namespace Roadkill.Tests.Unit.Text
 		/// Example <!-- <IMG SRC=\"jav	ascript:alert('XSS');\"> -->
 		/// </summary>   
 		[Test]
-		public void ImageEmbeddedTabXSSTest()
+		public void imageembeddedtabxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -341,7 +341,7 @@ namespace Roadkill.Tests.Unit.Text
 		/// Example <!-- <IMG SRC="jav&#x09;ascript:alert('XSS');"> -->
 		/// </summary>   
 		[Test]
-		public void ImageEmbeddedEncodedTabXSSTest()
+		public void imageembeddedencodedtabxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -360,7 +360,7 @@ namespace Roadkill.Tests.Unit.Text
 		/// Example <!-- <IMG SRC="jav&#x0A;ascript:alert('XSS');"> -->
 		/// </summary>   
 		[Test]
-		public void ImageEmbeddedNewLineXSSTest()
+		public void imageembeddednewlinexsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -379,7 +379,7 @@ namespace Roadkill.Tests.Unit.Text
 		/// Example <!-- <IMG SRC=\"jav&#x0D;ascript:alert('XSS');\"> -->
 		/// </summary>   
 		[Test]
-		public void ImageEmbeddedCarriageReturnXSSTest()
+		public void imageembeddedcarriagereturnxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -426,7 +426,7 @@ namespace Roadkill.Tests.Unit.Text
 		///> -->
 		/// </summary>   
 		[Test]
-		public void ImageMultilineInjectedXSSTest()
+		public void imagemultilineinjectedxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -475,7 +475,7 @@ S
 		/// Example <!-- perl -e 'print "<IMG SRC=java\0script:alert(\"XSS\")>";' > out -->
 		/// </summary>   
 		[Test]
-		public void ImageNullBreaksUpXSSTest1()
+		public void imagenullbreaksupxsstest1()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -494,7 +494,7 @@ S
 		/// Example <!-- <image src=" perl -e 'print "<SCR\0IPT>alert(\"XSS\")</SCR\0IPT>";' > out "> -->
 		/// </summary>
 		[Test]
-		public void ImageNullBreaksUpXSSTest2()
+		public void imagenullbreaksupxsstest2()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -513,7 +513,7 @@ S
 		/// Example <!-- <IMG SRC=" &#14;  javascript:alert('XSS');"> -->
 		/// </summary>
 		[Test]
-		public void ImageSpaceAndMetaCharXSSTest()
+		public void imagespaceandmetacharxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -532,7 +532,7 @@ S
 		/// Example <!-- <IMG SRC="javascript:alert('XSS')" -->
 		/// </summary>   
 		[Test]
-		public void ImageHalfOpenHtmlXSSTest()
+		public void imagehalfopenhtmlxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -551,7 +551,7 @@ S
 		/// Example <!-- <image src=http://ha.ckers.org/scriptlet.html < -->
 		/// </summary>   
 		[Test]
-		public void ImageDoubleOpenAngleBracketXSSTest()
+		public void imagedoubleopenanglebracketxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -570,7 +570,7 @@ S
 		/// Example <!-- <div style="\";alert('XSS');//"> -->
 		/// </summary>   
 		[Test]
-		public void DivJavascriptEscapingXSSTest()
+		public void divjavascriptescapingxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -589,7 +589,7 @@ S
 		/// Example <!-- <INPUT TYPE="IMAGE" SRC="javascript:alert('XSS');"> -->
 		/// </summary>   
 		[Test]
-		public void ImageInputXSSTest()
+		public void imageinputxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -608,7 +608,7 @@ S
 		/// Example <!-- <IMG DYNSRC="javascript:alert('XSS')"> -->
 		/// </summary>   
 		[Test]
-		public void ImageDynsrcXSSTest()
+		public void imagedynsrcxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -627,7 +627,7 @@ S
 		/// Example <!-- <IMG LOWSRC="javascript:alert('XSS')"> -->
 		/// </summary>   
 		[Test]
-		public void ImageLowsrcXSSTest()
+		public void imagelowsrcxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -646,7 +646,7 @@ S
 		/// Example <!-- <BGSOUND SRC="javascript:alert('XSS');"> -->
 		/// </summary>   
 		[Test]
-		public void BGSoundXSSTest()
+		public void bgsoundxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -665,7 +665,7 @@ S
 		/// Example <!-- <BR SIZE="&{alert('XSS')}"> -->
 		/// </summary>   
 		[Test]
-		public void BRJavascriptIncludeXSSTest()
+		public void brjavascriptincludexsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -684,7 +684,7 @@ S
 		/// Example <!-- <p STYLE="behavior: url(www.ha.ckers.org);"> -->
 		/// </summary>   
 		[Test]
-		public void PWithUrlInStyleXSSTest()
+		public void pwithurlinstylexsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -704,7 +704,7 @@ S
 		/// Example <!-- <IMG SRC='vbscript:msgbox("XSS")'> -->
 		/// </summary>   
 		[Test]
-		public void ImageWithVBScriptXSSTest()
+		public void imagewithvbscriptxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -723,7 +723,7 @@ S
 		/// Example <!-- <IMG SRC="mocha:[code]"> -->
 		/// </summary>   
 		[Test]
-		public void ImageWithMochaXSSTest()
+		public void imagewithmochaxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -742,7 +742,7 @@ S
 		/// Example <!-- <IMG SRC="Livescript:[code]"> -->
 		/// </summary>   
 		[Test]
-		public void ImageWithLivescriptXSSTest()
+		public void imagewithlivescriptxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -761,7 +761,7 @@ S
 		/// Example <!-- <IFRAME SRC="javascript:alert('XSS');"></IFRAME> -->
 		/// </summary>   
 		[Test]
-		public void IframeXSSTest()
+		public void iframexsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -780,7 +780,7 @@ S
 		/// Example <!-- <FRAMESET><FRAME SRC="javascript:alert('XSS');"></FRAMESET> -->
 		/// </summary>   
 		[Test]
-		public void FrameXSSTest()
+		public void framexsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -799,7 +799,7 @@ S
 		/// Example <!-- <TABLE BACKGROUND="javascript:alert('XSS')"> -->
 		/// </summary>   
 		[Test]
-		public void TableXSSTest()
+		public void tablexsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -818,7 +818,7 @@ S
 		/// Example <!-- <TABLE><TD BACKGROUND="javascript:alert('XSS')"> -->
 		/// </summary>   
 		[Test]
-		public void TDXSSTest()
+		public void tdxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -837,7 +837,7 @@ S
 		/// Example <!-- <DIV STYLE="background-image: url(javascript:alert('XSS'))"> -->
 		/// </summary>   
 		[Test]
-		public void DivBackgroundImageXSSTest()
+		public void divbackgroundimagexsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -856,7 +856,7 @@ S
 		/// Example <!-- <DIV STYLE="background-image:\0075\0072\006C\0028'\006a\0061\0076\0061\0073\0063\0072\0069\0070\0074\003a\0061\006c\0065\0072\0074\0028.1027\0058.1053\0053\0027\0029'\0029"> -->
 		/// </summary>   
 		[Test]
-		public void DivBackgroundImageWithUnicodedXSSTest()
+		public void divbackgroundimagewithunicodedxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -875,7 +875,7 @@ S
 		/// Example <!-- <DIV STYLE="background-image: url(&#1;javascript:alert('XSS'))"> -->
 		/// </summary>   
 		[Test]
-		public void DivBackgroundImageWithExtraCharactersXSSTest()
+		public void divbackgroundimagewithextracharactersxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -894,7 +894,7 @@ S
 		/// Example <!-- <DIV STYLE="width: expression(alert('XSS'));"> -->
 		/// </summary>   
 		[Test]
-		public void DivExpressionXSSTest()
+		public void divexpressionxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -913,7 +913,7 @@ S
 		/// Example <!-- <IMG STYLE="xss:expr/*XSS*/ession(alert('XSS'))"> -->
 		/// </summary>   
 		[Test]
-		public void ImageStyleExpressionXSSTest()
+		public void imagestyleexpressionxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -932,7 +932,7 @@ S
 		/// Example <!-- exp/*<A STYLE='no\xss:noxss("*//*");xss:&#101;x&#x2F;*XSS*//*/*/pression(alert("XSS"))'> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagStyleExpressionXSSTest()
+		public void anchortagstyleexpressionxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -951,7 +951,7 @@ S
 		/// Example <!-- <BASE HREF="javascript:alert('XSS');//"> -->
 		/// </summary>   
 		[Test]
-		public void BaseTagXSSTest()
+		public void basetagxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -970,7 +970,7 @@ S
 		/// Example <!-- <EMBED SRC="http://ha.ckers.org/xss.swf" AllowScriptAccess="always"></EMBED> -->
 		/// </summary>   
 		[Test]
-		public void EmbedTagXSSTest()
+		public void embedtagxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -989,7 +989,7 @@ S
 		/// Example <!-- <EMBED SRC="data:image/svg+xml;base64,PHN2ZyB4bWxuczpzdmc9Imh0dH A6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv MjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hs aW5rIiB2ZXJzaW9uPSIxLjAiIHg9IjAiIHk9IjAiIHdpZHRoPSIxOTQiIGhlaWdodD0iMjAw IiBpZD0ieHNzIj48c2NyaXB0IHR5cGU9InRleHQvZWNtYXNjcmlwdCI+YWxlcnQoIlh TUyIpOzwvc2NyaXB0Pjwvc3ZnPg==" type="image/svg+xml" AllowScriptAccess="always"></EMBED> -->
 		/// </summary>   
 		[Test]
-		public void EmbedSVGXSSTest()
+		public void embedsvgxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1008,7 +1008,7 @@ S
 		/// Example <!-- <HTML xmlns:xss>  <?import namespace="xss" implementation="http://ha.ckers.org/xss.htc">  <xss:xss>XSS</xss:xss></HTML> -->
 		/// </summary>   
 		[Test]
-		public void XmlNamespaceXSSTest()
+		public void xmlnamespacexsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1027,7 +1027,7 @@ S
 		/// Example <!-- <XML ID=I><X><C><![CDATA[<IMG SRC="javas]]><![CDATA[cript:alert('XSS');">]]></C></X></xml><SPAN DATASRC=#I DATAFLD=C DATAFORMATAS=HTML></SPAN> -->
 		/// </summary>   
 		[Test]
-		public void XmlWithCDataXSSTest()
+		public void xmlwithcdataxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1046,7 +1046,7 @@ S
 		/// Example <!-- <XML ID="xss"><I><B>&lt;IMG SRC="javas<!-- -->cript:alert('XSS')"&gt;</B></I></XML><SPAN DATASRC="#xss" DATAFLD="B" DATAFORMATAS="HTML"></SPAN> -->
 		/// </summary>   
 		[Test]
-		public void XmlWithCommentObfuscationXSSTest()
+		public void xmlwithcommentobfuscationxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1065,7 +1065,7 @@ S
 		/// Example <!-- <XML SRC="xsstest.xml" ID=I></XML><SPAN DATASRC=#I DATAFLD=C DATAFORMATAS=HTML></SPAN> -->
 		/// </summary>   
 		[Test]
-		public void XmlWithEmbeddedScriptXSSTest()
+		public void xmlwithembeddedscriptxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1084,7 +1084,7 @@ S
 		/// Example <!-- <HTML><BODY><?xml:namespace prefix="t" ns="urn:schemas-microsoft-com:time"><?import namespace="t" implementation="#default#time2"><t:set attributeName="innerHTML" to="XSS&lt;SCRIPT DEFER&gt;alert(&quot;XSS&quot;)&lt;/SCRIPT&gt;"></BODY></HTML> -->
 		/// </summary>   
 		[Test]
-		public void HtmlPlusTimeXSSTest()
+		public void htmlplustimexsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1103,7 +1103,7 @@ S
 		/// Example <!-- <IMG SRC="http://www.thesiteyouareon.com/somecommand.php?somevariables=maliciouscode"> -->
 		/// </summary>   
 		[Test]
-		public void ImageWithEmbeddedCommandXSSTest()
+		public void imagewithembeddedcommandxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1122,7 +1122,7 @@ S
 		/// Example <!-- <IMG SRC="Redirect 302 /a.jpg http://victimsite.com/admin.asp&deleteuser"> -->
 		/// </summary>   
 		[Test]
-		public void ImageWithEmbeddedCommand2XSSTest()
+		public void imagewithembeddedcommand2xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1141,7 +1141,7 @@ S
 		/// Example <!-- <A HREF="http://66.102.7.147/">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagIPVersesHostnameXSSTest()
+		public void anchortagipverseshostnamexsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1160,7 +1160,7 @@ S
 		/// Example <!-- <A HREF="http://%77%77%77%2E%67%6F%6F%67%6C%65%2E%63%6F%6D">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagUrlEncodingXSSTest()
+		public void anchortagurlencodingxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1179,7 +1179,7 @@ S
 		/// Example <!-- <A HREF="http://1113982867/">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagDwordEncodingXSSTest()
+		public void anchortagdwordencodingxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1198,7 +1198,7 @@ S
 		/// Example <!-- <A HREF="http://0x42.0x0000066.0x7.0x93/">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagHexEncodingXSSTest()
+		public void anchortaghexencodingxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1217,7 +1217,7 @@ S
 		/// Example <!-- <A HREF="http://0102.0146.0007.00000223/">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagOctalEncodingXSSTest()
+		public void anchortagoctalencodingxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1236,7 +1236,7 @@ S
 		/// Example <!-- <A HREF="h tt	p://6&#9;6.000146.0x7.147/">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagMixedEncodingXSSTest()
+		public void anchortagmixedencodingxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1256,7 +1256,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="//www.google.com/">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagProtocolResolutionXSSTest()
+		public void anchortagprotocolresolutionxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1275,7 +1275,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="//google">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagGoogleFeelingLucky1XSSTest()
+		public void anchortaggooglefeelinglucky1xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1294,7 +1294,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://ha.ckers.org@google">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagGoogleFeelingLucky2XSSTest()
+		public void anchortaggooglefeelinglucky2xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1313,7 +1313,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://google:ha.ckers.org">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagGoogleFeelingLucky3XSSTest()
+		public void anchortaggooglefeelinglucky3xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1332,7 +1332,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://google.com/">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagRemovingCNamesXSSTest()
+		public void anchortagremovingcnamesxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1351,7 +1351,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://www.google.com./">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagAbsoluteDNSXSSTest()
+		public void anchortagabsolutednsxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1370,7 +1370,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="javascript:document.location='http://www.google.com/'">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagJavascriptLinkLocationXSSTest()
+		public void anchortagjavascriptlinklocationxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1389,7 +1389,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://www.gohttp://www.google.com/ogle.com/">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagContentReplaceXSSTest()
+		public void anchortagcontentreplacexsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1408,7 +1408,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://www.codeplex.com?url=<SCRIPT SRC=http://ha.ckers.org/xss.js></SCRIPT>">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagNoFilterEvasionXSSTest()
+		public void anchortagnofilterevasionxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1427,7 +1427,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: http://www.codeplex.com?url=<SCRIPT SRC=http://ha.ckers.org/xss.js></SCRIPT>"> -->
 		/// </summary>   
 		[Test]
-		public void DivNoFilterEvasionXSSTest()
+		public void divnofilterevasionxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1446,7 +1446,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: expression(<SCRIPT SRC=http://ha.ckers.org/xss.js></SCRIPT>)"> -->
 		/// </summary>   
 		[Test]
-		public void DivStyleExpressionNoFilterEvasionXSSTest()
+		public void divstyleexpressionnofilterevasionxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1465,7 +1465,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://www.codeplex.com?url=<SCRIPT/XSS SRC="http://ha.ckers.org/xss.js"></SCRIPT>">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagNonAlphaNonDigitXSSTest()
+		public void anchortagnonalphanondigitxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1484,7 +1484,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: http://www.codeplex.com?url=<SCRIPT/XSS SRC=http://ha.ckers.org/xss.js></SCRIPT>"> -->
 		/// </summary>   
 		[Test]
-		public void DivNonAlphaNonDigitXSSTest()
+		public void divnonalphanondigitxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1503,7 +1503,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: expression(<SCRIPT/XSS SRC="http://ha.ckers.org/xss.js"></SCRIPT>)"> -->
 		/// </summary>   
 		[Test]
-		public void DivStyleExpressionNonAlphaNonDigitXSSTest()
+		public void divstyleexpressionnonalphanondigitxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1522,7 +1522,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://www.codeplex.com?url=<SCRIPT/SRC="http://ha.ckers.org/xss.js"></SCRIPT>">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagNonAlphaNonDigit3XSSTest()
+		public void anchortagnonalphanondigit3xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1541,7 +1541,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: http://www.codeplex.com?url=<SCRIPT/SRC=http://ha.ckers.org/xss.js></SCRIPT>"> -->
 		/// </summary>   
 		[Test]
-		public void DivNonAlphaNonDigit3XSSTest()
+		public void divnonalphanondigit3xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1560,7 +1560,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: expression(<SCRIPT/SRC="http://ha.ckers.org/xss.js"></SCRIPT>)"> -->
 		/// </summary>   
 		[Test]
-		public void DivStyleExpressionNonAlphaNonDigit3XSSTest()
+		public void divstyleexpressionnonalphanondigit3xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1579,7 +1579,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://www.codeplex.com?url=<<SCRIPT>alert("XSS");//<</SCRIPT>">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagExtraneousOpenBracketsXSSTest()
+		public void anchortagextraneousopenbracketsxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1598,7 +1598,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: http://www.codeplex.com?url=<<SCRIPT>alert("XSS");//<</SCRIPT>"> -->
 		/// </summary>   
 		[Test]
-		public void DivExtraneousOpenBracketsXSSTest()
+		public void divextraneousopenbracketsxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1617,7 +1617,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: expression(<<SCRIPT>alert("XSS");//<</SCRIPT>)"> -->
 		/// </summary>   
 		[Test]
-		public void DivStyleExpressionExtraneousOpenBracketsXSSTest()
+		public void divstyleexpressionextraneousopenbracketsxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1636,7 +1636,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://www.codeplex.com?url=<SCRIPT SRC=http://ha.ckers.org/xss.js?<B>">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagNoClosingScriptTagsXSSTest()
+		public void anchortagnoclosingscripttagsxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1655,7 +1655,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: http://www.codeplex.com?url=<SCRIPT SRC=http://ha.ckers.org/xss.js?<B>"> -->
 		/// </summary>   
 		[Test]
-		public void DivNoClosingScriptTagsXSSTest()
+		public void divnoclosingscripttagsxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1674,7 +1674,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: expression(<SCRIPT SRC=http://ha.ckers.org/xss.js?<B>)"> -->
 		/// </summary>   
 		[Test]
-		public void DivStyleExpressionNoClosingScriptTagsXSSTest()
+		public void divstyleexpressionnoclosingscripttagsxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1693,7 +1693,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://www.codeplex.com?url=<SCRIPT SRC=//ha.ckers.org/.j>">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagProtocolResolutionScriptXSSTest()
+		public void anchortagprotocolresolutionscriptxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1712,7 +1712,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: http://www.codeplex.com?url=<SCRIPT SRC=//ha.ckers.org/.j>"> -->
 		/// </summary>   
 		[Test]
-		public void DivProtocolResolutionScriptXSSTest()
+		public void divprotocolresolutionscriptxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1731,7 +1731,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: expression(<SCRIPT SRC=//ha.ckers.org/.j>)"> -->
 		/// </summary>   
 		[Test]
-		public void DivStyleExpressionProtocolResolutionScriptXSSTest()
+		public void divstyleexpressionprotocolresolutionscriptxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1750,7 +1750,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://www.codeplex.com?url=<SCRIPT>a=/XSS/alert(a.source)</SCRIPT>">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagNoQuotesXSSTest()
+		public void anchortagnoquotesxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1769,7 +1769,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: http://www.codeplex.com?url=<SCRIPT>a=/XSS/alert(a.source)</SCRIPT>"> -->
 		/// </summary>   
 		[Test]
-		public void DivNoQuotesXSSTest()
+		public void divnoquotesxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1788,7 +1788,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: expression(<SCRIPT>a=/XSS/alert(a.source)</SCRIPT>)"> -->
 		/// </summary>   
 		[Test]
-		public void DivStyleExpressionNoQuotesXSSTest()
+		public void divstyleexpressionnoquotesxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1807,7 +1807,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://www.codeplex.com?url=¼script¾alert(¢XSS¢)¼/script¾">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagUSASCIIEncodingXSSTest()
+		public void anchortagusasciiencodingxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1826,7 +1826,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: http://www.codeplex.com?url=¼script¾alert(¢XSS¢)¼/script¾"> -->
 		/// </summary>   
 		[Test]
-		public void DivUSASCIIEncodingXSSTest()
+		public void divusasciiencodingxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1845,7 +1845,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: expression(¼script¾alert(¢XSS¢)¼/script¾)"> -->
 		/// </summary>   
 		[Test]
-		public void DivStyleExpressionUSASCIIEncodingXSSTest()
+		public void divstyleexpressionusasciiencodingxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1864,7 +1864,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://www.codeplex.com?url=<!--[if gte IE 4]><SCRIPT>alert('XSS');</SCRIPT><![endif]-->">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagDownlevelHiddenBlockXSSTest()
+		public void anchortagdownlevelhiddenblockxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1883,7 +1883,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: http://www.codeplex.com?url=<!--[if gte IE 4]><SCRIPT>alert('XSS');</SCRIPT><![endif]-->"> -->
 		/// </summary>   
 		[Test]
-		public void DivDownlevelHiddenBlockXSSTest()
+		public void divdownlevelhiddenblockxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1902,7 +1902,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: expression(<!--[if gte IE 4]><SCRIPT>alert('XSS');</SCRIPT><![endif]-->)"> -->
 		/// </summary>   
 		[Test]
-		public void DivStyleExpressionDownlevelHiddenBlockXSSTest()
+		public void divstyleexpressiondownlevelhiddenblockxsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1921,7 +1921,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://www.codeplex.com?url=<SCRIPT a=">" SRC="http://ha.ckers.org/xss.js"></SCRIPT>">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagHtmlQuotesEncapsulation1XSSTest()
+		public void anchortaghtmlquotesencapsulation1xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1940,7 +1940,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: http://www.codeplex.com?url=<SCRIPT a=">" SRC="http://ha.ckers.org/xss.js"></SCRIPT>"> -->
 		/// </summary>   
 		[Test]
-		public void DivHtmlQuotesEncapsulation1XSSTest()
+		public void divhtmlquotesencapsulation1xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1959,7 +1959,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: expression(<SCRIPT a=">" SRC="http://ha.ckers.org/xss.js"></SCRIPT>)"> -->
 		/// </summary>   
 		[Test]
-		public void DivStyleExpressionHtmlQuotesEncapsulation1XSSTest()
+		public void divstyleexpressionhtmlquotesencapsulation1xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1978,7 +1978,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://www.codeplex.com?url=<SCRIPT =">" SRC="http://ha.ckers.org/xss.js"></SCRIPT>">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagHtmlQuotesEncapsulation2XSSTest()
+		public void anchortaghtmlquotesencapsulation2xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -1997,7 +1997,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: http://www.codeplex.com?url=<SCRIPT =">" SRC="http://ha.ckers.org/xss.js"></SCRIPT>"> -->
 		/// </summary>   
 		[Test]
-		public void DivHtmlQuotesEncapsulation2XSSTest()
+		public void divhtmlquotesencapsulation2xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -2016,7 +2016,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: expression(<SCRIPT =">" SRC="http://ha.ckers.org/xss.js"></SCRIPT>)"> -->
 		/// </summary>   
 		[Test]
-		public void DivStyleExpressionHtmlQuotesEncapsulation2XSSTest()
+		public void divstyleexpressionhtmlquotesencapsulation2xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -2035,7 +2035,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://www.codeplex.com?url=<SCRIPT a=">" '' SRC="http://ha.ckers.org/xss.js"></SCRIPT>">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagHtmlQuotesEncapsulation3XSSTest()
+		public void anchortaghtmlquotesencapsulation3xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -2054,7 +2054,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: http://www.codeplex.com?url=<SCRIPT a=">" '' SRC="http://ha.ckers.org/xss.js"></SCRIPT>"> -->
 		/// </summary>   
 		[Test]
-		public void DivHtmlQuotesEncapsulation3XSSTest()
+		public void divhtmlquotesencapsulation3xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -2073,7 +2073,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: expression(<SCRIPT a=">" '' SRC="http://ha.ckers.org/xss.js"></SCRIPT>)"> -->
 		/// </summary>   
 		[Test]
-		public void DivStyleExpressionHtmlQuotesEncapsulation3XSSTest()
+		public void divstyleexpressionhtmlquotesencapsulation3xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -2092,7 +2092,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://www.codeplex.com?url=<SCRIPT "a='>'" SRC="http://ha.ckers.org/xss.js"></SCRIPT>">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagHtmlQuotesEncapsulation4XSSTest()
+		public void anchortaghtmlquotesencapsulation4xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -2111,7 +2111,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: http://www.codeplex.com?url=<SCRIPT "a='>'" SRC="http://ha.ckers.org/xss.js"></SCRIPT>"> -->
 		/// </summary>   
 		[Test]
-		public void DivHtmlQuotesEncapsulation4XSSTest()
+		public void divhtmlquotesencapsulation4xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -2130,7 +2130,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: expression(<SCRIPT "a='>'" SRC="http://ha.ckers.org/xss.js"></SCRIPT>)"> -->
 		/// </summary>   
 		[Test]
-		public void DivStyleExpressionHtmlQuotesEncapsulation4XSSTest()
+		public void divstyleexpressionhtmlquotesencapsulation4xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -2149,7 +2149,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://www.codeplex.com?url=<SCRIPT a=`>` SRC="http://ha.ckers.org/xss.js"></SCRIPT>">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagHtmlQuotesEncapsulation5XSSTest()
+		public void anchortaghtmlquotesencapsulation5xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -2168,7 +2168,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: http://www.codeplex.com?url=<SCRIPT a=`>` SRC="http://ha.ckers.org/xss.js"></SCRIPT>"> -->
 		/// </summary>   
 		[Test]
-		public void DivHtmlQuotesEncapsulation5XSSTest()
+		public void divhtmlquotesencapsulation5xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -2187,7 +2187,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: expression(<SCRIPT a=`>` SRC="http://ha.ckers.org/xss.js"></SCRIPT>)"> -->
 		/// </summary>   
 		[Test]
-		public void DivStyleExpressionHtmlQuotesEncapsulation5XSSTest()
+		public void divstyleexpressionhtmlquotesencapsulation5xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -2206,7 +2206,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://www.codeplex.com?url=<SCRIPT a=">'>" SRC="http://ha.ckers.org/xss.js"></SCRIPT>">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagHtmlQuotesEncapsulation6XSSTest()
+		public void anchortaghtmlquotesencapsulation6xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -2225,7 +2225,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: http://www.codeplex.com?url=<SCRIPT a=">'>" SRC="http://ha.ckers.org/xss.js"></SCRIPT>"> -->
 		/// </summary>   
 		[Test]
-		public void DivHtmlQuotesEncapsulation6XSSTest()
+		public void divhtmlquotesencapsulation6xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -2244,7 +2244,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: expression(<SCRIPT a=">'>" SRC="http://ha.ckers.org/xss.js"></SCRIPT>)"> -->
 		/// </summary>   
 		[Test]
-		public void DivStyleExpressionHtmlQuotesEncapsulation6XSSTest()
+		public void divstyleexpressionhtmlquotesencapsulation6xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -2263,7 +2263,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <A HREF="http://www.codeplex.com?url=<SCRIPT>document.write("<SCRI");</SCRIPT>PT SRC="http://ha.ckers.org/xss.js"></SCRIPT>">XSS</A> -->
 		/// </summary>   
 		[Test]
-		public void AnchorTagHtmlQuotesEncapsulation7XSSTest()
+		public void anchortaghtmlquotesencapsulation7xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -2282,7 +2282,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: http://www.codeplex.com?url=<SCRIPT>document.write("<SCRI");</SCRIPT>PT SRC="http://ha.ckers.org/xss.js"></SCRIPT>"> -->
 		/// </summary>   
 		[Test]
-		public void DivHtmlQuotesEncapsulation7XSSTest()
+		public void divhtmlquotesencapsulation7xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -2301,7 +2301,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		/// Example <!-- <Div style="background-color: expression(<SCRIPT>document.write("<SCRI");</SCRIPT>PT SRC="http://ha.ckers.org/xss.js"></SCRIPT>)"> -->
 		/// </summary>   
 		[Test]
-		public void DivStyleExpressionHtmlQuotesEncapsulation7XSSTest()
+		public void divstyleexpressionhtmlquotesencapsulation7xsstest()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);
@@ -2316,7 +2316,7 @@ tt	p://6&#9;6.000146.0x7.147/"">XSS</A>";
 		}
 
 		[Test]
-		public void HtmlEncode()
+		public void htmlencode()
 		{
 			// Arrange
 			MarkupSanitizer sanitizer = new MarkupSanitizer(_settings);

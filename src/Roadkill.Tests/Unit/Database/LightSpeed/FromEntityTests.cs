@@ -12,7 +12,7 @@ namespace Roadkill.Tests.Unit.Database.LightSpeed
 	public class FromEntityTests
 	{
 		[Test]
-		public void ToPage_ShouldFillCorrectProperties()
+		public void topage_shouldfillcorrectproperties()
 		{
 			// Arrange
 			PageEntity entity = new PageEntity();
@@ -38,7 +38,7 @@ namespace Roadkill.Tests.Unit.Database.LightSpeed
 		}
 
 		[Test]
-		public void ToPageContent_ShouldFillCorrectProperties()
+		public void topagecontent_shouldfillcorrectproperties()
 		{
 			// Arrange
 			PageContentEntity entity = new PageContentEntity();
@@ -62,7 +62,7 @@ namespace Roadkill.Tests.Unit.Database.LightSpeed
 		}
 
 		[Test]
-		public void ToUser_ShouldFillCorrectProperties()
+		public void touser_shouldfillcorrectproperties()
 		{
 			// Arrange
 			UserEntity entity = new UserEntity();
@@ -96,7 +96,7 @@ namespace Roadkill.Tests.Unit.Database.LightSpeed
 		}
 
 		[Test]
-		public void ToPageContentList_ShouldContainValidList()
+		public void topagecontentlist_shouldcontainvalidlist()
 		{
 			// Arrange
 			PageContentEntity entity1 = new PageContentEntity();
@@ -133,7 +133,7 @@ namespace Roadkill.Tests.Unit.Database.LightSpeed
 		}
 
 		[Test]
-		public void ToPageList_ShouldContainValidList()
+		public void topagelist_shouldcontainvalidlist()
 		{
 			// Arrange
 			PageEntity entity1 = new PageEntity();
@@ -179,7 +179,7 @@ namespace Roadkill.Tests.Unit.Database.LightSpeed
 		}
 
 		[Test]
-		public void ToUserList_ShouldContainValidList()
+		public void touserlist_shouldcontainvalidlist()
 		{
 			// Arrange
 			UserEntity entity1  = new UserEntity();

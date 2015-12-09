@@ -27,7 +27,7 @@ namespace Roadkill.Tests.Unit.Attachments
 		}
 
 		[Test]
-		public void WriteResponse_Should_Set_200_Status_And_MimeType_And_Write_Bytes()
+		public void writeresponse_should_set_200_status_and_mimetype_and_write_bytes()
 		{
 			// Arrange
 			AttachmentFileHandler handler = new AttachmentFileHandler(_applicationSettings,_fileService);
@@ -53,7 +53,7 @@ namespace Roadkill.Tests.Unit.Attachments
 		}
 
 		[Test]
-		public void WriteResponse_Should_Throw_404_Exception_For_Missing_File()
+		public void writeresponse_should_throw_404_exception_for_missing_file()
 		{
 			// Arrange
 			AttachmentFileHandler handler = new AttachmentFileHandler(_applicationSettings,_fileService);
@@ -78,7 +78,7 @@ namespace Roadkill.Tests.Unit.Attachments
 		}
 
 		[Test]
-		public void WriteResponse_Should_Throw_404_Exception_For_Bad_Application_Path()
+		public void writeresponse_should_throw_404_exception_for_bad_application_path()
 		{
 			// Arrange
 			AttachmentFileHandler handler = new AttachmentFileHandler(_applicationSettings,_fileService);
@@ -106,7 +106,7 @@ namespace Roadkill.Tests.Unit.Attachments
 		}
 
 		[Test]
-		public void TranslateLocalPathToFilePath_Should_Be_Case_Sensitive()
+		public void translatelocalpathtofilepath_should_be_case_sensitive()
 		{
 			// Arrange
 			_applicationSettings.AttachmentsFolder = @"C:\attachments\";

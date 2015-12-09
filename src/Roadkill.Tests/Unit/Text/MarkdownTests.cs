@@ -20,7 +20,7 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
-		public void Internal_Links_Should_Resolve_With_Id()
+		public void internal_links_should_resolve_with_id()
 		{
 			// Bug #87
 
@@ -55,7 +55,7 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
-		public void Code_Blocks_Should_Allow_Quotes()
+		public void code_blocks_should_allow_quotes()
 		{
 			// Issue #82
 			// Arrange
@@ -85,7 +85,7 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
-		public void Images_Should_Support_Dimensions()
+		public void images_should_support_dimensions()
 		{
 			// Arrange
 			Page page = new Page() { Id = 1, Title = "My first page" };
@@ -116,7 +116,7 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
-		public void Images_Should_Support_Dimensions_And_Titles()
+		public void images_should_support_dimensions_and_titles()
 		{
 			// Arrange
 			Page page = new Page() { Id = 1, Title = "My first page" };

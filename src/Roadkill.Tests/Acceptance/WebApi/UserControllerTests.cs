@@ -12,7 +12,7 @@ namespace Roadkill.Tests.Acceptance.WebApi
 	public class UserControllerTests : WebApiTestBase
 	{
 		[Test]
-		public void Authenticate_Should_Return_True_For_Known_User()
+		public void authenticate_should_return_true_for_known_user()
 		{
 			// Arrange
 			UserController.UserInfo info = new UserController.UserInfo()
@@ -32,7 +32,7 @@ namespace Roadkill.Tests.Acceptance.WebApi
 		}
 
 		[Test]
-		public void Authenticate_Should_Return_False_For_Unknown_User()
+		public void authenticate_should_return_false_for_unknown_user()
 		{
 			// Arrange
 			UserController.UserInfo info = new UserController.UserInfo()
@@ -52,7 +52,7 @@ namespace Roadkill.Tests.Acceptance.WebApi
 		}
 
 		[Test]
-		public void GetUsers_Should_Return_All_Users()
+		public void getusers_should_return_all_users()
 		{
 			// Arrange
 			WebApiClient apiclient = new WebApiClient();
@@ -67,7 +67,7 @@ namespace Roadkill.Tests.Acceptance.WebApi
 		}
 
 		[Test]
-		public void GetUser_Should_Return_Admin_User()
+		public void getuser_should_return_admin_user()
 		{
 			// Arrange
 			var queryString = new Dictionary<string, string>()
@@ -88,7 +88,7 @@ namespace Roadkill.Tests.Acceptance.WebApi
 		}
 
 		[Test]
-		public void Logout_Should_Remove_Auth_Cookie()
+		public void logout_should_remove_auth_cookie()
 		{
 			// Arrange
 			WebApiClient apiclient = new WebApiClient();

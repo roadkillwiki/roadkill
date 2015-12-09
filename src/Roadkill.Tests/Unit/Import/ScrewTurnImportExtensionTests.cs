@@ -25,7 +25,7 @@ namespace Roadkill.Tests.Unit.Import
 		}
 
 		[Test]
-		public void ReplaceBr_Should_Return_String_With_Expected_Format()
+		public void replacebr_should_return_string_with_expected_format()
 		{
 			// Arrange
 			const string expected = "Before \n\n After";
@@ -54,7 +54,7 @@ namespace Roadkill.Tests.Unit.Import
 		}
 
 		[Test]
-		public void ReplaceBlockCode_Should_Return_String_With_Expected_Format()
+		public void replaceblockcode_should_return_string_with_expected_format()
 		{
 			// Arrange
 			const string expected = "Before [[[code lang=|This is \r\n block code]]] After";
@@ -67,7 +67,7 @@ namespace Roadkill.Tests.Unit.Import
 		}
 
 		[Test]
-		public void ReplaceInlineCode_Should_Return_String_With_Expected_Format()
+		public void replaceinlinecode_should_return_string_with_expected_format()
 		{
 			// Arrange
 			const string expected = "Before <code>This is \r\n inline code</code> After";
@@ -80,7 +80,7 @@ namespace Roadkill.Tests.Unit.Import
 		}
 
 		[Test]
-		public void ReplaceBoxMarkup_Should_Return_String_With_Expected_Format()
+		public void replaceboxmarkup_should_return_string_with_expected_format()
 		{
 			// Arrange
 			const string expected = "Before @@infobox:This is \r\n in a box@@ After";
