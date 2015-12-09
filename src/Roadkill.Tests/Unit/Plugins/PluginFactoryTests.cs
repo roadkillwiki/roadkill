@@ -22,7 +22,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		private static PluginFactory CreateFactory()
 		{
 			var container = new Container();
-			return new PluginFactory(new StructureMapServiceLocator(container, false));
+			return new PluginFactory(container);
 		}
 
 		[Test]
@@ -48,10 +48,8 @@ namespace Roadkill.Tests.Unit.Plugins
 			if (File.Exists(plugin3Path))
 				File.Delete(plugin3Path);
 
-			PluginFactory factory = CreateFactory();
-
 			// Act
-			factory.CopyAssemblies(sourceDir, destDir);
+			PluginFactory.CopyAssemblies(sourceDir, destDir);
 
 			// Assert
 			Assert.That(File.Exists(plugin1Path), Is.True);
@@ -75,10 +73,8 @@ namespace Roadkill.Tests.Unit.Plugins
 			Thread.Sleep(250); // slow the test down slightly
 			File.WriteAllText(sourcePluginPath, "file has been updated"); // update the source plugin
 
-			PluginFactory factory = CreateFactory();
-
 			// Act
-			factory.CopyAssemblies(sourceDir, destDir);
+			PluginFactory.CopyAssemblies(sourceDir, destDir);
 
 			// Assert
 			string fileContent = File.ReadAllText(pluginDestPath);
@@ -101,10 +97,8 @@ namespace Roadkill.Tests.Unit.Plugins
 				Directory.CreateDirectory(pluginDestFolder);
 			File.WriteAllText(pluginDestPath, "dest file is more recent");  // create the plugin in the destination path so it's more recent
 
-			PluginFactory factory = CreateFactory();
-
 			// Act
-			factory.CopyAssemblies(sourceDir, destDir);
+			PluginFactory.CopyAssemblies(sourceDir, destDir);
 
 			// Assert
 			string fileContent = File.ReadAllText(pluginDestPath);

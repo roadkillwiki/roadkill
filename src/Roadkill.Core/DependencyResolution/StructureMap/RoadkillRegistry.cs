@@ -49,6 +49,7 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 		private void ScanTypes(IAssemblyScanner scanner)
 		{
 			scanner.TheCallingAssembly();
+			scanner.AssembliesFromApplicationBaseDirectory(assembly => assembly.FullName.Contains("Roadkill"));
 			scanner.SingleImplementationsOfInterface();
 			scanner.WithDefaultConventions();
 			scanner.With(new ControllerConvention());
@@ -112,14 +113,12 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 
 		private void CopyPlugins()
 		{
-			PluginFactory pluginFactory = new PluginFactory(); // registered as a singleton later
-
 			// Copy SpecialPages plugins to the /bin folder
 			string pluginsDestPath = _applicationSettings.PluginsBinPath;
 			if (!Directory.Exists(pluginsDestPath))
 				Directory.CreateDirectory(pluginsDestPath);
 
-			pluginFactory.CopyPlugins(_applicationSettings);
+			PluginFactory.CopyPlugins(_applicationSettings);
 		}
 
 		private void ConfigureInstances(ConfigReaderWriter configReader)
@@ -225,7 +224,7 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 				{
 					if (type.CanBeCastTo<T>())
 					{
-						registry.For(type).LifecycleIs(new UniquePerRequestLifecycle()).Use(type);
+						registry.For(typeof(T)).LifecycleIs(new UniquePerRequestLifecycle()).Add(type);
 					}
 				});
 			}

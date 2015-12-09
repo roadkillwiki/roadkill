@@ -6,6 +6,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.DependencyResolution.StructureMap;
 using Roadkill.Core.Logging;
+using StructureMap;
 
 namespace Roadkill.Core.Plugins
 {
@@ -14,16 +15,11 @@ namespace Roadkill.Core.Plugins
 	/// </summary>
 	public class PluginFactory : IPluginFactory
 	{
-		private readonly StructureMapServiceLocator _serviceLocator;
+		private readonly IContainer _container;
 
-		public PluginFactory()
+		public PluginFactory(IContainer container)
 		{
-			_serviceLocator = LocatorStartup.Locator;
-		}
-
-		internal PluginFactory(StructureMapServiceLocator locator)
-		{
-			_serviceLocator = locator;
+			_container = container;
 		}
 
 		/// <summary>
@@ -31,7 +27,7 @@ namespace Roadkill.Core.Plugins
 		/// </summary>
 		public void RegisterTextPlugin(TextPlugin plugin)
 		{
-			_serviceLocator.RegisterType<TextPlugin>(plugin);
+			_container.Configure(x => x.For<TextPlugin>().Add(plugin));
 		}
 
 		/// <summary>
@@ -39,7 +35,7 @@ namespace Roadkill.Core.Plugins
 		/// </summary>
 		public IEnumerable<TextPlugin> GetTextPlugins()
 		{
-			return _serviceLocator.GetAllInstances<TextPlugin>();
+			return _container.GetAllInstances<TextPlugin>();
 		}
 
 		/// <summary>
@@ -47,7 +43,7 @@ namespace Roadkill.Core.Plugins
 		/// </summary>
 		public IEnumerable<TextPlugin> GetEnabledTextPlugins()
 		{
-			return _serviceLocator.GetAllInstances<TextPlugin>().Where(x => x.Settings.IsEnabled);
+			return _container.GetAllInstances<TextPlugin>().Where(x => x.Settings.IsEnabled);
 		}
 
 		/// <summary>
@@ -55,12 +51,12 @@ namespace Roadkill.Core.Plugins
 		/// </summary>
 		public TextPlugin GetTextPlugin(string id)
 		{
-			return _serviceLocator.GetAllInstances<TextPlugin>().FirstOrDefault(x => x.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
+			return _container.GetAllInstances<TextPlugin>().FirstOrDefault(x => x.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
 		}
 
 		public IEnumerable<SpecialPagePlugin> GetSpecialPagePlugins()
 		{
-			return _serviceLocator.GetAllInstances<SpecialPagePlugin>();
+			return _container.GetAllInstances<SpecialPagePlugin>();
 		}
 
 		/// <summary>
@@ -68,13 +64,13 @@ namespace Roadkill.Core.Plugins
 		/// </summary>
 		public SpecialPagePlugin GetSpecialPagePlugin(string name)
 		{
-			return _serviceLocator.GetAllInstances<SpecialPagePlugin>().FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+			return _container.GetAllInstances<SpecialPagePlugin>().FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 		}
 
 		/// <summary>
 		/// Copies the plugins from the /Plugins directory to the bin folder. This is run at application startup.
 		/// </summary>
-		public void CopyPlugins(ApplicationSettings applicationSettings)
+		public static void CopyPlugins(ApplicationSettings applicationSettings)
 		{
 			CopyAssemblies(applicationSettings.PluginsPath, applicationSettings.PluginsBinPath);
 		}
@@ -82,7 +78,7 @@ namespace Roadkill.Core.Plugins
 		/// <summary>
 		/// Copies plugins from their storage location to the bin folder.
 		/// </summary>
-		internal void CopyAssemblies(string pluginsourcePath, string pluginDestinationPath, bool hasSubDirectories = true)
+		internal static void CopyAssemblies(string pluginsourcePath, string pluginDestinationPath, bool hasSubDirectories = true)
 		{
 			try
 			{
@@ -114,7 +110,7 @@ namespace Roadkill.Core.Plugins
 			}
 		}
 
-		private void CopyDirectoryContents(string subdirectory, string pluginDestinationPath)
+		private static void CopyDirectoryContents(string subdirectory, string pluginDestinationPath)
 		{
 			// Create the directory in the /bin/Plugins/CustomVariables folder,
 			// e.g. /bin/Plugins/TextPlugins/MyPlugin

@@ -10,11 +10,6 @@ namespace Roadkill.Core.Plugins
 	public interface IPluginFactory
 	{
 		/// <summary>
-		/// Copies the plugins from the /Plugins directory to the bin folder. This is run at application startup.
-		/// </summary>
-		void CopyPlugins(ApplicationSettings applicationSettings);
-
-		/// <summary>
 		/// Retrieves all text plugins from the DI container.
 		/// </summary>
 		IEnumerable<TextPlugin> GetTextPlugins();
