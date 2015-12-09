@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Caching;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Cache;
@@ -22,9 +23,12 @@ using Roadkill.Core.Security;
 using Roadkill.Core.Security.Windows;
 using Roadkill.Core.Services;
 using StructureMap;
+using StructureMap.Building;
+using StructureMap.Diagnostics;
 using StructureMap.Graph;
 using StructureMap.Graph.Scanning;
 using StructureMap.Pipeline;
+using StructureMap.Query;
 using StructureMap.TypeRules;
 using StructureMap.Web;
 using WebGrease.Css.Extensions;
@@ -33,6 +37,34 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 {
 	public class RoadkillRegistry : Registry
 	{
+		private class AbstractClassConvention<T> : IRegistrationConvention
+		{
+			public void ScanTypes(TypeSet types, Registry registry)
+			{
+				types.FindTypes(TypeClassification.Concretes | TypeClassification.Closed).ForEach(type =>
+				{
+					if (type.CanBeCastTo<T>())
+					{
+						registry.For(typeof(T)).LifecycleIs(new UniquePerRequestLifecycle()).Add(type);
+					}
+				});
+			}
+		}
+
+		private class ControllerConvention : IRegistrationConvention
+		{
+			public void ScanTypes(TypeSet types, Registry registry)
+			{
+				types.FindTypes(TypeClassification.Concretes | TypeClassification.Closed).ForEach(type =>
+				{
+					if (type.CanBeCastTo<ControllerBase>() || type.CanBeCastTo<ApiControllerBase>() || type.CanBeCastTo<ConfigurationTesterController>())
+					{
+						registry.For(type).LifecycleIs(new UniquePerRequestLifecycle()).Use(type);
+					}
+				});
+			}
+		}
+
 		private ApplicationSettings _applicationSettings { get; set; }
 
 		public RoadkillRegistry(ConfigReaderWriter configReader)
@@ -204,43 +236,30 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 			}
 			else if (!string.IsNullOrEmpty(userServiceTypeName))
 			{
-				For<UserServiceBase>()
-					.HybridHttpOrThreadLocalScoped()
-					.Use(context => context.All<UserServiceBase>().First(x => x.GetType().Name == userServiceTypeName));
+				try
+				{
+					Type userServiceType = Type.GetType(userServiceTypeName, false, false);
+					if (userServiceType == null)
+						throw new IoCException(null, "Unable to find UserService type {0}. Make sure you use the AssemblyQualifiedName.", userServiceTypeName);
+
+					For<UserServiceBase>()
+						.Use("Inject custom UserService", context =>
+						{
+							var obj = context.GetInstance(userServiceType);
+							
+							return (UserServiceBase) context.GetInstance(userServiceType);
+						});
+				}
+				catch (StructureMapBuildException)
+				{
+					throw new IoCException(null, "Unable to find UserService type {0}", userServiceTypeName);
+				}
 			}
 			else
 			{
 				For<UserServiceBase>()
 					.HybridHttpOrThreadLocalScoped()
 					.Use<FormsAuthUserService>();
-			}
-		}
-
-		private class AbstractClassConvention<T> : IRegistrationConvention
-		{
-			public void ScanTypes(TypeSet types, Registry registry)
-			{
-				types.FindTypes(TypeClassification.Concretes | TypeClassification.Closed).ForEach(type =>
-				{
-					if (type.CanBeCastTo<T>())
-					{
-						registry.For(typeof(T)).LifecycleIs(new UniquePerRequestLifecycle()).Add(type);
-					}
-				});
-			}
-		}
-
-		private class ControllerConvention : IRegistrationConvention
-		{
-			public void ScanTypes(TypeSet types, Registry registry)
-			{
-				types.FindTypes(TypeClassification.Concretes | TypeClassification.Closed).ForEach(type =>
-				{
-					if (type.CanBeCastTo<ControllerBase>() || type.CanBeCastTo<ApiControllerBase>() || type.CanBeCastTo<ConfigurationTesterController>())
-					{
-						registry.For(type).LifecycleIs(new UniquePerRequestLifecycle()).Use(type);
-					}
-				});
 			}
 		}
 	}

@@ -23,6 +23,7 @@ using Roadkill.Core.Security.Windows;
 using Roadkill.Core.Services;
 using Roadkill.Tests.Unit.StubsAndMocks;
 using StructureMap;
+using StructureMap.Query;
 
 namespace Roadkill.Tests.Unit.DI
 {
@@ -218,31 +219,41 @@ namespace Roadkill.Tests.Unit.DI
 		}
 
 		[Test]
-		public void Should_Load_Custom_UserService()
+		public void Should_Load_Custom_UserService_Using_Short_Type_Format()
 		{
 			// Arrange
-
-			// Put a copy of Roadkill.Plugins.dll into the plugins folder with a temp name
-			string tempFilename = Path.GetFileName(Path.GetTempFileName()) + ".dll";
-			string thisAssembly = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Roadkill.Plugins.dll");
-			string pluginSourceDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins", "UserService");
-			string destPlugin = Path.Combine(pluginSourceDir, tempFilename);
-
-			if (!Directory.Exists(pluginSourceDir))
-				Directory.CreateDirectory(pluginSourceDir);
-
-			File.Copy(thisAssembly, destPlugin, true);
-
 			ApplicationSettings settings = new ApplicationSettings();
-			settings.UserServiceType = "Roadkill.Plugins.TestUserService";
+			settings.UserServiceType = "Roadkill.Plugins.TestUserService, Roadkill.Plugins";
+			Console.WriteLine(settings.UserServiceType);
 			settings.PluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
 
+			// Act
 			var registry = new RoadkillRegistry(new ConfigReaderWriterStub() { ApplicationSettings = settings });
 			var container = new Container(registry);
 
-			// Act + Assert
-			var userManagers = container.GetAllInstances<UserServiceBase>();
-			Assert.That(userManagers.First().GetType().FullName, Is.EqualTo("Roadkill.Plugins.TestUserService"));
+			// Act
+			UserServiceBase userService = container.GetInstance<UserServiceBase>();
+			Assert.That(userService, Is.Not.Null);
+			Assert.That(userService.GetType().AssemblyQualifiedName, Is.EqualTo(settings.UserServiceType));
+		}
+
+		[Test]
+		public void Should_Load_Custom_UserService_Using_AssemblyQualifiedName()
+		{
+			// Arrange
+			ApplicationSettings settings = new ApplicationSettings();
+			settings.UserServiceType = typeof(Roadkill.Plugins.TestUserService).AssemblyQualifiedName;
+            Console.WriteLine(settings.UserServiceType);
+			settings.PluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
+
+			// Act
+			var registry = new RoadkillRegistry(new ConfigReaderWriterStub() { ApplicationSettings = settings });
+			var container = new Container(registry);
+
+			// Act
+			UserServiceBase userService = container.GetInstance<UserServiceBase>();
+			Assert.That(userService, Is.Not.Null);
+			Assert.That(userService.GetType().AssemblyQualifiedName, Is.EqualTo(settings.UserServiceType));
 		}
 
 		[Test]
