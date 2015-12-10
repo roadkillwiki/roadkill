@@ -16,6 +16,8 @@ using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.DependencyResolution.StructureMap;
 using Roadkill.Core.Import;
 using Roadkill.Core.Mvc.Attributes;
+using Roadkill.Core.Mvc.Controllers;
+using Roadkill.Core.Mvc.Controllers.Api;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Plugins;
 using Roadkill.Core.Security;
@@ -77,17 +79,45 @@ namespace Roadkill.Tests.Unit.DI
 		}
 
 		[Test]
-		public void should_register_controller_instances()
+		public void should_register_IRoadkillController_instances()
 		{
 			// Arrange
 			var registry = new RoadkillRegistry(new ConfigReaderWriterStub());
 			var container = new Container(registry);
 
 			// Act
-			IEnumerable<Roadkill.Core.Mvc.Controllers.ControllerBase> controllers = container.GetAllInstances<Roadkill.Core.Mvc.Controllers.ControllerBase>();
+			IEnumerable<IRoadkillController> controllers = container.GetAllInstances<IRoadkillController>();
 
 			// Assert
-			//Assert.That(controllers.Count(), Is.GreaterThanOrEqualTo(9));
+			Assert.That(controllers.Count(), Is.EqualTo(15));
+		}
+
+		[Test]
+		public void should_register_ApiControllerBase_instances()
+		{
+			// Arrange
+			var registry = new RoadkillRegistry(new ConfigReaderWriterStub());
+			var container = new Container(registry);
+
+			// Act
+			IEnumerable<ApiControllerBase> controllers = container.GetAllInstances<ApiControllerBase>();
+
+			// Assert
+			Assert.That(controllers.Count(), Is.EqualTo(4));
+		}
+
+		[Test]
+		public void should_register_ConfigurationTesterController_instance()
+		{
+			// Arrange
+			var registry = new RoadkillRegistry(new ConfigReaderWriterStub());
+			var container = new Container(registry);
+
+			// Act
+			IEnumerable<ConfigurationTesterController> controllers = container.GetAllInstances<ConfigurationTesterController>();
+
+			// Assert
+			Assert.That(controllers.Count(), Is.EqualTo(1));
 		}
 
 		[Test]
@@ -234,7 +264,7 @@ namespace Roadkill.Tests.Unit.DI
 			// Act
 			UserServiceBase userService = container.GetInstance<UserServiceBase>();
 			Assert.That(userService, Is.Not.Null);
-			Assert.That(userService.GetType().AssemblyQualifiedName, Is.EqualTo(settings.UserServiceType));
+			Assert.That(userService.GetType().AssemblyQualifiedName, Is.StringContaining(settings.UserServiceType));
 		}
 
 		[Test]

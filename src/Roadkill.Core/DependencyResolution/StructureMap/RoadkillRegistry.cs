@@ -51,20 +51,6 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 			}
 		}
 
-		private class ControllerConvention : IRegistrationConvention
-		{
-			public void ScanTypes(TypeSet types, Registry registry)
-			{
-				types.FindTypes(TypeClassification.Concretes | TypeClassification.Closed).ForEach(type =>
-				{
-					if (type.CanBeCastTo<ControllerBase>() || type.CanBeCastTo<ApiControllerBase>() || type.CanBeCastTo<ConfigurationTesterController>())
-					{
-						registry.For(type).LifecycleIs(new UniquePerRequestLifecycle()).Use(type);
-					}
-				});
-			}
-		}
-
 		private ApplicationSettings _applicationSettings { get; set; }
 
 		public RoadkillRegistry(ConfigReaderWriter configReader)
@@ -84,7 +70,6 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 			scanner.AssembliesFromApplicationBaseDirectory(assembly => assembly.FullName.Contains("Roadkill"));
 			scanner.SingleImplementationsOfInterface();
 			scanner.WithDefaultConventions();
-			scanner.With(new ControllerConvention());
 
 			// Copy all plugins to the /bin/Plugins folder
 			CopyPlugins();
@@ -95,13 +80,9 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 				scanner.AssembliesFromPath(subDirectory);
 			}
 
-			// Scan for TextPlugins
+			// Plugins
             scanner.With(new AbstractClassConvention<TextPlugin>());
-
-			// Scan for SpecialPages
 			scanner.With(new AbstractClassConvention<SpecialPagePlugin>());
-
-			// The pluginfactory
 			scanner.AddAllTypesOf<IPluginFactory>();
 
 			// Config, repository, context
@@ -141,6 +122,12 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 
 			// Export
 			scanner.AddAllTypesOf<WikiExporter>();
+
+			// Controllers
+			scanner.AddAllTypesOf<IRoadkillController>();
+			scanner.AddAllTypesOf<ControllerBase>();
+			scanner.AddAllTypesOf<ApiControllerBase>();
+			scanner.AddAllTypesOf<ConfigurationTesterController>();
 		}
 
 		private void CopyPlugins()
@@ -172,6 +159,10 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 
 			// Screwturn importer
 			For<IWikiImporter>().Use<ScrewTurnImporter>();
+
+			// Emails
+			For<SignupEmail>().Use<SignupEmail>();
+			For<ResetPasswordEmail>().Use<ResetPasswordEmail>();
 
 			// Cache
 			For<ObjectCache>().Use(new MemoryCache("Roadkill"));
