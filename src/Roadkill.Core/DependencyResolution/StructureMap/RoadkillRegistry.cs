@@ -90,7 +90,7 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 			scanner.AddAllTypesOf<IRepository>();
 			scanner.AddAllTypesOf<IUserContext>();
 
-			// Services and services
+			// Services
 			scanner.With(new AbstractClassConvention<ServiceBase>());
 			scanner.With(new AbstractClassConvention<UserServiceBase>());
 			scanner.AddAllTypesOf<IPageService>();

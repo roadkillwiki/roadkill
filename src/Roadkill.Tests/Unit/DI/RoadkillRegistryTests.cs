@@ -29,10 +29,54 @@ using StructureMap.Query;
 
 namespace Roadkill.Tests.Unit.DI
 {
+
+	[TestFixture]
+	[Category("Unit")]
+	public class LocatorStartupTests
+	{
+		// StartMVCInternal - sets DependencyResolver, sets DynamicModuleUtility
+
+		// AfterInitializationInternal
+
+	}
+
 	[TestFixture]
 	[Category("Unit")]
 	public class RoadkillRegistryTests
 	{
+		//
+		// Scanning
+		// 
+
+		// Plugins
+
+		// Repositories
+
+		// Context, appsettings
+
+		// Services, including AbstractClassConvention
+
+		// Text parsers
+
+		// MVC + controllers
+
+		// Emails
+
+		// Cache
+
+		// Export
+
+		//
+		// Defaults
+		//
+
+		// Setters
+
+		// Customer file service
+
+		// User services
+
+
 		[Test]
 		public void should_register_default_instances()
 		{
@@ -156,28 +200,6 @@ namespace Roadkill.Tests.Unit.DI
 			Assert.That(context, Is.TypeOf<UserContextStub>());
 		}
 
-#if !MONO
-		[Test]
-		public void windowsauth_should_register_activedirectoryusermanager()
-		{
-			// Arrange
-			ApplicationSettings settings = new ApplicationSettings();
-			settings.UseWindowsAuthentication = true;
-			settings.LdapConnectionString = "LDAP://123.com";
-			settings.EditorRoleName = "editor;";
-			settings.AdminRoleName = "admins";
-
-			var registry = new RoadkillRegistry(new ConfigReaderWriterStub() { ApplicationSettings = settings });
-			var container = new Container(registry);
-
-			// Act
-			UserServiceBase usermanager = container.GetInstance<UserServiceBase>();
-
-			// Assert
-			Assert.That(usermanager, Is.TypeOf<ActiveDirectoryUserService>());
-		}
-#endif
-
 		[Test]
 		[Ignore("Create LocatorStartupTests for this")]
 		public void RegisterMvcFactoriesAndRouteHandlers_Should_Register_Instances()
@@ -287,7 +309,6 @@ namespace Roadkill.Tests.Unit.DI
 		}
 
 		[Test]
-		[Explicit]
 		public void MongoDB_databaseType_Should_Load_Repository()
 		{
 			// Arrange
@@ -300,7 +321,7 @@ namespace Roadkill.Tests.Unit.DI
 			// Act
 
 			// Assert
-			Assert.That(container.GetInstance<UserServiceBase>(), Is.TypeOf(typeof(FormsAuthUserService)));
+			Assert.That(container.GetInstance<IRepository>(), Is.TypeOf(typeof(MongoDBRepository)));
 		}
 
 		[Test]
@@ -334,6 +355,26 @@ namespace Roadkill.Tests.Unit.DI
 
 			// Assert
 			Assert.That(container.GetInstance<UserServiceBase>(), Is.TypeOf(typeof(ActiveDirectoryUserService)));
+		}
+
+		[Test]
+		public void windowsauth_should_register_activedirectoryusermanager()
+		{
+			// Arrange
+			ApplicationSettings settings = new ApplicationSettings();
+			settings.UseWindowsAuthentication = true;
+			settings.LdapConnectionString = "LDAP://123.com";
+			settings.EditorRoleName = "editor;";
+			settings.AdminRoleName = "admins";
+
+			var registry = new RoadkillRegistry(new ConfigReaderWriterStub() { ApplicationSettings = settings });
+			var container = new Container(registry);
+
+			// Act
+			UserServiceBase usermanager = container.GetInstance<UserServiceBase>();
+
+			// Assert
+			Assert.That(usermanager, Is.TypeOf<ActiveDirectoryUserService>());
 		}
 #endif
 	}
