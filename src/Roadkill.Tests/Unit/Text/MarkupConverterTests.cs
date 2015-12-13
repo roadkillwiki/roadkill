@@ -468,7 +468,7 @@ here is my C#code
 
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.Repository = new RepositoryMock();
-			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			plugin.PluginCache = new SiteCache(CacheMock.RoadkillCache);
 			_pluginFactory.RegisterTextPlugin(plugin);
 
 			// Act
@@ -487,7 +487,7 @@ here is my C#code
 
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.Repository = new RepositoryMock();
-			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			plugin.PluginCache = new SiteCache(CacheMock.RoadkillCache);
 			_pluginFactory.RegisterTextPlugin(plugin);
 
 			// Act
@@ -506,7 +506,7 @@ here is my C#code
 
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.Repository = new RepositoryMock();
-			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			plugin.PluginCache = new SiteCache(CacheMock.RoadkillCache);
 			plugin.Settings.IsEnabled = true;
 			_pluginFactory.RegisterTextPlugin(plugin);
 
@@ -526,7 +526,7 @@ here is my C#code
 
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.Repository = new RepositoryMock();
-			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			plugin.PluginCache = new SiteCache(CacheMock.RoadkillCache);
 			plugin.Settings.IsEnabled = true;
 			_pluginFactory.RegisterTextPlugin(plugin);
 

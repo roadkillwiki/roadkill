@@ -64,7 +64,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			// Arrange
 			TextPluginStub pluginB = new TextPluginStub("b id", "b name", "b desc");
 			pluginB.Repository = _repository;
-			pluginB.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			pluginB.PluginCache = new SiteCache(CacheMock.RoadkillCache);
 
 			TextPluginStub pluginA = new TextPluginStub("a id", "a name", "a desc");
 			pluginA.Repository = _repository;

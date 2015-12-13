@@ -195,7 +195,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 			// PageService
 			PageViewModelCache pageViewModelCache = new PageViewModelCache(appSettings, CacheMock.RoadkillCache);
 			ListCache listCache = new ListCache(appSettings, CacheMock.RoadkillCache);
-			SiteCache siteCache = new SiteCache(appSettings, CacheMock.RoadkillCache);
+			SiteCache siteCache = new SiteCache(CacheMock.RoadkillCache);
 			SearchServiceMock searchService = new SearchServiceMock(appSettings, _repositoryMock, _pluginFactory);
 			PageHistoryService historyService = new PageHistoryService(appSettings, _repositoryMock, userContext, pageViewModelCache, _pluginFactory);
 			PageService pageService = new PageService(appSettings, _repositoryMock, searchService, historyService, userContext, listCache, pageViewModelCache, siteCache, _pluginFactory);

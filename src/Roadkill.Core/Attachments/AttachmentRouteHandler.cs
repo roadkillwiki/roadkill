@@ -11,24 +11,8 @@ namespace Roadkill.Core.Attachments
 	/// </summary>
 	public class AttachmentRouteHandler : IRouteHandler
 	{
-		private ApplicationSettings _settings;
+		private readonly ApplicationSettings _settings;
 		private readonly IFileService _fileService;
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AttachmentRouteHandler"/> class.
-		/// </summary>
-		/// <param name="settings">The current application settings.</param>
-		public AttachmentRouteHandler(ApplicationSettings settings, IFileService fileService)
-		{
-			if (settings == null)
-				throw new IoCException("The settings parameter is null", null);
-
-			if (fileService == null)
-				throw new IoCException("The fileService parameter is null", null);
-
-			_settings = settings;
-			_fileService = fileService;
-		}
 
 		/// <summary>
 		/// Registers the attachments path route, using the settings given in the application settings.
@@ -53,6 +37,22 @@ namespace Roadkill.Core.Attachments
 			route.Constraints.Add("MvcContraint", new IgnoreMvcConstraint(settings));
 
 			routes.Add(route);
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AttachmentRouteHandler"/> class.
+		/// </summary>
+		/// <param name="settings">The current application settings.</param>
+		public AttachmentRouteHandler(ApplicationSettings settings, IFileService fileService)
+		{
+			if (settings == null)
+				throw new IoCException("The settings parameter is null", null);
+
+			if (fileService == null)
+				throw new IoCException("The fileService parameter is null", null);
+
+			_settings = settings;
+			_fileService = fileService;
 		}
 
 		/// <summary>

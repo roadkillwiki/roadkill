@@ -22,7 +22,7 @@ namespace Roadkill.Tests.Unit.Cache
 			// Arrange
 			CacheMock cache = new CacheMock();
 			ApplicationSettings settings = new ApplicationSettings();
-			SiteCache siteCache = new SiteCache(settings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			// Act
 			siteCache.AddMenu("some html");
@@ -39,7 +39,7 @@ namespace Roadkill.Tests.Unit.Cache
 			// Arrange
 			CacheMock cache = new CacheMock();
 			ApplicationSettings settings = new ApplicationSettings();
-			SiteCache siteCache = new SiteCache(settings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			// Act
 			siteCache.AddAdminMenu("some html");
@@ -56,7 +56,7 @@ namespace Roadkill.Tests.Unit.Cache
 			// Arrange
 			CacheMock cache = new CacheMock();
 			ApplicationSettings settings = new ApplicationSettings();
-			SiteCache siteCache = new SiteCache(settings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			// Act
 			siteCache.AddLoggedInMenu("some html");
@@ -75,7 +75,7 @@ namespace Roadkill.Tests.Unit.Cache
 
 			CacheMock cache = new CacheMock();
 			ApplicationSettings settings = new ApplicationSettings();
-			SiteCache siteCache = new SiteCache(settings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 			siteCache.AddMenu(expectedHtml);
 
 			// Act
@@ -93,7 +93,7 @@ namespace Roadkill.Tests.Unit.Cache
 			
 			CacheMock cache = new CacheMock();
 			ApplicationSettings settings = new ApplicationSettings();
-			SiteCache siteCache = new SiteCache(settings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 			siteCache.AddAdminMenu(expectedHtml);
 
 			// Act
@@ -110,7 +110,7 @@ namespace Roadkill.Tests.Unit.Cache
 			string expectedHtml = "some html";
 			CacheMock cache = new CacheMock();
 			ApplicationSettings settings = new ApplicationSettings();
-			SiteCache siteCache = new SiteCache(settings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 			siteCache.AddLoggedInMenu(expectedHtml);
 
 			// Act
@@ -127,7 +127,7 @@ namespace Roadkill.Tests.Unit.Cache
 			CacheMock cache = new CacheMock();
 			ApplicationSettings settings = new ApplicationSettings() { UseObjectCache = true };
 
-			SiteCache siteCache = new SiteCache(settings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 			siteCache.AddMenu("menu html");
 			siteCache.AddLoggedInMenu("logged in menu html");
 			siteCache.AddAdminMenu("admin menu html");
@@ -145,7 +145,7 @@ namespace Roadkill.Tests.Unit.Cache
 			// Arrange
 			CacheMock cache = new CacheMock();
 			ApplicationSettings settings = new ApplicationSettings();
-			SiteCache siteCache = new SiteCache(settings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.PluginCache = siteCache;
@@ -165,7 +165,7 @@ namespace Roadkill.Tests.Unit.Cache
 			// Arrange
 			CacheMock cache = new CacheMock();
 			ApplicationSettings settings = new ApplicationSettings();
-			SiteCache siteCache = new SiteCache(settings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			TextPluginStub plugin = new TextPluginStub("id1", "", "");
 			plugin.PluginCache = siteCache;
@@ -191,7 +191,7 @@ namespace Roadkill.Tests.Unit.Cache
 			// Arrange
 			CacheMock cache = new CacheMock();
 			ApplicationSettings settings = new ApplicationSettings();
-			SiteCache siteCache = new SiteCache(settings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.PluginCache = siteCache;
@@ -212,7 +212,7 @@ namespace Roadkill.Tests.Unit.Cache
 			CacheMock cache = new CacheMock();
 			cache.Add("list.blah", "xyz", new CacheItemPolicy());
 			ApplicationSettings settings = new ApplicationSettings();
-			SiteCache siteCache = new SiteCache(settings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			siteCache.AddMenu("menu html");
 			siteCache.AddLoggedInMenu("logged in menu html");

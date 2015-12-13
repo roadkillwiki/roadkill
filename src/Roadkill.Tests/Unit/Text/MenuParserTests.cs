@@ -45,7 +45,7 @@ namespace Roadkill.Tests.Unit.Text
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.Installed = true;
 			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
 			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
@@ -79,7 +79,7 @@ namespace Roadkill.Tests.Unit.Text
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.Installed = true;
 			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
 			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
@@ -111,7 +111,7 @@ namespace Roadkill.Tests.Unit.Text
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.Installed = true;
 			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
 			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
@@ -142,7 +142,7 @@ namespace Roadkill.Tests.Unit.Text
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.Installed = true;
 			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
 			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
@@ -170,7 +170,7 @@ namespace Roadkill.Tests.Unit.Text
 			applicationSettings.Installed = true;
 
 			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
 			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
@@ -208,7 +208,7 @@ namespace Roadkill.Tests.Unit.Text
 			applicationSettings.Installed = true;
 
 			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
 			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
@@ -249,7 +249,7 @@ namespace Roadkill.Tests.Unit.Text
 			applicationSettings.Installed = true;
 
 			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
 			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
@@ -280,7 +280,7 @@ namespace Roadkill.Tests.Unit.Text
 			applicationSettings.Installed = true;
 
 			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
 			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);

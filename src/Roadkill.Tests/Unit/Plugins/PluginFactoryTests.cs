@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Web;
 using NUnit.Framework;
-using Roadkill.Core.Configuration;
-using Roadkill.Core.DependencyResolution.StructureMap;
 using Roadkill.Core.Plugins;
 using Roadkill.Tests.Unit.StubsAndMocks;
 using StructureMap;
@@ -49,7 +45,7 @@ namespace Roadkill.Tests.Unit.Plugins
 				File.Delete(plugin3Path);
 
 			// Act
-			PluginFactory.CopyAssemblies(sourceDir, destDir);
+			PluginFileManager.CopyAssemblies(sourceDir, destDir);
 
 			// Assert
 			Assert.That(File.Exists(plugin1Path), Is.True);
@@ -74,7 +70,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			File.WriteAllText(sourcePluginPath, "file has been updated"); // update the source plugin
 
 			// Act
-			PluginFactory.CopyAssemblies(sourceDir, destDir);
+			PluginFileManager.CopyAssemblies(sourceDir, destDir);
 
 			// Assert
 			string fileContent = File.ReadAllText(pluginDestPath);
@@ -98,7 +94,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			File.WriteAllText(pluginDestPath, "dest file is more recent");  // create the plugin in the destination path so it's more recent
 
 			// Act
-			PluginFactory.CopyAssemblies(sourceDir, destDir);
+			PluginFileManager.CopyAssemblies(sourceDir, destDir);
 
 			// Assert
 			string fileContent = File.ReadAllText(pluginDestPath);

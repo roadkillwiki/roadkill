@@ -191,7 +191,7 @@ namespace Roadkill.Tests.Unit.Export
 			repository.SiteSettings.MenuMarkup = "markup ```''' \r\n";
 			
 			// Plugins setup
-			SiteCache siteCache = new SiteCache(new ApplicationSettings(), new CacheMock());
+			SiteCache siteCache = new SiteCache(new CacheMock());
 
 			TextPluginStub plugin1 = new TextPluginStub("fake-plugin1", "fake plugin1", "description 1", "1.1");
 			plugin1.PluginCache = siteCache;

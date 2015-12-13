@@ -399,6 +399,7 @@
     <Compile Include="Mvc\Attributes\IAuthorizationAttribute.cs" />
     <Compile Include="Mvc\Controllers\ConfigurationTesterController.cs" />
     <Compile Include="Mvc\Controllers\IRoadkillController.cs" />
+    <Compile Include="Plugins\PluginFileManager.cs" />
     <Compile Include="Security\AuthorizationProvider.cs" />
     <Compile Include="Security\IAuthorizationProvider.cs" />
     <Compile Include="Security\FormsAuthenticationWrapper.cs" />

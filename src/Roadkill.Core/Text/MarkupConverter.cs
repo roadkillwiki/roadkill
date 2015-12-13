@@ -70,11 +70,8 @@ namespace Roadkill.Core.Converters
 	
 			if (!_applicationSettings.Installed)
 			{
-				string warnMessage = "Roadkill is not installed - skipping initialization of MarkupConverter (MarkupConverter.Parser will now be null)";
-
-				Log.Warn(warnMessage);
-
-				// Skip the chain of creation, as the markup converter isn't needed
+				// Skip the chain of creation, as the markup converter isn't needed but is created by
+				// StructureMap - this is required for installation
 				return;
 			}
 

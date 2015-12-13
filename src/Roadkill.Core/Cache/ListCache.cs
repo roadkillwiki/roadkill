@@ -15,8 +15,8 @@ namespace Roadkill.Core.Cache
 	/// </summary>
 	public class ListCache
 	{
-		private ObjectCache _cache; 
-		private ApplicationSettings _applicationSettings;
+		private readonly ObjectCache _cache; 
+		private readonly ApplicationSettings _applicationSettings;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ListCache"/> class.

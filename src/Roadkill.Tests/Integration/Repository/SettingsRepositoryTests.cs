@@ -16,7 +16,7 @@ namespace Roadkill.Tests.Integration.Repository
 		[SetUp]
 		public void Setup()
 		{
-			_siteCache = new SiteCache(ApplicationSettings, CacheMock.RoadkillCache);
+			_siteCache = new SiteCache(CacheMock.RoadkillCache);
 		}
 
 		[Test]

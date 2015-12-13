@@ -26,7 +26,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 			// Arrange
 			TextPluginStub plugin = new TextPluginStub("myid", "my name", "my description\r\nsome new text");
 			plugin.Repository = new RepositoryMock();
-			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			plugin.PluginCache = new SiteCache(CacheMock.RoadkillCache);
 			plugin.Settings.IsEnabled = true;
 
 			// Act

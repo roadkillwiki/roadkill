@@ -438,7 +438,7 @@ namespace Roadkill.Tests.Unit.Cache
 			// PageService
 			PageViewModelCache pageViewModelCache = new PageViewModelCache(appSettings, pageObjectCache);
 			ListCache listCache = new ListCache(appSettings, listObjectCache);
-			SiteCache siteCache = new SiteCache(appSettings, CacheMock.RoadkillCache);
+			SiteCache siteCache = new SiteCache(CacheMock.RoadkillCache);
 			SearchServiceMock searchService = new SearchServiceMock(appSettings, repository, _pluginFactory);
 			PageHistoryService historyService = new PageHistoryService(appSettings, repository, userContext, pageViewModelCache, _pluginFactory);
 			PageService pageService = new PageService(appSettings, repository, searchService, historyService, userContext, listCache, pageViewModelCache, siteCache, _pluginFactory);

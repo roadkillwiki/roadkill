@@ -49,7 +49,7 @@ namespace Roadkill.Tests.Unit
 			// Cache
 			MemoryCache = useCacheMock ? new CacheMock() : CacheMock.RoadkillCache;
 			ListCache = new ListCache(ApplicationSettings, MemoryCache);
-			SiteCache = new SiteCache(ApplicationSettings, MemoryCache);
+			SiteCache = new SiteCache(MemoryCache);
 			PageViewModelCache = new PageViewModelCache(ApplicationSettings, MemoryCache);
 
 			// Repository

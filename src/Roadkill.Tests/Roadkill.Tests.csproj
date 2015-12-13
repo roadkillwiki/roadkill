@@ -239,6 +239,10 @@
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
       <Private>True</Private>
@@ -321,6 +325,7 @@
     <Compile Include="Unit\Database\RepositoryFactoryTests.cs" />
     <Compile Include="Unit\Database\RepositoryInfoTests.cs" />
     <Compile Include="Unit\Database\SchemaTests.cs" />
+    <Compile Include="Unit\DependencyResolution\LocatorStartupTests.cs" />
     <Compile Include="Unit\Email\EmailTemplateTests.cs" />
     <Compile Include="Unit\Export\SqlExportBuilderTests.cs" />
     <Compile Include="Unit\Extensions\UrlHelperExtensionsTests.cs" />
@@ -339,6 +344,7 @@
     <Compile Include="Unit\Mvc\ViewModels\TestResultTests.cs" />
     <Compile Include="Unit\Mvc\WebApi\SearchControllerTests.cs" />
     <Compile Include="Unit\Mvc\WebApi\PageControllerTests.cs" />
+    <Compile Include="Unit\Plugins\PluginFileManagerTests.cs" />
     <Compile Include="Unit\Security\AuthorizationProviderTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\BrowserCacheAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\SiteSettings\SettingsControllerTests.cs" />
@@ -363,7 +369,7 @@
     <Compile Include="Unit\Mvc\ViewModels\DirectoryViewModelTests.cs" />
     <Compile Include="Unit\Attachments\MimeMappingTests.cs" />
     <Compile Include="Unit\Database\SiteSettingsTests.cs" />
-    <Compile Include="Unit\DI\RoadkillRegistryTests.cs" />
+    <Compile Include="Unit\DependencyResolution\RoadkillRegistryTests.cs" />
     <Compile Include="Unit\Database\LightSpeed\ToEntityTests.cs" />
     <Compile Include="Unit\Database\LightSpeed\FromEntityTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\UserViewModelTests.cs" />

@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using IisConfiguration;
 using IisConfiguration.Logging;
@@ -17,7 +13,6 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.DependencyResolution.StructureMap;
-using Roadkill.Core.Logging;
 using Roadkill.Tests.Unit.StubsAndMocks;
 using StructureMap;
 using Configuration = System.Configuration.Configuration;
@@ -26,10 +21,9 @@ namespace Roadkill.Tests
 {
 	public class TestHelpers
 	{
-		public static void ConfigureLocator(ApplicationSettings settings = null, bool stubRepository = true)
+		public static void ConfigureLocator()
 		{
-			if (settings == null)
-				settings = new ApplicationSettings();
+			var settings = new ApplicationSettings();
 
 			var configReader = new ConfigReaderWriterStub();
 			configReader.ApplicationSettings = settings;
@@ -38,12 +32,8 @@ namespace Roadkill.Tests
 			var container = new Container(registry);
 			container.Configure(x =>
 			{
-				if (stubRepository)
-				{
-					x.Scan(a => a.AssemblyContainingType<TestHelpers>());
-					x.For<IRepository>().Use(new RepositoryMock());
-				}
-
+				x.Scan(a => a.AssemblyContainingType<TestHelpers>());
+				x.For<IRepository>().Use(new RepositoryMock());
 				x.For<IUserContext>().Use(new UserContextStub());
 			});
 

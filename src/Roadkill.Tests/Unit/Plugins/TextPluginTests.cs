@@ -104,7 +104,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			// Arrange + act
 			TextPlugin plugin = new TextPluginStub();
 			plugin.Repository = new RepositoryMock();
-			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			plugin.PluginCache = new SiteCache(CacheMock.RoadkillCache);
 
 			// Assert
 			Assert.That(plugin.Settings, Is.Not.Null);
@@ -116,7 +116,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			// Arrange
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.Repository = new RepositoryMock();
-			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			plugin.PluginCache = new SiteCache(CacheMock.RoadkillCache);
 
 			plugin.Settings.SetValue("setting1", "value1");
 			plugin.Settings.SetValue("setting2", "value2");
@@ -221,7 +221,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		{
 			// Arrange
 			TextPluginStub plugin = new TextPluginStub();
-			plugin.PluginCache = new SiteCache(null, new CacheMock());
+			plugin.PluginCache = new SiteCache(new CacheMock());
 
 			// Act + Assert
 			PluginSettings settings = plugin.Settings;

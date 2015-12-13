@@ -1,18 +1,14 @@
 using System;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.Caching;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
-using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Domain.Export;
 using Roadkill.Core.Email;
 using Roadkill.Core.Import;
-using Roadkill.Core.Logging;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.Controllers.Api;
@@ -24,11 +20,9 @@ using Roadkill.Core.Security.Windows;
 using Roadkill.Core.Services;
 using StructureMap;
 using StructureMap.Building;
-using StructureMap.Diagnostics;
 using StructureMap.Graph;
 using StructureMap.Graph.Scanning;
 using StructureMap.Pipeline;
-using StructureMap.Query;
 using StructureMap.TypeRules;
 using StructureMap.Web;
 using WebGrease.Css.Extensions;
@@ -51,11 +45,11 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 			}
 		}
 
-		private ApplicationSettings _applicationSettings { get; set; }
+		public ApplicationSettings ApplicationSettings { get; set; }
 
 		public RoadkillRegistry(ConfigReaderWriter configReader)
 		{
-			_applicationSettings = configReader.GetApplicationSettings();
+			ApplicationSettings = configReader.GetApplicationSettings();
 
 			Scan(ScanTypes);
 			ConfigureInstances(configReader);
@@ -71,11 +65,8 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 			scanner.SingleImplementationsOfInterface();
 			scanner.WithDefaultConventions();
 
-			// Copy all plugins to the /bin/Plugins folder
-			CopyPlugins();
-
 			// Scan plugins: this includes everything e.g repositories, UserService, FileService TextPlugins
-			foreach (string subDirectory in Directory.GetDirectories(_applicationSettings.PluginsBinPath))
+			foreach (string subDirectory in Directory.GetDirectories(ApplicationSettings.PluginsBinPath))
 			{
 				scanner.AssembliesFromPath(subDirectory);
 			}
@@ -130,16 +121,6 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 			scanner.AddAllTypesOf<ConfigurationTesterController>();
 		}
 
-		private void CopyPlugins()
-		{
-			// Copy SpecialPages plugins to the /bin folder
-			string pluginsDestPath = _applicationSettings.PluginsBinPath;
-			if (!Directory.Exists(pluginsDestPath))
-				Directory.CreateDirectory(pluginsDestPath);
-
-			PluginFactory.CopyPlugins(_applicationSettings);
-		}
-
 		private void ConfigureInstances(ConfigReaderWriter configReader)
 		{
 			// Appsettings and reader - these need to go first
@@ -152,7 +133,7 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 			For<IRepositoryFactory>().HybridHttpOrThreadLocalScoped().Use<RepositoryFactory>();
 			For<IRepository>()
 				.HybridHttpOrThreadLocalScoped()
-				.Use(x => x.TryGetInstance<IRepositoryFactory>().GetRepository(_applicationSettings.DatabaseName, _applicationSettings.ConnectionString));
+				.Use(x => x.TryGetInstance<IRepositoryFactory>().GetRepository(ApplicationSettings.DatabaseName, ApplicationSettings.ConnectionString));
 
 			// Plugins
 			For<IPluginFactory>().Singleton().Use<PluginFactory>();
@@ -165,7 +146,7 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 			For<ResetPasswordEmail>().Use<ResetPasswordEmail>();
 
 			// Cache
-			For<ObjectCache>().Use(new MemoryCache("Roadkill"));
+			For<ObjectCache>().Singleton().Use(new MemoryCache("Roadkill"));
 			For<ListCache>().Singleton();
 			For<SiteCache>().Singleton();
 			For<PageViewModelCache>().Singleton();
@@ -198,7 +179,7 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 
 		private void ConfigureFileService()
 		{
-			if (_applicationSettings.UseAzureFileStorage)
+			if (ApplicationSettings.UseAzureFileStorage)
 			{
 				For<IFileService>()
 					.HybridHttpOrThreadLocalScoped()
@@ -215,9 +196,9 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 		private void ConfigureUserService()
 		{
 			// Windows authentication, custom or the default FormsAuth
-			string userServiceTypeName = _applicationSettings.UserServiceType;
+			string userServiceTypeName = ApplicationSettings.UserServiceType;
 
-			if (_applicationSettings.UseWindowsAuthentication)
+			if (ApplicationSettings.UseWindowsAuthentication)
 			{
 #if !MONO
 				For<UserServiceBase>()
@@ -235,9 +216,7 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 
 					For<UserServiceBase>()
 						.Use("Inject custom UserService", context =>
-						{
-							var obj = context.GetInstance(userServiceType);
-							
+						{					
 							return (UserServiceBase) context.GetInstance(userServiceType);
 						});
 				}
