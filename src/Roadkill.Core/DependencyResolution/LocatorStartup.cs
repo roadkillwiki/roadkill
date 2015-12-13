@@ -40,23 +40,12 @@ namespace Roadkill.Core.DependencyResolution
 
 		internal static void StartMVCInternal(RoadkillRegistry registry, bool isWeb)
 		{
-			CopyPlugins(registry.ApplicationSettings);
-
 			IContainer container = new Container(c => c.AddRegistry(registry));		
 			Locator = new StructureMapServiceLocator(container, isWeb);
 
 			// MVC locator
 			DependencyResolver.SetResolver(Locator);
 			DynamicModuleUtility.RegisterModule(typeof(StructureMapHttpModule));
-		}
-
-		private static void CopyPlugins(ApplicationSettings applicationSettings)
-		{
-			string pluginsDestPath = applicationSettings.PluginsBinPath;
-			if (!Directory.Exists(pluginsDestPath))
-				Directory.CreateDirectory(pluginsDestPath);
-
-			PluginFileManager.CopyPlugins(applicationSettings);
 		}
 
 		// Must be run **after** the app has started/initialized via WebActivor

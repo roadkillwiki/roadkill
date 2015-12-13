@@ -26,6 +26,7 @@ using StructureMap.Pipeline;
 using StructureMap.TypeRules;
 using StructureMap.Web;
 using WebGrease.Css.Extensions;
+using UserController = Roadkill.Core.Mvc.Controllers.UserController;
 
 namespace Roadkill.Core.DependencyResolution.StructureMap
 {
@@ -58,6 +59,15 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 			ConfigureSetterInjection();
 		}
 
+		private static void CopyPlugins(ApplicationSettings applicationSettings)
+		{
+			string pluginsDestPath = applicationSettings.PluginsBinPath;
+			if (!Directory.Exists(pluginsDestPath))
+				Directory.CreateDirectory(pluginsDestPath);
+
+			PluginFileManager.CopyPlugins(applicationSettings);
+		}
+
 		private void ScanTypes(IAssemblyScanner scanner)
 		{
 			scanner.TheCallingAssembly();
@@ -66,15 +76,16 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 			scanner.WithDefaultConventions();
 
 			// Scan plugins: this includes everything e.g repositories, UserService, FileService TextPlugins
+			CopyPlugins(ApplicationSettings);
 			foreach (string subDirectory in Directory.GetDirectories(ApplicationSettings.PluginsBinPath))
 			{
 				scanner.AssembliesFromPath(subDirectory);
 			}
 
 			// Plugins
-            scanner.With(new AbstractClassConvention<TextPlugin>());
+			scanner.With(new AbstractClassConvention<TextPlugin>());
 			scanner.With(new AbstractClassConvention<SpecialPagePlugin>());
-			scanner.AddAllTypesOf<IPluginFactory>();
+            scanner.AddAllTypesOf<IPluginFactory>();
 
 			// Config, repository, context
 			scanner.AddAllTypesOf<ApplicationSettings>();
@@ -135,6 +146,13 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 				.HybridHttpOrThreadLocalScoped()
 				.Use(x => x.TryGetInstance<IRepositoryFactory>().GetRepository(ApplicationSettings.DatabaseName, ApplicationSettings.ConnectionString));
 
+			// Work around for controllers that use RenderAction() needing to be unique
+			// See https://github.com/webadvanced/Structuremap.MVC5/issues/3
+			For<HomeController>().AlwaysUnique();
+			For<UserController>().AlwaysUnique();
+			For<ConfigurationTesterController>().AlwaysUnique();
+			For<WikiController>().AlwaysUnique();
+
 			// Plugins
 			For<IPluginFactory>().Singleton().Use<PluginFactory>();
 
@@ -159,7 +177,6 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 			// Security
 			For<IAuthorizationProvider>().Use<AuthorizationProvider>();
 			For<IUserContext>().HybridHttpOrThreadLocalScoped();
-
 #if !MONO
 			For<IActiveDirectoryProvider>().Use<ActiveDirectoryProvider>();
 #endif
