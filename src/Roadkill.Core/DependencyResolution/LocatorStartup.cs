@@ -74,9 +74,6 @@ namespace Roadkill.Core.DependencyResolution
 			// MVC: Models with ModelBinding that require DI
 			ModelBinders.Binders.Add(typeof(UserViewModel), new UserViewModelModelBinder());
 			ModelBinders.Binders.Add(typeof(SettingsViewModel), new SettingsViewModelBinder());
-
-			// Attachments path
-			AttachmentRouteHandler.RegisterRoute(appSettings, RouteTable.Routes, container.GetInstance<IFileService>());
 		}
 
 		public static void End()

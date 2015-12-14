@@ -2,11 +2,13 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 using Owin;
+using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Mvc;
+using Roadkill.Core.Services;
 
 namespace Roadkill.Core
 {
@@ -16,6 +18,11 @@ namespace Roadkill.Core
 
 		public void Configuration(IAppBuilder app)
 		{
+			// /Attachments/ handler. This needs to be called before the other routing setup.
+			var appSettings = LocatorStartup.Locator.GetInstance<ApplicationSettings>();
+			var fileService = LocatorStartup.Locator.GetInstance<IFileService>();
+			AttachmentRouteHandler.RegisterRoute(appSettings, RouteTable.Routes, fileService);
+
 			// Filters
 			GlobalFilters.Filters.Add(new HandleErrorAttribute());
 

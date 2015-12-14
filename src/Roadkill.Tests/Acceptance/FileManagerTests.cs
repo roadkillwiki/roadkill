@@ -103,7 +103,7 @@ namespace Roadkill.Tests.Acceptance
 
 		[Test]
 		[Explicit("Failing on Teamcity, but works locally")]
-		public void NewFolder_Should_Display_In_Table()
+		public void newfolder_should_display_in_table()
 		{
 			// Arrange
 			LoginAsEditor();
@@ -143,6 +143,25 @@ namespace Roadkill.Tests.Acceptance
 			Assert.That(Driver.FindElement(By.CssSelector(".toast-success")).Displayed, Is.True, ".toast-success");
 			Assert.That(Driver.FindElements(By.CssSelector("table#files td.file")).Count(), Is.EqualTo(1));
 			Assert.That(Driver.FindElement(By.CssSelector("table#files td.file")).Text, Is.EqualTo("logo.png"));
+		}
+
+		[Test]
+		public void attachments_path_should_map_to_file()
+		{
+			// Arrange
+			LoginAsEditor();
+			string sitePath = TestConstants.WEB_PATH;
+			string file = Path.Combine(sitePath, "Themes", "Mediawiki", "logo.png");
+
+			// Act
+			Driver.FindElement(By.CssSelector("a[href='/filemanager']")).Click();
+			MakeFileInputVisible();
+			Driver.FindElement(By.CssSelector("#fileupload")).SendKeys(file);
+			WaitForAjaxToComplete();
+
+			// Assert
+			Driver.Navigate().GoToUrl($"{BaseUrl}/Attachments/logo.png");
+			Assert.That(Driver.PageSource, Is.Not.StringContaining("The resource cannot be found"));
 		}
 
 		[Test]
@@ -226,7 +245,7 @@ namespace Roadkill.Tests.Acceptance
 
 		[Test]
 		[Explicit("This test has timing issues")]
-		public void Navigate_Folders_With_Crumb_Trail_Should_Update_Table_And_Crumb_Trail()
+		public void navigate_folders_with_crumb_trail_should_update_table_and_crumb_trail()
 		{
 			// Arrange
 			string sitePath = TestConstants.WEB_PATH;
