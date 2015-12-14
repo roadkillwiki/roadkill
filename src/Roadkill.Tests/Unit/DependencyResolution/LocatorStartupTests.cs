@@ -83,23 +83,5 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 			Assert.True(ModelBinders.Binders.ContainsKey(typeof(SettingsViewModel)));
 			Assert.True(ModelBinders.Binders.ContainsKey(typeof(UserViewModel)));
 		}
-
-		[Test]
-		public void AfterInitializationInternal_should_attachment_routehandler()
-		{
-			// Arrange
-			var settings = new ApplicationSettings();
-			var registry = new RoadkillRegistry(new ConfigReaderWriterStub() { ApplicationSettings = settings });
-			var container = new Container(registry);
-
-			LocatorStartup.StartMVCInternal(registry, false);
-
-			// Act
-			LocatorStartup.AfterInitializationInternal(container, settings);
-
-			// Assert
-			Assert.That(RouteTable.Routes.Count, Is.EqualTo(1));
-			Assert.That(((Route)RouteTable.Routes[0]).RouteHandler, Is.TypeOf<AttachmentRouteHandler>());
-		}
 	}
 }
