@@ -33,23 +33,23 @@ namespace Roadkill.Core.Database
 			}
 		}
 
-		public IRepositoryInstaller GetRepositoryInstaller(string databaseProviderName, string connectionString)
+		public IInstallerRepository GetRepositoryInstaller(string databaseProviderName, string connectionString)
 		{
 			if (databaseProviderName == MongoDB)
 			{
-				return new MongoDBRepositoryInstaller(connectionString);
+				return new MongoDbInstallerRepository(connectionString);
 			}
 			else if (databaseProviderName == MySQL)
 			{
-				return new LightSpeedRepositoryInstaller(DataProvider.MySql5, new MySqlSchema(), connectionString);
+				return new LightSpeedInstallerRepository(DataProvider.MySql5, new MySqlSchema(), connectionString);
 			}
 			else if (databaseProviderName == Postgres)
 			{
-				return new LightSpeedRepositoryInstaller(DataProvider.PostgreSql9, new PostgresSchema(), connectionString);
+				return new LightSpeedInstallerRepository(DataProvider.PostgreSql9, new PostgresSchema(), connectionString);
 			}
 			else
 			{
-				return new LightSpeedRepositoryInstaller(DataProvider.SqlServer2008, new SqlServerSchema(), connectionString);
+				return new LightSpeedInstallerRepository(DataProvider.SqlServer2008, new SqlServerSchema(), connectionString);
 			}
 		}
 

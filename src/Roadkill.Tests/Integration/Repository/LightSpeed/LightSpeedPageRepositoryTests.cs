@@ -23,5 +23,11 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 		{
 			TestHelpers.SqlServerSetup.RecreateTables();
 		}
+
+		protected override void CheckDatabaseProcessIsRunning()
+		{
+			if (TestHelpers.IsSqlServerRunning() == false)
+				Assert.Fail("A local Sql Server (sqlservr.exe) is not running");
+		}
 	}
 }

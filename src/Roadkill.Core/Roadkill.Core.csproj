@@ -365,9 +365,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\IRepositoryFactory.cs" />
-    <Compile Include="Database\IRepositoryInstaller.cs" />
-    <Compile Include="Database\Repositories\LightSpeed\LightSpeedRepositoryInstaller.cs" />
-    <Compile Include="Database\Repositories\MongoDB\MongoDBRepositoryInstaller.cs" />
+    <Compile Include="Database\IInstallerRepository.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\LightSpeedInstallerRepository.cs" />
+    <Compile Include="Database\Repositories\MongoDB\MongoDbInstallerRepository.cs" />
     <Compile Include="Database\RepositoryFactory.cs" />
     <Compile Include="Database\RepositoryInfo.cs" />
     <Compile Include="DependencyResolution\ISetterInjected.cs" />

@@ -94,14 +94,14 @@ namespace Roadkill.Tests.Unit.Database
 			var factory = new RepositoryFactory();
 
 			// Act
-			IRepositoryInstaller repository = factory.GetRepositoryInstaller(provider, connectionString);
+			IInstallerRepository installerRepository = factory.GetRepositoryInstaller(provider, connectionString);
 
 			// Assert
-			LightSpeedRepositoryInstaller lightSpeedRepository = repository as LightSpeedRepositoryInstaller;
-			Assert.That(lightSpeedRepository, Is.Not.Null);
-			Assert.That(lightSpeedRepository.ConnectionString, Is.EqualTo(connectionString));
-			Assert.That(lightSpeedRepository.DataProvider, Is.EqualTo(expectedProvider));
-			Assert.That(lightSpeedRepository.Schema, Is.TypeOf(expectedSchemaType));
+			LightSpeedInstallerRepository lightSpeedInstallerRepository = installerRepository as LightSpeedInstallerRepository;
+			Assert.That(lightSpeedInstallerRepository, Is.Not.Null);
+			Assert.That(lightSpeedInstallerRepository.ConnectionString, Is.EqualTo(connectionString));
+			Assert.That(lightSpeedInstallerRepository.DataProvider, Is.EqualTo(expectedProvider));
+			Assert.That(lightSpeedInstallerRepository.Schema, Is.TypeOf(expectedSchemaType));
 		}
 
 		[Test]
@@ -115,14 +115,14 @@ namespace Roadkill.Tests.Unit.Database
             var factory = new RepositoryFactory();
 
 			// Act
-			IRepositoryInstaller repository = factory.GetRepositoryInstaller(provider, connectionString);
+			IInstallerRepository installerRepository = factory.GetRepositoryInstaller(provider, connectionString);
 
 			// Assert
-			LightSpeedRepositoryInstaller lightSpeedRepository = repository as LightSpeedRepositoryInstaller;
-			Assert.That(lightSpeedRepository, Is.Not.Null);
-			Assert.That(lightSpeedRepository.ConnectionString, Is.EqualTo(connectionString));
-			Assert.That(lightSpeedRepository.DataProvider, Is.EqualTo(DataProvider.SqlServer2008));
-			Assert.That(lightSpeedRepository.Schema, Is.TypeOf(expectedSchemaType));
+			LightSpeedInstallerRepository lightSpeedInstallerRepository = installerRepository as LightSpeedInstallerRepository;
+			Assert.That(lightSpeedInstallerRepository, Is.Not.Null);
+			Assert.That(lightSpeedInstallerRepository.ConnectionString, Is.EqualTo(connectionString));
+			Assert.That(lightSpeedInstallerRepository.DataProvider, Is.EqualTo(DataProvider.SqlServer2008));
+			Assert.That(lightSpeedInstallerRepository.Schema, Is.TypeOf(expectedSchemaType));
 		}
 
 		[Test]
@@ -134,12 +134,12 @@ namespace Roadkill.Tests.Unit.Database
 			var factory = new RepositoryFactory();
 
 			// Act
-			IRepositoryInstaller repository = factory.GetRepositoryInstaller(provider, connectionString);
+			IInstallerRepository installerRepository = factory.GetRepositoryInstaller(provider, connectionString);
 
 			// Assert
-			MongoDBRepositoryInstaller mongoDbRepository = repository as MongoDBRepositoryInstaller;
-			Assert.That(mongoDbRepository, Is.Not.Null);
-			Assert.That(mongoDbRepository.ConnectionString, Is.EqualTo(connectionString));
+			MongoDbInstallerRepository mongoDbInstallerRepository = installerRepository as MongoDbInstallerRepository;
+			Assert.That(mongoDbInstallerRepository, Is.Not.Null);
+			Assert.That(mongoDbInstallerRepository.ConnectionString, Is.EqualTo(connectionString));
 		}
 	}
 }

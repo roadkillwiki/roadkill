@@ -26,6 +26,11 @@ namespace Roadkill.Tests
 			return Process.GetProcessesByName("sqlservr").Any();
 		}
 
+		public static bool IsMongoDBRunning()
+		{
+			return Process.GetProcessesByName("mongod").Any();
+		}
+
 		public static void CreateIisTestSite()
 		{
 			var logger = new ConsoleLogger();

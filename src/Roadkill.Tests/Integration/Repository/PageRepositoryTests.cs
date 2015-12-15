@@ -23,6 +23,7 @@ namespace Roadkill.Tests.Integration.Repository
 		protected abstract string ConnectionString { get; }
 		protected abstract IPageRepository GetRepository();
 		protected abstract void Clearup();
+		protected abstract void CheckDatabaseProcessIsRunning();
 
 		[SetUp]
 		public void SetUp()

@@ -1,17 +1,18 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using Mindscape.LightSpeed;
 using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Database.Schema;
 
 namespace Roadkill.Core.Database
 {
-	public class LightSpeedRepositoryInstaller : IRepositoryInstaller
+	public class LightSpeedInstallerRepository : IInstallerRepository
 	{
 		public DataProvider DataProvider { get; }
 		public SchemaBase Schema { get; }
 		public string ConnectionString { get; }
 
-		public LightSpeedRepositoryInstaller(DataProvider dataDataProvider, SchemaBase schema, string connectionString)
+		public LightSpeedInstallerRepository(DataProvider dataDataProvider, SchemaBase schema, string connectionString)
 		{
 			if (string.IsNullOrEmpty(connectionString))
 				throw new DatabaseException("The connection string is empty", null);
@@ -39,12 +40,19 @@ namespace Roadkill.Core.Database
 
 		public void TestConnection()
 		{
-			LightSpeedContext context = CreateLightSpeedContext();
-
-			using (IDbConnection connection = context.DataProviderObjectFactory.CreateConnection())
+			try
 			{
-				connection.ConnectionString = ConnectionString;
-				connection.Open();
+				LightSpeedContext context = CreateLightSpeedContext();
+
+				using (IDbConnection connection = context.DataProviderObjectFactory.CreateConnection())
+				{
+					connection.ConnectionString = ConnectionString;
+					connection.Open();
+				}
+			}
+			catch (Exception e)
+			{
+				throw new DatabaseException(e, "Unable to connect to the database using '{0}' - {1}", ConnectionString, e.Message);
 			}
 		}
 
@@ -63,6 +71,11 @@ namespace Roadkill.Core.Database
 				Schema.Drop(command);
 				Schema.Create(command);
 			}
+		}
+
+		public void Dispose()
+		{
+			
 		}
 	}
 }

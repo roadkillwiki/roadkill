@@ -6,8 +6,6 @@ namespace Roadkill.Tests.Integration.Repository.MongoDb
 {
 	[TestFixture]
 	[Category("Integration")]
-	[Explicit("Requires MongoDB installed on the machine running the tests")]
-	[Description("For an easy install of MongoDB on Windows : http://chocolatey.org/packages?q=mongodb")]
 	public class MongoDbPageRepositoryTests : PageRepositoryTests
 	{
 		protected override string ConnectionString
@@ -23,6 +21,12 @@ namespace Roadkill.Tests.Integration.Repository.MongoDb
 		protected override void Clearup()
 		{
 			new MongoDBRepository(ConnectionString).Wipe();
+		}
+
+		protected override void CheckDatabaseProcessIsRunning()
+		{
+			if (TestHelpers.IsMongoDBRunning() == false)
+				Assert.Fail("A local MongoDB (mongod.exe) server is not running");
 		}
 	}
 }

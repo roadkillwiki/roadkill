@@ -17,7 +17,7 @@ namespace Roadkill.Tests.Unit.Services
 		private MocksAndStubsContainer _container;
 		private RepositoryFactoryMock _repositoryFactory;
 		private RepositoryMock _repository;
-		private RepositoryInstallerMock _repositoryInstaller;
+		private InstallerRepositoryMock _installerRepository;
 
 		private InstallationService _installationService;
 		private UserServiceMock _userService;
@@ -28,7 +28,7 @@ namespace Roadkill.Tests.Unit.Services
 			_container = new MocksAndStubsContainer();
 			_repositoryFactory = _container.RepositoryFactory;
             _repository = _repositoryFactory.Repository;
-			_repositoryInstaller = _repositoryFactory.RepositoryInstaller;
+			_installerRepository = _repositoryFactory.InstallerRepository;
 
 			_userService = new UserServiceMock();
 			_installationService = new InstallationService(_repositoryFactory, "SQLServer2008", "bar", _userService);
@@ -74,14 +74,14 @@ namespace Roadkill.Tests.Unit.Services
 			_installationService.CreateTables();
 
 			// Assert
-			Assert.True(_repositoryInstaller.Installed);
+			Assert.True(_installerRepository.Installed);
 		}
 
 		[Test]
 		public void createtables_should_rethrow_database_exception_with_context_of_error()
 		{
 			// Arrange
-			_repositoryInstaller.ThrowInstallException = true;
+			_installerRepository.ThrowInstallException = true;
 
 			// Act + Assert
 			Assert.Throws<DatabaseException>(() => _installationService.CreateTables());

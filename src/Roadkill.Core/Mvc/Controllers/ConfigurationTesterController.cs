@@ -90,12 +90,12 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (InstalledAndUserIsNotAdmin())
 				return Content("");
 
-			IRepositoryInstaller repositoryInstaller = _repositoryFactory.GetRepositoryInstaller(databaseName, connectionString);
+			IInstallerRepository installerRepository = _repositoryFactory.GetRepositoryInstaller(databaseName, connectionString);
 
 			string errors = "";
 			try
 			{
-				repositoryInstaller.TestConnection();
+				installerRepository.TestConnection();
 			}
 			catch (Exception e)
 			{

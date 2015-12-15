@@ -176,7 +176,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		{
 			// Arrange
 			string connectionString = "Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill";
-			_repositoryFactoryMock.RepositoryInstaller.IsConnectionValid = true;
+			_repositoryFactoryMock.InstallerRepository.IsConnectionValid = true;
 
 			// Act
 			JsonResult result = _configTesterController.TestDatabaseConnection(connectionString, "SqlServer2008") as JsonResult;
@@ -196,7 +196,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		{
 			// Arrange
 			string connectionString = "invalid connection string";
-			_repositoryFactoryMock.RepositoryInstaller.IsConnectionValid = false;
+			_repositoryFactoryMock.InstallerRepository.IsConnectionValid = false;
 
 			// Act
 			JsonResult result = _configTesterController.TestDatabaseConnection(connectionString, "SqlServer2008") as JsonResult;

@@ -4,7 +4,7 @@ using Roadkill.Core.Database;
 
 namespace Roadkill.Tests.Unit.StubsAndMocks
 {
-	public class RepositoryInstallerMock : IRepositoryInstaller
+	public class InstallerRepositoryMock : IInstallerRepository
 	{
 		public bool IsConnectionValid { get; set; }
 		public bool Installed { get; set; }
@@ -22,8 +22,12 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 		{
 			if (!IsConnectionValid)
 			{
-				throw new DatabaseException("RepositoryInstallerMock", null);
+				throw new DatabaseException("InstallerRepositoryMock", null);
 			}
+		}
+
+		public void Dispose()
+		{
 		}
 	}
 }

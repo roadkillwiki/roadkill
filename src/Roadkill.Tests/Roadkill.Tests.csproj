@@ -301,11 +301,14 @@
     <Compile Include="Acceptance\WebApi\WebApiTestBase.cs" />
     <Compile Include="Integration\Configuration\ApplicationSettingsTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedPageRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\LightSpeed\LightSpeedInstallerRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedSettingsRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\MongoDb\MongoDbInstallerRepositoryTests.cs" />
     <Compile Include="Integration\Repository\MongoDb\MongoDbSettingsRepositoryTests.cs" />
     <Compile Include="Integration\Repository\MongoDb\MongoDbPageRepositoryTests.cs" />
     <Compile Include="Integration\Repository\MongoDb\MongoDbUserRepositoryTests.cs" />
     <Compile Include="Integration\Repository\PageRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\InstallerRepositoryTests.cs" />
     <Compile Include="Integration\Repository\SettingsRepositoryTests.cs" />
     <Compile Include="Integration\Repository\UserRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedUserRepositoryTests.cs" />
@@ -400,7 +403,7 @@
     <Compile Include="Unit\StubsAndMocks\PrincipalStub.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\HttpCachePolicyMock.cs" />
     <Compile Include="Unit\StubsAndMocks\PluginFactoryMock.cs" />
-    <Compile Include="Unit\StubsAndMocks\RepositoryInstallerMock.cs" />
+    <Compile Include="Unit\StubsAndMocks\InstallerRepositoryMock.cs" />
     <Compile Include="Unit\StubsAndMocks\ResetPasswordEmailStub.cs" />
     <Compile Include="Unit\StubsAndMocks\EmailTemplateStub.cs" />
     <Compile Include="Unit\StubsAndMocks\SpecialPageMock.cs" />

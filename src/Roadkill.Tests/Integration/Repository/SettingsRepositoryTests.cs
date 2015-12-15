@@ -19,6 +19,7 @@ namespace Roadkill.Tests.Integration.Repository
 		protected abstract string ConnectionString { get; }
 		protected abstract ISettingsRepository GetRepository();
 		protected abstract void Clearup();
+		protected abstract void CheckDatabaseProcessIsRunning();
 
 		[SetUp]
 		public void Setup()
@@ -34,23 +35,6 @@ namespace Roadkill.Tests.Integration.Repository
 		public void TearDown()
 		{
 			Repository.Dispose();
-		}
-
-		[Test]
-		public void install_should_clear_all_entities_and_create_site_settings()
-		{
-			//// Arrange
-
-			//// Act
-			//Repository.Install(ApplicationSettings.DatabaseName, ApplicationSettings.ConnectionString, false);
-
-			//// Assert
-			//Assert.That(Repository.AllPages().Count(), Is.EqualTo(0));
-			//Assert.That(Repository.AllPageContents().Count(), Is.EqualTo(0));
-			//Assert.That(Repository.FindAllAdmins().Count(), Is.EqualTo(0));
-			//Assert.That(Repository.FindAllEditors().Count(), Is.EqualTo(0));
-			//Assert.That(Repository.GetSiteSettings(), Is.Not.Null);
-			Assert.Fail("TODO");
 		}
 		
 		[Test]
@@ -106,48 +90,6 @@ namespace Roadkill.Tests.Integration.Repository
 			// Assert
 			Assert.That(actualSettings.GetValue("somekey1"), Is.EqualTo("thevalue1"));
 			Assert.That(actualSettings.GetValue("somekey2"), Is.EqualTo("thevalue2"));
-		}
-
-		[Test]
-		public void testconnection_with_valid_connection_string()
-		{
-			Assert.Fail("TODO");
-			//// Arrange
-
-
-			//// Act
-			//Repository.TestConnection(ApplicationSettings.DatabaseName, ApplicationSettings.ConnectionString);
-
-			//// Assert (no exception)
-		}
-
-		[Test]
-		public void testconnection_with_invalid_connection_string()
-		{
-			Assert.Fail("TODO");
-			//// [expectedexception] can't handle exception heirachies
-
-			//// Arrange
-
-			//try
-			//{
-			//	// Act
-			//	// (MongoConnectionException is also thrown here)
-			//	Repository.TestConnection(ApplicationSettings.DatabaseName, InvalidConnectionString);
-			//}
-			//catch (DbException)
-			//{
-			//	// Assert
-			//	Assert.Pass();
-			//}
-			//catch (ArgumentException)
-			//{
-			//	Assert.Pass();
-			//}
-			//catch (Exception)
-			//{
-			//	Assert.Fail();
-			//}
 		}
 	}
 }
