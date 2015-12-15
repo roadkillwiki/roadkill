@@ -21,29 +21,6 @@ namespace Roadkill.Tests
 {
 	public class TestHelpers
 	{
-		public static void ConfigureLocator()
-		{
-			var settings = new ApplicationSettings();
-
-			var configReader = new ConfigReaderWriterStub();
-			configReader.ApplicationSettings = settings;
-
-			var registry = new RoadkillRegistry(configReader);
-			var container = new Container(registry);
-			container.Configure(x =>
-			{
-				x.Scan(a => a.AssemblyContainingType<TestHelpers>());
-				x.For<IRepository>().Use(new RepositoryMock());
-				x.For<IUserContext>().Use(new UserContextStub());
-			});
-
-			LocatorStartup.Locator = new StructureMapServiceLocator(container, false);
-			DependencyResolver.SetResolver(LocatorStartup.Locator);
-
-			var all = container.Model.AllInstances.OrderBy(t => t.PluginType.Name).Select(t => String.Format("{0}:{1}", t.PluginType.Name, t.ReturnedType.AssemblyQualifiedName));
-			Console.WriteLine(String.Join("\n", all));
-		}
-
 		public static bool IsSqlServerRunning()
 		{
 			return Process.GetProcessesByName("sqlservr").Any();

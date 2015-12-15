@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Web.Http;
 using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.Extensions;
 using Roadkill.Core.Mvc.Controllers;
@@ -24,12 +27,9 @@ namespace Roadkill.Tests.Unit.Extensions
 		private MocksAndStubsContainer _container;
 		private ApplicationSettings _applicationSettings;
 		private IUserContext _context;
-		private RepositoryMock _repository;
 		private UserServiceMock _userService;
 		private PageService _pageService;
-		private PageHistoryService _historyService;
 		private SettingsService _settingsService;
-		private PluginFactoryMock _pluginFactory;
 		private WikiController _wikiController;
 		private HtmlHelper _htmlHelper;
 		private ViewContext _viewContext;
@@ -42,11 +42,8 @@ namespace Roadkill.Tests.Unit.Extensions
 
 			_applicationSettings = _container.ApplicationSettings;
 			_context = _container.UserContext;
-			_repository = _container.Repository;
-			_pluginFactory = _container.PluginFactory;
 			_settingsService = _container.SettingsService;
 			_userService = _container.UserService;
-			_historyService = _container.HistoryService;
 			_pageService = _container.PageService;
 
 			_wikiController = new WikiController(_applicationSettings, _userService, _pageService, _context, _settingsService);
@@ -296,15 +293,11 @@ namespace Roadkill.Tests.Unit.Extensions
 		public void pagelink_should_render_html_link_with_page_title_and_html_attributes()
 		{
 			// Arrange
-			TestHelpers.ConfigureLocator();
-
 			_pageService.AddPage(new PageViewModel() { Id = 7, Title = "Crispy Pancake Recipe" });
-			LocatorStartup.Locator.Container.Configure(x => x.For<IPageService>().Use(_pageService)); // the extension uses bastard injection
-
 			string expectedHtml = "@<a data-merry=\"xmas\" href=\"/wiki/1/crispy%20pancake%20recipe\">captains log</a>~"; // the url will always be /wiki/1 because of the mock url setup
 
 			// Act
-			string actualHtml = _htmlHelper.PageLink("captains log", "Crispy Pancake Recipe", new { data_merry = "xmas" }, "@", "~").ToString();
+			string actualHtml = _htmlHelper.PageLink("captains log", "Crispy Pancake Recipe", new { data_merry = "xmas" }, "@", "~", _pageService).ToString();
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
@@ -314,13 +307,10 @@ namespace Roadkill.Tests.Unit.Extensions
 		public void pagelink_should_render_html_with_no_link_when_page_does_not_exist()
 		{
 			// Arrange
-			TestHelpers.ConfigureLocator();
-			LocatorStartup.Locator.Container.Configure(x => x.For<IPageService>().Use(_pageService)); // the extension method uses bastard injection
-
 			string expectedHtml = "captains log"; // the url will always be /wiki/1 because of the mock url setup
 
 			// Act
-			string actualHtml = _htmlHelper.PageLink("captains log", "Random page that doesnt exist", new { data_merry = "xmas" }, "@", "~").ToString();
+			string actualHtml = _htmlHelper.PageLink("captains log", "Random page that doesnt exist", new { data_merry = "xmas" }, "@", "~", _pageService).ToString();
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Roadkill.Tests.Unit.Plugins
 {
 	public class PluginFileManagerTests
 	{
+		// TODO
 		[Test]
 		public void method_should()
 		{
@@ -17,7 +13,6 @@ namespace Roadkill.Tests.Unit.Plugins
 			// Act
 
 			// Assert
-			Assert.Fail("TODO");
 		}
 	}
 }

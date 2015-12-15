@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Http;
 using System.Web.Mvc;
-using System.Web.Routing;
 using NUnit.Framework;
-using Roadkill.Core.Attachments;
+using Roadkill.Core;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.DependencyResolution.StructureMap;
 using Roadkill.Core.Mvc.ViewModels;
@@ -17,6 +18,12 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 	[Category("Unit")]
 	public class LocatorStartupTests
 	{
+		[SetUp]
+		public void SetUp()
+		{
+			MockServiceLocator();
+		}
+
 		[TearDown]
 		public void TearDown()
 		{
@@ -30,6 +37,32 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 			{
 			}
         }
+
+		private void MockServiceLocator()
+		{
+			var settings = new ApplicationSettings();
+
+			var configReader = new ConfigReaderWriterStub();
+			configReader.ApplicationSettings = settings;
+
+			var registry = new RoadkillRegistry(configReader);
+			var container = new Container(registry);
+			container.Configure(x =>
+			{
+				x.Scan(a => a.AssemblyContainingType<TestHelpers>());
+				x.For<IRepository>().Use(new RepositoryMock());
+				x.For<IUserContext>().Use(new UserContextStub());
+			});
+
+			LocatorStartup.Locator = new StructureMapServiceLocator(container, false);
+			DependencyResolver.SetResolver(LocatorStartup.Locator);
+
+			var all =
+				container.Model.AllInstances.OrderBy(t => t.PluginType.Name)
+					.Select(t => String.Format("{0}:{1}", t.PluginType.Name, t.ReturnedType.AssemblyQualifiedName));
+
+			Console.WriteLine(String.Join("\n", all));
+		}
 
 		[Test]
 		public void StartMVCInternal_should_create_service_locator_and_set_mvc_service_locator()
@@ -62,7 +95,7 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 			// Assert
 			Assert.That(GlobalConfiguration.Configuration.DependencyResolver, Is.EqualTo(LocatorStartup.Locator));
 
-			// Doesn't work
+			// Doesn't work...maybe it will work in 2016
 			//Assert.That(GlobalConfiguration.Configuration.Services.GetService(typeof(System.Web.Http.Filters.IFilterProvider)), Is.TypeOf<MvcAttributeProvider>());
 		}
 
