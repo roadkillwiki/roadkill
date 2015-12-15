@@ -1,24 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 
 namespace Roadkill.Tests.Integration.Repository
 {
 	[TestFixture]
 	[Category("Integration")]
-	public abstract class UserRepositoryTests : RepositoryTests
+	public abstract class UserRepositoryTests
 	{
 		protected User _adminUser;
 		protected User _editor;
 		protected User _inactiveUser;
 
+		protected IUserRepository Repository;
+
+		protected abstract string ConnectionString { get; }
+		protected abstract IUserRepository GetRepository();
+		protected abstract void Clearup();
+
 		[SetUp]
 		public void SetUp()
 		{
+			// Setup the repository
+			Repository = GetRepository();
+			Clearup();
 			_adminUser = NewUser("admin@localhost", "admin", true, true);
 			_adminUser = Repository.SaveOrUpdateUser(_adminUser);
 

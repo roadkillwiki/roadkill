@@ -1,6 +1,8 @@
 ﻿using NUnit.Framework;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
+using Roadkill.Core.Database.Repositories;
 using Roadkill.Tests.Unit.StubsAndMocks;
 using PluginSettings = Roadkill.Core.Plugins.Settings;
 
@@ -8,15 +10,30 @@ namespace Roadkill.Tests.Integration.Repository
 {
 	[TestFixture]
 	[Category("Integration")]
-	public abstract class SettingsRepositoryTests : RepositoryTests
+	public abstract class SettingsRepositoryTests
 	{
 		private SiteCache _siteCache;
 		protected abstract string InvalidConnectionString { get; }
 
+		protected ISettingsRepository Repository;
+		protected abstract string ConnectionString { get; }
+		protected abstract ISettingsRepository GetRepository();
+		protected abstract void Clearup();
+
 		[SetUp]
 		public void Setup()
 		{
+			// Setup the repository
+			Repository = GetRepository();
+			Clearup();
+
 			_siteCache = new SiteCache(CacheMock.RoadkillCache);
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			Repository.Dispose();
 		}
 
 		[Test]

@@ -15,7 +15,7 @@ namespace Roadkill.Tests.Integration.Repository.MongoDb
 			get { return @"mongodb://localhost:27017/local"; }
 		}
 
-		protected override IRepository GetRepository()
+		protected override IPageRepository GetRepository()
 		{
 			return new MongoDBRepository(ConnectionString);
 		}

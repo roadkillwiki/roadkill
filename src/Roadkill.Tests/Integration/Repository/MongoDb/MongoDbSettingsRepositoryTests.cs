@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-using Roadkill.Core.Database;
 using Roadkill.Core.Database.MongoDB;
+using Roadkill.Core.Database.Repositories;
 
 namespace Roadkill.Tests.Integration.Repository.MongoDb
 {
@@ -20,7 +20,7 @@ namespace Roadkill.Tests.Integration.Repository.MongoDb
 			get { return "mongodb://invalidformat"; }
 		}
 
-		protected override IRepository GetRepository()
+		protected override ISettingsRepository GetRepository()
 		{
 			return new MongoDBRepository(ConnectionString);
 		}

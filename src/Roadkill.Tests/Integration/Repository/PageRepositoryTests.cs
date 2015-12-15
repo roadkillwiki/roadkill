@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 
 namespace Roadkill.Tests.Integration.Repository
 {
 	[TestFixture]
 	[Category("Integration")]
-	public abstract class PageRepositoryTests : RepositoryTests
+	public abstract class PageRepositoryTests
 	{
 		private Page _page1;
 		private PageContent _pageContent1;
@@ -18,9 +19,18 @@ namespace Roadkill.Tests.Integration.Repository
 		private DateTime _createdDate;
 		private DateTime _editedDate;
 
+		protected IPageRepository Repository;
+		protected abstract string ConnectionString { get; }
+		protected abstract IPageRepository GetRepository();
+		protected abstract void Clearup();
+
 		[SetUp]
 		public void SetUp()
 		{
+			// Setup the repository
+			Repository = GetRepository();
+			Clearup();
+
 			// Create 5 Pages with 2 versions of content each
 			_createdDate = DateTime.Today.ToUniversalTime().AddDays(-1);
 			_editedDate = _createdDate.AddHours(1);
@@ -46,6 +56,12 @@ namespace Roadkill.Tests.Integration.Repository
 			Page page5 = NewPage("editor4");
 			PageContent pageContent5 = Repository.AddNewPage(page5, "text", "editor4", _createdDate);
 			Repository.AddNewPageContentVersion(pageContent5.Page, "v2", "editor4", _editedDate, 1);
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			Repository.Dispose();
 		}
 
 		protected Page NewPage(string author, string tags = "tag1,tag2,tag3", string title = "Title")

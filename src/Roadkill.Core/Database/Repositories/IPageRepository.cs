@@ -5,7 +5,7 @@ using Roadkill.Core.Converters;
 
 namespace Roadkill.Core.Database
 {
-	public interface IPageRepository
+	public interface IPageRepository : IDisposable
 	{
 		PageContent AddNewPage(Page page, string text, string editedBy, DateTime editedOn);
 		PageContent AddNewPageContentVersion(Page page, string text, string editedBy, DateTime editedOn, int version);

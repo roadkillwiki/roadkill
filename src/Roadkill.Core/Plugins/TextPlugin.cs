@@ -8,7 +8,9 @@ using System.Web.Mvc;
 using Newtonsoft.Json;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
+using Roadkill.Core.Database.Repositories;
 using Roadkill.Core.Logging;
 using StructureMap;
 using StructureMap.Attributes;
@@ -72,7 +74,7 @@ namespace Roadkill.Core.Plugins
 
 		// These are setter injected at creation time by the DI manager
 		internal IPluginCache PluginCache { get; set; }
-		internal IRepository Repository { get; set; }
+		internal ISettingsRepository Repository { get; set; }
 
 		/// <summary>
 		/// Gets or sets whether the plugin's HTML output can be cached by the inbuilt Roadkill caching.
@@ -178,7 +180,7 @@ namespace Roadkill.Core.Plugins
 			IsCacheable = true;
 		}
 
-		internal TextPlugin(IRepository repository, SiteCache siteCache) : this()
+		internal TextPlugin(ISettingsRepository repository, SiteCache siteCache) : this()
 		{
 			Repository = repository;
 			PluginCache = siteCache;

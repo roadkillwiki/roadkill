@@ -9,7 +9,7 @@ using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Core.Database.Repositories
 {
-	public interface ISettingsRepository
+	public interface ISettingsRepository : IDisposable
 	{
 		void SaveSiteSettings(SiteSettings siteSettings);
 		SiteSettings GetSiteSettings();
