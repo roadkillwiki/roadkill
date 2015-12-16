@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Moq;
-using NUnit;
+using MvcContrib.TestHelper;
 using NUnit.Framework;
 using Roadkill.Core;
-using Roadkill.Core.Mvc.Controllers;
-using MvcContrib.TestHelper;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc;
+using Roadkill.Core.Mvc.Controllers;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.Setup
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -23,12 +21,12 @@ namespace Roadkill.Tests.Unit
 		public void Setup()
 		{
 			RouteTable.Routes.Clear();
-			AttachmentRouteHandler.RegisterRoute(new ApplicationSettings(), RouteTable.Routes);
+			AttachmentRouteHandler.RegisterRoute(new ApplicationSettings(), RouteTable.Routes, new FileServiceMock());
 			Routing.Register(RouteTable.Routes);
 		}
 
 		[Test]
-		public void HomeController_Routes_Are_Mapped()
+		public void homecontroller_routes_are_mapped()
 		{
 			"~/".ShouldMapTo<HomeController>(action => action.Index());
 
@@ -42,45 +40,45 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void WikiController_Maps_Id_And_Title()
+		public void wikicontroller_maps_id_and_title()
 		{
 			"~/wiki/42".ShouldMapTo<WikiController>(action => action.Index(42,""));
 			"~/wiki/42/my-page-name".ShouldMapTo<WikiController>(action => action.Index(42, "my-page-name"));
 		}
 
 		[Test]
-		public void PagesController_ByUser_Maps_Values()
+		public void pagescontroller_byuser_maps_values()
 		{
 			"~/Pages/byuser/ZWRpdG9yICg5Ni4yNTIuMTQwLjE3OSk%3d".ShouldMapTo<PagesController>(action => action.ByUser("ZWRpdG9yICg5Ni4yNTIuMTQwLjE3OSk%3d", null));
 			"~/Pages/byuser/ZWRpdG9yICg5Ni4yNTIuMTQwLjE3OSk%3d/True".ShouldMapTo<PagesController>(action => action.ByUser("ZWRpdG9yICg5Ni4yNTIuMTQwLjE3OSk%3d", true));
 		}
 
 		[Test]
-		public void FileManagerController_Should_Have_Index()
+		public void filemanagercontroller_should_have_index()
 		{
 			"~/filemanager".ShouldMapTo<FileManagerController>(action => action.Index());
 		}
 
 		[Test]
-		public void Special_Route_Should_Map_To_SpecialPagesController()
+		public void special_route_should_map_to_specialpagescontroller()
 		{
 			"~/wiki/Special:Random".ShouldMapTo<SpecialPagesController>(action => action.Index("Random"));
 		}
 
 		[Test]
-		public void HelpCheatsheet_Route_Should_Map_To_HelpController()
+		public void helpcheatsheet_route_should_map_to_helpcontroller()
 		{
 			"~/wiki/Help:Cheatsheet".ShouldMapTo<HelpController>(action => action.Index());
 		}
 
 		[Test]
-		public void HelpAbout_Route_Should_Map_To_HelpController()
+		public void helpabout_route_should_map_to_helpcontroller()
 		{
 			"~/wiki/Help:About".ShouldMapTo<HelpController>(action => action.About());
 		}
 
 		[Test]
-		public void Attachments_Should_Have_Correct_Handler_And_Contain_Route_Values()
+		public void attachments_should_have_correct_handler_and_contain_route_values()
 		{
 			// Arrange
 			ApplicationSettings settings = new ApplicationSettings();
@@ -90,7 +88,7 @@ namespace Roadkill.Tests.Unit
 
 			RouteTable.Routes.Clear();
 			RouteCollection routes = new RouteCollection();
-			AttachmentRouteHandler.RegisterRoute(settings, routes); // has to be registered first
+			AttachmentRouteHandler.RegisterRoute(settings, routes, new FileServiceMock()); // has to be registered first
 			Routing.Register(routes);
 
 			// Act
@@ -103,7 +101,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Attachments_In_Standard_Controller_Path_Should_Not_Map_To_Attachments_Handler()
+		public void attachments_in_standard_controller_path_should_not_map_to_attachments_handler()
 		{
 			// Arrange
 			ApplicationSettings settings = new ApplicationSettings();
@@ -112,7 +110,7 @@ namespace Roadkill.Tests.Unit
 
 			RouteTable.Routes.Clear();
 			RouteCollection routes = new RouteCollection();
-			AttachmentRouteHandler.RegisterRoute(settings, routes);
+			AttachmentRouteHandler.RegisterRoute(settings, routes, new FileServiceMock());
 			Routing.Register(routes);
 
 			// Act
@@ -139,7 +137,7 @@ namespace Roadkill.Tests.Unit
 
 			// Act
 			Routing.Register(RouteTable.Routes);
-			AttachmentRouteHandler.RegisterRoute(settings, routes);
+			AttachmentRouteHandler.RegisterRoute(settings, routes, new FileServiceMock());
 
 			// Assert
 		}
@@ -157,7 +155,7 @@ namespace Roadkill.Tests.Unit
 
 			RouteTable.Routes.Clear();
 			RouteCollection routes = new RouteCollection();
-			AttachmentRouteHandler.RegisterRoute(settings, routes);
+			AttachmentRouteHandler.RegisterRoute(settings, routes, new FileServiceMock());
 
 			// Act
 			RouteData routeData = routes.GetRouteData(mockContext);

@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Web.Mvc;
-using Moq;
+using MvcContrib.TestHelper;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
 using Roadkill.Core.Localization;
-using Roadkill.Core.Services;
-using Roadkill.Core.Security;
+using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
-using System.Runtime.Caching;
+using Roadkill.Core.Services;
 using Roadkill.Tests.Unit.StubsAndMocks;
-using MvcContrib.TestHelper;
+using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.Controllers
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -70,7 +68,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Index_Should_Return_Default_Message_When_No_Homepage_Tag_Exists()
+		public void index_should_return_default_message_when_no_homepage_tag_exists()
 		{
 			// Arrange
 
@@ -87,7 +85,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Index_Should_Return_Homepage_When_Tag_Exists()
+		public void index_should_return_homepage_when_tag_exists()
 		{
 			// Arrange
 			Page page1 = new Page() 
@@ -118,7 +116,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Search_Should_Return_Some_Results_With_Unicode_Content()
+		public void search_should_return_some_results_with_unicode_content()
 		{
 			// Arrange
 			Page page1 = new Page()
@@ -150,7 +148,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void GlobalJsVars_Should_Return_View()
+		public void globaljsvars_should_return_view()
 		{
 			// Arrange
 
@@ -163,7 +161,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void NavMenu_Should_Return_View()
+		public void navmenu_should_return_view()
 		{
 			// Arrange
 
@@ -176,25 +174,12 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void BootstrapNavMenu_Should_Return_View()
+		public void bootstrapnavmenu_should_return_view()
 		{
 			// Arrange
 
 			// Act
 			ActionResult result = _homeController.BootstrapNavMenu();
-
-			// Assert
-			ContentResult contentResult = result.AssertResultIs<ContentResult>();
-			Assert.That(contentResult.Content, Is.Not.Empty);
-		}
-
-		[Test]
-		public void LeftMenu_Should_Return_Content()
-		{
-			// Arrange
-
-			// Act
-			ActionResult result = _homeController.LeftMenu();
 
 			// Assert
 			ContentResult contentResult = result.AssertResultIs<ContentResult>();

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Plugins.SpecialPages;
 
 namespace Roadkill.Core.Plugins
 {
@@ -10,11 +9,6 @@ namespace Roadkill.Core.Plugins
 	/// </summary>
 	public interface IPluginFactory
 	{
-		/// <summary>
-		/// Copies the plugins from the /Plugins directory to the bin folder. This is run at application startup.
-		/// </summary>
-		void CopyPlugins(ApplicationSettings applicationSettings);
-
 		/// <summary>
 		/// Retrieves all text plugins from the DI container.
 		/// </summary>

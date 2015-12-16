@@ -8,11 +8,11 @@ using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security.Windows;
 using System.IO;
-using Roadkill.Core.DI;
 using System.Collections.Generic;
 using System.Threading;
 using System.Globalization;
 using System.Linq;
+using Roadkill.Core.DependencyResolution;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -21,38 +21,50 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// </summary>
 	/// <remarks>If the web.config "installed" setting is "true", then all the actions in
 	/// this controller redirect to the homepage</remarks>
-	public class InstallController : ControllerBase
+	public class InstallController : Controller, IRoadkillController
 	{
 		private static string _uiLanguageCode = "en";
 
-		private IRepository _repository;
-		private PageService _pageService;
-		private SearchService _searchService;
-		private SettingsService _settingsService;
-		private ConfigReaderWriter _configReaderWriter;
+		public ApplicationSettings ApplicationSettings { get; private set; }
+		public UserServiceBase UserService { get; private set; }
+		public IUserContext Context { get; private set; }
+		public SettingsService SettingsService { get; private set; }
 
-		public InstallController(ApplicationSettings settings, UserServiceBase userService,
-			PageService pageService, SearchService searchService, IRepository respository,
-			SettingsService settingsService, IUserContext context, ConfigReaderWriter configReaderWriter)
-			: base(settings, userService, context, settingsService) 
+		private readonly ConfigReaderWriter _configReaderWriter;
+		private readonly IRepositoryFactory _repositoryFactory;
+
+		public Func<IRepositoryFactory, string, string, UserServiceBase, IInstallationService> GetInstallationService { get; set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="applicationSettings">Use solely to detect whether Roadkill is already installed.</param>
+		public InstallController(ApplicationSettings applicationSettings, ConfigReaderWriter configReaderWriter, IRepositoryFactory repositoryFactory, UserServiceBase userService)
 		{
-			_pageService = pageService;
-			_searchService = searchService;
-			_repository = respository;
-			_settingsService = settingsService;
+			ApplicationSettings = applicationSettings;
+			UserService = userService;
+
+			// These aren't needed for the installer
+			Context = null;
+			SettingsService = null;
+
 			_configReaderWriter = configReaderWriter;
+			_repositoryFactory = repositoryFactory;
+		}
+
+		protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		{
+			if (ApplicationSettings.Installed)
+				filterContext.Result = new RedirectResult(this.Url.Action("Index", "Home"));
 		}
 
 		/// <summary>
 		/// Installs Roadkill with default settings and the provided datastory type and connection string.
 		/// </summary>
-		public ActionResult Unattended(string datastoreType, string connectionString)
+		public ActionResult Unattended(string databaseName, string connectionString)
 		{
-			if (ApplicationSettings.Installed)
-				return RedirectToAction("Index", "Home");
-
 			SettingsViewModel settingsModel = new SettingsViewModel();
-			settingsModel.DataStoreTypeName = datastoreType;
+			settingsModel.DatabaseName = databaseName;
 			settingsModel.ConnectionString = connectionString;
 			settingsModel.AllowedFileTypes = "jpg,png,gif,zip,xml,pdf";
 			settingsModel.AttachmentsFolder = "~/App_Data/Attachments";
@@ -77,9 +89,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		public ActionResult InstallerJsVars()
 		{
-			if (ApplicationSettings.Installed)
-				return Content("");
-
 			return View();
 		}
 
@@ -88,9 +97,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		public ActionResult Index()
 		{
-			if (ApplicationSettings.Installed)
-				return RedirectToAction("Index", "Home");
-
 			Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
 
 			return View("Index", LanguageViewModel.SupportedLocales());
@@ -101,9 +107,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		public ActionResult Step1(string language)
 		{
-			if (ApplicationSettings.Installed)
-				return RedirectToAction("Index", "Home");
-
 			Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
 			LanguageViewModel languageModel = LanguageViewModel.SupportedLocales().First(x => x.Code == language);
 
@@ -115,9 +118,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		public ActionResult Step2(string language)
 		{
-			if (ApplicationSettings.Installed)
-				return RedirectToAction("Index", "Home");
-
 			// Persist the language change now that we know the web.config can be written to.
 			if (!string.IsNullOrEmpty(language))
 			{
@@ -125,7 +125,11 @@ namespace Roadkill.Core.Mvc.Controllers
 				_configReaderWriter.UpdateLanguage(language);
 			}
 
-			return View(new SettingsViewModel());
+			var settingsModel = new SettingsViewModel();
+			var installationService = new InstallationService(_repositoryFactory, "", "", UserService);
+			settingsModel.SetSupportedDatabases(installationService.GetSupportedDatabases());
+
+			return View(settingsModel);
 		}
 
 		/// <summary>
@@ -135,9 +139,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public ActionResult Step3(SettingsViewModel model)
 		{
-			if (ApplicationSettings.Installed)
-				return RedirectToAction("Index", "Home");
-
 			return View(model);
 		}
 
@@ -149,9 +150,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public ActionResult Step3b(SettingsViewModel model)
 		{
-			if (ApplicationSettings.Installed)
-				return RedirectToAction("Index", "Home");
-
 			model.LdapConnectionString = "LDAP://";
 			model.EditorRoleName = "Editor";
 			model.AdminRoleName = "Admin";
@@ -169,9 +167,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public ActionResult Step4(SettingsViewModel model)
 		{
-			if (ApplicationSettings.Installed)
-				return RedirectToAction("Index", "Home");
-
 			model.AllowedFileTypes = "jpg,png,gif,zip,xml,pdf";
 			model.AttachmentsFolder = "~/App_Data/Attachments";
 			model.MarkupType = "Creole";
@@ -191,9 +186,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		[ValidateInput(false)]
 		public ActionResult Step5(SettingsViewModel model)
 		{
-			if (ApplicationSettings.Installed)
-				return RedirectToAction("Index", "Home");
-
 			try
 			{
 				// Any missing values are handled by data annotations. Those that are missed
@@ -213,10 +205,10 @@ namespace Roadkill.Core.Mvc.Controllers
 				catch (Exception ex)
 				{
 					// TODO-translation
-					ModelState.AddModelError("An error ocurred installing", ex.Message + e);
+					ModelState.AddModelError("An error occurred installing", ex.Message + e);
 				}
 
-				ModelState.AddModelError("An error ocurred installing", e.Message + e);
+				ModelState.AddModelError("An error occurred installing", e.Message + e);
 			}
 
 			return View(model);
@@ -224,36 +216,32 @@ namespace Roadkill.Core.Mvc.Controllers
 
 		internal void FinalizeInstall(SettingsViewModel model)
 		{
-			// The name as a string is passed through each step, so parse it
-			DataStoreType dataStoreType = DataStoreType.ByName(model.DataStoreTypeName);
-			model.DataStoreTypeName = dataStoreType.Name;
+			if (GetInstallationService == null)
+			{
+				GetInstallationService = (service, factory, connectionString, userService) =>
+				{
+					return new InstallationService(_repositoryFactory, model.DatabaseName, model.ConnectionString, UserService);
+				};
+			}
 
-			// Update all repository references for the dependencies of this class
-			// (changing the For() in StructureMap won't do this as the references have already been created).
-			_repository = RepositoryManager.ChangeRepository(dataStoreType, model.ConnectionString, model.UseObjectCache);
-			UserService.UpdateRepository(_repository);
-			_settingsService.UpdateRepository(_repository);
-			_searchService.UpdateRepository(_repository);
+			// Inject the repository into the UserService, as the one StructureMap gave us will have a stale Repository
+			var repository = _repositoryFactory.GetRepository(model.DatabaseName, model.ConnectionString);
+			UserService.Repository = repository;
 
 			// Default these two properties for installations
 			model.IgnoreSearchIndexErrors = true;
 			model.IsPublicSite = true;
 
+			IInstallationService installationService = GetInstallationService(_repositoryFactory, model.DatabaseName, model.ConnectionString, UserService);
+			installationService.ClearUserTable();
+			installationService.CreateTables();
+			installationService.SaveSiteSettings(model);
+
+			// Add a user (if we're using AD this will be ignored).
+			installationService.AddAdminUser(model.AdminEmail, model.AdminPassword);
+
 			// Update the web.config first, so all connections can be referenced.
 			_configReaderWriter.Save(model);
-
-			// Create the roadkill schema and save the configuration settings
-			_settingsService.CreateTables(model);
-			_settingsService.SaveSiteSettings(model);
-
-			// Add a user if we're not using AD.
-			if (!model.UseWindowsAuth)
-			{
-				UserService.AddUser(model.AdminEmail, "admin", model.AdminPassword, true, false);
-			}
-
-			// Create a blank search index
-			_searchService.CreateIndex();
 		}
 	}
 }

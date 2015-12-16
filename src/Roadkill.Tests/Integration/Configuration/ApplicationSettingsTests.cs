@@ -10,6 +10,7 @@ using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Tests.Unit;
+using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
 namespace Roadkill.Tests.Integration.Configuration
 {
@@ -18,7 +19,7 @@ namespace Roadkill.Tests.Integration.Configuration
 	public class ApplicationSettingsTests
 	{
 		[Test]
-		public void Should_Have_Default_Values_Set_In_Constructor()
+		public void should_have_default_values_set_in_constructor()
 		{
 			// Arrange + Act
 			ApplicationSettings appSettings = new ApplicationSettings();
@@ -30,12 +31,11 @@ namespace Roadkill.Tests.Integration.Configuration
 			Assert.That(appSettings.EmailTemplateFolder,       Is.EqualTo(GetFullPath(@"App_Data\EmailTemplates")), "EmailTemplateFolder");
 			Assert.That(appSettings.HtmlElementWhiteListPath,  Is.EqualTo(GetFullPath(@"App_Data\Internal\htmlwhitelist.xml")), "HtmlElementWhiteListPath");
 			Assert.That(appSettings.SearchIndexPath,           Is.EqualTo(GetFullPath(@"App_Data\Internal\Search")), "SearchIndexPath");
-			Assert.That(appSettings.SQLiteBinariesPath,        Is.EqualTo(GetFullPath(@"App_Data\Internal\SQLiteBinaries")), "SQLiteBinariesPath");
 			Assert.That(appSettings.PluginsBinPath,            Is.EqualTo(GetFullPath(@"bin\Plugins")), "PluginsBinPath");
 			Assert.That(appSettings.PluginsPath,               Is.EqualTo(GetFullPath(@"Plugins")), "PluginsPath");
 
 			Assert.That(appSettings.MinimumPasswordLength, Is.EqualTo(6), "MinimumPasswordLength");
-			Assert.That(appSettings.DataStoreType, Is.EqualTo(DataStoreType.SqlServer2008), "DataStoreType");
+			Assert.That(appSettings.DatabaseName == RepositoryFactory.SqlServer2008, "DatabaseName");
 			Assert.That(appSettings.AttachmentsRoutePath, Is.EqualTo("Attachments"), "AttachmentsRoutePath");
 			Assert.That(appSettings.AttachmentsFolder, Is.EqualTo("~/App_Data/Attachments"), "AttachmentsFolder");	
 		}
@@ -47,7 +47,7 @@ namespace Roadkill.Tests.Integration.Configuration
 		}
 
 		[Test]
-		public void AttachmentsDirectoryPath_Should_Map_AttachmentsFolder_And_End_With_Slash()
+		public void attachmentsdirectorypath_should_map_attachmentsfolder_and_end_with_slash()
 		{
 			// Arrange
 			string attachmentsFolder = @"~/myfolder";
@@ -67,7 +67,7 @@ namespace Roadkill.Tests.Integration.Configuration
 		}
 
 		[Test]
-		public void AttachmentsRoutePath_Should_Use_AttachmentsRoutePath_And_Prepend_ApplicationPath()
+		public void attachmentsroutepath_should_use_attachmentsroutepath_and_prepend_applicationpath()
 		{
 			// Arrange
 			MvcMockContainer container = new MvcMockContainer();

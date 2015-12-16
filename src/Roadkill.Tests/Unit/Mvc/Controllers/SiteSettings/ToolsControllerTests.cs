@@ -11,14 +11,13 @@ using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Domain.Export;
-using Roadkill.Core.Import;
 using Roadkill.Core.Localization;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Services;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -75,7 +74,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ClearPages_Should_Set_TempData_Message_And_Clear_Cache_And_Clear_All_Pages()
+		public void clearpages_should_set_tempdata_message_and_clear_cache_and_clear_all_pages()
 		{
 			// Arrange		
 			_repository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
@@ -98,7 +97,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ExportAsSql_Should_Set_Filename_And_ContentType_And_FileStream_Should_Not_Be_Zero()
+		public void exportassql_should_set_filename_and_contenttype_and_filestream_should_not_be_zero()
 		{
 			// Arrange
 			_repository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
@@ -115,7 +114,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ExportAsWikiFiles_Should_Set_Filename_And_ContentType()
+		public void exportaswikifiles_should_set_filename_and_contenttype()
 		{
 			// Arrange
 			string fullPath = Path.Combine(_wikiExporter.ExportFolder, "export-");
@@ -135,7 +134,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ExportAsXml_Should_Set_Filename_And_ContentType_And_FileStream_Should_Not_Be_Zero()
+		public void exportasxml_should_set_filename_and_contenttype_and_filestream_should_not_be_zero()
 		{
 			// Arrange
 			_repository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
@@ -152,7 +151,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ExportAttachments_Should_Set_Filename_And_ContentType()
+		public void exportattachments_should_set_filename_and_contenttype()
 		{
 			// Arrange
 			string fullPath = Path.Combine(_wikiExporter.ExportFolder, "attachments-");
@@ -170,7 +169,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ImportFromScrewTurn_Should_TempData_Error_Message_When_ConnectionString_Is_Empty()
+		public void importfromscrewturn_should_tempdata_error_message_when_connectionstring_is_empty()
 		{
 			// Arrange
 
@@ -184,7 +183,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ImportFromScrewTurn_Should_Redirect_And_TempData_Message_And_Import()
+		public void importfromscrewturn_should_redirect_and_tempdata_message_and_import()
 		{
 			// Arrange
 
@@ -201,7 +200,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Index_Should_Return_View()
+		public void index_should_return_view()
 		{
 			// Arrange
 
@@ -213,7 +212,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void RenameTag_Should_Redirect_And_Set_TempData_Message_And_Rename_Tag()
+		public void renametag_should_redirect_and_set_tempdata_message_and_rename_tag()
 		{
 			// Arrange
 			_repository.AddNewPage(new Page() { Id = 1, Tags = "old" }, "text", "admin", DateTime.UtcNow);
@@ -232,7 +231,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void SiteSettings_Should_Return_ContentResult_With_Json()
+		public void sitesettings_should_return_contentresult_with_json()
 		{
 			// Arrange
 
@@ -246,7 +245,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void UpdateSearchIndex_Should_Redirect_And_Set_TempData_Message_And_Create_Index()
+		public void updatesearchindex_should_redirect_and_set_tempdata_message_and_create_index()
 		{
 			// Arrange
 
@@ -262,7 +261,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ExportAttachments_Should_Call_WikiExporter_ExportAttachments()
+		public void exportattachments_should_call_wikiexporter_exportattachments()
 		{
 			// Arrange
 			var mockWikiExporter = new Mock<WikiExporter>(_applicationSettings, _pageService, _repository, _pluginFactory);
@@ -276,7 +275,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ExportAsWikiFiles_Should_Call_WikiExporter_ExportAsWikiFiles()
+		public void exportaswikifiles_should_call_wikiexporter_exportaswikifiles()
 		{
 			// Arrange
 			var mockWikiExporter = new Mock<WikiExporter>(_applicationSettings, _pageService, _repository, _pluginFactory);
@@ -290,7 +289,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ExportAsSql_Should_Call_WikiExporter_ExportAsSql()
+		public void exportassql_should_call_wikiexporter_exportassql()
 		{
 			// Arrange
 			var mockWikiExporter = new Mock<WikiExporter>(_applicationSettings, _pageService, _repository, _pluginFactory);
@@ -305,7 +304,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ExportAsXml_Should_Call_WikiExporter_ExportAsXml()
+		public void exportasxml_should_call_wikiexporter_exportasxml()
 		{
 			// Arrange
 			var mockWikiExporter = new Mock<WikiExporter>(_applicationSettings, _pageService, _repository, _pluginFactory);

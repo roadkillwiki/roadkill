@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
-using Roadkill.Core;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Database.LightSpeed
 {
 	[TestFixture]
 	[Category("Unit")]
 	public class FromEntityTests
 	{
 		[Test]
-		public void ToPage_ShouldFillCorrectProperties()
+		public void topage_shouldfillcorrectproperties()
 		{
 			// Arrange
 			PageEntity entity = new PageEntity();
@@ -40,7 +38,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ToPageContent_ShouldFillCorrectProperties()
+		public void topagecontent_shouldfillcorrectproperties()
 		{
 			// Arrange
 			PageContentEntity entity = new PageContentEntity();
@@ -64,7 +62,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ToUser_ShouldFillCorrectProperties()
+		public void touser_shouldfillcorrectproperties()
 		{
 			// Arrange
 			UserEntity entity = new UserEntity();
@@ -98,7 +96,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ToPageContentList_ShouldContainValidList()
+		public void topagecontentlist_shouldcontainvalidlist()
 		{
 			// Arrange
 			PageContentEntity entity1 = new PageContentEntity();
@@ -135,7 +133,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ToPageList_ShouldContainValidList()
+		public void topagelist_shouldcontainvalidlist()
 		{
 			// Arrange
 			PageEntity entity1 = new PageEntity();
@@ -181,7 +179,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ToUserList_ShouldContainValidList()
+		public void touserlist_shouldcontainvalidlist()
 		{
 			// Arrange
 			UserEntity entity1  = new UserEntity();

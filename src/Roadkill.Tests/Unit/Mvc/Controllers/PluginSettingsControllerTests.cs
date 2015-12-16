@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
-using System.Text;
 using System.Web.Mvc;
 using NUnit.Framework;
 using Roadkill.Core;
@@ -11,12 +9,10 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Plugins;
-using Roadkill.Core.Security;
 using Roadkill.Core.Services;
-using Roadkill.Tests.Unit.Mvc.Controllers;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.Controllers
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -63,12 +59,12 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Index_Should_Return_ViewResult_And_Model_With_2_PluginModels_Ordered_By_Name()
+		public void index_should_return_viewresult_and_model_with_2_pluginmodels_ordered_by_name()
 		{
 			// Arrange
 			TextPluginStub pluginB = new TextPluginStub("b id", "b name", "b desc");
 			pluginB.Repository = _repository;
-			pluginB.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			pluginB.PluginCache = new SiteCache(CacheMock.RoadkillCache);
 
 			TextPluginStub pluginA = new TextPluginStub("a id", "a name", "a desc");
 			pluginA.Repository = _repository;
@@ -93,7 +89,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Edit_GET_Should_Return_ViewResult_And_Model_With_Known_Values()
+		public void edit_get_should_return_viewresult_and_model_with_known_values()
 		{
 			// Arrange		
 			TextPluginStub plugin = new TextPluginStub();
@@ -117,7 +113,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Edit_GET_Should_Load_Settings_From_Repository()
+		public void edit_get_should_load_settings_from_repository()
 		{
 			// Arrange
 			TextPluginStub plugin = new TextPluginStub();
@@ -143,7 +139,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Edit_GET_Should_Use_Default_Plugin_Settings_When_Plugin_Doesnt_Exist_In_Repository()
+		public void edit_get_should_use_default_plugin_settings_when_plugin_doesnt_exist_in_repository()
 		{
 			// Arrange
 			TextPluginStub plugin = new TextPluginStub();
@@ -164,7 +160,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Edit_GET_Should_Redirect_When_Id_Is_Empty()
+		public void edit_get_should_redirect_when_id_is_empty()
 		{
 			// Arrange
 
@@ -176,7 +172,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Edit_GET_Should_Redirect_When_Plugin_Does_Not_Exist()
+		public void edit_get_should_redirect_when_plugin_does_not_exist()
 		{
 			// Arrange
 
@@ -188,7 +184,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Edit_POST_Should_Save_Setting_Values_To_Repository_From_Model_And_Clear_SiteCache()
+		public void edit_post_should_save_setting_values_to_repository_from_model_and_clear_sitecache()
 		{
 			// Arrange
 			_pageViewModelCache.Add(1, new PageViewModel()); // dummmy items
@@ -220,7 +216,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Edit_POST_Should_Redirect_When_Plugin_Does_Not_Exist()
+		public void edit_post_should_redirect_when_plugin_does_not_exist()
 		{
 			// Arrange
 

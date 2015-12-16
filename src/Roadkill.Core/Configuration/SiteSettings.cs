@@ -128,8 +128,7 @@ namespace Roadkill.Core.Configuration
 		{
 			get
 			{
-				// If there's no menu markup (from an upgrade) default it.
-				// Empty markup is valid, but null isn't.
+				// If there's no menu markup default it - empty markup is valid, but null isn't.
 				if (_menuMarkup == null)
 					_menuMarkup = GetDefaultMenuMarkup();
 

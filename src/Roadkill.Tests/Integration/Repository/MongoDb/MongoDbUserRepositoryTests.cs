@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
-using Roadkill.Core.Configuration;
+﻿using NUnit.Framework;
 using Roadkill.Core.Database;
-using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Database.MongoDB;
 
-namespace Roadkill.Tests.Integration.Repository.LightSpeed
+namespace Roadkill.Tests.Integration.Repository.MongoDb
 {
 	[TestFixture]
 	[Category("Integration")]
-	[Explicit("Requires MongoDB installed on the machine running the tests")]
-	[Description("For an easy install of MongoDB on Windows : http://chocolatey.org/packages?q=mongodb")]
 	public class MongoDbUserRepositoryTests : UserRepositoryTests
 	{
 		protected override string ConnectionString
@@ -23,9 +13,20 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 			get { return @"mongodb://localhost:27017/local"; }
 		}
 
-		protected override IRepository GetRepository()
+		protected override IUserRepository GetRepository()
 		{
-			return new MongoDBRepository(ApplicationSettings);
+			return new MongoDBRepository(ConnectionString);
+		}
+
+		protected override void Clearup()
+		{
+			new MongoDBRepository(ConnectionString).Wipe();
+		}
+
+		protected override void CheckDatabaseProcessIsRunning()
+		{
+			if (TestHelpers.IsMongoDBRunning() == false)
+				Assert.Fail("A local MongoDB (mongod.exe) server is not running");
 		}
 	}
 }

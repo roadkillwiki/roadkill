@@ -1,27 +1,17 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Runtime.Caching;
 using System.Web.Mvc;
-using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Converters;
-using Roadkill.Core.Database;
-using Roadkill.Core.Localization;
-using Roadkill.Core.Services;
-using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Services;
 using Roadkill.Tests.Unit.StubsAndMocks;
-using System;
-using System.Collections.Generic;
-using System.Runtime.Caching;
-using MvcContrib.TestHelper;
-using StructureMap;
-using System.IO;
-using Roadkill.Core.DI;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -64,7 +54,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Index_GET_Should_Return_View_And_ViewModel()
+		public void index_get_should_return_view_and_viewmodel()
 		{
 			// Arrange
 
@@ -78,7 +68,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Index_POST_Should_Return_ViewResult_And_Save_Settings()
+		public void index_post_should_return_viewresult_and_save_settings()
 		{
 			// Arrange
 			SettingsViewModel model = new SettingsViewModel();
@@ -96,7 +86,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Index_POST_Should_Accept_HttpPost_Only()
+		public void index_post_should_accept_httppost_only()
 		{
 			// Arrange
 			SettingsViewModel model = new SettingsViewModel();
@@ -109,7 +99,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Index_POST_Should_Clear_Site_Cache()
+		public void index_post_should_clear_site_cache()
 		{
 			// Arrange
 			_siteCache.AddMenu("some menu");

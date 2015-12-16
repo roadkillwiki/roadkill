@@ -5,6 +5,7 @@ using System.Text;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Database.Repositories;
 using Roadkill.Core.Plugins;
 using PluginSettings = Roadkill.Core.Plugins.Settings;
 
@@ -41,7 +42,7 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 			_description = "Amazing stubbed plugin";
 		}
 
-		internal TextPluginStub(IRepository repository, SiteCache siteCache) : base(repository, siteCache)
+		internal TextPluginStub(ISettingsRepository repository, SiteCache siteCache) : base(repository, siteCache)
 		{
 			_id = "Amazing plugin";
 			_name = "An amazing plugin";

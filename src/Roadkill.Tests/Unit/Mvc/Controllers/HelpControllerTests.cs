@@ -1,21 +1,15 @@
-﻿using System.Linq;
+﻿using System;
 using System.Web.Mvc;
-using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
-using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
-using Roadkill.Core.Localization;
-using Roadkill.Core.Services;
-using Roadkill.Core.Security;
+using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Services;
 using Roadkill.Tests.Unit.StubsAndMocks;
-using System;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.Controllers
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -48,7 +42,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Index_Should_Return_ViewResult()
+		public void index_should_return_viewresult()
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Mediawiki";
@@ -61,7 +55,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void About_Should_Return_ViewResult_And_Page_With_About_Tag_As_Model()
+		public void about_should_return_viewresult_and_page_with_about_tag_as_model()
 		{
 			// Arrange
 			Page aboutPage = new Page()
@@ -86,7 +80,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void About_Should_Return_RedirectResult_To_New_Page_When_No_Page_Has_About_Tag()
+		public void about_should_return_redirectresult_to_new_page_when_no_page_has_about_tag()
 		{
 			// Arrange
 
@@ -103,7 +97,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void CreoleReference_Should_Return_View()
+		public void creolereference_should_return_view()
 		{
 			// Arrange
 
@@ -116,7 +110,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void MediaWikiReference_Should_Return_View()
+		public void mediawikireference_should_return_view()
 		{
 			// Arrange
 
@@ -129,7 +123,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void MarkdownReference_Should_Return_View()
+		public void markdownreference_should_return_view()
 		{
 			// Arrange
 

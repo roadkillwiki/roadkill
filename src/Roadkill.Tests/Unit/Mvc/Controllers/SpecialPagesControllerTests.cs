@@ -1,23 +1,13 @@
-﻿using System.Linq;
+﻿using System.Web;
 using System.Web.Mvc;
-using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
-using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Converters;
-using Roadkill.Core.Database;
-using Roadkill.Core.Localization;
 using Roadkill.Core.Services;
-using Roadkill.Core.Security;
-using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Tests.Unit.StubsAndMocks;
-using System;
-using System.Web;
-using System.IO;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.Controllers
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -50,7 +40,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Index_Should_Call_Plugin_GetResult()
+		public void index_should_call_plugin_getresult()
 		{
 			// Arrange
 			_pluginFactory.SpecialPages.Add(new SpecialPageMock());
@@ -63,7 +53,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Index_Should_Throw_HttpException_When_Plugin_Does_Not_Exist()
+		public void index_should_throw_httpexception_when_plugin_does_not_exist()
 		{
 			// Arrange + Act + Assert
 			HttpException httpException = Assert.Throws<HttpException>(() => _specialPagesController.Index("badID"));

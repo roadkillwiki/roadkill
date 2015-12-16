@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Database.Repositories;
 using Roadkill.Tests.Unit.StubsAndMocks;
 using PluginSettings = Roadkill.Core.Plugins.Settings;
 
@@ -15,35 +10,35 @@ namespace Roadkill.Tests.Integration.Repository
 {
 	[TestFixture]
 	[Category("Integration")]
-	public abstract class SettingsRepositoryTests : RepositoryTests
+	public abstract class SettingsRepositoryTests
 	{
 		private SiteCache _siteCache;
 		protected abstract string InvalidConnectionString { get; }
 
+		protected ISettingsRepository Repository;
+		protected abstract string ConnectionString { get; }
+		protected abstract ISettingsRepository GetRepository();
+		protected abstract void Clearup();
+		protected abstract void CheckDatabaseProcessIsRunning();
+
 		[SetUp]
 		public void Setup()
 		{
-			_siteCache = new SiteCache(ApplicationSettings, CacheMock.RoadkillCache);
+			// Setup the repository
+			Repository = GetRepository();
+			Clearup();
+
+			_siteCache = new SiteCache(CacheMock.RoadkillCache);
 		}
 
-		[Test]
-		public void Install_Should_Clear_All_Entities_And_Create_Site_Settings()
+		[TearDown]
+		public void TearDown()
 		{
-			// Arrange
-
-			// Act
-			Repository.Install(ApplicationSettings.DataStoreType, ApplicationSettings.ConnectionString, false);
-
-			// Assert
-			Assert.That(Repository.AllPages().Count(), Is.EqualTo(0));
-			Assert.That(Repository.AllPageContents().Count(), Is.EqualTo(0));
-			Assert.That(Repository.FindAllAdmins().Count(), Is.EqualTo(0));
-			Assert.That(Repository.FindAllEditors().Count(), Is.EqualTo(0));
-			Assert.That(Repository.GetSiteSettings(), Is.Not.Null);
+			Repository.Dispose();
 		}
 		
 		[Test]
-		public void SaveSiteSettings_And_GetSiteSettings()
+		public void savesitesettings_and_getsitesettings()
 		{
 			// Arrange
 			SiteSettings expectedSettings = new SiteSettings()
@@ -77,7 +72,7 @@ namespace Roadkill.Tests.Integration.Repository
 		}
 
 		[Test]
-		public void SavePluginSettings_And_GetTextPluginSettings()
+		public void savepluginsettings_and_gettextpluginsettings()
 		{
 			// Arrange
 			PluginSettings expectedSettings = new PluginSettings("mockplugin", "1.0");
@@ -95,46 +90,6 @@ namespace Roadkill.Tests.Integration.Repository
 			// Assert
 			Assert.That(actualSettings.GetValue("somekey1"), Is.EqualTo("thevalue1"));
 			Assert.That(actualSettings.GetValue("somekey2"), Is.EqualTo("thevalue2"));
-		}
-
-		[Test]
-		public void TestConnection_With_Valid_Connection_String()
-		{
-			// Arrange
-
-
-			// Act
-			Repository.TestConnection(ApplicationSettings.DataStoreType, ApplicationSettings.ConnectionString);
-
-			// Assert (no exception)
-		}
-
-		[Test]
-		public void TestConnection_With_Invalid_Connection_String()
-		{
-			// [expectedexception] can't handle exception heirachies
-
-			// Arrange
-
-			try
-			{
-				// Act
-				// (MongoConnectionException is also thrown here)
-				Repository.TestConnection(ApplicationSettings.DataStoreType, InvalidConnectionString);
-			}
-			catch (DbException)
-			{
-				// Assert
-				Assert.Pass();
-			}
-			catch (ArgumentException)
-			{
-				Assert.Pass();
-			}
-			catch (Exception)
-			{
-				Assert.Fail();
-			}
 		}
 	}
 }

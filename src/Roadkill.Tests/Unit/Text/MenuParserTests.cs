@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
@@ -10,7 +7,7 @@ using Roadkill.Core.Database;
 using Roadkill.Core.Text;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Text
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -25,7 +22,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Replace_Known_Tokens_When_Logged_In_As_Admin()
+		public void should_replace_known_tokens_when_logged_in_as_admin()
 		{
 			// Arrange
 			string menuMarkup = "* %categories%\r\n\r\n%allpages%\r\n%mainpage%\r\n%newpage%\r\n%managefiles%\r\n%sitesettings%\r\n";
@@ -48,7 +45,7 @@ namespace Roadkill.Tests.Unit
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.Installed = true;
 			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
 			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
@@ -61,7 +58,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Replace_Known_Tokens_When_Logged_In_As_Editor()
+		public void should_replace_known_tokens_when_logged_in_as_editor()
 		{
 			// Arrange
 			string menuMarkup = "* %categories%\r\n\r\n%allpages%\r\n%mainpage%\r\n%newpage%\r\n%managefiles%\r\n%sitesettings%\r\n";
@@ -82,7 +79,7 @@ namespace Roadkill.Tests.Unit
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.Installed = true;
 			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
 			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
@@ -95,7 +92,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Replace_Known_Tokens_When_Not_Logged()
+		public void should_replace_known_tokens_when_not_logged()
 		{
 			// Arrange
 			string menuMarkup = "* %categories%\r\n\r\n%allpages%\r\n%mainpage%\r\n%newpage%\r\n%managefiles%\r\n%sitesettings%\r\n";
@@ -114,7 +111,7 @@ namespace Roadkill.Tests.Unit
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.Installed = true;
 			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
 			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
@@ -145,7 +142,7 @@ namespace Roadkill.Tests.Unit
 			ApplicationSettings applicationSettings = new ApplicationSettings();
 			applicationSettings.Installed = true;
 			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
 			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
@@ -158,7 +155,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Cache_Menu_Html_For_Admin_And_Editor_And_Guest_User()
+		public void should_cache_menu_html_for_admin_and_editor_and_guest_user()
 		{
 			// Arrange
 			string menuMarkup = "My menu %newpage% %sitesettings%";
@@ -173,7 +170,7 @@ namespace Roadkill.Tests.Unit
 			applicationSettings.Installed = true;
 
 			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
 			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
@@ -196,7 +193,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Return_Different_Menu_Html_For_Admin_And_Editor_And_Guest_User()
+		public void should_return_different_menu_html_for_admin_and_editor_and_guest_user()
 		{
 			// Arrange
 			string menuMarkup = "My menu %newpage% %sitesettings%";
@@ -211,7 +208,7 @@ namespace Roadkill.Tests.Unit
 			applicationSettings.Installed = true;
 
 			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
 			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
@@ -236,7 +233,7 @@ namespace Roadkill.Tests.Unit
 		}
 		
 		[Test]
-		public void Should_Replace_Markdown_With_External_Link()
+		public void should_replace_markdown_with_external_link()
 		{
 			// Arrange
 			string menuMarkup = "* [First link](http://www.google.com)\r\n";
@@ -252,7 +249,7 @@ namespace Roadkill.Tests.Unit
 			applicationSettings.Installed = true;
 
 			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
 			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
@@ -265,7 +262,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Replace_Markdown_With_Internal_Link()
+		public void should_replace_markdown_with_internal_link()
 		{
 			// Arrange
 			string menuMarkup = "* [First link](my-page)\r\n";
@@ -283,7 +280,7 @@ namespace Roadkill.Tests.Unit
 			applicationSettings.Installed = true;
 
 			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(applicationSettings, cache);
+			SiteCache siteCache = new SiteCache(cache);
 
 			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
 			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);

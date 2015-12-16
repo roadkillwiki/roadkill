@@ -15,7 +15,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// A base controller for all Roadkill controller classes which require services 
 	/// (via an IServiceContainer) or authentication.
 	/// </summary>
-	public class ControllerBase : Controller
+	public class ControllerBase : Controller, IRoadkillController
 	{
 		public ApplicationSettings ApplicationSettings { get; private set; }
 		public UserServiceBase UserService { get; private set; }
@@ -54,18 +54,11 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <param name="filterContext">Information about the current request and action.</param>
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			// Redirect if Roadkill isn't installed or an upgrade is needed.
+			// Redirect if Roadkill isn't installed
 			if (!ApplicationSettings.Installed)
 			{
 				if (!(filterContext.Controller is InstallController))
 					filterContext.Result = new RedirectResult(this.Url.Action("Index", "Install"));
-
-				return;
-			}
-			else if (ApplicationSettings.UpgradeRequired)
-			{
-				if (!(filterContext.Controller is UpgradeController))
-					filterContext.Result = new RedirectResult(this.Url.Action("Index", "Upgrade"));
 
 				return;
 			}

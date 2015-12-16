@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
-using System.Text;
-using Mindscape.LightSpeed;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Database;
-using Roadkill.Core.Logging;
 using Roadkill.Core.Plugins;
 using PluginSettings = Roadkill.Core.Plugins.Settings;
 
@@ -16,17 +12,14 @@ namespace Roadkill.Core.Cache
 	/// </summary>
 	public class SiteCache : IPluginCache
 	{
-		private ObjectCache _cache; 
-		private ApplicationSettings _applicationSettings;
+		private ObjectCache _cache;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SiteCache"/> class.
 		/// </summary>
-		/// <param name="settings">The application settings.</param>
 		/// <param name="cache">The underlying OjectCache - a MemoryCache by default.</param>
-		public SiteCache(ApplicationSettings settings, ObjectCache cache)
+		public SiteCache(ObjectCache cache)
 		{
-			_applicationSettings = settings;
 			_cache = cache;
 		}
 

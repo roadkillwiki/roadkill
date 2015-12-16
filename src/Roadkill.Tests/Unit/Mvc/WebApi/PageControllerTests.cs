@@ -8,8 +8,9 @@ using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.Controllers.Api;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Services;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit.WebApi
+namespace Roadkill.Tests.Unit.Mvc.WebApi
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -39,7 +40,7 @@ namespace Roadkill.Tests.Unit.WebApi
 		}
 
 		[Test]
-		public void Get_Should_Return_All_Pages()
+		public void get_should_return_all_pages()
 		{
 			// Arrange
 			_pageService.AddPage(new PageViewModel() { Id = 1, Title = "new page" });
@@ -53,7 +54,7 @@ namespace Roadkill.Tests.Unit.WebApi
 		}
 
 		[Test]
-		public void Get_Should_Return_Page_By_Id()
+		public void get_should_return_page_by_id()
 		{
 			// Arrange
 			Page expectedPage = new Page() { Id = 7, Title = "new page" };
@@ -68,7 +69,7 @@ namespace Roadkill.Tests.Unit.WebApi
 		}
 
 		[Test]
-		public void Get_Should_Return_Null_When_Page_Does_Not_Exist()
+		public void get_should_return_null_when_page_does_not_exist()
 		{
 			// Arrange
 
@@ -80,7 +81,7 @@ namespace Roadkill.Tests.Unit.WebApi
 		}
 
 		[Test]
-		public void Put_Should_Update_Page()
+		public void put_should_update_page()
 		{
 			// Arrange
 			DateTime version1Date = DateTime.Today.AddDays(-1); // stops the getlatestcontent acting up when add+update are the same time
@@ -109,7 +110,7 @@ namespace Roadkill.Tests.Unit.WebApi
 		}
 
 		[Test]
-		public void Post_Should_Add_Page()
+		public void post_should_add_page()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel();

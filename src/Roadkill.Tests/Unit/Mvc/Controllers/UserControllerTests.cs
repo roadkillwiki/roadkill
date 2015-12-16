@@ -1,22 +1,20 @@
 using System;
-using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Web.Mvc;
-using Moq;
+using MvcContrib.TestHelper;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Database;
-using Roadkill.Core.Services;
-using Roadkill.Core.Security;
-using Roadkill.Core.Mvc.ViewModels;
-using System.IO;
-using System.Linq;
-using MvcContrib.TestHelper;
 using Roadkill.Core.Localization;
+using Roadkill.Core.Mvc.Controllers;
+using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Services;
 using Roadkill.Tests.Unit.StubsAndMocks;
+using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.Controllers
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -60,7 +58,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Activate_Should_Redirect_When_Windows_Authentication_Is_Enabled()
+		public void activate_should_redirect_when_windows_authentication_is_enabled()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = true;
@@ -75,7 +73,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Activate_Should_Return_View_When_Key_Is_Valid()
+		public void activate_should_return_view_when_key_is_valid()
 		{
 			// Arrange
 
@@ -87,7 +85,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Activate_Should_Have_Model_Error_When_Key_Is_Invalid()
+		public void activate_should_have_model_error_when_key_is_invalid()
 		{
 			// Arrange
 
@@ -100,7 +98,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Activate_Should_Return_RedirectResult_When_Key_Is_Empty()
+		public void activate_should_return_redirectresult_when_key_is_empty()
 		{
 			// Arrange + Act	
 			ActionResult result = _userController.Activate("");
@@ -112,7 +110,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void LoggedInAs_Should_Return_PartialView()
+		public void loggedinas_should_return_partialview()
 		{
 			// Arrange + Act	
 			ActionResult result = _userController.LoggedInAs();
@@ -123,7 +121,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Login_GET_Should_Return_View()
+		public void login_get_should_return_view()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
@@ -137,7 +135,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Login_GET_Should_Display_Blank_View_When_ReturnUrl_Is_From_FileManager()
+		public void login_get_should_display_blank_view_when_returnurl_is_from_filemanager()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
@@ -152,7 +150,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Login_GET_Should_Display_Blank_View_When_ReturnUrl_Is_From_Help()
+		public void login_get_should_display_blank_view_when_returnurl_is_from_help()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
@@ -167,7 +165,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Login_GET_Should_Redirect_When_Windows_Authentication_Is_Enabled()
+		public void login_get_should_redirect_when_windows_authentication_is_enabled()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = true;
@@ -182,7 +180,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Login_POST_Should_Redirect_When_Windows_Authentication_Is_Enabled()
+		public void login_post_should_redirect_when_windows_authentication_is_enabled()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = true;
@@ -197,7 +195,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Login_POST_Should_Redirect_When_Authentication_Is_Successful()
+		public void login_post_should_redirect_when_authentication_is_successful()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
@@ -211,7 +209,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Login_POST_Should_Redirect_To_FromUrl_When_Authentication_Is_Successful()
+		public void login_post_should_redirect_to_fromurl_when_authentication_is_successful()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
@@ -225,7 +223,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Login_POST_With_Wrong_Email_And_Password_Should_Have_Model_Error()
+		public void login_post_with_wrong_email_and_password_should_have_model_error()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
@@ -239,7 +237,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Login_POST_Should_Display_Blank_View_When_ReturnUrl_Is_From_FileManager_And_Authentication_Is_Unsuccessful()
+		public void login_post_should_display_blank_view_when_returnurl_is_from_filemanager_and_authentication_is_unsuccessful()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
@@ -254,7 +252,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Login_POST_Should_Display_Blank_View_When_ReturnUrl_Is_From_Help_And_Authentication_Is_Unsuccessful()
+		public void login_post_should_display_blank_view_when_returnurl_is_from_help_and_authentication_is_unsuccessful()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
@@ -269,7 +267,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Logout_Should_Have_RedirectResult()
+		public void logout_should_have_redirectresult()
 		{
 			// Arrange
 
@@ -283,7 +281,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Signup_POST_When_LoggedIn_Should_Return_RedirectResult()
+		public void signup_post_when_loggedin_should_return_redirectresult()
 		{
 			// Arrange
 
@@ -298,7 +296,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Signup_POST_With_WindowsAuth_Enabled_Should_Return_RedirectResult()
+		public void signup_post_with_windowsauth_enabled_should_return_redirectresult()
 		{
 			// Arrange
 			_repository.SiteSettings.AllowUserSignup = true;
@@ -314,7 +312,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Signup_POST_With_Signups_Disabled_Should_Return_RedirectResult()
+		public void signup_post_with_signups_disabled_should_return_redirectresult()
 		{
 			// Arrange
 			_repository.SiteSettings.AllowUserSignup = false;
@@ -329,12 +327,12 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Signup_POST_Should_Send_Email()
+		public void signup_post_should_send_email()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
 			
-			SiteSettings siteSettings = _settingsService.GetSiteSettings();
+			Core.Configuration.SiteSettings siteSettings = _settingsService.GetSiteSettings();
 			siteSettings.AllowUserSignup = true;
 
 			SignupEmailStub signupEmail = new SignupEmailStub(_applicationSettings, _repository, _emailClientMock);
@@ -357,12 +355,12 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Signup_POST_Should_Not_Send_Email_With_Invalid_ModelState()
+		public void signup_post_should_not_send_email_with_invalid_modelstate()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
 			
-			SiteSettings siteSettings = _settingsService.GetSiteSettings();
+			Core.Configuration.SiteSettings siteSettings = _settingsService.GetSiteSettings();
 			siteSettings.AllowUserSignup = true;
 
 			SignupEmailStub signupEmail = new SignupEmailStub(_applicationSettings, _repository, _emailClientMock);
@@ -383,10 +381,10 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Signup_POST_Should_Set_ModelState_Error_From_SecurityException()
+		public void signup_post_should_set_modelstate_error_from_securityexception()
 		{
 			// Arrange
-			SiteSettings siteSettings = _settingsService.GetSiteSettings();
+			Core.Configuration.SiteSettings siteSettings = _settingsService.GetSiteSettings();
 			siteSettings.AllowUserSignup = true;
 
 			SignupEmailStub signupEmail = new SignupEmailStub(_applicationSettings, _repository, _emailClientMock); // change the signup email
@@ -408,10 +406,10 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Signup_POST_Should_Set_ModelState_Error_From_Bad_Recaptcha()
+		public void signup_post_should_set_modelstate_error_from_bad_recaptcha()
 		{
 			// Arrange
-			SiteSettings siteSettings = _settingsService.GetSiteSettings();
+			Core.Configuration.SiteSettings siteSettings = _settingsService.GetSiteSettings();
 			siteSettings.AllowUserSignup = true;
 
 			UserViewModel model = new UserViewModel();
@@ -430,7 +428,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ResetPassword_GET_Should_Return_ViewResult_And_ViewName()
+		public void resetpassword_get_should_return_viewresult_and_viewname()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
@@ -444,7 +442,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ResetPassword_GET_With_Windows_Auth_Enabled_Should_Return_RedirectResult()
+		public void resetpassword_get_with_windows_auth_enabled_should_return_redirectresult()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = true;
@@ -459,7 +457,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ResetPassword_POST_With_Windows_Auth_Enabled_Should_Return_RedirectResult()
+		public void resetpassword_post_with_windows_auth_enabled_should_return_redirectresult()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = true;
@@ -474,11 +472,11 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ResetPassword_POST_Should_Not_Send_Email_With_Invalid_ModelState()
+		public void resetpassword_post_should_not_send_email_with_invalid_modelstate()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
-			SiteSettings siteSettings = _settingsService.GetSiteSettings();
+			Core.Configuration.SiteSettings siteSettings = _settingsService.GetSiteSettings();
 
 			ResetPasswordEmailStub resetEmail = new ResetPasswordEmailStub(_applicationSettings, _repository, _emailClientMock);
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, resetEmail);
@@ -495,11 +493,11 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ResetPassword_POST_Should_Have_ResetPasswordSent_View_And_Should_Send_ResetPassword_Email()
+		public void resetpassword_post_should_have_resetpasswordsent_view_and_should_send_resetpassword_email()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
-			SiteSettings siteSettings = _settingsService.GetSiteSettings();
+			Core.Configuration.SiteSettings siteSettings = _settingsService.GetSiteSettings();
 			
 			string email = "test@test.com";
 			_userService.AddUser(email, "test", "test", false, true);
@@ -521,7 +519,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ResetPassword_POST_Should_Set_ModelState_Error_When_Email_Is_Empty()
+		public void resetpassword_post_should_set_modelstate_error_when_email_is_empty()
 		{
 			// Arrange
 
@@ -536,7 +534,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void CompleteResetPassword_GET_Should_Have_Correct_Model_And_ActionResult()
+		public void completeresetpassword_get_should_have_correct_model_and_actionresult()
 		{
 			// Arrange
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
@@ -560,7 +558,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void CompleteResetPassword_GET_Should_Return_CompleteResetPasswordInvalid_View_When_User_Is_Null()
+		public void completeresetpassword_get_should_return_completeresetpasswordinvalid_view_when_user_is_null()
 		{
 			// Arrange
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, null);
@@ -575,7 +573,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void CompleteResetPassword_GET_With_WindowsAuth_Enabled_Should_Redirect()
+		public void completeresetpassword_get_with_windowsauth_enabled_should_redirect()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = true;
@@ -590,7 +588,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void CompleteResetPassword_POST_With_Windows_Auth_Enabled_Should_Return_RedirectResult()
+		public void completeresetpassword_post_with_windows_auth_enabled_should_return_redirectresult()
 		{
 			// Arrange
 			UserViewModel model = new UserViewModel();
@@ -606,7 +604,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void CompleteResetPassword_POST_Should_Change_Password()
+		public void completeresetpassword_post_should_change_password()
 		{
 			// Arrange
 			_userService.AddUser("email@localhost", "username", "OldPassword", false, true);
@@ -628,7 +626,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void CompleteResetPassword_POST_Should_Return_CompleteResetPasswordInvalid_When_Key_Is_Invalid()
+		public void completeresetpassword_post_should_return_completeresetpasswordinvalid_when_key_is_invalid()
 		{
 			// Arrange
 			UserViewModel model = new UserViewModel();
@@ -644,7 +642,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void CompleteResetPassword_POST_Should_Have_Invalid_ModelState_When_Passwords_Dont_Match()
+		public void completeresetpassword_post_should_have_invalid_modelstate_when_passwords_dont_match()
 		{
 			// Arrange
 			UserViewModel model = new UserViewModel();
@@ -662,11 +660,11 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ResendConfirmation_POST_With_Invalid_Email_Should_Show_Signup_View()
+		public void resendconfirmation_post_with_invalid_email_should_show_signup_view()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
-			SiteSettings siteSettings = _settingsService.GetSiteSettings();
+			Core.Configuration.SiteSettings siteSettings = _settingsService.GetSiteSettings();
 
 			ResetPasswordEmailStub resetEmail = new ResetPasswordEmailStub(_applicationSettings, _repository, _emailClientMock);
 			UserController userController = new UserController(_applicationSettings, _userService, _userContext, _settingsService, null, resetEmail);
@@ -681,11 +679,11 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ResendConfirmation_POST_Should_SendEmail_And_Show_SignupComplete_View_And_Set_TempData()
+		public void resendconfirmation_post_should_sendemail_and_show_signupcomplete_view_and_set_tempdata()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
-			SiteSettings siteSettings = _settingsService.GetSiteSettings();
+			Core.Configuration.SiteSettings siteSettings = _settingsService.GetSiteSettings();
 
 			string email = "test@test.com";
 			_userService.AddUser(email, "test", "password", false, true);
@@ -706,7 +704,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Profile_GET_Should_Redirect_If_No_Logged_In_User()
+		public void profile_get_should_redirect_if_no_logged_in_user()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
@@ -720,7 +718,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Profile_GET_Should_Return_Correct_ActionResult_And_Model()
+		public void profile_get_should_return_correct_actionresult_and_model()
 		{
 			// Arrange
 			_applicationSettings.UseWindowsAuthentication = false;
@@ -744,7 +742,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Profile_POST_Should_Redirect_If_Summary_Has_No_Id()
+		public void profile_post_should_redirect_if_summary_has_no_id()
 		{
 			// Arrange
 			UserViewModel model = new UserViewModel();
@@ -758,7 +756,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Profile_POST_Should_Return_403_When_Updated_Id_Is_Not_Logged_In_User()
+		public void profile_post_should_return_403_when_updated_id_is_not_logged_in_user()
 		{
 			// Arrange
 			string loggedInEmail = "profiletest.new@test.com";
@@ -798,7 +796,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Profile_POST_Should_Update_User()
+		public void profile_post_should_update_user()
 		{
 			// Arrange
 			string email = "profiletest@test.com";
@@ -833,7 +831,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Profile_POST_Should_Update_Password_If_Changed()
+		public void profile_post_should_update_password_if_changed()
 		{
 			// Arrange
 			string email = "profiletest@test.com";
@@ -864,7 +862,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Signup_GET_Should_Return_View()
+		public void signup_get_should_return_view()
 		{
 			// Arrange
 			UserViewModel model = new UserViewModel();
@@ -880,7 +878,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Signup_GET_Should_Redirect_When_Logged_In()
+		public void signup_get_should_redirect_when_logged_in()
 		{
 			// Arrange
 			UserViewModel model = new UserViewModel();
@@ -897,7 +895,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Signup_GET_Should_Redirect_When_Signups_Are_Disabled()
+		public void signup_get_should_redirect_when_signups_are_disabled()
 		{
 			// Arrange
 			UserViewModel model = new UserViewModel();
@@ -913,7 +911,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Signup_GET_Should_Redirect_When_Windows_Auth_Is_Enabled()
+		public void signup_get_should_redirect_when_windows_auth_is_enabled()
 		{
 			// Arrange
 			UserViewModel model = new UserViewModel();

@@ -1,28 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Web.Mvc;
-using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
-using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Converters;
-using Roadkill.Core.Database;
-using Roadkill.Core.Localization;
-using Roadkill.Core.Services;
-using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
-using System.Runtime.Caching;
-using System.Threading;
 using Roadkill.Tests.Unit.StubsAndMocks;
-using MvcContrib.TestHelper;
-using Roadkill.Core.DI;
-using StructureMap;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.Controllers
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -37,6 +22,7 @@ namespace Roadkill.Tests.Unit
 		private ActiveDirectoryProviderMock _activeDirectoryProviderMock;
 
 		private ConfigurationTesterController _configTesterController;
+		private RepositoryFactoryMock _repositoryFactoryMock;
 
 		[SetUp]
 		public void Setup()
@@ -51,11 +37,12 @@ namespace Roadkill.Tests.Unit
 			_configReaderWriter = new ConfigReaderWriterStub();
 			_activeDirectoryProviderMock = new ActiveDirectoryProviderMock();
 
-			_configTesterController = new ConfigurationTesterController(_applicationSettings, _context, _configReaderWriter, _activeDirectoryProviderMock, _userService);
+			_repositoryFactoryMock = new RepositoryFactoryMock();
+			_configTesterController = new ConfigurationTesterController(_applicationSettings, _context, _configReaderWriter, _activeDirectoryProviderMock, _userService, _repositoryFactoryMock);
 		}
 
 		[Test]
-		public void TestWebConfig_Should_Return_JsonResult_And_TestResult_Model_Without_Errors()
+		public void testwebconfig_should_return_jsonresult_and_testresult_model_without_errors()
 		{
 			// Arrange
 			_configReaderWriter.TestWebConfigResult = "";
@@ -73,7 +60,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void TestWebConfig_Should_Return_Empty_Content_When_Installed_Is_True()
+		public void testwebconfig_should_return_empty_content_when_installed_is_true()
 		{
 			// Arrange
 			_applicationSettings.Installed = true;
@@ -88,7 +75,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void TestAttachments_Should_Return_Empty_Content_When_Installed_Is_True()
+		public void testattachments_should_return_empty_content_when_installed_is_true()
 		{
 			// Arrange
 			_applicationSettings.Installed = true;
@@ -103,13 +90,13 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void TestDatabaseConnection_Should_Return_Empty_Content_When_Installed_Is_True()
+		public void testdatabaseconnection_should_return_empty_content_when_installed_is_true()
 		{
 			// Arrange
 			_applicationSettings.Installed = true;
 
 			// Act
-			ActionResult result = _configTesterController.TestDatabaseConnection("connectionstring", "sqlite");
+			ActionResult result = _configTesterController.TestDatabaseConnection("connectionstring", "SqlServer2008");
 
 			// Assert
 			ContentResult contentResult = result.AssertResultIs<ContentResult>();
@@ -118,7 +105,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void TestLdap_Should_Return_JsonResult_And_TestResult_Model_Without_Errors()
+		public void testldap_should_return_jsonresult_and_testresult_model_without_errors()
 		{
 			// Arrange
 			_activeDirectoryProviderMock.LdapConnectionResult = "";
@@ -136,7 +123,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void TestLdap_Should_Return_Empty_Content_When_Installed_Is_True()
+		public void testldap_should_return_empty_content_when_installed_is_true()
 		{
 			// Arrange
 			_applicationSettings.Installed = true;
@@ -151,43 +138,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void CopySqlite_Should_Return_Empty_Content_When_Installed_Is_True()
-		{
-			// Arrange
-			_applicationSettings.Installed = true;
-
-			// Act
-			ActionResult result = _configTesterController.CopySqlite();
-
-			// Assert
-			ContentResult contentResult = result.AssertResultIs<ContentResult>();
-			Assert.That(contentResult, Is.Not.Null);
-			Assert.That(contentResult.Content, Is.Empty);
-		}
-
-		[Test]
-		public void CopySqlite_Should_Return_JsonResult_And_TestResult_Model_Without_Errors()
-		{
-			// Arrange
-			_activeDirectoryProviderMock.LdapConnectionResult = "";
-			_applicationSettings.SQLiteBinariesPath = Path.Combine(Settings.WEB_PATH, "App_Data", "Internal", "SQLiteBinaries");
-			_configTesterController.SetFakeControllerContext();
-
-			// Act
-			ActionResult result = _configTesterController.CopySqlite();
-
-			// Assert
-			JsonResult jsonResult = result.AssertResultIs<JsonResult>();
-
-			TestResult testResult = jsonResult.Data as TestResult;
-			Assert.That(testResult, Is.Not.Null);
-			Assert.That(testResult.ErrorMessage, Is.EqualTo(""), testResult.ErrorMessage);
-			Assert.That(testResult.Success, Is.True);
-		}
-
-
-		[Test]
-		public void TestAttachments_Should_Allow_Get_And_Return_Json_Result_And_TestResult_With_No_Errors()
+		public void testattachments_should_allow_get_and_return_json_result_and_testresult_with_no_errors()
 		{
 			// Arrange
 			string directory = AppDomain.CurrentDomain.BaseDirectory;
@@ -206,7 +157,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void TestAttachments_Should_Return_TestResult_With_Errors_For_UnWritable_Folder()
+		public void testattachments_should_return_testresult_with_errors_for_unwritable_folder()
 		{
 			// Arrange
 			string directory = "c:\ads8ads9f8d7asf98ad7f";
@@ -221,19 +172,14 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void TestDatabaseConnection_Should_Allow_Get_And_Return_Json_Result_And_TestResult_With_No_Errors()
+		public void testdatabaseconnection_should_allow_get_and_return_json_result_and_testresult_with_no_errors()
 		{
 			// Arrange
-			string sqlCeDbPath = Path.Combine(Settings.LIB_FOLDER, "Empty-databases", "roadkill.sdf");
-			string sqlCeDbDestPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testdatabase.sdf");
-			File.Copy(sqlCeDbPath, sqlCeDbDestPath, true);
-
-			string connectionString = @"Data Source=|DataDirectory|\testdatabase.sdf";
-			DependencyManager manager = new DependencyManager(new ApplicationSettings());
-			manager.Configure();
+			string connectionString = "Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill";
+			_repositoryFactoryMock.InstallerRepository.IsConnectionValid = true;
 
 			// Act
-			JsonResult result = _configTesterController.TestDatabaseConnection(connectionString, "SqlServerCE") as JsonResult;
+			JsonResult result = _configTesterController.TestDatabaseConnection(connectionString, "SqlServer2008") as JsonResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null, "JsonResult");
@@ -246,15 +192,14 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void TestDatabaseConnection_Should_Return_TestResult_With_Errors_For_Invalid_ConnectionString()
+		public void testdatabaseconnection_should_return_testresult_with_errors_for_invalid_connectionstring()
 		{
 			// Arrange
 			string connectionString = "invalid connection string";
-			DependencyManager manager = new DependencyManager(new ApplicationSettings());
-			manager.Configure();
+			_repositoryFactoryMock.InstallerRepository.IsConnectionValid = false;
 
 			// Act
-			JsonResult result = _configTesterController.TestDatabaseConnection(connectionString, "SqlServerCE") as JsonResult;
+			JsonResult result = _configTesterController.TestDatabaseConnection(connectionString, "SqlServer2008") as JsonResult;
 
 			// Assert
 			Assert.That(result, Is.Not.Null, "JsonResult");

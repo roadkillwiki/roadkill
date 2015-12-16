@@ -7,6 +7,7 @@ using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit.Mvc.ViewModels
 {
@@ -15,7 +16,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 	public class UserViewModelTests
 	{
 		[Test]
-		public void Empty_Constructor_Should_Fill_Properties_With_Default_Values()
+		public void empty_constructor_should_fill_properties_with_default_values()
 		{
 			// Arrange + Act
 			UserViewModel model = new UserViewModel();
@@ -37,7 +38,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void Constructor_Should_Fill_Properties_From_User_Object()
+		public void constructor_should_fill_properties_from_user_object()
 		{
 			// Arrange + Act
 			User user = new User();
@@ -92,7 +93,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void Email_And_Username_Changed_Should_Be_True_When_Properties_Changed()
+		public void email_and_username_changed_should_be_true_when_properties_changed()
 		{
 			// Arrange + Act
 			UserViewModel model = new UserViewModel();
@@ -107,7 +108,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void Equals_Should_Compare_By_ExistingEmail()
+		public void equals_should_compare_by_existingemail()
 		{
 			// Arrange + Act
 			UserViewModel user1 = new UserViewModel();
@@ -121,7 +122,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		public void GetHashCode_Should_Compare_By_ExistingEmail()
+		public void gethashcode_should_compare_by_existingemail()
 		{
 			// Arrange + Act
 			UserViewModel user1 = new UserViewModel();

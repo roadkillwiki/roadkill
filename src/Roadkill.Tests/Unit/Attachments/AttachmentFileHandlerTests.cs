@@ -1,12 +1,13 @@
-﻿using NUnit.Framework;
-using Roadkill.Core.Attachments;
-using Roadkill.Core.Configuration;
-using System;
+﻿using System;
 using System.IO;
 using System.Web;
+using NUnit.Framework;
+using Roadkill.Core.Attachments;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Services;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Attachments
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -22,11 +23,11 @@ namespace Roadkill.Tests.Unit
 			_applicationSettings.AttachmentsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Unit", "Attachments");
 			_applicationSettings.AttachmentsRoutePath = "Attachments";
 
-			_fileService = new LocalFileService(_applicationSettings, new SettingsService(_applicationSettings,null));
+			_fileService = new LocalFileService(_applicationSettings, new SettingsService(new RepositoryFactoryMock(), _applicationSettings));
 		}
 
 		[Test]
-		public void WriteResponse_Should_Set_200_Status_And_MimeType_And_Write_Bytes()
+		public void writeresponse_should_set_200_status_and_mimetype_and_write_bytes()
 		{
 			// Arrange
 			AttachmentFileHandler handler = new AttachmentFileHandler(_applicationSettings,_fileService);
@@ -52,7 +53,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void WriteResponse_Should_Throw_404_Exception_For_Missing_File()
+		public void writeresponse_should_throw_404_exception_for_missing_file()
 		{
 			// Arrange
 			AttachmentFileHandler handler = new AttachmentFileHandler(_applicationSettings,_fileService);
@@ -77,7 +78,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void WriteResponse_Should_Throw_404_Exception_For_Bad_Application_Path()
+		public void writeresponse_should_throw_404_exception_for_bad_application_path()
 		{
 			// Arrange
 			AttachmentFileHandler handler = new AttachmentFileHandler(_applicationSettings,_fileService);
@@ -105,7 +106,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void TranslateLocalPathToFilePath_Should_Be_Case_Sensitive()
+		public void translatelocalpathtofilepath_should_be_case_sensitive()
 		{
 			// Arrange
 			_applicationSettings.AttachmentsFolder = @"C:\attachments\";

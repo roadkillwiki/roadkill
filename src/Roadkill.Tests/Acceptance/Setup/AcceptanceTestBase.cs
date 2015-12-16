@@ -11,11 +11,11 @@ namespace Roadkill.Tests.Acceptance
 	[Category("Acceptance")]
 	public abstract class AcceptanceTestBase
 	{
-		public static readonly string ADMIN_EMAIL = Settings.ADMIN_EMAIL;
-		public static readonly string ADMIN_PASSWORD = Settings.ADMIN_PASSWORD;
+		public static readonly string ADMIN_EMAIL = TestConstants.ADMIN_EMAIL;
+		public static readonly string ADMIN_PASSWORD = TestConstants.ADMIN_PASSWORD;
 
-		protected static readonly string EDITOR_EMAIL = Settings.EDITOR_EMAIL;
-		protected static readonly string EDITOR_PASSWORD = Settings.EDITOR_PASSWORD;
+		protected static readonly string EDITOR_EMAIL = TestConstants.EDITOR_EMAIL;
+		protected static readonly string EDITOR_PASSWORD = TestConstants.EDITOR_PASSWORD;
 
 		protected IWebDriver Driver;
 		protected string LoginUrl;
@@ -28,20 +28,23 @@ namespace Roadkill.Tests.Acceptance
 		{
 			string url = ConfigurationManager.AppSettings["url"];
 			if (string.IsNullOrEmpty(url))
-				url = "http://localhost:9876";
-
-			Console.WriteLine("============ Acceptance tests setup ============");
-
-			SqlServerSetup.RecreateLocalDbData();
-			ConfigFileManager.CopyRoadkillConfig();
+				url = TestConstants.WEB_BASEURL;
 
 			BaseUrl = url;
 			LoginUrl = BaseUrl + "/user/login";
 			LogoutUrl = BaseUrl + "/user/logout";
 			Driver = AcceptanceTestsSetup.Driver;
 			IsWindowsAuthTests = (ConfigurationManager.AppSettings["useWindowsAuth"] == "true");
+			TestHelpers.SqlServerSetup.RecreateTables();
+			TestHelpers.DeleteAttachmentsFolder();
+		}
 
-			Console.WriteLine("=================================================");
+		[TestFixtureSetUp]
+		public void TestFixtureSetup()
+		{
+			TestHelpers.CopyDevWebConfigFromLibFolder();
+			TestHelpers.CopyDevRoadkillConfig();
+			TestHelpers.CopyDevConnectionStringsConfig();
 		}
 
 		protected void CreatePageWithTags(params string[] tags)

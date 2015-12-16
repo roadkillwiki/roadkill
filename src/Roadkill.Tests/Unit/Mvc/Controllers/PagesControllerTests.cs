@@ -1,24 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
-using Roadkill.Core;
-using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
-using Roadkill.Core.Localization;
-using Roadkill.Core.Services;
-using Roadkill.Core.Security;
+using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
-using System.Runtime.Caching;
+using Roadkill.Core.Services;
 using Roadkill.Tests.Unit.StubsAndMocks;
+using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.Controllers
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -103,7 +98,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void AllPages_Should_Return_Model_And_Pages()
+		public void allpages_should_return_model_and_pages()
 		{
 			// Arrange
 			Page page1 = AddDummyPage1();
@@ -124,7 +119,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void AllTags_Should_Return_Model_And_Tags()
+		public void alltags_should_return_model_and_tags()
 		{
 			// Arrange
 			Page page1 = AddDummyPage1();
@@ -145,7 +140,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void AllTagsAsJson_Should_Return_Model_And_Tags()
+		public void alltagsasjson_should_return_model_and_tags()
 		{
 			// Arrange
 			Page page1 = AddDummyPage1();
@@ -170,7 +165,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ByUser_Should_Contain_ViewData_And_Return_Model_And_Pages()
+		public void byuser_should_contain_viewdata_and_return_model_and_pages()
 		{
 			// Arrange
 			string username = "amazinguser";
@@ -195,7 +190,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ByUser_With_Base64_Username_Should_Contain_ViewData_And_Return_Model_And_Pages()
+		public void byuser_with_base64_username_should_contain_viewdata_and_return_model_and_pages()
 		{
 			// Arrange
 			string username = @"mydomain\Das ádmin``";
@@ -221,7 +216,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Delete_Should_Contains_Redirect_And_Remove_Page()
+		public void delete_should_contains_redirect_and_remove_page()
 		{
 			// Arrange
 			Page page1 = AddDummyPage1();
@@ -240,7 +235,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Edit_GET_Should_Redirect_With_Invalid_Page_Id()
+		public void edit_get_should_redirect_with_invalid_page_id()
 		{
 			// Arrange
 
@@ -256,7 +251,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Edit_GET_As_Editor_With_Locked_Page_Should_Return_403()
+		public void edit_get_as_editor_with_locked_page_should_return_403()
 		{
 			// Arrange
 			_contextStub.IsAdmin = false;
@@ -276,7 +271,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Edit_GET_Should_Return_ViewResult()
+		public void edit_get_should_return_viewresult()
 		{
 			// Arrange
 			Page page = AddDummyPage1();
@@ -294,7 +289,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Edit_POST_Should_Return_RedirectResult_And_Call_PageService()
+		public void edit_post_should_return_redirectresult_and_call_pageservice()
 		{
 			// Arrange
 			_contextStub.CurrentUser = "Admin";
@@ -322,7 +317,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Edit_POST_With_Invalid_Data_Should_Return_View_And_Invalid_ModelState()
+		public void edit_post_with_invalid_data_should_return_view_and_invalid_modelstate()
 		{
 			// Arrange
 			_contextStub.CurrentUser = "Admin";
@@ -341,7 +336,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void GetPreview_Should_Return_JavascriptResult_And_Page_Content()
+		public void getpreview_should_return_javascriptresult_and_page_content()
 		{
 			// Arrange
 			_contextStub.CurrentUser = "Admin";
@@ -359,7 +354,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void History_Returns_ViewResult_And_Model_With_Two_Versions()
+		public void history_returns_viewresult_and_model_with_two_versions()
 		{
 			// Arrange
 			Page page = AddDummyPage1();
@@ -381,7 +376,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void New_GET_Should_Return_ViewResult()
+		public void new_get_should_return_viewresult()
 		{
 			// Arrange
 			string title = "my title";
@@ -401,7 +396,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void New_POST_Should_Return_RedirectResult_And_Call_PageService()
+		public void new_post_should_return_redirectresult_and_call_pageservice()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel();
@@ -433,7 +428,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void New_POST_With_Invalid_Data_Should_Return_View_And_Invalid_ModelState()
+		public void new_post_with_invalid_data_should_return_view_and_invalid_modelstate()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel();
@@ -449,7 +444,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Revert_Should_Return_RedirectToRouteResult_With_Page_Id()
+		public void revert_should_return_redirecttorouteresult_with_page_id()
 		{
 			// Arrange
 			_contextStub.IsAdmin = true;
@@ -474,7 +469,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Revert_As_Editor_And_Locked_Page_Should_Return_RedirectToRouteResult_To_Index()
+		public void revert_as_editor_and_locked_page_should_return_redirecttorouteresult_to_index()
 		{
 			// Arrange
 			Page page = AddDummyPage1();
@@ -499,7 +494,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Tag_Returns_ViewResult_And_Calls_PageService()
+		public void tag_returns_viewresult_and_calls_pageservice()
 		{
 			// Arrange
 			Page page1 = AddDummyPage1();
@@ -517,7 +512,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Version_Should_Return_ViewResult_And_PageSummary_Model()
+		public void version_should_return_viewresult_and_pagesummary_model()
 		{
 			// Arrange
 			Page page = AddDummyPage1();

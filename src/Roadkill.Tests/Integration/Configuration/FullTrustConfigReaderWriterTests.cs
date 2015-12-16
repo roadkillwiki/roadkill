@@ -5,10 +5,9 @@ using System.Web.Configuration;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Integration.Configuration
 {
 	[TestFixture]
 	[Description("Tests writing and reading .config files.")]
@@ -19,7 +18,7 @@ namespace Roadkill.Tests.Unit
 		public void Setup()
 		{
 			// Copy the config files so they're fresh before each test
-			string source = Path.Combine(Settings.ROOT_FOLDER, "src", "Roadkill.Tests", "Integration", "Configuration", "TestConfigs");
+			string source = Path.Combine(TestConstants.ROOT_FOLDER, "src", "Roadkill.Tests", "Integration", "Configuration", "TestConfigs");
 			string destination = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "Configuration", "TestConfigs");
 
 			foreach (string filename in Directory.GetFiles(source))
@@ -30,7 +29,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Load_Should_Return_RoadkillSection()
+		public void load_should_return_roadkillsection()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
@@ -44,7 +43,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void UpdateLanguage_Should_Save_Language_Code_To_Globalization_Section()
+		public void updatelanguage_should_save_language_code_to_globalization_section()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
@@ -54,7 +53,7 @@ namespace Roadkill.Tests.Unit
 			configManager.UpdateLanguage("fr-FR");
 
 			// Assert
-			Configuration config = configManager.GetConfiguration();
+			System.Configuration.Configuration config = configManager.GetConfiguration();
 			GlobalizationSection globalizationSection = config.GetSection("system.web/globalization") as GlobalizationSection;
 
 			Assert.That(globalizationSection, Is.Not.Null);
@@ -62,22 +61,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void UpdateCurrentVersion_Should_Save_Version_To_RoadkillSection()
-		{
-			// Arrange
-			string configFilePath = GetConfigPath("test.config");
-
-			// Act
-			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
-			configManager.UpdateCurrentVersion("2.0");
-
-			// Assert
-			RoadkillSection section = configManager.Load();
-			Assert.That(section.Version, Is.EqualTo("2.0"));
-		}
-
-		[Test]
-		public void ResetInstalledState_Should_Set_Installed_To_False()
+		public void resetinstalledstate_should_set_installed_to_false()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
@@ -92,7 +76,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void TestSaveWebConfig_Should_Return_Empty_String_For_Success()
+		public void testsavewebconfig_should_return_empty_string_for_success()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
@@ -106,14 +90,14 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void GetConfiguration_Should_Return_Configuration_For_Exe_File()
+		public void getconfiguration_should_return_configuration_for_exe_file()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
 
 			// Act
 			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
-			Configuration config = configManager.GetConfiguration();
+			System.Configuration.Configuration config = configManager.GetConfiguration();
 
 			// Assert
 			Assert.That(config, Is.Not.Null);
@@ -121,7 +105,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void WriteConfigForFormsAuth_Should_Add_FormsAuth_Section_And_AnonymousIdentification()
+		public void writeconfigforformsauth_should_add_formsauth_section_and_anonymousidentification()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
@@ -131,7 +115,7 @@ namespace Roadkill.Tests.Unit
 			configManager.WriteConfigForFormsAuth();
 
 			// Assert
-			Configuration config = configManager.GetConfiguration();
+			System.Configuration.Configuration config = configManager.GetConfiguration();
 			AuthenticationSection authSection = config.GetSection("system.web/authentication") as AuthenticationSection;
 
 			Assert.That(authSection, Is.Not.Null);
@@ -143,7 +127,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void WriteConfigForWindowsAuth_Should_Set_WindowsAuthMode_And_Disable_AnonymousIdentification()
+		public void writeconfigforwindowsauth_should_set_windowsauthmode_and_disable_anonymousidentification()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
@@ -153,7 +137,7 @@ namespace Roadkill.Tests.Unit
 			configManager.WriteConfigForWindowsAuth();
 
 			// Assert
-			Configuration config = configManager.GetConfiguration();
+			System.Configuration.Configuration config = configManager.GetConfiguration();
 			AuthenticationSection authSection = config.GetSection("system.web/authentication") as AuthenticationSection;
 
 			Assert.That(authSection, Is.Not.Null);
@@ -165,7 +149,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void GetApplicationSettings_Should_Have_Correct_Key_Mappings_And_Values()
+		public void getapplicationsettings_should_have_correct_key_mappings_and_values()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
@@ -181,7 +165,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(appSettings.UseObjectCache, Is.True, "UseObjectCache");
 			Assert.That(appSettings.UseBrowserCache, Is.True, "UseBrowserCache");
 			Assert.That(appSettings.ConnectionStringName, Is.EqualTo("Roadkill-test"), "ConnectionStringName");
-			Assert.That(appSettings.DataStoreType, Is.EqualTo(DataStoreType.Sqlite), "DatabaseType");
+			Assert.That(appSettings.DatabaseName, Is.EqualTo("SqlServer2008"), "DatabaseType");
 			Assert.That(appSettings.EditorRoleName, Is.EqualTo("Editor-test"), "EditorRoleName");
 			Assert.That(appSettings.IgnoreSearchIndexErrors, Is.True, "IgnoreSearchIndexErrors");
 			Assert.That(appSettings.Installed, Is.True, "Installed");
@@ -197,7 +181,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void GetApplicationSettings_Should_Use_Default_Values_When_Optional_Settings_Have_Missing_Values()
+		public void getapplicationsettings_should_use_default_values_when_optional_settings_have_missing_values()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test-optional-values.config");
@@ -208,7 +192,7 @@ namespace Roadkill.Tests.Unit
 
 			// Assert
 			Assert.That(appSettings.AttachmentsRoutePath, Is.EqualTo("Attachments"), "AttachmentsRoutePath");
-			Assert.That(appSettings.DataStoreType, Is.EqualTo(DataStoreType.SqlServer2005), "DatabaseType");
+			Assert.That(appSettings.DatabaseName, Is.EqualTo("SqlServer2008"), "DatabaseName");
 			Assert.That(appSettings.IgnoreSearchIndexErrors, Is.False, "IgnoreSearchIndexErrors");
 			Assert.That(appSettings.IsPublicSite, Is.True, "IsPublicSite");
 			Assert.That(appSettings.LdapConnectionString, Is.EqualTo(""), "LdapConnectionString");
@@ -221,7 +205,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void GetApplicationSettings_Should_Find_Connection_Value_From_Connection_Setting()
+		public void getapplicationsettings_should_find_connection_value_from_connection_setting()
 		{
 			// Arrange
 			string configFilePath = GetConfigPath("test.config");
@@ -248,49 +232,6 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void RoadkillSection_Legacy_UserManagerType_Value_Is_Ignored()
-		{
-			// Arrange
-			string configFilePath = GetConfigPath("test-legacy-values.config");
-
-			// Act
-			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
-			ApplicationSettings appSettings = configManager.GetApplicationSettings();
-
-			// Assert
-			Assert.That(appSettings.UserServiceType, Is.Null.Or.Empty, "UserManagerType [legacy test for userManagerType]");
-		}
-
-		[Test]
-		public void RoadkillSection_Legacy_CacheValues_Are_Ignored()
-		{
-			// Arrange
-			string configFilePath = GetConfigPath("test-legacy-values.config");
-
-			// Act
-			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
-			ApplicationSettings appSettings = configManager.GetApplicationSettings();
-
-			// Assert
-			Assert.That(appSettings.UseObjectCache, Is.True, "UseObjectCache [legacy test for cacheEnabled]");
-			Assert.That(appSettings.UseBrowserCache, Is.False, "UseBrowserCache [legacy test for cacheText]");
-		}
-
-		[Test]
-		public void RoadkillSection_Legacy_DatabaseType_Is_Used()
-		{
-			// Arrange
-			string configFilePath = GetConfigPath("test-legacy-values.config");
-
-			// Act
-			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
-			ApplicationSettings appSettings = configManager.GetApplicationSettings();
-
-			// Assert
-			Assert.That(appSettings.DataStoreType, Is.EqualTo(DataStoreType.Sqlite), "DataStoreType [legacy test for databaseType]");
-		}
-
-		[Test]
 		[Description("Tests the save from both the settings page and installation")]
 		public void Save_Should_Persist_All_ApplicationSettings()
 		{
@@ -303,7 +244,7 @@ namespace Roadkill.Tests.Unit
 				UseObjectCache = true,
 				UseBrowserCache = true,
 				ConnectionString = "connection string",
-				DataStoreTypeName = "MongoDB",
+				DatabaseName = "MongoDB",
 				EditorRoleName = "editor role name",
 				LdapConnectionString = "ldap connection string",
 				LdapUsername = "ldap username",
@@ -325,7 +266,7 @@ namespace Roadkill.Tests.Unit
 			Assert.That(appSettings.UseObjectCache, Is.EqualTo(viewModel.UseObjectCache), "UseObjectCache");
 			Assert.That(appSettings.UseBrowserCache, Is.EqualTo(viewModel.UseBrowserCache), "UseBrowserCache");
 			Assert.That(appSettings.ConnectionString, Is.EqualTo(viewModel.ConnectionString), "ConnectionStringName");
-			Assert.That(appSettings.DataStoreType, Is.EqualTo(DataStoreType.MongoDB), "DatabaseType");
+			Assert.That(appSettings.DatabaseName, Is.EqualTo("MongoDB"), "DatabaseName");
 			Assert.That(appSettings.EditorRoleName, Is.EqualTo(viewModel.EditorRoleName), "EditorRoleName");
 			Assert.That(appSettings.IgnoreSearchIndexErrors, Is.EqualTo(viewModel.IgnoreSearchIndexErrors), "IgnoreSearchIndexErrors");
 			Assert.That(appSettings.IsPublicSite, Is.EqualTo(viewModel.IsPublicSite), "IsPublicSite");

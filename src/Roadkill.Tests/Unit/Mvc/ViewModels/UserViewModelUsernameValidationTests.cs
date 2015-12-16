@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Security;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.ViewModels
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -41,7 +37,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void VerifyNewUsername_For_New_User_With_Blank_Username_Should_Fail()
+		public void verifynewusername_for_new_user_with_blank_username_should_fail()
 		{
 			// Arrange
 			_userViewModel.Id = null;
@@ -55,7 +51,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void VerifyNewUsername_For_New_User_With_Valid_Username_Should_Succeed()
+		public void verifynewusername_for_new_user_with_valid_username_should_succeed()
 		{
 			// Arrange
 			_userViewModel.Id = null;
@@ -69,7 +65,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void VerifyNewUsername_For_Existing_User_With_Blank_Username_Should_Fail()
+		public void verifynewusername_for_existing_user_with_blank_username_should_fail()
 		{
 			// Arrange
 			_userViewModel.Id = Guid.NewGuid();
@@ -84,7 +80,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void VerifyNewUsername_For_Existing_User_With_Valid_Username_Should_Succeed()
+		public void verifynewusername_for_existing_user_with_valid_username_should_succeed()
 		{
 			// Arrange
 			_userViewModel.Id = Guid.NewGuid();
@@ -99,7 +95,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void VerifyNewUsernameIsNotInUse_For_New_User_With_Username_That_Exists_Should_Fail()
+		public void verifynewusernameisnotinuse_for_new_user_with_username_that_exists_should_fail()
 		{
 			// Arrange
 			_userViewModel.Id = null;
@@ -114,7 +110,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void VerifyNewUsernameIsNotInUse_For_New_User_With_Unique_Username_Should_Succeed()
+		public void verifynewusernameisnotinuse_for_new_user_with_unique_username_should_succeed()
 		{
 			// Arrange
 			_userViewModel.Id = null;
@@ -129,7 +125,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void VerifyNewUsernameIsNotInUse_When_New_User_Created_In_Admin_Tools_With_Unique_Username_Should_Succeed()
+		public void verifynewusernameisnotinuse_when_new_user_created_in_admin_tools_with_unique_username_should_succeed()
 		{
 			// Arrange
 			_userViewModel.Id = null;
@@ -144,7 +140,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void VerifyNewUsernameIsNotInUse_For_Existing_User_With_username_That_Exists_Should_Fail()
+		public void verifynewusernameisnotinuse_for_existing_user_with_username_that_exists_should_fail()
 		{
 			// Arrange
 			_userViewModel.Id = Guid.NewGuid();
@@ -159,7 +155,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void VerifyNewUsernameIsNotInUse_For_Existing_User_With_Unique_Username_Should_Succeed()
+		public void verifynewusernameisnotinuse_for_existing_user_with_unique_username_should_succeed()
 		{
 			// Arrange
 			_userViewModel.Id = Guid.NewGuid();
@@ -174,7 +170,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void VerifyNewEmailIsNotInUse_For_Existing_User_With_Unchanged_Username_Should_Succeed()
+		public void verifynewemailisnotinuse_for_existing_user_with_unchanged_username_should_succeed()
 		{
 			// Arrange
 			_userViewModel.Id = Guid.NewGuid();

@@ -20,8 +20,8 @@ namespace Roadkill.Core.Cache
 		/// </summary>
 		internal static readonly int LATEST_VERSION_NUMBER = 0;
 
-		private ObjectCache _cache; 
-		private ApplicationSettings _applicationSettings;
+		private readonly ObjectCache _cache; 
+		private readonly ApplicationSettings _applicationSettings;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PageViewModelCache"/> class.

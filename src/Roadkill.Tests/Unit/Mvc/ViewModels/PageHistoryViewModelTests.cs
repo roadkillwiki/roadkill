@@ -1,22 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
-using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Plugins;
-using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.ViewModels
 {
 	[TestFixture]
 	[Category("Unit")]
 	public class PageHistoryViewModelTests
 	{
 		[Test]
-		public void Constructor_Should_Fill_Properties()
+		public void constructor_should_fill_properties()
 		{
 			// Arrange
 			PageContent content = new PageContent();
@@ -50,7 +44,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void EditedOnWithOffset_Should_Be_RFC_Format_And_Not_Include_Time_Zone()
+		public void editedonwithoffset_should_be_rfc_format_and_not_include_time_zone()
 		{
 			// Arrange
 			PageContent content = new PageContent();

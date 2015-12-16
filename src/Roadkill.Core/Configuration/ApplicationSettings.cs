@@ -41,11 +41,6 @@ namespace Roadkill.Core.Configuration
 		public string SearchIndexPath { get; set; }
 
 		/// <summary>
-		/// The path to the folder that contains x86 and x64 SQLite binary file - ~/App_Data/Internal/SQLiteBinaries.
-		/// </summary>
-		public string SQLiteBinariesPath { get; set; }
-
-		/// <summary>
 		/// The folder where all uploads (typically image files) are saved to. This is taken from the web.config.
 		/// Use AttachmentsDirectoryPath for the absolute directory path.
 		/// </summary>
@@ -164,9 +159,9 @@ namespace Roadkill.Core.Configuration
 		public string PluginsBinPath { get; internal set; }
 
 		/// <summary>
-		/// The database type used as the backing store.
+		/// The database used for storage.
 		/// </summary>
-		public DataStoreType DataStoreType { get; set; }
+		public string DatabaseName { get; set; }
 
 		/// <summary>
 		/// The name of the role or Active Directory security group that users should belong to in order to create and edit pages.
@@ -234,8 +229,7 @@ namespace Roadkill.Core.Configuration
 		/// Whether to just error messages are logged, or all information (warnings, information).
 		/// </summary>
 		public bool LogErrorsOnly { get; set; }
-
-		
+	
 		/// <summary>
 		/// Whether logging is enabled - if LoggingTypes has values set.
 		/// </summary>
@@ -257,11 +251,6 @@ namespace Roadkill.Core.Configuration
 		/// The fully qualified assembly and classname for the repository.
 		/// </summary>
 		public string RepositoryType { get; set; }
-
-		/// <summary>
-		/// True if the version number in the web.config does not match the current assembly version.
-		/// </summary>
-		public bool UpgradeRequired { get; internal set; }
 
 		/// <summary>
 		/// Indicates whether to use Local storage or Azure for attachments
@@ -333,11 +322,10 @@ namespace Roadkill.Core.Configuration
 			EmailTemplateFolder = Path.Combine(AppDataPath, "EmailTemplates");
 			HtmlElementWhiteListPath = Path.Combine(AppDataInternalPath, "htmlwhitelist.xml");
 			MinimumPasswordLength = 6;
-			DataStoreType = DataStoreType.SqlServer2008;
+			DatabaseName = RepositoryFactory.SqlServer2008.Id;
 			AttachmentsRoutePath = "Attachments";
 			AttachmentsFolder = "~/App_Data/Attachments";
 			SearchIndexPath = Path.Combine(AppDataInternalPath, "Search");
-			SQLiteBinariesPath = Path.Combine(AppDataInternalPath, "SQLiteBinaries");
 			PluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "Plugins");
 			PluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
 		}

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Configuration;
+using Mindscape.LightSpeed;
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
+using IRepository = Roadkill.Core.Database.IRepository;
 
 namespace Roadkill.Tests.Acceptance.WebApi
 {
@@ -11,55 +13,40 @@ namespace Roadkill.Tests.Acceptance.WebApi
 	[Category("Acceptance")]
 	public abstract class WebApiTestBase
 	{
-		private IIS _iis;
-
-		protected static readonly string ADMIN_EMAIL = Settings.ADMIN_EMAIL;
-		protected static readonly string ADMIN_PASSWORD = Settings.ADMIN_PASSWORD;
-		protected static readonly Guid ADMIN_ID = Settings.ADMIN_ID;
+		protected static readonly string ADMIN_EMAIL = TestConstants.ADMIN_EMAIL;
+		protected static readonly string ADMIN_PASSWORD = TestConstants.ADMIN_PASSWORD;
+		protected static readonly Guid ADMIN_ID = TestConstants.ADMIN_ID;
 		protected string BaseUrl;
 
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
-			_iis = new IIS();
-			_iis.Start();
+			TestHelpers.CreateIisTestSite();
 
 			string url = ConfigurationManager.AppSettings["url"];
 			if (string.IsNullOrEmpty(url))
-				url = "http://localhost:9876";
+				url = TestConstants.WEB_BASEURL;
 			BaseUrl = url;
-		}
-
-		[TestFixtureTearDown]
-		public void TearDown()
-		{
-			if (_iis != null)
-			{
-				_iis.Dispose();
-			}
 		}
 
 		[SetUp]
 		public void Setup()
 		{
-			ConfigFileManager.CopyWebConfig();
-			ConfigFileManager.CopyConnectionStringsConfig();
-			ConfigFileManager.CopyRoadkillConfig();
-			SqlServerSetup.RecreateLocalDbData();
+			TestHelpers.CopyDevWebConfigFromLibFolder();
+			TestHelpers.CopyDevConnectionStringsConfig();
+			TestHelpers.CopyDevRoadkillConfig();
+			TestHelpers.SqlServerSetup.RecreateTables();
 		}
 
 		protected IRepository GetRepository()
 		{
 			ApplicationSettings appSettings = new ApplicationSettings();
-			appSettings.DataStoreType = DataStoreType.SqlServer2012;
-			appSettings.ConnectionString = SqlServerSetup.ConnectionString;
+			appSettings.DatabaseName = "SqlServer2008";
+			appSettings.ConnectionString = TestConstants.CONNECTION_STRING;
 			appSettings.LoggingTypes = "none";
 			appSettings.UseBrowserCache = false;
 
-			//Log.ConfigureLogging(appSettings);
-
-			LightSpeedRepository repository = new LightSpeedRepository(appSettings);
-			repository.Startup(appSettings.DataStoreType, appSettings.ConnectionString, false);
+			LightSpeedRepository repository = new LightSpeedRepository(DataProvider.SqlServer2008, TestConstants.CONNECTION_STRING);
 			return repository;
 		}
 

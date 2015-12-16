@@ -17,7 +17,6 @@ using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Localization;
-using Roadkill.Core.DI;
 using System.Linq.Expressions;
 using Roadkill.Core.Mvc.Controllers;
 

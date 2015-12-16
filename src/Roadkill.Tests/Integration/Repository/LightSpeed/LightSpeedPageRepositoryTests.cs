@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Mindscape.LightSpeed;
 using NUnit.Framework;
-using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
-using Roadkill.Core.Database.MongoDB;
 
 namespace Roadkill.Tests.Integration.Repository.LightSpeed
 {
@@ -18,17 +11,23 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 	{
 		protected override string ConnectionString
 		{
-			get { return SqlServerSetup.ConnectionString; }
+			get { return TestConstants.CONNECTION_STRING; }
 		}
 
-		protected override DataStoreType DataStoreType
+		protected override IPageRepository GetRepository()
 		{
-			get { return DataStoreType.SqlServer2012; }
+			return new LightSpeedRepository(DataProvider.SqlServer2008, ConnectionString);
 		}
 
-		protected override IRepository GetRepository()
+		protected override void Clearup()
 		{
-			return new LightSpeedRepository(ApplicationSettings);
+			TestHelpers.SqlServerSetup.RecreateTables();
+		}
+
+		protected override void CheckDatabaseProcessIsRunning()
+		{
+			if (TestHelpers.IsSqlServerRunning() == false)
+				Assert.Fail("A local Sql Server (sqlservr.exe) is not running");
 		}
 	}
 }

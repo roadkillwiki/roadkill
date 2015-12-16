@@ -80,25 +80,6 @@ namespace Roadkill.Core.Configuration
 		}
 
 		/// <summary>
-		/// Updates the current version in the RoadkillSection and saves the configuration file.
-		/// </summary>
-		/// <param name="currentVersion">The current version.</param>
-		/// <exception cref="UpgradeException">An exception occurred while updating the version to the web.config</exception>
-		public override void UpdateCurrentVersion(string currentVersion)
-		{
-			try
-			{
-				RoadkillSection section = _config.GetSection("roadkill") as RoadkillSection;
-				section.Version = currentVersion;
-				_config.Save(ConfigurationSaveMode.Minimal);
-			}
-			catch (ConfigurationErrorsException ex)
-			{
-				throw new UpgradeException("An exception occurred while updating the version to the web.config", ex);
-			}
-		}
-
-		/// <summary>
 		/// Updates the current UI language in the globalization section and saves the configuration file.
 		/// </summary>
 		/// <param name="uiLanguageCode">The UI language code, e.g. fr for French.</param>
@@ -152,7 +133,6 @@ namespace Roadkill.Core.Configuration
 					_config.ConnectionStrings.ConnectionStrings["Roadkill"].ConnectionString = settings.ConnectionString;
 
 				// The roadkill section
-				DataStoreType dataStoreType = DataStoreType.ByName(settings.DataStoreTypeName);
 				RoadkillSection section = _config.GetSection("roadkill") as RoadkillSection;
 				section.AdminRoleName = settings.AdminRoleName;
 				section.AttachmentsFolder = settings.AttachmentsFolder;
@@ -160,14 +140,12 @@ namespace Roadkill.Core.Configuration
 				section.UseObjectCache = settings.UseObjectCache;
 				section.UseBrowserCache = settings.UseBrowserCache;
 				section.ConnectionStringName = "Roadkill";
-				section.DataStoreType = dataStoreType.Name;
+				section.DatabaseName = string.IsNullOrEmpty(settings.DatabaseName) ? "SqlServer2008" : settings.DatabaseName; ;
 				section.EditorRoleName = settings.EditorRoleName;
 				section.LdapConnectionString = settings.LdapConnectionString;
 				section.LdapUsername = settings.LdapUsername;
 				section.LdapPassword = settings.LdapPassword;
-				section.RepositoryType = dataStoreType.CustomRepositoryType;
 				section.UseWindowsAuthentication = settings.UseWindowsAuth;
-				section.Version = ApplicationSettings.FileVersion.ToString();
 
 				// For first time installs: these need to be explicit as the DefaultValue="" in the attribute doesn't determine the value when saving.
 				section.IsPublicSite = settings.IsPublicSite;
@@ -252,18 +230,11 @@ namespace Roadkill.Core.Configuration
 			if (string.IsNullOrEmpty(appSettings.ConnectionString))
 				Log.Warn("ConnectionString property is null/empty.");
 
-			// Ignore the legacy useCache and cacheText section keys, as the behaviour has changed.
 			appSettings.UseObjectCache = _section.UseObjectCache;
 			appSettings.UseBrowserCache = _section.UseBrowserCache;
-
-			// Look for the legacy database type key
-			string dataStoreType = _section.DataStoreType;
-			if (string.IsNullOrEmpty(dataStoreType) && !string.IsNullOrEmpty(_section.DatabaseType))
-				dataStoreType = _section.DatabaseType;
-
 			appSettings.LoggingTypes = _section.Logging;
 			appSettings.LogErrorsOnly = _section.LogErrorsOnly;
-			appSettings.DataStoreType = DataStoreType.ByName(dataStoreType);
+			appSettings.DatabaseName = string.IsNullOrEmpty(_section.DatabaseName) ? "SqlServer2008" : _section.DatabaseName;
 			appSettings.ConnectionStringName = _section.ConnectionStringName;
 			appSettings.EditorRoleName = _section.EditorRoleName;
 			appSettings.IgnoreSearchIndexErrors = _section.IgnoreSearchIndexErrors;
@@ -277,7 +248,6 @@ namespace Roadkill.Core.Configuration
 			appSettings.UseHtmlWhiteList = _section.UseHtmlWhiteList;
 			appSettings.UserServiceType = _section.UserServiceType;
 			appSettings.UseWindowsAuthentication = _section.UseWindowsAuthentication;
-			appSettings.UpgradeRequired = UpgradeChecker.IsUpgradeRequired(_section.Version);
 
 			return appSettings;
 		}

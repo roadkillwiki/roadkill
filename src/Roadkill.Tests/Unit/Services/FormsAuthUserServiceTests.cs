@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Linq;
-using Roadkill.Core;
 using NUnit.Framework;
-using Roadkill.Core.Configuration;
+using Roadkill.Core;
 using Roadkill.Core.Database;
-using Roadkill.Core.Database.LightSpeed;
-using Roadkill.Core.Security;
-using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Tests.Unit;
+using Roadkill.Core.Security;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Services
 {
 	/// <summary>
 	/// Tests the FormsAuthUser SQL-based class (the default auth mechanism in Roadkill)
@@ -32,7 +28,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void AddAdmin_And_GetUserByEmail()
+		public void addadmin_and_getuserbyemail()
 		{
 			Assert.IsNull(_userService.GetUser("admin@localhost"));
 			Assert.IsTrue(_userService.AddUser("admin@localhost", "admin", "password", true, true));
@@ -49,7 +45,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void AddEditor_And_GetUserByEmail()
+		public void addeditor_and_getuserbyemail()
 		{
 			Assert.IsNull(_userService.GetUser("editor@localhost"));
 			Assert.IsTrue(_userService.AddUser("editor@localhost", "editor", "password", false, true));
@@ -67,7 +63,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void AddUser_With_Existing_Username_ShouldFail()
+		public void adduser_with_existing_username_shouldfail()
 		{
 			Assert.IsTrue(_userService.AddUser("editor@localhost", "editor", "password", false, true));
 
@@ -77,7 +73,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void AddUser_With_Existing_Email_ShouldFail()
+		public void adduser_with_existing_email_shouldfail()
 		{
 			Assert.IsTrue(_userService.AddUser("editor@localhost", "editor", "password", false, true));
 
@@ -87,7 +83,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Authenticate_Should_Succeed()
+		public void authenticate_should_succeed()
 		{
 			Assert.IsNull(_userService.GetUser("admin@localhost"));
 			Assert.IsTrue(_userService.AddUser("admin@localhost", "admin", "password", true, true));
@@ -96,7 +92,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Authenticate_BadUsername_ShouldFail()
+		public void authenticate_badusername_shouldfail()
 		{
 			Assert.IsNull(_userService.GetUser("admin@localhost"));
 			Assert.IsTrue(_userService.AddUser("admin@localhost", "admin", "password", true, true));
@@ -105,7 +101,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Authenticate_BadPassword_ShouldFail()
+		public void authenticate_badpassword_shouldfail()
 		{
 			Assert.IsNull(_userService.GetUser("admin@localhost"));
 			Assert.IsTrue(_userService.AddUser("admin@localhost", "admin", "password", true, true));
@@ -114,7 +110,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ChangePassword_With_No_Existing_Password_And_Authenticate()
+		public void changepassword_with_no_existing_password_and_authenticate()
 		{
 			CreateEditorWithAsserts();
 
@@ -123,14 +119,14 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ChangePassword_Using_Correct_ExistingPassword()
+		public void changepassword_using_correct_existingpassword()
 		{
 			CreateEditorWithAsserts();
 			Assert.IsTrue(_userService.ChangePassword("editor@localhost","password", "newpassword"));
 		}
 
 		[Test]
-		public void ChangePassword_Using_Incorrect_ExistingPassword()
+		public void changepassword_using_incorrect_existingpassword()
 		{
 			CreateEditorWithAsserts();
 			Assert.IsFalse(_userService.ChangePassword("editor@localhost", "wrongpasword", "newpassword"));
@@ -145,7 +141,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void DeleteUser()
+		public void deleteuser()
 		{
 			CreateEditorWithAsserts();
 			Assert.IsTrue(_userService.DeleteUser("editor@localhost"));
@@ -153,7 +149,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void GetUserById()
+		public void getuserbyid()
 		{
 			Assert.IsNull(_userService.GetUser("editor@localhost"));
 			Assert.IsTrue(_userService.AddUser("editor@localhost", "editor", "password", false, true));
@@ -167,7 +163,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void IsEditor_And_Is_Not_Admin()
+		public void iseditor_and_is_not_admin()
 		{
 			CreateEditorWithAsserts();
 
@@ -177,7 +173,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void IsAdmin_And_IsEditor()
+		public void isadmin_and_iseditor()
 		{
 			Assert.IsNull(_userService.GetUser("admin@localhost"));
 			Assert.IsTrue(_userService.AddUser("admin@localhost", "admin", "password", true, true));
@@ -190,7 +186,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ListAdmins_And_ListEditors()
+		public void listadmins_and_listeditors()
 		{
 			Assert.IsTrue(_userService.AddUser("editor1@localhost", "editor1", "password", false, true));
 			Assert.IsTrue(_userService.AddUser("editor2@localhost", "editor2", "password", false, true));
@@ -202,7 +198,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ResetPassword()
+		public void resetpassword()
 		{
 			CreateEditorWithAsserts();
 			string key = _userService.ResetPassword("editor@localhost");
@@ -213,7 +209,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Signup_And_Activate()
+		public void signup_and_activate()
 		{
 			// Signup
 			UserViewModel model = new UserViewModel();
@@ -240,7 +236,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ToggleAdmin_And_ToggleEditor()
+		public void toggleadmin_and_toggleeditor()
 		{
 			CreateEditorWithAsserts();
 			User actual = _userService.GetUser("editor@localhost");
@@ -267,7 +263,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void UserExists()
+		public void userexists()
 		{
 			CreateEditorWithAsserts();
 			Assert.IsTrue(_userService.UserExists("editor@localhost"));
@@ -275,7 +271,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void UsernameExists()
+		public void usernameexists()
 		{
 			CreateEditorWithAsserts();
 			Assert.IsTrue(_userService.UserNameExists("editor"));
@@ -283,7 +279,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void UpdateUser()
+		public void updateuser()
 		{
 			CreateEditorWithAsserts();
 

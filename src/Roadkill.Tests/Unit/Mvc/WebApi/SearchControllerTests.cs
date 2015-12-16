@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.Controllers.Api;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Services;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit.WebApi
+namespace Roadkill.Tests.Unit.Mvc.WebApi
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -41,7 +40,7 @@ namespace Roadkill.Tests.Unit.WebApi
 		}
 
 		[Test]
-		public void Get_Should_Search_Return_Correct_Results_Using_Search_Service()
+		public void get_should_search_return_correct_results_using_search_service()
 		{
 			// Arrange
 			_pageService.AddPage(new PageViewModel() { Id = 1, Title = "title 1", Content = "page 1" });

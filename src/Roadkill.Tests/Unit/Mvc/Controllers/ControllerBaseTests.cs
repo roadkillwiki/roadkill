@@ -1,29 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web.Mvc;
-using Moq;
+﻿using System.Web.Mvc;
 using NUnit.Framework;
 using Roadkill.Core;
-using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
-using Roadkill.Core.Localization;
-using Roadkill.Core.Services;
+using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Security;
-using Roadkill.Core.Mvc.ViewModels;
-using System.Runtime.Caching;
-using System.Threading;
+using Roadkill.Core.Services;
 using Roadkill.Tests.Unit.StubsAndMocks;
-using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
-using System.Web.Routing;
-using Roadkill.Core.Mvc;
-using Roadkill.Core.Security.Windows;
+using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.Controllers
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -68,7 +54,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Redirect_When_Installed_Is_False()
+		public void should_redirect_when_installed_is_false()
 		{
 			// Arrange
 			_applicationSettings.Installed = false;
@@ -85,14 +71,11 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Not_Redirect_When_Installed_Is_False_And_Controller_Is_InstallerController()
+		public void should_not_redirect_when_installed_is_false_and_controller_is_installercontroller()
 		{
 			// Arrange
 			_applicationSettings.Installed = false;
-			InstallControllerStub installController = new InstallControllerStub(_applicationSettings, _userService, _pageService, 
-																				_searchService, _repository, _settingsService, _context, 
-																				_configReaderWriter); // use a concrete implementation
-			 
+			InstallControllerStub installController = new InstallControllerStub(_applicationSettings, _configReaderWriter, new RepositoryFactoryMock(), _userService);
 			ActionExecutingContext filterContext = new ActionExecutingContext();
 			filterContext.Controller = installController;
 
@@ -104,47 +87,10 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Redirect_When_UpgradeRequired_Is_True()
+		public void should_set_loggedin_user_and_viewbag_data()
 		{
 			// Arrange
 			_applicationSettings.Installed = true;
-			_applicationSettings.UpgradeRequired = true;
-			ActionExecutingContext filterContext = new ActionExecutingContext();
-			filterContext.Controller = _controller;
-
-			// Act
-			_controller.CallOnActionExecuting(filterContext);
-			RedirectResult result = filterContext.Result as RedirectResult;
-
-			// Assert
-			Assert.That(result, Is.Not.Null, "RedirectResult");
-			Assert.That(result.Url, Is.EqualTo("/upgrade"));
-		}
-
-		[Test]
-		public void Should_Not_Redirect_When_UpgradeRequired_Is_True_Is_UpgradeController()
-		{
-			// Arrange
-			_applicationSettings.Installed = true;
-			_applicationSettings.UpgradeRequired = true;
-
-			UpgradeControllerStub upgradeController = new UpgradeControllerStub(_applicationSettings, _userService, _repository, _settingsService, _context, _configReaderWriter);
-			ActionExecutingContext filterContext = new ActionExecutingContext();
-			filterContext.Controller = upgradeController;
-
-			// Act
-			upgradeController.CallOnActionExecuting(filterContext);
-
-			// Assert
-			Assert.That(filterContext.Result, Is.Null);
-		}
-
-		[Test]
-		public void Should_Set_LoggedIn_User_And_ViewBag_Data()
-		{
-			// Arrange
-			_applicationSettings.Installed = true;
-			_applicationSettings.UpgradeRequired = false;
 			_userService.LoggedInUserId = "mrblah";
 
 			ActionExecutingContext filterContext = new ActionExecutingContext();
@@ -181,25 +127,8 @@ namespace Roadkill.Tests.Unit
 
 	internal class InstallControllerStub : InstallController
 	{
-		public InstallControllerStub(ApplicationSettings settings, UserServiceBase userService,
-			PageService pageService, SearchService searchService, IRepository respository,
-			SettingsService settingsService, IUserContext context, ConfigReaderWriter configReaderWriter)
-			: base(settings, userService, pageService, searchService, respository, settingsService, context, configReaderWriter)
-		{
-
-		}
-
-		public void CallOnActionExecuting(ActionExecutingContext filterContext)
-		{
-			base.OnActionExecuting(filterContext);
-		}
-	}
-
-	internal class UpgradeControllerStub : UpgradeController
-	{
-		public UpgradeControllerStub(ApplicationSettings settings, UserServiceBase userService, IRepository respository,
-			SettingsService settingsService, IUserContext context, ConfigReaderWriter configReaderWriter)
-			: base(settings, respository, userService, context, settingsService, configReaderWriter)
+		public InstallControllerStub(ApplicationSettings settings, ConfigReaderWriter configReaderWriter, IRepositoryFactory repositoryFactory, UserServiceBase userService)
+			: base(settings, configReaderWriter, repositoryFactory, userService)
 		{
 
 		}

@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-using System.Web.Routing;
-using Moq;
 using NUnit.Framework;
-using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Text
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -27,7 +20,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Internal_Links_Should_Resolve_With_Id()
+		public void internal_links_should_resolve_with_id()
 		{
 			// Bug #87
 
@@ -40,7 +33,6 @@ namespace Roadkill.Tests.Unit
 
 			ApplicationSettings settings = new ApplicationSettings();
 			settings.Installed = true;
-			settings.UpgradeRequired = false;
 
 			UrlResolverMock resolver = new UrlResolverMock();
 			resolver.InternalUrl = "blah";
@@ -63,7 +55,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Code_Blocks_Should_Allow_Quotes()
+		public void code_blocks_should_allow_quotes()
 		{
 			// Issue #82
 			// Arrange
@@ -75,7 +67,6 @@ namespace Roadkill.Tests.Unit
 
 			ApplicationSettings settings = new ApplicationSettings();
 			settings.Installed = true;
-			settings.UpgradeRequired = false;
 
 			MarkupConverter converter = new MarkupConverter(settings, repositoryStub, _pluginFactory);
 
@@ -94,7 +85,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Images_Should_Support_Dimensions()
+		public void images_should_support_dimensions()
 		{
 			// Arrange
 			Page page = new Page() { Id = 1, Title = "My first page" };
@@ -105,7 +96,6 @@ namespace Roadkill.Tests.Unit
 
 			ApplicationSettings settings = new ApplicationSettings();
 			settings.Installed = true;
-			settings.UpgradeRequired = false;
 
 			MarkupConverter converter = new MarkupConverter(settings, repositoryStub, _pluginFactory);
 
@@ -126,7 +116,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Images_Should_Support_Dimensions_And_Titles()
+		public void images_should_support_dimensions_and_titles()
 		{
 			// Arrange
 			Page page = new Page() { Id = 1, Title = "My first page" };
@@ -137,7 +127,6 @@ namespace Roadkill.Tests.Unit
 
 			ApplicationSettings settings = new ApplicationSettings();
 			settings.Installed = true;
-			settings.UpgradeRequired = false;
 
 			MarkupConverter converter = new MarkupConverter(settings, repositoryStub, _pluginFactory);
 

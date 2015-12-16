@@ -14,6 +14,7 @@ using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Tests.Unit.StubsAndMocks;
+using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
 namespace Roadkill.Tests.Unit.Mvc.Attributes
 {
@@ -35,7 +36,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Not_Set_ViewResult_If_Not_Installed()
+		public void should_not_set_viewresult_if_not_installed()
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
@@ -54,7 +55,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Not_Set_ViewResult_If_UseBrowserCache_Is_Disabled()
+		public void should_not_set_viewresult_if_usebrowsercache_is_disabled()
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
@@ -73,7 +74,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Not_Set_ViewResult_If_User_Is_Logged_In()
+		public void should_not_set_viewresult_if_user_is_logged_in()
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
@@ -92,7 +93,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Have_200_Http_Status_Code_If_No_Modified_Since_Header()
+		public void should_have_200_http_status_code_if_no_modified_since_header()
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
@@ -110,7 +111,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Have_200_Http_Status_Code_If_PluginsSaved_After_Header_Last_Modified_Date()
+		public void should_have_200_http_status_code_if_pluginssaved_after_header_last_modified_date()
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
@@ -130,7 +131,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Have_304_Http_Status_Code_If_PluginsSaved_Is_Equal_To_Header_Last_Modified_Date()
+		public void should_have_304_http_status_code_if_pluginssaved_is_equal_to_header_last_modified_date()
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
@@ -150,7 +151,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		}
 
 		[Test]
-		public void Should_Have_304_Http_Status_Code_If_Response_Has_Modified_Since_Header_Matching_Page_Modified_Date()
+		public void should_have_304_http_status_code_if_response_has_modified_since_header_matching_page_modified_date()
 		{
 			// The file date and the browser date always match for a 304 status, the browser will never send back a more recent date,
 			// i.e. "Has the file changed since this date I've stored for the last time it was changed?"
@@ -179,7 +180,9 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		private SettingsService GetSettingsService()
 		{
 			_repositoryMock.SiteSettings.PluginLastSaveDate = _pluginLastSavedDate;
-			SettingsService service = new SettingsService(new ApplicationSettings(), _repositoryMock);
+			var repositoryFactory = new RepositoryFactoryMock() { Repository = _repositoryMock };
+
+			SettingsService service = new SettingsService(repositoryFactory, new ApplicationSettings());
 			return service;
 		}
 
@@ -192,13 +195,13 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 			// PageService
 			PageViewModelCache pageViewModelCache = new PageViewModelCache(appSettings, CacheMock.RoadkillCache);
 			ListCache listCache = new ListCache(appSettings, CacheMock.RoadkillCache);
-			SiteCache siteCache = new SiteCache(appSettings, CacheMock.RoadkillCache);
+			SiteCache siteCache = new SiteCache(CacheMock.RoadkillCache);
 			SearchServiceMock searchService = new SearchServiceMock(appSettings, _repositoryMock, _pluginFactory);
 			PageHistoryService historyService = new PageHistoryService(appSettings, _repositoryMock, userContext, pageViewModelCache, _pluginFactory);
 			PageService pageService = new PageService(appSettings, _repositoryMock, searchService, historyService, userContext, listCache, pageViewModelCache, siteCache, _pluginFactory);
 
 			// WikiController
-			SettingsService settingsService = new SettingsService(appSettings, _repositoryMock);
+			SettingsService settingsService = new SettingsService(new RepositoryFactoryMock(), appSettings);
 			UserServiceStub userManager = new UserServiceStub();
 			WikiController wikiController = new WikiController(appSettings, userManager, pageService, userContext, settingsService);
 

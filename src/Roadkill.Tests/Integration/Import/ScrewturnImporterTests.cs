@@ -4,25 +4,26 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
+using Mindscape.LightSpeed;
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Import;
+using IRepository = Roadkill.Core.Database.IRepository;
 
-namespace Roadkill.Tests.Integration
+namespace Roadkill.Tests.Integration.Import
 {
 	[TestFixture]
 	[Category("Integration")]
 	public class ScrewturnImporterTests
 	{
-		private string _connectionString = SqlServerSetup.ConnectionString;
+		private string _connectionString = TestConstants.CONNECTION_STRING;
 
 		[SetUp]
 		public void Setup()
 		{
-			SqlServerSetup.RecreateLocalDbData();
+			TestHelpers.SqlServerSetup.RecreateTables();
 
 			string sqlFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Integration", "Import", "screwturn3.sql");
 			string sqlCommands = File.ReadAllText(sqlFile);
@@ -39,7 +40,7 @@ namespace Roadkill.Tests.Integration
 		}
 
 		[Test]
-		public void Should_Import_All_Pages_Categories_And_Usernames()
+		public void should_import_all_pages_categories_and_usernames()
 		{
 			// Arrange
 			ApplicationSettings applicationSettings = new ApplicationSettings();
@@ -51,21 +52,13 @@ namespace Roadkill.Tests.Integration
 			Directory.CreateDirectory(applicationSettings.AttachmentsFolder);
 
 			applicationSettings.ConnectionString = _connectionString;
-			applicationSettings.DataStoreType = DataStoreType.SqlServer2012;
+			applicationSettings.DatabaseName = "SqlServer2008";
 
-			IRepository repository = new LightSpeedRepository(applicationSettings);
-			repository.Startup(applicationSettings.DataStoreType,
-								applicationSettings.ConnectionString,
-								false);
-
-			// Clear the database
-			repository.Install(applicationSettings.DataStoreType,
-								applicationSettings.ConnectionString,
-								false);
+			IRepository repository = new LightSpeedRepository(DataProvider.SqlServer2008, _connectionString);
 			ScrewTurnImporter importer = new ScrewTurnImporter(applicationSettings, repository);
 
 			// Act
-			importer.ImportFromSqlServer(SqlServerSetup.ConnectionString);
+			importer.ImportFromSqlServer(TestConstants.CONNECTION_STRING);
 
 			// Assert
 			User user = repository.GetUserByUsername("user2");
@@ -115,7 +108,7 @@ namespace Roadkill.Tests.Integration
 		}
 
 		[Test]
-		public void Should_Import_Files_In_Attachments_Folder()
+		public void should_import_files_in_attachments_folder()
 		{
 			// Arrange
 			ApplicationSettings applicationSettings = new ApplicationSettings();
@@ -127,17 +120,9 @@ namespace Roadkill.Tests.Integration
 			Directory.CreateDirectory(applicationSettings.AttachmentsFolder);
 
 			applicationSettings.ConnectionString = _connectionString;
-			applicationSettings.DataStoreType = DataStoreType.SqlServer2012;
+			applicationSettings.DatabaseName = "SqlServer2008";
 
-			IRepository repository = new LightSpeedRepository(applicationSettings);
-			repository.Startup(applicationSettings.DataStoreType,
-								applicationSettings.ConnectionString,
-								false);
-
-			// Clear the database
-			repository.Install(applicationSettings.DataStoreType,
-								applicationSettings.ConnectionString,
-								false);
+			IRepository repository = new LightSpeedRepository(DataProvider.AmazonSimpleDB, _connectionString);
 			ScrewTurnImporter importer = new ScrewTurnImporter(applicationSettings, repository);
 
 			// Act

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.Localization;
 using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
 using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.DI;
 
 namespace Roadkill.Core.Extensions
 {
@@ -38,7 +38,7 @@ namespace Roadkill.Core.Extensions
 		/// Provides a link to the settings page, with optional prefix and suffix tags or seperators.
 		/// </summary>
 		/// <returns>If the user is not logged in and not an admin, an empty string is returned.</returns>
-		public static MvcHtmlString SettingsLink(this HtmlHelper helper, string prefix,string suffix)
+		public static MvcHtmlString SettingsLink(this HtmlHelper helper, string prefix, string suffix)
 		{
 			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
 			if (controller != null && controller.Context.IsAdmin)
@@ -91,7 +91,7 @@ namespace Roadkill.Core.Extensions
 			else
 			{
 				string redirectPath = helper.ViewContext.HttpContext.Request.Path;
-				link = helper.ActionLink(SiteStrings.Navigation_Login, "Login", "User", new { ReturnUrl = redirectPath }, null ).ToString();
+				link = helper.ActionLink(SiteStrings.Navigation_Login, "Login", "User", new { ReturnUrl = redirectPath }, null).ToString();
 
 				if (controller.SettingsService.GetSiteSettings().AllowUserSignup)
 					link += "&nbsp;/&nbsp;" + helper.ActionLink(SiteStrings.Navigation_Register, "Signup", "User").ToString();
@@ -122,7 +122,7 @@ namespace Roadkill.Core.Extensions
 		/// <summary>
 		/// Provides a link to the index page of the site, with optional prefix and suffix tags or seperators.
 		/// </summary>
-		public static MvcHtmlString MainPageLink(this HtmlHelper helper, string linkText, string prefix,string suffix)
+		public static MvcHtmlString MainPageLink(this HtmlHelper helper, string linkText, string prefix, string suffix)
 		{
 			return MvcHtmlString.Create(prefix + helper.ActionLink(linkText, "Index", "Home") + suffix);
 		}
@@ -133,7 +133,7 @@ namespace Roadkill.Core.Extensions
 		/// <returns>If the page is not found, the link text is returned.</returns>
 		public static MvcHtmlString PageLink(this HtmlHelper helper, string linkText, string pageTitle)
 		{
-			return helper.PageLink(linkText, pageTitle, null,"","");
+			return helper.PageLink(linkText, pageTitle, null, "", "");
 		}
 
 		/// <summary>
@@ -152,9 +152,11 @@ namespace Roadkill.Core.Extensions
 		/// </summary>
 		/// <param name="htmlAttributes">Any additional html attributes to add to the link</param>
 		/// <returns>If the page is not found, the link text is returned.</returns>
-		public static MvcHtmlString PageLink(this HtmlHelper helper, string linkText, string pageTitle, object htmlAttributes,string prefix,string suffix)
+		public static MvcHtmlString PageLink(this HtmlHelper helper, string linkText, string pageTitle, object htmlAttributes, string prefix, string suffix, IPageService pageService = null)
 		{
-			IPageService pageService = ServiceLocator.GetInstance<IPageService>();
+			if (pageService == null)
+				pageService = LocatorStartup.Locator.GetInstance<IPageService>();
+
 			PageViewModel model = pageService.FindByTitle(pageTitle);
 			if (model != null)
 			{

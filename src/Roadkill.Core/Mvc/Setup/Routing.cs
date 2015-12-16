@@ -13,6 +13,8 @@ namespace Roadkill.Core.Mvc
 	{
 		public static void Register(RouteCollection routes)
 		{
+			// Additional routing can be found in SiteSettingsAreaRegistration
+
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 			routes.IgnoreRoute("favicon.ico");
 

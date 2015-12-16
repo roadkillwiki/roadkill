@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Database;
-using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.DI;
-using Roadkill.Core.Security;
+using Roadkill.Core.Services;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Services
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -20,57 +14,21 @@ namespace Roadkill.Tests.Unit
 		private MocksAndStubsContainer _container;
 
 		private RepositoryMock _repository;
-		private ApplicationSettings _applicationSettings;
 		private SettingsService _settingsService;
+		private RepositoryFactoryMock _repositoryFactory;
 
 		[SetUp]
 		public void Setup()
 		{
 			_container = new MocksAndStubsContainer();
 
-			_applicationSettings = _container.ApplicationSettings;
+			_repositoryFactory = _container.RepositoryFactory;
 			_repository = _container.Repository;
 			_settingsService = _container.SettingsService;
 		}
 
 		[Test]
-		public void ClearUserTable_Should_Remove_All_Users()
-		{
-			// Arrange
-			_repository.Users.Add(new User() { IsAdmin = true });
-			_repository.Users.Add(new User() { IsAdmin = true });
-			_repository.Users.Add(new User() { IsEditor = true });
-			_repository.Users.Add(new User() { IsEditor = true });
-
-			// Act
-			_settingsService.ClearUserTable();
-
-			// Assert
-			Assert.That(_repository.FindAllAdmins().Count(), Is.EqualTo(0)); // need an allusers method
-			Assert.That(_repository.FindAllEditors().Count(), Is.EqualTo(0));
-		}
-
-		[Test]
-		public void CreateTables_Calls_Repository_Install()
-		{
-			// Arrange
-			SettingsViewModel model = new SettingsViewModel();
-			model.DataStoreTypeName = "SQLite";
-			model.ConnectionString = "Data Source=somefile.sqlite;";
-			model.UseObjectCache = true;
-
-			// Act
-			_settingsService.CreateTables(model);
-
-
-			// Assert
-			Assert.That(_repository.InstalledConnectionString, Is.EqualTo(model.ConnectionString));
-			Assert.That(_repository.InstalledDataStoreType, Is.EqualTo(DataStoreType.Sqlite));
-			Assert.That(_repository.InstalledEnableCache, Is.EqualTo(model.UseObjectCache));
-		}
-
-		[Test]
-		public void GetSiteSettings_Should_Return_Correct_Settings()
+		public void getsitesettings_should_return_correct_settings()
 		{
 			// Arrange
 			SiteSettings expectedSettings = new SiteSettings();
@@ -105,7 +63,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void SaveSiteSettings_Should_Save_All_Values()
+		public void savesitesettings_should_save_all_values()
 		{
 			// Arrange
 			SettingsViewModel expectedSettings = new SettingsViewModel();
@@ -140,7 +98,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void SaveSiteSettings_Should_Persist_All_Values()
+		public void savesitesettings_should_persist_all_values()
 		{
 			// Arrange
 			ApplicationSettings appSettings = new ApplicationSettings();
@@ -169,11 +127,7 @@ namespace Roadkill.Tests.Unit
 				Theme = "theme",
 			};
 
-			RepositoryMock repository = new RepositoryMock();
-
-			DependencyManager iocSetup = new DependencyManager(appSettings, repository, new UserContext(null)); // context isn't used
-			iocSetup.Configure();
-			SettingsService settingsService = new SettingsService(appSettings, repository);
+			SettingsService settingsService = new SettingsService(_repositoryFactory, appSettings);
 
 			// Act
 			settingsService.SaveSiteSettings(validConfigSettings);
@@ -192,6 +146,16 @@ namespace Roadkill.Tests.Unit
 			Assert.That(actualSettings.SiteName, Is.EqualTo("sitename"), "SiteName");
 			Assert.That(actualSettings.SiteUrl, Is.EqualTo("siteurl"), "SiteUrl");
 			Assert.That(actualSettings.Theme, Is.EqualTo("theme"), "Theme");
+		}
+
+		[Test]
+		public void savesitesettings_should_rethrow_database_exception_with_context_of_error()
+		{
+			// Arrange
+			_repository.ThrowSaveSiteSettingsException = true;
+
+			// Act + Assert
+			Assert.Throws<DatabaseException>(() => _settingsService.SaveSiteSettings(new SettingsViewModel()));
 		}
 	}
 }

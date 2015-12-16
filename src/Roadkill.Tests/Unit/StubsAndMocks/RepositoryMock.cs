@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Plugins;
 using PluginSettings = Roadkill.Core.Plugins.Settings;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.StubsAndMocks
 {
 	public class RepositoryMock : IRepository
 	{
@@ -18,13 +17,10 @@ namespace Roadkill.Tests.Unit
 		public SiteSettings SiteSettings { get; set; }
 		public List<TextPlugin> TextPlugins { get; set; }
 
-		// If this is set, GetTextPluginSettings returns it instead of a lookup
 		public PluginSettings PluginSettings { get; set; }
-
-		public bool Installed { get; set; }
-		public DataStoreType InstalledDataStoreType { get; private set; }
 		public string InstalledConnectionString { get; private set; }
 		public bool InstalledEnableCache { get; private set; }
+		public bool ThrowSaveSiteSettingsException { get; set; }
 
 		public RepositoryMock()
 		{
@@ -164,6 +160,9 @@ namespace Roadkill.Tests.Unit
 
 		public void SaveSiteSettings(SiteSettings settings)
 		{
+			if (ThrowSaveSiteSettingsException)
+				throw new DatabaseException("Something happened", null);
+
 			SiteSettings = settings;
 		}
 
@@ -194,30 +193,6 @@ namespace Roadkill.Tests.Unit
 			else
 				return null;
 		}
-
-		public void Startup(DataStoreType dataStoreType, string connectionString, bool enableCache)
-		{
-			
-		}
-
-		public virtual void Install(DataStoreType dataStoreType, string connectionString, bool enableCache)
-		{
-			Installed = true;
-			InstalledDataStoreType = dataStoreType;
-			InstalledConnectionString = connectionString;
-			InstalledEnableCache = enableCache;
-		}
-
-		public virtual void TestConnection(DataStoreType dataStoreType, string connectionString)
-		{
-			
-		}
-
-		public void Upgrade(ApplicationSettings settings)
-		{
-
-		}
-
 		#endregion
 
 		#region IPageRepository Members

@@ -11,9 +11,9 @@ using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Plugins.SpecialPages.BuiltIn;
 using Roadkill.Core.Security;
 using Roadkill.Core.Services;
+using Roadkill.Plugins.SpecialPages.BuiltIn;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit.Plugins
@@ -33,7 +33,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Should_Redirect_To_Home_When_No_Pages_Exist()
+		public void should_redirect_to_home_when_no_pages_exist()
 		{
 			// Arrange
 			RandomPage randomPage = new RandomPage(new RandomMock());
@@ -49,7 +49,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Should_Redirect_To_Correct_Controller_Using_Random()
+		public void should_redirect_to_correct_controller_using_random()
 		{
 			// Arrange
 			_container.Repository.AddNewPage(new Page() { Id = 1, Title = "1" }, "text", "", DateTime.Now);

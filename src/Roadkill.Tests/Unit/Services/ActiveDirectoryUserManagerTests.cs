@@ -1,20 +1,15 @@
 ﻿#if !MONO
-using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Roadkill.Core;
-using NUnit.Framework;
 using Moq;
-using System.DirectoryServices.AccountManagement;
-using Moq.Language.Flow;
+using NUnit.Framework;
+using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security.Windows;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Services
 {
 	/// <summary>
 	/// Tests the ActiveDirectory User manager class using stubs for the service.
@@ -71,7 +66,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Admins_Should_Belong_To_Group()
+		public void admins_should_belong_to_group()
 		{
 			// Arrange
 
@@ -81,7 +76,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Editors_Should_Not_Be_Admins()
+		public void editors_should_not_be_admins()
 		{
 			// Arrange		
 
@@ -91,7 +86,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Editors_Should_Belong_To_Group()
+		public void editors_should_belong_to_group()
 		{
 			// Arrange
 			ActiveDirectoryUserService service = new ActiveDirectoryUserService(_applicationSettings, _repository, _adProviderMock.Object);
@@ -102,7 +97,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void GetUser_Should_Return_Object_With_Permissions()
+		public void getuser_should_return_object_with_permissions()
 		{
 			// Arrange			
 
@@ -119,7 +114,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ListAdmins_Should_Contain_Correct_Users()
+		public void listadmins_should_contain_correct_users()
 		{
 			// Arrange
 
@@ -133,7 +128,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ListEditor_Should_Contain_Correct_Users()
+		public void listeditor_should_contain_correct_users()
 		{
 			// Arrange
 
@@ -147,7 +142,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Not_Throw_SecurityException_With_Valid_Ldap_String()
+		public void should_not_throw_securityexception_with_valid_ldap_string()
 		{
 			// Arrange + Act
 			ActiveDirectoryUserService manager = new ActiveDirectoryUserService(_applicationSettings, _repository, _adProviderMock.Object);

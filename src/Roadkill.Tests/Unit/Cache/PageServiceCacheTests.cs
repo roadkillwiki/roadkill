@@ -15,6 +15,7 @@ using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Tests.Unit.StubsAndMocks;
+using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
 namespace Roadkill.Tests.Unit.Cache
 {
@@ -31,7 +32,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void GetById_Should_Add_To_Cache_When_PageSummary_Does_Not_Exist_In_Cache()
+		public void getbyid_should_add_to_cache_when_pagesummary_does_not_exist_in_cache()
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
@@ -56,7 +57,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void GetById_Should_Load_From_Cache_When_PageSummary_Exists_In_Cache()
+		public void getbyid_should_load_from_cache_when_pagesummary_exists_in_cache()
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
@@ -77,7 +78,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void AddPage_Should_Clear_List_And_PageSummary_Caches()
+		public void addpage_should_clear_list_and_pagesummary_caches()
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
@@ -143,7 +144,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void AllPagesCreatedBy_Should_Load_From_Cache()
+		public void allpagescreatedby_should_load_from_cache()
 		{
 			string adminCacheKey = CacheKeys.AllPagesCreatedByKey("admin");
 			string editorCacheKey = CacheKeys.AllPagesCreatedByKey("editor");
@@ -168,7 +169,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void AllPagesCreatedBy_Should_Add_To_Cache_When_Cache_Is_Empty()
+		public void allpagescreatedby_should_add_to_cache_when_cache_is_empty()
 		{
 			// Arrange
 			string adminCacheKey = CacheKeys.AllPagesCreatedByKey("admin");
@@ -190,7 +191,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void AllTags_Should_Load_From_Cache()
+		public void alltags_should_load_from_cache()
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
@@ -208,7 +209,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void AllTags_Should_Add_To_Cache_When_Cache_Is_Empty()
+		public void alltags_should_add_to_cache_when_cache_is_empty()
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
@@ -227,7 +228,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void DeletePage_Should_Clear_List_And_PageSummary_Caches()
+		public void deletepage_should_clear_list_and_pagesummary_caches()
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
@@ -249,7 +250,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void FindHomePage_Should_Load_From_Cache()
+		public void findhomepage_should_load_from_cache()
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
@@ -270,7 +271,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void FindHomePage_Should_Add_To_Cache_When_Cache_Is_Empty()
+		public void findhomepage_should_add_to_cache_when_cache_is_empty()
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
@@ -288,7 +289,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void FindByTag_Should_Load_From_Cache()
+		public void findbytag_should_load_from_cache()
 		{
 			string tag1CacheKey = CacheKeys.PagesByTagKey("tag1");
 			string tag2CacheKey = CacheKeys.PagesByTagKey("tag2");
@@ -316,7 +317,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void FindByTag_Should_Add_To_Cache_When_Cache_Is_Empty()
+		public void findbytag_should_add_to_cache_when_cache_is_empty()
 		{
 			// Arrange
 			string cacheKey = CacheKeys.PagesByTagKey("tag1");
@@ -338,7 +339,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void UpdatePage_Should_Clear_List_Cache_And_PageSummary_Cache()
+		public void updatepage_should_clear_list_cache_and_pagesummary_cache()
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
@@ -367,7 +368,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void UpdatePage_Should_Remove_Homepage_From_Cache_When_Homepage_Is_Updated()
+		public void updatepage_should_remove_homepage_from_cache_when_homepage_is_updated()
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
@@ -389,7 +390,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void RenameTag_Should_Clear_ListCache()
+		public void renametag_should_clear_listcache()
 		{
 			// Arrange
 			string tag1CacheKey = CacheKeys.PagesByTagKey("tag1");
@@ -437,7 +438,7 @@ namespace Roadkill.Tests.Unit.Cache
 			// PageService
 			PageViewModelCache pageViewModelCache = new PageViewModelCache(appSettings, pageObjectCache);
 			ListCache listCache = new ListCache(appSettings, listObjectCache);
-			SiteCache siteCache = new SiteCache(appSettings, CacheMock.RoadkillCache);
+			SiteCache siteCache = new SiteCache(CacheMock.RoadkillCache);
 			SearchServiceMock searchService = new SearchServiceMock(appSettings, repository, _pluginFactory);
 			PageHistoryService historyService = new PageHistoryService(appSettings, repository, userContext, pageViewModelCache, _pluginFactory);
 			PageService pageService = new PageService(appSettings, repository, searchService, historyService, userContext, listCache, pageViewModelCache, siteCache, _pluginFactory);

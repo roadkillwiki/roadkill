@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.Caching;
-using System.Text;
 using NUnit.Framework;
-using Roadkill.Core;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
-using Roadkill.Core.Plugins;
-using Roadkill.Core.Text;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Text
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -34,7 +27,7 @@ namespace Roadkill.Tests.Unit
 
 			_applicationSettings = _container.ApplicationSettings;
 			_applicationSettings.UseHtmlWhiteList = true;
-			_applicationSettings.CustomTokensPath = Path.Combine(Settings.WEB_PATH, "App_Data", "customvariables.xml");
+			_applicationSettings.CustomTokensPath = Path.Combine(TestConstants.WEB_PATH, "App_Data", "customvariables.xml");
 
 			_pluginFactory = _container.PluginFactory;
 			_repository = _container.Repository;
@@ -43,7 +36,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Parser_Should_Not_Be_Null_For_MarkupTypes()
+		public void parser_should_not_be_null_for_markuptypes()
 		{
 			// Arrange, act
 			_repository.SiteSettings.MarkupType = "Creole";
@@ -67,7 +60,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ImageParsed_Should_Convert_To_Absolute_Path()
+		public void imageparsed_should_convert_to_absolute_path()
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Markdown";
@@ -117,7 +110,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Remove_Script_Link_Iframe_Frameset_Frame_Applet_Tags_From_Text()
+		public void should_remove_script_link_iframe_frameset_frame_applet_tags_from_text()
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
@@ -136,7 +129,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Links_Starting_With_Https_Or_Hash_Are_Not_Rewritten_As_Internal()
+		public void links_starting_with_https_or_hash_are_not_rewritten_as_internal()
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
@@ -152,7 +145,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Links_With_Dashes_Or_23_Are_Rewritten_And_Not_Parsed_As_Encoded_Hashes()
+		public void links_with_dashes_or_23_are_rewritten_and_not_parsed_as_encoded_hashes()
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
@@ -168,7 +161,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Links_To_Named_Anchors_Should_Not_Have_External_CSS_Class()
+		public void links_to_named_anchors_should_not_have_external_css_class()
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
@@ -184,7 +177,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Links_Starting_With_Tilde_Should_Resolve_As_Attachment_Paths()
+		public void links_starting_with_tilde_should_resolve_as_attachment_paths()
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
@@ -200,7 +193,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void External_Links_With_Anchor_Tag_Should_Retain_The_Anchor()
+		public void external_links_with_anchor_tag_should_retain_the_anchor()
 		{
 			// Issue #172
 			// Arrange
@@ -218,7 +211,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Internal_Wiki_Page_Link_Should_Not_Have_NoFollow_Attribute()
+		public void internal_wiki_page_link_should_not_have_nofollow_attribute()
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
@@ -235,7 +228,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Attachment_Link_Should_Not_Have_NoFollow_Attribute()
+		public void attachment_link_should_not_have_nofollow_attribute()
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
@@ -251,7 +244,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void SpecialUrl_Link_Should_Not_Have_NoFollow_Attribute()
+		public void specialurl_link_should_not_have_nofollow_attribute()
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
@@ -267,7 +260,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Internal_Links_With_Anchor_Tag_Should_Retain_The_Anchor()
+		public void internal_links_with_anchor_tag_should_retain_the_anchor()
 		{
 			// Issue #172
 			// Arrange
@@ -285,7 +278,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Internal_Links_With_UrlEncoded_Anchor_Tag_Should_Retain_The_Anchor()
+		public void internal_links_with_urlencoded_anchor_tag_should_retain_the_anchor()
 		{
 			// Issue #172
 			// Arrange
@@ -303,7 +296,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Internal_Links_With_Anchor_Tag_Should_Retain_The_Anchor_With_Markdown()
+		public void internal_links_with_anchor_tag_should_retain_the_anchor_with_markdown()
 		{
 			// Issue #172
 			// Arrange
@@ -321,7 +314,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Links_With_The_Word_Script_In_Url_Should_Not_Be_Cleaned()
+		public void links_with_the_word_script_in_url_should_not_be_cleaned()
 		{
 			// Issue #159
 			// Arrange
@@ -338,7 +331,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Links_With_Angle_Brackets_And_Quotes_Should_Be_Encoded()
+		public void links_with_angle_brackets_and_quotes_should_be_encoded()
 		{
 			// Issue #159
 			// Arrange
@@ -356,7 +349,7 @@ namespace Roadkill.Tests.Unit
 
 
 		[Test]
-		public void Links_Starting_With_AttachmentColon_Should_Resolve_As_Attachment_Paths()
+		public void links_starting_with_attachmentcolon_should_resolve_as_attachment_paths()
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
@@ -372,7 +365,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Links_Starting_With_SpecialColon_Should_Resolve_As_Full_SpecialPage()
+		public void links_starting_with_specialcolon_should_resolve_as_full_specialpage()
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
@@ -388,7 +381,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Links_Starting_With_Http_Www_Mailto_Tag_Are_No_Rewritten_As_Internal()
+		public void links_starting_with_http_www_mailto_tag_are_no_rewritten_as_internal()
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
@@ -404,7 +397,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Html_Should_Not_Be_Sanitized_If_UseHtmlWhiteList_Setting_Is_False()
+		public void html_should_not_be_sanitized_if_usehtmlwhitelist_setting_is_false()
 		{
 			// Arrange
 			_applicationSettings.UseHtmlWhiteList = false;
@@ -423,7 +416,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Not_Render_ToC_With_Multiple_Curlies()
+		public void should_not_render_toc_with_multiple_curlies()
 		{
 			// Arrange
 			_repository.SiteSettings.MarkupType = "Creole";
@@ -442,7 +435,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void WarningBox_Token_With_NoWiki_Adds_Pre_And_Renders_Token_HTML()
+		public void warningbox_token_with_nowiki_adds_pre_and_renders_token_html()
 		{
 			// Arrange..make sure expectedHtml uses \n and not \r\n
 			string expectedHtml = @"<p><div class=""alert alert-warning"">ENTER YOUR CONTENT HERE 
@@ -451,6 +444,8 @@ namespace Roadkill.Tests.Unit
 </p>
 <p></div><br style=""clear:both""/>
 </p>";
+
+			expectedHtml = expectedHtml.Replace("\r\n", "\n"); // fix line ending issues
 
 			// Act
 			string actualHtml = _markupConverter.ToHtml(@"@@warningbox:ENTER YOUR CONTENT HERE 
@@ -465,7 +460,7 @@ here is my C#code
 		}
 
 		[Test]
-		public void Should_Ignore_TextPlugins_BeforeParse_When_IsEnabled_Is_False()
+		public void should_ignore_textplugins_beforeparse_when_isenabled_is_false()
 		{
 			// Arrange
 			string markupFragment = "This is my ~~~usertoken~~~";
@@ -473,7 +468,7 @@ here is my C#code
 
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.Repository = new RepositoryMock();
-			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			plugin.PluginCache = new SiteCache(CacheMock.RoadkillCache);
 			_pluginFactory.RegisterTextPlugin(plugin);
 
 			// Act
@@ -484,7 +479,7 @@ here is my C#code
 		}
 
 		[Test]
-		public void Should_Ignore_TextPlugins_AfterParse_When_IsEnabled_Is_False()
+		public void should_ignore_textplugins_afterparse_when_isenabled_is_false()
 		{
 			// Arrange
 			string markupFragment = "Here is some markup **some bold**";
@@ -492,7 +487,7 @@ here is my C#code
 
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.Repository = new RepositoryMock();
-			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			plugin.PluginCache = new SiteCache(CacheMock.RoadkillCache);
 			_pluginFactory.RegisterTextPlugin(plugin);
 
 			// Act
@@ -503,7 +498,7 @@ here is my C#code
 		}
 
 		[Test]
-		public void Should_Fire_BeforeParse_In_TextPlugin()
+		public void should_fire_beforeparse_in_textplugin()
 		{
 			// Arrange
 			string markupFragment = "This is my ~~~usertoken~~~";
@@ -511,7 +506,7 @@ here is my C#code
 
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.Repository = new RepositoryMock();
-			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			plugin.PluginCache = new SiteCache(CacheMock.RoadkillCache);
 			plugin.Settings.IsEnabled = true;
 			_pluginFactory.RegisterTextPlugin(plugin);
 
@@ -523,7 +518,7 @@ here is my C#code
 		}
 
 		[Test]
-		public void Should_Fire_AfterParse_In_TextPlugin_And_Output_Should_Not_Be_Cleaned()
+		public void should_fire_afterparse_in_textplugin_and_output_should_not_be_cleaned()
 		{
 			// Arrange
 			string markupFragment = "Here is some markup **some bold**";
@@ -531,7 +526,7 @@ here is my C#code
 
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.Repository = new RepositoryMock();
-			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			plugin.PluginCache = new SiteCache(CacheMock.RoadkillCache);
 			plugin.Settings.IsEnabled = true;
 			_pluginFactory.RegisterTextPlugin(plugin);
 

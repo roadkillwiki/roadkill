@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
-using Roadkill.Core;
+﻿using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 
 // Reference:
 // http://www.wikicreole.org/attach/Creole1.0TestCases/creole1.0test.txt
 // http://www.wikicreole.org/wiki/JSPWikiTestCases
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Text
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -29,7 +24,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Tilde_Should_Escape_Text()
+		public void tilde_should_escape_text()
 		{
 			// Some very simplistic tests based off
 			// http://www.wikicreole.org/wiki/EscapeCharacterProposa
@@ -50,7 +45,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Tilde_Should_Be_Escapeable()
+		public void tilde_should_be_escapeable()
 		{
 			// Bug #80
 			
@@ -66,7 +61,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Text_should_Appear_After_Images()
+		public void text_should_appear_after_images()
 		{
 			// Bug #85
 
@@ -83,7 +78,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Tag_Link_Should_Be_Replaced()
+		public void tag_link_should_be_replaced()
 		{
 			// Arrange
 			string creoleText = "Here are all the tags for animals: [[tag:animal|Animals]]";
@@ -97,7 +92,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Tables_Should_Be_Created_Without_Header()
+		public void tables_should_be_created_without_header()
 		{
 			// Issue #95
 
@@ -113,7 +108,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Render_H1_Html_For_Header1_Markup()
+		public void should_render_h1_html_for_header1_markup()
 		{
 			// Arrange
 			string creoleText = @"=Top-level heading (1)";
@@ -127,7 +122,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Render_H2_Html_For_Header2_Markup()
+		public void should_render_h2_html_for_header2_markup()
 		{
 			// Arrange
 			string creoleText = @"==This a test for creole 0.1 (2)";
@@ -141,7 +136,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Render_H3_Html_For_Header3_Markup()
+		public void should_render_h3_html_for_header3_markup()
 		{
 			// Arrange
 			string creoleText = @"===This is a Subheading (3)";
@@ -155,7 +150,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Render_H4_Html_For_Header4_Markup()
+		public void should_render_h4_html_for_header4_markup()
 		{
 			// Arrange
 			string creoleText = @"====Subsub (4)";
@@ -169,7 +164,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Render_H5_Html_For_Header5_Markup()
+		public void should_render_h5_html_for_header5_markup()
 		{
 			// Arrange
 			string creoleText = @"=====Subsubsub (5)";
@@ -183,7 +178,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Render_H1_Html_For_Header1_Markup_With_Ending_Equal_Sign()
+		public void should_render_h1_html_for_header1_markup_with_ending_equal_sign()
 		{
 			// Arrange
 			string creoleText = @"=Top-level heading (1)=";
@@ -197,7 +192,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Render_H2_Html_For_Header2_Markup_With_Ending_Equal_Sign()
+		public void should_render_h2_html_for_header2_markup_with_ending_equal_sign()
 		{
 			// Arrange
 			string creoleText = @"==This a test for creole 0.1 (2)==";
@@ -211,7 +206,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Render_H3_Html_For_Header3_Markup_With_Ending_Equal_Sign()
+		public void should_render_h3_html_for_header3_markup_with_ending_equal_sign()
 		{
 			// Arrange
 			string creoleText = @"===This is a Subheading (3)===";
@@ -225,7 +220,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Render_H4_Html_For_Header4_Markup_With_Ending_Equal_Sign()
+		public void should_render_h4_html_for_header4_markup_with_ending_equal_sign()
 		{
 			// Arrange
 			string creoleText = @"====Subsub (4)====";
@@ -239,7 +234,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Render_H5_Html_For_Header5_Markup_With_Ending_Equal_Sign()
+		public void should_render_h5_html_for_header5_markup_with_ending_equal_sign()
 		{
 			// Arrange
 			string creoleText = @"=====Subsubsub (5)=====";
@@ -253,7 +248,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Render_Bold_Italic_And_Combined()
+		public void should_render_bold_italic_and_combined()
 		{
 			// Arrange
 			string creoleText = "You can make things **bold** or //italic// or **//both//** or //**both**//.";
@@ -267,7 +262,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Render_Bold_Across_Line_Breaks_But_Not_Paragraphs()
+		public void should_render_bold_across_line_breaks_but_not_paragraphs()
 		{
 			// Arrange
 			string creoleText = @"Character formatting extends across line breaks: **bold,
@@ -290,7 +285,7 @@ Not bold. Character formatting does not cross paragraph boundaries.";
 		}
 
 		[Test]
-		public void Internal_And_External_Links_Should_Render_As_Anchor_Tags()
+		public void internal_and_external_links_should_render_as_anchor_tags()
 		{
 			// Arrange
 			string creoleText = "You can use [[internal links]] or [[http://www.wikicreole.org|external links]], give the link a [[internal links|different]] name.";
@@ -304,7 +299,7 @@ Not bold. Character formatting does not cross paragraph boundaries.";
 		}
 
 		[Test]
-		public void Internal_Links_With_Quote_And_External_Link_Should_Render_As_Anchor_Tags()
+		public void internal_links_with_quote_and_external_link_should_render_as_anchor_tags()
 		{
 			// Arrange
 			string creoleText = "Here's another sentence: This wisdom is taken from [[Ward Cunningham's]] [[http://www.c2.com/doc/wikisym/WikiSym2006.pdf|Presentation at the Wikisym 06]].";
@@ -318,7 +313,7 @@ Not bold. Character formatting does not cross paragraph boundaries.";
 		}
 
 		[Test]
-		public void External_Link_With_No_Description_Should_Render_Plain_Link_In_Anchor_Tag()
+		public void external_link_with_no_description_should_render_plain_link_in_anchor_tag()
 		{
 			// Arrange
 			string creoleText = "Here's a external link without a description: [[http://www.wikicreole.org]]";
@@ -332,7 +327,7 @@ Not bold. Character formatting does not cross paragraph boundaries.";
 		}
 
 		[Test]
-		public void Links_Within_Italic_Markup_Should_Render_Em_Tag_And_Anchor_Tag()
+		public void links_within_italic_markup_should_render_em_tag_and_anchor_tag()
 		{
 			// Arrange
 			string creoleText = "Be careful that italic links are rendered properly:  //[[http://my.book.example/|My Book Title]]//";
@@ -346,7 +341,7 @@ Not bold. Character formatting does not cross paragraph boundaries.";
 		}
 
 		[Test]
-		public void Free_Links_With_No_Square_Brackets_Should_Render_As_Anchor_Tags()
+		public void free_links_with_no_square_brackets_should_render_as_anchor_tags()
 		{
 			// Arrange
 			string creoleText = "Free links without braces should be rendered as well, like http://www.wikicreole.org/ and http://www.wikicreole.org/users/";
@@ -375,7 +370,7 @@ Not bold. Character formatting does not cross paragraph boundaries.";
 		}
 
 		[Test]
-		public void Unknown_Protocols_Should_Render_As_Italic()
+		public void unknown_protocols_should_render_as_italic()
 		{
 			// Arrange
 			string creoleText = "Creole1.0 specifies that http://bar and ftp://bar should not render italic, something like foo://bar should render as italic.";
@@ -389,7 +384,7 @@ Not bold. Character formatting does not cross paragraph boundaries.";
 		}
 
 		[Test]
-		public void Four_Dashes_Should_Draw_Hr_Tag()
+		public void four_dashes_should_draw_hr_tag()
 		{
 			// Arrange
 			string creoleText = @"You can use this to draw a line to separate the page:
@@ -404,7 +399,7 @@ Not bold. Character formatting does not cross paragraph boundaries.";
 		}
 
 		[Test]
-		public void Template()
+		public void template()
 		{
 			// Arrange
 			string creoleText = "";

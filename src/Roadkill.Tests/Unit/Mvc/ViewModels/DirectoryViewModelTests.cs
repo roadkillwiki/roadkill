@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
-using Roadkill.Core.Configuration;
+﻿using NUnit.Framework;
 using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.ViewModels
 {
 	// Slightly lame property tests
 	[TestFixture]
@@ -14,7 +9,7 @@ namespace Roadkill.Tests.Unit
 	public class DirectoryViewModelTests
 	{
 		[Test]
-		public void Constructor_Should_Fill_Properties()
+		public void constructor_should_fill_properties()
 		{
 			// Arrange
 			string name = "MyDirectory";
@@ -29,7 +24,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Constructor_Should_Create_Empty_Files_And_ChildFolders()
+		public void constructor_should_create_empty_files_and_childfolders()
 		{
 			// Arrange + Act
 			DirectoryViewModel model = new DirectoryViewModel("", "");

@@ -12,7 +12,7 @@ namespace Roadkill.Tests.Acceptance.WebApi
 	public class PageControllerTests : WebApiTestBase
 	{
 		[Test]
-		public void Get_Should_Return_All_Pages()
+		public void get_should_return_all_pages()
 		{
 			// Arrange
 			AddPage("test", "this is page 1");
@@ -30,7 +30,7 @@ namespace Roadkill.Tests.Acceptance.WebApi
 		}
 
 		[Test]
-		public void Get_With_Id_Should_Return_Correct_Page()
+		public void get_with_id_should_return_correct_page()
 		{
 			// Arrange
 			PageContent expectedPage = AddPage("test", "this is page 1");
@@ -51,7 +51,7 @@ namespace Roadkill.Tests.Acceptance.WebApi
 		}
 
 		[Test]
-		public void Post_Should_Add_Page()
+		public void post_should_add_page()
 		{
 			// Arrange
 			PageViewModel page = new PageViewModel()
@@ -76,7 +76,7 @@ namespace Roadkill.Tests.Acceptance.WebApi
 		}
 
 		[Test]
-		public void Put_Should_Update_Page()
+		public void put_should_update_page()
 		{
 			// Arrange
 			PageContent pageContent = AddPage("test", "this is page 1");

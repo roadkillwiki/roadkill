@@ -1,26 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using Lucene.Net.Documents;
 using Lucene.Net.Search;
 using NUnit.Framework;
 using Roadkill.Core;
-using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Plugins;
-using Roadkill.Tests.Unit.StubsAndMocks;
 using LuceneDocument = Lucene.Net.Documents.Document;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.ViewModels
 {
 	[TestFixture]
 	[Category("Unit")]
 	public class SearchResultViewModelTests
 	{
 		[Test]
-		public void Constructor_Should_Convert_Document_And_ScoreDoc_To_Properties_And_Parse_CreatedOn_Date()
+		public void constructor_should_convert_document_and_scoredoc_to_properties_and_parse_createdon_date()
 		{
 			// Arrange
 			LuceneDocument document = new LuceneDocument();
@@ -102,7 +96,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void TagsAsList_Should_Have_Same_Tags()
+		public void tagsaslist_should_have_same_tags()
 		{
 			// Arrange
 			SearchResultViewModel model = new SearchResultViewModel();

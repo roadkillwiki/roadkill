@@ -10,7 +10,7 @@ namespace Roadkill.Tests.Acceptance.WebApi
 	public class SearchControllerTests : WebApiTestBase
 	{
 		[Test]
-		public void Search_Should_Return_Result_Based_On_Query()
+		public void search_should_return_result_based_on_query()
 		{
 			// Arrange
 			AddPage("test", "this is page 1");

@@ -16,7 +16,7 @@ namespace Roadkill.Tests.Unit.Cache
 	public class ListCacheTests
 	{
 		[Test]
-		public void Should_Add_Item()
+		public void should_add_item()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -33,7 +33,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void Should_Get_Item()
+		public void should_get_item()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -52,7 +52,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void Should_GetAllKeys()
+		public void should_getallkeys()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -73,7 +73,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void Should_Remove_Item()
+		public void should_remove_item()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -93,7 +93,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void Should_RemoveAll_Items()
+		public void should_removeall_items()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -114,7 +114,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void Should_Not_Add_If_Cache_Disabled()
+		public void should_not_add_if_cache_disabled()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -135,7 +135,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void Should_Not_Remove_If_Cache_Disabled()
+		public void should_not_remove_if_cache_disabled()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -155,7 +155,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void Should_Not_RemoveAll_If_Cache_Disabled()
+		public void should_not_removeall_if_cache_disabled()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -180,7 +180,7 @@ namespace Roadkill.Tests.Unit.Cache
 		}
 
 		[Test]
-		public void RemoveAll_Should_Remove_ListCache_Keys_Only()
+		public void removeall_should_remove_listcache_keys_only()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();

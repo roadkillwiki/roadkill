@@ -1,21 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Web.Mvc;
 using System.Web;
 using System.Text.RegularExpressions;
-using HtmlAgilityPack;
 using Roadkill.Core.Configuration;
-using StructureMap;
-using System.IO;
-using Roadkill.Core.Attachments;
 using Roadkill.Core.Text.Sanitizer;
 using Roadkill.Core.Database;
 using Roadkill.Core.Text;
-using Roadkill.Core.Plugins.Text.BuiltIn.ToC;
 using Roadkill.Core.Logging;
-using Roadkill.Core.Plugins.Text.BuiltIn;
 using Roadkill.Core.Plugins;
 
 namespace Roadkill.Core.Converters
@@ -76,14 +68,10 @@ namespace Roadkill.Core.Converters
 
 			UrlResolver = new UrlResolver(httpContext);		
 	
-			if (!_applicationSettings.Installed || _applicationSettings.UpgradeRequired)
+			if (!_applicationSettings.Installed)
 			{
-				string warnMessage = "Roadkill is not installed, or an upgrade is pending (ApplicationSettings.UpgradeRequired = false)." +
-									"Skipping initialization of MarkupConverter (MarkupConverter.Parser will now be null)";
-
-				Log.Warn(warnMessage);
-
-				// Skip the chain of creation, as the markup converter isn't needed
+				// Skip the chain of creation, as the markup converter isn't needed but is created by
+				// StructureMap - this is required for installation
 				return;
 			}
 

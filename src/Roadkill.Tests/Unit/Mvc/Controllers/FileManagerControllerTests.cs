@@ -1,13 +1,4 @@
-﻿using Moq;
-using NUnit.Framework;
-using Roadkill.Core;
-using Roadkill.Core.Attachments;
-using Roadkill.Core.Configuration;
-using Roadkill.Core.Mvc.Attributes;
-using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -15,10 +6,20 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
-using Roadkill.Tests.Unit.StubsAndMocks;
+using Moq;
+using NUnit.Framework;
+using Roadkill.Core;
+using Roadkill.Core.Attachments;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Exceptions;
+using Roadkill.Core.Mvc.Attributes;
+using Roadkill.Core.Mvc.Controllers;
+using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Services;
+using Roadkill.Tests.Unit.StubsAndMocks;
+using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.Controllers
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -82,7 +83,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Index_Should_Return_View()
+		public void index_should_return_view()
 		{
 			// Arrange
 
@@ -94,7 +95,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Select_Should_Return_View()
+		public void select_should_return_view()
 		{
 			// Arrange
 
@@ -106,7 +107,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void DeleteFile_Should_Return_Ok_Json_Status()
+		public void deletefile_should_return_ok_json_status()
 		{
 			// Arrange
 
@@ -123,7 +124,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void DeleteFile_Should_Return_Json_Error_Status_When_FileException_Is_Thrown()
+		public void deletefile_should_return_json_error_status_when_fileexception_is_thrown()
 		{
 			// Arrange
 			_fileService.CustomException = new FileException("It didn't delete", null);
@@ -141,7 +142,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void DeleteFolder_Should_Return_Ok_Json_Status()
+		public void deletefolder_should_return_ok_json_status()
 		{
 			// Arrange
 
@@ -158,7 +159,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void DeleteFolder_Should_Return_Json_Error_Status_When_FileException_Is_Thrown()
+		public void deletefolder_should_return_json_error_status_when_fileexception_is_thrown()
 		{
 			// Arrange
 			_fileService.CustomException = new FileException("It didn't delete the folder", null);
@@ -176,7 +177,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void FolderInfo_Should_Return_Model()
+		public void folderinfo_should_return_model()
 		{
 			// Arrange
 
@@ -195,7 +196,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void FolderInfo_Should_Return_Json_Error_Status_When_FileException_Is_Thrown()
+		public void folderinfo_should_return_json_error_status_when_fileexception_is_thrown()
 		{
 			// Arrange
 			_fileService.CustomException = new FileException("It didn't get the folder info", null);
@@ -213,7 +214,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void NewFolder_Should_Return_Ok_Json_Status_And_New_FolderName()
+		public void newfolder_should_return_ok_json_status_and_new_foldername()
 		{
 			// Arrange
 
@@ -230,7 +231,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void NewFolder_Should_Return_Json_Error_Status_When_FileException_Is_Thrown()
+		public void newfolder_should_return_json_error_status_when_fileexception_is_thrown()
 		{
 			// Arrange
 			_fileService.CustomException = new FileException("It didn't create the folder", null);
@@ -248,7 +249,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Upload_Should_Return_Ok_Json_Status_And_Last_Filename_Uploaded_With_Text_Plain_Content_Type()
+		public void upload_should_return_ok_json_status_and_last_filename_uploaded_with_text_plain_content_type()
 		{
 			// Arrange
 			MvcMockContainer container = _filesController.SetFakeControllerContext();
@@ -268,7 +269,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Upload_Should_Return_Json_Error_Status_When_FileException_Is_Thrown()
+		public void upload_should_return_json_error_status_when_fileexception_is_thrown()
 		{
 			// Arrange
 			MvcMockContainer container = _filesController.SetFakeControllerContext();
@@ -289,42 +290,42 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Upload_Should_Accept_HttpPost_Only()
+		public void upload_should_accept_httppost_only()
 		{
 			// Arrange, Act and Assert
 			_filesController.AssertHttpPostOnly(x => x.Upload());
 		}
 
 		[Test]
-		public void DeleteFile_Should_Accept_HttpPost_Only()
+		public void deletefile_should_accept_httppost_only()
 		{
 			// Arrange, Act and Assert
 			_filesController.AssertHttpPostOnly(x => x.DeleteFile("",""));
 		}
 
 		[Test]
-		public void DeleteFolder_Should_Accept_HttpPost_Only()
+		public void deletefolder_should_accept_httppost_only()
 		{
 			// Arrange, Act and Assert
 			_filesController.AssertHttpPostOnly(x => x.DeleteFolder(""));
 		}
 
 		[Test]
-		public void FolderInfo_Should_Accept_HttpPost_Only()
+		public void folderinfo_should_accept_httppost_only()
 		{
 			// Arrange, Act and Assert
 			_filesController.AssertHttpPostOnly(x => x.FolderInfo(""));
 		}
 
 		[Test]
-		public void NewFolder_Should_Accept_HttpPost_Only()
+		public void newfolder_should_accept_httppost_only()
 		{
 			// Arrange, Act and Assert
 			_filesController.AssertHttpPostOnly(x => x.NewFolder("",""));
 		}
 
 		[Test]
-		public void Controller_Should_Have_EditorRequired_Attribute()
+		public void controller_should_have_editorrequired_attribute()
 		{
 			// Arrange
 

@@ -1,20 +1,19 @@
 ﻿using System;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Net.Mail;
+using System.Text;
+using System.Threading;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Database;
 using Roadkill.Core.Email;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Services;
 using Roadkill.Tests.Unit.StubsAndMocks;
-using System.Linq;
-using System.IO;
-using System.Threading;
-using System.Globalization;
-using System.Text;
-using Roadkill.Core.Database;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Email
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -37,7 +36,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Use_Default_SmtpClient_When_Client_Is_Null_In_Constructor()
+		public void should_use_default_smtpclient_when_client_is_null_in_constructor()
 		{
 			// Arrange
 			EmailTemplateStub emailTemplate = new EmailTemplateStub(_applicationSettings, _repository, null);
@@ -47,7 +46,7 @@ namespace Roadkill.Tests.Unit
 		}
 		
 		[Test]
-		public void Send_Should_Use_EmailClient_To_Send()
+		public void send_should_use_emailclient_to_send()
 		{
 			// Arrange
 			EmailTemplateStub emailTemplate = new EmailTemplateStub(_applicationSettings, _repository, _emailClientMock);
@@ -104,7 +103,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Send_Should_Set_Two_Alternative_Views_With_PlainText_And_Html()
+		public void send_should_set_two_alternative_views_with_plaintext_and_html()
 		{
 			// Arrange
 			EmailTemplateStub emailTemplate = new EmailTemplateStub(_applicationSettings, _repository, _emailClientMock);
@@ -127,7 +126,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Send_Should_Change_PickupDirectory_To_AppDomainRoot_When_Starting_With_VirtualPath_And_DeliveryType_Is_PickupLocation()
+		public void send_should_change_pickupdirectory_to_appdomainroot_when_starting_with_virtualpath_and_deliverytype_is_pickuplocation()
 		{
 			// Arrange
 			EmailTemplateStub emailTemplate = new EmailTemplateStub(_applicationSettings, _repository, _emailClientMock);
@@ -146,7 +145,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ReadTemplateFile_Should_Read_Textfile_Contents()
+		public void readtemplatefile_should_read_textfile_contents()
 		{
 			// Arrange
 			_applicationSettings.EmailTemplateFolder = AppDomain.CurrentDomain.BaseDirectory;
@@ -163,7 +162,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ReadTemplateFile_Should_Read_CultureUI_Textfile_Contents()
+		public void readtemplatefile_should_read_cultureui_textfile_contents()
 		{
 			// Arrange
 			_applicationSettings.EmailTemplateFolder = AppDomain.CurrentDomain.BaseDirectory;
@@ -186,7 +185,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ReplaceTokens_Should_Replace_All_Tokens_From_Model()
+		public void replacetokens_should_replace_all_tokens_from_model()
 		{
 			// Arrange
 			EmailTemplateStub emailTemplate = new EmailTemplateStub(_applicationSettings, _repository, _emailClientMock);
@@ -234,7 +233,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ReplaceTokens_Should_Get_SiteSettings_From_Repository()
+		public void replacetokens_should_get_sitesettings_from_repository()
 		{
 			// Issue #229
 			// Arrange
@@ -255,7 +254,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ResetPasswordEmail_Send_Should_Read_ResetPassword_Txt_And_Html_File_Templates()
+		public void resetpasswordemail_send_should_read_resetpassword_txt_and_html_file_templates()
 		{
 			// Arrange
 			_applicationSettings.EmailTemplateFolder = AppDomain.CurrentDomain.BaseDirectory;
@@ -282,7 +281,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void SignupEmail_Send_Should_Read_Signup_Txt_And_Html_File_Templates()
+		public void signupemail_send_should_read_signup_txt_and_html_file_templates()
 		{
 			// Arrange
 			_applicationSettings.EmailTemplateFolder = AppDomain.CurrentDomain.BaseDirectory;

@@ -21,7 +21,7 @@ namespace Roadkill.Tests.Unit.Plugins
 	public class TextPluginTests
 	{
 		[Test]
-		public void DatabaseId_Should_Be_Different_Based_On_Id()
+		public void databaseid_should_be_different_based_on_id()
 		{
 			// Arrange
 			TextPluginStub plugin1 = new TextPluginStub("PluginId1", "name", "desc");
@@ -36,7 +36,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void PluginVirtualPath_Should_Contain_Plugin_Id_And_No_Trailing_Slash()
+		public void pluginvirtualpath_should_contain_plugin_id_and_no_trailing_slash()
 		{
 			// Arrange
 			TextPluginStub plugin = new TextPluginStub("Plugin1", "name", "desc");
@@ -86,7 +86,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Constructor_Should_Set_Cacheable_To_True()
+		public void constructor_should_set_cacheable_to_true()
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
@@ -99,24 +99,24 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Settings_Should_Not_Be_Null()
+		public void settings_should_not_be_null()
 		{
 			// Arrange + act
 			TextPlugin plugin = new TextPluginStub();
 			plugin.Repository = new RepositoryMock();
-			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			plugin.PluginCache = new SiteCache(CacheMock.RoadkillCache);
 
 			// Assert
 			Assert.That(plugin.Settings, Is.Not.Null);
 		}
 
 		[Test]
-		public void GetSettingsJson_Should_Return_Expected_Json()
+		public void getsettingsjson_should_return_expected_json()
 		{
 			// Arrange
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.Repository = new RepositoryMock();
-			plugin.PluginCache = new SiteCache(new ApplicationSettings(), CacheMock.RoadkillCache);
+			plugin.PluginCache = new SiteCache(CacheMock.RoadkillCache);
 
 			plugin.Settings.SetValue("setting1", "value1");
 			plugin.Settings.SetValue("setting2", "value2");
@@ -149,7 +149,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void GetJavascriptHtml_Should_Contain_Scripts_With_HeadJs()
+		public void getjavascripthtml_should_contain_scripts_with_headjs()
 		{
 			// Arrange
 			TextPlugin plugin = new TextPluginStub();
@@ -166,7 +166,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void SetHeadJsOnLoadedFunction_Should_Be_Added_To_Javascript()
+		public void setheadjsonloadedfunction_should_be_added_to_javascript()
 		{
 			// Arrange
 			TextPluginStub plugin = new TextPluginStub();
@@ -185,7 +185,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void GetCssLink_Should_Contain_File_And_Expected_Html()
+		public void getcsslink_should_contain_file_and_expected_html()
 		{
 			// Arrange
 			TextPluginStub plugin = new TextPluginStub("PluginId", "name", "desc");
@@ -221,14 +221,14 @@ namespace Roadkill.Tests.Unit.Plugins
 		{
 			// Arrange
 			TextPluginStub plugin = new TextPluginStub();
-			plugin.PluginCache = new SiteCache(null, new CacheMock());
+			plugin.PluginCache = new SiteCache(new CacheMock());
 
 			// Act + Assert
 			PluginSettings settings = plugin.Settings;
 		}
 
 		[Test]
-		public void Settings_Should_Return_Member_Instance_On_Second_Call_And_Not_Load_From_Cache_Or_Repository()
+		public void settings_should_return_member_instance_on_second_call_and_not_load_from_cache_or_repository()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -253,7 +253,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Settings_Should_Load_From_Cache_When_Settings_Exist_In_Cache()
+		public void settings_should_load_from_cache_when_settings_exist_in_cache()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -276,7 +276,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Settings_Should_Load_From_Repository_When_Cache_Is_Not_Set()
+		public void settings_should_load_from_repository_when_cache_is_not_set()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -301,7 +301,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Settings_Should_Create_Instance_When_Repository_Has_No_Settings()
+		public void settings_should_create_instance_when_repository_has_no_settings()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -340,7 +340,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Settings_Should_Default_Version_To_1_If_Version_Is_Empty()
+		public void settings_should_default_version_to_1_if_version_is_empty()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -360,7 +360,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Settings_Should_Call_OnInitializeSettings_When_Repository_Has_No_Settings()
+		public void settings_should_call_oninitializesettings_when_repository_has_no_settings()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();
@@ -382,7 +382,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void Settings_Should_Save_To_Repository_When_Repository_Has_No_Settings()
+		public void settings_should_save_to_repository_when_repository_has_no_settings()
 		{
 			// Arrange
 			CacheMock cache = new CacheMock();

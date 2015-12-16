@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
@@ -10,7 +9,7 @@ using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.ViewModels
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -37,7 +36,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Empty_Constructor_Should_Fill_Property_Defaults()
+		public void empty_constructor_should_fill_property_defaults()
 		{
 			// Arrange + act
 			PageViewModel model = new PageViewModel();
@@ -81,7 +80,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Page_Constructor_Should_Fill_Properties()
+		public void page_constructor_should_fill_properties()
 		{
 			// Arrange
 			Page page = new Page();
@@ -114,7 +113,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void PageContent_Constructor_Should_Fill_Properties_And_Parse_Markup()
+		public void pagecontent_constructor_should_fill_properties_and_parse_markup()
 		{
 			// Arrange
 			PageContent content = new PageContent();
@@ -136,7 +135,7 @@ namespace Roadkill.Tests.Unit
 			plugin.FooterContent = "footer content";
 			plugin.PreContainerHtml = "pre container";
 			plugin.PostContainerHtml = "post container";
-			plugin.PluginCache = new SiteCache(_appSettings, CacheMock.RoadkillCache);
+			plugin.PluginCache = new SiteCache(CacheMock.RoadkillCache);
 			plugin.Repository = _repository;
 			plugin.Settings.IsEnabled = true;
 			_pluginFactory.RegisterTextPlugin(plugin);
@@ -174,7 +173,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Content_Should_Be_Empty_And_Not_Null_When_Set_To_Null()
+		public void content_should_be_empty_and_not_null_when_set_to_null()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel();			
@@ -187,7 +186,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void IsNew_Should_Be_True_When_Id_Is_Not_Set()
+		public void isnew_should_be_true_when_id_is_not_set()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel();
@@ -200,7 +199,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void RawTags_Should_Be_Csv_Parsed_When_Set()
+		public void rawtags_should_be_csv_parsed_when_set()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel();
@@ -216,7 +215,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void CommaDelimitedTags_Should_Return_Tags_In_Csv_Form()
+		public void commadelimitedtags_should_return_tags_in_csv_form()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel();
@@ -230,7 +229,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void SpaceDelimitedTags_Should_Return_Tags_Space_Separated()
+		public void spacedelimitedtags_should_return_tags_space_separated()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel();
@@ -244,7 +243,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void ParseTags_Should_Remove_Trailing_Whitespace_And_Empty_Elements()
+		public void parsetags_should_remove_trailing_whitespace_and_empty_elements()
 		{
 			// Arrange + Act
 			IEnumerable<string> tags = PageViewModel.ParseTags("tag1, tag2, ,,    tag3      ,tag4");
@@ -258,7 +257,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void JavascriptArrayForAllTags_Should_Return_Valid_Javascript_Array()
+		public void javascriptarrayforalltags_should_return_valid_javascript_array()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel();

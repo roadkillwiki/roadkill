@@ -5,6 +5,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Domain.Export;
 using Roadkill.Core.Services;
+using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit.Export
 {
@@ -33,7 +34,7 @@ namespace Roadkill.Tests.Unit.Export
 		}
 
 		[Test]
-		public void ExportAsXml_Should_Return_Non_Empty_Stream()
+		public void exportasxml_should_return_non_empty_stream()
 		{
 			// Arrange
 			_repository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
@@ -47,7 +48,7 @@ namespace Roadkill.Tests.Unit.Export
 		}
 
 		[Test]
-		public void ExportAsSql_Should_Return_Non_Empty_Stream()
+		public void exportassql_should_return_non_empty_stream()
 		{
 			// Arrange
 			_repository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
@@ -61,7 +62,7 @@ namespace Roadkill.Tests.Unit.Export
 		}
 
 		[Test]
-		public void ExportAsWikiFiles_Should_Save_Zip_File_To_Export_Directory()
+		public void exportaswikifiles_should_save_zip_file_to_export_directory()
 		{
 			// Arrange
 			string filename = string.Format("export-{0}.zip", DateTime.Now.Ticks);
@@ -81,7 +82,7 @@ namespace Roadkill.Tests.Unit.Export
 		}
 
 		[Test]
-		public void ExportAttachments_Should_Save_Zip_File_To_Export_Directory()
+		public void exportattachments_should_save_zip_file_to_export_directory()
 		{
 			// Arrange
 			string filename = string.Format("attachments-{0}.zip", DateTime.Now.Ticks);

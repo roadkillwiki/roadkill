@@ -194,9 +194,16 @@
       <HintPath>..\..\packages\Microsoft.Owin.Hosting.2.0.2\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Microsoft.Web.Administration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.1.0\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
@@ -259,8 +266,17 @@
     <Reference Include="Recaptcha, Version=1.0.5.0, Culture=neutral, PublicKeyToken=9afc4d65b28c38c2, processorArchitecture=MSIL">
       <HintPath>..\..\packages\recaptcha.1.0.5.0\lib\.NetFramework 4.0\Recaptcha.dll</HintPath>
     </Reference>
-    <Reference Include="StructureMap">
-      <HintPath>..\..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
+    <Reference Include="StructureMap, Version=4.0.0.315, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\structuremap.4.0.0.315\lib\net40\StructureMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StructureMap.Net4, Version=4.0.0.315, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\structuremap.4.0.0.315\lib\net40\StructureMap.Net4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="StructureMap.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\structuremap.web.3.1.0.133\lib\net40\StructureMap.Web.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -338,27 +354,41 @@
     <Reference Include="WebActivator">
       <HintPath>..\..\packages\WebActivator.1.0.0.0\lib\WebActivator.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\WebActivatorEx.2.0.5\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\IRepositoryFactory.cs" />
+    <Compile Include="Database\IInstallerRepository.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\LightSpeedInstallerRepository.cs" />
+    <Compile Include="Database\Repositories\MongoDB\MongoDbInstallerRepository.cs" />
+    <Compile Include="Database\RepositoryFactory.cs" />
+    <Compile Include="Database\RepositoryInfo.cs" />
+    <Compile Include="DependencyResolution\ISetterInjected.cs" />
+    <Compile Include="DependencyResolution\MVC\MvcAttributeProvider.cs" />
+    <Compile Include="DependencyResolution\MVC\MvcModelBinders.cs" />
+    <Compile Include="DependencyResolution\LocatorStartup.cs" />
     <Compile Include="Attachments\AttachmentPathUtil.cs" />
     <Compile Include="Attachments\IResponseWrapper.cs" />
     <Compile Include="Attachments\ResponseWrapper.cs" />
     <Compile Include="Database\Repositories\ISettingsRepository.cs" />
+    <Compile Include="DependencyResolution\StructureMap\RoadkillRegistry.cs" />
+    <Compile Include="DependencyResolution\StructureMap\StructureMapServiceLocator.cs" />
+    <Compile Include="DependencyResolution\StructureMap\StructureMapHttpModule.cs" />
     <Compile Include="Email\EmailClient.cs" />
     <Compile Include="Email\IEmailClient.cs" />
     <Compile Include="Exceptions\FileException.cs" />
     <Compile Include="Extensions\BootstrapHtmlExtensions.cs" />
-    <Compile Include="Configuration\UpgradeChecker.cs" />
     <Compile Include="Configuration\ConfigReaderWriter.cs" />
     <Compile Include="Configuration\FullTrustConfigReaderWriter.cs" />
     <Compile Include="Database\Export\SqlExportBuilder.cs" />
     <Compile Include="Database\Repositories\LightSpeed\DatabaseLogger.cs" />
-    <Compile Include="DI\RepositoryManager.cs" />
-    <Compile Include="DI\ServiceLocator.cs" />
     <Compile Include="Cache\CacheKeys.cs" />
     <Compile Include="Cache\IPluginCache.cs" />
     <Compile Include="Cache\SiteCache.cs" />
@@ -368,6 +398,8 @@
     <Compile Include="Import\ScrewTurnMigrationExtensions.cs" />
     <Compile Include="Mvc\Attributes\IAuthorizationAttribute.cs" />
     <Compile Include="Mvc\Controllers\ConfigurationTesterController.cs" />
+    <Compile Include="Mvc\Controllers\IRoadkillController.cs" />
+    <Compile Include="Plugins\PluginFileManager.cs" />
     <Compile Include="Security\AuthorizationProvider.cs" />
     <Compile Include="Security\IAuthorizationProvider.cs" />
     <Compile Include="Security\FormsAuthenticationWrapper.cs" />
@@ -387,9 +419,6 @@
     <Compile Include="Mvc\Attributes\CacheContentTypeAttribute.cs" />
     <Compile Include="Mvc\Attributes\WebApiEditorRequiredAttribute.cs" />
     <Compile Include="Mvc\Attributes\WebApiAdminRequiredAttribute.cs" />
-    <Compile Include="DI\ISetterInjected.cs" />
-    <Compile Include="DI\Mvc\MvcAttributeProvider.cs" />
-    <Compile Include="DI\Mvc\MvcDependencyResolver.cs" />
     <Compile Include="Logging\Level.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
@@ -413,12 +442,10 @@
     <Compile Include="Mvc\ViewModels\PluginViewModel.cs" />
     <Compile Include="Mvc\WebViewPages\RoadkillLayoutPage.cs" />
     <Compile Include="Mvc\WebViewPages\RoadkillViewPage.cs" />
-    <Compile Include="Mvc\Controllers\UpgradeController.cs" />
     <Compile Include="Cache\PageViewModelCache.cs" />
     <Compile Include="Cache\ListCache.cs" />
     <Compile Include="Database\Repositories\IUserRepository.cs" />
     <Compile Include="Database\Repositories\IPageRepository.cs" />
-    <Compile Include="Database\DataStoreType.cs" />
     <Compile Include="Database\Entities\IDataStoreEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\Conversion\ToEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\LightSpeedRepository.cs" />
@@ -431,16 +458,13 @@
     <Compile Include="Database\Schema\MySql\MySqlSchema.cs" />
     <Compile Include="Database\Schema\Postgres\PostgresSchema.cs" />
     <Compile Include="Database\Schema\SchemaBase.cs" />
-    <Compile Include="Database\Schema\Sqlite\SqliteSchema.cs" />
-    <Compile Include="Database\Schema\SqlServerCE\SqlServerCESchema.cs" />
     <Compile Include="Database\Schema\SqlServer\SqlServerSchema.cs" />
     <Compile Include="Services\AzureFileService.cs" />
     <Compile Include="Services\IFileService.cs" />
+    <Compile Include="Services\IInstallationService.cs" />
     <Compile Include="Services\IPageService.cs" />
     <Compile Include="Database\Repositories\MongoDB\MongoDBRepository.cs" />
-    <Compile Include="Exceptions\UpgradeException.cs" />
     <Compile Include="Attachments\MimeTypes.cs" />
-    <Compile Include="DI\DependencyManager.cs" />
     <Compile Include="Mvc\Attributes\OptionalAuthorizationAttribute.cs" />
     <Compile Include="Mvc\Attributes\RecaptchaRequiredAttribute.cs" />
     <Compile Include="Mvc\Attributes\ImportModelStateAttribute.cs" />
@@ -466,27 +490,19 @@
     <Compile Include="Exceptions\DatabaseException.cs" />
     <Compile Include="Attachments\AttachmentRouteHandler.cs" />
     <Compile Include="Security\IUserContext.cs" />
-    <Compile Include="DI\Mvc\MvcModelBinders.cs" />
     <Compile Include="Configuration\RoadkillSection.cs" />
     <Compile Include="Mvc\Controllers\InstallController.cs" />
     <Compile Include="Mvc\Controllers\WikiController.cs" />
     <Compile Include="Mvc\Controllers\HelpController.cs" />
     <Compile Include="Plugins\IPluginFactory.cs" />
     <Compile Include="Plugins\SettingFormType.cs" />
-    <Compile Include="Plugins\SpecialPages\BuiltIn\RandomPage.cs" />
-    <Compile Include="Plugins\SpecialPages\SpecialPagePlugin.cs" />
-    <Compile Include="Plugins\Text\BuiltIn\ClickableImages.cs" />
-    <Compile Include="Plugins\Text\BuiltIn\ResizeImages.cs" />
-    <Compile Include="Plugins\Text\BuiltIn\ExternalLinksInNewWindow.cs" />
-    <Compile Include="Plugins\Text\BuiltIn\Jumbotron.cs" />
-    <Compile Include="Plugins\Text\BuiltIn\MathJax.cs" />
-    <Compile Include="Plugins\Text\BuiltIn\ToC\TocPlugin.cs" />
+    <Compile Include="Plugins\SpecialPagePlugin.cs" />
     <Compile Include="Plugins\Settings.cs" />
     <Compile Include="Plugins\SettingValue.cs" />
-    <Compile Include="Plugins\Text\TextPlugin.cs" />
+    <Compile Include="Plugins\TextPlugin.cs" />
     <Compile Include="Plugins\PluginFactory.cs" />
-    <Compile Include="Plugins\Text\BuiltIn\SyntaxHighlighter.cs" />
     <Compile Include="Services\LocalFileService.cs" />
+    <Compile Include="Services\InstallationService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Text\MarkupLinkUpdater.cs" />
     <Compile Include="Text\MarkupParserHelp.cs" />
@@ -510,9 +526,6 @@
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Database\Entities\User.cs" />
     <Compile Include="Services\ServiceBase.cs" />
-    <Compile Include="Plugins\Text\BuiltIn\ToC\StringTemplate.cs" />
-    <Compile Include="Plugins\Text\BuiltIn\ToC\Item.cs" />
-    <Compile Include="Plugins\Text\BuiltIn\ToC\Tree.cs" />
     <Compile Include="Mvc\ViewModels\FileViewModel.cs" />
     <Compile Include="Mvc\ViewModels\UserViewModel.cs" />
     <Compile Include="Exceptions\HistoryException.cs" />
@@ -544,7 +557,6 @@
     <Compile Include="Database\Entities\Page.cs" />
     <Compile Include="Mvc\ViewModels\PageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Plugins\Text\BuiltIn\ToC\TocParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -554,27 +566,10 @@
   <ItemGroup>
     <EmbeddedResource Include="Database\Schema\Postgres\Create.sql" />
     <EmbeddedResource Include="Database\Schema\Postgres\Drop.sql" />
-    <EmbeddedResource Include="Database\Schema\Sqlite\Create.sql" />
-    <EmbeddedResource Include="Database\Schema\Sqlite\Drop.sql" />
     <EmbeddedResource Include="Database\Schema\SqlServer\Create.sql" />
     <EmbeddedResource Include="Database\Schema\SqlServer\Drop.sql" />
-    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create2.sql" />
-    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create3.sql" />
-    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create4.sql" />
-    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create5.sql" />
-    <EmbeddedResource Include="Database\Schema\SqlServerCE\Drop1.sql" />
-    <EmbeddedResource Include="Database\Schema\SqlServerCE\Drop4.sql" />
-    <EmbeddedResource Include="Database\Schema\SqlServerCE\Drop3.sql" />
-    <EmbeddedResource Include="Database\Schema\SqlServerCE\Drop2.sql" />
-    <EmbeddedResource Include="Database\Schema\SqlServerCE\Create1.sql" />
     <EmbeddedResource Include="Database\Schema\MySql\Create.sql" />
     <EmbeddedResource Include="Database\Schema\MySql\Drop.sql" />
-    <EmbeddedResource Include="Database\Schema\MySql\Upgrade.sql" />
-    <EmbeddedResource Include="Database\Schema\Postgres\Upgrade.sql" />
-    <EmbeddedResource Include="Database\Schema\Sqlite\Upgrade.sql" />
-    <EmbeddedResource Include="Database\Schema\SqlServer\Upgrade.sql" />
-    <EmbeddedResource Include="Database\Schema\SqlServerCE\Upgrade1.sql" />
-    <EmbeddedResource Include="Database\Schema\SqlServerCE\Upgrade2.sql" />
     <EmbeddedResource Include="Localization\InstallStrings.cs.resx" />
     <EmbeddedResource Include="Localization\InstallStrings.de.resx" />
     <EmbeddedResource Include="Localization\InstallStrings.es.resx" />

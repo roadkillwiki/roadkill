@@ -8,7 +8,7 @@ namespace Roadkill.Tests.Acceptance
 	public class LoginTests : AcceptanceTestBase
 	{
 		[Test]
-		public void Can_Login_As_Admin()
+		public void can_login_as_admin()
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(LogoutUrl);
@@ -24,7 +24,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Can_Login_As_Editor()
+		public void can_login_as_editor()
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(LogoutUrl);
@@ -40,7 +40,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Incorrect_Email_For_Login_Shows_Error()
+		public void incorrect_email_for_login_shows_error()
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(LoginUrl);
@@ -55,7 +55,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Incorrect_Password_For_Admin_ShowsError()
+		public void incorrect_password_for_admin_showserror()
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(LoginUrl);
@@ -70,7 +70,7 @@ namespace Roadkill.Tests.Acceptance
 		}
 
 		[Test]
-		public void Can_Logout_As_Admin()
+		public void can_logout_as_admin()
 		{
 			// Arrange
 			Driver.Navigate().GoToUrl(LoginUrl);

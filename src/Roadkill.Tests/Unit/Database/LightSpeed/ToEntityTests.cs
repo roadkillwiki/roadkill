@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
-using Roadkill.Core;
-using Roadkill.Core.Database.LightSpeed;
-using Mindscape.LightSpeed;
 using Roadkill.Core.Database;
+using Roadkill.Core.Database.LightSpeed;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Database.LightSpeed
 {
 	[TestFixture]
 	[Category("Unit")]
 	public class ToEntityTests
 	{
 		[Test]
-		public void FromUser_ShouldFillCorrectProperties()
+		public void fromuser_shouldfillcorrectproperties()
 		{
 			// Arrange
 			User user = new User();
@@ -51,7 +46,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void FromPage_ShouldFillCorrectProperties()
+		public void frompage_shouldfillcorrectproperties()
 		{
 			// Arrange
 			Page page = new Page();
@@ -81,7 +76,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void FromPageContent_ShouldFillCorrectProperties()
+		public void frompagecontent_shouldfillcorrectproperties()
 		{
 			// Arrange
 			PageContent pageContent = new PageContent();

@@ -18,11 +18,5 @@ namespace Roadkill.Core.Database.Schema
 			string sql = LoadFromResource("Roadkill.Core.Database.Schema.MySql.Drop.sql");
 			return new string[] { sql };
 		}
-
-		protected override IEnumerable<string> GetUpgradeStatements()
-		{
-			string sql = LoadFromResource("Roadkill.Core.Database.Schema.MySql.Upgrade.sql");
-			return new string[] { sql };
-		}
 	}
 }

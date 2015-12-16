@@ -231,6 +231,10 @@
       <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="StructureMap.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\structuremap.web.4.0.0.315\lib\net40\StructureMap.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -309,11 +313,10 @@
     <Content Include="App_Data\Internal\htmlwhitelist.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_Data\Internal\SQLiteBinaries\x64\SQLite.Interop.dll" />
-    <Content Include="App_Data\Internal\SQLiteBinaries\x86\SQLite.Interop.dll" />
     <Content Include="App_Data\customvariables.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Data\roadkill.mdf" />
     <Content Include="Assets\Bootstrap\css\bootstrap-theme.css" />
     <Content Include="Assets\Bootstrap\css\bootstrap-theme.min.css" />
     <Content Include="Assets\Bootstrap\css\bootstrap.css" />
@@ -575,8 +578,6 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Upgrade\Index.cshtml" />
-    <Content Include="Views\Upgrade\Layout.cshtml" />
     <Content Include="Areas\SiteSettings\Views\Cache\Index.cshtml" />
     <Content Include="Views\User\LoggedInAs.cshtml" />
     <Content Include="Views\User\LeftMenu.cshtml" />
@@ -632,6 +633,10 @@
     <ProjectReference Include="..\Roadkill.Core\Roadkill.Core.csproj">
       <Project>{9C86C475-F3BD-44D1-942A-78BF19158C3A}</Project>
       <Name>Roadkill.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Roadkill.Plugins\Roadkill.Plugins.csproj">
+      <Project>{ea201e5c-1fef-4955-9ce8-f801d05e68cb}</Project>
+      <Name>Roadkill.Plugins</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

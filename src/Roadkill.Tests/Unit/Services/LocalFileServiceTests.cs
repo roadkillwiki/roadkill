@@ -1,23 +1,16 @@
-﻿using Moq;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Web;
+using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
-using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Mvc.Attributes;
-using Roadkill.Core.Mvc.Controllers;
+using Roadkill.Core.Exceptions;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Web;
-using System.Web.Mvc;
-using Roadkill.Core.Exceptions;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Services
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -59,7 +52,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Delete_Should_Delete_Given_File()
+		public void delete_should_delete_given_file()
 		{
 			// Arrange
 			string fullPath = CreateTestFileInAttachments("test.txt");
@@ -72,14 +65,14 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Delete_Should_Not_Throw_Exception_When_File_Doesnt_Exist()
+		public void delete_should_not_throw_exception_when_file_doesnt_exist()
 		{
 			// Arrange + Act + Assert
 			_fileService.Delete("/", "this.file.doesnt.exist.txt");
 		}
 
 		[Test]
-		public void Delete_In_Subfolder_Should_Delete_File()
+		public void delete_in_subfolder_should_delete_file()
 		{
 			// Arrange
 			string testFile1Path = CreateTestFileInAttachments("test.txt");
@@ -104,7 +97,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void DeleteFolder_Should_Delete_Given_Folder()
+		public void deletefolder_should_delete_given_folder()
 		{
 			// Arrange
 			string fullPath = CreateTestDirectoryInAttachments("folder1");
@@ -117,7 +110,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void DeleteFolder_With_SubDirectory_Should_Delete_Given_SubFolder_Not_Other_Children_Or_Parent()
+		public void deletefolder_with_subdirectory_should_delete_given_subfolder_not_other_children_or_parent()
 		{
 			// Arrange
 			string fullPath = CreateTestDirectoryInAttachments("folder1");
@@ -185,7 +178,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void FolderInfo_With_Empty_Path_Should_Return_Model_With_Root()
+		public void folderinfo_with_empty_path_should_return_model_with_root()
 		{
 			// Arrange
 			CreateTestDirectoryInAttachments("blah");
@@ -203,7 +196,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void FolderInfo_With_Root_Should_Return_Model()
+		public void folderinfo_with_root_should_return_model()
 		{
 			// Arrange
 			CreateTestDirectoryInAttachments("blah");
@@ -221,7 +214,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void FolderInfo_With_SubFolder_Should_Return_Model()
+		public void folderinfo_with_subfolder_should_return_model()
 		{
 			// Arrange
 			CreateTestDirectoryInAttachments(@"blah\blah2\blah3");
@@ -258,7 +251,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void CreateFolder_In_Root_Folder_Should_Create_Folder_And_Return_Ok_Json_Status()
+		public void createfolder_in_root_folder_should_create_folder_and_return_ok_json_status()
 		{
 			// Arrange
 			string folderName = "newfolder with spaces in it";
@@ -272,7 +265,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void CreateFolder_With_SubDirectory_Should_Create_Folder_And_Return_Ok_Json_Status()
+		public void createfolder_with_subdirectory_should_create_folder_and_return_ok_json_status()
 		{
 			// Arrange
 			string fullPath = CreateTestDirectoryInAttachments("folder1");
@@ -312,7 +305,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Upload_With_Single_File_To_Root_Should_Save_File_To_Disk_And_Return_Filename()
+		public void upload_with_single_file_to_root_should_save_file_to_disk_and_return_filename()
 		{
 			// Arrange
 			string file1FullPath = Path.Combine(_applicationSettings.AttachmentsDirectoryPath, "file1.png");
@@ -327,7 +320,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Upload_Should_OverWrite_Existing_File_WhenOverWriteFiles_Setting_Is_True()
+		public void upload_should_overwrite_existing_file_whenoverwritefiles_setting_is_true()
 		{
 			// Arrange
 			SiteSettings siteSettings = _settingsService.GetSiteSettings();
@@ -348,7 +341,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Upload_Should_Be_Case_Insensitive()
+		public void upload_should_be_case_insensitive()
 		{
 			// Arrange
 			HttpFileCollectionBase fileCollection = CreateFileCollection("file1.PNG");
@@ -364,7 +357,7 @@ namespace Roadkill.Tests.Unit
 
 
 		[Test]
-		public void Upload_With_Multiple_Files_To_Root_Should_Save_Files_To_Disk_And_Return_Last_Uploaded_File()
+		public void upload_with_multiple_files_to_root_should_save_files_to_disk_and_return_last_uploaded_file()
 		{
 			// Arrange
 			HttpFileCollectionBase fileCollection = CreateFileCollection("file1.png", "file2.png");
@@ -381,7 +374,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Upload_With_Multiple_Files_To_SubFolder_Should_Save_Files_And_Return_Last_Uploaded_File()
+		public void upload_with_multiple_files_to_subfolder_should_save_files_and_return_last_uploaded_file()
 		{
 			// Arrange
 			HttpFileCollectionBase fileCollection = CreateFileCollection("file1.png", "file2.png");
@@ -403,7 +396,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Upload_With_No_Files_To_Root_Should_Return_Empty_Filename()
+		public void upload_with_no_files_to_root_should_return_empty_filename()
 		{
 			// Arrange
 			HttpFileCollectionBase fileCollection = CreateFileCollection();
@@ -466,7 +459,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void FileUpload_Should_Throw_FileException_When_File_Exists_And_OverWriteFiles_Setting_Is_False_For_Multiple_Files()
+		public void fileupload_should_throw_fileexception_when_file_exists_and_overwritefiles_setting_is_false_for_multiple_files()
 		{
 			// Arrange
 			SiteSettings siteSettings = _settingsService.GetSiteSettings();

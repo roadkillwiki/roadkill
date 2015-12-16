@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.Export;
-using Roadkill.Core.Plugins;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Export
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -23,7 +18,7 @@ namespace Roadkill.Tests.Unit
 		// Some full integration tests for each database type can be added if needed later.
 
 		[Test]
-		public void Should_Export_Users_With_All_FieldValues()
+		public void should_export_users_with_all_fieldvalues()
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
@@ -96,7 +91,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Export_Pages_With_Content()
+		public void should_export_pages_with_content()
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
@@ -187,7 +182,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void Should_Export_SiteConfiguration_And_Plugin_Settings()
+		public void should_export_siteconfiguration_and_plugin_settings()
 		{
 			// Arrange
 			RepositoryMock repository = new RepositoryMock();
@@ -196,7 +191,7 @@ namespace Roadkill.Tests.Unit
 			repository.SiteSettings.MenuMarkup = "markup ```''' \r\n";
 			
 			// Plugins setup
-			SiteCache siteCache = new SiteCache(new ApplicationSettings(), new CacheMock());
+			SiteCache siteCache = new SiteCache(new CacheMock());
 
 			TextPluginStub plugin1 = new TextPluginStub("fake-plugin1", "fake plugin1", "description 1", "1.1");
 			plugin1.PluginCache = siteCache;

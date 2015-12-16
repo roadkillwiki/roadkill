@@ -1,24 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using Moq;
+﻿using System.ComponentModel.DataAnnotations;
 using NUnit.Framework;
-using Roadkill.Core;
-using Roadkill.Core.Configuration;
-using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Security;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Mvc.ViewModels
 {
 	[TestFixture]
 	[Category("Unit")]
 	public class PageViewModelValidationTests
 	{
 		[Test]
-		public void VerifyRawTags_With_Ok_Characters_Should_Succeed()
+		public void verifyrawtags_with_ok_characters_should_succeed()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel();
@@ -32,7 +23,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void VerifyRawTags_With_Empty_String_Should_Succeed()
+		public void verifyrawtags_with_empty_string_should_succeed()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel();
@@ -46,7 +37,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void VerifyRawTags_With_Bad_Characters_Should_Fail()
+		public void verifyrawtags_with_bad_characters_should_fail()
 		{
 			// Arrange
 			PageViewModel model = new PageViewModel();

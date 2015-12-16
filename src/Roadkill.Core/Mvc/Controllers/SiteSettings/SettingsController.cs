@@ -17,7 +17,6 @@ using Roadkill.Core.Database.Export;
 using Roadkill.Core.Database;
 using Roadkill.Core.Plugins;
 using Roadkill.Core.Attachments;
-using Roadkill.Core.DI;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -49,6 +48,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			SiteSettings siteSettings = SettingsService.GetSiteSettings();
 			SettingsViewModel model = new SettingsViewModel(ApplicationSettings, siteSettings);
+			model.SetSupportedDatabases(SettingsService.GetSupportedDatabases());
 
 			return View(model);
 		}

@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using System.Web.Mvc;
-using System.Web.Routing;
 using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Converters;
 using Roadkill.Core.Extensions;
-using Roadkill.Core.Mvc;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Services;
+using Roadkill.Tests.Unit.StubsAndMocks;
+using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Extensions
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -64,7 +59,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void RenderPageByTag_Should_Return_Rendered_Html_Locked_Page_When_Multiple_Pages_Exist_For_Tag()
+		public void renderpagebytag_should_return_rendered_html_locked_page_when_multiple_pages_exist_for_tag()
 		{
 			// Arrange
 			_pageService.AddPage( new PageViewModel() { Title = "Page1", RawTags = "software,tag2,tag3", IsLocked = true, Content = "page 1 content"});
@@ -78,7 +73,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void RenderPageByTag_Should_Return_Rendered_Html_For_Known_Tag()
+		public void renderpagebytag_should_return_rendered_html_for_known_tag()
 		{
 			// Arrange
 			_pageService.AddPage(new PageViewModel() { Title = "Page1", RawTags = "software, tag2, tag3", IsLocked = true, Content = "page 1 content" });
@@ -92,7 +87,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void RenderPageByTag_Should_Return_Empty_String_When_Tag_Does_Not_Exist()
+		public void renderpagebytag_should_return_empty_string_when_tag_does_not_exist()
 		{
 			// Arrange
 			_pageService.AddPage(new PageViewModel() { Title = "Page1", RawTags = "software, tag2, tag3", Content = "page 1 content" });
@@ -106,7 +101,7 @@ namespace Roadkill.Tests.Unit
 		}
 
 		[Test]
-		public void RenderPageByTag_Should_Return_Empty_String_When_Controller_Is_Not_WikiController()
+		public void renderpagebytag_should_return_empty_string_when_controller_is_not_wikicontroller()
 		{
 			// Arrange
 			_viewContext.Controller = new Mock<System.Web.Mvc.ControllerBase>().Object;
@@ -149,7 +144,7 @@ namespace Roadkill.Tests.Unit
 
 		[Ignore]
 		[Test]
-		public void SiteSettingsNavigation_Should_()
+		public void sitesettingsnavigation_should_()
 		{
 			// RenderPartials can't be tested without ridiculous amounts of setup
 		}

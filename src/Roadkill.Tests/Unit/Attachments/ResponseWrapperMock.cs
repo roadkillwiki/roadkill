@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Roadkill.Core.Attachments;
+﻿using Roadkill.Core.Attachments;
 
-namespace Roadkill.Tests.Unit
+namespace Roadkill.Tests.Unit.Attachments
 {
 	public class ResponseWrapperMock : IResponseWrapper
 	{
