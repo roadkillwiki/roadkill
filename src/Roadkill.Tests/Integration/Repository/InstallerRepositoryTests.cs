@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
+using Roadkill.Core;
 using Roadkill.Core.Database;
-using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Tests.Integration.Repository
 {
@@ -11,82 +11,59 @@ namespace Roadkill.Tests.Integration.Repository
 		protected abstract string InvalidConnectionString { get; }
 		protected abstract string ConnectionString { get; }
 
-		protected IInstallerRepository Repository;
-		protected abstract IInstallerRepository GetRepository();
+		protected abstract IInstallerRepository GetRepository(string connectionString);
 		protected abstract void Clearup();
 		protected abstract void CheckDatabaseProcessIsRunning();
+		protected abstract bool AllTablesAreEmpty();
 
 		[SetUp]
 		public void Setup()
 		{
 			// Setup the repository
-			Repository = GetRepository();
 			Clearup();
 		}
 
-		[TearDown]
-		public void TearDown()
+		[Test]
+		public void install_should_create_and_clear_all_tables()
 		{
-			Repository.Dispose();
+			// Arrange
+			var repository = GetRepository(ConnectionString);
+
+			// Act
+			repository.Install();
+
+			// Assert
+			Assert.True(AllTablesAreEmpty());
 		}
 
 		[Test]
-		public void install_should()
+		public void install_should_throw_databaseexception_with_invalid_connection_string()
 		{
-			//// Arrange
+			// Arrange 
+			var repository = GetRepository(InvalidConnectionString);
 
-			//// Act
-			//Repository.Install(ApplicationSettings.DatabaseName, ApplicationSettings.ConnectionString, false);
-
-			//// Assert
-			//Assert.That(Repository.AllPages().Count(), Is.EqualTo(0));
-			//Assert.That(Repository.AllPageContents().Count(), Is.EqualTo(0));
-			//Assert.That(Repository.FindAllAdmins().Count(), Is.EqualTo(0));
-			//Assert.That(Repository.FindAllEditors().Count(), Is.EqualTo(0));
-			//Assert.That(Repository.GetSiteSettings(), Is.Not.Null);
-			Assert.Fail("TODO");
+			// Act Assert
+			Assert.Throws<DatabaseException>(() => repository.Install());
 		}
 
 		[Test]
 		public void testconnection_should_succeed_with_valid_connection_string()
 		{
-			Assert.Fail("TODO");
-			//// Arrange
+			// Arrange 
+			var repository = GetRepository(ConnectionString);
 
-
-			//// Act
-			//Repository.TestConnection(ApplicationSettings.DatabaseName, ApplicationSettings.ConnectionString);
-
-			//// Assert (no exception)
+			// Act + Assert (no exception)
+			repository.TestConnection();
 		}
 
 		[Test]
-		public void testconnection_should_throw_exception_with_invalid_connection_string()
+		public void testconnection_should_throw_databaseexception_with_invalid_connection_string()
 		{
-			Assert.Fail("TODO");
-			//// [expectedexception] can't handle exception heirachies
+			// Arrange 
+			var repository = GetRepository(InvalidConnectionString);
 
-			//// Arrange
-
-			//try
-			//{
-			//	// Act
-			//	// (MongoConnectionException is also thrown here)
-			//	Repository.TestConnection(ApplicationSettings.DatabaseName, InvalidConnectionString);
-			//}
-			//catch (DbException)
-			//{
-			//	// Assert
-			//	Assert.Pass();
-			//}
-			//catch (ArgumentException)
-			//{
-			//	Assert.Pass();
-			//}
-			//catch (Exception)
-			//{
-			//	Assert.Fail();
-			//}
+			// Act Assert
+			Assert.Throws<DatabaseException>(() => repository.TestConnection());
 		}
 	}
 }

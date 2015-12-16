@@ -1,4 +1,6 @@
-﻿using Mindscape.LightSpeed;
+﻿using System.Data;
+using System.Linq;
+using Mindscape.LightSpeed;
 using NUnit.Framework;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
@@ -21,9 +23,9 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 			get { return "server=(local);uid=none;pwd=none;database=doesntexist;Connect Timeout=5"; }
 		}
 
-		protected override IInstallerRepository GetRepository()
+		protected override IInstallerRepository GetRepository(string connectionString)
 		{
-			return new LightSpeedInstallerRepository(DataProvider.SqlServer2008, new SqlServerSchema(),  ConnectionString);
+			return new LightSpeedInstallerRepository(DataProvider.SqlServer2008, new SqlServerSchema(),  connectionString);
 		}
 
 		protected override void Clearup()
@@ -35,6 +37,17 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 		{
 			if (TestHelpers.IsSqlServerRunning() == false)
 				Assert.Fail("A local Sql Server (sqlservr.exe) is not running");
+		}
+
+		protected override bool AllTablesAreEmpty()
+		{
+			var repository = new LightSpeedRepository(DataProvider.SqlServer2008, ConnectionString);
+
+			return repository.AllPages().Count() == 0 &&
+				   repository.AllPageContents().Count() == 0 &&
+				   repository.FindAllAdmins().Count() == 0 &&
+				   repository.FindAllEditors().Count() == 0 &&
+				   repository.GetSiteSettings() != null;
 		}
 	}
 }

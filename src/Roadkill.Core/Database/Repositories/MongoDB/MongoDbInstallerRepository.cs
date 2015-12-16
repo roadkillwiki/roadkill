@@ -14,14 +14,21 @@ namespace Roadkill.Core.Database.MongoDB
 
 		public void Install()
 		{
-			string databaseName = MongoUrl.Create(ConnectionString).DatabaseName;
-			MongoClient client = new MongoClient(ConnectionString);
-			MongoServer server = client.GetServer();
-			MongoDatabase database = server.GetDatabase(databaseName);
-			database.DropCollection("Page");
-			database.DropCollection("PageContent");
-			database.DropCollection("User");
-			database.DropCollection("SiteConfiguration");
+			try
+			{
+				string databaseName = MongoUrl.Create(ConnectionString).DatabaseName;
+				MongoClient client = new MongoClient(ConnectionString);
+				MongoServer server = client.GetServer();
+				MongoDatabase database = server.GetDatabase(databaseName);
+				database.DropCollection("Page");
+				database.DropCollection("PageContent");
+				database.DropCollection("User");
+				database.DropCollection("SiteConfiguration");
+			}
+			catch (Exception e)
+			{
+				throw new DatabaseException(e, "Install failed: unable to connect to the database using {0} - {1}", ConnectionString, e.Message);
+			}
 		}
 
 		/// <summary>

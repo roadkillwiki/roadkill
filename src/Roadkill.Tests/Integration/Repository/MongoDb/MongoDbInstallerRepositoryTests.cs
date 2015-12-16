@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using NUnit.Framework;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.MongoDB;
 using Roadkill.Core.Database.Repositories;
@@ -19,9 +20,9 @@ namespace Roadkill.Tests.Integration.Repository.MongoDb
 			get { return "mongodb://invalidformat"; }
 		}
 
-		protected override IInstallerRepository GetRepository()
+		protected override IInstallerRepository GetRepository(string connectionString)
 		{
-			return new MongoDbInstallerRepository(ConnectionString);
+			return new MongoDbInstallerRepository(connectionString);
 		}
 
 		protected override void Clearup()
@@ -33,6 +34,17 @@ namespace Roadkill.Tests.Integration.Repository.MongoDb
 		{
 			if (TestHelpers.IsMongoDBRunning() == false)
 				Assert.Fail("A local MongoDB (mongod.exe) server is not running");
+		}
+
+		protected override bool AllTablesAreEmpty()
+		{
+			var repository = new MongoDBRepository(ConnectionString);
+
+			return repository.AllPages().Count() == 0 &&
+				   repository.AllPageContents().Count() == 0 &&
+				   repository.FindAllAdmins().Count() == 0 &&
+				   repository.FindAllEditors().Count() == 0 &&
+				   repository.GetSiteSettings() != null;
 		}
 	}
 }

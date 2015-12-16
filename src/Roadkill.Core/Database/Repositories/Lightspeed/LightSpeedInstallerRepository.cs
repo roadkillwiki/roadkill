@@ -38,6 +38,30 @@ namespace Roadkill.Core.Database
 			return context;
 		}
 
+		public void Install()
+		{
+			try
+			{
+				LightSpeedContext context = CreateLightSpeedContext();
+
+				using (IDbConnection connection = context.DataProviderObjectFactory.CreateConnection())
+				{
+					connection.ConnectionString = ConnectionString;
+					connection.Open();
+
+					IDbCommand command = context.DataProviderObjectFactory.CreateCommand();
+					command.Connection = connection;
+
+					Schema.Drop(command);
+					Schema.Create(command);
+				}
+			}
+			catch (Exception e)
+			{
+				throw new DatabaseException(e, "Install failed: unable to connect to the database using '{0}' - {1}", ConnectionString, e.Message);
+			}
+		}
+
 		public void TestConnection()
 		{
 			try
@@ -53,23 +77,6 @@ namespace Roadkill.Core.Database
 			catch (Exception e)
 			{
 				throw new DatabaseException(e, "Unable to connect to the database using '{0}' - {1}", ConnectionString, e.Message);
-			}
-		}
-
-		public void Install()
-		{
-			LightSpeedContext context = CreateLightSpeedContext();
-
-			using (IDbConnection connection = context.DataProviderObjectFactory.CreateConnection())
-			{
-				connection.ConnectionString = ConnectionString;
-				connection.Open();
-
-				IDbCommand command = context.DataProviderObjectFactory.CreateCommand();
-				command.Connection = connection;
-
-				Schema.Drop(command);
-				Schema.Create(command);
 			}
 		}
 
