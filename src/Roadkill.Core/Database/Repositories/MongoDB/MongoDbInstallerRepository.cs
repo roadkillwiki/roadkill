@@ -1,5 +1,6 @@
 using System;
 using MongoDB.Driver;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Database.MongoDB
 {
@@ -25,7 +26,12 @@ namespace Roadkill.Core.Database.MongoDB
 			database.DropCollection(typeof(SiteConfigurationEntity).Name);
 		}
 
-		public void Install()
+		public void AddAdminUser(string email, string username, string password)
+		{
+			
+		}
+
+		public void CreateSchema()
 		{
 			try
 			{
@@ -44,24 +50,9 @@ namespace Roadkill.Core.Database.MongoDB
 			}
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <exception cref="DatabaseException">Can't connect to the MongoDB server (but it's a valid connection string)</exception>
-		public void TestConnection()
+		public void SaveSettings(SiteSettings siteSettings)
 		{
-			try
-			{
-				string databaseName = MongoUrl.Create(ConnectionString).DatabaseName;
-				MongoClient client = new MongoClient(ConnectionString);
-				MongoServer server = client.GetServer();
-				MongoDatabase database = server.GetDatabase(databaseName);
-				database.GetCollectionNames();
-			}
-			catch (Exception e)
-			{
-				throw new DatabaseException(e, "Unable to connect to the MongoDB database using {0} - {1}", ConnectionString, e.Message);
-			}
+			
 		}
 
 		public void Dispose()

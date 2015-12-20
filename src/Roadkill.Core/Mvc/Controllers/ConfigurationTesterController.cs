@@ -20,17 +20,18 @@ namespace Roadkill.Core.Mvc.Controllers
 		private ConfigReaderWriter _configReaderWriter;
 		private IActiveDirectoryProvider _activeDirectoryProvider;
 		private readonly UserServiceBase _userService;
+		private readonly IDatabaseTester _databaseTester;
 		private readonly IRepositoryFactory _repositoryFactory;
 
 		public ConfigurationTesterController(ApplicationSettings appSettings, IUserContext userContext, ConfigReaderWriter configReaderWriter, 
-			IActiveDirectoryProvider activeDirectoryProvider, UserServiceBase userService, IRepositoryFactory repositoryFactory) 
+			IActiveDirectoryProvider activeDirectoryProvider, UserServiceBase userService, IDatabaseTester databaseTester) 
 		{
 			_applicationSettings = appSettings;
 			_userContext = userContext;
 			_configReaderWriter = configReaderWriter;
 			_activeDirectoryProvider = activeDirectoryProvider;
 			_userService = userService;
-			_repositoryFactory = repositoryFactory;
+			_databaseTester = databaseTester;
 		}
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -90,12 +91,10 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (InstalledAndUserIsNotAdmin())
 				return Content("");
 
-			IInstallerRepository installerRepository = _repositoryFactory.GetInstallerRepository(databaseName, connectionString);
-
 			string errors = "";
 			try
 			{
-				installerRepository.TestConnection();
+				_databaseTester.TestConnection(databaseName, connectionString);
 			}
 			catch (Exception e)
 			{

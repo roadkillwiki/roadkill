@@ -365,7 +365,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\IRepositoryFactory.cs" />
-    <Compile Include="Database\IInstallerRepository.cs" />
+    <Compile Include="Database\Repositories\IDatabaseTester.cs" />
+    <Compile Include="Database\Repositories\IInstallerRepository.cs" />
+    <Compile Include="Database\Repositories\DatabaseTester.cs" />
     <Compile Include="Database\Repositories\LightSpeed\LightSpeedInstallerRepository.cs" />
     <Compile Include="Database\Repositories\LightSpeed\LightSpeedUserRepository.cs" />
     <Compile Include="Database\Repositories\LightSpeed\LightSpeedSettingsRepository.cs" />
@@ -374,6 +376,7 @@
     <Compile Include="Database\Repositories\MongoDB\MongoDBSettingsRepository.cs" />
     <Compile Include="Database\RepositoryFactory.cs" />
     <Compile Include="Database\RepositoryInfo.cs" />
+    <Compile Include="Database\SupportedDatabases.cs" />
     <Compile Include="DependencyResolution\ISetterInjected.cs" />
     <Compile Include="DependencyResolution\MVC\MvcAttributeProvider.cs" />
     <Compile Include="DependencyResolution\MVC\MvcModelBinders.cs" />

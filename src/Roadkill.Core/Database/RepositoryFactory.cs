@@ -12,11 +12,6 @@ namespace Roadkill.Core.Database
 {
 	public class RepositoryFactory : IRepositoryFactory
 	{
-		public static readonly RepositoryInfo MongoDB = new RepositoryInfo("MongoDB", "MongoDB - A MongoDB server, using the official MongoDB driver.");
-		public static readonly RepositoryInfo MySQL = new RepositoryInfo("MySQL", "MySQL");
-		public static readonly RepositoryInfo Postgres = new RepositoryInfo("Postgres", "Postgres - A Postgres 9 or later database.");
-		public static readonly RepositoryInfo SqlServer2008 = new RepositoryInfo("SqlServer2008", "Sql Server - a SqlServer 2008 or later database.");
-
 		public LightSpeedContext Context { get; set; }
 
 		public RepositoryFactory()
@@ -28,17 +23,17 @@ namespace Roadkill.Core.Database
 			if (string.IsNullOrEmpty(connectionString))
 				throw new DatabaseException("The database connection string is empty", null);
 
-			if (databaseProviderName == MongoDB)
+			if (databaseProviderName == SupportedDatabases.MongoDB)
 				return;
 
 			// LightspeedSetup
 			DataProvider provider = DataProvider.SqlServer2008;
 
-			if (databaseProviderName == MySQL)
+			if (databaseProviderName == SupportedDatabases.MySQL)
 			{
 				provider = DataProvider.MySql5;
 			}
-			else if (databaseProviderName == Postgres)
+			else if (databaseProviderName == SupportedDatabases.Postgres)
 			{
 				provider = DataProvider.PostgreSql9;
 			}
@@ -59,7 +54,7 @@ namespace Roadkill.Core.Database
 
 		public ISettingsRepository GetSettingsRepository(string databaseProviderName, string connectionString)
 		{
-			if (databaseProviderName == MongoDB)
+			if (databaseProviderName == SupportedDatabases.MongoDB)
 			{
 				return new MongoDBSettingsRepository(connectionString);
 			}
@@ -71,7 +66,7 @@ namespace Roadkill.Core.Database
 
 		public IUserRepository GetUserRepository(string databaseProviderName, string connectionString)
 		{
-			if (databaseProviderName == MongoDB)
+			if (databaseProviderName == SupportedDatabases.MongoDB)
 			{
 				return new MongoDBUserRepository(connectionString);
 			}
@@ -83,7 +78,7 @@ namespace Roadkill.Core.Database
 
 		public IPageRepository GetPageRepository(string databaseProviderName, string connectionString)
 		{
-			if (databaseProviderName == MongoDB)
+			if (databaseProviderName == SupportedDatabases.MongoDB)
 			{
 				return new MongoDBPageRepository(connectionString);
 			}
@@ -95,15 +90,15 @@ namespace Roadkill.Core.Database
 
 		public IInstallerRepository GetInstallerRepository(string databaseProviderName, string connectionString)
 		{
-			if (databaseProviderName == MongoDB)
+			if (databaseProviderName == SupportedDatabases.MongoDB)
 			{
 				return new MongoDbInstallerRepository(connectionString);
 			}
-			else if (databaseProviderName == MySQL)
+			else if (databaseProviderName == SupportedDatabases.MySQL)
 			{
 				return new LightSpeedInstallerRepository(DataProvider.MySql5, new MySqlSchema(), connectionString);
 			}
-			else if (databaseProviderName == Postgres)
+			else if (databaseProviderName == SupportedDatabases.Postgres)
 			{
 				return new LightSpeedInstallerRepository(DataProvider.PostgreSql9, new PostgresSchema(), connectionString);
 			}
@@ -117,10 +112,10 @@ namespace Roadkill.Core.Database
 		{
 			return new List<RepositoryInfo>()
 			{
-				MongoDB,
-				MySQL,
-				Postgres,
-				SqlServer2008
+				SupportedDatabases.MongoDB,
+				SupportedDatabases.MySQL,
+				SupportedDatabases.Postgres,
+				SupportedDatabases.SqlServer2008
 			};
 		}
 	}

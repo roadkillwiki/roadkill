@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Mindscape.LightSpeed;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Database.MongoDB;
+using Roadkill.Core.Database.Schema;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security;
 
@@ -11,73 +15,29 @@ namespace Roadkill.Core.Services
 	/// </summary>
 	public class InstallationService : IInstallationService
 	{
-		private readonly IRepositoryFactory _repositoryFactory;
-		private readonly string _databaseName;
-		private readonly string _connectionString;
-		private readonly UserServiceBase _userService;
-
-		public InstallationService(IRepositoryFactory repositoryFactory, string databaseName, string connectionString, UserServiceBase userService)
-		{
-			_repositoryFactory = repositoryFactory;
-			_connectionString = connectionString;
-			_userService = userService;
-			_databaseName = databaseName;
-		}
-
-		public void AddAdminUser(string email, string password)
-		{
-			_userService.AddUser(email, "admin", password, true, false);
-		}
-
 		public IEnumerable<RepositoryInfo> GetSupportedDatabases()
 		{
-			return _repositoryFactory.ListAll();
+			return new List<RepositoryInfo>()
+			{
+				SupportedDatabases.MongoDB,
+				SupportedDatabases.MySQL,
+				SupportedDatabases.Postgres,
+				SupportedDatabases.SqlServer2008
+			};
 		}
 
-		/// <summary>
-		/// Clears all users from the system.
-		/// </summary>
-		/// <exception cref="DatabaseException">An database error occurred while clearing the user table.</exception>
-		public void ClearUserTable()
+		public void Install(SettingsViewModel model)
 		{
 			try
 			{
-				var repository = _repositoryFactory.GetUserRepository(_databaseName, _connectionString);
-				repository.DeleteAllUsers();
-			}
-			catch (DatabaseException ex)
-			{
-				throw new DatabaseException(ex, "An exception occurred while clearing the user tables.");
-			}
-		}
+				IInstallerRepository installerRepository = GetRepository(model.DatabaseName, model.ConnectionString);
+				installerRepository.CreateSchema();
 
-		/// <summary>
-		/// Creates the database schema tables.
-		/// </summary>
-		/// <param name="model">The settings data.</param>
-		/// <exception cref="DatabaseException">An datastore error occurred while creating the database tables.</exception>
-		public void CreateTables()
-		{
-			try
-			{
-				var repositoryInstaller = _repositoryFactory.GetInstallerRepository(_databaseName, _connectionString);
-				repositoryInstaller.Install();
-			}
-			catch (DatabaseException ex)
-			{
-				throw new DatabaseException(ex, "An exception occurred while creating the site schema tables.");
-			}
-		}
+				if (model.UseWindowsAuth == false)
+				{
+					installerRepository.AddAdminUser(model.AdminEmail, "admin", model.AdminPassword);
+				}
 
-		/// <summary>
-		/// Saves all settings that are stored in the database, to the configuration table.
-		/// </summary>
-		/// <param name="model">Summary data containing the settings.</param>
-		/// <exception cref="DatabaseException">An datastore error occurred while saving the configuration.</exception>
-		public void SaveSiteSettings(SettingsViewModel model)
-		{
-			try
-			{
 				SiteSettings siteSettings = new SiteSettings();
 				siteSettings.AllowedFileTypes = model.AllowedFileTypes;
 				siteSettings.AllowUserSignup = model.AllowUserSignup;
@@ -93,13 +53,31 @@ namespace Roadkill.Core.Services
 				siteSettings.OverwriteExistingFiles = model.OverwriteExistingFiles;
 				siteSettings.HeadContent = model.HeadContent;
 				siteSettings.MenuMarkup = model.MenuMarkup;
-
-				var repository = _repositoryFactory.GetSettingsRepository(_databaseName, _connectionString);
-				repository.SaveSiteSettings(siteSettings);
+				installerRepository.SaveSettings(siteSettings);
 			}
 			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An exception occurred while saving the site configuration.");
+			}
+		}
+
+		private IInstallerRepository GetRepository(string databaseProvider, string connectionString)
+		{
+			if (databaseProvider == SupportedDatabases.MongoDB)
+			{
+				return new MongoDbInstallerRepository(connectionString);
+			}
+			else if (databaseProvider == SupportedDatabases.MySQL)
+			{
+				return new LightSpeedInstallerRepository(DataProvider.MySql5, new MySqlSchema(), connectionString);
+			}
+			else if (databaseProvider == SupportedDatabases.Postgres)
+			{
+				return new LightSpeedInstallerRepository(DataProvider.PostgreSql9, new PostgresSchema(), connectionString);
+			}
+			else
+			{
+				return new LightSpeedInstallerRepository(DataProvider.SqlServer2008, new SqlServerSchema(), connectionString);
 			}
 		}
 	}

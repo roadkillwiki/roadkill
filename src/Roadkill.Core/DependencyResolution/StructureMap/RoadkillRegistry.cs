@@ -210,10 +210,10 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 					return new RepositoryFactory(appSettings.DatabaseName, appSettings.ConnectionString);
 				});
 
-			For<IRepositoryFactory>()
-				.Singleton()
-				.Add("IRepositoryFactory For the Installer", x => new RepositoryFactory("installer", "installer"))
-				.Named("Installer-IRepositoryFactory");
+			//For<IRepositoryFactory>()
+			//	.Singleton()
+			//	.Add("IRepositoryFactory For the Installer", x => new RepositoryFactory("installer", "installer"))
+			//	.Named("Installer-IRepositoryFactory");
 
 			For<ISettingsRepository>()
 				.HybridHttpOrThreadLocalScoped()

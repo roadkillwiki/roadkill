@@ -395,6 +395,7 @@
     <Compile Include="Unit\StubsAndMocks\AuthorizationProviderMock.cs" />
     <Compile Include="Unit\StubsAndMocks\CacheMock.cs" />
     <Compile Include="Unit\StubsAndMocks\ConfigReaderWriterStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\DatabaseTesterMock.cs" />
     <Compile Include="Unit\StubsAndMocks\DbCommandStub.cs" />
     <Compile Include="Unit\StubsAndMocks\EmailClientMock.cs" />
     <Compile Include="Unit\StubsAndMocks\FileServiceMock.cs" />

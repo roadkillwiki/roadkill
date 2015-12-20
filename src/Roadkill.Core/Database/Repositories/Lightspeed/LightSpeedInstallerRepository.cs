@@ -1,32 +1,34 @@
 ﻿using System;
 using System.Data;
 using Mindscape.LightSpeed;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Database.LightSpeed;
+using Roadkill.Core.Database.MongoDB;
 using Roadkill.Core.Database.Schema;
 
 namespace Roadkill.Core.Database
 {
 	public class LightSpeedInstallerRepository : IInstallerRepository
 	{
+		private LightSpeedContext _context;
 		public DataProvider DataProvider { get; }
 		public SchemaBase Schema { get; }
 		public string ConnectionString { get; }
 
-		public LightSpeedInstallerRepository(DataProvider dataDataProvider, SchemaBase schema, string connectionString)
+		public LightSpeedInstallerRepository(DataProvider dataProvider, SchemaBase schema, string connectionString)
 		{
-			if (string.IsNullOrEmpty(connectionString))
-				throw new DatabaseException("The connection string is empty", null);
-
-			DataProvider = dataDataProvider;
+			DataProvider = dataProvider;
 			Schema = schema;
 			ConnectionString = connectionString;
+
+			_context = CreateLightSpeedContext(dataProvider, connectionString);
 		}
 
-		private LightSpeedContext CreateLightSpeedContext()
+		private LightSpeedContext CreateLightSpeedContext(DataProvider dataProvider, string connectionString)
 		{
 			LightSpeedContext context = new LightSpeedContext();
-			context.ConnectionString = ConnectionString;
-			context.DataProvider = DataProvider;
+			context.ConnectionString = connectionString;
+			context.DataProvider = dataProvider;
 			context.IdentityMethod = IdentityMethod.GuidComb;
 			context.CascadeDeletes = true;
 
@@ -38,18 +40,64 @@ namespace Roadkill.Core.Database
 			return context;
 		}
 
-		public void Install()
+		public void AddAdminUser(string email, string username, string password)
 		{
 			try
 			{
-				LightSpeedContext context = CreateLightSpeedContext();
+				using (IUnitOfWork unitOfWork = _context.CreateUnitOfWork())
+				{
+					var user = new User();
+					user.Email = email;
+					user.Username = username;
+					user.SetPassword(password);
+					user.IsAdmin = true;
+					user.IsEditor = true;
+					user.IsActivated = true;
 
-				using (IDbConnection connection = context.DataProviderObjectFactory.CreateConnection())
+					var entity = new UserEntity();
+					ToEntity.FromUser(user, entity);
+
+					unitOfWork.Add(entity);
+					unitOfWork.SaveChanges();
+				}
+			}
+			catch (Exception e)
+			{
+				throw new DatabaseException(e, "Install failed: unable to create the admin user using '{0}' - {1}", ConnectionString, e.Message);
+			}
+		}
+
+		public void SaveSettings(SiteSettings siteSettings)
+		{
+			try
+			{
+				using (IUnitOfWork unitOfWork = _context.CreateUnitOfWork())
+				{
+					var entity = new Roadkill.Core.Database.LightSpeed.SiteConfigurationEntity();
+					entity.Id = SiteSettings.SiteSettingsId;
+					entity.Version = ApplicationSettings.ProductVersion;
+					entity.Content = siteSettings.GetJson();
+
+					unitOfWork.Add(entity);
+					unitOfWork.SaveChanges();
+				}
+			}
+			catch (Exception e)
+			{
+				throw new DatabaseException(e, "Install failed: unable to connect to the database using '{0}' - {1}", ConnectionString, e.Message);
+			}
+		}
+
+		public void CreateSchema()
+		{
+			try
+			{
+				using (IDbConnection connection = _context.DataProviderObjectFactory.CreateConnection())
 				{
 					connection.ConnectionString = ConnectionString;
 					connection.Open();
 
-					IDbCommand command = context.DataProviderObjectFactory.CreateCommand();
+					IDbCommand command = _context.DataProviderObjectFactory.CreateCommand();
 					command.Connection = connection;
 
 					Schema.Drop(command);
@@ -59,24 +107,6 @@ namespace Roadkill.Core.Database
 			catch (Exception e)
 			{
 				throw new DatabaseException(e, "Install failed: unable to connect to the database using '{0}' - {1}", ConnectionString, e.Message);
-			}
-		}
-
-		public void TestConnection()
-		{
-			try
-			{
-				LightSpeedContext context = CreateLightSpeedContext();
-
-				using (IDbConnection connection = context.DataProviderObjectFactory.CreateConnection())
-				{
-					connection.ConnectionString = ConnectionString;
-					connection.Open();
-				}
-			}
-			catch (Exception e)
-			{
-				throw new DatabaseException(e, "Unable to connect to the database using '{0}' - {1}", ConnectionString, e.Message);
 			}
 		}
 
