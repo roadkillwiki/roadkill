@@ -24,17 +24,11 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 
 		private ApplicationSettings _applicationSettings;
 		private IUserContext _context;
-		private RepositoryMock _repository;
+		private PageRepositoryMock _pageRepository;
+		private UserRepositoryMock _userRepository;
+
 		private UserServiceMock _userService;
-		private PageService _pageService;
-		private IWikiImporter _wikiImporter;
-		private PluginFactoryMock _pluginFactory;
-		private SearchService _searchService;
 		private SettingsService _settingsService;
-		private PageViewModelCache _pageCache;
-		private ListCache _listCache;
-		private SiteCache _siteCache;
-		private MemoryCache _cache;
 
 		private UserManagementController _controller;
 
@@ -45,21 +39,14 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 
 			_applicationSettings = _container.ApplicationSettings;
 			_context = _container.UserContext;
-			_repository = _container.Repository;
+
+			_pageRepository = _container.PageRepository;
+			_userRepository = _container.UserRepository;
+
 			_settingsService = _container.SettingsService;
 			_userService = _container.UserService;
-			_pageCache = _container.PageViewModelCache;
-			_listCache = _container.ListCache;
-			_siteCache = _container.SiteCache;
-			_cache = _container.MemoryCache;
 
-			_pageService = _container.PageService;
-			_wikiImporter = new ScrewTurnImporter(_applicationSettings, _repository);
-			_pluginFactory = _container.PluginFactory;
-			_searchService = _container.SearchService;
-
-			_controller = new UserManagementController(_applicationSettings, _userService, _settingsService, _pageService, 
-				_searchService, _context, _listCache, _pageCache, _siteCache, _wikiImporter, _repository, _pluginFactory);
+			_controller = new UserManagementController(_applicationSettings, _userService, _settingsService, _context);
 		}
 
 		[Test]

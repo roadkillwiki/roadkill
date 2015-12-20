@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Text.Sanitizer;
 using Roadkill.Core.Database;
+using Roadkill.Core.Database.Repositories;
 using Roadkill.Core.Text;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Plugins;
@@ -21,7 +22,8 @@ namespace Roadkill.Core.Converters
 		private static Regex _anchorRegex = new Regex("(?<hash>(#|%23).+)", RegexOptions.IgnoreCase);
 
 		private ApplicationSettings _applicationSettings;
-		private IRepository _repository;
+		private ISettingsRepository _settingsRepository;
+		private readonly IPageRepository _pageRepository;
 		private IMarkupParser _parser;
 		private List<string> _externalLinkPrefixes;
 		private IPluginFactory _pluginFactory;
@@ -45,7 +47,7 @@ namespace Roadkill.Core.Converters
 		/// markdown format parsers.
 		/// </summary>
 		/// <returns>An <see cref="IMarkupParser"/> for Creole,Markdown or Media wiki formats.</returns>
-		public MarkupConverter(ApplicationSettings settings, IRepository repository, IPluginFactory pluginFactory)
+		public MarkupConverter(ApplicationSettings settings, ISettingsRepository settingsRepository, IPageRepository pageRepository,  IPluginFactory pluginFactory)
 		{
 			_externalLinkPrefixes = new List<string>()
 			{
@@ -58,7 +60,8 @@ namespace Roadkill.Core.Converters
 			};
 
 			_pluginFactory = pluginFactory;
-			_repository = repository;
+			_settingsRepository = settingsRepository;
+			_pageRepository = pageRepository;
 			_applicationSettings = settings;
 
 			// Create the UrlResolver for all wiki urls
@@ -81,7 +84,7 @@ namespace Roadkill.Core.Converters
 		private void CreateParserForMarkupType()
 		{
 			string markupType = "";
-			SiteSettings siteSettings = _repository.GetSiteSettings();
+			SiteSettings siteSettings = _settingsRepository.GetSiteSettings();
 			if (siteSettings != null && !string.IsNullOrEmpty(siteSettings.MarkupType))
 			{
 				markupType = siteSettings.MarkupType.ToLower();
@@ -267,7 +270,7 @@ namespace Roadkill.Core.Converters
 			}
 
 			// Find the page, or if it doesn't exist point to the new page url
-			Page page = _repository.GetPageByTitle(title);
+			Page page = _pageRepository.GetPageByTitle(title);
 			if (page != null)
 			{
 				href = UrlResolver.GetInternalUrlForTitle(page.Id, page.Title);

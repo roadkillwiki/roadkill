@@ -16,7 +16,8 @@ namespace Roadkill.Tests.Unit.Services
 	{
 		private MocksAndStubsContainer _container;
 		private RepositoryFactoryMock _repositoryFactory;
-		private RepositoryMock _repository;
+		private SettingsRepositoryMock _settingsRepository;
+		private UserRepositoryMock _userRepository;
 		private InstallerRepositoryMock _installerRepository;
 
 		private InstallationService _installationService;
@@ -27,7 +28,8 @@ namespace Roadkill.Tests.Unit.Services
 		{
 			_container = new MocksAndStubsContainer();
 			_repositoryFactory = _container.RepositoryFactory;
-            _repository = _repositoryFactory.Repository;
+			_settingsRepository = _container.SettingsRepository;
+			_userRepository = _repositoryFactory.UserRepository;
 			_installerRepository = _repositoryFactory.InstallerRepository;
 
 			_userService = new UserServiceMock();
@@ -54,15 +56,15 @@ namespace Roadkill.Tests.Unit.Services
 		public void clearusertable_should_remove_all_users_via_repository()
 		{
 			// Arrange
-			_repository.Users.Add(new User());
-			_repository.Users.Add(new User());
-			_repository.Users.Add(new User());
+			_userRepository.Users.Add(new User());
+			_userRepository.Users.Add(new User());
+			_userRepository.Users.Add(new User());
 
 			// Act
 			_installationService.ClearUserTable();
 
 			// Assert
-			Assert.That(_repository.Users.Count, Is.EqualTo(0));
+			Assert.That(_userRepository.Users.Count, Is.EqualTo(0));
         }
 
 		[Test]
@@ -119,7 +121,7 @@ namespace Roadkill.Tests.Unit.Services
 
 			// Act
 			_installationService.SaveSiteSettings(expectedSettings);
-			SiteSettings actualSettings = _repository.GetSiteSettings();
+			SiteSettings actualSettings = _settingsRepository.GetSiteSettings();
 
 			// Assert
 			Assert.That(actualSettings.AllowedFileTypes, Is.EqualTo(expectedSettings.AllowedFileTypes));
@@ -139,7 +141,7 @@ namespace Roadkill.Tests.Unit.Services
 		public void savesitesettings_should_rethrow_database_exception_with_context_of_error()
 		{
 			// Arrange
-			_repository.ThrowSaveSiteSettingsException = true;
+			_settingsRepository.ThrowSaveSiteSettingsException = true;
 
 			// Act + Assert
 			Assert.Throws<DatabaseException>(() => _installationService.SaveSiteSettings(new SettingsViewModel()));

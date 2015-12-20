@@ -15,21 +15,27 @@ namespace Roadkill.Tests.Unit.Export
 	{
 		private MocksAndStubsContainer _container;
 		private ApplicationSettings _applicationSettings;
-		private RepositoryMock _repository;
+		private PageRepositoryMock _pageRepository;
 		private PageService _pageService;
 		private PluginFactoryMock _pluginFactory;
 		private WikiExporter _wikiExporter;
+		private SettingsRepositoryMock _settingsRepository;
+		private UserRepositoryMock _userRepository;
 
 		[SetUp]
 		public void Setup()
 		{
 			_container = new MocksAndStubsContainer();
 			_applicationSettings = _container.ApplicationSettings;
-			_repository = _container.Repository;
+
+			_settingsRepository = _container.SettingsRepository;
+			_pageRepository = _container.PageRepository;
+			_userRepository = _container.UserRepository;
+
 			_pageService = _container.PageService;
 			_pluginFactory = _container.PluginFactory;
 
-			_wikiExporter = new WikiExporter(_applicationSettings, _pageService, _repository, _pluginFactory);
+			_wikiExporter = new WikiExporter(_applicationSettings, _pageService, _settingsRepository, _pageRepository, _userRepository, _pluginFactory);
 			_wikiExporter.ExportFolder = AppDomain.CurrentDomain.BaseDirectory;
 		}
 
@@ -37,8 +43,8 @@ namespace Roadkill.Tests.Unit.Export
 		public void exportasxml_should_return_non_empty_stream()
 		{
 			// Arrange
-			_repository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
-			_repository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
 
 			// Act
 			Stream stream = _wikiExporter.ExportAsXml();
@@ -51,8 +57,8 @@ namespace Roadkill.Tests.Unit.Export
 		public void exportassql_should_return_non_empty_stream()
 		{
 			// Arrange
-			_repository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
-			_repository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
 
 			// Act
 			Stream stream = _wikiExporter.ExportAsSql();
@@ -68,8 +74,8 @@ namespace Roadkill.Tests.Unit.Export
 			string filename = string.Format("export-{0}.zip", DateTime.Now.Ticks);
 			string zipFullPath = Path.Combine(_wikiExporter.ExportFolder, filename);
 
-			_repository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
-			_repository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
 
 			// Act
 			_wikiExporter.ExportAsWikiFiles(filename);

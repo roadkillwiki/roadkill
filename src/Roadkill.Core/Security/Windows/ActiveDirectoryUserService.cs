@@ -1,9 +1,6 @@
 ﻿#if !MONO
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.DirectoryServices.AccountManagement;
 using System.Web;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
@@ -40,7 +37,7 @@ namespace Roadkill.Core.Security.Windows
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ActiveDirectoryUserService"/> class.
 		/// </summary>
-		public ActiveDirectoryUserService(ApplicationSettings settings, IRepository repository, IActiveDirectoryProvider service)
+		public ActiveDirectoryUserService(ApplicationSettings settings, IUserRepository repository, IActiveDirectoryProvider service)
 			: base(settings, repository)
 		{
 			// Some guards

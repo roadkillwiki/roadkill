@@ -27,16 +27,18 @@ namespace Roadkill.Tests.Unit.Text
 			// Arrange
 			Page page = new Page() { Id = 1, Title = "My first page" };
 
-			RepositoryMock repositoryStub = new RepositoryMock();
-			repositoryStub.AddNewPage(page, "My first page", "admin", DateTime.UtcNow);
-			repositoryStub.SiteSettings = new SiteSettings() { MarkupType = "Markdown" };
+			var settingsRepository = new SettingsRepositoryMock();
+			settingsRepository.SiteSettings = new SiteSettings() { MarkupType = "Markdown" };
+
+			PageRepositoryMock pageRepositoryStub = new PageRepositoryMock();
+			pageRepositoryStub.AddNewPage(page, "My first page", "admin", DateTime.UtcNow);
 
 			ApplicationSettings settings = new ApplicationSettings();
 			settings.Installed = true;
 
 			UrlResolverMock resolver = new UrlResolverMock();
 			resolver.InternalUrl = "blah";
-			MarkupConverter converter = new MarkupConverter(settings, repositoryStub, _pluginFactory);
+			MarkupConverter converter = new MarkupConverter(settings, settingsRepository, pageRepositoryStub, _pluginFactory);
 			converter.UrlResolver = resolver;
 
 			string markdownText = "[Link](My-first-page)";
@@ -61,14 +63,16 @@ namespace Roadkill.Tests.Unit.Text
 			// Arrange
 			Page page = new Page() { Id = 1, Title = "My first page" };
 
-			RepositoryMock repositoryStub = new RepositoryMock();
-			repositoryStub.AddNewPage(page, "My first page", "admin", DateTime.UtcNow);
-			repositoryStub.SiteSettings = new SiteSettings() { MarkupType = "Markdown" };
+			PageRepositoryMock pageRepositoryStub = new PageRepositoryMock();
+			pageRepositoryStub.AddNewPage(page, "My first page", "admin", DateTime.UtcNow);
+
+			var settingsRepository = new SettingsRepositoryMock();
+			settingsRepository.SiteSettings = new SiteSettings() { MarkupType = "Markdown" };
 
 			ApplicationSettings settings = new ApplicationSettings();
 			settings.Installed = true;
 
-			MarkupConverter converter = new MarkupConverter(settings, repositoryStub, _pluginFactory);
+			MarkupConverter converter = new MarkupConverter(settings, settingsRepository, pageRepositoryStub, _pluginFactory);
 
 			string markdownText = "Here is some `// code with a 'quote' in it and another \"quote\"`\n\n" +
 				"    var x = \"some tabbed code\";\n\n"; // 2 line breaks followed by 4 spaces (tab stop) at the start indicates a code block
@@ -90,14 +94,16 @@ namespace Roadkill.Tests.Unit.Text
 			// Arrange
 			Page page = new Page() { Id = 1, Title = "My first page" };
 
-			RepositoryMock repositoryStub = new RepositoryMock();
-			repositoryStub.AddNewPage(page, "My first page", "admin", DateTime.UtcNow);
-			repositoryStub.SiteSettings = new SiteSettings() { MarkupType = "Markdown" };
+			PageRepositoryMock pageRepositoryStub = new PageRepositoryMock();
+			pageRepositoryStub.AddNewPage(page, "My first page", "admin", DateTime.UtcNow);
+
+			var settingsRepository = new SettingsRepositoryMock();
+			settingsRepository.SiteSettings = new SiteSettings() { MarkupType = "Markdown" };
 
 			ApplicationSettings settings = new ApplicationSettings();
 			settings.Installed = true;
 
-			MarkupConverter converter = new MarkupConverter(settings, repositoryStub, _pluginFactory);
+			MarkupConverter converter = new MarkupConverter(settings, settingsRepository, pageRepositoryStub, _pluginFactory);
 
 			string markdownText = "Here is an image:![Image](/Image1.png) \n\n" +
 								  "And another with equal dimensions ![Square](/Image1.png =250x) \n\n" +
@@ -121,14 +127,16 @@ namespace Roadkill.Tests.Unit.Text
 			// Arrange
 			Page page = new Page() { Id = 1, Title = "My first page" };
 
-			RepositoryMock repositoryStub = new RepositoryMock();
-			repositoryStub.AddNewPage(page, "My first page", "admin", DateTime.UtcNow);
-			repositoryStub.SiteSettings = new SiteSettings() { MarkupType = "Markdown" };
+			PageRepositoryMock pageRepositoryStub = new PageRepositoryMock();
+			pageRepositoryStub.AddNewPage(page, "My first page", "admin", DateTime.UtcNow);
+
+			var settingsRepository = new SettingsRepositoryMock();
+			settingsRepository.SiteSettings = new SiteSettings() { MarkupType = "Markdown" };
 
 			ApplicationSettings settings = new ApplicationSettings();
 			settings.Installed = true;
 
-			MarkupConverter converter = new MarkupConverter(settings, repositoryStub, _pluginFactory);
+			MarkupConverter converter = new MarkupConverter(settings, settingsRepository, pageRepositoryStub, _pluginFactory);
 
 			string markdownText = "Here is an image with a title:![Image](/Image1.png \"Image\") \n\n" +
 								  "And another with equal dimensions ![Square](/Image1.png \"Square\" =250x) \n\n" +

@@ -18,7 +18,7 @@ namespace Roadkill.Core
 
 		public void Configuration(IAppBuilder app)
 		{
-			// /Attachments/ handler. This needs to be called before the other routing setup.
+			// Register the "/Attachments/" route handler. This needs to be called before the other routing setup.
 			var appSettings = LocatorStartup.Locator.GetInstance<ApplicationSettings>();
 			var fileService = LocatorStartup.Locator.GetInstance<IFileService>();
 			AttachmentRouteHandler.RegisterRoute(appSettings, RouteTable.Routes, fileService);

@@ -16,22 +16,29 @@ namespace Roadkill.Tests.Unit
 	{
 		public ApplicationSettings ApplicationSettings { get; set; }
 		public ConfigReaderWriterStub ConfigReaderWriter { get; set; }
-		public RepositoryFactoryMock RepositoryFactory { get; set; }
+		public IUserContext UserContext { get; set; }
+
 		public MemoryCache MemoryCache { get; set; }
 		public ListCache ListCache { get; set; }
 		public SiteCache SiteCache { get; set; }
 		public PageViewModelCache PageViewModelCache { get; set; }
-		public IUserContext UserContext { get; set; }
-		public RepositoryMock Repository { get; set; }
+		
+		public PluginFactoryMock PluginFactory { get; set; }
+		public MarkupConverter MarkupConverter { get; set; }
+		public EmailClientMock EmailClient { get; set; }
+
 		public UserServiceMock UserService { get; set; }
 		public PageService PageService { get; set; }
 		public SearchServiceMock SearchService { get; set; }
 		public PageHistoryService HistoryService { get; set; }
 		public SettingsService SettingsService { get; set; }
-		public PluginFactoryMock PluginFactory { get; set; }
-		public MarkupConverter MarkupConverter { get; set; }
-		public EmailClientMock EmailClient { get; set; }
 		public IFileService FileService { get; set; }
+
+		public RepositoryFactoryMock RepositoryFactory { get; set; }
+		public SettingsRepositoryMock SettingsRepository { get; set; }
+		public UserRepositoryMock UserRepository { get; set; }
+		public PageRepositoryMock PageRepository { get; set; }
+		public InstallerRepositoryMock InstallerRepository { get; set; }
 
 		/// <summary>
 		/// Creates a new instance of MocksAndStubsContainer.
@@ -52,25 +59,35 @@ namespace Roadkill.Tests.Unit
 			SiteCache = new SiteCache(MemoryCache);
 			PageViewModelCache = new PageViewModelCache(ApplicationSettings, MemoryCache);
 
-			// Repository
-			Repository = new RepositoryMock();
-			Repository.SiteSettings = new SiteSettings();
-			Repository.SiteSettings.MarkupType = "Creole";
-			RepositoryFactory = new RepositoryFactoryMock() {Repository = Repository};
+			// pageRepository
+			SettingsRepository = new SettingsRepositoryMock();
+			SettingsRepository.SiteSettings = new SiteSettings();
+			SettingsRepository.SiteSettings.MarkupType = "Creole";
+			UserRepository = new UserRepositoryMock();
+			PageRepository = new PageRepositoryMock();
+			InstallerRepository = new InstallerRepositoryMock();
+
+			RepositoryFactory = new RepositoryFactoryMock()
+			{
+				SettingsRepository = SettingsRepository,
+				UserRepository = UserRepository,
+				PageRepository = PageRepository,
+				InstallerRepository = InstallerRepository
+			};
 
 			PluginFactory = new PluginFactoryMock();
-			MarkupConverter = new MarkupConverter(ApplicationSettings, Repository, PluginFactory);
+			MarkupConverter = new MarkupConverter(ApplicationSettings, SettingsRepository, PageRepository, PluginFactory);
 
 			// Dependencies for PageService. Be careful to make sure the class using this Container isn't testing the mock.
 			SettingsService = new SettingsService(RepositoryFactory, ApplicationSettings);
-			UserService = new UserServiceMock(ApplicationSettings, Repository);
+			UserService = new UserServiceMock(ApplicationSettings, UserRepository);
 			UserContext = new UserContext(UserService);
-			SearchService = new SearchServiceMock(ApplicationSettings, Repository, PluginFactory);
-			SearchService.PageContents = Repository.PageContents;
-			SearchService.Pages = Repository.Pages;
-			HistoryService = new PageHistoryService(ApplicationSettings, Repository, UserContext, PageViewModelCache, PluginFactory);
+			SearchService = new SearchServiceMock(ApplicationSettings, SettingsRepository, PageRepository, PluginFactory);
+			SearchService.PageContents = PageRepository.PageContents;
+			SearchService.Pages = PageRepository.Pages;
+			HistoryService = new PageHistoryService(ApplicationSettings, SettingsRepository, PageRepository, UserContext, PageViewModelCache, PluginFactory);
 
-			PageService = new PageService(ApplicationSettings, Repository, SearchService, HistoryService, UserContext, ListCache, PageViewModelCache, SiteCache, PluginFactory);
+			PageService = new PageService(ApplicationSettings, SettingsRepository, PageRepository, SearchService, HistoryService, UserContext, ListCache, PageViewModelCache, SiteCache, PluginFactory);
 
 			// EmailTemplates
 			EmailClient = new EmailClientMock();

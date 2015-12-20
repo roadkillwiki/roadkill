@@ -225,8 +225,8 @@ namespace Roadkill.Core.Mvc.Controllers
 			}
 
 			// Inject the repository into the UserService, as the one StructureMap gave us will have a stale Repository
-			var repository = _repositoryFactory.GetRepository(model.DatabaseName, model.ConnectionString);
-			UserService.Repository = repository;
+			var repository = _repositoryFactory.GetUserRepository(model.DatabaseName, model.ConnectionString);
+			UserService.UserRepository = repository;
 
 			// Default these two properties for installations
 			model.IgnoreSearchIndexErrors = true;

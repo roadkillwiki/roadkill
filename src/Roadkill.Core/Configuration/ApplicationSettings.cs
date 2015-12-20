@@ -248,11 +248,6 @@ namespace Roadkill.Core.Configuration
 		public int MinimumPasswordLength { get; set; }
 
 		/// <summary>
-		/// The fully qualified assembly and classname for the repository.
-		/// </summary>
-		public string RepositoryType { get; set; }
-
-		/// <summary>
 		/// Indicates whether to use Local storage or Azure for attachments
 		/// </summary>
 		public bool UseAzureFileStorage { get; set; }

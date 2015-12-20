@@ -17,7 +17,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		
 		private ApplicationSettings _applicationSettings;
 		private IUserContext _context;
-		private RepositoryMock _repository;
+		private PageRepositoryMock _pageRepository;
 		private UserServiceMock _userService;
 		private SettingsService _settingsService;
 		private PluginFactoryMock _pluginFactory;
@@ -31,7 +31,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 
 			_applicationSettings = _container.ApplicationSettings;
 			_context = _container.UserContext;
-			_repository = _container.Repository;
+			_pageRepository = _container.PageRepository;
 			_pluginFactory = _container.PluginFactory;
 			_settingsService = _container.SettingsService;
 			_userService = _container.UserService;

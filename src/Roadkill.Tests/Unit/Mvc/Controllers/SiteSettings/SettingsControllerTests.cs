@@ -21,7 +21,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 
 		private ApplicationSettings _applicationSettings;
 		private IUserContext _context;
-		private RepositoryMock _repository;
+		private SettingsRepositoryMock _settingsRepository;
 		private UserServiceMock _userService;
 		private SettingsService _settingsService;
 		private PageViewModelCache _pageCache;
@@ -41,7 +41,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 			_applicationSettings = _container.ApplicationSettings;
 			_applicationSettings.AttachmentsFolder = AppDomain.CurrentDomain.BaseDirectory;
 			_context = _container.UserContext;
-			_repository = _container.Repository;
+			_settingsRepository = _container.SettingsRepository;
 			_settingsService = _container.SettingsService;
 			_userService = _container.UserService;
 			_pageCache = _container.PageViewModelCache;
@@ -82,7 +82,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 			SettingsViewModel resultModel = result.ModelFromActionResult<SettingsViewModel>();
 			Assert.That(resultModel, Is.Not.Null, "model");
 
-			Assert.That(_repository.GetSiteSettings().MenuMarkup, Is.EqualTo("some new markup"));
+			Assert.That(_settingsRepository.GetSiteSettings().MenuMarkup, Is.EqualTo("some new markup"));
 		}
 
 		[Test]

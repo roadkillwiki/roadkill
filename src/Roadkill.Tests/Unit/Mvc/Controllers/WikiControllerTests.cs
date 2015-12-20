@@ -22,7 +22,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 
 		private ApplicationSettings _applicationSettings;
 		private IUserContext _context;
-		private RepositoryMock _repository;
+		private PageRepositoryMock _pageRepository;
 		private UserServiceMock _userService;
 		private PageService _pageService;
 		private PageHistoryService _historyService;
@@ -38,7 +38,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 
 			_applicationSettings = _container.ApplicationSettings;
 			_context = _container.UserContext;	
-			_repository = _container.Repository;
+			_pageRepository = _container.PageRepository;
 			_pluginFactory = _container.PluginFactory;
 			_settingsService = _container.SettingsService;
 			_userService = _container.UserService;
@@ -65,8 +65,8 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 				Page = page1,
 				Text = "Hello world"
 			};
-			_repository.Pages.Add(page1);
-			_repository.PageContents.Add(page1Content);
+			_pageRepository.Pages.Add(page1);
+			_pageRepository.PageContents.Add(page1Content);
 
 			// Act
 			ActionResult result = _wikiController.Index(50, "");
@@ -149,7 +149,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		public void pagetoolbar_should_return_partialview()
 		{
 			// Arrange
-			_repository.AddNewPage(new Page() {Title = "Title" }, "text", "admin", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() {Title = "Title" }, "text", "admin", DateTime.UtcNow);
 
 			// Act
 			ActionResult result = _wikiController.PageToolbar(1);

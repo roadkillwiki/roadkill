@@ -22,7 +22,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		private UserServiceMock _userService;
 		private SettingsService _settingsService;
 
-		private RepositoryMock _repository;
+		private PageRepositoryMock _pageRepository;
 		private PageService _pageService;
 		private PageHistoryService _historyService;
 		private PluginFactoryMock _pluginFactory;
@@ -45,7 +45,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			MvcMockContainer container = _controller.SetFakeControllerContext("~/");
 
 			// Used by InstallController
-			_repository = _container.Repository;
+			_pageRepository = _container.PageRepository;
 			_pluginFactory = _container.PluginFactory;
 			_historyService = _container.HistoryService;
 			_pageService = _container.PageService;

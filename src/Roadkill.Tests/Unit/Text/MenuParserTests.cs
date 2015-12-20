@@ -14,11 +14,36 @@ namespace Roadkill.Tests.Unit.Text
 	public class MenuParserTests
 	{
 		private PluginFactoryMock _pluginFactory;
+		private PageRepositoryMock _pageRepository;
+		private SettingsRepositoryMock _settingsRepository;
+		private UserContextStub _userContext;
+		private ApplicationSettings _applicationSettings;
+		private CacheMock _cache;
+		private SiteCache _siteCache;
+		private MarkupConverter _converter;
+		private MenuParser _menuParser;
 
 		[SetUp]
 		public void Setup()
 		{
 			_pluginFactory = new PluginFactoryMock();
+
+			_pageRepository = new PageRepositoryMock();
+
+			_settingsRepository = new SettingsRepositoryMock();
+			_settingsRepository.SiteSettings = new SiteSettings();
+			_settingsRepository.SiteSettings.MarkupType = "Markdown";
+
+			_userContext = new UserContextStub();
+
+			_applicationSettings = new ApplicationSettings();
+			_applicationSettings.Installed = true;
+
+			_cache = new CacheMock();
+			_siteCache = new SiteCache(_cache);
+
+			_converter = new MarkupConverter(_applicationSettings, _settingsRepository, _pageRepository, _pluginFactory);
+			_menuParser = new MenuParser(_converter, _settingsRepository, _siteCache, _userContext);
 		}
 
 		[Test]
@@ -33,25 +58,13 @@ namespace Roadkill.Tests.Unit.Text
 								  "<a href=\"/filemanager\">Manage files</a>" +
 								  "<a href=\"/settings\">Site settings</a>";
 
-			RepositoryMock repository = new RepositoryMock();
-			repository.SiteSettings = new SiteSettings();
-			repository.SiteSettings.MarkupType = "Markdown";
-			repository.SiteSettings.MenuMarkup = menuMarkup;
+			_settingsRepository.SiteSettings.MenuMarkup = menuMarkup;
 
-			UserContextStub userContext = new UserContextStub();
-			userContext.IsAdmin = true;
-			userContext.IsLoggedIn = true;
-
-			ApplicationSettings applicationSettings = new ApplicationSettings();
-			applicationSettings.Installed = true;
-			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(cache);
-
-			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
-			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
+			_userContext.IsAdmin = true;
+			_userContext.IsLoggedIn = true;
 
 			// Act
-			string actualHtml = parser.GetMenu();
+			string actualHtml = _menuParser.GetMenu();
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
@@ -67,25 +80,13 @@ namespace Roadkill.Tests.Unit.Text
 								  "<a href=\"/\">Main Page</a>" +
 								  "<a href=\"/pages/new\">New page</a><a href=\"/filemanager\">Manage files</a>";
 
-			RepositoryMock repository = new RepositoryMock();
-			repository.SiteSettings = new SiteSettings();
-			repository.SiteSettings.MarkupType = "Markdown";
-			repository.SiteSettings.MenuMarkup = menuMarkup;
+			_settingsRepository.SiteSettings.MenuMarkup = menuMarkup;
 
-			UserContextStub userContext = new UserContextStub();
-			userContext.IsAdmin = false;
-			userContext.IsLoggedIn = true;
-
-			ApplicationSettings applicationSettings = new ApplicationSettings();
-			applicationSettings.Installed = true;
-			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(cache);
-
-			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
-			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
+			_userContext.IsAdmin = false;
+			_userContext.IsLoggedIn = true;
 
 			// Act
-			string actualHtml = parser.GetMenu();
+			string actualHtml = _menuParser.GetMenu();
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
@@ -100,24 +101,10 @@ namespace Roadkill.Tests.Unit.Text
 								  "<a href=\"/pages/allpages\">All pages</a>" +
 								  "<a href=\"/\">Main Page</a>";
 
-			RepositoryMock repository = new RepositoryMock();
-			repository.SiteSettings = new SiteSettings();
-			repository.SiteSettings.MarkupType = "Markdown";
-			repository.SiteSettings.MenuMarkup = menuMarkup;
-
-			UserContextStub userContext = new UserContextStub();
-			userContext.IsLoggedIn = false;
-
-			ApplicationSettings applicationSettings = new ApplicationSettings();
-			applicationSettings.Installed = true;
-			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(cache);
-
-			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
-			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
+			_settingsRepository.SiteSettings.MenuMarkup = menuMarkup;
 
 			// Act
-			string actualHtml = parser.GetMenu();
+			string actualHtml = _menuParser.GetMenu();
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
@@ -130,25 +117,10 @@ namespace Roadkill.Tests.Unit.Text
 		{
 			// Arrange - \r\n is important so the markdown is valid
 			string menuMarkup = "%mainpage%\r\n\r\n* %newpage%\r\n* %managefiles%\r\n* %sitesettings%\r\n";
-
-			RepositoryMock repository = new RepositoryMock();
-			repository.SiteSettings = new SiteSettings();
-			repository.SiteSettings.MarkupType = markupType;
-			repository.SiteSettings.MenuMarkup = menuMarkup;
-
-			UserContextStub userContext = new UserContextStub();
-			userContext.IsLoggedIn = false;
-
-			ApplicationSettings applicationSettings = new ApplicationSettings();
-			applicationSettings.Installed = true;
-			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(cache);
-
-			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
-			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
+			_settingsRepository.SiteSettings.MenuMarkup = menuMarkup;
 
 			// Act
-			string actualHtml = parser.GetMenu();
+			string actualHtml = _menuParser.GetMenu();
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
@@ -159,37 +131,23 @@ namespace Roadkill.Tests.Unit.Text
 		{
 			// Arrange
 			string menuMarkup = "My menu %newpage% %sitesettings%";
-
-			RepositoryMock repository = new RepositoryMock();
-			repository.SiteSettings = new SiteSettings();
-			repository.SiteSettings.MarkupType = "Markdown";
-			repository.SiteSettings.MenuMarkup = menuMarkup;
-
-			UserContextStub userContext = new UserContextStub();
-			ApplicationSettings applicationSettings = new ApplicationSettings();
-			applicationSettings.Installed = true;
-
-			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(cache);
-
-			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
-			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
+			_settingsRepository.SiteSettings.MenuMarkup = menuMarkup;
 
 			// Act
-			userContext.IsLoggedIn = false;
-			userContext.IsAdmin = false;
-			parser.GetMenu();
+			_userContext.IsLoggedIn = false;
+			_userContext.IsAdmin = false;
+			_menuParser.GetMenu();
 
-			userContext.IsLoggedIn = true;
-			userContext.IsAdmin = false;
-			parser.GetMenu();
+			_userContext.IsLoggedIn = true;
+			_userContext.IsAdmin = false;
+			_menuParser.GetMenu();
 
-			userContext.IsLoggedIn = true;
-			userContext.IsAdmin = true;
-			parser.GetMenu();
+			_userContext.IsLoggedIn = true;
+			_userContext.IsAdmin = true;
+			_menuParser.GetMenu();
 
 			// Assert
-			Assert.That(cache.CacheItems.Count, Is.EqualTo(3));
+			Assert.That(_cache.CacheItems.Count, Is.EqualTo(3));
 		}
 
 		[Test]
@@ -197,34 +155,20 @@ namespace Roadkill.Tests.Unit.Text
 		{
 			// Arrange
 			string menuMarkup = "My menu %newpage% %sitesettings%";
-
-			RepositoryMock repository = new RepositoryMock();
-			repository.SiteSettings = new SiteSettings();
-			repository.SiteSettings.MarkupType = "Markdown";
-			repository.SiteSettings.MenuMarkup = menuMarkup;
-
-			UserContextStub userContext = new UserContextStub();
-			ApplicationSettings applicationSettings = new ApplicationSettings();
-			applicationSettings.Installed = true;
-
-			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(cache);
-
-			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
-			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
+			_settingsRepository.SiteSettings.MenuMarkup = menuMarkup;
 
 			// Act
-			userContext.IsLoggedIn = false;
-			userContext.IsAdmin = false;
-			string guestHtml = parser.GetMenu();
+			_userContext.IsLoggedIn = false;
+			_userContext.IsAdmin = false;
+			string guestHtml = _menuParser.GetMenu();
 
-			userContext.IsLoggedIn = true;
-			userContext.IsAdmin = false;
-			string editorHtml = parser.GetMenu();
+			_userContext.IsLoggedIn = true;
+			_userContext.IsAdmin = false;
+			string editorHtml = _menuParser.GetMenu();
 
-			userContext.IsLoggedIn = true;
-			userContext.IsAdmin = true;
-			string adminHtml = parser.GetMenu();
+			_userContext.IsLoggedIn = true;
+			_userContext.IsAdmin = true;
+			string adminHtml = _menuParser.GetMenu();
 
 			// Assert
 			Assert.That(guestHtml, Is.EqualTo("My menu"));
@@ -238,24 +182,10 @@ namespace Roadkill.Tests.Unit.Text
 			// Arrange
 			string menuMarkup = "* [First link](http://www.google.com)\r\n";
 			string expectedHtml = "<ul><li><a href=\"http://www.google.com\" rel=\"nofollow\" class=\"external-link\">First link</a></li></ul>";
-
-			RepositoryMock repository = new RepositoryMock();
-			repository.SiteSettings = new SiteSettings();
-			repository.SiteSettings.MarkupType = "Markdown";
-			repository.SiteSettings.MenuMarkup = menuMarkup;
-
-			UserContextStub userContext = new UserContextStub();
-			ApplicationSettings applicationSettings = new ApplicationSettings();
-			applicationSettings.Installed = true;
-
-			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(cache);
-
-			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
-			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
+			_settingsRepository.SiteSettings.MenuMarkup = menuMarkup;
 
 			// Act
-			string actualHtml = parser.GetMenu();
+			string actualHtml = _menuParser.GetMenu();
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
@@ -267,26 +197,12 @@ namespace Roadkill.Tests.Unit.Text
 			// Arrange
 			string menuMarkup = "* [First link](my-page)\r\n";
 			string expectedHtml = "<ul><li><a href=\"/wiki/1/my-page\">First link</a></li></ul>";
+			_settingsRepository.SiteSettings.MenuMarkup = menuMarkup;
 
-			RepositoryMock repository = new RepositoryMock();
-			repository.AddNewPage(new Page() { Title = "my page", Id = 1 }, "text", "user", DateTime.Now);
-
-			repository.SiteSettings = new SiteSettings();
-			repository.SiteSettings.MarkupType = "Markdown";
-			repository.SiteSettings.MenuMarkup = menuMarkup;
-
-			UserContextStub userContext = new UserContextStub();
-			ApplicationSettings applicationSettings = new ApplicationSettings();
-			applicationSettings.Installed = true;
-
-			CacheMock cache = new CacheMock();
-			SiteCache siteCache = new SiteCache(cache);
-
-			MarkupConverter converter = new MarkupConverter(applicationSettings, repository, _pluginFactory);
-			MenuParser parser = new MenuParser(converter, repository, siteCache, userContext);
+			_pageRepository.AddNewPage(new Page() { Title = "my page", Id = 1 }, "text", "user", DateTime.Now);
 
 			// Act
-			string actualHtml = parser.GetMenu();
+			string actualHtml = _menuParser.GetMenu();
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));

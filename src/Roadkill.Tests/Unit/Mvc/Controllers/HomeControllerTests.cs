@@ -27,7 +27,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 
 		private ApplicationSettings _applicationSettings;
 		private IUserContext _context;
-		private RepositoryMock _repository;
+		private PageRepositoryMock _pageRepository;
 		private UserServiceMock _userService;
 		private PageService _pageService;
 		private PageHistoryService _historyService;
@@ -49,7 +49,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 
 			_applicationSettings = _container.ApplicationSettings;
 			_context = _container.UserContext;
-			_repository = _container.Repository;
+			_pageRepository = _container.PageRepository;
 			_pluginFactory = _container.PluginFactory;
 			_settingsService = _container.SettingsService;
 			_userService = _container.UserService;
@@ -100,8 +100,8 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 				Page = page1, 
 				Text = "Hello world" 
 			};
-			_repository.Pages.Add(page1);
-			_repository.PageContents.Add(page1Content);
+			_pageRepository.Pages.Add(page1);
+			_pageRepository.PageContents.Add(page1Content);
 
 			// Act
 			ActionResult result = _homeController.Index();
@@ -131,8 +131,8 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 				Page = page1,
 				Text = "БД сервера событий была перенесена из PostgreSQL 8.3 на PostgreSQL 9.1.4. Сервер, развернутый на Windows платформе"
 			};
-			_repository.Pages.Add(page1);
-			_repository.PageContents.Add(page1Content);
+			_pageRepository.Pages.Add(page1);
+			_pageRepository.PageContents.Add(page1Content);
 
 			// Act
 			ActionResult result = _homeController.Search("ОШИБКА: неверная последовательность байт для кодировки");

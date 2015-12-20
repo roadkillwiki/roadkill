@@ -12,6 +12,7 @@ using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Database.MongoDB;
+using Roadkill.Core.Database.Repositories;
 using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.DependencyResolution.StructureMap;
 using Roadkill.Core.Domain.Export;
@@ -42,10 +43,11 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 			return container;
 		}
 
-		private void AssertDefaultType<TParent, TConcrete>()
+		private void AssertDefaultType<TParent, TConcrete>(IContainer container = null)
 		{
 			// Arrange
-			IContainer container = CreateContainer();
+			if (container == null)
+				container = CreateContainer();
 
 			// Act
 			TParent instance = container.GetInstance<TParent>();
@@ -80,10 +82,12 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 
 		// Repositories
 		[Test]
-		public void should_use_lightspeedrepository_by_default()
+		public void should_use_lightspeedrepositories_by_default()
 		{
 			// Arrange + Act + Assert
-			AssertDefaultType<IRepository, LightSpeedRepository>();
+			AssertDefaultType<ISettingsRepository, LightSpeedSettingsRepository>();
+			AssertDefaultType<IUserRepository, LightSpeedUserRepository>();
+			AssertDefaultType<IPageRepository, LightSpeedPageRepository>();
 		}
 
 		[Test]
@@ -103,10 +107,10 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 			var registry = new RoadkillRegistry(new ConfigReaderWriterStub() { ApplicationSettings = settings });
 			var container = new Container(registry);
 
-			// Act
-
-			// Assert
-			Assert.That(container.GetInstance<IRepository>(), Is.TypeOf(typeof(MongoDBRepository)));
+			// Act +  Assert
+			AssertDefaultType<ISettingsRepository, MongoDBSettingsRepository>(container);
+			AssertDefaultType<IUserRepository, MongoDBUserRepository>(container);
+			AssertDefaultType<IPageRepository, MongoDBPageRepository>(container);
 		}
 
 		// Context
@@ -178,7 +182,7 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 
 		// Services, including AbstractClassConvention
 		[Test]
-		public void should_register_concrete_servicebase_classes()
+		public void should_register_services()
 		{
 			// Arrange
 			var settings = new ApplicationSettings();
@@ -189,15 +193,12 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 			var registry = new RoadkillRegistry(new ConfigReaderWriterStub() { ApplicationSettings = settings });
 			var container = new Container(registry);
 
-			// Act
-			IEnumerable<string> serviceTypeNames = container.GetAllInstances<ServiceBase>().ToList().Select(x => x.GetType().Name);
-
-			// Assert
-			Assert.That(serviceTypeNames, Contains.Item("SearchService"));
-			Assert.That(serviceTypeNames, Contains.Item("PageHistoryService"));
-			Assert.That(serviceTypeNames, Contains.Item("PageService"));
-			Assert.That(serviceTypeNames, Contains.Item("FormsAuthUserService"));
-			Assert.That(serviceTypeNames, Contains.Item("ActiveDirectoryUserService"));
+			// Act +  Assert
+			Assert.That(container.GetInstance<SearchService>(), Is.Not.Null);
+			Assert.That(container.GetInstance<PageHistoryService>(), Is.Not.Null);
+			Assert.That(container.GetInstance<PageService>(), Is.Not.Null);
+			Assert.That(container.GetInstance<FormsAuthUserService>(), Is.Not.Null);
+			Assert.That(container.GetInstance<ActiveDirectoryUserService>(), Is.Not.Null);
 		}
 
 		// Text parsers

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using System.IO;
-using Ionic.Zip;
 using Roadkill.Core.Localization;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Cache;
@@ -11,10 +8,7 @@ using Roadkill.Core.Services;
 using Roadkill.Core.Import;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.Attributes;
-using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Logging;
-using Roadkill.Core.Database.Export;
-using Roadkill.Core.Database;
 using Roadkill.Core.Plugins;
 using Roadkill.Core.Domain.Export;
 
@@ -27,30 +21,23 @@ namespace Roadkill.Core.Mvc.Controllers
 	[AdminRequired]
 	public class ToolsController : ControllerBase
 	{
-		private SettingsService _settingsService;
 		private PageService _pageService;
 		private SearchService _searchService;
 		private IWikiImporter _wikiImporter;
 		private ListCache _listCache;
 		private PageViewModelCache _pageViewModelCache;
-		private IRepository _repository;
-		private IPluginFactory _pluginFactory;
 		internal WikiExporter _wikiExporter;
 
 		public ToolsController(ApplicationSettings settings, UserServiceBase userManager,
 			SettingsService settingsService, PageService pageService, SearchService searchService, IUserContext context,
-			ListCache listCache, PageViewModelCache pageViewModelCache, IWikiImporter wikiImporter, 
-			IRepository repository, IPluginFactory pluginFactory, WikiExporter wikiExporter)
+			ListCache listCache, PageViewModelCache pageViewModelCache, IWikiImporter wikiImporter, IPluginFactory pluginFactory, WikiExporter wikiExporter)
 			: base(settings, userManager, context, settingsService) 
 		{
-			_settingsService = settingsService;
 			_pageService = pageService;
 			_searchService = searchService;
 			_listCache = listCache;
 			_pageViewModelCache = pageViewModelCache;
 			_wikiImporter = wikiImporter;			
-			_repository = repository;
-			_pluginFactory = pluginFactory;
 			_wikiExporter = wikiExporter;
 		}
 

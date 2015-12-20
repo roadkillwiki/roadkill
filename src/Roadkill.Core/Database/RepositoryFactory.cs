@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Mindscape.LightSpeed;
+using Mindscape.LightSpeed.Caching;
 using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Database.MongoDB;
+using Roadkill.Core.Database.Repositories;
 using Roadkill.Core.Database.Schema;
+using Roadkill.Core.DependencyResolution;
 
 namespace Roadkill.Core.Database
 {
@@ -13,27 +17,83 @@ namespace Roadkill.Core.Database
 		public static readonly RepositoryInfo Postgres = new RepositoryInfo("Postgres", "Postgres - A Postgres 9 or later database.");
 		public static readonly RepositoryInfo SqlServer2008 = new RepositoryInfo("SqlServer2008", "Sql Server - a SqlServer 2008 or later database.");
 
-		public IRepository GetRepository(string databaseProviderName, string connectionString)
+		public LightSpeedContext Context { get; set; }
+
+		public RepositoryFactory()
 		{
+		}
+
+		public RepositoryFactory(string databaseProviderName, string connectionString)
+		{
+			if (string.IsNullOrEmpty(connectionString))
+				throw new DatabaseException("The database connection string is empty", null);
+
 			if (databaseProviderName == MongoDB)
+				return;
+
+			// LightspeedSetup
+			DataProvider provider = DataProvider.SqlServer2008;
+
+			if (databaseProviderName == MySQL)
 			{
-				return new MongoDBRepository(connectionString);
-			}
-			else if (databaseProviderName == MySQL)
-			{
-				return new LightSpeedRepository(DataProvider.MySql5, connectionString);
+				provider = DataProvider.MySql5;
 			}
 			else if (databaseProviderName == Postgres)
 			{
-				return new LightSpeedRepository(DataProvider.PostgreSql9, connectionString);
+				provider = DataProvider.PostgreSql9;
+			}
+			
+			Context = new LightSpeedContext();
+			Context.Cache = new CacheBroker(new DefaultCache());
+			Context.ConnectionString = connectionString;
+			Context.DataProvider = provider;
+			Context.IdentityMethod = IdentityMethod.GuidComb;
+			Context.CascadeDeletes = true;
+		}
+
+		public void EnableVerboseLogging()
+		{
+			Context.VerboseLogging = true;
+			Context.Logger = new DatabaseLogger();
+		}
+
+		public ISettingsRepository GetSettingsRepository(string databaseProviderName, string connectionString)
+		{
+			if (databaseProviderName == MongoDB)
+			{
+				return new MongoDBSettingsRepository(connectionString);
 			}
 			else
 			{
-				return new LightSpeedRepository(DataProvider.SqlServer2008, connectionString);
+				return new LightSpeedSettingsRepository(LocatorStartup.Locator.GetInstance<IUnitOfWork>());
 			}
 		}
 
-		public IInstallerRepository GetRepositoryInstaller(string databaseProviderName, string connectionString)
+		public IUserRepository GetUserRepository(string databaseProviderName, string connectionString)
+		{
+			if (databaseProviderName == MongoDB)
+			{
+				return new MongoDBUserRepository(connectionString);
+			}
+			else
+			{
+				return new LightSpeedUserRepository(LocatorStartup.Locator.GetInstance<IUnitOfWork>());
+			}
+		}
+
+		public IPageRepository GetPageRepository(string databaseProviderName, string connectionString)
+		{
+			if (databaseProviderName == MongoDB)
+			{
+				return new MongoDBPageRepository(connectionString);
+			}
+			else
+			{
+				return new LightSpeedPageRepository(LocatorStartup.Locator.GetInstance<IUnitOfWork>());
+			}
+		}
+
+		public IInstallerRepository GetInstallerRepository(string databaseProviderName, string connectionString)
 		{
 			if (databaseProviderName == MongoDB)
 			{

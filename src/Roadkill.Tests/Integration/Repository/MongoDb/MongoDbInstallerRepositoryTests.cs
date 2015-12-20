@@ -1,6 +1,8 @@
 ﻿using System.Linq;
+using Mindscape.LightSpeed;
 using NUnit.Framework;
 using Roadkill.Core.Database;
+using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Database.MongoDB;
 using Roadkill.Core.Database.Repositories;
 
@@ -27,7 +29,7 @@ namespace Roadkill.Tests.Integration.Repository.MongoDb
 
 		protected override void Clearup()
 		{
-			new MongoDBRepository(ConnectionString).Wipe();
+			new MongoDbInstallerRepository(ConnectionString).Wipe();
 		}
 
 		protected override void CheckDatabaseProcessIsRunning()
@@ -38,13 +40,16 @@ namespace Roadkill.Tests.Integration.Repository.MongoDb
 
 		protected override bool AllTablesAreEmpty()
 		{
-			var repository = new MongoDBRepository(ConnectionString);
+			var settingsRrepository = new MongoDBSettingsRepository(ConnectionString);
+			var userRepository = new MongoDBUserRepository(ConnectionString);
+			var pageRepository = new MongoDBPageRepository(ConnectionString);
 
-			return repository.AllPages().Count() == 0 &&
-				   repository.AllPageContents().Count() == 0 &&
-				   repository.FindAllAdmins().Count() == 0 &&
-				   repository.FindAllEditors().Count() == 0 &&
-				   repository.GetSiteSettings() != null;
+
+			return pageRepository.AllPages().Count() == 0 &&
+				   pageRepository.AllPageContents().Count() == 0 &&
+				   userRepository.FindAllAdmins().Count() == 0 &&
+				   userRepository.FindAllEditors().Count() == 0 &&
+				   settingsRrepository.GetSiteSettings() != null;
 		}
 	}
 }

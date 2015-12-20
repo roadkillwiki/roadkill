@@ -37,12 +37,12 @@ namespace Roadkill.Core.Services
 		/// <summary>
 		/// Clears all users from the system.
 		/// </summary>
-		/// <exception cref="DatabaseException">An databaseerror occurred while clearing the user table.</exception>
+		/// <exception cref="DatabaseException">An database error occurred while clearing the user table.</exception>
 		public void ClearUserTable()
 		{
 			try
 			{
-				var repository = _repositoryFactory.GetRepository(_databaseName, _connectionString);
+				var repository = _repositoryFactory.GetUserRepository(_databaseName, _connectionString);
 				repository.DeleteAllUsers();
 			}
 			catch (DatabaseException ex)
@@ -60,7 +60,7 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
-				var repositoryInstaller = _repositoryFactory.GetRepositoryInstaller(_databaseName, _connectionString);
+				var repositoryInstaller = _repositoryFactory.GetInstallerRepository(_databaseName, _connectionString);
 				repositoryInstaller.Install();
 			}
 			catch (DatabaseException ex)
@@ -94,7 +94,7 @@ namespace Roadkill.Core.Services
 				siteSettings.HeadContent = model.HeadContent;
 				siteSettings.MenuMarkup = model.MenuMarkup;
 
-				var repository = _repositoryFactory.GetRepository(_databaseName, _connectionString);
+				var repository = _repositoryFactory.GetSettingsRepository(_databaseName, _connectionString);
 				repository.SaveSiteSettings(siteSettings);
 			}
 			catch (DatabaseException ex)

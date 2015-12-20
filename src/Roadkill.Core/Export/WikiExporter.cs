@@ -8,6 +8,7 @@ using Ionic.Zip;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.Export;
+using Roadkill.Core.Database.Repositories;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Plugins;
 using Roadkill.Core.Services;
@@ -22,17 +23,29 @@ namespace Roadkill.Core.Domain.Export
 
 		public string ExportFolder { get; set; }
 
-		public WikiExporter(ApplicationSettings applicationSettings, PageService pageService, IRepository repository, IPluginFactory pluginFactory)
+		public WikiExporter(ApplicationSettings applicationSettings, PageService pageService, ISettingsRepository settingsRepository, IPageRepository pageRepository, IUserRepository userRepository, IPluginFactory pluginFactory)
 		{
 			if (applicationSettings == null)
-				throw new ArgumentNullException("applicationSettings");
+				throw new ArgumentNullException(nameof(applicationSettings));
 
 			if (pageService == null)
-				throw new ArgumentNullException("pageService");
+				throw new ArgumentNullException(nameof(pageService));
+
+			if (settingsRepository == null)
+				throw new ArgumentNullException(nameof(settingsRepository));
+
+			if (pageRepository == null)
+				throw new ArgumentNullException(nameof(pageRepository));
+
+			if (userRepository == null)
+				throw new ArgumentNullException(nameof(userRepository));
+
+			if (pluginFactory == null)
+				throw new ArgumentNullException(nameof(pluginFactory));
 
 			_applicationSettings = applicationSettings;
 			_pageService = pageService;
-			_sqlExportBuilder = new SqlExportBuilder(repository, pluginFactory);
+			_sqlExportBuilder = new SqlExportBuilder(settingsRepository, userRepository, pageRepository, pluginFactory);
 
 			ExportFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Export");
 		}

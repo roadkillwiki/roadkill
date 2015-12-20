@@ -52,11 +52,11 @@ namespace Roadkill.Tests.Unit.Plugins
 		public void should_redirect_to_correct_controller_using_random()
 		{
 			// Arrange
-			_container.Repository.AddNewPage(new Page() { Id = 1, Title = "1" }, "text", "", DateTime.Now);
-			_container.Repository.AddNewPage(new Page() { Id = 2, Title = "2" }, "text", "", DateTime.Now);
-			_container.Repository.AddNewPage(new Page() { Id = 3, Title = "3" }, "text", "", DateTime.Now);
-			_container.Repository.AddNewPage(new Page() { Id = 4, Title = "4" }, "text", "", DateTime.Now);
-			_container.Repository.AddNewPage(new Page() { Id = 5, Title = "5" }, "text", "", DateTime.Now);
+			_container.PageRepository.AddNewPage(new Page() { Id = 1, Title = "1" }, "text", "", DateTime.Now);
+			_container.PageRepository.AddNewPage(new Page() { Id = 2, Title = "2" }, "text", "", DateTime.Now);
+			_container.PageRepository.AddNewPage(new Page() { Id = 3, Title = "3" }, "text", "", DateTime.Now);
+			_container.PageRepository.AddNewPage(new Page() { Id = 4, Title = "4" }, "text", "", DateTime.Now);
+			_container.PageRepository.AddNewPage(new Page() { Id = 5, Title = "5" }, "text", "", DateTime.Now);
 
 
 			RandomPage randomPage = new RandomPage(new RandomMock());

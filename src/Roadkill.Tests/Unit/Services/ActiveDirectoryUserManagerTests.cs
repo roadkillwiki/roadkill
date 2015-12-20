@@ -28,7 +28,7 @@ namespace Roadkill.Tests.Unit.Services
 
 		private MocksAndStubsContainer _container;
 
-		private IRepository _repository;
+		private IUserRepository _repository;
 		private ApplicationSettings _applicationSettings;
 		private Mock<IActiveDirectoryProvider> _adProviderMock;
 		private ActiveDirectoryUserService _userService;
@@ -48,7 +48,7 @@ namespace Roadkill.Tests.Unit.Services
 			_applicationSettings.LdapPassword = _password;
 			_applicationSettings.AdminRoleName = _adminsGroupName;
 			_applicationSettings.EditorRoleName = _editorsGroupName;
-			_repository = _container.Repository;
+			_repository = _container.UserRepository;
 
 			List<IPrincipalDetails> adminUsers = new List<IPrincipalDetails>();
 			adminUsers.Add(new MockPrincipal() { SamAccountName = "admin1" });

@@ -1,4 +1,5 @@
-﻿using Mindscape.LightSpeed;
+﻿using System;
+using Mindscape.LightSpeed;
 using NUnit.Framework;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
@@ -9,6 +10,25 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 	[Category("Integration")]
 	public class LightSpeedPageRepositoryTests : PageRepositoryTests
 	{
+		[ThreadStatic]
+		private static LightSpeedContext _context;
+
+		public LightSpeedContext Context
+		{
+			get
+			{
+				if (_context == null)
+				{
+					_context = new LightSpeedContext();
+					_context.ConnectionString = ConnectionString;
+					_context.DataProvider = DataProvider.SqlServer2008;
+					_context.IdentityMethod = IdentityMethod.GuidComb;
+				}
+
+				return _context;
+			}
+		}
+
 		protected override string ConnectionString
 		{
 			get { return TestConstants.CONNECTION_STRING; }
@@ -16,7 +36,7 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 
 		protected override IPageRepository GetRepository()
 		{
-			return new LightSpeedRepository(DataProvider.SqlServer2008, ConnectionString);
+			return new LightSpeedPageRepository(Context.CreateUnitOfWork());
 		}
 
 		protected override void Clearup()

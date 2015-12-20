@@ -70,7 +70,7 @@ namespace Roadkill.Tests.Acceptance.WebApi
 			WebApiResponse response = apiclient.Post<PageViewModel>("Pages", page);
 
 			// Assert
-			IRepository repository = GetRepository();
+			IPageRepository repository = GetRepository();
 			IEnumerable<Page> pages = repository.AllPages();
 			Assert.That(pages.Count(), Is.EqualTo(1), response);
 		}
@@ -90,7 +90,7 @@ namespace Roadkill.Tests.Acceptance.WebApi
 			WebApiResponse response = apiclient.Put<PageViewModel>("Pages/Put", viewModel);
 
 			// Assert
-			IRepository repository = GetRepository();
+			IPageRepository repository = GetRepository();
 			Page page = repository.AllPages().FirstOrDefault();
 			Assert.That(page.Title, Is.EqualTo("New title"), response);
 		}

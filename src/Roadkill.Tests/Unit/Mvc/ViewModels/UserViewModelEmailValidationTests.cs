@@ -16,7 +16,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		private MocksAndStubsContainer _container;
 
 		private ApplicationSettings _applicationSettings;
-		private RepositoryMock _repository;
+		private PageRepositoryMock _pageRepository;
 		private UserServiceMock _userService;
 		private IUserContext _context;
 
@@ -29,7 +29,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 
 			_applicationSettings = _container.ApplicationSettings;
 			_context = _container.UserContext;
-			_repository = _container.Repository;
+			_pageRepository = _container.PageRepository;
 			_userService = _container.UserService;
 
 			_userService.Users.Add(new User() { Email = "emailexists@test.com" });

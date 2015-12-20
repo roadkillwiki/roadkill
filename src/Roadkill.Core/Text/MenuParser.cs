@@ -9,6 +9,7 @@ using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
+using Roadkill.Core.Database.Repositories;
 using Roadkill.Core.Localization;
 
 namespace Roadkill.Core.Text
@@ -22,15 +23,15 @@ namespace Roadkill.Core.Text
 		private static readonly string MANAGEFILES_TOKEN = "%managefiles%";
 		private static readonly string SITESETTINGS_TOKEN = "%sitesettings%";
 
-		private IRepository _repository;
+		private ISettingsRepository _settingsRepository;
 		private SiteCache _siteCache;
 		private MarkupConverter _markupConverter;
 		private IUserContext _userContext;
 
-		public MenuParser(MarkupConverter markupConverter, IRepository repository, SiteCache siteCache, IUserContext userContext)
+		public MenuParser(MarkupConverter markupConverter, ISettingsRepository settingsRepository, SiteCache siteCache, IUserContext userContext)
 		{
 			_markupConverter = markupConverter;
-			_repository = repository;
+			_settingsRepository = settingsRepository;
 			_siteCache = siteCache;
 			_userContext = userContext;
 		}
@@ -58,7 +59,7 @@ namespace Roadkill.Core.Text
 			// If the cache is empty, populate the right menu option
 			if (string.IsNullOrEmpty(html))
 			{
-				SiteSettings siteSettings = _repository.GetSiteSettings();
+				SiteSettings siteSettings = _settingsRepository.GetSiteSettings();
 				html = siteSettings.MenuMarkup;
 
 				html = _markupConverter.ParseMenuMarkup(html);

@@ -243,7 +243,6 @@ namespace Roadkill.Core.Configuration
 			appSettings.LdapConnectionString = _section.LdapConnectionString;
 			appSettings.LdapUsername = _section.LdapUsername;
 			appSettings.LdapPassword = _section.LdapPassword;
-			appSettings.RepositoryType = _section.RepositoryType;
 			appSettings.UseAzureFileStorage = _section.UseAzureFileStorage;
 			appSettings.UseHtmlWhiteList = _section.UseHtmlWhiteList;
 			appSettings.UserServiceType = _section.UserServiceType;

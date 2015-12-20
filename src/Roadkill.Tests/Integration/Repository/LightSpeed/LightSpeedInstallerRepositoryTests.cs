@@ -41,13 +41,23 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 
 		protected override bool AllTablesAreEmpty()
 		{
-			var repository = new LightSpeedRepository(DataProvider.SqlServer2008, ConnectionString);
+			var context = new LightSpeedContext();
+			context.ConnectionString = ConnectionString;
+			context.DataProvider = DataProvider.SqlServer2008;
+			context.IdentityMethod = IdentityMethod.GuidComb;
 
-			return repository.AllPages().Count() == 0 &&
-				   repository.AllPageContents().Count() == 0 &&
-				   repository.FindAllAdmins().Count() == 0 &&
-				   repository.FindAllEditors().Count() == 0 &&
-				   repository.GetSiteSettings() != null;
+			IUnitOfWork unitOfWork = context.CreateUnitOfWork();
+
+			var settingsRrepository = new LightSpeedSettingsRepository(unitOfWork);
+			var userRepository = new LightSpeedUserRepository(unitOfWork);
+			var pageRepository = new LightSpeedPageRepository(unitOfWork);
+
+
+			return pageRepository.AllPages().Count() == 0 &&
+				   pageRepository.AllPageContents().Count() == 0 &&
+				   userRepository.FindAllAdmins().Count() == 0 &&
+				   userRepository.FindAllEditors().Count() == 0 &&
+				   settingsRrepository.GetSiteSettings() != null;
 		}
 	}
 }

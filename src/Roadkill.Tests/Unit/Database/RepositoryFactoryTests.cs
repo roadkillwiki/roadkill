@@ -6,8 +6,8 @@ using NUnit.Framework;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Database.MongoDB;
+using Roadkill.Core.Database.Repositories;
 using Roadkill.Core.Database.Schema;
-using IRepository = Roadkill.Core.Database.IRepository;
 
 namespace Roadkill.Tests.Unit.Database
 {
@@ -17,7 +17,7 @@ namespace Roadkill.Tests.Unit.Database
 		public void listall_should_return_all_databases()
 		{
 			// Arrange
-			var factory = new RepositoryFactory();
+			var factory = new RepositoryFactory("", "");
 
 			// Act
 			List<RepositoryInfo> all = factory.ListAll().ToList();
@@ -33,52 +33,150 @@ namespace Roadkill.Tests.Unit.Database
 		[TestCase("Mysql", "myql-connection-string", DataProvider.MySql5)]
 		[TestCase("sqlserver", "my-sqlserver-connection-string", DataProvider.SqlServer2008)]
 		[TestCase("anything", "connection-string", DataProvider.SqlServer2008)]
-		public void GetRepository_should_return_correct_lightspeedrepository(string provider, string connectionString, DataProvider expectedProvider)
+		public void GetSettingsRepository_should_return_correct_lightspeedrepository(string provider, string connectionString, DataProvider expectedProvider)
 		{
 			// Arrange
-			var factory = new RepositoryFactory();
+			var factory = new RepositoryFactory(provider, connectionString);
 
 			// Act
-			IRepository repository = factory.GetRepository(provider, connectionString);
+			ISettingsRepository repository = factory.GetSettingsRepository(provider, connectionString);
 
 			// Assert
-			LightSpeedRepository lightSpeedRepository = repository as LightSpeedRepository;
-            Assert.That(lightSpeedRepository, Is.Not.Null);
-			Assert.That(lightSpeedRepository.ConnectionString, Is.EqualTo(connectionString));
-			Assert.That(lightSpeedRepository.DataProvider, Is.EqualTo(expectedProvider));
+			LightSpeedSettingsRepository lightSpeedRepository = repository as LightSpeedSettingsRepository;
+			Assert.That(lightSpeedRepository, Is.Not.Null);
 		}
 
 		[Test]
-		public void getrepository_should_default_to_sqlserver_lightspeedrepository()
+		public void GetSettingsRepository_should_default_to_sqlserver_lightspeedrepository()
 		{
 			// Arrange
 			string provider = "anything";
 			string connectionString = "connection-string";
-			var factory = new RepositoryFactory();
+			var factory = new RepositoryFactory(provider, connectionString);
 
 			// Act
-			IRepository repository = factory.GetRepository(provider, connectionString);
+			ISettingsRepository repository = factory.GetSettingsRepository(provider, connectionString);
 
 			// Assert
-			LightSpeedRepository lightSpeedRepository = repository as LightSpeedRepository;
+			LightSpeedSettingsRepository lightSpeedRepository = repository as LightSpeedSettingsRepository;
 			Assert.That(lightSpeedRepository, Is.Not.Null);
-			Assert.That(lightSpeedRepository.ConnectionString, Is.EqualTo(connectionString));
-			Assert.That(lightSpeedRepository.DataProvider, Is.EqualTo(DataProvider.SqlServer2008));
 		}
 
 		[Test]
-		public void getrepository_should_return_mongodb_repository()
+		public void GetSettingsRepository_should_return_mongodb_repository()
 		{
 			// Arrange
 			string provider = "MONGODB";
 			string connectionString = "mongodb-connection-string";
-			var factory = new RepositoryFactory();
+			var factory = new RepositoryFactory(provider, connectionString);
 
 			// Act
-			IRepository repository = factory.GetRepository(provider, connectionString);
+			ISettingsRepository repository = factory.GetSettingsRepository(provider, connectionString);
 
 			// Assert
-			MongoDBRepository mongoDbRepository = repository as MongoDBRepository;
+			MongoDBSettingsRepository mongoDbRepository = repository as MongoDBSettingsRepository;
+			Assert.That(mongoDbRepository, Is.Not.Null);
+			Assert.That(mongoDbRepository.ConnectionString, Is.EqualTo(connectionString));
+		}
+
+		[Test]
+		[TestCase("PostGres", "my-postgres-connection-string", DataProvider.PostgreSql9)]
+		[TestCase("Mysql", "myql-connection-string", DataProvider.MySql5)]
+		[TestCase("sqlserver", "my-sqlserver-connection-string", DataProvider.SqlServer2008)]
+		[TestCase("anything", "connection-string", DataProvider.SqlServer2008)]
+		public void GetUserRepository_should_return_correct_lightspeedrepository(string provider, string connectionString, DataProvider expectedProvider)
+		{
+			// Arrange
+			var factory = new RepositoryFactory(provider, connectionString);
+
+			// Act
+			IUserRepository repository = factory.GetUserRepository(provider, connectionString);
+
+			// Assert
+			LightSpeedUserRepository lightSpeedRepository = repository as LightSpeedUserRepository;
+			Assert.That(lightSpeedRepository, Is.Not.Null);
+		}
+
+		[Test]
+		public void GetUserRepository_should_default_to_sqlserver_lightspeedrepository()
+		{
+			// Arrange
+			string provider = "anything";
+			string connectionString = "connection-string";
+			var factory = new RepositoryFactory(provider, connectionString);
+
+			// Act
+			IUserRepository repository = factory.GetUserRepository(provider, connectionString);
+
+			// Assert
+			LightSpeedUserRepository lightSpeedRepository = repository as LightSpeedUserRepository;
+			Assert.That(lightSpeedRepository, Is.Not.Null);
+		}
+
+		[Test]
+		public void GetUserRepository_should_return_mongodb_repository()
+		{
+			// Arrange
+			string provider = "MONGODB";
+			string connectionString = "mongodb-connection-string";
+			var factory = new RepositoryFactory(provider, connectionString);
+
+			// Act
+			IUserRepository repository = factory.GetUserRepository(provider, connectionString);
+
+			// Assert
+			MongoDBUserRepository mongoDbRepository = repository as MongoDBUserRepository;
+			Assert.That(mongoDbRepository, Is.Not.Null);
+			Assert.That(mongoDbRepository.ConnectionString, Is.EqualTo(connectionString));
+		}
+
+		[Test]
+		[TestCase("PostGres", "my-postgres-connection-string", DataProvider.PostgreSql9)]
+		[TestCase("Mysql", "myql-connection-string", DataProvider.MySql5)]
+		[TestCase("sqlserver", "my-sqlserver-connection-string", DataProvider.SqlServer2008)]
+		[TestCase("anything", "connection-string", DataProvider.SqlServer2008)]
+		public void GetPageRepository_should_return_correct_lightspeedrepository(string provider, string connectionString, DataProvider expectedProvider)
+		{
+			// Arrange
+			var factory = new RepositoryFactory(provider, connectionString);
+
+			// Act
+			IPageRepository repository = factory.GetPageRepository(provider, connectionString);
+
+			// Assert
+			LightSpeedPageRepository lightSpeedRepository = repository as LightSpeedPageRepository;
+            Assert.That(lightSpeedRepository, Is.Not.Null);
+		}
+
+		[Test]
+		public void GetPageRepository_should_default_to_sqlserver_lightspeedrepository()
+		{
+			// Arrange
+			string provider = "anything";
+			string connectionString = "connection-string";
+			var factory = new RepositoryFactory(provider, connectionString);
+
+			// Act
+			IPageRepository repository = factory.GetPageRepository(provider, connectionString);
+
+			// Assert
+			LightSpeedPageRepository lightSpeedRepository = repository as LightSpeedPageRepository;
+			Assert.That(lightSpeedRepository, Is.Not.Null);
+		}
+
+		[Test]
+		public void GetPageRepository_should_return_mongodb_repository()
+		{
+			// Arrange
+			string provider = "MONGODB";
+			string connectionString = "mongodb-connection-string";
+			var factory = new RepositoryFactory(provider, connectionString);
+
+			// Act
+			IPageRepository repository = factory.GetPageRepository(provider, connectionString);
+
+			// Assert
+			MongoDBPageRepository mongoDbRepository = repository as MongoDBPageRepository;
 			Assert.That(mongoDbRepository, Is.Not.Null);
 			Assert.That(mongoDbRepository.ConnectionString, Is.EqualTo(connectionString));
 		}
@@ -91,10 +189,10 @@ namespace Roadkill.Tests.Unit.Database
 		public void GetRepositoryInstaller_should_return_correct_lightspeedrepository(string provider, string connectionString, DataProvider expectedProvider, Type expectedSchemaType)
 		{
 			// Arrange
-			var factory = new RepositoryFactory();
+			var factory = new RepositoryFactory(provider, connectionString);
 
 			// Act
-			IInstallerRepository installerRepository = factory.GetRepositoryInstaller(provider, connectionString);
+			IInstallerRepository installerRepository = factory.GetInstallerRepository(provider, connectionString);
 
 			// Assert
 			LightSpeedInstallerRepository lightSpeedInstallerRepository = installerRepository as LightSpeedInstallerRepository;
@@ -112,10 +210,10 @@ namespace Roadkill.Tests.Unit.Database
 			string connectionString = "connection-string";
 			Type expectedSchemaType = typeof (SqlServerSchema);
 
-            var factory = new RepositoryFactory();
+            var factory = new RepositoryFactory(provider, connectionString);
 
 			// Act
-			IInstallerRepository installerRepository = factory.GetRepositoryInstaller(provider, connectionString);
+			IInstallerRepository installerRepository = factory.GetInstallerRepository(provider, connectionString);
 
 			// Assert
 			LightSpeedInstallerRepository lightSpeedInstallerRepository = installerRepository as LightSpeedInstallerRepository;
@@ -131,10 +229,10 @@ namespace Roadkill.Tests.Unit.Database
 			// Arrange
 			string provider = "MONGODB";
 			string connectionString = "mongodb-connection-string";
-			var factory = new RepositoryFactory();
+			var factory = new RepositoryFactory(provider, connectionString);
 
 			// Act
-			IInstallerRepository installerRepository = factory.GetRepositoryInstaller(provider, connectionString);
+			IInstallerRepository installerRepository = factory.GetInstallerRepository(provider, connectionString);
 
 			// Assert
 			MongoDbInstallerRepository mongoDbInstallerRepository = installerRepository as MongoDbInstallerRepository;

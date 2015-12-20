@@ -13,6 +13,7 @@ using Roadkill.Core.Plugins;
 using Roadkill.Core.Security;
 using PluginSettings = Roadkill.Core.Plugins.Settings;
 using Roadkill.Core.Cache;
+using Roadkill.Core.Database.Repositories;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -20,18 +21,18 @@ namespace Roadkill.Core.Mvc.Controllers
 	public class PluginSettingsController : ControllerBase
 	{
 		private IPluginFactory _pluginFactory;
-		private IRepository _repository;
+		private ISettingsRepository _settingsRepository;
 		private SiteCache _siteCache;
 		private PageViewModelCache _viewModelCache;
 		private ListCache _listCache;
 
 		public PluginSettingsController(ApplicationSettings settings, UserServiceBase userService, IUserContext context, 
-			SettingsService settingsService, IPluginFactory pluginFactory, IRepository repository, SiteCache siteCache, 
+			SettingsService settingsService, IPluginFactory pluginFactory, ISettingsRepository settingsRepository, SiteCache siteCache, 
 			PageViewModelCache viewModelCache, ListCache listCache)
 			: base (settings, userService, context, settingsService)
 		{
 			_pluginFactory = pluginFactory;
-			_repository = repository;
+			_settingsRepository = settingsRepository;
 			_siteCache = siteCache;
 			_viewModelCache = viewModelCache;
 			_listCache = listCache;
@@ -100,7 +101,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			SettingsService.SaveSiteSettings(settingsViewModel);
 
 			// Save and clear the cached settings
-			_repository.SaveTextPluginSettings(plugin);
+			_settingsRepository.SaveTextPluginSettings(plugin);
 			_siteCache.RemovePluginSettings(plugin);
 		
 			// Clear all other caches if the plugin has been enabled or disabled.

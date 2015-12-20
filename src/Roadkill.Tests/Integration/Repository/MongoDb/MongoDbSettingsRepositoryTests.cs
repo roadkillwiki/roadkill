@@ -20,12 +20,12 @@ namespace Roadkill.Tests.Integration.Repository.MongoDb
 
 		protected override ISettingsRepository GetRepository()
 		{
-			return new MongoDBRepository(ConnectionString);
+			return new MongoDBSettingsRepository(ConnectionString);
 		}
 
 		protected override void Clearup()
 		{
-			new MongoDBRepository(ConnectionString).Wipe();
+			new MongoDBSettingsRepository(ConnectionString).Wipe();
 		}
 
 		protected override void CheckDatabaseProcessIsRunning()

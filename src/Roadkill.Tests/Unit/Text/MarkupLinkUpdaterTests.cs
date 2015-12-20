@@ -17,7 +17,7 @@ namespace Roadkill.Tests.Unit.Text
 		private MocksAndStubsContainer _container;
 
 		private ApplicationSettings _applicationSettings;
-		private RepositoryMock _repository;
+		private PageRepositoryMock _pageRepository;
 		private PluginFactoryMock _pluginFactory;
 		private MarkupConverter _markupConverter;
 		private SiteSettings _siteSettings;
@@ -31,7 +31,7 @@ namespace Roadkill.Tests.Unit.Text
 			_siteSettings = _container.SettingsService.GetSiteSettings();
 
 			_pluginFactory = _container.PluginFactory;
-			_repository = _container.Repository;
+			_pageRepository = _container.PageRepository;
 		}
 
 		[Test]

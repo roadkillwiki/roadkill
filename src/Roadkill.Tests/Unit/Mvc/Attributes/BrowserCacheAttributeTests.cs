@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Caching;
-using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Moq;
@@ -23,16 +19,27 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 	public class BrowserCacheAttributeTests
 	{
 		private PluginFactoryMock _pluginFactory;
-		private RepositoryMock _repositoryMock;
+		private SettingsRepositoryMock _settingsRepository;
+		private PageRepositoryMock _pageRepository;
+
 		private readonly DateTime _pageCreatedDate = DateTime.Today;
 		private readonly DateTime _pageModifiedDate = DateTime.Today;
 		private readonly DateTime _pluginLastSavedDate = DateTime.Today;
+		private MocksAndStubsContainer _container;
+		private SettingsService _settingsService;
 
 		[SetUp]
 		public void Setup()
 		{
-			_pluginFactory = new PluginFactoryMock();
-			_repositoryMock = new RepositoryMock();
+			_container = new MocksAndStubsContainer();
+
+			_container.SettingsRepository.SiteSettings.PluginLastSaveDate = _pluginLastSavedDate;
+
+			_pluginFactory = _container.PluginFactory;
+			_settingsRepository = _container.SettingsRepository;
+			_pageRepository = _container.PageRepository;
+
+			_settingsService = _container.SettingsService;
 		}
 
 		[Test]
@@ -40,7 +47,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
-			attribute.SettingsService = GetSettingsService();
+			attribute.SettingsService = _settingsService;
 
 			WikiController controller = CreateWikiController(attribute);
 			ResultExecutedContext filterContext = CreateContext(controller);
@@ -59,7 +66,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
-			attribute.SettingsService = GetSettingsService();
+			attribute.SettingsService = _settingsService;
 
 			WikiController controller = CreateWikiController(attribute);
 			ResultExecutedContext filterContext = CreateContext(controller);
@@ -78,7 +85,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
-			attribute.SettingsService = GetSettingsService();
+			attribute.SettingsService = _settingsService;
 
 			WikiController controller = CreateWikiController(attribute);
 			ResultExecutedContext filterContext = CreateContext(controller);
@@ -97,7 +104,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
-			attribute.SettingsService = GetSettingsService();
+			attribute.SettingsService = _settingsService;
 
 			WikiController controller = CreateWikiController(attribute);
 			ResultExecutedContext filterContext = CreateContext(controller);
@@ -115,8 +122,8 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
-			attribute.SettingsService = GetSettingsService();
-			_repositoryMock.SiteSettings.PluginLastSaveDate = DateTime.UtcNow;
+			attribute.SettingsService = _settingsService;
+			_settingsRepository.SiteSettings.PluginLastSaveDate = DateTime.UtcNow;
 
 			WikiController controller = CreateWikiController(attribute);
 			ResultExecutedContext filterContext = CreateContext(controller);
@@ -135,8 +142,8 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 		{
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
-			attribute.SettingsService = GetSettingsService();
-			_repositoryMock.SiteSettings.PluginLastSaveDate = DateTime.Today.ToUniversalTime().AddHours(1);
+			attribute.SettingsService = _settingsService;
+			_settingsRepository.SiteSettings.PluginLastSaveDate = DateTime.Today.ToUniversalTime().AddHours(1);
 
 			WikiController controller = CreateWikiController(attribute);
 			ResultExecutedContext filterContext = CreateContext(controller);
@@ -159,7 +166,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 
 			// Arrange
 			BrowserCacheAttribute attribute = new BrowserCacheAttribute();
-			attribute.SettingsService = GetSettingsService();
+			attribute.SettingsService = _settingsService;
 
 			WikiController controller = CreateWikiController(attribute);
 			ResultExecutedContext filterContext = CreateContext(controller);
@@ -177,15 +184,6 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 			Assert.That(result.StatusDescription, Is.EqualTo("Not Modified"));
 		}
 
-		private SettingsService GetSettingsService()
-		{
-			_repositoryMock.SiteSettings.PluginLastSaveDate = _pluginLastSavedDate;
-			var repositoryFactory = new RepositoryFactoryMock() { Repository = _repositoryMock };
-
-			SettingsService service = new SettingsService(repositoryFactory, new ApplicationSettings());
-			return service;
-		}
-
 		private WikiController CreateWikiController(BrowserCacheAttribute attribute)
 		{
 			// Settings
@@ -196,9 +194,9 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 			PageViewModelCache pageViewModelCache = new PageViewModelCache(appSettings, CacheMock.RoadkillCache);
 			ListCache listCache = new ListCache(appSettings, CacheMock.RoadkillCache);
 			SiteCache siteCache = new SiteCache(CacheMock.RoadkillCache);
-			SearchServiceMock searchService = new SearchServiceMock(appSettings, _repositoryMock, _pluginFactory);
-			PageHistoryService historyService = new PageHistoryService(appSettings, _repositoryMock, userContext, pageViewModelCache, _pluginFactory);
-			PageService pageService = new PageService(appSettings, _repositoryMock, searchService, historyService, userContext, listCache, pageViewModelCache, siteCache, _pluginFactory);
+			SearchServiceMock searchService = new SearchServiceMock(appSettings, _settingsRepository, _pageRepository, _pluginFactory);
+			PageHistoryService historyService = new PageHistoryService(appSettings, _settingsRepository, _pageRepository, userContext, pageViewModelCache, _pluginFactory);
+			PageService pageService = new PageService(appSettings, _settingsRepository, _pageRepository, searchService, historyService, userContext, listCache, pageViewModelCache, siteCache, _pluginFactory);
 
 			// WikiController
 			SettingsService settingsService = new SettingsService(new RepositoryFactoryMock(), appSettings);
@@ -207,7 +205,7 @@ namespace Roadkill.Tests.Unit.Mvc.Attributes
 
 			// Create a page that the request is for
 			Page page = new Page() { Title = "title", ModifiedOn = _pageModifiedDate };
-			_repositoryMock.AddNewPage(page, "text", "user", _pageCreatedDate);
+			_pageRepository.AddNewPage(page, "text", "user", _pageCreatedDate);
 
 			// Update the BrowserCacheAttribute
 			attribute.ApplicationSettings = appSettings;

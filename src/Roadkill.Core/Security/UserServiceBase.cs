@@ -13,14 +13,16 @@ namespace Roadkill.Core.Security
 	/// <summary>
 	/// The base class for user management tasks.
 	/// </summary>
-	public abstract class UserServiceBase : ServiceBase
+	public abstract class UserServiceBase
 	{
 		protected PageService PageService;
+		public IUserRepository UserRepository { get; set; }
+		public ApplicationSettings ApplicationSettings { get; set; }
 
-		public UserServiceBase(ApplicationSettings settings, IRepository repository)
-			: base(settings, repository)
+		public UserServiceBase(ApplicationSettings settings, IUserRepository userRepository)
 		{
-
+			ApplicationSettings = settings;
+			UserRepository = userRepository;
 		}
 
 		/// <summary>

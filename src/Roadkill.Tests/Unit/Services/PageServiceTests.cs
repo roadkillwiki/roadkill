@@ -34,7 +34,7 @@ namespace Roadkill.Tests.Unit.Services
 
 		private ApplicationSettings _applicationSettings;
 		private IUserContext _context;
-		private RepositoryMock _repository;
+		private PageRepositoryMock _pageRepository;
 		private UserServiceMock _userService;
 		private PageService _pageService;
 		private PageHistoryService _historyService;
@@ -51,7 +51,7 @@ namespace Roadkill.Tests.Unit.Services
 			_applicationSettings = _container.ApplicationSettings;
 			_applicationSettings.ConnectionString = "connstring";
 			_context = _container.UserContext;
-			_repository = _container.Repository;
+			_pageRepository = _container.PageRepository;
 			_pluginFactory = _container.PluginFactory;
 			_settingsService = _container.SettingsService;
 			_userService = _container.UserService;
@@ -105,7 +105,7 @@ namespace Roadkill.Tests.Unit.Services
 			if (string.IsNullOrEmpty(textContent))
 				textContent = title + "'s text";
 
-			PageContent content = _repository.AddNewPage(page, textContent, createdBy, createdOn);
+			PageContent content = _pageRepository.AddNewPage(page, textContent, createdBy, createdOn);
 			PageViewModel model = new PageViewModel()
 			{
 				Id = id,
@@ -141,8 +141,8 @@ namespace Roadkill.Tests.Unit.Services
 			Assert.That(actualModel, Is.Not.Null);
 			Assert.That(actualModel.Content, Is.EqualTo(model.Content));
 			Assert.That(actualModel.IsLocked, Is.True);
-			Assert.That(_repository.Pages.Count, Is.EqualTo(1));
-			Assert.That(_repository.PageContents.Count, Is.EqualTo(1));
+			Assert.That(_pageRepository.Pages.Count, Is.EqualTo(1));
+			Assert.That(_pageRepository.PageContents.Count, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -368,24 +368,24 @@ namespace Roadkill.Tests.Unit.Services
 			Assert.That(actual.Title, Is.EqualTo(model.Title), "Title");
 			Assert.That(actual.Tags, Is.EqualTo(model.Tags), "Tags");
 
-			Assert.That(_repository.Pages[0].Tags, Is.EqualTo(expectedTags));
-			Assert.That(_repository.Pages[0].Title, Is.EqualTo(model.Title));
-			Assert.That(_repository.PageContents[1].Text, Is.EqualTo(model.Content)); // "smells"
+			Assert.That(_pageRepository.Pages[0].Tags, Is.EqualTo(expectedTags));
+			Assert.That(_pageRepository.Pages[0].Title, Is.EqualTo(model.Title));
+			Assert.That(_pageRepository.PageContents[1].Text, Is.EqualTo(model.Content)); // "smells"
 		}
 
 		[Test]
 		public void clearpagetables_should_remove_all_pages_and_content()
 		{
 			// Arrange
-			_repository.AddNewPage(new Page(), "test1", "test1", DateTime.UtcNow);
-			_repository.AddNewPage(new Page(), "test2", "test2", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page(), "test1", "test1", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page(), "test2", "test2", DateTime.UtcNow);
 
 			// Act
 			_pageService.ClearPageTables();
 
 			// Assert
-			Assert.That(_repository.AllPages().Count(), Is.EqualTo(0));
-			Assert.That(_repository.AllPageContents().Count(), Is.EqualTo(0));
+			Assert.That(_pageRepository.AllPages().Count(), Is.EqualTo(0));
+			Assert.That(_pageRepository.AllPageContents().Count(), Is.EqualTo(0));
 		}
 
 		
@@ -432,8 +432,8 @@ namespace Roadkill.Tests.Unit.Services
 		public void updatelinkstopage_should_replace_link_title_in_markup_and_save_to_repository()
 		{
 			// Arrange
-			_repository.AddNewPage(new Page() { Id = 1, Title = "Homepage" }, "This is a link to [[Page AbOuT horses|Horses]]", "editor", DateTime.UtcNow);
-			_repository.AddNewPage(new Page() { Id = 2, Title = "Page about horses" }, "This is a link to [[Homepage|Back home]]", "editor", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 1, Title = "Homepage" }, "This is a link to [[Page AbOuT horses|Horses]]", "editor", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 2, Title = "Page about horses" }, "This is a link to [[Homepage|Back home]]", "editor", DateTime.UtcNow);
 
 			// Act
 			_pageService.UpdateLinksToPage("Page about horses", "Page about donkeys");
@@ -448,8 +448,8 @@ namespace Roadkill.Tests.Unit.Services
 		{
 			// Arrange
 			_container.ClearCache();
-			_repository.AddNewPage(new Page() { Id = 1, Title = "Homepage" }, "This is a link to [[About page title|About]]", "editor", DateTime.UtcNow);
-			_repository.AddNewPage(new Page() { Id = 2, Title = "About page title" }, "This is a link to [[Homepage|Back home]]", "editor", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 1, Title = "Homepage" }, "This is a link to [[About page title|About]]", "editor", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 2, Title = "About page title" }, "This is a link to [[Homepage|Back home]]", "editor", DateTime.UtcNow);
 
 			_pageViewModelCache.Add(1, new PageViewModel());
 			_pageViewModelCache.Add(2, new PageViewModel());

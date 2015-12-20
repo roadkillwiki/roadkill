@@ -26,7 +26,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		private MocksAndStubsContainer _container;
 		private SettingsService _settingsService;
 		private UserServiceMock _userService;
-		private RepositoryMock _repository;
+		private PageRepositoryMock _pageRepository;
 
 		[SetUp]
 		public void Setup()
@@ -40,7 +40,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			_userService = _container.UserService;
 			_configReaderWriter = _container.ConfigReaderWriter;
 			_repositoryFactory = _container.RepositoryFactory;
-			_repository = _repositoryFactory.Repository;
+			_pageRepository = _repositoryFactory.PageRepository;
 
             _installController = new InstallController(_applicationSettings, _configReaderWriter, _repositoryFactory, _userService);
 		}

@@ -367,7 +367,11 @@
     <Compile Include="Database\IRepositoryFactory.cs" />
     <Compile Include="Database\IInstallerRepository.cs" />
     <Compile Include="Database\Repositories\LightSpeed\LightSpeedInstallerRepository.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\LightSpeedUserRepository.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\LightSpeedSettingsRepository.cs" />
     <Compile Include="Database\Repositories\MongoDB\MongoDbInstallerRepository.cs" />
+    <Compile Include="Database\Repositories\MongoDB\MongoDBUserRepository.cs" />
+    <Compile Include="Database\Repositories\MongoDB\MongoDBSettingsRepository.cs" />
     <Compile Include="Database\RepositoryFactory.cs" />
     <Compile Include="Database\RepositoryInfo.cs" />
     <Compile Include="DependencyResolution\ISetterInjected.cs" />
@@ -378,6 +382,7 @@
     <Compile Include="Attachments\IResponseWrapper.cs" />
     <Compile Include="Attachments\ResponseWrapper.cs" />
     <Compile Include="Database\Repositories\ISettingsRepository.cs" />
+    <Compile Include="DependencyResolution\StructureMap\LightSpeedRegistry.cs" />
     <Compile Include="DependencyResolution\StructureMap\RoadkillRegistry.cs" />
     <Compile Include="DependencyResolution\StructureMap\StructureMapServiceLocator.cs" />
     <Compile Include="DependencyResolution\StructureMap\StructureMapHttpModule.cs" />
@@ -448,7 +453,7 @@
     <Compile Include="Database\Repositories\IPageRepository.cs" />
     <Compile Include="Database\Entities\IDataStoreEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\Conversion\ToEntity.cs" />
-    <Compile Include="Database\Repositories\LightSpeed\LightSpeedRepository.cs" />
+    <Compile Include="Database\Repositories\LightSpeed\LightSpeedPageRepository.cs" />
     <Compile Include="Database\Repositories\LightSpeed\Conversion\FromEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\PageEntity.cs" />
     <Compile Include="Database\Repositories\LightSpeed\PageContentEntity.cs" />
@@ -463,7 +468,7 @@
     <Compile Include="Services\IFileService.cs" />
     <Compile Include="Services\IInstallationService.cs" />
     <Compile Include="Services\IPageService.cs" />
-    <Compile Include="Database\Repositories\MongoDB\MongoDBRepository.cs" />
+    <Compile Include="Database\Repositories\MongoDB\MongoDBPageRepository.cs" />
     <Compile Include="Attachments\MimeTypes.cs" />
     <Compile Include="Mvc\Attributes\OptionalAuthorizationAttribute.cs" />
     <Compile Include="Mvc\Attributes\RecaptchaRequiredAttribute.cs" />
@@ -478,7 +483,6 @@
     <Compile Include="Security\Windows\IPrincipalDetails.cs" />
     <Compile Include="Security\Windows\IActiveDirectoryProvider.cs" />
     <Compile Include="Security\Windows\ActiveDirectoryProvider.cs" />
-    <Compile Include="Database\Repositories\IRepository.cs" />
     <Compile Include="Exceptions\IoCException.cs" />
     <Compile Include="Attachments\AttachmentFileHandler.cs" />
     <Compile Include="Mvc\Controllers\UserController.cs" />
@@ -501,6 +505,8 @@
     <Compile Include="Plugins\SettingValue.cs" />
     <Compile Include="Plugins\TextPlugin.cs" />
     <Compile Include="Plugins\PluginFactory.cs" />
+    <Compile Include="Services\ISearchService.cs" />
+    <Compile Include="Services\ISettingsService.cs" />
     <Compile Include="Services\LocalFileService.cs" />
     <Compile Include="Services\InstallationService.cs" />
     <Compile Include="Startup.cs" />
@@ -525,7 +531,6 @@
     <Compile Include="Security\UserServiceBase.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Database\Entities\User.cs" />
-    <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="Mvc\ViewModels\FileViewModel.cs" />
     <Compile Include="Mvc\ViewModels\UserViewModel.cs" />
     <Compile Include="Exceptions\HistoryException.cs" />

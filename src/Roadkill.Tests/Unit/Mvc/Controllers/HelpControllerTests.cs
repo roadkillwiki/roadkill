@@ -19,12 +19,13 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 
 		private ApplicationSettings _applicationSettings;
 		private IUserContext _context;
-		private RepositoryMock _repository;
+		private SettingsRepositoryMock _settingsRepository;
 		private UserServiceMock _userService;
 		private PageService _pageService;
 		private SettingsService _settingsService;
 
 		private HelpController _helpController;
+		private PageRepositoryMock _pageRepository;
 
 		[SetUp]
 		public void Setup()
@@ -33,7 +34,10 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 
 			_applicationSettings = _container.ApplicationSettings;
 			_context = _container.UserContext;
-			_repository = _container.Repository;
+
+			_settingsRepository = _container.SettingsRepository;
+			_pageRepository = _container.PageRepository;
+
 			_settingsService = _container.SettingsService;
 			_userService = _container.UserService;
 			_pageService = _container.PageService;
@@ -45,7 +49,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		public void index_should_return_viewresult()
 		{
 			// Arrange
-			_repository.SiteSettings.MarkupType = "Mediawiki";
+			_settingsRepository.SiteSettings.MarkupType = "Mediawiki";
 
 			// Act
 			ViewResult result = _helpController.Index() as ViewResult;
@@ -65,7 +69,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 				Tags = "about"
 			};
 
-			_repository.AddNewPage(aboutPage, "text", "nobody", DateTime.Now);
+			_pageRepository.AddNewPage(aboutPage, "text", "nobody", DateTime.Now);
 
 			// Act
 			ViewResult result = _helpController.About() as ViewResult;

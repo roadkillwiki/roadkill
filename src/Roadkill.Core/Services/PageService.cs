@@ -10,6 +10,7 @@ using Roadkill.Core.Cache;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Configuration;
 using System.Web;
+using Roadkill.Core.Database.Repositories;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Text;
 using Roadkill.Core.Plugins;
@@ -19,25 +20,28 @@ namespace Roadkill.Core.Services
 	/// <summary>
 	/// Provides a set of tasks for wiki page management.
 	/// </summary>
-	public class PageService : ServiceBase, IPageService
+	public class PageService : IPageService
 	{
-		private SearchService _searchService;
-		private MarkupConverter _markupConverter;
-		private PageHistoryService _historyService;
-		private IUserContext _context;
-		private ListCache _listCache;
-		private PageViewModelCache _pageViewModelCache;
-		private SiteCache _siteCache;
-		private IPluginFactory _pluginFactory;
-		private MarkupLinkUpdater _markupLinkUpdater;
+		private readonly SearchService _searchService;
+		private readonly MarkupConverter _markupConverter;
+		private readonly PageHistoryService _historyService;
+		private readonly IUserContext _context;
+		private readonly ListCache _listCache;
+		private readonly PageViewModelCache _pageViewModelCache;
+		private readonly SiteCache _siteCache;
+		private readonly IPluginFactory _pluginFactory;
+		private readonly MarkupLinkUpdater _markupLinkUpdater;
 
-		public PageService(ApplicationSettings settings, IRepository repository, SearchService searchService, 
+		public ApplicationSettings ApplicationSettings { get; set; }
+		public ISettingsRepository SettingsRepository { get; set; }
+		public IPageRepository PageRepository { get; set; }
+
+		public PageService(ApplicationSettings settings, ISettingsRepository settingsRepository, IPageRepository pageRepository, SearchService searchService, 
 			PageHistoryService historyService, IUserContext context, 
 			ListCache listCache, PageViewModelCache pageViewModelCache, SiteCache sitecache, IPluginFactory pluginFactory)
-			: base(settings, repository)
 		{
 			_searchService = searchService;
-			_markupConverter = new MarkupConverter(settings, repository, pluginFactory);
+			_markupConverter = new MarkupConverter(settings, settingsRepository, pageRepository, pluginFactory);
 			_historyService = historyService;
 			_context = context;
 			_listCache = listCache;
@@ -45,6 +49,10 @@ namespace Roadkill.Core.Services
 			_siteCache = sitecache;
 			_pluginFactory = pluginFactory;
 			_markupLinkUpdater = new MarkupLinkUpdater(_markupConverter.Parser);
+
+			ApplicationSettings = settings;
+			SettingsRepository = settingsRepository;
+			PageRepository = pageRepository;
 		}
 
 		/// <summary>
@@ -72,7 +80,7 @@ namespace Roadkill.Core.Services
 				if (_context.IsAdmin)
 					page.IsLocked = model.IsLocked;
 
-				PageContent pageContent = Repository.AddNewPage(page, model.Content, AppendIpForDemoSite(currentUser), DateTime.UtcNow);
+				PageContent pageContent = PageRepository.AddNewPage(page, model.Content, AppendIpForDemoSite(currentUser), DateTime.UtcNow);
 
 				_listCache.RemoveAll();
 				_pageViewModelCache.RemoveAll(); // completely clear the cache to update any reciprocal links.
@@ -115,9 +123,9 @@ namespace Roadkill.Core.Services
 
 					if (pageModels == null)
 					{
-						IEnumerable<Page> pages = Repository.AllPages().OrderBy(p => p.Title);
+						IEnumerable<Page> pages = PageRepository.AllPages().OrderBy(p => p.Title);
 						pageModels = from page in pages
-									select new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
+									select new PageViewModel(PageRepository.GetLatestPageContent(page.Id), _markupConverter);
 
 						_listCache.Add<PageViewModel>(cacheKey, pageModels);
 					}
@@ -129,7 +137,7 @@ namespace Roadkill.Core.Services
 
 					if (pageModels == null)
 					{
-						IEnumerable<Page> pages = Repository.AllPages().OrderBy(p => p.Title);
+						IEnumerable<Page> pages = PageRepository.AllPages().OrderBy(p => p.Title);
 						pageModels = from page in pages
 									select new PageViewModel() { Id = page.Id, Title = page.Title };
 
@@ -160,9 +168,9 @@ namespace Roadkill.Core.Services
 				IEnumerable<PageViewModel> models = _listCache.Get<PageViewModel>(cacheKey);
 				if (models == null)
 				{
-					IEnumerable<Page> pages = Repository.FindPagesCreatedBy(userName);
+					IEnumerable<Page> pages = PageRepository.FindPagesCreatedBy(userName);
 					models = from page in pages
-								select new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
+								select new PageViewModel(PageRepository.GetLatestPageContent(page.Id), _markupConverter);
 
 					_listCache.Add<PageViewModel>(cacheKey, models);
 				}
@@ -189,7 +197,7 @@ namespace Roadkill.Core.Services
 				List<TagViewModel> tags = _listCache.Get<TagViewModel>(cacheKey);
 				if (tags == null)
 				{
-					IEnumerable<string> tagList = Repository.AllTags();
+					IEnumerable<string> tagList = PageRepository.AllTags();
 					tags = new List<TagViewModel>();
 
 					foreach (string item in tagList)
@@ -234,12 +242,12 @@ namespace Roadkill.Core.Services
 			try
 			{
 				// Avoid grabbing all the pagecontents coming back each time a page is requested, it has no inverse relationship.
-				Page page = Repository.GetPageById(pageId);
+				Page page = PageRepository.GetPageById(pageId);
 
 				// Update the lucene index before we actually delete the page.
 				try
 				{
-					PageViewModel model = new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
+					PageViewModel model = new PageViewModel(PageRepository.GetLatestPageContent(page.Id), _markupConverter);
 					_searchService.Delete(model);
 				}
 				catch (SearchException ex)
@@ -247,13 +255,13 @@ namespace Roadkill.Core.Services
 					Log.Error(ex, "Unable to delete page with id {0} from the lucene index", pageId);
 				}
 
-				IList<PageContent> children = Repository.FindPageContentsByPageId(pageId).ToList();
+				IList<PageContent> children = PageRepository.FindPageContentsByPageId(pageId).ToList();
 				for (int i = 0; i < children.Count; i++)
 				{
-					Repository.DeletePageContent(children[i]);
+					PageRepository.DeletePageContent(children[i]);
 				}
 
-				Repository.DeletePage(page);
+				PageRepository.DeletePage(page);
 
 				// Remove everything for now, to avoid reciprocal link issues
 				_listCache.RemoveAll();
@@ -304,15 +312,15 @@ namespace Roadkill.Core.Services
 				if (pageModel == null)
 				{
 
-					Page page = Repository.FindPagesContainingTag("homepage").FirstOrDefault(x => x.IsLocked == true);
+					Page page = PageRepository.FindPagesContainingTag("homepage").FirstOrDefault(x => x.IsLocked == true);
 					if (page == null)
 					{
-						page = Repository.FindPagesContainingTag("homepage").FirstOrDefault();
+						page = PageRepository.FindPagesContainingTag("homepage").FirstOrDefault();
 					}
 					
 					if (page != null)
 					{
-						pageModel = new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
+						pageModel = new PageViewModel(PageRepository.GetLatestPageContent(page.Id), _markupConverter);
 						_pageViewModelCache.UpdateHomePage(pageModel);
 					}
 				}
@@ -341,9 +349,9 @@ namespace Roadkill.Core.Services
 				if (models == null)
 				{
 
-					IEnumerable<Page> pages = Repository.FindPagesContainingTag(tag).OrderBy(p => p.Title);
+					IEnumerable<Page> pages = PageRepository.FindPagesContainingTag(tag).OrderBy(p => p.Title);
 					models = from page in pages
-								select new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
+								select new PageViewModel(PageRepository.GetLatestPageContent(page.Id), _markupConverter);
 
 					_listCache.Add<PageViewModel>(cacheKey, models);
 				}
@@ -369,12 +377,12 @@ namespace Roadkill.Core.Services
 				if (string.IsNullOrEmpty(title))
 					return null;
 
-				Page page = Repository.GetPageByTitle(title);
+				Page page = PageRepository.GetPageByTitle(title);
 
 				if (page == null)
 					return null;
 				else
-					return new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
+					return new PageViewModel(PageRepository.GetLatestPageContent(page.Id), _markupConverter);
 			}
 			catch (DatabaseException ex)
 			{
@@ -399,7 +407,7 @@ namespace Roadkill.Core.Services
 				}
 				else
 				{
-					Page page = Repository.GetPageById(id);
+					Page page = PageRepository.GetPageById(id);
 
 					if (page == null)
 					{
@@ -411,13 +419,13 @@ namespace Roadkill.Core.Services
 						// used on the second call anyway, so performance isn't an issue.
 						if (ApplicationSettings.UseObjectCache)
 						{
-							pageModel = new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
+							pageModel = new PageViewModel(PageRepository.GetLatestPageContent(page.Id), _markupConverter);
 						}
 						else
 						{
 							if (loadContent)
 							{
-								pageModel = new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
+								pageModel = new PageViewModel(PageRepository.GetLatestPageContent(page.Id), _markupConverter);
 							}
 							else
 							{
@@ -448,7 +456,7 @@ namespace Roadkill.Core.Services
 			{
 				string currentUser = _context.CurrentUsername;
 
-				Page page = Repository.GetPageById(model.Id);
+				Page page = PageRepository.GetPageById(model.Id);
 				page.Title = model.Title;
 				page.Tags = model.CommaDelimitedTags();
 				page.ModifiedOn = DateTime.UtcNow;
@@ -458,7 +466,7 @@ namespace Roadkill.Core.Services
 				if (_context.IsAdmin)
 					page.IsLocked = model.IsLocked;
 
-				Repository.SaveOrUpdatePage(page);
+				PageRepository.SaveOrUpdatePage(page);
 
 				//
 				// Update the cache - updating a page is expensive for the cache right now
@@ -472,7 +480,7 @@ namespace Roadkill.Core.Services
 				_listCache.RemoveAll();
 
 				int newVersion = _historyService.MaxVersion(model.Id) + 1;
-				PageContent pageContent = Repository.AddNewPageContentVersion(page, model.Content, AppendIpForDemoSite(currentUser), DateTime.UtcNow, newVersion); 
+				PageContent pageContent = PageRepository.AddNewPageContentVersion(page, model.Content, AppendIpForDemoSite(currentUser), DateTime.UtcNow, newVersion); 
 
 				// Update all links to this page (if it has had its title renamed). Case changes don't need any updates.
 				if (model.PreviousTitle != null && model.PreviousTitle.ToLower() != model.Title.ToLower())
@@ -481,7 +489,7 @@ namespace Roadkill.Core.Services
 				}
 
 				// Update the lucene index
-				PageViewModel updatedModel = new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
+				PageViewModel updatedModel = new PageViewModel(PageRepository.GetLatestPageContent(page.Id), _markupConverter);
 				_searchService.Update(updatedModel);
 			}
 			catch (DatabaseException ex)
@@ -545,7 +553,7 @@ namespace Roadkill.Core.Services
 		/// <returns>The <see cref="PageContent"/> for the page.</returns>
 		public PageContent GetCurrentContent(int pageId)
 		{
-			return Repository.GetLatestPageContent(pageId);
+			return PageRepository.GetLatestPageContent(pageId);
 		}
 
 		/// <summary>
@@ -579,12 +587,12 @@ namespace Roadkill.Core.Services
 		{
 			bool shouldClearCache = false;
 
-			foreach (PageContent content in Repository.AllPageContents())
+			foreach (PageContent content in PageRepository.AllPageContents())
 			{
 				if (_markupLinkUpdater.ContainsPageLink(content.Text, oldTitle))
 				{
 					content.Text = _markupLinkUpdater.ReplacePageLinks(content.Text, oldTitle, newTitle);
-					Repository.UpdatePageContent(content);
+					PageRepository.UpdatePageContent(content);
 					
 					shouldClearCache = true;
 				}
@@ -602,7 +610,7 @@ namespace Roadkill.Core.Services
 		/// </summary>
 		public string GetMenu(IUserContext userContext)
 		{
-			MenuParser parser = new MenuParser(_markupConverter, Repository, _siteCache, userContext);
+			MenuParser parser = new MenuParser(_markupConverter, SettingsRepository, _siteCache, userContext);
 
 			// TODO: turn this into a theme-based bit of template HTML
 			StringBuilder builder = new StringBuilder();
@@ -619,7 +627,7 @@ namespace Roadkill.Core.Services
 		/// </summary>
 		public string GetBootStrapNavMenu(IUserContext userContext)
 		{
-			MenuParser parser = new MenuParser(_markupConverter, Repository, _siteCache, userContext);
+			MenuParser parser = new MenuParser(_markupConverter, SettingsRepository, _siteCache, userContext);
 
 			// TODO: turn this into a theme-based bit of template HTML
 			StringBuilder builder = new StringBuilder();
@@ -664,7 +672,7 @@ namespace Roadkill.Core.Services
 		/// <returns></returns>
 		public MarkupConverter GetMarkupConverter()
 		{
-			return new MarkupConverter(ApplicationSettings, Repository, _pluginFactory);
+			return new MarkupConverter(ApplicationSettings, SettingsRepository, PageRepository, _pluginFactory);
 		}
 
 		/// <summary>
@@ -675,7 +683,7 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
-				Repository.DeleteAllPages();
+				PageRepository.DeleteAllPages();
 			}
 			catch (DatabaseException ex)
 			{

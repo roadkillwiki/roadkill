@@ -50,7 +50,7 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 			container.Configure(x =>
 			{
 				x.Scan(a => a.AssemblyContainingType<TestHelpers>());
-				x.For<IRepository>().Use(new RepositoryMock());
+				x.For<IPageRepository>().Use(new PageRepositoryMock());
 				x.For<IUserContext>().Use(new UserContextStub());
 			});
 

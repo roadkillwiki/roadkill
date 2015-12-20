@@ -15,6 +15,7 @@ using LuceneVersion = Lucene.Net.Util.Version;
 using Lucene.Net.Store;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Database.Repositories;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Plugins;
 
@@ -23,7 +24,7 @@ namespace Roadkill.Core.Services
 	/// <summary>
 	/// Provides searching tasks using a Lucene.net search index.
 	/// </summary>
-	public class SearchService : ServiceBase
+	public class SearchService : ISearchService
 	{
 		private static Regex _removeTagsRegex = new Regex("<(.|\n)*?>");
 		private MarkupConverter _markupConverter;
@@ -31,11 +32,30 @@ namespace Roadkill.Core.Services
 		private IPluginFactory _pluginFactory;
 		private static readonly LuceneVersion LUCENEVERSION = LuceneVersion.LUCENE_29;
 
-		public SearchService(ApplicationSettings settings, IRepository repository, IPluginFactory pluginFactory)
-			: base(settings, repository)
+		public ApplicationSettings ApplicationSettings { get; set; }
+		public ISettingsRepository SettingsRepository { get; set; }
+		public IPageRepository PageRepository { get; set; }
+
+		public SearchService(ApplicationSettings settings, ISettingsRepository settingsRepository, IPageRepository pageRepository, IPluginFactory pluginFactory)
 		{
-			_markupConverter = new MarkupConverter(settings, repository, pluginFactory);
+			if (settings == null)
+				throw new ArgumentNullException(nameof(settings));
+
+			if (settingsRepository == null)
+				throw new ArgumentNullException(nameof(settingsRepository));
+
+			if (pageRepository == null)
+				throw new ArgumentNullException(nameof(pageRepository));
+
+			if (pluginFactory == null)
+				throw new ArgumentNullException(nameof(pluginFactory));
+
+			_markupConverter = new MarkupConverter(settings, settingsRepository, pageRepository, pluginFactory);
 			IndexPath = settings.SearchIndexPath;
+
+			ApplicationSettings = settings;
+			SettingsRepository = settingsRepository;
+			PageRepository = pageRepository;
 		}
 
 		/// <summary>
@@ -186,9 +206,9 @@ namespace Roadkill.Core.Services
 				StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
 				using (IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(IndexPath)), analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED))
 				{
-					foreach (Page page in Repository.AllPages().ToList())
+					foreach (Page page in PageRepository.AllPages().ToList())
 					{
-						PageViewModel pageModel = new PageViewModel(Repository.GetLatestPageContent(page.Id), _markupConverter);
+						PageViewModel pageModel = new PageViewModel(PageRepository.GetLatestPageContent(page.Id), _markupConverter);
 
 						Document document = new Document();
 						document.Add(new Field("id", pageModel.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));

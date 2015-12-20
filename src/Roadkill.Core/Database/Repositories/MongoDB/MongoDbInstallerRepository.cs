@@ -12,6 +12,19 @@ namespace Roadkill.Core.Database.MongoDB
 			ConnectionString = connectionString;
 		}
 
+		public void Wipe()
+		{
+			string databaseName = MongoUrl.Create(ConnectionString).DatabaseName;
+			MongoClient client = new MongoClient(ConnectionString);
+			MongoServer server = client.GetServer();
+			MongoDatabase database = server.GetDatabase(databaseName);
+
+			database.DropCollection(typeof(PageContent).Name);
+			database.DropCollection(typeof(Page).Name);
+			database.DropCollection(typeof(User).Name);
+			database.DropCollection(typeof(SiteConfigurationEntity).Name);
+		}
+
 		public void Install()
 		{
 			try

@@ -27,7 +27,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 
 		private ApplicationSettings _applicationSettings;
 		private IUserContext _context;
-		private RepositoryMock _repository;
+		private PageRepositoryMock _pageRepository;
 		private UserServiceMock _userService;
 		private PageService _pageService;
 		private WikiImporterMock _wikiImporter;
@@ -41,6 +41,8 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		private WikiExporter _wikiExporter;
 
 		private ToolsController _toolsController;
+		private SettingsRepositoryMock _settingsRepository;
+		private UserRepositoryMock _userRepository;
 
 		[SetUp]
 		public void Setup()
@@ -49,7 +51,11 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 
 			_applicationSettings = _container.ApplicationSettings;
 			_context = _container.UserContext;
-			_repository = _container.Repository;
+
+			_settingsRepository = _container.SettingsRepository;
+			_userRepository = _container.UserRepository;
+			_pageRepository = _container.PageRepository;
+
 			_settingsService = _container.SettingsService;
 			_userService = _container.UserService;
 			_pageCache = _container.PageViewModelCache;
@@ -65,20 +71,20 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 
 			// There's no point mocking WikiExporter (and turning it into an interface) as 
 			// a lot of usefulness of these tests would be lost when creating fake Streams and zip files.
-			_wikiExporter = new WikiExporter(_applicationSettings, _pageService, _repository, _pluginFactory);
+			_wikiExporter = new WikiExporter(_applicationSettings, _pageService, _settingsRepository, _pageRepository, _userRepository, _pluginFactory);
 			_wikiExporter.ExportFolder = AppDomain.CurrentDomain.BaseDirectory;
 
 			_toolsController = new ToolsController(_applicationSettings, _userService, _settingsService, _pageService,
 													_searchService, _context, _listCache, _pageCache, _wikiImporter, 
-													_repository, _pluginFactory, _wikiExporter);
+													_pluginFactory, _wikiExporter);
 		}
 
 		[Test]
 		public void clearpages_should_set_tempdata_message_and_clear_cache_and_clear_all_pages()
 		{
 			// Arrange		
-			_repository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
-			_repository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
 
 			_pageCache.Add(1, new PageViewModel());
 			_listCache.Add("list.somekey", new List<string>());
@@ -93,15 +99,15 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 			
 			Assert.That(_toolsController.TempData["SuccessMessage"], Is.EqualTo(SiteStrings.SiteSettings_Tools_ClearDatabase_Message));
 			Assert.That(_cache.Count(), Is.EqualTo(1));
-			Assert.That(_repository.AllPages().Count(), Is.EqualTo(0));
+			Assert.That(_pageRepository.AllPages().Count(), Is.EqualTo(0));
 		}
 
 		[Test]
 		public void exportassql_should_set_filename_and_contenttype_and_filestream_should_not_be_zero()
 		{
 			// Arrange
-			_repository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
-			_repository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
 
 			// Act
 			FileStreamResult result = _toolsController.ExportAsSql() as FileStreamResult;
@@ -119,8 +125,8 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 			// Arrange
 			string fullPath = Path.Combine(_wikiExporter.ExportFolder, "export-");
 
-			_repository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
-			_repository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
 
 			// Act
 			FilePathResult result = _toolsController.ExportAsWikiFiles() as FilePathResult;
@@ -137,8 +143,8 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		public void exportasxml_should_set_filename_and_contenttype_and_filestream_should_not_be_zero()
 		{
 			// Arrange
-			_repository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
-			_repository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 1 }, "text", "admin", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 2 }, "text", "admin", DateTime.UtcNow);
 
 			// Act
 			FileStreamResult result = _toolsController.ExportAsXml() as FileStreamResult;
@@ -215,8 +221,8 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		public void renametag_should_redirect_and_set_tempdata_message_and_rename_tag()
 		{
 			// Arrange
-			_repository.AddNewPage(new Page() { Id = 1, Tags = "old" }, "text", "admin", DateTime.UtcNow);
-			_repository.AddNewPage(new Page() { Id = 2, Tags = "old" }, "text", "admin", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 1, Tags = "old" }, "text", "admin", DateTime.UtcNow);
+			_pageRepository.AddNewPage(new Page() { Id = 2, Tags = "old" }, "text", "admin", DateTime.UtcNow);
 
 			// Act
 			RedirectToRouteResult result = _toolsController.RenameTag("old", "new") as RedirectToRouteResult;
@@ -226,8 +232,8 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 			Assert.That(result.RouteValues["action"], Is.EqualTo("Index"));
 			Assert.That(_toolsController.TempData["SuccessMessage"], Is.EqualTo(SiteStrings.SiteSettings_Tools_RenameTag_Message));
 
-			Assert.That(_repository.GetPageById(1).Tags, Is.StringContaining("new"));
-			Assert.That(_repository.GetPageById(2).Tags, Is.StringContaining("new"));
+			Assert.That(_pageRepository.GetPageById(1).Tags, Is.StringContaining("new"));
+			Assert.That(_pageRepository.GetPageById(2).Tags, Is.StringContaining("new"));
 		}
 
 		[Test]
@@ -264,7 +270,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		public void exportattachments_should_call_wikiexporter_exportattachments()
 		{
 			// Arrange
-			var mockWikiExporter = new Mock<WikiExporter>(_applicationSettings, _pageService, _repository, _pluginFactory);
+			var mockWikiExporter = new Mock<WikiExporter>(_applicationSettings, _pageService, _settingsRepository, _pageRepository, _userRepository, _pluginFactory);
 			_toolsController._wikiExporter = mockWikiExporter.Object;
 
 			// Act
@@ -278,7 +284,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		public void exportaswikifiles_should_call_wikiexporter_exportaswikifiles()
 		{
 			// Arrange
-			var mockWikiExporter = new Mock<WikiExporter>(_applicationSettings, _pageService, _repository, _pluginFactory);
+			var mockWikiExporter = new Mock<WikiExporter>(_applicationSettings, _pageService, _settingsRepository, _pageRepository, _userRepository, _pluginFactory);
 			_toolsController._wikiExporter = mockWikiExporter.Object;
 
 			// Act
@@ -292,7 +298,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		public void exportassql_should_call_wikiexporter_exportassql()
 		{
 			// Arrange
-			var mockWikiExporter = new Mock<WikiExporter>(_applicationSettings, _pageService, _repository, _pluginFactory);
+			var mockWikiExporter = new Mock<WikiExporter>(_applicationSettings, _pageService, _settingsRepository, _pageRepository, _userRepository, _pluginFactory);
 			_toolsController._wikiExporter = mockWikiExporter.Object;
 			mockWikiExporter.Setup(x => x.ExportAsSql()).Returns(new MemoryStream());
 
@@ -307,7 +313,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 		public void exportasxml_should_call_wikiexporter_exportasxml()
 		{
 			// Arrange
-			var mockWikiExporter = new Mock<WikiExporter>(_applicationSettings, _pageService, _repository, _pluginFactory);
+			var mockWikiExporter = new Mock<WikiExporter>(_applicationSettings, _pageService, _settingsRepository, _pageRepository, _userRepository, _pluginFactory);
 			mockWikiExporter.Setup(x => x.ExportAsXml()).Returns(new MemoryStream());
 			_toolsController._wikiExporter = mockWikiExporter.Object;
 

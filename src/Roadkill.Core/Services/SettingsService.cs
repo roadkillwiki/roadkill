@@ -8,7 +8,7 @@ namespace Roadkill.Core.Services
 	/// <summary>
 	/// Provides common tasks for changing the Roadkill application settings.
 	/// </summary>
-	public class SettingsService
+	public class SettingsService : ISettingsService
 	{
 		private readonly IRepositoryFactory _repositoryFactory;
 		private readonly ApplicationSettings _applicationSettings;
@@ -30,7 +30,7 @@ namespace Roadkill.Core.Services
 		/// <returns></returns>
 		public SiteSettings GetSiteSettings()
 		{
-			var repository = _repositoryFactory.GetRepository(_applicationSettings.DatabaseName, _applicationSettings.ConnectionString);
+			var repository = _repositoryFactory.GetSettingsRepository(_applicationSettings.DatabaseName, _applicationSettings.ConnectionString);
 			return repository.GetSiteSettings();
 		}
 
@@ -59,7 +59,7 @@ namespace Roadkill.Core.Services
 				siteSettings.HeadContent = model.HeadContent;
 				siteSettings.MenuMarkup = model.MenuMarkup;
 
-				var repository = _repositoryFactory.GetRepository(_applicationSettings.DatabaseName, _applicationSettings.ConnectionString);
+				var repository = _repositoryFactory.GetSettingsRepository(_applicationSettings.DatabaseName, _applicationSettings.ConnectionString);
 				repository.SaveSiteSettings(siteSettings);
 			}
 			catch (DatabaseException ex)

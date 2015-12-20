@@ -11,6 +11,7 @@ using Roadkill.Core.Mvc.ViewModels;
 using System.IO;
 using System.Globalization;
 using Roadkill.Core.Database;
+using Roadkill.Core.Database.Repositories;
 
 namespace Roadkill.Core.Email
 {
@@ -32,7 +33,7 @@ namespace Roadkill.Core.Email
 		protected ApplicationSettings ApplicationSettings;
 		protected SiteSettings SiteSettings;
 		protected IEmailClient EmailClient;
-		protected IRepository Repository;
+		protected ISettingsRepository SettingsRepository;
 
 		/// <summary>
 		/// The HTML template for the email.
@@ -48,19 +49,19 @@ namespace Roadkill.Core.Email
 		/// Initializes a new instance of the <see cref="EmailTemplate"/> class.
 		/// </summary>
 		/// <param name="applicationSettings">Application wide settings</param>
-		/// <param name="repository">The repository retrieve the site settings from</param>
+		/// <param name="settingsRepository">The repository retrieve the site settings from</param>
 		/// <param name="emailClient">The <see cref="IEmailClient"/> to send the mail through. If this 
 		/// parameter is null, then <see cref="EmailClient"/> is used</param>
-		protected EmailTemplate(ApplicationSettings applicationSettings, IRepository repository, IEmailClient emailClient)
+		protected EmailTemplate(ApplicationSettings applicationSettings, ISettingsRepository settingsRepository, IEmailClient emailClient)
 		{
 			if (applicationSettings == null)
-				throw new ArgumentNullException("applicationSettings");
+				throw new ArgumentNullException(nameof(applicationSettings));
 
-			if (repository == null)
-				throw new ArgumentNullException("repository");
+			if (settingsRepository == null)
+				throw new ArgumentNullException(nameof(settingsRepository));
 
 			ApplicationSettings = applicationSettings;
-			Repository = repository;
+			SettingsRepository = settingsRepository;
 			
 			EmailClient = emailClient;
 			if (EmailClient == null)
@@ -144,7 +145,7 @@ namespace Roadkill.Core.Email
 		protected internal virtual string ReplaceTokens(UserViewModel model, string template)
 		{
 			if (SiteSettings == null)
-				SiteSettings = Repository.GetSiteSettings();
+				SiteSettings = SettingsRepository.GetSiteSettings();
 
 			string result = template;
 
