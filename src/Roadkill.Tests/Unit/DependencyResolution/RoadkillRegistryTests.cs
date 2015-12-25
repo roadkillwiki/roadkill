@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Caching;
+using Mindscape.LightSpeed;
 using NUnit.Framework;
 using Roadkill.Core;
 using Roadkill.Core.Attachments;
@@ -22,7 +23,6 @@ using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.Controllers.Api;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Mvc.WebViewPages;
 using Roadkill.Core.Plugins;
 using Roadkill.Core.Security;
 using Roadkill.Core.Security.Windows;
@@ -38,8 +38,19 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 	{
 		private IContainer CreateContainer()
 		{
-			var registry = new RoadkillRegistry(new ConfigReaderWriterStub());
-			var container = new Container(registry);
+			var configReaderWriterStub = new ConfigReaderWriterStub();
+			configReaderWriterStub.ApplicationSettings.ConnectionString = "none empty connection string";
+
+			var roadkillRegistry = new RoadkillRegistry(configReaderWriterStub);
+			var container = new Container(c =>
+			{
+				c.AddRegistry(roadkillRegistry);
+			});
+			container.Inject(typeof(IUnitOfWork), new UnitOfWork());
+
+			// Some places that require bastard injection reference the LocatorStartup.Locator
+			LocatorStartup.Locator = new StructureMapServiceLocator(container, false);
+
 			return container;
 		}
 
@@ -103,6 +114,7 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 			// Arrange
 			var settings = new ApplicationSettings();
 			settings.DatabaseName = "MongoDB";
+			settings.ConnectionString = "none empty connection string";
 
 			var registry = new RoadkillRegistry(new ConfigReaderWriterStub() { ApplicationSettings = settings });
 			var container = new Container(registry);
@@ -186,6 +198,7 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 		{
 			// Arrange
 			var settings = new ApplicationSettings();
+			settings.ConnectionString = "none empty connection string";
 			settings.LdapConnectionString = "LDAP://dc=roadkill.org"; // for ActiveDirectoryUserService
 			settings.AdminRoleName = "admins";
 			settings.EditorRoleName = "editors";
@@ -338,6 +351,7 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 		{
 			// Arrange
 			ApplicationSettings settings = new ApplicationSettings();
+			settings.ConnectionString = "none empty connection string";
 			settings.UseAzureFileStorage = true;
 
 			var registry = new RoadkillRegistry(new ConfigReaderWriterStub() { ApplicationSettings = settings });
@@ -362,6 +376,7 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 		{
 			// Arrange
 			ApplicationSettings settings = new ApplicationSettings();
+			settings.ConnectionString = "none empty connection string";
 			settings.UserServiceType = "Roadkill.Plugins.TestUserService, Roadkill.Plugins";
 			Console.WriteLine(settings.UserServiceType);
 			settings.PluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
@@ -381,6 +396,7 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 		{
 			// Arrange
 			ApplicationSettings settings = new ApplicationSettings();
+			settings.ConnectionString = "none empty connection string";
 			settings.UserServiceType = typeof(Roadkill.Plugins.TestUserService).AssemblyQualifiedName;
 			Console.WriteLine(settings.UserServiceType);
 			settings.PluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
@@ -401,6 +417,7 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 		{
 			// Arrange
 			ApplicationSettings settings = new ApplicationSettings();
+			settings.ConnectionString = "none empty connection string";
 			settings.UseWindowsAuthentication = true;
 			settings.LdapConnectionString = "LDAP://dc=roadkill.org";
 			settings.AdminRoleName = "admins";

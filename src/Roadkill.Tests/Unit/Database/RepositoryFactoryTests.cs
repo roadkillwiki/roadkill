@@ -13,11 +13,17 @@ namespace Roadkill.Tests.Unit.Database
 {
 	public class RepositoryFactoryTests
 	{
+		private void SetUnitOfWork(RepositoryFactory factory)
+		{
+			factory.UnitOfWorkFunc = context => new UnitOfWork();
+		}
+
 		[Test]
 		public void listall_should_return_all_databases()
 		{
 			// Arrange
-			var factory = new RepositoryFactory("", "");
+			var factory = new RepositoryFactory("database name", "not empty");
+			SetUnitOfWork(factory);
 
 			// Act
 			List<RepositoryInfo> all = factory.ListAll().ToList();
@@ -37,6 +43,7 @@ namespace Roadkill.Tests.Unit.Database
 		{
 			// Arrange
 			var factory = new RepositoryFactory(provider, connectionString);
+			SetUnitOfWork(factory);
 
 			// Act
 			ISettingsRepository repository = factory.GetSettingsRepository(provider, connectionString);
@@ -53,6 +60,7 @@ namespace Roadkill.Tests.Unit.Database
 			string provider = "anything";
 			string connectionString = "connection-string";
 			var factory = new RepositoryFactory(provider, connectionString);
+			SetUnitOfWork(factory);
 
 			// Act
 			ISettingsRepository repository = factory.GetSettingsRepository(provider, connectionString);
@@ -69,6 +77,7 @@ namespace Roadkill.Tests.Unit.Database
 			string provider = "MONGODB";
 			string connectionString = "mongodb-connection-string";
 			var factory = new RepositoryFactory(provider, connectionString);
+			SetUnitOfWork(factory);
 
 			// Act
 			ISettingsRepository repository = factory.GetSettingsRepository(provider, connectionString);
@@ -88,6 +97,7 @@ namespace Roadkill.Tests.Unit.Database
 		{
 			// Arrange
 			var factory = new RepositoryFactory(provider, connectionString);
+			SetUnitOfWork(factory);
 
 			// Act
 			IUserRepository repository = factory.GetUserRepository(provider, connectionString);
@@ -104,6 +114,7 @@ namespace Roadkill.Tests.Unit.Database
 			string provider = "anything";
 			string connectionString = "connection-string";
 			var factory = new RepositoryFactory(provider, connectionString);
+			SetUnitOfWork(factory);
 
 			// Act
 			IUserRepository repository = factory.GetUserRepository(provider, connectionString);
@@ -120,6 +131,7 @@ namespace Roadkill.Tests.Unit.Database
 			string provider = "MONGODB";
 			string connectionString = "mongodb-connection-string";
 			var factory = new RepositoryFactory(provider, connectionString);
+			SetUnitOfWork(factory);
 
 			// Act
 			IUserRepository repository = factory.GetUserRepository(provider, connectionString);
@@ -139,6 +151,7 @@ namespace Roadkill.Tests.Unit.Database
 		{
 			// Arrange
 			var factory = new RepositoryFactory(provider, connectionString);
+			SetUnitOfWork(factory);
 
 			// Act
 			IPageRepository repository = factory.GetPageRepository(provider, connectionString);
@@ -155,6 +168,7 @@ namespace Roadkill.Tests.Unit.Database
 			string provider = "anything";
 			string connectionString = "connection-string";
 			var factory = new RepositoryFactory(provider, connectionString);
+			SetUnitOfWork(factory);
 
 			// Act
 			IPageRepository repository = factory.GetPageRepository(provider, connectionString);
@@ -171,6 +185,7 @@ namespace Roadkill.Tests.Unit.Database
 			string provider = "MONGODB";
 			string connectionString = "mongodb-connection-string";
 			var factory = new RepositoryFactory(provider, connectionString);
+			SetUnitOfWork(factory);
 
 			// Act
 			IPageRepository repository = factory.GetPageRepository(provider, connectionString);
@@ -190,6 +205,7 @@ namespace Roadkill.Tests.Unit.Database
 		{
 			// Arrange
 			var factory = new RepositoryFactory(provider, connectionString);
+			SetUnitOfWork(factory);
 
 			// Act
 			IInstallerRepository installerRepository = factory.GetInstallerRepository(provider, connectionString);
@@ -211,6 +227,7 @@ namespace Roadkill.Tests.Unit.Database
 			Type expectedSchemaType = typeof (SqlServerSchema);
 
             var factory = new RepositoryFactory(provider, connectionString);
+			SetUnitOfWork(factory);
 
 			// Act
 			IInstallerRepository installerRepository = factory.GetInstallerRepository(provider, connectionString);
@@ -230,6 +247,7 @@ namespace Roadkill.Tests.Unit.Database
 			string provider = "MONGODB";
 			string connectionString = "mongodb-connection-string";
 			var factory = new RepositoryFactory(provider, connectionString);
+			SetUnitOfWork(factory);
 
 			// Act
 			IInstallerRepository installerRepository = factory.GetInstallerRepository(provider, connectionString);

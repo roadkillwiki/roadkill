@@ -1,10 +1,9 @@
-﻿using System.Data;
-using System.Linq;
+﻿using System.Linq;
 using Mindscape.LightSpeed;
 using NUnit.Framework;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
-using Roadkill.Core.Database.Repositories;
 using Roadkill.Core.Database.Schema;
 
 namespace Roadkill.Tests.Integration.Repository.LightSpeed
@@ -39,7 +38,37 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 				Assert.Fail("A local Sql Server (sqlservr.exe) is not running");
 		}
 
-		protected override bool AllTablesAreEmpty()
+		protected override bool HasEmptyTables()
+		{
+			IUnitOfWork unitOfWork = CreateUnitOfWork();
+
+			var settingsRepository = new LightSpeedSettingsRepository(unitOfWork);
+			var userRepository = new LightSpeedUserRepository(unitOfWork);
+			var pageRepository = new LightSpeedPageRepository(unitOfWork);
+
+			return pageRepository.AllPages().Count() == 0 &&
+				   pageRepository.AllPageContents().Count() == 0 &&
+				   userRepository.FindAllAdmins().Count() == 0 &&
+				   userRepository.FindAllEditors().Count() == 0 &&
+				   settingsRepository.GetSiteSettings() != null;
+		}
+
+		protected override bool HasAdminUser()
+		{
+			IUnitOfWork unitOfWork = CreateUnitOfWork();
+			var userRepository = new LightSpeedUserRepository(unitOfWork);
+
+			return userRepository.FindAllAdmins().Count() == 1;
+		}
+
+		protected override SiteSettings GetSiteSettings()
+		{
+			IUnitOfWork unitOfWork = CreateUnitOfWork();
+			var settingsRepository = new LightSpeedSettingsRepository(unitOfWork);
+			return settingsRepository.GetSiteSettings();
+		}
+
+		private IUnitOfWork CreateUnitOfWork()
 		{
 			var context = new LightSpeedContext();
 			context.ConnectionString = ConnectionString;
@@ -47,17 +76,7 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 			context.IdentityMethod = IdentityMethod.GuidComb;
 
 			IUnitOfWork unitOfWork = context.CreateUnitOfWork();
-
-			var settingsRrepository = new LightSpeedSettingsRepository(unitOfWork);
-			var userRepository = new LightSpeedUserRepository(unitOfWork);
-			var pageRepository = new LightSpeedPageRepository(unitOfWork);
-
-
-			return pageRepository.AllPages().Count() == 0 &&
-				   pageRepository.AllPageContents().Count() == 0 &&
-				   userRepository.FindAllAdmins().Count() == 0 &&
-				   userRepository.FindAllEditors().Count() == 0 &&
-				   settingsRrepository.GetSiteSettings() != null;
+			return unitOfWork;
 		}
 	}
 }

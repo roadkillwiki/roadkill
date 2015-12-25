@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
@@ -15,136 +14,91 @@ namespace Roadkill.Tests.Unit.Services
 	public class InstallationServiceTests
 	{
 		private MocksAndStubsContainer _container;
-		private RepositoryFactoryMock _repositoryFactory;
-		private SettingsRepositoryMock _settingsRepository;
-		private UserRepositoryMock _userRepository;
-		private InstallerRepositoryMock _installerRepository;
 
 		private InstallationService _installationService;
-		private UserServiceMock _userService;
+		private InstallerRepositoryMock _installerRepository;
 
 		[SetUp]
 		public void Setup()
 		{
 			_container = new MocksAndStubsContainer();
-			_repositoryFactory = _container.RepositoryFactory;
-			_settingsRepository = _container.SettingsRepository;
-			_userRepository = _repositoryFactory.UserRepository;
-			_installerRepository = _repositoryFactory.InstallerRepository;
-
-			_userService = new UserServiceMock();
-			_installationService = new InstallationService(_repositoryFactory, "SQLServer2008", "bar", _userService);
+			_installerRepository = _container.InstallerRepository;
+			_installationService = _container.InstallationService;
 		}
 
 		[Test]
-		public void addadminuser_should_add_new_admin_user_via_userservice()
+		public void install_should_create_schema_add_new_admin_user_and_save_settings()
 		{
 			// Arrange
+			var expectedModel = new SettingsViewModel()
+			{
+				ConnectionString = "connection string",
+				DatabaseName = "MongoDb",
+
+				AllowedFileTypes = "AllowedFileTypes",
+				Theme = "Mytheme",
+				SiteName = "Mysitename",
+				SiteUrl = "SiteUrl",
+				RecaptchaPrivateKey = "RecaptchaPrivateKey",
+				RecaptchaPublicKey = "RecaptchaPublicKey",
+				MarkupType = "MarkupType",
+				IsRecaptchaEnabled = true,
+				OverwriteExistingFiles = true,
+				HeadContent = "some head content",
+				MenuMarkup = "some menu markup",
+			};
 
 			// Act
-			_installationService.AddAdminUser("email", "password");
+			_installationService.Install(expectedModel);
 
 			// Assert
-			User newUser = _userService.Users.FirstOrDefault();
-			Assert.That(newUser, Is.Not.Null);
-			Assert.That(newUser.Email, Is.EqualTo("email"));
-			Assert.True(newUser.IsAdmin);
-			Assert.That(newUser.Password, Is.Not.Null.Or.Empty);
+			Assert.That(_installerRepository.AddAdminUserCalled, Is.True);
+			Assert.That(_installerRepository.SaveSettingsCalled, Is.True);
+			Assert.That(_installerRepository.CreateSchemaCalled, Is.True);
+
+			Assert.That(_installerRepository.ConnectionString, Is.EqualTo(expectedModel.ConnectionString));
+			Assert.That(_installerRepository.DatabaseName, Is.EqualTo(expectedModel.DatabaseName));
+
+			SiteSettings siteSettings = _installerRepository.SiteSettings;
+			Assert.That(siteSettings.AllowedFileTypes, Is.EqualTo(expectedModel.AllowedFileTypes));
+			Assert.That(siteSettings.Theme, Is.EqualTo(expectedModel.Theme));
+			Assert.That(siteSettings.SiteName, Is.EqualTo(expectedModel.SiteName));
+			Assert.That(siteSettings.SiteUrl, Is.EqualTo(expectedModel.SiteUrl));
+			Assert.That(siteSettings.RecaptchaPrivateKey, Is.EqualTo(expectedModel.RecaptchaPrivateKey));
+			Assert.That(siteSettings.RecaptchaPublicKey, Is.EqualTo(expectedModel.RecaptchaPublicKey));
+			Assert.That(siteSettings.MarkupType, Is.EqualTo(expectedModel.MarkupType));
+			Assert.That(siteSettings.IsRecaptchaEnabled, Is.EqualTo(expectedModel.IsRecaptchaEnabled));
+			Assert.That(siteSettings.OverwriteExistingFiles, Is.EqualTo(expectedModel.OverwriteExistingFiles));
+			Assert.That(siteSettings.HeadContent, Is.EqualTo(expectedModel.HeadContent));
+			Assert.That(siteSettings.MenuMarkup, Is.EqualTo(expectedModel.MenuMarkup));
 		}
 
+
 		[Test]
-		public void clearusertable_should_remove_all_users_via_repository()
+		public void install_should_not_add_adminuser_when_windows_auth_is_true()
 		{
 			// Arrange
-			_userRepository.Users.Add(new User());
-			_userRepository.Users.Add(new User());
-			_userRepository.Users.Add(new User());
+			var model = new SettingsViewModel();
+			model.UseWindowsAuth = true;
 
 			// Act
-			_installationService.ClearUserTable();
+			_installationService.Install(model);
 
 			// Assert
-			Assert.That(_userRepository.Users.Count, Is.EqualTo(0));
-        }
-
-		[Test]
-		public void createtables_should_install_via_repository()
-		{
-			// Arrange
-
-			// Act
-			_installationService.CreateTables();
-
-			// Assert
-			Assert.True(_installerRepository.Installed);
-		}
-
-		[Test]
-		public void createtables_should_rethrow_database_exception_with_context_of_error()
-		{
-			// Arrange
-			_installerRepository.ThrowInstallException = true;
-
-			// Act + Assert
-			Assert.Throws<DatabaseException>(() => _installationService.CreateTables());
+			Assert.That(_installerRepository.AddAdminUserCalled, Is.False);
 		}
 
 		[Test]
 		public void getsupporteddatabases_should_return_repository_infoobjects_from_factory()
 		{
 			// Arrange
-			int expectedCount = _repositoryFactory.ListAll().Count();
+			int expectedCount = 4;
 
 			// Act
 			IEnumerable<RepositoryInfo> databases = _installationService.GetSupportedDatabases();
 
 			// Assert
 			Assert.That(databases.Count(), Is.EqualTo(expectedCount));
-		}
-
-		[Test]
-		public void savesitesettings_should_save_all_values()
-		{
-			// Arrange
-			SettingsViewModel expectedSettings = new SettingsViewModel();
-			expectedSettings.AllowedFileTypes = "AllowedFileTypes";
-			expectedSettings.Theme = "Mytheme";
-			expectedSettings.SiteName = "Mysitename";
-			expectedSettings.SiteUrl = "SiteUrl";
-			expectedSettings.RecaptchaPrivateKey = "RecaptchaPrivateKey";
-			expectedSettings.RecaptchaPublicKey = "RecaptchaPublicKey";
-			expectedSettings.MarkupType = "MarkupType";
-			expectedSettings.IsRecaptchaEnabled = true;
-			expectedSettings.OverwriteExistingFiles = true;
-			expectedSettings.HeadContent = "some head content";
-			expectedSettings.MenuMarkup = "some menu markup";
-
-			// Act
-			_installationService.SaveSiteSettings(expectedSettings);
-			SiteSettings actualSettings = _settingsRepository.GetSiteSettings();
-
-			// Assert
-			Assert.That(actualSettings.AllowedFileTypes, Is.EqualTo(expectedSettings.AllowedFileTypes));
-			Assert.That(actualSettings.Theme, Is.EqualTo(expectedSettings.Theme));
-			Assert.That(actualSettings.SiteName, Is.EqualTo(expectedSettings.SiteName));
-			Assert.That(actualSettings.SiteUrl, Is.EqualTo(expectedSettings.SiteUrl));
-			Assert.That(actualSettings.RecaptchaPrivateKey, Is.EqualTo(expectedSettings.RecaptchaPrivateKey));
-			Assert.That(actualSettings.RecaptchaPublicKey, Is.EqualTo(expectedSettings.RecaptchaPublicKey));
-			Assert.That(actualSettings.MarkupType, Is.EqualTo(expectedSettings.MarkupType));
-			Assert.That(actualSettings.IsRecaptchaEnabled, Is.EqualTo(expectedSettings.IsRecaptchaEnabled));
-			Assert.That(actualSettings.OverwriteExistingFiles, Is.EqualTo(expectedSettings.OverwriteExistingFiles));
-			Assert.That(actualSettings.HeadContent, Is.EqualTo(expectedSettings.HeadContent));
-			Assert.That(actualSettings.MenuMarkup, Is.EqualTo(expectedSettings.MenuMarkup));
-		}
-
-		[Test]
-		public void savesitesettings_should_rethrow_database_exception_with_context_of_error()
-		{
-			// Arrange
-			_settingsRepository.ThrowSaveSiteSettingsException = true;
-
-			// Act + Assert
-			Assert.Throws<DatabaseException>(() => _installationService.SaveSiteSettings(new SettingsViewModel()));
 		}
 	}
 }

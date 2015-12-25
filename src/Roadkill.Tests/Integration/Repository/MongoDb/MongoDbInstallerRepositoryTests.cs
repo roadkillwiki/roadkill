@@ -1,10 +1,8 @@
 ﻿using System.Linq;
-using Mindscape.LightSpeed;
 using NUnit.Framework;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Database.MongoDB;
-using Roadkill.Core.Database.Repositories;
 
 namespace Roadkill.Tests.Integration.Repository.MongoDb
 {
@@ -38,18 +36,29 @@ namespace Roadkill.Tests.Integration.Repository.MongoDb
 				Assert.Fail("A local MongoDB (mongod.exe) server is not running");
 		}
 
-		protected override bool AllTablesAreEmpty()
+		protected override bool HasEmptyTables()
 		{
-			var settingsRrepository = new MongoDBSettingsRepository(ConnectionString);
+			var settingsRepository = new MongoDBSettingsRepository(ConnectionString);
 			var userRepository = new MongoDBUserRepository(ConnectionString);
 			var pageRepository = new MongoDBPageRepository(ConnectionString);
-
 
 			return pageRepository.AllPages().Count() == 0 &&
 				   pageRepository.AllPageContents().Count() == 0 &&
 				   userRepository.FindAllAdmins().Count() == 0 &&
 				   userRepository.FindAllEditors().Count() == 0 &&
-				   settingsRrepository.GetSiteSettings() != null;
+				   settingsRepository.GetSiteSettings() != null;
+		}
+
+		protected override bool HasAdminUser()
+		{
+			var userRepository = new MongoDBUserRepository(ConnectionString);
+			return userRepository.FindAllAdmins().Count() == 1;
+		}
+
+		protected override SiteSettings GetSiteSettings()
+		{
+			var settingsRepository = new MongoDBSettingsRepository(ConnectionString);
+			return settingsRepository.GetSiteSettings();
 		}
 	}
 }

@@ -12,7 +12,10 @@ namespace Roadkill.Core.Database
 {
 	public class RepositoryFactory : IRepositoryFactory
 	{
+		private readonly bool _isInvalidState;
+
 		public LightSpeedContext Context { get; set; }
+		internal Func<LightSpeedContext, IUnitOfWork> UnitOfWorkFunc { get; set; }
 
 		public RepositoryFactory()
 		{
@@ -21,12 +24,19 @@ namespace Roadkill.Core.Database
 		public RepositoryFactory(string databaseProviderName, string connectionString)
 		{
 			if (string.IsNullOrEmpty(connectionString))
-				throw new DatabaseException("The database connection string is empty", null);
+			{
+				_isInvalidState = true;
+				return;
+			}
 
 			if (databaseProviderName == SupportedDatabases.MongoDB)
 				return;
 
-			// LightspeedSetup
+			SetupLightSpeed(databaseProviderName, connectionString);
+		}
+
+		private void SetupLightSpeed(string databaseProviderName, string connectionString)
+		{
 			DataProvider provider = DataProvider.SqlServer2008;
 
 			if (databaseProviderName == SupportedDatabases.MySQL)
@@ -37,13 +47,21 @@ namespace Roadkill.Core.Database
 			{
 				provider = DataProvider.PostgreSql9;
 			}
-			
+
 			Context = new LightSpeedContext();
 			Context.Cache = new CacheBroker(new DefaultCache());
 			Context.ConnectionString = connectionString;
 			Context.DataProvider = provider;
 			Context.IdentityMethod = IdentityMethod.GuidComb;
 			Context.CascadeDeletes = true;
+
+			UnitOfWorkFunc = context => LocatorStartup.Locator.GetInstance<IUnitOfWork>();
+		}
+
+		private void EnsureValidState()
+		{
+			if (_isInvalidState)
+				throw new DatabaseException("The database connection string is empty", null);
 		}
 
 		public void EnableVerboseLogging()
@@ -54,42 +72,53 @@ namespace Roadkill.Core.Database
 
 		public ISettingsRepository GetSettingsRepository(string databaseProviderName, string connectionString)
 		{
+			EnsureValidState();
+
 			if (databaseProviderName == SupportedDatabases.MongoDB)
 			{
 				return new MongoDBSettingsRepository(connectionString);
 			}
 			else
 			{
-				return new LightSpeedSettingsRepository(LocatorStartup.Locator.GetInstance<IUnitOfWork>());
+				IUnitOfWork unitOfWork = UnitOfWorkFunc(Context);
+				return new LightSpeedSettingsRepository(unitOfWork);
 			}
 		}
 
 		public IUserRepository GetUserRepository(string databaseProviderName, string connectionString)
 		{
+			EnsureValidState();
+
 			if (databaseProviderName == SupportedDatabases.MongoDB)
 			{
 				return new MongoDBUserRepository(connectionString);
 			}
 			else
 			{
-				return new LightSpeedUserRepository(LocatorStartup.Locator.GetInstance<IUnitOfWork>());
+				IUnitOfWork unitOfWork = UnitOfWorkFunc(Context);
+				return new LightSpeedUserRepository(unitOfWork);
 			}
 		}
 
 		public IPageRepository GetPageRepository(string databaseProviderName, string connectionString)
 		{
+			EnsureValidState();
+
 			if (databaseProviderName == SupportedDatabases.MongoDB)
 			{
 				return new MongoDBPageRepository(connectionString);
 			}
 			else
 			{
-				return new LightSpeedPageRepository(LocatorStartup.Locator.GetInstance<IUnitOfWork>());
+				IUnitOfWork unitOfWork = UnitOfWorkFunc(Context);
+				return new LightSpeedPageRepository(unitOfWork);
 			}
 		}
 
 		public IInstallerRepository GetInstallerRepository(string databaseProviderName, string connectionString)
 		{
+			EnsureValidState();
+
 			if (databaseProviderName == SupportedDatabases.MongoDB)
 			{
 				return new MongoDbInstallerRepository(connectionString);

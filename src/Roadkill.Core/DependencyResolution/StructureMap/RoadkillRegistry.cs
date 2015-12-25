@@ -153,15 +153,6 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 			For<ConfigurationTesterController>().AlwaysUnique();
 			For<WikiController>().AlwaysUnique();
 
-			//For<InstallController>().Use("InstallController", x =>
-			//{
-			//	ApplicationSettings appSettings = x.GetInstance<ApplicationSettings>();
-			//	ConfigReaderWriter readerWriter = x.GetInstance<ConfigReaderWriter>();
-			//	IRepositoryFactory factory = x.GetInstance<IRepositoryFactory>("Installer-IRepositoryFactory");
-
-			//	return new InstallController();
-			//});
-
 			// Plugins
 			For<IPluginFactory>().Singleton().Use<PluginFactory>();
 
@@ -209,11 +200,6 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 					ApplicationSettings appSettings = x.GetInstance<ApplicationSettings>();
 					return new RepositoryFactory(appSettings.DatabaseName, appSettings.ConnectionString);
 				});
-
-			//For<IRepositoryFactory>()
-			//	.Singleton()
-			//	.Add("IRepositoryFactory For the Installer", x => new RepositoryFactory("installer", "installer"))
-			//	.Named("Installer-IRepositoryFactory");
 
 			For<ISettingsRepository>()
 				.HybridHttpOrThreadLocalScoped()

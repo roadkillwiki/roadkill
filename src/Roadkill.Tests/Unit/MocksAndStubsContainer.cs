@@ -9,6 +9,9 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.Caching;
+using Roadkill.Core.Database;
+using Roadkill.Core.DependencyResolution.StructureMap;
+using StructureMap;
 
 namespace Roadkill.Tests.Unit
 {
@@ -39,6 +42,9 @@ namespace Roadkill.Tests.Unit
 		public UserRepositoryMock UserRepository { get; set; }
 		public PageRepositoryMock PageRepository { get; set; }
 		public InstallerRepositoryMock InstallerRepository { get; set; }
+		public DatabaseTesterMock DatabaseTester { get;set; }
+		public Container StructureMapContainer { get; set; }
+		public InstallationService InstallationService { get; set; }
 
 		/// <summary>
 		/// Creates a new instance of MocksAndStubsContainer.
@@ -59,7 +65,7 @@ namespace Roadkill.Tests.Unit
 			SiteCache = new SiteCache(MemoryCache);
 			PageViewModelCache = new PageViewModelCache(ApplicationSettings, MemoryCache);
 
-			// pageRepository
+			// Repositories
 			SettingsRepository = new SettingsRepositoryMock();
 			SettingsRepository.SiteSettings = new SiteSettings();
 			SettingsRepository.SiteSettings.MarkupType = "Creole";
@@ -74,10 +80,13 @@ namespace Roadkill.Tests.Unit
 				PageRepository = PageRepository,
 				InstallerRepository = InstallerRepository
 			};
+			DatabaseTester = new DatabaseTesterMock();
 
+			// Plugins
 			PluginFactory = new PluginFactoryMock();
 			MarkupConverter = new MarkupConverter(ApplicationSettings, SettingsRepository, PageRepository, PluginFactory);
 
+			// Services
 			// Dependencies for PageService. Be careful to make sure the class using this Container isn't testing the mock.
 			SettingsService = new SettingsService(RepositoryFactory, ApplicationSettings);
 			UserService = new UserServiceMock(ApplicationSettings, UserRepository);
@@ -89,12 +98,23 @@ namespace Roadkill.Tests.Unit
 
 			PageService = new PageService(ApplicationSettings, SettingsRepository, PageRepository, SearchService, HistoryService, UserContext, ListCache, PageViewModelCache, SiteCache, PluginFactory);
 
+			StructureMapContainer = new Container();
+			InstallationService = new InstallationService((databaseName, connectionString) =>
+			{
+				InstallerRepository.DatabaseName = databaseName;
+				InstallerRepository.ConnectionString = connectionString;
+
+				return InstallerRepository;
+			}, new StructureMapServiceLocator(StructureMapContainer, false));
+
 			// EmailTemplates
 			EmailClient = new EmailClientMock();
 
 			// Other services
 			FileService = new FileServiceMock();
 		}
+
+
 
 		public void ClearCache()
 		{
