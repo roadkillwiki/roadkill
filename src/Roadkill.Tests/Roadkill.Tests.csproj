@@ -346,6 +346,9 @@
     <Compile Include="Unit\Mvc\ViewModels\TestResultTests.cs" />
     <Compile Include="Unit\Mvc\WebApi\SearchControllerTests.cs" />
     <Compile Include="Unit\Mvc\WebApi\PageControllerTests.cs" />
+    <Compile Include="Unit\Owin\InstallCheckMiddlewareTests.cs" />
+    <Compile Include="Unit\StubsAndMocks\Owin\OwinContextStub.cs" />
+    <Compile Include="Unit\StubsAndMocks\Owin\OwinRequestStub.cs" />
     <Compile Include="Unit\Plugins\PluginFileManagerTests.cs" />
     <Compile Include="Unit\Security\AuthorizationProviderTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\BrowserCacheAttributeTests.cs" />

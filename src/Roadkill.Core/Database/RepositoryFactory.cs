@@ -12,7 +12,7 @@ namespace Roadkill.Core.Database
 {
 	public class RepositoryFactory : IRepositoryFactory
 	{
-		private readonly bool _isInvalidState;
+		private readonly bool _pendingInstallation;
 
 		public LightSpeedContext Context { get; set; }
 		internal Func<LightSpeedContext, IUnitOfWork> UnitOfWorkFunc { get; set; }
@@ -25,7 +25,7 @@ namespace Roadkill.Core.Database
 		{
 			if (string.IsNullOrEmpty(connectionString))
 			{
-				_isInvalidState = true;
+				_pendingInstallation = true;
 				return;
 			}
 
@@ -58,12 +58,6 @@ namespace Roadkill.Core.Database
 			UnitOfWorkFunc = context => LocatorStartup.Locator.GetInstance<IUnitOfWork>();
 		}
 
-		private void EnsureValidState()
-		{
-			if (_isInvalidState)
-				throw new DatabaseException("The database connection string is empty", null);
-		}
-
 		public void EnableVerboseLogging()
 		{
 			Context.VerboseLogging = true;
@@ -72,7 +66,8 @@ namespace Roadkill.Core.Database
 
 		public ISettingsRepository GetSettingsRepository(string databaseProviderName, string connectionString)
 		{
-			EnsureValidState();
+			if (_pendingInstallation)
+				return null;
 
 			if (databaseProviderName == SupportedDatabases.MongoDB)
 			{
@@ -87,7 +82,8 @@ namespace Roadkill.Core.Database
 
 		public IUserRepository GetUserRepository(string databaseProviderName, string connectionString)
 		{
-			EnsureValidState();
+			if (_pendingInstallation)
+				return null;
 
 			if (databaseProviderName == SupportedDatabases.MongoDB)
 			{
@@ -102,7 +98,8 @@ namespace Roadkill.Core.Database
 
 		public IPageRepository GetPageRepository(string databaseProviderName, string connectionString)
 		{
-			EnsureValidState();
+			if (_pendingInstallation)
+				return null;
 
 			if (databaseProviderName == SupportedDatabases.MongoDB)
 			{
@@ -117,8 +114,6 @@ namespace Roadkill.Core.Database
 
 		public IInstallerRepository GetInstallerRepository(string databaseProviderName, string connectionString)
 		{
-			EnsureValidState();
-
 			if (databaseProviderName == SupportedDatabases.MongoDB)
 			{
 				return new MongoDbInstallerRepository(connectionString);
