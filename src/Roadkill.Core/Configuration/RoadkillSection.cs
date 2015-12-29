@@ -128,26 +128,6 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The type of logging to do, "XmlFile" by default.
-		/// </summary>
-		[ConfigurationProperty("logging", IsRequired = false, DefaultValue = "None")]
-		public string Logging
-		{
-			get { return (string)this["logging"]; }
-			set { this["logging"] = value; }
-		}
-
-		/// <summary>
-		/// The level of logging to perform (true by default).
-		/// </summary>
-		[ConfigurationProperty("logErrorsOnly", IsRequired = false, DefaultValue = true)]
-		public bool LogErrorsOnly
-		{
-			get { return (bool)this["logErrorsOnly"]; }
-			set { this["logErrorsOnly"] = value; }
-		}
-
-		/// <summary>
 		/// Whether to remove all HTML tags from the markup except those found in the whitelist.xml file,
 		/// inside the App_Data folder.
 		/// </summary>

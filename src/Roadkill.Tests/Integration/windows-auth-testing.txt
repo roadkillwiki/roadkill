@@ -34,8 +34,6 @@ The roadkill.config looks like this:
 	attachmentsFolder="~/App_Data/Attachments"
 	useObjectCache="false"
 	useBrowserCache="false"
-	logging="none"
-	logErrorsOnly="true"
 	connectionStringName="Roadkill"
 	dataStoreType="SqlServer2008"
 	editorRoleName="RoadkillEditors"

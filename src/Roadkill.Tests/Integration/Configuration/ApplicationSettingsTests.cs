@@ -34,6 +34,7 @@ namespace Roadkill.Tests.Integration.Configuration
 			Assert.That(appSettings.PluginsBinPath,            Is.EqualTo(GetFullPath(@"bin\Plugins")), "PluginsBinPath");
 			Assert.That(appSettings.PluginsPath,               Is.EqualTo(GetFullPath(@"Plugins")), "PluginsPath");
 
+			Assert.That(appSettings.NLogConfigFilePath, Is.EqualTo("~/App_Data/NLog.config"), "NLogConfigFilePath");
 			Assert.That(appSettings.MinimumPasswordLength, Is.EqualTo(6), "MinimumPasswordLength");
 			Assert.That(appSettings.DatabaseName == SupportedDatabases.SqlServer2008, "DatabaseName");
 			Assert.That(appSettings.AttachmentsRoutePath, Is.EqualTo("Attachments"), "AttachmentsRoutePath");

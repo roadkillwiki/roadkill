@@ -173,8 +173,6 @@ namespace Roadkill.Tests.Integration.Configuration
 			Assert.That(appSettings.LdapConnectionString, Is.EqualTo("ldapstring-test"), "LdapConnectionString");
 			Assert.That(appSettings.LdapPassword, Is.EqualTo("ldappassword-test"), "LdapPassword");
 			Assert.That(appSettings.LdapUsername, Is.EqualTo("ldapusername-test"), "LdapUsername");
-			Assert.That(appSettings.LoggingTypes, Is.EqualTo("All"), "LoggingType");
-			Assert.That(appSettings.LogErrorsOnly, Is.False, "LogErrorsOnly");
 			Assert.That(appSettings.UseHtmlWhiteList, Is.EqualTo(false), "UseHtmlWhiteList");
 			Assert.That(appSettings.UserServiceType, Is.EqualTo("DefaultUserManager-test"), "DefaultUserManager");
 			Assert.That(appSettings.UseWindowsAuthentication, Is.False, "UseWindowsAuthentication");
@@ -198,8 +196,6 @@ namespace Roadkill.Tests.Integration.Configuration
 			Assert.That(appSettings.LdapConnectionString, Is.EqualTo(""), "LdapConnectionString");
 			Assert.That(appSettings.LdapPassword, Is.EqualTo(""), "LdapPassword");
 			Assert.That(appSettings.LdapUsername, Is.EqualTo(""), "LdapUsername");
-			Assert.That(appSettings.LoggingTypes, Is.EqualTo("None"), "LoggingType");
-			Assert.That(appSettings.LogErrorsOnly, Is.True, "LoggingType");
 			Assert.That(appSettings.UseHtmlWhiteList, Is.EqualTo(true), "UseHtmlWhiteList");
 			Assert.That(appSettings.UserServiceType, Is.EqualTo(""), "DefaultUserManager");
 		}

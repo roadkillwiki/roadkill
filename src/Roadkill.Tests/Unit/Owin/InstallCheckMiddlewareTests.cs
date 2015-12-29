@@ -4,6 +4,7 @@ using System.Text;
 using Moq;
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Logging;
 using Roadkill.Core.Owin;
 using Roadkill.Tests.Unit.StubsAndMocks.Owin;
 
