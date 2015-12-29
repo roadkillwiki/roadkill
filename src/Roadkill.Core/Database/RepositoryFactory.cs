@@ -12,6 +12,7 @@ namespace Roadkill.Core.Database
 {
 	public class RepositoryFactory : IRepositoryFactory
 	{
+		// Hack to make sure the factory doesn't return invalid Repositories, while installing.
 		private readonly bool _pendingInstallation;
 
 		public LightSpeedContext Context { get; set; }
@@ -109,26 +110,6 @@ namespace Roadkill.Core.Database
 			{
 				IUnitOfWork unitOfWork = UnitOfWorkFunc(Context);
 				return new LightSpeedPageRepository(unitOfWork);
-			}
-		}
-
-		public IInstallerRepository GetInstallerRepository(string databaseProviderName, string connectionString)
-		{
-			if (databaseProviderName == SupportedDatabases.MongoDB)
-			{
-				return new MongoDbInstallerRepository(connectionString);
-			}
-			else if (databaseProviderName == SupportedDatabases.MySQL)
-			{
-				return new LightSpeedInstallerRepository(DataProvider.MySql5, new MySqlSchema(), connectionString);
-			}
-			else if (databaseProviderName == SupportedDatabases.Postgres)
-			{
-				return new LightSpeedInstallerRepository(DataProvider.PostgreSql9, new PostgresSchema(), connectionString);
-			}
-			else
-			{
-				return new LightSpeedInstallerRepository(DataProvider.SqlServer2008, new SqlServerSchema(), connectionString);
 			}
 		}
 

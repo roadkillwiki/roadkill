@@ -221,26 +221,9 @@ namespace Roadkill.Core.Configuration
 		public string LdapPassword { get; set; }
 
 		/// <summary>
-		/// The type of logging to perform, which can be a comma seperated list of values or just a single value.
+		/// The full path to the nlog.config file - this defaults to ~/App_Data/NLog.Config (the ~ is replaced with the base web directory).
 		/// </summary>
-		public string LoggingTypes { get; set; }
-
-		/// <summary>
-		/// Whether to just error messages are logged, or all information (warnings, information).
-		/// </summary>
-		public bool LogErrorsOnly { get; set; }
-	
-		/// <summary>
-		/// Whether logging is enabled - if LoggingTypes has values set.
-		/// </summary>
-		/// TODO: tests
-		public bool IsLoggingEnabled
-		{
-			get
-			{
-				return (!string.IsNullOrEmpty(LoggingTypes) && LoggingTypes.Trim().ToLower() != "none");
-			}
-		}
+		public string NLogConfigFilePath { get; set; }
 
 		/// <summary>
 		/// The number of characters each password should be.
@@ -317,6 +300,7 @@ namespace Roadkill.Core.Configuration
 			EmailTemplateFolder = Path.Combine(AppDataPath, "EmailTemplates");
 			HtmlElementWhiteListPath = Path.Combine(AppDataInternalPath, "htmlwhitelist.xml");
 			MinimumPasswordLength = 6;
+			NLogConfigFilePath = "~/App_Data/NLog.config";
 			DatabaseName = SupportedDatabases.SqlServer2008.Id;
 			AttachmentsRoutePath = "Attachments";
 			AttachmentsFolder = "~/App_Data/Attachments";

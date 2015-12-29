@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using NLog;
 using NLog.Config;
@@ -13,14 +14,14 @@ using Roadkill.Core.Configuration;
 namespace Roadkill.Core.Logging
 {
 	/// <summary>
-	/// Manages logging in Roadkill. All logging is done via the standard TraceListeners.
+	/// Manages logging in Roadkill.
 	/// </summary>
 	public class Log
 	{
-		// NLog specific
-		private static Logger _logger;
-		private static readonly string DEFAULT_LAYOUT = "[${longdate:universalTime=True}] [${level}] ${message}";
+		private static readonly Logger _logger;
 		private static readonly string LOGGER_NAME = "Roadkill";
+
+		public static string NLogConfigPath { get; set; }
 
 		static Log()
 		{
@@ -28,131 +29,29 @@ namespace Roadkill.Core.Logging
 		}
 
 		/// <summary>
-		/// Configures the type of logging to use based on the setting's logging types.
+		/// Configures the log files used, this should be called on application startup.
 		/// </summary>
+		/// <param name="settings">Used to get the path of the NLog.config file</param>
 		public static void ConfigureLogging(ApplicationSettings settings)
 		{
-			if (settings.IsLoggingEnabled)
+			if (string.IsNullOrEmpty(settings.NLogConfigFilePath))
+				throw new ConfigurationException(null, "The NLog.config path is null/empty (ApplicationSettings.NLogConfigFilePath).");
+
+			string path = settings.NLogConfigFilePath;
+			path = path.Replace('/', Path.DirectorySeparatorChar);
+
+			if (path.StartsWith("~"))
 			{
-				LogManager.EnableLogging();
-				
-				// Get the comma separted list of types (or it could be a single value)
-				bool debugEnabled = false;
-				List<string> logTypes = new List<string>();
-
-				foreach (string value in settings.LoggingTypes.Split(','))
-				{
-					logTypes.Add(value.Trim().ToLower());
-				}
-
-				foreach (string type in logTypes)
-				{
-					switch (type)
-					{
-						case "textfile":
-							UseTextFileLogging();
-							break;
-
-						case "logentries":
-							UseLogEntriesLogging();
-							break;
-
-						case "log2console":
-							UseLog2ConsoleLogging();
-							break;
-
-						case "debug":
-							debugEnabled = true;
-							break;
-
-						case "all":
-							UseTextFileLogging();
-							UseLogEntriesLogging();
-							UseLog2ConsoleLogging();
-							debugEnabled = true;
-							break;
-
-						default:
-							break;
-					}
-				}
-
-				// Set the logging levels for all the targets
-				foreach (LoggingRule rule in _logger.Factory.Configuration.LoggingRules.Where(x => x.LoggerNamePattern == LOGGER_NAME))
-				{
-					rule.EnableLoggingForLevel(LogLevel.Error);
-
-					if (!settings.LogErrorsOnly)
-					{
-						rule.EnableLoggingForLevel(LogLevel.Info);
-						rule.EnableLoggingForLevel(LogLevel.Warn);
-						rule.EnableLoggingForLevel(LogLevel.Fatal);
-					}
-
-					if (debugEnabled)
-					{
-						rule.EnableLoggingForLevel(LogLevel.Debug);
-					}
-				}
-
-				LogManager.Configuration.Reload();
+				path = path.Replace("~", AppDomain.CurrentDomain.BaseDirectory);
 			}
-			else
+
+			if (!File.Exists(path))
 			{
-				LogManager.DisableLogging();				
+				throw new ConfigurationException(null, "The NLog.config path does not exist: {0}", path);
 			}
-		}
-
-		/// <summary>
-		/// Adds ConsoleTraceListener logging to the logging listeners.
-		/// </summary>
-		public static void UseConsoleLogging()
-		{
-			ConsoleTarget target = new ConsoleTarget();
-			AddNLogTarget(target, "RoadkillConsole");
-		}
-
-		/// <summary>
-		/// Adds network logging.
-		/// </summary>
-		public static void UseLog2ConsoleLogging()
-		{
-			ChainsawTarget target = new ChainsawTarget();
-			target.AppInfo = "Roadkill";
-			target.Address = "udp://127.0.0.1:7071";
-
-			AddNLogTarget(target, "RoadkillLog2Console");
-		}
-
-		/// <summary>
-		/// Adds rolling file logging.
-		/// </summary>
-		public static void UseTextFileLogging()
-		{
-			FileTarget target = new FileTarget();
-			target.FileName = @"${basedir}\App_Data\Logs\${shortdate}.log";
-			target.KeepFileOpen = false;
-			target.ArchiveNumbering = ArchiveNumberingMode.Rolling;
-
-			AddNLogTarget(target, "RoadkillFile");
-		}
-
-		/// <summary>
-		/// Adds TextWriterTraceListener logging to the logging listeners. The text files are written to
-		/// the App_Data/Logs file as roadkill.txt and are not rolling logs.
-		/// </summary>
-		public static void UseLogEntriesLogging()
-		{
-			// See https://logentries.com/doc/dotnet/
-			LogentriesTarget target = new LogentriesTarget();
-			target.Key = ConfigurationManager.AppSettings["LOGENTRIES_ACCOUNT_KEY"];
-			target.Location = ConfigurationManager.AppSettings["LOGENTRIES_LOCATION"];
-			target.Token = ConfigurationManager.AppSettings["LOGENTRIES_TOKEN"];
-			target.HttpPut = false;
-			target.Ssl = false;
-			target.Debug = true;
-
-			AddNLogTarget(target, "RoadkillLogEntries");
+			
+			NLogConfigPath = path;
+			LogManager.Configuration = new XmlLoggingConfiguration(NLogConfigPath, true);
 		}
 
 		/// <summary>
@@ -238,41 +137,6 @@ namespace Roadkill.Core.Logging
 				default:
 					_logger.Debug(message, args);
 					break;
-			}
-
-			try
-			{
-				if (IsLoggingEnabled())
-				{
-					Console.WriteLine("[" + errorType.ToString() + "] " + message, args);
-				}
-			}
-			catch (FormatException) { }
-		}
-
-		private static bool IsLoggingEnabled()
-		{
-			return _logger.Factory.IsLoggingEnabled();
-		}
-
-		/// <summary>
-		/// Assigns the target to the Roadkill rule and sets its layout to [date] [level] [message]
-		/// </summary>
-		private static void AddNLogTarget(TargetWithLayout target, string name)
-		{
-			target.Layout = DEFAULT_LAYOUT;
-			target.Name = name;
-
-			if (!LogManager.Configuration.AllTargets.Contains(target))
-			{
-				LogManager.Configuration.AddTarget(name, target);
-
-				LoggingRule rule = new LoggingRule(LOGGER_NAME, target);
-
-				if (!LogManager.Configuration.LoggingRules.Contains(rule))
-				{
-					LogManager.Configuration.LoggingRules.Add(rule);
-				}
 			}
 		}
 	}

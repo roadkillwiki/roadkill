@@ -9,7 +9,6 @@ namespace Roadkill.Core.Database
 		IUserRepository GetUserRepository(string databaseProviderName, string connectionString);
 		IPageRepository GetPageRepository(string databaseProviderName, string connectionString);
 
-		IInstallerRepository GetInstallerRepository(string databaseProviderName, string connectionString);
 		IEnumerable<RepositoryInfo> ListAll();
 	}
 }

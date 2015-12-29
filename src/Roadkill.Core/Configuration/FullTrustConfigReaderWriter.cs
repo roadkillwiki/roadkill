@@ -227,13 +227,8 @@ namespace Roadkill.Core.Configuration
 			if (string.IsNullOrEmpty(appSettings.ConnectionString))
 				appSettings.ConnectionString = ConfigurationManager.ConnectionStrings[_section.ConnectionStringName].ConnectionString;
 
-			if (string.IsNullOrEmpty(appSettings.ConnectionString))
-				Log.Warn("ConnectionString property is null/empty.");
-
 			appSettings.UseObjectCache = _section.UseObjectCache;
 			appSettings.UseBrowserCache = _section.UseBrowserCache;
-			appSettings.LoggingTypes = _section.Logging;
-			appSettings.LogErrorsOnly = _section.LogErrorsOnly;
 			appSettings.DatabaseName = string.IsNullOrEmpty(_section.DatabaseName) ? "SqlServer2008" : _section.DatabaseName;
 			appSettings.ConnectionStringName = _section.ConnectionStringName;
 			appSettings.EditorRoleName = _section.EditorRoleName;
