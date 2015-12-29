@@ -24,7 +24,7 @@ namespace Roadkill.Tests.Unit.Services
 		public void Setup()
 		{
 			_container = new MocksAndStubsContainer();
-			_userService = new FormsAuthUserService(_container.ApplicationSettings, _container.Repository);
+			_userService = new FormsAuthUserService(_container.ApplicationSettings, _container.UserRepository, _container.PageRepository);
 		}
 
 		[Test]

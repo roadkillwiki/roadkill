@@ -20,7 +20,7 @@ namespace Roadkill.Tests.Unit.Mvc.WebApi
 		private ApplicationSettings _applicationSettings;
 		private UserServiceMock _userService;
 		private IUserContext _userContext;
-		private RepositoryMock _repositoryMock;
+		private PageRepositoryMock _pageRepositoryMock;
 		private UserController _userController;
 
 		[SetUp]
@@ -31,7 +31,7 @@ namespace Roadkill.Tests.Unit.Mvc.WebApi
 			_applicationSettings = _container.ApplicationSettings;
 			_userContext = _container.UserContext;
 			_userService = _container.UserService;
-			_repositoryMock = _container.Repository;
+			_pageRepositoryMock = _container.PageRepository;
 			_userService = _container.UserService;
 
 			_userController = new UserController(_applicationSettings, _userService, _userContext);

@@ -26,7 +26,9 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		private MocksAndStubsContainer _container;
 		private SettingsService _settingsService;
 		private UserServiceMock _userService;
-		private RepositoryMock _repository;
+		private InstallationService _installationService;
+		private DatabaseTesterMock _databaseTester;
+		private InstallerRepositoryMock _installerRepository;
 
 		[SetUp]
 		public void Setup()
@@ -40,9 +42,11 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			_userService = _container.UserService;
 			_configReaderWriter = _container.ConfigReaderWriter;
 			_repositoryFactory = _container.RepositoryFactory;
-			_repository = _repositoryFactory.Repository;
+			_installationService = _container.InstallationService;
+			_databaseTester = _container.DatabaseTester;
+			_installerRepository = _container.InstallerRepository;
 
-            _installController = new InstallController(_applicationSettings, _configReaderWriter, _repositoryFactory, _userService);
+            _installController = new InstallController(_applicationSettings, _configReaderWriter, _installationService, _databaseTester);
 		}
 
 		[Test]
@@ -277,21 +281,6 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		}
 
 		[Test]
-		public void finalize_should_add_adminuser_when_windows_auth_is_false()
-		{
-			// Arrange
-			SettingsViewModel existingModel = new SettingsViewModel();
-			existingModel.UseWindowsAuth = false;
-
-			// Act
-			_installController.FinalizeInstall(existingModel);
-
-			// Assert
-			UserViewModel adminUser = _userService.ListAdmins().FirstOrDefault();
-			Assert.That(adminUser, Is.Not.Null);
-		}
-
-		[Test]
 		public void unattendedsetup_should_add_admin_user_and_set_default_site_settings()
 		{
 			// Arrange
@@ -303,16 +292,15 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			ContentResult contentResult = result.AssertResultIs<ContentResult>();
 			Assert.That(contentResult.Content, Is.EqualTo("Unattended installation complete"));
 
-			UserViewModel adminUser = _userService.ListAdmins().FirstOrDefault(); // check admin
-			Assert.That(adminUser, Is.Not.Null);
+			Assert.That(_installerRepository.AddAdminUserCalled, Is.True);
+			Assert.That(_installerRepository.DatabaseName, Is.EqualTo("mock datastore"));
+			Assert.That(_installerRepository.ConnectionString, Is.EqualTo("fake connection string"));
 
 			ApplicationSettings appSettings = _configReaderWriter.ApplicationSettings; // check settings
-			Assert.That(appSettings.DatabaseName, Is.EqualTo("mock datastore"));
-			Assert.That(appSettings.ConnectionString, Is.EqualTo("fake connection string"));
 			Assert.That(appSettings.UseObjectCache, Is.True);
 			Assert.That(appSettings.UseBrowserCache, Is.True);
 
-			Core.Configuration.SiteSettings settings = _settingsService.GetSiteSettings();		
+			SiteSettings settings = _installerRepository.SiteSettings;	
 			Assert.That(settings.AllowedFileTypes, Is.EqualTo("jpg,png,gif,zip,xml,pdf"));
 			Assert.That(settings.MarkupType, Is.EqualTo("Creole"));
 			Assert.That(settings.Theme, Is.EqualTo("Responsive"));
@@ -337,22 +325,24 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		public void finalize_should_install_and_save_site_settings()
 		{
 			// Arrange
-			var existingModel = new SettingsViewModel();
-			existingModel.AdminEmail = "email";
-			existingModel.AdminPassword = "password";
-			existingModel.Theme = "ChewbaccaOnHolidayTheme";
+			var model = new SettingsViewModel();
+			model.AdminEmail = "email";
+			model.AdminPassword = "password";
+			model.Theme = "ConcupiscentGoatOnHolidayTheme";
 
 			var installationServiceMock = new Mock<IInstallationService>();
-			_installController.GetInstallationService = (factory, service, connectionString, userService) => installationServiceMock.Object;
+			_installController = new InstallController(_applicationSettings, _configReaderWriter, installationServiceMock.Object, _databaseTester);
 
 			// Act
-			_installController.FinalizeInstall(existingModel);
+			_installController.FinalizeInstall(model);
 
 			// Assert
-			installationServiceMock.Verify(x => x.ClearUserTable());
-			installationServiceMock.Verify(x => x.CreateTables());
-			installationServiceMock.Verify(x => x.SaveSiteSettings(existingModel));
-			installationServiceMock.Verify(x => x.AddAdminUser("email", "password"));
+			Assert.That(model.IgnoreSearchIndexErrors, Is.True);
+			Assert.That(model.IsPublicSite, Is.True);
+
+			installationServiceMock.Verify(service => service.Install(model));
+
+			Assert.That(_configReaderWriter.Saved, Is.True);
 		}
 	}
 }

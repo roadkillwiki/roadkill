@@ -10,17 +10,20 @@ using Roadkill.Core.Mvc.ViewModels;
 namespace Roadkill.Core.Security
 {
 	/// <summary>
-	/// Provides user management using the Roadkill datastore and the current repository.
+	/// Provides user management using the Roadkill datastore and the current userUserRepository.
 	/// </summary>
 	public class FormsAuthUserService : UserServiceBase
 	{
-		public FormsAuthUserService(ApplicationSettings settings, IRepository repository)
-			: base(settings, repository)
+		private readonly IPageRepository _pageRepository;
+
+		public FormsAuthUserService(ApplicationSettings settings, IUserRepository userRepository, IPageRepository pageRepository)
+			: base(settings, userRepository)
 		{
+			_pageRepository = pageRepository;
 		}
 
 		/// <summary>
-		/// Indicates whether this UserService can perform deletes, updates or inserts for Repository.Users.
+		/// Indicates whether this UserService can perform deletes, updates or inserts for UserRepository.Users.
 		/// </summary>
 		public override bool IsReadonly
 		{
@@ -39,11 +42,11 @@ namespace Roadkill.Core.Security
 		{
 			try
 			{
-				User user = Repository.GetUserByActivationKey(activationKey);
+				User user = UserRepository.GetUserByActivationKey(activationKey);
 				if (user != null)
 				{
 					user.IsActivated = true;
-					Repository.SaveOrUpdateUser(user);
+					UserRepository.SaveOrUpdateUser(user);
 
 					return true;
 				}
@@ -73,7 +76,7 @@ namespace Roadkill.Core.Security
 		{
 			try
 			{
-				User user = Repository.GetUserByUsernameOrEmail(username, email);
+				User user = UserRepository.GetUserByUsernameOrEmail(username, email);
 				if (user == null)
 				{
 					user = new User();
@@ -83,7 +86,7 @@ namespace Roadkill.Core.Security
 					user.IsAdmin = isAdmin;
 					user.IsEditor = isEditor;
 					user.IsActivated = true;
-					Repository.SaveOrUpdateUser(user);
+					UserRepository.SaveOrUpdateUser(user);
 
 					return true;
 				}
@@ -111,7 +114,7 @@ namespace Roadkill.Core.Security
 		{
 			try
 			{
-				User user = Repository.GetUserByEmail(email);
+				User user = UserRepository.GetUserByEmail(email);
 				if (user != null)
 				{
 					if (user.Password == User.HashPassword(password, user.Salt))
@@ -147,12 +150,12 @@ namespace Roadkill.Core.Security
 				if (string.IsNullOrWhiteSpace(newPassword))
 					throw new SecurityException(null, "Cannot change the password as it's empty.");
 
-				User user = Repository.GetUserByEmail(email);
+				User user = UserRepository.GetUserByEmail(email);
 				if (user != null)
 				{
 					user.Salt = new Salt();
 					user.SetPassword(newPassword);
-					Repository.SaveOrUpdateUser(user);
+					UserRepository.SaveOrUpdateUser(user);
 				}
 			}
 			catch (DatabaseException ex)
@@ -178,7 +181,7 @@ namespace Roadkill.Core.Security
 				if (!Authenticate(email, oldPassword))
 					return false;
 
-				User user = Repository.GetUserByEmail(email);
+				User user = UserRepository.GetUserByEmail(email);
 				if (user != null)
 				{
 					if (string.IsNullOrWhiteSpace(newPassword))
@@ -189,7 +192,7 @@ namespace Roadkill.Core.Security
 					user.Salt = new Salt();
 					user.SetPassword(newPassword);
 
-					Repository.SaveOrUpdateUser(user);
+					UserRepository.SaveOrUpdateUser(user);
 					return true;
 				}
 				else
@@ -215,10 +218,10 @@ namespace Roadkill.Core.Security
 		{
 			try
 			{
-				User user = Repository.GetUserByEmail(email);
+				User user = UserRepository.GetUserByEmail(email);
 				if (user != null)
 				{
-					Repository.DeleteUser(user);
+					UserRepository.DeleteUser(user);
 					return true;
 				}
 				else
@@ -239,7 +242,7 @@ namespace Roadkill.Core.Security
 		/// <returns>A <see cref="User"/> object</returns>
 		public override User GetUserById(Guid id, bool? isActivated = null)
 		{
-			return Repository.GetUserById(id, isActivated);
+			return UserRepository.GetUserById(id, isActivated);
 		}
 
 		/// <summary>
@@ -249,7 +252,7 @@ namespace Roadkill.Core.Security
 		/// <returns>A <see cref="User"/> object</returns>
 		public override User GetUser(string email, bool? isActivated = null)
 		{
-			return Repository.GetUserByEmail(email, isActivated);
+			return UserRepository.GetUserByEmail(email, isActivated);
 		}
 
 		/// <summary>
@@ -259,7 +262,7 @@ namespace Roadkill.Core.Security
 		/// <returns>A <see cref="User"/> object</returns>
 		public override User GetUserByResetKey(string resetKey)
 		{
-			return Repository.GetUserByPasswordResetKey(resetKey);
+			return UserRepository.GetUserByPasswordResetKey(resetKey);
 		}
 
 		/// <summary>
@@ -275,7 +278,7 @@ namespace Roadkill.Core.Security
 			Guid id;
 			if (Guid.TryParse(cookieValue, out id))
 			{
-				return Repository.GetAdminById(id) != null;
+				return UserRepository.GetAdminById(id) != null;
 			}
 			else
 			{
@@ -302,7 +305,7 @@ namespace Roadkill.Core.Security
 				Guid id;
 				if (Guid.TryParse(cookieValue, out id))
 				{
-					return Repository.GetEditorById(id) != null;
+					return UserRepository.GetEditorById(id) != null;
 				}
 				else
 				{
@@ -328,7 +331,7 @@ namespace Roadkill.Core.Security
 		{
 			try
 			{
-				var users = Repository.FindAllAdmins().Select(u => new UserViewModel(u));
+				var users = UserRepository.FindAllAdmins().Select(u => new UserViewModel(u));
 				return users;
 			}
 			catch (DatabaseException ex)
@@ -348,7 +351,7 @@ namespace Roadkill.Core.Security
 		{
 			try
 			{
-				var users = Repository.FindAllEditors().Select(u => new UserViewModel(u));
+				var users = UserRepository.FindAllEditors().Select(u => new UserViewModel(u));
 				return users;
 			}
 			catch (DatabaseException ex)
@@ -388,7 +391,7 @@ namespace Roadkill.Core.Security
 				if (user != null)
 				{
 					user.PasswordResetKey = Guid.NewGuid().ToString();
-					Repository.SaveOrUpdateUser(user);
+					UserRepository.SaveOrUpdateUser(user);
 
 					return user.PasswordResetKey;
 				}
@@ -430,7 +433,7 @@ namespace Roadkill.Core.Security
 				user.IsEditor = true;
 				user.IsAdmin = false;
 				user.IsActivated = false;
-				Repository.SaveOrUpdateUser(user);
+				UserRepository.SaveOrUpdateUser(user);
 
 				if (completed != null)
 					completed();
@@ -452,11 +455,11 @@ namespace Roadkill.Core.Security
 		{
 			try
 			{
-				User user = Repository.GetUserByEmail(email);
+				User user = UserRepository.GetUserByEmail(email);
 				if (user != null)
 				{
 					user.IsEditor = !user.IsEditor;
-					Repository.SaveOrUpdateUser(user);
+					UserRepository.SaveOrUpdateUser(user);
 				}
 			}
 			catch (DatabaseException ex)
@@ -474,11 +477,11 @@ namespace Roadkill.Core.Security
 		{
 			try
 			{
-				User user = Repository.GetUserByEmail(email);
+				User user = UserRepository.GetUserByEmail(email);
 				if (user != null)
 				{
 					user.IsAdmin = !user.IsAdmin;
-					Repository.SaveOrUpdateUser(user);
+					UserRepository.SaveOrUpdateUser(user);
 				}
 			}
 			catch (DatabaseException ex)
@@ -504,35 +507,35 @@ namespace Roadkill.Core.Security
 				// These checks are run in the UserViewModel object by MVC - but doubled up in here for _when_ the API is used without MVC.
 				if (model.ExistingEmail != model.NewEmail)
 				{
-					user = Repository.GetUserByEmail(model.NewEmail);
+					user = UserRepository.GetUserByEmail(model.NewEmail);
 					if (user != null)
 						throw new SecurityException(null, "The email provided already exists.");
 				}
 
 				if (model.ExistingUsername != model.NewUsername)
 				{
-					user = Repository.GetUserByUsername(model.NewUsername);
+					user = UserRepository.GetUserByUsername(model.NewUsername);
 					if (user != null)
 						throw new SecurityException(null, "The username provided already exists.");
 				}
 
-				user = Repository.GetUserById(model.Id.Value);
+				user = UserRepository.GetUserById(model.Id.Value);
 				if (user == null)
 					throw new SecurityException(null, "The user does not exist.");
 
 				// Update the profile details
 				user.Firstname = model.Firstname;
 				user.Lastname = model.Lastname;
-				Repository.SaveOrUpdateUser(user);
+				UserRepository.SaveOrUpdateUser(user);
 
 				// Save the email
 				if (model.ExistingEmail != model.NewEmail)
 				{
-					user = Repository.GetUserByEmail(model.ExistingEmail);
+					user = UserRepository.GetUserByEmail(model.ExistingEmail);
 					if (user != null)
 					{
 						user.Email = model.NewEmail;
-						Repository.SaveOrUpdateUser(user);
+						UserRepository.SaveOrUpdateUser(user);
 					}
 					else
 					{
@@ -543,37 +546,37 @@ namespace Roadkill.Core.Security
 				// Save the username
 				if (model.ExistingUsername != model.NewUsername)
 				{
-					user = Repository.GetUserByUsername(model.ExistingUsername);
+					user = UserRepository.GetUserByUsername(model.ExistingUsername);
 					if (user != null)
 					{
 						user.Username = model.NewUsername;
-						Repository.SaveOrUpdateUser(user);
+						UserRepository.SaveOrUpdateUser(user);
 
 						//
 						// Update the PageContent.EditedBy history
 						//
-						IList<PageContent> pageContents = Repository.FindPageContentsEditedBy(model.ExistingUsername).ToList();
+						IList<PageContent> pageContents = _pageRepository.FindPageContentsEditedBy(model.ExistingUsername).ToList();
 						for (int i = 0; i < pageContents.Count; i++)
 						{
 							pageContents[i].EditedBy = model.NewUsername;
-							Repository.UpdatePageContent(pageContents[i]);
+							_pageRepository.UpdatePageContent(pageContents[i]);
 						}
 
 						//
 						// Update all Page.CreatedBy and Page.ModifiedBy
 						//
-						IList<Page> pages = Repository.FindPagesCreatedBy(model.ExistingUsername).ToList();
+						IList<Page> pages = _pageRepository.FindPagesCreatedBy(model.ExistingUsername).ToList();
 						for (int i = 0; i < pages.Count; i++)
 						{
 							pages[i].CreatedBy = model.NewUsername;
-							Repository.SaveOrUpdatePage(pages[i]);
+							_pageRepository.SaveOrUpdatePage(pages[i]);
 						}
 
-						pages = Repository.FindPagesModifiedBy(model.ExistingUsername).ToList();
+						pages = _pageRepository.FindPagesModifiedBy(model.ExistingUsername).ToList();
 						for (int i = 0; i < pages.Count; i++)
 						{
 							pages[i].ModifiedBy = model.NewUsername;
-							Repository.SaveOrUpdatePage(pages[i]);
+							_pageRepository.SaveOrUpdatePage(pages[i]);
 						}
 					}
 					else
@@ -602,7 +605,7 @@ namespace Roadkill.Core.Security
 		{
 			try
 			{
-				User user = Repository.GetUserByEmail(email);
+				User user = UserRepository.GetUserByEmail(email);
 				return (user != null);
 			}
 			catch (DatabaseException ex)
@@ -623,7 +626,7 @@ namespace Roadkill.Core.Security
 		{
 			try
 			{
-				User user = Repository.GetUserByUsername(username);
+				User user = UserRepository.GetUserByUsername(username);
 				return (user != null);
 			}
 			catch (DatabaseException ex)

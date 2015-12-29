@@ -24,7 +24,7 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 			Users = new List<User>();
 		}
 
-		public UserServiceMock(ApplicationSettings settings, IRepository repository)
+		public UserServiceMock(ApplicationSettings settings, IUserRepository repository)
 			: base(settings, repository)
 		{
 			Users = new List<User>();

@@ -23,6 +23,9 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// this controller redirect to the homepage</remarks>
 	public class InstallController : Controller, IRoadkillController
 	{
+		private readonly ConfigReaderWriter _configReaderWriter;
+		private readonly IInstallationService _installationService;
+		private readonly IDatabaseTester _databaseTester;
 		private static string _uiLanguageCode = "en";
 
 		public ApplicationSettings ApplicationSettings { get; private set; }
@@ -30,26 +33,22 @@ namespace Roadkill.Core.Mvc.Controllers
 		public IUserContext Context { get; private set; }
 		public SettingsService SettingsService { get; private set; }
 
-		private readonly ConfigReaderWriter _configReaderWriter;
-		private readonly IRepositoryFactory _repositoryFactory;
-
-		public Func<IRepositoryFactory, string, string, UserServiceBase, IInstallationService> GetInstallationService { get; set; }
-
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="applicationSettings">Use solely to detect whether Roadkill is already installed.</param>
-		public InstallController(ApplicationSettings applicationSettings, ConfigReaderWriter configReaderWriter, IRepositoryFactory repositoryFactory, UserServiceBase userService)
+		public InstallController(ApplicationSettings applicationSettings, ConfigReaderWriter configReaderWriter, IInstallationService installationService, IDatabaseTester databaseTester)
 		{
+			_configReaderWriter = configReaderWriter;
+			_installationService = installationService;
+			_databaseTester = databaseTester;
+
 			ApplicationSettings = applicationSettings;
-			UserService = userService;
 
 			// These aren't needed for the installer
 			Context = null;
 			SettingsService = null;
-
-			_configReaderWriter = configReaderWriter;
-			_repositoryFactory = repositoryFactory;
+			UserService = null;
 		}
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -126,8 +125,10 @@ namespace Roadkill.Core.Mvc.Controllers
 			}
 
 			var settingsModel = new SettingsViewModel();
-			var installationService = new InstallationService(_repositoryFactory, "", "", UserService);
-			settingsModel.SetSupportedDatabases(installationService.GetSupportedDatabases());
+			var installationService = new InstallationService();
+			IEnumerable<RepositoryInfo> supportedDatabases = installationService.GetSupportedDatabases();
+
+			settingsModel.SetSupportedDatabases(supportedDatabases);
 
 			return View(settingsModel);
 		}
@@ -216,32 +217,15 @@ namespace Roadkill.Core.Mvc.Controllers
 
 		internal void FinalizeInstall(SettingsViewModel model)
 		{
-			if (GetInstallationService == null)
-			{
-				GetInstallationService = (service, factory, connectionString, userService) =>
-				{
-					return new InstallationService(_repositoryFactory, model.DatabaseName, model.ConnectionString, UserService);
-				};
-			}
-
-			// Inject the repository into the UserService, as the one StructureMap gave us will have a stale Repository
-			var repository = _repositoryFactory.GetRepository(model.DatabaseName, model.ConnectionString);
-			UserService.Repository = repository;
-
 			// Default these two properties for installations
 			model.IgnoreSearchIndexErrors = true;
 			model.IsPublicSite = true;
 
-			IInstallationService installationService = GetInstallationService(_repositoryFactory, model.DatabaseName, model.ConnectionString, UserService);
-			installationService.ClearUserTable();
-			installationService.CreateTables();
-			installationService.SaveSiteSettings(model);
-
-			// Add a user (if we're using AD this will be ignored).
-			installationService.AddAdminUser(model.AdminEmail, model.AdminPassword);
-
 			// Update the web.config first, so all connections can be referenced.
 			_configReaderWriter.Save(model);
+
+			// Install the database
+			_installationService.Install(model);
 		}
 	}
 }

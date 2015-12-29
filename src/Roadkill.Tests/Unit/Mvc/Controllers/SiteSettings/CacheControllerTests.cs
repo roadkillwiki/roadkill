@@ -11,7 +11,7 @@ using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Services;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
-namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
+namespace Roadkill.Tests.Unit.Mvc.Controllers.Admin
 {
 	[TestFixture]
 	[Category("Unit")]
@@ -21,7 +21,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 
 		private ApplicationSettings _applicationSettings;
 		private IUserContext _context;
-		private RepositoryMock _repository;
+		private PageRepositoryMock _pageRepository;
 		private UserServiceMock _userService;
 		private PageService _pageService;
 		private SettingsService _settingsService;
@@ -40,7 +40,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers.SiteSettings
 
 			_applicationSettings = _container.ApplicationSettings;
 			_context = _container.UserContext;
-			_repository = _container.Repository;
+			_pageRepository = _container.PageRepository;
 			_settingsService = _container.SettingsService;
 			_userService = _container.UserService;
 			_pageCache = _container.PageViewModelCache;

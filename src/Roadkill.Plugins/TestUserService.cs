@@ -21,8 +21,8 @@ namespace Roadkill.Plugins
 
 		}
 
-		public TestUserService(ApplicationSettings settings, IRepository repository)
-			: base(settings, repository)
+		public TestUserService(ApplicationSettings settings, IUserRepository userRepository)
+			: base(settings, userRepository)
 		{
 
 		}

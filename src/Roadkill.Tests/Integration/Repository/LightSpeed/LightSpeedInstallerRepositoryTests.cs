@@ -1,10 +1,9 @@
-﻿using System.Data;
-using System.Linq;
+﻿using System.Linq;
 using Mindscape.LightSpeed;
 using NUnit.Framework;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
-using Roadkill.Core.Database.Repositories;
 using Roadkill.Core.Database.Schema;
 
 namespace Roadkill.Tests.Integration.Repository.LightSpeed
@@ -39,15 +38,45 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 				Assert.Fail("A local Sql Server (sqlservr.exe) is not running");
 		}
 
-		protected override bool AllTablesAreEmpty()
+		protected override bool HasEmptyTables()
 		{
-			var repository = new LightSpeedRepository(DataProvider.SqlServer2008, ConnectionString);
+			IUnitOfWork unitOfWork = CreateUnitOfWork();
 
-			return repository.AllPages().Count() == 0 &&
-				   repository.AllPageContents().Count() == 0 &&
-				   repository.FindAllAdmins().Count() == 0 &&
-				   repository.FindAllEditors().Count() == 0 &&
-				   repository.GetSiteSettings() != null;
+			var settingsRepository = new LightSpeedSettingsRepository(unitOfWork);
+			var userRepository = new LightSpeedUserRepository(unitOfWork);
+			var pageRepository = new LightSpeedPageRepository(unitOfWork);
+
+			return pageRepository.AllPages().Count() == 0 &&
+				   pageRepository.AllPageContents().Count() == 0 &&
+				   userRepository.FindAllAdmins().Count() == 0 &&
+				   userRepository.FindAllEditors().Count() == 0 &&
+				   settingsRepository.GetSiteSettings() != null;
+		}
+
+		protected override bool HasAdminUser()
+		{
+			IUnitOfWork unitOfWork = CreateUnitOfWork();
+			var userRepository = new LightSpeedUserRepository(unitOfWork);
+
+			return userRepository.FindAllAdmins().Count() == 1;
+		}
+
+		protected override SiteSettings GetSiteSettings()
+		{
+			IUnitOfWork unitOfWork = CreateUnitOfWork();
+			var settingsRepository = new LightSpeedSettingsRepository(unitOfWork);
+			return settingsRepository.GetSiteSettings();
+		}
+
+		private IUnitOfWork CreateUnitOfWork()
+		{
+			var context = new LightSpeedContext();
+			context.ConnectionString = ConnectionString;
+			context.DataProvider = DataProvider.SqlServer2008;
+			context.IdentityMethod = IdentityMethod.GuidComb;
+
+			IUnitOfWork unitOfWork = context.CreateUnitOfWork();
+			return unitOfWork;
 		}
 	}
 }

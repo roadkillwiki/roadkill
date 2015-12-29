@@ -13,7 +13,7 @@ namespace Roadkill.Tests.Unit.Services
 	{
 		private MocksAndStubsContainer _container;
 
-		private RepositoryMock _repository;
+		private SettingsRepositoryMock _settingsRepository;
 		private SettingsService _settingsService;
 		private RepositoryFactoryMock _repositoryFactory;
 
@@ -23,7 +23,7 @@ namespace Roadkill.Tests.Unit.Services
 			_container = new MocksAndStubsContainer();
 
 			_repositoryFactory = _container.RepositoryFactory;
-			_repository = _container.Repository;
+			_settingsRepository = _container.SettingsRepository;
 			_settingsService = _container.SettingsService;
 		}
 
@@ -43,7 +43,7 @@ namespace Roadkill.Tests.Unit.Services
 			expectedSettings.OverwriteExistingFiles = true;
 			expectedSettings.HeadContent = "some head content";
 			expectedSettings.MenuMarkup = "some menu markup";
-			_repository.SiteSettings = expectedSettings;
+			_settingsRepository.SiteSettings = expectedSettings;
 
 			// Act
 			SiteSettings actualSettings = _settingsService.GetSiteSettings();
@@ -152,7 +152,7 @@ namespace Roadkill.Tests.Unit.Services
 		public void savesitesettings_should_rethrow_database_exception_with_context_of_error()
 		{
 			// Arrange
-			_repository.ThrowSaveSiteSettingsException = true;
+			_settingsRepository.ThrowSaveSiteSettingsException = true;
 
 			// Act + Assert
 			Assert.Throws<DatabaseException>(() => _settingsService.SaveSiteSettings(new SettingsViewModel()));

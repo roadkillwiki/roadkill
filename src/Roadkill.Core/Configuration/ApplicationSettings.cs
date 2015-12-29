@@ -248,11 +248,6 @@ namespace Roadkill.Core.Configuration
 		public int MinimumPasswordLength { get; set; }
 
 		/// <summary>
-		/// The fully qualified assembly and classname for the repository.
-		/// </summary>
-		public string RepositoryType { get; set; }
-
-		/// <summary>
 		/// Indicates whether to use Local storage or Azure for attachments
 		/// </summary>
 		public bool UseAzureFileStorage { get; set; }
@@ -322,7 +317,7 @@ namespace Roadkill.Core.Configuration
 			EmailTemplateFolder = Path.Combine(AppDataPath, "EmailTemplates");
 			HtmlElementWhiteListPath = Path.Combine(AppDataInternalPath, "htmlwhitelist.xml");
 			MinimumPasswordLength = 6;
-			DatabaseName = RepositoryFactory.SqlServer2008.Id;
+			DatabaseName = SupportedDatabases.SqlServer2008.Id;
 			AttachmentsRoutePath = "Attachments";
 			AttachmentsFolder = "~/App_Data/Attachments";
 			SearchIndexPath = Path.Combine(AppDataInternalPath, "Search");

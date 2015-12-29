@@ -10,7 +10,6 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Import;
-using IRepository = Roadkill.Core.Database.IRepository;
 
 namespace Roadkill.Tests.Integration.Import
 {
@@ -54,21 +53,29 @@ namespace Roadkill.Tests.Integration.Import
 			applicationSettings.ConnectionString = _connectionString;
 			applicationSettings.DatabaseName = "SqlServer2008";
 
-			IRepository repository = new LightSpeedRepository(DataProvider.SqlServer2008, _connectionString);
-			ScrewTurnImporter importer = new ScrewTurnImporter(applicationSettings, repository);
+			var context = new LightSpeedContext();
+			context.ConnectionString = _connectionString;
+			context.DataProvider = DataProvider.SqlServer2008;
+			context.IdentityMethod = IdentityMethod.GuidComb;
+
+			IUnitOfWork unitOfWork = context.CreateUnitOfWork();
+
+			IPageRepository pageRepository = new LightSpeedPageRepository(unitOfWork);
+			IUserRepository userRepository = new LightSpeedUserRepository(unitOfWork);
+			ScrewTurnImporter importer = new ScrewTurnImporter(applicationSettings, pageRepository, userRepository);
 
 			// Act
 			importer.ImportFromSqlServer(TestConstants.CONNECTION_STRING);
 
 			// Assert
-			User user = repository.GetUserByUsername("user2");
+			User user = userRepository.GetUserByUsername("user2");
 			Assert.That(user.Id, Is.Not.EqualTo(Guid.Empty));
 
-			List<Page> pages = repository.AllPages().ToList();
+			List<Page> pages = pageRepository.AllPages().ToList();
 			Assert.That(pages.Count, Is.EqualTo(3));
 
 			Page page1 = pages.FirstOrDefault(x => x.Title == "Screwturn page 1");
-			PageContent pageContent1 = repository.GetLatestPageContent(page1.Id);			
+			PageContent pageContent1 = pageRepository.GetLatestPageContent(page1.Id);			
 			Assert.That(page1.Tags, Is.EqualTo("Category1,"));
 
 			AssertSameDateTimes(page1.CreatedOn, "2013-08-11 18:05");
@@ -79,7 +86,7 @@ namespace Roadkill.Tests.Integration.Import
 			Assert.That(pageContent1.Text, Is.EqualTo("This is an amazing Screwturn page."));
 
 			Page page2 = pages.FirstOrDefault(x => x.Title == "Screwturn page 2");
-			PageContent pageContent2 = repository.GetLatestPageContent(page2.Id);
+			PageContent pageContent2 = pageRepository.GetLatestPageContent(page2.Id);
 			Assert.That(page2.Tags, Is.EqualTo("Category1,Category2,"));
 
 			AssertSameDateTimes(page2.CreatedOn, "2013-08-11 18:06");
@@ -122,8 +129,16 @@ namespace Roadkill.Tests.Integration.Import
 			applicationSettings.ConnectionString = _connectionString;
 			applicationSettings.DatabaseName = "SqlServer2008";
 
-			IRepository repository = new LightSpeedRepository(DataProvider.AmazonSimpleDB, _connectionString);
-			ScrewTurnImporter importer = new ScrewTurnImporter(applicationSettings, repository);
+			var context = new LightSpeedContext();
+			context.ConnectionString = _connectionString;
+			context.DataProvider = DataProvider.SqlServer2008;
+			context.IdentityMethod = IdentityMethod.GuidComb;
+
+			IUnitOfWork unitOfWork = context.CreateUnitOfWork();
+
+			IPageRepository pageRepository = new LightSpeedPageRepository(unitOfWork);
+			IUserRepository userRepository = new LightSpeedUserRepository(unitOfWork);
+			ScrewTurnImporter importer = new ScrewTurnImporter(applicationSettings, pageRepository, userRepository);
 
 			// Act
 			importer.ImportFromSqlServer(_connectionString);

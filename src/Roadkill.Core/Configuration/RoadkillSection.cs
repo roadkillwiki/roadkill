@@ -148,16 +148,6 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
-		/// The repository type used for all datastore queries.
-		/// </summary>
-		[ConfigurationProperty("repositoryType", IsRequired = false, DefaultValue = "")]
-		public string RepositoryType
-		{
-			get { return (string)this["repositoryType"]; }
-			set { this["repositoryType"] = value; }
-		}
-
-		/// <summary>
 		/// Whether to remove all HTML tags from the markup except those found in the whitelist.xml file,
 		/// inside the App_Data folder.
 		/// </summary>

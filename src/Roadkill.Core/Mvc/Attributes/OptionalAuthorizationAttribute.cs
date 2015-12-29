@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.DependencyResolution;
+using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using StructureMap.Attributes;

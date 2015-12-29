@@ -9,6 +9,7 @@ using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
+using StructureMap;
 
 namespace Roadkill.Core.Mvc.Controllers
 {

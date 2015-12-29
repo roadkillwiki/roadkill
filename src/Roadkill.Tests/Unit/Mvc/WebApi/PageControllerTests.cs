@@ -18,7 +18,7 @@ namespace Roadkill.Tests.Unit.Mvc.WebApi
 	{
 		private MocksAndStubsContainer _container;
 
-		private RepositoryMock _repositoryMock;
+		private PageRepositoryMock _pageRepositoryMock;
 		private ApplicationSettings _applicationSettings;
 		private UserServiceMock _userService;
 		private IUserContext _userContext;
@@ -33,7 +33,7 @@ namespace Roadkill.Tests.Unit.Mvc.WebApi
 			_applicationSettings = _container.ApplicationSettings;
 			_userContext = _container.UserContext;
 			_userService = _container.UserService;
-			_repositoryMock = _container.Repository;
+			_pageRepositoryMock = _container.PageRepository;
 			_pageService = _container.PageService;
 
 			_pagesController = new PagesController(_pageService, _applicationSettings, _userService, _userContext);
@@ -58,7 +58,7 @@ namespace Roadkill.Tests.Unit.Mvc.WebApi
 		{
 			// Arrange
 			Page expectedPage = new Page() { Id = 7, Title = "new page" };
-			_repositoryMock.Pages.Add(expectedPage);
+			_pageRepositoryMock.Pages.Add(expectedPage);
 
 			// Act
 			PageViewModel actualPage = _pagesController.Get(7);
@@ -91,7 +91,7 @@ namespace Roadkill.Tests.Unit.Mvc.WebApi
 			page.Tags = "tag1, tag2";
 			page.CreatedOn = version1Date;
 			page.ModifiedOn = version1Date;
-			PageContent pageContent = _repositoryMock.AddNewPage(page, "Some content1", "editor", version1Date);
+			PageContent pageContent = _pageRepositoryMock.AddNewPage(page, "Some content1", "editor", version1Date);
 
 			PageViewModel model = new PageViewModel(pageContent.Page);
 			model.Title = "New title";

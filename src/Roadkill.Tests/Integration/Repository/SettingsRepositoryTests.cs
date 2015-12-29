@@ -68,7 +68,6 @@ namespace Roadkill.Tests.Integration.Repository
 			Assert.That(actualSettings.SiteName, Is.EqualTo(expectedSettings.SiteName));
 			Assert.That(actualSettings.SiteUrl, Is.EqualTo(expectedSettings.SiteUrl));
 			Assert.That(actualSettings.Theme, Is.EqualTo(expectedSettings.Theme));
-
 		}
 
 		[Test]

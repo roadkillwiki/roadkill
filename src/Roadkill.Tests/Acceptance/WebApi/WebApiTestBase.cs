@@ -5,7 +5,6 @@ using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
-using IRepository = Roadkill.Core.Database.IRepository;
 
 namespace Roadkill.Tests.Acceptance.WebApi
 {
@@ -38,7 +37,7 @@ namespace Roadkill.Tests.Acceptance.WebApi
 			TestHelpers.SqlServerSetup.RecreateTables();
 		}
 
-		protected IRepository GetRepository()
+		protected IPageRepository GetRepository()
 		{
 			ApplicationSettings appSettings = new ApplicationSettings();
 			appSettings.DatabaseName = "SqlServer2008";
@@ -46,13 +45,17 @@ namespace Roadkill.Tests.Acceptance.WebApi
 			appSettings.LoggingTypes = "none";
 			appSettings.UseBrowserCache = false;
 
-			LightSpeedRepository repository = new LightSpeedRepository(DataProvider.SqlServer2008, TestConstants.CONNECTION_STRING);
+			var context = new LightSpeedContext();
+			context.ConnectionString = TestConstants.CONNECTION_STRING;
+			context.DataProvider = DataProvider.SqlServer2008;
+
+			LightSpeedPageRepository repository = new LightSpeedPageRepository(context.CreateUnitOfWork());
 			return repository;
 		}
 
 		protected PageContent AddPage(string title, string content)
 		{
-			using (IRepository repository = GetRepository())
+			using (IPageRepository repository = GetRepository())
 			{
 				Page page = new Page();
 				page.Title = title;

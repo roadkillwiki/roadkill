@@ -18,14 +18,27 @@ namespace Roadkill.Core.Import
 	{
 		private string _connectionString;
 		private string _attachmentsFolder;
-		protected IRepository Repository;
-		protected ApplicationSettings ApplicationSettings;
 
-		public ScrewTurnImporter(ApplicationSettings settings, IRepository repository)
+		protected ApplicationSettings ApplicationSettings;
+		protected IPageRepository PageRepository;
+		protected IUserRepository UserRepository;
+
+		public ScrewTurnImporter(ApplicationSettings settings, IPageRepository pageRepository, IUserRepository userRepository)
 		{
-			Repository = repository;
+			if (settings == null)
+				throw new ArgumentNullException(nameof(settings));
+
+			if (pageRepository == null)
+				throw new ArgumentNullException(nameof(pageRepository));
+
+			if (userRepository == null)
+				throw new ArgumentNullException(nameof(userRepository));
+
+			UserRepository = userRepository;
+			PageRepository = pageRepository;
 			ApplicationSettings = settings;
-			_attachmentsFolder = ApplicationSettings.AttachmentsDirectoryPath;
+
+			_attachmentsFolder = settings.AttachmentsDirectoryPath;
 		}
 
 		/// <summary>
@@ -77,7 +90,7 @@ namespace Roadkill.Core.Import
 									user.IsActivated = false;
 									user.SetPassword("password");
 
-									Repository.SaveOrUpdateUser(user);
+									UserRepository.SaveOrUpdateUser(user);
 								}
 							}
 						}
@@ -153,7 +166,7 @@ namespace Roadkill.Core.Import
 									categories += ",";
 								page.Tags = categories;
 
-								page = Repository.SaveOrUpdatePage(page);
+								page = PageRepository.SaveOrUpdatePage(page);
 								AddContent(pageName, page, nameTitleMapping);
 							}
 						}
@@ -276,7 +289,6 @@ namespace Roadkill.Core.Import
 					parameter.Value = pageName;
 					command.Parameters.Add(parameter);
 
-					List<PageContent> categories = new List<PageContent>();
 					bool hasContent = false;
 					using (SqlDataReader reader = command.ExecuteReader())
 					{
@@ -292,7 +304,7 @@ namespace Roadkill.Core.Import
 							if (versionNumber == 0)
 								versionNumber = (int.Parse(reader["MaxRevision"].ToString())) + 2;					
 
-							Repository.AddNewPageContentVersion(page, text, editedBy, editedOn, versionNumber);
+							PageRepository.AddNewPageContentVersion(page, text, editedBy, editedOn, versionNumber);
 							hasContent = true;
 						}
 					}
@@ -300,7 +312,7 @@ namespace Roadkill.Core.Import
 					// For broken content, make sure the page has something
 					if (!hasContent)
 					{
-						Repository.AddNewPage(page, "", "unknown", DateTime.UtcNow);
+						PageRepository.AddNewPage(page, "", "unknown", DateTime.UtcNow);
 					}
 				}
 			}

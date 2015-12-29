@@ -22,7 +22,10 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 
 		private ApplicationSettings _applicationSettings;
 		private IUserContext _context;
-		private RepositoryMock _repository;
+
+		private PageRepositoryMock _pageRepository;
+		private SettingsRepositoryMock _settingsRepository;
+
 		private UserServiceMock _userService;
 		private PageService _pageService;
 		private PageHistoryService _historyService;
@@ -43,7 +46,10 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			_applicationSettings = _container.ApplicationSettings;
 			_applicationSettings.UseObjectCache = true;
 			_context = _container.UserContext;
-			_repository = _container.Repository;
+
+			_settingsRepository = _container.SettingsRepository;
+			_pageRepository = _container.PageRepository;
+
 			_pluginFactory = _container.PluginFactory;
 			_settingsService = _container.SettingsService;
 			_userService = _container.UserService;
@@ -55,7 +61,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			_pageViewModelCache = _container.PageViewModelCache;
 			_memoryCache = _container.MemoryCache;
 
-			_controller = new PluginSettingsController(_applicationSettings, _userService, _context, _settingsService, _pluginFactory, _repository, _siteCache, _pageViewModelCache, _listCache);
+			_controller = new PluginSettingsController(_applicationSettings, _userService, _context, _settingsService, _pluginFactory, _settingsRepository, _siteCache, _pageViewModelCache, _listCache);
 		}
 
 		[Test]
@@ -63,11 +69,11 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		{
 			// Arrange
 			TextPluginStub pluginB = new TextPluginStub("b id", "b name", "b desc");
-			pluginB.Repository = _repository;
+			pluginB.Repository = _settingsRepository;
 			pluginB.PluginCache = new SiteCache(CacheMock.RoadkillCache);
 
 			TextPluginStub pluginA = new TextPluginStub("a id", "a name", "a desc");
-			pluginA.Repository = _repository;
+			pluginA.Repository = _settingsRepository;
 			pluginA.PluginCache = _siteCache;
 
 			_pluginFactory.RegisterTextPlugin(pluginB); // reverse the order to test the ordering
@@ -93,10 +99,10 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		{
 			// Arrange		
 			TextPluginStub plugin = new TextPluginStub();
-			plugin.Repository = _repository;
+			plugin.Repository = _settingsRepository;
 			plugin.PluginCache = _siteCache;
-			
-			_repository.SaveTextPluginSettings(plugin);
+
+			_settingsRepository.SaveTextPluginSettings(plugin);
 			_pluginFactory.RegisterTextPlugin(plugin);
 
 			// Act
@@ -117,15 +123,14 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		{
 			// Arrange
 			TextPluginStub plugin = new TextPluginStub();
-			plugin.Repository = _repository;
+			plugin.Repository = _settingsRepository;
 			plugin.PluginCache = _siteCache;
 			plugin.Settings.SetValue("name1", "default-value1");
 			plugin.Settings.SetValue("name2", "default-value2");
 
-			RepositoryMock repositoryMock = new RepositoryMock();
-			repositoryMock.SaveTextPluginSettings(plugin);
-			repositoryMock.TextPlugins[0].Settings.SetValue("name1", "value1");
-			repositoryMock.TextPlugins[0].Settings.SetValue("name2", "value2");
+			_settingsRepository.SaveTextPluginSettings(plugin);
+			_settingsRepository.TextPlugins[0].Settings.SetValue("name1", "value1");
+			_settingsRepository.TextPlugins[0].Settings.SetValue("name2", "value2");
 
 			_pluginFactory.RegisterTextPlugin(plugin);
 
@@ -143,7 +148,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 		{
 			// Arrange
 			TextPluginStub plugin = new TextPluginStub();
-			plugin.Repository = _repository;
+			plugin.Repository = _settingsRepository;
 			plugin.PluginCache = _siteCache;
 			plugin.Settings.SetValue("name1", "default-value1");
 			plugin.Settings.SetValue("name2", "default-value2");
@@ -191,7 +196,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			_listCache.Add("a key", new List<string>() { "1", "2" });
 
 			TextPluginStub plugin = new TextPluginStub();
-			plugin.Repository = _repository;
+			plugin.Repository = _settingsRepository;
 			plugin.PluginCache = _siteCache;
 			plugin.Settings.SetValue("name1", "default-value1");
 			plugin.Settings.SetValue("name2", "default-value2");
@@ -208,7 +213,7 @@ namespace Roadkill.Tests.Unit.Mvc.Controllers
 			ViewResult result = _controller.Edit(model) as ViewResult;
 
 			// Assert
-			List<SettingValue> values = _repository.TextPlugins[0].Settings.Values.ToList();
+			List<SettingValue> values = _settingsRepository.TextPlugins[0].Settings.Values.ToList();
 			Assert.That(values[0].Value, Is.EqualTo("new-value1"));
 			Assert.That(values[1].Value, Is.EqualTo("new-value2"));
 

@@ -12,13 +12,11 @@ using Roadkill.Core.DependencyResolution.MVC;
 using Roadkill.Core.DependencyResolution.StructureMap;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Plugins;
-using Roadkill.Core.Services;
 using StructureMap;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(LocatorStartup), "StartMVC")]
 [assembly: WebActivatorEx.PostApplicationStartMethod(typeof(LocatorStartup), "AfterInitialization")]
-[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(LocatorStartup), "End")]
+//[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(LocatorStartup), "End")]
 
 namespace Roadkill.Core.DependencyResolution
 {
@@ -40,7 +38,12 @@ namespace Roadkill.Core.DependencyResolution
 
 		internal static void StartMVCInternal(RoadkillRegistry registry, bool isWeb)
 		{
-			IContainer container = new Container(c => c.AddRegistry(registry));		
+			IContainer container = new Container(c =>
+			{
+				c.AddRegistry(registry);
+				c.AddRegistry(new LightSpeedRegistry());
+			});
+
 			Locator = new StructureMapServiceLocator(container, isWeb);
 
 			// MVC locator

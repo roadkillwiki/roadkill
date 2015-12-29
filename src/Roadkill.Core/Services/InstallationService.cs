@@ -1,6 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Routing;
+using Microsoft.Practices.ServiceLocation;
+using Mindscape.LightSpeed;
+using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Database.MongoDB;
+using Roadkill.Core.Database.Schema;
+using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security;
 
@@ -11,73 +19,44 @@ namespace Roadkill.Core.Services
 	/// </summary>
 	public class InstallationService : IInstallationService
 	{
-		private readonly IRepositoryFactory _repositoryFactory;
-		private readonly string _databaseName;
-		private readonly string _connectionString;
-		private readonly UserServiceBase _userService;
+		private Func<string, string, IInstallerRepository> _getRepositoryFunc;
+		internal ServiceLocatorImplBase Locator { get; set; }
 
-		public InstallationService(IRepositoryFactory repositoryFactory, string databaseName, string connectionString, UserServiceBase userService)
+		public InstallationService()
 		{
-			_repositoryFactory = repositoryFactory;
-			_connectionString = connectionString;
-			_userService = userService;
-			_databaseName = databaseName;
+			_getRepositoryFunc = GetRepository;
+			Locator = LocatorStartup.Locator;
 		}
 
-		public void AddAdminUser(string email, string password)
+		internal InstallationService(Func<string, string, IInstallerRepository> getRepositoryFunc, ServiceLocatorImplBase locator)
 		{
-			_userService.AddUser(email, "admin", password, true, false);
+			_getRepositoryFunc = getRepositoryFunc;
+			Locator = locator;
 		}
 
 		public IEnumerable<RepositoryInfo> GetSupportedDatabases()
 		{
-			return _repositoryFactory.ListAll();
+			return new List<RepositoryInfo>()
+			{
+				SupportedDatabases.MongoDB,
+				SupportedDatabases.MySQL,
+				SupportedDatabases.Postgres,
+				SupportedDatabases.SqlServer2008
+			};
 		}
 
-		/// <summary>
-		/// Clears all users from the system.
-		/// </summary>
-		/// <exception cref="DatabaseException">An databaseerror occurred while clearing the user table.</exception>
-		public void ClearUserTable()
+		public void Install(SettingsViewModel model)
 		{
 			try
 			{
-				var repository = _repositoryFactory.GetRepository(_databaseName, _connectionString);
-				repository.DeleteAllUsers();
-			}
-			catch (DatabaseException ex)
-			{
-				throw new DatabaseException(ex, "An exception occurred while clearing the user tables.");
-			}
-		}
+				IInstallerRepository installerRepository = _getRepositoryFunc(model.DatabaseName, model.ConnectionString);
+				installerRepository.CreateSchema();
 
-		/// <summary>
-		/// Creates the database schema tables.
-		/// </summary>
-		/// <param name="model">The settings data.</param>
-		/// <exception cref="DatabaseException">An datastore error occurred while creating the database tables.</exception>
-		public void CreateTables()
-		{
-			try
-			{
-				var repositoryInstaller = _repositoryFactory.GetRepositoryInstaller(_databaseName, _connectionString);
-				repositoryInstaller.Install();
-			}
-			catch (DatabaseException ex)
-			{
-				throw new DatabaseException(ex, "An exception occurred while creating the site schema tables.");
-			}
-		}
+				if (model.UseWindowsAuth == false)
+				{
+					installerRepository.AddAdminUser(model.AdminEmail, "admin", model.AdminPassword);
+				}
 
-		/// <summary>
-		/// Saves all settings that are stored in the database, to the configuration table.
-		/// </summary>
-		/// <param name="model">Summary data containing the settings.</param>
-		/// <exception cref="DatabaseException">An datastore error occurred while saving the configuration.</exception>
-		public void SaveSiteSettings(SettingsViewModel model)
-		{
-			try
-			{
 				SiteSettings siteSettings = new SiteSettings();
 				siteSettings.AllowedFileTypes = model.AllowedFileTypes;
 				siteSettings.AllowUserSignup = model.AllowUserSignup;
@@ -93,13 +72,36 @@ namespace Roadkill.Core.Services
 				siteSettings.OverwriteExistingFiles = model.OverwriteExistingFiles;
 				siteSettings.HeadContent = model.HeadContent;
 				siteSettings.MenuMarkup = model.MenuMarkup;
+				installerRepository.SaveSettings(siteSettings);
 
-				var repository = _repositoryFactory.GetRepository(_databaseName, _connectionString);
-				repository.SaveSiteSettings(siteSettings);
+				// Attachments handler needs re-registering
+				var appSettings = Locator.GetInstance<ApplicationSettings>();
+				var fileService = Locator.GetInstance<IFileService>();
+				AttachmentRouteHandler.RegisterRoute(appSettings, RouteTable.Routes, fileService);
 			}
 			catch (DatabaseException ex)
 			{
 				throw new DatabaseException(ex, "An exception occurred while saving the site configuration.");
+			}
+		}
+
+		private IInstallerRepository GetRepository(string databaseName, string connectionString)
+		{
+			if (databaseName == SupportedDatabases.MongoDB)
+			{
+				return new MongoDbInstallerRepository(connectionString);
+			}
+			else if (databaseName == SupportedDatabases.MySQL)
+			{
+				return new LightSpeedInstallerRepository(DataProvider.MySql5, new MySqlSchema(), connectionString);
+			}
+			else if (databaseName == SupportedDatabases.Postgres)
+			{
+				return new LightSpeedInstallerRepository(DataProvider.PostgreSql9, new PostgresSchema(), connectionString);
+			}
+			else
+			{
+				return new LightSpeedInstallerRepository(DataProvider.SqlServer2008, new SqlServerSchema(), connectionString);
 			}
 		}
 	}

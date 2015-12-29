@@ -15,7 +15,7 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 
 		}
 
-		public UserServiceStub(ApplicationSettings settings, IRepository repository)
+		public UserServiceStub(ApplicationSettings settings, IUserRepository repository)
 			: base(settings, repository)
 		{
 

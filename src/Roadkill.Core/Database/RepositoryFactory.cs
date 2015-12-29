@@ -1,49 +1,128 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Mindscape.LightSpeed;
+using Mindscape.LightSpeed.Caching;
 using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Database.MongoDB;
+using Roadkill.Core.Database.Repositories;
 using Roadkill.Core.Database.Schema;
+using Roadkill.Core.DependencyResolution;
 
 namespace Roadkill.Core.Database
 {
 	public class RepositoryFactory : IRepositoryFactory
 	{
-		public static readonly RepositoryInfo MongoDB = new RepositoryInfo("MongoDB", "MongoDB - A MongoDB server, using the official MongoDB driver.");
-		public static readonly RepositoryInfo MySQL = new RepositoryInfo("MySQL", "MySQL");
-		public static readonly RepositoryInfo Postgres = new RepositoryInfo("Postgres", "Postgres - A Postgres 9 or later database.");
-		public static readonly RepositoryInfo SqlServer2008 = new RepositoryInfo("SqlServer2008", "Sql Server - a SqlServer 2008 or later database.");
+		private readonly bool _pendingInstallation;
 
-		public IRepository GetRepository(string databaseProviderName, string connectionString)
+		public LightSpeedContext Context { get; set; }
+		internal Func<LightSpeedContext, IUnitOfWork> UnitOfWorkFunc { get; set; }
+
+		public RepositoryFactory()
 		{
-			if (databaseProviderName == MongoDB)
+		}
+
+		public RepositoryFactory(string databaseProviderName, string connectionString)
+		{
+			if (string.IsNullOrEmpty(connectionString))
 			{
-				return new MongoDBRepository(connectionString);
+				_pendingInstallation = true;
+				return;
 			}
-			else if (databaseProviderName == MySQL)
+
+			if (databaseProviderName == SupportedDatabases.MongoDB)
+				return;
+
+			SetupLightSpeed(databaseProviderName, connectionString);
+		}
+
+		private void SetupLightSpeed(string databaseProviderName, string connectionString)
+		{
+			DataProvider provider = DataProvider.SqlServer2008;
+
+			if (databaseProviderName == SupportedDatabases.MySQL)
 			{
-				return new LightSpeedRepository(DataProvider.MySql5, connectionString);
+				provider = DataProvider.MySql5;
 			}
-			else if (databaseProviderName == Postgres)
+			else if (databaseProviderName == SupportedDatabases.Postgres)
 			{
-				return new LightSpeedRepository(DataProvider.PostgreSql9, connectionString);
+				provider = DataProvider.PostgreSql9;
+			}
+
+			Context = new LightSpeedContext();
+			Context.Cache = new CacheBroker(new DefaultCache());
+			Context.ConnectionString = connectionString;
+			Context.DataProvider = provider;
+			Context.IdentityMethod = IdentityMethod.GuidComb;
+			Context.CascadeDeletes = true;
+
+			UnitOfWorkFunc = context => LocatorStartup.Locator.GetInstance<IUnitOfWork>();
+		}
+
+		public void EnableVerboseLogging()
+		{
+			Context.VerboseLogging = true;
+			Context.Logger = new DatabaseLogger();
+		}
+
+		public ISettingsRepository GetSettingsRepository(string databaseProviderName, string connectionString)
+		{
+			if (_pendingInstallation)
+				return null;
+
+			if (databaseProviderName == SupportedDatabases.MongoDB)
+			{
+				return new MongoDBSettingsRepository(connectionString);
 			}
 			else
 			{
-				return new LightSpeedRepository(DataProvider.SqlServer2008, connectionString);
+				IUnitOfWork unitOfWork = UnitOfWorkFunc(Context);
+				return new LightSpeedSettingsRepository(unitOfWork);
 			}
 		}
 
-		public IInstallerRepository GetRepositoryInstaller(string databaseProviderName, string connectionString)
+		public IUserRepository GetUserRepository(string databaseProviderName, string connectionString)
 		{
-			if (databaseProviderName == MongoDB)
+			if (_pendingInstallation)
+				return null;
+
+			if (databaseProviderName == SupportedDatabases.MongoDB)
+			{
+				return new MongoDBUserRepository(connectionString);
+			}
+			else
+			{
+				IUnitOfWork unitOfWork = UnitOfWorkFunc(Context);
+				return new LightSpeedUserRepository(unitOfWork);
+			}
+		}
+
+		public IPageRepository GetPageRepository(string databaseProviderName, string connectionString)
+		{
+			if (_pendingInstallation)
+				return null;
+
+			if (databaseProviderName == SupportedDatabases.MongoDB)
+			{
+				return new MongoDBPageRepository(connectionString);
+			}
+			else
+			{
+				IUnitOfWork unitOfWork = UnitOfWorkFunc(Context);
+				return new LightSpeedPageRepository(unitOfWork);
+			}
+		}
+
+		public IInstallerRepository GetInstallerRepository(string databaseProviderName, string connectionString)
+		{
+			if (databaseProviderName == SupportedDatabases.MongoDB)
 			{
 				return new MongoDbInstallerRepository(connectionString);
 			}
-			else if (databaseProviderName == MySQL)
+			else if (databaseProviderName == SupportedDatabases.MySQL)
 			{
 				return new LightSpeedInstallerRepository(DataProvider.MySql5, new MySqlSchema(), connectionString);
 			}
-			else if (databaseProviderName == Postgres)
+			else if (databaseProviderName == SupportedDatabases.Postgres)
 			{
 				return new LightSpeedInstallerRepository(DataProvider.PostgreSql9, new PostgresSchema(), connectionString);
 			}
@@ -57,10 +136,10 @@ namespace Roadkill.Core.Database
 		{
 			return new List<RepositoryInfo>()
 			{
-				MongoDB,
-				MySQL,
-				Postgres,
-				SqlServer2008
+				SupportedDatabases.MongoDB,
+				SupportedDatabases.MySQL,
+				SupportedDatabases.Postgres,
+				SupportedDatabases.SqlServer2008
 			};
 		}
 	}

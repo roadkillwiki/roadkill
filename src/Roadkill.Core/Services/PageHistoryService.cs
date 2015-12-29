@@ -6,6 +6,7 @@ using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
+using Roadkill.Core.Database.Repositories;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Plugins;
 
@@ -14,19 +15,25 @@ namespace Roadkill.Core.Services
 	/// <summary>
 	/// Provides a way of viewing, and comparing the version history of page content, and reverting to previous versions.
 	/// </summary>
-	public class PageHistoryService : ServiceBase
+	public class PageHistoryService
 	{
 		private MarkupConverter _markupConverter;
 		private IUserContext _context;
 		private PageViewModelCache _pageViewModelCache;
 
-		public PageHistoryService(ApplicationSettings settings, IRepository repository, IUserContext context,
+		public ApplicationSettings ApplicationSettings { get; set; }
+		public ISettingsRepository SettingsRepository { get; set; }
+		public IPageRepository PageRepository { get; set; }
+
+		public PageHistoryService(ApplicationSettings settings, ISettingsRepository settingsRepository, IPageRepository pageRepository, IUserContext context, 
 			PageViewModelCache pageViewModelCache, IPluginFactory pluginFactory)
-			: base(settings, repository)
 		{
-			_markupConverter = new MarkupConverter(settings, repository, pluginFactory);
+			_markupConverter = new MarkupConverter(settings, settingsRepository, pageRepository, pluginFactory);
 			_context = context;
 			_pageViewModelCache = pageViewModelCache;
+
+			SettingsRepository = settingsRepository;
+			PageRepository = pageRepository;
 		}
 
 		/// <summary>
@@ -39,7 +46,7 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
-				IEnumerable<PageContent> contentList = Repository.FindPageContentsByPageId(pageId);
+				IEnumerable<PageContent> contentList = PageRepository.FindPageContentsByPageId(pageId);
 				IEnumerable<PageHistoryViewModel> historyList = from p in contentList
 														  select new PageHistoryViewModel(p);
 
@@ -68,7 +75,7 @@ namespace Roadkill.Core.Services
 			{
 				List<PageViewModel> versions = new List<PageViewModel>();
 
-				PageContent mainContent = Repository.GetPageContentById(mainVersionId);
+				PageContent mainContent = PageRepository.GetPageContentById(mainVersionId);
 				versions.Add(new PageViewModel(mainContent, _markupConverter));
 
 				if (mainContent.VersionNumber == 1)
@@ -81,7 +88,7 @@ namespace Roadkill.Core.Services
 
 					if (model == null)
 					{
-						PageContent previousContent = Repository.GetPageContentByPageIdAndVersionNumber(mainContent.Page.Id, mainContent.VersionNumber - 1);
+						PageContent previousContent = PageRepository.GetPageContentByPageIdAndVersionNumber(mainContent.Page.Id, mainContent.VersionNumber - 1);
 						if (previousContent == null)
 						{
 							model = null;
@@ -118,7 +125,7 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
-				PageContent pageContent = Repository.GetPageContentByPageIdAndVersionNumber(pageId, versionNumber);
+				PageContent pageContent = PageRepository.GetPageContentByPageIdAndVersionNumber(pageId, versionNumber);
 
 				if (pageContent != null)
 				{
@@ -147,14 +154,14 @@ namespace Roadkill.Core.Services
 			{
 				string currentUser = context.CurrentUsername;
 
-				PageContent versionContent = Repository.GetPageContentById(versionId);
-				Page page = Repository.GetPageById(versionContent.Page.Id);
+				PageContent versionContent = PageRepository.GetPageContentById(versionId);
+				Page page = PageRepository.GetPageById(versionContent.Page.Id);
 
 				int versionNumber = MaxVersion(page.Id) + 1;
 				string text = versionContent.Text;
 				string editedBy = currentUser;
 				DateTime editedOn = DateTime.UtcNow;
-				Repository.AddNewPageContentVersion(page, text, editedBy, editedOn, versionNumber);
+				PageRepository.AddNewPageContentVersion(page, text, editedBy, editedOn, versionNumber);
 
 				// Clear the cache
 				_pageViewModelCache.Remove(page.Id);
@@ -176,7 +183,7 @@ namespace Roadkill.Core.Services
 		/// <returns>The latest version number.</returns>
 		public int MaxVersion(int pageId)
 		{
-			return Repository.GetLatestPageContent(pageId).VersionNumber;
+			return PageRepository.GetLatestPageContent(pageId).VersionNumber;
 		}
 	}
 }

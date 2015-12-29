@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Mindscape.LightSpeed;
 using NUnit.Framework;
-using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
-using Roadkill.Core.Database.MongoDB;
-using IRepository = Roadkill.Core.Database.IRepository;
 
 namespace Roadkill.Tests.Integration.Repository.LightSpeed
 {
@@ -18,6 +10,25 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 	[Category("Integration")]
 	public class LightSpeedUserRepositoryTests : UserRepositoryTests
 	{
+		[ThreadStatic]
+		private static LightSpeedContext _context;
+
+		public LightSpeedContext Context
+		{
+			get
+			{
+				if (_context == null)
+				{
+					_context = new LightSpeedContext();
+					_context.ConnectionString = ConnectionString;
+					_context.DataProvider = DataProvider.SqlServer2008;
+					_context.IdentityMethod = IdentityMethod.GuidComb;
+				}
+
+				return _context;
+			}
+		}
+
 		protected override string ConnectionString
 		{
 			get { return TestConstants.CONNECTION_STRING; }
@@ -25,7 +36,7 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 
 		protected override IUserRepository GetRepository()
 		{
-			return new LightSpeedRepository(DataProvider.SqlServer2008, ConnectionString);
+			return new LightSpeedUserRepository(Context.CreateUnitOfWork());
 		}
 
 		protected override void Clearup()
