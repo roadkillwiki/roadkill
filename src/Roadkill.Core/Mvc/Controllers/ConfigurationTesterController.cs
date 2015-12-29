@@ -15,13 +15,12 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// </summary>
 	public class ConfigurationTesterController : Controller // Don't inherit from ControllerBase, as it checks if Installed is true.
 	{
-		private ApplicationSettings _applicationSettings;
-		private IUserContext _userContext;
-		private ConfigReaderWriter _configReaderWriter;
-		private IActiveDirectoryProvider _activeDirectoryProvider;
+		private readonly ApplicationSettings _applicationSettings;
+		private readonly IUserContext _userContext;
+		private readonly ConfigReaderWriter _configReaderWriter;
+		private readonly IActiveDirectoryProvider _activeDirectoryProvider;
 		private readonly UserServiceBase _userService;
 		private readonly IDatabaseTester _databaseTester;
-		private readonly IRepositoryFactory _repositoryFactory;
 
 		public ConfigurationTesterController(ApplicationSettings appSettings, IUserContext userContext, ConfigReaderWriter configReaderWriter, 
 			IActiveDirectoryProvider activeDirectoryProvider, UserServiceBase userService, IDatabaseTester databaseTester) 
@@ -48,7 +47,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestLdap(string connectionString, string username, string password, string groupName)
 		{
-			if (InstalledAndUserIsNotAdmin())
+			if (IsInstalledAndUserIsNotAdmin())
 				return Content("");
 
 			string errors = _activeDirectoryProvider.TestLdapConnection(connectionString, username, password, groupName);
@@ -61,7 +60,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestWebConfig()
 		{
-			if (InstalledAndUserIsNotAdmin())
+			if (IsInstalledAndUserIsNotAdmin())
 				return Content("");
 
 			string errors = _configReaderWriter.TestSaveWebConfig();
@@ -75,7 +74,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestAttachments(string folder)
 		{
-			if (InstalledAndUserIsNotAdmin())
+			if (IsInstalledAndUserIsNotAdmin())
 				return Content("");
 
 			string errors = AttachmentPathUtil.AttachmentFolderExistsAndWriteable(folder, HttpContext);
@@ -88,7 +87,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
 		public ActionResult TestDatabaseConnection(string connectionString, string databaseName)
 		{
-			if (InstalledAndUserIsNotAdmin())
+			if (IsInstalledAndUserIsNotAdmin())
 				return Content("");
 
 			string errors = "";
@@ -104,7 +103,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
 		}
 
-		internal bool InstalledAndUserIsNotAdmin()
+		internal bool IsInstalledAndUserIsNotAdmin()
 		{
 			return _applicationSettings.Installed && !_userContext.IsAdmin;
 		}

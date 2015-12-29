@@ -10,7 +10,6 @@ using Roadkill.Core.Database.MongoDB;
 using Roadkill.Core.Database.Schema;
 using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Security;
 
 namespace Roadkill.Core.Services
 {
@@ -85,7 +84,7 @@ namespace Roadkill.Core.Services
 			}
 		}
 
-		private IInstallerRepository GetRepository(string databaseName, string connectionString)
+		internal IInstallerRepository GetRepository(string databaseName, string connectionString)
 		{
 			if (databaseName == SupportedDatabases.MongoDB)
 			{
