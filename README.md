@@ -6,7 +6,7 @@
 
 # Introduction
 
-* [Download the latest version (2.0)](https://github.com/roadkillwiki/roadkill/releases/tag/v2.0)
+* [Download the latest **stable** version (2.0)](https://github.com/roadkillwiki/roadkill/releases/tag/v2.0)
 * [Read the docs](http://www.roadkillwiki.net)
 * [Try a demo](http://roadkilldemo.azurewebsites.net/)
 * [Discuss on Google Groups](https://groups.google.com/forum/#!forum/roadkillwiki)
