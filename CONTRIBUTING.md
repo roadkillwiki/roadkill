@@ -36,11 +36,10 @@ If you want to write some code, please stick to the following guidelines for you
 - Tabs for indentation (4 spaces per tab).
 - If you do have a different coding style to this don't worry, the code is likely to be auto-reformated anyway (using Visual Studio's built in shortcut key). Don't take this personally if it happens - it's about consistency rather than my-style-is-better-than-yours.
 - Use XML documentation for public classes, properties and methods, and where needed private methods too.
-- No `var`s except where it's obvious what the type is from the right side! for example:
->```var x = GetSomething(); // bad
->var y = "hello"; // bad, no vars for system types please
->var z = new MyClass(); // fine``
-
-I get religious about `var` abuse, in my view it makes code harder to read and unless used for its [intended purpose](http://blogs.msdn.com/b/ericlippert/archive/2011/04/20/uses-and-misuses-of-implicit-typing.aspx) - where the left side is redundant, dynamic LINQ or complex generic declarations (Dictionary of T for example), then please don't pepper the code with them.
+- No `var` usage except where it's obvious what the type is from the right side! for example:
+  - `var x = GetSomething(); // bad`
+  - `var y = "hello"; // bad, no vars for system types please`
+  - `var z = new MyClass(); // fine`
+  - I get religious about `var` abuse, in my view it makes code harder to read and unless used for its [intended purpose](http://blogs.msdn.com/b/ericlippert/archive/2011/04/20/uses-and-misuses-of-implicit-typing.aspx) - where the left side is redundant, dynamic LINQ or complex generic declarations (Dictionary of T for example), then please don't pepper the code with them.
 - Add unit tests for the code where possible, which can be a unit test, integration test or acceptance (Selenium-based) test.
 - Use constructor injection for dependencies, see the DependencyResolution/StructureMap/RoadkillRegistry.cs file for the setup.
