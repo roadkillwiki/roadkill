@@ -81,16 +81,16 @@ As Roadkill is not a commercial project, nor backed commercially, there are no t
 
 To setup Roadkill on a developer machine, you will need:
 
-* Visual Studio 2015 (2013 will also work but requires Typescript installed)
-* SQL Server Express 2012 or higher - `choco install sqlserver2014express` for Chocolatey users.
-* Your SQL Server installation should be the default instance (not YOURMACHINE\SQLEXPRESS) for the tests to pass. They rely on the connection string being `Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill`
+* Visual Studio 2015, Community Edition is fine, Roadkill is written using Community Edition.
+* IIS
+* SQL Server. Your SQL Server installation should be the default instance (not YOURMACHINE\SQLEXPRESS) for the tests to pass. They rely on the connection string being `Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill`
 * An NUnit runner (NUnit, Resharper, Dotcover etc.) if you want to run the tests. This is required if you want to contribute.
 
 ### Fresh install
 
 To get a 'fresh' Roadkill installation on your development machine, you will need to do the following:
 
-* For IIS: create a new site with a .NET 4 application pool. Roadkill also works with IIS Express.
+* For IIS: create a new site with a .NET 4 application pool.
 * If you're using SQL Server: create a database called "roadkill". Run the `/lib/Test-databases/roadkill-sqlserver.sql` script.
   * If you want to use SQLite or SQLServer CE, empty databases can be found `/lib/Test-databases/SqlCE` or Sqlite.
 * You can also install Roadkill using the unattended url, e.g.: http://localhost/install/Unattended?datastoretype=sqlserver2008&connectionstring=database=roadkill;uid=sa;pwd=Passw0rd;server=.\SQLEXPRESS
