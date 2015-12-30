@@ -42,7 +42,6 @@ namespace Roadkill.Tests.Acceptance.WebApi
 			ApplicationSettings appSettings = new ApplicationSettings();
 			appSettings.DatabaseName = "SqlServer2008";
 			appSettings.ConnectionString = TestConstants.CONNECTION_STRING;
-			appSettings.LoggingTypes = "none";
 			appSettings.UseBrowserCache = false;
 
 			var context = new LightSpeedContext();

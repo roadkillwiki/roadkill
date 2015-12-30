@@ -178,14 +178,6 @@
       <HintPath>..\..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="LogentriesCore, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\logentries.nlog.2.6.0\lib\net40\LogentriesCore.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="LogentriesNLog, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\logentries.nlog.2.6.0\lib\net40\LogentriesNLog.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -523,7 +515,7 @@
     </Content>
     <Content Include="Assets\web.config" />
     <Content Include="connectionStrings.config" />
-    <Content Include="NLog.config" />
+    <Content Include="App_Data\NLog.config" />
     <Content Include="package.json" />
     <None Include="packages.config" />
     <Content Include="Plugins\Web.config" />
