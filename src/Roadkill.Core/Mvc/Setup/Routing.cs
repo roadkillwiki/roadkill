@@ -109,11 +109,6 @@ namespace Roadkill.Core.Mvc.Setup
 			config
 				.EnableSwagger(c =>
 				{
-					c.ApiKey("apiKey")
-						.Description("API Key Authentication")
-						.Name("Authorization")
-						.In("header");
-
 					c.SingleApiVersion("3.0", "Roadkill Web API");
 
 					var applyApiKeySecurity = new SwashbuckleApplyApiKeySecurity(
