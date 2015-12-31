@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Caching;
+using System.Web.Http;
 using Mindscape.LightSpeed;
 using NUnit.Framework;
 using Roadkill.Core;
@@ -21,7 +22,6 @@ using Roadkill.Core.Email;
 using Roadkill.Core.Import;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Mvc.Controllers.Api;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Plugins;
 using Roadkill.Core.Security;
@@ -251,10 +251,10 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 			IContainer container = CreateContainer();
 
 			// Act
-			IEnumerable<ApiControllerBase> controllers = container.GetAllInstances<ApiControllerBase>();
+			IEnumerable<ApiController> controllers = container.GetAllInstances<ApiController>();
 
 			// Assert
-			Assert.That(controllers.Count(), Is.EqualTo(4));
+			Assert.That(controllers.Count(), Is.EqualTo(3));
 		}
 
 		[Test]

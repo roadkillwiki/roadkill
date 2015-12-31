@@ -344,8 +344,6 @@
     <Compile Include="Unit\Export\WikiExporterTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\OptionalAuthorizationTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\EditorRequiredAttributeTests.cs" />
-    <Compile Include="Unit\Mvc\Attributes\WebApiEditorRequiredAttributeTests.cs" />
-    <Compile Include="Unit\Mvc\Attributes\WebApiAdminRequiredAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\AdminRequiredAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\ConfigurationTesterControllerTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\TestResultTests.cs" />

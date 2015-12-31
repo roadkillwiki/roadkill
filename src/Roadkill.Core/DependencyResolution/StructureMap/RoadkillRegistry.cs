@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Runtime.Caching;
+using System.Web.Http;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
@@ -12,7 +13,6 @@ using Roadkill.Core.Email;
 using Roadkill.Core.Import;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Mvc.Controllers.Api;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Mvc.WebViewPages;
 using Roadkill.Core.Plugins;
@@ -131,7 +131,7 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 			// Controllers
 			scanner.AddAllTypesOf<IRoadkillController>();
 			scanner.AddAllTypesOf<ControllerBase>();
-			scanner.AddAllTypesOf<ApiControllerBase>();
+			scanner.AddAllTypesOf<ApiController>();
 			scanner.AddAllTypesOf<ConfigurationTesterController>();
 		}
 

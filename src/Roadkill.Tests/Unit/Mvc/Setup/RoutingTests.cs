@@ -9,6 +9,7 @@ using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc;
 using Roadkill.Core.Mvc.Controllers;
+using Roadkill.Core.Mvc.Setup;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit.Mvc.Setup

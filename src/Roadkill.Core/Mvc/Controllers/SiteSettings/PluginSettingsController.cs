@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Web.Mvc;
+using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Database;
-using Roadkill.Core.Services;
+using Roadkill.Core.Database.Repositories;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Plugins;
 using Roadkill.Core.Security;
-using PluginSettings = Roadkill.Core.Plugins.Settings;
-using Roadkill.Core.Cache;
-using Roadkill.Core.Database.Repositories;
+using Roadkill.Core.Services;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -95,7 +91,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			// Update the plugin last saved date - this is important for 304 modified tracking
 			// when the browser caching option is turned on.
-			SiteSettings settings = SettingsService.GetSiteSettings();
+			Configuration.SiteSettings settings = SettingsService.GetSiteSettings();
 			settings.PluginLastSaveDate = DateTime.UtcNow;
 			SettingsViewModel settingsViewModel = new SettingsViewModel(ApplicationSettings, settings);
 			SettingsService.SaveSiteSettings(settingsViewModel);

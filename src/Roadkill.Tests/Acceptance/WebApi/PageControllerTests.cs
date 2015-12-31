@@ -19,7 +19,6 @@ namespace Roadkill.Tests.Acceptance.WebApi
 			AddPage("page 2", "this is page 2");
 
 			WebApiClient apiclient = new WebApiClient();
-			apiclient.Login();
 
 			// Act
 			WebApiResponse<List<PageViewModel>> response = apiclient.Get<List<PageViewModel>>("Pages");
@@ -39,7 +38,6 @@ namespace Roadkill.Tests.Acceptance.WebApi
 				{ "Id", expectedPage.Page.Id.ToString() }
 			};
 			WebApiClient apiclient = new WebApiClient();
-			apiclient.Login();
 
 			// Act
 			WebApiResponse<PageViewModel> response = apiclient.Get<PageViewModel>("Pages", queryString);
@@ -64,7 +62,6 @@ namespace Roadkill.Tests.Acceptance.WebApi
 			};
 
 			WebApiClient apiclient = new WebApiClient();
-			apiclient.Login();
 
 			// Act
 			WebApiResponse response = apiclient.Post<PageViewModel>("Pages", page);
@@ -84,7 +81,6 @@ namespace Roadkill.Tests.Acceptance.WebApi
 			viewModel.Title = "New title";
 			
 			WebApiClient apiclient = new WebApiClient();
-			apiclient.Login();
 
 			// Act
 			WebApiResponse response = apiclient.Put<PageViewModel>("Pages/Put", viewModel);

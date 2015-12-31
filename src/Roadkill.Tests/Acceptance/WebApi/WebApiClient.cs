@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
 using System.Net;
-using NUnit.Framework;
 using RestSharp;
-using Roadkill.Core.Mvc.Controllers.Api;
 
 namespace Roadkill.Tests.Acceptance.WebApi
 {
@@ -24,27 +22,6 @@ namespace Roadkill.Tests.Acceptance.WebApi
 			Client.CookieContainer = new CookieContainer();
 		}
 
-		/// <summary>
-		/// Calls the Authenticate() web api method for further get/post/put calls.
-		/// </summary>
-		public void Login()
-		{
-			UserController.UserInfo info = new UserController.UserInfo()
-			{
-				Email = TestConstants.ADMIN_EMAIL,
-				Password = TestConstants.ADMIN_PASSWORD
-			};
-
-			string url = GetFullPath("Authenticate");
-			RestRequest request = new RestRequest(url, Method.POST);
-			request.RequestFormat = DataFormat.Json;
-			request.AddBody(info);
-			IRestResponse response = Client.ExecuteAsPost<UserController.UserInfo>(request, "POST");
-
-			Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK), "Login failed, status code wasn't 200: {0} {1} ", response.StatusCode, response.Content);
-			Assert.That(response.Content, Is.EqualTo("true"), "Login failed, true wasn't returned: : {0}", response.Content);
-		}
-
 		public string GetFullPath(string fullPath)
 		{
 			return string.Format("/api/{0}", fullPath);
@@ -54,6 +31,8 @@ namespace Roadkill.Tests.Acceptance.WebApi
 		{
 			url = GetFullPath(url);
 			RestRequest request = new RestRequest(url, Method.GET);
+			AddApiKey(request);
+
 			request.RequestFormat = DataFormat.Json;
 
 			if (queryString != null)
@@ -84,6 +63,8 @@ namespace Roadkill.Tests.Acceptance.WebApi
 		{
 			url = GetFullPath(url);
 			RestRequest request = new RestRequest(url, Method.GET);
+			AddApiKey(request);
+
 			request.RequestFormat = DataFormat.Json;
 
 			if (queryString != null)
@@ -116,6 +97,8 @@ namespace Roadkill.Tests.Acceptance.WebApi
 		{
 			url = GetFullPath(url);
 			RestRequest request = new RestRequest(url, Method.POST);
+			AddApiKey(request);
+
 			request.RequestFormat = DataFormat.Json;
 			request.AddBody(jsonBody);
 			IRestResponse response = Client.ExecuteAsPost<T>(request, "POST");
@@ -132,6 +115,8 @@ namespace Roadkill.Tests.Acceptance.WebApi
 		{
 			url = GetFullPath(url);
 			RestRequest request = new RestRequest(url, Method.POST);
+			AddApiKey(request);
+
 			request.RequestFormat = DataFormat.Json;
 			request.AddBody(jsonBody);
 			IRestResponse response = Client.ExecuteAsPost<T>(request, "PUT");
@@ -142,6 +127,11 @@ namespace Roadkill.Tests.Acceptance.WebApi
 				Content = response.Content, 
 				HttpStatusCode = response.StatusCode 
 			};
+		}
+
+		private void AddApiKey(RestRequest restRequest)
+		{
+			restRequest.AddHeader("Authorization", "1234");
 		}
 	}
 }

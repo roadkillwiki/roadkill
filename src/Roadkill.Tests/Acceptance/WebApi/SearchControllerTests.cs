@@ -21,7 +21,6 @@ namespace Roadkill.Tests.Acceptance.WebApi
 			};
 
 			WebApiClient apiclient = new WebApiClient();
-			apiclient.Login();
 
 			// Act
 			apiclient.Get("Search/CreateIndex");

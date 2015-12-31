@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using Roadkill.Core;
-using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Mvc.Controllers.Api;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Mvc.WebApi;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
 namespace Roadkill.Tests.Unit.Mvc.WebApi
@@ -17,10 +15,7 @@ namespace Roadkill.Tests.Unit.Mvc.WebApi
 	{
 		private MocksAndStubsContainer _container;
 
-		private ApplicationSettings _applicationSettings;
 		private UserServiceMock _userService;
-		private IUserContext _userContext;
-		private PageRepositoryMock _pageRepositoryMock;
 		private UserController _userController;
 
 		[SetUp]
@@ -28,41 +23,8 @@ namespace Roadkill.Tests.Unit.Mvc.WebApi
 		{
 			_container = new MocksAndStubsContainer();
 
-			_applicationSettings = _container.ApplicationSettings;
-			_userContext = _container.UserContext;
 			_userService = _container.UserService;
-			_pageRepositoryMock = _container.PageRepository;
-			_userService = _container.UserService;
-
-			_userController = new UserController(_applicationSettings, _userService, _userContext);
-		}
-
-		[Test]
-		public void authenticate_should_return_true_user()
-		{
-			// Arrange
-			UserController.UserInfo userInfo = new UserController.UserInfo();
-			userInfo.Email = "admin@localhost";
-			userInfo.Password = "password1";
-
-			_userService.AddUser("admin@localhost", "user", "password1", true, true);
-			_userService.Users[0].IsActivated = true;
-
-			// Act
-			bool isAuthed = _userController.Authenticate(userInfo);
-
-			// Assert
-			Assert.That(isAuthed, Is.True);
-		}
-
-		[Test]
-		public void logout_should_user_service_to_logout()
-		{
-			// Arrange + Act
-			_userController.Logout();
-
-			// Assert
-			Assert.That(_userService.HasLoggedOut, Is.True);
+			_userController = new UserController(_userService);
 		}
 
 		[Test]

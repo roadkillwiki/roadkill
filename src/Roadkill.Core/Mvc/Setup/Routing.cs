@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Roadkill.Core.Mvc.WebApi;
+using Swashbuckle.Application;
 
-namespace Roadkill.Core.Mvc
+namespace Roadkill.Core.Mvc.Setup
 {
 	public class Routing
 	{
@@ -55,15 +52,6 @@ namespace Roadkill.Core.Mvc
 				new { controller = "Pages", action = "ByUser", title = UrlParameter.Optional }
 			);
 
-			// Be explicit for the help controller, as it gets confused with the WebAPI one
-			routes.MapRoute(
-				"Roadkill.Core.Mvc.Controllers.HelpController",
-				"help/{action}/{id}",
-				new { controller = "Help", action = "Index", id = UrlParameter.Optional },
-				null,
-				new string[] { "Roadkill.Core.Mvc.Controllers" }
-			);
-
 			// Default
 			routes.MapLowercaseRoute(
 				"Default", // Route name
@@ -100,7 +88,7 @@ namespace Roadkill.Core.Mvc
 			);
 		}
 
-		public static void RegisterApi(System.Web.Http.HttpConfiguration config)
+		public static void RegisterWebApi(HttpConfiguration config)
 		{
 			config.MapHttpAttributeRoutes();
 
@@ -111,7 +99,32 @@ namespace Roadkill.Core.Mvc
 				defaults: new { id = RouteParameter.Optional }
 			);
 
+			RegisterSwashBuckle(config);
+
 			config.EnsureInitialized();
+		}
+
+		private static void RegisterSwashBuckle(HttpConfiguration config)
+		{
+			var applyApiKeySecurity = new SwashbuckleApplyApiKeySecurity(
+				key: ApiKeyAuthorizeAttribute.APIKEY_HEADER_KEY,
+				name: ApiKeyAuthorizeAttribute.APIKEY_HEADER_KEY,
+				description: "API key",
+				@in: "header"
+				);
+
+			config
+				.EnableSwagger(c =>
+				{
+					c.ApiKey("apiKey")
+						.Description("API Key Authentication")
+						.Name("ApiKey")
+						.In("header");
+
+					c.SingleApiVersion("3.0", "Roadkill Web API");
+					applyApiKeySecurity.Apply(c);
+				})
+				.EnableSwaggerUi();
 		}
 	}
 }
