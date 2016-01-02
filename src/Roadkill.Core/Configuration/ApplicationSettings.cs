@@ -1,9 +1,11 @@
 ﻿using Roadkill.Core.Database;
 using Roadkill.Core.Security;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Web;
 
 namespace Roadkill.Core.Configuration
@@ -17,7 +19,7 @@ namespace Roadkill.Core.Configuration
 		private string _attachmentsDirectoryPath;
 		private string _attachmentsUrlPath;
 		private string _attachmentsRoutePath;
-		private HttpContextBase _httpContext;
+		private readonly HttpContextBase _httpContext;
 
 		/// <summary>
 		/// The name of the role or Active Directory security group that users should belong to in order to create,edit,delete pages,
@@ -36,9 +38,9 @@ namespace Roadkill.Core.Configuration
 		public string AppDataInternalPath { get; private set; }
 
 		/// <summary>
-		/// The path to the folder that contains the Lucene index - ~/App_Data/Internal/Search.
+		/// Contains a list API keys for the REST api. If this is empty, then the REST api is disabled.
 		/// </summary>
-		public string SearchIndexPath { get; set; }
+		public IEnumerable<string> ApiKeys { get; set; }
 
 		/// <summary>
 		/// The folder where all uploads (typically image files) are saved to. This is taken from the web.config.
@@ -146,19 +148,6 @@ namespace Roadkill.Core.Configuration
 		public string CustomTokensPath { get; set; }
 
 		/// <summary>
-		/// The full path to the text plugins directory. This is where plugins are stored after 
-		/// download (including their nuget files), and are copied to the bin folder.
-		/// </summary>
-		public string PluginsPath { get; internal set; }
-
-		/// <summary>
-		/// The directory within the /bin folder that the plugins are stored. They are 
-		/// copied here on application start, so they can be loaded into the application domain with shadow 
-		/// copy support and also monitored by the ASP.NET file watcher.
-		/// </summary>
-		public string PluginsBinPath { get; internal set; }
-
-		/// <summary>
 		/// The database used for storage.
 		/// </summary>
 		public string DatabaseName { get; set; }
@@ -200,6 +189,17 @@ namespace Roadkill.Core.Configuration
 		}
 
 		/// <summary>
+		/// Whether the REST api is available - if api keys are set in the config.
+		/// </summary>
+		public bool IsRestApiEnabled
+		{
+			get
+			{
+				return ApiKeys != null && ApiKeys.Any();
+			}
+		}
+
+		/// <summary>
 		/// Indicates whether the installation has been completed previously.
 		/// </summary>
 		public bool Installed { get; set; }
@@ -221,14 +221,32 @@ namespace Roadkill.Core.Configuration
 		public string LdapPassword { get; set; }
 
 		/// <summary>
+		/// The number of characters each password should be.
+		/// </summary>
+		public int MinimumPasswordLength { get; set; }
+
+		/// <summary>
 		/// The full path to the nlog.config file - this defaults to ~/App_Data/NLog.Config (the ~ is replaced with the base web directory).
 		/// </summary>
 		public string NLogConfigFilePath { get; set; }
 
 		/// <summary>
-		/// The number of characters each password should be.
+		/// The full path to the text plugins directory. This is where plugins are stored after 
+		/// download (including their nuget files), and are copied to the bin folder.
 		/// </summary>
-		public int MinimumPasswordLength { get; set; }
+		public string PluginsPath { get; internal set; }
+
+		/// <summary>
+		/// The directory within the /bin folder that the plugins are stored. They are 
+		/// copied here on application start, so they can be loaded into the application domain with shadow 
+		/// copy support and also monitored by the ASP.NET file watcher.
+		/// </summary>
+		public string PluginsBinPath { get; internal set; }
+
+		/// <summary>
+		/// The path to the folder that contains the Lucene index - ~/App_Data/Internal/Search.
+		/// </summary>
+		public string SearchIndexPath { get; set; }
 
 		/// <summary>
 		/// Indicates whether to use Local storage or Azure for attachments
@@ -296,6 +314,7 @@ namespace Roadkill.Core.Configuration
 
 			AppDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data");
 			AppDataInternalPath = Path.Combine(AppDataPath, "Internal");
+			ApiKeys = new List<string>();
 			CustomTokensPath = Path.Combine(AppDataPath, "customvariables.xml");
 			EmailTemplateFolder = Path.Combine(AppDataPath, "EmailTemplates");
 			HtmlElementWhiteListPath = Path.Combine(AppDataInternalPath, "htmlwhitelist.xml");

@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Web.Http;
-using Roadkill.Core.Configuration;
-using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Security;
 using Roadkill.Core.Services;
 
-namespace Roadkill.Core.Mvc.Controllers.Api
+namespace Roadkill.Core.Mvc.WebApi
 {
-	[WebApiAdminRequired]
-	public class PagesController : ApiControllerBase
+	[RoutePrefix("api/pages")]
+	[ApiKeyAuthorize]
+	public class PagesController : ApiController
 	{
 		private IPageService _pageService;
 
-		public PagesController(IPageService pageService, ApplicationSettings appSettings, UserServiceBase userService, IUserContext userContext)
-			: base(appSettings, userService, userContext)
+		public PagesController(IPageService pageService)
 		{
 			_pageService = pageService;
 		}

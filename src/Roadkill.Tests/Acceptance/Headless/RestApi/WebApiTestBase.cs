@@ -6,7 +6,7 @@ using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.LightSpeed;
 
-namespace Roadkill.Tests.Acceptance.WebApi
+namespace Roadkill.Tests.Acceptance.Headless.RestApi
 {
 	[TestFixture]
 	[Category("Acceptance")]

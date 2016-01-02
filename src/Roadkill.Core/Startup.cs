@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Owin;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.Database;
 using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.Logging;
-using Roadkill.Core.Mvc;
+using Roadkill.Core.Mvc.Setup;
 using Roadkill.Core.Owin;
 using Roadkill.Core.Services;
 
@@ -39,17 +36,25 @@ namespace Roadkill.Core
 			// This should be called before the other routes, for some reason.
 			AreaRegistration.RegisterAllAreas();
 
-			// Register routes
-			Routing.RegisterApi(GlobalConfiguration.Configuration);
+			// Register WebApi/MVC routes, including Swashbuckle
+			if (appSettings.IsRestApiEnabled)
+			{
+				Routing.RegisterWebApi(GlobalConfiguration.Configuration);
+			}
+
+			// Register MVC routes, including Swashbuckle
 			Routing.Register(RouteTable.Routes);
 
 			// Custom view engine registration (to add directory search paths for Theme views)
 			ExtendedRazorViewEngine.Register();
 
-			app.UseWebApi(new HttpConfiguration());
+			// Self-hosting setup for WebApi (WebApi Owin Self Host).
+			if (appSettings.IsRestApiEnabled)
+			{
+				app.UseWebApi(new HttpConfiguration());
+			}
 
-
-			Log.Information("Application started");
+			Log.Information("Roadkill started");
 		}
 	}
 }

@@ -26,6 +26,16 @@ namespace Roadkill.Core
 		}
 
 		/// <summary>
+		/// Gets or sets the api keys (comma seperated) used for access to the REST api. If this is empty, then the REST api is disabled.
+		/// </summary>
+		[ConfigurationProperty("apiKeys", IsRequired = false)]
+		public string ApiKeys
+		{
+			get { return (string)this["apiKeys"]; }
+			set { this["apiKeys"] = value; }
+		}
+
+		/// <summary>
 		/// Gets or sets the attachments folder, which should begin with "~/".
 		/// </summary>
 		[ConfigurationProperty("attachmentsFolder", IsRequired = true)]

@@ -270,6 +270,10 @@
       <HintPath>..\..\packages\structuremap.web.3.1.0.133\lib\net40\StructureMap.Web.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Swashbuckle.Core.5.2.2\lib\net40\Swashbuckle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
@@ -396,6 +400,8 @@
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Import\MatchComparer.cs" />
     <Compile Include="Import\ScrewTurnMigrationExtensions.cs" />
+    <Compile Include="Mvc\Setup\SwashbuckleApplyApiKeySecurity.cs" />
+    <Compile Include="Mvc\WebApi\ApiKeyAuthorizeAttribute.cs" />
     <Compile Include="Owin\InstallCheckMiddleware.cs" />
     <Compile Include="Mvc\Attributes\IAuthorizationAttribute.cs" />
     <Compile Include="Mvc\Controllers\ConfigurationTesterController.cs" />
@@ -418,8 +424,6 @@
       <DependentUpon>SiteStrings.resx</DependentUpon>
     </Compile>
     <Compile Include="Mvc\Attributes\CacheContentTypeAttribute.cs" />
-    <Compile Include="Mvc\Attributes\WebApiEditorRequiredAttribute.cs" />
-    <Compile Include="Mvc\Attributes\WebApiAdminRequiredAttribute.cs" />
     <Compile Include="Logging\Level.cs" />
     <Compile Include="Logging\Log.cs" />
     <Compile Include="Configuration\ApplicationSettings.cs" />
@@ -431,7 +435,6 @@
     <Compile Include="Mvc\Controllers\SpecialPagesController.cs" />
     <Compile Include="Mvc\ViewModels\CacheViewModel.cs" />
     <Compile Include="Mvc\ViewModels\TestResult.cs" />
-    <Compile Include="Mvc\WebApi\ApiControllerBase.cs" />
     <Compile Include="Mvc\WebApi\UserController.cs" />
     <Compile Include="Mvc\WebApi\SearchController.cs" />
     <Compile Include="Mvc\WebApi\PagesController.cs" />
@@ -481,7 +484,7 @@
     <Compile Include="Security\Windows\ActiveDirectoryProvider.cs" />
     <Compile Include="Exceptions\IoCException.cs" />
     <Compile Include="Attachments\AttachmentFileHandler.cs" />
-    <Compile Include="Mvc\Controllers\UserController.cs" />
+    <Compile Include="Mvc\Controllers\SiteSettings\UserController.cs" />
     <Compile Include="Email\ResetPasswordEmail.cs" />
     <Compile Include="Email\SignupEmail.cs" />
     <Compile Include="Email\EmailTemplate.cs" />

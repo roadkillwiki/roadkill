@@ -287,22 +287,23 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Acceptance\LocalizationTests.cs" />
-    <Compile Include="Acceptance\FileManagerTests.cs" />
-    <Compile Include="Acceptance\WebDriverExtensions.cs" />
-    <Compile Include="Acceptance\InstallerTests.cs" />
-    <Compile Include="Acceptance\SearchTests.cs" />
-    <Compile Include="Acceptance\SettingsTests.cs" />
-    <Compile Include="Acceptance\Setup\AcceptanceTestBase.cs" />
-    <Compile Include="Acceptance\Setup\AcceptanceTestsSetup.cs" />
-    <Compile Include="Acceptance\PageTests.cs" />
-    <Compile Include="Acceptance\UserTests.cs" />
-    <Compile Include="Acceptance\WebApi\WebApiResponse.cs" />
-    <Compile Include="Acceptance\WebApi\WebApiClient.cs" />
-    <Compile Include="Acceptance\WebApi\PageControllerTests.cs" />
-    <Compile Include="Acceptance\WebApi\SearchControllerTests.cs" />
-    <Compile Include="Acceptance\WebApi\UserControllerTests.cs" />
-    <Compile Include="Acceptance\WebApi\WebApiTestBase.cs" />
+    <Compile Include="Acceptance\Webdriver\LocalizationTests.cs" />
+    <Compile Include="Acceptance\Webdriver\FileManagerTests.cs" />
+    <Compile Include="Acceptance\Headless\RestApi\ApiKeysTests.cs" />
+    <Compile Include="Acceptance\Webdriver\WebDriverExtensions.cs" />
+    <Compile Include="Acceptance\Webdriver\InstallerTests.cs" />
+    <Compile Include="Acceptance\Webdriver\SearchTests.cs" />
+    <Compile Include="Acceptance\Webdriver\SettingsTests.cs" />
+    <Compile Include="Acceptance\Webdriver\AcceptanceTestBase.cs" />
+    <Compile Include="Acceptance\Webdriver\AcceptanceTestsSetup.cs" />
+    <Compile Include="Acceptance\Webdriver\PageTests.cs" />
+    <Compile Include="Acceptance\Webdriver\UserTests.cs" />
+    <Compile Include="Acceptance\Headless\RestApi\WebApiResponse.cs" />
+    <Compile Include="Acceptance\Headless\RestApi\WebApiClient.cs" />
+    <Compile Include="Acceptance\Headless\RestApi\PageControllerTests.cs" />
+    <Compile Include="Acceptance\Headless\RestApi\SearchControllerTests.cs" />
+    <Compile Include="Acceptance\Headless\RestApi\UserControllerTests.cs" />
+    <Compile Include="Acceptance\Headless\RestApi\WebApiTestBase.cs" />
     <Compile Include="Integration\Configuration\ApplicationSettingsTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedPageRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedInstallerRepositoryTests.cs" />
@@ -317,8 +318,6 @@
     <Compile Include="Integration\Repository\UserRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedUserRepositoryTests.cs" />
     <Compile Include="Integration\Import\ScrewturnImporterTests.cs" />
-    <Compile Include="Smoke\CanaryTests.cs" />
-    <Compile Include="Smoke\DemoSiteTests.cs" />
     <Compile Include="TestHelpers.cs" />
     <Compile Include="Unit\Attachments\AttachmentPathUtilTests.cs" />
     <Compile Include="Unit\Attachments\AttachmentFileHandlerTests.cs" />
@@ -344,8 +343,6 @@
     <Compile Include="Unit\Export\WikiExporterTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\OptionalAuthorizationTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\EditorRequiredAttributeTests.cs" />
-    <Compile Include="Unit\Mvc\Attributes\WebApiEditorRequiredAttributeTests.cs" />
-    <Compile Include="Unit\Mvc\Attributes\WebApiAdminRequiredAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Attributes\AdminRequiredAttributeTests.cs" />
     <Compile Include="Unit\Mvc\Controllers\ConfigurationTesterControllerTests.cs" />
     <Compile Include="Unit\Mvc\ViewModels\TestResultTests.cs" />
@@ -495,7 +492,7 @@
       <SubType>Designer</SubType>
     </None>
     <Compile Include="Unit\Text\CreoleParserTests.cs" />
-    <Compile Include="Acceptance\LoginTests.cs" />
+    <Compile Include="Acceptance\Webdriver\LoginTests.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\MvcMockHelpers.cs" />
     <Compile Include="Unit\Mvc\Controllers\UserControllerTests.cs" />
     <Compile Include="Integration\Search\SearchServiceTests.cs" />

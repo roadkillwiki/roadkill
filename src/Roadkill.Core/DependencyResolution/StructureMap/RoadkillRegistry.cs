@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Runtime.Caching;
+using System.Web.Http;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
@@ -12,8 +13,8 @@ using Roadkill.Core.Email;
 using Roadkill.Core.Import;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Mvc.Controllers.Api;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Mvc.WebApi;
 using Roadkill.Core.Mvc.WebViewPages;
 using Roadkill.Core.Plugins;
 using Roadkill.Core.Security;
@@ -131,7 +132,7 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 			// Controllers
 			scanner.AddAllTypesOf<IRoadkillController>();
 			scanner.AddAllTypesOf<ControllerBase>();
-			scanner.AddAllTypesOf<ApiControllerBase>();
+			scanner.AddAllTypesOf<ApiController>();
 			scanner.AddAllTypesOf<ConfigurationTesterController>();
 		}
 
@@ -231,6 +232,7 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 
 		private void ConfigureSetterInjection()
 		{
+			Policies.SetAllProperties(x => x.OfType<ApiKeyAuthorizeAttribute>());
 			Policies.SetAllProperties(x => x.OfType<ISetterInjected>());
 			Policies.SetAllProperties(x => x.OfType<IAuthorizationAttribute>());
 			Policies.SetAllProperties(x => x.TypeMatches(t => t == typeof (RoadkillViewPage<>)));

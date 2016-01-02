@@ -3,7 +3,7 @@ using System.Linq;
 using NUnit.Framework;
 using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Tests.Acceptance.WebApi
+namespace Roadkill.Tests.Acceptance.Headless.RestApi
 {
 	[TestFixture]
 	[Category("Acceptance")]
@@ -21,7 +21,6 @@ namespace Roadkill.Tests.Acceptance.WebApi
 			};
 
 			WebApiClient apiclient = new WebApiClient();
-			apiclient.Login();
 
 			// Act
 			apiclient.Get("Search/CreateIndex");
