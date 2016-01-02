@@ -287,22 +287,23 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Acceptance\LocalizationTests.cs" />
-    <Compile Include="Acceptance\FileManagerTests.cs" />
-    <Compile Include="Acceptance\WebDriverExtensions.cs" />
-    <Compile Include="Acceptance\InstallerTests.cs" />
-    <Compile Include="Acceptance\SearchTests.cs" />
-    <Compile Include="Acceptance\SettingsTests.cs" />
-    <Compile Include="Acceptance\Setup\AcceptanceTestBase.cs" />
-    <Compile Include="Acceptance\Setup\AcceptanceTestsSetup.cs" />
-    <Compile Include="Acceptance\PageTests.cs" />
-    <Compile Include="Acceptance\UserTests.cs" />
-    <Compile Include="Acceptance\WebApi\WebApiResponse.cs" />
-    <Compile Include="Acceptance\WebApi\WebApiClient.cs" />
-    <Compile Include="Acceptance\WebApi\PageControllerTests.cs" />
-    <Compile Include="Acceptance\WebApi\SearchControllerTests.cs" />
-    <Compile Include="Acceptance\WebApi\UserControllerTests.cs" />
-    <Compile Include="Acceptance\WebApi\WebApiTestBase.cs" />
+    <Compile Include="Acceptance\Webdriver\LocalizationTests.cs" />
+    <Compile Include="Acceptance\Webdriver\FileManagerTests.cs" />
+    <Compile Include="Acceptance\Headless\WebApi\ApiKeysTests.cs" />
+    <Compile Include="Acceptance\Webdriver\WebDriverExtensions.cs" />
+    <Compile Include="Acceptance\Webdriver\InstallerTests.cs" />
+    <Compile Include="Acceptance\Webdriver\SearchTests.cs" />
+    <Compile Include="Acceptance\Webdriver\SettingsTests.cs" />
+    <Compile Include="Acceptance\Webdriver\AcceptanceTestBase.cs" />
+    <Compile Include="Acceptance\Webdriver\AcceptanceTestsSetup.cs" />
+    <Compile Include="Acceptance\Webdriver\PageTests.cs" />
+    <Compile Include="Acceptance\Webdriver\UserTests.cs" />
+    <Compile Include="Acceptance\Headless\WebApi\WebApiResponse.cs" />
+    <Compile Include="Acceptance\Headless\WebApi\WebApiClient.cs" />
+    <Compile Include="Acceptance\Headless\WebApi\PageControllerTests.cs" />
+    <Compile Include="Acceptance\Headless\WebApi\SearchControllerTests.cs" />
+    <Compile Include="Acceptance\Headless\WebApi\UserControllerTests.cs" />
+    <Compile Include="Acceptance\Headless\WebApi\WebApiTestBase.cs" />
     <Compile Include="Integration\Configuration\ApplicationSettingsTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedPageRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedInstallerRepositoryTests.cs" />
@@ -493,7 +494,7 @@
       <SubType>Designer</SubType>
     </None>
     <Compile Include="Unit\Text\CreoleParserTests.cs" />
-    <Compile Include="Acceptance\LoginTests.cs" />
+    <Compile Include="Acceptance\Webdriver\LoginTests.cs" />
     <Compile Include="Unit\StubsAndMocks\Mvc\MvcMockHelpers.cs" />
     <Compile Include="Unit\Mvc\Controllers\UserControllerTests.cs" />
     <Compile Include="Integration\Search\SearchServiceTests.cs" />

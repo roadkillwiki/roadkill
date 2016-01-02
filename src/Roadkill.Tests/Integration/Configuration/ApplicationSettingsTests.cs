@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Web;
 using NUnit.Framework;
@@ -78,6 +79,19 @@ namespace Roadkill.Tests.Integration.Configuration
 			
 			// Assert
 			Assert.That(actualUrlPath, Is.EqualTo(@"/wiki/Folder1/Folder2"));
+		}
+
+		[Test]
+		public void IsRestApiEnabled_should_be_true_when_api_keys_are_set()
+		{
+			// Arrange + Act
+			ApplicationSettings appSettings = new ApplicationSettings()
+			{
+				ApiKeys = new List<string>() {"1", "2"}
+			};
+
+			// Assert
+			Assert.That(appSettings.IsRestApiEnabled, Is.True);
 		}
 	}
 }

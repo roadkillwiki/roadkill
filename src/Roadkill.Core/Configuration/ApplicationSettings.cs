@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Web;
 
 namespace Roadkill.Core.Configuration
@@ -184,6 +185,17 @@ namespace Roadkill.Core.Configuration
 			get
 			{
 				return ConfigurationManager.AppSettings["DemoSite"] == "true";
+			}
+		}
+
+		/// <summary>
+		/// Whether the REST api is available - if api keys are set in the config.
+		/// </summary>
+		public bool IsRestApiEnabled
+		{
+			get
+			{
+				return ApiKeys != null && ApiKeys.Any();
 			}
 		}
 

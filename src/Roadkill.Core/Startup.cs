@@ -40,14 +40,22 @@ namespace Roadkill.Core
 			AreaRegistration.RegisterAllAreas();
 
 			// Register WebApi/MVC routes, including Swashbuckle
-			Routing.RegisterWebApi(GlobalConfiguration.Configuration);
+			if (appSettings.IsRestApiEnabled)
+			{
+				Routing.RegisterWebApi(GlobalConfiguration.Configuration);
+			}
+
+			// Register MVC routes, including Swashbuckle
 			Routing.Register(RouteTable.Routes);
 
 			// Custom view engine registration (to add directory search paths for Theme views)
 			ExtendedRazorViewEngine.Register();
 
-			// WebApi 
-			app.UseWebApi(new HttpConfiguration());
+			// Self-hosting setup for WebApi (WebApi Owin Self Host).
+			if (appSettings.IsRestApiEnabled)
+			{
+				app.UseWebApi(new HttpConfiguration());
+			}
 
 			Log.Information("Roadkill started");
 		}
