@@ -2,6 +2,7 @@
 using Roadkill.Core.Logging;
 using Roadkill.Core.Mvc.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Web.Configuration;
@@ -219,6 +220,7 @@ namespace Roadkill.Core.Configuration
 			appSettings.AdminRoleName = _section.AdminRoleName;
 			appSettings.AttachmentsFolder = _section.AttachmentsFolder;
 			appSettings.AttachmentsRoutePath = _section.AttachmentsRoutePath;
+			appSettings.ApiKeys = ParseApiKeys(_section.ApiKeys);
 			appSettings.AzureConnectionString = _section.AzureConnectionString;
 			appSettings.AzureContainer = _section.AzureContainer;
 
@@ -244,6 +246,22 @@ namespace Roadkill.Core.Configuration
 			appSettings.UseWindowsAuthentication = _section.UseWindowsAuthentication;
 
 			return appSettings;
+		}
+
+		private IEnumerable<string> ParseApiKeys(string apiKeys)
+		{
+			if (string.IsNullOrEmpty(apiKeys))
+				return new List<string>();
+
+			var keyList = new List<string>();
+
+			string[] keys = apiKeys.Split(',');
+			foreach (string item in keys)
+			{
+				keyList.Add(item.Trim());
+			}
+
+			return keyList;
 		}
 
 		/// <summary>

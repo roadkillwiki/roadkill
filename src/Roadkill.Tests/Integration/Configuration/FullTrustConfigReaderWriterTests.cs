@@ -1,6 +1,7 @@
 using System;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Web.Configuration;
 using NUnit.Framework;
 using Roadkill.Core;
@@ -160,6 +161,7 @@ namespace Roadkill.Tests.Integration.Configuration
 
 			// Assert
 			Assert.That(appSettings.AdminRoleName, Is.EqualTo("Admin-test"), "AdminRoleName");
+			Assert.That(appSettings.ApiKeys.Count(), Is.EqualTo(3), "ApiKeys");
 			Assert.That(appSettings.AttachmentsRoutePath, Is.EqualTo("AttachmentsRoutePathTest"), "AttachmentsRoutePath"); 
 			Assert.That(appSettings.AttachmentsFolder, Is.EqualTo("/Attachments-test"), "AttachmentsFolder");
 			Assert.That(appSettings.UseObjectCache, Is.True, "UseObjectCache");
@@ -179,6 +181,24 @@ namespace Roadkill.Tests.Integration.Configuration
 		}
 
 		[Test]
+		public void getapplicationsettings_should_parse_api_keys()
+		{
+			// Arrange
+			string configFilePath = GetConfigPath("test.config");
+
+			// Act
+			FullTrustConfigReaderWriter configManager = new FullTrustConfigReaderWriter(configFilePath);
+			ApplicationSettings appSettings = configManager.GetApplicationSettings();
+
+			// Assert
+			Assert.That(appSettings.ApiKeys, Is.Not.Null, "ApiKeys");
+			Assert.That(appSettings.ApiKeys.Count(), Is.EqualTo(3), "ApiKeys");
+			Assert.That(appSettings.ApiKeys, Contains.Item("apikey1"), "Doesn't contain 'apikey1'");
+			Assert.That(appSettings.ApiKeys, Contains.Item("apikey2"), "Doesn't contain 'apikey2'");
+			Assert.That(appSettings.ApiKeys, Contains.Item("apikey3"), "Doesn't contain 'apikey3'");
+		}
+
+		[Test]
 		public void getapplicationsettings_should_use_default_values_when_optional_settings_have_missing_values()
 		{
 			// Arrange
@@ -190,6 +210,7 @@ namespace Roadkill.Tests.Integration.Configuration
 
 			// Assert
 			Assert.That(appSettings.AttachmentsRoutePath, Is.EqualTo("Attachments"), "AttachmentsRoutePath");
+			Assert.That(appSettings.ApiKeys, Is.Not.Null.And.Empty, "ApiKeys");
 			Assert.That(appSettings.DatabaseName, Is.EqualTo("SqlServer2008"), "DatabaseName");
 			Assert.That(appSettings.IgnoreSearchIndexErrors, Is.False, "IgnoreSearchIndexErrors");
 			Assert.That(appSettings.IsPublicSite, Is.True, "IsPublicSite");

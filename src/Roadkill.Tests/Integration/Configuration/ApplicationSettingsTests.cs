@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-using Moq;
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Tests.Unit;
 using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
 namespace Roadkill.Tests.Integration.Configuration
@@ -38,7 +32,8 @@ namespace Roadkill.Tests.Integration.Configuration
 			Assert.That(appSettings.MinimumPasswordLength, Is.EqualTo(6), "MinimumPasswordLength");
 			Assert.That(appSettings.DatabaseName == SupportedDatabases.SqlServer2008, "DatabaseName");
 			Assert.That(appSettings.AttachmentsRoutePath, Is.EqualTo("Attachments"), "AttachmentsRoutePath");
-			Assert.That(appSettings.AttachmentsFolder, Is.EqualTo("~/App_Data/Attachments"), "AttachmentsFolder");	
+			Assert.That(appSettings.AttachmentsFolder, Is.EqualTo("~/App_Data/Attachments"), "AttachmentsFolder");
+			Assert.That(appSettings.ApiKeys, Is.Not.Null.And.Empty, "ApiKeys");
 		}
 
 		private string GetFullPath(string path)
