@@ -14,6 +14,7 @@ using Roadkill.Core.Import;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Mvc.WebApi;
 using Roadkill.Core.Mvc.WebViewPages;
 using Roadkill.Core.Plugins;
 using Roadkill.Core.Security;
@@ -231,6 +232,7 @@ namespace Roadkill.Core.DependencyResolution.StructureMap
 
 		private void ConfigureSetterInjection()
 		{
+			Policies.SetAllProperties(x => x.OfType<ApiKeyAuthorizeAttribute>());
 			Policies.SetAllProperties(x => x.OfType<ISetterInjected>());
 			Policies.SetAllProperties(x => x.OfType<IAuthorizationAttribute>());
 			Policies.SetAllProperties(x => x.TypeMatches(t => t == typeof (RoadkillViewPage<>)));

@@ -4,7 +4,7 @@ using System.Net;
 using NUnit.Framework;
 using RestSharp;
 
-namespace Roadkill.Tests.Acceptance.Headless.WebApi
+namespace Roadkill.Tests.Acceptance.Headless.RestApi
 {
 	[TestFixture]
 	[Category("Acceptance")]
@@ -28,7 +28,35 @@ namespace Roadkill.Tests.Acceptance.Headless.WebApi
 		}
 
 		[Test]
-		public void blank_apikeys_should_disable_rest_api()
+		public void wrong_apikey_in_header_should_return_401_unauthorized()
+		{
+			// Arrange
+			WebApiClient apiclient = new WebApiClient();
+			apiclient.ApiKey = "bad api key";
+
+			// Act
+			WebApiResponse response = apiclient.Get("User");
+
+			// Assert
+			Assert.That(response.HttpStatusCode, Is.EqualTo(HttpStatusCode.Unauthorized), response);
+		}
+
+		[Test]
+		public void missing_apikey_in_header_should_return_400_badrequest()
+		{
+			// Arrange
+			WebApiClient apiclient = new WebApiClient();
+			apiclient.ApiKey = "";
+
+			// Act
+			WebApiResponse response = apiclient.Get("User");
+
+			// Assert
+			Assert.That(response.HttpStatusCode, Is.EqualTo(HttpStatusCode.BadRequest), response);
+		}
+
+		[Test]
+		public void blank_apikeys_config_setting_should_disable_rest_api()
 		{
 			// Arrange
 			RemoveApiKeys();
@@ -42,7 +70,7 @@ namespace Roadkill.Tests.Acceptance.Headless.WebApi
 		}
 
 		[Test]
-		public void blank_apikeys_should_disable_swashbuckle()
+		public void blank__apikeys_config_setting_should_disable_swashbuckle()
 		{
 			// Arrange
 			RemoveApiKeys();

@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Text;
 
-namespace Roadkill.Tests.Acceptance.Headless.WebApi
+namespace Roadkill.Tests.Acceptance.Headless.RestApi
 {
 	public class WebApiResponse<T> where T : new()
 	{

@@ -3,12 +3,13 @@ using System.Configuration;
 using System.Net;
 using RestSharp;
 
-namespace Roadkill.Tests.Acceptance.Headless.WebApi
+namespace Roadkill.Tests.Acceptance.Headless.RestApi
 {
 	public class WebApiClient
 	{
 		public string BaseUrl { get; set; }
 		public RestClient Client { get; set; }
+		public string ApiKey { get; set; }
 
 		public WebApiClient()
 		{
@@ -20,6 +21,8 @@ namespace Roadkill.Tests.Acceptance.Headless.WebApi
 
 			Client = new RestClient(BaseUrl);
 			Client.CookieContainer = new CookieContainer();
+
+			ApiKey = TestConstants.REST_API_KEY;
 		}
 
 		public string GetFullPath(string fullPath)
@@ -131,7 +134,8 @@ namespace Roadkill.Tests.Acceptance.Headless.WebApi
 
 		private void AddApiKey(RestRequest restRequest)
 		{
-			restRequest.AddHeader("Authorization", "1234");
+			if (!string.IsNullOrEmpty(ApiKey))
+				restRequest.AddHeader("Authorization", ApiKey);
 		}
 	}
 }

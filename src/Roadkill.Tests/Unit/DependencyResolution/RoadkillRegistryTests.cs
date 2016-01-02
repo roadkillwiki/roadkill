@@ -23,6 +23,7 @@ using Roadkill.Core.Import;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
+using Roadkill.Core.Mvc.WebApi;
 using Roadkill.Core.Plugins;
 using Roadkill.Core.Security;
 using Roadkill.Core.Security.Windows;
@@ -337,7 +338,20 @@ namespace Roadkill.Tests.Unit.DependencyResolution
 			Assert.That(setterInjected.PageService, Is.Not.Null);
 			Assert.That(setterInjected.SettingsService, Is.Not.Null);
 		}
-		
+
+		[Test]
+		public void should_fill_properties_for_ApiKeyAuthorizeAttribute()
+		{
+			// Arrange
+			IContainer container = CreateContainer();
+
+			// Act
+			ApiKeyAuthorizeAttribute setterInjected = container.GetInstance<ApiKeyAuthorizeAttribute>();
+
+			// Assert
+			Assert.That(setterInjected.ApplicationSettings, Is.Not.Null);
+		}
+
 		// Custom file service and azure
 		[Test]
 		public void should_use_localfileservice_by_default()

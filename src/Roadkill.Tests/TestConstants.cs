@@ -22,6 +22,8 @@ namespace Roadkill.Tests
 
 		public static readonly string CONNECTION_STRING;
 
+		public static readonly string REST_API_KEY = "apikey1";
+
 		static TestConstants()
 		{
 			// ROOT_FOLDER

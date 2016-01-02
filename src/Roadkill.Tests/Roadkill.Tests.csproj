@@ -289,7 +289,7 @@
   <ItemGroup>
     <Compile Include="Acceptance\Webdriver\LocalizationTests.cs" />
     <Compile Include="Acceptance\Webdriver\FileManagerTests.cs" />
-    <Compile Include="Acceptance\Headless\WebApi\ApiKeysTests.cs" />
+    <Compile Include="Acceptance\Headless\RestApi\ApiKeysTests.cs" />
     <Compile Include="Acceptance\Webdriver\WebDriverExtensions.cs" />
     <Compile Include="Acceptance\Webdriver\InstallerTests.cs" />
     <Compile Include="Acceptance\Webdriver\SearchTests.cs" />
@@ -298,12 +298,12 @@
     <Compile Include="Acceptance\Webdriver\AcceptanceTestsSetup.cs" />
     <Compile Include="Acceptance\Webdriver\PageTests.cs" />
     <Compile Include="Acceptance\Webdriver\UserTests.cs" />
-    <Compile Include="Acceptance\Headless\WebApi\WebApiResponse.cs" />
-    <Compile Include="Acceptance\Headless\WebApi\WebApiClient.cs" />
-    <Compile Include="Acceptance\Headless\WebApi\PageControllerTests.cs" />
-    <Compile Include="Acceptance\Headless\WebApi\SearchControllerTests.cs" />
-    <Compile Include="Acceptance\Headless\WebApi\UserControllerTests.cs" />
-    <Compile Include="Acceptance\Headless\WebApi\WebApiTestBase.cs" />
+    <Compile Include="Acceptance\Headless\RestApi\WebApiResponse.cs" />
+    <Compile Include="Acceptance\Headless\RestApi\WebApiClient.cs" />
+    <Compile Include="Acceptance\Headless\RestApi\PageControllerTests.cs" />
+    <Compile Include="Acceptance\Headless\RestApi\SearchControllerTests.cs" />
+    <Compile Include="Acceptance\Headless\RestApi\UserControllerTests.cs" />
+    <Compile Include="Acceptance\Headless\RestApi\WebApiTestBase.cs" />
     <Compile Include="Integration\Configuration\ApplicationSettingsTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedPageRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedInstallerRepositoryTests.cs" />

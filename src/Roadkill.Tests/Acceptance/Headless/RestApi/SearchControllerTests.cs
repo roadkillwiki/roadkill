@@ -3,7 +3,7 @@ using System.Linq;
 using NUnit.Framework;
 using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Tests.Acceptance.Headless.WebApi
+namespace Roadkill.Tests.Acceptance.Headless.RestApi
 {
 	[TestFixture]
 	[Category("Acceptance")]
