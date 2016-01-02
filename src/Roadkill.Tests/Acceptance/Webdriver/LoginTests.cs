@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 
-namespace Roadkill.Tests.Acceptance
+namespace Roadkill.Tests.Acceptance.Webdriver
 {
 	[TestFixture]
 	[Category("Acceptance")]

@@ -4,6 +4,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.PhantomJS;
+using Roadkill.Tests.Acceptance.Webdriver;
 
 namespace Roadkill.Tests.Acceptance.Smoke
 {

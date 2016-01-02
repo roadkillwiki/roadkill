@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using Roadkill.Core;
-using Roadkill.Core.Database;
 
-namespace Roadkill.Tests.Acceptance
+namespace Roadkill.Tests.Acceptance.Webdriver
 {
 	[TestFixture]
 	[Category("Acceptance")]

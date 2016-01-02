@@ -1,10 +1,9 @@
+using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using System.IO;
-
 using OpenQA.Selenium;
 
-namespace Roadkill.Tests.Acceptance
+namespace Roadkill.Tests.Acceptance.Webdriver
 {
 	[TestFixture]
 	[Category("Acceptance")]

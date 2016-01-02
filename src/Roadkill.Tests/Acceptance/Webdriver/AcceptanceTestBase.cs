@@ -1,9 +1,8 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 using NUnit.Framework;
 using OpenQA.Selenium;
 
-namespace Roadkill.Tests.Acceptance
+namespace Roadkill.Tests.Acceptance.Webdriver
 {
 	/// <summary>
 	/// The base class for all Acceptance tests

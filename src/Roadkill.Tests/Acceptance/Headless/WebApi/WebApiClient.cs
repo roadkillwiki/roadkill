@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Net;
 using RestSharp;
 
-namespace Roadkill.Tests.Acceptance.WebApi
+namespace Roadkill.Tests.Acceptance.Headless.WebApi
 {
 	public class WebApiClient
 	{

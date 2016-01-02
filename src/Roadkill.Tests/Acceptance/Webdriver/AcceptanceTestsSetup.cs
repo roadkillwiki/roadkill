@@ -3,7 +3,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
-namespace Roadkill.Tests.Acceptance
+namespace Roadkill.Tests.Acceptance.Webdriver
 {
 	/// <summary>
 	/// Nunit runs this once at the start of the test run when a test has the 'Roadkill.Tests.Acceptance' namespace.

@@ -9,6 +9,7 @@ using OpenQA.Selenium.PhantomJS;
 using OpenQA.Selenium.Support.UI;
 using Roadkill.Core.Database;
 using Roadkill.Tests.Acceptance;
+using Roadkill.Tests.Acceptance.Webdriver;
 
 namespace Roadkill.Tests.Acceptance.Smoke
 {

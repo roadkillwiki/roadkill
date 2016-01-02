@@ -5,7 +5,7 @@ using NUnit.Framework;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
 
-namespace Roadkill.Tests.Acceptance.WebApi
+namespace Roadkill.Tests.Acceptance.Headless.WebApi
 {
 	[TestFixture]
 	[Category("Acceptance")]
