@@ -167,6 +167,8 @@ namespace Roadkill.Core.Attachments
 			ExtensionMap.Add(".scd", "application/x-msschedule");
 			ExtensionMap.Add(".sst", "application/vndms-pkicertstore");
 			ExtensionMap.Add(".src", "application/x-wais-source");
+			ExtensionMap.Add(".svg", "image/svg-xml");
+			ExtensionMap.Add(".svgz", "image/svg-xml");
 			ExtensionMap.Add(".sv4cpio", "application/x-sv4cpio");
 			ExtensionMap.Add(".swf", "application/x-shockwave-flash");
 			ExtensionMap.Add(".tex", "application/x-tex");
