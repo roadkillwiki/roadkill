@@ -41,7 +41,8 @@ namespace Roadkill.Tests
 			var dirInfo = new DirectoryInfo(webRoot);
 
 			serverConfig
-				.AddAppPool(TestConstants.WEB_SITENAME, "v4.0", ManagedPipelineMode.Integrated, ProcessModelIdentityType.LocalService)
+				.AddAppPool(TestConstants.WEB_SITENAME, "v4.0", ManagedPipelineMode.Integrated,
+					ProcessModelIdentityType.LocalService)
 				.WithProcessModel(TimeSpan.FromMinutes(60), false)
 				.Commit();
 
@@ -81,7 +82,9 @@ namespace Roadkill.Tests
 				string installerTestsAttachmentsPath = Path.Combine(TestConstants.WEB_PATH, "AcceptanceTests");
 				Directory.Delete(installerTestsAttachmentsPath, true);
 			}
-			catch { }
+			catch
+			{
+			}
 		}
 
 		public static void CopyDevWebConfigFromLibFolder()
@@ -167,7 +170,7 @@ namespace Roadkill.Tests
 		{
 			// Tries to gets an environmental variable from any of the 3 env sources.
 			string value = Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Machine);
-			
+
 			if (string.IsNullOrEmpty(value))
 				value = Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
 

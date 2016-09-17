@@ -305,6 +305,7 @@
     <Compile Include="Acceptance\Headless\RestApi\UserControllerTests.cs" />
     <Compile Include="Acceptance\Headless\RestApi\WebApiTestBase.cs" />
     <Compile Include="Integration\Configuration\ApplicationSettingsTests.cs" />
+    <Compile Include="Integration\Repository\Dapper\DapperUserRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedPageRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedInstallerRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedSettingsRepositoryTests.cs" />

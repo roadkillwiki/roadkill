@@ -133,6 +133,10 @@
       <HintPath>..\..\packages\CommonMark.NET.0.10.0\lib\net45\CommonMark.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
       <Private>True</Private>
@@ -357,6 +361,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\IRepositoryFactory.cs" />
+    <Compile Include="Database\Repositories\Dapper\DapperUserRepository.cs" />
+    <Compile Include="Database\Repositories\Dapper\IDbConnectionFactory.cs" />
+    <Compile Include="Database\Repositories\Dapper\SqlDbConnectionFactory.cs" />
     <Compile Include="Database\Repositories\IDatabaseTester.cs" />
     <Compile Include="Database\Repositories\IInstallerRepository.cs" />
     <Compile Include="Database\Repositories\DatabaseTester.cs" />
@@ -559,6 +566,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

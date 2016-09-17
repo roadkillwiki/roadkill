@@ -440,6 +440,7 @@ namespace Roadkill.Tests.Integration.Repository
 			User actualUser = Repository.GetUserById(user.Id);
 
 			// Assert
+			Assert.That(actualUser, Is.Not.Null);
 			Assert.That(actualUser.Id, Is.EqualTo(user.Id));
 			Assert.That(actualUser.ActivationKey, Is.EqualTo(user.ActivationKey));
 			Assert.That(actualUser.Firstname, Is.EqualTo(user.Firstname));
