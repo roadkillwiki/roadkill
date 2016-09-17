@@ -252,8 +252,9 @@
       <HintPath>..\..\packages\NLog.4.2.0\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Npgsql">
-      <HintPath>..\..\lib\LightSpeed\Providers\Npgsql.dll</HintPath>
+    <Reference Include="Npgsql, Version=3.1.7.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Npgsql.3.1.7\lib\net45\Npgsql.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -363,6 +364,7 @@
     <Compile Include="Database\IRepositoryFactory.cs" />
     <Compile Include="Database\Repositories\Dapper\DapperUserRepository.cs" />
     <Compile Include="Database\Repositories\Dapper\IDbConnectionFactory.cs" />
+    <Compile Include="Database\Repositories\Dapper\PostgresConnectionFactory.cs" />
     <Compile Include="Database\Repositories\Dapper\SqlDbConnectionFactory.cs" />
     <Compile Include="Database\Repositories\IDatabaseTester.cs" />
     <Compile Include="Database\Repositories\IInstallerRepository.cs" />

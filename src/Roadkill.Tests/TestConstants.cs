@@ -20,8 +20,9 @@ namespace Roadkill.Tests
 		public static readonly string WEB_SITENAME = "RoadkillTests";
 		public static readonly string WEB_BASEURL = "http://localhost:" +WEB_PORT;
 
-		public static readonly string CONNECTION_STRING;
-
+		public static readonly string SQLSERVER_CONNECTION_STRING = "Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill";
+		public static readonly string POSTGRES_CONNECTION_STRING = "User ID=postgres;Password=mysecretpassword;Host=localhost;Port=5432;Database=roadkill;";
+		
 		public static readonly string REST_API_KEY = "apikey1";
 
 		static TestConstants()
@@ -40,17 +41,17 @@ namespace Roadkill.Tests
 			WEB_PATH = Path.Combine(TestConstants.ROOT_FOLDER, "src", "Roadkill.Web");
 			WEB_PATH = new DirectoryInfo(WEB_PATH).FullName;
 
-			// CONNECTION_STRING
-			// For Appveyor
+			// SQL SERVER CONNECTION_STRING
+			// - change it for Appveyor
 			string envValue = TestHelpers.GetEnvironmentalVariable("ConnectionString");
 			if (!string.IsNullOrEmpty(envValue))
 			{
-				CONNECTION_STRING = envValue;
+				SQLSERVER_CONNECTION_STRING = envValue;
 			}
 			else
 			{
 				// This should match connectionStrings.dev.config
-				CONNECTION_STRING = @"Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill";
+				SQLSERVER_CONNECTION_STRING = "Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill";
 			}
 		}
 	}

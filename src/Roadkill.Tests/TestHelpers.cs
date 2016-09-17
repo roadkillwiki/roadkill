@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using IisConfiguration;
 using IisConfiguration.Logging;
 using Microsoft.Web.Administration;
+using Npgsql;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
@@ -184,7 +185,7 @@ namespace Roadkill.Tests
 		{
 			public static void RecreateTables()
 			{
-				using (SqlConnection connection = new SqlConnection(TestConstants.CONNECTION_STRING))
+				using (SqlConnection connection = new SqlConnection(TestConstants.SQLSERVER_CONNECTION_STRING))
 				{
 					connection.Open();
 
@@ -197,7 +198,7 @@ namespace Roadkill.Tests
 
 			public static void ClearDatabase()
 			{
-				using (SqlConnection connection = new SqlConnection(TestConstants.CONNECTION_STRING))
+				using (SqlConnection connection = new SqlConnection(TestConstants.SQLSERVER_CONNECTION_STRING))
 				{
 					connection.Open();
 
@@ -216,6 +217,45 @@ namespace Roadkill.Tests
 			private static string ReadSqlServerScript()
 			{
 				string path = Path.Combine(TestConstants.LIB_FOLDER, "Test-databases", "roadkill-sqlserver.sql");
+				return File.ReadAllText(path);
+			}
+		}
+
+		public class PostgresSetup
+		{
+			public static void RecreateTables()
+			{
+				using (NpgsqlConnection connection = new NpgsqlConnection(TestConstants.POSTGRES_CONNECTION_STRING))
+				{
+					connection.Open();
+
+					NpgsqlCommand command = connection.CreateCommand();
+					command.CommandText = ReadSqlServerScript();
+
+					command.ExecuteNonQuery();
+				}
+			}
+
+			public static void ClearDatabase()
+			{
+				using (NpgsqlConnection connection = new NpgsqlConnection(TestConstants.POSTGRES_CONNECTION_STRING))
+				{
+					connection.Open();
+
+					NpgsqlCommand command = connection.CreateCommand();
+					command.CommandText =
+						"DELETE FROM roadkill_pagecontent;" +
+						"DELETE FROM roadkill_pages;" +
+						"DELETE FROM roadkill_users;" +
+						"DELETE FROM roadkill_siteconfiguration;";
+
+					command.ExecuteNonQuery();
+				}
+			}
+
+			private static string ReadSqlServerScript()
+			{
+				string path = Path.Combine(TestConstants.LIB_FOLDER, "Test-databases", "roadkill-postgres.sql");
 				return File.ReadAllText(path);
 			}
 		}

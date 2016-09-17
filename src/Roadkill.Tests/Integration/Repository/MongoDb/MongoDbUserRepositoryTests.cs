@@ -22,11 +22,5 @@ namespace Roadkill.Tests.Integration.Repository.MongoDb
 		{
 			new MongoDBUserRepository(ConnectionString).Wipe();
 		}
-
-		protected override void CheckDatabaseProcessIsRunning()
-		{
-			if (TestHelpers.IsMongoDBRunning() == false)
-				Assert.Fail("A local MongoDB (mongod.exe) server is not running");
-		}
 	}
 }
