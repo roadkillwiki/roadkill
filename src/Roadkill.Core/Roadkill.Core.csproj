@@ -362,10 +362,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\IRepositoryFactory.cs" />
+    <Compile Include="Database\Repositories\Dapper\DapperSettingsRepository.cs" />
     <Compile Include="Database\Repositories\Dapper\DapperUserRepository.cs" />
     <Compile Include="Database\Repositories\Dapper\IDbConnectionFactory.cs" />
     <Compile Include="Database\Repositories\Dapper\PostgresConnectionFactory.cs" />
-    <Compile Include="Database\Repositories\Dapper\SqlDbConnectionFactory.cs" />
+    <Compile Include="Database\Repositories\Dapper\SqlConnectionFactory.cs" />
     <Compile Include="Database\Repositories\IDatabaseTester.cs" />
     <Compile Include="Database\Repositories\IInstallerRepository.cs" />
     <Compile Include="Database\Repositories\DatabaseTester.cs" />
@@ -568,7 +569,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

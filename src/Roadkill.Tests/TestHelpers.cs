@@ -221,6 +221,13 @@ namespace Roadkill.Tests
 			}
 		}
 
+		//
+		// Setup instructions
+		// docker run --name some-postgres -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+		// Download EMS SQL Manager for PostgreSQL Freeware:
+		//   - http://www.sqlmanager.net/en/products/postgresql/manager/download
+		// Create a database called "roadkill"
+		//
 		public class PostgresSetup
 		{
 			public static void RecreateTables()
