@@ -141,7 +141,10 @@ namespace Roadkill.Core.Database.Repositories.Dapper
 			{
 				connection.Open();
 
-				string sql = $"delete from {PagesTableName} where id=@Id";
+				string sql = $"delete from {PageContentsTableName} where pageid=@Id";
+				connection.Execute(sql, new { Id = page.Id });
+
+				sql = $"delete from {PagesTableName} where id=@Id";
 				connection.Execute(sql, new { Id = page.Id });
 			}
 		}

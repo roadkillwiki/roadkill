@@ -9,26 +9,26 @@ namespace Roadkill.Tests.Integration.Repository.Dapper
 	[Category("Integration")]
 	public class DapperSettingsRepositoryTests : SettingsRepositoryTests
 	{
-		protected override string ConnectionString => TestConstants.POSTGRES_CONNECTION_STRING;
+		protected override string ConnectionString => TestConstants.SQLSERVER_CONNECTION_STRING;
 
 		protected override string InvalidConnectionString
 		{
-			get { return "User ID=postgres;Password=mysecretpassword;Host=localhost;Port=5432;Database=doesntexist;"; }
+			get
+			{
+				return TestConstants.SQLSERVER_CONNECTION_STRING.Replace("Database=roadkill", "Database=doesntexist");
+			}
 		}
 
 		protected override ISettingsRepository GetRepository()
 		{
-			var factory = new PostgresConnectionFactory(ConnectionString);
+			var factory = new SqlConnectionFactory(ConnectionString);
 			return new DapperSettingsRepository(factory);
 		}
 
 		protected override void Clearup()
 		{
-			//TestHelpers.SqlServerSetup.RecreateTables();
-			//TestHelpers.SqlServerSetup.ClearDatabase();
-
-			TestHelpers.PostgresSetup.RecreateTables();
-			TestHelpers.PostgresSetup.ClearDatabase();
+			TestHelpers.SqlServerSetup.RecreateTables();
+			TestHelpers.SqlServerSetup.ClearDatabase();
 		}
 	}
 }

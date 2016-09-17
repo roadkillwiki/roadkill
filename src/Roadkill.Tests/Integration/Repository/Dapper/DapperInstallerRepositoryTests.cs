@@ -14,12 +14,15 @@ namespace Roadkill.Tests.Integration.Repository.Dapper
 	{
 		protected override string ConnectionString
 		{
-			get { return TestConstants.POSTGRES_CONNECTION_STRING; }
+			get { return TestConstants.SQLSERVER_CONNECTION_STRING; }
 		}
 
 		protected override string InvalidConnectionString
 		{
-			get { return "User ID=postgres;Password=mysecretpassword;Host=localhost;Port=5432;Database=doesntexist;"; }
+			get
+			{
+				return TestConstants.SQLSERVER_CONNECTION_STRING.Replace("Database=roadkill", "Database=doesntexist");
+			}
 		}
 
 		private IDbConnectionFactory GetDbFactory(string connectionString = "")
@@ -27,22 +30,19 @@ namespace Roadkill.Tests.Integration.Repository.Dapper
 			if (string.IsNullOrEmpty(connectionString))
 				connectionString = ConnectionString;
 
-			return new PostgresConnectionFactory(connectionString);
+			return new SqlConnectionFactory(connectionString);
 		}
 
 		protected override IInstallerRepository GetRepository(string connectionString)
 		{
-			var schema = new PostgresSchema();
+			var schema = new SqlServerSchema();
 			return new DapperInstallerRepository(GetDbFactory(connectionString), schema);
 		}
 
 		protected override void Clearup()
 		{
-			//TestHelpers.SqlServerSetup.RecreateTables();
-			//TestHelpers.SqlServerSetup.ClearDatabase();
-
-			TestHelpers.PostgresSetup.RecreateTables();
-			TestHelpers.PostgresSetup.ClearDatabase();
+			TestHelpers.SqlServerSetup.RecreateTables();
+			TestHelpers.SqlServerSetup.ClearDatabase();
 		}
 
 		protected override bool HasEmptyTables()

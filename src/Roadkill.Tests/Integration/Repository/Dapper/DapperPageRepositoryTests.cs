@@ -11,19 +11,19 @@ namespace Roadkill.Tests.Integration.Repository.Dapper
 	{
 		protected override string ConnectionString
 		{
-			get { return TestConstants.POSTGRES_CONNECTION_STRING; }
+			get { return TestConstants.SQLSERVER_CONNECTION_STRING; }
 		}
 
 		protected override IPageRepository GetRepository()
 		{
-			var factory = new PostgresConnectionFactory(ConnectionString);
+			var factory = new SqlConnectionFactory(ConnectionString);
 			return new DapperPageRepository(factory);
 		}
 
 		protected override void Clearup()
 		{
-			TestHelpers.PostgresSetup.RecreateTables();
-			TestHelpers.PostgresSetup.ClearDatabase();
+			TestHelpers.SqlServerSetup.RecreateTables();
+			TestHelpers.SqlServerSetup.ClearDatabase();
 		}
 	}
 }

@@ -20,7 +20,7 @@ namespace Roadkill.Tests
 		public static readonly string WEB_SITENAME = "RoadkillTests";
 		public static readonly string WEB_BASEURL = "http://localhost:" +WEB_PORT;
 
-		public static readonly string SQLSERVER_CONNECTION_STRING = "Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill";
+		public static readonly string SQLSERVER_CONNECTION_STRING = "Server=(local);Integrated Security=true;Connect Timeout=5;Database=roadkill";
 		public static readonly string POSTGRES_CONNECTION_STRING = "User ID=postgres;Password=mysecretpassword;Host=localhost;Port=5432;Database=roadkill;";
 		
 		public static readonly string REST_API_KEY = "apikey1";
@@ -51,7 +51,7 @@ namespace Roadkill.Tests
 			else
 			{
 				// This should match connectionStrings.dev.config
-				SQLSERVER_CONNECTION_STRING = "Server=(local);Integrated Security=true;Connect Timeout=5;database=Roadkill";
+				SQLSERVER_CONNECTION_STRING = "Server=(local);Integrated Security=true;Connect Timeout=5;Database=roadkill";
 			}
 		}
 	}
