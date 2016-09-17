@@ -310,7 +310,8 @@
     <Compile Include="Acceptance\Headless\RestApi\WebApiTestBase.cs" />
     <Compile Include="Integration\Configuration\ApplicationSettingsTests.cs" />
     <Compile Include="Integration\Repository\Dapper\DapperUserRepositoryTests.cs" />
-    <Compile Include="Integration\Repository\Dapper\LightSpeedSettingsRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\Dapper\DapperSettingsRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\Dapper\DapperInstallerRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedPageRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedInstallerRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedSettingsRepositoryTests.cs" />
