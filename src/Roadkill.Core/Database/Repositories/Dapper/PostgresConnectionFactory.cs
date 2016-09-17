@@ -16,5 +16,10 @@ namespace Roadkill.Core.Database.Repositories.Dapper
 		{
 			return new NpgsqlConnection(_connectionString);
 		}
+
+		public string GetAutoIdentitySqlSuffix()
+		{
+			return "RETURNING id";
+		}
 	}
 }

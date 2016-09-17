@@ -363,6 +363,7 @@
   <ItemGroup>
     <Compile Include="Database\IRepositoryFactory.cs" />
     <Compile Include="Database\Repositories\Dapper\DapperInstallerRepository.cs" />
+    <Compile Include="Database\Repositories\Dapper\DapperPageRepository.cs" />
     <Compile Include="Database\Repositories\Dapper\DapperSettingsRepository.cs" />
     <Compile Include="Database\Repositories\Dapper\DapperUserRepository.cs" />
     <Compile Include="Database\Repositories\Dapper\IDbConnectionFactory.cs" />

@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
+using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Database.Repositories.Dapper;
 using Roadkill.Core.Database.Schema;
 
@@ -46,19 +47,17 @@ namespace Roadkill.Tests.Integration.Repository.Dapper
 
 		protected override bool HasEmptyTables()
 		{
-			// todo
-			return false;
-			//IDbConnectionFactory factory = GetDbFactory();
+			IDbConnectionFactory factory = GetDbFactory();
 
-			//var settingsRepository = new DapperSettingsRepository(factory);
-			//var userRepository = new DapperUserRepository(factory);
-			//var pageRepository = null;//new LightSpeedPageRepository(factory);
+			var settingsRepository = new DapperSettingsRepository(factory);
+			var userRepository = new DapperUserRepository(factory);
+			var pageRepository = new DapperPageRepository(factory);
 
-			//return pageRepository.AllPages().Count() == 0 &&
-			//	   pageRepository.AllPageContents().Count() == 0 &&
-			//	   userRepository.FindAllAdmins().Count() == 0 &&
-			//	   userRepository.FindAllEditors().Count() == 0 &&
-			//	   settingsRepository.GetSiteSettings() != null;
+			return pageRepository.AllPages().Count() == 0 &&
+				   pageRepository.AllPageContents().Count() == 0 &&
+				   userRepository.FindAllAdmins().Count() == 0 &&
+				   userRepository.FindAllEditors().Count() == 0 &&
+				   settingsRepository.GetSiteSettings() != null;
 		}
 
 		protected override bool HasAdminUser()

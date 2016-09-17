@@ -312,6 +312,7 @@
     <Compile Include="Integration\Repository\Dapper\DapperUserRepositoryTests.cs" />
     <Compile Include="Integration\Repository\Dapper\DapperSettingsRepositoryTests.cs" />
     <Compile Include="Integration\Repository\Dapper\DapperInstallerRepositoryTests.cs" />
+    <Compile Include="Integration\Repository\Dapper\DapperPageRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedPageRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedInstallerRepositoryTests.cs" />
     <Compile Include="Integration\Repository\LightSpeed\LightSpeedSettingsRepositoryTests.cs" />

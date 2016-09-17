@@ -16,5 +16,10 @@ namespace Roadkill.Core.Database.Repositories.Dapper
 		{
 			return new SqlConnection(_connectionString);
 		}
+
+		public string GetAutoIdentitySqlSuffix()
+		{
+			return ";select SCOPE_IDENTITY()";
+		}
 	}
 }

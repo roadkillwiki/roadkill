@@ -182,7 +182,7 @@ namespace Roadkill.Core.Database.Repositories.Dapper
 					sql += "(id, email, firstname, iseditor, isadmin, isactivated, lastname, username, ";
 					sql += "password, salt, activationkey, PasswordResetKey) ";
 					sql += "values (@Id, @Email, @Firstname, @IsEditor, @IsAdmin, @IsActivated, @Lastname, @Username, ";
-					sql += "@Password, @Salt, @ActivationKey, @PasswordResetKey)";
+					sql += "@Password, @Salt, @ActivationKey, @PasswordResetKey);";
 				}
 
 				connection.Execute(sql, user);
