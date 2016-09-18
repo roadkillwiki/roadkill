@@ -20,7 +20,7 @@ namespace Roadkill.Tests.Acceptance.Webdriver
 			// Assert
 			Assert.That(Driver.ElementValue("#SiteName"), Is.EqualTo("Acceptance Tests"));
 			Assert.That(Driver.ElementValue("#SiteUrl"), Is.EqualTo(TestConstants.WEB_BASEURL));
-			Assert.That(Driver.ElementValue("#ConnectionString"), Is.StringStarting(TestConstants.CONNECTION_STRING));
+			Assert.That(Driver.ElementValue("#ConnectionString"), Is.StringStarting(TestConstants.SQLSERVER_CONNECTION_STRING));
 			Assert.That(Driver.ElementValue("#RecaptchaPrivateKey"), Is.EqualTo("recaptcha-private-key"));
 			Assert.That(Driver.ElementValue("#RecaptchaPublicKey"), Is.EqualTo("recaptcha-public-key"));
 			Assert.That(Driver.ElementValue("#EditorRoleName"), Is.EqualTo("Editor"));

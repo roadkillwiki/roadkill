@@ -17,7 +17,7 @@ namespace Roadkill.Tests.Integration.Import
 	[Category("Integration")]
 	public class ScrewturnImporterTests
 	{
-		private string _connectionString = TestConstants.CONNECTION_STRING;
+		private string _connectionString = TestConstants.SQLSERVER_CONNECTION_STRING;
 
 		[SetUp]
 		public void Setup()
@@ -65,7 +65,7 @@ namespace Roadkill.Tests.Integration.Import
 			ScrewTurnImporter importer = new ScrewTurnImporter(applicationSettings, pageRepository, userRepository);
 
 			// Act
-			importer.ImportFromSqlServer(TestConstants.CONNECTION_STRING);
+			importer.ImportFromSqlServer(TestConstants.SQLSERVER_CONNECTION_STRING);
 
 			// Assert
 			User user = userRepository.GetUserByUsername("user2");

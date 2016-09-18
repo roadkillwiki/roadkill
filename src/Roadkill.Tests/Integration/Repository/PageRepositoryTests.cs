@@ -23,7 +23,7 @@ namespace Roadkill.Tests.Integration.Repository
 		protected abstract string ConnectionString { get; }
 		protected abstract IPageRepository GetRepository();
 		protected abstract void Clearup();
-		protected abstract void CheckDatabaseProcessIsRunning();
+		protected virtual void CheckDatabaseProcessIsRunning() { }
 
 		[SetUp]
 		public void SetUp()
@@ -33,8 +33,9 @@ namespace Roadkill.Tests.Integration.Repository
 			Clearup();
 
 			// Create 5 Pages with 2 versions of content each
-			_createdDate = DateTime.Today.ToUniversalTime().AddDays(-1);
-			_editedDate = _createdDate.AddHours(1);
+			var todayUtc = DateTime.Today.ToUniversalTime(); // that's 11pm the previous day
+			_createdDate = todayUtc.AddDays(-1); // that's 11pm, two days ago
+			_editedDate = _createdDate.AddHours(1); // that's 12pm, two days ago
 
 			_page1 = NewPage("admin", "homepage, newpage");
 			_pageContent1 = Repository.AddNewPage(_page1, "text", "admin", _createdDate);
@@ -294,18 +295,6 @@ namespace Roadkill.Tests.Integration.Repository
 			Assert.That(actualPage.ModifiedOn, Is.EqualTo(expectedPage.ModifiedOn));
 			Assert.That(actualPage.Tags, Is.EqualTo(expectedPage.Tags));
 			Assert.That(actualPage.Title, Is.EqualTo(expectedPage.Title));
-		}
-
-		[Test]
-		public void getpagecontentbyeditedby()
-		{
-			// Arrange
-
-			// Act
-			List<PageContent> allContent = Repository.GetPageContentByEditedBy("admin").ToList();
-
-			// Assert
-			Assert.That(allContent.Count, Is.EqualTo(2));
 		}
 
 		[Test]

@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using IisConfiguration;
 using IisConfiguration.Logging;
 using Microsoft.Web.Administration;
+using Npgsql;
 using Roadkill.Core;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
@@ -41,7 +42,8 @@ namespace Roadkill.Tests
 			var dirInfo = new DirectoryInfo(webRoot);
 
 			serverConfig
-				.AddAppPool(TestConstants.WEB_SITENAME, "v4.0", ManagedPipelineMode.Integrated, ProcessModelIdentityType.LocalService)
+				.AddAppPool(TestConstants.WEB_SITENAME, "v4.0", ManagedPipelineMode.Integrated,
+					ProcessModelIdentityType.LocalService)
 				.WithProcessModel(TimeSpan.FromMinutes(60), false)
 				.Commit();
 
@@ -81,7 +83,9 @@ namespace Roadkill.Tests
 				string installerTestsAttachmentsPath = Path.Combine(TestConstants.WEB_PATH, "AcceptanceTests");
 				Directory.Delete(installerTestsAttachmentsPath, true);
 			}
-			catch { }
+			catch
+			{
+			}
 		}
 
 		public static void CopyDevWebConfigFromLibFolder()
@@ -167,7 +171,7 @@ namespace Roadkill.Tests
 		{
 			// Tries to gets an environmental variable from any of the 3 env sources.
 			string value = Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Machine);
-			
+
 			if (string.IsNullOrEmpty(value))
 				value = Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
 
@@ -181,7 +185,7 @@ namespace Roadkill.Tests
 		{
 			public static void RecreateTables()
 			{
-				using (SqlConnection connection = new SqlConnection(TestConstants.CONNECTION_STRING))
+				using (SqlConnection connection = new SqlConnection(TestConstants.SQLSERVER_CONNECTION_STRING))
 				{
 					connection.Open();
 
@@ -194,7 +198,7 @@ namespace Roadkill.Tests
 
 			public static void ClearDatabase()
 			{
-				using (SqlConnection connection = new SqlConnection(TestConstants.CONNECTION_STRING))
+				using (SqlConnection connection = new SqlConnection(TestConstants.SQLSERVER_CONNECTION_STRING))
 				{
 					connection.Open();
 
@@ -213,6 +217,52 @@ namespace Roadkill.Tests
 			private static string ReadSqlServerScript()
 			{
 				string path = Path.Combine(TestConstants.LIB_FOLDER, "Test-databases", "roadkill-sqlserver.sql");
+				return File.ReadAllText(path);
+			}
+		}
+
+		//
+		// Setup instructions
+		// docker run --name some-postgres -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+		// Download EMS SQL Manager for PostgreSQL Freeware:
+		//   - http://www.sqlmanager.net/en/products/postgresql/manager/download
+		// Create a database called "roadkill"
+		//
+		public class PostgresSetup
+		{
+			public static void RecreateTables()
+			{
+				using (NpgsqlConnection connection = new NpgsqlConnection(TestConstants.POSTGRES_CONNECTION_STRING))
+				{
+					connection.Open();
+
+					NpgsqlCommand command = connection.CreateCommand();
+					command.CommandText = ReadSqlServerScript();
+
+					command.ExecuteNonQuery();
+				}
+			}
+
+			public static void ClearDatabase()
+			{
+				using (NpgsqlConnection connection = new NpgsqlConnection(TestConstants.POSTGRES_CONNECTION_STRING))
+				{
+					connection.Open();
+
+					NpgsqlCommand command = connection.CreateCommand();
+					command.CommandText =
+						"DELETE FROM roadkill_pagecontent;" +
+						"DELETE FROM roadkill_pages;" +
+						"DELETE FROM roadkill_users;" +
+						"DELETE FROM roadkill_siteconfiguration;";
+
+					command.ExecuteNonQuery();
+				}
+			}
+
+			private static string ReadSqlServerScript()
+			{
+				string path = Path.Combine(TestConstants.LIB_FOLDER, "Test-databases", "roadkill-postgres.sql");
 				return File.ReadAllText(path);
 			}
 		}

@@ -14,7 +14,7 @@ namespace Roadkill.Tests.Integration.Repository
 
 		protected abstract IInstallerRepository GetRepository(string connectionString);
 		protected abstract void Clearup();
-		protected abstract void CheckDatabaseProcessIsRunning();
+		protected virtual void CheckDatabaseProcessIsRunning() { }
 		protected abstract bool HasAdminUser();
 		protected abstract bool HasEmptyTables();
 		protected abstract SiteSettings GetSiteSettings();

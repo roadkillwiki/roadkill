@@ -20,7 +20,7 @@ namespace Roadkill.Tests.Integration.Repository
 		protected abstract string ConnectionString { get; }
 		protected abstract IUserRepository GetRepository();
 		protected abstract void Clearup();
-		protected abstract void CheckDatabaseProcessIsRunning();
+		protected virtual void CheckDatabaseProcessIsRunning() { }
 
 		[SetUp]
 		public void SetUp()
@@ -440,6 +440,7 @@ namespace Roadkill.Tests.Integration.Repository
 			User actualUser = Repository.GetUserById(user.Id);
 
 			// Assert
+			Assert.That(actualUser, Is.Not.Null);
 			Assert.That(actualUser.Id, Is.EqualTo(user.Id));
 			Assert.That(actualUser.ActivationKey, Is.EqualTo(user.ActivationKey));
 			Assert.That(actualUser.Firstname, Is.EqualTo(user.Firstname));

@@ -31,7 +31,7 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 
 		protected override string ConnectionString
 		{
-			get { return TestConstants.CONNECTION_STRING; }
+			get { return TestConstants.SQLSERVER_CONNECTION_STRING; }
 		}
 
 		protected override IUserRepository GetRepository()
@@ -42,12 +42,6 @@ namespace Roadkill.Tests.Integration.Repository.LightSpeed
 		protected override void Clearup()
 		{
 			TestHelpers.SqlServerSetup.ClearDatabase();
-		}
-
-		protected override void CheckDatabaseProcessIsRunning()
-		{
-			if (TestHelpers.IsSqlServerRunning() == false)
-				Assert.Fail("A local Sql Server (sqlservr.exe) is not running");
 		}
 	}
 }

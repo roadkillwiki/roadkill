@@ -41,11 +41,11 @@ namespace Roadkill.Tests.Acceptance.Headless.RestApi
 		{
 			ApplicationSettings appSettings = new ApplicationSettings();
 			appSettings.DatabaseName = "SqlServer2008";
-			appSettings.ConnectionString = TestConstants.CONNECTION_STRING;
+			appSettings.ConnectionString = TestConstants.SQLSERVER_CONNECTION_STRING;
 			appSettings.UseBrowserCache = false;
 
 			var context = new LightSpeedContext();
-			context.ConnectionString = TestConstants.CONNECTION_STRING;
+			context.ConnectionString = TestConstants.SQLSERVER_CONNECTION_STRING;
 			context.DataProvider = DataProvider.SqlServer2008;
 
 			LightSpeedPageRepository repository = new LightSpeedPageRepository(context.CreateUnitOfWork());
