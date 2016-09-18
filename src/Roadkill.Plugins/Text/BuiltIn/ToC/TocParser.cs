@@ -1,11 +1,15 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Text.RegularExpressions;
-using HtmlAgilityPack;
+using AngleSharp.Dom;
+using AngleSharp.Dom.Html;
+using AngleSharp.Extensions;
+using AngleSharp.Parser.Html;
 
 namespace Roadkill.Plugins.Text.BuiltIn.ToC
 {
 	/// <summary>
-	/// Parses a HTML document for Hx (e.g. H1,H2) elements and produces a table of contents.
+	/// Parses a HTML document for H (e.g. H1,H2) elements and produces a table of contents.
 	/// Anchor tags (&lt;a name="") are then inserted into the HTML document.
 	/// </summary>
 	public class TocParser
@@ -43,17 +47,16 @@ namespace Roadkill.Plugins.Text.BuiltIn.ToC
 			_tree = new Tree(_template);
 
 			// Parse the HTML for H tags
-			HtmlDocument document = new HtmlDocument();
-			document.LoadHtml(html);
-			HtmlNodeCollection elements = document.DocumentNode.ChildNodes;
-			ParseHTagsAndAddAnchors(document.DocumentNode);
+			var parser = new HtmlParser();
+			IHtmlDocument document = parser.Parse(html);
+			ParseHTagsAndAddAnchors(document, document.QuerySelector("body"));
 
 			string outputHtml = GenerateHtml();
-			string innerHtml = document.DocumentNode.InnerHtml;
+			string innerHtml = document.QuerySelector("body").InnerHtml;
 
 			// make sure {{TOC}} or {{{{TOC}}}} aren't matched
 			innerHtml = _regex.Replace(innerHtml, outputHtml);
-			return document.DocumentNode.InnerHtml = innerHtml;
+			return document.DocumentElement.InnerHtml = innerHtml;
 		}
 
 		private string GenerateHtml()
@@ -73,32 +76,34 @@ namespace Roadkill.Plugins.Text.BuiltIn.ToC
 			return builder.ToString();
 		}
 
-		private void ParseHTagsAndAddAnchors(HtmlNode parentNode)
+		private void ParseHTagsAndAddAnchors(IHtmlDocument document, IElement parentElement)
 		{
-			foreach (HtmlNode node in parentNode.ChildNodes)
+			foreach (IElement element in parentElement.Children)
 			{
-				string tagName = node.Name;
-				string title = node.InnerText;
+				string tagName = element.NodeName.ToLower();
+				string title = element.TextContent;
 
-				if (tagName.StartsWith("h"))
+				if (tagName.StartsWith("h") && tagName.Length == 2)
 				{
 					// Use the H number (e.g. 2 for H2) as the current level in the tree
 					int level = 0;
 					int.TryParse(tagName.ToLower().Replace("h", ""), out level);
 
-					// Sanity check for bad markup
+					// Level sanity check for bad markup
 					if (level > 1)
 					{
 						Item item = _tree.AddItemAtLevel(level, title);
 
 						// Insert an achor tag after the header as a reference
-						HtmlNode anchor = HtmlNode.CreateNode(string.Format(@"<a name=""{0}""></a>", item.Id));
-						node.PrependChild(anchor);
+						IElement anchor = document.CreateElement("a");
+						anchor.SetAttribute("name", item.Id);
+
+						element.InnerHtml = anchor.OuterHtml + element.InnerHtml;
 					}
 				}
-				else if (node.HasChildNodes)
+				else if (element.HasChildNodes)
 				{
-					ParseHTagsAndAddAnchors(node);
+					ParseHTagsAndAddAnchors(document, element);
 				}
 			}
 		}
