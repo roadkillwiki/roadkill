@@ -21,7 +21,7 @@ namespace Roadkill.Tests.Integration.Repository.Dapper
 		{
 			get
 			{
-				return TestConstants.SQLSERVER_CONNECTION_STRING.Replace("Database=roadkill", "Database=doesntexist");
+				return TestConstants.SQLSERVER_CONNECTION_STRING.Replace("Database=", "DatabaseInator=");
 			}
 		}
 
