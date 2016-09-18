@@ -11,8 +11,8 @@ namespace Roadkill.Plugins.Text.BuiltIn.ToC
 	public class TocParser
 	{
 		private Tree _tree;
-		private StringTemplate _template;
-		private static Regex _regex = new Regex(@"(?<!{)(?:\{TOC\})(?!})", RegexOptions.Compiled);
+		private readonly StringTemplate _template;
+		private static readonly Regex _regex = new Regex(@"(?<!{)(?:\{TOC\})(?!})", RegexOptions.Compiled);
 
 		internal Tree Tree
 		{

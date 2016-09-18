@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using HtmlAgilityPack;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
-using Roadkill.Core.Database;
 using Roadkill.Core.Database.Repositories;
 using Roadkill.Core.Localization;
 
@@ -23,10 +18,10 @@ namespace Roadkill.Core.Text
 		private static readonly string MANAGEFILES_TOKEN = "%managefiles%";
 		private static readonly string SITESETTINGS_TOKEN = "%sitesettings%";
 
-		private ISettingsRepository _settingsRepository;
-		private SiteCache _siteCache;
-		private MarkupConverter _markupConverter;
-		private IUserContext _userContext;
+		private readonly ISettingsRepository _settingsRepository;
+		private readonly SiteCache _siteCache;
+		private readonly MarkupConverter _markupConverter;
+		private readonly IUserContext _userContext;
 
 		public MenuParser(MarkupConverter markupConverter, ISettingsRepository settingsRepository, SiteCache siteCache, IUserContext userContext)
 		{
@@ -140,9 +135,53 @@ namespace Roadkill.Core.Text
 			HtmlDocument document = new HtmlDocument();
 			document.LoadHtml(html);
 
-			//
-			// Remove P tags, and empty ul and li tags
-			//
+			RemoveParagraphTags(document);
+			RemoveEmptyLiTags(document);
+			RemoveEmptyUlTags(document);
+
+			// Clean up newlines
+			html = document.DocumentNode.InnerHtml;
+			html = html.Trim();
+			html = html.Replace("\n", "");
+			html = html.Replace("\r", "");
+
+			return html;
+		}
+
+		private static void RemoveEmptyUlTags(HtmlDocument document)
+		{
+			HtmlNodeCollection ulNodes = document.DocumentNode.SelectNodes("//ul");
+			if (ulNodes != null)
+			{
+				foreach (HtmlNode node in ulNodes)
+				{
+					if (string.IsNullOrEmpty(node.InnerText) || string.IsNullOrEmpty(node.InnerText.Trim()) ||
+					    string.IsNullOrEmpty(node.InnerHtml) || string.IsNullOrEmpty(node.InnerHtml.Trim()))
+					{
+						node.Remove();
+					}
+				}
+			}
+		}
+
+		private static void RemoveEmptyLiTags(HtmlDocument document)
+		{
+			HtmlNodeCollection liNodes = document.DocumentNode.SelectNodes("//li");
+			if (liNodes != null)
+			{
+				foreach (HtmlNode node in liNodes)
+				{
+					if (string.IsNullOrEmpty(node.InnerText) || string.IsNullOrEmpty(node.InnerText.Trim()) ||
+					    string.IsNullOrEmpty(node.InnerHtml) || string.IsNullOrEmpty(node.InnerHtml.Trim()))
+					{
+						node.Remove();
+					}
+				}
+			}
+		}
+
+		private static void RemoveParagraphTags(HtmlDocument document)
+		{
 			HtmlNodeCollection paragraphNodes = document.DocumentNode.SelectNodes("//p");
 			if (paragraphNodes != null)
 			{
@@ -155,40 +194,6 @@ namespace Roadkill.Core.Text
 					parentNode.AppendChildren(childNodes);
 				}
 			}
-
-			HtmlNodeCollection liNodes = document.DocumentNode.SelectNodes("//li");
-			if (liNodes != null)
-			{
-				foreach (HtmlNode node in liNodes)
-				{
-					if (string.IsNullOrEmpty(node.InnerText) || string.IsNullOrEmpty(node.InnerText.Trim()) ||
-						string.IsNullOrEmpty(node.InnerHtml) || string.IsNullOrEmpty(node.InnerHtml.Trim()))
-					{
-						node.Remove();
-					}
-				}
-			}
-
-			HtmlNodeCollection ulNodes = document.DocumentNode.SelectNodes("//ul");
-			if (ulNodes != null)
-			{
-				foreach (HtmlNode node in ulNodes)
-				{
-					if (string.IsNullOrEmpty(node.InnerText) || string.IsNullOrEmpty(node.InnerText.Trim()) ||
-						string.IsNullOrEmpty(node.InnerHtml) || string.IsNullOrEmpty(node.InnerHtml.Trim()))
-					{
-						node.Remove();
-					}
-				}
-			}
-
-			// Clean up newlines
-			html = document.DocumentNode.InnerHtml;
-			html = html.Trim();
-			html = html.Replace("\n", "");
-			html = html.Replace("\r", "");
-
-			return html;
 		}
 
 		private string CreateAnchorTag(string link, string text)

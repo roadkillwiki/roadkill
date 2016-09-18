@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Web;
 using HtmlAgilityPack;
 using Roadkill.Core.Configuration;
@@ -21,8 +19,8 @@ namespace Roadkill.Core.Text.Sanitizer
     /// </summary>
     public class MarkupSanitizer
     {
-		private string[] _encodedCharacters = new string[256];
-		private ApplicationSettings _applicationSettings;
+		private readonly string[] _encodedCharacters = new string[256];
+		private readonly ApplicationSettings _applicationSettings;
 		private string _cacheKey;
 		internal static MemoryCache _memoryCache = new MemoryCache("MarkupSanitizer");
 		public bool UseWhiteList { get; set; }
