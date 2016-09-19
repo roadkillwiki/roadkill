@@ -143,11 +143,6 @@ namespace Roadkill.Core.Database.MongoDB
 			return PageContents.FirstOrDefault(p => p.Page.Id == id && p.VersionNumber == versionNumber);
 		}
 
-		public IEnumerable<PageContent> GetPageContentByEditedBy(string username)
-		{
-			return PageContents.Where(p => p.EditedBy == username);
-		}
-
 		public IEnumerable<PageContent> FindPageContentsByPageId(int pageId)
 		{
 			return PageContents.Where(p => p.Page.Id == pageId);

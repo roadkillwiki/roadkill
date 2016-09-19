@@ -160,11 +160,6 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 			return PageContents.FirstOrDefault(p => p.Id == versionId);
 		}
 
-		public IEnumerable<PageContent> GetPageContentByEditedBy(string username)
-		{
-			return PageContents.Where(p => p.EditedBy == username);
-		}
-
 		public IEnumerable<PageContent> FindPageContentsByPageId(int pageId)
 		{
 			return PageContents.Where(p => p.Page.Id == pageId).ToList();

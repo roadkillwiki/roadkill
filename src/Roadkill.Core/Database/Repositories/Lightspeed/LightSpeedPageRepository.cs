@@ -197,12 +197,6 @@ namespace Roadkill.Core.Database.LightSpeed
 			return FromEntity.ToPageContent(entity);
 		}
 
-		public IEnumerable<PageContent> GetPageContentByEditedBy(string username)
-		{
-			List<PageContentEntity> entities = PageContents.Where(p => p.EditedBy == username).ToList();
-			return FromEntity.ToPageContentList(entities);
-		}
-
 		public Page SaveOrUpdatePage(Page page)
 		{
 			PageEntity entity = UnitOfWork.FindById<PageEntity>(page.Id);

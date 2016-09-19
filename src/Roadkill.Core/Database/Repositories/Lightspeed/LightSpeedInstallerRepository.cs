@@ -3,7 +3,6 @@ using System.Data;
 using Mindscape.LightSpeed;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database.LightSpeed;
-using Roadkill.Core.Database.MongoDB;
 using Roadkill.Core.Database.Schema;
 
 namespace Roadkill.Core.Database
