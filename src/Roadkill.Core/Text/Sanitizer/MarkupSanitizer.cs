@@ -4,6 +4,8 @@ using System.Runtime.Caching;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using AngleSharp.Dom.Html;
+using AngleSharp.Parser.Html;
 using HtmlAgilityPack;
 using Roadkill.Core.Configuration;
 using HapHtmlAttribute = HtmlAgilityPack.HtmlAttribute;
@@ -95,60 +97,68 @@ namespace Roadkill.Core.Text.Sanitizer
         /// <returns>Html text after sanitize.</returns>
         public string SanitizeHtml(string htmlText)
         {
-            // Create Html document
-            HtmlDocument html = new HtmlDocument();
+	        if (string.IsNullOrEmpty(htmlText))
+		        return "";
+
+			var parserOptions = new HtmlParserOptions()
+			{
+				IsStrictMode = false
+			};
+			var parser = new HtmlParser(parserOptions);
+			IHtmlDocument document = parser.Parse(htmlText);
+
+			// Create Html document
+			HtmlDocument html = new HtmlDocument();
             html.OptionFixNestedTags = true;
             html.OptionAutoCloseOnEnd = true;
             html.OptionDefaultStreamEncoding = Encoding.UTF8;
             html.LoadHtml(htmlText);
 
-            if (html == null)
-                return string.Empty;
-
             HtmlNode allNodes = html.DocumentNode;
 
 			if (UseWhiteList)
 			{
-				string[] tagNames = GetCachedWhiteList().ElementWhiteList.Select(x => x.Name).ToArray();
-				CleanNodes(allNodes, tagNames);
-			}
-       
-			// TODO: make this neater
-			if (UseWhiteList)
-			{
-				// Filter the attributes of the remaining
-				foreach (HtmlElement whiteListTag in GetCachedWhiteList().ElementWhiteList)
-				{
-					IEnumerable<HtmlNode> nodes = (from n in allNodes.DescendantsAndSelf()
-												   where n.Name == whiteListTag.Name
-												   select n);
-
-					if (nodes == null)
-						continue;
-
-					foreach (HtmlNode node in nodes)
-					{
-						if (!node.HasAttributes) continue;
-
-						// Get all the allowed attributes for this tag
-						HapHtmlAttribute[] attributes = node.Attributes.ToArray();
-						foreach (HapHtmlAttribute attribute in attributes)
-						{
-							if (!whiteListTag.ContainsAttribute(attribute.Name))
-							{
-								attribute.Remove(); // Wasn't in the list
-							}
-							else
-							{
-								CleanAttributeValues(attribute);
-							}
-						}
-					}
-				}
+				CleanNoneWhiteListedAttributes(allNodes);
 			}
 			else
 			{
-				IEnumerable<HtmlNode> nodes = allNodes.DescendantsAndSelf();
+				CleanAllTagAttributes(allNodes);
+			}
+
+			return allNodes.InnerHtml;
+        }
+
+		private void CleanAllTagAttributes(HtmlNode allNodes)
+		{
+			IEnumerable<HtmlNode> nodes = allNodes.DescendantsAndSelf();
+
+			foreach (HtmlNode node in nodes)
+			{
+				if (!node.HasAttributes) continue;
+
+				// Get all the allowed attributes for this tag
+				HapHtmlAttribute[] attributes = node.Attributes.ToArray();
+				foreach (HapHtmlAttribute attribute in attributes)
+				{
+					CleanAttributeValues(attribute);
+				}
+			}
+		}
+
+		private void CleanNoneWhiteListedAttributes(HtmlNode allNodes)
+		{
+			string[] tagNames = GetCachedWhiteList().ElementWhiteList.Select(x => x.Name).ToArray();
+			CleanNodes(allNodes, tagNames);
+
+			// Filter the attributes of the remaining
+			foreach (HtmlElement whiteListTag in GetCachedWhiteList().ElementWhiteList)
+			{
+				IEnumerable<HtmlNode> nodes = (from n in allNodes.DescendantsAndSelf()
+											   where n.Name == whiteListTag.Name
+											   select n);
+
+				if (nodes == null)
+					continue;
 
 				foreach (HtmlNode node in nodes)
 				{
@@ -158,20 +168,25 @@ namespace Roadkill.Core.Text.Sanitizer
 					HapHtmlAttribute[] attributes = node.Attributes.ToArray();
 					foreach (HapHtmlAttribute attribute in attributes)
 					{
-						CleanAttributeValues(attribute);
+						if (!whiteListTag.ContainsAttribute(attribute.Name))
+						{
+							attribute.Remove(); // Wasn't in the list
+						}
+						else
+						{
+							CleanAttributeValues(attribute);
+						}
 					}
 				}
 			}
+		}
 
-            return allNodes.InnerHtml;
-        }
-
-        /// <summary>
-        /// This removes the current node tags and its child nodes if these are not in whitelist.
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="tagWhiteList"></param>
-        private void CleanNodes(HtmlNode node, string[] tagWhiteList)
+		/// <summary>
+		/// This removes the current node tags and its child nodes if these are not in whitelist.
+		/// </summary>
+		/// <param name="node"></param>
+		/// <param name="tagWhiteList"></param>
+		private void CleanNodes(HtmlNode node, string[] tagWhiteList)
         {
             // remove node that is not in the whitelist.
             if (node.NodeType == HtmlNodeType.Element)

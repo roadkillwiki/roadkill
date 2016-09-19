@@ -12,10 +12,6 @@ using Roadkill.Core.Text.Sanitizer;
 
 namespace Roadkill.Tests.Unit.Text
 {
-	/// <summary>
-	///This is a test class for HtmlAgilityPackSanitizerProviderTest and is intended
-	///to contain all HtmlAgilityPackSanitizerProviderTest Unit Tests
-	///</summary>
 	[TestFixture]
 	[Category("Unit")]
 	public class MarkupSanitizerTests
