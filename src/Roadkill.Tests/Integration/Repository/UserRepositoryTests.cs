@@ -26,8 +26,10 @@ namespace Roadkill.Tests.Integration.Repository
 		public void SetUp()
 		{
 			// Setup the repository
+			CheckDatabaseProcessIsRunning();
 			Repository = GetRepository();
 			Clearup();
+
 			_adminUser = NewUser("admin@localhost", "admin", true, true);
 			_adminUser = Repository.SaveOrUpdateUser(_adminUser);
 

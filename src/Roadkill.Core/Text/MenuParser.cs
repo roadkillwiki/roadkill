@@ -1,6 +1,9 @@
 ﻿using System.Web;
 using System.Web.Mvc;
-using HtmlAgilityPack;
+using AngleSharp.Dom;
+using AngleSharp.Dom.Html;
+using AngleSharp.Extensions;
+using AngleSharp.Parser.Html;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
@@ -132,15 +135,15 @@ namespace Roadkill.Core.Text
 			html = html.Replace(MANAGEFILES_TOKEN, manageFiles);
 			html = html.Replace(SITESETTINGS_TOKEN, siteSettings);
 
-			HtmlDocument document = new HtmlDocument();
-			document.LoadHtml(html);
+			var parser = new HtmlParser();
+			IHtmlDocument document = parser.Parse(html);
 
 			RemoveParagraphTags(document);
 			RemoveEmptyLiTags(document);
 			RemoveEmptyUlTags(document);
 
 			// Clean up newlines
-			html = document.DocumentNode.InnerHtml;
+			html = document.QuerySelector("body").InnerHtml;
 			html = html.Trim();
 			html = html.Replace("\n", "");
 			html = html.Replace("\r", "");
@@ -148,57 +151,65 @@ namespace Roadkill.Core.Text
 			return html;
 		}
 
-		private static void RemoveEmptyUlTags(HtmlDocument document)
+		private static void RemoveEmptyUlTags(IHtmlDocument document)
 		{
-			HtmlNodeCollection ulNodes = document.DocumentNode.SelectNodes("//ul");
+			IHtmlCollection<IElement> ulNodes = document.QuerySelectorAll("ul");
 			if (ulNodes != null)
 			{
-				foreach (HtmlNode node in ulNodes)
+				foreach (IElement element in ulNodes)
 				{
-					if (string.IsNullOrEmpty(node.InnerText) || string.IsNullOrEmpty(node.InnerText.Trim()) ||
-					    string.IsNullOrEmpty(node.InnerHtml) || string.IsNullOrEmpty(node.InnerHtml.Trim()))
+					if (string.IsNullOrEmpty(element.TextContent) || string.IsNullOrEmpty(element.TextContent.Trim()) ||
+					    string.IsNullOrEmpty(element.InnerHtml) || string.IsNullOrEmpty(element.InnerHtml.Trim()))
 					{
-						node.Remove();
+						element.Remove();
 					}
 				}
 			}
 		}
 
-		private static void RemoveEmptyLiTags(HtmlDocument document)
+		private static void RemoveEmptyLiTags(IHtmlDocument document)
 		{
-			HtmlNodeCollection liNodes = document.DocumentNode.SelectNodes("//li");
+			IHtmlCollection<IElement> liNodes = document.QuerySelectorAll("li");
 			if (liNodes != null)
 			{
-				foreach (HtmlNode node in liNodes)
+				foreach (IElement element in liNodes)
 				{
-					if (string.IsNullOrEmpty(node.InnerText) || string.IsNullOrEmpty(node.InnerText.Trim()) ||
-					    string.IsNullOrEmpty(node.InnerHtml) || string.IsNullOrEmpty(node.InnerHtml.Trim()))
+					if (string.IsNullOrEmpty(element.TextContent) || string.IsNullOrEmpty(element.TextContent.Trim()) ||
+					    string.IsNullOrEmpty(element.InnerHtml) || string.IsNullOrEmpty(element.InnerHtml.Trim()))
 					{
-						node.Remove();
+						element.Remove();
 					}
 				}
 			}
 		}
 
-		private static void RemoveParagraphTags(HtmlDocument document)
+		// Remove all paragraph tags and put their child nodes into the P tag's parent.
+		private static void RemoveParagraphTags(IHtmlDocument document)
 		{
-			HtmlNodeCollection paragraphNodes = document.DocumentNode.SelectNodes("//p");
+			IHtmlCollection<IElement> paragraphNodes = document.QuerySelectorAll("p");
 			if (paragraphNodes != null)
 			{
-				foreach (HtmlNode node in paragraphNodes)
+				foreach (IElement element in paragraphNodes)
 				{
-					var parentNode = node.ParentNode;
-					var childNodes = node.ChildNodes;
+					IElement parentNode = element.ParentElement;
+					INodeList childNodes = element.ChildNodes;
+					element.Remove();
 
-					node.Remove();
-					parentNode.AppendChildren(childNodes);
+					foreach (INode node in childNodes)
+					{
+						IElement childElement = node as IElement;
+						if (childElement != null)
+							parentNode.InnerHtml += childElement.OuterHtml;
+						else
+							parentNode.InnerHtml += node.TextContent;
+					}
 				}
 			}
 		}
 
 		private string CreateAnchorTag(string link, string text)
 		{
-			return string.Format("<a href=\"{0}\">{1}</a>", link, text);
+			return $"<a href=\"{link}\">{text}</a>";
 		}
 	}
 }
