@@ -439,7 +439,6 @@
     <Compile Include="Unit\Text\MarkupLinkUpdaterTests.cs" />
     <Compile Include="Unit\Text\MenuParserTests.cs" />
     <Compile Include="Unit\Plugins\TocParserTests.cs" />
-    <Compile Include="Unit\Text\MarkupSanitizerTests.cs" />
     <Compile Include="Unit\Text\MarkdownTests.cs" />
     <Compile Include="Integration\Configuration\FullTrustConfigReaderWriterTests.cs" />
     <Compile Include="TestConstants.cs" />

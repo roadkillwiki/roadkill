@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Web;
 using System.Text.RegularExpressions;
+using Ganss.XSS;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Text.Sanitizer;
 using Roadkill.Core.Database;
@@ -293,13 +295,64 @@ namespace Roadkill.Core.Converters
 		{
 			if (_applicationSettings.UseHtmlWhiteList)
 			{
-				MarkupSanitizer sanitizer = new MarkupSanitizer(_applicationSettings, true, false, true);
-				return sanitizer.SanitizeHtml(html);
+				HtmlWhiteList htmlWhiteList = GetCachedWhiteList();
+				string[] allowedTags = htmlWhiteList.ElementWhiteList.Select(x => x.Name).ToArray();
+				string[] allowedAttributes = htmlWhiteList.ElementWhiteList.SelectMany(x => x.AllowedAttributes.Select(y => y.Name)).ToArray();
+
+				if (allowedTags.Length == 0)
+					allowedTags = null;
+
+				if (allowedAttributes.Length == 0)
+					allowedAttributes = null;
+
+				var sanitizer = new HtmlSanitizer(allowedTags, null, allowedAttributes);
+				sanitizer.AllowDataAttributes = false;
+				sanitizer.AllowedAttributes.Add("class");
+				sanitizer.AllowedAttributes.Add("id");
+				sanitizer.AllowedSchemes.Add("mailto");
+				sanitizer.RemovingAttribute += Sanitizer_RemovingAttribute;
+
+				return sanitizer.Sanitize(html);
 			}
 			else
 			{
 				return html;
 			}
+		}
+
+		private void Sanitizer_RemovingAttribute(object sender, RemovingAttributeEventArgs e)
+		{
+			// Don't clean /wiki/Special:Tag urls in href="" attributes
+			if (e.Attribute.Name.ToLower() == "href" && e.Attribute.Value.Contains("Special:"))
+			{
+				e.Cancel = true;
+			}
+		}
+
+		private string _cacheKey = "whitelist";
+		internal static MemoryCache _memoryCache = new MemoryCache("MarkupSanitizer");
+
+		/// <summary>
+		/// Changes the key name used for the cache'd version of the HtmlWhiteList object.
+		/// </summary>
+		/// <param name="key"></param>
+		public void SetWhiteListCacheKey(string key)
+		{
+			_memoryCache.Remove(_cacheKey);
+			_cacheKey = key;
+		}
+
+		private HtmlWhiteList GetCachedWhiteList()
+		{
+			HtmlWhiteList whiteList = _memoryCache.Get(_cacheKey) as HtmlWhiteList;
+
+			if (whiteList == null)
+			{
+				whiteList = HtmlWhiteList.Deserialize(_applicationSettings);
+				_memoryCache.Add(_cacheKey, whiteList, new CacheItemPolicy());
+			}
+
+			return whiteList;
 		}
 	}
 }
