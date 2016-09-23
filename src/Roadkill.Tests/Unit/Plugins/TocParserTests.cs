@@ -152,7 +152,7 @@ namespace Roadkill.Tests.Unit.Plugins
 		{
 			// Arrange
 			TocParser tocParser = new TocParser();
-			string html = "Give me a {{TOC}} and a {{{{TOC}}}} - the should not render a TOC";
+			string html = "Give me a {{TOC}} and a {{{{TOC}}}} - the should not render a TOC, nor contain HTML";
 			string expected = html;
 
 			// Act

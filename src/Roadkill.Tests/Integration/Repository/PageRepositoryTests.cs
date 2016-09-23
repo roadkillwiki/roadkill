@@ -29,6 +29,7 @@ namespace Roadkill.Tests.Integration.Repository
 		public void SetUp()
 		{
 			// Setup the repository
+			CheckDatabaseProcessIsRunning();
 			Repository = GetRepository();
 			Clearup();
 
