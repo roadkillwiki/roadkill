@@ -139,7 +139,7 @@ namespace Roadkill.Core.Services
 					{
 						IEnumerable<Page> pages = PageRepository.AllPages().OrderBy(p => p.Title);
 						pageModels = from page in pages
-									select new PageViewModel() { Id = page.Id, Title = page.Title };
+									select new PageViewModel() { Id = page.Id, Title = page.Title, RawTags = page.Tags };
 
 						_listCache.Add<PageViewModel>(cacheKey, pageModels);
 					}
