@@ -31,7 +31,7 @@ namespace Roadkill.Core.Configuration
 		{
 		}
 
-		internal FullTrustConfigReaderWriter(string configFilePath)
+		public FullTrustConfigReaderWriter(string configFilePath)
 		{
 			if (!_isConfigLoaded)
 			{
