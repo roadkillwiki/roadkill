@@ -55,7 +55,7 @@ module Roadkill.Web.FileManager
 				// Logged out since the call was made
 				if (errorThrown.message.indexOf("unexpected character") !== -1)
 				{
-					window.location = window.location;
+					window.location.href = window.location.href;
 				}
 				else
 				{
