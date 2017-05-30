@@ -277,6 +277,13 @@ namespace Roadkill.Core.Converters
 			{
 				href = UrlResolver.GetInternalUrlForTitle(page.Id, page.Title);
 				href += anchorHash;
+				
+		                //for shortcut links like [][this]
+		                if (string.IsNullOrWhiteSpace(e.Text))
+		                {
+		                    e.Text = page.Title;
+		                }				
+				
 			}
 			else
 			{
