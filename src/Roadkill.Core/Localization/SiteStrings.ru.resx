@@ -198,7 +198,7 @@
 	<value>Эти два слова для анти-спам поля были неверными</value>
 </data>
 <data name="Activate_Title" xml:space="preserve">
-	<value>Активизация учетной записи</value>
+	<value>Активация учетной записи</value>
 </data>
 <data name="Activate_Success_Title" xml:space="preserve">
 	<value>Активация прошла успешна</value>
@@ -213,13 +213,13 @@
 	<value>Нажмите сюда, чтобы войти</value>
 </data>
 <data name="Activate_Error" xml:space="preserve">
-	<value>Проблема активации аккаунта. Возможно, аккаунт уже был активирован.</value>
+	<value>Проблема активации аккаунта. Возможно аккаунт уже был активирован.</value>
 </data>
 <data name="ResetPassword_Title" xml:space="preserve">
 	<value>Сбросить пароль.</value>
 </data>
 <data name="ResetPassword_Label" xml:space="preserve">
-	<value>Введите адрес электронной почты ниже, чтобы сбросить пароль. После этого вы получите письмо с ссылкой для восстановления пароля.</value>
+	<value>Введите адрес электронной почты ниже, чтобы сбросить пароль. После этого вы получите письмо со ссылкой для восстановления пароля.</value>
 </data>
 <data name="ResetPassword_Complete_Label" xml:space="preserve">
 	<value>Пожалуйста, введите новый пароль.</value>
@@ -232,7 +232,7 @@
 	<value>Пароль успешно сброшен.</value>
 </data>
 <data name="ResetPassword_Successful_Label" xml:space="preserve">
-	<value>Ваш пароль был успешно сбросить.</value>
+	<value>Ваш пароль был успешно сброшен.</value>
 </data>
 <data name="ResetPassword_Invalid_Title" xml:space="preserve">
 	<value>Сброшенный пароль недействительный.</value>
@@ -250,7 +250,7 @@
 	<value>Пароли не совпадают, или слишком короткие</value>
 </data>
 <data name="ResetPassword_Error_ServerError" xml:space="preserve">
-	<value>Сброса пароля не удалось с сервера ошибку.</value>
+	<value>Сброс пароля не удался из за ошибки сервера.</value>
 </data>
 <data name="ResetPassword_Error_EmailNotFound" xml:space="preserve">
 	<value>Адрес электронной почты не найден</value>
@@ -262,13 +262,13 @@
 	<value>Профиль</value>
 </data>
 <data name="Profile_Error" xml:space="preserve">
-	<value>Произошла ошибка обновление профиля</value>
+	<value>Произошла ошибка обновления профиля</value>
 </data>
 <data name="NoMainPage_Title" xml:space="preserve">
 	<value>У вас не создана Главная Страница</value>
 </data>
 <data name="NoMainPage_Label" xml:space="preserve">
-	<value>Чтобы настроить главную страницу, создайте страницу и присвоить ей тэг &apos;homepage&apos;.</value>
+	<value>Чтобы настроить главную страницу, создайте страницу и присвойте ей тэг &apos;homepage&apos;.</value>
 </data>
 <data name="Search_PlaceHolder" xml:space="preserve">
 	<value>Введите текст для поиска</value>
@@ -497,7 +497,7 @@
 	<value>Не удалось сохранить настройки</value>
 </data>
 <data name="SiteSettings_Configuration_CachePageText" xml:space="preserve">
-	<value>(Этот ключ больше не используется. Сниматься в 2.0)</value>
+	<value>(Этот ключ больше не используется. Будет удалён в 2.0)</value>
 </data>
 <data name="SiteSettings_Configuration_SiteName_Help" xml:space="preserve">
 	<value>Имя сайта, который используется в некоторых темах.</value>
@@ -515,13 +515,13 @@
 	<value>Строка подключения к базе данных.</value>
 </data>
 <data name="SiteSettings_Configuration_UseWindowsAuth_Help" xml:space="preserve">
-	<value>{bold}ВНИМАНИЕ{/bold} При изменениях этого вас может заблокировать на сайте. Сделайте резервную копию вашего web.config перед сохранением. {br}{br} Включение и отключение использования проверки подлинности Windows и Active Directory для аутентификации.</value>
+	<value>{bold}ВНИМАНИЕ{/bold} При изменениях этого параметра вы можете быть заблокированы на сайте. Сделайте резервную копию вашего web.config перед сохранением. {br}{br} Включение и отключение использования проверки подлинности Windows и Active Directory для аутентификации.</value>
 </data>
 <data name="SiteSettings_Configuration_AllowUserSignups_Help" xml:space="preserve">
 	<value>Отметьте эту опцию, если вы хотите разрешить людям  зарегистрироваться в качестве нового пользователя.</value>
 </data>
 <data name="SiteSettings_Configuration_EnableRecaptcha_Help" xml:space="preserve">
-	<value>Включить поддержка Recaptcha - бесплатный анти-спам бот сервис . Вам нужно, чтобы зарегистрироваться и скопировать открытый и закрытый ключ в поле ниже.</value>
+	<value>Включить поддержка Recaptcha - бесплатного анти-спам бот сервиса. Вам нужно войти в профиль Recaptcha и скопировать открытый и закрытый ключи в поля ниже.</value>
 </data>
 <data name="SiteSettings_Configuration_RecaptchaPrivateKey_Help" xml:space="preserve">
 	<value>Закрытый ключ Recaptcha, который предоставляется после регистрации в ReCaptcha.</value>
@@ -530,7 +530,7 @@
 	<value>Открытый ключ Recaptcha, который предоставляется после регистрации в ReCaptcha.</value>
 </data>
 <data name="SiteSettings_Configuration_AD_Connection_Help" xml:space="preserve">
-	<value>LDAP строка соединения для Active Direction соединения.Должна быть в формате LDAP://mydc01.company.internal (LDAP - должен быть в верхнем регистре )</value>
+	<value>LDAP строка соединения для Active Direction соединения. Должна быть в формате LDAP://mydc01.company.internal (LDAP - должен быть в верхнем регистре )</value>
 </data>
 <data name="SiteSettings_Configuration_AD_Username_Help" xml:space="preserve">
 	<value>Имя пользователя для аутентификации с Active Directory. Оставьте пустым, если пул приложение работает под учетной записью пользователя с таким разрешением.</value>
@@ -539,10 +539,10 @@
 	<value>Пароль, используемый для аутентификации.</value>
 </data>
 <data name="SiteSettings_Configuration_EditorRole_Help" xml:space="preserve">
-	<value>Это имя роли редактора - люди, которые могут редактировать и создавать страницы. Это используется только для Active Directory / Windows аутентификации - оставить это поле пустым, чтобы позволить всем пользователям быть редакторами.</value>
+	<value>Это имя роли редакторов - людей, которые могут редактировать и создавать страницы. Эта настройка только для Active Directory / Windows аутентификации - оставьте это поле пустым, чтобы позволить всем пользователям быть редакторами.</value>
 </data>
 <data name="SiteSettings_Configuration_AdminRole_Help" xml:space="preserve">
-	<value>{bold}ВНИМАНИЕ{/bold} При изменениях этого вас может заблокировать на сайте. Сделайте резервную копию вашего web.config перед сохранением. {br}{br} Это имя роли администратора. Администраторы имеют те же права, редакторов, но и иметь доступ к настройкам конфигурации и инструментам сайта.</value>
+	<value>{bold}ВНИМАНИЕ{/bold} При изменениях этого параметра вы можете быть заблокированы на сайте. Сделайте резервную копию вашего web.config перед сохранением. {br}{br} Это имя роли администратора. Администраторы имеют те же права, что и редакторы, но также они имеют доступ к настройкам конфигурации и инструментам сайта.</value>
 </data>
 <data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
 	<value>Это формат разметки, который используется. Roadkill в настоящее время поддерживает следующие значения: Creole, Markdown, MediaWiki.</value>
@@ -554,7 +554,7 @@
 	<value>Это каталог, в который загружаются все файлы. Путь должен начинаться с ~/, чтобы указать на корень сайта.</value>
 </data>
 <data name="SiteSettings_Configuration_Extensions_Help" xml:space="preserve">
-	<value>Это расширения файлов, с которыми могут быть загружены файлы. Через запятую.</value>
+	<value>Это расширения файлов, разрешенных к загрузке. Через запятую.</value>
 </data>
 <data name="SiteSettings_Configuration_ObjectCaching_Help" xml:space="preserve">
 	<value>Включает кэширование объектов. Roadkill кэширует все страницы и контент в памяти после извлечения его из базы данных. Кэш автоматически обновляется при изменении страницы. Рекомендуется повышение способности сайта. Кэширование объектов в настоящее время не поддерживается для веб-сады или веб-ферм.</value>
@@ -563,10 +563,10 @@
 	<value>Roadkill кэширует все страницы и контент в памяти после извлечения его из базы данных. Кэш автоматически обновляется при изменении страницы. Рекомендуется для повышения производительности сайта. Кэширование объектов в настоящее время не поддерживается для веб-садов или веб-ферм.</value>
 </data>
 <data name="SiteSettings_Configuration_Caching_Help" xml:space="preserve">
-	<value>(Этот ключ больше не используется. Сниматься в 2.0)</value>
+	<value>(Этот ключ больше не используется. Будет удален в 2.0)</value>
 </data>
 <data name="SiteSettings_Configuration_CachePageText_Help" xml:space="preserve">
-	<value>(Этот ключ больше не используется. Сниматься в 2.0)</value>
+	<value>(Этот ключ больше не используется. Будет удален в 2.0)</value>
 </data>
 <data name="SiteSettings_UserManagement_Title" xml:space="preserve">
 	<value>Пользователи сайта</value>
@@ -648,7 +648,7 @@
 	<value>Перестроить индекс поиска</value>
 </data>
 <data name="SiteSettings_Tools_RebuildSearch_Label" xml:space="preserve">
-	<value>Вызывает перестройку индекса страниц поиска, полезно, если начинается рассинхронизация поиска по какой-то причине.</value>
+	<value>Вызывает перестройку индекса страниц поиска. Бывает полезно, если начинается рассинхронизация поиска по какой-либо причине.</value>
 </data>
 <data name="SiteSettings_Tools_RebuildSearch_Message" xml:space="preserve">
 	<value>Перестроение поискового индекса завершено</value>
@@ -657,7 +657,7 @@
 	<value>Экспорт в XML</value>
 </data>
 <data name="SiteSettings_Tools_ExportXml_Label" xml:space="preserve">
-	<value>Экспортирует все содержание страницы текста, и все истории, как единый XML файла.</value>
+	<value>Экспортирует все текстовое содержание страниц, и всю историю изменений, как единый XML файл.</value>
 </data>
 <data name="SiteSettings_Tools_ExportXml_Error" xml:space="preserve">
 	<value>Экспорт в XML не удался: {0}</value>
@@ -666,7 +666,7 @@
 	<value>Экспортировать все содержимое в виде ZIP</value>
 </data>
 <data name="SiteSettings_Tools_ExportContent_Label" xml:space="preserve">
-	<value>Экспорт всех страниц, в том числе текстовые содержания серии &quot;. Вики&quot; файлов. Только текущее содержание и теги, ни одна история не предоставляется. Этот почтовый файл не включает вложения папки.</value>
+	<value>Экспорт всех страниц, их текстового содержания, в виде серии &quot;.Wiki&quot; файлов. Экспортируется только текущее содержание и теги, история изменений и содержимое папки вложений не экспортируется.</value>
 </data>
 <data name="SiteSettings_Tools_ExportContent_Error" xml:space="preserve">
 	<value>Wiki содержание экспорта не удалось: {0}</value>
@@ -675,7 +675,7 @@
 	<value>Экспорт вложениий в виде ZIP</value>
 </data>
 <data name="SiteSettings_Tools_ExportAttachments_Label" xml:space="preserve">
-	<value>Экспортирует все содержимое папки и вложенные папки вложений в виде архива.</value>
+	<value>Экспортирует все содержимое папки вложений и ее подпапок в виде архива.</value>
 </data>
 <data name="SiteSettings_Tools_ExportAttachments_Error" xml:space="preserve">
 	<value>Экспорт вложений не удался: {0}</value>
@@ -684,7 +684,7 @@
 	<value>Импорт из ScrewTurn</value>
 </data>
 <data name="SiteSettings_Tools_ScrewTurnImport_Label" xml:space="preserve">
-	<value>Импортирует все содержимое ScrewTurn 2 базы данных. Вам нужно будет установить на MediaWiki markuptype в settings/web.config для совместимости форматов. Так как ScrewTurn использует в качестве синтаксиса вариацию MediaWiki, некоторые содержимое не будет отображаться идеально. Это включает в себя некоторые изображения и ссылки.</value>
+	<value>Импортирует все содержимое ScrewTurn 2 базы данных. Вам нужно будет установить на язык разметки MediaWiki в settings/web.config для совместимости форматов. Так как ScrewTurn использует в качестве синтаксиса вариацию MediaWiki, некоторое содержимое не будет отображаться идеально. В том числе некоторые изображения и ссылки.</value>
 </data>
 <data name="SiteSettings_Tools_ScrewTurnImport_Connection" xml:space="preserve">
 	<value>ScrewTurn строка соединения:</value>
@@ -696,7 +696,7 @@
 	<value>Переименовать тэг</value>
 </data>
 <data name="SiteSettings_Tools_RenameTag_Label" xml:space="preserve">
-	<value>Это переименует тэг, и обновить все страницы, которые ссылаются на данный тэг. Тэг чувствителен к регистру.</value>
+	<value>Переименует тэг и обновит все страницы, которые ссылаются на данный тэг. Тэг чувствителен к регистру.</value>
 </data>
 <data name="SiteSettings_Tools_RenameTag_Existing" xml:space="preserve">
 	<value>Существующий тег:</value>
@@ -805,7 +805,7 @@
 	<value>Автоматическая перезапись существующих файлов при загрузке</value>
 </data>
 <data name="SiteSettings_Configuration_FileManager_OverwriteExisting_Help" xml:space="preserve">
-	<value>Проверьте это, если вы хотите имена файлов, которые уже существуют в папке вложения, которые будут автоматически перезаписаны.</value>
+	<value>Отметьте, если хотите чтобы при совпадении имен файлы перезаписывались.</value>
 </data>
 <data name="SiteSettings_Plugins_Title" xml:space="preserve">
 	<value>Плагины</value>
@@ -844,10 +844,10 @@
 	<value>Успех!</value>
 </data>
 <data name="Shared_Failure" xml:space="preserve">
-	<value>Несоблюдение!</value>
+	<value>Неудача!</value>
 </data>
 <data name="DatabaseConnection_Success" xml:space="preserve">
-	<value>Соединение с базой данных была успешной.</value>
+	<value>Соединение с базой данных успешно.</value>
 </data>
 <data name="DatabaseConnection_Failure" xml:space="preserve">
 	<value>Подключение к базе данных не удалось:</value>
@@ -856,7 +856,7 @@
 	<value>Добавлять</value>
 </data>
 <data name="Attachments_Folder_Success" xml:space="preserve">
-	<value>Успех! Каталог существует и может быть записан на.</value>
+	<value>Успех! Каталог существует и может использоваться для записи.</value>
 </data>
 <data name="Attachments_Folder_Failure" xml:space="preserve">
 	<value>Невозможно записать в каталог вложений:</value>
@@ -865,7 +865,7 @@
 	<value>Что-то пошло не так</value>
 </data>
 <data name="Profile_Not_Available" xml:space="preserve">
-	<value>Проверка подлинности Windows включена, так что профиль пользователя не доступна.</value>
+	<value>Проверка подлинности Windows включена, так что профиль пользователя не доступен.</value>
 </data>
 <data name="Profile_Password_Change_Successful" xml:space="preserve">
 	<value>Пароль был успешно изменен</value>
@@ -877,7 +877,7 @@
 	<value>Оставьте поле пароля пустым, если вы не хотите, чтобы изменить пароль.</value>
 </data>
 <data name="SiteSettings_Cache_Clear_Successful" xml:space="preserve">
-	<value>Все склады были успешно удалены.</value>
+	<value>Все кэши были успешно удалены.</value>
 </data>
 <data name="SiteSettings_Cache_Key_Format" xml:space="preserve">
 	<value>Клавиши в формате:</value>
@@ -889,7 +889,7 @@
 	<value>Кэш Страница</value>
 </data>
 <data name="SiteSettings_Cache_List_Cache" xml:space="preserve">
-	<value>Элементы кэш</value>
+	<value>Элементы кэша</value>
 	<comment>Fuzzy</comment>
 </data>
 <data name="SiteSettings_Cache_Clear_Button" xml:space="preserve">
@@ -905,13 +905,13 @@
 	<value>В качестве меры по борьбе со спамом, введите два слова ниже</value>
 </data>
 <data name="Button_Close" xml:space="preserve">
-	<value>Близко</value>
+	<value>Закрыть</value>
 </data>
 <data name="SiteSettings_Cache_Site_Cache" xml:space="preserve">
-	<value>Site cache</value>
+	<value>Кэш сайта</value>
 </data>
 <data name="SiteSettings_Cache_Not_Enabled" xml:space="preserve">
-	<value>The object cache is not currently enabled.</value>
+	<value>Кэш объектов в данный момент не включен.</value>
 </data>
 
 </root>
