@@ -19,11 +19,11 @@ namespace Roadkill.Core.Mvc.Controllers
 	{
 		private SignupEmail _signupEmail;
 		private ResetPasswordEmail _resetPasswordEmail;
-		
+
 		public UserController(ApplicationSettings settings, UserServiceBase userManager,
-			IUserContext context, SettingsService settingsService, 
+			IUserContext context, SettingsService settingsService,
 			SignupEmail signupEmail, ResetPasswordEmail resetPasswordEmail)
-			: base(settings, userManager, context, settingsService) 
+			: base(settings, userManager, context, settingsService)
 		{
 			_signupEmail = signupEmail;
 			_resetPasswordEmail = resetPasswordEmail;
@@ -58,7 +58,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				return RedirectToAction("Index", "Home");
 
 			RoadkillUser user = UserService.GetUserByResetKey(id);
-			
+
 			if (user == null)
 			{
 				return View("CompleteResetPasswordInvalid");
@@ -154,7 +154,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				if (!string.IsNullOrWhiteSpace(fromUrl))
 					return Redirect(fromUrl);
 				else
-					return RedirectToAction("Index","Home");
+					return RedirectToAction("Index", "Home");
 			}
 			else
 			{
@@ -270,10 +270,11 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (ApplicationSettings.UseWindowsAuthentication)
 				return RedirectToAction("Index", "Home");
 
-#if DEMOSITE
-			ModelState.AddModelError("General", "The demo site login cannot be changed.");
-			return View();
-#endif
+			if (ApplicationSettings.IsDemoSite)
+			{
+				ModelState.AddModelError("General", "The demo site login cannot be changed.");
+				return View();
+			}
 
 			if (string.IsNullOrEmpty(email))
 			{
@@ -297,7 +298,7 @@ namespace Roadkill.Core.Mvc.Controllers
 						Configuration.SiteSettings siteSettings = SettingsService.GetSiteSettings();
 						_resetPasswordEmail.Send(new UserViewModel(user));
 
-						return View("ResetPasswordSent",(object) email);
+						return View("ResetPasswordSent", (object)email);
 					}
 					else
 					{
@@ -307,7 +308,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			}
 
 			return View();
-		}	
+		}
 
 		/// <summary>
 		/// Resends a signup confirmation email, from the signupcomplete page.
@@ -341,7 +342,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			Configuration.SiteSettings siteSettings = SettingsService.GetSiteSettings();
 			if (Context.IsLoggedIn || !siteSettings.AllowUserSignup || ApplicationSettings.UseWindowsAuthentication)
 			{
-				return RedirectToAction("Index","Home");
+				return RedirectToAction("Index", "Home");
 			}
 			else
 			{
@@ -358,7 +359,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			Configuration.SiteSettings siteSettings = SettingsService.GetSiteSettings();
 			if (Context.IsLoggedIn || !siteSettings.AllowUserSignup || ApplicationSettings.UseWindowsAuthentication)
-				return RedirectToAction("Index","Home");
+				return RedirectToAction("Index", "Home");
 
 			if (ModelState.IsValid)
 			{
