@@ -27,9 +27,9 @@ Roadkill is licensed under the [MS-PL license](https://github.com/roadkillwiki/r
 
 ## Quick start: Azure and AWS
 
-- **AWS**: Create a new instance of the AMI `ami-5550b5b8`. *Note: this AMI is Windows 2016 July 2018. It may need updating after launch via RDP*
+- **[AWS](https://eu-west-1.console.aws.amazon.com/ec2/v2/#LaunchInstanceWizard:ami=ami-5550b5b8)**: `ami-5550b5b8`. t2.micro is generally big enough for a small site. *Note: this AMI is Windows 2016 July 2018. It may need updating after launch via RDP*
 - **[Azure instructions](http://www.roadkillwiki.net/wiki/13/azure-website-deployments)**
-- Google Cloud: 
+- **Google Cloud**: looking for help
 
 
 ## Version 3.0 Roadmap
