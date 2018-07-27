@@ -7,7 +7,7 @@
 
 * [Download the latest **stable** version (2.0)](https://github.com/roadkillwiki/roadkill/releases/tag/v2.0)
 * [Read the docs](http://roadkillwiki.net/wiki/6/documentation)
-* [Try a demo](http://roadkill-demo.azurewebsites.net/)
+* [Try a demo](http://demo.roadkillwiki.net/)
 
 Roadkill .NET is a lightweight but powerful Wiki platform built on the following foundations:
 
@@ -23,59 +23,73 @@ Roadkill .NET is a lightweight but powerful Wiki platform built on the following
 Roadkill is licensed under the [MS-PL license](https://github.com/roadkillwiki/roadkill/blob/master/LICENCE.md) which means it's free to use commercially or privately, but requires you to retain the copyright, trademark and attribution if you intend to distribute it (typically for commercial gain).
 
 * [Please see the Roadkill wiki for information on installing](http://www.roadkillwiki.net/wiki/2/installing)
-* [Upgrading from 1.7 to 2.0](http://www.roadkillwiki.net/wiki/14/upgrading-from-version-17-to-20)
-* [Mono on Ubuntu installations](http://www.roadkillwiki.net/wiki/15/installing-on-linux-ubuntu-with-mono)
-* [Discussions/forum](https://groups.google.com/forum/#!forum/roadkillwiki)
+* Please use issues for any discussions, bug reports, enhancements.
+
+## Quick start: Azure and AWS
+
+- **AWS**: Create a new instance of the AMI `ami-5550b5b8`. *Note: this AMI is Windows 2016 July 2018. It may need updating after launch via RDP*
+- **[Azure instructions](http://www.roadkillwiki.net/wiki/13/azure-website-deployments)**
+- Google Cloud: 
+
 
 ## Version 3.0 Roadmap
 
-*Last updated: July 2015*
+*July 2018*
 
-It's been over 18 months since a Roadkill release, and the number of feature requests has grown quite large on the [UserEcho site](http://roadkillwiki.userecho.com/list/27059-general/).
+The next version of Roadkill will be Roadkill version 3. Because of the instability of .NET Core over the past 1.5 years, it's been a long time coming. It's currently making good progress now we have the stability of .NET Core 2.0.
 
-The next version of Roadkill will be Roadkill version 3. It's a major version number because the following major changes are planned:
+It's a major version number because the following major changes are planned:
+
+#### ASP.NET Core
+
+The next version will be ASP.NET Core only, aimed at Linux hosting for cost and scability.
+
+#### Enhanced security
+
+Through its ASP.NET Core identity integration, version 3 will support everything that `Microsoft.AspNetCore.Identity` [supports](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-2.1&tabs=visual-studio%2Caspnetcore2x)
+
+#### Postgres only
+
+Version 3 will be Postgres only, using [Marten](http://jasperfx.github.io/marten/) as its NoSQL document store. Postgres can be run as Docker container, or is available a service by services such as AWS RDS.
+
+#### API-first
+
+The new Roadkill will be powered by its RESTful API, rather than version's 2 after-thought approach. This enables far easier plugin and extensibility to exist for Roadkill.
+
+#### Docker
+
+Roadkill 3 will be a docker image you run, on Linux Docker. With Docker comes built in scalibility, easier versioning, 
+
+#### Elasticsearch for searching
+
+The next version will use ElasticSearch for its search engine, rather than Lucene, removing a lot of complexity and past problems from Roadkill. You can run Elasticsearch as a Docker image, or use a hosted service search as AWS's Elasticsearch.
 
 #### No more Creole support
-Sorry Creole fans, but supported 3 different markdown formats is too labour intensive, and CommonMark has come a long and pretty much made Creole redundant, and Mediawiki syntax has zero support for .NET. Version 3 will support Markdown, using the [CommonMark](http://commonmark.org/) standard. 
+Sorry Creole fans, but supporting 3 different markdown formats is too labour intensive, and CommonMark has come a long and pretty much made Creole redundant, and Mediawiki syntax has zero support for .NET. Looking at commercial wiki engines like Confluence, it ultimately doesn't make a lot of difference what markdown format you support, providing there is good documentation for the syntax.
 
-This will be done via the [CommonMark.NET](https://github.com/Knagis/CommonMark.NET) library, which in future should support additional features like tables, which are [currently under discussion](http://talk.commonmark.org/t/tables-in-pure-markdown/81/81)
+Version 3 will only support Markdown, using the [CommonMark](http://commonmark.org/) standard via [Markdig](https://github.com/lunet-io/markdig). CommonMark is a well thought-out and documentated extension of Markdown and has a large community behind it.
 
-There's plans to create a tool to do some primitive conversion of Creole to Markdown to help people upgrade.
-
-#### No more SQLite support
-
-SQlite on Windows makes the whole Roadkill installation experience painful, and was the cause of most of the issues with version 2. It also runs extremely slower after you have a 5+ pages of lots of text.
-
-#### .NET 4.6, ASP.NET 5, MVC 6, DNX by default
-As with the previous versions of Roadkill, version 3 will use the latest Microsoft technologies. This is quite involved given the changes Microsoft have just made to their web stack, but also promises that Roadkill *should* work on OS X and Linux environments.
-
-#### Better editor
-Because Roadkill is moving to CommonMark, the editor can now be improved to be more user friendly, and have a faster client-side preview and will hopefully have some WYSIWYG abilities.
-
-#### Continuous-integration builds
-To replace the archaic zip system, it's planned to combine Octopack and Appveyor's ninja abilities together to make a new tag-based release system, in other words more frequent minor releases for minor bug fixes. Self-updating will also be considered if it's viable.
+#### Improved editing experience
+Because Roadkill is moving to CommonMark, the editor can now be improved to be more user friendly, and have a faster client-side preview. The TUI editor is currently being considered for this: https://github.com/roadkillwiki/roadkill/issues/57
 
 #### A new theme
 A new material-design based theme.
 
 #### Re-designed file manager
-The plan is to redesign the file manager to emulate the Wordpress 4 file manager.
+While this may not make the initial v3 release, the plan is to redesign the file manager to emulate the Wordpress 4 file manager.
 
 #### Better page dialog for adding links
 Instead of having to memorize page names, adding links will be similar to Wordpress in finding pages that exist on the site.
 
-#### Page attachments
-See http://roadkillwiki.userecho.com/topic/354042-page-attachments/
 
-#### Viewer role
-See http://roadkillwiki.userecho.com/topic/416051-viewer-role/
-
-As Roadkill is not a commercial project, nor backed commercially, there are no time-frames that can be relied upon.
+As Roadkill is not a commercial project, nor backed commercially, there are no time-frames that can be relied upon. It is essentially me creating it in my spare time.
 
 ## For Developers
 
 
 ### Pre-requisites
+
+**Make sure you use the `version-2` branch, master is not currently stable**
 
 To setup Roadkill on a developer machine, you will need:
 
@@ -93,28 +107,6 @@ To get a 'fresh' Roadkill installation on your development machine, you will nee
   * If you want to use SQLite or SQLServer CE, empty databases can be found `/lib/Test-databases/SqlCE` or Sqlite.
 * You can also install Roadkill using the unattended url, e.g.: http://localhost/install/Unattended?datastoretype=sqlserver2008&connectionstring=database=roadkill;uid=sa;pwd=Passw0rd;server=.\SQLEXPRESS
 
-
-### Build scripts
-
-*Note: work is now commencing on vNext (ASP.NET 5/MVC 6/DNX), so these scripts are likely to change in master.*
-
-There are 4 build scripts that automate the builds:
-
-* build.ps1 - runs msbuild with the solution file
-* devbuild.ps1 - builds and copies all files required for a dev build, zips the files and then pushes the zip file to the 'RoadkillBuilds' repository on Bitbucket (https://bitbucket.org/yetanotherchris/roadkillbuilds).
-* releasebuild.ps1 - The same as devbuild.ps1 but uses the `release` build configuration and only produces a zip file.
-* mono.releasebuild.ps1 - Uses the the `mono` build configuration. 
-
-### Running Roadkill on Azure
-Roadkill can be run using a website deploy on Windows Azure. The instructions for this can be found on the [Roadkill wiki](http://www.roadkillwiki.net/wiki/13/azure-website-deployments)
-
-### Syncing with Codeplex
-
-Codeplex is synced from Github before releases using `git push --all https://git01.codeplex.com/roadkill`
-
-The Codeplex site is now only around for publicity, and its source is usually very stale.
-The Bitbucket site has also been retired.
-
 ### Contributing
 
-If you want to contribute to Roadkill, have a look at the Contributing page on Github or on the [Roadkill wiki](http://www.roadkillwiki.net/wiki/4/contributing).
+No contributions are currently being taken until Version 3 is released.
