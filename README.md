@@ -6,7 +6,7 @@
 # Introduction
 
 * [Download the latest **stable** version (2.0)](https://github.com/roadkillwiki/roadkill/releases/tag/v2.0)
-* [Read the docs](http://roadkillwiki.net/wiki/6/documentation)
+* [Read the docs](https://github.com/roadkillwiki/roadkill/tree/master/docs)
 * [Try a demo](http://demo.roadkillwiki.net/)
 
 Roadkill .NET is a lightweight but powerful Wiki platform built on the following foundations:
@@ -20,9 +20,9 @@ Roadkill .NET is a lightweight but powerful Wiki platform built on the following
 * Supports SQL Server, SQL Server CE, SQL Azure (v1.6+), Sqlite, MySQL, Postgres, MongoDB
 * It's themeable and extendable, has documentation, supports Active Directory authentication and is (I hope) extremely easy to use. It's Free Open Source (FOSS)
 
-Roadkill is licensed under the [MS-PL license](https://github.com/roadkillwiki/roadkill/blob/master/LICENCE.md) which means it's free to use commercially or privately, but requires you to retain the copyright, trademark and attribution if you intend to distribute it (typically for commercial gain).
+Roadkill is licensed under the [MS-PL license](LICENCE.md) which means it's free to use commercially or privately, but requires you to retain the copyright, trademark and attribution if you intend to distribute it (typically for commercial gain).
 
-* [Please see the Roadkill wiki for information on installing](http://www.roadkillwiki.net/wiki/2/installing)
+* [Please see the Roadkill wiki for information on installing](docs/installing.md)
 * Please use issues for any discussions, bug reports, enhancements.
 
 ## Quick start: Azure and AWS
@@ -30,7 +30,7 @@ Roadkill is licensed under the [MS-PL license](https://github.com/roadkillwiki/r
 - **AWS** t2.micro is generally big enough for a small site. *Note: this AMI is Windows 2016 July 2018. It may need updating after launch via RDP*.
   - **[US-East](https://us-east-1.console.aws.amazon.com/ec2/v2/#LaunchInstanceWizard:ami=ami-ami-00e1e97f)**: `ami-00e1e97f`.
   - **[EU-West1](https://eu-west-1.console.aws.amazon.com/ec2/v2/#LaunchInstanceWizard:ami=ami-5550b5b8)**: `ami-5550b5b8`.
-- **[Azure instructions](http://www.roadkillwiki.net/wiki/13/azure-website-deployments)**
+- **[Azure instructions](docs/azure.md)**
 - **Google Cloud**: looking for help
 
 
