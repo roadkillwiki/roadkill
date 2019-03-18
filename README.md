@@ -112,3 +112,8 @@ To get a 'fresh' Roadkill installation on your development machine, you will nee
 ### Contributing
 
 No contributions are currently being taken until Version 3 is released.
+
+## Support on Beerpay
+Hey dude! Help me out for a couple of :beers:!
+
+[![Beerpay](https://beerpay.io/roadkillwiki/roadkill/badge.svg?style=beer-square)](https://beerpay.io/roadkillwiki/roadkill)  [![Beerpay](https://beerpay.io/roadkillwiki/roadkill/make-wish.svg?style=flat-square)](https://beerpay.io/roadkillwiki/roadkill?focus=wish)
