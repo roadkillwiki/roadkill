@@ -1,0 +1,9 @@
+.vs/
+Roadkill.vssscc
+src/Roadkill.Core/obj/
+src/Roadkill.Tests/obj/
+src/Roadkill.Web/App_Data/Internal/Search/
+src/Roadkill.Web/Properties/PublishProfiles/FolderProfile.pubxml.user
+src/Roadkill.Web/Roadkill.Web.csproj.user
+src/Roadkill.Web/bin/
+src/Roadkill.Web/obj/
