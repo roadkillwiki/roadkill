@@ -437,7 +437,10 @@ namespace Roadkill.Core.Converters
 		{
 			text = DoHeaders(text);
 			text = DoHorizontalRules(text);
-			text = DoLists(text);
+			text = DoULs(text);
+			_listLevel = 0;     // KW: Reset here since we know we're starting at root level for the below call to DoOLs
+			text = DoOLs(text);
+            text = DoTables(text);
 			text = DoCodeBlocks(text);
 			text = DoBlockQuotes(text);
 
@@ -1262,8 +1265,13 @@ namespace Roadkill.Core.Converters
 		{
 			return _horizontalRules.Replace(text, "<hr" + _emptyElementSuffix + "\n");
 		}
-
-		private static string _wholeList = string.Format(@"
+        
+        // KW: what follows is a quick hack to differentiate between ul and ol,
+        // as this was not happening by default. Was only checking for the existance
+        // of a list item following two newlines, regardless of whether this item
+        // belonged to the same list type as the current list. Duplicates of certain
+        // regexes and the functions that use them were created. Should be consolidated/parameterized.
+		private static string _wholeUL = string.Format(@"
 			(                               # $1 = whole list
 			  (                             # $2
 				[ ]{{0,{1}}}
@@ -1276,30 +1284,84 @@ namespace Roadkill.Core.Converters
 				|
 				  \n{{2,}}
 				  (?=\S)
-				  (?!                       # Negative lookahead for another list item marker
-					[ ]*
-					{0}[ ]+
-				  )
 			  )
-			)", string.Format("(?:{0}|{1})", _markerUL, _markerOL), _tabWidth - 1);
+			)", _markerUL, _tabWidth - 1);
 
-		private static Regex _listNested = new Regex(@"^" + _wholeList,
+		private static string _wholeOL = string.Format(@"
+			(                               # $1 = whole list
+			  (                             # $2 = Everything preceding the content of the list item (including the indentation and marker)
+				[ ]{{0,{1}}}                # Zero to tab-width spaces, followed by
+				({0})                       # $3 = first list item marker,
+				[ ]+                        # followed by 1 to many spaces
+			  )
+			  (?s:.+?)                      # Followed by anything, which could span multiple lines,
+			  (                             # ($4) followed by...
+				  \z                        # the end of the string,
+				|                           # -OR-
+				  \n{{2,}}                  # 2 or more newlines,
+				  (?=\S)                    # followed by a non-whitespace character,
+			  )
+			)", _markerOL, _tabWidth - 1);
+
+        // Starts at the beginning of any line
+		private static Regex _ulNested = new Regex(@"^" + _wholeUL,
 			RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
-		private static Regex _listTopLevel = new Regex(@"(?:(?<=\n\n)|\A\n?)" + _wholeList,
+        // Preceded by either: two newlines -OR- the beginning of the string, optionally with one newline after
+		private static Regex _ulTopLevel = new Regex(@"(?:(?<=\n\n)|\A\n?)" + _wholeUL,
 			RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+
+		private static Regex _olNested = new Regex(@"^" + _wholeOL,
+			RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+
+		private static Regex _olTopLevel = new Regex(@"(?:(?<=\n\n|</ul>\n)|\A\n?)" + _wholeOL,
+			RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+
+        private Regex _table = new Regex(@"
+			(                               # $1 = whole table
+              ^\|.*?\|.*?\|.*?$             # 3 or more pipe chars on one line with anything or nothing in between and after
+			  (?s:.+?)                      # Followed by anything, which could span multiple lines,
+			  (                             # ($2) followed by...
+                  \z                        # the end of the string
+                |                           # -OR-
+				  \n{2,}                    # 2 or more newlines,
+                  (?=\S)                    # followed by a non-whitespace character
+			  )
+			)",
+			RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+
+        private string DoTables(string text)
+        {
+            text = _table.Replace(text, new MatchEvaluator(TableEvaluator));
+            return text;
+        }
 
 		/// <summary>
-		/// Turn Markdown lists into HTML ul and ol and li tags
+		/// Turn Markdown uls into HTML ul and li tags
 		/// </summary>
-		private string DoLists(string text)
+		private string DoULs(string text)
 		{
 			// We use a different prefix before nested lists than top-level lists.
 			// See extended comment in _ProcessListItems().
 			if (_listLevel > 0)
-				text = _listNested.Replace(text, new MatchEvaluator(ListEvaluator));
+				text = _ulNested.Replace(text, new MatchEvaluator(ListEvaluator));
 			else
-				text = _listTopLevel.Replace(text, new MatchEvaluator(ListEvaluator));
+				text = _ulTopLevel.Replace(text, new MatchEvaluator(ListEvaluator));
+
+			return text;
+		}
+
+		/// <summary>
+		/// Turn Markdown lists into HTML ul and ol and li tags
+		/// </summary>
+		private string DoOLs(string text)
+		{
+			// We use a different prefix before nested lists than top-level lists.
+			// See extended comment in _ProcessListItems().
+			if (_listLevel > 0)
+				text = _olNested.Replace(text, new MatchEvaluator(ListEvaluator));
+			else
+				text = _olTopLevel.Replace(text, new MatchEvaluator(ListEvaluator));
 
 			return text;
 		}
@@ -1315,6 +1377,68 @@ namespace Roadkill.Core.Converters
 			result = string.Format("<{0}>\n{1}</{0}>\n", listType, result);
 			return result;
 		}
+
+        private string TableEvaluator(Match match)
+        {
+            string result;
+            string table = match.Groups[1].Value;
+            result = String.Format("<table><thead>{0}</tbody></table>", ProcessTableRows(table));
+            return result;
+        }
+
+        private string ProcessTableRows(string table)
+        {
+            int rowNum = 1;
+
+			// Trim trailing blank lines:
+			table = Regex.Replace(table, @"\n{2,}\z", "\n");
+            string pattern = string.Format(@"
+                ^\s*\|(.+)\|\s*$
+            ");
+
+            MatchEvaluator TableRowEvaluator = (Match match) =>
+            {
+				string tr = match.Groups[1].Value;
+
+                // Header row
+                if (rowNum == 1)
+                {
+                    tr = String.Format("<tr>{0}</tr>", ProcessTDs(tr, "th"));
+                }
+                // Header separator
+                else if (rowNum == 2)
+                {
+                    tr = "</thead><tbody>";
+                }
+                // Normal row
+                else
+                {
+                    tr = String.Format("<tr>{0}</tr>", ProcessTDs(tr, "td"));
+                }
+
+                ++rowNum;
+
+                return tr;
+            };
+
+			table = Regex.Replace(table, pattern, new MatchEvaluator(TableRowEvaluator),
+								  RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline);
+
+            return table;
+        }
+
+        private string ProcessTDs(string tr, string tag)
+        {
+            string tdStr = "";
+            string[] tds = tr.Split('|');
+
+            for (int i = 0; i < tds.Length; ++i)
+            {
+                tdStr += String.Format("<{1}>{0}</{1}>", RunSpanGamut(tds[i]), tag);
+            }
+
+            return tdStr;
+        }
 
 		/// <summary>
 		/// Process the contents of a single ordered or unordered list, splitting it
@@ -1371,7 +1495,8 @@ namespace Roadkill.Core.Converters
 				else
 				{
 					// recursion for sub-lists
-					item = DoLists(Outdent(item));
+					item = DoULs(Outdent(item));
+					item = DoOLs(Outdent(item));
 					item = item.TrimEnd('\n');
 					item = RunSpanGamut(item);
 				}
@@ -1386,7 +1511,7 @@ namespace Roadkill.Core.Converters
 		}
 
 		private static Regex _codeBlock = new Regex(string.Format(@"
-					(?:\n\n|\A\n?)
+					(?:\n\n|\A\n?|<br>\n)
 					(                        # $1 = the code block -- one or more lines, starting with a space
 					(?:
 						(?:[ ]{{{0}}})       # Lines must start with a tab-width of spaces

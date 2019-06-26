@@ -47,7 +47,7 @@ namespace Roadkill.Core.Mvc
 		private static void IncludeJQueryScripts(ScriptBundle jsBundle)
 		{
 			jsBundle.Include("~/Assets/Scripts/jquery/additional-methods.js");
-			jsBundle.Include("~/Assets/Scripts/jquery/jquery-1.9.1.js");
+			jsBundle.Include("~/bower_components/jquery/dist/jquery.js");
 			jsBundle.Include("~/Assets/Scripts/jquery/jquery-ui-1.10.3.custom.js");
 			jsBundle.Include("~/Assets/Scripts/jquery/jquery.fieldSelection.js");
 			jsBundle.Include("~/Assets/Scripts/jquery/jquery.fileupload.js");

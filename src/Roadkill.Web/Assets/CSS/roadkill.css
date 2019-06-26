@@ -84,11 +84,11 @@ a.external-link	{ background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA
 .tagcloud4		{ font-size:1.5em; }
 .tagcloud5		{ font-size:2em; }
 
-/* Wiki page tables (see http://en.wikipedia.org/wiki/Help:Table) */
+/* Wiki page tables (see http://en.wikipedia.org/wiki/Help:Table)
 .wikitable			{ margin: 1em 0; background-color: #f9f9f9; border: 1px #aaa solid;border-collapse: collapse; color: black; }
 .wikitable tr>th	{ background-color: #f2f2f2;text-align: center;border: 1px #aaa solid;padding: 0.2em; }
 .wikitable tr>td	{ border: 1px #aaa solid;padding: 0.2em;}
-.table .stretch		{ width:99%; }
+.table .stretch		{ width:99%; } */
 
 /* Edit page [editors] */
 #editpage					{ min-height:100%; height:100%;width:100%;clear:both; }
@@ -161,3 +161,40 @@ table#files tr.listrow	{ cursor:pointer; }
 .plugin-disabled	{ min-width:15px;min-height:16px;background: url('images/plugin-disabled.png');margin-top:2px; }
 
 #pluginsettings-save { margin-top:20px; }
+
+img { float: right; max-width: 700px; margin-left: 20px; margin-bottom: 20px; }
+
+.alert { clear: both; }
+
+/* Tables */
+#pagecontent table {
+    margin: 2px 0 14px;
+    color: #555;
+    width: auto;
+    border-collapse: collapse;
+    box-sizing: border-box;
+}
+
+#pagecontent table th, 
+#pagecontent table td {
+    height: 32px;
+    padding: 5px 14px 5px 12px;
+}
+
+#pagecontent table td {
+    border: 1px solid #eaeaea;
+}
+
+#pagecontent table th {
+    border: 1px solid #72777b;
+    border-top: 0;
+    background-color: #7b8184;
+    font-weight: 300;
+    color: #fff;
+    padding-top: 6px;
+}
+
+code {
+    color: #24292e !important;
+    background-color: rgba(27,31,35,.05) !important;
+}

@@ -113,11 +113,12 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 			public static string[] CssFiles = 
 			{
 				"shCore.css",
-				"shThemeDefault.css"
+				"shThemeMidnight.css"
 			};
 
 			public static string[] JsFiles = 
 			{
+                "XRegExp.js",
 				"shCore.js", // needs to be 1st
 				"shBrushAppleScript.js",
 				"shBrushAS3.js",
@@ -144,6 +145,7 @@ namespace Roadkill.Core.Plugins.Text.BuiltIn
 				"shBrushSql.js",
 				"shBrushVb.js",
 				"shBrushXml.js",
+                "shBrushTS.js"
 			};
 		}
 	}

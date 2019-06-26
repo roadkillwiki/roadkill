@@ -99,7 +99,7 @@ namespace Roadkill.Core.Text.Sanitizer
         {
             // Create Html document
             HtmlDocument html = new HtmlDocument();
-            html.OptionFixNestedTags = true;
+            html.OptionFixNestedTags = false;       // KW: Set to false bc it was messing with lists
             html.OptionAutoCloseOnEnd = true;
             html.OptionDefaultStreamEncoding = Encoding.UTF8;
             html.LoadHtml(htmlText);

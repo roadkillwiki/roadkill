@@ -1,13 +1,313 @@
 ﻿@model PageViewModel
 @{
 	ViewBag.Title = SiteStrings.EditPage_Title;
+    string myGuid = Guid.NewGuid().ToString();
 }
 
+<script src="~/bower_components/markdown-it/dist/markdown-it.js?v=@(myGuid)"></script>
+<script src="~/bower_components/to-mark/dist/to-mark.js?v=@(myGuid)"></script>
+<script src="~/bower_components/tui-code-snippet/dist/tui-code-snippet.js?v=@(myGuid)"></script>
+<script src="~/bower_components/codemirror/lib/codemirror.js?v=@(myGuid)"></script>
+<script src="~/bower_components/highlightjs/highlight.pack.js?v=@(myGuid)"></script>
+<script src="~/bower_components/squire-rte/build/squire-raw.js?v=@(myGuid)"></script>
+<script src="~/bower_components/tui-editor/dist/tui-editor-Editor.js?v=@(myGuid)"></script>
+<link rel="stylesheet" href="~/bower_components/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="~/bower_components/highlightjs/styles/github.css">
+<link rel="stylesheet" href="~/bower_components/tui-editor/dist/tui-editor.css">
+<link rel="stylesheet" href="~/bower_components/tui-editor/dist/tui-editor-contents.css">
+<link href="~/Plugins/SyntaxHighlighter/css/shCore.css?version=1.0" rel="stylesheet" type="text/css" />
+<link href="~/Plugins/SyntaxHighlighter/css/shThemeMidnight.css?version=1.0" rel="stylesheet" type="text/css" />
+<script type="text/javascript">head.js("@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/XRegExp.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shCore.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushAppleScript.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushAS3.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushBash.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushColdFusion.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushCpp.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushCSharp.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushCss.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushDelphi.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushDiff.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushErlang.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushGroovy.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushJava.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushJavaFX.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushJScript.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushPerl.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushPhp.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushPlain.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushPowerShell.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushPython.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushRuby.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushSass.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushScala.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushSql.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushVb.js",
+"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushXml.js",
+    "@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushTS.js", function () { SyntaxHighlighter.all(); })</script>
 <script type="text/javascript">
-	$(document).ready(function ()
-	{
+	$(document).ready(function () {
+        // KW: Tui Editor initialization
+        // Hide some of the original form and form-related elements
+        $('#Content').hide();
+        $('#previewpanel-container').hide();
+        $('#wysiwyg-toolbar').hide();
+
+        // Transform CommonMark to standard markdown
+        function toStdMarkdown(commonMarkdown) {
+            return commonMarkdown
+                .replace(/&#/g, '&amp;#');                           // TUI entity escape
+        }
+
 		var pageTags = [ @(Html.Raw(Model.JavascriptArrayForAllTags())) ];
-		var editPage = new Roadkill.Web.EditPage(pageTags);
+        var editPage = new Roadkill.Web.EditPage(pageTags);
+        var origMD = $('#Content').val();
+
+        // Roadkill-compatible image urls token-rendering rule
+        function rk_image_renderer (tokens, idx, options, env, slf) {
+            var token = tokens[idx];
+            token.attrs[token.attrIndex('alt')][1] =
+                slf.renderInlineAsText(token.children, options, env);
+
+            var src = token.attrs[token.attrIndex('src')][1];
+            token.attrs[token.attrIndex('src')][1] = src.replace(/(.+)/, '@(Url.Content("~/"))Attachments$1');
+
+            return slf.renderToken(tokens, idx, options);
+        };
+
+        function rk_fence_renderer (tokens, idx, options, env, slf) {
+            var token = tokens[idx],
+                info = token.info ? mdItHighlight.utils.unescapeAll(token.info).trim() : '',
+                langName = '',
+                highlighted, i, tmpAttrs, tmpToken;
+
+            if (info) {
+              langName = info.split(/\s+/g)[0];
+            }
+
+            highlighted = mdItHighlight.utils.escapeHtml(token.content);
+
+            if (highlighted.indexOf('<pre') === 0) {
+              return highlighted + '\n';
+            }
+
+            // If language exists, inject class gently, without modifying original token.
+            // May be, one day we will add .clone() for token and simplify this part, but
+            // now we prefer to keep things local.
+            if (info) {
+              return  '<pre class="brush: ' + langName + '">'
+                    + highlighted
+                    + '</pre>\n';
+            }
+
+
+            return  '<pre><code' + slf.renderAttrs(token) + '>'
+                  + highlighted
+                  + '</code></pre>\n';
+        };
+
+        var mdItHighlight = tui.Editor.markdownitHighlight,
+            mdIt = tui.Editor.markdownit;
+
+        mdItHighlight.renderer.rules.image = rk_image_renderer;
+        mdItHighlight.renderer.rules.fence = rk_fence_renderer;
+        mdIt.renderer.rules.image = rk_image_renderer;
+
+        // Roadkill-style code block (fence) tokenizer rule
+        function rk_fence(state, startLine, endLine, silent) {
+            var optionMarker = '[';
+            var pos = state.bMarks[startLine] + state.tShift[startLine];
+            var max = state.eMarks[startLine];
+            var haveEndMarker = false;
+
+            if (state.sCount[startLine] - state.blkIndent >= 4) return false;
+            if (pos + 3 > max) return false;
+
+            var marker = state.src.charCodeAt(pos);
+
+            if (marker !== optionMarker.charCodeAt(0)) return false;
+
+            var mem = pos;
+            pos = state.skipChars(pos, marker);
+            var len = pos - mem;
+
+            if (len < 3) return false;
+
+            // KW If we're interrupting an element here, don't bother pushing the token
+            if (silent) { return true; }
+
+            var markup = state.src.slice(mem, pos);
+            var params = state.src.slice(pos, max).replace(/code.*lang=([^|]*)\|/, '$1');
+
+            // Skip jumbotron blocks
+            if (/.*jumbotron.*/.test(params)) {
+                return false;
+            }
+
+            if (params.indexOf(String.fromCharCode(marker)) >= 0) return false;
+
+            // Search for end of block
+            var nextLine = startLine;
+            marker = 93; /* ] */
+
+            for (;;) {
+              nextLine++;
+              if (nextLine >= endLine) break;
+
+              pos = mem = state.bMarks[nextLine] + state.tShift[nextLine];
+              max = state.eMarks[nextLine];
+
+              if (pos < max && state.sCount[nextLine] < state.blkIndent) break;
+              if (state.src.charCodeAt(pos) !== marker) continue;
+              if (state.sCount[nextLine] - state.blkIndent >= 4) continue;
+
+              pos = state.skipChars(pos, marker);
+
+              if (pos - mem < len) continue;
+
+              pos = state.skipSpaces(pos);
+
+              if (pos < max) continue;
+
+              haveEndMarker = true;
+
+              break;
+            }
+
+            len = state.sCount[startLine];
+            state.line = nextLine + (haveEndMarker ? 1 : 0);
+
+            var token = state.push('fence', 'code', 0);
+            token.info = params;
+            token.content = state.getLines(startLine + 1, nextLine, len, true);
+            token.markup = markup;
+            token.map = [startLine, state.line];
+
+            return true;
+        }
+
+        mdIt.block.ruler.before('fence', 'rk_fence', rk_fence, { alt: ['paragraph', 'reference', 'blockquote', 'list'] });
+        mdItHighlight.block.ruler.before('fence', 'rk_fence', rk_fence, { alt: ['paragraph', 'reference', 'blockquote', 'list'] });
+        mdIt.disable('fence');
+        mdItHighlight.disable('fence');
+
+        var theEditor = new tui.Editor({
+            el: document.querySelector('#editSection'),
+            initialEditType: 'wysiwyg',
+            previewStyle: 'vertical',
+            height: '600px',
+            usageStatistics: false,
+            useDefaultHTMLSanitizer: false,
+            codeBlockLanguages: [
+                'actionscript',
+                'bash',
+                'cpp',
+                'cs',
+                'css',
+                'delphi',
+                'diff',
+                'erlang',
+                'groovy',
+                'html',
+                'java',
+                'javascript',
+                'perl',
+                'php',
+                'powershell',
+                'python',
+                'ruby',
+                'scala',
+                'sql',
+                'typescript',
+                'vbnet',
+                'xml'
+            ],
+            events: {
+                change: function () {
+                    origMD = theEditor.getMarkdown()
+                        .replace(/\\([,-_.\[])/gm, '$1')    // Unescape important chars
+                        .replace(/\\\|/gm, '|');            // Unescape pipe
+                    $('#Content').val(origMD);
+                }
+            },
+            hooks: {
+                // Inserting images via wysiwyg
+                addImageBlobHook: function (blob, callback) {
+                    // New web form w params
+                    var fd = new FormData();
+                    fd.append('destination_folder', '/');
+                    fd.append('files[]', blob);
+
+                    // POST webform with inserted file to the upload controller
+                    $.ajax({
+                        url: '@(Url.Content("~/"))FileManager/Upload',
+                        data: fd,
+                        processData: false,
+                        contentType: false,
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.status == "error") {
+                                alert(data.message);
+                                //console.log(data);
+                                return;
+                            }
+                            //console.log(data);
+                            callback('@(Url.Content("~/"))' + blob.name, 'Uploaded Image');
+                            theEditor.setMarkdown( theEditor.getMarkdown() );
+                        },
+                        error: function (xhr, err) {
+                            alert("Error from uploader API");
+                        }
+                    });
+
+                    return false;
+                }
+            },
+            toolbarItems: [
+              'heading',
+              'bold',
+              'italic',
+              'divider',
+              'hr',
+              'quote',
+              'divider',
+              'ul',
+              'ol',
+              'divider',
+              'image',
+              'link',
+              'divider',
+              'code',
+              'codeblock',
+              'table'
+            ]
+        });
+
+        // Transform and set the markdown in the wysiwyg
+        theEditor.setMarkdown(toStdMarkdown(origMD), false);
+        // When switching to markdown mode we have to run a minimal markdown transformation
+        theEditor.eventManager.listen('changeModeToMarkdown', function () {
+            theEditor.setMarkdown(origMD, false);
+            SyntaxHighlighter.highlight();
+        });
+
+        theEditor.eventManager.listen('changeModeBefore', function (currentMode) {
+            // If a changeMode event was fired, and we're in markdown mode, that means we're about to switch to wysiwyg mode
+            if (currentMode === 'markdown') {
+                // Set the markdown to use the codemirror-compatible code block markdown
+                theEditor.setMarkdown(toStdMarkdown(origMD), false);
+            }
+        });
+
+        // If a developer somehow changed the value in the hidden form field
+        $('#Content').on('change keyup paste mouseup', function () {
+            if ($(this).val() != origMD) {
+                // Propegate changes to wysiwyg editor via the transformed markdown
+                origMD = $(this).val();
+                theEditor.setMarkdown(toStdMarkdown(origMD), false);
+            }
+        });
 	});
 </script>
 <style>
@@ -15,7 +315,7 @@
 </style>
 
 <div id="editpage" class="row">
-	<div id="editpage-form-container" class="col-lg-6">
+	<div id="editpage-form-container">
 		@Html.BootstrapValidationSummary(SiteStrings.EditPage_Error)
 
 		<form class="form-horizontal" role="form" method="post" id="editpage-form">
@@ -33,6 +333,7 @@
 				@(Html.TextBox("TagsEntry", null, new { @class = "form-control tm-input", autocomplete = "off", tabindex = 2, placeholder = SiteStrings.EditPage_Tags_Label }))
 			</div>
 
+            <div id="editSection"></div>
 
 			@if (RoadkillContext.IsAdmin)
 			{

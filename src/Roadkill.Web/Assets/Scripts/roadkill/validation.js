@@ -1,23 +1,23 @@
+/// <reference path="typescript-ref/references.ts" />
 var Roadkill;
 (function (Roadkill) {
-    /// <reference path="typescript-ref/references.ts" />
+    var Web;
     (function (Web) {
-        var Validation = (function () {
+        var Validation = /** @class */ (function () {
             function Validation() {
             }
             /* "rules" should be in the format:
-            Configure({
-            fieldName :
-            { required: true },
-            fieldName2  :
-            { required: true }
-            });
+                Configure({
+                    fieldName :
+                        { required: true },
+                    fieldName2  :
+                        { required: true }
+                });
             */
             Validation.prototype.Configure = function (formSelector, rules) {
                 $.validator.messages = {
                     required: ROADKILL_REQUIRED_FIELD
                 };
-
                 $(formSelector).validate({
                     "rules": rules,
                     highlight: function (element) {
@@ -31,15 +31,16 @@ var Roadkill;
                     errorPlacement: function (error, element) {
                         if (element.parent('.input-group').length) {
                             error.insertAfter(element.parent());
-                        } else {
+                        }
+                        else {
                             error.insertAfter(element);
                         }
                     }
                 });
             };
             return Validation;
-        })();
+        }());
         Web.Validation = Validation;
-    })(Roadkill.Web || (Roadkill.Web = {}));
-    var Web = Roadkill.Web;
+    })(Web = Roadkill.Web || (Roadkill.Web = {}));
 })(Roadkill || (Roadkill = {}));
+//# sourceMappingURL=validation.js.map

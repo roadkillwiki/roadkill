@@ -1,20 +1,20 @@
+/// <reference path="../typescript-ref/installerconstants.ts" />
 var Roadkill;
 (function (Roadkill) {
+    var Web;
     (function (Web) {
-        /// <reference path="../typescript-ref/installerconstants.ts" />
+        var Installer;
         (function (Installer) {
-            var Step3WindowsAuthMessages = (function () {
+            var Step3WindowsAuthMessages = /** @class */ (function () {
                 function Step3WindowsAuthMessages() {
                 }
                 return Step3WindowsAuthMessages;
-            })();
+            }());
             Installer.Step3WindowsAuthMessages = Step3WindowsAuthMessages;
-
-            var step3WindowsAuth = (function () {
+            var step3WindowsAuth = /** @class */ (function () {
                 function step3WindowsAuth(wizard, messages) {
                     this._wizard = wizard;
                     this._messages = messages;
-
                     // Set the page number in the header
                     this._wizard.updateNavigation(3);
                 }
@@ -31,26 +31,21 @@ var Roadkill;
                             required: true
                         }
                     };
-
                     var validation = new Roadkill.Web.Validation();
                     validation.Configure("#step3-form", validationRules);
                 };
-
                 step3WindowsAuth.prototype.bindButtons = function () {
                     var _this = this;
                     $("#testldap").click(function (e) {
                         _this.testActiveDirectory("");
                     });
-
                     $("#testeditor").click(function (e) {
                         _this.testActiveDirectory($("#EditorRoleName").val());
                     });
-
                     $("#testadmin").click(function (e) {
                         _this.testActiveDirectory($("#AdminRoleName").val());
                     });
                 };
-
                 step3WindowsAuth.prototype.testActiveDirectory = function (groupName) {
                     var _this = this;
                     var url = ROADKILL_INSTALLER_TESTLDAP_URL;
@@ -60,24 +55,20 @@ var Roadkill;
                         "password": $("#LdapPassword").val(),
                         "groupName": groupName
                     };
-
-                    this._wizard.makeAjaxRequest(url, jsonData, function (data) {
-                        _this.OnTestLdapSuccess(data);
-                    });
+                    this._wizard.makeAjaxRequest(url, jsonData, function (data) { _this.OnTestLdapSuccess(data); });
                 };
-
                 step3WindowsAuth.prototype.OnTestLdapSuccess = function (data) {
                     if (data.Success) {
                         this._wizard.showSuccess(this._messages.successTitle, this._messages.successMessage);
-                    } else {
+                    }
+                    else {
                         this._wizard.showFailure(this._messages.failureTitle, this._messages.failureMessage + "\n" + data.ErrorMessage);
                     }
                 };
                 return step3WindowsAuth;
-            })();
+            }());
             Installer.step3WindowsAuth = step3WindowsAuth;
-        })(Web.Installer || (Web.Installer = {}));
-        var Installer = Web.Installer;
-    })(Roadkill.Web || (Roadkill.Web = {}));
-    var Web = Roadkill.Web;
+        })(Installer = Web.Installer || (Web.Installer = {}));
+    })(Web = Roadkill.Web || (Roadkill.Web = {}));
 })(Roadkill || (Roadkill = {}));
+//# sourceMappingURL=step3WindowsAuth.js.map
