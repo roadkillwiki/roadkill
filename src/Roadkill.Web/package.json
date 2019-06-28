@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "dependencies": {
+    "tui-editor": "github:clone206/tui.editor#roadkill-compat"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "tui-editor": "github:clone206/tui.editor#roadkill-compat"
-  }
+  "license": "ISC"
 }

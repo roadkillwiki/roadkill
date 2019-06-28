@@ -304,7 +304,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Attachments\Articles\10688999.png" />
+    <Content Include="App_Data\Attachments\Articles\24b75be8-9eff-4c87-8dd3-c8d04de18f93.png" />
     <Content Include="App_Data\Attachments\emptyfile.txt" />
+    <Content Include="App_Data\Attachments\jumbotron.jpg" />
+    <Content Include="App_Data\Attachments\slack-guru-activity-feed.png" />
     <Content Include="App_Data\EmailTemplates\ResetPassword.txt" />
     <Content Include="App_Data\EmailTemplates\ResetPassword.html" />
     <Content Include="App_Data\EmailTemplates\Signup.html" />
@@ -1326,6 +1330,7 @@
     <Content Include="bower_components\tui-editor\package-lock.json" />
     <Content Include="bower_components\tui-editor\package.json" />
     <Content Include="bower_components\tui-editor\README.md" />
+    <Content Include="package.json" />
     <None Include="packages.config" />
     <Content Include="Plugins\Web.config" />
     <Content Include="Plugins\_ViewStart.cshtml" />
@@ -1346,6 +1351,30 @@
     <Content Include="Themes\Mediawiki\Theme.print.css" />
     <Content Include="Themes\Plain\Theme.css" />
     <Content Include="Themes\Plain\Theme.print.css" />
+    <Content Include="3rd_party\to-mark\.gitignore" />
+    <Content Include="3rd_party\to-mark\demo\demo.html" />
+    <Content Include="3rd_party\to-mark\demo\demo2.html" />
+    <Content Include="3rd_party\to-mark\dist\to-mark-bundled.js" />
+    <Content Include="3rd_party\to-mark\dist\to-mark.min.js" />
+    <Content Include="3rd_party\to-mark\gulpfile.js" />
+    <Content Include="3rd_party\to-mark\karma.conf.js" />
+    <Content Include="3rd_party\to-mark\src\domRunner.js" />
+    <Content Include="3rd_party\to-mark\src\index.js" />
+    <Content Include="3rd_party\to-mark\src\renderer.basic.js" />
+    <Content Include="3rd_party\to-mark\src\renderer.gfm.js" />
+    <Content Include="3rd_party\to-mark\src\renderer.js" />
+    <Content Include="3rd_party\to-mark\src\toDom.js" />
+    <Content Include="3rd_party\to-mark\src\toMark.js" />
+    <Content Include="3rd_party\to-mark\test\domRunner.spec.js" />
+    <Content Include="3rd_party\to-mark\test\renderer.basic.spec.js" />
+    <Content Include="3rd_party\to-mark\test\renderer.gfm.spec.js" />
+    <Content Include="3rd_party\to-mark\test\renderer.spec.js" />
+    <Content Include="3rd_party\to-mark\test\test.bundle.js" />
+    <Content Include="3rd_party\to-mark\test\toDom.spec.js" />
+    <Content Include="3rd_party\to-mark\test\tomark.gfm.spec.js" />
+    <Content Include="3rd_party\to-mark\test\toMark.headings.spec.js" />
+    <Content Include="3rd_party\to-mark\test\toMark.lists.spec.js" />
+    <Content Include="3rd_party\to-mark\test\toMark.spec.js" />
     <Content Include="Views\Help\MediaWikiReference.cshtml" />
     <Content Include="Views\Help\MarkdownReference.cshtml" />
     <Content Include="Views\Help\CreoleReference.cshtml" />
@@ -1412,6 +1441,11 @@
     <Content Include="Views\Install\InstallerJsVars.cshtml" />
     <Content Include="Views\Shared\TagBlocks.cshtml" />
     <Content Include="Views\User\Recaptcha.cshtml" />
+    <Content Include="3rd_party\to-mark\.bowerrc" />
+    <Content Include="3rd_party\to-mark\.eslintrc" />
+    <Content Include="3rd_party\to-mark\bower.json" />
+    <Content Include="3rd_party\to-mark\package-lock.json" />
+    <Content Include="3rd_party\to-mark\package.json" />
     <None Include="Web.Mono.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -1484,7 +1518,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\Attachments\Articles\" />
     <Folder Include="App_Data\Internal\Search\" />
     <Folder Include="bower_components\codemirror\mode\rpm\changes\" />
   </ItemGroup>
