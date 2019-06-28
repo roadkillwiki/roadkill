@@ -35,3 +35,4 @@ src/Roadkill.Web/Assets/Scripts/roadkill/typescript-ref/installerconstants.js.ma
 src/Roadkill.Web/Assets/Scripts/roadkill/typescript-ref/references.js.map
 src/Roadkill.Web/Assets/Scripts/roadkill/validation.js.map
 src/Roadkill.Web/connectionStrings.config
+src/Roadkill.Web/node_modules/
