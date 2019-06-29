@@ -23,6 +23,9 @@ To get a 'fresh' Roadkill installation on your development machine, you will nee
 
 When starting from scratch you will need to rename the `connectionStrings_toRename.config` file in `src/Roadkill.Web/` to `connectionStrings.config`. To ensure sensitive data doesn't get pushed, connectionStrings.config is ignored by git.
 
+### npm
+You may need to run an "npm install" from the `src/Roadkill.Web` directory before running.
+
 ### Build scripts
 
 There are 4 build scripts that automate the builds:
