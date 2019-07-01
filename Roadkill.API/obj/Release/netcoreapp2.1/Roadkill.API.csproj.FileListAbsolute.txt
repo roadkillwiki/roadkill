@@ -1,0 +1,14 @@
+C:\TFS\DCARC\Common\DevOps\wiki-2.0\Roadkill.API\bin\Release\netcoreapp2.1\Roadkill.API.deps.json
+C:\TFS\DCARC\Common\DevOps\wiki-2.0\Roadkill.API\bin\Release\netcoreapp2.1\Roadkill.API.runtimeconfig.json
+C:\TFS\DCARC\Common\DevOps\wiki-2.0\Roadkill.API\bin\Release\netcoreapp2.1\Roadkill.API.runtimeconfig.dev.json
+C:\TFS\DCARC\Common\DevOps\wiki-2.0\Roadkill.API\bin\Release\netcoreapp2.1\Roadkill.API.dll
+C:\TFS\DCARC\Common\DevOps\wiki-2.0\Roadkill.API\bin\Release\netcoreapp2.1\Roadkill.API.pdb
+C:\TFS\DCARC\Common\DevOps\wiki-2.0\Roadkill.API\obj\Release\netcoreapp2.1\Roadkill.API.csproj.CoreCompileInputs.cache
+C:\TFS\DCARC\Common\DevOps\wiki-2.0\Roadkill.API\obj\Release\netcoreapp2.1\Roadkill.API.RazorAssemblyInfo.cache
+C:\TFS\DCARC\Common\DevOps\wiki-2.0\Roadkill.API\obj\Release\netcoreapp2.1\Roadkill.API.RazorAssemblyInfo.cs
+C:\TFS\DCARC\Common\DevOps\wiki-2.0\Roadkill.API\obj\Release\netcoreapp2.1\Roadkill.API.AssemblyInfoInputs.cache
+C:\TFS\DCARC\Common\DevOps\wiki-2.0\Roadkill.API\obj\Release\netcoreapp2.1\Roadkill.API.AssemblyInfo.cs
+C:\TFS\DCARC\Common\DevOps\wiki-2.0\Roadkill.API\obj\Release\netcoreapp2.1\Roadkill.API.RazorTargetAssemblyInfo.cache
+C:\TFS\DCARC\Common\DevOps\wiki-2.0\Roadkill.API\obj\Release\netcoreapp2.1\Roadkill.API.dll
+C:\TFS\DCARC\Common\DevOps\wiki-2.0\Roadkill.API\obj\Release\netcoreapp2.1\Roadkill.API.pdb
+C:\TFS\DCARC\Common\DevOps\wiki-2.0\Roadkill.API\obj\Release\netcoreapp2.1\Roadkill.API.csprojAssemblyReference.cache
