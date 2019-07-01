@@ -70,10 +70,12 @@
                 slf.renderInlineAsText(token.children, options, env);
 
             var src = token.attrs[token.attrIndex('src')][1];
+            //console.log('img src before: ' + src);
             token.attrs[token.attrIndex('src')][1] = src.replace(/(.+)/, '@(Url.Content("~/"))Attachments$1');
+            //console.log('img src after: ' + token.attrs[token.attrIndex('src')][1]);
 
             return slf.renderToken(tokens, idx, options);
-        };
+        }
 
         function rk_fence_renderer (tokens, idx, options, env, slf) {
             var token = tokens[idx],
@@ -104,7 +106,7 @@
             return  '<pre><code' + slf.renderAttrs(token) + '>'
                   + highlighted
                   + '</code></pre>\n';
-        };
+        }
 
         var mdItHighlight = tui.Editor.markdownitHighlight,
             mdIt = tui.Editor.markdownit;
@@ -225,6 +227,7 @@
             events: {
                 change: function () {
                     origMD = theEditor.getMarkdown()
+                        .replace(/`[^`]+`/gm, function (match) { return match.replace(/\\/gm, '\\\\'); }) // Escape certain chars within inline code blocks
                         .replace(/\\([,-_.\[])/gm, '$1')    // Unescape important chars
                         .replace(/\\\|/gm, '|');            // Unescape pipe
                     $('#Content').val(origMD);

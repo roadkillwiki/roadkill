@@ -21,7 +21,7 @@ To get a 'fresh' Roadkill installation on your development machine, you will nee
 
 ### Connection strings/Appsettings
 
-When starting from scratch you will need to copy and rename the `connectionStrings_toRename.config` file in `src/Roadkill.Web/` to `connectionStrings.config`. You will also need to copy and rename `appsettings.CopyToDevel.json` to `appsettings.Development.json` in `src/Roadkill.API/`. To ensure sensitive data doesn't get pushed, connectionStrings.config and appsettings.Development.json are ignored by git.
+When starting from scratch you will need to copy and rename the `connectionStrings_toRename.config` file in `src/Roadkill.Web/` to `connectionStrings.config`. You will also need to copy and rename `appsettings.CopyToDevel.json` to `appsettings.Development.json` in `Roadkill.API/`. To ensure sensitive data doesn't get pushed, connectionStrings.config and appsettings.Development.json are ignored by git.
 
 ### npm
 You may need to run an `npm install` from the `src/Roadkill.Web` directory before running.
