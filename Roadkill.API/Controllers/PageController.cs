@@ -44,6 +44,7 @@ namespace Roadkill.API.Controllers
         {
             JsonResult response;
 
+            // Must send a valid token with the request
             if (data["token"] == _configuration["Integration:token"])
             {
                 response = Json(new {
