@@ -35,20 +35,3 @@ There are 4 build scripts that automate the builds:
 * releasebuild.ps1 - The same as devbuild.ps1 but uses the `release` build configuration and only produces a zip file.
 * mono.releasebuild.ps1 - Uses the the `mono` build configuration. 
 
-### Running Roadkill on Azure
-Roadkill can be run using a website deploy on Windows Azure. The instructions for this can be found on the [Roadkill wiki](http://www.roadkillwiki.net/wiki/13/azure-website-deployments)
-
-### Syncing with Git
-
-Mercurial (Bitbucket) hosting is synced with Github and Codeplex Git hosting using the Hg-To-Git plugin for Mercurial. These commands are then run:
-
-- hg pull -u
-- hg bookmark -f master
-- hg push git+ssh://git@github.com/yetanotherchris/roadkill.git
-
-Codeplex is then synced from Github using `git push --all https://git01.codeplex.com/roadkill`
-
-
-### Contributing
-
-If you want to contribute to Roadkill, have a look at the Contributing page on the [Roadkill wiki](http://www.roadkillwiki.net/wiki/4/contributing): 
