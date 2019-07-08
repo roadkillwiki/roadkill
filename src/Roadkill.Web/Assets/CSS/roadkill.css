@@ -196,5 +196,5 @@ img { float: right; max-width: 700px; margin-left: 20px; margin-bottom: 20px; }
 
 code {
     color: #24292e !important;
-    background-color: rgba(27,31,35,.05) !important;
+    background-color: #f5f5f5 !important;
 }
