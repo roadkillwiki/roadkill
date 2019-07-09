@@ -7,9 +7,11 @@ module Roadkill.Web
 		private _tagBlackList: string[] = 
 		[
 			"#", ",", ";", "/", "?", ":", "@", "&", "=", "{", "}", "|", "\\", "^", "[", "]", "`"	
-		];
+            ];
+        private _tuiEditor: any = null;
+        private _baseURL: string = '';
 
-		constructor(tags : string[])
+		constructor(tags : string[], tuiEditor, baseURL)
 		{
 			// Setup tagmanager
 			this.initializeTagManager(tags);
@@ -35,7 +37,10 @@ module Roadkill.Web
 					}
 				};
 			var validation = new Roadkill.Web.Validation();
-			validation.Configure("#editpage-form", validationRules);
+            validation.Configure("#editpage-form", validationRules);
+
+            this._tuiEditor = tuiEditor;
+            this._baseURL = baseURL;
 		}
 
 		/**
@@ -230,5 +235,128 @@ module Roadkill.Web
 				$("#previewLoading").hide();
 			});
 		}
+
+        /**
+        A Custom markdownIt renderer rule for roadkill code fences  
+        */
+        public rk_fence_renderer = (tokens, idx, options, env, slf) => {
+            var token = tokens[idx],
+                info = token.info ? this._tuiEditor.markdownitHighlight.utils.unescapeAll(token.info).trim() : '',
+                langName = '',
+                highlighted, i, tmpAttrs, tmpToken;
+
+            if (info) {
+              langName = info.split(/\s+/g)[0];
+            }
+
+            highlighted = this._tuiEditor.markdownitHighlight.utils.escapeHtml(token.content);
+
+            if (highlighted.indexOf('<pre') === 0) {
+              return highlighted + '\n';
+            }
+
+            // If language exists
+            if (info) {
+                // Load the brush
+              return  '<pre class="brush: ' + langName + '">'
+                    + highlighted
+                    + '</pre>\n';
+            }
+
+            // Language doesn't exist, just copy the attrs
+            return  '<pre><code' + slf.renderAttrs(token) + '>'
+                  + highlighted
+                  + '</code></pre>\n';
+
+        }
+
+        /**
+        Custom markdownIt image renderer rule for roadkill-style urls in img src values
+        */
+        public rk_image_renderer = (tokens, idx, options, env, slf) => {
+            var token = tokens[idx];
+            token.attrs[token.attrIndex('alt')][1] =
+                slf.renderInlineAsText(token.children, options, env);
+
+            var src = token.attrs[token.attrIndex('src')][1];
+            token.attrs[token.attrIndex('src')][1] = src.replace(/(.+)/, this._baseURL + 'Attachments$1');
+
+            return slf.renderToken(tokens, idx, options);
+        }
+
+        /**
+        Roadkill-style code block (fence) tokenizer rule
+        */
+        public rk_fence(state, startLine, endLine, silent) {
+            var optionMarker = '[';
+            var pos = state.bMarks[startLine] + state.tShift[startLine];
+            var max = state.eMarks[startLine];
+            var haveEndMarker = false;
+
+            if (state.sCount[startLine] - state.blkIndent >= 4) return false;
+            if (pos + 3 > max) return false;
+
+            var marker = state.src.charCodeAt(pos);
+
+            if (marker !== optionMarker.charCodeAt(0)) return false;
+
+            var mem = pos;
+            pos = state.skipChars(pos, marker);
+            var len = pos - mem;
+
+            if (len < 3) return false;
+
+            // KW If we're interrupting an element here, don't bother pushing the token
+            if (silent) { return true; }
+
+            var markup = state.src.slice(mem, pos);
+            var params = state.src.slice(pos, max).replace(/code.*lang=([^|]*)\|/, '$1');
+
+            // Skip jumbotron blocks
+            if (/.*jumbotron.*/.test(params)) {
+                return false;
+            }
+
+            if (params.indexOf(String.fromCharCode(marker)) >= 0) return false;
+
+            // Search for end of block
+            var nextLine = startLine;
+            marker = 93; /* ] */
+
+            for (;;) {
+              nextLine++;
+              if (nextLine >= endLine) break;
+
+              pos = mem = state.bMarks[nextLine] + state.tShift[nextLine];
+              max = state.eMarks[nextLine];
+
+              if (pos < max && state.sCount[nextLine] < state.blkIndent) break;
+              if (state.src.charCodeAt(pos) !== marker) continue;
+              if (state.sCount[nextLine] - state.blkIndent >= 4) continue;
+
+              pos = state.skipChars(pos, marker);
+
+              if (pos - mem < len) continue;
+
+              pos = state.skipSpaces(pos);
+
+              if (pos < max) continue;
+
+              haveEndMarker = true;
+
+              break;
+            }
+
+            len = state.sCount[startLine];
+            state.line = nextLine + (haveEndMarker ? 1 : 0);
+
+            var token = state.push('fence', 'code', 0);
+            token.info = params;
+            token.content = state.getLines(startLine + 1, nextLine, len, true);
+            token.markup = markup;
+            token.map = [startLine, state.line];
+
+            return true;
+        }
 	}
 }
