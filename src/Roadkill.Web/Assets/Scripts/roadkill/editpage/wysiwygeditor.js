@@ -154,4 +154,3 @@ var Roadkill;
         Web.WysiwygEditor = WysiwygEditor;
     })(Web = Roadkill.Web || (Roadkill.Web = {}));
 })(Roadkill || (Roadkill = {}));
-//# sourceMappingURL=wysiwygeditor.js.map

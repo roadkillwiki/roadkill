@@ -41,4 +41,3 @@ var Roadkill;
         })(FileManager = Web.FileManager || (Web.FileManager = {}));
     })(Web = Roadkill.Web || (Roadkill.Web = {}));
 })(Roadkill || (Roadkill = {}));
-//# sourceMappingURL=breadcrumbtrail.js.map

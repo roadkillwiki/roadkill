@@ -5,4 +5,3 @@
 /// <reference path="..\sitesettings\settings.ts" />
 /// <reference path="..\editpage\wysiwygeditor.ts" />
 /// <reference path="..\editpage\editpage.ts" />
-//# sourceMappingURL=references.js.map

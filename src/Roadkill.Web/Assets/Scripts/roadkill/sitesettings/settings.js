@@ -118,4 +118,3 @@ var Roadkill;
         })(Admin = Web.Admin || (Web.Admin = {}));
     })(Web = Roadkill.Web || (Roadkill.Web = {}));
 })(Roadkill || (Roadkill = {}));
-//# sourceMappingURL=settings.js.map

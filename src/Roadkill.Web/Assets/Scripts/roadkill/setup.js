@@ -84,4 +84,3 @@ var Roadkill;
         Web.Setup = Setup;
     })(Web = Roadkill.Web || (Roadkill.Web = {}));
 })(Roadkill || (Roadkill = {}));
-//# sourceMappingURL=setup.js.map

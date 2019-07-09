@@ -8,4 +8,3 @@
 /// <reference path="filemodel.ts" />
 /// <reference path="directoryviewmodel.ts" />
 /// <reference path="references.ts" /> 
-//# sourceMappingURL=filemanager.references.js.map

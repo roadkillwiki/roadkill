@@ -288,4 +288,3 @@ var Roadkill;
         Web.EditPage = EditPage;
     })(Web = Roadkill.Web || (Roadkill.Web = {}));
 })(Roadkill || (Roadkill = {}));
-//# sourceMappingURL=editpage.js.map

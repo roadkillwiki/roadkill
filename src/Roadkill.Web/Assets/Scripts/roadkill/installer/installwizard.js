@@ -47,4 +47,3 @@ var Roadkill;
         })(Installer = Web.Installer || (Web.Installer = {}));
     })(Web = Roadkill.Web || (Roadkill.Web = {}));
 })(Roadkill || (Roadkill = {}));
-//# sourceMappingURL=installwizard.js.map

@@ -36,4 +36,3 @@ var Roadkill;
         Web.Dialogs = Dialogs;
     })(Web = Roadkill.Web || (Roadkill.Web = {}));
 })(Roadkill || (Roadkill = {}));
-//# sourceMappingURL=dialogs.js.map
