@@ -212,7 +212,7 @@ var Roadkill;
                 });
             };
             /**
-            Roadkill-style code block (fence) tokenizer rule
+            Roadkill-style code block (fence) markdownIt tokenizer rule
             */
             EditPage.prototype.rk_fence = function (state, startLine, endLine, silent) {
                 var optionMarker = '[';
@@ -275,6 +275,13 @@ var Roadkill;
                 token.markup = markup;
                 token.map = [startLine, state.line];
                 return true;
+            };
+            /**
+            Transform CommonMark to standard markdown
+            */
+            EditPage.prototype.toStdMarkdown = function (commonMarkdown) {
+                return commonMarkdown
+                    .replace(/&#/g, '&amp;#'); // TUI entity escape
             };
             return EditPage;
         }());

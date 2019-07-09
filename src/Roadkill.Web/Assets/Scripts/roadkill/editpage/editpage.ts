@@ -285,7 +285,7 @@ module Roadkill.Web
         }
 
         /**
-        Roadkill-style code block (fence) tokenizer rule
+        Roadkill-style code block (fence) markdownIt tokenizer rule
         */
         public rk_fence(state, startLine, endLine, silent) {
             var optionMarker = '[';
@@ -358,5 +358,14 @@ module Roadkill.Web
 
             return true;
         }
+
+        /**
+        Transform CommonMark to standard markdown
+        */
+        public toStdMarkdown(commonMarkdown) {
+            return commonMarkdown
+                .replace(/&#/g, '&amp;#');                           // TUI entity escape
+        }
+
 	}
 }

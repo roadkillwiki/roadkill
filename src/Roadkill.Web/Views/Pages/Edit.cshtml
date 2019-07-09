@@ -17,42 +17,51 @@
 <link rel="stylesheet" href="~/node_modules/tui-editor/dist/tui-editor-contents.css">
 <link href="~/Plugins/SyntaxHighlighter/css/shCore.css?version=1.0" rel="stylesheet" type="text/css" />
 <link href="~/Plugins/SyntaxHighlighter/css/shThemeMidnight.css?version=1.0" rel="stylesheet" type="text/css" />
-<script type="text/javascript">head.js("@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/XRegExp.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shCore.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushAppleScript.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushAS3.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushBash.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushColdFusion.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushCpp.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushCSharp.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushCss.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushDelphi.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushDiff.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushErlang.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushGroovy.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushJava.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushJavaFX.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushJScript.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushPerl.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushPhp.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushPlain.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushPowerShell.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushPython.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushRuby.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushSass.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushScala.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushSql.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushVb.js",
-"@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushXml.js",
-    "@(Url.Content("~"))Plugins/SyntaxHighlighter/javascript/shBrushTS.js", function () { SyntaxHighlighter.all(); })</script>
+<script type="text/javascript">
+    (function () {
+        var baseURL = '@(Url.Content("~"))';
+
+        head.js(
+            baseURL + "Plugins/SyntaxHighlighter/javascript/XRegExp.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shCore.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushAppleScript.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushAS3.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushBash.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushColdFusion.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushCpp.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushCSharp.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushCss.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushDelphi.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushDiff.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushErlang.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushGroovy.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushJava.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushJavaFX.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushJScript.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushPerl.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushPhp.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushPlain.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushPowerShell.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushPython.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushRuby.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushSass.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushScala.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushSql.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushVb.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushXml.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushTS.js",
+            function () { SyntaxHighlighter.all(); }
+        );
+    })();
+</script>
 <script type="text/javascript">
 	$(document).ready(function () {
-        // KW: Tui Editor initialization
         // Hide some of the original form and form-related elements
         $('#Content').hide();
         $('#previewpanel-container').hide();
         $('#wysiwyg-toolbar').hide();
 
+        // markdownit instances from the tui object
         var mdItHighlight = tui.Editor.markdownitHighlight,
             mdIt = tui.Editor.markdownit;
 
@@ -61,22 +70,18 @@
         var editPage = new Roadkill.Web.EditPage(pageTags, tui.Editor, baseURL);
         var origMD = $('#Content').val();
 
-        // Transform CommonMark to standard markdown
-        function toStdMarkdown(commonMarkdown) {
-            return commonMarkdown
-                .replace(/&#/g, '&amp;#');                           // TUI entity escape
-        }
-
-        // Extend the default renderer and tokenizer rules using customized rules for roadkill compatibility
+        // Extend the default markdownIt renderer and tokenizer rules using customized rules for roadkill compatibility
         mdItHighlight.renderer.rules.image = editPage.rk_image_renderer;
         mdItHighlight.renderer.rules.fence = editPage.rk_fence_renderer;
         mdIt.renderer.rules.image = editPage.rk_image_renderer;
 
+        // Custom markdownIt tokenizer rules simply get inserted before the old versions, which get disabled
         mdIt.block.ruler.before('fence', 'rk_fence', editPage.rk_fence, { alt: ['paragraph', 'reference', 'blockquote', 'list'] });
         mdItHighlight.block.ruler.before('fence', 'rk_fence', editPage.rk_fence, { alt: ['paragraph', 'reference', 'blockquote', 'list'] });
         mdIt.disable('fence');
         mdItHighlight.disable('fence');
 
+        // KW: Tui Editor initialization
         var theEditor = new tui.Editor({
             el: document.querySelector('#editSection'),
             initialEditType: 'wysiwyg',
@@ -127,20 +132,20 @@
 
                     // POST webform with inserted file to the upload controller
                     $.ajax({
-                        url: '@(Url.Content("~/"))FileManager/Upload',
+                        url: baseURL + 'FileManager/Upload',
                         data: fd,
                         processData: false,
                         contentType: false,
                         type: 'POST',
                         dataType: 'json',
                         success: function (data) {
-                            if (data.status == "error") {
+                            if (data.status === "error") {
                                 alert(data.message);
                                 //console.log(data);
                                 return;
                             }
                             //console.log(data);
-                            callback('@(Url.Content("~/"))' + blob.name, 'Uploaded Image');
+                            callback(baseURL + blob.name, 'Uploaded Image');
                             theEditor.setMarkdown( theEditor.getMarkdown() );
                         },
                         error: function (xhr, err) {
@@ -172,7 +177,7 @@
         });
 
         // Transform and set the markdown in the wysiwyg
-        theEditor.setMarkdown(toStdMarkdown(origMD), false);
+        theEditor.setMarkdown(editPage.toStdMarkdown(origMD), false);
         // When switching to markdown mode we have to run a minimal markdown transformation
         theEditor.eventManager.listen('changeModeToMarkdown', function () {
             theEditor.setMarkdown(origMD, false);
@@ -183,16 +188,16 @@
             // If a changeMode event was fired, and we're in markdown mode, that means we're about to switch to wysiwyg mode
             if (currentMode === 'markdown') {
                 // Set the markdown to use the codemirror-compatible code block markdown
-                theEditor.setMarkdown(toStdMarkdown(origMD), false);
+                theEditor.setMarkdown(editPage.toStdMarkdown(origMD), false);
             }
         });
 
         // If a developer somehow changed the value in the hidden form field
         $('#Content').on('change keyup paste mouseup', function () {
-            if ($(this).val() != origMD) {
+            if ($(this).val() !== origMD) {
                 // Propegate changes to wysiwyg editor via the transformed markdown
                 origMD = $(this).val();
-                theEditor.setMarkdown(toStdMarkdown(origMD), false);
+                theEditor.setMarkdown(editPage.toStdMarkdown(origMD), false);
             }
         });
 	});
