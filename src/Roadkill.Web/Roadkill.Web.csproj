@@ -304,11 +304,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Attachments\Articles\10688999.png" />
-    <Content Include="App_Data\Attachments\Articles\24b75be8-9eff-4c87-8dd3-c8d04de18f93.png" />
     <Content Include="App_Data\Attachments\emptyfile.txt" />
-    <Content Include="App_Data\Attachments\jumbotron.jpg" />
-    <Content Include="App_Data\Attachments\slack-guru-activity-feed.png" />
     <Content Include="App_Data\EmailTemplates\ResetPassword.txt" />
     <Content Include="App_Data\EmailTemplates\ResetPassword.html" />
     <Content Include="App_Data\EmailTemplates\Signup.html" />
@@ -701,6 +697,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\Attachments\Articles\" />
     <Folder Include="App_Data\Internal\Search\" />
   </ItemGroup>
   <PropertyGroup>
