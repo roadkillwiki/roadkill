@@ -1266,28 +1266,37 @@ namespace Roadkill.Core.Converters
 			return _horizontalRules.Replace(text, "<hr" + _emptyElementSuffix + "\n");
 		}
         
-        // KW: what follows is a quick hack to differentiate between ul and ol,
-        // as this was not happening by default. Was only checking for the existance
+        // KW: We are now differentiating between between ul and ol,
+        // as this was not happening previously. Was only checking for the existance
         // of a list item following two newlines, regardless of whether this item
-        // belonged to the same list type as the current list. Duplicates of certain
-        // regexes and the functions that use them were created. Should be consolidated/parameterized.
-		private static string _wholeUL = string.Format(@"
-			(                               # $1 = whole list
-			  (                             # $2
-				[ ]{{0,{1}}}
-				({0})                       # $3 = first list item marker
-				[ ]+
-			  )
-			  (?s:.+?)
-			  (                             # $4
-				  \z
-				|
-				  \n{{2,}}
-				  (?=\S)
-			  )
-			)", _markerUL, _tabWidth - 1);
+        // belonged to the same list type as the current list. 
+		private static string _wholeUL = GenListRE(_markerUL);
+        private static string _wholeOL = GenListRE(_markerOL);
 
-		private static string _wholeOL = string.Format(@"
+        // Unordered list that starts at the beginning of any line
+		private static Regex _ulNested = new Regex(@"^" + _wholeUL,
+			RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+
+        // Unordered list that's preceded by either: two newlines -OR- the beginning of the string, optionally with one newline after
+		private static Regex _ulTopLevel = new Regex(@"(?:(?<=\n\n)|\A\n?)" + _wholeUL,
+			RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+
+        // Ordered list that starts at the beginning of any line
+		private static Regex _olNested = new Regex(@"^" + _wholeOL,
+			RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+
+        // Ordered list that's preceded by either: two newlines -OR- the beginning of the string, optionally with one newline after
+		private static Regex _olTopLevel = new Regex(@"(?:(?<=\n\n|</ul>\n)|\A\n?)" + _wholeOL,
+			RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+
+        /// <summary>
+        /// Generates a regex string for either a whole UL or whole OL
+        /// </summary>
+        /// <param name="marker">ul or ol</param>
+        /// <returns>Regex string</returns>
+        private static string GenListRE(string marker)
+        {
+            return string.Format(@"
 			(                               # $1 = whole list
 			  (                             # $2 = Everything preceding the content of the list item (including the indentation and marker)
 				[ ]{{0,{1}}}                # Zero to tab-width spaces, followed by
@@ -1301,43 +1310,11 @@ namespace Roadkill.Core.Converters
 				  \n{{2,}}                  # 2 or more newlines,
 				  (?=\S)                    # followed by a non-whitespace character,
 			  )
-			)", _markerOL, _tabWidth - 1);
-
-        // Starts at the beginning of any line
-		private static Regex _ulNested = new Regex(@"^" + _wholeUL,
-			RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
-
-        // Preceded by either: two newlines -OR- the beginning of the string, optionally with one newline after
-		private static Regex _ulTopLevel = new Regex(@"(?:(?<=\n\n)|\A\n?)" + _wholeUL,
-			RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
-
-		private static Regex _olNested = new Regex(@"^" + _wholeOL,
-			RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
-
-		private static Regex _olTopLevel = new Regex(@"(?:(?<=\n\n|</ul>\n)|\A\n?)" + _wholeOL,
-			RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
-
-        private Regex _table = new Regex(@"
-			(                               # $1 = whole table
-              ^\|.*?\|.*?\|.*?$             # 3 or more pipe chars on one line with anything or nothing in between and after
-			  (?s:.+?)                      # Followed by anything, which could span multiple lines,
-			  (                             # ($2) followed by...
-                  \z                        # the end of the string
-                |                           # -OR-
-				  \n{2,}                    # 2 or more newlines,
-                  (?=\S)                    # followed by a non-whitespace character
-			  )
-			)",
-			RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
-
-        private string DoTables(string text)
-        {
-            text = _table.Replace(text, new MatchEvaluator(TableEvaluator));
-            return text;
+			)", marker, _tabWidth - 1);
         }
 
 		/// <summary>
-		/// Turn Markdown uls into HTML ul and li tags
+		/// Turn Markdown unordered lists into HTML ul and li tags
 		/// </summary>
 		private string DoULs(string text)
 		{
@@ -1352,7 +1329,7 @@ namespace Roadkill.Core.Converters
 		}
 
 		/// <summary>
-		/// Turn Markdown lists into HTML ul and ol and li tags
+		/// Turn Markdown ordered lists into HTML ol and li tags
 		/// </summary>
 		private string DoOLs(string text)
 		{
@@ -1366,6 +1343,11 @@ namespace Roadkill.Core.Converters
 			return text;
 		}
 
+        /// <summary>
+        /// List match evaluator
+        /// </summary>
+        /// <param name="match">Part of markdown that matched the list RE</param>
+        /// <returns>HTML string</returns>
 		private string ListEvaluator(Match match)
 		{
 			string list = match.Groups[1].Value;
@@ -1377,68 +1359,6 @@ namespace Roadkill.Core.Converters
 			result = string.Format("<{0}>\n{1}</{0}>\n", listType, result);
 			return result;
 		}
-
-        private string TableEvaluator(Match match)
-        {
-            string result;
-            string table = match.Groups[1].Value;
-            result = String.Format("<table><thead>{0}</tbody></table>", ProcessTableRows(table));
-            return result;
-        }
-
-        private string ProcessTableRows(string table)
-        {
-            int rowNum = 1;
-
-			// Trim trailing blank lines:
-			table = Regex.Replace(table, @"\n{2,}\z", "\n");
-            string pattern = string.Format(@"
-                ^\s*\|(.+)\|\s*$
-            ");
-
-            MatchEvaluator TableRowEvaluator = (Match match) =>
-            {
-				string tr = match.Groups[1].Value;
-
-                // Header row
-                if (rowNum == 1)
-                {
-                    tr = String.Format("<tr>{0}</tr>", ProcessTDs(tr, "th"));
-                }
-                // Header separator
-                else if (rowNum == 2)
-                {
-                    tr = "</thead><tbody>";
-                }
-                // Normal row
-                else
-                {
-                    tr = String.Format("<tr>{0}</tr>", ProcessTDs(tr, "td"));
-                }
-
-                ++rowNum;
-
-                return tr;
-            };
-
-			table = Regex.Replace(table, pattern, new MatchEvaluator(TableRowEvaluator),
-								  RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline);
-
-            return table;
-        }
-
-        private string ProcessTDs(string tr, string tag)
-        {
-            string tdStr = "";
-            string[] tds = tr.Split('|');
-
-            for (int i = 0; i < tds.Length; ++i)
-            {
-                tdStr += String.Format("<{1}>{0}</{1}>", RunSpanGamut(tds[i]), tag);
-            }
-
-            return tdStr;
-        }
 
 		/// <summary>
 		/// Process the contents of a single ordered or unordered list, splitting it
@@ -1509,6 +1429,109 @@ namespace Roadkill.Core.Converters
 			_listLevel--;
 			return list;
 		}
+
+        // KW: Extending with GFM-like table support
+        private static Regex _table = new Regex(@"
+			(                               # $1 = whole table
+              ^\|.*?\|.*?\|.*?$             # 3 or more pipe chars on one line with anything or nothing in between and after
+			  (?s:.+?)                      # Followed by anything, which could span multiple lines,
+			  (                             # ($2) followed by...
+                  \z                        # the end of the string
+                |                           # -OR-
+				  \n{2,}                    # 2 or more newlines,
+                  (?=\S)                    # followed by a non-whitespace character
+			  )
+			)",
+			RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+
+        /// <summary>
+        /// Turn markdown tables into html tables
+        /// </summary>
+        /// <param name="text">The markdown</param>
+        /// <returns>Table html string</returns>
+        private string DoTables(string text)
+        {
+            text = _table.Replace(text, new MatchEvaluator(TableEvaluator));
+            return text;
+        }
+
+        /// <summary>
+        /// Table match evaluator
+        /// </summary>
+        /// <param name="match">Part of markdown that matched the table RE</param>
+        /// <returns>Table html string</returns>
+        private string TableEvaluator(Match match)
+        {
+            string result;
+            string table = match.Groups[1].Value;
+            result = String.Format("<table><thead>{0}</tbody></table>", ProcessTableRows(table));
+            return result;
+        }
+
+        /// <summary>
+        /// Iterate over each row of the table match group
+        /// </summary>
+        /// <param name="table">Match group that maps to the markdown table</param>
+        /// <returns></returns>
+        private string ProcessTableRows(string table)
+        {
+            int rowNum = 1;
+
+			// Trim trailing blank lines:
+			table = Regex.Replace(table, @"\n{2,}\z", "\n");
+            string pattern = string.Format(@"
+                ^\s*\|(.+)\|\s*$
+            ");
+
+            MatchEvaluator TableRowEvaluator = (Match match) =>
+            {
+				string tr = match.Groups[1].Value;
+
+                // Header row
+                if (rowNum == 1)
+                {
+                    tr = String.Format("<tr>{0}</tr>", ProcessTDs(tr, "th"));
+                }
+                // Header separator
+                else if (rowNum == 2)
+                {
+                    tr = "</thead><tbody>";
+                }
+                // Normal row
+                else
+                {
+                    tr = String.Format("<tr>{0}</tr>", ProcessTDs(tr, "td"));
+                }
+
+                ++rowNum;
+
+                return tr;
+            };
+
+			table = Regex.Replace(table, pattern, new MatchEvaluator(TableRowEvaluator),
+								  RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline);
+
+            return table;
+        }
+
+        /// <summary>
+        /// Iterate over each td (or th) and transform
+        /// </summary>
+        /// <param name="tr">The whole row</param>
+        /// <param name="tag">Either td or th</param>
+        /// <returns></returns>
+        private string ProcessTDs(string tr, string tag)
+        {
+            string tdStr = "";
+            string[] tds = tr.Split('|');
+
+            for (int i = 0; i < tds.Length; ++i)
+            {
+                tdStr += String.Format("<{1}>{0}</{1}>", RunSpanGamut(tds[i]), tag);
+            }
+
+            return tdStr;
+        }
 
 		private static Regex _codeBlock = new Regex(string.Format(@"
 					(?:\n\n|\A\n?|<br>\n)
