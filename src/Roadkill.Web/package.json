@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "jquery-ui-dist": "^1.12.1",
     "markdown-it": "github:clone206/markdown-it#roadkill-compat",
     "to-mark": "github:clone206/to-mark#roadkill-compat",
     "tui-editor": "github:clone206/tui.editor#roadkill-compat"

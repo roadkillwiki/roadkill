@@ -50,7 +50,7 @@ namespace Roadkill.Core.Mvc
 		{
 			jsBundle.Include("~/Assets/Scripts/jquery/additional-methods.js");
 			jsBundle.Include("~/node_modules/jquery/dist/jquery.js");
-			jsBundle.Include("~/Assets/Scripts/jquery/jquery-ui-1.10.3.custom.js");
+			jsBundle.Include("~/node_modules/jquery-ui-dist/jquery-ui.min.js");
 			jsBundle.Include("~/Assets/Scripts/jquery/jquery.fieldSelection.js");
 			jsBundle.Include("~/Assets/Scripts/jquery/jquery.fileupload.js");
 			jsBundle.Include("~/Assets/Scripts/jquery/jquery.form-extensions.js");
