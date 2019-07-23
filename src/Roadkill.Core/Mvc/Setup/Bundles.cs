@@ -21,10 +21,12 @@ namespace Roadkill.Core.Mvc
 
 			// Bundle all CSS files into a single file		
 			StyleBundle cssBundle = new StyleBundle("~/Assets/CSS/" + CssFilename);
+            cssBundle.Transforms.Add(new QueryParamBundleTransform());
 			IncludeCssFiles(cssBundle);
 
 			// Bundle all JS files into a single file	
 			ScriptBundle defaultJsBundle = new ScriptBundle("~/Assets/Scripts/" + JsFilename);
+            defaultJsBundle.Transforms.Add(new QueryParamBundleTransform());
 			IncludeJQueryScripts(defaultJsBundle);
 			IncludeRoadkillScripts(defaultJsBundle);
 			IncludeSharedScripts(defaultJsBundle);
@@ -47,8 +49,8 @@ namespace Roadkill.Core.Mvc
 		private static void IncludeJQueryScripts(ScriptBundle jsBundle)
 		{
 			jsBundle.Include("~/Assets/Scripts/jquery/additional-methods.js");
-			jsBundle.Include("~/Assets/Scripts/jquery/jquery-1.9.1.js");
-			jsBundle.Include("~/Assets/Scripts/jquery/jquery-ui-1.10.3.custom.js");
+			jsBundle.Include("~/node_modules/jquery/dist/jquery.js");
+			jsBundle.Include("~/node_modules/jquery-ui-dist/jquery-ui.min.js");
 			jsBundle.Include("~/Assets/Scripts/jquery/jquery.fieldSelection.js");
 			jsBundle.Include("~/Assets/Scripts/jquery/jquery.fileupload.js");
 			jsBundle.Include("~/Assets/Scripts/jquery/jquery.form-extensions.js");
@@ -85,4 +87,25 @@ namespace Roadkill.Core.Mvc
 			jsBundle.Include("~/Assets/Scripts/shared/toastr.js");
 		}
 	}
+
+    /// <summary>
+    /// For adding cache-busting query param to bundled js files
+    /// </summary>
+    public class QueryParamBundleTransform: IBundleTransform
+    {
+        /// <summary>
+        /// Transforms script bundle, adding a cache-busting query param
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="response"></param>
+        public void Process(BundleContext context, BundleResponse response)
+        {
+            string queryGuid = Guid.NewGuid().ToString();
+
+            foreach(var file in response.Files)
+            {
+                file.IncludedVirtualPath = string.Concat(file.IncludedVirtualPath, "?v=", queryGuid);
+            }
+        }
+    }
 }

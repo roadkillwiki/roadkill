@@ -1,13 +1,205 @@
 ﻿@model PageViewModel
 @{
 	ViewBag.Title = SiteStrings.EditPage_Title;
+    string myGuid = Guid.NewGuid().ToString();
 }
 
+<script src="~/node_modules/markdown-it/dist/markdown-it.min.js?v=@(myGuid)"></script>
+<script src="~/node_modules/to-mark/dist/to-mark.min.js?v=@(myGuid)"></script>
+<script src="~/node_modules/tui-code-snippet/dist/tui-code-snippet.min.js?v=@(myGuid)"></script>
+<script src="~/node_modules/codemirror/lib/codemirror.js?v=@(myGuid)"></script>
+<script src="~/node_modules/highlight.js/lib/highlight.js?v=@(myGuid)"></script>
+<script src="~/node_modules/squire-rte/build/squire.js?v=@(myGuid)"></script>
+<script src="~/node_modules/tui-editor/dist/tui-editor-Editor.min.js?v=@(myGuid)"></script>
+<link rel="stylesheet" href="~/node_modules/codemirror/lib/codemirror.css?v=@(myGuid)">
+<link rel="stylesheet" href="~/node_modules/highlight.js/styles/github.css?v=@(myGuid)">
+<link rel="stylesheet" href="~/node_modules/tui-editor/dist/tui-editor.min.css?v=@(myGuid)">
+<link rel="stylesheet" href="~/node_modules/tui-editor/dist/tui-editor-contents.min.css?v=@(myGuid)">
+<link href="~/Plugins/SyntaxHighlighter/css/shCore.css?version=1.0" rel="stylesheet" type="text/css" />
+<link href="~/Plugins/SyntaxHighlighter/css/shThemeMidnight.css?version=1.0" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
-	$(document).ready(function ()
-	{
+    (function () {
+        var baseURL = '@(Url.Content("~"))';
+
+        head.js(
+            baseURL + "Plugins/SyntaxHighlighter/javascript/XRegExp.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shCore.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushAppleScript.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushAS3.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushBash.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushColdFusion.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushCpp.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushCSharp.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushCss.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushDelphi.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushDiff.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushErlang.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushGroovy.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushJava.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushJavaFX.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushJScript.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushPerl.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushPhp.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushPlain.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushPowerShell.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushPython.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushRuby.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushSass.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushScala.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushSql.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushVb.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushXml.js",
+            baseURL + "Plugins/SyntaxHighlighter/javascript/shBrushTS.js",
+            function () { SyntaxHighlighter.all(); }
+        );
+    })();
+</script>
+<script type="text/javascript">
+	$(document).ready(function () {
+        // Hide some of the original form and form-related elements
+        $('#Content').hide();
+        $('#previewpanel-container').hide();
+        $('#wysiwyg-toolbar').hide();
+
+        // markdownit instances from the tui object
+        var mdItHighlight = tui.Editor.markdownitHighlight,
+            mdIt = tui.Editor.markdownit;
+
+        var baseURL = '@(Url.Content("~/"))';
 		var pageTags = [ @(Html.Raw(Model.JavascriptArrayForAllTags())) ];
-		var editPage = new Roadkill.Web.EditPage(pageTags);
+        var editPage = new Roadkill.Web.EditPage(pageTags, tui.Editor, baseURL);
+        var origMD = $('#Content').val();
+
+        // Extend the default markdownIt renderer and tokenizer rules using customized rules for roadkill compatibility
+        mdItHighlight.renderer.rules.image = editPage.rk_image_renderer;
+        mdItHighlight.renderer.rules.fence = editPage.rk_fence_renderer;
+        mdIt.renderer.rules.image = editPage.rk_image_renderer;
+
+        // Custom markdownIt tokenizer rules simply get inserted before the old versions, which get disabled
+        mdIt.block.ruler.before('fence', 'rk_fence', editPage.rk_fence, { alt: ['paragraph', 'reference', 'blockquote', 'list'] });
+        mdItHighlight.block.ruler.before('fence', 'rk_fence', editPage.rk_fence, { alt: ['paragraph', 'reference', 'blockquote', 'list'] });
+        mdIt.disable('fence');
+        mdItHighlight.disable('fence');
+
+        // KW: Tui Editor initialization
+        var theEditor = new tui.Editor({
+            el: document.querySelector('#editSection'),
+            initialEditType: 'wysiwyg',
+            previewStyle: 'vertical',
+            height: '600px',
+            usageStatistics: false,
+            useDefaultHTMLSanitizer: false,
+            codeBlockLanguages: [
+                'actionscript',
+                'bash',
+                'cpp',
+                'cs',
+                'css',
+                'delphi',
+                'diff',
+                'erlang',
+                'groovy',
+                'html',
+                'java',
+                'javascript',
+                'perl',
+                'php',
+                'powershell',
+                'python',
+                'ruby',
+                'scala',
+                'sql',
+                'typescript',
+                'vbnet',
+                'xml'
+            ],
+            events: {
+                change: function () {
+                    origMD = theEditor.getMarkdown()
+                        .replace(/`[^`]+`/gm, function (match) { return match.replace(/\\/gm, '\\\\'); }) // Escape certain chars within inline code blocks
+                        .replace(/\\([,-_.\[])/gm, '$1')    // Unescape important chars
+                        .replace(/\\\|/gm, '|');            // Unescape pipe
+                    $('#Content').val(origMD);
+                }
+            },
+            hooks: {
+                // Inserting images via wysiwyg
+                addImageBlobHook: function (blob, callback) {
+                    // New web form w params
+                    var fd = new FormData();
+                    fd.append('destination_folder', '/');
+                    fd.append('files[]', blob);
+
+                    // POST webform with inserted file to the upload controller
+                    $.ajax({
+                        url: baseURL + 'FileManager/Upload',
+                        data: fd,
+                        processData: false,
+                        contentType: false,
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.status === "error") {
+                                alert(data.message);
+                                //console.log(data);
+                                return;
+                            }
+                            //console.log(data);
+                            callback(baseURL + blob.name, 'Uploaded Image');
+                            theEditor.setMarkdown( theEditor.getMarkdown() );
+                        },
+                        error: function (xhr, err) {
+                            alert("Error from uploader API");
+                        }
+                    });
+
+                    return false;
+                }
+            },
+            toolbarItems: [
+              'heading',
+              'bold',
+              'italic',
+              'divider',
+              'hr',
+              'quote',
+              'divider',
+              'ul',
+              'ol',
+              'divider',
+              'image',
+              'link',
+              'divider',
+              'code',
+              'codeblock',
+              'table'
+            ]
+        });
+
+        // Transform and set the markdown in the wysiwyg
+        theEditor.setMarkdown(editPage.toStdMarkdown(origMD), false);
+        // When switching to markdown mode we have to run a minimal markdown transformation
+        theEditor.eventManager.listen('changeModeToMarkdown', function () {
+            theEditor.setMarkdown(origMD, false);
+            SyntaxHighlighter.highlight();
+        });
+
+        theEditor.eventManager.listen('changeModeBefore', function (currentMode) {
+            // If a changeMode event was fired, and we're in markdown mode, that means we're about to switch to wysiwyg mode
+            if (currentMode === 'markdown') {
+                // Set the markdown to use the codemirror-compatible code block markdown
+                theEditor.setMarkdown(editPage.toStdMarkdown(origMD), false);
+            }
+        });
+
+        // If a developer somehow changed the value in the hidden form field
+        $('#Content').on('change keyup paste mouseup', function () {
+            if ($(this).val() !== origMD) {
+                // Propegate changes to wysiwyg editor via the transformed markdown
+                origMD = $(this).val();
+                theEditor.setMarkdown(editPage.toStdMarkdown(origMD), false);
+            }
+        });
 	});
 </script>
 <style>
@@ -15,7 +207,7 @@
 </style>
 
 <div id="editpage" class="row">
-	<div id="editpage-form-container" class="col-lg-6">
+	<div id="editpage-form-container">
 		@Html.BootstrapValidationSummary(SiteStrings.EditPage_Error)
 
 		<form class="form-horizontal" role="form" method="post" id="editpage-form">
@@ -33,6 +225,7 @@
 				@(Html.TextBox("TagsEntry", null, new { @class = "form-control tm-input", autocomplete = "off", tabindex = 2, placeholder = SiteStrings.EditPage_Tags_Label }))
 			</div>
 
+            <div id="editSection"></div>
 
 			@if (RoadkillContext.IsAdmin)
 			{

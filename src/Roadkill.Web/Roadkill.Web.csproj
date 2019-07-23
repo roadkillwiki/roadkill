@@ -8,7 +8,7 @@
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{CD29D34E-4F1A-4D43-B150-08BA76EC9DA3}</ProjectGuid>
-    <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Roadkill.Web</RootNamespace>
@@ -31,6 +31,13 @@
     <TypeScriptIncludeComments>true</TypeScriptIncludeComments>
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
     <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
+    <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -414,6 +421,7 @@
     <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushSass.js" />
     <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushScala.js" />
     <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushSql.js" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushTS.js" />
     <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushVb.js" />
     <Content Include="Plugins\SyntaxHighlighter\javascript\shBrushXml.js" />
     <Content Include="Plugins\SyntaxHighlighter\javascript\shCore.js" />
@@ -519,18 +527,23 @@
       <DependentUpon>wysiwygeditor.ts</DependentUpon>
     </Content>
     <Content Include="Assets\CSS\toastr.css" />
+    <Content Include="Plugins\SyntaxHighlighter\javascript\XRegExp.js" />
     <Content Include="Plugins\Toc\toc.js" />
     <Content Include="Plugins\Toc\toc.css" />
-    <Content Include="Roadkill.config">
+    <None Include="Roadkill.config">
       <SubType>Designer</SubType>
-    </Content>
+    </None>
     <Content Include="Assets\web.config" />
-    <Content Include="connectionStrings.config" />
+    <None Include="connectionStrings.config">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="NLog.config" />
+    <None Include="package.json" />
     <None Include="packages.config" />
     <Content Include="Plugins\Web.config" />
     <Content Include="Plugins\_ViewStart.cshtml" />
     <None Include="Properties\PublishProfiles\discountasp.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Mono.pubxml" />
     <Content Include="Assets\Scripts\shared\toastr.js" />
     <Content Include="Themes\BlackBar\Theme.print.css" />
@@ -579,10 +592,10 @@
     <Content Include="Views\User\Profile.cshtml" />
     <Content Include="Views\User\Signup.cshtml" />
     <Content Include="Views\Home\GlobalJsVars.cshtml" />
-    <Content Include="Web.Release.config">
+    <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
-    </Content>
+    </None>
     <None Include="Properties\PublishProfiles\Download.pubxml" />
     <Content Include="Views\Upgrade\Index.cshtml" />
     <Content Include="Views\Upgrade\Layout.cshtml" />
@@ -631,13 +644,13 @@
     <Content Include="Views\Pages\Tag.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config">
+    <None Include="Web.config">
       <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Web.Debug.config">
+    </None>
+    <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config">
@@ -678,12 +691,13 @@
     <Content Include="Views\User\CompleteResetPasswordInvalid.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.Download.config">
+    <None Include="Web.Download.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\Attachments\Articles\" />
     <Folder Include="App_Data\Internal\Search\" />
   </ItemGroup>
   <PropertyGroup>
@@ -762,9 +776,13 @@
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
 	<Exec Command="&quot;$(PROGRAMFILES)Microsoft SDKsTypeScript\0.8.0.0tsc&quot; @(TypeScriptCompile ->'&quot;%(fullpath)&quot;', ' ')" />
-  </Target>
-  <Target Name="AfterBuild">
   </Target> -->
+  <Target Name="AfterBuild">
+    <Message Text="### AfterBuild ###" Importance="high" />
+    <ItemGroup>
+      <Content Include=".\node_modules\**\*.*" />
+    </ItemGroup>
+  </Target>
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
     <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
   </Target>
@@ -776,7 +794,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>3588</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:3588/</IISUrl>
+          <IISUrl>http://localhost:3589/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

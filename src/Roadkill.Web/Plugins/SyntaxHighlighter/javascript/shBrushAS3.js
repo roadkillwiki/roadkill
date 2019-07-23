@@ -50,7 +50,7 @@
 	};
 
 	Brush.prototype	= new SyntaxHighlighter.Highlighter();
-	Brush.aliases	= ['actionscript3', 'as3'];
+	Brush.aliases	= ['actionscript3', 'as3', 'actionscript'];
 
 	SyntaxHighlighter.brushes.AS3 = Brush;
 
