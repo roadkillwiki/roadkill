@@ -20,9 +20,6 @@ To get a 'fresh' Roadkill installation on your development machine, you will nee
   * If you want to use SQLite or SQLServer CE, empty databases can be found `/lib/Test-databases/SqlCE` or Sqlite.
 * You can also install Roadkill using the unattended url, e.g.: http://localhost/install/Unattended?datastoretype=sqlserver2008&connectionstring=database=roadkill;uid=sa;pwd=Passw0rd;server=.\SQLEXPRESS
 
-### Connection strings/Appsettings
-
-When starting from scratch you will need to copy and rename the `connectionStrings_toRename.config` file in `src/Roadkill.Web/` to `connectionStrings.config`. You will also need to copy and rename `appsettings.CopyToDevel.json` to `appsettings.Development.json` in `Roadkill.API/`. To ensure sensitive data doesn't get pushed, connectionStrings.config and appsettings.Development.json are ignored by git.
 
 ### npm
 You will need to run an `npm install` from the `src/Roadkill.Web` directory before debugging for the first time. Since this project's package.json file links to github repos instead of the npm registry, you may need to take measures to get around any firewalls that block the `git://` protocol, such as running powershell as administrator, or configuring npm to convert `git://` addresses to `https://`.
