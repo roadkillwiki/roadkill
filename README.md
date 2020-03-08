@@ -29,17 +29,17 @@ Roadkill is licensed under the [MS-PL license](LICENCE.md) which means it's free
 ## Quick start: Azure and AWS
 
 - **AWS** t2.micro is generally big enough for a small site. *Note: this AMI is Windows 2016 July 2018. It may need updating after launch via RDP*.
-  - **[US-East](https://us-east-1.console.aws.amazon.com/ec2/v2/#LaunchInstanceWizard:ami=ami-ami-00e1e97f)**: `ami-00e1e97f`.
-  - **[EU-West1](https://eu-west-1.console.aws.amazon.com/ec2/v2/#LaunchInstanceWizard:ami=ami-5550b5b8)**: `ami-5550b5b8`.
+  - **[US-East-1](https://us-east-1.console.aws.amazon.com/ec2/v2/#LaunchInstanceWizard:ami=ami-0ced7b9074464e093)**: `ami-0ced7b9074464e093`.
+  - **[EU-West-1](https://eu-west-1.console.aws.amazon.com/ec2/v2/#LaunchInstanceWizard:ami=ami-021b89cff5ea9314c)**: `ami-021b89cff5ea9314c`.
 - **[Azure instructions](docs/azure.md)**
 - **Google Cloud**: looking for help
 
 
 ## Version 3.0 Roadmap
 
-*July 2018*
+*March 2020*
 
-The next version of Roadkill will be Roadkill version 3. Because of the instability of .NET Core over the past 1.5 years, it's been a long time coming. It's currently making good progress now we have the stability of .NET Core 2.0.
+The next version of Roadkill will be Roadkill version 3. Because of the instability of .NET Core over the past 1.5 years, it's been a long time coming. It's currently making good progress now we have the stability of .NET Core 3.0, with so many changes since .NET Framework - as of 2020 this includes the removal of SPA Services so Roadkill is a React/Express application.
 
 It's a major version number because the following major changes are planned:
 
@@ -63,9 +63,9 @@ The new Roadkill will be powered by its RESTful API, rather than version's 2 aft
 
 Roadkill 3 will be a docker image you run, on Linux Docker. With Docker comes built in scalibility, easier versioning, 
 
-#### Elasticsearch for searching
+#### Postgres for searching
 
-The next version will use ElasticSearch for its search engine, rather than Lucene, removing a lot of complexity and past problems from Roadkill. You can run Elasticsearch as a Docker image, or use a hosted service search as AWS's Elasticsearch.
+The next version will use Postgres for its search engine, rather than Lucene, removing a lot of complexity and past problems from Roadkill.
 
 #### No more Creole support
 Sorry Creole fans, but supporting 3 different markdown formats is too labour intensive, and CommonMark has come a long and pretty much made Creole redundant, and Mediawiki syntax has zero support for .NET. Looking at commercial wiki engines like Confluence, it ultimately doesn't make a lot of difference what markdown format you support, providing there is good documentation for the syntax.
