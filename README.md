@@ -8,7 +8,7 @@
 
 * [Download the latest **stable** version (2.0)](https://github.com/roadkillwiki/roadkill/releases/tag/v2.0)
 * [Read the docs](https://github.com/roadkillwiki/roadkill/tree/master/docs)
-* [Try a demo](http://demo.roadkillwiki.net/)
+* [Try a demo - *sorry this is currently unavailable until further notice*](http://demo.roadkillwiki.net/)
 
 Roadkill .NET is a lightweight but powerful Wiki platform built on the following foundations:
 
@@ -36,6 +36,8 @@ Roadkill is licensed under the [MS-PL license](LICENCE.md) which means it's free
 
 
 ## Version 3.0 Roadmap
+
+A lot of changes are on hold because of the current pandemic and the changing .NET Core (now .NET) release cycle.
 
 *March 2020*
 
