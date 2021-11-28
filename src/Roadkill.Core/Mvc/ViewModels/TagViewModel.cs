@@ -43,7 +43,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 			{
 				string className = "";
 
-				if (Count > 10)
+				if (Count >= 10)
 				{
 					className = "tagcloud5";
 				}
