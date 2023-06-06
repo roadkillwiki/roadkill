@@ -1,8 +1,16 @@
 [![Nuget.org](https://img.shields.io/nuget/v/Roadkill.svg?style=flat)](https://www.nuget.org/packages/Roadkill)
 [![Appveyor](https://ci.appveyor.com/api/projects/status/37etwyx9kw7uriar/branch/master?svg=true)](https://ci.appveyor.com/project/yetanotherchris/roadkill)
 [![Coverage Status](https://coveralls.io/repos/roadkillwiki/roadkill/badge.svg?branch=master&service=github)](https://coveralls.io/github/roadkillwiki/roadkill?branch=master)
-[![Join the chat at Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/roadkillwiki/general)
-[![Beerpay](https://beerpay.io/roadkillwiki/roadkill/badge.svg?style=beer-square)](https://beerpay.io/roadkillwiki/roadkill) 
+
+### Current status
+
+A .NET Core version of Roadkill was started in the https://github.com/roadkillwiki/roadkill_new repository.
+
+**While this .NET Core project is 99% functionally complete on the API-side, it stopped at .NET 5. It hasn't been continued because of the large amount of work involved with integrating an OAuth2 solution, and rewriting the front-end as a SPA using React or similar.**
+
+Forking the .NET Core repository is welcome, if you'd like to implement an OAuth solution (that is FOSS, which IdentityServer no longer is) and a SPA front end using React, VueJS or similar.
+
+This repository - Roadkill .NET Framework - is quite old now, but fully functional should you want to use it. 
 
 # Introduction
 
@@ -34,61 +42,6 @@ Roadkill is licensed under the [MS-PL license](LICENCE.md) which means it's free
 - **[Azure instructions](docs/azure.md)**
 - **Google Cloud**: looking for help
 
-
-## Version 3.0 Roadmap
-
-A lot of changes are on hold because of the current pandemic and the changing .NET Core (now .NET) release cycle.
-
-*March 2020*
-
-The next version of Roadkill will be Roadkill version 3. Because of the instability of .NET Core over the past 1.5 years, it's been a long time coming. It's currently making good progress now we have the stability of .NET Core 3.0, with so many changes since .NET Framework - as of 2020 this includes the removal of SPA Services so Roadkill is a React/Express application.
-
-It's a major version number because the following major changes are planned:
-
-#### ASP.NET Core
-
-The next version will be ASP.NET Core only, aimed at Linux hosting for cost and scability.
-
-#### Enhanced security
-
-Through its ASP.NET Core identity integration, version 3 will support everything that `Microsoft.AspNetCore.Identity` [supports](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-2.1&tabs=visual-studio%2Caspnetcore2x)
-
-#### Postgres only
-
-Version 3 will be Postgres only, using [Marten](http://jasperfx.github.io/marten/) as its NoSQL document store. Postgres can be run as Docker container, or is available a service by services such as AWS RDS.
-
-#### API-first
-
-The new Roadkill will be powered by its RESTful API, rather than version's 2 after-thought approach. This enables far easier plugin and extensibility to exist for Roadkill.
-
-#### Docker
-
-Roadkill 3 will be a docker image you run, on Linux Docker. With Docker comes built in scalibility, easier versioning, 
-
-#### Postgres for searching
-
-The next version will use Postgres for its search engine, rather than Lucene, removing a lot of complexity and past problems from Roadkill.
-
-#### No more Creole support
-Sorry Creole fans, but supporting 3 different markdown formats is too labour intensive, and CommonMark has come a long and pretty much made Creole redundant, and Mediawiki syntax has zero support for .NET. Looking at commercial wiki engines like Confluence, it ultimately doesn't make a lot of difference what markdown format you support, providing there is good documentation for the syntax.
-
-Version 3 will only support Markdown, using the [CommonMark](http://commonmark.org/) standard via [Markdig](https://github.com/lunet-io/markdig). CommonMark is a well thought-out and documentated extension of Markdown and has a large community behind it.
-
-#### Improved editing experience
-Because Roadkill is moving to CommonMark, the editor can now be improved to be more user friendly, and have a faster client-side preview. The TUI editor is currently being considered for this: https://github.com/roadkillwiki/roadkill/issues/57
-
-#### A new theme
-A new material-design based theme.
-
-#### Re-designed file manager
-While this may not make the initial v3 release, the plan is to redesign the file manager to emulate the Wordpress 4 file manager.
-
-#### Better page dialog for adding links
-Instead of having to memorize page names, adding links will be similar to Wordpress in finding pages that exist on the site.
-
-
-As Roadkill is not a commercial project, nor backed commercially, there are no time-frames that can be relied upon. It is essentially me creating it in my spare time.
-
 ## For Developers
 
 
@@ -114,9 +67,4 @@ To get a 'fresh' Roadkill installation on your development machine, you will nee
 
 ### Contributing
 
-No contributions are currently being taken until Version 3 is released.
-
-## Support on Beerpay
-Hey dude! Help me out for a couple of :beers:!
-
-[![Beerpay](https://beerpay.io/roadkillwiki/roadkill/badge.svg?style=beer-square)](https://beerpay.io/roadkillwiki/roadkill)  [![Beerpay](https://beerpay.io/roadkillwiki/roadkill/make-wish.svg?style=flat-square)](https://beerpay.io/roadkillwiki/roadkill?focus=wish)
+No contributions are currently being taken as the project is frozen.
