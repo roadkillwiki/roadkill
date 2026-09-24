@@ -46,6 +46,9 @@ Inventaire fait sur le parseur actuel (`Text/Parsers/Markdown.cs`, MarkdownSharp
   `gruntfile.js`/`package.json` supprimés. Le SCSS n'est plus compilé : `roadkill.css` reste le fichier versionné.
 - [x] Page d'édition : les scripts des plugins (MathJax, Mermaid, coloration syntaxique) sont chargés et l'aperçu est
   re-rendu après chaque mise à jour (ne fonctionnait pas non plus en v2)
+- [x] MathJax servi par l'application (MathJax 3.2.2 dans `Plugins/MathJax`, ~1,6 Mo) au lieu du CDN `cdn.mathjax.org`
+  (MathJax 2) ; mêmes délimiteurs. En Markdown, `\(...\)` perd son `\` (échappement Markdown, déjà le cas en v2) :
+  écrire `\\(...\\)` pour une formule en ligne. Plus aucun CDN utilisé.
 
 ## Vérifications effectuées
 

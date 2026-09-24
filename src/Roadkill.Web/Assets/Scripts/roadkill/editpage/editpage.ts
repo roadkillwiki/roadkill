@@ -206,8 +206,8 @@ module Roadkill.Web
 		{
 			var w: any = window;
 
-			if (w.MathJax && w.MathJax.Hub)
-				w.MathJax.Hub.Queue(["Typeset", w.MathJax.Hub, "preview"]);
+			if (w.MathJax && w.MathJax.typesetPromise)
+				w.MathJax.typesetPromise([document.getElementById("preview")]);
 
 			if (w.mermaid)
 				w.mermaid.run({ querySelector: "#preview pre.mermaid" });

@@ -43,17 +43,17 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		public void headcontent_should_contain_script_tag_and_cdn_src()
+		public void headcontent_should_load_the_local_mathjax_script_and_no_cdn()
 		{
 			// Arrange
-			string expectedScriptTag = "<script type=\"text/javascript\" src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\"></script>";
 			MathJax mathjax = new MathJax();
 
 			// Act
-			string scriptTag = mathjax.GetHeadContent();
+			string headContent = mathjax.GetHeadContent();
 
 			// Assert
-			Assert.That(scriptTag, Does.Contain(expectedScriptTag));
+			Assert.That(headContent, Does.Contain("tex-mml-chtml.js"));
+			Assert.That(headContent, Does.Not.Contain("cdn.mathjax.org"));
 		}
 	}
 }
