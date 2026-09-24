@@ -60,9 +60,9 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
-		/// 404 not found page (status code pages re-execute /wiki/notfound). Hides ControllerBase.NotFound(), which is a [NonAction].
+		/// 404 not found page, shown for /wiki/notfound (the status code pages middleware re-executes this URL).
 		/// </summary>
-		public new ActionResult NotFound()
+		public ActionResult PageNotFound()
 		{
 			return View("404");
 		}

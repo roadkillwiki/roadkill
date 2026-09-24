@@ -28,7 +28,7 @@ namespace Roadkill.Core.Mvc.Setup
 			routes.MapControllerRoute("Help:CheatSheet", "wiki/help:cheatsheet", new { controller = "Help", action = "Index" });
 
 			// 404 and 500 errors
-			routes.MapControllerRoute("NotFound", "wiki/notfound", new { controller = "Wiki", action = "NotFound" });
+			routes.MapControllerRoute("NotFound", "wiki/notfound", new { controller = "Wiki", action = "PageNotFound" });
 			routes.MapControllerRoute("ServerError", "wiki/servererror", new { controller = "Wiki", action = "ServerError" });
 
 			// The default way of getting to a page: "/wiki/123/page-title"

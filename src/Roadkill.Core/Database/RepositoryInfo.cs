@@ -7,50 +7,32 @@ namespace Roadkill.Core.Database
 		public string Id { get; set; }
 		public string Description { get; set; }
 
-		// info == "string"
-		public static bool operator == (RepositoryInfo a, string b)
+		// info == "string" (case insensitive). A null info only equals a null string, and an empty string never matches.
+		public static bool operator ==(RepositoryInfo a, string b)
 		{
 			if (ReferenceEquals(a, null))
-				return ReferenceEquals(a, null);
+				return b == null;
 
 			if (string.IsNullOrEmpty(b))
 				return false;
 
-			return a.Id.Equals(b, StringComparison.OrdinalIgnoreCase);
+			return string.Equals(a.Id, b, StringComparison.OrdinalIgnoreCase);
 		}
 
 		public static bool operator !=(RepositoryInfo a, string b)
 		{
-			if (ReferenceEquals(a, null))
-				return ReferenceEquals(a, null);
-
-			if (string.IsNullOrEmpty(b))
-				return true;
-
-			return !a.Id.Equals(b, StringComparison.OrdinalIgnoreCase);
+			return !(a == b);
 		}
 
 		// "string" == info
 		public static bool operator ==(string a, RepositoryInfo b)
 		{
-			if (ReferenceEquals(b, null))
-				return ReferenceEquals(b, null);
-
-			if (string.IsNullOrEmpty(a))
-				return false;
-
-			return b.Id.Equals(a, StringComparison.OrdinalIgnoreCase);
+			return b == a;
 		}
 
 		public static bool operator !=(string a, RepositoryInfo b)
 		{
-			if (ReferenceEquals(b, null))
-				return ReferenceEquals(b, null);
-
-			if (string.IsNullOrEmpty(a))
-				return true;
-
-			return !b.Id.Equals(a, StringComparison.OrdinalIgnoreCase);
+			return !(b == a);
 		}
 
 		public RepositoryInfo()
@@ -69,7 +51,7 @@ namespace Roadkill.Core.Database
 			if (other == null)
 				return false;
 
-			return other.Id.Equals(Id, StringComparison.OrdinalIgnoreCase);
+			return string.Equals(other.Id, Id, StringComparison.OrdinalIgnoreCase);
 		}
 
 		public override int GetHashCode()
