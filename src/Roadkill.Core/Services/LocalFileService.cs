@@ -1,4 +1,4 @@
-﻿using Roadkill.Core.Attachments;
+using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Exceptions;
 using Roadkill.Core.Localization;
@@ -9,6 +9,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
+using Microsoft.AspNetCore.Http;
 using System;
 
 namespace Roadkill.Core.Services
@@ -127,7 +128,7 @@ namespace Roadkill.Core.Services
 		/// <param name="destinationPath">The relative path of the folder to store the file.</param>
 		/// <param name="files"></param>
 		/// <returns></returns>
-		public string Upload(string destinationPath, HttpFileCollectionBase files)
+		public string Upload(string destinationPath, IFormFileCollection files)
 		{
 			//string destination = Request.Form["destination_folder"];
 			string physicalPath = _attachmentPathUtil.ConvertUrlPathToPhysicalPath(destinationPath);
@@ -150,8 +151,9 @@ namespace Roadkill.Core.Services
 				for (int i = 0; i < files.Count; i++)
 				{
 					// Find the file's extension
-					HttpPostedFileBase sourceFile = files[i];
-					string extension = Path.GetExtension(sourceFile.FileName).Replace(".", "");
+					IFormFile sourceFile = files[i];
+					string sourceFileName = Path.GetFileName(sourceFile.FileName);
+					string extension = Path.GetExtension(sourceFileName).Replace(".", "");
 
 					if (!string.IsNullOrEmpty(extension))
 						extension = extension.ToLower();
@@ -159,7 +161,7 @@ namespace Roadkill.Core.Services
 					// Check if it's an allowed extension
 					if (allowedExtensions.Contains(extension))
 					{
-						string fullFilePath = Path.Combine(physicalPath, sourceFile.FileName);
+						string fullFilePath = Path.Combine(physicalPath, sourceFileName);
 
 						// Check if it exists on disk already
 						if (!siteSettings.OverwriteExistingFiles)
@@ -168,13 +170,17 @@ namespace Roadkill.Core.Services
 							{
 								// Any files afterwards won't be uploaded...this behaviour could change so that a flag is set, but
 								// all other files are still uploaded sucessfully.
-								string errorMessage = string.Format(SiteStrings.FileManager_Upload_FileAlreadyExists, sourceFile.FileName);
+								string errorMessage = string.Format(SiteStrings.FileManager_Upload_FileAlreadyExists, sourceFileName);
 								throw new FileException(errorMessage, null);
 							}
 						}
 
-						sourceFile.SaveAs(fullFilePath);
-						fileName = sourceFile.FileName;
+						using (FileStream stream = new FileStream(fullFilePath, FileMode.Create))
+						{
+							sourceFile.CopyTo(stream);
+						}
+
+						fileName = sourceFileName;
 					}
 					else
 					{
@@ -256,11 +262,9 @@ namespace Roadkill.Core.Services
 			}
 		}
 
-		public void WriteResponse(string localPath, string applicationPath, string modifiedSinceHeader, IResponseWrapper responseWrapper, HttpContext context)
+		public void WriteResponse(string localPath, string applicationPath, string modifiedSinceHeader, IResponseWrapper responseWrapper)
 		{
-			// Get the mimetype from the IIS settings (configurable in the mimetypes.xml file in the site)
-			// n.b. debug mode skips using IIS to avoid complications with testing.
-			string fileExtension = Path.GetExtension(localPath);
+						string fileExtension = Path.GetExtension(localPath);
 			string mimeType = MimeTypes.GetMimeType(fileExtension);
 
 			try
@@ -285,8 +289,7 @@ namespace Roadkill.Core.Services
 					// 404
 					Log.Warn("The url {0} (translated to {1}) does not exist on the server.", localPath, fullPath);
 
-					// Throw so the web.config catches it
-					throw new HttpException(404, string.Format("{0} does not exist on the server.", localPath));
+					throw new HttpStatusException(404, string.Format("{0} does not exist on the server.", localPath));
 				}
 			}
 			catch (IOException ex)
@@ -294,8 +297,7 @@ namespace Roadkill.Core.Services
 				// 500
 				Log.Error(ex, "There was a problem opening the file {0}.", localPath);
 
-				// Throw so the web.config catches it				
-				throw new HttpException(500, "There was a problem opening the file (see the error logs)");
+				throw new HttpStatusException(500, "There was a problem opening the file (see the error logs)");
 			}
 		}
 
@@ -342,4 +344,4 @@ namespace Roadkill.Core.Services
 
 		#endregion
 	}
-}
+}

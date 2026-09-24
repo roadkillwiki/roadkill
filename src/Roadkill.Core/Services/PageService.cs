@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using Roadkill.Core.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -567,9 +568,9 @@ namespace Roadkill.Core.Services
 			{
 				if (!_context.IsAdmin)
 				{
-					string ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+					string ip = HttpContextHolder.Current?.Request.Headers["X-Forwarded-For"];
 					if (string.IsNullOrEmpty(ip))
-						ip = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+						ip = HttpContextHolder.Current?.Connection.RemoteIpAddress?.ToString();
 
 					result = string.Format("{0} ({1})", username, ip);
 				}

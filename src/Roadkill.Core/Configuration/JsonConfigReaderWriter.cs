@@ -190,6 +190,16 @@ namespace Roadkill.Core.Configuration
 			appSettings.UseHtmlWhiteList = _section.UseHtmlWhiteList;
 			appSettings.UserServiceType = _section.UserServiceType;
 			appSettings.UiLanguage = string.IsNullOrEmpty(_section.UiLanguage) ? "en" : _section.UiLanguage;
+			appSettings.Smtp = new SmtpSettings()
+			{
+				Host = _section.SmtpHost,
+				Port = _section.SmtpPort,
+				Username = _section.SmtpUsername,
+				Password = _section.SmtpPassword,
+				EnableSsl = _section.SmtpEnableSsl,
+				From = _section.SmtpFrom,
+				PickupDirectory = _section.SmtpPickupDirectory
+			};
 
 			return appSettings;
 		}

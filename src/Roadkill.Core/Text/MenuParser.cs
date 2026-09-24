@@ -1,9 +1,7 @@
-﻿using System.Web;
-using System.Web.Mvc;
 using AngleSharp.Dom;
-using AngleSharp.Dom.Html;
-using AngleSharp.Extensions;
-using AngleSharp.Parser.Html;
+using AngleSharp.Html.Dom;
+using AngleSharp.Html.Parser;
+using Roadkill.Core.Mvc;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
@@ -105,16 +103,14 @@ namespace Roadkill.Core.Text
 			string manageFiles = CreateAnchorTag("/filemanager", SiteStrings.FileManager_Title);
 			string siteSettings = CreateAnchorTag("/settings", SiteStrings.Navigation_SiteSettings);
 
-			if (HttpContext.Current != null)
+			if (HttpContextHolder.Current != null)
 			{
-				UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-
-				categories = CreateAnchorTag(urlHelper.Action("AllTags", "Pages"), SiteStrings.Navigation_Categories);
-				allPages = CreateAnchorTag(urlHelper.Action("AllPages", "Pages"), SiteStrings.Navigation_AllPages);
-				mainPage = CreateAnchorTag(urlHelper.Action("Index", "Home"), SiteStrings.Navigation_MainPage);
-				newpage = CreateAnchorTag(urlHelper.Action("New", "Pages"), SiteStrings.Navigation_NewPage);
-				manageFiles = CreateAnchorTag(urlHelper.Action("Index", "FileManager"), SiteStrings.FileManager_Title);
-				siteSettings = CreateAnchorTag(urlHelper.Action( "Index", "Settings"), SiteStrings.Navigation_SiteSettings);
+				categories = CreateAnchorTag(HttpContextHolder.Action("AllTags", "Pages"), SiteStrings.Navigation_Categories);
+				allPages = CreateAnchorTag(HttpContextHolder.Action("AllPages", "Pages"), SiteStrings.Navigation_AllPages);
+				mainPage = CreateAnchorTag(HttpContextHolder.Action("Index", "Home"), SiteStrings.Navigation_MainPage);
+				newpage = CreateAnchorTag(HttpContextHolder.Action("New", "Pages"), SiteStrings.Navigation_NewPage);
+				manageFiles = CreateAnchorTag(HttpContextHolder.Action("Index", "FileManager"), SiteStrings.FileManager_Title);
+				siteSettings = CreateAnchorTag(HttpContextHolder.Action("Index", "Settings", null, "SiteSettings"), SiteStrings.Navigation_SiteSettings);
 			}
 
 			if (!_userContext.IsLoggedIn)
@@ -136,7 +132,7 @@ namespace Roadkill.Core.Text
 			html = html.Replace(SITESETTINGS_TOKEN, siteSettings);
 
 			var parser = new HtmlParser();
-			IHtmlDocument document = parser.Parse(html);
+			IHtmlDocument document = parser.ParseDocument(html);
 
 			RemoveParagraphTags(document);
 			RemoveEmptyLiTags(document);

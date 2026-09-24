@@ -1,68 +1,43 @@
-﻿using System.Security.Principal;
-using System.Web;
-using System.Web.Mvc;
+using System;
+using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 using Roadkill.Core.Configuration;
-using Roadkill.Core.DependencyResolution;
-using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Services;
 using Roadkill.Core.Security;
-using StructureMap.Attributes;
 
 namespace Roadkill.Core.Mvc.Attributes
 {
 	/// <summary>
 	/// Describes a page that doesn't require a login to view, unless Roadkill has IsPublicSite=false. 
 	/// </summary>
-	public class OptionalAuthorizationAttribute : AuthorizeAttribute, ISetterInjected
+	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+	public class OptionalAuthorizationAttribute : Attribute, IAuthorizationFilter, IAuthorizationAttribute
 	{
-		[SetterProperty]
-		public ApplicationSettings ApplicationSettings { get; set; }
-
-		[SetterProperty]
-		public IUserContext Context { get; set; }
-
-		[SetterProperty]
-		public UserServiceBase UserService { get; set; }
-
-		[SetterProperty]
-		public IPageService PageService { get; set; }
-
-		[SetterProperty]
-		public SettingsService SettingsService { get; set; }
-
-		[SetterProperty]
+		/// <summary>
+		/// The authorization provider. If this isn't set, it's taken from the request's services.
+		/// </summary>
 		public IAuthorizationProvider AuthorizationProvider { get; set; }
 
-		/// <summary>
-		/// Provides an entry point for custom authorization checks.
-		/// </summary>
-		/// <param name="httpContext">The HTTP context, which encapsulates all HTTP-specific information about an individual HTTP request.</param>
-		/// <returns>
-		/// false if the user is an admin or editor AND the site is private (ispublicsite=false). Otherwise true is returned.
-		/// </returns>
-		/// <exception cref="T:System.ArgumentNullException">The <paramref name="httpContext"/> parameter is null.</exception>
-		protected override bool AuthorizeCore(HttpContextBase httpContext)
+		public void OnAuthorization(AuthorizationFilterContext context)
 		{
-			if (AuthorizationProvider == null)
-				throw new SecurityException("The OptionalAuthorizationAttribute property has not been set for AdminRequiredAttribute. Has it been injected by the DI?", null);
+			// [AllowAnonymous] actions skip the check, as they did with the ASP.NET MVC AuthorizeAttribute.
+			if (context.ActionDescriptor.EndpointMetadata.OfType<IAllowAnonymous>().Any())
+				return;
 
-			if (!ApplicationSettings.Installed)
-			{
-				return true;
-			}
+			ApplicationSettings applicationSettings = context.HttpContext.RequestServices.GetRequiredService<ApplicationSettings>();
+
+			if (!applicationSettings.Installed || applicationSettings.IsPublicSite)
+				return;
 
 			// If the site is private then check for a login
-			if (!ApplicationSettings.IsPublicSite)
-			{
-				IPrincipal principal = httpContext.User;
+			IAuthorizationProvider provider = AuthorizationProvider ?? context.HttpContext.RequestServices.GetService<IAuthorizationProvider>();
+			if (provider == null)
+				throw new SecurityException("The AuthorizationProvider property has not been set for OptionalAuthorizationAttribute.", null);
 
-				AuthorizationProvider provider = new AuthorizationProvider(ApplicationSettings, UserService);
-				return provider.IsAdmin(principal) || provider.IsEditor(principal);
-			}
-			else
-			{
-				return true;
-			}
+			if (!(provider.IsAdmin(context.HttpContext.User) || provider.IsEditor(context.HttpContext.User)))
+				context.Result = new ChallengeResult();
 		}
 	}
 }

@@ -13,38 +13,11 @@ namespace Roadkill.Core.Database.MongoDB
 			ConnectionString = connectionString;
 		}
 
-		private MongoCollection<T> GetCollection<T>()
-		{
-			try
-			{
-				string connectionString = ConnectionString;
-
-				string databaseName = MongoUrl.Create(connectionString).DatabaseName;
-				MongoClient client = new MongoClient(connectionString);
-				MongoServer server = client.GetServer();
-				MongoDatabase database = server.GetDatabase(databaseName);
-
-				return database.GetCollection<T>(typeof(T).Name);
-			}
-			catch (Exception ex)
-			{
-				throw new DatabaseException(ex, "An error occurred connecting to the MongoDB using the connection string {0}", ConnectionString);
-			}
-		}
-
 		public void Wipe()
 		{
 			try
 			{
-				string databaseName = MongoUrl.Create(ConnectionString).DatabaseName;
-				MongoClient client = new MongoClient(ConnectionString);
-				MongoServer server = client.GetServer();
-				MongoDatabase database = server.GetDatabase(databaseName);
-
-				database.DropCollection(typeof(PageContent).Name);
-				database.DropCollection(typeof(Page).Name);
-				database.DropCollection(typeof(User).Name);
-				database.DropCollection(typeof(SiteConfigurationEntity).Name);
+				MongoDbStore.Wipe(ConnectionString);
 			}
 			catch (Exception ex)
 			{
@@ -69,14 +42,7 @@ namespace Roadkill.Core.Database.MongoDB
 		{
 			try
 			{
-				string databaseName = MongoUrl.Create(ConnectionString).DatabaseName;
-				MongoClient client = new MongoClient(ConnectionString);
-				MongoServer server = client.GetServer();
-				MongoDatabase database = server.GetDatabase(databaseName);
-				database.DropCollection("Page");
-				database.DropCollection("PageContent");
-				database.DropCollection("User");
-				database.DropCollection("SiteConfiguration");
+				MongoDbStore.Wipe(ConnectionString);
 			}
 			catch (Exception e)
 			{
@@ -96,8 +62,7 @@ namespace Roadkill.Core.Database.MongoDB
 
 		public void SaveOrUpdate<T>(T obj) where T : IDataStoreEntity
 		{
-			MongoCollection<T> collection = GetCollection<T>();
-			collection.Save<T>(obj);
+			MongoDbStore.SaveOrUpdate(ConnectionString, obj);
 		}
 
 		public void Dispose()

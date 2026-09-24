@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Roadkill.Core.Diff;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Configuration;
@@ -18,7 +18,6 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// <summary>
 	/// Provides all page related functionality, including editing and viewing pages.
 	/// </summary>
-	[HandleError]
 	[OptionalAuthorization]
 	public class PagesController : ControllerBase
 	{
@@ -72,7 +71,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				tags = tags.Where(x => x.Name.StartsWith(term, StringComparison.InvariantCultureIgnoreCase));
 
 			IEnumerable<string> tagsJson = tags.Select(t => t.Name).ToList();
-			return Json(tagsJson, JsonRequestBehavior.AllowGet);
+			return Json(tagsJson);
 		}
 
 		/// <summary>
@@ -124,7 +123,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (model != null)
 			{
 				if (model.IsLocked && !Context.IsAdmin)
-					return new HttpStatusCodeResult(403, string.Format("The page '{0}' can only be edited by administrators.", model.Title));
+					return StatusCode(403, string.Format("The page '{0}' can only be edited by administrators.", model.Title));
 
 				model.AllTags = _pageService.AllTags().ToList();
 
@@ -144,7 +143,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <remarks>This action requires editor rights.</remarks>
 		[EditorRequired]
 		[HttpPost]
-		[ValidateInput(false)]
 		public ActionResult Edit(PageViewModel model)
 		{
 			if (!ModelState.IsValid)
@@ -162,7 +160,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <param name="id">The wiki markup.</param>
 		/// <returns>The markup as rendered as HTML.</returns>
 		/// <remarks>This action requires editor rights.</remarks>
-		[ValidateInput(false)]
 		[EditorRequired]
 		[HttpPost]
 		public ActionResult GetPreview(string id)
@@ -175,7 +172,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				pagehtml = converter.ToHtml(id);
 			}
 
-			return JavaScript(pagehtml.Html);
+			return Content(pagehtml.Html, "application/javascript");
 		}
 
 		/// <summary>
@@ -217,7 +214,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <remarks>This action requires editor rights.</remarks>
 		[EditorRequired]
 		[HttpPost]
-		[ValidateInput(false)]
 		public ActionResult New(PageViewModel model)
 		{
 			if (!ModelState.IsValid)
@@ -290,4 +286,4 @@ namespace Roadkill.Core.Mvc.Controllers
 			return View(model);
 		}
 	}
-}
+}

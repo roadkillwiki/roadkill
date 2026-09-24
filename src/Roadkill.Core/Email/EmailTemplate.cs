@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using Roadkill.Core.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -65,7 +66,7 @@ namespace Roadkill.Core.Email
 			
 			EmailClient = emailClient;
 			if (EmailClient == null)
-				EmailClient = new EmailClient();
+				EmailClient = new EmailClient(applicationSettings);
 		}
 
 		/// <summary>
@@ -102,17 +103,7 @@ namespace Roadkill.Core.Email
 			message.AlternateViews.Add(htmlView);
 			message.AlternateViews.Add(plainTextView);
 
-			// Add "~" support for pickupdirectories.
-			if (EmailClient.GetDeliveryMethod() == SmtpDeliveryMethod.SpecifiedPickupDirectory && 
-				!string.IsNullOrEmpty(EmailClient.PickupDirectoryLocation) &&
-				EmailClient.PickupDirectoryLocation.StartsWith("~"))
-			{
-				string root = AppDomain.CurrentDomain.BaseDirectory;
-				string pickupRoot = EmailClient.PickupDirectoryLocation.Replace("~/", root);
-				pickupRoot = pickupRoot.Replace("/", @"\");
-				EmailClient.PickupDirectoryLocation = pickupRoot;
-			}
-
+			// "~" paths for the pickup directory are resolved by the EmailClient.
 			EmailClient.Send(message);
 		}
 
@@ -159,8 +150,8 @@ namespace Roadkill.Core.Email
 			result = result.Replace("{USERID}", model.Id.ToString());
 			result = result.Replace("{SITENAME}", SiteSettings.SiteName);
 
-			if (HttpContext.Current != null)
-				result = result.Replace("{REQUEST_IP}", HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"]);
+			if (HttpContextHolder.Current != null)
+				result = result.Replace("{REQUEST_IP}", HttpContextHolder.Current.Connection.RemoteIpAddress?.ToString());
 
 			return result;
 		}

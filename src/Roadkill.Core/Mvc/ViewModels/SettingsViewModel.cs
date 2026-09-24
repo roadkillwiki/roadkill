@@ -1,13 +1,14 @@
-﻿using Roadkill.Core.Configuration;
+using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Localization;
 using System;
+using Roadkill.Core.Mvc;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Roadkill.Core.Mvc.ViewModels
 {
@@ -54,13 +55,9 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public string DatabaseName { get; set; }
 		public string EditorRoleName { get; set; }
 		public bool IsRecaptchaEnabled { get; set; }
-		public string LdapConnectionString { get; set; }
-		public string LdapUsername { get; set; }
-		public string LdapPassword { get; set; }
 		public string RecaptchaPrivateKey { get; set; }
 		public string RecaptchaPublicKey { get; set; }
 		public bool UseAzureFileStorage { get; set; }
-		public bool UseWindowsAuth { get; set; }
 		
 		// v2.0
 		public bool OverwriteExistingFiles { get; set; }
@@ -124,16 +121,11 @@ namespace Roadkill.Core.Mvc.ViewModels
 
 		public SettingsViewModel()
 		{
-			if (HttpContext.Current != null)
+			if (HttpContextHolder.Current != null)
 			{
 				// Default the site's url using the current request
-				Uri uri = HttpContext.Current.Request.Url;
-
-				string port = "";
-				if (uri.Port != 80 && uri.Port != 443)
-					port = ":" + uri.Port;
-
-				SiteUrl = string.Format("{0}://{1}{2}", uri.Scheme, uri.Host, port);
+				Microsoft.AspNetCore.Http.HttpRequest request = HttpContextHolder.Current.Request;
+				SiteUrl = string.Format("{0}://{1}", request.Scheme, request.Host);
 			}
 			else
 			{
@@ -175,10 +167,6 @@ namespace Roadkill.Core.Mvc.ViewModels
 			EditorRoleName = applicationSettings.EditorRoleName;
 			IsPublicSite = applicationSettings.IsPublicSite;
 			IgnoreSearchIndexErrors = applicationSettings.IgnoreSearchIndexErrors;
-			LdapConnectionString = applicationSettings.LdapConnectionString;
-			LdapUsername = applicationSettings.LdapUsername;
-			LdapPassword = applicationSettings.LdapPassword;
-			UseWindowsAuth = applicationSettings.UseWindowsAuthentication;
 			UseObjectCache = applicationSettings.UseObjectCache;
 			UseBrowserCache = applicationSettings.UseBrowserCache;
 		}

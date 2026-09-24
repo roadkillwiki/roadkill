@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -42,7 +41,7 @@ namespace Roadkill.Core.Logging
 
 			if (path.StartsWith("~"))
 			{
-				path = path.Replace("~", AppDomain.CurrentDomain.BaseDirectory);
+				path = settings.MapPath(path);
 			}
 
 			if (!File.Exists(path))
@@ -51,7 +50,7 @@ namespace Roadkill.Core.Logging
 			}
 			
 			NLogConfigPath = path;
-			LogManager.Configuration = new XmlLoggingConfiguration(NLogConfigPath, true);
+			LogManager.Configuration = new XmlLoggingConfiguration(NLogConfigPath);
 		}
 
 		/// <summary>

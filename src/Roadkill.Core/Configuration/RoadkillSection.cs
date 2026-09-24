@@ -102,6 +102,42 @@ namespace Roadkill.Core.Configuration
 		public string UiLanguage { get; set; } = "en";
 
 		/// <summary>
+		/// The SMTP server for sending emails (signup and password reset). If this is empty, emails are written to the
+		/// <see cref="SmtpPickupDirectory"/> instead.
+		/// </summary>
+		public string SmtpHost { get; set; } = "";
+
+		/// <summary>
+		/// The SMTP server port.
+		/// </summary>
+		public int SmtpPort { get; set; } = 25;
+
+		/// <summary>
+		/// The SMTP username, if the server requires authentication.
+		/// </summary>
+		public string SmtpUsername { get; set; } = "";
+
+		/// <summary>
+		/// The SMTP password, if the server requires authentication.
+		/// </summary>
+		public string SmtpPassword { get; set; } = "";
+
+		/// <summary>
+		/// Whether to use SSL/TLS for the SMTP connection.
+		/// </summary>
+		public bool SmtpEnableSsl { get; set; }
+
+		/// <summary>
+		/// The from address for emails.
+		/// </summary>
+		public string SmtpFrom { get; set; } = "signup@roadkillwiki.net";
+
+		/// <summary>
+		/// The folder emails are written to when no SMTP host is set. "~/" is the site root.
+		/// </summary>
+		public string SmtpPickupDirectory { get; set; } = "~/App_Data/TempSmtp";
+
+		/// <summary>
 		/// Whether this instance is running as the (read only) demo site.
 		/// </summary>
 		public bool IsDemoSite { get; set; }

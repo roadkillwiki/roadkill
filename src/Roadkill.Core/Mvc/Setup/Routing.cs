@@ -1,125 +1,60 @@
-﻿using System.Web.Http;
-using System.Web.Mvc;
-using System.Web.Routing;
-using Roadkill.Core.Mvc.WebApi;
-using Swashbuckle.Application;
+using System;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
 
 namespace Roadkill.Core.Mvc.Setup
 {
-	public class Routing
+	/// <summary>
+	/// The Roadkill MVC routes. Generated controller and action names are lowercased (like the previous LowercaseRoute),
+	/// but not the other route values (e.g. the base64 username for pages/byuser).
+	/// </summary>
+	public static class Routing
 	{
-		public static void Register(RouteCollection routes)
+		/// <summary>
+		/// The name of the route constraint/transformer that lowercases controller and action names in generated urls.
+		/// </summary>
+		public static readonly string LowercaseTransformerName = "lowercase";
+
+		public static void MapRoadkillRoutes(this IEndpointRouteBuilder routes)
 		{
-			// Additional routing can be found in SiteSettingsAreaRegistration
+			// The REST api (attribute routed)
+			routes.MapControllers();
 
-			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-			routes.IgnoreRoute("favicon.ico");
+			// /Wiki/Special:{id} urls
+			routes.MapControllerRoute("SpecialPages", "wiki/special:{id}", new { controller = "SpecialPages", action = "Index" });
 
-			RegisterSpecialRoutes(routes);
+			// /Wiki/Help:About and /Wiki/Help:Cheatsheet
+			routes.MapControllerRoute("Help:About", "wiki/help:about", new { controller = "Help", action = "About" });
+			routes.MapControllerRoute("Help:CheatSheet", "wiki/help:cheatsheet", new { controller = "Help", action = "Index" });
 
-			// For the jQuery ajax file manager
-			routes.MapLowercaseRoute(
-				"FileFolder",
-				"Files/Folder/{dir}",
-				new { controller = "Files", action = "Folder", dir = UrlParameter.Optional }
-			);
-
-			// 404 error
-			routes.MapLowercaseRoute(
-				"NotFound",
-				"wiki/notfound",
-				new { controller = "Wiki", action = "NotFound", id = UrlParameter.Optional }
-			);
-
-			// 500 error
-			routes.MapLowercaseRoute(
-				"ServerError",
-				"wiki/servererror",
-				new { controller = "Wiki", action = "ServerError", id = UrlParameter.Optional }
-			);	
+			// 404 and 500 errors
+			routes.MapControllerRoute("NotFound", "wiki/notfound", new { controller = "Wiki", action = "NotFound" });
+			routes.MapControllerRoute("ServerError", "wiki/servererror", new { controller = "Wiki", action = "ServerError" });
 
 			// The default way of getting to a page: "/wiki/123/page-title"
-			routes.MapLowercaseRoute(
-				"Wiki",
-				"Wiki/{id}/{title}",
-				new { controller = "Wiki", action = "Index", title = UrlParameter.Optional }
-			);
+			routes.MapControllerRoute("Wiki", "wiki/{id}/{title?}", new { controller = "Wiki", action = "Index" });
 
-			// Don't lowercase pages that use Base64
-			routes.MapRoute(
-				"Pages",
-				"pages/byuser/{id}/{encoded}",
-				new { controller = "Pages", action = "ByUser", title = UrlParameter.Optional }
-			);
+			// Pages by user use Base64, so these values aren't lowercased
+			routes.MapControllerRoute("Pages", "pages/byuser/{id}/{encoded?}", new { controller = "Pages", action = "ByUser" });
+
+			// Site settings area: "/Settings" and "/SiteSettings/{controller}/{action}/{id}"
+			routes.MapAreaControllerRoute("SiteSettings_Default", "SiteSettings", "settings", new { controller = "Settings", action = "Index" });
+			routes.MapAreaControllerRoute("SiteSettings_Controller", "SiteSettings",
+				"sitesettings/{controller:lowercase=Settings}/{action:lowercase=Index}/{id?}");
 
 			// Default
-			routes.MapLowercaseRoute(
-				"Default", // Route name
-				"{controller}/{action}/{id}", // URL with parameters
-				new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
-			);
+			routes.MapControllerRoute("Default", "{controller:lowercase=Home}/{action:lowercase=Index}/{id?}");
 		}
+	}
 
-		private static void RegisterSpecialRoutes(RouteCollection routes)
+	/// <summary>
+	/// Lowercases the controller and action names in generated urls.
+	/// </summary>
+	public class LowercaseParameterTransformer : IOutboundParameterTransformer
+	{
+		public string TransformOutbound(object value)
 		{
-			// /Wiki/Special:{id} urls
-			routes.MapRoute(
-				"SpecialPages",
-				"Wiki/Special:{id}",
-				new { controller = "SpecialPages", action = "Index" }
-			);
-
-			// /Wiki/Help:About
-			routes.MapRoute(
-				"Help:About",
-				"Wiki/Help:About",
-				new { controller = "Help", action = "About" },
-				null,
-				new string[] { "Roadkill.Core.Mvc.Controllers" }
-			);
-
-			// /Wiki/Help:Cheatsheet
-			routes.MapRoute(
-				"Help:CheatSheet",
-				"Wiki/Help:Cheatsheet",
-				new { controller = "Help", action = "Index" },
-				null,
-				new string[] { "Roadkill.Core.Mvc.Controllers" }
-			);
-		}
-
-		public static void RegisterWebApi(HttpConfiguration config)
-		{
-			config.MapHttpAttributeRoutes();
-
-			// Adds support for the webapi 1 style methods, e.g. /api/Users/ 
-			config.Routes.MapHttpRoute(
-				name: "DefaultApi",
-				routeTemplate: "api/{controller}/{id}",
-				defaults: new { id = RouteParameter.Optional }
-			);
-
-			RegisterSwashBuckle(config);
-
-			config.EnsureInitialized();
-		}
-
-		private static void RegisterSwashBuckle(HttpConfiguration config)
-		{
-			config
-				.EnableSwagger(c =>
-				{
-					c.SingleApiVersion("3.0", "Roadkill Web API");
-
-					var applyApiKeySecurity = new SwashbuckleApplyApiKeySecurity(
-					key: ApiKeyAuthorizeAttribute.APIKEY_HEADER_KEY,
-					name: ApiKeyAuthorizeAttribute.APIKEY_HEADER_KEY,
-					description: "API key",
-					@in: "header"
-					);
-					applyApiKeySecurity.Apply(c);
-				})
-				.EnableSwaggerUi();
+			return value?.ToString()?.ToLowerInvariant();
 		}
 	}
 }

@@ -1,6 +1,6 @@
-﻿using Roadkill.Core.Attachments;
+using Roadkill.Core.Attachments;
 using Roadkill.Core.Mvc.ViewModels;
-using System.Web;
+using Microsoft.AspNetCore.Http;
 
 namespace Roadkill.Core.Services
 {
@@ -17,8 +17,12 @@ namespace Roadkill.Core.Services
 		/// <param name="destinationPath">The relative path of the folder to store the file.</param>
 		/// <param name="files"></param>
 		/// <returns></returns>
-		string Upload(string destinationPath, HttpFileCollectionBase files);
+		string Upload(string destinationPath, IFormFileCollection files);
 
-		void WriteResponse(string localPath, string applicationPath, string modifiedSinceHeader, IResponseWrapper responseWrapper, HttpContext context);
+		/// <summary>
+		/// Writes the file for the attachment url to the response.
+		/// </summary>
+		/// <exception cref="Roadkill.Core.Exceptions.HttpStatusException">The file doesn't exist (404) or can't be read (500).</exception>
+		void WriteResponse(string localPath, string applicationPath, string modifiedSinceHeader, IResponseWrapper responseWrapper);
 	}
 }

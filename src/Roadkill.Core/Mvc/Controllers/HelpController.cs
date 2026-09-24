@@ -1,5 +1,5 @@
-﻿using System;
-using System.Web.Mvc;
+using System;
+using Microsoft.AspNetCore.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.Attributes;
@@ -37,7 +37,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (model == null)
 				return RedirectToAction("New", "Pages", new { title = "about", tags = "about" });
 			else
-				return View("../Wiki/Index", model);
+				return View("~/Views/Wiki/Index.cshtml", model);
 		}
 
 		public ActionResult CreoleReference()

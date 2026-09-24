@@ -1,8 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Security;
-using System.Web;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Roadkill.Core.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
@@ -119,11 +122,7 @@ namespace Roadkill.Core.Security
 				{
 					if (user.Password == User.HashPassword(password, user.Salt))
 					{
-						bool isFormsAuthEnabled = FormsAuthenticationWrapper.IsEnabled();
-						if (isFormsAuthEnabled)
-						{
-							FormsAuthentication.SetAuthCookie(user.Id.ToString(), true);
-						}
+						SignIn(user.Id.ToString());
 
 						return true;
 					}
@@ -361,15 +360,35 @@ namespace Roadkill.Core.Security
 		}
 
 		/// <summary>
-		/// Signs the user out with (typically with <see cref="FormsAuthentication"/>).
+		/// Signs the user out, removing the authentication cookie.
 		/// </summary>
 		public override void Logout()
 		{
-			bool isFormsAuthEnabled = FormsAuthenticationWrapper.IsEnabled();
-			if (isFormsAuthEnabled)
+			HttpContext context = HttpContextHolder.Current;
+			if (context != null)
 			{
-				FormsAuthentication.SignOut();
+				context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).GetAwaiter().GetResult();
+				context.User = new ClaimsPrincipal(new ClaimsIdentity());
 			}
+		}
+
+		/// <summary>
+		/// Issues the (persistent) authentication cookie for the user id, for the current request.
+		/// </summary>
+		private static void SignIn(string userId)
+		{
+			HttpContext context = HttpContextHolder.Current;
+			if (context == null)
+				return;
+
+			var identity = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, userId) }, CookieAuthenticationDefaults.AuthenticationScheme);
+			var principal = new ClaimsPrincipal(identity);
+
+			context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties() { IsPersistent = true })
+				.GetAwaiter().GetResult();
+
+			// Make the user available for the rest of this request, as FormsAuthentication did.
+			context.User = principal;
 		}
 
 		/// <summary>
@@ -636,37 +655,23 @@ namespace Roadkill.Core.Security
 		}
 
 		/// <summary>
-		/// Gets the current username by decrypting the cookie. If FormsAuthentication is disabled or
-		/// there is no logged in user, this returns an empty string.
+		/// Gets the current user id from the authentication cookie (the identity name). If there is no logged in user, 
+		/// this returns an empty string.
 		/// </summary>
-		public override string GetLoggedInUserName(HttpContextBase context)
+		public override string GetLoggedInUserName(HttpContext context)
 		{
-			if (context == null || context.Request == null || context.Request.Cookies == null)
+			if (context == null || context.User == null || context.User.Identity == null)
 				return "";
 
-			bool isFormsAuthEnabled = FormsAuthenticationWrapper.IsEnabled();
+			if (!context.User.Identity.IsAuthenticated)
+				return "";
 
-			if (isFormsAuthEnabled)
-			{
-				string cookieName = FormsAuthenticationWrapper.CookieName();
-				if (!string.IsNullOrEmpty(cookieName) && context.Request.Cookies[cookieName] != null)
-				{
-					string cookie = context.Request.Cookies[cookieName].Value;
-					if (!string.IsNullOrEmpty(cookie))
-					{
-						FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie);
-						if (ticket != null)
-							return ticket.Name;
-					}
-				}
-			}
-
-			return "";
+			return context.User.Identity.Name ?? "";
 		}
 
 		/// <summary>
 		/// Gets the currently logged in user, based off the cookie or HttpContext user identity value set during authentication. 
-		/// The value for FormsAuthentication is the user's Guid id.
+		/// The value for cookie authentication is the user's Guid id.
 		/// </summary>
 		/// <param name="cookieValue">The user id stored in the cookie.</param>
 		/// <returns>A new <see cref="User"/> object</returns>

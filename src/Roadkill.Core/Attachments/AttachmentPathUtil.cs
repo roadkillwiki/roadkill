@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Web;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Logging;
 
@@ -135,9 +134,9 @@ namespace Roadkill.Core.Attachments
 		/// Tests if the attachments folder provided can be written to, by writing a file to the folder.
 		/// </summary>
 		/// <param name="folder">The folder path which should include "~/" at the start.</param>
-		/// <param name="context">The HttpContext to map a virtual (~) path too.</param>
+		/// <param name="settings">The application settings, used to map a virtual (~) path.</param>
 		/// <returns>Any error messages or an empty string if no errors occurred.</returns>
-		public static string AttachmentFolderExistsAndWriteable(string folder, HttpContextBase context)
+		public static string AttachmentFolderExistsAndWriteable(string folder, ApplicationSettings settings)
 		{
 			string errors = "";
 			if (string.IsNullOrEmpty(folder))
@@ -149,8 +148,8 @@ namespace Roadkill.Core.Attachments
 				try
 				{
 					string directory = folder;
-					if (folder.StartsWith("~") && context != null)
-						directory = context.Server.MapPath(folder);
+					if (folder.StartsWith("~") && settings != null)
+						directory = settings.MapPath(folder);
 
 					if (Directory.Exists(directory))
 					{

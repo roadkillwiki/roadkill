@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Ionic.Zip;
+using System.IO.Compression;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.Export;
@@ -83,10 +83,17 @@ namespace Roadkill.Core.Domain.Export
 				Directory.CreateDirectory(ExportFolder);
 
 			string zipFullPath = Path.Combine(ExportFolder, filename);
-			using (ZipFile zip = new ZipFile(zipFullPath))
+			if (File.Exists(zipFullPath))
+				File.Delete(zipFullPath);
+
+			using (ZipArchive zip = ZipFile.Open(zipFullPath, ZipArchiveMode.Create))
 			{
-				zip.AddDirectory(_applicationSettings.AttachmentsDirectoryPath, "Attachments");
-				zip.Save();
+				string attachmentsPath = _applicationSettings.AttachmentsDirectoryPath;
+				foreach (string file in Directory.GetFiles(attachmentsPath, "*", SearchOption.AllDirectories))
+				{
+					string relativePath = Path.GetRelativePath(attachmentsPath, file).Replace(Path.DirectorySeparatorChar, '/');
+					zip.CreateEntryFromFile(file, "Attachments/" + relativePath);
+				}
 			}
 		}
 
@@ -106,9 +113,10 @@ namespace Roadkill.Core.Domain.Export
 			if (File.Exists(zipFullPath))
 				File.Delete(zipFullPath);
 
-			using (ZipFile zip = new ZipFile(zipFullPath))
+			using (ZipArchive zip = ZipFile.Open(zipFullPath, ZipArchiveMode.Create))
 			{
 				int index = 0;
+				HashSet<string> entryNames = new HashSet<string>();
 				List<string> filenames = new List<string>();
 
 				foreach (PageViewModel summary in pages.OrderBy(p => p.Title))
@@ -138,14 +146,12 @@ namespace Roadkill.Core.Domain.Export
 					filePath += ".wiki";
 					string content = "Tags:" + summary.SpaceDelimitedTags() + "\r\n" + summary.Content;
 
-					Console.WriteLine(filePath);
 					File.WriteAllText(filePath, content);
 
-					if (!zip.ContainsEntry(filePath))
-						zip.AddFile(filePath, "");
+					string entryName = Path.GetFileName(filePath);
+					if (entryNames.Add(entryName))
+						zip.CreateEntryFromFile(filePath, entryName);
 				}
-
-				zip.Save();
 			}
 		}
 	}

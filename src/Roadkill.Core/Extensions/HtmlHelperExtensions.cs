@@ -1,36 +1,17 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-using System.Web.Mvc.Html;
-using Roadkill.Core.Converters;
-using System.Web;
-using System.Text.RegularExpressions;
-using Recaptcha;
-using System.Web.UI;
-using System.IO;
-using Roadkill.Core.Configuration;
-using Roadkill.Core.Services;
-using StructureMap;
-using ControllerBase = Roadkill.Core.Mvc.Controllers.ControllerBase;
-using Roadkill.Core.Attachments;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.DependencyInjection;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Localization;
-using System.Linq.Expressions;
-using Roadkill.Core.Mvc.Controllers;
+using Roadkill.Core.Services;
 
 namespace Roadkill.Core.Extensions
 {
-	/// <summary>
-	/// Roadkill specific extensions methods for the <see cref="HtmlHelper"/> class.
-	/// </summary>
 	public static class HtmlHelperExtensions
 	{
-		/// <summary>
-		/// Creates a drop down list from an <c>IDictionary</c> and selects the item.
-		/// </summary>
-		public static MvcHtmlString DropDownBox(this HtmlHelper helper, string name, IDictionary<string, string> items, string selectedValue)
+		public static IHtmlContent DropDownBox(this IHtmlHelper helper, string name, IDictionary<string, string> items, string selectedValue)
 		{
 			List<SelectListItem> selectList = new List<SelectListItem>();
 
@@ -51,10 +32,7 @@ namespace Roadkill.Core.Extensions
 			return helper.DropDownList(name, selectList);
 		}
 
-		/// <summary>
-		/// Creates a drop down list from an <c>IList</c> of strings.
-		/// </summary>
-		public static MvcHtmlString DropDownBox(this HtmlHelper helper, string name, IEnumerable<string> items)
+		public static IHtmlContent DropDownBox(this IHtmlHelper helper, string name, IEnumerable<string> items)
 		{
 			List<SelectListItem> selectList = new List<SelectListItem>();
 
@@ -72,64 +50,41 @@ namespace Roadkill.Core.Extensions
 			return helper.DropDownList(name, selectList, new { id = name });
 		}
 
-        /// <summary>
-        /// Render the first page which has this tag. Admin locked pages have priority. 
-        /// </summary>
-        /// <param name="tag">the tagname</param>
-        /// <returns>html</returns>
-        /// <example>
-        /// usage:   @Html.RenderPageByTag("secondMenu")
-        /// </example>
-        public static MvcHtmlString RenderPageByTag(this HtmlHelper helper, string tag)
-        {
+		/// <summary>
+		/// Renders the HTML of the page with the tag (preferring locked pages), or an empty string if no page has the tag.
+		/// </summary>
+		public static IHtmlContent RenderPageByTag(this IHtmlHelper helper, string tag)
+		{
 			string html = "";
 
-			ControllerBase controller = helper.ViewContext.Controller as ControllerBase;
-			WikiController wikiController = controller as WikiController;
-			if (wikiController != null)
+			IPageService pageService = helper.ViewContext.HttpContext.RequestServices.GetService<IPageService>();
+			if (pageService != null)
 			{
-				PageService pageService = wikiController.PageService;
-
 				IEnumerable<PageViewModel> pages = pageService.FindByTag(tag);
-				if (pages.Count() > 0)
+				if (pages.Any())
 				{
 					// Find the page, first search for a locked page.
-					PageViewModel model = pages.FirstOrDefault(h => h.IsLocked);
-					if (model == null)
-					{
-						model = pages.FirstOrDefault();
-					}
+					PageViewModel model = pages.FirstOrDefault(h => h.IsLocked) ?? pages.FirstOrDefault();
 
 					if (model != null)
-					{
 						html = model.ContentAsHtml;
-					}
 				}
 			}
 
-			return MvcHtmlString.Create(html);
-        }
-
-		/// <summary>
-		/// An alias for Partial() to indicate a dialog's HTML is being rendered.
-		/// </summary>
-		public static MvcHtmlString DialogPartial(this HtmlHelper helper, string viewName)
-		{
-			return helper.Partial("Dialogs/" + viewName);
+			return new HtmlString(html);
 		}
 
-		/// <summary>
-		/// An alias for Partial() to indicate a dialog's HTML is being rendered.
-		/// </summary>
-		public static MvcHtmlString DialogPartial(this HtmlHelper helper, string viewName, object model)
+		public static IHtmlContent DialogPartial(this IHtmlHelper helper, string viewName)
 		{
-			return helper.Partial(viewName, model);
+			return helper.Partial("~/Views/Shared/Dialogs/" + viewName + ".cshtml");
 		}
 
-		/// <summary>
-		/// Returns the rendered partial navigation menu.
-		/// </summary>
-		public static MvcHtmlString SiteSettingsNavigation(this HtmlHelper htmlHelper)
+		public static IHtmlContent DialogPartial(this IHtmlHelper helper, string viewName, object model)
+		{
+			return helper.Partial("~/Views/Shared/Dialogs/" + viewName + ".cshtml", model);
+		}
+
+		public static IHtmlContent SiteSettingsNavigation(this IHtmlHelper htmlHelper)
 		{
 			return htmlHelper.Partial("Navigation");
 		}

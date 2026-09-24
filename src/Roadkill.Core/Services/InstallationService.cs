@@ -1,14 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Web.Routing;
-using Microsoft.Practices.ServiceLocation;
-using Mindscape.LightSpeed;
-using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Database.MongoDB;
-using Roadkill.Core.Database.Schema;
-using Roadkill.Core.DependencyResolution;
 using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core.Services
@@ -18,30 +11,24 @@ namespace Roadkill.Core.Services
 	/// </summary>
 	public class InstallationService : IInstallationService
 	{
-		private Func<string, string, IInstallerRepository> _getRepositoryFunc;
-		internal ServiceLocatorImplBase Locator { get; set; }
+		private readonly Func<string, string, IInstallerRepository> _getRepositoryFunc;
+		private readonly IRepositoryFactory _repositoryFactory;
 
-		public InstallationService()
+		public InstallationService(IRepositoryFactory repositoryFactory)
 		{
+			_repositoryFactory = repositoryFactory;
 			_getRepositoryFunc = GetRepository;
-			Locator = LocatorStartup.Locator;
 		}
 
-		internal InstallationService(Func<string, string, IInstallerRepository> getRepositoryFunc, ServiceLocatorImplBase locator)
+		internal InstallationService(Func<string, string, IInstallerRepository> getRepositoryFunc)
 		{
+			_repositoryFactory = new RepositoryFactory();
 			_getRepositoryFunc = getRepositoryFunc;
-			Locator = locator;
 		}
 
 		public IEnumerable<RepositoryInfo> GetSupportedDatabases()
 		{
-			return new List<RepositoryInfo>()
-			{
-				SupportedDatabases.MongoDB,
-				SupportedDatabases.MySQL,
-				SupportedDatabases.Postgres,
-				SupportedDatabases.SqlServer2008
-			};
+			return _repositoryFactory.ListAll();
 		}
 
 		public void Install(SettingsViewModel model)
@@ -50,11 +37,7 @@ namespace Roadkill.Core.Services
 			{
 				IInstallerRepository installerRepository = _getRepositoryFunc(model.DatabaseName, model.ConnectionString);
 				installerRepository.CreateSchema();
-
-				if (model.UseWindowsAuth == false)
-				{
-					installerRepository.AddAdminUser(model.AdminEmail, "admin", model.AdminPassword);
-				}
+				installerRepository.AddAdminUser(model.AdminEmail, "admin", model.AdminPassword);
 
 				SiteSettings siteSettings = new SiteSettings();
 				siteSettings.AllowedFileTypes = model.AllowedFileTypes;
@@ -72,11 +55,6 @@ namespace Roadkill.Core.Services
 				siteSettings.HeadContent = model.HeadContent;
 				siteSettings.MenuMarkup = model.MenuMarkup;
 				installerRepository.SaveSettings(siteSettings);
-
-				// Attachments handler needs re-registering
-				var appSettings = Locator.GetInstance<ApplicationSettings>();
-				var fileService = Locator.GetInstance<IFileService>();
-				AttachmentRouteHandler.RegisterRoute(appSettings, RouteTable.Routes, fileService);
 			}
 			catch (DatabaseException ex)
 			{
@@ -86,22 +64,7 @@ namespace Roadkill.Core.Services
 
 		internal IInstallerRepository GetRepository(string databaseName, string connectionString)
 		{
-			if (databaseName == SupportedDatabases.MongoDB)
-			{
-				return new MongoDbInstallerRepository(connectionString);
-			}
-			else if (databaseName == SupportedDatabases.MySQL)
-			{
-				return new LightSpeedInstallerRepository(DataProvider.MySql5, new MySqlSchema(), connectionString);
-			}
-			else if (databaseName == SupportedDatabases.Postgres)
-			{
-				return new LightSpeedInstallerRepository(DataProvider.PostgreSql9, new PostgresSchema(), connectionString);
-			}
-			else
-			{
-				return new LightSpeedInstallerRepository(DataProvider.SqlServer2008, new SqlServerSchema(), connectionString);
-			}
+			return _repositoryFactory.GetInstallerRepository(databaseName, connectionString);
 		}
 	}
 }

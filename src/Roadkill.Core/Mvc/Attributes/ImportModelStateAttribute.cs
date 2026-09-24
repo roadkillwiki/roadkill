@@ -1,35 +1,39 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Roadkill.Core.Mvc.Attributes
 {
 	/// <summary>
-	/// Represents an attribute that is used to import a ModelState from an action that has performed a RedirectToAction().
-	/// That action should be decorated with the <see cref="ExportModelStateAttribute"/>.
+	/// Imports the ModelState errors exported by the <see cref="ExportModelStateAttribute"/>.
 	/// </summary>
 	public class ImportModelStateAttribute : ActionFilterAttribute
 	{
-		protected static readonly string _key = "MODELSTATE_TEMPDATA";
-
 		public override void OnActionExecuted(ActionExecutedContext filterContext)
 		{
 			// Based on: http://weblogs.asp.net/rashid/archive/2009/04/01/asp-net-mvc-best-practices-part-1.aspx#prg
-			ModelStateDictionary modelState = filterContext.Controller.TempData[_key] as ModelStateDictionary;
+			Controller controller = filterContext.Controller as Controller;
+			string json = controller?.TempData[ExportModelStateAttribute.Key] as string;
 
-			if (modelState != null)
+			if (json != null)
 			{
 				// Only Import if we are viewing
 				if (filterContext.Result is ViewResult)
 				{
-					filterContext.Controller.ViewData.ModelState.Merge(modelState);
+					var errors = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string[]>>(json);
+					foreach (KeyValuePair<string, string[]> error in errors)
+					{
+						foreach (string message in error.Value)
+						{
+							controller.ModelState.AddModelError(error.Key, message);
+						}
+					}
 				}
 				else
 				{
 					// Otherwise remove it.
-					filterContext.Controller.TempData.Remove(_key);
+					controller.TempData.Remove(ExportModelStateAttribute.Key);
 				}
 			}
 

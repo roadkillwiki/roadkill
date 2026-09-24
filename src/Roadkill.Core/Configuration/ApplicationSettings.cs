@@ -247,6 +247,11 @@ namespace Roadkill.Core.Configuration
 		public string UserServiceType { get; set; }
 
 		/// <summary>
+		/// The SMTP settings for sending emails. If <see cref="SmtpSettings.Host"/> is empty, emails are written to the pickup directory.
+		/// </summary>
+		public SmtpSettings Smtp { get; set; }
+
+		/// <summary>
 		/// The UI language code, e.g. "en" or "fr".
 		/// </summary>
 		public string UiLanguage { get; set; }
@@ -308,6 +313,7 @@ namespace Roadkill.Core.Configuration
 			PluginsBinPath = Path.Combine(AppContext.BaseDirectory, "Plugins");
 			PluginsPath = Path.Combine(ContentRootPath, "Plugins");
 			UiLanguage = "en";
+			Smtp = new SmtpSettings();
 		}
 
 		/// <summary>

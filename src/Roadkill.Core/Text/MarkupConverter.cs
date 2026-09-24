@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
-using System.Web;
 using System.Text.RegularExpressions;
-using Ganss.XSS;
+using Ganss.Xss;
+using Roadkill.Core.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Text.Sanitizer;
 using Roadkill.Core.Database;
@@ -67,11 +67,7 @@ namespace Roadkill.Core.Converters
 			_applicationSettings = settings;
 
 			// Create the UrlResolver for all wiki urls
-			HttpContextBase httpContext = null;
-			if (HttpContext.Current != null)
-				httpContext = new HttpContextWrapper(HttpContext.Current);
-
-			UrlResolver = new UrlResolver(httpContext);		
+			UrlResolver = new UrlResolver(HttpContextHolder.Current);		
 	
 			if (!_applicationSettings.Installed)
 			{
@@ -305,7 +301,19 @@ namespace Roadkill.Core.Converters
 				if (allowedAttributes.Length == 0)
 					allowedAttributes = null;
 
-				var sanitizer = new HtmlSanitizer(allowedTags, null, allowedAttributes);
+				var sanitizer = new HtmlSanitizer();
+				if (allowedTags != null)
+				{
+					sanitizer.AllowedTags.Clear();
+					sanitizer.AllowedTags.UnionWith(allowedTags);
+				}
+
+				if (allowedAttributes != null)
+				{
+					sanitizer.AllowedAttributes.Clear();
+					sanitizer.AllowedAttributes.UnionWith(allowedAttributes);
+				}
+
 				sanitizer.AllowDataAttributes = false;
 				sanitizer.AllowedAttributes.Add("class");
 				sanitizer.AllowedAttributes.Add("id");

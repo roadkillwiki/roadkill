@@ -1,13 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Roadkill.Core.Converters;
-using System.Web.Security;
 using System.IO;
-using System.Web.Mvc;
-using System.Web;
 using System.Text.RegularExpressions;
+using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Html;
 
 namespace Roadkill.Core.Extensions
 {
@@ -26,7 +25,7 @@ namespace Roadkill.Core.Extensions
 			if (string.IsNullOrEmpty(text))
 				return "";
 
-			return Convert.ToBase64String(Encoding.Default.GetBytes(text));
+			return Convert.ToBase64String(Encoding.UTF8.GetBytes(text));
 		}
 
 		/// <summary>
@@ -39,7 +38,7 @@ namespace Roadkill.Core.Extensions
 			if (string.IsNullOrEmpty(base64Text))
 				return "";
 			else
-				return Encoding.Default.GetString(Convert.FromBase64String(base64Text));
+				return Encoding.UTF8.GetString(Convert.FromBase64String(base64Text));
 		}
 
 		/// <summary>
@@ -75,6 +74,21 @@ namespace Roadkill.Core.Extensions
 		/// <summary>
 		/// Sets the milliseconds part of a datetime to zero.
 		/// </summary>
+		/// <summary>
+		/// Renders the <see cref="IHtmlContent"/> (e.g. from an HtmlHelper) to a string.
+		/// </summary>
+		public static string ToHtmlString(this IHtmlContent content)
+		{
+			if (content == null)
+				return "";
+
+			using (StringWriter writer = new StringWriter())
+			{
+				content.WriteTo(writer, HtmlEncoder.Default);
+				return writer.ToString();
+			}
+		}
+
 		public static DateTime ClearMilliseconds(this DateTime dateTime)
 		{
 			return new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, 0);

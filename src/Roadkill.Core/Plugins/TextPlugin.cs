@@ -1,10 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Web;
-using System.Web.Mvc;
 using Newtonsoft.Json;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
@@ -12,8 +10,7 @@ using Roadkill.Core.Converters;
 using Roadkill.Core.Database;
 using Roadkill.Core.Database.Repositories;
 using Roadkill.Core.Logging;
-using StructureMap;
-using StructureMap.Attributes;
+using Roadkill.Core.Mvc;
 
 namespace Roadkill.Core.Plugins
 {
@@ -69,7 +66,6 @@ namespace Roadkill.Core.Plugins
 		/// Gets or sets the current Roadkill <see cref="ApplicationSettings"/>. This property is automatically filled by Roadkill 
 		/// when the plugin is loaded.
 		/// </summary>
-		[SetterProperty]
 		public ApplicationSettings ApplicationSettings { get; set; }
 
 		// These are setter injected at creation time by the DI manager
@@ -368,11 +364,7 @@ namespace Roadkill.Core.Plugins
 				}
 
 				// Get the server path
-				if (HttpContext.Current != null)
-				{
-					UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-					filename = string.Concat(urlHelper.Content(PluginVirtualPath), "/", filename);
-				}
+				filename = string.Concat(HttpContextHolder.ResolveUrl(PluginVirtualPath), "/", filename);
 
 				fileLink = fileLink.Replace("[name]", name);
 				fileLink = fileLink.Replace("[filename]", filename);
@@ -393,15 +385,7 @@ namespace Roadkill.Core.Plugins
 			string cssLink = "\t\t<link href=\"{0}/{1}?version={2}\" rel=\"stylesheet\" type=\"text/css\" />\n";
 			string html = "";
 
-			if (HttpContext.Current != null)
-			{
-				UrlHelper urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-				html = string.Format(cssLink, urlHelper.Content(PluginVirtualPath), filename, Version);
-			}
-			else
-			{
-				html = string.Format(cssLink, PluginVirtualPath, filename, Version);
-			}
+			html = string.Format(cssLink, HttpContextHolder.ResolveUrl(PluginVirtualPath), filename, Version);
 
 			return html;
 		}
