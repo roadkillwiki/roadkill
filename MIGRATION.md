@@ -31,11 +31,22 @@ Inventaire fait sur le parseur actuel (`Text/Parsers/Markdown.cs`, MarkdownSharp
 
 - [x] Inventaire du code et des dépendances
 - [x] SDK .NET 10, suppression LightSpeed / MySQL / AD
-- [ ] Couche données Dapper + MongoDB
-- [ ] Infrastructure Core (config, DI, auth cookies, cache, Lucene.Net 4.8, fichiers)
-- [ ] Contrôleurs, filtres, vues Razor, hôte web
-- [ ] Parseur Markdig + GFM + Mermaid, tests de non-régression
-- [ ] Portage des tests, exécution
-- [ ] Documentation, CI
+- [x] Couche données Dapper (SQL Server, Postgres) + MongoDB (conservé, **non testé**)
+- [x] Infrastructure Core (appsettings.json, DI, cookies, cache, Lucene.Net 4.8, fichiers, SMTP, NLog)
+- [x] Contrôleurs, filtres, vues Razor, hôte web, API REST + Swagger
+- [x] Parseur Markdig + GFM + plugin Mermaid, tests de non-régression
+- [x] Tests portés (NUnit 4) : 618 réussis, 49 ignorés (MongoDB, test spécifique Windows)
+- [x] Mode d'emploi de migration : [docs/migration-v2-vers-v3.md](docs/migration-v2-vers-v3.md), script `tools/ConvertWebConfig.cs` / `.linq`
+- [ ] CI : `appveyor.yml` et `.travis.yml` ciblent encore .NET Framework (à remplacer ou supprimer)
 
-**État actuel : travail en cours — la solution ne compile pas encore.**
+## Vérifications effectuées
+
+- Base SQL Server 2022 créée avec le script v2 d'origine (`lib/Test-databases/roadkill-sqlserver.sql`) et branchée **sans installeur** :
+  connexion avec les comptes v2 (hachages SHA1 identiques), affichage/édition de pages, historique, pièces jointes, recherche, administration.
+- Tests d'intégration Dapper sur SQL Server 2022 et Postgres 16 (94 tests).
+- Parcours navigateur (Playwright/Chromium) : tableaux GFM, cases à cocher, Mermaid (SVG), coloration syntaxique, gestionnaire de fichiers, sans erreur JavaScript.
+- Version publiée (`dotnet publish`) : thème personnalisé déposé dans `Themes/` compilé à la volée.
+
+## Non vérifié
+
+- MongoDB, stockage Azure Blob, envoi SMTP réseau, reCAPTCHA v2, hébergement IIS réel sous Windows.

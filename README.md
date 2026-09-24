@@ -2,15 +2,16 @@
 [![Appveyor](https://ci.appveyor.com/api/projects/status/37etwyx9kw7uriar/branch/master?svg=true)](https://ci.appveyor.com/project/yetanotherchris/roadkill)
 [![Coverage Status](https://coveralls.io/repos/roadkillwiki/roadkill/badge.svg?branch=master&service=github)](https://coveralls.io/github/roadkillwiki/roadkill?branch=master)
 
-### Current status
+### Current status (this fork)
 
-A .NET Core version of Roadkill was started in the https://github.com/roadkillwiki/roadkill_new repository.
+This fork has been migrated to **.NET 10 / ASP.NET Core MVC** (see [MIGRATION.md](MIGRATION.md)), with a Markdig based
+Markdown parser supporting **GitHub Flavored Markdown** (pipe tables, strikethrough, task lists...) and **Mermaid** diagrams.
 
-**While this .NET Core project is 99% functionally complete on the API-side, it stopped at .NET 5. It hasn't been continued because of the large amount of work involved with integrating an OAuth2 solution, and rewriting the front-end as a SPA using React or similar.**
-
-Forking the .NET Core repository is welcome, if you'd like to implement an OAuth solution (that is FOSS, which IdentityServer no longer is) and a SPA front end using React, VueJS or similar.
-
-This repository - Roadkill .NET Framework - is quite old now, but fully functional should you want to use it. 
+* Databases: SQL Server and Postgres (Dapper), MongoDB (untested). LightSpeed, MySQL and Windows authentication were removed.
+* Settings are in `appsettings.json` (`Roadkill` section and `ConnectionStrings:Roadkill`).
+* Upgrading a 2.x installation: [docs/migration-v2-vers-v3.md](docs/migration-v2-vers-v3.md) (French).
+* Build and run: `dotnet run --project src/Roadkill.Web`, tests: `dotnet test src/Roadkill.Tests` (the integration tests use the
+  `ROADKILL_SQLSERVER_CONNECTION_STRING` and `ROADKILL_POSTGRES_CONNECTION_STRING` environment variables).
 
 # Introduction
 

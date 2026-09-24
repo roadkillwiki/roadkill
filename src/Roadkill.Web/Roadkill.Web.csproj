@@ -33,4 +33,13 @@
     <None Include="package.json;gruntfile.js" />
   </ItemGroup>
 
+  <!-- The _ViewImports/_ViewStart files are needed at runtime by the views that aren't precompiled (custom themes
+       and plugin views, compiled on the fly), so they are copied to the publish folder. -->
+  <Target Name="PublishRazorViewImports" AfterTargets="Publish">
+    <ItemGroup>
+      <RoadkillViewImports Include="**\_ViewImports.cshtml;**\_ViewStart.cshtml" Exclude="bin\**;obj\**;node_modules\**" />
+    </ItemGroup>
+    <Copy SourceFiles="@(RoadkillViewImports)" DestinationFiles="@(RoadkillViewImports->'$(PublishDir)%(RelativeDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+
 </Project>
