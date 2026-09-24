@@ -35,7 +35,7 @@ Inventaire fait sur le parseur actuel (`Text/Parsers/Markdown.cs`, MarkdownSharp
 - [x] Infrastructure Core (appsettings.json, DI, cookies, cache, Lucene.Net 4.8, fichiers, SMTP, NLog)
 - [x] Contrôleurs, filtres, vues Razor, hôte web, API REST + Swagger
 - [x] Parseur Markdig + GFM + plugin Mermaid, tests de non-régression
-- [x] Tests portés (NUnit 4) : 667 réussis, 2 ignorés (spécifiques Windows / connus)
+- [x] Tests portés (NUnit 4) : 672 réussis, 2 ignorés (spécifiques Windows / connus) au dernier passage complet
 - [x] Tests d'intégration autonomes : SQL Server, Postgres et MongoDB démarrés dans des conteneurs jetables (Testcontainers,
   Docker ou podman machine), sans variable d'environnement ni secret ; SGBD à tester dans `src/Roadkill.Tests/appsettings.json`
 - [x] Mode d'emploi de migration : [docs/migration-v2-vers-v3.md](docs/migration-v2-vers-v3.md), version anglaise [docs/upgrade-v2-to-v3.md](docs/upgrade-v2-to-v3.md), script `tools/ConvertWebConfig.cs` / `.linq`
@@ -72,3 +72,57 @@ Inventaire fait sur le parseur actuel (`Text/Parsers/Markdown.cs`, MarkdownSharp
 - Installation : une chaîne de connexion invalide levait `ArgumentNullException` au lieu de `DatabaseException` lors de la création de l'admin.
 
 Consigne : pas d'effort supplémentaire sur MongoDB pour l'instant, hormis des corrections très simples ; consigner ici les bugs constatés.
+
+## État au 24/09/2026 (fin de session)
+
+- Branche `claude/migration_net10`, PR ouverte : https://github.com/AFract/roadkill-fork/pull/1 (non fusionnée ; l'utilisateur
+  teste la migration sur ses données avant). CI GitHub Actions verte au dernier passage vérifié. Aucune surveillance active.
+- Tout est commité et poussé ; rien en cours.
+
+### Corrigé suite aux essais de l'utilisateur (après l'ouverture de la PR)
+
+- Avertissements de compilation (0 restant) ; `WikiController.NotFound` renommé `PageNotFound` (masquait `ControllerBase.NotFound`) ;
+  `RepositoryInfo` : comparaisons avec `null`.
+- Nom de base `SqlServer2008` → `SqlServer` (SQL Server 2022 minimum) ; les anciens noms (SqlServer2008/2012, SqlAzure) restent lus.
+  `Drop.sql` SQL Server : `DROP TABLE IF EXISTS`.
+- `tools/ConvertWebConfig` (.cs/.linq) : écrit `appsettings.json` dans le dossier du script, affiche son chemin, liste les XML lus
+  (supprimables) et les fichiers à reprendre du site v2.
+- MathJax / Mermaid / coloration syntaxique dans l'aperçu de la page d'édition ; `roadkill.js` régénéré au build (voir plus haut).
+- Page « Markup help » complétée : GFM, liens (page, web, `attachment:`, `~/`, `Special:`, `mailto:`), images (taille, lien),
+  plugins, langages de la coloration syntaxique (liste v2 + alias).
+- Message « Unable to save the page: » affiché à tort (résumé de validation rendu par ASP.NET Core même sans erreur).
+- Outils : exports zip (`PhysicalFile` au lieu de `File`) ; `ActionLink(texte, action, null, new { @class })` interprété
+  différemment par ASP.NET Core (classe passée en paramètre d'URL) : 8 appels corrigés.
+
+### Propositions en attente d'une décision de l'utilisateur (rien n'est fait)
+
+- Schéma SQL Server : contraintes `UNIQUE` sur `roadkill_users.Email`/`Username` (+ script optionnel pour une base existante) ;
+  `datetime2` jugé sans intérêt (divergence avec les bases migrées).
+- Coloration syntaxique : SyntaxHighlighter 3.0.83 (25 langages, liste figée) ; d'autres langages (JSON, YAML, TypeScript, Go…)
+  demanderaient de changer de bibliothèque (highlight.js, Prism…).
+- MathJax : ajouter `$…$` comme délimiteur en ligne (risque : un `$` isolé dans le texte).
+- Page d'aide : n'afficher que les plugins activés.
+- Exports zip : supprimer le fichier de `App_Data/Export` après téléchargement (ils s'accumulent, comme en v2).
+
+### Pistes connues non traitées
+
+- Pièges de migration MVC 5 → ASP.NET Core du même type que ceux corrigés ci-dessus (surcharges `ActionLink`, `File(...)`,
+  rendu des helpers) : d'autres cas peuvent subsister dans des écrans peu utilisés ; les signaler au fil des essais.
+- Le SCSS n'est plus compilé (`roadkill.css` versionné) : à traiter seulement si le SCSS doit évoluer.
+
+### Consignes de l'utilisateur (à respecter)
+
+- Répondre en français ; distinguer faits et hypothèses ; indiquer « Niveau de confiance » après une vérification.
+- Poser des questions pour les arbitrages plutôt que prendre des initiatives.
+- Pas de dépendance à des variables d'environnement ni à des secrets utilisateur.
+- MongoDB : pas d'effort supplémentaire (corrections très simples seulement), consigner les bugs.
+- Ne pas relancer toute la suite de tests pour des modifications minimes ou hors du code testé.
+- Ne pas surveiller la PR inutilement ; ne pas fusionner.
+
+### Notes pratiques pour reprendre
+
+- Build : `dotnet build Roadkill.slnx` ; tests : `dotnet test src/Roadkill.Tests` (Docker ou podman machine requis pour
+  les tests d'intégration ; Docker Hub peut limiter les téléchargements d'images, erreur 429).
+- Lancer le site localement : renseigner `ConnectionStrings:Roadkill` et `Roadkill:Installed=true` dans
+  `src/Roadkill.Web/appsettings.json` (ne pas commiter ces valeurs), puis `dotnet run --project src/Roadkill.Web`.
+  Comptes de la base de test v2 (`lib/Test-databases/roadkill-sqlserver.sql`) : `admin@localhost` / `password`.
