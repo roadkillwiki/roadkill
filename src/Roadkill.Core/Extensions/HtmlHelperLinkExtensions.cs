@@ -15,6 +15,21 @@ namespace Roadkill.Core.Extensions
 			return helper.ViewContext.HttpContext.RequestServices.GetService<IUserContext>();
 		}
 
+		/// <summary>
+		/// The "Logged in as xyz" link to the user's profile, or the "not logged in" text.
+		/// </summary>
+		public static IHtmlContent LoginStatus(this IHtmlHelper helper)
+		{
+			IUserContext context = GetUserContext(helper);
+			if (context != null && context.IsLoggedIn)
+			{
+				string text = string.Format("{0} {1}", SiteStrings.Shared_LoggedInAs, context.CurrentUsername);
+				return helper.ActionLink(text, "Profile", "User", null, null, null, new { area = "" }, null);
+			}
+
+			return new HtmlString(System.Net.WebUtility.HtmlEncode(SiteStrings.Shared_NotLoggedIn));
+		}
+
 		public static IHtmlContent SettingsLink(this IHtmlHelper helper, string prefix, string suffix)
 		{
 			IUserContext context = GetUserContext(helper);

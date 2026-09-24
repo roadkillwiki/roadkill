@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SearchResultViewModel>
+@model IEnumerable<SearchResultViewModel>
 @{ 
 	string title = string.Format(SiteStrings.Search_Results, ViewData["search"]);
 	if (Model.Count() == 0)
@@ -35,13 +35,13 @@ else
 	<div class="searchresult row">
 		<div class="col-sm-12 padded">
 			<div class="searchresult-title">@Html.ActionLink(result.Title, "Index", "Wiki", new { id = result.Id, title = result.EncodedTitle }, null)</div>
-			<div class="searchresult-summary">@MvcHtmlString.Create(result.ContentSummary)...</div>
+			<div class="searchresult-summary">@Html.Raw(result.ContentSummary)...</div>
 			<div>
 				<div class="searchresult-date left">@result.ContentLengthInKB - @result.CreatedOn.ToString("dd MMM yyyy")</div>
-				<div class="searchresult-tags left">@Html.Partial("TagBlocks", result.TagsAsList())</div>
+				<div class="searchresult-tags left">@await Html.PartialAsync("TagBlocks", result.TagsAsList())</div>
 			</div>
 		</div>
 	</div>
 	}
 }
-</div>
+</div>

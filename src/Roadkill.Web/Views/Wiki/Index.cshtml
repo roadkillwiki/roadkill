@@ -1,4 +1,4 @@
-﻿@model PageViewModel
+@model PageViewModel
 @{ 
 	ViewBag.Title = Model.Title;
 }
@@ -6,7 +6,7 @@
 @section PageToolbar
 {  
 	@* This is rendered by an action (and not a partial/extension method) for future donut caching *@
-	@Html.Action("PageToolBar", "Wiki", new { id = Model.Id })
+	@await Html.PartialAsync("~/Views/Wiki/PageToolbar.cshtml", Model)
 }
 
 @section ViewHistoryLink
@@ -17,7 +17,7 @@
 <h1 class="pagetitle">@Model.Title</h1>
 
 <div id="pagecontent">
-@MvcHtmlString.Create(Model.ContentAsHtml)
+@Html.Raw(Model.ContentAsHtml)
 </div>
 
 @section PageDetailsFooter
@@ -33,15 +33,15 @@
 
 @section PluginPreContainer
 {
-	@MvcHtmlString.Create(Model.PluginPreContainer)
+	@Html.Raw(Model.PluginPreContainer)
 }
 
 @section PluginPostContainer
 {
-	@MvcHtmlString.Create(Model.PluginPostContainer)
+	@Html.Raw(Model.PluginPostContainer)
 }
 
 @section PluginFooter
 {
-	@MvcHtmlString.Create(Model.PluginFooterHtml)
-}
+	@Html.Raw(Model.PluginFooterHtml)
+}

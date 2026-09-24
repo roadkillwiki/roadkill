@@ -47,7 +47,7 @@ namespace Roadkill.Core.Domain.Export
 			_pageService = pageService;
 			_sqlExportBuilder = new SqlExportBuilder(settingsRepository, userRepository, pageRepository, pluginFactory);
 
-			ExportFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", "Export");
+			ExportFolder = Path.Combine(applicationSettings.AppDataPath, "Export");
 		}
 
 		public virtual Stream ExportAsXml()

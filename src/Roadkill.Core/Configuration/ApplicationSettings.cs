@@ -40,7 +40,7 @@ namespace Roadkill.Core.Configuration
 		public IEnumerable<string> ApiKeys { get; set; }
 
 		/// <summary>
-		/// The folder where all uploads (typically image files) are saved to. This is taken from the roadkill.json config file.
+		/// The folder where all uploads (typically image files) are saved to. This is taken from the appsettings.json file.
 		/// Use AttachmentsDirectoryPath for the absolute directory path.
 		/// </summary>
 		public string AttachmentsFolder

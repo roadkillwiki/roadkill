@@ -132,13 +132,13 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
-		/// Displays the authentication choice step in the installation wizard.
+		/// Displays the database settings step (the authentication choice step was removed with Windows authentication).
 		/// </summary>
 		/// <remarks>The <see cref="SettingsViewModel"/> object that is POST'd is passed to the next step.</remarks>
 		[HttpPost]
 		public ActionResult Step3(SettingsViewModel model)
 		{
-			return View(model);
+			return Step3b(model);
 		}
 
 		/// <summary>

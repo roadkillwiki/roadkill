@@ -68,7 +68,7 @@ namespace Roadkill.Core.Extensions
 		/// </summary>
 		public static IHtmlContent BootstrapCSS(this IUrlHelper helper)
 		{
-			return CssLink(helper, "~/Assets/bootstrap/css/bootstrap.min.css");
+			return CssLink(helper, "~/Assets/Bootstrap/css/bootstrap.min.css");
 		}
 
 		/// <summary>
@@ -76,10 +76,10 @@ namespace Roadkill.Core.Extensions
 		/// </summary>
 		public static IHtmlContent BootstrapJS(this IUrlHelper helper)
 		{
-			string html = ScriptLink(helper, "~/Assets/bootstrap/js/bootstrap.min.js").ToString();
+			string html = ScriptLink(helper, "~/Assets/Bootstrap/js/bootstrap.min.js").ToString();
 			html += "\n";
 
-			html += ScriptLink(helper, "~/Assets/bootstrap/js/respond.min.js").ToString();
+			html += ScriptLink(helper, "~/Assets/Bootstrap/js/respond.min.js").ToString();
 
 			return new HtmlString(html);
 		}
@@ -91,7 +91,7 @@ namespace Roadkill.Core.Extensions
 		{
 			StringBuilder builder = new StringBuilder();
 
-			builder.AppendLine(ScriptLink(helper, "~/Assets/Scripts/roadkill.min.js").ToString());
+			builder.AppendLine(ScriptLink(helper, "~/Assets/Scripts/roadkill.js").ToString());
 			builder.AppendLine(ScriptLink(helper, "~/home/globaljsvars").ToString());
 
 			return new HtmlString(builder.ToString());

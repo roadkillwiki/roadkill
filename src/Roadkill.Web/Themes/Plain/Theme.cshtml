@@ -1,10 +1,10 @@
-﻿@inherits RoadkillLayoutPage
+@inherits RoadkillLayoutPage
 <!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>@ViewBag.Title</title>
-	@Html.Partial("HeadContent")
+	@await Html.PartialAsync("HeadContent")
 	@RenderSection("PluginHead", false)
 </head>
 
@@ -16,10 +16,10 @@
 			<div id="header-wrapper">
 				<div class="container">
 					<div id="login-status">
-						@Html.Action("LoggedInAs", "User")
+						@await Html.PartialAsync("~/Views/User/LoggedInAs.cshtml")
 					</div>
 					<div id="bootstrap-nav-menu">
-						@Html.Action("BootstrapNavMenu", "Home")
+						@Html.Raw(Context.RequestServices.GetRequiredService<Roadkill.Core.Services.PageService>().GetBootStrapNavMenu(RoadkillContext))
 					</div>
 					<div id="search" class="searchbar navbar-right hidden-xs hidden-sm">
 						<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" class="form-control" />

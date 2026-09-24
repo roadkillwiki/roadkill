@@ -8,7 +8,8 @@ using Roadkill.Core.Exceptions;
 namespace Roadkill.Core.Mvc
 {
 	/// <summary>
-	/// Redirects HTML requests to the installer when Roadkill isn't installed, and turns <see cref="HttpStatusException"/>s
+	/// Redirects requests to the installer when Roadkill isn't installed (static files are served before this
+	/// middleware), and turns <see cref="HttpStatusException"/>s
 	/// into HTTP status codes (so the status code pages are shown).
 	/// </summary>
 	public class InstallCheckMiddleware
@@ -24,7 +25,7 @@ namespace Roadkill.Core.Mvc
 		{
 			ApplicationSettings appSettings = context.RequestServices.GetRequiredService<ApplicationSettings>();
 
-			if (!appSettings.Installed && !IsInstallerRequest(context) && IsHtmlRequest(context))
+			if (!appSettings.Installed && !IsInstallerRequest(context))
 			{
 				context.Response.Redirect(context.Request.PathBase + "/install/");
 				return;
@@ -39,12 +40,6 @@ namespace Roadkill.Core.Mvc
 				context.Response.Clear();
 				context.Response.StatusCode = ex.StatusCode;
 			}
-		}
-
-		private static bool IsHtmlRequest(HttpContext context)
-		{
-			string accept = context.Request.Headers["Accept"];
-			return !string.IsNullOrEmpty(accept) && accept.Contains("text/html");
 		}
 
 		private static bool IsInstallerRequest(HttpContext context)

@@ -44,7 +44,7 @@
 				</div>
 			}
 
-			@Html.Partial("WysiwgToolbar")
+			@await Html.PartialAsync("WysiwgToolbar")
 			@(Html.TextAreaFor<PageViewModel, string>(p => p.Content, new { @class = "form-control", tabindex = 5 }))
 
 			<div id="editpage-button-container" class="row" >

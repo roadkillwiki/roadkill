@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -137,7 +137,7 @@ namespace Roadkill.Plugins
 			throw new NotImplementedException();
 		}
 
-		public override string GetLoggedInUserName(System.Web.HttpContextBase context)
+		public override string GetLoggedInUserName(Microsoft.AspNetCore.Http.HttpContext context)
 		{
 			throw new NotImplementedException();
 		}

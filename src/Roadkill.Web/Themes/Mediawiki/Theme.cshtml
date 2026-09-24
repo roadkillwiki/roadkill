@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>@ViewBag.Title</title>
-	@Html.Partial("HeadContent")
+	@await Html.PartialAsync("HeadContent")
 	@RenderSection("PluginHead", false)
 </head>
 <body>
@@ -12,7 +12,7 @@
 @using (Html.BeginForm("Search", "Home", FormMethod.Get))
 {
 	<div id="headfade">
-		@Html.Action("LoggedInAs", "User")
+		@await Html.PartialAsync("~/Views/User/LoggedInAs.cshtml")
 		<br class="clear" />
 		<div id="search">
 			<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" class="form-control" />
@@ -27,7 +27,7 @@
 		<a href="@(Url.Action("Index", "Home"))"><img src="@Url.ThemeContent("logo.png", SiteSettings)" alt="logo" border="0" /></a>
 	</div>
 	<div id="panel">
-		@Html.Action("NavMenu", "Home")
+		@Html.Raw(Context.RequestServices.GetRequiredService<Roadkill.Core.Services.IPageService>().GetMenu(RoadkillContext))
 	</div>
 
 	<div id="container">
@@ -50,4 +50,4 @@
 
 	@RenderSection("PluginFooter", false)
 </body>
-</html>
+</html>

@@ -6,7 +6,7 @@ using System.Text;
 namespace Roadkill.Core.Configuration
 {
 	/// <summary>
-	/// The Roadkill settings stored in the roadkill.json file (previously the roadkill section of the web.config).
+	/// The Roadkill settings stored in the "Roadkill" section of appsettings.json (previously the roadkill section of the web.config). The connection string is stored in ConnectionStrings:Roadkill.
 	/// </summary>
 	public class RoadkillSection
 	{

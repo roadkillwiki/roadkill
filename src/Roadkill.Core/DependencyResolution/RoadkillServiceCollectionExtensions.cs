@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Cache;
@@ -41,7 +42,7 @@ namespace Roadkill.Core.DependencyResolution
 		/// </summary>
 		/// <param name="services">The service collection.</param>
 		/// <param name="contentRootPath">The web application's content root, containing App_Data, Themes etc.</param>
-		/// <param name="configFilePath">The path to the roadkill.json settings file. If empty, roadkill.json in the content root is used.</param>
+		/// <param name="configFilePath">The path to the JSON settings file. If empty, appsettings.json in the content root is used.</param>
 		public static IServiceCollection AddRoadkill(this IServiceCollection services, string contentRootPath, string configFilePath = "")
 		{
 			if (string.IsNullOrEmpty(configFilePath))
@@ -96,11 +97,12 @@ namespace Roadkill.Core.DependencyResolution
 
 		private static void AddCaching(IServiceCollection services)
 		{
+			// The cached data lives in the singleton ObjectCache; the cache classes read the (per request) settings.
 			services.AddSingleton<ObjectCache>(new MemoryCache("Roadkill"));
-			services.AddSingleton<ListCache>();
-			services.AddSingleton<SiteCache>();
-			services.AddSingleton<PageViewModelCache>();
-			services.AddSingleton<IPluginCache>(sp => sp.GetRequiredService<SiteCache>());
+			services.AddScoped<ListCache>();
+			services.AddScoped<SiteCache>();
+			services.AddScoped<PageViewModelCache>();
+			services.AddScoped<IPluginCache>(sp => sp.GetRequiredService<SiteCache>());
 		}
 
 		private static void AddServices(IServiceCollection services)
@@ -159,7 +161,8 @@ namespace Roadkill.Core.DependencyResolution
 				return (UserServiceBase)ActivatorUtilities.CreateInstance(serviceProvider, userServiceType);
 			}
 
-			return ActivatorUtilities.CreateInstance<FormsAuthUserService>(serviceProvider);
+			// The repositories are null until Roadkill is installed, so they're passed explicitly.
+			return new FormsAuthUserService(settings, serviceProvider.GetService<IUserRepository>(), serviceProvider.GetService<IPageRepository>());
 		}
 
 		private static void AddPlugins(IServiceCollection services, ApplicationSettings startupSettings)
@@ -252,12 +255,13 @@ namespace Roadkill.Core.DependencyResolution
 				}
 			}
 
+			UseRoadkillStaticFiles(app);
+
 			app.UseStatusCodePagesWithReExecute("/wiki/notfound");
 			app.UseMiddleware<UiCultureMiddleware>();
 			app.UseMiddleware<InstallCheckMiddleware>();
 			app.UseMiddleware<AttachmentMiddleware>();
 
-			app.UseStaticFiles();
 			app.UseRouting();
 			app.UseAuthentication();
 			app.UseAuthorization();
@@ -266,6 +270,29 @@ namespace Roadkill.Core.DependencyResolution
 
 			Log.Information("Roadkill started");
 			return app;
+		}
+
+		/// <summary>
+		/// Serves the static files from wwwroot, and the /Assets, /Themes and /Plugins folders of the content root
+		/// (the .cshtml files in these folders aren't served, as they have no content type mapping).
+		/// </summary>
+		private static void UseRoadkillStaticFiles(WebApplication app)
+		{
+			app.UseStaticFiles();
+
+			string contentRoot = app.Environment.ContentRootPath;
+			foreach (string folder in new[] { "Assets", "Themes", "Plugins" })
+			{
+				string path = Path.Combine(contentRoot, folder);
+				if (!Directory.Exists(path))
+					continue;
+
+				app.UseStaticFiles(new StaticFileOptions()
+				{
+					FileProvider = new PhysicalFileProvider(path),
+					RequestPath = "/" + folder
+				});
+			}
 		}
 
 		private static void ConfigureLogging(ApplicationSettings settings)

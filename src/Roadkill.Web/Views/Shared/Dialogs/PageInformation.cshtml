@@ -11,7 +11,7 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-sm-12 tags">
-						@Html.Partial("TagBlocks", Model.Tags)
+						@await Html.PartialAsync("TagBlocks", Model.Tags)
 					</div>
 				</div>
 

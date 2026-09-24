@@ -5,24 +5,48 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Roadkill.Core.Configuration
 {
 	/// <summary>
-	/// Reads and writes the application configuration settings from a JSON file (roadkill.json by default).
+	/// Reads and writes the application configuration settings from the "Roadkill" section and the "Roadkill" connection
+	/// string of a JSON settings file (appsettings.json by default). Other settings in the file are left untouched when saving.
 	/// </summary>
+	/// <example>
+	/// {
+	///   "ConnectionStrings": { "Roadkill": "Server=.;Database=Roadkill;Integrated Security=true;TrustServerCertificate=true" },
+	///   "Roadkill": { "Installed": true, "DatabaseName": "SqlServer2008", ... }
+	/// }
+	/// </example>
 	public class JsonConfigReaderWriter : ConfigReaderWriter
 	{
 		/// <summary>
 		/// The default filename for the Roadkill settings, found in the application's content root.
 		/// </summary>
-		public static readonly string DefaultFilename = "roadkill.json";
+		public static readonly string DefaultFilename = "appsettings.json";
+
+		/// <summary>
+		/// The name of the settings section.
+		/// </summary>
+		public static readonly string SectionName = "Roadkill";
+
+		/// <summary>
+		/// The name of the connection string (in the ConnectionStrings section).
+		/// </summary>
+		public static readonly string ConnectionStringName = "Roadkill";
 
 		private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions()
 		{
 			WriteIndented = true,
 			PropertyNameCaseInsensitive = true,
 			ReadCommentHandling = JsonCommentHandling.Skip,
+			AllowTrailingCommas = true
+		};
+
+		private static readonly JsonDocumentOptions _documentOptions = new JsonDocumentOptions()
+		{
+			CommentHandling = JsonCommentHandling.Skip,
 			AllowTrailingCommas = true
 		};
 
@@ -40,8 +64,8 @@ namespace Roadkill.Core.Configuration
 		public string ContentRootPath { get; private set; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="JsonConfigReaderWriter"/> class. If the file doesn't exist,
-		/// a new uninstalled configuration is created (but not saved until <see cref="Save"/> is called).
+		/// Initializes a new instance of the <see cref="JsonConfigReaderWriter"/> class. If the file or the Roadkill section
+		/// doesn't exist, a new uninstalled configuration is used (and saved when <see cref="Save"/> is called).
 		/// </summary>
 		/// <param name="configFilePath">The full path to the JSON file.</param>
 		/// <param name="contentRootPath">The content root of the site, used to resolve "~/" paths. If empty, the directory of the config file is used.</param>
@@ -55,25 +79,52 @@ namespace Roadkill.Core.Configuration
 			_section = ReadFile();
 		}
 
+		private JsonObject ReadRootNode()
+		{
+			if (!File.Exists(ConfigFilePath))
+				return new JsonObject();
+
+			string json = File.ReadAllText(ConfigFilePath);
+			if (string.IsNullOrWhiteSpace(json))
+				return new JsonObject();
+
+			try
+			{
+				return JsonNode.Parse(json, documentOptions: _documentOptions) as JsonObject ?? new JsonObject();
+			}
+			catch (JsonException ex)
+			{
+				throw new ConfigurationException(ex, "The config file {0} is not valid JSON: {1}", ConfigFilePath, ex.Message);
+			}
+		}
+
 		private RoadkillSection ReadFile()
 		{
 			lock (_fileLock)
 			{
-				if (!File.Exists(ConfigFilePath))
-					return new RoadkillSection();
+				JsonObject root = ReadRootNode();
+				RoadkillSection section = null;
 
 				try
 				{
-					string json = File.ReadAllText(ConfigFilePath);
-					if (string.IsNullOrWhiteSpace(json))
-						return new RoadkillSection();
-
-					return JsonSerializer.Deserialize<RoadkillSection>(json, _jsonOptions) ?? new RoadkillSection();
+					JsonNode sectionNode = GetPropertyIgnoreCase(root, SectionName);
+					if (sectionNode != null)
+						section = sectionNode.Deserialize<RoadkillSection>(_jsonOptions);
 				}
 				catch (JsonException ex)
 				{
-					throw new ConfigurationException(ex, "The config file {0} is not valid JSON: {1}", ConfigFilePath, ex.Message);
+					throw new ConfigurationException(ex, "The {0} section of the config file {1} is not valid: {2}", SectionName, ConfigFilePath, ex.Message);
 				}
+
+				section = section ?? new RoadkillSection();
+
+				// The standard ASP.NET Core connection strings section takes priority.
+				JsonObject connectionStrings = GetPropertyIgnoreCase(root, "ConnectionStrings") as JsonObject;
+				JsonNode connectionString = connectionStrings != null ? GetPropertyIgnoreCase(connectionStrings, ConnectionStringName) : null;
+				if (connectionString != null && connectionString.GetValueKind() == JsonValueKind.String)
+					section.ConnectionString = connectionString.GetValue<string>();
+
+				return section;
 			}
 		}
 
@@ -85,8 +136,63 @@ namespace Roadkill.Core.Configuration
 				if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
 					Directory.CreateDirectory(directory);
 
-				string json = JsonSerializer.Serialize(_section, _jsonOptions);
-				File.WriteAllText(ConfigFilePath, json);
+				// Only the Roadkill section and connection string are replaced: other settings are kept.
+				JsonObject root = ReadRootNode();
+				WriteSection(root, _section);
+
+				File.WriteAllText(ConfigFilePath, root.ToJsonString(_jsonOptions));
+			}
+		}
+
+		/// <summary>
+		/// Writes the section and its connection string to the root node of a settings file.
+		/// </summary>
+		private static void WriteSection(JsonObject root, RoadkillSection section)
+		{
+			string connectionString = section.ConnectionString ?? "";
+
+			JsonObject connectionStrings = GetPropertyIgnoreCase(root, "ConnectionStrings") as JsonObject;
+			if (connectionStrings == null)
+			{
+				RemovePropertyIgnoreCase(root, "ConnectionStrings");
+				connectionStrings = new JsonObject();
+				root["ConnectionStrings"] = connectionStrings;
+			}
+
+			RemovePropertyIgnoreCase(connectionStrings, ConnectionStringName);
+			connectionStrings[ConnectionStringName] = connectionString;
+
+			// The connection string is stored in the ConnectionStrings section only.
+			JsonObject sectionNode = JsonSerializer.SerializeToNode(section, _jsonOptions).AsObject();
+			sectionNode.Remove(nameof(RoadkillSection.ConnectionString));
+
+			RemovePropertyIgnoreCase(root, SectionName);
+			root[SectionName] = sectionNode;
+		}
+
+		private static JsonNode GetPropertyIgnoreCase(JsonObject node, string name)
+		{
+			foreach (KeyValuePair<string, JsonNode> property in node)
+			{
+				if (string.Equals(property.Key, name, StringComparison.OrdinalIgnoreCase))
+					return property.Value;
+			}
+
+			return null;
+		}
+
+		private static void RemovePropertyIgnoreCase(JsonObject node, string name)
+		{
+			var keys = new List<string>();
+			foreach (KeyValuePair<string, JsonNode> property in node)
+			{
+				if (string.Equals(property.Key, name, StringComparison.OrdinalIgnoreCase))
+					keys.Add(property.Key);
+			}
+
+			foreach (string key in keys)
+			{
+				node.Remove(key);
 			}
 		}
 

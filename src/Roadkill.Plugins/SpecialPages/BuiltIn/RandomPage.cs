@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
-using System.Web.Routing;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Plugins;
@@ -30,7 +30,7 @@ namespace Roadkill.Plugins.SpecialPages.BuiltIn
 			_random = random;
 		}
 
-		public override ActionResult GetResult(SpecialPagesController controller)
+		public override IActionResult GetResult(SpecialPagesController controller)
 		{
 			RouteValueDictionary routeValueDictionary = new RouteValueDictionary();
 			List<PageViewModel> pages = PageService.AllPages().ToList();

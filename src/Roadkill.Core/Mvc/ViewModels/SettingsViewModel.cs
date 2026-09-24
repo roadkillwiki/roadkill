@@ -99,7 +99,10 @@ namespace Roadkill.Core.Mvc.ViewModels
 			{
 				if (string.IsNullOrEmpty(_themesRoot))
 				{
-					_themesRoot = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Themes");
+					// The themes are in the content root (not the bin folder) with ASP.NET Core.
+					ApplicationSettings applicationSettings = HttpContextHolder.Current?.RequestServices.GetService(typeof(ApplicationSettings)) as ApplicationSettings;
+					string contentRoot = applicationSettings?.ContentRootPath ?? AppContext.BaseDirectory;
+					_themesRoot = Path.Combine(contentRoot, "Themes");
 					if (!Directory.Exists(_themesRoot))
 						throw new InvalidOperationException("The Themes directory could not be found");
 				}

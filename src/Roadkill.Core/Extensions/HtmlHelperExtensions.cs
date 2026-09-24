@@ -76,12 +76,13 @@ namespace Roadkill.Core.Extensions
 
 		public static IHtmlContent DialogPartial(this IHtmlHelper helper, string viewName)
 		{
-			return helper.Partial("~/Views/Shared/Dialogs/" + viewName + ".cshtml");
+			// Searches the controller's Dialogs folder, then Views/Shared/Dialogs (as with ASP.NET MVC 5).
+			return helper.Partial("Dialogs/" + viewName);
 		}
 
 		public static IHtmlContent DialogPartial(this IHtmlHelper helper, string viewName, object model)
 		{
-			return helper.Partial("~/Views/Shared/Dialogs/" + viewName + ".cshtml", model);
+			return helper.Partial(viewName, model);
 		}
 
 		public static IHtmlContent SiteSettingsNavigation(this IHtmlHelper htmlHelper)
