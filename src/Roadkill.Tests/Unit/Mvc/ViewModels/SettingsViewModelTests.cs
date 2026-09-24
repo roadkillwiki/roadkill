@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,10 +27,6 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 				ConnectionString = "connection string",
 				DatabaseName = "SqlServer2008",
 				EditorRoleName = "editor role name",
-				LdapConnectionString = "ldap connection string",
-				LdapUsername = "ldap username",
-				LdapPassword = "ldap password",
-				UseWindowsAuthentication = true
 			};
 
 			SiteSettings siteSettings = new SiteSettings()
@@ -61,10 +57,6 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 			Assert.That(model.ConnectionString, Is.EqualTo(appSettings.ConnectionString));
 			Assert.That(model.DatabaseName, Is.EqualTo(appSettings.DatabaseName));
 			Assert.That(model.EditorRoleName, Is.EqualTo(appSettings.EditorRoleName));
-			Assert.That(model.LdapConnectionString, Is.EqualTo(appSettings.LdapConnectionString));
-			Assert.That(model.LdapUsername, Is.EqualTo(appSettings.LdapUsername));
-			Assert.That(model.LdapPassword, Is.EqualTo(appSettings.LdapPassword));
-			Assert.That(model.UseWindowsAuth, Is.EqualTo(appSettings.UseWindowsAuthentication));
 
 			Assert.That(model.AllowedFileTypes, Is.EqualTo(siteSettings.AllowedFileTypes));
 			Assert.That(model.AllowUserSignup, Is.EqualTo(siteSettings.AllowUserSignup));
@@ -111,10 +103,6 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 				ConnectionString = "connection string",
 				DatabaseName = "SqlServer2008",
 				EditorRoleName = "editor role name",
-				LdapConnectionString = "ldap connection string",
-				LdapUsername = "ldap username",
-				LdapPassword = "ldap password",
-				UseWindowsAuthentication = true,
 				IsPublicSite = false,
 				IgnoreSearchIndexErrors = false
 			};
@@ -131,10 +119,6 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 			Assert.That(model.ConnectionString, Is.EqualTo(appSettings.ConnectionString));
 			Assert.That(model.DatabaseName, Is.EqualTo(appSettings.DatabaseName));
 			Assert.That(model.EditorRoleName, Is.EqualTo(appSettings.EditorRoleName));
-			Assert.That(model.LdapConnectionString, Is.EqualTo(appSettings.LdapConnectionString));
-			Assert.That(model.LdapUsername, Is.EqualTo(appSettings.LdapUsername));
-			Assert.That(model.LdapPassword, Is.EqualTo(appSettings.LdapPassword));
-			Assert.That(model.UseWindowsAuth, Is.EqualTo(appSettings.UseWindowsAuthentication));
 			Assert.That(model.IsPublicSite, Is.EqualTo(appSettings.IsPublicSite));
 			Assert.That(model.IgnoreSearchIndexErrors, Is.EqualTo(appSettings.IgnoreSearchIndexErrors));
 		}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
 
@@ -240,7 +240,7 @@ namespace Roadkill.Tests.Unit.Database
 			string actualJson = settings.GetJson();
 
 			// Assert
-			Assert.That(actualJson, Is.EqualTo(expectedJson), actualJson);
+			Assert.That(actualJson.Replace("\r\n", "\n"), Is.EqualTo(expectedJson.Replace("\r\n", "\n")), actualJson);
 		}
 
 		// The two previous default value tests might make this test redundant

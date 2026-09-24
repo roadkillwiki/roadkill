@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
@@ -54,7 +53,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			string scriptTag = mathjax.GetHeadContent();
 
 			// Assert
-			Assert.That(scriptTag, Is.StringContaining(expectedScriptTag));
+			Assert.That(scriptTag, Does.Contain(expectedScriptTag));
 		}
 	}
 }

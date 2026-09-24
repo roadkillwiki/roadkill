@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
@@ -46,44 +46,50 @@ namespace Roadkill.Tests.Unit.Plugins
 			string virtualPath = plugin.PluginVirtualPath;
 
 			// Assert
-			Assert.That(virtualPath, Is.StringContaining("Plugin1"));
-			Assert.That(virtualPath, Is.StringStarting("~/Plugins/"));
-			Assert.That(virtualPath, Is.Not.StringEnding("/"));
+			Assert.That(virtualPath, Does.Contain("Plugin1"));
+			Assert.That(virtualPath, Does.StartWith("~/Plugins/"));
+			Assert.That(virtualPath, Is.Not.EndsWith("/"));
 		}
 
 		[Test]
-		[ExpectedException(typeof(PluginException))]
 		public void PluginVirtualPath_Should_Throw_Exception_When_Id_Is_Empty()
 		{
-			// Arrange
-			string id = "";
-			TextPluginStub plugin = new TextPluginStub(id, "name", "description");
+			Assert.Throws<PluginException>(() =>
+			{
+				// Arrange
+				string id = "";
+				TextPluginStub plugin = new TextPluginStub(id, "name", "description");
 
-			// Act + Assert
-			string path = plugin.PluginVirtualPath;
+				// Act + Assert
+				string path = plugin.PluginVirtualPath;
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(PluginException))]
 		public void DatabaseId_Should_Throw_Exception_When_Id_Is_Empty()
 		{
-			// Arrange
-			string id = "";
-			TextPluginStub plugin = new TextPluginStub(id, "name", "description");
+			Assert.Throws<PluginException>(() =>
+			{
+				// Arrange
+				string id = "";
+				TextPluginStub plugin = new TextPluginStub(id, "name", "description");
 
-			// Act + Assert
-			Guid databaseId = plugin.DatabaseId;
+				// Act + Assert
+				Guid databaseId = plugin.DatabaseId;
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(PluginException))]
 		public void DatabaseId_Should_Default_Version_To_1_If_Version_Is_Empty()
 		{
-			// Arrange
-			TextPluginStub plugin = new TextPluginStub("", "", "", "");
+			Assert.Throws<PluginException>(() =>
+			{
+				// Arrange
+				TextPluginStub plugin = new TextPluginStub("", "", "", "");
 
-			// Act + Assert
-			PluginSettings settings = plugin.Settings;
+				// Act + Assert
+				PluginSettings settings = plugin.Settings;
+			});
 		}
 
 		[Test]
@@ -114,7 +120,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			// Arrange
 			TextPluginStub plugin = new TextPluginStub();
 			plugin.Repository = new SettingsRepositoryMock();
-			plugin.PluginCache = new SiteCache(CacheMock.RoadkillCache);
+			plugin.PluginCache = new SiteCache(new CacheMock()); // not the shared cache, as other tests use the same plugin id
 
 			plugin.Settings.SetValue("setting1", "value1");
 			plugin.Settings.SetValue("setting2", "value2");
@@ -153,7 +159,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			TextPlugin plugin = new TextPluginStub();
 			plugin.AddScript("pluginscript.js", "script1");
 			string expectedHtml = @"<script type=""text/javascript"">" +
-								@"head.js({ ""script1"", ""pluginscript.js"" },function() {  })" +
+								@"head.js({ ""script1"": ""/Plugins/Amazing plugin/pluginscript.js"" },function() {  })" +
 								"</script>\n";
 
 			// Act
@@ -172,7 +178,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			plugin.SetHeadJsOnLoadedFunction("alert('done')");
 
 			string expectedHtml = @"<script type=""text/javascript"">" +
-								@"head.js({ ""script1"", ""pluginscript.js"" },function() { alert('done') })" +
+								@"head.js({ ""script1"": ""/Plugins/Amazing plugin/pluginscript.js"" },function() { alert('done') })" +
 								"</script>\n";
 
 			// Act
@@ -188,7 +194,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			// Arrange
 			TextPluginStub plugin = new TextPluginStub("PluginId", "name", "desc");
 			string expectedHtml = "\t\t" +
-								 @"<link href=""~/Plugins/PluginId/file.css?version={PluginVersion}"" rel=""stylesheet"" type=""text/css"" />" +
+								 @"<link href=""/Plugins/PluginId/file.css?version={PluginVersion}"" rel=""stylesheet"" type=""text/css"" />" +
 								 "\n";
 
 			expectedHtml = expectedHtml.Replace("{PluginVersion}", plugin.Version);
@@ -202,27 +208,31 @@ namespace Roadkill.Tests.Unit.Plugins
 
 		[Test]
 		[Description("The SiteCache property should be injected at creation time by Structuremap")]
-		[ExpectedException(typeof(PluginException))]
 		public void Settings_Should_Throw_Exception_If_SiteCache_Is_Not_Set()
 		{
-			// Arrange
-			TextPluginStub plugin = new TextPluginStub();
+			Assert.Throws<PluginException>(() =>
+			{
+				// Arrange
+				TextPluginStub plugin = new TextPluginStub();
 
-			// Act + Assert
-			PluginSettings settings = plugin.Settings;
+				// Act + Assert
+				PluginSettings settings = plugin.Settings;
+			});
 		}
 
 		[Test]
 		[Description("The pageRepository property should be injected at creation time by Structuremap")]
-		[ExpectedException(typeof(PluginException))]
 		public void Settings_Should_Throw_Exception_If_Repository_Is_Not_Set()
 		{
-			// Arrange
-			TextPluginStub plugin = new TextPluginStub();
-			plugin.PluginCache = new SiteCache(new CacheMock());
+			Assert.Throws<PluginException>(() =>
+			{
+				// Arrange
+				TextPluginStub plugin = new TextPluginStub();
+				plugin.PluginCache = new SiteCache(new CacheMock());
 
-			// Act + Assert
-			PluginSettings settings = plugin.Settings;
+				// Act + Assert
+				PluginSettings settings = plugin.Settings;
+			});
 		}
 
 		[Test]
@@ -313,19 +323,21 @@ namespace Roadkill.Tests.Unit.Plugins
 		}
 
 		[Test]
-		[ExpectedException(typeof(PluginException))]
 		public void Settings_Should_Throw_Exception_If_Id_Is_Not_Set()
 		{
-			// Arrange
-			Mock<IPluginCache> pluginCacheMock = new Mock<IPluginCache>();
-			var settingsRepositoryMock = new SettingsRepositoryMock();
+			Assert.Throws<PluginException>(() =>
+			{
+				// Arrange
+				Mock<IPluginCache> pluginCacheMock = new Mock<IPluginCache>();
+				var settingsRepositoryMock = new SettingsRepositoryMock();
 
-			TextPluginStub plugin = new TextPluginStub("","","","");
-			plugin.PluginCache = pluginCacheMock.Object;
-			plugin.Repository = settingsRepositoryMock;
+				TextPluginStub plugin = new TextPluginStub("","","","");
+				plugin.PluginCache = pluginCacheMock.Object;
+				plugin.Repository = settingsRepositoryMock;
 
-			// Act + Assert
-			PluginSettings actualPluginSettings = plugin.Settings;
+				// Act + Assert
+				PluginSettings actualPluginSettings = plugin.Settings;
+			});
 		}
 
 		[Test]
@@ -387,4 +399,4 @@ namespace Roadkill.Tests.Unit.Plugins
 			Assert.That(settingsRepositoryMock.TextPlugins.FirstOrDefault(), Is.EqualTo(plugin));
 		}
 	}
-}
+}

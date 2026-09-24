@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -326,10 +326,10 @@ namespace Roadkill.Tests.Unit.Services
 			string xml = _pageService.ExportToXml();
 
 			// Assert
-			Assert.That(xml, Is.StringContaining("<?xml"));
-			Assert.That(xml, Is.StringContaining("<ArrayOfPageViewModel"));
-			Assert.That(xml, Is.StringContaining("<Id>1</Id>"));
-			Assert.That(xml, Is.StringContaining("<Id>2</Id>"));
+			Assert.That(xml, Does.Contain("<?xml"));
+			Assert.That(xml, Does.Contain("<ArrayOfPageViewModel"));
+			Assert.That(xml, Does.Contain("<Id>1</Id>"));
+			Assert.That(xml, Does.Contain("<Id>2</Id>"));
 		}
 
 		[Test]
@@ -410,7 +410,7 @@ namespace Roadkill.Tests.Unit.Services
 			string actualHtml = _pageService.GetBootStrapNavMenu(_context);
 
 			// Assert
-			Assert.That(actualHtml, Is.StringStarting(expectedHtml), actualHtml);
+			Assert.That(actualHtml.Replace("\r\n", "\n"), Does.StartWith(expectedHtml.Replace("\r\n", "\n")), actualHtml);
 		}
 
 		[Test]
@@ -425,7 +425,7 @@ namespace Roadkill.Tests.Unit.Services
 			string actualHtml = _pageService.GetMenu(_context);
 
 			// Assert
-			Assert.That(actualHtml, Is.StringStarting(expectedHtml), actualHtml);
+			Assert.That(actualHtml.Replace("\r\n", "\n"), Does.StartWith(expectedHtml.Replace("\r\n", "\n")), actualHtml);
 		}
 
 		[Test]

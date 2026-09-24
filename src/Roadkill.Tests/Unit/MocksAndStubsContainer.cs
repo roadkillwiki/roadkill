@@ -1,4 +1,4 @@
-﻿using Roadkill.Core;
+using Roadkill.Core;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
@@ -10,8 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Caching;
 using Roadkill.Core.Database;
-using Roadkill.Core.DependencyResolution.StructureMap;
-using StructureMap;
 
 namespace Roadkill.Tests.Unit
 {
@@ -43,8 +41,6 @@ namespace Roadkill.Tests.Unit
 		public PageRepositoryMock PageRepository { get; set; }
 		public InstallerRepositoryMock InstallerRepository { get; set; }
 		public DatabaseTesterMock DatabaseTester { get;set; }
-		public Container StructureMapContainer { get; set; }
-		public StructureMapServiceLocator Locator { get; set; }
 		public InstallationService InstallationService { get; set; }
 
 		/// <summary>
@@ -101,20 +97,13 @@ namespace Roadkill.Tests.Unit
 			PageService = new PageService(ApplicationSettings, SettingsRepository, PageRepository, SearchService, HistoryService,
 				UserContext, ListCache, PageViewModelCache, SiteCache, PluginFactory);
 
-			StructureMapContainer = new Container(x =>
-			{
-				x.AddRegistry(new TestsRegistry(this));
-			});
-
-			Locator = new StructureMapServiceLocator(StructureMapContainer, false);
-
 			InstallationService = new InstallationService((databaseName, connectionString) =>
 			{
 				InstallerRepository.DatabaseName = databaseName;
 				InstallerRepository.ConnectionString = connectionString;
 
 				return InstallerRepository;
-			}, Locator);
+			});
 
 			// EmailTemplates
 			EmailClient = new EmailClientMock();
@@ -124,15 +113,6 @@ namespace Roadkill.Tests.Unit
 		{
 			foreach (string key in MemoryCache.Select(x => x.Key))
 				MemoryCache.Remove(key);
-		}
-
-		public class TestsRegistry : Registry
-		{
-			public TestsRegistry(MocksAndStubsContainer mockContainer)
-			{
-				For<IFileService>().Use(mockContainer.FileService);
-				For<IRepositoryFactory>().Use(mockContainer.RepositoryFactory);
-			}
 		}
 	}
 }

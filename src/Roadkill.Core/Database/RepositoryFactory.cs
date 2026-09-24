@@ -71,10 +71,8 @@ namespace Roadkill.Core.Database
 			if (databaseProviderName == SupportedDatabases.Postgres)
 				return new PostgresConnectionFactory(connectionString);
 
-			if (string.IsNullOrEmpty(databaseProviderName) || databaseProviderName == SupportedDatabases.SqlServer2008)
-				return new SqlConnectionFactory(connectionString);
-
-			throw new DatabaseException(null, "The database provider '{0}' is not supported.", databaseProviderName);
+			// SQL Server is the default for any other name (e.g. "SqlServer2012"), as it was with Roadkill 2.x.
+			return new SqlConnectionFactory(connectionString);
 		}
 
 		private static SchemaBase CreateSchema(string databaseProviderName)

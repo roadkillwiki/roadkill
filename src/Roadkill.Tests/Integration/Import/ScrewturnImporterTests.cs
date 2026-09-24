@@ -1,14 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Mindscape.LightSpeed;
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
-using Roadkill.Core.Database.LightSpeed;
+using Roadkill.Core.Database.Repositories.Dapper;
 using Roadkill.Core.Import;
 
 namespace Roadkill.Tests.Integration.Import
@@ -53,15 +52,9 @@ namespace Roadkill.Tests.Integration.Import
 			applicationSettings.ConnectionString = _connectionString;
 			applicationSettings.DatabaseName = "SqlServer2008";
 
-			var context = new LightSpeedContext();
-			context.ConnectionString = _connectionString;
-			context.DataProvider = DataProvider.SqlServer2008;
-			context.IdentityMethod = IdentityMethod.GuidComb;
-
-			IUnitOfWork unitOfWork = context.CreateUnitOfWork();
-
-			IPageRepository pageRepository = new LightSpeedPageRepository(unitOfWork);
-			IUserRepository userRepository = new LightSpeedUserRepository(unitOfWork);
+			var connectionFactory = new SqlConnectionFactory(_connectionString);
+			IPageRepository pageRepository = new DapperPageRepository(connectionFactory);
+			IUserRepository userRepository = new DapperUserRepository(connectionFactory);
 			ScrewTurnImporter importer = new ScrewTurnImporter(applicationSettings, pageRepository, userRepository);
 
 			// Act
@@ -129,15 +122,9 @@ namespace Roadkill.Tests.Integration.Import
 			applicationSettings.ConnectionString = _connectionString;
 			applicationSettings.DatabaseName = "SqlServer2008";
 
-			var context = new LightSpeedContext();
-			context.ConnectionString = _connectionString;
-			context.DataProvider = DataProvider.SqlServer2008;
-			context.IdentityMethod = IdentityMethod.GuidComb;
-
-			IUnitOfWork unitOfWork = context.CreateUnitOfWork();
-
-			IPageRepository pageRepository = new LightSpeedPageRepository(unitOfWork);
-			IUserRepository userRepository = new LightSpeedUserRepository(unitOfWork);
+			var connectionFactory = new SqlConnectionFactory(_connectionString);
+			IPageRepository pageRepository = new DapperPageRepository(connectionFactory);
+			IUserRepository userRepository = new DapperUserRepository(connectionFactory);
 			ScrewTurnImporter importer = new ScrewTurnImporter(applicationSettings, pageRepository, userRepository);
 
 			// Act

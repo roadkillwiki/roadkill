@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,7 +51,7 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 			return model;
 		}
 
-		public string Upload(string destinationPath, HttpFileCollectionBase files)
+		public string Upload(string destinationPath, Microsoft.AspNetCore.Http.IFormFileCollection files)
 		{
 			if (CustomException != null)
 				throw CustomException;
@@ -62,7 +62,7 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 				return "";
 		}
 
-		public void WriteResponse(string localPath, string applicationPath, string modifiedSinceHeader, IResponseWrapper responseWrapper, HttpContext context)
+		public void WriteResponse(string localPath, string applicationPath, string modifiedSinceHeader, IResponseWrapper responseWrapper)
 		{
 			if (CustomException != null)
 				throw CustomException;

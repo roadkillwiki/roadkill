@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -220,18 +220,15 @@ namespace Roadkill.Tests.Integration.Search
 			page1.Title = "A new hope";
 			searchService.Update(page1);
 
-			Thread thread = new Thread(delegate()
-			{
-				// Perform the test in a new thread, so that the add + delete commit is picked up
-				// which is periodically done by Lucene.
-				List<SearchResultViewModel> oldResults = searchService.Search("homepage title").ToList();
-				List<SearchResultViewModel> newResults = searchService.Search("A new hope").ToList();
+			// The index writer commits on each change, so the update is visible straight away. (This test previously asserted
+			// in a separate thread, which crashes the test runner when it fails, and searched the content field as well.)
+			List<SearchResultViewModel> oldResults = searchService.Search("title:homepage").ToList();
+			List<SearchResultViewModel> newResults = searchService.Search("title:hope").ToList();
 
-				// Assert
-				Assert.That(oldResults.Count, Is.EqualTo(0), "old results");
-				Assert.That(newResults.Count, Is.EqualTo(1), "new results");
-			});
-			thread.Start();
+			// Assert
+			Assert.That(oldResults.Count, Is.EqualTo(0), "old results");
+			Assert.That(newResults.Count, Is.EqualTo(1), "new results");
+			Assert.That(newResults[0].Title, Is.EqualTo("A new hope"));
 		}
 
 		[Test]
@@ -270,7 +267,7 @@ namespace Roadkill.Tests.Integration.Search
 
 			// Assert
 			Assert.That(results[0].ContentSummary, Contains.Substring("(pre character 150 boundary)"));
-			Assert.That(results[0].ContentSummary, Is.Not.StringContaining("(post character 150 boundary)"));
+			Assert.That(results[0].ContentSummary, Does.Not.Contain("(post character 150 boundary)"));
 
 		}
 
@@ -289,8 +286,8 @@ namespace Roadkill.Tests.Integration.Search
 			List<SearchResultViewModel> results = searchService.Search("my header").ToList();
 
 			// Assert
-			Assert.That(results[0].ContentSummary, Is.Not.StringContaining("<b>some bold</b>"));
-			Assert.That(results[0].ContentSummary, Is.Not.StringContaining("<h1>my header</h1>"));
+			Assert.That(results[0].ContentSummary, Does.Not.Contain("<b>some bold</b>"));
+			Assert.That(results[0].ContentSummary, Does.Not.Contain("<h1>my header</h1>"));
 
 		}
 

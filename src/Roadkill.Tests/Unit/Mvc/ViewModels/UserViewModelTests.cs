@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -66,30 +66,36 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void Constructor_Should_Throw_ArgumentException_When_User_Object_Is_Null()
 		{
-			// Arrange
-			User user = null;
+			Assert.Throws<ArgumentNullException>(() =>
+			{
+				// Arrange
+				User user = null;
 
-			// Act + Assert
-			UserViewModel model = new UserViewModel(user);
+				// Act + Assert
+				UserViewModel model = new UserViewModel(user);
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void Constructor_Should_Throw_ArgumentException_When_Settings_Is_Null()
 		{
-			// Arrange + Act + Assert
-			UserViewModel model = new UserViewModel(null, new UserServiceStub());
+			Assert.Throws<ArgumentNullException>(() =>
+			{
+				// Arrange + Act + Assert
+				UserViewModel model = new UserViewModel(null, new UserServiceStub());
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void Constructor_Should_Throw_ArgumentException_When_UserService_Is_Null()
 		{
-			// Arrange + Act + Assert
-			UserViewModel model = new UserViewModel(new ApplicationSettings(), null);
+			Assert.Throws<ArgumentNullException>(() =>
+			{
+				// Arrange + Act + Assert
+				UserViewModel model = new UserViewModel(new ApplicationSettings(), null);
+			});
 		}
 
 		[Test]

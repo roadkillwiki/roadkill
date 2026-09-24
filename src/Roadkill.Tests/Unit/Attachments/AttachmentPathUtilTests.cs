@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using NUnit.Framework;
 using Roadkill.Core.Attachments;
@@ -70,7 +70,7 @@ namespace Roadkill.Tests.Unit.Attachments
 		public void ConvertUrlPathToPhysicalPath_Should_Combine_Paths_And_Contain_Trailing_Slash(string relativePath, string expectedPath)
 		{
 			// Arrange
-			expectedPath = Path.Combine(_settings.AttachmentsDirectoryPath, expectedPath);
+			expectedPath = Path.Combine(_settings.AttachmentsDirectoryPath, expectedPath.Replace('\\', Path.DirectorySeparatorChar));
 			Directory.CreateDirectory(expectedPath);
 
 			// Act
@@ -110,6 +110,7 @@ namespace Roadkill.Tests.Unit.Attachments
 		}
 
 		[Test]
+		[Platform(Include = "Win", Reason = "File paths are only case insensitive on Windows")]
 		public void isattachmentpathvalid_should_be_case_insensitive()
 		{
 			// Arrange

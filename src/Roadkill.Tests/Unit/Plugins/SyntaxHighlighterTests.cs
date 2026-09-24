@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
@@ -76,7 +75,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			string headContent = highlighter.GetHeadContent();
 
 			// Assert
-			Assert.That(headContent, Is.StringContaining("head.js(\"javascript/shCore.js\""), headContent);
+			Assert.That(headContent, Does.Contain("head.js(\"/Plugins/SyntaxHighlighter/javascript/shCore.js\""), headContent);
 		}
 
 		[Test]
@@ -89,7 +88,7 @@ namespace Roadkill.Tests.Unit.Plugins
 			string headContent = highlighter.GetHeadContent();
 
 			// Assert
-			Assert.That(headContent, Is.StringContaining("function() { SyntaxHighlighter.all() }"), headContent);
+			Assert.That(headContent, Does.Contain("function() { SyntaxHighlighter.all() }"), headContent);
 		}
 	}
 }

@@ -101,6 +101,12 @@ namespace Roadkill.Core.Converters
 			text = RelaxedHeadings.AddMissingSpaces(text, _pipeline);
 			MarkdownDocument document = Markdig.Markdown.Parse(text, _pipeline);
 
+			// Tables use the same "wikitable" class (and theme styles) as the Creole tables.
+			foreach (Table table in document.Descendants<Table>())
+			{
+				table.GetAttributes().AddClass("wikitable");
+			}
+
 			using (StringWriter writer = new StringWriter())
 			{
 				HtmlRenderer renderer = new HtmlRenderer(writer);

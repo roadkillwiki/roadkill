@@ -357,7 +357,7 @@ namespace Roadkill.Core.Plugins
 		{
 			if (useHeadJs)
 			{
-				string fileLink = "{ \"[name]\", \"[filename]\" }";
+				string fileLink = "{ \"[name]\": \"[filename]\" }";
 				if (string.IsNullOrEmpty(name))
 				{
 					fileLink = "\"[filename]\"";

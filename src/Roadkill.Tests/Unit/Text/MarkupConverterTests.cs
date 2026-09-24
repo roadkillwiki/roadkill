@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using NUnit.Framework;
 using Roadkill.Core.Cache;
@@ -54,12 +54,14 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
-		[ExpectedException(typeof(NotImplementedException))]
 		public void Parser_Should_Throw_Exception_For_MediaWiki()
 		{
-			// Arrange, act + assert
-			_settingsRepository.SiteSettings.MarkupType = "MediaWiki";
-			_markupConverter = new MarkupConverter(_applicationSettings, _settingsRepository, _pageRepository, _pluginFactory);
+			Assert.Throws<NotImplementedException>(() =>
+			{
+				// Arrange, act + assert
+				_settingsRepository.SiteSettings.MarkupType = "MediaWiki";
+				_markupConverter = new MarkupConverter(_applicationSettings, _settingsRepository, _pageRepository, _pluginFactory);
+			});
 		}
 
 		[Test]
@@ -138,7 +140,7 @@ namespace Roadkill.Tests.Unit.Text
 			_settingsRepository.SiteSettings.MarkupType = "Creole";
 			_markupConverter = new MarkupConverter(_applicationSettings, _settingsRepository, _pageRepository, _pluginFactory);
 
-			string expectedHtml = "<p><a rel=\"nofollow\" href=\"#myanchortag\">hello world</a> <a rel=\"nofollow\" href=\"https://www.google.com/\" class=\"external-link\">google</a>\n</p>";
+			string expectedHtml = "<p><a rel=\"nofollow\" href=\"#myanchortag\">hello world</a> <a rel=\"nofollow\" href=\"https://www.google.com\" class=\"external-link\">google</a>\n</p>";
 
 			// Act
 			string actualHtml = _markupConverter.ToHtml("[[#myanchortag|hello world]] [[https://www.google.com|google]]");
@@ -341,7 +343,7 @@ namespace Roadkill.Tests.Unit.Text
 			_settingsRepository.SiteSettings.MarkupType = "Creole";
 			_markupConverter = new MarkupConverter(_applicationSettings, _settingsRepository, _pageRepository, _pluginFactory);
 
-			string expectedHtml = "<p><a rel=\"nofollow\" href=\"http://www.google.com/2%3Ejavascript:alert('hello')\" class=\"external-link\">ComponentModel</a>\n</p>";
+			string expectedHtml = "<p><a rel=\"nofollow\" href=\"http://www.google.com/2&gt;javascript:alert('hello')\" class=\"external-link\">ComponentModel</a>\n</p>";
 
 			// Act
 			string actualHtml = _markupConverter.ToHtml("[[http://www.google.com/\">javascript:alert('hello')|ComponentModel]]");
@@ -390,7 +392,7 @@ namespace Roadkill.Tests.Unit.Text
 			_settingsRepository.SiteSettings.MarkupType = "Creole";
 			_markupConverter = new MarkupConverter(_applicationSettings, _settingsRepository, _pageRepository, _pluginFactory);
 
-			string expectedHtml = "<p><a rel=\"nofollow\" href=\"http://www.blah.com/\" class=\"external-link\">link1</a> <a rel=\"nofollow\" href=\"www.blah.com\" class=\"external-link\">link2</a> <a rel=\"nofollow\" href=\"mailto:spam@gmail.com\" class=\"external-link\">spam</a>\n</p>";
+			string expectedHtml = "<p><a rel=\"nofollow\" href=\"http://www.blah.com\" class=\"external-link\">link1</a> <a rel=\"nofollow\" href=\"www.blah.com\" class=\"external-link\">link2</a> <a rel=\"nofollow\" href=\"mailto:spam@gmail.com\" class=\"external-link\">spam</a>\n</p>";
 
 			// Act
 			string actualHtml = _markupConverter.ToHtml("[[http://www.blah.com|link1]] [[www.blah.com|link2]] [[mailto:spam@gmail.com|spam]]");
@@ -427,7 +429,7 @@ namespace Roadkill.Tests.Unit.Text
 			_markupConverter.UrlResolver = new UrlResolverMock();
 
 			string htmlFragment = "Give me a {{TOC}} and a {{{TOC}}} - the should not render a TOC";
-			string expected = @"<p>Give me a </p><div class=""floatnone""><div class=""image_frame""><img src=""/Attachments/TOC""></div></div> and a TOC - the should not render a TOC"
+			string expected = @"<p>Give me a </p><div class=""floatnone""><div class=""image_frame""><img src=""/Attachments/TOC"" alt=""TOC"" title=""TOC""></div></div> and a TOC - the should not render a TOC"
 				+ "\n<p></p>";
 
 			// Act
@@ -550,7 +552,7 @@ namespace Roadkill.Tests.Unit.Text
 			_settingsRepository.SiteSettings.MarkupType = "Markdown";
 			_markupConverter = new MarkupConverter(_applicationSettings, _settingsRepository, _pageRepository, _pluginFactory);
 
-			string expectedHtml = "<p><b style=\"color: black\"></b></p>\n";
+			string expectedHtml = "<p><b style=\"color: rgba(0, 0, 0, 1)\"></b></p>\n";
 
 			// Act
 			string actualHtml = _markupConverter.ToHtml("<b style='color:black'><script>alert('foo')</script></b>");

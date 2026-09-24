@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using NUnit.Framework;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
@@ -33,14 +33,16 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void Constructor_Should_Throw_Exception_When_PageContent_Page_Is_Null()
 		{
-			// Arrange
-			PageContent content = new PageContent();
+			Assert.Throws<ArgumentNullException>(() =>
+			{
+				// Arrange
+				PageContent content = new PageContent();
 
-			// Act + Assert
-			PageHistoryViewModel model = new PageHistoryViewModel(content);
+				// Act + Assert
+				PageHistoryViewModel model = new PageHistoryViewModel(content);
+			});
 		}
 
 		[Test]

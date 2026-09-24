@@ -26,6 +26,7 @@
     <PackageReference Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00018" />
     <PackageReference Include="Lucene.Net.QueryParser" Version="4.8.0-beta00018" />
     <PackageReference Include="Markdig" Version="1.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="10.0.12" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.0" />
     <PackageReference Include="MongoDB.Driver" Version="3.12.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />

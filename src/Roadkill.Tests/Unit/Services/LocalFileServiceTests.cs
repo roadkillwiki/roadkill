@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Web;
+using Microsoft.AspNetCore.Http;
 using Moq;
 using NUnit.Framework;
 using Roadkill.Core;
@@ -89,11 +89,13 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		[ExpectedException(typeof(SecurityException))]
 		public void Delete_With_Bad_Paths_Throws_Exception()
 		{
-			// Arrange + Act + Assert
-			_fileService.Delete("/.././", "hacker.txt");
+			Assert.Throws<SecurityException>(() =>
+			{
+				// Arrange + Act + Assert
+				_fileService.Delete("/.././", "hacker.txt");
+			});
 		}
 
 		[Test]
@@ -129,52 +131,62 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		[ExpectedException(typeof(FileException))]
 		public void DeleteFolder_Empty_Folder_Argument_Should_Throw_Exception()
 		{
-			// Arrange, Act, Assert
-			_fileService.DeleteFolder("");
+			Assert.Throws<FileException>(() =>
+			{
+				// Arrange, Act, Assert
+				_fileService.DeleteFolder("");
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(FileException))]
 		public void DeleteFolder_Containing_Files_Should_Throw_FileException()
 		{
-			// Arrange
-			CreateTestDirectoryInAttachments("folder1");
-			string fullPath = Path.Combine(_applicationSettings.AttachmentsDirectoryPath, "folder1", "test.txt");
-			File.WriteAllText(fullPath, "test");
+			Assert.Throws<FileException>(() =>
+			{
+				// Arrange
+				CreateTestDirectoryInAttachments("folder1");
+				string fullPath = Path.Combine(_applicationSettings.AttachmentsDirectoryPath, "folder1", "test.txt");
+				File.WriteAllText(fullPath, "test");
 
-			// Act, Assert
-			_fileService.DeleteFolder("folder1");
+				// Act, Assert
+				_fileService.DeleteFolder("folder1");
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(FileException))]
 		public void DeleteFolder_With_Folder_That_Has_Subdirectories_Should_Throw_FileException()
 		{
-			// Arrange
-			string fullpath = CreateTestDirectoryInAttachments("folder1");
-			Directory.CreateDirectory(Path.Combine(fullpath, "subfolder1"));
+			Assert.Throws<FileException>(() =>
+			{
+				// Arrange
+				string fullpath = CreateTestDirectoryInAttachments("folder1");
+				Directory.CreateDirectory(Path.Combine(fullpath, "subfolder1"));
 
-			// Act, Assert
-			_fileService.DeleteFolder("folder1");
+				// Act, Assert
+				_fileService.DeleteFolder("folder1");
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(FileException))]
 		public void DeleteFolder_With_Missing_Directory_Should_Throw_FileException()
 		{
-			// Arrange, Act, Assert
-			_fileService.DeleteFolder("folder1/folder2");
+			Assert.Throws<FileException>(() =>
+			{
+				// Arrange, Act, Assert
+				_fileService.DeleteFolder("folder1/folder2");
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(SecurityException))]
 		public void DeleteFolder_With_Bad_Paths_Should_Throw_Exception()
 		{
-			// Arrange + Act + Assert
-			_fileService.DeleteFolder("/../../folder1");
+			Assert.Throws<SecurityException>(() =>
+			{
+				// Arrange + Act + Assert
+				_fileService.DeleteFolder("/../../folder1");
+			});
 		}
 
 		[Test]
@@ -217,11 +229,11 @@ namespace Roadkill.Tests.Unit.Services
 		public void folderinfo_with_subfolder_should_return_model()
 		{
 			// Arrange
-			CreateTestDirectoryInAttachments(@"blah\blah2\blah3");
-			CreateTestDirectoryInAttachments(@"blah\blah2\blah3\blah4");
-			CreateTestFileInAttachments(@"blah\blah2\blah3\something.png");
-			CreateTestFileInAttachments(@"blah\blah2\blah3\something2.png");
-			CreateTestFileInAttachments(@"blah\blah2\blah3\something3.png");
+			CreateTestDirectoryInAttachments("blah/blah2/blah3");
+			CreateTestDirectoryInAttachments("blah/blah2/blah3/blah4");
+			CreateTestFileInAttachments("blah/blah2/blah3/something.png");
+			CreateTestFileInAttachments("blah/blah2/blah3/something2.png");
+			CreateTestFileInAttachments("blah/blah2/blah3/something3.png");
 
 			// Act
 			DirectoryViewModel model = _fileService.FolderInfo("/blah/blah2/blah3");
@@ -235,19 +247,23 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		[ExpectedException(typeof(SecurityException))]
 		public void FolderInfo_With_Missing_Directory_Should_Throw_Exception()
 		{
-			// Arrange + Act + Assert
-			_fileService.FolderInfo("/missingfolder");
+			Assert.Throws<SecurityException>(() =>
+			{
+				// Arrange + Act + Assert
+				_fileService.FolderInfo("/missingfolder");
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(SecurityException))]
 		public void FolderInfo_With_Bad_Folder_Path_Should_Throw_Exception()
 		{
-			// Arrange + Act + Assert
-			_fileService.FolderInfo(".././");
+			Assert.Throws<SecurityException>(() =>
+			{
+				// Arrange + Act + Assert
+				_fileService.FolderInfo(".././");
+			});
 		}
 
 		[Test]
@@ -281,27 +297,33 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void CreateFolder_With_Empty_FolderName_Argument_Should_Throw_ArgumentNullException()
 		{
-			// Arrange + Act + Assert
-			_fileService.CreateFolder("/", "");
+			Assert.Throws<ArgumentNullException>(() =>
+			{
+				// Arrange + Act + Assert
+				_fileService.CreateFolder("/", "");
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(SecurityException))]
 		public void CreateFolder_With_Missing_Parent_Directory_Should_Return_Error()
 		{
-			// Arrange + Act + Assert
-			_fileService.CreateFolder("folder1/folder2", "newfolder");
+			Assert.Throws<SecurityException>(() =>
+			{
+				// Arrange + Act + Assert
+				_fileService.CreateFolder("folder1/folder2", "newfolder");
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(SecurityException))]
 		public void CreateFolder_With_Bad_Folder_Path_Should_Throw_Exception()
 		{
-			// Arrange + Act + Assert
-			_fileService.CreateFolder("/../../folder1", "../cheeky/path");
+			Assert.Throws<SecurityException>(() =>
+			{
+				// Arrange + Act + Assert
+				_fileService.CreateFolder("/../../folder1", "../cheeky/path");
+			});
 		}
 
 		[Test]
@@ -309,7 +331,7 @@ namespace Roadkill.Tests.Unit.Services
 		{
 			// Arrange
 			string file1FullPath = Path.Combine(_applicationSettings.AttachmentsDirectoryPath, "file1.png");
-			HttpFileCollectionBase fileCollection = CreateFileCollection("file1.png");
+			IFormFileCollection fileCollection = CreateFileCollection("file1.png");
 
 			// Act
 			string filename = _fileService.Upload("/", fileCollection);
@@ -329,7 +351,7 @@ namespace Roadkill.Tests.Unit.Services
 			CreateTestFileInAttachments("file1.png", "the original file");
 			string file1FullPath = Path.Combine(_applicationSettings.AttachmentsDirectoryPath, "file1.png");
 
-			HttpFileCollectionBase fileCollection = CreateFileCollection("file1.png");
+			IFormFileCollection fileCollection = CreateFileCollection("file1.png");
 
 			// Act
 			string filename = _fileService.Upload("/", fileCollection);
@@ -344,7 +366,7 @@ namespace Roadkill.Tests.Unit.Services
 		public void upload_should_be_case_insensitive()
 		{
 			// Arrange
-			HttpFileCollectionBase fileCollection = CreateFileCollection("file1.PNG");
+			IFormFileCollection fileCollection = CreateFileCollection("file1.PNG");
 			string file1FullPath = Path.Combine(_applicationSettings.AttachmentsDirectoryPath, "file1.PNG");
 
 			// Act
@@ -360,7 +382,7 @@ namespace Roadkill.Tests.Unit.Services
 		public void upload_with_multiple_files_to_root_should_save_files_to_disk_and_return_last_uploaded_file()
 		{
 			// Arrange
-			HttpFileCollectionBase fileCollection = CreateFileCollection("file1.png", "file2.png");
+			IFormFileCollection fileCollection = CreateFileCollection("file1.png", "file2.png");
 			string file1FullPath = Path.Combine(_applicationSettings.AttachmentsDirectoryPath, "file1.png");
 			string file2FullPath = Path.Combine(_applicationSettings.AttachmentsDirectoryPath, "file2.png");
 
@@ -377,7 +399,7 @@ namespace Roadkill.Tests.Unit.Services
 		public void upload_with_multiple_files_to_subfolder_should_save_files_and_return_last_uploaded_file()
 		{
 			// Arrange
-			HttpFileCollectionBase fileCollection = CreateFileCollection("file1.png", "file2.png");
+			IFormFileCollection fileCollection = CreateFileCollection("file1.png", "file2.png");
 
 			string fullPath = CreateTestDirectoryInAttachments("folder1");
 			string subPath = Path.Combine(fullPath, "folder2");
@@ -399,7 +421,7 @@ namespace Roadkill.Tests.Unit.Services
 		public void upload_with_no_files_to_root_should_return_empty_filename()
 		{
 			// Arrange
-			HttpFileCollectionBase fileCollection = CreateFileCollection();
+			IFormFileCollection fileCollection = CreateFileCollection();
 
 			// Act
 			string filename = _fileService.Upload("/", fileCollection);
@@ -409,53 +431,61 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
-		[ExpectedException(typeof(SecurityException))]
 		public void FileUpload_With_Bad_Folder_Path_Should_Throw_Exception()
 		{
-			// Arrange
-			HttpFileCollectionBase fileCollection = CreateFileCollection();
+			Assert.Throws<SecurityException>(() =>
+			{
+				// Arrange
+				IFormFileCollection fileCollection = CreateFileCollection();
 
-			// Act + Assert
-			_fileService.Upload("/../../bad/path", fileCollection);
+				// Act + Assert
+				_fileService.Upload("/../../bad/path", fileCollection);
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(SecurityException))]
 		public void FileUpload_With_Missing_Folder_Should_Throw_SecurityException()
 		{
-			// Arrange
-			HttpFileCollectionBase fileCollection = CreateFileCollection();
+			Assert.Throws<SecurityException>(() =>
+			{
+				// Arrange
+				IFormFileCollection fileCollection = CreateFileCollection();
 
-			// Act + Assert
-			_fileService.Upload("/missingfolder", fileCollection);
+				// Act + Assert
+				_fileService.Upload("/missingfolder", fileCollection);
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(FileException))]
 		public void FileUpload_Should_Throw_FileException_When_File_Has_Bad_Extension()
 		{
-			// Arrange
-			HttpFileCollectionBase fileCollection = CreateFileCollection("virus.exe");
-			string file1FullPath = Path.Combine(_applicationSettings.AttachmentsDirectoryPath, "virus.exe");
+			Assert.Throws<FileException>(() =>
+			{
+				// Arrange
+				IFormFileCollection fileCollection = CreateFileCollection("virus.exe");
+				string file1FullPath = Path.Combine(_applicationSettings.AttachmentsDirectoryPath, "virus.exe");
 
-			// Act + Assert
-			_fileService.Upload("/", fileCollection);
+				// Act + Assert
+				_fileService.Upload("/", fileCollection);
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(FileException))]
 		public void FileUpload_Should_Throw_FileException_When_File_Exists_And_OverWriteFiles_Setting_Is_False()
 		{
-			// Arrange
-			SiteSettings siteSettings = _settingsService.GetSiteSettings();
-			siteSettings.OverwriteExistingFiles = false;
-			CreateTestFileInAttachments("file1.png", "the original file");
+			Assert.Throws<FileException>(() =>
+			{
+				// Arrange
+				SiteSettings siteSettings = _settingsService.GetSiteSettings();
+				siteSettings.OverwriteExistingFiles = false;
+				CreateTestFileInAttachments("file1.png", "the original file");
 
-			HttpFileCollectionBase fileCollection = CreateFileCollection("file1.png.exe");
-			string file1FullPath = Path.Combine(_applicationSettings.AttachmentsDirectoryPath, "file1.png");
+				IFormFileCollection fileCollection = CreateFileCollection("file1.png.exe");
+				string file1FullPath = Path.Combine(_applicationSettings.AttachmentsDirectoryPath, "file1.png");
 
-			// Act + Assert
-			_fileService.Upload("/", fileCollection);
+				// Act + Assert
+				_fileService.Upload("/", fileCollection);
+			});
 		}
 
 		[Test]
@@ -466,7 +496,7 @@ namespace Roadkill.Tests.Unit.Services
 			siteSettings.OverwriteExistingFiles = false;
 			CreateTestFileInAttachments("file3.png", "the original file"); // just 1 existing file
 
-			HttpFileCollectionBase fileCollection = CreateFileCollection("file1.png", "file2.png", "file3.png", "file4.png", "file5.png");
+			IFormFileCollection fileCollection = CreateFileCollection("file1.png", "file2.png", "file3.png", "file4.png", "file5.png");
 
 			string file1FullPath = Path.Combine(_applicationSettings.AttachmentsDirectoryPath, "file1.png");
 			string file2FullPath = Path.Combine(_applicationSettings.AttachmentsDirectoryPath, "file2.png");
@@ -512,28 +542,18 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		/// <summary>
-		/// Sets up all the Request object's various properties to mock a file being uploaded. This sets the 
-		/// file size to 8192 bytes, and writes each file name to disk when SaveAs() is called, with the content "test contents"
+		/// Creates a form file collection for the file names, each file containing "test contents".
 		/// </summary>
-		private HttpFileCollectionBase CreateFileCollection(params string[] fileNames)
+		private IFormFileCollection CreateFileCollection(params string[] fileNames)
 		{
-			// Add all the files provided so they save as an empty file to the file path
-			Mock<HttpFileCollectionBase> fileCollection = new Mock<HttpFileCollectionBase>();
-			fileCollection.Setup(x => x.Count).Returns(fileNames.Length);
-
-			List<HttpPostedFileBase> files = new List<HttpPostedFileBase>();
-			for (int i = 0; i < fileNames.Length; i++)
+			var fileCollection = new FormFileCollection();
+			foreach (string fileName in fileNames)
 			{
-				Mock<HttpPostedFileBase> postedfile = new Mock<HttpPostedFileBase>();
-				postedfile.Setup(f => f.ContentLength).Returns(8192);
-				postedfile.Setup(f => f.FileName).Returns(fileNames[i]);
-				postedfile.Setup(f => f.SaveAs(It.IsAny<string>())).Callback<string>(filename => File.WriteAllText(Path.Combine(_applicationSettings.AttachmentsDirectoryPath, filename), "test contents"));
-
-				// Setup the files[i] indexer
-				fileCollection.SetupGet(x => x[i]).Returns(postedfile.Object);
+				byte[] content = System.Text.Encoding.UTF8.GetBytes("test contents");
+				fileCollection.Add(new FormFile(new MemoryStream(content), 0, content.Length, "file", fileName));
 			}
 
-			return fileCollection.Object;
+			return fileCollection;
 		}
 	}
 }

@@ -188,7 +188,9 @@ namespace Roadkill.Core.DependencyResolution
 				.AddRazorOptions(options =>
 				{
 					options.ViewLocationExpanders.Add(new RoadkillViewLocationExpander());
-				});
+				})
+				// Custom themes (Themes/xyz/Theme.cshtml) and plugin views can be added without recompiling Roadkill.
+				.AddRazorRuntimeCompilation();
 		}
 
 		private static void AddAuthentication(IServiceCollection services)

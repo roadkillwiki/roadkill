@@ -33,7 +33,7 @@ namespace Roadkill.Tests.Integration.Repository.MongoDb
 		protected override void CheckDatabaseProcessIsRunning()
 		{
 			if (TestHelpers.IsMongoDBRunning() == false)
-				Assert.Fail("A local MongoDB (mongod.exe) server is not running");
+				Assert.Ignore("MongoDB is not tested (set ROADKILL_MONGODB_TESTS=true with a local MongoDB server to run these tests)");
 		}
 
 		protected override bool HasEmptyTables()

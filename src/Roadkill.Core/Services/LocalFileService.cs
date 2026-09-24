@@ -313,7 +313,7 @@ namespace Roadkill.Core.Services
 		/// <param name="applicationPath">The application path e.g. /wiki/, if the app is running under one.
 		/// If the app is running from the root then this will just be "/".</param>
 		/// <returns>A full operating system file path.</returns>
-		private string TranslateUrlPathToFilePath(string urlPath, string applicationPath)
+		internal string TranslateUrlPathToFilePath(string urlPath, string applicationPath)
 		{
 			if (string.IsNullOrEmpty(urlPath))
 				return "";

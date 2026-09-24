@@ -79,6 +79,13 @@ namespace Roadkill.Core.Services
 			StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
 			MultiFieldQueryParser parser = new MultiFieldQueryParser(LUCENEVERSION, new string[] { "content", "title" }, analyzer);
 
+			// Terms split into several tokens by the analyzer (e.g. dates) become phrase queries, as with Lucene 3.
+			parser.AutoGeneratePhraseQueries = true;
+
+			// Lucene 4 treats /.../ as a regular expression, which Lucene 3 (Roadkill 2.x) didn't: escape it, so
+			// searches such as "createdon:1/2/2020" still work.
+			searchText = searchText.Replace("/", "\\/");
+
 			Query query = null;
 			try
 			{
@@ -260,8 +267,10 @@ namespace Roadkill.Core.Services
 			document.Add(new StoredField("contentsummary", GetContentSummary(model)));
 			document.Add(new TextField("title", model.Title ?? "", Field.Store.YES));
 			document.Add(new TextField("tags", model.SpaceDelimitedTags(), Field.Store.YES));
-			document.Add(new StringField("createdby", model.CreatedBy ?? "", Field.Store.YES));
-			document.Add(new StringField("createdon", model.CreatedOn.ToShortDateString(), Field.Store.YES));
+			// Analyzed (like the query text), so "createdon:1/2/2020" and "createdby:Admin" searches match: the Lucene 4.8
+			// StandardAnalyzer splits dates into several terms, unlike the Lucene 3 one.
+			document.Add(new TextField("createdby", model.CreatedBy ?? "", Field.Store.YES));
+			document.Add(new TextField("createdon", model.CreatedOn.ToShortDateString(), Field.Store.YES));
 			document.Add(new StoredField("contentlength", (model.Content ?? "").Length.ToString()));
 
 			return document;

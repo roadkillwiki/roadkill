@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Lucene.Net.Documents;
 using Lucene.Net.Search;
@@ -43,27 +43,31 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void Should_Throw_ArgumentNullException_When_ScoreDoc_Is_Null()
 		{
-			// Arrange
-			LuceneDocument document = new LuceneDocument();
-			ScoreDoc scoreDoc = null;
+			Assert.Throws<ArgumentNullException>(() =>
+			{
+				// Arrange
+				LuceneDocument document = new LuceneDocument();
+				ScoreDoc scoreDoc = null;
 
-			// Act + Assert
-			SearchResultViewModel model = new SearchResultViewModel(document, scoreDoc);
+				// Act + Assert
+				SearchResultViewModel model = new SearchResultViewModel(document, scoreDoc);
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void Should_Throw_ArgumentNullException_When_Document_Is_Null()
 		{
-			// Arrange
-			LuceneDocument document = null;
-			ScoreDoc scoreDoc = new ScoreDoc(0, 9.50f);
+			Assert.Throws<ArgumentNullException>(() =>
+			{
+				// Arrange
+				LuceneDocument document = null;
+				ScoreDoc scoreDoc = new ScoreDoc(0, 9.50f);
 
-			// Act + Assert
-			SearchResultViewModel model = new SearchResultViewModel(document, scoreDoc);
+				// Act + Assert
+				SearchResultViewModel model = new SearchResultViewModel(document, scoreDoc);
+			});
 		}
 
 		[Test]
@@ -74,25 +78,27 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		[TestCase("createdby")]
 		[TestCase("contentlength")]
 		[TestCase("createdon")]
-		[ExpectedException(typeof(SearchException))]
 		public void Should_Throw_SearchException_When_Field_Is_Missing(string fieldName)
 		{
-			// Arrange
-			LuceneDocument document = new LuceneDocument();
-			document.Add(CreateField("id", "123"));
-			document.Add(CreateField("title", "the title"));
-			document.Add(CreateField("contentsummary", "the summary"));
-			document.Add(CreateField("tags", "tag1 tag2"));
-			document.Add(CreateField("createdby", "gandhi"));
-			document.Add(CreateField("contentlength", "999"));
-			document.Add(CreateField("createdon", DateTime.Today.ToString()));
+			Assert.Throws<SearchException>(() =>
+			{
+				// Arrange
+				LuceneDocument document = new LuceneDocument();
+				document.Add(CreateField("id", "123"));
+				document.Add(CreateField("title", "the title"));
+				document.Add(CreateField("contentsummary", "the summary"));
+				document.Add(CreateField("tags", "tag1 tag2"));
+				document.Add(CreateField("createdby", "gandhi"));
+				document.Add(CreateField("contentlength", "999"));
+				document.Add(CreateField("createdon", DateTime.Today.ToString()));
 
-			document.RemoveField(fieldName);
+				document.RemoveField(fieldName);
 
-			ScoreDoc scoreDoc = new ScoreDoc(0, 1f);
+				ScoreDoc scoreDoc = new ScoreDoc(0, 1f);
 
-			// Act + Assert
-			SearchResultViewModel model = new SearchResultViewModel(document, scoreDoc);
+				// Act + Assert
+				SearchResultViewModel model = new SearchResultViewModel(document, scoreDoc);
+			});
 		}
 
 		[Test]

@@ -50,7 +50,11 @@ namespace Roadkill.Core.Logging
 			}
 			
 			NLogConfigPath = path;
+
+			// ${var:contentroot} is the site's root folder (${basedir} is the bin folder when running with "dotnet run").
 			LogManager.Configuration = new XmlLoggingConfiguration(NLogConfigPath);
+			LogManager.Configuration.Variables["contentroot"] = settings.ContentRootPath.TrimEnd('/', '\\');
+			LogManager.ReconfigExistingLoggers();
 		}
 
 		/// <summary>

@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using Roadkill.Core.Database.Schema;
 using Roadkill.Tests.Unit.StubsAndMocks;
 
@@ -17,8 +17,6 @@ namespace Roadkill.Tests.Unit.Database
 				{
 					case "Postgres":
 						return new PostgresSchema();
-					case "MySQL":
-						return new MySqlSchema();
 					case "SqlServer":
 					default:
 						return new SqlServerSchema();
@@ -28,7 +26,6 @@ namespace Roadkill.Tests.Unit.Database
 
 		[Test]
 		[TestCase("Postgres")]
-		[TestCase("MySQL")]
 		[TestCase("SqlServer")]
 		public void Schema_Create_Should_Contain_SQL(string dbType)
 		{
@@ -40,12 +37,11 @@ namespace Roadkill.Tests.Unit.Database
 			schema.Create(dbCommand);
 
 			// Assert
-			Assert.That(dbCommand.CommandText, Is.StringContaining("CREATE TABLE"));
+			Assert.That(dbCommand.CommandText, Does.Contain("CREATE TABLE"));
 		}
 
         [Test]
 		[TestCase("Postgres")]
-		[TestCase("MySQL")]
 		[TestCase("SqlServer")]
 		public void Schema_Drop_Should_Contain_SQL(string dbType)
 		{
@@ -57,7 +53,7 @@ namespace Roadkill.Tests.Unit.Database
 			schema.Drop(dbCommand);
 
 			// Assert
-			Assert.That(dbCommand.CommandText, Is.StringContaining("DROP"));
+			Assert.That(dbCommand.CommandText, Does.Contain("DROP"));
 		}
 	}
 }

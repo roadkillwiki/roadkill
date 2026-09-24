@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -64,7 +64,7 @@ namespace Roadkill.Tests.Integration.Repository
 		[TearDown]
 		public void TearDown()
 		{
-			Repository.Dispose();
+			Repository?.Dispose();
 		}
 
 		protected Page NewPage(string author, string tags = "tag1,tag2,tag3", string title = "Title")
@@ -313,6 +313,47 @@ namespace Roadkill.Tests.Integration.Repository
 
 			PageContent expectedPageContent = pagesContents.FirstOrDefault(x => x.Id == _pageContent1.Id);
 			Assert.That(expectedPageContent, Is.Not.Null);
+		}
+
+		[Test]
+		public void getpagebytitle_should_be_case_insensitive()
+		{
+			// Arrange (internal links are resolved by title, e.g. [link](My-page) finds "My page")
+			Page expectedPage = NewPage("admin", "tag1", "Page Title");
+			PageContent newContent = Repository.AddNewPage(expectedPage, "sometext", "admin", _createdDate);
+
+			// Act
+			Page actualPage = Repository.GetPageByTitle("PAGE title");
+
+			// Assert
+			Assert.That(actualPage, Is.Not.Null);
+			Assert.That(actualPage.Id, Is.EqualTo(newContent.Page.Id));
+		}
+
+		[Test]
+		public void findpagescontainingtag_should_be_case_insensitive()
+		{
+			// Arrange + Act
+			List<Page> actualPages = Repository.FindPagesContainingTag("TAG1").ToList();
+
+			// Assert
+			Assert.That(actualPages.Count, Is.EqualTo(4));
+		}
+
+		[Test]
+		public void findpagecontentseditedby_should_use_the_content_editor_not_the_page_modifier()
+		{
+			// Arrange - another user edits editor1's page, so the page's ModifiedBy changes
+			Page page = Repository.FindPagesCreatedBy("editor1").Single();
+			Repository.AddNewPageContentVersion(page, "v3", "reviewer", _editedDate.AddHours(1), 3);
+
+			// Act
+			List<PageContent> editor1Contents = Repository.FindPageContentsEditedBy("editor1").ToList();
+			List<PageContent> reviewerContents = Repository.FindPageContentsEditedBy("reviewer").ToList();
+
+			// Assert
+			Assert.That(editor1Contents.Count, Is.EqualTo(2));
+			Assert.That(reviewerContents.Count, Is.EqualTo(1));
 		}
 
 		[Test]
