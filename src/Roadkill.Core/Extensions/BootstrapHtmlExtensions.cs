@@ -53,6 +53,11 @@ namespace Roadkill.Core.Extensions
 
 		public static IHtmlContent BootstrapValidationSummary(this IHtmlHelper htmlHelper, string message)
 		{
+			// ASP.NET Core always renders the summary (hidden by a "validation-summary-valid" class), which the Bootstrap alert
+			// classes make visible: like MVC 5, render nothing when there are no errors.
+			if (htmlHelper.ViewData.ModelState.IsValid)
+				return HtmlString.Empty;
+
 			return htmlHelper.ValidationSummary(message, new { @class = "alert alert-block alert-danger fade in", data_dismiss = "alert" });
 		}
 
