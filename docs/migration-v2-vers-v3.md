@@ -1,5 +1,7 @@
 # Passer de Roadkill 2.x (.NET Framework) à Roadkill 3 (.NET 10)
 
+*[English version](upgrade-v2-to-v3.md)*
+
 La base de données **ne change pas** (mêmes tables, mêmes comptes, mêmes mots de passe) : il suffit de déployer la nouvelle version, d'y recopier quelques fichiers et de convertir la configuration.
 
 ## 1. Prérequis

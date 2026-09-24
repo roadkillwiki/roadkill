@@ -1,17 +1,43 @@
 [![Nuget.org](https://img.shields.io/nuget/v/Roadkill.svg?style=flat)](https://www.nuget.org/packages/Roadkill)
-[![Appveyor](https://ci.appveyor.com/api/projects/status/37etwyx9kw7uriar/branch/master?svg=true)](https://ci.appveyor.com/project/yetanotherchris/roadkill)
-[![Coverage Status](https://coveralls.io/repos/roadkillwiki/roadkill/badge.svg?branch=master&service=github)](https://coveralls.io/github/roadkillwiki/roadkill?branch=master)
+[![CI](https://github.com/AFract/roadkill-fork/actions/workflows/ci.yml/badge.svg)](https://github.com/AFract/roadkill-fork/actions/workflows/ci.yml)
 
 ### Current status (this fork)
 
-This fork has been migrated to **.NET 10 / ASP.NET Core MVC** (see [MIGRATION.md](MIGRATION.md)), with a Markdig based
-Markdown parser supporting **GitHub Flavored Markdown** (pipe tables, strikethrough, task lists...) and **Mermaid** diagrams.
+This fork has been migrated to **.NET 10 / ASP.NET Core MVC** (details in [MIGRATION.md](MIGRATION.md)).
 
-* Databases: SQL Server and Postgres (Dapper), MongoDB (untested). LightSpeed, MySQL and Windows authentication were removed.
-* Settings are in `appsettings.json` (`Roadkill` section and `ConnectionStrings:Roadkill`).
-* Upgrading a 2.x installation: [docs/migration-v2-vers-v3.md](docs/migration-v2-vers-v3.md) (French).
-* Build and run: `dotnet run --project src/Roadkill.Web`, tests: `dotnet test src/Roadkill.Tests` (the integration tests use the
-  `ROADKILL_SQLSERVER_CONNECTION_STRING` and `ROADKILL_POSTGRES_CONNECTION_STRING` environment variables).
+**Upgrading a 2.x installation:** [English guide](docs/upgrade-v2-to-v3.md) · [Guide en français](docs/migration-v2-vers-v3.md)
+
+#### New / changed
+
+* Runs on .NET 10 / ASP.NET Core MVC (on IIS with the ASP.NET Core Hosting Bundle, or any other ASP.NET Core host; tested on Linux with Kestrel).
+* Markdown parser replaced by Markdig, with **GitHub Flavored Markdown**: pipe tables, strikethrough, task lists, autolinks,
+  footnotes, fenced code blocks. The existing Roadkill Markdown syntax (`[[[code lang=xx|...]]]`, image sizes, `#Title#`...) still works.
+* **Mermaid** diagrams through a new plugin (disabled by default).
+* Data access: SQL Server and Postgres through Dapper. The database schema is unchanged from 2.x.
+* Settings are in `appsettings.json` (`Roadkill` section and `ConnectionStrings:Roadkill`) instead of `web.config` / `Roadkill.config`.
+  `tools/ConvertWebConfig.cs` (or `.linq` for LINQPad) converts an existing `web.config`. Logging is still configured in `App_Data/NLog.config`.
+* The Lucene search index format changed (Lucene.Net 4.8): the index must be rebuilt after upgrading.
+* Themes: `@Html.Action(...)` (child actions) no longer exists in ASP.NET Core; custom `Theme.cshtml` files need a 3 line change (see the upgrade guide).
+
+#### Removed (no longer supported)
+
+* Databases: **MySQL**, **SQLite** and **SQL Server CE** (and the LightSpeed ORM they relied on).
+* **Windows / Active Directory authentication** (and the matching installer step). Only the built-in forms (cookie) authentication remains.
+* **reCAPTCHA v1** (Google's v1 API is gone): reCAPTCHA v2 keys are required.
+* The XML configuration files (`web.config` Roadkill section, `Roadkill.config`, `connectionStrings.config`).
+* Binary compatibility of 2.x plugins: custom plugins must be rebuilt for .NET 10.
+* The .NET Framework build tooling: AppVeyor / Travis CI, `build/*.ps1` and Mono scripts, Web Platform Installer package (`lib/WebPI`), XML configs in `lib/Configs`.
+  CI now runs on **GitHub Actions** (`.github/workflows/ci.yml`: build, unit tests, SQL Server and Postgres integration tests).
+
+#### Kept but untested
+
+* **MongoDB** (driver updated, integration tests skipped by default), Azure Blob attachments storage, SMTP sending, reCAPTCHA v2, hosting on IIS.
+
+#### Build and test
+
+* Build and run: `dotnet run --project src/Roadkill.Web` (solution file: `Roadkill.slnx`).
+* Tests: `dotnet test src/Roadkill.Tests`. The integration tests use the `ROADKILL_SQLSERVER_CONNECTION_STRING` and
+  `ROADKILL_POSTGRES_CONNECTION_STRING` environment variables.
 
 # Introduction
 

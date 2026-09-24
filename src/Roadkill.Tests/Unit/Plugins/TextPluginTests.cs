@@ -149,7 +149,7 @@ namespace Roadkill.Tests.Unit.Plugins
 
 			// Assert
 			Console.WriteLine(actualJson);
-			Assert.That(actualJson, Is.EqualTo(expectedJson));
+			Assert.That(actualJson.ReplaceLineEndings(), Is.EqualTo(expectedJson.ReplaceLineEndings())); // the source file line endings vary by platform/checkout
 		}
 
 		[Test]
