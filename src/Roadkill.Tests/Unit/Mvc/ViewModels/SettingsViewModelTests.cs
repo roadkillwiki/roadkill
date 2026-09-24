@@ -25,7 +25,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 				UseObjectCache = true,
 				UseBrowserCache = true,
 				ConnectionString = "connection string",
-				DatabaseName = "SqlServer2008",
+				DatabaseName = "SqlServer",
 				EditorRoleName = "editor role name",
 			};
 
@@ -101,7 +101,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 				UseObjectCache = true,
 				UseBrowserCache = true,
 				ConnectionString = "connection string",
-				DatabaseName = "SqlServer2008",
+				DatabaseName = "SqlServer",
 				EditorRoleName = "editor role name",
 				IsPublicSite = false,
 				IgnoreSearchIndexErrors = false

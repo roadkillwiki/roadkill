@@ -306,7 +306,7 @@ namespace Roadkill.Core.Configuration
 			HtmlElementWhiteListPath = Path.Combine(AppDataInternalPath, "htmlwhitelist.xml");
 			MinimumPasswordLength = 6;
 			NLogConfigFilePath = "~/App_Data/NLog.config";
-			DatabaseName = SupportedDatabases.SqlServer2008.Id;
+			DatabaseName = SupportedDatabases.SqlServer.Id;
 			AttachmentsRoutePath = "Attachments";
 			AttachmentsFolder = "~/App_Data/Attachments";
 			SearchIndexPath = Path.Combine(AppDataInternalPath, "Search");

@@ -16,7 +16,7 @@ namespace Roadkill.Core.Configuration
 	/// <example>
 	/// {
 	///   "ConnectionStrings": { "Roadkill": "Server=.;Database=Roadkill;Integrated Security=true;TrustServerCertificate=true" },
-	///   "Roadkill": { "Installed": true, "DatabaseName": "SqlServer2008", ... }
+	///   "Roadkill": { "Installed": true, "DatabaseName": "SqlServer", ... }
 	/// }
 	/// </example>
 	public class JsonConfigReaderWriter : ConfigReaderWriter
@@ -239,7 +239,7 @@ namespace Roadkill.Core.Configuration
 				_section.UseObjectCache = settings.UseObjectCache;
 				_section.UseBrowserCache = settings.UseBrowserCache;
 				_section.ConnectionString = settings.ConnectionString;
-				_section.DatabaseName = string.IsNullOrEmpty(settings.DatabaseName) ? SupportedDatabases.SqlServer2008.Id : settings.DatabaseName;
+				_section.DatabaseName = SupportedDatabases.Normalize(settings.DatabaseName);
 				_section.EditorRoleName = settings.EditorRoleName;
 				_section.IsPublicSite = settings.IsPublicSite;
 				_section.IgnoreSearchIndexErrors = settings.IgnoreSearchIndexErrors;
@@ -286,7 +286,7 @@ namespace Roadkill.Core.Configuration
 			appSettings.ConnectionString = _section.ConnectionString;
 			appSettings.UseObjectCache = _section.UseObjectCache;
 			appSettings.UseBrowserCache = _section.UseBrowserCache;
-			appSettings.DatabaseName = string.IsNullOrEmpty(_section.DatabaseName) ? SupportedDatabases.SqlServer2008.Id : _section.DatabaseName;
+			appSettings.DatabaseName = SupportedDatabases.Normalize(_section.DatabaseName);
 			appSettings.EditorRoleName = _section.EditorRoleName;
 			appSettings.IgnoreSearchIndexErrors = _section.IgnoreSearchIndexErrors;
 			appSettings.IsPublicSite = _section.IsPublicSite;

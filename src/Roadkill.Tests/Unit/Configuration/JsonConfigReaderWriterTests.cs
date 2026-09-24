@@ -62,6 +62,23 @@ namespace Roadkill.Tests.Unit.Configuration
 		}
 
 		[Test]
+		[TestCase("SqlServer2008")]
+		[TestCase("SqlServer2012")]
+		[TestCase("SqlAzure")]
+		[TestCase("")]
+		public void roadkill_2_sql_server_database_names_should_be_read_as_sqlserver(string databaseName)
+		{
+			// Arrange
+			File.WriteAllText(_configPath, @"{ ""Roadkill"": { ""Installed"": true, ""DatabaseName"": """ + databaseName + @""" } }");
+
+			// Act
+			ApplicationSettings settings = new JsonConfigReaderWriter(_configPath).GetApplicationSettings();
+
+			// Assert
+			Assert.That(settings.DatabaseName, Is.EqualTo("SqlServer"));
+		}
+
+		[Test]
 		public void missing_file_should_give_uninstalled_defaults()
 		{
 			// Act
@@ -70,7 +87,7 @@ namespace Roadkill.Tests.Unit.Configuration
 
 			// Assert
 			Assert.That(settings.Installed, Is.False);
-			Assert.That(settings.DatabaseName, Is.EqualTo("SqlServer2008"));
+			Assert.That(settings.DatabaseName, Is.EqualTo("SqlServer"));
 			Assert.That(settings.AttachmentsRoutePath, Is.EqualTo("Attachments"));
 			Assert.That(settings.IsPublicSite, Is.True);
 			Assert.That(settings.UseHtmlWhiteList, Is.True);
@@ -86,7 +103,7 @@ namespace Roadkill.Tests.Unit.Configuration
 			var model = new SettingsViewModel()
 			{
 				ConnectionString = "Server=.;Database=roadkill",
-				DatabaseName = "SqlServer2008",
+				DatabaseName = "SqlServer",
 				AdminRoleName = "Admins",
 				EditorRoleName = "Editors",
 				AttachmentsFolder = "~/App_Data/Attachments",

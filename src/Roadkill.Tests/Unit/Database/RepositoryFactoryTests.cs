@@ -25,7 +25,7 @@ namespace Roadkill.Tests.Unit.Database
 
 			// Assert
 			Assert.That(all.Count, Is.EqualTo(3));
-			Assert.That(all.Select(x => x.Id), Is.EquivalentTo(new[] { "MongoDB", "Postgres", "SqlServer2008" }));
+			Assert.That(all.Select(x => x.Id), Is.EquivalentTo(new[] { "MongoDB", "Postgres", "SqlServer" }));
 		}
 
 		[Test]
@@ -45,7 +45,8 @@ namespace Roadkill.Tests.Unit.Database
 
 		[Test]
 		[TestCase("Postgres")]
-		[TestCase("SqlServer2008")]
+		[TestCase("SqlServer")]
+		[TestCase("SqlServer2008")] // Roadkill 2.x name
 		public void repositories_should_be_dapper_repositories_for_sql_databases(string provider)
 		{
 			// Arrange
@@ -60,7 +61,7 @@ namespace Roadkill.Tests.Unit.Database
 
 		[Test]
 		[TestCase("Postgres", typeof(PostgresSchema))]
-		[TestCase("SqlServer2008", typeof(SqlServerSchema))]
+		[TestCase("SqlServer", typeof(SqlServerSchema))]
 		public void GetInstallerRepository_should_use_schema_for_database(string provider, Type expectedSchema)
 		{
 			// Arrange
@@ -99,9 +100,9 @@ namespace Roadkill.Tests.Unit.Database
 			var factory = new RepositoryFactory();
 
 			// Act + Assert
-			Assert.That(factory.GetSettingsRepository("SqlServer2008", ""), Is.Null);
-			Assert.That(factory.GetUserRepository("SqlServer2008", ""), Is.Null);
-			Assert.That(factory.GetPageRepository("SqlServer2008", ""), Is.Null);
+			Assert.That(factory.GetSettingsRepository("SqlServer", ""), Is.Null);
+			Assert.That(factory.GetUserRepository("SqlServer", ""), Is.Null);
+			Assert.That(factory.GetPageRepository("SqlServer", ""), Is.Null);
 		}
 	}
 }

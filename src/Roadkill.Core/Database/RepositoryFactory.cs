@@ -59,7 +59,7 @@ namespace Roadkill.Core.Database
 			{
 				SupportedDatabases.MongoDB,
 				SupportedDatabases.Postgres,
-				SupportedDatabases.SqlServer2008
+				SupportedDatabases.SqlServer
 			};
 		}
 
@@ -71,7 +71,7 @@ namespace Roadkill.Core.Database
 			if (databaseProviderName == SupportedDatabases.Postgres)
 				return new PostgresConnectionFactory(connectionString);
 
-			// SQL Server is the default for any other name (e.g. "SqlServer2012"), as it was with Roadkill 2.x.
+			// SQL Server is the default for any other name (e.g. the 2.x "SqlServer2008" or "SqlServer2012"), as it was with Roadkill 2.x.
 			return new SqlConnectionFactory(connectionString);
 		}
 

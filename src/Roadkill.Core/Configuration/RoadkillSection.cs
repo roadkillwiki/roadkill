@@ -77,9 +77,9 @@ namespace Roadkill.Core.Configuration
 		public bool UseBrowserCache { get; set; }
 
 		/// <summary>
-		/// The database type/provider, e.g. SqlServer2008, Postgres, MongoDB.
+		/// The database type/provider, SqlServer, Postgres or MongoDB (the Roadkill 2.x names, e.g. SqlServer2008, are read as SqlServer).
 		/// </summary>
-		public string DatabaseName { get; set; } = "SqlServer2008";
+		public string DatabaseName { get; set; } = "SqlServer";
 
 		/// <summary>
 		/// Whether to use Azure blob storage for attachments.

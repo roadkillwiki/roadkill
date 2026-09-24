@@ -50,7 +50,7 @@ namespace Roadkill.Tests.Integration.Import
 			Directory.CreateDirectory(applicationSettings.AttachmentsFolder);
 
 			applicationSettings.ConnectionString = _connectionString;
-			applicationSettings.DatabaseName = "SqlServer2008";
+			applicationSettings.DatabaseName = "SqlServer";
 
 			var connectionFactory = new SqlConnectionFactory(_connectionString);
 			IPageRepository pageRepository = new DapperPageRepository(connectionFactory);
@@ -120,7 +120,7 @@ namespace Roadkill.Tests.Integration.Import
 			Directory.CreateDirectory(applicationSettings.AttachmentsFolder);
 
 			applicationSettings.ConnectionString = _connectionString;
-			applicationSettings.DatabaseName = "SqlServer2008";
+			applicationSettings.DatabaseName = "SqlServer";
 
 			var connectionFactory = new SqlConnectionFactory(_connectionString);
 			IPageRepository pageRepository = new DapperPageRepository(connectionFactory);
