@@ -41,6 +41,11 @@ Inventaire fait sur le parseur actuel (`Text/Parsers/Markdown.cs`, MarkdownSharp
 - [x] Mode d'emploi de migration : [docs/migration-v2-vers-v3.md](docs/migration-v2-vers-v3.md), version anglaise [docs/upgrade-v2-to-v3.md](docs/upgrade-v2-to-v3.md), script `tools/ConvertWebConfig.cs` / `.linq`
 - [x] CI : GitHub Actions (`.github/workflows/ci.yml`), AppVeyor/Travis et scripts de build .NET Framework supprimés
 - [x] Solution au format `Roadkill.slnx`
+- [x] `Assets/Scripts/roadkill.js` (bibliothèques + TypeScript compilé) régénéré à chaque build par une cible MSBuild
+  (remplace la tâche Grunt de la v2, qui ne tournait plus : le fichier versionné de la v2 était servi tel quel) ;
+  `gruntfile.js`/`package.json` supprimés. Le SCSS n'est plus compilé : `roadkill.css` reste le fichier versionné.
+- [x] Page d'édition : les scripts des plugins (MathJax, Mermaid, coloration syntaxique) sont chargés et l'aperçu est
+  re-rendu après chaque mise à jour (ne fonctionnait pas non plus en v2)
 
 ## Vérifications effectuées
 

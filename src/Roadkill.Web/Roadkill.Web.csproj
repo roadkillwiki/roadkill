@@ -29,9 +29,68 @@
     <Content Include="Assets\**;Themes\**;Plugins\**;App_Data\**"
              Exclude="@(Content);App_Data\Logs\**;App_Data\Internal\Search\**;App_Data\TempSmtp\**;App_Data\*.sdf;App_Data\*.mdf;App_Data\*.ldf;**\*.ts"
              CopyToPublishDirectory="PreserveNewest" />
-    <Content Remove="node_modules\**;package.json;package-lock.json" />
-    <None Include="package.json;gruntfile.js" />
+    <!-- Generated on build (see BundleRoadkillScripts) -->
+    <Content Remove="Assets\Scripts\roadkill.js" />
   </ItemGroup>
+
+  <!-- Assets/Scripts/roadkill.js, the script bundle of every page: the libraries and the javascript compiled from the
+       TypeScript files, concatenated after the TypeScript compilation (it was done by a Grunt task with Roadkill 2.x). -->
+  <ItemGroup>
+      <RoadkillBundle Include="Assets\Scripts\jquery\jquery-1.9.1.js" />
+      <RoadkillBundle Include="Assets\Scripts\jquery\jquery-ui-1.10.3.custom.js" />
+      <RoadkillBundle Include="Assets\Scripts\jquery\jquery.fieldSelection.js" />
+      <RoadkillBundle Include="Assets\Scripts\jquery\jquery.fileupload.js" />
+      <RoadkillBundle Include="Assets\Scripts\jquery\jquery.form-extensions.js" />
+      <RoadkillBundle Include="Assets\Scripts\jquery\jquery.iframe-transport.js" />
+      <RoadkillBundle Include="Assets\Scripts\jquery\jquery.timeago.js" />
+      <RoadkillBundle Include="Assets\Scripts\jquery\jquery.validate.js" />
+      <RoadkillBundle Include="Assets\Scripts\jquery\additional-methods.js" />
+      <RoadkillBundle Include="Assets\Scripts\roadkill\dialogs.js" />
+      <RoadkillBundle Include="Assets\Scripts\roadkill\setup.js" />
+      <RoadkillBundle Include="Assets\Scripts\roadkill\validation.js" />
+      <RoadkillBundle Include="Assets\Scripts\roadkill\editpage\editpage.js" />
+      <RoadkillBundle Include="Assets\Scripts\roadkill\editpage\wysiwygeditor.js" />
+      <RoadkillBundle Include="Assets\Scripts\roadkill\filemanager\ajaxrequest.js" />
+      <RoadkillBundle Include="Assets\Scripts\roadkill\filemanager\breadcrumbtrail.js" />
+      <RoadkillBundle Include="Assets\Scripts\roadkill\filemanager\buttonevents.js" />
+      <RoadkillBundle Include="Assets\Scripts\roadkill\filemanager\htmlbuilder.js" />
+      <RoadkillBundle Include="Assets\Scripts\roadkill\filemanager\setup.js" />
+      <RoadkillBundle Include="Assets\Scripts\roadkill\filemanager\tableevents.js" />
+      <RoadkillBundle Include="Assets\Scripts\roadkill\filemanager\util.js" />
+      <RoadkillBundle Include="Assets\Scripts\roadkill\sitesettings\settings.js" />
+      <RoadkillBundle Include="Assets\Scripts\shared\bootbox.js" />
+      <RoadkillBundle Include="Assets\Scripts\shared\head.js" />
+      <RoadkillBundle Include="Assets\Scripts\shared\tagmanager.js" />
+      <RoadkillBundle Include="Assets\Scripts\shared\toastr.js" />
+  </ItemGroup>
+
+  <UsingTask TaskName="ConcatenateFiles" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <Files ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+      <OutputFile ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Code Type="Fragment" Language="cs"><![CDATA[
+        var builder = new System.Text.StringBuilder();
+        foreach (var file in Files)
+        {
+          builder.Append(System.IO.File.ReadAllText(file.ItemSpec));
+          builder.Append("\n");
+        }
+        System.IO.File.WriteAllText(OutputFile, builder.ToString());
+      ]]></Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="BundleRoadkillScripts" AfterTargets="Compile" Inputs="@(RoadkillBundle)" Outputs="Assets\Scripts\roadkill.js">
+    <ConcatenateFiles Files="@(RoadkillBundle)" OutputFile="Assets\Scripts\roadkill.js" />
+  </Target>
+
+  <Target Name="PublishRoadkillScriptsBundle" AfterTargets="ComputeResolvedFilesToPublishList">
+    <ItemGroup>
+      <ResolvedFileToPublish Include="Assets\Scripts\roadkill.js" RelativePath="Assets\Scripts\roadkill.js" CopyToPublishDirectory="PreserveNewest" />
+    </ItemGroup>
+  </Target>
 
   <!-- The _ViewImports/_ViewStart files are needed at runtime by the views that aren't precompiled (custom themes
        and plugin views, compiled on the fly), so they are copied to the publish folder. -->

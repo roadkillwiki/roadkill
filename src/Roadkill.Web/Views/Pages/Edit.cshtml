@@ -3,6 +3,17 @@
 	ViewBag.Title = SiteStrings.EditPage_Title;
 }
 
+@section PluginHead
+{
+	<!-- Plugins (for the preview) -->
+	@Html.Raw(Model.PluginHeadHtml)<!-- End plugins head -->
+}
+
+@section PluginFooter
+{
+	@Html.Raw(Model.PluginFooterHtml)
+}
+
 <script type="text/javascript">
 	$(document).ready(function ()
 	{

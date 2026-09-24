@@ -127,7 +127,7 @@ namespace Roadkill.Core.Mvc.Controllers
 
 				model.AllTags = _pageService.AllTags().ToList();
 
-				return View("Edit", model);
+				return EditView(model);
 			}
 			else
 			{
@@ -146,7 +146,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ActionResult Edit(PageViewModel model)
 		{
 			if (!ModelState.IsValid)
-				return View("Edit", model);
+				return EditView(model);
 
 			_pageService.UpdatePage(model);
 
@@ -203,6 +203,19 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			model.AllTags = _pageService.AllTags().ToList();
 
+			return EditView(model);
+		}
+
+		/// <summary>
+		/// The edit page, with the head and footer HTML (scripts, CSS) of the enabled text plugins, so that the plugins which
+		/// render in the browser (e.g. MathJax, Mermaid, the syntax highlighter) also work in the preview.
+		/// </summary>
+		private ActionResult EditView(PageViewModel model)
+		{
+			PageHtml pluginHtml = _pageService.GetMarkupConverter().ToHtml("");
+			model.PluginHeadHtml = pluginHtml.HeadHtml;
+			model.PluginFooterHtml = pluginHtml.FooterHtml;
+
 			return View("Edit", model);
 		}
 
@@ -217,7 +230,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ActionResult New(PageViewModel model)
 		{
 			if (!ModelState.IsValid)
-				return View("Edit", model);
+				return EditView(model);
 
 			model = _pageService.AddPage(model);
 
