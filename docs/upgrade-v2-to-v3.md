@@ -8,7 +8,7 @@ The database **does not change** (same tables, same accounts, same passwords): d
 
 - Back up the database and the v2 site folder.
 - On the IIS server: install the **ASP.NET Core 10 Hosting Bundle** and set the application pool to **"No Managed Code"**.
-- Supported databases: **SQL Server** and **Postgres** (tested). MongoDB is kept but **untested**. MySQL, SQLite/SQL CE and Windows/AD authentication are no longer supported.
+- Supported databases: **SQL Server** and **Postgres** (tested). MongoDB is kept: its repositories pass the integration tests, but a wiki running on MongoDB **hasn't been tried**. MySQL, SQLite/SQL CE and Windows/AD authentication are no longer supported.
 
 ## 2. Publish the new version
 

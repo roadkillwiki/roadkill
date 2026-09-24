@@ -18,16 +18,14 @@ namespace Roadkill.Tests
 		public static readonly string WEB_PATH;
 
 		/// <summary>
-		/// The SQL Server database for the integration tests (its tables are dropped and re-created).
-		/// Set with the ROADKILL_SQLSERVER_CONNECTION_STRING environment variable.
+		/// The databases of the integration tests (their tables are dropped and re-created), started in containers on
+		/// first use: see <see cref="TestDatabases"/>.
 		/// </summary>
-		public static readonly string SQLSERVER_CONNECTION_STRING;
+		public static string SQLSERVER_CONNECTION_STRING => TestDatabases.SqlServerConnectionString;
 
-		/// <summary>
-		/// The Postgres database for the integration tests (its tables are dropped and re-created).
-		/// Set with the ROADKILL_POSTGRES_CONNECTION_STRING environment variable.
-		/// </summary>
-		public static readonly string POSTGRES_CONNECTION_STRING;
+		public static string POSTGRES_CONNECTION_STRING => TestDatabases.PostgresConnectionString;
+
+		public static string MONGODB_CONNECTION_STRING => TestDatabases.MongoDBConnectionString;
 		
 		public static readonly string REST_API_KEY = "apikey1";
 
@@ -39,14 +37,6 @@ namespace Roadkill.Tests
 			LIB_FOLDER = Path.Combine(ROOT_FOLDER, "lib");
 			PACKAGES_FOLDER = Path.Combine(ROOT_FOLDER, "packages");
 			WEB_PATH = new DirectoryInfo(Path.Combine(ROOT_FOLDER, "src", "Roadkill.Web")).FullName;
-
-			SQLSERVER_CONNECTION_STRING = Environment.GetEnvironmentVariable("ROADKILL_SQLSERVER_CONNECTION_STRING");
-			if (string.IsNullOrEmpty(SQLSERVER_CONNECTION_STRING))
-				SQLSERVER_CONNECTION_STRING = "Server=localhost;Database=roadkilltests;User ID=sa;Password=Roadkill_Pass1;TrustServerCertificate=true;Connect Timeout=5";
-
-			POSTGRES_CONNECTION_STRING = Environment.GetEnvironmentVariable("ROADKILL_POSTGRES_CONNECTION_STRING");
-			if (string.IsNullOrEmpty(POSTGRES_CONNECTION_STRING))
-				POSTGRES_CONNECTION_STRING = "User ID=postgres;Password=Roadkill1;Host=localhost;Port=5432;Database=roadkilltests;";
 		}
 	}
 }

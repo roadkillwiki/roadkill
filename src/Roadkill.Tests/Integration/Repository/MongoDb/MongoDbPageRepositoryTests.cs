@@ -10,7 +10,7 @@ namespace Roadkill.Tests.Integration.Repository.MongoDb
 	{
 		protected override string ConnectionString
 		{
-			get { return @"mongodb://localhost:27017/local"; }
+			get { return TestConstants.MONGODB_CONNECTION_STRING; }
 		}
 
 		protected override IPageRepository GetRepository()
@@ -21,12 +21,6 @@ namespace Roadkill.Tests.Integration.Repository.MongoDb
 		protected override void Clearup()
 		{
 			new MongoDBPageRepository(ConnectionString).Wipe();
-		}
-
-		protected override void CheckDatabaseProcessIsRunning()
-		{
-			if (TestHelpers.IsMongoDBRunning() == false)
-				Assert.Ignore("MongoDB is not tested (set ROADKILL_MONGODB_TESTS=true with a local MongoDB server to run these tests)");
 		}
 	}
 }

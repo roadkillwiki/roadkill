@@ -10,36 +10,8 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
-    services:
-      mssql:
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        env:
-          ACCEPT_EULA: Y
-          MSSQL_SA_PASSWORD: Roadkill_Pass1
-        ports:
-          - 1433:1433
-        options: >-
-          --health-cmd "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P Roadkill_Pass1 -C -Q 'SELECT 1'"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 12
-
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_PASSWORD: Roadkill1
-          POSTGRES_DB: roadkilltests
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U postgres"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 6
-
+    # The integration tests start SQL Server, Postgres and MongoDB themselves, in containers (Testcontainers + Docker)
     env:
-      ROADKILL_SQLSERVER_CONNECTION_STRING: Server=localhost;Database=roadkilltests;User ID=sa;Password=Roadkill_Pass1;TrustServerCertificate=true;Connect Timeout=5
-      ROADKILL_POSTGRES_CONNECTION_STRING: User ID=postgres;Password=Roadkill1;Host=localhost;Port=5432;Database=roadkilltests;
       DOTNET_NOLOGO: true
 
     steps:
@@ -48,12 +20,6 @@ jobs:
       - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
-
-      - name: Create the SQL Server test database
-        run: >-
-          docker exec ${{ job.services.mssql.id }}
-          /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P Roadkill_Pass1 -C
-          -Q "IF DB_ID('roadkilltests') IS NULL CREATE DATABASE roadkilltests"
 
       - name: Build
         run: dotnet build Roadkill.slnx -c Release

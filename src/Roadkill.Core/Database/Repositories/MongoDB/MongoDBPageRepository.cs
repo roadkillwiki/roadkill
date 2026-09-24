@@ -104,7 +104,9 @@ namespace Roadkill.Core.Database.MongoDB
 			if (string.IsNullOrEmpty(title))
 				return null;
 
-			return Pages.FirstOrDefault(p => p.Title == title);
+			// Case insensitive, as with SQL Server and Postgres
+			string lowerTitle = title.ToLowerInvariant();
+			return Pages.FirstOrDefault(p => p.Title.ToLower() == lowerTitle);
 		}
 
 		public PageContent GetPageContentById(Guid id)

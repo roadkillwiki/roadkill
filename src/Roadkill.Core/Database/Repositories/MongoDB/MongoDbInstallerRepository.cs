@@ -35,7 +35,14 @@ namespace Roadkill.Core.Database.MongoDB
 			user.IsEditor = true;
 			user.IsActivated = true;
 
-			SaveOrUpdate<User>(user);
+			try
+			{
+				SaveOrUpdate<User>(user);
+			}
+			catch (Exception ex)
+			{
+				throw new DatabaseException(ex, "Install failed: unable to create the admin user {0}", ex.Message);
+			}
 		}
 
 		public void CreateSchema()

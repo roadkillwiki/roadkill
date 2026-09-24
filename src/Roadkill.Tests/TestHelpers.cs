@@ -7,19 +7,6 @@ namespace Roadkill.Tests
 {
 	public class TestHelpers
 	{
-		/// <summary>
-		/// MongoDB isn't tested: set the ROADKILL_MONGODB_TESTS environment variable to "true" to run its integration tests.
-		/// </summary>
-		public static bool IsMongoDBRunning()
-		{
-			return string.Equals(Environment.GetEnvironmentVariable("ROADKILL_MONGODB_TESTS"), "true", StringComparison.OrdinalIgnoreCase);
-		}
-
-		public static string GetEnvironmentalVariable(string name)
-		{
-			return Environment.GetEnvironmentVariable(name);
-		}
-
 		public class SqlServerSetup
 		{
 			public static void RecreateTables()

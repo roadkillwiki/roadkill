@@ -8,7 +8,7 @@ La base de données **ne change pas** (mêmes tables, mêmes comptes, mêmes mot
 
 - Sauvegarder la base de données et le dossier du site v2.
 - Sur le serveur IIS : installer le **ASP.NET Core 10 Hosting Bundle**, et configurer le pool d'applications en **« Aucun code managé »**.
-- Bases supportées : **SQL Server** et **Postgres** (testés). MongoDB est conservé mais **non testé**. MySQL, SQLite/SQL CE et l'authentification Windows/AD ne sont plus supportés.
+- Bases supportées : **SQL Server** et **Postgres** (testés). MongoDB est conservé : ses dépôts passent les tests d'intégration, mais un wiki sous MongoDB n'a **pas été essayé**. MySQL, SQLite/SQL CE et l'authentification Windows/AD ne sont plus supportés.
 
 ## 2. Publier la nouvelle version
 

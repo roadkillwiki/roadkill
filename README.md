@@ -31,13 +31,16 @@ This fork has been migrated to **.NET 10 / ASP.NET Core MVC** (details in [MIGRA
 
 #### Kept but untested
 
-* **MongoDB** (driver updated, integration tests skipped by default), Azure Blob attachments storage, SMTP sending, reCAPTCHA v2, hosting on IIS.
+* **MongoDB**: its repositories pass the integration tests, but a wiki running on MongoDB hasn't been tried.
+* Azure Blob attachments storage, SMTP sending, reCAPTCHA v2, hosting on IIS.
 
 #### Build and test
 
 * Build and run: `dotnet run --project src/Roadkill.Web` (solution file: `Roadkill.slnx`).
-* Tests: `dotnet test src/Roadkill.Tests`. The integration tests use the `ROADKILL_SQLSERVER_CONNECTION_STRING` and
-  `ROADKILL_POSTGRES_CONNECTION_STRING` environment variables.
+* Tests: `dotnet test src/Roadkill.Tests`. The integration tests start SQL Server, Postgres and MongoDB themselves in throwaway
+  containers ([Testcontainers](https://dotnet.testcontainers.org/)): Docker or a Podman machine must be running, nothing else to
+  install or configure. The databases to test (and optionally the container engine endpoint) are set in
+  `src/Roadkill.Tests/appsettings.json`. If the container engine isn't available, the integration tests fail.
 
 # Introduction
 

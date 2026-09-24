@@ -20,6 +20,9 @@
     <PackageReference Include="Moq" Version="4.21.0" />
     <PackageReference Include="NUnit" Version="4.6.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="6.3.0" />
+    <PackageReference Include="Testcontainers.MongoDb" Version="4.15.0" />
+    <PackageReference Include="Testcontainers.MsSql" Version="4.15.0" />
+    <PackageReference Include="Testcontainers.PostgreSql" Version="4.15.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="Unit\Attachments\afile.jpg;Unit\Text\whitelist.xml;Integration\Import\screwturn3.sql" CopyToOutputDirectory="PreserveNewest" />
     <EmbeddedResource Include="Unit\Export\*.sql" />
   </ItemGroup>

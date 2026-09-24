@@ -62,11 +62,17 @@ namespace Roadkill.Core.Database.MongoDB
 		}
 
 		/// <summary>
-		/// Inserts or replaces the document, using its _id (the same behaviour as the legacy MongoCollection.Save method).
+		/// Inserts or replaces the document, using its _id (the same behaviour as the legacy MongoCollection.Save method):
+		/// an empty id (e.g. a new User with an empty Guid) is generated first, so new documents don't overwrite each other.
 		/// </summary>
 		public static void SaveOrUpdate<T>(string connectionString, T obj)
 		{
 			IMongoCollection<T> collection = GetCollection<T>(connectionString);
+
+			BsonMemberMap idMemberMap = BsonClassMap.LookupClassMap(typeof(T)).IdMemberMap;
+			if (idMemberMap?.IdGenerator != null && idMemberMap.IdGenerator.IsEmpty(idMemberMap.Getter(obj)))
+				idMemberMap.Setter(obj, idMemberMap.IdGenerator.GenerateId(collection, obj));
+
 			BsonValue id = obj.ToBsonDocument()["_id"];
 			collection.ReplaceOne(new BsonDocument("_id", id), obj, new ReplaceOptions() { IsUpsert = true });
 		}
