@@ -1,116 +1,56 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using Mindscape.LightSpeed;
-using Mindscape.LightSpeed.Caching;
-using Roadkill.Core.Database.LightSpeed;
 using Roadkill.Core.Database.MongoDB;
 using Roadkill.Core.Database.Repositories;
+using Roadkill.Core.Database.Repositories.Dapper;
 using Roadkill.Core.Database.Schema;
-using Roadkill.Core.DependencyResolution;
 
 namespace Roadkill.Core.Database
 {
+	/// <summary>
+	/// Creates the repositories for the configured database: Dapper for SQL Server and Postgres, the official driver for MongoDB.
+	/// </summary>
 	public class RepositoryFactory : IRepositoryFactory
 	{
-		// Hack to make sure the factory doesn't return invalid Repositories, while installing.
-		private readonly bool _pendingInstallation;
-
-		public LightSpeedContext Context { get; set; }
-		internal Func<LightSpeedContext, IUnitOfWork> UnitOfWorkFunc { get; set; }
-
-		public RepositoryFactory()
-		{
-		}
-
-		public RepositoryFactory(string databaseProviderName, string connectionString)
-		{
-			if (string.IsNullOrEmpty(connectionString))
-			{
-				_pendingInstallation = true;
-				return;
-			}
-
-			if (databaseProviderName == SupportedDatabases.MongoDB)
-				return;
-
-			SetupLightSpeed(databaseProviderName, connectionString);
-		}
-
-		private void SetupLightSpeed(string databaseProviderName, string connectionString)
-		{
-			DataProvider provider = DataProvider.SqlServer2008;
-
-			if (databaseProviderName == SupportedDatabases.MySQL)
-			{
-				provider = DataProvider.MySql5;
-			}
-			else if (databaseProviderName == SupportedDatabases.Postgres)
-			{
-				provider = DataProvider.PostgreSql9;
-			}
-
-			Context = new LightSpeedContext();
-			Context.Cache = new CacheBroker(new DefaultCache());
-			Context.ConnectionString = connectionString;
-			Context.DataProvider = provider;
-			Context.IdentityMethod = IdentityMethod.GuidComb;
-			Context.CascadeDeletes = true;
-
-			UnitOfWorkFunc = context => LocatorStartup.Locator.GetInstance<IUnitOfWork>();
-		}
-
-		public void EnableVerboseLogging()
-		{
-			Context.VerboseLogging = true;
-			Context.Logger = new DatabaseLogger();
-		}
-
 		public ISettingsRepository GetSettingsRepository(string databaseProviderName, string connectionString)
 		{
-			if (_pendingInstallation)
+			if (string.IsNullOrEmpty(connectionString))
 				return null;
 
 			if (databaseProviderName == SupportedDatabases.MongoDB)
-			{
 				return new MongoDBSettingsRepository(connectionString);
-			}
-			else
-			{
-				IUnitOfWork unitOfWork = UnitOfWorkFunc(Context);
-				return new LightSpeedSettingsRepository(unitOfWork);
-			}
+
+			return new DapperSettingsRepository(CreateConnectionFactory(databaseProviderName, connectionString));
 		}
 
 		public IUserRepository GetUserRepository(string databaseProviderName, string connectionString)
 		{
-			if (_pendingInstallation)
+			if (string.IsNullOrEmpty(connectionString))
 				return null;
 
 			if (databaseProviderName == SupportedDatabases.MongoDB)
-			{
 				return new MongoDBUserRepository(connectionString);
-			}
-			else
-			{
-				IUnitOfWork unitOfWork = UnitOfWorkFunc(Context);
-				return new LightSpeedUserRepository(unitOfWork);
-			}
+
+			return new DapperUserRepository(CreateConnectionFactory(databaseProviderName, connectionString));
 		}
 
 		public IPageRepository GetPageRepository(string databaseProviderName, string connectionString)
 		{
-			if (_pendingInstallation)
+			if (string.IsNullOrEmpty(connectionString))
 				return null;
 
 			if (databaseProviderName == SupportedDatabases.MongoDB)
-			{
 				return new MongoDBPageRepository(connectionString);
-			}
-			else
-			{
-				IUnitOfWork unitOfWork = UnitOfWorkFunc(Context);
-				return new LightSpeedPageRepository(unitOfWork);
-			}
+
+			return new DapperPageRepository(CreateConnectionFactory(databaseProviderName, connectionString));
+		}
+
+		public IInstallerRepository GetInstallerRepository(string databaseProviderName, string connectionString)
+		{
+			if (databaseProviderName == SupportedDatabases.MongoDB)
+				return new MongoDbInstallerRepository(connectionString);
+
+			return new DapperInstallerRepository(CreateConnectionFactory(databaseProviderName, connectionString), CreateSchema(databaseProviderName));
 		}
 
 		public IEnumerable<RepositoryInfo> ListAll()
@@ -118,10 +58,31 @@ namespace Roadkill.Core.Database
 			return new List<RepositoryInfo>()
 			{
 				SupportedDatabases.MongoDB,
-				SupportedDatabases.MySQL,
 				SupportedDatabases.Postgres,
 				SupportedDatabases.SqlServer2008
 			};
+		}
+
+		/// <summary>
+		/// Creates a <see cref="IDbConnectionFactory"/> for the SQL based database providers.
+		/// </summary>
+		public static IDbConnectionFactory CreateConnectionFactory(string databaseProviderName, string connectionString)
+		{
+			if (databaseProviderName == SupportedDatabases.Postgres)
+				return new PostgresConnectionFactory(connectionString);
+
+			if (string.IsNullOrEmpty(databaseProviderName) || databaseProviderName == SupportedDatabases.SqlServer2008)
+				return new SqlConnectionFactory(connectionString);
+
+			throw new DatabaseException(null, "The database provider '{0}' is not supported.", databaseProviderName);
+		}
+
+		private static SchemaBase CreateSchema(string databaseProviderName)
+		{
+			if (databaseProviderName == SupportedDatabases.Postgres)
+				return new PostgresSchema();
+
+			return new SqlServerSchema();
 		}
 	}
 }

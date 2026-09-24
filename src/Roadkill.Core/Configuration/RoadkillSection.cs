@@ -1,242 +1,109 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Configuration;
-using System.Xml;
-using System.Xml.XPath;
-using Roadkill.Core.Security;
 
-// Don't change the namespace to "Roadkill.Core.Configuration" it will break older web.config files
-namespace Roadkill.Core 
+namespace Roadkill.Core.Configuration
 {
 	/// <summary>
-	/// Config file settings - represents a &lt;roadkill&gt; section inside a configuration file.
+	/// The Roadkill settings stored in the roadkill.json file (previously the roadkill section of the web.config).
 	/// </summary>
-	public class RoadkillSection : ConfigurationSection
+	public class RoadkillSection
 	{
 		/// <summary>
-		/// Gets or sets the name of the admin role.
+		/// The name of the role that users should belong to in order to create,edit,delete pages,
+		/// manage users, manage site settings and use the admin tools.
 		/// </summary>
-		[ConfigurationProperty("adminRoleName", IsRequired = true)]
-		public string AdminRoleName
-		{
-			get { return (string)this["adminRoleName"]; }
-			set { this["adminRoleName"] = value; }
-		}
+		public string AdminRoleName { get; set; } = "Admin";
 
 		/// <summary>
-		/// Gets or sets the api keys (comma seperated) used for access to the REST api. If this is empty, then the REST api is disabled.
+		/// A comma separated list of API keys for the REST api. If this is empty, the REST api is disabled.
 		/// </summary>
-		[ConfigurationProperty("apiKeys", IsRequired = false)]
-		public string ApiKeys
-		{
-			get { return (string)this["apiKeys"]; }
-			set { this["apiKeys"] = value; }
-		}
+		public string ApiKeys { get; set; } = "";
 
 		/// <summary>
-		/// Gets or sets the attachments folder, which should begin with "~/".
+		/// The folder where all uploads (typically image files) are saved to.
 		/// </summary>
-		[ConfigurationProperty("attachmentsFolder", IsRequired = true)]
-		public string AttachmentsFolder
-		{
-			get { return (string)this["attachmentsFolder"]; }
-			set { this["attachmentsFolder"] = value; }
-		}
+		public string AttachmentsFolder { get; set; } = "~/App_Data/Attachments";
 
 		/// <summary>
-		/// TODO: comments
+		/// The route used for all attachment HTTP requests.
 		/// </summary>
-		[ConfigurationProperty("attachmentsRoutePath", IsRequired = false, DefaultValue = "Attachments")]
-		public string AttachmentsRoutePath
-		{
-			get { return (string)this["attachmentsRoutePath"]; }
-			set { this["attachmentsRoutePath"] = value; }
-		}
-
+		public string AttachmentsRoutePath { get; set; } = "Attachments";
 
 		/// <summary>
-		/// Gets or sets the name of the connection string in the connectionstrings section.
+		/// The connection string to the Roadkill database.
 		/// </summary>
-		[ConfigurationProperty("connectionStringName", IsRequired = true)]
-		public string ConnectionStringName
-		{
-			get { return (string)this["connectionStringName"]; }
-			set { this["connectionStringName"] = value; }
-		}
+		public string ConnectionString { get; set; } = "";
 
 		/// <summary>
-		/// Gets or sets the name of the editor role.
+		/// The name of the role that users should belong to in order to create and edit pages.
 		/// </summary>
-		[ConfigurationProperty("editorRoleName", IsRequired = true)]
-		public string EditorRoleName
-		{
-			get { return (string)this["editorRoleName"]; }
-			set { this["editorRoleName"] = value; }
-		}
+		public string EditorRoleName { get; set; } = "Editor";
 
 		/// <summary>
 		/// Whether errors in updating the lucene index throw exceptions or are just ignored.
 		/// </summary>
-		[ConfigurationProperty("ignoreSearchIndexErrors", IsRequired = false)]
-		public bool IgnoreSearchIndexErrors
-		{
-			get { return (bool)this["ignoreSearchIndexErrors"]; }
-			set { this["ignoreSearchIndexErrors"] = value; }
-		}
+		public bool IgnoreSearchIndexErrors { get; set; } = true;
 
 		/// <summary>
-		/// Gets or sets whether this roadkill instance has been installed.
+		/// Whether the installation has been completed.
 		/// </summary>
-		[ConfigurationProperty("installed", IsRequired = true)]
-		public bool Installed
-		{
-			get { return (bool)this["installed"]; }
-			set { this["installed"] = value; }
-		}
+		public bool Installed { get; set; }
 
 		/// <summary>
-		/// Whether the site is public, i.e. all pages are visible by default. The default is true,
-		/// and this is optional.
+		/// Whether the site is public, i.e. all pages are visible by default.
 		/// </summary>
-		[ConfigurationProperty("isPublicSite", IsRequired = false, DefaultValue = true)]
-		public bool IsPublicSite
-		{
-			get { return (bool)this["isPublicSite"]; }
-			set { this["isPublicSite"] = value; }
-		}
+		public bool IsPublicSite { get; set; } = true;
 
 		/// <summary>
-		/// For example: LDAP://mydc01.company.internal
+		/// Whether to remove all HTML tags from the markup except those found in the whitelist.xml file.
 		/// </summary>
-		[ConfigurationProperty("ldapConnectionString", IsRequired = false)]
-		public string LdapConnectionString
-		{
-			get { return (string)this["ldapConnectionString"]; }
-			set { this["ldapConnectionString"] = value; }
-		}
+		public bool UseHtmlWhiteList { get; set; } = true;
 
 		/// <summary>
-		/// The username to authenticate against the AD with
+		/// The type used for the user service (an assembly qualified name). Blank uses the default forms based service.
 		/// </summary>
-		[ConfigurationProperty("ldapUsername", IsRequired = false)]
-		public string LdapUsername
-		{
-			get { return (string)this["ldapUsername"]; }
-			set { this["ldapUsername"] = value; }
-		}
+		public string UserServiceType { get; set; } = "";
 
 		/// <summary>
-		/// The password to authenticate against the AD with
+		/// Whether to enabled the server side object cache.
 		/// </summary>
-		[ConfigurationProperty("ldapPassword", IsRequired = false)]
-		public string LdapPassword
-		{
-			get { return (string)this["ldapPassword"]; }
-			set { this["ldapPassword"] = value; }
-		}
+		public bool UseObjectCache { get; set; } = true;
 
 		/// <summary>
-		/// Whether to remove all HTML tags from the markup except those found in the whitelist.xml file,
-		/// inside the App_Data folder.
+		/// Whether to send HTTP cache headers to the browser.
 		/// </summary>
-		[ConfigurationProperty("useHtmlWhiteList", IsRequired = false, DefaultValue = true)]
-		public bool UseHtmlWhiteList
-		{
-			get { return (bool)this["useHtmlWhiteList"]; }
-			set { this["useHtmlWhiteList"] = value; }
-		}
+		public bool UseBrowserCache { get; set; }
 
 		/// <summary>
-		/// Whether to enabled Windows and Active Directory authentication.
+		/// The database type/provider, e.g. SqlServer2008, Postgres, MongoDB.
 		/// </summary>
-		[ConfigurationProperty("useWindowsAuthentication", IsRequired = true)]
-		public bool UseWindowsAuthentication
-		{
-			get { return (bool)this["useWindowsAuthentication"]; }
-			set { this["useWindowsAuthentication"] = value; }
-		}
+		public string DatabaseName { get; set; } = "SqlServer2008";
 
 		/// <summary>
-		/// The type used for the managing users, in the format "MyNamespace.Type".
-		/// This class should inherit from the <see cref="UserServiceBase"/> class or a one of its derived types.
+		/// Whether to use Azure blob storage for attachments.
 		/// </summary>
-		[ConfigurationProperty("userServiceType", IsRequired = false)]
-		public string UserServiceType
-		{
-			get { return (string)this["userServiceType"]; }
-			set { this["userServiceType"] = value; }
-		}
+		public bool UseAzureFileStorage { get; set; }
 
 		/// <summary>
-		/// Indicates whether server-based page object caching is enabled.
+		/// The connection string for Azure blob storage.
 		/// </summary>
-		[ConfigurationProperty("useObjectCache", IsRequired = false, DefaultValue = true)]
-		public bool UseObjectCache
-		{
-			get { return (bool)this["useObjectCache"]; }
-			set { this["useObjectCache"] = value; }
-		}
+		public string AzureConnectionString { get; set; } = "";
 
 		/// <summary>
-		/// Indicates whether page content should be cached, if <see cref="UseObjectCache"/> is true.
+		/// The Azure blob storage container for attachments.
 		/// </summary>
-		[ConfigurationProperty("useBrowserCache", IsRequired = false, DefaultValue = false)]
-		public bool UseBrowserCache
-		{
-			get { return (bool)this["useBrowserCache"]; }
-			set { this["useBrowserCache"] = value; }
-		}
+		public string AzureContainer { get; set; } = "";
 
 		/// <summary>
-		/// Gets a value indicating whether the <see cref="T:System.Configuration.ConfigurationElement"/> object is read-only,
-		/// and can therefore be saved back to disk.
+		/// The UI language code, e.g. "en" or "fr".
 		/// </summary>
-		/// <returns>This returns true.</returns>
-		public override bool IsReadOnly()
-		{
-			return false;
-		}
+		public string UiLanguage { get; set; } = "en";
 
 		/// <summary>
-		/// The database type for Roadkill. This defaults to SQLServer2008 (MongoDB on Mono) if empty.
+		/// Whether this instance is running as the (read only) demo site.
 		/// </summary>
-		[ConfigurationProperty("databaseName", IsRequired = false)]
-		internal string DatabaseName
-		{
-			get { return (string)this["databaseName"]; }
-			set { this["databaseName"] = value; }
-		}
-
-		/// <summary>
-		/// TODO: comments + tests
-		/// </summary>
-		[ConfigurationProperty("useAzureFileStorage", IsRequired = false, DefaultValue = false)]
-		public bool UseAzureFileStorage
-		{
-			get { return (bool)this["useAzureFileStorage"]; }
-			set { this["useAzureFileStorage"] = value; }
-		}
-
-		/// <summary>
-		/// TODO: comments + tests
-		/// </summary>
-		[ConfigurationProperty("azureConnectionString", IsRequired = false, DefaultValue = "Attachments")]
-		public string AzureConnectionString
-		{
-			get { return (string)this["azureConnectionString"]; }
-			set { this["azureConnectionString"] = value; }
-		}
-
-		/// <summary>
-		/// TODO: comments + tests
-		/// </summary>
-		[ConfigurationProperty("azureContainer", IsRequired = false, DefaultValue = "Attachments")]
-		public string AzureContainer
-		{
-			get { return (string)this["azureContainer"]; }
-			set { this["azureContainer"] = value; }
-		}
+		public bool IsDemoSite { get; set; }
 	}
 }
