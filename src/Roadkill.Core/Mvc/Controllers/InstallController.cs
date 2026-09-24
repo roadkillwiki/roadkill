@@ -25,7 +25,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		private readonly ConfigReaderWriter _configReaderWriter;
 		private readonly IInstallationService _installationService;
 		private readonly IDatabaseTester _databaseTester;
-		private static string _uiLanguageCode = "en";
 
 		public ApplicationSettings ApplicationSettings { get; private set; }
 		public UserServiceBase UserService { get; private set; }

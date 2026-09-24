@@ -18,7 +18,6 @@ namespace Roadkill.Core.Logging
 	public class Log
 	{
 		private static readonly Logger _logger;
-		private static readonly string LOGGER_NAME = "Roadkill";
 
 		public static string NLogConfigPath { get; set; }
 

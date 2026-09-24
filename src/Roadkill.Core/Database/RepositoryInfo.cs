@@ -71,5 +71,10 @@ namespace Roadkill.Core.Database
 
 			return other.Id.Equals(Id, StringComparison.OrdinalIgnoreCase);
 		}
+
+		public override int GetHashCode()
+		{
+			return Id == null ? 0 : StringComparer.OrdinalIgnoreCase.GetHashCode(Id);
+		}
 	}
 }

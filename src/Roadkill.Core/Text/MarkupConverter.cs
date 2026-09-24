@@ -96,7 +96,6 @@ namespace Roadkill.Core.Converters
 
 				case "mediawiki":
 					throw new NotImplementedException("Sorry, Mediawiki markup is no longer supported.");
-					break;
 
 				case "markdown":
 					default:
