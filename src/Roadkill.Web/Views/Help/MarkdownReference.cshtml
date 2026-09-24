@@ -35,23 +35,32 @@
 		<td>
 			<b>Spaces are not allowed in link URLs: use "-" instead of a space for a page title.</b><br /><br />
 
-			Link to [a wiki page](My-page-title)<br />
-			This is [the yahoo page](https://www.yahoo.com)<br />
-			This is [the yahoo page][1]<br />
-			[1]: https://www.yahoo.com<br /><br />
+			<b>Wiki page</b>, by its title: [the text](My-page-title)<br />
+			<i>If the page doesn't exist, the link is shown in red and creates the page.</i><br /><br />
 
-			Web addresses are links: https://www.yahoo.com or www.yahoo.com
+			<b>Web page</b>: [the text](https://www.example.com) or [the text][1] with, anywhere in the page:<br />
+			[1]: https://www.example.com<br />
+			Web addresses are links too: https://www.example.com or www.example.com<br /><br />
+
+			<b>Attachment</b> (file in the attachments folder, see the file manager):<br />
+			[the manual](attachment:/docs/manual.pdf) or [the manual](~/docs/manual.pdf)<br /><br />
+
+			<b>Special page</b>: [a random page](Special:Random)<br />
+			<b>Email</b>: [write to me](mailto:me@example.com)<br />
+			<b>Tooltip</b>: [the text](https://www.example.com "Shown on mouse over")
 		</td>
 	</tr>
 	<tr>
 		<td class="bold">Images</td>
 		<td>
-			![Alt text](someimage.jpg)<br />
-			![Alt text](someimage.jpg "Title")<br /><br />
+			<b>Attachment</b> (path in the attachments folder): ![Alt text](photo.jpg) or ![Alt text](photos/2024/trip.jpg)<br />
+			<b>Web image</b>: ![Alt text](https://www.example.com/image.png)<br />
+			<b>Tooltip</b>: ![Alt text](photo.jpg "Title")<br /><br />
 
-			Size (width x height, in pixels, either can be left out):<br />
-			![Alt text](someimage.jpg =250x100)<br />
-			![Alt text](someimage.jpg =250x)
+			<b>Size</b> (width x height, in pixels, either can be left out):<br />
+			![Alt text](photo.jpg =250x100) &nbsp; ![Alt text](photo.jpg =250x) &nbsp; ![Alt text](photo.jpg =x100)<br /><br />
+
+			<b>Image that is a link</b>: [![Alt text](photo.jpg)](My-page-title)
 		</td>
 	</tr>
 	<tr>
