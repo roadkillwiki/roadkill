@@ -122,6 +122,8 @@ Consigne : pas d'effort supplémentaire sur MongoDB pour l'instant, hormis des c
 - Pas de Docker / base locale / lancement de l'application sans autorisation explicite de l'utilisateur : vérifications
   de ce type seulement ponctuellement, pas après chaque modification.
 - Ne pas surveiller la PR inutilement ; ne pas fusionner.
+- Thèmes (ex. `Themes/Mediawiki_Modified_Dark`, fourni par l'utilisateur) : ils peuvent être modifiés librement pour
+  corriger leurs problèmes d'affichage ; c'est au thème de s'adapter à l'application, pas l'inverse.
 
 ### Notes pratiques pour reprendre
 
