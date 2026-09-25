@@ -133,15 +133,17 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public JsonResult Upload()
 		{
+			// JSON sent as text/plain, as with Roadkill 2.x (for the iframe transport of the upload plugin). With ASP.NET Core,
+			// the second parameter of Json() is the serializer settings, not the content type: it made the upload response fail.
 			try
 			{
 				string destinationFolder = Request.Form["destination_folder"];
 				string fileName = _fileService.Upload(destinationFolder, Request.Form.Files);
-				return Json(new { status = "ok", filename = fileName }, "text/plain");
+				return new JsonResult(new { status = "ok", filename = fileName }) { ContentType = "text/plain" };
 			}
 			catch (FileException e)
 			{
-				return Json(new { status = "error", message = e.Message }, "text/plain");
+				return new JsonResult(new { status = "error", message = e.Message }) { ContentType = "text/plain" };
 			}
 		}
 

@@ -160,3 +160,22 @@ div.syntaxhighlighter .container::before
 .panel-default				{ border-color:#33334d; }
 .panel-default > .panel-heading { color:#eee;background-color:#1a1a2e;border-color:#33334d; }
 
+
+/* Gestionnaire de fichiers (/filemanager, et fenêtre de choix d'image de la
+   page d'édition) : fonds clairs codés en dur dans Assets/CSS/roadkill.css
+   (#folder-container blanc, en-tête du tableau whitesmoke, lignes survolée et
+   sélectionnée aliceblue/azure) et dans Bootstrap (fil d'Ariane, barre de
+   progression) → noms de fichiers en #eee quasi invisibles. Theme.css chargeant
+   après ces deux CSS, la même spécificité suffit (pas de !important). */
+#folder-container		{ background-color:#12121f;border:1px solid #33334d; }
+table#files thead tr	{ background-color:#1a1a2e; }
+table#files tr.focus	{ background-color:#2a2a48; }
+table#files tr.select	{ background-color:#33334d;border:1px solid #525268; }
+#newfolderinput			{ background:#22223d;color:#eee;border:1px solid #33334d; }
+.breadcrumb				{ background-color:#12121f; }
+.breadcrumb > .active	{ color:#999; }
+.progress				{ background-color:#12121f; }
+
+/* Encadrés d'information Bootstrap (ex. l'aide en haut du gestionnaire de
+   fichiers) : fond bleu très clair en dur, adouci pour le fond sombre. */
+.alert-info				{ background-color:#1f2f45;border-color:#2e4a6b;color:#adcbfa; }
