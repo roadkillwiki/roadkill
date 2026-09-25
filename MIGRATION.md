@@ -91,6 +91,8 @@ Consigne : pas d'effort supplémentaire sur MongoDB pour l'instant, hormis des c
 - Page « Markup help » complétée : GFM, liens (page, web, `attachment:`, `~/`, `Special:`, `mailto:`), images (taille, lien),
   plugins, langages de la coloration syntaxique (liste v2 + alias).
 - Message « Unable to save the page: » affiché à tort (résumé de validation rendu par ASP.NET Core même sans erreur).
+- Fichiers de base obsolètes supprimés : `App_Data/roadkill.mdf` (LocalDB/Express, inutilisé), `roadkill152.sdf` et
+  `roadkill-acceptancetests.sdf` (SQL CE), `lib/Test-databases/Upgrade` (bases 1.5.2) ; exemple `AttachDbFilename` retiré de l'installeur.
 - Outils : exports zip (`PhysicalFile` au lieu de `File`) ; `ActionLink(texte, action, null, new { @class })` interprété
   différemment par ASP.NET Core (classe passée en paramètre d'URL) : 8 appels corrigés.
 
