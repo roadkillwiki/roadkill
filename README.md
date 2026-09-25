@@ -17,6 +17,8 @@ This fork has been migrated to **.NET 10 / ASP.NET Core MVC** (details in [MIGRA
 * The Lucene search index format changed (Lucene.Net 4.8): the index must be rebuilt after upgrading.
 * Themes: `@Html.Action(...)` (child actions) no longer exists in ASP.NET Core; custom `Theme.cshtml` files need a 3 line change (see the upgrade guide).
 * MathJax 3 is served by Roadkill (it used the MathJax 2 CDN): no CDN is used any more.
+* `Assets/Scripts/roadkill.js` is generated on build (it was done by Grunt). The SCSS files are no longer compiled: change the
+  committed `roadkill.css` / `roadkill.installer.css` files instead.
 
 #### Features
 
@@ -48,6 +50,9 @@ This fork has been migrated to **.NET 10 / ASP.NET Core MVC** (details in [MIGRA
 * Binary compatibility of 2.x plugins: custom plugins must be rebuilt for .NET 10.
 * The .NET Framework build tooling: AppVeyor / Travis CI, `build/*.ps1` and Mono scripts, Web Platform Installer package (`lib/WebPI`), XML configs in `lib/Configs`.
   CI now runs on **GitHub Actions** (`.github/workflows/ci.yml`: build, unit tests, SQL Server and Postgres integration tests).
+* The **MediaWiki** markup type (unsupported since 2.x, choosing it broke the pages): a site still set to it is rendered as Markdown.
+* Unused files: the SQL CE / LocalDB databases (`App_Data/roadkill.mdf`, `*.sdf`, `lib/Test-databases/Upgrade`), the Windows
+  auth testing notes, the unused `TestUserService`, `PreviewPage` and `LeftMenu` views, and the Grunt files (`gruntfile.js`, `package.json`).
 
 #### Kept but untested
 

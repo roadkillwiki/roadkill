@@ -98,6 +98,8 @@ Consigne : pas d'effort supplémentaire sur MongoDB pour l'instant, hormis des c
   (menu par défaut des nouvelles installations ; à ajouter à la main dans le menu d'une installation existante).
 - Liens internes vers une page dont le titre contient un « - » ou de la ponctuation : recherche par le titre tel qu'il
   apparaît dans l'url de la page (`/wiki/1/Mon-titre`), sans tenir compte de la casse (bug déjà présent en v2).
+- Nettoyage : `TestUserService`, vues `PreviewPage`/`LeftMenu`, notes de test Windows auth, `installerconstants.js` (généré)
+  supprimés ; syntaxe MediaWiki retirée ; en-tête « non compilé » dans les `.scss`.
 - Outils : exports zip (`PhysicalFile` au lieu de `File`) ; `ActionLink(texte, action, null, new { @class })` interprété
   différemment par ASP.NET Core (classe passée en paramètre d'URL) : 8 appels corrigés.
 
