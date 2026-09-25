@@ -1,5 +1,5 @@
-﻿using System.Web;
-using System.Web.Mvc;
+using System.Web;
+using Microsoft.AspNetCore.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Plugins;
@@ -29,15 +29,15 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <param name="id"></param>
 		/// <returns></returns>
 		/// <exception cref="HttpException">Thrown when a special page plugin cannot be found for id/name.</exception>
-		public ActionResult Index(string id)
+		public IActionResult Index(string id)
 		{
 			SpecialPagePlugin plugin = _pluginFactory.GetSpecialPagePlugin(id);
 
 			// Throw an HttpException so the customerrors is used and not the default asp.net 404 page
 			if (plugin == null)
-				throw new HttpException(404, string.Format("A plugin for the special page '{0}' was not found", id));
+				throw new Roadkill.Core.Exceptions.HttpStatusException(404, string.Format("A plugin for the special page '{0}' was not found", id));
 
 			return plugin.GetResult(this);
 		}
 	}
-}
+}

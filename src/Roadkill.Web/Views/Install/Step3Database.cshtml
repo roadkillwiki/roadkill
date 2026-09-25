@@ -1,4 +1,4 @@
-﻿@model SettingsViewModel
+@model SettingsViewModel
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
@@ -22,7 +22,6 @@
 	@(Html.HiddenFor<SettingsViewModel, string>(h => h.DatabaseName))
 	@(Html.HiddenFor<SettingsViewModel, string>(h => h.SiteName))
 	@(Html.HiddenFor<SettingsViewModel, string>(h => h.SiteUrl))
-	@(Html.HiddenFor<SettingsViewModel, bool>(h => h.UseWindowsAuth))
 
 	<p>
 		@InstallStrings.Step3_One_Way_Hashed
@@ -140,4 +139,4 @@
 	<div class="continue">
 		<button type="submit" class="btn btn-success pull-right">@InstallStrings.Shared_NextButton</button>
 	</div>
-}
+}

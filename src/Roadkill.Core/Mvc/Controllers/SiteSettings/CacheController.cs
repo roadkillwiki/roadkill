@@ -1,4 +1,4 @@
-﻿using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Attributes;
@@ -14,12 +14,12 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// </summary>
 	/// <remarks>All actions in this controller require admin rights.</remarks>
 	[AdminRequired]
+	[Area("SiteSettings")]
 	public class CacheController : ControllerBase
 	{
 		private ListCache _listCache;
 		private PageViewModelCache _pageViewModelCache;
 		private SiteCache _siteCache;
-		private IPluginFactory _pluginFactory;
 
 		public CacheController(ApplicationSettings settings, UserServiceBase userService,
 			SettingsService settingsService, IUserContext context,

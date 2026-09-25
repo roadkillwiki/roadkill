@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using Lucene.Net.Documents;
 using Lucene.Net.Search;
+using Lucene.Net.Index;
 
 namespace Roadkill.Core.Mvc.ViewModels
 {
@@ -96,16 +97,16 @@ namespace Roadkill.Core.Mvc.ViewModels
 
 			EnsureFieldsExist(document);
 
-			Id = int.Parse(document.GetField("id").StringValue);
-			Title = document.GetField("title").StringValue;
-			ContentSummary = document.GetField("contentsummary").StringValue;
-			Tags = document.GetField("tags").StringValue;
-			CreatedBy = document.GetField("createdby").StringValue;		
-			ContentLength = int.Parse(document.GetField("contentlength").StringValue);
+			Id = int.Parse(document.GetField("id").GetStringValue());
+			Title = document.GetField("title").GetStringValue();
+			ContentSummary = document.GetField("contentsummary").GetStringValue();
+			Tags = document.GetField("tags").GetStringValue();
+			CreatedBy = document.GetField("createdby").GetStringValue();		
+			ContentLength = int.Parse(document.GetField("contentlength").GetStringValue());
 			Score = scoreDoc.Score;
 
 			DateTime createdOn = DateTime.UtcNow;
-			if (!DateTime.TryParse(document.GetField("createdon").StringValue, out createdOn))
+			if (!DateTime.TryParse(document.GetField("createdon").GetStringValue(), out createdOn))
 				createdOn = DateTime.UtcNow;
 
 			CreatedOn = createdOn;
@@ -113,7 +114,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 
 		private void EnsureFieldsExist(Document document)
 		{
-			IList<IFieldable> fields = document.GetFields();
+			IList<IIndexableField> fields = document.Fields;
 			EnsureFieldExists(fields, "id");
 			EnsureFieldExists(fields, "title");
 			EnsureFieldExists(fields, "contentsummary");
@@ -123,7 +124,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 			EnsureFieldExists(fields, "createdon");
 		}
 
-		private void EnsureFieldExists(IList<IFieldable> fields, string fieldname)
+		private void EnsureFieldExists(IList<IIndexableField> fields, string fieldname)
 		{
 			if (fields.Any(x => x.Name == fieldname) == false)
 				throw new SearchException(null, "The LuceneDocument did not contain the expected field '{0}'", fieldname);

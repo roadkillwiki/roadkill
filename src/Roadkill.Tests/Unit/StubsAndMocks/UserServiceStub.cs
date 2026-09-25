@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
@@ -131,7 +131,7 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 			throw new NotImplementedException();
 		}
 
-		public override string GetLoggedInUserName(System.Web.HttpContextBase context)
+		public override string GetLoggedInUserName(Microsoft.AspNetCore.Http.HttpContext context)
 		{
 			throw new NotImplementedException();
 		}

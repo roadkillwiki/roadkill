@@ -23,13 +23,6 @@ module Roadkill.Web.Admin
 			$("input[rel=popover][type!=checkbox]").popover({ container: "body", placement: "right", trigger: "hover", html: true });
 			$("input[type=checkbox][rel=popover],textarea[rel=popover],select[rel=popover]").popover({ container: "body", placement: "right", trigger: "hover", html: true });
 
-			// Make the windows auth checkbox toggle the forms-auth/windows-auth sections.
-			this.ToggleUserSettings(); // initial display
-			$("#UseWindowsAuth").click((e) =>
-			{
-				this.ToggleUserSettings();
-			});
-
 			// Button clicks
 			$("#testdbconnection").click((e) =>
 			{
@@ -121,7 +114,7 @@ module Roadkill.Web.Admin
 				// Logged out since the call was made
 				if (errorThrown.message.indexOf("unexpected character") !== -1)
 				{
-					window.location = window.location;
+					window.location.href = window.location.href;
 				}
 				else
 				{
@@ -130,25 +123,9 @@ module Roadkill.Web.Admin
 			});
 		}
 
-		public ToggleUserSettings()
-		{
-			if ($("#UseWindowsAuth").is(":checked"))
-			{
-				$("#aspnetuser-settings").hide();
-				$("#ldapsettings").show();
-				$("#ldapsettings").removeClass("hidden");
-			}
-			else
-			{
-				$("#ldapsettings").hide();
-				$("#aspnetuser-settings").show();
-				$("#aspnetuser-settings").removeClass("hidden");
-			}
-		}
-
 		public showFailure(title: string, errorMessage: string)
 		{
 			bootbox.alert("<h2>" + title + "<h2><pre style='max-height:500px;overflow-y:scroll;'>" + errorMessage + "</pre>");
 		}
 	}
-}
+}

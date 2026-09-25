@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -62,44 +62,50 @@ namespace Roadkill.Tests.Unit.Email
 		}
 
 		[Test]
-		[ExpectedException(typeof(EmailException))]
 		public void Send_Should_Throw_EmailException_When_Model_Is_Null()
 		{
-			// Arrange
-			EmailTemplateStub emailTemplate = new EmailTemplateStub(_applicationSettings, _settingsRepository, _emailClientMock);
-			UserViewModel userModel = null;
+			Assert.Throws<EmailException>(() =>
+			{
+				// Arrange
+				EmailTemplateStub emailTemplate = new EmailTemplateStub(_applicationSettings, _settingsRepository, _emailClientMock);
+				UserViewModel userModel = null;
 
-			// Act + Assert
-			emailTemplate.Send(userModel);
+				// Act + Assert
+				emailTemplate.Send(userModel);
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(EmailException))]
 		public void Send_Should_Throw_EmailException_When_Model_Email_And_NewEmail_Is_Empty()
 		{
-			// Arrange
-			EmailTemplateStub emailTemplate = new EmailTemplateStub(_applicationSettings, _settingsRepository, _emailClientMock);
-			UserViewModel userModel = new UserViewModel();
-			userModel.ExistingEmail = null;
-			userModel.NewEmail = "";
+			Assert.Throws<EmailException>(() =>
+			{
+				// Arrange
+				EmailTemplateStub emailTemplate = new EmailTemplateStub(_applicationSettings, _settingsRepository, _emailClientMock);
+				UserViewModel userModel = new UserViewModel();
+				userModel.ExistingEmail = null;
+				userModel.NewEmail = "";
 
-			// Act + Assert
-			emailTemplate.Send(userModel);
+				// Act + Assert
+				emailTemplate.Send(userModel);
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(EmailException))]
 		public void Send_Should_Throw_EmailException_When_PlainTextView_Is_Empty()
 		{
-			// Arrange
-			EmailTemplateStub emailTemplate = new EmailTemplateStub(_applicationSettings, _settingsRepository, _emailClientMock);
-			emailTemplate.PlainTextView = "";
-			UserViewModel userModel = new UserViewModel();
-			userModel.ExistingEmail = "someone@localhost";
-			userModel.NewEmail = "someone@localhost";
+			Assert.Throws<EmailException>(() =>
+			{
+				// Arrange
+				EmailTemplateStub emailTemplate = new EmailTemplateStub(_applicationSettings, _settingsRepository, _emailClientMock);
+				emailTemplate.PlainTextView = "";
+				UserViewModel userModel = new UserViewModel();
+				userModel.ExistingEmail = "someone@localhost";
+				userModel.NewEmail = "someone@localhost";
 
-			// Act + Assert
-			emailTemplate.Send(userModel);
+				// Act + Assert
+				emailTemplate.Send(userModel);
+			});
 		}
 
 		[Test]
@@ -126,22 +132,24 @@ namespace Roadkill.Tests.Unit.Email
 		}
 
 		[Test]
-		public void send_should_change_pickupdirectory_to_appdomainroot_when_starting_with_virtualpath_and_deliverytype_is_pickuplocation()
+		public void emailclient_should_write_to_pickupdirectory_relative_to_contentroot_when_no_smtp_host()
 		{
-			// Arrange
-			EmailTemplateStub emailTemplate = new EmailTemplateStub(_applicationSettings, _settingsRepository, _emailClientMock);
-			_emailClientMock.PickupDirectoryLocation = "~/App_Data/EmailDrop";
-			_emailClientMock.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+			// Arrange ("~" paths are now resolved by the EmailClient, using the content root)
+			string contentRoot = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "emailclienttest");
+			var settings = new ApplicationSettings(contentRoot);
+			settings.Smtp = new SmtpSettings() { Host = "", PickupDirectory = "~/App_Data/EmailDrop", From = "roadkill@localhost" };
+			string pickupDirectory = Path.Combine(contentRoot, "App_Data", "EmailDrop");
+			if (Directory.Exists(pickupDirectory))
+				Directory.Delete(pickupDirectory, true);
 
-			UserViewModel userModel = new UserViewModel();
-			userModel.ExistingEmail = "someone@localhost";
-			userModel.NewEmail = "someone@localhost";
+			var emailClient = new EmailClient(settings);
 
 			// Act
-			emailTemplate.Send(userModel);
+			emailClient.Send(new MailMessage("roadkill@localhost", "someone@localhost", "subject", "body"));
 
 			// Assert
-			Assert.That(_emailClientMock.PickupDirectoryLocation, Is.StringStarting(AppDomain.CurrentDomain.BaseDirectory));
+			Assert.That(emailClient.GetDeliveryMethod(), Is.EqualTo(SmtpDeliveryMethod.SpecifiedPickupDirectory));
+			Assert.That(Directory.GetFiles(pickupDirectory, "*.eml").Length, Is.EqualTo(1));
 		}
 
 		[Test]
@@ -266,7 +274,7 @@ namespace Roadkill.Tests.Unit.Email
 
 			string expectedPlainContents = "plain" +DateTime.UtcNow.ToString();
 			string expectedHtmlContents = "html" + DateTime.UtcNow.ToString();
-			CreateDummyTemplates("resetpassword", expectedPlainContents, expectedHtmlContents);
+			CreateDummyTemplates("ResetPassword", expectedPlainContents, expectedHtmlContents);
 
 			ResetPasswordEmail resetPassword = new ResetPasswordEmail(_applicationSettings, _settingsRepository, _emailClientMock);
 

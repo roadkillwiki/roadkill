@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Roadkill.Core.Extensions;
+using System;
+using Microsoft.AspNetCore.Http;
+using Roadkill.Core.Mvc;
 using Roadkill.Core.Mvc.ViewModels;
 
 namespace Roadkill.Core.Text
 {
 	public class UrlResolver
 	{
-		private HttpContextBase _httpContext;
+		private readonly HttpContext _httpContext;
 
-		public UrlResolver(HttpContextBase httpContext = null)
+		public UrlResolver(HttpContext httpContext = null)
 		{
 			_httpContext = httpContext;
 		}
@@ -26,14 +21,9 @@ namespace Roadkill.Core.Text
 		public virtual string ConvertToAbsolutePath(string relativeUrl)
 		{
 			if (_httpContext != null)
-			{
-				UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-				return helper.Content(relativeUrl);
-			}
-			else
-			{
-				return relativeUrl;
-			}
+				return HttpContextHolder.ResolveUrl(relativeUrl);
+
+			return relativeUrl;
 		}
 
 		/// <summary>
@@ -44,35 +34,25 @@ namespace Roadkill.Core.Text
 		/// <returns>An absolute path to the page.</returns>
 		public virtual string GetInternalUrlForTitle(int id, string title)
 		{
+			string url = null;
 			if (_httpContext != null)
-			{
-				UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-				return helper.Action("Index", "Wiki", new { id = id, title = PageViewModel.EncodePageTitle(title) });
-			}
-			else
-			{
-				// This is really here as a fallback, for tests
-				return string.Format("/wiki/{0}/{1}", id, PageViewModel.EncodePageTitle(title));
-			}
+				url = HttpContextHolder.Action("Index", "Wiki", new { id = id, title = PageViewModel.EncodePageTitle(title) });
+
+			// The fallback is really here for tests
+			return url ?? string.Format("/wiki/{0}/{1}", id, PageViewModel.EncodePageTitle(title));
 		}
 
 		/// <summary>
 		/// Gets a url to the new page resource, appending the title to the querystring.
 		/// For example /pages/new?title=xyz
 		/// </summary>
-		/// <param name="title"></param>
-		/// <returns></returns>
 		public virtual string GetNewPageUrlForTitle(string title)
 		{
+			string url = null;
 			if (_httpContext != null)
-			{
-				UrlHelper helper = new UrlHelper(HttpContext.Current.Request.RequestContext);
-				return helper.Action("New", "Pages", new { title = title });
-			}
-			else
-			{
-				return string.Format("/pages/new/?title={0}", title);
-			}
+				url = HttpContextHolder.Action("New", "Pages", new { title = title });
+
+			return url ?? string.Format("/pages/new/?title={0}", title);
 		}
 	}
 }

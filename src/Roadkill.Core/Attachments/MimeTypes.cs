@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Web.Administration;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace Roadkill.Core.Attachments
 {
@@ -222,6 +222,12 @@ namespace Roadkill.Core.Attachments
 		/// </summary>
 		/// <param name="fileExtension">The file extension to lookup, which should include the "." e.g. ".jpg"</param>
 		/// <returns>The mimetype for the extension, or "application/octet-stream" if the mimetype cannot be found.</returns>
+		private static readonly FileExtensionContentTypeProvider _contentTypeProvider = new FileExtensionContentTypeProvider();
+
+		/// <summary>
+		/// Gets the mime type for the file extension (including the "."), using the ASP.NET Core mime type mappings
+		/// and falling back to Roadkill's own list.
+		/// </summary>
 		public static string GetMimeType(string fileExtension)
 		{
 			if (string.IsNullOrEmpty(fileExtension))
@@ -229,33 +235,10 @@ namespace Roadkill.Core.Attachments
 
 			fileExtension = fileExtension.ToLower();
 
-#if MONO || DEBUG
+			if (_contentTypeProvider.TryGetContentType("file" + fileExtension, out string contentType))
+				return contentType;
+
 			return MimeTypes.GetMimeMapping(fileExtension);
-#endif
-			try
-			{
-				using (ServerManager serverManager = new ServerManager())
-				{
-					string mimeType = "application/octet-stream";
-
-					Microsoft.Web.Administration.Configuration config = serverManager.GetApplicationHostConfiguration();
-					ConfigurationSection staticContentSection = config.GetSection("system.webServer/staticContent");
-					ConfigurationElementCollection mimemaps = staticContentSection.GetCollection();
-
-					ConfigurationElement element = mimemaps.FirstOrDefault(m => m.Attributes["fileExtension"].Value.ToString() == fileExtension);
-
-					if (element != null)
-						mimeType = element.Attributes["mimeType"].Value.ToString();
-
-					return mimeType;
-				}
-			}
-			catch (Exception)
-			{
-				// Shared hosting won't have access to the applicationhost.config file (UnauthorizedAccessException)
-				// also IIS Express doesn't have ServerManager registered as a COM type (COMException)
-				return MimeTypes.GetMimeMapping(fileExtension);
-			}
 		}
 
 		private static string GetMimeMapping(string fileExtension)

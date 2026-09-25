@@ -1,21 +1,29 @@
-﻿using System;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using Roadkill.Core.DependencyResolution.StructureMap;
-using StructureMap;
+using Microsoft.Extensions.DependencyInjection;
+using Roadkill.Core.Cache;
+using Roadkill.Core.Configuration;
+using Roadkill.Core.Database.Repositories;
+using Roadkill.Core.Security;
+using Roadkill.Core.Services;
 
 namespace Roadkill.Core.Plugins
 {
 	/// <summary>
-	/// The default <see cref="IPluginFactory"/> implementation, that uses the <see cref="StructureMapServiceLocator"/> class.
+	/// The default <see cref="IPluginFactory"/> implementation. Plugin types are discovered at startup by the
+	/// <see cref="PluginTypeRegistry"/>, and new instances are created (per call) from the current request's services.
 	/// </summary>
 	public class PluginFactory : IPluginFactory
 	{
-		private readonly IContainer _container;
+		private readonly IServiceProvider _serviceProvider;
+		private readonly PluginTypeRegistry _registry;
 
-		public PluginFactory(IContainer container)
+		public PluginFactory(IServiceProvider serviceProvider, PluginTypeRegistry registry)
 		{
-			_container = container;
+			_serviceProvider = serviceProvider;
+			_registry = registry;
 		}
 
 		/// <summary>
@@ -23,23 +31,35 @@ namespace Roadkill.Core.Plugins
 		/// </summary>
 		public void RegisterTextPlugin(TextPlugin plugin)
 		{
-			_container.Configure(x => x.For<TextPlugin>().Add(plugin));
+			_registry.AddTextPluginInstance(plugin);
 		}
 
 		/// <summary>
-		/// Retrieves all text plugins from the IoC container.
+		/// Retrieves all text plugins.
 		/// </summary>
 		public IEnumerable<TextPlugin> GetTextPlugins()
 		{
-			return _container.GetAllInstances<TextPlugin>();
+			var plugins = new List<TextPlugin>();
+
+			foreach (Type type in _registry.TextPluginTypes)
+			{
+				plugins.Add(InjectTextPluginProperties((TextPlugin)ActivatorUtilities.CreateInstance(_serviceProvider, type)));
+			}
+
+			foreach (TextPlugin plugin in _registry.TextPluginInstances)
+			{
+				plugins.Add(InjectTextPluginProperties(plugin));
+			}
+
+			return plugins;
 		}
 
 		/// <summary>
-		/// Retrieves all text plugins from the IoC container.
+		/// Retrieves all enabled text plugins.
 		/// </summary>
 		public IEnumerable<TextPlugin> GetEnabledTextPlugins()
 		{
-			return _container.GetAllInstances<TextPlugin>().Where(x => x.Settings.IsEnabled);
+			return GetTextPlugins().Where(x => x.Settings.IsEnabled);
 		}
 
 		/// <summary>
@@ -47,12 +67,25 @@ namespace Roadkill.Core.Plugins
 		/// </summary>
 		public TextPlugin GetTextPlugin(string id)
 		{
-			return _container.GetAllInstances<TextPlugin>().FirstOrDefault(x => x.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
+			return GetTextPlugins().FirstOrDefault(x => x.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
 		}
 
 		public IEnumerable<SpecialPagePlugin> GetSpecialPagePlugins()
 		{
-			return _container.GetAllInstances<SpecialPagePlugin>();
+			var plugins = new List<SpecialPagePlugin>();
+
+			foreach (Type type in _registry.SpecialPagePluginTypes)
+			{
+				var plugin = (SpecialPagePlugin)ActivatorUtilities.CreateInstance(_serviceProvider, type);
+				plugin.ApplicationSettings = _serviceProvider.GetService<ApplicationSettings>();
+				plugin.Context = _serviceProvider.GetService<IUserContext>();
+				plugin.UserService = _serviceProvider.GetService<UserServiceBase>();
+				plugin.PageService = _serviceProvider.GetService<IPageService>();
+				plugin.SettingsService = _serviceProvider.GetService<SettingsService>();
+				plugins.Add(plugin);
+			}
+
+			return plugins;
 		}
 
 		/// <summary>
@@ -60,7 +93,15 @@ namespace Roadkill.Core.Plugins
 		/// </summary>
 		public SpecialPagePlugin GetSpecialPagePlugin(string name)
 		{
-			return _container.GetAllInstances<SpecialPagePlugin>().FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+			return GetSpecialPagePlugins().FirstOrDefault(x => x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+		}
+
+		private TextPlugin InjectTextPluginProperties(TextPlugin plugin)
+		{
+			plugin.ApplicationSettings = plugin.ApplicationSettings ?? _serviceProvider.GetService<ApplicationSettings>();
+			plugin.PluginCache = plugin.PluginCache ?? _serviceProvider.GetService<IPluginCache>();
+			plugin.Repository = plugin.Repository ?? _serviceProvider.GetService<ISettingsRepository>();
+			return plugin;
 		}
 	}
 }

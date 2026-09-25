@@ -1,18 +1,17 @@
-﻿using System;
-using System.Web.Mvc;
+using System;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Security.Windows;
 using System.IO;
 using System.Collections.Generic;
 using System.Threading;
 using System.Globalization;
 using System.Linq;
-using Roadkill.Core.DependencyResolution;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -21,12 +20,11 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// </summary>
 	/// <remarks>If the web.config "installed" setting is "true", then all the actions in
 	/// this controller redirect to the homepage</remarks>
-	public class InstallController : Controller, IRoadkillController
+	public class InstallController : Controller
 	{
 		private readonly ConfigReaderWriter _configReaderWriter;
 		private readonly IInstallationService _installationService;
 		private readonly IDatabaseTester _databaseTester;
-		private static string _uiLanguageCode = "en";
 
 		public ApplicationSettings ApplicationSettings { get; private set; }
 		public UserServiceBase UserService { get; private set; }
@@ -51,7 +49,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			UserService = null;
 		}
 
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
 			if (ApplicationSettings.Installed)
 				filterContext.Result = new RedirectResult(this.Url.Action("Index", "Home"));
@@ -125,8 +123,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			}
 
 			var settingsModel = new SettingsViewModel();
-			var installationService = new InstallationService();
-			IEnumerable<RepositoryInfo> supportedDatabases = installationService.GetSupportedDatabases();
+			IEnumerable<RepositoryInfo> supportedDatabases = _installationService.GetSupportedDatabases();
 
 			settingsModel.SetSupportedDatabases(supportedDatabases);
 
@@ -134,31 +131,26 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
-		/// Displays the authentication choice step in the installation wizard.
+		/// Displays the database settings step (the authentication choice step was removed with Windows authentication).
 		/// </summary>
 		/// <remarks>The <see cref="SettingsViewModel"/> object that is POST'd is passed to the next step.</remarks>
 		[HttpPost]
 		public ActionResult Step3(SettingsViewModel model)
 		{
-			return View(model);
+			return Step3b(model);
 		}
 
 		/// <summary>
-		/// Displays either the Windows Authentication settings view, or the DB settings view depending on
-		/// the choice in Step3.
+		/// Displays the database settings view.
 		/// </summary>
 		/// <remarks>The <see cref="SettingsViewModel"/> object that is POST'd is passed to the next step.</remarks>
 		[HttpPost]
 		public ActionResult Step3b(SettingsViewModel model)
 		{
-			model.LdapConnectionString = "LDAP://";
 			model.EditorRoleName = "Editor";
 			model.AdminRoleName = "Admin";
 
-			if (model.UseWindowsAuth)
-				return View("Step3WindowsAuth", model);
-			else
-				return View("Step3Database",model);
+			return View("Step3Database", model);
 		}
 
 		/// <summary>
@@ -184,7 +176,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		/// <returns>The Step5 view is displayed.</returns>
 		[HttpPost]
-		[ValidateInput(false)]
 		public ActionResult Step5(SettingsViewModel model)
 		{
 			try

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,7 +6,6 @@ using System.Threading;
 using NUnit.Framework;
 using Roadkill.Core.Plugins;
 using Roadkill.Tests.Unit.StubsAndMocks;
-using StructureMap;
 using PluginSettings = Roadkill.Core.Plugins.Settings;
 
 namespace Roadkill.Tests.Unit.Plugins
@@ -17,8 +16,8 @@ namespace Roadkill.Tests.Unit.Plugins
 	{
 		private static PluginFactory CreateFactory()
 		{
-			var container = new Container();
-			return new PluginFactory(container);
+			var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
+			return new PluginFactory(Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(services), new PluginTypeRegistry());
 		}
 
 		[Test]

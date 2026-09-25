@@ -1,34 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.UI;
-using Roadkill.Core.Configuration;
-using Roadkill.Core.Mvc.Controllers;
-using Roadkill.Core.Services;
-using Roadkill.Core.Security;
-using StructureMap;
-using StructureMap.Attributes;
-using Roadkill.Core.Mvc.ViewModels;
-using Roadkill.Core.Attachments;
+using System;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Roadkill.Core.Mvc.Attributes
 {
 	/// <summary>
-	/// Over-rides the OutputCache so it doesn't force text/html
+	/// Sets the content type of the response, e.g. for the javascript variables views.
 	/// </summary>
-	public class CacheContentTypeAttribute : OutputCacheAttribute
+	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+	public class CacheContentTypeAttribute : Attribute, IResultFilter
 	{
 		public string ContentType { get; set; }
 
-		public override void OnResultExecuted(ResultExecutedContext filterContext)
-		{
-			base.OnResultExecuted(filterContext);
+		/// <summary>
+		/// The cache duration in seconds (sent as a Cache-Control header).
+		/// </summary>
+		public int Duration { get; set; }
 
-			ContentType = ContentType ?? "text/html";
-			filterContext.HttpContext.Response.ContentType = ContentType;
+		/// <summary>
+		/// Not used - kept for compatibility with the ASP.NET MVC OutputCache attribute arguments.
+		/// </summary>
+		public string VaryByParam { get; set; }
+
+		public void OnResultExecuting(ResultExecutingContext filterContext)
+		{
+			filterContext.HttpContext.Response.ContentType = ContentType ?? "text/html";
+
+			if (Duration > 0)
+				filterContext.HttpContext.Response.Headers["Cache-Control"] = "public, max-age=" + Duration;
+		}
+
+		public void OnResultExecuted(ResultExecutedContext filterContext)
+		{
 		}
 	}
 }

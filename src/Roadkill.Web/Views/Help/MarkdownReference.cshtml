@@ -1,7 +1,8 @@
-﻿@model IEnumerable<TextToken>
+@model IEnumerable<TextToken>
 @{
 	Layout = "~/Views/Shared/_Blank.cshtml";
 }
+@* Markdown (Markdig, GitHub Flavored Markdown) and the Roadkill additions. The examples were checked with the Roadkill parser. *@
 
 <table id="helptable">
 	<thead>
@@ -12,115 +13,184 @@
 		</tr>
 	</thead>
 	<tr>
-		<td class="bold">Bold</td>
-		<td>**bold**</td>
-	</tr>
-	<tr>
-		<td class="bold">Italic</td>
-		<td>*italic*</td>
-	</tr>
-	<tr>
-		<td class="bold">Superscript</td>
-		<td>&lt;sup&gt;superscript&lt;/sup&gt;</td>
-	</tr>
-	<tr>
-		<td class="bold">Subscript</td>
-		<td>&lt;sub&gt;subscript&lt;/sub&gt;</td>
-	</tr>
-	<tr>
-		<td class="bold">Ignore wiki markup</td>
-		<td>&lt;pre&gt;This will not render **bold**&lt;/pre&gt;</td>
+		<td class="bold">Text</td>
+		<td>
+			**bold** &nbsp; *italic* &nbsp; ~~strikethrough~~ &nbsp; `code`<br />
+			&lt;sup&gt;superscript&lt;/sup&gt; &nbsp; &lt;sub&gt;subscript&lt;/sub&gt;<br />
+			Line break: end the line with two spaces. New paragraph: leave an empty line.
+		</td>
 	</tr>
 	<tr>
 		<td class="bold">Headings</td>
 		<td>
-			#Heading 1#<br />
-			##Heading 2##<br />
-			###Heading 3###<br />
-			####Heading 4####<br />
-			#####Heading 5#####<br />
+			# Heading 1<br />
+			## Heading 2<br />
+			...<br />
+			###### Heading 6<br />
+			<i>The space after the # is optional (#Heading 1#).</i>
 		</td>
 	</tr>
 	<tr>
 		<td class="bold">Links</td>
 		<td>
-			<b>Note: spaces are not supported in markdown URLs.</b><br />
-			Use "-" to represent a space for an internal link.<br /><br />
+			<b>Spaces are not allowed in link URLs: use "-" instead of a space for a page title.</b><br /><br />
 
-			Links to [wiki page](wiki page)<br />
-			<i>Links to <a href="wiki-page">wiki page</a></i>
-			<br /><br />
+			<b>Wiki page</b>, by its title: [the text](My-page-title)<br />
+			<i>If the page doesn't exist, the link is shown in red and creates the page.</i><br /><br />
 
-			Link to [click here](wiki page)<br />
-			<i>Link to <a href="wiki-page">click here</a></i>
-			<br /><br />
+			<b>Web page</b>: [the text](https://www.example.com) or [the text][1] with, anywhere in the page:<br />
+			[1]: https://www.example.com<br />
+			Web addresses are links too: https://www.example.com or www.example.com<br /><br />
 
-			This is [the yahoo page](http://www.yahoo.com)<br />
-			<i>This is the <a href="wiki-page">yahoo page</a></i>
-			<br /><br />
+			<b>Attachment</b> (file in the attachments folder, see the file manager):<br />
+			[the manual](attachment:/docs/manual.pdf) or [the manual](~/docs/manual.pdf)<br /><br />
 
-			This is [the yahoo page][1]<br />
-			[1]: http://www.yahoo.com
-			<i>This is the <a href="wiki-page">yahoo page</a></i>
+			<b>Special page</b>: [a random page](Special:Random)<br />
+			<b>Email</b>: [write to me](mailto:me@example.com)<br />
+			<b>Tooltip</b>: [the text](https://www.example.com "Shown on mouse over")
 		</td>
 	</tr>
 	<tr>
 		<td class="bold">Images</td>
 		<td>
-			![Alt text](someimage.jpg)
-			<br /><br />
+			<b>Attachment</b> (path in the attachments folder): ![Alt text](photo.jpg) or ![Alt text](photos/2024/trip.jpg)<br />
+			<b>Web image</b>: ![Alt text](https://www.example.com/image.png)<br />
+			<b>Tooltip</b>: ![Alt text](photo.jpg "Title")<br /><br />
 
-			![Alt text][1]
-			[1]: someimage.jpg
+			<b>Size</b> (width x height, in pixels, either can be left out):<br />
+			![Alt text](photo.jpg =250x100) &nbsp; ![Alt text](photo.jpg =250x) &nbsp; ![Alt text](photo.jpg =x100)<br /><br />
+
+			<b>Image that is a link</b>: [![Alt text](photo.jpg)](My-page-title)
 		</td>
 	</tr>
 	<tr>
 		<td class="bold">Bulleted lists</td>
 		<td>
-			*item1<br />
-			*item2<br />
-			**item 2b<br />
-
-			<ul>
-				<li>item1</li>
-				<li>item2</li>
-				<li>
-					<ul>
-						<li>item 2b</li>
-					</ul>
-				</li>
-			</ul>
+			<b>A space is needed after the - (or *).</b>
+<pre>- item 1
+- item 2
+  - item 2b</pre>
 		</td>
 	</tr>
 	<tr>
 		<td class="bold">Numbered lists</td>
 		<td>
-			1.item1<br />
-			2.item2<br />
-			 1.item 2b<br />
-
-			<ol>
-				<li>item1</li>
-				<li>item2</li>
-				<li>
-					<ol>
-						<li>item 2b</li>
-					</ol>
-				</li>
-			</ol>
+<pre>1. item 1
+2. item 2
+   1. item 2a</pre>
 		</td>
 	</tr>
+	<tr>
+		<td class="bold">Task lists</td>
+		<td>
+<pre>- [x] done
+- [ ] to do</pre>
+		</td>
+	</tr>
+	<tr>
+		<td class="bold">Tables</td>
+		<td>
+			The second line separates the header, and its colons set the alignment:
+<pre>| Left | Center | Right |
+|:-----|:------:|------:|
+| a    | b      | c     |</pre>
+		</td>
+	</tr>
+	<tr>
+		<td class="bold">Quotes and lines</td>
+		<td>
+			&gt; A quote<br /><br />
+			A horizontal line: <code>---</code> on its own line (after an empty line)
+		</td>
+	</tr>
+	<tr>
+		<td class="bold">Code</td>
+		<td>
+			Inline: `code`<br /><br />
+			A block, with its language (for the Syntax Highlighter plugin, see below):
+<pre>```sql
+select * from pages
+```</pre>
+			A block can also be indented by 4 spaces.
+		</td>
+	</tr>
+	<tr>
+		<td class="bold">Footnotes</td>
+		<td>
+<pre>Some text with a note[^1].
+
+[^1]: The note, shown at the bottom of the page.</pre>
+		</td>
+	</tr>
+	<tr>
+		<td class="bold">Ignore wiki markup</td>
+		<td>&lt;pre&gt;This will not render **bold**&lt;/pre&gt;</td>
+	</tr>
+
+	<tr>
+		<th colspan="2">PLUGINS (they must be enabled in Site settings &gt; Plugins)</th>
+	</tr>
+	<tr>
+		<td class="bold">Syntax highlighting<br /><i>(Syntax Highlighter)</i></td>
+		<td>
+			A code block with a language:
+<pre>```csharp
+int x = 1;
+```</pre>
+			or the Roadkill 2.x syntax: [[[code lang=sql|select * from pages]]]<br /><br />
+			Languages (other accepted names in brackets):<br />
+			applescript, as3 (actionscript3), bash (shell), coldfusion (cf), cpp (c), csharp (c#, c-sharp), css,
+			delphi (pascal, pas), diff (patch), erlang (erl), groovy, java, javafx (jfx), jscript (js, javascript),
+			perl (pl), php, plain (text), powershell (ps), python (py), ruby (rb, rails, ror), sass (scss), scala, sql,
+			vb (vbnet), xml (html, xhtml, xslt).
+		</td>
+	</tr>
+	<tr>
+		<td class="bold">Diagrams<br /><i>(Mermaid diagrams)</i></td>
+		<td>
+			Flowcharts, sequence diagrams, gantt charts... (<a href="https://mermaid.js.org/intro/" target="_blank">Mermaid syntax</a>):
+<pre>```mermaid
+graph TD
+    A[Start] --&gt; B{Is it working?}
+    B --&gt;|Yes| C[Great]
+```</pre>
+		</td>
+	</tr>
+	<tr>
+		<td class="bold">Maths<br /><i>(Mathjax)</i></td>
+		<td>
+			TeX formulas (<a href="https://docs.mathjax.org/en/v3.2-latest/input/tex/index.html" target="_blank">MathJax TeX</a>):<br />
+			On their own line: $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}$$ or \\[x^2\\]<br />
+			Inside the text: \\(a^2+b^2=c^2\\)<br />
+			<b>The backslashes are doubled (\\( and \\[) because Markdown removes one.</b>
+		</td>
+	</tr>
+	<tr>
+		<td class="bold">Table of contents<br /><i>(Table of contents)</i></td>
+		<td>{TOC} is replaced by a table of contents of the page headings.</td>
+	</tr>
+	<tr>
+		<td class="bold">Jumbotron<br /><i>(Jumbotron)</i></td>
+		<td>[[[jumbotron=your markdown here]]] adds a giant image (jumbotron.jpg in the attachments folder) at the top of the page, with the markdown over it.</td>
+	</tr>
+
+	@if (Model.Any())
+	{
+	<tr>
+		<th colspan="2">CUSTOM TOKENS (App_Data/customvariables.xml)</th>
+	</tr>
+	}
 	@foreach (TextToken token in Model)
 	{
 	<tr>
-		<td class="bold" title="@token.SearchRegex">@MvcHtmlString.Create(token.Name)</td>
-		<td>@MvcHtmlString.Create(token.Description)</td>
+		<td class="bold" title="@token.SearchRegex">@Html.Raw(token.Name)</td>
+		<td>@Html.Raw(token.Description)</td>
 	</tr>
 	 }
 	<tfoot>
 		<tr>
 		<th colspan="2">
-			<a href="http://en.wikipedia.org/wiki/Markdown" target="_blank">More information...</a>
+			<a href="https://github.github.com/gfm/" target="_blank">More information (GitHub Flavored Markdown)...</a>
 		</th>
 		</tr>
 	</tfoot>

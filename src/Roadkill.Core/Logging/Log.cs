@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -19,7 +18,6 @@ namespace Roadkill.Core.Logging
 	public class Log
 	{
 		private static readonly Logger _logger;
-		private static readonly string LOGGER_NAME = "Roadkill";
 
 		public static string NLogConfigPath { get; set; }
 
@@ -42,7 +40,7 @@ namespace Roadkill.Core.Logging
 
 			if (path.StartsWith("~"))
 			{
-				path = path.Replace("~", AppDomain.CurrentDomain.BaseDirectory);
+				path = settings.MapPath(path);
 			}
 
 			if (!File.Exists(path))
@@ -51,7 +49,11 @@ namespace Roadkill.Core.Logging
 			}
 			
 			NLogConfigPath = path;
-			LogManager.Configuration = new XmlLoggingConfiguration(NLogConfigPath, true);
+
+			// ${var:contentroot} is the site's root folder (${basedir} is the bin folder when running with "dotnet run").
+			LogManager.Configuration = new XmlLoggingConfiguration(NLogConfigPath);
+			LogManager.Configuration.Variables["contentroot"] = settings.ContentRootPath.TrimEnd('/', '\\');
+			LogManager.ReconfigExistingLoggers();
 		}
 
 		/// <summary>

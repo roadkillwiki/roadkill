@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
 using System.Web;
-using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
 using Roadkill.Core.Cache;
@@ -15,7 +14,6 @@ using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.Controllers;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Tests.Unit.StubsAndMocks;
-using Roadkill.Tests.Unit.StubsAndMocks.Mvc;
 
 namespace Roadkill.Tests.Unit.Cache
 {
@@ -463,26 +461,6 @@ namespace Roadkill.Tests.Unit.Cache
 			return pageService;
 		}
 
-		private ResultExecutedContext CreateContext(WikiController wikiController)
-		{
-			// HTTP Context
-			ControllerContext controllerContext = new Mock<ControllerContext>().Object;
-			MvcMockContainer container = new MvcMockContainer();
-			HttpContextBase context = MvcMockHelpers.FakeHttpContext(container);
-			controllerContext.HttpContext = context;
-
-			// ResultExecutedContext
-			ActionResult result = new ViewResult();
-			Exception exception = new Exception();
-			bool cancelled = true;
-
-			ResultExecutedContext filterContext = new ResultExecutedContext(controllerContext, result, cancelled, exception);
-			filterContext.Controller = wikiController;
-			filterContext.RouteData.Values.Add("id", 1);
-			filterContext.HttpContext = context;
-
-			return filterContext;
-		}
 
 		private void AddPageCacheItem(CacheMock cache, string key, object value)
 		{
@@ -494,4 +472,4 @@ namespace Roadkill.Tests.Unit.Cache
 			cache.Add(CacheKeys.ListCacheKey(key), value, new CacheItemPolicy());
 		}
 	}
-}
+}

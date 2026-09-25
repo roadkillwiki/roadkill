@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -50,35 +50,41 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 		}
 
 		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void PageContent_Constructor_Should_Throw_Exception_When_PageContent_IsNull()
 		{
-			// Arrange + Act + Assert
-			PageViewModel model = new PageViewModel(null, _markupConverter);
+			Assert.Throws<ArgumentNullException>(() =>
+			{
+				// Arrange + Act + Assert
+				PageViewModel model = new PageViewModel(null, _markupConverter);
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void PageContent_Constructor_Should_Throw_Exception_When_PageContent_Page_IsNull()
 		{
-			// Arrange
-			PageContent content = new PageContent();
-			content.Page = null;
+			Assert.Throws<ArgumentNullException>(() =>
+			{
+				// Arrange
+				PageContent content = new PageContent();
+				content.Page = null;
 
-			// Act + Assert
-			PageViewModel model = new PageViewModel(content, _markupConverter);
+				// Act + Assert
+				PageViewModel model = new PageViewModel(content, _markupConverter);
+			});
 		}
 
 		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void PageContent_Constructor_Should_Throw_Exception_When_MarkupConverter_IsNull()
 		{
-			// Arrange
-			PageContent content = new PageContent();
-			content.Page = new Page();
+			Assert.Throws<ArgumentNullException>(() =>
+			{
+				// Arrange
+				PageContent content = new PageContent();
+				content.Page = new Page();
 
-			// Act + Assert
-			PageViewModel model = new PageViewModel(content, null);
+				// Act + Assert
+				PageViewModel model = new PageViewModel(content, null);
+			});
 		}
 
 		[Test]

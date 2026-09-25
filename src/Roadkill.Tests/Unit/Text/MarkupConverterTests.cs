@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using NUnit.Framework;
 using Roadkill.Core.Cache;
@@ -54,12 +54,16 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
-		[ExpectedException(typeof(NotImplementedException))]
-		public void Parser_Should_Throw_Exception_For_MediaWiki()
+		public void mediawiki_markup_type_should_use_the_markdown_parser()
 		{
-			// Arrange, act + assert
+			// Arrange (MediaWiki markup is no longer supported)
 			_settingsRepository.SiteSettings.MarkupType = "MediaWiki";
+
+			// Act
 			_markupConverter = new MarkupConverter(_applicationSettings, _settingsRepository, _pageRepository, _pluginFactory);
+
+			// Assert
+			Assert.That(_markupConverter.Parser, Is.TypeOf<MarkdownParser>());
 		}
 
 		[Test]
@@ -138,7 +142,7 @@ namespace Roadkill.Tests.Unit.Text
 			_settingsRepository.SiteSettings.MarkupType = "Creole";
 			_markupConverter = new MarkupConverter(_applicationSettings, _settingsRepository, _pageRepository, _pluginFactory);
 
-			string expectedHtml = "<p><a rel=\"nofollow\" href=\"#myanchortag\">hello world</a> <a rel=\"nofollow\" href=\"https://www.google.com/\" class=\"external-link\">google</a>\n</p>";
+			string expectedHtml = "<p><a rel=\"nofollow\" href=\"#myanchortag\">hello world</a> <a rel=\"nofollow\" href=\"https://www.google.com\" class=\"external-link\">google</a>\n</p>";
 
 			// Act
 			string actualHtml = _markupConverter.ToHtml("[[#myanchortag|hello world]] [[https://www.google.com|google]]");
@@ -211,6 +215,27 @@ namespace Roadkill.Tests.Unit.Text
 
 			// Assert
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
+		}
+
+		[Test]
+		[TestCase("Test avec un tiret-dans le nom", "Test-avec-un-tiret-dans-le-nom", "/wiki/1/Test-avec-un-tiret-dans-le-nom")]
+		[TestCase("Pre-release notes", "Pre-release-notes", "/wiki/1/Pre-release-notes")]
+		[TestCase("C# tips", "c-tips", "/wiki/1/C-tips")]
+		[TestCase("CSharp", "csharp", "/wiki/1/CSharp")]
+		public void markdown_internal_links_should_find_pages_by_their_url_title(string pageTitle, string linkUrl, string expectedHref)
+		{
+			// Arrange (the "-" of a link replaces the spaces of the title, but a title can also contain "-" or punctuation:
+			// the link then matches the title as it is in the page url, e.g. /wiki/1/Test-avec-un-tiret-dans-le-nom)
+			_settingsRepository.SiteSettings.MarkupType = "Markdown";
+			_pageRepository.AddNewPage(new Page() { Id = 1, Title = pageTitle }, "text", "admin", DateTime.Today);
+			_pageRepository.AddNewPage(new Page() { Id = 2, Title = "Another page" }, "text", "admin", DateTime.Today);
+			_markupConverter = new MarkupConverter(_applicationSettings, _settingsRepository, _pageRepository, _pluginFactory);
+
+			// Act
+			string actualHtml = _markupConverter.ToHtml("[the page](" + linkUrl + ")");
+
+			// Assert
+			Assert.That(actualHtml, Does.Contain("<a href=\"" + expectedHref + "\">the page</a>"), actualHtml);
 		}
 
 		[Test]
@@ -341,7 +366,7 @@ namespace Roadkill.Tests.Unit.Text
 			_settingsRepository.SiteSettings.MarkupType = "Creole";
 			_markupConverter = new MarkupConverter(_applicationSettings, _settingsRepository, _pageRepository, _pluginFactory);
 
-			string expectedHtml = "<p><a rel=\"nofollow\" href=\"http://www.google.com/2%3Ejavascript:alert('hello')\" class=\"external-link\">ComponentModel</a>\n</p>";
+			string expectedHtml = "<p><a rel=\"nofollow\" href=\"http://www.google.com/2&gt;javascript:alert('hello')\" class=\"external-link\">ComponentModel</a>\n</p>";
 
 			// Act
 			string actualHtml = _markupConverter.ToHtml("[[http://www.google.com/\">javascript:alert('hello')|ComponentModel]]");
@@ -390,7 +415,7 @@ namespace Roadkill.Tests.Unit.Text
 			_settingsRepository.SiteSettings.MarkupType = "Creole";
 			_markupConverter = new MarkupConverter(_applicationSettings, _settingsRepository, _pageRepository, _pluginFactory);
 
-			string expectedHtml = "<p><a rel=\"nofollow\" href=\"http://www.blah.com/\" class=\"external-link\">link1</a> <a rel=\"nofollow\" href=\"www.blah.com\" class=\"external-link\">link2</a> <a rel=\"nofollow\" href=\"mailto:spam@gmail.com\" class=\"external-link\">spam</a>\n</p>";
+			string expectedHtml = "<p><a rel=\"nofollow\" href=\"http://www.blah.com\" class=\"external-link\">link1</a> <a rel=\"nofollow\" href=\"www.blah.com\" class=\"external-link\">link2</a> <a rel=\"nofollow\" href=\"mailto:spam@gmail.com\" class=\"external-link\">spam</a>\n</p>";
 
 			// Act
 			string actualHtml = _markupConverter.ToHtml("[[http://www.blah.com|link1]] [[www.blah.com|link2]] [[mailto:spam@gmail.com|spam]]");
@@ -427,7 +452,7 @@ namespace Roadkill.Tests.Unit.Text
 			_markupConverter.UrlResolver = new UrlResolverMock();
 
 			string htmlFragment = "Give me a {{TOC}} and a {{{TOC}}} - the should not render a TOC";
-			string expected = @"<p>Give me a </p><div class=""floatnone""><div class=""image_frame""><img src=""/Attachments/TOC""></div></div> and a TOC - the should not render a TOC"
+			string expected = @"<p>Give me a </p><div class=""floatnone""><div class=""image_frame""><img src=""/Attachments/TOC"" alt=""TOC"" title=""TOC""></div></div> and a TOC - the should not render a TOC"
 				+ "\n<p></p>";
 
 			// Act
@@ -550,7 +575,7 @@ namespace Roadkill.Tests.Unit.Text
 			_settingsRepository.SiteSettings.MarkupType = "Markdown";
 			_markupConverter = new MarkupConverter(_applicationSettings, _settingsRepository, _pageRepository, _pluginFactory);
 
-			string expectedHtml = "<p><b style=\"color: black\"></b></p>\n";
+			string expectedHtml = "<p><b style=\"color: rgba(0, 0, 0, 1)\"></b></p>\n";
 
 			// Act
 			string actualHtml = _markupConverter.ToHtml("<b style='color:black'><script>alert('foo')</script></b>");

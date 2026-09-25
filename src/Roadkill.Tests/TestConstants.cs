@@ -15,44 +15,28 @@ namespace Roadkill.Tests
 		public static readonly string LIB_FOLDER;
 		public static readonly string PACKAGES_FOLDER;
 
-		public static readonly int WEB_PORT = 9876;
 		public static readonly string WEB_PATH;
-		public static readonly string WEB_SITENAME = "RoadkillTests";
-		public static readonly string WEB_BASEURL = "http://localhost:" +WEB_PORT;
 
-		public static readonly string SQLSERVER_CONNECTION_STRING = "Server=(local);Integrated Security=true;Connect Timeout=5;Database=roadkill";
-		public static readonly string POSTGRES_CONNECTION_STRING = "User ID=postgres;Password=mysecretpassword;Host=localhost;Port=5432;Database=roadkill;";
+		/// <summary>
+		/// The databases of the integration tests (their tables are dropped and re-created), started in containers on
+		/// first use: see <see cref="TestDatabases"/>.
+		/// </summary>
+		public static string SQLSERVER_CONNECTION_STRING => TestDatabases.SqlServerConnectionString;
+
+		public static string POSTGRES_CONNECTION_STRING => TestDatabases.PostgresConnectionString;
+
+		public static string MONGODB_CONNECTION_STRING => TestDatabases.MongoDBConnectionString;
 		
 		public static readonly string REST_API_KEY = "apikey1";
 
 		static TestConstants()
 		{
-			// ROOT_FOLDER
-			string relativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..");
+			// ROOT_FOLDER - the tests run from src/Roadkill.Tests/bin/{Configuration}/net10.0
+			string relativePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..");
 			ROOT_FOLDER = new DirectoryInfo(relativePath).FullName;
-
-			// LIB_FOLDER
 			LIB_FOLDER = Path.Combine(ROOT_FOLDER, "lib");
-
-			// PACKAGES_FOLDER
-			PACKAGES_FOLDER = Path.Combine(ROOT_FOLDER, "Packages");
-
-			// WEB_PATH
-			WEB_PATH = Path.Combine(TestConstants.ROOT_FOLDER, "src", "Roadkill.Web");
-			WEB_PATH = new DirectoryInfo(WEB_PATH).FullName;
-
-			// SQL SERVER CONNECTION_STRING
-			// - change it for Appveyor
-			string envValue = TestHelpers.GetEnvironmentalVariable("ConnectionString");
-			if (!string.IsNullOrEmpty(envValue))
-			{
-				SQLSERVER_CONNECTION_STRING = envValue;
-			}
-			else
-			{
-				// This should match connectionStrings.dev.config
-				SQLSERVER_CONNECTION_STRING = "Server=(local);Integrated Security=true;Connect Timeout=5;Database=roadkill";
-			}
+			PACKAGES_FOLDER = Path.Combine(ROOT_FOLDER, "packages");
+			WEB_PATH = new DirectoryInfo(Path.Combine(ROOT_FOLDER, "src", "Roadkill.Web")).FullName;
 		}
 	}
 }

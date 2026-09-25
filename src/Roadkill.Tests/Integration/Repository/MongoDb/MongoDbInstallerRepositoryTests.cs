@@ -12,7 +12,7 @@ namespace Roadkill.Tests.Integration.Repository.MongoDb
 	{
 		protected override string ConnectionString
 		{
-			get { return @"mongodb://localhost:27017/local"; }
+			get { return TestConstants.MONGODB_CONNECTION_STRING; }
 		}
 
 		protected override string InvalidConnectionString
@@ -28,12 +28,6 @@ namespace Roadkill.Tests.Integration.Repository.MongoDb
 		protected override void Clearup()
 		{
 			new MongoDbInstallerRepository(ConnectionString).Wipe();
-		}
-
-		protected override void CheckDatabaseProcessIsRunning()
-		{
-			if (TestHelpers.IsMongoDBRunning() == false)
-				Assert.Fail("A local MongoDB (mongod.exe) server is not running");
 		}
 
 		protected override bool HasEmptyTables()

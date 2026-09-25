@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="src/Roadkill.Core/Roadkill.Core.csproj" />
+  <Project Path="src/Roadkill.Plugins/Roadkill.Plugins.csproj" />
+  <Project Path="src/Roadkill.Tests/Roadkill.Tests.csproj" />
+  <Project Path="src/Roadkill.Web/Roadkill.Web.csproj" />
+</Solution>

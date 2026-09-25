@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Web;
-using System.Web.Mvc;
-using System.Web.UI;
+using Microsoft.AspNetCore.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.Attributes;
@@ -42,7 +41,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			PageViewModel model = PageService.GetById(id.Value, true);
 
 			if (model == null)
-				throw new HttpException(404, string.Format("The page with id '{0}' could not be found", id));
+				throw new Roadkill.Core.Exceptions.HttpStatusException(404, string.Format("The page with id '{0}' could not be found", id));
 
 			return View(model);
 		}
@@ -61,9 +60,9 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
-		/// 404 not found page - configured in the web.config
+		/// 404 not found page, shown for /wiki/notfound (the status code pages middleware re-executes this URL).
 		/// </summary>
-		public ActionResult NotFound()
+		public ActionResult PageNotFound()
 		{
 			return View("404");
 		}

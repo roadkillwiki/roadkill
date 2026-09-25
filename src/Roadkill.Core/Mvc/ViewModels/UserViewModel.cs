@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using Roadkill.Core.Localization;
 using Roadkill.Core.Configuration;
@@ -155,6 +155,23 @@ namespace Roadkill.Core.Mvc.ViewModels
 		}
 
 		/// <summary>
+		/// Gets the user service, either the one given in the constructor or from the validation context's services
+		/// (ASP.NET Core model binding uses the parameterless constructor).
+		/// </summary>
+		internal UserServiceBase GetUserService(ValidationContext context)
+		{
+			return UserService ?? context?.GetService(typeof(UserServiceBase)) as UserServiceBase;
+		}
+
+		/// <summary>
+		/// Gets the application settings, either the one given in the constructor or from the validation context's services.
+		/// </summary>
+		internal ApplicationSettings GetSettings(ValidationContext context)
+		{
+			return Settings ?? context?.GetService(typeof(ApplicationSettings)) as ApplicationSettings ?? new ApplicationSettings();
+		}
+
+		/// <summary>
 		/// Checks if the <see cref="NewUsername"/> provided is valid.
 		/// </summary>
 		/// <param name="user"></param>
@@ -185,7 +202,8 @@ namespace Roadkill.Core.Mvc.ViewModels
 			// Only check if it's a new user, OR the username has changed
 			if (user.ExistingUsername != user.NewUsername)
 			{
-				if (user.UserService == null || user.UserService.UserNameExists(user.NewUsername))
+				UserServiceBase userService = user.GetUserService(context);
+				if (userService == null || userService.UserNameExists(user.NewUsername))
 				{
 					return new ValidationResult(string.Format(SiteStrings.User_Validation_UsernameExists, user.NewUsername));
 				}
@@ -223,7 +241,8 @@ namespace Roadkill.Core.Mvc.ViewModels
 			// Only check if it's a new user, OR the email has changed
 			if (user.ExistingEmail != user.NewEmail)
 			{
-				if (user.UserService == null || user.UserService.UserExists(user.NewEmail))
+				UserServiceBase userService = user.GetUserService(context);
+				if (userService == null || userService.UserExists(user.NewEmail))
 				{
 					return new ValidationResult(string.Format(SiteStrings.User_Validation_EmailExists, user.NewEmail));
 				}
@@ -265,10 +284,10 @@ namespace Roadkill.Core.Mvc.ViewModels
 				// Existing user, a blank password indicates no change is occurring.
 				return ValidationResult.Success;
 			}
-			else if (string.IsNullOrEmpty(user.Password) || user.Password.Length < user.Settings.MinimumPasswordLength)
+			else if (string.IsNullOrEmpty(user.Password) || user.Password.Length < user.GetSettings(context).MinimumPasswordLength)
 			{
 				// New or existing users with invalid passwords
-				return new ValidationResult(string.Format(SiteStrings.User_Validation_PasswordTooShort, user.Settings.MinimumPasswordLength));
+				return new ValidationResult(string.Format(SiteStrings.User_Validation_PasswordTooShort, user.GetSettings(context).MinimumPasswordLength));
 			}
 
 			return ValidationResult.Success;

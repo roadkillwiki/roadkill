@@ -1,34 +1,70 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System;
+using System.IO;
+using System.Net;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
+using Roadkill.Core.Configuration;
 
 namespace Roadkill.Core.Email
 {
+	/// <summary>
+	/// Sends emails using the SMTP settings from the Roadkill configuration. If no SMTP host is configured,
+	/// the emails are written to the pickup directory (~/App_Data/TempSmtp by default).
+	/// </summary>
 	public class EmailClient : IEmailClient
 	{
-		private SmtpClient _smtpClient;
+		private readonly SmtpSettings _smtpSettings;
+		private readonly ApplicationSettings _applicationSettings;
+
 		public string PickupDirectoryLocation { get; set; }
 
-		public EmailClient()
+		public EmailClient(ApplicationSettings applicationSettings)
 		{
-			_smtpClient = new SmtpClient();
-
-			// Default it to the SmtpClient's settings, which are read from a .config
-			PickupDirectoryLocation = _smtpClient.PickupDirectoryLocation;
+			_applicationSettings = applicationSettings;
+			_smtpSettings = applicationSettings.Smtp ?? new SmtpSettings();
+			PickupDirectoryLocation = _smtpSettings.PickupDirectory;
 		}
 
 		public void Send(MailMessage message)
 		{
-			_smtpClient.PickupDirectoryLocation = PickupDirectoryLocation;
-			_smtpClient.Send(message);
+			if (message.From == null && !string.IsNullOrEmpty(_smtpSettings.From))
+				message.From = new MailAddress(_smtpSettings.From);
+
+			using (SmtpClient smtpClient = CreateSmtpClient())
+			{
+				smtpClient.Send(message);
+			}
 		}
 
 		public SmtpDeliveryMethod GetDeliveryMethod()
 		{
-			return _smtpClient.DeliveryMethod;
+			return string.IsNullOrEmpty(_smtpSettings.Host) ? SmtpDeliveryMethod.SpecifiedPickupDirectory : SmtpDeliveryMethod.Network;
+		}
+
+		private SmtpClient CreateSmtpClient()
+		{
+			SmtpClient smtpClient = new SmtpClient();
+
+			if (GetDeliveryMethod() == SmtpDeliveryMethod.Network)
+			{
+				smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+				smtpClient.Host = _smtpSettings.Host;
+				smtpClient.Port = _smtpSettings.Port;
+				smtpClient.EnableSsl = _smtpSettings.EnableSsl;
+
+				if (!string.IsNullOrEmpty(_smtpSettings.Username))
+					smtpClient.Credentials = new NetworkCredential(_smtpSettings.Username, _smtpSettings.Password);
+			}
+			else
+			{
+				string pickupDirectory = _applicationSettings.MapPath(PickupDirectoryLocation);
+				if (!Directory.Exists(pickupDirectory))
+					Directory.CreateDirectory(pickupDirectory);
+
+				smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+				smtpClient.PickupDirectoryLocation = pickupDirectory;
+			}
+
+			return smtpClient;
 		}
 	}
 }

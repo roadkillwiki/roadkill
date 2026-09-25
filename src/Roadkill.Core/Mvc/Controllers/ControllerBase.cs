@@ -1,21 +1,18 @@
-﻿using System.Web.Mvc;
-using System.Diagnostics;
-using Roadkill.Core.Configuration;
 using System;
-using StructureMap;
-using System.Web;
-using Roadkill.Core.Services;
-using Roadkill.Core.Security;
-using Roadkill.Core.Logging;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Roadkill.Core.Configuration;
+using Roadkill.Core.Logging;
+using Roadkill.Core.Security;
+using Roadkill.Core.Services;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
 	/// <summary>
-	/// A base controller for all Roadkill controller classes which require services 
-	/// (via an IServiceContainer) or authentication.
+	/// A base controller for all Roadkill controller classes which require services or authentication.
 	/// </summary>
-	public class ControllerBase : Controller, IRoadkillController
+	public class ControllerBase : Controller
 	{
 		public ApplicationSettings ApplicationSettings { get; private set; }
 		public UserServiceBase UserService { get; private set; }
@@ -31,34 +28,17 @@ namespace Roadkill.Core.Mvc.Controllers
 			SettingsService = settingsService;
 		}
 
-		protected override void OnException(ExceptionContext filterContext)
-		{
-			// Log the route data values
-			List<string> routeData = new List<string>();
-			foreach (string key in filterContext.RouteData.Values.Keys)
-			{
-				routeData.Add(string.Format("'{0}' : '{1}'", key, filterContext.RouteData.Values[key]));
-			}
-
-			string routeInfo = string.Join(", ", routeData);
-			Log.Error("MVC error caught. Route data: [{0}] - {1}\n{2}", routeInfo, filterContext.Exception.Message, filterContext.Exception.ToString());
-
-			base.OnException(filterContext);
-		}
-
 		/// <summary>
-		/// Called before the action method is invoked. This overides the default behaviour by 
-		/// populating RoadkillContext.Current.CurrentUser with the current logged in user after
-		/// each action method.
+		/// Called before the action method is invoked. This populates the <see cref="IUserContext.CurrentUser"/> with 
+		/// the current logged in user, and redirects to the installer if Roadkill isn't installed.
 		/// </summary>
-		/// <param name="filterContext">Information about the current request and action.</param>
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
 			// Redirect if Roadkill isn't installed
 			if (!ApplicationSettings.Installed)
 			{
 				if (!(filterContext.Controller is InstallController))
-					filterContext.Result = new RedirectResult(this.Url.Action("Index", "Install"));
+					filterContext.Result = new RedirectResult(Url.Action("Index", "Install", new { area = "" }) ?? "/install");
 
 				return;
 			}
@@ -66,6 +46,26 @@ namespace Roadkill.Core.Mvc.Controllers
 			Context.CurrentUser = UserService.GetLoggedInUserName(HttpContext);
 			ViewBag.Context = Context;
 			ViewBag.Config = ApplicationSettings;
+		}
+
+		/// <summary>
+		/// Logs any unhandled exceptions from the action, including the route data values.
+		/// </summary>
+		public override void OnActionExecuted(ActionExecutedContext filterContext)
+		{
+			if (filterContext.Exception != null && !filterContext.ExceptionHandled)
+			{
+				List<string> routeData = new List<string>();
+				foreach (KeyValuePair<string, object> item in filterContext.RouteData.Values)
+				{
+					routeData.Add(string.Format("'{0}' : '{1}'", item.Key, item.Value));
+				}
+
+				string routeInfo = string.Join(", ", routeData);
+				Log.Error("MVC error caught. Route data: [{0}] - {1}\n{2}", routeInfo, filterContext.Exception.Message, filterContext.Exception.ToString());
+			}
+
+			base.OnActionExecuted(filterContext);
 		}
 	}
 }

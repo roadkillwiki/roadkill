@@ -1,7 +1,7 @@
-﻿using System.Collections.Concurrent;
-using System.Threading;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
+using Azure;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Microsoft.AspNetCore.Http;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Exceptions;
@@ -13,16 +13,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
-using WebGrease.Css.Extensions;
 
 namespace Roadkill.Core.Services
 {
+	/// <summary>
+	/// Stores attachments in Azure blob storage (Azure.Storage.Blobs SDK).
+	/// </summary>
 	public class AzureFileService : IFileService
 	{
 		private readonly ApplicationSettings _applicationSettings;
 		private readonly SettingsService _settingsService;
 		private static readonly string[] FilesToExclude = new string[] { "emptyfile.txt", "_installtest.txt" }; // installer/publish files
+		private static readonly Regex _multipleSlashRegex = new Regex(@"(\/+|\\+)", RegexOptions.Compiled);
 
 		public AzureFileService(ApplicationSettings applicationSettings, SettingsService settingsService)
 		{
@@ -34,11 +36,11 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
-				CloudBlobContainer container = GetCloudBlobContainer();
+				BlobContainerClient container = GetBlobContainer();
 				string path = CleanPath(String.Format("/{0}/{1}", filePath, fileName));
-				container.GetBlockBlobReference(path).DeleteIfExists();
+				container.GetBlobClient(path).DeleteIfExists();
 			}
-			catch (StorageException e)
+			catch (RequestFailedException e)
 			{
 				throw new FileException(e, "Unable to delete {0} from {1}", fileName, filePath);
 			}
@@ -48,28 +50,22 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
-				CloudBlobContainer container = GetCloudBlobContainer();
-				var azureDirectory = container.GetDirectoryReference(CleanPath(folderPath));
-				var files = azureDirectory.ListBlobs()
-										  .OfType<CloudBlockBlob>()
-										  .Where(b => !FilesToExclude.Contains(Path.GetFileName(b.Name)))
-										  .ToList();
+				BlobContainerClient container = GetBlobContainer();
+				string prefix = GetDirectoryPrefix(folderPath);
 
-				var directories = azureDirectory.ListBlobs()
-												.Select(b => b as CloudBlobDirectory)
-												.Where(b => b != null)
-												.ToList();
+				List<BlobHierarchyItem> items = container.GetBlobsByHierarchy(BlobTraits.None, BlobStates.None, "/", prefix).ToList();
+				bool hasFiles = items.Any(x => x.IsBlob && !FilesToExclude.Contains(Path.GetFileName(x.Blob.Name)));
+				bool hasDirectories = items.Any(x => x.IsPrefix);
 
-				if (files.Count == 0 && directories.Count == 0)
-				{
-					azureDirectory.ListBlobs().OfType<CloudBlockBlob>().ForEach(b => b.Delete());
-				}
-				else
-				{
+				if (hasFiles || hasDirectories)
 					throw new FileException("The folder is not empty.", null);
+
+				foreach (BlobHierarchyItem item in items.Where(x => x.IsBlob))
+				{
+					container.GetBlobClient(item.Blob.Name).DeleteIfExists();
 				}
 			}
-			catch (StorageException e)
+			catch (RequestFailedException e)
 			{
 				throw new FileException(e.Message, e);
 			}
@@ -79,18 +75,19 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
-				CloudBlobContainer container = GetCloudBlobContainer();
+				BlobContainerClient container = GetBlobContainer();
 				string fileName = CleanPath(parentPath + "/" + folderName + "/" + FilesToExclude[0]);
-				var blob = container.GetBlockBlobReference(fileName);
+				BlobClient blob = container.GetBlobClient(fileName);
 
 				if (!blob.Exists())
 				{
-					blob.UploadText(String.Empty);
+					blob.Upload(BinaryData.FromString(String.Empty));
 					return true;
 				}
+
 				throw new FileException(SiteStrings.FileManager_Error_CreateFolder + " " + folderName, null);
 			}
-			catch (StorageException e)
+			catch (RequestFailedException e)
 			{
 				throw new FileException(e.Message, e);
 			}
@@ -105,50 +102,42 @@ namespace Roadkill.Core.Services
 					currentFolderName = Path.GetFileName(dir);
 
 				DirectoryViewModel directoryModel = new DirectoryViewModel(currentFolderName, dir);
-				CloudBlobContainer container = GetCloudBlobContainer();
-				CloudBlobDirectory azureDirectory = container.GetDirectoryReference(dir);
-				List<CloudBlobDirectory> directories = azureDirectory.ListBlobs()
-																	.Select(b => b as CloudBlobDirectory)
-																	.Where(b => b != null)
-																	.ToList();
+				BlobContainerClient container = GetBlobContainer();
+				string prefix = GetDirectoryPrefix(dir);
 
-				List<CloudBlockBlob> files = azureDirectory.ListBlobs()
-														  .OfType<CloudBlockBlob>()
-														  .Where(b => !FilesToExclude.Contains(Path.GetFileName(b.Name)))
-														  .ToList();
-
-				foreach (CloudBlobDirectory directory in directories)
+				foreach (BlobHierarchyItem item in container.GetBlobsByHierarchy(BlobTraits.Metadata, BlobStates.None, "/", prefix))
 				{
-					string dirName = directory.Prefix.TrimEnd('/');
-					dirName = dirName.Replace(directory.Parent.Prefix, String.Empty);
-					DirectoryViewModel childModel = new DirectoryViewModel(dirName, directory.Prefix.TrimEnd('/'));
-					directoryModel.ChildFolders.Add(childModel);
-				}
+					if (item.IsPrefix)
+					{
+						string fullPath = item.Prefix.TrimEnd('/');
+						string dirName = fullPath.Substring(prefix.Length);
+						directoryModel.ChildFolders.Add(new DirectoryViewModel(dirName, "/" + fullPath));
+					}
+					else if (!FilesToExclude.Contains(Path.GetFileName(item.Blob.Name)))
+					{
+						BlobItemProperties properties = item.Blob.Properties;
+						DateTime lastModified = properties.LastModified.HasValue ? properties.LastModified.Value.DateTime : DateTime.MinValue;
+						long length = properties.ContentLength ?? 0;
 
-				foreach (CloudBlockBlob file in files)
-				{
-					file.FetchAttributes();
-					string filename = file.Name;
-					FileViewModel fileModel = new FileViewModel(Path.GetFileName(file.Name), Path.GetExtension(file.Name).Replace(".", ""), file.Properties.Length, ((DateTimeOffset)file.Properties.LastModified).DateTime, dir);
-					directoryModel.Files.Add(fileModel);
+						FileViewModel fileModel = new FileViewModel(Path.GetFileName(item.Blob.Name), Path.GetExtension(item.Blob.Name).Replace(".", ""), length, lastModified, dir);
+						directoryModel.Files.Add(fileModel);
+					}
 				}
-
 
 				return directoryModel;
 			}
-			catch (StorageException e)
+			catch (RequestFailedException e)
 			{
 				throw new FileException(e.Message, e);
 			}
 		}
 
-		public string Upload(string destination, HttpFileCollectionBase files)
+		public string Upload(string destination, IFormFileCollection files)
 		{
 			try
 			{
-				CloudBlobContainer container = GetCloudBlobContainer();
+				BlobContainerClient container = GetBlobContainer();
 
-				// Get the allowed files types
 				string fileName = "";
 
 				// For checking the setting to overwrite existing files
@@ -159,8 +148,9 @@ namespace Roadkill.Core.Services
 				for (int i = 0; i < files.Count; i++)
 				{
 					// Find the file's extension
-					HttpPostedFileBase sourceFile = files[i];
-					string extension = Path.GetExtension(sourceFile.FileName).Replace(".", "");
+					IFormFile sourceFile = files[i];
+					string sourceFileName = Path.GetFileName(sourceFile.FileName);
+					string extension = Path.GetExtension(sourceFileName).Replace(".", "");
 
 					if (!string.IsNullOrEmpty(extension))
 						extension = extension.ToLower();
@@ -168,21 +158,27 @@ namespace Roadkill.Core.Services
 					// Check if it's an allowed extension
 					if (allowedExtensions.Contains(extension))
 					{
-						string filePath = CleanPath(String.Format("/{0}/{1}", destination, sourceFile.FileName));
-						CloudBlockBlob blob = container.GetBlockBlobReference(filePath);
+						string filePath = CleanPath(String.Format("/{0}/{1}", destination, sourceFileName));
+						BlobClient blob = container.GetBlobClient(filePath);
 
-						// Check if it exists on disk already
-						if (!siteSettings.OverwriteExistingFiles)
+						// Check if it exists already
+						if (!siteSettings.OverwriteExistingFiles && blob.Exists())
 						{
-							if (blob.Exists())
-							{
-								string errorMessage = string.Format(SiteStrings.FileManager_Upload_FileAlreadyExists, sourceFile.FileName);
-								throw new FileException(errorMessage, null);
-							}
+							string errorMessage = string.Format(SiteStrings.FileManager_Upload_FileAlreadyExists, sourceFileName);
+							throw new FileException(errorMessage, null);
 						}
 
-						blob.UploadFromStream(sourceFile.InputStream);
-						fileName = sourceFile.FileName;
+						using (Stream stream = sourceFile.OpenReadStream())
+						{
+							var options = new BlobUploadOptions()
+							{
+								HttpHeaders = new BlobHttpHeaders() { ContentType = MimeTypes.GetMimeType(Path.GetExtension(sourceFileName)) }
+							};
+
+							blob.Upload(stream, options);
+						}
+
+						fileName = sourceFileName;
 					}
 					else
 					{
@@ -194,154 +190,82 @@ namespace Roadkill.Core.Services
 
 				return fileName;
 			}
-			catch (StorageException e)
+			catch (RequestFailedException e)
 			{
 				throw new FileException(e.Message, e);
 			}
 		}
 
-		public void WriteResponse(string localPath, string applicationPath, string modifiedSinceHeader,
-			IResponseWrapper responseWrapper, HttpContext context)
+		public void WriteResponse(string localPath, string applicationPath, string modifiedSinceHeader, IResponseWrapper responseWrapper)
 		{
+			string blobPath = localPath;
+
 			try
 			{
-				int bufferSize;
-				if (!Int32.TryParse(context.Request["bufferSize"], out bufferSize))
+				if (!string.IsNullOrEmpty(applicationPath) && applicationPath != "/" && blobPath.StartsWith(applicationPath))
+					blobPath = blobPath.Substring(applicationPath.Length);
+
+				blobPath = CleanPath(blobPath.Replace(_applicationSettings.AttachmentsRoutePath, String.Empty));
+
+				BlobContainerClient container = GetBlobContainer();
+				BlobClient blob = container.GetBlobClient(blobPath);
+
+				if (!blob.Exists())
 				{
-					bufferSize = 100 * 1024;
-				}
-
-				CloudBlobContainer container = GetCloudBlobContainer();
-				string blobPath = CleanPath(localPath.Replace(_applicationSettings.AttachmentsRoutePath, String.Empty));
-
-				// Add leading slash if necessary
-				if (blobPath.Contains("/") && !blobPath.StartsWith("/"))
-				{
-					blobPath = blobPath.Insert(0, "/");
-				}
-
-				CloudBlockBlob blob = container.GetBlockBlobReference(blobPath);
-
-				if (blob.Exists())
-				{
-					Exception downloadException = null;
-					bool isDataComplete = false;
-					var dataQueue = new BlockingCollection<Tuple<int, byte[]>>();
-					var bufferQueue = new BlockingCollection<byte[]>();
-
-					ThreadPool.QueueUserWorkItem(new WaitCallback(o =>
-					{
-						try
-						{
-							Stream blobStream = blob.OpenRead();
-							int blockLength = 0;
-
-							do
-							{
-								byte[] blockBuffer = null;
-								if (bufferQueue.Count > 0)
-								{
-									blockBuffer = bufferQueue.Take();
-								}
-								else
-								{
-									blockBuffer = new byte[bufferSize];
-								}
-
-								blockLength = blobStream.Read(blockBuffer, 0, blockBuffer.Length);
-
-								if (blockLength > 0)
-								{
-									dataQueue.Add(new Tuple<int, byte[]>(blockLength, blockBuffer));
-								}
-							} while (blockLength > 0);
-						}
-						catch (StorageException exception)
-						{
-							downloadException = exception;
-						}
-						finally
-						{
-							isDataComplete = true;
-						}
-					}));
-
-					blob.FetchAttributes();
-					context.Response.ContentType = blob.Properties.ContentType;
-					context.Response.Buffer = false;
-					context.Response.AddHeader("content-disposition", "attachment; filename=" + Path.GetFileName(blobPath));
-
-					while (context.Response.IsClientConnected && (!isDataComplete || dataQueue.Count > 0))
-					{
-						if (downloadException != null)
-						{
-							throw new FileException("The internal blob download failed.", downloadException);
-						}
-
-						var data = dataQueue.Take();
-						context.Response.OutputStream.Write(data.Item2, 0, data.Item1);
-						context.Response.Flush();
-
-						// Put the processed buffer back into the queue so as to minimize memory consumption
-						bufferQueue.Add(data.Item2);
-					}
-				}
-				else
-				{
-					// 404
 					Log.Warn("The url {0} (translated to {1}) does not exist on the server.", localPath, blobPath);
-
-					// Throw so the web.config catches it
-					throw new HttpException(404, string.Format("{0} does not exist on the server.", localPath));
+					throw new HttpStatusException(404, string.Format("{0} does not exist on the server.", localPath));
 				}
+
+				BlobProperties properties = blob.GetProperties().Value;
+				responseWrapper.AddStatusCodeForCache(blobPath, modifiedSinceHeader);
+
+				if (responseWrapper.StatusCode != 304)
+				{
+					responseWrapper.ContentType = string.IsNullOrEmpty(properties.ContentType)
+						? MimeTypes.GetMimeType(Path.GetExtension(blobPath))
+						: properties.ContentType;
+
+					responseWrapper.BinaryWrite(blob.DownloadContent().Value.Content.ToArray());
+				}
+
+				responseWrapper.End();
 			}
-			catch (FileException ex)
+			catch (RequestFailedException ex)
 			{
-				// 500
 				Log.Error(ex, "There was a problem opening the file {0}.", localPath);
-
-				// Throw so the web.config catches it				
-				throw new HttpException(500, "There was a problem opening the file (see the error logs)");
+				throw new HttpStatusException(500, "There was a problem opening the file (see the error logs)");
 			}
 		}
 
-		private CloudBlobContainer GetCloudBlobContainer()
+		private BlobContainerClient GetBlobContainer()
 		{
-			return GetCloudBlobContainer(_applicationSettings.AzureContainer);
+			string connectionString = _applicationSettings.AzureConnectionString;
+			if (connectionString.Contains("UseDevelopmentStorage"))
+				connectionString = "UseDevelopmentStorage=true";
+
+			var serviceClient = new BlobServiceClient(connectionString);
+			BlobContainerClient container = serviceClient.GetBlobContainerClient(_applicationSettings.AzureContainer.ToLower());
+
+			Response<BlobContainerInfo> created = container.CreateIfNotExists(PublicAccessType.BlobContainer);
+			return container;
 		}
 
-		private CloudBlobContainer GetCloudBlobContainer(string container)
+		private static string GetDirectoryPrefix(string path)
 		{
-			CloudStorageAccount cloudStorageAccount;
-			if (_applicationSettings.AzureConnectionString.Contains("UseDevelopmentStorage"))
-			{
-				cloudStorageAccount = CloudStorageAccount.DevelopmentStorageAccount;
-			}
-			else
-			{
-				cloudStorageAccount = CloudStorageAccount.Parse(_applicationSettings.AzureConnectionString);
-			}
+			string prefix = CleanPath(path ?? "");
+			if (prefix.Length > 0 && !prefix.EndsWith("/"))
+				prefix += "/";
 
-			CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
-			CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference(container.ToLower());
-
-			if (!cloudBlobContainer.CreateIfNotExists()) 
-				return cloudBlobContainer;
-
-			BlobContainerPermissions permissions = cloudBlobContainer.GetPermissions();
-			permissions.PublicAccess = BlobContainerPublicAccessType.Container;
-			cloudBlobContainer.SetPermissions(permissions);
-
-			return cloudBlobContainer;
+			return prefix;
 		}
 
+		/// <summary>
+		/// Normalises slashes and removes the leading slash, as blob names are relative to the container.
+		/// </summary>
 		private static string CleanPath(string path)
 		{
-			string MultipleSlashPattern = @"(\/+|\\+)";
-			Regex multipleSlashRegex = new Regex(MultipleSlashPattern);
-			path = multipleSlashRegex.Replace(path, "/");
-
-			return path;
+			path = _multipleSlashRegex.Replace(path, "/");
+			return path.TrimStart('/');
 		}
 	}
 }

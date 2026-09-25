@@ -1,4 +1,7 @@
-﻿@inherits RoadkillViewPage<System.Web.Mvc.HandleErrorInfo>
+@using Microsoft.AspNetCore.Diagnostics
+@{
+	IExceptionHandlerPathFeature errorFeature = Context.Features.Get<IExceptionHandlerPathFeature>();
+}
 @{
 	if (ApplicationSettings.Installed)
 	{
@@ -17,12 +20,12 @@
 
 @if (RoadkillContext.IsAdmin)
 {
-	<p>An error occurred on @(Model.ControllerName).@Model.ActionName</p> 
-	if (Model.Exception != null)
+	if (errorFeature != null && errorFeature.Error != null)
 	{
-	<p class="lead">@(Model.Exception.Message)</p>
-	<pre class="alert alert-danger">@Model.Exception.ToString()</pre>
+	<p>An error occurred on @errorFeature.Path</p>
+	<p class="lead">@(errorFeature.Error.Message)</p>
+	<pre class="alert alert-danger">@errorFeature.Error.ToString()</pre>
 	}
 }
 </body>
-</html>
+</html>

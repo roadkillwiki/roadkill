@@ -1,4 +1,7 @@
-﻿using System.Text.RegularExpressions;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Web;
 using Roadkill.Core.Plugins;
 
@@ -9,6 +12,18 @@ namespace Roadkill.Plugins.Text.BuiltIn
 		internal static readonly string RegexString = @"\[\[\[code lang=(?'lang'.*?)\|(?'code'.*?)\]\]\]";
 		internal static readonly Regex CompiledRegex = new Regex(RegexString, RegexOptions.Singleline | RegexOptions.Compiled);
 		internal static string ReplacementPattern = "<pre class=\"brush: ${lang}\">${code}</pre>";
+
+		// Markdown fenced code blocks (```sql) are output as <pre><code class="language-sql">
+		internal static readonly Regex FencedCodeRegex = new Regex(@"<pre><code class=""language-(?'lang'[^""]+)"">(?'code'.*?)</code></pre>", RegexOptions.Singleline | RegexOptions.Compiled);
+
+		// The languages (aliases) supported by the SyntaxHighlighter brushes that are loaded.
+		internal static readonly HashSet<string> SupportedLanguages = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+		{
+			"applescript", "actionscript3", "as3", "bash", "shell", "c#", "c-sharp", "csharp", "coldfusion", "cf", "cpp", "c",
+			"css", "delphi", "pascal", "pas", "diff", "patch", "erl", "erlang", "groovy", "java", "jfx", "javafx",
+			"js", "jscript", "javascript", "perl", "pl", "php", "text", "plain", "powershell", "ps", "py", "python",
+			"ruby", "rails", "ror", "rb", "sass", "scss", "scala", "sql", "vb", "vbnet", "xml", "xhtml", "xslt", "html"
+		};
 
 		public override string Id
 		{
@@ -31,7 +46,8 @@ namespace Roadkill.Plugins.Text.BuiltIn
 			get
 			{
 				return "Syntax highlights a code block, using the language you specify. Example:\n\n" +
-						"[[[code lang=sql|ENTER YOUR CODE HERE]]]";
+						"[[[code lang=sql|ENTER YOUR CODE HERE]]]\n\n" +
+						"Markdown fenced code blocks (```sql) are also highlighted.";
 			}
 		}
 
@@ -77,6 +93,16 @@ namespace Roadkill.Plugins.Text.BuiltIn
 			// Undo the HTML sanitizer's attribute cleaning on the pre's.
 			html = html.Replace("<pre class=\"brush&#x3A;&#x20;c&#x23;", "<pre class=\"brush: c#");
 			html = html.Replace("<pre class=\"brush&#x3A;&#x20;", "<pre class=\"brush: ");
+
+			// Highlight Markdown fenced code blocks for the languages the brushes support.
+			html = FencedCodeRegex.Replace(html, match =>
+			{
+				string language = WebUtility.HtmlDecode(match.Groups["lang"].Value);
+				if (!SupportedLanguages.Contains(language))
+					return match.Value;
+
+				return string.Format("<pre class=\"brush: {0}\">{1}</pre>", language.ToLowerInvariant(), match.Groups["code"].Value);
+			});
 
 			return html;
 		}

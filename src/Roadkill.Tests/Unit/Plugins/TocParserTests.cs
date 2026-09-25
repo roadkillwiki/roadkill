@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Roadkill.Plugins.Text.BuiltIn.ToC;
@@ -138,13 +138,13 @@ namespace Roadkill.Tests.Unit.Plugins
 
 			// Assert
 			// (really basic asserts, as the alternative is to just copy the HTML)
-			Assert.That(actual, Is.Not.StringContaining("1&nbsp;First h1"));
-			Assert.That(actual, Is.StringContaining("1.&nbsp;First h2"));
-			Assert.That(actual, Is.StringContaining("2.&nbsp;Second h2"));
-			Assert.That(actual, Is.StringContaining("2.1&nbsp;h3 number #0"));
-			Assert.That(actual, Is.StringContaining("2.47&nbsp;h3 number #46"));
-			Assert.That(actual, Is.StringContaining("2.52&nbsp;Yet Another h3"));
-			Assert.That(actual, Is.StringContaining("2.52.1&nbsp;Lonely h4"));
+			Assert.That(actual, Does.Not.Contain("1&nbsp;First h1"));
+			Assert.That(actual, Does.Contain("1.&nbsp;First h2"));
+			Assert.That(actual, Does.Contain("2.&nbsp;Second h2"));
+			Assert.That(actual, Does.Contain("2.1&nbsp;h3 number #0"));
+			Assert.That(actual, Does.Contain("2.47&nbsp;h3 number #46"));
+			Assert.That(actual, Does.Contain("2.52&nbsp;Yet Another h3"));
+			Assert.That(actual, Does.Contain("2.52.1&nbsp;Lonely h4"));
 		}
 
 		[Test]
@@ -189,13 +189,13 @@ namespace Roadkill.Tests.Unit.Plugins
 			string actual = tocParser.InsertToc(html);
 
 			// Assert
-			Assert.That(actual, Is.StringContaining("(Missing level 2 header)"));
-			Assert.That(actual, Is.StringContaining("(Missing level 3 header)"));
-			Assert.That(actual, Is.StringContaining("(Missing level 4 header)"));
+			Assert.That(actual, Does.Contain("(Missing level 2 header)"));
+			Assert.That(actual, Does.Contain("(Missing level 3 header)"));
+			Assert.That(actual, Does.Contain("(Missing level 4 header)"));
 
 
-			Assert.That(actual, Is.StringContaining("1.3&nbsp;h3c"));
-			Assert.That(actual, Is.StringContaining("1.3.1&nbsp;h4d"));
+			Assert.That(actual, Does.Contain("1.3&nbsp;h3c"));
+			Assert.That(actual, Does.Contain("1.3.1&nbsp;h4d"));
 		}
 	}
 }

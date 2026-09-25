@@ -1,3 +1,3 @@
-﻿<h1>Help:Cheatsheet</h1>
-@Html.Action(SiteSettings.MarkupType + "Reference", "Help")
+<h1>Help:Cheatsheet</h1>
+@await Html.PartialAsync("~/Views/Help/" + SiteSettings.MarkupType + "Reference.cshtml", new Roadkill.Core.CustomTokenParser(ApplicationSettings).Tokens)
 

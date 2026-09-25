@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using AngleSharp.Dom;
-using AngleSharp.Dom.Html;
-using AngleSharp.Extensions;
-using AngleSharp.Parser.Html;
+using AngleSharp.Html.Dom;
+using AngleSharp.Html.Parser;
 
 namespace Roadkill.Plugins.Text.BuiltIn.ToC
 {
@@ -48,7 +47,7 @@ namespace Roadkill.Plugins.Text.BuiltIn.ToC
 
 			// Parse the HTML for H tags
 			var parser = new HtmlParser();
-			IHtmlDocument document = parser.Parse(html);
+			IHtmlDocument document = parser.ParseDocument(html);
 			ParseHTagsAndAddAnchors(document, document.QuerySelector("body"));
 
 			string outputHtml = GenerateHtml();

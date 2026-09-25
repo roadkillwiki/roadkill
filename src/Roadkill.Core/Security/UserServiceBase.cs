@@ -1,12 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Web;
+using Microsoft.AspNetCore.Http;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.ViewModels;
-using StructureMap;
 
 namespace Roadkill.Core.Security
 {
@@ -129,7 +128,7 @@ namespace Roadkill.Core.Security
 		public abstract IEnumerable<UserViewModel> ListEditors();
 
 		/// <summary>
-		/// Signs the user out with (typically with <see cref="FormsAuthentication"/>).
+		/// Signs the user out.
 		/// </summary>
 		public abstract void Logout();
 
@@ -187,7 +186,7 @@ namespace Roadkill.Core.Security
 		/// </summary>
 		/// <param name="context">The current <see cref="System.Web.HttpContext"/> for the request.</param>
 		/// <returns>The username of the logged in user, or an empty string if the user is not logged in.</returns>
-		public abstract string GetLoggedInUserName(HttpContextBase context);
+		public abstract string GetLoggedInUserName(HttpContext context);
 
 		/// <summary>
 		/// Gets the currently logged in user, based off the cookie or HttpContext user identity value set during authentication. 

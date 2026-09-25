@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.IO;
-using Mono.Security.X509;
 using Roadkill.Core.Logging;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;

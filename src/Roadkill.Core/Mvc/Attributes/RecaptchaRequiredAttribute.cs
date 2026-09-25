@@ -1,45 +1,71 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-using Recaptcha;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 using Roadkill.Core.Configuration;
+using Roadkill.Core.Logging;
+using Roadkill.Core.Services;
 
 namespace Roadkill.Core.Mvc.Attributes
 {
 	/// <summary>
-	/// Represents an attribute that is added to indicate that the action requires a
-	/// Recaptcha response. Use this in conjunection with [HttpPost] and @Html.GenerateCaptcha()
+	/// Validates the Google reCAPTCHA (v2) response, if recaptcha is enabled in the site settings. The result is passed
+	/// to the action as the "isCaptchaValid" parameter.
 	/// </summary>
 	public class RecaptchaRequiredAttribute : ActionFilterAttribute
 	{
-		private static readonly string CHALLENGE_KEY = "recaptcha_challenge_field";
-		private static readonly string RESPONSE_KEY = "recaptcha_response_field";
+		internal static readonly string ResponseKey = "g-recaptcha-response";
+		private static readonly string VerifyUrl = "https://www.google.com/recaptcha/api/siteverify";
+		private static readonly HttpClient _httpClient = new HttpClient() { Timeout = TimeSpan.FromSeconds(10) };
 
-		public override void OnActionExecuting(ActionExecutingContext filterContext)
+		public override async Task OnActionExecutionAsync(ActionExecutingContext filterContext, ActionExecutionDelegate next)
 		{
-			Roadkill.Core.Mvc.Controllers.ControllerBase controller = filterContext.Controller as Roadkill.Core.Mvc.Controllers.ControllerBase;
-			if (controller != null)
+			SettingsService settingsService = filterContext.HttpContext.RequestServices.GetService<SettingsService>();
+			SiteSettings siteSettings = settingsService?.GetSiteSettings();
+
+			if (siteSettings != null && siteSettings.IsRecaptchaEnabled)
 			{
-				SiteSettings siteSettings = controller.SettingsService.GetSiteSettings();
-				if (siteSettings.IsRecaptchaEnabled)
-				{
-					string challengeValue = filterContext.HttpContext.Request.Form[CHALLENGE_KEY];
-					string responseValue = filterContext.HttpContext.Request.Form[RESPONSE_KEY];
+				string responseValue = filterContext.HttpContext.Request.HasFormContentType
+					? (string)filterContext.HttpContext.Request.Form[ResponseKey]
+					: "";
 
-					RecaptchaValidator validator = new RecaptchaValidator();
-					validator.PrivateKey = siteSettings.RecaptchaPrivateKey;
-					validator.RemoteIP = filterContext.HttpContext.Request.UserHostAddress;
-					validator.Challenge = challengeValue;
-					validator.Response = responseValue;
-
-					RecaptchaResponse validationResponse = validator.Validate();
-					filterContext.ActionParameters["isCaptchaValid"] = validationResponse.IsValid;
-				}
+				bool isValid = await IsValidAsync(siteSettings.RecaptchaPrivateKey, responseValue, filterContext.HttpContext.Connection.RemoteIpAddress?.ToString());
+				filterContext.ActionArguments["isCaptchaValid"] = isValid;
 			}
 
-			base.OnActionExecuting(filterContext);
+			await next();
+		}
+
+		private static async Task<bool> IsValidAsync(string secret, string response, string remoteIp)
+		{
+			if (string.IsNullOrEmpty(response))
+				return false;
+
+			try
+			{
+				var content = new FormUrlEncodedContent(new Dictionary<string, string>()
+				{
+					{ "secret", secret ?? "" },
+					{ "response", response },
+					{ "remoteip", remoteIp ?? "" }
+				});
+
+				HttpResponseMessage httpResponse = await _httpClient.PostAsync(VerifyUrl, content);
+				string json = await httpResponse.Content.ReadAsStringAsync();
+
+				using (JsonDocument document = JsonDocument.Parse(json))
+				{
+					return document.RootElement.TryGetProperty("success", out JsonElement success) && success.GetBoolean();
+				}
+			}
+			catch (Exception ex) when (ex is HttpRequestException || ex is TaskCanceledException || ex is JsonException)
+			{
+				Log.Error(ex, "Unable to validate the recaptcha response");
+				return false;
+			}
 		}
 	}
 }

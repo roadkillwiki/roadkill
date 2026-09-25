@@ -1,4 +1,5 @@
-﻿using System;
+using System.IO;
+using System;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -75,10 +76,12 @@ namespace Roadkill.Tests.Unit.Logging
 		public void ConfigureLogging_should_replace_tilde_with_base_directory_and_set_nlog_config_path()
 		{
 			// Arrange
-			string expectedPath = $"{AppDomain.CurrentDomain.BaseDirectory}\\Roadkill.Tests.dll.config";
-			var appSettings = new ApplicationSettings()
+			// (The NLog configuration was in the app.config with .NET Framework)
+			string expectedPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "nlogtest.config");
+			File.WriteAllText(expectedPath, "<nlog xmlns=\"http://www.nlog-project.org/schemas/NLog.xsd\"><targets><target name=\"console\" type=\"Console\" /></targets><rules><logger name=\"*\" minlevel=\"Info\" writeTo=\"console\" /></rules></nlog>");
+			var appSettings = new ApplicationSettings(AppDomain.CurrentDomain.BaseDirectory)
 			{
-				NLogConfigFilePath = @"~\Roadkill.Tests.dll.config"
+				NLogConfigFilePath = "~/nlogtest.config"
 			};
 
 			// Act

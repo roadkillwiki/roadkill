@@ -1,39 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.Extensions.DependencyInjection;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Services;
-using StructureMap;
-using StructureMap.Attributes;
 
 namespace Roadkill.Core.Mvc.WebViewPages
 {
-	public abstract class RoadkillViewPage<T> : WebViewPage<T>
+	/// <summary>
+	/// The base class for all Roadkill Razor views. The Roadkill services are resolved (lazily) from the request's services.
+	/// </summary>
+	public abstract class RoadkillViewPage<T> : RazorPage<T>
 	{
-		// Constructor injection isn't viable here, as this class is created by the ASP.NET runtime
+		private ApplicationSettings _applicationSettings;
+		private IUserContext _roadkillContext;
+		private MarkupConverter _markupConverter;
+		private SettingsService _settingsService;
 		private SiteSettings _siteSettings;
 
-		[SetterProperty]
-		public ApplicationSettings ApplicationSettings { get; set; }
-		
-		[SetterProperty]
-		public IUserContext RoadkillContext { get; set; }
-		
-		[SetterProperty]
-		public MarkupConverter MarkupConverter { get; set; }
+		public ApplicationSettings ApplicationSettings
+		{
+			get { return _applicationSettings ?? (_applicationSettings = Context.RequestServices.GetRequiredService<ApplicationSettings>()); }
+			set { _applicationSettings = value; }
+		}
 
-		[SetterProperty]
-		public SettingsService SettingsService { get; set; }
+		public IUserContext RoadkillContext
+		{
+			get { return _roadkillContext ?? (_roadkillContext = Context.RequestServices.GetRequiredService<IUserContext>()); }
+			set { _roadkillContext = value; }
+		}
+
+		public MarkupConverter MarkupConverter
+		{
+			get { return _markupConverter ?? (_markupConverter = Context.RequestServices.GetRequiredService<MarkupConverter>()); }
+			set { _markupConverter = value; }
+		}
+
+		public SettingsService SettingsService
+		{
+			get { return _settingsService ?? (_settingsService = Context.RequestServices.GetRequiredService<SettingsService>()); }
+			set { _settingsService = value; }
+		}
 
 		public SiteSettings SiteSettings
 		{
 			get
 			{
 				if (_siteSettings == null)
-					_siteSettings = SettingsService.GetSiteSettings();
+					_siteSettings = ApplicationSettings.Installed ? SettingsService.GetSiteSettings() : new SiteSettings();
 
 				return _siteSettings;
 			}

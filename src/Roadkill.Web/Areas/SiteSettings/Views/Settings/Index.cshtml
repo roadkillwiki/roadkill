@@ -1,4 +1,4 @@
-﻿@model SettingsViewModel
+@model SettingsViewModel
 
 @{
 	ViewBag.Title = SiteStrings.SiteSettings_Configuration_Title;
@@ -72,13 +72,8 @@
 					@Html.BootstrapCheckBoxFor(s => s.IsPublicSite, SiteStrings.SiteSettings_Configuration_IsPublicSite_Help)
 				</label>
 
-				<label for="UseWindowsAuth" class="checkbox">
-					@SiteStrings.SiteSettings_Configuration_UseWindowsAuth
-					@Html.BootstrapCheckBoxFor(s => s.UseWindowsAuth, LocalizationTokens.ReplaceHtmlTokens(SiteStrings.SiteSettings_Configuration_UseWindowsAuth_Help))
-				</label>
-
 				<!-- Forms Authentication -->
-				<div id="aspnetuser-settings" class="hidden">
+				<div id="aspnetuser-settings">
 					<label for="AllowUserSignup" class="checkbox">
 						@SiteStrings.SiteSettings_Configuration_AllowUserSignups
 						@Html.BootstrapCheckBoxFor(s => s.AllowUserSignup, SiteStrings.SiteSettings_Configuration_AllowUserSignups_Help)
@@ -94,18 +89,6 @@
 
 					<label for="RecaptchaPrivateKey">@SiteStrings.SiteSettings_Configuration_RecaptchaPublicKey</label>
 					@Html.BootstrapLongTextBoxFor(s => s.RecaptchaPublicKey, SiteStrings.SiteSettings_Configuration_RecaptchaPublicKey_Help)
-				</div>
-
-				<!-- Active Directory -->
-				<div id="ldapsettings" class="hidden">
-					<label for="LdapConnectionString">@SiteStrings.SiteSettings_Configuration_AD_Connection</label>
-					@Html.BootstrapTextBoxFor(s => s.LdapConnectionString, SiteStrings.SiteSettings_Configuration_AD_Connection_Help)
-
-					<label for="LdapUsername">@SiteStrings.SiteSettings_Configuration_AD_Username</label>
-					@Html.BootstrapTextBoxFor(s => s.LdapUsername, SiteStrings.SiteSettings_Configuration_AD_Username_Help)
-
-					<label for="LdapPassword">@SiteStrings.SiteSettings_Configuration_AD_Password</label>
-					@Html.BootstrapTextBoxFor(s => s.LdapPassword, SiteStrings.SiteSettings_Configuration_AD_Password_Help)
 				</div>
 
 				<label for="EditorRoleName">@SiteStrings.SiteSettings_Configuration_EditorRole</label>
@@ -187,4 +170,4 @@
 
 		<input type="submit" class="btn btn-primary" value="@SiteStrings.Button_Save" />
 	</div>
-</form>
+</form>

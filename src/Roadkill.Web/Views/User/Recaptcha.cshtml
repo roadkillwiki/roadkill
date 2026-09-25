@@ -1,18 +1,9 @@
-﻿@model SiteSettings
-@{
-	Recaptcha.RecaptchaControl control = new Recaptcha.RecaptchaControl();
-	control.ID = "recaptcha";
-	control.Theme = "clean";
-	control.PublicKey = Model.RecaptchaPublicKey;
-	control.PrivateKey = Model.RecaptchaPrivateKey;
-	
-	StringWriter stringWriter = new StringWriter();
-	HtmlTextWriter htmlWriter = new HtmlTextWriter(stringWriter);
-	control.RenderControl(htmlWriter);
-}
+@model SiteSettings
+@* Google reCAPTCHA v2 (the v1 api used by Roadkill 2.x has been shut down by Google) *@
 <div class="form-group">
 	<label class="col-sm-4 control-label">@SiteStrings.Recaptcha_Prompt</label>
 	<div class="col-sm-8">
-		@Html.Raw(htmlWriter.InnerWriter.ToString())
+		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+		<div class="g-recaptcha" data-sitekey="@Model.RecaptchaPublicKey"></div>
 	</div>
 </div>

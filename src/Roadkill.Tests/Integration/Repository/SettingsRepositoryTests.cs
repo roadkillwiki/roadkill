@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
@@ -35,7 +35,7 @@ namespace Roadkill.Tests.Integration.Repository
 		[TearDown]
 		public void TearDown()
 		{
-			Repository.Dispose();
+			Repository?.Dispose();
 		}
 		
 		[Test]

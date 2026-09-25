@@ -1,120 +1,104 @@
-﻿using Roadkill.Core.Extensions;
+using Roadkill.Core.Extensions;
 using System;
 using System.IO;
-using System.Web;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 
 namespace Roadkill.Core.Attachments
 {
 	/// <summary>
 	/// A wrapper around HttpResponse, including caching capabilities.
 	/// </summary>
+	/// <summary>
+	/// Wraps the ASP.NET Core <see cref="HttpResponse"/>. The body is buffered until <see cref="FlushAsync"/> is called,
+	/// so the file service can stay synchronous and testable.
+	/// </summary>
 	public class ResponseWrapper : IResponseWrapper
 	{
-		private HttpResponseBase _context;
+		private readonly HttpResponse _response;
+		private byte[] _buffer;
+		private string _text;
 
 		public int StatusCode { get; set; }
 		public string ContentType { get; set; }
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ResponseWrapper"/> class.
+		/// Whether the response is for a private site: it's then only cached by the browser, not by shared caches (proxies).
 		/// </summary>
+		public bool IsPrivate { get; set; }
+
 		public ResponseWrapper()
 		{
+			StatusCode = 200;
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ResponseWrapper"/> class.
-		/// </summary>
-		/// <param name="context">The <see cref="HttpResponseBase"/> context.</param>
-		public ResponseWrapper(HttpResponseBase context)
+		public ResponseWrapper(HttpResponse response) : this()
 		{
-			_context = context;
+			_response = response;
 		}
 
-		/// <summary>
-		/// Writes the specified text to the HttpResponse, using the current content type.
-		/// </summary>
-		/// <param name="text">The text.</param>
 		public void Write(string text)
 		{
-			if (_context != null)
-			{
-				_context.ContentType = ContentType;
-				_context.Write(text);
-			}
+			_text = (_text ?? "") + text;
 		}
 
-		/// <summary>
-		/// Writes binary output to the HttpResponse.
-		/// </summary>
-		/// <param name="buffer">The buffer.</param>
 		public void BinaryWrite(byte[] buffer)
 		{
-			if (_context != null)
-			{
-				_context.ContentType = ContentType;
-				_context.BinaryWrite(buffer);
-			}
+			_buffer = buffer;
 		}
 
 		public void End()
 		{
-			if (_context != null)
-				_context.End();
 		}
 
-		/// <summary>
-		/// Adds the HTTP headers for cache expiry, and status code to the current response.
-		/// </summary>
-		/// <param name="fullPath">The full virtual path of the file to add cache settings for.</param>
-		/// <param name="modifiedSinceHeader">The incoming modified since header sent by the browser.</param>
 		public void AddStatusCodeForCache(string fullPath, string modifiedSinceHeader)
 		{
-			if (_context != null)
-			{
-				// https://developers.google.com/speed/docs/best-practices/caching
-				_context.AddFileDependency(fullPath);
-
-				FileInfo info = new FileInfo(fullPath);
-				_context.Cache.SetCacheability(HttpCacheability.Public);
-				_context.Headers.Add("Expires", "-1"); // always followed by the browser
-				_context.Cache.SetLastModifiedFromFileDependencies(); // sometimes followed by the browser
-				 int statusCode = GetStatusCodeForCache(info.LastWriteTimeUtc, modifiedSinceHeader);
-
-				_context.StatusCode = statusCode;
-				StatusCode = statusCode;
-			}
+			FileInfo info = new FileInfo(fullPath);
+			AddStatusCodeForCache(fullPath, modifiedSinceHeader, info.LastWriteTimeUtc);
 		}
 
-		/// <summary>
-		/// Adds the HTTP headers for cache expiry, and status code to the current response.
-		/// </summary>
-		/// <param name="fullPath">The full virtual path of the file to add cache settings for.</param>
-		/// <param name="modifiedSinceHeader">The incoming modified since header sent by the browser.</param>
 		public void AddStatusCodeForCache(string fileName, string modifiedSinceHeader, DateTime lastWriteTimeUtc)
 		{
-			if (_context != null)
-			{
-				// https://developers.google.com/speed/docs/best-practices/caching
-				_context.AddFileDependency(fileName);
-				_context.Cache.SetCacheability(HttpCacheability.Public);
-				_context.Headers.Add("Expires", "-1"); // always followed by the browser
-				_context.Cache.SetLastModifiedFromFileDependencies(); // sometimes followed by the browser
-				int statusCode = GetStatusCodeForCache(lastWriteTimeUtc, modifiedSinceHeader);
+			// https://developers.google.com/speed/docs/best-practices/caching
+			int statusCode = GetStatusCodeForCache(lastWriteTimeUtc, modifiedSinceHeader);
+			StatusCode = statusCode;
 
-				_context.StatusCode = statusCode;
-				StatusCode = statusCode;
+			if (_response != null)
+			{
+				_response.Headers[HeaderNames.CacheControl] = IsPrivate ? "private" : "public";
+				_response.Headers[HeaderNames.Expires] = "-1"; // always followed by the browser
+				_response.Headers[HeaderNames.LastModified] = lastWriteTimeUtc.ClearMilliseconds().ToString("R"); // sometimes followed by the browser
 			}
 		}
 
 		/// <summary>
-		/// Gets a 304 HTTP response if there is a "If-Modified-Since" header and it matches 
-		/// the fileDate. Otherwise a 200 OK is given.
+		/// Writes the status code, content type and buffered body to the underlying response.
 		/// </summary>
-		/// <param name="fileDate">The date the item was last modified.</param>
-		/// <param name="modifiedSinceHeader">The modified since header (an ISO date). If this doesn't 
-		/// exist then 200 is returned.</param>
-		/// <returns>The status code for the cache - 200 or 304.</returns>
+		public async Task FlushAsync()
+		{
+			if (_response == null)
+				return;
+
+			_response.StatusCode = StatusCode;
+
+			if (StatusCode == 304)
+				return;
+
+			if (!string.IsNullOrEmpty(ContentType))
+				_response.ContentType = ContentType;
+
+			if (_buffer != null)
+			{
+				_response.ContentLength = _buffer.Length;
+				await _response.Body.WriteAsync(_buffer, 0, _buffer.Length);
+			}
+			else if (_text != null)
+			{
+				await _response.WriteAsync(_text);
+			}
+		}
+
 		public static int GetStatusCodeForCache(DateTime fileDate, string modifiedSinceHeader)
 		{
 			int status = 200;

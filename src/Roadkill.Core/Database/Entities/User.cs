@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Text;
-using System.Web.Security;
 using System.Security.Cryptography;
 using Roadkill.Core.Security;
 
@@ -121,30 +120,14 @@ namespace Roadkill.Core.Database
 		}
 
 		/// <summary>
-		/// Hashes a combination of the password and salt using SHA1 via FormsAuthentication, or 
-		/// SHA256 is FormsAuthentication is not enabled.
+		/// Hashes a combination of the password and salt using SHA1, producing the same (uppercase hex) value as
+		/// the ASP.NET FormsAuthentication.HashPasswordForStoringInConfigFile method used by Roadkill 2.x, so
+		/// existing user passwords remain valid.
 		/// </summary>
 		public static string HashPassword(string password, string salt)
 		{
-			bool isFormsAuthEnabled = FormsAuthenticationWrapper.IsEnabled();
-
-			if (isFormsAuthEnabled)
-			{
-				return FormsAuthentication.HashPasswordForStoringInConfigFile(password + salt, "SHA1");
-			}
-			else
-			{
-				SHA256 sha = new SHA256Managed();
-				byte[] hash = sha.ComputeHash(Encoding.ASCII.GetBytes(password + salt));
-
-				StringBuilder stringBuilder = new StringBuilder();
-				foreach (byte b in hash)
-				{
-					stringBuilder.AppendFormat("{0:x2}", b);
-				}
-
-				return stringBuilder.ToString();
-			}
+			byte[] hash = SHA1.HashData(Encoding.UTF8.GetBytes(password + salt));
+			return Convert.ToHexString(hash);
 		}
 	}
 }

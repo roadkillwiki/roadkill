@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,11 +7,12 @@ using System.IO;
 using Lucene.Net.Index;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Search;
-using Lucene.Net.QueryParsers;
+using Lucene.Net.QueryParsers.Classic;
 using Roadkill.Core.Converters;
 using System.Text.RegularExpressions;
 using Directory = System.IO.Directory;
-using LuceneVersion = Lucene.Net.Util.Version;
+using Lucene.Net.Util;
+using LuceneDirectory = Lucene.Net.Store.Directory;
 using Lucene.Net.Store;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
@@ -29,8 +30,7 @@ namespace Roadkill.Core.Services
 		private static Regex _removeTagsRegex = new Regex("<(.|\n)*?>");
 		private MarkupConverter _markupConverter;
 		protected virtual string IndexPath { get; set; }
-		private IPluginFactory _pluginFactory;
-		private static readonly LuceneVersion LUCENEVERSION = LuceneVersion.LUCENE_29;
+		private static readonly LuceneVersion LUCENEVERSION = LuceneVersion.LUCENE_48;
 
 		public ApplicationSettings ApplicationSettings { get; set; }
 		public ISettingsRepository SettingsRepository { get; set; }
@@ -76,14 +76,21 @@ namespace Roadkill.Core.Services
 				return list;
 
 			StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
-			MultiFieldQueryParser parser = new MultiFieldQueryParser(LuceneVersion.LUCENE_29, new string[] { "content", "title" }, analyzer);
+			MultiFieldQueryParser parser = new MultiFieldQueryParser(LUCENEVERSION, new string[] { "content", "title" }, analyzer);
+
+			// Terms split into several tokens by the analyzer (e.g. dates) become phrase queries, as with Lucene 3.
+			parser.AutoGeneratePhraseQueries = true;
+
+			// Lucene 4 treats /.../ as a regular expression, which Lucene 3 (Roadkill 2.x) didn't: escape it, so
+			// searches such as "createdon:1/2/2020" still work.
+			searchText = searchText.Replace("/", "\\/");
 
 			Query query = null;
 			try
 			{
 				query = parser.Parse(searchText);
 			}
-			catch (Lucene.Net.QueryParsers.ParseException)
+			catch (ParseException)
 			{
 				// Catch syntax errors in the search and remove them.
 				searchText = QueryParser.Escape(searchText);
@@ -94,8 +101,10 @@ namespace Roadkill.Core.Services
 			{
 				try
 				{
-					using (IndexSearcher searcher = new IndexSearcher(FSDirectory.Open(new DirectoryInfo(IndexPath)), true))
+					using (LuceneDirectory directory = FSDirectory.Open(new DirectoryInfo(IndexPath)))
+					using (DirectoryReader reader = DirectoryReader.Open(directory))
 					{
+						IndexSearcher searcher = new IndexSearcher(reader);
 						TopDocs topDocs = searcher.Search(query, 1000);
 
 						foreach (ScoreDoc scoreDoc in topDocs.ScoreDocs)
@@ -131,20 +140,12 @@ namespace Roadkill.Core.Services
 				EnsureDirectoryExists();
 
 				StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
-				using (IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(IndexPath)), analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
+				using (LuceneDirectory directory = FSDirectory.Open(new DirectoryInfo(IndexPath)))
+				using (IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(LUCENEVERSION, analyzer) { OpenMode = OpenMode.CREATE_OR_APPEND }))
 				{
-					Document document = new Document();
-					document.Add(new Field("id", model.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
-					document.Add(new Field("content", model.Content, Field.Store.YES, Field.Index.ANALYZED));
-					document.Add(new Field("contentsummary", GetContentSummary(model), Field.Store.YES, Field.Index.NO));
-					document.Add(new Field("title", model.Title, Field.Store.YES, Field.Index.ANALYZED));
-					document.Add(new Field("tags", model.SpaceDelimitedTags(), Field.Store.YES, Field.Index.ANALYZED));
-					document.Add(new Field("createdby", model.CreatedBy, Field.Store.YES, Field.Index.NOT_ANALYZED));
-					document.Add(new Field("createdon", model.CreatedOn.ToShortDateString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-					document.Add(new Field("contentlength", model.Content.Length.ToString(), Field.Store.YES, Field.Index.NO));
-
+					Document document = CreateDocument(model);
 					writer.AddDocument(document);
-					writer.Optimize();
+					writer.Commit();
 				}
 			}
 			catch (Exception ex)
@@ -163,11 +164,27 @@ namespace Roadkill.Core.Services
 		{
 			try
 			{
+				if (!Directory.Exists(IndexPath))
+					return 0;
+
 				StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
 				int count = 0;
-				using (IndexReader reader = IndexReader.Open(FSDirectory.Open(new DirectoryInfo(IndexPath)), false))
+				using (LuceneDirectory directory = FSDirectory.Open(new DirectoryInfo(IndexPath)))
 				{
-					count += reader.DeleteDocuments(new Term("id", model.Id.ToString()));
+					if (!DirectoryReader.IndexExists(directory))
+						return 0;
+
+					Term term = new Term("id", model.Id.ToString());
+					using (DirectoryReader reader = DirectoryReader.Open(directory))
+					{
+						count = reader.DocFreq(term);
+					}
+
+					using (IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(LUCENEVERSION, analyzer) { OpenMode = OpenMode.APPEND }))
+					{
+						writer.DeleteDocuments(term);
+						writer.Commit();
+					}
 				}
 
 				return count;
@@ -204,26 +221,19 @@ namespace Roadkill.Core.Services
 			try
 			{
 				StandardAnalyzer analyzer = new StandardAnalyzer(LUCENEVERSION);
-				using (IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(IndexPath)), analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED))
+				using (LuceneDirectory directory = FSDirectory.Open(new DirectoryInfo(IndexPath)))
+				using (IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(LUCENEVERSION, analyzer) { OpenMode = OpenMode.CREATE }))
 				{
 					foreach (Page page in PageRepository.AllPages().ToList())
 					{
 						PageViewModel pageModel = new PageViewModel(PageRepository.GetLatestPageContent(page.Id), _markupConverter);
 
-						Document document = new Document();
-						document.Add(new Field("id", pageModel.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
-						document.Add(new Field("content", pageModel.Content, Field.Store.YES, Field.Index.ANALYZED));
-						document.Add(new Field("contentsummary", GetContentSummary(pageModel), Field.Store.YES, Field.Index.NO));
-						document.Add(new Field("title", pageModel.Title, Field.Store.YES, Field.Index.ANALYZED));
-						document.Add(new Field("tags", pageModel.SpaceDelimitedTags(), Field.Store.YES, Field.Index.ANALYZED));
-						document.Add(new Field("createdby", pageModel.CreatedBy, Field.Store.YES, Field.Index.NOT_ANALYZED));
-						document.Add(new Field("createdon", pageModel.CreatedOn.ToShortDateString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-						document.Add(new Field("contentlength", pageModel.Content.Length.ToString(), Field.Store.YES, Field.Index.NO));
+						Document document = CreateDocument(pageModel);
 
 						writer.AddDocument(document);
 					}
 
-					writer.Optimize();
+					writer.Commit();
 				}
 			}
 			catch (Exception ex)
@@ -243,6 +253,26 @@ namespace Roadkill.Core.Services
 			{
 				throw new SearchException(ex, "An error occurred while creating the search directory '{0}'", IndexPath);
 			}
+		}
+
+		/// <summary>
+		/// Creates the lucene Document for the page, with the searchable and stored fields.
+		/// </summary>
+		private Document CreateDocument(PageViewModel model)
+		{
+			Document document = new Document();
+			document.Add(new StringField("id", model.Id.ToString(), Field.Store.YES));
+			document.Add(new TextField("content", model.Content ?? "", Field.Store.YES));
+			document.Add(new StoredField("contentsummary", GetContentSummary(model)));
+			document.Add(new TextField("title", model.Title ?? "", Field.Store.YES));
+			document.Add(new TextField("tags", model.SpaceDelimitedTags(), Field.Store.YES));
+			// Analyzed (like the query text), so "createdon:1/2/2020" and "createdby:Admin" searches match: the Lucene 4.8
+			// StandardAnalyzer splits dates into several terms, unlike the Lucene 3 one.
+			document.Add(new TextField("createdby", model.CreatedBy ?? "", Field.Store.YES));
+			document.Add(new TextField("createdon", model.CreatedOn.ToShortDateString(), Field.Store.YES));
+			document.Add(new StoredField("contentlength", (model.Content ?? "").Length.ToString()));
+
+			return document;
 		}
 
 		/// <summary>

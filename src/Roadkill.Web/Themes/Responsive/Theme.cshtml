@@ -5,22 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>@ViewBag.Title</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	@Html.Partial("HeadContent")
+	@await Html.PartialAsync("HeadContent")
 	@RenderSection("PluginHead", false)
 </head>
 <body>
 	@RenderSection("PageToolbar", false)
 
 	<!-- Header -->
-@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+@using (Html.BeginForm("Search", "Home", new { area = "" }, FormMethod.Get))
 {
 	<div id="header-wrapper">
 		<div class="container">
 			<div id="login-status">
-				@Html.Action("LoggedInAs", "User")
+				@await Html.PartialAsync("~/Views/User/LoggedInAs.cshtml")
 			</div>
 			<div id="bootstrap-nav-menu">
-				@Html.Action("BootstrapNavMenu", "Home")
+				@Html.Raw(Context.RequestServices.GetRequiredService<Roadkill.Core.Services.PageService>().GetBootStrapNavMenu(RoadkillContext))
 			</div>
 			<div id="search" class="searchbar navbar-right hidden-xs hidden-sm">
 				<input type="text" name="q" placeholder="@SiteStrings.Search_PlaceHolder" class="form-control" />
@@ -29,7 +29,7 @@
 	</div>
 }
 
-@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+@using (Html.BeginForm("Search", "Home", new { area = "" }, FormMethod.Get))
 {
 	<!-- Search bar for tablets and below -->
 	<div class="container hidden-lg hidden-md">

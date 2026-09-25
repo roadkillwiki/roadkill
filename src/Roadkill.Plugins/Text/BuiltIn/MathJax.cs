@@ -46,6 +46,13 @@ namespace Roadkill.Plugins.Text.BuiltIn
 			PARSER_SAFE_TOKEN = ParserSafeToken(TOKEN);
 		}
 
+		public MathJax()
+		{
+			// MathJax 3, served from the plugin folder (Plugins/MathJax). It typesets the page when it has loaded, with the
+			// same delimiters as the MathJax 2 CDN configuration used before: $$...$$ and \[...\] (display), \(...\) (inline).
+			AddScript("tex-mml-chtml.js", "mathjax");
+		}
+
 		public override string BeforeParse(string markupText)
 		{
 			return markupText.Replace(TOKEN, PARSER_SAFE_TOKEN);
@@ -65,8 +72,7 @@ namespace Roadkill.Plugins.Text.BuiltIn
 
 		public override string GetHeadContent()
 		{
-			// Mathjax runs on the server, so use the CDN.
-			return "\t\t<script type=\"text/javascript\" src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\"></script>\n";
+			return GetJavascriptHtml();
 		}
 	}
 }

@@ -1,32 +1,38 @@
-﻿using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using System.Web.Http.Controllers;
+using System;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 using Roadkill.Core.Configuration;
-using StructureMap.Attributes;
 
 namespace Roadkill.Core.Mvc.WebApi
 {
-	public class ApiKeyAuthorizeAttribute : AuthorizeAttribute
+	/// <summary>
+	/// Requires a valid API key (from the config file's apiKeys setting) in the Authorization header.
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+	public class ApiKeyAuthorizeAttribute : Attribute, IAuthorizationFilter
 	{
-		[SetterProperty]
-		public ApplicationSettings ApplicationSettings { get; set; }
-
 		public static readonly string APIKEY_HEADER_KEY = "Authorization";
 
-		public override void OnAuthorization(HttpActionContext actionContext)
+		/// <summary>
+		/// The application settings. If this isn't set, they are taken from the request's services.
+		/// </summary>
+		public ApplicationSettings ApplicationSettings { get; set; }
+
+		public void OnAuthorization(AuthorizationFilterContext context)
 		{
-			if (!actionContext.Request.Headers.Contains(APIKEY_HEADER_KEY))
+			if (!context.HttpContext.Request.Headers.ContainsKey(APIKEY_HEADER_KEY))
 			{
-				actionContext.Response = new HttpResponseMessage(HttpStatusCode.BadRequest);
+				context.Result = new BadRequestResult();
 				return;
 			}
 
-			string keyValue = actionContext.Request.Headers.GetValues(APIKEY_HEADER_KEY).First();
+			ApplicationSettings settings = ApplicationSettings ?? context.HttpContext.RequestServices.GetRequiredService<ApplicationSettings>();
+			string keyValue = context.HttpContext.Request.Headers[APIKEY_HEADER_KEY].First();
 
-			if (!ApplicationSettings.ApiKeys.Contains(keyValue))
-				actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
+			if (settings.ApiKeys == null || !settings.ApiKeys.Contains(keyValue))
+				context.Result = new UnauthorizedResult();
 		}
 	}
 }

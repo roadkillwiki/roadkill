@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 using System.IO;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Domain.Export;
@@ -19,6 +19,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// </summary>
 	/// <remarks>All actions in this controller require admin rights.</remarks>
 	[AdminRequired]
+	[Area("SiteSettings")]
 	public class ToolsController : ControllerBase
 	{
 		private PageService _pageService;
@@ -86,8 +87,9 @@ namespace Roadkill.Core.Mvc.Controllers
 				string zipFilename = string.Format("export-{0}.zip", DateTime.UtcNow.ToString("yyyy-MM-dd-HHmm"));
 				_wikiExporter.ExportAsWikiFiles(zipFilename);
 
-				string zipFullPath = Path.Combine(_wikiExporter.ExportFolder, zipFilename);
-				return File(zipFullPath, "application/zip", zipFilename);
+				// PhysicalFile: with ASP.NET Core, File(path) is a path in the web root, not a file path
+				string zipFullPath = Path.GetFullPath(Path.Combine(_wikiExporter.ExportFolder, zipFilename));
+				return PhysicalFile(zipFullPath, "application/zip", zipFilename);
 			}
 			catch (IOException e)
 			{
@@ -107,11 +109,12 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			try
 			{
-				string zipFilename = string.Format("attachments-export-{0}.zip", DateTime.UtcNow.ToString("yyy-MM-dd-HHss"));
+				string zipFilename = string.Format("attachments-export-{0}.zip", DateTime.UtcNow.ToString("yyyy-MM-dd-HHmm"));
 				_wikiExporter.ExportAttachments(zipFilename);
 
-				string zipFullPath = Path.Combine(_wikiExporter.ExportFolder, zipFilename);
-				return File(zipFullPath, "application/zip", zipFilename);
+				// PhysicalFile: with ASP.NET Core, File(path) is a path in the web root, not a file path
+				string zipFullPath = Path.GetFullPath(Path.Combine(_wikiExporter.ExportFolder, zipFilename));
+				return PhysicalFile(zipFullPath, "application/zip", zipFilename);
 			}
 			catch (IOException e)
 			{

@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Localization;
 using Roadkill.Core.Configuration;
@@ -9,7 +10,6 @@ using Roadkill.Core.Services;
 using Roadkill.Core.Security;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Mvc.ViewModels;
-using StructureMap;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -102,4 +102,4 @@ namespace Roadkill.Core.Mvc.Controllers
 			return Content(pageService.GetBootStrapNavMenu(Context));
 		}
 	}
-}
+}

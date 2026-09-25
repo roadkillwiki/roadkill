@@ -1,4 +1,3 @@
-﻿using Mindscape.LightSpeed;
 
 namespace Roadkill.Core.Database
 {
