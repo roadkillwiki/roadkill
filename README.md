@@ -1,8 +1,10 @@
-[![Nuget.org](https://img.shields.io/nuget/v/Roadkill.svg?style=flat)](https://www.nuget.org/packages/Roadkill)
-[![Appveyor](https://ci.appveyor.com/api/projects/status/37etwyx9kw7uriar/branch/master?svg=true)](https://ci.appveyor.com/project/yetanotherchris/roadkill)
-[![Coverage Status](https://coveralls.io/repos/roadkillwiki/roadkill/badge.svg?branch=master&service=github)](https://coveralls.io/github/roadkillwiki/roadkill?branch=master)
-
 ### Current status
+
+#### September 2026
+
+A .NET 10 conversion of the project is available on the [dotnet-10](https://github.com/roadkillwiki/roadkill/tree/dotnet-10) branch.
+
+#### June 2023
 
 A .NET Core version of Roadkill was started in the https://github.com/roadkillwiki/roadkill_new repository.
 
@@ -16,7 +18,6 @@ This repository - Roadkill .NET Framework - is quite old now, but fully function
 
 * [Download the latest **stable** version (2.0)](https://github.com/roadkillwiki/roadkill/releases/tag/v2.0)
 * [Read the docs](https://github.com/roadkillwiki/roadkill/tree/master/docs)
-* [Try a demo - *sorry this is currently unavailable until further notice*](http://demo.roadkillwiki.net/)
 
 Roadkill .NET is a lightweight but powerful Wiki platform built on the following foundations:
 
