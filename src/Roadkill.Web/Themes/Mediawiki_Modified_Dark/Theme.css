@@ -179,3 +179,7 @@ table#files tr.select	{ background-color:#33334d;border:1px solid #525268; }
 /* Encadrés d'information Bootstrap (ex. l'aide en haut du gestionnaire de
    fichiers) : fond bleu très clair en dur, adouci pour le fond sombre. */
 .alert-info				{ background-color:#1f2f45;border-color:#2e4a6b;color:#adcbfa; }
+
+/* Titres de sections des formulaires (<legend>, ex. "Database" dans les
+   réglages du site) : texte #333 et filet #e5e5e5 codés en dur par Bootstrap. */
+legend					{ color:#eee;border-bottom-color:#33334d; }
