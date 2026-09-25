@@ -152,7 +152,7 @@ namespace Roadkill.Tests.Unit.Mvc.ViewModels
 			// Act + Assert
 			Assert.That(model.MarkupTypesAvailable, Contains.Item("Creole"));
 			Assert.That(model.MarkupTypesAvailable, Contains.Item("Markdown"));
-			Assert.That(model.MarkupTypesAvailable, Contains.Item("MediaWiki"));
+			Assert.That(model.MarkupTypesAvailable, Does.Not.Contain("MediaWiki"));
 		}
 
 		[Test]

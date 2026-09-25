@@ -95,9 +95,7 @@ namespace Roadkill.Core.Converters
 					_parser = new CreoleParser(_applicationSettings, siteSettings);
 					break;
 
-				case "mediawiki":
-					throw new NotImplementedException("Sorry, Mediawiki markup is no longer supported.");
-
+				// MediaWiki markup is no longer supported (since Roadkill 2.x): as any other unknown value, it's rendered as Markdown
 				case "markdown":
 					default:
 					_parser = new MarkdownParser();

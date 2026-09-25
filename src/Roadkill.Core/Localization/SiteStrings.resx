@@ -641,7 +641,7 @@
     <value>{bold}WARNING{/bold} changing this may lock you out of the site when using Active Directory/Windows authentication. Make a backup of your web.config first before saving. {br}{br}This is the name of the admin role. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.</value>
   </data>
   <data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
-    <value>This is the markup format that is used. Roadkill currently supports the following values: Creole, Markdown, Mediawiki.</value>
+    <value>This is the markup format that is used. Roadkill currently supports the following values: Creole, Markdown.</value>
   </data>
   <data name="SiteSettings_Configuration_Theme_Help" xml:space="preserve">
     <value>This is the theme that the site uses. This should match a folder name in the Themes directory.</value>

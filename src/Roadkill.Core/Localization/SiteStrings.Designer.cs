@@ -1996,7 +1996,7 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This is the markup format that is used. Roadkill currently supports the following values: Creole, Markdown, Mediawiki..
+        ///   Looks up a localized string similar to This is the markup format that is used. Roadkill currently supports the following values: Creole, Markdown..
         /// </summary>
         public static string SiteSettings_Configuration_MarkupType_Help {
             get {

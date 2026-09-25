@@ -54,14 +54,16 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
-		public void Parser_Should_Throw_Exception_For_MediaWiki()
+		public void mediawiki_markup_type_should_use_the_markdown_parser()
 		{
-			Assert.Throws<NotImplementedException>(() =>
-			{
-				// Arrange, act + assert
-				_settingsRepository.SiteSettings.MarkupType = "MediaWiki";
-				_markupConverter = new MarkupConverter(_applicationSettings, _settingsRepository, _pageRepository, _pluginFactory);
-			});
+			// Arrange (MediaWiki markup is no longer supported)
+			_settingsRepository.SiteSettings.MarkupType = "MediaWiki";
+
+			// Act
+			_markupConverter = new MarkupConverter(_applicationSettings, _settingsRepository, _pageRepository, _pluginFactory);
+
+			// Assert
+			Assert.That(_markupConverter.Parser, Is.TypeOf<MarkdownParser>());
 		}
 
 		[Test]

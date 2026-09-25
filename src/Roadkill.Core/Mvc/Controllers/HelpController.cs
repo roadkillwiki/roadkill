@@ -45,11 +45,6 @@ namespace Roadkill.Core.Mvc.Controllers
 			return View(_customTokenParser.Tokens);
 		}
 
-		public ActionResult MediaWikiReference()
-		{
-			return View(_customTokenParser.Tokens);
-		}
-
 		public ActionResult MarkdownReference()
 		{
 			return View(_customTokenParser.Tokens);

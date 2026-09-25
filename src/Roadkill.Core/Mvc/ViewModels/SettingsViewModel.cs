@@ -89,7 +89,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		{
 			get
 			{
-				return new string[] { "Creole","Markdown","MediaWiki" };
+				return new string[] { "Creole","Markdown" };
 			}
 		}
 
