@@ -1,4 +1,4 @@
-﻿@model SettingsViewModel
+@model SettingsViewModel
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
@@ -34,14 +34,10 @@
 	@Html.HiddenFor(h => h.DatabaseName)
 	@Html.HiddenFor(h => h.EditorRoleName)
 	@Html.HiddenFor(h => h.IsRecaptchaEnabled)
-	@Html.HiddenFor(h => h.LdapConnectionString)
-	@Html.HiddenFor(h => h.LdapUsername)
-	@Html.HiddenFor(h => h.LdapPassword)
 	@Html.HiddenFor(h => h.RecaptchaPrivateKey)
 	@Html.HiddenFor(h => h.RecaptchaPublicKey)
 	@Html.HiddenFor(h => h.SiteName)
 	@Html.HiddenFor(h => h.SiteUrl)
-	@Html.HiddenFor(h => h.UseWindowsAuth)
 
 	<!-- Attachments folder -->
 	<div class="form-group">

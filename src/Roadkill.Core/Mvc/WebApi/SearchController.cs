@@ -1,40 +1,32 @@
-﻿using System.Collections.Generic;
-using System.Web.Http;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Services;
 
 namespace Roadkill.Core.Mvc.WebApi
 {
-	[RoutePrefix("api/search")]
+	/// <summary>
+	/// REST api for searching: GET api/search?query=xyz, GET api/search/createindex
+	/// </summary>
+	[ApiController]
+	[Route("api/search")]
 	[ApiKeyAuthorize]
-	public class SearchController : ApiController
+	public class SearchController : Microsoft.AspNetCore.Mvc.ControllerBase
 	{
 		private readonly SearchService _searchService;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SearchController"/> class.
-		/// </summary>
-		/// <param name="searchService">The search service.</param>
 		public SearchController(SearchService searchService)
 		{
 			_searchService = searchService;
 		}
 
-		/// <summary>
-		/// Searches the roadkill instance with the text provided.
-		/// </summary>
-		/// <returns></returns>
-		public IEnumerable<SearchResultViewModel> Get(string query)
+		[HttpGet]
+		public IEnumerable<SearchResultViewModel> Get([FromQuery] string query)
 		{
 			return _searchService.Search(query);
 		}
 
-		/// <summary>
-		/// Creates or re-indexes and updates the Lucene index with all roadkill pages.
-		/// </summary>
-		/// <returns>"OK" if there no errors occurred, otherwise any error message.</returns>
-		[HttpGet]
-		[Route("CreateIndex")]
+		[HttpGet("CreateIndex")]
 		public string CreateIndex()
 		{
 			try

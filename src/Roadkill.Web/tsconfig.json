@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "removeComments": false,
+    "sourceMap": false,
+    "noImplicitAny": false,
+    "noEmitOnError": false,
+    "skipLibCheck": true
+  },
+  "include": [
+    "Assets/Scripts/roadkill/**/*.ts"
+  ]
+}

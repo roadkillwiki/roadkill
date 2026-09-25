@@ -1,6 +1,5 @@
-﻿using System;
-using System.Web.Mvc;
-using System.Web.Security;
+using System;
+using Microsoft.AspNetCore.Mvc;
 using Roadkill.Core.Localization;
 using Roadkill.Core.Configuration;
 using RoadkillUser = Roadkill.Core.Database.User;
@@ -35,9 +34,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <returns></returns>
 		public ActionResult Activate(string id)
 		{
-			if (ApplicationSettings.UseWindowsAuthentication)
-				return RedirectToAction("Index", "Home");
-
 			if (string.IsNullOrEmpty(id))
 				return RedirectToAction("Index", "Home");
 
@@ -54,9 +50,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		public ActionResult CompleteResetPassword(string id)
 		{
-			if (ApplicationSettings.UseWindowsAuthentication)
-				return RedirectToAction("Index", "Home");
-
 			RoadkillUser user = UserService.GetUserByResetKey(id);
 
 			if (user == null)
@@ -76,9 +69,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public ActionResult CompleteResetPassword(string id, UserViewModel model)
 		{
-			if (ApplicationSettings.UseWindowsAuthentication)
-				return RedirectToAction("Index", "Home");
-
 			// Don't use ModelState.isvalid as the UserViewModel instance only has an ID and two passwords
 			if (string.IsNullOrEmpty(model.Password) || string.IsNullOrEmpty(model.PasswordConfirmation) ||
 				model.Password != model.PasswordConfirmation)
@@ -109,14 +99,11 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// login view with no theme is displayed.</remarks>
 		public ActionResult Login()
 		{
-			if (ApplicationSettings.UseWindowsAuthentication)
-				return RedirectToAction("Index", "Home");
-
 			// Show a plain login page if the session has ended inside the file explorer/help dialogs
-			if (Request.QueryString["ReturnUrl"] != null)
+			if (((string)Request.Query["ReturnUrl"]) != null)
 			{
-				if (Request.QueryString["ReturnUrl"].ToLower().Contains("/filemanager/select") ||
-					Request.QueryString["ReturnUrl"].ToLower().Contains("/help"))
+				if (((string)Request.Query["ReturnUrl"]).ToLower().Contains("/filemanager/select") ||
+					((string)Request.Query["ReturnUrl"]).ToLower().Contains("/help"))
 				{
 					return View("BlankLogin");
 				}
@@ -132,16 +119,13 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public ActionResult Login(string email, string password, string fromUrl)
 		{
-			if (ApplicationSettings.UseWindowsAuthentication)
-				return RedirectToAction("Index", "Home");
-
 			string viewName = "Login";
 
 			// Show a plain login page if the session has ended inside the file explorer/help dialogs
-			if (Request.QueryString["ReturnUrl"] != null)
+			if (((string)Request.Query["ReturnUrl"]) != null)
 			{
-				if (Request.QueryString["ReturnUrl"].ToLower().Contains("/filemanager/select") ||
-					Request.QueryString["ReturnUrl"].ToLower().Contains("/help"))
+				if (((string)Request.Query["ReturnUrl"]).ToLower().Contains("/filemanager/select") ||
+					((string)Request.Query["ReturnUrl"]).ToLower().Contains("/help"))
 				{
 					viewName = "BlankLogin";
 				}
@@ -151,7 +135,8 @@ namespace Roadkill.Core.Mvc.Controllers
 			{
 				Context.CurrentUser = UserService.GetLoggedInUserName(HttpContext);
 
-				if (!string.IsNullOrWhiteSpace(fromUrl))
+				// Only local urls are allowed, to avoid open redirects.
+				if (!string.IsNullOrWhiteSpace(fromUrl) && Url.IsLocalUrl(fromUrl))
 					return Redirect(fromUrl);
 				else
 					return RedirectToAction("Index", "Home");
@@ -179,12 +164,8 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			if (Context.IsLoggedIn)
 			{
-				UserViewModel model = null;
-				if (!ApplicationSettings.UseWindowsAuthentication)
-				{
-					RoadkillUser user = UserService.GetUserById(new Guid(Context.CurrentUser));
-					model = new UserViewModel(user);
-				}
+				RoadkillUser user = UserService.GetUserById(new Guid(Context.CurrentUser));
+				UserViewModel model = new UserViewModel(user);
 
 				return View(model);
 			}
@@ -211,7 +192,7 @@ namespace Roadkill.Core.Mvc.Controllers
 			// Don't allow the logged in user to change someone else's email - throw 403
 			// so that it's logged in the server logs.
 			if (model.Id.ToString() != Context.CurrentUser)
-				return new HttpStatusCodeResult(403, "You cannot change the profile of another user");
+				return StatusCode(403, "You cannot change the profile of another user");
 
 			if (ApplicationSettings.IsDemoSite)
 			{
@@ -253,9 +234,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		public ActionResult ResetPassword()
 		{
-			if (ApplicationSettings.UseWindowsAuthentication)
-				return RedirectToAction("Index", "Home");
-
 			return View();
 		}
 
@@ -267,9 +245,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public ActionResult ResetPassword(string email)
 		{
-			if (ApplicationSettings.UseWindowsAuthentication)
-				return RedirectToAction("Index", "Home");
-
 			if (ApplicationSettings.IsDemoSite)
 			{
 				ModelState.AddModelError("General", "The demo site login cannot be changed.");
@@ -340,7 +315,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ActionResult Signup()
 		{
 			Configuration.SiteSettings siteSettings = SettingsService.GetSiteSettings();
-			if (Context.IsLoggedIn || !siteSettings.AllowUserSignup || ApplicationSettings.UseWindowsAuthentication)
+			if (Context.IsLoggedIn || !siteSettings.AllowUserSignup)
 			{
 				return RedirectToAction("Index", "Home");
 			}
@@ -358,7 +333,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		public ActionResult Signup(UserViewModel model, bool? isCaptchaValid)
 		{
 			Configuration.SiteSettings siteSettings = SettingsService.GetSiteSettings();
-			if (Context.IsLoggedIn || !siteSettings.AllowUserSignup || ApplicationSettings.UseWindowsAuthentication)
+			if (Context.IsLoggedIn || !siteSettings.AllowUserSignup)
 				return RedirectToAction("Index", "Home");
 
 			if (ModelState.IsValid)

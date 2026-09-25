@@ -3,6 +3,17 @@
 	ViewBag.Title = SiteStrings.EditPage_Title;
 }
 
+@section PluginHead
+{
+	<!-- Plugins (for the preview) -->
+	@Html.Raw(Model.PluginHeadHtml)<!-- End plugins head -->
+}
+
+@section PluginFooter
+{
+	@Html.Raw(Model.PluginFooterHtml)
+}
+
 <script type="text/javascript">
 	$(document).ready(function ()
 	{
@@ -44,7 +55,7 @@
 				</div>
 			}
 
-			@Html.Partial("WysiwgToolbar")
+			@await Html.PartialAsync("WysiwgToolbar")
 			@(Html.TextAreaFor<PageViewModel, string>(p => p.Content, new { @class = "form-control", tabindex = 5 }))
 
 			<div id="editpage-button-container" class="row" >

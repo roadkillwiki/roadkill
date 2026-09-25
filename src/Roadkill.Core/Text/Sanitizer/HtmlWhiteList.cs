@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -63,21 +63,23 @@ namespace Roadkill.Core.Text.Sanitizer
 			tagList.Add(new HtmlElement("i", new string[] { "style" }));
 			tagList.Add(new HtmlElement("u", new string[] { "style" }));
 			tagList.Add(new HtmlElement("strike", new string[] { "style" }));
+			tagList.Add(new HtmlElement("del", new string[] { "style" }));
+			tagList.Add(new HtmlElement("s", new string[] { "style" }));
 			tagList.Add(new HtmlElement("sub", new string[] { }));
 			tagList.Add(new HtmlElement("sup", new string[] { }));
 			tagList.Add(new HtmlElement("p", new string[] { "style", "align", "dir" }));
 			tagList.Add(new HtmlElement("ol", new string[] { }));
-			tagList.Add(new HtmlElement("li", new string[] { }));
-			tagList.Add(new HtmlElement("ul", new string[] { }));
+			tagList.Add(new HtmlElement("li", new string[] { "id", "class" }));
+			tagList.Add(new HtmlElement("ul", new string[] { "class" }));
 			tagList.Add(new HtmlElement("font", new string[] { "style", "color", "face", "size" }));
 			tagList.Add(new HtmlElement("blockquote", new string[] { "style", "dir" }));
 			tagList.Add(new HtmlElement("hr", new string[] { "size", "width" }));
-			tagList.Add(new HtmlElement("img", new string[] { "src", "width", "height" }));
+			tagList.Add(new HtmlElement("img", new string[] { "src", "alt", "title", "class", "width", "height" }));
 			tagList.Add(new HtmlElement("div", new string[] { "style", "align", "class" }));
 			tagList.Add(new HtmlElement("span", new string[] { "style", "class" }));
 			tagList.Add(new HtmlElement("br", new string[] { "style" }));
 			tagList.Add(new HtmlElement("center", new string[] { "style" }));
-			tagList.Add(new HtmlElement("a", new string[] { "rel", "class", "href" }));
+			tagList.Add(new HtmlElement("a", new string[] { "rel", "class", "href", "title", "target", "id" }));
 			tagList.Add(new HtmlElement("pre", new string[] { "id", "class" }));
 			tagList.Add(new HtmlElement("code", new string[] { "id", "class" }));
 
@@ -86,13 +88,17 @@ namespace Roadkill.Core.Text.Sanitizer
 			tagList.Add(new HtmlElement("h3", new string[] { "id", "class" }));
 			tagList.Add(new HtmlElement("h4", new string[] { "id", "class" }));
 			tagList.Add(new HtmlElement("h5", new string[] { "id", "class" }));
+			tagList.Add(new HtmlElement("h6", new string[] { "id", "class" }));
+
+			// Markdown (GitHub flavoured) task lists
+			tagList.Add(new HtmlElement("input", new string[] { "type", "checked", "disabled", "class" }));
 
 			tagList.Add(new HtmlElement("table", new string[] { "id", "class" }));
 			tagList.Add(new HtmlElement("thead", new string[] { "id", "class" }));
-			tagList.Add(new HtmlElement("th", new string[] { "id", "class" }));
+			tagList.Add(new HtmlElement("th", new string[] { "id", "class", "style", "colspan", "rowspan" }));
 			tagList.Add(new HtmlElement("tbody", new string[] { "id", "class" }));
 			tagList.Add(new HtmlElement("tr", new string[] { "id", "class" }));
-			tagList.Add(new HtmlElement("td", new string[] { "id", "class" }));
+			tagList.Add(new HtmlElement("td", new string[] { "id", "class", "style", "colspan", "rowspan" }));
 
 			return new HtmlWhiteList() { ElementWhiteList = tagList };
 		}

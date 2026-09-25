@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -205,9 +205,10 @@ namespace Roadkill.Core.Database.Repositories.Dapper
 				connection.Open();
 
 				string sql = $"select * from {PagesTableName} ";
-				sql += "where tags like @tag";
+				sql += "where lower(tags) like @tag";
 
-				return connection.Query<Page>(sql, new { tag = "%" +tag+ "%" });
+				// Case insensitive, like the previous LightSpeed repository (and for Postgres, which is case sensitive).
+				return connection.Query<Page>(sql, new { tag = "%" + (tag ?? "").ToLowerInvariant() + "%" });
 			}
 		}
 
@@ -241,7 +242,7 @@ namespace Roadkill.Core.Database.Repositories.Dapper
 
 				string sql = $"select p.*, pc.* from {PagesTableName} p ";
 				sql += $"inner join {PageContentsTableName} pc on pc.pageid = p.id ";
-				sql += "where p.modifiedby = @username";
+				sql += "where pc.editedby = @username";
 
 				IEnumerable<PageContent> results = connection.Query<Page, PageContent, PageContent>(sql,
 				(page, pageContent) =>
@@ -295,8 +296,9 @@ namespace Roadkill.Core.Database.Repositories.Dapper
 			{
 				connection.Open();
 
-				string sql = $"select * from {PagesTableName} where title=@title";
-				return connection.QueryFirstOrDefault<Page>(sql, new { title = title });
+				// Case insensitive, like the previous LightSpeed repository (and for Postgres, which is case sensitive).
+				string sql = $"select * from {PagesTableName} where lower(title)=@title";
+				return connection.QueryFirstOrDefault<Page>(sql, new { title = (title ?? "").ToLowerInvariant() });
 			}
 		}
 

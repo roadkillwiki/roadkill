@@ -54,7 +54,7 @@ namespace Roadkill.Core.Configuration
 		public bool IsRecaptchaEnabled { get; set; }
 
 		/// <summary>
-		/// The type of markup used: Three available options are: Creole, Markdown, MediaWiki.
+		/// The type of markup used: the available options are Creole and Markdown.
 		/// The default is Creole.
 		/// </summary>
 		/// <remarks>This is a string because it's easier with the Javascript interaction.</remarks>
@@ -175,6 +175,7 @@ namespace Roadkill.Core.Configuration
 		{
 			return "* %mainpage%\r\n" +
 					"* %categories%\r\n" +
+					"* %tagswithpages%\r\n" +
 					"* %allpages%\r\n" +
 					"* %newpage%\r\n" +
 					"* %managefiles%\r\n" +

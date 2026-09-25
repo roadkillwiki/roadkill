@@ -1,8 +1,7 @@
 using System;
 using System.Data;
-using Mindscape.LightSpeed;
+using MongoDB.Bson;
 using MongoDB.Driver;
-using Roadkill.Core.Database.LightSpeed;
 
 namespace Roadkill.Core.Database
 {
@@ -16,28 +15,13 @@ namespace Roadkill.Core.Database
 				{
 					string databaseName = MongoUrl.Create(connectionString).DatabaseName;
 					MongoClient client = new MongoClient(connectionString);
-					MongoServer server = client.GetServer();
-					MongoDatabase database = server.GetDatabase(databaseName);
-					database.GetCollectionNames();
+					IMongoDatabase database = client.GetDatabase(databaseName);
+					database.RunCommand<BsonDocument>(new BsonDocument("ping", 1));
 				}
 				else
 				{
-					var dataProvider = DataProvider.SqlServer2008;
-
-					if (databaseProvider == SupportedDatabases.MySQL)
+					using (IDbConnection connection = RepositoryFactory.CreateConnectionFactory(databaseProvider, connectionString).CreateConnection())
 					{
-						dataProvider = DataProvider.MySql5;
-					}
-					else if (databaseProvider == SupportedDatabases.Postgres)
-					{
-						dataProvider = DataProvider.PostgreSql9;
-					}
-
-					LightSpeedContext context = CreateLightSpeedContext(dataProvider, connectionString);
-
-					using (IDbConnection connection = context.DataProviderObjectFactory.CreateConnection())
-					{
-						connection.ConnectionString = connectionString;
 						connection.Open();
 					}
 				}
@@ -46,22 +30,6 @@ namespace Roadkill.Core.Database
 			{
 				throw new DatabaseException(e, "Unable to connect to the database using '{0}' - {1}", connectionString, e.Message);
 			}
-		}
-
-		private LightSpeedContext CreateLightSpeedContext(DataProvider dataProvider, string connectionString)
-		{
-			LightSpeedContext context = new LightSpeedContext();
-			context.ConnectionString = connectionString;
-			context.DataProvider = dataProvider;
-			context.IdentityMethod = IdentityMethod.GuidComb;
-			context.CascadeDeletes = true;
-
-#if DEBUG
-			context.VerboseLogging = true;
-			context.Logger = new DatabaseLogger();
-#endif
-
-			return context;
 		}
 	}
 }

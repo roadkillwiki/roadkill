@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using NUnit;
 using NUnit.Framework;
@@ -11,7 +11,7 @@ namespace Roadkill.Tests.Unit.Text
 	[Category("Unit")]
 	public class CustomTokenParserTests
 	{
-		[TestFixtureSetUp]
+		[OneTimeSetUp]
 		public void TestFixtureSetUp()
 		{
 			CustomTokenParser.CacheTokensFile = false;

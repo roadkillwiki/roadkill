@@ -1,4 +1,4 @@
-﻿using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Mvc.Attributes;
@@ -13,6 +13,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// </summary>
 	/// <remarks>All actions in this controller require admin rights.</remarks>
 	[AdminRequired]
+	[Area("SiteSettings")]
 	public class SettingsController : ControllerBase
 	{
 		private SettingsService _settingsService;
@@ -47,7 +48,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <param name="model">The settings to save to the web.config/database.</param>
 		/// <returns>A <see cref="SettingsViewModel"/> as the model.</returns>
 		[HttpPost]
-		[ValidateInput(false)]
 		public ActionResult Index(SettingsViewModel model)
 		{
 			if (ModelState.IsValid)
@@ -62,6 +62,9 @@ namespace Roadkill.Core.Mvc.Controllers
 				model.FillFromApplicationSettings(appSettings);
 				model.UpdateSuccessful = true;
 			}
+
+			// The database drop down list isn't posted back: without it, the view throws an InvalidOperationException
+			model.SetSupportedDatabases(SettingsService.GetSupportedDatabases());
 
 			return View(model);
 		}

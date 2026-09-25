@@ -1,5 +1,5 @@
-﻿using System;
-using System.Web.Mvc;
+using System;
+using Microsoft.AspNetCore.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Services;
 using Roadkill.Core.Mvc.Attributes;
@@ -13,6 +13,8 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// <summary>
 	/// Provides help for the 3 supported markup syntax.
 	/// </summary>
+	// About shows a wiki page (the first page tagged "about"): on a private site, the help pages need a login as the pages do
+	[OptionalAuthorization]
 	public class HelpController : ControllerBase
 	{
 		private CustomTokenParser _customTokenParser;
@@ -37,15 +39,10 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (model == null)
 				return RedirectToAction("New", "Pages", new { title = "about", tags = "about" });
 			else
-				return View("../Wiki/Index", model);
+				return View("~/Views/Wiki/Index.cshtml", model);
 		}
 
 		public ActionResult CreoleReference()
-		{
-			return View(_customTokenParser.Tokens);
-		}
-
-		public ActionResult MediaWikiReference()
 		{
 			return View(_customTokenParser.Tokens);
 		}

@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mindscape.LightSpeed;
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
@@ -80,24 +79,10 @@ namespace Roadkill.Tests.Unit.Services
 
 
 		[Test]
-		public void install_should_not_add_adminuser_when_windows_auth_is_true()
-		{
-			// Arrange
-			var model = new SettingsViewModel();
-			model.UseWindowsAuth = true;
-
-			// Act
-			_installationService.Install(model);
-
-			// Assert
-			Assert.That(_installerRepository.AddAdminUserCalled, Is.False);
-		}
-
-		[Test]
 		public void getsupporteddatabases_should_return_repository_infoobjects_from_factory()
 		{
 			// Arrange
-			int expectedCount = 4;
+			int expectedCount = 3;
 
 			// Act
 			IEnumerable<RepositoryInfo> databases = _installationService.GetSupportedDatabases();
@@ -106,57 +91,5 @@ namespace Roadkill.Tests.Unit.Services
 			Assert.That(databases.Count(), Is.EqualTo(expectedCount));
 		}
 
-		[Test]
-		[TestCase("PostGres", "my-postgres-connection-string", DataProvider.PostgreSql9, typeof(PostgresSchema))]
-		[TestCase("Mysql", "myql-connection-string", DataProvider.MySql5, typeof(MySqlSchema))]
-		[TestCase("sqlserver", "my-sqlserver-connection-string", DataProvider.SqlServer2008, typeof(SqlServerSchema))]
-		[TestCase("anything", "connection-string", DataProvider.SqlServer2008, typeof(SqlServerSchema))]
-		public void GetRepository_should_return_correct_lightspeedrepository(string provider, string connectionString, DataProvider expectedProvider, Type expectedSchemaType)
-		{
-			// Arrange + Act
-			IInstallerRepository installerRepository = _installationService.GetRepository(provider, connectionString);
-
-			// Assert
-			LightSpeedInstallerRepository lightSpeedInstallerRepository = installerRepository as LightSpeedInstallerRepository;
-			Assert.That(lightSpeedInstallerRepository, Is.Not.Null);
-			Assert.That(lightSpeedInstallerRepository.ConnectionString, Is.EqualTo(connectionString));
-			Assert.That(lightSpeedInstallerRepository.DataProvider, Is.EqualTo(expectedProvider));
-			Assert.That(lightSpeedInstallerRepository.Schema, Is.TypeOf(expectedSchemaType));
-		}
-
-		[Test]
-		public void GetRepository_should_default_to_sqlserver_lightspeedrepository()
-		{
-			// Arrange
-			string provider = "anything";
-			string connectionString = "connection-string";
-			Type expectedSchemaType = typeof(SqlServerSchema);
-
-			// Act
-			IInstallerRepository installerRepository = _installationService.GetRepository(provider, connectionString);
-
-			// Assert
-			LightSpeedInstallerRepository lightSpeedInstallerRepository = installerRepository as LightSpeedInstallerRepository;
-			Assert.That(lightSpeedInstallerRepository, Is.Not.Null);
-			Assert.That(lightSpeedInstallerRepository.ConnectionString, Is.EqualTo(connectionString));
-			Assert.That(lightSpeedInstallerRepository.DataProvider, Is.EqualTo(DataProvider.SqlServer2008));
-			Assert.That(lightSpeedInstallerRepository.Schema, Is.TypeOf(expectedSchemaType));
-		}
-
-		[Test]
-		public void GetRepository_should_return_mongodb_repository()
-		{
-			// Arrange
-			string provider = "MONGODB";
-			string connectionString = "mongodb-connection-string";
-
-			// Act
-			IInstallerRepository installerRepository = _installationService.GetRepository(provider, connectionString);
-
-			// Assert
-			MongoDbInstallerRepository mongoDbInstallerRepository = installerRepository as MongoDbInstallerRepository;
-			Assert.That(mongoDbInstallerRepository, Is.Not.Null);
-			Assert.That(mongoDbInstallerRepository.ConnectionString, Is.EqualTo(connectionString));
-		}
 	}
 }

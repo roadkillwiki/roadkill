@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TextToken>
+@model IEnumerable<TextToken>
 @{
 	Layout = "~/Views/Shared/_Blank.cshtml";
 }
@@ -106,8 +106,8 @@
 	@foreach (TextToken token in Model)
 	{
 	<tr>
-		<td class="bold" title="@token.SearchRegex">@MvcHtmlString.Create(token.Name)</td>
-		<td>@MvcHtmlString.Create(token.Description)</td>
+		<td class="bold" title="@token.SearchRegex">@Html.Raw(token.Name)</td>
+		<td>@Html.Raw(token.Description)</td>
 	</tr>
 	 }
 	<tfoot>
@@ -117,4 +117,4 @@
 		</th>
 		</tr>
 	</tfoot>
-</table>
+</table>

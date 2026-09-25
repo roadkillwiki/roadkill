@@ -19,7 +19,6 @@ namespace Roadkill.Tests.Unit.Text
 		private ApplicationSettings _applicationSettings;
 		private PageRepositoryMock _pageRepository;
 		private PluginFactoryMock _pluginFactory;
-		private MarkupConverter _markupConverter;
 		private SiteSettings _siteSettings;
 
 		[SetUp]

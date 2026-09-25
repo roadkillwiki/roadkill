@@ -1,4 +1,4 @@
-﻿@model PageViewModel
+@model PageViewModel
 @{ 
 	ViewBag.Title = string.Format(SiteStrings.Version_Title, Model.VersionNumber);
 }
@@ -8,5 +8,5 @@
 
 
 <div id="diff-pagecontent">
- @MvcHtmlString.Create(Model.Content)
-</div>
+ @Html.Raw(Model.Content)
+</div>

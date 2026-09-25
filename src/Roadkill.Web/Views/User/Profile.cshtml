@@ -1,4 +1,4 @@
-﻿@model UserViewModel
+@model UserViewModel
 @{ 
 	ViewBag.Title = SiteStrings.Profile_Title;
 }
@@ -73,7 +73,7 @@ else
 					<div class="form-group">
 						<label for="Password" class="col-sm-3 control-label">@SiteStrings.Shared_Password_Label</label>
 						<div class="col-sm-9">
-							@(Html.PasswordFor<UserViewModel, string>(t => t.Password, new { @class = "form-control" }))
+							@(Html.PasswordFor(t => t.Password, new { @class = "form-control" }))
 						</div>
 					</div>
 
@@ -81,7 +81,7 @@ else
 					<div class="form-group">
 						<label for="PasswordConfirmation" class="col-sm-3 control-label">@SiteStrings.Shared_PasswordConfirm_Label</label>
 						<div class="col-sm-9">
-							@(Html.PasswordFor<UserViewModel, string>(t => t.PasswordConfirmation, new { @class = "form-control" }))
+							@(Html.PasswordFor(t => t.PasswordConfirmation, new { @class = "form-control" }))
 						</div>
 					</div>
 
@@ -98,4 +98,4 @@ else
 </div>
 }
 
-<br class="clear" />
+<br class="clear" />

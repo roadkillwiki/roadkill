@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Roadkill.Core.Cache;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database.Repositories;
@@ -14,6 +14,7 @@ using Roadkill.Core.Services;
 namespace Roadkill.Core.Mvc.Controllers
 {
 	[AdminRequired]
+	[Area("SiteSettings")]
 	public class PluginSettingsController : ControllerBase
 	{
 		private IPluginFactory _pluginFactory;
@@ -107,4 +108,4 @@ namespace Roadkill.Core.Mvc.Controllers
 			return RedirectToAction("Index");
 		}
 	}
-}
+}

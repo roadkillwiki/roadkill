@@ -21,32 +21,32 @@ else if (@TempData["ErrorMessage"] != null)
 
 <div id="settings-container">
 	<div>
-		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ClearDatabase, "ClearPages", null, new { @class = "refreshlink btn btn-danger" })<br />
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ClearDatabase, "ClearPages", routeValues: null, htmlAttributes: new { @class = "refreshlink btn btn-danger" })<br />
 		<p>@SiteStrings.SiteSettings_Tools_ClearDatabase_Label</p>
 	</div>
 
 	<div>
-		@Html.ActionLink(SiteStrings.SiteSettings_Tools_RebuildSearch, "UpdateSearchIndex", null, new { @class = "refreshlink btn btn-success" })<br />
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_RebuildSearch, "UpdateSearchIndex", routeValues: null, htmlAttributes: new { @class = "refreshlink btn btn-success" })<br />
 		<p>@SiteStrings.SiteSettings_Tools_RebuildSearch_Label</p>
 	</div>
 
 	<div>
-		@Html.ActionLink(SiteStrings.SiteSettings_Tools_SqlExport, "ExportAsSQL", null, new { @class = "btn btn-success" })<br />
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_SqlExport, "ExportAsSQL", routeValues: null, htmlAttributes: new { @class = "btn btn-success" })<br />
 		<p>@SiteStrings.SiteSettings_Tools_SqlExport_Label</p>
 	</div>
 
 	<div>
-		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportXml, "ExportAsXml", null, new { @class = "btn btn-success" })<br />
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportXml, "ExportAsXml", routeValues: null, htmlAttributes: new { @class = "btn btn-success" })<br />
 		<p>@SiteStrings.SiteSettings_Tools_ExportXml_Label</p>
 	</div>
 
 	<div>
-		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportContent, "ExportAsWikiFiles", null, new { @class = "btn btn-success" })<br />
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportContent, "ExportAsWikiFiles", routeValues: null, htmlAttributes: new { @class = "btn btn-success" })<br />
 		<p>@SiteStrings.SiteSettings_Tools_ExportContent_Label</p>
 	</div>
 
 	<div>
-		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportAttachments, "ExportAttachments", null, new { @class = "btn btn-success" })<br />
+		@Html.ActionLink(SiteStrings.SiteSettings_Tools_ExportAttachments, "ExportAttachments", routeValues: null, htmlAttributes: new { @class = "btn btn-success" })<br />
 		<p>@SiteStrings.SiteSettings_Tools_ExportAttachments_Label</p>
 	</div>
 	<br />

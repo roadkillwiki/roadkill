@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Web.Configuration;
 using System.Xml.Linq;
 using Roadkill.Core.Mvc.ViewModels;
 
@@ -50,7 +47,7 @@ namespace Roadkill.Core.Configuration
 		public abstract void ResetInstalledState();
 
 		/// <summary>
-		/// Tests the app.config or web.config file to ensure that it can be written to.
+		/// Tests the configuration file to ensure that it can be written to.
 		/// </summary>
 		/// <returns>An empty string if no error occurred; otherwise the error message.</returns>
 		public abstract string TestSaveWebConfig();

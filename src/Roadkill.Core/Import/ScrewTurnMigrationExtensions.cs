@@ -78,7 +78,6 @@ namespace Roadkill.Core.Import
 				}
 
 				const string MediaWikiFormat = "[[File:{0}{1}{2}]]";
-				const string CreoleWikiFormat = "{{{0}{1}{2}}}";
 				string newImageMarkup = string.Format(MediaWikiFormat, newPathPrefix, path, title);
 
 				text = text.Replace(imageMarkup, newImageMarkup);

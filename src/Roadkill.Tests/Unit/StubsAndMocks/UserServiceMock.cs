@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Roadkill.Core;
@@ -230,7 +230,7 @@ namespace Roadkill.Tests.Unit.StubsAndMocks
 			return Users.Any(x => x.Username == username);
 		}
 
-		public override string GetLoggedInUserName(System.Web.HttpContextBase context)
+		public override string GetLoggedInUserName(Microsoft.AspNetCore.Http.HttpContext context)
 		{
 			return LoggedInUserId;
 		}

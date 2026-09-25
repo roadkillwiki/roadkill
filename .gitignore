@@ -102,5 +102,6 @@ bower_components/
 .sass-cache/
 
 # Ignore Roadkill CSS/JS files as they're generated on build
+src/Roadkill.Web/Assets/Scripts/roadkill.js
 roadkill.min.js
 **/Assets/CSS/*.css

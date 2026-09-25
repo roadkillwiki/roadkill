@@ -641,7 +641,7 @@
     <value>{bold}WARNING{/bold} changing this may lock you out of the site when using Active Directory/Windows authentication. Make a backup of your web.config first before saving. {br}{br}This is the name of the admin role. Admins have the same rights as editors, but also have access to configuration settings and tools for the site.</value>
   </data>
   <data name="SiteSettings_Configuration_MarkupType_Help" xml:space="preserve">
-    <value>This is the markup format that is used. Roadkill currently supports the following values: Creole, Markdown, Mediawiki.</value>
+    <value>This is the markup format that is used. Roadkill currently supports the following values: Creole, Markdown.</value>
   </data>
   <data name="SiteSettings_Configuration_Theme_Help" xml:space="preserve">
     <value>This is the theme that the site uses. This should match a folder name in the Themes directory.</value>
@@ -1037,5 +1037,38 @@
   </data>
   <data name="History_CurrentVersion" xml:space="preserve">
     <value>View current page version</value>
+  </data>
+  <data name="Navigation_TagsWithPages" xml:space="preserve">
+    <value>Pages by tag</value>
+  </data>
+  <data name="AllTagsWithPages_Title" xml:space="preserve">
+    <value>Pages by tag</value>
+  </data>
+  <data name="AllTagsWithPages_SortBy" xml:space="preserve">
+    <value>Sort by:</value>
+  </data>
+  <data name="AllTagsWithPages_SortByCount" xml:space="preserve">
+    <value>number of pages</value>
+  </data>
+  <data name="AllTagsWithPages_SortByName" xml:space="preserve">
+    <value>name</value>
+  </data>
+  <data name="AllTagsWithPages_ExpandAll" xml:space="preserve">
+    <value>Expand all</value>
+  </data>
+  <data name="AllTagsWithPages_CollapseAll" xml:space="preserve">
+    <value>Collapse all</value>
+  </data>
+  <data name="AllTagsWithPages_PagesWithoutTag" xml:space="preserve">
+    <value>Pages without tag</value>
+  </data>
+  <data name="AllTagsWithPages_SearchPlaceholder" xml:space="preserve">
+    <value>Find a page title (2 characters minimum)</value>
+  </data>
+  <data name="AllTagsWithPages_SearchResults" xml:space="preserve">
+    <value>{0} tag(s) found</value>
+  </data>
+  <data name="AllTagsWithPages_TagCount" xml:space="preserve">
+    <value>Number of tags of the page</value>
   </data>
 </root>

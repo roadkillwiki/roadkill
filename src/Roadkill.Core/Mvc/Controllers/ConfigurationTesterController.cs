@@ -1,11 +1,11 @@
-﻿using System;
-using System.Web.Mvc;
+using System;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Security;
-using Roadkill.Core.Security.Windows;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -18,22 +18,20 @@ namespace Roadkill.Core.Mvc.Controllers
 		private readonly ApplicationSettings _applicationSettings;
 		private readonly IUserContext _userContext;
 		private readonly ConfigReaderWriter _configReaderWriter;
-		private readonly IActiveDirectoryProvider _activeDirectoryProvider;
 		private readonly UserServiceBase _userService;
 		private readonly IDatabaseTester _databaseTester;
 
 		public ConfigurationTesterController(ApplicationSettings appSettings, IUserContext userContext, ConfigReaderWriter configReaderWriter, 
-			IActiveDirectoryProvider activeDirectoryProvider, UserServiceBase userService, IDatabaseTester databaseTester) 
+			UserServiceBase userService, IDatabaseTester databaseTester) 
 		{
 			_applicationSettings = appSettings;
 			_userContext = userContext;
 			_configReaderWriter = configReaderWriter;
-			_activeDirectoryProvider = activeDirectoryProvider;
 			_userService = userService;
 			_databaseTester = databaseTester;
 		}
 
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
 			_userContext.CurrentUser = _userService.GetLoggedInUserName(HttpContext);
 			ViewBag.Context = _userContext;
@@ -45,15 +43,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// connection string and user details provided.
 		/// </summary>
 		/// <returns>Returns a <see cref="TestResult"/> containing information about any errors.</returns>
-		public ActionResult TestLdap(string connectionString, string username, string password, string groupName)
-		{
-			if (IsInstalledAndUserIsNotAdmin())
-				return Content("");
-
-			string errors = _activeDirectoryProvider.TestLdapConnection(connectionString, username, password, groupName);
-			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
-		}
-
 		/// <summary>
 		/// This action is for JSON calls only. Attempts to write to the web.config file and save it.
 		/// </summary>
@@ -64,7 +53,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				return Content("");
 
 			string errors = _configReaderWriter.TestSaveWebConfig();
-			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
+			return Json(new TestResult(errors));
 		}
 
 		/// <summary>
@@ -77,8 +66,8 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (IsInstalledAndUserIsNotAdmin())
 				return Content("");
 
-			string errors = AttachmentPathUtil.AttachmentFolderExistsAndWriteable(folder, HttpContext);
-			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
+			string errors = AttachmentPathUtil.AttachmentFolderExistsAndWriteable(folder, _applicationSettings);
+			return Json(new TestResult(errors));
 		}
 
 		/// <summary>
@@ -100,7 +89,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				errors = e.ToString();
 			}
 
-			return Json(new TestResult(errors), JsonRequestBehavior.AllowGet);
+			return Json(new TestResult(errors));
 		}
 
 		internal bool IsInstalledAndUserIsNotAdmin()

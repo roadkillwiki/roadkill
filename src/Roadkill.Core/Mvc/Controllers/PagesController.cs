@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Roadkill.Core.Diff;
 using Roadkill.Core.Converters;
 using Roadkill.Core.Configuration;
@@ -18,7 +18,6 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// <summary>
 	/// Provides all page related functionality, including editing and viewing pages.
 	/// </summary>
-	[HandleError]
 	[OptionalAuthorization]
 	public class PagesController : ControllerBase
 	{
@@ -59,6 +58,24 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
+		/// Displays all tags with, for each tag, the list of its pages (a page is listed under each of its tags).
+		/// </summary>
+		/// <param name="sort">"name" to sort the tags alphabetically; otherwise they are sorted by number of pages, then name.</param>
+		/// <returns>An <see cref="IEnumerable{TagPagesViewModel}"/> as the model.</returns>
+		[BrowserCache]
+		public ActionResult AllTagsWithPages(string sort = "count")
+		{
+			bool sortByName = string.Equals(sort, "name", StringComparison.OrdinalIgnoreCase);
+			ViewData["SortByName"] = sortByName;
+			ViewData["PagesWithoutTags"] = _pageService.AllPagesWithoutTags().ToList();
+
+			IEnumerable<TagPagesViewModel> tags = _pageService.AllTagsWithPages();
+			tags = sortByName ? tags.OrderBy(x => x.Name) : tags.OrderByDescending(x => x.Count).ThenBy(x => x.Name);
+
+			return View(tags.ToList());
+		}
+
+		/// <summary>
 		/// Returns all tags in the system as a JSON string.
 		/// </summary>
 		/// <param name="term">The jQuery UI autocomplete filter passed in, e.g. when "ho" is typed for homepage.</param>
@@ -72,7 +89,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				tags = tags.Where(x => x.Name.StartsWith(term, StringComparison.InvariantCultureIgnoreCase));
 
 			IEnumerable<string> tagsJson = tags.Select(t => t.Name).ToList();
-			return Json(tagsJson, JsonRequestBehavior.AllowGet);
+			return Json(tagsJson);
 		}
 
 		/// <summary>
@@ -124,11 +141,11 @@ namespace Roadkill.Core.Mvc.Controllers
 			if (model != null)
 			{
 				if (model.IsLocked && !Context.IsAdmin)
-					return new HttpStatusCodeResult(403, string.Format("The page '{0}' can only be edited by administrators.", model.Title));
+					return StatusCode(403, string.Format("The page '{0}' can only be edited by administrators.", model.Title));
 
 				model.AllTags = _pageService.AllTags().ToList();
 
-				return View("Edit", model);
+				return EditView(model);
 			}
 			else
 			{
@@ -144,11 +161,10 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <remarks>This action requires editor rights.</remarks>
 		[EditorRequired]
 		[HttpPost]
-		[ValidateInput(false)]
 		public ActionResult Edit(PageViewModel model)
 		{
 			if (!ModelState.IsValid)
-				return View("Edit", model);
+				return EditView(model);
 
 			_pageService.UpdatePage(model);
 
@@ -162,7 +178,6 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <param name="id">The wiki markup.</param>
 		/// <returns>The markup as rendered as HTML.</returns>
 		/// <remarks>This action requires editor rights.</remarks>
-		[ValidateInput(false)]
 		[EditorRequired]
 		[HttpPost]
 		public ActionResult GetPreview(string id)
@@ -175,7 +190,7 @@ namespace Roadkill.Core.Mvc.Controllers
 				pagehtml = converter.ToHtml(id);
 			}
 
-			return JavaScript(pagehtml.Html);
+			return Content(pagehtml.Html, "application/javascript");
 		}
 
 		/// <summary>
@@ -206,6 +221,19 @@ namespace Roadkill.Core.Mvc.Controllers
 
 			model.AllTags = _pageService.AllTags().ToList();
 
+			return EditView(model);
+		}
+
+		/// <summary>
+		/// The edit page, with the head and footer HTML (scripts, CSS) of the enabled text plugins, so that the plugins which
+		/// render in the browser (e.g. MathJax, Mermaid, the syntax highlighter) also work in the preview.
+		/// </summary>
+		private ActionResult EditView(PageViewModel model)
+		{
+			PageHtml pluginHtml = _pageService.GetMarkupConverter().ToHtml("");
+			model.PluginHeadHtml = pluginHtml.HeadHtml;
+			model.PluginFooterHtml = pluginHtml.FooterHtml;
+
 			return View("Edit", model);
 		}
 
@@ -217,11 +245,10 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// <remarks>This action requires editor rights.</remarks>
 		[EditorRequired]
 		[HttpPost]
-		[ValidateInput(false)]
 		public ActionResult New(PageViewModel model)
 		{
 			if (!ModelState.IsValid)
-				return View("Edit", model);
+				return EditView(model);
 
 			model = _pageService.AddPage(model);
 
@@ -290,4 +317,4 @@ namespace Roadkill.Core.Mvc.Controllers
 			return View(model);
 		}
 	}
-}
+}

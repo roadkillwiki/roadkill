@@ -1,11 +1,11 @@
-﻿using Roadkill.Core.Attachments;
+using Roadkill.Core.Attachments;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Exceptions;
 using Roadkill.Core.Mvc.Attributes;
 using Roadkill.Core.Security;
 using Roadkill.Core.Services;
 using System;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Roadkill.Core.Mvc.Controllers
 {
@@ -15,7 +15,6 @@ namespace Roadkill.Core.Mvc.Controllers
 	[EditorRequired]
 	public class FileManagerController : ControllerBase
 	{
-		private AttachmentFileHandler _attachmentHandler;
 		private AttachmentPathUtil _attachmentPathUtil;
 		private static string[] _filesToExclude = new string[] { "emptyfile.txt", "_installtest.txt" }; // installer/publish files
 		private readonly IFileService _fileService;
@@ -25,10 +24,9 @@ namespace Roadkill.Core.Mvc.Controllers
 		/// </summary>
 		/// <remarks>This action requires editor rights.</remarks>
 		public FileManagerController(ApplicationSettings settings, UserServiceBase userManager, IUserContext context,
-			SettingsService settingsService, AttachmentFileHandler attachment, IFileService fileService)
+			SettingsService settingsService, IFileService fileService)
 			: base(settings, userManager, context, settingsService)
 		{
-			_attachmentHandler = attachment;
 			_attachmentPathUtil = new AttachmentPathUtil(settings);
 			_fileService = fileService;
 		}
@@ -135,15 +133,17 @@ namespace Roadkill.Core.Mvc.Controllers
 		[HttpPost]
 		public JsonResult Upload()
 		{
+			// JSON sent as text/plain, as with Roadkill 2.x (for the iframe transport of the upload plugin). With ASP.NET Core,
+			// the second parameter of Json() is the serializer settings, not the content type: it made the upload response fail.
 			try
 			{
 				string destinationFolder = Request.Form["destination_folder"];
-				string fileName = _fileService.Upload(destinationFolder, Request.Files);
-				return Json(new { status = "ok", filename = fileName }, "text/plain");
+				string fileName = _fileService.Upload(destinationFolder, Request.Form.Files);
+				return new JsonResult(new { status = "ok", filename = fileName }) { ContentType = "text/plain" };
 			}
 			catch (FileException e)
 			{
-				return Json(new { status = "error", message = e.Message }, "text/plain");
+				return new JsonResult(new { status = "error", message = e.Message }) { ContentType = "text/plain" };
 			}
 		}
 

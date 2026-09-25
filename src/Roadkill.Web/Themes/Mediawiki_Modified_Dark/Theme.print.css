@@ -1,0 +1,13 @@
+#viewhistory	{ display: none !important; }
+#toolbar		{ display: none !important; }
+#headfade		{ display: none !important; }
+#logo			{ display: none !important; }
+#panel			{ display: none !important; }
+#leftmenu		{ display: none !important; }
+#footer			{ display: none !important; }
+
+/* À l'impression, on repasse en clair sur sombre : le thème sombre n'a pas
+   vocation à être imprimé tel quel (lisibilité + consommation d'encre). */
+body			{ background:#fff !important;color:#000 !important; }
+#container		{ background:#fff !important;color:#000 !important;border: 0px !important; margin-left: 0px !important; }
+pre				{ background:#fff !important;color:#000 !important;border: 1px solid #AAA !important; }

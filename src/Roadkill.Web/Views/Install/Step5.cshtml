@@ -1,4 +1,4 @@
-﻿@model SettingsViewModel
+@model SettingsViewModel
 @{
 	Layout = "~/Views/Install/Layout.cshtml";
 }
@@ -17,28 +17,6 @@
 	<div class="alert alert-info">
 		<strong>@InstallStrings.Step5_Success_Title</strong>
 		
-	@if (Model.UseWindowsAuth)
-	{
-		<!-- Windows auth web.config settings-->
-		<p style="margin-top:20px;">
-			<strong>@InstallStrings.Step5_WindowsAuth_Please_Read</strong>
-		</p>
-		<p>
-			@InstallStrings.Step5_WindowsAuth_IIS_Settings
-		</p>
-<pre>
-&lt;system.webServer&gt;
-	...
-	&lt;security&gt;
-		&lt;authentication&gt;
-			&lt;anonymousAuthentication enabled="false"/&gt;
-			&lt;windowsAuthentication enabled="true" /&gt;
-			&lt;basicAuthentication enabled="true" /&gt;
-		&lt;/authentication&gt;
-	&lt;/security&gt;
-&lt;/system.webServer&gt;
-</pre>
-		 }
 	</div>
 	
 	@section BottomButtons
@@ -67,4 +45,4 @@ else
 			<a class="btn btn-danger pull-left" href="javascript:history.go(-1)">&lt; @InstallStrings.Shared_Back</a>
 		</div>
 	}
-}
+}

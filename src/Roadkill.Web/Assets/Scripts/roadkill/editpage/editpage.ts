@@ -199,6 +199,24 @@ module Roadkill.Web
 		}
 
 		/**
+		Runs the plugins that render in the browser on the new preview HTML. Their scripts are loaded by the edit page
+		(asynchronously: if a script isn't loaded yet, it renders the whole page, preview included, when it loads).
+		*/
+		public static renderPluginsInPreview()
+		{
+			var w: any = window;
+
+			if (w.MathJax && w.MathJax.typesetPromise)
+				w.MathJax.typesetPromise([document.getElementById("preview")]);
+
+			if (w.mermaid)
+				w.mermaid.run({ querySelector: "#preview .mermaid" });
+
+			if (w.SyntaxHighlighter)
+				w.SyntaxHighlighter.highlight();
+		}
+
+		/**
 		Grabs a preview from the server for the wiki markup, and displays it in the preview pane.
 		*/
 		public static updatePreviewPane()
@@ -217,6 +235,7 @@ module Roadkill.Web
 			request.done(function (htmlResult)
 			{
 				$("#preview").html(htmlResult);
+				EditPage.renderPluginsInPreview();
 			});
 
 			request.fail(function (jqXHR, textStatus, errorThrown)

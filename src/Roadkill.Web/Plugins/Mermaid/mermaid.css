@@ -1,0 +1,23 @@
+/* Mermaid diagrams plugin: keeps the site styles from changing the diagrams, whatever the theme. */
+
+div.mermaid { margin: 1em 0; overflow-x: auto; }
+
+/* Before the diagram is drawn (or if the script can't run), the diagram source is shown as text. */
+div.mermaid:not([data-processed]) { white-space: pre; font-family: monospace; }
+
+/* Bootstrap 3 styles the "label" class (white bold text at 75%, padding...), which Mermaid uses for its labels.
+   The colors and fonts that Mermaid sets itself still apply, as its rules are more specific. */
+.mermaid .label,
+.mermaid .label:empty {
+	display: inline;
+	padding: 0;
+	font-size: inherit;
+	font-weight: inherit;
+	line-height: inherit;
+	color: inherit;
+	text-align: inherit;
+	white-space: inherit;
+	vertical-align: inherit;
+	border-radius: 0;
+	background-color: transparent;
+}

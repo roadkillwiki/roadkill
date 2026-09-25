@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using NUnit.Framework;
@@ -88,7 +88,7 @@ namespace Roadkill.Tests.Unit.Export
 			string actualSql = builder.Export();
 
 			// Assert
-			Assert.That(actualSql, Is.EqualTo(expectedSql), actualSql);
+			Assert.That(actualSql.Replace("\r\n", "\n"), Is.EqualTo(expectedSql.Replace("\r\n", "\n")), actualSql);
 		}
 
 		[Test]
@@ -180,7 +180,7 @@ namespace Roadkill.Tests.Unit.Export
 			string actualSql = builder.Export();
 
 			// Assert
-			Assert.That(actualSql, Is.EqualTo(expectedSql), actualSql);
+			Assert.That(actualSql.Replace("\r\n", "\n"), Is.EqualTo(expectedSql.Replace("\r\n", "\n")), actualSql);
 		}
 
 		[Test]
@@ -216,13 +216,13 @@ namespace Roadkill.Tests.Unit.Export
 			builder.IncludePages = false;
 
 			string expectedSql = ReadEmbeddedResource("expected-siteconfiguration-export.sql");
-			expectedSql = expectedSql.Replace("{AppVersion}", ApplicationSettings.ProductVersion);
+			expectedSql = expectedSql.Replace("{AppVersion}", ApplicationSettings.FileVersion);
 
 			// Act
 			string actualSql = builder.Export();
 
 			// Assert
-			Assert.That(actualSql, Is.EqualTo(expectedSql), actualSql);
+			Assert.That(actualSql.Replace("\r\n", "\n"), Is.EqualTo(expectedSql.Replace("\r\n", "\n")), actualSql);
 		}
 
 		private string ReadEmbeddedResource(string name)

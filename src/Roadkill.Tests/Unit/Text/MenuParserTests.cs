@@ -71,6 +71,21 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
+		public void should_replace_tagswithpages_token()
+		{
+			// Arrange
+			_settingsRepository.SiteSettings.MenuMarkup = "* %categories%\r\n* %tagswithpages%\r\n";
+			string expectedHtml = "<ul><li><a href=\"/pages/alltags\">Categories</a></li>" +
+								  "<li><a href=\"/pages/alltagswithpages\">Pages by tag</a></li></ul>";
+
+			// Act
+			string actualHtml = _menuParser.GetMenu();
+
+			// Assert
+			Assert.That(actualHtml, Is.EqualTo(expectedHtml), actualHtml);
+		}
+
+		[Test]
 		public void should_replace_known_tokens_when_logged_in_as_editor()
 		{
 			// Arrange

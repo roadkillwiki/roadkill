@@ -52,6 +52,38 @@ namespace Roadkill.Tests.Unit.Database
 		}
 
 		[Test]
+		public void null_info_should_only_equal_a_null_string()
+		{
+			// Arrange
+			RepositoryInfo nullInfo = null;
+			string nullString = null;
+
+			// Act + Assert (both == and != used to return true for a null RepositoryInfo)
+			Assert.False(nullInfo == "sqldb");
+			Assert.False("sqldb" == nullInfo);
+			Assert.True(nullInfo != "sqldb");
+			Assert.True("sqldb" != nullInfo);
+
+			Assert.True(nullInfo == nullString);
+			Assert.True(nullString == nullInfo);
+			Assert.False(nullInfo != nullString);
+			Assert.False(nullString != nullInfo);
+		}
+
+		[Test]
+		public void null_id_should_not_throw()
+		{
+			// Arrange
+			var info = new RepositoryInfo();
+
+			// Act + Assert
+			Assert.False(info == "sqldb");
+			Assert.True(info != "sqldb");
+			Assert.False(info.Equals(new RepositoryInfo("sqldb", "")));
+			Assert.That(info.GetHashCode(), Is.EqualTo(0));
+		}
+
+		[Test]
 		public void equals_should_be_case_insensitive()
 		{
 			// Arrange

@@ -1,13 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
-using System.Web;
 using System.Text.RegularExpressions;
-using Ganss.XSS;
+using Ganss.Xss;
+using Roadkill.Core.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Text.Sanitizer;
 using Roadkill.Core.Database;
+using Roadkill.Core.Mvc.ViewModels;
 using Roadkill.Core.Database.Repositories;
 using Roadkill.Core.Text;
 using Roadkill.Core.Logging;
@@ -67,11 +68,7 @@ namespace Roadkill.Core.Converters
 			_applicationSettings = settings;
 
 			// Create the UrlResolver for all wiki urls
-			HttpContextBase httpContext = null;
-			if (HttpContext.Current != null)
-				httpContext = new HttpContextWrapper(HttpContext.Current);
-
-			UrlResolver = new UrlResolver(httpContext);		
+			UrlResolver = new UrlResolver(HttpContextHolder.Current);		
 	
 			if (!_applicationSettings.Installed)
 			{
@@ -98,10 +95,7 @@ namespace Roadkill.Core.Converters
 					_parser = new CreoleParser(_applicationSettings, siteSettings);
 					break;
 
-				case "mediawiki":
-					throw new NotImplementedException("Sorry, Mediawiki markup is no longer supported.");
-					break;
-
+				// MediaWiki markup is no longer supported (since Roadkill 2.x): as any other unknown value, it's rendered as Markdown
 				case "markdown":
 					default:
 					_parser = new MarkdownParser();
@@ -264,15 +258,21 @@ namespace Roadkill.Core.Converters
 				title = href.Replace(anchorHash, "");
 			}
 
+			string linkTitle = title;
 			if (Parser is MarkdownParser)
 			{
 				// For markdown, only urls with "-" in them are valid, spaces are ignored.
-				// Remove these, so a match is made. No url has a "-" in, so replacing them is ok.
+				// Remove these, so a match is made.
 				title = title.Replace("-", " ");
 			}
 
 			// Find the page, or if it doesn't exist point to the new page url
 			Page page = _pageRepository.GetPageByTitle(title);
+
+			// A title can also contain "-" or punctuation (e.g. "Pre-release notes", "C# tips"), that the "-" replacement above
+			// can't find: the link then matches the title as it is in the page url (/wiki/1/Pre-release-notes, /wiki/2/C-tips).
+			if (page == null)
+				page = FindPageByUrlTitle(linkTitle);
 			if (page != null)
 			{
 				href = UrlResolver.GetInternalUrlForTitle(page.Id, page.Title);
@@ -286,6 +286,21 @@ namespace Roadkill.Core.Converters
 
 			e.Href = href;
 			e.Target = "";
+		}
+
+		/// <summary>
+		/// Finds the page whose title, encoded as in the page urls (see <see cref="PageViewModel.EncodePageTitle"/>), is the
+		/// link url, ignoring the case. Returns null if no page matches.
+		/// </summary>
+		private Page FindPageByUrlTitle(string linkTitle)
+		{
+			string urlTitle = PageViewModel.EncodePageTitle(linkTitle);
+			if (string.IsNullOrEmpty(urlTitle))
+				return null;
+
+			return _pageRepository.AllPages()
+				.OrderBy(p => p.Id)
+				.FirstOrDefault(p => string.Equals(PageViewModel.EncodePageTitle(p.Title), urlTitle, StringComparison.OrdinalIgnoreCase));
 		}
 
 		/// <summary>
@@ -305,7 +320,19 @@ namespace Roadkill.Core.Converters
 				if (allowedAttributes.Length == 0)
 					allowedAttributes = null;
 
-				var sanitizer = new HtmlSanitizer(allowedTags, null, allowedAttributes);
+				var sanitizer = new HtmlSanitizer();
+				if (allowedTags != null)
+				{
+					sanitizer.AllowedTags.Clear();
+					sanitizer.AllowedTags.UnionWith(allowedTags);
+				}
+
+				if (allowedAttributes != null)
+				{
+					sanitizer.AllowedAttributes.Clear();
+					sanitizer.AllowedAttributes.UnionWith(allowedAttributes);
+				}
+
 				sanitizer.AllowDataAttributes = false;
 				sanitizer.AllowedAttributes.Add("class");
 				sanitizer.AllowedAttributes.Add("id");

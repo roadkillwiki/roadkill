@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Database;
 using Roadkill.Core.Localization;
@@ -16,6 +16,7 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// </summary>
 	/// <remarks>All actions in this controller require admin rights.</remarks>
 	[AdminRequired]
+	[Area("SiteSettings")]
 	public class UserManagementController : ControllerBase
 	{
 		public UserManagementController(ApplicationSettings settings, UserServiceBase userManager, SettingsService settingsService, IUserContext context)

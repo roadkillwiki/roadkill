@@ -1,12 +1,10 @@
-﻿using Roadkill.Core.Database;
+using Roadkill.Core.Database;
 using Roadkill.Core.Security;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Web;
 
 namespace Roadkill.Core.Configuration
 {
@@ -19,7 +17,6 @@ namespace Roadkill.Core.Configuration
 		private string _attachmentsDirectoryPath;
 		private string _attachmentsUrlPath;
 		private string _attachmentsRoutePath;
-		private readonly HttpContextBase _httpContext;
 
 		/// <summary>
 		/// The name of the role or Active Directory security group that users should belong to in order to create,edit,delete pages,
@@ -43,7 +40,7 @@ namespace Roadkill.Core.Configuration
 		public IEnumerable<string> ApiKeys { get; set; }
 
 		/// <summary>
-		/// The folder where all uploads (typically image files) are saved to. This is taken from the web.config.
+		/// The folder where all uploads (typically image files) are saved to. This is taken from the appsettings.json file.
 		/// Use AttachmentsDirectoryPath for the absolute directory path.
 		/// </summary>
 		public string AttachmentsFolder
@@ -70,9 +67,9 @@ namespace Roadkill.Core.Configuration
 			{
 				if (string.IsNullOrEmpty(_attachmentsDirectoryPath))
 				{
-					if (AttachmentsFolder.StartsWith("~") && _httpContext != null)
+					if (AttachmentsFolder.StartsWith("~"))
 					{
-						_attachmentsDirectoryPath = _httpContext.Server.MapPath(AttachmentsFolder);
+						_attachmentsDirectoryPath = MapPath(AttachmentsFolder);
 					}
 					else
 					{
@@ -138,11 +135,6 @@ namespace Roadkill.Core.Configuration
 		public string ConnectionString { get; set; }
 
 		/// <summary>
-		/// The connection string name (held in the connection strings section of the config file) for the Roadkill database.
-		/// </summary>
-		public string ConnectionStringName { get; set; }
-
-		/// <summary>
 		/// The file path for the custom tokens file.
 		/// </summary>
 		public string CustomTokensPath { get; set; }
@@ -173,20 +165,14 @@ namespace Roadkill.Core.Configuration
 		public bool IgnoreSearchIndexErrors { get; set; }
 
 		/// <summary>
-		/// Whether the site is public, i.e. all pages are visible by default. This is optional in the web.config and the default is true.
+		/// Whether the site is public, i.e. all pages are visible by default. This is optional in the config file and the default is true.
 		/// </summary>
 		public bool IsPublicSite { get; set; }
 
 		/// <summary>
 		/// If this instance is running on the demo site.
 		/// </summary>
-		internal bool IsDemoSite
-		{
-			get
-			{
-				return ConfigurationManager.AppSettings["DemoSite"] == "true";
-			}
-		}
+		public bool IsDemoSite { get; set; }
 
 		/// <summary>
 		/// Whether the REST api is available - if api keys are set in the config.
@@ -203,22 +189,6 @@ namespace Roadkill.Core.Configuration
 		/// Indicates whether the installation has been completed previously.
 		/// </summary>
 		public bool Installed { get; set; }
-
-		/// <summary>
-		/// The connection string for Active Directory server if <see cref="UseWindowsAuthentication"/> is true.
-		/// This should start with LDAP:// in uppercase.
-		/// </summary>
-		public string LdapConnectionString { get; set; }
-
-		/// <summary>
-		/// The username to authenticate against the Active Directory with, if <see cref="UseWindowsAuthentication"/> is true.
-		/// </summary>
-		public string LdapUsername { get; set; }
-
-		/// <summary>
-		/// The password to authenticate against the Active Directory with, if <see cref="UseWindowsAuthentication"/> is true.
-		/// </summary>
-		public string LdapPassword { get; set; }
 
 		/// <summary>
 		/// The number of characters each password should be.
@@ -271,16 +241,25 @@ namespace Roadkill.Core.Configuration
 
 		/// <summary>
 		/// The type for the <see cref="UserServiceBase"/>. If the setting for this is blank
-		/// in the web.config, then the <see cref="UseWindowsAuthentication"/> is checked and if false
 		/// a <see cref="FormsAuthUserService"/> is created. The format of this setting can be retrieved by
 		/// using <code>typeof(YourUserService).FullName.</code>
 		/// </summary>
 		public string UserServiceType { get; set; }
 
 		/// <summary>
-		/// Gets a value indicating whether this windows authentication is being used.
+		/// The SMTP settings for sending emails. If <see cref="SmtpSettings.Host"/> is empty, emails are written to the pickup directory.
 		/// </summary>
-		public bool UseWindowsAuthentication { get; set; }
+		public SmtpSettings Smtp { get; set; }
+
+		/// <summary>
+		/// The UI language code, e.g. "en" or "fr".
+		/// </summary>
+		public string UiLanguage { get; set; }
+
+		/// <summary>
+		/// The root directory of the web application (the content root), used to resolve "~/" paths.
+		/// </summary>
+		public string ContentRootPath { get; private set; }
 
 		/// <summary>
 		/// The human-friendly current Roadkill product version, e.g. "1.7.0-Beta3".
@@ -289,7 +268,7 @@ namespace Roadkill.Core.Configuration
 		{
 			get
 			{
-				return FileVersionInfo.GetVersionInfo(typeof(ApplicationSettings).Assembly.Location).ProductVersion;
+				return FileVersionInfo.GetVersionInfo(typeof(ApplicationSettings).Assembly.Location).ProductVersion?.Split('+')[0];
 			}
 		}
 
@@ -305,14 +284,21 @@ namespace Roadkill.Core.Configuration
 		}
 
 		/// <summary>
+		/// Initializes a new instance of the <see cref="ApplicationSettings"/> class, using the application's base directory as the content root.
+		/// </summary>
+		public ApplicationSettings() : this(AppContext.BaseDirectory)
+		{
+		}
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="ApplicationSettings"/> class.
 		/// </summary>
-		public ApplicationSettings()
+		/// <param name="contentRootPath">The root directory of the web application, used to resolve "~/" paths.</param>
+		public ApplicationSettings(string contentRootPath)
 		{
-			if (HttpContext.Current != null)
-				_httpContext = new HttpContextWrapper(HttpContext.Current);
+			ContentRootPath = string.IsNullOrEmpty(contentRootPath) ? AppContext.BaseDirectory : contentRootPath;
 
-			AppDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data");
+			AppDataPath = Path.Combine(ContentRootPath, "App_Data");
 			AppDataInternalPath = Path.Combine(AppDataPath, "Internal");
 			ApiKeys = new List<string>();
 			CustomTokensPath = Path.Combine(AppDataPath, "customvariables.xml");
@@ -320,39 +306,34 @@ namespace Roadkill.Core.Configuration
 			HtmlElementWhiteListPath = Path.Combine(AppDataInternalPath, "htmlwhitelist.xml");
 			MinimumPasswordLength = 6;
 			NLogConfigFilePath = "~/App_Data/NLog.config";
-			DatabaseName = SupportedDatabases.SqlServer2008.Id;
+			DatabaseName = SupportedDatabases.SqlServer.Id;
 			AttachmentsRoutePath = "Attachments";
 			AttachmentsFolder = "~/App_Data/Attachments";
 			SearchIndexPath = Path.Combine(AppDataInternalPath, "Search");
-			PluginsBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin", "Plugins");
-			PluginsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
+			PluginsBinPath = Path.Combine(AppContext.BaseDirectory, "Plugins");
+			PluginsPath = Path.Combine(ContentRootPath, "Plugins");
+			UiLanguage = "en";
+			Smtp = new SmtpSettings();
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ApplicationSettings"/> class.
+		/// Converts a path starting with "~/" into an absolute file path using the <see cref="ContentRootPath"/>.
 		/// </summary>
-		/// <param name="httpContext">The HTTP context.</param>
-		internal ApplicationSettings(HttpContextBase httpContext) : this()
+		public string MapPath(string path)
 		{
-			_httpContext = httpContext;
+			if (string.IsNullOrEmpty(path))
+				return ContentRootPath;
+
+			if (!path.StartsWith("~"))
+				return path;
+
+			string relativePath = path.TrimStart('~').TrimStart('/', '\\').Replace('/', Path.DirectorySeparatorChar).Replace('\\', Path.DirectorySeparatorChar);
+			return Path.Combine(ContentRootPath, relativePath);
 		}
 
 		private string ParseAttachmentsPath()
 		{
-			string attachmentsPath = "/" + AttachmentsRoutePath;
-			if (_httpContext != null)
-			{
-				string applicationPath = _httpContext.Request.ApplicationPath;
-				if (!applicationPath.EndsWith("/"))
-					applicationPath += "/";
-
-				if (attachmentsPath.StartsWith("/"))
-					attachmentsPath = attachmentsPath.Remove(0, 1);
-
-				attachmentsPath = applicationPath + attachmentsPath;
-			}
-
-			return attachmentsPath;
+			return "/" + AttachmentsRoutePath;
 		}
 	}
 }

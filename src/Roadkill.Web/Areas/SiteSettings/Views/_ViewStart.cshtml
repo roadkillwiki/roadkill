@@ -1,12 +1,12 @@
-﻿@using Roadkill.Core.Configuration;
+@using Roadkill.Core.Configuration
 @{
-	// A direct copy of ~/Views/_ViewStart.cshtml
-	Roadkill.Core.Mvc.Controllers.ControllerBase controller = this.ViewContext.Controller as Roadkill.Core.Mvc.Controllers.ControllerBase;
-	ApplicationSettings applicationSettings = controller.ApplicationSettings;
+	// Uses the current theme's layout, once Roadkill is installed.
+	// When changing this file, change the other _ViewStart.cshtml files (Views, Areas/SiteSettings/Views, Plugins) too.
+	ApplicationSettings applicationSettings = Context.RequestServices.GetRequiredService<ApplicationSettings>();
 
 	if (applicationSettings.Installed)
 	{
-		SiteSettings siteSettings = controller.SettingsService.GetSiteSettings();
+		SiteSettings siteSettings = Context.RequestServices.GetRequiredService<Roadkill.Core.Services.SettingsService>().GetSiteSettings();
 		Layout = siteSettings.ThemePath + "/Theme.cshtml";
 	}
 }

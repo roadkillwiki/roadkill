@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Converters;
@@ -77,8 +77,9 @@ namespace Roadkill.Tests.Unit.Text
 			string markdownText = "Here is some `// code with a 'quote' in it and another \"quote\"`\n\n" +
 				"    var x = \"some tabbed code\";\n\n"; // 2 line breaks followed by 4 spaces (tab stop) at the start indicates a code block
 
-			string expectedHtml = "<p>Here is some <code>// code with a 'quote' in it and another \"quote\"</code></p>\n\n" +
-								"<pre><code>var x = \"some tabbed code\";\n" +
+			// Markdig (CommonMark) encodes the double quotes, and separates blocks with a single new line.
+			string expectedHtml = "<p>Here is some <code>// code with a 'quote' in it and another &quot;quote&quot;</code></p>\n" +
+								"<pre><code>var x = &quot;some tabbed code&quot;;\n" +
 								"</code></pre>\n";
 
 			// Act		
@@ -109,8 +110,9 @@ namespace Roadkill.Tests.Unit.Text
 								  "And another with equal dimensions ![Square](/Image1.png =250x) \n\n" +
 								  "And this one is a rectangle ![Rectangle](/Image1.png =250x350)";
 
-			string expectedHtml = "<p>Here is an image:<img src=\"/Attachments/Image1.png\" class=\"img-responsive\" border=\"0\" alt=\"Image\" width=\"\" height=\"\" /> </p>\n\n" +
-									"<p>And another with equal dimensions <img src=\"/Attachments/Image1.png\" class=\"img-responsive\" border=\"0\" alt=\"Square\" width=\"250px\" height=\"\" /> </p>\n\n" +
+			// Empty width/height attributes are no longer written.
+			string expectedHtml = "<p>Here is an image:<img src=\"/Attachments/Image1.png\" class=\"img-responsive\" border=\"0\" alt=\"Image\" /></p>\n" +
+									"<p>And another with equal dimensions <img src=\"/Attachments/Image1.png\" class=\"img-responsive\" border=\"0\" alt=\"Square\" width=\"250px\" /></p>\n" +
 									"<p>And this one is a rectangle <img src=\"/Attachments/Image1.png\" class=\"img-responsive\" border=\"0\" alt=\"Rectangle\" width=\"250px\" height=\"350px\" /></p>\n";
 
 
@@ -142,8 +144,9 @@ namespace Roadkill.Tests.Unit.Text
 								  "And another with equal dimensions ![Square](/Image1.png \"Square\" =250x) \n\n" +
 								  "And this one is a rectangle ![Rectangle](/Image1.png \"Rectangle\" =250x350)";
 
-			string expectedHtml = "<p>Here is an image with a title:<img src=\"/Attachments/Image1.png\" class=\"img-responsive\" border=\"0\" alt=\"Image\" width=\"\" height=\"\" title=\"Image\" /> </p>\n\n" +
-									"<p>And another with equal dimensions <img src=\"/Attachments/Image1.png\" class=\"img-responsive\" border=\"0\" alt=\"Square\" width=\"250px\" height=\"\" title=\"Square\" /> </p>\n\n" +
+			// Empty width/height attributes are no longer written.
+			string expectedHtml = "<p>Here is an image with a title:<img src=\"/Attachments/Image1.png\" class=\"img-responsive\" border=\"0\" alt=\"Image\" title=\"Image\" /></p>\n" +
+									"<p>And another with equal dimensions <img src=\"/Attachments/Image1.png\" class=\"img-responsive\" border=\"0\" alt=\"Square\" width=\"250px\" title=\"Square\" /></p>\n" +
 									"<p>And this one is a rectangle <img src=\"/Attachments/Image1.png\" class=\"img-responsive\" border=\"0\" alt=\"Rectangle\" width=\"250px\" height=\"350px\" title=\"Rectangle\" /></p>\n";
 
 
@@ -154,4 +157,4 @@ namespace Roadkill.Tests.Unit.Text
 			Assert.That(actualHtml, Is.EqualTo(expectedHtml));
 		}
 	}
-}
+}

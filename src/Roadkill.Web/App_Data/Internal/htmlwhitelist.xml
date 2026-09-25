@@ -40,7 +40,7 @@
 		<HtmlElement Name="p">
 			<AllowedAttributes>
 				<HtmlAttribute Name="id" />
-				<HtmlAttribute Name="class" />s
+				<HtmlAttribute Name="class" />
 				<HtmlAttribute Name="style" />
 				<HtmlAttribute Name="align" />
 				<HtmlAttribute Name="dir" />
@@ -50,10 +50,15 @@
 			<AllowedAttributes />
 		</HtmlElement>
 		<HtmlElement Name="li">
-			<AllowedAttributes />
+			<AllowedAttributes>
+				<HtmlAttribute Name="id" />
+				<HtmlAttribute Name="class" />
+			</AllowedAttributes>
 		</HtmlElement>
 		<HtmlElement Name="ul">
-			<AllowedAttributes />
+			<AllowedAttributes>
+				<HtmlAttribute Name="class" />
+			</AllowedAttributes>
 		</HtmlElement>
 		<HtmlElement Name="font">
 			<AllowedAttributes>
@@ -157,6 +162,9 @@
 				<HtmlAttribute Name="href" />
 				<HtmlAttribute Name="class" />
 				<HtmlAttribute Name="rel" />
+				<HtmlAttribute Name="title" />
+				<HtmlAttribute Name="target" />
+				<HtmlAttribute Name="id" />
 			</AllowedAttributes>
 		</HtmlElement>
 		<HtmlElement Name="pre">
@@ -168,6 +176,7 @@
 		<HtmlElement Name="code">
 			<AllowedAttributes>
 				<HtmlAttribute Name="id" />
+				<HtmlAttribute Name="class" />
 			</AllowedAttributes>
 		</HtmlElement>
 		<HtmlElement Name="h1">
@@ -197,6 +206,31 @@
 		<HtmlElement Name="h5">
 			<AllowedAttributes>
 				<HtmlAttribute Name="id" />
+				<HtmlAttribute Name="class" />
+			</AllowedAttributes>
+		</HtmlElement>
+		<HtmlElement Name="h6">
+			<AllowedAttributes>
+				<HtmlAttribute Name="id" />
+				<HtmlAttribute Name="class" />
+			</AllowedAttributes>
+		</HtmlElement>
+		<HtmlElement Name="del">
+			<AllowedAttributes>
+				<HtmlAttribute Name="style" />
+			</AllowedAttributes>
+		</HtmlElement>
+		<HtmlElement Name="s">
+			<AllowedAttributes>
+				<HtmlAttribute Name="style" />
+			</AllowedAttributes>
+		</HtmlElement>
+		<!-- Markdown (GitHub flavoured) task lists -->
+		<HtmlElement Name="input">
+			<AllowedAttributes>
+				<HtmlAttribute Name="type" />
+				<HtmlAttribute Name="checked" />
+				<HtmlAttribute Name="disabled" />
 				<HtmlAttribute Name="class" />
 			</AllowedAttributes>
 		</HtmlElement>

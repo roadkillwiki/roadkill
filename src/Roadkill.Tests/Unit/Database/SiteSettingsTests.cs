@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using NUnit.Framework;
 using Roadkill.Core.Configuration;
 
@@ -218,7 +218,7 @@ namespace Roadkill.Tests.Unit.Database
   ""Theme"": ""Mytheme"",
   ""OverwriteExistingFiles"": false,
   ""HeadContent"": """",
-  ""MenuMarkup"": ""* %mainpage%\r\n* %categories%\r\n* %allpages%\r\n* %newpage%\r\n* %managefiles%\r\n* %sitesettings%\r\n\r\n"",
+  ""MenuMarkup"": ""* %mainpage%\r\n* %categories%\r\n* %tagswithpages%\r\n* %allpages%\r\n* %newpage%\r\n* %managefiles%\r\n* %sitesettings%\r\n\r\n"",
   ""PluginLastSaveDate"": ""{today}""
 }";
 
@@ -240,7 +240,7 @@ namespace Roadkill.Tests.Unit.Database
 			string actualJson = settings.GetJson();
 
 			// Assert
-			Assert.That(actualJson, Is.EqualTo(expectedJson), actualJson);
+			Assert.That(actualJson.Replace("\r\n", "\n"), Is.EqualTo(expectedJson.Replace("\r\n", "\n")), actualJson);
 		}
 
 		// The two previous default value tests might make this test redundant
