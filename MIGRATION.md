@@ -119,6 +119,8 @@ Consigne : pas d'effort supplémentaire sur MongoDB pour l'instant, hormis des c
 - Pas de dépendance à des variables d'environnement ni à des secrets utilisateur.
 - MongoDB : pas d'effort supplémentaire (corrections très simples seulement), consigner les bugs.
 - Ne pas relancer toute la suite de tests pour des modifications minimes ou hors du code testé.
+- Pas de Docker / base locale / lancement de l'application sans autorisation explicite de l'utilisateur : vérifications
+  de ce type seulement ponctuellement, pas après chaque modification.
 - Ne pas surveiller la PR inutilement ; ne pas fusionner.
 
 ### Notes pratiques pour reprendre
