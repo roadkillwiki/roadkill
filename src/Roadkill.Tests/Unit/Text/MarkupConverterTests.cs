@@ -216,6 +216,27 @@ namespace Roadkill.Tests.Unit.Text
 		}
 
 		[Test]
+		[TestCase("Test avec un tiret-dans le nom", "Test-avec-un-tiret-dans-le-nom", "/wiki/1/Test-avec-un-tiret-dans-le-nom")]
+		[TestCase("Pre-release notes", "Pre-release-notes", "/wiki/1/Pre-release-notes")]
+		[TestCase("C# tips", "c-tips", "/wiki/1/C-tips")]
+		[TestCase("CSharp", "csharp", "/wiki/1/CSharp")]
+		public void markdown_internal_links_should_find_pages_by_their_url_title(string pageTitle, string linkUrl, string expectedHref)
+		{
+			// Arrange (the "-" of a link replaces the spaces of the title, but a title can also contain "-" or punctuation:
+			// the link then matches the title as it is in the page url, e.g. /wiki/1/Test-avec-un-tiret-dans-le-nom)
+			_settingsRepository.SiteSettings.MarkupType = "Markdown";
+			_pageRepository.AddNewPage(new Page() { Id = 1, Title = pageTitle }, "text", "admin", DateTime.Today);
+			_pageRepository.AddNewPage(new Page() { Id = 2, Title = "Another page" }, "text", "admin", DateTime.Today);
+			_markupConverter = new MarkupConverter(_applicationSettings, _settingsRepository, _pageRepository, _pluginFactory);
+
+			// Act
+			string actualHtml = _markupConverter.ToHtml("[the page](" + linkUrl + ")");
+
+			// Assert
+			Assert.That(actualHtml, Does.Contain("<a href=\"" + expectedHref + "\">the page</a>"), actualHtml);
+		}
+
+		[Test]
 		public void internal_wiki_page_link_should_not_have_nofollow_attribute()
 		{
 			// Arrange
