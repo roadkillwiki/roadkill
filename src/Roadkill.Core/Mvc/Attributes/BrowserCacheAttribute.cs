@@ -70,7 +70,7 @@ namespace Roadkill.Core.Mvc.Attributes
 			if (pluginLastSaveDate > modifiedSinceDate)
 			{
 				// Update the browser's modified since date, and a 200
-				SetRequiredCacheHeaders(response);
+				SetRequiredCacheHeaders(response, applicationSettings.IsPublicSite);
 				SetLastModified(response, pluginLastSaveDate.ToUniversalTime());
 				response.StatusCode = 200;
 
@@ -94,7 +94,7 @@ namespace Roadkill.Core.Mvc.Attributes
 				statusCode = ResponseWrapper.GetStatusCodeForCache(pluginLastSaveDate, modifiedSinceHeader);
 			}
 
-			SetRequiredCacheHeaders(response);
+			SetRequiredCacheHeaders(response, applicationSettings.IsPublicSite);
 
 			// If the status code is 304 then return an empty body, or the browser will try to read the entire response body again.
 			if (statusCode == 304)
@@ -112,10 +112,11 @@ namespace Roadkill.Core.Mvc.Attributes
 			response.Headers[HeaderNames.LastModified] = lastModifiedUtc.ToString("R", CultureInfo.InvariantCulture);
 		}
 
-		private static void SetRequiredCacheHeaders(HttpResponse response)
+		private static void SetRequiredCacheHeaders(HttpResponse response, bool isPublicSite)
 		{
-			// These cache headers are required for the last modified header to be understood by the browser
-			response.Headers[HeaderNames.CacheControl] = "public, max-age=0";
+			// These cache headers are required for the last modified header to be understood by the browser. The pages of
+			// a private site are only cached by the browser, not by shared caches (proxies).
+			response.Headers[HeaderNames.CacheControl] = isPublicSite ? "public, max-age=0" : "private, max-age=0";
 			response.Headers[HeaderNames.Expires] = DateTime.UtcNow.AddSeconds(2).ToString("R", CultureInfo.InvariantCulture);
 		}
 	}

@@ -23,6 +23,11 @@ namespace Roadkill.Core.Attachments
 		public int StatusCode { get; set; }
 		public string ContentType { get; set; }
 
+		/// <summary>
+		/// Whether the response is for a private site: it's then only cached by the browser, not by shared caches (proxies).
+		/// </summary>
+		public bool IsPrivate { get; set; }
+
 		public ResponseWrapper()
 		{
 			StatusCode = 200;
@@ -61,7 +66,7 @@ namespace Roadkill.Core.Attachments
 
 			if (_response != null)
 			{
-				_response.Headers[HeaderNames.CacheControl] = "public";
+				_response.Headers[HeaderNames.CacheControl] = IsPrivate ? "private" : "public";
 				_response.Headers[HeaderNames.Expires] = "-1"; // always followed by the browser
 				_response.Headers[HeaderNames.LastModified] = lastWriteTimeUtc.ClearMilliseconds().ToString("R"); // sometimes followed by the browser
 			}

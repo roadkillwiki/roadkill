@@ -51,7 +51,7 @@ namespace Roadkill.Core.Attachments
 			}
 
 			IFileService fileService = context.RequestServices.GetRequiredService<IFileService>();
-			ResponseWrapper wrapper = new ResponseWrapper(context.Response);
+			ResponseWrapper wrapper = new ResponseWrapper(context.Response) { IsPrivate = !settings.IsPublicSite };
 
 			try
 			{
