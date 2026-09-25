@@ -52,6 +52,22 @@ namespace Roadkill.Tests.Unit.Attachments
 		}
 
 		[Test]
+		public void writeresponse_should_not_serve_files_outside_the_attachments_folder()
+		{
+			// Arrange (an existing file, next to the attachments folder)
+			string outsideFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Unit", "outside-attachments.txt");
+			File.WriteAllText(outsideFile, "secret");
+			ResponseWrapperMock wrapper = new ResponseWrapperMock();
+
+			// Act + Assert
+			HttpStatusException exception = Assert.Throws<HttpStatusException>(() =>
+				_fileService.WriteResponse("/wiki/Attachments/../outside-attachments.txt", "/wiki", "", wrapper));
+
+			Assert.That(exception.StatusCode, Is.EqualTo(404));
+			Assert.That(wrapper.Buffer, Is.Null.Or.Empty);
+		}
+
+		[Test]
 		public void writeresponse_should_throw_404_exception_for_missing_file()
 		{
 			// Arrange

@@ -269,7 +269,19 @@ namespace Roadkill.Core.Services
 
 			try
 			{
-				string fullPath = TranslateUrlPathToFilePath(localPath, applicationPath);
+				string fullPath = Path.GetFullPath(TranslateUrlPathToFilePath(localPath, applicationPath));
+
+				// Only the files of the attachments folder are served (e.g. not ../appsettings.json)
+				string attachmentsFolder = Path.GetFullPath(_applicationSettings.AttachmentsDirectoryPath);
+				if (!attachmentsFolder.EndsWith(Path.DirectorySeparatorChar.ToString()))
+					attachmentsFolder += Path.DirectorySeparatorChar;
+
+				StringComparison comparison = OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+				if (!fullPath.StartsWith(attachmentsFolder, comparison))
+				{
+					Log.Warn("The url {0} (translated to {1}) is outside the attachments folder.", localPath, fullPath);
+					throw new HttpStatusException(404, string.Format("{0} does not exist on the server.", localPath));
+				}
 
 				if (File.Exists(fullPath))
 				{
