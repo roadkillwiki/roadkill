@@ -13,6 +13,8 @@ namespace Roadkill.Core.Mvc.Controllers
 	/// <summary>
 	/// Provides help for the 3 supported markup syntax.
 	/// </summary>
+	// About shows a wiki page (the first page tagged "about"): on a private site, the help pages need a login as the pages do
+	[OptionalAuthorization]
 	public class HelpController : ControllerBase
 	{
 		private CustomTokenParser _customTokenParser;
