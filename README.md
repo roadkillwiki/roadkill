@@ -15,7 +15,7 @@ This fork has been migrated to **.NET 10 / ASP.NET Core MVC** (details in [MIGRA
 * Settings are in `appsettings.json` (`Roadkill` section and `ConnectionStrings:Roadkill`) instead of `web.config` / `Roadkill.config`.
   `tools/ConvertWebConfig.cs` (or `.linq` for LINQPad) converts an existing `web.config`. Logging is still configured in `App_Data/NLog.config`.
 * The Lucene search index format changed (Lucene.Net 4.8): the index must be rebuilt after upgrading.
-* Themes: `@Html.Action(...)` (child actions) no longer exists in ASP.NET Core; custom `Theme.cshtml` files need a 3 line change (see the upgrade guide).
+* Themes: `@Html.Action(...)` (child actions) no longer exists in ASP.NET Core; custom `Theme.cshtml` files need a few lines changed (see the upgrade guide).
 * MathJax 3 is served by Roadkill (it used the MathJax 2 CDN): no CDN is used any more.
 * `Assets/Scripts/roadkill.js` is generated on build (it was done by Grunt). The SCSS files are no longer compiled: change the
   committed `roadkill.css` / `roadkill.installer.css` files instead.
@@ -40,6 +40,7 @@ This fork has been migrated to **.NET 10 / ASP.NET Core MVC** (details in [MIGRA
 * The markup help list and link examples didn't work (a space is needed after "-" or "1.", no spaces in link urls).
 * MongoDB: `GetUserByEmail` ignored the "activated" filter, and `GetPageByTitle` was case sensitive.
 * The attachments export zip name had a wrong date format.
+* Searching from the site settings pages went to a wrong url (404): the themes' search form and logo link now set `area = ""`.
 
 #### Removed (no longer supported)
 

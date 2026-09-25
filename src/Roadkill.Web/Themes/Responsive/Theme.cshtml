@@ -12,7 +12,7 @@
 	@RenderSection("PageToolbar", false)
 
 	<!-- Header -->
-@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+@using (Html.BeginForm("Search", "Home", new { area = "" }, FormMethod.Get))
 {
 	<div id="header-wrapper">
 		<div class="container">
@@ -29,7 +29,7 @@
 	</div>
 }
 
-@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+@using (Html.BeginForm("Search", "Home", new { area = "" }, FormMethod.Get))
 {
 	<!-- Search bar for tablets and below -->
 	<div class="container hidden-lg hidden-md">

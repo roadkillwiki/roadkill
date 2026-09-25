@@ -46,13 +46,15 @@ Ne **pas** recopier : `bin\`, `Views\`, `App_Data\Internal\Search\` (index de re
 
 ## 5. Thème
 
-Les CSS et images se reprennent tels quels. Un `Theme.cshtml` v2 doit être adapté sur 3 lignes (les « child actions » n'existent plus) :
+Les CSS et images se reprennent tels quels. Un `Theme.cshtml` v2 doit être adapté sur quelques lignes (les « child actions » n'existent plus, et les liens vers l'accueil et la recherche doivent préciser `area = ""`, sinon ils pointent vers `/settings/...` depuis les pages de réglages) :
 
 | v2 | v3 |
 |---|---|
 | `@Html.Action("LoggedInAs", "User")` | `@await Html.PartialAsync("~/Views/User/LoggedInAs.cshtml")` |
 | `@Html.Action("NavMenu", "Home")` | `@Html.Raw(Context.RequestServices.GetRequiredService<Roadkill.Core.Services.IPageService>().GetMenu(RoadkillContext))` |
 | `@Html.Action("BootstrapNavMenu", "Home")` | `@Html.Raw(Context.RequestServices.GetRequiredService<Roadkill.Core.Services.PageService>().GetBootStrapNavMenu(RoadkillContext))` |
+| `Html.BeginForm("Search", "Home", FormMethod.Get)` | `Html.BeginForm("Search", "Home", new { area = "" }, FormMethod.Get)` |
+| `Url.Action("Index", "Home")` | `Url.Action("Index", "Home", new { area = "" })` |
 
 `@Html.Partial(...)` fonctionne encore (`@await Html.PartialAsync(...)` est recommandé). Le thème est compilé au démarrage, sans recompiler Roadkill. Les thèmes fournis (`Mediawiki`, `Responsive`…) sont déjà adaptés.
 

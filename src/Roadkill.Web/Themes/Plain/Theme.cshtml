@@ -11,7 +11,7 @@
 <body>
 	<div class="container">
 		<!--  Header -->
-		@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+		@using (Html.BeginForm("Search", "Home", new { area = "" }, FormMethod.Get))
 		{
 			<div id="header-wrapper">
 				<div class="container">

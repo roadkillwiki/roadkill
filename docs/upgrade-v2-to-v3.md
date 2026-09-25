@@ -46,13 +46,15 @@ Do **not** copy: `bin\`, `Views\`, `App_Data\Internal\Search\` (search index, to
 
 ## 5. Theme
 
-CSS and images are reused as they are. A v2 `Theme.cshtml` needs 3 lines changed (child actions no longer exist):
+CSS and images are reused as they are. A v2 `Theme.cshtml` needs a few lines changed (child actions no longer exist, and the home and search links must set `area = ""`, otherwise they point to `/settings/...` from the settings pages):
 
 | v2 | v3 |
 |---|---|
 | `@Html.Action("LoggedInAs", "User")` | `@await Html.PartialAsync("~/Views/User/LoggedInAs.cshtml")` |
 | `@Html.Action("NavMenu", "Home")` | `@Html.Raw(Context.RequestServices.GetRequiredService<Roadkill.Core.Services.IPageService>().GetMenu(RoadkillContext))` |
 | `@Html.Action("BootstrapNavMenu", "Home")` | `@Html.Raw(Context.RequestServices.GetRequiredService<Roadkill.Core.Services.PageService>().GetBootStrapNavMenu(RoadkillContext))` |
+| `Html.BeginForm("Search", "Home", FormMethod.Get)` | `Html.BeginForm("Search", "Home", new { area = "" }, FormMethod.Get)` |
+| `Url.Action("Index", "Home")` | `Url.Action("Index", "Home", new { area = "" })` |
 
 `@Html.Partial(...)` still works (`@await Html.PartialAsync(...)` is recommended). The theme is compiled at startup, without rebuilding Roadkill. The bundled themes (`Mediawiki`, `Responsive`…) are already updated.
 

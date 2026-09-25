@@ -8,7 +8,7 @@
 	@RenderSection("PluginHead", false)
 </head>
 <body>
-	@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+	@using (Html.BeginForm("Search", "Home", new { area = "" }, FormMethod.Get))
 	{
 		<div id="header">
 			<div id="loggedinas" class="left">

@@ -9,7 +9,7 @@
 </head>
 <body>
 
-@using (Html.BeginForm("Search", "Home", FormMethod.Get))
+@using (Html.BeginForm("Search", "Home", new { area = "" }, FormMethod.Get))
 {
 	<div id="headfade">
 		@await Html.PartialAsync("~/Views/User/LoggedInAs.cshtml")
@@ -24,7 +24,7 @@
 }
 
 	<div id="logo">
-		<a href="@(Url.Action("Index", "Home"))"><img src="@Url.ThemeContent("logo.png", SiteSettings)" alt="logo" border="0" /></a>
+		<a href="@(Url.Action("Index", "Home", new { area = "" }))"><img src="@Url.ThemeContent("logo.png", SiteSettings)" alt="logo" border="0" /></a>
 	</div>
 	<div id="panel">
 		@Html.Raw(Context.RequestServices.GetRequiredService<Roadkill.Core.Services.IPageService>().GetMenu(RoadkillContext))
