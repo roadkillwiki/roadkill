@@ -385,6 +385,35 @@ namespace Roadkill.Core.Services
 			}
 		}
 
+		/// <summary>
+		/// Retrieves the pages that have no tag (only their id and title are set), sorted by title.
+		/// </summary>
+		public IEnumerable<PageViewModel> AllPagesWithoutTags()
+		{
+			try
+			{
+				string cacheKey = "allpageswithouttags";
+
+				List<PageViewModel> pages = _listCache.Get<PageViewModel>(cacheKey);
+				if (pages == null)
+				{
+					pages = PageRepository.AllPages()
+						.Where(p => !PageViewModel.ParseTags(p.Tags).Any(tag => !string.IsNullOrEmpty(tag)))
+						.OrderBy(p => p.Title)
+						.Select(p => new PageViewModel() { Id = p.Id, Title = p.Title })
+						.ToList();
+
+					_listCache.Add<PageViewModel>(cacheKey, pages);
+				}
+
+				return pages;
+			}
+			catch (DatabaseException ex)
+			{
+				throw new DatabaseException(ex, "An error occurred while retrieving the pages without tags from the database");
+			}
+		}
+
 		public IEnumerable<PageViewModel> FindByTag(string tag)
 		{
 			try

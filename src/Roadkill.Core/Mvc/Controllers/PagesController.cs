@@ -67,6 +67,7 @@ namespace Roadkill.Core.Mvc.Controllers
 		{
 			bool sortByName = string.Equals(sort, "name", StringComparison.OrdinalIgnoreCase);
 			ViewData["SortByName"] = sortByName;
+			ViewData["PagesWithoutTags"] = _pageService.AllPagesWithoutTags().ToList();
 
 			IEnumerable<TagPagesViewModel> tags = _pageService.AllTagsWithPages();
 			tags = sortByName ? tags.OrderBy(x => x.Name) : tags.OrderByDescending(x => x.Count).ThenBy(x => x.Name);

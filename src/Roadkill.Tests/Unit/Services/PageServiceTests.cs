@@ -211,6 +211,22 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
+		public void allpageswithouttags_should_return_the_pages_without_tags_sorted_by_title()
+		{
+			// Arrange
+			AddToStubbedRepository(1, "admin", "Tagged", "animals");
+			AddToStubbedRepository(2, "admin", "Zebra notes", "");
+			AddToStubbedRepository(3, "admin", "Apples", " ; ");
+			AddToStubbedRepository(4, "admin", "Mangoes", null);
+
+			// Act
+			List<PageViewModel> pages = _pageService.AllPagesWithoutTags().ToList();
+
+			// Assert
+			Assert.That(pages.Select(p => p.Title), Is.EqualTo(new[] { "Apples", "Mangoes", "Zebra notes" }));
+		}
+
+		[Test]
 		public void deletepage_should_remove_correct_page()
 		{
 			// Arrange

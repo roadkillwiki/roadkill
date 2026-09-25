@@ -2,18 +2,21 @@
 @{
 	ViewBag.Title = SiteStrings.AllTagsWithPages_Title;
 	bool sortByName = (bool)ViewData["SortByName"];
+	List<PageViewModel> pagesWithoutTags = (List<PageViewModel>)ViewData["PagesWithoutTags"];
 }
-@* Each tag is a <details> element: one click on the tag shows or hides its pages. The themes can style #tagswithpages. *@
+@* Each tag is a <details> element: one click on the tag shows or hides its pages. The pages without tags are listed last,
+   whatever the sort, to help tagging them. The themes can style #tagswithpages. *@
 <style>
 	#tagswithpages-toolbar	{ margin-bottom:1em; }
 	#tagswithpages details	{ margin-bottom:0.3em; }
 	#tagswithpages summary	{ cursor:pointer; }
 	#tagswithpages ul		{ margin:0.3em 0 0.8em 0; }
+	#tagswithpages-notag	{ margin-top:1em; }
 </style>
 
 <h1>@SiteStrings.AllTagsWithPages_Title</h1>
 
-@if (Model.Any())
+@if (Model.Any() || pagesWithoutTags.Any())
 {
 	<div id="tagswithpages-toolbar">
 		@SiteStrings.AllTagsWithPages_SortBy
@@ -31,6 +34,18 @@
 			<summary><b>@tag.Name</b> (@tag.Count)</summary>
 			<ul>
 			@foreach (PageViewModel page in tag.Pages)
+			{
+				<li>@Html.ActionLink(page.Title, "Index", "Wiki", new { id = page.Id, title = page.EncodedTitle }, null)</li>
+			}
+			</ul>
+		</details>
+	}
+	@if (pagesWithoutTags.Any())
+	{
+		<details id="tagswithpages-notag">
+			<summary><b><i>@SiteStrings.AllTagsWithPages_PagesWithoutTag</i></b> (@pagesWithoutTags.Count)</summary>
+			<ul>
+			@foreach (PageViewModel page in pagesWithoutTags)
 			{
 				<li>@Html.ActionLink(page.Title, "Index", "Wiki", new { id = page.Id, title = page.EncodedTitle }, null)</li>
 			}

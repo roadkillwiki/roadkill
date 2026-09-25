@@ -889,6 +889,15 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pages without tag.
+        /// </summary>
+        public static string AllTagsWithPages_PagesWithoutTag {
+            get {
+                return ResourceManager.GetString("AllTagsWithPages_PagesWithoutTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Categories.
         /// </summary>
         public static string Navigation_Categories {
