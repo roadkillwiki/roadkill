@@ -7,23 +7,37 @@ This fork has been migrated to **.NET 10 / ASP.NET Core MVC** (details in [MIGRA
 
 **Upgrading a 2.x installation:** [English guide](docs/upgrade-v2-to-v3.md) · [Guide en français](docs/migration-v2-vers-v3.md)
 
-#### New / changed
+#### Changes (migration)
 
 * Runs on .NET 10 / ASP.NET Core MVC (on IIS with the ASP.NET Core Hosting Bundle, or any other ASP.NET Core host; tested on Linux with Kestrel).
-* Markdown parser replaced by Markdig, with **GitHub Flavored Markdown**: pipe tables, strikethrough, task lists, autolinks,
-  footnotes, fenced code blocks. The existing Roadkill Markdown syntax (`[[[code lang=xx|...]]]`, image sizes, `#Title#`...) still works.
-* **Mermaid** diagrams through a new plugin (disabled by default).
-* New **Pages by tag** page (`/pages/alltagswithpages`, menu token `%tagswithpages%`): each tag with the list of its pages,
-  foldable with one click, sorted by number of pages or alphabetically, with expand all / collapse all buttons, and the
-  pages without tags at the bottom (to help tagging them).
-  It is in the default menu of new sites; on an upgraded site, add `* %tagswithpages%` in Site settings > Menu.
-* The MathJax, Mermaid and syntax highlighter plugins also work in the edit page preview; MathJax 3 is served by Roadkill
-  (no CDN), and the markup help (the "i" of the edit page) documents the GFM syntax and the plugins.
-* Data access: SQL Server and Postgres through Dapper. The database schema is unchanged from 2.x.
+* Markdown parser replaced by Markdig. The existing Roadkill Markdown syntax (`[[[code lang=xx|...]]]`, image sizes, `#Title#`...) still works.
+* Data access: SQL Server (2022 or later) and Postgres through Dapper. The database schema is unchanged from 2.x.
 * Settings are in `appsettings.json` (`Roadkill` section and `ConnectionStrings:Roadkill`) instead of `web.config` / `Roadkill.config`.
   `tools/ConvertWebConfig.cs` (or `.linq` for LINQPad) converts an existing `web.config`. Logging is still configured in `App_Data/NLog.config`.
 * The Lucene search index format changed (Lucene.Net 4.8): the index must be rebuilt after upgrading.
 * Themes: `@Html.Action(...)` (child actions) no longer exists in ASP.NET Core; custom `Theme.cshtml` files need a 3 line change (see the upgrade guide).
+* MathJax 3 is served by Roadkill (it used the MathJax 2 CDN): no CDN is used any more.
+
+#### Features
+
+* **GitHub Flavored Markdown**: pipe tables, strikethrough, task lists, autolinks, footnotes, fenced code blocks
+  (highlighted by the Syntax Highlighter plugin).
+* **Mermaid** diagrams through a new plugin (disabled by default), with the Mermaid dark theme on dark site themes.
+* New **Pages by tag** page (`/pages/alltagswithpages`, menu token `%tagswithpages%`): each tag with the list of its pages,
+  foldable with one click, sorted by number of pages or alphabetically, with expand all / collapse all buttons, and the
+  pages without tags at the bottom (to help tagging them).
+  It is in the default menu of new sites; on an upgraded site, add `* %tagswithpages%` in Site settings > Menu.
+* The markup help (the "i" of the edit page) documents the GFM syntax, all the link and image forms, and the plugins.
+
+#### Fixes (bugs of Roadkill 2.x)
+
+* Internal links to a page whose title contains a "-" or punctuation (e.g. "Pre-release notes", "C# tips") offered to
+  create the page: they now also match the title as it is in the page url (`[text](Pre-release-notes)`, `[text](c-tips)`).
+* The edit page preview didn't run the MathJax, Mermaid and syntax highlighter plugins.
+* Saving the site settings could fail (InvalidOperationException about the "DatabaseName" drop down list).
+* The markup help list and link examples didn't work (a space is needed after "-" or "1.", no spaces in link urls).
+* MongoDB: `GetUserByEmail` ignored the "activated" filter, and `GetPageByTitle` was case sensitive.
+* The attachments export zip name had a wrong date format.
 
 #### Removed (no longer supported)
 
