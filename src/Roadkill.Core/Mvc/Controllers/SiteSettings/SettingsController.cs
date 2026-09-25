@@ -63,6 +63,9 @@ namespace Roadkill.Core.Mvc.Controllers
 				model.UpdateSuccessful = true;
 			}
 
+			// The database drop down list isn't posted back: without it, the view throws an InvalidOperationException
+			model.SetSupportedDatabases(SettingsService.GetSupportedDatabases());
+
 			return View(model);
 		}
 	}
