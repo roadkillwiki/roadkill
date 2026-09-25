@@ -45,6 +45,10 @@ This fork has been migrated to **.NET 10 / ASP.NET Core MVC** (details in [MIGRA
 * MongoDB: `GetUserByEmail` ignored the "activated" filter, and `GetPageByTitle` was case sensitive.
 * The attachments export zip name had a wrong date format.
 * Searching from the site settings pages went to a wrong url (404): the themes' search form and logo link now set `area = ""`.
+* **Security** (private sites, i.e. not public): the attachments were served without a login, `/wiki/help:about` showed a
+  wiki page without a login, and the pages and attachments were sent with `Cache-Control: public`. A test now checks that
+  every controller requires a login on a private site (or editor/admin rights, or an API key).
+* **Security**: an attachment url could point outside the attachments folder (e.g. `../`); only the files of that folder are served.
 
 #### Removed (no longer supported)
 

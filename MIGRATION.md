@@ -100,6 +100,9 @@ Consigne : pas d'effort supplémentaire sur MongoDB pour l'instant, hormis des c
   apparaît dans l'url de la page (`/wiki/1/Mon-titre`), sans tenir compte de la casse (bug déjà présent en v2).
 - Nettoyage : `TestUserService`, vues `PreviewPage`/`LeftMenu`, notes de test Windows auth, `installerconstants.js` (généré)
   supprimés ; syntaxe MediaWiki retirée ; en-tête « non compilé » dans les `.scss`.
+- Sécurité (revue de l'accès en lecture) : pièces jointes et `/wiki/help:about` protégées sur un site privé, fichiers servis
+  limités au dossier des pièces jointes, `Cache-Control: private` sur un site privé, test de garde sur les contrôleurs.
+- Derrière un reverse proxy qui termine le HTTPS : la redirection vers la page de connexion est relative (elle passait en http).
 - Outils : exports zip (`PhysicalFile` au lieu de `File`) ; `ActionLink(texte, action, null, new { @class })` interprété
   différemment par ASP.NET Core (classe passée en paramètre d'URL) : 8 appels corrigés.
 
