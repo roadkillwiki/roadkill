@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Caching;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -207,7 +209,38 @@ namespace Roadkill.Core.DependencyResolution
 					options.ReturnUrlParameter = "ReturnUrl";
 					options.ExpireTimeSpan = TimeSpan.FromDays(14);
 					options.SlidingExpiration = true;
+
+					// Relative redirects, so that the browser keeps its scheme and host: behind a reverse proxy that ends
+					// the https connection, the request scheme is http, and an absolute url would switch to http.
+					options.Events.OnRedirectToLogin = RedirectToRelativeUri;
+					options.Events.OnRedirectToAccessDenied = RedirectToRelativeUri;
 				});
+		}
+
+		/// <summary>
+		/// Redirects to the path and query of the cookie authentication redirect url (e.g. /user/login?ReturnUrl=%2F), without
+		/// its scheme and host. As the default handler, ajax requests get a 401 with the url in the Location header.
+		/// </summary>
+		internal static Task RedirectToRelativeUri(RedirectContext<CookieAuthenticationOptions> context)
+		{
+			string redirectUri = context.RedirectUri;
+			if (Uri.TryCreate(redirectUri, UriKind.Absolute, out Uri absoluteUri))
+				redirectUri = absoluteUri.PathAndQuery;
+
+			bool isAjax = string.Equals(context.Request.Headers["X-Requested-With"], "XMLHttpRequest", StringComparison.Ordinal)
+				|| string.Equals(context.Request.Query["X-Requested-With"], "XMLHttpRequest", StringComparison.Ordinal);
+
+			if (isAjax)
+			{
+				context.Response.Headers.Location = redirectUri;
+				context.Response.StatusCode = 401;
+			}
+			else
+			{
+				context.Response.Redirect(redirectUri);
+			}
+
+			return Task.CompletedTask;
 		}
 
 		private static void AddSwagger(IServiceCollection services)
