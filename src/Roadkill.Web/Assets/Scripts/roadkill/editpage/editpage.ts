@@ -210,7 +210,7 @@ module Roadkill.Web
 				w.MathJax.typesetPromise([document.getElementById("preview")]);
 
 			if (w.mermaid)
-				w.mermaid.run({ querySelector: "#preview pre.mermaid" });
+				w.mermaid.run({ querySelector: "#preview .mermaid" });
 
 			if (w.SyntaxHighlighter)
 				w.SyntaxHighlighter.highlight();

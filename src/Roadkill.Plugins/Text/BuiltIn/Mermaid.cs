@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Roadkill.Core.Plugins;
 
 namespace Roadkill.Plugins.Text.BuiltIn
@@ -41,19 +42,40 @@ namespace Roadkill.Plugins.Text.BuiltIn
 			}
 		}
 
+		// The Markdown parser writes the diagrams as <pre class="mermaid">, which the themes and Bootstrap style as code blocks
+		// (dark or light background, borders, font size, word breaking...): a div keeps the diagrams out of these styles.
+		private static readonly Regex PreRegex = new Regex(@"<pre class=""mermaid"">(?<diagram>.*?)</pre>", RegexOptions.Singleline | RegexOptions.Compiled);
+
 		public Mermaid()
 		{
 			AddScript("mermaid.min.js", "mermaid");
-			// The script can finish loading before the page body is parsed, so the diagrams are drawn once the DOM is ready.
+
+			// Once the DOM is ready (the script can finish loading before the page body is parsed), the diagrams are drawn
+			// with the Mermaid "dark" theme if the page background behind them is dark, otherwise with the default theme.
 			SetHeadJsOnLoadedFunction(
-				"mermaid.initialize({ startOnLoad: false }); " +
-				"var roadkillMermaid = function() { mermaid.run({ querySelector: 'pre.mermaid' }); }; " +
+				"var roadkillMermaidTheme = function(element) { " +
+					"for (var node = element; node && node.nodeType === 1; node = node.parentElement) { " +
+						"var rgba = (window.getComputedStyle(node).backgroundColor.match(/[\\d.]+/g) || []).map(Number); " +
+						"if (rgba.length >= 3 && (rgba.length < 4 || rgba[3] > 0)) { return (0.299 * rgba[0] + 0.587 * rgba[1] + 0.114 * rgba[2]) < 128 ? 'dark' : 'default'; } " +
+					"} " +
+					"return 'default'; " +
+				"}; " +
+				"var roadkillMermaid = function() { " +
+					"var element = document.querySelector('.mermaid') || document.getElementById('preview') || document.body; " +
+					"mermaid.initialize({ startOnLoad: false, theme: roadkillMermaidTheme(element) }); " +
+					"mermaid.run({ querySelector: '.mermaid' }); " +
+				"}; " +
 				"if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', roadkillMermaid); } else { roadkillMermaid(); }");
+		}
+
+		public override string AfterParse(string html)
+		{
+			return PreRegex.Replace(html, "<div class=\"mermaid\">${diagram}</div>");
 		}
 
 		public override string GetHeadContent()
 		{
-			return GetJavascriptHtml();
+			return GetCssLink("mermaid.css") + GetJavascriptHtml();
 		}
 	}
 }
