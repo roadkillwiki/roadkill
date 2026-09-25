@@ -1,10 +1,12 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Roadkill.Core.Configuration;
 using Roadkill.Core.Exceptions;
+using Roadkill.Core.Security;
 using Roadkill.Core.Services;
 
 namespace Roadkill.Core.Attachments
@@ -30,6 +32,22 @@ namespace Roadkill.Core.Attachments
 			{
 				await _next(context);
 				return;
+			}
+
+			// On a private site the attachments need a login, as the pages do (see OptionalAuthorizationAttribute). This middleware
+			// runs after the authentication middleware, so context.User is the logged in user.
+			if (!settings.IsPublicSite)
+			{
+				IAuthorizationProvider authorizationProvider = context.RequestServices.GetRequiredService<IAuthorizationProvider>();
+				if (!(authorizationProvider.IsAdmin(context.User) || authorizationProvider.IsEditor(context.User)))
+				{
+					if (context.User?.Identity?.IsAuthenticated == true)
+						context.Response.StatusCode = StatusCodes.Status403Forbidden;
+					else
+						await context.ChallengeAsync(); // redirects to the login page
+
+					return;
+				}
 			}
 
 			IFileService fileService = context.RequestServices.GetRequiredService<IFileService>();

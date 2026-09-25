@@ -262,10 +262,13 @@ namespace Roadkill.Core.DependencyResolution
 			app.UseStatusCodePagesWithReExecute("/wiki/notfound");
 			app.UseMiddleware<UiCultureMiddleware>();
 			app.UseMiddleware<InstallCheckMiddleware>();
-			app.UseMiddleware<AttachmentMiddleware>();
 
 			app.UseRouting();
 			app.UseAuthentication();
+
+			// After the authentication, as the attachments of a private site need a login
+			app.UseMiddleware<AttachmentMiddleware>();
+
 			app.UseAuthorization();
 
 			app.MapRoadkillRoutes();
