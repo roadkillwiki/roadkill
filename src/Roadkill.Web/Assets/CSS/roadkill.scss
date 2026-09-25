@@ -1,4 +1,9 @@
-﻿/* 
+﻿/*
+   NOT COMPILED: since Roadkill 3 (.NET 10), the SCSS files are no longer compiled on build (it was done by a Grunt task
+   with Roadkill 2.x). The site uses the committed roadkill.css (minified): make any change there.
+   This file is kept as the (possibly outdated) source of that CSS.
+*/
+/* 
 This contains the shared Roadkill CSS definitions, used on all pages.
 
 The formatting style of this CSS file is:
