@@ -1,0 +1,53 @@
+@model IEnumerable<TagPagesViewModel>
+@{
+	ViewBag.Title = SiteStrings.AllTagsWithPages_Title;
+	bool sortByName = (bool)ViewData["SortByName"];
+}
+@* Each tag is a <details> element: one click on the tag shows or hides its pages. The themes can style #tagswithpages. *@
+<style>
+	#tagswithpages-toolbar	{ margin-bottom:1em; }
+	#tagswithpages details	{ margin-bottom:0.3em; }
+	#tagswithpages summary	{ cursor:pointer; }
+	#tagswithpages ul		{ margin:0.3em 0 0.8em 0; }
+</style>
+
+<h1>@SiteStrings.AllTagsWithPages_Title</h1>
+
+@if (Model.Any())
+{
+	<div id="tagswithpages-toolbar">
+		@SiteStrings.AllTagsWithPages_SortBy
+		@Html.ActionLink(SiteStrings.AllTagsWithPages_SortByCount, "AllTagsWithPages", new { sort = "count" }, new { @class = sortByName ? "btn btn-default btn-sm" : "btn btn-primary btn-sm" })
+		@Html.ActionLink(SiteStrings.AllTagsWithPages_SortByName, "AllTagsWithPages", new { sort = "name" }, new { @class = sortByName ? "btn btn-primary btn-sm" : "btn btn-default btn-sm" })
+		&nbsp;
+		<button type="button" class="btn btn-default btn-sm" id="tagswithpages-expandall">@SiteStrings.AllTagsWithPages_ExpandAll</button>
+		<button type="button" class="btn btn-default btn-sm" id="tagswithpages-collapseall">@SiteStrings.AllTagsWithPages_CollapseAll</button>
+	</div>
+
+	<div id="tagswithpages">
+	@foreach (TagPagesViewModel tag in Model)
+	{
+		<details>
+			<summary><b>@tag.Name</b> (@tag.Count)</summary>
+			<ul>
+			@foreach (PageViewModel page in tag.Pages)
+			{
+				<li>@Html.ActionLink(page.Title, "Index", "Wiki", new { id = page.Id, title = page.EncodedTitle }, null)</li>
+			}
+			</ul>
+		</details>
+	}
+	</div>
+
+	<script type="text/javascript">
+		$(function ()
+		{
+			$("#tagswithpages-expandall").click(function () { $("#tagswithpages details").attr("open", "open"); });
+			$("#tagswithpages-collapseall").click(function () { $("#tagswithpages details").removeAttr("open"); });
+		});
+	</script>
+}
+else
+{
+	<p>@SiteStrings.AllTags_NoResults</p>
+}

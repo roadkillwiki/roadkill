@@ -175,6 +175,7 @@ namespace Roadkill.Core.Configuration
 		{
 			return "* %mainpage%\r\n" +
 					"* %categories%\r\n" +
+					"* %tagswithpages%\r\n" +
 					"* %allpages%\r\n" +
 					"* %newpage%\r\n" +
 					"* %managefiles%\r\n" +

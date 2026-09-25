@@ -340,6 +340,51 @@ namespace Roadkill.Core.Services
 		/// <param name="tag">The tag to search for.</param>
 		/// <returns>A <see cref="IEnumerable{PageViewModel}"/> of pages tagged with the provided tag.</returns>
 		/// <exception cref="DatabaseException">An database error occurred while getting the list.</exception>
+		/// <summary>
+		/// Retrieves all tags with the pages that have them (a page is listed under each of its tags), sorted by tag name, then
+		/// page title. The tags are read as with <see cref="AllTags"/>, from a single query of all the pages.
+		/// </summary>
+		public IEnumerable<TagPagesViewModel> AllTagsWithPages()
+		{
+			try
+			{
+				string cacheKey = "alltagswithpages";
+
+				List<TagPagesViewModel> tags = _listCache.Get<TagPagesViewModel>(cacheKey);
+				if (tags == null)
+				{
+					// Tag names are case sensitive, as with AllTags
+					var tagsByName = new Dictionary<string, TagPagesViewModel>();
+
+					foreach (Page page in PageRepository.AllPages().OrderBy(p => p.Title))
+					{
+						foreach (string tagName in PageViewModel.ParseTags(page.Tags).Distinct())
+						{
+							if (string.IsNullOrEmpty(tagName))
+								continue;
+
+							if (!tagsByName.TryGetValue(tagName, out TagPagesViewModel tag))
+							{
+								tag = new TagPagesViewModel() { Name = tagName };
+								tagsByName.Add(tagName, tag);
+							}
+
+							tag.Pages.Add(new PageViewModel() { Id = page.Id, Title = page.Title });
+						}
+					}
+
+					tags = tagsByName.Values.OrderBy(x => x.Name).ToList();
+					_listCache.Add<TagPagesViewModel>(cacheKey, tags);
+				}
+
+				return tags;
+			}
+			catch (DatabaseException ex)
+			{
+				throw new DatabaseException(ex, "An error occurred while retrieving all tags with their pages from the database");
+			}
+		}
+
 		public IEnumerable<PageViewModel> FindByTag(string tag)
 		{
 			try

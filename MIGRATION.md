@@ -93,6 +93,9 @@ Consigne : pas d'effort supplémentaire sur MongoDB pour l'instant, hormis des c
 - Message « Unable to save the page: » affiché à tort (résumé de validation rendu par ASP.NET Core même sans erreur).
 - Fichiers de base obsolètes supprimés : `App_Data/roadkill.mdf` (LocalDB/Express, inutilisé), `roadkill152.sdf` et
   `roadkill-acceptancetests.sdf` (SQL CE), `lib/Test-databases/Upgrade` (bases 1.5.2) ; exemple `AttachDbFilename` retiré de l'installeur.
+- Nouvelle page « Pages by tag » (`/pages/alltagswithpages`) : chaque tag avec ses pages, repliable (`<details>`), tri par
+  nombre de pages (défaut) ou par nom (`?sort=name`), boutons tout déplier / tout replier ; code de menu `%tagswithpages%`
+  (menu par défaut des nouvelles installations ; à ajouter à la main dans le menu d'une installation existante).
 - Outils : exports zip (`PhysicalFile` au lieu de `File`) ; `ActionLink(texte, action, null, new { @class })` interprété
   différemment par ASP.NET Core (classe passée en paramètre d'URL) : 8 appels corrigés.
 

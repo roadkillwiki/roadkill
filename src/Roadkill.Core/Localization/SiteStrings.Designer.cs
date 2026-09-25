@@ -826,6 +826,69 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pages by tag.
+        /// </summary>
+        public static string Navigation_TagsWithPages {
+            get {
+                return ResourceManager.GetString("Navigation_TagsWithPages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pages by tag.
+        /// </summary>
+        public static string AllTagsWithPages_Title {
+            get {
+                return ResourceManager.GetString("AllTagsWithPages_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sort by:.
+        /// </summary>
+        public static string AllTagsWithPages_SortBy {
+            get {
+                return ResourceManager.GetString("AllTagsWithPages_SortBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to number of pages.
+        /// </summary>
+        public static string AllTagsWithPages_SortByCount {
+            get {
+                return ResourceManager.GetString("AllTagsWithPages_SortByCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to name.
+        /// </summary>
+        public static string AllTagsWithPages_SortByName {
+            get {
+                return ResourceManager.GetString("AllTagsWithPages_SortByName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expand all.
+        /// </summary>
+        public static string AllTagsWithPages_ExpandAll {
+            get {
+                return ResourceManager.GetString("AllTagsWithPages_ExpandAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Collapse all.
+        /// </summary>
+        public static string AllTagsWithPages_CollapseAll {
+            get {
+                return ResourceManager.GetString("AllTagsWithPages_CollapseAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Categories.
         /// </summary>
         public static string Navigation_Categories {

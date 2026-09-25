@@ -61,6 +61,7 @@ Les CSS et images se reprennent tels quels. Un `Theme.cshtml` v2 doit être adap
 - **Paramètres du site > Outils > Rebuild search index** : le format de l'index Lucene a changé.
 - **Paramètres du site > Plugins** : activer si besoin **Mermaid diagrams** (diagrammes ```` ```mermaid ````) et **Syntax Highlighter** (colore aussi les blocs ```` ```sql ````).
 - reCAPTCHA : l'ancienne API v1 n'existe plus ; si elle était activée, saisir des clés **reCAPTCHA v2**.
+- **Paramètres du site > Menu** : ajouter la ligne `* %tagswithpages%` (sous `* %categories%`) pour afficher la nouvelle page « Pages by tag » (tags avec leurs pages) ; le menu existant est conservé tel quel.
 
 ## Nouveautés Markdown (GitHub Flavored Markdown)
 

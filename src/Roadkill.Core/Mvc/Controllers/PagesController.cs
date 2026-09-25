@@ -58,6 +58,23 @@ namespace Roadkill.Core.Mvc.Controllers
 		}
 
 		/// <summary>
+		/// Displays all tags with, for each tag, the list of its pages (a page is listed under each of its tags).
+		/// </summary>
+		/// <param name="sort">"name" to sort the tags alphabetically; otherwise they are sorted by number of pages, then name.</param>
+		/// <returns>An <see cref="IEnumerable{TagPagesViewModel}"/> as the model.</returns>
+		[BrowserCache]
+		public ActionResult AllTagsWithPages(string sort = "count")
+		{
+			bool sortByName = string.Equals(sort, "name", StringComparison.OrdinalIgnoreCase);
+			ViewData["SortByName"] = sortByName;
+
+			IEnumerable<TagPagesViewModel> tags = _pageService.AllTagsWithPages();
+			tags = sortByName ? tags.OrderBy(x => x.Name) : tags.OrderByDescending(x => x.Count).ThenBy(x => x.Name);
+
+			return View(tags.ToList());
+		}
+
+		/// <summary>
 		/// Returns all tags in the system as a JSON string.
 		/// </summary>
 		/// <param name="term">The jQuery UI autocomplete filter passed in, e.g. when "ho" is typed for homepage.</param>

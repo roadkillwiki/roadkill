@@ -191,6 +191,26 @@ namespace Roadkill.Tests.Unit.Services
 		}
 
 		[Test]
+		public void alltagswithpages_should_list_each_page_under_each_of_its_tags()
+		{
+			// Arrange
+			AddToStubbedRepository(1, "admin", "Homepage", "homepage, animals");
+			AddToStubbedRepository(2, "admin", "Zebras", "animals");
+			AddToStubbedRepository(3, "admin", "Cats", "animals, animals, pets");
+			AddToStubbedRepository(4, "admin", "No tags", "");
+
+			// Act
+			List<TagPagesViewModel> tags = _pageService.AllTagsWithPages().ToList();
+
+			// Assert (tags sorted by name, pages by title, a tag repeated on a page is listed once)
+			Assert.That(tags.Select(t => t.Name), Is.EqualTo(new[] { "animals", "homepage", "pets" }));
+			Assert.That(tags[0].Pages.Select(p => p.Title), Is.EqualTo(new[] { "Cats", "Homepage", "Zebras" }));
+			Assert.That(tags[0].Count, Is.EqualTo(3));
+			Assert.That(tags[1].Pages.Select(p => p.Id), Is.EqualTo(new[] { 1 }));
+			Assert.That(tags[2].Pages.Select(p => p.Title), Is.EqualTo(new[] { "Cats" }));
+		}
+
+		[Test]
 		public void deletepage_should_remove_correct_page()
 		{
 			// Arrange
@@ -402,7 +422,7 @@ namespace Roadkill.Tests.Unit.Services
 						<span class=""icon-bar""></span>
 					</button>
 				</div><div id=""left-menu-toggle"" class=""collapse navbar-collapse"">
-<ul class =""nav navbar-nav""><li> <a href=""/"">Main Page</a></li><li> <a href=""/pages/alltags"">Categories</a></li><li> <a href=""/pages/allpages"">All pages</a></li><li> <a href=""/pages/new"">New page</a></li><li> <a href=""/filemanager"">Manage files</a></li><li> <a href=""/settings"">Site settings</a></li></ul>
+<ul class =""nav navbar-nav""><li> <a href=""/"">Main Page</a></li><li> <a href=""/pages/alltags"">Categories</a></li><li> <a href=""/pages/alltagswithpages"">Pages by tag</a></li><li> <a href=""/pages/allpages"">All pages</a></li><li> <a href=""/pages/new"">New page</a></li><li> <a href=""/filemanager"">Manage files</a></li><li> <a href=""/settings"">Site settings</a></li></ul>
 </div>
 </nav>";
 
@@ -418,7 +438,7 @@ namespace Roadkill.Tests.Unit.Services
 		{
 			// Arrange
 			string expectedHtml = @"<div id=""leftmenu"">
-<ul><li> <a href=""/"">Main Page</a></li><li> <a href=""/pages/alltags"">Categories</a></li><li> <a href=""/pages/allpages"">All pages</a></li><li> <a href=""/pages/new"">New page</a></li><li> <a href=""/filemanager"">Manage files</a></li><li> <a href=""/settings"">Site settings</a></li></ul>
+<ul><li> <a href=""/"">Main Page</a></li><li> <a href=""/pages/alltags"">Categories</a></li><li> <a href=""/pages/alltagswithpages"">Pages by tag</a></li><li> <a href=""/pages/allpages"">All pages</a></li><li> <a href=""/pages/new"">New page</a></li><li> <a href=""/filemanager"">Manage files</a></li><li> <a href=""/settings"">Site settings</a></li></ul>
 </div>";
 
 			// Act

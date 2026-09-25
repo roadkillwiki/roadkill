@@ -39,6 +39,11 @@ namespace Roadkill.Core.Services
 		IEnumerable<TagViewModel> AllTags();
 
 		/// <summary>
+		/// Retrieves all tags with the pages that have them (a page is listed under each of its tags), sorted by tag name.
+		/// </summary>
+		IEnumerable<TagPagesViewModel> AllTagsWithPages();
+
+		/// <summary>
 		/// Deletes a page from the database.
 		/// </summary>
 		/// <param name="pageId">The id of the page to remove.</param>

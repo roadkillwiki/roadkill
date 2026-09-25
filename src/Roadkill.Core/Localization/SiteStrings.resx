@@ -1038,4 +1038,25 @@
   <data name="History_CurrentVersion" xml:space="preserve">
     <value>View current page version</value>
   </data>
+  <data name="Navigation_TagsWithPages" xml:space="preserve">
+    <value>Pages by tag</value>
+  </data>
+  <data name="AllTagsWithPages_Title" xml:space="preserve">
+    <value>Pages by tag</value>
+  </data>
+  <data name="AllTagsWithPages_SortBy" xml:space="preserve">
+    <value>Sort by:</value>
+  </data>
+  <data name="AllTagsWithPages_SortByCount" xml:space="preserve">
+    <value>number of pages</value>
+  </data>
+  <data name="AllTagsWithPages_SortByName" xml:space="preserve">
+    <value>name</value>
+  </data>
+  <data name="AllTagsWithPages_ExpandAll" xml:space="preserve">
+    <value>Expand all</value>
+  </data>
+  <data name="AllTagsWithPages_CollapseAll" xml:space="preserve">
+    <value>Collapse all</value>
+  </data>
 </root>

@@ -13,6 +13,7 @@ namespace Roadkill.Core.Text
 	public class MenuParser
 	{
 		private static readonly string CATEGORIES_TOKEN = "%categories%";
+		private static readonly string TAGSWITHPAGES_TOKEN = "%tagswithpages%";
 		private static readonly string ALLPAGES_TOKEN = "%allpages%";
 		private static readonly string MAINPAGE_TOKEN = "%mainpage%";
 		private static readonly string NEWPAGE_TOKEN = "%newpage%";
@@ -85,6 +86,7 @@ namespace Roadkill.Core.Text
 		/// Support for the following tokens:
 		/// 
 		/// [Categories]
+		/// [TagsWithPages]
 		/// [AllPages]
 		/// [MainPage]
 		/// [NewPage]
@@ -97,6 +99,7 @@ namespace Roadkill.Core.Text
 				return "";
 
 			string categories = CreateAnchorTag("/pages/alltags", SiteStrings.Navigation_Categories);
+			string tagsWithPages = CreateAnchorTag("/pages/alltagswithpages", SiteStrings.Navigation_TagsWithPages);
 			string allPages = CreateAnchorTag("/pages/allpages", SiteStrings.Navigation_AllPages);
 			string mainPage = CreateAnchorTag("/", SiteStrings.Navigation_MainPage);
 			string newpage = CreateAnchorTag("/pages/new", SiteStrings.Navigation_NewPage);
@@ -106,6 +109,7 @@ namespace Roadkill.Core.Text
 			if (HttpContextHolder.Current != null)
 			{
 				categories = CreateAnchorTag(HttpContextHolder.Action("AllTags", "Pages"), SiteStrings.Navigation_Categories);
+				tagsWithPages = CreateAnchorTag(HttpContextHolder.Action("AllTagsWithPages", "Pages"), SiteStrings.Navigation_TagsWithPages);
 				allPages = CreateAnchorTag(HttpContextHolder.Action("AllPages", "Pages"), SiteStrings.Navigation_AllPages);
 				mainPage = CreateAnchorTag(HttpContextHolder.Action("Index", "Home"), SiteStrings.Navigation_MainPage);
 				newpage = CreateAnchorTag(HttpContextHolder.Action("New", "Pages"), SiteStrings.Navigation_NewPage);
@@ -125,6 +129,7 @@ namespace Roadkill.Core.Text
 			}
 
 			html = html.Replace(CATEGORIES_TOKEN, categories);
+			html = html.Replace(TAGSWITHPAGES_TOKEN, tagsWithPages);
 			html = html.Replace(ALLPAGES_TOKEN, allPages);
 			html = html.Replace(MAINPAGE_TOKEN, mainPage);
 			html = html.Replace(NEWPAGE_TOKEN, newpage);

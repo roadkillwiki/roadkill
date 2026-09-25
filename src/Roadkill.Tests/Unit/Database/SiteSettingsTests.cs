@@ -218,7 +218,7 @@ namespace Roadkill.Tests.Unit.Database
   ""Theme"": ""Mytheme"",
   ""OverwriteExistingFiles"": false,
   ""HeadContent"": """",
-  ""MenuMarkup"": ""* %mainpage%\r\n* %categories%\r\n* %allpages%\r\n* %newpage%\r\n* %managefiles%\r\n* %sitesettings%\r\n\r\n"",
+  ""MenuMarkup"": ""* %mainpage%\r\n* %categories%\r\n* %tagswithpages%\r\n* %allpages%\r\n* %newpage%\r\n* %managefiles%\r\n* %sitesettings%\r\n\r\n"",
   ""PluginLastSaveDate"": ""{today}""
 }";
 

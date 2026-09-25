@@ -61,6 +61,7 @@ CSS and images are reused as they are. A v2 `Theme.cshtml` needs 3 lines changed
 - **Site settings > Tools > Rebuild search index**: the Lucene index format has changed.
 - **Site settings > Plugins**: enable **Mermaid diagrams** (```` ```mermaid ```` blocks) and **Syntax Highlighter** (which also highlights ```` ```sql ```` blocks) if needed.
 - reCAPTCHA: the old v1 API no longer exists; if it was enabled, enter **reCAPTCHA v2** keys.
+- **Site settings > Menu**: add the `* %tagswithpages%` line (below `* %categories%`) to show the new "Pages by tag" page (the tags with their pages); the existing menu is kept as it is.
 
 ## What's new in Markdown (GitHub Flavored Markdown)
 

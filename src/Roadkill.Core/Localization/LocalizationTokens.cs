@@ -19,7 +19,7 @@ namespace Roadkill.Core.Localization
 
 		private static readonly string ADEXPLORER_REPLACEMENT = @"<a href=""http://technet.microsoft.com/en-us/sysinternals/bb963907"" target=""_blank"">";
 		private static readonly string RECAPTCHA_REPLACEMENT = @"<a href=""https://www.google.com/recaptcha/admin/create"" target=""_blank"">";
-		private static readonly string MENU_TOKENS_REPLACEMENT = "<br/>%mainpage%<br/>%categories%<br/>%allpages%<br/>%newpage%<br/>%managefiles%<br/>%sitesettings%.";
+		private static readonly string MENU_TOKENS_REPLACEMENT = "<br/>%mainpage%<br/>%categories%<br/>%tagswithpages%<br/>%allpages%<br/>%newpage%<br/>%managefiles%<br/>%sitesettings%.";
 		
 		private static readonly string END_ANCHOR = "</a>";
 		private static readonly string BOLD_START = "{bold}";
