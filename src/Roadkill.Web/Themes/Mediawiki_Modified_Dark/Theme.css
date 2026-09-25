@@ -1,0 +1,162 @@
+/* Thème sombre basé sur Mediawiki_Modified — mêmes IDs/classes, mêmes images
+   (logo.png, search.png), mais sans pagebg.png / page-fade.png (fond blanc
+   non adapté au thème sombre : remplacés par des couleurs pleines). */
+
+html			{ color-scheme: dark; }
+body			{ font-family:sans-serif;background:#1a1a2e;color:#eee;margin:0px;padding:0px; }
+
+h1,h2,h3,h4,h5		{ border-bottom:1px solid #525268;bottom-padding:3px;margin-top:30px; }
+a					{ text-decoration:none;color:#adcbfa; }
+a:hover, a:focus	{ text-decoration:underline; }
+
+#headfade		{ background-color:#1f1f38;width:100%;height:6em; }
+#search input	{ float:left;z-index:10;background:#12121f;color:#eee;border:1px solid #33334d; }
+#search button	{ padding:0px;margin:0px;margin-top:2px; }
+#searchbutton	{ background-color:transparent;cursor:pointer;border:0px;margin-left:-18px !important; }
+#searchbutton img { filter:invert(1); }
+
+#leftmenu ul,#leftmenu li	{ padding:0px;margin:0px; }
+#loggedinas, #search		{ float:right;padding:5px; top:0px;line-height:2em; }
+
+/* logo.png a un fond blanc intégré à l'image : on le pose sur une petite
+   carte claire arrondie pour que ça reste voulu plutôt que "cassé". */
+#logo			{ position:absolute;top:0px;left:7px;padding:4px;background:#fff;border-radius:4px; }
+#viewhistory	{ float:right; }
+#panel			{ position:absolute;top:160px;width:10em;left:0px; }
+#panel ul,
+#panel p,
+#panel h1		{ padding-left:1.5em; }
+#panel ul li	{ list-style:none;list-style-image:none;list-style-type:none;padding:0px;margin:0px; }
+#container		{ padding:1em;margin-left:12em;background-color:#22223d;color:#eee;min-height:30em;border:1px solid #33334d;border-right:0px solid #33334d; }
+#footer			{ margin-left:12em;margin-top:0px;padding:0.75em;}
+#footer p		{ color:#999;font-size:0.7em; }
+pre				{ font-size:9pt !important;background-color:#12121f;color:#ddd;padding:5px;border:1px solid #33334d; }
+
+/* <code> inline (hors <pre>, ex. balises simples en Markdown) reste sinon au
+   style Bootstrap par défaut (fond #f9f2f4 quasi blanc, texte #c7254e) : pas
+   de !important côté Bootstrap, donc pas besoin non plus ici, Theme.css
+   chargeant après bootstrap.css (voir HeadContent.cshtml). */
+code			{ background-color:#12121f;color:#eee; }
+
+div.image_frame { border: 1px solid #555; display: inline-block; padding: 4px; }
+div.image_frame .caption { border: 1px solid #444; padding: 4px; }
+
+div.floatleft, table.floatleft { border: 0 none; margin: 0 0.5em 0.5em 0; }
+div.floatright, table.floatright, div.floatleft, table.floatleft { position: relative; }
+div.floatleft, table.floatleft { clear: left; float: left; }
+
+div.floatright, table.floatright { border: 0 none;margin: 0 0 0.5em 0.5em; }
+div.floatright, table.floatright, div.floatleft, table.floatleft { position: relative; }
+div.floatright, table.floatright { clear: right; float: right; }
+
+.center * { margin-left: auto; margin-right: auto; }
+.center { text-align: center; width: 100%; }
+
+/* Corrige un bug qui fait que le contenu de la première ligne des balises "code" est décalé à la ligne en dessous, et devient invisible sauf en scrollant la zone */
+div.syntaxhighlighter .container::before
+{
+	display:inline;
+}
+
+/* Les blocs de code (plugin SyntaxHighlighter) ont un fond blanc et des couleurs
+   de texte par langage codés en dur dans Plugins/SyntaxHighlighter/css/*.css,
+   tous en !important. Comme pour la Toc, on ne touche pas au CSS du plugin
+   (partagé par tous les thèmes) : on surcharge ici avec un sélecteur plus
+   spécifique ("#container .syntaxhighlighter...") ET !important, nécessaire
+   cette fois car le CSS du plugin utilise déjà !important — à spécificité
+   égale ce serait lui qui gagnerait puisqu'il charge après Theme.css. */
+#container .syntaxhighlighter								{ background-color:#1c1c1c !important; }
+#container .syntaxhighlighter .line.alt1						{ background-color:#1c1c1c !important; }
+#container .syntaxhighlighter .line.alt2						{ background-color:#1c1c1c !important; }
+#container .syntaxhighlighter .line.highlighted.alt1,
+#container .syntaxhighlighter .line.highlighted.alt2			{ background-color:#33334d !important; }
+#container .syntaxhighlighter .line.highlighted.number			{ color:#fff !important; }
+#container .syntaxhighlighter table caption					{ color:#eee !important; }
+#container .syntaxhighlighter .gutter							{ color:#888 !important; }
+#container .syntaxhighlighter table td.code .container textarea { background:#1c1c1c !important;color:#eee !important; }
+#container .syntaxhighlighter.collapsed .toolbar				{ background:#1c1c1c !important; }
+#container .syntaxhighlighter.collapsed .toolbar a				{ color:#6cb6ff !important; }
+#container .syntaxhighlighter.collapsed .toolbar a:hover		{ color:#f07178 !important; }
+
+/* Couleurs de texte par catégorie : communes à tous les langages (SQL, Python,
+   PHP, etc. utilisent les mêmes classes génériques). "plain" passe en blanc
+   cassé (comme le texte courant), les autres gardent la teinte d'origine
+   éclaircie pour rester lisibles sur fond sombre. */
+#container .syntaxhighlighter .plain,
+#container .syntaxhighlighter .plain a		{ color:#eee !important; }
+#container .syntaxhighlighter .comments,
+#container .syntaxhighlighter .comments a	{ color:#7ec699 !important; } /* était #008200 */
+#container .syntaxhighlighter .string,
+#container .syntaxhighlighter .string a	{ color:#c792ea !important; } /* était blue ; violet pour se distinguer de keyword/script */
+#container .syntaxhighlighter .keyword		{ color:#4fc1ff !important; } /* était #006699 */
+#container .syntaxhighlighter .preprocessor { color:#9da5b4 !important; } /* était gray */
+#container .syntaxhighlighter .variable	{ color:#e0a955 !important; } /* était #aa7700 */
+#container .syntaxhighlighter .value		{ color:#9ccc65 !important; } /* était #009900 */
+#container .syntaxhighlighter .functions	{ color:#ff6ec7 !important; } /* était #ff1493 */
+#container .syntaxhighlighter .constants	{ color:#569cd6 !important; } /* était #0066cc */
+#container .syntaxhighlighter .script		{ color:#4fc1ff !important; } /* était #006699 */
+#container .syntaxhighlighter .color1,
+#container .syntaxhighlighter .color1 a	{ color:#9da5b4 !important; } /* était gray */
+#container .syntaxhighlighter .color2,
+#container .syntaxhighlighter .color2 a	{ color:#ff6ec7 !important; } /* était #ff1493 */
+#container .syntaxhighlighter .color3,
+#container .syntaxhighlighter .color3 a	{ color:#f07178 !important; } /* était red */
+
+/* Le sommaire (plugin Toc) et la zone de login ont un fond clair en dur
+   dans Plugins/Toc/toc.css et Assets/CSS/roadkill.css. Pour la Toc, son CSS
+   est injecté via la section "PluginHead", rendue APRÈS Theme.css dans le
+   <head> (voir Theme.cshtml) : à spécificité égale, il chargerait en dernier
+   et gagnerait. On force donc la spécificité ici avec "#container .toc"
+   plutôt que d'utiliser !important. */
+#container .toc			{ border:1px solid #33334d;background-color:#12121f;color:#eee; }
+#container .toc-showhide a	{ color:#adcbfa; }
+
+#login			{ background-color:#12121f;color:#eee;padding:1em; }
+#login input	{ background:#22223d;color:#eee;border:1px solid #33334d; }
+
+/* Alternance de lignes des tableaux (listes de pages, etc.), même souci :
+   fond clair codé en dur dans Bootstrap. */
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th { background-color:#12121f; }
+
+/* Liste des pages (/pages/allpages) */
+.table-striped td.pagename { vertical-align: middle; }
+.table-striped td.pagename a {	font-weight:bold; }
+
+/* Fenêtres modales (Bootstrap) : .modal-content est blanc en dur et
+   .modal-header n'a pas de fond propre (hérite du blanc) ni de couleur de
+   texte propre (hérite du gris clair du body) → gris clair sur blanc. */
+.modal-content	{ background-color:#22223d;color:#eee;border:1px solid #33334d; }
+.modal-header,
+.modal-footer	{ border-color:#33334d; }
+.modal-header .close { color:#eee;text-shadow:none;opacity:0.6; }
+.modal-header .close:hover,
+.modal-header .close:focus { color:#fff;opacity:1; }
+
+/* Popover (bulles d'aide sur les champs, via data-content) : même souci que
+   la modale (fond blanc + texte clair hérité), plus la flèche dont le
+   remplissage intérieur est calé en dur sur #ffffff pour se fondre avec le
+   fond de la bulle. */
+.popover			{ background-color:#22223d;border:1px solid #33334d;color:#eee; }
+.popover-title		{ background-color:#1a1a2e;border-bottom:1px solid #33334d;color:#eee; }
+.popover-content	{ color:#eee; }
+.popover.top .arrow:after		{ border-top-color:#22223d; }
+.popover.right .arrow:after	{ border-right-color:#22223d; }
+.popover.bottom .arrow:after	{ border-bottom-color:#22223d; }
+.popover.left .arrow:after		{ border-left-color:#22223d; }
+
+/* Champs de formulaire (classe .form-control de Bootstrap, ex. titre et
+   contenu de la page en édition) : fond blanc et texte #555555 codés en dur
+   (ce dernier donnant l'impression d'un champ désactivé sur fond sombre).
+   #container + !important pour gagner face à un éventuel CSS d'édition
+   injecté après Theme.css via "PluginHead" (même mécanisme que pour la Toc
+   et SyntaxHighlighter). */
+#container .form-control	{ background-color:#12121f !important;color:#eee !important;border:1px solid #33334d !important; }
+
+/* Panneau d'aperçu (.preview-wrapper = .panel-body) : le fond vient du
+   .panel parent (blanc en dur), l'en-tête .panel-heading est gris clair
+   avec du texte #333. */
+.panel						{ background-color:#22223d;border-color:#33334d; }
+.panel-default				{ border-color:#33334d; }
+.panel-default > .panel-heading { color:#eee;background-color:#1a1a2e;border-color:#33334d; }
+
