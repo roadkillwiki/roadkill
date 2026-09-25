@@ -1,6 +1,10 @@
 [![Nuget.org](https://img.shields.io/nuget/v/Roadkill.svg?style=flat)](https://www.nuget.org/packages/Roadkill)
 [![CI](https://github.com/AFract/roadkill-fork/actions/workflows/ci.yml/badge.svg)](https://github.com/AFract/roadkill-fork/actions/workflows/ci.yml)
 
+Fork de https://github.com/roadkillwiki/roadkill
+
+Basé sur Roadkill, sous licence Microsoft Public License (MS-PL) : voir [LICENSE.md](LICENSE.md).
+
 ### Current status (this fork)
 
 This fork has been migrated to **.NET 10 / ASP.NET Core MVC** (details in [MIGRATION.md](MIGRATION.md)).
@@ -85,7 +89,7 @@ Roadkill .NET is a lightweight but powerful Wiki platform built on the following
 * Supports SQL Server, SQL Server CE, SQL Azure (v1.6+), Sqlite, MySQL, Postgres, MongoDB
 * It's themeable and extendable, has documentation, supports Active Directory authentication and is (I hope) extremely easy to use. It's Free Open Source (FOSS)
 
-Roadkill is licensed under the [MS-PL license](LICENCE.md) which means it's free to use commercially or privately, but requires you to retain the copyright, trademark and attribution if you intend to distribute it (typically for commercial gain).
+Roadkill is licensed under the [MS-PL license](LICENSE.md) which means it's free to use commercially or privately, but requires you to retain the copyright, trademark and attribution if you intend to distribute it (typically for commercial gain).
 
 * [Please see the Roadkill wiki for information on installing](docs/installing.md)
 * Please use issues for any discussions, bug reports, enhancements.
