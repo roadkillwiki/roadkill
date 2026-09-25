@@ -183,3 +183,18 @@ table#files tr.select	{ background-color:#33334d;border:1px solid #525268; }
 /* Titres de sections des formulaires (<legend>, ex. "Database" dans les
    réglages du site) : texte #333 et filet #e5e5e5 codés en dur par Bootstrap. */
 legend					{ color:#eee;border-bottom-color:#33334d; }
+
+/* Profil, inscription, mot de passe oublié / réinitialisation (#profile,
+   #resetpassword ; #login est traité plus haut) : fond #fbfafa et cadre
+   (.lightborder) clairs codés en dur dans Assets/CSS/roadkill.css → libellés
+   en #eee illisibles. Même spécificité, Theme.css chargeant après. */
+#profile,
+#resetpassword			{ background-color:#12121f;color:#eee; }
+.lightborder			{ border-color:#33334d; }
+
+/* Résultats de recherche : titre noir, date vert foncé et tags bleu foncé
+   (ces derniers en !important dans roadkill.css, d'où le !important ici). */
+.searchresult-title					{ color:#eee; }
+.searchresult-date					{ color:#7ec699; }
+.searchresult-tags span a			{ color:#adcbfa !important; }
+.searchresult-tags span a:hover	{ color:#fff !important; }
