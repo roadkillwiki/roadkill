@@ -13,7 +13,7 @@ namespace Roadkill.Core.Mvc.ViewModels
 		public string Name { get; set; }
 
 		/// <summary>
-		/// The pages that have the tag (only their id and title are set), sorted by title.
+		/// The pages that have the tag (only their id, title and tags are set), sorted by title.
 		/// </summary>
 		public List<PageViewModel> Pages { get; set; } = new List<PageViewModel>();
 

@@ -31,7 +31,9 @@ This fork has been migrated to **.NET 10 / ASP.NET Core MVC** (details in [MIGRA
 * **Mermaid** diagrams through a new plugin (disabled by default), with the Mermaid dark theme on dark site themes.
 * New **Pages by tag** page (`/pages/alltagswithpages`, menu token `%tagswithpages%`): each tag with the list of its pages,
   foldable with one click, sorted by number of pages or alphabetically, with expand all / collapse all buttons, and the
-  pages without tags at the bottom (to help tagging them).
+  pages without tags at the bottom (to help tagging them). A search field (client side, case and accent insensitive, 2
+  characters minimum) expands the tags of the pages whose title matches, and each page shows its number of tags (the
+  tags in a tooltip).
   It is in the default menu of new sites; on an upgraded site, add `* %tagswithpages%` in Site settings > Menu.
 * The markup help (the "i" of the edit page) documents the GFM syntax, all the link and image forms, and the plugins.
 

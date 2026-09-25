@@ -898,6 +898,33 @@ namespace Roadkill.Core.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Find a page title (2 characters minimum).
+        /// </summary>
+        public static string AllTagsWithPages_SearchPlaceholder {
+            get {
+                return ResourceManager.GetString("AllTagsWithPages_SearchPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} tag(s) found.
+        /// </summary>
+        public static string AllTagsWithPages_SearchResults {
+            get {
+                return ResourceManager.GetString("AllTagsWithPages_SearchResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of tags of the page.
+        /// </summary>
+        public static string AllTagsWithPages_TagCount {
+            get {
+                return ResourceManager.GetString("AllTagsWithPages_TagCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Categories.
         /// </summary>
         public static string Navigation_Categories {

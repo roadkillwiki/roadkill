@@ -369,7 +369,7 @@ namespace Roadkill.Core.Services
 								tagsByName.Add(tagName, tag);
 							}
 
-							tag.Pages.Add(new PageViewModel() { Id = page.Id, Title = page.Title });
+							tag.Pages.Add(new PageViewModel() { Id = page.Id, Title = page.Title, RawTags = page.Tags });
 						}
 					}
 

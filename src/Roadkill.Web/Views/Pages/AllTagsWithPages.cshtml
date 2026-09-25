@@ -12,6 +12,10 @@
 	#tagswithpages summary	{ cursor:pointer; }
 	#tagswithpages ul		{ margin:0.3em 0 0.8em 0; }
 	#tagswithpages-notag	{ margin-top:1em; }
+	#tagswithpages-search	{ display:inline-block;width:22em;margin-left:1em; }
+	#tagswithpages-results	{ margin-left:0.5em; }
+	#tagswithpages .tagswithpages-tagcount	{ margin-left:0.4em;cursor:help; }
+	#tagswithpages li.tagswithpages-match > a	{ font-weight:bold;background-color:rgba(255, 210, 0, 0.35); }
 </style>
 
 <h1>@SiteStrings.AllTagsWithPages_Title</h1>
@@ -25,6 +29,8 @@
 		&nbsp;
 		<button type="button" class="btn btn-default btn-sm" id="tagswithpages-expandall">@SiteStrings.AllTagsWithPages_ExpandAll</button>
 		<button type="button" class="btn btn-default btn-sm" id="tagswithpages-collapseall">@SiteStrings.AllTagsWithPages_CollapseAll</button>
+		<input type="search" id="tagswithpages-search" class="form-control input-sm" placeholder="@SiteStrings.AllTagsWithPages_SearchPlaceholder" autocomplete="off" />
+		<span id="tagswithpages-results"></span>
 	</div>
 
 	<div id="tagswithpages">
@@ -35,7 +41,8 @@
 			<ul>
 			@foreach (PageViewModel page in tag.Pages)
 			{
-				<li>@Html.ActionLink(page.Title, "Index", "Wiki", new { id = page.Id, title = page.EncodedTitle }, null)</li>
+				List<string> pageTags = page.Tags.Where(t => !string.IsNullOrEmpty(t)).Distinct().ToList();
+				<li>@Html.ActionLink(page.Title, "Index", "Wiki", new { id = page.Id, title = page.EncodedTitle }, null)<span class="badge tagswithpages-tagcount" title="@string.Join(", ", pageTags)" aria-label="@SiteStrings.AllTagsWithPages_TagCount">@pageTags.Count</span></li>
 			}
 			</ul>
 		</details>
@@ -59,6 +66,51 @@
 		{
 			$("#tagswithpages-expandall").click(function () { $("#tagswithpages details").attr("open", "open"); });
 			$("#tagswithpages-collapseall").click(function () { $("#tagswithpages details").removeAttr("open"); });
+
+			// Client side search in the page titles: 2 characters minimum, case and accent insensitive. The tags with at
+			// least one matching page are expanded (and the pages highlighted), the others are collapsed.
+			var normalize = function (text)
+			{
+				return (text || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+			};
+
+			var resultsTemplate = "@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(SiteStrings.AllTagsWithPages_SearchResults))";
+			var items = $("#tagswithpages li").each(function ()
+			{
+				$(this).data("search-title", normalize($(this).children("a").text()));
+			});
+
+			$("#tagswithpages-search").on("input", function ()
+			{
+				var search = normalize($.trim($(this).val()));
+				items.removeClass("tagswithpages-match");
+
+				if (search.length < 2)
+				{
+					$("#tagswithpages details").removeAttr("open");
+					$("#tagswithpages-results").text("");
+					return;
+				}
+
+				var foundTags = 0;
+				$("#tagswithpages details").each(function ()
+				{
+					var matches = $(this).find("li").filter(function () { return $(this).data("search-title").indexOf(search) !== -1; });
+					matches.addClass("tagswithpages-match");
+
+					if (matches.length > 0)
+					{
+						$(this).attr("open", "open");
+						foundTags++;
+					}
+					else
+					{
+						$(this).removeAttr("open");
+					}
+				});
+
+				$("#tagswithpages-results").text(resultsTemplate.replace("{0}", foundTags));
+			});
 		});
 	</script>
 }

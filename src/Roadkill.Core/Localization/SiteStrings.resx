@@ -1062,4 +1062,13 @@
   <data name="AllTagsWithPages_PagesWithoutTag" xml:space="preserve">
     <value>Pages without tag</value>
   </data>
+  <data name="AllTagsWithPages_SearchPlaceholder" xml:space="preserve">
+    <value>Find a page title (2 characters minimum)</value>
+  </data>
+  <data name="AllTagsWithPages_SearchResults" xml:space="preserve">
+    <value>{0} tag(s) found</value>
+  </data>
+  <data name="AllTagsWithPages_TagCount" xml:space="preserve">
+    <value>Number of tags of the page</value>
+  </data>
 </root>

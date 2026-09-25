@@ -39,7 +39,8 @@ namespace Roadkill.Core.Services
 		IEnumerable<TagViewModel> AllTags();
 
 		/// <summary>
-		/// Retrieves all tags with the pages that have them (a page is listed under each of its tags), sorted by tag name.
+		/// Retrieves all tags with the pages that have them (a page is listed under each of its tags, with its id, title and
+		/// tags), sorted by tag name.
 		/// </summary>
 		IEnumerable<TagPagesViewModel> AllTagsWithPages();
 

@@ -208,6 +208,7 @@ namespace Roadkill.Tests.Unit.Services
 			Assert.That(tags[0].Count, Is.EqualTo(3));
 			Assert.That(tags[1].Pages.Select(p => p.Id), Is.EqualTo(new[] { 1 }));
 			Assert.That(tags[2].Pages.Select(p => p.Title), Is.EqualTo(new[] { "Cats" }));
+			Assert.That(tags[2].Pages[0].Tags.Distinct(), Is.EquivalentTo(new[] { "animals", "pets" }), "the tags of each page");
 		}
 
 		[Test]
